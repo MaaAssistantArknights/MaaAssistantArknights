@@ -9,8 +9,9 @@ namespace MeoAssistance {
 	class Identify
 	{
 	public:
-		Identify();
-		~Identify();
+		Identify() = default;
+		~Identify() = default;
+		void hello_opencv();
 	private:
 	};
 }
