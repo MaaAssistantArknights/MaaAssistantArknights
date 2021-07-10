@@ -13,57 +13,75 @@
 
 using namespace MeoAssistance;
 
-WinMacro::WinMacro(SimulatorType type) 
-    : m_simulator_type(type),
+WinMacro::WinMacro(HandleType type)
+    : m_handle_type(type),
     m_rand_engine(time(NULL))
 {
-    srand(time(NULL));
 }
 
 bool WinMacro::findHandle()
 {
-    switch (m_simulator_type) {
-    case SimulatorType::BlueStacks: {
-        m_view_handle = ::FindWindow(L"BS2CHINAUI", L"BlueStacks App Player");
-        HWND temp_handle = ::FindWindowEx(m_view_handle, NULL, L"BS2CHINAUI", L"HOSTWND");
-        m_control_handle = ::FindWindowEx(temp_handle, NULL, L"WindowsForms10.Window.8.app.0.34f5582_r6_ad1", L"BlueStacks Android PluginAndroid");
-        //  ::FindWindowEx(m_view_handle, NULL, L"BlueStacksApp", L"_ctl.Window");
+    switch (m_handle_type) {
+    case HandleType::BlueStacksControl: {
+        HWND temp_handle = ::FindWindow(L"BS2CHINAUI", L"BlueStacks App Player");
+        temp_handle = ::FindWindowEx(temp_handle, NULL, L"BS2CHINAUI", L"HOSTWND");
+        m_handle = ::FindWindowEx(temp_handle, NULL, L"WindowsForms10.Window.8.app.0.34f5582_r6_ad1", L"BlueStacks Android PluginAndroid");
+    } break;
+    case HandleType::BlueStacksView:
+    case HandleType::BlueStacksWindow:
+        m_handle = ::FindWindow(L"BS2CHINAUI", L"BlueStacks App Player");
+        break;
+    default:
+        std::cerr << "handle type error! " << static_cast<int>(m_handle_type) << std::endl;
+        break;
+    }
 
 #ifdef _DEBUG
-        std::cout << "view handle: " << m_view_handle << std::endl;
-        std::cout << "control handle: " << m_control_handle << std::endl;
+    std::cout << "handle: " << m_handle << std::endl;
 #endif
 
-        if (m_view_handle != NULL && m_control_handle != NULL) {
-            MoveWindow(m_view_handle, 0, 0, 1200, 720, true);
-            return true;
-        }
-        else {
-            return false;
-        }
-    } break;
-    default:
-        std::cerr << "simulator type error! " << static_cast<int>(m_simulator_type) << std::endl;
-        break;
+    if (m_handle != NULL) {
+        return true;
+    }
+    else {
+        return false;
     }
 }
 
-void WinMacro::click(Point p)
+bool WinMacro::resizeWindow(int width, int height)
 {
+    if (!(static_cast<int>(m_handle_type) & static_cast<int>(HandleType::Window))) {
+        return false;
+    }
+
+    return ::MoveWindow(m_handle, 0, 0, width, height, true);
+}
+
+bool WinMacro::click(Point p)
+{
+    if (!(static_cast<int>(m_handle_type) & static_cast<int>(HandleType::Control))) {
+        return false;
+    }
+
 #ifdef _DEBUG
     std::cout << "click: " << p.x << ", " << p.y << std::endl;
 #endif
 
 	LPARAM lparam = MAKELPARAM(p.x, p.y);
 
-	::SendMessage(m_control_handle, WM_LBUTTONDOWN, MK_LBUTTON, lparam);
-	::SendMessage(m_control_handle, WM_LBUTTONUP, 0, lparam);
+	::SendMessage(m_handle, WM_LBUTTONDOWN, MK_LBUTTON, lparam);
+	::SendMessage(m_handle, WM_LBUTTONUP, 0, lparam);
+
+    return true;
 }
 
-void WinMacro::clickRange(PointRange pr)
+bool WinMacro::clickRange(PointRange pr)
 {
-    int x = 0, y = 0;
+    if (!(static_cast<int>(m_handle_type) & static_cast<int>(HandleType::Control))) {
+        return false;
+    }
 
+    int x = 0, y = 0;
     if (pr.right == 0) {
         x = pr.left;
     }
@@ -80,5 +98,5 @@ void WinMacro::clickRange(PointRange pr)
         int y = y_rand(m_rand_engine) + pr.right;
     }
 
-    click({ x, y });
+    return click({ x, y });
 }

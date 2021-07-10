@@ -32,56 +32,40 @@ bool Assistance::setSimulatorType(SimulatorType type)
 {
 	stop();
 
-	std::unique_lock<std::mutex> lock(m_queue_mutex);
-	std::queue<PointRange> empty;
-	m_click_queue.swap(empty);
-	m_pWinmarco = std::make_shared<WinMacro>(type);
-	return m_pWinmarco->findHandle();
+	std::unique_lock<std::mutex> lock(m_tasks_mutex);
+	std::queue<Task> empty;
+	m_tasks.swap(empty);
+	int int_type = static_cast<int>(type);
+	m_pCtrl = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::Control)));
+	m_pWindow = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::Window)));
+	m_pView = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::View)));
+	return m_pCtrl->findHandle() && m_pWindow->findHandle() && m_pView->findHandle();
 }
 
 void Assistance::start()
 {
-	std::unique_lock<std::mutex> lock(m_queue_mutex);
+	std::unique_lock<std::mutex> lock(m_tasks_mutex);
 
 	m_control_running = true;
 	m_identify_running = true;
-	m_control_cv.notify_one();
-	m_identify_cv.notify_one();
+	m_control_cv.notify_all();
+	m_identify_cv.notify_all();
 }
 
 void Assistance::stop()
 {
-	std::unique_lock<std::mutex> lock(m_queue_mutex);
+	std::unique_lock<std::mutex> lock(m_tasks_mutex);
 
 	m_control_running = false;
 	m_identify_running = false;
 }
 
-void Assistance::control_function(Assistance* pThis)
-{
-	while (!pThis->m_control_exit) {
-		std::unique_lock<std::mutex> lock(pThis->m_queue_mutex);
-
-		if (pThis->m_control_running && !pThis->m_click_queue.empty()) {
-			auto point = pThis->m_click_queue.front();
-			pThis->m_click_queue.pop();
-			lock.unlock();
-
-			pThis->m_pWinmarco->clickRange(point);
-		}
-		else {
-			pThis->m_control_cv.wait(lock);
-		}
-	}
-}
-
 void Assistance::identify_function(Assistance* pThis)
 {
 	while (!pThis->m_identify_exit) {
-		std::unique_lock<std::mutex> lock(pThis->m_queue_mutex);
+		std::unique_lock<std::mutex> lock(pThis->m_tasks_mutex);
 		if (pThis->m_identify_running) {
-
-			pThis->m_click_queue.emplace(1060, 600, 0, 0);
+			pThis->m_tasks.emplace(Task::StartButton1);
 			pThis->m_control_cv.notify_all();
 			lock.unlock();
 
@@ -90,5 +74,38 @@ void Assistance::identify_function(Assistance* pThis)
 		else {
 			pThis->m_identify_cv.wait(lock);
 		}
+	}
+}
+
+void Assistance::control_function(Assistance* pThis)
+{
+	pThis->m_pWindow->resizeWindow(1200, 720);
+
+	while (!pThis->m_control_exit) {
+		std::unique_lock<std::mutex> lock(pThis->m_tasks_mutex);
+		if (pThis->m_control_running && !pThis->m_tasks.empty()) {
+			const Task task = pThis->m_tasks.front();
+			pThis->m_tasks.pop();
+			lock.unlock();
+
+			pThis->run_task(task);
+		}
+		else {
+			pThis->m_control_cv.wait(lock);
+		}
+	}
+}
+
+bool Assistance::run_task(Task task)
+{
+	switch (task)
+	{
+	case MeoAssistance::Assistance::Task::StartButton1:
+		return m_pCtrl->click({ 1060, 600 });
+		break;
+	case MeoAssistance::Assistance::Task::StartButton2:
+		break;
+	default:
+		break;
 	}
 }

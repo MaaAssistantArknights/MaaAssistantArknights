@@ -10,17 +10,17 @@ namespace MeoAssistance {
 	class WinMacro
 	{
 	public:
-		WinMacro(SimulatorType type);
+		WinMacro(HandleType type);
 		~WinMacro() = default;
 
 		bool findHandle();
-		void click(Point p);
-		void clickRange(PointRange pr);
+		bool resizeWindow(int Width, int Height);
+		bool click(Point p);
+		bool clickRange(PointRange pr);
 	private:
 
-		SimulatorType m_simulator_type;
-		HWND m_view_handle;
-		HWND m_control_handle;
+		HandleType m_handle_type;
+		HWND m_handle;
 		std::minstd_rand m_rand_engine;
 	};
 }

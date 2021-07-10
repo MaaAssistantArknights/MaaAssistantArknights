@@ -142,10 +142,12 @@
   <ItemGroup>
     <ClInclude Include="AssDef.h" />
     <ClInclude Include="Assistance.h" />
+    <ClInclude Include="Identify.h" />
     <ClInclude Include="WinMacro.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Assistance.cpp" />
+    <ClCompile Include="Identify.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WinMacro.cpp" />
   </ItemGroup>

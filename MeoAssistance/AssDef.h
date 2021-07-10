@@ -1,11 +1,19 @@
 #pragma once
 
-#include <utility>
-
 namespace MeoAssistance {
 	enum class SimulatorType
 	{
-		BlueStacks
+		BlueStacks = 0x100
+	};
+	enum class HandleType
+	{
+		View = 1,
+		Control = 2,
+		Window = 4,
+
+		BlueStacksView = 0x100 | 1,
+		BlueStacksControl = 0x100 | 2,
+		BlueStacksWindow = 0x100 | 4
 	};
 
 	struct Point
