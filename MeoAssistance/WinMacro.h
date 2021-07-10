@@ -3,6 +3,7 @@
 #include <string>
 #include <random>
 #include <Windows.h>
+#include <opencv2/opencv.hpp>
 
 #include "AssDef.h"
 
@@ -17,7 +18,7 @@ namespace MeoAssistance {
 		bool resizeWindow(int Width, int Height);
 		bool click(Point p);
 		bool clickRange(Rect rect);
-		bool getImage(Rect rect);
+		cv::Mat getImage(Rect rect);
 		Rect getWindowRect();
 		double getScreenScale();
 	private:

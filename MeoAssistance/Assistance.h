@@ -35,6 +35,7 @@ namespace MeoAssistance {
 		std::shared_ptr<WinMacro> m_pCtrl = nullptr;
 		std::shared_ptr<WinMacro> m_pWindow = nullptr;
 		std::shared_ptr<WinMacro> m_pView = nullptr;
+
 		std::queue<Task> m_tasks;
 		std::mutex m_tasks_mutex;
 

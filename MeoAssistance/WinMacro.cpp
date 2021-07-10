@@ -4,13 +4,12 @@
 #include <utility>
 #include <ctime>
 #include <cassert>
+#include <algorithm>
 
 #include <stdint.h>
 #include <WinUser.h>
 
-#ifdef _DEBUG
 #include <iostream>
-#endif
 
 using namespace MeoAssistance;
 
@@ -85,7 +84,7 @@ double WinMacro::getScreenScale()
     double vertScale = ((double)cyPhysical / (double)cyLogical);
 
     // 考虑状态栏大小，选择里面大的那个
-    return max(horzScale, vertScale);
+    return std::max(horzScale, vertScale);
 }
 
 bool WinMacro::click(Point p)
@@ -143,10 +142,10 @@ Rect WinMacro::getWindowRect()
     return Rect{ rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top } * scale;
 }
 
-bool WinMacro::getImage(Rect rect)
+cv::Mat WinMacro::getImage(Rect rect)
 {
     if (!(static_cast<int>(m_handle_type) & static_cast<int>(HandleType::View))) {
-        return false;
+        return cv::Mat();
     }
 
     HDC pDC;// 源DC
@@ -183,45 +182,26 @@ bool WinMacro::getImage(Rect rect)
         }
     }
 
-#ifdef _DEBUG
-    //以下代码保存memDC中的位图到文件
     BITMAP bmp;
-    ::GetObject(memBitmap, sizeof(BITMAP), &bmp);;//获得位图信息
-    // 获取程序当前路径
-    char curpath[_MAX_PATH] = { 0 };
-    ::GetModuleFileNameA(NULL, curpath, _MAX_PATH);
-    std::string filename(curpath);
-    filename = filename.substr(0, filename.find_last_of('\\')) + "\\startButton1.bmp";
-    FILE* fp;
-    fopen_s(&fp, filename.c_str(), "w+b");//图片保存路径和方式
-
-    BITMAPINFOHEADER bih = { 0 };//位图信息头
-    bih.biBitCount = bmp.bmBitsPixel;//每个像素字节大小
-    bih.biCompression = BI_RGB;
-    bih.biHeight = bmp.bmHeight;//高度
-    bih.biPlanes = 1;
-    bih.biSize = sizeof(BITMAPINFOHEADER);
-    bih.biSizeImage = bmp.bmWidthBytes * bmp.bmHeight;//图像数据大小
-    bih.biWidth = bmp.bmWidth;//宽度
-
-    BITMAPFILEHEADER bfh = { 0 };//位图文件头
-    bfh.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);//到位图数据的偏移量
-    bfh.bfSize = bfh.bfOffBits + bmp.bmWidthBytes * bmp.bmHeight;//文件总的大小
-    bfh.bfType = (WORD)0x4d42;
-
-    fwrite(&bfh, 1, sizeof(BITMAPFILEHEADER), fp);//写入位图文件头
-    fwrite(&bih, 1, sizeof(BITMAPINFOHEADER), fp);//写入位图信息头
-    byte* p = new byte[bmp.bmWidthBytes * bmp.bmHeight];//申请内存保存位图数据
-    GetDIBits(memDC, (HBITMAP)memBitmap, 0, rect.height, p,
-        (LPBITMAPINFO)&bih, DIB_RGB_COLORS);//获取位图数据
-    fwrite(p, 1, bmp.bmWidthBytes * bmp.bmHeight, fp);//写入位图数据
-    delete[] p;
-    fclose(fp);
-#endif
+    GetObject(memBitmap, sizeof(BITMAP), &bmp);
+    int nChannels = bmp.bmBitsPixel == 1 ? 1 : bmp.bmBitsPixel / 8;
+    cv::Mat dst_mat;
+    dst_mat.create(cv::Size(bmp.bmWidth, bmp.bmHeight), CV_MAKETYPE(CV_8U, nChannels));
+    GetBitmapBits(memBitmap, bmp.bmHeight * bmp.bmWidth * nChannels, dst_mat.data);
 
     DeleteObject(memBitmap);
     DeleteDC(memDC);
     ReleaseDC(m_handle, pDC);
 
-    return true;
+#ifdef _DEBUG
+    // 获取程序当前路径
+    char curpath[_MAX_PATH] = { 0 };
+    ::GetModuleFileNameA(NULL, curpath, _MAX_PATH);
+    std::string filename(curpath);
+    filename = filename.substr(0, filename.find_last_of('\\')) + "\\test.bmp";
+
+    cv::imwrite(filename, dst_mat);
+#endif
+
+    return dst_mat;
 }

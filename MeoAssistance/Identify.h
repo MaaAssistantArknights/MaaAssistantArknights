@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>
+#include <opencv2/opencv.hpp>
 
 namespace MeoAssistance {
 
@@ -11,7 +11,7 @@ namespace MeoAssistance {
 	public:
 		Identify() = default;
 		~Identify() = default;
-		void hello_opencv();
+		double imgHistComp(const cv::Mat& lhs, const cv::Mat& rhs);
 	private:
 	};
 }

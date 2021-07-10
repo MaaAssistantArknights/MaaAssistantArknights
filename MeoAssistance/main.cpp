@@ -7,9 +7,6 @@ int main(int argc, char** argv)
 {
 	using namespace MeoAssistance;
 
-	Identify id;
-	id.hello_opencv();
-
 	Assistance ass;
 	if (!ass.setSimulatorType(SimulatorType::BlueStacks)) {
 		std::cerr << "failed" << std::endl;
