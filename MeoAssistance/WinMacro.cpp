@@ -11,6 +11,8 @@
 
 #include <iostream>
 
+#include "Configer.h"
+
 using namespace MeoAssistance;
 
 WinMacro::WinMacro(HandleType type)
@@ -21,19 +23,26 @@ WinMacro::WinMacro(HandleType type)
 
 bool WinMacro::findHandle()
 {
+    json::array handle_arr;
     switch (m_handle_type) {
-    case HandleType::BlueStacksControl: {
-        HWND temp_handle = ::FindWindow(L"BS2CHINAUI", L"BlueStacks App Player");
-        temp_handle = ::FindWindowEx(temp_handle, NULL, L"BS2CHINAUI", L"HOSTWND");
-        m_handle = ::FindWindowEx(temp_handle, NULL, L"WindowsForms10.Window.8.app.0.34f5582_r6_ad1", L"BlueStacks Android PluginAndroid");
-    } break;
+    case HandleType::BlueStacksControl:
+        handle_arr = Configer::handleObj["BlueStacksControl"].as_array();
+        break;
     case HandleType::BlueStacksView:
+        handle_arr = Configer::handleObj["BlueStacksView"].as_array();
+        break;
     case HandleType::BlueStacksWindow:
-        m_handle = ::FindWindow(L"BS2CHINAUI", L"BlueStacks App Player");
+        handle_arr = Configer::handleObj["BlueStacksWindow"].as_array();
         break;
     default:
         std::cerr << "handle type error! " << static_cast<int>(m_handle_type) << std::endl;
-        break;
+        return false;
+    }
+
+    m_handle = NULL;
+    for (auto&& obj : handle_arr)
+    {
+        m_handle = ::FindWindowExA(m_handle, NULL, obj["class"].as_string().c_str(), obj["window"].as_string().c_str());
     }
 
 #ifdef _DEBUG
@@ -54,7 +63,7 @@ bool WinMacro::resizeWindow(int width, int height)
         return false;
     }
 
-    return ::MoveWindow(m_handle, 0, 0, width, height, true);
+    return ::MoveWindow(m_handle, 100, 100, width, height, true);
 }
 
 double WinMacro::getScreenScale()
@@ -118,14 +127,14 @@ bool WinMacro::clickRange(Rect rect)
     else {
         std::poisson_distribution<int> x_rand(rect.width);
         x = x_rand(m_rand_engine) + rect.x;
-
     }
+
     if (rect.height == 0) {
         y = rect.y;
     }
     else {
         std::poisson_distribution<int> y_rand(rect.height);
-        int y = y_rand(m_rand_engine) + rect.y;
+        y = y_rand(m_rand_engine) + rect.y;
     }
 
     return click({ x, y });
@@ -194,12 +203,7 @@ cv::Mat WinMacro::getImage(Rect rect)
     ReleaseDC(m_handle, pDC);
 
 #ifdef _DEBUG
-    // 获取程序当前路径
-    char curpath[_MAX_PATH] = { 0 };
-    ::GetModuleFileNameA(NULL, curpath, _MAX_PATH);
-    std::string filename(curpath);
-    filename = filename.substr(0, filename.find_last_of('\\')) + "\\test.bmp";
-
+    std::string filename = Configer::getCurDir() + "\\test.bmp";
     cv::imwrite(filename, dst_mat);
 #endif
 

@@ -78,12 +78,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(OPENCV_PATH)\include\opencv2;$(OPENCV_PATH)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)meojson\include;$(OPENCV_PATH)\include\opencv2;$(OPENCV_PATH)\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)meojson\test\vsproj\meojson\x64\Debug;$(OPENCV_PATH)\x64\vc15\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(OPENCV_PATH)\include\opencv2;$(OPENCV_PATH)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)meojson\include;$(OPENCV_PATH)\include\opencv2;$(OPENCV_PATH)\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)meojson\test\vsproj\meojson\x64\Release;$(OPENCV_PATH)\x64\vc15\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -127,7 +127,18 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opencv_world452d.lib;libmeojson.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /e /y /i $(SolutionDir)resource $(TargetDir)resource</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>copy config.json</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -145,16 +156,30 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opencv_world452.lib;libmeojson.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /e /y $(SolutionDir)resource $(TargetDir)</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>copy config.json</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AssDef.h" />
     <ClInclude Include="Assistance.h" />
+    <ClInclude Include="Configer.h" />
     <ClInclude Include="Identify.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="WinMacro.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Assistance.cpp" />
+    <ClCompile Include="Configer.cpp" />
     <ClCompile Include="Identify.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WinMacro.cpp" />
@@ -162,4 +187,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties _1_1_4resource_4config_1json__JsonSchema="https://beaujs.com/schema.json" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

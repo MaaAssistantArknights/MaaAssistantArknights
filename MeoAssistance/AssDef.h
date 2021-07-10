@@ -1,5 +1,8 @@
 #pragma once
 
+#include "json_value.h"
+#include "json_array.h"
+
 namespace MeoAssistance {
 	enum class SimulatorType
 	{
@@ -33,4 +36,12 @@ namespace MeoAssistance {
 		int width = 0;
 		int height = 0;
 	};
+
+	static Rect jsonToRect(const json::array& arr)
+	{
+		if (arr.size() != 4) {
+			return { 0, 0, 0, 0 };
+		}
+		return Rect(arr[0].as_integer(), arr[1].as_integer(), arr[2].as_integer(), arr[3].as_integer());
+	}
 }
