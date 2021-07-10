@@ -23,13 +23,13 @@ namespace MeoAssistance {
 		int y = 0;
 	};
 
-	struct PointRange
+	struct Rect
 	{
-		PointRange(int left, int top, int right, int bottom)
-			: left(left), top(top), right(right), bottom(bottom) {}
-		int left = 0;
-		int top = 0;
-		int right = 0;
-		int bottom = 0;
+		Rect(int x, int y, int width, int height)
+			: x(x), y(y), width(width), height(height) {}
+		int x = 0;
+		int y = 0;
+		int width = 0;
+		int height = 0;
 	};
 }

@@ -65,11 +65,10 @@ void Assistance::identify_function(Assistance* pThis)
 	while (!pThis->m_identify_exit) {
 		std::unique_lock<std::mutex> lock(pThis->m_tasks_mutex);
 		if (pThis->m_identify_running) {
+			pThis->m_pView->getImage({ 0, 0, 1000, 1000 });
 			pThis->m_tasks.emplace(Task::StartButton1);
 			pThis->m_control_cv.notify_all();
-			lock.unlock();
-
-			std::this_thread::sleep_for(std::chrono::seconds(3));
+			pThis->m_identify_cv.wait_for(lock, std::chrono::milliseconds(3000));
 		}
 		else {
 			pThis->m_identify_cv.wait(lock);

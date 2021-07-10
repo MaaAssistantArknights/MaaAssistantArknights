@@ -16,7 +16,8 @@ namespace MeoAssistance {
 		bool findHandle();
 		bool resizeWindow(int Width, int Height);
 		bool click(Point p);
-		bool clickRange(PointRange pr);
+		bool clickRange(Rect rect);
+		bool getImage(Rect rect);
 	private:
 
 		HandleType m_handle_type;
