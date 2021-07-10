@@ -1,5 +1,6 @@
 #include "Identify.h"
 
+
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/types_c.h>
 
@@ -29,4 +30,20 @@ double Identify::imgHistComp(const cv::Mat& lhs, const cv::Mat& rhs)
 	normalize(rhs_hist, rhs_hist, 0, 1, NORM_MINMAX);
 
 	return compareHist(lhs_hist, rhs_hist, CV_COMP_CORREL);
+}
+
+double Identify::imgHistComp(const cv::Mat& cur, const std::string& src, MeoAssistance::Rect compRect)
+{
+	cv::Rect cvRect(compRect.x, compRect.y, compRect.width, compRect.height);
+	return imgHistComp(cur(cvRect), m_matMap.at(src)(cvRect));
+}
+
+bool Identify::addImage(const std::string& name, const std::string& path)
+{
+	Mat mat = imread(path);
+	if (mat.empty()) {
+		return false;
+	}
+	m_matMap.emplace(name, mat);
+	return true;
 }

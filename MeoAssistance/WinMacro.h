@@ -24,7 +24,7 @@ namespace MeoAssistance {
 	private:
 
 		HandleType m_handle_type;
-		HWND m_handle;
+		HWND m_handle = NULL;
 		std::minstd_rand m_rand_engine;
 	};
 }

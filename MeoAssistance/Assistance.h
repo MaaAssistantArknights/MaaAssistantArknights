@@ -10,13 +10,10 @@
 
 namespace MeoAssistance {
 	class WinMacro;
+	class Identify;
 
 	class Assistance
 	{
-		enum class Task {
-			StartButton1,
-			StartButton2
-		};
 	public:
 		Assistance();
 		~Assistance();
@@ -30,13 +27,12 @@ namespace MeoAssistance {
 		static void identify_function(Assistance* pThis);	// 识别线程，生产者
 		static void control_function(Assistance* pThis);	// 控制线程，消费者
 
-		bool run_task(Task task);
-
 		std::shared_ptr<WinMacro> m_pCtrl = nullptr;
 		std::shared_ptr<WinMacro> m_pWindow = nullptr;
 		std::shared_ptr<WinMacro> m_pView = nullptr;
+		std::shared_ptr<Identify> m_Ider = nullptr;
 
-		std::queue<Task> m_tasks;
+		std::queue<Rect> m_tasks;
 		std::mutex m_tasks_mutex;
 
 		std::thread m_control_thread;

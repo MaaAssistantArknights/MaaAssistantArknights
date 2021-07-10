@@ -1,0 +1,117 @@
+{
+    "version": 0.1,
+    "handle": {
+        "BlueStacksControl": [
+            {
+                "class": "BS2CHINAUI",
+                "window": "BlueStacks App Player"
+            },
+            {
+                "class": "BS2CHINAUI",
+                "window": "HOSTWND"
+            },
+            {
+                "class": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+                "window": "BlueStacks Android PluginAndroid"
+            }
+        ],
+        "BlueStacksView": [
+            {
+                "class": "BS2CHINAUI",
+                "window": "BlueStacks App Player"
+            }
+        ],
+        "BlueStacksWindow": [
+            {
+                "class": "BS2CHINAUI",
+                "window": "BlueStacks App Player"
+            }
+        ]
+    },
+    "data": {
+        "PRTS": {
+            "viewRect": [
+                1503,
+                65,
+                280,
+                114
+            ],
+            "filename": "PRTS.png",
+            "similarity": 0.9,
+            "type": "donothing"
+        },
+        "MissionSucceed": {
+            "viewRect": [
+                255,
+                778,
+                71,
+                38
+            ],
+            "filename": "MissionSucceed.png",
+            "similarity": 0.9,
+            "type": "click",
+            "ctrlRect": [
+                50,
+                596,
+                163,
+                29
+            ]
+        },
+        "UseMedicine": {
+            "viewRect": [
+                874,
+                157,
+                960,
+                774
+            ],
+            "filename": "UseMedicine.png",
+            "similarity": 0.999,
+            "type": "stop"
+        },
+        "UseStone": {
+            "viewRect": [
+                874,
+                157,
+                960,
+                774
+            ],
+            "filename": "UseStone.png",
+            "similarity": 0.999,
+            "type": "stop"
+        },
+        "StartButton1": {
+            "viewRect": [
+                1487,
+                940,
+                295,
+                107
+            ],
+            "filename": "StartButton1.png",
+            "similarity": 0.99,
+            "type": "click",
+            "ctrlRect": [
+                977,
+                596,
+                163,
+                29
+            ]
+        },
+        "StartButton2": {
+            "viewRect": [
+                1484,
+                569,
+                190,
+                398
+            ],
+            "filename": "StartButton2.png",
+            "similarity": 0.99,
+            "type": "click",
+            "ctrlRect": [
+                975,
+                353,
+                97,
+                230
+            ]
+        }
+    }
+}
