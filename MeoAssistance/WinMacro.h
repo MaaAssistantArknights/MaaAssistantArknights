@@ -18,6 +18,8 @@ namespace MeoAssistance {
 		bool click(Point p);
 		bool clickRange(Rect rect);
 		bool getImage(Rect rect);
+		Rect getWindowRect();
+		double getScreenScale();
 	private:
 
 		HandleType m_handle_type;

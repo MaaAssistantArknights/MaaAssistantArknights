@@ -3,6 +3,7 @@
 #include <vector>
 #include <utility>
 #include <ctime>
+#include <cassert>
 
 #include <stdint.h>
 #include <WinUser.h>
@@ -37,7 +38,7 @@ bool WinMacro::findHandle()
     }
 
 #ifdef _DEBUG
-    std::cout << "handle: " << m_handle << std::endl;
+    std::cout << "type: " << static_cast<int>(m_handle_type) << ", handle: " << m_handle << std::endl;
 #endif
 
     if (m_handle != NULL) {
@@ -55,6 +56,36 @@ bool WinMacro::resizeWindow(int width, int height)
     }
 
     return ::MoveWindow(m_handle, 0, 0, width, height, true);
+}
+
+double WinMacro::getScreenScale()
+{
+    // 获取窗口当前显示的监视器
+    // 使用桌面的句柄.
+    HWND hWnd = GetDesktopWindow();
+    HMONITOR hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
+
+    // 获取监视器逻辑宽度与高度
+    MONITORINFOEX miex;
+    miex.cbSize = sizeof(miex);
+    GetMonitorInfo(hMonitor, &miex);
+    int cxLogical = (miex.rcMonitor.right - miex.rcMonitor.left);
+    int cyLogical = (miex.rcMonitor.bottom - miex.rcMonitor.top);
+
+    // 获取监视器物理宽度与高度
+    DEVMODE dm;
+    dm.dmSize = sizeof(dm);
+    dm.dmDriverExtra = 0;
+    EnumDisplaySettings(miex.szDevice, ENUM_CURRENT_SETTINGS, &dm);
+    int cxPhysical = dm.dmPelsWidth;
+    int cyPhysical = dm.dmPelsHeight;
+
+    // 考虑状态栏大小，逻辑尺寸会比实际小
+    double horzScale = ((double)cxPhysical / (double)cxLogical);
+    double vertScale = ((double)cyPhysical / (double)cyLogical);
+
+    // 考虑状态栏大小，选择里面大的那个
+    return max(horzScale, vertScale);
 }
 
 bool WinMacro::click(Point p)
@@ -101,6 +132,17 @@ bool WinMacro::clickRange(Rect rect)
     return click({ x, y });
 }
 
+Rect WinMacro::getWindowRect()
+{
+    RECT rect;
+    bool ret = ::GetWindowRect(m_handle, &rect);
+    if (!ret) {
+        return { 0, 0, 0 ,0 };
+    }
+    double scale = getScreenScale();
+    return Rect{ rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top } * scale;
+}
+
 bool WinMacro::getImage(Rect rect)
 {
     if (!(static_cast<int>(m_handle_type) & static_cast<int>(HandleType::View))) {
@@ -145,8 +187,13 @@ bool WinMacro::getImage(Rect rect)
     //以下代码保存memDC中的位图到文件
     BITMAP bmp;
     ::GetObject(memBitmap, sizeof(BITMAP), &bmp);;//获得位图信息
+    // 获取程序当前路径
+    char curpath[_MAX_PATH] = { 0 };
+    ::GetModuleFileNameA(NULL, curpath, _MAX_PATH);
+    std::string filename(curpath);
+    filename = filename.substr(0, filename.find_last_of('\\')) + "\\startButton1.bmp";
     FILE* fp;
-    fopen_s(&fp, "D:\\Code\\MeoAssistance\\Debug\\test.bmp", "w+b");//图片保存路径和方式
+    fopen_s(&fp, filename.c_str(), "w+b");//图片保存路径和方式
 
     BITMAPINFOHEADER bih = { 0 };//位图信息头
     bih.biBitCount = bmp.bmBitsPixel;//每个像素字节大小
