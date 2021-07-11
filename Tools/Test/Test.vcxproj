@@ -19,23 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\AssDef.h" />
-    <ClInclude Include="include\Assistance.h" />
-    <ClInclude Include="include\Configer.h" />
-    <ClInclude Include="include\Identify.h" />
-    <ClInclude Include="include\WinMacro.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\Assistance.cpp" />
-    <ClCompile Include="src\Configer.cpp" />
-    <ClCompile Include="src\Identify.cpp" />
-    <ClCompile Include="src\WinMacro.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{362d1e30-f5ae-4279-9985-65c27b3ba300}</ProjectGuid>
-    <RootNamespace>MeoAssistance</RootNamespace>
+    <ProjectGuid>{36bc08f3-71cf-429a-ae69-291be8962cb2}</ProjectGuid>
+    <RootNamespace>Test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -53,13 +43,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -91,13 +81,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(SolutionDir)meojson\include;$(OPENCV_PATH)\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(TargetDir);$(OPENCV_PATH)\x64\vc15\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)meojson\include;$(SolutionDir)MeoAssistance\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(SolutionDir)meojson\include;$(OPENCV_PATH)\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(TargetDir);$(OPENCV_PATH)\x64\vc15\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)meojson\include;$(SolutionDir)MeoAssistance\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -109,7 +99,6 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -140,20 +129,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opencv_world452d.lib;libmeojson.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <AdditionalLibraryDirectories>$(TargetDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>MeoAssistance.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PreBuildEvent>
-      <Command>
-      </Command>
-    </PreBuildEvent>
-    <PostBuildEvent>
-      <Command>xcopy /e /y /i $(SolutionDir)resource $(TargetDir)resource</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>copy resource</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -171,27 +149,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opencv_world452.lib;libmeojson.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <AdditionalLibraryDirectories>$(TargetDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>MeoAssistance.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PreBuildEvent>
-      <Command>
-      </Command>
-    </PreBuildEvent>
-    <PostBuildEvent>
-      <Command>xcopy /e /y /i $(SolutionDir)resource $(TargetDir)resource</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>copy resource</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties _1_1_4resource_4config_1json__JsonSchema="https://beaujs.com/schema.json" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

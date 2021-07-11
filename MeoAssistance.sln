@@ -10,6 +10,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MeoAssistance", "MeoAssista
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmeojson", "meojson\test\vsproj\meojson\libmeojson\libmeojson.vcxproj", "{9CC7838E-D5FB-4771-848D-5F83D638C5AD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Tools\Test\Test.vcxproj", "{36BC08F3-71CF-429A-AE69-291BE8962CB2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{362D1E30-F5AE-4279-9985-65C27B3BA300} = {362D1E30-F5AE-4279-9985-65C27B3BA300}
+		{9CC7838E-D5FB-4771-848D-5F83D638C5AD} = {9CC7838E-D5FB-4771-848D-5F83D638C5AD}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -34,6 +40,14 @@ Global
 		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Release|x64.Build.0 = Release|x64
 		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Release|x86.ActiveCfg = Release|Win32
 		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Release|x86.Build.0 = Release|Win32
+		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Debug|x64.ActiveCfg = Debug|x64
+		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Debug|x64.Build.0 = Debug|x64
+		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Debug|x86.ActiveCfg = Debug|Win32
+		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Debug|x86.Build.0 = Debug|Win32
+		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Release|x64.ActiveCfg = Release|x64
+		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Release|x64.Build.0 = Release|x64
+		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Release|x86.ActiveCfg = Release|Win32
+		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
