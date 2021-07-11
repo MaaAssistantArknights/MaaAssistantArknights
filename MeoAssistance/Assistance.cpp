@@ -50,7 +50,11 @@ bool Assistance::setSimulatorType(SimulatorType type)
 	m_pCtrl = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::Control)));
 	m_pWindow = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::Window)));
 	m_pView = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::View)));
-	return m_pCtrl->findHandle() && m_pWindow->findHandle() && m_pView->findHandle();
+	bool ret =  m_pCtrl->findHandle() && m_pWindow->findHandle() && m_pView->findHandle();
+	if (ret) {
+		m_pWindow->resizeWindow(1200, 720);
+	}
+	return ret;
 }
 
 void Assistance::start()
@@ -127,8 +131,6 @@ void Assistance::identify_function(Assistance* pThis)
 
 void Assistance::control_function(Assistance* pThis)
 {
-	pThis->m_pWindow->resizeWindow(1200, 720);
-
 	while (!pThis->m_control_exit) {
 		std::unique_lock<std::mutex> lock(pThis->m_tasks_mutex);
 		if (pThis->m_control_running && !pThis->m_tasks.empty()) {

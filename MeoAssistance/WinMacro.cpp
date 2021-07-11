@@ -63,7 +63,7 @@ bool WinMacro::resizeWindow(int width, int height)
         return false;
     }
 
-    return ::MoveWindow(m_handle, 100, 100, width, height, true);
+    return ::MoveWindow(m_handle, 0, 0, width, height, true);
 }
 
 double WinMacro::getScreenScale()
