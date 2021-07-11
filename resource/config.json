@@ -38,7 +38,13 @@
             ],
             "filename": "UseMedicine.png",
             "similarity": 0.999,
-            "type": "stop"
+            "type": "click",
+            "ctrlRect": [
+                994,
+                523,
+                30,
+                17
+            ]
         },
         "UseStone": {
             "viewRect": [
