@@ -174,7 +174,6 @@
     <ClInclude Include="Assistance.h" />
     <ClInclude Include="Configer.h" />
     <ClInclude Include="Identify.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="WinMacro.h" />
   </ItemGroup>
   <ItemGroup>
