@@ -16,11 +16,11 @@ namespace MeoAssistance {
 
 		bool findHandle();
 		bool resizeWindow(int Width, int Height);
-		bool click(Point p);
-		bool clickRange(Rect rect);
-		cv::Mat getImage(Rect rect);
+		bool click(const Point & p);
+		bool clickRange(const Rect & rect);
+		cv::Mat getImage(const Rect& rect);
 		Rect getWindowRect();
-		double getScreenScale();
+		static double getScreenScale();
 	private:
 
 		HandleType m_handle_type;
