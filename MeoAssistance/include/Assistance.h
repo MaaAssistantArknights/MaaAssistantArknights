@@ -12,7 +12,7 @@ namespace MeoAssistance {
 	class WinMacro;
 	class Identify;
 
-	class Assistance
+	class __declspec(dllexport) Assistance
 	{
 	public:
 		Assistance();
