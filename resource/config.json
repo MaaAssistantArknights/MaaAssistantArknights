@@ -29,40 +29,12 @@
         ]
     },
     "data": {
-        "PRTS": {
-            "viewRect": [
-                1503,
-                65,
-                280,
-                114
-            ],
-            "filename": "PRTS.png",
-            "similarity": 0.9,
-            "type": "donothing"
-        },
-        "MissionSucceed": {
-            "viewRect": [
-                255,
-                778,
-                71,
-                38
-            ],
-            "filename": "MissionSucceed.png",
-            "similarity": 0.9,
-            "type": "click",
-            "ctrlRect": [
-                50,
-                596,
-                163,
-                29
-            ]
-        },
         "UseMedicine": {
             "viewRect": [
-                874,
-                157,
-                960,
-                774
+                571,
+                118,
+                621,
+                504
             ],
             "filename": "UseMedicine.png",
             "similarity": 0.999,
@@ -70,21 +42,38 @@
         },
         "UseStone": {
             "viewRect": [
-                874,
-                157,
-                960,
-                774
+                571,
+                118,
+                621,
+                504
             ],
             "filename": "UseStone.png",
             "similarity": 0.999,
             "type": "stop"
         },
+        "MissionSucceed": {
+            "viewRect": [
+                186,
+                521,
+                47,
+                26
+            ],
+            "filename": "MissionSucceed.png",
+            "similarity": 0.4,
+            "type": "click",
+            "ctrlRect": [
+                977,
+                596,
+                163,
+                29
+            ]
+        },
         "StartButton1": {
             "viewRect": [
-                1487,
-                940,
-                295,
-                107
+                968,
+                627,
+                193,
+                70
             ],
             "filename": "StartButton1.png",
             "similarity": 0.99,
@@ -98,10 +87,10 @@
         },
         "StartButton2": {
             "viewRect": [
-                1484,
-                569,
-                190,
-                398
+                966,
+                386,
+                126,
+                259
             ],
             "filename": "StartButton2.png",
             "similarity": 0.99,
