@@ -6,10 +6,11 @@
 
 #include "json.h"
 
-using namespace MeoAssistance;
+using namespace asst;
 
 json::object Configer::dataObj;
 json::object Configer::handleObj;
+json::object Configer::optionsObj;
 
 std::string Configer::m_curDir;
 
@@ -33,6 +34,8 @@ bool Configer::reload()
 	auto root = std::move(ret).value();
 	dataObj = root["data"].as_object();
 	handleObj = root["handle"].as_object();
+	optionsObj = root["options"].as_object();
+
 
 	return true;
 }

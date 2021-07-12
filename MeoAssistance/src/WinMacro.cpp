@@ -10,9 +10,9 @@
 #include <WinUser.h>
 
 #include "Configer.h"
-#include "AssDef.h"
+#include "AsstDef.h"
 
-using namespace MeoAssistance;
+using namespace asst;
 
 WinMacro::WinMacro(HandleType type)
 	: m_handle_type(type),
@@ -25,13 +25,17 @@ bool WinMacro::findHandle()
 	json::array handle_arr;
 	switch (m_handle_type) {
 	case HandleType::BlueStacksControl:
-		handle_arr = Configer::handleObj["BlueStacksControl"].as_array();
+		m_xOffset = Configer::handleObj["BlueStacks"]["xOffset"].as_integer();
+		m_yOffset = Configer::handleObj["BlueStacks"]["yOffset"].as_integer();
+		handle_arr = Configer::handleObj["BlueStacks"]["Control"].as_array();
 		break;
 	case HandleType::BlueStacksView:
-		handle_arr = Configer::handleObj["BlueStacksView"].as_array();
+		handle_arr = Configer::handleObj["BlueStacks"]["View"].as_array();
 		break;
 	case HandleType::BlueStacksWindow:
-		handle_arr = Configer::handleObj["BlueStacksWindow"].as_array();
+		m_width = Configer::handleObj["BlueStacks"]["Width"].as_integer();
+		m_height = Configer::handleObj["BlueStacks"]["Height"].as_integer();
+		handle_arr = Configer::handleObj["BlueStacks"]["Window"].as_array();
 		break;
 	default:
 		std::cerr << "handle type error! " << static_cast<int>(m_handle_type) << std::endl;
@@ -61,6 +65,11 @@ bool WinMacro::resizeWindow(int width, int height)
 	}
 
 	return ::MoveWindow(m_handle, 0, 0, width / getScreenScale(), height / getScreenScale(), true);
+}
+
+bool WinMacro::resizeWindow()
+{
+	return resizeWindow(m_width, m_height);
 }
 
 double WinMacro::getScreenScale()
@@ -103,10 +112,10 @@ bool WinMacro::click(const Point& p)
 		return false;
 	}
 
-	int x = p.x / getScreenScale();
-	int y = p.y / getScreenScale();
+	int x = (p.x + m_xOffset) / getScreenScale();
+	int y = (p.y + m_yOffset) / getScreenScale();
 
-	DebugTrace("click: %d, %d", x, y);
+	DebugTrace("click, raw: %d, %d, cor: %d, %d", p.x, p.y, x, y);
 
 	LPARAM lparam = MAKELPARAM(x, y);
 
@@ -127,16 +136,17 @@ bool WinMacro::clickRange(const Rect& rect)
 		x = rect.x;
 	}
 	else {
-		std::poisson_distribution<int> x_rand(rect.width);
-		x = x_rand(m_rand_engine) + rect.x;
+		int x_rand = std::poisson_distribution<int>(rect.width / 2)(m_rand_engine);
+
+		x = x_rand + rect.x;
 	}
 
 	if (rect.height == 0) {
 		y = rect.y;
 	}
 	else {
-		std::poisson_distribution<int> y_rand(rect.height);
-		y = y_rand(m_rand_engine) + rect.y;
+		int y_rand = std::poisson_distribution<int>(rect.height / 2 )(m_rand_engine);
+		y = y_rand + rect.y;
 	}
 
 	return click({ x, y });
@@ -147,9 +157,11 @@ Rect WinMacro::getWindowRect()
 	RECT rect;
 	bool ret = ::GetWindowRect(m_handle, &rect);
 	if (!ret) {
-		return { 0, 0, 0 ,0 };
+		return Rect();
 	}
-	return Rect{ rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top } *getScreenScale();
+	return Rect{ rect.left, rect.top, 
+		static_cast<int>((rect.right - rect.left) * getScreenScale()), 
+		static_cast<int>((rect.bottom - rect.top) * getScreenScale()) } ;
 }
 
 cv::Mat WinMacro::getImage(const Rect& rect)

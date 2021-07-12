@@ -5,9 +5,9 @@
 #include <Windows.h>
 #include <opencv2/opencv.hpp>
 
-#include "AssDef.h"
+#include "AsstDef.h"
 
-namespace MeoAssistance {
+namespace asst {
 	class WinMacro
 	{
 	public:
@@ -16,6 +16,7 @@ namespace MeoAssistance {
 
 		bool findHandle();
 		bool resizeWindow(int Width, int Height);
+		bool resizeWindow();	// by configer
 		bool click(const Point & p);
 		bool clickRange(const Rect & rect);
 		cv::Mat getImage(const Rect& rect);
@@ -26,5 +27,9 @@ namespace MeoAssistance {
 		HandleType m_handle_type;
 		HWND m_handle = NULL;
 		std::minstd_rand m_rand_engine;
+		int m_width = 0;
+		int m_height = 0;
+		int m_xOffset = 0;
+		int m_yOffset = 0;
 	};
 }
