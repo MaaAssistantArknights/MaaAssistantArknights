@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\AssDef.h" />
+    <ClInclude Include="include\AsstDef.h" />
     <ClInclude Include="include\Assistance.h" />
     <ClInclude Include="include\Configer.h" />
     <ClInclude Include="include\Identify.h" />

@@ -1,112 +1,78 @@
 {
     "version": 0.1,
+    "options": {
+        "delay": 2000
+    },
     "handle": {
-        "BlueStacksControl": [
-            {
-                "class": "BS2CHINAUI",
-                "window": "BlueStacks App Player"
-            },
-            {
-                "class": "BS2CHINAUI",
-                "window": "HOSTWND"
-            },
-            {
-                "class": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
-                "window": "BlueStacks Android PluginAndroid"
-            }
-        ],
-        "BlueStacksView": [
-            {
-                "class": "BS2CHINAUI",
-                "window": "BlueStacks App Player"
-            }
-        ],
-        "BlueStacksWindow": [
-            {
-                "class": "BS2CHINAUI",
-                "window": "BlueStacks App Player"
-            }
-        ]
+        "BlueStacks": {
+            "Control": [
+                {
+                    "class": "BS2CHINAUI",
+                    "window": "BlueStacks App Player"
+                },
+                {
+                    "class": "BS2CHINAUI",
+                    "window": "HOSTWND"
+                },
+                {
+                    "class": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+                    "window": "BlueStacks Android PluginAndroid"
+                }
+            ],
+            "View": [
+                {
+                    "class": "BS2CHINAUI",
+                    "window": "BlueStacks App Player"
+                }
+            ],
+            "Window": [
+                {
+                    "class": "BS2CHINAUI",
+                    "window": "BlueStacks App Player"
+                }
+            ],
+            "Width": 1294,
+            "Height": 773,
+            "xOffset": -7,
+            "yOffset": -47
+        }
     },
     "data": {
+        "Random": {
+            "filename": "",
+            "threshold": 0,
+            "type": "clickRand"
+        },
         "UseMedicine": {
-            "viewRect": [
-                571,
-                118,
-                621,
-                504
-            ],
             "filename": "UseMedicine.png",
-            "similarity": 0.999,
-            "type": "click",
-            "ctrlRect": [
-                994,
-                523,
-                30,
-                17
-            ]
+            "threshold": 0.99,
+            "type": "next",
+            "next": {
+                "name": "MedicineConfirm",
+                "filename": "MedicineConfirm.png",
+                "threshold": 0.99,
+                "type": "clickSelf"
+            }
+        },
+        "PRTS": {
+            "filename": "PRTS.png",
+            "threshold": 0.99,
+            "type": "doNothing"
         },
         "UseStone": {
-            "viewRect": [
-                571,
-                118,
-                621,
-                504
-            ],
             "filename": "UseStone.png",
-            "similarity": 0.999,
+            "threshold": 0.999,
             "type": "stop"
         },
-        "MissionSucceed": {
-            "viewRect": [
-                186,
-                521,
-                47,
-                26
-            ],
-            "filename": "MissionSucceed.png",
-            "similarity": 0.4,
-            "type": "click",
-            "ctrlRect": [
-                977,
-                596,
-                163,
-                29
-            ]
-        },
         "StartButton1": {
-            "viewRect": [
-                968,
-                627,
-                193,
-                70
-            ],
             "filename": "StartButton1.png",
-            "similarity": 0.99,
-            "type": "click",
-            "ctrlRect": [
-                977,
-                596,
-                163,
-                29
-            ]
+            "threshold": 0.99,
+            "type": "clickSelf"
         },
         "StartButton2": {
-            "viewRect": [
-                966,
-                386,
-                126,
-                259
-            ],
             "filename": "StartButton2.png",
-            "similarity": 0.99,
-            "type": "click",
-            "ctrlRect": [
-                975,
-                353,
-                97,
-                230
-            ]
+            "threshold": 0.99,
+            "type": "clickSelf"
         }
     }
 }

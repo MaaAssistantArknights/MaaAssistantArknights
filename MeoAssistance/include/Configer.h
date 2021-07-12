@@ -3,7 +3,7 @@
 #include <string>
 #include "json_object.h"
 
-namespace MeoAssistance {
+namespace asst {
 	class Configer
 	{
 	public:
@@ -14,7 +14,7 @@ namespace MeoAssistance {
 		static std::string getResDir();
 		static json::object dataObj;
 		static json::object handleObj;
-
+		static json::object optionsObj;
 	private:
 		Configer() = default;
 
