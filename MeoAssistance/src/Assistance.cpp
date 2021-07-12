@@ -97,9 +97,10 @@ void Assistance::identify_function(Assistance* pThis)
 			if (max_similarity != 0) {
 				DebugTrace("Max: %s, Similarity: %f", matched_task.c_str(), max_similarity);
 				pThis->m_tasks.emplace(matched_task);
+
+				pThis->m_control_cv.notify_all();
 			}
 
-			pThis->m_control_cv.notify_all();
 			pThis->m_identify_cv.wait_for(lock, std::chrono::milliseconds(1000));
 		}
 		else {
