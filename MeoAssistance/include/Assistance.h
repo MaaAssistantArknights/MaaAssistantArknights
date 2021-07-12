@@ -32,7 +32,7 @@ namespace MeoAssistance {
 		std::shared_ptr<WinMacro> m_pView = nullptr;
 		std::shared_ptr<Identify> m_Ider = nullptr;
 
-		std::queue<Rect> m_tasks;
+		std::queue<std::string> m_tasks;
 		std::mutex m_tasks_mutex;
 
 		std::thread m_control_thread;
