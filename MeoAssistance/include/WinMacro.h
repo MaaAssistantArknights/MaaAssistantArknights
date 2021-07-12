@@ -5,9 +5,9 @@
 #include <Windows.h>
 #include <opencv2/opencv.hpp>
 
-#include "AssDef.h"
+#include "AsstDef.h"
 
-namespace MeoAssistance {
+namespace asst {
 	class WinMacro
 	{
 	public:

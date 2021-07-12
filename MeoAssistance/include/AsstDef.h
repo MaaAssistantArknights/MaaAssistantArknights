@@ -7,7 +7,7 @@
 #include <process.h>
 #include <Windows.h>
 
-namespace MeoAssistance {
+namespace asst {
 	enum class SimulatorType
 	{
 		BlueStacks = 0x100

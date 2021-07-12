@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\AssDef.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\Assistance.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -28,6 +25,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\WinMacro.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AsstDef.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

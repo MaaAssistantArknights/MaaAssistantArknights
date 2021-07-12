@@ -3,7 +3,7 @@
 #include <string>
 #include "json_object.h"
 
-namespace MeoAssistance {
+namespace asst {
 	class Configer
 	{
 	public:

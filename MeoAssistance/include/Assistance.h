@@ -6,9 +6,9 @@
 #include <memory>
 #include <queue>
 
-#include "AssDef.h"
+#include "AsstDef.h"
 
-namespace MeoAssistance {
+namespace asst {
 	class WinMacro;
 	class Identify;
 
