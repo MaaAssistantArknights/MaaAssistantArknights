@@ -9,9 +9,8 @@
 #include <stdint.h>
 #include <WinUser.h>
 
-#include <iostream>
-
 #include "Configer.h"
+#include "AssDef.h"
 
 using namespace MeoAssistance;
 
@@ -45,9 +44,7 @@ bool WinMacro::findHandle()
 		m_handle = ::FindWindowExA(m_handle, NULL, obj["class"].as_string().c_str(), obj["window"].as_string().c_str());
 	}
 
-#ifdef _DEBUG
-	std::cout << "type: " << static_cast<int>(m_handle_type) << ", handle: " << m_handle << std::endl;
-#endif
+	DebugTrace("type: 0x%x, handle: 0x%x", m_handle_type, m_handle);
 
 	if (m_handle != NULL) {
 		return true;
@@ -108,9 +105,8 @@ bool WinMacro::click(const Point& p)
 
 	int x = p.x / getScreenScale();
 	int y = p.y / getScreenScale();
-#ifdef _DEBUG
-	std::cout << "click: " << x << ", " << y << std::endl;
-#endif
+
+	DebugTrace("click: %d, %d", x, y);
 
 	LPARAM lparam = MAKELPARAM(x, y);
 
