@@ -6,7 +6,7 @@ int main(int argc, char** argv)
 
 	Assistance asst;
 	if (!asst.setSimulatorType(SimulatorType::BlueStacks)) {
-		DebugTraceError("Find Simulator Error");
+		DebugTraceError("Can't Find Simulator or Permission denied.");
 		getchar();
 		return -1;
 	}

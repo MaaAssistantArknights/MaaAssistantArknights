@@ -44,11 +44,43 @@ double Identify::imgHistComp(const cv::Mat& lhs, const cv::Mat& rhs)
 
 double Identify::imgHistComp(const cv::Mat& cur, const std::string& src, asst::Rect compRect)
 {
+	if (m_matMap.find(src) == m_matMap.end()) {
+		return 0;
+	}
 	cv::Rect cvRect(compRect.x, compRect.y, compRect.width, compRect.height);
 	return imgHistComp(cur(cvRect), m_matMap.at(src)(cvRect));
 }
 
-asst::Rect Identify::findImage(const cv::Mat& image, const cv::Mat& templ)
+std::pair<double, asst::Rect> Identify::findImage(const cv::Mat& image, const cv::Mat& templ)
 {
-	return { 0, 0, 0, 0 };
+	cv::Mat image_hsv;
+	cv::Mat templ_hsv;
+	cvtColor(image, image_hsv, COLOR_BGR2HSV);
+	cvtColor(templ, templ_hsv, COLOR_BGR2HSV);
+
+	Mat matched;
+	matchTemplate(image_hsv, templ_hsv, matched, cv::TM_CCORR_NORMED);
+
+	double minVal = 0, maxVal = 0;
+	cv::Point minLoc, maxLoc;
+	minMaxLoc(matched, &minVal, &maxVal, &minLoc, &maxLoc);
+
+	return { maxVal, asst::Rect(maxLoc.x, maxLoc.y, templ.cols, templ.rows).center_zoom(0.8) };
+}
+
+std::pair<double, asst::Rect> Identify::findImage(const cv::Mat& cur, const std::string& templ)
+{
+	if (m_matMap.find(templ) == m_matMap.end()) {
+		return { 0, asst::Rect() };
+	}
+	return findImage(cur, m_matMap.at(templ));
+}
+
+std::pair<double, asst::Rect> Identify::findImageWithFile(const cv::Mat& cur, const std::string& filename)
+{
+	Mat mat = imread(filename);
+	if (mat.empty()) {
+		return { 0, asst::Rect() };
+	}
+	return findImage(cur, mat);
 }

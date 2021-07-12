@@ -25,6 +25,7 @@ namespace asst {
 
 	struct Point
 	{
+		Point() = default;
 		Point(int x, int y) : x(x), y(y) {}
 		int x = 0;
 		int y = 0;
@@ -32,9 +33,19 @@ namespace asst {
 
 	struct Rect
 	{
+		Rect() = default;
 		Rect(int x, int y, int width, int height)
 			: x(x), y(y), width(width), height(height) {}
-		Rect operator*(double rhs) const { return { x, y, static_cast<int>(width * rhs), static_cast<int>(height * rhs) }; }
+		Rect operator*(double rhs) const
+		{
+			return { x, y, static_cast<int>(width * rhs), static_cast<int>(height * rhs) };
+		}
+		Rect center_zoom(double scale)
+		{
+			int half_width_scale = static_cast<int>(width * (1- scale) / 2) ;
+			int half_hight_scale = static_cast<int>(height * (1 - scale) / 2) ;
+			return { x + half_width_scale, y + half_hight_scale, width - half_width_scale,  height - half_hight_scale };
+		}
 		int x = 0;
 		int y = 0;
 		int width = 0;
@@ -50,7 +61,7 @@ namespace asst {
 	}
 
 	template <typename... Args>
-	void DebugPrint(const std::string & level, Args &&... args)
+	void DebugPrint(const std::string& level, Args &&... args)
 	{
 		static std::mutex trace_mutex;
 		std::unique_lock<std::mutex> trace_lock(trace_mutex);
