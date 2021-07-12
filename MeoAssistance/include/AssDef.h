@@ -64,25 +64,22 @@ namespace MeoAssistance {
 		printf(std::forward<Args>(args)...);
 		printf("\n");
 	}
+
 	template <typename... Args>
-	void DebugTrace(Args &&... args)
+	inline void DebugTrace(Args &&... args)
 	{
 #ifdef _DEBUG
 		DebugPrint("TRC", std::forward<Args>(args)...);
 #endif
 	}
 	template <typename... Args>
-	void DebugTraceInfo(Args &&... args)
+	inline void DebugTraceInfo(Args &&... args)
 	{
-#ifdef _DEBUG
 		DebugPrint("INF", std::forward<Args>(args)...);
-#endif
 	}
 	template <typename... Args>
-	void DebugTraceError(Args &&... args)
+	inline void DebugTraceError(Args &&... args)
 	{
-#ifdef _DEBUG
 		DebugPrint("ERR", std::forward<Args>(args)...);
-#endif
 	}
 }

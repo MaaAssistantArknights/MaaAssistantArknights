@@ -86,7 +86,7 @@ void Assistance::identify_function(Assistance* pThis)
 			double max_similarity = 0;
 			for (auto&& pair : Configer::dataObj) {
 				double similarity = pThis->m_Ider->imgHistComp(curImg, pair.first, jsonToRect(pair.second["viewRect"].as_array()));
-				DebugTrace("%s\t%d", pair.first, similarity);
+				DebugTrace("%-20s %f", pair.first.c_str(), similarity);
 				if (similarity >= pair.second["similarity"].as_double()) {
 					if (similarity > max_similarity) {
 						max_similarity = similarity;
@@ -95,7 +95,7 @@ void Assistance::identify_function(Assistance* pThis)
 				}
 			}
 			if (max_similarity != 0) {
-				DebugTrace("Max: %s, Similarity: %lf", matched_task, max_similarity);
+				DebugTrace("Max: %s, Similarity: %f", matched_task.c_str(), max_similarity);
 				pThis->m_tasks.emplace(matched_task);
 			}
 
