@@ -44,7 +44,7 @@ bool Assistance::setSimulatorType(SimulatorType type)
 	stop();
 
 	std::unique_lock<std::mutex> lock(m_tasks_mutex);
-	std::queue<Rect> empty;
+	std::queue<std::string> empty;
 	m_tasks.swap(empty);
 	int int_type = static_cast<int>(type);
 	m_pCtrl = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::Control)));
@@ -82,45 +82,24 @@ void Assistance::identify_function(Assistance* pThis)
 		if (pThis->m_identify_running) {
 			auto curImg = pThis->m_pView->getImage(pThis->m_pView->getWindowRect());
 
-			std::pair<std::string, json::value> matched;
+			std::string matched_task;
 			double max_similarity = 0;
 			for (auto&& pair : Configer::dataObj) {
 				double similarity = pThis->m_Ider->imgHistComp(curImg, pair.first, jsonToRect(pair.second["viewRect"].as_array()));
-#ifdef _DEBUG
-				std::cout << pair.first << " Similarity: " << similarity << std::endl;
-#endif
+				DebugTrace("%s\t%d", pair.first, similarity);
 				if (similarity >= pair.second["similarity"].as_double()) {
 					if (similarity > max_similarity) {
 						max_similarity = similarity;
-						matched = pair;
+						matched_task = pair.first;
 					}
 				}
 			}
 			if (max_similarity != 0) {
-#ifdef _DEBUG
-				std::cout << "Max: " << matched.first << " , Similarity: " << max_similarity << std::endl;
-#endif
-				std::string opType = matched.second["type"].as_string();
-				if (opType == "click") {
-					pThis->m_tasks.emplace(jsonToRect(matched.second["ctrlRect"].as_array()));
-				}
-				else if (opType == "stop") {
-#ifdef _DEBUG
-					std::cout << "opType == stop " << std::endl;
-#endif
-					pThis->m_control_running = false;
-					pThis->m_identify_running = false;
-					continue;
-				}
-				else if (opType == "donothing") {
-					pThis->m_identify_cv.wait_for(lock, std::chrono::milliseconds(1000));
-					continue;
-				}
-				pThis->m_control_cv.notify_all();
+				DebugTrace("Max: %s, Similarity: %lf", matched_task, max_similarity);
+				pThis->m_tasks.emplace(matched_task);
 			}
-#ifdef _DEBUG
-			std::cout << std::endl;
-#endif
+
+			pThis->m_control_cv.notify_all();
 			pThis->m_identify_cv.wait_for(lock, std::chrono::milliseconds(1000));
 		}
 		else {
@@ -134,11 +113,21 @@ void Assistance::control_function(Assistance* pThis)
 	while (!pThis->m_control_exit) {
 		std::unique_lock<std::mutex> lock(pThis->m_tasks_mutex);
 		if (pThis->m_control_running && !pThis->m_tasks.empty()) {
-			const Rect rect = pThis->m_tasks.front();
+			const std::string task_name = pThis->m_tasks.front();
 			pThis->m_tasks.pop();
 			lock.unlock();
 
-			pThis->m_pCtrl->clickRange(rect);
+			auto task = Configer::dataObj[task_name].as_object();
+			std::string opType = task["type"].as_string();
+			if (opType == "click") {
+				pThis->m_pCtrl->clickRange(jsonToRect(task["ctrlRect"].as_array()));
+			}
+			else if (opType == "stop") {
+				DebugTrace("opType == stop");
+				pThis->m_control_running = false;
+				pThis->m_identify_running = false;
+				continue;
+			}
 		}
 		else {
 			pThis->m_control_cv.wait(lock);
