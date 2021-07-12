@@ -4,7 +4,7 @@
 #include "Configer.h"
 #include "Identify.h"
 
-using namespace MeoAssistance;
+using namespace asst;
 
 Assistance::Assistance()
 {

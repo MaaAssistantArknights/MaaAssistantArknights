@@ -6,7 +6,7 @@
 
 #include "json.h"
 
-using namespace MeoAssistance;
+using namespace asst;
 
 json::object Configer::dataObj;
 json::object Configer::handleObj;

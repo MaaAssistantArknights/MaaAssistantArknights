@@ -4,8 +4,18 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/types_c.h>
 
-using namespace MeoAssistance;
+using namespace asst;
 using namespace cv;
+
+bool Identify::addImage(const std::string& name, const std::string& path)
+{
+	Mat mat = imread(path);
+	if (mat.empty()) {
+		return false;
+	}
+	m_matMap.emplace(name, mat);
+	return true;
+}
 
 double Identify::imgHistComp(const cv::Mat& lhs, const cv::Mat& rhs)
 {
@@ -32,18 +42,13 @@ double Identify::imgHistComp(const cv::Mat& lhs, const cv::Mat& rhs)
 	return compareHist(lhs_hist, rhs_hist, CV_COMP_CORREL);
 }
 
-double Identify::imgHistComp(const cv::Mat& cur, const std::string& src, MeoAssistance::Rect compRect)
+double Identify::imgHistComp(const cv::Mat& cur, const std::string& src, asst::Rect compRect)
 {
 	cv::Rect cvRect(compRect.x, compRect.y, compRect.width, compRect.height);
 	return imgHistComp(cur(cvRect), m_matMap.at(src)(cvRect));
 }
 
-bool Identify::addImage(const std::string& name, const std::string& path)
+asst::Rect Identify::findImage(const cv::Mat& image, const cv::Mat& templ)
 {
-	Mat mat = imread(path);
-	if (mat.empty()) {
-		return false;
-	}
-	m_matMap.emplace(name, mat);
-	return true;
+	return { 0, 0, 0, 0 };
 }

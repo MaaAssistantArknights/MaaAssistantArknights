@@ -10,9 +10,9 @@
 #include <WinUser.h>
 
 #include "Configer.h"
-#include "AssDef.h"
+#include "AsstDef.h"
 
-using namespace MeoAssistance;
+using namespace asst;
 
 WinMacro::WinMacro(HandleType type)
 	: m_handle_type(type),
