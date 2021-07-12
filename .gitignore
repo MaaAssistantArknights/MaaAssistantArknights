@@ -34,6 +34,5 @@
 Debug
 Release
 .vs
-*.vcxproj.filters
 *.vcxproj.user
 *.swp
