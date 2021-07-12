@@ -10,7 +10,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MeoAssistance", "MeoAssista
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmeojson", "meojson\test\vsproj\meojson\libmeojson\libmeojson.vcxproj", "{9CC7838E-D5FB-4771-848D-5F83D638C5AD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Tools\Test\Test.vcxproj", "{36BC08F3-71CF-429A-AE69-291BE8962CB2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sanity", "Tools\Sanity\Sanity.vcxproj", "{36BC08F3-71CF-429A-AE69-291BE8962CB2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{362D1E30-F5AE-4279-9985-65C27B3BA300} = {362D1E30-F5AE-4279-9985-65C27B3BA300}
 		{9CC7838E-D5FB-4771-848D-5F83D638C5AD} = {9CC7838E-D5FB-4771-848D-5F83D638C5AD}
