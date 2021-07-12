@@ -14,7 +14,7 @@ namespace asst {
 		static std::string getResDir();
 		static json::object dataObj;
 		static json::object handleObj;
-
+		static json::object optionsObj;
 	private:
 		Configer() = default;
 

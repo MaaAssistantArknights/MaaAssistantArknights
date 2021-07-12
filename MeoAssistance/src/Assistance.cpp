@@ -16,26 +16,18 @@ Assistance::Assistance()
 		m_Ider->addImage(pair.first, Configer::getResDir() + pair.second["filename"].as_string());
 	}
 
-	m_control_thread = std::thread(control_function, this);
-	m_identify_thread = std::thread(identify_function, this);
+	m_working_thread = std::thread(working_proc, this);
 
 }
 
 Assistance::~Assistance()
 {
-	m_control_exit = true;
-	m_control_running = false;
-	m_control_cv.notify_all();
+	m_thread_exit = true;
+	m_thread_running = false;
+	m_condvar.notify_one();
 
-	m_identify_exit = true;
-	m_identify_running = false;
-	m_identify_cv.notify_all();
-
-	if (m_control_thread.joinable()) {
-		m_control_thread.join();
-	}
-	if (m_identify_thread.joinable()) {
-		m_identify_thread.join();
+	if (m_working_thread.joinable()) {
+		m_working_thread.join();
 	}
 }
 
@@ -43,95 +35,104 @@ bool Assistance::setSimulatorType(SimulatorType type)
 {
 	stop();
 
-	std::unique_lock<std::mutex> lock(m_tasks_mutex);
-	std::queue<std::string> empty;
-	m_tasks.swap(empty);
+	std::unique_lock<std::mutex> lock(m_mutex);
 	int int_type = static_cast<int>(type);
 	m_pCtrl = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::Control)));
 	m_pWindow = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::Window)));
 	m_pView = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::View)));
 	bool ret =  m_pCtrl->findHandle() && m_pWindow->findHandle() && m_pView->findHandle();
 	if (ret) {
-		m_pWindow->resizeWindow(1200, 720);
+		ret = m_pWindow->resizeWindow();
 	}
 	return ret;
 }
 
 void Assistance::start()
 {
-	std::unique_lock<std::mutex> lock(m_tasks_mutex);
+	std::unique_lock<std::mutex> lock(m_mutex);
 
-	m_control_running = true;
-	m_identify_running = true;
-	m_control_cv.notify_all();
-	m_identify_cv.notify_all();
+	m_thread_running = true;
+	m_condvar.notify_one();
 }
 
 void Assistance::stop()
 {
-	std::unique_lock<std::mutex> lock(m_tasks_mutex);
+	std::unique_lock<std::mutex> lock(m_mutex);
 
-	m_control_running = false;
-	m_identify_running = false;
+	m_thread_running = false;
 }
 
-void Assistance::identify_function(Assistance* pThis)
+void Assistance::working_proc(Assistance* pThis)
 {
-	while (!pThis->m_identify_exit) {
-		std::unique_lock<std::mutex> lock(pThis->m_tasks_mutex);
-		if (pThis->m_identify_running) {
+	while (!pThis->m_thread_exit) {
+		std::unique_lock<std::mutex> lock(pThis->m_mutex);
+		if (pThis->m_thread_running) {
 			auto curImg = pThis->m_pView->getImage(pThis->m_pView->getWindowRect());
 
-			std::string matched_task;
-			double max_similarity = 0;
+			double max_value = -1;
+			Rect cor_rect;
+			std::pair<std::string, json::value> matched;
 			for (auto&& pair : Configer::dataObj) {
-				double similarity = pThis->m_Ider->imgHistComp(curImg, pair.first, jsonToRect(pair.second["viewRect"].as_array()));
-				DebugTrace("%-20s %f", pair.first.c_str(), similarity);
-				if (similarity >= pair.second["similarity"].as_double()) {
-					if (similarity > max_similarity) {
-						max_similarity = similarity;
-						matched_task = pair.first;
+				auto&& [value, rect] = pThis->m_Ider->findImage(curImg, pair.first);
+				DebugTrace("%-20s %f", pair.first.c_str(), value);
+				if (value >= pair.second["threshold"].as_double()) {
+					if (value >= max_value) {
+						max_value = value;
+						cor_rect = rect;
+						matched = pair;
 					}
 				}
 			}
-			if (max_similarity != 0) {
-				DebugTrace("Max: %s, Similarity: %f", matched_task.c_str(), max_similarity);
-				pThis->m_tasks.emplace(matched_task);
+			if (max_value >= 0) {
+				auto task = Configer::dataObj[matched.first].as_object();
+				std::string opType = task["type"].as_string();
+				DebugTraceInfo("Matched: %s, type: %s", matched.first.c_str(), opType.c_str());
+				bool next_loop = true;
+				while (next_loop) {
+					if (opType == "clickSelf") {
+						pThis->m_pCtrl->clickRange(cor_rect);
+					}
+					else if (opType == "clickRand") {
+						pThis->m_pCtrl->clickRange(pThis->m_pCtrl->getWindowRect());
+					}
+					else if (opType == "next") {
+						json::value nextObj = task["next"];
+						std::string name = nextObj["name"].as_string();
+						std::string filepath = Configer::getResDir() + nextObj["filename"].as_string();
+						auto&& [value, rect] = pThis->m_Ider->findImageWithFile(curImg, filepath);
+						DebugTrace("Next: %-20s %f", name.c_str(), value);
 
-				pThis->m_control_cv.notify_all();
+						if (value >= nextObj["threshold"].as_double()) {
+							DebugTraceInfo("Next matched: %s", name.c_str());
+							task = nextObj.as_object();
+							opType = nextObj["type"].as_string();
+							cor_rect = rect;
+							max_value = value;
+							next_loop = true;
+							continue;
+						}
+						else {
+							DebugTraceInfo("Next not matched: %s", name.c_str());
+						}
+					}
+					else if (opType == "stop") {
+						DebugTrace("opType == stop");
+						pThis->m_thread_running = false;
+						break;
+					}
+					else if (opType == "doNothing") {
+						// do nothing
+					}
+					else {
+						DebugTraceError("Unknow option type: %s", opType.c_str());
+					}
+					next_loop = false;
+				}
 			}
-
-			pThis->m_identify_cv.wait_for(lock, std::chrono::milliseconds(1000));
+			pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(Configer::optionsObj["delay"].as_integer()));
 		}
 		else {
-			pThis->m_identify_cv.wait(lock);
-		}
-	}
-}
-
-void Assistance::control_function(Assistance* pThis)
-{
-	while (!pThis->m_control_exit) {
-		std::unique_lock<std::mutex> lock(pThis->m_tasks_mutex);
-		if (pThis->m_control_running && !pThis->m_tasks.empty()) {
-			const std::string task_name = pThis->m_tasks.front();
-			pThis->m_tasks.pop();
-			lock.unlock();
-
-			auto task = Configer::dataObj[task_name].as_object();
-			std::string opType = task["type"].as_string();
-			if (opType == "click") {
-				pThis->m_pCtrl->clickRange(jsonToRect(task["ctrlRect"].as_array()));
-			}
-			else if (opType == "stop") {
-				DebugTrace("opType == stop");
-				pThis->m_control_running = false;
-				pThis->m_identify_running = false;
-				continue;
-			}
-		}
-		else {
-			pThis->m_control_cv.wait(lock);
+			pThis->m_condvar.wait(lock);
 		}
 	}
 }
