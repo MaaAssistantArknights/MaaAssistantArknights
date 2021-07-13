@@ -3,7 +3,6 @@
 #include <vector>
 #include <utility>
 #include <ctime>
-#include <cassert>
 #include <algorithm>
 
 #include <stdint.h>
@@ -14,31 +13,39 @@
 
 using namespace asst;
 
-WinMacro::WinMacro(HandleType type)
-	: m_handle_type(type),
+WinMacro::WinMacro(const std::string& simulator_name, HandleType type)
+	: m_simulator_name(simulator_name),
+	m_handle_type(type),
 	m_rand_engine(time(NULL))
 {
+	findHandle();
+}
+
+bool WinMacro::captured() const noexcept
+{
+	return m_handle != NULL;
 }
 
 bool WinMacro::findHandle()
 {
 	json::array handle_arr;
+	json::value simulator_json = Configer::handleObj[m_simulator_name];
 	switch (m_handle_type) {
-	case HandleType::BlueStacksControl:
-		m_xOffset = Configer::handleObj["BlueStacks"]["xOffset"].as_integer();
-		m_yOffset = Configer::handleObj["BlueStacks"]["yOffset"].as_integer();
-		handle_arr = Configer::handleObj["BlueStacks"]["Control"].as_array();
+	case HandleType::Window:
+		m_width = simulator_json["Width"].as_integer();
+		m_height = simulator_json["Height"].as_integer();
+		handle_arr = simulator_json["Window"].as_array();
 		break;
-	case HandleType::BlueStacksView:
-		handle_arr = Configer::handleObj["BlueStacks"]["View"].as_array();
+	case HandleType::View:
+		handle_arr = simulator_json["View"].as_array();
 		break;
-	case HandleType::BlueStacksWindow:
-		m_width = Configer::handleObj["BlueStacks"]["Width"].as_integer();
-		m_height = Configer::handleObj["BlueStacks"]["Height"].as_integer();
-		handle_arr = Configer::handleObj["BlueStacks"]["Window"].as_array();
+	case HandleType::Control:
+		m_xOffset = simulator_json["xOffset"].as_integer();
+		m_yOffset = simulator_json["yOffset"].as_integer();
+		handle_arr = simulator_json["Control"].as_array();
 		break;
 	default:
-		std::cerr << "handle type error! " << static_cast<int>(m_handle_type) << std::endl;
+		DebugTraceError("Handle type error!: %d", m_handle_type);
 		return false;
 	}
 
@@ -48,7 +55,7 @@ bool WinMacro::findHandle()
 		m_handle = ::FindWindowExA(m_handle, NULL, obj["class"].as_string().c_str(), obj["window"].as_string().c_str());
 	}
 
-	DebugTrace("type: 0x%x, handle: 0x%x", m_handle_type, m_handle);
+	DebugTrace("Handle: 0x%x, Name: %s, Type: %d", m_handle, m_simulator_name.c_str(), m_handle_type);
 
 	if (m_handle != NULL) {
 		return true;
@@ -60,7 +67,7 @@ bool WinMacro::findHandle()
 
 bool WinMacro::resizeWindow(int width, int height)
 {
-	if (!(static_cast<int>(m_handle_type) & static_cast<int>(HandleType::Window))) {
+	if (m_handle_type != HandleType::Window) {
 		return false;
 	}
 
@@ -108,7 +115,7 @@ double WinMacro::getScreenScale()
 
 bool WinMacro::click(const Point& p)
 {
-	if (!(static_cast<int>(m_handle_type) & static_cast<int>(HandleType::Control))) {
+	if (m_handle_type != HandleType::Control) {
 		return false;
 	}
 
@@ -127,7 +134,7 @@ bool WinMacro::click(const Point& p)
 
 bool WinMacro::clickRange(const Rect& rect)
 {
-	if (!(static_cast<int>(m_handle_type) & static_cast<int>(HandleType::Control))) {
+	if (m_handle_type != HandleType::Control) {
 		return false;
 	}
 
@@ -166,7 +173,7 @@ Rect WinMacro::getWindowRect()
 
 cv::Mat WinMacro::getImage(const Rect& rect)
 {
-	if (!(static_cast<int>(m_handle_type) & static_cast<int>(HandleType::View))) {
+	if (m_handle_type != HandleType::View) {
 		return cv::Mat();
 	}
 

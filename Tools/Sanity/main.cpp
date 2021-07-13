@@ -5,10 +5,15 @@ int main(int argc, char** argv)
 	using namespace asst;
 
 	Assistance asst;
-	if (!asst.setSimulatorType(SimulatorType::BlueStacks)) {
+
+	auto ret = asst.setSimulator();
+	if (!ret) {
 		DebugTraceError("Can't Find Simulator or Permission denied.");
 		getchar();
 		return -1;
+	}
+	else {
+		DebugTraceInfo("Find Simulator: %s", ret->c_str());
 	}
 
 	DebugTraceInfo("Start");
