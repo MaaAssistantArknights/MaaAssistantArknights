@@ -11,10 +11,10 @@ namespace asst {
 	class WinMacro
 	{
 	public:
-		WinMacro(HandleType type);
+		WinMacro(const std::string & simulator_name, HandleType type);
 		~WinMacro() = default;
 
-		bool findHandle();
+		bool captured() const noexcept;
 		bool resizeWindow(int Width, int Height);
 		bool resizeWindow();	// by configer
 		bool click(const Point & p);
@@ -23,8 +23,10 @@ namespace asst {
 		Rect getWindowRect();
 		static double getScreenScale();
 	private:
+		bool findHandle();
 
-		HandleType m_handle_type;
+		const std::string m_simulator_name;
+		const HandleType m_handle_type;
 		HWND m_handle = NULL;
 		std::minstd_rand m_rand_engine;
 		int m_width = 0;
