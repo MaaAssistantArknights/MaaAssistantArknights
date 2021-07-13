@@ -52,7 +52,21 @@ bool WinMacro::findHandle()
 	m_handle = NULL;
 	for (auto&& obj : handle_arr)
 	{
-		m_handle = ::FindWindowExA(m_handle, NULL, obj["class"].as_string().c_str(), obj["window"].as_string().c_str());
+		std::string class_str = obj["class"].as_string();
+		size_t class_len = (class_str.size() + 1) * 2;
+		wchar_t* class_wbuff = new wchar_t[class_len];
+		::MultiByteToWideChar(CP_UTF8, 0, obj["class"].as_string().c_str(), -1, class_wbuff, class_len);
+
+		std::string window_str = obj["window"].as_string();
+		size_t window_len = (window_str.size() + 1) * 2;
+		wchar_t* window_wbuff = new wchar_t[window_len];
+		memset(window_wbuff, 0, window_len);
+		::MultiByteToWideChar(CP_UTF8, 0, obj["window"].as_string().c_str(), -1, window_wbuff, window_len);
+
+		m_handle = ::FindWindowExW(m_handle, NULL, class_wbuff, window_wbuff);
+
+		delete[] class_wbuff;
+		delete[] window_wbuff;
 	}
 
 	DebugTrace("Handle: 0x%x, Name: %s, Type: %d", m_handle, m_simulator_name.c_str(), m_handle_type);
@@ -152,7 +166,7 @@ bool WinMacro::clickRange(const Rect& rect)
 		y = rect.y;
 	}
 	else {
-		int y_rand = std::poisson_distribution<int>(rect.height / 2 )(m_rand_engine);
+		int y_rand = std::poisson_distribution<int>(rect.height / 2)(m_rand_engine);
 		y = y_rand + rect.y;
 	}
 
@@ -166,9 +180,9 @@ Rect WinMacro::getWindowRect()
 	if (!ret) {
 		return Rect();
 	}
-	return Rect{ rect.left, rect.top, 
-		static_cast<int>((rect.right - rect.left) * getScreenScale()), 
-		static_cast<int>((rect.bottom - rect.top) * getScreenScale()) } ;
+	return Rect{ rect.left, rect.top,
+		static_cast<int>((rect.right - rect.left) * getScreenScale()),
+		static_cast<int>((rect.bottom - rect.top) * getScreenScale()) };
 }
 
 cv::Mat WinMacro::getImage(const Rect& rect)
