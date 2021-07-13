@@ -8,19 +8,11 @@
 #include <Windows.h>
 
 namespace asst {
-	enum class SimulatorType
-	{
-		BlueStacks = 0x100
-	};
 	enum class HandleType
 	{
-		View = 1,
-		Control = 2,
-		Window = 4,
-
-		BlueStacksView = 0x100 | 1,
-		BlueStacksControl = 0x100 | 2,
-		BlueStacksWindow = 0x100 | 4
+		Window = 1,
+		View = 2,
+		Control = 4
 	};
 
 	struct Point

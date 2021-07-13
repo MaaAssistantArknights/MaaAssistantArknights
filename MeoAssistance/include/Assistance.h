@@ -4,7 +4,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <memory>
-#include <queue>
+#include <optional>
 
 #include "AsstDef.h"
 
@@ -18,7 +18,7 @@ namespace asst {
 		Assistance();
 		~Assistance();
 
-		bool setSimulatorType(SimulatorType type);
+		std::optional<std::string> setSimulator(const std::string & simulator_name = std::string());
 		void start();
 		// void pause();
 		void stop();
@@ -26,9 +26,9 @@ namespace asst {
 	private:
 		static void working_proc(Assistance* pThis);
 
-		std::shared_ptr<WinMacro> m_pCtrl = nullptr;
 		std::shared_ptr<WinMacro> m_pWindow = nullptr;
 		std::shared_ptr<WinMacro> m_pView = nullptr;
+		std::shared_ptr<WinMacro> m_pCtrl = nullptr;
 		std::shared_ptr<Identify> m_Ider = nullptr;
 
 		std::thread m_working_thread;
