@@ -158,7 +158,7 @@
             "next": {
                 "name": "MedicineConfirm",
                 "filename": "MedicineConfirm.png",
-                "threshold": 0.99,
+                "threshold": 0.98,
                 "type": "clickSelf"
             }
         },
@@ -181,6 +181,17 @@
             "filename": "StartButton2.png",
             "threshold": 0.99,
             "type": "clickSelf"
+        },
+        "PrtsErrorConfirm": {
+            "filename": "PrtsErrorConfirm.png",
+            "threshold": 0.98,
+            "type": "next",
+            "next": {
+                "name": "AbandonAction",
+                "filename": "AbandonAction.png",
+                "threshold": 0.98,
+                "type": "clickSelf"
+            }
         }
     }
 }
