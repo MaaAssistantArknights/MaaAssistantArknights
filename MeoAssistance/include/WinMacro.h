@@ -17,6 +17,8 @@ namespace asst {
 		bool captured() const noexcept;
 		bool resizeWindow(int Width, int Height);
 		bool resizeWindow();	// by configer
+		bool showWindow();
+		bool hideWindow();
 		bool click(const Point & p);
 		bool clickRange(const Rect & rect);
 		cv::Mat getImage(const Rect& rect);
