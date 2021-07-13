@@ -22,6 +22,8 @@ Assistance::Assistance()
 
 Assistance::~Assistance()
 {
+	m_pWindow->showWindow();
+
 	m_thread_exit = true;
 	m_thread_running = false;
 	m_condvar.notify_one();

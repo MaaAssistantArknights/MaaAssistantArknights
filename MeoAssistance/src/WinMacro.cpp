@@ -93,6 +93,24 @@ bool WinMacro::resizeWindow()
 	return resizeWindow(m_width, m_height);
 }
 
+bool WinMacro::showWindow()
+{
+	if (m_handle_type != HandleType::Window) {
+		return false;
+	}
+
+	return ::ShowWindow(m_handle, SW_SHOW);
+}
+
+bool WinMacro::hideWindow()
+{
+	if (m_handle_type != HandleType::Window) {
+		return false;
+	}
+
+	return ::ShowWindow(m_handle, SW_HIDE);
+}
+
 double WinMacro::getScreenScale()
 {
 	static double scale = 0;
