@@ -31,20 +31,41 @@ Assistance::~Assistance()
 	}
 }
 
-bool Assistance::setSimulatorType(SimulatorType type)
+std::optional<std::string> Assistance::setSimulator(const std::string& simulator_name)
 {
 	stop();
 
+	auto create_handles = [&](const std::string name) -> bool {
+		m_pWindow = std::make_shared<WinMacro>(name, HandleType::Window);
+		m_pView = std::make_shared<WinMacro>(name, HandleType::View);
+		m_pCtrl = std::make_shared<WinMacro>(name, HandleType::Control);
+		return m_pWindow->captured() && m_pView->captured() && m_pCtrl->captured();
+	};
+
+	bool ret = false;
+	std::string cor_name = simulator_name;
+
 	std::unique_lock<std::mutex> lock(m_mutex);
-	int int_type = static_cast<int>(type);
-	m_pCtrl = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::Control)));
-	m_pWindow = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::Window)));
-	m_pView = std::make_shared<WinMacro>(static_cast<HandleType>(int_type | static_cast<int>(HandleType::View)));
-	bool ret =  m_pCtrl->findHandle() && m_pWindow->findHandle() && m_pView->findHandle();
-	if (ret) {
-		ret = m_pWindow->resizeWindow();
+
+	if (simulator_name.empty()) {
+		for (auto&& [name, value] : Configer::handleObj)
+		{
+			ret = create_handles(name);
+			if (ret) {
+				cor_name = name;
+				break;
+			}
+		}
 	}
-	return ret;
+	else {
+		ret = create_handles(simulator_name);
+	}
+	if (ret && m_pWindow->resizeWindow()) {
+		return cor_name;
+	}
+	else {
+		return std::nullopt;
+	}
 }
 
 void Assistance::start()
