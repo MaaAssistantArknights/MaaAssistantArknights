@@ -35,6 +35,114 @@
             "Height": 773,
             "xOffset": -7,
             "yOffset": -47
+        },
+        "Nox": {
+            "Control": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "夜神模拟器"
+                }
+            ],
+            "View": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "夜神模拟器"
+                }
+            ],
+            "Window": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "夜神模拟器"
+                }
+            ],
+            "Width": 1298,
+            "Height": 754,
+            "xOffset": 0,
+            "yOffset": -32
+        },
+        "LDPlayer": {
+            "Control": [
+                {
+                    "class": "LDPlayerMainFrame",
+                    "window": "雷电模拟器"
+                },
+                {
+                    "class": "RenderWindow",
+                    "window": "TheRender"
+                }
+            ],
+            "View": [
+                {
+                    "class": "LDPlayerMainFrame",
+                    "window": "雷电模拟器"
+                }
+            ],
+            "Window": [
+                {
+                    "class": "LDPlayerMainFrame",
+                    "window": "雷电模拟器"
+                }
+            ],
+            "Width": 1304,
+            "Height": 756,
+            "xOffset": 0,
+            "yOffset": -35
+        },
+        "XYAZ": {
+            "Control": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "逍遥模拟器"
+                },
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "MainWindowWindow"
+                }
+            ],
+            "View": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "逍遥模拟器"
+                }
+            ],
+            "Window": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "逍遥模拟器"
+                }
+            ],
+            "Width": 1282,
+            "Height": 769,
+            "xOffset": 0,
+            "yOffset": -47
+        },
+        "Tencent": {
+            "Control": [
+                {
+                    "class": "TXGuiFoundation",
+                    "window": "腾讯手游助手"
+                },
+                {
+                    "class": "AEngineRenderWindowClass",
+                    "window": "AEngineRenderWindow"
+                }
+            ],
+            "View": [
+                {
+                    "class": "TXGuiFoundation",
+                    "window": "腾讯手游助手"
+                }
+            ],
+            "Window": [
+                {
+                    "class": "TXGuiFoundation",
+                    "window": "腾讯手游助手"
+                }
+            ],
+            "Width": 1282,
+            "Height": 769,
+            "xOffset": 0,
+            "yOffset": -42
         }
     },
     "data": {
@@ -56,12 +164,12 @@
         },
         "PRTS": {
             "filename": "PRTS.png",
-            "threshold": 0.99,
+            "threshold": 0.98,
             "type": "doNothing"
         },
         "UseStone": {
             "filename": "UseStone.png",
-            "threshold": 0.999,
+            "threshold": 0.99,
             "type": "stop"
         },
         "StartButton1": {
