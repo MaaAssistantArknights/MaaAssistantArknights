@@ -5,6 +5,7 @@
 #include <opencv2/opencv.hpp>
 #include <unordered_map>
 #include <utility>
+#include <tuple>
 
 namespace asst {
 
@@ -19,8 +20,8 @@ namespace asst {
 		void setUseCache(bool b) noexcept;
 		bool addImage(const std::string& name, const std::string& path);
 
-		// return pair< suitability, scaled asst::rect>
-		std::pair<double, asst::Rect> findImage(const cv::Mat& image, const std::string& templ, double threshold = 0.99);
+		// return tuple< algorithmType, suitability, scaled asst::rect>
+		std::tuple<int, double, asst::Rect> findImage(const cv::Mat& image, const std::string& templ, double threshold = 0.99);
 
 	private:
 		cv::Mat image2Hist(const cv::Mat& src);
