@@ -67,17 +67,17 @@ std::pair<double, cv::Point> Identify::findImage(const cv::Mat& image, const cv:
 	return { maxVal, maxLoc };
 }
 
-std::pair<double, asst::Rect> Identify::findImage(const Mat& cur, const std::string& templ, double threshold)
+std::tuple<int, double, asst::Rect> Identify::findImage(const Mat& cur, const std::string& templ, double threshold)
 {
 	if (m_matMap.find(templ) == m_matMap.cend()) {
-		return { 0, asst::Rect() };
+		return { 0, 0, asst::Rect() };
 	}
 
 	if (m_use_cache && m_cacheMap.find(templ) != m_cacheMap.cend()) {
 		DebugTrace("Identify | %s get cache", templ.c_str());
 		auto&& [rect, hist] = m_cacheMap.at(templ);
 		double value = imageHistComp(cur(rect), hist);
-		return { value, cvRect2Rect(rect).center_zoom(0.8) };
+		return { 2, value, cvRect2Rect(rect).center_zoom(0.8) };
 	}
 	else {
 		auto&& templ_mat = m_matMap.at(templ);
@@ -89,7 +89,7 @@ std::pair<double, asst::Rect> Identify::findImage(const Mat& cur, const std::str
 			m_cacheMap.emplace(templ, std::make_pair(raw_rect, image2Hist(cur(raw_rect))));
 		}
 
-		return { value, cvRect2Rect(raw_rect).center_zoom(0.8) };
+		return { 1, value, cvRect2Rect(raw_rect).center_zoom(0.8) };
 	}
 }
 

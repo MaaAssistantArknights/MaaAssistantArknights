@@ -104,9 +104,11 @@ void Assistance::working_proc(Assistance* pThis)
 			for (auto&& task_jstr : pThis->m_next_tasks) {
 				std::string task_name = task_jstr.as_string();
 				double threshold = Configer::tasksJson[task_name]["threshold"].as_double();
-				auto&& [value, rect] = pThis->m_Ider->findImage(curImg, task_name, threshold);
+				auto&& [algorithm, value, rect] = pThis->m_Ider->findImage(curImg, task_name, threshold);
 				DebugTrace("%-20s %f", task_name.c_str(), value);
-				if (value >= threshold) {
+				if ( algorithm == 0 ||
+					(algorithm == 1 && value >= threshold)
+					|| (algorithm == 2 && value >= 0.9999)) {
 					matched_task = task_name;
 					matched_rect = rect;
 					break;
