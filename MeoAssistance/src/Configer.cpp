@@ -8,9 +8,9 @@
 
 using namespace asst;
 
-json::object Configer::dataObj;
-json::object Configer::handleObj;
-json::object Configer::optionsObj;
+json::object Configer::tasksJson;
+json::object Configer::handleJson;
+json::object Configer::optionsJson;
 
 std::string Configer::m_curDir;
 
@@ -32,9 +32,9 @@ bool Configer::reload()
 	}
 
 	auto root = std::move(ret).value();
-	dataObj = root["data"].as_object();
-	handleObj = root["handle"].as_object();
-	optionsObj = root["options"].as_object();
+	tasksJson = root["tasks"].as_object();
+	handleJson = root["handle"].as_object();
+	optionsJson = root["options"].as_object();
 
 
 	return true;

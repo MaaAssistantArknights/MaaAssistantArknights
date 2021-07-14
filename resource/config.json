@@ -1,7 +1,10 @@
 {
-    "version": 0.1,
+    "version": 0.2,
     "options": {
-        "delay": 2000
+        "delay": {
+            "type": "fixedTime",
+            "fixedTime": 2000
+        }
     },
     "handle": {
         "BlueStacks": {
@@ -145,53 +148,97 @@
             "yOffset": -42
         }
     },
-    "data": {
-        "Random": {
+    "tasks": {
+        "Begin": {
             "filename": "",
             "threshold": 0,
-            "type": "clickRand"
-        },
-        "UseMedicine": {
-            "filename": "UseMedicine.png",
-            "threshold": 0.99,
-            "type": "next",
-            "next": {
-                "name": "MedicineConfirm",
-                "filename": "MedicineConfirm.png",
-                "threshold": 0.98,
-                "type": "clickSelf"
-            }
-        },
-        "PRTS": {
-            "filename": "PRTS.png",
-            "threshold": 0.98,
-            "type": "doNothing"
-        },
-        "UseStone": {
-            "filename": "UseStone.png",
-            "threshold": 0.99,
-            "type": "stop"
+            "type": "doNothing",
+            "next": [
+                "StartButton1",
+                "StartButton2",
+                "PRTS",
+                "UseMedicine",
+                "UseStone",
+                "PrtsErrorConfirm"
+            ]
         },
         "StartButton1": {
             "filename": "StartButton1.png",
             "threshold": 0.99,
-            "type": "clickSelf"
+            "type": "clickSelf",
+            "next": [
+                "StartButton2",
+                "UseMedicine",
+                "UseStone"
+            ]
         },
         "StartButton2": {
+            "id": 2,
             "filename": "StartButton2.png",
             "threshold": 0.99,
-            "type": "clickSelf"
+            "type": "clickSelf",
+            "next": [
+                "PRTS"
+            ]
+        },
+        "PRTS": {
+            "filename": "PRTS.png",
+            "threshold": 0.98,
+            "type": "doNothing",
+            "next": [
+                "PRTS",
+                "PrtsErrorConfirm",
+                "Random"
+            ]
+        },
+        "Random": {
+            "filename": "",
+            "threshold": 0,
+            "type": "clickRand",
+            "next": [
+                "StartButton1",
+                "Random"
+            ]
+        },
+        "UseMedicine": {
+            "filename": "UseMedicine.png",
+            "threshold": 0.99,
+            "type": "doNothing",
+            "next": [
+                "MedicineConfirm"
+            ]
+        },
+        "UseStone": {
+            "filename": "UseStone.png",
+            "threshold": 0.99,
+            "type": "stop",
+            "next": [
+                "MedicineConfirm"
+            ]
+        },
+        "MedicineConfirm": {
+            "filename": "MedicineConfirm.png",
+            "threshold": 0.98,
+            "type": "clickSelf",
+            "next": [
+                "StartButton1"
+            ]
         },
         "PrtsErrorConfirm": {
             "filename": "PrtsErrorConfirm.png",
             "threshold": 0.98,
-            "type": "next",
-            "next": {
-                "name": "AbandonAction",
-                "filename": "AbandonAction.png",
-                "threshold": 0.98,
-                "type": "clickSelf"
-            }
+            "type": "doNothing",
+            "next": [
+                "AbandonAction"
+            ]
+        },
+        "AbandonAction": {
+            "filename": "AbandonAction.png",
+            "threshold": 0.98,
+            "type": "clickSelf",
+            "next": [
+                "Random"
+            ]
         }
     }
 }

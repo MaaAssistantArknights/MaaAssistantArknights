@@ -29,7 +29,7 @@ bool WinMacro::captured() const noexcept
 bool WinMacro::findHandle()
 {
 	json::array handle_arr;
-	json::value simulator_json = Configer::handleObj[m_simulator_name];
+	json::value simulator_json = Configer::handleJson[m_simulator_name];
 	switch (m_handle_type) {
 	case HandleType::Window:
 		m_width = simulator_json["Width"].as_integer();

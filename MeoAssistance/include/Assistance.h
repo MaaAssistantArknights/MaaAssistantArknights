@@ -36,6 +36,7 @@ namespace asst {
 		std::condition_variable m_condvar;
 		bool m_thread_exit = false;
 		bool m_thread_running = false;
+		json::array m_next_tasks;
 	};
 
 }
