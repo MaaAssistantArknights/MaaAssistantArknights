@@ -31,6 +31,9 @@
     <ClCompile Include="src\Identify.cpp" />
     <ClCompile Include="src\WinMacro.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\resource\config.json" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
