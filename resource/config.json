@@ -160,7 +160,7 @@
                 "UseMedicine",
                 "UseStone",
                 "PrtsErrorConfirm",
-				"Random"
+                "Random"
             ]
         },
         "StartButton1": {
@@ -209,15 +209,23 @@
                 "MedicineConfirm"
             ]
         },
+        "MedicineConfirm": {
+            "filename": "MedicineConfirm.png",
+            "threshold": 0.98,
+            "type": "clickSelf",
+            "next": [
+                "StartButton1"
+            ]
+        },
         "UseStone": {
             "filename": "UseStone.png",
             "threshold": 0.99,
             "type": "stop",
             "next": [
-                "MedicineConfirm"
+                "StoneConfirm"
             ]
         },
-        "MedicineConfirm": {
+        "StoneConfirm": {
             "filename": "MedicineConfirm.png",
             "threshold": 0.98,
             "type": "clickSelf",
