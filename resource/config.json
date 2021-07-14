@@ -4,7 +4,8 @@
         "delay": {
             "type": "fixedTime",
             "fixedTime": 2000
-        }
+        },
+        "cache": true
     },
     "handle": {
         "BlueStacks": {

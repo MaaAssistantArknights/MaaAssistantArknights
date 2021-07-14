@@ -15,6 +15,7 @@ Assistance::Assistance()
 	{
 		m_Ider->addImage(pair.first, Configer::getResDir() + pair.second["filename"].as_string());
 	}
+	m_Ider->setUseCache(Configer::optionsJson["cache"].as_boolean());
 
 	m_working_thread = std::thread(working_proc, this);
 
@@ -102,9 +103,10 @@ void Assistance::working_proc(Assistance* pThis)
 			Rect matched_rect;
 			for (auto&& task_jstr : pThis->m_next_tasks) {
 				std::string task_name = task_jstr.as_string();
-				auto&& [value, rect] = pThis->m_Ider->findImage(curImg, task_name);
+				double threshold = Configer::tasksJson[task_name]["threshold"].as_double();
+				auto&& [value, rect] = pThis->m_Ider->findImage(curImg, task_name, threshold);
 				DebugTrace("%-20s %f", task_name.c_str(), value);
-				if (value >= Configer::tasksJson[task_name]["threshold"].as_double()) {
+				if (value >= threshold) {
 					matched_task = task_name;
 					matched_rect = rect;
 					break;
