@@ -97,7 +97,7 @@ void Assistance::working_proc(Assistance* pThis)
 		std::unique_lock<std::mutex> lock(pThis->m_mutex);
 		if (pThis->m_thread_running) {
 			auto curImg = pThis->m_pView->getImage(pThis->m_pView->getWindowRect());
-
+			
 			std::string matched_task;
 			Rect matched_rect;
 			for (auto&& task_jstr : pThis->m_next_tasks) {
@@ -114,7 +114,7 @@ void Assistance::working_proc(Assistance* pThis)
 			if (!matched_task.empty()) {
 				auto task = Configer::tasksJson[matched_task].as_object();
 				std::string opType = task["type"].as_string();
-				DebugTraceInfo("Matched: %s, type: %s", matched_task, opType.c_str());
+				DebugTraceInfo("Matched: %s, type: %s", matched_task.c_str(), opType.c_str());
 
 				if (opType == "clickSelf") {
 					pThis->m_pCtrl->clickRange(matched_rect);
@@ -136,6 +136,7 @@ void Assistance::working_proc(Assistance* pThis)
 				}
 
 				pThis->m_next_tasks = Configer::tasksJson[matched_task]["next"].as_array();
+				DebugTrace("Next: %s", pThis->m_next_tasks.to_string().c_str());
 			}
 			pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(Configer::optionsJson["delay"]["fixedTime"].as_integer()));
 		}
