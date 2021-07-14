@@ -155,6 +155,7 @@
             "threshold": 0,
             "type": "doNothing",
             "next": [
+                "UsePrts",
                 "StartButton1",
                 "StartButton2",
                 "PRTS",
@@ -162,6 +163,14 @@
                 "UseStone",
                 "PrtsErrorConfirm",
                 "Random"
+            ]
+        },
+        "UsePrts": {
+            "filename": "UsePrts.png",
+            "threshold": 0.99,
+            "type": "clickSelf",
+            "next": [
+                "StartButton1"
             ]
         },
         "StartButton1": {
