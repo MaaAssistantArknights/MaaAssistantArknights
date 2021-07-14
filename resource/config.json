@@ -175,7 +175,7 @@
         },
         "StartButton1": {
             "filename": "StartButton1.png",
-            "threshold": 0.99,
+            "threshold": 0.94,
             "type": "clickSelf",
             "next": [
                 "StartButton2",
