@@ -52,21 +52,32 @@ bool WinMacro::findHandle()
 	m_handle = NULL;
 	for (auto&& obj : handle_arr)
 	{
+		wchar_t* class_wbuff = NULL;
 		std::string class_str = obj["class"].as_string();
-		size_t class_len = (class_str.size() + 1) * 2;
-		wchar_t* class_wbuff = new wchar_t[class_len];
-		::MultiByteToWideChar(CP_UTF8, 0, class_str.c_str(), -1, class_wbuff, class_len);
-
+		if (!class_str.empty()) {
+			size_t class_len = (class_str.size() + 1) * 2;
+			class_wbuff = new wchar_t[class_len];
+			::MultiByteToWideChar(CP_UTF8, 0, class_str.c_str(), -1, class_wbuff, class_len);
+		}
+		wchar_t* window_wbuff = NULL;
 		std::string window_str = obj["window"].as_string();
-		size_t window_len = (window_str.size() + 1) * 2;
-		wchar_t* window_wbuff = new wchar_t[window_len];
-		memset(window_wbuff, 0, window_len);
-		::MultiByteToWideChar(CP_UTF8, 0, window_str.c_str(), -1, window_wbuff, window_len);
+		if (!window_str.empty()) {
+			size_t window_len = (window_str.size() + 1) * 2;
+			window_wbuff = new wchar_t[window_len];
+			memset(window_wbuff, 0, window_len);
+			::MultiByteToWideChar(CP_UTF8, 0, window_str.c_str(), -1, window_wbuff, window_len);
+		}
 
 		m_handle = ::FindWindowExW(m_handle, NULL, class_wbuff, window_wbuff);
 
-		delete[] class_wbuff;
-		delete[] window_wbuff;
+		if (class_wbuff != NULL) {
+			delete[] class_wbuff;
+			class_wbuff = NULL;
+		}
+		if (window_wbuff != NULL) {
+			delete[] window_wbuff;
+			window_wbuff = NULL;
+		}
 	}
 
 	DebugTrace("Handle: 0x%x, Name: %s, Type: %d", m_handle, m_simulator_name.c_str(), m_handle_type);
