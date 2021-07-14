@@ -1,6 +1,5 @@
 #include "Identify.h"
 
-
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/types_c.h>
 
@@ -17,12 +16,21 @@ bool Identify::addImage(const std::string& name, const std::string& path)
 	return true;
 }
 
-double Identify::imgHistComp(const cv::Mat& lhs, const cv::Mat& rhs)
+void Identify::setUseCache(bool b) noexcept
 {
-	cv::Mat lhs_hsv;
-	cv::Mat rhs_hsv;
-	cvtColor(lhs, lhs_hsv, COLOR_BGR2HSV);
-	cvtColor(rhs, rhs_hsv, COLOR_BGR2HSV);
+	if (b) {
+		m_use_cache = true;
+	}
+	else {
+		m_cacheMap.clear();
+		m_use_cache = false;
+	}
+}
+
+Mat Identify::image2Hist(const cv::Mat& src)
+{
+	Mat src_hsv;
+	cvtColor(src, src_hsv, COLOR_BGR2HSV);
 
 	int histSize[] = { 50, 60 };
 	float h_ranges[] = { 0, 180 };
@@ -30,31 +38,23 @@ double Identify::imgHistComp(const cv::Mat& lhs, const cv::Mat& rhs)
 	const float* ranges[] = { h_ranges, s_ranges };
 	int channels[] = { 0, 1 };
 
-	MatND lhs_hist;
-	MatND rhs_hist;
+	MatND src_hist;
 
-	calcHist(&lhs_hsv, 1, channels, Mat(), lhs_hist, 2, histSize, ranges);
-	normalize(lhs_hist, lhs_hist, 0, 1, NORM_MINMAX);
+	calcHist(&src_hsv, 1, channels, Mat(), src_hist, 2, histSize, ranges);
+	normalize(src_hist, src_hist, 0, 1, NORM_MINMAX);
 
-	calcHist(&rhs_hsv, 1, channels, Mat(), rhs_hist, 2, histSize, ranges);
-	normalize(rhs_hist, rhs_hist, 0, 1, NORM_MINMAX);
-
-	return compareHist(lhs_hist, rhs_hist, CV_COMP_CORREL);
+	return src_hist;
 }
 
-double Identify::imgHistComp(const cv::Mat& cur, const std::string& src, asst::Rect compRect)
+double Identify::imageHistComp(const cv::Mat& src, const cv::MatND& hist)
 {
-	if (m_matMap.find(src) == m_matMap.end()) {
-		return 0;
-	}
-	cv::Rect cvRect(compRect.x, compRect.y, compRect.width, compRect.height);
-	return imgHistComp(cur(cvRect), m_matMap.at(src)(cvRect));
+	return compareHist(image2Hist(src), hist, CV_COMP_CORREL);
 }
 
-std::pair<double, asst::Rect> Identify::findImage(const cv::Mat& image, const cv::Mat& templ)
+std::pair<double, cv::Point> Identify::findImage(const cv::Mat& image, const cv::Mat& templ)
 {
-	cv::Mat image_hsv;
-	cv::Mat templ_hsv;
+	Mat image_hsv;
+	Mat templ_hsv;
 	cvtColor(image, image_hsv, COLOR_BGR2HSV);
 	cvtColor(templ, templ_hsv, COLOR_BGR2HSV);
 
@@ -64,18 +64,36 @@ std::pair<double, asst::Rect> Identify::findImage(const cv::Mat& image, const cv
 	double minVal = 0, maxVal = 0;
 	cv::Point minLoc, maxLoc;
 	minMaxLoc(matched, &minVal, &maxVal, &minLoc, &maxLoc);
-
-	return { maxVal, asst::Rect(maxLoc.x, maxLoc.y, templ.cols, templ.rows).center_zoom(0.8) };
+	return { maxVal, maxLoc };
 }
 
-std::pair<double, asst::Rect> Identify::findImage(const cv::Mat& cur, const std::string& templ)
+std::pair<double, asst::Rect> Identify::findImage(const Mat& cur, const std::string& templ, double threshold)
 {
-	if (m_matMap.find(templ) == m_matMap.end()) {
+	if (m_matMap.find(templ) == m_matMap.cend()) {
 		return { 0, asst::Rect() };
 	}
-	return findImage(cur, m_matMap.at(templ));
+
+	if (m_use_cache && m_cacheMap.find(templ) != m_cacheMap.cend()) {
+		DebugTrace("Identify | %s get cache", templ.c_str());
+		auto&& [rect, hist] = m_cacheMap.at(templ);
+		double value = imageHistComp(cur(rect), hist);
+		return { value, cvRect2Rect(rect).center_zoom(0.8) };
+	}
+	else {
+		auto&& templ_mat = m_matMap.at(templ);
+		auto&& [value, point] = findImage(cur, templ_mat);
+		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
+
+		if (m_use_cache && value >= threshold) {
+			DebugTrace("Identify | %s add to cache", templ.c_str());
+			m_cacheMap.emplace(templ, std::make_pair(raw_rect, image2Hist(cur(raw_rect))));
+		}
+
+		return { value, cvRect2Rect(raw_rect).center_zoom(0.8) };
+	}
 }
 
+/*
 std::pair<double, asst::Rect> Identify::findImageWithFile(const cv::Mat& cur, const std::string& filename)
 {
 	Mat mat = imread(filename);
@@ -84,3 +102,4 @@ std::pair<double, asst::Rect> Identify::findImageWithFile(const cv::Mat& cur, co
 	}
 	return findImage(cur, mat);
 }
+*/

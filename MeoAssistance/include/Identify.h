@@ -16,15 +16,25 @@ namespace asst {
 		Identify() = default;
 		~Identify() = default;
 
+		void setUseCache(bool b) noexcept;
 		bool addImage(const std::string& name, const std::string& path);
 
-		double imgHistComp(const cv::Mat& lhs, const cv::Mat& rhs);
-		double imgHistComp(const cv::Mat& cur, const std::string& src, asst::Rect compRect);
-		std::pair<double, asst::Rect> findImage(const cv::Mat& image, const cv::Mat& templ);
-		std::pair<double, asst::Rect> findImage(const cv::Mat& cur, const std::string& templ);
-		std::pair<double, asst::Rect> findImageWithFile(const cv::Mat& cur, const std::string& filename);
+		// return pair< suitability, scaled asst::rect>
+		std::pair<double, asst::Rect> findImage(const cv::Mat& image, const std::string& templ, double threshold = 0.99);
 
 	private:
+		cv::Mat image2Hist(const cv::Mat& src);
+		double imageHistComp(const cv::Mat& src, const cv::MatND& hist);
+		asst::Rect cvRect2Rect(const cv::Rect& cvRect) { 
+			return asst::Rect(cvRect.x, cvRect.y, cvRect.width, cvRect.height); 
+		}
+
+		// return pair< suitability, raw opencv::point>
+		std::pair<double, cv::Point> findImage(const cv::Mat& cur, const cv::Mat& templ);
+
 		std::unordered_map<std::string, cv::Mat> m_matMap;
+		bool m_use_cache = true;
+		std::unordered_map<std::string, std::pair<cv::Rect, cv::Mat>> m_cacheMap;
 	};
+
 }
