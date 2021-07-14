@@ -55,13 +55,13 @@ bool WinMacro::findHandle()
 		std::string class_str = obj["class"].as_string();
 		size_t class_len = (class_str.size() + 1) * 2;
 		wchar_t* class_wbuff = new wchar_t[class_len];
-		::MultiByteToWideChar(CP_UTF8, 0, obj["class"].as_string().c_str(), -1, class_wbuff, class_len);
+		::MultiByteToWideChar(CP_UTF8, 0, class_str.c_str(), -1, class_wbuff, class_len);
 
 		std::string window_str = obj["window"].as_string();
 		size_t window_len = (window_str.size() + 1) * 2;
 		wchar_t* window_wbuff = new wchar_t[window_len];
 		memset(window_wbuff, 0, window_len);
-		::MultiByteToWideChar(CP_UTF8, 0, obj["window"].as_string().c_str(), -1, window_wbuff, window_len);
+		::MultiByteToWideChar(CP_UTF8, 0, window_str.c_str(), -1, window_wbuff, window_len);
 
 		m_handle = ::FindWindowExW(m_handle, NULL, class_wbuff, window_wbuff);
 

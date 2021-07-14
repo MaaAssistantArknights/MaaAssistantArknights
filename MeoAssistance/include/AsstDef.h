@@ -71,9 +71,9 @@ namespace asst {
 	template <typename... Args>
 	inline void DebugTrace(Args &&... args)
 	{
-#ifdef _DEBUG
+//#ifdef _DEBUG
 		DebugPrint("TRC", std::forward<Args>(args)...);
-#endif
+//#endif
 	}
 	template <typename... Args>
 	inline void DebugTraceInfo(Args &&... args)
