@@ -96,7 +96,10 @@ bool WinMacro::resizeWindow(int width, int height)
 		return false;
 	}
 
-	return ::MoveWindow(m_handle, 0, 0, width / getScreenScale(), height / getScreenScale(), true);
+	RECT rect;
+	bool ret = ::GetWindowRect(m_handle, &rect);
+
+	return ret && ::MoveWindow(m_handle, rect.left, rect.top, width / getScreenScale(), height / getScreenScale(), true);
 }
 
 bool WinMacro::resizeWindow()
