@@ -167,7 +167,7 @@
         },
         "UsePrts": {
             "filename": "UsePrts.png",
-            "threshold": 0.99,
+            "threshold": 0.97,
             "type": "clickSelf",
             "next": [
                 "StartButton1"
