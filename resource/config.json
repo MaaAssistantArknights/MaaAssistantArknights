@@ -159,7 +159,8 @@
                 "PRTS",
                 "UseMedicine",
                 "UseStone",
-                "PrtsErrorConfirm"
+                "PrtsErrorConfirm",
+				"Random"
             ]
         },
         "StartButton1": {
