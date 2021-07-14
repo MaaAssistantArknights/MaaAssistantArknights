@@ -12,9 +12,9 @@ namespace asst {
 		static bool reload();
 		static std::string getCurDir();
 		static std::string getResDir();
-		static json::object dataObj;
-		static json::object handleObj;
-		static json::object optionsObj;
+		static json::object tasksJson;
+		static json::object handleJson;
+		static json::object optionsJson;
 	private:
 		Configer() = default;
 
