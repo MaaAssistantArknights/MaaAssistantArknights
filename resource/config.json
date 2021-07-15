@@ -150,7 +150,7 @@
         }
     },
     "tasks": {
-        "Begin": {
+        "SanityBegin": {
             "filename": "",
             "threshold": 0,
             "type": "doNothing",

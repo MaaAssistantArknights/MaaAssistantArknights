@@ -19,7 +19,7 @@ namespace asst {
 		~Assistance();
 
 		std::optional<std::string> setSimulator(const std::string & simulator_name = std::string());
-		void start();
+		void start(const std::string & task);
 		// void pause();
 		void stop();
 
@@ -30,6 +30,7 @@ namespace asst {
 		std::shared_ptr<WinMacro> m_pView = nullptr;
 		std::shared_ptr<WinMacro> m_pCtrl = nullptr;
 		std::shared_ptr<Identify> m_Ider = nullptr;
+		bool m_inited = false;
 
 		std::thread m_working_thread;
 		std::mutex m_mutex;

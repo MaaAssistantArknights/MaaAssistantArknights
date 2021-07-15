@@ -19,14 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\AsstDef.h" />
     <ClInclude Include="include\Assistance.h" />
+    <ClInclude Include="include\AsstCaller.h" />
+    <ClInclude Include="include\AsstDef.h" />
     <ClInclude Include="include\Configer.h" />
     <ClInclude Include="include\Identify.h" />
     <ClInclude Include="include\WinMacro.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Assistance.cpp" />
+    <ClCompile Include="src\AsstCaller.cpp" />
     <ClCompile Include="src\Configer.cpp" />
     <ClCompile Include="src\Identify.cpp" />
     <ClCompile Include="src\WinMacro.cpp" />
