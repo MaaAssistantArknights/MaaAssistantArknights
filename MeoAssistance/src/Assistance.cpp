@@ -23,7 +23,9 @@ Assistance::Assistance()
 
 Assistance::~Assistance()
 {
-	m_pWindow->showWindow();
+	if (m_pWindow != nullptr) {
+		m_pWindow->showWindow();
+	}
 
 	m_thread_exit = true;
 	m_thread_running = false;
@@ -64,22 +66,24 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 		ret = create_handles(simulator_name);
 	}
 	if (ret && m_pWindow->resizeWindow()) {
+		m_inited = true;
 		return cor_name;
 	}
 	else {
+		m_inited = false;
 		return std::nullopt;
 	}
 }
 
-void Assistance::start()
+void Assistance::start(const std::string& task)
 {
-	if (m_thread_running) {
+	if (m_thread_running || !m_inited) {
 		return;
 	}
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 	m_next_tasks.clear();
-	m_next_tasks.emplace_back("Begin");
+	m_next_tasks.emplace_back(task);
 	m_thread_running = true;
 	m_condvar.notify_one();
 }

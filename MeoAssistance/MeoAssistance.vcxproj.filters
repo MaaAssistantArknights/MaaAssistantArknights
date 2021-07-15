@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Assistance.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\Configer.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -30,11 +27,14 @@
     <ClInclude Include="include\AsstDef.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\Assistance.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AsstCaller.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Assistance.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\Configer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -42,6 +42,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\WinMacro.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assistance.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AsstCaller.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
