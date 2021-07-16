@@ -258,6 +258,74 @@
             "next": [
                 "Random"
             ]
+        },
+        "VisitBegin": {
+            "filename": "",
+            "threshold": 0,
+            "type": "doNothing",
+            "next": [
+                "Friends",
+                "FriendsList",
+                "StartToVisit",
+                "VisitNext",
+                "VisitNextBlack",
+                "Return"
+            ]
+        },
+        "Return": {
+            "filename": "Return.png",
+            "threshold": 0.98,
+            "type": "clickSelf",
+            "next": [
+                "Friends",
+                "Return"
+            ]
+        },
+        "Friends": {
+            "filename": "Friends.png",
+            "threshold": 0.98,
+            "type": "clickSelf",
+            "next": [
+                "FriendsList"
+            ]
+        },
+        "FriendsList": {
+            "filename": "FriendsList.png",
+            "threshold": 0.98,
+            "type": "clickSelf",
+            "next": [
+                "StartToVisit"
+            ]
+        },
+        "StartToVisit": {
+            "filename": "StartToVisit.png",
+            "threshold": 0.98,
+            "type": "clickSelf",
+            "next": [
+                "VisitNext"
+            ]
+        },
+        "VisitNext": {
+            "filename": "VisitNext.png",
+            "threshold": 0.98,
+            "type": "clickSelf",
+            "next": [
+                "VisitLimited",
+                "VisitNext",
+                "VisitNextBlack"
+            ]
+        },
+        "VisitLimited": {
+            "filename": "VisitLimited.png",
+            "threshold": 0.65,
+            "type": "stop",
+            "next": []
+        },
+        "VisitNextBlack": {
+            "filename": "VisitNextBlack.png",
+            "threshold": 0.98,
+            "type": "stop",
+            "next": []
         }
     }
 }
