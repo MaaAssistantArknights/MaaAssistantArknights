@@ -24,7 +24,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] static public extern IntPtr CreateAsst();
         [DllImport("MeoAssistance.dll")] static public extern void DestoryAsst(IntPtr ptr);
-        [DllImport("MeoAssistance.dll")] static public extern void AsstFindSimulator(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static public extern bool AsstCatchSimulator(IntPtr ptr);
         [DllImport("MeoAssistance.dll")] static public extern void AsstStart(IntPtr ptr, string task);
         [DllImport("MeoAssistance.dll")] static public extern void AsstStop(IntPtr ptr);
 
@@ -43,7 +43,8 @@ namespace MeoAsstGui
 
         private void button_Click_startSanity(object sender, RoutedEventArgs e)
         {
-            AsstFindSimulator(p_asst);
+            bool catched = AsstCatchSimulator(p_asst);
+            button_status.Content = "捕获模拟器窗口：" + catched;
             AsstStart(p_asst, "SanityBegin");
         }
 
