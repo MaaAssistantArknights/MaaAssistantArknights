@@ -46,13 +46,14 @@ namespace MeoAsstGui
         private void button_Click_startSanity(object sender, RoutedEventArgs e)
         {
             bool catched = AsstCatchSimulator(p_asst);
-            button_status.Content = "捕获模拟器窗口：" + catched;
+            catch_status.Content = "捕获模拟器窗口：" + catched;
             AsstStart(p_asst, "SanityBegin");
         }
 
         private void button_Click_stop(object sender, RoutedEventArgs e)
         {
             AsstStop(p_asst);
+            catch_status.Content = "";
         }
 
         private void checkBox_useMedicine_Checked(object sender, RoutedEventArgs e)
@@ -82,6 +83,13 @@ namespace MeoAsstGui
             {
                 AsstSetParam(p_asst, "task.type", "UseStone", "stop");
             }
+        }
+
+        private void button_Click_visit(object sender, RoutedEventArgs e)
+        {
+            bool catched = AsstCatchSimulator(p_asst);
+            catch_status.Content = "捕获模拟器窗口：" + catched;
+            AsstStart(p_asst, "VisitBegin");
         }
     }
 }
