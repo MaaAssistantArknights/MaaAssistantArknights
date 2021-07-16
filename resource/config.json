@@ -1,5 +1,5 @@
 {
-    "version": 0.2,
+    "version": "0.3",
     "options": {
         "delay": {
             "type": "fixedTime",
@@ -9,7 +9,19 @@
     },
     "handle": {
         "BlueStacks": {
-            "Control": [
+            "window": [
+                {
+                    "class": "BS2CHINAUI",
+                    "window": "BlueStacks App Player"
+                }
+            ],
+            "view": [
+                {
+                    "class": "BS2CHINAUI",
+                    "window": "BlueStacks App Player"
+                }
+            ],
+            "control": [
                 {
                     "class": "BS2CHINAUI",
                     "window": "BlueStacks App Player"
@@ -23,49 +35,49 @@
                     "window": "BlueStacks Android PluginAndroid"
                 }
             ],
-            "View": [
-                {
-                    "class": "BS2CHINAUI",
-                    "window": "BlueStacks App Player"
-                }
-            ],
-            "Window": [
-                {
-                    "class": "BS2CHINAUI",
-                    "window": "BlueStacks App Player"
-                }
-            ],
-            "Width": 1294,
-            "Height": 773,
+            "width": 1294,
+            "height": 773,
             "xOffset": -7,
             "yOffset": -47
         },
         "Nox": {
-            "Control": [
+            "window": [
                 {
                     "class": "Qt5QWindowIcon",
                     "window": "夜神模拟器"
                 }
             ],
-            "View": [
+            "view": [
                 {
                     "class": "Qt5QWindowIcon",
                     "window": "夜神模拟器"
                 }
             ],
-            "Window": [
+            "control": [
                 {
                     "class": "Qt5QWindowIcon",
                     "window": "夜神模拟器"
                 }
             ],
-            "Width": 1298,
-            "Height": 754,
+            "width": 1298,
+            "height": 754,
             "xOffset": 0,
             "yOffset": -32
         },
         "LDPlayer": {
-            "Control": [
+            "window": [
+                {
+                    "class": "LDPlayerMainFrame",
+                    "window": "雷电模拟器"
+                }
+            ],
+            "view": [
+                {
+                    "class": "LDPlayerMainFrame",
+                    "window": "雷电模拟器"
+                }
+            ],
+            "control": [
                 {
                     "class": "LDPlayerMainFrame",
                     "window": "雷电模拟器"
@@ -75,25 +87,25 @@
                     "window": "TheRender"
                 }
             ],
-            "View": [
-                {
-                    "class": "LDPlayerMainFrame",
-                    "window": "雷电模拟器"
-                }
-            ],
-            "Window": [
-                {
-                    "class": "LDPlayerMainFrame",
-                    "window": "雷电模拟器"
-                }
-            ],
-            "Width": 1304,
-            "Height": 756,
+            "width": 1304,
+            "height": 756,
             "xOffset": 0,
             "yOffset": -35
         },
         "XYAZ": {
-            "Control": [
+            "window": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "逍遥模拟器"
+                }
+            ],
+            "view": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "逍遥模拟器"
+                }
+            ],
+            "control": [
                 {
                     "class": "Qt5QWindowIcon",
                     "window": "逍遥模拟器"
@@ -103,25 +115,25 @@
                     "window": "MainWindowWindow"
                 }
             ],
-            "View": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "逍遥模拟器"
-                }
-            ],
-            "Window": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "逍遥模拟器"
-                }
-            ],
-            "Width": 1282,
-            "Height": 769,
+            "width": 1282,
+            "height": 769,
             "xOffset": 0,
             "yOffset": -47
         },
         "Tencent": {
-            "Control": [
+            "window": [
+                {
+                    "class": "TXGuiFoundation",
+                    "window": "腾讯手游助手"
+                }
+            ],
+            "view": [
+                {
+                    "class": "TXGuiFoundation",
+                    "window": "腾讯手游助手"
+                }
+            ],
+            "control": [
                 {
                     "class": "TXGuiFoundation",
                     "window": "腾讯手游助手"
@@ -131,20 +143,8 @@
                     "window": "AEngineRenderWindow"
                 }
             ],
-            "View": [
-                {
-                    "class": "TXGuiFoundation",
-                    "window": "腾讯手游助手"
-                }
-            ],
-            "Window": [
-                {
-                    "class": "TXGuiFoundation",
-                    "window": "腾讯手游助手"
-                }
-            ],
-            "Width": 1282,
-            "Height": 769,
+            "width": 1282,
+            "height": 769,
             "xOffset": 0,
             "yOffset": -42
         }
