@@ -33,9 +33,9 @@ namespace asst {
 		// return pair< suitability, raw opencv::point>
 		std::pair<double, cv::Point> findImage(const cv::Mat& cur, const cv::Mat& templ);
 
-		std::unordered_map<std::string, cv::Mat> m_matMap;
+		std::unordered_map<std::string, cv::Mat> m_mat_map;
 		bool m_use_cache = true;
-		std::unordered_map<std::string, std::pair<cv::Rect, cv::Mat>> m_cacheMap;
+		std::unordered_map<std::string, std::pair<cv::Rect, cv::Mat>> m_cache_map;
 	};
 
 }

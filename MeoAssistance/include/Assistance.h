@@ -23,14 +23,15 @@ namespace asst {
 
 		void start(const std::string & task);
 		void stop();
+		void setParam(const std::string& param, const std::string& param_value);
 
 	private:
-		static void working_proc(Assistance* pThis);
+		static void workingProc(Assistance* pThis);
 
 		std::shared_ptr<WinMacro> m_pWindow = nullptr;
 		std::shared_ptr<WinMacro> m_pView = nullptr;
 		std::shared_ptr<WinMacro> m_pCtrl = nullptr;
-		std::shared_ptr<Identify> m_Ider = nullptr;
+		std::shared_ptr<Identify> m_pIder = nullptr;
 		bool m_inited = false;
 
 		std::thread m_working_thread;
@@ -38,8 +39,7 @@ namespace asst {
 		std::condition_variable m_condvar;
 		bool m_thread_exit = false;
 		bool m_thread_running = false;
-		json::array m_next_tasks;
-		std::unordered_map<std::string, int> m_exec_times;
+		std::vector<std::string> m_next_tasks;
 	};
 
 }

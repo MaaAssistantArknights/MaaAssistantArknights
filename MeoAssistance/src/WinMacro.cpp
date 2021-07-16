@@ -28,21 +28,21 @@ bool WinMacro::captured() const noexcept
 
 bool WinMacro::findHandle()
 {
-	json::array handle_arr;
-	json::value simulator_json = Configer::handleJson[m_simulator_name];
+	std::vector<HandleInfo> handle_vec;
+	auto&& info = Configer::m_handles[m_simulator_name];
 	switch (m_handle_type) {
 	case HandleType::Window:
-		m_width = simulator_json["Width"].as_integer();
-		m_height = simulator_json["Height"].as_integer();
-		handle_arr = simulator_json["Window"].as_array();
+		m_width = info.width;
+		m_height = info.height;
+		handle_vec = info.window;
 		break;
 	case HandleType::View:
-		handle_arr = simulator_json["View"].as_array();
+		handle_vec = info.view;
 		break;
 	case HandleType::Control:
-		m_xOffset = simulator_json["xOffset"].as_integer();
-		m_yOffset = simulator_json["yOffset"].as_integer();
-		handle_arr = simulator_json["Control"].as_array();
+		m_xOffset = info.xOffset;
+		m_yOffset = info.yOffset;
+		handle_vec = info.control;
 		break;
 	default:
 		DebugTraceError("Handle type error!: %d", m_handle_type);
@@ -50,22 +50,20 @@ bool WinMacro::findHandle()
 	}
 
 	m_handle = NULL;
-	for (auto&& obj : handle_arr)
+	for (auto&& handle_info : handle_vec)
 	{
 		wchar_t* class_wbuff = NULL;
-		std::string class_str = obj["class"].as_string();
-		if (!class_str.empty()) {
-			size_t class_len = (class_str.size() + 1) * 2;
+		if (!handle_info.className.empty()) {
+			size_t class_len = (handle_info.className.size() + 1) * 2;
 			class_wbuff = new wchar_t[class_len];
-			::MultiByteToWideChar(CP_UTF8, 0, class_str.c_str(), -1, class_wbuff, class_len);
+			::MultiByteToWideChar(CP_UTF8, 0, handle_info.className.c_str(), -1, class_wbuff, class_len);
 		}
 		wchar_t* window_wbuff = NULL;
-		std::string window_str = obj["window"].as_string();
-		if (!window_str.empty()) {
-			size_t window_len = (window_str.size() + 1) * 2;
+		if (!handle_info.windowName.empty()) {
+			size_t window_len = (handle_info.windowName.size() + 1) * 2;
 			window_wbuff = new wchar_t[window_len];
 			memset(window_wbuff, 0, window_len);
-			::MultiByteToWideChar(CP_UTF8, 0, window_str.c_str(), -1, window_wbuff, window_len);
+			::MultiByteToWideChar(CP_UTF8, 0, handle_info.windowName.c_str(), -1, window_wbuff, window_len);
 		}
 
 		m_handle = ::FindWindowExW(m_handle, NULL, class_wbuff, window_wbuff);

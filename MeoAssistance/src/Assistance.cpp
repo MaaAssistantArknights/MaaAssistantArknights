@@ -10,14 +10,14 @@ Assistance::Assistance()
 {
 	Configer::reload();
 
-	m_Ider = std::make_shared<Identify>();
-	for (auto&& pair : Configer::tasksJson)
+	m_pIder = std::make_shared<Identify>();
+	for (auto&& [name, info] : Configer::m_tasks)
 	{
-		m_Ider->addImage(pair.first, Configer::getResDir() + pair.second["filename"].as_string());
+		m_pIder->addImage(name, Configer::getResDir() + info.filename);
 	}
-	m_Ider->setUseCache(Configer::optionsJson["cache"].as_boolean());
+	m_pIder->setUseCache(Configer::m_options.cache);
 
-	m_working_thread = std::thread(working_proc, this);
+	m_working_thread = std::thread(workingProc, this);
 
 }
 
@@ -40,7 +40,7 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 {
 	stop();
 
-	auto create_handles = [&](const std::string name) -> bool {
+	auto create_handles = [&](const std::string& name) -> bool {
 		m_pWindow = std::make_shared<WinMacro>(name, HandleType::Window);
 		m_pView = std::make_shared<WinMacro>(name, HandleType::View);
 		m_pCtrl = std::make_shared<WinMacro>(name, HandleType::Control);
@@ -53,7 +53,7 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 	std::unique_lock<std::mutex> lock(m_mutex);
 
 	if (simulator_name.empty()) {
-		for (auto&& [name, value] : Configer::handleJson)
+		for (auto&& [name, value] : Configer::m_handles)
 		{
 			ret = create_handles(name);
 			if (ret) {
@@ -96,26 +96,25 @@ void Assistance::stop()
 	m_next_tasks.clear();
 }
 
-void setParam(const std::string& param, const std::string& paramValue)
+void Assistance::setParam(const std::string& param, const std::string& param_value)
 {
 
 }
 
-void Assistance::working_proc(Assistance* pThis)
+void Assistance::workingProc(Assistance* pThis)
 {
 	while (!pThis->m_thread_exit) {
 		std::unique_lock<std::mutex> lock(pThis->m_mutex);
 		if (pThis->m_thread_running) {
 			auto curImg = pThis->m_pView->getImage(pThis->m_pView->getWindowRect());
-			
+
 			std::string matched_task;
 			Rect matched_rect;
-			for (auto&& task_jstr : pThis->m_next_tasks) {
-				std::string task_name = task_jstr.as_string();
-				double threshold = Configer::tasksJson[task_name]["threshold"].as_double();
-				auto&& [algorithm, value, rect] = pThis->m_Ider->findImage(curImg, task_name, threshold);
-				DebugTrace("%-20s %f", task_name.c_str(), value);
-				if ( algorithm == 0 ||
+			for (auto&& task_name : pThis->m_next_tasks) {
+				double threshold = Configer::m_tasks[task_name].threshold;
+				auto&& [algorithm, value, rect] = pThis->m_pIder->findImage(curImg, task_name, threshold);
+				DebugTrace("%-20s Type:%d, Value:%f", task_name.c_str(), algorithm, value);
+				if (algorithm == 0 ||
 					(algorithm == 1 && value >= threshold)
 					|| (algorithm == 2 && value >= 0.9999)) {
 					matched_task = task_name;
@@ -125,42 +124,46 @@ void Assistance::working_proc(Assistance* pThis)
 			}
 
 			if (!matched_task.empty()) {
-				auto task = Configer::tasksJson[matched_task].as_object();
-				std::string opType = task["type"].as_string();
-				unsigned int max_times = task.exist("times") ? task["times"].as_integer() : UINT_MAX;
-				DebugTraceInfo("Matched: %s, type: %s", matched_task.c_str(), opType.c_str());
+				auto task = Configer::m_tasks[matched_task];
+				DebugTraceInfo("Matched: %s, Type: %d", matched_task.c_str(), task.type);
 
-				if (opType == "clickSelf") {
-					int times = (pThis->m_exec_times.find(matched_task) != pThis->m_exec_times.cend())
-						? pThis->m_exec_times.at(matched_task) : 0;
-					if (++times > max_times) {
+				switch (task.type) {
+				case TaskType::ClickSelf:
+					if (task.exec_times >= task.max_times) {
 						pThis->m_thread_running = false;
 						pThis->m_next_tasks.clear();
 						continue;
 					}
 					pThis->m_pCtrl->clickRange(matched_rect);
-					pThis->m_exec_times[matched_task] = times;
-				}
-				else if (opType == "clickRand") {
+					++task.exec_times;
+					break;
+				case TaskType::ClickRand:
 					pThis->m_pCtrl->clickRange(pThis->m_pCtrl->getWindowRect());
-				}
-				else if (opType == "doNothing") {
-					// do nothing
-				}
-				else if (opType == "stop") {
-					DebugTrace("opType == stop");
+					break;
+				case TaskType::DoNothing:
+					break;
+				case TaskType::Stop:
+					DebugTrace("TaskType is Stop");
 					pThis->m_thread_running = false;
 					pThis->m_next_tasks.clear();
 					continue;
-				}
-				else {
-					DebugTraceError("Unknown option type: %s", opType.c_str());
+					break;
+				default:
+					DebugTraceError("Unknown option type: %d", task.type);
+					break;
 				}
 
-				pThis->m_next_tasks = Configer::tasksJson[matched_task]["next"].as_array();
-				DebugTrace("Next: %s", pThis->m_next_tasks.to_string().c_str());
+				pThis->m_next_tasks = Configer::m_tasks[matched_task].next;
+				std::string nexts;
+				for (auto&& name : pThis->m_next_tasks) {
+					nexts += name + ",";
+				}
+				if (nexts.back() == ',') {
+					nexts.pop_back();
+				}
+				DebugTrace("Next: %s", nexts.c_str());
 			}
-			pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(Configer::optionsJson["delay"]["fixedTime"].as_integer()));
+			pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(Configer::m_options.delayFixedTime));
 		}
 		else {
 			pThis->m_condvar.wait(lock);

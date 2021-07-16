@@ -12,7 +12,7 @@ bool Identify::addImage(const std::string& name, const std::string& path)
 	if (mat.empty()) {
 		return false;
 	}
-	m_matMap.emplace(name, mat);
+	m_mat_map.emplace(name, mat);
 	return true;
 }
 
@@ -22,7 +22,7 @@ void Identify::setUseCache(bool b) noexcept
 		m_use_cache = true;
 	}
 	else {
-		m_cacheMap.clear();
+		m_cache_map.clear();
 		m_use_cache = false;
 	}
 }
@@ -69,24 +69,22 @@ std::pair<double, cv::Point> Identify::findImage(const cv::Mat& image, const cv:
 
 std::tuple<int, double, asst::Rect> Identify::findImage(const Mat& cur, const std::string& templ, double threshold)
 {
-	if (m_matMap.find(templ) == m_matMap.cend()) {
+	if (m_mat_map.find(templ) == m_mat_map.cend()) {
 		return { 0, 0, asst::Rect() };
 	}
 
-	if (m_use_cache && m_cacheMap.find(templ) != m_cacheMap.cend()) {
-		DebugTrace("Identify | %s get cache", templ.c_str());
-		auto&& [rect, hist] = m_cacheMap.at(templ);
+	if (m_use_cache && m_cache_map.find(templ) != m_cache_map.cend()) {
+		auto&& [rect, hist] = m_cache_map.at(templ);
 		double value = imageHistComp(cur(rect), hist);
 		return { 2, value, cvRect2Rect(rect).center_zoom(0.8) };
 	}
 	else {
-		auto&& templ_mat = m_matMap.at(templ);
+		auto&& templ_mat = m_mat_map.at(templ);
 		auto&& [value, point] = findImage(cur, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
 
 		if (m_use_cache && value >= threshold) {
-			DebugTrace("Identify | %s add to cache", templ.c_str());
-			m_cacheMap.emplace(templ, std::make_pair(raw_rect, image2Hist(cur(raw_rect))));
+			m_cache_map.emplace(templ, std::make_pair(raw_rect, image2Hist(cur(raw_rect))));
 		}
 
 		return { 1, value, cvRect2Rect(raw_rect).center_zoom(0.8) };
