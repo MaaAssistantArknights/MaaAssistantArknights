@@ -66,6 +66,9 @@ bool Configer::reload()
 				DebugTraceError("Task: %s 's type error: %s", name.c_str(), type.c_str());
 				return false;
 			}
+			if (task_json.as_object().exist("maxTimes")) {
+				task_info.max_times = task_json["maxTimes"].as_integer();
+			}
 			auto next_arr = task_json["next"].as_array();
 			for (auto&& name : next_arr) {
 				task_info.next.emplace_back(name.as_string());
@@ -112,6 +115,41 @@ bool Configer::reload()
 		return false;
 	}
 
+	return true;
+}
+
+bool Configer::setParam(const std::string& type, const std::string& param, const std::string& value)
+{
+	if (type == "task.type") {
+		if (m_tasks.find(param) == m_tasks.cend()) {
+			return false;
+		}
+		auto& task_info = m_tasks[param];
+		std::string type = value;
+		std::transform(type.begin(), type.end(), type.begin(), std::tolower);
+		if (type == "clickself") {
+			task_info.type = TaskType::ClickSelf;
+		}
+		else if (type == "clickrand") {
+			task_info.type = TaskType::ClickRand;
+		}
+		else if (type == "donothing" || type.empty()) {
+			task_info.type = TaskType::DoNothing;
+		}
+		else if (type == "stop") {
+			task_info.type = TaskType::Stop;
+		}
+		else {
+			DebugTraceError("Task: %s 's type error: %s", param.c_str(), type.c_str());
+			return false;
+		}
+	}
+	else if (type == "task.maxTimes") {
+		if (m_tasks.find(param) == m_tasks.cend()) {
+			return false;
+		}
+		m_tasks[param].max_times = std::stoi(value);
+	}
 	return true;
 }
 

@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="MeoAssistance-明日方舟辅助" Height="450" Width="730">
     <Grid>
-        <CheckBox x:Name="checkBox_useMedicine" Content="吃理智药" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBox_useStone" Content="吃石头" HorizontalAlignment="Left" Margin="50,150,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="112,148,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="47"/>
+        <CheckBox x:Name="checkBox_useMedicine" Content="吃理智药" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Checked="checkBox_useMedicine_Checked" Unchecked="checkBox_useMedicine_Checked" IsChecked="True"/>
+        <CheckBox x:Name="checkBox_useStone" Content="吃石头" HorizontalAlignment="Left" Margin="50,150,0,0" VerticalAlignment="Top" Checked="checkBox_useStone_Checked" Unchecked="checkBox_useStone_Checked"/>
+        <TextBox x:Name="textBox_useStone" HorizontalAlignment="Left" Height="23" Margin="112,148,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="47" TextChanged="textBox_useStone_TextChanged" InputMethod.IsInputMethodEnabled="False"/>
         <Label x:Name="label_stoneNumber" Content="颗" HorizontalAlignment="Left" Margin="164,144,0,0" VerticalAlignment="Top" RenderTransformOrigin="-5.771,-6.291"/>
         <Button x:Name="button_startSanity" Content="开始刷理智" HorizontalAlignment="Left" Margin="50,200,0,0" VerticalAlignment="Top" Width="120" Height="50" Click="button_Click_startSanity"/>
         <Button x:Name="button_stop" Content="停止" HorizontalAlignment="Left" Margin="50,280,0,0" VerticalAlignment="Top" Width="120" Height="50" Click="button_Click_stop"/>

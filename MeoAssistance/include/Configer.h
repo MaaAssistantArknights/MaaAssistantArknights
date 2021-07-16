@@ -53,6 +53,8 @@ namespace asst {
 		static Options m_options;
 		static std::unordered_map<std::string, TaskInfo> m_tasks;
 		static std::unordered_map<std::string, SimulatorInfo> m_handles;
+
+		static bool setParam(const std::string& type, const std::string& param, const std::string& value);
 	private:
 		Configer() = default;
 
