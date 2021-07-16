@@ -23,6 +23,7 @@ namespace asst {
 		// return tuple< algorithmType, suitability, scaled asst::rect>
 		std::tuple<int, double, asst::Rect> findImage(const cv::Mat& image, const std::string& templ, double threshold = 0.99);
 
+		void clear_cache();
 	private:
 		cv::Mat image2Hist(const cv::Mat& src);
 		double imageHistComp(const cv::Mat& src, const cv::MatND& hist);

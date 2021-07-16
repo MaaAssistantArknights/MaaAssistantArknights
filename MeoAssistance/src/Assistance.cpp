@@ -82,6 +82,7 @@ void Assistance::start(const std::string& task)
 	}
 
 	std::unique_lock<std::mutex> lock(m_mutex);
+	m_pIder->clear_cache();
 	m_next_tasks.clear();
 	m_next_tasks.emplace_back(task);
 	m_thread_running = true;
@@ -94,11 +95,12 @@ void Assistance::stop()
 
 	m_thread_running = false;
 	m_next_tasks.clear();
+	m_pIder->clear_cache();
 }
 
-void Assistance::setParam(const std::string& param, const std::string& param_value)
+bool Assistance::setParam(const std::string& type, const std::string& param, const std::string& value)
 {
-
+	return Configer::setParam(type, param, value);
 }
 
 void Assistance::workingProc(Assistance* pThis)

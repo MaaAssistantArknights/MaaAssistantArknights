@@ -230,7 +230,7 @@
         "UseStone": {
             "filename": "UseStone.png",
             "threshold": 0.99,
-            "type": "stop",
+            "type": "doNothing",
             "next": [
                 "StoneConfirm"
             ]
@@ -239,6 +239,7 @@
             "filename": "MedicineConfirm.png",
             "threshold": 0.98,
             "type": "clickSelf",
+            "maxTimes": 0,
             "next": [
                 "StartButton1"
             ]

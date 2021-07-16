@@ -23,7 +23,8 @@ namespace asst {
 
 		void start(const std::string & task);
 		void stop();
-		void setParam(const std::string& param, const std::string& param_value);
+
+		bool setParam(const std::string& type, const std::string& param, const std::string& value);
 
 	private:
 		static void workingProc(Assistance* pThis);

@@ -27,6 +27,8 @@ namespace MeoAsstGui
         [DllImport("MeoAssistance.dll")] static public extern bool AsstCatchSimulator(IntPtr ptr);
         [DllImport("MeoAssistance.dll")] static public extern void AsstStart(IntPtr ptr, string task);
         [DllImport("MeoAssistance.dll")] static public extern void AsstStop(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static public extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
+
 
         private IntPtr p_asst;
 
@@ -51,6 +53,35 @@ namespace MeoAsstGui
         private void button_Click_stop(object sender, RoutedEventArgs e)
         {
             AsstStop(p_asst);
+        }
+
+        private void checkBox_useMedicine_Checked(object sender, RoutedEventArgs e)
+        {
+            if (checkBox_useMedicine.IsChecked == true)
+            {
+                AsstSetParam(p_asst, "task.type", "UseMedicine", "doNothing");
+            }
+            else
+            {
+                AsstSetParam(p_asst, "task.type", "UseMedicine", "stop");
+            }
+        }
+
+        private void textBox_useStone_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            AsstSetParam(p_asst, "task.maxTimes", "StoneConfirm", textBox_useStone.Text);
+        }
+
+        private void checkBox_useStone_Checked(object sender, RoutedEventArgs e)
+        {
+            if (checkBox_useMedicine.IsChecked == true)
+            {
+                AsstSetParam(p_asst, "task.type", "UseStone", "doNothing");
+            }
+            else
+            {
+                AsstSetParam(p_asst, "task.type", "UseStone", "stop");
+            }
         }
     }
 }

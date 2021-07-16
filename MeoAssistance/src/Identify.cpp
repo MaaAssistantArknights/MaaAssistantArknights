@@ -91,6 +91,11 @@ std::tuple<int, double, asst::Rect> Identify::findImage(const Mat& cur, const st
 	}
 }
 
+void Identify::clear_cache()
+{
+	m_cache_map.clear();
+}
+
 /*
 std::pair<double, asst::Rect> Identify::findImageWithFile(const cv::Mat& cur, const std::string& filename)
 {
