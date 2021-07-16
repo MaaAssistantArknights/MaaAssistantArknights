@@ -96,6 +96,11 @@ void Assistance::stop()
 	m_next_tasks.clear();
 }
 
+void setParam(const std::string& param, const std::string& paramValue)
+{
+
+}
+
 void Assistance::working_proc(Assistance* pThis)
 {
 	while (!pThis->m_thread_exit) {
@@ -122,10 +127,19 @@ void Assistance::working_proc(Assistance* pThis)
 			if (!matched_task.empty()) {
 				auto task = Configer::tasksJson[matched_task].as_object();
 				std::string opType = task["type"].as_string();
+				unsigned int max_times = task.exist("times") ? task["times"].as_integer() : UINT_MAX;
 				DebugTraceInfo("Matched: %s, type: %s", matched_task.c_str(), opType.c_str());
 
 				if (opType == "clickSelf") {
+					int times = (pThis->m_exec_times.find(matched_task) != pThis->m_exec_times.cend())
+						? pThis->m_exec_times.at(matched_task) : 0;
+					if (++times > max_times) {
+						pThis->m_thread_running = false;
+						pThis->m_next_tasks.clear();
+						continue;
+					}
 					pThis->m_pCtrl->clickRange(matched_rect);
+					pThis->m_exec_times[matched_task] = times;
 				}
 				else if (opType == "clickRand") {
 					pThis->m_pCtrl->clickRange(pThis->m_pCtrl->getWindowRect());
@@ -140,7 +154,7 @@ void Assistance::working_proc(Assistance* pThis)
 					continue;
 				}
 				else {
-					DebugTraceError("Unknow option type: %s", opType.c_str());
+					DebugTraceError("Unknown option type: %s", opType.c_str());
 				}
 
 				pThis->m_next_tasks = Configer::tasksJson[matched_task]["next"].as_array();

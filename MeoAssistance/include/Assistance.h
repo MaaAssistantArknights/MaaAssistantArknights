@@ -5,6 +5,7 @@
 #include <condition_variable>
 #include <memory>
 #include <optional>
+#include <unordered_map>
 
 #include "AsstDef.h"
 
@@ -19,8 +20,8 @@ namespace asst {
 		~Assistance();
 
 		std::optional<std::string> setSimulator(const std::string & simulator_name = std::string());
+
 		void start(const std::string & task);
-		// void pause();
 		void stop();
 
 	private:
@@ -38,6 +39,7 @@ namespace asst {
 		bool m_thread_exit = false;
 		bool m_thread_running = false;
 		json::array m_next_tasks;
+		std::unordered_map<std::string, int> m_exec_times;
 	};
 
 }
