@@ -14,7 +14,7 @@ void DestoryAsst(asst::Assistance* p_asst)
 	}
 }
 
-bool AsstFindSimulator(asst::Assistance* p_asst)
+bool AsstCatchSimulator(asst::Assistance* p_asst)
 {
 	if (p_asst != NULL) {
 		auto ret = p_asst->setSimulator();
