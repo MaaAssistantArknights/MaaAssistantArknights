@@ -4,9 +4,9 @@ A game assistance for Arknights
 
 一款明日方舟的游戏辅助，供PC端安卓模拟器使用，龟速开发中……
 
-## 功能介绍
-
 ![截图](README/1.png)
+
+## 功能介绍
 
 - 支持自动刷完理智
 - 支持自动吃完体力药
