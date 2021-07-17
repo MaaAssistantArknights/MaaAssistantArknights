@@ -18,7 +18,7 @@ std::unordered_map<std::string, SimulatorInfo> Configer::m_handles;
 
 bool Configer::reload()
 {
-	std::string filename = getResDir() + "config.json";
+	std::string filename = GetResourceDir() + "config.json";
 	std::ifstream ifs(filename, std::ios::in);
 	if (!ifs.is_open()) {
 		return false;
@@ -62,13 +62,30 @@ bool Configer::reload()
 			else if (type == "stop") {
 				task_info.type = TaskType::Stop;
 			}
+			else if (type == "clickrect") {
+				task_info.type = TaskType::ClickRect;
+				auto area_json = task_json["specificArea"].as_array();
+				task_info.specific_area = Rect(
+					area_json[0].as_integer(),
+					area_json[1].as_integer(),
+					area_json[2].as_integer(),
+					area_json[3].as_integer());
+			}
 			else {
-				DebugTraceError("Task: %s 's type error: %s", name.c_str(), type.c_str());
+				DebugTraceError("Task:", name, "error:", type);
 				return false;
 			}
 			if (task_json.as_object().exist("maxTimes")) {
 				task_info.max_times = task_json["maxTimes"].as_integer();
 			}
+			if (task_json.as_object().exist("preDelay")) {
+				task_info.pre_delay = task_json["preDelay"].as_integer();
+			}
+			if (task_json.as_object().exist("rearDelay")) {
+				task_info.rear_delay = task_json["rearDelay"].as_integer();
+			}
+
+
 			auto next_arr = task_json["next"].as_array();
 			for (auto&& name : next_arr) {
 				task_info.next.emplace_back(name.as_string());
@@ -111,7 +128,7 @@ bool Configer::reload()
 		}
 	}
 	catch (json::exception& e) {
-		DebugTraceError("Load config json error!: %s", e.what());
+		DebugTraceError("Load config json error!", e.what());
 		return false;
 	}
 
@@ -139,8 +156,11 @@ bool Configer::setParam(const std::string& type, const std::string& param, const
 		else if (type == "stop") {
 			task_info.type = TaskType::Stop;
 		}
+		else if (type == "clickrect") {
+			task_info.type = TaskType::ClickRect;
+		}
 		else {
-			DebugTraceError("Task: %s 's type error: %s", param.c_str(), type.c_str());
+			DebugTraceError("Task", param, "'s type error:", type);
 			return false;
 		}
 	}
@@ -151,20 +171,4 @@ bool Configer::setParam(const std::string& type, const std::string& param, const
 		m_tasks[param].max_times = std::stoi(value);
 	}
 	return true;
-}
-
-std::string Configer::getCurDir()
-{
-	if (m_curDir.empty()) {
-		char exepath_buff[_MAX_PATH] = { 0 };
-		::GetModuleFileNameA(NULL, exepath_buff, _MAX_PATH);
-		std::string exepath(exepath_buff);
-		m_curDir = exepath.substr(0, exepath.find_last_of('\\') + 1);
-	}
-	return m_curDir;
-}
-
-std::string Configer::getResDir()
-{
-	return getCurDir() + "resource\\";
 }

@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 		return -1;
 	}
 	else {
-		DebugTraceInfo("Find Simulator: %s", ret->c_str());
+		DebugTraceInfo("Find Simulator:", ret.value());
 	}
 
 	DebugTraceInfo("Start");

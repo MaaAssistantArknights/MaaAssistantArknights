@@ -3,7 +3,7 @@
     "options": {
         "delay": {
             "type": "fixedTime",
-            "fixedTime": 1000
+            "fixedTime": 200
         },
         "cache": true
     },
@@ -188,13 +188,14 @@
             "filename": "StartButton2.png",
             "threshold": 0.99,
             "type": "clickSelf",
+            "rearDelay":  10000,
             "next": [
                 "PRTS"
             ]
         },
         "PRTS": {
             "filename": "PRTS.png",
-            "threshold": 0.98,
+            "threshold": 0.99,
             "type": "doNothing",
             "next": [
                 "PRTS",
@@ -205,10 +206,25 @@
         "Random": {
             "filename": "",
             "threshold": 0,
-            "type": "clickRand",
+            "type": "clickRect",
+            "specificArea": [
+                1100,
+                700,
+                150,
+                30
+            ],
             "next": [
+                "Loading",
                 "StartButton1",
                 "Random"
+            ]
+        },
+        "Loading": {
+            "filename": "Loading.png",
+            "threshold": 0.99,
+            "type": "doNothing",
+            "next": [
+                "StartButton1"
             ]
         },
         "UseMedicine": {
@@ -308,7 +324,7 @@
         },
         "VisitNext": {
             "filename": "VisitNext.png",
-            "threshold": 0.98,
+            "threshold": 0.999,
             "type": "clickSelf",
             "maxTimes": 10,
             "next": [

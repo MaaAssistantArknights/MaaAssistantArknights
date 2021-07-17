@@ -45,7 +45,7 @@ bool WinMacro::findHandle()
 		handle_vec = info.control;
 		break;
 	default:
-		DebugTraceError("Handle type error!: %d", m_handle_type);
+		DebugTraceError("Handle type error!", static_cast<int>(m_handle_type));
 		return false;
 	}
 
@@ -78,7 +78,7 @@ bool WinMacro::findHandle()
 		}
 	}
 
-	DebugTrace("Handle: 0x%x, Name: %s, Type: %d", m_handle, m_simulator_name.c_str(), m_handle_type);
+	DebugTrace("Handle:", m_handle, "Name:", m_simulator_name, "Type:", static_cast<int>(m_handle_type));
 
 	if (m_handle != NULL) {
 		return true;
@@ -166,7 +166,7 @@ bool WinMacro::click(const Point& p)
 	int x = (p.x + m_xOffset) / getScreenScale();
 	int y = (p.y + m_yOffset) / getScreenScale();
 
-	DebugTrace("click, raw: %d, %d, cor: %d, %d", p.x, p.y, x, y);
+	DebugTrace("click, raw:", p.x, p.y, "cor:", x, y);
 
 	LPARAM lparam = MAKELPARAM(x, y);
 
@@ -242,10 +242,12 @@ cv::Mat WinMacro::getImage(const Rect& rect)
 	DeleteDC(memDC);
 	ReleaseDC(m_handle, pDC);
 
+/*
 #ifdef _DEBUG
-	std::string filename = Configer::getCurDir() + "\\test.bmp";
+	std::string filename = GetCurrentDir() + "\\print.bmp";
 	cv::imwrite(filename, dst_mat);
 #endif
+*/
 
 	return dst_mat;
 }

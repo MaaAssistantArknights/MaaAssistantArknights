@@ -82,7 +82,7 @@ std::tuple<int, double, asst::Rect> Identify::findImage(const Mat& cur, const st
 		auto&& templ_mat = m_mat_map.at(templ);
 		auto&& [value, point] = findImage(cur, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
-
+		
 		if (m_use_cache && value >= threshold) {
 			m_cache_map.emplace(templ, std::make_pair(raw_rect, image2Hist(cur(raw_rect))));
 		}
