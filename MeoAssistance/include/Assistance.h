@@ -22,10 +22,10 @@ namespace asst {
 		std::optional<std::string> setSimulator(const std::string & simulator_name = std::string());
 		
 		void start(const std::string & task);
-		void stop();
+		void stop(bool block = true);
 
 		bool setParam(const std::string& type, const std::string& param, const std::string& value);
-
+		std::optional<std::string> getParam(const std::string& type, const std::string& param);
 	private:
 		static void workingProc(Assistance* pThis);
 

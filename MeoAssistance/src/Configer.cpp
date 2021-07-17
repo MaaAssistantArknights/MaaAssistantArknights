@@ -75,13 +75,13 @@ bool Configer::reload()
 				DebugTraceError("Task:", name, "error:", type);
 				return false;
 			}
-			if (task_json.as_object().exist("maxTimes")) {
+			if (task_json.exist("maxTimes")) {
 				task_info.max_times = task_json["maxTimes"].as_integer();
 			}
-			if (task_json.as_object().exist("preDelay")) {
+			if (task_json.exist("preDelay")) {
 				task_info.pre_delay = task_json["preDelay"].as_integer();
 			}
-			if (task_json.as_object().exist("rearDelay")) {
+			if (task_json.exist("rearDelay")) {
 				task_info.rear_delay = task_json["rearDelay"].as_integer();
 			}
 
@@ -119,10 +119,17 @@ bool Configer::reload()
 				handle_info.windowName = info["window"].as_string();
 				simulator_info.control.emplace_back(handle_info);
 			}
+			if (simulator_json.exist("adbControl")) {
+				simulator_info.is_adb = true;
+				// meojson的bug，暂时没空修，先转个字符串
+				simulator_info.adb.path = replace_all_distinct(simulator_json["adbControl"]["path"].as_string(), "\\\\", "\\");
+				simulator_info.adb.connect = simulator_json["adbControl"]["connect"].as_string();
+				simulator_info.adb.click = simulator_json["adbControl"]["click"].as_string();
+			}
 			simulator_info.width = simulator_json["width"].as_integer();
 			simulator_info.height = simulator_json["height"].as_integer();
-			simulator_info.xOffset = simulator_json["xOffset"].as_integer();
-			simulator_info.yOffset = simulator_json["yOffset"].as_integer();
+			simulator_info.x_offset = simulator_json["xOffset"].as_integer();
+			simulator_info.y_offset = simulator_json["yOffset"].as_integer();
 
 			m_handles.emplace(name, simulator_info);
 		}
@@ -171,4 +178,19 @@ bool Configer::setParam(const std::string& type, const std::string& param, const
 		m_tasks[param].max_times = std::stoi(value);
 	}
 	return true;
+}
+
+std::optional<std::string> Configer::getParam(const std::string& type, const std::string& param)
+{
+	if (type == "task.execTimes" && m_tasks.find(param) != m_tasks.cend()) {
+		return std::to_string(m_tasks.at(param).exec_times);
+	}
+	return std::nullopt;
+}
+
+void Configer::clearExecTimes()
+{
+	for (auto&& t : m_tasks) {
+		t.second.exec_times = 0;
+	}
 }

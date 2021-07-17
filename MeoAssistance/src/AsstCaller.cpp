@@ -1,5 +1,6 @@
 #include "AsstCaller.h"
 
+#include <string.h>
 
 asst::Assistance* CreateAsst()
 {
@@ -54,5 +55,18 @@ bool AsstSetParam(asst::Assistance* p_asst, const char* type, const char* param,
 		return false;
 	}
 
-	p_asst->setParam(type, param, value);
+	return p_asst->setParam(type, param, value);
+}
+
+bool AsstGetParam(asst::Assistance* p_asst, const char* type, const char* param, char * buffer, int buffer_size)
+{
+	if (p_asst == NULL) {
+		return false;
+	}
+	auto ret = p_asst->getParam(type, param);
+	if (!ret) {
+		return false;
+	}
+	strcpy_s(buffer, buffer_size, ret.value().c_str());
+	return true;
 }

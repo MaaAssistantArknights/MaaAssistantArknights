@@ -147,6 +147,64 @@
             "height": 769,
             "xOffset": 0,
             "yOffset": -42
+        },
+        "MuMuAsst": {
+            "window": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "明日方舟 - 星云引擎"
+                }
+            ],
+            "view": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "明日方舟 - 星云引擎"
+                }
+            ],
+            "control": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "明日方舟 - 星云引擎"
+                }
+            ],
+            "adbControl": {
+                "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
+                "connect": " connect 127.0.0.1:7555",
+                "click": " shell input tap [x] [y]"
+            },
+            "width": 1280,
+            "height": 809,
+            "xOffset": 0,
+            "yOffset": -36
+        },
+        "MuMuEmulator": {
+            "window": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "明日方舟 - MuMu模拟器"
+                }
+            ],
+            "view": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "明日方舟 - MuMu模拟器"
+                }
+            ],
+            "control": [
+                {
+                    "class": "Qt5QWindowIcon",
+                    "window": "明日方舟 - MuMu模拟器"
+                }
+            ],
+            "adbControl": {
+                "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
+                "connect": " connect 127.0.0.1:7555",
+                "click": " shell input tap [x] [y]"
+            },
+            "width": 1280,
+            "height": 809,
+            "xOffset": 0,
+            "yOffset": -36
         }
     },
     "tasks": {
@@ -188,7 +246,7 @@
             "filename": "StartButton2.png",
             "threshold": 0.99,
             "type": "clickSelf",
-            "rearDelay":  10000,
+            "rearDelay": 10000,
             "next": [
                 "PRTS"
             ]

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mutex>
+#include <string>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -109,5 +110,17 @@ namespace asst {
 	inline void DebugTraceError(Args &&... args)
 	{
 		DebugPrint("ERR", std::forward<Args>(args)...);
+	}
+
+	static std::string replace_all_distinct(const std::string& src, const std::string& old_value, const std::string& new_value)
+	{
+		std::string str = src;
+		for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length()) {
+			if ((pos = str.find(old_value, pos)) != std::string::npos)
+				str.replace(pos, old_value.length(), new_value);
+			else
+				break;
+		}
+		return str;
 	}
 }

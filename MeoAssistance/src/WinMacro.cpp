@@ -40,8 +40,9 @@ bool WinMacro::findHandle()
 		handle_vec = info.view;
 		break;
 	case HandleType::Control:
-		m_xOffset = info.xOffset;
-		m_yOffset = info.yOffset;
+		m_is_adb = info.is_adb;
+		m_x_offset = info.x_offset;
+		m_y_offset = info.y_offset;
 		handle_vec = info.control;
 		break;
 	default:
@@ -77,7 +78,29 @@ bool WinMacro::findHandle()
 			window_wbuff = NULL;
 		}
 	}
+	if (m_is_adb && m_handle != NULL) {
 
+		DWORD pid = 0;
+		::GetWindowThreadProcessId(m_handle, &pid);
+		HANDLE handle = ::OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
+		LPSTR path_buff = new CHAR[MAX_PATH];
+		memset(path_buff, 0, MAX_PATH);
+		DWORD buff_size = MAX_PATH;
+		QueryFullProcessImageNameA(handle, 0, path_buff, &buff_size);
+		std::string adb_dir = path_buff;
+		if (path_buff != NULL) {
+			delete[] path_buff;
+			path_buff = NULL;
+		}
+		size_t pos = adb_dir.find_last_of('\\') + 1;
+		adb_dir = adb_dir.substr(0, pos);
+		adb_dir = '"' + replace_all_distinct(info.adb.path, "[EmulatorPath]", adb_dir) + '"';
+		std::string connect_cmd = adb_dir + info.adb.connect;
+		int ret = system(connect_cmd.c_str());
+		DebugTrace("Call", connect_cmd, "！！ ret", ret);
+
+		m_click_cmd = adb_dir + info.adb.click;
+	}
 	DebugTrace("Handle:", m_handle, "Name:", m_simulator_name, "Type:", static_cast<int>(m_handle_type));
 
 	if (m_handle != NULL) {
@@ -111,7 +134,7 @@ bool WinMacro::showWindow()
 		return false;
 	}
 
-	return ::ShowWindow(m_handle, SW_SHOW);
+	return ::ShowWindow(m_handle, SW_RESTORE);
 }
 
 bool WinMacro::hideWindow()
@@ -163,17 +186,29 @@ bool WinMacro::click(const Point& p)
 		return false;
 	}
 
-	int x = (p.x + m_xOffset) / getScreenScale();
-	int y = (p.y + m_yOffset) / getScreenScale();
 
-	DebugTrace("click, raw:", p.x, p.y, "cor:", x, y);
 
-	LPARAM lparam = MAKELPARAM(x, y);
+	if (m_is_adb) {
+		int x = (p.x + m_x_offset);
+		int y = (p.y + m_y_offset);
+		std::string cur_cmd = replace_all_distinct(m_click_cmd, "[x]", std::to_string(x));
+		cur_cmd = replace_all_distinct(cur_cmd, "[y]", std::to_string(y));
+		int ret = system(cur_cmd.c_str());
+		DebugTrace("Call", cur_cmd, "！！ ret", ret);
+		return !ret;
+	}
+	else {
+		int x = (p.x + m_x_offset) / getScreenScale();
+		int y = (p.y + m_y_offset) / getScreenScale();
+		DebugTrace("Click, raw:", p.x, p.y, "cor:", x, y);
 
-	::SendMessage(m_handle, WM_LBUTTONDOWN, MK_LBUTTON, lparam);
-	::SendMessage(m_handle, WM_LBUTTONUP, 0, lparam);
+		LPARAM lparam = MAKELPARAM(x, y);
 
-	return true;
+		::SendMessage(m_handle, WM_LBUTTONDOWN, MK_LBUTTON, lparam);
+		::SendMessage(m_handle, WM_LBUTTONUP, 0, lparam);
+
+		return true;
+	}
 }
 
 bool WinMacro::clickRange(const Rect& rect)
@@ -242,12 +277,12 @@ cv::Mat WinMacro::getImage(const Rect& rect)
 	DeleteDC(memDC);
 	ReleaseDC(m_handle, pDC);
 
-/*
-#ifdef _DEBUG
-	std::string filename = GetCurrentDir() + "\\print.bmp";
-	cv::imwrite(filename, dst_mat);
-#endif
-*/
+	/*
+	#ifdef _DEBUG
+		std::string filename = GetCurrentDir() + "\\print.bmp";
+		cv::imwrite(filename, dst_mat);
+	#endif
+	*/
 
 	return dst_mat;
 }

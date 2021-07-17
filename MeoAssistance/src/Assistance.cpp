@@ -65,7 +65,7 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 	else {
 		ret = create_handles(simulator_name);
 	}
-	if (ret && m_pWindow->resizeWindow()) {
+	if (ret && m_pWindow->showWindow() && m_pWindow->resizeWindow() ) {
 		m_inited = true;
 		return cor_name;
 	}
@@ -89,18 +89,26 @@ void Assistance::start(const std::string& task)
 	m_condvar.notify_one();
 }
 
-void Assistance::stop()
+void Assistance::stop(bool block)
 {
-	std::unique_lock<std::mutex> lock(m_mutex);
-
+	std::unique_lock<std::mutex> lock;
+	if (block) {
+		lock = std::unique_lock<std::mutex>(m_mutex);
+	}
 	m_thread_running = false;
 	m_next_tasks.clear();
 	m_pIder->clear_cache();
+	Configer::clearExecTimes();
 }
 
 bool Assistance::setParam(const std::string& type, const std::string& param, const std::string& value)
 {
 	return Configer::setParam(type, param, value);
+}
+
+std::optional<std::string> Assistance::getParam(const std::string& type, const std::string& param)
+{
+	return Configer::getParam(type, param);
 }
 
 void Assistance::workingProc(Assistance* pThis)
@@ -141,8 +149,7 @@ void Assistance::workingProc(Assistance* pThis)
 					}
 					if (task.exec_times >= task.max_times) {
 						DebugTraceInfo("Reached limit, Stop.");
-						pThis->m_thread_running = false;
-						pThis->m_next_tasks.clear();
+						pThis->stop(false);
 						continue;
 					}
 					pThis->m_pCtrl->clickRange(matched_rect);
@@ -155,8 +162,7 @@ void Assistance::workingProc(Assistance* pThis)
 					break;
 				case TaskType::Stop:
 					DebugTrace("TaskType is Stop");
-					pThis->m_thread_running = false;
-					pThis->m_next_tasks.clear();
+					pThis->stop(false);
 					continue;
 					break;
 				default:
