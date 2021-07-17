@@ -3,7 +3,7 @@
     "options": {
         "delay": {
             "type": "fixedTime",
-            "fixedTime": 200
+            "fixedTime": 1000
         },
         "cache": true
     },
