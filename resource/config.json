@@ -3,7 +3,7 @@
     "options": {
         "delay": {
             "type": "fixedTime",
-            "fixedTime": 2000
+            "fixedTime": 1000
         },
         "cache": true
     },
@@ -310,8 +310,8 @@
             "filename": "VisitNext.png",
             "threshold": 0.98,
             "type": "clickSelf",
+            "maxTimes": 10,
             "next": [
-                "VisitLimited",
                 "VisitNext",
                 "VisitNextBlack"
             ]

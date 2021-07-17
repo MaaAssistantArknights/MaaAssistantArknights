@@ -126,12 +126,16 @@ void Assistance::workingProc(Assistance* pThis)
 			}
 
 			if (!matched_task.empty()) {
-				auto task = Configer::m_tasks[matched_task];
+				auto && task = Configer::m_tasks[matched_task];
 				DebugTraceInfo("Matched: %s, Type: %d", matched_task.c_str(), task.type);
 
 				switch (task.type) {
 				case TaskType::ClickSelf:
+					if (task.max_times != UINT_MAX) {
+						DebugTrace("CurTimes: %d, MaxTimes: %d", task.exec_times, task.max_times);
+					}
 					if (task.exec_times >= task.max_times) {
+						DebugTraceInfo("Reached limit, Stop.");
 						pThis->m_thread_running = false;
 						pThis->m_next_tasks.clear();
 						continue;
