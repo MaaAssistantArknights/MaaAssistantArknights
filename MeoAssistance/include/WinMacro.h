@@ -30,10 +30,12 @@ namespace asst {
 		const std::string m_simulator_name;
 		const HandleType m_handle_type;
 		HWND m_handle = NULL;
+		bool m_is_adb = false;
+		std::string m_click_cmd;
 		std::minstd_rand m_rand_engine;
 		int m_width = 0;
 		int m_height = 0;
-		int m_xOffset = 0;
-		int m_yOffset = 0;
+		int m_x_offset = 0;
+		int m_y_offset = 0;
 	};
 }

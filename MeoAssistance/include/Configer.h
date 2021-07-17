@@ -3,6 +3,8 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <optional>
+
 #include "AsstDef.h"
 
 namespace asst {
@@ -10,14 +12,21 @@ namespace asst {
 		std::string className;
 		std::string windowName;
 	};
+	struct AdbCmd {
+		std::string path;
+		std::string connect;
+		std::string click;
+	};
 	struct SimulatorInfo {
 		std::vector<HandleInfo> window;
 		std::vector<HandleInfo> view;
 		std::vector<HandleInfo> control;
+		bool is_adb = false;
+		AdbCmd adb;
 		int width = 0;
 		int height = 0;
-		int xOffset = 0;
-		int yOffset = 0;
+		int x_offset = 0;
+		int y_offset = 0;
 	};
 
 	enum class TaskType {
@@ -58,6 +67,9 @@ namespace asst {
 		static std::unordered_map<std::string, SimulatorInfo> m_handles;
 
 		static bool setParam(const std::string& type, const std::string& param, const std::string& value);
+		static std::optional<std::string> getParam(const std::string& type, const std::string& param);
+
+		static void clearExecTimes();
 	private:
 		Configer() = default;
 

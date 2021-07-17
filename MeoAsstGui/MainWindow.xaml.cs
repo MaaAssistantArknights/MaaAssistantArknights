@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
+using System.Windows.Threading;
 
 namespace MeoAsstGui
 {
@@ -28,15 +29,19 @@ namespace MeoAsstGui
         [DllImport("MeoAssistance.dll")] static public extern void AsstStart(IntPtr ptr, string task);
         [DllImport("MeoAssistance.dll")] static public extern void AsstStop(IntPtr ptr);
         [DllImport("MeoAssistance.dll")] static public extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
+        [DllImport("MeoAssistance.dll")] static public extern bool AsstGetParam(IntPtr p_asst, string type, string param, [In, Out] StringBuilder lp_string, int buffer_size);
 
 
         private IntPtr p_asst;
+        private DispatcherTimer update_times = new DispatcherTimer();
 
         public MainWindow()
         {
             InitializeComponent();
 
             p_asst = CreateAsst();
+            update_times.Tick += new EventHandler(updateExecTimes);
+            update_times.Interval = TimeSpan.FromSeconds(1);
         }
         ~MainWindow()
         {
@@ -48,12 +53,15 @@ namespace MeoAsstGui
             bool catched = AsstCatchSimulator(p_asst);
             catch_status.Content = "捕获模拟器窗口：" + catched;
             AsstStart(p_asst, "SanityBegin");
+            update_times.Start();
         }
 
         private void button_Click_stop(object sender, RoutedEventArgs e)
         {
             AsstStop(p_asst);
             catch_status.Content = "";
+            update_times.Stop();
+            exec_times.Content = "";
         }
 
         private void checkBox_useMedicine_Checked(object sender, RoutedEventArgs e)
@@ -90,6 +98,13 @@ namespace MeoAsstGui
             bool catched = AsstCatchSimulator(p_asst);
             catch_status.Content = "捕获模拟器窗口：" + catched;
             AsstStart(p_asst, "VisitBegin");
+        }
+
+        private void updateExecTimes(object sender, EventArgs e)
+        {
+            StringBuilder buff = new StringBuilder(16);
+            AsstGetParam(p_asst, "task.execTimes", "StartButton2", buff, 16);
+            exec_times.Content = "已运行 " + buff + " 次";
         }
     }
 }
