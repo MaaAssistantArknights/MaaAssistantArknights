@@ -13,7 +13,7 @@ Assistance::Assistance()
 	m_pIder = std::make_shared<Identify>();
 	for (auto&& [name, info] : Configer::m_tasks)
 	{
-		m_pIder->addImage(name, Configer::getResDir() + info.filename);
+		m_pIder->addImage(name, GetResourceDir() + info.filename);
 	}
 	m_pIder->setUseCache(Configer::m_options.cache);
 
@@ -115,10 +115,10 @@ void Assistance::workingProc(Assistance* pThis)
 			for (auto&& task_name : pThis->m_next_tasks) {
 				double threshold = Configer::m_tasks[task_name].threshold;
 				auto&& [algorithm, value, rect] = pThis->m_pIder->findImage(curImg, task_name, threshold);
-				DebugTrace("%-20s Type:%d, Value:%f", task_name.c_str(), algorithm, value);
+				DebugTrace(task_name, "Type:", algorithm, "Value:", value);
 				if (algorithm == 0 ||
 					(algorithm == 1 && value >= threshold)
-					|| (algorithm == 2 && value >= 0.9999)) {
+					|| (algorithm == 2 && value >= 0.9998)) {
 					matched_task = task_name;
 					matched_rect = rect;
 					break;
@@ -127,12 +127,17 @@ void Assistance::workingProc(Assistance* pThis)
 
 			if (!matched_task.empty()) {
 				auto && task = Configer::m_tasks[matched_task];
-				DebugTraceInfo("Matched: %s, Type: %d", matched_task.c_str(), task.type);
-
+				DebugTraceInfo("Matched:", matched_task, "Type:", static_cast<int>(task.type));
+				if (task.pre_delay > 0) {
+					DebugTrace("PreDelay", task.pre_delay);
+					std::this_thread::sleep_for(std::chrono::milliseconds(task.pre_delay));
+				}
 				switch (task.type) {
+				case TaskType::ClickRect:
+					matched_rect = task.specific_area;
 				case TaskType::ClickSelf:
-					if (task.max_times != UINT_MAX) {
-						DebugTrace("CurTimes: %d, MaxTimes: %d", task.exec_times, task.max_times);
+					if (task.max_times != INT_MAX) {
+						DebugTrace("CurTimes:", task.exec_times, "MaxTimes:", task.max_times);
 					}
 					if (task.exec_times >= task.max_times) {
 						DebugTraceInfo("Reached limit, Stop.");
@@ -155,19 +160,23 @@ void Assistance::workingProc(Assistance* pThis)
 					continue;
 					break;
 				default:
-					DebugTraceError("Unknown option type: %d", task.type);
+					DebugTraceError("Unknown option type:", static_cast<int>(task.type));
 					break;
+				}
+				if (task.rear_delay > 0) {
+					DebugTrace("RearDelay", task.rear_delay);
+					std::this_thread::sleep_for(std::chrono::milliseconds(task.rear_delay));
 				}
 
 				pThis->m_next_tasks = Configer::m_tasks[matched_task].next;
-				std::string nexts;
+				std::string nexts_str;
 				for (auto&& name : pThis->m_next_tasks) {
-					nexts += name + ",";
+					nexts_str += name + ",";
 				}
-				if (nexts.back() == ',') {
-					nexts.pop_back();
+				if (nexts_str.back() == ',') {
+					nexts_str.pop_back();
 				}
-				DebugTrace("Next: %s", nexts.c_str());
+				DebugTrace("Next:", nexts_str);
 			}
 			pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(Configer::m_options.delayFixedTime));
 		}

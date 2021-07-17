@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "AsstDef.h"
 
 namespace asst {
 	struct HandleInfo {
@@ -23,7 +24,8 @@ namespace asst {
 		ClickSelf,
 		ClickRand,
 		DoNothing,
-		Stop
+		Stop,
+		ClickRect
 	};
 
 	struct TaskInfo {
@@ -31,8 +33,11 @@ namespace asst {
 		double threshold = 0;
 		TaskType type;
 		std::vector<std::string> next;
-		unsigned int exec_times = 0;
-		unsigned int max_times = UINT_MAX;
+		int exec_times = 0;
+		int max_times = INT_MAX;
+		asst::Rect specific_area;
+		int pre_delay = 0;
+		int rear_delay = 0;
 	};
 	struct Options {
 		std::string delayType;
@@ -46,8 +51,6 @@ namespace asst {
 		~Configer() = default;
 
 		static bool reload();
-		static std::string getCurDir();
-		static std::string getResDir();
 
 		static std::string m_version;
 		static Options m_options;

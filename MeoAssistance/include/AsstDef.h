@@ -1,9 +1,9 @@
 #pragma once
 
-#include "json_value.h"
-#include "json_array.h"
-
 #include <mutex>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <process.h>
 #include <Windows.h>
 
@@ -34,8 +34,8 @@ namespace asst {
 		}
 		Rect center_zoom(double scale)
 		{
-			int half_width_scale = static_cast<int>(width * (1- scale) / 2) ;
-			int half_hight_scale = static_cast<int>(height * (1 - scale) / 2) ;
+			int half_width_scale = static_cast<int>(width * (1 - scale) / 2);
+			int half_hight_scale = static_cast<int>(height * (1 - scale) / 2);
 			return { x + half_width_scale, y + half_hight_scale, width - half_width_scale,  height - half_hight_scale };
 		}
 		int x = 0;
@@ -44,36 +44,61 @@ namespace asst {
 		int height = 0;
 	};
 
-	static Rect jsonToRect(const json::array& arr)
+	static std::string GetCurrentDir()
 	{
-		if (arr.size() != 4) {
-			return { 0, 0, 0, 0 };
+		static std::string cur_dir;
+		if (cur_dir.empty()) {
+			char exepath_buff[_MAX_PATH] = { 0 };
+			::GetModuleFileNameA(NULL, exepath_buff, _MAX_PATH);
+			std::string exepath(exepath_buff);
+			cur_dir = exepath.substr(0, exepath.find_last_of('\\') + 1);
 		}
-		return Rect(arr[0].as_integer(), arr[1].as_integer(), arr[2].as_integer(), arr[3].as_integer());
+		return cur_dir;
+	}
+	static std::string GetResourceDir()
+	{
+		static std::string res_dir = GetCurrentDir() + "resource\\";
+		return res_dir;
 	}
 
+	inline void StreamArgs(std::ostream& os)
+	{
+		os << std::endl;
+	}
+	template <typename T, typename... Args>
+	inline void StreamArgs(std::ostream& os, T&& first, Args && ...rest)
+	{
+		os << first << " ";
+		StreamArgs(os, std::forward<Args>(rest)...);
+	}
 	template <typename... Args>
 	void DebugPrint(const std::string& level, Args &&... args)
 	{
 		static std::mutex trace_mutex;
 		std::unique_lock<std::mutex> trace_lock(trace_mutex);
+#ifdef _DEBUG
+		auto & out_stream = std::cout;
+#else
+		std::ofstream out_stream(GetCurrentDir() + "asst.log", std::ios::out | std::ios::app);
+#endif
 
 		SYSTEMTIME curtime;
 		GetLocalTime(&curtime);
-		printf("[%04d-%02d-%02d %02d:%02d:%02d.%03d][%s][Px%x][Tx%x] ",
+		char buff[64] = { 0 };
+		sprintf_s(buff, "[%04d-%02d-%02d %02d:%02d:%02d.%03d][%s][Px%x][Tx%x]",
 			curtime.wYear, curtime.wMonth, curtime.wDay,
 			curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds,
 			level.c_str(), _getpid(), GetCurrentThreadId());
-		printf(std::forward<Args>(args)...);
-		printf("\n");
+
+		StreamArgs(out_stream, buff, std::forward<Args>(args)...);
 	}
 
 	template <typename... Args>
 	inline void DebugTrace(Args &&... args)
 	{
-//#ifdef _DEBUG
+		//#ifdef _DEBUG
 		DebugPrint("TRC", std::forward<Args>(args)...);
-//#endif
+		//#endif
 	}
 	template <typename... Args>
 	inline void DebugTraceInfo(Args &&... args)
