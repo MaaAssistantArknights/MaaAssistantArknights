@@ -225,7 +225,7 @@
         },
         "UsePrts": {
             "filename": "UsePrts.png",
-            "threshold": 0.97,
+            "threshold": 0.9,
             "type": "clickSelf",
             "next": [
                 "StartButton1"
@@ -253,7 +253,7 @@
         },
         "PRTS": {
             "filename": "PRTS.png",
-            "threshold": 0.99,
+            "threshold": 0.98,
             "type": "doNothing",
             "next": [
                 "PRTS",
@@ -344,16 +344,16 @@
                 "StartToVisit",
                 "VisitNext",
                 "VisitNextBlack",
-                "Return"
+                "ReturnToFriends"
             ]
         },
-        "Return": {
+        "ReturnToFriends": {
             "filename": "Return.png",
             "threshold": 0.98,
             "type": "clickSelf",
             "next": [
                 "Friends",
-                "Return"
+                "ReturnToFriends"
             ]
         },
         "Friends": {
@@ -382,9 +382,9 @@
         },
         "VisitNext": {
             "filename": "VisitNext.png",
-            "threshold": 0.999,
+            "threshold": 0.99,
             "type": "clickSelf",
-            "maxTimes": 10,
+            "maxTimes": 20,
             "next": [
                 "VisitNext",
                 "VisitNextBlack"
