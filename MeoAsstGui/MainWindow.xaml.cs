@@ -62,6 +62,7 @@ namespace MeoAsstGui
             catch_status.Content = "";
             update_times.Stop();
             exec_times.Content = "";
+            stone_times.Content = "";
         }
 
         private void checkBox_useMedicine_Checked(object sender, RoutedEventArgs e)
@@ -102,9 +103,16 @@ namespace MeoAsstGui
 
         private void updateExecTimes(object sender, EventArgs e)
         {
-            StringBuilder buff = new StringBuilder(16);
-            AsstGetParam(p_asst, "task.execTimes", "StartButton2", buff, 16);
-            exec_times.Content = "已运行 " + buff + " 次";
+            StringBuilder buff_start = new StringBuilder(16);
+            AsstGetParam(p_asst, "task.execTimes", "StartButton2", buff_start, 16);
+            exec_times.Content = "已开始行动 " + buff_start + " 次";
+
+            if (checkBox_useStone.IsChecked == true)
+            {
+                StringBuilder buff_stone = new StringBuilder(16);
+                AsstGetParam(p_asst, "task.execTimes", "StoneConfirm", buff_stone, 16);
+                stone_times.Content = "已碎石 " + buff_stone + " 个";
+            }
         }
     }
 }

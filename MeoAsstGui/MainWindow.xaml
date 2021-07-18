@@ -16,5 +16,6 @@
         <Label x:Name="catch_status" Content="" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
         <Button x:Name="button_visit" Content="访问基建" HorizontalAlignment="Left" Margin="230,200,0,0" VerticalAlignment="Top" Width="120" Height="50" Click="button_Click_visit"/>
         <Label x:Name="exec_times" Content="" HorizontalAlignment="Left" Margin="230,30,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="stone_times" Content="" HorizontalAlignment="Left" Margin="230,144,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.702,0.403"/>
     </Grid>
 </Window>

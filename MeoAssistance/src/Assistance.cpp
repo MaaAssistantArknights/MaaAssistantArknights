@@ -92,13 +92,13 @@ void Assistance::start(const std::string& task)
 void Assistance::stop(bool block)
 {
 	std::unique_lock<std::mutex> lock;
-	if (block) {
+	if (block) { // 外部调用
 		lock = std::unique_lock<std::mutex>(m_mutex);
+		Configer::clearExecTimes();
 	}
 	m_thread_running = false;
 	m_next_tasks.clear();
 	m_pIder->clear_cache();
-	Configer::clearExecTimes();
 }
 
 bool Assistance::setParam(const std::string& type, const std::string& param, const std::string& value)
