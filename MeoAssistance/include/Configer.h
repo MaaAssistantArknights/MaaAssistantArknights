@@ -40,10 +40,12 @@ namespace asst {
 	struct TaskInfo {
 		std::string filename;
 		double threshold = 0;
+		double cache_threshold = 0;
 		TaskType type;
 		std::vector<std::string> next;
 		int exec_times = 0;
 		int max_times = INT_MAX;
+		std::vector<std::string> exceeded_next;
 		asst::Rect specific_area;
 		int pre_delay = 0;
 		int rear_delay = 0;
@@ -70,6 +72,9 @@ namespace asst {
 		static std::optional<std::string> getParam(const std::string& type, const std::string& param);
 
 		static void clearExecTimes();
+
+		constexpr static double DefaultThreshold = 0.98;
+		constexpr static double DefaultCacheThreshold = 0.9998;
 	private:
 		Configer() = default;
 

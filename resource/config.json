@@ -242,9 +242,7 @@
             ]
         },
         "StartButton2": {
-            "id": 2,
             "filename": "StartButton2.png",
-            "threshold": 0.99,
             "type": "clickSelf",
             "rearDelay": 10000,
             "next": [
@@ -253,7 +251,6 @@
         },
         "PRTS": {
             "filename": "PRTS.png",
-            "threshold": 0.98,
             "type": "doNothing",
             "next": [
                 "PRTS",
@@ -279,7 +276,6 @@
         },
         "Loading": {
             "filename": "Loading.png",
-            "threshold": 0.99,
             "type": "doNothing",
             "next": [
                 "StartButton1"
@@ -287,7 +283,6 @@
         },
         "UseMedicine": {
             "filename": "UseMedicine.png",
-            "threshold": 0.99,
             "type": "doNothing",
             "next": [
                 "MedicineConfirm"
@@ -295,7 +290,6 @@
         },
         "MedicineConfirm": {
             "filename": "MedicineConfirm.png",
-            "threshold": 0.98,
             "type": "clickSelf",
             "next": [
                 "StartButton1"
@@ -303,7 +297,6 @@
         },
         "UseStone": {
             "filename": "UseStone.png",
-            "threshold": 0.99,
             "type": "doNothing",
             "next": [
                 "StoneConfirm"
@@ -311,7 +304,6 @@
         },
         "StoneConfirm": {
             "filename": "MedicineConfirm.png",
-            "threshold": 0.98,
             "type": "clickSelf",
             "maxTimes": 0,
             "next": [
@@ -320,7 +312,6 @@
         },
         "PrtsErrorConfirm": {
             "filename": "PrtsErrorConfirm.png",
-            "threshold": 0.98,
             "type": "doNothing",
             "next": [
                 "AbandonAction"
@@ -328,7 +319,6 @@
         },
         "AbandonAction": {
             "filename": "AbandonAction.png",
-            "threshold": 0.98,
             "type": "clickSelf",
             "next": [
                 "Random"
@@ -349,7 +339,6 @@
         },
         "ReturnToFriends": {
             "filename": "Return.png",
-            "threshold": 0.98,
             "type": "clickSelf",
             "next": [
                 "Friends",
@@ -358,7 +347,6 @@
         },
         "Friends": {
             "filename": "Friends.png",
-            "threshold": 0.98,
             "type": "clickSelf",
             "next": [
                 "FriendsList"
@@ -366,7 +354,6 @@
         },
         "FriendsList": {
             "filename": "FriendsList.png",
-            "threshold": 0.98,
             "type": "clickSelf",
             "next": [
                 "StartToVisit"
@@ -374,7 +361,6 @@
         },
         "StartToVisit": {
             "filename": "StartToVisit.png",
-            "threshold": 0.98,
             "type": "clickSelf",
             "next": [
                 "VisitNext"
@@ -384,10 +370,45 @@
             "filename": "VisitNext.png",
             "threshold": 0.99,
             "type": "clickSelf",
-            "maxTimes": 20,
+            "maxTimes": 21,
+            "exceededNext": [
+                "ReturnToMall"
+            ],
             "next": [
                 "VisitNext",
                 "VisitNextBlack"
+            ]
+        },
+        "ReturnToMall": {
+            "filename": "Return.png",
+            "type": "clickSelf",
+            "next": [
+                "Mall",
+                "ReturnToMall",
+                "ReturnToMallConfirm"
+            ]
+        },
+        "ReturnToMallConfirm": {
+            "filename": "PopupConfirm.png",
+            "type": "clickSelf",
+            "next": [
+                "ReturnToMall"
+            ]
+        },
+        "Mall": {
+            "filename": "Mall.png",
+            "threshold": 0.94,
+            "type": "clickSelf",
+            "next": [
+                "CreditStore"
+            ]
+        },
+        "CreditStore": {
+            "filename": "CreditStore.png",
+            "threshold": 0.91,
+            "type": "clickSelf",
+            "next": [
+                "Stop"
             ]
         },
         "VisitLimited": {
@@ -398,7 +419,14 @@
         },
         "VisitNextBlack": {
             "filename": "VisitNextBlack.png",
-            "threshold": 0.98,
+            "type": "doNothing",
+            "next": [
+                "ReturnToMall"
+            ]
+        },
+        "Stop": {
+            "filename": "",
+            "threshold": 0,
             "type": "stop",
             "next": []
         }

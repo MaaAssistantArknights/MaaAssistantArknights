@@ -65,7 +65,7 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 	else {
 		ret = create_handles(simulator_name);
 	}
-	if (ret && m_pWindow->showWindow() && m_pWindow->resizeWindow() ) {
+	if (ret && m_pWindow->showWindow() && m_pWindow->resizeWindow()) {
 		m_inited = true;
 		return cor_name;
 	}
@@ -121,12 +121,13 @@ void Assistance::workingProc(Assistance* pThis)
 			std::string matched_task;
 			Rect matched_rect;
 			for (auto&& task_name : pThis->m_next_tasks) {
-				double threshold = Configer::m_tasks[task_name].threshold;
+				auto&& task = Configer::m_tasks[task_name];
+				double threshold = task.threshold;
 				auto&& [algorithm, value, rect] = pThis->m_pIder->findImage(curImg, task_name, threshold);
 				DebugTrace(task_name, "Type:", algorithm, "Value:", value);
 				if (algorithm == 0 ||
 					(algorithm == 1 && value >= threshold)
-					|| (algorithm == 2 && value >= 0.9998)) {
+					|| (algorithm == 2 && value >= task.cache_threshold)) {
 					matched_task = task_name;
 					matched_rect = rect;
 					break;
@@ -134,47 +135,49 @@ void Assistance::workingProc(Assistance* pThis)
 			}
 
 			if (!matched_task.empty()) {
-				auto && task = Configer::m_tasks[matched_task];
-				DebugTraceInfo("Matched:", matched_task, "Type:", static_cast<int>(task.type));
+				auto&& task = Configer::m_tasks[matched_task];
+				DebugTraceInfo("***Matched***", matched_task, "Type:", static_cast<int>(task.type));
 				if (task.pre_delay > 0) {
 					DebugTrace("PreDelay", task.pre_delay);
 					std::this_thread::sleep_for(std::chrono::milliseconds(task.pre_delay));
 				}
-				switch (task.type) {
-				case TaskType::ClickRect:
-					matched_rect = task.specific_area;
-				case TaskType::ClickSelf:
-					if (task.max_times != INT_MAX) {
-						DebugTrace("CurTimes:", task.exec_times, "MaxTimes:", task.max_times);
-					}
-					if (task.exec_times >= task.max_times) {
-						DebugTraceInfo("Reached limit, Stop.");
+
+				if (task.max_times != INT_MAX) {
+					DebugTrace("CurTimes:", task.exec_times, "MaxTimes:", task.max_times);
+				}
+				if (task.exec_times < task.max_times) {
+					switch (task.type) {
+					case TaskType::ClickRect:
+						matched_rect = task.specific_area;
+					case TaskType::ClickSelf:
+						pThis->m_pCtrl->clickRange(matched_rect);
+						break;
+					case TaskType::ClickRand:
+						pThis->m_pCtrl->clickRange(pThis->m_pCtrl->getWindowRect());
+						break;
+					case TaskType::DoNothing:
+						break;
+					case TaskType::Stop:
+						DebugTrace("TaskType is Stop");
 						pThis->stop(false);
 						continue;
+						break;
+					default:
+						DebugTraceError("Unknown option type:", static_cast<int>(task.type));
+						break;
 					}
-					pThis->m_pCtrl->clickRange(matched_rect);
 					++task.exec_times;
-					break;
-				case TaskType::ClickRand:
-					pThis->m_pCtrl->clickRange(pThis->m_pCtrl->getWindowRect());
-					break;
-				case TaskType::DoNothing:
-					break;
-				case TaskType::Stop:
-					DebugTrace("TaskType is Stop");
-					pThis->stop(false);
-					continue;
-					break;
-				default:
-					DebugTraceError("Unknown option type:", static_cast<int>(task.type));
-					break;
+					if (task.rear_delay > 0) {
+						DebugTrace("RearDelay", task.rear_delay);
+						std::this_thread::sleep_for(std::chrono::milliseconds(task.rear_delay));
+					}
+					pThis->m_next_tasks = Configer::m_tasks[matched_task].next;
 				}
-				if (task.rear_delay > 0) {
-					DebugTrace("RearDelay", task.rear_delay);
-					std::this_thread::sleep_for(std::chrono::milliseconds(task.rear_delay));
+				else {
+					DebugTraceInfo("Reached limit");
+					pThis->m_next_tasks = Configer::m_tasks[matched_task].exceeded_next;
 				}
 
-				pThis->m_next_tasks = Configer::m_tasks[matched_task].next;
 				std::string nexts_str;
 				for (auto&& name : pThis->m_next_tasks) {
 					nexts_str += name + ",";

@@ -47,7 +47,18 @@ bool Configer::reload()
 		for (auto&& [name, task_json] : tasks_obj) {
 			TaskInfo task_info;
 			task_info.filename = task_json["filename"].as_string();
-			task_info.threshold = task_json["threshold"].as_double();
+			if (task_json.exist("threshold")) {
+				task_info.threshold = task_json["threshold"].as_double();
+			}
+			else {
+				task_info.threshold = DefaultThreshold;
+			}
+			if (task_json.exist("cache_threshold")) {
+				task_info.cache_threshold = task_json["cache_threshold"].as_double();
+			}
+			else {
+				task_info.cache_threshold = DefaultCacheThreshold;
+			}
 			std::string type = task_json["type"].as_string();
 			std::transform(type.begin(), type.end(), type.begin(), std::tolower);
 			if (type == "clickself") {
@@ -77,6 +88,15 @@ bool Configer::reload()
 			}
 			if (task_json.exist("maxTimes")) {
 				task_info.max_times = task_json["maxTimes"].as_integer();
+			}
+			if (task_json.exist("exceededNext")) {
+				auto next_arr = task_json["exceededNext"].as_array();
+				for (auto&& name : next_arr) {
+					task_info.exceeded_next.emplace_back(name.as_string());
+				}
+			}
+			else {
+				task_info.exceeded_next.emplace_back("Stop");
 			}
 			if (task_json.exist("preDelay")) {
 				task_info.pre_delay = task_json["preDelay"].as_integer();

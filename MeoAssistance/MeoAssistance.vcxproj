@@ -197,7 +197,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties _1_1_4resource_4config_1json__JsonSchema="https://beaujs.com/schema.json" />
+      <UserProperties _1_1_4resource_4config_1json__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
