@@ -43,8 +43,13 @@ namespace MeoAsstGui
             {
                 return;
             }
-            label_tag.Content = "新版本："+tag;
-            // label_body.Content = body;
+            label_tag.Content = "新版本：" + tag;
+            byte[] buffer1 = Encoding.Default.GetBytes(body.ToString());
+            byte[] buffer2 = Encoding.Convert(Encoding.UTF8, Encoding.Default, buffer1, 0, buffer1.Length);
+            string strBuffer = Encoding.Default.GetString(buffer2, 0, buffer2.Length);
+            strBuffer = strBuffer.Replace("\\r\\n", "\r\n");
+            label_body.Content = strBuffer.Substring(0, 128) + "\n......";
+
             m_htmlUrl = html_url.ToString();
             ShowDialog();
         }
