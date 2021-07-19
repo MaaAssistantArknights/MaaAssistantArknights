@@ -1,8 +1,11 @@
 #include "Assistance.h"
+#include "Updater.h"
 
 int main(int argc, char** argv)
 {
 	using namespace asst;
+
+	auto up = Updater::instance().has_new_version();
 
 	Assistance asst;
 
