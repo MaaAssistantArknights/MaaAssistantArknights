@@ -33,6 +33,9 @@
     <ClInclude Include="include\AsstCaller.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\Updater.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Configer.cpp">
@@ -48,6 +51,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\AsstCaller.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Updater.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

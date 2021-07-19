@@ -23,13 +23,16 @@ namespace MeoAsstGui
     public partial class MainWindow : Window
     {
 
-        [DllImport("MeoAssistance.dll")] static public extern IntPtr CreateAsst();
-        [DllImport("MeoAssistance.dll")] static public extern void DestoryAsst(IntPtr ptr);
-        [DllImport("MeoAssistance.dll")] static public extern bool AsstCatchSimulator(IntPtr ptr);
-        [DllImport("MeoAssistance.dll")] static public extern void AsstStart(IntPtr ptr, string task);
-        [DllImport("MeoAssistance.dll")] static public extern void AsstStop(IntPtr ptr);
-        [DllImport("MeoAssistance.dll")] static public extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
-        [DllImport("MeoAssistance.dll")] static public extern bool AsstGetParam(IntPtr p_asst, string type, string param, [In, Out] StringBuilder lp_string, int buffer_size);
+        [DllImport("MeoAssistance.dll")] static private extern IntPtr CreateAsst();
+        [DllImport("MeoAssistance.dll")] static private extern void DestoryAsst(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchSimulator(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static private extern void AsstStart(IntPtr ptr, string task);
+        [DllImport("MeoAssistance.dll")] static private extern void AsstStop(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
+        [DllImport("MeoAssistance.dll")] 
+        static private extern bool AsstGetParam(
+            IntPtr p_asst, string type, string param, 
+            [In, Out] StringBuilder lp_string, int buffer_size);
 
 
         private IntPtr p_asst;
@@ -38,6 +41,9 @@ namespace MeoAsstGui
         public MainWindow()
         {
             InitializeComponent();
+
+            UpdateDialog dialog = new UpdateDialog();
+            dialog.CheckUpdateAndShowDialog();
 
             p_asst = CreateAsst();
             update_times.Tick += new EventHandler(updateExecTimes);
