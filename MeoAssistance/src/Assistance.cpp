@@ -82,6 +82,8 @@ void Assistance::start(const std::string& task)
 	}
 
 	std::unique_lock<std::mutex> lock(m_mutex);
+
+	Configer::clearExecTimes();
 	m_pIder->clear_cache();
 	m_next_tasks.clear();
 	m_next_tasks.emplace_back(task);

@@ -114,5 +114,25 @@ namespace MeoAsstGui
                 stone_times.Content = "已碎石 " + buff_stone + " 个";
             }
         }
+
+        private void checkBox_maxTimes_Checked(object sender, RoutedEventArgs e)
+        {
+            if (checkBox_maxTimes.IsChecked == true)
+            {
+                AsstSetParam(p_asst, "task.maxTimes", "StartButton1", textBox_maxTimes.Text);
+            }
+            else
+            {
+                AsstSetParam(p_asst, "task.maxTimes", "StartButton1", int.MaxValue.ToString());
+            }
+        }
+
+        private void textBox_maxTimes_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (checkBox_maxTimes.IsChecked == true)
+            {
+                AsstSetParam(p_asst, "task.maxTimes", "StartButton1", textBox_maxTimes.Text);
+            }
+        }
     }
 }
