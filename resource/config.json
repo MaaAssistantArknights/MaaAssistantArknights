@@ -225,7 +225,7 @@
         },
         "UsePrts": {
             "filename": "UsePrts.png",
-            "threshold": 0.9,
+            "threshold": 0.8,
             "type": "clickSelf",
             "next": [
                 "StartButton1"
@@ -233,7 +233,7 @@
         },
         "StartButton1": {
             "filename": "StartButton1.png",
-            "threshold": 0.94,
+            "threshold": 0.8,
             "type": "clickSelf",
             "next": [
                 "StartButton2",
@@ -368,13 +368,14 @@
         },
         "VisitNext": {
             "filename": "VisitNext.png",
-            "threshold": 0.99,
             "type": "clickSelf",
-            "maxTimes": 21,
+            "threshold": 0.999,
+            "maxTimes": 2,
             "exceededNext": [
                 "ReturnToMall"
             ],
             "next": [
+                "VisitLimited",
                 "VisitNext",
                 "VisitNextBlack"
             ]
@@ -397,7 +398,6 @@
         },
         "Mall": {
             "filename": "Mall.png",
-            "threshold": 0.94,
             "type": "clickSelf",
             "next": [
                 "CreditStore"
@@ -405,7 +405,6 @@
         },
         "CreditStore": {
             "filename": "CreditStore.png",
-            "threshold": 0.91,
             "type": "clickSelf",
             "next": [
                 "Stop"
@@ -413,9 +412,10 @@
         },
         "VisitLimited": {
             "filename": "VisitLimited.png",
-            "threshold": 0.65,
-            "type": "stop",
-            "next": []
+            "type": "doNothing",
+            "next": [
+                "ReturnToMall" 
+            ]
         },
         "VisitNextBlack": {
             "filename": "VisitNextBlack.png",
