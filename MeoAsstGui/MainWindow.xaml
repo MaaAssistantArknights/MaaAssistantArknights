@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MeoAsstGui"
         mc:Ignorable="d"
-        Title="MeoAssistance-明日方舟辅助" Height="500" Width="400">
+        Title="Meo明日方舟辅助" Height="500" Width="400" Loaded="OnLoaded">
     <Grid>
         <CheckBox x:Name="checkBox_useMedicine" Content="吃理智药" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Checked="checkBox_useMedicine_Checked" Unchecked="checkBox_useMedicine_Checked" IsChecked="True"/>
         <CheckBox x:Name="checkBox_useStone" Content="吃石头" HorizontalAlignment="Left" Margin="50,150,0,0" VerticalAlignment="Top" Checked="checkBox_useStone_Checked" Unchecked="checkBox_useStone_Checked"/>
