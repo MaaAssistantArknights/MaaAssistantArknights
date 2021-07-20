@@ -23,7 +23,7 @@ namespace asst {
 		int x = 0;
 		int y = 0;
 	};
-	const static std::string Version = "release.alpha.00";	// for test
+	const static std::string Version = "release.alpha.12";
 
 	struct Rect
 	{

@@ -19,5 +19,6 @@
         <Label x:Name="stone_times" Content="" HorizontalAlignment="Left" Margin="230,144,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.702,0.403"/>
         <CheckBox x:Name="checkBox_maxTimes" Content="指定次数" HorizontalAlignment="Left" Margin="50,200,0,0" VerticalAlignment="Top" Checked="checkBox_maxTimes_Checked" Unchecked="checkBox_maxTimes_Checked"/>
         <TextBox x:Name="textBox_maxTimes" HorizontalAlignment="Left" Height="23" Margin="124,198,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="47" TextChanged="textBox_maxTimes_TextChanged" InputMethod.IsInputMethodEnabled="False"/>
+        <Label x:Name="label" Content="次" HorizontalAlignment="Left" Margin="176,193,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.397,-0.745"/>
     </Grid>
 </Window>
