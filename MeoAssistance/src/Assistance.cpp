@@ -141,7 +141,12 @@ void Assistance::workingProc(Assistance* pThis)
 				DebugTraceInfo("***Matched***", matched_task, "Type:", static_cast<int>(task.type));
 				if (task.pre_delay > 0) {
 					DebugTrace("PreDelay", task.pre_delay);
-					std::this_thread::sleep_for(std::chrono::milliseconds(task.pre_delay));
+					// std::this_thread::sleep_for(std::chrono::milliseconds(task.pre_delay));
+					auto cv_ret = pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(task.pre_delay),
+						[&]() -> bool { return !pThis->m_thread_running; });
+					if (cv_ret == true) {
+						continue;
+					}
 				}
 
 				if (task.max_times != INT_MAX) {
@@ -171,7 +176,12 @@ void Assistance::workingProc(Assistance* pThis)
 					++task.exec_times;
 					if (task.rear_delay > 0) {
 						DebugTrace("RearDelay", task.rear_delay);
-						std::this_thread::sleep_for(std::chrono::milliseconds(task.rear_delay));
+						// std::this_thread::sleep_for(std::chrono::milliseconds(task.rear_delay));
+						auto cv_ret = pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(task.rear_delay),
+							[&]() -> bool { return !pThis->m_thread_running; });
+						if (cv_ret == true) {
+							continue;
+						}
 					}
 					pThis->m_next_tasks = Configer::m_tasks[matched_task].next;
 				}
@@ -189,7 +199,9 @@ void Assistance::workingProc(Assistance* pThis)
 				}
 				DebugTrace("Next:", nexts_str);
 			}
-			pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(Configer::m_options.delayFixedTime));
+			pThis->m_condvar.wait_for(lock,
+				std::chrono::milliseconds(Configer::m_options.delayFixedTime),
+				[&]() -> bool { return !pThis->m_thread_running; });
 		}
 		else {
 			pThis->m_condvar.wait(lock);
