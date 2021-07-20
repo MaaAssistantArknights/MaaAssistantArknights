@@ -74,11 +74,11 @@ bool AsstGetParam(asst::Assistance* p_asst, const char* type, const char* param,
 
 bool CheckVersionUpdate(char* tag_buffer, int tag_bufsize, char* html_url_buffer, int html_bufsize, char* body_buffer, int body_bufsize)
 {
-	auto ret = asst::Updater::instance().has_new_version();
+	bool ret = asst::Updater::instance().has_new_version();
 	if (!ret) {
 		return false;
 	}
-	auto info = std::move(ret).value();
+	auto && info = asst::Updater::instance().get_version_info();
 	strcpy_s(tag_buffer, tag_bufsize, info.tag_name.c_str());
 	strcpy_s(html_url_buffer, html_bufsize, info.html_url.c_str());
 	strcpy_s(body_buffer, body_bufsize, info.body.c_str());

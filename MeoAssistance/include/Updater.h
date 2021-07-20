@@ -22,7 +22,8 @@ namespace asst {
 
 		static Updater& instance();
 
-		std::optional<VersionInfo> has_new_version();
+		bool has_new_version();
+		const VersionInfo & get_version_info() const noexcept;
 
 	private:
 		Updater() = default;

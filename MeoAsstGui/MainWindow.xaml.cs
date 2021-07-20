@@ -36,25 +36,28 @@ namespace MeoAsstGui
 
 
         private IntPtr p_asst;
+        UpdateDialog updateDialog;
         private DispatcherTimer update_times = new DispatcherTimer();
 
         public MainWindow()
         {
             InitializeComponent();
-
-            UpdateDialog dialog = new UpdateDialog();
-            dialog.CheckUpdateAndShowDialog();
-            dialog.Close();
-
-            p_asst = CreateAsst();
-            update_times.Tick += new EventHandler(updateExecTimes);
-            update_times.Interval = TimeSpan.FromSeconds(1);
         }
         ~MainWindow()
         {
             DestoryAsst(p_asst);
         }
 
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            updateDialog = new UpdateDialog();
+            updateDialog.CheckUpdateAndShowDialog();
+            updateDialog.Close();
+
+            p_asst = CreateAsst();
+            update_times.Tick += new EventHandler(updateExecTimes);
+            update_times.Interval = TimeSpan.FromSeconds(1);
+        }
         private void button_Click_startSanity(object sender, RoutedEventArgs e)
         {
             bool catched = AsstCatchSimulator(p_asst);
