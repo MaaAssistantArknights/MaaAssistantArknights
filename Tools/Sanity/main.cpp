@@ -5,7 +5,12 @@ int main(int argc, char** argv)
 {
 	using namespace asst;
 
-	auto up = Updater::instance().has_new_version();
+	bool up = Updater::instance().has_new_version();
+	if (up) {
+		auto && info = Updater::instance().get_version_info();
+		std::cout << "有新版本：" << info.tag_name << std::endl;
+		std::cout << "地址：" << info.html_url << std::endl;
+	}
 
 	Assistance asst;
 

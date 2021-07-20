@@ -18,17 +18,17 @@ Updater& Updater::instance()
 	return unique_instance;
 }
 
-std::optional<VersionInfo> Updater::has_new_version()
+bool Updater::has_new_version()
 {
 	auto req_ret = request_github_api();
 	if (!req_ret) {
 		DebugTraceInfo("Requeset Error");
-		return std::nullopt;
+		return false;
 	}
 	auto parse_ret = json::parser::parse(req_ret.value());
 	if (!parse_ret) {
 		DebugTraceInfo("Parse Error");
-		return std::nullopt;
+		return false;
 	}
 
 	json::value root = std::move(parse_ret).value();
@@ -46,17 +46,24 @@ std::optional<VersionInfo> Updater::has_new_version()
 	}
 	catch (json::exception& exp) {
 		DebugTraceError("Json Error", exp.what());
-		return std::nullopt;
+		return false;
 	}
 
 	if (m_lastest_version.tag_name > Version) {
 		m_has_new_version = true;
-		return m_lastest_version;
+		return true;
 	}
 	else {
-		m_has_new_version = false;
-		return std::nullopt;
+		return false;
 	}
+}
+
+const VersionInfo & Updater::get_version_info() const noexcept
+{
+	if (!m_has_new_version) {
+		return VersionInfo();
+	}
+	return m_lastest_version;
 }
 
 std::optional<std::string> Updater::request_github_api()
