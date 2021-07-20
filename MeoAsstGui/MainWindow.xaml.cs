@@ -44,6 +44,7 @@ namespace MeoAsstGui
 
             UpdateDialog dialog = new UpdateDialog();
             dialog.CheckUpdateAndShowDialog();
+            dialog.Close();
 
             p_asst = CreateAsst();
             update_times.Tick += new EventHandler(updateExecTimes);
