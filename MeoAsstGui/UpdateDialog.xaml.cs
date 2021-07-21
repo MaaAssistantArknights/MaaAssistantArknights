@@ -48,7 +48,8 @@ namespace MeoAsstGui
             byte[] buffer2 = Encoding.Convert(Encoding.UTF8, Encoding.Default, buffer1, 0, buffer1.Length);
             string strBuffer = Encoding.Default.GetString(buffer2, 0, buffer2.Length);
             strBuffer = strBuffer.Replace("\\r\\n", "\r\n");
-            label_body.Content = strBuffer.Substring(0, 128) + "\n......";
+            int len = strBuffer.Length > 128 ? 128 : strBuffer.Length;
+            label_body.Content = strBuffer.Substring(0, len) + "\n......";
 
             m_htmlUrl = html_url.ToString();
             ShowDialog();
