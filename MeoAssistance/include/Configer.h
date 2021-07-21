@@ -73,8 +73,8 @@ namespace asst {
 
 		static void clearExecTimes();
 
-		constexpr static double DefaultThreshold = 0.98;
-		constexpr static double DefaultCacheThreshold = 0.9998;
+		constexpr static double DefaultThreshold = 0.9;
+		constexpr static double DefaultCacheThreshold = 0.9;
 	private:
 		Configer() = default;
 

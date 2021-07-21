@@ -48,7 +48,8 @@ Mat Identify::image2Hist(const cv::Mat& src)
 
 double Identify::imageHistComp(const cv::Mat& src, const cv::MatND& hist)
 {
-	return compareHist(image2Hist(src), hist, CV_COMP_CORREL);
+	// keep the interface return value unchanged
+	return 1 - compareHist(image2Hist(src), hist, CV_COMP_BHATTACHARYYA);
 }
 
 std::pair<double, cv::Point> Identify::findImage(const cv::Mat& image, const cv::Mat& templ)
@@ -59,7 +60,7 @@ std::pair<double, cv::Point> Identify::findImage(const cv::Mat& image, const cv:
 	cvtColor(templ, templ_hsv, COLOR_BGR2HSV);
 
 	Mat matched;
-	matchTemplate(image_hsv, templ_hsv, matched, cv::TM_CCORR_NORMED);
+	matchTemplate(image_hsv, templ_hsv, matched, cv::TM_CCOEFF_NORMED);
 
 	double minVal = 0, maxVal = 0;
 	cv::Point minLoc, maxLoc;

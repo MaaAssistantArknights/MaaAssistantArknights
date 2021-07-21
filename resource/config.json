@@ -225,7 +225,7 @@
         },
         "UsePrts": {
             "filename": "UsePrts.png",
-            "threshold": 0.9,
+            "threshold": 0.8,
             "type": "clickSelf",
             "next": [
                 "StartButton1"
@@ -233,7 +233,7 @@
         },
         "StartButton1": {
             "filename": "StartButton1.png",
-            "threshold": 0.94,
+            "threshold": 0.8,
             "type": "clickSelf",
             "next": [
                 "StartButton2",
@@ -244,7 +244,7 @@
         "StartButton2": {
             "filename": "StartButton2.png",
             "type": "clickSelf",
-            "rearDelay": 10000,
+            "rearDelay": 20000,
             "next": [
                 "PRTS"
             ]
@@ -368,8 +368,8 @@
         },
         "VisitNext": {
             "filename": "VisitNext.png",
-            "threshold": 0.99,
             "type": "clickSelf",
+            "threshold": 0.999,
             "maxTimes": 21,
             "exceededNext": [
                 "ReturnToMall"
@@ -397,7 +397,6 @@
         },
         "Mall": {
             "filename": "Mall.png",
-            "threshold": 0.94,
             "type": "clickSelf",
             "next": [
                 "CreditStore"
@@ -405,7 +404,16 @@
         },
         "CreditStore": {
             "filename": "CreditStore.png",
-            "threshold": 0.91,
+            "threshold": 0.89,
+            "rearDelay": 1000,
+            "type": "clickSelf",
+            "next": [
+                "CollectCredit",
+                "Stop"
+            ]
+        },
+        "CollectCredit": {
+            "filename": "CollectCredit.png",
             "type": "clickSelf",
             "next": [
                 "Stop"
@@ -413,9 +421,10 @@
         },
         "VisitLimited": {
             "filename": "VisitLimited.png",
-            "threshold": 0.65,
-            "type": "stop",
-            "next": []
+            "type": "doNothing",
+            "next": [
+                "ReturnToMall"
+            ]
         },
         "VisitNextBlack": {
             "filename": "VisitNextBlack.png",
