@@ -11,7 +11,7 @@
 
 namespace asst {
 
-	const static std::string Version = "release.beta.01";
+	const static std::string Version = "release.beta.01.2";
 
 	/************ Type ************/
 
