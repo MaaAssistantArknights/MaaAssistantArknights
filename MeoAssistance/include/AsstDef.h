@@ -99,11 +99,6 @@ namespace asst {
 	{
 		static std::mutex trace_mutex;
 		std::unique_lock<std::mutex> trace_lock(trace_mutex);
-#ifdef _DEBUG
-		auto& out_stream = std::cout;
-#else
-		std::ofstream out_stream(GetCurrentDir() + "asst.log", std::ios::out | std::ios::app);
-#endif
 
 		SYSTEMTIME curtime;
 		GetLocalTime(&curtime);
@@ -113,6 +108,14 @@ namespace asst {
 			curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds,
 			level.c_str(), _getpid(), GetCurrentThreadId());
 
+		if (level == "ERR" || level == "INF" 
+#ifdef _DEBUG
+			|| level == "TRC"
+#endif
+			) {
+			StreamArgs(std::cout, buff, std::forward<Args>(args)...);
+		}
+		std::ofstream out_stream(GetCurrentDir() + "asst.log", std::ios::out | std::ios::app);
 		StreamArgs(out_stream, buff, std::forward<Args>(args)...);
 	}
 
