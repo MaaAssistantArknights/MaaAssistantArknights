@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="有新版本" Height="500" Width="400">
     <Grid>
-        <Label x:Name="label_tag" Content="" HorizontalAlignment="Center" Margin="50,25,53.333,0" VerticalAlignment="Top" Height="50" Width="290" FontSize="24"/>
+        <Label x:Name="label_tag" Content="" HorizontalAlignment="Center" Margin="10,25,10.333,0" VerticalAlignment="Top" Height="50" Width="373" FontSize="24"/>
         <Label x:Name="label_body" Content="" HorizontalAlignment="Left" Margin="50,80,0,0" VerticalAlignment="Top" Height="281" Width="290" FontSize="16"/>
         <Button x:Name="button_confirm" Content="前往下载" HorizontalAlignment="Left" Margin="50,366,0,0" VerticalAlignment="Top" Width="120" Height="60" Click="button_confirm_Click"/>
         <Button x:Name="button_cancer" Content="下次一定" HorizontalAlignment="Left" Margin="220,366,0,0" VerticalAlignment="Top" Width="120" Height="60" Click="button_cancer_Click"/>
