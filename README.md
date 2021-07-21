@@ -4,7 +4,7 @@ A game assistance for Arknights
 
 一款明日方舟的游戏辅助，供PC端安卓模拟器使用，龟速开发中……
 
-![截图](README/1.png)
+![界面截图](resource/gui.png)
 
 ## 功能介绍
 
