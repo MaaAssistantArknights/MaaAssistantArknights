@@ -244,7 +244,7 @@
         "StartButton2": {
             "filename": "StartButton2.png",
             "type": "clickSelf",
-            "rearDelay": 10000,
+            "rearDelay": 20000,
             "next": [
                 "PRTS"
             ]
@@ -370,12 +370,11 @@
             "filename": "VisitNext.png",
             "type": "clickSelf",
             "threshold": 0.999,
-            "maxTimes": 2,
+            "maxTimes": 21,
             "exceededNext": [
                 "ReturnToMall"
             ],
             "next": [
-                "VisitLimited",
                 "VisitNext",
                 "VisitNextBlack"
             ]
@@ -405,6 +404,16 @@
         },
         "CreditStore": {
             "filename": "CreditStore.png",
+            "threshold": 0.89,
+            "rearDelay": 1000,
+            "type": "clickSelf",
+            "next": [
+                "CollectCredit",
+                "Stop"
+            ]
+        },
+        "CollectCredit": {
+            "filename": "CollectCredit.png",
             "type": "clickSelf",
             "next": [
                 "Stop"
@@ -414,7 +423,7 @@
             "filename": "VisitLimited.png",
             "type": "doNothing",
             "next": [
-                "ReturnToMall" 
+                "ReturnToMall"
             ]
         },
         "VisitNextBlack": {
