@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 	}
 
 	DebugTraceInfo("Start");
-	asst.start("VisitBegin");
+	asst.start("SanityBegin");
 
 	getchar();
 
