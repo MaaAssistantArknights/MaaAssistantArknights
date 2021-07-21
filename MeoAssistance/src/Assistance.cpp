@@ -8,6 +8,8 @@ using namespace asst;
 
 Assistance::Assistance()
 {
+	DebugTraceFunction;
+
 	Configer::reload();
 
 	m_pIder = std::make_shared<Identify>();
@@ -23,6 +25,8 @@ Assistance::Assistance()
 
 Assistance::~Assistance()
 {
+	DebugTraceFunction;
+
 	if (m_pWindow != nullptr) {
 		m_pWindow->showWindow();
 	}
@@ -38,6 +42,8 @@ Assistance::~Assistance()
 
 std::optional<std::string> Assistance::setSimulator(const std::string& simulator_name)
 {
+	DebugTraceFunction;
+
 	stop();
 
 	auto create_handles = [&](const std::string& name) -> bool {
@@ -77,6 +83,8 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 
 void Assistance::start(const std::string& task)
 {
+	DebugTraceFunction;
+
 	if (m_thread_running || !m_inited) {
 		return;
 	}
@@ -93,6 +101,8 @@ void Assistance::start(const std::string& task)
 
 void Assistance::stop(bool block)
 {
+	DebugTraceFunction;
+
 	std::unique_lock<std::mutex> lock;
 	if (block) { // 外部调用
 		lock = std::unique_lock<std::mutex>(m_mutex);
@@ -105,16 +115,22 @@ void Assistance::stop(bool block)
 
 bool Assistance::setParam(const std::string& type, const std::string& param, const std::string& value)
 {
+	DebugTraceFunction;
+
 	return Configer::setParam(type, param, value);
 }
 
 std::optional<std::string> Assistance::getParam(const std::string& type, const std::string& param)
 {
+	DebugTraceFunction;
+
 	return Configer::getParam(type, param);
 }
 
 void Assistance::workingProc(Assistance* pThis)
 {
+	DebugTraceFunction;
+
 	while (!pThis->m_thread_exit) {
 		std::unique_lock<std::mutex> lock(pThis->m_mutex);
 		if (pThis->m_thread_running) {

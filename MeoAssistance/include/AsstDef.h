@@ -5,10 +5,14 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <chrono>
 #include <process.h>
 #include <Windows.h>
 
 namespace asst {
+
+	/************ Type ************/
+
 	enum class HandleType
 	{
 		Window = 1,
@@ -23,7 +27,7 @@ namespace asst {
 		int x = 0;
 		int y = 0;
 	};
-	const static std::string Version = "release.alpha.12";
+	const static std::string Version = "release.alpha.13";
 
 	struct Rect
 	{
@@ -46,6 +50,8 @@ namespace asst {
 		int height = 0;
 	};
 
+	/************ Static Function ************/
+
 	static std::string GetCurrentDir()
 	{
 		static std::string cur_dir;
@@ -63,6 +69,20 @@ namespace asst {
 		return res_dir;
 	}
 
+	static std::string replace_all_distinct(const std::string& src, const std::string& old_value, const std::string& new_value)
+	{
+		std::string str = src;
+		for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length()) {
+			if ((pos = str.find(old_value, pos)) != std::string::npos)
+				str.replace(pos, old_value.length(), new_value);
+			else
+				break;
+		}
+		return str;
+	}
+
+	/************ Print and Log Trace ************/
+
 	inline void StreamArgs(std::ostream& os)
 	{
 		os << std::endl;
@@ -79,7 +99,7 @@ namespace asst {
 		static std::mutex trace_mutex;
 		std::unique_lock<std::mutex> trace_lock(trace_mutex);
 #ifdef _DEBUG
-		auto & out_stream = std::cout;
+		auto& out_stream = std::cout;
 #else
 		std::ofstream out_stream(GetCurrentDir() + "asst.log", std::ios::out | std::ios::app);
 #endif
@@ -113,15 +133,25 @@ namespace asst {
 		DebugPrint("ERR", std::forward<Args>(args)...);
 	}
 
-	static std::string replace_all_distinct(const std::string& src, const std::string& old_value, const std::string& new_value)
-	{
-		std::string str = src;
-		for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length()) {
-			if ((pos = str.find(old_value, pos)) != std::string::npos)
-				str.replace(pos, old_value.length(), new_value);
-			else
-				break;
+	class DebugTraceFuncAux {
+	public:
+		DebugTraceFuncAux(const std::string& func_name)
+			: m_func_name(func_name),
+			m_start_time(std::chrono::system_clock::now())
+		{
+			DebugTrace(m_func_name, " | enter");
 		}
-		return str;
-	}
+		~DebugTraceFuncAux()
+		{
+			auto duration = std::chrono::system_clock::now() - m_start_time;
+			DebugTrace(m_func_name, " | leave,",
+				std::chrono::duration_cast<std::chrono::milliseconds>(duration).count(), "ms");
+		}
+	private:
+		std::string m_func_name;
+		std::chrono::time_point<std::chrono::system_clock> m_start_time;
+	};
+
+#define DebugTraceFunction DebugTraceFuncAux _func_aux(__FUNCTION__)
+
 }
