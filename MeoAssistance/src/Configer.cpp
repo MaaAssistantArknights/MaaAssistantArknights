@@ -104,6 +104,12 @@ bool Configer::reload()
 			if (task_json.exist("rearDelay")) {
 				task_info.rear_delay = task_json["rearDelay"].as_integer();
 			}
+			if (task_json.exist("reduceOtherTimes")) {
+				auto reduce_arr = task_json["reduceOtherTimes"].as_array();
+				for (auto&& reduce : reduce_arr) {
+					task_info.reduce_other_times.emplace_back(reduce.as_string());
+				}
+			}
 
 
 			auto next_arr = task_json["next"].as_array();

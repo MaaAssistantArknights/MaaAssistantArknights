@@ -89,7 +89,11 @@ namespace MeoAsstGui
 
         private void textBox_useStone_TextChanged(object sender, TextChangedEventArgs e)
         {
-            AsstSetParam(p_asst, "task.maxTimes", "StoneConfirm", textBox_useStone.Text);
+            if (checkBox_useMedicine.IsChecked == true)
+            {
+                String text = textBox_useStone.Text != String.Empty ? textBox_useStone.Text : "0";
+                AsstSetParam(p_asst, "task.maxTimes", "StoneConfirm", text);
+            }
         }
 
         private void checkBox_useStone_Checked(object sender, RoutedEventArgs e)
@@ -129,7 +133,8 @@ namespace MeoAsstGui
         {
             if (checkBox_maxTimes.IsChecked == true)
             {
-                AsstSetParam(p_asst, "task.maxTimes", "StartButton1", textBox_maxTimes.Text);
+                String text = textBox_maxTimes.Text != String.Empty ? textBox_maxTimes.Text : "0";
+                AsstSetParam(p_asst, "task.maxTimes", "StartButton1", text);
             }
             else
             {
@@ -141,7 +146,8 @@ namespace MeoAsstGui
         {
             if (checkBox_maxTimes.IsChecked == true)
             {
-                AsstSetParam(p_asst, "task.maxTimes", "StartButton1", textBox_maxTimes.Text);
+                String text = textBox_maxTimes.Text != String.Empty ? textBox_maxTimes.Text : "0";
+                AsstSetParam(p_asst, "task.maxTimes", "StartButton1", text);
             }
         }
     }

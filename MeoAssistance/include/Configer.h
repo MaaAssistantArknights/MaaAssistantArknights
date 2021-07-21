@@ -46,6 +46,7 @@ namespace asst {
 		int exec_times = 0;
 		int max_times = INT_MAX;
 		std::vector<std::string> exceeded_next;
+		std::vector<std::string> reduce_other_times;
 		asst::Rect specific_area;
 		int pre_delay = 0;
 		int rear_delay = 0;
