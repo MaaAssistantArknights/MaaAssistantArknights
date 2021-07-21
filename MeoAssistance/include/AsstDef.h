@@ -11,6 +11,8 @@
 
 namespace asst {
 
+	const static std::string Version = "release.beta.01";
+
 	/************ Type ************/
 
 	enum class HandleType
@@ -27,7 +29,6 @@ namespace asst {
 		int x = 0;
 		int y = 0;
 	};
-	const static std::string Version = "release.alpha.13";
 
 	struct Rect
 	{
