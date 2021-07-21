@@ -291,6 +291,7 @@
         "MedicineConfirm": {
             "filename": "MedicineConfirm.png",
             "type": "clickSelf",
+            "reduceOtherTimes": [ "StartButton1" ],
             "next": [
                 "StartButton1"
             ]
@@ -306,6 +307,7 @@
             "filename": "MedicineConfirm.png",
             "type": "clickSelf",
             "maxTimes": 0,
+            "reduceOtherTimes": [ "StartButton1" ],
             "next": [
                 "StartButton1"
             ]
@@ -320,6 +322,7 @@
         "AbandonAction": {
             "filename": "AbandonAction.png",
             "type": "clickSelf",
+            "reduceOtherTimes": [ "StartButton1", "StartButton2", "Loading" ],
             "next": [
                 "Random"
             ]

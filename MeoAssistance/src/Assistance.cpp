@@ -190,6 +190,9 @@ void Assistance::workingProc(Assistance* pThis)
 						break;
 					}
 					++task.exec_times;
+					for (auto&& reduce : task.reduce_other_times) {
+						--Configer::m_tasks[reduce].exec_times;
+					}
 					if (task.rear_delay > 0) {
 						DebugTrace("RearDelay", task.rear_delay);
 						// std::this_thread::sleep_for(std::chrono::milliseconds(task.rear_delay));
