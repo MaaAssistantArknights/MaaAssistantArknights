@@ -116,6 +116,7 @@ void Assistance::stop(bool block)
 bool Assistance::setParam(const std::string& type, const std::string& param, const std::string& value)
 {
 	DebugTraceFunction;
+	DebugTrace("SetParam |", type, param, value);
 
 	return Configer::setParam(type, param, value);
 }
