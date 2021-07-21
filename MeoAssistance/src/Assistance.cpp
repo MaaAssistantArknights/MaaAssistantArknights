@@ -192,6 +192,7 @@ void Assistance::workingProc(Assistance* pThis)
 					++task.exec_times;
 					for (auto&& reduce : task.reduce_other_times) {
 						--Configer::m_tasks[reduce].exec_times;
+						DebugTrace("Reduce exec times", reduce, Configer::m_tasks[reduce].exec_times);
 					}
 					if (task.rear_delay > 0) {
 						DebugTrace("RearDelay", task.rear_delay);
