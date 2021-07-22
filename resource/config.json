@@ -3,7 +3,7 @@
     "options": {
         "identifyCache": true,
         "identifyDelay": 1000,
-        "controlDelay": [ 0, 0 ]
+        "controlDelayRange": [ 0, 0 ]
     },
     "handle": {
         "BlueStacks": {
