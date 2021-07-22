@@ -41,9 +41,10 @@ bool Configer::reload()
 		m_version = root["version"].as_string();
 
 		auto options_obj = root["options"].as_object();
-		m_options.delayType = options_obj["delay"]["type"].as_string();
-		m_options.delayFixedTime = options_obj["delay"]["fixedTime"].as_integer();
-		m_options.cache = options_obj["cache"].as_boolean();
+		m_options.identify_delay = options_obj["identifyDelay"].as_integer();
+		m_options.identify_cache = options_obj["identifyCache"].as_boolean();
+		m_options.control_delay_lower = options_obj["controlDelay"][0].as_integer();
+		m_options.control_delay_upper = options_obj["controlDelay"][1].as_integer();
 
 		auto tasks_obj = root["tasks"].as_object();
 		for (auto&& [name, task_json] : tasks_obj) {
