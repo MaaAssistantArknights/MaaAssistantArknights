@@ -1,6 +1,8 @@
 #include "Assistance.h"
 #include "Updater.h"
 
+#include "Logger.hpp"
+
 int main(int argc, char** argv)
 {
 	using namespace asst;

@@ -3,6 +3,8 @@
 #include "WinMacro.h"
 #include "Configer.h"
 #include "Identify.h"
+#include "Logger.hpp"
+#include "AsstAux.h"
 
 using namespace asst;
 

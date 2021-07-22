@@ -8,68 +8,6 @@
 #include "AsstDef.h"
 
 namespace asst {
-	struct HandleInfo {
-		std::string className;
-		std::string windowName;
-	};
-	struct AdbCmd {
-		std::string path;
-		std::string connect;
-		std::string click;
-	};
-	struct SimulatorInfo {
-		std::vector<HandleInfo> window;
-		std::vector<HandleInfo> view;
-		std::vector<HandleInfo> control;
-		bool is_adb = false;
-		AdbCmd adb;
-		int width = 0;
-		int height = 0;
-		int x_offset = 0;
-		int y_offset = 0;
-	};
-
-	enum class TaskType {
-		Invalid,
-		ClickSelf,
-		ClickRect,
-		ClickRand,
-		DoNothing,
-		Stop
-	};
-
-	static std::ostream& operator<<(std::ostream& os, const TaskType& task)
-	{
-		static std::unordered_map<TaskType, std::string> _type_name = {
-			{TaskType::Invalid, "Invalid"},
-			{TaskType::ClickSelf, "ClickSelf"},
-			{TaskType::ClickRect, "ClickRect"},
-			{TaskType::ClickRand, "ClickRand"},
-			{TaskType::DoNothing, "DoNothing"},
-			{TaskType::Stop, "Stop"}
-		};
-		return os << _type_name.at(task);
-	}
-
-	struct TaskInfo {
-		std::string filename;
-		double threshold = 0;
-		double cache_threshold = 0;
-		TaskType type = TaskType::Invalid;
-		std::vector<std::string> next;
-		int exec_times = 0;
-		int max_times = INT_MAX;
-		std::vector<std::string> exceeded_next;
-		std::vector<std::string> reduce_other_times;
-		asst::Rect specific_area;
-		int pre_delay = 0;
-		int rear_delay = 0;
-	};
-	struct Options {
-		std::string delayType;
-		int delayFixedTime = 0;
-		bool cache = false;
-	};
 
 	class Configer
 	{

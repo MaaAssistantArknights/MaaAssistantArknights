@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Assistance.h" />
+    <ClInclude Include="include\AsstAux.h" />
     <ClInclude Include="include\AsstCaller.h" />
     <ClInclude Include="include\AsstDef.h" />
     <ClInclude Include="include\Configer.h" />
     <ClInclude Include="include\Identify.h" />
+    <ClInclude Include="include\Logger.hpp" />
     <ClInclude Include="include\Updater.h" />
     <ClInclude Include="include\WinMacro.h" />
   </ItemGroup>
