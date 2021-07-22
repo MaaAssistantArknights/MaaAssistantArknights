@@ -30,18 +30,32 @@ namespace asst {
 	};
 
 	enum class TaskType {
+		Invalid,
 		ClickSelf,
+		ClickRect,
 		ClickRand,
 		DoNothing,
-		Stop,
-		ClickRect
+		Stop
 	};
+
+	static std::ostream& operator<<(std::ostream& os, const TaskType& task)
+	{
+		static std::unordered_map<TaskType, std::string> _type_name = {
+			{TaskType::Invalid, "Invalid"},
+			{TaskType::ClickSelf, "ClickSelf"},
+			{TaskType::ClickRect, "ClickRect"},
+			{TaskType::ClickRand, "ClickRand"},
+			{TaskType::DoNothing, "DoNothing"},
+			{TaskType::Stop, "Stop"}
+		};
+		return os << _type_name.at(task);
+	}
 
 	struct TaskInfo {
 		std::string filename;
 		double threshold = 0;
 		double cache_threshold = 0;
-		TaskType type;
+		TaskType type = TaskType::Invalid;
 		std::vector<std::string> next;
 		int exec_times = 0;
 		int max_times = INT_MAX;

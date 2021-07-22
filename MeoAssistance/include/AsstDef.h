@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include <unordered_map>
 #include <process.h>
 #include <Windows.h>
 
@@ -21,6 +22,15 @@ namespace asst {
 		View = 2,
 		Control = 4
 	};
+	static std::ostream& operator<<(std::ostream& os, const HandleType& type)
+	{
+		static std::unordered_map<HandleType, std::string> _type_name = {
+			{HandleType::Window, "Window"},
+			{HandleType::View, "View"},
+			{HandleType::Control, "Control"}
+		};
+		return os << _type_name.at(type);
+	}
 
 	struct Point
 	{
@@ -70,7 +80,7 @@ namespace asst {
 		return res_dir;
 	}
 
-	static std::string replace_all_distinct(const std::string& src, const std::string& old_value, const std::string& new_value)
+	static std::string StringReplaceAll(const std::string& src, const std::string& old_value, const std::string& new_value)
 	{
 		std::string str = src;
 		for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length()) {
@@ -94,10 +104,10 @@ namespace asst {
 		os << first << " ";
 		StreamArgs(os, std::forward<Args>(rest)...);
 	}
+	static std::mutex trace_mutex;
 	template <typename... Args>
 	void DebugPrint(const std::string& level, Args &&... args)
 	{
-		static std::mutex trace_mutex;
 		std::unique_lock<std::mutex> trace_lock(trace_mutex);
 
 		SYSTEMTIME curtime;
@@ -108,7 +118,7 @@ namespace asst {
 			curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds,
 			level.c_str(), _getpid(), GetCurrentThreadId());
 
-		if (level == "ERR" || level == "INF" 
+		if (level == "ERR" || level == "INF"
 #ifdef _DEBUG
 			|| level == "TRC"
 #endif

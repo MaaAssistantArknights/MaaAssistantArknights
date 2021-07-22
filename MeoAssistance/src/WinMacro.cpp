@@ -46,7 +46,7 @@ bool WinMacro::findHandle()
 		handle_vec = info.control;
 		break;
 	default:
-		DebugTraceError("Handle type error!", static_cast<int>(m_handle_type));
+		DebugTraceError("Handle type error!", m_handle_type);
 		return false;
 	}
 
@@ -94,14 +94,14 @@ bool WinMacro::findHandle()
 		}
 		size_t pos = adb_dir.find_last_of('\\') + 1;
 		adb_dir = adb_dir.substr(0, pos);
-		adb_dir = '"' + replace_all_distinct(info.adb.path, "[EmulatorPath]", adb_dir) + '"';
+		adb_dir = '"' + StringReplaceAll(info.adb.path, "[EmulatorPath]", adb_dir) + '"';
 		std::string connect_cmd = adb_dir + info.adb.connect;
 		int ret = system(connect_cmd.c_str());
 		DebugTrace("Call", connect_cmd, "！！ ret", ret);
 
 		m_click_cmd = adb_dir + info.adb.click;
 	}
-	DebugTrace("Handle:", m_handle, "Name:", m_simulator_name, "Type:", static_cast<int>(m_handle_type));
+	DebugTrace("Handle:", m_handle, "Name:", m_simulator_name, "Type:", m_handle_type);
 
 	if (m_handle != NULL) {
 		return true;
@@ -191,8 +191,8 @@ bool WinMacro::click(const Point& p)
 	if (m_is_adb) {
 		int x = (p.x + m_x_offset);
 		int y = (p.y + m_y_offset);
-		std::string cur_cmd = replace_all_distinct(m_click_cmd, "[x]", std::to_string(x));
-		cur_cmd = replace_all_distinct(cur_cmd, "[y]", std::to_string(y));
+		std::string cur_cmd = StringReplaceAll(m_click_cmd, "[x]", std::to_string(x));
+		cur_cmd = StringReplaceAll(cur_cmd, "[y]", std::to_string(y));
 		int ret = system(cur_cmd.c_str());
 		DebugTrace("Call", cur_cmd, "！！ ret", ret);
 		return !ret;
@@ -200,7 +200,7 @@ bool WinMacro::click(const Point& p)
 	else {
 		int x = (p.x + m_x_offset) / getScreenScale();
 		int y = (p.y + m_y_offset) / getScreenScale();
-		DebugTrace("Click, raw:", p.x, p.y, "cor:", x, y);
+		DebugTrace("Click, raw:", p.x, p.y, "corr:", x, y);
 
 		LPARAM lparam = MAKELPARAM(x, y);
 

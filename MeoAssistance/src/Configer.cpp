@@ -148,7 +148,7 @@ bool Configer::reload()
 			if (simulator_json.exist("adbControl")) {
 				simulator_info.is_adb = true;
 				// meojson的bug，暂时没空修，先转个字符串
-				simulator_info.adb.path = replace_all_distinct(simulator_json["adbControl"]["path"].as_string(), "\\\\", "\\");
+				simulator_info.adb.path = StringReplaceAll(simulator_json["adbControl"]["path"].as_string(), "\\\\", "\\");
 				simulator_info.adb.connect = simulator_json["adbControl"]["connect"].as_string();
 				simulator_info.adb.click = simulator_json["adbControl"]["click"].as_string();
 			}
