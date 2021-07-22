@@ -76,7 +76,7 @@ MuMu是个奇葩，它的所有的窗口句柄均不响应SendMessage鼠标消�
 
 请手动修改`resource\config.json`文件中，`options`.`controlDelayRange`字段的值，格式为`[最小延时, 最大延时]`，单位为毫秒，例如想设置3~5秒的随机延时，即设置为`[ 3000, 5000]` 即可。文件保存后请重新打开程序。
 
-![图例](readme\controlDelayRange.png)
+![图例](readme/controlDelayRange.png)
 
 ## Todo
 
