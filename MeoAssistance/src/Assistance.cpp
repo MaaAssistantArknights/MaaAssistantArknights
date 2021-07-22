@@ -83,7 +83,9 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 
 void Assistance::start(const std::string& task)
 {
-	DebugTraceFunction;
+	DebugTraceFunction;	
+	DebugTrace("Start |", task);
+
 
 	if (m_thread_running || !m_inited) {
 		return;
@@ -102,6 +104,7 @@ void Assistance::start(const std::string& task)
 void Assistance::stop(bool block)
 {
 	DebugTraceFunction;
+	DebugTrace("Stop |", block);
 
 	std::unique_lock<std::mutex> lock;
 	if (block) { // 外部调用
@@ -123,7 +126,7 @@ bool Assistance::setParam(const std::string& type, const std::string& param, con
 
 std::optional<std::string> Assistance::getParam(const std::string& type, const std::string& param)
 {
-	DebugTraceFunction;
+	// DebugTraceFunction;
 
 	return Configer::getParam(type, param);
 }
