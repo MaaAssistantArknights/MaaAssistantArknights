@@ -27,18 +27,23 @@ namespace asst {
 	}
 
 	enum class TaskType {
-		Invalid,
-		ClickSelf,
-		ClickRect,
-		ClickRand,
-		DoNothing,
-		Stop
+		Invalid = 0,
+		BasicClick = 1,
+		DoNothing = 2,
+		Stop = 4,
+		ClickSelf = 8 | BasicClick,
+		ClickRect = 16 | BasicClick,
+		ClickRand = 32 | BasicClick
 	};
-
+	static bool operator&(const TaskType& lhs, const TaskType& rhs) 
+	{
+		return static_cast<std::underlying_type<TaskType>::type>(lhs) & static_cast<std::underlying_type<TaskType>::type>(rhs);
+	}
 	static std::ostream& operator<<(std::ostream& os, const TaskType& task)
 	{
 		static std::unordered_map<TaskType, std::string> _type_name = {
 			{TaskType::Invalid, "Invalid"},
+			{TaskType::BasicClick, "BasicClick"},
 			{TaskType::ClickSelf, "ClickSelf"},
 			{TaskType::ClickRect, "ClickRect"},
 			{TaskType::ClickRand, "ClickRand"},
@@ -116,8 +121,9 @@ namespace asst {
 	};
 
 	struct Options {
-		std::string delayType;
-		int delayFixedTime = 0;
-		bool cache = false;
+		int identify_delay = 0;
+		bool identify_cache = false;
+		int control_delay_lower = 0;
+		int control_delay_upper = 0;
 	};
 }

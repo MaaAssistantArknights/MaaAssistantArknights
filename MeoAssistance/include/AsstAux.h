@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <libloaderapi.h>
+#include <Windows.h>
 
 namespace asst {
 

@@ -2,8 +2,8 @@
 
 #include <vector>
 #include <utility>
-#include <ctime>
 #include <algorithm>
+#include <chrono>
 
 #include <stdint.h>
 #include <WinUser.h>
@@ -17,7 +17,7 @@ using namespace asst;
 WinMacro::WinMacro(const std::string& simulator_name, HandleType type)
 	: m_simulator_name(simulator_name),
 	m_handle_type(type),
-	m_rand_engine(time(NULL))
+	m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count())
 {
 	findHandle();
 }

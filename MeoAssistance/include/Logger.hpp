@@ -24,9 +24,7 @@ namespace asst {
 		template <typename... Args>
 		inline void log_trace(Args &&... args)
 		{
-			//#ifdef _DEBUG
 			log("TRC", std::forward<Args>(args)...);
-			//#endif
 		}
 		template <typename... Args>
 		inline void log_info(Args &&... args)

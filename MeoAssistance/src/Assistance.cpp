@@ -19,7 +19,7 @@ Assistance::Assistance()
 	{
 		m_pIder->addImage(name, GetResourceDir() + info.filename);
 	}
-	m_pIder->setUseCache(Configer::m_options.cache);
+	m_pIder->setUseCache(Configer::m_options.identify_cache);
 
 	m_working_thread = std::thread(workingProc, this);
 
@@ -85,7 +85,7 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 
 void Assistance::start(const std::string& task)
 {
-	DebugTraceFunction;	
+	DebugTraceFunction;
 	DebugTrace("Start |", task);
 
 
@@ -164,17 +164,25 @@ void Assistance::workingProc(Assistance* pThis)
 				if (task.pre_delay > 0) {
 					DebugTrace("PreDelay", task.pre_delay);
 					// std::this_thread::sleep_for(std::chrono::milliseconds(task.pre_delay));
-					auto cv_ret = pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(task.pre_delay),
+					bool cv_ret = pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(task.pre_delay),
 						[&]() -> bool { return !pThis->m_thread_running; });
-					if (cv_ret == true) {
-						continue;
-					}
+					if (cv_ret) { continue; }
 				}
 
 				if (task.max_times != INT_MAX) {
 					DebugTrace("CurTimes:", task.exec_times, "MaxTimes:", task.max_times);
 				}
 				if (task.exec_times < task.max_times) {
+					if ((task.type & TaskType::BasicClick)
+						&& Configer::m_options.control_delay_upper != 0) {
+						static std::default_random_engine rand_engine(std::chrono::system_clock::now().time_since_epoch().count());
+						static std::uniform_int_distribution<unsigned> rand_uni(Configer::m_options.control_delay_lower, Configer::m_options.control_delay_upper);
+						int delay = rand_uni(rand_engine);
+						DebugTraceInfo("Random Delay", delay, "ms");
+						bool cv_ret = pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(delay),
+							[&]() -> bool { return !pThis->m_thread_running; });
+						if (cv_ret) { continue; }
+					}
 					switch (task.type) {
 					case TaskType::ClickRect:
 						matched_rect = task.specific_area;
@@ -206,9 +214,7 @@ void Assistance::workingProc(Assistance* pThis)
 						// std::this_thread::sleep_for(std::chrono::milliseconds(task.rear_delay));
 						auto cv_ret = pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(task.rear_delay),
 							[&]() -> bool { return !pThis->m_thread_running; });
-						if (cv_ret == true) {
-							continue;
-						}
+						if (cv_ret) { continue; }
 					}
 					pThis->m_next_tasks = Configer::m_tasks[matched_task].next;
 				}
@@ -227,7 +233,7 @@ void Assistance::workingProc(Assistance* pThis)
 				DebugTrace("Next:", nexts_str);
 			}
 			pThis->m_condvar.wait_for(lock,
-				std::chrono::milliseconds(Configer::m_options.delayFixedTime),
+				std::chrono::milliseconds(Configer::m_options.identify_delay),
 				[&]() -> bool { return !pThis->m_thread_running; });
 		}
 		else {
