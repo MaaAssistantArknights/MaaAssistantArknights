@@ -2,6 +2,7 @@
 
 #include <string>
 #include <optional>
+#include <mutex>
 
 namespace asst {
 	struct __declspec(dllexport) VersionInfo {
@@ -31,5 +32,6 @@ namespace asst {
 
 		bool m_has_new_version = false;
 		VersionInfo m_lastest_version;
+		std::mutex m_mutex;
 	};
 }

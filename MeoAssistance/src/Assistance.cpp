@@ -158,7 +158,7 @@ void Assistance::workingProc(Assistance* pThis)
 
 			if (!matched_task.empty()) {
 				auto&& task = Configer::m_tasks[matched_task];
-				DebugTraceInfo("***Matched***", matched_task, "Type:", static_cast<int>(task.type));
+				DebugTraceInfo("***Matched***", matched_task, "Type:", task.type);
 				if (task.pre_delay > 0) {
 					DebugTrace("PreDelay", task.pre_delay);
 					// std::this_thread::sleep_for(std::chrono::milliseconds(task.pre_delay));
@@ -176,6 +176,7 @@ void Assistance::workingProc(Assistance* pThis)
 					switch (task.type) {
 					case TaskType::ClickRect:
 						matched_rect = task.specific_area;
+						[[fallthrough]];
 					case TaskType::ClickSelf:
 						pThis->m_pCtrl->clickRange(matched_rect);
 						break;
@@ -190,7 +191,7 @@ void Assistance::workingProc(Assistance* pThis)
 						continue;
 						break;
 					default:
-						DebugTraceError("Unknown option type:", static_cast<int>(task.type));
+						DebugTraceError("Unknown option type:", task.type);
 						break;
 					}
 					++task.exec_times;

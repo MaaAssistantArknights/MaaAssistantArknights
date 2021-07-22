@@ -32,6 +32,8 @@ bool Updater::has_new_version()
 	}
 
 	json::value root = std::move(parse_ret).value();
+
+	std::unique_lock<std::mutex> lock(m_mutex);
 	try {
 		m_lastest_version.tag_name = root["tag_name"].as_string();
 		m_lastest_version.html_url = root["html_url"].as_string();
@@ -60,9 +62,6 @@ bool Updater::has_new_version()
 
 const VersionInfo & Updater::get_version_info() const noexcept
 {
-	if (!m_has_new_version) {
-		return VersionInfo();
-	}
 	return m_lastest_version;
 }
 
@@ -77,7 +76,7 @@ std::optional<std::string> Updater::request_github_api()
 		return std::nullopt;
 	}
 	std::string response;
-	size_t buff_size = 4096;
+	DWORD buff_size = 4096;
 	char *buffer = new char[buff_size];
 	DWORD number = 1;
 	while (number > 0) {
