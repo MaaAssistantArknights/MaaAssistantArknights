@@ -373,7 +373,7 @@
         "VisitNext": {
             "filename": "VisitNext.png",
             "type": "clickSelf",
-            "threshold": 0.999,
+            "threshold": 0.99,
             "maxTimes": 21,
             "exceededNext": [
                 "ReturnToMall"
