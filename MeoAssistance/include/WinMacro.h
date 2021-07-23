@@ -11,7 +11,7 @@ namespace asst {
 	class WinMacro
 	{
 	public:
-		WinMacro(const std::string & simulator_name, HandleType type);
+		WinMacro(const SimulatorInfo & info, HandleType type);
 		~WinMacro() = default;
 
 		bool captured() const noexcept;
@@ -27,7 +27,7 @@ namespace asst {
 	private:
 		bool findHandle();
 
-		const std::string m_simulator_name;
+		const SimulatorInfo m_simulator_info;
 		const HandleType m_handle_type;
 		HWND m_handle = NULL;
 		bool m_is_adb = false;

@@ -8,14 +8,13 @@
 #include <stdint.h>
 #include <WinUser.h>
 
-#include "Configer.h"
 #include "AsstDef.h"
 #include "Logger.hpp"
 
 using namespace asst;
 
-WinMacro::WinMacro(const std::string& simulator_name, HandleType type)
-	: m_simulator_name(simulator_name),
+WinMacro::WinMacro(const SimulatorInfo& info, HandleType type)
+	: m_simulator_info(info),
 	m_handle_type(type),
 	m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count())
 {
@@ -30,21 +29,20 @@ bool WinMacro::captured() const noexcept
 bool WinMacro::findHandle()
 {
 	std::vector<HandleInfo> handle_vec;
-	auto&& info = Configer::m_handles[m_simulator_name];
 	switch (m_handle_type) {
 	case HandleType::Window:
-		m_width = info.width;
-		m_height = info.height;
-		handle_vec = info.window;
+		m_width = m_simulator_info.width;
+		m_height = m_simulator_info.height;
+		handle_vec = m_simulator_info.window;
 		break;
 	case HandleType::View:
-		handle_vec = info.view;
+		handle_vec = m_simulator_info.view;
 		break;
 	case HandleType::Control:
-		m_is_adb = info.is_adb;
-		m_x_offset = info.x_offset;
-		m_y_offset = info.y_offset;
-		handle_vec = info.control;
+		m_is_adb = m_simulator_info.is_adb;
+		m_x_offset = m_simulator_info.x_offset;
+		m_y_offset = m_simulator_info.y_offset;
+		handle_vec = m_simulator_info.control;
 		break;
 	default:
 		DebugTraceError("Handle type error!", m_handle_type);
@@ -95,14 +93,14 @@ bool WinMacro::findHandle()
 		}
 		size_t pos = adb_dir.find_last_of('\\') + 1;
 		adb_dir = adb_dir.substr(0, pos);
-		adb_dir = '"' + StringReplaceAll(info.adb.path, "[EmulatorPath]", adb_dir) + '"';
-		std::string connect_cmd = adb_dir + info.adb.connect;
+		adb_dir = '"' + StringReplaceAll(m_simulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
+		std::string connect_cmd = adb_dir + m_simulator_info.adb.connect;
 		int ret = system(connect_cmd.c_str());
 		DebugTrace("Call", connect_cmd, "¡ª¡ª ret", ret);
 
-		m_click_cmd = adb_dir + info.adb.click;
+		m_click_cmd = adb_dir + m_simulator_info.adb.click;
 	}
-	DebugTrace("Handle:", m_handle, "Name:", m_simulator_name, "Type:", m_handle_type);
+	DebugTrace("Handle:", m_handle, "Name:", m_simulator_info.name, "Type:", m_handle_type);
 
 	if (m_handle != NULL) {
 		return true;
