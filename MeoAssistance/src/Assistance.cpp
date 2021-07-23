@@ -6,6 +6,9 @@
 #include "Logger.hpp"
 #include "AsstAux.h"
 
+#include <time.h>
+#include <filesystem>
+
 using namespace asst;
 
 Assistance::Assistance()
@@ -134,6 +137,32 @@ std::optional<std::string> Assistance::get_param(const std::string& type, const 
 	return m_configer.get_param(type, param);
 }
 
+bool asst::Assistance::print_window(const std::string& filename, bool block)
+{
+	DebugTraceFunction;
+	DebugTrace("print_window |", block ? "block" : "non block");
+
+	std::unique_lock<std::mutex> lock;
+	if (block) { // 外部调用
+		lock = std::unique_lock<std::mutex>(m_mutex);
+	}
+
+	auto curImg = m_pView->getImage(m_pView->getWindowRect());
+	if (curImg.empty() || curImg.cols < 1280 || curImg.rows < 720) {
+		DebugTraceError("Window image error");
+		return false;
+	}
+	bool ret = cv::imwrite(filename.c_str(), curImg);
+	
+	if (ret) {
+		DebugTraceInfo("PrintWindow to", filename);
+	}
+	else {
+		DebugTraceError("PrintWindow error", filename);
+	}
+	return ret;
+}
+
 void Assistance::workingProc(Assistance* pThis)
 {
 	DebugTraceFunction;
@@ -142,6 +171,20 @@ void Assistance::workingProc(Assistance* pThis)
 		std::unique_lock<std::mutex> lock(pThis->m_mutex);
 		if (pThis->m_thread_running) {
 			auto curImg = pThis->m_pView->getImage(pThis->m_pView->getWindowRect());
+
+			if (curImg.empty()) {
+				DebugTraceError("Unable to capture window image!!!");
+				pThis->stop(false);
+				continue;
+			}
+			if (curImg.cols < 1280 || curImg.rows < 720) {
+				DebugTraceInfo("Window Could not be minimized!!!");
+				pThis->m_pWindow->showWindow();
+				pThis->m_condvar.wait_for(lock,
+					std::chrono::milliseconds(pThis->m_configer.m_options.identify_delay),
+					[&]() -> bool { return !pThis->m_thread_running; });
+				continue;
+			}
 
 			std::string matched_task;
 			Rect matched_rect;
@@ -203,6 +246,21 @@ void Assistance::workingProc(Assistance* pThis)
 						DebugTrace("TaskType is Stop");
 						pThis->stop(false);
 						continue;
+						break;
+					case TaskType::PrintWindow:
+						if (pThis->m_configer.m_options.print_window) {
+							int print_delay = pThis->m_configer.m_options.print_window_delay;
+							DebugTraceInfo("Ready to print window, delay", print_delay);
+							pThis->m_condvar.wait_for(lock,
+								std::chrono::milliseconds(print_delay),
+								[&]() -> bool { return !pThis->m_thread_running; });
+
+							std::string dirname = GetCurrentDir() + "screenshot\\";
+							std::filesystem::create_directory(dirname);
+							auto time_str = StringReplaceAll(StringReplaceAll(GetFormatTimeString(), " ", "_"), ":", "-");
+							std::string filename = dirname + time_str + ".png";
+							pThis->print_window(filename, false);
+						}
 						break;
 					default:
 						DebugTraceError("Unknown option type:", task.type);

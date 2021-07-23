@@ -23,7 +23,7 @@ WinMacro::WinMacro(const SimulatorInfo& info, HandleType type)
 
 bool WinMacro::captured() const noexcept
 {
-	return m_handle != NULL;
+	return m_handle != NULL && ::IsWindow(m_handle);
 }
 
 bool WinMacro::findHandle()
@@ -112,7 +112,7 @@ bool WinMacro::findHandle()
 
 bool WinMacro::resizeWindow(int width, int height)
 {
-	if (m_handle_type != HandleType::Window) {
+	if (m_handle_type != HandleType::Window || !::IsWindow(m_handle)) {
 		return false;
 	}
 
@@ -129,7 +129,7 @@ bool WinMacro::resizeWindow()
 
 bool WinMacro::showWindow()
 {
-	if (m_handle_type != HandleType::Window) {
+	if (m_handle_type != HandleType::Window || !::IsWindow(m_handle)) {
 		return false;
 	}
 
@@ -138,7 +138,7 @@ bool WinMacro::showWindow()
 
 bool WinMacro::hideWindow()
 {
-	if (m_handle_type != HandleType::Window) {
+	if (m_handle_type != HandleType::Window || !::IsWindow(m_handle)) {
 		return false;
 	}
 
@@ -181,11 +181,9 @@ double WinMacro::getScreenScale()
 
 bool WinMacro::click(const Point& p)
 {
-	if (m_handle_type != HandleType::Control) {
+	if (m_handle_type != HandleType::Control || !::IsWindow(m_handle)) {
 		return false;
 	}
-
-
 
 	if (m_is_adb) {
 		int x = (p.x + m_x_offset);
@@ -212,7 +210,7 @@ bool WinMacro::click(const Point& p)
 
 bool WinMacro::clickRange(const Rect& rect)
 {
-	if (m_handle_type != HandleType::Control) {
+	if (m_handle_type != HandleType::Control || !::IsWindow(m_handle)) {
 		return false;
 	}
 
@@ -239,6 +237,9 @@ bool WinMacro::clickRange(const Rect& rect)
 
 Rect WinMacro::getWindowRect()
 {
+	if (!::IsWindow(m_handle)) {
+		return Rect();
+	}
 	RECT rect;
 	bool ret = ::GetWindowRect(m_handle, &rect);
 	if (!ret) {
@@ -251,7 +252,7 @@ Rect WinMacro::getWindowRect()
 
 cv::Mat WinMacro::getImage(const Rect& rect)
 {
-	if (m_handle_type != HandleType::View) {
+	if (m_handle_type != HandleType::View || !::IsWindow(m_handle)) {
 		return cv::Mat();
 	}
 

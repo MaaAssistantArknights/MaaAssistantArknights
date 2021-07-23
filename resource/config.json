@@ -3,6 +3,8 @@
     "options": {
         "identifyCache": true,
         "identifyDelay": 1000,
+        "printWindow": true,
+        "printWindowDelay": 3000,
         "controlDelayRange": [
             0,
             0
@@ -257,6 +259,14 @@
             "next": [
                 "PRTS",
                 "PrtsErrorConfirm",
+                "EndOfAction"
+            ]
+        },
+        "EndOfAction": {
+            "filename": "",
+            "threshold": 0,
+            "type": "printWindow",
+            "next": [
                 "Random"
             ]
         },

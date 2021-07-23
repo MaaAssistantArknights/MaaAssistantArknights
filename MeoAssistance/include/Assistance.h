@@ -27,6 +27,8 @@ namespace asst {
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
 		std::optional<std::string> get_param(const std::string& type, const std::string& param);
+
+		bool print_window(const std::string& filename, bool block = true);
 	private:
 		static void workingProc(Assistance* pThis);
 

@@ -45,13 +45,10 @@ namespace asst {
 		{
 			std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
 
-			SYSTEMTIME curtime;
-			GetLocalTime(&curtime);
-			char buff[64] = { 0 };
-			sprintf_s(buff, "[%04d-%02d-%02d %02d:%02d:%02d.%03d][%s][Px%x][Tx%x]",
-				curtime.wYear, curtime.wMonth, curtime.wDay,
-				curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds,
-				level.c_str(), _getpid(), GetCurrentThreadId());
+			char buff[128] = { 0 };
+			sprintf_s(buff, "[%s][%s][Px%x][Tx%x]",
+				asst::GetFormatTimeString().c_str(),
+				level.c_str(), _getpid(), ::GetCurrentThreadId());
 
 			if (level == "ERR" || level == "INF"
 #ifdef _DEBUG
