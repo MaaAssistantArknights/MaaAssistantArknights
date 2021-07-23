@@ -52,6 +52,8 @@ bool Configer::reload(const std::string& filename)
 		temp.m_options.identify_cache = options_obj["identifyCache"].as_boolean();
 		temp.m_options.control_delay_lower = options_obj["controlDelayRange"][0].as_integer();
 		temp.m_options.control_delay_upper = options_obj["controlDelayRange"][1].as_integer();
+		temp.m_options.print_window = options_obj["printWindow"].as_boolean();
+		temp.m_options.print_window_delay = options_obj["printWindowDelay"].as_integer();
 
 		auto tasks_obj = root["tasks"].as_object();
 		for (auto&& [name, task_json] : tasks_obj) {
@@ -69,6 +71,7 @@ bool Configer::reload(const std::string& filename)
 			else {
 				task_info.cache_threshold = DefaultCacheThreshold;
 			}
+
 			std::string type = task_json["type"].as_string();
 			std::transform(type.begin(), type.end(), type.begin(), std::tolower);
 			if (type == "clickself") {
@@ -92,10 +95,14 @@ bool Configer::reload(const std::string& filename)
 					area_json[2].as_integer(),
 					area_json[3].as_integer());
 			}
+			else if (type == "printwindow") {
+				task_info.type = TaskType::PrintWindow;
+			}
 			else {
 				DebugTraceError("Task:", name, "error:", type);
 				return false;
 			}
+
 			if (task_json.exist("maxTimes")) {
 				task_info.max_times = task_json["maxTimes"].as_integer();
 			}
@@ -120,7 +127,6 @@ bool Configer::reload(const std::string& filename)
 					task_info.reduce_other_times.emplace_back(reduce.as_string());
 				}
 			}
-
 
 			auto next_arr = task_json["next"].as_array();
 			for (auto&& name : next_arr) {

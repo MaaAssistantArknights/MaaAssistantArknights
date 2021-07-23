@@ -31,6 +31,7 @@ namespace asst {
 		BasicClick = 1,
 		DoNothing = 2,
 		Stop = 4,
+		PrintWindow,
 		ClickSelf = 8 | BasicClick,
 		ClickRect = 16 | BasicClick,
 		ClickRand = 32 | BasicClick
@@ -48,7 +49,8 @@ namespace asst {
 			{TaskType::ClickRect, "ClickRect"},
 			{TaskType::ClickRand, "ClickRand"},
 			{TaskType::DoNothing, "DoNothing"},
-			{TaskType::Stop, "Stop"}
+			{TaskType::Stop, "Stop"},
+			{TaskType::PrintWindow, "PrintWindow"}
 		};
 		return os << _type_name.at(task);
 	}
@@ -141,5 +143,7 @@ namespace asst {
 		bool identify_cache = false;
 		int control_delay_lower = 0;
 		int control_delay_upper = 0;
+		bool print_window = false;
+		int print_window_delay = 0;
 	};
 }

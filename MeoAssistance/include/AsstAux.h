@@ -34,4 +34,15 @@ namespace asst {
 		}
 		return str;
 	}
+
+	static std::string GetFormatTimeString()
+	{
+		SYSTEMTIME curtime;
+		GetLocalTime(&curtime);
+		char buff[64] = { 0 };
+		sprintf_s(buff, "%04d-%02d-%02d %02d:%02d:%02d.%03d",
+			curtime.wYear, curtime.wMonth, curtime.wDay,
+			curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds);
+		return buff;
+	}
 }
