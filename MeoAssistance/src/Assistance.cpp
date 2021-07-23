@@ -12,17 +12,16 @@ Assistance::Assistance()
 {
 	DebugTraceFunction;
 
-	Configer::reload();
+	m_configer.reload(GetResourceDir() + "config.json");
 
 	m_pIder = std::make_shared<Identify>();
-	for (auto&& [name, info] : Configer::m_tasks)
+	for (auto&& [name, info] : m_configer.m_tasks)
 	{
 		m_pIder->addImage(name, GetResourceDir() + info.filename);
 	}
-	m_pIder->setUseCache(Configer::m_options.identify_cache);
+	m_pIder->setUseCache(m_configer.m_options.identify_cache);
 
 	m_working_thread = std::thread(workingProc, this);
-
 }
 
 Assistance::~Assistance()
@@ -48,10 +47,10 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 
 	stop();
 
-	auto create_handles = [&](const std::string& name) -> bool {
-		m_pWindow = std::make_shared<WinMacro>(name, HandleType::Window);
-		m_pView = std::make_shared<WinMacro>(name, HandleType::View);
-		m_pCtrl = std::make_shared<WinMacro>(name, HandleType::Control);
+	auto create_handles = [&](const SimulatorInfo& info) -> bool {
+		m_pWindow = std::make_shared<WinMacro>(info, HandleType::Window);
+		m_pView = std::make_shared<WinMacro>(info, HandleType::View);
+		m_pCtrl = std::make_shared<WinMacro>(info, HandleType::Control);
 		return m_pWindow->captured() && m_pView->captured() && m_pCtrl->captured();
 	};
 
@@ -61,9 +60,9 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 	std::unique_lock<std::mutex> lock(m_mutex);
 
 	if (simulator_name.empty()) {
-		for (auto&& [name, value] : Configer::m_handles)
+		for (auto&& [name, info] : m_configer.m_handles)
 		{
-			ret = create_handles(name);
+			ret = create_handles(info);
 			if (ret) {
 				cor_name = name;
 				break;
@@ -71,7 +70,7 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 		}
 	}
 	else {
-		ret = create_handles(simulator_name);
+		ret = create_handles(m_configer.m_handles[simulator_name]);
 	}
 	if (ret && m_pWindow->showWindow() && m_pWindow->resizeWindow()) {
 		m_inited = true;
@@ -94,8 +93,8 @@ void Assistance::start(const std::string& task)
 	}
 
 	std::unique_lock<std::mutex> lock(m_mutex);
+	m_configer.clear_exec_times();
 
-	Configer::clearExecTimes();
 	m_pIder->clear_cache();
 	m_next_tasks.clear();
 	m_next_tasks.emplace_back(task);
@@ -106,31 +105,33 @@ void Assistance::start(const std::string& task)
 void Assistance::stop(bool block)
 {
 	DebugTraceFunction;
-	DebugTrace("Stop |", block);
+	DebugTrace("Stop |", block ? "block" : "non block");
 
 	std::unique_lock<std::mutex> lock;
 	if (block) { // 外部调用
 		lock = std::unique_lock<std::mutex>(m_mutex);
-		Configer::clearExecTimes();
+		m_configer.clear_exec_times();
 	}
 	m_thread_running = false;
 	m_next_tasks.clear();
 	m_pIder->clear_cache();
 }
 
-bool Assistance::setParam(const std::string& type, const std::string& param, const std::string& value)
+bool Assistance::set_param(const std::string& type, const std::string& param, const std::string& value)
 {
 	DebugTraceFunction;
 	DebugTrace("SetParam |", type, param, value);
 
-	return Configer::setParam(type, param, value);
+	std::unique_lock<std::mutex> lock(m_mutex);
+	return m_configer.set_param(type, param, value);
 }
 
-std::optional<std::string> Assistance::getParam(const std::string& type, const std::string& param)
+std::optional<std::string> Assistance::get_param(const std::string& type, const std::string& param)
 {
 	// DebugTraceFunction;
 
-	return Configer::getParam(type, param);
+	std::unique_lock<std::mutex> lock(m_mutex);
+	return m_configer.get_param(type, param);
 }
 
 void Assistance::workingProc(Assistance* pThis)
@@ -144,14 +145,17 @@ void Assistance::workingProc(Assistance* pThis)
 
 			std::string matched_task;
 			Rect matched_rect;
+
 			for (auto&& task_name : pThis->m_next_tasks) {
-				auto&& task = Configer::m_tasks[task_name];
-				double threshold = task.threshold;
+
+				double threshold = pThis->m_configer.m_tasks[task_name].threshold;
+				double cache_threshold = pThis->m_configer.m_tasks[task_name].cache_threshold;
+
 				auto&& [algorithm, value, rect] = pThis->m_pIder->findImage(curImg, task_name, threshold);
 				DebugTrace(task_name, "Type:", algorithm, "Value:", value);
-				if (algorithm == 0 ||
-					(algorithm == 1 && value >= threshold)
-					|| (algorithm == 2 && value >= task.cache_threshold)) {
+				if (algorithm == AlgorithmType::JustReturn ||
+					(algorithm == AlgorithmType::MatchTemplate && value >= threshold)
+					|| (algorithm == AlgorithmType::CompareHist && value >= cache_threshold)) {
 					matched_task = task_name;
 					matched_rect = rect;
 					break;
@@ -159,7 +163,7 @@ void Assistance::workingProc(Assistance* pThis)
 			}
 
 			if (!matched_task.empty()) {
-				auto&& task = Configer::m_tasks[matched_task];
+				auto&& task = pThis->m_configer.m_tasks[matched_task];
 				DebugTraceInfo("***Matched***", matched_task, "Type:", task.type);
 				if (task.pre_delay > 0) {
 					DebugTrace("PreDelay", task.pre_delay);
@@ -174,9 +178,9 @@ void Assistance::workingProc(Assistance* pThis)
 				}
 				if (task.exec_times < task.max_times) {
 					if ((task.type & TaskType::BasicClick)
-						&& Configer::m_options.control_delay_upper != 0) {
+						&& pThis->m_configer.m_options.control_delay_upper != 0) {
 						static std::default_random_engine rand_engine(std::chrono::system_clock::now().time_since_epoch().count());
-						static std::uniform_int_distribution<unsigned> rand_uni(Configer::m_options.control_delay_lower, Configer::m_options.control_delay_upper);
+						static std::uniform_int_distribution<unsigned> rand_uni(pThis->m_configer.m_options.control_delay_lower, pThis->m_configer.m_options.control_delay_upper);
 						int delay = rand_uni(rand_engine);
 						DebugTraceInfo("Random Delay", delay, "ms");
 						bool cv_ret = pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(delay),
@@ -206,8 +210,8 @@ void Assistance::workingProc(Assistance* pThis)
 					}
 					++task.exec_times;
 					for (auto&& reduce : task.reduce_other_times) {
-						--Configer::m_tasks[reduce].exec_times;
-						DebugTrace("Reduce exec times", reduce, Configer::m_tasks[reduce].exec_times);
+						--pThis->m_configer.m_tasks[reduce].exec_times;
+						DebugTrace("Reduce exec times", reduce, pThis->m_configer.m_tasks[reduce].exec_times);
 					}
 					if (task.rear_delay > 0) {
 						DebugTrace("RearDelay", task.rear_delay);
@@ -216,11 +220,11 @@ void Assistance::workingProc(Assistance* pThis)
 							[&]() -> bool { return !pThis->m_thread_running; });
 						if (cv_ret) { continue; }
 					}
-					pThis->m_next_tasks = Configer::m_tasks[matched_task].next;
+					pThis->m_next_tasks = pThis->m_configer.m_tasks[matched_task].next;
 				}
 				else {
 					DebugTraceInfo("Reached limit");
-					pThis->m_next_tasks = Configer::m_tasks[matched_task].exceeded_next;
+					pThis->m_next_tasks = pThis->m_configer.m_tasks[matched_task].exceeded_next;
 				}
 
 				std::string nexts_str;
@@ -233,7 +237,7 @@ void Assistance::workingProc(Assistance* pThis)
 				DebugTrace("Next:", nexts_str);
 			}
 			pThis->m_condvar.wait_for(lock,
-				std::chrono::milliseconds(Configer::m_options.identify_delay),
+				std::chrono::milliseconds(pThis->m_configer.m_options.identify_delay),
 				[&]() -> bool { return !pThis->m_thread_running; });
 		}
 		else {

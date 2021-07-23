@@ -56,7 +56,7 @@ bool AsstSetParam(asst::Assistance* p_asst, const char* type, const char* param,
 		return false;
 	}
 
-	return p_asst->setParam(type, param, value);
+	return p_asst->set_param(type, param, value);
 }
 
 bool AsstGetParam(asst::Assistance* p_asst, const char* type, const char* param, char * buffer, int buffer_size)
@@ -64,7 +64,7 @@ bool AsstGetParam(asst::Assistance* p_asst, const char* type, const char* param,
 	if (p_asst == NULL) {
 		return false;
 	}
-	auto ret = p_asst->getParam(type, param);
+	auto ret = p_asst->get_param(type, param);
 	if (!ret) {
 		return false;
 	}

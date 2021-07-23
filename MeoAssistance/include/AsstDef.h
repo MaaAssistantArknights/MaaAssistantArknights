@@ -52,6 +52,21 @@ namespace asst {
 		};
 		return os << _type_name.at(task);
 	}
+	
+	enum class AlgorithmType {
+		JustReturn,
+		MatchTemplate,
+		CompareHist
+	};
+	static std::ostream& operator<<(std::ostream& os, const AlgorithmType& type)
+	{
+		static std::unordered_map<AlgorithmType, std::string> _type_name = {
+			{AlgorithmType::JustReturn, "JustReturn"},
+			{AlgorithmType::MatchTemplate, "MatchTemplate"},
+			{AlgorithmType::CompareHist, "CompareHist"}
+		};
+		return os << _type_name.at(type);
+	}
 
 	struct Point
 	{
@@ -94,6 +109,7 @@ namespace asst {
 	};
 
 	struct SimulatorInfo {
+		std::string name;
 		std::vector<HandleInfo> window;
 		std::vector<HandleInfo> view;
 		std::vector<HandleInfo> control;

@@ -3,24 +3,30 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
-#include <Windows.h>
 
 #include "json.h"
-#include "AsstDef.h"
-#include "AsstAux.h"
 #include "Logger.hpp"
 
 using namespace asst;
 
-std::string Configer::m_curDir;
-std::string Configer::m_version;
-Options Configer::m_options;
-std::unordered_map<std::string, TaskInfo> Configer::m_tasks;
-std::unordered_map<std::string, SimulatorInfo> Configer::m_handles;
-
-bool Configer::reload()
+Configer::Configer(const Configer& rhs)
+	: m_version(rhs.m_version),
+	m_options(rhs.m_options),
+	m_tasks(rhs.m_tasks),
+	m_handles(rhs.m_handles)
 {
-	std::string filename = GetResourceDir() + "config.json";
+}
+
+Configer::Configer(Configer&& rhs) noexcept
+	: m_version(std::move(rhs.m_version)),
+	m_options(std::move(rhs.m_options)),
+	m_tasks(std::move(rhs.m_tasks)),
+	m_handles(std::move(rhs.m_handles))
+{
+}
+
+bool Configer::reload(const std::string& filename)
+{
 	std::ifstream ifs(filename, std::ios::in);
 	if (!ifs.is_open()) {
 		return false;
@@ -37,14 +43,15 @@ bool Configer::reload()
 
 	auto root = std::move(ret).value();
 
+	Configer temp;
 	try {
-		m_version = root["version"].as_string();
+		temp.m_version = root["version"].as_string();
 
 		auto options_obj = root["options"].as_object();
-		m_options.identify_delay = options_obj["identifyDelay"].as_integer();
-		m_options.identify_cache = options_obj["identifyCache"].as_boolean();
-		m_options.control_delay_lower = options_obj["controlDelayRange"][0].as_integer();
-		m_options.control_delay_upper = options_obj["controlDelayRange"][1].as_integer();
+		temp.m_options.identify_delay = options_obj["identifyDelay"].as_integer();
+		temp.m_options.identify_cache = options_obj["identifyCache"].as_boolean();
+		temp.m_options.control_delay_lower = options_obj["controlDelayRange"][0].as_integer();
+		temp.m_options.control_delay_upper = options_obj["controlDelayRange"][1].as_integer();
 
 		auto tasks_obj = root["tasks"].as_object();
 		for (auto&& [name, task_json] : tasks_obj) {
@@ -120,12 +127,13 @@ bool Configer::reload()
 				task_info.next.emplace_back(name.as_string());
 			}
 
-			m_tasks.emplace(name, task_info);
+			temp.m_tasks.emplace(name, task_info);
 		}
 
 		auto handle_obj = root["handle"].as_object();
 		for (auto&& [name, simulator_json] : handle_obj) {
 			SimulatorInfo simulator_info;
+			simulator_info.name = name;
 
 			auto window_arr = simulator_json["window"].as_array();
 			for (auto&& info : window_arr) {
@@ -160,7 +168,7 @@ bool Configer::reload()
 			simulator_info.x_offset = simulator_json["xOffset"].as_integer();
 			simulator_info.y_offset = simulator_json["yOffset"].as_integer();
 
-			m_handles.emplace(name, simulator_info);
+			temp.m_handles.emplace(name, simulator_info);
 		}
 	}
 	catch (json::exception& e) {
@@ -168,10 +176,12 @@ bool Configer::reload()
 		return false;
 	}
 
+	*this = std::move(temp);
+
 	return true;
 }
 
-bool Configer::setParam(const std::string& type, const std::string& param, const std::string& value)
+bool Configer::set_param(const std::string& type, const std::string& param, const std::string& value)
 {
 	if (type == "task.type") {
 		if (m_tasks.find(param) == m_tasks.cend()) {
@@ -209,7 +219,7 @@ bool Configer::setParam(const std::string& type, const std::string& param, const
 	return true;
 }
 
-std::optional<std::string> Configer::getParam(const std::string& type, const std::string& param)
+std::optional<std::string> Configer::get_param(const std::string& type, const std::string& param)
 {
 	if (type == "task.execTimes" && m_tasks.find(param) != m_tasks.cend()) {
 		return std::to_string(m_tasks.at(param).exec_times);
@@ -217,9 +227,29 @@ std::optional<std::string> Configer::getParam(const std::string& type, const std
 	return std::nullopt;
 }
 
-void Configer::clearExecTimes()
+void Configer::clear_exec_times()
 {
 	for (auto&& t : m_tasks) {
 		t.second.exec_times = 0;
 	}
+}
+
+Configer& asst::Configer::operator=(const Configer& rhs)
+{
+	m_version = rhs.m_version;
+	m_options = rhs.m_options;
+	m_tasks = rhs.m_tasks;
+	m_handles = rhs.m_handles;
+
+	return *this;
+}
+
+Configer& asst::Configer::operator=(Configer&& rhs) noexcept
+{
+	m_version = std::move(rhs.m_version);
+	m_options = std::move(rhs.m_options);
+	m_tasks = std::move(rhs.m_tasks);
+	m_handles = std::move(rhs.m_handles);
+
+	return *this;
 }

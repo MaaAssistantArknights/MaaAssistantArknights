@@ -8,6 +8,7 @@
 #include <unordered_map>
 
 #include "AsstDef.h"
+#include "Configer.h"
 
 namespace asst {
 	class WinMacro;
@@ -24,8 +25,8 @@ namespace asst {
 		void start(const std::string & task);
 		void stop(bool block = true);
 
-		bool setParam(const std::string& type, const std::string& param, const std::string& value);
-		std::optional<std::string> getParam(const std::string& type, const std::string& param);
+		bool set_param(const std::string& type, const std::string& param, const std::string& value);
+		std::optional<std::string> get_param(const std::string& type, const std::string& param);
 	private:
 		static void workingProc(Assistance* pThis);
 
@@ -41,6 +42,8 @@ namespace asst {
 		bool m_thread_exit = false;
 		bool m_thread_running = false;
 		std::vector<std::string> m_next_tasks;
+
+		Configer m_configer;
 	};
 
 }

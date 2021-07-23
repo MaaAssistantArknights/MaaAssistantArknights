@@ -22,7 +22,7 @@ namespace asst {
 		bool addImage(const std::string& name, const std::string& path);
 
 		// return tuple< algorithmType, suitability, scaled asst::rect>
-		std::tuple<int, double, asst::Rect> findImage(const cv::Mat& image, const std::string& templ, double threshold = 0.99);
+		std::tuple<AlgorithmType, double, asst::Rect> findImage(const cv::Mat& image, const std::string& templ, double threshold = 0.99);
 
 		void clear_cache();
 	private:
