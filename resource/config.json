@@ -46,8 +46,10 @@
             ],
             "width": 1294,
             "height": 773,
-            "xOffset": -7,
-            "yOffset": -47
+            "xOffset": 11,
+            "yOffset": 46,
+            "rightOffset": 11,
+            "bottomOffset": 10
         },
         "Nox": {
             "window": [
@@ -71,7 +73,7 @@
             "width": 1298,
             "height": 754,
             "xOffset": 0,
-            "yOffset": -32
+            "yOffset": 32
         },
         "LDPlayer": {
             "window": [
@@ -99,7 +101,7 @@
             "width": 1304,
             "height": 756,
             "xOffset": 0,
-            "yOffset": -35
+            "yOffset": 35
         },
         "XYAZ": {
             "window": [
@@ -127,7 +129,7 @@
             "width": 1282,
             "height": 769,
             "xOffset": 0,
-            "yOffset": -47
+            "yOffset": 47
         },
         "Tencent": {
             "window": [
@@ -155,7 +157,7 @@
             "width": 1282,
             "height": 769,
             "xOffset": 0,
-            "yOffset": -42
+            "yOffset": 42
         },
         "MuMuAsst": {
             "window": [
@@ -184,7 +186,7 @@
             "width": 1280,
             "height": 809,
             "xOffset": 0,
-            "yOffset": -36
+            "yOffset": 36
         },
         "MuMuEmulator": {
             "window": [
@@ -205,15 +207,19 @@
                     "window": "明日方舟 - MuMu模拟器"
                 }
             ],
-            "adbControl": {
+            "adb": {
                 "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
                 "connect": " connect 127.0.0.1:7555",
-                "click": " shell input tap [x] [y]"
+                "click": " shell input tap [x] [y]",
+                "display": " shell 'dumpsys window displays | grep init='",
+                "displayRegex": "cur=[width]x[height]"
             },
             "width": 1280,
             "height": 809,
             "xOffset": 0,
-            "yOffset": -36
+            "yOffset": 36,
+            "rightBottom": 0,
+            "bottomOffset": 53
         }
     },
     "tasks_Doc": "下面的和任务队列执行逻辑有关，不需要修改",

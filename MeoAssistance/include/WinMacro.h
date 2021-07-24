@@ -2,10 +2,13 @@
 
 #include <string>
 #include <random>
-#include <windef.h>
-#include <opencv2/opencv.hpp>
+#include <Windows.h>
 
 #include "AsstDef.h"
+
+namespace cv {
+	class Mat;
+}
 
 namespace asst {
 	class WinMacro
@@ -21,6 +24,7 @@ namespace asst {
 		bool hideWindow();
 		bool click(const Point & p);
 		bool click(const Rect & rect);
+		void setControlScale(double scale);
 		cv::Mat getImage(const Rect& rect);
 		Rect getWindowRect();
 		const EmulatorInfo& getEmulatorInfo() const noexcept { return m_emulator_info; }
@@ -29,7 +33,7 @@ namespace asst {
 		static double getScreenScale();
 	private:
 		bool findHandle();
-		DWORD callCmd(const std::string& cmd, int wait_time = 1000);
+		unsigned long callCmd(const std::string& cmd, int wait_time = 1000);
 
 		const EmulatorInfo m_emulator_info;
 		const HandleType m_handle_type;
@@ -39,7 +43,8 @@ namespace asst {
 		std::minstd_rand m_rand_engine;
 		int m_width = 0;
 		int m_height = 0;
-		int m_x_offset = 0;
-		int m_y_offset = 0;
+		//int m_x_offset = 0;
+		//int m_y_offset = 0;
+		double m_control_scale = 1;
 	};
 }

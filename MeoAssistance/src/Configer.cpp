@@ -162,17 +162,25 @@ bool Configer::reload(const std::string& filename)
 				handle_info.window_name = info["window"].as_string();
 				emulator_info.control.emplace_back(handle_info);
 			}
-			if (emulator_json.exist("adbControl")) {
+			if (emulator_json.exist("adb")) {
 				emulator_info.is_adb = true;
 				// meojson的bug，暂时没空修，先转个字符串
-				emulator_info.adb.path = StringReplaceAll(emulator_json["adbControl"]["path"].as_string(), "\\\\", "\\");
-				emulator_info.adb.connect = emulator_json["adbControl"]["connect"].as_string();
-				emulator_info.adb.click = emulator_json["adbControl"]["click"].as_string();
+				emulator_info.adb.path = StringReplaceAll(emulator_json["adb"]["path"].as_string(), "\\\\", "\\");
+				emulator_info.adb.connect = emulator_json["adb"]["connect"].as_string();
+				emulator_info.adb.click = emulator_json["adb"]["click"].as_string();
+				emulator_info.adb.display = emulator_json["adb"]["display"].as_string();
+				emulator_info.adb.display_regex = emulator_json["adb"]["displayRegex"].as_string();
 			}
 			emulator_info.width = emulator_json["width"].as_integer();
 			emulator_info.height = emulator_json["height"].as_integer();
 			emulator_info.x_offset = emulator_json["xOffset"].as_integer();
 			emulator_info.y_offset = emulator_json["yOffset"].as_integer();
+			if (emulator_json.exist("rightOffset")) {
+				emulator_info.right_offset = emulator_json["rightOffset"].as_integer();
+			}			
+			if (emulator_json.exist("bottomOffset")) {
+				emulator_info.bottom_offset = emulator_json["bottomOffset"].as_integer();
+			}
 
 			temp.m_handles.emplace(name, emulator_info);
 		}

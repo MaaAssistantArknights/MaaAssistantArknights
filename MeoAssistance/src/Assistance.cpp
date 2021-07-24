@@ -6,6 +6,8 @@
 #include "Logger.hpp"
 #include "AsstAux.h"
 
+#include <opencv2/opencv.hpp>
+
 #include <time.h>
 #include <filesystem>
 
@@ -76,7 +78,7 @@ std::optional<std::string> Assistance::set_emulator(const std::string& emulator_
 	else {
 		ret = create_handles(m_configer.m_handles[emulator_name]);
 	}
-	if (ret && m_pWindow->showWindow() && m_pWindow->resizeWindow()) {
+	if (ret && m_pWindow->showWindow()) {
 		m_inited = true;
 		return cor_name;
 	}
@@ -148,19 +150,8 @@ bool asst::Assistance::print_window(const std::string& filename, bool block)
 		lock = std::unique_lock<std::mutex>(m_mutex);
 	}
 
-	auto cur_image = m_pView->getImage(m_pView->getWindowRect());
-	if (cur_image.empty() || cur_image.cols < m_configer.DefaultWindowWidth || cur_image.rows < m_configer.DefaultWindowHeight) {
-		DebugTraceError("Window image error");
-		return false;
-	}
-	// 把模拟器边框的一圈裁剪掉，不然企鹅物流识别不出来
-	auto&& window_info = m_pView->getEmulatorInfo();
-	int x_offset = -window_info.x_offset + 5;
-	int y_offset = -window_info.y_offset;// + 5;
-	int width = m_configer.DefaultWindowWidth - 5;
-	int height = m_configer.DefaultWindowHeight - 5;
-	cv::Mat resize_mat( cur_image, cv::Rect(x_offset, y_offset, width, height));
-	bool ret = cv::imwrite(filename.c_str(), resize_mat);
+	auto&& [scale, image] = get_format_image();
+	bool ret = cv::imwrite(filename.c_str(), image);
 	
 	if (ret) {
 		DebugTraceInfo("PrintWindow to", filename);
@@ -178,7 +169,9 @@ void Assistance::working_proc(Assistance* pThis)
 	while (!pThis->m_thread_exit) {
 		std::unique_lock<std::mutex> lock(pThis->m_mutex);
 		if (pThis->m_thread_running) {
-			auto cur_image = pThis->m_pView->getImage(pThis->m_pView->getWindowRect());
+			auto && [scale, cur_image] = pThis->get_format_image();
+			DebugTrace("Scale", scale);
+			pThis->m_pCtrl->setControlScale(scale);
 
 			if (cur_image.empty()) {
 				DebugTraceError("Unable to capture window image!!!");
@@ -322,4 +315,29 @@ void Assistance::working_proc(Assistance* pThis)
 			pThis->m_condvar.wait(lock);
 		}
 	}
+}
+
+std::pair<double, cv::Mat> asst::Assistance::get_format_image()
+{
+	auto && cur_image = m_pView->getImage(m_pView->getWindowRect());
+	if (cur_image.empty() || cur_image.cols < m_configer.DefaultWindowWidth || cur_image.rows < m_configer.DefaultWindowHeight) {
+		DebugTraceError("Window image error");
+		return { 0, cur_image };
+	}
+	// 把模拟器边框的一圈裁剪掉
+	auto&& window_info = m_pView->getEmulatorInfo();
+	int x_offset = window_info.x_offset;
+	int y_offset = window_info.y_offset;
+	int width = cur_image.cols - x_offset - window_info.right_offset;
+	int height = cur_image.rows - y_offset - window_info.bottom_offset;
+
+	cv::Mat cropped(cur_image, cv::Rect(x_offset, y_offset, width, height));
+
+	// 调整尺寸，与资源中截图的标准尺寸一致
+	cv::Mat dst;
+	cv::resize(cropped, dst, cv::Size(m_configer.DefaultWindowWidth, m_configer.DefaultWindowHeight));
+
+	double scale = static_cast<double>(width) / m_configer.DefaultWindowWidth;
+	
+	return { scale, dst };
 }

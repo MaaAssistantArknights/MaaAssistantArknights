@@ -6,8 +6,9 @@
 #include <chrono>
 
 #include <stdint.h>
-#include <Windows.h>
 #include <WinUser.h>
+
+#include <opencv2/opencv.hpp>
 
 #include "AsstDef.h"
 #include "Logger.hpp"
@@ -41,8 +42,8 @@ bool WinMacro::findHandle()
 		break;
 	case HandleType::Control:
 		m_is_adb = m_emulator_info.is_adb;
-		m_x_offset = m_emulator_info.x_offset;
-		m_y_offset = m_emulator_info.y_offset;
+		//m_x_offset = m_emulator_info.x_offset;
+		//m_y_offset = m_emulator_info.y_offset;
 		handle_vec = m_emulator_info.control;
 		break;
 	default:
@@ -114,7 +115,7 @@ bool WinMacro::findHandle()
 	}
 }
 
-DWORD asst::WinMacro::callCmd(const std::string& cmd, int wait_time)
+unsigned long asst::WinMacro::callCmd(const std::string& cmd, int wait_time)
 {
 	// int ret = system(cmd.c_str());
 
@@ -125,19 +126,18 @@ DWORD asst::WinMacro::callCmd(const std::string& cmd, int wait_time)
 
 	DWORD ret = -1;
 
-	if (::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &startup_info, &process_info)) {
-
-		::WaitForSingleObject(process_info.hProcess, wait_time);
-
-		::GetExitCodeProcess(process_info.hProcess, &ret);
-
-		::CloseHandle(process_info.hProcess);
-		::CloseHandle(process_info.hThread);
-		DebugTrace("Call", cmd, "！！ ret", ret);
-	}
-	else {
+	if (!::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &startup_info, &process_info)) {
 		DebugTraceError("Create process error");
+		return ret;
 	}
+
+	::WaitForSingleObject(process_info.hProcess, wait_time);
+
+	::GetExitCodeProcess(process_info.hProcess, &ret);
+
+	::CloseHandle(process_info.hProcess);
+	::CloseHandle(process_info.hThread);
+	DebugTrace("Call", cmd, "！！ ret", ret);
 
 	return ret;
 }
@@ -218,17 +218,16 @@ bool WinMacro::click(const Point& p)
 	}
 
 	if (m_is_adb) {
-		int x = (p.x + m_x_offset);
-		int y = (p.y + m_y_offset);
+		int x = p.x * m_control_scale;
+		int y = p.y * m_control_scale;
 		std::string cur_cmd = StringReplaceAll(m_click_cmd, "[x]", std::to_string(x));
 		cur_cmd = StringReplaceAll(cur_cmd, "[y]", std::to_string(y));
 		auto ret = callCmd(cur_cmd);
-		DebugTrace("Call", cur_cmd, "！！ ret", ret);
 		return !ret;
 	}
 	else {
-		int x = (p.x + m_x_offset) / getScreenScale();
-		int y = (p.y + m_y_offset) / getScreenScale();
+		int x = p.x / m_control_scale;
+		int y = p.y / m_control_scale;
 		DebugTrace("Click, raw:", p.x, p.y, "corr:", x, y);
 
 		LPARAM lparam = MAKELPARAM(x, y);
@@ -265,6 +264,11 @@ bool WinMacro::click(const Rect& rect)
 	}
 
 	return click({ x, y });
+}
+
+void asst::WinMacro::setControlScale(double scale)
+{
+	m_control_scale = scale;
 }
 
 Rect WinMacro::getWindowRect()

@@ -10,6 +10,10 @@
 #include "AsstDef.h"
 #include "Configer.h"
 
+namespace cv {
+	class Mat;
+}
+
 namespace asst {
 	class WinMacro;
 	class Identify;
@@ -20,9 +24,9 @@ namespace asst {
 		Assistance();
 		~Assistance();
 
-		std::optional<std::string> set_emulator(const std::string & emulator_name = std::string());
-		
-		void start(const std::string & task);
+		std::optional<std::string> set_emulator(const std::string& emulator_name = std::string());
+
+		void start(const std::string& task);
 		void stop(bool block = true);
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
@@ -31,6 +35,9 @@ namespace asst {
 		bool print_window(const std::string& filename, bool block = true);
 	private:
 		static void working_proc(Assistance* pThis);
+
+		// pair<scale, image>
+		std::pair<double, cv::Mat> get_format_image();
 
 		std::shared_ptr<WinMacro> m_pWindow = nullptr;
 		std::shared_ptr<WinMacro> m_pView = nullptr;

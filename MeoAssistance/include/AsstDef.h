@@ -108,6 +108,10 @@ namespace asst {
 		std::string path;
 		std::string connect;
 		std::string click;
+		std::string display;
+		std::string display_regex;
+		int display_width = 0;
+		int display_height = 0;
 	};
 
 	struct EmulatorInfo {
@@ -121,6 +125,8 @@ namespace asst {
 		int height = 0;
 		int x_offset = 0;
 		int y_offset = 0;
+		int right_offset = 0;
+		int bottom_offset = 0;
 	};
 
 	struct TaskInfo {
