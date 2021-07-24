@@ -18,13 +18,13 @@ void DestoryAsst(asst::Assistance* p_asst)
 	p_asst = NULL;
 }
 
-bool AsstCatchSimulator(asst::Assistance* p_asst)
+bool AsstCatchEmulator(asst::Assistance* p_asst)
 {
 	if (p_asst == NULL) {
 		return false;
 	}
 
-	auto ret = p_asst->setSimulator();
+	auto ret = p_asst->set_emulator();
 	if (ret) {
 		return true;
 	}
@@ -74,11 +74,11 @@ bool AsstGetParam(asst::Assistance* p_asst, const char* type, const char* param,
 
 bool CheckVersionUpdate(char* tag_buffer, int tag_bufsize, char* html_url_buffer, int html_bufsize, char* body_buffer, int body_bufsize)
 {
-	bool ret = asst::Updater::instance().has_new_version();
+	bool ret = asst::Updater::get_instance().has_new_version();
 	if (!ret) {
 		return false;
 	}
-	auto && info = asst::Updater::instance().get_version_info();
+	auto && info = asst::Updater::get_instance().get_version_info();
 	strcpy_s(tag_buffer, tag_bufsize, info.tag_name.c_str());
 	strcpy_s(html_url_buffer, html_bufsize, info.html_url.c_str());
 	strcpy_s(body_buffer, body_bufsize, info.body.c_str());

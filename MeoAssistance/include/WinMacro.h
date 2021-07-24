@@ -11,7 +11,7 @@ namespace asst {
 	class WinMacro
 	{
 	public:
-		WinMacro(const SimulatorInfo & info, HandleType type);
+		WinMacro(const EmulatorInfo & info, HandleType type);
 		~WinMacro() = default;
 
 		bool captured() const noexcept;
@@ -20,14 +20,17 @@ namespace asst {
 		bool showWindow();
 		bool hideWindow();
 		bool click(const Point & p);
-		bool clickRange(const Rect & rect);
+		bool click(const Rect & rect);
 		cv::Mat getImage(const Rect& rect);
 		Rect getWindowRect();
+		const EmulatorInfo& getEmulatorInfo() const noexcept { return m_emulator_info; }
+		const HandleType& getHandleType() const noexcept { return m_handle_type; }
+
 		static double getScreenScale();
 	private:
 		bool findHandle();
 
-		const SimulatorInfo m_simulator_info;
+		const EmulatorInfo m_emulator_info;
 		const HandleType m_handle_type;
 		HWND m_handle = NULL;
 		bool m_is_adb = false;

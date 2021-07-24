@@ -13,7 +13,7 @@ using namespace asst;
 const std::string Updater::GithubReleaseLastestApiUrl = "https://api.github.com/repos/MistEO/MeoAssistance/releases/latest";
 const std::string Updater::GithubReleaseApiUrl = "https://api.github.com/repos/MistEO/MeoAssistance/releases/latest";
 
-Updater& Updater::instance()
+Updater& Updater::get_instance()
 {
 	static Updater unique_instance;
 	return unique_instance;

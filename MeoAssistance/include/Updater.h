@@ -21,7 +21,7 @@ namespace asst {
 	public:
 		~Updater() = default;
 
-		static Updater& instance();
+		static Updater& get_instance();
 
 		bool has_new_version();
 		const VersionInfo & get_version_info() const noexcept;

@@ -100,8 +100,8 @@ namespace asst {
 	};
 
 	struct HandleInfo {
-		std::string className;
-		std::string windowName;
+		std::string class_name;
+		std::string window_name;
 	};
 
 	struct AdbCmd {
@@ -110,7 +110,7 @@ namespace asst {
 		std::string click;
 	};
 
-	struct SimulatorInfo {
+	struct EmulatorInfo {
 		std::string name;
 		std::vector<HandleInfo> window;
 		std::vector<HandleInfo> view;

@@ -6,7 +6,7 @@
 using namespace asst;
 using namespace cv;
 
-bool Identify::addImage(const std::string& name, const std::string& path)
+bool Identify::add_image(const std::string& name, const std::string& path)
 {
 	Mat mat = imread(path);
 	if (mat.empty()) {
@@ -16,7 +16,7 @@ bool Identify::addImage(const std::string& name, const std::string& path)
 	return true;
 }
 
-void Identify::setUseCache(bool b) noexcept
+void Identify::set_use_cache(bool b) noexcept
 {
 	if (b) {
 		m_use_cache = true;
@@ -27,7 +27,7 @@ void Identify::setUseCache(bool b) noexcept
 	}
 }
 
-Mat Identify::image2Hist(const cv::Mat& src)
+Mat Identify::image2hist(const cv::Mat& src)
 {
 	Mat src_hsv;
 	cvtColor(src, src_hsv, COLOR_BGR2HSV);
@@ -46,13 +46,13 @@ Mat Identify::image2Hist(const cv::Mat& src)
 	return src_hist;
 }
 
-double Identify::imageHistComp(const cv::Mat& src, const cv::MatND& hist)
+double Identify::image_hist_comp(const cv::Mat& src, const cv::MatND& hist)
 {
 	// keep the interface return value unchanged
-	return 1 - compareHist(image2Hist(src), hist, CV_COMP_BHATTACHARYYA);
+	return 1 - compareHist(image2hist(src), hist, CV_COMP_BHATTACHARYYA);
 }
 
-std::pair<double, cv::Point> Identify::findImage(const cv::Mat& image, const cv::Mat& templ)
+std::pair<double, cv::Point> Identify::find_image(const cv::Mat& image, const cv::Mat& templ)
 {
 	Mat image_hsv;
 	Mat templ_hsv;
@@ -68,7 +68,7 @@ std::pair<double, cv::Point> Identify::findImage(const cv::Mat& image, const cv:
 	return { maxVal, maxLoc };
 }
 
-std::tuple<AlgorithmType, double, asst::Rect> Identify::findImage(const Mat& cur, const std::string& templ, double threshold)
+std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cur, const std::string& templ, double threshold)
 {
 	if (m_mat_map.find(templ) == m_mat_map.cend()) {
 		return { AlgorithmType::JustReturn, 0, asst::Rect() };
@@ -76,19 +76,19 @@ std::tuple<AlgorithmType, double, asst::Rect> Identify::findImage(const Mat& cur
 
 	if (m_use_cache && m_cache_map.find(templ) != m_cache_map.cend()) {
 		auto&& [rect, hist] = m_cache_map.at(templ);
-		double value = imageHistComp(cur(rect), hist);
-		return { AlgorithmType::CompareHist, value, cvRect2Rect(rect).center_zoom(0.8) };
+		double value = image_hist_comp(cur(rect), hist);
+		return { AlgorithmType::CompareHist, value, cvrect2rect(rect).center_zoom(0.8) };
 	}
 	else {
 		auto&& templ_mat = m_mat_map.at(templ);
-		auto&& [value, point] = findImage(cur, templ_mat);
+		auto&& [value, point] = find_image(cur, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
 		
 		if (m_use_cache && value >= threshold) {
-			m_cache_map.emplace(templ, std::make_pair(raw_rect, image2Hist(cur(raw_rect))));
+			m_cache_map.emplace(templ, std::make_pair(raw_rect, image2hist(cur(raw_rect))));
 		}
 
-		return { AlgorithmType::MatchTemplate, value, cvRect2Rect(raw_rect).center_zoom(0.8) };
+		return { AlgorithmType::MatchTemplate, value, cvrect2rect(raw_rect).center_zoom(0.8) };
 	}
 }
 

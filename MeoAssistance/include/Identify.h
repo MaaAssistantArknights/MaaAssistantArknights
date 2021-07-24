@@ -18,22 +18,22 @@ namespace asst {
 		Identify() = default;
 		~Identify() = default;
 
-		void setUseCache(bool b) noexcept;
-		bool addImage(const std::string& name, const std::string& path);
+		void set_use_cache(bool b) noexcept;
+		bool add_image(const std::string& name, const std::string& path);
 
 		// return tuple< algorithmType, suitability, scaled asst::rect>
-		std::tuple<AlgorithmType, double, asst::Rect> findImage(const cv::Mat& image, const std::string& templ, double threshold = 0.99);
+		std::tuple<AlgorithmType, double, asst::Rect> find_image(const cv::Mat& image, const std::string& templ, double threshold = 0.99);
 
 		void clear_cache();
 	private:
-		cv::Mat image2Hist(const cv::Mat& src);
-		double imageHistComp(const cv::Mat& src, const cv::MatND& hist);
-		asst::Rect cvRect2Rect(const cv::Rect& cvRect) { 
+		cv::Mat image2hist(const cv::Mat& src);
+		double image_hist_comp(const cv::Mat& src, const cv::MatND& hist);
+		static asst::Rect cvrect2rect(const cv::Rect& cvRect) { 
 			return asst::Rect(cvRect.x, cvRect.y, cvRect.width, cvRect.height); 
 		}
 
 		// return pair< suitability, raw opencv::point>
-		std::pair<double, cv::Point> findImage(const cv::Mat& cur, const cv::Mat& templ);
+		std::pair<double, cv::Point> find_image(const cv::Mat& cur, const cv::Mat& templ);
 
 		std::unordered_map<std::string, cv::Mat> m_mat_map;
 		bool m_use_cache = true;

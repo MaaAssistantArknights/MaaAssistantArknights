@@ -33,7 +33,7 @@ namespace asst {
 		std::string m_version;
 		Options m_options;
 		std::unordered_map<std::string, TaskInfo> m_tasks;
-		std::unordered_map<std::string, SimulatorInfo> m_handles;
+		std::unordered_map<std::string, EmulatorInfo> m_handles;
 
 	private:
 
