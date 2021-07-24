@@ -78,7 +78,7 @@ std::optional<std::string> Assistance::set_emulator(const std::string& emulator_
 	else {
 		ret = create_handles(m_configer.m_handles[emulator_name]);
 	}
-	if (ret && m_pWindow->showWindow()) {
+	if (ret && m_pWindow->showWindow() && m_pWindow->resizeWindow()) {
 		m_inited = true;
 		return cor_name;
 	}
@@ -170,7 +170,6 @@ void Assistance::working_proc(Assistance* pThis)
 		std::unique_lock<std::mutex> lock(pThis->m_mutex);
 		if (pThis->m_thread_running) {
 			auto && [scale, cur_image] = pThis->get_format_image();
-			DebugTrace("Scale", scale);
 			pThis->m_pCtrl->setControlScale(scale);
 
 			if (cur_image.empty()) {
@@ -178,7 +177,7 @@ void Assistance::working_proc(Assistance* pThis)
 				pThis->stop(false);
 				continue;
 			}
-			if (cur_image.cols < pThis->m_configer.DefaultWindowWidth || cur_image.rows < pThis->m_configer.DefaultWindowHeight) {
+			if (cur_image.rows < 100) {
 				DebugTraceInfo("Window Could not be minimized!!!");
 				pThis->m_pWindow->showWindow();
 				pThis->m_condvar.wait_for(lock,
@@ -320,7 +319,7 @@ void Assistance::working_proc(Assistance* pThis)
 std::pair<double, cv::Mat> asst::Assistance::get_format_image()
 {
 	auto && cur_image = m_pView->getImage(m_pView->getWindowRect());
-	if (cur_image.empty() || cur_image.cols < m_configer.DefaultWindowWidth || cur_image.rows < m_configer.DefaultWindowHeight) {
+	if (cur_image.empty() || cur_image.rows < 100) {
 		DebugTraceError("Window image error");
 		return { 0, cur_image };
 	}

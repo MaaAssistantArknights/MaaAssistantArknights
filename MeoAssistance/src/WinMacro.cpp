@@ -12,6 +12,7 @@
 
 #include "AsstDef.h"
 #include "Logger.hpp"
+#include "Configer.h"
 
 using namespace asst;
 
@@ -98,11 +99,21 @@ bool WinMacro::findHandle()
 		adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
 		std::string connect_cmd = adb_dir + m_emulator_info.adb.connect;
 
-		auto ret = callCmd(connect_cmd, 10000);
-		if (ret != 0) {
-			DebugTraceError("Connect ADB Error", ret);
+		if (!callCmd(connect_cmd)) {
+			DebugTraceError("Connect Adb Error");
 			return false;
 		}
+		auto display_ret = callCmd(adb_dir + m_emulator_info.adb.display);
+		if (display_ret) {
+			std::string pipe_str = std::move(display_ret).value();
+			sscanf_s(pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(), 
+				&m_emulator_info.adb.display_width, &m_emulator_info.adb.display_height);
+		}
+		else {
+			DebugTraceError("Get Display Error");
+			return false;
+		}
+
 		m_click_cmd = adb_dir + m_emulator_info.adb.click;
 	}
 	DebugTrace("Handle:", m_handle, "Name:", m_emulator_info.name, "Type:", m_handle_type);
@@ -115,31 +126,69 @@ bool WinMacro::findHandle()
 	}
 }
 
-unsigned long asst::WinMacro::callCmd(const std::string& cmd, int wait_time)
+std::optional<std::string> asst::WinMacro::callCmd(const std::string& cmd, bool use_pipe)
 {
-	// int ret = system(cmd.c_str());
+	// 初始化管道
+	constexpr int PipeBuffSize = 1024;
+	HANDLE pipe_read = NULL;
+	HANDLE pipe_write = NULL;
+	SECURITY_ATTRIBUTES sa_out_pipe;
+	::ZeroMemory(&sa_out_pipe, sizeof(sa_out_pipe));
+	sa_out_pipe.nLength = sizeof(SECURITY_ATTRIBUTES);
+	sa_out_pipe.lpSecurityDescriptor = NULL;
+	sa_out_pipe.bInheritHandle = TRUE;
+	BOOL pipe_ret = FALSE;
+	if (use_pipe) {
+		pipe_ret = ::CreatePipe(&pipe_read, &pipe_write, &sa_out_pipe, PipeBuffSize);
+		DebugTrace("Create Pipe ret", pipe_ret);
+	}
 
+	// 准备启动ADB进程
 	STARTUPINFOA startup_info;
 	PROCESS_INFORMATION process_info;
 	ZeroMemory(&startup_info, sizeof(startup_info));
 	ZeroMemory(&process_info, sizeof(process_info));
+	startup_info.cb = sizeof(STARTUPINFO);
+	startup_info.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+	startup_info.hStdOutput = pipe_write;
+	startup_info.hStdError = pipe_write;
+	startup_info.wShowWindow = SW_HIDE;
 
 	DWORD ret = -1;
-
-	if (!::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &startup_info, &process_info)) {
+	if (!::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &startup_info, &process_info)) {
 		DebugTraceError("Create process error");
-		return ret;
+		return std::nullopt;
 	}
+	::WaitForSingleObject(process_info.hProcess, 30000);
 
-	::WaitForSingleObject(process_info.hProcess, wait_time);
+	std::string pipe_str;
+	if (use_pipe && pipe_ret) {
+		DWORD read_num = 0;
+		DWORD std_num = 0;
+		if (::PeekNamedPipe(pipe_read, NULL, 0, NULL, &read_num, NULL) && read_num > 0) {
+			char pipe_buffer[PipeBuffSize] = { 0 };
+			::ReadFile(pipe_read, pipe_buffer, read_num, &std_num, NULL);
+			pipe_str = std::string(pipe_buffer, std_num);
+		}
+	}
 
 	::GetExitCodeProcess(process_info.hProcess, &ret);
 
 	::CloseHandle(process_info.hProcess);
 	::CloseHandle(process_info.hThread);
-	DebugTrace("Call", cmd, "—— ret", ret);
+	DebugTrace("Call", cmd, "ret", ret);
+	if (use_pipe) {
+		DebugTrace("Pipe:", pipe_str);
+	}
 
-	return ret;
+	if (pipe_read != NULL) {
+		::CloseHandle(pipe_read);
+	}
+	if (pipe_write != NULL) {
+		::CloseHandle(pipe_write);
+	}
+
+	return pipe_str;
 }
 
 bool WinMacro::resizeWindow(int width, int height)
@@ -217,24 +266,19 @@ bool WinMacro::click(const Point& p)
 		return false;
 	}
 
+	int x = p.x * m_control_scale;
+	int y = p.y * m_control_scale;
+	DebugTrace("Click, raw:", p.x, p.y, "corr:", x, y);
+
 	if (m_is_adb) {
-		int x = p.x * m_control_scale;
-		int y = p.y * m_control_scale;
 		std::string cur_cmd = StringReplaceAll(m_click_cmd, "[x]", std::to_string(x));
 		cur_cmd = StringReplaceAll(cur_cmd, "[y]", std::to_string(y));
-		auto ret = callCmd(cur_cmd);
-		return !ret;
+		return callCmd(cur_cmd, false).has_value();
 	}
 	else {
-		int x = p.x / m_control_scale;
-		int y = p.y / m_control_scale;
-		DebugTrace("Click, raw:", p.x, p.y, "corr:", x, y);
-
 		LPARAM lparam = MAKELPARAM(x, y);
-
 		::SendMessage(m_handle, WM_LBUTTONDOWN, MK_LBUTTON, lparam);
 		::SendMessage(m_handle, WM_LBUTTONUP, 0, lparam);
-
 		return true;
 	}
 }
@@ -268,7 +312,12 @@ bool WinMacro::click(const Rect& rect)
 
 void asst::WinMacro::setControlScale(double scale)
 {
-	m_control_scale = scale;
+	if (m_is_adb) {
+		m_control_scale = scale * scale * Configer::DefaultWindowWidth / m_emulator_info.adb.display_width;
+	}
+	else {
+		m_control_scale = scale;
+	}
 }
 
 Rect WinMacro::getWindowRect()

@@ -211,8 +211,8 @@
                 "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
                 "connect": " connect 127.0.0.1:7555",
                 "click": " shell input tap [x] [y]",
-                "display": " shell 'dumpsys window displays | grep init='",
-                "displayRegex": "cur=[width]x[height]"
+                "display": " shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d"
             },
             "width": 1280,
             "height": 809,
@@ -376,6 +376,8 @@
         },
         "ReturnToFriends": {
             "filename": "Return.png",
+            "threshold":  0.85,
+            "cacheThreshold":  0.85,
             "type": "clickSelf",
             "next": [
                 "Friends",
