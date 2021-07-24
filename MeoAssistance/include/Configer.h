@@ -27,6 +27,8 @@ namespace asst {
 		Configer& operator=(const Configer& rhs);
 		Configer& operator=(Configer&& rhs) noexcept;
 
+		constexpr static int DefaultWindowWidth = 1280;
+		constexpr static int DefaultWindowHeight = 720;
 		constexpr static double DefaultThreshold = 0.9;
 		constexpr static double DefaultCacheThreshold = 0.9;
 
