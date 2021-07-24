@@ -147,12 +147,19 @@ bool asst::Assistance::print_window(const std::string& filename, bool block)
 		lock = std::unique_lock<std::mutex>(m_mutex);
 	}
 
-	auto curImg = m_pView->getImage(m_pView->getWindowRect());
-	if (curImg.empty() || curImg.cols < 1280 || curImg.rows < 720) {
+	auto cur_image = m_pView->getImage(m_pView->getWindowRect());
+	if (cur_image.empty() || cur_image.cols < m_configer.DefaultWindowWidth || cur_image.rows < m_configer.DefaultWindowHeight) {
 		DebugTraceError("Window image error");
 		return false;
 	}
-	bool ret = cv::imwrite(filename.c_str(), curImg);
+	// 把模拟器边框的一圈裁剪掉，不然企鹅物流识别不出来
+	auto&& window_info = m_pView->getEmulatorInfo();
+	int x_offset = -window_info.x_offset + 5;
+	int y_offset = -window_info.y_offset;// + 5;
+	int width = m_configer.DefaultWindowWidth - 5;
+	int height = m_configer.DefaultWindowHeight - 5;
+	cv::Mat resize_mat( cur_image, cv::Rect(x_offset, y_offset, width, height));
+	bool ret = cv::imwrite(filename.c_str(), resize_mat);
 	
 	if (ret) {
 		DebugTraceInfo("PrintWindow to", filename);
@@ -170,14 +177,14 @@ void Assistance::working_proc(Assistance* pThis)
 	while (!pThis->m_thread_exit) {
 		std::unique_lock<std::mutex> lock(pThis->m_mutex);
 		if (pThis->m_thread_running) {
-			auto curImg = pThis->m_pView->getImage(pThis->m_pView->getWindowRect());
+			auto cur_image = pThis->m_pView->getImage(pThis->m_pView->getWindowRect());
 
-			if (curImg.empty()) {
+			if (cur_image.empty()) {
 				DebugTraceError("Unable to capture window image!!!");
 				pThis->stop(false);
 				continue;
 			}
-			if (curImg.cols < 1280 || curImg.rows < 720) {
+			if (cur_image.cols < pThis->m_configer.DefaultWindowWidth || cur_image.rows < pThis->m_configer.DefaultWindowHeight) {
 				DebugTraceInfo("Window Could not be minimized!!!");
 				pThis->m_pWindow->showWindow();
 				pThis->m_condvar.wait_for(lock,
@@ -194,7 +201,7 @@ void Assistance::working_proc(Assistance* pThis)
 				double threshold = pThis->m_configer.m_tasks[task_name].threshold;
 				double cache_threshold = pThis->m_configer.m_tasks[task_name].cache_threshold;
 
-				auto&& [algorithm, value, rect] = pThis->m_pIder->find_image(curImg, task_name, threshold);
+				auto&& [algorithm, value, rect] = pThis->m_pIder->find_image(cur_image, task_name, threshold);
 				DebugTrace(task_name, "Type:", algorithm, "Value:", value);
 				if (algorithm == AlgorithmType::JustReturn ||
 					(algorithm == AlgorithmType::MatchTemplate && value >= threshold)
