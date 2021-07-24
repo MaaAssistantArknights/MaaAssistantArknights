@@ -95,9 +95,12 @@ bool WinMacro::findHandle()
 		adb_dir = adb_dir.substr(0, pos);
 		adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
 		std::string connect_cmd = adb_dir + m_emulator_info.adb.connect;
-		int ret = system(connect_cmd.c_str());
-		DebugTrace("Call", connect_cmd, "！！ ret", ret);
 
+		auto ret = callCmd(connect_cmd, 10000);
+		if (ret != 0) {
+			DebugTraceError("Connect ADB Error", ret);
+			return false;
+		}
 		m_click_cmd = adb_dir + m_emulator_info.adb.click;
 	}
 	DebugTrace("Handle:", m_handle, "Name:", m_emulator_info.name, "Type:", m_handle_type);
@@ -108,6 +111,34 @@ bool WinMacro::findHandle()
 	else {
 		return false;
 	}
+}
+
+DWORD asst::WinMacro::callCmd(const std::string& cmd, int wait_time)
+{
+	// int ret = system(cmd.c_str());
+
+	STARTUPINFOA startup_info;
+	PROCESS_INFORMATION process_info;
+	ZeroMemory(&startup_info, sizeof(startup_info));
+	ZeroMemory(&process_info, sizeof(process_info));
+
+	DWORD ret = -1;
+
+	if (::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &startup_info, &process_info)) {
+
+		::WaitForSingleObject(process_info.hProcess, wait_time);
+
+		::GetExitCodeProcess(process_info.hProcess, &ret);
+
+		::CloseHandle(process_info.hProcess);
+		::CloseHandle(process_info.hThread);
+		DebugTrace("Call", cmd, "！！ ret", ret);
+	}
+	else {
+		DebugTraceError("Create process error");
+	}
+
+	return ret;
 }
 
 bool WinMacro::resizeWindow(int width, int height)
@@ -190,7 +221,7 @@ bool WinMacro::click(const Point& p)
 		int y = (p.y + m_y_offset);
 		std::string cur_cmd = StringReplaceAll(m_click_cmd, "[x]", std::to_string(x));
 		cur_cmd = StringReplaceAll(cur_cmd, "[y]", std::to_string(y));
-		int ret = system(cur_cmd.c_str());
+		auto ret = callCmd(cur_cmd);
 		DebugTrace("Call", cur_cmd, "！！ ret", ret);
 		return !ret;
 	}
