@@ -2,6 +2,7 @@
 
 #include <string>
 #include <random>
+#include <optional>
 #include <Windows.h>
 
 #include "AsstDef.h"
@@ -33,7 +34,7 @@ namespace asst {
 		static double getScreenScale();
 	private:
 		bool findHandle();
-		unsigned long callCmd(const std::string& cmd, int wait_time = 1000);
+		std::optional<std::string> callCmd(const std::string& cmd, bool use_pipe = true);
 
 		const EmulatorInfo m_emulator_info;
 		const HandleType m_handle_type;
