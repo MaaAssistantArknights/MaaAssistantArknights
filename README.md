@@ -76,12 +76,19 @@ MuMu是个奇葩，它的所有的窗口句柄均不响应SendMessage鼠标消�
 1. 明日方舟处于任意界面均可，会自动帮你点过去
 2. 点击"访问基建"
 3. 达到10次上限，或者所有可访问的好友都访问完了，就会自动停的
+4. 然后会贴心的帮你跳转到信用商店，顺便收了当天信用~
 
 ### 设置操作延时
 
 请手动修改`resource\config.json`文件中，`options`.`controlDelayRange`字段的值，格式为`[最小延时, 最大延时]`，单位为毫秒，例如想设置3~5秒的随机延时，即设置为`[ 3000, 5000]` 即可。文件保存后请重新打开程序。
 
 ![图例](readme/controlDelayRange.png)
+
+### 自动截图功能
+
+每次刷完结算界面，会自动截一张图，保存在`screenshot`文件夹中  
+这个功能默认是打开的，不需要的话可以手动关掉：请手动修改`resource\config.json`文件中，`options`.`printWindow`字段的值，`true`是打开，`false`是关闭。文件保存后请重新打开程序。
+![图例](readme/printWindow.png)
 
 ## Todo
 
