@@ -166,8 +166,8 @@
             ],
             "control": [
                 {
-                    "class": "Qt5QWindowIcon_DELETE",
-                    "window": "明日方舟 - 星云引擎_DELETE"
+                    "class": "Qt5QWindowIcon",
+                    "window": "明日方舟 - 星云引擎"
                 }
             ],
             "adbControl": {
@@ -249,6 +249,7 @@
             "type": "clickSelf",
             "rearDelay": 20000,
             "next": [
+                "StartButton2",
                 "PRTS"
             ]
         },

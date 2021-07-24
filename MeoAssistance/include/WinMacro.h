@@ -29,6 +29,7 @@ namespace asst {
 		static double getScreenScale();
 	private:
 		bool findHandle();
+		DWORD callCmd(const std::string& cmd, int wait_time = 1000);
 
 		const EmulatorInfo m_emulator_info;
 		const HandleType m_handle_type;
