@@ -20,6 +20,8 @@ namespace asst {
 		static const std::string GithubReleaseApiUrl;
 	public:
 		~Updater() = default;
+		Updater(const Updater&) = delete;
+		Updater(Updater&&) = delete;
 
 		static Updater& get_instance();
 
