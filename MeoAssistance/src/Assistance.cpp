@@ -62,6 +62,7 @@ std::optional<std::string> Assistance::set_emulator(const std::string& emulator_
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 
+	// 自动匹配模拟器，逐个找
 	if (emulator_name.empty()) {
 		for (auto&& [name, info] : m_configer.m_handles)
 		{
@@ -195,7 +196,7 @@ void Assistance::working_proc(Assistance* pThis)
 
 			std::string matched_task;
 			Rect matched_rect;
-
+			// 逐个匹配当前可能的图像
 			for (auto&& task_name : pThis->m_next_tasks) {
 
 				double threshold = pThis->m_configer.m_tasks[task_name].threshold;
@@ -212,9 +213,11 @@ void Assistance::working_proc(Assistance* pThis)
 				}
 			}
 
+			// 执行任务
 			if (!matched_task.empty()) {
 				auto&& task = pThis->m_configer.m_tasks[matched_task];
 				DebugTraceInfo("***Matched***", matched_task, "Type:", task.type);
+				// 前置固定延时
 				if (task.pre_delay > 0) {
 					DebugTrace("PreDelay", task.pre_delay);
 					// std::this_thread::sleep_for(std::chrono::milliseconds(task.pre_delay));
@@ -227,6 +230,7 @@ void Assistance::working_proc(Assistance* pThis)
 					DebugTrace("CurTimes:", task.exec_times, "MaxTimes:", task.max_times);
 				}
 				if (task.exec_times < task.max_times) {
+					// 随机延时功能
 					if ((task.type & TaskType::BasicClick)
 						&& pThis->m_configer.m_options.control_delay_upper != 0) {
 						static std::default_random_engine rand_engine(std::chrono::system_clock::now().time_since_epoch().count());
@@ -237,6 +241,7 @@ void Assistance::working_proc(Assistance* pThis)
 							[&]() -> bool { return !pThis->m_thread_running; });
 						if (cv_ret) { continue; }
 					}
+
 					switch (task.type) {
 					case TaskType::ClickRect:
 						matched_rect = task.specific_area;
@@ -256,6 +261,7 @@ void Assistance::working_proc(Assistance* pThis)
 						break;
 					case TaskType::PrintWindow:
 						if (pThis->m_configer.m_options.print_window) {
+							// 每次到结算界面，掉落物品不是一次性出来的，有个动画，所以需要等一会再截图
 							int print_delay = pThis->m_configer.m_options.print_window_delay;
 							DebugTraceInfo("Ready to print window, delay", print_delay);
 							pThis->m_condvar.wait_for(lock,
@@ -274,10 +280,15 @@ void Assistance::working_proc(Assistance* pThis)
 						break;
 					}
 					++task.exec_times;
+
+					// 减少其他任务的执行次数
+					// 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
+					// 所以要给蓝色开始行动的次数减一
 					for (auto&& reduce : task.reduce_other_times) {
 						--pThis->m_configer.m_tasks[reduce].exec_times;
 						DebugTrace("Reduce exec times", reduce, pThis->m_configer.m_tasks[reduce].exec_times);
 					}
+					// 后置固定延时
 					if (task.rear_delay > 0) {
 						DebugTrace("RearDelay", task.rear_delay);
 						// std::this_thread::sleep_for(std::chrono::milliseconds(task.rear_delay));
@@ -292,6 +303,7 @@ void Assistance::working_proc(Assistance* pThis)
 					pThis->m_next_tasks = pThis->m_configer.m_tasks[matched_task].exceeded_next;
 				}
 
+				// 单纯为了打印日志。。感觉可以优化下
 				std::string nexts_str;
 				for (auto&& name : pThis->m_next_tasks) {
 					nexts_str += name + ",";
@@ -301,6 +313,7 @@ void Assistance::working_proc(Assistance* pThis)
 				}
 				DebugTrace("Next:", nexts_str);
 			}
+
 			pThis->m_condvar.wait_for(lock,
 				std::chrono::milliseconds(pThis->m_configer.m_options.identify_delay),
 				[&]() -> bool { return !pThis->m_thread_running; });

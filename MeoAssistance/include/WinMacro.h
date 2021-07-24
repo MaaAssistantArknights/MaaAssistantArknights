@@ -2,7 +2,7 @@
 
 #include <string>
 #include <random>
-#include <Windows.h>
+#include <windef.h>
 #include <opencv2/opencv.hpp>
 
 #include "AsstDef.h"
@@ -35,7 +35,7 @@ namespace asst {
 		const HandleType m_handle_type;
 		HWND m_handle = NULL;
 		bool m_is_adb = false;
-		std::string m_click_cmd;
+		std::string m_click_cmd;	// adb点击命令，不是adb的句柄用不到这个
 		std::minstd_rand m_rand_engine;
 		int m_width = 0;
 		int m_height = 0;
