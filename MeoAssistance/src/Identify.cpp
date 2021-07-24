@@ -27,7 +27,7 @@ void Identify::set_use_cache(bool b) noexcept
 	}
 }
 
-Mat Identify::image2hist(const cv::Mat& src)
+Mat Identify::image_2_hist(const cv::Mat& src)
 {
 	Mat src_hsv;
 	cvtColor(src, src_hsv, COLOR_BGR2HSV);
@@ -49,7 +49,7 @@ Mat Identify::image2hist(const cv::Mat& src)
 double Identify::image_hist_comp(const cv::Mat& src, const cv::MatND& hist)
 {
 	// keep the interface return value unchanged
-	return 1 - compareHist(image2hist(src), hist, CV_COMP_BHATTACHARYYA);
+	return 1 - compareHist(image_2_hist(src), hist, CV_COMP_BHATTACHARYYA);
 }
 
 std::pair<double, cv::Point> Identify::find_image(const cv::Mat& image, const cv::Mat& templ)
@@ -74,21 +74,22 @@ std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cu
 		return { AlgorithmType::JustReturn, 0, asst::Rect() };
 	}
 
+	// 有缓存，用直方图比较，CPU占用会低很多，但要保证每次按钮图片的位置不变
 	if (m_use_cache && m_cache_map.find(templ) != m_cache_map.cend()) {
 		auto&& [rect, hist] = m_cache_map.at(templ);
 		double value = image_hist_comp(cur(rect), hist);
-		return { AlgorithmType::CompareHist, value, cvrect2rect(rect).center_zoom(0.8) };
+		return { AlgorithmType::CompareHist, value, cvrect_2_rect(rect).center_zoom(0.8) };
 	}
-	else {
+	else {	// 没缓存就模板匹配
 		auto&& templ_mat = m_mat_map.at(templ);
 		auto&& [value, point] = find_image(cur, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
 		
 		if (m_use_cache && value >= threshold) {
-			m_cache_map.emplace(templ, std::make_pair(raw_rect, image2hist(cur(raw_rect))));
+			m_cache_map.emplace(templ, std::make_pair(raw_rect, image_2_hist(cur(raw_rect))));
 		}
 
-		return { AlgorithmType::MatchTemplate, value, cvrect2rect(raw_rect).center_zoom(0.8) };
+		return { AlgorithmType::MatchTemplate, value, cvrect_2_rect(raw_rect).center_zoom(0.8) };
 	}
 }
 

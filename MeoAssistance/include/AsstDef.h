@@ -124,26 +124,26 @@ namespace asst {
 	};
 
 	struct TaskInfo {
-		std::string filename;
-		double threshold = 0;
-		double cache_threshold = 0;
-		TaskType type = TaskType::Invalid;
-		std::vector<std::string> next;
-		int exec_times = 0;
-		int max_times = INT_MAX;
-		std::vector<std::string> exceeded_next;
-		std::vector<std::string> reduce_other_times;
-		asst::Rect specific_area;
-		int pre_delay = 0;
-		int rear_delay = 0;
+		std::string filename;							// 图片文件名
+		double threshold = 0;							// 模板匹配阈值
+		double cache_threshold = 0;						// 直方图比较阈值
+		TaskType type = TaskType::Invalid;				// 任务类型
+		std::vector<std::string> next;					// 下一个可能的任务（列表）
+		int exec_times = 0;								// 任务已执行了多少次
+		int max_times = INT_MAX;						// 任务最多执行多少次
+		std::vector<std::string> exceeded_next;			// 达到最多次数了之后，下一个可能的任务（列表）
+		std::vector<std::string> reduce_other_times;	// 执行了该任务后，需要减少别的任务的执行次数。例如执行了吃理智药，则说明上一次点击蓝色开始行动按钮没生效，所以蓝色开始行动要-1
+		asst::Rect specific_area;						// 指定区域，目前仅针对ClickRect任务有用，会点这个区域
+		int pre_delay = 0;								// 执行该任务前的延时
+		int rear_delay = 0;								// 执行该任务后的延时
 	};
 
 	struct Options {
-		int identify_delay = 0;
-		bool identify_cache = false;
-		int control_delay_lower = 0;
-		int control_delay_upper = 0;
-		bool print_window = false;
-		int print_window_delay = 0;
+		bool identify_cache = false;	// 图像识别缓存功能：开启后可以大幅降低CPU消耗，但需要保证要识别的按钮每次的位置不会改变
+		int identify_delay = 0;			// 图像识别延时：越快操作越快，但会增加CPU消耗
+		int control_delay_lower = 0;	// 点击随机延时下限：每次点击操作会进行随机延时
+		int control_delay_upper = 0;	// 点击随机延时上限：每次点击操作会进行随机延时
+		bool print_window = false;		// 截图功能：开启后每次结算界面会截图到screenshot目录下
+		int print_window_delay = 0;		// 截图延时：每次到结算界面，掉落物品不是一次性出来的，有个动画，所以需要等一会再截图
 	};
 }

@@ -6,6 +6,7 @@
 #include <chrono>
 
 #include <stdint.h>
+#include <Windows.h>
 #include <WinUser.h>
 
 #include "AsstDef.h"

@@ -189,6 +189,7 @@ bool Configer::reload(const std::string& filename)
 
 bool Configer::set_param(const std::string& type, const std::string& param, const std::string& value)
 {
+	// 暂时只用到了这些，总的参数太多了，后面要用啥再加上
 	if (type == "task.type") {
 		if (m_tasks.find(param) == m_tasks.cend()) {
 			return false;
@@ -227,6 +228,7 @@ bool Configer::set_param(const std::string& type, const std::string& param, cons
 
 std::optional<std::string> Configer::get_param(const std::string& type, const std::string& param)
 {
+	// 暂时只用到了这些，总的参数太多了，后面要用啥再加上
 	if (type == "task.execTimes" && m_tasks.find(param) != m_tasks.cend()) {
 		return std::to_string(m_tasks.at(param).exec_times);
 	}
