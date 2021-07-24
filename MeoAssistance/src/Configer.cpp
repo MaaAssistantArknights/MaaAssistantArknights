@@ -65,8 +65,8 @@ bool Configer::reload(const std::string& filename)
 			else {
 				task_info.threshold = DefaultThreshold;
 			}
-			if (task_json.exist("cache_threshold")) {
-				task_info.cache_threshold = task_json["cache_threshold"].as_double();
+			if (task_json.exist("cacheThreshold")) {
+				task_info.cache_threshold = task_json["cacheThreshold"].as_double();
 			}
 			else {
 				task_info.cache_threshold = DefaultCacheThreshold;
@@ -137,44 +137,44 @@ bool Configer::reload(const std::string& filename)
 		}
 
 		auto handle_obj = root["handle"].as_object();
-		for (auto&& [name, simulator_json] : handle_obj) {
-			SimulatorInfo simulator_info;
-			simulator_info.name = name;
+		for (auto&& [name, emulator_json] : handle_obj) {
+			EmulatorInfo emulator_info;
+			emulator_info.name = name;
 
-			auto window_arr = simulator_json["window"].as_array();
+			auto window_arr = emulator_json["window"].as_array();
 			for (auto&& info : window_arr) {
 				HandleInfo handle_info;
-				handle_info.className = info["class"].as_string();
-				handle_info.windowName = info["window"].as_string();
-				simulator_info.window.emplace_back(handle_info);
+				handle_info.class_name = info["class"].as_string();
+				handle_info.window_name = info["window"].as_string();
+				emulator_info.window.emplace_back(handle_info);
 			}
-			auto view_arr = simulator_json["view"].as_array();
+			auto view_arr = emulator_json["view"].as_array();
 			for (auto&& info : view_arr) {
 				HandleInfo handle_info;
-				handle_info.className = info["class"].as_string();
-				handle_info.windowName = info["window"].as_string();
-				simulator_info.view.emplace_back(handle_info);
+				handle_info.class_name = info["class"].as_string();
+				handle_info.window_name = info["window"].as_string();
+				emulator_info.view.emplace_back(handle_info);
 			}
-			auto ctrl_arr = simulator_json["control"].as_array();
+			auto ctrl_arr = emulator_json["control"].as_array();
 			for (auto&& info : ctrl_arr) {
 				HandleInfo handle_info;
-				handle_info.className = info["class"].as_string();
-				handle_info.windowName = info["window"].as_string();
-				simulator_info.control.emplace_back(handle_info);
+				handle_info.class_name = info["class"].as_string();
+				handle_info.window_name = info["window"].as_string();
+				emulator_info.control.emplace_back(handle_info);
 			}
-			if (simulator_json.exist("adbControl")) {
-				simulator_info.is_adb = true;
+			if (emulator_json.exist("adbControl")) {
+				emulator_info.is_adb = true;
 				// meojson的bug，暂时没空修，先转个字符串
-				simulator_info.adb.path = StringReplaceAll(simulator_json["adbControl"]["path"].as_string(), "\\\\", "\\");
-				simulator_info.adb.connect = simulator_json["adbControl"]["connect"].as_string();
-				simulator_info.adb.click = simulator_json["adbControl"]["click"].as_string();
+				emulator_info.adb.path = StringReplaceAll(emulator_json["adbControl"]["path"].as_string(), "\\\\", "\\");
+				emulator_info.adb.connect = emulator_json["adbControl"]["connect"].as_string();
+				emulator_info.adb.click = emulator_json["adbControl"]["click"].as_string();
 			}
-			simulator_info.width = simulator_json["width"].as_integer();
-			simulator_info.height = simulator_json["height"].as_integer();
-			simulator_info.x_offset = simulator_json["xOffset"].as_integer();
-			simulator_info.y_offset = simulator_json["yOffset"].as_integer();
+			emulator_info.width = emulator_json["width"].as_integer();
+			emulator_info.height = emulator_json["height"].as_integer();
+			emulator_info.x_offset = emulator_json["xOffset"].as_integer();
+			emulator_info.y_offset = emulator_json["yOffset"].as_integer();
 
-			temp.m_handles.emplace(name, simulator_info);
+			temp.m_handles.emplace(name, emulator_info);
 		}
 	}
 	catch (json::exception& e) {

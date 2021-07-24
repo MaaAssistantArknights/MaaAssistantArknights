@@ -20,11 +20,11 @@ Assistance::Assistance()
 	m_pIder = std::make_shared<Identify>();
 	for (auto&& [name, info] : m_configer.m_tasks)
 	{
-		m_pIder->addImage(name, GetResourceDir() + info.filename);
+		m_pIder->add_image(name, GetResourceDir() + info.filename);
 	}
-	m_pIder->setUseCache(m_configer.m_options.identify_cache);
+	m_pIder->set_use_cache(m_configer.m_options.identify_cache);
 
-	m_working_thread = std::thread(workingProc, this);
+	m_working_thread = std::thread(working_proc, this);
 }
 
 Assistance::~Assistance()
@@ -44,13 +44,13 @@ Assistance::~Assistance()
 	}
 }
 
-std::optional<std::string> Assistance::setSimulator(const std::string& simulator_name)
+std::optional<std::string> Assistance::set_emulator(const std::string& emulator_name)
 {
 	DebugTraceFunction;
 
 	stop();
 
-	auto create_handles = [&](const SimulatorInfo& info) -> bool {
+	auto create_handles = [&](const EmulatorInfo& info) -> bool {
 		m_pWindow = std::make_shared<WinMacro>(info, HandleType::Window);
 		m_pView = std::make_shared<WinMacro>(info, HandleType::View);
 		m_pCtrl = std::make_shared<WinMacro>(info, HandleType::Control);
@@ -58,11 +58,11 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 	};
 
 	bool ret = false;
-	std::string cor_name = simulator_name;
+	std::string cor_name = emulator_name;
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 
-	if (simulator_name.empty()) {
+	if (emulator_name.empty()) {
 		for (auto&& [name, info] : m_configer.m_handles)
 		{
 			ret = create_handles(info);
@@ -73,7 +73,7 @@ std::optional<std::string> Assistance::setSimulator(const std::string& simulator
 		}
 	}
 	else {
-		ret = create_handles(m_configer.m_handles[simulator_name]);
+		ret = create_handles(m_configer.m_handles[emulator_name]);
 	}
 	if (ret && m_pWindow->showWindow() && m_pWindow->resizeWindow()) {
 		m_inited = true;
@@ -163,7 +163,7 @@ bool asst::Assistance::print_window(const std::string& filename, bool block)
 	return ret;
 }
 
-void Assistance::workingProc(Assistance* pThis)
+void Assistance::working_proc(Assistance* pThis)
 {
 	DebugTraceFunction;
 
@@ -194,7 +194,7 @@ void Assistance::workingProc(Assistance* pThis)
 				double threshold = pThis->m_configer.m_tasks[task_name].threshold;
 				double cache_threshold = pThis->m_configer.m_tasks[task_name].cache_threshold;
 
-				auto&& [algorithm, value, rect] = pThis->m_pIder->findImage(curImg, task_name, threshold);
+				auto&& [algorithm, value, rect] = pThis->m_pIder->find_image(curImg, task_name, threshold);
 				DebugTrace(task_name, "Type:", algorithm, "Value:", value);
 				if (algorithm == AlgorithmType::JustReturn ||
 					(algorithm == AlgorithmType::MatchTemplate && value >= threshold)
@@ -235,10 +235,10 @@ void Assistance::workingProc(Assistance* pThis)
 						matched_rect = task.specific_area;
 						[[fallthrough]];
 					case TaskType::ClickSelf:
-						pThis->m_pCtrl->clickRange(matched_rect);
+						pThis->m_pCtrl->click(matched_rect);
 						break;
 					case TaskType::ClickRand:
-						pThis->m_pCtrl->clickRange(pThis->m_pCtrl->getWindowRect());
+						pThis->m_pCtrl->click(pThis->m_pCtrl->getWindowRect());
 						break;
 					case TaskType::DoNothing:
 						break;

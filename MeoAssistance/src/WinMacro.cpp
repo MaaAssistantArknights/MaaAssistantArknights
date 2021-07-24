@@ -13,8 +13,8 @@
 
 using namespace asst;
 
-WinMacro::WinMacro(const SimulatorInfo& info, HandleType type)
-	: m_simulator_info(info),
+WinMacro::WinMacro(const EmulatorInfo& info, HandleType type)
+	: m_emulator_info(info),
 	m_handle_type(type),
 	m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count())
 {
@@ -31,18 +31,18 @@ bool WinMacro::findHandle()
 	std::vector<HandleInfo> handle_vec;
 	switch (m_handle_type) {
 	case HandleType::Window:
-		m_width = m_simulator_info.width;
-		m_height = m_simulator_info.height;
-		handle_vec = m_simulator_info.window;
+		m_width = m_emulator_info.width;
+		m_height = m_emulator_info.height;
+		handle_vec = m_emulator_info.window;
 		break;
 	case HandleType::View:
-		handle_vec = m_simulator_info.view;
+		handle_vec = m_emulator_info.view;
 		break;
 	case HandleType::Control:
-		m_is_adb = m_simulator_info.is_adb;
-		m_x_offset = m_simulator_info.x_offset;
-		m_y_offset = m_simulator_info.y_offset;
-		handle_vec = m_simulator_info.control;
+		m_is_adb = m_emulator_info.is_adb;
+		m_x_offset = m_emulator_info.x_offset;
+		m_y_offset = m_emulator_info.y_offset;
+		handle_vec = m_emulator_info.control;
 		break;
 	default:
 		DebugTraceError("Handle type error!", m_handle_type);
@@ -53,17 +53,17 @@ bool WinMacro::findHandle()
 	for (auto&& handle_info : handle_vec)
 	{
 		wchar_t* class_wbuff = NULL;
-		if (!handle_info.className.empty()) {
-			size_t class_len = (handle_info.className.size() + 1) * 2;
+		if (!handle_info.class_name.empty()) {
+			size_t class_len = (handle_info.class_name.size() + 1) * 2;
 			class_wbuff = new wchar_t[class_len];
-			::MultiByteToWideChar(CP_UTF8, 0, handle_info.className.c_str(), -1, class_wbuff, class_len);
+			::MultiByteToWideChar(CP_UTF8, 0, handle_info.class_name.c_str(), -1, class_wbuff, class_len);
 		}
 		wchar_t* window_wbuff = NULL;
-		if (!handle_info.windowName.empty()) {
-			size_t window_len = (handle_info.windowName.size() + 1) * 2;
+		if (!handle_info.window_name.empty()) {
+			size_t window_len = (handle_info.window_name.size() + 1) * 2;
 			window_wbuff = new wchar_t[window_len];
 			memset(window_wbuff, 0, window_len);
-			::MultiByteToWideChar(CP_UTF8, 0, handle_info.windowName.c_str(), -1, window_wbuff, window_len);
+			::MultiByteToWideChar(CP_UTF8, 0, handle_info.window_name.c_str(), -1, window_wbuff, window_len);
 		}
 
 		m_handle = ::FindWindowExW(m_handle, NULL, class_wbuff, window_wbuff);
@@ -93,14 +93,14 @@ bool WinMacro::findHandle()
 		}
 		size_t pos = adb_dir.find_last_of('\\') + 1;
 		adb_dir = adb_dir.substr(0, pos);
-		adb_dir = '"' + StringReplaceAll(m_simulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
-		std::string connect_cmd = adb_dir + m_simulator_info.adb.connect;
+		adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
+		std::string connect_cmd = adb_dir + m_emulator_info.adb.connect;
 		int ret = system(connect_cmd.c_str());
 		DebugTrace("Call", connect_cmd, "¡ª¡ª ret", ret);
 
-		m_click_cmd = adb_dir + m_simulator_info.adb.click;
+		m_click_cmd = adb_dir + m_emulator_info.adb.click;
 	}
-	DebugTrace("Handle:", m_handle, "Name:", m_simulator_info.name, "Type:", m_handle_type);
+	DebugTrace("Handle:", m_handle, "Name:", m_emulator_info.name, "Type:", m_handle_type);
 
 	if (m_handle != NULL) {
 		return true;
@@ -208,7 +208,7 @@ bool WinMacro::click(const Point& p)
 	}
 }
 
-bool WinMacro::clickRange(const Rect& rect)
+bool WinMacro::click(const Rect& rect)
 {
 	if (m_handle_type != HandleType::Control || !::IsWindow(m_handle)) {
 		return false;
