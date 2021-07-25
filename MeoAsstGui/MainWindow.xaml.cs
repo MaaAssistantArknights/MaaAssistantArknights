@@ -137,6 +137,7 @@ namespace MeoAsstGui
             AsstGetParam(p_asst, "status", "running", buff_running, 4);
             if (int.Parse(buff_running.ToString()) == 0)
             {
+                update_times.Stop();
                 label_status.Content = "已完成，自动停止";
                 if (checkBox_shutdown.IsChecked == true)
                 {
