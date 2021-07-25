@@ -7,7 +7,7 @@
 
 namespace asst {
 
-	const static std::string Version = "release.beta.02";
+	const static std::string Version = "release.beta.03";
 
 	enum class HandleType
 	{
