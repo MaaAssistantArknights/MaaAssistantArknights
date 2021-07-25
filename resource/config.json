@@ -9,6 +9,8 @@
         "printWindow_Doc": "截图功能：开启后每次结算界面会截图到screenshot目录下。true-开启，false-关闭，默认true",
         "printWindowDelay": 3000,
         "printWindowDelay_Doc": "截图延时：每次到结算界面，掉落物品不是一次性出来的，有个动画，所以需要等一会再截图。单位毫秒，默认3000",
+        "printWindowCropOffset": 5,
+        "printWindowCropOffset_Doc": "截图额外裁剪：再额外把边框裁减掉一圈，不然企鹅物流有可能识别不出来。单位像素，默认5",
         "controlDelayRange": [
             0,
             0

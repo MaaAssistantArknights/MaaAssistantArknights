@@ -145,11 +145,12 @@ namespace asst {
 	};
 
 	struct Options {
-		bool identify_cache = false;	// 图像识别缓存功能：开启后可以大幅降低CPU消耗，但需要保证要识别的按钮每次的位置不会改变
-		int identify_delay = 0;			// 图像识别延时：越快操作越快，但会增加CPU消耗
-		int control_delay_lower = 0;	// 点击随机延时下限：每次点击操作会进行随机延时
-		int control_delay_upper = 0;	// 点击随机延时上限：每次点击操作会进行随机延时
-		bool print_window = false;		// 截图功能：开启后每次结算界面会截图到screenshot目录下
-		int print_window_delay = 0;		// 截图延时：每次到结算界面，掉落物品不是一次性出来的，有个动画，所以需要等一会再截图
+		bool identify_cache = false;		// 图像识别缓存功能：开启后可以大幅降低CPU消耗，但需要保证要识别的按钮每次的位置不会改变
+		int identify_delay = 0;				// 图像识别延时：越快操作越快，但会增加CPU消耗
+		int control_delay_lower = 0;		// 点击随机延时下限：每次点击操作会进行随机延时
+		int control_delay_upper = 0;		// 点击随机延时上限：每次点击操作会进行随机延时
+		bool print_window = false;			// 截图功能：开启后每次结算界面会截图到screenshot目录下
+		int print_window_delay = 0;			// 截图延时：每次到结算界面，掉落物品不是一次性出来的，有个动画，所以需要等一会再截图
+		int print_window_crop_offset = 0;	// 截图额外裁剪：再额外把边框裁减掉一圈，不然企鹅物流有可能识别不出来
 	};
 }

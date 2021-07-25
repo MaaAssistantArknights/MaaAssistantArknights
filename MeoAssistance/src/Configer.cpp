@@ -48,12 +48,15 @@ bool Configer::reload(const std::string& filename)
 		temp.m_version = root["version"].as_string();
 
 		auto options_obj = root["options"].as_object();
-		temp.m_options.identify_delay = options_obj["identifyDelay"].as_integer();
-		temp.m_options.identify_cache = options_obj["identifyCache"].as_boolean();
-		temp.m_options.control_delay_lower = options_obj["controlDelayRange"][0].as_integer();
-		temp.m_options.control_delay_upper = options_obj["controlDelayRange"][1].as_integer();
-		temp.m_options.print_window = options_obj["printWindow"].as_boolean();
-		temp.m_options.print_window_delay = options_obj["printWindowDelay"].as_integer();
+		{
+			temp.m_options.identify_delay = options_obj["identifyDelay"].as_integer();
+			temp.m_options.identify_cache = options_obj["identifyCache"].as_boolean();
+			temp.m_options.control_delay_lower = options_obj["controlDelayRange"][0].as_integer();
+			temp.m_options.control_delay_upper = options_obj["controlDelayRange"][1].as_integer();
+			temp.m_options.print_window = options_obj["printWindow"].as_boolean();
+			temp.m_options.print_window_delay = options_obj["printWindowDelay"].as_integer();
+			temp.m_options.print_window_crop_offset = options_obj["printWindowCropOffset"].as_integer();
+		}
 
 		auto tasks_obj = root["tasks"].as_object();
 		for (auto&& [name, task_json] : tasks_obj) {
@@ -175,7 +178,7 @@ bool Configer::reload(const std::string& filename)
 			emulator_info.y_offset = emulator_json["yOffset"].as_integer();
 			if (emulator_json.exist("rightOffset")) {
 				emulator_info.right_offset = emulator_json["rightOffset"].as_integer();
-			}			
+			}
 			if (emulator_json.exist("bottomOffset")) {
 				emulator_info.bottom_offset = emulator_json["bottomOffset"].as_integer();
 			}
