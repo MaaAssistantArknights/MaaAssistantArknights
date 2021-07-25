@@ -44,8 +44,8 @@
                     "window": "BlueStacks Android PluginAndroid"
                 }
             ],
-            "width": 1294,
-            "height": 773,
+            "width": 1302,
+            "height": 776,
             "xOffset": 11,
             "yOffset": 46,
             "rightOffset": 11,
@@ -70,10 +70,13 @@
                     "window": "夜神模拟器"
                 }
             ],
-            "width": 1298,
-            "height": 754,
-            "xOffset": 0,
-            "yOffset": 32
+            "width": 1321,
+            "height": 768,
+            "xOffset": 2,
+            "yOffset": 39,
+            "rightOffset": 39,
+            "bottomOffset": 9
+
         },
         "LDPlayer": {
             "window": [
@@ -98,8 +101,8 @@
                     "window": "TheRender"
                 }
             ],
-            "width": 1304,
-            "height": 756,
+            "width": 1280,
+            "height": 755,
             "xOffset": 0,
             "yOffset": 35
         },
@@ -128,8 +131,10 @@
             ],
             "width": 1282,
             "height": 769,
-            "xOffset": 0,
-            "yOffset": 47
+            "xOffset": 1,
+            "yOffset": 48,
+            "rightOffset": 1,
+            "bottomOffset": 1
         },
         "Tencent": {
             "window": [
@@ -156,7 +161,7 @@
             ],
             "width": 1282,
             "height": 769,
-            "xOffset": 0,
+            "xOffset": 1,
             "yOffset": 42
         },
         "MuMuAsst": {
@@ -178,10 +183,12 @@
                     "window": "明日方舟 - 星云引擎"
                 }
             ],
-            "adbControl": {
+            "adb": {
                 "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
                 "connect": " connect 127.0.0.1:7555",
-                "click": " shell input tap [x] [y]"
+                "click": " shell input tap [x] [y]",
+                "display": " shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d"
             },
             "width": 1280,
             "height": 809,
@@ -218,7 +225,7 @@
             "height": 809,
             "xOffset": 0,
             "yOffset": 36,
-            "rightBottom": 0,
+            "rightOffset": 0,
             "bottomOffset": 53
         }
     },

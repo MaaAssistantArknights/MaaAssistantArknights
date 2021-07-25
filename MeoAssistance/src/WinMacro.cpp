@@ -313,7 +313,7 @@ bool WinMacro::click(const Rect& rect)
 void asst::WinMacro::setControlScale(double scale)
 {
 	if (m_is_adb) {
-		m_control_scale = scale * scale * Configer::DefaultWindowWidth / m_emulator_info.adb.display_width;
+		m_control_scale = scale * scale * m_emulator_info.adb.display_width / Configer::DefaultWindowWidth;
 	}
 	else {
 		m_control_scale = scale;
