@@ -177,7 +177,7 @@ void Assistance::working_proc(Assistance* pThis)
 				pThis->stop(false);
 				continue;
 			}
-			if (cur_image.rows < 100) {
+			if (cur_image.cols < 100) {
 				DebugTraceInfo("Window Could not be minimized!!!");
 				pThis->m_pWindow->showWindow();
 				pThis->m_condvar.wait_for(lock,
@@ -298,7 +298,7 @@ void Assistance::working_proc(Assistance* pThis)
 				// 单纯为了打印日志。。感觉可以优化下
 				std::string nexts_str;
 				for (auto&& name : pThis->m_next_tasks) {
-					nexts_str += name + ",";
+					nexts_str += name + " ,";
 				}
 				if (nexts_str.back() == ',') {
 					nexts_str.pop_back();
@@ -319,9 +319,9 @@ void Assistance::working_proc(Assistance* pThis)
 std::pair<double, cv::Mat> asst::Assistance::get_format_image()
 {
 	auto && cur_image = m_pView->getImage(m_pView->getWindowRect());
-	if (cur_image.empty() || cur_image.rows < 100) {
+	if (cur_image.empty() || cur_image.cols < m_configer.DefaultWindowWidth) {
 		DebugTraceError("Window image error");
-		return { 0, cur_image };
+		return { 0, std::move(cur_image) };
 	}
 	// 把模拟器边框的一圈裁剪掉
 	auto&& window_info = m_pView->getEmulatorInfo();
@@ -332,11 +332,22 @@ std::pair<double, cv::Mat> asst::Assistance::get_format_image()
 
 	cv::Mat cropped(cur_image, cv::Rect(x_offset, y_offset, width, height));
 
-	// 调整尺寸，与资源中截图的标准尺寸一致
-	cv::Mat dst;
-	cv::resize(cropped, dst, cv::Size(m_configer.DefaultWindowWidth, m_configer.DefaultWindowHeight));
+#ifdef  _DEBUG
+	cv::imwrite("test.bmp", cur_image);
+#endif //  _DEBUG
 
-	double scale = static_cast<double>(width) / m_configer.DefaultWindowWidth;
+
+	//// 调整尺寸，与资源中截图的标准尺寸一致
+	//cv::Mat dst;
+	//cv::resize(cropped, dst, cv::Size(m_configer.DefaultWindowWidth, m_configer.DefaultWindowHeight));
+
+	double scale_width = static_cast<double>(width) / m_configer.DefaultWindowWidth;
+	double scale_height = static_cast<double>(height) / m_configer.DefaultWindowHeight;
+	// 有些模拟器有可收缩的侧边，会增加宽度。
+	// config.json中设置的是侧边展开后的offset
+	// 如果用户把侧边收起来了，则有侧边的那头会额外裁剪掉一些，长度偏小
+	// 所以按这里面长、宽里大的那个算，大的那边没侧边
+	double scale = std::max(scale_width, scale_height);
 	
-	return { scale, dst };
+	return { scale, std::move(cropped) };
 }
