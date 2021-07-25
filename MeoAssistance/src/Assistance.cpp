@@ -233,7 +233,9 @@ void Assistance::working_proc(Assistance* pThis)
 							[&]() -> bool { return !pThis->m_thread_running; });
 						if (cv_ret) { continue; }
 					}
-
+					if (!pThis->m_thread_running) {
+						continue;
+					}
 					switch (task.type) {
 					case TaskType::ClickRect:
 						matched_rect = task.specific_area;
