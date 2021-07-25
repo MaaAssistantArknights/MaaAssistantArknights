@@ -29,9 +29,9 @@ namespace MeoAsstGui
         [DllImport("MeoAssistance.dll")] static private extern void AsstStart(IntPtr ptr, string task);
         [DllImport("MeoAssistance.dll")] static private extern void AsstStop(IntPtr ptr);
         [DllImport("MeoAssistance.dll")] static private extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
-        [DllImport("MeoAssistance.dll")] 
+        [DllImport("MeoAssistance.dll")]
         static private extern bool AsstGetParam(
-            IntPtr p_asst, string type, string param, 
+            IntPtr p_asst, string type, string param,
             [In, Out] StringBuilder lp_string, int buffer_size);
 
 
@@ -138,10 +138,16 @@ namespace MeoAsstGui
             if (int.Parse(buff_running.ToString()) == 0)
             {
                 update_times.Stop();
-                label_status.Content = "已完成，自动停止";
+                label_status.Content = "已刷完，自动停止";
                 if (checkBox_shutdown.IsChecked == true)
                 {
-                    // TODO：弹窗确认，倒计时，准备关机
+                    System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
+
+                    MessageBoxResult result = MessageBox.Show("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK);
+                    if (result == MessageBoxResult.OK)
+                    {
+                        System.Diagnostics.Process.Start("shutdown.exe", "-a");
+                    }
                 }
             }
             else
