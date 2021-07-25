@@ -27,6 +27,9 @@ Configer::Configer(Configer&& rhs) noexcept
 
 bool Configer::reload(const std::string& filename)
 {
+	DebugTraceFunction;
+	DebugTrace("Configer::reload | ", filename);
+
 	std::ifstream ifs(filename, std::ios::in);
 	if (!ifs.is_open()) {
 		return false;
@@ -38,6 +41,7 @@ bool Configer::reload(const std::string& filename)
 
 	auto ret = json::parser::parse(content);
 	if (!ret) {
+		DebugTrace("parse error", content);
 		return false;
 	}
 
@@ -57,6 +61,7 @@ bool Configer::reload(const std::string& filename)
 			temp.m_options.print_window_delay = options_obj["printWindowDelay"].as_integer();
 			temp.m_options.print_window_crop_offset = options_obj["printWindowCropOffset"].as_integer();
 		}
+		DebugTrace("Options", options_obj.to_string());
 
 		auto tasks_obj = root["tasks"].as_object();
 		for (auto&& [name, task_json] : tasks_obj) {
@@ -194,6 +199,7 @@ bool Configer::reload(const std::string& filename)
 	}
 
 	*this = std::move(temp);
+	DebugTrace("Load config succeed");
 
 	return true;
 }
