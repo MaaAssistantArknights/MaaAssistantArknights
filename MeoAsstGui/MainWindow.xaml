@@ -12,15 +12,15 @@
         <TextBox x:Name="textBox_useStone" HorizontalAlignment="Left" Height="23" Margin="112,148,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="47" TextChanged="textBox_useStone_TextChanged" InputMethod.IsInputMethodEnabled="False"/>
         <Label x:Name="label_stoneNumber" Content="颗" HorizontalAlignment="Left" Margin="164,144,0,0" VerticalAlignment="Top" RenderTransformOrigin="-5.771,-6.291"/>
         <Button x:Name="button_startSanity" Content="开始刷理智" HorizontalAlignment="Left" Margin="51,300,0,0" VerticalAlignment="Top" Width="120" Height="50" Click="button_Click_startSanity"/>
-        <Button x:Name="button_stop" Content="停止" HorizontalAlignment="Left" Margin="50,390,0,0" VerticalAlignment="Top" Width="300" Height="50" Click="button_Click_stop"/>
+        <Button x:Name="button_stop" Content="停止" HorizontalAlignment="Left" Margin="50,380,0,0" VerticalAlignment="Top" Width="300" Height="50" Click="button_Click_stop"/>
         <Label x:Name="catch_status" Content="" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
         <Button x:Name="button_visit" Content="访问基建" HorizontalAlignment="Left" Margin="230,300,0,0" VerticalAlignment="Top" Width="120" Height="50" Click="button_Click_visit"/>
-        <Label x:Name="exec_times" Content="" HorizontalAlignment="Left" Margin="230,30,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="exec_times" Content="" HorizontalAlignment="Left" Margin="230,60,0,0" VerticalAlignment="Top"/>
         <Label x:Name="stone_times" Content="" HorizontalAlignment="Left" Margin="230,144,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.702,0.403"/>
         <CheckBox x:Name="checkBox_maxTimes" Content="指定次数" HorizontalAlignment="Left" Margin="50,200,0,0" VerticalAlignment="Top" Checked="checkBox_maxTimes_Checked" Unchecked="checkBox_maxTimes_Checked"/>
         <TextBox x:Name="textBox_maxTimes" HorizontalAlignment="Left" Height="23" Margin="124,198,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="47" TextChanged="textBox_maxTimes_TextChanged" InputMethod.IsInputMethodEnabled="False"/>
         <Label x:Name="label" Content="次" HorizontalAlignment="Left" Margin="176,193,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.397,-0.745"/>
         <CheckBox x:Name="checkBox_shutdown" Content="刷完自动关机" HorizontalAlignment="Left" Margin="50,250,0,0" VerticalAlignment="Top" Checked="checkBox_shutdown_Checked"/>
-        <Label x:Name="label_status" Content="" HorizontalAlignment="Left" Margin="230,243,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_status" Content="" HorizontalAlignment="Left" Margin="230,30,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
