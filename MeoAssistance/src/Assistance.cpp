@@ -33,13 +33,13 @@ Assistance::~Assistance()
 {
 	DebugTraceFunction;
 
-	if (m_pWindow != nullptr) {
-		m_pWindow->showWindow();
-	}
+	//if (m_pWindow != nullptr) {
+	//	m_pWindow->showWindow();
+	//}
 
 	m_thread_exit = true;
 	m_thread_running = false;
-	m_condvar.notify_one();
+	m_condvar.notify_all();
 
 	if (m_working_thread.joinable()) {
 		m_working_thread.join();
@@ -75,7 +75,7 @@ std::optional<std::string> Assistance::set_emulator(const std::string& emulator_
 			}
 		}
 	}
-	else {
+	else {	// 指定的模拟器
 		ret = create_handles(m_configer.m_handles[emulator_name]);
 	}
 	if (ret && m_pWindow->showWindow() && m_pWindow->resizeWindow()) {
@@ -333,12 +333,12 @@ std::pair<double, cv::Mat> asst::Assistance::get_format_image()
 		DebugTraceError("Window image error");
 		return { 0, std::move(cur_image) };
 	}
-	// 把模拟器边框的一圈裁剪掉
+	// 把模拟器边框的一圈裁剪掉。再额外裁一圈，不然企鹅物流识别不出来
 	auto&& window_info = m_pView->getEmulatorInfo();
-	int x_offset = window_info.x_offset;
-	int y_offset = window_info.y_offset;
-	int width = cur_image.cols - x_offset - window_info.right_offset;
-	int height = cur_image.rows - y_offset - window_info.bottom_offset;
+	int x_offset = window_info.x_offset + m_configer.m_options.print_window_crop_offset;
+	int y_offset = window_info.y_offset + m_configer.m_options.print_window_crop_offset;
+	int width = cur_image.cols - x_offset - window_info.right_offset - m_configer.m_options.print_window_crop_offset;
+	int height = cur_image.rows - y_offset - window_info.bottom_offset - m_configer.m_options.print_window_crop_offset;
 
 	cv::Mat cropped(cur_image, cv::Rect(x_offset, y_offset, width, height));
 
