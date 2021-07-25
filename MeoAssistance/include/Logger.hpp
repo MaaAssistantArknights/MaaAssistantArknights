@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "AsstAux.h"
+#include "AsstDef.h"
 
 namespace asst {
 	class Logger {
@@ -37,7 +38,15 @@ namespace asst {
 		}
 
 	private:
-		Logger() = default;
+		Logger() {
+			log_trace("-----------------------------");
+			log_trace("MeoAssistance Process Start");
+			log_trace("Version", Version);
+			log_trace("Build DataTime", __DATE__, __TIME__);
+			log_trace("Working Path", GetCurrentDir());
+			log_trace("Resource Path", GetResourceDir());
+			log_trace("-----------------------------");
+		}
 
 		template <typename... Args>
 		void log(const std::string& level, Args &&... args)
