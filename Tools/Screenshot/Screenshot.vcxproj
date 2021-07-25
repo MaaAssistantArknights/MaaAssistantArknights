@@ -24,10 +24,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{36bc08f3-71cf-429a-ae69-291be8962cb2}</ProjectGuid>
+    <ProjectGuid>{4AC1CFFF-D7B8-4FDA-BCFD-E4754275979B}</ProjectGuid>
     <RootNamespace>Tools</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Sanity</ProjectName>
+    <ProjectName>Screenshot</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

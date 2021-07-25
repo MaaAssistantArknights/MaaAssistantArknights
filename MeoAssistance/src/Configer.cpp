@@ -171,8 +171,6 @@ bool Configer::reload(const std::string& filename)
 				emulator_info.adb.display = emulator_json["adb"]["display"].as_string();
 				emulator_info.adb.display_regex = emulator_json["adb"]["displayRegex"].as_string();
 			}
-			emulator_info.width = emulator_json["width"].as_integer();
-			emulator_info.height = emulator_json["height"].as_integer();
 			emulator_info.x_offset = emulator_json["xOffset"].as_integer();
 			emulator_info.y_offset = emulator_json["yOffset"].as_integer();
 			if (emulator_json.exist("rightOffset")) {
@@ -181,6 +179,8 @@ bool Configer::reload(const std::string& filename)
 			if (emulator_json.exist("bottomOffset")) {
 				emulator_info.bottom_offset = emulator_json["bottomOffset"].as_integer();
 			}
+			emulator_info.width = DefaultWindowWidth + emulator_info.x_offset + emulator_info.right_offset;
+			emulator_info.height = DefaultWindowHeight + emulator_info.y_offset + emulator_info.bottom_offset;
 
 			temp.m_handles.emplace(name, emulator_info);
 		}

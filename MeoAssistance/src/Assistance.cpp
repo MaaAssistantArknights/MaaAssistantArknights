@@ -177,7 +177,7 @@ void Assistance::working_proc(Assistance* pThis)
 				pThis->stop(false);
 				continue;
 			}
-			if (cur_image.cols < 100) {
+			if (cur_image.rows < 100) {
 				DebugTraceInfo("Window Could not be minimized!!!");
 				pThis->m_pWindow->showWindow();
 				pThis->m_condvar.wait_for(lock,
@@ -331,11 +331,6 @@ std::pair<double, cv::Mat> asst::Assistance::get_format_image()
 	int height = cur_image.rows - y_offset - window_info.bottom_offset;
 
 	cv::Mat cropped(cur_image, cv::Rect(x_offset, y_offset, width, height));
-
-#ifdef  _DEBUG
-	cv::imwrite("test.bmp", cur_image);
-#endif //  _DEBUG
-
 
 	//// 调整尺寸，与资源中截图的标准尺寸一致
 	//cv::Mat dst;

@@ -44,8 +44,6 @@
                     "window": "BlueStacks Android PluginAndroid"
                 }
             ],
-            "width": 1302,
-            "height": 776,
             "xOffset": 11,
             "yOffset": 46,
             "rightOffset": 11,
@@ -70,8 +68,6 @@
                     "window": "夜神模拟器"
                 }
             ],
-            "width": 1321,
-            "height": 768,
             "xOffset": 2,
             "yOffset": 39,
             "rightOffset": 39,
@@ -101,8 +97,6 @@
                     "window": "TheRender"
                 }
             ],
-            "width": 1280,
-            "height": 755,
             "xOffset": 0,
             "yOffset": 35
         },
@@ -129,8 +123,6 @@
                     "window": "MainWindowWindow"
                 }
             ],
-            "width": 1282,
-            "height": 769,
             "xOffset": 1,
             "yOffset": 48,
             "rightOffset": 1,
@@ -159,8 +151,6 @@
                     "window": "AEngineRenderWindow"
                 }
             ],
-            "width": 1282,
-            "height": 769,
             "xOffset": 1,
             "yOffset": 42
         },
@@ -190,8 +180,6 @@
                 "display": " shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayRegex": "cur=%dx%d"
             },
-            "width": 1280,
-            "height": 809,
             "xOffset": 0,
             "yOffset": 36
         },
@@ -221,12 +209,10 @@
                 "display": " shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayRegex": "cur=%dx%d"
             },
-            "width": 1280,
-            "height": 809,
             "xOffset": 0,
             "yOffset": 36,
             "rightOffset": 0,
-            "bottomOffset": 53
+            "bottomOffset": 0
         }
     },
     "tasks_Doc": "下面的和任务队列执行逻辑有关，不需要修改",
@@ -415,7 +401,6 @@
         "VisitNext": {
             "filename": "VisitNext.png",
             "type": "clickSelf",
-            "threshold": 0.99,
             "maxTimes": 21,
             "exceededNext": [
                 "ReturnToMall"
@@ -450,7 +435,7 @@
         },
         "CreditStore": {
             "filename": "CreditStore.png",
-            "threshold": 0.89,
+            "threshold": 0.85,
             "rearDelay": 1000,
             "type": "clickSelf",
             "next": [
@@ -467,6 +452,7 @@
         },
         "VisitLimited": {
             "filename": "VisitLimited.png",
+            "threshold": 1,
             "type": "doNothing",
             "next": [
                 "ReturnToMall"
