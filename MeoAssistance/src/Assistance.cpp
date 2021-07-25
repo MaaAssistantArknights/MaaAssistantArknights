@@ -135,6 +135,14 @@ bool Assistance::set_param(const std::string& type, const std::string& param, co
 std::optional<std::string> Assistance::get_param(const std::string& type, const std::string& param)
 {
 	// DebugTraceFunction;
+	if (type == "status") {
+		if (param == "running") {
+			return std::to_string(m_thread_running);
+		}
+		else {
+			return std::nullopt;
+		}
+	}
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 	return m_configer.get_param(type, param);
