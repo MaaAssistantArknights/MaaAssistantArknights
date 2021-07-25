@@ -73,6 +73,7 @@ namespace MeoAsstGui
             update_times.Stop();
             exec_times.Content = "";
             stone_times.Content = "";
+            label_status.Content = "";
         }
 
         private void checkBox_useMedicine_Checked(object sender, RoutedEventArgs e)
@@ -130,6 +131,22 @@ namespace MeoAsstGui
                 AsstGetParam(p_asst, "task.execTimes", "StoneConfirm", buff_stone, 16);
                 stone_times.Content = "已碎石 " + buff_stone + " 个";
             }
+
+
+            StringBuilder buff_running = new StringBuilder(4);
+            AsstGetParam(p_asst, "status", "running", buff_running, 4);
+            if (int.Parse(buff_running.ToString()) == 0)
+            {
+                label_status.Content = "已完成，自动停止";
+                if (checkBox_shutdown.IsChecked == true)
+                {
+                    // TODO：弹窗确认，倒计时，准备关机
+                }
+            }
+            else
+            {
+                label_status.Content = "正在运行中……";
+            }
         }
 
         private void checkBox_maxTimes_Checked(object sender, RoutedEventArgs e)
@@ -152,6 +169,11 @@ namespace MeoAsstGui
                 String text = textBox_maxTimes.Text != String.Empty ? textBox_maxTimes.Text : "0";
                 AsstSetParam(p_asst, "task.maxTimes", "StartButton1", text);
             }
+        }
+
+        private void checkBox_shutdown_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
