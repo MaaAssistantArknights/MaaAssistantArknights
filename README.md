@@ -139,9 +139,8 @@ A game assistance for Arknights
 
 ## 致谢
 
-感谢以下开源库/免费API
+感谢以下开源库
 
-- WinAPI
-- OpenCV
-- MeoJson
-- WPF
+- [opencv](https://github.com/opencv/opencv.git)
+- [chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)
+- [meojson](https://github.com/MistEO/meojson.git)

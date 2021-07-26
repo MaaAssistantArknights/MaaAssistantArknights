@@ -4,11 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MeoAssistance", "MeoAssistance\MeoAssistance.vcxproj", "{362D1E30-F5AE-4279-9985-65C27B3BA300}"
-	ProjectSection(ProjectDependencies) = postProject
-		{9CC7838E-D5FB-4771-848D-5F83D638C5AD} = {9CC7838E-D5FB-4771-848D-5F83D638C5AD}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmeojson", "meojson\test\vsproj\meojson\libmeojson\libmeojson.vcxproj", "{9CC7838E-D5FB-4771-848D-5F83D638C5AD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sanity", "Tools\Sanity\Sanity.vcxproj", "{36BC08F3-71CF-429A-AE69-291BE8962CB2}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -26,8 +21,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Screenshot", "Tools\Screens
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{6C4B8D52-51D1-45F8-AAEC-808035443FD6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3rdPart", "3rdPart", "{402D9F27-234E-41A9-BEB1-1FC1FA3C8825}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,16 +42,6 @@ Global
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.Release|x64.Build.0 = Release|x64
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.Release|x86.ActiveCfg = Release|Win32
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.Release|x86.Build.0 = Release|Win32
-		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Debug|x64.ActiveCfg = Debug|x64
-		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Debug|x64.Build.0 = Debug|x64
-		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Debug|x86.ActiveCfg = Debug|Win32
-		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Debug|x86.Build.0 = Debug|Win32
-		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Release|Any CPU.ActiveCfg = Release|Win32
-		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Release|x64.ActiveCfg = Release|x64
-		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Release|x64.Build.0 = Release|x64
-		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Release|x86.ActiveCfg = Release|Win32
-		{9CC7838E-D5FB-4771-848D-5F83D638C5AD}.Release|x86.Build.0 = Release|Win32
 		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Debug|x64.ActiveCfg = Debug|x64
 		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Debug|x64.Build.0 = Debug|x64
@@ -96,7 +79,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{9CC7838E-D5FB-4771-848D-5F83D638C5AD} = {402D9F27-234E-41A9-BEB1-1FC1FA3C8825}
 		{36BC08F3-71CF-429A-AE69-291BE8962CB2} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 		{4AC1CFFF-D7B8-4FDA-BCFD-E4754275979B} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 	EndGlobalSection
