@@ -100,13 +100,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(SolutionDir)meojson\include;$(OPENCV_PATH)\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(TargetDir);$(OPENCV_PATH)\x64\vc15\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)include;$(SolutionDir)3rdPart\include;$(SolutionDir)3rdPart\include\meojson;$(SolutionDir)\3rdPart\include\opencv;$(SolutionDir)\3rdPart\include\opencv2;$(SolutionDir)3drPart\include\OcrLiteNcnn;$(IncludePath)</IncludePath>
+    <LibraryPath>$(TargetDir);$(Solution)\3rdPart\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(SolutionDir)meojson\include;$(OPENCV_PATH)\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(TargetDir);$(OPENCV_NEW_BUILD)lib\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)include;$(SolutionDir)3rdPart\include;$(SolutionDir)3rdPart\include\meojson;$(SolutionDir)\3rdPart\include\opencv;$(SolutionDir)\3rdPart\include\opencv2;$(SolutionDir)3drPart\include\OcrLiteNcnn;;$(IncludePath)</IncludePath>
+    <LibraryPath>$(TargetDir);$(Solution)\3rdPart\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -149,20 +149,27 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opencv_world452d.lib;libmeojson.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libmeojsond.lib;OcrLiteNcnnd.lib;opencv_world3415d.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <AdditionalLibraryDirectories>$(TargetDir)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\3rdPart\lib</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /e /y /i $(SolutionDir)resource $(TargetDir)resource</Command>
+      <Command>xcopy /e /y /i $(SolutionDir)resource $(TargetDir)resource
+xcopy /e /y /i $(SolutionDir)3rdPart\resource $(TargetDir)resource</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>copy resource</Message>
     </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>xcopy /e /y /i $(SolutionDir)3rdPart\bin $(TargetDir)</Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>copy 3rd part dll</Message>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -181,20 +188,27 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opencv_core452.lib;opencv_imgcodecs452.lib;opencv_imgproc452.lib;WinInet.Lib;libmeojson.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libmeojson.lib;OcrLiteNcnn.lib;opencv_world3415.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <AdditionalLibraryDirectories>$(TargetDir)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\3rdPart\lib</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /e /y /i $(SolutionDir)resource $(TargetDir)resource</Command>
+      <Command>xcopy /e /y /i $(SolutionDir)resource $(TargetDir)resource
+xcopy /e /y /i $(SolutionDir)3rdPart\resource $(TargetDir)resource</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>copy resource</Message>
     </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>xcopy /e /y /i $(SolutionDir)3rdPart\bin $(TargetDir)</Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>copy 3rd part dll</Message>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
