@@ -22,6 +22,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Screenshot", "Tools\Screens
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{6C4B8D52-51D1-45F8-AAEC-808035443FD6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestOCR", "Tools\TestOCR\TestOCR.vcxproj", "{4FD37A7B-BBE0-4703-8CBC-7029F4CF98ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,16 @@ Global
 		{4AC1CFFF-D7B8-4FDA-BCFD-E4754275979B}.Release|x64.Build.0 = Release|x64
 		{4AC1CFFF-D7B8-4FDA-BCFD-E4754275979B}.Release|x86.ActiveCfg = Release|Win32
 		{4AC1CFFF-D7B8-4FDA-BCFD-E4754275979B}.Release|x86.Build.0 = Release|Win32
+		{4FD37A7B-BBE0-4703-8CBC-7029F4CF98ED}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{4FD37A7B-BBE0-4703-8CBC-7029F4CF98ED}.Debug|x64.ActiveCfg = Debug|x64
+		{4FD37A7B-BBE0-4703-8CBC-7029F4CF98ED}.Debug|x64.Build.0 = Debug|x64
+		{4FD37A7B-BBE0-4703-8CBC-7029F4CF98ED}.Debug|x86.ActiveCfg = Debug|Win32
+		{4FD37A7B-BBE0-4703-8CBC-7029F4CF98ED}.Debug|x86.Build.0 = Debug|Win32
+		{4FD37A7B-BBE0-4703-8CBC-7029F4CF98ED}.Release|Any CPU.ActiveCfg = Release|Win32
+		{4FD37A7B-BBE0-4703-8CBC-7029F4CF98ED}.Release|x64.ActiveCfg = Release|x64
+		{4FD37A7B-BBE0-4703-8CBC-7029F4CF98ED}.Release|x64.Build.0 = Release|x64
+		{4FD37A7B-BBE0-4703-8CBC-7029F4CF98ED}.Release|x86.ActiveCfg = Release|Win32
+		{4FD37A7B-BBE0-4703-8CBC-7029F4CF98ED}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +93,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{36BC08F3-71CF-429A-AE69-291BE8962CB2} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 		{4AC1CFFF-D7B8-4FDA-BCFD-E4754275979B} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
+		{4FD37A7B-BBE0-4703-8CBC-7029F4CF98ED} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F2C0E4B-4FE9-47C6-A878-6BD2FAD8B9B2}
