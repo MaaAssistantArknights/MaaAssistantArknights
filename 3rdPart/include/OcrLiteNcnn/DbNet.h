@@ -2,6 +2,7 @@
 #define __OCR_DBNET_H__
 
 #include "OcrStruct.h"
+#include <opencv/cv.hpp>
 #include <memory>
 
 namespace ocr {

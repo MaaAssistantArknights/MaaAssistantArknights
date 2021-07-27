@@ -1,80 +1,65 @@
 #ifndef __OCR_STRUCT_H__
 #define __OCR_STRUCT_H__
 
+#include "opencv2/core.hpp"
 #include <vector>
-#include <string>
-#include <memory>
 
-namespace cv
-{
-    class Mat;
-    class RotatedRect;
+#ifdef __C_API__
+#define OCRLITE_EXPORT __declspec(dllexport)
+#else
+#define OCRLITE_EXPORT
+#endif
 
-    template<typename _Tp> class Point_;
-    typedef Point_<int> Point2i;
-    typedef Point_<float> Point2f;
-    typedef Point2i Point;
-
-    template<typename _Tp> class Rect_;
-    typedef Rect_<int> Rect2i;
-    typedef Rect2i Rect;
-}
-
-namespace ncnn
-{
+namespace ncnn {
     class Net;
 }
 
-#ifdef __C_DLL__
-#define __API_EXPORT__ __declspec(dllexport)
-#else 
-#define __API_EXPORT__
-#endif // __C_DLL__
+namespace ocr {
+    struct OCRLITE_EXPORT ScaleParam {
+        int srcWidth;
+        int srcHeight;
+        int dstWidth;
+        int dstHeight;
+        float ratioWidth;
+        float ratioHeight;
+    };
 
-struct __API_EXPORT__ ScaleParam {
-    int srcWidth;
-    int srcHeight;
-    int dstWidth;
-    int dstHeight;
-    float ratioWidth;
-    float ratioHeight;
-};
+    struct OCRLITE_EXPORT TextBox {
+        std::vector<cv::Point> boxPoint;
+        float score;
+    };
 
-struct __API_EXPORT__ TextBox {
-    std::vector<cv::Point> boxPoint;
-    float score;
-};
+    struct OCRLITE_EXPORT Angle {
+        int index;
+        float score;
+        double time;
+    };
 
-struct __API_EXPORT__ Angle {
-    int index;
-    float score;
-    double time;
-};
+    struct OCRLITE_EXPORT TextLine {
+        std::string text;
+        std::vector<float> charScores;
+        double time;
+    };
 
-struct __API_EXPORT__ TextLine {
-    std::string text;
-    std::vector<float> charScores;
-    double time;
-};
+    struct OCRLITE_EXPORT TextBlock {
+        std::vector<cv::Point> boxPoint;
+        float boxScore;
+        int angleIndex;
+        float angleScore;
+        double angleTime;
+        std::string text;
+        std::vector<float> charScores;
+        double crnnTime;
+        double blockTime;
+    };
 
-struct __API_EXPORT__ TextBlock {
-    std::vector<cv::Point> boxPoint;
-    float boxScore;
-    int angleIndex;
-    float angleScore;
-    double angleTime;
-    std::string text;
-    std::vector<float> charScores;
-    double crnnTime;
-    double blockTime;
-};
-
-struct __API_EXPORT__ OcrResult {
-    double dbNetTime;
-    std::vector<TextBlock> textBlocks;
-    std::shared_ptr<cv::Mat> pBoxImg = std::make_shared<cv::Mat>();
-    double detectTime;
-    std::string strRes;
-};
+    struct OCRLITE_EXPORT OcrResult {
+        double dbNetTime;
+        std::vector<TextBlock> textBlocks;
+        cv::Mat boxImg;
+        double detectTime;
+        std::string strRes;
+    };
+}
 
 #endif //__OCR_STRUCT_H__
