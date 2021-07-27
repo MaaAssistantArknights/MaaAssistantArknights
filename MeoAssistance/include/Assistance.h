@@ -37,7 +37,7 @@ namespace asst {
 		static void working_proc(Assistance* pThis);
 
 		// pair<scale, image>
-		std::pair<double, cv::Mat> get_format_image();
+		cv::Mat get_format_image(bool need_set_scale = true);
 
 		std::shared_ptr<WinMacro> m_pWindow = nullptr;
 		std::shared_ptr<WinMacro> m_pView = nullptr;
