@@ -60,6 +60,8 @@ bool Configer::reload(const std::string& filename)
 			temp.m_options.print_window = options_obj["printWindow"].as_boolean();
 			temp.m_options.print_window_delay = options_obj["printWindowDelay"].as_integer();
 			temp.m_options.print_window_crop_offset = options_obj["printWindowCropOffset"].as_integer();
+			temp.m_options.ocr_gpu_index = options_obj["ocrGpuIndex"].as_integer();
+			temp.m_options.ocr_thread_number = options_obj["ocrThreadNumber"].as_integer();
 		}
 		DebugTrace("Options", options_obj.to_string());
 

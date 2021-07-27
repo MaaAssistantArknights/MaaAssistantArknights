@@ -1,10 +1,54 @@
 #include <OcrLiteNcnn\OcrLite.h>
-#include <AsstAux.h>
+
 #include <iostream>
 #include <fstream>
 #include <chrono>
 
+#include "Assistance.h"
+#include "AsstAux.h"
+#include "Logger.hpp"
+
+void raw_ocr_test();
+void asst_ocr_test();
+
 int main(int argc, char** argv)
+{
+	//raw_ocr_test();;
+
+	asst_ocr_test();
+
+
+	return 0;
+}
+
+void asst_ocr_test()
+{
+	using namespace asst;
+	Assistance asst;
+
+	auto ret = asst.set_emulator();
+	if (!ret) {
+		DebugTraceError("Can't Find Emulator or Permission denied.");
+		getchar();
+		return;
+	}
+	else {
+		DebugTraceInfo("Find Emulator:", ret.value());
+	}
+	char c = 0;
+	while (c != 'q') {
+
+		std::ifstream ifs(GetCurrentDir() + "name.txt");
+		std::string person_name;
+		ifs >> person_name;
+
+		asst.find_text_and_click(person_name);
+
+		c = getchar();
+	}
+}
+
+void raw_ocr_test()
 {
 	using namespace ocr;
 	using namespace asst;
@@ -39,8 +83,4 @@ int main(int argc, char** argv)
 	std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
 
 	std::wcout << Utf8ToGBK(result.strRes) << std::endl;
-
-	getchar();
-
-	return 0;
 }

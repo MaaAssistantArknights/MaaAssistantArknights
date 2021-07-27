@@ -59,9 +59,9 @@ namespace asst {
 				level.c_str(), _getpid(), ::GetCurrentThreadId());
 
 			if (level == "ERR" || level == "INF"
-#ifdef _DEBUG
+//#ifdef _DEBUG
 				|| level == "TRC"
-#endif
+//#endif
 				) {
 				stream_args(std::cout, buff, std::forward<Args>(args)...);
 			}
