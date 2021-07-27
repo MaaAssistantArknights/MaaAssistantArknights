@@ -33,11 +33,14 @@ namespace asst {
 		std::optional<std::string> get_param(const std::string& type, const std::string& param);
 
 		bool print_window(const std::string& filename, bool block = true);
+
+		// for debug
+		bool find_text_and_click(const std::string& text, bool block = true);
 	private:
 		static void working_proc(Assistance* pThis);
 
 		// pair<scale, image>
-		std::pair<double, cv::Mat> get_format_image();
+		cv::Mat get_format_image(bool need_set_scale = true);
 
 		std::shared_ptr<WinMacro> m_pWindow = nullptr;
 		std::shared_ptr<WinMacro> m_pView = nullptr;

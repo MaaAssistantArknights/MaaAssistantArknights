@@ -15,7 +15,11 @@
             0,
             0
         ],
-        "controlDelayRange_Doc": "点击随机延时：每次点击操作会进行随机延时，降低封号风险（好像也没听说过谁被封号的）。格式为 [ 最小延时, 最大延时 ]，单位为毫秒。例如想设置3~5秒延时，即修改为[ 3000, 5000 ]，默认0~0"
+        "controlDelayRange_Doc": "点击随机延时：每次点击操作会进行随机延时，降低封号风险（好像也没听说过谁被封号的）。格式为 [ 最小延时, 最大延时 ]，单位为毫秒。例如想设置3~5秒延时，即修改为[ 3000, 5000 ]，默认0~0",
+        "ocrGpuIndex": -1,
+        "ocrGpuIndex_Doc": "OcrLite使用GPU编号，-1(使用CPU)/0(使用GPU0)/1(使用GPU1)/...，GPU选择失败时，则使用CPU进行计算。默认-1",
+        "ocrThreadNumber": 4,
+        "ocrThreadNumber_Doc": "OcrLite线程数量。默认4"
     },
     "handle_Doc": "下面的和模拟器窗口捕获逻辑有关，不需要修改",
     "handle": {
@@ -371,8 +375,8 @@
         },
         "ReturnToFriends": {
             "filename": "Return.png",
-            "threshold":  0.85,
-            "cacheThreshold":  0.85,
+            "threshold": 0.85,
+            "cacheThreshold": 0.85,
             "type": "clickSelf",
             "next": [
                 "Friends",

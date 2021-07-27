@@ -99,6 +99,16 @@ namespace asst {
 		int height = 0;
 	};
 
+	struct TextArea {
+		TextArea() = default;
+		template<typename TextArg, typename ...RectArgs>
+		TextArea(TextArg&& text_arg, RectArgs &&... rect_args)
+			: text(std::forward<TextArg>(text_arg)),
+			rect(std::forward<RectArgs>(rect_args)...) {}
+		std::string text;
+		Rect rect;
+	};
+
 	struct HandleInfo {
 		std::string class_name;
 		std::string window_name;
@@ -152,5 +162,7 @@ namespace asst {
 		bool print_window = false;			// 截图功能：开启后每次结算界面会截图到screenshot目录下
 		int print_window_delay = 0;			// 截图延时：每次到结算界面，掉落物品不是一次性出来的，有个动画，所以需要等一会再截图
 		int print_window_crop_offset = 0;	// 截图额外裁剪：再额外把边框裁减掉一圈，不然企鹅物流有可能识别不出来
+		int ocr_gpu_index = -1;				// OcrLite使用GPU编号，-1(使用CPU)/0(使用GPU0)/1(使用GPU1)/...
+		int ocr_thread_number = 0;			// OcrLite线程数量
 	};
 }

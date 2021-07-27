@@ -45,4 +45,14 @@ namespace asst {
 			curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds);
 		return buff;
 	}
+
+	static std::wstring Utf8ToGBK(const std::string& src)
+	{
+		wchar_t* wbuff = NULL;
+		size_t len = (src.size() + 1) * 2;
+		wbuff = new wchar_t[len];
+		memset(wbuff, 0, len);
+		::MultiByteToWideChar(CP_UTF8, 0, src.c_str(), -1, wbuff, len);
+		return wbuff;
+	}
 }

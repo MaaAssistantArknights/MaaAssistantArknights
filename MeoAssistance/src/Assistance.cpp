@@ -26,6 +26,9 @@ Assistance::Assistance()
 	}
 	m_pIder->set_use_cache(m_configer.m_options.identify_cache);
 
+	m_pIder->set_ocr_param(m_configer.m_options.ocr_gpu_index, m_configer.m_options.ocr_thread_number);
+	m_pIder->ocr_init_models(GetResourceDir() + "OcrLiteNcnn\\models\\");
+
 	m_working_thread = std::thread(working_proc, this);
 }
 
@@ -158,8 +161,11 @@ bool asst::Assistance::print_window(const std::string& filename, bool block)
 		lock = std::unique_lock<std::mutex>(m_mutex);
 	}
 
-	auto&& [scale, image] = get_format_image();
-	bool ret = cv::imwrite(filename.c_str(), image);
+	auto&& image = get_format_image();
+	// 保存的截图额外再裁剪掉一圈，不然企鹅物流识别不出来
+	int offset = m_configer.m_options.print_window_crop_offset;
+	cv::Rect rect(offset, offset, image.cols - offset * 2, image.rows - offset * 2);
+	bool ret = cv::imwrite(filename.c_str(), image(rect));
 	
 	if (ret) {
 		DebugTraceInfo("PrintWindow to", filename);
@@ -170,6 +176,26 @@ bool asst::Assistance::print_window(const std::string& filename, bool block)
 	return ret;
 }
 
+bool asst::Assistance::find_text_and_click(const std::string& text, bool block)
+{
+	DebugTraceFunction;
+	DebugTrace("find_text_and_click |", text, block ? "block" : "non block");
+
+	std::unique_lock<std::mutex> lock;
+	if (block) { // 外部调用
+		lock = std::unique_lock<std::mutex>(m_mutex);
+	}
+
+	auto result = m_pIder->find_text(get_format_image(), text);
+
+	if (!result) {
+		DebugTrace("Cannot found", text);
+		return false;
+	}
+
+	return m_pCtrl->click(result.value());
+}
+
 void Assistance::working_proc(Assistance* pThis)
 {
 	DebugTraceFunction;
@@ -177,8 +203,7 @@ void Assistance::working_proc(Assistance* pThis)
 	while (!pThis->m_thread_exit) {
 		std::unique_lock<std::mutex> lock(pThis->m_mutex);
 		if (pThis->m_thread_running) {
-			auto && [scale, cur_image] = pThis->get_format_image();
-			pThis->m_pCtrl->setControlScale(scale);
+			auto && cur_image = pThis->get_format_image();
 
 			if (cur_image.empty()) {
 				DebugTraceError("Unable to capture window image!!!");
@@ -326,33 +351,36 @@ void Assistance::working_proc(Assistance* pThis)
 	}
 }
 
-std::pair<double, cv::Mat> asst::Assistance::get_format_image()
+cv::Mat asst::Assistance::get_format_image(bool need_set_scale)
 {
-	auto && cur_image = m_pView->getImage(m_pView->getWindowRect());
-	if (cur_image.empty() || cur_image.cols < m_configer.DefaultWindowWidth) {
+	auto && raw_image = m_pView->getImage(m_pView->getWindowRect());
+	if (raw_image.empty() || raw_image.rows < 100) {
 		DebugTraceError("Window image error");
-		return { 0, std::move(cur_image) };
+		return raw_image;
 	}
-	// 把模拟器边框的一圈裁剪掉。再额外裁一圈，不然企鹅物流识别不出来
+	// 把模拟器边框的一圈裁剪掉
 	auto&& window_info = m_pView->getEmulatorInfo();
-	int x_offset = window_info.x_offset + m_configer.m_options.print_window_crop_offset;
-	int y_offset = window_info.y_offset + m_configer.m_options.print_window_crop_offset;
-	int width = cur_image.cols - x_offset - window_info.right_offset - m_configer.m_options.print_window_crop_offset;
-	int height = cur_image.rows - y_offset - window_info.bottom_offset - m_configer.m_options.print_window_crop_offset;
+	int x_offset = window_info.x_offset;
+	int y_offset = window_info.y_offset;
+	int width = raw_image.cols - x_offset - window_info.right_offset;
+	int height = raw_image.rows - y_offset - window_info.bottom_offset;
 
-	cv::Mat cropped(cur_image, cv::Rect(x_offset, y_offset, width, height));
+	cv::Mat cropped(raw_image, cv::Rect(x_offset, y_offset, width, height));
+
+	if (need_set_scale) {
+		double scale_width = static_cast<double>(width) / m_configer.DefaultWindowWidth;
+		double scale_height = static_cast<double>(height) / m_configer.DefaultWindowHeight;
+		// 有些模拟器有可收缩的侧边，会增加宽度。
+		// config.json中设置的是侧边展开后的offset
+		// 如果用户把侧边收起来了，则有侧边的那头会额外裁剪掉一些，长度偏小
+		// 所以按这里面长、宽里大的那个算，大的那边没侧边
+		double scale = std::max(scale_width, scale_height);
+		m_pCtrl->setControlScale(scale);
+	}
 
 	//// 调整尺寸，与资源中截图的标准尺寸一致
 	//cv::Mat dst;
 	//cv::resize(cropped, dst, cv::Size(m_configer.DefaultWindowWidth, m_configer.DefaultWindowHeight));
 
-	double scale_width = static_cast<double>(width) / m_configer.DefaultWindowWidth;
-	double scale_height = static_cast<double>(height) / m_configer.DefaultWindowHeight;
-	// 有些模拟器有可收缩的侧边，会增加宽度。
-	// config.json中设置的是侧边展开后的offset
-	// 如果用户把侧边收起来了，则有侧边的那头会额外裁剪掉一些，长度偏小
-	// 所以按这里面长、宽里大的那个算，大的那边没侧边
-	double scale = std::max(scale_width, scale_height);
-	
-	return { scale, std::move(cropped) };
+	return cropped;
 }

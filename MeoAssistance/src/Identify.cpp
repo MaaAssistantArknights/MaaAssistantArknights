@@ -52,6 +52,31 @@ double Identify::image_hist_comp(const cv::Mat& src, const cv::MatND& hist)
 	return 1 - compareHist(image_2_hist(src), hist, CV_COMP_BHATTACHARYYA);
 }
 
+std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& mat)
+{
+	ocr::OcrResult ocr_results = m_ocr_lite.detect(mat,
+		50, 1024,
+		0.6f, 0.3f,
+		2.0f, true, true);
+
+	std::vector<TextArea> result;
+	for (auto && text_block : ocr_results.textBlocks) {
+		if (text_block.boxPoint.size() != 4) {
+			continue;
+		}
+		// the rect like ¡ý
+		// 0 - 1 
+		// 3 - 2
+		int x = text_block.boxPoint.at(0).x;
+		int y = text_block.boxPoint.at(0).y;
+		int width = text_block.boxPoint.at(1).x - x;
+		int height = text_block.boxPoint.at(3).y - y;
+
+		result.emplace_back(text_block.text, x, y, width, height);
+	}
+	return result;
+}
+
 std::pair<double, cv::Point> Identify::find_image(const cv::Mat& image, const cv::Mat& templ)
 {
 	Mat image_hsv;
@@ -96,6 +121,34 @@ std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cu
 void Identify::clear_cache()
 {
 	m_cache_map.clear();
+}
+
+void asst::Identify::set_ocr_param(int gpu_index, int thread_number)
+{
+	m_ocr_lite.setGpuIndex(gpu_index);
+	m_ocr_lite.setNumThread(thread_number);
+}
+
+bool asst::Identify::ocr_init_models(const std::string& dir)
+{
+	constexpr static const char* DetName = "dbnet_op";
+	constexpr static const char* ClsName = "angle_op";
+	constexpr static const char* RecName = "crnn_lite_op";
+	constexpr static const char* KeysName = "keys.txt";
+
+	return m_ocr_lite.initModels(dir + DetName, dir + ClsName, dir + RecName, dir + KeysName);
+}
+
+std::optional<asst::Rect> asst::Identify::find_text(const cv::Mat& mat, const std::string& text)
+{
+	auto results = ocr_detect(mat);
+	for (auto&& res : results) {
+		if (res.text == text) {
+			return res.rect;
+		}
+	}
+
+	return std::nullopt;
 }
 
 /*
