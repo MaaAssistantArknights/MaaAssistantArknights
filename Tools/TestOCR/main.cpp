@@ -1,6 +1,8 @@
 #include <OcrLiteNcnn\OcrLite.h>
 #include <AsstAux.h>
 #include <iostream>
+#include <fstream>
+#include <chrono>
 
 int main(int argc, char** argv)
 {
@@ -11,8 +13,14 @@ int main(int argc, char** argv)
 
 	OcrLite ocr_lite;
 	ocr_lite.setNumThread(4);
+
+	//ocr_lite.initLogger(
+	//	true,//isOutputConsole
+	//	false,//isOutputPartImg
+	//	false);//isOutputResultImg
+
 	ocr_lite.enableResultTxt(GetCurrentDir().c_str(), filename.c_str());
-	ocr_lite.setGpuIndex(0);
+	ocr_lite.setGpuIndex(-1);
 
 	const std::string models_dir = GetResourceDir() + "OcrLiteNcnn\\models\\";
 
@@ -21,12 +29,18 @@ int main(int argc, char** argv)
 		std::cerr << "initModels failed" << std::endl;
 	}
 
+	auto start = std::chrono::system_clock::now();
 	OcrResult result = ocr_lite.detect(GetCurrentDir().c_str(), filename.c_str(),
 		50, 1024,
 		0.6f, 0.3f,
 		2.0f, true, true);
 
-	std::cout << result.strRes << std::endl;
+	auto end = std::chrono::system_clock::now();
+	std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
+
+	std::wcout << Utf8ToGBK(result.strRes) << std::endl;
+
+	getchar();
 
 	return 0;
 }
