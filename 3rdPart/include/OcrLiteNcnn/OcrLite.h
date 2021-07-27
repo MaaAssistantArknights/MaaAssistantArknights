@@ -1,13 +1,14 @@
 #ifndef __OCR_LITE_H__
 #define __OCR_LITE_H__
 
+#include "opencv2/core.hpp"
 #include "OcrStruct.h"
 #include "DbNet.h"
 #include "AngleNet.h"
 #include "CrnnNet.h"
 
 namespace ocr {
-    class __API_EXPORT__ OcrLite {
+    class OCRLITE_EXPORT OcrLite {
     public:
         OcrLite();
 

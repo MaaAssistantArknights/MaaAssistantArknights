@@ -149,9 +149,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libmeojsond.lib;OcrLiteNcnnd.lib;opencv_world3415d.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libmeojson.lib;OcrLiteNcnn.lib;opencv_world3415d.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <AdditionalLibraryDirectories>$(SolutionDir)\3rdPart\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)3rdPart\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -165,7 +165,7 @@ xcopy /e /y /i $(SolutionDir)3rdPart\resource $(TargetDir)resource</Command>
       <Message>copy resource</Message>
     </PostBuildEvent>
     <PreLinkEvent>
-      <Command>xcopy /e /y /i $(SolutionDir)3rdPart\bin $(TargetDir)</Command>
+      <Command>xcopy /e /y /i $(SolutionDir)3rdPart\bin\$(Configuration) $(TargetDir)</Command>
     </PreLinkEvent>
     <PreLinkEvent>
       <Message>copy 3rd part dll</Message>
@@ -190,7 +190,7 @@ xcopy /e /y /i $(SolutionDir)3rdPart\resource $(TargetDir)resource</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libmeojson.lib;OcrLiteNcnn.lib;opencv_world3415.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <AdditionalLibraryDirectories>$(SolutionDir)\3rdPart\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)3rdPart\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -204,7 +204,7 @@ xcopy /e /y /i $(SolutionDir)3rdPart\resource $(TargetDir)resource</Command>
       <Message>copy resource</Message>
     </PostBuildEvent>
     <PreLinkEvent>
-      <Command>xcopy /e /y /i $(SolutionDir)3rdPart\bin $(TargetDir)</Command>
+      <Command>xcopy /e /y /i $(SolutionDir)3rdPart\bin\$(Configuration) $(TargetDir)</Command>
     </PreLinkEvent>
     <PreLinkEvent>
       <Message>copy 3rd part dll</Message>
