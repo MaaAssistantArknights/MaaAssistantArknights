@@ -27,7 +27,9 @@
     <ClInclude Include="include\Configer.h" />
     <ClInclude Include="include\Identify.h" />
     <ClInclude Include="include\Logger.hpp" />
+    <ClInclude Include="include\RecruitConfiger.h" />
     <ClInclude Include="include\Updater.h" />
+    <ClInclude Include="include\Version.h" />
     <ClInclude Include="include\WinMacro.h" />
   </ItemGroup>
   <ItemGroup>
@@ -35,11 +37,12 @@
     <ClCompile Include="src\AsstCaller.cpp" />
     <ClCompile Include="src\Configer.cpp" />
     <ClCompile Include="src\Identify.cpp" />
+    <ClCompile Include="src\RecruitConfiger.cpp" />
     <ClCompile Include="src\Updater.cpp" />
     <ClCompile Include="src\WinMacro.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\resource\akhr.json" />
+    <None Include="..\resource\operInfo.json" />
     <None Include="..\resource\config.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

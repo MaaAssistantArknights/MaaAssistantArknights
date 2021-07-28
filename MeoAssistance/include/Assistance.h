@@ -7,9 +7,10 @@
 #include <optional>
 #include <unordered_map>
 
+#include "AsstPort.h"
 #include "AsstDef.h"
 #include "Configer.h"
-#include "AsstPort.h"
+#include "RecruitConfiger.h"
 
 namespace cv {
 	class Mat;
@@ -37,6 +38,8 @@ namespace asst {
 
 		// for debug
 		bool find_text_and_click(const std::string& text, bool block = true);
+		// for debug
+		std::vector<std::string> find_tags();
 	private:
 		static void working_proc(Assistance* pThis);
 
@@ -58,6 +61,7 @@ namespace asst {
 		std::vector<std::string> m_next_tasks;
 
 		Configer m_configer;
+		RecruitConfiger m_recruit_configer;
 	};
 
 }

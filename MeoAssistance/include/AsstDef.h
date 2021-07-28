@@ -2,12 +2,11 @@
 
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <ostream>
 
 namespace asst {
-
-	const static std::string Version = "release.beta.04";
 
 	enum class HandleType
 	{
@@ -101,10 +100,17 @@ namespace asst {
 
 	struct TextArea {
 		TextArea() = default;
+		TextArea(const TextArea&) = default;
+		TextArea(TextArea&&) = default;
 		template<typename TextArg, typename ...RectArgs>
 		TextArea(TextArg&& text_arg, RectArgs &&... rect_args)
 			: text(std::forward<TextArg>(text_arg)),
-			rect(std::forward<RectArgs>(rect_args)...) {}
+			rect(std::forward<RectArgs>(rect_args)...) {
+			static_assert(std::is_constructible<std::string, TextArg>::value,
+				"Parameter can't be used to construct a std::string");
+			static_assert(std::is_constructible<asst::Rect, RectArgs...>::value,
+				"Parameter can't be used to construct a asst::Rect");
+		}
 		std::string text;
 		Rect rect;
 	};
@@ -164,5 +170,16 @@ namespace asst {
 		int print_window_crop_offset = 0;	// 截图额外裁剪：再额外把边框裁减掉一圈，不然企鹅物流有可能识别不出来
 		int ocr_gpu_index = -1;				// OcrLite使用GPU编号，-1(使用CPU)/0(使用GPU0)/1(使用GPU1)/...
 		int ocr_thread_number = 0;			// OcrLite线程数量
+	};
+
+	// 干员信息
+	struct OperInfo {
+		std::string name;
+		std::string type;
+		int level = 0;
+		std::string sex;
+		std::unordered_set<std::string> tags;
+		bool hidden = false;
+		std::string name_en;
 	};
 }

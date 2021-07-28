@@ -17,7 +17,8 @@ Assistance::Assistance()
 {
 	DebugTraceFunction;
 
-	m_configer.reload(GetResourceDir() + "config.json");
+	m_configer.load(GetResourceDir() + "config.json");
+	m_recruit_configer.load(GetResourceDir() + "operInfo.json");
 
 	m_pIder = std::make_shared<Identify>();
 	for (auto&& [name, info] : m_configer.m_tasks)
@@ -179,22 +180,40 @@ bool asst::Assistance::print_window(const std::string& filename, bool block)
 bool asst::Assistance::find_text_and_click(const std::string& text, bool block)
 {
 	DebugTraceFunction;
-	DebugTrace("find_text_and_click |", text, block ? "block" : "non block");
+	DebugTrace("find_text_and_click |", Utf8ToGbk(text), block ? "block" : "non block");
 
 	std::unique_lock<std::mutex> lock;
 	if (block) { // 外部调用
 		lock = std::unique_lock<std::mutex>(m_mutex);
 	}
-	auto&& image = get_format_image();
+	const auto& image = get_format_image();
 	auto&& result = m_pIder->find_text(image, text);
 
 	if (!result) {
-		DebugTrace("Cannot found", text);
+		DebugTrace("Cannot found", Utf8ToGbk(text));
 		return false;
 	}
 
 	set_control_scale(image.cols, image.rows);
 	return m_pCtrl->click(result.value());
+}
+
+std::vector<std::string> asst::Assistance::find_tags()
+{
+	DebugTraceFunction;
+
+	const auto& image = get_format_image();
+	auto&& result = m_pIder->find_text(image, m_recruit_configer.m_all_tags);
+
+	std::vector<std::string> dst;
+	std::string dst_str;
+	for (auto&& t_a : result) {
+		dst.emplace_back(t_a.text);
+		dst_str += t_a.text + ", ";
+	}
+	DebugTrace(Utf8ToGbk(dst_str));
+
+	return dst;
 }
 
 void Assistance::working_proc(Assistance* pThis)

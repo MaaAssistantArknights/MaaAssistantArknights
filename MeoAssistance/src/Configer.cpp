@@ -9,26 +9,26 @@
 
 using namespace asst;
 
-Configer::Configer(const Configer& rhs)
-	: m_version(rhs.m_version),
-	m_options(rhs.m_options),
-	m_tasks(rhs.m_tasks),
-	m_handles(rhs.m_handles)
-{
-}
+//Configer::Configer(const Configer& rhs)
+//	: m_version(rhs.m_version),
+//	m_options(rhs.m_options),
+//	m_tasks(rhs.m_tasks),
+//	m_handles(rhs.m_handles)
+//{
+//}
+//
+//Configer::Configer(Configer&& rhs) noexcept
+//	: m_version(std::move(rhs.m_version)),
+//	m_options(std::move(rhs.m_options)),
+//	m_tasks(std::move(rhs.m_tasks)),
+//	m_handles(std::move(rhs.m_handles))
+//{
+//}
 
-Configer::Configer(Configer&& rhs) noexcept
-	: m_version(std::move(rhs.m_version)),
-	m_options(std::move(rhs.m_options)),
-	m_tasks(std::move(rhs.m_tasks)),
-	m_handles(std::move(rhs.m_handles))
-{
-}
-
-bool Configer::reload(const std::string& filename)
+bool Configer::load(const std::string& filename)
 {
 	DebugTraceFunction;
-	DebugTrace("Configer::reload | ", filename);
+	DebugTrace("Configer::load | ", filename);
 
 	std::ifstream ifs(filename, std::ios::in);
 	if (!ifs.is_open()) {
@@ -63,7 +63,7 @@ bool Configer::reload(const std::string& filename)
 			temp.m_options.ocr_gpu_index = options_obj["ocrGpuIndex"].as_integer();
 			temp.m_options.ocr_thread_number = options_obj["ocrThreadNumber"].as_integer();
 		}
-		DebugTrace("Options", options_obj.to_string());
+		DebugTrace("Options", Utf8ToGbk(options_obj.to_string()));
 
 		auto tasks_obj = root["tasks"].as_object();
 		for (auto&& [name, task_json] : tasks_obj) {
@@ -261,22 +261,22 @@ void Configer::clear_exec_times()
 	}
 }
 
-Configer& asst::Configer::operator=(const Configer& rhs)
-{
-	m_version = rhs.m_version;
-	m_options = rhs.m_options;
-	m_tasks = rhs.m_tasks;
-	m_handles = rhs.m_handles;
-
-	return *this;
-}
-
-Configer& asst::Configer::operator=(Configer&& rhs) noexcept
-{
-	m_version = std::move(rhs.m_version);
-	m_options = std::move(rhs.m_options);
-	m_tasks = std::move(rhs.m_tasks);
-	m_handles = std::move(rhs.m_handles);
-
-	return *this;
-}
+//Configer& asst::Configer::operator=(const Configer& rhs)
+//{
+//	m_version = rhs.m_version;
+//	m_options = rhs.m_options;
+//	m_tasks = rhs.m_tasks;
+//	m_handles = rhs.m_handles;
+//
+//	return *this;
+//}
+//
+//Configer& asst::Configer::operator=(Configer&& rhs) noexcept
+//{
+//	m_version = std::move(rhs.m_version);
+//	m_options = std::move(rhs.m_options);
+//	m_tasks = std::move(rhs.m_tasks);
+//	m_handles = std::move(rhs.m_handles);
+//
+//	return *this;
+//}

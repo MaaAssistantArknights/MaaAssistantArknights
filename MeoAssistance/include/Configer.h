@@ -14,18 +14,18 @@ namespace asst {
 		Configer() = default;
 		~Configer() = default;
 
-		Configer(const Configer& rhs);
-		Configer(Configer&& rhs) noexcept;
+		Configer(const Configer& rhs) = default;
+		Configer(Configer&& rhs) noexcept = default;
 
-		bool reload(const std::string& filename);
+		bool load(const std::string& filename);
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
 		std::optional<std::string> get_param(const std::string& type, const std::string& param);
 
 		void clear_exec_times();
 
-		Configer& operator=(const Configer& rhs);
-		Configer& operator=(Configer&& rhs) noexcept;
+		Configer& operator=(const Configer& rhs) = default;
+		Configer& operator=(Configer&& rhs) noexcept = default;
 
 		constexpr static int DefaultWindowWidth = 1280;
 		constexpr static int DefaultWindowHeight = 720;

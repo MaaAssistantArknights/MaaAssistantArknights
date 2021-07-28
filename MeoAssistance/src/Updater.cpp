@@ -7,6 +7,7 @@
 #include "json.h"
 #include "AsstDef.h"
 #include "Logger.hpp"
+#include "Version.h"
 
 using namespace asst;
 
