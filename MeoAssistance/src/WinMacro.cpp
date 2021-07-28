@@ -363,7 +363,7 @@ cv::Mat WinMacro::getImage(const Rect& rect)
 	ReleaseDC(m_handle, pDC);
 
 	/*
-	#ifdef _DEBUG
+	#ifdef LOG_TRACE
 		std::string filename = GetCurrentDir() + "\\print.bmp";
 		cv::imwrite(filename, dst_mat);
 	#endif
