@@ -35,7 +35,7 @@ namespace asst {
 		ClickRect = 16 | BasicClick,
 		ClickRand = 32 | BasicClick
 	};
-	static bool operator&(const TaskType& lhs, const TaskType& rhs) 
+	static bool operator&(const TaskType& lhs, const TaskType& rhs)
 	{
 		return static_cast<std::underlying_type<TaskType>::type>(lhs) & static_cast<std::underlying_type<TaskType>::type>(rhs);
 	}
@@ -53,7 +53,7 @@ namespace asst {
 		};
 		return os << _type_name.at(task);
 	}
-	
+
 	enum class AlgorithmType {
 		JustReturn,
 		MatchTemplate,
@@ -181,5 +181,11 @@ namespace asst {
 		std::unordered_set<std::string> tags;
 		bool hidden = false;
 		std::string name_en;
+	};
+
+	struct OperCombs {
+		std::vector<OperInfo> opers;
+		int max_level = 0;
+		int min_level = 0;
 	};
 }
