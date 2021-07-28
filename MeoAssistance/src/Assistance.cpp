@@ -22,7 +22,7 @@ Assistance::Assistance()
 	m_pIder = std::make_shared<Identify>();
 	for (auto&& [name, info] : m_configer.m_tasks)
 	{
-		m_pIder->add_image(name, GetResourceDir() + info.filename);
+		m_pIder->add_image(name, GetResourceDir() + "template\\" + info.template_filename);
 	}
 	m_pIder->set_use_cache(m_configer.m_options.identify_cache);
 
@@ -49,7 +49,7 @@ Assistance::~Assistance()
 	}
 }
 
-std::optional<std::string> Assistance::set_emulator(const std::string& emulator_name)
+std::optional<std::string> Assistance::catch_emulator(const std::string& emulator_name)
 {
 	DebugTraceFunction;
 
@@ -166,7 +166,7 @@ bool asst::Assistance::print_window(const std::string& filename, bool block)
 	int offset = m_configer.m_options.print_window_crop_offset;
 	cv::Rect rect(offset, offset, image.cols - offset * 2, image.rows - offset * 2);
 	bool ret = cv::imwrite(filename.c_str(), image(rect));
-	
+
 	if (ret) {
 		DebugTraceInfo("PrintWindow to", filename);
 	}
@@ -185,14 +185,15 @@ bool asst::Assistance::find_text_and_click(const std::string& text, bool block)
 	if (block) { // 外部调用
 		lock = std::unique_lock<std::mutex>(m_mutex);
 	}
-
-	auto result = m_pIder->find_text(get_format_image(), text);
+	auto&& image = get_format_image();
+	auto&& result = m_pIder->find_text(image, text);
 
 	if (!result) {
 		DebugTrace("Cannot found", text);
 		return false;
 	}
 
+	set_control_scale(image.cols, image.rows);
 	return m_pCtrl->click(result.value());
 }
 
@@ -203,7 +204,8 @@ void Assistance::working_proc(Assistance* pThis)
 	while (!pThis->m_thread_exit) {
 		std::unique_lock<std::mutex> lock(pThis->m_mutex);
 		if (pThis->m_thread_running) {
-			auto && cur_image = pThis->get_format_image();
+			auto&& cur_image = pThis->get_format_image();
+			pThis->set_control_scale(cur_image.cols, cur_image.rows);
 
 			if (cur_image.empty()) {
 				DebugTraceError("Unable to capture window image!!!");
@@ -351,9 +353,9 @@ void Assistance::working_proc(Assistance* pThis)
 	}
 }
 
-cv::Mat asst::Assistance::get_format_image(bool need_set_scale)
+cv::Mat asst::Assistance::get_format_image()
 {
-	auto && raw_image = m_pView->getImage(m_pView->getWindowRect());
+	auto&& raw_image = m_pView->getImage(m_pView->getWindowRect());
 	if (raw_image.empty() || raw_image.rows < 100) {
 		DebugTraceError("Window image error");
 		return raw_image;
@@ -367,20 +369,21 @@ cv::Mat asst::Assistance::get_format_image(bool need_set_scale)
 
 	cv::Mat cropped(raw_image, cv::Rect(x_offset, y_offset, width, height));
 
-	if (need_set_scale) {
-		double scale_width = static_cast<double>(width) / m_configer.DefaultWindowWidth;
-		double scale_height = static_cast<double>(height) / m_configer.DefaultWindowHeight;
-		// 有些模拟器有可收缩的侧边，会增加宽度。
-		// config.json中设置的是侧边展开后的offset
-		// 如果用户把侧边收起来了，则有侧边的那头会额外裁剪掉一些，长度偏小
-		// 所以按这里面长、宽里大的那个算，大的那边没侧边
-		double scale = std::max(scale_width, scale_height);
-		m_pCtrl->setControlScale(scale);
-	}
-
 	//// 调整尺寸，与资源中截图的标准尺寸一致
 	//cv::Mat dst;
 	//cv::resize(cropped, dst, cv::Size(m_configer.DefaultWindowWidth, m_configer.DefaultWindowHeight));
 
 	return cropped;
+}
+
+void asst::Assistance::set_control_scale(int cur_width, int cur_height)
+{
+	double scale_width = static_cast<double>(cur_width) / m_configer.DefaultWindowWidth;
+	double scale_height = static_cast<double>(cur_height) / m_configer.DefaultWindowHeight;
+	// 有些模拟器有可收缩的侧边，会增加宽度。
+	// config.json中设置的是侧边展开后的offset
+	// 如果用户把侧边收起来了，则有侧边的那头会额外裁剪掉一些，长度偏小
+	// 所以按这里面长、宽里大的那个算，大的那边没侧边
+	double scale = std::max(scale_width, scale_height);
+	m_pCtrl->setControlScale(scale);
 }

@@ -68,7 +68,7 @@ bool Configer::reload(const std::string& filename)
 		auto tasks_obj = root["tasks"].as_object();
 		for (auto&& [name, task_json] : tasks_obj) {
 			TaskInfo task_info;
-			task_info.filename = task_json["filename"].as_string();
+			task_info.template_filename = task_json["template"].as_string();
 			if (task_json.exist("threshold")) {
 				task_info.threshold = task_json["threshold"].as_double();
 			}

@@ -67,5 +67,8 @@
     <None Include="..\resource\config.json">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="..\resource\akhr.json">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

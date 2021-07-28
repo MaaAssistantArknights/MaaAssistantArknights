@@ -26,7 +26,7 @@ void asst_ocr_test()
 	using namespace asst;
 	Assistance asst;
 
-	auto ret = asst.set_emulator();
+	auto ret = asst.catch_emulator();
 	if (!ret) {
 		DebugTraceError("Can't Find Emulator or Permission denied.");
 		getchar();

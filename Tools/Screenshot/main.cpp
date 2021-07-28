@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 
 	Assistance asst;
 
-	auto ret = asst.set_emulator();
+	auto ret = asst.catch_emulator();
 	if (!ret) {
 		DebugTraceError("Can't Find Emulator or Permission denied.");
 		getchar();

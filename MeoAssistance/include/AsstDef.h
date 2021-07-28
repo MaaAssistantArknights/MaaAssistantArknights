@@ -140,7 +140,7 @@ namespace asst {
 	};
 
 	struct TaskInfo {
-		std::string filename;							// 图片文件名
+		std::string template_filename;					// 匹配模板图片文件名
 		double threshold = 0;							// 模板匹配阈值
 		double cache_threshold = 0;						// 直方图比较阈值
 		TaskType type = TaskType::Invalid;				// 任务类型

@@ -24,7 +24,7 @@ bool AsstCatchEmulator(asst::Assistance* p_asst)
 		return false;
 	}
 
-	auto ret = p_asst->set_emulator();
+	auto ret = p_asst->catch_emulator();
 	if (ret) {
 		return true;
 	}
