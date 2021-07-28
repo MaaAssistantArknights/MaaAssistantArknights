@@ -162,7 +162,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libmeojson.lib;OcrLiteNcnn.lib;opencv_world3415.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <AdditionalLibraryDirectories>$(SolutionDir)3rdPart\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)3rdPart\lib\</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -176,7 +176,7 @@ xcopy /e /y /i $(SolutionDir)3rdPart\resource $(TargetDir)resource</Command>
       <Message>copy resource</Message>
     </PostBuildEvent>
     <PreLinkEvent>
-      <Command>xcopy /e /y /i $(SolutionDir)3rdPart\bin\ $(TargetDir)</Command>
+      <Command>xcopy /e /y /i $(SolutionDir)3rdPart\bin $(TargetDir)</Command>
     </PreLinkEvent>
     <PreLinkEvent>
       <Message>copy 3rd part dll</Message>
@@ -216,7 +216,7 @@ xcopy /e /y /i $(SolutionDir)3rdPart\resource $(TargetDir)resource</Command>
       <Message>copy resource</Message>
     </PostBuildEvent>
     <PreLinkEvent>
-      <Command>xcopy /e /y /i $(SolutionDir)3rdPart\bin\ $(TargetDir)</Command>
+      <Command>xcopy /e /y /i $(SolutionDir)3rdPart\bin $(TargetDir)</Command>
     </PreLinkEvent>
     <PreLinkEvent>
       <Message>copy 3rd part dll</Message>
