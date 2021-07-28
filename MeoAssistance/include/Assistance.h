@@ -9,6 +9,7 @@
 
 #include "AsstDef.h"
 #include "Configer.h"
+#include "AsstPort.h"
 
 namespace cv {
 	class Mat;
@@ -18,7 +19,7 @@ namespace asst {
 	class WinMacro;
 	class Identify;
 
-	class __declspec(dllexport) Assistance
+	class MEOAPI_PORT Assistance
 	{
 	public:
 		Assistance();

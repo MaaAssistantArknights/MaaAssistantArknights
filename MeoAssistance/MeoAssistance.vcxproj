@@ -23,6 +23,7 @@
     <ClInclude Include="include\AsstAux.h" />
     <ClInclude Include="include\AsstCaller.h" />
     <ClInclude Include="include\AsstDef.h" />
+    <ClInclude Include="include\AsstPort.h" />
     <ClInclude Include="include\Configer.h" />
     <ClInclude Include="include\Identify.h" />
     <ClInclude Include="include\Logger.hpp" />
@@ -149,7 +150,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;MEO_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
@@ -189,7 +190,7 @@ xcopy /e /y /i $(SolutionDir)3rdPart\resource $(TargetDir)resource</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>LOG_TRACE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;MEO_DLL_EXPORTS;LOG_TRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
