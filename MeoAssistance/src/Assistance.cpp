@@ -203,17 +203,121 @@ std::vector<std::string> asst::Assistance::find_tags()
 	DebugTraceFunction;
 
 	const auto& image = get_format_image();
-	auto&& result = m_pIder->find_text(image, m_recruit_configer.m_all_tags);
+	auto&& ider_result = m_pIder->find_text(image, m_recruit_configer.m_all_tags);
 
-	std::vector<std::string> dst;
-	std::string dst_str;
-	for (auto&& t_a : result) {
-		dst.emplace_back(t_a.text);
-		dst_str += t_a.text + ", ";
+	std::vector<std::string> tags;
+	std::string tags_str;
+	for (auto&& t_a : ider_result) {
+		tags.emplace_back(t_a.text);
+		tags_str += t_a.text + " ,";
 	}
-	DebugTrace(Utf8ToGbk(dst_str));
+	if (tags_str.back() == ',') {
+		tags_str.pop_back();
+	}
+	DebugTraceInfo("All Tags", Utf8ToGbk(tags_str));
 
-	return dst;
+	// 高资tag和六星强绑定，如果没有高资tag，即使其他tag匹配上了也不可能出六星
+	static const std::string SeniorOper = GbkToUtf8("高级资深干员");
+	bool has_senior = std::find(tags.cbegin(), tags.cend(), SeniorOper) != tags.cend();
+
+	// Tags全组合
+	std::vector<std::vector<std::string>> combs;
+	int len = tags.size();
+	int count = std::pow(2, len);
+
+	for (int i = 0; i < count; ++i) {
+		std::vector<std::string> temp;
+		for (int j = 0, mask = 1; j < len; ++j) {
+			if ((i & mask) != 0) {	// What the fuck???
+				temp.emplace_back(tags.at(j));
+			}
+			mask = mask * 2;
+		}
+		// 游戏里最多选择3个tag
+		if (!temp.empty() && temp.size() <= 3) {
+			combs.emplace_back(std::move(temp));
+		}
+	}
+
+	std::map<std::vector<std::string>, OperCombs> result_map;
+	for (auto&& comb : combs) {
+		for (auto&& cur_oper : m_recruit_configer.m_opers) {
+			int matched_count = 0;
+			// 组合中每一个tag，是否在干员tags中
+			for (auto&& tag : comb) {
+				if (cur_oper.tags.find(tag) != cur_oper.tags.cend()) {
+					++matched_count;
+				}
+				else {
+					break;
+				}
+			}
+			if (matched_count == comb.size()) {
+				// 高资tag和六星强绑定，如果没有高资tag，即使其他tag匹配上了也不可能出六星
+				if (!has_senior && cur_oper.level == 6) {
+					continue;
+				}
+				if (result_map.find(comb) == result_map.cend()) {
+					result_map.emplace(comb, OperCombs());
+				}
+				auto&& oper_combs = result_map[comb];
+				oper_combs.opers.emplace_back(cur_oper);
+
+				// 一星小车不计入最低等级
+				if (cur_oper.level != 1 && (
+					oper_combs.min_level == 0 || oper_combs.min_level > cur_oper.level)) {
+					oper_combs.min_level = cur_oper.level;
+				}
+
+				if (oper_combs.max_level == 0 || oper_combs.max_level < cur_oper.level) {
+					oper_combs.max_level = cur_oper.level;
+				}
+			}
+		}
+	}
+
+	// map没法按值排序，转个vector再排
+	std::vector<std::pair<std::vector<std::string>, OperCombs>> result_vector;
+	for (auto&& pair : result_map) {
+		result_vector.emplace_back(std::move(pair));
+	}
+	std::sort(result_vector.begin(), result_vector.end(), [](const auto& lhs, const auto& rhs) ->bool {
+		// 1、最小等级小的，排最后
+		// 2、最小等级相同，最大等级小的，排后面
+		// 3、1 2都相同，干员数量越多的，排后面
+		if (lhs.second.min_level != rhs.second.min_level) {
+			return lhs.second.min_level > rhs.second.min_level;
+		}
+		else if (lhs.second.max_level != rhs.second.max_level) {
+			return lhs.second.max_level > rhs.second.max_level;
+		}
+		else {
+			return lhs.second.opers.size() < rhs.second.opers.size();
+		}
+		});
+
+#ifdef LOG_TRACE
+	for (auto&& [combs, oper_combs] : result_vector) {
+		std::string tag_str;
+		for (auto&& tag : combs) {
+			tag_str += tag + " ,";
+		}
+		if (tags_str.back() == ',') {
+			tag_str.pop_back();
+		}
+
+		std::string opers_str;
+		for (auto&& oper : oper_combs.opers) {
+			opers_str += std::to_string(oper.level) + "-" + oper.name + " ,";
+		}
+		if (opers_str.back() == ',') {
+			opers_str.pop_back();
+		}
+		DebugTraceInfo("Tags:", Utf8ToGbk(tag_str), "May be recruited: ", Utf8ToGbk(opers_str));
+	}
+#endif
+
+	return tags;
 }
 
 void Assistance::working_proc(Assistance* pThis)

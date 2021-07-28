@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 #include "json.h"
 #include "Logger.hpp"
@@ -61,13 +62,17 @@ bool RecruitConfiger::load(const std::string& filename)
 		return false;
 	}
 
+	std::sort(temp.m_opers.begin(), temp.m_opers.end(), [](const auto & lhs, const auto& rhs) -> bool {
+		return lhs.level > rhs.level; 
+	});
+
 	*this = std::move(temp);
 
-#ifdef LOG_TRACE
-	for (auto&& tag : m_all_tags) {
-		std::cout << Utf8ToGbk(tag) << std::endl;
-	}
-#endif
+//#ifdef LOG_TRACE
+//	for (auto&& tag : m_all_tags) {
+//		std::cout << Utf8ToGbk(tag) << std::endl;
+//	}
+//#endif
 
 	DebugTrace("Load config succeed");
 
