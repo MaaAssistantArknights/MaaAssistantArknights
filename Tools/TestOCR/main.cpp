@@ -42,7 +42,7 @@ void asst_ocr_test()
 		std::string person_name;
 		ifs >> person_name;
 
-		asst.find_tags();
+		asst.find_and_clac_tags();
 
 		c = getchar();
 	}

@@ -198,11 +198,13 @@ bool asst::Assistance::find_text_and_click(const std::string& text, bool block)
 	return m_pCtrl->click(result.value());
 }
 
-std::vector<std::string> asst::Assistance::find_tags()
+void asst::Assistance::find_and_clac_tags(bool need_click)
 {
 	DebugTraceFunction;
 
 	const auto& image = get_format_image();
+	set_control_scale(image.cols, image.rows);
+
 	auto&& ider_result = m_pIder->find_text(image, m_recruit_configer.m_all_tags);
 
 	std::vector<std::string> tags;
@@ -317,7 +319,17 @@ std::vector<std::string> asst::Assistance::find_tags()
 	}
 #endif
 
-	return tags;
+	if (need_click && !result_vector.empty()) {
+		auto&& final_tags = std::move(result_vector[0].first);
+		std::vector<TextArea> final_text_areas;
+		for (const auto& text_area : ider_result) {
+			if (std::find(final_tags.cbegin(), final_tags.cend(), text_area.text) != final_tags.cend()) {
+				final_text_areas.emplace_back(text_area);
+				m_pCtrl->click(text_area.rect);
+				Sleep(300);
+			}
+		}
+	}
 }
 
 void Assistance::working_proc(Assistance* pThis)
