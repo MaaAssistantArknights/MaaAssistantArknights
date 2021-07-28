@@ -39,7 +39,7 @@ namespace asst {
 		// for debug
 		bool find_text_and_click(const std::string& text, bool block = true);
 		// for debug
-		std::vector<std::string> find_tags();
+		void find_and_clac_tags(bool need_click = true);
 	private:
 		static void working_proc(Assistance* pThis);
 
