@@ -78,7 +78,6 @@
             "yOffset": 39,
             "rightOffset": 39,
             "bottomOffset": 9
-
         },
         "LDPlayer": {
             "window": [
@@ -385,6 +384,7 @@
         },
         "Friends": {
             "filename": "Friends.png",
+            "preDelay": 1000,
             "type": "clickSelf",
             "next": [
                 "FriendsList"
