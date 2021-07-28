@@ -71,7 +71,6 @@ std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& mat)
 		int y = text_block.boxPoint.at(0).y;
 		int width = text_block.boxPoint.at(1).x - x;
 		int height = text_block.boxPoint.at(3).y - y;
-
 		result.emplace_back(text_block.text, x, y, width, height);
 	}
 	return result;
@@ -142,13 +141,40 @@ bool asst::Identify::ocr_init_models(const std::string& dir)
 std::optional<asst::Rect> asst::Identify::find_text(const cv::Mat& mat, const std::string& text)
 {
 	auto results = ocr_detect(mat);
-	for (auto&& res : results) {
+	for (const auto& res : results) {
 		if (res.text == text) {
 			return res.rect;
 		}
 	}
-
 	return std::nullopt;
+}
+
+std::vector<TextArea> asst::Identify::find_text(const cv::Mat& mat, const std::vector<std::string>& texts)
+{
+	std::vector<TextArea> dst;
+	auto detect_result = ocr_detect(mat);
+	for (const auto& res : detect_result) {
+		for (const auto& t : texts) {
+			if (res.text == t) {
+				dst.emplace_back(res);
+			}
+		}
+	}
+	return dst;
+}
+
+std::vector<TextArea> asst::Identify::find_text(const cv::Mat& mat, const std::unordered_set<std::string>& texts)
+{
+	std::vector<TextArea> dst;
+	auto detect_result = ocr_detect(mat);
+	for (const auto& res : detect_result) {
+		for (const auto& t : texts) {
+			if (res.text == t) {
+				dst.emplace_back(res);
+			}
+		}
+	}
+	return dst;
 }
 
 /*

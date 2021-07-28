@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <tuple>
 #include <optional>
@@ -34,6 +35,8 @@ namespace asst {
 		void set_ocr_param(int gpu_index, int thread_number);
 		bool ocr_init_models(const std::string& dir);
 		std::optional<Rect> find_text(const cv::Mat& mat, const std::string& text);
+		std::vector<TextArea> find_text(const cv::Mat& mat, const std::vector<std::string>& texts);
+		std::vector<TextArea> find_text(const cv::Mat& mat, const std::unordered_set<std::string>& texts);
 
 	private:
 		cv::Mat image_2_hist(const cv::Mat& src);

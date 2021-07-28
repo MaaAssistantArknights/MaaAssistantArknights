@@ -45,6 +45,12 @@
     <ClInclude Include="include\AsstPort.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\RecruitConfiger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Version.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Configer.cpp">
@@ -65,12 +71,15 @@
     <ClCompile Include="src\Updater.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\RecruitConfiger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resource\config.json">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="..\resource\akhr.json">
+    <None Include="..\resource\operInfo.json">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

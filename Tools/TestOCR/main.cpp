@@ -42,7 +42,7 @@ void asst_ocr_test()
 		std::string person_name;
 		ifs >> person_name;
 
-		asst.find_text_and_click(person_name);
+		asst.find_tags();
 
 		c = getchar();
 	}
@@ -81,6 +81,4 @@ void raw_ocr_test()
 
 	auto end = std::chrono::system_clock::now();
 	std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
-
-	std::wcout << Utf8ToGBK(result.strRes) << std::endl;
 }
