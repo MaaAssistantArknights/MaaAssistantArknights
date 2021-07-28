@@ -24,7 +24,7 @@ namespace asst {
 		Assistance();
 		~Assistance();
 
-		std::optional<std::string> set_emulator(const std::string& emulator_name = std::string());
+		std::optional<std::string> catch_emulator(const std::string& emulator_name = std::string());
 
 		void start(const std::string& task);
 		void stop(bool block = true);
@@ -40,7 +40,8 @@ namespace asst {
 		static void working_proc(Assistance* pThis);
 
 		// pair<scale, image>
-		cv::Mat get_format_image(bool need_set_scale = true);
+		cv::Mat get_format_image();
+		void set_control_scale(int cur_width, int cur_height);
 
 		std::shared_ptr<WinMacro> m_pWindow = nullptr;
 		std::shared_ptr<WinMacro> m_pView = nullptr;

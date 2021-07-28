@@ -38,6 +38,7 @@
     <ClCompile Include="src\WinMacro.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\resource\akhr.json" />
     <None Include="..\resource\config.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

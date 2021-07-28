@@ -77,7 +77,7 @@ std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& mat)
 	return result;
 }
 
-std::pair<double, cv::Point> Identify::find_image(const cv::Mat& image, const cv::Mat& templ)
+std::pair<double, cv::Point> Identify::match_template(const cv::Mat& image, const cv::Mat& templ)
 {
 	Mat image_hsv;
 	Mat templ_hsv;
@@ -107,7 +107,7 @@ std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cu
 	}
 	else {	// Ã»»º´æ¾ÍÄ£°åÆ¥Åä
 		auto&& templ_mat = m_mat_map.at(templ);
-		auto&& [value, point] = find_image(cur, templ_mat);
+		auto&& [value, point] = match_template(cur, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
 		
 		if (m_use_cache && value >= threshold) {

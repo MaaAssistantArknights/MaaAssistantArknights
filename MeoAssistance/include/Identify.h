@@ -25,7 +25,7 @@ namespace asst {
 		void set_use_cache(bool b) noexcept;
 		bool add_image(const std::string& name, const std::string& path);
 
-		// return tuple< algorithmType, suitability, scaled asst::rect>
+		// return tuple< algorithmType, suitability, matched asst::rect>
 		std::tuple<AlgorithmType, double, asst::Rect> find_image(const cv::Mat& image, const std::string& templ, double threshold = 0.99);
 
 		void clear_cache();
@@ -44,7 +44,7 @@ namespace asst {
 		std::vector<TextArea> ocr_detect(const cv::Mat& mat);
 
 		// return pair< suitability, raw opencv::point>
-		std::pair<double, cv::Point> find_image(const cv::Mat& cur, const cv::Mat& templ);
+		std::pair<double, cv::Point> match_template(const cv::Mat& cur, const cv::Mat& templ);
 
 		std::unordered_map<std::string, cv::Mat> m_mat_map;
 		bool m_use_cache = true;

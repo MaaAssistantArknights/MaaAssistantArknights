@@ -223,7 +223,7 @@
     "tasks_Doc": "下面的和任务队列执行逻辑有关，不需要修改",
     "tasks": {
         "SanityBegin": {
-            "filename": "",
+            "template": "",
             "threshold": 0,
             "type": "doNothing",
             "next": [
@@ -238,7 +238,7 @@
             ]
         },
         "UsePrts": {
-            "filename": "UsePrts.png",
+            "template": "UsePrts.png",
             "threshold": 0.8,
             "type": "clickSelf",
             "next": [
@@ -246,7 +246,7 @@
             ]
         },
         "StartButton1": {
-            "filename": "StartButton1.png",
+            "template": "StartButton1.png",
             "threshold": 0.8,
             "type": "clickSelf",
             "next": [
@@ -256,7 +256,7 @@
             ]
         },
         "StartButton2": {
-            "filename": "StartButton2.png",
+            "template": "StartButton2.png",
             "type": "clickSelf",
             "rearDelay": 20000,
             "next": [
@@ -265,7 +265,7 @@
             ]
         },
         "PRTS": {
-            "filename": "PRTS.png",
+            "template": "PRTS.png",
             "type": "doNothing",
             "rearDelay": 5000,
             "next": [
@@ -275,7 +275,7 @@
             ]
         },
         "EndOfAction": {
-            "filename": "",
+            "template": "",
             "threshold": 0,
             "type": "printWindow",
             "next": [
@@ -283,7 +283,7 @@
             ]
         },
         "Random": {
-            "filename": "",
+            "template": "",
             "threshold": 0,
             "type": "clickRect",
             "specificArea": [
@@ -299,21 +299,21 @@
             ]
         },
         "Loading": {
-            "filename": "Loading.png",
+            "template": "Loading.png",
             "type": "doNothing",
             "next": [
                 "StartButton1"
             ]
         },
         "UseMedicine": {
-            "filename": "UseMedicine.png",
+            "template": "UseMedicine.png",
             "type": "doNothing",
             "next": [
                 "MedicineConfirm"
             ]
         },
         "MedicineConfirm": {
-            "filename": "MedicineConfirm.png",
+            "template": "MedicineConfirm.png",
             "type": "clickSelf",
             "reduceOtherTimes": [
                 "StartButton1"
@@ -323,14 +323,14 @@
             ]
         },
         "UseStone": {
-            "filename": "UseStone.png",
+            "template": "UseStone.png",
             "type": "doNothing",
             "next": [
                 "StoneConfirm"
             ]
         },
         "StoneConfirm": {
-            "filename": "MedicineConfirm.png",
+            "template": "MedicineConfirm.png",
             "type": "clickSelf",
             "maxTimes": 0,
             "reduceOtherTimes": [
@@ -341,14 +341,14 @@
             ]
         },
         "PrtsErrorConfirm": {
-            "filename": "PrtsErrorConfirm.png",
+            "template": "PrtsErrorConfirm.png",
             "type": "doNothing",
             "next": [
                 "AbandonAction"
             ]
         },
         "AbandonAction": {
-            "filename": "AbandonAction.png",
+            "template": "AbandonAction.png",
             "type": "clickSelf",
             "reduceOtherTimes": [
                 "StartButton1",
@@ -360,7 +360,7 @@
             ]
         },
         "VisitBegin": {
-            "filename": "",
+            "template": "",
             "threshold": 0,
             "type": "doNothing",
             "next": [
@@ -373,7 +373,7 @@
             ]
         },
         "ReturnToFriends": {
-            "filename": "Return.png",
+            "template": "Return.png",
             "threshold": 0.85,
             "cacheThreshold": 0.85,
             "type": "clickSelf",
@@ -383,7 +383,7 @@
             ]
         },
         "Friends": {
-            "filename": "Friends.png",
+            "template": "Friends.png",
             "preDelay": 1000,
             "type": "clickSelf",
             "next": [
@@ -391,21 +391,21 @@
             ]
         },
         "FriendsList": {
-            "filename": "FriendsList.png",
+            "template": "FriendsList.png",
             "type": "clickSelf",
             "next": [
                 "StartToVisit"
             ]
         },
         "StartToVisit": {
-            "filename": "StartToVisit.png",
+            "template": "StartToVisit.png",
             "type": "clickSelf",
             "next": [
                 "VisitNext"
             ]
         },
         "VisitNext": {
-            "filename": "VisitNext.png",
+            "template": "VisitNext.png",
             "type": "clickSelf",
             "maxTimes": 21,
             "exceededNext": [
@@ -417,7 +417,7 @@
             ]
         },
         "ReturnToMall": {
-            "filename": "Return.png",
+            "template": "Return.png",
             "type": "clickSelf",
             "next": [
                 "Mall",
@@ -426,21 +426,21 @@
             ]
         },
         "ReturnToMallConfirm": {
-            "filename": "PopupConfirm.png",
+            "template": "PopupConfirm.png",
             "type": "clickSelf",
             "next": [
                 "ReturnToMall"
             ]
         },
         "Mall": {
-            "filename": "Mall.png",
+            "template": "Mall.png",
             "type": "clickSelf",
             "next": [
                 "CreditStore"
             ]
         },
         "CreditStore": {
-            "filename": "CreditStore.png",
+            "template": "CreditStore.png",
             "threshold": 0.85,
             "rearDelay": 1000,
             "type": "clickSelf",
@@ -450,14 +450,14 @@
             ]
         },
         "CollectCredit": {
-            "filename": "CollectCredit.png",
+            "template": "CollectCredit.png",
             "type": "clickSelf",
             "next": [
                 "Stop"
             ]
         },
         "VisitLimited": {
-            "filename": "VisitLimited.png",
+            "template": "VisitLimited.png",
             "threshold": 1,
             "type": "doNothing",
             "next": [
@@ -465,14 +465,14 @@
             ]
         },
         "VisitNextBlack": {
-            "filename": "VisitNextBlack.png",
+            "template": "VisitNextBlack.png",
             "type": "doNothing",
             "next": [
                 "ReturnToMall"
             ]
         },
         "Stop": {
-            "filename": "",
+            "template": "",
             "threshold": 0,
             "type": "stop",
             "next": []
