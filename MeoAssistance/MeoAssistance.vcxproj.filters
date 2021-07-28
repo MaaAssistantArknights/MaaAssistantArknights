@@ -42,6 +42,9 @@
     <ClInclude Include="include\AsstAux.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\AsstPort.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Configer.cpp">

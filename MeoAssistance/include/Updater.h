@@ -4,8 +4,11 @@
 #include <optional>
 #include <mutex>
 
+#include "AsstDef.h"
+#include "AsstPort.h"
+
 namespace asst {
-	struct __declspec(dllexport) VersionInfo {
+	struct MEOAPI_PORT VersionInfo {
 		std::string tag_name;
 		std::string html_url;
 		std::string down_url;
@@ -14,7 +17,7 @@ namespace asst {
 		std::string body;
 	};
 
-	class __declspec(dllexport) Updater
+	class MEOAPI_PORT Updater
 	{
 		static const std::string GithubReleaseLastestApiUrl;
 		static const std::string GithubReleaseApiUrl;

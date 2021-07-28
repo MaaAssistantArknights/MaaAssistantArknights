@@ -50,13 +50,13 @@ namespace MeoAsstGui
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            updateDialog = new UpdateDialog();
-            updateDialog.CheckUpdateAndShowDialog();
-            updateDialog.Close();
-
             p_asst = CreateAsst();
             update_times.Tick += new EventHandler(updateExecTimes);
             update_times.Interval = TimeSpan.FromSeconds(1);
+
+            updateDialog = new UpdateDialog();
+            updateDialog.CheckUpdateAndShowDialog();
+            updateDialog.Close();
         }
         private void button_Click_startSanity(object sender, RoutedEventArgs e)
         {

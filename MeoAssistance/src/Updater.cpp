@@ -52,6 +52,7 @@ bool Updater::has_new_version()
 		return false;
 	}
 
+	DebugTrace("Lastest Version", m_lastest_version.tag_name, ", Current Version", Version);
 	if (m_lastest_version.tag_name > Version) {
 		m_has_new_version = true;
 		return true;

@@ -5,10 +5,10 @@
 #include <iostream>
 
 #include "AsstAux.h"
-#include "AsstDef.h"
+#include "AsstPort.h"
 
 namespace asst {
-	class Logger {
+	class MEOAPI_PORT Logger {
 	public:
 		~Logger() = default;
 
