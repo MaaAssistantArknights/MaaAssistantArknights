@@ -21,7 +21,7 @@ Assistance::Assistance()
 	m_recruit_configer.load(GetResourceDir() + "operInfo.json");
 
 	m_pIder = std::make_shared<Identify>();
-	for (auto&& [name, info] : m_configer.m_tasks)
+	for (const auto& [name, info] : m_configer.m_tasks)
 	{
 		m_pIder->add_image(name, GetResourceDir() + "template\\" + info.template_filename);
 	}
@@ -70,7 +70,7 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 
 	// 自动匹配模拟器，逐个找
 	if (emulator_name.empty()) {
-		for (auto&& [name, info] : m_configer.m_handles)
+		for (const auto& [name, info] : m_configer.m_handles)
 		{
 			ret = create_handles(info);
 			if (ret) {
@@ -162,7 +162,7 @@ bool asst::Assistance::print_window(const std::string& filename, bool block)
 		lock = std::unique_lock<std::mutex>(m_mutex);
 	}
 
-	auto&& image = get_format_image();
+	const cv::Mat& image = get_format_image();
 	// 保存的截图额外再裁剪掉一圈，不然企鹅物流识别不出来
 	int offset = m_configer.m_options.print_window_crop_offset;
 	cv::Rect rect(offset, offset, image.cols - offset * 2, image.rows - offset * 2);
@@ -186,8 +186,8 @@ bool asst::Assistance::find_text_and_click(const std::string& text, bool block)
 	if (block) { // 外部调用
 		lock = std::unique_lock<std::mutex>(m_mutex);
 	}
-	const auto& image = get_format_image();
-	auto&& result = m_pIder->find_text(image, text);
+	const cv::Mat& image = get_format_image();
+	std::optional<Rect>&& result = m_pIder->find_text(image, text);
 
 	if (!result) {
 		DebugTrace("Cannot found", Utf8ToGbk(text));
@@ -202,14 +202,14 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 {
 	DebugTraceFunction;
 
-	const auto& image = get_format_image();
+	const cv::Mat& image = get_format_image();
 	set_control_scale(image.cols, image.rows);
 
-	auto&& ider_result = m_pIder->find_text(image, m_recruit_configer.m_all_tags);
+	std::vector<TextArea>&& ider_result = m_pIder->find_text(image, m_recruit_configer.m_all_tags);
 
 	std::vector<std::string> tags;
 	std::string tags_str;
-	for (auto&& t_a : ider_result) {
+	for (const TextArea& t_a : ider_result) {
 		tags.emplace_back(t_a.text);
 		tags_str += t_a.text + " ,";
 	}
@@ -219,7 +219,7 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 	DebugTraceInfo("All Tags", Utf8ToGbk(tags_str));
 
 	// Tags全组合
-	std::vector<std::vector<std::string>> combs;
+	std::vector<std::vector<std::string>> all_combs;
 	int len = tags.size();
 	int count = std::pow(2, len);
 
@@ -233,16 +233,16 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 		}
 		// 游戏里最多选择3个tag
 		if (!temp.empty() && temp.size() <= 3) {
-			combs.emplace_back(std::move(temp));
+			all_combs.emplace_back(std::move(temp));
 		}
 	}
 
 	std::map<std::vector<std::string>, OperCombs> result_map;
-	for (auto&& comb : combs) {
-		for (auto&& cur_oper : m_recruit_configer.m_opers) {
+	for (const std::vector<std::string>& comb : all_combs) {
+		for (const OperInfo& cur_oper : m_recruit_configer.m_opers) {
 			int matched_count = 0;
 			// 组合中每一个tag，是否在干员tags中
-			for (auto&& tag : comb) {
+			for (const std::string& tag : comb) {
 				if (cur_oper.tags.find(tag) != cur_oper.tags.cend()) {
 					++matched_count;
 				}
@@ -261,7 +261,7 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 				if (result_map.find(comb) == result_map.cend()) {
 					result_map.emplace(comb, OperCombs());
 				}
-				auto&& oper_combs = result_map[comb];
+				OperCombs& oper_combs = result_map[comb];
 				oper_combs.opers.emplace_back(cur_oper);
 
 				// 一星小车不计入最低等级
@@ -282,25 +282,26 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 	for (auto&& pair : result_map) {
 		result_vector.emplace_back(std::move(pair));
 	}
-	std::sort(result_vector.begin(), result_vector.end(), [](const auto& lhs, const auto& rhs) ->bool {
-		// 1、最小等级小的，排最后
-		// 2、最小等级相同，最大等级小的，排后面
-		// 3、1 2都相同，干员数量越多的，排后面
-		if (lhs.second.min_level != rhs.second.min_level) {
-			return lhs.second.min_level > rhs.second.min_level;
-		}
-		else if (lhs.second.max_level != rhs.second.max_level) {
-			return lhs.second.max_level > rhs.second.max_level;
-		}
-		else {
-			return lhs.second.opers.size() < rhs.second.opers.size();
-		}
+	std::sort(result_vector.begin(), result_vector.end(), []( const auto& lhs, const auto& rhs)
+		->bool {
+			// 1、最小等级小的，排最后
+			// 2、最小等级相同，最大等级小的，排后面
+			// 3、1 2都相同，干员数量越多的，排后面
+			if (lhs.second.min_level != rhs.second.min_level) {
+				return lhs.second.min_level > rhs.second.min_level;
+			}
+			else if (lhs.second.max_level != rhs.second.max_level) {
+				return lhs.second.max_level > rhs.second.max_level;
+			}
+			else {
+				return lhs.second.opers.size() < rhs.second.opers.size();
+			}
 		});
 
 #ifdef LOG_TRACE
-	for (auto&& [combs, oper_combs] : result_vector) {
+	for (const auto& [combs, oper_combs] : result_vector) {
 		std::string tag_str;
-		for (auto&& tag : combs) {
+		for (const std::string& tag : combs) {
 			tag_str += tag + " ,";
 		}
 		if (tags_str.back() == ',') {
@@ -308,7 +309,7 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 		}
 
 		std::string opers_str;
-		for (auto&& oper : oper_combs.opers) {
+		for (const OperInfo& oper : oper_combs.opers) {
 			opers_str += std::to_string(oper.level) + "-" + oper.name + " ,";
 		}
 		if (opers_str.back() == ',') {
@@ -319,9 +320,9 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 #endif
 
 	if (need_click && !result_vector.empty()) {
-		auto&& final_tags = std::move(result_vector[0].first);
+		const std::vector<std::string>& final_tags = result_vector[0].first;
 		std::vector<TextArea> final_text_areas;
-		for (const auto& text_area : ider_result) {
+		for (const TextArea& text_area : ider_result) {
 			if (std::find(final_tags.cbegin(), final_tags.cend(), text_area.text) != final_tags.cend()) {
 				final_text_areas.emplace_back(text_area);
 				m_pCtrl->click(text_area.rect);
@@ -338,7 +339,7 @@ void Assistance::working_proc(Assistance* pThis)
 	while (!pThis->m_thread_exit) {
 		std::unique_lock<std::mutex> lock(pThis->m_mutex);
 		if (pThis->m_thread_running) {
-			auto&& cur_image = pThis->get_format_image();
+			const cv::Mat& cur_image = pThis->get_format_image();
 			pThis->set_control_scale(cur_image.cols, cur_image.rows);
 
 			if (cur_image.empty()) {
@@ -358,7 +359,7 @@ void Assistance::working_proc(Assistance* pThis)
 			std::string matched_task;
 			Rect matched_rect;
 			// 逐个匹配当前可能的图像
-			for (auto&& task_name : pThis->m_next_tasks) {
+			for (const std::string& task_name : pThis->m_next_tasks) {
 
 				double threshold = pThis->m_configer.m_tasks[task_name].threshold;
 				double cache_threshold = pThis->m_configer.m_tasks[task_name].cache_threshold;
@@ -376,7 +377,7 @@ void Assistance::working_proc(Assistance* pThis)
 
 			// 执行任务
 			if (!matched_task.empty()) {
-				auto&& task = pThis->m_configer.m_tasks[matched_task];
+				TaskInfo& task = pThis->m_configer.m_tasks[matched_task];
 				DebugTraceInfo("***Matched***", matched_task, "Type:", task.type);
 				// 前置固定延时
 				if (task.pre_delay > 0) {
@@ -431,10 +432,10 @@ void Assistance::working_proc(Assistance* pThis)
 								std::chrono::milliseconds(print_delay),
 								[&]() -> bool { return !pThis->m_thread_running; });
 
-							std::string dirname = GetCurrentDir() + "screenshot\\";
+							const std::string dirname = GetCurrentDir() + "screenshot\\";
 							std::filesystem::create_directory(dirname);
-							auto time_str = StringReplaceAll(StringReplaceAll(GetFormatTimeString(), " ", "_"), ":", "-");
-							std::string filename = dirname + time_str + ".png";
+							const std::string time_str = StringReplaceAll(StringReplaceAll(GetFormatTimeString(), " ", "_"), ":", "-");
+							const std::string filename = dirname + time_str + ".png";
 							pThis->print_window(filename, false);
 						}
 						break;
@@ -447,7 +448,7 @@ void Assistance::working_proc(Assistance* pThis)
 					// 减少其他任务的执行次数
 					// 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
 					// 所以要给蓝色开始行动的次数减一
-					for (auto&& reduce : task.reduce_other_times) {
+					for (const std::string& reduce : task.reduce_other_times) {
 						--pThis->m_configer.m_tasks[reduce].exec_times;
 						DebugTrace("Reduce exec times", reduce, pThis->m_configer.m_tasks[reduce].exec_times);
 					}
@@ -455,7 +456,7 @@ void Assistance::working_proc(Assistance* pThis)
 					if (task.rear_delay > 0) {
 						DebugTrace("RearDelay", task.rear_delay);
 						// std::this_thread::sleep_for(std::chrono::milliseconds(task.rear_delay));
-						auto cv_ret = pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(task.rear_delay),
+						bool cv_ret = pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(task.rear_delay),
 							[&]() -> bool { return !pThis->m_thread_running; });
 						if (cv_ret) { continue; }
 					}
@@ -468,7 +469,7 @@ void Assistance::working_proc(Assistance* pThis)
 
 				// 单纯为了打印日志。。感觉可以优化下
 				std::string nexts_str;
-				for (auto&& name : pThis->m_next_tasks) {
+				for (const std::string& name : pThis->m_next_tasks) {
 					nexts_str += name + " ,";
 				}
 				if (nexts_str.back() == ',') {
@@ -489,13 +490,13 @@ void Assistance::working_proc(Assistance* pThis)
 
 cv::Mat asst::Assistance::get_format_image()
 {
-	auto&& raw_image = m_pView->getImage(m_pView->getWindowRect());
+	const cv::Mat& raw_image = m_pView->getImage(m_pView->getWindowRect());
 	if (raw_image.empty() || raw_image.rows < 100) {
 		DebugTraceError("Window image error");
 		return raw_image;
 	}
 	// 把模拟器边框的一圈裁剪掉
-	auto&& window_info = m_pView->getEmulatorInfo();
+	const EmulatorInfo& window_info = m_pView->getEmulatorInfo();
 	int x_offset = window_info.x_offset;
 	int y_offset = window_info.y_offset;
 	int width = raw_image.cols - x_offset - window_info.right_offset;
