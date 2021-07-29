@@ -57,12 +57,12 @@ double Identify::image_hist_comp(const cv::Mat& src, const cv::MatND& hist)
 std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& mat)
 {
 	ocr::OcrResult ocr_results = m_ocr_lite.detect(mat,
-		50, 1024,
+		50, 0,
 		0.6f, 0.3f,
-		2.0f, true, true);
+		2.0f, false, false);
 
 	std::vector<TextArea> result;
-	for (const ocr::TextBlock & text_block : ocr_results.textBlocks) {
+	for (ocr::TextBlock & text_block : ocr_results.textBlocks) {
 		if (text_block.boxPoint.size() != 4) {
 			continue;
 		}
@@ -73,7 +73,7 @@ std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& mat)
 		int y = text_block.boxPoint.at(0).y;
 		int width = text_block.boxPoint.at(1).x - x;
 		int height = text_block.boxPoint.at(3).y - y;
-		result.emplace_back(text_block.text, x, y, width, height);
+		result.emplace_back(std::move(text_block.text), x, y, width, height);
 	}
 	return result;
 }
@@ -155,10 +155,10 @@ std::vector<TextArea> asst::Identify::find_text(const cv::Mat& mat, const std::v
 {
 	std::vector<TextArea> dst;
 	std::vector<TextArea> detect_result = ocr_detect(mat);
-	for (const TextArea& res : detect_result) {
+	for (TextArea& res : detect_result) {
 		for (const std::string& t : texts) {
 			if (res.text == t) {
-				dst.emplace_back(res);
+				dst.emplace_back(std::move(res));
 			}
 		}
 	}
@@ -169,11 +169,11 @@ std::vector<TextArea> asst::Identify::find_text(const cv::Mat& mat, const std::u
 {
 	std::vector<TextArea> dst;
 	std::vector<TextArea> detect_result = ocr_detect(mat);
-	for (const TextArea& res : detect_result) {
+	for (TextArea& res : detect_result) {
 		DebugTrace("detect", Utf8ToGbk(res.text));
 		for (const std::string& t : texts) {
 			if (res.text == t) {
-				dst.emplace_back(res);
+				dst.emplace_back(std::move(res));
 			}
 		}
 	}
