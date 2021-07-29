@@ -14,6 +14,24 @@ bool RecruitConfiger::load(const std::string& filename)
 	DebugTraceFunction;
 	DebugTrace("RecruitConfiger::load | ", filename);
 
+	RecruitConfiger temp;
+	if (_load(filename)) {
+		std::sort(temp.m_opers.begin(), temp.m_opers.end(), [](
+			const auto& lhs,
+			const auto& rhs)
+			-> bool {
+				return lhs.level > rhs.level;
+			});
+		*this = std::move(temp);
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool asst::RecruitConfiger::_load(const std::string& filename)
+{
 	std::ifstream ifs(filename, std::ios::in);
 	if (!ifs.is_open()) {
 		return false;
@@ -23,38 +41,34 @@ bool RecruitConfiger::load(const std::string& filename)
 	ifs.close();
 	std::string content(iss.str());
 
-	auto ret = json::parser::parse(content);
+	auto&& ret = json::parser::parse(content);
 	if (!ret) {
 		DebugTrace("parse error", content);
 		return false;
 	}
 
-	auto root = std::move(ret).value();
-
-	RecruitConfiger temp;
+	json::value root = ret.value();
 	try {
-		auto opers_array = root.as_array();
-		for (auto&& oper : opers_array) {
+		for (json::value& oper : root.as_array()) {
 			OperInfo oper_temp;
 			oper_temp.name = oper["name"].as_string();
 			oper_temp.type = oper["type"].as_string();
-			temp.m_all_types.emplace(oper_temp.type);
+			m_all_types.emplace(oper_temp.type);
 			// 职业类型也作为tag之一，加上"干员"两个字
 			std::string type_as_tag = oper_temp.type + GbkToUtf8("干员");
 			oper_temp.tags.emplace(type_as_tag);
-			temp.m_all_tags.emplace(type_as_tag);
+			m_all_tags.emplace(std::move(type_as_tag));
 
 			oper_temp.level = oper["level"].as_integer();
 			oper_temp.sex = oper["sex"].as_string();
-			auto tags_arr = oper["tags"].as_array();
-			for (const auto& tag_value : tags_arr) {
+			for (const json::value& tag_value : oper["tags"].as_array()) {
 				std::string tag = tag_value.as_string();
 				oper_temp.tags.emplace(tag);
-				temp.m_all_tags.emplace(tag);
+				m_all_tags.emplace(std::move(tag));
 			}
 			oper_temp.hidden = oper["hidden"].as_boolean();
 			oper_temp.name_en = oper["name-en"].as_string();
-			temp.m_opers.emplace_back(std::move(oper_temp));
+			m_opers.emplace_back(std::move(oper_temp));
 		}
 	}
 	catch (json::exception& e) {
@@ -62,17 +76,11 @@ bool RecruitConfiger::load(const std::string& filename)
 		return false;
 	}
 
-	std::sort(temp.m_opers.begin(), temp.m_opers.end(), [](const auto & lhs, const auto& rhs) -> bool {
-		return lhs.level > rhs.level; 
-	});
-
-	*this = std::move(temp);
-
-//#ifdef LOG_TRACE
-//	for (auto&& tag : m_all_tags) {
-//		std::cout << Utf8ToGbk(tag) << std::endl;
-//	}
-//#endif
+	//#ifdef LOG_TRACE
+	//	for (auto&& tag : m_all_tags) {
+	//		std::cout << Utf8ToGbk(tag) << std::endl;
+	//	}
+	//#endif
 
 	DebugTrace("Load config succeed");
 

@@ -29,6 +29,7 @@ namespace asst {
 		std::vector<OperInfo> m_opers;
 
 	private:
+		bool _load(const std::string& filename);
 	};
 
 }

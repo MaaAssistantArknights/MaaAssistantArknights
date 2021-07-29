@@ -29,181 +29,15 @@ bool Configer::load(const std::string& filename)
 {
 	DebugTraceFunction;
 	DebugTrace("Configer::load | ", filename);
-
-	std::ifstream ifs(filename, std::ios::in);
-	if (!ifs.is_open()) {
-		return false;
-	}
-	std::stringstream iss;
-	iss << ifs.rdbuf();
-	ifs.close();
-	std::string content(iss.str());
-
-	auto ret = json::parser::parse(content);
-	if (!ret) {
-		DebugTrace("parse error", content);
-		return false;
-	}
-
-	auto root = std::move(ret).value();
-
+	
 	Configer temp;
-	try {
-		temp.m_version = root["version"].as_string();
-
-		auto options_obj = root["options"].as_object();
-		{
-			temp.m_options.identify_delay = options_obj["identifyDelay"].as_integer();
-			temp.m_options.identify_cache = options_obj["identifyCache"].as_boolean();
-			temp.m_options.control_delay_lower = options_obj["controlDelayRange"][0].as_integer();
-			temp.m_options.control_delay_upper = options_obj["controlDelayRange"][1].as_integer();
-			temp.m_options.print_window = options_obj["printWindow"].as_boolean();
-			temp.m_options.print_window_delay = options_obj["printWindowDelay"].as_integer();
-			temp.m_options.print_window_crop_offset = options_obj["printWindowCropOffset"].as_integer();
-			temp.m_options.ocr_gpu_index = options_obj["ocrGpuIndex"].as_integer();
-			temp.m_options.ocr_thread_number = options_obj["ocrThreadNumber"].as_integer();
-		}
-		DebugTrace("Options", Utf8ToGbk(options_obj.to_string()));
-
-		auto tasks_obj = root["tasks"].as_object();
-		for (auto&& [name, task_json] : tasks_obj) {
-			TaskInfo task_info;
-			task_info.template_filename = task_json["template"].as_string();
-			if (task_json.exist("threshold")) {
-				task_info.threshold = task_json["threshold"].as_double();
-			}
-			else {
-				task_info.threshold = DefaultThreshold;
-			}
-			if (task_json.exist("cacheThreshold")) {
-				task_info.cache_threshold = task_json["cacheThreshold"].as_double();
-			}
-			else {
-				task_info.cache_threshold = DefaultCacheThreshold;
-			}
-
-			std::string type = task_json["type"].as_string();
-			std::transform(type.begin(), type.end(), type.begin(), std::tolower);
-			if (type == "clickself") {
-				task_info.type = TaskType::ClickSelf;
-			}
-			else if (type == "clickrand") {
-				task_info.type = TaskType::ClickRand;
-			}
-			else if (type == "donothing" || type.empty()) {
-				task_info.type = TaskType::DoNothing;
-			}
-			else if (type == "stop") {
-				task_info.type = TaskType::Stop;
-			}
-			else if (type == "clickrect") {
-				task_info.type = TaskType::ClickRect;
-				auto area_json = task_json["specificArea"].as_array();
-				task_info.specific_area = Rect(
-					area_json[0].as_integer(),
-					area_json[1].as_integer(),
-					area_json[2].as_integer(),
-					area_json[3].as_integer());
-			}
-			else if (type == "printwindow") {
-				task_info.type = TaskType::PrintWindow;
-			}
-			else {
-				DebugTraceError("Task:", name, "error:", type);
-				return false;
-			}
-
-			if (task_json.exist("maxTimes")) {
-				task_info.max_times = task_json["maxTimes"].as_integer();
-			}
-			if (task_json.exist("exceededNext")) {
-				auto next_arr = task_json["exceededNext"].as_array();
-				for (auto&& name : next_arr) {
-					task_info.exceeded_next.emplace_back(name.as_string());
-				}
-			}
-			else {
-				task_info.exceeded_next.emplace_back("Stop");
-			}
-			if (task_json.exist("preDelay")) {
-				task_info.pre_delay = task_json["preDelay"].as_integer();
-			}
-			if (task_json.exist("rearDelay")) {
-				task_info.rear_delay = task_json["rearDelay"].as_integer();
-			}
-			if (task_json.exist("reduceOtherTimes")) {
-				auto reduce_arr = task_json["reduceOtherTimes"].as_array();
-				for (auto&& reduce : reduce_arr) {
-					task_info.reduce_other_times.emplace_back(reduce.as_string());
-				}
-			}
-
-			auto next_arr = task_json["next"].as_array();
-			for (auto&& name : next_arr) {
-				task_info.next.emplace_back(name.as_string());
-			}
-
-			temp.m_tasks.emplace(name, task_info);
-		}
-
-		auto handle_obj = root["handle"].as_object();
-		for (auto&& [name, emulator_json] : handle_obj) {
-			EmulatorInfo emulator_info;
-			emulator_info.name = name;
-
-			auto window_arr = emulator_json["window"].as_array();
-			for (auto&& info : window_arr) {
-				HandleInfo handle_info;
-				handle_info.class_name = info["class"].as_string();
-				handle_info.window_name = info["window"].as_string();
-				emulator_info.window.emplace_back(handle_info);
-			}
-			auto view_arr = emulator_json["view"].as_array();
-			for (auto&& info : view_arr) {
-				HandleInfo handle_info;
-				handle_info.class_name = info["class"].as_string();
-				handle_info.window_name = info["window"].as_string();
-				emulator_info.view.emplace_back(handle_info);
-			}
-			auto ctrl_arr = emulator_json["control"].as_array();
-			for (auto&& info : ctrl_arr) {
-				HandleInfo handle_info;
-				handle_info.class_name = info["class"].as_string();
-				handle_info.window_name = info["window"].as_string();
-				emulator_info.control.emplace_back(handle_info);
-			}
-			if (emulator_json.exist("adb")) {
-				emulator_info.is_adb = true;
-				// meojson的bug，暂时没空修，先转个字符串
-				emulator_info.adb.path = StringReplaceAll(emulator_json["adb"]["path"].as_string(), "\\\\", "\\");
-				emulator_info.adb.connect = emulator_json["adb"]["connect"].as_string();
-				emulator_info.adb.click = emulator_json["adb"]["click"].as_string();
-				emulator_info.adb.display = emulator_json["adb"]["display"].as_string();
-				emulator_info.adb.display_regex = emulator_json["adb"]["displayRegex"].as_string();
-			}
-			emulator_info.x_offset = emulator_json["xOffset"].as_integer();
-			emulator_info.y_offset = emulator_json["yOffset"].as_integer();
-			if (emulator_json.exist("rightOffset")) {
-				emulator_info.right_offset = emulator_json["rightOffset"].as_integer();
-			}
-			if (emulator_json.exist("bottomOffset")) {
-				emulator_info.bottom_offset = emulator_json["bottomOffset"].as_integer();
-			}
-			emulator_info.width = DefaultWindowWidth + emulator_info.x_offset + emulator_info.right_offset;
-			emulator_info.height = DefaultWindowHeight + emulator_info.y_offset + emulator_info.bottom_offset;
-
-			temp.m_handles.emplace(name, emulator_info);
-		}
+	if (temp._load(filename)) {
+		*this = std::move(temp);
+		return true;
 	}
-	catch (json::exception& e) {
-		DebugTraceError("Load config json error!", e.what());
+	else {
 		return false;
 	}
-
-	*this = std::move(temp);
-	DebugTrace("Load config succeed");
-
-	return true;
 }
 
 bool Configer::set_param(const std::string& type, const std::string& param, const std::string& value)
@@ -256,27 +90,157 @@ std::optional<std::string> Configer::get_param(const std::string& type, const st
 
 void Configer::clear_exec_times()
 {
-	for (auto&& t : m_tasks) {
-		t.second.exec_times = 0;
+	for (auto&& pair : m_tasks) {
+		pair.second.exec_times = 0;
 	}
 }
 
-//Configer& asst::Configer::operator=(const Configer& rhs)
-//{
-//	m_version = rhs.m_version;
-//	m_options = rhs.m_options;
-//	m_tasks = rhs.m_tasks;
-//	m_handles = rhs.m_handles;
-//
-//	return *this;
-//}
-//
-//Configer& asst::Configer::operator=(Configer&& rhs) noexcept
-//{
-//	m_version = std::move(rhs.m_version);
-//	m_options = std::move(rhs.m_options);
-//	m_tasks = std::move(rhs.m_tasks);
-//	m_handles = std::move(rhs.m_handles);
-//
-//	return *this;
-//}
+bool asst::Configer::_load(const std::string& filename)
+{
+	std::ifstream ifs(filename, std::ios::in);
+	if (!ifs.is_open()) {
+		return false;
+	}
+	std::stringstream iss;
+	iss << ifs.rdbuf();
+	ifs.close();
+	std::string content(iss.str());
+
+	auto&& ret = json::parser::parse(content);
+	if (!ret) {
+		DebugTrace("parse error", content);
+		return false;
+	}
+
+	json::value root = ret.value();
+	try {
+		m_version = root["version"].as_string();
+
+		json::value& options_json = root["options"];
+		{
+			m_options.identify_delay = options_json["identifyDelay"].as_integer();
+			m_options.identify_cache = options_json["identifyCache"].as_boolean();
+			m_options.control_delay_lower = options_json["controlDelayRange"][0].as_integer();
+			m_options.control_delay_upper = options_json["controlDelayRange"][1].as_integer();
+			m_options.print_window = options_json["printWindow"].as_boolean();
+			m_options.print_window_delay = options_json["printWindowDelay"].as_integer();
+			m_options.print_window_crop_offset = options_json["printWindowCropOffset"].as_integer();
+			m_options.ocr_gpu_index = options_json["ocrGpuIndex"].as_integer();
+			m_options.ocr_thread_number = options_json["ocrThreadNumber"].as_integer();
+		}
+		DebugTrace("Options", Utf8ToGbk(options_json.to_string()));
+
+		for (auto&& [name, task_json] : root["tasks"].as_object()) {
+			TaskInfo task_info;
+			task_info.template_filename = task_json["template"].as_string();
+			task_info.threshold = task_json.get("threshold", DefaultThreshold);
+			task_info.cache_threshold = task_json.get("cacheThreshold", DefaultCacheThreshold);
+
+			std::string type = task_json["type"].as_string();
+			std::transform(type.begin(), type.end(), type.begin(), std::tolower);
+			if (type == "clickself") {
+				task_info.type = TaskType::ClickSelf;
+			}
+			else if (type == "clickrand") {
+				task_info.type = TaskType::ClickRand;
+			}
+			else if (type == "donothing" || type.empty()) {
+				task_info.type = TaskType::DoNothing;
+			}
+			else if (type == "stop") {
+				task_info.type = TaskType::Stop;
+			}
+			else if (type == "clickrect") {
+				task_info.type = TaskType::ClickRect;
+				json::value & area_json = task_json["specificArea"];
+				task_info.specific_area = Rect(
+					area_json[0].as_integer(),
+					area_json[1].as_integer(),
+					area_json[2].as_integer(),
+					area_json[3].as_integer());
+			}
+			else if (type == "printwindow") {
+				task_info.type = TaskType::PrintWindow;
+			}
+			else {
+				DebugTraceError("Task:", name, "error:", type);
+				return false;
+			}
+
+			task_info.max_times = task_json.get("maxTimes", INT_MAX);
+			if (task_json.exist("exceededNext")) {
+				json::array & excceed_next_arr = task_json["exceededNext"].as_array();
+				for (const json::value & excceed_next : excceed_next_arr) {
+					task_info.exceeded_next.emplace_back(excceed_next.as_string());
+				}
+			}
+			else {
+				task_info.exceeded_next.emplace_back("Stop");
+			}
+			task_info.pre_delay = task_json.get("preDelay", 0);
+			task_info.rear_delay = task_json.get("rearDelay", 0);
+			if (task_json.exist("reduceOtherTimes")) {
+				json::array & reduce_arr = task_json["reduceOtherTimes"].as_array();
+				for (const json::value& reduce : reduce_arr) {
+					task_info.reduce_other_times.emplace_back(reduce.as_string());
+				}
+			}
+
+			json::array & next_arr = task_json["next"].as_array();
+			for (const json::value& next : next_arr) {
+				task_info.next.emplace_back(next.as_string());
+			}
+
+			m_tasks.emplace(name, std::move(task_info));
+		}
+
+		for (auto&& [name, emulator_json] : root["handle"].as_object()) {
+			EmulatorInfo emulator_info;
+			emulator_info.name = name;
+
+			for (json::value& info : emulator_json["window"].as_array()) {
+				HandleInfo handle_info;
+				handle_info.class_name = info["class"].as_string();
+				handle_info.window_name = info["window"].as_string();
+				emulator_info.window.emplace_back(std::move(handle_info));
+			}
+			for (json::value& info : emulator_json["view"].as_array()) {
+				HandleInfo handle_info;
+				handle_info.class_name = info["class"].as_string();
+				handle_info.window_name = info["window"].as_string();
+				emulator_info.view.emplace_back(std::move(handle_info));
+			}
+			for (json::value& info : emulator_json["control"].as_array()) {
+				HandleInfo handle_info;
+				handle_info.class_name = info["class"].as_string();
+				handle_info.window_name = info["window"].as_string();
+				emulator_info.control.emplace_back(std::move(handle_info));
+			}
+			if (emulator_json.exist("adb")) {
+				emulator_info.is_adb = true;
+				// meojson的bug，暂时没空修，先转个字符串
+				emulator_info.adb.path = StringReplaceAll(emulator_json["adb"]["path"].as_string(), "\\\\", "\\");
+				emulator_info.adb.connect = emulator_json["adb"]["connect"].as_string();
+				emulator_info.adb.click = emulator_json["adb"]["click"].as_string();
+				emulator_info.adb.display = emulator_json["adb"]["display"].as_string();
+				emulator_info.adb.display_regex = emulator_json["adb"]["displayRegex"].as_string();
+			}
+			emulator_info.x_offset = emulator_json.get("xOffset", 0);
+			emulator_info.y_offset = emulator_json.get("yOffset", 0);
+			emulator_info.right_offset = emulator_json.get("rightOffset", 0);
+			emulator_info.bottom_offset = emulator_json.get("bottomOffset", 0);
+
+			emulator_info.width = DefaultWindowWidth + emulator_info.x_offset + emulator_info.right_offset;
+			emulator_info.height = DefaultWindowHeight + emulator_info.y_offset + emulator_info.bottom_offset;
+
+			m_handles.emplace(name, std::move(emulator_info));
+		}
+	}
+	catch (json::exception& e) {
+		DebugTraceError("Load config json error!", e.what());
+		return false;
+	}
+	DebugTrace("Load config succeed");
+
+	return true;
+}

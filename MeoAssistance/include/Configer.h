@@ -38,6 +38,6 @@ namespace asst {
 		std::unordered_map<std::string, EmulatorInfo> m_handles;
 
 	private:
-
+		bool _load(const std::string& filename);
 	};
 }
