@@ -53,7 +53,7 @@ bool WinMacro::findHandle()
 	}
 
 	m_handle = NULL;
-	for (auto&& handle_info : handle_vec)
+	for (const HandleInfo& handle_info : handle_vec)
 	{
 		wchar_t* class_wbuff = NULL;
 		if (!handle_info.class_name.empty()) {
@@ -103,9 +103,9 @@ bool WinMacro::findHandle()
 			DebugTraceError("Connect Adb Error");
 			return false;
 		}
-		auto display_ret = callCmd(adb_dir + m_emulator_info.adb.display);
+		auto&& display_ret = callCmd(adb_dir + m_emulator_info.adb.display);
 		if (display_ret) {
-			std::string pipe_str = std::move(display_ret).value();
+			std::string pipe_str = display_ret.value();
 			sscanf_s(pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(), 
 				&m_emulator_info.adb.display_width, &m_emulator_info.adb.display_height);
 		}

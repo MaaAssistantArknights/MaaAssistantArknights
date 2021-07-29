@@ -2,6 +2,8 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/types_c.h>
+#include "Logger.hpp"
+#include "AsstAux.h"
 
 using namespace asst;
 using namespace cv;
@@ -60,7 +62,7 @@ std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& mat)
 		2.0f, true, true);
 
 	std::vector<TextArea> result;
-	for (auto && text_block : ocr_results.textBlocks) {
+	for (const ocr::TextBlock & text_block : ocr_results.textBlocks) {
 		if (text_block.boxPoint.size() != 4) {
 			continue;
 		}
@@ -100,13 +102,13 @@ std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cu
 
 	// 有缓存，用直方图比较，CPU占用会低很多，但要保证每次按钮图片的位置不变
 	if (m_use_cache && m_cache_map.find(templ) != m_cache_map.cend()) {
-		auto&& [rect, hist] = m_cache_map.at(templ);
+		const auto& [rect, hist] = m_cache_map.at(templ);
 		double value = image_hist_comp(cur(rect), hist);
 		return { AlgorithmType::CompareHist, value, cvrect_2_rect(rect).center_zoom(0.8) };
 	}
 	else {	// 没缓存就模板匹配
-		auto&& templ_mat = m_mat_map.at(templ);
-		auto&& [value, point] = match_template(cur, templ_mat);
+		const cv::Mat& templ_mat = m_mat_map.at(templ);
+		const auto& [value, point] = match_template(cur, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
 		
 		if (m_use_cache && value >= threshold) {
@@ -140,8 +142,8 @@ bool asst::Identify::ocr_init_models(const std::string& dir)
 
 std::optional<asst::Rect> asst::Identify::find_text(const cv::Mat& mat, const std::string& text)
 {
-	auto results = ocr_detect(mat);
-	for (const auto& res : results) {
+	std::vector<TextArea> results = ocr_detect(mat);
+	for (const TextArea& res : results) {
 		if (res.text == text) {
 			return res.rect;
 		}
@@ -152,9 +154,9 @@ std::optional<asst::Rect> asst::Identify::find_text(const cv::Mat& mat, const st
 std::vector<TextArea> asst::Identify::find_text(const cv::Mat& mat, const std::vector<std::string>& texts)
 {
 	std::vector<TextArea> dst;
-	auto detect_result = ocr_detect(mat);
-	for (const auto& res : detect_result) {
-		for (const auto& t : texts) {
+	std::vector<TextArea> detect_result = ocr_detect(mat);
+	for (const TextArea& res : detect_result) {
+		for (const std::string& t : texts) {
 			if (res.text == t) {
 				dst.emplace_back(res);
 			}
@@ -166,9 +168,10 @@ std::vector<TextArea> asst::Identify::find_text(const cv::Mat& mat, const std::v
 std::vector<TextArea> asst::Identify::find_text(const cv::Mat& mat, const std::unordered_set<std::string>& texts)
 {
 	std::vector<TextArea> dst;
-	auto detect_result = ocr_detect(mat);
-	for (const auto& res : detect_result) {
-		for (const auto& t : texts) {
+	std::vector<TextArea> detect_result = ocr_detect(mat);
+	for (const TextArea& res : detect_result) {
+		DebugTrace("detect", Utf8ToGbk(res.text));
+		for (const std::string& t : texts) {
 			if (res.text == t) {
 				dst.emplace_back(res);
 			}

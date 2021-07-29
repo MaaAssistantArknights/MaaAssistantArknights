@@ -24,7 +24,7 @@ bool AsstCatchEmulator(asst::Assistance* p_asst)
 		return false;
 	}
 
-	auto ret = p_asst->catch_emulator();
+	auto && ret = p_asst->catch_emulator();
 	if (ret) {
 		return true;
 	}
@@ -64,7 +64,7 @@ bool AsstGetParam(asst::Assistance* p_asst, const char* type, const char* param,
 	if (p_asst == NULL) {
 		return false;
 	}
-	auto ret = p_asst->get_param(type, param);
+	auto && ret = p_asst->get_param(type, param);
 	if (!ret) {
 		return false;
 	}
@@ -78,7 +78,7 @@ bool CheckVersionUpdate(char* tag_buffer, int tag_bufsize, char* html_url_buffer
 	if (!ret) {
 		return false;
 	}
-	auto && info = asst::Updater::get_instance().get_version_info();
+	const asst::VersionInfo & info = asst::Updater::get_instance().get_version_info();
 	strcpy_s(tag_buffer, tag_bufsize, info.tag_name.c_str());
 	strcpy_s(html_url_buffer, html_bufsize, info.html_url.c_str());
 	strcpy_s(body_buffer, body_bufsize, info.body.c_str());
