@@ -22,18 +22,18 @@ Updater& Updater::get_instance()
 
 bool Updater::has_new_version()
 {
-	auto req_ret = request_github_api();
+	auto && req_ret = request_github_api();
 	if (!req_ret) {
 		DebugTraceInfo("Requeset Error");
 		return false;
 	}
-	auto parse_ret = json::parser::parse(req_ret.value());
+	auto && parse_ret = json::parser::parse(req_ret.value());
 	if (!parse_ret) {
 		DebugTraceInfo("Parse Error");
 		return false;
 	}
 
-	json::value root = std::move(parse_ret).value();
+	json::value root = parse_ret.value();
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 	try {
@@ -43,7 +43,7 @@ bool Updater::has_new_version()
 		m_lastest_version.created_time = root["created_at"].as_string();
 		m_lastest_version.body = root["body"].as_string();
 
-		auto assets = root["assets"].as_array();
+		json::array& assets = root["assets"].as_array();
 		if (assets.size() == 1) {
 			m_lastest_version.down_url = assets[0]["browser_download_url"].as_string();
 		}

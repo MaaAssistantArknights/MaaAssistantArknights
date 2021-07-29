@@ -15,7 +15,7 @@ bool RecruitConfiger::load(const std::string& filename)
 	DebugTrace("RecruitConfiger::load | ", filename);
 
 	RecruitConfiger temp;
-	if (_load(filename)) {
+	if (temp._load(filename)) {
 		std::sort(temp.m_opers.begin(), temp.m_opers.end(), [](
 			const auto& lhs,
 			const auto& rhs)

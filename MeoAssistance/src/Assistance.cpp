@@ -205,7 +205,7 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 	const cv::Mat& image = get_format_image();
 	set_control_scale(image.cols, image.rows);
 
-	std::vector<TextArea>&& ider_result = m_pIder->find_text(image, m_recruit_configer.m_all_tags);
+	const std::vector<TextArea>& ider_result = m_pIder->find_text(image, m_recruit_configer.m_all_tags);
 
 	std::vector<std::string> tags;
 	std::string tags_str;
@@ -222,7 +222,6 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 	std::vector<std::vector<std::string>> all_combs;
 	int len = tags.size();
 	int count = std::pow(2, len);
-
 	for (int i = 0; i < count; ++i) {
 		std::vector<std::string> temp;
 		for (int j = 0, mask = 1; j < len; ++j) {
@@ -369,8 +368,8 @@ void Assistance::working_proc(Assistance* pThis)
 				if (algorithm == AlgorithmType::JustReturn ||
 					(algorithm == AlgorithmType::MatchTemplate && value >= threshold)
 					|| (algorithm == AlgorithmType::CompareHist && value >= cache_threshold)) {
-					matched_task = task_name;
-					matched_rect = rect;
+					matched_task = std::move(task_name);
+					matched_rect = std::move(rect);
 					break;
 				}
 			}
