@@ -36,6 +36,7 @@ namespace asst {
 		Options m_options;
 		std::unordered_map<std::string, TaskInfo> m_tasks;
 		std::unordered_map<std::string, EmulatorInfo> m_handles;
+		std::unordered_map<std::string, std::string> m_ocr_replace;
 
 	private:
 		bool _load(const std::string& filename);

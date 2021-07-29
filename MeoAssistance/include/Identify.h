@@ -37,14 +37,14 @@ namespace asst {
 		std::optional<Rect> find_text(const cv::Mat& mat, const std::string& text);
 		std::vector<TextArea> find_text(const cv::Mat& mat, const std::vector<std::string>& texts);
 		std::vector<TextArea> find_text(const cv::Mat& mat, const std::unordered_set<std::string>& texts);
-
+		
+		std::vector<TextArea> ocr_detect(const cv::Mat& mat);
 	private:
 		cv::Mat image_2_hist(const cv::Mat& src);
 		double image_hist_comp(const cv::Mat& src, const cv::MatND& hist);
 		static asst::Rect cvrect_2_rect(const cv::Rect& cvRect) { 
 			return asst::Rect(cvRect.x, cvRect.y, cvRect.width, cvRect.height); 
 		}
-		std::vector<TextArea> ocr_detect(const cv::Mat& mat);
 
 		// return pair< suitability, raw opencv::point>
 		std::pair<double, cv::Point> match_template(const cv::Mat& cur, const cv::Mat& templ);
