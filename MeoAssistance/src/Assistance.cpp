@@ -218,10 +218,6 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 	}
 	DebugTraceInfo("All Tags", Utf8ToGbk(tags_str));
 
-	// 高资tag和六星强绑定，如果没有高资tag，即使其他tag匹配上了也不可能出六星
-	static const std::string SeniorOper = GbkToUtf8("高级资深干员");
-	bool has_senior = std::find(tags.cbegin(), tags.cend(), SeniorOper) != tags.cend();
-
 	// Tags全组合
 	std::vector<std::vector<std::string>> combs;
 	int len = tags.size();
@@ -255,10 +251,13 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 				}
 			}
 			if (matched_count == comb.size()) {
+				static const std::string SeniorOper = GbkToUtf8("高级资深干员");
 				// 高资tag和六星强绑定，如果没有高资tag，即使其他tag匹配上了也不可能出六星
-				if (!has_senior && cur_oper.level == 6) {
+				if (cur_oper.level == 6
+					&& std::find(comb.cbegin(), comb.cend(), SeniorOper) == comb.cend()) {
 					continue;
 				}
+
 				if (result_map.find(comb) == result_map.cend()) {
 					result_map.emplace(comb, OperCombs());
 				}
