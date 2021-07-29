@@ -28,9 +28,22 @@ namespace json
 
         bool empty() const noexcept { return _array_data.empty(); }
         size_t size() const noexcept { return _array_data.size(); }
+        bool exist(size_t pos) const { return _array_data.size() < pos; }
         const value &at(size_t pos) const;
         const std::string to_string() const;
         const std::string format(std::string shift_str = "    ", size_t basic_shift_count = 0) const;
+
+        const bool get(size_t pos, bool default_value) const;
+        const int get(size_t pos, int default_value) const;
+        const long get(size_t pos, long default_value) const;
+        const unsigned long get(size_t pos, unsigned default_value) const;
+        const long long get(size_t pos, long long default_value) const;
+        const unsigned long long get(size_t pos, unsigned long long default_value) const;
+        const float get(size_t pos, float default_value) const;
+        const double get(size_t pos, double default_value) const;
+        const long double get(size_t pos, long double default_value) const;
+        const std::string get(size_t pos, std::string default_value) const;
+        const std::string get(size_t pos, const char * default_value) const;
 
         template <typename... Args>
         decltype(auto) emplace_back(Args &&... args)

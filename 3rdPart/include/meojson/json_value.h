@@ -83,10 +83,19 @@ namespace json
         bool is_array() const noexcept { return _type == value_type::Array; }
         bool is_object() const noexcept { return _type == value_type::Object; }
         bool exist(const std::string& key) const;
-        bool exist(int index) const;
+        bool exist(size_t pos) const;
         value_type type() const noexcept { return _type; }
         const value &at(size_t pos) const;
         const value &at(const std::string &key) const;
+
+        template<typename Type>
+        decltype(auto) get(const std::string& key, Type default_value) {
+            return is_object() ? as_object().get(key, default_value) : default_value;
+        }
+        template<typename Type>
+        decltype(auto) get(size_t pos, Type default_value) {
+            return is_array() ? as_array().get(pos, default_value) : default_value;
+        }
 
         const bool as_boolean() const;
         const int as_integer() const;
@@ -99,8 +108,11 @@ namespace json
         const double as_double() const;
         const long double as_long_double() const;
         const std::string as_string() const;
-        const array as_array() const;
-        const object as_object() const;
+        const array & as_array() const;
+        const object & as_object() const;
+
+        array& as_array();
+        object& as_object();
 
         // return raw string
         const std::string to_string() const;
