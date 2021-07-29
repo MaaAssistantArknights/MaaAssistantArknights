@@ -202,14 +202,41 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 {
 	DebugTraceFunction;
 
+	std::unique_lock<std::mutex> lock(m_mutex);
+
 	const cv::Mat& image = get_format_image();
 	set_control_scale(image.cols, image.rows);
 
-	const std::vector<TextArea>& ider_result = m_pIder->find_text(image, m_recruit_configer.m_all_tags);
+	lock.unlock();
+
+	if (need_click) {
+		start("RecruitTime");
+	}
+
+	std::vector<TextArea> ider_result = m_pIder->ocr_detect(image);
+	std::vector<TextArea> filt_result;
+	std::string ider_str;
+	for (TextArea& res : ider_result) {
+		// 替换一些常见的文字识别错误
+		// TODO: 这块时间复杂度有点高，待优化
+		for (const auto& [src, cor] : m_configer.m_ocr_replace) {
+			res.text = StringReplaceAll(res.text, src, cor);
+		}
+		ider_str += res.text + " ,";
+		for (const std::string& t : m_recruit_configer.m_all_tags) {
+			if (res.text == t) {
+				filt_result.emplace_back(std::move(res));
+			}
+		}
+	}
+	if (ider_str.back() == ',') {
+		ider_str.pop_back();
+	}
+	DebugTrace("All ocr text: ", Utf8ToGbk(ider_str));
 
 	std::vector<std::string> tags;
 	std::string tags_str;
-	for (const TextArea& t_a : ider_result) {
+	for (const TextArea& t_a : filt_result) {
 		tags.emplace_back(t_a.text);
 		tags_str += t_a.text + " ,";
 	}
@@ -321,13 +348,16 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 	if (need_click && !result_vector.empty()) {
 		const std::vector<std::string>& final_tags = result_vector[0].first;
 		std::vector<TextArea> final_text_areas;
-		for (const TextArea& text_area : ider_result) {
+
+		lock.lock();
+		for (const TextArea& text_area : filt_result) {
 			if (std::find(final_tags.cbegin(), final_tags.cend(), text_area.text) != final_tags.cend()) {
 				final_text_areas.emplace_back(text_area);
 				m_pCtrl->click(text_area.rect);
 				Sleep(300);
 			}
 		}
+		lock.unlock();
 	}
 }
 

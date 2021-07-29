@@ -235,6 +235,10 @@ bool asst::Configer::_load(const std::string& filename)
 
 			m_handles.emplace(name, std::move(emulator_info));
 		}
+
+		for (json::value& rep : root["ocrReplace"].as_array()) {
+			m_ocr_replace.emplace(rep.as_array()[0].as_string(), rep.as_array()[1].as_string());
+		}
 	}
 	catch (json::exception& e) {
 		DebugTraceError("Load config json error!", e.what());
