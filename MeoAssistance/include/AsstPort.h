@@ -5,7 +5,6 @@
 #define MEO_DLL_IMPORT __declspec(dllimport)
 #define MEO_DLL_EXPORT __declspec(dllexport)
 #define MEO_DLL_LOCAL
-#define MEO_WCHAR_SUPPORT
 #else
 #if __GNUC__ >= 4
 #define MEO_DLL_IMPORT __attribute__ ((visibility ("default")))

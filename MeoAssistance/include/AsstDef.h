@@ -183,6 +183,7 @@ namespace asst {
 		std::string name_en;
 	};
 
+	// 干员组合
 	struct OperCombs {
 		std::vector<OperInfo> opers;
 		int max_level = 0;
