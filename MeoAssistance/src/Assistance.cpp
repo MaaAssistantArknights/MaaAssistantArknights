@@ -214,21 +214,25 @@ std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
 	}
 
 	std::vector<TextArea> ider_result = m_pIder->ocr_detect(image);
-	//DebugTrace("All ocr text: ", ider_result);
-
-	std::vector<TextArea> filt_result;	// 识别的文字中，是tag名的结果
+	std::vector<TextArea> filt_result;
+	std::string ider_str;
 	for (TextArea& res : ider_result) {
 		// 替换一些常见的文字识别错误
 		// TODO: 这块时间复杂度有点高，待优化
 		for (const auto& [src, cor] : m_configer.m_ocr_replace) {
 			res.text = StringReplaceAll(res.text, src, cor);
 		}
+		ider_str += res.text + " ,";
 		for (const std::string& t : m_recruit_configer.m_all_tags) {
 			if (res.text == t) {
 				filt_result.emplace_back(std::move(res));
 			}
 		}
 	}
+	if (ider_str.back() == ',') {
+		ider_str.pop_back();
+	}
+	DebugTrace("All ocr text: ", Utf8ToGbk(ider_str));
 
 	if (filt_result.size() != 5) {
 		DebugTraceError("Error, Tags recognition error!!!");

@@ -87,7 +87,7 @@ namespace asst {
 		if (vector.empty()) {
 			return std::string();
 		}
-		static const std::string inter = "  ,";
+		static const std::string inter = ",  ";
 		std::string str;
 		for (const T& ele : vector) {
 			if (to_gbk) {
@@ -110,7 +110,7 @@ namespace asst {
 		if (vector.empty()) {
 			return std::string();
 		}
-		static const std::string inter = "  ,";
+		static const std::string inter = ",  ";
 		std::string str;
 		for (const T& ele : vector) {
 			str += std::to_string(ele) + inter;
