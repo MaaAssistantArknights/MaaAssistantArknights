@@ -3,6 +3,8 @@
 #include <fstream>
 #include <mutex>
 #include <iostream>
+#include <vector>
+#include <type_traits>
 
 #include "AsstAux.h"
 #include "AsstPort.h"
