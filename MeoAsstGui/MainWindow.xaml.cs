@@ -36,7 +36,8 @@ namespace MeoAsstGui
 
 
         private IntPtr p_asst;
-        UpdateDialog updateDialog;
+        private UpdateDialog updateDialog;
+        private RecruitWindow recuitWindow;
         private DispatcherTimer update_times = new DispatcherTimer();
 
         public MainWindow()
@@ -178,9 +179,11 @@ namespace MeoAsstGui
             }
         }
 
-        private void checkBox_shutdown_Checked(object sender, RoutedEventArgs e)
+        private void button_recruit_Click(object sender, RoutedEventArgs e)
         {
-
+            recuitWindow = new RecruitWindow(p_asst);
+            recuitWindow.ShowDialog();
+            recuitWindow.Close();
         }
     }
 }

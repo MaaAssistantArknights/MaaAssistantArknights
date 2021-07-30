@@ -198,7 +198,8 @@ bool asst::Assistance::find_text_and_click(const std::string& text, bool block)
 	return m_pCtrl->click(result.value());
 }
 
-void asst::Assistance::find_and_clac_tags(bool need_click)
+std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>> 
+	asst::Assistance::open_recruit(const std::vector<int>& required_level, bool set_time)
 {
 	DebugTraceFunction;
 
@@ -206,44 +207,39 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 
 	const cv::Mat& image = get_format_image();
 	set_control_scale(image.cols, image.rows);
+	lock.unlock();	// 后面的计算耗时太长，先解锁
 
-	lock.unlock();
-
-	if (need_click) {
+	if (set_time) {
 		start("RecruitTime");
 	}
 
 	std::vector<TextArea> ider_result = m_pIder->ocr_detect(image);
-	std::vector<TextArea> filt_result;
-	std::string ider_str;
+	//DebugTrace("All ocr text: ", ider_result);
+
+	std::vector<TextArea> filt_result;	// 识别的文字中，是tag名的结果
 	for (TextArea& res : ider_result) {
 		// 替换一些常见的文字识别错误
 		// TODO: 这块时间复杂度有点高，待优化
 		for (const auto& [src, cor] : m_configer.m_ocr_replace) {
 			res.text = StringReplaceAll(res.text, src, cor);
 		}
-		ider_str += res.text + " ,";
 		for (const std::string& t : m_recruit_configer.m_all_tags) {
 			if (res.text == t) {
 				filt_result.emplace_back(std::move(res));
 			}
 		}
 	}
-	if (ider_str.back() == ',') {
-		ider_str.pop_back();
+
+	if (filt_result.size() != 5) {
+		DebugTraceError("Error, Tags recognition error!!!");
+		return std::nullopt;
 	}
-	DebugTrace("All ocr text: ", Utf8ToGbk(ider_str));
 
 	std::vector<std::string> tags;
-	std::string tags_str;
 	for (const TextArea& t_a : filt_result) {
 		tags.emplace_back(t_a.text);
-		tags_str += t_a.text + " ,";
 	}
-	if (tags_str.back() == ',') {
-		tags_str.pop_back();
-	}
-	DebugTraceInfo("All Tags", Utf8ToGbk(tags_str));
+	DebugTraceInfo("All Tags", VectorToString(tags, true));
 
 	// Tags全组合
 	std::vector<std::vector<std::string>> all_combs;
@@ -299,6 +295,9 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 				if (oper_combs.max_level == 0 || oper_combs.max_level < cur_oper.level) {
 					oper_combs.max_level = cur_oper.level;
 				}
+				if (cur_oper.level == 1) {
+					oper_combs.has_level_1 = true;
+				}
 			}
 		}
 	}
@@ -324,13 +323,12 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 			}
 		});
 
-#ifdef LOG_TRACE
 	for (const auto& [combs, oper_combs] : result_vector) {
 		std::string tag_str;
 		for (const std::string& tag : combs) {
 			tag_str += tag + " ,";
 		}
-		if (tags_str.back() == ',') {
+		if (tag_str.back() == ',') {
 			tag_str.pop_back();
 		}
 
@@ -341,11 +339,15 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 		if (opers_str.back() == ',') {
 			opers_str.pop_back();
 		}
-		DebugTraceInfo("Tags:", Utf8ToGbk(tag_str), "May be recruited: ", Utf8ToGbk(opers_str));
+		DebugTraceInfo("Tags:", VectorToString(combs, true), "May be recruited: ", Utf8ToGbk(opers_str));
 	}
-#endif
 
-	if (need_click && !result_vector.empty()) {
+	stop(true);
+	if (!required_level.empty() && !result_vector.empty()) {
+		if (std::find(required_level.cbegin(), required_level.cend(), result_vector[0].second.min_level)
+			== required_level.cend()) {
+			return result_vector;
+		}
 		const std::vector<std::string>& final_tags = result_vector[0].first;
 		std::vector<TextArea> final_text_areas;
 
@@ -359,6 +361,7 @@ void asst::Assistance::find_and_clac_tags(bool need_click)
 		}
 		lock.unlock();
 	}
+	return result_vector;
 }
 
 void Assistance::working_proc(Assistance* pThis)
@@ -398,7 +401,7 @@ void Assistance::working_proc(Assistance* pThis)
 				if (algorithm == AlgorithmType::JustReturn ||
 					(algorithm == AlgorithmType::MatchTemplate && value >= threshold)
 					|| (algorithm == AlgorithmType::CompareHist && value >= cache_threshold)) {
-					matched_task = std::move(task_name);
+					matched_task = task_name;
 					matched_rect = std::move(rect);
 					break;
 				}

@@ -36,16 +36,22 @@ namespace asst {
 
 		bool print_window(const std::string& filename, bool block = true);
 
-		// for debug
-		bool find_text_and_click(const std::string& text, bool block = true);
-		// for debug
-		void find_and_clac_tags(bool need_click = true);
+		// 计算公开招募，需要当前处在选择公招Tag的页面
+		// 参数：
+		// required_level：需要的等级，最优组合的最低等级，在required_level中，才会进行点击
+		// set_time：是否自动设置时间（9小时）
+		// 返回值：
+		// std::vector< std::pair < Tags名vector，这个Tags组合可能出的干员组合 > >
+		std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>> 
+			open_recruit(const std::vector<int>& required_level, bool set_time = true);
 	private:
 		static void working_proc(Assistance* pThis);
 
-		// pair<scale, image>
 		cv::Mat get_format_image();
 		void set_control_scale(int cur_width, int cur_height);
+
+		// for debug
+		bool find_text_and_click(const std::string& text, bool block = true);
 
 		std::shared_ptr<WinMacro> m_pWindow = nullptr;
 		std::shared_ptr<WinMacro> m_pView = nullptr;

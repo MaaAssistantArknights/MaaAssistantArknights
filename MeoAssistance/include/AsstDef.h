@@ -33,7 +33,9 @@ namespace asst {
 		PrintWindow,
 		ClickSelf = 8 | BasicClick,
 		ClickRect = 16 | BasicClick,
-		ClickRand = 32 | BasicClick
+		ClickRand = 32 | BasicClick,
+		Ocr = 64,
+		OcrAndClick = Ocr | BasicClick
 	};
 	static bool operator&(const TaskType& lhs, const TaskType& rhs)
 	{
@@ -102,15 +104,14 @@ namespace asst {
 		TextArea() = default;
 		TextArea(const TextArea&) = default;
 		TextArea(TextArea&&) = default;
-		template<typename TextArg, typename ...RectArgs>
-		TextArea(TextArg&& text_arg, RectArgs &&... rect_args)
-			: text(std::forward<TextArg>(text_arg)),
+		template<typename ...RectArgs>
+		TextArea(std::string text, RectArgs &&... rect_args)
+			: text(std::move(text)),
 			rect(std::forward<RectArgs>(rect_args)...) {
-			static_assert(std::is_constructible<std::string, TextArg>::value,
-				"Parameter can't be used to construct a std::string");
 			static_assert(std::is_constructible<asst::Rect, RectArgs...>::value,
 				"Parameter can't be used to construct a asst::Rect");
 		}
+		operator std::string() const { return text; }
 		std::string text;
 		Rect rect;
 	};
@@ -158,6 +159,7 @@ namespace asst {
 		asst::Rect specific_area;						// 指定区域，目前仅针对ClickRect任务有用，会点这个区域
 		int pre_delay = 0;								// 执行该任务前的延时
 		int rear_delay = 0;								// 执行该任务后的延时
+		int retry_times = INT_MAX;						// 未找到图像时的重试次数
 	};
 
 	struct Options {
@@ -188,5 +190,6 @@ namespace asst {
 		std::vector<OperInfo> opers;
 		int max_level = 0;
 		int min_level = 0;
+		bool has_level_1 = false;	// 是否有一星干员
 	};
 }
