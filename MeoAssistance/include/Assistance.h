@@ -6,11 +6,13 @@
 #include <memory>
 #include <optional>
 #include <unordered_map>
+#include <queue>
 
 #include "AsstPort.h"
 #include "AsstDef.h"
 #include "Configer.h"
 #include "RecruitConfiger.h"
+#include "Task.h"
 
 namespace cv {
 	class Mat;
@@ -46,17 +48,19 @@ namespace asst {
 			open_recruit(const std::vector<int>& required_level, bool set_time = true);
 	private:
 		static void working_proc(Assistance* pThis);
+		static void task_callback(TaskMsg msg, const std::string& detail_json = std::string());
 
 		cv::Mat get_format_image();
 		void set_control_scale(int cur_width, int cur_height);
+		void clear_exec_times();
 
 		// for debug
 		bool find_text_and_click(const std::string& text, bool block = true);
 
-		std::shared_ptr<WinMacro> m_pWindow = nullptr;
-		std::shared_ptr<WinMacro> m_pView = nullptr;
-		std::shared_ptr<WinMacro> m_pCtrl = nullptr;
-		std::shared_ptr<Identify> m_pIder = nullptr;
+		std::shared_ptr<WinMacro> m_window_ptr = nullptr;
+		std::shared_ptr<WinMacro> m_view_ptr = nullptr;
+		std::shared_ptr<WinMacro> m_control_ptr = nullptr;
+		std::shared_ptr<Identify> m_identify_ptr = nullptr;
 		bool m_inited = false;
 
 		std::thread m_working_thread;
@@ -64,8 +68,9 @@ namespace asst {
 		std::condition_variable m_condvar;
 		bool m_thread_exit = false;
 		bool m_thread_running = false;
-		std::vector<std::string> m_next_tasks;
+		std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;
 
+		std::unordered_map<std::string, TaskInfo> m_all_tasks_info;
 		Configer m_configer;
 		RecruitConfiger m_recruit_configer;
 	};

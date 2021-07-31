@@ -27,15 +27,14 @@ namespace asst {
 
 	enum class TaskType {
 		Invalid = 0,
-		BasicClick = 1,
-		DoNothing = 2,
-		Stop = 4,
-		PrintWindow,
-		ClickSelf = 8 | BasicClick,
-		ClickRect = 16 | BasicClick,
-		ClickRand = 32 | BasicClick,
-		Ocr = 64,
-		OcrAndClick = Ocr | BasicClick
+		BasicClick = 0x100,
+		ClickSelf = BasicClick | 1,		// 点击模板自身位置
+		ClickRect = BasicClick | 2,		// 点击指定区域
+		ClickRand = BasicClick | 4,		// 点击随机区域
+		DoNothing = 0x200,				// 什么都不做
+		Stop =  0x400,					// 停止工作线程
+		PrintWindow =  0x800,			// 截图功能
+		OpenRecruit =  0x1000			// 公开招募功能
 	};
 	static bool operator&(const TaskType& lhs, const TaskType& rhs)
 	{
@@ -51,7 +50,8 @@ namespace asst {
 			{TaskType::ClickRand, "ClickRand"},
 			{TaskType::DoNothing, "DoNothing"},
 			{TaskType::Stop, "Stop"},
-			{TaskType::PrintWindow, "PrintWindow"}
+			{TaskType::PrintWindow, "PrintWindow"},
+			{TaskType::OpenRecruit, "OpenRecruit"}
 		};
 		return os << _type_name.at(task);
 	}
@@ -147,9 +147,10 @@ namespace asst {
 	};
 
 	struct TaskInfo {
+		std::string name;								// 任务名
 		std::string template_filename;					// 匹配模板图片文件名
-		double threshold = 0;							// 模板匹配阈值
-		double cache_threshold = 0;						// 直方图比较阈值
+		double templ_threshold = 0;							// 模板匹配阈值
+		double hist_threshold = 0;							// 直方图比较阈值
 		TaskType type = TaskType::Invalid;				// 任务类型
 		std::vector<std::string> next;					// 下一个可能的任务（列表）
 		int exec_times = 0;								// 任务已执行了多少次

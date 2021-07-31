@@ -44,10 +44,10 @@ bool Configer::set_param(const std::string& type, const std::string& param, cons
 {
 	// 暂时只用到了这些，总的参数太多了，后面要用啥再加上
 	if (type == "task.type") {
-		if (m_tasks.find(param) == m_tasks.cend()) {
+		if (m_all_tasks_info.find(param) == m_all_tasks_info.cend()) {
 			return false;
 		}
-		auto& task_info = m_tasks[param];
+		auto& task_info = m_all_tasks_info[param];
 		std::string type = value;
 		std::transform(type.begin(), type.end(), type.begin(), std::tolower);
 		if (type == "clickself") {
@@ -71,10 +71,10 @@ bool Configer::set_param(const std::string& type, const std::string& param, cons
 		}
 	}
 	else if (type == "task.maxTimes") {
-		if (m_tasks.find(param) == m_tasks.cend()) {
+		if (m_all_tasks_info.find(param) == m_all_tasks_info.cend()) {
 			return false;
 		}
-		m_tasks[param].max_times = std::stoi(value);
+		m_all_tasks_info[param].max_times = std::stoi(value);
 	}
 	return true;
 }
@@ -82,17 +82,10 @@ bool Configer::set_param(const std::string& type, const std::string& param, cons
 std::optional<std::string> Configer::get_param(const std::string& type, const std::string& param)
 {
 	// 暂时只用到了这些，总的参数太多了，后面要用啥再加上
-	if (type == "task.execTimes" && m_tasks.find(param) != m_tasks.cend()) {
-		return std::to_string(m_tasks.at(param).exec_times);
+	if (type == "task.execTimes" && m_all_tasks_info.find(param) != m_all_tasks_info.cend()) {
+		return std::to_string(m_all_tasks_info.at(param).exec_times);
 	}
 	return std::nullopt;
-}
-
-void Configer::clear_exec_times()
-{
-	for (auto&& pair : m_tasks) {
-		pair.second.exec_times = 0;
-	}
 }
 
 bool asst::Configer::_load(const std::string& filename)
@@ -132,9 +125,10 @@ bool asst::Configer::_load(const std::string& filename)
 
 		for (auto&& [name, task_json] : root["tasks"].as_object()) {
 			TaskInfo task_info;
+			task_info.name = name;
 			task_info.template_filename = task_json["template"].as_string();
-			task_info.threshold = task_json.get("threshold", DefaultThreshold);
-			task_info.cache_threshold = task_json.get("cacheThreshold", DefaultCacheThreshold);
+			task_info.templ_threshold = task_json.get("templThreshold", Defaulttempl_threshold);
+			task_info.hist_threshold = task_json.get("histThreshold", DefaultCachetempl_threshold);
 
 			std::string type = task_json["type"].as_string();
 			std::transform(type.begin(), type.end(), type.begin(), std::tolower);
@@ -191,7 +185,7 @@ bool asst::Configer::_load(const std::string& filename)
 				task_info.next.emplace_back(next.as_string());
 			}
 
-			m_tasks.emplace(name, std::move(task_info));
+			m_all_tasks_info.emplace(name, std::move(task_info));
 		}
 
 		for (auto&& [name, emulator_json] : root["handle"].as_object()) {
