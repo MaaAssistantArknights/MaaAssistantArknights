@@ -62,14 +62,15 @@ namespace MeoAsstGui
             if (AsstRunOpenRecruit(p_asst, level_list.ToArray(), set_time, result_buff, 16384, ref maybe_level))
             {
                 info.Content = result_buff;
-                if (maybe_level > 3)
+                if (maybe_level > 4 || maybe_level == 1)
                 {
-                    MessageBox.Show("出" + maybe_level + "星了哦！", "公招提示");
+                    MessageBox.Show("出 " + maybe_level + " 星了哦！", "公招提示");
                 }
             }
             else
             {
                 info.Content = "识别错误！";
+                MessageBox.Show("识别错误！", "公招提示");
             }
         }
     }
