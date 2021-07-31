@@ -236,6 +236,7 @@ std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
 
 	if (filt_result.size() != 5) {
 		DebugTraceError("Error, Tags recognition error!!!");
+		stop(true);
 		return std::nullopt;
 	}
 
@@ -283,13 +284,14 @@ std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
 					&& std::find(comb.cbegin(), comb.cend(), SeniorOper) == comb.cend()) {
 					continue;
 				}
-
-				if (result_map.find(comb) == result_map.cend()) {
-					result_map.emplace(comb, OperCombs());
-				}
 				OperCombs& oper_combs = result_map[comb];
 				oper_combs.opers.emplace_back(cur_oper);
 
+				static const std::string SupportMachine = GbkToUtf8("支援机械");
+				if (cur_oper.level == 1
+					&& std::find(comb.cbegin(), comb.cend(), SupportMachine) != comb.cend()) {
+					DebugTraceInfo("Has Level 1");
+				}
 				// 一星小车不计入最低等级
 				if (cur_oper.level != 1 && (
 					oper_combs.min_level == 0 || oper_combs.min_level > cur_oper.level)) {
@@ -298,9 +300,6 @@ std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
 
 				if (oper_combs.max_level == 0 || oper_combs.max_level < cur_oper.level) {
 					oper_combs.max_level = cur_oper.level;
-				}
-				if (cur_oper.level == 1) {
-					oper_combs.has_level_1 = true;
 				}
 			}
 		}
@@ -315,7 +314,7 @@ std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
 		->bool {
 			// 1、最小等级小的，排最后
 			// 2、最小等级相同，最大等级小的，排后面
-			// 3、1 2都相同，干员数量越多的，排后面
+			// 3、1 2都相同，标签多的，排后面
 			if (lhs.second.min_level != rhs.second.min_level) {
 				return lhs.second.min_level > rhs.second.min_level;
 			}
@@ -323,7 +322,7 @@ std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
 				return lhs.second.max_level > rhs.second.max_level;
 			}
 			else {
-				return lhs.second.opers.size() < rhs.second.opers.size();
+				return lhs.first.size() < rhs.first.size();
 			}
 		});
 
