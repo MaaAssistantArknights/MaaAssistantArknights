@@ -229,7 +229,7 @@
     "tasks": {
         "SanityBegin": {
             "template": "",
-            "threshold": 0,
+            "templThreshold": 0,
             "type": "doNothing",
             "next": [
                 "UsePrts",
@@ -244,7 +244,7 @@
         },
         "UsePrts": {
             "template": "UsePrts.png",
-            "threshold": 0.8,
+            "templThreshold": 0.8,
             "type": "clickSelf",
             "next": [
                 "StartButton1"
@@ -252,7 +252,7 @@
         },
         "StartButton1": {
             "template": "StartButton1.png",
-            "threshold": 0.8,
+            "templThreshold": 0.8,
             "type": "clickSelf",
             "next": [
                 "StartButton2",
@@ -281,7 +281,7 @@
         },
         "EndOfAction": {
             "template": "",
-            "threshold": 0,
+            "templThreshold": 0,
             "type": "printWindow",
             "next": [
                 "Random"
@@ -289,7 +289,7 @@
         },
         "Random": {
             "template": "",
-            "threshold": 0,
+            "templThreshold": 0,
             "type": "clickRect",
             "specificArea": [
                 1100,
@@ -366,7 +366,7 @@
         },
         "VisitBegin": {
             "template": "",
-            "threshold": 0,
+            "templThreshold": 0,
             "type": "doNothing",
             "next": [
                 "Friends",
@@ -379,8 +379,8 @@
         },
         "ReturnToFriends": {
             "template": "Return.png",
-            "threshold": 0.85,
-            "cacheThreshold": 0.85,
+            "templThreshold": 0.85,
+            "histThreshold": 0.85,
             "type": "clickSelf",
             "next": [
                 "Friends",
@@ -446,7 +446,7 @@
         },
         "CreditStore": {
             "template": "CreditStore.png",
-            "threshold": 0.85,
+            "templThreshold": 0.85,
             "rearDelay": 1000,
             "type": "clickSelf",
             "next": [
@@ -463,7 +463,7 @@
         },
         "VisitLimited": {
             "template": "VisitLimited.png",
-            "threshold": 1,
+            "templThreshold": 1,
             "type": "doNothing",
             "next": [
                 "ReturnToMall"
@@ -478,7 +478,7 @@
         },
         "Stop": {
             "template": "",
-            "threshold": 0,
+            "templThreshold": 0,
             "type": "stop",
             "next": []
         },

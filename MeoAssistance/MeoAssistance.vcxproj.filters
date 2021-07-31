@@ -51,6 +51,9 @@
     <ClInclude Include="include\Version.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\Task.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Configer.cpp">
@@ -72,6 +75,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\RecruitConfiger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Task.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
