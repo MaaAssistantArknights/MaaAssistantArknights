@@ -114,7 +114,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(SolutionDir)3rdPart\include;$(SolutionDir)3rdPart\include\meojson;$(SolutionDir)\3rdPart\include\opencv;$(SolutionDir)\3rdPart\include\opencv2;$(SolutionDir)3drPart\include\OcrLiteNcnn;;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(SolutionDir)3rdPart\include;$(SolutionDir)3rdPart\include\meojson;$(SolutionDir)3rdPart\include\opencv;$(SolutionDir)3rdPart\include\opencv2;$(SolutionDir)3drPart\include\OcrLiteNcnn;$(IncludePath)</IncludePath>
     <LibraryPath>$(TargetDir);$(Solution)\3rdPart\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

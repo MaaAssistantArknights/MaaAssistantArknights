@@ -45,7 +45,7 @@ Assistance::~Assistance()
 	//}
 
 	m_thread_exit = true;
-	m_thread_running = false;
+	m_thread_idle = true;
 	m_condvar.notify_all();
 
 	if (m_working_thread.joinable()) {
@@ -99,7 +99,7 @@ void Assistance::start(const std::string& task)
 {
 	DebugTraceFunction;
 	DebugTrace("Start |", task);
-	if (m_thread_running || !m_inited) {
+	if (!m_thread_idle || !m_inited) {
 		return;
 	}
 
@@ -107,11 +107,9 @@ void Assistance::start(const std::string& task)
 	clear_exec_times();
 	m_identify_ptr->clear_cache();
 
-	auto task_ptr = std::make_shared<MatchTask>(task_callback, &m_all_tasks_info, &m_configer);
-	task_ptr->set_tasks({ task });
-	m_tasks_queue.emplace(task_ptr);
+	append_match_task({ task });
 
-	m_thread_running = true;
+	m_thread_idle = false;
 	m_condvar.notify_one();
 }
 
@@ -125,7 +123,7 @@ void Assistance::stop(bool block)
 		lock = std::unique_lock<std::mutex>(m_mutex);
 		clear_exec_times();
 	}
-	m_thread_running = false;
+	m_thread_idle = true;
 	std::queue<std::shared_ptr<AbstractTask>> empty;
 	m_tasks_queue.swap(empty);
 	m_identify_ptr->clear_cache();
@@ -145,7 +143,7 @@ std::optional<std::string> Assistance::get_param(const std::string& type, const 
 	// DebugTraceFunction;
 	if (type == "status") {
 		if (param == "running") {
-			return std::to_string(m_thread_running);
+			return std::to_string(!m_thread_idle);
 		}
 		else {
 			return std::nullopt;
@@ -377,11 +375,12 @@ void Assistance::working_proc(Assistance* pThis)
 
 	while (!pThis->m_thread_exit) {
 		std::unique_lock<std::mutex> lock(pThis->m_mutex);
-		if (pThis->m_thread_running && !pThis->m_tasks_queue.empty()) {
+		if (!pThis->m_thread_idle && !pThis->m_tasks_queue.empty()) {
 
 			auto start_time = std::chrono::system_clock::now();
 			std::shared_ptr<AbstractTask> task_ptr = pThis->m_tasks_queue.front();
 			task_ptr->set_ptr(pThis->m_window_ptr, pThis->m_view_ptr, pThis->m_control_ptr, pThis->m_identify_ptr);
+			task_ptr->set_exit_flag(&pThis->m_thread_idle);
 			bool ret = task_ptr->run();
 			if (ret) {
 				pThis->m_tasks_queue.pop();
@@ -389,7 +388,7 @@ void Assistance::working_proc(Assistance* pThis)
 
 			pThis->m_condvar.wait_until(lock,
 				start_time + std::chrono::milliseconds(pThis->m_configer.m_options.identify_delay),
-				[&]() -> bool { return !pThis->m_thread_running; });
+				[&]() -> bool { return pThis->m_thread_idle; });
 		}
 		else {
 			pThis->m_condvar.wait(lock);
@@ -397,40 +396,53 @@ void Assistance::working_proc(Assistance* pThis)
 	}
 }
 
-void asst::Assistance::task_callback(TaskMsg msg, const std::string& detail_json)
+void Assistance::task_callback(TaskMsg msg, const json::value& detail, void* custom_arg)
 {
-	auto&& json_ret = json::parser::parse(detail_json);
-	json::value detail;
-	if (json_ret) {
-		detail = json_ret.value();
-	}
+	DebugTraceFunction;
+	DebugTrace(msg, detail.to_string(), custom_arg);
 
+	Assistance* p_this = (Assistance*)custom_arg;
 	switch (msg)
 	{
-	case asst::TaskMsg::PtrIsNull:
-		DebugTraceError("PtrIsNull");
+	case TaskMsg::PtrIsNull:
 		break;
-	case asst::TaskMsg::ImageIsEmpty:
-		DebugTraceError("ImageIsEmpty");
+	case TaskMsg::ImageIsEmpty:
 		break;
-	case asst::TaskMsg::WindowMinimized:
+	case TaskMsg::WindowMinimized:
 		break;
-	case asst::TaskMsg::TaskMatched:
+	case TaskMsg::TaskMatched:
 		break;
-	case asst::TaskMsg::ReachedLimit:
+	case TaskMsg::ReachedLimit:
 		break;
-	case asst::TaskMsg::ReadyToSleep:
+	case TaskMsg::ReadyToSleep:
 		break;
-	case asst::TaskMsg::TaskCompleted:
+	case TaskMsg::TaskCompleted:
 		break;
-	case asst::TaskMsg::MissionStop:
+	case TaskMsg::MissionStop:
+		break;
+	case TaskMsg::AppendTask:
+	{
+		json::array next_arr = detail.at("next").as_array();
+		std::vector<std::string> next_vec;
+		for (const json::value& next_json : next_arr) {
+			next_vec.emplace_back(next_json.as_string());
+		}
+		p_this->append_match_task(next_vec);
+	}
 		break;
 	default:
 		break;
 	}
 }
 
-cv::Mat asst::Assistance::get_format_image()
+void asst::Assistance::append_match_task(const std::vector<std::string>& tasks)
+{
+	auto task_ptr = std::make_shared<MatchTask>(task_callback, (void*)this, &m_all_tasks_info, &m_configer);
+	task_ptr->set_tasks(tasks);
+	m_tasks_queue.emplace(task_ptr);
+}
+
+cv::Mat Assistance::get_format_image()
 {
 	const cv::Mat& raw_image = m_view_ptr->getImage(m_view_ptr->getWindowRect());
 	if (raw_image.empty() || raw_image.rows < 100) {

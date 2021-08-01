@@ -1,37 +1,23 @@
-#include "Assistance.h"
-#include "Updater.h"
-#include "Logger.hpp"
+#include "AsstCaller.h"
+#include <stdio.h>
 
 int main(int argc, char** argv)
 {
-	using namespace asst;
+	asst::Assistance * ptr = AsstCreate();
 
-	bool up = Updater::get_instance().has_new_version();
-	if (up) {
-		auto && info = Updater::get_instance().get_version_info();
-		std::cout << "有新版本：" << info.tag_name << std::endl;
-		std::cout << "地址：" << info.html_url << std::endl;
-	}
-
-	Assistance asst;
-
-	auto ret = asst.catch_emulator();
+	auto ret = AsstCatchEmulator(ptr);
 	if (!ret) {
-		DebugTraceError("Can't Find Emulator or Permission denied.");
 		getchar();
 		return -1;
 	}
 	else {
-		DebugTraceInfo("Find Emulator:", ret.value());
 	}
 
-	DebugTraceInfo("Start");
-	asst.start("SanityBegin");
+	AsstStart(ptr, "SanityBegin");
 
 	getchar();
 
-	DebugTraceInfo("Stop");
-	asst.stop();
+	AsstStop(ptr);
 
 	return 0;
 }

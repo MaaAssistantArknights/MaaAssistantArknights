@@ -12,8 +12,9 @@
 
 using namespace asst;
 
-AbstractTask::AbstractTask(TaskCallback callback)
-	:m_callback(callback)
+AbstractTask::AbstractTask(TaskCallback callback, void* callback_arg)
+	:m_callback(callback),
+	m_callback_arg(callback_arg)
 {
 	;
 }
@@ -39,11 +40,11 @@ cv::Mat AbstractTask::get_format_image()
 {
 	const cv::Mat& raw_image = m_view_ptr->getImage(m_view_ptr->getWindowRect());
 	if (raw_image.empty()) {
-		m_callback(TaskMsg::ImageIsEmpty, std::string());
+		m_callback(TaskMsg::ImageIsEmpty, json::value(), m_callback_arg);
 		return raw_image;
 	}
 	if (raw_image.rows < 100) {
-		m_callback(TaskMsg::WindowMinimized, std::string());
+		m_callback(TaskMsg::WindowMinimized, json::value(), m_callback_arg);
 		return raw_image;
 	}
 
@@ -82,20 +83,20 @@ void asst::AbstractTask::sleep(unsigned millisecond)
 
 	json::value callback_json;
 	callback_json["time"] = millisecond;
-	m_callback(TaskMsg::ReadyToSleep, callback_json.to_string());
+	m_callback(TaskMsg::ReadyToSleep, callback_json, m_callback_arg);
 
-	while ((m_exit_flag != NULL && *m_exit_flag == false)
-		|| duration < millisecond) {
+	while ((m_exit_flag == NULL || *m_exit_flag == false)
+		&& duration < millisecond) {
 		duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-			start - std::chrono::system_clock::now()).count();
+			std::chrono::system_clock::now() - start).count();
 		std::this_thread::yield();
 	}
 }
 
-MatchTask::MatchTask(TaskCallback callback,
+MatchTask::MatchTask(TaskCallback callback, void* callback_arg,
 	std::unordered_map<std::string, TaskInfo>* all_tasks_ptr,
 	Configer* configer_ptr)
-	: AbstractTask(callback),
+	: AbstractTask(callback, callback_arg),
 	m_all_tasks_ptr(all_tasks_ptr),
 	m_configer_ptr(configer_ptr)
 {
@@ -110,7 +111,7 @@ bool MatchTask::run()
 		|| m_all_tasks_ptr == NULL 
 		|| m_control_ptr == NULL)
 	{
-		m_callback(TaskMsg::PtrIsNull, std::string());
+		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
 
@@ -127,11 +128,15 @@ bool MatchTask::run()
 		{ "exec_times", task.exec_times },
 		{ "max_times", task.max_times }
 	};
-	m_callback(TaskMsg::TaskMatched, callback_json.to_string());
+	m_callback(TaskMsg::TaskMatched, callback_json, m_callback_arg);
 
-	if (task.exec_times < task.max_times)
+	if (task.exec_times >= task.max_times)
 	{
-		m_callback(TaskMsg::ReachedLimit, callback_json.to_string());
+		m_callback(TaskMsg::ReachedLimit, callback_json, m_callback_arg);
+
+		json::value next_json = callback_json;
+		next_json["next"] = json::array(task.exceeded_next);
+		m_callback(TaskMsg::AppendTask, next_json, m_callback_arg);
 		return true;
 	}
 
@@ -148,7 +153,7 @@ bool MatchTask::run()
 	case TaskType::DoNothing:
 		break;
 	case TaskType::Stop:
-		m_callback(TaskMsg::MissionStop, std::string());
+		m_callback(TaskMsg::MissionStop, json::value(), m_callback_arg);
 		break;
 	default:
 		break;
@@ -167,7 +172,11 @@ bool MatchTask::run()
 	sleep(task.rear_delay);
 
 	callback_json["exec_times"] = task.exec_times;
-	m_callback(TaskMsg::TaskCompleted, callback_json.to_string());
+	m_callback(TaskMsg::TaskCompleted, callback_json, m_callback_arg);
+
+	json::value next_json = callback_json;
+	next_json["next"] = json::array(task.next);
+	m_callback(TaskMsg::AppendTask, next_json, m_callback_arg);
 
 	return true;
 }
