@@ -113,6 +113,23 @@ void Assistance::start(const std::string& task)
 	m_condvar.notify_one();
 }
 
+void asst::Assistance::start_open_recruit(const std::vector<int>& required_level, bool set_time)
+{
+	DebugTraceFunction;
+	if (!m_thread_idle || !m_inited) {
+		return;
+	}
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+
+	auto task_ptr = std::make_shared<OpenRecruitTask>(task_callback, (void*)this, &m_configer, &m_recruit_configer);
+	task_ptr->set_param(required_level, set_time);
+	m_tasks_queue.emplace(task_ptr);
+
+	m_thread_idle = false;
+	m_condvar.notify_one();
+}
+
 void Assistance::stop(bool block)
 {
 	DebugTraceFunction;
@@ -391,6 +408,7 @@ void Assistance::working_proc(Assistance* pThis)
 				[&]() -> bool { return pThis->m_thread_idle; });
 		}
 		else {
+			pThis->m_thread_idle = true;
 			pThis->m_condvar.wait(lock);
 		}
 	}

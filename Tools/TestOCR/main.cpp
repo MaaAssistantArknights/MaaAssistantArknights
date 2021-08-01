@@ -37,13 +37,7 @@ void asst_ocr_test()
 	}
 	char c = 0;
 	while (c != 'q') {
-
-		std::ifstream ifs(GetCurrentDir() + "name.txt");
-		std::string person_name;
-		ifs >> person_name;
-
-		asst.open_recruit({ 4, 5 });
-
+		asst.start_open_recruit({ 3, 4, 5 });
 		c = getchar();
 	}
 }

@@ -9,6 +9,7 @@
 #include <ostream>
 
 #include "AsstDef.h"
+#include "AsstAux.h"
 
 namespace cv
 {
@@ -24,6 +25,7 @@ namespace asst {
 	class WinMacro;
 	class Identify;
 	class Configer;
+	class RecruitConfiger;
 
 	enum class TaskMsg {
 		/* Error Msg */
@@ -36,9 +38,11 @@ namespace asst {
 		ReadyToSleep,
 		AppendTask,
 		TaskCompleted,
-		MissionStop
-		/* Trace Msg */
-		// Todo
+		MissionStop,
+		/* Open Recruit Msg */
+		DetectText,
+		DetectTags,
+		RecruitCombs
 	};
 	static std::ostream& operator<<(std::ostream& os, const TaskMsg& type)
 	{
@@ -51,8 +55,10 @@ namespace asst {
 			{TaskMsg::ReadyToSleep, "ReadyToSleep"},
 			{TaskMsg::AppendTask, "AppendTask"},
 			{TaskMsg::TaskCompleted, "TaskCompleted"},
-			{TaskMsg::MissionStop, "MissionStop"}
-
+			{TaskMsg::MissionStop, "MissionStop"},
+			{TaskMsg::DetectText, "DetectText"},
+			{TaskMsg::DetectTags, "DetectTags"},
+			{TaskMsg::RecruitCombs, "RecruitCombs"}
 		};
 		return os << _type_name.at(type);
 	}
@@ -108,5 +114,50 @@ namespace asst {
 		std::unordered_map<std::string, TaskInfo>* m_all_tasks_ptr = NULL;
 		Configer* m_configer_ptr = NULL;
 		std::vector<std::string> m_cur_tasks_name;
+	};
+
+	class OcrAbstractTask : public AbstractTask
+	{
+	public:
+		OcrAbstractTask(TaskCallback callback, void* callback_arg);
+		virtual bool run() override = 0 ;
+
+	protected:
+		std::vector<TextArea> ocr_detect();
+
+		template<typename FilterArray, typename ReplaceMap> 
+		std::vector<TextArea> text_filter(const std::vector<TextArea>& src,
+			const FilterArray& filter_array, const ReplaceMap& replace_map)
+		{
+			std::vector<TextArea> dst;
+			for (const TextArea& text_area : src) {
+				TextArea temp = text_area;
+				for (const auto& [old_str, new_str] : replace_map) {
+					temp.text = StringReplaceAll(temp.text, old_str, new_str);
+				}
+				for (const auto& text : filter_array) {
+					if (temp.text == text) {
+						dst.emplace_back(std::move(temp));
+					}
+				}
+			}
+			return dst;
+		}
+	};
+
+	class OpenRecruitTask : public OcrAbstractTask
+	{
+	public:
+		OpenRecruitTask(TaskCallback callback, void* callback_arg,
+			Configer * configer_ptr, RecruitConfiger * recruit_configer_ptr);
+
+		virtual bool run() override;
+		virtual void set_param(std::vector<int> required_level, bool set_time = true);
+
+	protected:
+		std::vector<int> m_required_level;
+		bool m_set_time = false;
+		Configer* m_configer_ptr = NULL;
+		RecruitConfiger* m_recruit_configer_ptr = NULL;
 	};
 }
