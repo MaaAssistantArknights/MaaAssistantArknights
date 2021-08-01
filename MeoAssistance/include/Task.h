@@ -4,12 +4,19 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <functional>
+#include <unordered_map>
+#include <ostream>
 
 #include "AsstDef.h"
 
 namespace cv
 {
 	class Mat;
+}
+namespace json
+{
+	class value;
 }
 
 namespace asst {
@@ -27,18 +34,35 @@ namespace asst {
 		TaskMatched,
 		ReachedLimit,
 		ReadyToSleep,
+		AppendTask,
 		TaskCompleted,
 		MissionStop
 		/* Trace Msg */
 		// Todo
 	};
+	static std::ostream& operator<<(std::ostream& os, const TaskMsg& type)
+	{
+		static const std::unordered_map<TaskMsg, std::string> _type_name = {
+			{TaskMsg::PtrIsNull, "PtrIsNull"},
+			{TaskMsg::ImageIsEmpty, "ImageIsEmpty"},
+			{TaskMsg::WindowMinimized, "WindowMinimized"},
+			{TaskMsg::TaskMatched, "TaskMatched"},
+			{TaskMsg::ReachedLimit, "ReachedLimit"},
+			{TaskMsg::ReadyToSleep, "ReadyToSleep"},
+			{TaskMsg::AppendTask, "AppendTask"},
+			{TaskMsg::TaskCompleted, "TaskCompleted"},
+			{TaskMsg::MissionStop, "MissionStop"}
 
-	typedef void (*TaskCallback)(TaskMsg msg, const std::string& detail_json);
+		};
+		return os << _type_name.at(type);
+	}
+
+	using TaskCallback = std::function<void(TaskMsg, const json::value&, void*)>;
 
 	class AbstractTask
 	{
 	public:
-		AbstractTask(TaskCallback callback);
+		AbstractTask(TaskCallback callback, void* callback_arg);
 		~AbstractTask() = default;
 		AbstractTask(const AbstractTask&) = default;
 		AbstractTask(AbstractTask&&) = default;
@@ -61,14 +85,15 @@ namespace asst {
 		std::shared_ptr<WinMacro> m_control_ptr = nullptr;
 		std::shared_ptr<Identify> m_identify_ptr = nullptr;
 
-		TaskCallback m_callback = NULL;
+		TaskCallback m_callback;
+		void* m_callback_arg = NULL;
 		bool* m_exit_flag = NULL;
 	};
 
 	class MatchTask : public AbstractTask
 	{
 	public:
-		MatchTask(TaskCallback callback,
+		MatchTask(TaskCallback callback, void* callback_arg,
 			std::unordered_map<std::string, TaskInfo>* all_tasks_ptr, 
 			Configer* configer_ptr);
 

@@ -21,8 +21,10 @@ namespace cv {
 namespace asst {
 	class WinMacro;
 	class Identify;
+	class AbstractTask;
+	enum class TaskMsg;
 
-	class MEOAPI_PORT Assistance
+	class Assistance
 	{
 	public:
 		Assistance();
@@ -31,6 +33,7 @@ namespace asst {
 		std::optional<std::string> catch_emulator(const std::string& emulator_name = std::string());
 
 		void start(const std::string& task);
+
 		void stop(bool block = true);
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
@@ -48,8 +51,9 @@ namespace asst {
 			open_recruit(const std::vector<int>& required_level, bool set_time = true);
 	private:
 		static void working_proc(Assistance* pThis);
-		static void task_callback(TaskMsg msg, const std::string& detail_json = std::string());
+		static void task_callback(TaskMsg msg, const json::value& detail, void* custom_arg);
 
+		void append_match_task(const std::vector<std::string>& tasks);
 		cv::Mat get_format_image();
 		void set_control_scale(int cur_width, int cur_height);
 		void clear_exec_times();
@@ -67,7 +71,7 @@ namespace asst {
 		std::mutex m_mutex;
 		std::condition_variable m_condvar;
 		bool m_thread_exit = false;
-		bool m_thread_running = false;
+		bool m_thread_idle = true;
 		std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;
 
 		std::unordered_map<std::string, TaskInfo> m_all_tasks_info;

@@ -1,13 +1,16 @@
 #pragma once
 
-#include "Assistance.h"
+#include "AsstPort.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+namespace asst {
+	class Assistance;
+}
 
-MEOAPI_PORT asst::Assistance* CreateAsst();
-MEOAPI_PORT void DestoryAsst(asst::Assistance* p_asst);
+MEOAPI_PORT asst::Assistance* AsstCreate();
+MEOAPI_PORT void AsstDestory(asst::Assistance* p_asst);
 MEOAPI_PORT bool AsstCatchEmulator(asst::Assistance* p_asst);
 MEOAPI_PORT void AsstStart(asst::Assistance* p_asst, const char* task);
 MEOAPI_PORT void AsstStop(asst::Assistance* p_asst);

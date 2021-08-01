@@ -1,15 +1,16 @@
 #include "AsstCaller.h"
 #include "Updater.h"
 #include "AsstAux.h"
+#include "Assistance.h"
 
 #include <string.h>
 
-asst::Assistance* CreateAsst()
+asst::Assistance* AsstCreate()
 {
 	return new asst::Assistance();
 }
 
-void DestoryAsst(asst::Assistance* p_asst)
+void AsstDestory(asst::Assistance* p_asst)
 {
 	if (p_asst == NULL) {
 		return;

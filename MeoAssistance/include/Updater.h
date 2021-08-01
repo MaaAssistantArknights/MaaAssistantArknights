@@ -8,7 +8,7 @@
 #include "AsstPort.h"
 
 namespace asst {
-	struct MEOAPI_PORT VersionInfo {
+	struct VersionInfo {
 		std::string tag_name;
 		std::string html_url;
 		std::string down_url;
@@ -17,7 +17,7 @@ namespace asst {
 		std::string body;
 	};
 
-	class MEOAPI_PORT Updater
+	class Updater
 	{
 		static const std::string GithubReleaseLastestApiUrl;
 		static const std::string GithubReleaseApiUrl;
