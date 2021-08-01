@@ -24,7 +24,7 @@ namespace asst {
 	class AbstractTask;
 	enum class TaskMsg;
 
-	class Assistance
+	class MEOAPI_PORT Assistance
 	{
 	public:
 		Assistance();
@@ -33,6 +33,7 @@ namespace asst {
 		std::optional<std::string> catch_emulator(const std::string& emulator_name = std::string());
 
 		void start(const std::string& task);
+		void start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
 
 		void stop(bool block = true);
 
@@ -41,6 +42,7 @@ namespace asst {
 
 		bool print_window(const std::string& filename, bool block = true);
 
+		// for debug
 		// 计算公开招募，需要当前处在选择公招Tag的页面
 		// 参数：
 		// required_level：需要的等级，最优组合的最低等级，在required_level中，才会进行点击
@@ -49,6 +51,7 @@ namespace asst {
 		// std::vector< std::pair < Tags名vector，这个Tags组合可能出的干员组合 > >
 		std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>> 
 			open_recruit(const std::vector<int>& required_level, bool set_time = true);
+
 	private:
 		static void working_proc(Assistance* pThis);
 		static void task_callback(TaskMsg msg, const json::value& detail, void* custom_arg);

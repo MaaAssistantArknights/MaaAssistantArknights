@@ -5,6 +5,7 @@
 #include "Configer.h"
 #include "RecruitConfiger.h"
 #include "json.h"
+#include "AsstAux.h"
 
 #include <chrono>
 #include <thread>
@@ -226,3 +227,70 @@ void MatchTask::exec_click_task(TaskInfo& task, const asst::Rect& matched_rect)
 
 	m_control_ptr->click(matched_rect);
 }
+
+
+OcrAbstractTask::OcrAbstractTask(TaskCallback callback, void* callback_arg)
+	: AbstractTask(callback, callback_arg)
+{
+	;
+}
+
+std::vector<TextArea> OcrAbstractTask::ocr_detect()
+{
+	const cv::Mat& image = get_format_image();
+	return m_identify_ptr->ocr_detect(image);
+}
+
+OpenRecruitTask::OpenRecruitTask(TaskCallback callback, void* callback_arg,
+	Configer* configer_ptr, RecruitConfiger* recruit_configer_ptr)
+	: OcrAbstractTask(callback, callback_arg),
+	m_configer_ptr(configer_ptr),
+	m_recruit_configer_ptr(recruit_configer_ptr)
+{
+	;
+}
+
+bool OpenRecruitTask::run()
+{
+	if (m_view_ptr == NULL
+		|| m_control_ptr == NULL
+		|| m_identify_ptr == NULL
+		|| m_control_ptr == NULL
+		|| m_recruit_configer_ptr == NULL)
+	{
+		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
+		return false;
+	}
+
+	/* Find all text */
+	std::vector<TextArea> all_text_area = ocr_detect();
+
+	std::vector<json::value> all_text_json_vector;
+	for (const TextArea& text_area : all_text_area) {
+		all_text_json_vector.emplace_back(Utf8ToGbk(text_area.text));
+	}
+	json::value all_text_json;
+	all_text_json["text"] = json::array(all_text_json_vector);
+	m_callback(TaskMsg::DetectText, all_text_json, m_callback_arg);
+
+
+	/* Filter out all tags from all text */
+	std::vector<TextArea> all_tags = text_filter(all_text_area, m_recruit_configer_ptr->m_all_tags, m_configer_ptr->m_ocr_replace);
+
+	std::vector<json::value> all_tags_json_vector;
+	for (const TextArea& text_area : all_tags) {
+		all_tags_json_vector.emplace_back(Utf8ToGbk(text_area.text));
+	}
+	json::value all_tags_json;
+	all_tags_json["tags"] = json::array(all_tags_json_vector);
+	m_callback(TaskMsg::DetectText, all_tags_json, m_callback_arg);
+
+	return true;
+}
+
+void OpenRecruitTask::set_param(std::vector<int> required_level, bool set_time)
+{
+	m_required_level = std::move(required_level);
+	m_set_time = set_time;
+}
+
