@@ -21,7 +21,7 @@ namespace MeoAsstGui
     public partial class RecruitWindow : Window
     {
         [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchEmulator(IntPtr ptr);
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstRunOpenRecruit(IntPtr ptr, int[] required_level, bool set_time, [In, Out] StringBuilder result, int buffer_size, ref int maybe_level);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstRunOpenRecruit(IntPtr ptr, int[] required_level, bool set_time);
 
         private IntPtr p_asst;
         public RecruitWindow(IntPtr ptr)

@@ -40,7 +40,7 @@ void AsstStart(asst::Assistance* p_asst, const char* task)
 	if (p_asst == NULL) {
 	}
 
-	p_asst->start(task);
+	p_asst->start_match_task(task);
 }
 
 void AsstStop(asst::Assistance* p_asst)
@@ -74,7 +74,7 @@ bool AsstGetParam(asst::Assistance* p_asst, const char* type, const char* param,
 	return true;
 }
 
-bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], bool set_time, char* result_buffer, int bufsize, int& maybe_level)
+bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], bool set_time)
 {
 	if (p_asst == NULL) {
 		return false;
@@ -82,30 +82,8 @@ bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], bo
 	int len = sizeof required_level / sizeof(int);
 	std::vector<int> level_vector;
 	level_vector.assign(required_level, required_level + len);
-	auto&& ret = p_asst->open_recruit(level_vector, set_time);
-	if (ret) {
-		// <std::vector<std::pair<std::vector<std::string>, OperCombs>>>
-		std::string result_str;
-		maybe_level = 0;
-		for (auto&& [tags, oper_combs] : ret.value())
-		{
-			result_str += std::to_string(oper_combs.min_level) + "ÐÇTags:  " 
-				+ asst::VectorToString(tags, true) + "\n\t";
-			for (auto&& oper : oper_combs.opers)
-			{
-				result_str += std::to_string(oper.level) + " - " + asst::Utf8ToGbk(oper.name) + "    ";
-			}
-			result_str += "\n\n";
-			if (maybe_level == 0) {
-				maybe_level = oper_combs.min_level;
-			}
-		}
-		strcpy_s(result_buffer, bufsize, result_str.c_str());
-		return true;
-	}
-	else {
-		return false;
-	}
+	p_asst->start_open_recruit(level_vector, set_time);
+	return true;
 }
 
 

@@ -23,8 +23,8 @@ namespace MeoAsstGui
     public partial class MainWindow : Window
     {
 
-        [DllImport("MeoAssistance.dll")] static private extern IntPtr CreateAsst();
-        [DllImport("MeoAssistance.dll")] static private extern void DestoryAsst(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstCreate();
+        [DllImport("MeoAssistance.dll")] static private extern void AsstDestory(IntPtr ptr);
         [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchEmulator(IntPtr ptr);
         [DllImport("MeoAssistance.dll")] static private extern void AsstStart(IntPtr ptr, string task);
         [DllImport("MeoAssistance.dll")] static private extern void AsstStop(IntPtr ptr);
@@ -46,12 +46,12 @@ namespace MeoAsstGui
         }
         ~MainWindow()
         {
-            DestoryAsst(p_asst);
+            AsstDestory(p_asst);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            p_asst = CreateAsst();
+            p_asst = AsstCreate();
             update_times.Tick += new EventHandler(updateExecTimes);
             update_times.Interval = TimeSpan.FromSeconds(1);
 

@@ -19,6 +19,12 @@ namespace json
 {
 	class value;
 }
+namespace std
+{
+	template <class _Mutex>
+	class unique_lock;
+	class mutex;
+}
 
 namespace asst {
 
@@ -43,6 +49,7 @@ namespace asst {
 		TaskMatched,
 		ReachedLimit,
 		ReadyToSleep,
+		EndOfSleep,
 		AppendMatchTask,
 		TaskCompleted,
 		MissionStop,
@@ -63,6 +70,7 @@ namespace asst {
 			{TaskMsg::TaskMatched, "TaskMatched"},
 			{TaskMsg::ReachedLimit, "ReachedLimit"},
 			{TaskMsg::ReadyToSleep, "ReadyToSleep"},
+			{TaskMsg::EndOfSleep, "EndOfSleep"},
 			{TaskMsg::AppendMatchTask, "AppendMatchTask"},
 			{TaskMsg::TaskCompleted, "TaskCompleted"},
 			{TaskMsg::MissionStop, "MissionStop"},
@@ -99,6 +107,7 @@ namespace asst {
 		virtual bool run() = 0;
 
 		virtual void set_exit_flag(bool* exit_flag);
+		virtual void set_lock(std::unique_lock<std::mutex>* lock_ptr) { m_lock_ptr = lock_ptr; }
 		virtual int get_task_type() { return m_task_type; }
 		virtual void set_retry_times(int times) { m_retry_times = times; }
 		virtual int get_retry_times() { return m_retry_times; }
@@ -115,6 +124,7 @@ namespace asst {
 		TaskCallback m_callback;
 		void* m_callback_arg = NULL;
 		bool* m_exit_flag = NULL;
+		std::unique_lock<std::mutex>* m_lock_ptr;
 		int m_task_type = TaskType::TaskTypeInvalid;
 		int m_retry_times = INT_MAX;
 	};
