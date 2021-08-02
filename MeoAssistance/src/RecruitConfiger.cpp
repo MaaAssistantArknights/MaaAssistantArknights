@@ -16,7 +16,7 @@ bool RecruitConfiger::load(const std::string& filename)
 
 	RecruitConfiger temp;
 	if (temp._load(filename)) {
-		std::sort(temp.m_opers.begin(), temp.m_opers.end(), [](
+		std::sort(temp.m_all_opers.begin(), temp.m_all_opers.end(), [](
 			const auto& lhs,
 			const auto& rhs)
 			-> bool {
@@ -68,7 +68,7 @@ bool asst::RecruitConfiger::_load(const std::string& filename)
 			}
 			oper_temp.hidden = oper["hidden"].as_boolean();
 			oper_temp.name_en = oper["name-en"].as_string();
-			m_opers.emplace_back(std::move(oper_temp));
+			m_all_opers.emplace_back(std::move(oper_temp));
 		}
 	}
 	catch (json::exception& e) {
