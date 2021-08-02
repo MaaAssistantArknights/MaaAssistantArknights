@@ -285,7 +285,7 @@ std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
 
 	std::map<std::vector<std::string>, OperCombs> result_map;
 	for (const std::vector<std::string>& comb : all_combs) {
-		for (const OperInfo& cur_oper : m_recruit_configer.m_opers) {
+		for (const OperInfo& cur_oper : m_recruit_configer.m_all_opers) {
 			int matched_count = 0;
 			// 组合中每一个tag，是否在干员tags中
 			for (const std::string& tag : comb) {

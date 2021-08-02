@@ -26,7 +26,7 @@ namespace asst {
 		std::unordered_set<std::string> m_all_tags;
 		std::unordered_set<std::string> m_all_types;
 
-		std::vector<OperInfo> m_opers;
+		std::vector<OperInfo> m_all_opers;
 
 	private:
 		bool _load(const std::string& filename);

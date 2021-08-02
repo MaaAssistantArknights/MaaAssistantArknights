@@ -40,9 +40,11 @@ namespace asst {
 		TaskCompleted,
 		MissionStop,
 		/* Open Recruit Msg */
-		DetectText,
-		DetectTags,
-		RecruitCombs
+		TextDetected,
+		RecruitTagsDetected,
+		OcrResultError,
+		RecruitSpecialTag,
+		RecruitResult
 	};
 	static std::ostream& operator<<(std::ostream& os, const TaskMsg& type)
 	{
@@ -56,13 +58,20 @@ namespace asst {
 			{TaskMsg::AppendTask, "AppendTask"},
 			{TaskMsg::TaskCompleted, "TaskCompleted"},
 			{TaskMsg::MissionStop, "MissionStop"},
-			{TaskMsg::DetectText, "DetectText"},
-			{TaskMsg::DetectTags, "DetectTags"},
-			{TaskMsg::RecruitCombs, "RecruitCombs"}
+			{TaskMsg::TextDetected, "TextDetected"},
+			{TaskMsg::RecruitTagsDetected, "RecruitTagsDetected"},
+			{TaskMsg::OcrResultError, "OcrResultError"},
+			{TaskMsg::RecruitSpecialTag, "RecruitSpecialTag"},
+			{TaskMsg::RecruitResult, "RecruitResult"}
 		};
 		return os << _type_name.at(type);
 	}
 
+	// TaskCallback Task的消息回调函数
+	// 参数：
+	// TaskMsg 消息类型
+	// const json::value& 消息详情json，每种消息不同，Todo，需要补充个协议文档啥的
+	// void* 外部调用者自定义参数，每次回调会带出去，建议传个(void*)this指针进来
 	using TaskCallback = std::function<void(TaskMsg, const json::value&, void*)>;
 
 	class AbstractTask
@@ -105,7 +114,9 @@ namespace asst {
 
 		virtual bool run() override;
 
-		virtual void set_tasks(const std::vector<std::string>& cur_tasks_name) { m_cur_tasks_name = cur_tasks_name; }
+		virtual void set_tasks(const std::vector<std::string>& cur_tasks_name) { 
+			m_cur_tasks_name = cur_tasks_name; 
+		}
 
 	protected:
 		bool match_image(TaskInfo * task_info, asst::Rect* matched_rect = NULL);
@@ -152,11 +163,12 @@ namespace asst {
 			Configer * configer_ptr, RecruitConfiger * recruit_configer_ptr);
 
 		virtual bool run() override;
-		virtual void set_param(std::vector<int> required_level, bool set_time = true);
+		virtual void set_param(std::vector<int> required_level, bool set_time = true, int tags_number = 5);
 
 	protected:
 		std::vector<int> m_required_level;
 		bool m_set_time = false;
+		int m_tags_number = 5;
 		Configer* m_configer_ptr = NULL;
 		RecruitConfiger* m_recruit_configer_ptr = NULL;
 	};
