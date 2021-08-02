@@ -3,8 +3,10 @@
     "options": {
         "identifyCache": true,
         "identifyCache_Doc": "图像识别缓存功能：开启后可以大幅降低CPU消耗，但需要保证要识别的按钮每次的位置不会改变。true-开启，false-关闭，默认true",
-        "identifyDelay": 1000,
-        "identifyDelay_Doc": "图像识别延时：越快操作越快，但会增加CPU消耗。单位毫秒，默认1000",
+        "taskIdentifyDelay": 1000,
+        "taskIdentifyDelay_Doc": "识别任务间的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认1000",
+        "taskControlDelay": 300,
+        "taskControlDelay_Doc": "点击任务间延迟：越快点的越快，但是太快了句柄可能不响应。单位毫秒，默认300",
         "printWindow": true,
         "printWindow_Doc": "截图功能：开启后每次结算界面会截图到screenshot目录下。true-开启，false-关闭，默认true",
         "printWindowDelay": 3000,
@@ -18,7 +20,7 @@
         "controlDelayRange_Doc": "点击随机延时：每次点击操作会进行随机延时，降低封号风险（好像也没听说过谁被封号的）。格式为 [ 最小延时, 最大延时 ]，单位为毫秒。例如想设置3~5秒延时，即修改为[ 3000, 5000 ]，默认0~0",
         "ocrGpuIndex": -1,
         "ocrGpuIndex_Doc": "OcrLite使用GPU编号，-1(使用CPU)/0(使用GPU0)/1(使用GPU1)/...，GPU选择失败时，则使用CPU进行计算。默认-1",
-        "ocrThreadNumber": 16,
+        "ocrThreadNumber": 4,
         "ocrThreadNumber_Doc": "OcrLite线程数量。默认4"
     },
     "ocrReplace": [

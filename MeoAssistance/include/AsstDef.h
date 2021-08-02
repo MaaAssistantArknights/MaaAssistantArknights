@@ -25,7 +25,7 @@ namespace asst {
 		return os << _type_name.at(type);
 	}
 
-	enum class TaskType {
+	enum class MatchTaskType {
 		Invalid = 0,
 		BasicClick = 0x100,
 		ClickSelf = BasicClick | 1,		// 点击模板自身位置
@@ -36,22 +36,24 @@ namespace asst {
 		PrintWindow =  0x800,			// 截图功能
 		OpenRecruit =  0x1000			// 公开招募功能
 	};
-	static bool operator&(const TaskType& lhs, const TaskType& rhs)
+	//static MatchTaskType operator&(const MatchTaskType& lhs, const MatchTaskType& rhs)
+	//{
+	//	return static_cast<MatchTaskType>(
+	//		static_cast<std::underlying_type<MatchTaskType>::type>(lhs) 
+	//		& static_cast<std::underlying_type<MatchTaskType>::type>(rhs));
+	//}
+	static std::ostream& operator<<(std::ostream& os, const MatchTaskType& task)
 	{
-		return static_cast<std::underlying_type<TaskType>::type>(lhs) & static_cast<std::underlying_type<TaskType>::type>(rhs);
-	}
-	static std::ostream& operator<<(std::ostream& os, const TaskType& task)
-	{
-		static std::unordered_map<TaskType, std::string> _type_name = {
-			{TaskType::Invalid, "Invalid"},
-			{TaskType::BasicClick, "BasicClick"},
-			{TaskType::ClickSelf, "ClickSelf"},
-			{TaskType::ClickRect, "ClickRect"},
-			{TaskType::ClickRand, "ClickRand"},
-			{TaskType::DoNothing, "DoNothing"},
-			{TaskType::Stop, "Stop"},
-			{TaskType::PrintWindow, "PrintWindow"},
-			{TaskType::OpenRecruit, "OpenRecruit"}
+		static std::unordered_map<MatchTaskType, std::string> _type_name = {
+			{MatchTaskType::Invalid, "Invalid"},
+			{MatchTaskType::BasicClick, "BasicClick"},
+			{MatchTaskType::ClickSelf, "ClickSelf"},
+			{MatchTaskType::ClickRect, "ClickRect"},
+			{MatchTaskType::ClickRand, "ClickRand"},
+			{MatchTaskType::DoNothing, "DoNothing"},
+			{MatchTaskType::Stop, "Stop"},
+			{MatchTaskType::PrintWindow, "PrintWindow"},
+			{MatchTaskType::OpenRecruit, "OpenRecruit"}
 		};
 		return os << _type_name.at(task);
 	}
@@ -149,9 +151,9 @@ namespace asst {
 	struct TaskInfo {
 		std::string name;								// 任务名
 		std::string template_filename;					// 匹配模板图片文件名
-		double templ_threshold = 0;							// 模板匹配阈值
-		double hist_threshold = 0;							// 直方图比较阈值
-		TaskType type = TaskType::Invalid;				// 任务类型
+		double templ_threshold = 0;						// 模板匹配阈值
+		double hist_threshold = 0;						// 直方图比较阈值
+		MatchTaskType type = MatchTaskType::Invalid;	// 任务类型
 		std::vector<std::string> next;					// 下一个可能的任务（列表）
 		int exec_times = 0;								// 任务已执行了多少次
 		int max_times = INT_MAX;						// 任务最多执行多少次
@@ -165,7 +167,8 @@ namespace asst {
 
 	struct Options {
 		bool identify_cache = false;		// 图像识别缓存功能：开启后可以大幅降低CPU消耗，但需要保证要识别的按钮每次的位置不会改变
-		int identify_delay = 0;				// 图像识别延时：越快操作越快，但会增加CPU消耗
+		int task_identify_delay = 0;		// 识别任务间延时：越快操作越快，但会增加CPU消耗
+		int task_control_delay = 0;			// 点击任务间延迟：越快点的越快，但是太快了句柄可能不响应
 		int control_delay_lower = 0;		// 点击随机延时下限：每次点击操作会进行随机延时
 		int control_delay_upper = 0;		// 点击随机延时上限：每次点击操作会进行随机延时
 		bool print_window = false;			// 截图功能：开启后每次结算界面会截图到screenshot目录下

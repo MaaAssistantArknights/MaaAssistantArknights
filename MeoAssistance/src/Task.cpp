@@ -33,7 +33,7 @@ void AbstractTask::set_ptr(
 	m_identify_ptr = identify_ptr;
 }
 
-void asst::AbstractTask::set_exit_flag(bool* exit_flag)
+void AbstractTask::set_exit_flag(bool* exit_flag)
 {
 	m_exit_flag = exit_flag;
 }
@@ -75,7 +75,7 @@ bool AbstractTask::set_control_scale(int cur_width, int cur_height)
 	return true;
 }
 
-void asst::AbstractTask::sleep(unsigned millisecond)
+void AbstractTask::sleep(unsigned millisecond)
 {
 	if (millisecond == 0) {
 		return;
@@ -102,7 +102,7 @@ MatchTask::MatchTask(TaskCallback callback, void* callback_arg,
 	m_all_tasks_ptr(all_tasks_ptr),
 	m_configer_ptr(configer_ptr)
 {
-	;
+	m_task_type = TaskType::TaskTypeRecognition | TaskType::TaskTypeClick;
 }
 
 bool MatchTask::run()
@@ -137,8 +137,8 @@ bool MatchTask::run()
 		m_callback(TaskMsg::ReachedLimit, callback_json, m_callback_arg);
 
 		json::value next_json = callback_json;
-		next_json["next"] = json::array(task.exceeded_next);
-		m_callback(TaskMsg::AppendTask, next_json, m_callback_arg);
+		next_json["tasks"] = json::array(task.exceeded_next);
+		m_callback(TaskMsg::AppendMatchTask, next_json, m_callback_arg);
 		return true;
 	}
 
@@ -146,15 +146,15 @@ bool MatchTask::run()
 	sleep(task.pre_delay);
 
 	switch (task.type) {
-	case TaskType::ClickRect:
+	case MatchTaskType::ClickRect:
 		rect = task.specific_area;
 		[[fallthrough]];
-	case TaskType::ClickSelf:
+	case MatchTaskType::ClickSelf:
 		exec_click_task(task, rect);
 		break;
-	case TaskType::DoNothing:
+	case MatchTaskType::DoNothing:
 		break;
-	case TaskType::Stop:
+	case MatchTaskType::Stop:
 		m_callback(TaskMsg::MissionStop, json::value(), m_callback_arg);
 		break;
 	default:
@@ -177,14 +177,14 @@ bool MatchTask::run()
 	m_callback(TaskMsg::TaskCompleted, callback_json, m_callback_arg);
 
 	json::value next_json = callback_json;
-	next_json["next"] = json::array(task.next);
-	m_callback(TaskMsg::AppendTask, next_json, m_callback_arg);
+	next_json["tasks"] = json::array(task.next);
+	m_callback(TaskMsg::AppendMatchTask, next_json, m_callback_arg);
 
 	return true;
 }
 
 
-bool MatchTask::match_image(TaskInfo* task_info, asst::Rect* matched_rect)
+bool MatchTask::match_image(TaskInfo* task_info, Rect* matched_rect)
 {
 	const cv::Mat& cur_image = get_format_image();
 	if (cur_image.empty() || cur_image.rows < 100) {
@@ -213,7 +213,7 @@ bool MatchTask::match_image(TaskInfo* task_info, asst::Rect* matched_rect)
 	return false;
 }
 
-void MatchTask::exec_click_task(TaskInfo& task, const asst::Rect& matched_rect)
+void MatchTask::exec_click_task(TaskInfo& task, const Rect& matched_rect)
 {
 	// 随机延时功能
 	if (m_configer_ptr->m_options.control_delay_upper != 0) {
@@ -249,15 +249,14 @@ OpenRecruitTask::OpenRecruitTask(TaskCallback callback, void* callback_arg,
 	m_configer_ptr(configer_ptr),
 	m_recruit_configer_ptr(recruit_configer_ptr)
 {
-	;
+	m_task_type = TaskType::TaskTypeRecognition;
 }
 
 bool OpenRecruitTask::run()
 {
 	if (m_view_ptr == NULL
-		|| m_control_ptr == NULL
 		|| m_identify_ptr == NULL
-		|| m_control_ptr == NULL
+		|| m_configer_ptr == NULL
 		|| m_recruit_configer_ptr == NULL)
 	{
 		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
@@ -287,14 +286,23 @@ bool OpenRecruitTask::run()
 	}
 	json::value all_tags_json;
 	all_tags_json["tags"] = json::array(all_tags_json_vector);
-	m_callback(TaskMsg::TextDetected, all_tags_json, m_callback_arg);
+	m_callback(TaskMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
 
+	/* 过滤tags数量不足的情况（可能是识别漏了） */
 	if (all_tags.size() != m_tags_number) {
 		all_tags_json["type"] = "OpenRecruit";
 		m_callback(TaskMsg::OcrResultError, all_tags_json, m_callback_arg);
 		return false;
 	}
 
+	/* 设置招募时间9小时，加入任务队列*/
+	if (m_set_time) {
+		json::value settime_json;
+		settime_json["task"] = "RecruitTime";
+		m_callback(TaskMsg::AppendMatchTask, settime_json, m_callback_arg);
+	}
+
+	/* 针对一星干员的额外回调消息 */
 	static const std::string SupportMachine_GBK = "支援机械";
 	static const std::string SupportMachine = GbkToUtf8(SupportMachine_GBK);
 	if (std::find(all_tags_name.cbegin(), all_tags_name.cend(), SupportMachine) != all_tags_name.cend()) {
@@ -325,7 +333,6 @@ bool OpenRecruitTask::run()
 	// 例如 key: { "狙击"、"群攻" }，value: OperCombs.opers{ "陨星", "白雪", "空爆" }
 	std::map<std::vector<std::string>, OperCombs> result_map;
 	for (const std::vector<std::string>& comb : all_combs) {
-		OperCombs& oper_combs = result_map[comb];
 		for (const OperInfo& cur_oper : m_recruit_configer_ptr->m_all_opers) {
 			int matched_count = 0;
 			for (const std::string& tag : comb) {
@@ -349,12 +356,14 @@ bool OpenRecruitTask::run()
 					continue;
 				}
 			}
+
+			OperCombs& oper_combs = result_map[comb];
 			oper_combs.opers.emplace_back(cur_oper);
 
-			if (cur_oper.level == 1) {
-				if (oper_combs.min_level == 0) oper_combs.min_level = 1;
-				if (oper_combs.max_level == 0) oper_combs.max_level = 1;
-				// 一星小车不计入最低等级
+			if (cur_oper.level == 1 || cur_oper.level == 2) {
+				if (oper_combs.min_level == 0) oper_combs.min_level = cur_oper.level;
+				if (oper_combs.max_level == 0) oper_combs.max_level = cur_oper.level;
+				// 一星、二星干员不计入最低等级，因为拉满9小时之后不可能出1、2星
 				continue;
 			}
 			if (oper_combs.min_level == 0 || oper_combs.min_level > cur_oper.level) {
@@ -365,10 +374,13 @@ bool OpenRecruitTask::run()
 			}
 			oper_combs.avg_level += cur_oper.level;
 		}
-		oper_combs.avg_level /= oper_combs.opers.size();
+		if (result_map.find(comb) != result_map.cend()) {
+			OperCombs& oper_combs = result_map[comb];
+			oper_combs.avg_level /= oper_combs.opers.size();
+		}
 	}
 
-	// map没法按值排序，转个vector再排
+	// map没法按值排序，转个vector再排序
 	std::vector<std::pair<std::vector<std::string>, OperCombs>> result_vector;
 	for (auto&& pair : result_map) {
 		result_vector.emplace_back(std::move(pair));
@@ -384,7 +396,7 @@ bool OpenRecruitTask::run()
 				return lhs.second.max_level > rhs.second.max_level;
 			}
 			// 平均等级高的，排前面
-			eles if (std::fabs(lhs.second.avg_level - rhs.second.avg_level) < DoubleDiff) {
+			else if (std::fabs(lhs.second.avg_level - rhs.second.avg_level) < DoubleDiff) {
 				return lhs.second.avg_level > rhs.second.avg_level;
 			}
 			// Tag数量少的，排前面
@@ -393,24 +405,48 @@ bool OpenRecruitTask::run()
 			}
 		});
 
-	//for (const auto& [combs, oper_combs] : result_vector) {
-	//	std::string tag_str;
-	//	for (const std::string& tag : combs) {
-	//		tag_str += tag + " ,";
-	//	}
-	//	if (tag_str.back() == ',') {
-	//		tag_str.pop_back();
-	//	}
+	/* 整理识别结果 */
+	std::vector<json::value> result_json_vector;
+	for (const auto& [tags_comb, oper_comb] : result_vector) {
+		json::value comb_json;
 
-	//	std::string opers_str;
-	//	for (const OperInfo& oper : oper_combs.opers) {
-	//		opers_str += std::to_string(oper.level) + "-" + oper.name + " ,";
-	//	}
-	//	if (opers_str.back() == ',') {
-	//		opers_str.pop_back();
-	//	}
-	//	DebugTraceInfo("Tags:", VectorToString(combs, true), "May be recruited: ", Utf8ToGbk(opers_str));
-	//}
+		std::vector<json::value> tags_json_vector;
+		for (const std::string& tag : tags_comb) {
+			tags_json_vector.emplace_back(Utf8ToGbk(tag));
+		}
+		comb_json["tags"] = json::array(std::move(tags_json_vector));
+
+		std::vector<json::value> opers_json_vector;
+		for (const OperInfo& oper_info : oper_comb.opers) {
+			json::value oper_json;
+			oper_json["name"] = Utf8ToGbk(oper_info.name);
+			oper_json["level"] = oper_info.level;
+			opers_json_vector.emplace_back(std::move(oper_json));
+		}
+		comb_json["opers"] = json::array(std::move(opers_json_vector));
+		comb_json["tag_level"] = oper_comb.min_level;
+		result_json_vector.emplace_back(std::move(comb_json));
+	}
+	json::value results_json = json::array(std::move(result_json_vector));
+	m_callback(TaskMsg::RecruitResult, results_json, m_callback_arg);
+
+	/* 点击最优解的tags（添加点击任务） */
+	if (!m_required_level.empty() && !result_vector.empty()) {
+		if (std::find(m_required_level.cbegin(), m_required_level.cend(), result_vector[0].second.min_level)
+			== m_required_level.cend()) {
+			return true;
+		}
+		const std::vector<std::string>& final_tags_name = result_vector[0].first;
+
+		json::value task_json;
+		task_json["type"] = "ClickTask";
+		for (const TextArea& text_area : all_tags) {
+			if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
+				task_json["rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
+				m_callback(TaskMsg::AppendTask, task_json, m_callback_arg);
+			}
+		}
+	}
 
 	return true;
 }
@@ -422,3 +458,13 @@ void OpenRecruitTask::set_param(std::vector<int> required_level, bool set_time, 
 	m_tags_number = tags_number;
 }
 
+bool ClickTask::run()
+{
+	if (m_control_ptr == NULL)
+	{
+		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
+		return false;
+	}
+	m_control_ptr->click(m_rect);
+	return true;
+}
