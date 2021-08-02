@@ -27,6 +27,13 @@ namespace asst {
 	class Configer;
 	class RecruitConfiger;
 
+	enum TaskType {
+		TaskTypeInvalid = 0,
+		TaskTypeWindowZoom = 1,
+		TaskTypeRecognition = 2,
+		TaskTypeClick = 4
+	};
+
 	enum class TaskMsg {
 		/* Error Msg */
 		PtrIsNull,
@@ -36,7 +43,7 @@ namespace asst {
 		TaskMatched,
 		ReachedLimit,
 		ReadyToSleep,
-		AppendTask,
+		AppendMatchTask,
 		TaskCompleted,
 		MissionStop,
 		/* Open Recruit Msg */
@@ -44,7 +51,8 @@ namespace asst {
 		RecruitTagsDetected,
 		OcrResultError,
 		RecruitSpecialTag,
-		RecruitResult
+		RecruitResult,
+		AppendTask
 	};
 	static std::ostream& operator<<(std::ostream& os, const TaskMsg& type)
 	{
@@ -55,14 +63,15 @@ namespace asst {
 			{TaskMsg::TaskMatched, "TaskMatched"},
 			{TaskMsg::ReachedLimit, "ReachedLimit"},
 			{TaskMsg::ReadyToSleep, "ReadyToSleep"},
-			{TaskMsg::AppendTask, "AppendTask"},
+			{TaskMsg::AppendMatchTask, "AppendMatchTask"},
 			{TaskMsg::TaskCompleted, "TaskCompleted"},
 			{TaskMsg::MissionStop, "MissionStop"},
 			{TaskMsg::TextDetected, "TextDetected"},
 			{TaskMsg::RecruitTagsDetected, "RecruitTagsDetected"},
 			{TaskMsg::OcrResultError, "OcrResultError"},
 			{TaskMsg::RecruitSpecialTag, "RecruitSpecialTag"},
-			{TaskMsg::RecruitResult, "RecruitResult"}
+			{TaskMsg::RecruitResult, "RecruitResult"},
+			{TaskMsg::AppendTask, "AppendTask"}
 		};
 		return os << _type_name.at(type);
 	}
@@ -90,6 +99,9 @@ namespace asst {
 		virtual bool run() = 0;
 
 		virtual void set_exit_flag(bool* exit_flag);
+		virtual int get_task_type() { return m_task_type; }
+		virtual void set_retry_times(int times) { m_retry_times = times; }
+		virtual int get_retry_times() { return m_retry_times; }
 	protected:
 		virtual cv::Mat get_format_image();
 		virtual bool set_control_scale(int cur_width, int cur_height);
@@ -103,23 +115,39 @@ namespace asst {
 		TaskCallback m_callback;
 		void* m_callback_arg = NULL;
 		bool* m_exit_flag = NULL;
+		int m_task_type = TaskType::TaskTypeInvalid;
+		int m_retry_times = INT_MAX;
+	};
+
+	class ClickTask : public AbstractTask
+	{
+	public:
+		ClickTask(TaskCallback callback, void* callback_arg)
+			: AbstractTask(callback, callback_arg)
+		{
+			m_task_type = TaskType::TaskTypeClick;
+		}
+		virtual bool run() override;
+		void set_rect(asst::Rect rect) { m_rect = std::move(rect); };
+	protected:
+		asst::Rect m_rect;
 	};
 
 	class MatchTask : public AbstractTask
 	{
 	public:
 		MatchTask(TaskCallback callback, void* callback_arg,
-			std::unordered_map<std::string, TaskInfo>* all_tasks_ptr, 
+			std::unordered_map<std::string, TaskInfo>* all_tasks_ptr,
 			Configer* configer_ptr);
 
 		virtual bool run() override;
 
-		virtual void set_tasks(const std::vector<std::string>& cur_tasks_name) { 
-			m_cur_tasks_name = cur_tasks_name; 
+		virtual void set_tasks(const std::vector<std::string>& cur_tasks_name) {
+			m_cur_tasks_name = cur_tasks_name;
 		}
 
 	protected:
-		bool match_image(TaskInfo * task_info, asst::Rect* matched_rect = NULL);
+		bool match_image(TaskInfo* task_info, asst::Rect* matched_rect = NULL);
 		void exec_click_task(TaskInfo& task, const asst::Rect& matched_rect);
 
 		std::unordered_map<std::string, TaskInfo>* m_all_tasks_ptr = NULL;
@@ -131,12 +159,12 @@ namespace asst {
 	{
 	public:
 		OcrAbstractTask(TaskCallback callback, void* callback_arg);
-		virtual bool run() override = 0 ;
+		virtual bool run() override = 0;
 
 	protected:
 		std::vector<TextArea> ocr_detect();
 
-		template<typename FilterArray, typename ReplaceMap> 
+		template<typename FilterArray, typename ReplaceMap>
 		std::vector<TextArea> text_filter(const std::vector<TextArea>& src,
 			const FilterArray& filter_array, const ReplaceMap& replace_map)
 		{
@@ -160,7 +188,7 @@ namespace asst {
 	{
 	public:
 		OpenRecruitTask(TaskCallback callback, void* callback_arg,
-			Configer * configer_ptr, RecruitConfiger * recruit_configer_ptr);
+			Configer* configer_ptr, RecruitConfiger* recruit_configer_ptr);
 
 		virtual bool run() override;
 		virtual void set_param(std::vector<int> required_level, bool set_time = true, int tags_number = 5);

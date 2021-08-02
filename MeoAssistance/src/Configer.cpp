@@ -51,19 +51,19 @@ bool Configer::set_param(const std::string& type, const std::string& param, cons
 		std::string type = value;
 		std::transform(type.begin(), type.end(), type.begin(), std::tolower);
 		if (type == "clickself") {
-			task_info.type = TaskType::ClickSelf;
+			task_info.type = MatchTaskType::ClickSelf;
 		}
 		else if (type == "clickrand") {
-			task_info.type = TaskType::ClickRand;
+			task_info.type = MatchTaskType::ClickRand;
 		}
 		else if (type == "donothing" || type.empty()) {
-			task_info.type = TaskType::DoNothing;
+			task_info.type = MatchTaskType::DoNothing;
 		}
 		else if (type == "stop") {
-			task_info.type = TaskType::Stop;
+			task_info.type = MatchTaskType::Stop;
 		}
 		else if (type == "clickrect") {
-			task_info.type = TaskType::ClickRect;
+			task_info.type = MatchTaskType::ClickRect;
 		}
 		else {
 			DebugTraceError("Task", param, "'s type error:", type);
@@ -111,7 +111,8 @@ bool asst::Configer::_load(const std::string& filename)
 
 		json::value& options_json = root["options"];
 		{
-			m_options.identify_delay = options_json["identifyDelay"].as_integer();
+			m_options.task_identify_delay = options_json["taskIdentifyDelay"].as_integer();
+			m_options.task_control_delay = options_json["taskControlDelay"].as_integer();
 			m_options.identify_cache = options_json["identifyCache"].as_boolean();
 			m_options.control_delay_lower = options_json["controlDelayRange"][0].as_integer();
 			m_options.control_delay_upper = options_json["controlDelayRange"][1].as_integer();
@@ -133,19 +134,19 @@ bool asst::Configer::_load(const std::string& filename)
 			std::string type = task_json["type"].as_string();
 			std::transform(type.begin(), type.end(), type.begin(), std::tolower);
 			if (type == "clickself") {
-				task_info.type = TaskType::ClickSelf;
+				task_info.type = MatchTaskType::ClickSelf;
 			}
 			else if (type == "clickrand") {
-				task_info.type = TaskType::ClickRand;
+				task_info.type = MatchTaskType::ClickRand;
 			}
 			else if (type == "donothing" || type.empty()) {
-				task_info.type = TaskType::DoNothing;
+				task_info.type = MatchTaskType::DoNothing;
 			}
 			else if (type == "stop") {
-				task_info.type = TaskType::Stop;
+				task_info.type = MatchTaskType::Stop;
 			}
 			else if (type == "clickrect") {
-				task_info.type = TaskType::ClickRect;
+				task_info.type = MatchTaskType::ClickRect;
 				json::value & area_json = task_json["specificArea"];
 				task_info.specific_area = Rect(
 					area_json[0].as_integer(),
@@ -154,7 +155,7 @@ bool asst::Configer::_load(const std::string& filename)
 					area_json[3].as_integer());
 			}
 			else if (type == "printwindow") {
-				task_info.type = TaskType::PrintWindow;
+				task_info.type = MatchTaskType::PrintWindow;
 			}
 			else {
 				DebugTraceError("Task:", name, "error:", type);

@@ -135,13 +135,14 @@ void Assistance::stop(bool block)
 	DebugTraceFunction;
 	DebugTrace("Stop |", block ? "block" : "non block");
 
+	m_thread_idle = true;
+
 	std::unique_lock<std::mutex> lock;
 	if (block) { // 外部调用
 		lock = std::unique_lock<std::mutex>(m_mutex);
 		clear_exec_times();
 	}
-	m_thread_idle = true;
-	std::queue<std::shared_ptr<AbstractTask>> empty;
+	decltype(m_tasks_queue) empty;
 	m_tasks_queue.swap(empty);
 	m_identify_ptr->clear_cache();
 }
@@ -217,8 +218,8 @@ bool asst::Assistance::find_text_and_click(const std::string& text, bool block)
 	return m_control_ptr->click(result.value());
 }
 
-std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>> 
-	asst::Assistance::open_recruit(const std::vector<int>& required_level, bool set_time)
+std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
+asst::Assistance::open_recruit(const std::vector<int>& required_level, bool set_time)
 {
 	DebugTraceFunction;
 
@@ -329,7 +330,7 @@ std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
 	for (auto&& pair : result_map) {
 		result_vector.emplace_back(std::move(pair));
 	}
-	std::sort(result_vector.begin(), result_vector.end(), []( const auto& lhs, const auto& rhs)
+	std::sort(result_vector.begin(), result_vector.end(), [](const auto& lhs, const auto& rhs)
 		->bool {
 			// 1、最小等级小的，排最后
 			// 2、最小等级相同，最大等级小的，排后面
@@ -390,6 +391,7 @@ void Assistance::working_proc(Assistance* pThis)
 {
 	DebugTraceFunction;
 
+	int retry_times = 0;
 	while (!pThis->m_thread_exit) {
 		std::unique_lock<std::mutex> lock(pThis->m_mutex);
 		if (!pThis->m_thread_idle && !pThis->m_tasks_queue.empty()) {
@@ -400,11 +402,30 @@ void Assistance::working_proc(Assistance* pThis)
 			task_ptr->set_exit_flag(&pThis->m_thread_idle);
 			bool ret = task_ptr->run();
 			if (ret) {
+				retry_times = 0;
 				pThis->m_tasks_queue.pop();
-			} // else {} 失败了不pop，一直跑。 Todo: 设一个上限
+			}
+			else // 失败了不pop，一直跑。 Todo: 设一个上限
+			{
+				++retry_times;
+			}
 
+			// 如果下个任务是识别，就按识别的延时来；如果下个任务是点击，就按点击的延时来；……
+			// 如果都符合，就取个最大值
+			int delay = 0;
+			if (!pThis->m_tasks_queue.empty()) {
+				int next_type = pThis->m_tasks_queue.front()->get_task_type();
+				std::vector<int> candidate_delay = { 0 };
+				if (next_type & TaskType::TaskTypeClick) {
+					candidate_delay.emplace_back(pThis->m_configer.m_options.task_control_delay);
+				}
+				if (next_type & TaskType::TaskTypeRecognition) {
+					candidate_delay.emplace_back(pThis->m_configer.m_options.task_identify_delay);
+				}
+				delay = *std::max_element(candidate_delay.cbegin(), candidate_delay.cend());
+			}
 			pThis->m_condvar.wait_until(lock,
-				start_time + std::chrono::milliseconds(pThis->m_configer.m_options.identify_delay),
+				start_time + std::chrono::milliseconds(delay),
 				[&]() -> bool { return pThis->m_thread_idle; });
 		}
 		else {
@@ -438,16 +459,36 @@ void Assistance::task_callback(TaskMsg msg, const json::value& detail, void* cus
 		break;
 	case TaskMsg::MissionStop:
 		break;
-	case TaskMsg::AppendTask:
+	case TaskMsg::AppendMatchTask:
 	{
-		json::array next_arr = detail.at("next").as_array();
 		std::vector<std::string> next_vec;
-		for (const json::value& next_json : next_arr) {
-			next_vec.emplace_back(next_json.as_string());
+		if (detail.exist("tasks")) {
+			json::array next_arr = detail.at("tasks").as_array();
+			for (const json::value& next_json : next_arr) {
+				next_vec.emplace_back(next_json.as_string());
+			}
+		}
+		else if (detail.exist("task")) {
+			next_vec.emplace_back(detail.at("task").as_string());
+		}
+		if (next_vec.size() == 1 && next_vec.at(0) == "Stop") {
+			break;
 		}
 		p_this->append_match_task(next_vec);
 	}
-		break;
+	break;
+	case TaskMsg::AppendTask:
+	{
+		std::string task = detail.at("type").as_string();
+		if (task == "ClickTask") {
+			auto task_ptr = std::make_shared<ClickTask>(task_callback, custom_arg);
+			json::array rect_json = detail.at("rect").as_array();
+			Rect rect(rect_json[0].as_integer(), rect_json[1].as_integer(), rect_json[2].as_integer(), rect_json[3].as_integer());
+			task_ptr->set_rect(std::move(rect));
+			p_this->m_tasks_queue.emplace(task_ptr);
+		} // else if  // TODO
+	}
+	break;
 	default:
 		break;
 	}
