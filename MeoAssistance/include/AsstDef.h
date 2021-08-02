@@ -190,6 +190,8 @@ namespace asst {
 		std::vector<OperInfo> opers;
 		int max_level = 0;
 		int min_level = 0;
-		bool has_level_1 = false;	// 是否有一星干员
+		double avg_level = 0;
 	};
+
+	constexpr double DoubleDiff = 1e-12;
 }
