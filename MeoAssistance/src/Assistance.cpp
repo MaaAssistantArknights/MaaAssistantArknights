@@ -198,8 +198,8 @@ bool asst::Assistance::find_text_and_click(const std::string& text, bool block)
 	return m_pCtrl->click(result.value());
 }
 
-std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>> 
-	asst::Assistance::open_recruit(const std::vector<int>& required_level, bool set_time)
+std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
+asst::Assistance::open_recruit(const std::vector<int>& required_level, bool set_time)
 {
 	DebugTraceFunction;
 
@@ -287,21 +287,24 @@ std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
 				OperCombs& oper_combs = result_map[comb];
 				oper_combs.opers.emplace_back(cur_oper);
 
-				static const std::string SupportMachine = GbkToUtf8("支援机械");
-				if (cur_oper.level == 1
-					&& std::find(comb.cbegin(), comb.cend(), SupportMachine) != comb.cend()) {
-					DebugTraceInfo("Has Level 1");
+				if (cur_oper.level == 1 || cur_oper.level == 2) {
+					if (oper_combs.min_level == 0) oper_combs.min_level = cur_oper.level;
+					if (oper_combs.max_level == 0) oper_combs.max_level = cur_oper.level;
+					// 一星、二星干员不计入最低等级，因为拉满9小时之后不可能出1、2星
+					continue;
 				}
-				// 一星小车不计入最低等级
-				if (cur_oper.level != 1 && (
-					oper_combs.min_level == 0 || oper_combs.min_level > cur_oper.level)) {
+				if (oper_combs.min_level == 0 || oper_combs.min_level > cur_oper.level) {
 					oper_combs.min_level = cur_oper.level;
 				}
-
 				if (oper_combs.max_level == 0 || oper_combs.max_level < cur_oper.level) {
 					oper_combs.max_level = cur_oper.level;
 				}
+				oper_combs.avg_level += cur_oper.level;
 			}
+		}
+		if (result_map.find(comb) != result_map.cend()) {
+			OperCombs& oper_combs = result_map[comb];
+			oper_combs.avg_level /= oper_combs.opers.size();
 		}
 	}
 
@@ -310,17 +313,21 @@ std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
 	for (auto&& pair : result_map) {
 		result_vector.emplace_back(std::move(pair));
 	}
-	std::sort(result_vector.begin(), result_vector.end(), []( const auto& lhs, const auto& rhs)
+	std::sort(result_vector.begin(), result_vector.end(), [](const auto& lhs, const auto& rhs)
 		->bool {
-			// 1、最小等级小的，排最后
-			// 2、最小等级相同，最大等级小的，排后面
-			// 3、1 2都相同，标签多的，排后面
+			// 最小等级大的，排前面
 			if (lhs.second.min_level != rhs.second.min_level) {
 				return lhs.second.min_level > rhs.second.min_level;
 			}
+			// 最大等级大的，排前面
 			else if (lhs.second.max_level != rhs.second.max_level) {
 				return lhs.second.max_level > rhs.second.max_level;
 			}
+			// 平均等级高的，排前面
+			else if (std::fabs(lhs.second.avg_level - rhs.second.avg_level) < DoubleDiff) {
+				return lhs.second.avg_level > rhs.second.avg_level;
+			}
+			// Tag数量少的，排前面
 			else {
 				return lhs.first.size() < rhs.first.size();
 			}
