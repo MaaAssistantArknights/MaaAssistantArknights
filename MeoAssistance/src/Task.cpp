@@ -11,6 +11,7 @@
 #include <thread>
 #include <utility>
 #include <cmath>
+#include <mutex>
 
 using namespace asst;
 
@@ -87,12 +88,15 @@ void AbstractTask::sleep(unsigned millisecond)
 	callback_json["time"] = millisecond;
 	m_callback(TaskMsg::ReadyToSleep, callback_json, m_callback_arg);
 
+	m_lock_ptr->unlock();
 	while ((m_exit_flag == NULL || *m_exit_flag == false)
 		&& duration < millisecond) {
 		duration = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::system_clock::now() - start).count();
 		std::this_thread::yield();
 	}
+	m_lock_ptr->lock();
+	m_callback(TaskMsg::EndOfSleep, callback_json, m_callback_arg);
 }
 
 MatchTask::MatchTask(TaskCallback callback, void* callback_arg,
@@ -240,7 +244,12 @@ OcrAbstractTask::OcrAbstractTask(TaskCallback callback, void* callback_arg)
 std::vector<TextArea> OcrAbstractTask::ocr_detect()
 {
 	const cv::Mat& image = get_format_image();
-	return m_identify_ptr->ocr_detect(image);
+
+	m_lock_ptr->unlock();
+	auto&& dst = m_identify_ptr->ocr_detect(image);
+	m_lock_ptr->lock();
+
+	return dst;
 }
 
 OpenRecruitTask::OpenRecruitTask(TaskCallback callback, void* callback_arg,
