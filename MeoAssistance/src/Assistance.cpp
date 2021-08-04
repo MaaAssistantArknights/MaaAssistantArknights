@@ -15,7 +15,8 @@
 
 using namespace asst;
 
-Assistance::Assistance()
+Assistance::Assistance(TaskCallback callback, void* callback_arg)
+	: m_callback(callback), m_callback_arg(callback_arg)
 {
 	DebugTraceFunction;
 
@@ -182,46 +183,6 @@ std::optional<std::string> Assistance::get_param(const std::string& type, const 
 	return Configer::get_instance().get_param(type, param);
 }
 
-bool asst::Assistance::print_window(const std::string& filename)
-{
-	DebugTraceFunction;
-
-	const cv::Mat& image = get_format_image();
-	// 保存的截图额外再裁剪掉一圈，不然企鹅物流识别不出来
-	int offset = Configer::get_instance().m_options.print_window_crop_offset;
-	cv::Rect rect(offset, offset, image.cols - offset * 2, image.rows - offset * 2);
-	bool ret = cv::imwrite(filename.c_str(), image(rect));
-
-	if (ret) {
-		DebugTraceInfo("PrintWindow to", filename);
-	}
-	else {
-		DebugTraceError("PrintWindow error", filename);
-	}
-	return ret;
-}
-
-bool asst::Assistance::find_text_and_click(const std::string& text, bool block)
-{
-	DebugTraceFunction;
-	DebugTrace("find_text_and_click |", Utf8ToGbk(text), block ? "block" : "non block");
-
-	std::unique_lock<std::mutex> lock;
-	if (block) { // 外部调用
-		lock = std::unique_lock<std::mutex>(m_mutex);
-	}
-	const cv::Mat& image = get_format_image();
-	std::optional<Rect>&& result = m_identify_ptr->find_text(image, text);
-
-	if (!result) {
-		DebugTrace("Cannot found", Utf8ToGbk(text));
-		return false;
-	}
-
-	set_control_scale(image.cols, image.rows);
-	return m_control_ptr->click(result.value());
-}
-
 void Assistance::working_proc(Assistance* pThis)
 {
 	DebugTraceFunction;
@@ -273,7 +234,7 @@ void Assistance::working_proc(Assistance* pThis)
 void Assistance::task_callback(TaskMsg msg, const json::value& detail, void* custom_arg)
 {
 	DebugTraceFunction;
-	DebugTrace(msg, detail.to_string(), custom_arg);
+	DebugTrace(msg, detail.to_string());
 
 	Assistance* p_this = (Assistance*)custom_arg;
 	switch (msg)
@@ -315,6 +276,10 @@ void Assistance::task_callback(TaskMsg msg, const json::value& detail, void* cus
 	default:
 		break;
 	}
+	
+	if (p_this->m_callback) {
+		p_this->m_callback(msg, detail, m_callback_arg);
+	}
 }
 
 void asst::Assistance::append_match_task(const std::vector<std::string>& tasks)
@@ -322,41 +287,6 @@ void asst::Assistance::append_match_task(const std::vector<std::string>& tasks)
 	auto task_ptr = std::make_shared<MatchTask>(task_callback, (void*)this);
 	task_ptr->set_tasks(tasks);
 	m_tasks_queue.emplace(task_ptr);
-}
-
-cv::Mat Assistance::get_format_image()
-{
-	const cv::Mat& raw_image = m_view_ptr->getImage(m_view_ptr->getWindowRect());
-	if (raw_image.empty() || raw_image.rows < 100) {
-		DebugTraceError("Window image error");
-		return raw_image;
-	}
-	// 把模拟器边框的一圈裁剪掉
-	const EmulatorInfo& window_info = m_view_ptr->getEmulatorInfo();
-	int x_offset = window_info.x_offset;
-	int y_offset = window_info.y_offset;
-	int width = raw_image.cols - x_offset - window_info.right_offset;
-	int height = raw_image.rows - y_offset - window_info.bottom_offset;
-
-	cv::Mat cropped(raw_image, cv::Rect(x_offset, y_offset, width, height));
-
-	//// 调整尺寸，与资源中截图的标准尺寸一致
-	//cv::Mat dst;
-	//cv::resize(cropped, dst, cv::Size(Configer::get_instance().DefaultWindowWidth, Configer::get_instance().DefaultWindowHeight));
-
-	return cropped;
-}
-
-void asst::Assistance::set_control_scale(int cur_width, int cur_height)
-{
-	double scale_width = static_cast<double>(cur_width) / Configer::get_instance().DefaultWindowWidth;
-	double scale_height = static_cast<double>(cur_height) / Configer::get_instance().DefaultWindowHeight;
-	// 有些模拟器有可收缩的侧边，会增加宽度。
-	// config.json中设置的是侧边展开后的offset
-	// 如果用户把侧边收起来了，则有侧边的那头会额外裁剪掉一些，长度偏小
-	// 所以按这里面长、宽里大的那个算，大的那边没侧边
-	double scale = std::max(scale_width, scale_height);
-	m_control_ptr->setControlScale(scale);
 }
 
 void Assistance::clear_exec_times()

@@ -27,7 +27,7 @@ namespace asst {
 	class Assistance
 	{
 	public:
-		Assistance();
+		Assistance(TaskCallback callback = nullptr, void * callback_arg = nullptr);
 		~Assistance();
 
 		std::optional<std::string> catch_emulator(const std::string& emulator_name = std::string());
@@ -46,19 +46,12 @@ namespace asst {
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
 		std::optional<std::string> get_param(const std::string& type, const std::string& param);
 
-		bool print_window(const std::string& filename);
-
 	private:
 		static void working_proc(Assistance* pThis);
 		static void task_callback(TaskMsg msg, const json::value& detail, void* custom_arg);
 
 		void append_match_task(const std::vector<std::string>& tasks);
-		cv::Mat get_format_image();
-		void set_control_scale(int cur_width, int cur_height);
 		void clear_exec_times();
-
-		// for debug
-		bool find_text_and_click(const std::string& text, bool block = true);
 
 		std::shared_ptr<WinMacro> m_window_ptr = nullptr;
 		std::shared_ptr<WinMacro> m_view_ptr = nullptr;
@@ -72,6 +65,9 @@ namespace asst {
 		bool m_thread_exit = false;
 		bool m_thread_idle = true;
 		std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;
+
+		TaskCallback m_callback = nullptr;
+		void* m_callback_arg = nullptr;
 	};
 
 }

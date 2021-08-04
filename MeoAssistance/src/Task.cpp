@@ -12,6 +12,7 @@
 #include <utility>
 #include <cmath>
 #include <mutex>
+#include <filesystem>
 
 using namespace asst;
 
@@ -97,6 +98,31 @@ void AbstractTask::sleep(unsigned millisecond)
 	m_callback(TaskMsg::EndOfSleep, callback_json, m_callback_arg);
 }
 
+bool AbstractTask::print_window(const std::string& dir)
+{
+	const cv::Mat& image = get_format_image();
+	if (image.empty()) {
+		return false;
+	}
+	// 保存的截图额外再裁剪掉一圈，不然企鹅物流识别不出来
+	int offset = Configer::get_instance().m_options.print_window_crop_offset;
+	cv::Rect rect(offset, offset, image.cols - offset * 2, image.rows - offset * 2);
+
+	std::filesystem::create_directory(dir);
+	const std::string time_str = StringReplaceAll(StringReplaceAll(GetFormatTimeString(), " ", "_"), ":", "-");
+	const std::string filename = dir + time_str + ".png";
+
+	bool ret = cv::imwrite(filename.c_str(), image(rect));
+
+	json::value callback_json;
+	callback_json["filename"] = filename;
+	callback_json["ret"] = ret;
+	callback_json["offset"] = offset;
+	m_callback(TaskMsg::PrintWindow, callback_json, m_callback_arg);
+
+	return ret;
+}
+
 MatchTask::MatchTask(TaskCallback callback, void* callback_arg)
 	: AbstractTask(callback, callback_arg)
 {
@@ -115,7 +141,7 @@ bool MatchTask::run()
 	}
 
 	Rect rect;
-	auto && ret = match_image(&rect);
+	auto&& ret = match_image(&rect);
 	if (!ret) {
 		return false;
 	}
@@ -154,6 +180,13 @@ bool MatchTask::run()
 	case MatchTaskType::Stop:
 		m_callback(TaskMsg::MissionStop, json::value(), m_callback_arg);
 		break;
+	case MatchTaskType::PrintWindow:
+	{
+		sleep(Configer::get_instance().m_options.print_window_delay);
+		static const std::string dirname = GetCurrentDir() + "screenshot\\";
+		print_window(dirname);
+	}
+	break;
 	default:
 		break;
 	}
@@ -181,7 +214,7 @@ bool MatchTask::run()
 }
 
 
-std::optional<std::string> MatchTask::match_image(asst::Rect* matched_rect)
+std::optional<std::string> MatchTask::match_image(Rect* matched_rect)
 {
 	const cv::Mat& cur_image = get_format_image();
 	if (cur_image.empty() || cur_image.rows < 100) {
@@ -191,7 +224,7 @@ std::optional<std::string> MatchTask::match_image(asst::Rect* matched_rect)
 
 	// 逐个匹配当前可能的图像
 	for (const std::string& task_name : m_cur_tasks_name) {
-		TaskInfo & task_info = Configer::get_instance().m_all_tasks_info[task_name];
+		TaskInfo& task_info = Configer::get_instance().m_all_tasks_info[task_name];
 		double templ_threshold = task_info.templ_threshold;
 		double hist_threshold = task_info.hist_threshold;
 
