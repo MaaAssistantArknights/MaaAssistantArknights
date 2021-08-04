@@ -24,6 +24,7 @@ namespace MeoAsstGui
     {
 
         [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstCreate();
+        [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstCreateEx(CallbackDelegate callback, IntPtr custom_arg);
         [DllImport("MeoAssistance.dll")] static private extern void AsstDestory(IntPtr ptr);
         [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchEmulator(IntPtr ptr);
         [DllImport("MeoAssistance.dll")] static private extern void AsstStart(IntPtr ptr, string task);
@@ -35,11 +36,20 @@ namespace MeoAsstGui
             [In, Out] StringBuilder lp_string, int buffer_size);
 
 
+        private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
+        private static CallbackDelegate callback;
+
         private IntPtr p_asst;
         private UpdateDialog updateDialog;
         private RecruitWindow recuitWindow;
         private DispatcherTimer update_times = new DispatcherTimer();
 
+
+        private void CallbackFunction(int msg, IntPtr json_buffer, IntPtr custom_arg)
+        {
+            string json_str = Marshal.PtrToStringAnsi(json_buffer);
+            Console.WriteLine(json_str);
+        }
         public MainWindow()
         {
             InitializeComponent();
@@ -51,13 +61,15 @@ namespace MeoAsstGui
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            p_asst = AsstCreate();
+            callback = CallbackFunction;
+            p_asst = AsstCreateEx(callback, IntPtr.Zero);
             update_times.Tick += new EventHandler(updateExecTimes);
             update_times.Interval = TimeSpan.FromSeconds(1);
 
-            updateDialog = new UpdateDialog();
-            updateDialog.CheckUpdateAndShowDialog();
-            updateDialog.Close();
+            // for debug
+            //updateDialog = new UpdateDialog();
+            //updateDialog.CheckUpdateAndShowDialog();
+            //updateDialog.Close();
         }
         private void button_Click_startSanity(object sender, RoutedEventArgs e)
         {
