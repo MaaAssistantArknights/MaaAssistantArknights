@@ -19,18 +19,17 @@ Assistance::Assistance()
 {
 	DebugTraceFunction;
 
-	m_configer.load(GetResourceDir() + "config.json");
-	m_all_tasks_info = std::move(m_configer.m_all_tasks_info);
-	m_recruit_configer.load(GetResourceDir() + "operInfo.json");
+	Configer::get_instance().load(GetResourceDir() + "config.json");
+	OpenRecruitConfiger::get_instance().load(GetResourceDir() + "operInfo.json");
 
 	m_identify_ptr = std::make_shared<Identify>();
-	for (const auto& [name, info] : m_all_tasks_info)
+	for (const auto& [name, info] : Configer::get_instance().m_all_tasks_info)
 	{
 		m_identify_ptr->add_image(name, GetResourceDir() + "template\\" + info.template_filename);
 	}
-	m_identify_ptr->set_use_cache(m_configer.m_options.identify_cache);
+	m_identify_ptr->set_use_cache(Configer::get_instance().m_options.identify_cache);
 
-	m_identify_ptr->set_ocr_param(m_configer.m_options.ocr_gpu_index, m_configer.m_options.ocr_thread_number);
+	m_identify_ptr->set_ocr_param(Configer::get_instance().m_options.ocr_gpu_index, Configer::get_instance().m_options.ocr_thread_number);
 	m_identify_ptr->ocr_init_models(GetResourceDir() + "OcrLiteNcnn\\models\\");
 
 	m_working_thread = std::thread(working_proc, this);
@@ -73,7 +72,7 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 
 	// 自动匹配模拟器，逐个找
 	if (emulator_name.empty()) {
-		for (const auto& [name, info] : m_configer.m_handles)
+		for (const auto& [name, info] : Configer::get_instance().m_handles)
 		{
 			ret = create_handles(info);
 			if (ret) {
@@ -83,7 +82,7 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 		}
 	}
 	else {	// 指定的模拟器
-		ret = create_handles(m_configer.m_handles[emulator_name]);
+		ret = create_handles(Configer::get_instance().m_handles[emulator_name]);
 	}
 	if (ret && m_window_ptr->showWindow() && m_window_ptr->resizeWindow()) {
 		m_inited = true;
@@ -105,17 +104,20 @@ void asst::Assistance::start_visit()
 	start_match_task("VisitBegin");
 }
 
-void Assistance::start_match_task(const std::string& task)
+void Assistance::start_match_task(const std::string& task, bool block)
 {
 	DebugTraceFunction;
-	DebugTrace("Start |", task);
+	DebugTrace("Start |", task, block ? "block" : "non block");
 	if (!m_thread_idle || !m_inited) {
 		return;
 	}
 
-	std::unique_lock<std::mutex> lock(m_mutex);
-	clear_exec_times();
-	m_identify_ptr->clear_cache();
+	std::unique_lock<std::mutex> lock;
+	if (block) {
+		lock = std::unique_lock<std::mutex>(m_mutex);
+		clear_exec_times();
+		m_identify_ptr->clear_cache();
+	}
 
 	append_match_task({ task });
 
@@ -132,7 +134,7 @@ void asst::Assistance::start_open_recruit(const std::vector<int>& required_level
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 
-	auto task_ptr = std::make_shared<OpenRecruitTask>(task_callback, (void*)this, &m_configer, &m_recruit_configer);
+	auto task_ptr = std::make_shared<OpenRecruitTask>(task_callback, (void*)this);
 	task_ptr->set_param(required_level, set_time);
 	m_tasks_queue.emplace(task_ptr);
 
@@ -162,8 +164,7 @@ bool Assistance::set_param(const std::string& type, const std::string& param, co
 	DebugTraceFunction;
 	DebugTrace("SetParam |", type, param, value);
 
-	std::unique_lock<std::mutex> lock(m_mutex);
-	return m_configer.set_param(type, param, value);
+	return Configer::get_instance().set_param(type, param, value);
 }
 
 std::optional<std::string> Assistance::get_param(const std::string& type, const std::string& param)
@@ -178,23 +179,16 @@ std::optional<std::string> Assistance::get_param(const std::string& type, const 
 		}
 	}
 
-	std::unique_lock<std::mutex> lock(m_mutex);
-	return m_configer.get_param(type, param);
+	return Configer::get_instance().get_param(type, param);
 }
 
-bool asst::Assistance::print_window(const std::string& filename, bool block)
+bool asst::Assistance::print_window(const std::string& filename)
 {
 	DebugTraceFunction;
-	DebugTrace("print_window |", block ? "block" : "non block");
-
-	std::unique_lock<std::mutex> lock;
-	if (block) { // 外部调用
-		lock = std::unique_lock<std::mutex>(m_mutex);
-	}
 
 	const cv::Mat& image = get_format_image();
 	// 保存的截图额外再裁剪掉一圈，不然企鹅物流识别不出来
-	int offset = m_configer.m_options.print_window_crop_offset;
+	int offset = Configer::get_instance().m_options.print_window_crop_offset;
 	cv::Rect rect(offset, offset, image.cols - offset * 2, image.rows - offset * 2);
 	bool ret = cv::imwrite(filename.c_str(), image(rect));
 
@@ -241,7 +235,6 @@ void Assistance::working_proc(Assistance* pThis)
 			std::shared_ptr<AbstractTask> task_ptr = pThis->m_tasks_queue.front();
 			task_ptr->set_ptr(pThis->m_window_ptr, pThis->m_view_ptr, pThis->m_control_ptr, pThis->m_identify_ptr);
 			task_ptr->set_exit_flag(&pThis->m_thread_idle);
-			task_ptr->set_lock(&lock);
 			bool ret = task_ptr->run();
 			if (ret) {
 				retry_times = 0;
@@ -259,10 +252,10 @@ void Assistance::working_proc(Assistance* pThis)
 				int next_type = pThis->m_tasks_queue.front()->get_task_type();
 				std::vector<int> candidate_delay = { 0 };
 				if (next_type & TaskType::TaskTypeClick) {
-					candidate_delay.emplace_back(pThis->m_configer.m_options.task_control_delay);
+					candidate_delay.emplace_back(Configer::get_instance().m_options.task_control_delay);
 				}
 				if (next_type & TaskType::TaskTypeRecognition) {
-					candidate_delay.emplace_back(pThis->m_configer.m_options.task_identify_delay);
+					candidate_delay.emplace_back(Configer::get_instance().m_options.task_identify_delay);
 				}
 				delay = *std::max_element(candidate_delay.cbegin(), candidate_delay.cend());
 			}
@@ -326,7 +319,7 @@ void Assistance::task_callback(TaskMsg msg, const json::value& detail, void* cus
 
 void asst::Assistance::append_match_task(const std::vector<std::string>& tasks)
 {
-	auto task_ptr = std::make_shared<MatchTask>(task_callback, (void*)this, &m_all_tasks_info, &m_configer);
+	auto task_ptr = std::make_shared<MatchTask>(task_callback, (void*)this);
 	task_ptr->set_tasks(tasks);
 	m_tasks_queue.emplace(task_ptr);
 }
@@ -349,15 +342,15 @@ cv::Mat Assistance::get_format_image()
 
 	//// 调整尺寸，与资源中截图的标准尺寸一致
 	//cv::Mat dst;
-	//cv::resize(cropped, dst, cv::Size(m_configer.DefaultWindowWidth, m_configer.DefaultWindowHeight));
+	//cv::resize(cropped, dst, cv::Size(Configer::get_instance().DefaultWindowWidth, Configer::get_instance().DefaultWindowHeight));
 
 	return cropped;
 }
 
 void asst::Assistance::set_control_scale(int cur_width, int cur_height)
 {
-	double scale_width = static_cast<double>(cur_width) / m_configer.DefaultWindowWidth;
-	double scale_height = static_cast<double>(cur_height) / m_configer.DefaultWindowHeight;
+	double scale_width = static_cast<double>(cur_width) / Configer::get_instance().DefaultWindowWidth;
+	double scale_height = static_cast<double>(cur_height) / Configer::get_instance().DefaultWindowHeight;
 	// 有些模拟器有可收缩的侧边，会增加宽度。
 	// config.json中设置的是侧边展开后的offset
 	// 如果用户把侧边收起来了，则有侧边的那头会额外裁剪掉一些，长度偏小
@@ -368,7 +361,7 @@ void asst::Assistance::set_control_scale(int cur_width, int cur_height)
 
 void Assistance::clear_exec_times()
 {
-	for (auto&& pair : m_all_tasks_info) {
+	for (auto&& pair : Configer::get_instance().m_all_tasks_info) {
 		pair.second.exec_times = 0;
 	}
 }

@@ -59,7 +59,7 @@ namespace MeoAsstGui
             StringBuilder result_buff = new StringBuilder(16384);
             int maybe_level = 0;
             bool set_time = checkBox_time.IsChecked == true ? true : false;
-            if (AsstRunOpenRecruit(p_asst, level_list.ToArray(), set_time, result_buff, 16384, ref maybe_level))
+            if (AsstRunOpenRecruit(p_asst, level_list.ToArray(), set_time))
             {
                 info.Content = result_buff;
                 if (maybe_level > 4 || maybe_level == 1)

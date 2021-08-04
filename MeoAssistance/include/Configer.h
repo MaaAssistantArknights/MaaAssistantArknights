@@ -11,11 +11,12 @@ namespace asst {
 	class Configer
 	{
 	public:
-		Configer() = default;
 		~Configer() = default;
 
-		Configer(const Configer& rhs) = default;
-		Configer(Configer&& rhs) noexcept = default;
+		static Configer& get_instance() {
+			static Configer unique_instance;
+			return unique_instance;
+		}
 
 		bool load(const std::string& filename);
 
@@ -37,6 +38,10 @@ namespace asst {
 		std::unordered_map<std::string, std::string> m_ocr_replace;
 
 	private:
+		Configer() = default;
+		Configer(const Configer & rhs) = default;
+		Configer(Configer && rhs) noexcept = default;
+
 		bool _load(const std::string& filename);
 	};
 }

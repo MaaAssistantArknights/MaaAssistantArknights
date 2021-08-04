@@ -214,7 +214,8 @@ bool WinMacro::showWindow()
 		return false;
 	}
 
-	return ::ShowWindow(m_handle, SW_RESTORE);
+	bool ret = ::ShowWindow(m_handle, SW_RESTORE);
+	return ret;
 }
 
 bool WinMacro::hideWindow()

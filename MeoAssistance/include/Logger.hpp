@@ -11,7 +11,7 @@
 #include "Version.h"
 
 namespace asst {
-	class MEOAPI_PORT Logger {
+	class Logger {
 	public:
 		~Logger() = default;
 
