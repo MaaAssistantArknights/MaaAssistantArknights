@@ -46,6 +46,7 @@ namespace asst {
 		EndOfSleep,
 		AppendMatchTask,
 		TaskCompleted,
+		PrintWindow,
 		MissionStop,
 		/* Open Recruit Msg */
 		TextDetected,
@@ -67,6 +68,7 @@ namespace asst {
 			{TaskMsg::EndOfSleep, "EndOfSleep"},
 			{TaskMsg::AppendMatchTask, "AppendMatchTask"},
 			{TaskMsg::TaskCompleted, "TaskCompleted"},
+			{TaskMsg::PrintWindow, "PrintWindow"},
 			{TaskMsg::MissionStop, "MissionStop"},
 			{TaskMsg::TextDetected, "TextDetected"},
 			{TaskMsg::RecruitTagsDetected, "RecruitTagsDetected"},
@@ -108,6 +110,7 @@ namespace asst {
 		virtual cv::Mat get_format_image();
 		virtual bool set_control_scale(int cur_width, int cur_height);
 		virtual void sleep(unsigned millisecond);
+		virtual bool print_window(const std::string& dir);
 
 		std::shared_ptr<WinMacro> m_window_ptr = nullptr;
 		std::shared_ptr<WinMacro> m_view_ptr = nullptr;
