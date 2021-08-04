@@ -27,7 +27,7 @@
     <ClInclude Include="include\Configer.h" />
     <ClInclude Include="include\Identify.h" />
     <ClInclude Include="include\Logger.hpp" />
-    <ClInclude Include="include\RecruitConfiger.h" />
+    <ClInclude Include="include\OpenRecruitConfiger.h" />
     <ClInclude Include="include\Task.h" />
     <ClInclude Include="include\Updater.h" />
     <ClInclude Include="include\Version.h" />
@@ -38,7 +38,7 @@
     <ClCompile Include="src\AsstCaller.cpp" />
     <ClCompile Include="src\Configer.cpp" />
     <ClCompile Include="src\Identify.cpp" />
-    <ClCompile Include="src\RecruitConfiger.cpp" />
+    <ClCompile Include="src\OpenRecruitConfiger.cpp" />
     <ClCompile Include="src\Task.cpp" />
     <ClCompile Include="src\Updater.cpp" />
     <ClCompile Include="src\WinMacro.cpp" />

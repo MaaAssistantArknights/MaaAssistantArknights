@@ -11,7 +11,7 @@
 #include "AsstPort.h"
 #include "AsstDef.h"
 #include "Configer.h"
-#include "RecruitConfiger.h"
+#include "OpenRecruitConfiger.h"
 #include "Task.h"
 
 namespace cv {
@@ -24,7 +24,7 @@ namespace asst {
 	class AbstractTask;
 	enum class TaskMsg;
 
-	class MEOAPI_PORT Assistance
+	class Assistance
 	{
 	public:
 		Assistance();
@@ -38,16 +38,16 @@ namespace asst {
 		void start_visit();
 		// 开始公开招募操作
 		void start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
+		// 开始匹配任务，调试用
+		void start_match_task(const std::string& task, bool block = true);
 
 		void stop(bool block = true);
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
 		std::optional<std::string> get_param(const std::string& type, const std::string& param);
 
-		bool print_window(const std::string& filename, bool block = true);
+		bool print_window(const std::string& filename);
 
-		// 开始匹配任务，调试用
-		void start_match_task(const std::string& task);
 	private:
 		static void working_proc(Assistance* pThis);
 		static void task_callback(TaskMsg msg, const json::value& detail, void* custom_arg);
@@ -72,10 +72,6 @@ namespace asst {
 		bool m_thread_exit = false;
 		bool m_thread_idle = true;
 		std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;
-
-		std::unordered_map<std::string, TaskInfo> m_all_tasks_info;
-		Configer m_configer;
-		RecruitConfiger m_recruit_configer;
 	};
 
 }

@@ -3,7 +3,7 @@
 #include "WinMacro.h"
 #include "Identify.h"
 #include "Configer.h"
-#include "RecruitConfiger.h"
+#include "OpenRecruitConfiger.h"
 #include "json.h"
 #include "AsstAux.h"
 
@@ -88,23 +88,17 @@ void AbstractTask::sleep(unsigned millisecond)
 	callback_json["time"] = millisecond;
 	m_callback(TaskMsg::ReadyToSleep, callback_json, m_callback_arg);
 
-	m_lock_ptr->unlock();
 	while ((m_exit_flag == NULL || *m_exit_flag == false)
 		&& duration < millisecond) {
 		duration = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::system_clock::now() - start).count();
 		std::this_thread::yield();
 	}
-	m_lock_ptr->lock();
 	m_callback(TaskMsg::EndOfSleep, callback_json, m_callback_arg);
 }
 
-MatchTask::MatchTask(TaskCallback callback, void* callback_arg,
-	std::unordered_map<std::string, TaskInfo>* all_tasks_ptr,
-	Configer* configer_ptr)
-	: AbstractTask(callback, callback_arg),
-	m_all_tasks_ptr(all_tasks_ptr),
-	m_configer_ptr(configer_ptr)
+MatchTask::MatchTask(TaskCallback callback, void* callback_arg)
+	: AbstractTask(callback, callback_arg)
 {
 	m_task_type = TaskType::TaskTypeRecognition | TaskType::TaskTypeClick;
 }
@@ -114,19 +108,18 @@ bool MatchTask::run()
 	if (m_view_ptr == NULL
 		|| m_control_ptr == NULL
 		|| m_identify_ptr == NULL
-		|| m_all_tasks_ptr == NULL
 		|| m_control_ptr == NULL)
 	{
 		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
 
-	TaskInfo task;
 	Rect rect;
-	bool ret = match_image(&task, &rect);
+	auto && ret = match_image(&rect);
 	if (!ret) {
 		return false;
 	}
+	TaskInfo& task = Configer::get_instance().m_all_tasks_info[ret.value()];
 
 	json::value callback_json = json::object{
 		{ "name", task.name },
@@ -171,7 +164,7 @@ bool MatchTask::run()
 	// 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
 	// 所以要给蓝色开始行动的次数减一
 	for (const std::string& reduce : task.reduce_other_times) {
-		--(*m_all_tasks_ptr)[reduce].exec_times;
+		--Configer::get_instance().m_all_tasks_info[reduce].exec_times;
 	}
 
 	// 后置固定延时
@@ -188,19 +181,19 @@ bool MatchTask::run()
 }
 
 
-bool MatchTask::match_image(TaskInfo* task_info, Rect* matched_rect)
+std::optional<std::string> MatchTask::match_image(asst::Rect* matched_rect)
 {
 	const cv::Mat& cur_image = get_format_image();
 	if (cur_image.empty() || cur_image.rows < 100) {
-		return false;
+		return std::nullopt;
 	}
 	set_control_scale(cur_image.cols, cur_image.rows);
 
 	// 逐个匹配当前可能的图像
 	for (const std::string& task_name : m_cur_tasks_name) {
-		*task_info = (*m_all_tasks_ptr)[task_name];
-		double templ_threshold = task_info->templ_threshold;
-		double hist_threshold = task_info->hist_threshold;
+		TaskInfo & task_info = Configer::get_instance().m_all_tasks_info[task_name];
+		double templ_threshold = task_info.templ_threshold;
+		double hist_threshold = task_info.hist_threshold;
 
 		auto&& [algorithm, value, rect] = m_identify_ptr->find_image(cur_image, task_name, templ_threshold);
 
@@ -211,21 +204,21 @@ bool MatchTask::match_image(TaskInfo* task_info, Rect* matched_rect)
 			if (matched_rect != NULL) {
 				*matched_rect = std::move(rect);
 			}
-			return true;
+			return task_name;
 		}
 	}
-	return false;
+	return std::nullopt;
 }
 
 void MatchTask::exec_click_task(TaskInfo& task, const Rect& matched_rect)
 {
 	// 随机延时功能
-	if (m_configer_ptr->m_options.control_delay_upper != 0) {
+	if (Configer::get_instance().m_options.control_delay_upper != 0) {
 		static std::default_random_engine rand_engine(
 			std::chrono::system_clock::now().time_since_epoch().count());
 		static std::uniform_int_distribution<unsigned> rand_uni(
-			m_configer_ptr->m_options.control_delay_lower,
-			m_configer_ptr->m_options.control_delay_upper);
+			Configer::get_instance().m_options.control_delay_lower,
+			Configer::get_instance().m_options.control_delay_upper);
 
 		unsigned rand_delay = rand_uni(rand_engine);
 		sleep(rand_delay);
@@ -245,18 +238,13 @@ std::vector<TextArea> OcrAbstractTask::ocr_detect()
 {
 	const cv::Mat& image = get_format_image();
 
-	m_lock_ptr->unlock();
 	auto&& dst = m_identify_ptr->ocr_detect(image);
-	m_lock_ptr->lock();
 
 	return dst;
 }
 
-OpenRecruitTask::OpenRecruitTask(TaskCallback callback, void* callback_arg,
-	Configer* configer_ptr, RecruitConfiger* recruit_configer_ptr)
-	: OcrAbstractTask(callback, callback_arg),
-	m_configer_ptr(configer_ptr),
-	m_recruit_configer_ptr(recruit_configer_ptr)
+OpenRecruitTask::OpenRecruitTask(TaskCallback callback, void* callback_arg)
+	: OcrAbstractTask(callback, callback_arg)
 {
 	m_task_type = TaskType::TaskTypeRecognition;
 }
@@ -264,9 +252,7 @@ OpenRecruitTask::OpenRecruitTask(TaskCallback callback, void* callback_arg,
 bool OpenRecruitTask::run()
 {
 	if (m_view_ptr == NULL
-		|| m_identify_ptr == NULL
-		|| m_configer_ptr == NULL
-		|| m_recruit_configer_ptr == NULL)
+		|| m_identify_ptr == NULL)
 	{
 		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
@@ -285,7 +271,7 @@ bool OpenRecruitTask::run()
 
 	/* Filter out all tags from all text */
 	std::vector<TextArea> all_tags = text_filter(
-		all_text_area, m_recruit_configer_ptr->m_all_tags, m_configer_ptr->m_ocr_replace);
+		all_text_area, OpenRecruitConfiger::get_instance().m_all_tags, Configer::get_instance().m_ocr_replace);
 
 	std::unordered_set<std::string> all_tags_name;
 	std::vector<json::value> all_tags_json_vector;
@@ -298,7 +284,7 @@ bool OpenRecruitTask::run()
 	m_callback(TaskMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
 
 	/* 过滤tags数量不足的情况（可能是识别漏了） */
-	if (all_tags.size() != m_tags_number) {
+	if (all_tags.size() != OpenRecruitConfiger::CorrectNumberOfTags) {
 		all_tags_json["type"] = "OpenRecruit";
 		m_callback(TaskMsg::OcrResultError, all_tags_json, m_callback_arg);
 		return false;
@@ -342,7 +328,7 @@ bool OpenRecruitTask::run()
 	// 例如 key: { "狙击"、"群攻" }，value: OperCombs.opers{ "陨星", "白雪", "空爆" }
 	std::map<std::vector<std::string>, OperCombs> result_map;
 	for (const std::vector<std::string>& comb : all_combs) {
-		for (const OperInfo& cur_oper : m_recruit_configer_ptr->m_all_opers) {
+		for (const OperInfo& cur_oper : OpenRecruitConfiger::get_instance().m_all_opers) {
 			int matched_count = 0;
 			for (const std::string& tag : comb) {
 				if (cur_oper.tags.find(tag) != cur_oper.tags.cend()) {
@@ -460,11 +446,10 @@ bool OpenRecruitTask::run()
 	return true;
 }
 
-void OpenRecruitTask::set_param(std::vector<int> required_level, bool set_time, int tags_number)
+void OpenRecruitTask::set_param(std::vector<int> required_level, bool set_time)
 {
 	m_required_level = std::move(required_level);
 	m_set_time = set_time;
-	m_tags_number = tags_number;
 }
 
 bool ClickTask::run()

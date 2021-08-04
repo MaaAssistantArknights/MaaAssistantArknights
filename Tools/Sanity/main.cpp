@@ -10,8 +10,6 @@ int main(int argc, char** argv)
 		getchar();
 		return -1;
 	}
-	else {
-	}
 
 	AsstStart(ptr, "SanityBegin");
 

@@ -19,19 +19,13 @@ namespace json
 {
 	class value;
 }
-namespace std
-{
-	template <class _Mutex>
-	class unique_lock;
-	class mutex;
-}
 
 namespace asst {
 
 	class WinMacro;
 	class Identify;
 	class Configer;
-	class RecruitConfiger;
+	class OpenRecruitConfiger;
 
 	enum TaskType {
 		TaskTypeInvalid = 0,
@@ -107,7 +101,6 @@ namespace asst {
 		virtual bool run() = 0;
 
 		virtual void set_exit_flag(bool* exit_flag);
-		virtual void set_lock(std::unique_lock<std::mutex>* lock_ptr) { m_lock_ptr = lock_ptr; }
 		virtual int get_task_type() { return m_task_type; }
 		virtual void set_retry_times(int times) { m_retry_times = times; }
 		virtual int get_retry_times() { return m_retry_times; }
@@ -124,7 +117,6 @@ namespace asst {
 		TaskCallback m_callback;
 		void* m_callback_arg = NULL;
 		bool* m_exit_flag = NULL;
-		std::unique_lock<std::mutex>* m_lock_ptr;
 		int m_task_type = TaskType::TaskTypeInvalid;
 		int m_retry_times = INT_MAX;
 	};
@@ -146,9 +138,7 @@ namespace asst {
 	class MatchTask : public AbstractTask
 	{
 	public:
-		MatchTask(TaskCallback callback, void* callback_arg,
-			std::unordered_map<std::string, TaskInfo>* all_tasks_ptr,
-			Configer* configer_ptr);
+		MatchTask(TaskCallback callback, void* callback_arg);
 
 		virtual bool run() override;
 
@@ -157,11 +147,9 @@ namespace asst {
 		}
 
 	protected:
-		bool match_image(TaskInfo* task_info, asst::Rect* matched_rect = NULL);
+		std::optional<std::string> match_image(asst::Rect* matched_rect = NULL);
 		void exec_click_task(TaskInfo& task, const asst::Rect& matched_rect);
 
-		std::unordered_map<std::string, TaskInfo>* m_all_tasks_ptr = NULL;
-		Configer* m_configer_ptr = NULL;
 		std::vector<std::string> m_cur_tasks_name;
 	};
 
@@ -197,17 +185,13 @@ namespace asst {
 	class OpenRecruitTask : public OcrAbstractTask
 	{
 	public:
-		OpenRecruitTask(TaskCallback callback, void* callback_arg,
-			Configer* configer_ptr, RecruitConfiger* recruit_configer_ptr);
+		OpenRecruitTask(TaskCallback callback, void* callback_arg);
 
 		virtual bool run() override;
-		virtual void set_param(std::vector<int> required_level, bool set_time = true, int tags_number = 5);
+		virtual void set_param(std::vector<int> required_level, bool set_time = true);
 
 	protected:
 		std::vector<int> m_required_level;
 		bool m_set_time = false;
-		int m_tags_number = 5;
-		Configer* m_configer_ptr = NULL;
-		RecruitConfiger* m_recruit_configer_ptr = NULL;
 	};
 }
