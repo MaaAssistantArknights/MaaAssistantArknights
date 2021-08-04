@@ -27,13 +27,14 @@ A game assistance for Arknights
     - 自动计算可能出的干员组合并显示
     - 自动帮你点击最优解Tags
     - 自动帮你点击时间9小时
-    - 出4、5、6星干员弹窗提示
-    - 最新版本已支持夏活新增的煌、灰喉等干员
+    - 出5、6星干员弹窗提示
+    - 最新版本已支持夏活新增的`煌`、`灰喉`等干员
     - 不会帮你点击确定按钮！！！请自行检查辅助选择的是否正确，若出现识别错误，遗漏了高星干员，作者概不负责哦__(:з」∠)_
 - 自动访问好友基建
     - 访问完了还会贴心的帮你点进信用商店~
 - 其他优势
-    - 所有操作，都是点击按钮内随机位置，且支持设置随机延时，没有封号风险
+    - 所有点击操作，都是点击按钮内随机位置，并模拟泊松分布（按钮偏中间位置点的概率大，越往旁边点到的概率越小）
+    - 刷理智及基建的点击操作，支持设置随机延时，没有封号风险~
     - 模拟器窗口可以被遮挡，即使全屏看视频、玩游戏，也不影响辅助运行（但模拟器窗口不能最小化）
 - 支持多款主流模拟器
 - 自适应分辨率及屏幕缩放
@@ -151,6 +152,7 @@ A game assistance for Arknights
         - [ ] 任务队列优化
         - [ ] 界面优化
         - [ ] 干员自动更新
+        - [ ] 一星小车的额外提示及3:40时间选择
 - [x] 算法
     - [x] 更换算法为模板匹配找图，而不是当前的区域相似度对比
     - [x] 优化算法效率，添加缓存功能
@@ -168,6 +170,6 @@ A game assistance for Arknights
 
 感谢以下开源库
 
-- [opencv](https://github.com/opencv/opencv.git)
-- [chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)
-- [meojson](https://github.com/MistEO/meojson.git)
+- 图像识别库：[opencv](https://github.com/opencv/opencv.git)
+- 文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)
+- JSON解析库：[meojson](https://github.com/MistEO/meojson.git)
