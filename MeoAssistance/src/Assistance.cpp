@@ -278,7 +278,7 @@ void Assistance::task_callback(TaskMsg msg, const json::value& detail, void* cus
 	}
 	
 	if (p_this->m_callback) {
-		p_this->m_callback(msg, detail, m_callback_arg);
+		p_this->m_callback(msg, detail, p_this->m_callback_arg);
 	}
 }
 

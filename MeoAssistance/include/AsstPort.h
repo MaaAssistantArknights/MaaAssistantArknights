@@ -22,3 +22,5 @@
 #else
 #define MEOAPI_PORT MEO_DLL_IMPORT
 #endif // MEO_DLL_EXPORTS
+
+#define MEO_STDCALL _stdcall

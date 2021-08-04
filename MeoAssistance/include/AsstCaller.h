@@ -8,8 +8,10 @@ extern "C" {
 namespace asst {
 	class Assistance;
 }
+typedef void (MEO_STDCALL *AsstCallback)(int msg, const char* detail_json, void* custom_arg);
 
 MEOAPI_PORT asst::Assistance* AsstCreate();
+MEOAPI_PORT asst::Assistance* AsstCreateEx(AsstCallback callback, void* custom_arg);
 MEOAPI_PORT void AsstDestory(asst::Assistance* p_asst);
 MEOAPI_PORT bool AsstCatchEmulator(asst::Assistance* p_asst);
 MEOAPI_PORT void AsstStart(asst::Assistance* p_asst, const char* task);

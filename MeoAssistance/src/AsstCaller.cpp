@@ -2,12 +2,27 @@
 #include "Updater.h"
 #include "AsstAux.h"
 #include "Assistance.h"
+#include "json_value.h"
 
 #include <string.h>
+
+AsstCallback _callback = nullptr;
+
+void CallbackTrans(asst::TaskMsg msg, const json::value& json, void* custom_arg)
+{
+	_callback(static_cast<int>(msg), json.to_string().c_str(), custom_arg);
+}
 
 asst::Assistance* AsstCreate()
 {
 	return new asst::Assistance();
+}
+
+MEOAPI_PORT asst::Assistance* AsstCreateEx(AsstCallback callback, void* custom_arg)
+{
+	// 创建多实例回调会有问题，有空再慢慢整
+	_callback = callback;
+	return new asst::Assistance(CallbackTrans, custom_arg);
 }
 
 void AsstDestory(asst::Assistance* p_asst)
