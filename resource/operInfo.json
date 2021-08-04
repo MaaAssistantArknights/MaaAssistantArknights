@@ -1244,5 +1244,78 @@
         ],
         "hidden": false,
         "name-en": "May"
+    },
+    {
+        "name": "煌",
+        "type": "近卫",
+        "level": 6,
+        "sex": "女",
+        "tags": [
+            "近战位",
+            "输出",
+            "生存",
+            "高级资深干员"
+        ],
+        "hidden": false,
+        "name-en": "Blaze",
+        "new": true
+    },
+    {
+        "name": "灰喉",
+        "type": "狙击",
+        "level": 5,
+        "sex": "女",
+        "tags": [
+            "远程位",
+            "输出",
+            "资深干员"
+        ],
+        "hidden": false,
+        "name-en": "GreyThroat",
+        "new": true
+    },
+    {
+        "name": "苇草",
+        "type": "先锋",
+        "level": 5,
+        "sex": "女",
+        "tags": [
+            "近战位",
+            "输出",
+            "费用回复",
+            "资深干员"
+        ],
+        "hidden": false,
+        "name-en": "Reed",
+        "new": true
+    },
+    {
+        "name": "布洛卡",
+        "type": "近卫",
+        "level": 5,
+        "sex": "男",
+        "tags": [
+            "近战位",
+            "群攻",
+            "生存",
+            "资深干员"
+        ],
+        "hidden": false,
+        "name-en": "Broca",
+        "new": true
+    },
+    {
+        "name": "安比尔",
+        "type": "狙击",
+        "level": 4,
+        "sex": "女",
+        "tags": [
+            "远程位",
+            "输出",
+            "减速"
+        ],
+        "hidden": false,
+        "name-en": "Ambriel",
+        "new": true
     }
 ]
