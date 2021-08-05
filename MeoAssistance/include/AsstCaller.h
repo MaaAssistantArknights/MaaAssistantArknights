@@ -8,7 +8,7 @@ extern "C" {
 namespace asst {
 	class Assistance;
 }
-typedef void (MEO_STDCALL *AsstCallback)(int msg, const char* detail_json, void* custom_arg);
+typedef void (MEO_CALL *AsstCallback)(int msg, const char* detail_json, void* custom_arg);
 
 MEOAPI_PORT asst::Assistance* AsstCreate();
 MEOAPI_PORT asst::Assistance* AsstCreateEx(AsstCallback callback, void* custom_arg);
