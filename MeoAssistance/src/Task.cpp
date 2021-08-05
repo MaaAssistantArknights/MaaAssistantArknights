@@ -482,7 +482,8 @@ bool OpenRecruitTask::run()
 		comb_json["tag_level"] = oper_comb.min_level;
 		result_json_vector.emplace_back(std::move(comb_json));
 	}
-	json::value results_json = json::array(std::move(result_json_vector));
+	json::value results_json;
+	results_json["result"] = json::array(std::move(result_json_vector));
 	m_callback(TaskMsg::RecruitResult, results_json, m_callback_arg);
 
 	/* 点击最优解的tags（添加点击任务） */
