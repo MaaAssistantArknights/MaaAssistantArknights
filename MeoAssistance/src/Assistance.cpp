@@ -237,14 +237,49 @@ void Assistance::task_callback(TaskMsg msg, const json::value& detail, void* cus
 	DebugTrace(msg, detail.to_string());
 
 	Assistance* p_this = (Assistance*)custom_arg;
+	json::value more_detail = detail;
 	switch (msg)
 	{
-	case TaskMsg::ReadyToSleep:
+	case TaskMsg::PtrIsNull:
+	case TaskMsg::ImageIsEmpty:
+		p_this->stop(false);
 		break;
-	case TaskMsg::EndOfSleep:
+	case TaskMsg::WindowMinimized:
+		p_this->m_window_ptr->showWindow();
 		break;
 	case TaskMsg::AppendMatchTask:
-	{
+		more_detail["type"] = "MatchTask";
+		[[fallthrough]];
+	case TaskMsg::AppendTask:
+		p_this->append_task(more_detail);
+		break;
+	default:
+		break;
+	}
+
+	if (p_this->m_callback) {
+		p_this->m_callback(msg, more_detail, p_this->m_callback_arg);
+	}
+}
+
+void asst::Assistance::append_match_task(const std::vector<std::string>& tasks)
+{
+	auto task_ptr = std::make_shared<MatchTask>(task_callback, (void*)this);
+	task_ptr->set_tasks(tasks);
+	m_tasks_queue.emplace(task_ptr);
+}
+
+void asst::Assistance::append_task(const json::value& detail)
+{
+	std::string task_type = detail.at("type").as_string();
+	if (task_type == "ClickTask") {
+		auto task_ptr = std::make_shared<ClickTask>(task_callback, (void*)this);
+		json::array rect_json = detail.at("rect").as_array();
+		Rect rect(rect_json[0].as_integer(), rect_json[1].as_integer(), rect_json[2].as_integer(), rect_json[3].as_integer());
+		task_ptr->set_rect(std::move(rect));
+		m_tasks_queue.emplace(task_ptr);
+	}
+	else if (task_type == "MatchTask") {
 		std::vector<std::string> next_vec;
 		if (detail.exist("tasks")) {
 			json::array next_arr = detail.at("tasks").as_array();
@@ -255,38 +290,9 @@ void Assistance::task_callback(TaskMsg msg, const json::value& detail, void* cus
 		else if (detail.exist("task")) {
 			next_vec.emplace_back(detail.at("task").as_string());
 		}
-		if (next_vec.size() == 1 && next_vec.at(0) == "Stop") {
-			break;
-		}
-		p_this->append_match_task(next_vec);
+		append_match_task(next_vec);
 	}
-	break;
-	case TaskMsg::AppendTask:
-	{
-		std::string task = detail.at("type").as_string();
-		if (task == "ClickTask") {
-			auto task_ptr = std::make_shared<ClickTask>(task_callback, custom_arg);
-			json::array rect_json = detail.at("rect").as_array();
-			Rect rect(rect_json[0].as_integer(), rect_json[1].as_integer(), rect_json[2].as_integer(), rect_json[3].as_integer());
-			task_ptr->set_rect(std::move(rect));
-			p_this->m_tasks_queue.emplace(task_ptr);
-		} // else if  // TODO
-	}
-	break;
-	default:
-		break;
-	}
-	
-	if (p_this->m_callback) {
-		p_this->m_callback(msg, detail, p_this->m_callback_arg);
-	}
-}
-
-void asst::Assistance::append_match_task(const std::vector<std::string>& tasks)
-{
-	auto task_ptr = std::make_shared<MatchTask>(task_callback, (void*)this);
-	task_ptr->set_tasks(tasks);
-	m_tasks_queue.emplace(task_ptr);
+	// else if  // TODO  
 }
 
 void Assistance::clear_exec_times()
