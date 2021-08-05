@@ -51,6 +51,7 @@ namespace asst {
 		static void task_callback(TaskMsg msg, const json::value& detail, void* custom_arg);
 
 		void append_match_task(const std::vector<std::string>& tasks);
+		void append_task(const json::value& detail);
 		void clear_exec_times();
 
 		std::shared_ptr<WinMacro> m_window_ptr = nullptr;

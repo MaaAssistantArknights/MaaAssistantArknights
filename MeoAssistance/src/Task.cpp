@@ -168,6 +168,7 @@ bool MatchTask::run()
 	// 前置固定延时
 	sleep(task.pre_delay);
 
+	bool need_stop = false;
 	switch (task.type) {
 	case MatchTaskType::ClickRect:
 		rect = task.specific_area;
@@ -179,6 +180,7 @@ bool MatchTask::run()
 		break;
 	case MatchTaskType::Stop:
 		m_callback(TaskMsg::MissionStop, json::value(), m_callback_arg);
+		need_stop = true;
 		break;
 	case MatchTaskType::PrintWindow:
 	{
@@ -198,6 +200,10 @@ bool MatchTask::run()
 	// 所以要给蓝色开始行动的次数减一
 	for (const std::string& reduce : task.reduce_other_times) {
 		--Configer::get_instance().m_all_tasks_info[reduce].exec_times;
+	}
+
+	if (need_stop) {
+		return true;
 	}
 
 	// 后置固定延时
