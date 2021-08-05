@@ -36,42 +36,13 @@ namespace asst {
 		PrintWindow =  0x800,			// 截图功能
 		OpenRecruit =  0x1000			// 公开招募功能
 	};
-	//static MatchTaskType operator&(const MatchTaskType& lhs, const MatchTaskType& rhs)
-	//{
-	//	return static_cast<MatchTaskType>(
-	//		static_cast<std::underlying_type<MatchTaskType>::type>(lhs) 
-	//		& static_cast<std::underlying_type<MatchTaskType>::type>(rhs));
-	//}
-	static std::ostream& operator<<(std::ostream& os, const MatchTaskType& task)
-	{
-		static std::unordered_map<MatchTaskType, std::string> _type_name = {
-			{MatchTaskType::Invalid, "Invalid"},
-			{MatchTaskType::BasicClick, "BasicClick"},
-			{MatchTaskType::ClickSelf, "ClickSelf"},
-			{MatchTaskType::ClickRect, "ClickRect"},
-			{MatchTaskType::ClickRand, "ClickRand"},
-			{MatchTaskType::DoNothing, "DoNothing"},
-			{MatchTaskType::Stop, "Stop"},
-			{MatchTaskType::PrintWindow, "PrintWindow"},
-			{MatchTaskType::OpenRecruit, "OpenRecruit"}
-		};
-		return os << _type_name.at(task);
-	}
 
 	enum class AlgorithmType {
 		JustReturn,
 		MatchTemplate,
-		CompareHist
+		CompareHist,
+		OcrDetect
 	};
-	static std::ostream& operator<<(std::ostream& os, const AlgorithmType& type)
-	{
-		static std::unordered_map<AlgorithmType, std::string> _type_name = {
-			{AlgorithmType::JustReturn, "JustReturn"},
-			{AlgorithmType::MatchTemplate, "MatchTemplate"},
-			{AlgorithmType::CompareHist, "CompareHist"}
-		};
-		return os << _type_name.at(type);
-	}
 
 	struct Point
 	{

@@ -6,8 +6,9 @@
 #include "Logger.hpp"
 #include "AsstAux.h"
 #include "Task.h"
-#include "json.h"
+#include "OpenRecruitConfiger.h"
 
+#include <json.h>
 #include <opencv2/opencv.hpp>
 
 #include <time.h>

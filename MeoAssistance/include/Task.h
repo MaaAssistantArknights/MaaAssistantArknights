@@ -6,7 +6,6 @@
 #include <optional>
 #include <functional>
 #include <unordered_map>
-#include <ostream>
 
 #include "AsstDef.h"
 #include "AsstAux.h"
@@ -40,6 +39,7 @@ namespace asst {
 		ImageIsEmpty,
 		WindowMinimized,
 		/* Info Msg */
+		ImageMatched,
 		TaskMatched,
 		ReachedLimit,
 		ReadyToSleep,
@@ -62,6 +62,7 @@ namespace asst {
 			{TaskMsg::PtrIsNull, "PtrIsNull"},
 			{TaskMsg::ImageIsEmpty, "ImageIsEmpty"},
 			{TaskMsg::WindowMinimized, "WindowMinimized"},
+			{TaskMsg::ImageMatched, "ImageMatched"},
 			{TaskMsg::TaskMatched, "TaskMatched"},
 			{TaskMsg::ReachedLimit, "ReachedLimit"},
 			{TaskMsg::ReadyToSleep, "ReadyToSleep"},
