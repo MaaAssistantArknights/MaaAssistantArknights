@@ -35,6 +35,7 @@ Assistance::Assistance(TaskCallback callback, void* callback_arg)
 	m_identify_ptr->ocr_init_models(GetResourceDir() + "OcrLiteNcnn\\models\\");
 
 	m_working_thread = std::thread(working_proc, this);
+	m_msg_thread = std::thread(msg_proc, this);
 }
 
 Assistance::~Assistance()
@@ -48,9 +49,13 @@ Assistance::~Assistance()
 	m_thread_exit = true;
 	m_thread_idle = true;
 	m_condvar.notify_all();
+	m_msg_condvar.notify_all();
 
 	if (m_working_thread.joinable()) {
 		m_working_thread.join();
+	}
+	if (m_msg_thread.joinable()) {
+		m_msg_thread.join();
 	}
 }
 
@@ -184,23 +189,24 @@ std::optional<std::string> Assistance::get_param(const std::string& type, const 
 	return Configer::get_instance().get_param(type, param);
 }
 
-void Assistance::working_proc(Assistance* pThis)
+void Assistance::working_proc(Assistance* p_this)
 {
 	DebugTraceFunction;
 
 	int retry_times = 0;
-	while (!pThis->m_thread_exit) {
-		std::unique_lock<std::mutex> lock(pThis->m_mutex);
-		if (!pThis->m_thread_idle && !pThis->m_tasks_queue.empty()) {
+	while (!p_this->m_thread_exit) {
+		DebugTraceScope("Assistance::working_proc Loop");
+		std::unique_lock<std::mutex> lock(p_this->m_mutex);
+		if (!p_this->m_thread_idle && !p_this->m_tasks_queue.empty()) {
 
 			auto start_time = std::chrono::system_clock::now();
-			std::shared_ptr<AbstractTask> task_ptr = pThis->m_tasks_queue.front();
-			task_ptr->set_ptr(pThis->m_window_ptr, pThis->m_view_ptr, pThis->m_control_ptr, pThis->m_identify_ptr);
-			task_ptr->set_exit_flag(&pThis->m_thread_idle);
+			std::shared_ptr<AbstractTask> task_ptr = p_this->m_tasks_queue.front();
+			task_ptr->set_ptr(p_this->m_window_ptr, p_this->m_view_ptr, p_this->m_control_ptr, p_this->m_identify_ptr);
+			task_ptr->set_exit_flag(&p_this->m_thread_idle);
 			bool ret = task_ptr->run();
 			if (ret) {
 				retry_times = 0;
-				pThis->m_tasks_queue.pop();
+				p_this->m_tasks_queue.pop();
 			}
 			else // 失败了不pop，一直跑。 Todo: 设一个上限
 			{
@@ -210,8 +216,8 @@ void Assistance::working_proc(Assistance* pThis)
 			// 如果下个任务是识别，就按识别的延时来；如果下个任务是点击，就按点击的延时来；……
 			// 如果都符合，就取个最大值
 			int delay = 0;
-			if (!pThis->m_tasks_queue.empty()) {
-				int next_type = pThis->m_tasks_queue.front()->get_task_type();
+			if (!p_this->m_tasks_queue.empty()) {
+				int next_type = p_this->m_tasks_queue.front()->get_task_type();
 				std::vector<int> candidate_delay = { 0 };
 				if (next_type & TaskType::TaskTypeClick) {
 					candidate_delay.emplace_back(Configer::get_instance().m_options.task_control_delay);
@@ -221,21 +227,45 @@ void Assistance::working_proc(Assistance* pThis)
 				}
 				delay = *std::max_element(candidate_delay.cbegin(), candidate_delay.cend());
 			}
-			pThis->m_condvar.wait_until(lock,
+			p_this->m_condvar.wait_until(lock,
 				start_time + std::chrono::milliseconds(delay),
-				[&]() -> bool { return pThis->m_thread_idle; });
+				[&]() -> bool { return p_this->m_thread_idle; });
 		}
 		else {
-			pThis->m_thread_idle = true;
-			pThis->m_condvar.wait(lock);
+			p_this->m_thread_idle = true;
+			p_this->m_condvar.wait(lock);
+		}
+	}
+}
+
+void Assistance::msg_proc(Assistance* p_this)
+{
+	DebugTraceFunction;
+
+	while (!p_this->m_thread_exit) {
+		DebugTraceScope("Assistance::msg_proc Loop");
+		std::unique_lock<std::mutex> lock(p_this->m_msg_mutex);
+		if (!p_this->m_msg_queue.empty()) {
+			// 结构化绑定只能是引用，后续的pop会使引用失效，所以需要重新构造一份，这里采用了move的方式
+			auto && [temp_msg, temp_detail] = p_this->m_msg_queue.front();
+			TaskMsg msg = std::move(temp_msg);
+			json::value detail = std::move(temp_detail);
+			p_this->m_msg_queue.pop();
+			lock.unlock();
+
+			if (p_this->m_callback) {
+				p_this->m_callback(msg, detail, p_this->m_callback_arg);
+			}
+		}
+		else {
+			p_this->m_msg_condvar.wait(lock);
 		}
 	}
 }
 
 void Assistance::task_callback(TaskMsg msg, const json::value& detail, void* custom_arg)
 {
-	DebugTraceFunction;
-	DebugTrace(msg, detail.to_string());
+	DebugTrace("Assistance::task_callback |", msg, detail.to_string());
 
 	Assistance* p_this = (Assistance*)custom_arg;
 	json::value more_detail = detail;
@@ -259,7 +289,9 @@ void Assistance::task_callback(TaskMsg msg, const json::value& detail, void* cus
 	}
 
 	if (p_this->m_callback) {
-		p_this->m_callback(msg, more_detail, p_this->m_callback_arg);
+		std::unique_lock<std::mutex> lock(p_this->m_msg_mutex);
+		p_this->m_msg_queue.emplace(msg, std::move(more_detail));
+		p_this->m_msg_condvar.notify_one();
 	}
 }
 

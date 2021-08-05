@@ -42,7 +42,8 @@ namespace asst {
 		std::optional<std::string> get_param(const std::string& type, const std::string& param);
 
 	private:
-		static void working_proc(Assistance* pThis);
+		static void working_proc(Assistance* p_this);
+		static void msg_proc(Assistance* p_this);
 		static void task_callback(TaskMsg msg, const json::value& detail, void* custom_arg);
 
 		void append_match_task(const std::vector<std::string>& tasks);
@@ -55,15 +56,22 @@ namespace asst {
 		std::shared_ptr<Identify> m_identify_ptr = nullptr;
 		bool m_inited = false;
 
+		bool m_thread_exit = false;
+		std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;
+		TaskCallback m_callback = nullptr;
+		void* m_callback_arg = nullptr;
+
+		bool m_thread_idle = true;
 		std::thread m_working_thread;
 		std::mutex m_mutex;
 		std::condition_variable m_condvar;
-		bool m_thread_exit = false;
-		bool m_thread_idle = true;
-		std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;
 
-		TaskCallback m_callback = nullptr;
-		void* m_callback_arg = nullptr;
+		std::thread m_msg_thread;
+		std::queue<std::pair<TaskMsg, json::value>> m_msg_queue;
+		std::mutex m_msg_mutex;
+		std::condition_variable m_msg_condvar;
+
+
 	};
 
 }

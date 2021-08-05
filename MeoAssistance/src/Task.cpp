@@ -140,6 +140,8 @@ bool MatchTask::run()
 		return false;
 	}
 
+	m_callback(TaskMsg::TaskStart, json::value(), m_callback_arg);
+
 	Rect rect;
 	auto&& ret = match_image(&rect);
 	if (!ret) {
@@ -179,7 +181,7 @@ bool MatchTask::run()
 	case MatchTaskType::DoNothing:
 		break;
 	case MatchTaskType::Stop:
-		m_callback(TaskMsg::MissionStop, json::value(), m_callback_arg);
+		m_callback(TaskMsg::TaskStop, json::value(), m_callback_arg);
 		need_stop = true;
 		break;
 	case MatchTaskType::PrintWindow:
@@ -206,11 +208,11 @@ bool MatchTask::run()
 		return true;
 	}
 
-	// 后置固定延时
-	sleep(task.rear_delay);
-
 	callback_json["exec_times"] = task.exec_times;
 	m_callback(TaskMsg::TaskCompleted, callback_json, m_callback_arg);
+
+	// 后置固定延时
+	sleep(task.rear_delay);
 
 	json::value next_json = callback_json;
 	next_json["tasks"] = json::array(task.next);
@@ -313,6 +315,8 @@ bool OpenRecruitTask::run()
 		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
+
+	m_callback(TaskMsg::TaskStart, json::value(), m_callback_arg);
 
 	/* Find all text */
 	std::vector<TextArea> all_text_area = ocr_detect();
@@ -515,6 +519,8 @@ bool ClickTask::run()
 		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
+	m_callback(TaskMsg::TaskStart, json::value(), m_callback_arg);
+
 	m_control_ptr->click(m_rect);
 	return true;
 }

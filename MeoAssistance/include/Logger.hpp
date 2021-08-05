@@ -111,3 +111,4 @@ namespace asst {
 #define DebugTraceInfo		Logger::get_instance().log_info
 #define DebugTraceError		Logger::get_instance().log_error
 #define DebugTraceFunction	LoggerAux _func_aux(__FUNCTION__)
+#define DebugTraceScope		LoggerAux _func_aux

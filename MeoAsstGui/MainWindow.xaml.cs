@@ -14,6 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
+using System.Threading;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MeoAsstGui
 {
@@ -35,20 +38,81 @@ namespace MeoAsstGui
             IntPtr p_asst, string type, string param,
             [In, Out] StringBuilder lp_string, int buffer_size);
 
-
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
+        private delegate void ProcCallbckMsg(TaskMsg msg, JObject detail);
+
         private static CallbackDelegate callback;
 
         private IntPtr p_asst;
         private UpdateDialog updateDialog;
         private RecruitWindow recuitWindow;
-        private DispatcherTimer update_times = new DispatcherTimer();
 
+        public enum TaskMsg
+        {
+            /* Error Msg */
+            PtrIsNull,
+            ImageIsEmpty,
+            WindowMinimized,
+            /* Info Msg */
+            TaskStart,
+            ImageMatched,
+            TaskMatched,
+            ReachedLimit,
+            ReadyToSleep,
+            EndOfSleep,
+            AppendMatchTask,
+            TaskCompleted,
+            PrintWindow,
+            TaskStop,
+            /* Open Recruit Msg */
+            TextDetected,
+            RecruitTagsDetected,
+            OcrResultError,
+            RecruitSpecialTag,
+            RecruitResult,
+            AppendTask
+        };
 
         private void CallbackFunction(int msg, IntPtr json_buffer, IntPtr custom_arg)
         {
             string json_str = Marshal.PtrToStringAnsi(json_buffer);
-            Console.WriteLine(json_str);
+            //Console.WriteLine(json_str);
+            JObject json = (JObject)JsonConvert.DeserializeObject(json_str);
+            ProcCallbckMsg dlg = new ProcCallbckMsg(updateGui);
+            this.Dispatcher.Invoke(dlg, msg, json);
+        }
+        private void updateGui(TaskMsg msg, JObject detail)
+        {
+            switch (msg)
+            {
+                case TaskMsg.TaskCompleted:
+                    string task_name = detail["name"].ToString();
+                    if (task_name == "StartButton2")
+                    {
+                        exec_times.Content = "已开始行动 " + (int)detail["exec_times"] + " 次";
+                    }
+                    else if (task_name == "StoneConfirm")
+                    {
+                        stone_times.Content = "已碎石 " + (int)detail["exec_times"] + " 个";
+                    }
+                    break;
+                case TaskMsg.TaskStart:
+                    label_status.Content = "正在运行中……";
+                    break;
+                case TaskMsg.TaskStop:
+                    label_status.Content = "已刷完，自动停止";
+                    if (checkBox_shutdown.IsChecked == true)
+                    {
+                        System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
+
+                        MessageBoxResult result = MessageBox.Show("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK);
+                        if (result == MessageBoxResult.OK)
+                        {
+                            System.Diagnostics.Process.Start("shutdown.exe", "-a");
+                        }
+                    }
+                    break;
+            }
         }
         public MainWindow()
         {
@@ -63,8 +127,8 @@ namespace MeoAsstGui
         {
             callback = CallbackFunction;
             p_asst = AsstCreateEx(callback, IntPtr.Zero);
-            update_times.Tick += new EventHandler(updateExecTimes);
-            update_times.Interval = TimeSpan.FromSeconds(1);
+            //update_times.Tick += new EventHandler(updateExecTimes);
+            //update_times.Interval = TimeSpan.FromSeconds(1);
 
             // for debug
             //updateDialog = new UpdateDialog();
@@ -76,14 +140,12 @@ namespace MeoAsstGui
             bool catched = AsstCatchEmulator(p_asst);
             catch_status.Content = "捕获模拟器窗口：" + catched;
             AsstStart(p_asst, "SanityBegin");
-            update_times.Start();
         }
 
         private void button_Click_stop(object sender, RoutedEventArgs e)
         {
             AsstStop(p_asst);
             catch_status.Content = "";
-            update_times.Stop();
             exec_times.Content = "";
             stone_times.Content = "";
             label_status.Content = "";
@@ -130,43 +192,6 @@ namespace MeoAsstGui
             bool catched = AsstCatchEmulator(p_asst);
             catch_status.Content = "捕获模拟器窗口：" + catched;
             AsstStart(p_asst, "VisitBegin");
-        }
-
-        private void updateExecTimes(object sender, EventArgs e)
-        {
-            StringBuilder buff_start = new StringBuilder(16);
-            AsstGetParam(p_asst, "task.execTimes", "StartButton2", buff_start, 16);
-            exec_times.Content = "已开始行动 " + buff_start + " 次";
-
-            if (checkBox_useStone.IsChecked == true)
-            {
-                StringBuilder buff_stone = new StringBuilder(16);
-                AsstGetParam(p_asst, "task.execTimes", "StoneConfirm", buff_stone, 16);
-                stone_times.Content = "已碎石 " + buff_stone + " 个";
-            }
-
-
-            StringBuilder buff_running = new StringBuilder(4);
-            AsstGetParam(p_asst, "status", "running", buff_running, 4);
-            if (int.Parse(buff_running.ToString()) == 0)
-            {
-                update_times.Stop();
-                label_status.Content = "已刷完，自动停止";
-                if (checkBox_shutdown.IsChecked == true)
-                {
-                    System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
-
-                    MessageBoxResult result = MessageBox.Show("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK);
-                    if (result == MessageBoxResult.OK)
-                    {
-                        System.Diagnostics.Process.Start("shutdown.exe", "-a");
-                    }
-                }
-            }
-            else
-            {
-                label_status.Content = "正在运行中……";
-            }
         }
 
         private void checkBox_maxTimes_Checked(object sender, RoutedEventArgs e)

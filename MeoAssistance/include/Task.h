@@ -10,6 +10,8 @@
 #include "AsstDef.h"
 #include "AsstAux.h"
 
+#include <json.h>
+
 namespace cv
 {
 	class Mat;
@@ -39,6 +41,7 @@ namespace asst {
 		ImageIsEmpty,
 		WindowMinimized,
 		/* Info Msg */
+		TaskStart,
 		ImageMatched,
 		TaskMatched,
 		ReachedLimit,
@@ -47,7 +50,7 @@ namespace asst {
 		AppendMatchTask,
 		TaskCompleted,
 		PrintWindow,
-		MissionStop,
+		TaskStop,
 		/* Open Recruit Msg */
 		TextDetected,
 		RecruitTagsDetected,
@@ -62,6 +65,7 @@ namespace asst {
 			{TaskMsg::PtrIsNull, "PtrIsNull"},
 			{TaskMsg::ImageIsEmpty, "ImageIsEmpty"},
 			{TaskMsg::WindowMinimized, "WindowMinimized"},
+			{TaskMsg::TaskStart, "TaskStart"},
 			{TaskMsg::ImageMatched, "ImageMatched"},
 			{TaskMsg::TaskMatched, "TaskMatched"},
 			{TaskMsg::ReachedLimit, "ReachedLimit"},
@@ -70,7 +74,7 @@ namespace asst {
 			{TaskMsg::AppendMatchTask, "AppendMatchTask"},
 			{TaskMsg::TaskCompleted, "TaskCompleted"},
 			{TaskMsg::PrintWindow, "PrintWindow"},
-			{TaskMsg::MissionStop, "MissionStop"},
+			{TaskMsg::TaskStop, "TaskStop"},
 			{TaskMsg::TextDetected, "TextDetected"},
 			{TaskMsg::RecruitTagsDetected, "RecruitTagsDetected"},
 			{TaskMsg::OcrResultError, "OcrResultError"},
