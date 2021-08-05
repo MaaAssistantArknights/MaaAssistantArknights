@@ -33,10 +33,6 @@ namespace MeoAsstGui
         [DllImport("MeoAssistance.dll")] static private extern void AsstStart(IntPtr ptr, string task);
         [DllImport("MeoAssistance.dll")] static private extern void AsstStop(IntPtr ptr);
         [DllImport("MeoAssistance.dll")] static private extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
-        [DllImport("MeoAssistance.dll")]
-        static private extern bool AsstGetParam(
-            IntPtr p_asst, string type, string param,
-            [In, Out] StringBuilder lp_string, int buffer_size);
 
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
         private delegate void ProcCallbckMsg(TaskMsg msg, JObject detail);
@@ -44,6 +40,7 @@ namespace MeoAsstGui
         private static CallbackDelegate callback;
 
         private IntPtr p_asst;
+        private RecruitWindow recruitWindow;
 
         public enum TaskMsg
         {
@@ -59,6 +56,7 @@ namespace MeoAsstGui
             ReadyToSleep,
             EndOfSleep,
             AppendMatchTask,
+            AppendTask,
             TaskCompleted,
             PrintWindow,
             TaskStop,
@@ -67,8 +65,7 @@ namespace MeoAsstGui
             RecruitTagsDetected,
             OcrResultError,
             RecruitSpecialTag,
-            RecruitResult,
-            AppendTask
+            RecruitResult
         };
 
         private void CallbackFunction(int msg, IntPtr json_buffer, IntPtr custom_arg)
@@ -76,10 +73,10 @@ namespace MeoAsstGui
             string json_str = Marshal.PtrToStringAnsi(json_buffer);
             //Console.WriteLine(json_str);
             JObject json = (JObject)JsonConvert.DeserializeObject(json_str);
-            ProcCallbckMsg dlg = new ProcCallbckMsg(updateGui);
+            ProcCallbckMsg dlg = new ProcCallbckMsg(proc_msg);
             this.Dispatcher.Invoke(dlg, msg, json);
         }
-        private void updateGui(TaskMsg msg, JObject detail)
+        private void proc_msg(TaskMsg msg, JObject detail)
         {
             switch (msg)
             {
@@ -109,6 +106,13 @@ namespace MeoAsstGui
                             System.Diagnostics.Process.Start("shutdown.exe", "-a");
                         }
                     }
+                    break;
+                case TaskMsg.TextDetected:
+                case TaskMsg.RecruitTagsDetected:
+                case TaskMsg.OcrResultError:
+                case TaskMsg.RecruitSpecialTag:
+                case TaskMsg.RecruitResult:
+                    recruitWindow.proc_msg(msg, detail);
                     break;
             }
         }
@@ -219,8 +223,8 @@ namespace MeoAsstGui
 
         private void button_recruit_Click(object sender, RoutedEventArgs e)
         {
-            RecruitWindow recuitWindow = new RecruitWindow(p_asst);
-            recuitWindow.Show();
+            recruitWindow = new RecruitWindow(p_asst);
+            recruitWindow.Show();
         }
     }
 }

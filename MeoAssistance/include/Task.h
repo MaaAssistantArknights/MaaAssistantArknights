@@ -48,6 +48,7 @@ namespace asst {
 		ReadyToSleep,
 		EndOfSleep,
 		AppendMatchTask,
+		AppendTask,
 		TaskCompleted,
 		PrintWindow,
 		TaskStop,
@@ -56,8 +57,7 @@ namespace asst {
 		RecruitTagsDetected,
 		OcrResultError,
 		RecruitSpecialTag,
-		RecruitResult,
-		AppendTask
+		RecruitResult
 	};
 	static std::ostream& operator<<(std::ostream& os, const TaskMsg& type)
 	{
