@@ -4,7 +4,7 @@
 #include "Identify.h"
 #include "Configer.h"
 #include "OpenRecruitConfiger.h"
-#include "json.h"
+#include <json.h>
 #include "AsstAux.h"
 
 #include <chrono>
@@ -236,15 +236,32 @@ std::optional<std::string> MatchTask::match_image(Rect* matched_rect)
 
 		auto&& [algorithm, value, rect] = m_identify_ptr->find_image(cur_image, task_name, templ_threshold);
 
-		if (algorithm == AlgorithmType::JustReturn
-			|| (algorithm == AlgorithmType::MatchTemplate && value >= templ_threshold)
-			|| (algorithm == AlgorithmType::CompareHist && value >= hist_threshold)) {
-
-			if (matched_rect != NULL) {
-				*matched_rect = std::move(rect);
-			}
-			return task_name;
+		json::value callback_json;
+		if (algorithm == AlgorithmType::JustReturn) {
+			callback_json["threshold"] = 0.0;
+			callback_json["algorithm"] = "JustReturn";
 		}
+		else if (algorithm == AlgorithmType::MatchTemplate && value >= templ_threshold) {
+			callback_json["threshold"] = templ_threshold;
+			callback_json["algorithm"] = "MatchTemplate";
+		}
+		else if (algorithm == AlgorithmType::CompareHist && value >= hist_threshold) {
+			callback_json["threshold"] = hist_threshold;
+			callback_json["algorithm"] = "CompareHist";
+		}
+		else {
+			continue;
+		}
+
+		if (matched_rect != NULL) {
+			callback_json["rect"] = json::array({rect.x, rect.y, rect.width, rect.height});
+			*matched_rect = std::move(rect);
+		}
+		callback_json["algorithm_id"] = static_cast<std::underlying_type<MatchTaskType>::type>(algorithm);
+		callback_json["value"] = value;
+		m_callback(TaskMsg::ImageMatched, callback_json, m_callback_arg);
+
+		return task_name;
 	}
 	return std::nullopt;
 }

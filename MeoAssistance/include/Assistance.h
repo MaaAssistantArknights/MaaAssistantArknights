@@ -8,10 +8,7 @@
 #include <unordered_map>
 #include <queue>
 
-#include "AsstPort.h"
 #include "AsstDef.h"
-#include "Configer.h"
-#include "OpenRecruitConfiger.h"
 #include "Task.h"
 
 namespace cv {
@@ -21,8 +18,6 @@ namespace cv {
 namespace asst {
 	class WinMacro;
 	class Identify;
-	class AbstractTask;
-	enum class TaskMsg;
 
 	class Assistance
 	{
