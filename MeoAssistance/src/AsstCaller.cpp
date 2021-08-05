@@ -6,6 +6,29 @@
 
 #include <string.h>
 
+#if 0
+#if _MSC_VER
+// Win32平台下Dll的入口
+BOOL APIENTRY DllMain(HANDLE hModule,
+	DWORD  ul_reason_for_call,
+	LPVOID lpReserved
+) {
+	UNREFERENCED_PARAMETER(hModule);
+	UNREFERENCED_PARAMETER(lpReserved);
+	switch (ul_reason_for_call) {
+	case DLL_PROCESS_ATTACH:
+	case DLL_THREAD_ATTACH:
+	case DLL_THREAD_DETACH:
+	case DLL_PROCESS_DETACH:
+		break;
+	}
+	return TRUE;
+}
+#elif VA_GNUC
+
+#endif
+#endif
+
 AsstCallback _callback = nullptr;
 
 void CallbackTrans(asst::TaskMsg msg, const json::value& json, void* custom_arg)
