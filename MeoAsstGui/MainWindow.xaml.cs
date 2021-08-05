@@ -44,8 +44,6 @@ namespace MeoAsstGui
         private static CallbackDelegate callback;
 
         private IntPtr p_asst;
-        private UpdateDialog updateDialog;
-        private RecruitWindow recuitWindow;
 
         public enum TaskMsg
         {
@@ -130,11 +128,14 @@ namespace MeoAsstGui
             //update_times.Tick += new EventHandler(updateExecTimes);
             //update_times.Interval = TimeSpan.FromSeconds(1);
 
-            // for debug
-            //updateDialog = new UpdateDialog();
-            //updateDialog.CheckUpdateAndShowDialog();
-            //updateDialog.Close();
+            Dispatcher.BeginInvoke(new Action(delegate
+            {
+                UpdateDialog updateDialog = new UpdateDialog();
+                updateDialog.CheckUpdateAndShowDialog();
+                updateDialog.Close();
+            }));
         }
+
         private void button_Click_startSanity(object sender, RoutedEventArgs e)
         {
             bool catched = AsstCatchEmulator(p_asst);
@@ -218,9 +219,8 @@ namespace MeoAsstGui
 
         private void button_recruit_Click(object sender, RoutedEventArgs e)
         {
-            recuitWindow = new RecruitWindow(p_asst);
-            recuitWindow.ShowDialog();
-            recuitWindow.Close();
+            RecruitWindow recuitWindow = new RecruitWindow(p_asst);
+            recuitWindow.Show();
         }
     }
 }
