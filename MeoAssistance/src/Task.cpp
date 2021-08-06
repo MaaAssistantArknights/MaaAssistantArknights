@@ -139,8 +139,7 @@ bool MatchTask::run()
 		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
-
-	m_callback(TaskMsg::TaskStart, json::value(), m_callback_arg);
+	m_callback(TaskMsg::TaskStart, json::object{ { "task_type",  "MatchTask" } }, m_callback_arg);
 
 	Rect rect;
 	auto&& ret = match_image(&rect);
@@ -153,7 +152,8 @@ bool MatchTask::run()
 		{ "name", task.name },
 		{ "type", static_cast<int>(task.type) },
 		{ "exec_times", task.exec_times },
-		{ "max_times", task.max_times }
+		{ "max_times", task.max_times },
+		{ "task_type", "MatchTask"}
 	};
 	m_callback(TaskMsg::TaskMatched, callback_json, m_callback_arg);
 
@@ -256,7 +256,7 @@ std::optional<std::string> MatchTask::match_image(Rect* matched_rect)
 		}
 
 		if (matched_rect != NULL) {
-			callback_json["rect"] = json::array({rect.x, rect.y, rect.width, rect.height});
+			callback_json["rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
 			*matched_rect = std::move(rect);
 		}
 		callback_json["algorithm_id"] = static_cast<std::underlying_type<MatchTaskType>::type>(algorithm);
@@ -316,7 +316,7 @@ bool OpenRecruitTask::run()
 		return false;
 	}
 
-	m_callback(TaskMsg::TaskStart, json::value(), m_callback_arg);
+	m_callback(TaskMsg::TaskStart, json::object{ { "task_type",  "OpenRecruitTask" } }, m_callback_arg);
 
 	/* Find all text */
 	std::vector<TextArea> all_text_area = ocr_detect();
@@ -520,7 +520,7 @@ bool ClickTask::run()
 		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
-	m_callback(TaskMsg::TaskStart, json::value(), m_callback_arg);
+	m_callback(TaskMsg::TaskStart, json::object{ { "task_type",  "ClickTask" } }, m_callback_arg);
 
 	m_control_ptr->click(m_rect);
 	return true;
