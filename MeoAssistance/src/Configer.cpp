@@ -79,15 +79,6 @@ bool Configer::set_param(const std::string& type, const std::string& param, cons
 	return true;
 }
 
-std::optional<std::string> Configer::get_param(const std::string& type, const std::string& param)
-{
-	// 暂时只用到了这些，总的参数太多了，后面要用啥再加上
-	if (type == "task.execTimes" && m_all_tasks_info.find(param) != m_all_tasks_info.cend()) {
-		return std::to_string(m_all_tasks_info.at(param).exec_times);
-	}
-	return std::nullopt;
-}
-
 bool asst::Configer::_load(const std::string& filename)
 {
 	std::ifstream ifs(filename, std::ios::in);

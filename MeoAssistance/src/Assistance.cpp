@@ -174,21 +174,6 @@ bool Assistance::set_param(const std::string& type, const std::string& param, co
 	return Configer::get_instance().set_param(type, param, value);
 }
 
-std::optional<std::string> Assistance::get_param(const std::string& type, const std::string& param)
-{
-	// DebugTraceFunction;
-	if (type == "status") {
-		if (param == "running") {
-			return std::to_string(!m_thread_idle);
-		}
-		else {
-			return std::nullopt;
-		}
-	}
-
-	return Configer::get_instance().get_param(type, param);
-}
-
 void Assistance::working_proc(Assistance* p_this)
 {
 	DebugTraceFunction;

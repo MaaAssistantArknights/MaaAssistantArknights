@@ -99,19 +99,6 @@ bool AsstSetParam(asst::Assistance* p_asst, const char* type, const char* param,
 	return p_asst->set_param(type, param, value);
 }
 
-bool AsstGetParam(asst::Assistance* p_asst, const char* type, const char* param, char* buffer, int buffer_size)
-{
-	if (p_asst == NULL) {
-		return false;
-	}
-	auto&& ret = p_asst->get_param(type, param);
-	if (!ret) {
-		return false;
-	}
-	strcpy_s(buffer, buffer_size, ret.value().c_str());
-	return true;
-}
-
 bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], bool set_time)
 {
 	if (p_asst == NULL) {
