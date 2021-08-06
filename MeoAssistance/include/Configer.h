@@ -21,7 +21,6 @@ namespace asst {
 		bool load(const std::string& filename);
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
-		std::optional<std::string> get_param(const std::string& type, const std::string& param);
 
 		Configer& operator=(const Configer& rhs) = default;
 		Configer& operator=(Configer&& rhs) noexcept = default;
