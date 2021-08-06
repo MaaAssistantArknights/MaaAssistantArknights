@@ -6,11 +6,10 @@
 #include <memory>
 #include <optional>
 #include <unordered_map>
+#include <queue>
 
-#include "AsstPort.h"
 #include "AsstDef.h"
-#include "Configer.h"
-#include "RecruitConfiger.h"
+#include "Task.h"
 
 namespace cv {
 	class Mat;
@@ -20,54 +19,58 @@ namespace asst {
 	class WinMacro;
 	class Identify;
 
-	class MEOAPI_PORT Assistance
+	class Assistance
 	{
 	public:
-		Assistance();
+		Assistance(TaskCallback callback = nullptr, void * callback_arg = nullptr);
 		~Assistance();
 
 		std::optional<std::string> catch_emulator(const std::string& emulator_name = std::string());
 
-		void start(const std::string& task);
+		// 开始刷理智
+		void start_sanity();
+		// 开始访问基建
+		void start_visit();
+		// 开始公开招募操作
+		void start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
+		// 开始匹配任务，调试用
+		void start_match_task(const std::string& task, bool block = true);
+
 		void stop(bool block = true);
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
-		std::optional<std::string> get_param(const std::string& type, const std::string& param);
 
-		bool print_window(const std::string& filename, bool block = true);
-
-		// 计算公开招募，需要当前处在选择公招Tag的页面
-		// 参数：
-		// required_level：需要的等级，最优组合的最低等级，在required_level中，才会进行点击
-		// set_time：是否自动设置时间（9小时）
-		// 返回值：
-		// std::vector< std::pair < Tags名vector，这个Tags组合可能出的干员组合 > >
-		std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>> 
-			open_recruit(const std::vector<int>& required_level, bool set_time = true);
 	private:
-		static void working_proc(Assistance* pThis);
+		static void working_proc(Assistance* p_this);
+		static void msg_proc(Assistance* p_this);
+		static void task_callback(TaskMsg msg, const json::value& detail, void* custom_arg);
 
-		cv::Mat get_format_image();
-		void set_control_scale(int cur_width, int cur_height);
+		void append_match_task(const std::vector<std::string>& tasks);
+		void append_task(const json::value& detail);
+		void clear_exec_times();
 
-		// for debug
-		bool find_text_and_click(const std::string& text, bool block = true);
-
-		std::shared_ptr<WinMacro> m_pWindow = nullptr;
-		std::shared_ptr<WinMacro> m_pView = nullptr;
-		std::shared_ptr<WinMacro> m_pCtrl = nullptr;
-		std::shared_ptr<Identify> m_pIder = nullptr;
+		std::shared_ptr<WinMacro> m_window_ptr = nullptr;
+		std::shared_ptr<WinMacro> m_view_ptr = nullptr;
+		std::shared_ptr<WinMacro> m_control_ptr = nullptr;
+		std::shared_ptr<Identify> m_identify_ptr = nullptr;
 		bool m_inited = false;
 
+		bool m_thread_exit = false;
+		std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;
+		TaskCallback m_callback = nullptr;
+		void* m_callback_arg = nullptr;
+
+		bool m_thread_idle = true;
 		std::thread m_working_thread;
 		std::mutex m_mutex;
 		std::condition_variable m_condvar;
-		bool m_thread_exit = false;
-		bool m_thread_running = false;
-		std::vector<std::string> m_next_tasks;
 
-		Configer m_configer;
-		RecruitConfiger m_recruit_configer;
+		std::thread m_msg_thread;
+		std::queue<std::pair<TaskMsg, json::value>> m_msg_queue;
+		std::mutex m_msg_mutex;
+		std::condition_variable m_msg_condvar;
+
+
 	};
 
 }

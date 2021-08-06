@@ -27,7 +27,8 @@
     <ClInclude Include="include\Configer.h" />
     <ClInclude Include="include\Identify.h" />
     <ClInclude Include="include\Logger.hpp" />
-    <ClInclude Include="include\RecruitConfiger.h" />
+    <ClInclude Include="include\OpenRecruitConfiger.h" />
+    <ClInclude Include="include\Task.h" />
     <ClInclude Include="include\Updater.h" />
     <ClInclude Include="include\Version.h" />
     <ClInclude Include="include\WinMacro.h" />
@@ -37,7 +38,8 @@
     <ClCompile Include="src\AsstCaller.cpp" />
     <ClCompile Include="src\Configer.cpp" />
     <ClCompile Include="src\Identify.cpp" />
-    <ClCompile Include="src\RecruitConfiger.cpp" />
+    <ClCompile Include="src\OpenRecruitConfiger.cpp" />
+    <ClCompile Include="src\Task.cpp" />
     <ClCompile Include="src\Updater.cpp" />
     <ClCompile Include="src\WinMacro.cpp" />
   </ItemGroup>
@@ -112,7 +114,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(SolutionDir)3rdPart\include;$(SolutionDir)3rdPart\include\meojson;$(SolutionDir)\3rdPart\include\opencv;$(SolutionDir)\3rdPart\include\opencv2;$(SolutionDir)3drPart\include\OcrLiteNcnn;;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(SolutionDir)3rdPart\include;$(SolutionDir)3rdPart\include\meojson;$(SolutionDir)3rdPart\include\opencv;$(SolutionDir)3rdPart\include\opencv2;$(SolutionDir)3drPart\include\OcrLiteNcnn;$(IncludePath)</IncludePath>
     <LibraryPath>$(TargetDir);$(Solution)\3rdPart\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,12 +155,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;MEO_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;CSHARP_API;MEO_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -190,15 +192,18 @@ xcopy /e /y /i $(SolutionDir)3rdPart\resource $(TargetDir)resource</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;MEO_DLL_EXPORTS;LOG_TRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;CSHARP_API;MEO_DLL_EXPORTS;LOG_TRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -94,7 +94,7 @@ std::pair<double, cv::Point> Identify::match_template(const cv::Mat& image, cons
 	return { maxVal, maxLoc };
 }
 
-std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cur, const std::string& templ, double threshold)
+std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cur, const std::string& templ, double templ_threshold)
 {
 	if (m_mat_map.find(templ) == m_mat_map.cend()) {
 		return { AlgorithmType::JustReturn, 0, asst::Rect() };
@@ -111,7 +111,7 @@ std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cu
 		const auto& [value, point] = match_template(cur, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
 		
-		if (m_use_cache && value >= threshold) {
+		if (m_use_cache && value >= templ_threshold) {
 			m_cache_map.emplace(templ, std::make_pair(raw_rect, image_2_hist(cur(raw_rect))));
 		}
 

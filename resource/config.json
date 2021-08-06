@@ -3,8 +3,10 @@
     "options": {
         "identifyCache": true,
         "identifyCache_Doc": "图像识别缓存功能：开启后可以大幅降低CPU消耗，但需要保证要识别的按钮每次的位置不会改变。true-开启，false-关闭，默认true",
-        "identifyDelay": 1000,
-        "identifyDelay_Doc": "图像识别延时：越快操作越快，但会增加CPU消耗。单位毫秒，默认1000",
+        "taskIdentifyDelay": 1000,
+        "taskIdentifyDelay_Doc": "识别任务间的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认1000",
+        "taskControlDelay": 300,
+        "taskControlDelay_Doc": "点击任务间延迟：越快点的越快，但是太快了句柄可能不响应。单位毫秒，默认300",
         "printWindow": true,
         "printWindow_Doc": "截图功能：开启后每次结算界面会截图到screenshot目录下。true-开启，false-关闭，默认true",
         "printWindowDelay": 3000,
@@ -229,7 +231,7 @@
     "tasks": {
         "SanityBegin": {
             "template": "",
-            "threshold": 0,
+            "templThreshold": 0,
             "type": "doNothing",
             "next": [
                 "UsePrts",
@@ -237,14 +239,12 @@
                 "StartButton2",
                 "PRTS",
                 "UseMedicine",
-                "UseStone",
-                "PrtsErrorConfirm",
-                "Random"
+                "UseStone"
             ]
         },
         "UsePrts": {
             "template": "UsePrts.png",
-            "threshold": 0.8,
+            "templThreshold": 0.8,
             "type": "clickSelf",
             "next": [
                 "StartButton1"
@@ -252,7 +252,7 @@
         },
         "StartButton1": {
             "template": "StartButton1.png",
-            "threshold": 0.8,
+            "templThreshold": 0.8,
             "type": "clickSelf",
             "next": [
                 "StartButton2",
@@ -281,7 +281,7 @@
         },
         "EndOfAction": {
             "template": "",
-            "threshold": 0,
+            "templThreshold": 0,
             "type": "printWindow",
             "next": [
                 "Random"
@@ -289,7 +289,7 @@
         },
         "Random": {
             "template": "",
-            "threshold": 0,
+            "templThreshold": 0,
             "type": "clickRect",
             "specificArea": [
                 1100,
@@ -370,7 +370,7 @@
         },
         "VisitBegin": {
             "template": "",
-            "threshold": 0,
+            "templThreshold": 0,
             "type": "doNothing",
             "next": [
                 "Friends",
@@ -383,8 +383,8 @@
         },
         "ReturnToFriends": {
             "template": "Return.png",
-            "threshold": 0.85,
-            "cacheThreshold": 0.85,
+            "templThreshold": 0.85,
+            "histThreshold": 0.85,
             "type": "clickSelf",
             "next": [
                 "Friends",
@@ -450,7 +450,7 @@
         },
         "CreditStore": {
             "template": "CreditStore.png",
-            "threshold": 0.85,
+            "templThreshold": 0.85,
             "rearDelay": 1000,
             "type": "clickSelf",
             "next": [
@@ -467,7 +467,7 @@
         },
         "VisitLimited": {
             "template": "VisitLimited.png",
-            "threshold": 1,
+            "templThreshold": 1,
             "type": "doNothing",
             "next": [
                 "ReturnToMall"
@@ -482,7 +482,7 @@
         },
         "Stop": {
             "template": "",
-            "threshold": 0,
+            "templThreshold": 0,
             "type": "stop",
             "next": []
         },

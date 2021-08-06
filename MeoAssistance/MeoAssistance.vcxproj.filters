@@ -45,10 +45,13 @@
     <ClInclude Include="include\AsstPort.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\RecruitConfiger.h">
+    <ClInclude Include="include\OpenRecruitConfiger.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\Version.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Task.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,7 +74,10 @@
     <ClCompile Include="src\Updater.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\RecruitConfiger.cpp">
+    <ClCompile Include="src\OpenRecruitConfiger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Task.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

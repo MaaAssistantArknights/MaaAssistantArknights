@@ -12,16 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MeoAsstGui
 {
+    using TaskMsg = MainWindow.TaskMsg;
     /// <summary>
     /// RecruitWindow.xaml 的交互逻辑
     /// </summary>
     public partial class RecruitWindow : Window
     {
         [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchEmulator(IntPtr ptr);
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstRunOpenRecruit(IntPtr ptr, int[] required_level, bool set_time, [In, Out] StringBuilder result, int buffer_size, ref int maybe_level);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstRunOpenRecruit(IntPtr ptr, int[] required_level, bool set_time);
 
         private IntPtr p_asst;
         public RecruitWindow(IntPtr ptr)
@@ -29,10 +32,53 @@ namespace MeoAsstGui
             InitializeComponent();
             p_asst = ptr;
         }
+        public void proc_msg(TaskMsg msg, JObject detail)
+        {
+            switch (msg)
+            {
+                case TaskMsg.TextDetected:
+                    break;
+                case TaskMsg.RecruitTagsDetected:
+                    JArray tags = (JArray)detail["tags"];
+                    string info_content = "识别结果:    ";
+                    foreach (var tag_name in tags)
+                    {
+                        info_content += tag_name.ToString() + "    ";
+                    }
+                    info.Content = info_content;
+                    break;
+                case TaskMsg.OcrResultError:
+                    info.Content = "识别错误！";
+                    break;
+                case TaskMsg.RecruitSpecialTag:
+                    MessageBox.Show("检测到特殊Tag:" + detail["tag"].ToString(), "提示");
+                    break;
+                case TaskMsg.RecruitResult:
+                    string result_content = "";
+                    JArray result_array = (JArray)detail["result"];
+                    foreach (var combs in result_array)
+                    {
+                        result_content += (int)combs["tag_level"] + "星Tags:  ";
+                        foreach (var tag in (JArray)combs["tags"])
+                        {
+                            result_content += tag.ToString() + "    ";
+                        }
+                        result_content += "\n\t";
+                        foreach (var oper in (JArray)combs["opers"])
+                        {
+                            result_content += oper["level"].ToString() + " - " + oper["name"].ToString() + "    ";
+                        }
+                        result_content += "\n\n";
+                    }
+                    result.Content = result_content;
+                    break;
+            }
+        }
 
         private void button_start_Click(object sender, RoutedEventArgs e)
         {
-            info.Content = "正在计算……";
+            info.Content = "正在识别……";
+            result.Content = "";
 
             if (!AsstCatchEmulator(p_asst))
             {
@@ -56,22 +102,9 @@ namespace MeoAsstGui
             {
                 level_list.Add(6);
             }
-            StringBuilder result_buff = new StringBuilder(16384);
-            int maybe_level = 0;
             bool set_time = checkBox_time.IsChecked == true ? true : false;
-            if (AsstRunOpenRecruit(p_asst, level_list.ToArray(), set_time, result_buff, 16384, ref maybe_level))
-            {
-                info.Content = result_buff;
-                if (maybe_level > 4 || maybe_level == 1)
-                {
-                    MessageBox.Show("出 " + maybe_level + " 星了哦！", "公招提示");
-                }
-            }
-            else
-            {
-                info.Content = "识别错误！";
-                MessageBox.Show("识别错误！", "公招提示");
-            }
+
+            AsstRunOpenRecruit(p_asst, level_list.ToArray(), set_time);
         }
     }
 }
