@@ -92,7 +92,11 @@ namespace MeoAsstGui
                     }
                     break;
                 case TaskMsg.TaskStart:
-                    label_status.Content = "正在运行中……";
+                    string task_type = detail["task_type"].ToString();
+                    if (task_type == "MatchTask")
+                    {
+                        label_status.Content = "正在运行中……";
+                    }
                     break;
                 case TaskMsg.TaskStop:
                     label_status.Content = "已刷完，自动停止";
