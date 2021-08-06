@@ -37,17 +37,48 @@ namespace MeoAsstGui
             switch (msg)
             {
                 case TaskMsg.TextDetected:
+                    break;
                 case TaskMsg.RecruitTagsDetected:
+                    JArray tags = (JArray)detail["tags"];
+                    string info_content = "识别结果:    ";
+                    foreach (var tag_name in tags)
+                    {
+                        info_content += tag_name.ToString() + "    ";
+                    }
+                    info.Content = info_content;
+                    break;
                 case TaskMsg.OcrResultError:
+                    info.Content = "识别错误！";
+                    break;
                 case TaskMsg.RecruitSpecialTag:
+                    MessageBox.Show("检测到特殊Tag:" + detail["tag"].ToString(), "提示");
+                    break;
                 case TaskMsg.RecruitResult:
+                    string result_content = "";
+                    JArray result_array = (JArray)detail["result"];
+                    foreach (var combs in result_array)
+                    {
+                        result_content += (int)combs["tag_level"] + "星Tags:  ";
+                        foreach (var tag in (JArray)combs["tags"])
+                        {
+                            result_content += tag.ToString() + "    ";
+                        }
+                        result_content += "\n\t";
+                        foreach (var oper in (JArray)combs["opers"])
+                        {
+                            result_content += oper["level"].ToString() + " - " + oper["name"].ToString() + "    ";
+                        }
+                        result_content += "\n\n";
+                    }
+                    result.Content = result_content;
                     break;
             }
         }
 
         private void button_start_Click(object sender, RoutedEventArgs e)
         {
-            info.Content = "正在计算……";
+            info.Content = "正在识别……";
+            result.Content = "";
 
             if (!AsstCatchEmulator(p_asst))
             {

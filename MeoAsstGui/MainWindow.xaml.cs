@@ -149,6 +149,10 @@ namespace MeoAsstGui
             bool catched = AsstCatchEmulator(p_asst);
             catch_status.Content = "捕获模拟器窗口：" + catched;
             AsstStart(p_asst, "SanityBegin");
+            if (checkBox_useStone.IsChecked == true)
+            {
+                stone_times.Content = "已碎石 0 个";
+            }
         }
 
         private void button_Click_stop(object sender, RoutedEventArgs e)

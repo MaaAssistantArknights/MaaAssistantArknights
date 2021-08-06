@@ -115,7 +115,7 @@ bool AbstractTask::print_window(const std::string& dir)
 	bool ret = cv::imwrite(filename.c_str(), image(rect));
 
 	json::value callback_json;
-	callback_json["filename"] = filename;
+	callback_json["filename"] = StringReplaceAll(filename, "\\", "\\\\");
 	callback_json["ret"] = ret;
 	callback_json["offset"] = offset;
 	m_callback(TaskMsg::PrintWindow, callback_json, m_callback_arg);
