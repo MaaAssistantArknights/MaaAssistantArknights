@@ -125,7 +125,18 @@ namespace json
         value &operator[](size_t pos);
         value &operator[](const std::string &key);
         value &operator[](std::string &&key);
-        explicit operator bool() const noexcept { return valid(); }
+        //explicit operator bool() const noexcept { return valid(); }
+
+        explicit operator bool() const { return as_boolean(); }
+        explicit operator int() const { return as_integer(); }
+        explicit operator long() const { return as_long(); }
+        explicit operator unsigned long() const { return as_unsigned_long(); }
+        explicit operator long long() const { return as_long_long(); }
+        explicit operator unsigned long long() const { return as_unsigned_long_long(); }
+        explicit operator float() const { return as_float(); }
+        explicit operator double() const { return as_double(); }
+        explicit operator long double() const { return as_long_double(); }
+        explicit operator std::string() const { return as_string(); }
 
     private:
         template <typename T>
