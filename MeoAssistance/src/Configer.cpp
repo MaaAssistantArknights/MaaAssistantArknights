@@ -4,7 +4,7 @@
 #include <sstream>
 #include <algorithm>
 
-#include "json.h"
+#include <json.h>
 #include "Logger.hpp"
 
 using namespace asst;
@@ -44,26 +44,26 @@ bool Configer::set_param(const std::string& type, const std::string& param, cons
 {
 	// 暂时只用到了这些，总的参数太多了，后面要用啥再加上
 	if (type == "task.type") {
-		if (m_tasks.find(param) == m_tasks.cend()) {
+		if (m_all_tasks_info.find(param) == m_all_tasks_info.cend()) {
 			return false;
 		}
-		auto& task_info = m_tasks[param];
+		auto& task_info = m_all_tasks_info[param];
 		std::string type = value;
 		std::transform(type.begin(), type.end(), type.begin(), std::tolower);
 		if (type == "clickself") {
-			task_info.type = TaskType::ClickSelf;
+			task_info.type = MatchTaskType::ClickSelf;
 		}
 		else if (type == "clickrand") {
-			task_info.type = TaskType::ClickRand;
+			task_info.type = MatchTaskType::ClickRand;
 		}
 		else if (type == "donothing" || type.empty()) {
-			task_info.type = TaskType::DoNothing;
+			task_info.type = MatchTaskType::DoNothing;
 		}
 		else if (type == "stop") {
-			task_info.type = TaskType::Stop;
+			task_info.type = MatchTaskType::Stop;
 		}
 		else if (type == "clickrect") {
-			task_info.type = TaskType::ClickRect;
+			task_info.type = MatchTaskType::ClickRect;
 		}
 		else {
 			DebugTraceError("Task", param, "'s type error:", type);
@@ -71,28 +71,12 @@ bool Configer::set_param(const std::string& type, const std::string& param, cons
 		}
 	}
 	else if (type == "task.maxTimes") {
-		if (m_tasks.find(param) == m_tasks.cend()) {
+		if (m_all_tasks_info.find(param) == m_all_tasks_info.cend()) {
 			return false;
 		}
-		m_tasks[param].max_times = std::stoi(value);
+		m_all_tasks_info[param].max_times = std::stoi(value);
 	}
 	return true;
-}
-
-std::optional<std::string> Configer::get_param(const std::string& type, const std::string& param)
-{
-	// 暂时只用到了这些，总的参数太多了，后面要用啥再加上
-	if (type == "task.execTimes" && m_tasks.find(param) != m_tasks.cend()) {
-		return std::to_string(m_tasks.at(param).exec_times);
-	}
-	return std::nullopt;
-}
-
-void Configer::clear_exec_times()
-{
-	for (auto&& pair : m_tasks) {
-		pair.second.exec_times = 0;
-	}
 }
 
 bool asst::Configer::_load(const std::string& filename)
@@ -118,7 +102,8 @@ bool asst::Configer::_load(const std::string& filename)
 
 		json::value& options_json = root["options"];
 		{
-			m_options.identify_delay = options_json["identifyDelay"].as_integer();
+			m_options.task_identify_delay = options_json["taskIdentifyDelay"].as_integer();
+			m_options.task_control_delay = options_json["taskControlDelay"].as_integer();
 			m_options.identify_cache = options_json["identifyCache"].as_boolean();
 			m_options.control_delay_lower = options_json["controlDelayRange"][0].as_integer();
 			m_options.control_delay_upper = options_json["controlDelayRange"][1].as_integer();
@@ -132,26 +117,27 @@ bool asst::Configer::_load(const std::string& filename)
 
 		for (auto&& [name, task_json] : root["tasks"].as_object()) {
 			TaskInfo task_info;
+			task_info.name = name;
 			task_info.template_filename = task_json["template"].as_string();
-			task_info.threshold = task_json.get("threshold", DefaultThreshold);
-			task_info.cache_threshold = task_json.get("cacheThreshold", DefaultCacheThreshold);
+			task_info.templ_threshold = task_json.get("templThreshold", Defaulttempl_threshold);
+			task_info.hist_threshold = task_json.get("histThreshold", DefaultCachetempl_threshold);
 
 			std::string type = task_json["type"].as_string();
 			std::transform(type.begin(), type.end(), type.begin(), std::tolower);
 			if (type == "clickself") {
-				task_info.type = TaskType::ClickSelf;
+				task_info.type = MatchTaskType::ClickSelf;
 			}
 			else if (type == "clickrand") {
-				task_info.type = TaskType::ClickRand;
+				task_info.type = MatchTaskType::ClickRand;
 			}
 			else if (type == "donothing" || type.empty()) {
-				task_info.type = TaskType::DoNothing;
+				task_info.type = MatchTaskType::DoNothing;
 			}
 			else if (type == "stop") {
-				task_info.type = TaskType::Stop;
+				task_info.type = MatchTaskType::Stop;
 			}
 			else if (type == "clickrect") {
-				task_info.type = TaskType::ClickRect;
+				task_info.type = MatchTaskType::ClickRect;
 				json::value & area_json = task_json["specificArea"];
 				task_info.specific_area = Rect(
 					area_json[0].as_integer(),
@@ -160,7 +146,7 @@ bool asst::Configer::_load(const std::string& filename)
 					area_json[3].as_integer());
 			}
 			else if (type == "printwindow") {
-				task_info.type = TaskType::PrintWindow;
+				task_info.type = MatchTaskType::PrintWindow;
 			}
 			else {
 				DebugTraceError("Task:", name, "error:", type);
@@ -191,7 +177,7 @@ bool asst::Configer::_load(const std::string& filename)
 				task_info.next.emplace_back(next.as_string());
 			}
 
-			m_tasks.emplace(name, std::move(task_info));
+			m_all_tasks_info.emplace(name, std::move(task_info));
 		}
 
 		for (auto&& [name, emulator_json] : root["handle"].as_object()) {

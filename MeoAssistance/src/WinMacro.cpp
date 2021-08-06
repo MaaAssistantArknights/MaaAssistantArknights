@@ -214,7 +214,8 @@ bool WinMacro::showWindow()
 		return false;
 	}
 
-	return ::ShowWindow(m_handle, SW_RESTORE);
+	bool ret = ::ShowWindow(m_handle, SW_RESTORE);
+	return ret;
 }
 
 bool WinMacro::hideWindow()
@@ -232,7 +233,7 @@ double WinMacro::getScreenScale()
 	if (scale == 0) {
 		// 获取窗口当前显示的监视器
 		// 使用桌面的句柄.
-		HWND hWnd = GetDesktopWindow();
+		HWND hWnd = ::GetDesktopWindow();
 		HMONITOR hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
 
 		// 获取监视器逻辑宽度与高度

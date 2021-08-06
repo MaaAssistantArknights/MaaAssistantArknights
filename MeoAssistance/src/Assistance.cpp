@@ -5,7 +5,10 @@
 #include "Identify.h"
 #include "Logger.hpp"
 #include "AsstAux.h"
+#include "Task.h"
+#include "OpenRecruitConfiger.h"
 
+#include <json.h>
 #include <opencv2/opencv.hpp>
 
 #include <time.h>
@@ -13,54 +16,63 @@
 
 using namespace asst;
 
-Assistance::Assistance()
+Assistance::Assistance(TaskCallback callback, void *callback_arg)
+	: m_callback(callback), m_callback_arg(callback_arg)
 {
 	DebugTraceFunction;
 
-	m_configer.load(GetResourceDir() + "config.json");
-	m_recruit_configer.load(GetResourceDir() + "operInfo.json");
+	Configer::get_instance().load(GetResourceDir() + "config.json");
+	OpenRecruitConfiger::get_instance().load(GetResourceDir() + "operInfo.json");
 
-	m_pIder = std::make_shared<Identify>();
-	for (const auto& [name, info] : m_configer.m_tasks)
+	m_identify_ptr = std::make_shared<Identify>();
+	for (const auto &[name, info] : Configer::get_instance().m_all_tasks_info)
 	{
-		m_pIder->add_image(name, GetResourceDir() + "template\\" + info.template_filename);
+		m_identify_ptr->add_image(name, GetResourceDir() + "template\\" + info.template_filename);
 	}
-	m_pIder->set_use_cache(m_configer.m_options.identify_cache);
+	m_identify_ptr->set_use_cache(Configer::get_instance().m_options.identify_cache);
 
-	m_pIder->set_ocr_param(m_configer.m_options.ocr_gpu_index, m_configer.m_options.ocr_thread_number);
-	m_pIder->ocr_init_models(GetResourceDir() + "OcrLiteNcnn\\models\\");
+	m_identify_ptr->set_ocr_param(Configer::get_instance().m_options.ocr_gpu_index, Configer::get_instance().m_options.ocr_thread_number);
+	m_identify_ptr->ocr_init_models(GetResourceDir() + "OcrLiteNcnn\\models\\");
 
 	m_working_thread = std::thread(working_proc, this);
+	m_msg_thread = std::thread(msg_proc, this);
 }
 
 Assistance::~Assistance()
 {
 	DebugTraceFunction;
 
-	//if (m_pWindow != nullptr) {
-	//	m_pWindow->showWindow();
+	//if (m_window_ptr != nullptr) {
+	//	m_window_ptr->showWindow();
 	//}
 
 	m_thread_exit = true;
-	m_thread_running = false;
+	m_thread_idle = true;
 	m_condvar.notify_all();
+	m_msg_condvar.notify_all();
 
-	if (m_working_thread.joinable()) {
+	if (m_working_thread.joinable())
+	{
 		m_working_thread.join();
+	}
+	if (m_msg_thread.joinable())
+	{
+		m_msg_thread.join();
 	}
 }
 
-std::optional<std::string> Assistance::catch_emulator(const std::string& emulator_name)
+std::optional<std::string> Assistance::catch_emulator(const std::string &emulator_name)
 {
 	DebugTraceFunction;
 
 	stop();
 
-	auto create_handles = [&](const EmulatorInfo& info) -> bool {
-		m_pWindow = std::make_shared<WinMacro>(info, HandleType::Window);
-		m_pView = std::make_shared<WinMacro>(info, HandleType::View);
-		m_pCtrl = std::make_shared<WinMacro>(info, HandleType::Control);
-		return m_pWindow->captured() && m_pView->captured() && m_pCtrl->captured();
+	auto create_handles = [&](const EmulatorInfo &info) -> bool
+	{
+		m_window_ptr = std::make_shared<WinMacro>(info, HandleType::Window);
+		m_view_ptr = std::make_shared<WinMacro>(info, HandleType::View);
+		m_control_ptr = std::make_shared<WinMacro>(info, HandleType::Control);
+		return m_window_ptr->captured() && m_view_ptr->captured() && m_control_ptr->captured();
 	};
 
 	bool ret = false;
@@ -69,46 +81,82 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 	std::unique_lock<std::mutex> lock(m_mutex);
 
 	// 自动匹配模拟器，逐个找
-	if (emulator_name.empty()) {
-		for (const auto& [name, info] : m_configer.m_handles)
+	if (emulator_name.empty())
+	{
+		for (const auto &[name, info] : Configer::get_instance().m_handles)
 		{
 			ret = create_handles(info);
-			if (ret) {
+			if (ret)
+			{
 				cor_name = name;
 				break;
 			}
 		}
 	}
-	else {	// 指定的模拟器
-		ret = create_handles(m_configer.m_handles[emulator_name]);
+	else
+	{ // 指定的模拟器
+		ret = create_handles(Configer::get_instance().m_handles[emulator_name]);
 	}
-	if (ret && m_pWindow->showWindow() && m_pWindow->resizeWindow()) {
+	if (ret && m_window_ptr->showWindow() && m_window_ptr->resizeWindow())
+	{
 		m_inited = true;
 		return cor_name;
 	}
-	else {
+	else
+	{
 		m_inited = false;
 		return std::nullopt;
 	}
 }
 
-void Assistance::start(const std::string& task)
+void asst::Assistance::start_sanity()
+{
+	start_match_task("SanityBegin");
+}
+
+void asst::Assistance::start_visit()
+{
+	start_match_task("VisitBegin");
+}
+
+void Assistance::start_match_task(const std::string &task, bool block)
 {
 	DebugTraceFunction;
-	DebugTrace("Start |", task);
+	DebugTrace("Start |", task, block ? "block" : "non block");
+	if (!m_thread_idle || !m_inited)
+	{
+		return;
+	}
 
+	std::unique_lock<std::mutex> lock;
+	if (block)
+	{
+		lock = std::unique_lock<std::mutex>(m_mutex);
+		clear_exec_times();
+		m_identify_ptr->clear_cache();
+	}
 
-	if (m_thread_running || !m_inited) {
+	append_match_task({task});
+
+	m_thread_idle = false;
+	m_condvar.notify_one();
+}
+
+void asst::Assistance::start_open_recruit(const std::vector<int> &required_level, bool set_time)
+{
+	DebugTraceFunction;
+	if (!m_thread_idle || !m_inited)
+	{
 		return;
 	}
 
 	std::unique_lock<std::mutex> lock(m_mutex);
-	m_configer.clear_exec_times();
 
-	m_pIder->clear_cache();
-	m_next_tasks.clear();
-	m_next_tasks.emplace_back(task);
-	m_thread_running = true;
+	auto task_ptr = std::make_shared<OpenRecruitTask>(task_callback, (void *)this);
+	task_ptr->set_param(required_level, set_time);
+	m_tasks_queue.emplace(task_ptr);
+
+	m_thread_idle = false;
 	m_condvar.notify_one();
 }
 
@@ -117,450 +165,188 @@ void Assistance::stop(bool block)
 	DebugTraceFunction;
 	DebugTrace("Stop |", block ? "block" : "non block");
 
+	m_thread_idle = true;
+
 	std::unique_lock<std::mutex> lock;
-	if (block) { // 外部调用
+	if (block)
+	{ // 外部调用
 		lock = std::unique_lock<std::mutex>(m_mutex);
-		m_configer.clear_exec_times();
+		clear_exec_times();
 	}
-	m_thread_running = false;
-	m_next_tasks.clear();
-	m_pIder->clear_cache();
+	decltype(m_tasks_queue) empty;
+	m_tasks_queue.swap(empty);
+	m_identify_ptr->clear_cache();
 }
 
-bool Assistance::set_param(const std::string& type, const std::string& param, const std::string& value)
+bool Assistance::set_param(const std::string &type, const std::string &param, const std::string &value)
 {
 	DebugTraceFunction;
 	DebugTrace("SetParam |", type, param, value);
 
-	std::unique_lock<std::mutex> lock(m_mutex);
-	return m_configer.set_param(type, param, value);
+	return Configer::get_instance().set_param(type, param, value);
 }
 
-std::optional<std::string> Assistance::get_param(const std::string& type, const std::string& param)
-{
-	// DebugTraceFunction;
-	if (type == "status") {
-		if (param == "running") {
-			return std::to_string(m_thread_running);
-		}
-		else {
-			return std::nullopt;
-		}
-	}
-
-	std::unique_lock<std::mutex> lock(m_mutex);
-	return m_configer.get_param(type, param);
-}
-
-bool asst::Assistance::print_window(const std::string& filename, bool block)
-{
-	DebugTraceFunction;
-	DebugTrace("print_window |", block ? "block" : "non block");
-
-	std::unique_lock<std::mutex> lock;
-	if (block) { // 外部调用
-		lock = std::unique_lock<std::mutex>(m_mutex);
-	}
-
-	const cv::Mat& image = get_format_image();
-	// 保存的截图额外再裁剪掉一圈，不然企鹅物流识别不出来
-	int offset = m_configer.m_options.print_window_crop_offset;
-	cv::Rect rect(offset, offset, image.cols - offset * 2, image.rows - offset * 2);
-	bool ret = cv::imwrite(filename.c_str(), image(rect));
-
-	if (ret) {
-		DebugTraceInfo("PrintWindow to", filename);
-	}
-	else {
-		DebugTraceError("PrintWindow error", filename);
-	}
-	return ret;
-}
-
-bool asst::Assistance::find_text_and_click(const std::string& text, bool block)
-{
-	DebugTraceFunction;
-	DebugTrace("find_text_and_click |", Utf8ToGbk(text), block ? "block" : "non block");
-
-	std::unique_lock<std::mutex> lock;
-	if (block) { // 外部调用
-		lock = std::unique_lock<std::mutex>(m_mutex);
-	}
-	const cv::Mat& image = get_format_image();
-	std::optional<Rect>&& result = m_pIder->find_text(image, text);
-
-	if (!result) {
-		DebugTrace("Cannot found", Utf8ToGbk(text));
-		return false;
-	}
-
-	set_control_scale(image.cols, image.rows);
-	return m_pCtrl->click(result.value());
-}
-
-std::optional<std::vector<std::pair<std::vector<std::string>, OperCombs>>>
-asst::Assistance::open_recruit(const std::vector<int>& required_level, bool set_time)
+void Assistance::working_proc(Assistance *p_this)
 {
 	DebugTraceFunction;
 
-	std::unique_lock<std::mutex> lock(m_mutex);
+	int retry_times = 0;
+	while (!p_this->m_thread_exit)
+	{
+		DebugTraceScope("Assistance::working_proc Loop");
+		std::unique_lock<std::mutex> lock(p_this->m_mutex);
+		if (!p_this->m_thread_idle && !p_this->m_tasks_queue.empty())
+		{
 
-	const cv::Mat& image = get_format_image();
-	set_control_scale(image.cols, image.rows);
-	lock.unlock();	// 后面的计算耗时太长，先解锁
-
-	if (set_time) {
-		start("RecruitTime");
-	}
-
-	std::vector<TextArea> ider_result = m_pIder->ocr_detect(image);
-	std::vector<TextArea> filt_result;
-	std::string ider_str;
-	for (TextArea& res : ider_result) {
-		// 替换一些常见的文字识别错误
-		// TODO: 这块时间复杂度有点高，待优化
-		for (const auto& [src, cor] : m_configer.m_ocr_replace) {
-			res.text = StringReplaceAll(res.text, src, cor);
-		}
-		ider_str += res.text + " ,";
-		for (const std::string& t : m_recruit_configer.m_all_tags) {
-			if (res.text == t) {
-				filt_result.emplace_back(std::move(res));
+			auto start_time = std::chrono::system_clock::now();
+			std::shared_ptr<AbstractTask> task_ptr = p_this->m_tasks_queue.front();
+			task_ptr->set_ptr(p_this->m_window_ptr, p_this->m_view_ptr, p_this->m_control_ptr, p_this->m_identify_ptr);
+			task_ptr->set_exit_flag(&p_this->m_thread_idle);
+			bool ret = task_ptr->run();
+			if (ret)
+			{
+				retry_times = 0;
+				p_this->m_tasks_queue.pop();
 			}
-		}
-	}
-	if (ider_str.back() == ',') {
-		ider_str.pop_back();
-	}
-	DebugTrace("All ocr text: ", Utf8ToGbk(ider_str));
-
-	if (filt_result.size() != 5) {
-		DebugTraceError("Error, Tags recognition error!!!");
-		stop(true);
-		return std::nullopt;
-	}
-
-	std::vector<std::string> tags;
-	for (const TextArea& t_a : filt_result) {
-		tags.emplace_back(t_a.text);
-	}
-	DebugTraceInfo("All Tags", VectorToString(tags, true));
-
-	// Tags全组合
-	std::vector<std::vector<std::string>> all_combs;
-	int len = tags.size();
-	int count = std::pow(2, len);
-	for (int i = 0; i < count; ++i) {
-		std::vector<std::string> temp;
-		for (int j = 0, mask = 1; j < len; ++j) {
-			if ((i & mask) != 0) {	// What the fuck???
-				temp.emplace_back(tags.at(j));
+			else // 失败了不pop，一直跑。 Todo: 设一个上限
+			{
+				++retry_times;
 			}
-			mask = mask * 2;
-		}
-		// 游戏里最多选择3个tag
-		if (!temp.empty() && temp.size() <= 3) {
-			all_combs.emplace_back(std::move(temp));
-		}
-	}
 
-	std::map<std::vector<std::string>, OperCombs> result_map;
-	for (const std::vector<std::string>& comb : all_combs) {
-		for (const OperInfo& cur_oper : m_recruit_configer.m_opers) {
-			int matched_count = 0;
-			// 组合中每一个tag，是否在干员tags中
-			for (const std::string& tag : comb) {
-				if (cur_oper.tags.find(tag) != cur_oper.tags.cend()) {
-					++matched_count;
+			// 如果下个任务是识别，就按识别的延时来；如果下个任务是点击，就按点击的延时来；……
+			// 如果都符合，就取个最大值
+			int delay = 0;
+			if (!p_this->m_tasks_queue.empty())
+			{
+				int next_type = p_this->m_tasks_queue.front()->get_task_type();
+				std::vector<int> candidate_delay = {0};
+				if (next_type & TaskType::TaskTypeClick)
+				{
+					candidate_delay.emplace_back(Configer::get_instance().m_options.task_control_delay);
 				}
-				else {
-					break;
+				if (next_type & TaskType::TaskTypeRecognition)
+				{
+					candidate_delay.emplace_back(Configer::get_instance().m_options.task_identify_delay);
 				}
+				delay = *std::max_element(candidate_delay.cbegin(), candidate_delay.cend());
 			}
-			if (matched_count == comb.size()) {
-				static const std::string SeniorOper = GbkToUtf8("高级资深干员");
-				// 高资tag和六星强绑定，如果没有高资tag，即使其他tag匹配上了也不可能出六星
-				if (cur_oper.level == 6
-					&& std::find(comb.cbegin(), comb.cend(), SeniorOper) == comb.cend()) {
-					continue;
-				}
-				OperCombs& oper_combs = result_map[comb];
-				oper_combs.opers.emplace_back(cur_oper);
-
-				if (cur_oper.level == 1 || cur_oper.level == 2) {
-					if (oper_combs.min_level == 0) oper_combs.min_level = cur_oper.level;
-					if (oper_combs.max_level == 0) oper_combs.max_level = cur_oper.level;
-					// 一星、二星干员不计入最低等级，因为拉满9小时之后不可能出1、2星
-					continue;
-				}
-				if (oper_combs.min_level == 0 || oper_combs.min_level > cur_oper.level) {
-					oper_combs.min_level = cur_oper.level;
-				}
-				if (oper_combs.max_level == 0 || oper_combs.max_level < cur_oper.level) {
-					oper_combs.max_level = cur_oper.level;
-				}
-				oper_combs.avg_level += cur_oper.level;
-			}
+			p_this->m_condvar.wait_until(lock,
+										 start_time + std::chrono::milliseconds(delay),
+										 [&]() -> bool
+										 { return p_this->m_thread_idle; });
 		}
-		if (result_map.find(comb) != result_map.cend()) {
-			OperCombs& oper_combs = result_map[comb];
-			oper_combs.avg_level /= oper_combs.opers.size();
+		else
+		{
+			p_this->m_thread_idle = true;
+			p_this->m_condvar.wait(lock);
 		}
 	}
-
-	// map没法按值排序，转个vector再排
-	std::vector<std::pair<std::vector<std::string>, OperCombs>> result_vector;
-	for (auto&& pair : result_map) {
-		result_vector.emplace_back(std::move(pair));
-	}
-	std::sort(result_vector.begin(), result_vector.end(), [](const auto& lhs, const auto& rhs)
-		->bool {
-			// 最小等级大的，排前面
-			if (lhs.second.min_level != rhs.second.min_level) {
-				return lhs.second.min_level > rhs.second.min_level;
-			}
-			// 最大等级大的，排前面
-			else if (lhs.second.max_level != rhs.second.max_level) {
-				return lhs.second.max_level > rhs.second.max_level;
-			}
-			// 平均等级高的，排前面
-			else if (std::fabs(lhs.second.avg_level - rhs.second.avg_level) < DoubleDiff) {
-				return lhs.second.avg_level > rhs.second.avg_level;
-			}
-			// Tag数量少的，排前面
-			else {
-				return lhs.first.size() < rhs.first.size();
-			}
-		});
-
-	for (const auto& [combs, oper_combs] : result_vector) {
-		std::string tag_str;
-		for (const std::string& tag : combs) {
-			tag_str += tag + " ,";
-		}
-		if (tag_str.back() == ',') {
-			tag_str.pop_back();
-		}
-
-		std::string opers_str;
-		for (const OperInfo& oper : oper_combs.opers) {
-			opers_str += std::to_string(oper.level) + "-" + oper.name + " ,";
-		}
-		if (opers_str.back() == ',') {
-			opers_str.pop_back();
-		}
-		DebugTraceInfo("Tags:", VectorToString(combs, true), "May be recruited: ", Utf8ToGbk(opers_str));
-	}
-
-	stop(true);
-	if (!required_level.empty() && !result_vector.empty()) {
-		if (std::find(required_level.cbegin(), required_level.cend(), result_vector[0].second.min_level)
-			== required_level.cend()) {
-			return result_vector;
-		}
-		const std::vector<std::string>& final_tags = result_vector[0].first;
-		std::vector<TextArea> final_text_areas;
-
-		lock.lock();
-		for (const TextArea& text_area : filt_result) {
-			if (std::find(final_tags.cbegin(), final_tags.cend(), text_area.text) != final_tags.cend()) {
-				final_text_areas.emplace_back(text_area);
-				m_pCtrl->click(text_area.rect);
-				Sleep(300);
-			}
-		}
-		lock.unlock();
-	}
-	return result_vector;
 }
 
-void Assistance::working_proc(Assistance* pThis)
+void Assistance::msg_proc(Assistance *p_this)
 {
 	DebugTraceFunction;
 
-	while (!pThis->m_thread_exit) {
-		std::unique_lock<std::mutex> lock(pThis->m_mutex);
-		if (pThis->m_thread_running) {
-			const cv::Mat& cur_image = pThis->get_format_image();
-			pThis->set_control_scale(cur_image.cols, cur_image.rows);
+	while (!p_this->m_thread_exit)
+	{
+		DebugTraceScope("Assistance::msg_proc Loop");
+		std::unique_lock<std::mutex> lock(p_this->m_msg_mutex);
+		if (!p_this->m_msg_queue.empty())
+		{
+			// 结构化绑定只能是引用，后续的pop会使引用失效，所以需要重新构造一份，这里采用了move的方式
+			auto &&[temp_msg, temp_detail] = p_this->m_msg_queue.front();
+			TaskMsg msg = std::move(temp_msg);
+			json::value detail = std::move(temp_detail);
+			p_this->m_msg_queue.pop();
+			lock.unlock();
 
-			if (cur_image.empty()) {
-				DebugTraceError("Unable to capture window image!!!");
-				pThis->stop(false);
-				continue;
+			if (p_this->m_callback)
+			{
+				p_this->m_callback(msg, detail, p_this->m_callback_arg);
 			}
-			if (cur_image.rows < 100) {
-				DebugTraceInfo("Window Could not be minimized!!!");
-				pThis->m_pWindow->showWindow();
-				pThis->m_condvar.wait_for(lock,
-					std::chrono::milliseconds(pThis->m_configer.m_options.identify_delay),
-					[&]() -> bool { return !pThis->m_thread_running; });
-				continue;
-			}
-
-			std::string matched_task;
-			Rect matched_rect;
-			// 逐个匹配当前可能的图像
-			for (const std::string& task_name : pThis->m_next_tasks) {
-
-				double threshold = pThis->m_configer.m_tasks[task_name].threshold;
-				double cache_threshold = pThis->m_configer.m_tasks[task_name].cache_threshold;
-
-				auto&& [algorithm, value, rect] = pThis->m_pIder->find_image(cur_image, task_name, threshold);
-				DebugTrace(task_name, "Type:", algorithm, "Value:", value);
-				if (algorithm == AlgorithmType::JustReturn ||
-					(algorithm == AlgorithmType::MatchTemplate && value >= threshold)
-					|| (algorithm == AlgorithmType::CompareHist && value >= cache_threshold)) {
-					matched_task = task_name;
-					matched_rect = std::move(rect);
-					break;
-				}
-			}
-
-			// 执行任务
-			if (!matched_task.empty()) {
-				TaskInfo& task = pThis->m_configer.m_tasks[matched_task];
-				DebugTraceInfo("***Matched***", matched_task, "Type:", task.type);
-				// 前置固定延时
-				if (task.pre_delay > 0) {
-					DebugTrace("PreDelay", task.pre_delay);
-					// std::this_thread::sleep_for(std::chrono::milliseconds(task.pre_delay));
-					bool cv_ret = pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(task.pre_delay),
-						[&]() -> bool { return !pThis->m_thread_running; });
-					if (cv_ret) { continue; }
-				}
-
-				if (task.max_times != INT_MAX) {
-					DebugTrace("CurTimes:", task.exec_times, "MaxTimes:", task.max_times);
-				}
-				if (task.exec_times < task.max_times) {
-					// 随机延时功能
-					if ((task.type & TaskType::BasicClick)
-						&& pThis->m_configer.m_options.control_delay_upper != 0) {
-						static std::default_random_engine rand_engine(std::chrono::system_clock::now().time_since_epoch().count());
-						static std::uniform_int_distribution<unsigned> rand_uni(pThis->m_configer.m_options.control_delay_lower, pThis->m_configer.m_options.control_delay_upper);
-						int delay = rand_uni(rand_engine);
-						DebugTraceInfo("Random Delay", delay, "ms");
-						bool cv_ret = pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(delay),
-							[&]() -> bool { return !pThis->m_thread_running; });
-						if (cv_ret) { continue; }
-					}
-					if (!pThis->m_thread_running) {
-						continue;
-					}
-					switch (task.type) {
-					case TaskType::ClickRect:
-						matched_rect = task.specific_area;
-						[[fallthrough]];
-					case TaskType::ClickSelf:
-						pThis->m_pCtrl->click(matched_rect);
-						break;
-					case TaskType::ClickRand:
-						pThis->m_pCtrl->click(pThis->m_pCtrl->getWindowRect());
-						break;
-					case TaskType::DoNothing:
-						break;
-					case TaskType::Stop:
-						DebugTrace("TaskType is Stop");
-						pThis->stop(false);
-						continue;
-						break;
-					case TaskType::PrintWindow:
-						if (pThis->m_configer.m_options.print_window) {
-							// 每次到结算界面，掉落物品不是一次性出来的，有个动画，所以需要等一会再截图
-							int print_delay = pThis->m_configer.m_options.print_window_delay;
-							DebugTraceInfo("Ready to print window, delay", print_delay);
-							pThis->m_condvar.wait_for(lock,
-								std::chrono::milliseconds(print_delay),
-								[&]() -> bool { return !pThis->m_thread_running; });
-
-							const std::string dirname = GetCurrentDir() + "screenshot\\";
-							std::filesystem::create_directory(dirname);
-							const std::string time_str = StringReplaceAll(StringReplaceAll(GetFormatTimeString(), " ", "_"), ":", "-");
-							const std::string filename = dirname + time_str + ".png";
-							pThis->print_window(filename, false);
-						}
-						break;
-					default:
-						DebugTraceError("Unknown option type:", task.type);
-						break;
-					}
-					++task.exec_times;
-
-					// 减少其他任务的执行次数
-					// 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
-					// 所以要给蓝色开始行动的次数减一
-					for (const std::string& reduce : task.reduce_other_times) {
-						--pThis->m_configer.m_tasks[reduce].exec_times;
-						DebugTrace("Reduce exec times", reduce, pThis->m_configer.m_tasks[reduce].exec_times);
-					}
-					// 后置固定延时
-					if (task.rear_delay > 0) {
-						DebugTrace("RearDelay", task.rear_delay);
-						// std::this_thread::sleep_for(std::chrono::milliseconds(task.rear_delay));
-						bool cv_ret = pThis->m_condvar.wait_for(lock, std::chrono::milliseconds(task.rear_delay),
-							[&]() -> bool { return !pThis->m_thread_running; });
-						if (cv_ret) { continue; }
-					}
-					pThis->m_next_tasks = pThis->m_configer.m_tasks[matched_task].next;
-				}
-				else {
-					DebugTraceInfo("Reached limit");
-					pThis->m_next_tasks = pThis->m_configer.m_tasks[matched_task].exceeded_next;
-				}
-
-				// 单纯为了打印日志。。感觉可以优化下
-				std::string nexts_str;
-				for (const std::string& name : pThis->m_next_tasks) {
-					nexts_str += name + " ,";
-				}
-				if (nexts_str.back() == ',') {
-					nexts_str.pop_back();
-				}
-				DebugTrace("Next:", nexts_str);
-			}
-
-			pThis->m_condvar.wait_for(lock,
-				std::chrono::milliseconds(pThis->m_configer.m_options.identify_delay),
-				[&]() -> bool { return !pThis->m_thread_running; });
 		}
-		else {
-			pThis->m_condvar.wait(lock);
+		else
+		{
+			p_this->m_msg_condvar.wait(lock);
 		}
 	}
 }
 
-cv::Mat asst::Assistance::get_format_image()
+void Assistance::task_callback(TaskMsg msg, const json::value &detail, void *custom_arg)
 {
-	const cv::Mat& raw_image = m_pView->getImage(m_pView->getWindowRect());
-	if (raw_image.empty() || raw_image.rows < 100) {
-		DebugTraceError("Window image error");
-		return raw_image;
+	DebugTrace("Assistance::task_callback |", msg, detail.to_string());
+
+	Assistance *p_this = (Assistance *)custom_arg;
+	json::value more_detail = detail;
+	switch (msg)
+	{
+	case TaskMsg::PtrIsNull:
+	case TaskMsg::ImageIsEmpty:
+		p_this->stop(false);
+		break;
+	case TaskMsg::WindowMinimized:
+		p_this->m_window_ptr->showWindow();
+		break;
+	case TaskMsg::AppendMatchTask:
+		more_detail["type"] = "MatchTask";
+		[[fallthrough]];
+	case TaskMsg::AppendTask:
+		p_this->append_task(more_detail);
+		break;
+	default:
+		break;
 	}
-	// 把模拟器边框的一圈裁剪掉
-	const EmulatorInfo& window_info = m_pView->getEmulatorInfo();
-	int x_offset = window_info.x_offset;
-	int y_offset = window_info.y_offset;
-	int width = raw_image.cols - x_offset - window_info.right_offset;
-	int height = raw_image.rows - y_offset - window_info.bottom_offset;
 
-	cv::Mat cropped(raw_image, cv::Rect(x_offset, y_offset, width, height));
-
-	//// 调整尺寸，与资源中截图的标准尺寸一致
-	//cv::Mat dst;
-	//cv::resize(cropped, dst, cv::Size(m_configer.DefaultWindowWidth, m_configer.DefaultWindowHeight));
-
-	return cropped;
+	if (p_this->m_callback)
+	{
+		std::unique_lock<std::mutex> lock(p_this->m_msg_mutex);
+		p_this->m_msg_queue.emplace(msg, std::move(more_detail));
+		p_this->m_msg_condvar.notify_one();
+	}
 }
 
-void asst::Assistance::set_control_scale(int cur_width, int cur_height)
+void asst::Assistance::append_match_task(const std::vector<std::string> &tasks)
 {
-	double scale_width = static_cast<double>(cur_width) / m_configer.DefaultWindowWidth;
-	double scale_height = static_cast<double>(cur_height) / m_configer.DefaultWindowHeight;
-	// 有些模拟器有可收缩的侧边，会增加宽度。
-	// config.json中设置的是侧边展开后的offset
-	// 如果用户把侧边收起来了，则有侧边的那头会额外裁剪掉一些，长度偏小
-	// 所以按这里面长、宽里大的那个算，大的那边没侧边
-	double scale = std::max(scale_width, scale_height);
-	m_pCtrl->setControlScale(scale);
+	auto task_ptr = std::make_shared<MatchTask>(task_callback, (void *)this);
+	task_ptr->set_tasks(tasks);
+	m_tasks_queue.emplace(task_ptr);
+}
+
+void asst::Assistance::append_task(const json::value &detail)
+{
+	std::string task_type = detail.at("type").as_string();
+	if (task_type == "ClickTask")
+	{
+		auto task_ptr = std::make_shared<ClickTask>(task_callback, (void *)this);
+		json::array rect_json = detail.at("rect").as_array();
+		Rect rect(rect_json[0].as_integer(), rect_json[1].as_integer(), rect_json[2].as_integer(), rect_json[3].as_integer());
+		task_ptr->set_rect(std::move(rect));
+		m_tasks_queue.emplace(task_ptr);
+	}
+	else if (task_type == "MatchTask")
+	{
+		std::vector<std::string> next_vec;
+		if (detail.exist("tasks"))
+		{
+			json::array next_arr = detail.at("tasks").as_array();
+			for (const json::value &next_json : next_arr)
+			{
+				next_vec.emplace_back(next_json.as_string());
+			}
+		}
+		else if (detail.exist("task"))
+		{
+			next_vec.emplace_back(detail.at("task").as_string());
+		}
+		append_match_task(next_vec);
+	}
+	// else if  // TODO
+}
+
+void Assistance::clear_exec_times()
+{
+	for (auto &&pair : Configer::get_instance().m_all_tasks_info)
+	{
+		pair.second.exec_times = 0;
+	}
 }
