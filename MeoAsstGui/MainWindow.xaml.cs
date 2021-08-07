@@ -50,6 +50,7 @@ namespace MeoAsstGui
             WindowMinimized,
             /* Info Msg */
             TaskStart,
+            ImageFindResult,
             ImageMatched,
             TaskMatched,
             ReachedLimit,

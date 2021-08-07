@@ -42,6 +42,7 @@ namespace asst {
 		WindowMinimized,
 		/* Info Msg */
 		TaskStart,
+		ImageFindResult,
 		ImageMatched,
 		TaskMatched,
 		ReachedLimit,
@@ -66,6 +67,7 @@ namespace asst {
 			{TaskMsg::ImageIsEmpty, "ImageIsEmpty"},
 			{TaskMsg::WindowMinimized, "WindowMinimized"},
 			{TaskMsg::TaskStart, "TaskStart"},
+			{TaskMsg::ImageFindResult, "ImageFindResult"},
 			{TaskMsg::ImageMatched, "ImageMatched"},
 			{TaskMsg::TaskMatched, "TaskMatched"},
 			{TaskMsg::ReachedLimit, "ReachedLimit"},
@@ -132,11 +134,8 @@ namespace asst {
 	class ClickTask : public AbstractTask
 	{
 	public:
-		ClickTask(TaskCallback callback, void* callback_arg)
-			: AbstractTask(callback, callback_arg)
-		{
-			m_task_type = TaskType::TaskTypeClick;
-		}
+		ClickTask(TaskCallback callback, void* callback_arg);
+
 		virtual bool run() override;
 		void set_rect(asst::Rect rect) { m_rect = std::move(rect); };
 	protected:
@@ -170,8 +169,9 @@ namespace asst {
 	protected:
 		std::vector<TextArea> ocr_detect();
 
+		// 文字匹配，要求相等
 		template<typename FilterArray, typename ReplaceMap>
-		std::vector<TextArea> text_filter(const std::vector<TextArea>& src,
+		std::vector<TextArea> text_match(const std::vector<TextArea>& src,
 			const FilterArray& filter_array, const ReplaceMap& replace_map)
 		{
 			std::vector<TextArea> dst;
@@ -182,6 +182,26 @@ namespace asst {
 				}
 				for (const auto& text : filter_array) {
 					if (temp.text == text) {
+						dst.emplace_back(std::move(temp));
+					}
+				}
+			}
+			return dst;
+		}
+
+		// 文字搜索，是子串即可
+		template<typename FilterArray, typename ReplaceMap>
+		std::vector<TextArea> text_search(const std::vector<TextArea>& src,
+			const FilterArray& filter_array, const ReplaceMap& replace_map)
+		{
+			std::vector<TextArea> dst;
+			for (const TextArea& text_area : src) {
+				TextArea temp = text_area;
+				for (const auto& [old_str, new_str] : replace_map) {
+					temp.text = StringReplaceAll(temp.text, old_str, new_str);
+				}
+				for (const auto& text : filter_array) {
+					if (temp.text.find(text) != std::string::npos) {
 						dst.emplace_back(std::move(temp));
 					}
 				}
@@ -201,5 +221,28 @@ namespace asst {
 	protected:
 		std::vector<int> m_required_level;
 		bool m_set_time = false;
+	};
+
+	// for debug
+	class TestOcrTask : public OcrAbstractTask
+	{
+	public:
+		TestOcrTask(TaskCallback callback, void* callback_arg);
+
+		virtual bool run() override;
+		void set_text(std::string text, bool need_click = false)
+		{
+			m_text_vec.clear();
+			m_text_vec.emplace_back(std::move(text));
+			m_need_click = need_click;
+		}
+		void set_text(std::vector<std::string> text_vec, bool need_click = false)
+		{
+			m_text_vec = std::move(text_vec);
+			m_need_click = need_click;
+		}
+	private:
+		std::vector<std::string> m_text_vec;
+		bool m_need_click;
 	};
 }

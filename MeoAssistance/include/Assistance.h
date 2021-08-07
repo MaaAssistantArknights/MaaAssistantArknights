@@ -31,10 +31,13 @@ namespace asst {
 		void start_sanity();
 		// 开始访问基建
 		void start_visit();
+
 		// 开始公开招募操作
 		void start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
 		// 开始匹配任务，调试用
 		void start_match_task(const std::string& task, bool block = true);
+		// 开始OCR测试，调试用
+		void start_ocr_test_task(std::vector<std::string> text_vec, bool need_click = false);
 
 		void stop(bool block = true);
 
