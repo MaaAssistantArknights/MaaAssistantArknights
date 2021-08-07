@@ -5,9 +5,9 @@
 #if defined(_WIN32)
 #define MEO_CALL __stdcall
 #else
-#define ISSCALL
+#define MEO_CALL
 #endif /* _WIN32 */
-#endif /* ISSCALL */
+#endif /* MEO_CALL */
 
 // The function exported symbols
 #if defined _WIN32 || defined __CYGWIN__
