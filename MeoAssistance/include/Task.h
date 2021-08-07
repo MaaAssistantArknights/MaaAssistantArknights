@@ -40,6 +40,7 @@ namespace asst {
 		PtrIsNull,
 		ImageIsEmpty,
 		WindowMinimized,
+		InitFaild,
 		/* Info Msg */
 		TaskStart,
 		ImageFindResult,
@@ -67,6 +68,7 @@ namespace asst {
 			{AsstMsg::PtrIsNull, "PtrIsNull"},
 			{AsstMsg::ImageIsEmpty, "ImageIsEmpty"},
 			{AsstMsg::WindowMinimized, "WindowMinimized"},
+			{AsstMsg::InitFaild, "InitFaild"},
 			{AsstMsg::TaskStart, "TaskStart"},
 			{AsstMsg::ImageFindResult, "ImageFindResult"},
 			{AsstMsg::ImageMatched, "ImageMatched"},
