@@ -48,6 +48,7 @@ namespace MeoAsstGui
             PtrIsNull,
             ImageIsEmpty,
             WindowMinimized,
+            InitFaild,
             /* Info Msg */
             TaskStart,
             ImageFindResult,
@@ -122,6 +123,10 @@ namespace MeoAsstGui
                     break;
                 case AsstMsg.TaskError:
                     label_status.Content = "出现错误，已停止运行";
+                    break;
+                case AsstMsg.InitFaild:
+                    MessageBox.Show("资源文件错误！请尝试重新解压或下载", "错误");
+                    Close();
                     break;
             }
         }

@@ -21,18 +21,45 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 {
 	DebugTraceFunction;
 
-	Configer::get_instance().load(GetResourceDir() + "config.json");
-	OpenRecruitConfiger::get_instance().load(GetResourceDir() + "operInfo.json");
+	// 检查返回值，若为false则回调错误
+	auto callback_error = [&]() {
+		json::value callback_json;
+		callback_json["what"] = "Resource";
+		m_callback(AsstMsg::InitFaild, callback_json, m_callback_arg);
+	};
+
+	bool ret = Configer::get_instance().load(GetResourceDir() + "config.json");
+	if (!ret) {
+		callback_error();
+		return;
+	}
+	ret = OpenRecruitConfiger::get_instance().load(GetResourceDir() + "operInfo.json");
+	if (!ret) {
+		callback_error();
+		return;
+	}
 
 	m_identify_ptr = std::make_shared<Identify>();
 	for (const auto& [name, info] : Configer::get_instance().m_all_tasks_info)
 	{
-		m_identify_ptr->add_image(name, GetResourceDir() + "template\\" + info.template_filename);
+		if (info.template_filename.empty())
+		{
+			continue;
+		}
+		ret = m_identify_ptr->add_image(name, GetResourceDir() + "template\\" + info.template_filename);
+		if (!ret) {
+			callback_error();
+			return;
+		}
 	}
 	m_identify_ptr->set_use_cache(Configer::get_instance().m_options.identify_cache);
 
 	m_identify_ptr->set_ocr_param(Configer::get_instance().m_options.ocr_gpu_index, Configer::get_instance().m_options.ocr_thread_number);
-	m_identify_ptr->ocr_init_models(GetResourceDir() + "OcrLiteOnnx\\models\\");
+	ret = m_identify_ptr->ocr_init_models(GetResourceDir() + "OcrLiteOnnx\\models\\");
+	if (!ret) {
+		callback_error();
+		return;
+	}
 
 	m_working_thread = std::thread(working_proc, this);
 	m_msg_thread = std::thread(msg_proc, this);
