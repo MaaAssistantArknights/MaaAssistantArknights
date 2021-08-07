@@ -31,7 +31,7 @@ BOOL APIENTRY DllMain(HANDLE hModule,
 
 AsstCallback _callback = nullptr;
 
-void CallbackTrans(asst::TaskMsg msg, const json::value& json, void* custom_arg)
+void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg)
 {
 	_callback(static_cast<int>(msg), json.to_string().c_str(), custom_arg);
 }
@@ -78,7 +78,7 @@ void AsstStart(asst::Assistance* p_asst, const char* task)
 	if (p_asst == NULL) {
 	}
 
-	p_asst->start_match_task(task);
+	p_asst->start_match_task(task, asst::Assistance::MatchTaskRetryTimesDefault);
 }
 
 void AsstStop(asst::Assistance* p_asst)

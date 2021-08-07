@@ -22,7 +22,7 @@ namespace asst {
 	class Assistance
 	{
 	public:
-		Assistance(TaskCallback callback = nullptr, void * callback_arg = nullptr);
+		Assistance(AsstCallback callback = nullptr, void* callback_arg = nullptr);
 		~Assistance();
 
 		std::optional<std::string> catch_emulator(const std::string& emulator_name = std::string());
@@ -35,7 +35,7 @@ namespace asst {
 		// 开始公开招募操作
 		void start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
 		// 开始匹配任务，调试用
-		void start_match_task(const std::string& task, bool block = true);
+		void start_match_task(const std::string& task, int retry_times = INT_MAX, bool block = true);
 		// 开始OCR测试，调试用
 		void start_ocr_test_task(std::vector<std::string> text_vec, bool need_click = false);
 
@@ -43,13 +43,16 @@ namespace asst {
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
+		static constexpr int MatchTaskRetryTimesDefault = 60;
+
 	private:
 		static void working_proc(Assistance* p_this);
 		static void msg_proc(Assistance* p_this);
-		static void task_callback(TaskMsg msg, const json::value& detail, void* custom_arg);
+		static void task_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
 
-		void append_match_task(const std::vector<std::string>& tasks);
+		void append_match_task(const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times = INT_MAX);
 		void append_task(const json::value& detail);
+		void append_callback(AsstMsg msg, json::value detail);
 		void clear_exec_times();
 
 		std::shared_ptr<WinMacro> m_window_ptr = nullptr;
@@ -60,7 +63,7 @@ namespace asst {
 
 		bool m_thread_exit = false;
 		std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;
-		TaskCallback m_callback = nullptr;
+		AsstCallback m_callback = nullptr;
 		void* m_callback_arg = nullptr;
 
 		bool m_thread_idle = true;
@@ -69,7 +72,7 @@ namespace asst {
 		std::condition_variable m_condvar;
 
 		std::thread m_msg_thread;
-		std::queue<std::pair<TaskMsg, json::value>> m_msg_queue;
+		std::queue<std::pair<AsstMsg, json::value>> m_msg_queue;
 		std::mutex m_msg_mutex;
 		std::condition_variable m_msg_condvar;
 

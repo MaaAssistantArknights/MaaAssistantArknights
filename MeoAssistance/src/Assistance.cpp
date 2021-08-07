@@ -16,7 +16,7 @@
 
 using namespace asst;
 
-Assistance::Assistance(TaskCallback callback, void *callback_arg)
+Assistance::Assistance(AsstCallback callback, void* callback_arg)
 	: m_callback(callback), m_callback_arg(callback_arg)
 {
 	DebugTraceFunction;
@@ -25,7 +25,7 @@ Assistance::Assistance(TaskCallback callback, void *callback_arg)
 	OpenRecruitConfiger::get_instance().load(GetResourceDir() + "operInfo.json");
 
 	m_identify_ptr = std::make_shared<Identify>();
-	for (const auto &[name, info] : Configer::get_instance().m_all_tasks_info)
+	for (const auto& [name, info] : Configer::get_instance().m_all_tasks_info)
 	{
 		m_identify_ptr->add_image(name, GetResourceDir() + "template\\" + info.template_filename);
 	}
@@ -61,13 +61,13 @@ Assistance::~Assistance()
 	}
 }
 
-std::optional<std::string> Assistance::catch_emulator(const std::string &emulator_name)
+std::optional<std::string> Assistance::catch_emulator(const std::string& emulator_name)
 {
 	DebugTraceFunction;
 
 	stop();
 
-	auto create_handles = [&](const EmulatorInfo &info) -> bool
+	auto create_handles = [&](const EmulatorInfo& info) -> bool
 	{
 		m_window_ptr = std::make_shared<WinMacro>(info, HandleType::Window);
 		m_view_ptr = std::make_shared<WinMacro>(info, HandleType::View);
@@ -83,7 +83,7 @@ std::optional<std::string> Assistance::catch_emulator(const std::string &emulato
 	// 自动匹配模拟器，逐个找
 	if (emulator_name.empty())
 	{
-		for (const auto &[name, info] : Configer::get_instance().m_handles)
+		for (const auto& [name, info] : Configer::get_instance().m_handles)
 		{
 			ret = create_handles(info);
 			if (ret)
@@ -111,15 +111,15 @@ std::optional<std::string> Assistance::catch_emulator(const std::string &emulato
 
 void asst::Assistance::start_sanity()
 {
-	start_match_task("SanityBegin");
+	start_match_task("SanityBegin", MatchTaskRetryTimesDefault);
 }
 
 void asst::Assistance::start_visit()
 {
-	start_match_task("VisitBegin");
+	start_match_task("VisitBegin", MatchTaskRetryTimesDefault);
 }
 
-void Assistance::start_match_task(const std::string &task, bool block)
+void Assistance::start_match_task(const std::string& task, int retry_times, bool block)
 {
 	DebugTraceFunction;
 	DebugTrace("Start |", task, block ? "block" : "non block");
@@ -136,7 +136,7 @@ void Assistance::start_match_task(const std::string &task, bool block)
 		m_identify_ptr->clear_cache();
 	}
 
-	append_match_task({task});
+	append_match_task(task, { task }, retry_times);
 
 	m_thread_idle = false;
 	m_condvar.notify_one();
@@ -160,7 +160,7 @@ void Assistance::start_ocr_test_task(std::vector<std::string> text_vec, bool nee
 	m_condvar.notify_one();
 }
 
-void asst::Assistance::start_open_recruit(const std::vector<int> &required_level, bool set_time)
+void asst::Assistance::start_open_recruit(const std::vector<int>& required_level, bool set_time)
 {
 	DebugTraceFunction;
 	if (!m_thread_idle || !m_inited)
@@ -170,7 +170,7 @@ void asst::Assistance::start_open_recruit(const std::vector<int> &required_level
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 
-	auto task_ptr = std::make_shared<OpenRecruitTask>(task_callback, (void *)this);
+	auto task_ptr = std::make_shared<OpenRecruitTask>(task_callback, (void*)this);
 	task_ptr->set_param(required_level, set_time);
 	m_tasks_queue.emplace(task_ptr);
 
@@ -196,7 +196,7 @@ void Assistance::stop(bool block)
 	m_identify_ptr->clear_cache();
 }
 
-bool Assistance::set_param(const std::string &type, const std::string &param, const std::string &value)
+bool Assistance::set_param(const std::string& type, const std::string& param, const std::string& value)
 {
 	DebugTraceFunction;
 	DebugTrace("SetParam |", type, param, value);
@@ -204,7 +204,7 @@ bool Assistance::set_param(const std::string &type, const std::string &param, co
 	return Configer::get_instance().set_param(type, param, value);
 }
 
-void Assistance::working_proc(Assistance *p_this)
+void Assistance::working_proc(Assistance* p_this)
 {
 	DebugTraceFunction;
 
@@ -224,11 +224,27 @@ void Assistance::working_proc(Assistance *p_this)
 			if (ret)
 			{
 				retry_times = 0;
+				// 任务执行成功了直接pop
 				p_this->m_tasks_queue.pop();
 			}
-			else // 失败了不pop，一直跑。 Todo: 设一个上限
+			else
 			{
-				++retry_times;
+				// 失败了累加失败次数，超限了再pop
+				if (retry_times >= task_ptr->get_retry_times())
+				{
+					json::value task_error_json;
+					task_error_json["retry_limit"] = task_ptr->get_retry_times();
+					task_error_json["retry_times"] = retry_times;
+					task_error_json["task_chain"] = task_ptr->get_task_chain();
+					p_this->task_callback(AsstMsg::TaskError, std::move(task_error_json), p_this);
+
+					retry_times = 0;
+					p_this->m_tasks_queue.pop();
+				}
+				else
+				{
+					++retry_times;
+				}
 			}
 
 			// 如果下个任务是识别，就按识别的延时来；如果下个任务是点击，就按点击的延时来；……
@@ -237,7 +253,7 @@ void Assistance::working_proc(Assistance *p_this)
 			if (!p_this->m_tasks_queue.empty())
 			{
 				int next_type = p_this->m_tasks_queue.front()->get_task_type();
-				std::vector<int> candidate_delay = {0};
+				std::vector<int> candidate_delay = { 0 };
 				if (next_type & TaskType::TaskTypeClick)
 				{
 					candidate_delay.emplace_back(Configer::get_instance().m_options.task_control_delay);
@@ -249,9 +265,9 @@ void Assistance::working_proc(Assistance *p_this)
 				delay = *std::max_element(candidate_delay.cbegin(), candidate_delay.cend());
 			}
 			p_this->m_condvar.wait_until(lock,
-										 start_time + std::chrono::milliseconds(delay),
-										 [&]() -> bool
-										 { return p_this->m_thread_idle; });
+				start_time + std::chrono::milliseconds(delay),
+				[&]() -> bool
+				{ return p_this->m_thread_idle; });
 		}
 		else
 		{
@@ -261,7 +277,7 @@ void Assistance::working_proc(Assistance *p_this)
 	}
 }
 
-void Assistance::msg_proc(Assistance *p_this)
+void Assistance::msg_proc(Assistance* p_this)
 {
 	DebugTraceFunction;
 
@@ -272,8 +288,8 @@ void Assistance::msg_proc(Assistance *p_this)
 		if (!p_this->m_msg_queue.empty())
 		{
 			// 结构化绑定只能是引用，后续的pop会使引用失效，所以需要重新构造一份，这里采用了move的方式
-			auto &&[temp_msg, temp_detail] = p_this->m_msg_queue.front();
-			TaskMsg msg = std::move(temp_msg);
+			auto&& [temp_msg, temp_detail] = p_this->m_msg_queue.front();
+			AsstMsg msg = std::move(temp_msg);
 			json::value detail = std::move(temp_detail);
 			p_this->m_msg_queue.pop();
 			lock.unlock();
@@ -290,55 +306,62 @@ void Assistance::msg_proc(Assistance *p_this)
 	}
 }
 
-void Assistance::task_callback(TaskMsg msg, const json::value &detail, void *custom_arg)
+void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
 {
 	DebugTrace("Assistance::task_callback |", msg, detail.to_string());
 
-	Assistance *p_this = (Assistance *)custom_arg;
+	Assistance* p_this = (Assistance*)custom_arg;
 	json::value more_detail = detail;
 	switch (msg)
 	{
-	case TaskMsg::PtrIsNull:
-	case TaskMsg::ImageIsEmpty:
+	case AsstMsg::PtrIsNull:
+	case AsstMsg::ImageIsEmpty:
 		p_this->stop(false);
 		break;
-	case TaskMsg::WindowMinimized:
+	case AsstMsg::WindowMinimized:
 		p_this->m_window_ptr->showWindow();
 		break;
-	case TaskMsg::AppendMatchTask:
+	case AsstMsg::AppendMatchTask:
 		more_detail["type"] = "MatchTask";
 		[[fallthrough]];
-	case TaskMsg::AppendTask:
+	case AsstMsg::AppendTask:
 		p_this->append_task(more_detail);
+		return;	// 这俩消息Assistance会新增任务，外部不需要处理，直接拦掉
 		break;
 	default:
 		break;
 	}
 
-	if (p_this->m_callback)
-	{
-		std::unique_lock<std::mutex> lock(p_this->m_msg_mutex);
-		p_this->m_msg_queue.emplace(msg, std::move(more_detail));
-		p_this->m_msg_condvar.notify_one();
-	}
+	// Todo: 有些不需要回调给外部的消息，得在这里给拦截掉
+	// 加入回调消息队列，由回调消息线程外抛给外部
+	p_this->append_callback(msg, std::move(more_detail));
 }
 
-void asst::Assistance::append_match_task(const std::vector<std::string> &tasks)
+void asst::Assistance::append_match_task(const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times)
 {
-	auto task_ptr = std::make_shared<MatchTask>(task_callback, (void *)this);
+	auto task_ptr = std::make_shared<MatchTask>(task_callback, (void*)this);
+	task_ptr->set_task_chain(task_chain);
 	task_ptr->set_tasks(tasks);
+	task_ptr->set_retry_times(retry_times);
 	m_tasks_queue.emplace(task_ptr);
 }
 
-void asst::Assistance::append_task(const json::value &detail)
+void asst::Assistance::append_task(const json::value& detail)
 {
 	std::string task_type = detail.at("type").as_string();
+	std::string task_chain = detail.get("task_chain", "");
+	int retry_times = detail.get("retry_times", INT_MAX);
+
 	if (task_type == "ClickTask")
 	{
-		auto task_ptr = std::make_shared<ClickTask>(task_callback, (void *)this);
+		auto task_ptr = std::make_shared<ClickTask>(task_callback, (void*)this);
+		task_ptr->set_task_chain(task_chain);
+		task_ptr->set_retry_times(retry_times);
+
 		json::array rect_json = detail.at("rect").as_array();
 		Rect rect(rect_json[0].as_integer(), rect_json[1].as_integer(), rect_json[2].as_integer(), rect_json[3].as_integer());
 		task_ptr->set_rect(std::move(rect));
+
 		m_tasks_queue.emplace(task_ptr);
 	}
 	else if (task_type == "MatchTask")
@@ -347,7 +370,7 @@ void asst::Assistance::append_task(const json::value &detail)
 		if (detail.exist("tasks"))
 		{
 			json::array next_arr = detail.at("tasks").as_array();
-			for (const json::value &next_json : next_arr)
+			for (const json::value& next_json : next_arr)
 			{
 				next_vec.emplace_back(next_json.as_string());
 			}
@@ -356,14 +379,24 @@ void asst::Assistance::append_task(const json::value &detail)
 		{
 			next_vec.emplace_back(detail.at("task").as_string());
 		}
-		append_match_task(next_vec);
+		append_match_task(task_chain, next_vec, retry_times);
 	}
 	// else if  // TODO
 }
 
+void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
+{
+	if (m_callback)
+	{
+		std::unique_lock<std::mutex> lock(m_msg_mutex);
+		m_msg_queue.emplace(msg, std::move(detail));
+		m_msg_condvar.notify_one();
+	}
+}
+
 void Assistance::clear_exec_times()
 {
-	for (auto &&pair : Configer::get_instance().m_all_tasks_info)
+	for (auto&& pair : Configer::get_instance().m_all_tasks_info)
 	{
 		pair.second.exec_times = 0;
 	}

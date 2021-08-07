@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	AsstStart(ptr, "Listless");
+	AsstStart(ptr, "SanityBegin");
 
 	getchar();
 

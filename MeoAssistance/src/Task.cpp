@@ -16,7 +16,7 @@
 
 using namespace asst;
 
-AbstractTask::AbstractTask(TaskCallback callback, void* callback_arg)
+AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg)
 	:m_callback(callback),
 	m_callback_arg(callback_arg)
 {
@@ -44,11 +44,11 @@ cv::Mat AbstractTask::get_format_image()
 {
 	const cv::Mat& raw_image = m_view_ptr->getImage(m_view_ptr->getWindowRect());
 	if (raw_image.empty()) {
-		m_callback(TaskMsg::ImageIsEmpty, json::value(), m_callback_arg);
+		m_callback(AsstMsg::ImageIsEmpty, json::value(), m_callback_arg);
 		return raw_image;
 	}
 	if (raw_image.rows < 100) {
-		m_callback(TaskMsg::WindowMinimized, json::value(), m_callback_arg);
+		m_callback(AsstMsg::WindowMinimized, json::value(), m_callback_arg);
 		return raw_image;
 	}
 
@@ -90,7 +90,7 @@ void AbstractTask::sleep(unsigned millisecond)
 
 	json::value callback_json;
 	callback_json["time"] = millisecond;
-	m_callback(TaskMsg::ReadyToSleep, callback_json, m_callback_arg);
+	m_callback(AsstMsg::ReadyToSleep, callback_json, m_callback_arg);
 
 	while ((m_exit_flag == NULL || *m_exit_flag == false)
 		&& duration < millisecond) {
@@ -98,7 +98,7 @@ void AbstractTask::sleep(unsigned millisecond)
 			std::chrono::system_clock::now() - start).count();
 		std::this_thread::yield();
 	}
-	m_callback(TaskMsg::EndOfSleep, callback_json, m_callback_arg);
+	m_callback(AsstMsg::EndOfSleep, callback_json, m_callback_arg);
 }
 
 bool AbstractTask::print_window(const std::string& dir)
@@ -121,12 +121,12 @@ bool AbstractTask::print_window(const std::string& dir)
 	callback_json["filename"] = StringReplaceAll(filename, "\\", "\\\\");
 	callback_json["ret"] = ret;
 	callback_json["offset"] = offset;
-	m_callback(TaskMsg::PrintWindow, callback_json, m_callback_arg);
+	m_callback(AsstMsg::PrintWindow, callback_json, m_callback_arg);
 
 	return ret;
 }
 
-MatchTask::MatchTask(TaskCallback callback, void* callback_arg)
+MatchTask::MatchTask(AsstCallback callback, void* callback_arg)
 	: AbstractTask(callback, callback_arg)
 {
 	m_task_type = TaskType::TaskTypeRecognition | TaskType::TaskTypeClick;
@@ -139,10 +139,10 @@ bool MatchTask::run()
 		|| m_identify_ptr == NULL
 		|| m_control_ptr == NULL)
 	{
-		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
+		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
-	m_callback(TaskMsg::TaskStart, json::object{ { "task_type",  "MatchTask" } }, m_callback_arg);
+	m_callback(AsstMsg::TaskStart, json::object{ { "task_type",  "MatchTask" } }, m_callback_arg);
 
 	Rect rect;
 	auto&& ret = match_image(&rect);
@@ -158,15 +158,17 @@ bool MatchTask::run()
 		{ "max_times", task.max_times },
 		{ "task_type", "MatchTask"}
 	};
-	m_callback(TaskMsg::TaskMatched, callback_json, m_callback_arg);
+	m_callback(AsstMsg::TaskMatched, callback_json, m_callback_arg);
 
 	if (task.exec_times >= task.max_times)
 	{
-		m_callback(TaskMsg::ReachedLimit, callback_json, m_callback_arg);
+		m_callback(AsstMsg::ReachedLimit, callback_json, m_callback_arg);
 
 		json::value next_json = callback_json;
 		next_json["tasks"] = json::array(task.exceeded_next);
-		m_callback(TaskMsg::AppendMatchTask, next_json, m_callback_arg);
+		next_json["retry_times"] = m_retry_times;
+		next_json["task_chain"] = m_task_chain;
+		m_callback(AsstMsg::AppendMatchTask, next_json, m_callback_arg);
 		return true;
 	}
 
@@ -184,7 +186,7 @@ bool MatchTask::run()
 	case MatchTaskType::DoNothing:
 		break;
 	case MatchTaskType::Stop:
-		m_callback(TaskMsg::TaskStop, json::value(), m_callback_arg);
+		m_callback(AsstMsg::TaskStop, json::value(), m_callback_arg);
 		need_stop = true;
 		break;
 	case MatchTaskType::PrintWindow:
@@ -212,14 +214,16 @@ bool MatchTask::run()
 	}
 
 	callback_json["exec_times"] = task.exec_times;
-	m_callback(TaskMsg::TaskCompleted, callback_json, m_callback_arg);
+	m_callback(AsstMsg::TaskCompleted, callback_json, m_callback_arg);
 
 	// 后置固定延时
 	sleep(task.rear_delay);
 
 	json::value next_json = callback_json;
+	next_json["task_chain"] = m_task_chain;
+	next_json["retry_times"] = m_retry_times;
 	next_json["tasks"] = json::array(task.next);
-	m_callback(TaskMsg::AppendMatchTask, next_json, m_callback_arg);
+	m_callback(AsstMsg::AppendMatchTask, next_json, m_callback_arg);
 
 	return true;
 }
@@ -273,9 +277,9 @@ std::optional<std::string> MatchTask::match_image(Rect* matched_rect)
 		callback_json["algorithm_id"] = static_cast<std::underlying_type<MatchTaskType>::type>(algorithm);
 		callback_json["value"] = value;
 
-		m_callback(TaskMsg::ImageFindResult, callback_json, m_callback_arg);
+		m_callback(AsstMsg::ImageFindResult, callback_json, m_callback_arg);
 		if (matched) {
-			m_callback(TaskMsg::ImageMatched, callback_json, m_callback_arg);
+			m_callback(AsstMsg::ImageMatched, callback_json, m_callback_arg);
 			return task_name;
 		}
 	}
@@ -300,7 +304,7 @@ void MatchTask::exec_click_task(TaskInfo& task, const Rect& matched_rect)
 }
 
 
-OcrAbstractTask::OcrAbstractTask(TaskCallback callback, void* callback_arg)
+OcrAbstractTask::OcrAbstractTask(AsstCallback callback, void* callback_arg)
 	: AbstractTask(callback, callback_arg)
 {
 	;
@@ -315,7 +319,7 @@ std::vector<TextArea> OcrAbstractTask::ocr_detect()
 	return dst;
 }
 
-OpenRecruitTask::OpenRecruitTask(TaskCallback callback, void* callback_arg)
+OpenRecruitTask::OpenRecruitTask(AsstCallback callback, void* callback_arg)
 	: OcrAbstractTask(callback, callback_arg)
 {
 	m_task_type = TaskType::TaskTypeRecognition & TaskType::TaskTypeClick;
@@ -326,11 +330,11 @@ bool OpenRecruitTask::run()
 	if (m_view_ptr == NULL
 		|| m_identify_ptr == NULL)
 	{
-		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
+		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
 
-	m_callback(TaskMsg::TaskStart, json::object{ { "task_type",  "OpenRecruitTask" } }, m_callback_arg);
+	m_callback(AsstMsg::TaskStart, json::object{ { "task_type",  "OpenRecruitTask" } }, m_callback_arg);
 
 	/* Find all text */
 	std::vector<TextArea> all_text_area = ocr_detect();
@@ -341,7 +345,7 @@ bool OpenRecruitTask::run()
 	}
 	json::value all_text_json;
 	all_text_json["text"] = json::array(all_text_json_vector);
-	m_callback(TaskMsg::TextDetected, all_text_json, m_callback_arg);
+	m_callback(AsstMsg::TextDetected, all_text_json, m_callback_arg);
 
 	/* Filter out all tags from all text */
 	std::vector<TextArea> all_tags = text_match(
@@ -355,12 +359,12 @@ bool OpenRecruitTask::run()
 	}
 	json::value all_tags_json;
 	all_tags_json["tags"] = json::array(all_tags_json_vector);
-	m_callback(TaskMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
+	m_callback(AsstMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
 
 	/* 过滤tags数量不足的情况（可能是识别漏了） */
 	if (all_tags.size() != OpenRecruitConfiger::CorrectNumberOfTags) {
 		all_tags_json["type"] = "OpenRecruit";
-		m_callback(TaskMsg::OcrResultError, all_tags_json, m_callback_arg);
+		m_callback(AsstMsg::OcrResultError, all_tags_json, m_callback_arg);
 		return false;
 	}
 
@@ -368,7 +372,9 @@ bool OpenRecruitTask::run()
 	if (m_set_time) {
 		json::value settime_json;
 		settime_json["task"] = "RecruitTime";
-		m_callback(TaskMsg::AppendMatchTask, settime_json, m_callback_arg);
+		settime_json["retry_times"] = m_retry_times;
+		settime_json["task_chain"] = m_task_chain;
+		m_callback(AsstMsg::AppendMatchTask, settime_json, m_callback_arg);
 	}
 
 	/* 针对一星干员的额外回调消息 */
@@ -377,7 +383,7 @@ bool OpenRecruitTask::run()
 	if (std::find(all_tags_name.cbegin(), all_tags_name.cend(), SupportMachine) != all_tags_name.cend()) {
 		json::value special_tag_json;
 		special_tag_json["tag"] = SupportMachine_GBK;
-		m_callback(TaskMsg::RecruitSpecialTag, special_tag_json, m_callback_arg);
+		m_callback(AsstMsg::RecruitSpecialTag, special_tag_json, m_callback_arg);
 	}
 
 	// 识别到的5个Tags，全组合排列
@@ -498,7 +504,7 @@ bool OpenRecruitTask::run()
 	}
 	json::value results_json;
 	results_json["result"] = json::array(std::move(result_json_vector));
-	m_callback(TaskMsg::RecruitResult, results_json, m_callback_arg);
+	m_callback(AsstMsg::RecruitResult, results_json, m_callback_arg);
 
 	/* 点击最优解的tags（添加点击任务） */
 	if (!m_required_level.empty() && !result_vector.empty()) {
@@ -513,7 +519,9 @@ bool OpenRecruitTask::run()
 		for (const TextArea& text_area : all_tags) {
 			if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
 				task_json["rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
-				m_callback(TaskMsg::AppendTask, task_json, m_callback_arg);
+				task_json["retry_times"] = m_retry_times;
+				task_json["task_chain"] = m_task_chain;
+				m_callback(AsstMsg::AppendTask, task_json, m_callback_arg);
 			}
 		}
 	}
@@ -527,7 +535,7 @@ void OpenRecruitTask::set_param(std::vector<int> required_level, bool set_time)
 	m_set_time = set_time;
 }
 
-ClickTask::ClickTask(TaskCallback callback, void* callback_arg)
+ClickTask::ClickTask(AsstCallback callback, void* callback_arg)
 	: AbstractTask(callback, callback_arg)
 {
 	m_task_type = TaskType::TaskTypeClick;
@@ -537,16 +545,16 @@ bool ClickTask::run()
 {
 	if (m_control_ptr == NULL)
 	{
-		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
+		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
-	m_callback(TaskMsg::TaskStart, json::object{ { "task_type",  "ClickTask" } }, m_callback_arg);
+	m_callback(AsstMsg::TaskStart, json::object{ { "task_type",  "ClickTask" } }, m_callback_arg);
 
 	m_control_ptr->click(m_rect);
 	return true;
 }
 
-TestOcrTask::TestOcrTask(TaskCallback callback, void* callback_arg)
+TestOcrTask::TestOcrTask(AsstCallback callback, void* callback_arg)
 	: OcrAbstractTask(callback, callback_arg)
 {
 	m_task_type = TaskType::TaskTypeRecognition & TaskType::TaskTypeClick;
@@ -557,11 +565,11 @@ bool TestOcrTask::run()
 	if (m_view_ptr == NULL
 		|| m_identify_ptr == NULL)
 	{
-		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
+		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
 
-	m_callback(TaskMsg::TaskStart, json::object{ { "task_type",  "TestOcrTask" } }, m_callback_arg);
+	m_callback(AsstMsg::TaskStart, json::object{ { "task_type",  "TestOcrTask" } }, m_callback_arg);
 
 	/* Find all text */
 	std::vector<TextArea> all_text_area = ocr_detect();
@@ -572,7 +580,7 @@ bool TestOcrTask::run()
 	}
 	json::value all_text_json;
 	all_text_json["text"] = json::array(all_text_json_vector);
-	m_callback(TaskMsg::TextDetected, all_text_json, m_callback_arg);
+	m_callback(AsstMsg::TextDetected, all_text_json, m_callback_arg);
 
 	/* Filter out all text from all text */
 	std::vector<TextArea> all_text = text_search(
@@ -583,7 +591,7 @@ bool TestOcrTask::run()
 	}
 	json::value all_tags_json;
 	all_tags_json["tags"] = json::array(all_tags_json_vector);
-	m_callback(TaskMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
+	m_callback(AsstMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
 
 	// 点击识别到的文字，直接回调扔出去，交给外层做
 	if (m_need_click) {
@@ -591,7 +599,9 @@ bool TestOcrTask::run()
 			json::value task_json;
 			task_json["type"] = "ClickTask";
 			task_json["rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
-			m_callback(TaskMsg::AppendTask, task_json, m_callback_arg);
+			task_json["retry_times"] = m_retry_times;
+			task_json["task_chain"] = m_task_chain;
+			m_callback(AsstMsg::AppendTask, task_json, m_callback_arg);
 		}
 	}
 
