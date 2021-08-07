@@ -167,7 +167,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libmeojson.lib;OcrLiteNcnn.lib;opencv_world3415.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libmeojson.lib;OcrLiteOnnx.lib;opencv_world3413.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <AdditionalLibraryDirectories>$(SolutionDir)3rdPart\lib\</AdditionalLibraryDirectories>
     </Link>
@@ -210,7 +210,7 @@ xcopy /e /y /i $(SolutionDir)3rdPart\resource $(TargetDir)resource</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libmeojson.lib;OcrLiteNcnn.lib;opencv_world3415.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libmeojson.lib;OcrLiteOnnx.lib;opencv_world3413.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <AdditionalLibraryDirectories>$(SolutionDir)3rdPart\lib\</AdditionalLibraryDirectories>
     </Link>

@@ -7,7 +7,7 @@
 #include <optional>
 
 #include <opencv2/opencv.hpp>
-#include <OcrLiteNcnn/OcrLite.h>
+#include <OcrLiteOnnx/OcrLiteCaller.h>
 
 #include "AsstDef.h"
 
@@ -53,7 +53,7 @@ namespace asst {
 		bool m_use_cache = true;
 		std::unordered_map<std::string, std::pair<cv::Rect, cv::Mat>> m_cache_map;	// Œª÷√°¢÷±∑ΩÕºª∫¥Ê
 
-		ocr::OcrLite m_ocr_lite;
+		OcrLiteCaller m_ocr_lite;
 	};
 
 }
