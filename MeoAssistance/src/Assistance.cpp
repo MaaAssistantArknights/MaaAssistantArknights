@@ -32,7 +32,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 	m_identify_ptr->set_use_cache(Configer::get_instance().m_options.identify_cache);
 
 	m_identify_ptr->set_ocr_param(Configer::get_instance().m_options.ocr_gpu_index, Configer::get_instance().m_options.ocr_thread_number);
-	m_identify_ptr->ocr_init_models(GetResourceDir() + "OcrLiteNcnn\\models\\");
+	m_identify_ptr->ocr_init_models(GetResourceDir() + "OcrLiteOnnx\\models\\");
 
 	m_working_thread = std::thread(working_proc, this);
 	m_msg_thread = std::thread(msg_proc, this);

@@ -1,5 +1,6 @@
 #include "Identify.h"
 
+#include <filesystem>
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/types_c.h>
 #include "Logger.hpp"
@@ -56,13 +57,13 @@ double Identify::image_hist_comp(const cv::Mat& src, const cv::MatND& hist)
 
 std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& mat)
 {
-	ocr::OcrResult ocr_results = m_ocr_lite.detect(mat,
+	OcrResult ocr_results = m_ocr_lite.detect(mat,
 		50, 0,
 		0.6f, 0.3f,
 		2.0f, false, false);
 
 	std::vector<TextArea> result;
-	for (ocr::TextBlock & text_block : ocr_results.textBlocks) {
+	for (TextBlock & text_block : ocr_results.textBlocks) {
 		if (text_block.boxPoint.size() != 4) {
 			continue;
 		}
@@ -124,20 +125,33 @@ void Identify::clear_cache()
 	m_cache_map.clear();
 }
 
-void asst::Identify::set_ocr_param(int gpu_index, int thread_number)
+// gpu_index是ncnn框架的参数，现在换了onnx的，已经没有这个参数了，但是为了保持接口一致性，保留这个参数，实际不起作用
+void asst::Identify::set_ocr_param(int gpu_index, int number_thread)
 {
-	m_ocr_lite.setGpuIndex(gpu_index);
-	m_ocr_lite.setNumThread(thread_number);
+	m_ocr_lite.setNumThread(number_thread);
 }
 
 bool asst::Identify::ocr_init_models(const std::string& dir)
 {
-	constexpr static const char* DetName = "dbnet_op";
-	constexpr static const char* ClsName = "angle_op";
-	constexpr static const char* RecName = "crnn_lite_op";
+	constexpr static const char* DetName = "dbnet.onnx";
+	constexpr static const char* ClsName = "angle_net.onnx";
+	constexpr static const char* RecName = "crnn_lite_lstm.onnx";
 	constexpr static const char* KeysName = "keys.txt";
 
-	return m_ocr_lite.initModels(dir + DetName, dir + ClsName, dir + RecName, dir + KeysName);
+	const std::string dst_filename = dir + DetName;
+	const std::string cls_filename = dir + ClsName;
+	const std::string rec_filename = dir + RecName;
+	const std::string keys_filename = dir + KeysName;
+
+	if (std::filesystem::exists(dst_filename)
+		&& std::filesystem::exists(cls_filename)
+		&& std::filesystem::exists(rec_filename)
+		&& std::filesystem::exists(keys_filename))
+	{
+		m_ocr_lite.initModels(dst_filename, cls_filename, rec_filename, keys_filename);
+		return true;
+	}
+	return false;
 }
 
 std::optional<asst::Rect> asst::Identify::find_text(const cv::Mat& mat, const std::string& text)
