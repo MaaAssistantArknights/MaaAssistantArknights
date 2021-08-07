@@ -111,6 +111,23 @@ bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], bo
 	return true;
 }
 
+bool AsstTestOcr(asst::Assistance* p_asst, const char** text_array, int array_size, bool need_click)
+{
+	if (p_asst == NULL || text_array == nullptr) {
+		return false;
+	}
+
+	std::vector<std::string> text_vec;
+	for (int i = 0; i != array_size; ++i) {
+		if (text_array[i] == nullptr) {
+			return false;
+		}
+		text_vec.emplace_back(asst::GbkToUtf8(text_array[i]));
+	}
+	p_asst->start_ocr_test_task(std::move(text_vec), need_click);
+	return true;
+}
+
 
 bool CheckVersionUpdate(char* tag_buffer, int tag_bufsize, char* html_url_buffer, int html_bufsize, char* body_buffer, int body_bufsize)
 {

@@ -34,7 +34,8 @@ namespace asst {
 		Options m_options;
 		std::unordered_map<std::string, TaskInfo> m_all_tasks_info;
 		std::unordered_map<std::string, EmulatorInfo> m_handles;
-		std::unordered_map<std::string, std::string> m_ocr_replace;
+		std::unordered_map<std::string, std::string> m_recruit_ocr_replace;
+		std::unordered_map<std::string, std::string> m_infrast_ocr_replace;
 
 	private:
 		Configer() = default;

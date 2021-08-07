@@ -23,10 +23,12 @@
         "ocrThreadNumber": 4,
         "ocrThreadNumber_Doc": "OcrLite线程数量。默认4"
     },
-    "ocrReplace": [
+    "recruitOcrReplace": [
         [ "千员", "干员" ],
         [ "沮击", "狙击" ],
         [ "泪击", "狙击" ]
+    ],
+    "infrastOcrReplace": [
     ],
     "handle_Doc": "下面的和模拟器窗口捕获逻辑有关，不需要修改",
     "handle": {
@@ -300,7 +302,7 @@
             "next": [
                 "Loading",
                 "StartButton1",
-				"StartButton2",
+                "StartButton2",
                 "UseMedicine",
                 "UseStone",
                 "Random"
@@ -308,7 +310,7 @@
         },
         "Loading": {
             "template": "Loading.png",
-			"threshold": 0.8,
+            "threshold": 0.8,
             "type": "doNothing",
             "next": [
                 "StartButton1"
@@ -488,6 +490,13 @@
         },
         "RecruitTime": {
             "template": "RecruitTimeReduce.png",
+            "type": "clickSelf",
+            "next": [
+                "Stop"
+            ]
+        },
+        "Listless": {
+            "template": "Listless.png",
             "type": "clickSelf",
             "next": [
                 "Stop"

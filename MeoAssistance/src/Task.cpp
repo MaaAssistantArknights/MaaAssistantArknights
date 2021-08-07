@@ -61,6 +61,9 @@ cv::Mat AbstractTask::get_format_image()
 
 	cv::Mat cropped(raw_image, cv::Rect(x_offset, y_offset, width, height));
 
+	// 根据图像尺寸，调整控制的缩放
+	set_control_scale(cropped.cols, cropped.rows);
+
 	//// 调整尺寸，与资源中截图的标准尺寸一致
 	//cv::Mat dst;
 	//cv::resize(cropped, dst, cv::Size(m_configer.DefaultWindowWidth, m_configer.DefaultWindowHeight));
@@ -228,7 +231,6 @@ std::optional<std::string> MatchTask::match_image(Rect* matched_rect)
 	if (cur_image.empty() || cur_image.rows < 100) {
 		return std::nullopt;
 	}
-	set_control_scale(cur_image.cols, cur_image.rows);
 
 	// 逐个匹配当前可能的图像
 	for (const std::string& task_name : m_cur_tasks_name) {
@@ -239,17 +241,25 @@ std::optional<std::string> MatchTask::match_image(Rect* matched_rect)
 		auto&& [algorithm, value, rect] = m_identify_ptr->find_image(cur_image, task_name, templ_threshold);
 
 		json::value callback_json;
+		bool matched = false;
 		if (algorithm == AlgorithmType::JustReturn) {
 			callback_json["threshold"] = 0.0;
 			callback_json["algorithm"] = "JustReturn";
+			matched = true;
 		}
-		else if (algorithm == AlgorithmType::MatchTemplate && value >= templ_threshold) {
+		else if (algorithm == AlgorithmType::MatchTemplate) {
 			callback_json["threshold"] = templ_threshold;
 			callback_json["algorithm"] = "MatchTemplate";
+			if (value >= templ_threshold) {
+				matched = true;
+			}
 		}
-		else if (algorithm == AlgorithmType::CompareHist && value >= hist_threshold) {
+		else if (algorithm == AlgorithmType::CompareHist) {
 			callback_json["threshold"] = hist_threshold;
 			callback_json["algorithm"] = "CompareHist";
+			if (value >= hist_threshold) {
+				matched = true;
+			}
 		}
 		else {
 			continue;
@@ -259,11 +269,15 @@ std::optional<std::string> MatchTask::match_image(Rect* matched_rect)
 			callback_json["rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
 			*matched_rect = std::move(rect);
 		}
+		callback_json["name"] = task_name;
 		callback_json["algorithm_id"] = static_cast<std::underlying_type<MatchTaskType>::type>(algorithm);
 		callback_json["value"] = value;
-		m_callback(TaskMsg::ImageMatched, callback_json, m_callback_arg);
 
-		return task_name;
+		m_callback(TaskMsg::ImageFindResult, callback_json, m_callback_arg);
+		if (matched) {
+			m_callback(TaskMsg::ImageMatched, callback_json, m_callback_arg);
+			return task_name;
+		}
 	}
 	return std::nullopt;
 }
@@ -304,7 +318,7 @@ std::vector<TextArea> OcrAbstractTask::ocr_detect()
 OpenRecruitTask::OpenRecruitTask(TaskCallback callback, void* callback_arg)
 	: OcrAbstractTask(callback, callback_arg)
 {
-	m_task_type = TaskType::TaskTypeRecognition;
+	m_task_type = TaskType::TaskTypeRecognition & TaskType::TaskTypeClick;
 }
 
 bool OpenRecruitTask::run()
@@ -330,8 +344,8 @@ bool OpenRecruitTask::run()
 	m_callback(TaskMsg::TextDetected, all_text_json, m_callback_arg);
 
 	/* Filter out all tags from all text */
-	std::vector<TextArea> all_tags = text_filter(
-		all_text_area, OpenRecruitConfiger::get_instance().m_all_tags, Configer::get_instance().m_ocr_replace);
+	std::vector<TextArea> all_tags = text_match(
+		all_text_area, OpenRecruitConfiger::get_instance().m_all_tags, Configer::get_instance().m_recruit_ocr_replace);
 
 	std::unordered_set<std::string> all_tags_name;
 	std::vector<json::value> all_tags_json_vector;
@@ -513,6 +527,12 @@ void OpenRecruitTask::set_param(std::vector<int> required_level, bool set_time)
 	m_set_time = set_time;
 }
 
+ClickTask::ClickTask(TaskCallback callback, void* callback_arg)
+	: AbstractTask(callback, callback_arg)
+{
+	m_task_type = TaskType::TaskTypeClick;
+}
+
 bool ClickTask::run()
 {
 	if (m_control_ptr == NULL)
@@ -525,3 +545,56 @@ bool ClickTask::run()
 	m_control_ptr->click(m_rect);
 	return true;
 }
+
+TestOcrTask::TestOcrTask(TaskCallback callback, void* callback_arg)
+	: OcrAbstractTask(callback, callback_arg)
+{
+	m_task_type = TaskType::TaskTypeRecognition & TaskType::TaskTypeClick;
+}
+
+bool TestOcrTask::run()
+{
+	if (m_view_ptr == NULL
+		|| m_identify_ptr == NULL)
+	{
+		m_callback(TaskMsg::PtrIsNull, json::value(), m_callback_arg);
+		return false;
+	}
+
+	m_callback(TaskMsg::TaskStart, json::object{ { "task_type",  "TestOcrTask" } }, m_callback_arg);
+
+	/* Find all text */
+	std::vector<TextArea> all_text_area = ocr_detect();
+
+	std::vector<json::value> all_text_json_vector;
+	for (const TextArea& text_area : all_text_area) {
+		all_text_json_vector.emplace_back(Utf8ToGbk(text_area.text));
+	}
+	json::value all_text_json;
+	all_text_json["text"] = json::array(all_text_json_vector);
+	m_callback(TaskMsg::TextDetected, all_text_json, m_callback_arg);
+
+	/* Filter out all text from all text */
+	std::vector<TextArea> all_text = text_search(
+		all_text_area, m_text_vec, Configer::get_instance().m_infrast_ocr_replace);
+	std::vector<json::value> all_tags_json_vector;
+	for (const TextArea& text_area : all_text) {
+		all_tags_json_vector.emplace_back(Utf8ToGbk(text_area.text));
+	}
+	json::value all_tags_json;
+	all_tags_json["tags"] = json::array(all_tags_json_vector);
+	m_callback(TaskMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
+
+	// 点击识别到的文字，直接回调扔出去，交给外层做
+	if (m_need_click) {
+		for (const TextArea& text_area : all_text) {
+			json::value task_json;
+			task_json["type"] = "ClickTask";
+			task_json["rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
+			m_callback(TaskMsg::AppendTask, task_json, m_callback_arg);
+		}
+	}
+
+	return true;
+}
+

@@ -3,8 +3,9 @@
 
 int main(int argc, char** argv)
 {
-	asst::Assistance * ptr = AsstCreate();
+	using namespace asst;
 
+	Assistance* ptr = AsstCreate();
 	auto ret = AsstCatchEmulator(ptr);
 	if (!ret) {
 		getchar();
@@ -14,12 +15,13 @@ int main(int argc, char** argv)
 		}
 		return -1;
 	}
+	const char* text_array[] = { "×¢ÒâÁ¦" };
 
-	AsstStart(ptr, "Listless");
-
-	getchar();
-
-	AsstStop(ptr);
+	char ch = 0;
+	while (ch != 'q') {
+		AsstTestOcr(ptr, text_array, sizeof(text_array)/sizeof(char*), true);
+		ch = getchar();
+	}
 
 	if (ptr) {
 		AsstDestory(ptr);

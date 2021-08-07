@@ -142,6 +142,24 @@ void Assistance::start_match_task(const std::string &task, bool block)
 	m_condvar.notify_one();
 }
 
+void Assistance::start_ocr_test_task(std::vector<std::string> text_vec, bool need_click)
+{
+	DebugTraceFunction;
+	if (!m_thread_idle || !m_inited)
+	{
+		return;
+	}
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+
+	auto task_ptr = std::make_shared<TestOcrTask>(task_callback, (void*)this);
+	task_ptr->set_text(std::move(text_vec), need_click);
+	m_tasks_queue.emplace(task_ptr);
+
+	m_thread_idle = false;
+	m_condvar.notify_one();
+}
+
 void asst::Assistance::start_open_recruit(const std::vector<int> &required_level, bool set_time)
 {
 	DebugTraceFunction;

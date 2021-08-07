@@ -222,8 +222,11 @@ bool asst::Configer::_load(const std::string& filename)
 			m_handles.emplace(name, std::move(emulator_info));
 		}
 
-		for (json::value& rep : root["ocrReplace"].as_array()) {
-			m_ocr_replace.emplace(rep.as_array()[0].as_string(), rep.as_array()[1].as_string());
+		for (json::value& rep : root["infrastOcrReplace"].as_array()) {
+			m_infrast_ocr_replace.emplace(rep.as_array()[0].as_string(), rep.as_array()[1].as_string());
+		}
+		for (json::value& rep : root["recruitOcrReplace"].as_array()) {
+			m_recruit_ocr_replace.emplace(rep.as_array()[0].as_string(), rep.as_array()[1].as_string());
 		}
 	}
 	catch (json::exception& e) {
