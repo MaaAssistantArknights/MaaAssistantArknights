@@ -35,14 +35,14 @@ namespace MeoAsstGui
         [DllImport("MeoAssistance.dll")] static private extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
 
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
-        private delegate void ProcCallbckMsg(TaskMsg msg, JObject detail);
+        private delegate void ProcCallbckMsg(AsstMsg msg, JObject detail);
 
         private static CallbackDelegate callback;
 
         private IntPtr p_asst;
         private RecruitWindow recruitWindow;
 
-        public enum TaskMsg
+        public enum AsstMsg
         {
             /* Error Msg */
             PtrIsNull,
@@ -61,6 +61,7 @@ namespace MeoAsstGui
             TaskCompleted,
             PrintWindow,
             TaskStop,
+            TaskError,
             /* Open Recruit Msg */
             TextDetected,
             RecruitTagsDetected,
@@ -77,11 +78,11 @@ namespace MeoAsstGui
             ProcCallbckMsg dlg = new ProcCallbckMsg(proc_msg);
             this.Dispatcher.Invoke(dlg, msg, json);
         }
-        private void proc_msg(TaskMsg msg, JObject detail)
+        private void proc_msg(AsstMsg msg, JObject detail)
         {
             switch (msg)
             {
-                case TaskMsg.TaskCompleted:
+                case AsstMsg.TaskCompleted:
                     string task_name = detail["name"].ToString();
                     if (task_name == "StartButton2")
                     {
@@ -92,14 +93,14 @@ namespace MeoAsstGui
                         stone_times.Content = "已碎石 " + (int)detail["exec_times"] + " 个";
                     }
                     break;
-                case TaskMsg.TaskStart:
+                case AsstMsg.TaskStart:
                     string task_type = detail["task_type"].ToString();
                     if (task_type == "MatchTask")
                     {
                         label_status.Content = "正在运行中……";
                     }
                     break;
-                case TaskMsg.TaskStop:
+                case AsstMsg.TaskStop:
                     label_status.Content = "已刷完，自动停止";
                     if (checkBox_shutdown.IsChecked == true)
                     {
@@ -112,12 +113,15 @@ namespace MeoAsstGui
                         }
                     }
                     break;
-                case TaskMsg.TextDetected:
-                case TaskMsg.RecruitTagsDetected:
-                case TaskMsg.OcrResultError:
-                case TaskMsg.RecruitSpecialTag:
-                case TaskMsg.RecruitResult:
+                case AsstMsg.TextDetected:
+                case AsstMsg.RecruitTagsDetected:
+                case AsstMsg.OcrResultError:
+                case AsstMsg.RecruitSpecialTag:
+                case AsstMsg.RecruitResult:
                     recruitWindow.proc_msg(msg, detail);
+                    break;
+                case AsstMsg.TaskError:
+                    label_status.Content = "出现错误，已停止运行";
                     break;
             }
         }

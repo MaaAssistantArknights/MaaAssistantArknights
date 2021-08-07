@@ -5,6 +5,12 @@
 #include <unordered_set>
 #include <vector>
 #include <ostream>
+#include <functional>
+
+namespace json
+{
+	class value;
+}
 
 namespace asst {
 

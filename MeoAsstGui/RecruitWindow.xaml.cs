@@ -17,7 +17,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MeoAsstGui
 {
-    using TaskMsg = MainWindow.TaskMsg;
+    using AsstMsg = MainWindow.AsstMsg;
     /// <summary>
     /// RecruitWindow.xaml 的交互逻辑
     /// </summary>
@@ -32,13 +32,13 @@ namespace MeoAsstGui
             InitializeComponent();
             p_asst = ptr;
         }
-        public void proc_msg(TaskMsg msg, JObject detail)
+        public void proc_msg(AsstMsg msg, JObject detail)
         {
             switch (msg)
             {
-                case TaskMsg.TextDetected:
+                case AsstMsg.TextDetected:
                     break;
-                case TaskMsg.RecruitTagsDetected:
+                case AsstMsg.RecruitTagsDetected:
                     JArray tags = (JArray)detail["tags"];
                     string info_content = "识别结果:    ";
                     foreach (var tag_name in tags)
@@ -47,13 +47,13 @@ namespace MeoAsstGui
                     }
                     info.Content = info_content;
                     break;
-                case TaskMsg.OcrResultError:
+                case AsstMsg.OcrResultError:
                     info.Content = "识别错误！";
                     break;
-                case TaskMsg.RecruitSpecialTag:
+                case AsstMsg.RecruitSpecialTag:
                     MessageBox.Show("检测到特殊Tag:" + detail["tag"].ToString(), "提示");
                     break;
-                case TaskMsg.RecruitResult:
+                case AsstMsg.RecruitResult:
                     string result_content = "";
                     JArray result_array = (JArray)detail["result"];
                     foreach (var combs in result_array)

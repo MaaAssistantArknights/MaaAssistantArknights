@@ -89,11 +89,11 @@ namespace json
         const value &at(const std::string &key) const;
 
         template<typename Type>
-        decltype(auto) get(const std::string& key, Type default_value) {
+        decltype(auto) get(const std::string& key, Type default_value) const {
             return is_object() ? as_object().get(key, default_value) : default_value;
         }
         template<typename Type>
-        decltype(auto) get(size_t pos, Type default_value) {
+        decltype(auto) get(size_t pos, Type default_value) const {
             return is_array() ? as_array().get(pos, default_value) : default_value;
         }
 

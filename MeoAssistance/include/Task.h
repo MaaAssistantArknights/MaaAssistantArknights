@@ -35,7 +35,7 @@ namespace asst {
 		TaskTypeClick = 4
 	};
 
-	enum class TaskMsg {
+	enum class AsstMsg {
 		/* Error Msg */
 		PtrIsNull,
 		ImageIsEmpty,
@@ -48,11 +48,12 @@ namespace asst {
 		ReachedLimit,
 		ReadyToSleep,
 		EndOfSleep,
-		AppendMatchTask,
-		AppendTask,
+		AppendMatchTask,	// 这个消息Assistance会新增任务，外部不需要处理
+		AppendTask,			// 这个消息Assistance会新增任务，外部不需要处理
 		TaskCompleted,
 		PrintWindow,
 		TaskStop,
+		TaskError,
 		/* Open Recruit Msg */
 		TextDetected,
 		RecruitTagsDetected,
@@ -60,44 +61,45 @@ namespace asst {
 		RecruitSpecialTag,
 		RecruitResult
 	};
-	static std::ostream& operator<<(std::ostream& os, const TaskMsg& type)
+	static std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
 	{
-		static const std::unordered_map<TaskMsg, std::string> _type_name = {
-			{TaskMsg::PtrIsNull, "PtrIsNull"},
-			{TaskMsg::ImageIsEmpty, "ImageIsEmpty"},
-			{TaskMsg::WindowMinimized, "WindowMinimized"},
-			{TaskMsg::TaskStart, "TaskStart"},
-			{TaskMsg::ImageFindResult, "ImageFindResult"},
-			{TaskMsg::ImageMatched, "ImageMatched"},
-			{TaskMsg::TaskMatched, "TaskMatched"},
-			{TaskMsg::ReachedLimit, "ReachedLimit"},
-			{TaskMsg::ReadyToSleep, "ReadyToSleep"},
-			{TaskMsg::EndOfSleep, "EndOfSleep"},
-			{TaskMsg::AppendMatchTask, "AppendMatchTask"},
-			{TaskMsg::TaskCompleted, "TaskCompleted"},
-			{TaskMsg::PrintWindow, "PrintWindow"},
-			{TaskMsg::TaskStop, "TaskStop"},
-			{TaskMsg::TextDetected, "TextDetected"},
-			{TaskMsg::RecruitTagsDetected, "RecruitTagsDetected"},
-			{TaskMsg::OcrResultError, "OcrResultError"},
-			{TaskMsg::RecruitSpecialTag, "RecruitSpecialTag"},
-			{TaskMsg::RecruitResult, "RecruitResult"},
-			{TaskMsg::AppendTask, "AppendTask"}
+		static const std::unordered_map<AsstMsg, std::string> _type_name = {
+			{AsstMsg::PtrIsNull, "PtrIsNull"},
+			{AsstMsg::ImageIsEmpty, "ImageIsEmpty"},
+			{AsstMsg::WindowMinimized, "WindowMinimized"},
+			{AsstMsg::TaskStart, "TaskStart"},
+			{AsstMsg::ImageFindResult, "ImageFindResult"},
+			{AsstMsg::ImageMatched, "ImageMatched"},
+			{AsstMsg::TaskMatched, "TaskMatched"},
+			{AsstMsg::ReachedLimit, "ReachedLimit"},
+			{AsstMsg::ReadyToSleep, "ReadyToSleep"},
+			{AsstMsg::EndOfSleep, "EndOfSleep"},
+			{AsstMsg::AppendMatchTask, "AppendMatchTask"},
+			{AsstMsg::TaskCompleted, "TaskCompleted"},
+			{AsstMsg::PrintWindow, "PrintWindow"},
+			{AsstMsg::TaskError, "TaskError"},
+			{AsstMsg::TaskStop, "TaskStop"},
+			{AsstMsg::TextDetected, "TextDetected"},
+			{AsstMsg::RecruitTagsDetected, "RecruitTagsDetected"},
+			{AsstMsg::OcrResultError, "OcrResultError"},
+			{AsstMsg::RecruitSpecialTag, "RecruitSpecialTag"},
+			{AsstMsg::RecruitResult, "RecruitResult"},
+			{AsstMsg::AppendTask, "AppendTask"}
 		};
 		return os << _type_name.at(type);
 	}
 
-	// TaskCallback Task的消息回调函数
+	// AsstCallback 消息回调函数
 	// 参数：
-	// TaskMsg 消息类型
+	// AsstMsg 消息类型
 	// const json::value& 消息详情json，每种消息不同，Todo，需要补充个协议文档啥的
 	// void* 外部调用者自定义参数，每次回调会带出去，建议传个(void*)this指针进来
-	using TaskCallback = std::function<void(TaskMsg, const json::value&, void*)>;
+	using AsstCallback = std::function<void(AsstMsg, const json::value&, void*)>;
 
 	class AbstractTask
 	{
 	public:
-		AbstractTask(TaskCallback callback, void* callback_arg);
+		AbstractTask(AsstCallback callback, void* callback_arg);
 		~AbstractTask() = default;
 		AbstractTask(const AbstractTask&) = default;
 		AbstractTask(AbstractTask&&) = default;
@@ -113,6 +115,8 @@ namespace asst {
 		virtual int get_task_type() { return m_task_type; }
 		virtual void set_retry_times(int times) { m_retry_times = times; }
 		virtual int get_retry_times() { return m_retry_times; }
+		virtual void set_task_chain(std::string name) { m_task_chain = std::move(name); }
+		virtual const std::string & get_task_chain() { return m_task_chain; }
 	protected:
 		virtual cv::Mat get_format_image();
 		virtual bool set_control_scale(int cur_width, int cur_height);
@@ -124,9 +128,10 @@ namespace asst {
 		std::shared_ptr<WinMacro> m_control_ptr = nullptr;
 		std::shared_ptr<Identify> m_identify_ptr = nullptr;
 
-		TaskCallback m_callback;
+		AsstCallback m_callback;
 		void* m_callback_arg = NULL;
 		bool* m_exit_flag = NULL;
+		std::string m_task_chain;
 		int m_task_type = TaskType::TaskTypeInvalid;
 		int m_retry_times = INT_MAX;
 	};
@@ -134,7 +139,7 @@ namespace asst {
 	class ClickTask : public AbstractTask
 	{
 	public:
-		ClickTask(TaskCallback callback, void* callback_arg);
+		ClickTask(AsstCallback callback, void* callback_arg);
 
 		virtual bool run() override;
 		void set_rect(asst::Rect rect) { m_rect = std::move(rect); };
@@ -145,7 +150,7 @@ namespace asst {
 	class MatchTask : public AbstractTask
 	{
 	public:
-		MatchTask(TaskCallback callback, void* callback_arg);
+		MatchTask(AsstCallback callback, void* callback_arg);
 
 		virtual bool run() override;
 
@@ -163,7 +168,7 @@ namespace asst {
 	class OcrAbstractTask : public AbstractTask
 	{
 	public:
-		OcrAbstractTask(TaskCallback callback, void* callback_arg);
+		OcrAbstractTask(AsstCallback callback, void* callback_arg);
 		virtual bool run() override = 0;
 
 	protected:
@@ -213,7 +218,7 @@ namespace asst {
 	class OpenRecruitTask : public OcrAbstractTask
 	{
 	public:
-		OpenRecruitTask(TaskCallback callback, void* callback_arg);
+		OpenRecruitTask(AsstCallback callback, void* callback_arg);
 
 		virtual bool run() override;
 		virtual void set_param(std::vector<int> required_level, bool set_time = true);
@@ -227,7 +232,7 @@ namespace asst {
 	class TestOcrTask : public OcrAbstractTask
 	{
 	public:
-		TestOcrTask(TaskCallback callback, void* callback_arg);
+		TestOcrTask(AsstCallback callback, void* callback_arg);
 
 		virtual bool run() override;
 		void set_text(std::string text, bool need_click = false)
