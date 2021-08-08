@@ -56,9 +56,15 @@ namespace MeoAsstGui
                 case AsstMsg.RecruitResult:
                     string result_content = "";
                     JArray result_array = (JArray)detail["result"];
+                    int combs_level = 0;
                     foreach (var combs in result_array)
                     {
-                        result_content += (int)combs["tag_level"] + "星Tags:  ";
+                        int tag_level = (int)combs["tag_level"];
+                        if (tag_level > combs_level)
+                        {
+                            combs_level = tag_level;
+                        }
+                        result_content += tag_level + "星Tags:  ";
                         foreach (var tag in (JArray)combs["tags"])
                         {
                             result_content += tag.ToString() + "    ";
@@ -71,6 +77,10 @@ namespace MeoAsstGui
                         result_content += "\n\n";
                     }
                     result.Content = result_content;
+                    if (combs_level >= 5)
+                    {
+                        MessageBox.Show("出 " + combs_level + " 星了哦！", "提示");
+                    }
                     break;
             }
         }

@@ -389,6 +389,7 @@ bool OpenRecruitTask::run()
 	/* 过滤tags数量不足的情况（可能是识别漏了） */
 	if (all_tags.size() != OpenRecruitConfiger::CorrectNumberOfTags) {
 		all_tags_json["type"] = "OpenRecruit";
+		all_tags_json["text"] = json::array(all_text_json_vector);
 		m_callback(AsstMsg::OcrResultError, all_tags_json, m_callback_arg);
 		return false;
 	}

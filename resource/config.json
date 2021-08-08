@@ -24,8 +24,10 @@
         "ocrThreadNumber_Doc": "OcrLite线程数量。默认4"
     },
     "recruitOcrReplace": [
+        [ "沮击", "狙击" ],
         [ "泪击", "狙击" ],
-        [ "都出", "输出" ]
+        [ "都出", "输出" ],
+        [ "都任", "输出" ]
     ],
     "infrastOcrReplace": [
     ],
@@ -490,7 +492,6 @@
         "RecruitTime": {
             "template": "RecruitTimeReduce.png",
             "type": "clickRect",
-            "templThreshold": 0.99,
             "specificArea": [ 391, 279, 129, 44 ],
             "next": [
                 "Stop"
