@@ -43,7 +43,7 @@ namespace asst {
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
-		static constexpr int MatchTaskRetryTimesDefault = 60;
+		static constexpr int MatchTaskRetryTimesDefault = 20;
 		static constexpr int OpenRecruitTaskRetyrTimesDefault = 5;
 
 	private:

@@ -159,7 +159,7 @@ void Assistance::start_match_task(const std::string& task, int retry_times, bool
 	if (block)
 	{
 		lock = std::unique_lock<std::mutex>(m_mutex);
-		clear_exec_times();
+		//clear_exec_times();
 		m_identify_ptr->clear_cache();
 	}
 
@@ -218,10 +218,10 @@ void Assistance::stop(bool block)
 	if (block)
 	{ // 外部调用
 		lock = std::unique_lock<std::mutex>(m_mutex);
-		clear_exec_times();
 	}
 	decltype(m_tasks_queue) empty;
 	m_tasks_queue.swap(empty);
+	clear_exec_times();
 	m_identify_ptr->clear_cache();
 }
 

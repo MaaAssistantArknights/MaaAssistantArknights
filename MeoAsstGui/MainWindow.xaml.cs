@@ -42,6 +42,9 @@ namespace MeoAsstGui
         private IntPtr p_asst;
         private RecruitWindow recruitWindow;
 
+        private int retry_times = 0;
+        private int retry_limits = 2;
+
         public enum AsstMsg
         {
             /* Error Msg */
@@ -85,6 +88,7 @@ namespace MeoAsstGui
             {
                 case AsstMsg.TaskCompleted:
                     {
+                        retry_times = 0;
                         string task_name = detail["name"].ToString();
                         if (task_name == "StartButton2")
                         {
@@ -136,9 +140,29 @@ namespace MeoAsstGui
                 case AsstMsg.TaskError:
                     {
                         string task_chain = detail["task_chain"].ToString();
-                        if (task_chain == "SanityBegin" || task_chain == "VisitBegin")
+                        if (task_chain == "SanityBegin")
                         {
-                            label_status.Content = "出现错误，已停止运行";
+                            // 出错了会重试两次，再不行就算了
+                            if (retry_times >= retry_limits)
+                            {
+                                retry_times = 0;
+                                label_status.Content = "出现错误，已停止运行";
+                                break;
+                            }
+                            ++retry_times;
+                            button_Click_startSanity(null, null);
+                        }
+                        else if (task_chain == "VisitBegin")
+                        {
+                            // 出错了会重试两次，再不行就算了
+                            if (retry_times >= retry_limits)
+                            {
+                                retry_times = 0;
+                                label_status.Content = "出现错误，已停止运行";
+                                break;
+                            }
+                            ++retry_times;
+                            button_Click_visit(null, null);
                         }
                     }
                     break;
