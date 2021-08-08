@@ -250,6 +250,6 @@ namespace asst {
 		}
 	private:
 		std::vector<std::string> m_text_vec;
-		bool m_need_click;
+		bool m_need_click = false;
 	};
 }

@@ -489,7 +489,9 @@
         },
         "RecruitTime": {
             "template": "RecruitTimeReduce.png",
-            "type": "clickSelf",
+            "type": "clickRect",
+            "templThreshold": 0.99,
+            "specificArea": [ 391, 279, 129, 44 ],
             "next": [
                 "Stop"
             ]
