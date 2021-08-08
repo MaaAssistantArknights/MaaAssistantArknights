@@ -84,33 +84,45 @@ namespace MeoAsstGui
             switch (msg)
             {
                 case AsstMsg.TaskCompleted:
-                    string task_name = detail["name"].ToString();
-                    if (task_name == "StartButton2")
                     {
-                        exec_times.Content = "已开始行动 " + (int)detail["exec_times"] + " 次";
-                    }
-                    else if (task_name == "StoneConfirm")
-                    {
-                        stone_times.Content = "已碎石 " + (int)detail["exec_times"] + " 个";
+                        string task_name = detail["name"].ToString();
+                        if (task_name == "StartButton2")
+                        {
+                            exec_times.Content = "已开始行动 " + (int)detail["exec_times"] + " 次";
+                        }
+                        else if (task_name == "StoneConfirm")
+                        {
+                            stone_times.Content = "已碎石 " + (int)detail["exec_times"] + " 个";
+                        }
                     }
                     break;
                 case AsstMsg.TaskStart:
-                    string task_type = detail["task_type"].ToString();
-                    if (task_type == "MatchTask")
                     {
-                        label_status.Content = "正在运行中……";
+                        string task_chain = detail["task_chain"].ToString();
+                        string task_type = detail["task_type"].ToString();
+                        if (task_chain == "SanityBegin" || task_chain == "VisitBegin")
+                        {
+                            label_status.Content = "正在运行中……";
+                        }
                     }
                     break;
                 case AsstMsg.TaskStop:
-                    label_status.Content = "已刷完，自动停止";
-                    if (checkBox_shutdown.IsChecked == true)
                     {
-                        System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
-
-                        MessageBoxResult result = MessageBox.Show("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK);
-                        if (result == MessageBoxResult.OK)
+                        string task_chain = detail["task_chain"].ToString();
+                        if (task_chain != "SanityBegin")
                         {
-                            System.Diagnostics.Process.Start("shutdown.exe", "-a");
+                            break;
+                        }
+                        label_status.Content = "已刷完，自动停止";
+                        if (checkBox_shutdown.IsChecked == true)
+                        {
+                            System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
+
+                            MessageBoxResult result = MessageBox.Show("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK);
+                            if (result == MessageBoxResult.OK)
+                            {
+                                System.Diagnostics.Process.Start("shutdown.exe", "-a");
+                            }
                         }
                     }
                     break;
@@ -122,7 +134,13 @@ namespace MeoAsstGui
                     recruitWindow.proc_msg(msg, detail);
                     break;
                 case AsstMsg.TaskError:
-                    label_status.Content = "出现错误，已停止运行";
+                    {
+                        string task_chain = detail["task_chain"].ToString();
+                        if (task_chain == "SanityBegin" || task_chain == "VisitBegin")
+                        {
+                            label_status.Content = "出现错误，已停止运行";
+                        }
+                    }
                     break;
                 case AsstMsg.InitFaild:
                     MessageBox.Show("资源文件错误！请尝试重新解压或下载", "错误");

@@ -187,7 +187,7 @@ void Assistance::start_ocr_test_task(std::vector<std::string> text_vec, bool nee
 	m_condvar.notify_one();
 }
 
-void asst::Assistance::start_open_recruit(const std::vector<int>& required_level, bool set_time)
+void Assistance::start_open_recruit(const std::vector<int>& required_level, bool set_time)
 {
 	DebugTraceFunction;
 	if (!m_thread_idle || !m_inited)
@@ -199,6 +199,8 @@ void asst::Assistance::start_open_recruit(const std::vector<int>& required_level
 
 	auto task_ptr = std::make_shared<OpenRecruitTask>(task_callback, (void*)this);
 	task_ptr->set_param(required_level, set_time);
+	task_ptr->set_retry_times(OpenRecruitTaskRetyrTimesDefault);
+	task_ptr->set_task_chain("OpenRecruit");
 	m_tasks_queue.emplace(task_ptr);
 
 	m_thread_idle = false;

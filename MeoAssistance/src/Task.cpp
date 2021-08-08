@@ -142,7 +142,12 @@ bool MatchTask::run()
 		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
-	m_callback(AsstMsg::TaskStart, json::object{ { "task_type",  "MatchTask" } }, m_callback_arg);
+
+	json::value task_start_json = json::object{
+		{ "task_type",  "MatchTask" },
+		{ "task_chain", m_task_chain},
+	};
+	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
 	Rect rect;
 	auto&& ret = match_image(&rect);
@@ -186,7 +191,7 @@ bool MatchTask::run()
 	case MatchTaskType::DoNothing:
 		break;
 	case MatchTaskType::Stop:
-		m_callback(AsstMsg::TaskStop, json::value(), m_callback_arg);
+		m_callback(AsstMsg::TaskStop, json::object{ {"task_chain", m_task_chain} }, m_callback_arg);
 		need_stop = true;
 		break;
 	case MatchTaskType::PrintWindow:
@@ -231,6 +236,22 @@ bool MatchTask::run()
 
 std::optional<std::string> MatchTask::match_image(Rect* matched_rect)
 {
+	// 如果当前仅有一个任务，且这个任务的阈值是0（说明是justreturn的），就不抓图像识别了，直接返回就行
+	if (m_cur_tasks_name.size() == 1
+		&& Configer::get_instance().m_all_tasks_info[m_cur_tasks_name[0]].templ_threshold == 0) {
+		json::value callback_json;
+		callback_json["threshold"] = 0.0;
+		callback_json["algorithm"] = "JustReturn";
+		callback_json["rect"] = json::array({ 0, 0, 0, 0 });
+		callback_json["name"] = m_cur_tasks_name[0];
+		callback_json["algorithm_id"] = static_cast<std::underlying_type<MatchTaskType>::type>(AlgorithmType::JustReturn);
+		callback_json["value"] = 0;
+
+		m_callback(AsstMsg::ImageFindResult, callback_json, m_callback_arg);
+		m_callback(AsstMsg::ImageMatched, callback_json, m_callback_arg);
+		return m_cur_tasks_name[0];
+	}
+
 	const cv::Mat& cur_image = get_format_image();
 	if (cur_image.empty() || cur_image.rows < 100) {
 		return std::nullopt;
@@ -246,7 +267,7 @@ std::optional<std::string> MatchTask::match_image(Rect* matched_rect)
 
 		json::value callback_json;
 		bool matched = false;
-		if (algorithm == AlgorithmType::JustReturn) {
+		if (algorithm == AlgorithmType::JustReturn) {	// 加了上面“如果当前仅有一个任务，……”的逻辑，这个if应该走不到了（但还能走到下面的else if），考虑可以删了
 			callback_json["threshold"] = 0.0;
 			callback_json["algorithm"] = "JustReturn";
 			matched = true;
@@ -334,7 +355,11 @@ bool OpenRecruitTask::run()
 		return false;
 	}
 
-	m_callback(AsstMsg::TaskStart, json::object{ { "task_type",  "OpenRecruitTask" } }, m_callback_arg);
+	json::value task_start_json = json::object{
+		{ "task_type",  "OpenRecruitTask" },
+		{ "task_chain", m_task_chain},
+	};
+	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
 	/* Find all text */
 	std::vector<TextArea> all_text_area = ocr_detect();
@@ -372,7 +397,8 @@ bool OpenRecruitTask::run()
 	if (m_set_time) {
 		json::value settime_json;
 		settime_json["task"] = "RecruitTime";
-		settime_json["retry_times"] = m_retry_times;
+		// 只有tag数量对了才能走到这里，界面一定是对的，所以找不到时间设置就说明时间已经手动修改过了，不用重试了
+		settime_json["retry_times"] = 0;
 		settime_json["task_chain"] = m_task_chain;
 		m_callback(AsstMsg::AppendMatchTask, settime_json, m_callback_arg);
 	}
@@ -548,7 +574,11 @@ bool ClickTask::run()
 		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
-	m_callback(AsstMsg::TaskStart, json::object{ { "task_type",  "ClickTask" } }, m_callback_arg);
+	json::value task_start_json = json::object{
+		{ "task_type",  "ClickTask" },
+		{ "task_chain", m_task_chain},
+	};
+	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
 	m_control_ptr->click(m_rect);
 	return true;
@@ -569,7 +599,11 @@ bool TestOcrTask::run()
 		return false;
 	}
 
-	m_callback(AsstMsg::TaskStart, json::object{ { "task_type",  "TestOcrTask" } }, m_callback_arg);
+	json::value task_start_json = json::object{
+		{ "task_type",  "TestOcrTask" },
+		{ "task_chain", m_task_chain},
+	};
+	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
 	/* Find all text */
 	std::vector<TextArea> all_text_area = ocr_detect();
