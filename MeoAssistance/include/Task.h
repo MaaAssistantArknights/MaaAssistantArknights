@@ -102,7 +102,7 @@ namespace asst {
 	{
 	public:
 		AbstractTask(AsstCallback callback, void* callback_arg);
-		~AbstractTask() = default;
+		virtual ~AbstractTask() = default;
 		AbstractTask(const AbstractTask&) = default;
 		AbstractTask(AbstractTask&&) = default;
 
@@ -142,6 +142,7 @@ namespace asst {
 	{
 	public:
 		ClickTask(AsstCallback callback, void* callback_arg);
+		virtual ~ClickTask() = default;
 
 		virtual bool run() override;
 		void set_rect(asst::Rect rect) { m_rect = std::move(rect); };
@@ -153,6 +154,7 @@ namespace asst {
 	{
 	public:
 		MatchTask(AsstCallback callback, void* callback_arg);
+		virtual ~MatchTask() = default;
 
 		virtual bool run() override;
 
@@ -171,6 +173,8 @@ namespace asst {
 	{
 	public:
 		OcrAbstractTask(AsstCallback callback, void* callback_arg);
+		virtual ~OcrAbstractTask() = default;
+
 		virtual bool run() override = 0;
 
 	protected:
@@ -221,6 +225,7 @@ namespace asst {
 	{
 	public:
 		OpenRecruitTask(AsstCallback callback, void* callback_arg);
+		virtual ~OpenRecruitTask() = default;
 
 		virtual bool run() override;
 		virtual void set_param(std::vector<int> required_level, bool set_time = true);
@@ -235,6 +240,7 @@ namespace asst {
 	{
 	public:
 		TestOcrTask(AsstCallback callback, void* callback_arg);
+		virtual ~TestOcrTask() = default;
 
 		virtual bool run() override;
 		void set_text(std::string text, bool need_click = false)
