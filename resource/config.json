@@ -242,7 +242,8 @@
                 "StartButton2",
                 "PRTS",
                 "UseMedicine",
-                "UseStone"
+                "UseStone",
+                "ClickCorner"
             ]
         },
         "UsePrts": {
@@ -287,11 +288,33 @@
             "templThreshold": 0,
             "type": "printWindow",
             "next": [
-                "Random"
+                "ClickCorner"
             ]
         },
-        "Random": {
+        "ClickCorner": {
+            "ClickCorner_Doc": "点击右下角，既不会点到掉落物品，又能点到蓝色开始按钮的一块位置。1、2是一样的，3的next没有ClickCorner了，之所以分三个就是为了最多点三次，而不是循环跑起来，一直命中ClickCorner",
             "template": "",
+            "templThreshold": 0,
+            "preDelay": 2000,
+            "type": "clickRect",
+            "specificArea": [
+                1100,
+                700,
+                150,
+                30
+            ],
+            "next": [
+                "Loading",
+                "StartButton1",
+                "StartButton2",
+                "UseMedicine",
+                "UseStone",
+                "ClickCorner2"
+            ]
+        },
+        "ClickCorner2": {
+            "template": "",
+            "preDelay": 2000,
             "templThreshold": 0,
             "type": "clickRect",
             "specificArea": [
@@ -306,7 +329,26 @@
                 "StartButton2",
                 "UseMedicine",
                 "UseStone",
-                "Random"
+                "ClickCorner3"
+            ]
+        },
+        "ClickCorner3": {
+            "template": "",
+            "preDelay": 2000,
+            "templThreshold": 0,
+            "type": "clickRect",
+            "specificArea": [
+                1100,
+                700,
+                150,
+                30
+            ],
+            "next": [
+                "Loading",
+                "StartButton1",
+                "StartButton2",
+                "UseMedicine",
+                "UseStone"
             ]
         },
         "Loading": {
@@ -368,7 +410,7 @@
                 "Loading"
             ],
             "next": [
-                "Random"
+                "ClickCorner"
             ]
         },
         "VisitBegin": {
