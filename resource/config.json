@@ -24,9 +24,8 @@
         "ocrThreadNumber_Doc": "OcrLite线程数量。默认4"
     },
     "recruitOcrReplace": [
-        [ "千员", "干员" ],
-        [ "沮击", "狙击" ],
-        [ "泪击", "狙击" ]
+        [ "泪击", "狙击" ],
+        [ "都出", "输出" ]
     ],
     "infrastOcrReplace": [
     ],
