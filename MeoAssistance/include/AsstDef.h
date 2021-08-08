@@ -39,8 +39,8 @@ namespace asst {
 		ClickRand = BasicClick | 4,		// 点击随机区域
 		DoNothing = 0x200,				// 什么都不做
 		Stop =  0x400,					// 停止工作线程
-		PrintWindow =  0x800,			// 截图功能
-		OpenRecruit =  0x1000			// 公开招募功能
+		PrintWindow =  0x800,			// 截图
+		Ocr =  0x1000					// 文字识别任务
 	};
 
 	enum class AlgorithmType {
@@ -125,11 +125,10 @@ namespace asst {
 		int bottom_offset = 0;
 	};
 
+
 	struct TaskInfo {
+		virtual ~TaskInfo() = 0;
 		std::string name;								// 任务名
-		std::string template_filename;					// 匹配模板图片文件名
-		double templ_threshold = 0;						// 模板匹配阈值
-		double hist_threshold = 0;						// 直方图比较阈值
 		MatchTaskType type = MatchTaskType::Invalid;	// 任务类型
 		std::vector<std::string> next;					// 下一个可能的任务（列表）
 		int exec_times = 0;								// 任务已执行了多少次
@@ -140,6 +139,21 @@ namespace asst {
 		int pre_delay = 0;								// 执行该任务前的延时
 		int rear_delay = 0;								// 执行该任务后的延时
 		int retry_times = INT_MAX;						// 未找到图像时的重试次数
+	};
+
+	struct OcrTaskInfo : public TaskInfo {
+		virtual ~OcrTaskInfo() = default;
+		std::vector<std::string> text;					// 文字的容器，匹配到这里面任一个，就算匹配上了
+		bool need_match = false;						// 是否需要全匹配，否则搜索到子串就算匹配上了
+		std::unordered_map<std::string, std::string>
+			replace_map;								// 部分文字容易识别错，字符串强制replace之后，再进行匹配
+	};
+
+	struct MatchTaskInfo : public TaskInfo {
+		virtual ~MatchTaskInfo() = default;
+		std::string template_filename;					// 匹配模板图片文件名
+		double templ_threshold = 0;						// 模板匹配阈值
+		double hist_threshold = 0;						// 直方图比较阈值
 	};
 
 	struct Options {
