@@ -31,7 +31,7 @@ namespace asst {
 		return os << _type_name.at(type);
 	}
 
-	enum class MatchTaskType {
+	enum class ProcessTaskType {
 		Invalid = 0,
 		BasicClick = 0x100,
 		ClickSelf = BasicClick | 1,		// 点击模板自身位置
@@ -39,11 +39,11 @@ namespace asst {
 		ClickRand = BasicClick | 4,		// 点击随机区域
 		DoNothing = 0x200,				// 什么都不做
 		Stop =  0x400,					// 停止工作线程
-		PrintWindow =  0x800,			// 截图
-		Ocr =  0x1000					// 文字识别任务
+		PrintWindow =  0x800			// 截图
 	};
 
 	enum class AlgorithmType {
+		Invaild,
 		JustReturn,
 		MatchTemplate,
 		CompareHist,
@@ -125,11 +125,14 @@ namespace asst {
 		int bottom_offset = 0;
 	};
 
-
+	// 任务信息
 	struct TaskInfo {
-		virtual ~TaskInfo() = 0;
+		virtual ~TaskInfo() = default;
 		std::string name;								// 任务名
-		MatchTaskType type = MatchTaskType::Invalid;	// 任务类型
+		AlgorithmType algorithm =						// 图像算法类型
+			AlgorithmType::Invaild;
+		ProcessTaskType type =							// 任务类型（要进行的操作）
+			ProcessTaskType::Invalid;
 		std::vector<std::string> next;					// 下一个可能的任务（列表）
 		int exec_times = 0;								// 任务已执行了多少次
 		int max_times = INT_MAX;						// 任务最多执行多少次
@@ -141,6 +144,7 @@ namespace asst {
 		int retry_times = INT_MAX;						// 未找到图像时的重试次数
 	};
 
+	// 文字识别任务的信息
 	struct OcrTaskInfo : public TaskInfo {
 		virtual ~OcrTaskInfo() = default;
 		std::vector<std::string> text;					// 文字的容器，匹配到这里面任一个，就算匹配上了
@@ -149,6 +153,7 @@ namespace asst {
 			replace_map;								// 部分文字容易识别错，字符串强制replace之后，再进行匹配
 	};
 
+	// 图片匹配任务的信息
 	struct MatchTaskInfo : public TaskInfo {
 		virtual ~MatchTaskInfo() = default;
 		std::string template_filename;					// 匹配模板图片文件名

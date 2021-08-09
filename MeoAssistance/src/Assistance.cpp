@@ -42,11 +42,12 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 	m_identify_ptr = std::make_shared<Identify>();
 	for (const auto& [name, info] : Configer::get_instance().m_all_tasks_info)
 	{
-		if (info.template_filename.empty())
+		if (info->algorithm != AlgorithmType::MatchTemplate)
 		{
 			continue;
 		}
-		ret = m_identify_ptr->add_image(name, GetResourceDir() + "template\\" + info.template_filename);
+		std::string filename = std::dynamic_pointer_cast<MatchTaskInfo>(info)->template_filename;
+		ret = m_identify_ptr->add_image(name, GetResourceDir() + "template\\" + filename);
 		if (!ret) {
 			callback_error();
 			return;
@@ -138,12 +139,12 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 
 void asst::Assistance::start_sanity()
 {
-	start_match_task("SanityBegin", MatchTaskRetryTimesDefault);
+	start_match_task("SanityBegin", ProcessTaskRetryTimesDefault);
 }
 
 void asst::Assistance::start_visit()
 {
-	start_match_task("VisitBegin", MatchTaskRetryTimesDefault);
+	start_match_task("VisitBegin", ProcessTaskRetryTimesDefault);
 }
 
 void Assistance::start_match_task(const std::string& task, int retry_times, bool block)
@@ -350,8 +351,8 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
 	case AsstMsg::WindowMinimized:
 		p_this->m_window_ptr->showWindow();
 		break;
-	case AsstMsg::AppendMatchTask:
-		more_detail["type"] = "MatchTask";
+	case AsstMsg::AppendProcessTask:
+		more_detail["type"] = "ProcessTask";
 		[[fallthrough]];
 	case AsstMsg::AppendTask:
 		p_this->append_task(more_detail);
@@ -368,7 +369,7 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
 
 void asst::Assistance::append_match_task(const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times)
 {
-	auto task_ptr = std::make_shared<MatchTask>(task_callback, (void*)this);
+	auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
 	task_ptr->set_task_chain(task_chain);
 	task_ptr->set_tasks(tasks);
 	task_ptr->set_retry_times(retry_times);
@@ -393,7 +394,7 @@ void asst::Assistance::append_task(const json::value& detail)
 
 		m_tasks_queue.emplace(task_ptr);
 	}
-	else if (task_type == "MatchTask")
+	else if (task_type == "ProcessTask")
 	{
 		std::vector<std::string> next_vec;
 		if (detail.exist("tasks"))
@@ -427,6 +428,6 @@ void Assistance::clear_exec_times()
 {
 	for (auto&& pair : Configer::get_instance().m_all_tasks_info)
 	{
-		pair.second.exec_times = 0;
+		pair.second->exec_times = 0;
 	}
 }

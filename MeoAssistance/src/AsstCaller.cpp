@@ -78,7 +78,7 @@ void AsstStart(asst::Assistance* p_asst, const char* task)
 	if (p_asst == NULL) {
 	}
 
-	p_asst->start_match_task(task, asst::Assistance::MatchTaskRetryTimesDefault);
+	p_asst->start_match_task(task, asst::Assistance::ProcessTaskRetryTimesDefault);
 }
 
 void AsstStop(asst::Assistance* p_asst)
