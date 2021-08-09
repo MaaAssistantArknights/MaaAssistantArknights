@@ -267,6 +267,10 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 	// 逐个匹配当前可能的任务
 	for (const std::string& task_name : m_cur_tasks_name) {
 		std::shared_ptr<TaskInfo> task_info_ptr = Configer::get_instance().m_all_tasks_info[task_name];
+		if (task_info_ptr == nullptr) {
+			m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
+			continue;
+		}
 		json::value callback_json;
 		bool matched = false;
 		Rect rect;

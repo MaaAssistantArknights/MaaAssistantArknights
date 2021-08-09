@@ -233,7 +233,7 @@
     "tasks_Doc": "下面的和任务队列执行逻辑有关，不需要修改",
     "tasks": {
         "SanityBegin": {
-            "template": "",
+
             "algorithm": "justreturn",
             "type": "doNothing",
             "next": [
@@ -243,7 +243,7 @@
                 "PRTS",
                 "UseMedicine",
                 "UseStone",
-                "ClickCorner"
+                "EndOfAction"
             ]
         },
         "UsePrts": {
@@ -280,61 +280,48 @@
             "next": [
                 "PRTS",
                 "PrtsErrorConfirm",
-                "EndOfAction"
+                "EndOfAction",
+                "WaitAfterPRTS"
+            ]
+        },
+        "WaitAfterPRTS": {
+            "rearDealy": 5000,
+            "algorithm": "justreturn",
+            "type": "doNothing",
+            "next": [
+                "EndOfAction",
+                "ClickCornerAfterPRTS"
+            ]
+        },
+        "ClickCornerAfterPRTS": {
+            "ClickCorner_Doc": "点击右下角，既不会点到掉落物品，又能点到蓝色开始按钮（为了容错）的一块位置。",
+            "algorithm": "justreturn",
+            "type": "clickRect",
+            "specificArea": [
+                1100,
+                700,
+                150,
+                30
+            ],
+            "next": [
+                "EndOfAction",
+                "Loading",
+                "StartButton1",
+                "StartButton2",
+                "UseMedicine",
+                "UseStone"
             ]
         },
         "EndOfAction": {
-            "template": "",
-            "algorithm": "justreturn",
+            "algorithm": "OcrDetect",
+            "text": [ "行动结束" ],
             "type": "printWindow",
             "next": [
                 "ClickCorner"
             ]
         },
         "ClickCorner": {
-            "ClickCorner_Doc": "点击右下角，既不会点到掉落物品，又能点到蓝色开始按钮的一块位置。1、2是一样的，3的next没有ClickCorner了，之所以分三个就是为了最多点三次，而不是循环跑起来，一直命中ClickCorner",
-            "template": "",
-            "algorithm": "justreturn",
-            "preDelay": 2000,
-            "type": "clickRect",
-            "specificArea": [
-                1100,
-                700,
-                150,
-                30
-            ],
-            "next": [
-                "Loading",
-                "StartButton1",
-                "StartButton2",
-                "UseMedicine",
-                "UseStone",
-                "ClickCorner2"
-            ]
-        },
-        "ClickCorner2": {
-            "template": "",
-            "preDelay": 2000,
-            "algorithm": "justreturn",
-            "type": "clickRect",
-            "specificArea": [
-                1100,
-                700,
-                150,
-                30
-            ],
-            "next": [
-                "Loading",
-                "StartButton1",
-                "StartButton2",
-                "UseMedicine",
-                "UseStone",
-                "ClickCorner3"
-            ]
-        },
-        "ClickCorner3": {
-            "template": "",
-            "preDelay": 2000,
+            "ClickCorner_Doc": "点击右下角，既不会点到掉落物品，又能点到蓝色开始按钮（为了容错）的一块位置。",
             "algorithm": "justreturn",
             "type": "clickRect",
             "specificArea": [
@@ -410,11 +397,11 @@
                 "Loading"
             ],
             "next": [
-                "ClickCorner"
+                "EndOfAction"
             ]
         },
         "VisitBegin": {
-            "template": "",
+
             "algorithm": "justreturn",
             "type": "doNothing",
             "next": [
@@ -543,7 +530,7 @@
             ]
         },
         "Stop": {
-            "template": "",
+
             "algorithm": "justreturn",
             "type": "stop",
             "next": []
