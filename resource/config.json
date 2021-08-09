@@ -234,7 +234,7 @@
     "tasks": {
         "SanityBegin": {
             "template": "",
-            "templThreshold": 0,
+            "algorithm": "justreturn",
             "type": "doNothing",
             "next": [
                 "UsePrts",
@@ -285,7 +285,7 @@
         },
         "EndOfAction": {
             "template": "",
-            "templThreshold": 0,
+            "algorithm": "justreturn",
             "type": "printWindow",
             "next": [
                 "ClickCorner"
@@ -294,7 +294,7 @@
         "ClickCorner": {
             "ClickCorner_Doc": "点击右下角，既不会点到掉落物品，又能点到蓝色开始按钮的一块位置。1、2是一样的，3的next没有ClickCorner了，之所以分三个就是为了最多点三次，而不是循环跑起来，一直命中ClickCorner",
             "template": "",
-            "templThreshold": 0,
+            "algorithm": "justreturn",
             "preDelay": 2000,
             "type": "clickRect",
             "specificArea": [
@@ -315,7 +315,7 @@
         "ClickCorner2": {
             "template": "",
             "preDelay": 2000,
-            "templThreshold": 0,
+            "algorithm": "justreturn",
             "type": "clickRect",
             "specificArea": [
                 1100,
@@ -335,7 +335,7 @@
         "ClickCorner3": {
             "template": "",
             "preDelay": 2000,
-            "templThreshold": 0,
+            "algorithm": "justreturn",
             "type": "clickRect",
             "specificArea": [
                 1100,
@@ -415,7 +415,7 @@
         },
         "VisitBegin": {
             "template": "",
-            "templThreshold": 0,
+            "algorithm": "justreturn",
             "type": "doNothing",
             "next": [
                 "Friends",
@@ -466,7 +466,24 @@
                 "ReturnToMall"
             ],
             "next": [
+                "VisitLimited",
                 "VisitNext",
+                "VisitNextOcr",
+                "VisitNextBlack"
+            ]
+        },
+        "VisitNextOcr": {
+            "algorithm": "OcrDetect",
+            "text": [ "访问下位" ],
+            "type": "clickSelf",
+            "maxTimes": 21,
+            "exceededNext": [
+                "ReturnToMall"
+            ],
+            "next": [
+                "VisitLimited",
+                "VisitNext",
+                "VisitNextOcr",
                 "VisitNextBlack"
             ]
         },
@@ -511,8 +528,8 @@
             ]
         },
         "VisitLimited": {
-            "template": "VisitLimited.png",
-            "templThreshold": 1,
+            "algorithm": "OcrDetect",
+            "text": [ "今日参与", "已达上限" ],
             "type": "doNothing",
             "next": [
                 "ReturnToMall"
@@ -527,7 +544,7 @@
         },
         "Stop": {
             "template": "",
-            "templThreshold": 0,
+            "algorithm": "justreturn",
             "type": "stop",
             "next": []
         },

@@ -60,7 +60,7 @@ namespace MeoAsstGui
             ReachedLimit,
             ReadyToSleep,
             EndOfSleep,
-            AppendMatchTask,
+            AppendProcessTask,
             AppendTask,
             TaskCompleted,
             PrintWindow,
@@ -131,6 +131,7 @@ namespace MeoAsstGui
                     }
                     break;
                 case AsstMsg.TextDetected:
+                    break;
                 case AsstMsg.RecruitTagsDetected:
                 case AsstMsg.OcrResultError:
                 case AsstMsg.RecruitSpecialTag:

@@ -49,7 +49,7 @@ namespace asst {
 		ReachedLimit,
 		ReadyToSleep,
 		EndOfSleep,
-		AppendMatchTask,	// 这个消息Assistance会新增任务，外部不需要处理
+		AppendProcessTask,	// 这个消息Assistance会新增任务，外部不需要处理
 		AppendTask,			// 这个消息Assistance会新增任务，外部不需要处理
 		TaskCompleted,
 		PrintWindow,
@@ -76,7 +76,7 @@ namespace asst {
 			{AsstMsg::ReachedLimit, "ReachedLimit"},
 			{AsstMsg::ReadyToSleep, "ReadyToSleep"},
 			{AsstMsg::EndOfSleep, "EndOfSleep"},
-			{AsstMsg::AppendMatchTask, "AppendMatchTask"},
+			{AsstMsg::AppendProcessTask, "AppendProcessTask"},
 			{AsstMsg::TaskCompleted, "TaskCompleted"},
 			{AsstMsg::PrintWindow, "PrintWindow"},
 			{AsstMsg::TaskError, "TaskError"},
@@ -150,25 +150,6 @@ namespace asst {
 		asst::Rect m_rect;
 	};
 
-	class MatchTask : public AbstractTask
-	{
-	public:
-		MatchTask(AsstCallback callback, void* callback_arg);
-		virtual ~MatchTask() = default;
-
-		virtual bool run() override;
-
-		virtual void set_tasks(const std::vector<std::string>& cur_tasks_name) {
-			m_cur_tasks_name = cur_tasks_name;
-		}
-
-	protected:
-		std::optional<std::string> match_image(asst::Rect* matched_rect = NULL);
-		void exec_click_task(TaskInfo& task, const asst::Rect& matched_rect);
-
-		std::vector<std::string> m_cur_tasks_name;
-	};
-
 	class OcrAbstractTask : public AbstractTask
 	{
 	public:
@@ -179,6 +160,7 @@ namespace asst {
 
 	protected:
 		std::vector<TextArea> ocr_detect();
+		std::vector<TextArea> ocr_detect(const cv::Mat& image);
 
 		// 文字匹配，要求相等
 		template<typename FilterArray, typename ReplaceMap>
@@ -219,6 +201,26 @@ namespace asst {
 			}
 			return dst;
 		}
+	};
+
+	// 流程任务，按照配置文件里的设置的流程运行
+	class ProcessTask : public OcrAbstractTask
+	{
+	public:
+		ProcessTask(AsstCallback callback, void* callback_arg);
+		virtual ~ProcessTask() = default;
+
+		virtual bool run() override;
+
+		virtual void set_tasks(const std::vector<std::string>& cur_tasks_name) {
+			m_cur_tasks_name = cur_tasks_name;
+		}
+
+	protected:
+		std::shared_ptr<TaskInfo> match_image(asst::Rect* matched_rect = NULL);
+		void exec_click_task(const asst::Rect& matched_rect);
+
+		std::vector<std::string> m_cur_tasks_name;
 	};
 
 	class OpenRecruitTask : public OcrAbstractTask
