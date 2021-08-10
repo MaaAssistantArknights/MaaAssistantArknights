@@ -169,35 +169,6 @@
             "xOffset": 1,
             "yOffset": 42
         },
-        "MuMuAsst": {
-            "window": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "明日方舟 - 星云引擎"
-                }
-            ],
-            "view": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "明日方舟 - 星云引擎"
-                }
-            ],
-            "control": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "明日方舟 - 星云引擎"
-                }
-            ],
-            "adb": {
-                "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
-                "connect": " connect 127.0.0.1:7555",
-                "click": " shell input tap [x] [y]",
-                "display": " shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d"
-            },
-            "xOffset": 0,
-            "yOffset": 36
-        },
         "MuMuEmulator": {
             "window": [
                 {
@@ -218,7 +189,7 @@
                 }
             ],
             "adb": {
-                "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
+                "path": "[EmulatorPath]..\\\\vmonitor\\\\bin\\\\adb_server.exe",
                 "connect": " connect 127.0.0.1:7555",
                 "click": " shell input tap [x] [y]",
                 "display": " shell dumpsys window displays | grep init= | awk ' { print $3 } '",
@@ -455,8 +426,8 @@
             "next": [
                 "VisitLimited",
                 "VisitNext",
-                "VisitNextOcr",
-                "VisitNextBlack"
+                "VisitNextBlack",
+                "VisitNextOcr"
             ]
         },
         "VisitNextOcr": {
@@ -464,14 +435,15 @@
             "text": [ "访问下位" ],
             "type": "clickSelf",
             "maxTimes": 21,
+			"rearDealy": 3000,
             "exceededNext": [
                 "ReturnToMall"
             ],
             "next": [
                 "VisitLimited",
                 "VisitNext",
-                "VisitNextOcr",
-                "VisitNextBlack"
+                "VisitNextBlack",
+                "VisitNextOcr"
             ]
         },
         "ReturnToMall": {

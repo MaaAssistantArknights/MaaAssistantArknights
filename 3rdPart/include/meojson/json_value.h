@@ -29,8 +29,8 @@ namespace json
 
     public:
         value();
-        value(const value &rhs);
-        value(value &&rhs) noexcept;
+        value(const value& rhs);
+        value(value&& rhs) noexcept;
 
         value(bool b);
 
@@ -44,24 +44,24 @@ namespace json
         value(double num);
         value(long double num);
 
-        value(const char *str);
-        value(const std::string &str);
-        value(std::string &&str);
+        value(const char* str);
+        value(const std::string& str);
+        value(std::string&& str);
 
-        value(const array &arr);
-        value(array &&arr);
+        value(const array& arr);
+        value(array&& arr);
         // value(std::initializer_list<value> init_list); // for array
 
-        value(const object &obj);
-        value(object &&obj);
+        value(const object& obj);
+        value(object&& obj);
         // error: conversion from ‘<brace-enclosed initializer list>’ to ‘json::value’ is ambiguous
         // value(std::initializer_list<std::pair<std::string, value>> init_list); // for object
 
         // Constructed from raw data
         template <typename... Args>
-        value(value_type type, Args &&... args)
+        value(value_type type, Args &&...args)
             : _type(type),
-              _raw_data(std::forward<Args>(args)...)
+            _raw_data(std::forward<Args>(args)...)
         {
             static_assert(
                 std::is_constructible<std::string, Args...>::value,
@@ -85,15 +85,17 @@ namespace json
         bool exist(const std::string& key) const;
         bool exist(size_t pos) const;
         value_type type() const noexcept { return _type; }
-        const value &at(size_t pos) const;
-        const value &at(const std::string &key) const;
+        const value& at(size_t pos) const;
+        const value& at(const std::string& key) const;
 
-        template<typename Type>
-        decltype(auto) get(const std::string& key, Type default_value) const {
+        template <typename Type>
+        decltype(auto) get(const std::string& key, Type default_value) const
+        {
             return is_object() ? as_object().get(key, default_value) : default_value;
         }
-        template<typename Type>
-        decltype(auto) get(size_t pos, Type default_value) const {
+        template <typename Type>
+        decltype(auto) get(size_t pos, Type default_value) const
+        {
             return is_array() ? as_array().get(pos, default_value) : default_value;
         }
 
@@ -108,8 +110,8 @@ namespace json
         const double as_double() const;
         const long double as_long_double() const;
         const std::string as_string() const;
-        const array & as_array() const;
-        const object & as_object() const;
+        const array& as_array() const;
+        const object& as_object() const;
 
         array& as_array();
         object& as_object();
@@ -118,13 +120,13 @@ namespace json
         const std::string to_string() const;
         const std::string format(std::string shift_str = "    ", size_t basic_shift_count = 0) const;
 
-        value &operator=(const value &rhs);
-        value &operator=(value &&) noexcept;
+        value& operator=(const value& rhs);
+        value& operator=(value&&) noexcept;
 
-        const value &operator[](size_t pos) const;
-        value &operator[](size_t pos);
-        value &operator[](const std::string &key);
-        value &operator[](std::string &&key);
+        const value& operator[](size_t pos) const;
+        value& operator[](size_t pos);
+        value& operator[](const std::string& key);
+        value& operator[](std::string&& key);
         //explicit operator bool() const noexcept { return valid(); }
 
         explicit operator bool() const { return as_boolean(); }
@@ -140,7 +142,7 @@ namespace json
 
     private:
         template <typename T>
-        static std::unique_ptr<T> copy_unique_ptr(const std::unique_ptr<T> &t)
+        static std::unique_ptr<T> copy_unique_ptr(const std::unique_ptr<T>& t)
         {
             return t == nullptr ? nullptr : std::make_unique<T>(*t);
         }
@@ -152,7 +154,7 @@ namespace json
     };
 
     const value invalid_value();
-    std::ostream &operator<<(std::ostream &out, const value &val);
+    std::ostream& operator<<(std::ostream& out, const value& val);
     // std::istream &operator>>(std::istream &in, value &val);
 
 } // namespace json
