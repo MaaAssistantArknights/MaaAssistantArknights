@@ -100,7 +100,7 @@ bool WinMacro::findHandle()
 		std::string connect_cmd = adb_dir + m_emulator_info.adb.connect;
 
 		if (!callCmd(connect_cmd)) {
-			DebugTraceError("Connect Adb Error");
+			DebugTraceError("Connect Adb Error", connect_cmd);
 			return false;
 		}
 		auto&& display_ret = callCmd(adb_dir + m_emulator_info.adb.display);

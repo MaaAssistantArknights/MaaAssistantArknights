@@ -15,12 +15,12 @@ namespace json
     public:
         ~parser() noexcept = default;
 
-        static std::optional<value> parse(const std::string &content);
+        static std::optional<value> parse(const std::string& content);
 
     private:
         parser(
-            const std::string::const_iterator &cbegin,
-            const std::string::const_iterator &cend) noexcept
+            const std::string::const_iterator& cbegin,
+            const std::string::const_iterator& cend) noexcept
             : _cur(cbegin), _end(cend) {}
 
         std::optional<value> parse();
@@ -44,4 +44,7 @@ namespace json
         std::string::const_iterator _cur;
         std::string::const_iterator _end;
     };
+
+    std::optional<value> parse(const std::string& content);
+
 } // namespace json

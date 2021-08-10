@@ -18,16 +18,16 @@ namespace json
         using const_reverse_iterator = raw_array::const_reverse_iterator;
 
         array() = default;
-        array(const array &rhs) = default;
-        array(array &&rhs) noexcept = default;
-        array(const raw_array &arr);
-        array(raw_array &&arr) noexcept;
+        array(const array& rhs) = default;
+        array(array&& rhs) noexcept = default;
+        array(const raw_array& arr);
+        array(raw_array&& arr) noexcept;
         array(std::initializer_list<raw_array::value_type> init_list);
         template<typename EleType>
         array(std::vector<EleType> vec) {
-			static_assert(
-				std::is_constructible<json::value, EleType>::value,
-				"Parameter can't be used to construct a json::value");
+            static_assert(
+                std::is_constructible<json::value, EleType>::value,
+                "Parameter can't be used to construct a json::value");
             for (auto&& ele : vec) {
                 _array_data.emplace_back(std::move(ele));
             }
@@ -38,7 +38,7 @@ namespace json
         bool empty() const noexcept { return _array_data.empty(); }
         size_t size() const noexcept { return _array_data.size(); }
         bool exist(size_t pos) const { return _array_data.size() < pos; }
-        const value &at(size_t pos) const;
+        const value& at(size_t pos) const;
         const std::string to_string() const;
         const std::string format(std::string shift_str = "    ", size_t basic_shift_count = 0) const;
 
@@ -52,7 +52,7 @@ namespace json
         const double get(size_t pos, double default_value) const;
         const long double get(size_t pos, long double default_value) const;
         const std::string get(size_t pos, std::string default_value) const;
-        const std::string get(size_t pos, const char * default_value) const;
+        const std::string get(size_t pos, const char* default_value) const;
 
         template <typename... Args>
         decltype(auto) emplace_back(Args &&... args)
@@ -76,11 +76,11 @@ namespace json
         const_reverse_iterator crbegin() const noexcept;
         const_reverse_iterator crend() const noexcept;
 
-        const value &operator[](size_t pos) const;
-        value &operator[](size_t pos);
+        const value& operator[](size_t pos) const;
+        value& operator[](size_t pos);
 
-        array &operator=(const array &) = default;
-        array &operator=(array &&) noexcept = default;
+        array& operator=(const array&) = default;
+        array& operator=(array&&) noexcept = default;
 
         // const raw_array &raw_data() const;
 
@@ -88,6 +88,6 @@ namespace json
         raw_array _array_data;
     };
 
-    std::ostream &operator<<(std::ostream &out, const array &arr);
+    std::ostream& operator<<(std::ostream& out, const array& arr);
 
 } // namespace json
