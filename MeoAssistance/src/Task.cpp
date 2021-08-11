@@ -162,7 +162,8 @@ bool ProcessTask::run()
 		{ "type", static_cast<int>(task_info_ptr->type) },
 		{ "exec_times", task_info_ptr->exec_times },
 		{ "max_times", task_info_ptr->max_times },
-		{ "task_type", "ProcessTask"}
+		{ "task_type", "ProcessTask"},
+		{ "algorithm", static_cast<int>(task_info_ptr->algorithm)}
 	};
 	m_callback(AsstMsg::TaskMatched, callback_json, m_callback_arg);
 
