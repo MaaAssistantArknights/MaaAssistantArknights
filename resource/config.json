@@ -447,7 +447,6 @@
         "ReturnToMall": {
             "template": "Return.png",
             "type": "clickSelf",
-            "rearDelay": 5000,
             "next": [
                 "Mall",
                 "ReturnToMall",
@@ -457,6 +456,7 @@
         "ReturnToMallConfirm": {
             "template": "PopupConfirm.png",
             "type": "clickSelf",
+            "rearDelay": 5000,
             "next": [
                 "ReturnToMall"
             ]
