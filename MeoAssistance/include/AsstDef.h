@@ -42,7 +42,7 @@ namespace asst {
 	};
 
 	enum class AlgorithmType {
-		Invaild,
+		Invaild = -1,
 		JustReturn,
 		MatchTemplate,
 		CompareHist,

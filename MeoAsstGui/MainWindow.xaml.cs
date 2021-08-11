@@ -83,7 +83,10 @@ namespace MeoAsstGui
             {
                 case AsstMsg.TaskCompleted:
                     {
-                        retry_times = 0;
+                        if ((int)detail["algorithm"] > 0)   // JustReturn的执行完成不算
+                        {
+                            retry_times = 0;
+                        }
                         string task_name = detail["name"].ToString();
                         if (task_name == "StartButton2")
                         {
