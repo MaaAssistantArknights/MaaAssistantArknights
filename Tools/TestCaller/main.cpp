@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 
 	char ch = 0;
 	while (ch != 'q') {
-		AsstTestOcr(ptr, text_array, sizeof(text_array)/sizeof(char*), true);
+		AsstTestOcr(ptr, text_array, sizeof(text_array) / sizeof(char*), true);
 		ch = getchar();
 	}
 

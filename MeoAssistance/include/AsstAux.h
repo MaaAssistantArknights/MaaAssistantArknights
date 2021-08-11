@@ -4,7 +4,6 @@
 #include <Windows.h>
 
 namespace asst {
-
 	static std::string GetCurrentDir()
 	{
 		static std::string cur_dir;
@@ -79,7 +78,6 @@ namespace asst {
 		if (szGBK) delete[] szGBK;
 		return strTemp;
 	}
-
 
 	//template<typename T,
 	//	typename = typename std::enable_if<std::is_constructible<T, std::string>::value>::type>

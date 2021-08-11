@@ -15,7 +15,7 @@ namespace asst {
 	class WinMacro
 	{
 	public:
-		WinMacro(const EmulatorInfo & info, HandleType type);
+		WinMacro(const EmulatorInfo& info, HandleType type);
 		~WinMacro() = default;
 
 		bool captured() const noexcept;
@@ -23,8 +23,8 @@ namespace asst {
 		bool resizeWindow();	// by configer
 		bool showWindow();
 		bool hideWindow();
-		bool click(const Point & p);
-		bool click(const Rect & rect);
+		bool click(const Point& p);
+		bool click(const Rect& rect);
 		void setControlScale(double scale);
 		cv::Mat getImage(const Rect& rect);
 		Rect getWindowRect();

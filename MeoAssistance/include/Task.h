@@ -22,7 +22,6 @@ namespace json
 }
 
 namespace asst {
-
 	class WinMacro;
 	class Identify;
 	class Configer;
@@ -118,7 +117,7 @@ namespace asst {
 		virtual void set_retry_times(int times) { m_retry_times = times; }
 		virtual int get_retry_times() { return m_retry_times; }
 		virtual void set_task_chain(std::string name) { m_task_chain = std::move(name); }
-		virtual const std::string & get_task_chain() { return m_task_chain; }
+		virtual const std::string& get_task_chain() { return m_task_chain; }
 	protected:
 		virtual cv::Mat get_format_image();
 		virtual bool set_control_scale(int cur_width, int cur_height);

@@ -234,7 +234,6 @@ bool ProcessTask::run()
 	return true;
 }
 
-
 std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 {
 	//// 如果当前仅有一个任务，且这个任务的阈值是0（说明是justreturn的），就不抓图像识别了，直接返回就行
@@ -310,7 +309,7 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 				continue;
 			}
 		}
-			break;
+		break;
 		case AlgorithmType::OcrDetect:
 		{
 			std::shared_ptr<OcrTaskInfo> ocr_task_info_ptr =
@@ -318,7 +317,7 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			std::vector<TextArea> all_text_area = ocr_detect(cur_image);
 			std::vector<TextArea> match_result;
 			if (ocr_task_info_ptr->need_match) {
-				match_result = text_match(all_text_area, 
+				match_result = text_match(all_text_area,
 					ocr_task_info_ptr->text, ocr_task_info_ptr->replace_map);
 			}
 			else {
@@ -333,7 +332,7 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 				matched = true;
 			}
 		}
-			break;
+		break;
 		//CompareHist是MatchTemplate的衍生算法，不应作为单独的配置参数出现
 		//case AlgorithmType::CompareHist:
 		//	break;
@@ -372,7 +371,6 @@ void ProcessTask::exec_click_task(const Rect& matched_rect)
 
 	m_control_ptr->click(matched_rect);
 }
-
 
 OcrAbstractTask::OcrAbstractTask(AsstCallback callback, void* callback_arg)
 	: AbstractTask(callback, callback_arg)
@@ -696,4 +694,3 @@ bool TestOcrTask::run()
 
 	return true;
 }
-

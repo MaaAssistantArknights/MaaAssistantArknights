@@ -1,43 +1,37 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Runtime.InteropServices;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Windows;
 
 namespace MeoAsstGui
 {
     using AsstMsg = MainWindow.AsstMsg;
+
     /// <summary>
     /// RecruitWindow.xaml 的交互逻辑
     /// </summary>
     public partial class RecruitWindow : Window
     {
         [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchEmulator(IntPtr ptr);
+
         [DllImport("MeoAssistance.dll")] static private extern bool AsstRunOpenRecruit(IntPtr ptr, int[] required_level, bool set_time);
 
         private IntPtr p_asst;
+
         public RecruitWindow(IntPtr ptr)
         {
             InitializeComponent();
             p_asst = ptr;
         }
+
         public void proc_msg(AsstMsg msg, JObject detail)
         {
             switch (msg)
             {
                 case AsstMsg.TextDetected:
                     break;
+
                 case AsstMsg.RecruitTagsDetected:
                     JArray tags = (JArray)detail["tags"];
                     string info_content = "识别结果:    ";
@@ -47,12 +41,15 @@ namespace MeoAsstGui
                     }
                     info.Content = info_content;
                     break;
+
                 case AsstMsg.OcrResultError:
                     info.Content = "识别错误！";
                     break;
+
                 case AsstMsg.RecruitSpecialTag:
                     MessageBox.Show("检测到特殊Tag:" + detail["tag"].ToString(), "提示");
                     break;
+
                 case AsstMsg.RecruitResult:
                     string result_content = "";
                     JArray result_array = (JArray)detail["result"];

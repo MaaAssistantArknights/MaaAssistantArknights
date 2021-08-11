@@ -76,8 +76,5 @@ namespace asst {
 		std::queue<std::pair<AsstMsg, json::value>> m_msg_queue;
 		std::mutex m_msg_mutex;
 		std::condition_variable m_msg_condvar;
-
-
 	};
-
 }

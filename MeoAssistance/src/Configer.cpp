@@ -29,7 +29,7 @@ bool Configer::load(const std::string& filename)
 {
 	DebugTraceFunction;
 	DebugTrace("Configer::load | ", filename);
-	
+
 	Configer temp;
 	if (temp._load(filename)) {
 		*this = std::move(temp);
@@ -147,7 +147,7 @@ bool asst::Configer::_load(const std::string& filename)
 				match_task_info_ptr->hist_threshold = task_json.get("histThreshold", DefaultCachetempl_threshold);
 				task_info_ptr = match_task_info_ptr;
 			}
-				break;
+			break;
 			case AlgorithmType::OcrDetect:
 			{
 				auto ocr_task_info_ptr = std::make_shared<OcrTaskInfo>();
@@ -164,7 +164,7 @@ bool asst::Configer::_load(const std::string& filename)
 				}
 				task_info_ptr = ocr_task_info_ptr;
 			}
-				break;
+			break;
 			}
 			task_info_ptr->algorithm = algorithm;
 			task_info_ptr->name = name;
@@ -184,7 +184,7 @@ bool asst::Configer::_load(const std::string& filename)
 			}
 			else if (type == "clickrect") {
 				task_info_ptr->type = ProcessTaskType::ClickRect;
-				json::value & area_json = task_json["specificArea"];
+				json::value& area_json = task_json["specificArea"];
 				task_info_ptr->specific_area = Rect(
 					area_json[0].as_integer(),
 					area_json[1].as_integer(),
@@ -201,8 +201,8 @@ bool asst::Configer::_load(const std::string& filename)
 
 			task_info_ptr->max_times = task_json.get("maxTimes", INT_MAX);
 			if (task_json.exist("exceededNext")) {
-				json::array & excceed_next_arr = task_json["exceededNext"].as_array();
-				for (const json::value & excceed_next : excceed_next_arr) {
+				json::array& excceed_next_arr = task_json["exceededNext"].as_array();
+				for (const json::value& excceed_next : excceed_next_arr) {
 					task_info_ptr->exceeded_next.emplace_back(excceed_next.as_string());
 				}
 			}
@@ -212,13 +212,13 @@ bool asst::Configer::_load(const std::string& filename)
 			task_info_ptr->pre_delay = task_json.get("preDelay", 0);
 			task_info_ptr->rear_delay = task_json.get("rearDelay", 0);
 			if (task_json.exist("reduceOtherTimes")) {
-				json::array & reduce_arr = task_json["reduceOtherTimes"].as_array();
+				json::array& reduce_arr = task_json["reduceOtherTimes"].as_array();
 				for (const json::value& reduce : reduce_arr) {
 					task_info_ptr->reduce_other_times.emplace_back(reduce.as_string());
 				}
 			}
 
-			json::array & next_arr = task_json["next"].as_array();
+			json::array& next_arr = task_json["next"].as_array();
 			for (const json::value& next : next_arr) {
 				task_info_ptr->next.emplace_back(next.as_string());
 			}
