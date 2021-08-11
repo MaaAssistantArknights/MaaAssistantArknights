@@ -43,6 +43,9 @@ namespace asst {
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
+		// 滑动操作，调试用
+		bool swipe(const Point& p1, const Point& p2);
+
 		static constexpr int ProcessTaskRetryTimesDefault = 20;
 		static constexpr int OpenRecruitTaskRetyrTimesDefault = 5;
 

@@ -1,4 +1,4 @@
-#include "OpenRecruitConfiger.h"
+#include "RecruitConfiger.h"
 
 #include <fstream>
 #include <sstream>
@@ -9,12 +9,12 @@
 
 using namespace asst;
 
-bool OpenRecruitConfiger::load(const std::string& filename)
+bool RecruitConfiger::load(const std::string& filename)
 {
 	DebugTraceFunction;
-	DebugTrace("OpenRecruitConfiger::load | ", filename);
+	DebugTrace("RecruitConfiger::load | ", filename);
 
-	OpenRecruitConfiger temp;
+	RecruitConfiger temp;
 	if (temp._load(filename)) {
 		// 按干员等级排个序
 		std::sort(temp.m_all_opers.begin(), temp.m_all_opers.end(), [](
@@ -31,7 +31,7 @@ bool OpenRecruitConfiger::load(const std::string& filename)
 	}
 }
 
-bool asst::OpenRecruitConfiger::_load(const std::string& filename)
+bool asst::RecruitConfiger::_load(const std::string& filename)
 {
 	std::ifstream ifs(filename, std::ios::in);
 	if (!ifs.is_open()) {

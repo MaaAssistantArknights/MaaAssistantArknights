@@ -6,7 +6,8 @@
 #include "Logger.hpp"
 #include "AsstAux.h"
 #include "Task.h"
-#include "OpenRecruitConfiger.h"
+#include "RecruitConfiger.h"
+#include "InfrastConfiger.h"
 
 #include <json.h>
 #include <opencv2/opencv.hpp>
@@ -33,7 +34,12 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 		callback_error();
 		return;
 	}
-	ret = OpenRecruitConfiger::get_instance().load(GetResourceDir() + "operInfo.json");
+	ret = RecruitConfiger::get_instance().load(GetResourceDir() + "recruit.json");
+	if (!ret) {
+		callback_error();
+		return;
+	}
+	ret = InfrastConfiger::get_instance().load(GetResourceDir() + "infrast.json");
 	if (!ret) {
 		callback_error();
 		return;
@@ -232,6 +238,11 @@ bool Assistance::set_param(const std::string& type, const std::string& param, co
 	DebugTrace("SetParam |", type, param, value);
 
 	return Configer::get_instance().set_param(type, param, value);
+}
+
+bool asst::Assistance::swipe(const Point& p1, const Point& p2)
+{
+	return m_control_ptr->swipe(p1, p2);
 }
 
 void Assistance::working_proc(Assistance* p_this)

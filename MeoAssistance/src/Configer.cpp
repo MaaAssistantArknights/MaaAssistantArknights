@@ -250,10 +250,10 @@ bool asst::Configer::_load(const std::string& filename)
 			}
 			if (emulator_json.exist("adb")) {
 				emulator_info.is_adb = true;
-				std::cout << emulator_json.to_string() << std::endl;
 				emulator_info.adb.path = emulator_json["adb"]["path"].as_string();
 				emulator_info.adb.connect = emulator_json["adb"]["connect"].as_string();
 				emulator_info.adb.click = emulator_json["adb"]["click"].as_string();
+				emulator_info.adb.swipe = emulator_json["adb"]["swipe"].as_string();
 				emulator_info.adb.display = emulator_json["adb"]["display"].as_string();
 				emulator_info.adb.display_regex = emulator_json["adb"]["displayRegex"].as_string();
 			}

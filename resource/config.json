@@ -30,6 +30,8 @@
         [ "都任", "输出" ]
     ],
     "infrastOcrReplace": [
+        [ "森蛐", "森蚺" ],
+        [ "森蛾", "森蚺" ]
     ],
     "handle_Doc": "下面的和模拟器窗口捕获逻辑有关，不需要修改",
     "handle": {
@@ -60,114 +62,18 @@
                     "window": "BlueStacks Android PluginAndroid"
                 }
             ],
+            "adb": {
+                "path": "[EmulatorPath]HD-Adb.exe",
+                "connect": " connect 127.0.0.1:5555",
+                "click": " -s 127.0.0.1:5555 shell input tap [x] [y]",
+                "swipe": " -s 127.0.0.1:5555 shell input swipe [x1] [y1] [x2] [y2]",
+                "display": " -s 127.0.0.1:5555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d"
+            },
             "xOffset": 11,
             "yOffset": 46,
             "rightOffset": 11,
             "bottomOffset": 10
-        },
-        "Nox": {
-            "window": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "夜神模拟器"
-                }
-            ],
-            "view": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "夜神模拟器"
-                }
-            ],
-            "control": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "夜神模拟器"
-                }
-            ],
-            "xOffset": 2,
-            "yOffset": 39,
-            "rightOffset": 39,
-            "bottomOffset": 9
-        },
-        "LDPlayer": {
-            "window": [
-                {
-                    "class": "LDPlayerMainFrame",
-                    "window": "雷电模拟器"
-                }
-            ],
-            "view": [
-                {
-                    "class": "LDPlayerMainFrame",
-                    "window": "雷电模拟器"
-                }
-            ],
-            "control": [
-                {
-                    "class": "LDPlayerMainFrame",
-                    "window": "雷电模拟器"
-                },
-                {
-                    "class": "RenderWindow",
-                    "window": "TheRender"
-                }
-            ],
-            "xOffset": 0,
-            "yOffset": 35
-        },
-        "XYAZ": {
-            "window": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "逍遥模拟器"
-                }
-            ],
-            "view": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "逍遥模拟器"
-                }
-            ],
-            "control": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "逍遥模拟器"
-                },
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "MainWindowWindow"
-                }
-            ],
-            "xOffset": 1,
-            "yOffset": 48,
-            "rightOffset": 1,
-            "bottomOffset": 1
-        },
-        "Tencent": {
-            "window": [
-                {
-                    "class": "TXGuiFoundation",
-                    "window": "腾讯手游助手"
-                }
-            ],
-            "view": [
-                {
-                    "class": "TXGuiFoundation",
-                    "window": "腾讯手游助手"
-                }
-            ],
-            "control": [
-                {
-                    "class": "TXGuiFoundation",
-                    "window": "腾讯手游助手"
-                },
-                {
-                    "class": "AEngineRenderWindowClass",
-                    "window": "AEngineRenderWindow"
-                }
-            ],
-            "xOffset": 1,
-            "yOffset": 42
         },
         "MuMuEmulator": {
             "window": [
@@ -191,8 +97,9 @@
             "adb": {
                 "path": "[EmulatorPath]..\\\\vmonitor\\\\bin\\\\adb_server.exe",
                 "connect": " connect 127.0.0.1:7555",
-                "click": " shell input tap [x] [y]",
-                "display": " shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "click": " -s 127.0.0.1:7555 shell input tap [x] [y]",
+                "swipe": " -s 127.0.0.1:7555 shell input swipe [x1] [y1] [x2] [y2]",
+                "display": " -s 127.0.0.1:7555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayRegex": "cur=%dx%d"
             },
             "xOffset": 0,

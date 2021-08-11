@@ -26,25 +26,28 @@
     <ClInclude Include="include\AsstPort.h" />
     <ClInclude Include="include\Configer.h" />
     <ClInclude Include="include\Identify.h" />
+    <ClInclude Include="include\InfrastConfiger.h" />
     <ClInclude Include="include\Logger.hpp" />
-    <ClInclude Include="include\OpenRecruitConfiger.h" />
+    <ClInclude Include="include\RecruitConfiger.h" />
     <ClInclude Include="include\Task.h" />
     <ClInclude Include="include\Updater.h" />
     <ClInclude Include="include\Version.h" />
     <ClInclude Include="include\WinMacro.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="InfrastConfiger.cpp" />
     <ClCompile Include="src\Assistance.cpp" />
     <ClCompile Include="src\AsstCaller.cpp" />
     <ClCompile Include="src\Configer.cpp" />
     <ClCompile Include="src\Identify.cpp" />
-    <ClCompile Include="src\OpenRecruitConfiger.cpp" />
+    <ClCompile Include="src\RecruitConfiger.cpp" />
     <ClCompile Include="src\Task.cpp" />
     <ClCompile Include="src\Updater.cpp" />
     <ClCompile Include="src\WinMacro.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\resource\operInfo.json" />
+    <None Include="..\resource\infrast.json" />
+    <None Include="..\resource\recruit.json" />
     <None Include="..\resource\config.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -155,7 +158,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;CSHARP_API;MEO_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;MEO_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
@@ -196,7 +199,7 @@ xcopy /e /y /i $(SolutionDir)3rdPart\resource $(TargetDir)resource</Command>
       </FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;CSHARP_API;MEO_DLL_EXPORTS;LOG_TRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;MEO_DLL_EXPORTS;LOG_TRACE;DEBUG_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
