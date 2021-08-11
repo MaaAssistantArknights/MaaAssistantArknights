@@ -22,6 +22,7 @@ extern "C" {
 
 	MEOAPI_PORT bool CheckVersionUpdate(char* tag_buffer, int tag_bufsize, char* html_url_buffer, int html_bufsize, char* body_buffer, int body_bufsize);
 
+	MEOAPI_PORT bool AsstTestSwipe(asst::Assistance* p_asst, int x1, int y1, int x2, int y2);
 #ifdef __cplusplus
 }
 #endif

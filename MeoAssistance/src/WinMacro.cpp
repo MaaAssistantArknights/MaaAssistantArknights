@@ -114,6 +114,7 @@ bool WinMacro::findHandle()
 		}
 
 		m_click_cmd = adb_dir + m_emulator_info.adb.click;
+		m_swipe_cmd = adb_dir + m_emulator_info.adb.swipe;
 	}
 	DebugTrace("Handle:", m_handle, "Name:", m_emulator_info.name, "Type:", m_handle_type);
 
@@ -188,6 +189,29 @@ std::optional<std::string> asst::WinMacro::callCmd(const std::string& cmd, bool 
 	}
 
 	return pipe_str;
+}
+
+Point asst::WinMacro::randPointInRect(const Rect& rect)
+{
+	int x = 0, y = 0;
+	if (rect.width == 0) {
+		x = rect.x;
+	}
+	else {
+		int x_rand = std::poisson_distribution<int>(rect.width / 2)(m_rand_engine);
+
+		x = x_rand + rect.x;
+	}
+
+	if (rect.height == 0) {
+		y = rect.y;
+	}
+	else {
+		int y_rand = std::poisson_distribution<int>(rect.height / 2)(m_rand_engine);
+		y = y_rand + rect.y;
+	}
+
+	return Point(x, y);
 }
 
 bool WinMacro::resizeWindow(int width, int height)
@@ -289,25 +313,41 @@ bool WinMacro::click(const Rect& rect)
 		return false;
 	}
 
-	int x = 0, y = 0;
-	if (rect.width == 0) {
-		x = rect.x;
-	}
-	else {
-		int x_rand = std::poisson_distribution<int>(rect.width / 2)(m_rand_engine);
+	return click(randPointInRect(rect));
+}
 
-		x = x_rand + rect.x;
-	}
-
-	if (rect.height == 0) {
-		y = rect.y;
-	}
-	else {
-		int y_rand = std::poisson_distribution<int>(rect.height / 2)(m_rand_engine);
-		y = y_rand + rect.y;
+bool asst::WinMacro::swipe(const Point& p1, const Point& p2)
+{
+	if (m_handle_type != HandleType::Control || !::IsWindow(m_handle)) {
+		return false;
 	}
 
-	return click({ x, y });
+	int x1 = p1.x * m_control_scale;
+	int y1 = p1.y * m_control_scale;
+	int x2 = p2.x * m_control_scale;
+	int y2 = p2.y * m_control_scale;
+	DebugTrace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
+
+	if (m_is_adb) {
+		std::string cur_cmd = StringReplaceAll(m_swipe_cmd, "[x1]", std::to_string(x1));
+		cur_cmd = StringReplaceAll(cur_cmd, "[y1]", std::to_string(y1));
+		cur_cmd = StringReplaceAll(cur_cmd, "[x2]", std::to_string(x2));
+		cur_cmd = StringReplaceAll(cur_cmd, "[y2]", std::to_string(y2));
+		return callCmd(cur_cmd, false).has_value();
+		return true;
+	}
+	else {	// TODO
+		return false;
+	}
+}
+
+bool asst::WinMacro::swipe(const Rect& r1, const Rect& r2)
+{
+	if (m_handle_type != HandleType::Control || !::IsWindow(m_handle)) {
+		return false;
+	}
+
+	return swipe(randPointInRect(r1), randPointInRect(r2));
 }
 
 void asst::WinMacro::setControlScale(double scale)

@@ -1,0 +1,26 @@
+{
+    "Manufacturing": {
+        "Doc": "制造站",
+        "combs": [
+            {
+                "comb": [
+                    "刻俄柏",
+                    "稀音",
+                    "红云"
+                ],
+                "efficiency": 105
+            },
+            {
+                "comb": [
+                    "温蒂",
+                    "异客",
+                    "森蚺"
+                ],
+                "efficiency": 90
+            }
+        ]
+    },
+    "Trade": {
+        "Doc": "贸易站"
+    }
+}

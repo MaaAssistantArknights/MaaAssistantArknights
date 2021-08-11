@@ -25,7 +25,7 @@ namespace asst {
 	class WinMacro;
 	class Identify;
 	class Configer;
-	class OpenRecruitConfiger;
+	class RecruitConfiger;
 
 	enum TaskType {
 		TaskTypeInvalid = 0,
