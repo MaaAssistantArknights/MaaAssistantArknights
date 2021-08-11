@@ -31,10 +31,9 @@ namespace asst {
 
 	private:
 		OpenRecruitConfiger() = default;
-		OpenRecruitConfiger(const OpenRecruitConfiger & rhs) = default;
-		OpenRecruitConfiger(OpenRecruitConfiger && rhs) noexcept = default;
+		OpenRecruitConfiger(const OpenRecruitConfiger& rhs) = default;
+		OpenRecruitConfiger(OpenRecruitConfiger&& rhs) noexcept = default;
 
 		bool _load(const std::string& filename);
 	};
-
 }

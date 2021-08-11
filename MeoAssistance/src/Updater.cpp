@@ -22,12 +22,12 @@ Updater& Updater::get_instance()
 
 bool Updater::has_new_version()
 {
-	auto && req_ret = request_github_api();
+	auto&& req_ret = request_github_api();
 	if (!req_ret) {
 		DebugTraceInfo("Requeset Error");
 		return false;
 	}
-	auto && parse_ret = json::parser::parse(req_ret.value());
+	auto&& parse_ret = json::parser::parse(req_ret.value());
 	if (!parse_ret) {
 		DebugTraceInfo("Parse Error");
 		return false;
@@ -63,7 +63,7 @@ bool Updater::has_new_version()
 	}
 }
 
-const VersionInfo & Updater::get_version_info() const noexcept
+const VersionInfo& Updater::get_version_info() const noexcept
 {
 	return m_lastest_version;
 }
@@ -80,7 +80,7 @@ std::optional<std::string> Updater::request_github_api()
 	}
 	std::string response;
 	DWORD buff_size = 4096;
-	char *buffer = new char[buff_size];
+	char* buffer = new char[buff_size];
 	DWORD number = 1;
 	while (number > 0) {
 		memset(buffer, 0, buff_size);

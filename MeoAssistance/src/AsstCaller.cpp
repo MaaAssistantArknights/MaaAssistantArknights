@@ -104,7 +104,7 @@ bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], bo
 	if (p_asst == NULL) {
 		return false;
 	}
-	int len = sizeof required_level / sizeof(int);
+	int len = sizeof(required_level) / sizeof(const int);
 	std::vector<int> level_vector;
 	level_vector.assign(required_level, required_level + len);
 	p_asst->start_open_recruit(level_vector, set_time);
@@ -127,7 +127,6 @@ bool AsstTestOcr(asst::Assistance* p_asst, const char** text_array, int array_si
 	p_asst->start_ocr_test_task(std::move(text_vec), need_click);
 	return true;
 }
-
 
 bool CheckVersionUpdate(char* tag_buffer, int tag_bufsize, char* html_url_buffer, int html_bufsize, char* body_buffer, int body_bufsize)
 {

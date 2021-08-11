@@ -8,7 +8,6 @@
 #include "AsstDef.h"
 
 namespace asst {
-
 	class Configer
 	{
 	public:
@@ -40,8 +39,8 @@ namespace asst {
 
 	private:
 		Configer() = default;
-		Configer(const Configer & rhs) = default;
-		Configer(Configer && rhs) noexcept = default;
+		Configer(const Configer& rhs) = default;
+		Configer(Configer&& rhs) noexcept = default;
 
 		bool _load(const std::string& filename);
 	};

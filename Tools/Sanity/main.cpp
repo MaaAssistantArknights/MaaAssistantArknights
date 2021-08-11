@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv)
 {
-	asst::Assistance * ptr = AsstCreate();
+	asst::Assistance* ptr = AsstCreate();
 
 	auto ret = AsstCatchEmulator(ptr);
 	if (!ret) {

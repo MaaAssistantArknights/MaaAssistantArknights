@@ -11,9 +11,7 @@
 
 #include "AsstDef.h"
 
-
 namespace asst {
-
 	class WinMacro;
 
 	class Identify
@@ -37,13 +35,13 @@ namespace asst {
 		std::optional<Rect> find_text(const cv::Mat& mat, const std::string& text);
 		std::vector<TextArea> find_text(const cv::Mat& mat, const std::vector<std::string>& texts);
 		std::vector<TextArea> find_text(const cv::Mat& mat, const std::unordered_set<std::string>& texts);
-		
+
 		std::vector<TextArea> ocr_detect(const cv::Mat& mat);
 	private:
 		cv::Mat image_2_hist(const cv::Mat& src);
 		double image_hist_comp(const cv::Mat& src, const cv::MatND& hist);
-		static asst::Rect cvrect_2_rect(const cv::Rect& cvRect) { 
-			return asst::Rect(cvRect.x, cvRect.y, cvRect.width, cvRect.height); 
+		static asst::Rect cvrect_2_rect(const cv::Rect& cvRect) {
+			return asst::Rect(cvRect.x, cvRect.y, cvRect.width, cvRect.height);
 		}
 
 		// return pair< suitability, raw opencv::point>
@@ -55,5 +53,4 @@ namespace asst {
 
 		OcrLiteCaller m_ocr_lite;
 	};
-
 }

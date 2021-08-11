@@ -63,12 +63,12 @@ std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& mat)
 		2.0f, false, false);
 
 	std::vector<TextArea> result;
-	for (TextBlock & text_block : ocr_results.textBlocks) {
+	for (TextBlock& text_block : ocr_results.textBlocks) {
 		if (text_block.boxPoint.size() != 4) {
 			continue;
 		}
 		// the rect like ¡ý
-		// 0 - 1 
+		// 0 - 1
 		// 3 - 2
 		int x = text_block.boxPoint.at(0).x;
 		int y = text_block.boxPoint.at(0).y;
@@ -111,7 +111,7 @@ std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cu
 		const cv::Mat& templ_mat = m_mat_map.at(templ);
 		const auto& [value, point] = match_template(cur, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
-		
+
 		if (m_use_cache && value >= templ_threshold) {
 			m_cache_map.emplace(templ, std::make_pair(raw_rect, image_2_hist(cur(raw_rect))));
 		}

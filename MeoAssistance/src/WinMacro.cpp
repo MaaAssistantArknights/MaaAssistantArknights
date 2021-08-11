@@ -81,7 +81,6 @@ bool WinMacro::findHandle()
 		}
 	}
 	if (m_is_adb && m_handle != NULL) {
-
 		DWORD pid = 0;
 		::GetWindowThreadProcessId(m_handle, &pid);
 		HANDLE handle = ::OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
@@ -106,7 +105,7 @@ bool WinMacro::findHandle()
 		auto&& display_ret = callCmd(adb_dir + m_emulator_info.adb.display);
 		if (display_ret) {
 			std::string pipe_str = display_ret.value();
-			sscanf_s(pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(), 
+			sscanf_s(pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(),
 				&m_emulator_info.adb.display_width, &m_emulator_info.adb.display_height);
 		}
 		else {

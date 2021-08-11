@@ -245,7 +245,6 @@ void Assistance::working_proc(Assistance* p_this)
 		std::unique_lock<std::mutex> lock(p_this->m_mutex);
 		if (!p_this->m_thread_idle && !p_this->m_tasks_queue.empty())
 		{
-
 			auto start_time = std::chrono::system_clock::now();
 			std::shared_ptr<AbstractTask> task_ptr = p_this->m_tasks_queue.front();
 			task_ptr->set_ptr(p_this->m_window_ptr, p_this->m_view_ptr, p_this->m_control_ptr, p_this->m_identify_ptr);

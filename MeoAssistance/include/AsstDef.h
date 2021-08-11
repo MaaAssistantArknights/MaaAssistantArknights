@@ -13,7 +13,6 @@ namespace json
 }
 
 namespace asst {
-
 	enum class HandleType
 	{
 		Window = 1,
@@ -38,8 +37,8 @@ namespace asst {
 		ClickRect = BasicClick | 2,		// 点击指定区域
 		ClickRand = BasicClick | 4,		// 点击随机区域
 		DoNothing = 0x200,				// 什么都不做
-		Stop =  0x400,					// 停止工作线程
-		PrintWindow =  0x800			// 截图
+		Stop = 0x400,					// 停止工作线程
+		PrintWindow = 0x800			// 截图
 	};
 
 	enum class AlgorithmType {

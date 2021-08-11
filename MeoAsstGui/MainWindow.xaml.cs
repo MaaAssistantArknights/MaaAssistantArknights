@@ -1,22 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Runtime.InteropServices;
 using System.Windows.Threading;
-using System.Threading;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace MeoAsstGui
 {
@@ -25,16 +13,22 @@ namespace MeoAsstGui
     /// </summary>
     public partial class MainWindow : Window
     {
-
         [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstCreate();
+
         [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstCreateEx(CallbackDelegate callback, IntPtr custom_arg);
+
         [DllImport("MeoAssistance.dll")] static private extern void AsstDestory(IntPtr ptr);
+
         [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchEmulator(IntPtr ptr);
+
         [DllImport("MeoAssistance.dll")] static private extern void AsstStart(IntPtr ptr, string task);
+
         [DllImport("MeoAssistance.dll")] static private extern void AsstStop(IntPtr ptr);
+
         [DllImport("MeoAssistance.dll")] static private extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
 
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
+
         private delegate void ProcCallbckMsg(AsstMsg msg, JObject detail);
 
         private static CallbackDelegate callback;
@@ -82,6 +76,7 @@ namespace MeoAsstGui
             ProcCallbckMsg dlg = new ProcCallbckMsg(proc_msg);
             this.Dispatcher.Invoke(dlg, msg, json);
         }
+
         private void proc_msg(AsstMsg msg, JObject detail)
         {
             switch (msg)
@@ -100,6 +95,7 @@ namespace MeoAsstGui
                         }
                     }
                     break;
+
                 case AsstMsg.TaskStart:
                     {
                         string task_chain = detail["task_chain"].ToString();
@@ -110,6 +106,7 @@ namespace MeoAsstGui
                         }
                     }
                     break;
+
                 case AsstMsg.TaskStop:
                     {
                         string task_chain = detail["task_chain"].ToString();
@@ -130,14 +127,17 @@ namespace MeoAsstGui
                         }
                     }
                     break;
+
                 case AsstMsg.TextDetected:
                     break;
+
                 case AsstMsg.RecruitTagsDetected:
                 case AsstMsg.OcrResultError:
                 case AsstMsg.RecruitSpecialTag:
                 case AsstMsg.RecruitResult:
                     recruitWindow.proc_msg(msg, detail);
                     break;
+
                 case AsstMsg.TaskError:
                     {
                         string task_chain = detail["task_chain"].ToString();
@@ -167,16 +167,19 @@ namespace MeoAsstGui
                         }
                     }
                     break;
+
                 case AsstMsg.InitFaild:
                     MessageBox.Show("资源文件错误！请尝试重新解压或下载", "错误");
                     Close();
                     break;
             }
         }
+
         public MainWindow()
         {
             InitializeComponent();
         }
+
         ~MainWindow()
         {
             AsstDestory(p_asst);
