@@ -137,23 +137,23 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 	}
 }
 
-void asst::Assistance::start_sanity()
+bool asst::Assistance::start_sanity()
 {
-	start_match_task("SanityBegin", ProcessTaskRetryTimesDefault);
+	return start_match_task("SanityBegin", ProcessTaskRetryTimesDefault);
 }
 
-void asst::Assistance::start_visit()
+bool asst::Assistance::start_visit()
 {
-	start_match_task("VisitBegin", ProcessTaskRetryTimesDefault);
+	return start_match_task("VisitBegin", ProcessTaskRetryTimesDefault);
 }
 
-void Assistance::start_match_task(const std::string& task, int retry_times, bool block)
+bool Assistance::start_match_task(const std::string& task, int retry_times, bool block)
 {
 	DebugTraceFunction;
 	DebugTrace("Start |", task, block ? "block" : "non block");
 	if (!m_thread_idle || !m_inited)
 	{
-		return;
+		return false;
 	}
 
 	std::unique_lock<std::mutex> lock;
@@ -168,14 +168,16 @@ void Assistance::start_match_task(const std::string& task, int retry_times, bool
 
 	m_thread_idle = false;
 	m_condvar.notify_one();
+
+	return true;
 }
 
-void Assistance::start_ocr_test_task(std::vector<std::string> text_vec, bool need_click)
+bool Assistance::start_ocr_test_task(std::vector<std::string> text_vec, bool need_click)
 {
 	DebugTraceFunction;
 	if (!m_thread_idle || !m_inited)
 	{
-		return;
+		return false;
 	}
 
 	std::unique_lock<std::mutex> lock(m_mutex);
@@ -186,14 +188,16 @@ void Assistance::start_ocr_test_task(std::vector<std::string> text_vec, bool nee
 
 	m_thread_idle = false;
 	m_condvar.notify_one();
+
+	return true;
 }
 
-void Assistance::start_open_recruit(const std::vector<int>& required_level, bool set_time)
+bool Assistance::start_open_recruit(const std::vector<int>& required_level, bool set_time)
 {
 	DebugTraceFunction;
 	if (!m_thread_idle || !m_inited)
 	{
-		return;
+		return false;
 	}
 
 	std::unique_lock<std::mutex> lock(m_mutex);
@@ -206,6 +210,8 @@ void Assistance::start_open_recruit(const std::vector<int>& required_level, bool
 
 	m_thread_idle = false;
 	m_condvar.notify_one();
+
+	return true;
 }
 
 void Assistance::stop(bool block)

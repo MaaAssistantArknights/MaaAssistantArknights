@@ -73,12 +73,13 @@ bool AsstCatchEmulator(asst::Assistance* p_asst)
 	}
 }
 
-void AsstStart(asst::Assistance* p_asst, const char* task)
+bool AsstStart(asst::Assistance* p_asst, const char* task)
 {
 	if (p_asst == NULL) {
+		return false;
 	}
 
-	p_asst->start_match_task(task, asst::Assistance::ProcessTaskRetryTimesDefault);
+	return p_asst->start_match_task(task, asst::Assistance::ProcessTaskRetryTimesDefault);
 }
 
 void AsstStop(asst::Assistance* p_asst)

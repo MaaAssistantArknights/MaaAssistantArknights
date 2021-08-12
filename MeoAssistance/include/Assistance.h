@@ -28,16 +28,16 @@ namespace asst {
 		std::optional<std::string> catch_emulator(const std::string& emulator_name = std::string());
 
 		// 开始刷理智
-		void start_sanity();
+		bool start_sanity();
 		// 开始访问基建
-		void start_visit();
+		bool start_visit();
 
 		// 开始公开招募操作
-		void start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
+		bool start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
 		// 开始匹配任务，调试用
-		void start_match_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool block = true);
+		bool start_match_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool block = true);
 		// 开始OCR测试，调试用
-		void start_ocr_test_task(std::vector<std::string> text_vec, bool need_click = false);
+		bool start_ocr_test_task(std::vector<std::string> text_vec, bool need_click = false);
 
 		void stop(bool block = true);
 
