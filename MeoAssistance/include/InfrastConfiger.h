@@ -21,6 +21,7 @@ namespace asst {
 
 		std::vector<std::vector<std::string>> m_mfg_combs;	// 制造站组合
 		std::unordered_set<std::string> m_mfg_opers;		// 制造站所有干员
+		std::string m_mfg_end;								// 识别到这个词，就认为干员遍历结束，一般用排序里最后的那个干员（？）
 
 	private:
 		InfrastConfiger() = default;
