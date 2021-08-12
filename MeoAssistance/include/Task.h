@@ -121,7 +121,7 @@ namespace asst {
 	protected:
 		virtual cv::Mat get_format_image();
 		virtual bool set_control_scale(int cur_width, int cur_height);
-		virtual void sleep(unsigned millisecond);
+		virtual bool sleep(unsigned millisecond);
 		virtual bool print_window(const std::string& dir);
 
 		std::shared_ptr<WinMacro> m_window_ptr = nullptr;

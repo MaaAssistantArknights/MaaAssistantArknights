@@ -54,6 +54,8 @@ bool InfrastConfiger::_load(const std::string& filename)
 			}
 			m_mfg_combs.emplace_back(std::move(comb_vec));
 		}
+		m_mfg_end = root["Manufacturing"]["end"].as_string();
+
 		// Ã³Ò×Õ¾ TODO¡­¡­
 	}
 	catch (json::exception& e) {

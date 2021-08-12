@@ -82,10 +82,10 @@ bool AbstractTask::set_control_scale(int cur_width, int cur_height)
 	return true;
 }
 
-void AbstractTask::sleep(unsigned millisecond)
+bool AbstractTask::sleep(unsigned millisecond)
 {
 	if (millisecond == 0) {
-		return;
+		return true;
 	}
 	auto start = std::chrono::system_clock::now();
 	unsigned duration = 0;
@@ -101,6 +101,8 @@ void AbstractTask::sleep(unsigned millisecond)
 		std::this_thread::yield();
 	}
 	m_callback(AsstMsg::EndOfSleep, callback_json, m_callback_arg);
+
+	return (m_exit_flag == NULL || *m_exit_flag == false);
 }
 
 bool AbstractTask::print_window(const std::string& dir)
@@ -182,7 +184,10 @@ bool ProcessTask::run()
 	}
 
 	// 前置固定延时
-	sleep(task_info_ptr->pre_delay);
+	if (!sleep(task_info_ptr->pre_delay))
+	{
+		return false;
+	}
 
 	bool need_stop = false;
 	switch (task_info_ptr->type) {
@@ -200,7 +205,10 @@ bool ProcessTask::run()
 		break;
 	case ProcessTaskType::PrintWindow:
 	{
-		sleep(Configer::get_instance().m_options.print_window_delay);
+		if (!sleep(Configer::get_instance().m_options.print_window_delay))
+		{
+			return false;
+		}
 		static const std::string dirname = GetCurrentDir() + "screenshot\\";
 		print_window(dirname);
 	}
@@ -226,7 +234,9 @@ bool ProcessTask::run()
 	m_callback(AsstMsg::TaskCompleted, callback_json, m_callback_arg);
 
 	// 后置固定延时
-	sleep(task_info_ptr->rear_delay);
+	if (!sleep(task_info_ptr->rear_delay)) {
+		return false;
+	}
 
 	json::value next_json = callback_json;
 	next_json["task_chain"] = m_task_chain;
@@ -369,7 +379,9 @@ void ProcessTask::exec_click_task(const Rect& matched_rect)
 			Configer::get_instance().m_options.control_delay_upper);
 
 		unsigned rand_delay = rand_uni(rand_engine);
-		sleep(rand_delay);
+		if (!sleep(rand_delay)) {
+			return;
+		}
 	}
 
 	m_control_ptr->click(matched_rect);
@@ -663,67 +675,79 @@ bool TestOcrTask::run()
 
 	auto swipe_foo = [&](bool reverse = false) -> bool {
 		const Point p1(600, 300);
-		const Point p2(500, 300);
+		const Point p2(450, 300);
 		bool ret = false;
 		if (!reverse) {
-			m_control_ptr->swipe(p1, p2);
+			ret = m_control_ptr->swipe(p1, p2);
 		}
 		else {
-			m_control_ptr->swipe(p2, p1);
+			ret = m_control_ptr->swipe(p2, p1);
 		}
-		sleep(3000);
+		ret &= sleep(3000);
 		return ret;
 	};
 
 	// 识别到的干员名
-	std::unordered_set<std::string> all_opers;
+	std::unordered_set<std::string> all_names;
 
 	// 一边识别一边滑动，把所有制造站干员名字抓出来
-	for (int i = 0; i != 10; ++i) {
+	for (int i = 0; i != 20; ++i) {
 		const cv::Mat& image = get_format_image();
 		// 异步进行滑动操作
 		std::future<bool> swipe_future = std::async(std::launch::async, swipe_foo);
 
 		std::vector<TextArea> all_text_area = ocr_detect(image);
 		/* 过滤出所有制造站中的干员名 */
-		std::vector<TextArea> cur_opers = text_search(
+		std::vector<TextArea> cur_names = text_search(
 			all_text_area,
 			InfrastConfiger::get_instance().m_mfg_opers,
 			Configer::get_instance().m_infrast_ocr_replace);
 
-		for (TextArea& text_area : cur_opers) {
-			all_opers.emplace(std::move(text_area.text));
+		for (TextArea& text_area : cur_names) {
+			all_names.emplace(std::move(text_area.text));
 		}
-		swipe_future.get();
+		bool break_flag = false;
+		// 识别到了结束标记，就直接退出循环
+		if (all_names.find(InfrastConfiger::get_instance().m_mfg_end) != all_names.cend()) {
+			break_flag = true;
+		}
+		// 阻塞等待滑动结束
+		if (!swipe_future.get()) {
+			return false;
+		}
+
+		if (break_flag) {
+			break;
+		}
 	}
 
 	std::cout << "识别到制造站干员:" << std::endl;
-	for (const std::string& oper : all_opers) {
-		std::cout << Utf8ToGbk(oper) << std::endl;
+	for (const std::string& name : all_names) {
+		std::cout << Utf8ToGbk(name) << std::endl;
 	}
 
 	// 配置文件中的干员组合，和抓出来的干员名比对，如果组合中的干员都有，那就用这个组合
 	// Todo 时间复杂度起飞了，需要优化下
 	std::vector<std::string> optimal_comb;
-	for (auto&& oper_vec : InfrastConfiger::get_instance().m_mfg_combs) {
+	for (auto&& name_vec : InfrastConfiger::get_instance().m_mfg_combs) {
 		int count = 0;
-		for (std::string& oper : oper_vec) {
-			if (all_opers.find(oper) != all_opers.cend()) {
+		for (std::string& name : name_vec) {
+			if (all_names.find(name) != all_names.cend()) {
 				++count;
 			}
 			else {
 				break;
 			}
 		}
-		if (count == oper_vec.size()) {
-			optimal_comb = oper_vec;
+		if (count == name_vec.size()) {
+			optimal_comb = name_vec;
 			break;
 		}
 	}
 
 	std::cout << "最优组合:" << std::endl;
-	for (const std::string& oper : optimal_comb) {
-		std::cout << Utf8ToGbk(oper) << std::endl;
+	for (const std::string& name : optimal_comb) {
+		std::cout << Utf8ToGbk(name) << std::endl;
 	}
 
 	// 一边滑动一边点击最优解中的干员
@@ -731,21 +755,26 @@ bool TestOcrTask::run()
 		const cv::Mat& image = get_format_image();
 		std::vector<TextArea> all_text_area = ocr_detect(image);
 		/* 过滤出所有制造站中的干员名 */
-		std::vector<TextArea> cur_opers = text_search(
+		std::vector<TextArea> cur_names = text_search(
 			all_text_area,
 			optimal_comb,
 			Configer::get_instance().m_infrast_ocr_replace);
 
-		for (TextArea& text_area : cur_opers) {
+		for (TextArea& text_area : cur_names) {
 			m_control_ptr->click(text_area.rect);
 			// 点过了就不会再点了，直接从最优解vector里面删了
-			optimal_comb.erase(std::find(optimal_comb.begin(), optimal_comb.end(), text_area.text));
+			auto iter = std::find(optimal_comb.begin(), optimal_comb.end(), text_area.text);
+			if (iter != optimal_comb.end()) {
+				optimal_comb.erase(iter);
+			}
 		}
 		if (optimal_comb.empty()) {
 			break;
 		}
 		// 因为滑动和点击是矛盾的，这里没法异步做
-		swipe_foo(true);
+		if (!swipe_foo(true)) {
+			return false;
+		}
 	}
 
 
