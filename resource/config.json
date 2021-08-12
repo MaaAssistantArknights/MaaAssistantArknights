@@ -255,10 +255,11 @@
             ]
         },
         "WaitAfterPRTS": {
-            "rearDelay": 5000,
+            "rearDelay": 3000,
             "algorithm": "justreturn",
             "type": "doNothing",
             "next": [
+                "PRTS",
                 "EndOfAction",
                 "ClickCornerAfterPRTS"
             ]
@@ -279,7 +280,8 @@
                 "StartButton1",
                 "StartButton2",
                 "UseMedicine",
-                "UseStone"
+                "UseStone",
+                "ClickCornerAfterPRTS"
             ]
         },
         "EndOfAction": {
@@ -305,7 +307,8 @@
                 "StartButton1",
                 "StartButton2",
                 "UseMedicine",
-                "UseStone"
+                "UseStone",
+                "EndOfAction"
             ]
         },
         "Loading": {
