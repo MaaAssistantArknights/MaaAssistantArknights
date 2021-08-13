@@ -205,53 +205,24 @@ static inline std::ostream& operator<<(std::ostream &out, const MatShape& shape)
     return out;
 }
 
-/// @brief Converts axis from `[-dims; dims)` (similar to Python's slice notation) to `[0; dims)` range.
-static inline
-int normalize_axis(int axis, int dims)
+inline int clamp(int ax, int dims)
 {
-    CV_Check(axis, axis >= -dims && axis < dims, "");
-    axis = (axis < 0) ? (dims + axis) : axis;
-    CV_DbgCheck(axis, axis >= 0 && axis < dims, "");
-    return axis;
+    return ax < 0 ? ax + dims : ax;
 }
 
-static inline
-int normalize_axis(int axis, const MatShape& shape)
+inline int clamp(int ax, const MatShape& shape)
 {
-    return normalize_axis(axis, (int)shape.size());
+    return clamp(ax, (int)shape.size());
 }
 
-static inline
-Range normalize_axis_range(const Range& r, int axisSize)
+inline Range clamp(const Range& r, int axisSize)
 {
-    if (r == Range::all())
-        return Range(0, axisSize);
-    CV_CheckGE(r.start, 0, "");
-    Range clamped(r.start,
+    Range clamped(std::max(r.start, 0),
                   r.end > 0 ? std::min(r.end, axisSize) : axisSize + r.end + 1);
-    CV_DbgCheckGE(clamped.start, 0, "");
-    CV_CheckLT(clamped.start, clamped.end, "");
-    CV_CheckLE(clamped.end, axisSize, "");
+    CV_Assert_N(clamped.start < clamped.end, clamped.end <= axisSize);
     return clamped;
 }
 
-static inline
-bool isAllOnes(const MatShape &inputShape, int startPos, int endPos)
-{
-    CV_Assert(!inputShape.empty());
-
-    CV_CheckGE((int) inputShape.size(), startPos, "");
-    CV_CheckGE(startPos, 0, "");
-    CV_CheckLE(startPos, endPos, "");
-    CV_CheckLE((size_t)endPos, inputShape.size(), "");
-
-    for (size_t i = startPos; i < endPos; i++)
-    {
-        if (inputShape[i] != 1)
-            return false;
-    }
-    return true;
-}
 CV__DNN_EXPERIMENTAL_NS_END
 }
 }

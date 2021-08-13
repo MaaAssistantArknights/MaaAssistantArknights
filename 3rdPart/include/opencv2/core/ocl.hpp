@@ -70,7 +70,7 @@ class CV_EXPORTS Image2D;
 class CV_EXPORTS_W_SIMPLE Device
 {
 public:
-    CV_WRAP Device() CV_NOEXCEPT;
+    CV_WRAP Device();
     explicit Device(void* d);
     Device(const Device& d);
     Device& operator = (const Device& d);
@@ -238,7 +238,7 @@ protected:
 class CV_EXPORTS Context
 {
 public:
-    Context() CV_NOEXCEPT;
+    Context();
     explicit Context(int dtype);
     ~Context();
     Context(const Context& c);
@@ -269,7 +269,7 @@ public:
 class CV_EXPORTS Platform
 {
 public:
-    Platform() CV_NOEXCEPT;
+    Platform();
     ~Platform();
     Platform(const Platform& p);
     Platform& operator = (const Platform& p);
@@ -324,7 +324,7 @@ void initializeContextFromHandle(Context& ctx, void* platform, void* context, vo
 class CV_EXPORTS Queue
 {
 public:
-    Queue() CV_NOEXCEPT;
+    Queue();
     explicit Queue(const Context& c, const Device& d=Device());
     ~Queue();
     Queue(const Queue& q);
@@ -350,7 +350,7 @@ class CV_EXPORTS KernelArg
 public:
     enum { LOCAL=1, READ_ONLY=2, WRITE_ONLY=4, READ_WRITE=6, CONSTANT=8, PTR_ONLY = 16, NO_SIZE=256 };
     KernelArg(int _flags, UMat* _m, int wscale=1, int iwscale=1, const void* _obj=0, size_t _sz=0);
-    KernelArg() CV_NOEXCEPT;
+    KernelArg();
 
     static KernelArg Local(size_t localMemSize)
     { return KernelArg(LOCAL, 0, 1, 1, 0, localMemSize); }
@@ -387,7 +387,7 @@ public:
 class CV_EXPORTS Kernel
 {
 public:
-    Kernel() CV_NOEXCEPT;
+    Kernel();
     Kernel(const char* kname, const Program& prog);
     Kernel(const char* kname, const ProgramSource& prog,
            const String& buildopts = String(), String* errmsg=0);
@@ -597,7 +597,7 @@ protected:
 class CV_EXPORTS Program
 {
 public:
-    Program() CV_NOEXCEPT;
+    Program();
     Program(const ProgramSource& src,
             const String& buildflags, String& errmsg);
     Program(const Program& prog);
@@ -642,7 +642,7 @@ class CV_EXPORTS ProgramSource
 public:
     typedef uint64 hash_t; // deprecated
 
-    ProgramSource() CV_NOEXCEPT;
+    ProgramSource();
     explicit ProgramSource(const String& module, const String& name, const String& codeStr, const String& codeHash);
     explicit ProgramSource(const String& prog); // deprecated
     explicit ProgramSource(const char* prog); // deprecated
@@ -711,7 +711,7 @@ protected:
 class CV_EXPORTS PlatformInfo
 {
 public:
-    PlatformInfo() CV_NOEXCEPT;
+    PlatformInfo();
     explicit PlatformInfo(void* id);
     ~PlatformInfo();
 
@@ -776,7 +776,7 @@ CV_EXPORTS void buildOptionsAddMatrixDescription(String& buildOptions, const Str
 class CV_EXPORTS Image2D
 {
 public:
-    Image2D() CV_NOEXCEPT;
+    Image2D();
 
     /**
     @param src UMat object from which to get image properties and data
