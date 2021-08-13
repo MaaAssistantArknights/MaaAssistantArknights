@@ -111,6 +111,15 @@ bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], bo
 	return true;
 }
 
+bool AsstStartInfrast(asst::Assistance* p_asst)
+{
+	if (p_asst == NULL) {
+		return false;
+	}
+	p_asst->start_infrast();
+	return true;
+}
+
 bool AsstTestOcr(asst::Assistance* p_asst, const char** text_array, int array_size, bool need_click)
 {
 	if (p_asst == NULL || text_array == nullptr) {
