@@ -23,9 +23,13 @@ namespace asst {
 		/*** OpenCV package ***/
 		void set_use_cache(bool b) noexcept;
 		bool add_image(const std::string& name, const std::string& path);
+		bool add_text_image(const std::string& text, const std::string& path);
 
 		// return tuple< algorithmType, suitability, matched asst::rect>
-		std::tuple<AlgorithmType, double, asst::Rect> find_image(const cv::Mat& image, const std::string& templ, double templ_threshold = 0.99);
+		std::tuple<AlgorithmType, double, asst::Rect> find_image(const cv::Mat& image, const std::string& templ, double templ_threshold);
+
+		// for debug
+		void feature_matching(const cv::Mat& mat);
 
 		void clear_cache();
 
@@ -40,9 +44,10 @@ namespace asst {
 	private:
 		cv::Mat image_2_hist(const cv::Mat& src);
 		double image_hist_comp(const cv::Mat& src, const cv::MatND& hist);
-		static asst::Rect cvrect_2_rect(const cv::Rect& cvRect) {
-			return asst::Rect(cvRect.x, cvRect.y, cvRect.width, cvRect.height);
-		}
+		static asst::Rect cvrect_2_rect(const cv::Rect& cvRect);
+
+		// return pair<特征点s，特征点描述子（向量）>
+		std::pair<std::vector<cv::KeyPoint>, cv::Mat> surf_detect(const cv::Mat& mat);
 
 		// return pair< suitability, raw opencv::point>
 		std::pair<double, cv::Point> match_template(const cv::Mat& cur, const cv::Mat& templ);
@@ -50,6 +55,8 @@ namespace asst {
 		std::unordered_map<std::string, cv::Mat> m_mat_map;
 		bool m_use_cache = true;
 		std::unordered_map<std::string, std::pair<cv::Rect, cv::Mat>> m_cache_map;	// 位置、直方图缓存
+		// value: pair<特征点s，特征点描述子（向量）>
+		std::unordered_map<std::string, std::pair<std::vector<cv::KeyPoint>, cv::Mat>> m_feature_map;
 
 		OcrLiteCaller m_ocr_lite;
 	};

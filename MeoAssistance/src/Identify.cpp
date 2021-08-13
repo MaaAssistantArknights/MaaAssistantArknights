@@ -2,12 +2,14 @@
 
 #include <filesystem>
 #include <opencv2/opencv.hpp>
+#include <opencv2/xfeatures2d.hpp>
 #include <opencv2/imgproc/types_c.h>
 #include "Logger.hpp"
 #include "AsstAux.h"
 
 using namespace asst;
 using namespace cv;
+using namespace cv::xfeatures2d;
 
 bool Identify::add_image(const std::string& name, const std::string& path)
 {
@@ -16,6 +18,18 @@ bool Identify::add_image(const std::string& name, const std::string& path)
 		return false;
 	}
 	m_mat_map.emplace(name, mat);
+	return true;
+}
+
+bool asst::Identify::add_text_image(const std::string& text, const std::string& path)
+{
+	Mat mat = imread(path);
+	if (mat.empty()) {
+		return false;
+	}
+
+	m_feature_map.emplace(text, surf_detect(mat));
+
 	return true;
 }
 
@@ -53,6 +67,28 @@ double Identify::image_hist_comp(const cv::Mat& src, const cv::MatND& hist)
 {
 	// keep the interface return value unchanged
 	return 1 - compareHist(image_2_hist(src), hist, CV_COMP_BHATTACHARYYA);
+}
+
+asst::Rect asst::Identify::cvrect_2_rect(const cv::Rect& cvRect)
+{
+	return asst::Rect(cvRect.x, cvRect.y, cvRect.width, cvRect.height);
+}
+
+std::pair<std::vector<cv::KeyPoint>, cv::Mat> asst::Identify::surf_detect(const cv::Mat& mat)
+{
+	// 灰度图转换
+	cv::Mat mat_gray;
+	cv::cvtColor(mat, mat_gray, cv::COLOR_RGB2GRAY);
+
+	constexpr int min_hessian = 800;
+	// SURF特征点检测
+	cv::Ptr<SURF> detector = SURF::create(min_hessian);
+	std::vector<KeyPoint> keypoints;
+	cv::Mat mat_vector;
+	// 找到特征点并计算特征描述子(向量)
+	detector->detectAndCompute(mat_gray, Mat(), keypoints, mat_vector);
+
+	return std::make_pair(std::move(keypoints), std::move(mat_vector));
 }
 
 std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& mat)
@@ -117,6 +153,19 @@ std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cu
 		}
 
 		return { AlgorithmType::MatchTemplate, value, cvrect_2_rect(raw_rect).center_zoom(0.8) };
+	}
+}
+
+void asst::Identify::feature_matching(const cv::Mat& mat)
+{
+	auto && [income_keypoints, income_mat_vector] = surf_detect(mat);
+
+	static FlannBasedMatcher matcher;
+	
+	for (auto&& [key, feature] : m_feature_map) {
+		auto&& [keypoints, mat_vector] = feature;
+		std::vector<cv::DMatch> matches;
+		matcher.match(mat_vector, income_mat_vector, matches);
 	}
 }
 
