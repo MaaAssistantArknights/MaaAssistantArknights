@@ -5,6 +5,7 @@ using namespace asst;
 
 void test_dorm(Assistance* ptr);
 void test_swipe(Assistance* ptr);
+void test_infrast(Assistance* ptr);
 
 int main(int argc, char** argv)
 {
@@ -23,7 +24,7 @@ int main(int argc, char** argv)
 	char ch = 0;
 	while (ch != 'q') {
 
-		test_dorm(ptr);
+		test_infrast(ptr);
 		//test_swipe(ptr);
 
 		ch = getchar();
@@ -47,4 +48,9 @@ void test_dorm(Assistance* ptr)
 	const char* text_array[] = { "×¢ÒâÁ¦" };
 
 	AsstTestOcr(ptr, text_array, sizeof(text_array) / sizeof(char*), true);
+}
+
+void test_infrast(Assistance* ptr)
+{
+	AsstStartInfrast(ptr);
 }

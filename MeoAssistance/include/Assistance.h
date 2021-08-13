@@ -29,11 +29,14 @@ namespace asst {
 
 		// 开始刷理智
 		void start_sanity();
-		// 开始访问基建
+		// 开始访问好友基建
 		void start_visit();
 
 		// 开始公开招募操作
 		void start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
+		// 开始基建换班任务
+		void start_infrast();
+
 		// 开始匹配任务，调试用
 		void start_match_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool block = true);
 		// 开始OCR测试，调试用

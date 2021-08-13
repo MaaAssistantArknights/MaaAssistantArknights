@@ -214,6 +214,27 @@ void Assistance::start_open_recruit(const std::vector<int>& required_level, bool
 	m_condvar.notify_one();
 }
 
+void asst::Assistance::start_infrast()
+{
+	DebugTraceFunction;
+	if (!m_thread_idle || !m_inited)
+	{
+		return;
+	}
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+
+	auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
+	// TODO 这个参数写到配置文件里
+	task_ptr->set_swipe_param(2000, Rect(600, 300, 0, 0), Rect(450, 300, 0, 0), 20);
+	task_ptr->set_facility(FacilityType::Manufacturing);
+	task_ptr->set_task_chain("Infrast");
+	m_tasks_queue.emplace(task_ptr);
+
+	m_thread_idle = false;
+	m_condvar.notify_one();
+}
+
 void Assistance::stop(bool block)
 {
 	DebugTraceFunction;

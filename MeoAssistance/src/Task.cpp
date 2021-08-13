@@ -792,3 +792,145 @@ bool TestOcrTask::run()
 
 	return true;
 }
+
+asst::InfrastStationTask::InfrastStationTask(AsstCallback callback, void* callback_arg)
+	: OcrAbstractTask(callback, callback_arg)
+{
+}
+
+bool asst::InfrastStationTask::run()
+{
+	if (m_view_ptr == NULL
+		|| m_identify_ptr == NULL)
+	{
+		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
+		return false;
+	}
+	
+	std::vector<std::vector<std::string>> all_oper_combs;	// 所有的干员组合
+	std::unordered_set<std::string> all_oper_name;			// 所有干员名
+	std::string oper_end_flag;								// 干员名结束标记，识别到这个string就认为识别完成了
+
+	switch (m_facility) {
+	case FacilityType::Manufacturing:
+		all_oper_combs = InfrastConfiger::get_instance().m_mfg_combs;
+		all_oper_name = InfrastConfiger::get_instance().m_mfg_opers;
+		oper_end_flag = InfrastConfiger::get_instance().m_mfg_end;
+		break;
+		// TODO 贸易站和其他啥的，有空再做
+	default:
+		break;
+	}
+
+	json::value task_start_json = json::object{
+		{ "task_type",  "InfrastStationTask" },
+		{ "task_chain", m_task_chain},
+	};
+	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
+
+	auto swipe_foo = [&](bool reverse = false) -> bool {
+		bool ret = false;
+		if (!reverse) {
+			ret = m_control_ptr->swipe(m_swipe_begin, m_swipe_end);
+		}
+		else {
+			ret = m_control_ptr->swipe(m_swipe_end, m_swipe_begin);
+		}
+		ret &= sleep(m_swipe_delay);
+		return ret;
+	};
+
+	// 识别到的干员名
+	std::unordered_set<std::string> detected_names;
+
+	// 一边识别一边滑动，把所有制造站干员名字抓出来
+	for (int i = 0; i != m_swipe_max_times; ++i) {
+		const cv::Mat& image = get_format_image();
+		// 异步进行滑动操作
+		std::future<bool> swipe_future = std::async(std::launch::async, swipe_foo);
+
+		std::vector<TextArea> all_text_area = ocr_detect(image);
+		/* 过滤出所有制造站中的干员名 */
+		std::vector<TextArea> cur_names = text_search(
+			all_text_area,
+			all_oper_name,
+			Configer::get_instance().m_infrast_ocr_replace);
+
+		for (TextArea& text_area : cur_names) {
+			detected_names.emplace(std::move(text_area.text));
+		}
+		bool break_flag = false;
+		// 识别到了结束标记，就直接退出循环
+		if (detected_names.find(oper_end_flag) != detected_names.cend()) {
+			break_flag = true;
+		}
+		// 阻塞等待滑动结束
+		if (!swipe_future.get()) {
+			return false;
+		}
+
+		if (break_flag) {
+			break;
+		}
+	}
+
+	json::value opers_json;
+	std::vector<json::value> all_names_vector;
+	for (const std::string& name : detected_names) {
+		all_names_vector.emplace_back(Utf8ToGbk(name));
+	}
+	opers_json["names"] = json::array(all_names_vector);
+
+	m_callback(AsstMsg::InfrastOpers, opers_json, m_callback_arg);
+
+	// 配置文件中的干员组合，和抓出来的干员名比对，如果组合中的干员都有，那就用这个组合
+	// Todo 时间复杂度起飞了，需要优化下
+	std::vector<std::string> optimal_comb;
+	for (auto&& name_vec :all_oper_combs) {
+		int count = 0;
+		for (std::string& name : name_vec) {
+			if (detected_names.find(name) != detected_names.cend()) {
+				++count;
+			}
+			else {
+				break;
+			}
+		}
+		if (count == name_vec.size()) {
+			optimal_comb = name_vec;
+			break;
+		}
+	}
+
+	opers_json["comb"] = json::array(optimal_comb);
+	m_callback(AsstMsg::InfrastComb, opers_json, m_callback_arg);
+
+
+	// 一边滑动一边点击最优解中的干员
+	for (int i = 0; i != m_swipe_max_times; ++i) {
+		const cv::Mat& image = get_format_image();
+		std::vector<TextArea> all_text_area = ocr_detect(image);
+		/* 过滤出所有制造站中的干员名 */
+		std::vector<TextArea> cur_names = text_search(
+			all_text_area,
+			optimal_comb,
+			Configer::get_instance().m_infrast_ocr_replace);
+
+		for (TextArea& text_area : cur_names) {
+			m_control_ptr->click(text_area.rect);
+			// 点过了就不会再点了，直接从最优解vector里面删了
+			auto iter = std::find(optimal_comb.begin(), optimal_comb.end(), text_area.text);
+			if (iter != optimal_comb.end()) {
+				optimal_comb.erase(iter);
+			}
+		}
+		if (optimal_comb.empty()) {
+			break;
+		}
+		// 因为滑动和点击是矛盾的，这里没法异步做
+		if (!swipe_foo(true)) {
+			return false;
+		}
+	}
+	return true;
+}
