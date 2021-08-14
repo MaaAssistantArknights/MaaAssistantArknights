@@ -82,7 +82,7 @@ std::pair<std::vector<cv::KeyPoint>, cv::Mat> asst::Identify::surf_detect(const 
 	cv::Mat mat_gray;
 	cv::cvtColor(mat, mat_gray, cv::COLOR_RGB2GRAY);
 
-	constexpr int min_hessian = 1000;
+	constexpr int min_hessian = 4000;
 	// SURF特征点检测
 	cv::Ptr<SURF> detector = SURF::create(min_hessian);
 	std::vector<KeyPoint> keypoints;
@@ -181,30 +181,41 @@ std::vector<TextArea> asst::Identify::feature_matching(const cv::Mat& mat)
 		}
 		float maxdist = max_iter->distance;
 
-		// 最小的距离
-		auto min_iter = std::min_element(matches.cbegin(), matches.cend(),
-			[](const cv::DMatch& lhs, const cv::DMatch& rhs) ->bool {
-				return lhs.distance < rhs.distance;
-			});	// 描述符欧式距离（knn）
-		if (min_iter == matches.cend()) {
-			continue;
-		}
-		float mindist = min_iter->distance;
-
 		std::vector<cv::DMatch> good_matches;
-		constexpr static const double MatchRatio = 0.6;
+		std::vector<cv::Point> good_points;
+		constexpr static const double MatchRatio = 0.4;
 		for (const cv::DMatch dmatch : matches) {
 			if (dmatch.distance < maxdist * MatchRatio) {
 				good_matches.emplace_back(dmatch);
+				if (dmatch.trainIdx >= 0 && dmatch.trainIdx < income_keypoints.size()) {
+					good_points.emplace_back(income_keypoints.at(dmatch.trainIdx).pt);
+				}
+
 			}
 		}
 		// TODO，把这个阈值写到配置文件里
+		cv::Rect draw_rect;
 		constexpr static const int MatchSizeThreshold = 10;
-		if (good_matches.size() >= MatchSizeThreshold) {
+		if (good_points.size() >= MatchSizeThreshold) {
 			TextArea textarea;
 			textarea.text = key;
-			// TODO
-			//textarea.rect = ;
+			int left = 0, right = 0, top = 0, bottom = 0;
+			for (const cv::Point& pt : good_points) {
+				if (pt.x < left || left == 0) {
+					left = pt.x;
+				}
+				if (pt.x > right || right == 0) {
+					right = pt.x;
+				}
+				if (pt.y < top || top == 0) {
+					top = pt.y;
+				}
+				if (pt.y > bottom || bottom == 0) {
+					bottom = pt.y;
+				}
+			}
+			textarea.rect = { left, top, right - left, bottom - top };
+			draw_rect = { left, top, right - left, bottom - top };
 			matched_text_area.emplace_back(std::move(textarea));
 		}
 
@@ -212,8 +223,7 @@ std::vector<TextArea> asst::Identify::feature_matching(const cv::Mat& mat)
 		cv::Mat text_mat = cv::imread(GetResourceDir() + "operators\\森蚺.png");
 		cv::Mat draw_mat;
 		cv::drawMatches(text_mat, keypoints, mat, income_keypoints, good_matches, draw_mat);
-		cv::imshow("output", draw_mat);
-		cv::waitKey(0);
+		cv::rectangle(draw_mat, draw_rect, cv::Scalar(255, 0, 0), 10);
 	}
 	return matched_text_area;
 }

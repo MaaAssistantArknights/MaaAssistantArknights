@@ -256,6 +256,7 @@ bool asst::Configer::_load(const std::string& filename)
 				emulator_info.adb.swipe = emulator_json["adb"]["swipe"].as_string();
 				emulator_info.adb.display = emulator_json["adb"]["display"].as_string();
 				emulator_info.adb.display_regex = emulator_json["adb"]["displayRegex"].as_string();
+				emulator_info.adb.screencap = emulator_json["adb"]["screencap"].as_string();
 			}
 			emulator_info.x_offset = emulator_json.get("xOffset", 0);
 			emulator_info.y_offset = emulator_json.get("yOffset", 0);

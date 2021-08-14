@@ -32,6 +32,7 @@ bool WinMacro::captured() const noexcept
 bool WinMacro::findHandle()
 {
 	std::vector<HandleInfo> handle_vec;
+	m_is_adb = m_emulator_info.is_adb;
 	switch (m_handle_type) {
 	case HandleType::Window:
 		m_width = m_emulator_info.width;
@@ -96,25 +97,35 @@ bool WinMacro::findHandle()
 		size_t pos = adb_dir.find_last_of('\\') + 1;
 		adb_dir = adb_dir.substr(0, pos);
 		adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
-		std::string connect_cmd = adb_dir + m_emulator_info.adb.connect;
 
-		if (!callCmd(connect_cmd)) {
-			DebugTraceError("Connect Adb Error", connect_cmd);
-			return false;
-		}
-		auto&& display_ret = callCmd(adb_dir + m_emulator_info.adb.display);
-		if (display_ret) {
-			std::string pipe_str = display_ret.value();
-			sscanf_s(pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(),
-				&m_emulator_info.adb.display_width, &m_emulator_info.adb.display_height);
-		}
-		else {
-			DebugTraceError("Get Display Error");
-			return false;
-		}
+		if (m_handle_type == HandleType::Control) 
+		{
+			std::string connect_cmd = StringReplaceAll(m_emulator_info.adb.connect, "[Adb]", adb_dir);
+			if (!callCmd(connect_cmd)) {
+				DebugTraceError("Connect Adb Error", connect_cmd);
+				return false;
+			}
+			auto&& display_ret = callCmd(StringReplaceAll(m_emulator_info.adb.display, "[Adb]", adb_dir));
+			if (display_ret) {
+				std::string pipe_str = display_ret.value();
+				sscanf_s(pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(),
+					&m_emulator_info.adb.display_width, &m_emulator_info.adb.display_height);
+			}
+			else {
+				DebugTraceError("Get Display Error");
+				return false;
+			}
 
-		m_click_cmd = adb_dir + m_emulator_info.adb.click;
-		m_swipe_cmd = adb_dir + m_emulator_info.adb.swipe;
+			m_click_cmd = StringReplaceAll(m_emulator_info.adb.click, "[Adb]", adb_dir);
+			m_swipe_cmd = StringReplaceAll(m_emulator_info.adb.swipe, "[Adb]", adb_dir);
+		}
+		else if (m_handle_type == HandleType::View) 
+		{
+			m_adb_screen_filename = GetCurrentDir() + "adb_screen.png";
+			m_screencap_cmd = StringReplaceAll(
+				StringReplaceAll(m_emulator_info.adb.screencap, "[Adb]", adb_dir),
+				"[Filename]", m_adb_screen_filename);
+		}
 	}
 	DebugTrace("Handle:", m_handle, "Name:", m_emulator_info.name, "Type:", m_handle_type);
 
@@ -140,7 +151,7 @@ std::optional<std::string> asst::WinMacro::callCmd(const std::string& cmd, bool 
 	BOOL pipe_ret = FALSE;
 	if (use_pipe) {
 		pipe_ret = ::CreatePipe(&pipe_read, &pipe_write, &sa_out_pipe, PipeBuffSize);
-		DebugTrace("Create Pipe ret", pipe_ret);
+		DebugTrace("Create Pipe ret", pipe_ret ? "True" : "False");
 	}
 
 	// 准备启动ADB进程
@@ -156,7 +167,7 @@ std::optional<std::string> asst::WinMacro::callCmd(const std::string& cmd, bool 
 
 	DWORD ret = -1;
 	if (!::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &startup_info, &process_info)) {
-		DebugTraceError("Create process error");
+		DebugTraceError("Call", cmd, "Create process error");
 		return std::nullopt;
 	}
 	::WaitForSingleObject(process_info.hProcess, 30000);
@@ -167,8 +178,10 @@ std::optional<std::string> asst::WinMacro::callCmd(const std::string& cmd, bool 
 		DWORD std_num = 0;
 		if (::PeekNamedPipe(pipe_read, NULL, 0, NULL, &read_num, NULL) && read_num > 0) {
 			char pipe_buffer[PipeBuffSize] = { 0 };
-			::ReadFile(pipe_read, pipe_buffer, read_num, &std_num, NULL);
-			pipe_str = std::string(pipe_buffer, std_num);
+			BOOL read_ret = ::ReadFile(pipe_read, pipe_buffer, read_num, &std_num, NULL);
+			if (read_ret) {
+				pipe_str = std::string(pipe_buffer, std_num);
+			}
 		}
 	}
 
@@ -410,4 +423,18 @@ cv::Mat WinMacro::getImage(const Rect& rect)
 	*/
 
 	return dst_mat;
+}
+
+cv::Mat asst::WinMacro::getAdbImage()
+{
+	if (m_handle_type != HandleType::View || !::IsWindow(m_handle)) {
+		return cv::Mat();
+	}
+
+	if (m_is_adb) {
+		if (callCmd(m_screencap_cmd, false).has_value()) {
+			return cv::imread(m_adb_screen_filename);
+		}
+	}
+	return cv::Mat();
 }

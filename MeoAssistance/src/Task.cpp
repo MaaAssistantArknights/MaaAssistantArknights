@@ -42,9 +42,15 @@ void AbstractTask::set_exit_flag(bool* exit_flag)
 	m_exit_flag = exit_flag;
 }
 
-cv::Mat AbstractTask::get_format_image()
+cv::Mat AbstractTask::get_format_image(bool hd)
 {
-	const cv::Mat& raw_image = m_view_ptr->getImage(m_view_ptr->getWindowRect());
+	cv::Mat raw_image;
+	if (hd) {
+		raw_image = m_view_ptr->getAdbImage();
+	}
+	else {
+		raw_image = m_view_ptr->getImage(m_view_ptr->getWindowRect());
+	}
 	if (raw_image.empty()) {
 		m_callback(AsstMsg::ImageIsEmpty, json::value(), m_callback_arg);
 		return raw_image;
@@ -54,23 +60,28 @@ cv::Mat AbstractTask::get_format_image()
 		return raw_image;
 	}
 
-	// 把模拟器边框的一圈裁剪掉
-	const EmulatorInfo& window_info = m_view_ptr->getEmulatorInfo();
-	int x_offset = window_info.x_offset;
-	int y_offset = window_info.y_offset;
-	int width = raw_image.cols - x_offset - window_info.right_offset;
-	int height = raw_image.rows - y_offset - window_info.bottom_offset;
+	if (hd) {
+		return raw_image;
+	}
+	else {
+		// 把模拟器边框的一圈裁剪掉
+		const EmulatorInfo& window_info = m_view_ptr->getEmulatorInfo();
+		int x_offset = window_info.x_offset;
+		int y_offset = window_info.y_offset;
+		int width = raw_image.cols - x_offset - window_info.right_offset;
+		int height = raw_image.rows - y_offset - window_info.bottom_offset;
 
-	cv::Mat cropped(raw_image, cv::Rect(x_offset, y_offset, width, height));
+		cv::Mat cropped(raw_image, cv::Rect(x_offset, y_offset, width, height));
 
-	// 根据图像尺寸，调整控制的缩放
-	set_control_scale(cropped.cols, cropped.rows);
+		// 根据图像尺寸，调整控制的缩放
+		set_control_scale(cropped.cols, cropped.rows);
 
-	//// 调整尺寸，与资源中截图的标准尺寸一致
-	//cv::Mat dst;
-	//cv::resize(cropped, dst, cv::Size(m_configer.DefaultWindowWidth, m_configer.DefaultWindowHeight));
+		//// 调整尺寸，与资源中截图的标准尺寸一致
+		//cv::Mat dst;
+		//cv::resize(cropped, dst, cv::Size(m_configer.DefaultWindowWidth, m_configer.DefaultWindowHeight));
 
-	return cropped;
+		return cropped;
+	}
 }
 
 bool AbstractTask::set_control_scale(int cur_width, int cur_height)
@@ -667,129 +678,6 @@ bool TestOcrTask::run()
 		return false;
 	}
 
-	json::value task_start_json = json::object{
-		{ "task_type",  "TestOcrTask" },
-		{ "task_chain", m_task_chain},
-	};
-	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
-
-	auto swipe_foo = [&](bool reverse = false) -> bool {
-		const Point p1(600, 300);
-		const Point p2(450, 300);
-		bool ret = false;
-		if (!reverse) {
-			ret = m_control_ptr->swipe(p1, p2);
-		}
-		else {
-			ret = m_control_ptr->swipe(p2, p1);
-		}
-		ret &= sleep(3000);
-		return ret;
-	};
-
-	// 识别到的干员名
-	std::unordered_set<std::string> all_names;
-
-	// 一边识别一边滑动，把所有制造站干员名字抓出来
-	for (int i = 0; i != 20; ++i) {
-		const cv::Mat& image = get_format_image();
-		// 异步进行滑动操作
-		std::future<bool> swipe_future = std::async(std::launch::async, swipe_foo);
-
-		std::vector<TextArea> all_text_area = ocr_detect(image);
-		/* 过滤出所有制造站中的干员名 */
-		std::vector<TextArea> cur_names = text_search(
-			all_text_area,
-			InfrastConfiger::get_instance().m_mfg_opers,
-			Configer::get_instance().m_infrast_ocr_replace);
-
-		for (TextArea& text_area : cur_names) {
-			all_names.emplace(std::move(text_area.text));
-		}
-		bool break_flag = false;
-		// 识别到了结束标记，就直接退出循环
-		if (all_names.find(InfrastConfiger::get_instance().m_mfg_end) != all_names.cend()) {
-			break_flag = true;
-		}
-		// 阻塞等待滑动结束
-		if (!swipe_future.get()) {
-			return false;
-		}
-
-		if (break_flag) {
-			break;
-		}
-	}
-
-	std::cout << "识别到制造站干员:" << std::endl;
-	for (const std::string& name : all_names) {
-		std::cout << Utf8ToGbk(name) << std::endl;
-	}
-
-	// 配置文件中的干员组合，和抓出来的干员名比对，如果组合中的干员都有，那就用这个组合
-	// Todo 时间复杂度起飞了，需要优化下
-	std::vector<std::string> optimal_comb;
-	for (auto&& name_vec : InfrastConfiger::get_instance().m_mfg_combs) {
-		int count = 0;
-		for (std::string& name : name_vec) {
-			if (all_names.find(name) != all_names.cend()) {
-				++count;
-			}
-			else {
-				break;
-			}
-		}
-		if (count == name_vec.size()) {
-			optimal_comb = name_vec;
-			break;
-		}
-	}
-
-	std::cout << "最优组合:" << std::endl;
-	for (const std::string& name : optimal_comb) {
-		std::cout << Utf8ToGbk(name) << std::endl;
-	}
-
-	// 一边滑动一边点击最优解中的干员
-	for (int i = 0; i != 20; ++i) {
-		const cv::Mat& image = get_format_image();
-		std::vector<TextArea> all_text_area = ocr_detect(image);
-		/* 过滤出所有制造站中的干员名 */
-		std::vector<TextArea> cur_names = text_search(
-			all_text_area,
-			optimal_comb,
-			Configer::get_instance().m_infrast_ocr_replace);
-
-		for (TextArea& text_area : cur_names) {
-			m_control_ptr->click(text_area.rect);
-			// 点过了就不会再点了，直接从最优解vector里面删了
-			auto iter = std::find(optimal_comb.begin(), optimal_comb.end(), text_area.text);
-			if (iter != optimal_comb.end()) {
-				optimal_comb.erase(iter);
-			}
-		}
-		if (optimal_comb.empty()) {
-			break;
-		}
-		// 因为滑动和点击是矛盾的，这里没法异步做
-		if (!swipe_foo(true)) {
-			return false;
-		}
-	}
-
-
-	//// 点击识别到的文字，直接回调扔出去，交给外层做
-	//if (m_need_click) {
-	//	for (const TextArea& text_area : all_text) {
-	//		json::value task_json;
-	//		task_json["type"] = "ClickTask";
-	//		task_json["rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
-	//		task_json["retry_times"] = m_retry_times;
-	//		task_json["task_chain"] = m_task_chain;
-	//		m_callback(AsstMsg::AppendTask, task_json, m_callback_arg);
-	//	}
-	//}
-
 	return true;
 }
 
@@ -808,9 +696,9 @@ bool asst::InfrastStationTask::run()
 	}
 
 	// for debug
-	const cv::Mat& debug_image = get_format_image();
+	const cv::Mat& debug_image = get_format_image(true);
 	m_identify_ptr->feature_matching(debug_image);
-	
+
 	std::vector<std::vector<std::string>> all_oper_combs;	// 所有的干员组合
 	std::unordered_set<std::string> all_oper_name;			// 所有干员名
 	std::string oper_end_flag;								// 干员名结束标记，识别到这个string就认为识别完成了
@@ -890,7 +778,7 @@ bool asst::InfrastStationTask::run()
 	// 配置文件中的干员组合，和抓出来的干员名比对，如果组合中的干员都有，那就用这个组合
 	// Todo 时间复杂度起飞了，需要优化下
 	std::vector<std::string> optimal_comb;
-	for (auto&& name_vec :all_oper_combs) {
+	for (auto&& name_vec : all_oper_combs) {
 		int count = 0;
 		for (std::string& name : name_vec) {
 			if (detected_names.find(name) != detected_names.cend()) {
