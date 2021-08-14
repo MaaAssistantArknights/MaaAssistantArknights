@@ -107,6 +107,7 @@ namespace asst {
 		std::string display;
 		std::string display_regex;
 		std::string screencap;
+		std::string pullscreen;
 		int display_width = 0;
 		int display_height = 0;
 	};

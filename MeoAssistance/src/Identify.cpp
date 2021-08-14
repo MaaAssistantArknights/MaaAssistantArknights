@@ -215,7 +215,7 @@ std::vector<TextArea> asst::Identify::feature_matching(const cv::Mat& mat)
 				}
 			}
 			textarea.rect = { left, top, right - left, bottom - top };
-			draw_rect = { left, top, right - left, bottom - top };
+			draw_rect = { left + 129, top, right - left, bottom - top };
 			matched_text_area.emplace_back(std::move(textarea));
 		}
 
@@ -223,7 +223,7 @@ std::vector<TextArea> asst::Identify::feature_matching(const cv::Mat& mat)
 		cv::Mat text_mat = cv::imread(GetResourceDir() + "operators\\…≠Ú≈.png");
 		cv::Mat draw_mat;
 		cv::drawMatches(text_mat, keypoints, mat, income_keypoints, good_matches, draw_mat);
-		cv::rectangle(draw_mat, draw_rect, cv::Scalar(255, 0, 0), 10);
+		cv::rectangle(draw_mat, draw_rect, cv::Scalar(0, 0, 255), 10);
 	}
 	return matched_text_area;
 }
