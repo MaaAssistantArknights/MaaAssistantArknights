@@ -1,9 +1,14 @@
 #include "AsstCaller.h"
 #include <stdio.h>
 
+using namespace asst;
+
+void test_dorm(Assistance* ptr);
+void test_swipe(Assistance* ptr);
+void test_infrast(Assistance* ptr);
+
 int main(int argc, char** argv)
 {
-	using namespace asst;
 
 	Assistance* ptr = AsstCreate();
 	auto ret = AsstCatchEmulator(ptr);
@@ -15,11 +20,13 @@ int main(int argc, char** argv)
 		}
 		return -1;
 	}
-	const char* text_array[] = { "注意力" };
 
 	char ch = 0;
 	while (ch != 'q') {
-		AsstTestOcr(ptr, text_array, sizeof(text_array) / sizeof(char*), true);
+
+		test_infrast(ptr);
+		//test_swipe(ptr);
+
 		ch = getchar();
 	}
 
@@ -29,4 +36,21 @@ int main(int argc, char** argv)
 	}
 
 	return 0;
+}
+
+void test_swipe(Assistance* ptr)
+{
+	AsstTestSwipe(ptr, 1000, 300, 500, 300);
+}
+
+void test_dorm(Assistance* ptr)
+{
+	const char* text_array[] = { "注意力" };
+
+	AsstTestOcr(ptr, text_array, sizeof(text_array) / sizeof(char*), true);
+}
+
+void test_infrast(Assistance* ptr)
+{
+	AsstStartInfrast(ptr);
 }

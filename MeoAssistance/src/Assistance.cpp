@@ -6,7 +6,8 @@
 #include "Logger.hpp"
 #include "AsstAux.h"
 #include "Task.h"
-#include "OpenRecruitConfiger.h"
+#include "RecruitConfiger.h"
+#include "InfrastConfiger.h"
 
 #include <json.h>
 #include <opencv2/opencv.hpp>
@@ -33,7 +34,12 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 		callback_error();
 		return;
 	}
-	ret = OpenRecruitConfiger::get_instance().load(GetResourceDir() + "operInfo.json");
+	ret = RecruitConfiger::get_instance().load(GetResourceDir() + "recruit.json");
+	if (!ret) {
+		callback_error();
+		return;
+	}
+	ret = InfrastConfiger::get_instance().load(GetResourceDir() + "infrast.json");
 	if (!ret) {
 		callback_error();
 		return;
@@ -61,6 +67,9 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 		callback_error();
 		return;
 	}
+
+	// for debug
+	m_identify_ptr->add_text_image("森蚺", GetResourceDir() + "operators\\森蚺.png");
 
 	m_working_thread = std::thread(working_proc, this);
 	m_msg_thread = std::thread(msg_proc, this);
@@ -214,6 +223,29 @@ bool Assistance::start_open_recruit(const std::vector<int>& required_level, bool
 	return true;
 }
 
+bool asst::Assistance::start_infrast()
+{
+	DebugTraceFunction;
+	if (!m_thread_idle || !m_inited)
+	{
+		return false;
+	}
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+
+	auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
+	// TODO 这个参数写到配置文件里
+	task_ptr->set_swipe_param(2000, Rect(600, 300, 0, 0), Rect(450, 300, 0, 0), 20);
+	task_ptr->set_facility(FacilityType::Manufacturing);
+	task_ptr->set_task_chain("Infrast");
+	m_tasks_queue.emplace(task_ptr);
+
+	m_thread_idle = false;
+	m_condvar.notify_one();
+
+	return true;
+}
+
 void Assistance::stop(bool block)
 {
 	DebugTraceFunction;
@@ -238,6 +270,11 @@ bool Assistance::set_param(const std::string& type, const std::string& param, co
 	DebugTrace("SetParam |", type, param, value);
 
 	return Configer::get_instance().set_param(type, param, value);
+}
+
+bool asst::Assistance::swipe(const Point& p1, const Point& p2)
+{
+	return m_control_ptr->swipe(p1, p2);
 }
 
 void Assistance::working_proc(Assistance* p_this)

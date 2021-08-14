@@ -13,18 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\configer">
+      <UniqueIdentifier>{07a812fe-6b28-4be0-b6d4-33554824d3c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\configer">
+      <UniqueIdentifier>{74bd94e1-4973-412a-a17a-d8457de387af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\type">
+      <UniqueIdentifier>{87c9dee5-847b-41e6-818e-387a6385ea8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Configer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\Identify.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\WinMacro.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\AsstDef.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\Assistance.h">
@@ -36,32 +39,35 @@
     <ClInclude Include="include\Updater.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\Logger.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\AsstAux.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\AsstPort.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\OpenRecruitConfiger.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Version.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\Task.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\InfrastConfiger.h">
+      <Filter>头文件\configer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RecruitConfiger.h">
+      <Filter>头文件\configer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Configer.h">
+      <Filter>头文件\configer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AsstDef.h">
+      <Filter>头文件\type</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AsstAux.h">
+      <Filter>头文件\type</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AsstPort.h">
+      <Filter>头文件\type</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Version.h">
+      <Filter>头文件\type</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Logger.hpp">
+      <Filter>头文件\type</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Configer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Identify.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\WinMacro.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -74,18 +80,30 @@
     <ClCompile Include="src\Updater.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\OpenRecruitConfiger.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\Task.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastConfiger.cpp">
+      <Filter>源文件\configer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Identify.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RecruitConfiger.cpp">
+      <Filter>源文件\configer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configer.cpp">
+      <Filter>源文件\configer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resource\config.json">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="..\resource\operInfo.json">
+    <None Include="..\resource\recruit.json">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\resource\infrast.json">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

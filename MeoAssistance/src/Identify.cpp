@@ -7,6 +7,8 @@
 #include "Logger.hpp"
 #include "AsstAux.h"
 
+#include <algorithm>
+
 using namespace asst;
 using namespace cv;
 using namespace cv::xfeatures2d;
@@ -80,7 +82,7 @@ std::pair<std::vector<cv::KeyPoint>, cv::Mat> asst::Identify::surf_detect(const 
 	cv::Mat mat_gray;
 	cv::cvtColor(mat, mat_gray, cv::COLOR_RGB2GRAY);
 
-	constexpr int min_hessian = 800;
+	constexpr int min_hessian = 1000;
 	// SURF特征点检测
 	cv::Ptr<SURF> detector = SURF::create(min_hessian);
 	std::vector<KeyPoint> keypoints;
@@ -156,17 +158,64 @@ std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cu
 	}
 }
 
-void asst::Identify::feature_matching(const cv::Mat& mat)
+std::vector<TextArea> asst::Identify::feature_matching(const cv::Mat& mat)
 {
+	DebugTraceFunction;
 	auto && [income_keypoints, income_mat_vector] = surf_detect(mat);
 
 	static FlannBasedMatcher matcher;
 	
+	std::vector<TextArea> matched_text_area;
 	for (auto&& [key, feature] : m_feature_map) {
 		auto&& [keypoints, mat_vector] = feature;
 		std::vector<cv::DMatch> matches;
 		matcher.match(mat_vector, income_mat_vector, matches);
+
+		// 最大的距离
+		auto max_iter = std::max_element(matches.cbegin(), matches.cend(), 
+			[](const cv::DMatch& lhs, const cv::DMatch& rhs) ->bool{
+				return lhs.distance < rhs.distance;
+			});	// 描述符欧式距离（knn）
+		if (max_iter == matches.cend()) {
+			continue;
+		}
+		float maxdist = max_iter->distance;
+
+		// 最小的距离
+		auto min_iter = std::min_element(matches.cbegin(), matches.cend(),
+			[](const cv::DMatch& lhs, const cv::DMatch& rhs) ->bool {
+				return lhs.distance < rhs.distance;
+			});	// 描述符欧式距离（knn）
+		if (min_iter == matches.cend()) {
+			continue;
+		}
+		float mindist = min_iter->distance;
+
+		std::vector<cv::DMatch> good_matches;
+		constexpr static const double MatchRatio = 0.6;
+		for (const cv::DMatch dmatch : matches) {
+			if (dmatch.distance < maxdist * MatchRatio) {
+				good_matches.emplace_back(dmatch);
+			}
+		}
+		// TODO，把这个阈值写到配置文件里
+		constexpr static const int MatchSizeThreshold = 10;
+		if (good_matches.size() >= MatchSizeThreshold) {
+			TextArea textarea;
+			textarea.text = key;
+			// TODO
+			//textarea.rect = ;
+			matched_text_area.emplace_back(std::move(textarea));
+		}
+
+		// for debug
+		cv::Mat text_mat = cv::imread(GetResourceDir() + "operators\\森蚺.png");
+		cv::Mat draw_mat;
+		cv::drawMatches(text_mat, keypoints, mat, income_keypoints, good_matches, draw_mat);
+		cv::imshow("output", draw_mat);
+		cv::waitKey(0);
 	}
+	return matched_text_area;
 }
 
 void Identify::clear_cache()

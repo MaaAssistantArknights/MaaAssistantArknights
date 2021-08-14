@@ -103,6 +103,7 @@ namespace asst {
 		std::string path;
 		std::string connect;
 		std::string click;
+		std::string swipe;
 		std::string display;
 		std::string display_regex;
 		int display_width = 0;

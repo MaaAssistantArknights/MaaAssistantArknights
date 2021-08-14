@@ -29,7 +29,7 @@ namespace asst {
 		std::tuple<AlgorithmType, double, asst::Rect> find_image(const cv::Mat& image, const std::string& templ, double templ_threshold);
 
 		// for debug
-		void feature_matching(const cv::Mat& mat);
+		std::vector<TextArea> feature_matching(const cv::Mat& mat);
 
 		void clear_cache();
 
