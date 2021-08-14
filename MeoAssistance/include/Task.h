@@ -139,7 +139,7 @@ namespace asst {
 		virtual void set_task_chain(std::string name) { m_task_chain = std::move(name); }
 		virtual const std::string& get_task_chain() { return m_task_chain; }
 	protected:
-		virtual cv::Mat get_format_image();
+		virtual cv::Mat get_format_image(bool hd = false);	// 参数hd：高清截图，会慢一点
 		virtual bool set_control_scale(int cur_width, int cur_height);
 		virtual bool sleep(unsigned millisecond);
 		virtual bool print_window(const std::string& dir);

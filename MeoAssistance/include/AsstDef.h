@@ -106,6 +106,7 @@ namespace asst {
 		std::string swipe;
 		std::string display;
 		std::string display_regex;
+		std::string screencap;
 		int display_width = 0;
 		int display_height = 0;
 	};
