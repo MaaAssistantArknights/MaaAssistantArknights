@@ -19,7 +19,8 @@ using namespace asst;
 WinMacro::WinMacro(const EmulatorInfo& info, HandleType type)
 	: m_emulator_info(info),
 	m_handle_type(type),
-	m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count())
+	m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count()),
+	m_adb_screen_filename(GetCurrentDir() + "adb_screen.png")
 {
 	findHandle();
 }
@@ -121,9 +122,11 @@ bool WinMacro::findHandle()
 		}
 		else if (m_handle_type == HandleType::View) 
 		{
-			m_adb_screen_filename = GetCurrentDir() + "adb_screen.png";
 			m_screencap_cmd = StringReplaceAll(
 				StringReplaceAll(m_emulator_info.adb.screencap, "[Adb]", adb_dir),
+				"[Filename]", m_adb_screen_filename);
+			m_pullscreen_cmd = StringReplaceAll(
+				StringReplaceAll(m_emulator_info.adb.pullscreen, "[Adb]", adb_dir),
 				"[Filename]", m_adb_screen_filename);
 		}
 	}
@@ -432,7 +435,7 @@ cv::Mat asst::WinMacro::getAdbImage()
 	}
 
 	if (m_is_adb) {
-		if (callCmd(m_screencap_cmd, false).has_value()) {
+		if (callCmd(m_screencap_cmd, false).has_value() && callCmd(m_pullscreen_cmd, false).has_value()) {
 			return cv::imread(m_adb_screen_filename);
 		}
 	}
