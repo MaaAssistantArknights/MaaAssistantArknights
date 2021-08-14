@@ -2,7 +2,6 @@
 
 #include <string>
 #include <unordered_map>
-#include <optional>
 #include <memory>
 
 #include "AsstDef.h"
@@ -22,9 +21,6 @@ namespace asst {
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
-		Configer& operator=(const Configer& rhs) = default;
-		Configer& operator=(Configer&& rhs) noexcept = default;
-
 		constexpr static int DefaultWindowWidth = 1280;
 		constexpr static int DefaultWindowHeight = 720;
 		constexpr static double Defaulttempl_threshold = 0.9;
@@ -41,6 +37,9 @@ namespace asst {
 		Configer() = default;
 		Configer(const Configer& rhs) = default;
 		Configer(Configer&& rhs) noexcept = default;
+
+		Configer& operator=(const Configer& rhs) = default;
+		Configer& operator=(Configer && rhs) noexcept = default;
 
 		bool _load(const std::string& filename);
 	};

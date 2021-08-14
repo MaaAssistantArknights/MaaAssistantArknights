@@ -25,7 +25,7 @@ namespace asst {
 	class WinMacro;
 	class Identify;
 	class Configer;
-	class OpenRecruitConfiger;
+	class RecruitConfiger;
 
 	enum TaskType {
 		TaskTypeInvalid = 0,
@@ -59,8 +59,25 @@ namespace asst {
 		RecruitTagsDetected,
 		OcrResultError,
 		RecruitSpecialTag,
-		RecruitResult
+		RecruitResult,
+		/* Infrast Msg*/
+		InfrastOpers,		// 识别到基建干员s
+		InfrastComb			// 当前设置的最优干员组合
 	};
+
+	// 设施类型
+	enum class FacilityType {
+		Invalid,
+		Manufacturing,		// 制造站
+		Trade,				// 贸易站
+		PowerStation,		// 发电站
+		ControlInterface,	// 控制中枢
+		ReceptionRoom,		// 会客室
+		Dormitory,			// 宿舍
+		Office				// 办公室
+		// 训练室和加工站用不上，不加了
+	};
+
 	static std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
 	{
 		static const std::unordered_map<AsstMsg, std::string> _type_name = {
@@ -85,7 +102,10 @@ namespace asst {
 			{AsstMsg::OcrResultError, "OcrResultError"},
 			{AsstMsg::RecruitSpecialTag, "RecruitSpecialTag"},
 			{AsstMsg::RecruitResult, "RecruitResult"},
-			{AsstMsg::AppendTask, "AppendTask"}
+			{AsstMsg::AppendTask, "AppendTask"},
+			{AsstMsg::InfrastOpers, "InfrastOpers"},
+			{AsstMsg::InfrastComb, "InfrastComb"}
+
 		};
 		return os << _type_name.at(type);
 	}
@@ -121,7 +141,7 @@ namespace asst {
 	protected:
 		virtual cv::Mat get_format_image();
 		virtual bool set_control_scale(int cur_width, int cur_height);
-		virtual void sleep(unsigned millisecond);
+		virtual bool sleep(unsigned millisecond);
 		virtual bool print_window(const std::string& dir);
 
 		std::shared_ptr<WinMacro> m_window_ptr = nullptr;
@@ -234,6 +254,33 @@ namespace asst {
 	protected:
 		std::vector<int> m_required_level;
 		bool m_set_time = false;
+	};
+
+	// 基建进驻任务
+	class InfrastStationTask : public OcrAbstractTask 
+	{
+	public:
+		InfrastStationTask(AsstCallback callback, void* callback_arg);
+		virtual ~InfrastStationTask() = default;
+
+		virtual bool run() override;
+		void set_swipe_param(int delay, const Rect& begin_rect, const Rect& end_rect, int max_times = 20)
+		{
+			m_swipe_delay = delay;
+			m_swipe_begin = begin_rect;
+			m_swipe_end = end_rect;
+			m_swipe_max_times = max_times;
+		}
+		void set_facility(FacilityType facility)
+		{
+			m_facility = facility;
+		}
+	private:
+		FacilityType m_facility = FacilityType::Invalid;
+		int m_swipe_delay = 0;
+		Rect m_swipe_begin;
+		Rect m_swipe_end;
+		int m_swipe_max_times = 0;
 	};
 
 	// for debug

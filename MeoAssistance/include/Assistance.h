@@ -29,11 +29,14 @@ namespace asst {
 
 		// 开始刷理智
 		bool start_sanity();
-		// 开始访问基建
+		// 开始访问好友基建
 		bool start_visit();
 
 		// 开始公开招募操作
 		bool start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
+		// 开始基建换班任务
+		bool start_infrast();
+
 		// 开始匹配任务，调试用
 		bool start_match_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool block = true);
 		// 开始OCR测试，调试用
@@ -42,6 +45,9 @@ namespace asst {
 		void stop(bool block = true);
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
+
+		// 滑动操作，调试用
+		bool swipe(const Point& p1, const Point& p2);
 
 		static constexpr int ProcessTaskRetryTimesDefault = 20;
 		static constexpr int OpenRecruitTaskRetyrTimesDefault = 5;

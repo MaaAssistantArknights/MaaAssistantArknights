@@ -112,6 +112,15 @@ bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], bo
 	return true;
 }
 
+bool AsstStartInfrast(asst::Assistance* p_asst)
+{
+	if (p_asst == NULL) {
+		return false;
+	}
+	p_asst->start_infrast();
+	return true;
+}
+
 bool AsstTestOcr(asst::Assistance* p_asst, const char** text_array, int array_size, bool need_click)
 {
 	if (p_asst == NULL || text_array == nullptr) {
@@ -140,4 +149,12 @@ bool CheckVersionUpdate(char* tag_buffer, int tag_bufsize, char* html_url_buffer
 	strcpy_s(html_url_buffer, html_bufsize, info.html_url.c_str());
 	strcpy_s(body_buffer, body_bufsize, info.body.c_str());
 	return true;
+}
+
+bool AsstTestSwipe(asst::Assistance* p_asst, int x1, int y1, int x2, int y2)
+{
+	if (p_asst == NULL) {
+		return false;
+	}
+	return p_asst->swipe({ x1, y1 }, { x2, y2 });
 }

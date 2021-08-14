@@ -3,7 +3,8 @@
 #include "WinMacro.h"
 #include "Identify.h"
 #include "Configer.h"
-#include "OpenRecruitConfiger.h"
+#include "RecruitConfiger.h"
+#include "InfrastConfiger.h"
 #include <json.h>
 #include "AsstAux.h"
 
@@ -13,6 +14,7 @@
 #include <cmath>
 #include <mutex>
 #include <filesystem>
+#include <future>
 
 using namespace asst;
 
@@ -80,10 +82,10 @@ bool AbstractTask::set_control_scale(int cur_width, int cur_height)
 	return true;
 }
 
-void AbstractTask::sleep(unsigned millisecond)
+bool AbstractTask::sleep(unsigned millisecond)
 {
 	if (millisecond == 0) {
-		return;
+		return true;
 	}
 	auto start = std::chrono::system_clock::now();
 	unsigned duration = 0;
@@ -99,6 +101,8 @@ void AbstractTask::sleep(unsigned millisecond)
 		std::this_thread::yield();
 	}
 	m_callback(AsstMsg::EndOfSleep, callback_json, m_callback_arg);
+
+	return (m_exit_flag == NULL || *m_exit_flag == false);
 }
 
 bool AbstractTask::print_window(const std::string& dir)
@@ -180,7 +184,10 @@ bool ProcessTask::run()
 	}
 
 	// 前置固定延时
-	sleep(task_info_ptr->pre_delay);
+	if (!sleep(task_info_ptr->pre_delay))
+	{
+		return false;
+	}
 
 	bool need_stop = false;
 	switch (task_info_ptr->type) {
@@ -198,7 +205,10 @@ bool ProcessTask::run()
 		break;
 	case ProcessTaskType::PrintWindow:
 	{
-		sleep(Configer::get_instance().m_options.print_window_delay);
+		if (!sleep(Configer::get_instance().m_options.print_window_delay))
+		{
+			return false;
+		}
 		static const std::string dirname = GetCurrentDir() + "screenshot\\";
 		print_window(dirname);
 	}
@@ -224,7 +234,9 @@ bool ProcessTask::run()
 	m_callback(AsstMsg::TaskCompleted, callback_json, m_callback_arg);
 
 	// 后置固定延时
-	sleep(task_info_ptr->rear_delay);
+	if (!sleep(task_info_ptr->rear_delay)) {
+		return false;
+	}
 
 	json::value next_json = callback_json;
 	next_json["task_chain"] = m_task_chain;
@@ -367,7 +379,9 @@ void ProcessTask::exec_click_task(const Rect& matched_rect)
 			Configer::get_instance().m_options.control_delay_upper);
 
 		unsigned rand_delay = rand_uni(rand_engine);
-		sleep(rand_delay);
+		if (!sleep(rand_delay)) {
+			return;
+		}
 	}
 
 	m_control_ptr->click(matched_rect);
@@ -428,7 +442,7 @@ bool OpenRecruitTask::run()
 
 	/* Filter out all tags from all text */
 	std::vector<TextArea> all_tags = text_match(
-		all_text_area, OpenRecruitConfiger::get_instance().m_all_tags, Configer::get_instance().m_recruit_ocr_replace);
+		all_text_area, RecruitConfiger::get_instance().m_all_tags, Configer::get_instance().m_recruit_ocr_replace);
 
 	std::unordered_set<std::string> all_tags_name;
 	std::vector<json::value> all_tags_json_vector;
@@ -441,7 +455,7 @@ bool OpenRecruitTask::run()
 	m_callback(AsstMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
 
 	/* 过滤tags数量不足的情况（可能是识别漏了） */
-	if (all_tags.size() != OpenRecruitConfiger::CorrectNumberOfTags) {
+	if (all_tags.size() != RecruitConfiger::CorrectNumberOfTags) {
 		all_tags_json["type"] = "OpenRecruit";
 		m_callback(AsstMsg::OcrResultError, all_tags_json, m_callback_arg);
 		return false;
@@ -488,7 +502,7 @@ bool OpenRecruitTask::run()
 	// 例如 key: { "狙击"、"群攻" }，value: OperCombs.opers{ "陨星", "白雪", "空爆" }
 	std::map<std::vector<std::string>, OperCombs> result_map;
 	for (const std::vector<std::string>& comb : all_combs) {
-		for (const OperInfo& cur_oper : OpenRecruitConfiger::get_instance().m_all_opers) {
+		for (const OperInfo& cur_oper : RecruitConfiger::get_instance().m_all_opers) {
 			int matched_count = 0;
 			for (const std::string& tag : comb) {
 				if (cur_oper.tags.find(tag) != cur_oper.tags.cend()) {
@@ -659,39 +673,268 @@ bool TestOcrTask::run()
 	};
 	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
-	/* Find all text */
-	std::vector<TextArea> all_text_area = ocr_detect();
+	auto swipe_foo = [&](bool reverse = false) -> bool {
+		const Point p1(600, 300);
+		const Point p2(450, 300);
+		bool ret = false;
+		if (!reverse) {
+			ret = m_control_ptr->swipe(p1, p2);
+		}
+		else {
+			ret = m_control_ptr->swipe(p2, p1);
+		}
+		ret &= sleep(3000);
+		return ret;
+	};
 
-	std::vector<json::value> all_text_json_vector;
-	for (const TextArea& text_area : all_text_area) {
-		all_text_json_vector.emplace_back(Utf8ToGbk(text_area.text));
-	}
-	json::value all_text_json;
-	all_text_json["text"] = json::array(all_text_json_vector);
-	m_callback(AsstMsg::TextDetected, all_text_json, m_callback_arg);
+	// 识别到的干员名
+	std::unordered_set<std::string> all_names;
 
-	/* Filter out all text from all text */
-	std::vector<TextArea> all_text = text_search(
-		all_text_area, m_text_vec, Configer::get_instance().m_infrast_ocr_replace);
-	std::vector<json::value> all_tags_json_vector;
-	for (const TextArea& text_area : all_text) {
-		all_tags_json_vector.emplace_back(Utf8ToGbk(text_area.text));
-	}
-	json::value all_tags_json;
-	all_tags_json["tags"] = json::array(all_tags_json_vector);
-	m_callback(AsstMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
+	// 一边识别一边滑动，把所有制造站干员名字抓出来
+	for (int i = 0; i != 20; ++i) {
+		const cv::Mat& image = get_format_image();
+		// 异步进行滑动操作
+		std::future<bool> swipe_future = std::async(std::launch::async, swipe_foo);
 
-	// 点击识别到的文字，直接回调扔出去，交给外层做
-	if (m_need_click) {
-		for (const TextArea& text_area : all_text) {
-			json::value task_json;
-			task_json["type"] = "ClickTask";
-			task_json["rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
-			task_json["retry_times"] = m_retry_times;
-			task_json["task_chain"] = m_task_chain;
-			m_callback(AsstMsg::AppendTask, task_json, m_callback_arg);
+		std::vector<TextArea> all_text_area = ocr_detect(image);
+		/* 过滤出所有制造站中的干员名 */
+		std::vector<TextArea> cur_names = text_search(
+			all_text_area,
+			InfrastConfiger::get_instance().m_mfg_opers,
+			Configer::get_instance().m_infrast_ocr_replace);
+
+		for (TextArea& text_area : cur_names) {
+			all_names.emplace(std::move(text_area.text));
+		}
+		bool break_flag = false;
+		// 识别到了结束标记，就直接退出循环
+		if (all_names.find(InfrastConfiger::get_instance().m_mfg_end) != all_names.cend()) {
+			break_flag = true;
+		}
+		// 阻塞等待滑动结束
+		if (!swipe_future.get()) {
+			return false;
+		}
+
+		if (break_flag) {
+			break;
 		}
 	}
 
+	std::cout << "识别到制造站干员:" << std::endl;
+	for (const std::string& name : all_names) {
+		std::cout << Utf8ToGbk(name) << std::endl;
+	}
+
+	// 配置文件中的干员组合，和抓出来的干员名比对，如果组合中的干员都有，那就用这个组合
+	// Todo 时间复杂度起飞了，需要优化下
+	std::vector<std::string> optimal_comb;
+	for (auto&& name_vec : InfrastConfiger::get_instance().m_mfg_combs) {
+		int count = 0;
+		for (std::string& name : name_vec) {
+			if (all_names.find(name) != all_names.cend()) {
+				++count;
+			}
+			else {
+				break;
+			}
+		}
+		if (count == name_vec.size()) {
+			optimal_comb = name_vec;
+			break;
+		}
+	}
+
+	std::cout << "最优组合:" << std::endl;
+	for (const std::string& name : optimal_comb) {
+		std::cout << Utf8ToGbk(name) << std::endl;
+	}
+
+	// 一边滑动一边点击最优解中的干员
+	for (int i = 0; i != 20; ++i) {
+		const cv::Mat& image = get_format_image();
+		std::vector<TextArea> all_text_area = ocr_detect(image);
+		/* 过滤出所有制造站中的干员名 */
+		std::vector<TextArea> cur_names = text_search(
+			all_text_area,
+			optimal_comb,
+			Configer::get_instance().m_infrast_ocr_replace);
+
+		for (TextArea& text_area : cur_names) {
+			m_control_ptr->click(text_area.rect);
+			// 点过了就不会再点了，直接从最优解vector里面删了
+			auto iter = std::find(optimal_comb.begin(), optimal_comb.end(), text_area.text);
+			if (iter != optimal_comb.end()) {
+				optimal_comb.erase(iter);
+			}
+		}
+		if (optimal_comb.empty()) {
+			break;
+		}
+		// 因为滑动和点击是矛盾的，这里没法异步做
+		if (!swipe_foo(true)) {
+			return false;
+		}
+	}
+
+
+	//// 点击识别到的文字，直接回调扔出去，交给外层做
+	//if (m_need_click) {
+	//	for (const TextArea& text_area : all_text) {
+	//		json::value task_json;
+	//		task_json["type"] = "ClickTask";
+	//		task_json["rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
+	//		task_json["retry_times"] = m_retry_times;
+	//		task_json["task_chain"] = m_task_chain;
+	//		m_callback(AsstMsg::AppendTask, task_json, m_callback_arg);
+	//	}
+	//}
+
+	return true;
+}
+
+asst::InfrastStationTask::InfrastStationTask(AsstCallback callback, void* callback_arg)
+	: OcrAbstractTask(callback, callback_arg)
+{
+}
+
+bool asst::InfrastStationTask::run()
+{
+	if (m_view_ptr == NULL
+		|| m_identify_ptr == NULL)
+	{
+		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
+		return false;
+	}
+
+	// for debug
+	const cv::Mat& debug_image = get_format_image();
+	m_identify_ptr->feature_matching(debug_image);
+	
+	std::vector<std::vector<std::string>> all_oper_combs;	// 所有的干员组合
+	std::unordered_set<std::string> all_oper_name;			// 所有干员名
+	std::string oper_end_flag;								// 干员名结束标记，识别到这个string就认为识别完成了
+
+	switch (m_facility) {
+	case FacilityType::Manufacturing:
+		all_oper_combs = InfrastConfiger::get_instance().m_mfg_combs;
+		all_oper_name = InfrastConfiger::get_instance().m_mfg_opers;
+		oper_end_flag = InfrastConfiger::get_instance().m_mfg_end;
+		break;
+		// TODO 贸易站和其他啥的，有空再做
+	default:
+		break;
+	}
+
+	json::value task_start_json = json::object{
+		{ "task_type",  "InfrastStationTask" },
+		{ "task_chain", m_task_chain},
+	};
+	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
+
+	auto swipe_foo = [&](bool reverse = false) -> bool {
+		bool ret = false;
+		if (!reverse) {
+			ret = m_control_ptr->swipe(m_swipe_begin, m_swipe_end);
+		}
+		else {
+			ret = m_control_ptr->swipe(m_swipe_end, m_swipe_begin);
+		}
+		ret &= sleep(m_swipe_delay);
+		return ret;
+	};
+
+	// 识别到的干员名
+	std::unordered_set<std::string> detected_names;
+
+	// 一边识别一边滑动，把所有制造站干员名字抓出来
+	for (int i = 0; i != m_swipe_max_times; ++i) {
+		const cv::Mat& image = get_format_image();
+		// 异步进行滑动操作
+		std::future<bool> swipe_future = std::async(std::launch::async, swipe_foo);
+
+		std::vector<TextArea> all_text_area = ocr_detect(image);
+		/* 过滤出所有制造站中的干员名 */
+		std::vector<TextArea> cur_names = text_search(
+			all_text_area,
+			all_oper_name,
+			Configer::get_instance().m_infrast_ocr_replace);
+
+		for (TextArea& text_area : cur_names) {
+			detected_names.emplace(std::move(text_area.text));
+		}
+		bool break_flag = false;
+		// 识别到了结束标记，就直接退出循环
+		if (detected_names.find(oper_end_flag) != detected_names.cend()) {
+			break_flag = true;
+		}
+		// 阻塞等待滑动结束
+		if (!swipe_future.get()) {
+			return false;
+		}
+
+		if (break_flag) {
+			break;
+		}
+	}
+
+	json::value opers_json;
+	std::vector<json::value> all_names_vector;
+	for (const std::string& name : detected_names) {
+		all_names_vector.emplace_back(Utf8ToGbk(name));
+	}
+	opers_json["names"] = json::array(all_names_vector);
+
+	m_callback(AsstMsg::InfrastOpers, opers_json, m_callback_arg);
+
+	// 配置文件中的干员组合，和抓出来的干员名比对，如果组合中的干员都有，那就用这个组合
+	// Todo 时间复杂度起飞了，需要优化下
+	std::vector<std::string> optimal_comb;
+	for (auto&& name_vec :all_oper_combs) {
+		int count = 0;
+		for (std::string& name : name_vec) {
+			if (detected_names.find(name) != detected_names.cend()) {
+				++count;
+			}
+			else {
+				break;
+			}
+		}
+		if (count == name_vec.size()) {
+			optimal_comb = name_vec;
+			break;
+		}
+	}
+
+	opers_json["comb"] = json::array(optimal_comb);
+	m_callback(AsstMsg::InfrastComb, opers_json, m_callback_arg);
+
+
+	// 一边滑动一边点击最优解中的干员
+	for (int i = 0; i != m_swipe_max_times; ++i) {
+		const cv::Mat& image = get_format_image();
+		std::vector<TextArea> all_text_area = ocr_detect(image);
+		/* 过滤出所有制造站中的干员名 */
+		std::vector<TextArea> cur_names = text_search(
+			all_text_area,
+			optimal_comb,
+			Configer::get_instance().m_infrast_ocr_replace);
+
+		for (TextArea& text_area : cur_names) {
+			m_control_ptr->click(text_area.rect);
+			// 点过了就不会再点了，直接从最优解vector里面删了
+			auto iter = std::find(optimal_comb.begin(), optimal_comb.end(), text_area.text);
+			if (iter != optimal_comb.end()) {
+				optimal_comb.erase(iter);
+			}
+		}
+		if (optimal_comb.empty()) {
+			break;
+		}
+		// 因为滑动和点击是矛盾的，这里没法异步做
+		if (!swipe_foo(true)) {
+			return false;
+		}
+	}
 	return true;
 }

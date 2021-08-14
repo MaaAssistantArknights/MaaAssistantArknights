@@ -123,7 +123,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)meojson\include;$(SolutionDir)MeoAssistance\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)MeoAssistance\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
