@@ -21,7 +21,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchEmulator(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] static private extern void AsstStart(IntPtr ptr, string task);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStart(IntPtr ptr, string task);
 
         [DllImport("MeoAssistance.dll")] static private extern void AsstStop(IntPtr ptr);
 
@@ -113,7 +113,7 @@ namespace MeoAsstGui
                 case AsstMsg.TaskStop:
                     {
                         string task_chain = detail["task_chain"].ToString();
-                        if (task_chain != "SanityBegin")
+                        if (task_chain != "SanityBegin" && task_chain != "VisitBegin")
                         {
                             break;
                         }
@@ -154,7 +154,7 @@ namespace MeoAsstGui
                                 break;
                             }
                             ++retry_times;
-                            button_Click_startSanity(null, null);
+                            AsstStart(p_asst, "SanityBegin");
                         }
                         else if (task_chain == "VisitBegin")
                         {
@@ -166,7 +166,7 @@ namespace MeoAsstGui
                                 break;
                             }
                             ++retry_times;
-                            button_Click_visit(null, null);
+                            AsstStart(p_asst, "VisitBegin");
                         }
                     }
                     break;
@@ -206,8 +206,12 @@ namespace MeoAsstGui
         private void button_Click_startSanity(object sender, RoutedEventArgs e)
         {
             bool catched = AsstCatchEmulator(p_asst);
+            exec_times.Content = "";
             catch_status.Content = "捕获模拟器窗口：" + catched;
-            AsstStart(p_asst, "SanityBegin");
+            if (AsstStart(p_asst, "SanityBegin"))
+            {
+                exec_times.Content = "";
+            }
             if (checkBox_useStone.IsChecked == true)
             {
                 stone_times.Content = "已碎石 0 个";
@@ -263,7 +267,10 @@ namespace MeoAsstGui
         {
             bool catched = AsstCatchEmulator(p_asst);
             catch_status.Content = "捕获模拟器窗口：" + catched;
-            AsstStart(p_asst, "VisitBegin");
+            if (AsstStart(p_asst, "VisitBegin"))
+            {
+                exec_times.Content = "";
+            }
         }
 
         private void checkBox_maxTimes_Checked(object sender, RoutedEventArgs e)

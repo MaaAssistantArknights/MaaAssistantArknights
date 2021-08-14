@@ -146,6 +146,7 @@
             "template": "StartButton2.png",
             "type": "clickSelf",
             "rearDelay": 20000,
+            "templThreshold": 0.95,
             "next": [
                 "StartButton2",
                 "PRTS"
@@ -163,10 +164,11 @@
             ]
         },
         "WaitAfterPRTS": {
-            "rearDelay": 5000,
+            "rearDelay": 3000,
             "algorithm": "justreturn",
             "type": "doNothing",
             "next": [
+                "PRTS",
                 "EndOfAction",
                 "ClickCornerAfterPRTS"
             ]
@@ -187,7 +189,8 @@
                 "StartButton1",
                 "StartButton2",
                 "UseMedicine",
-                "UseStone"
+                "UseStone",
+                "ClickCornerAfterPRTS"
             ]
         },
         "EndOfAction": {
@@ -213,12 +216,13 @@
                 "StartButton1",
                 "StartButton2",
                 "UseMedicine",
-                "UseStone"
+                "UseStone",
+                "EndOfAction"
             ]
         },
         "Loading": {
             "template": "Loading.png",
-            "threshold": 0.8,
+            "templThreshold": 0.8,
             "type": "doNothing",
             "next": [
                 "StartButton1"
