@@ -238,6 +238,7 @@
             "template": "StartButton2.png",
             "type": "clickSelf",
             "rearDelay": 20000,
+            "templThreshold": 0.95,
             "next": [
                 "StartButton2",
                 "PRTS"
@@ -313,7 +314,7 @@
         },
         "Loading": {
             "template": "Loading.png",
-            "threshold": 0.8,
+            "templThreshold": 0.8,
             "type": "doNothing",
             "next": [
                 "StartButton1"

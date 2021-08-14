@@ -154,7 +154,7 @@ namespace MeoAsstGui
                                 break;
                             }
                             ++retry_times;
-                            button_Click_startSanity(null, null);
+                            AsstStart(p_asst, "SanityBegin");
                         }
                         else if (task_chain == "VisitBegin")
                         {
@@ -166,7 +166,7 @@ namespace MeoAsstGui
                                 break;
                             }
                             ++retry_times;
-                            button_Click_visit(null, null);
+                            AsstStart(p_asst, "VisitBegin");
                         }
                     }
                     break;
