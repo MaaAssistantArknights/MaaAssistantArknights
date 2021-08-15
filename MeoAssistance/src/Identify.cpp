@@ -8,6 +8,7 @@
 #include "AsstAux.h"
 
 #include <algorithm>
+#include <numeric>
 
 using namespace asst;
 using namespace cv;
@@ -161,19 +162,20 @@ std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cu
 std::vector<TextArea> asst::Identify::feature_matching(const cv::Mat& mat)
 {
 	DebugTraceFunction;
-	auto && [income_keypoints, income_mat_vector] = surf_detect(mat);
+
+	auto&& [train_keypoints, train_mat_vector] = surf_detect(mat);
 
 	static FlannBasedMatcher matcher;
-	
+
 	std::vector<TextArea> matched_text_area;
 	for (auto&& [key, feature] : m_feature_map) {
-		auto&& [keypoints, mat_vector] = feature;
+		auto&& [query_keypoints, query_mat_vector] = feature;
 		std::vector<cv::DMatch> matches;
-		matcher.match(mat_vector, income_mat_vector, matches);
+		matcher.match(query_mat_vector, train_mat_vector, matches);
 
 		// 最大的距离
-		auto max_iter = std::max_element(matches.cbegin(), matches.cend(), 
-			[](const cv::DMatch& lhs, const cv::DMatch& rhs) ->bool{
+		auto max_iter = std::max_element(matches.cbegin(), matches.cend(),
+			[](const cv::DMatch& lhs, const cv::DMatch& rhs) ->bool {
 				return lhs.distance < rhs.distance;
 			});	// 描述符欧式距离（knn）
 		if (max_iter == matches.cend()) {
@@ -181,19 +183,74 @@ std::vector<TextArea> asst::Identify::feature_matching(const cv::Mat& mat)
 		}
 		float maxdist = max_iter->distance;
 
-		std::vector<cv::DMatch> good_matches;
-		std::vector<cv::Point> good_points;
+		std::vector<cv::DMatch> approach_matches;
+		std::vector<cv::KeyPoint> train_approach_keypoints;
+		std::vector<cv::KeyPoint> query_approach_keypoints;
+		std::vector<cv::Point> train_approach_points;
+		std::vector<cv::Point> query_approach_points;
+		// 利用距离进行一次逼近
 		constexpr static const double MatchRatio = 0.4;
+		int approach_index = 0;
 		for (const cv::DMatch dmatch : matches) {
 			if (dmatch.distance < maxdist * MatchRatio) {
-				good_matches.emplace_back(dmatch);
-				if (dmatch.trainIdx >= 0 && dmatch.trainIdx < income_keypoints.size()) {
-					good_points.emplace_back(income_keypoints.at(dmatch.trainIdx).pt);
+				// 按理说不会越界，以防万一还是检查一下
+				if (dmatch.queryIdx >= 0 && dmatch.queryIdx < query_keypoints.size()
+					&& dmatch.trainIdx >= 0 && dmatch.trainIdx < train_keypoints.size()) {
+					approach_matches.emplace_back(dmatch);
+					train_approach_points.emplace_back(train_keypoints.at(dmatch.trainIdx).pt);
+					query_approach_points.emplace_back(query_keypoints.at(dmatch.queryIdx).pt);
+					train_approach_keypoints.emplace_back(train_keypoints.at(dmatch.trainIdx));
+					query_approach_keypoints.emplace_back(query_keypoints.at(dmatch.queryIdx));
 				}
-
 			}
 		}
-		// TODO，把这个阈值写到配置文件里
+
+		// 使用RANSAC剔除异常值
+		std::vector<uchar> ransac_status;
+		cv::Mat fundametal = cv::findFundamentalMat(query_approach_points, train_approach_points, ransac_status, cv::FM_RANSAC);
+
+		std::vector<cv::DMatch> ransac_matchs;
+		std::vector<cv::KeyPoint> train_ransac_keypoints;
+		std::vector<cv::KeyPoint> query_ransac_keypoints;
+		int index = 0;
+		for (size_t i = 0; i != approach_matches.size(); ++i) {
+			if (ransac_status.at(i) != 0) {
+				train_ransac_keypoints.emplace_back(train_approach_keypoints.at(i));
+				query_ransac_keypoints.emplace_back(query_approach_keypoints.at(i));
+				cv::DMatch dmatch = approach_matches.at(i);
+				ransac_matchs.emplace_back(std::move(dmatch));
+				++index;
+			}
+		}
+
+		// 做一次算数均值滤波，过滤异常的点
+		size_t point_size = train_ransac_keypoints.size();
+		if (point_size == 0) {
+			continue;
+		}
+		cv::Point sum_point = std::accumulate(
+			train_ransac_keypoints.cbegin(), train_ransac_keypoints.cend(), cv::Point(),
+			[](cv::Point sum, const cv::KeyPoint& rhs) -> cv::Point {
+				return cv::Point(sum.x + rhs.pt.x, sum.y + rhs.pt.y);
+			});
+		cv::Point avg_point(sum_point.x / point_size, sum_point.y / point_size);
+		std::vector<cv::DMatch> good_matchs;
+		std::vector<cv::Point> good_points;
+		// TODO，这个阈值需要根据分辨率进行缩放，而且最好写到配置文件里
+		constexpr static int DistanceThreshold = 300;
+		for (size_t i = 0; i != train_ransac_keypoints.size(); ++i) {
+			// 没必要算距离，x y各算一下就行了，省点CPU时间
+			//int distance = std::sqrt(std::pow(avg_point.x - cur_x, 2) + std::pow(avg_point.y - cur_y, 2));
+			cv::Point2f& pt = train_ransac_keypoints.at(i).pt;
+			int x_distance = std::abs(avg_point.x - pt.x);
+			int y_distance = std::abs(avg_point.y - pt.y);
+			if (x_distance < DistanceThreshold && y_distance < DistanceThreshold) {
+				good_matchs.emplace_back(ransac_matchs.at(i));
+				good_points.emplace_back(pt);
+			}
+		}
+
+
 		cv::Rect draw_rect;
 		constexpr static const int MatchSizeThreshold = 10;
 		if (good_points.size() >= MatchSizeThreshold) {
@@ -221,9 +278,14 @@ std::vector<TextArea> asst::Identify::feature_matching(const cv::Mat& mat)
 
 		// for debug
 		cv::Mat text_mat = cv::imread(GetResourceDir() + "operators\\森蚺.png");
-		cv::Mat draw_mat;
-		cv::drawMatches(text_mat, keypoints, mat, income_keypoints, good_matches, draw_mat);
-		cv::rectangle(draw_mat, draw_rect, cv::Scalar(0, 0, 255), 10);
+
+		cv::Mat approach_mat;
+		cv::drawMatches(text_mat, query_keypoints, mat, train_keypoints, approach_matches, approach_mat);
+		// cv::rectangle(approach_mat, draw_rect, cv::Scalar(0, 0, 255), 10);
+
+		cv::Mat good_mat;
+		cv::drawMatches(text_mat, query_keypoints, mat, train_keypoints, good_matchs, good_mat);
+		// cv::rectangle(good_mat, draw_rect, cv::Scalar(0, 0, 255), 10);
 	}
 	return matched_text_area;
 }
