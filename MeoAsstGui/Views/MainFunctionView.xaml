@@ -26,7 +26,7 @@
         <!-- CatchStatus-->
         <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}" HorizontalAlignment="Center" Text="{Binding RunStatus}"></TextBlock>
         <!-- RunStatus -->
-        <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}" HorizontalAlignment="Center" Text="{Binding ExecInfo}"></TextBlock>
+        <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}" HorizontalAlignment="Right" Text="{Binding ExecInfo}"></TextBlock>
         <!-- RunStatus -->
         <!-- RunStatus-->
     </Grid>
