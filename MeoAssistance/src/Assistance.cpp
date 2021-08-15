@@ -68,8 +68,13 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 		return;
 	}
 
-	// for debug
-	m_identify_ptr->add_text_image("É­òÅ", GetResourceDir() + "operators\\É­òÅ.png");
+	for (const std::string& name : InfrastConfiger::get_instance().m_mfg_opers) {
+		ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
+		if (!ret) {
+			callback_error();
+			return;
+		}
+	}
 
 	m_working_thread = std::thread(working_proc, this);
 	m_msg_thread = std::thread(msg_proc, this);
