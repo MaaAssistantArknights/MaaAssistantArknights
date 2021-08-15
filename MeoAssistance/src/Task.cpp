@@ -697,7 +697,11 @@ bool asst::InfrastStationTask::run()
 
 	// for debug
 	const cv::Mat& debug_image = get_format_image(true);
-	m_identify_ptr->feature_matching(debug_image);
+	auto res = m_identify_ptr->feature_matching(debug_image);
+
+	for (auto textarea : res) {
+		std::cout << Utf8ToGbk(textarea.text) << std::endl;
+	}
 
 	//std::vector<std::vector<std::string>> all_oper_combs;	// 所有的干员组合
 	//std::unordered_set<std::string> all_oper_name;			// 所有干员名

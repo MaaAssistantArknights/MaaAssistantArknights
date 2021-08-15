@@ -250,10 +250,9 @@ std::vector<TextArea> asst::Identify::feature_matching(const cv::Mat& mat)
 			}
 		}
 
-
-		cv::Rect draw_rect;
-		constexpr static const int MatchSizeThreshold = 10;
-		if (good_points.size() >= MatchSizeThreshold) {
+		std::cout << Utf8ToGbk(key) << " " << good_points.size() << " / " << query_keypoints.size() << std::endl;
+		constexpr static const double MatchSizeRatioThreshold = 0.075;
+		if (good_points.size() >= query_keypoints.size() * MatchSizeRatioThreshold) {
 			TextArea textarea;
 			textarea.text = key;
 			int left = 0, right = 0, top = 0, bottom = 0;
@@ -272,20 +271,21 @@ std::vector<TextArea> asst::Identify::feature_matching(const cv::Mat& mat)
 				}
 			}
 			textarea.rect = { left, top, right - left, bottom - top };
-			draw_rect = { left + 129, top, right - left, bottom - top };
+			//draw_rect = { left + 129, top, right - left, bottom - top };
 			matched_text_area.emplace_back(std::move(textarea));
+
 		}
 
+
+
 		// for debug
-		cv::Mat text_mat = cv::imread(GetResourceDir() + "operators\\…≠Ú≈.png");
+		cv::Mat text_mat = cv::imread(GetResourceDir() + "operators\\" + Utf8ToGbk(key) + ".png");
 
 		cv::Mat approach_mat;
-		cv::drawMatches(text_mat, query_keypoints, mat, train_keypoints, approach_matches, approach_mat);
-		// cv::rectangle(approach_mat, draw_rect, cv::Scalar(0, 0, 255), 10);
+		cv::drawMatches(text_mat, query_keypoints, mat, train_keypoints, ransac_matchs, approach_mat);
 
 		cv::Mat good_mat;
 		cv::drawMatches(text_mat, query_keypoints, mat, train_keypoints, good_matchs, good_mat);
-		// cv::rectangle(good_mat, draw_rect, cv::Scalar(0, 0, 255), 10);
 	}
 	return matched_text_area;
 }
