@@ -136,7 +136,8 @@ namespace MeoAsstGui
                                 break;
                             }
                             ++_retryTimes;
-                            mfvm.StartSanity();
+                            AsstStart("SanityBegin");
+
                         }
                         else if (task_chain == "VisitBegin")
                         {
@@ -148,7 +149,7 @@ namespace MeoAsstGui
                                 break;
                             }
                             ++_retryTimes;
-                            mfvm.Visit();
+                            AsstStart("VisitBegin");
                         }
                     }
                     break;
