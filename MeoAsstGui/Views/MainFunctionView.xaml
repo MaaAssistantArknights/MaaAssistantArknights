@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="MeoAsstGui.MainFunctionView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:s="https://github.com/canton7/Stylet"
+        xmlns:local="clr-namespace:MeoAsstGui"
+        mc:Ignorable="d"
+        Height="350" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <local:ParamSettingUserControl/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Command="{s:Action StartSanity}" Content="开始刷理智" Margin="10" HorizontalAlignment="Center" Width="120" Height="50"/>
+            <Button Command="{s:Action Stop}" Content="停止" Margin="10" HorizontalAlignment="Center" Width="120" Height="50"/>
+            <Button Command="{s:Action Visit}" Content="访问基建" Margin="10" HorizontalAlignment="Center" Width="120" Height="50"/>
+        </StackPanel>
+
+
+        <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}" HorizontalAlignment="Left" Text="{Binding CatchStatus}"></TextBlock>
+        <!-- CatchStatus-->
+        <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}" HorizontalAlignment="Center" Text="{Binding RunStatus}"></TextBlock>
+        <!-- RunStatus -->
+        <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}" HorizontalAlignment="Center" Text="{Binding ExecInfo}"></TextBlock>
+        <!-- RunStatus -->
+        <!-- RunStatus-->
+    </Grid>
+</UserControl>
