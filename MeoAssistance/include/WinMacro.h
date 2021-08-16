@@ -27,7 +27,7 @@ namespace asst {
 		bool click(const Rect& rect);
 		bool swipe(const Point& p1, const Point& p2);
 		bool swipe(const Rect& r1, const Rect& r2);
-		void setControlScale(double scale);
+		void setControlScale(double scale, bool real = false);
 		cv::Mat getImage(const Rect& rect);	// 通过Win32 Api对窗口截图
 		cv::Mat getAdbImage();				// 通过Adb截图，会高清一点，但是比较慢（通过adb pull出来，有io操作）
 		Rect getWindowRect();

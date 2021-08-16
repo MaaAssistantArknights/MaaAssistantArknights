@@ -28,8 +28,9 @@ namespace asst {
 		// return tuple< algorithmType, suitability, matched asst::rect>
 		std::tuple<AlgorithmType, double, asst::Rect> find_image(const cv::Mat& image, const std::string& templ, double templ_threshold);
 
+		std::optional<TextArea> feature_match(const cv::Mat& mat, const std::string& key);
 		// for debug
-		std::vector<TextArea> feature_matching(const cv::Mat& mat);
+		std::vector<TextArea> feature_match_all(const cv::Mat& mat);
 
 		void clear_cache();
 
