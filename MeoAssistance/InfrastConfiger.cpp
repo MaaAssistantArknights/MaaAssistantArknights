@@ -58,6 +58,15 @@ bool InfrastConfiger::_load(const std::string& filename)
 		{
 			m_mfg_opers.emplace(oper["name"].as_string());
 		}
+		for (json::value& pair : root["Manufacturing"]["featureKey"].as_array()) 
+		{
+			m_mfg_feat.emplace(pair[0].as_string(), pair[1].as_string());
+		}
+		for (json::value& name : root["Manufacturing"]["featureWhatever"].as_array())
+		{
+			m_mfg_feat_whatever.emplace(name.as_string());
+		}
+		
 
 		// Ã³Ò×Õ¾ TODO¡­¡­
 	}

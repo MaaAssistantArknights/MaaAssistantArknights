@@ -239,8 +239,8 @@ bool asst::Assistance::start_infrast()
 	std::unique_lock<std::mutex> lock(m_mutex);
 
 	auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
-	// TODO 这个参数写到配置文件里
-	task_ptr->set_swipe_param(2000, Rect(600, 300, 0, 0), Rect(450, 300, 0, 0), 20);
+	// TODO 这个参数写到配置文件里，TODO 滑动位置要根据分辨率缩放
+	task_ptr->set_swipe_param(1000, Rect(1800, 800, 0, 0), Rect(1200, 800, 0, 0), 20);
 	task_ptr->set_facility(FacilityType::Manufacturing);
 	task_ptr->set_task_chain("Infrast");
 	m_tasks_queue.emplace(task_ptr);
