@@ -75,7 +75,7 @@
 /* #undef HAVE_EIGEN */
 
 /* FFMpeg video library */
-#define HAVE_FFMPEG
+/* #undef HAVE_FFMPEG */
 
 /* Geospatial Data Abstraction Library */
 /* #undef HAVE_GDAL */
@@ -99,10 +99,10 @@
 /* #undef HAVE_INTELPERC */
 
 /* Intel Integrated Performance Primitives */
-#define HAVE_IPP
-#define HAVE_IPP_ICV
-#define HAVE_IPP_IW
-#define HAVE_IPP_IW_LL
+/* #undef HAVE_IPP */
+/* #undef HAVE_IPP_ICV */
+/* #undef HAVE_IPP_IW */
+/* #undef HAVE_IPP_IW_LL */
 
 /* JPEG-2000 codec */
 #define HAVE_JASPER

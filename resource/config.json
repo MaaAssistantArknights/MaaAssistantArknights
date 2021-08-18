@@ -30,9 +30,8 @@
         [ "都任", "输出" ]
     ],
     "infrastOcrReplace": [
-        [ "森蛐", "森蚺" ],
-        [ "森蛾", "森蚺" ],
-        [ "森躺", "森蚺" ]
+        [ "蛇居箱", "蛇屠箱" ],
+        [ "炎烤", "炎熔" ]
     ],
     "handle_Doc": "下面的和模拟器窗口捕获逻辑有关，不需要修改",
     "handle": {
@@ -53,23 +52,17 @@
                 {
                     "class": "BS2CHINAUI",
                     "window": "BlueStacks App Player"
-                },
-                {
-                    "class": "BS2CHINAUI",
-                    "window": "HOSTWND"
-                },
-                {
-                    "class": "",
-                    "window": "BlueStacks Android PluginAndroid"
                 }
             ],
             "adb": {
-                "path": "[EmulatorPath]HD-Adb.exe",
-                "connect": " connect 127.0.0.1:5555",
-                "click": " -s 127.0.0.1:5555 shell input tap [x] [y]",
-                "swipe": " -s 127.0.0.1:5555 shell input swipe [x1] [y1] [x2] [y2]",
-                "display": " -s 127.0.0.1:5555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d"
+                "path": "[EmulatorPath]Engine\\ProgramFiles\\HD-Adb.exe",
+                "connect": "[Adb] connect 127.0.0.1:5555",
+                "click": "[Adb] -s 127.0.0.1:5555 shell input tap [x] [y]",
+                "swipe": "[Adb] -s 127.0.0.1:5555 shell input swipe [x1] [y1] [x2] [y2]",
+                "display": "[Adb] -s 127.0.0.1:5555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d",
+                "screencap": "[Adb] -s 127.0.0.1:5555 shell screencap /sdcard/meo_screen.png",
+                "pullscreen": "[Adb] -s 127.0.0.1:5555 pull /sdcard/meo_screen.png [Filename]"
             },
             "xOffset": 11,
             "yOffset": 46,
@@ -96,12 +89,14 @@
                 }
             ],
             "adb": {
-                "path": "[EmulatorPath]..\\\\vmonitor\\\\bin\\\\adb_server.exe",
-                "connect": " connect 127.0.0.1:7555",
-                "click": " -s 127.0.0.1:7555 shell input tap [x] [y]",
-                "swipe": " -s 127.0.0.1:7555 shell input swipe [x1] [y1] [x2] [y2]",
-                "display": " -s 127.0.0.1:7555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d"
+                "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
+                "connect": "[Adb] connect 127.0.0.1:7555",
+                "click": "[Adb] -s 127.0.0.1:7555 shell input tap [x] [y]",
+                "swipe": "[Adb] -s 127.0.0.1:7555 shell input swipe [x1] [y1] [x2] [y2]",
+                "display": "[Adb] -s 127.0.0.1:7555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d",
+                "screencap": "[Adb] -s 127.0.0.1:7555 shell screencap /sdcard/meo_screen.png",
+                "pullscreen": "[Adb] -s 127.0.0.1:7555 pull /sdcard/meo_screen.png [Filename]"
             },
             "xOffset": 0,
             "yOffset": 36,
