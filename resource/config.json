@@ -398,6 +398,7 @@
         },
         "Friends": {
             "template": "Friends.png",
+            "templThreshold": 0.85,
             "preDelay": 1000,
             "type": "clickSelf",
             "next": [
@@ -413,6 +414,7 @@
         },
         "StartToVisit": {
             "template": "StartToVisit.png",
+            "templThreshold": 0.8,
             "type": "clickSelf",
             "rearDelay": 5000,
             "next": [
@@ -469,12 +471,23 @@
             "template": "Mall.png",
             "type": "clickSelf",
             "next": [
-                "CreditStore"
+                "CreditStore",
+                "CreditStoreOcr"
             ]
         },
         "CreditStore": {
             "template": "CreditStore.png",
             "templThreshold": 0.85,
+            "rearDelay": 1000,
+            "type": "clickSelf",
+            "next": [
+                "CollectCredit",
+                "Stop"
+            ]
+        },
+        "CreditStoreOcr": {
+            "algorithm": "OcrDetect",
+            "text": [ "信用交易所" ],
             "rearDelay": 1000,
             "type": "clickSelf",
             "next": [
