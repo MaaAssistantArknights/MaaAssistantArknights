@@ -372,7 +372,7 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			break;
 		}
 
-		callback_json["rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
+		callback_json["elite_rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
 		callback_json["name"] = task_name;
 		if (matched_rect != NULL) {
 			*matched_rect = std::move(rect);
@@ -630,7 +630,7 @@ bool OpenRecruitTask::run()
 		task_json["type"] = "ClickTask";
 		for (const TextArea& text_area : all_tags) {
 			if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
-				task_json["rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
+				task_json["elite_rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
 				task_json["retry_times"] = m_retry_times;
 				task_json["task_chain"] = m_task_chain;
 				m_callback(AsstMsg::AppendTask, task_json, m_callback_arg);
@@ -683,6 +683,53 @@ bool TestOcrTask::run()
 	{
 		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
+	}
+
+	std::vector<std::vector<std::string>> all_oper_combs;				// 所有的干员组合
+	std::unordered_set<std::string> all_oper_name;						// 所有干员名
+	std::string oper_end_flag;											// 干员名结束标记，识别到这个string就认为识别完成了
+	std::unordered_map<std::string, std::string> feature_cond_default;	// 特征检测关键字，如果OCR识别到了key的内容但是却没有value的内容，则进行特征检测进一步确认
+	std::unordered_set<std::string> feature_whatever_default;			// 无论如何都进行特征检测的
+
+	all_oper_combs = InfrastConfiger::get_instance().m_mfg_combs;
+	all_oper_name = InfrastConfiger::get_instance().m_mfg_opers;
+	oper_end_flag = InfrastConfiger::get_instance().m_mfg_end;
+	feature_cond_default = InfrastConfiger::get_instance().m_mfg_feat;
+	feature_whatever_default = InfrastConfiger::get_instance().m_mfg_feat_whatever;
+
+	std::unordered_map<std::string, std::string> feature_cond = feature_cond_default;
+	std::unordered_set<std::string> feature_whatever = feature_whatever_default;
+
+	auto detect_foo = [&](const cv::Mat& image) -> std::vector<TextArea> {
+		std::vector<TextArea> all_text_area = ocr_detect(image);
+		/* 过滤出所有制造站中的干员名 */
+		std::vector<TextArea> cur_name_textarea = text_search(
+			all_text_area,
+			all_oper_name,
+			Configer::get_instance().m_infrast_ocr_replace);
+		return cur_name_textarea;
+	};
+
+	const cv::Mat& image = get_format_image(true);
+	auto cur_name_textarea = detect_foo(image);
+
+	// for debug
+	cv::Mat elite1 = cv::imread(GetResourceDir() + "operators\\Elite1.png");
+	cv::Mat elite2 = cv::imread(GetResourceDir() + "operators\\Elite2.png");
+	for (const TextArea& textarea : cur_name_textarea)
+	{
+		cv::Rect elite_rect;
+		elite_rect.x = textarea.rect.x - 200;
+		elite_rect.y = textarea.rect.y - 200;
+		elite_rect.width = 200;
+		elite_rect.height = 150;
+		auto&& [socre1, point1] = m_identify_ptr->match_template(image(elite_rect), elite1);
+		auto&& [socre2, point2] = m_identify_ptr->match_template(image(elite_rect), elite2);
+
+		std::cout << Utf8ToGbk(textarea.text) << " elite1: " << socre1 << ", eilte2: " << socre2 << std::endl;
+
+		//m_identify_ptr->feature_match(image(elite_rect), "Elite1");
+		//m_identify_ptr->feature_match(image(elite_rect), "Elite2");
 	}
 
 	return true;
