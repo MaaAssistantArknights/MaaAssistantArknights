@@ -24,7 +24,7 @@ int main(int argc, char** argv)
 	char ch = 0;
 	while (ch != 'q') {
 
-		test_ocr(ptr);
+		test_infrast(ptr);
 		//test_swipe(ptr);
 
 		ch = getchar();
@@ -40,7 +40,7 @@ int main(int argc, char** argv)
 
 void test_swipe(Assistance* ptr)
 {
-	AsstTestSwipe(ptr, 1000, 300, 500, 300);
+	AsstTestSwipe(ptr, 2500, 300, 100, 300);
 }
 
 void test_ocr(Assistance* ptr)

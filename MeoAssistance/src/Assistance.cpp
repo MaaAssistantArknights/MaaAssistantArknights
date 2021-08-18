@@ -68,14 +68,14 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 		return;
 	}
 
-	for (const auto& [key, name] : InfrastConfiger::get_instance().m_mfg_feat) {
+	for (const auto& [key, name] : InfrastConfiger::get_instance().m_oper_name_feat) {
 		ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
 		if (!ret) {
 			callback_error();
 			return;
 		}
 	}
-	for (const auto& name : InfrastConfiger::get_instance().m_mfg_feat_whatever) {
+	for (const auto& name : InfrastConfiger::get_instance().m_oper_name_feat_whatever) {
 		ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
 		if (!ret) {
 			callback_error();
@@ -255,8 +255,8 @@ bool asst::Assistance::start_infrast()
 
 	auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
 	// TODO 这个参数写到配置文件里，TODO 滑动位置要根据分辨率缩放
-	task_ptr->set_swipe_param(1000, Rect(1800, 800, 0, 0), Rect(1200, 800, 0, 0), 20);
-	task_ptr->set_facility(FacilityType::Manufacturing);
+	task_ptr->set_swipe_param(2100, Rect(2400, 800, 0, 0), Rect(400, 800, 0, 0), 20);
+	task_ptr->set_facility("Manufacturing");
 	task_ptr->set_task_chain("Infrast");
 	m_tasks_queue.emplace(task_ptr);
 

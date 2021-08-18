@@ -18,12 +18,11 @@ namespace asst {
 		}
 
 		bool load(const std::string& filename);
+		std::unordered_set<std::string> m_all_opers_name;				// 所有干员的名字
+		std::unordered_map<std::string, std::string> m_oper_name_feat;	// 根据关键字需要特征检测干员名：如果OCR识别到了key的内容但是却没有value的内容，则进行特征检测进一步确认
+		std::unordered_set<std::string> m_oper_name_feat_whatever;		// 无论如何都进行特征检测的干员名
 
-		std::vector<std::vector<std::string>> m_mfg_combs;			// 制造站组合
-		std::unordered_set<std::string> m_mfg_opers;				// 制造站所有干员
-		std::unordered_map<std::string, std::string> m_mfg_feat;	// 特征检测关键字，如果OCR识别到了key的内容但是却没有value的内容，则进行特征检测进一步确认
-		std::unordered_set<std::string> m_mfg_feat_whatever;		// 无论如何都进行特征检测的干员名
-		std::string m_mfg_end;										// 识别到这个词，就认为干员遍历结束，一般用排序里最后的那个干员（？）
+		std::unordered_map<std::string, std::vector<std::vector<OperInfrastInfo>>> m_infrast_combs;		// 各个设施内的可能干员组合
 
 	private:
 		InfrastConfiger() = default;
