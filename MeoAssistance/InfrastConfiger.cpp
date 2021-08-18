@@ -49,12 +49,24 @@ bool InfrastConfiger::_load(const std::string& filename)
 			for (json::value& oper_name : comb_info["comb"].as_array())
 			{
 				std::string oper_name_str = oper_name.as_string();
-				m_mfg_opers.emplace(oper_name_str);
 				comb_vec.emplace_back(std::move(oper_name_str));
 			}
 			m_mfg_combs.emplace_back(std::move(comb_vec));
 		}
 		m_mfg_end = root["Manufacturing"]["end"].as_string();
+		for (json::value& oper : root["Manufacturing"]["all"].as_array())
+		{
+			m_mfg_opers.emplace(oper["name"].as_string());
+		}
+		for (json::value& pair : root["Manufacturing"]["featureKey"].as_array()) 
+		{
+			m_mfg_feat.emplace(pair[0].as_string(), pair[1].as_string());
+		}
+		for (json::value& name : root["Manufacturing"]["featureWhatever"].as_array())
+		{
+			m_mfg_feat_whatever.emplace(name.as_string());
+		}
+		
 
 		// Ã³Ò×Õ¾ TODO¡­¡­
 	}

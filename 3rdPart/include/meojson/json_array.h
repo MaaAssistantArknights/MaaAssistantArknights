@@ -23,12 +23,12 @@ namespace json
         array(const raw_array& arr);
         array(raw_array&& arr) noexcept;
         array(std::initializer_list<raw_array::value_type> init_list);
-        template<typename EleType>
-        array(std::vector<EleType> vec) {
+        template<typename ArrayType>
+        array(ArrayType arr) {
             static_assert(
-                std::is_constructible<json::value, EleType>::value,
+                std::is_constructible<json::value, ArrayType::value_type>::value,
                 "Parameter can't be used to construct a json::value");
-            for (auto&& ele : vec) {
+            for (auto&& ele : arr) {
                 _array_data.emplace_back(std::move(ele));
             }
         }

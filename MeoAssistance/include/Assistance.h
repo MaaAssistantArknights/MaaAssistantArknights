@@ -29,7 +29,7 @@ namespace asst {
 
 		// 开始刷理智
 		bool start_sanity();
-		// 开始访问基建
+		// 开始访问好友基建
 		bool start_visit();
 
 		// 开始公开招募操作

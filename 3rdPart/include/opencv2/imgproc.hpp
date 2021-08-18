@@ -406,13 +406,9 @@ enum ConnectedComponentsTypes {
 
 //! connected components algorithm
 enum ConnectedComponentsAlgorithmsTypes {
-    CCL_DEFAULT   = -1, //!< BBDT @cite Grana2010 algorithm for 8-way connectivity, SAUF algorithm for 4-way connectivity. The parallel implementation described in @cite Bolelli2017 is available for both BBDT and SAUF.
-    CCL_WU        = 0,  //!< SAUF @cite Wu2009 algorithm for 8-way connectivity, SAUF algorithm for 4-way connectivity. The parallel implementation described in @cite Bolelli2017 is available for SAUF.
-    CCL_GRANA     = 1,  //!< BBDT @cite Grana2010 algorithm for 8-way connectivity, SAUF algorithm for 4-way connectivity. The parallel implementation described in @cite Bolelli2017 is available for both BBDT and SAUF.
-    CCL_BOLELLI   = 2,  //!< Spaghetti @cite Bolelli2019 algorithm for 8-way connectivity, SAUF algorithm for 4-way connectivity.
-    CCL_SAUF      = 3,  //!< Same as CCL_WU. It is preferable to use the flag with the name of the algorithm (CCL_SAUF) rather than the one with the name of the first author (CCL_WU).
-    CCL_BBDT      = 4,  //!< Same as CCL_GRANA. It is preferable to use the flag with the name of the algorithm (CCL_BBDT) rather than the one with the name of the first author (CCL_GRANA).
-    CCL_SPAGHETTI = 5,  //!< Same as CCL_BOLELLI. It is preferable to use the flag with the name of the algorithm (CCL_SPAGHETTI) rather than the one with the name of the first author (CCL_BOLELLI).
+    CCL_WU      = 0,  //!< SAUF @cite Wu2009 algorithm for 8-way connectivity, SAUF algorithm for 4-way connectivity
+    CCL_DEFAULT = -1, //!< BBDT algorithm for 8-way connectivity, SAUF algorithm for 4-way connectivity
+    CCL_GRANA   = 1   //!< BBDT algorithm for 8-way connectivity, SAUF algorithm for 4-way connectivity
 };
 
 //! mode of the contour retrieval algorithm
@@ -591,7 +587,7 @@ enum ColorConversionCodes {
     COLOR_YCrCb2BGR    = 38,
     COLOR_YCrCb2RGB    = 39,
 
-    COLOR_BGR2HSV      = 40, //!< convert RGB/BGR to HSV (hue saturation value) with H range 0..180 if 8 bit image, @ref color_convert_rgb_hsv "color conversions"
+    COLOR_BGR2HSV      = 40, //!< convert RGB/BGR to HSV (hue saturation value), @ref color_convert_rgb_hsv "color conversions"
     COLOR_RGB2HSV      = 41,
 
     COLOR_BGR2Lab      = 44, //!< convert RGB/BGR to CIE Lab, @ref color_convert_rgb_lab "color conversions"
@@ -599,27 +595,27 @@ enum ColorConversionCodes {
 
     COLOR_BGR2Luv      = 50, //!< convert RGB/BGR to CIE Luv, @ref color_convert_rgb_luv "color conversions"
     COLOR_RGB2Luv      = 51,
-    COLOR_BGR2HLS      = 52, //!< convert RGB/BGR to HLS (hue lightness saturation) with H range 0..180 if 8 bit image, @ref color_convert_rgb_hls "color conversions"
+    COLOR_BGR2HLS      = 52, //!< convert RGB/BGR to HLS (hue lightness saturation), @ref color_convert_rgb_hls "color conversions"
     COLOR_RGB2HLS      = 53,
 
-    COLOR_HSV2BGR      = 54, //!< backward conversions HSV to RGB/BGR with H range 0..180 if 8 bit image
+    COLOR_HSV2BGR      = 54, //!< backward conversions to RGB/BGR
     COLOR_HSV2RGB      = 55,
 
     COLOR_Lab2BGR      = 56,
     COLOR_Lab2RGB      = 57,
     COLOR_Luv2BGR      = 58,
     COLOR_Luv2RGB      = 59,
-    COLOR_HLS2BGR      = 60, //!< backward conversions HLS to RGB/BGR with H range 0..180 if 8 bit image
+    COLOR_HLS2BGR      = 60,
     COLOR_HLS2RGB      = 61,
 
-    COLOR_BGR2HSV_FULL = 66, //!< convert RGB/BGR to HSV (hue saturation value) with H range 0..255 if 8 bit image, @ref color_convert_rgb_hsv "color conversions"
+    COLOR_BGR2HSV_FULL = 66,
     COLOR_RGB2HSV_FULL = 67,
-    COLOR_BGR2HLS_FULL = 68, //!< convert RGB/BGR to HLS (hue lightness saturation) with H range 0..255 if 8 bit image, @ref color_convert_rgb_hls "color conversions"
+    COLOR_BGR2HLS_FULL = 68,
     COLOR_RGB2HLS_FULL = 69,
 
-    COLOR_HSV2BGR_FULL = 70, //!< backward conversions HSV to RGB/BGR with H range 0..255 if 8 bit image
+    COLOR_HSV2BGR_FULL = 70,
     COLOR_HSV2RGB_FULL = 71,
-    COLOR_HLS2BGR_FULL = 72, //!< backward conversions HLS to RGB/BGR with H range 0..255 if 8 bit image
+    COLOR_HLS2BGR_FULL = 72,
     COLOR_HLS2RGB_FULL = 73,
 
     COLOR_LBGR2Lab     = 74,
@@ -1181,7 +1177,7 @@ protected:
     struct CV_EXPORTS Vertex
     {
         Vertex();
-        Vertex(Point2f pt, bool isvirtual, int firstEdge=0);
+        Vertex(Point2f pt, bool _isvirtual, int _firstEdge=0);
         bool isvirtual() const;
         bool isfree() const;
 
@@ -1237,9 +1233,9 @@ public:
 
     ![image](pics/building_lsd.png)
 
-    @param image A grayscale (CV_8UC1) input image. If only a roi needs to be selected, use:
+    @param _image A grayscale (CV_8UC1) input image. If only a roi needs to be selected, use:
     `lsd_ptr-\>detect(image(roi), lines, ...); lines += Scalar(roi.x, roi.y, roi.x, roi.y);`
-    @param lines A vector of Vec4i or Vec4f elements specifying the beginning and ending point of a line. Where
+    @param _lines A vector of Vec4i or Vec4f elements specifying the beginning and ending point of a line. Where
     Vec4i/Vec4f is (x1, y1, x2, y2), point 1 is the start, point 2 - end. Returned lines are strictly
     oriented depending on the gradient.
     @param width Vector of widths of the regions, where the lines are found. E.g. Width of line.
@@ -1251,26 +1247,26 @@ public:
     - 1 corresponds to 0.1 mean false alarms
     This vector will be calculated only when the objects type is #LSD_REFINE_ADV.
     */
-    CV_WRAP virtual void detect(InputArray image, OutputArray lines,
+    CV_WRAP virtual void detect(InputArray _image, OutputArray _lines,
                         OutputArray width = noArray(), OutputArray prec = noArray(),
                         OutputArray nfa = noArray()) = 0;
 
     /** @brief Draws the line segments on a given image.
-    @param image The image, where the lines will be drawn. Should be bigger or equal to the image,
+    @param _image The image, where the lines will be drawn. Should be bigger or equal to the image,
     where the lines were found.
     @param lines A vector of the lines that needed to be drawn.
      */
-    CV_WRAP virtual void drawSegments(InputOutputArray image, InputArray lines) = 0;
+    CV_WRAP virtual void drawSegments(InputOutputArray _image, InputArray lines) = 0;
 
     /** @brief Draws two groups of lines in blue and red, counting the non overlapping (mismatching) pixels.
 
     @param size The size of the image, where lines1 and lines2 were found.
     @param lines1 The first group of lines that needs to be drawn. It is visualized in blue color.
     @param lines2 The second group of lines. They visualized in red color.
-    @param image Optional image, where the lines will be drawn. The image should be color(3-channel)
+    @param _image Optional image, where the lines will be drawn. The image should be color(3-channel)
     in order for lines1 and lines2 to be drawn in the above mentioned colors.
      */
-    CV_WRAP virtual int compareSegments(const Size& size, InputArray lines1, InputArray lines2, InputOutputArray image = noArray()) = 0;
+    CV_WRAP virtual int compareSegments(const Size& size, InputArray lines1, InputArray lines2, InputOutputArray _image = noArray()) = 0;
 
     virtual ~LineSegmentDetector() { }
 };
@@ -1280,21 +1276,22 @@ public:
 The LineSegmentDetector algorithm is defined using the standard values. Only advanced users may want
 to edit those, as to tailor it for their own application.
 
-@param refine The way found lines will be refined, see #LineSegmentDetectorModes
-@param scale The scale of the image that will be used to find the lines. Range (0..1].
-@param sigma_scale Sigma for Gaussian filter. It is computed as sigma = sigma_scale/scale.
-@param quant Bound to the quantization error on the gradient norm.
-@param ang_th Gradient angle tolerance in degrees.
-@param log_eps Detection threshold: -log10(NFA) \> log_eps. Used only when advance refinement is chosen.
-@param density_th Minimal density of aligned region points in the enclosing rectangle.
-@param n_bins Number of bins in pseudo-ordering of gradient modulus.
+@param _refine The way found lines will be refined, see #LineSegmentDetectorModes
+@param _scale The scale of the image that will be used to find the lines. Range (0..1].
+@param _sigma_scale Sigma for Gaussian filter. It is computed as sigma = _sigma_scale/_scale.
+@param _quant Bound to the quantization error on the gradient norm.
+@param _ang_th Gradient angle tolerance in degrees.
+@param _log_eps Detection threshold: -log10(NFA) \> log_eps. Used only when advance refinement
+is chosen.
+@param _density_th Minimal density of aligned region points in the enclosing rectangle.
+@param _n_bins Number of bins in pseudo-ordering of gradient modulus.
 
 @note Implementation has been removed due original code license conflict
  */
 CV_EXPORTS_W Ptr<LineSegmentDetector> createLineSegmentDetector(
-    int refine = LSD_REFINE_STD, double scale = 0.8,
-    double sigma_scale = 0.6, double quant = 2.0, double ang_th = 22.5,
-    double log_eps = 0, double density_th = 0.7, int n_bins = 1024);
+    int _refine = LSD_REFINE_STD, double _scale = 0.8,
+    double _sigma_scale = 0.6, double _quant = 2.0, double _ang_th = 22.5,
+    double _log_eps = 0, double _density_th = 0.7, int _n_bins = 1024);
 
 //! @} imgproc_feature
 
@@ -1493,7 +1490,7 @@ The unnormalized square box filter can be useful in computing local image statis
 variance and standard deviation around the neighborhood of a pixel.
 
 @param src input image
-@param dst output image of the same size and type as src
+@param dst output image of the same size and type as _src
 @param ddepth the output image depth (-1 to use src.depth())
 @param ksize kernel size
 @param anchor kernel anchor point. The default value of Point(-1, -1) denotes that the anchor is at the kernel
@@ -2035,8 +2032,8 @@ CV_EXPORTS_W void HoughLinesP( InputArray image, OutputArray lines,
 
 The function finds lines in a set of points using a modification of the Hough transform.
 @include snippets/imgproc_HoughLinesPointSet.cpp
-@param point Input vector of points. Each vector must be encoded as a Point vector \f$(x,y)\f$. Type must be CV_32FC2 or CV_32SC2.
-@param lines Output vector of found lines. Each vector is encoded as a vector<Vec3d> \f$(votes, rho, theta)\f$.
+@param _point Input vector of points. Each vector must be encoded as a Point vector \f$(x,y)\f$. Type must be CV_32FC2 or CV_32SC2.
+@param _lines Output vector of found lines. Each vector is encoded as a vector<Vec3d> \f$(votes, rho, theta)\f$.
 The larger the value of 'votes', the higher the reliability of the Hough line.
 @param lines_max Max count of hough lines.
 @param threshold Accumulator threshold parameter. Only those lines are returned that get enough
@@ -2048,7 +2045,7 @@ votes ( \f$>\texttt{threshold}\f$ )
 @param max_theta Maximum angle value of the accumulator in radians.
 @param theta_step Angle resolution of the accumulator in radians.
  */
-CV_EXPORTS_W void HoughLinesPointSet( InputArray point, OutputArray lines, int lines_max, int threshold,
+CV_EXPORTS_W void HoughLinesPointSet( InputArray _point, OutputArray _lines, int lines_max, int threshold,
                                       double min_rho, double max_rho, double rho_step,
                                       double min_theta, double max_theta, double theta_step );
 
@@ -2834,22 +2831,6 @@ An example is shown below:
 @param type Created array type
  */
 CV_EXPORTS_W void createHanningWindow(OutputArray dst, Size winSize, int type);
-
-/** @brief Performs the per-element division of the first Fourier spectrum by the second Fourier spectrum.
-
-The function cv::divSpectrums performs the per-element division of the first array by the second array.
-The arrays are CCS-packed or complex matrices that are results of a real or complex Fourier transform.
-
-@param a first input array.
-@param b second input array of the same size and type as src1 .
-@param c output array of the same size and type as src1 .
-@param flags operation flags; currently, the only supported flag is cv::DFT_ROWS, which indicates that
-each row of src1 and src2 is an independent 1D Fourier spectrum. If you do not want to use this flag, then simply add a `0` as value.
-@param conjB optional flag that conjugates the second input array before the multiplication (true)
-or not (false).
-*/
-CV_EXPORTS_W void divSpectrums(InputArray a, InputArray b, OutputArray c,
-                               int flags, bool conjB = false);
 
 //! @} imgproc_motion
 
@@ -3653,7 +3634,7 @@ CV_EXPORTS_W int floodFill( InputOutputArray image, InputOutputArray mask,
 //! @param weights1 It has a type of CV_32FC1 and the same size with src1.
 //! @param weights2 It has a type of CV_32FC1 and the same size with src1.
 //! @param dst It is created if it does not have the same size and type with src1.
-CV_EXPORTS_W void blendLinear(InputArray src1, InputArray src2, InputArray weights1, InputArray weights2, OutputArray dst);
+CV_EXPORTS void blendLinear(InputArray src1, InputArray src2, InputArray weights1, InputArray weights2, OutputArray dst);
 
 //! @} imgproc_misc
 
@@ -4178,9 +4159,9 @@ Examples of how intersectConvexConvex works
 
 /** @brief Finds intersection of two convex polygons
 
-@param p1 First polygon
-@param p2 Second polygon
-@param p12 Output polygon describing the intersecting area
+@param _p1 First polygon
+@param _p2 Second polygon
+@param _p12 Output polygon describing the intersecting area
 @param handleNested When true, an intersection is found if one of the polygons is fully enclosed in the other.
 When false, no intersection is found. If the polygons share a side or the vertex of one polygon lies on an edge
 of the other, they are not considered nested and an intersection will be found regardless of the value of handleNested.
@@ -4189,8 +4170,8 @@ of the other, they are not considered nested and an intersection will be found r
 
 @note intersectConvexConvex doesn't confirm that both polygons are convex and will return invalid results if they aren't.
  */
-CV_EXPORTS_W float intersectConvexConvex( InputArray p1, InputArray p2,
-                                          OutputArray p12, bool handleNested = true );
+CV_EXPORTS_W float intersectConvexConvex( InputArray _p1, InputArray _p2,
+                                          OutputArray _p12, bool handleNested = true );
 
 /** @example samples/cpp/fitellipse.cpp
 An example using the fitEllipse technique

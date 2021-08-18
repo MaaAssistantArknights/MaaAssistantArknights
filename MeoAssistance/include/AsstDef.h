@@ -70,7 +70,8 @@ namespace asst {
 		{
 			int half_width_scale = static_cast<int>(width * (1 - scale) / 2);
 			int half_hight_scale = static_cast<int>(height * (1 - scale) / 2);
-			return { x + half_width_scale, y + half_hight_scale, width - half_width_scale,  height - half_hight_scale };
+			return { x + half_width_scale, y + half_hight_scale, 
+				static_cast<int>(width * scale),  static_cast<int>(height * scale) };
 		}
 		int x = 0;
 		int y = 0;
@@ -106,6 +107,8 @@ namespace asst {
 		std::string swipe;
 		std::string display;
 		std::string display_regex;
+		std::string screencap;
+		std::string pullscreen;
 		int display_width = 0;
 		int display_height = 0;
 	};

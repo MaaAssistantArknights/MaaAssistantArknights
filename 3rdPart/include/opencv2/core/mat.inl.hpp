@@ -112,7 +112,7 @@ _InputArray::_InputArray(const std::vector<_Tp>& vec)
 #ifdef CV_CXX_STD_ARRAY
 template<typename _Tp, std::size_t _Nm> inline
 _InputArray::_InputArray(const std::array<_Tp, _Nm>& arr)
-{ init(FIXED_TYPE + FIXED_SIZE + MATX + traits::Type<_Tp>::value + ACCESS_READ, arr.data(), Size(1, _Nm)); }
+{ init(FIXED_TYPE + FIXED_SIZE + STD_ARRAY + traits::Type<_Tp>::value + ACCESS_READ, arr.data(), Size(1, _Nm)); }
 
 template<std::size_t _Nm> inline
 _InputArray::_InputArray(const std::array<Mat, _Nm>& arr)
@@ -176,7 +176,7 @@ template<typename _Tp, std::size_t _Nm> inline
 _InputArray _InputArray::rawIn(const std::array<_Tp, _Nm>& arr)
 {
     _InputArray v;
-    v.flags = FIXED_TYPE + FIXED_SIZE + MATX + traits::Type<_Tp>::value + ACCESS_READ;
+    v.flags = FIXED_TYPE + FIXED_SIZE + STD_ARRAY + traits::Type<_Tp>::value + ACCESS_READ;
     v.obj = (void*)arr.data();
     v.sz = Size(1, _Nm);
     return v;
@@ -199,7 +199,7 @@ inline bool _InputArray::isUMatVector() const  { return kind() == _InputArray::S
 inline bool _InputArray::isMatx() const { return kind() == _InputArray::MATX; }
 inline bool _InputArray::isVector() const { return kind() == _InputArray::STD_VECTOR ||
                                                    kind() == _InputArray::STD_BOOL_VECTOR ||
-                                                   (kind() == _InputArray::MATX && (sz.width <= 1 || sz.height <= 1)); }
+                                                   kind() == _InputArray::STD_ARRAY; }
 inline bool _InputArray::isGpuMat() const { return kind() == _InputArray::CUDA_GPU_MAT; }
 inline bool _InputArray::isGpuMatVector() const { return kind() == _InputArray::STD_VECTOR_CUDA_GPU_MAT; }
 
@@ -219,7 +219,7 @@ _OutputArray::_OutputArray(std::vector<_Tp>& vec)
 #ifdef CV_CXX_STD_ARRAY
 template<typename _Tp, std::size_t _Nm> inline
 _OutputArray::_OutputArray(std::array<_Tp, _Nm>& arr)
-{ init(FIXED_TYPE + FIXED_SIZE + MATX + traits::Type<_Tp>::value + ACCESS_WRITE, arr.data(), Size(1, _Nm)); }
+{ init(FIXED_TYPE + FIXED_SIZE + STD_ARRAY + traits::Type<_Tp>::value + ACCESS_WRITE, arr.data(), Size(1, _Nm)); }
 
 template<std::size_t _Nm> inline
 _OutputArray::_OutputArray(std::array<Mat, _Nm>& arr)
@@ -261,7 +261,7 @@ _OutputArray::_OutputArray(const std::vector<_Tp>& vec)
 #ifdef CV_CXX_STD_ARRAY
 template<typename _Tp, std::size_t _Nm> inline
 _OutputArray::_OutputArray(const std::array<_Tp, _Nm>& arr)
-{ init(FIXED_TYPE + FIXED_SIZE + MATX + traits::Type<_Tp>::value + ACCESS_WRITE, arr.data(), Size(1, _Nm)); }
+{ init(FIXED_TYPE + FIXED_SIZE + STD_ARRAY + traits::Type<_Tp>::value + ACCESS_WRITE, arr.data(), Size(1, _Nm)); }
 
 template<std::size_t _Nm> inline
 _OutputArray::_OutputArray(const std::array<Mat, _Nm>& arr)
@@ -336,7 +336,7 @@ template<typename _Tp, std::size_t _Nm> inline
 _OutputArray _OutputArray::rawOut(std::array<_Tp, _Nm>& arr)
 {
     _OutputArray v;
-    v.flags = FIXED_TYPE + FIXED_SIZE + MATX + traits::Type<_Tp>::value + ACCESS_WRITE;
+    v.flags = FIXED_TYPE + FIXED_SIZE + STD_ARRAY + traits::Type<_Tp>::value + ACCESS_WRITE;
     v.obj = (void*)arr.data();
     v.sz = Size(1, _Nm);
     return v;
@@ -359,7 +359,7 @@ _InputOutputArray::_InputOutputArray(std::vector<_Tp>& vec)
 #ifdef CV_CXX_STD_ARRAY
 template<typename _Tp, std::size_t _Nm> inline
 _InputOutputArray::_InputOutputArray(std::array<_Tp, _Nm>& arr)
-{ init(FIXED_TYPE + FIXED_SIZE + MATX + traits::Type<_Tp>::value + ACCESS_RW, arr.data(), Size(1, _Nm)); }
+{ init(FIXED_TYPE + FIXED_SIZE + STD_ARRAY + traits::Type<_Tp>::value + ACCESS_RW, arr.data(), Size(1, _Nm)); }
 
 template<std::size_t _Nm> inline
 _InputOutputArray::_InputOutputArray(std::array<Mat, _Nm>& arr)
@@ -396,7 +396,7 @@ _InputOutputArray::_InputOutputArray(const std::vector<_Tp>& vec)
 #ifdef CV_CXX_STD_ARRAY
 template<typename _Tp, std::size_t _Nm> inline
 _InputOutputArray::_InputOutputArray(const std::array<_Tp, _Nm>& arr)
-{ init(FIXED_TYPE + FIXED_SIZE + MATX + traits::Type<_Tp>::value + ACCESS_RW, arr.data(), Size(1, _Nm)); }
+{ init(FIXED_TYPE + FIXED_SIZE + STD_ARRAY + traits::Type<_Tp>::value + ACCESS_RW, arr.data(), Size(1, _Nm)); }
 
 template<std::size_t _Nm> inline
 _InputOutputArray::_InputOutputArray(const std::array<Mat, _Nm>& arr)
@@ -473,7 +473,7 @@ template<typename _Tp, std::size_t _Nm> inline
 _InputOutputArray _InputOutputArray::rawInOut(std::array<_Tp, _Nm>& arr)
 {
     _InputOutputArray v;
-    v.flags = FIXED_TYPE + FIXED_SIZE + MATX + traits::Type<_Tp>::value + ACCESS_RW;
+    v.flags = FIXED_TYPE + FIXED_SIZE + STD_ARRAY + traits::Type<_Tp>::value + ACCESS_RW;
     v.obj = (void*)arr.data();
     v.sz = Size(1, _Nm);
     return v;
@@ -898,33 +898,6 @@ const _Tp* Mat::ptr(const int* idx) const
     return (const _Tp*)p;
 }
 
-template<int n> inline
-uchar* Mat::ptr(const Vec<int, n>& idx)
-{
-    return Mat::ptr(idx.val);
-}
-
-template<int n> inline
-const uchar* Mat::ptr(const Vec<int, n>& idx) const
-{
-    return Mat::ptr(idx.val);
-}
-
-template<typename _Tp, int n> inline
-_Tp* Mat::ptr(const Vec<int, n>& idx)
-{
-    CV_DbgAssert( elemSize() == sizeof(_Tp) );
-    return Mat::ptr<_Tp>(idx.val);
-}
-
-template<typename _Tp, int n> inline
-const _Tp* Mat::ptr(const Vec<int, n>& idx) const
-{
-    CV_DbgAssert( elemSize() == sizeof(_Tp) );
-    return Mat::ptr<_Tp>(idx.val);
-}
-
-
 template<typename _Tp> inline
 _Tp& Mat::at(int i0, int i1)
 {
@@ -1245,11 +1218,11 @@ Mat& Mat::operator = (Mat&& m)
 ///////////////////////////// MatSize ////////////////////////////
 
 inline
-MatSize::MatSize(int* _p) CV_NOEXCEPT
+MatSize::MatSize(int* _p)
     : p(_p) {}
 
 inline
-int MatSize::dims() const CV_NOEXCEPT
+int MatSize::dims() const
 {
     return (p - 1)[0];
 }
@@ -1282,13 +1255,13 @@ int& MatSize::operator[](int i)
 }
 
 inline
-MatSize::operator const int*() const CV_NOEXCEPT
+MatSize::operator const int*() const
 {
     return p;
 }
 
 inline
-bool MatSize::operator != (const MatSize& sz) const CV_NOEXCEPT
+bool MatSize::operator != (const MatSize& sz) const
 {
     return !(*this == sz);
 }
@@ -1298,25 +1271,25 @@ bool MatSize::operator != (const MatSize& sz) const CV_NOEXCEPT
 ///////////////////////////// MatStep ////////////////////////////
 
 inline
-MatStep::MatStep() CV_NOEXCEPT
+MatStep::MatStep()
 {
     p = buf; p[0] = p[1] = 0;
 }
 
 inline
-MatStep::MatStep(size_t s) CV_NOEXCEPT
+MatStep::MatStep(size_t s)
 {
     p = buf; p[0] = s; p[1] = 0;
 }
 
 inline
-const size_t& MatStep::operator[](int i) const CV_NOEXCEPT
+const size_t& MatStep::operator[](int i) const
 {
     return p[i];
 }
 
 inline
-size_t& MatStep::operator[](int i) CV_NOEXCEPT
+size_t& MatStep::operator[](int i)
 {
     return p[i];
 }
@@ -1339,7 +1312,7 @@ inline MatStep& MatStep::operator = (size_t s)
 ////////////////////////////// Mat_<_Tp> ////////////////////////////
 
 template<typename _Tp> inline
-Mat_<_Tp>::Mat_() CV_NOEXCEPT
+Mat_<_Tp>::Mat_()
     : Mat()
 {
     flags = (flags & ~CV_MAT_TYPE_MASK) | traits::Type<_Tp>::value;

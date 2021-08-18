@@ -4,10 +4,10 @@
 #include <unordered_map>
 #include <initializer_list>
 
-#include "json_value.h"
-
 namespace json
 {
+	class value;
+
 	class object
 	{
 	public:
@@ -21,12 +21,21 @@ namespace json
 		object(const raw_object& raw_obj);
 		object(raw_object&& raw_obj);
 		object(std::initializer_list<raw_object::value_type> init_list);
+		template<typename MapType>
+		object(MapType map) {
+			static_assert(
+				std::is_constructible<raw_object::value_type, MapType::value_type>::value,
+				"Parameter can't be used to construct a json::object::raw_object::value_type");
+			for (auto&& ele : map) {
+				_object_data.emplace(std::move(ele));
+			}
+		}
 
 		~object() = default;
 
 		bool empty() const noexcept { return _object_data.empty(); }
 		size_t size() const noexcept { return _object_data.size(); }
-		bool exist(const std::string& key) const { return _object_data.find(key) != _object_data.cend(); }
+		bool exist(const std::string& key) const;
 		const value& at(const std::string& key) const;
 		const std::string to_string() const;
 		const std::string format(std::string shift_str = "    ", size_t basic_shift_count = 0) const;

@@ -47,9 +47,9 @@
 #include "opencv2/core/async.hpp"
 
 #if !defined CV_DOXYGEN && !defined CV_STATIC_ANALYSIS && !defined CV_DNN_DONT_ADD_EXPERIMENTAL_NS
-#define CV__DNN_EXPERIMENTAL_NS_BEGIN namespace experimental_dnn_34_v22 {
+#define CV__DNN_EXPERIMENTAL_NS_BEGIN namespace experimental_dnn_34_v20 {
 #define CV__DNN_EXPERIMENTAL_NS_END }
-namespace cv { namespace dnn { namespace experimental_dnn_34_v22 { } using namespace experimental_dnn_34_v22; }}
+namespace cv { namespace dnn { namespace experimental_dnn_34_v20 { } using namespace experimental_dnn_34_v20; }}
 #else
 #define CV__DNN_EXPERIMENTAL_NS_BEGIN
 #define CV__DNN_EXPERIMENTAL_NS_END
@@ -712,11 +712,9 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
         CV_WRAP void enableFusion(bool fusion);
 
         /** @brief Returns overall time for inference and timings (in ticks) for layers.
-         *
          * Indexes in returned vector correspond to layers ids. Some layers can be fused with others,
-         * in this case zero ticks count will be return for that skipped layers. Supported by DNN_BACKEND_OPENCV on DNN_TARGET_CPU only.
-         *
-         * @param[out] timings vector for tick timings for all layers.
+         * in this case zero ticks count will be return for that skipped layers.
+         * @param timings vector for tick timings for all layers.
          * @return overall ticks for model inference.
          */
         CV_WRAP int64 getPerfProfile(CV_OUT std::vector<double>& timings);
