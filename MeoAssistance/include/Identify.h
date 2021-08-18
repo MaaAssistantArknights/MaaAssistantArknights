@@ -28,9 +28,10 @@ namespace asst {
 		// return tuple< algorithmType, suitability, matched asst::rect>
 		std::tuple<AlgorithmType, double, asst::Rect> find_image(const cv::Mat& image, const std::string& templ, double templ_threshold);
 
+		// return pair< suitability, raw opencv::point>
+		std::pair<double, cv::Point> match_template(const cv::Mat& cur, const cv::Mat& templ);
+
 		std::optional<TextArea> feature_match(const cv::Mat& mat, const std::string& key);
-		// for debug
-		std::vector<TextArea> feature_match_all(const cv::Mat& mat);
 
 		void clear_cache();
 
@@ -49,9 +50,13 @@ namespace asst {
 
 		// return pair<特征点s，特征点描述子（向量）>
 		std::pair<std::vector<cv::KeyPoint>, cv::Mat> surf_detect(const cv::Mat& mat);
-
-		// return pair< suitability, raw opencv::point>
-		std::pair<double, cv::Point> match_template(const cv::Mat& cur, const cv::Mat& templ);
+		std::optional<Rect> feature_match(
+			const std::vector<cv::KeyPoint>& query_keypoints, const cv::Mat& query_mat_vector,
+			const std::vector<cv::KeyPoint>& train_keypoints, const cv::Mat& train_mat_vector
+#ifdef LOG_TRACE
+			, const cv::Mat query_mat = cv::Mat(), const cv::Mat train_mat = cv::Mat()
+#endif
+		);
 
 		std::unordered_map<std::string, cv::Mat> m_mat_map;
 		bool m_use_cache = true;
