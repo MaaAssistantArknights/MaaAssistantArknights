@@ -57,7 +57,7 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _useMedicine;
+        private bool _useMedicine = true;
         public bool UseMedicine
         {
             get { return _useMedicine; }
