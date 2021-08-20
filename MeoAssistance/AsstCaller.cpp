@@ -1,10 +1,12 @@
 #include "AsstCaller.h"
+
+#include <string.h>
+
+#include <json_value.h>
+
 #include "Updater.h"
 #include "AsstAux.h"
 #include "Assistance.h"
-
-#include <json_value.h>
-#include <string.h>
 
 #if 0
 #if _MSC_VER
