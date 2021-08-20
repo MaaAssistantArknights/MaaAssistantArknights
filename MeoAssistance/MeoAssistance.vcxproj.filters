@@ -108,6 +108,12 @@
     <ClInclude Include="Updater.h">
       <Filter>头文件\Updater</Filter>
     </ClInclude>
+    <ClInclude Include="IdentifyOperTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="SwipeTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMacro.cpp">
@@ -154,6 +160,12 @@
     </ClCompile>
     <ClCompile Include="Updater.cpp">
       <Filter>源文件\Updater</Filter>
+    </ClCompile>
+    <ClCompile Include="IdentifyOperTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="SwipeTask.cpp">
+      <Filter>源文件\Task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

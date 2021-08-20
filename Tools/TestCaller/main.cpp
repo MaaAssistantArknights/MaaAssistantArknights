@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 
 	char ch = 0;
 	while (ch != 'q') {
-		test_infrast(ptr);
+		test_ocr(ptr);
 		//test_swipe(ptr);
 
 		ch = getchar();
