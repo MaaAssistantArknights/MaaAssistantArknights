@@ -1,5 +1,11 @@
 #include "Assistance.h"
 
+#include <time.h>
+#include <filesystem>
+
+#include <json.h>
+#include <opencv2/opencv.hpp>
+
 #include "WinMacro.h"
 #include "Configer.h"
 #include "Identify.h"
@@ -8,12 +14,6 @@
 #include "Task.h"
 #include "RecruitConfiger.h"
 #include "InfrastConfiger.h"
-
-#include <json.h>
-#include <opencv2/opencv.hpp>
-
-#include <time.h>
-#include <filesystem>
 
 using namespace asst;
 

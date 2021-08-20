@@ -1,10 +1,12 @@
 #include "Updater.h"
 
 #include <stdio.h>
+
 #include <Windows.h>
 #include <WinInet.h>
 
 #include <json.h>
+
 #include "AsstDef.h"
 #include "Logger.hpp"
 #include "Version.h"

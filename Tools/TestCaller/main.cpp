@@ -9,7 +9,6 @@ void test_infrast(Assistance* ptr);
 
 int main(int argc, char** argv)
 {
-
 	Assistance* ptr = AsstCreate();
 	auto ret = AsstCatchEmulator(ptr);
 	if (!ret) {
@@ -23,7 +22,6 @@ int main(int argc, char** argv)
 
 	char ch = 0;
 	while (ch != 'q') {
-
 		test_infrast(ptr);
 		//test_swipe(ptr);
 

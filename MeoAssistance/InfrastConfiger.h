@@ -30,7 +30,7 @@ namespace asst {
 		InfrastConfiger(InfrastConfiger&& rhs) noexcept = default;
 
 		InfrastConfiger& operator=(const InfrastConfiger& rhs) = default;
-		InfrastConfiger& operator=(InfrastConfiger && rhs) noexcept = default;
+		InfrastConfiger& operator=(InfrastConfiger&& rhs) noexcept = default;
 
 		bool _load(const std::string& filename);
 	};

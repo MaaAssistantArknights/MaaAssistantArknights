@@ -39,7 +39,7 @@ namespace asst {
 		Configer(Configer&& rhs) noexcept = default;
 
 		Configer& operator=(const Configer& rhs) = default;
-		Configer& operator=(Configer && rhs) noexcept = default;
+		Configer& operator=(Configer&& rhs) noexcept = default;
 
 		bool _load(const std::string& filename);
 	};

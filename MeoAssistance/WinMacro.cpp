@@ -1,12 +1,12 @@
 #include "WinMacro.h"
 
+#include <stdint.h>
+#include <WinUser.h>
+
 #include <vector>
 #include <utility>
 #include <algorithm>
 #include <chrono>
-
-#include <stdint.h>
-#include <WinUser.h>
 
 #include <opencv2/opencv.hpp>
 
@@ -99,7 +99,7 @@ bool WinMacro::findHandle()
 		adb_dir = adb_dir.substr(0, pos);
 		adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
 
-		if (m_handle_type == HandleType::Control) 
+		if (m_handle_type == HandleType::Control)
 		{
 			std::string connect_cmd = StringReplaceAll(m_emulator_info.adb.connect, "[Adb]", adb_dir);
 			if (!callCmd(connect_cmd)) {
@@ -120,7 +120,7 @@ bool WinMacro::findHandle()
 			m_click_cmd = StringReplaceAll(m_emulator_info.adb.click, "[Adb]", adb_dir);
 			m_swipe_cmd = StringReplaceAll(m_emulator_info.adb.swipe, "[Adb]", adb_dir);
 		}
-		else if (m_handle_type == HandleType::View) 
+		else if (m_handle_type == HandleType::View)
 		{
 			m_screencap_cmd = StringReplaceAll(
 				StringReplaceAll(m_emulator_info.adb.screencap, "[Adb]", adb_dir),

@@ -32,7 +32,7 @@ namespace asst {
 		RecruitConfiger(RecruitConfiger&& rhs) noexcept = default;
 
 		RecruitConfiger& operator=(const RecruitConfiger& rhs) = default;
-		RecruitConfiger& operator=(RecruitConfiger && rhs) noexcept = default;
+		RecruitConfiger& operator=(RecruitConfiger&& rhs) noexcept = default;
 
 		bool _load(const std::string& filename);
 	};
