@@ -68,12 +68,27 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 		return;
 	}
 
-	for (const std::string& name : InfrastConfiger::get_instance().m_mfg_opers) {
+	for (const auto& [key, name] : InfrastConfiger::get_instance().m_oper_name_feat) {
 		ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
 		if (!ret) {
 			callback_error();
 			return;
 		}
+	}
+	for (const auto& name : InfrastConfiger::get_instance().m_oper_name_feat_whatever) {
+		ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
+		if (!ret) {
+			callback_error();
+			return;
+		}
+	}
+
+	// 精一和精二的图片，调试用
+	ret = m_identify_ptr->add_text_image("Elite1", GetResourceDir() + "operators\\Elite1.png");
+	ret &= m_identify_ptr->add_text_image("Elite2", GetResourceDir() + "operators\\Elite2.png");
+	if (!ret) {
+		callback_error();
+		return;
 	}
 
 	m_working_thread = std::thread(working_proc, this);
@@ -240,8 +255,8 @@ bool asst::Assistance::start_infrast()
 
 	auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
 	// TODO 这个参数写到配置文件里，TODO 滑动位置要根据分辨率缩放
-	task_ptr->set_swipe_param(1000, Rect(1800, 800, 0, 0), Rect(1200, 800, 0, 0), 20);
-	task_ptr->set_facility(FacilityType::Manufacturing);
+	task_ptr->set_swipe_param(2100, Rect(2400, 800, 0, 0), Rect(400, 800, 0, 0), 20);
+	task_ptr->set_facility("Manufacturing");
 	task_ptr->set_task_chain("Infrast");
 	m_tasks_queue.emplace(task_ptr);
 
@@ -289,7 +304,7 @@ void Assistance::working_proc(Assistance* p_this)
 	int retry_times = 0;
 	while (!p_this->m_thread_exit)
 	{
-		DebugTraceScope("Assistance::working_proc Loop");
+		//DebugTraceScope("Assistance::working_proc Loop");
 		std::unique_lock<std::mutex> lock(p_this->m_mutex);
 		if (!p_this->m_thread_idle && !p_this->m_tasks_queue.empty())
 		{
@@ -360,7 +375,7 @@ void Assistance::msg_proc(Assistance* p_this)
 
 	while (!p_this->m_thread_exit)
 	{
-		DebugTraceScope("Assistance::msg_proc Loop");
+		//DebugTraceScope("Assistance::msg_proc Loop");
 		std::unique_lock<std::mutex> lock(p_this->m_msg_mutex);
 		if (!p_this->m_msg_queue.empty())
 		{

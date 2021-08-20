@@ -272,12 +272,12 @@ namespace asst {
 			m_swipe_end = end_rect;
 			m_swipe_max_times = max_times;
 		}
-		void set_facility(FacilityType facility)
+		void set_facility(const std::string& facility)
 		{
 			m_facility = facility;
 		}
 	private:
-		FacilityType m_facility = FacilityType::Invalid;
+		std::string m_facility;
 		int m_swipe_delay = 0;
 		Rect m_swipe_begin;
 		Rect m_swipe_end;

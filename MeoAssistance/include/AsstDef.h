@@ -70,7 +70,7 @@ namespace asst {
 		{
 			int half_width_scale = static_cast<int>(width * (1 - scale) / 2);
 			int half_hight_scale = static_cast<int>(height * (1 - scale) / 2);
-			return { x + half_width_scale, y + half_hight_scale, 
+			return { x + half_width_scale, y + half_hight_scale,
 				static_cast<int>(width * scale),  static_cast<int>(height * scale) };
 		}
 		int x = 0;
@@ -177,8 +177,8 @@ namespace asst {
 		int ocr_thread_number = 0;			// OcrLite线程数量
 	};
 
-	// 干员信息
-	struct OperInfo {
+	// 干员信息，公开招募相关
+	struct OperRecruitInfo {
 		std::string name;
 		std::string type;
 		int level = 0;
@@ -188,13 +188,34 @@ namespace asst {
 		std::string name_en;
 	};
 
-	// 干员组合
-	struct OperCombs {
-		std::vector<OperInfo> opers;
+	// 公开招募的干员组合
+	struct OperRecruitCombs {
+		std::vector<OperRecruitInfo> opers;
 		int max_level = 0;
 		int min_level = 0;
 		double avg_level = 0;
 	};
 
+	// 干员信息，基建相关
+	struct OperInfrastInfo {
+		std::string name;
+		int elite = 0;		// 精英化等级
+		int level = 0;		// 等级
+		bool operator==(const OperInfrastInfo& rhs) const {
+			return name == rhs.name;
+		}
+	};
+
 	constexpr double DoubleDiff = 1e-12;
+}
+
+namespace std {
+	template<>
+	class hash<asst::OperInfrastInfo> {
+	public:
+		size_t operator()(const asst::OperInfrastInfo& info) const
+		{
+			return std::hash<std::string>()(info.name);
+		}
+	};
 }

@@ -372,7 +372,7 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			break;
 		}
 
-		callback_json["rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
+		callback_json["elite_rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
 		callback_json["name"] = task_name;
 		if (matched_rect != NULL) {
 			*matched_rect = std::move(rect);
@@ -517,10 +517,10 @@ bool OpenRecruitTask::run()
 	}
 
 	// key: tags comb, value: 干员组合
-	// 例如 key: { "狙击"、"群攻" }，value: OperCombs.opers{ "陨星", "白雪", "空爆" }
-	std::map<std::vector<std::string>, OperCombs> result_map;
+	// 例如 key: { "狙击"、"群攻" }，value: OperRecruitCombs.opers{ "陨星", "白雪", "空爆" }
+	std::map<std::vector<std::string>, OperRecruitCombs> result_map;
 	for (const std::vector<std::string>& comb : all_combs) {
-		for (const OperInfo& cur_oper : RecruitConfiger::get_instance().m_all_opers) {
+		for (const OperRecruitInfo& cur_oper : RecruitConfiger::get_instance().m_all_opers) {
 			int matched_count = 0;
 			for (const std::string& tag : comb) {
 				if (cur_oper.tags.find(tag) != cur_oper.tags.cend()) {
@@ -544,7 +544,7 @@ bool OpenRecruitTask::run()
 				}
 			}
 
-			OperCombs& oper_combs = result_map[comb];
+			OperRecruitCombs& oper_combs = result_map[comb];
 			oper_combs.opers.emplace_back(cur_oper);
 
 			if (cur_oper.level == 1 || cur_oper.level == 2) {
@@ -562,13 +562,13 @@ bool OpenRecruitTask::run()
 			oper_combs.avg_level += cur_oper.level;
 		}
 		if (result_map.find(comb) != result_map.cend()) {
-			OperCombs& oper_combs = result_map[comb];
+			OperRecruitCombs& oper_combs = result_map[comb];
 			oper_combs.avg_level /= oper_combs.opers.size();
 		}
 	}
 
 	// map没法按值排序，转个vector再排序
-	std::vector<std::pair<std::vector<std::string>, OperCombs>> result_vector;
+	std::vector<std::pair<std::vector<std::string>, OperRecruitCombs>> result_vector;
 	for (auto&& pair : result_map) {
 		result_vector.emplace_back(std::move(pair));
 	}
@@ -604,7 +604,7 @@ bool OpenRecruitTask::run()
 		comb_json["tags"] = json::array(std::move(tags_json_vector));
 
 		std::vector<json::value> opers_json_vector;
-		for (const OperInfo& oper_info : oper_comb.opers) {
+		for (const OperRecruitInfo& oper_info : oper_comb.opers) {
 			json::value oper_json;
 			oper_json["name"] = Utf8ToGbk(oper_info.name);
 			oper_json["level"] = oper_info.level;
@@ -630,7 +630,7 @@ bool OpenRecruitTask::run()
 		task_json["type"] = "ClickTask";
 		for (const TextArea& text_area : all_tags) {
 			if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
-				task_json["rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
+				task_json["elite_rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
 				task_json["retry_times"] = m_retry_times;
 				task_json["task_chain"] = m_task_chain;
 				m_callback(AsstMsg::AppendTask, task_json, m_callback_arg);
@@ -685,6 +685,46 @@ bool TestOcrTask::run()
 		return false;
 	}
 
+	auto detect_foo = [&](const cv::Mat& image) -> std::vector<TextArea> {
+		std::vector<TextArea> all_text_area = ocr_detect(image);
+		/* 过滤出所有制造站中的干员名 */
+		std::vector<TextArea> cur_name_textarea = text_search(
+			all_text_area,
+			InfrastConfiger::get_instance().m_all_opers_name,
+			Configer::get_instance().m_infrast_ocr_replace);
+		return cur_name_textarea;
+	};
+
+	const cv::Mat& image = get_format_image(true);
+	auto cur_name_textarea = detect_foo(image);
+
+	// for debug
+	cv::Mat elite1 = cv::imread(GetResourceDir() + "operators\\Elite1.png");
+	cv::Mat elite2 = cv::imread(GetResourceDir() + "operators\\Elite2.png");
+	for (const TextArea& textarea : cur_name_textarea)
+	{
+		cv::Rect elite_rect;
+		elite_rect.x = textarea.rect.x - 200;
+		elite_rect.y = textarea.rect.y - 200;
+		elite_rect.width = 100;
+		elite_rect.height = 150;
+		auto&& [score1, point1] = m_identify_ptr->match_template(image(elite_rect), elite1);
+		auto&& [score2, point2] = m_identify_ptr->match_template(image(elite_rect), elite2);
+
+		if (score1 > score2 && score1 > 0.7) {
+			std::cout << Utf8ToGbk(textarea.text) << "，精一， elite1: " << score1 << ", eilte2: " << score2 << std::endl;
+		}
+		else if (score2 > score1 && score2 > 0.7) {
+			std::cout << Utf8ToGbk(textarea.text) << "，精二， elite1: " << score1 << ", eilte2: " << score2 << std::endl;
+		}
+		else {
+			std::cout << Utf8ToGbk(textarea.text) << "，未精英化， elite1: " << score1 << ", eilte2: " << score2 << std::endl;
+		}
+
+		//m_identify_ptr->feature_match(image(elite_rect), "Elite1");
+		//m_identify_ptr->feature_match(image(elite_rect), "Elite2");
+	}
+
 	return true;
 }
 
@@ -703,23 +743,8 @@ bool asst::InfrastStationTask::run()
 	}
 
 	std::vector<std::vector<std::string>> all_oper_combs;				// 所有的干员组合
-	std::unordered_set<std::string> all_oper_name;						// 所有干员名
-	std::string oper_end_flag;											// 干员名结束标记，识别到这个string就认为识别完成了
 	std::unordered_map<std::string, std::string> feature_cond_default;	// 特征检测关键字，如果OCR识别到了key的内容但是却没有value的内容，则进行特征检测进一步确认
 	std::unordered_set<std::string> feature_whatever_default;			// 无论如何都进行特征检测的
-
-	switch (m_facility) {
-	case FacilityType::Manufacturing:
-		all_oper_combs = InfrastConfiger::get_instance().m_mfg_combs;
-		all_oper_name = InfrastConfiger::get_instance().m_mfg_opers;
-		oper_end_flag = InfrastConfiger::get_instance().m_mfg_end;
-		feature_cond_default = InfrastConfiger::get_instance().m_mfg_feat;
-		feature_whatever_default = InfrastConfiger::get_instance().m_mfg_feat_whatever;
-		break;
-		// TODO 贸易站和其他啥的，有空再做
-	default:
-		break;
-	}
 
 	json::value task_start_json = json::object{
 		{ "task_type",  "InfrastStationTask" },
@@ -746,7 +771,7 @@ bool asst::InfrastStationTask::run()
 		/* 过滤出所有制造站中的干员名 */
 		std::vector<TextArea> cur_name_textarea = text_search(
 			all_text_area,
-			all_oper_name,
+			InfrastConfiger::get_instance().m_all_opers_name,
 			Configer::get_instance().m_infrast_ocr_replace);
 
 		// 用特征检测再筛选一遍OCR识别漏了的
@@ -789,14 +814,9 @@ bool asst::InfrastStationTask::run()
 		return cur_name_textarea;
 	};
 
-	// 识别到的干员名
-	std::unordered_set<std::string> detected_names;
-
-	json::value opers_json;
-	std::unordered_set<std::string> detected_names_gbk;	// 给回调json用的
-
+	std::unordered_set<OperInfrastInfo> detected_opers;
 	// 一边识别一边滑动，把所有制造站干员名字抓出来
-	for (int i = 0; i != m_swipe_max_times; ++i) {
+	while (true) {
 
 		const cv::Mat& image = get_format_image(true);
 		// 异步进行滑动操作
@@ -804,85 +824,115 @@ bool asst::InfrastStationTask::run()
 
 		auto cur_name_textarea = detect_foo(image);
 
-		std::unordered_set<std::string> new_names_set;
-		for (TextArea& text_area : cur_name_textarea) {
-			new_names_set.emplace(Utf8ToGbk(text_area.text));
-			detected_names_gbk.emplace(Utf8ToGbk(text_area.text));
-			detected_names.emplace(std::move(text_area.text));
-		}
-		bool break_flag = false;
-		// 识别到了结束标记，就直接退出循环
-		if (detected_names.find(oper_end_flag) != detected_names.cend()) {
-			break_flag = true;
-		}
+		int oper_numer = detected_opers.size();
+		for (const TextArea& textarea : cur_name_textarea)
+		{
+			cv::Rect elite_rect;
+			// 因为有的名字长有的名字短，但是右对齐的，所以跟着右边走
+			elite_rect.x = textarea.rect.x + textarea.rect.width - 250;
+			elite_rect.y = textarea.rect.y - 200;
+			if (elite_rect.x < 0 || elite_rect.y < 0) {
+				continue;
+			}
+			elite_rect.width = 100;
+			elite_rect.height = 150;
+			cv::Mat elite_mat = image(elite_rect);
 
-		opers_json["all"] = json::array(detected_names_gbk);
-		opers_json["new"] = json::array(new_names_set);
+			// for debug
+			static cv::Mat elite1 = cv::imread(GetResourceDir() + "operators\\Elite1.png");
+			static cv::Mat elite2 = cv::imread(GetResourceDir() + "operators\\Elite2.png");
+			auto&& [score1, point1] = m_identify_ptr->match_template(elite_mat, elite1);
+			auto&& [score2, point2] = m_identify_ptr->match_template(elite_mat, elite2);
+			std::cout << "elite1:" << score1 << ", elite2:" << score2 << std::endl;
+
+			OperInfrastInfo info;
+			info.name = textarea.text;
+			if (score1 > score2 && score1 > 0.7) {
+				info.elite = 1;
+			}
+			else if (score2 > score1 && score2 > 0.7) {
+				info.elite = 2;
+			}
+			else {
+				info.elite = 0;
+			}
+			detected_opers.emplace(std::move(info));
+		}
+		
+		json::value opers_json;
+		std::vector<json::value> opers_json_vec;
+		for (const OperInfrastInfo& info : detected_opers) {
+			json::value info_json;
+			info_json["name"] = Utf8ToGbk(info.name);
+			info_json["elite"] = info.elite;
+			//info_json["level"] = info.level;
+			opers_json_vec.emplace_back(std::move(info_json));
+		}
+		opers_json["all"] = json::array(opers_json_vec);
 		m_callback(AsstMsg::InfrastOpers, opers_json, m_callback_arg);
 
 		// 阻塞等待滑动结束
 		if (!swipe_future.get()) {
 			return false;
 		}
-
-		if (break_flag) {
-			break;
-		}
-
-	}
-
-	// 配置文件中的干员组合，和抓出来的干员名比对，如果组合中的干员都有，那就用这个组合
-	// Todo 时间复杂度起飞了，需要优化下
-	std::vector<std::string> optimal_comb;
-	for (auto&& name_vec : all_oper_combs) {
-		int count = 0;
-		for (std::string& name : name_vec) {
-			if (detected_names.find(name) != detected_names.cend()) {
-				++count;
-			}
-			else {
-				break;
-			}
-		}
-		if (count == name_vec.size()) {
-			optimal_comb = name_vec;
+		// 说明本次识别一个新的都没识别到，应该是滑动到最后了，直接结束循环
+		if (oper_numer == detected_opers.size()) {
 			break;
 		}
 	}
 
-	std::vector<std::string> optimal_comb_gbk;	// 给回调json用的，gbk的
-	for (const std::string& name : optimal_comb)
-	{
-		optimal_comb_gbk.emplace_back(Utf8ToGbk(name));
-	}
+	//// 配置文件中的干员组合，和抓出来的干员名比对，如果组合中的干员都有，那就用这个组合
+	//// Todo 时间复杂度起飞了，需要优化下
+	//std::vector<std::string> optimal_comb;
+	//for (auto&& name_vec : all_oper_combs) {
+	//	int count = 0;
+	//	for (std::string& name : name_vec) {
+	//		if (detected_names.find(name) != detected_names.cend()) {
+	//			++count;
+	//		}
+	//		else {
+	//			break;
+	//		}
+	//	}
+	//	if (count == name_vec.size()) {
+	//		optimal_comb = name_vec;
+	//		break;
+	//	}
+	//}
 
-	opers_json["comb"] = json::array(optimal_comb_gbk);
-	m_callback(AsstMsg::InfrastComb, opers_json, m_callback_arg);
+	//std::vector<std::string> optimal_comb_gbk;	// 给回调json用的，gbk的
+	//for (const std::string& name : optimal_comb)
+	//{
+	//	optimal_comb_gbk.emplace_back(Utf8ToGbk(name));
+	//}
 
-	// 重置特征检测的条件，后面不用了，这次直接move
-	feature_cond = std::move(feature_cond_default);
-	feature_whatever = std::move(feature_whatever_default);
+	//opers_json["comb"] = json::array(optimal_comb_gbk);
+	//m_callback(AsstMsg::InfrastComb, opers_json, m_callback_arg);
 
-	// 一边滑动一边点击最优解中的干员
-	for (int i = 0; i != m_swipe_max_times; ++i) {
-		const cv::Mat& image = get_format_image(true);
-		auto cur_name_textarea = detect_foo(image);
+	//// 重置特征检测的条件，后面不用了，这次直接move
+	//feature_cond = std::move(feature_cond_default);
+	//feature_whatever = std::move(feature_whatever_default);
 
-		for (TextArea& text_area : cur_name_textarea) {
-			// 点过了就不会再点了，直接从最优解vector里面删了
-			auto iter = std::find(optimal_comb.begin(), optimal_comb.end(), text_area.text);
-			if (iter != optimal_comb.end()) {
-				m_control_ptr->click(text_area.rect);
-				optimal_comb.erase(iter);
-			}
-		}
-		if (optimal_comb.empty()) {
-			break;
-		}
-		// 因为滑动和点击是矛盾的，这里没法异步做
-		if (!swipe_foo(true)) {
-			return false;
-		}
-	}
+	//// 一边滑动一边点击最优解中的干员
+	//for (int i = 0; i != m_swipe_max_times; ++i) {
+	//	const cv::Mat& image = get_format_image(true);
+	//	auto cur_name_textarea = detect_foo(image);
+
+	//	for (TextArea& text_area : cur_name_textarea) {
+	//		// 点过了就不会再点了，直接从最优解vector里面删了
+	//		auto iter = std::find(optimal_comb.begin(), optimal_comb.end(), text_area.text);
+	//		if (iter != optimal_comb.end()) {
+	//			m_control_ptr->click(text_area.rect);
+	//			optimal_comb.erase(iter);
+	//		}
+	//	}
+	//	if (optimal_comb.empty()) {
+	//		break;
+	//	}
+	//	// 因为滑动和点击是矛盾的，这里没法异步做
+	//	if (!swipe_foo(true)) {
+	//		return false;
+	//	}
+	//}
 	return true;
 }
