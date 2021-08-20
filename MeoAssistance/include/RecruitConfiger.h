@@ -22,7 +22,7 @@ namespace asst {
 		std::unordered_set<std::string> m_all_tags;
 		std::unordered_set<std::string> m_all_types;
 
-		std::vector<OperInfo> m_all_opers;
+		std::vector<OperRecruitInfo> m_all_opers;
 
 		constexpr static int CorrectNumberOfTags = 5;
 

@@ -42,33 +42,39 @@ bool InfrastConfiger::_load(const std::string& filename)
 
 	json::value root = ret.value();
 	try {
-		// 制造站
-		for (json::value& comb_info : root["Manufacturing"]["combs"].as_array())
+		// 通用的干员信息
+		for (json::value& name : root["allNames"].as_array())
 		{
-			std::vector<std::string> comb_vec;
-			for (json::value& oper_name : comb_info["comb"].as_array())
-			{
-				std::string oper_name_str = oper_name.as_string();
-				comb_vec.emplace_back(std::move(oper_name_str));
-			}
-			m_mfg_combs.emplace_back(std::move(comb_vec));
+			m_all_opers_name.emplace(name.as_string());
 		}
-		m_mfg_end = root["Manufacturing"]["end"].as_string();
-		for (json::value& oper : root["Manufacturing"]["all"].as_array())
+		for (json::value& pair : root["featureKey"].as_array())
 		{
-			m_mfg_opers.emplace(oper["name"].as_string());
+			m_oper_name_feat.emplace(pair[0].as_string(), pair[1].as_string());
 		}
-		for (json::value& pair : root["Manufacturing"]["featureKey"].as_array()) 
+		for (json::value& name : root["featureWhatever"].as_array())
 		{
-			m_mfg_feat.emplace(pair[0].as_string(), pair[1].as_string());
+			m_oper_name_feat_whatever.emplace(name.as_string());
 		}
-		for (json::value& name : root["Manufacturing"]["featureWhatever"].as_array())
-		{
-			m_mfg_feat_whatever.emplace(name.as_string());
-		}
-		
 
-		// 贸易站 TODO……
+		// 每个基建设施中的干员组合信息
+		for (json::value& facility : root["infrast"].as_array())
+		{
+			std::string key = facility["facility"].as_string();
+			std::vector< std::vector<OperInfrastInfo>> combs_vec;
+			for (json::value& comb : facility["combs"].as_array())
+			{
+				std::vector<OperInfrastInfo> opers;
+				for (json::value& oper : comb["opers"].as_array()) {
+					OperInfrastInfo info;
+					info.name = oper["name"].as_string();
+					info.elite = oper.get("elite", 0);
+					info.level = oper.get("level", 0);
+					opers.emplace_back(std::move(info));
+				}
+				combs_vec.emplace_back(std::move(opers));
+			}
+			m_infrast_combs.emplace(std::move(key), std::move(combs_vec));
+		}
 	}
 	catch (json::exception& e) {
 		DebugTraceError("Load config json error!", e.what());

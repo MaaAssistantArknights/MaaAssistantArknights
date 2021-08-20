@@ -51,7 +51,7 @@ bool asst::RecruitConfiger::_load(const std::string& filename)
 	json::value root = ret.value();
 	try {
 		for (json::value& oper : root.as_array()) {
-			OperInfo oper_temp;
+			OperRecruitInfo oper_temp;
 			oper_temp.name = oper["name"].as_string();
 			oper_temp.type = oper["type"].as_string();
 			m_all_types.emplace(oper_temp.type);
