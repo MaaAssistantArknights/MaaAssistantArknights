@@ -332,7 +332,7 @@ bool WinMacro::click(const Rect& rect)
 	return click(randPointInRect(rect));
 }
 
-bool asst::WinMacro::swipe(const Point& p1, const Point& p2)
+bool asst::WinMacro::swipe(const Point& p1, const Point& p2, int duration)
 {
 	if (m_handle_type != HandleType::Control || !::IsWindow(m_handle)) {
 		return false;
@@ -349,21 +349,22 @@ bool asst::WinMacro::swipe(const Point& p1, const Point& p2)
 		cur_cmd = StringReplaceAll(cur_cmd, "[y1]", std::to_string(y1));
 		cur_cmd = StringReplaceAll(cur_cmd, "[x2]", std::to_string(x2));
 		cur_cmd = StringReplaceAll(cur_cmd, "[y2]", std::to_string(y2));
+		cur_cmd = StringReplaceAll(cur_cmd, "[duration]", std::to_string(duration));
+
 		return callCmd(cur_cmd, false).has_value();
-		return true;
 	}
 	else {	// TODO
 		return false;
 	}
 }
 
-bool asst::WinMacro::swipe(const Rect& r1, const Rect& r2)
+bool asst::WinMacro::swipe(const Rect& r1, const Rect& r2, int duration)
 {
 	if (m_handle_type != HandleType::Control || !::IsWindow(m_handle)) {
 		return false;
 	}
 
-	return swipe(randPointInRect(r1), randPointInRect(r2));
+	return swipe(randPointInRect(r1), randPointInRect(r2), duration);
 }
 
 void asst::WinMacro::setControlScale(double scale, bool real)

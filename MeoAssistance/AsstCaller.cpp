@@ -129,14 +129,14 @@ bool AsstTestOcr(asst::Assistance* p_asst, const char** text_array, int array_si
 		return false;
 	}
 
-	std::vector<std::string> text_vec;
-	for (int i = 0; i != array_size; ++i) {
-		if (text_array[i] == nullptr) {
-			return false;
-		}
-		text_vec.emplace_back(asst::GbkToUtf8(text_array[i]));
-	}
-	p_asst->start_ocr_test_task(std::move(text_vec), need_click);
+	//std::vector<std::string> text_vec;
+	//for (int i = 0; i != array_size; ++i) {
+	//	if (text_array[i] == nullptr) {
+	//		return false;
+	//	}
+	//	text_vec.emplace_back(asst::GbkToUtf8(text_array[i]));
+	//}
+	p_asst->start_to_identify_opers();
 	return true;
 }
 

@@ -243,6 +243,28 @@ bool Assistance::start_open_recruit(const std::vector<int>& required_level, bool
 	return true;
 }
 
+bool asst::Assistance::start_to_identify_opers()
+{
+	DebugTraceFunction;
+	if (!m_thread_idle || !m_inited)
+	{
+		return false;
+	}
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+
+	auto task_ptr = std::make_shared<IdentifyOperTask>(task_callback, (void*)this);
+	// TODO 这个参数写到配置文件里，TODO 滑动位置要根据分辨率缩放
+	task_ptr->set_swipe_param(Rect(2400, 800, 0, 0), Rect(400, 800, 0, 0), 2100);
+	task_ptr->set_task_chain("IdentifyOpers");
+	m_tasks_queue.emplace(task_ptr);
+
+	m_thread_idle = false;
+	m_condvar.notify_one();
+
+	return true;
+}
+
 bool asst::Assistance::start_infrast()
 {
 	DebugTraceFunction;

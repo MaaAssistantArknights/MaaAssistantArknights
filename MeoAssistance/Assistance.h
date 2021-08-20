@@ -34,6 +34,8 @@ namespace asst {
 
 		// 开始公开招募操作
 		bool start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
+		// 开始干员识别任务
+		bool start_to_identify_opers();
 		// 开始基建换班任务
 		bool start_infrast();
 

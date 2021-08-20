@@ -5,3 +5,4 @@
 #include "OpenRecruitTask.h"
 #include "ProcessTask.h"
 #include "TestOcrTask.h"
+#include "IdentifyOperTask.h"

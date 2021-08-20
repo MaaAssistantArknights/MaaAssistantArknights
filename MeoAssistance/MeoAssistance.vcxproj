@@ -21,6 +21,7 @@
     <ClInclude Include="ClickTask.h" />
     <ClInclude Include="Configer.h" />
     <ClInclude Include="Identify.h" />
+    <ClInclude Include="IdentifyOperTask.h" />
     <ClInclude Include="InfrastConfiger.h" />
     <ClInclude Include="InfrastStationTask.h" />
     <ClInclude Include="Logger.hpp" />
@@ -28,6 +29,7 @@
     <ClInclude Include="OpenRecruitTask.h" />
     <ClInclude Include="ProcessTask.h" />
     <ClInclude Include="RecruitConfiger.h" />
+    <ClInclude Include="SwipeTask.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TestOcrTask.h" />
     <ClInclude Include="Updater.h" />
@@ -37,6 +39,7 @@
   <ItemGroup>
     <ClCompile Include="AbstractTask.cpp" />
     <ClCompile Include="ClickTask.cpp" />
+    <ClCompile Include="IdentifyOperTask.cpp" />
     <ClCompile Include="InfrastConfiger.cpp" />
     <ClCompile Include="Assistance.cpp" />
     <ClCompile Include="AsstCaller.cpp" />
@@ -47,6 +50,7 @@
     <ClCompile Include="OpenRecruitTask.cpp" />
     <ClCompile Include="ProcessTask.cpp" />
     <ClCompile Include="RecruitConfiger.cpp" />
+    <ClCompile Include="SwipeTask.cpp" />
     <ClCompile Include="TestOcrTask.cpp" />
     <ClCompile Include="Updater.cpp" />
     <ClCompile Include="WinMacro.cpp" />
