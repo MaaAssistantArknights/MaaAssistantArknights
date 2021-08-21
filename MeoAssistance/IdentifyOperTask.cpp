@@ -42,13 +42,16 @@ bool asst::IdentifyOperTask::run()
 	std::unordered_set<std::string> feature_whatever = InfrastConfiger::get_instance().m_oper_name_feat_whatever;
 	std::unordered_set<OperInfrastInfo> detected_opers;
 
+	int times = 0;
+	bool reverse = false;
 	// 一边识别一边滑动，把所有干员名字抓出来
-	// 异步进行滑动操作
-	m_keep_swipe = true;
-	std::future<bool> swipe_future = std::async(
-		std::launch::async, &IdentifyOperTask::keep_swipe, this, false);
+	// 正向完整滑一遍，再反向完整滑一遍，提高识别率
 	while (true) {
 		const cv::Mat& image = OcrAbstractTask::get_format_image(true);
+
+		// 异步进行滑动操作
+		std::future<bool> swipe_future = std::async(
+			std::launch::async, &IdentifyOperTask::swipe, this, reverse);
 
 		auto cur_name_textarea = detect_opers(image, feature_cond, feature_whatever);
 
@@ -77,17 +80,35 @@ bool asst::IdentifyOperTask::run()
 		opers_json["all"] = json::array(opers_json_vec);
 		m_callback(AsstMsg::InfrastOpers, opers_json, m_callback_arg);
 
-		// 说明本次识别一个新的都没识别到，应该是滑动到最后了，直接结束循环
-		if (oper_numer == detected_opers.size()) {
-			break;
+		// 正向滑动的时候
+		if (!reverse) {
+			++times;
+			// 说明本次识别一个新的都没识别到，应该是滑动到最后了，直接结束循环
+			if (oper_numer == detected_opers.size()) {
+				reverse = true;
+			}
 		}
-		if (need_exit()) {
+		else {	// 反向滑动的时候
+			if (--times <= 0) {
+				break;
+			}
+		}
+		// 阻塞等待本次滑动结束
+		if (!swipe_future.get()) {
 			return false;
 		}
 	}
-	// 等待滑动结束
-	m_keep_swipe = false;
-	swipe_future.wait();
+#ifdef LOG_TRACE
+	for (const std::string& name : InfrastConfiger::get_instance().m_all_opers_name) {
+		auto iter = std::find_if(detected_opers.cbegin(), detected_opers.cend(), 
+			[&](const OperInfrastInfo& oper) -> bool {
+				return oper.name == name;
+			});
+		if (iter == detected_opers.cend()) {
+			std::cout << "未检测到：" << Utf8ToGbk(name) << std::endl;
+		}
+	}
+#endif // LOG_TRACE
 
 	return true;
 }
@@ -96,8 +117,8 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image,
 {
 	// 裁剪出来干员名的一个长条形图片，没必要把整张图片送去识别
 	// TODO，这个参数要根据分辨率调整
-	constexpr static int cropped_height = 100;
-	constexpr static int cropped_upper_y = 665;
+	constexpr static int cropped_height = 60;
+	constexpr static int cropped_upper_y = 695;
 	cv::Mat upper_part_name_image = image(cv::Rect(0, cropped_upper_y, image.cols, cropped_height));
 
 	std::vector<TextArea> upper_text_area = ocr_detect(upper_part_name_image);	// 所有文字
@@ -110,11 +131,19 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image,
 		upper_text_area,
 		InfrastConfiger::get_instance().m_all_opers_name,
 		Configer::get_instance().m_infrast_ocr_replace);
+	// 把这一块涂黑，避免后面被特征检测的误识别了
+	cv::Mat draw_image = image;
+	for (const TextArea& textarea : upper_part_names) {
+		cv::Rect rect(textarea.rect.x, textarea.rect.y, textarea.rect.width, textarea.rect.height);
+		// 注意这里是浅拷贝，原图image也会被涂黑
+		cv::rectangle(draw_image, rect, cv::Scalar(0, 0, 0), -1);
+	}
 
 	// 下半部分的干员
 	// TODO，这个y参数要根据分辨率调整
-	constexpr static int cropped_lower_y = 1300;
+	constexpr static int cropped_lower_y = 1335;
 	cv::Mat lower_part_name_image = image(cv::Rect(0, cropped_lower_y, image.cols, cropped_height));
+
 	std::vector<TextArea> lower_text_area = ocr_detect(lower_part_name_image);	// 所有文字
 	// 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
 	for (TextArea& textarea : lower_text_area) {
@@ -125,6 +154,12 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image,
 		lower_text_area,
 		InfrastConfiger::get_instance().m_all_opers_name,
 		Configer::get_instance().m_infrast_ocr_replace);
+	// 把这一块涂黑，避免后面被特征检测的误识别了
+	for (const TextArea& textarea : lower_part_names) {
+		cv::Rect rect(textarea.rect.x, textarea.rect.y, textarea.rect.width, textarea.rect.height);
+		// 注意这里是浅拷贝，原图image也会被涂黑
+		cv::rectangle(draw_image, rect, cv::Scalar(0, 0, 0), -1);
+	}
 
 	// 上下两部分识别结果合并
 	std::vector<TextArea> all_text_area = std::move(upper_text_area);
@@ -188,6 +223,9 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image,
 					if (whatever_iter != feature_whatever.end()) {
 						feature_whatever.erase(whatever_iter);
 					}
+					// 顺便再涂黑了，避免后面被whatever特征检测的误识别
+					// 注意这里是浅拷贝，原图image也会被涂黑
+					cv::rectangle(draw_image, cv_rect, cv::Scalar(0, 0, 0), -1);
 				}
 			}
 		}
@@ -198,8 +236,13 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image,
 		// 上半部分长条形的图片
 		auto&& upper_ret = OcrAbstractTask::m_identify_ptr->feature_match(upper_part_name_image, *iter);
 		if (upper_ret) {
-			// 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
 			TextArea temp = std::move(upper_ret.value());
+#ifdef LOG_TRACE	// 也顺便涂黑一下，方便看谁没被识别出来
+			cv::Rect draw_rect(temp.rect.x, temp.rect.y, temp.rect.width, temp.rect.height);
+			// 注意这里是浅拷贝，原图image也会被涂黑
+			cv::rectangle(upper_part_name_image, draw_rect, cv::Scalar(0, 0, 0), -1);
+#endif
+			// 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
 			temp.rect.y += cropped_upper_y;
 			all_opers_textarea.emplace_back(std::move(temp));
 			iter = feature_whatever.erase(iter);
@@ -209,8 +252,13 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image,
 		// 下半部分长条形的图片
 		auto&& lower_ret = OcrAbstractTask::m_identify_ptr->feature_match(lower_part_name_image, *iter);
 		if (lower_ret) {
-			// 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
 			TextArea temp = std::move(lower_ret.value());
+#ifdef LOG_TRACE	// 也顺便涂黑一下，方便看谁没被识别出来
+			cv::Rect draw_rect(temp.rect.x, temp.rect.y, temp.rect.width, temp.rect.height);
+			// 注意这里是浅拷贝，原图image也会被涂黑
+			cv::rectangle(lower_part_name_image, draw_rect, cv::Scalar(0, 0, 0), -1);
+#endif
+			// 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
 			temp.rect.y += cropped_lower_y;
 			all_opers_textarea.emplace_back(std::move(temp));
 			iter = feature_whatever.erase(iter);
@@ -252,9 +300,22 @@ int asst::IdentifyOperTask::detect_elite(const cv::Mat& image, const asst::Rect 
 	}
 }
 
+bool IdentifyOperTask::swipe(bool reverse)
+{
+	bool ret = true;
+	if (!reverse) {
+		ret &= m_control_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
+	}
+	else {
+		ret &= m_control_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration);
+	}
+	ret &= sleep(SwipeExtraDelay);
+	return ret;
+}
+
 bool IdentifyOperTask::keep_swipe(bool reverse)
 {
-	bool ret = false;
+	bool ret = true;
 	while (m_keep_swipe && !ret) {
 		if (!reverse) {
 			ret &= m_control_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
