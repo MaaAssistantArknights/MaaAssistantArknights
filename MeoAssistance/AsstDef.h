@@ -52,7 +52,11 @@ namespace asst {
 	struct Point
 	{
 		Point() = default;
+		Point(const Point&) noexcept = default;
+		Point(Point&&) noexcept = default;
 		Point(int x, int y) : x(x), y(y) {}
+		Point& operator=(const Point&) noexcept = default;
+		Point& operator=(Point&&) noexcept = default;
 		int x = 0;
 		int y = 0;
 	};
@@ -60,6 +64,8 @@ namespace asst {
 	struct Rect
 	{
 		Rect() = default;
+		Rect(const Rect&) noexcept = default;
+		Rect(Rect&&) noexcept = default;
 		Rect(int x, int y, int width, int height)
 			: x(x), y(y), width(width), height(height) {}
 		Rect operator*(double rhs) const
@@ -73,6 +79,9 @@ namespace asst {
 			return { x + half_width_scale, y + half_hight_scale,
 				static_cast<int>(width * scale),  static_cast<int>(height * scale) };
 		}
+		Rect& operator=(const Rect&) noexcept = default;
+		Rect& operator=(Rect&&) noexcept = default;
+
 		int x = 0;
 		int y = 0;
 		int width = 0;
