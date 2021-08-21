@@ -82,7 +82,7 @@ namespace asst {
 	struct TextArea {
 		TextArea() = default;
 		TextArea(const TextArea&) = default;
-		TextArea(TextArea&&) = default;
+		TextArea(TextArea&&) noexcept = default;
 		template<typename ...RectArgs>
 		TextArea(std::string text, RectArgs &&... rect_args)
 			: text(std::move(text)),
@@ -91,6 +91,9 @@ namespace asst {
 				"Parameter can't be used to construct a asst::Rect");
 		}
 		operator std::string() const { return text; }
+		TextArea& operator=(const TextArea&) = default;
+		TextArea& operator=(TextArea&&) noexcept = default;
+
 		std::string text;
 		Rect rect;
 	};

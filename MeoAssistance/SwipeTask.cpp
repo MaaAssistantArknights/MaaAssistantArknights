@@ -24,6 +24,6 @@ bool asst::SwipeTask::swipe()
 	else {
 		ret = m_control_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration);
 	}
-	ret &= sleep(m_swipe_duration + SwipeExtraDelay);
+	ret &= sleep(SwipeExtraDelay);
 	return ret;
 }

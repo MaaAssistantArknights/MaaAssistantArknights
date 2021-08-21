@@ -97,6 +97,9 @@ bool AbstractTask::set_control_scale(int cur_width, int cur_height)
 
 bool AbstractTask::sleep(unsigned millisecond)
 {
+	if (need_exit()) {
+		return false;
+	}
 	if (millisecond == 0) {
 		return true;
 	}
@@ -107,15 +110,14 @@ bool AbstractTask::sleep(unsigned millisecond)
 	callback_json["time"] = millisecond;
 	m_callback(AsstMsg::ReadyToSleep, callback_json, m_callback_arg);
 
-	while ((m_exit_flag == NULL || *m_exit_flag == false)
-		&& duration < millisecond) {
+	while (!need_exit() && duration < millisecond) {
 		duration = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::system_clock::now() - start).count();
 		std::this_thread::yield();
 	}
 	m_callback(AsstMsg::EndOfSleep, callback_json, m_callback_arg);
 
-	return (m_exit_flag == NULL || *m_exit_flag == false);
+	return !need_exit();
 }
 
 bool AbstractTask::print_window(const std::string& dir)
@@ -142,4 +144,9 @@ bool AbstractTask::print_window(const std::string& dir)
 	m_callback(AsstMsg::PrintWindow, callback_json, m_callback_arg);
 
 	return ret;
+}
+
+bool asst::AbstractTask::need_exit() const noexcept
+{
+	return m_exit_flag != NULL && *m_exit_flag == true;
 }

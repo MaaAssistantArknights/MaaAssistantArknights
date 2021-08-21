@@ -20,7 +20,7 @@ namespace asst {
 			m_reverse = reverse;
 		}
 	protected:
-		constexpr static int SwipeExtraDelay = 100;
+		constexpr static int SwipeExtraDelay = 0;
 
 		virtual bool swipe();
 

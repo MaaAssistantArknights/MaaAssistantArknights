@@ -23,8 +23,9 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 	DebugTraceFunction;
 
 	// 检查返回值，若为false则回调错误
-	auto callback_error = [&]() {
+	auto callback_error = [&](const std::string& filename = std::string()) {
 		json::value callback_json;
+		callback_json["filename"] = filename;
 		callback_json["what"] = "Resource";
 		m_callback(AsstMsg::InitFaild, callback_json, m_callback_arg);
 	};
@@ -71,14 +72,14 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 	for (const auto& [key, name] : InfrastConfiger::get_instance().m_oper_name_feat) {
 		ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
 		if (!ret) {
-			callback_error();
+			callback_error(Utf8ToGbk(name));
 			return;
 		}
 	}
 	for (const auto& name : InfrastConfiger::get_instance().m_oper_name_feat_whatever) {
 		ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
 		if (!ret) {
-			callback_error();
+			callback_error(Utf8ToGbk(name));
 			return;
 		}
 	}
@@ -255,7 +256,7 @@ bool asst::Assistance::start_to_identify_opers()
 
 	auto task_ptr = std::make_shared<IdentifyOperTask>(task_callback, (void*)this);
 	// TODO 这个参数写到配置文件里，TODO 滑动位置要根据分辨率缩放
-	task_ptr->set_swipe_param(Rect(2400, 800, 0, 0), Rect(400, 800, 0, 0), 2100);
+	task_ptr->set_swipe_param(Rect(800, 600, 0, 0), Rect(600, 600, 0, 0), 200);
 	task_ptr->set_task_chain("IdentifyOpers");
 	m_tasks_queue.emplace(task_ptr);
 
