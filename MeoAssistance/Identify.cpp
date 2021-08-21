@@ -84,7 +84,7 @@ std::pair<std::vector<cv::KeyPoint>, cv::Mat> asst::Identify::surf_detect(const 
 	cv::Mat mat_gray;
 	cv::cvtColor(mat, mat_gray, cv::COLOR_RGB2GRAY);
 
-	constexpr int min_hessian = 4000;
+	constexpr int min_hessian = 400;
 	// SURFÌØÕ÷µã¼ì²â
 	cv::Ptr<SURF> detector = SURF::create(min_hessian);
 	std::vector<KeyPoint> keypoints;
@@ -103,12 +103,16 @@ std::optional<asst::Rect> asst::Identify::feature_match(
 #endif
 )
 {
+	if (query_mat_vector.empty() || train_mat_vector.empty()) {
+		DebugTraceError("feature_match | image empty");
+		return std::nullopt;
+	}
 	std::vector<cv::DMatch> matches;
 	static FlannBasedMatcher matcher;
 	matcher.match(query_mat_vector, train_mat_vector, matches);
 
 #ifdef LOG_TRACE
-	std::cout << matches.size() << " / " << query_keypoints.size() << std::endl;
+	//std::cout << matches.size() << " / " << query_keypoints.size() << std::endl;
 	cv::Mat allmatch_mat;
 	cv::drawMatches(query_mat, query_keypoints, train_mat, train_keypoints, matches, allmatch_mat);
 #endif
@@ -210,7 +214,7 @@ std::optional<asst::Rect> asst::Identify::feature_match(
 
 #endif
 
-	constexpr static const double MatchSizeRatioThreshold = 0.075;
+	constexpr static const double MatchSizeRatioThreshold = 0.05;
 	if (good_points.size() >= query_keypoints.size() * MatchSizeRatioThreshold) {
 		Rect dst;
 		int left = 0, right = 0, top = 0, bottom = 0;
@@ -301,7 +305,7 @@ std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cu
 
 std::optional<TextArea> asst::Identify::feature_match(const cv::Mat& mat, const std::string& key)
 {
-	DebugTraceFunction;
+	//DebugTraceFunction;
 
 	if (m_feature_map.find(key) == m_feature_map.cend()) {
 		return std::nullopt;

@@ -60,6 +60,7 @@ namespace asst {
 		virtual bool set_control_scale(int cur_width, int cur_height);
 		virtual bool sleep(unsigned millisecond);
 		virtual bool print_window(const std::string& dir);
+		virtual bool need_exit() const noexcept;
 
 		std::shared_ptr<WinMacro> m_window_ptr = nullptr;
 		std::shared_ptr<WinMacro> m_view_ptr = nullptr;
