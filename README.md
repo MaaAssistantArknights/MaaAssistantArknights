@@ -8,6 +8,7 @@ A game assistance for Arknights
 ![公招截图](readme/openRecruit.png)
 
 ## 下载地址
+
 [稳定版](https://github.com/MistEO/MeoAssistance/releases/latest)  
 [测试版](https://github.com/MistEO/MeoAssistance/releases)
 
@@ -22,7 +23,7 @@ A game assistance for Arknights
     - 支持打完升级了的情况
     - 支持代理失败的情况，会自动放弃本次行动
     - 支持每次刷完自动截图
-- 全自动公开招募（新功能！）
+- 全自动公开招募
     - 自动识别当前招募页所有Tags
     - 自动计算可能出的干员组合并显示
     - 自动帮你点击最优解Tags
@@ -54,32 +55,16 @@ A game assistance for Arknights
 
 不支持，MuMu不响应SendMessage鼠标消息，而且这个版本不支持adb控制，正在想办法……
 
-#### 逍遥模拟器
+#### 其他模拟器
 
-支持，需要收起右侧侧边栏后使用，未多做测试
-
-#### 雷电模拟器
-
-支持，需要收起右侧侧边栏后使用，未多做测试
-
-#### 夜神模拟器
-
-支持，效果不太好，且辅助开始后不可移动模拟器窗口，不推荐使用
-
-#### 腾讯手游助手
-
-不支持，腾讯不支持句柄的窗口尺寸调节，有人需要的话再单独做
-
-#### 其他
-
-若需要使用其他模拟器、或上述不兼容的模拟器。欢迎给我提[ISSUE](https://github.com/MistEO/MeoAssistance/issues)，会根据情况尽量适配~
+其他模拟器已停止支持，若有需要，欢迎给我提[ISSUE](https://github.com/MistEO/MeoAssistance/issues)，会根据情况尽量适配~
 
 ## 使用说明
 
 ### 基本说明
 
 1. 使用支持的模拟器打开明日方舟
-2. 解压压缩包，**使用管理员权限**，打开"MeoAsstGui.exe"
+2. 解压压缩包，**使用管理员权限**，打开"MeoAsstGui.exe"。**注意，请不要使用中文或有特殊符号的文件夹路径**
 3. 运行期间，模拟器窗口可以被遮挡，全屏玩游戏、看视频等，完全不影响，但是模拟器不能最小化（其实也没事，辅助会帮你把模拟器窗口强行弹回来。。）
 4. 若需要长时间挂机，请关闭电脑的息屏、睡眠等功能
 
@@ -90,7 +75,7 @@ A game assistance for Arknights
 3. 点击"开始刷理智"，开始后上面的选项也可以随时修改
 4. 刷完了会自动停止的
 
-### 全自动公开招募（新功能！）
+### 全自动公开招募
 
 1. 明日方舟打开公开招募，有Tag选择的界面
 2. 辅助勾选你需要的选项，点击"开始计算"
@@ -118,37 +103,23 @@ A game assistance for Arknights
 该功能默认是打开的，不需要的话可以手动关掉：请手动修改`resource\config.json`文件中，`options`.`printWindow`字段的值，`true`是打开，`false`是关闭。文件保存后请重新打开程序。
 ![图例](readme/printWindow.png)
 
-## Todo
-
-~~在做了在做了.jpg~~
-
-- [ ] 功能
-    - [ ] 图形化界面
-		- [ ] 界面整体美化or重写
-    - [ ] 刷理智
-        - [ ] 掉线后重连继续刷
-        - [ ] 凌晨4点更新后继续刷
-        - [ ] 指定刷XX个某材料
-    - [ ] 基建自动换班
-        - [ ] 自动收菜
-        - [ ] 疲劳干员自动进宿舍
-        - [ ] 扫描全部干员信息
-        - [ ] 基建最优干员组合排列
-        - [ ] 无人机的使用，最好支持设置
-        - [ ] 自动开线索交流
-    - [ ] 全自动公招
-        - [ ] 一星小车3:40的时间选择
-- [ ] 算法
-    - [ ] 掉落材料计数
-- [ ] 其他
-    - [ ] 程序自动更新
-    - [ ] 程序自动增量更新
-
-
 ## 致谢
 
-感谢以下开源库
+### 开源库
 
 - 图像识别库：[opencv](https://github.com/opencv/opencv.git)
 - 文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)
 - JSON解析库：[meojson](https://github.com/MistEO/meojson.git)
+
+### 贡献/参与者
+
+- 非常感谢 [tcyh035](https://github.com/tcyh035) 帮忙设计重构图形界面
+- 非常感谢 [GengGode](https://github.com/GengGode) 和 [DbgDebug](https://github.com/DbgDebug) 提供图像算法思路并协助验证
+- 非常感谢 [LoveLoliii](https://github.com/LoveLoliii) 提供公开招募算法及数据、部分功能逻辑思路
+- 感谢参与软件测试、提bug的小伙伴们~
+- ~~感谢[B站直播间](https://live.bilibili.com/2808861)的小伙伴们陪我弹幕吹水~~
+
+## 广告
+
+[B站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本辅助软件  
+[QQ群](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：直播间关联Q群，欢迎加入~
