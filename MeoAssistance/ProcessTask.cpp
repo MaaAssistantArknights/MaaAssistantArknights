@@ -236,7 +236,7 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			break;
 		}
 
-		callback_json["elite_rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
+		callback_json["rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
 		callback_json["name"] = task_name;
 		if (matched_rect != NULL) {
 			*matched_rect = std::move(rect);

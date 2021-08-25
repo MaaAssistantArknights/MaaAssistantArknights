@@ -37,46 +37,41 @@ void AbstractTask::set_exit_flag(bool* exit_flag)
 	m_exit_flag = exit_flag;
 }
 
-cv::Mat AbstractTask::get_format_image(bool hd)
+cv::Mat AbstractTask::get_format_image(bool raw)
 {
-	cv::Mat raw_image;
-	if (hd) {
-		raw_image = m_view_ptr->getAdbImage();
-	}
-	else {
-		raw_image = m_view_ptr->getImage(m_view_ptr->getWindowRect());
-	}
+	cv::Mat raw_image = m_view_ptr->getAdbImage();
+
 	if (raw_image.empty()) {
 		m_callback(AsstMsg::ImageIsEmpty, json::value(), m_callback_arg);
 		return raw_image;
 	}
-	if (raw_image.rows < 100) {
-		m_callback(AsstMsg::WindowMinimized, json::value(), m_callback_arg);
-		return raw_image;
-	}
+	//if (raw_image.rows < 100) {
+	//	m_callback(AsstMsg::WindowMinimized, json::value(), m_callback_arg);
+	//	return raw_image;
+	//}
 
-	if (hd) {
+	if (raw) {
 		set_control_scale(1.0);
 		return raw_image;
 	}
 	else {
-		// 把模拟器边框的一圈裁剪掉
-		const EmulatorInfo& window_info = m_view_ptr->getEmulatorInfo();
-		int x_offset = window_info.x_offset;
-		int y_offset = window_info.y_offset;
-		int width = raw_image.cols - x_offset - window_info.right_offset;
-		int height = raw_image.rows - y_offset - window_info.bottom_offset;
+		constexpr double DefaultRatio = static_cast<double>(Configer::DefaultWindowWidth) / static_cast<double>(Configer::DefaultWindowHeight);
+		double cur_ratio = static_cast<double>(raw_image.cols) / static_cast<double>(raw_image.rows);
+		cv::Size scale_size;
+		double scale = 0.0;
+		if (cur_ratio >= DefaultRatio) {	// 说明是宽屏或默认16:9，按照高度计算缩放
+			scale_size = cv::Size(cur_ratio * Configer::DefaultWindowWidth, Configer::DefaultWindowHeight);
+			scale = static_cast<double>(raw_image.rows) / static_cast<double>(Configer::DefaultWindowHeight);
+		}
+		else {	// 否则可能是偏正方形的屏幕，按宽度计算
+			scale_size = cv::Size(Configer::DefaultWindowWidth, cur_ratio * Configer::DefaultWindowHeight);
+			scale = static_cast<double>(raw_image.cols) / static_cast<double>(Configer::DefaultWindowWidth);
+		}
+		cv::Mat resize_mat;
+		cv::resize(raw_image, resize_mat, cv::Size(Configer::DefaultWindowWidth, Configer::DefaultWindowHeight));
+		set_control_scale(scale);
 
-		cv::Mat cropped(raw_image, cv::Rect(x_offset, y_offset, width, height));
-
-		// 根据图像尺寸，调整控制的缩放
-		set_control_scale(cropped.cols, cropped.rows);
-
-		//// 调整尺寸，与资源中截图的标准尺寸一致
-		//cv::Mat dst;
-		//cv::resize(cropped, dst, cv::Size(m_configer.DefaultWindowWidth, m_configer.DefaultWindowHeight));
-
-		return cropped;
+		return resize_mat;
 	}
 }
 
