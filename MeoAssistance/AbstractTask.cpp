@@ -80,18 +80,18 @@ cv::Mat AbstractTask::get_format_image(bool raw)
 
 bool asst::AbstractTask::set_control_scale(double scale)
 {
-	m_control_ptr->setControlScale(scale, true);
-	return true;
-}
-
-bool AbstractTask::set_control_scale(int cur_width, int cur_height)
-{
-	double scale_width = static_cast<double>(cur_width) / Configer::DefaultWindowWidth;
-	double scale_height = static_cast<double>(cur_height) / Configer::DefaultWindowHeight;
-	double scale = (std::max)(scale_width, scale_height);
 	m_control_ptr->setControlScale(scale);
 	return true;
 }
+
+//bool AbstractTask::set_control_scale(int cur_width, int cur_height)
+//{
+//	double scale_width = static_cast<double>(cur_width) / Configer::DefaultWindowWidth;
+//	double scale_height = static_cast<double>(cur_height) / Configer::DefaultWindowHeight;
+//	double scale = (std::max)(scale_width, scale_height);
+//	m_control_ptr->setControlScale(scale);
+//	return true;
+//}
 
 bool AbstractTask::sleep(unsigned millisecond)
 {
