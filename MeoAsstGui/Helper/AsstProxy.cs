@@ -31,7 +31,7 @@ namespace MeoAsstGui
         [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstCreateEx(CallbackDelegate callback, IntPtr custom_arg);
         [DllImport("MeoAssistance.dll")] static private extern void AsstDestory(IntPtr ptr);
         [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchEmulator(IntPtr ptr);
-        [DllImport("MeoAssistance.dll")] static private extern void AsstStart(IntPtr ptr, string task);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStart(IntPtr ptr, string task);
         [DllImport("MeoAssistance.dll")] static private extern void AsstStop(IntPtr ptr);
         [DllImport("MeoAssistance.dll")] static private extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
         [DllImport("MeoAssistance.dll")] static private extern bool AsstRunOpenRecruit(IntPtr ptr, int[] required_level, bool set_time);
@@ -73,7 +73,10 @@ namespace MeoAsstGui
             {
                 case AsstMsg.TaskCompleted:
                     {
-                        _retryTimes = 0;
+                        if ((int)detail["algorithm"] > 0)   // JustReturn的执行完成不算
+                        {
+                            _retryTimes = 0;
+                        }
                         string taskName = detail["name"].ToString();
                         if (taskName == "StartButton2")
                         {
@@ -97,8 +100,8 @@ namespace MeoAsstGui
                     break;
                 case AsstMsg.TaskStop:
                     {
-                        string task_chain = detail["task_chain"].ToString();
-                        if (task_chain != "SanityBegin")
+                        string taskChain = detail["task_chain"].ToString();
+                        if (taskChain != "SanityBegin" && taskChain != "VisitBegin")
                         {
                             break;
                         }
@@ -228,9 +231,9 @@ namespace MeoAsstGui
             return AsstCatchEmulator(_ptr);
         }
 
-        public void AsstStart(string task)
+        public bool AsstStart(string task)
         {
-            AsstStart(_ptr, task);
+            return AsstStart(_ptr, task);
         }
 
         public void AsstSetParam(string type, string param, string value)
