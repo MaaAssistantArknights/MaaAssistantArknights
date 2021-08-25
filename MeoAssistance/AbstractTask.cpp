@@ -59,16 +59,19 @@ cv::Mat AbstractTask::get_format_image(bool raw)
 		double cur_ratio = static_cast<double>(raw_image.cols) / static_cast<double>(raw_image.rows);
 		cv::Size scale_size;
 		double scale = 0.0;
-		if (cur_ratio >= DefaultRatio) {	// 说明是宽屏或默认16:9，按照高度计算缩放
-			scale_size = cv::Size(cur_ratio * Configer::DefaultWindowWidth, Configer::DefaultWindowHeight);
+		if (cur_ratio >= DefaultRatio	// 说明是宽屏或默认16:9，按照高度计算缩放
+			|| std::fabs(cur_ratio - DefaultRatio) < DoubleDiff)
+		{
+			scale_size = cv::Size(cur_ratio * Configer::DefaultWindowHeight, Configer::DefaultWindowHeight);
 			scale = static_cast<double>(raw_image.rows) / static_cast<double>(Configer::DefaultWindowHeight);
 		}
-		else {	// 否则可能是偏正方形的屏幕，按宽度计算
-			scale_size = cv::Size(Configer::DefaultWindowWidth, cur_ratio * Configer::DefaultWindowHeight);
+		else 
+		{	// 否则可能是偏正方形的屏幕，按宽度计算
+			scale_size = cv::Size(Configer::DefaultWindowWidth, Configer::DefaultWindowWidth / cur_ratio);
 			scale = static_cast<double>(raw_image.cols) / static_cast<double>(Configer::DefaultWindowWidth);
 		}
 		cv::Mat resize_mat;
-		cv::resize(raw_image, resize_mat, cv::Size(Configer::DefaultWindowWidth, Configer::DefaultWindowHeight));
+		cv::resize(raw_image, resize_mat, scale_size);
 		set_control_scale(scale);
 
 		return resize_mat;
