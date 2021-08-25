@@ -155,7 +155,7 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 	{ // 指定的模拟器
 		ret = create_handles(Configer::get_instance().m_handles[emulator_name]);
 	}
-	if (ret && m_window_ptr->showWindow() && m_window_ptr->resizeWindow())
+	if (ret)
 	{
 		m_inited = true;
 		return cor_name;
