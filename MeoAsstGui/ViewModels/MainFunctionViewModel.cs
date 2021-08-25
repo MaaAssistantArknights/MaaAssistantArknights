@@ -57,7 +57,7 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _useMedicine;
+        private bool _useMedicine = true;
         public bool UseMedicine
         {
             get { return _useMedicine; }
@@ -181,7 +181,11 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             bool catched = asstProxy.AsstCatchEmulator();
             CatchStatus = "捕获模拟器窗口：" + catched;
-            asstProxy.AsstStart("SanityBegin");
+            if (!asstProxy.AsstStart("SanityBegin"))
+            {
+                return;
+            }
+            ExecInfo = "";
             if (UseStone)
             {
                 StoneInfo = "已碎石 0 个";
@@ -193,7 +197,11 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             bool catched = asstProxy.AsstCatchEmulator();
             CatchStatus = "捕获模拟器窗口：" + catched;
-            asstProxy.AsstStart("VisitBegin");
+            if (!asstProxy.AsstStart("VisitBegin"))
+            {
+                return;
+            }
+            ExecInfo = "";
         }
     }
 }

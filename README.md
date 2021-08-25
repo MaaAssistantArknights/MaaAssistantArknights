@@ -109,7 +109,10 @@ A game assistance for Arknights
 
 - 图像识别库：[opencv](https://github.com/opencv/opencv.git)
 - 文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)
-- JSON解析库：[meojson](https://github.com/MistEO/meojson.git)
+- C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
+- WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
+- WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
+- C# JSON库: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 
 ### 贡献/参与者
 

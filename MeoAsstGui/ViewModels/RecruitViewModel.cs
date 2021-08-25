@@ -98,6 +98,8 @@ namespace MeoAsstGui
             {
                 return;
             }
+            RecruitInfo = "正在识别……";
+            RecruitResult = "";
 
             var levelList = new List<int>();
 
