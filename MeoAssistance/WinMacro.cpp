@@ -367,19 +367,18 @@ bool asst::WinMacro::swipe(const Rect& r1, const Rect& r2, int duration)
 	return swipe(randPointInRect(r1), randPointInRect(r2), duration);
 }
 
-void asst::WinMacro::setControlScale(double scale, bool real)
+void asst::WinMacro::setControlScale(double scale)
 {
-	if (real) {
-		m_control_scale = scale;
-	}
-	else {
-		if (m_is_adb) {
-			m_control_scale = scale * scale * m_emulator_info.adb.display_width / Configer::DefaultWindowWidth;
-		}
-		else {
-			m_control_scale = scale / getScreenScale();
-		}
-	}
+	m_control_scale = scale;
+
+	//else {
+	//	if (m_is_adb) {
+	//		m_control_scale = scale * scale * m_emulator_info.adb.display_width / Configer::DefaultWindowWidth;
+	//	}
+	//	else {
+	//		m_control_scale = scale / getScreenScale();
+	//	}
+	//}
 }
 
 Rect WinMacro::getWindowRect()

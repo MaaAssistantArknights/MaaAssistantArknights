@@ -57,7 +57,6 @@ namespace asst {
 	protected:
 		virtual cv::Mat get_format_image(bool raw = false);	// ²ÎÊýraw£ºÔ­Í¼
 		virtual bool set_control_scale(double scale);
-		virtual bool set_control_scale(int cur_width, int cur_height);
 		virtual bool sleep(unsigned millisecond);
 		virtual bool print_window(const std::string& dir);
 		virtual bool need_exit() const noexcept;
