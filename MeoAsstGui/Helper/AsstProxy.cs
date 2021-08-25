@@ -92,7 +92,7 @@ namespace MeoAsstGui
                     {
                         string taskChain = detail["task_chain"].ToString();
                         string taskType = detail["task_type"].ToString();
-                        if (taskChain == "SanityBegin" || taskType == "VisitBegin")
+                        if (taskChain == "SanityBegin" || taskChain == "VisitBegin")
                         {
                             mfvm.RunStatus = "正在运行中……";
                         }
@@ -128,8 +128,8 @@ namespace MeoAsstGui
                     break;
                 case AsstMsg.TaskError:
                     {
-                        string task_chain = detail["task_chain"].ToString();
-                        if (task_chain == "SanityBegin")
+                        string taskChain = detail["task_chain"].ToString();
+                        if (taskChain == "SanityBegin")
                         {
                             // 出错了会重试两次，再不行就算了
                             if (_retryTimes >= _retryLimit)
@@ -142,7 +142,7 @@ namespace MeoAsstGui
                             AsstStart("SanityBegin");
 
                         }
-                        else if (task_chain == "VisitBegin")
+                        else if (taskChain == "VisitBegin")
                         {
                             // 出错了会重试两次，再不行就算了
                             if (_retryTimes >= _retryLimit)
