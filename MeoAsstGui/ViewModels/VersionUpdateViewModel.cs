@@ -68,11 +68,9 @@ namespace MeoAsstGui
             byte[] buffer1 = Encoding.Default.GetBytes(body.ToString());
             byte[] buffer2 = Encoding.Convert(Encoding.UTF8, Encoding.Default, buffer1, 0, buffer1.Length);
             string strBuffer = Encoding.Default.GetString(buffer2, 0, buffer2.Length);
-            strBuffer = strBuffer.Replace("\\r\\n", "\r\n");
-            int len = strBuffer.Length > 128 ? 128 : strBuffer.Length;
 
             UpdateTag = "新版本：" + tag;
-            UpdateInfo = strBuffer.Substring(0, len) + "\n......";
+            UpdateInfo = strBuffer;
             _updateUrl = html_url.ToString();
 
             return true;
