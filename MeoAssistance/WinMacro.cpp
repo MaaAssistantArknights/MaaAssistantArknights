@@ -106,16 +106,6 @@ bool WinMacro::findHandle()
 				DebugTraceError("Connect Adb Error", connect_cmd);
 				return false;
 			}
-			auto&& display_ret = callCmd(StringReplaceAll(m_emulator_info.adb.display, "[Adb]", adb_dir));
-			if (display_ret) {
-				std::string pipe_str = display_ret.value();
-				sscanf_s(pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(),
-					&m_emulator_info.adb.display_width, &m_emulator_info.adb.display_height);
-			}
-			else {
-				DebugTraceError("Get Display Error");
-				return false;
-			}
 
 			m_click_cmd = StringReplaceAll(m_emulator_info.adb.click, "[Adb]", adb_dir);
 			m_swipe_cmd = StringReplaceAll(m_emulator_info.adb.swipe, "[Adb]", adb_dir);
@@ -128,6 +118,16 @@ bool WinMacro::findHandle()
 			m_pullscreen_cmd = StringReplaceAll(
 				StringReplaceAll(m_emulator_info.adb.pullscreen, "[Adb]", adb_dir),
 				"[Filename]", m_adb_screen_filename);
+		}
+		auto&& display_ret = callCmd(StringReplaceAll(m_emulator_info.adb.display, "[Adb]", adb_dir));
+		if (display_ret) {
+			std::string pipe_str = display_ret.value();
+			sscanf_s(pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(),
+				&m_emulator_info.adb.display_width, &m_emulator_info.adb.display_height);
+		}
+		else {
+			DebugTraceError("Get Display Error");
+			return false;
 		}
 	}
 	DebugTrace("Handle:", m_handle, "Name:", m_emulator_info.name, "Type:", m_handle_type);

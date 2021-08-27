@@ -30,8 +30,6 @@ namespace asst {
 		virtual bool swipe(bool reverse = false);
 		virtual bool keep_swipe(bool reverse = false);
 
-		Rect m_swipe_begin;
-		Rect m_swipe_end;
 		int m_swipe_duration = 2000;
 		bool m_keep_swipe = false;
 		std::string m_filename;
