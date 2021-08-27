@@ -46,7 +46,6 @@ bool OpenRecruitTask::run()
 	}
 	json::value all_tags_json;
 	all_tags_json["tags"] = json::array(all_tags_json_vector);
-	m_callback(AsstMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
 
 	/* 过滤tags数量不足的情况（可能是识别漏了） */
 	if (all_tags.size() != RecruitConfiger::CorrectNumberOfTags) {
@@ -54,6 +53,8 @@ bool OpenRecruitTask::run()
 		m_callback(AsstMsg::OcrResultError, all_tags_json, m_callback_arg);
 		return false;
 	}
+	
+	m_callback(AsstMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
 
 	/* 设置招募时间9小时，加入任务队列*/
 	if (m_set_time) {
@@ -206,7 +207,7 @@ bool OpenRecruitTask::run()
 		task_json["type"] = "ClickTask";
 		for (const TextArea& text_area : all_tags) {
 			if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
-				task_json["elite_rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
+				task_json["rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
 				task_json["retry_times"] = m_retry_times;
 				task_json["task_chain"] = m_task_chain;
 				m_callback(AsstMsg::AppendTask, task_json, m_callback_arg);

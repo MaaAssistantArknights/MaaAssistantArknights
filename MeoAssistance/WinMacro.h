@@ -32,6 +32,7 @@ namespace asst {
 		[[ deprecated ]] cv::Mat getImage(const Rect& rect);	// 通过Win32 Api对窗口截图
 		cv::Mat getAdbImage();				// 通过Adb截图，会高清一点，但是比较慢（通过adb pull出来，有io操作）
 		Rect getWindowRect();
+		std::pair<int, int> getAdbDisplaySize();
 		const EmulatorInfo& getEmulatorInfo() const noexcept { return m_emulator_info; }
 		const HandleType& getHandleType() const noexcept { return m_handle_type; }
 

@@ -396,6 +396,14 @@ Rect WinMacro::getWindowRect()
 		static_cast<int>((rect.bottom - rect.top) * getScreenScale()) };
 }
 
+std::pair<int, int> asst::WinMacro::getAdbDisplaySize()
+{
+	static std::pair<int, int> size = std::make_pair(m_emulator_info.adb.display_width, m_emulator_info.adb.display_height);
+	return size;
+
+	//return std::make_pair(m_emulator_info.adb.display_width, m_emulator_info.adb.display_height);
+}
+
 cv::Mat WinMacro::getImage(const Rect& rect)
 {
 	if (m_handle_type != HandleType::View || !::IsWindow(m_handle)) {
