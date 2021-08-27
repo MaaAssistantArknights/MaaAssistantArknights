@@ -116,8 +116,8 @@ bool asst::IdentifyOperTask::run()
 std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image, std::unordered_map<std::string, std::string>& feature_cond, std::unordered_set<std::string>& feature_whatever)
 {
 	// 裁剪出来干员名的一个长条形图片，没必要把整张图片送去识别
-	int cropped_height = image.rows * 0.0417;
-	int cropped_upper_y = image.rows * 0.483;
+	int cropped_height = image.rows * 0.043;
+	int cropped_upper_y = image.rows * 0.480;
 	cv::Mat upper_part_name_image = image(cv::Rect(0, cropped_upper_y, image.cols, cropped_height));
 
 	std::vector<TextArea> upper_text_area = ocr_detect(upper_part_name_image);	// 所有文字
@@ -139,7 +139,7 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image,
 	}
 
 	// 下半部分的干员
-	int cropped_lower_y = image.rows * 0.927;
+	int cropped_lower_y = image.rows * 0.923;
 	cv::Mat lower_part_name_image = image(cv::Rect(0, cropped_lower_y, image.cols, cropped_height));
 
 	std::vector<TextArea> lower_text_area = ocr_detect(lower_part_name_image);	// 所有文字
@@ -299,6 +299,7 @@ int asst::IdentifyOperTask::detect_elite(const cv::Mat& image, const asst::Rect 
 
 bool IdentifyOperTask::swipe(bool reverse)
 {
+//#ifndef LOG_TRACE
 	bool ret = true;
 	auto&& [width, height] = m_view_ptr->getAdbDisplaySize();
 	Rect swipe_begin(width * 0.9, height * 0.5, 0, 0);
@@ -311,6 +312,9 @@ bool IdentifyOperTask::swipe(bool reverse)
 	}
 	ret &= sleep(SwipeExtraDelay);
 	return ret;
+//#else
+//	return sleep(SwipeExtraDelay);
+//#endif
 }
 
 bool IdentifyOperTask::keep_swipe(bool reverse)
