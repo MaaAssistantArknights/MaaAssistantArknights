@@ -116,9 +116,8 @@ bool asst::IdentifyOperTask::run()
 std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image, std::unordered_map<std::string, std::string>& feature_cond, std::unordered_set<std::string>& feature_whatever)
 {
 	// 裁剪出来干员名的一个长条形图片，没必要把整张图片送去识别
-	// TODO，这个参数要根据分辨率调整
-	constexpr static int cropped_height = 60;
-	constexpr static int cropped_upper_y = 695;
+	int cropped_height = image.rows * 0.0417;
+	int cropped_upper_y = image.rows * 0.0483;
 	cv::Mat upper_part_name_image = image(cv::Rect(0, cropped_upper_y, image.cols, cropped_height));
 
 	std::vector<TextArea> upper_text_area = ocr_detect(upper_part_name_image);	// 所有文字
@@ -140,8 +139,7 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image,
 	}
 
 	// 下半部分的干员
-	// TODO，这个y参数要根据分辨率调整
-	constexpr static int cropped_lower_y = 1335;
+	int cropped_lower_y = image.rows * 0.927;
 	cv::Mat lower_part_name_image = image(cv::Rect(0, cropped_lower_y, image.cols, cropped_height));
 
 	std::vector<TextArea> lower_text_area = ocr_detect(lower_part_name_image);	// 所有文字
@@ -274,14 +272,13 @@ int asst::IdentifyOperTask::detect_elite(const cv::Mat& image, const asst::Rect 
 {
 	cv::Rect elite_rect;
 	// 因为有的名字长有的名字短，但是右对齐的，所以跟着右边走
-	// TODO，这些长宽的参数要跟着分辨率缩放，最好放到配置文件里
-	elite_rect.x = name_rect.x + name_rect.width - 250;
-	elite_rect.y = name_rect.y - 200;
+	elite_rect.x = name_rect.x + name_rect.width - image.cols * 0.1;
+	elite_rect.y = name_rect.y - image.rows * 0.14;
 	if (elite_rect.x < 0 || elite_rect.y < 0) {
 		return -1;
 	}
-	elite_rect.width = 100;
-	elite_rect.height = 150;
+	elite_rect.width = image.cols * 0.04;
+	elite_rect.height = image.rows * 0.1;
 	cv::Mat elite_mat = image(elite_rect);
 
 	// for debug

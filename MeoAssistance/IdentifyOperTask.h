@@ -11,11 +11,11 @@ namespace asst {
 		virtual ~IdentifyOperTask() = default;
 
 		virtual bool run() override;
-		virtual void set_swipe_param(Rect begin, Rect end, int duration) {
-			m_swipe_begin = std::move(begin);
-			m_swipe_end = std::move(end);
-			m_swipe_duration = duration;
-		}
+		//virtual void set_swipe_param(Rect begin, Rect end, int duration) {
+		//	m_swipe_begin = std::move(begin);
+		//	m_swipe_end = std::move(end);
+		//	m_swipe_duration = duration;
+		//}
 		void set_filename(const std::string& filename) {
 			m_filename = filename;
 		}
@@ -32,7 +32,7 @@ namespace asst {
 
 		Rect m_swipe_begin;
 		Rect m_swipe_end;
-		int m_swipe_duration = 0;
+		int m_swipe_duration = 2000;
 		bool m_keep_swipe = false;
 		std::string m_filename;
 	};
