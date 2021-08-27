@@ -117,7 +117,7 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image,
 {
 	// 裁剪出来干员名的一个长条形图片，没必要把整张图片送去识别
 	int cropped_height = image.rows * 0.0417;
-	int cropped_upper_y = image.rows * 0.0483;
+	int cropped_upper_y = image.rows * 0.483;
 	cv::Mat upper_part_name_image = image(cv::Rect(0, cropped_upper_y, image.cols, cropped_height));
 
 	std::vector<TextArea> upper_text_area = ocr_detect(upper_part_name_image);	// 所有文字
@@ -300,11 +300,14 @@ int asst::IdentifyOperTask::detect_elite(const cv::Mat& image, const asst::Rect 
 bool IdentifyOperTask::swipe(bool reverse)
 {
 	bool ret = true;
+	auto&& [width, height] = m_view_ptr->getAdbDisplaySize();
+	Rect swipe_begin(width * 0.9, height * 0.5, 0, 0);
+	Rect swipe_end(width * 0.1, height * 0.5, 0, 0);
 	if (!reverse) {
-		ret &= m_control_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
+		ret &= m_control_ptr->swipe(swipe_begin, swipe_end, m_swipe_duration);
 	}
 	else {
-		ret &= m_control_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration);
+		ret &= m_control_ptr->swipe(swipe_end, swipe_begin, m_swipe_duration);
 	}
 	ret &= sleep(SwipeExtraDelay);
 	return ret;
@@ -314,13 +317,7 @@ bool IdentifyOperTask::keep_swipe(bool reverse)
 {
 	bool ret = true;
 	while (m_keep_swipe && !ret) {
-		if (!reverse) {
-			ret &= m_control_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
-		}
-		else {
-			ret &= m_control_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration);
-		}
-		ret &= sleep(SwipeExtraDelay);
+		ret = swipe(reverse);
 	}
 	return ret;
 }
