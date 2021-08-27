@@ -214,7 +214,7 @@ std::optional<asst::Rect> asst::Identify::feature_match(
 
 #endif
 
-	constexpr static const double MatchSizeRatioThreshold = 0.05;
+	constexpr static const double MatchSizeRatioThreshold = 0.1;
 	if (good_points.size() >= query_keypoints.size() * MatchSizeRatioThreshold) {
 		Rect dst;
 		int left = 0, right = 0, top = 0, bottom = 0;
@@ -242,7 +242,7 @@ std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& mat)
 {
 	OcrResult ocr_results = m_ocr_lite.detect(mat,
 		50, 0,
-		0.6f, 0.3f,
+		0.2f, 0.3f,
 		2.0f, false, false);
 
 	std::vector<TextArea> result;
