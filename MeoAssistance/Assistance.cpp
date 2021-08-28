@@ -273,12 +273,15 @@ bool asst::Assistance::start_infrast()
 	}
 
 	std::unique_lock<std::mutex> lock(m_mutex);
-
+	auto ret = get_opers_idtf_result();
+	if (!ret) {
+		DebugTraceInfo("Get opers info error");
+		return false;
+	}
 	auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
-	// TODO 这个参数写到配置文件里，TODO 滑动位置要根据分辨率缩放
-	task_ptr->set_swipe_param(2100, Rect(2400, 800, 0, 0), Rect(400, 800, 0, 0), 20);
 	task_ptr->set_facility("Manufacturing");
 	task_ptr->set_task_chain("Infrast");
+	task_ptr->set_all_opers_info(std::move(ret.value()));
 	m_tasks_queue.emplace(task_ptr);
 
 	m_thread_idle = false;
@@ -441,6 +444,9 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
 		p_this->append_task(more_detail);
 		return;	// 这俩消息Assistance会新增任务，外部不需要处理，直接拦掉
 		break;
+	case AsstMsg::OpersIdtfResult:
+		set_opers_idtf_result(more_detail);	// 保存到文件
+		break;
 	default:
 		break;
 	}
@@ -513,4 +519,48 @@ void Assistance::clear_exec_times()
 	{
 		pair.second->exec_times = 0;
 	}
+}
+
+void asst::Assistance::set_opers_idtf_result(const json::value& detail)
+{
+	constexpr static const char* Filename = "operators.json";
+	std::ofstream ofs(GetCurrentDir() + Filename, std::ios::out);
+	ofs << detail.format() << std::endl;
+	ofs.close();
+}
+
+std::optional<std::unordered_set<OperInfrastInfo>> asst::Assistance::get_opers_idtf_result()
+{
+	constexpr static const char* Filename = "operators.json";
+	std::ifstream ifs(GetCurrentDir() + Filename, std::ios::in);
+	if (!ifs.is_open()) {
+		return std::nullopt;
+	}
+	std::stringstream iss;
+	iss << ifs.rdbuf();
+	ifs.close();
+	std::string content(iss.str());
+
+	auto&& parse_ret = json::parse(content);
+	if (!parse_ret) {
+		DebugTraceError(__FUNCTION__, "json parsing error!");
+		return std::nullopt;
+	}
+	json::value root = std::move(parse_ret.value());
+	std::unordered_set<OperInfrastInfo> opers_info;
+	try {
+		for (const json::value& info_json : root["all"].as_array())
+		{
+			OperInfrastInfo info;
+			info.name = info_json.at("name").as_string();
+			info.elite = info_json.at("elite").as_integer();
+			info.level = info_json.get("level", 0);
+			opers_info.emplace(std::move(info));
+		}
+	}
+	catch (json::exception& exp) {
+		DebugTraceError(__FUNCTION__, "json parsing error!");
+		return std::nullopt;
+	}
+	return opers_info;
 }

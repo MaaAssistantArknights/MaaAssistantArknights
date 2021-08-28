@@ -35,7 +35,8 @@ namespace asst {
 		RecruitSpecialTag,
 		RecruitResult,
 		/* Infrast Msg*/
-		InfrastOpers,		// 识别到基建干员s
+		OpersDetected,		// 识别到了干员s
+		OpersIdtfResult,	// 干员识别结果（总的）
 		InfrastComb			// 当前设置的最优干员组合
 	};
 
@@ -64,7 +65,8 @@ namespace asst {
 			{AsstMsg::RecruitSpecialTag, "RecruitSpecialTag"},
 			{AsstMsg::RecruitResult, "RecruitResult"},
 			{AsstMsg::AppendTask, "AppendTask"},
-			{AsstMsg::InfrastOpers, "InfrastOpers"},
+			{AsstMsg::OpersDetected, "OpersDetected"},
+			{AsstMsg::OpersIdtfResult, "OpersIdtfResult"},
 			{AsstMsg::InfrastComb, "InfrastComb"}
 		};
 		return os << _type_name.at(type);
