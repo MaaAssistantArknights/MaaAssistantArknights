@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <unordered_set>
+#include <fstream>
 
 #include <opencv2/opencv.hpp>
 
@@ -13,11 +14,15 @@
 #include "InfrastConfiger.h"
 #include "Identify.h"
 #include "WinMacro.h"
+#include "Logger.hpp"
 
 using namespace asst;
 
 asst::IdentifyOperTask::IdentifyOperTask(AsstCallback callback, void* callback_arg)
-	: OcrAbstractTask(callback, callback_arg)
+	: OcrAbstractTask(callback, callback_arg),
+	m_cropped_height_ratio(0.043),
+	m_cropped_upper_y_ratio(0.480),
+	m_cropped_lower_y_ratio(0.923)
 {
 	;
 }
@@ -32,6 +37,49 @@ bool asst::IdentifyOperTask::run()
 		return false;
 	}
 
+	auto&& [width, height] = m_view_ptr->getAdbDisplaySize();
+
+	m_swipe_begin = Rect(width * 0.9, height * 0.5, 0, 0);
+	m_swipe_end = Rect(width * 0.1, height * 0.5, 0, 0);
+
+	auto&& detect_ret = swipe_and_detect();
+	if (!detect_ret) {
+		return false;
+	}
+	const auto& detected_opers = std::move(detect_ret.value());
+
+	json::value result_json;
+	std::vector<json::value> opers_json_vec;
+	for (const OperInfrastInfo& info : detected_opers) {
+		json::value info_json;
+		info_json["name"] = info.name;
+		info_json["elite"] = info.elite;
+		//info_json["level"] = info.level;
+		opers_json_vec.emplace_back(std::move(info_json));
+	}
+	result_json["all"] = json::array(opers_json_vec);
+
+	// 查找没有哪些干员（也可能是没识别到）
+	std::vector<json::value> not_found_vector;
+	for (const std::string& name : InfrastConfiger::get_instance().m_all_opers_name) {
+		auto iter = std::find_if(detected_opers.cbegin(), detected_opers.cend(), 
+			[&](const OperInfrastInfo& oper) -> bool {
+				return oper.name == name;
+			});
+		if (iter == detected_opers.cend()) {
+			not_found_vector.emplace_back(name);
+			DebugTrace("Not Found", Utf8ToGbk(name));
+		}
+	}
+	result_json["not_found"] = json::array(not_found_vector);
+
+	m_callback(AsstMsg::OpersIdtfResult, result_json, m_callback_arg);
+
+	return true;
+}
+
+std::optional<std::unordered_set<OperInfrastInfo>> asst::IdentifyOperTask::swipe_and_detect()
+{
 	json::value task_start_json = json::object{
 		{ "task_type",  "InfrastStationTask" },
 		{ "task_chain", OcrAbstractTask::m_task_chain},
@@ -78,7 +126,7 @@ bool asst::IdentifyOperTask::run()
 			opers_json_vec.emplace_back(std::move(info_json));
 		}
 		opers_json["all"] = json::array(opers_json_vec);
-		m_callback(AsstMsg::InfrastOpers, opers_json, m_callback_arg);
+		m_callback(AsstMsg::OpersDetected, opers_json, m_callback_arg);
 
 		// 正向滑动的时候
 		if (!reverse) {
@@ -95,29 +143,17 @@ bool asst::IdentifyOperTask::run()
 		}
 		// 阻塞等待本次滑动结束
 		if (!swipe_future.get()) {
-			return false;
+			return std::nullopt;
 		}
 	}
-#ifdef LOG_TRACE
-	for (const std::string& name : InfrastConfiger::get_instance().m_all_opers_name) {
-		auto iter = std::find_if(detected_opers.cbegin(), detected_opers.cend(), 
-			[&](const OperInfrastInfo& oper) -> bool {
-				return oper.name == name;
-			});
-		if (iter == detected_opers.cend()) {
-			std::cout << "未检测到：" << Utf8ToGbk(name) << std::endl;
-		}
-	}
-#endif // LOG_TRACE
-
-	return true;
+	return detected_opers;
 }
 
 std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image, std::unordered_map<std::string, std::string>& feature_cond, std::unordered_set<std::string>& feature_whatever)
 {
 	// 裁剪出来干员名的一个长条形图片，没必要把整张图片送去识别
-	int cropped_height = image.rows * 0.043;
-	int cropped_upper_y = image.rows * 0.480;
+	int cropped_height = image.rows * m_cropped_height_ratio;
+	int cropped_upper_y = image.rows * m_cropped_upper_y_ratio;
 	cv::Mat upper_part_name_image = image(cv::Rect(0, cropped_upper_y, image.cols, cropped_height));
 
 	std::vector<TextArea> upper_text_area = ocr_detect(upper_part_name_image);	// 所有文字
@@ -139,7 +175,7 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image,
 	}
 
 	// 下半部分的干员
-	int cropped_lower_y = image.rows * 0.923;
+	int cropped_lower_y = image.rows * m_cropped_lower_y_ratio;
 	cv::Mat lower_part_name_image = image(cv::Rect(0, cropped_lower_y, image.cols, cropped_height));
 
 	std::vector<TextArea> lower_text_area = ocr_detect(lower_part_name_image);	// 所有文字
@@ -301,14 +337,11 @@ bool IdentifyOperTask::swipe(bool reverse)
 {
 //#ifndef LOG_TRACE
 	bool ret = true;
-	auto&& [width, height] = m_view_ptr->getAdbDisplaySize();
-	Rect swipe_begin(width * 0.9, height * 0.5, 0, 0);
-	Rect swipe_end(width * 0.1, height * 0.5, 0, 0);
 	if (!reverse) {
-		ret &= m_control_ptr->swipe(swipe_begin, swipe_end, m_swipe_duration);
+		ret &= m_control_ptr->swipe(m_swipe_begin, m_swipe_end, SwipeDuration);
 	}
 	else {
-		ret &= m_control_ptr->swipe(swipe_end, swipe_begin, m_swipe_duration);
+		ret &= m_control_ptr->swipe(m_swipe_end, m_swipe_begin, SwipeDuration);
 	}
 	ret &= sleep(SwipeExtraDelay);
 	return ret;
