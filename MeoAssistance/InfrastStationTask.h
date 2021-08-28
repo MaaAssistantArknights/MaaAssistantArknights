@@ -1,32 +1,30 @@
 #pragma once
 
-#include "OcrAbstractTask.h"
+#include "IdentifyOperTask.h"
 
 namespace asst {
 	// 基建进驻任务
-	class InfrastStationTask : public OcrAbstractTask
+	class InfrastStationTask : public IdentifyOperTask
 	{
 	public:
 		InfrastStationTask(AsstCallback callback, void* callback_arg);
 		virtual ~InfrastStationTask() = default;
 
 		virtual bool run() override;
-		void set_swipe_param(int delay, const Rect& begin_rect, const Rect& end_rect, int max_times = 20)
+
+		void set_facility(std::string facility)
 		{
-			m_swipe_delay = delay;
-			m_swipe_begin = begin_rect;
-			m_swipe_end = end_rect;
-			m_swipe_max_times = max_times;
+			m_facility = std::move(facility);
 		}
-		void set_facility(const std::string& facility)
-		{
-			m_facility = facility;
+		void set_all_opers_info(std::unordered_set<OperInfrastInfo> infos) {
+			m_all_opers_info = std::move(infos);
 		}
-	private:
-		std::string m_facility;
-		int m_swipe_delay = 0;
-		Rect m_swipe_begin;
-		Rect m_swipe_end;
-		int m_swipe_max_times = 0;
+	protected:
+		constexpr static int SwipeMaxTimes = 17;
+
+		//std::vector<std::string> calc_optimal_comb();
+
+		std::string m_facility;	// 设施名（制造站、贸易站、控制中枢……）
+		std::unordered_set<OperInfrastInfo> m_all_opers_info;
 	};
 }
