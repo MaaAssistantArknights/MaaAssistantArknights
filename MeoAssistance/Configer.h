@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AbstractConfiger.h"
+
 #include <string>
 #include <unordered_map>
 #include <memory>
@@ -7,17 +9,17 @@
 #include "AsstDef.h"
 
 namespace asst {
-	class Configer
+	class Configer : public AbstractConfiger
 	{
 	public:
-		~Configer() = default;
+		virtual ~Configer() = default;
 
 		static Configer& get_instance() {
 			static Configer unique_instance;
 			return unique_instance;
 		}
 
-		bool load(const std::string& filename);
+		//virtual bool load(const std::string& filename) override;
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
@@ -33,7 +35,7 @@ namespace asst {
 		std::unordered_map<std::string, std::string> m_recruit_ocr_replace;
 		std::unordered_map<std::string, std::string> m_infrast_ocr_replace;
 
-	private:
+	protected:
 		Configer() = default;
 		Configer(const Configer& rhs) = default;
 		Configer(Configer&& rhs) noexcept = default;
@@ -41,6 +43,6 @@ namespace asst {
 		Configer& operator=(const Configer& rhs) = default;
 		Configer& operator=(Configer&& rhs) noexcept = default;
 
-		bool _load(const std::string& filename);
+		virtual bool parse(json::value&& json) override;
 	};
 }

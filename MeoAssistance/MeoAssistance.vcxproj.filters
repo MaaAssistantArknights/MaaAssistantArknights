@@ -114,6 +114,9 @@
     <ClInclude Include="SwipeTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
+    <ClInclude Include="AbstractConfiger.h">
+      <Filter>头文件\Configer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMacro.cpp">
@@ -166,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="SwipeTask.cpp">
       <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractConfiger.cpp">
+      <Filter>源文件\Configer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
