@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\AsstCaller.h" />
     <ClInclude Include="..\include\AsstPort.h" />
+    <ClInclude Include="AbstractConfiger.h" />
     <ClInclude Include="AbstractTask.h" />
     <ClInclude Include="Assistance.h" />
     <ClInclude Include="AsstAux.h" />
@@ -37,6 +38,7 @@
     <ClInclude Include="WinMacro.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractConfiger.cpp" />
     <ClCompile Include="AbstractTask.cpp" />
     <ClCompile Include="ClickTask.cpp" />
     <ClCompile Include="IdentifyOperTask.cpp" />
