@@ -529,7 +529,7 @@ void asst::Assistance::set_opers_idtf_result(const json::value& detail)
 	ofs.close();
 }
 
-std::optional<std::unordered_set<OperInfrastInfo>> asst::Assistance::get_opers_idtf_result()
+std::optional<std::unordered_map<std::string, OperInfrastInfo>> Assistance::get_opers_idtf_result()
 {
 	constexpr static const char* Filename = "operators.json";
 	std::ifstream ifs(GetCurrentDir() + Filename, std::ios::in);
@@ -547,7 +547,7 @@ std::optional<std::unordered_set<OperInfrastInfo>> asst::Assistance::get_opers_i
 		return std::nullopt;
 	}
 	json::value root = std::move(parse_ret.value());
-	std::unordered_set<OperInfrastInfo> opers_info;
+	std::unordered_map<std::string, OperInfrastInfo> opers_info;
 	try {
 		for (const json::value& info_json : root["all"].as_array())
 		{
@@ -555,7 +555,7 @@ std::optional<std::unordered_set<OperInfrastInfo>> asst::Assistance::get_opers_i
 			info.name = info_json.at("name").as_string();
 			info.elite = info_json.at("elite").as_integer();
 			info.level = info_json.get("level", 0);
-			opers_info.emplace(std::move(info));
+			opers_info.emplace(info.name, std::move(info));
 		}
 	}
 	catch (json::exception& exp) {

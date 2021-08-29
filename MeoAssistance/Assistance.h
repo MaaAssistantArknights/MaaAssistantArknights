@@ -64,7 +64,8 @@ namespace asst {
 		void append_callback(AsstMsg msg, json::value detail);
 		void clear_exec_times();
 		static void set_opers_idtf_result(const json::value& detail);	// 保存干员识别结果
-		static std::optional<std::unordered_set<OperInfrastInfo>> get_opers_idtf_result();	// 读取干员识别结果
+		static std::optional<std::unordered_map<std::string, OperInfrastInfo>>
+			get_opers_idtf_result();	// 读取干员识别结果
 
 		std::shared_ptr<WinMacro> m_window_ptr = nullptr;
 		std::shared_ptr<WinMacro> m_view_ptr = nullptr;
