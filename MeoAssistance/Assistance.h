@@ -36,7 +36,7 @@ namespace asst {
 		bool start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
 		// 开始干员识别任务
 		bool start_to_identify_opers();
-		// 开始基建换班任务
+		// 开始全自动基建任务
 		bool start_infrast();
 
 		// 开始匹配任务，调试用
@@ -59,7 +59,7 @@ namespace asst {
 		static void msg_proc(Assistance* p_this);
 		static void task_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
 
-		void append_match_task(const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times = INT_MAX);
+		void append_match_task(const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times = ProcessTaskRetryTimesDefault);
 		void append_task(const json::value& detail);
 		void append_callback(AsstMsg msg, json::value detail);
 		void clear_exec_times();
