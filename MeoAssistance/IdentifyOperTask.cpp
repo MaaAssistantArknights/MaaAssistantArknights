@@ -50,7 +50,7 @@ bool asst::IdentifyOperTask::run()
 
 	json::value result_json;
 	std::vector<json::value> opers_json_vec;
-	for (const OperInfrastInfo& info : detected_opers) {
+	for (const auto& [name, info] : detected_opers) {
 		json::value info_json;
 		info_json["name"] = info.name;
 		info_json["elite"] = info.elite;
@@ -63,8 +63,8 @@ bool asst::IdentifyOperTask::run()
 	std::vector<json::value> not_found_vector;
 	for (const std::string& name : InfrastConfiger::get_instance().m_all_opers_name) {
 		auto iter = std::find_if(detected_opers.cbegin(), detected_opers.cend(), 
-			[&](const OperInfrastInfo& oper) -> bool {
-				return oper.name == name;
+			[&](const auto& pair) -> bool {
+				return pair.first == name;
 			});
 		if (iter == detected_opers.cend()) {
 			not_found_vector.emplace_back(name);
@@ -78,7 +78,7 @@ bool asst::IdentifyOperTask::run()
 	return true;
 }
 
-std::optional<std::unordered_set<OperInfrastInfo>> asst::IdentifyOperTask::swipe_and_detect()
+std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::IdentifyOperTask::swipe_and_detect()
 {
 	json::value task_start_json = json::object{
 		{ "task_type",  "InfrastStationTask" },
@@ -88,7 +88,7 @@ std::optional<std::unordered_set<OperInfrastInfo>> asst::IdentifyOperTask::swipe
 
 	std::unordered_map<std::string, std::string> feature_cond = InfrastConfiger::get_instance().m_oper_name_feat;
 	std::unordered_set<std::string> feature_whatever = InfrastConfiger::get_instance().m_oper_name_feat_whatever;
-	std::unordered_set<OperInfrastInfo> detected_opers;
+	std::unordered_map<std::string, OperInfrastInfo> detected_opers;
 
 	int times = 0;
 	bool reverse = false;
@@ -113,12 +113,12 @@ std::optional<std::unordered_set<OperInfrastInfo>> asst::IdentifyOperTask::swipe
 			OperInfrastInfo info;
 			info.elite = elite;
 			info.name = textarea.text;
-			detected_opers.emplace(std::move(info));
+			detected_opers.emplace(textarea.text, std::move(info));
 		}
 
 		json::value opers_json;
 		std::vector<json::value> opers_json_vec;
-		for (const OperInfrastInfo& info : detected_opers) {
+		for (const auto& [name, info] : detected_opers) {
 			json::value info_json;
 			info_json["name"] = Utf8ToGbk(info.name);
 			info_json["elite"] = info.elite;
@@ -149,7 +149,11 @@ std::optional<std::unordered_set<OperInfrastInfo>> asst::IdentifyOperTask::swipe
 	return detected_opers;
 }
 
-std::vector<TextArea> asst::IdentifyOperTask::detect_opers(const cv::Mat& image, std::unordered_map<std::string, std::string>& feature_cond, std::unordered_set<std::string>& feature_whatever)
+std::vector<TextArea> asst::IdentifyOperTask::detect_opers(
+	const cv::Mat& image, 
+	std::unordered_map<std::string, 
+	std::string>& feature_cond, 
+	std::unordered_set<std::string>& feature_whatever)
 {
 	// 裁剪出来干员名的一个长条形图片，没必要把整张图片送去识别
 	int cropped_height = image.rows * m_cropped_height_ratio;
