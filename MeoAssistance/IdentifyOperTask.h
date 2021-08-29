@@ -16,11 +16,14 @@ namespace asst {
 		constexpr static int SwipeDuration = 2000;
 		constexpr static int SwipeExtraDelay = 1000;
 
-		std::optional<std::unordered_set<OperInfrastInfo>> swipe_and_detect();
+		// 一边滑动一边识别
+		virtual std::optional<std::unordered_map<std::string, OperInfrastInfo>> swipe_and_detect();
 
+		// 检测干员名
 		std::vector<TextArea> detect_opers(const cv::Mat& image,
 			std::unordered_map<std::string, std::string>& feature_cond,
 			std::unordered_set<std::string>& feature_whatever);
+		// 检测干员精英化等级
 		int detect_elite(const cv::Mat& image, const asst::Rect name_rect);
 
 		bool swipe(bool reverse = false);
