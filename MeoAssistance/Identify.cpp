@@ -278,14 +278,15 @@ std::pair<double, cv::Point> Identify::match_template(const cv::Mat& image, cons
 	return { maxVal, maxLoc };
 }
 
-std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cur, const std::string& templ, double templ_threshold)
+std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(
+	const Mat& cur, const std::string& templ, double templ_threshold, bool use_cache)
 {
 	if (m_mat_map.find(templ) == m_mat_map.cend()) {
 		return { AlgorithmType::JustReturn, 0, asst::Rect() };
 	}
 
 	// 有缓存，用直方图比较，CPU占用会低很多，但要保证每次按钮图片的位置不变
-	if (m_use_cache && m_cache_map.find(templ) != m_cache_map.cend()) {
+	if (use_cache && m_use_cache && m_cache_map.find(templ) != m_cache_map.cend()) {
 		const auto& [rect, hist] = m_cache_map.at(templ);
 		double value = image_hist_comp(cur(rect), hist);
 		return { AlgorithmType::CompareHist, value, cvrect_2_rect(rect).center_zoom(0.8) };
@@ -295,7 +296,7 @@ std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(const Mat& cu
 		const auto& [value, point] = match_template(cur, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
 
-		if (m_use_cache && value >= templ_threshold) {
+		if (use_cache && m_use_cache && value >= templ_threshold) {
 			m_cache_map.emplace(templ, std::make_pair(raw_rect, image_2_hist(cur(raw_rect))));
 		}
 

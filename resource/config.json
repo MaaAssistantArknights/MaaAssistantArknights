@@ -331,6 +331,7 @@
         "VisitNext": {
             "template": "VisitNext.png",
             "type": "clickSelf",
+            "cache": false,
             "rearDelay": 3000,
             "exceededNext": [
                 "ReturnToMall"
@@ -447,6 +448,7 @@
         },
         "Manufacturing": {
             "template": "Manufacturing.png",
+            "cache": false,
             "type": "clickSelf",
             "rearDelay": 1000,
             "next": [
@@ -469,6 +471,7 @@
         },
         "AddOperator": {
             "template": "AddOperator.png",
+            "cache": false,
             "type": "clickSelf",
             "next": [
                 "ClearSelection"
