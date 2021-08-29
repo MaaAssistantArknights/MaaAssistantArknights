@@ -214,7 +214,7 @@ bool Assistance::start_ocr_test_task(std::vector<std::string> text_vec, bool nee
 
 	auto task_ptr = std::make_shared<TestOcrTask>(task_callback, (void*)this);
 	task_ptr->set_text(std::move(text_vec), need_click);
-	m_tasks_queue.emplace(task_ptr);
+	m_tasks_deque.emplace_back(task_ptr);
 
 	m_thread_idle = false;
 	m_condvar.notify_one();
@@ -236,7 +236,7 @@ bool Assistance::start_open_recruit(const std::vector<int>& required_level, bool
 	task_ptr->set_param(required_level, set_time);
 	task_ptr->set_retry_times(OpenRecruitTaskRetyrTimesDefault);
 	task_ptr->set_task_chain("OpenRecruit");
-	m_tasks_queue.emplace(task_ptr);
+	m_tasks_deque.emplace_back(task_ptr);
 
 	m_thread_idle = false;
 	m_condvar.notify_one();
@@ -256,7 +256,7 @@ bool asst::Assistance::start_to_identify_opers()
 
 	auto task_ptr = std::make_shared<IdentifyOperTask>(task_callback, (void*)this);
 	task_ptr->set_task_chain("IdentifyOpers");
-	m_tasks_queue.emplace(task_ptr);
+	m_tasks_deque.emplace_back(task_ptr);
 
 	m_thread_idle = false;
 	m_condvar.notify_one();
@@ -294,11 +294,11 @@ bool asst::Assistance::start_infrast()
 	append_match_task(InfrastTaskCahin, { "Manufacturing" });
 
 	// 识别并选择最优解干员组合
-	//auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
-	//task_ptr->set_facility("Manufacturing");
-	//task_ptr->set_task_chain(InfrastTaskCahin);
-	//task_ptr->set_all_opers_info(std::move(ret.value()));
-	//m_tasks_queue.emplace(task_ptr);
+	auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
+	task_ptr->set_facility("Manufacturing");
+	task_ptr->set_task_chain(InfrastTaskCahin);
+	task_ptr->set_all_opers_info(std::move(ret.value()));
+	m_tasks_deque.emplace_back(task_ptr);
 
 	m_thread_idle = false;
 	m_condvar.notify_one();
@@ -318,8 +318,8 @@ void Assistance::stop(bool block)
 	{ // 外部调用
 		lock = std::unique_lock<std::mutex>(m_mutex);
 	}
-	decltype(m_tasks_queue) empty;
-	m_tasks_queue.swap(empty);
+	decltype(m_tasks_deque) empty;
+	m_tasks_deque.swap(empty);
 	clear_exec_times();
 	m_identify_ptr->clear_cache();
 }
@@ -346,18 +346,19 @@ void Assistance::working_proc(Assistance* p_this)
 	{
 		//DebugTraceScope("Assistance::working_proc Loop");
 		std::unique_lock<std::mutex> lock(p_this->m_mutex);
-		if (!p_this->m_thread_idle && !p_this->m_tasks_queue.empty())
+		if (!p_this->m_thread_idle && !p_this->m_tasks_deque.empty())
 		{
 			auto start_time = std::chrono::system_clock::now();
-			std::shared_ptr<AbstractTask> task_ptr = p_this->m_tasks_queue.front();
+			std::shared_ptr<AbstractTask> task_ptr = p_this->m_tasks_deque.front();
+			// 先pop出来，如果执行失败再还原回去
+			p_this->m_tasks_deque.pop_front();
+
 			task_ptr->set_ptr(p_this->m_window_ptr, p_this->m_view_ptr, p_this->m_control_ptr, p_this->m_identify_ptr);
 			task_ptr->set_exit_flag(&p_this->m_thread_idle);
 			bool ret = task_ptr->run();
 			if (ret)
 			{
 				retry_times = 0;
-				// 任务执行成功了直接pop
-				p_this->m_tasks_queue.pop();
 			}
 			else
 			{
@@ -371,20 +372,21 @@ void Assistance::working_proc(Assistance* p_this)
 					p_this->task_callback(AsstMsg::TaskError, std::move(task_error_json), p_this);
 
 					retry_times = 0;
-					p_this->m_tasks_queue.pop();
 				}
 				else
 				{
 					++retry_times;
+					// 执行失败再还原回去
+					p_this->m_tasks_deque.emplace_front(task_ptr);
 				}
 			}
 
 			// 如果下个任务是识别，就按识别的延时来；如果下个任务是点击，就按点击的延时来；……
 			// 如果都符合，就取个最大值
 			int delay = 0;
-			if (!p_this->m_tasks_queue.empty())
+			if (!p_this->m_tasks_deque.empty())
 			{
-				int next_type = p_this->m_tasks_queue.front()->get_task_type();
+				int next_type = p_this->m_tasks_deque.front()->get_task_type();
 				std::vector<int> candidate_delay = { 0 };
 				if (next_type & TaskType::TaskTypeClick)
 				{
@@ -457,7 +459,7 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
 		more_detail["type"] = "ProcessTask";
 		[[fallthrough]];
 	case AsstMsg::AppendTask:
-		p_this->append_task(more_detail);
+		p_this->append_task(more_detail, true);
 		return;	// 这俩消息Assistance会新增任务，外部不需要处理，直接拦掉
 		break;
 	case AsstMsg::OpersIdtfResult:
@@ -472,16 +474,22 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
 	p_this->append_callback(msg, std::move(more_detail));
 }
 
-void asst::Assistance::append_match_task(const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times)
+void asst::Assistance::append_match_task(
+	const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times, bool front)
 {
 	auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
 	task_ptr->set_task_chain(task_chain);
 	task_ptr->set_tasks(tasks);
 	task_ptr->set_retry_times(retry_times);
-	m_tasks_queue.emplace(task_ptr);
+	if (front) {
+		m_tasks_deque.emplace_front(task_ptr);
+	}
+	else {
+		m_tasks_deque.emplace_back(task_ptr);
+	}
 }
 
-void asst::Assistance::append_task(const json::value& detail)
+void asst::Assistance::append_task(const json::value& detail, bool front)
 {
 	std::string task_type = detail.at("type").as_string();
 	std::string task_chain = detail.get("task_chain", "");
@@ -497,7 +505,12 @@ void asst::Assistance::append_task(const json::value& detail)
 		Rect rect(rect_json[0].as_integer(), rect_json[1].as_integer(), rect_json[2].as_integer(), rect_json[3].as_integer());
 		task_ptr->set_rect(std::move(rect));
 
-		m_tasks_queue.emplace(task_ptr);
+		if (front) {
+			m_tasks_deque.emplace_front(task_ptr);
+		}
+		else {
+			m_tasks_deque.emplace_back(task_ptr);
+		}
 	}
 	else if (task_type == "ProcessTask")
 	{
@@ -514,7 +527,7 @@ void asst::Assistance::append_task(const json::value& detail)
 		{
 			next_vec.emplace_back(detail.at("task").as_string());
 		}
-		append_match_task(task_chain, next_vec, retry_times);
+		append_match_task(task_chain, next_vec, retry_times, front);
 	}
 	// else if  // TODO
 }
