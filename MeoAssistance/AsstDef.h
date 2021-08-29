@@ -174,6 +174,7 @@ namespace asst {
 		std::string template_filename;					// 匹配模板图片文件名
 		double templ_threshold = 0;						// 模板匹配阈值
 		double hist_threshold = 0;						// 直方图比较阈值
+		bool cache = false;								// 是否使用缓存（直方图），false时就一直用模板匹配。默认为true
 	};
 
 	struct Options {
