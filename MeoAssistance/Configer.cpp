@@ -100,6 +100,7 @@ bool asst::Configer::parse(json::value&& json)
 			match_task_info_ptr->template_filename = task_json["template"].as_string();
 			match_task_info_ptr->templ_threshold = task_json.get("templThreshold", Defaulttempl_threshold);
 			match_task_info_ptr->hist_threshold = task_json.get("histThreshold", DefaultCachetempl_threshold);
+			match_task_info_ptr->cache = task_json.get("cache", true);
 			task_info_ptr = match_task_info_ptr;
 		}
 		break;
