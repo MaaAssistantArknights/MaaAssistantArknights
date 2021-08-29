@@ -278,11 +278,27 @@ bool asst::Assistance::start_infrast()
 		DebugTraceInfo("Get opers info error");
 		return false;
 	}
-	auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
-	task_ptr->set_facility("Manufacturing");
-	task_ptr->set_task_chain("Infrast");
-	task_ptr->set_all_opers_info(std::move(ret.value()));
-	m_tasks_queue.emplace(task_ptr);
+	/* 基建任务整体流程：
+	1. 从任意界面进入基建，使用ProcessTask
+	2. 一键收获贸易站、制造站、干员信赖，使用ProcessTask
+		1) 如果收获了，使用基建全缩放到最小的模板匹配
+		2) 如果没收获，使用基建默认大小的模板匹配
+	3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去，TODO
+	4. 根据用户设置，按顺序进入指定基建，使用ProcessTask
+	5. 按顺序对不同的基建设施进行换班，使用InfrastStationTask
+	6. 会客室线索处理，TODO
+	*/
+	constexpr static const char* InfrastTaskCahin = "Infrast";
+
+	// 从进入制造站，到进入干员选择界面清空选择
+	append_match_task(InfrastTaskCahin, { "Manufacturing" });
+
+	// 识别并选择最优解干员组合
+	//auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
+	//task_ptr->set_facility("Manufacturing");
+	//task_ptr->set_task_chain(InfrastTaskCahin);
+	//task_ptr->set_all_opers_info(std::move(ret.value()));
+	//m_tasks_queue.emplace(task_ptr);
 
 	m_thread_idle = false;
 	m_condvar.notify_one();

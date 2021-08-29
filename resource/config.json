@@ -444,6 +444,42 @@
             "next": [
                 "Stop"
             ]
+        },
+        "Manufacturing": {
+            "template": "Manufacturing.png",
+            "type": "clickSelf",
+            "rearDelay": 1000,
+            "next": [
+                "ManufacturingLeftBottom"
+            ]
+        },
+        "ManufacturingLeftBottom": {
+            "Doc": "制造站点进去之后，左下角那个“中级作战记录 制造中”",
+            "algorithm": "justreturn",
+            "type": "clickRect",
+            "specificArea": [
+                1,
+                535,
+                525,
+                180
+            ],
+            "next": [
+                "AddOperator"
+            ]
+        },
+        "AddOperator": {
+            "template": "AddOperator.png",
+            "type": "clickSelf",
+            "next": [
+                "ClearSelection"
+            ]
+        },
+        "ClearSelection": {
+            "template": "ClearSelection.png",
+            "type": "clickSelf",
+            "next": [
+                "Stop"
+            ]
         }
     }
 }
