@@ -7,6 +7,7 @@
 #include <optional>
 #include <unordered_map>
 #include <queue>
+#include <deque>
 
 #include "AsstDef.h"
 #include "Task.h"
@@ -59,8 +60,8 @@ namespace asst {
 		static void msg_proc(Assistance* p_this);
 		static void task_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
 
-		void append_match_task(const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times = ProcessTaskRetryTimesDefault);
-		void append_task(const json::value& detail);
+		void append_match_task(const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times = ProcessTaskRetryTimesDefault, bool front = false);
+		void append_task(const json::value& detail, bool front = false);
 		void append_callback(AsstMsg msg, json::value detail);
 		void clear_exec_times();
 		static void set_opers_idtf_result(const json::value& detail);	// 保存干员识别结果
@@ -74,7 +75,7 @@ namespace asst {
 		bool m_inited = false;
 
 		bool m_thread_exit = false;
-		std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;
+		std::deque<std::shared_ptr<AbstractTask>> m_tasks_deque;
 		AsstCallback m_callback = nullptr;
 		void* m_callback_arg = nullptr;
 

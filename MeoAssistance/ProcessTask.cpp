@@ -32,6 +32,7 @@ bool ProcessTask::run()
 	json::value task_start_json = json::object{
 		{ "task_type",  "ProcessTask" },
 		{ "task_chain", m_task_chain},
+		{ "tasks", json::array(m_cur_tasks_name)}
 	};
 	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
@@ -131,28 +132,6 @@ bool ProcessTask::run()
 
 std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 {
-	//// 如果当前仅有一个任务，且这个任务的阈值是0（说明是justreturn的），就不抓图像识别了，直接返回就行
-	//if (m_cur_tasks_name.size() == 1)
-	//{
-	//	// 能走到这个函数里的，肯定是ProcessTaskInfo，直接转
-	//	auto task_info_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-	//		Configer::get_instance().m_all_tasks_info[m_cur_tasks_name[0]]);
-	//	if (task_info_ptr->templ_threshold == 0) {
-	//		json::value callback_json;
-	//		callback_json["threshold"] = 0.0;
-	//		callback_json["algorithm"] = "JustReturn";
-	//		callback_json["rect"] = json::array({ 0, 0, 0, 0 });
-	//		callback_json["name"] = m_cur_tasks_name[0];
-	//		callback_json["algorithm_id"] = static_cast<std::underlying_type<ProcessTaskType>::type>(
-	//			AlgorithmType::JustReturn);
-	//		callback_json["value"] = 0;
-
-	//		m_callback(AsstMsg::ImageFindResult, callback_json, m_callback_arg);
-	//		m_callback(AsstMsg::ImageMatched, callback_json, m_callback_arg);
-	//		return task_info_ptr;
-	//	}
-	//}
-
 	const cv::Mat& cur_image = get_format_image();
 	if (cur_image.empty() || cur_image.rows < 100) {
 		return nullptr;
