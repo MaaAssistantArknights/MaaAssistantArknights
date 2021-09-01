@@ -230,6 +230,12 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(
 
 	// 用特征检测再筛选一遍OCR识别漏了的——有关键字的
 	for (const TextArea& textarea : all_text_area) {
+		auto find_iter = std::find_if(all_opers_textarea.cbegin(), all_opers_textarea.cend(),
+			[&textarea](const auto& rhs) -> bool {
+				return textarea.text == rhs.text; });
+		if (find_iter != all_opers_textarea.cend()) {
+			continue;
+		}
 		for (auto iter = feature_cond.begin(); iter != feature_cond.end(); ++iter) {
 			auto& [key, value] = *iter;
 			// 识别到了key，但是没识别到value，这种情况就需要进行特征检测进一步确认了
