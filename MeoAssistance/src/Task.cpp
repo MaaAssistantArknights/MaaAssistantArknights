@@ -551,7 +551,7 @@ bool OpenRecruitTask::run()
 				return lhs.second.max_level > rhs.second.max_level;
 			}
 			// 平均等级高的，排前面
-			else if (std::fabs(lhs.second.avg_level - rhs.second.avg_level) < DoubleDiff) {
+			else if (std::fabs(lhs.second.avg_level - rhs.second.avg_level) > DoubleDiff) {
 				return lhs.second.avg_level > rhs.second.avg_level;
 			}
 			// Tag数量少的，排前面
