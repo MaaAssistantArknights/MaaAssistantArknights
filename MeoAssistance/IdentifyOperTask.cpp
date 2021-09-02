@@ -159,6 +159,8 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(
 	int cropped_height = image.rows * m_cropped_height_ratio;
 	int cropped_upper_y = image.rows * m_cropped_upper_y_ratio;
 	cv::Mat upper_part_name_image = image(cv::Rect(0, cropped_upper_y, image.cols, cropped_height));
+	cv::cvtColor(upper_part_name_image, upper_part_name_image, cv::COLOR_BGR2GRAY);
+	cv::cvtColor(upper_part_name_image, upper_part_name_image, cv::COLOR_GRAY2BGR);
 
 	std::vector<TextArea> upper_text_area = ocr_detect(upper_part_name_image);	// 所有文字
 	// 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
@@ -181,6 +183,8 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(
 	// 下半部分的干员
 	int cropped_lower_y = image.rows * m_cropped_lower_y_ratio;
 	cv::Mat lower_part_name_image = image(cv::Rect(0, cropped_lower_y, image.cols, cropped_height));
+	cv::cvtColor(lower_part_name_image, lower_part_name_image, cv::COLOR_BGR2GRAY);
+	cv::cvtColor(lower_part_name_image, lower_part_name_image, cv::COLOR_GRAY2BGR);
 
 	std::vector<TextArea> lower_text_area = ocr_detect(lower_part_name_image);	// 所有文字
 	// 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
