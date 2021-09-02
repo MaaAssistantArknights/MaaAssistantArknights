@@ -34,7 +34,7 @@ namespace MeoAsstGui
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStart(IntPtr ptr, string task);
         [DllImport("MeoAssistance.dll")] static private extern void AsstStop(IntPtr ptr);
         [DllImport("MeoAssistance.dll")] static private extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstRunOpenRecruit(IntPtr ptr, int[] required_level, bool set_time);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstRunOpenRecruit(IntPtr ptr, int[] required_level, int required_len, bool set_time);
 
         private CallbackDelegate _callback;
         public AsstProxy(IContainer container, IWindowManager windowManager)
@@ -241,9 +241,9 @@ namespace MeoAsstGui
             AsstSetParam(_ptr, type, param, value);
         }
 
-        public bool AsstRunOpenRecruit(int[] required_level, bool set_time)
+        public bool AsstRunOpenRecruit(int[] required_level, int required_len, bool set_time)
         {
-            return AsstRunOpenRecruit(_ptr, required_level, set_time);
+            return AsstRunOpenRecruit(_ptr, required_level, required_len, set_time);
         }
     }
 

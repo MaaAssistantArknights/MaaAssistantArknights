@@ -100,14 +100,13 @@ bool AsstSetParam(asst::Assistance* p_asst, const char* type, const char* param,
 	return p_asst->set_param(type, param, value);
 }
 
-bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], bool set_time)
+bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], int required_len, bool set_time)
 {
 	if (p_asst == NULL) {
 		return false;
 	}
-	int len = sizeof(required_level) / sizeof(const int);
 	std::vector<int> level_vector;
-	level_vector.assign(required_level, required_level + len);
+	level_vector.assign(required_level, required_level + required_len);
 	p_asst->start_open_recruit(level_vector, set_time);
 	return true;
 }
