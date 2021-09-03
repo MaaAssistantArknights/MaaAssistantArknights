@@ -159,6 +159,8 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(
 	int cropped_height = image.rows * m_cropped_height_ratio;
 	int cropped_upper_y = image.rows * m_cropped_upper_y_ratio;
 	cv::Mat upper_part_name_image = image(cv::Rect(0, cropped_upper_y, image.cols, cropped_height));
+	cv::cvtColor(upper_part_name_image, upper_part_name_image, cv::COLOR_BGR2GRAY);
+	cv::cvtColor(upper_part_name_image, upper_part_name_image, cv::COLOR_GRAY2BGR);
 
 	std::vector<TextArea> upper_text_area = ocr_detect(upper_part_name_image);	// 所有文字
 	// 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
@@ -181,6 +183,8 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(
 	// 下半部分的干员
 	int cropped_lower_y = image.rows * m_cropped_lower_y_ratio;
 	cv::Mat lower_part_name_image = image(cv::Rect(0, cropped_lower_y, image.cols, cropped_height));
+	cv::cvtColor(lower_part_name_image, lower_part_name_image, cv::COLOR_BGR2GRAY);
+	cv::cvtColor(lower_part_name_image, lower_part_name_image, cv::COLOR_GRAY2BGR);
 
 	std::vector<TextArea> lower_text_area = ocr_detect(lower_part_name_image);	// 所有文字
 	// 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
@@ -230,6 +234,12 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(
 
 	// 用特征检测再筛选一遍OCR识别漏了的——有关键字的
 	for (const TextArea& textarea : all_text_area) {
+		auto find_iter = std::find_if(all_opers_textarea.cbegin(), all_opers_textarea.cend(),
+			[&textarea](const auto& rhs) -> bool {
+				return textarea.text == rhs.text; });
+		if (find_iter != all_opers_textarea.cend()) {
+			continue;
+		}
 		for (auto iter = feature_cond.begin(); iter != feature_cond.end(); ++iter) {
 			auto& [key, value] = *iter;
 			// 识别到了key，但是没识别到value，这种情况就需要进行特征检测进一步确认了
@@ -322,8 +332,22 @@ int asst::IdentifyOperTask::detect_elite(const cv::Mat& image, const asst::Rect 
 	cv::Mat elite_mat = image(elite_rect);
 
 	// for debug
+	// 这两个图是在2560*1440下截的，准备做模板匹配，所以要缩放一下
+	// TODO：后面再弄完整的工程化，先简单缩放下
 	static cv::Mat elite1 = cv::imread(GetResourceDir() + "operators\\Elite1.png");
 	static cv::Mat elite2 = cv::imread(GetResourceDir() + "operators\\Elite2.png");
+	static bool scaled = false;
+	if (!scaled) {
+		scaled = true;
+
+		double ratio = image.rows / 1440.0;
+		cv::Size size1(elite1.size().width * ratio, elite1.size().height * ratio);
+		cv::resize(elite1, elite1, size1);
+		cv::Size size2(elite2.size().width * ratio, elite2.size().height * ratio);
+		cv::resize(elite2, elite2, size2);
+	}
+
+
 	auto&& [score1, point1] = OcrAbstractTask::m_identify_ptr->match_template(elite_mat, elite1);
 	auto&& [score2, point2] = OcrAbstractTask::m_identify_ptr->match_template(elite_mat, elite2);
 	if (score1 > score2 && score1 > 0.7) {

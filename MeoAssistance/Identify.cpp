@@ -86,7 +86,7 @@ std::pair<std::vector<cv::KeyPoint>, cv::Mat> asst::Identify::surf_detect(const 
 
 	constexpr int min_hessian = 400;
 	// SURF特征点检测
-	cv::Ptr<SURF> detector = SURF::create(min_hessian);
+	static cv::Ptr<SIFT> detector = SIFT::create(min_hessian);
 	std::vector<KeyPoint> keypoints;
 	cv::Mat mat_vector;
 	// 找到特征点并计算特征描述子(向量)
@@ -191,7 +191,7 @@ std::optional<asst::Rect> asst::Identify::feature_match(
 	std::vector<cv::DMatch> good_matchs;
 	std::vector<cv::Point> good_points;
 	// TODO，这个阈值需要根据分辨率进行缩放，而且最好写到配置文件里
-	constexpr static int DistanceThreshold = 200;
+	constexpr static int DistanceThreshold = 100;
 	for (size_t i = 0; i != train_ransac_keypoints.size(); ++i) {
 		// 没必要算距离，x y各算一下就行了，省点CPU时间
 		//int distance = std::sqrt(std::pow(avg_point.x - cur_x, 2) + std::pow(avg_point.y - cur_y, 2));
