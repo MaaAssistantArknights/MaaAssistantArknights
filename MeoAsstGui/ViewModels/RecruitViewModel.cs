@@ -120,7 +120,7 @@ namespace MeoAsstGui
                 levelList.Add(6);
             }
 
-            asstProxy.AsstRunOpenRecruit(levelList.ToArray(), AutoSetTime);
+            asstProxy.AsstRunOpenRecruit(levelList.ToArray(), levelList.Count, AutoSetTime);
         }
     }
 }
