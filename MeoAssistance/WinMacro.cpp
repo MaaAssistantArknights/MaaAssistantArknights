@@ -16,6 +16,8 @@
 
 using namespace asst;
 
+bool WinMacro::m_is_adb_connect = false;
+
 WinMacro::WinMacro(const EmulatorInfo& info, HandleType type)
 	: m_emulator_info(info),
 	m_handle_type(type),
@@ -99,14 +101,17 @@ bool WinMacro::findHandle()
 		adb_dir = adb_dir.substr(0, pos);
 		adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
 
-		if (m_handle_type == HandleType::Control)
-		{
+		if (!m_is_adb_connect) {
 			std::string connect_cmd = StringReplaceAll(m_emulator_info.adb.connect, "[Adb]", adb_dir);
 			if (!callCmd(connect_cmd)) {
 				DebugTraceError("Connect Adb Error", connect_cmd);
 				return false;
 			}
+			m_is_adb_connect = true;
+		}
 
+		if (m_handle_type == HandleType::Control)
+		{
 			m_click_cmd = StringReplaceAll(m_emulator_info.adb.click, "[Adb]", adb_dir);
 			m_swipe_cmd = StringReplaceAll(m_emulator_info.adb.swipe, "[Adb]", adb_dir);
 		}

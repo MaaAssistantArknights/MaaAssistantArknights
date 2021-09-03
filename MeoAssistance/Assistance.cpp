@@ -290,8 +290,13 @@ bool asst::Assistance::start_infrast()
 	*/
 	constexpr static const char* InfrastTaskCahin = "Infrast";
 
+	// 1. 从任意界面进入基建，使用ProcessTask
+	// 2. 一键收获贸易站、制造站、干员信赖，使用ProcessTask
+	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
+	// TODO，这里需要根据用户设置，是先制造站还是先贸易站，或者是别的设施
 	// 从进入制造站，到进入干员选择界面清空选择
-	append_match_task(InfrastTaskCahin, { "Manufacturing" });
+	append_match_task(InfrastTaskCahin, { "Manufacturing", "ManufacturingMini" });
 
 	// 识别并选择最优解干员组合
 	auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);

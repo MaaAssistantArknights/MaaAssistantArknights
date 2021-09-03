@@ -34,7 +34,7 @@ bool asst::InfrastStationTask::run()
 	}
 	auto&& [width, height] = m_view_ptr->getAdbDisplaySize();
 	m_swipe_begin = Rect(width * 0.9, height * 0.5, 0, 0);
-	m_swipe_end = Rect(width * 0.4, height * 0.5, 0, 0);
+	m_swipe_end = Rect(width * 0.5, height * 0.5, 0, 0);
 
 	auto detect_ret = swipe_and_detect();
 	if (!detect_ret) {
