@@ -17,6 +17,7 @@ namespace asst {
 	protected:
 		std::vector<TextArea> ocr_detect();
 		std::vector<TextArea> ocr_detect(const cv::Mat& image);
+		bool click_text(const cv::Mat& image, const std::string& text);
 
 		// 文字匹配，要求相等
 		template<typename FilterArray, typename ReplaceMap>

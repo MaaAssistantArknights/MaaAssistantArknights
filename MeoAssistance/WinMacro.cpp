@@ -378,7 +378,7 @@ void asst::WinMacro::setControlScale(double scale)
 
 	//else {
 	//	if (m_is_adb) {
-	//		m_control_scale = scale * scale * m_emulator_info.adb.display_width / Configer::DefaultWindowWidth;
+	//		m_control_scale = scale * scale * m_emulator_info.adb.display_width / Configer::WindowWidthDefault;
 	//	}
 	//	else {
 	//		m_control_scale = scale / getScreenScale();

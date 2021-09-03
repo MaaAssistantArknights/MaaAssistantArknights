@@ -98,8 +98,8 @@ bool asst::Configer::parse(json::value&& json)
 		{
 			auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
 			match_task_info_ptr->template_filename = task_json["template"].as_string();
-			match_task_info_ptr->templ_threshold = task_json.get("templThreshold", Defaulttempl_threshold);
-			match_task_info_ptr->hist_threshold = task_json.get("histThreshold", DefaultCachetempl_threshold);
+			match_task_info_ptr->templ_threshold = task_json.get("templThreshold", TemplThresholdDefault);
+			match_task_info_ptr->hist_threshold = task_json.get("histThreshold", HistThresholdDefault);
 			match_task_info_ptr->cache = task_json.get("cache", true);
 			task_info_ptr = match_task_info_ptr;
 		}
@@ -220,8 +220,8 @@ bool asst::Configer::parse(json::value&& json)
 		emulator_info.right_offset = emulator_json.get("rightOffset", 0);
 		emulator_info.bottom_offset = emulator_json.get("bottomOffset", 0);
 
-		emulator_info.width = DefaultWindowWidth + emulator_info.x_offset + emulator_info.right_offset;
-		emulator_info.height = DefaultWindowHeight + emulator_info.y_offset + emulator_info.bottom_offset;
+		emulator_info.width = WindowWidthDefault + emulator_info.x_offset + emulator_info.right_offset;
+		emulator_info.height = WindowHeightDefault + emulator_info.y_offset + emulator_info.bottom_offset;
 
 		m_handles.emplace(name, std::move(emulator_info));
 	}

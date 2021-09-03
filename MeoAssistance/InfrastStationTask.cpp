@@ -4,6 +4,7 @@
 #include <future>
 #include <algorithm>
 #include <future>
+#include <list>
 
 #include <opencv2/opencv.hpp>
 
@@ -32,23 +33,73 @@ bool asst::InfrastStationTask::run()
 		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
-	auto&& [width, height] = m_view_ptr->getAdbDisplaySize();
-	m_swipe_begin = Rect(width * 0.9, height * 0.5, 0, 0);
-	m_swipe_end = Rect(width * 0.5, height * 0.5, 0, 0);
 
-	auto detect_ret = swipe_and_detect();
-	if (!detect_ret) {
-		return false;
+	cv::Mat image = get_format_image();
+	// 先识别一下有几个制造站/贸易站
+	const static std::vector<std::string> facility_number_key = { "02", "03", "04", "05" };
+	std::vector<Rect> facility_number_rect;
+	facility_number_rect.emplace_back(Rect());	// 假装给01 push一个，后面循环好写=。=
+
+	for (const std::string& key : facility_number_key) {
+		Rect temp_rect;
+		auto&& [algorithm, value] = m_identify_ptr->find_image(image, key, &temp_rect);
+		if (value >= Configer::TemplThresholdDefault) {
+			facility_number_rect.emplace_back(temp_rect);
+		}
+		else {
+			break;
+		}
 	}
-	auto cur_opers_info = std::move(detect_ret.value());
-	std::vector<std::string> optimal_comb = calc_optimal_comb(cur_opers_info);
-	bool select_ret = swipe_and_select(optimal_comb);
+	for (const Rect& rect : facility_number_rect) {
+		// 点到这个基建
+		m_control_ptr->click(rect);
+		sleep(300);
 
-	return select_ret;
+		cv::Mat image = get_format_image();
+		// 如果当前界面没有添加干员的按钮，那就不换班
+		Rect add_rect;
+		auto&& [algorithm, value] = m_identify_ptr->find_image(image, "AddOperator", &add_rect);
+		if (value < Configer::TemplThresholdDefault) {
+			continue;
+		}
+
+		// 识别当前正在造什么
+		for (const auto& [key, useless_value] : InfrastConfiger::get_instance().m_infrast_combs) {
+			auto&& [algorithm, value] = m_identify_ptr->find_image(image, key, nullptr);
+			if (value >= Configer::TemplThresholdDefault) {
+				m_facility = key;
+				break;
+			}
+		}
+		//点击添加干员的那个按钮
+		m_control_ptr->click(add_rect);
+		sleep(2000);
+
+		// 点击“清空选择”按钮
+		m_control_ptr->click(Rect(430, 655, 150, 40));
+		sleep(300);
+
+		auto&& [width, height] = m_view_ptr->getAdbDisplaySize();
+		m_swipe_begin = Rect(width * 0.9, height * 0.5, 0, 0);
+		m_swipe_end = Rect(width * 0.5, height * 0.5, 0, 0);
+
+		auto detect_ret = swipe_and_detect();
+		if (!detect_ret) {
+			return false;
+		}
+		auto cur_opers_info = std::move(detect_ret.value());
+		std::list<std::string> optimal_comb = calc_optimal_comb(cur_opers_info);
+		bool select_ret = swipe_and_select(optimal_comb);
+	}
+
+	return true;
 }
 
 std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastStationTask::swipe_and_detect()
 {
+	if (!swipe_to_the_left()) {
+		return std::nullopt;
+	}
 
 	std::unordered_map<std::string, std::string> feature_cond = InfrastConfiger::get_instance().m_oper_name_feat;
 	std::unordered_set<std::string> feature_whatever = InfrastConfiger::get_instance().m_oper_name_feat_whatever;
@@ -113,16 +164,16 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastSta
 	return cur_opers_info;
 }
 
-std::vector<std::string> asst::InfrastStationTask::calc_optimal_comb(
+std::list<std::string> asst::InfrastStationTask::calc_optimal_comb(
 	const std::unordered_map<std::string, OperInfrastInfo>& cur_opers_info) const
 {
 	// 配置文件中的干员组合，和抓出来的干员名比对，如果组合中的干员都有，那就用这个组合
 	// 注意配置中的干员组合需要是有序的
 	// Todo 时间复杂度起飞了，需要优化下
-	std::vector<std::string> optimal_comb; // OperInfrastInfo是带精英化和等级信息的，基建里识别不到，也用不到，这里只保留干员名
+	std::list<std::string> optimal_comb; // OperInfrastInfo是带精英化和等级信息的，基建里识别不到，也用不到，这里只保留干员名
 	for (const auto& name_vec : InfrastConfiger::get_instance().m_infrast_combs[m_facility]) {
 		int count = 0;
-		std::vector<std::string> temp_comb;
+		std::list<std::string> temp_comb;
 		for (const OperInfrastInfo& info : name_vec) {
 			// 找到了干员名，而且当前精英化等级需要大于等于配置文件中要求的精英化等级
 			if (cur_opers_info.find(info.name) != cur_opers_info.cend()
@@ -150,8 +201,12 @@ std::vector<std::string> asst::InfrastStationTask::calc_optimal_comb(
 	return optimal_comb;
 }
 
-bool asst::InfrastStationTask::swipe_and_select(std::vector<std::string>& name_comb, int swipe_max_times)
+bool asst::InfrastStationTask::swipe_and_select(std::list<std::string>& name_comb, int swipe_max_times)
 {
+	//if (!swipe_to_the_left()) {
+	//	return false;
+	//}
+
 	std::unordered_map<std::string, std::string> feature_cond = InfrastConfiger::get_instance().m_oper_name_feat;
 	std::unordered_set<std::string> feature_whatever = InfrastConfiger::get_instance().m_oper_name_feat_whatever;
 	// 一边滑动一边点击最优解中的干员
@@ -164,6 +219,7 @@ bool asst::InfrastStationTask::swipe_and_select(std::vector<std::string>& name_c
 			auto iter = std::find(name_comb.begin(), name_comb.end(), text_area.text);
 			if (iter != name_comb.end()) {
 				m_control_ptr->click(text_area.rect);
+				sleep(200);
 				name_comb.erase(iter);
 			}
 		}
@@ -175,5 +231,28 @@ bool asst::InfrastStationTask::swipe_and_select(std::vector<std::string>& name_c
 			return false;
 		}
 	}
+	// 点击“确定”按钮，确定完要联网加载的，比较慢，多sleep一会
+	get_format_image();	// 这里get image没什么用，单纯就是为了触发下设置缩放，TODO 优化下
+	m_control_ptr->click(Rect(1105, 655, 150, 40));
+	sleep(2000);
 	return true;
+}
+
+bool asst::InfrastStationTask::swipe_to_the_left()
+{
+	set_control_scale(1.0);
+	m_swipe_duration = 100;
+	m_swipe_extra_delay = 0;
+	// 往左使劲滑几下
+	bool ret = false;
+	for (int i = 0; i != 5; ++i) {
+		ret = swipe(true);
+		if (!ret) {
+			break;
+		}
+	}
+	m_swipe_duration = SwipeDurationDefault;
+	m_swipe_extra_delay = SwipeExtraDelayDefault;
+	sleep(SwipeExtraDelayDefault);
+	return ret;
 }

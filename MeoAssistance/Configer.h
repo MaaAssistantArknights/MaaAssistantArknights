@@ -23,10 +23,10 @@ namespace asst {
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
-		constexpr static int DefaultWindowWidth = 1280;
-		constexpr static int DefaultWindowHeight = 720;
-		constexpr static double Defaulttempl_threshold = 0.9;
-		constexpr static double DefaultCachetempl_threshold = 0.9;
+		constexpr static int WindowWidthDefault = 1280;
+		constexpr static int WindowHeightDefault = 720;
+		constexpr static double TemplThresholdDefault = 0.9;
+		constexpr static double HistThresholdDefault = 0.9;
 
 		std::string m_version;
 		Options m_options;

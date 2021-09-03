@@ -1,8 +1,8 @@
 {
     "infrast": [
         {
-            "facility": "Manufacturing",
-            "Doc": "制造站",
+            "facility": "DogFood",
+            "Doc": "制造站-狗粮",
             "combs": [
                 {
                     "opers": [
@@ -20,6 +20,23 @@
                         }
                     ],
                     "efficiency": 105
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "贝娜",
+                            "elite": 0
+                        },
+                        {
+                            "name": "泡泡",
+                            "elite": 1
+                        },
+                        {
+                            "name": "火神",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 93
                 },
                 {
                     "opers": [
@@ -43,8 +60,8 @@
             "endFlag_Doc": "识别到这里面的名字，就不继续往后识别了，一般用列表里的最后一个人名"
         },
         {
-            "facility": "Trade",
-            "Doc": "贸易站",
+            "facility": "TradeMoney",
+            "Doc": "贸易站-龙门币",
             "combs": [
             ],
             "endFlag": [ ],

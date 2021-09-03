@@ -278,29 +278,33 @@ std::pair<double, cv::Point> Identify::match_template(const cv::Mat& image, cons
 	return { maxVal, maxLoc };
 }
 
-std::tuple<AlgorithmType, double, asst::Rect> Identify::find_image(
-	const Mat& cur, const std::string& templ, double templ_threshold, bool use_cache)
+std::pair<AlgorithmType, double> asst::Identify::find_image(
+	const cv::Mat& image, const std::string& templ, asst::Rect* out_rect, double add_cache_thres)
 {
 	if (m_mat_map.find(templ) == m_mat_map.cend()) {
-		return { AlgorithmType::JustReturn, 0, asst::Rect() };
+		return { AlgorithmType::JustReturn, 0 };
 	}
 
 	// 有缓存，用直方图比较，CPU占用会低很多，但要保证每次按钮图片的位置不变
-	if (use_cache && m_use_cache && m_cache_map.find(templ) != m_cache_map.cend()) {
-		const auto& [rect, hist] = m_cache_map.at(templ);
-		double value = image_hist_comp(cur(rect), hist);
-		return { AlgorithmType::CompareHist, value, cvrect_2_rect(rect).center_zoom(0.8) };
+	if (m_use_cache && m_cache_map.find(templ) != m_cache_map.cend()) {
+		const auto& [raw_rect, hist] = m_cache_map.at(templ);
+		double value = image_hist_comp(image(raw_rect), hist);
+		if (out_rect) {
+			*out_rect = cvrect_2_rect(raw_rect).center_zoom(0.8);
+		}
+		return { AlgorithmType::CompareHist, value };
 	}
 	else {	// 没缓存就模板匹配
 		const cv::Mat& templ_mat = m_mat_map.at(templ);
-		const auto& [value, point] = match_template(cur, templ_mat);
+		const auto& [value, point] = match_template(image, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
-
-		if (use_cache && m_use_cache && value >= templ_threshold) {
-			m_cache_map.emplace(templ, std::make_pair(raw_rect, image_2_hist(cur(raw_rect))));
+		if (m_use_cache && value >= add_cache_thres) {
+			m_cache_map.emplace(templ, std::make_pair(raw_rect, image_2_hist(image(raw_rect))));
+		}		
+		if (out_rect) {
+			*out_rect = cvrect_2_rect(raw_rect).center_zoom(0.8);
 		}
-
-		return { AlgorithmType::MatchTemplate, value, cvrect_2_rect(raw_rect).center_zoom(0.8) };
+		return { AlgorithmType::MatchTemplate, value };
 	}
 }
 
