@@ -297,6 +297,7 @@
             "template": "Return.png",
             "templThreshold": 0.85,
             "histThreshold": 0.85,
+            "rearDelay": 1000,
             "type": "clickSelf",
             "next": [
                 "Friends",
@@ -359,6 +360,7 @@
             ]
         },
         "ReturnToMall": {
+            "rearDelay": 1000,
             "template": "Return.png",
             "type": "clickSelf",
             "next": [
@@ -446,8 +448,57 @@
                 "Stop"
             ]
         },
+        "InfrastBegin": {
+            "algorithm": "justreturn",
+            "type": "doNothing",
+            "next": [
+                "EnterInfrast",
+                "InfrastNotification",
+                "ReturnToInfrast"
+            ]
+        },
+        "ReturnToInfrast": {
+            "template": "Return.png",
+            "templThreshold": 0.85,
+            "histThreshold": 0.85,
+            "rearDelay": 1000,
+            "type": "clickSelf",
+            "next": [
+                "EnterInfrast",
+                "ReturnToInfrast"
+            ]
+        },
+        "EnterInfrast": {
+            "template": "EnterInfrast.png",
+            "templThreshold": 0.85,
+            "histThreshold": 0.85,
+            "rareDelay": 3000,
+            "type": "clickSelf",
+            "next": [
+                "InfrastEnteredFlag"
+            ]
+        },
+        "InfrastEnteredFlag": {
+            "template": "InfrastEnteredFlag.png",
+            "type": "doNothing",
+            "next": [
+                "InfrastNotification",
+                "Stop"
+            ]
+        },
         "Manufacturing": {
             "template": "Manufacturing.png",
+            "templThreshold": 0.8,
+            "cache": false,
+            "type": "clickSelf",
+            "rearDelay": 1000,
+            "next": [
+                "ManufacturingLeftBottom"
+            ]
+        },
+        "ManufacturingMini": {
+            "template": "ManufacturingMini.png",
+            "templThreshold": 0.8,
             "cache": false,
             "type": "clickSelf",
             "rearDelay": 1000,
@@ -480,6 +531,38 @@
         "ClearSelection": {
             "template": "ClearSelection.png",
             "type": "clickSelf",
+            "next": [
+                "Stop"
+            ]
+        },
+        "InfrastNotification": {
+            "template": "InfrastNotification.png",
+            "type": "clickSelf",
+            "next": [
+                "InfrastReward",
+                "InfrastExitReward"
+            ]
+        },
+        "InfrastReward": {
+            "algorithm": "OcrDetect",
+            "text": [ "可收获", "订单交付" ],
+            "rearDelay": 1000,
+            "type": "clickSelf",
+            "next": [
+                "InfrastReward",
+                "InfrastExitReward"
+            ]
+        },
+        "InfrastExitReward": {
+            "Doc": "干员疲劳、线索收集 是不能一键收获的，所以要先退出一键收获的界面，这里点击的是控制中枢左侧那一片空白的区域",
+            "algorithm": "justreturn",
+            "type": "clickRect",
+            "specificArea": [
+                250,
+                100,
+                380,
+                140
+            ],
             "next": [
                 "Stop"
             ]

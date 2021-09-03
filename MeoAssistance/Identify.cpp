@@ -86,7 +86,7 @@ std::pair<std::vector<cv::KeyPoint>, cv::Mat> asst::Identify::surf_detect(const 
 
 	constexpr int min_hessian = 400;
 	// SURF特征点检测
-	static cv::Ptr<SIFT> detector = SIFT::create(min_hessian);
+	static cv::Ptr<SURF> detector = SURF::create(min_hessian);
 	std::vector<KeyPoint> keypoints;
 	cv::Mat mat_vector;
 	// 找到特征点并计算特征描述子(向量)

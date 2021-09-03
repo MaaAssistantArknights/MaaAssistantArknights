@@ -46,6 +46,7 @@ namespace asst {
 		const HandleType m_handle_type;
 		HWND m_handle = NULL;
 		bool m_is_adb = false;
+		static bool m_is_adb_connect;
 		std::string m_click_cmd;		// adb点击命令，不是adb的句柄用不到这个
 		std::string m_swipe_cmd;		// adb滑动命令，不是adb的句柄用不到这个
 		std::string m_screencap_cmd;	// adb截图命令，不是adb的句柄用不到这个
