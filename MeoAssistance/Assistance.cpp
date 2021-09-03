@@ -60,6 +60,14 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 			return;
 		}
 	}
+	for (auto& p : std::filesystem::directory_iterator(GetResourceDir() + "template\\special\\")) {
+		if (p.path().extension() == ".png") {
+			std::string filename = p.path().filename().u8string();
+			std::string without_extension = filename.substr(0, filename.size() - 4);
+			ret = m_identify_ptr->add_image(without_extension, p.path().u8string());
+		}
+	}
+
 	m_identify_ptr->set_use_cache(Configer::get_instance().m_options.identify_cache);
 
 	m_identify_ptr->set_ocr_param(Configer::get_instance().m_options.ocr_gpu_index, Configer::get_instance().m_options.ocr_thread_number);
@@ -82,14 +90,6 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 			callback_error(Utf8ToGbk(name));
 			return;
 		}
-	}
-
-	// 精一和精二的图片，调试用
-	ret = m_identify_ptr->add_text_image("Elite1", GetResourceDir() + "operators\\Elite1.png");
-	ret &= m_identify_ptr->add_text_image("Elite2", GetResourceDir() + "operators\\Elite2.png");
-	if (!ret) {
-		callback_error();
-		return;
 	}
 
 	m_working_thread = std::thread(working_proc, this);
@@ -296,11 +296,10 @@ bool asst::Assistance::start_infrast()
 
 	// TODO，这里需要根据用户设置，是先制造站还是先贸易站，或者是别的设施
 	// 从进入制造站，到进入干员选择界面清空选择
-	append_match_task(InfrastTaskCahin, { "Manufacturing", "ManufacturingMini" });
+	append_match_task(InfrastTaskCahin, { "ManufacturingMini", "Manufacturing" });
 
 	// 识别并选择最优解干员组合
 	auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
-	task_ptr->set_facility("Manufacturing");
 	task_ptr->set_task_chain(InfrastTaskCahin);
 	task_ptr->set_all_opers_info(std::move(ret.value()));
 	m_tasks_deque.emplace_back(task_ptr);

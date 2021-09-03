@@ -25,9 +25,10 @@ namespace asst {
 		bool add_image(const std::string& name, const std::string& path);
 		bool add_text_image(const std::string& text, const std::string& path);
 
-		// return tuple< algorithmType, suitability, matched asst::rect>
-		// 参数use_cache，是否使用缓存，仅针对当前图片的单独开关
-		std::tuple<AlgorithmType, double, asst::Rect> find_image(const cv::Mat& image, const std::string& templ, double templ_threshold, bool add_cache = true);
+		constexpr static double NotAddCache = 999.0;
+		// return pair< algorithmType, suitability>
+		std::pair<AlgorithmType, double> find_image(
+			const cv::Mat& image, const std::string& templ, asst::Rect* out_rect, double add_cache_thres = NotAddCache);
 
 		// return pair< suitability, raw opencv::point>
 		std::pair<double, cv::Point> match_template(const cv::Mat& cur, const cv::Mat& templ);

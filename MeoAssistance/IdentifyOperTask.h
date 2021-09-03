@@ -13,8 +13,8 @@ namespace asst {
 		virtual bool run() override;
 
 	protected:
-		constexpr static int SwipeDuration = 2000;
-		constexpr static int SwipeExtraDelay = 1000;
+		constexpr static int SwipeExtraDelayDefault = 1000;
+		constexpr static int SwipeDurationDefault = 2000;
 
 		// 一边滑动一边识别
 		virtual std::optional<std::unordered_map<std::string, OperInfrastInfo>> swipe_and_detect();
@@ -32,8 +32,11 @@ namespace asst {
 		double m_cropped_height_ratio = 0;	// 图片裁剪出干员名的长条形图片 的高度比例（相比原图）
 		double m_cropped_upper_y_ratio = 0;	// 图片裁剪出干员名的长条形图片，上半部分干员名的裁剪区域y坐标比例（相比原图）
 		double m_cropped_lower_y_ratio = 0;	// 图片裁剪出干员名的长条形图片，下半部分干员名的裁剪区域y坐标比例（相比原图）
-		Rect m_swipe_begin;			// 边滑动边识别，单次滑动起始点（Rect内随机点）
-		Rect m_swipe_end;			// 边滑动边识别，单次滑动结束点（Rect内随机点）
-		bool m_keep_swipe = false;	// keep_swipe函数是否结束的标志位
+		Rect m_swipe_begin;									// 边滑动边识别，单次滑动起始点（Rect内随机点）
+		Rect m_swipe_end;									// 边滑动边识别，单次滑动结束点（Rect内随机点）
+		int m_swipe_duration = SwipeDurationDefault;		// 滑动持续时间，时间越长滑的越慢
+		int m_swipe_extra_delay = SwipeExtraDelayDefault;	// 滑动之后额外的等待时间
+		int m_swipe_times = 0;								// 滑动了几次，正向滑动增加，反向滑动减少
+		bool m_keep_swipe = false;							// keep_swipe函数是否结束的标志位
 	};
 }

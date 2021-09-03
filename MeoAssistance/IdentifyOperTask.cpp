@@ -366,12 +366,14 @@ bool IdentifyOperTask::swipe(bool reverse)
 //#ifndef LOG_TRACE
 	bool ret = true;
 	if (!reverse) {
-		ret &= m_control_ptr->swipe(m_swipe_begin, m_swipe_end, SwipeDuration);
+		ret &= m_control_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
+		++m_swipe_times;
 	}
 	else {
-		ret &= m_control_ptr->swipe(m_swipe_end, m_swipe_begin, SwipeDuration);
+		ret &= m_control_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration);
+		--m_swipe_times;
 	}
-	ret &= sleep(SwipeExtraDelay);
+	ret &= sleep(m_swipe_extra_delay);
 	return ret;
 //#else
 //	return sleep(SwipeExtraDelay);

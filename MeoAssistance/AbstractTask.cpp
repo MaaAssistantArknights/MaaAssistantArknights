@@ -55,20 +55,20 @@ cv::Mat AbstractTask::get_format_image(bool raw)
 		return raw_image;
 	}
 	else {
-		constexpr double DefaultRatio = static_cast<double>(Configer::DefaultWindowWidth) / static_cast<double>(Configer::DefaultWindowHeight);
+		constexpr double DefaultRatio = static_cast<double>(Configer::WindowWidthDefault) / static_cast<double>(Configer::WindowHeightDefault);
 		double cur_ratio = static_cast<double>(raw_image.cols) / static_cast<double>(raw_image.rows);
 		cv::Size scale_size;
 		double scale = 0.0;
 		if (cur_ratio >= DefaultRatio	// 说明是宽屏或默认16:9，按照高度计算缩放
 			|| std::fabs(cur_ratio - DefaultRatio) < DoubleDiff)
 		{
-			scale_size = cv::Size(cur_ratio * Configer::DefaultWindowHeight, Configer::DefaultWindowHeight);
-			scale = static_cast<double>(raw_image.rows) / static_cast<double>(Configer::DefaultWindowHeight);
+			scale_size = cv::Size(cur_ratio * Configer::WindowHeightDefault, Configer::WindowHeightDefault);
+			scale = static_cast<double>(raw_image.rows) / static_cast<double>(Configer::WindowHeightDefault);
 		}
 		else 
 		{	// 否则可能是偏正方形的屏幕，按宽度计算
-			scale_size = cv::Size(Configer::DefaultWindowWidth, Configer::DefaultWindowWidth / cur_ratio);
-			scale = static_cast<double>(raw_image.cols) / static_cast<double>(Configer::DefaultWindowWidth);
+			scale_size = cv::Size(Configer::WindowWidthDefault, Configer::WindowWidthDefault / cur_ratio);
+			scale = static_cast<double>(raw_image.cols) / static_cast<double>(Configer::WindowWidthDefault);
 		}
 		cv::Mat resize_mat;
 		cv::resize(raw_image, resize_mat, scale_size);
@@ -86,8 +86,8 @@ bool asst::AbstractTask::set_control_scale(double scale)
 
 //bool AbstractTask::set_control_scale(int cur_width, int cur_height)
 //{
-//	double scale_width = static_cast<double>(cur_width) / Configer::DefaultWindowWidth;
-//	double scale_height = static_cast<double>(cur_height) / Configer::DefaultWindowHeight;
+//	double scale_width = static_cast<double>(cur_width) / Configer::WindowWidthDefault;
+//	double scale_height = static_cast<double>(cur_height) / Configer::WindowHeightDefault;
 //	double scale = (std::max)(scale_width, scale_height);
 //	m_control_ptr->setControlScale(scale);
 //	return true;

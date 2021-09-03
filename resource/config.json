@@ -465,6 +465,7 @@
             "type": "clickSelf",
             "next": [
                 "EnterInfrast",
+                "InfrastNotification",
                 "ReturnToInfrast"
             ]
         },
@@ -480,6 +481,7 @@
         },
         "InfrastEnteredFlag": {
             "template": "InfrastEnteredFlag.png",
+            "templThreshold": 0.8,
             "type": "doNothing",
             "next": [
                 "InfrastNotification",
@@ -517,26 +519,26 @@
                 180
             ],
             "next": [
-                "AddOperator"
+                "Manufacturing1st"
             ]
         },
-        "AddOperator": {
-            "template": "AddOperator.png",
-            "cache": false,
-            "type": "clickSelf",
-            "next": [
-                "ClearSelection"
-            ]
-        },
-        "ClearSelection": {
-            "template": "ClearSelection.png",
-            "type": "clickSelf",
+        "Manufacturing1st": {
+            "Doc": "设施列表里第一个（第一个制造站或者贸易站）",
+            "algorithm": "justreturn",
+            "type": "clickRect",
+            "specificArea": [
+                1,
+                183,
+                220,
+                60
+            ],
             "next": [
                 "Stop"
             ]
         },
         "InfrastNotification": {
             "template": "InfrastNotification.png",
+            "templThreshold": 0.8,
             "type": "clickSelf",
             "next": [
                 "InfrastReward",

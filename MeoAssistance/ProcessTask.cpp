@@ -160,8 +160,10 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 				std::dynamic_pointer_cast<MatchTaskInfo>(task_info_ptr);
 			double templ_threshold = process_task_info_ptr->templ_threshold;
 			double hist_threshold = process_task_info_ptr->hist_threshold;
+			double add_cache_thres = process_task_info_ptr->cache ? templ_threshold : Identify::NotAddCache;
 
-			auto&& [algorithm, value, temp_rect] = m_identify_ptr->find_image(cur_image, task_name, templ_threshold);
+			Rect temp_rect;
+			auto&& [algorithm, value] = m_identify_ptr->find_image(cur_image, task_name, &temp_rect, add_cache_thres);
 			rect = std::move(temp_rect);
 			callback_json["value"] = value;
 
