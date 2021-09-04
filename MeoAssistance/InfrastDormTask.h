@@ -12,6 +12,7 @@ namespace asst {
 		virtual bool run() override;
 
 	protected:
-		bool enter_upper_dorm();
+		// 进入宿舍，index为从上到下的编号
+		bool enter_dorm(int index = 0);
 	};
 }

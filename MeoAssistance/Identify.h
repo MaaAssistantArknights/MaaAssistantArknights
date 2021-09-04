@@ -20,9 +20,9 @@ namespace asst {
 		struct FindImageResult {
 			FindImageResult() = default;
 			FindImageResult(AlgorithmType algorithm, double value, asst::Rect rect)
-				: algorithm(algorithm), value(value), rect(rect) { ; }
+				: algorithm(algorithm), score(value), rect(rect) { ; }
 			AlgorithmType algorithm;
-			double value = 0.0;
+			double score = 0.0;
 			asst::Rect rect;
 		};
 	public:
@@ -38,7 +38,7 @@ namespace asst {
 		FindImageResult find_image(
 			const cv::Mat& image, const std::string& templ_name, double add_cache_thres = NotAddCache);
 		std::vector<FindImageResult> find_all_images(
-			const cv::Mat& image, const std::string& templ_name, double threshold = 0);
+			const cv::Mat& image, const std::string& templ_name, double threshold = 0) const;
 
 		// return pair< suitability, raw opencv::point>
 		std::pair<double, cv::Point> match_template(const cv::Mat& cur, const cv::Mat& templ);

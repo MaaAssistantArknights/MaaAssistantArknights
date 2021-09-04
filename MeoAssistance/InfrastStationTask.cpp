@@ -41,8 +41,8 @@ bool asst::InfrastStationTask::run()
 	facility_number_rect.emplace_back(Rect());	// 假装给01 push一个，后面循环好写=。=
 
 	for (const std::string& key : facility_number_key) {
-		auto&& [algorithm, value, temp_rect] = m_identify_ptr->find_image(image, key);
-		if (value >= Configer::TemplThresholdDefault) {
+		auto&& [algorithm, score, temp_rect] = m_identify_ptr->find_image(image, key);
+		if (score >= Configer::TemplThresholdDefault) {
 			facility_number_rect.emplace_back(temp_rect);
 		}
 		else {
@@ -57,15 +57,15 @@ bool asst::InfrastStationTask::run()
 			image = get_format_image();
 		}
 		// 如果当前界面没有添加干员的按钮，那就不换班
-		auto&& [algorithm, value, add_rect] = m_identify_ptr->find_image(image, "AddOperator");
-		if (value < Configer::TemplThresholdDefault) {
+		auto&& [algorithm, score, add_rect] = m_identify_ptr->find_image(image, "AddOperator");
+		if (score < Configer::TemplThresholdDefault) {
 			continue;
 		}
 
 		// 识别当前正在造什么
 		for (const auto& [key, useless_value] : InfrastConfiger::get_instance().m_infrast_combs) {
-			auto&& [algorithm, value, useless_rect] = m_identify_ptr->find_image(image, key);
-			if (value >= Configer::TemplThresholdDefault) {
+			auto&& [algorithm, score, useless_rect] = m_identify_ptr->find_image(image, key);
+			if (score >= Configer::TemplThresholdDefault) {
 				m_facility = key;
 				break;
 			}
