@@ -46,7 +46,7 @@ bool ProcessTask::run()
 
 	json::value callback_json = json::object{
 		{ "name", task_info_ptr->name },
-		{ "type", static_cast<int>(task_info_ptr->type) },
+		{ "type", static_cast<int>(task_info_ptr->action) },
 		{ "exec_times", task_info_ptr->exec_times },
 		{ "max_times", task_info_ptr->max_times },
 		{ "task_type", "ProcessTask"},
@@ -73,20 +73,20 @@ bool ProcessTask::run()
 	}
 
 	bool need_stop = false;
-	switch (task_info_ptr->type) {
-	case ProcessTaskType::ClickRect:
+	switch (task_info_ptr->action) {
+	case ProcessTaskAction::ClickRect:
 		rect = task_info_ptr->specific_area;
 		[[fallthrough]];
-	case ProcessTaskType::ClickSelf:
+	case ProcessTaskAction::ClickSelf:
 		exec_click_task(rect);
 		break;
-	case ProcessTaskType::DoNothing:
+	case ProcessTaskAction::DoNothing:
 		break;
-	case ProcessTaskType::Stop:
+	case ProcessTaskAction::Stop:
 		m_callback(AsstMsg::TaskStop, json::object{ {"task_chain", m_task_chain} }, m_callback_arg);
 		need_stop = true;
 		break;
-	case ProcessTaskType::PrintWindow:
+	case ProcessTaskAction::PrintWindow:
 	{
 		if (!sleep(Configer::get_instance().m_options.print_window_delay))
 		{

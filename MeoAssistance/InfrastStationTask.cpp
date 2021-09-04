@@ -50,12 +50,13 @@ bool asst::InfrastStationTask::run()
 			break;
 		}
 	}
-	for (const Rect& rect : facility_number_rect) {
-		// 点到这个基建
-		m_control_ptr->click(rect);
-		sleep(300);
-
-		cv::Mat image = get_format_image();
+	for (size_t i = 0; i != facility_number_rect.size(); ++i) {
+		if (i != 0) {
+			// 点到这个基建
+			m_control_ptr->click(facility_number_rect[i]);
+			sleep(300);
+			image = get_format_image();
+		}
 		// 如果当前界面没有添加干员的按钮，那就不换班
 		Rect add_rect;
 		auto&& [algorithm, value] = m_identify_ptr->find_image(image, "AddOperator", &add_rect);
