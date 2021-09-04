@@ -80,6 +80,10 @@ bool ProcessTask::run()
 	case ProcessTaskAction::ClickSelf:
 		exec_click_task(rect);
 		break;
+	case ProcessTaskAction::SwipeToTheLeft:
+	case ProcessTaskAction::SwipeToTheRight:
+		exec_swipe_task(task_info_ptr->action);
+		break;
 	case ProcessTaskAction::DoNothing:
 		break;
 	case ProcessTaskAction::Stop:
@@ -162,8 +166,7 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			double hist_threshold = process_task_info_ptr->hist_threshold;
 			double add_cache_thres = process_task_info_ptr->cache ? templ_threshold : Identify::NotAddCache;
 
-			Rect temp_rect;
-			auto&& [algorithm, value] = m_identify_ptr->find_image(cur_image, task_name, &temp_rect, add_cache_thres);
+			auto&& [algorithm, value, temp_rect] = m_identify_ptr->find_image(cur_image, task_name, add_cache_thres);
 			rect = std::move(temp_rect);
 			callback_json["value"] = value;
 
@@ -231,9 +234,9 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 	return nullptr;
 }
 
-void ProcessTask::exec_click_task(const Rect& matched_rect)
+// 随机延时功能
+bool asst::ProcessTask::delay_random()
 {
-	// 随机延时功能
 	if (Configer::get_instance().m_options.control_delay_upper != 0) {
 		static std::default_random_engine rand_engine(
 			std::chrono::system_clock::now().time_since_epoch().count());
@@ -242,10 +245,45 @@ void ProcessTask::exec_click_task(const Rect& matched_rect)
 			Configer::get_instance().m_options.control_delay_upper);
 
 		unsigned rand_delay = rand_uni(rand_engine);
-		if (!sleep(rand_delay)) {
-			return;
-		}
+
+		return sleep(rand_delay);
+	}
+	return true;
+}
+
+void ProcessTask::exec_click_task(const Rect& matched_rect)
+{
+	if (!delay_random()) {
+		return;
 	}
 
 	m_control_ptr->click(matched_rect);
+}
+
+void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
+{
+	if (!delay_random()) {
+		return;
+	}
+	const static Rect right_rect(Configer::WindowWidthDefault * 0.8, 
+		Configer::WindowHeightDefault * 0.4, 
+		Configer::WindowWidthDefault * 0.1,
+		Configer::WindowHeightDefault * 0.2);
+
+	const static Rect left_rect(Configer::WindowWidthDefault * 0.1,
+		Configer::WindowHeightDefault * 0.4,
+		Configer::WindowWidthDefault * 0.1,
+		Configer::WindowHeightDefault * 0.2);
+
+	switch (action)
+	{
+	case asst::ProcessTaskAction::SwipeToTheLeft:
+		m_control_ptr->swipe(left_rect, right_rect);
+		break;
+	case asst::ProcessTaskAction::SwipeToTheRight:
+		m_control_ptr->swipe(right_rect, left_rect);
+		break;
+	default:	// 走不到这里，TODO 报个错
+		break;
+	}
 }

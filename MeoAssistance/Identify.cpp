@@ -278,34 +278,58 @@ std::pair<double, cv::Point> Identify::match_template(const cv::Mat& image, cons
 	return { maxVal, maxLoc };
 }
 
-std::pair<AlgorithmType, double> asst::Identify::find_image(
-	const cv::Mat& image, const std::string& templ, asst::Rect* out_rect, double add_cache_thres)
+asst::Identify::FindImageResult asst::Identify::find_image(
+	const cv::Mat& image, const std::string& templ_name, double add_cache_thres)
 {
-	if (m_mat_map.find(templ) == m_mat_map.cend()) {
-		return { AlgorithmType::JustReturn, 0 };
+	if (m_mat_map.find(templ_name) == m_mat_map.cend()) {
+		return { AlgorithmType::JustReturn, 0, Rect() };
 	}
 
 	// 有缓存，用直方图比较，CPU占用会低很多，但要保证每次按钮图片的位置不变
-	if (m_use_cache && m_cache_map.find(templ) != m_cache_map.cend()) {
-		const auto& [raw_rect, hist] = m_cache_map.at(templ);
+	if (m_use_cache && m_cache_map.find(templ_name) != m_cache_map.cend()) {
+		const auto& [raw_rect, hist] = m_cache_map.at(templ_name);
 		double value = image_hist_comp(image(raw_rect), hist);
-		if (out_rect) {
-			*out_rect = cvrect_2_rect(raw_rect).center_zoom(0.8);
-		}
-		return { AlgorithmType::CompareHist, value };
+		Rect dst_rect = cvrect_2_rect(raw_rect).center_zoom(0.8);
+		return { AlgorithmType::CompareHist, value, dst_rect };
 	}
 	else {	// 没缓存就模板匹配
-		const cv::Mat& templ_mat = m_mat_map.at(templ);
+		const cv::Mat& templ_mat = m_mat_map.at(templ_name);
 		const auto& [value, point] = match_template(image, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
 		if (m_use_cache && value >= add_cache_thres) {
-			m_cache_map.emplace(templ, std::make_pair(raw_rect, image_2_hist(image(raw_rect))));
-		}		
-		if (out_rect) {
-			*out_rect = cvrect_2_rect(raw_rect).center_zoom(0.8);
+			m_cache_map.emplace(templ_name, std::make_pair(raw_rect, image_2_hist(image(raw_rect))));
 		}
-		return { AlgorithmType::MatchTemplate, value };
+		Rect dst_rect = cvrect_2_rect(raw_rect).center_zoom(0.8);
+		return { AlgorithmType::MatchTemplate, value, dst_rect };
 	}
+}
+
+std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(const cv::Mat& image, const std::string& templ_name, double threshold)
+{
+	if (m_mat_map.find(templ_name) == m_mat_map.cend()) {
+		return std::vector<FindImageResult>();
+	}
+	const cv::Mat& templ_mat = m_mat_map.at(templ_name);
+
+	Mat image_hsv;
+	Mat templ_hsv;
+	cvtColor(image, image_hsv, COLOR_BGR2HSV);
+	cvtColor(templ_mat, templ_hsv, COLOR_BGR2HSV);
+
+	Mat matched;
+	matchTemplate(image_hsv, templ_hsv, matched, cv::TM_CCOEFF_NORMED);
+
+	std::vector<FindImageResult> result;
+	for (int i = 0; i != matched.rows; ++i) {
+		for (int j = 0; j != matched.cols; ++j) {
+			auto value = matched.at<float>(i, j);
+			if (value >= threshold) {
+				Rect rect = Rect(j, i, templ_mat.cols, templ_mat.rows).center_zoom(0.8);
+				result.emplace_back(AlgorithmType::MatchTemplate, value, std::move(rect));
+			}
+		}
+	}
+	return result;
 }
 
 std::optional<TextArea> asst::Identify::feature_match(const cv::Mat& mat, const std::string& key)

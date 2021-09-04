@@ -24,6 +24,9 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 
 	// 检查返回值，若为false则回调错误
 	auto callback_error = [&](const std::string& filename = std::string()) {
+		if (m_callback == nullptr) {
+			return;
+		}
 		json::value callback_json;
 		callback_json["filename"] = filename;
 		callback_json["what"] = "Resource";
@@ -202,7 +205,8 @@ bool Assistance::start_match_task(const std::string& task, int retry_times, bool
 	return true;
 }
 
-bool Assistance::start_ocr_test_task(std::vector<std::string> text_vec, bool need_click)
+#ifdef LOG_TRACE
+bool Assistance::start_debug_task()
 {
 	DebugTraceFunction;
 	if (!m_thread_idle || !m_inited)
@@ -212,8 +216,7 @@ bool Assistance::start_ocr_test_task(std::vector<std::string> text_vec, bool nee
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 
-	auto task_ptr = std::make_shared<TestOcrTask>(task_callback, (void*)this);
-	task_ptr->set_text(std::move(text_vec), need_click);
+	auto task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
 	m_tasks_deque.emplace_back(task_ptr);
 
 	m_thread_idle = false;
@@ -221,6 +224,7 @@ bool Assistance::start_ocr_test_task(std::vector<std::string> text_vec, bool nee
 
 	return true;
 }
+#endif
 
 bool Assistance::start_open_recruit(const std::vector<int>& required_level, bool set_time)
 {
@@ -278,6 +282,12 @@ bool asst::Assistance::start_infrast()
 		DebugTraceInfo("Get opers info error");
 		return false;
 	}
+	constexpr static const char* InfrastTaskCahin = "Infrast";
+	// 换班任务，依次遍历基建设施列表里的最多5个设施，识别并选择最优解干员组合
+	auto shift_task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
+	shift_task_ptr->set_task_chain(InfrastTaskCahin);
+	shift_task_ptr->set_all_opers_info(std::move(ret.value()));
+
 	/* 基建任务整体流程：
 	1. 从任意界面进入基建，使用ProcessTask
 	2. 一键收获贸易站、制造站、干员信赖，使用ProcessTask
@@ -288,21 +298,34 @@ bool asst::Assistance::start_infrast()
 	5. 按顺序对不同的基建设施进行换班，使用InfrastStationTask
 	6. 会客室线索处理，TODO
 	*/
-	constexpr static const char* InfrastTaskCahin = "Infrast";
 
 	// 1. 从任意界面进入基建，使用ProcessTask
 	// 2. 一键收获贸易站、制造站、干员信赖，使用ProcessTask
+	// 这个任务结束后，是在进入基建后的主界面
+	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
+	// TODO：3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去，TODO
+
+	// 4. 根据用户设置，按顺序进入指定基建，使用ProcessTask
+	// 5. 按顺序对不同的基建设施进行换班，使用InfrastStationTask
+
+	// TODO，这里需要根据用户设置，是先制造站还是先贸易站，或者是别的设施
+	// 从进入制造站，到设施列表的界面
+	append_match_task(InfrastTaskCahin, { "ManufacturingMini", "Manufacturing" });
+
+	// 制造站换班
+	m_tasks_deque.emplace_back(shift_task_ptr);
+
+	// 返回基建的主界面
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
 	// TODO，这里需要根据用户设置，是先制造站还是先贸易站，或者是别的设施
-	// 从进入制造站，到进入干员选择界面清空选择
-	append_match_task(InfrastTaskCahin, { "ManufacturingMini", "Manufacturing" });
+	// 从进入贸易站，到设施列表的界面
+	append_match_task(InfrastTaskCahin, { "Trade", "TradeMini" });
 
-	// 识别并选择最优解干员组合
-	auto task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
-	task_ptr->set_task_chain(InfrastTaskCahin);
-	task_ptr->set_all_opers_info(std::move(ret.value()));
-	m_tasks_deque.emplace_back(task_ptr);
+	// 贸易站换班
+	m_tasks_deque.emplace_back(shift_task_ptr);
+
 
 	m_thread_idle = false;
 	m_condvar.notify_one();
@@ -538,12 +561,9 @@ void asst::Assistance::append_task(const json::value& detail, bool front)
 
 void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
 {
-	if (m_callback)
-	{
-		std::unique_lock<std::mutex> lock(m_msg_mutex);
-		m_msg_queue.emplace(msg, std::move(detail));
-		m_msg_condvar.notify_one();
-	}
+	std::unique_lock<std::mutex> lock(m_msg_mutex);
+	m_msg_queue.emplace(msg, std::move(detail));
+	m_msg_condvar.notify_one();
 }
 
 void Assistance::clear_exec_times()

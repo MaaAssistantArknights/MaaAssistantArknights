@@ -71,7 +71,7 @@ cv::Mat AbstractTask::get_format_image(bool raw)
 			scale = static_cast<double>(raw_image.cols) / static_cast<double>(Configer::WindowWidthDefault);
 		}
 		cv::Mat resize_mat;
-		cv::resize(raw_image, resize_mat, scale_size);
+		cv::resize(raw_image, resize_mat, scale_size, cv::INPAINT_NS);
 		set_control_scale(scale);
 
 		return resize_mat;
