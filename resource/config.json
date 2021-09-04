@@ -453,6 +453,7 @@
             "action": "doNothing",
             "next": [
                 "EnterInfrast",
+                "InfrastEnteredFlag",
                 "InfrastNotification",
                 "ReturnToInfrast"
             ]
@@ -466,6 +467,7 @@
             "next": [
                 "EnterInfrast",
                 "InfrastNotification",
+                "InfrastEnteredFlag",
                 "ReturnToInfrast"
             ]
         },
@@ -480,12 +482,39 @@
             ]
         },
         "InfrastEnteredFlag": {
-            "template": "InfrastEnteredFlag.png",
+            "template": "InfrastOverview.png",
             "templThreshold": 0.8,
             "action": "doNothing",
             "next": [
                 "InfrastNotification",
+                "InfrastSwipeToTheLeft"
+            ]
+        },
+        "InfrastSwipeToTheLeft": {
+            "algorithm": "justReturn",
+            "action": "swipeToTheLeft",
+            "next": [
                 "Stop"
+            ]
+        },
+        "Trade": {
+            "template": "Trade.png",
+            "templThreshold": 0.8,
+            "cache": false,
+            "action": "clickSelf",
+            "rearDelay": 1000,
+            "next": [
+                "ManufacturingLeftBottom"
+            ]
+        },
+        "TradeMini": {
+            "template": "TradeMini.png",
+            "templThreshold": 0.8,
+            "cache": false,
+            "action": "clickSelf",
+            "rearDelay": 1000,
+            "next": [
+                "ManufacturingLeftBottom"
             ]
         },
         "Manufacturing": {

@@ -17,6 +17,15 @@ namespace asst {
 	class Identify
 	{
 	public:
+		struct FindImageResult {
+			FindImageResult() = default;
+			FindImageResult(AlgorithmType algorithm, double value, asst::Rect rect)
+				: algorithm(algorithm), value(value), rect(rect) { ; }
+			AlgorithmType algorithm;
+			double value = 0.0;
+			asst::Rect rect;
+		};
+	public:
 		Identify() = default;
 		~Identify() = default;
 
@@ -26,9 +35,10 @@ namespace asst {
 		bool add_text_image(const std::string& text, const std::string& path);
 
 		constexpr static double NotAddCache = 999.0;
-		// return pair< algorithmType, suitability>
-		std::pair<AlgorithmType, double> find_image(
-			const cv::Mat& image, const std::string& templ, asst::Rect* out_rect, double add_cache_thres = NotAddCache);
+		FindImageResult find_image(
+			const cv::Mat& image, const std::string& templ_name, double add_cache_thres = NotAddCache);
+		std::vector<FindImageResult> find_all_images(
+			const cv::Mat& image, const std::string& templ_name, double threshold = 0);
 
 		// return pair< suitability, raw opencv::point>
 		std::pair<double, cv::Point> match_template(const cv::Mat& cur, const cv::Mat& templ);

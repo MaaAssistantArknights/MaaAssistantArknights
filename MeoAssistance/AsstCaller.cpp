@@ -122,20 +122,15 @@ bool AsstStartInfrast(asst::Assistance* p_asst)
 	return true;
 }
 
-bool AsstTestOcr(asst::Assistance* p_asst, const char** text_array, int array_size, bool need_click)
+bool AsstDebugTask(asst::Assistance* p_asst)
 {
-	if (p_asst == NULL || text_array == nullptr) {
+	if (p_asst == NULL) {
 		return false;
 	}
+#if LOG_TRACE
+	p_asst->start_debug_task();
+#endif // LOG_TRACE
 
-	//std::vector<std::string> text_vec;
-	//for (int i = 0; i != array_size; ++i) {
-	//	if (text_array[i] == nullptr) {
-	//		return false;
-	//	}
-	//	text_vec.emplace_back(asst::GbkToUtf8(text_array[i]));
-	//}
-	p_asst->start_to_identify_opers();
 	return true;
 }
 

@@ -42,8 +42,10 @@ namespace asst {
 
 		// 开始匹配任务，调试用
 		bool start_match_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool block = true);
-		// 开始OCR测试，调试用
-		bool start_ocr_test_task(std::vector<std::string> text_vec, bool need_click = false);
+#ifdef LOG_TRACE
+		// 调试用
+		bool start_debug_task();
+#endif
 
 		void stop(bool block = true);
 

@@ -354,7 +354,12 @@ bool asst::WinMacro::swipe(const Point& p1, const Point& p2, int duration)
 		cur_cmd = StringReplaceAll(cur_cmd, "[y1]", std::to_string(y1));
 		cur_cmd = StringReplaceAll(cur_cmd, "[x2]", std::to_string(x2));
 		cur_cmd = StringReplaceAll(cur_cmd, "[y2]", std::to_string(y2));
-		cur_cmd = StringReplaceAll(cur_cmd, "[duration]", std::to_string(duration));
+		if (duration <= 0) {
+			cur_cmd = StringReplaceAll(cur_cmd, "[duration]", "");
+		}
+		else {
+			cur_cmd = StringReplaceAll(cur_cmd, "[duration]", std::to_string(duration));
+		}
 
 		return callCmd(cur_cmd, false).has_value();
 	}

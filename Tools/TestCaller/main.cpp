@@ -3,7 +3,7 @@
 
 using namespace asst;
 
-void test_ocr(Assistance* ptr);
+void debug_task(Assistance* ptr);
 void test_swipe(Assistance* ptr);
 void test_infrast(Assistance* ptr);
 
@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 
 	char ch = 0;
 	while (ch != 'q') {
-		test_infrast(ptr);
+		debug_task(ptr);
 		//test_swipe(ptr);
 
 		ch = getchar();
@@ -41,11 +41,9 @@ void test_swipe(Assistance* ptr)
 	AsstTestSwipe(ptr, 2500, 300, 100, 300);
 }
 
-void test_ocr(Assistance* ptr)
+void debug_task(Assistance* ptr)
 {
-	const char* text_array[] = { "×¢ÒâÁ¦" };
-
-	AsstTestOcr(ptr, text_array, sizeof(text_array) / sizeof(char*), true);
+	AsstDebugTask(ptr);
 }
 
 void test_infrast(Assistance* ptr)

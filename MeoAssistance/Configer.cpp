@@ -150,6 +150,12 @@ bool asst::Configer::parse(json::value&& json)
 		else if (action == "printwindow") {
 			task_info_ptr->action = ProcessTaskAction::PrintWindow;
 		}
+		else if (action == "swipetotheleft") {
+			task_info_ptr->action = ProcessTaskAction::SwipeToTheLeft;
+		}
+		else if (action == "swipetotheright") {
+			task_info_ptr->action = ProcessTaskAction::SwipeToTheRight;
+		}
 		else {
 			DebugTraceError("Task:", name, "error:", action);
 			return false;
