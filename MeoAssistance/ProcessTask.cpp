@@ -166,21 +166,21 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			double hist_threshold = process_task_info_ptr->hist_threshold;
 			double add_cache_thres = process_task_info_ptr->cache ? templ_threshold : Identify::NotAddCache;
 
-			auto&& [algorithm, value, temp_rect] = m_identify_ptr->find_image(cur_image, task_name, add_cache_thres);
+			auto&& [algorithm, score, temp_rect] = m_identify_ptr->find_image(cur_image, task_name, add_cache_thres);
 			rect = std::move(temp_rect);
-			callback_json["value"] = value;
+			callback_json["value"] = score;
 
 			if (algorithm == AlgorithmType::MatchTemplate) {
 				callback_json["threshold"] = templ_threshold;
 				callback_json["algorithm"] = "MatchTemplate";
-				if (value >= templ_threshold) {
+				if (score >= templ_threshold) {
 					matched = true;
 				}
 			}
 			else if (algorithm == AlgorithmType::CompareHist) {
 				callback_json["threshold"] = hist_threshold;
 				callback_json["algorithm"] = "CompareHist";
-				if (value >= hist_threshold) {
+				if (score >= hist_threshold) {
 					matched = true;
 				}
 			}

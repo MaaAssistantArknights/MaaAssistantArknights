@@ -304,7 +304,8 @@ asst::Identify::FindImageResult asst::Identify::find_image(
 	}
 }
 
-std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(const cv::Mat& image, const std::string& templ_name, double threshold)
+std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(
+	const cv::Mat& image, const std::string& templ_name, double threshold) const
 {
 	if (m_mat_map.find(templ_name) == m_mat_map.cend()) {
 		return std::vector<FindImageResult>();
@@ -319,17 +320,37 @@ std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(con
 	Mat matched;
 	matchTemplate(image_hsv, templ_hsv, matched, cv::TM_CCOEFF_NORMED);
 
-	std::vector<FindImageResult> result;
+	std::vector<FindImageResult> results;
 	for (int i = 0; i != matched.rows; ++i) {
 		for (int j = 0; j != matched.cols; ++j) {
 			auto value = matched.at<float>(i, j);
 			if (value >= threshold) {
 				Rect rect = Rect(j, i, templ_mat.cols, templ_mat.rows).center_zoom(0.8);
-				result.emplace_back(AlgorithmType::MatchTemplate, value, std::move(rect));
+
+				bool need_push = true;
+				// 如果有两个点离得太近，只取里面得分高的那个
+				// 一般相邻的都是刚刚push进去的，这里倒序快一点
+				for (auto iter = results.rbegin(); iter != results.rend(); ++ iter) {
+					if (std::abs(j - iter->rect.x) < 5
+						|| std::abs(i - iter->rect.y) < 5) {
+						if (iter->score < value) {
+							iter->rect = rect;
+							iter->score = value;
+							need_push = false;
+						}	// else 这个点就放弃了
+						break;
+					}
+				}
+				if (need_push) {
+					results.emplace_back(AlgorithmType::MatchTemplate, value, std::move(rect));
+				}
 			}
 		}
 	}
-	return result;
+	std::sort(results.begin(), results.end(), [](const auto& lhs, const auto& rhs) -> bool {
+		return lhs.score > rhs.score;
+		});
+	return results;
 }
 
 std::optional<TextArea> asst::Identify::feature_match(const cv::Mat& mat, const std::string& key)
