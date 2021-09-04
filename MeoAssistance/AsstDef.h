@@ -30,7 +30,7 @@ namespace asst {
 		return os << _type_name.at(type);
 	}
 
-	enum class ProcessTaskType {
+	enum class ProcessTaskAction {
 		Invalid = 0,
 		BasicClick = 0x100,
 		ClickSelf = BasicClick | 1,		// 点击模板自身位置
@@ -146,8 +146,8 @@ namespace asst {
 		std::string name;								// 任务名
 		AlgorithmType algorithm =						// 图像算法类型
 			AlgorithmType::Invaild;
-		ProcessTaskType type =							// 任务类型（要进行的操作）
-			ProcessTaskType::Invalid;
+		ProcessTaskAction action =						// 要进行的操作
+			ProcessTaskAction::Invalid;
 		std::vector<std::string> next;					// 下一个可能的任务（列表）
 		int exec_times = 0;								// 任务已执行了多少次
 		int max_times = INT_MAX;						// 任务最多执行多少次

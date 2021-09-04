@@ -112,7 +112,7 @@
     "tasks": {
         "SanityBegin": {
             "algorithm": "justreturn",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "UsePrts",
                 "StartButton1",
@@ -126,7 +126,7 @@
         "UsePrts": {
             "template": "UsePrts.png",
             "templThreshold": 0.8,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "StartButton1"
             ]
@@ -134,7 +134,7 @@
         "StartButton1": {
             "template": "StartButton1.png",
             "templThreshold": 0.8,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "StartButton2",
                 "UseMedicine",
@@ -143,7 +143,7 @@
         },
         "StartButton2": {
             "template": "StartButton2.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "rearDelay": 20000,
             "templThreshold": 0.95,
             "next": [
@@ -153,7 +153,7 @@
         },
         "PRTS": {
             "template": "PRTS.png",
-            "type": "doNothing",
+            "action": "doNothing",
             "rearDelay": 5000,
             "next": [
                 "PRTS",
@@ -165,7 +165,7 @@
         "WaitAfterPRTS": {
             "rearDelay": 3000,
             "algorithm": "justreturn",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "PRTS",
                 "EndOfAction",
@@ -175,7 +175,7 @@
         "ClickCornerAfterPRTS": {
             "ClickCorner_Doc": "点击右下角，既不会点到掉落物品，又能点到蓝色开始按钮（为了容错）的一块位置。",
             "algorithm": "justreturn",
-            "type": "clickRect",
+            "action": "clickRect",
             "specificArea": [
                 1100,
                 700,
@@ -195,7 +195,7 @@
         "EndOfAction": {
             "algorithm": "OcrDetect",
             "text": [ "行动结束" ],
-            "type": "printWindow",
+            "action": "printWindow",
             "next": [
                 "ClickCorner"
             ]
@@ -203,7 +203,7 @@
         "ClickCorner": {
             "ClickCorner_Doc": "点击右下角，既不会点到掉落物品，又能点到蓝色开始按钮（为了容错）的一块位置。",
             "algorithm": "justreturn",
-            "type": "clickRect",
+            "action": "clickRect",
             "specificArea": [
                 1100,
                 700,
@@ -222,21 +222,21 @@
         "Loading": {
             "template": "Loading.png",
             "templThreshold": 0.8,
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "StartButton1"
             ]
         },
         "UseMedicine": {
             "template": "UseMedicine.png",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "MedicineConfirm"
             ]
         },
         "MedicineConfirm": {
             "template": "MedicineConfirm.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "reduceOtherTimes": [
                 "StartButton1"
             ],
@@ -246,14 +246,14 @@
         },
         "UseStone": {
             "template": "UseStone.png",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "StoneConfirm"
             ]
         },
         "StoneConfirm": {
             "template": "MedicineConfirm.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "maxTimes": 0,
             "reduceOtherTimes": [
                 "StartButton1"
@@ -264,14 +264,14 @@
         },
         "PrtsErrorConfirm": {
             "template": "PrtsErrorConfirm.png",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "AbandonAction"
             ]
         },
         "AbandonAction": {
             "template": "AbandonAction.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "reduceOtherTimes": [
                 "StartButton1",
                 "StartButton2",
@@ -283,7 +283,7 @@
         },
         "VisitBegin": {
             "algorithm": "justreturn",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "Friends",
                 "FriendsList",
@@ -298,7 +298,7 @@
             "templThreshold": 0.85,
             "histThreshold": 0.85,
             "rearDelay": 1000,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "Friends",
                 "ReturnToFriends"
@@ -308,14 +308,14 @@
             "template": "Friends.png",
             "templThreshold": 0.85,
             "preDelay": 1000,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "FriendsList"
             ]
         },
         "FriendsList": {
             "template": "FriendsList.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "StartToVisit"
             ]
@@ -323,7 +323,7 @@
         "StartToVisit": {
             "template": "StartToVisit.png",
             "templThreshold": 0.8,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "rearDelay": 5000,
             "next": [
                 "VisitNext"
@@ -331,7 +331,7 @@
         },
         "VisitNext": {
             "template": "VisitNext.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "cache": false,
             "rearDelay": 3000,
             "exceededNext": [
@@ -347,7 +347,7 @@
         "VisitNextOcr": {
             "algorithm": "OcrDetect",
             "text": [ "访问下位" ],
-            "type": "clickSelf",
+            "action": "clickSelf",
             "rearDelay": 3000,
             "exceededNext": [
                 "ReturnToMall"
@@ -362,7 +362,7 @@
         "ReturnToMall": {
             "rearDelay": 1000,
             "template": "Return.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "Mall",
                 "ReturnToMall",
@@ -371,7 +371,7 @@
         },
         "ReturnToMallConfirm": {
             "template": "PopupConfirm.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "rearDelay": 5000,
             "next": [
                 "ReturnToMall"
@@ -379,7 +379,7 @@
         },
         "Mall": {
             "template": "Mall.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "CreditStore",
                 "CreditStoreOcr"
@@ -389,7 +389,7 @@
             "template": "CreditStore.png",
             "templThreshold": 0.85,
             "rearDelay": 1000,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "CollectCredit",
                 "Stop"
@@ -399,7 +399,7 @@
             "algorithm": "OcrDetect",
             "text": [ "信用交易所" ],
             "rearDelay": 1000,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "CollectCredit",
                 "Stop"
@@ -407,7 +407,7 @@
         },
         "CollectCredit": {
             "template": "CollectCredit.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "Stop"
             ]
@@ -415,27 +415,27 @@
         "VisitLimited": {
             "algorithm": "OcrDetect",
             "text": [ "今日参与", "已达上限" ],
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "ReturnToMall"
             ]
         },
         "VisitNextBlack": {
             "template": "VisitNextBlack.png",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "ReturnToMall"
             ]
         },
         "Stop": {
             "algorithm": "justreturn",
-            "type": "stop",
+            "action": "stop",
             "next": []
         },
         "RecruitTime": {
             "template": "RecruitTimeReduce.png",
             "templThreshold": 0.89,
-            "type": "clickRect",
+            "action": "clickRect",
             "specificArea": [ 391, 279, 129, 44 ],
             "next": [
                 "Stop"
@@ -443,14 +443,14 @@
         },
         "Listless": {
             "template": "Listless.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "Stop"
             ]
         },
         "InfrastBegin": {
             "algorithm": "justreturn",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "EnterInfrast",
                 "InfrastNotification",
@@ -462,7 +462,7 @@
             "templThreshold": 0.85,
             "histThreshold": 0.85,
             "rearDelay": 1000,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "EnterInfrast",
                 "InfrastNotification",
@@ -474,7 +474,7 @@
             "templThreshold": 0.85,
             "histThreshold": 0.85,
             "rareDelay": 3000,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "InfrastEnteredFlag"
             ]
@@ -482,7 +482,7 @@
         "InfrastEnteredFlag": {
             "template": "InfrastEnteredFlag.png",
             "templThreshold": 0.8,
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "InfrastNotification",
                 "Stop"
@@ -492,7 +492,7 @@
             "template": "Manufacturing.png",
             "templThreshold": 0.8,
             "cache": false,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "rearDelay": 1000,
             "next": [
                 "ManufacturingLeftBottom"
@@ -502,7 +502,7 @@
             "template": "ManufacturingMini.png",
             "templThreshold": 0.8,
             "cache": false,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "rearDelay": 1000,
             "next": [
                 "ManufacturingLeftBottom"
@@ -511,7 +511,7 @@
         "ManufacturingLeftBottom": {
             "Doc": "制造站点进去之后，左下角那个“中级作战记录 制造中”",
             "algorithm": "justreturn",
-            "type": "clickRect",
+            "action": "clickRect",
             "specificArea": [
                 1,
                 535,
@@ -525,7 +525,7 @@
         "Manufacturing1st": {
             "Doc": "设施列表里第一个（第一个制造站或者贸易站）",
             "algorithm": "justreturn",
-            "type": "clickRect",
+            "action": "clickRect",
             "specificArea": [
                 1,
                 183,
@@ -539,7 +539,7 @@
         "InfrastNotification": {
             "template": "InfrastNotification.png",
             "templThreshold": 0.8,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "InfrastReward",
                 "InfrastExitReward"
@@ -547,9 +547,9 @@
         },
         "InfrastReward": {
             "algorithm": "OcrDetect",
-            "text": [ "可收获", "订单交付" ],
+            "text": [ "可收获", "订单交付", "干员信赖" ],
             "rearDelay": 1000,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "InfrastReward",
                 "InfrastExitReward"
@@ -558,7 +558,7 @@
         "InfrastExitReward": {
             "Doc": "干员疲劳、线索收集 是不能一键收获的，所以要先退出一键收获的界面，这里点击的是控制中枢左侧那一片空白的区域",
             "algorithm": "justreturn",
-            "type": "clickRect",
+            "action": "clickRect",
             "specificArea": [
                 250,
                 100,

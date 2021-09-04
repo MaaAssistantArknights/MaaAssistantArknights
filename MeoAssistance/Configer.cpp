@@ -21,19 +21,19 @@ bool Configer::set_param(const std::string& type, const std::string& param, cons
 		std::string type = value;
 		std::transform(type.begin(), type.end(), type.begin(), std::tolower);
 		if (type == "clickself") {
-			task_info_ptr->type = ProcessTaskType::ClickSelf;
+			task_info_ptr->action = ProcessTaskAction::ClickSelf;
 		}
 		else if (type == "clickrand") {
-			task_info_ptr->type = ProcessTaskType::ClickRand;
+			task_info_ptr->action = ProcessTaskAction::ClickRand;
 		}
 		else if (type == "donothing" || type.empty()) {
-			task_info_ptr->type = ProcessTaskType::DoNothing;
+			task_info_ptr->action = ProcessTaskAction::DoNothing;
 		}
 		else if (type == "stop") {
-			task_info_ptr->type = ProcessTaskType::Stop;
+			task_info_ptr->action = ProcessTaskAction::Stop;
 		}
 		else if (type == "clickrect") {
-			task_info_ptr->type = ProcessTaskType::ClickRect;
+			task_info_ptr->action = ProcessTaskAction::ClickRect;
 		}
 		else {
 			DebugTraceError("Task", param, "'s type error:", type);
@@ -124,22 +124,22 @@ bool asst::Configer::parse(json::value&& json)
 		}
 		task_info_ptr->algorithm = algorithm;
 		task_info_ptr->name = name;
-		std::string type = task_json["type"].as_string();
-		std::transform(type.begin(), type.end(), type.begin(), std::tolower);
-		if (type == "clickself") {
-			task_info_ptr->type = ProcessTaskType::ClickSelf;
+		std::string action = task_json["action"].as_string();
+		std::transform(action.begin(), action.end(), action.begin(), std::tolower);
+		if (action == "clickself") {
+			task_info_ptr->action = ProcessTaskAction::ClickSelf;
 		}
-		else if (type == "clickrand") {
-			task_info_ptr->type = ProcessTaskType::ClickRand;
+		else if (action == "clickrand") {
+			task_info_ptr->action = ProcessTaskAction::ClickRand;
 		}
-		else if (type == "donothing" || type.empty()) {
-			task_info_ptr->type = ProcessTaskType::DoNothing;
+		else if (action == "donothing" || action.empty()) {
+			task_info_ptr->action = ProcessTaskAction::DoNothing;
 		}
-		else if (type == "stop") {
-			task_info_ptr->type = ProcessTaskType::Stop;
+		else if (action == "stop") {
+			task_info_ptr->action = ProcessTaskAction::Stop;
 		}
-		else if (type == "clickrect") {
-			task_info_ptr->type = ProcessTaskType::ClickRect;
+		else if (action == "clickrect") {
+			task_info_ptr->action = ProcessTaskAction::ClickRect;
 			json::value& area_json = task_json["specificArea"];
 			task_info_ptr->specific_area = Rect(
 				area_json[0].as_integer(),
@@ -147,11 +147,11 @@ bool asst::Configer::parse(json::value&& json)
 				area_json[2].as_integer(),
 				area_json[3].as_integer());
 		}
-		else if (type == "printwindow") {
-			task_info_ptr->type = ProcessTaskType::PrintWindow;
+		else if (action == "printwindow") {
+			task_info_ptr->action = ProcessTaskAction::PrintWindow;
 		}
 		else {
-			DebugTraceError("Task:", name, "error:", type);
+			DebugTraceError("Task:", name, "error:", action);
 			return false;
 		}
 
