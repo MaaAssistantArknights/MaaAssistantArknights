@@ -330,14 +330,15 @@ std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(
 				bool need_push = true;
 				// 如果有两个点离得太近，只取里面得分高的那个
 				// 一般相邻的都是刚刚push进去的，这里倒序快一点
+				constexpr static int MinDistance = 10;
 				for (auto iter = results.rbegin(); iter != results.rend(); ++ iter) {
-					if (std::abs(j - iter->rect.x) < 5
-						|| std::abs(i - iter->rect.y) < 5) {
+					if (std::abs(j - iter->rect.x) < MinDistance
+						&& std::abs(i - iter->rect.y) < MinDistance) {
 						if (iter->score < value) {
 							iter->rect = rect;
 							iter->score = value;
-							need_push = false;
 						}	// else 这个点就放弃了
+						need_push = false;
 						break;
 					}
 				}

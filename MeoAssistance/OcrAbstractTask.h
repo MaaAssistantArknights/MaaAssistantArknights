@@ -15,7 +15,7 @@ namespace asst {
 		virtual bool run() override = 0;
 
 	protected:
-		std::vector<TextArea> ocr_detect();
+		std::vector<TextArea> ocr_detect(bool use_raw_image = false);
 		std::vector<TextArea> ocr_detect(const cv::Mat& image);
 		bool click_text(const cv::Mat& image, const std::string& text);
 
