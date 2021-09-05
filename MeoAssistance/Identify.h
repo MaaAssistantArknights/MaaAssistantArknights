@@ -36,9 +36,9 @@ namespace asst {
 
 		constexpr static double NotAddCache = 999.0;
 		FindImageResult find_image(
-			const cv::Mat& image, const std::string& templ_name, double add_cache_thres = NotAddCache);
+			const cv::Mat& image, const std::string& templ_name, double add_cache_thres = NotAddCache, bool rect_zoom = true);
 		std::vector<FindImageResult> find_all_images(
-			const cv::Mat& image, const std::string& templ_name, double threshold = 0) const;
+			const cv::Mat& image, const std::string& templ_name, double threshold = 0, bool rect_zoom = true) const;
 
 		// return pair< suitability, raw opencv::point>
 		std::pair<double, cv::Point> match_template(const cv::Mat& cur, const cv::Mat& templ);
@@ -59,6 +59,7 @@ namespace asst {
 		cv::Mat image_2_hist(const cv::Mat& src);
 		double image_hist_comp(const cv::Mat& src, const cv::MatND& hist);
 		static asst::Rect cvrect_2_rect(const cv::Rect& cvRect);
+		static cv::Rect rect_2_cvrect(const asst::Rect& rect);
 
 		// return pair<特征点s，特征点描述子（向量）>
 		std::pair<std::vector<cv::KeyPoint>, cv::Mat> surf_detect(const cv::Mat& mat);
