@@ -78,6 +78,11 @@ asst::Rect asst::Identify::cvrect_2_rect(const cv::Rect& cvRect)
 	return asst::Rect(cvRect.x, cvRect.y, cvRect.width, cvRect.height);
 }
 
+cv::Rect asst::Identify::rect_2_cvrect(const asst::Rect& rect)
+{
+	return cv::Rect(rect.x, rect.y, rect.width, rect.height);
+}
+
 std::pair<std::vector<cv::KeyPoint>, cv::Mat> asst::Identify::surf_detect(const cv::Mat& mat)
 {
 	// 灰度图转换
@@ -279,7 +284,7 @@ std::pair<double, cv::Point> Identify::match_template(const cv::Mat& image, cons
 }
 
 asst::Identify::FindImageResult asst::Identify::find_image(
-	const cv::Mat& image, const std::string& templ_name, double add_cache_thres)
+	const cv::Mat& image, const std::string& templ_name, double add_cache_thres, bool rect_zoom)
 {
 	if (m_mat_map.find(templ_name) == m_mat_map.cend()) {
 		return { AlgorithmType::JustReturn, 0, Rect() };
@@ -289,7 +294,10 @@ asst::Identify::FindImageResult asst::Identify::find_image(
 	if (m_use_cache && m_cache_map.find(templ_name) != m_cache_map.cend()) {
 		const auto& [raw_rect, hist] = m_cache_map.at(templ_name);
 		double value = image_hist_comp(image(raw_rect), hist);
-		Rect dst_rect = cvrect_2_rect(raw_rect).center_zoom(0.8);
+		Rect dst_rect = cvrect_2_rect(raw_rect);
+		if (rect_zoom) {
+			dst_rect = dst_rect.center_zoom(0.8);
+		}
 		return { AlgorithmType::CompareHist, value, dst_rect };
 	}
 	else {	// 没缓存就模板匹配
@@ -299,13 +307,16 @@ asst::Identify::FindImageResult asst::Identify::find_image(
 		if (m_use_cache && value >= add_cache_thres) {
 			m_cache_map.emplace(templ_name, std::make_pair(raw_rect, image_2_hist(image(raw_rect))));
 		}
-		Rect dst_rect = cvrect_2_rect(raw_rect).center_zoom(0.8);
+		Rect dst_rect = cvrect_2_rect(raw_rect);
+		if (rect_zoom) {
+			dst_rect = dst_rect.center_zoom(0.8);
+		}
 		return { AlgorithmType::MatchTemplate, value, dst_rect };
 	}
 }
 
 std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(
-	const cv::Mat& image, const std::string& templ_name, double threshold) const
+	const cv::Mat& image, const std::string& templ_name, double threshold, bool rect_zoom) const
 {
 	if (m_mat_map.find(templ_name) == m_mat_map.cend()) {
 		return std::vector<FindImageResult>();
@@ -325,7 +336,10 @@ std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(
 		for (int j = 0; j != matched.cols; ++j) {
 			auto value = matched.at<float>(i, j);
 			if (value >= threshold) {
-				Rect rect = Rect(j, i, templ_mat.cols, templ_mat.rows).center_zoom(0.8);
+				Rect rect = Rect(j, i, templ_mat.cols, templ_mat.rows);
+				if (rect_zoom) {
+					rect = rect.center_zoom(0.8);
+				}
 
 				bool need_push = true;
 				// 如果有两个点离得太近，只取里面得分高的那个
@@ -348,9 +362,18 @@ std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(
 			}
 		}
 	}
+
 	std::sort(results.begin(), results.end(), [](const auto& lhs, const auto& rhs) -> bool {
 		return lhs.score > rhs.score;
 		});
+
+#ifdef LOG_TRACE
+	cv::Mat draw_mat = image.clone();
+	for (const auto& info : results) {
+		cv::rectangle(draw_mat, rect_2_cvrect(info.rect), cv::Scalar(0, 0, 255), 1);
+	}
+#endif
+
 	return results;
 }
 
