@@ -34,6 +34,6 @@ namespace asst {
 		bool select_operators();
 
 		// 检测正在工作中的干员心情状态
-		std::vector<MoodStatus> detect_mood_status_at_work(const cv::Mat& image) const;
+		std::vector<MoodStatus> detect_mood_status_at_work(const cv::Mat& image, double process_threshold = 1.0) const;
 	};
 }
