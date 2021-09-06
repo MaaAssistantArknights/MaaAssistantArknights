@@ -196,6 +196,10 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 	constexpr static int MoodWidth = Configer::WindowWidthDefault * 0.0664 + 0.5;		// 心情进度条长度（满心情的时候）
 	constexpr static int MoodHeight = Configer::WindowHeightDefault * 0.00416 + 0.5;	// 心情进度条高度
 
+#ifdef LOG_TRACE
+	cv::Mat draw_image = image.clone();
+#endif
+
 	// 把工作中的那个黄色笑脸全抓出来
 	auto smiley_result = m_identify_ptr->find_all_images(image, "SmileyAtWork", 0.85, false);
 
@@ -215,23 +219,30 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 
 		cv::Mat process_gray;
 		cv::cvtColor(process_mat, process_gray, cv::COLOR_BGR2GRAY);
-		//// 二值化 心情进度条
-		//cv::threshold(process_mat, process_thres, 253, 255, cv::THRESH_BINARY);
 
-		int max_white_length = 0;
+		int max_white_length = 0;	// 最长的横向连续的白色长条的长度
 		for (int i = 0; i != process_gray.rows; ++i) {
 			int cur_white_length = 0;
+			cv::uint8_t left_value = 250;	// 当前点左侧的点的值
 			for (int j = 0; j != process_gray.cols; ++j) {
+				constexpr static cv::uint8_t LowerLimit = 180;
+				constexpr static cv::uint8_t DiffThreshold = 10;
+
 				auto value = process_gray.at<cv::uint8_t>(i, j);
-				if (value > 253) {
+				if (value >= LowerLimit && left_value - value < DiffThreshold) {	// 右边的颜色相比左边变化在阈值以内，都认为是连续的
+					left_value = value;
 					++cur_white_length;
+					if (max_white_length < cur_white_length) {
+						max_white_length = cur_white_length;
+					}
 				}
 				else {
-					continue;
+					if (max_white_length < cur_white_length) {
+						max_white_length = cur_white_length;
+					}
+					left_value = 250;
+					cur_white_length = 0;
 				}
-			}
-			if (max_white_length < cur_white_length) {
-				max_white_length = cur_white_length;
 			}
 		}
 
@@ -244,11 +255,9 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 #ifdef LOG_TRACE
 		cv::Rect cv_actual_rect(mood_status.actual_rect.x, mood_status.actual_rect.y, 
 			mood_status.actual_rect.width, mood_status.actual_rect.height);
-		cv::Mat draw_image = image;
 		cv::rectangle(draw_image, cv_actual_rect, cv::Scalar(0, 0, 255), 1);
 		cv::putText(draw_image, std::to_string(mood_status.process), cv::Point(cv_actual_rect.x, cv_actual_rect.y), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 0, 255));
 #endif
-
 	}
 
 	return std::vector<MoodStatus>();
