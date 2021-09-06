@@ -159,7 +159,7 @@ bool asst::InfrastDormTask::enter_operator_selection()
 		return false;
 	}
 	m_control_ptr->click(button_iter->rect);
-	sleep(1000);
+	sleep(3000);
 
 	return true;
 }
@@ -243,7 +243,7 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 #endif
 
 	// 把工作中的那个黄色笑脸全抓出来
-	auto smiley_result = m_identify_ptr->find_all_images(image, "SmileyAtWork", 0.85, false);
+	auto smiley_result = m_identify_ptr->find_all_images(image, "SmileyAtWork", 0.8, false);
 
 	std::vector<MoodStatus> moods_vec;
 	for (const auto& smiley : smiley_result) {
@@ -291,17 +291,31 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 		MoodStatus mood_status;
 		mood_status.actual_length = max_white_length;
 		mood_status.process = static_cast<double>(max_white_length) / MoodWidth;
-		mood_status.rect = asst::Rect(process_rect.x, process_rect.y, process_rect.width, process_rect.height);
-		mood_status.actual_rect = mood_status.rect;
-		mood_status.actual_rect.width = max_white_length;
+		mood_status.rect = asst::Rect(smiley.rect.x, smiley.rect.y, 
+			smiley.rect.width + process_rect.width, smiley.rect.height + process_rect.height);
+		mood_status.actual_rect = asst::Rect(process_rect.x, process_rect.y, 
+			max_white_length, process_rect.height);
 #ifdef LOG_TRACE
 		cv::Rect cv_actual_rect(mood_status.actual_rect.x, mood_status.actual_rect.y,
 			mood_status.actual_rect.width, mood_status.actual_rect.height);
 		cv::rectangle(draw_image, cv_actual_rect, cv::Scalar(0, 0, 255), 1);
 		cv::putText(draw_image, std::to_string(mood_status.process), cv::Point(cv_actual_rect.x, cv_actual_rect.y), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 0, 255));
 #endif
-		if (mood_status.process <= process_threshold) {
+		if (mood_status.process <= process_threshold) {	// 心情小于阈值的直接加入结果
 			moods_vec.emplace_back(std::move(mood_status));
+		}
+		else {
+			// 既不在工作中，也不在休息中，但是心情值还大于阈值的，也需要加入结果中
+			// 思路：根据心情进度条的位置，往上裁剪出“工作中”or“休息中”的那一块区域
+			// 进行模板匹配，如果没匹配上，则认为这个干员既不在工作，也不在休息
+			constexpr static int HeightDiff = Configer::WindowHeightDefault * 0.13;
+			constexpr static int OnShiftHeight = Configer::WindowHeightDefault * 0.08;
+			cv::Rect on_shift_rect(mood_status.rect.x, mood_status.rect.y - HeightDiff, mood_status.rect.width, OnShiftHeight);
+			// “休息中”的笑脸前面的模板匹配是对不上的，走不到这里，所以这里只匹配“工作中”即可
+			auto find_result = m_identify_ptr->find_image(image(on_shift_rect), "OnShift");
+			if (find_result.score < 0.5) {
+				moods_vec.emplace_back(std::move(mood_status));
+			}
 		}
 	}
 

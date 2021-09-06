@@ -72,7 +72,7 @@ bool asst::Configer::parse(json::value&& json)
 
 	json::value& infrast_options_json = root["infrastOptions"];
 	{
-		m_infrast_options.dorm_threshold = infrast_options_json.get("dormThreshold", 0.5);
+		m_infrast_options.dorm_threshold = infrast_options_json.get("dormThreshold", 0.3);
 	}
 	DebugTrace("InfrastOptions", Utf8ToGbk(infrast_options_json.to_string()));
 
