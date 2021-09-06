@@ -193,6 +193,11 @@ namespace asst {
 		int ocr_thread_number = 0;			// OcrLite线程数量
 	};
 
+	struct InfrastOptions {					// 基建的选项
+		double dorm_threshold = 0;			// 宿舍心情百分比阈值，心情百分比小于该值的干员会被放进宿舍
+
+	};
+
 	// 干员信息，公开招募相关
 	struct OperRecruitInfo {
 		std::string name;

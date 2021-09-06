@@ -35,6 +35,8 @@ namespace asst {
 		std::unordered_map<std::string, std::string> m_recruit_ocr_replace;
 		std::unordered_map<std::string, std::string> m_infrast_ocr_replace;
 
+		InfrastOptions m_infrast_options;
+
 	protected:
 		Configer() = default;
 		Configer(const Configer& rhs) = default;
