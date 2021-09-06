@@ -293,10 +293,11 @@ bool asst::Assistance::start_infrast()
 	2. 一键收获贸易站、制造站、干员信赖，使用ProcessTask
 		1) 如果收获了，使用基建全缩放到最小的模板匹配
 		2) 如果没收获，使用基建默认大小的模板匹配
-	3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去，TODO
-	4. 根据用户设置，按顺序进入指定基建，使用ProcessTask
-	5. 按顺序对不同的基建设施进行换班，使用InfrastStationTask
-	6. 会客室线索处理，TODO
+	3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去，使用InfrastDormTask
+	4. 根据用户设置，按顺序进入制造站or贸易站，使用ProcessTask
+	5. 队制造站or贸易站进行换班，使用InfrastStationTask
+	6. 根据用户设置，使用无人机加速制造or贸易，使用ProcessTask，TODO
+	7. 会客室线索处理、发电站换班、控制中枢换班，同样需要根据用户设置决定顺序，TODO
 	*/
 
 	// 1. 从任意界面进入基建，使用ProcessTask
@@ -304,10 +305,17 @@ bool asst::Assistance::start_infrast()
 	// 这个任务结束后，是在进入基建后的主界面
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
-	// TODO：3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去，TODO
+	// 3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去
+	auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
+	dorm_task_ptr->set_task_chain(InfrastTaskCahin);
+	m_tasks_deque.emplace_back(std::move(dorm_task_ptr));
 
-	// 4. 根据用户设置，按顺序进入指定基建，使用ProcessTask
-	// 5. 按顺序对不同的基建设施进行换班，使用InfrastStationTask
+	// 返回基建的主界面
+	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
+
+	// 5. 队制造站or贸易站进行换班，使用InfrastStationTask
+	// 6. 根据用户设置，使用无人机加速制造or贸易，TODO
 
 	// TODO，这里需要根据用户设置，是先制造站还是先贸易站，或者是别的设施
 	// 从进入制造站，到设施列表的界面
