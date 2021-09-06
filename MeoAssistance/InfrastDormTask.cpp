@@ -166,25 +166,39 @@ bool asst::InfrastDormTask::enter_operator_selection()
 
 bool asst::InfrastDormTask::select_operators()
 {
-	static auto click_clear_button = [](InfrastDormTask* ptr) {
-		// 点击“清空选择”按钮
+	// 点击“清空选择”按钮
+	auto click_clear_button = [&]() {
 		const static Rect clear_button(430, 655, 150, 40);
-		ptr->m_control_ptr->click(clear_button);
-		ptr->sleep(300);
+		m_control_ptr->click(clear_button);
+		sleep(300);
 	};
-	cv::Mat image = get_format_image();
+	// 点击“确定”按钮
+	auto click_confirm_button = [&]() {
+		const static Rect confirm_button(1105, 655, 150, 40);
+		m_control_ptr->click(confirm_button);
+		sleep(500);
+	};
 
-	std::future<void> click_clear_button_future = std::async(std::launch::async, click_clear_button, this);
+	cv::Mat image = get_format_image();
 
 	// 识别“休息中”的干员
 	auto resting_result = m_identify_ptr->find_all_images(image, "Resting", 0.8);
+	if (resting_result.size() == MaxOperNumInDorm) {	// 如果所有人都在休息，那这个宿舍不用换班，直接关了
+		click_confirm_button();
+		return true;
+	}
+
 	// 识别“注意力涣散”的干员
 	// TODO，这个阈值太低了，不正常，有时间再调整一下模板图片
 	auto listless_result = m_identify_ptr->find_all_images(image, "Listless", 0.6);
 	// 识别正在工作中的干员的心情状态
-	auto work_mood_result = detect_mood_status_at_work(image);
+	auto work_mood_result = detect_mood_status_at_work(image, Configer::get_instance().m_infrast_options.dorm_threshold);
 
-	click_clear_button_future.wait();
+	if (listless_result.size() == 0 && work_mood_result.size() == 0) {	// 如果没有注意力涣散的和心情低的，也直接关了
+		click_confirm_button();
+		return true;
+	}
+	click_clear_button();
 
 	int count = 0;
 	// 把“休息中”的干员，都再次选上
@@ -204,16 +218,11 @@ bool asst::InfrastDormTask::select_operators()
 		if (count++ >= MaxOperNumInDorm) {
 			break;
 		}
-		if (mood_status.process > Configer::get_instance().m_infrast_options.dorm_threshold) {
-			break;	// 这个容器是排过序的，如果一个大于，后面的就都是大于了
-		}
 		m_control_ptr->click(mood_status.rect);
 	}
 
-	// 点击“确定”按钮，确定完要联网加载的，比较慢，多sleep一会
-	const static Rect confirm_button(1105, 655, 150, 40);
-	m_control_ptr->click(confirm_button);
-	sleep(500);
+	click_confirm_button();
+
 	// 点完确定后，如果把工作中的干员撤下来了，会再弹出来一个确认的界面，如果没扯下来则不会弹出。先识别一下再决定要不要点击
 	auto&& [algorithm, score, second_confirm_rect] = m_identify_ptr->find_image(get_format_image(), "DormConfirm");
 	if (score >= Configer::TemplThresholdDefault) {
@@ -224,7 +233,7 @@ bool asst::InfrastDormTask::select_operators()
 	return true;
 }
 
-std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_work(const cv::Mat& image) const
+std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_work(const cv::Mat& image, double process_threshold) const
 {
 	constexpr static int MoodWidth = Configer::WindowWidthDefault * 0.0664 + 0.5;		// 心情进度条长度（满心情的时候）
 	constexpr static int MoodHeight = Configer::WindowHeightDefault * 0.00416 + 0.5;	// 心情进度条高度
@@ -291,9 +300,11 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 		cv::rectangle(draw_image, cv_actual_rect, cv::Scalar(0, 0, 255), 1);
 		cv::putText(draw_image, std::to_string(mood_status.process), cv::Point(cv_actual_rect.x, cv_actual_rect.y), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 0, 255));
 #endif
-		moods_vec.emplace_back(std::move(mood_status));
+		if (mood_status.process <= process_threshold) {
+			moods_vec.emplace_back(std::move(mood_status));
+		}
 	}
-	
+
 	std::sort(moods_vec.begin(), moods_vec.end(),
 		[](const auto& lhs, const auto& rhs) -> bool {
 			// 按剩余心情进度排个序，少的在前面
