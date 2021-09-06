@@ -27,14 +27,14 @@ bool asst::InfrastDormTask::run()
 		return false;
 	}
 
-	//enter_dorm(1);
-	//sleep(1000);
-	//enter_operator_selection();
-	//sleep(1000);
-	//clear_and_select_the_resting();
-
-	// for debug
-	detect_mood_status_at_work(get_format_image());
+	enter_dorm(0);
+	for (int i = 0; i != 4; ++i) {
+		if (i != 0) {
+			enter_next_dorm();
+		}
+		enter_operator_selection();
+		select_operators();
+	}
 
 	return true;
 }
@@ -67,6 +67,7 @@ bool asst::InfrastDormTask::enter_dorm(int index)
 		});
 
 	m_control_ptr->click(cur_dorm_result.at(index).rect);
+	sleep(1000);
 
 	return false;
 }
@@ -86,6 +87,13 @@ bool asst::InfrastDormTask::enter_next_dorm()
 
 	static const int swipe_dwon_duration = 1000;	// 向下滑动持续时间
 
+	// 游戏bug，宿舍中如果“进驻信息”已被选中，直接进行滑动会被滑的很远
+	// 所以这里先检查一下，如果进驻信息被选中了，就先把它关了，再进行滑动
+	auto find_result = m_identify_ptr->find_image(get_format_image(), "StationInfoSelected");
+	if (find_result.score >= 0.75) {
+		m_control_ptr->click(find_result.rect);
+	}
+
 	m_control_ptr->swipe(swipe_down_begin, swipe_down_end, swipe_dwon_duration);
 
 	static const Rect double_click_rect(
@@ -95,6 +103,7 @@ bool asst::InfrastDormTask::enter_next_dorm()
 		Configer::WindowWidthDefault * 0.2
 	);
 
+	// 游戏中的宿舍里，双击可以让当前设施回到正确的位置
 	m_control_ptr->click(double_click_rect);
 	m_control_ptr->click(double_click_rect);
 
@@ -150,20 +159,22 @@ bool asst::InfrastDormTask::enter_operator_selection()
 		return false;
 	}
 	m_control_ptr->click(button_iter->rect);
+	sleep(1000);
 
 	return true;
 }
 
-bool asst::InfrastDormTask::clear_and_select_the_resting()
+bool asst::InfrastDormTask::select_operators()
 {
-	static auto click_clear_button = [&]() {
+	static auto click_clear_button = [](InfrastDormTask* ptr) {
 		// 点击“清空选择”按钮
-		m_control_ptr->click(Rect(430, 655, 150, 40));
-		sleep(300);
+		const static Rect clear_button(430, 655, 150, 40);
+		ptr->m_control_ptr->click(clear_button);
+		ptr->sleep(300);
 	};
 	cv::Mat image = get_format_image();
 
-	std::future<void> click_clear_button_future = std::async(std::launch::async, click_clear_button);
+	std::future<void> click_clear_button_future = std::async(std::launch::async, click_clear_button, this);
 
 	// 识别“休息中”的干员
 	auto resting_result = m_identify_ptr->find_all_images(image, "Resting", 0.8);
@@ -181,17 +192,39 @@ bool asst::InfrastDormTask::clear_and_select_the_resting()
 		m_control_ptr->click(resting.rect);
 		++count;
 	}
+	// 选择“注意力涣散”的干员
 	for (const auto& listless : listless_result) {
-		m_control_ptr->click(listless.rect);
-		if (++count >= MaxOperNumInDorm) {
+		if (count++ >= MaxOperNumInDorm) {
 			break;
 		}
+		m_control_ptr->click(listless.rect);
 	}
+	// 选择心情较低的干员
+	for (const auto& mood_status : work_mood_result) {
+		if (count++ >= MaxOperNumInDorm) {
+			break;
+		}
+		if (mood_status.process > Configer::get_instance().m_infrast_options.dorm_threshold) {
+			break;	// 这个容器是排过序的，如果一个大于，后面的就都是大于了
+		}
+		m_control_ptr->click(mood_status.rect);
+	}
+
+	// 点击“确定”按钮，确定完要联网加载的，比较慢，多sleep一会
+	const static Rect confirm_button(1105, 655, 150, 40);
+	m_control_ptr->click(confirm_button);
+	sleep(500);
+	// 点完确定后，如果把工作中的干员撤下来了，会再弹出来一个确认的界面，如果没扯下来则不会弹出。先识别一下再决定要不要点击
+	auto&& [algorithm, score, second_confirm_rect] = m_identify_ptr->find_image(get_format_image(), "DormConfirm");
+	if (score >= Configer::TemplThresholdDefault) {
+		m_control_ptr->click(second_confirm_rect);
+	}
+	sleep(2000);
 
 	return true;
 }
 
-std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_work(const cv::Mat& image)
+std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_work(const cv::Mat& image) const
 {
 	constexpr static int MoodWidth = Configer::WindowWidthDefault * 0.0664 + 0.5;		// 心情进度条长度（满心情的时候）
 	constexpr static int MoodHeight = Configer::WindowHeightDefault * 0.00416 + 0.5;	// 心情进度条高度
@@ -203,7 +236,7 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 	// 把工作中的那个黄色笑脸全抓出来
 	auto smiley_result = m_identify_ptr->find_all_images(image, "SmileyAtWork", 0.85, false);
 
-	std::vector<MoodStatus> moods;
+	std::vector<MoodStatus> moods_vec;
 	for (const auto& smiley : smiley_result) {
 		// 检查进度条是否超出了图片范围
 		if (smiley.rect.x + smiley.rect.width + MoodWidth >= image.cols) {
@@ -226,7 +259,7 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 			cv::uint8_t left_value = 250;	// 当前点左侧的点的值
 			for (int j = 0; j != process_gray.cols; ++j) {
 				constexpr static cv::uint8_t LowerLimit = 180;
-				constexpr static cv::uint8_t DiffThreshold = 10;
+				constexpr static cv::uint8_t DiffThreshold = 20;
 
 				auto value = process_gray.at<cv::uint8_t>(i, j);
 				if (value >= LowerLimit && left_value - value < DiffThreshold) {	// 右边的颜色相比左边变化在阈值以内，都认为是连续的
@@ -247,18 +280,34 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 		}
 
 		MoodStatus mood_status;
+		mood_status.actual_length = max_white_length;
 		mood_status.process = static_cast<double>(max_white_length) / MoodWidth;
 		mood_status.rect = asst::Rect(process_rect.x, process_rect.y, process_rect.width, process_rect.height);
 		mood_status.actual_rect = mood_status.rect;
 		mood_status.actual_rect.width = max_white_length;
-
 #ifdef LOG_TRACE
-		cv::Rect cv_actual_rect(mood_status.actual_rect.x, mood_status.actual_rect.y, 
+		cv::Rect cv_actual_rect(mood_status.actual_rect.x, mood_status.actual_rect.y,
 			mood_status.actual_rect.width, mood_status.actual_rect.height);
 		cv::rectangle(draw_image, cv_actual_rect, cv::Scalar(0, 0, 255), 1);
 		cv::putText(draw_image, std::to_string(mood_status.process), cv::Point(cv_actual_rect.x, cv_actual_rect.y), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 0, 255));
 #endif
+		moods_vec.emplace_back(std::move(mood_status));
 	}
+	
+	std::sort(moods_vec.begin(), moods_vec.end(),
+		[](const auto& lhs, const auto& rhs) -> bool {
+			// 按剩余心情进度排个序，少的在前面
+			if (lhs.actual_length != rhs.actual_length) {
+				return lhs.actual_length < rhs.actual_length;
+			}
+			// 如果剩余心情相等，优先选靠左侧、靠上侧的，更符合用户直觉
+			else if (lhs.rect.x != rhs.rect.x) {
+				return lhs.rect.x < rhs.rect.x;
+			}
+			else {
+				return lhs.rect.y < rhs.rect.y;
+			}
+		});
 
-	return std::vector<MoodStatus>();
+	return moods_vec;
 }

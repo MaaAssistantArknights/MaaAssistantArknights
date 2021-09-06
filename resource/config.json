@@ -23,6 +23,10 @@
         "ocrThreadNumber": 4,
         "ocrThreadNumber_Doc": "OcrLite线程数量。默认4"
     },
+    "infrastOptions": {
+        "dormThreshold": 0.5,
+        "dormThreshold_Doc": "宿舍心情百分比阈值，心情百分比小于该值的干员会被放进宿舍。取值范围(0, 1.0)，默认0.5"
+    },
     "recruitOcrReplace": [
         [ "沮击", "狙击" ],
         [ "泪击", "狙击" ],
