@@ -335,6 +335,10 @@ bool asst::Assistance::start_infrast()
 	m_tasks_deque.emplace_back(shift_task_ptr);
 
 
+
+	// 全操作完之后，再返回基建的主界面
+	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
 	m_thread_idle = false;
 	m_condvar.notify_one();
 
