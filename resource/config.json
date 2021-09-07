@@ -580,7 +580,7 @@
         },
         "InfrastReward": {
             "algorithm": "OcrDetect",
-            "text": [ "可收获", "订单交付", "干员信赖" ],
+            "text": [ "可收获", "订单交付", "信赖" ],
             "rearDelay": 1000,
             "action": "clickSelf",
             "next": [
