@@ -27,13 +27,16 @@ bool asst::InfrastDormTask::run()
 		return false;
 	}
 
-	enter_dorm(0);
-	for (int i = 0; i != 4; ++i) {
-		if (i != 0) {
+	enter_dorm(m_dorm_begin);
+	for (int i = m_dorm_begin; i != DormNum; ++i) {
+		if (i != m_dorm_begin) {
 			enter_next_dorm();
 		}
 		enter_operator_selection();
-		select_operators();
+		int selected = select_operators();
+		if (selected < MaxOperNumInDorm) {	// 如果选不满5个人，说明没有更多需要休息的了，直接结束宿舍任务
+			break;
+		}
 	}
 
 	return true;
@@ -164,7 +167,7 @@ bool asst::InfrastDormTask::enter_operator_selection()
 	return true;
 }
 
-bool asst::InfrastDormTask::select_operators()
+int asst::InfrastDormTask::select_operators()
 {
 	// 点击“清空选择”按钮
 	auto click_clear_button = [&]() {
@@ -185,7 +188,7 @@ bool asst::InfrastDormTask::select_operators()
 	auto resting_result = m_identify_ptr->find_all_images(image, "Resting", 0.8);
 	if (resting_result.size() == MaxOperNumInDorm) {	// 如果所有人都在休息，那这个宿舍不用换班，直接关了
 		click_confirm_button();
-		return true;
+		return resting_result.size();
 	}
 
 	// 识别“注意力涣散”的干员
@@ -196,7 +199,7 @@ bool asst::InfrastDormTask::select_operators()
 
 	if (listless_result.size() == 0 && work_mood_result.size() == 0) {	// 如果没有注意力涣散的和心情低的，也直接关了
 		click_confirm_button();
-		return true;
+		return 0;
 	}
 	click_clear_button();
 
@@ -230,7 +233,7 @@ bool asst::InfrastDormTask::select_operators()
 	}
 	sleep(2000);
 
-	return true;
+	return count;
 }
 
 std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_work(const cv::Mat& image, double process_threshold) const
