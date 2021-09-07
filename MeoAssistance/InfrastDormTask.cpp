@@ -301,7 +301,10 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 		cv::rectangle(draw_image, cv_actual_rect, cv::Scalar(0, 0, 255), 1);
 		cv::putText(draw_image, std::to_string(mood_status.process), cv::Point(cv_actual_rect.x, cv_actual_rect.y), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 0, 255));
 #endif
-		if (mood_status.process <= process_threshold) {	// 心情小于阈值的直接加入结果
+		if (mood_status.process == 0) {
+			// 值为0说明是“注意力涣散”，红色哭脸被错误的识别成黄色笑脸了，这里直接忽略这个值
+		}
+		else if (mood_status.process <= process_threshold) {	// 心情小于阈值的直接加入结果
 			moods_vec.emplace_back(std::move(mood_status));
 		}
 		else {
