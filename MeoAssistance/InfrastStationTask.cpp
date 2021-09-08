@@ -186,7 +186,7 @@ std::list<std::string> asst::InfrastStationTask::calc_optimal_comb(
 				break;
 			}
 		}
-		if (count != 0 && count == temp_comb.size()) {
+		if (count != 0 && count == name_vec.size()) {
 			optimal_comb = temp_comb;
 			break;
 		}
