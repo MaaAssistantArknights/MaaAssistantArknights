@@ -60,11 +60,89 @@
             "endFlag_Doc": "识别到这里面的名字，就不继续往后识别了，一般用列表里的最后一个人名"
         },
         {
+            "facility": "PureGold",
+            "Doc": "制造站-赤金",
+            "combs": [
+                {
+                    "opers": [
+                        {
+                            "name": "砾",
+                            "elite": 2
+                        },
+                        {
+                            "name": "夜烟",
+                            "elite": 0
+                        },
+                        {
+                            "name": "斑点",
+                            "elite": 1
+                        }
+                    ],
+                    "efficiency": 95
+                }
+            ],
+            "endFlag": [ "月见夜", "炎熔" ],
+            "endFlag_Doc": "识别到这里面的名字，就不继续往后识别了，一般用列表里的最后一个人名"
+        },
+        {
             "facility": "TradeMoney",
             "Doc": "贸易站-龙门币",
             "combs": [
+                {
+                    "opers": [
+                        {
+                            "name": "巫恋",
+                            "elite": 2
+                        },
+                        {
+                            "name": "龙舌兰",
+                            "elite": 2
+                        },
+                        {
+                            "name": "卡夫卡",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 150,
+                    "Doc": "这三个有效率加成，不知道怎么算的，反正很高，先按150写"
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "巫恋",
+                            "elite": 2
+                        },
+                        {
+                            "name": "龙舌兰",
+                            "elite": 2
+                        },
+                        {
+                            "name": "柏喙",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 150,
+                    "Doc": "这三个有效率加成，不知道怎么算的，反正很高，先按150写"
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "能天使",
+                            "elite": 2
+                        },
+                        {
+                            "name": "拉普兰德",
+                            "elite": 2
+                        },
+                        {
+                            "name": "德克萨斯",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 100
+                }
             ],
-            "endFlag": [ ],
+            "endFlag": [ "桃金娘", "暗锁" ],
             "endFlag_Doc": "识别到这里面的名字，就不继续往后识别了，一般用列表里的最后一个人名"
         }
     ],
