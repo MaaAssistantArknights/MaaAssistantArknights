@@ -216,8 +216,9 @@ bool Assistance::start_debug_task()
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 
-	auto task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
-	m_tasks_deque.emplace_back(task_ptr);
+	{
+		append_match_task("Debug", {"UavAssist-MFG"});
+	}
 
 	m_thread_idle = false;
 	m_condvar.notify_one();
@@ -334,7 +335,8 @@ bool asst::Assistance::start_infrast()
 	// 贸易站换班
 	m_tasks_deque.emplace_back(shift_task_ptr);
 
-
+	// 无人机加速贸易站
+	append_match_task(InfrastTaskCahin, { "UavAssist-Trade" });
 
 	// 全操作完之后，再返回基建的主界面
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
