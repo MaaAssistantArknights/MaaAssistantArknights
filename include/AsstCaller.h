@@ -19,6 +19,7 @@ extern "C" {
 	MEOAPI_PORT bool AsstSetParam(asst::Assistance* p_asst, const char* type, const char* param, const char* value);
 	MEOAPI_PORT bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], int required_len, bool set_time);
 	MEOAPI_PORT bool AsstStartInfrast(asst::Assistance* p_asst);
+	MEOAPI_PORT bool AsstStartIndertifyOpers(asst::Assistance* p_asst);
 	MEOAPI_PORT bool AsstDebugTask(asst::Assistance* p_asst);
 
 	MEOAPI_PORT bool CheckVersionUpdate(char* tag_buffer, int tag_bufsize, char* html_url_buffer, int html_bufsize, char* body_buffer, int body_bufsize);
