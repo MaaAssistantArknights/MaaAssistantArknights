@@ -29,11 +29,16 @@ bool asst::InfrastDormTask::run()
 
 	enter_dorm(m_dorm_begin);
 	for (int i = m_dorm_begin; i != DormNum; ++i) {
+		bool to_left = false;
 		if (i != m_dorm_begin) {
 			enter_next_dorm();
+			to_left = false;
+		}
+		else {
+			to_left = true;	// 第一个进入的宿舍需要滑动到最左侧一下。后面的宿舍都不用了
 		}
 		enter_operator_selection();
-		int selected = select_operators();
+		int selected = select_operators(to_left);
 		if (selected < MaxOperNumInDorm) {	// 如果选不满5个人，说明没有更多需要休息的了，直接结束宿舍任务
 			break;
 		}
@@ -167,7 +172,7 @@ bool asst::InfrastDormTask::enter_operator_selection()
 	return true;
 }
 
-int asst::InfrastDormTask::select_operators()
+int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 {
 	// 点击“清空选择”按钮
 	auto click_clear_button = [&]() {
@@ -181,6 +186,10 @@ int asst::InfrastDormTask::select_operators()
 		m_control_ptr->click(confirm_button);
 		sleep(500);
 	};
+
+	if (need_to_the_left) {
+		swipe_to_the_left();
+	}
 
 	cv::Mat image = get_format_image();
 
@@ -341,4 +350,26 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 		});
 
 	return moods_vec;
+}
+
+bool InfrastDormTask::swipe_to_the_left()
+{
+	set_control_scale(1.0);
+	// 往左使劲滑几下
+
+	// TODO，重构控制的逻辑，封装特殊的滑动及点击逻辑到WinMacro中。先手写凑合着用了
+	auto&& [width, height] = m_view_ptr->getAdbDisplaySize();
+	static Rect swipe_begin(width * 0.9, height * 0.5, 0, 0);
+	static Rect swipe_end(width * 0.5, height * 0.5, 0, 0);
+	bool ret = true;
+	for (int i = 0; i != 5; ++i) {
+		ret &= m_control_ptr->swipe(swipe_end, swipe_begin, 100);
+		if (!ret) {
+			break;
+		}
+	}
+	if (ret) {
+		sleep(1000);
+	}
+	return ret;
 }
