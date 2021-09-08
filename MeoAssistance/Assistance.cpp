@@ -216,8 +216,23 @@ bool Assistance::start_debug_task()
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 
+	//{
+	//	append_match_task("Debug", {"UavAssist-MFG"});
+	//}
 	{
-		append_match_task("Debug", {"UavAssist-MFG"});
+		constexpr static const char* InfrastTaskCahin = "Infrast";
+		auto shift_task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
+
+		auto ret = get_opers_idtf_result();
+		if (!ret) {
+			DebugTraceInfo("Get opers info error");
+			//return false;
+		}
+		else {
+			shift_task_ptr->set_all_opers_info(std::move(ret.value()));
+		}
+		shift_task_ptr->set_task_chain(InfrastTaskCahin);
+		m_tasks_deque.emplace_back(shift_task_ptr);
 	}
 
 	m_thread_idle = false;

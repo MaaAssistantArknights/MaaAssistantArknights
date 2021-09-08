@@ -57,8 +57,9 @@ bool asst::InfrastStationTask::run()
 			image = get_format_image();
 		}
 		// 如果当前界面没有添加干员的按钮，那就不换班
-		auto&& [algorithm, score, add_rect] = m_identify_ptr->find_image(image, "AddOperator");
-		if (score < Configer::TemplThresholdDefault) {
+		auto&& [algorithm1, score1, add_rect1] = m_identify_ptr->find_image(image, "AddOperator");
+		auto&& [algorithm2, score2, add_rect2] = m_identify_ptr->find_image(image, "AddOperator-Trade");
+		if (score1 < Configer::TemplThresholdDefault && score2 < Configer::TemplThresholdDefault) {
 			continue;
 		}
 
@@ -71,6 +72,7 @@ bool asst::InfrastStationTask::run()
 			}
 		}
 		//点击添加干员的那个按钮
+		Rect add_rect = score1 >= score2 ? std::move(add_rect1) : std::move(add_rect2);
 		m_control_ptr->click(add_rect);
 		sleep(2000);
 
