@@ -122,6 +122,15 @@ bool AsstStartInfrast(asst::Assistance* p_asst)
 	return true;
 }
 
+MEOAPI_PORT bool AsstStartIndertifyOpers(asst::Assistance* p_asst)
+{
+	if (p_asst == NULL) {
+		return false;
+	}
+	p_asst->start_to_identify_opers();
+	return true;
+}
+
 bool AsstDebugTask(asst::Assistance* p_asst)
 {
 	if (p_asst == NULL) {

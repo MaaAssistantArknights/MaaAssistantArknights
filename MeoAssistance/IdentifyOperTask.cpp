@@ -159,6 +159,7 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(
 	int cropped_height = image.rows * m_cropped_height_ratio;
 	int cropped_upper_y = image.rows * m_cropped_upper_y_ratio;
 	cv::Mat upper_part_name_image = image(cv::Rect(0, cropped_upper_y, image.cols, cropped_height));
+	// ocr库，单色图片识别效果好很多；但是只接受三通道的图片，所以这里转两次，送进去单色的、三通道的图片
 	cv::cvtColor(upper_part_name_image, upper_part_name_image, cv::COLOR_BGR2GRAY);
 	cv::cvtColor(upper_part_name_image, upper_part_name_image, cv::COLOR_GRAY2BGR);
 
@@ -173,16 +174,16 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(
 		InfrastConfiger::get_instance().m_all_opers_name,
 		Configer::get_instance().m_infrast_ocr_replace);
 	// 把这一块涂黑，避免后面被特征检测的误识别了
-	cv::Mat draw_image = image;
 	for (const TextArea& textarea : upper_part_names) {
-		cv::Rect rect(textarea.rect.x, textarea.rect.y, textarea.rect.width, textarea.rect.height);
-		// 注意这里是浅拷贝，原图image也会被涂黑
-		cv::rectangle(draw_image, rect, cv::Scalar(0, 0, 0), -1);
+		cv::Rect rect(textarea.rect.x, textarea.rect.y - cropped_upper_y, textarea.rect.width, textarea.rect.height);
+		// 这里是转过灰度图再转回来的，相当于深拷贝，不会影响原图
+		cv::rectangle(upper_part_name_image, rect, cv::Scalar(0, 0, 0), -1);
 	}
 
 	// 下半部分的干员
 	int cropped_lower_y = image.rows * m_cropped_lower_y_ratio;
 	cv::Mat lower_part_name_image = image(cv::Rect(0, cropped_lower_y, image.cols, cropped_height));
+	// ocr库，单色图片识别效果好很多；但是只接受三通道的图片，所以这里转两次，送进去单色的、三通道的图片
 	cv::cvtColor(lower_part_name_image, lower_part_name_image, cv::COLOR_BGR2GRAY);
 	cv::cvtColor(lower_part_name_image, lower_part_name_image, cv::COLOR_GRAY2BGR);
 
@@ -198,9 +199,9 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(
 		Configer::get_instance().m_infrast_ocr_replace);
 	// 把这一块涂黑，避免后面被特征检测的误识别了
 	for (const TextArea& textarea : lower_part_names) {
-		cv::Rect rect(textarea.rect.x, textarea.rect.y, textarea.rect.width, textarea.rect.height);
-		// 注意这里是浅拷贝，原图image也会被涂黑
-		cv::rectangle(draw_image, rect, cv::Scalar(0, 0, 0), -1);
+		cv::Rect rect(textarea.rect.x, textarea.rect.y - cropped_lower_y, textarea.rect.width, textarea.rect.height);
+		// 这里是转过灰度图再转回来的，相当于深拷贝，不会影响原图
+		cv::rectangle(lower_part_name_image, rect, cv::Scalar(0, 0, 0), -1);
 	}
 
 	// 上下两部分识别结果合并
@@ -273,7 +274,7 @@ std::vector<TextArea> asst::IdentifyOperTask::detect_opers(
 					}
 					// 顺便再涂黑了，避免后面被whatever特征检测的误识别
 					// 注意这里是浅拷贝，原图image也会被涂黑
-					cv::rectangle(draw_image, cv_rect, cv::Scalar(0, 0, 0), -1);
+					//cv::rectangle(draw_image, cv_rect, cv::Scalar(0, 0, 0), -1);
 				}
 			}
 		}
