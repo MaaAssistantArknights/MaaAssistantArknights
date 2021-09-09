@@ -226,6 +226,11 @@ namespace asst {
 			return name == rhs.name;
 		}
 	};
+	// 基建干员组合
+	struct OperInfrastComb {
+		std::vector<OperInfrastInfo> comb;
+		int efficiency = 0;	// 组合的效率
+	};
 
 	constexpr double DoubleDiff = 1e-12;
 }

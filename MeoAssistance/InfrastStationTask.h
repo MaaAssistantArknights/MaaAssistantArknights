@@ -17,6 +17,7 @@ namespace asst {
 		}
 	protected:
 		constexpr static int SwipeMaxTimes = 17;
+		constexpr static int MaxOpers = 3;	// 单个制造站/贸易站最大干员数
 
 		// 一边滑动一边识别
 		virtual std::optional<std::unordered_map<std::string, OperInfrastInfo>> swipe_and_detect() override;
