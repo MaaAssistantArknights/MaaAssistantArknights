@@ -31,18 +31,22 @@ bool InfrastConfiger::parse(json::value&& json)
 	{
 		std::string key = facility["facility"].as_string();
 
-		std::vector<std::vector<OperInfrastInfo>> combs_vec;
-		for (json::value& comb : facility["combs"].as_array())
+		std::vector<OperInfrastComb> combs_vec;
+		for (json::value& comb_json : facility["combs"].as_array())
 		{
 			std::vector<OperInfrastInfo> opers;
-			for (json::value& oper : comb["opers"].as_array()) {
+			for (json::value& oper : comb_json["opers"].as_array()) {
 				OperInfrastInfo info;
 				info.name = oper["name"].as_string();
 				info.elite = oper.get("elite", 0);
 				info.level = oper.get("level", 0);
 				opers.emplace_back(std::move(info));
 			}
-			combs_vec.emplace_back(std::move(opers));
+			OperInfrastComb comb;
+			comb.comb = std::move(opers);
+			comb.efficiency = comb_json["efficiency"].as_integer();
+
+			combs_vec.emplace_back(std::move(comb));
 		}
 		m_infrast_combs.emplace(key, std::move(combs_vec));
 

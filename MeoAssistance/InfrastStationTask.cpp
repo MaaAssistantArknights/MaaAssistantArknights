@@ -89,6 +89,7 @@ bool asst::InfrastStationTask::run()
 			return false;
 		}
 		auto cur_opers_info = std::move(detect_ret.value());
+		// TODO，可以识别一次，把前6个最优解都列出来（最多6个制造站），然后就不用每次都识别并计算最优解了
 		std::list<std::string> optimal_comb = calc_optimal_comb(cur_opers_info);
 		bool select_ret = swipe_and_select(optimal_comb);
 	}
@@ -171,35 +172,61 @@ std::list<std::string> asst::InfrastStationTask::calc_optimal_comb(
 	// 配置文件中的干员组合，和抓出来的干员名比对，如果组合中的干员都有，那就用这个组合
 	// 注意配置中的干员组合需要是有序的
 	// Todo 时间复杂度起飞了，需要优化下
-	std::list<std::string> optimal_comb; // OperInfrastInfo是带精英化和等级信息的，基建里识别不到，也用不到，这里只保留干员名
-	for (const auto& name_vec : InfrastConfiger::get_instance().m_infrast_combs[m_facility]) {
-		int count = 0;
-		std::list<std::string> temp_comb;
-		for (const OperInfrastInfo& info : name_vec) {
-			// 找到了干员名，而且当前精英化等级需要大于等于配置文件中要求的精英化等级
-			if (cur_opers_info.find(info.name) != cur_opers_info.cend()
-				&& cur_opers_info.at(info.name).elite >= info.elite) {
-				++count;
-				temp_comb.emplace_back(info.name);
+
+	OperInfrastComb three_optimal_comb;		// 三人组合的最优解
+	OperInfrastComb single_optimal_comb;	// 由三个单人组成的组合 中的最优解
+	for (const OperInfrastComb& comb : InfrastConfiger::get_instance().m_infrast_combs[m_facility]) {
+		if (comb.comb.size() == 3) {
+			int count = 0;
+			for (const OperInfrastInfo& info : comb.comb) {
+				// 找到了干员名，而且当前精英化等级需要大于等于配置文件中要求的精英化等级
+				auto find_iter = cur_opers_info.find(info.name);
+				if (find_iter != cur_opers_info.cend()
+					&& find_iter->second.elite >= info.elite) {
+					++count;
+				}
+				else {
+					break;
+				}
 			}
-			else {
+			if (count == 3) {
+				three_optimal_comb = comb;
 				break;
 			}
 		}
-		if (count != 0 && count == name_vec.size()) {
-			optimal_comb = temp_comb;
-			break;
+		else if (comb.comb.size() == 1) {
+			const auto& cur_info = comb.comb.at(0);
+			auto find_iter = cur_opers_info.find(cur_info.name);
+			if (find_iter != cur_opers_info.cend()
+				&& find_iter->second.elite >= cur_info.elite) {
+				single_optimal_comb.comb.emplace_back(cur_info);
+				single_optimal_comb.efficiency += comb.efficiency;
+				if (single_optimal_comb.comb.size() >= 3) {
+					break;
+				}
+			}
+		}
+		else {
+			// 配置文件中没有两人的，不可能走到这里，TODO，报错。
+			// 以后游戏更新了有双人的再说，思路是一样的，找出双人组合中干员都有的+单人组合中有的。
+			// 再建一个OperInfrastComb，比一下效率
 		}
 	}
+	OperInfrastComb optimal_comb = three_optimal_comb.efficiency >= single_optimal_comb.efficiency 
+		? three_optimal_comb : single_optimal_comb;
+
+	std::list<std::string> optimal_opers_name;
 	std::vector<std::string> optimal_comb_gbk;	// 给回调json用的，gbk的
-	for (const std::string& name : optimal_comb) {
-		optimal_comb_gbk.emplace_back(Utf8ToGbk(name));
+	for (const auto& info : optimal_comb.comb) {
+		optimal_opers_name.emplace_back(info.name);
+		optimal_comb_gbk.emplace_back(Utf8ToGbk(info.name));
 	}
+
 	json::value opers_json;
 	opers_json["comb"] = json::array(optimal_comb_gbk);
 	m_callback(AsstMsg::InfrastComb, opers_json, m_callback_arg);
 
-	return optimal_comb;
+	return optimal_opers_name;
 }
 
 bool asst::InfrastStationTask::swipe_and_select(std::list<std::string>& name_comb, int swipe_max_times)

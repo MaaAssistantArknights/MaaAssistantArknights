@@ -54,6 +54,249 @@
                         }
                     ],
                     "efficiency": 90
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "槐琥",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 40
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "食铁兽",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 35
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "断罪者",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 35
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "白雪",
+                            "elite": 1
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "霜叶",
+                            "elite": 1
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "红豆",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "Castle-3",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "梅尔",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "帕拉斯",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "水月",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "白面鸮",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "赫默",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "杰西卡",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "史都华德",
+                            "elite": 1
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "香草",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "调香师",
+                            "elite": 1
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "石棉",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "泡普卡",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "芬",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 23
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "克洛斯",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 20
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "豆苗",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 15
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "流星",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 15
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "夜刀",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 15
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "蛇屠箱",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 10
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "黑角",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 10
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "卡缇",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 10
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "米格鲁",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 10
                 }
             ],
             "endFlag": [
@@ -90,21 +333,255 @@
                 {
                     "opers": [
                         {
-                            "name": "砾",
-                            "elite": 2
-                        },
-                        {
-                            "name": "夜烟",
+                            "name": "贝娜",
                             "elite": 0
                         },
                         {
+                            "name": "泡泡",
+                            "elite": 1
+                        },
+                        {
+                            "name": "火神",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 93
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "温蒂",
+                            "elite": 2
+                        },
+                        {
+                            "name": "异客",
+                            "elite": 2
+                        },
+                        {
+                            "name": "森蚺",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 90
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "砾",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 35
+                },
+                {
+                    "opers": [
+                        {
                             "name": "斑点",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "夜烟",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "帕拉斯",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "槐琥",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 40
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "梅尔",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "水月",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "白面鸮",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "赫默",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "杰西卡",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "史都华德",
                             "elite": 1
                         }
                     ],
-                    "efficiency": 95
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "香草",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "调香师",
+                            "elite": 1
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "石棉",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "泡普卡",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "芬",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 23
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "克洛斯",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 20
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "豆苗",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 15
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "流星",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 15
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "夜刀",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 15
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "蛇屠箱",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 10
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "黑角",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 10
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "卡缇",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 10
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "米格鲁",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 10
                 }
             ],
+
             "endFlag": [
                 "安洁莉娜",
                 "嵯峨",
@@ -188,6 +665,159 @@
                         }
                     ],
                     "efficiency": 100
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "空弦",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 40
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "能天使",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 35
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "雪雉",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 35
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "古米",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "空爆",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "月见夜",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "空",
+                            "elite": 2
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "安比尔",
+                            "elite": 1
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "缠丸",
+                            "elite": 1
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "芬",
+                            "elite": 1
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "芬",
+                            "elite": 1
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "慕斯",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "夜刀",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "夜烟",
+                            "elite": 1
+                        }
+                    ],
+                    "efficiency": 30
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "玫兰莎",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "梓兰",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 25
+                },
+                {
+                    "opers": [
+                        {
+                            "name": "远山",
+                            "elite": 0
+                        }
+                    ],
+                    "efficiency": 25
                 }
             ],
             "endFlag": [
@@ -207,7 +837,6 @@
                 "夜莺",
                 "推进之王",
                 "星熊",
-                "银灰",
                 "浊心斯卡蒂",
                 "歌蕾蒂娅",
                 "莫斯提马",
