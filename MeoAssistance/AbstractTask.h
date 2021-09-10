@@ -30,11 +30,10 @@ namespace asst {
 		virtual void set_task_chain(std::string name) { m_task_chain = std::move(name); }
 		virtual const std::string& get_task_chain() { return m_task_chain; }
 	protected:
-		virtual cv::Mat get_format_image(bool raw = false);	// ²ÎÊýraw£ºÔ­Í¼
-		virtual bool set_control_scale(double scale);
 		virtual bool sleep(unsigned millisecond);
 		virtual bool print_window(const std::string& dir);
 		virtual bool need_exit() const noexcept;
+		virtual bool is_ptr_inited() const noexcept;
 
 		std::shared_ptr<WinMacro> m_controller_ptr = nullptr;
 		std::shared_ptr<Identify> m_identify_ptr = nullptr;

@@ -104,7 +104,7 @@ Assistance::~Assistance()
 	DebugTraceFunction;
 
 	//if (m_controller_ptr != nullptr) {
-	//	m_controller_ptr->showWindow();
+	//	m_controller_ptr->show_window();
 	//}
 
 	m_thread_exit = true;
@@ -484,7 +484,7 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
 		p_this->stop(false);
 		break;
 	case AsstMsg::WindowMinimized:
-		p_this->m_controller_ptr->showWindow();
+		p_this->m_controller_ptr->show_window();
 		break;
 	case AsstMsg::AppendProcessTask:
 		more_detail["type"] = "ProcessTask";

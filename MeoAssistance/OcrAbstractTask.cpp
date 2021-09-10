@@ -10,7 +10,7 @@ using namespace asst;
 
 std::vector<TextArea> OcrAbstractTask::ocr_detect(bool use_raw_image)
 {
-	const cv::Mat& image = get_format_image(use_raw_image);
+	const cv::Mat& image = m_controller_ptr->get_image(use_raw_image);
 
 	return ocr_detect(image);
 }

@@ -25,7 +25,7 @@ bool asst::InfrastStationTask::run()
 		return false;
 	}
 
-	cv::Mat image = get_format_image();
+	cv::Mat image = m_controller_ptr->get_image();
 	// 先识别一下有几个制造站/贸易站
 	const static std::vector<std::string> facility_number_key = { "02", "03", "04", "05" };
 	std::vector<Rect> facility_number_rect;
@@ -45,7 +45,7 @@ bool asst::InfrastStationTask::run()
 			// 点到这个基建
 			m_controller_ptr->click(facility_number_rect[i]);
 			sleep(300);
-			image = get_format_image();
+			image = m_controller_ptr->get_image();
 		}
 		// 如果当前界面没有添加干员的按钮，那就不换班
 		auto&& [algorithm1, score1, add_rect1] = m_identify_ptr->find_image(image, "AddOperator");
@@ -69,10 +69,6 @@ bool asst::InfrastStationTask::run()
 
 		click_clear_button();
 		sleep(300);
-
-		auto&& [width, height] = m_controller_ptr->getDisplaySize();
-		m_swipe_begin = Rect(width * 0.9, height * 0.5, 0, 0);
-		m_swipe_end = Rect(width * 0.5, height * 0.5, 0, 0);
 
 		auto detect_ret = swipe_and_detect();
 		if (!detect_ret) {
@@ -101,7 +97,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastSta
 	std::unordered_map<std::string, OperInfrastInfo> cur_opers_info;
 	// 因为有些干员在宿舍休息，或者被其他基建占用了，所以需要重新识别一遍当前可用的干员
 	for (int i = 0; i != SwipeMaxTimes; ++i) {
-		const cv::Mat& image = get_format_image(true);
+		const cv::Mat& image = m_controller_ptr->get_image(true);
 		// 异步进行滑动操作
 		std::future<bool> swipe_future = std::async(
 			std::launch::async, &InfrastStationTask::swipe, this, false);
@@ -229,14 +225,14 @@ bool asst::InfrastStationTask::swipe_and_select(std::list<std::string>& name_com
 	std::unordered_set<std::string> feature_whatever = InfrastConfiger::get_instance().m_oper_name_feat_whatever;
 	// 一边滑动一边点击最优解中的干员
 	for (int i = 0; i != swipe_max_times; ++i) {
-		const cv::Mat& image = get_format_image(true);
+		const cv::Mat& image = m_controller_ptr->get_image(true);
 		auto cur_name_textarea = detect_operators_name(image, feature_cond, feature_whatever);
 
 		for (TextArea& text_area : cur_name_textarea) {
 			// 点过了就不会再点了，直接从最优解vector里面删了
 			auto iter = std::find(name_comb.begin(), name_comb.end(), text_area.text);
 			if (iter != name_comb.end()) {
-				m_controller_ptr->click(text_area.rect);
+				m_controller_ptr->click_without_scale(text_area.rect);
 				sleep(200);
 				name_comb.erase(iter);
 			}
@@ -250,7 +246,6 @@ bool asst::InfrastStationTask::swipe_and_select(std::list<std::string>& name_com
 		}
 	}
 	// 点击“确定”按钮，确定完要联网加载的，比较慢，多sleep一会
-	get_format_image();	// 这里get image没什么用，单纯就是为了触发下设置缩放，TODO 优化下
 	m_controller_ptr->click(Rect(1105, 655, 150, 40));
 	sleep(2000);
 	return true;

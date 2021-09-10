@@ -24,6 +24,9 @@ asst::IdentifyOperTask::IdentifyOperTask(AsstCallback callback, void* callback_a
 	m_cropped_height_ratio = 0.043;
 	m_cropped_upper_y_ratio = 0.480;
 	m_cropped_lower_y_ratio = 0.923;
+
+	m_swipe_begin = Rect(Configer::WindowWidthDefault * 0.9, Configer::WindowHeightDefault * 0.5, 0, 0);
+	m_swipe_end = Rect(Configer::WindowWidthDefault * 0.1, Configer::WindowHeightDefault * 0.5, 0, 0);
 }
 
 bool asst::IdentifyOperTask::run()
@@ -34,11 +37,6 @@ bool asst::IdentifyOperTask::run()
 		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
-
-	auto&& [width, height] = m_controller_ptr->getDisplaySize();
-
-	m_swipe_begin = Rect(width * 0.9, height * 0.5, 0, 0);
-	m_swipe_end = Rect(width * 0.1, height * 0.5, 0, 0);
 
 	auto&& detect_ret = swipe_and_detect();
 	if (!detect_ret) {
@@ -80,7 +78,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::IdentifyOp
 {
 	json::value task_start_json = json::object{
 		{ "task_type",  "InfrastStationTask" },
-		{ "task_chain", OcrAbstractTask::m_task_chain},
+		{ "task_chain", m_task_chain},
 	};
 	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
@@ -93,7 +91,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::IdentifyOp
 	// 一边识别一边滑动，把所有干员名字抓出来
 	// 正向完整滑一遍，再反向完整滑一遍，提高识别率
 	while (true) {
-		const cv::Mat& image = OcrAbstractTask::get_format_image(true);
+		const cv::Mat& image = m_controller_ptr->get_image(true);
 
 		// 异步进行滑动操作
 		std::future<bool> swipe_future = std::async(
@@ -178,8 +176,8 @@ int asst::IdentifyOperTask::detect_elite(const cv::Mat& image, const asst::Rect 
 	}
 
 
-	auto&& [score1, point1] = OcrAbstractTask::m_identify_ptr->match_template(elite_mat, elite1);
-	auto&& [score2, point2] = OcrAbstractTask::m_identify_ptr->match_template(elite_mat, elite2);
+	auto&& [score1, point1] = m_identify_ptr->match_template(elite_mat, elite1);
+	auto&& [score2, point2] = m_identify_ptr->match_template(elite_mat, elite2);
 	if (score1 > score2 && score1 > 0.7) {
 		return 1;
 	}

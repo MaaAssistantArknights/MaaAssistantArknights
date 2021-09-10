@@ -128,7 +128,7 @@ bool ProcessTask::run()
 
 std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 {
-	const cv::Mat& cur_image = get_format_image();
+	const cv::Mat& cur_image = m_controller_ptr->get_image();
 	if (cur_image.empty() || cur_image.rows < 100) {
 		return nullptr;
 	}
