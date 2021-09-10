@@ -42,7 +42,7 @@ bool asst::InfrastDormTask::run()
 
 bool asst::InfrastDormTask::enter_dorm(int index)
 {
-	cv::Mat image = get_format_image();
+	cv::Mat image = m_controller_ptr->get_image();
 	// 普通的和mini的，正常情况应该只有一个有结果，另一个是empty
 	auto dorm_result = m_identify_ptr->find_all_images(image, "Dorm", 0.8);
 	auto dorm_mini_result = m_identify_ptr->find_all_images(image, "DormMini", 0.8);
@@ -90,7 +90,7 @@ bool asst::InfrastDormTask::enter_next_dorm()
 
 	// 游戏bug，宿舍中如果“进驻信息”已被选中，直接进行滑动会被滑的很远
 	// 所以这里先检查一下，如果进驻信息被选中了，就先把它关了，再进行滑动
-	auto find_result = m_identify_ptr->find_image(get_format_image(), "StationInfoSelected");
+	auto find_result = m_identify_ptr->find_image(m_controller_ptr->get_image(), "StationInfoSelected");
 	if (find_result.score >= 0.75) {
 		m_controller_ptr->click(find_result.rect);
 	}
@@ -171,7 +171,7 @@ int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 		swipe_to_the_left();
 	}
 
-	cv::Mat image = get_format_image();
+	cv::Mat image = m_controller_ptr->get_image();
 
 	// 识别“休息中”的干员
 	auto resting_result = m_identify_ptr->find_all_images(image, "Resting", 0.8);
@@ -217,7 +217,8 @@ int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 	sleep(300);
 
 	// 点完确定后，如果把工作中的干员撤下来了，会再弹出来一个确认的界面，如果没扯下来则不会弹出。先识别一下再决定要不要点击
-	auto&& [algorithm, score, second_confirm_rect] = m_identify_ptr->find_image(get_format_image(), "DormConfirm");
+	auto&& [algorithm, score, second_confirm_rect] = 
+		m_identify_ptr->find_image(m_controller_ptr->get_image(), "DormConfirm");
 	if (score >= Configer::TemplThresholdDefault) {
 		m_controller_ptr->click(second_confirm_rect);
 	}

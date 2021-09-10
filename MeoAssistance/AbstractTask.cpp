@@ -33,58 +33,6 @@ void AbstractTask::set_exit_flag(bool* exit_flag)
 	m_exit_flag = exit_flag;
 }
 
-cv::Mat AbstractTask::get_format_image(bool raw)
-{
-	cv::Mat raw_image = m_controller_ptr->getImage();
-
-	if (raw_image.empty()) {
-		m_callback(AsstMsg::ImageIsEmpty, json::value(), m_callback_arg);
-		return raw_image;
-	}
-
-	if (raw) {
-		set_control_scale(1.0);
-		return raw_image;
-	}
-	else {
-		constexpr double DefaultRatio = static_cast<double>(Configer::WindowWidthDefault) / static_cast<double>(Configer::WindowHeightDefault);
-		double cur_ratio = static_cast<double>(raw_image.cols) / static_cast<double>(raw_image.rows);
-		cv::Size scale_size;
-		double scale = 0.0;
-		if (cur_ratio >= DefaultRatio	// 说明是宽屏或默认16:9，按照高度计算缩放
-			|| std::fabs(cur_ratio - DefaultRatio) < DoubleDiff)
-		{
-			scale_size = cv::Size(cur_ratio * Configer::WindowHeightDefault, Configer::WindowHeightDefault);
-			scale = static_cast<double>(raw_image.rows) / static_cast<double>(Configer::WindowHeightDefault);
-		}
-		else 
-		{	// 否则可能是偏正方形的屏幕，按宽度计算
-			scale_size = cv::Size(Configer::WindowWidthDefault, Configer::WindowWidthDefault / cur_ratio);
-			scale = static_cast<double>(raw_image.cols) / static_cast<double>(Configer::WindowWidthDefault);
-		}
-		cv::Mat resize_mat;
-		cv::resize(raw_image, resize_mat, scale_size, cv::INPAINT_NS);
-		set_control_scale(scale);
-
-		return resize_mat;
-	}
-}
-
-bool asst::AbstractTask::set_control_scale(double scale)
-{
-	m_controller_ptr->setControlScale(scale);
-	return true;
-}
-
-//bool AbstractTask::set_control_scale(int cur_width, int cur_height)
-//{
-//	double scale_width = static_cast<double>(cur_width) / Configer::WindowWidthDefault;
-//	double scale_height = static_cast<double>(cur_height) / Configer::WindowHeightDefault;
-//	double scale = (std::max)(scale_width, scale_height);
-//	m_controller_ptr->setControlScale(scale);
-//	return true;
-//}
-
 bool AbstractTask::sleep(unsigned millisecond)
 {
 	if (need_exit()) {
@@ -112,7 +60,7 @@ bool AbstractTask::sleep(unsigned millisecond)
 
 bool AbstractTask::print_window(const std::string& dir)
 {
-	const cv::Mat& image = get_format_image(true);
+	const cv::Mat& image = m_controller_ptr->get_image(true);
 	if (image.empty()) {
 		return false;
 	}
@@ -139,4 +87,14 @@ bool AbstractTask::print_window(const std::string& dir)
 bool asst::AbstractTask::need_exit() const noexcept
 {
 	return m_exit_flag != NULL && *m_exit_flag == true;
+}
+
+bool asst::AbstractTask::is_ptr_inited() const noexcept
+{
+	if (m_controller_ptr == NULL
+		|| m_identify_ptr == NULL)
+	{
+		return false;
+	}
+	return true;
 }

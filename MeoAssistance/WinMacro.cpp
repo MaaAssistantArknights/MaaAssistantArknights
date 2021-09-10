@@ -21,15 +21,16 @@ WinMacro::WinMacro(const EmulatorInfo& info)
 	m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count()),
 	m_screen_filename(GetCurrentDir() + "adb_screen.png")
 {
-	findHandle();
+	find_handle();
 }
 
 bool WinMacro::captured() const noexcept
 {
+	// TODO，加入对ADB是否连接的检查
 	return m_handle != NULL && ::IsWindow(m_handle);
 }
 
-bool WinMacro::findHandle()
+bool WinMacro::find_handle()
 {
 	const HandleInfo& handle_info = m_emulator_info.handle;
 
@@ -79,16 +80,38 @@ bool WinMacro::findHandle()
 
 	// TODO，检查连接是否成功
 	std::string connect_cmd = StringReplaceAll(m_emulator_info.adb.connect, "[Adb]", adb_dir);
-	if (!callCmd(connect_cmd)) {
+	if (!call_command(connect_cmd)) {
 		DebugTraceError("Connect Adb Error", connect_cmd);
 		return false;
 	}
 
-	auto&& display_ret = callCmd(StringReplaceAll(m_emulator_info.adb.display, "[Adb]", adb_dir));
+	auto&& display_ret = call_command(StringReplaceAll(m_emulator_info.adb.display, "[Adb]", adb_dir));
 	if (display_ret) {
 		std::string pipe_str = display_ret.value();
-		sscanf_s(pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(),
-			&m_emulator_info.adb.display_width, &m_emulator_info.adb.display_height);
+		int width = 0;
+		int height = 0;
+		sscanf_s(pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(), &width, &height);
+
+		m_emulator_info.adb.display_width = width;
+		m_emulator_info.adb.display_height = height;
+
+		constexpr double DefaultRatio = 
+			static_cast<double>(Configer::WindowWidthDefault) / static_cast<double>(Configer::WindowHeightDefault);
+		double cur_ratio = static_cast<double>(width) / static_cast<double>(height);
+
+		if (cur_ratio >= DefaultRatio	// 说明是宽屏或默认16:9，按照高度计算缩放
+			|| std::fabs(cur_ratio - DefaultRatio) < DoubleDiff)
+		{
+			int scale_width = cur_ratio * Configer::WindowHeightDefault;
+			m_scale_size = std::make_pair(scale_width, Configer::WindowHeightDefault);
+			m_control_scale = static_cast<double>(height) / static_cast<double>(Configer::WindowHeightDefault);
+		}
+		else
+		{	// 否则可能是偏正方形的屏幕，按宽度计算
+			int scale_height = Configer::WindowWidthDefault / cur_ratio;
+			m_scale_size = std::make_pair(Configer::WindowWidthDefault, scale_height);
+			m_control_scale = static_cast<double>(width) / static_cast<double>(Configer::WindowWidthDefault);
+		}
 	}
 	else {
 		DebugTraceError("Get Display Error");
@@ -109,7 +132,7 @@ bool WinMacro::findHandle()
 	return true;
 }
 
-std::optional<std::string> asst::WinMacro::callCmd(const std::string& cmd, bool use_pipe)
+std::optional<std::string> asst::WinMacro::call_command(const std::string& cmd, bool use_pipe)
 {
 	// 初始化管道
 	constexpr int PipeBuffSize = 1024;
@@ -176,7 +199,7 @@ std::optional<std::string> asst::WinMacro::callCmd(const std::string& cmd, bool 
 	return pipe_str;
 }
 
-Point asst::WinMacro::randPointInRect(const Rect& rect)
+Point asst::WinMacro::rand_point_in_rect(const Rect& rect)
 {
 	int x = 0, y = 0;
 	if (rect.width == 0) {
@@ -199,12 +222,12 @@ Point asst::WinMacro::randPointInRect(const Rect& rect)
 	return Point(x, y);
 }
 
-bool WinMacro::showWindow()
+bool WinMacro::show_window()
 {
 	return ::ShowWindow(m_handle, SW_RESTORE);
 }
 
-bool WinMacro::hideWindow()
+bool WinMacro::hide_window()
 {
 	return ::ShowWindow(m_handle, SW_HIDE);
 }
@@ -215,14 +238,24 @@ bool WinMacro::click(const Point& p)
 	int y = p.y * m_control_scale;
 	DebugTrace("Click, raw:", p.x, p.y, "corr:", x, y);
 
-	std::string cur_cmd = StringReplaceAll(m_emulator_info.adb.click, "[x]", std::to_string(x));
-	cur_cmd = StringReplaceAll(cur_cmd, "[y]", std::to_string(y));
-	return callCmd(cur_cmd, false).has_value();
+	return click_without_scale(Point(x, y));
 }
 
 bool WinMacro::click(const Rect& rect)
 {
-	return click(randPointInRect(rect));
+	return click(rand_point_in_rect(rect));
+}
+
+bool asst::WinMacro::click_without_scale(const Point& p)
+{
+	std::string cur_cmd = StringReplaceAll(m_emulator_info.adb.click, "[x]", std::to_string(p.x));
+	cur_cmd = StringReplaceAll(cur_cmd, "[y]", std::to_string(p.y));
+	return call_command(cur_cmd, false).has_value();
+}
+
+bool asst::WinMacro::click_without_scale(const Rect& rect)
+{
+	return click_without_scale(rand_point_in_rect(rect));
 }
 
 bool asst::WinMacro::swipe(const Point& p1, const Point& p2, int duration)
@@ -233,10 +266,20 @@ bool asst::WinMacro::swipe(const Point& p1, const Point& p2, int duration)
 	int y2 = p2.y * m_control_scale;
 	DebugTrace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
 
-	std::string cur_cmd = StringReplaceAll(m_emulator_info.adb.swipe, "[x1]", std::to_string(x1));
-	cur_cmd = StringReplaceAll(cur_cmd, "[y1]", std::to_string(y1));
-	cur_cmd = StringReplaceAll(cur_cmd, "[x2]", std::to_string(x2));
-	cur_cmd = StringReplaceAll(cur_cmd, "[y2]", std::to_string(y2));
+	return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration);
+}
+
+bool asst::WinMacro::swipe(const Rect& r1, const Rect& r2, int duration)
+{
+	return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration);
+}
+
+bool asst::WinMacro::swipe_without_scale(const Point& p1, const Point& p2, int duration)
+{
+	std::string cur_cmd = StringReplaceAll(m_emulator_info.adb.swipe, "[x1]", std::to_string(p1.x));
+	cur_cmd = StringReplaceAll(cur_cmd, "[y1]", std::to_string(p1.y));
+	cur_cmd = StringReplaceAll(cur_cmd, "[x2]", std::to_string(p2.x));
+	cur_cmd = StringReplaceAll(cur_cmd, "[y2]", std::to_string(p2.y));
 	if (duration <= 0) {
 		cur_cmd = StringReplaceAll(cur_cmd, "[duration]", "");
 	}
@@ -244,33 +287,30 @@ bool asst::WinMacro::swipe(const Point& p1, const Point& p2, int duration)
 		cur_cmd = StringReplaceAll(cur_cmd, "[duration]", std::to_string(duration));
 	}
 
-	return callCmd(cur_cmd, false).has_value();
+	return call_command(cur_cmd, false).has_value();
 }
 
-bool asst::WinMacro::swipe(const Rect& r1, const Rect& r2, int duration)
+bool asst::WinMacro::swipe_without_scale(const Rect& r1, const Rect& r2, int duration)
 {
-	return swipe(randPointInRect(r1), randPointInRect(r2), duration);
+	return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration);
 }
 
-void asst::WinMacro::setControlScale(double scale) noexcept
+cv::Mat asst::WinMacro::get_image(bool raw)
 {
-	m_control_scale = scale;
-}
+	bool call_ret = call_command(m_emulator_info.adb.screencap, false).has_value()
+		&& call_command(m_emulator_info.adb.pullscreen, false).has_value();
 
-std::pair<int, int> asst::WinMacro::getDisplaySize()
-{
-	static std::pair<int, int> size = std::make_pair(m_emulator_info.adb.display_width, m_emulator_info.adb.display_height);
-	return size;
-
-	//return std::make_pair(m_emulator_info.adb.display_width, m_emulator_info.adb.display_height);
-}
-
-cv::Mat asst::WinMacro::getImage()
-{
-	if (callCmd(m_emulator_info.adb.screencap, false).has_value()
-		&& callCmd(m_emulator_info.adb.pullscreen, false).has_value()) {
-		return cv::imread(m_screen_filename);
+	if (!call_ret) {
+		return cv::Mat();
 	}
-
-	return cv::Mat();
+	cv::Mat raw_mat = cv::imread(m_screen_filename);
+	if (raw) {
+		return raw_mat;
+	}
+	else {
+		const static cv::Size size(m_scale_size.first, m_scale_size.second);
+		cv::Mat resize_mat;
+		cv::resize(raw_mat, resize_mat, size, cv::INPAINT_NS);
+		return resize_mat;
+	}
 }
