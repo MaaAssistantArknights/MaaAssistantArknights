@@ -1,13 +1,13 @@
 #pragma once
 
-#include "IdentifyOperTask.h"
+#include "InfrastAbstractTask.h"
 
 namespace asst {
 	// 基建进驻任务
-	class InfrastStationTask : public IdentifyOperTask
+	class InfrastStationTask : public InfrastAbstractTask
 	{
 	public:
-		InfrastStationTask(AsstCallback callback, void* callback_arg);
+		using InfrastAbstractTask::InfrastAbstractTask;
 		virtual ~InfrastStationTask() = default;
 
 		virtual bool run() override;
@@ -20,13 +20,11 @@ namespace asst {
 		constexpr static int MaxOpers = 3;	// 单个制造站/贸易站最大干员数
 
 		// 一边滑动一边识别
-		virtual std::optional<std::unordered_map<std::string, OperInfrastInfo>> swipe_and_detect() override;
+		std::optional<std::unordered_map<std::string, OperInfrastInfo>> swipe_and_detect();
 		// 计算最优解干员组合
 		std::list<std::string> calc_optimal_comb(const std::unordered_map<std::string, OperInfrastInfo>& cur_opers_info) const;
 		// 一边滑动一边识别并点击干员名
 		bool swipe_and_select(std::list<std::string>& name_comb, int swipe_max_times = SwipeMaxTimes);
-		// 快速滑动到最左边
-		bool swipe_to_the_left();
 
 		std::string m_facility;	// 设施名（制造站、贸易站、控制中枢……）
 		std::unordered_map<std::string, OperInfrastInfo> m_all_opers_info;

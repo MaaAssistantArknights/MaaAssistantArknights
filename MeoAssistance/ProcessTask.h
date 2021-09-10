@@ -7,7 +7,7 @@ namespace asst {
 	class ProcessTask : public OcrAbstractTask
 	{
 	public:
-		ProcessTask(AsstCallback callback, void* callback_arg);
+		using OcrAbstractTask::OcrAbstractTask;
 		virtual ~ProcessTask() = default;
 
 		virtual bool run() override;

@@ -57,8 +57,7 @@ bool asst::Configer::parse(json::value&& json)
 
 	json::value& options_json = root["options"];
 	{
-		m_options.task_identify_delay = options_json["taskIdentifyDelay"].as_integer();
-		m_options.task_control_delay = options_json["taskControlDelay"].as_integer();
+		m_options.task_delay = options_json["taskDelay"].as_integer();
 		m_options.identify_cache = options_json["identifyCache"].as_boolean();
 		m_options.control_delay_lower = options_json["controlDelayRange"][0].as_integer();
 		m_options.control_delay_upper = options_json["controlDelayRange"][1].as_integer();

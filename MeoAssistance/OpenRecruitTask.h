@@ -6,7 +6,7 @@ namespace asst {
 	class OpenRecruitTask : public OcrAbstractTask
 	{
 	public:
-		OpenRecruitTask(AsstCallback callback, void* callback_arg);
+		using OcrAbstractTask::OcrAbstractTask;
 		virtual ~OpenRecruitTask() = default;
 
 		virtual bool run() override;

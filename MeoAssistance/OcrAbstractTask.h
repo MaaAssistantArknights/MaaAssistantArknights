@@ -9,7 +9,7 @@ namespace asst {
 	class OcrAbstractTask : public AbstractTask
 	{
 	public:
-		OcrAbstractTask(AsstCallback callback, void* callback_arg);
+		using AbstractTask::AbstractTask;
 		virtual ~OcrAbstractTask() = default;
 
 		virtual bool run() override = 0;

@@ -4,17 +4,12 @@
 #include <vector>
 #include <algorithm>
 
+#include "WinMacro.h"
 #include "Configer.h"
 #include "RecruitConfiger.h"
 #include "AsstAux.h"
 
 using namespace asst;
-
-OpenRecruitTask::OpenRecruitTask(AsstCallback callback, void* callback_arg)
-	: OcrAbstractTask(callback, callback_arg)
-{
-	m_task_type = TaskType::TaskTypeRecognition & TaskType::TaskTypeClick;
-}
 
 bool OpenRecruitTask::run()
 {
@@ -195,7 +190,7 @@ bool OpenRecruitTask::run()
 	results_json["result"] = json::array(std::move(result_json_vector));
 	m_callback(AsstMsg::RecruitResult, results_json, m_callback_arg);
 
-	/* 点击最优解的tags（添加点击任务） */
+	/* 点击最优解的tags */
 	if (!m_required_level.empty() && !result_vector.empty()) {
 		if (std::find(m_required_level.cbegin(), m_required_level.cend(), result_vector[0].second.min_level)
 			== m_required_level.cend()) {
@@ -207,10 +202,7 @@ bool OpenRecruitTask::run()
 		task_json["type"] = "ClickTask";
 		for (const TextArea& text_area : all_tags) {
 			if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
-				task_json["rect"] = json::array({ text_area.rect.x, text_area.rect.y, text_area.rect.width, text_area.rect.height });
-				task_json["retry_times"] = m_retry_times;
-				task_json["task_chain"] = m_task_chain;
-				m_callback(AsstMsg::AppendTask, task_json, m_callback_arg);
+				m_control_ptr->click(text_area.rect);
 			}
 		}
 	}

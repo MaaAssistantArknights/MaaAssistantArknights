@@ -11,12 +11,6 @@
 
 using namespace asst;
 
-asst::InfrastDormTask::InfrastDormTask(AsstCallback callback, void* callback_arg)
-	: OcrAbstractTask(callback, callback_arg)
-{
-	;
-}
-
 bool asst::InfrastDormTask::run()
 {
 	if (m_view_ptr == nullptr
@@ -174,19 +168,6 @@ bool asst::InfrastDormTask::enter_operator_selection()
 
 int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 {
-	// 点击“清空选择”按钮
-	auto click_clear_button = [&]() {
-		const static Rect clear_button(430, 655, 150, 40);
-		m_control_ptr->click(clear_button);
-		sleep(300);
-	};
-	// 点击“确定”按钮
-	auto click_confirm_button = [&]() {
-		const static Rect confirm_button(1105, 655, 150, 40);
-		m_control_ptr->click(confirm_button);
-		sleep(500);
-	};
-
 	if (need_to_the_left) {
 		swipe_to_the_left();
 	}
@@ -350,26 +331,4 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 		});
 
 	return moods_vec;
-}
-
-bool InfrastDormTask::swipe_to_the_left()
-{
-	set_control_scale(1.0);
-	// 往左使劲滑几下
-
-	// TODO，重构控制的逻辑，封装特殊的滑动及点击逻辑到WinMacro中。先手写凑合着用了
-	auto&& [width, height] = m_view_ptr->getAdbDisplaySize();
-	static Rect swipe_begin(width * 0.9, height * 0.5, 0, 0);
-	static Rect swipe_end(width * 0.5, height * 0.5, 0, 0);
-	bool ret = true;
-	for (int i = 0; i != 5; ++i) {
-		ret &= m_control_ptr->swipe(swipe_end, swipe_begin, 100);
-		if (!ret) {
-			break;
-		}
-	}
-	if (ret) {
-		sleep(1000);
-	}
-	return ret;
 }

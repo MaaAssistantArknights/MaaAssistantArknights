@@ -437,27 +437,9 @@ void Assistance::working_proc(Assistance* p_this)
 				}
 			}
 
-			// 如果下个任务是识别，就按识别的延时来；如果下个任务是点击，就按点击的延时来；……
-			// 如果都符合，就取个最大值
-			int delay = 0;
-			if (!p_this->m_tasks_deque.empty())
-			{
-				int next_type = p_this->m_tasks_deque.front()->get_task_type();
-				std::vector<int> candidate_delay = { 0 };
-				if (next_type & TaskType::TaskTypeClick)
-				{
-					candidate_delay.emplace_back(Configer::get_instance().m_options.task_control_delay);
-				}
-				if (next_type & TaskType::TaskTypeRecognition)
-				{
-					candidate_delay.emplace_back(Configer::get_instance().m_options.task_identify_delay);
-				}
-				delay = *std::max_element(candidate_delay.cbegin(), candidate_delay.cend());
-			}
-			p_this->m_condvar.wait_until(lock,
-				start_time + std::chrono::milliseconds(delay),
-				[&]() -> bool
-				{ return p_this->m_thread_idle; });
+			int& delay = Configer::get_instance().m_options.task_delay;
+			p_this->m_condvar.wait_until(lock, start_time + std::chrono::milliseconds(delay),
+				[&]() -> bool { return p_this->m_thread_idle; });
 		}
 		else
 		{
@@ -551,24 +533,7 @@ void asst::Assistance::append_task(const json::value& detail, bool front)
 	std::string task_chain = detail.get("task_chain", "");
 	int retry_times = detail.get("retry_times", INT_MAX);
 
-	if (task_type == "ClickTask")
-	{
-		auto task_ptr = std::make_shared<ClickTask>(task_callback, (void*)this);
-		task_ptr->set_task_chain(task_chain);
-		task_ptr->set_retry_times(retry_times);
-
-		json::array rect_json = detail.at("rect").as_array();
-		Rect rect(rect_json[0].as_integer(), rect_json[1].as_integer(), rect_json[2].as_integer(), rect_json[3].as_integer());
-		task_ptr->set_rect(std::move(rect));
-
-		if (front) {
-			m_tasks_deque.emplace_front(task_ptr);
-		}
-		else {
-			m_tasks_deque.emplace_back(task_ptr);
-		}
-	}
-	else if (task_type == "ProcessTask")
+	if (task_type == "ProcessTask")
 	{
 		std::vector<std::string> next_vec;
 		if (detail.exist("tasks"))

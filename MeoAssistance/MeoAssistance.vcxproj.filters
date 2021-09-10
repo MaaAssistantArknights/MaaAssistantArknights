@@ -81,9 +81,6 @@
     <ClInclude Include="AbstractTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
-    <ClInclude Include="ClickTask.h">
-      <Filter>头文件\Task</Filter>
-    </ClInclude>
     <ClInclude Include="InfrastStationTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
@@ -108,13 +105,13 @@
     <ClInclude Include="IdentifyOperTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
-    <ClInclude Include="SwipeTask.h">
-      <Filter>头文件\Task</Filter>
-    </ClInclude>
     <ClInclude Include="AbstractConfiger.h">
       <Filter>头文件\Configer</Filter>
     </ClInclude>
     <ClInclude Include="InfrastDormTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastAbstractTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
   </ItemGroup>
@@ -140,9 +137,6 @@
     <ClCompile Include="AbstractTask.cpp">
       <Filter>源文件\Task</Filter>
     </ClCompile>
-    <ClCompile Include="ClickTask.cpp">
-      <Filter>源文件\Task</Filter>
-    </ClCompile>
     <ClCompile Include="InfrastStationTask.cpp">
       <Filter>源文件\Task</Filter>
     </ClCompile>
@@ -164,13 +158,13 @@
     <ClCompile Include="IdentifyOperTask.cpp">
       <Filter>源文件\Task</Filter>
     </ClCompile>
-    <ClCompile Include="SwipeTask.cpp">
-      <Filter>源文件\Task</Filter>
-    </ClCompile>
     <ClCompile Include="AbstractConfiger.cpp">
       <Filter>源文件\Configer</Filter>
     </ClCompile>
     <ClCompile Include="InfrastDormTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastAbstractTask.cpp">
       <Filter>源文件\Task</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,10 +3,8 @@
     "options": {
         "identifyCache": true,
         "identifyCache_Doc": "图像识别缓存功能：开启后可以大幅降低CPU消耗，但需要保证要识别的按钮每次的位置不会改变。true-开启，false-关闭，默认true",
-        "taskIdentifyDelay": 1000,
-        "taskIdentifyDelay_Doc": "识别任务间的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认1000",
-        "taskControlDelay": 300,
-        "taskControlDelay_Doc": "点击任务间延迟：越快点的越快，但是太快了句柄可能不响应。单位毫秒，默认300",
+        "taskDelay": 1000,
+        "taskIdentifyDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认1000",
         "printWindow": true,
         "printWindow_Doc": "截图功能：开启后每次结算界面会截图到screenshot目录下。true-开启，false-关闭，默认true",
         "printWindowDelay": 3000,
