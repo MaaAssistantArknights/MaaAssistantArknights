@@ -20,7 +20,8 @@ bool asst::InfrastDormTask::run()
 		return false;
 	}
 
-	enter_dorm(m_dorm_begin);
+	enter_station({"Dorm", "DormMini"}, m_dorm_begin, 0.8);
+
 	for (int i = m_dorm_begin; i != DormNum; ++i) {
 		bool to_left = false;
 		if (i != m_dorm_begin) {
@@ -38,39 +39,6 @@ bool asst::InfrastDormTask::run()
 	}
 
 	return true;
-}
-
-bool asst::InfrastDormTask::enter_dorm(int index)
-{
-	cv::Mat image = m_controller_ptr->get_image();
-	// 普通的和mini的，正常情况应该只有一个有结果，另一个是empty
-	auto dorm_result = m_identify_ptr->find_all_images(image, "Dorm", 0.8);
-	auto dorm_mini_result = m_identify_ptr->find_all_images(image, "DormMini", 0.8);
-
-	decltype(dorm_result) cur_dorm_result;
-	if (dorm_result.empty() && dorm_mini_result.empty()) {
-		// 没找到宿舍，TODO，报错
-		return false;
-	}
-	else if (dorm_result.empty()) {
-		cur_dorm_result = std::move(dorm_mini_result);
-	}
-	else if (dorm_mini_result.empty()) {
-		cur_dorm_result = std::move(dorm_result);
-	}
-	if (index >= cur_dorm_result.size()) {
-		return false;
-	}
-
-	std::sort(cur_dorm_result.begin(), cur_dorm_result.end(), [](
-		const auto& lhs, const auto& rhs) -> bool {
-			return lhs.rect.y < rhs.rect.y;
-		});
-
-	m_controller_ptr->click(cur_dorm_result.at(index).rect);
-	sleep(1000);
-
-	return false;
 }
 
 bool asst::InfrastDormTask::enter_next_dorm()

@@ -217,18 +217,24 @@ bool Assistance::start_debug_task()
 	//{
 	//	append_match_task("Debug", {"UavAssist-MFG"});
 	//}
-	{
-		constexpr static const char* InfrastTaskCahin = "Infrast";
-		auto shift_task_ptr = std::make_shared<InfrastProductionTask>(task_callback, (void*)this);
+	//{
+	//	constexpr static const char* InfrastTaskCahin = "Debug";
+	//	auto shift_task_ptr = std::make_shared<InfrastProductionTask>(task_callback, (void*)this);
 
-		auto ret = get_opers_idtf_result();
-		if (!ret) {
-			DebugTraceInfo("Get opers info error");
-			//return false;
-		}
-		else {
-			shift_task_ptr->set_all_opers_info(std::move(ret.value()));
-		}
+	//	auto ret = get_opers_idtf_result();
+	//	if (!ret) {
+	//		DebugTraceInfo("Get opers info error");
+	//		//return false;
+	//	}
+	//	else {
+	//		shift_task_ptr->set_all_opers_info(std::move(ret.value()));
+	//	}
+	//	shift_task_ptr->set_task_chain(InfrastTaskCahin);
+	//	m_tasks_deque.emplace_back(shift_task_ptr);
+	//}
+	{
+		constexpr static const char* InfrastTaskCahin = "Debug";
+		auto shift_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
 		shift_task_ptr->set_task_chain(InfrastTaskCahin);
 		m_tasks_deque.emplace_back(shift_task_ptr);
 	}

@@ -14,12 +14,14 @@ namespace asst {
         virtual bool swipe_to_the_left();
         virtual bool click_clear_button();
         virtual bool click_confirm_button();
+        virtual bool click_return_button();
         virtual bool swipe(bool reverse = false);
 
         // ¼ì²â¸ÉÔ±Ãû
         virtual std::vector<TextArea> detect_operators_name(const cv::Mat& image,
             std::unordered_map<std::string, std::string>& feature_cond,
             std::unordered_set<std::string>& feature_whatever);
+        virtual bool enter_station(const std::vector<std::string>& templ_names, int index, double threshold = 0.8);
 
         constexpr static int SwipeExtraDelayDefault = 1000;
         constexpr static int SwipeDurationDefault = 2000;
