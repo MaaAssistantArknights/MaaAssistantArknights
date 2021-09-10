@@ -51,9 +51,6 @@ namespace asst {
 
 		bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
-		// 滑动操作，调试用
-		bool swipe(const Point& p1, const Point& p2);
-
 		static constexpr int ProcessTaskRetryTimesDefault = 20;
 		static constexpr int OpenRecruitTaskRetyrTimesDefault = 5;
 
@@ -70,9 +67,7 @@ namespace asst {
 		static std::optional<std::unordered_map<std::string, OperInfrastInfo>>
 			get_opers_idtf_result();	// 读取干员识别结果
 
-		std::shared_ptr<WinMacro> m_window_ptr = nullptr;
-		std::shared_ptr<WinMacro> m_view_ptr = nullptr;
-		std::shared_ptr<WinMacro> m_control_ptr = nullptr;
+		std::shared_ptr<WinMacro> m_controller_ptr = nullptr;
 		std::shared_ptr<Identify> m_identify_ptr = nullptr;
 		bool m_inited = false;
 

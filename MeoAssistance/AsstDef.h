@@ -13,22 +13,6 @@ namespace json
 }
 
 namespace asst {
-	enum class HandleType
-	{
-		Window = 1,
-		View = 2,
-		Control = 4
-	};
-
-	static std::ostream& operator<<(std::ostream& os, const HandleType& type)
-	{
-		static std::unordered_map<HandleType, std::string> _type_name = {
-			{HandleType::Window, "Window"},
-			{HandleType::View, "View"},
-			{HandleType::Control, "Control"}
-		};
-		return os << _type_name.at(type);
-	}
 
 	enum class ProcessTaskAction {
 		Invalid = 0,
@@ -130,17 +114,8 @@ namespace asst {
 
 	struct EmulatorInfo {
 		std::string name;
-		std::vector<HandleInfo> window;
-		std::vector<HandleInfo> view;
-		std::vector<HandleInfo> control;
-		bool is_adb = false;
 		AdbCmd adb;
-		int width = 0;
-		int height = 0;
-		int x_offset = 0;
-		int y_offset = 0;
-		int right_offset = 0;
-		int bottom_offset = 0;
+		HandleInfo handle;
 	};
 
 	// 任务信息
@@ -187,14 +162,12 @@ namespace asst {
 		int control_delay_upper = 0;		// 点击随机延时上限：每次点击操作会进行随机延时
 		bool print_window = false;			// 截图功能：开启后每次结算界面会截图到screenshot目录下
 		int print_window_delay = 0;			// 截图延时：每次到结算界面，掉落物品不是一次性出来的，有个动画，所以需要等一会再截图
-		int print_window_crop_offset = 0;	// 截图额外裁剪：再额外把边框裁减掉一圈，不然企鹅物流有可能识别不出来
 		int ocr_gpu_index = -1;				// OcrLite使用GPU编号，-1(使用CPU)/0(使用GPU0)/1(使用GPU1)/...
 		int ocr_thread_number = 0;			// OcrLite线程数量
 	};
 
 	struct InfrastOptions {					// 基建的选项
 		double dorm_threshold = 0;			// 宿舍心情百分比阈值，心情百分比小于该值的干员会被放进宿舍
-
 	};
 
 	// 干员信息，公开招募相关

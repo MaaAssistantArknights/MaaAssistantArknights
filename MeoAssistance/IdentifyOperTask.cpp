@@ -28,15 +28,14 @@ asst::IdentifyOperTask::IdentifyOperTask(AsstCallback callback, void* callback_a
 
 bool asst::IdentifyOperTask::run()
 {
-	if (m_view_ptr == nullptr
-		|| m_identify_ptr == nullptr
-		|| m_control_ptr == nullptr)
+	if (m_controller_ptr == nullptr
+		|| m_identify_ptr == nullptr)
 	{
 		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
 	}
 
-	auto&& [width, height] = m_view_ptr->getAdbDisplaySize();
+	auto&& [width, height] = m_controller_ptr->getDisplaySize();
 
 	m_swipe_begin = Rect(width * 0.9, height * 0.5, 0, 0);
 	m_swipe_end = Rect(width * 0.1, height * 0.5, 0, 0);

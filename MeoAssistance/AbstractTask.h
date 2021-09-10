@@ -21,11 +21,7 @@ namespace asst {
 		AbstractTask(const AbstractTask&) = default;
 		AbstractTask(AbstractTask&&) = default;
 
-		virtual void set_ptr(
-			std::shared_ptr<WinMacro> window_ptr,
-			std::shared_ptr<WinMacro> view_ptr,
-			std::shared_ptr<WinMacro> control_ptr,
-			std::shared_ptr<Identify> identify_ptr);
+		virtual void set_ptr(std::shared_ptr<WinMacro> controller_ptr, std::shared_ptr<Identify> identify_ptr);
 		virtual bool run() = 0;
 
 		virtual void set_exit_flag(bool* exit_flag);
@@ -40,9 +36,7 @@ namespace asst {
 		virtual bool print_window(const std::string& dir);
 		virtual bool need_exit() const noexcept;
 
-		std::shared_ptr<WinMacro> m_window_ptr = nullptr;
-		std::shared_ptr<WinMacro> m_view_ptr = nullptr;
-		std::shared_ptr<WinMacro> m_control_ptr = nullptr;
+		std::shared_ptr<WinMacro> m_controller_ptr = nullptr;
 		std::shared_ptr<Identify> m_identify_ptr = nullptr;
 
 		AsstCallback m_callback;

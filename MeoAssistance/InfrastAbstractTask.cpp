@@ -9,11 +9,17 @@
 
 using namespace asst;
 
+asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* callback_arg)
+	: OcrAbstractTask(callback, callback_arg),
+	m_swipe_begin(Configer::WindowWidthDefault * 0.9, Configer::WindowHeightDefault * 0.5, 0, 0),
+	m_swipe_end(Configer::WindowWidthDefault * 0.5, Configer::WindowHeightDefault * 0.5, 0, 0)
+{
+}
+
 bool asst::InfrastAbstractTask::swipe_to_the_left()
 {
 	constexpr int SwipeTimes = 5;
 
-	set_control_scale(1.0);
 	m_swipe_duration = 100;
 	m_swipe_extra_delay = 0;
 	// Íù×óÊ¹¾¢»¬¼¸ÏÂ
@@ -33,13 +39,13 @@ bool asst::InfrastAbstractTask::swipe_to_the_left()
 bool asst::InfrastAbstractTask::click_clear_button()
 {
 	const static Rect ClearButtonRect(430, 655, 150, 40);
-	return m_control_ptr->click(ClearButtonRect);
+	return m_controller_ptr->click(ClearButtonRect);
 }
 
 bool asst::InfrastAbstractTask::click_confirm_button()
 {
 	const static Rect ConfirmButtonRect(1105, 655, 150, 40);
-	return m_control_ptr->click(ConfirmButtonRect);
+	return m_controller_ptr->click(ConfirmButtonRect);
 }
 
 bool asst::InfrastAbstractTask::swipe(bool reverse)
@@ -47,11 +53,11 @@ bool asst::InfrastAbstractTask::swipe(bool reverse)
 //#ifndef LOG_TRACE
 	bool ret = true;
 	if (!reverse) {
-		ret &= m_control_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
+		ret &= m_controller_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
 		++m_swipe_times;
 	}
 	else {
-		ret &= m_control_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration);
+		ret &= m_controller_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration);
 		--m_swipe_times;
 	}
 	ret &= sleep(m_swipe_extra_delay);

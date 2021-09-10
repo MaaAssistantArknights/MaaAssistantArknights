@@ -18,9 +18,8 @@ using namespace asst;
 
 bool asst::InfrastStationTask::run()
 {
-	if (m_view_ptr == nullptr
-		|| m_identify_ptr == nullptr
-		|| m_control_ptr == nullptr)
+	if (m_controller_ptr == nullptr
+		|| m_identify_ptr == nullptr)
 	{
 		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
@@ -44,7 +43,7 @@ bool asst::InfrastStationTask::run()
 	for (size_t i = 0; i != facility_number_rect.size(); ++i) {
 		if (i != 0) {
 			// 点到这个基建
-			m_control_ptr->click(facility_number_rect[i]);
+			m_controller_ptr->click(facility_number_rect[i]);
 			sleep(300);
 			image = get_format_image();
 		}
@@ -65,13 +64,13 @@ bool asst::InfrastStationTask::run()
 		}
 		//点击添加干员的那个按钮
 		Rect add_rect = score1 >= score2 ? std::move(add_rect1) : std::move(add_rect2);
-		m_control_ptr->click(add_rect);
+		m_controller_ptr->click(add_rect);
 		sleep(2000);
 
 		click_clear_button();
 		sleep(300);
 
-		auto&& [width, height] = m_view_ptr->getAdbDisplaySize();
+		auto&& [width, height] = m_controller_ptr->getDisplaySize();
 		m_swipe_begin = Rect(width * 0.9, height * 0.5, 0, 0);
 		m_swipe_end = Rect(width * 0.5, height * 0.5, 0, 0);
 
@@ -237,7 +236,7 @@ bool asst::InfrastStationTask::swipe_and_select(std::list<std::string>& name_com
 			// 点过了就不会再点了，直接从最优解vector里面删了
 			auto iter = std::find(name_comb.begin(), name_comb.end(), text_area.text);
 			if (iter != name_comb.end()) {
-				m_control_ptr->click(text_area.rect);
+				m_controller_ptr->click(text_area.rect);
 				sleep(200);
 				name_comb.erase(iter);
 			}
@@ -252,7 +251,7 @@ bool asst::InfrastStationTask::swipe_and_select(std::list<std::string>& name_com
 	}
 	// 点击“确定”按钮，确定完要联网加载的，比较慢，多sleep一会
 	get_format_image();	// 这里get image没什么用，单纯就是为了触发下设置缩放，TODO 优化下
-	m_control_ptr->click(Rect(1105, 655, 150, 40));
+	m_controller_ptr->click(Rect(1105, 655, 150, 40));
 	sleep(2000);
 	return true;
 }
