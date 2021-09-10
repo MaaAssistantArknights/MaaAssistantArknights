@@ -25,7 +25,7 @@
     <ClInclude Include="InfrastAbstractTask.h" />
     <ClInclude Include="InfrastConfiger.h" />
     <ClInclude Include="InfrastDormTask.h" />
-    <ClInclude Include="InfrastStationTask.h" />
+    <ClInclude Include="InfrastProductionTask.h" />
     <ClInclude Include="Logger.hpp" />
     <ClInclude Include="OcrAbstractTask.h" />
     <ClInclude Include="OpenRecruitTask.h" />
@@ -47,7 +47,7 @@
     <ClCompile Include="Configer.cpp" />
     <ClCompile Include="Identify.cpp" />
     <ClCompile Include="InfrastDormTask.cpp" />
-    <ClCompile Include="InfrastStationTask.cpp" />
+    <ClCompile Include="InfrastProductionTask.cpp" />
     <ClCompile Include="OcrAbstractTask.cpp" />
     <ClCompile Include="OpenRecruitTask.cpp" />
     <ClCompile Include="ProcessTask.cpp" />
