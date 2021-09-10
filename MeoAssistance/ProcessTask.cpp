@@ -12,12 +12,6 @@
 
 using namespace asst;
 
-ProcessTask::ProcessTask(AsstCallback callback, void* callback_arg)
-	: OcrAbstractTask(callback, callback_arg)
-{
-	m_task_type = TaskType::TaskTypeRecognition | TaskType::TaskTypeClick;
-}
-
 bool ProcessTask::run()
 {
 	if (m_view_ptr == NULL

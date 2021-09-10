@@ -16,14 +16,6 @@
 
 using namespace asst;
 
-asst::InfrastStationTask::InfrastStationTask(AsstCallback callback, void* callback_arg)
-	: IdentifyOperTask(callback, callback_arg)
-{
-	m_cropped_height_ratio = 0.052;
-	m_cropped_upper_y_ratio = 0.441;
-	m_cropped_lower_y_ratio = 0.831;
-}
-
 bool asst::InfrastStationTask::run()
 {
 	if (m_view_ptr == nullptr
@@ -76,8 +68,7 @@ bool asst::InfrastStationTask::run()
 		m_control_ptr->click(add_rect);
 		sleep(2000);
 
-		// 点击“清空选择”按钮
-		m_control_ptr->click(Rect(430, 655, 150, 40));
+		click_clear_button();
 		sleep(300);
 
 		auto&& [width, height] = m_view_ptr->getAdbDisplaySize();
@@ -116,7 +107,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastSta
 		std::future<bool> swipe_future = std::async(
 			std::launch::async, &InfrastStationTask::swipe, this, false);
 
-		auto cur_name_textarea = detect_opers(image, feature_cond, feature_whatever);
+		auto cur_name_textarea = detect_operators_name(image, feature_cond, feature_whatever);
 		for (const TextArea& textarea : cur_name_textarea) {
 			OperInfrastInfo info;
 			// 考虑map中没有这个名字的情况：包括一开始识别漏了、抽到了新干员但没更新等，也有可能是本次识别错了
@@ -240,7 +231,7 @@ bool asst::InfrastStationTask::swipe_and_select(std::list<std::string>& name_com
 	// 一边滑动一边点击最优解中的干员
 	for (int i = 0; i != swipe_max_times; ++i) {
 		const cv::Mat& image = get_format_image(true);
-		auto cur_name_textarea = detect_opers(image, feature_cond, feature_whatever);
+		auto cur_name_textarea = detect_operators_name(image, feature_cond, feature_whatever);
 
 		for (TextArea& text_area : cur_name_textarea) {
 			// 点过了就不会再点了，直接从最优解vector里面删了
@@ -264,23 +255,4 @@ bool asst::InfrastStationTask::swipe_and_select(std::list<std::string>& name_com
 	m_control_ptr->click(Rect(1105, 655, 150, 40));
 	sleep(2000);
 	return true;
-}
-
-bool asst::InfrastStationTask::swipe_to_the_left()
-{
-	set_control_scale(1.0);
-	m_swipe_duration = 100;
-	m_swipe_extra_delay = 0;
-	// 往左使劲滑几下
-	bool ret = false;
-	for (int i = 0; i != 5; ++i) {
-		ret = swipe(true);
-		if (!ret) {
-			break;
-		}
-	}
-	m_swipe_duration = SwipeDurationDefault;
-	m_swipe_extra_delay = SwipeExtraDelayDefault;
-	sleep(SwipeExtraDelayDefault);
-	return ret;
 }
