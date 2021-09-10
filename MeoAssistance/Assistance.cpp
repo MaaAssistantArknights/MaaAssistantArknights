@@ -219,7 +219,7 @@ bool Assistance::start_debug_task()
 	//}
 	{
 		constexpr static const char* InfrastTaskCahin = "Infrast";
-		auto shift_task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
+		auto shift_task_ptr = std::make_shared<InfrastProductionTask>(task_callback, (void*)this);
 
 		auto ret = get_opers_idtf_result();
 		if (!ret) {
@@ -298,7 +298,7 @@ bool asst::Assistance::start_infrast()
 	}
 	constexpr static const char* InfrastTaskCahin = "Infrast";
 	// 换班任务，依次遍历基建设施列表里的最多5个设施，识别并选择最优解干员组合
-	auto shift_task_ptr = std::make_shared<InfrastStationTask>(task_callback, (void*)this);
+	auto shift_task_ptr = std::make_shared<InfrastProductionTask>(task_callback, (void*)this);
 	shift_task_ptr->set_task_chain(InfrastTaskCahin);
 	shift_task_ptr->set_all_opers_info(std::move(ret.value()));
 

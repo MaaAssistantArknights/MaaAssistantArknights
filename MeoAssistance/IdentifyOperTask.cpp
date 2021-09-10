@@ -77,7 +77,7 @@ bool asst::IdentifyOperTask::run()
 std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::IdentifyOperTask::swipe_and_detect()
 {
 	json::value task_start_json = json::object{
-		{ "task_type",  "InfrastStationTask" },
+		{ "task_type",  "IdentifyOperTask" },
 		{ "task_chain", m_task_chain},
 	};
 	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);

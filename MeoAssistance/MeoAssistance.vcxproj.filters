@@ -81,7 +81,7 @@
     <ClInclude Include="AbstractTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
-    <ClInclude Include="InfrastStationTask.h">
+    <ClInclude Include="InfrastProductionTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
     <ClInclude Include="OcrAbstractTask.h">
@@ -137,7 +137,7 @@
     <ClCompile Include="AbstractTask.cpp">
       <Filter>源文件\Task</Filter>
     </ClCompile>
-    <ClCompile Include="InfrastStationTask.cpp">
+    <ClCompile Include="InfrastProductionTask.cpp">
       <Filter>源文件\Task</Filter>
     </ClCompile>
     <ClCompile Include="OcrAbstractTask.cpp">
