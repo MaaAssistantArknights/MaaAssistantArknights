@@ -14,10 +14,8 @@ using namespace asst;
 
 bool ProcessTask::run()
 {
-	if (m_view_ptr == NULL
-		|| m_control_ptr == NULL
-		|| m_identify_ptr == NULL
-		|| m_control_ptr == NULL)
+	if (m_controller_ptr == NULL
+		|| m_identify_ptr == NULL)
 	{
 		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 		return false;
@@ -251,7 +249,7 @@ void ProcessTask::exec_click_task(const Rect& matched_rect)
 		return;
 	}
 
-	m_control_ptr->click(matched_rect);
+	m_controller_ptr->click(matched_rect);
 }
 
 void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
@@ -272,10 +270,10 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 	switch (action)
 	{
 	case asst::ProcessTaskAction::SwipeToTheLeft:
-		m_control_ptr->swipe(left_rect, right_rect);
+		m_controller_ptr->swipe(left_rect, right_rect);
 		break;
 	case asst::ProcessTaskAction::SwipeToTheRight:
-		m_control_ptr->swipe(right_rect, left_rect);
+		m_controller_ptr->swipe(right_rect, left_rect);
 		break;
 	default:	// 走不到这里，TODO 报个错
 		break;

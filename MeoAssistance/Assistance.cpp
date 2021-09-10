@@ -103,8 +103,8 @@ Assistance::~Assistance()
 {
 	DebugTraceFunction;
 
-	//if (m_window_ptr != nullptr) {
-	//	m_window_ptr->showWindow();
+	//if (m_controller_ptr != nullptr) {
+	//	m_controller_ptr->showWindow();
 	//}
 
 	m_thread_exit = true;
@@ -130,10 +130,8 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 
 	auto create_handles = [&](const EmulatorInfo& info) -> bool
 	{
-		m_window_ptr = std::make_shared<WinMacro>(info, HandleType::Window);
-		m_view_ptr = std::make_shared<WinMacro>(info, HandleType::View);
-		m_control_ptr = std::make_shared<WinMacro>(info, HandleType::Control);
-		return m_window_ptr->captured() && m_view_ptr->captured() && m_control_ptr->captured();
+		m_controller_ptr = std::make_shared<WinMacro>(info);
+		return m_controller_ptr->captured();
 	};
 
 	bool ret = false;
@@ -388,11 +386,6 @@ bool Assistance::set_param(const std::string& type, const std::string& param, co
 	return Configer::get_instance().set_param(type, param, value);
 }
 
-bool asst::Assistance::swipe(const Point& p1, const Point& p2)
-{
-	return m_control_ptr->swipe(p1, p2);
-}
-
 void Assistance::working_proc(Assistance* p_this)
 {
 	DebugTraceFunction;
@@ -409,7 +402,7 @@ void Assistance::working_proc(Assistance* p_this)
 			// 先pop出来，如果执行失败再还原回去
 			p_this->m_tasks_deque.pop_front();
 
-			task_ptr->set_ptr(p_this->m_window_ptr, p_this->m_view_ptr, p_this->m_control_ptr, p_this->m_identify_ptr);
+			task_ptr->set_ptr(p_this->m_controller_ptr, p_this->m_identify_ptr);
 			task_ptr->set_exit_flag(&p_this->m_thread_idle);
 			bool ret = task_ptr->run();
 			if (ret)
@@ -491,7 +484,7 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
 		p_this->stop(false);
 		break;
 	case AsstMsg::WindowMinimized:
-		p_this->m_window_ptr->showWindow();
+		p_this->m_controller_ptr->showWindow();
 		break;
 	case AsstMsg::AppendProcessTask:
 		more_detail["type"] = "ProcessTask";

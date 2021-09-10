@@ -63,8 +63,6 @@ bool asst::Configer::parse(json::value&& json)
 		m_options.control_delay_upper = options_json["controlDelayRange"][1].as_integer();
 		m_options.print_window = options_json["printWindow"].as_boolean();
 		m_options.print_window_delay = options_json["printWindowDelay"].as_integer();
-		m_options.print_window_crop_offset = options_json["printWindowCropOffset"].as_integer();
-		m_options.ocr_gpu_index = options_json["ocrGpuIndex"].as_integer();
 		m_options.ocr_thread_number = options_json["ocrThreadNumber"].as_integer();
 	}
 	DebugTrace("Options", Utf8ToGbk(options_json.to_string()));
@@ -193,46 +191,21 @@ bool asst::Configer::parse(json::value&& json)
 		m_all_tasks_info.emplace(name, task_info_ptr);
 	}
 
-	for (auto&& [name, emulator_json] : root["handle"].as_object()) {
+	for (auto&& [name, emulator_json] : root["emulator"].as_object()) {
 		EmulatorInfo emulator_info;
 		emulator_info.name = name;
 
-		for (json::value& info : emulator_json["window"].as_array()) {
-			HandleInfo handle_info;
-			handle_info.class_name = info["class"].as_string();
-			handle_info.window_name = info["window"].as_string();
-			emulator_info.window.emplace_back(std::move(handle_info));
-		}
-		for (json::value& info : emulator_json["view"].as_array()) {
-			HandleInfo handle_info;
-			handle_info.class_name = info["class"].as_string();
-			handle_info.window_name = info["window"].as_string();
-			emulator_info.view.emplace_back(std::move(handle_info));
-		}
-		for (json::value& info : emulator_json["control"].as_array()) {
-			HandleInfo handle_info;
-			handle_info.class_name = info["class"].as_string();
-			handle_info.window_name = info["window"].as_string();
-			emulator_info.control.emplace_back(std::move(handle_info));
-		}
-		if (emulator_json.exist("adb")) {
-			emulator_info.is_adb = true;
-			emulator_info.adb.path = emulator_json["adb"]["path"].as_string();
-			emulator_info.adb.connect = emulator_json["adb"]["connect"].as_string();
-			emulator_info.adb.click = emulator_json["adb"]["click"].as_string();
-			emulator_info.adb.swipe = emulator_json["adb"]["swipe"].as_string();
-			emulator_info.adb.display = emulator_json["adb"]["display"].as_string();
-			emulator_info.adb.display_regex = emulator_json["adb"]["displayRegex"].as_string();
-			emulator_info.adb.screencap = emulator_json["adb"]["screencap"].as_string();
-			emulator_info.adb.pullscreen = emulator_json["adb"]["pullscreen"].as_string();
-		}
-		emulator_info.x_offset = emulator_json.get("xOffset", 0);
-		emulator_info.y_offset = emulator_json.get("yOffset", 0);
-		emulator_info.right_offset = emulator_json.get("rightOffset", 0);
-		emulator_info.bottom_offset = emulator_json.get("bottomOffset", 0);
+		emulator_info.handle.class_name = emulator_json["handle"]["class"].as_string();
+		emulator_info.handle.window_name = emulator_json["handle"]["window"].as_string();
 
-		emulator_info.width = WindowWidthDefault + emulator_info.x_offset + emulator_info.right_offset;
-		emulator_info.height = WindowHeightDefault + emulator_info.y_offset + emulator_info.bottom_offset;
+		emulator_info.adb.path = emulator_json["adb"]["path"].as_string();
+		emulator_info.adb.connect = emulator_json["adb"]["connect"].as_string();
+		emulator_info.adb.click = emulator_json["adb"]["click"].as_string();
+		emulator_info.adb.swipe = emulator_json["adb"]["swipe"].as_string();
+		emulator_info.adb.display = emulator_json["adb"]["display"].as_string();
+		emulator_info.adb.display_regex = emulator_json["adb"]["displayRegex"].as_string();
+		emulator_info.adb.screencap = emulator_json["adb"]["screencap"].as_string();
+		emulator_info.adb.pullscreen = emulator_json["adb"]["pullscreen"].as_string();
 
 		m_handles.emplace(name, std::move(emulator_info));
 	}

@@ -13,7 +13,7 @@ using namespace asst;
 
 bool OpenRecruitTask::run()
 {
-	if (m_view_ptr == NULL
+	if (m_controller_ptr == NULL
 		|| m_identify_ptr == NULL)
 	{
 		m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
@@ -202,7 +202,7 @@ bool OpenRecruitTask::run()
 		task_json["type"] = "ClickTask";
 		for (const TextArea& text_area : all_tags) {
 			if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
-				m_control_ptr->click(text_area.rect);
+				m_controller_ptr->click(text_area.rect);
 			}
 		}
 	}

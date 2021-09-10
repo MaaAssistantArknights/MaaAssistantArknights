@@ -8,16 +8,12 @@
         "printWindow": true,
         "printWindow_Doc": "截图功能：开启后每次结算界面会截图到screenshot目录下。true-开启，false-关闭，默认true",
         "printWindowDelay": 3000,
-        "printWindowDelay_Doc": "截图延时：每次到结算界面，掉落物品不是一次性出来的，有个动画，所以需要等一会再截图。单位毫秒，默认3000",
-        "printWindowCropOffset": 5,
         "printWindowCropOffset_Doc": "截图额外裁剪：再额外把边框裁减掉一圈，不然企鹅物流有可能识别不出来。单位像素，默认5",
         "controlDelayRange": [
             0,
             0
         ],
         "controlDelayRange_Doc": "点击随机延时：每次点击操作会进行随机延时，降低封号风险（好像也没听说过谁被封号的）。格式为 [ 最小延时, 最大延时 ]，单位为毫秒。例如想设置3~5秒延时，即修改为[ 3000, 5000 ]，默认0~0",
-        "ocrGpuIndex": -1,
-        "ocrGpuIndex_Doc": "OcrLite使用GPU编号，-1(使用CPU)/0(使用GPU0)/1(使用GPU1)/...，GPU选择失败时，则使用CPU进行计算。默认-1",
         "ocrThreadNumber": 4,
         "ocrThreadNumber_Doc": "OcrLite线程数量。默认4"
     },
@@ -25,42 +21,13 @@
         "dormThreshold": 0.3,
         "dormThreshold_Doc": "宿舍心情百分比阈值，心情百分比小于该值的干员会被放进宿舍。取值范围(0, 1.0)，默认0.5"
     },
-    "recruitOcrReplace": [
-        [ "沮击", "狙击" ],
-        [ "泪击", "狙击" ],
-        [ "都出", "输出" ],
-        [ "都任", "输出" ]
-    ],
-    "infrastOcrReplace": [
-        [ "蛇居箱", "蛇屠箱" ],
-        [ "叫米", "古米" ],
-        [ "节草", "苇草" ],
-        [ "粹兰", "梓兰" ],
-        [ "艾丝菜尔", "艾丝黛尔" ],
-        [ "艾丝莱尔", "艾丝黛尔" ],
-        [ "，斑点", "斑点" ]
-    ],
-    "handle_Doc": "下面的和模拟器窗口捕获逻辑有关，不需要修改",
-    "handle": {
+    "emulator_Doc": "下面的和模拟器窗口捕获逻辑有关，不需要修改",
+    "emulator": {
         "BlueStacks": {
-            "window": [
-                {
-                    "class": "BS2CHINAUI",
-                    "window": "BlueStacks App Player"
-                }
-            ],
-            "view": [
-                {
-                    "class": "BS2CHINAUI",
-                    "window": "BlueStacks App Player"
-                }
-            ],
-            "control": [
-                {
-                    "class": "BS2CHINAUI",
-                    "window": "BlueStacks App Player"
-                }
-            ],
+            "handle": {
+                "class": "BS2CHINAUI",
+                "window": "BlueStacks App Player"
+            },
             "adb": {
                 "path": "[EmulatorPath]Engine\\ProgramFiles\\HD-Adb.exe",
                 "connect": "[Adb] connect 127.0.0.1:5555",
@@ -70,31 +37,13 @@
                 "displayRegex": "cur=%dx%d",
                 "screencap": "[Adb] -s 127.0.0.1:5555 shell screencap /sdcard/meo_screen.png",
                 "pullscreen": "[Adb] -s 127.0.0.1:5555 pull /sdcard/meo_screen.png [Filename]"
-            },
-            "xOffset": 11,
-            "yOffset": 46,
-            "rightOffset": 11,
-            "bottomOffset": 10
+            }
         },
         "MuMuEmulator": {
-            "window": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "明日方舟 - MuMu模拟器"
-                }
-            ],
-            "view": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "明日方舟 - MuMu模拟器"
-                }
-            ],
-            "control": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "明日方舟 - MuMu模拟器"
-                }
-            ],
+            "handle": {
+                "class": "Qt5QWindowIcon",
+                "window": "明日方舟 - MuMu模拟器"
+            },
             "adb": {
                 "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
                 "connect": "[Adb] connect 127.0.0.1:7555",
@@ -104,11 +53,7 @@
                 "displayRegex": "cur=%dx%d",
                 "screencap": "[Adb] -s 127.0.0.1:7555 shell screencap /sdcard/meo_screen.png",
                 "pullscreen": "[Adb] -s 127.0.0.1:7555 pull /sdcard/meo_screen.png [Filename]"
-            },
-            "xOffset": 0,
-            "yOffset": 36,
-            "rightOffset": 0,
-            "bottomOffset": 0
+            }
         }
     },
     "tasks_Doc": "下面的和任务队列执行逻辑有关，不需要修改",
@@ -655,5 +600,20 @@
             "next": [
             ]
         }
-    }
+    },
+    "recruitOcrReplace": [
+        [ "沮击", "狙击" ],
+        [ "泪击", "狙击" ],
+        [ "都出", "输出" ],
+        [ "都任", "输出" ]
+    ],
+    "infrastOcrReplace": [
+        [ "蛇居箱", "蛇屠箱" ],
+        [ "叫米", "古米" ],
+        [ "节草", "苇草" ],
+        [ "粹兰", "梓兰" ],
+        [ "艾丝菜尔", "艾丝黛尔" ],
+        [ "艾丝莱尔", "艾丝黛尔" ],
+        [ "，斑点", "斑点" ]
+    ]
 }

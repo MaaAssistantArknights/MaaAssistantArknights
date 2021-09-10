@@ -36,11 +36,6 @@ int main(int argc, char** argv)
 	return 0;
 }
 
-void test_swipe(Assistance* ptr)
-{
-	AsstTestSwipe(ptr, 2500, 300, 100, 300);
-}
-
 void debug_task(Assistance* ptr)
 {
 	AsstDebugTask(ptr);

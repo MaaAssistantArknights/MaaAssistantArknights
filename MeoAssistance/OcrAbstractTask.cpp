@@ -35,7 +35,7 @@ bool asst::OcrAbstractTask::click_text(const cv::Mat& image, const std::string& 
 {
 	for (const TextArea& textarea : ocr_detect(image)) {
 		if (textarea.text == text) {
-			m_control_ptr->click(textarea.rect);
+			m_controller_ptr->click(textarea.rect);
 			return true;
 		}
 	}

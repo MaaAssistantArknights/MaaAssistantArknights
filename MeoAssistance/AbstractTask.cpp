@@ -21,14 +21,10 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg)
 }
 
 void AbstractTask::set_ptr(
-	std::shared_ptr<WinMacro> window_ptr,
-	std::shared_ptr<WinMacro> view_ptr,
-	std::shared_ptr<WinMacro> control_ptr,
+	std::shared_ptr<WinMacro> controller_ptr,
 	std::shared_ptr<Identify> identify_ptr)
 {
-	m_window_ptr = window_ptr;
-	m_view_ptr = view_ptr;
-	m_control_ptr = control_ptr;
+	m_controller_ptr = controller_ptr;
 	m_identify_ptr = identify_ptr;
 }
 
@@ -39,16 +35,12 @@ void AbstractTask::set_exit_flag(bool* exit_flag)
 
 cv::Mat AbstractTask::get_format_image(bool raw)
 {
-	cv::Mat raw_image = m_view_ptr->getAdbImage();
+	cv::Mat raw_image = m_controller_ptr->getImage();
 
 	if (raw_image.empty()) {
 		m_callback(AsstMsg::ImageIsEmpty, json::value(), m_callback_arg);
 		return raw_image;
 	}
-	//if (raw_image.rows < 100) {
-	//	m_callback(AsstMsg::WindowMinimized, json::value(), m_callback_arg);
-	//	return raw_image;
-	//}
 
 	if (raw) {
 		set_control_scale(1.0);
@@ -80,7 +72,7 @@ cv::Mat AbstractTask::get_format_image(bool raw)
 
 bool asst::AbstractTask::set_control_scale(double scale)
 {
-	m_control_ptr->setControlScale(scale);
+	m_controller_ptr->setControlScale(scale);
 	return true;
 }
 
@@ -89,7 +81,7 @@ bool asst::AbstractTask::set_control_scale(double scale)
 //	double scale_width = static_cast<double>(cur_width) / Configer::WindowWidthDefault;
 //	double scale_height = static_cast<double>(cur_height) / Configer::WindowHeightDefault;
 //	double scale = (std::max)(scale_width, scale_height);
-//	m_control_ptr->setControlScale(scale);
+//	m_controller_ptr->setControlScale(scale);
 //	return true;
 //}
 

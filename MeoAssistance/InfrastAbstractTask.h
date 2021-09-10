@@ -7,7 +7,7 @@ namespace asst {
     class InfrastAbstractTask : public OcrAbstractTask
     {
     public:
-        using OcrAbstractTask::OcrAbstractTask;
+        InfrastAbstractTask(AsstCallback callback, void* callback_arg);
         virtual ~InfrastAbstractTask() = default;
         virtual bool run() = 0;
     protected:
