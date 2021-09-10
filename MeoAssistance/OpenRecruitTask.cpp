@@ -3,9 +3,11 @@
 #include <map>
 #include <vector>
 #include <algorithm>
+#include <future>
 
 #include "WinMacro.h"
 #include "Configer.h"
+#include "Identify.h"
 #include "RecruitConfiger.h"
 #include "AsstAux.h"
 
@@ -26,8 +28,27 @@ bool OpenRecruitTask::run()
 	};
 	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
+	const cv::Mat& image = m_controller_ptr->get_image();
+
+	/* 设置招募时间9小时 */
+	auto set_time_foo = [&](bool flag) -> void {
+		if (!flag) {
+			return;
+		}
+		auto&& [algorithm, score, second_confirm_rect] =
+			m_identify_ptr->find_image(m_controller_ptr->get_image(), "RecruitTime");
+
+		auto time_reduce_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+			Configer::get_instance().m_all_tasks_info["RecruitTime"]);
+
+		if (score >= time_reduce_task_ptr->templ_threshold) {
+			m_controller_ptr->click(time_reduce_task_ptr->specific_area);
+		}
+	};
+	std::future<void> set_time_future = std::async(std::launch::async, set_time_foo, m_set_time);
+
 	/* Find all text */
-	std::vector<TextArea> all_text_area = ocr_detect();
+	std::vector<TextArea> all_text_area = ocr_detect(image);
 
 	/* Filter out all tags from all text */
 	std::vector<TextArea> all_tags = text_match(
@@ -48,18 +69,8 @@ bool OpenRecruitTask::run()
 		m_callback(AsstMsg::OcrResultError, all_tags_json, m_callback_arg);
 		return false;
 	}
-	
-	m_callback(AsstMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
 
-	/* 设置招募时间9小时，加入任务队列*/
-	if (m_set_time) {
-		json::value settime_json;
-		settime_json["task"] = "RecruitTime";
-		// 只有tag数量对了才能走到这里，界面一定是对的，所以找不到时间设置就说明时间已经手动修改过了，不用重试了
-		settime_json["retry_times"] = 0;
-		settime_json["task_chain"] = m_task_chain;
-		m_callback(AsstMsg::AppendProcessTask, settime_json, m_callback_arg);
-	}
+	m_callback(AsstMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
 
 	/* 针对一星干员的额外回调消息 */
 	static const std::string SupportMachine_GBK = "支援机械";
@@ -190,6 +201,8 @@ bool OpenRecruitTask::run()
 	results_json["result"] = json::array(std::move(result_json_vector));
 	m_callback(AsstMsg::RecruitResult, results_json, m_callback_arg);
 
+	set_time_future.wait();
+
 	/* 点击最优解的tags */
 	if (!m_required_level.empty() && !result_vector.empty()) {
 		if (std::find(m_required_level.cbegin(), m_required_level.cend(), result_vector[0].second.min_level)
@@ -198,8 +211,6 @@ bool OpenRecruitTask::run()
 		}
 		const std::vector<std::string>& final_tags_name = result_vector[0].first;
 
-		json::value task_json;
-		task_json["type"] = "ClickTask";
 		for (const TextArea& text_area : all_tags) {
 			if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
 				m_controller_ptr->click(text_area.rect);
