@@ -29,8 +29,6 @@ namespace asst {
 		constexpr static int MaxOperNumInDorm = 5;	// 宿舍最大干员数
 		constexpr static int DormNum = 4;			// 宿舍数量
 
-		// 进入宿舍，index为从上到下的编号
-		bool enter_dorm(int index = 0);
 		// 进入下一个宿舍
 		bool enter_next_dorm();
 		// 进入当前宿舍的干员选择界面

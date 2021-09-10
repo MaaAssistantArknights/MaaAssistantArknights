@@ -48,6 +48,12 @@ bool asst::InfrastAbstractTask::click_confirm_button()
 	return m_controller_ptr->click(ConfirmButtonRect);
 }
 
+bool asst::InfrastAbstractTask::click_return_button()
+{
+	const static Rect ConfirmButtonRect(20, 20, 135, 35);
+	return m_controller_ptr->click(ConfirmButtonRect);
+}
+
 bool asst::InfrastAbstractTask::swipe(bool reverse)
 {
 //#ifndef LOG_TRACE
@@ -235,4 +241,39 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 	}
 
 	return all_opers_textarea;
+}
+
+bool asst::InfrastAbstractTask::enter_station(const std::vector<std::string>& templ_names, int index, double threshold)
+{
+	cv::Mat image = m_controller_ptr->get_image();
+
+	std::vector<asst::Identify::FindImageResult> max_size_reslut;
+	for (const auto& templ : templ_names) {
+		auto temp_result = m_identify_ptr->find_all_images(image, templ, threshold);
+		if (temp_result.size() > max_size_reslut.size()) {
+			max_size_reslut = temp_result;
+		}
+	}
+
+	if (max_size_reslut.empty()) {
+		return false;
+	}
+	if (index >= max_size_reslut.size()) {
+		return false;
+	}
+
+	std::sort(max_size_reslut.begin(), max_size_reslut.end(), [](
+		const auto& lhs, const auto& rhs) -> bool {
+			if (std::abs(lhs.rect.y - rhs.rect.y) < 5) {	// Í¬Ò»ÅÅµÄ
+				return lhs.rect.x < rhs.rect.x;
+			}
+			else {
+				return lhs.rect.y < rhs.rect.y;
+			}
+		});
+
+	m_controller_ptr->click(max_size_reslut.at(index).rect);
+	sleep(1000);
+
+	return false;
 }

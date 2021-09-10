@@ -332,6 +332,7 @@ std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(
 	matchTemplate(image_hsv, templ_hsv, matched, cv::TM_CCOEFF_NORMED);
 
 	std::vector<FindImageResult> results;
+	int mini_distance = (std::min)(templ_mat.cols, templ_mat.rows) * 0.5;
 	for (int i = 0; i != matched.rows; ++i) {
 		for (int j = 0; j != matched.cols; ++j) {
 			auto value = matched.at<float>(i, j);
@@ -344,10 +345,9 @@ std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(
 				bool need_push = true;
 				// 如果有两个点离得太近，只取里面得分高的那个
 				// 一般相邻的都是刚刚push进去的，这里倒序快一点
-				constexpr static int MinDistance = 10;
 				for (auto iter = results.rbegin(); iter != results.rend(); ++ iter) {
-					if (std::abs(j - iter->rect.x) < MinDistance
-						&& std::abs(i - iter->rect.y) < MinDistance) {
+					if (std::abs(j - iter->rect.x) < mini_distance
+						&& std::abs(i - iter->rect.y) < mini_distance) {
 						if (iter->score < value) {
 							iter->rect = rect;
 							iter->score = value;
