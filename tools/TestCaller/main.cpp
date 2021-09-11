@@ -18,6 +18,7 @@ int main(int argc, char** argv)
 
 	char ch = 0;
 	while (ch != 'q') {
+		//AsstStartIndertifyOpers(ptr);
 		AsstStartInfrast(ptr);
 		//AsstStartDebugTask(ptr);
 

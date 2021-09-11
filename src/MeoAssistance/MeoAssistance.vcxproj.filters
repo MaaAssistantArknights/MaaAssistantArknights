@@ -180,15 +180,4 @@
       <Filter>源文件\Task</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\resource\config.json">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="..\..\resource\recruit.json">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="..\..\resource\infrast.json">
-      <Filter>资源文件</Filter>
-    </None>
-  </ItemGroup>
 </Project>

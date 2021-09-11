@@ -278,6 +278,8 @@ bool asst::Assistance::start_to_identify_opers()
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 
+	append_match_task("IdentifyOpers", { "OperatorBegin" });
+
 	auto task_ptr = std::make_shared<IdentifyOperTask>(task_callback, (void*)this);
 	task_ptr->set_task_chain("IdentifyOpers");
 	m_tasks_deque.emplace_back(task_ptr);

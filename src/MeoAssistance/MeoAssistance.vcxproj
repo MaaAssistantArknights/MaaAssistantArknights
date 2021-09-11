@@ -59,11 +59,6 @@
     <ClCompile Include="Updater.cpp" />
     <ClCompile Include="WinMacro.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\resource\infrast.json" />
-    <None Include="..\..\resource\recruit.json" />
-    <None Include="..\..\resource\config.json" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
