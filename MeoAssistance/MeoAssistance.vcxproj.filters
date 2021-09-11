@@ -117,6 +117,9 @@
     <ClInclude Include="InfrastPowerTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
+    <ClInclude Include="InfrastOfficeTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMacro.cpp">
@@ -171,6 +174,9 @@
       <Filter>源文件\Task</Filter>
     </ClCompile>
     <ClCompile Include="InfrastPowerTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastOfficeTask.cpp">
       <Filter>源文件\Task</Filter>
     </ClCompile>
   </ItemGroup>

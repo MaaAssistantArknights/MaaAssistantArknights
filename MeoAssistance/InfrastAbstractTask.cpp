@@ -86,6 +86,36 @@ bool asst::InfrastAbstractTask::swipe(bool reverse)
 	//#endif
 }
 
+bool asst::InfrastAbstractTask::swipe_left()
+{
+	const static Rect right_rect(Configer::WindowWidthDefault * 0.8,
+		Configer::WindowHeightDefault * 0.4,
+		Configer::WindowWidthDefault * 0.1,
+		Configer::WindowHeightDefault * 0.2);
+
+	const static Rect left_rect(Configer::WindowWidthDefault * 0.1,
+		Configer::WindowHeightDefault * 0.4,
+		Configer::WindowWidthDefault * 0.1,
+		Configer::WindowHeightDefault * 0.2);
+
+	return m_controller_ptr->swipe(left_rect, right_rect);
+}
+
+bool asst::InfrastAbstractTask::swipe_right()
+{
+	const static Rect right_rect(Configer::WindowWidthDefault * 0.8,
+		Configer::WindowHeightDefault * 0.4,
+		Configer::WindowWidthDefault * 0.1,
+		Configer::WindowHeightDefault * 0.2);
+
+	const static Rect left_rect(Configer::WindowWidthDefault * 0.1,
+		Configer::WindowHeightDefault * 0.4,
+		Configer::WindowWidthDefault * 0.1,
+		Configer::WindowHeightDefault * 0.2);
+
+	return m_controller_ptr->swipe(right_rect, left_rect);
+}
+
 std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 	const cv::Mat& image,
 	std::unordered_map<std::string,

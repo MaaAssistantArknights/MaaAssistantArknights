@@ -11,11 +11,13 @@ namespace asst {
         virtual ~InfrastAbstractTask() = default;
         virtual bool run() = 0;
     protected:
-        virtual bool swipe_to_the_left();
+        virtual bool swipe_to_the_left();   // 滑动到最左侧
         virtual bool click_clear_button();
         virtual bool click_confirm_button();
         virtual bool click_return_button();
         virtual bool swipe(bool reverse = false);
+        virtual bool swipe_left();          // 往左划（只滑一下）
+        virtual bool swipe_right();         // 往右划（只滑一下）
 
         // 检测干员名
         virtual std::vector<TextArea> detect_operators_name(const cv::Mat& image,
