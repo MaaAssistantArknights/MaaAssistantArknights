@@ -396,6 +396,34 @@
                 "Stop"
             ]
         },
+        "OperatorBegin": {
+            "algorithm": "justreturn",
+            "action": "doNothing",
+            "next": [
+                "EnterOperator",
+                "ReturnToOperator"
+            ]
+        },
+        "EnterOperator": {
+            "template": "EnterOperator.png",
+            "rareDelay": 1000,            
+            "templThreshold": 0.8,
+            "action": "clickSelf",
+            "next": [
+                "Stop"
+            ]
+        },
+        "ReturnToOperator": {
+            "template": "Return.png",
+            "templThreshold": 0.85,
+            "histThreshold": 0.85,
+            "rearDelay": 1000,
+            "action": "clickSelf",
+            "next": [
+                "EnterOperator",
+                "ReturnToOperator"
+            ]
+        },
         "InfrastBegin": {
             "algorithm": "justreturn",
             "action": "doNothing",
