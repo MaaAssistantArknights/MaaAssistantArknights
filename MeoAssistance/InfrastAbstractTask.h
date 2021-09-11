@@ -22,6 +22,7 @@ namespace asst {
             std::unordered_map<std::string, std::string>& feature_cond,
             std::unordered_set<std::string>& feature_whatever);
         virtual bool enter_station(const std::vector<std::string>& templ_names, int index, double threshold = 0.8);
+        virtual bool click_first_operator();
 
         constexpr static int SwipeExtraDelayDefault = 1000;
         constexpr static int SwipeDurationDefault = 2000;

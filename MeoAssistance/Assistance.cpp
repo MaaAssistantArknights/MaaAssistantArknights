@@ -315,9 +315,9 @@ bool asst::Assistance::start_infrast()
 		2) 如果没收获，使用基建默认大小的模板匹配
 	3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去，使用InfrastDormTask
 	4. 根据用户设置，按顺序进入制造站or贸易站，使用ProcessTask
-	5. 队制造站or贸易站进行换班，使用InfrastStationTask
-	6. 根据用户设置，使用无人机加速制造or贸易，使用ProcessTask，TODO
-	7. 会客室线索处理、发电站换班、控制中枢换班，同样需要根据用户设置决定顺序，TODO
+	5. 对制造站or贸易站进行换班，使用InfrastStationTask
+	6. 根据用户设置，使用无人机加速制造or贸易，使用ProcessTask
+	7. 会客室线索处理、发电站换班、控制中枢、办公室换班，同样需要根据用户设置决定顺序，TODO
 	*/
 
 	// 1. 从任意界面进入基建，使用ProcessTask
@@ -333,9 +333,7 @@ bool asst::Assistance::start_infrast()
 	// 返回基建的主界面
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
-
-	// 5. 队制造站or贸易站进行换班，使用InfrastStationTask
-	// 6. 根据用户设置，使用无人机加速制造or贸易，TODO
+	// 5. 对制造站or贸易站进行换班，使用InfrastStationTask
 
 	// TODO，这里需要根据用户设置，是先制造站还是先贸易站，或者是别的设施
 	// 从进入制造站，到设施列表的界面
@@ -354,8 +352,18 @@ bool asst::Assistance::start_infrast()
 	// 贸易站换班
 	m_tasks_deque.emplace_back(shift_task_ptr);
 
-	// 无人机加速贸易站
+	// 6. 根据用户设置，使用无人机加速制造or贸易，使用ProcessTask
+	// 对贸易站使用无人机加速
 	append_match_task(InfrastTaskCahin, { "UavAssist-Trade" });
+
+	// 返回基建的主界面
+	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
+	// 7. 会客室线索处理、发电站换班、控制中枢、办公室换班，同样需要根据用户设置决定顺序，TODO
+	// 发电站换班
+	auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
+	power_task_ptr->set_task_chain(InfrastTaskCahin);
+	m_tasks_deque.emplace_back(std::move(power_task_ptr));
 
 	// 全操作完之后，再返回基建的主界面
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
