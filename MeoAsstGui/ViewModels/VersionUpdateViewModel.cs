@@ -47,7 +47,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _updateUrl = "www.baidu.com";
+        private string _updateUrl = "https://github.com/MistEO/MeoAssistance/releases/latest";
 
         public bool CheckUpdate()
         {
@@ -61,12 +61,8 @@ namespace MeoAsstGui
                 return false;
             }
 
-            byte[] buffer1 = Encoding.Default.GetBytes(body.ToString());
-            byte[] buffer2 = Encoding.Convert(Encoding.UTF8, Encoding.Default, buffer1, 0, buffer1.Length);
-            string strBuffer = Encoding.Default.GetString(buffer2, 0, buffer2.Length);
-
             UpdateTag = "新版本：" + tag;
-            UpdateInfo = strBuffer;
+            UpdateInfo = body.ToString();
             _updateUrl = html_url.ToString();
 
             return true;

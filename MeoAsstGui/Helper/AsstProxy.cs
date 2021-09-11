@@ -15,20 +15,22 @@ namespace MeoAsstGui
         private delegate void ProcCallbckMsg(AsstMsg msg, JObject detail);
 
         [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstCreate();
-
         [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstCreateEx(CallbackDelegate callback, IntPtr custom_arg);
-
         [DllImport("MeoAssistance.dll")] static private extern void AsstDestory(IntPtr ptr);
-
         [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchEmulator(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStart(IntPtr ptr, string task);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartProcessTask(IntPtr ptr, string task);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartSanity(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartVisit(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartOpenRecruit(IntPtr ptr, int[] required_level, int required_len, bool set_time);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartIndertifyOpers(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartInfrast(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartDebugTask(IntPtr ptr);
+
 
         [DllImport("MeoAssistance.dll")] static private extern void AsstStop(IntPtr ptr);
-
         [DllImport("MeoAssistance.dll")] static private extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstRunOpenRecruit(IntPtr ptr, int[] required_level, int required_len, bool set_time);
 
         private CallbackDelegate _callback;
 
@@ -140,7 +142,7 @@ namespace MeoAsstGui
                                 break;
                             }
                             ++_retryTimes;
-                            AsstStart("SanityBegin");
+                            AsstStartSanity();
                         }
                         else if (taskChain == "VisitBegin")
                         {
@@ -152,7 +154,7 @@ namespace MeoAsstGui
                                 break;
                             }
                             ++_retryTimes;
-                            AsstStart("VisitBegin");
+                            AsstStartVisit();
                         }
                     }
                     break;
@@ -229,16 +231,16 @@ namespace MeoAsstGui
 
         public bool AsstCatchEmulator()
         {
-            if (_ptr == null)
-            {
-                return false;
-            }
             return AsstCatchEmulator(_ptr);
         }
 
-        public bool AsstStart(string task)
+        public bool AsstStartSanity()
         {
-            return AsstStart(_ptr, task);
+            return AsstStartSanity(_ptr);
+        }
+        public bool AsstStartVisit()
+        {
+            return AsstStartVisit(_ptr);
         }
 
         public void AsstSetParam(string type, string param, string value)
@@ -246,9 +248,9 @@ namespace MeoAsstGui
             AsstSetParam(_ptr, type, param, value);
         }
 
-        public bool AsstRunOpenRecruit(int[] required_level, int required_len, bool set_time)
+        public bool AsstStartOpenRecruit(int[] required_level, int required_len, bool set_time)
         {
-            return AsstRunOpenRecruit(_ptr, required_level, required_len, set_time);
+            return AsstStartOpenRecruit(_ptr, required_level, required_len, set_time);
         }
     }
 
