@@ -101,7 +101,6 @@ namespace asst {
 			}
 		};
 
-
 		std::mutex m_trace_mutex;
 	};
 
