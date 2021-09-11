@@ -83,14 +83,14 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 	for (const auto& [key, name] : InfrastConfiger::get_instance().m_oper_name_feat) {
 		ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
 		if (!ret) {
-			callback_error(Utf8ToGbk(name));
+			callback_error(name);
 			return;
 		}
 	}
 	for (const auto& name : InfrastConfiger::get_instance().m_oper_name_feat_whatever) {
 		ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
 		if (!ret) {
-			callback_error(Utf8ToGbk(name));
+			callback_error(name);
 			return;
 		}
 	}

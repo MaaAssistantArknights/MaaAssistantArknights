@@ -198,7 +198,7 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			// TODO：如果搜出来多个结果，怎么处理？
 			// 暂时通过配置文件，保证尽量只搜出来一个结果or一个都搜不到
 			if (!match_result.empty()) {
-				callback_json["text"] = Utf8ToGbk(match_result.at(0).text);
+				callback_json["text"] = match_result.at(0).text;
 				rect = match_result.at(0).rect;
 				matched = true;
 			}

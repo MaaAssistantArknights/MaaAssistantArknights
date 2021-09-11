@@ -66,23 +66,41 @@ namespace asst {
 				|| level == "TRC"
 #endif
 				) {
-				stream_args(std::cout, buff, std::forward<Args>(args)...);
+				stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
 			}
 			std::ofstream out_stream(asst::GetCurrentDir() + "asst.log", std::ios::out | std::ios::app);
 			stream_args(out_stream, buff, std::forward<Args>(args)...);
 		}
 
-		template <typename T, typename... Args>
+		template <bool ToGbk = false, typename T, typename... Args>
 		inline void stream_args(std::ostream& os, T&& first, Args && ...rest)
 		{
-			os << first << " ";
-			stream_args(os, std::forward<Args>(rest)...);
+			stream<ToGbk, T>()(os, std::forward<T>(first));
+			stream_args<ToGbk>(os, std::forward<Args>(rest)...);
 		}
-
+		template <bool>
 		inline void stream_args(std::ostream& os)
 		{
 			os << std::endl;
 		}
+
+		template <bool ToGbk, typename T, typename = void>
+		struct stream
+		{
+			inline void operator()(std::ostream& os, T&& first)
+			{
+				os << first << " ";
+			}
+		};
+		template <typename T>
+		struct stream<true, T, typename std::enable_if<std::is_constructible<std::string, T>::value>::type>
+		{
+			inline void operator()(std::ostream& os, T&& first)
+			{
+				os << Utf8ToGbk(first) << " ";
+			}
+		};
+
 
 		std::mutex m_trace_mutex;
 	};

@@ -470,7 +470,6 @@ std::vector<TextArea> asst::Identify::find_text(const cv::Mat& mat, const std::u
 	std::vector<TextArea> dst;
 	std::vector<TextArea> detect_result = ocr_detect(mat);
 	for (TextArea& res : detect_result) {
-		DebugTrace("detect", Utf8ToGbk(res.text));
 		for (const std::string& t : texts) {
 			if (res.text == t) {
 				dst.emplace_back(std::move(res));

@@ -36,12 +36,6 @@ bool asst::RecruitConfiger::parse(json::value&& json)
 		m_all_opers.emplace_back(std::move(oper_temp));
 	}
 
-	//#ifdef LOG_TRACE
-	//	for (auto&& tag : m_all_tags) {
-	//		std::cout << Utf8ToGbk(tag) << std::endl;
-	//	}
-	//#endif
-
 	// 按干员等级排个序
 	std::sort(m_all_opers.begin(), m_all_opers.end(), [](
 		const auto& lhs,

@@ -65,13 +65,13 @@ bool asst::Configer::parse(json::value&& json)
 		m_options.print_window_delay = options_json["printWindowDelay"].as_integer();
 		m_options.ocr_thread_number = options_json["ocrThreadNumber"].as_integer();
 	}
-	DebugTrace("Options", Utf8ToGbk(options_json.to_string()));
+	DebugTrace("Options", options_json.to_string());
 
 	json::value& infrast_options_json = root["infrastOptions"];
 	{
 		m_infrast_options.dorm_threshold = infrast_options_json.get("dormThreshold", 0.3);
 	}
-	DebugTrace("InfrastOptions", Utf8ToGbk(infrast_options_json.to_string()));
+	DebugTrace("InfrastOptions", infrast_options_json.to_string());
 
 	for (auto&& [name, task_json] : root["tasks"].as_object()) {
 		std::string algorithm_str = task_json.get("algorithm", "matchtemplate");

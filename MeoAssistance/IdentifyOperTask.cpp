@@ -64,7 +64,7 @@ bool asst::IdentifyOperTask::run()
 			});
 		if (iter == detected_opers.cend()) {
 			not_found_vector.emplace_back(name);
-			DebugTrace("Not Found", Utf8ToGbk(name));
+			DebugTrace("Not Found", name);
 		}
 	}
 	result_json["not_found"] = json::array(not_found_vector);
@@ -116,7 +116,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::IdentifyOp
 		std::vector<json::value> opers_json_vec;
 		for (const auto& [name, info] : detected_opers) {
 			json::value info_json;
-			info_json["name"] = Utf8ToGbk(info.name);
+			info_json["name"] = info.name;
 			info_json["elite"] = info.elite;
 			//info_json["level"] = info.level;
 			opers_json_vec.emplace_back(std::move(info_json));
