@@ -36,7 +36,9 @@ bool asst::InfrastPowerTask::run()
 bool asst::InfrastPowerTask::enter_operator_selection()
 {
 	// 有这些文字之一就说明“进驻信息”这个按钮已经点开了
-	static const std::vector<std::string> info_opened_flags = {"当前房间入住信息","进驻人数","清空"};
+	static constexpr std::array<std::string_view, 3> info_opened_flags = {
+		"当前房间入住信息","进驻人数","清空"
+	};
 
 	std::vector<TextArea> ocr_result = ocr_detect();
 
@@ -44,11 +46,11 @@ bool asst::InfrastPowerTask::enter_operator_selection()
 		std::find_first_of(
 			ocr_result.cbegin(), ocr_result.cend(),
 			info_opened_flags.cbegin(), info_opened_flags.cend(),
-			[](const TextArea& lhs, const std::string& rhs)
+			[](const TextArea& lhs, const std::string_view& rhs)
 			-> bool { return lhs.text == rhs; })
 		!= ocr_result.cend();
 
-	static const std::string station_info = "进驻信息";
+	static constexpr std::string_view station_info = "进驻信息";
 	// 如果“进驻信息”窗口没点开，那就点开
 	if (!is_info_opened) {
 		auto station_info_iter = std::find_if(ocr_result.cbegin(), ocr_result.cend(),

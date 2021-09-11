@@ -108,7 +108,9 @@ bool asst::InfrastDormTask::enter_next_dorm()
 bool asst::InfrastDormTask::enter_operator_selection()
 {
 	// 有这些文字之一就说明“进驻信息”这个按钮已经点开了
-	static const std::vector<std::string> info_opened_flags = { "当前房间入住信息","进驻人数","清空" };
+	constexpr static std::array<std::string_view, 3> info_opened_flags = {
+		"当前房间入住信息","进驻人数","清空"
+	};
 
 	std::vector<TextArea> ocr_result = ocr_detect();
 
@@ -116,11 +118,11 @@ bool asst::InfrastDormTask::enter_operator_selection()
 		std::find_first_of(
 			ocr_result.cbegin(), ocr_result.cend(),
 			info_opened_flags.cbegin(), info_opened_flags.cend(),
-			[](const TextArea& lhs, const std::string& rhs)
+			[](const TextArea& lhs, const std::string_view& rhs)
 			-> bool { return lhs.text == rhs; })
 		!= ocr_result.cend();
 
-	static const std::string station_info = "进驻信息";
+	constexpr static std::string_view station_info = "进驻信息";
 	// 如果“进驻信息”窗口没点开，那就点开
 	if (!is_info_opened) {
 		auto station_info_iter = std::find_if(ocr_result.cbegin(), ocr_result.cend(),
@@ -133,12 +135,14 @@ bool asst::InfrastDormTask::enter_operator_selection()
 	}
 
 	// 点击这里面任意一个，都可以进入干员选择页面
-	static const std::vector<std::string> enter_operator_page_buttons = { "进驻","休息中","空闲中","心情" };
+	constexpr static std::array<std::string_view, 4> enter_operator_page_buttons = {
+		"进驻","休息中","空闲中","心情"
+	};
 
 	auto button_iter = std::find_first_of(
 		ocr_result.cbegin(), ocr_result.cend(),
 		enter_operator_page_buttons.cbegin(), enter_operator_page_buttons.cend(),
-		[](const TextArea& lhs, const std::string& rhs)
+		[](const TextArea& lhs, const std::string_view& rhs)
 		-> bool { return lhs.text == rhs; });
 	if (button_iter == ocr_result.cend()) {
 		// TODO 报错

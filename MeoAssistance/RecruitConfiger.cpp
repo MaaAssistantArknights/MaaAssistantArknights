@@ -19,8 +19,7 @@ bool asst::RecruitConfiger::parse(json::value&& json)
 		oper_temp.type = oper["type"].as_string();
 		m_all_types.emplace(oper_temp.type);
 		// 职业类型也作为tag之一，加上"干员"两个字
-		const static std::string oper_word("干员");
-		std::string type_as_tag = oper_temp.type + oper_word;
+		std::string type_as_tag = oper_temp.type + "干员";
 		oper_temp.tags.emplace(type_as_tag);
 		m_all_tags.emplace(std::move(type_as_tag));
 
