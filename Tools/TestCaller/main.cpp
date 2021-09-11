@@ -18,8 +18,8 @@ int main(int argc, char** argv)
 
 	char ch = 0;
 	while (ch != 'q') {
-		//AsstStartInfrast(ptr);
-		AsstStartDebugTask(ptr);
+		AsstStartInfrast(ptr);
+		//AsstStartDebugTask(ptr);
 
 		ch = getchar();
 	}

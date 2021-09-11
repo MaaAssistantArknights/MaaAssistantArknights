@@ -4,8 +4,8 @@ A game assistance for Arknights
 
 一款明日方舟的游戏辅助，供PC端安卓模拟器使用，龟速开发中……
 
-![界面截图](readme/gui.png)
-![公招截图](readme/openRecruit.png)
+![界面截图](images/gui.png)
+![公招截图](images/openRecruit.png)
 
 ## 下载地址
 
@@ -95,13 +95,13 @@ A game assistance for Arknights
 刷理智、访问基建时，每次点击之前，均随机延时一定的时间，降低封号风险  
 该功能默认是关闭的，需要的话请手动打开：请手动修改`resource\config.json`文件中，`options`.`controlDelayRange`字段的值，格式为`[最小延时, 最大延时]`，单位为毫秒，例如想设置3~5秒的随机延时，即设置为`[ 3000, 5000]` 即可。文件保存后请重新打开程序。
 
-![图例](readme/controlDelayRange.png)
+![图例](images/controlDelayRange.png)
 
 ### 自动截图功能
 
 每次刷完结算界面，会自动截一张图，保存在`screenshot`文件夹中  
 该功能默认是打开的，不需要的话可以手动关掉：请手动修改`resource\config.json`文件中，`options`.`printWindow`字段的值，`true`是打开，`false`是关闭。文件保存后请重新打开程序。
-![图例](readme/printWindow.png)
+![图例](images/printWindow.png)
 
 ## 致谢
 
