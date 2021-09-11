@@ -1,42 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Runtime.InteropServices;
-using System.Windows.Threading;
-using System.Threading;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
+using System;
+using System.Runtime.InteropServices;
+using System.Windows;
 
 namespace MeoAsstGui
 {
     public class AsstProxy
     {
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
+
         private delegate void ProcCallbckMsg(AsstMsg msg, JObject detail);
 
         [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstCreate();
+
         [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstCreateEx(CallbackDelegate callback, IntPtr custom_arg);
+
         [DllImport("MeoAssistance.dll")] static private extern void AsstDestory(IntPtr ptr);
+
         [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchEmulator(IntPtr ptr);
+
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStart(IntPtr ptr, string task);
+
         [DllImport("MeoAssistance.dll")] static private extern void AsstStop(IntPtr ptr);
+
         [DllImport("MeoAssistance.dll")] static private extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
+
         [DllImport("MeoAssistance.dll")] static private extern bool AsstRunOpenRecruit(IntPtr ptr, int[] required_level, int required_len, bool set_time);
 
         private CallbackDelegate _callback;
+
         public AsstProxy(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -66,6 +61,7 @@ namespace MeoAsstGui
         private int _retryTimes;
         private int _retryLimit = 2;
         private IntPtr _ptr;
+
         private void proc_msg(AsstMsg msg, JObject detail)
         {
             var mfvm = _container.Get<MainFunctionViewModel>();
@@ -88,6 +84,7 @@ namespace MeoAsstGui
                         }
                     }
                     break;
+
                 case AsstMsg.TaskStart:
                     {
                         string taskChain = detail["task_chain"].ToString();
@@ -98,6 +95,7 @@ namespace MeoAsstGui
                         }
                     }
                     break;
+
                 case AsstMsg.TaskStop:
                     {
                         string taskChain = detail["task_chain"].ToString();
@@ -118,14 +116,17 @@ namespace MeoAsstGui
                         }
                     }
                     break;
+
                 case AsstMsg.TextDetected:
                     break;
+
                 case AsstMsg.RecruitTagsDetected:
                 case AsstMsg.OcrResultError:
                 case AsstMsg.RecruitSpecialTag:
                 case AsstMsg.RecruitResult:
                     recruit_proc_msg(msg, detail);
                     break;
+
                 case AsstMsg.TaskError:
                     {
                         string taskChain = detail["task_chain"].ToString();
@@ -140,7 +141,6 @@ namespace MeoAsstGui
                             }
                             ++_retryTimes;
                             AsstStart("SanityBegin");
-
                         }
                         else if (taskChain == "VisitBegin")
                         {
@@ -156,6 +156,7 @@ namespace MeoAsstGui
                         }
                     }
                     break;
+
                 case AsstMsg.InitFaild:
                     _windowManager.ShowMessageBox("资源文件错误！请尝试重新解压或下载", "错误");
                     Environment.Exit(0);
@@ -170,6 +171,7 @@ namespace MeoAsstGui
             {
                 case AsstMsg.TextDetected:
                     break;
+
                 case AsstMsg.RecruitTagsDetected:
                     JArray tags = (JArray)detail["tags"];
                     string info_content = "识别结果:    ";
@@ -179,12 +181,15 @@ namespace MeoAsstGui
                     }
                     rvm.RecruitInfo = info_content;
                     break;
+
                 case AsstMsg.OcrResultError:
                     rvm.RecruitInfo = "识别错误！";
                     break;
+
                 case AsstMsg.RecruitSpecialTag:
                     _windowManager.ShowMessageBox("检测到特殊Tag:" + detail["tag"].ToString(), "提示");
                     break;
+
                 case AsstMsg.RecruitResult:
                     string resultContent = "";
                     JArray result_array = (JArray)detail["result"];

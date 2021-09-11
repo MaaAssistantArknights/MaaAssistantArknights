@@ -1,9 +1,5 @@
 ﻿using Stylet;
 using StyletIoC;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MeoAsstGui
@@ -36,7 +32,7 @@ namespace MeoAsstGui
         {
             var mfvm = _container.Get<MainFunctionViewModel>();
             var rvm = _container.Get<RecruitViewModel>();
-            
+
             Items.Add(mfvm);
             Items.Add(rvm);
             ActiveItem = mfvm;

@@ -1,17 +1,13 @@
 ﻿using Stylet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MeoAsstGui
 {
     public class VersionUpdateViewModel : Screen
     {
         private IWindowManager _windowManager;
+
         public VersionUpdateViewModel(IWindowManager windowManager)
         {
             _windowManager = windowManager;

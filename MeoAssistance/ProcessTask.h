@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 
 #include "OcrAbstractTask.h"
 
 namespace asst {
-	// Á÷³ÌÈÎÎñ£¬°´ÕÕÅäÖÃÎÄ¼şÀïµÄÉèÖÃµÄÁ÷³ÌÔËĞĞ
+	// æµç¨‹ä»»åŠ¡ï¼ŒæŒ‰ç…§é…ç½®æ–‡ä»¶é‡Œçš„è®¾ç½®çš„æµç¨‹è¿è¡Œ
 	class ProcessTask : public OcrAbstractTask
 	{
 	public:

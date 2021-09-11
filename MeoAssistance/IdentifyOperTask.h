@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 
 #include "InfrastAbstractTask.h"
 
 namespace asst {
-	// Ê¶±ğ¸ÉÔ±ÈÎÎñ£¬»á½«Ê¶±ğµ½µÄĞÅÏ¢Ğ´ÈëÎÄ¼şÖĞ
+	// è¯†åˆ«å¹²å‘˜ä»»åŠ¡ï¼Œä¼šå°†è¯†åˆ«åˆ°çš„ä¿¡æ¯å†™å…¥æ–‡ä»¶ä¸­
 	class IdentifyOperTask : public InfrastAbstractTask
 	{
 	public:
@@ -13,10 +13,10 @@ namespace asst {
 		virtual bool run() override;
 
 	protected:
-		// Ò»±ß»¬¶¯Ò»±ßÊ¶±ğ
+		// ä¸€è¾¹æ»‘åŠ¨ä¸€è¾¹è¯†åˆ«
 		std::optional<std::unordered_map<std::string, OperInfrastInfo>> swipe_and_detect();
 
-		// ¼ì²â¸ÉÔ±¾«Ó¢»¯µÈ¼¶
+		// æ£€æµ‹å¹²å‘˜ç²¾è‹±åŒ–ç­‰çº§
 		int detect_elite(const cv::Mat& image, const asst::Rect name_rect);
 	};
 }

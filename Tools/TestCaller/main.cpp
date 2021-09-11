@@ -22,8 +22,8 @@ int main(int argc, char** argv)
 
 	char ch = 0;
 	while (ch != 'q') {
-		debug_task(ptr);
-		//test_swipe(ptr);
+		test_infrast(ptr);
+		//debug_task(ptr);
 
 		ch = getchar();
 	}

@@ -1,10 +1,6 @@
 ﻿using Stylet;
 using StyletIoC;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MeoAsstGui
 {
@@ -12,6 +8,7 @@ namespace MeoAsstGui
     {
         private IWindowManager _windowManager;
         private IContainer _container;
+
         public RecruitViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -42,6 +39,7 @@ namespace MeoAsstGui
         }
 
         private bool _chooseLevel3 = false;
+
         public bool ChooseLevel3
         {
             get { return _chooseLevel3; }
@@ -52,6 +50,7 @@ namespace MeoAsstGui
         }
 
         private bool _chooseLevel4 = true;
+
         public bool ChooseLevel4
         {
             get { return _chooseLevel4; }
@@ -62,6 +61,7 @@ namespace MeoAsstGui
         }
 
         private bool _chooseLevel5 = true;
+
         public bool ChooseLevel5
         {
             get { return _chooseLevel5; }
@@ -72,6 +72,7 @@ namespace MeoAsstGui
         }
 
         private bool _chooseLevel6 = true;
+
         public bool ChooseLevel6
         {
             get { return _chooseLevel6; }
@@ -82,6 +83,7 @@ namespace MeoAsstGui
         }
 
         private bool _autoSetTime = true;
+
         public bool AutoSetTime
         {
             get { return _autoSetTime; }

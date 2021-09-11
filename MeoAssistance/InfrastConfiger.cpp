@@ -1,4 +1,4 @@
-#include "InfrastConfiger.h"
+ï»¿#include "InfrastConfiger.h"
 
 #include <fstream>
 #include <sstream>
@@ -12,7 +12,7 @@ using namespace asst;
 bool InfrastConfiger::parse(json::value&& json)
 {
 	json::value root = std::move(json);
-	// Í¨ÓÃµÄ¸ÉÔ±ĞÅÏ¢
+	// é€šç”¨çš„å¹²å‘˜ä¿¡æ¯
 	for (json::value& name : root["allNames"].as_array())
 	{
 		m_all_opers_name.emplace(name.as_string());
@@ -26,7 +26,7 @@ bool InfrastConfiger::parse(json::value&& json)
 		m_oper_name_feat_whatever.emplace(name.as_string());
 	}
 
-	// Ã¿¸ö»ù½¨ÉèÊ©ÖĞµÄ¸ÉÔ±×éºÏĞÅÏ¢
+	// æ¯ä¸ªåŸºå»ºè®¾æ–½ä¸­çš„å¹²å‘˜ç»„åˆä¿¡æ¯
 	for (json::value& facility : root["infrast"].as_array())
 	{
 		std::string key = facility["facility"].as_string();

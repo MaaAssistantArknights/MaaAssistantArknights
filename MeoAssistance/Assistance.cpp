@@ -1,4 +1,4 @@
-#include "Assistance.h"
+ï»¿#include "Assistance.h"
 
 #include <time.h>
 #include <filesystem>
@@ -22,7 +22,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 {
 	DebugTraceFunction;
 
-	// ¼ì²é·µ»ØÖµ£¬ÈôÎªfalseÔò»Øµ÷´íÎó
+	// æ£€æŸ¥è¿”å›å€¼ï¼Œè‹¥ä¸ºfalseåˆ™å›è°ƒé”™è¯¯
 	auto callback_error = [&](const std::string& filename = std::string()) {
 		if (m_callback == nullptr) {
 			return;
@@ -139,7 +139,7 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 
-	// ×Ô¶¯Æ¥ÅäÄ£ÄâÆ÷£¬Öğ¸öÕÒ
+	// è‡ªåŠ¨åŒ¹é…æ¨¡æ‹Ÿå™¨ï¼Œé€ä¸ªæ‰¾
 	if (emulator_name.empty())
 	{
 		for (const auto& [name, info] : Configer::get_instance().m_handles)
@@ -153,7 +153,7 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 		}
 	}
 	else
-	{ // Ö¸¶¨µÄÄ£ÄâÆ÷
+	{ // æŒ‡å®šçš„æ¨¡æ‹Ÿå™¨
 		ret = create_handles(Configer::get_instance().m_handles[emulator_name]);
 	}
 	if (ret)
@@ -303,84 +303,84 @@ bool asst::Assistance::start_infrast()
 		return false;
 	}
 	constexpr static const char* InfrastTaskCahin = "Infrast";
-	// »»°àÈÎÎñ£¬ÒÀ´Î±éÀú»ù½¨ÉèÊ©ÁĞ±íÀïµÄ×î¶à5¸öÉèÊ©£¬Ê¶±ğ²¢Ñ¡Ôñ×îÓÅ½â¸ÉÔ±×éºÏ
+	// æ¢ç­ä»»åŠ¡ï¼Œä¾æ¬¡éå†åŸºå»ºè®¾æ–½åˆ—è¡¨é‡Œçš„æœ€å¤š5ä¸ªè®¾æ–½ï¼Œè¯†åˆ«å¹¶é€‰æ‹©æœ€ä¼˜è§£å¹²å‘˜ç»„åˆ
 	auto shift_task_ptr = std::make_shared<InfrastProductionTask>(task_callback, (void*)this);
 	shift_task_ptr->set_task_chain(InfrastTaskCahin);
 	shift_task_ptr->set_all_opers_info(std::move(ret.value()));
 
-	/* »ù½¨ÈÎÎñÕûÌåÁ÷³Ì£º
-	1. ´ÓÈÎÒâ½çÃæ½øÈë»ù½¨£¬Ê¹ÓÃProcessTask
-	2. Ò»¼üÊÕ»ñÃ³Ò×Õ¾¡¢ÖÆÔìÕ¾¡¢¸ÉÔ±ĞÅÀµ£¬Ê¹ÓÃProcessTask
-		1) Èç¹ûÊÕ»ñÁË£¬Ê¹ÓÃ»ù½¨È«Ëõ·Åµ½×îĞ¡µÄÄ£°åÆ¥Åä
-		2) Èç¹ûÃ»ÊÕ»ñ£¬Ê¹ÓÃ»ù½¨Ä¬ÈÏ´óĞ¡µÄÄ£°åÆ¥Åä
-	3. ½øÈëËŞÉá£¬°ÑĞÄÇéµÍÓÚãĞÖµµÄ¡¢ĞÄÇéÃ»Âúµ«²»ÔÚ¹¤×÷µÄ£¬¶¼»»ÏÂÈ¥£¬Ê¹ÓÃInfrastDormTask
-	4. ¸ù¾İÓÃ»§ÉèÖÃ£¬°´Ë³Ğò½øÈëÖÆÔìÕ¾orÃ³Ò×Õ¾£¬Ê¹ÓÃProcessTask
-	5. ¶ÔÖÆÔìÕ¾orÃ³Ò×Õ¾½øĞĞ»»°à£¬Ê¹ÓÃInfrastStationTask
-	6. ¸ù¾İÓÃ»§ÉèÖÃ£¬Ê¹ÓÃÎŞÈË»ú¼ÓËÙÖÆÔìorÃ³Ò×£¬Ê¹ÓÃProcessTask
-	7. »á¿ÍÊÒÏßË÷´¦Àí¡¢·¢µçÕ¾»»°à¡¢¿ØÖÆÖĞÊà¡¢°ì¹«ÊÒ»»°à£¬Í¬ÑùĞèÒª¸ù¾İÓÃ»§ÉèÖÃ¾ö¶¨Ë³Ğò£¬TODO
-	8. ÔÙ´Î½øÈëËŞÉá£¬°Ñ»ù½¨ÖĞ¿ÉÄÜ»»ÏÂÀ´µÄ¸ÉÔ±£¨ĞÄÇé²»µÍµÄ£©¼ÓÈëËŞÉá
+	/* åŸºå»ºä»»åŠ¡æ•´ä½“æµç¨‹ï¼š
+	1. ä»ä»»æ„ç•Œé¢è¿›å…¥åŸºå»ºï¼Œä½¿ç”¨ProcessTask
+	2. ä¸€é”®æ”¶è·è´¸æ˜“ç«™ã€åˆ¶é€ ç«™ã€å¹²å‘˜ä¿¡èµ–ï¼Œä½¿ç”¨ProcessTask
+		1) å¦‚æœæ”¶è·äº†ï¼Œä½¿ç”¨åŸºå»ºå…¨ç¼©æ”¾åˆ°æœ€å°çš„æ¨¡æ¿åŒ¹é…
+		2) å¦‚æœæ²¡æ”¶è·ï¼Œä½¿ç”¨åŸºå»ºé»˜è®¤å¤§å°çš„æ¨¡æ¿åŒ¹é…
+	3. è¿›å…¥å®¿èˆï¼ŒæŠŠå¿ƒæƒ…ä½äºé˜ˆå€¼çš„ã€å¿ƒæƒ…æ²¡æ»¡ä½†ä¸åœ¨å·¥ä½œçš„ï¼Œéƒ½æ¢ä¸‹å»ï¼Œä½¿ç”¨InfrastDormTask
+	4. æ ¹æ®ç”¨æˆ·è®¾ç½®ï¼ŒæŒ‰é¡ºåºè¿›å…¥åˆ¶é€ ç«™orè´¸æ˜“ç«™ï¼Œä½¿ç”¨ProcessTask
+	5. å¯¹åˆ¶é€ ç«™orè´¸æ˜“ç«™è¿›è¡Œæ¢ç­ï¼Œä½¿ç”¨InfrastStationTask
+	6. æ ¹æ®ç”¨æˆ·è®¾ç½®ï¼Œä½¿ç”¨æ— äººæœºåŠ é€Ÿåˆ¶é€ orè´¸æ˜“ï¼Œä½¿ç”¨ProcessTask
+	7. ä¼šå®¢å®¤çº¿ç´¢å¤„ç†ã€å‘ç”µç«™æ¢ç­ã€æ§åˆ¶ä¸­æ¢ã€åŠå…¬å®¤æ¢ç­ï¼ŒåŒæ ·éœ€è¦æ ¹æ®ç”¨æˆ·è®¾ç½®å†³å®šé¡ºåºï¼ŒTODO
+	8. å†æ¬¡è¿›å…¥å®¿èˆï¼ŒæŠŠåŸºå»ºä¸­å¯èƒ½æ¢ä¸‹æ¥çš„å¹²å‘˜ï¼ˆå¿ƒæƒ…ä¸ä½çš„ï¼‰åŠ å…¥å®¿èˆ
 	*/
 
-	// 1. ´ÓÈÎÒâ½çÃæ½øÈë»ù½¨£¬Ê¹ÓÃProcessTask
-	// 2. Ò»¼üÊÕ»ñÃ³Ò×Õ¾¡¢ÖÆÔìÕ¾¡¢¸ÉÔ±ĞÅÀµ£¬Ê¹ÓÃProcessTask
-	// Õâ¸öÈÎÎñ½áÊøºó£¬ÊÇÔÚ½øÈë»ù½¨ºóµÄÖ÷½çÃæ
+	// 1. ä»ä»»æ„ç•Œé¢è¿›å…¥åŸºå»ºï¼Œä½¿ç”¨ProcessTask
+	// 2. ä¸€é”®æ”¶è·è´¸æ˜“ç«™ã€åˆ¶é€ ç«™ã€å¹²å‘˜ä¿¡èµ–ï¼Œä½¿ç”¨ProcessTask
+	// è¿™ä¸ªä»»åŠ¡ç»“æŸåï¼Œæ˜¯åœ¨è¿›å…¥åŸºå»ºåçš„ä¸»ç•Œé¢
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
-	// 3. ½øÈëËŞÉá£¬°ÑĞÄÇéµÍÓÚãĞÖµµÄ¡¢ĞÄÇéÃ»Âúµ«²»ÔÚ¹¤×÷µÄ£¬¶¼»»ÏÂÈ¥
+	// 3. è¿›å…¥å®¿èˆï¼ŒæŠŠå¿ƒæƒ…ä½äºé˜ˆå€¼çš„ã€å¿ƒæƒ…æ²¡æ»¡ä½†ä¸åœ¨å·¥ä½œçš„ï¼Œéƒ½æ¢ä¸‹å»
 	auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
 	dorm_task_ptr->set_task_chain(InfrastTaskCahin);
 	m_tasks_deque.emplace_back(dorm_task_ptr);
 
-	// ·µ»Ø»ù½¨µÄÖ÷½çÃæ
+	// è¿”å›åŸºå»ºçš„ä¸»ç•Œé¢
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
-	// 5. ¶ÔÖÆÔìÕ¾orÃ³Ò×Õ¾½øĞĞ»»°à£¬Ê¹ÓÃInfrastStationTask
+	// 5. å¯¹åˆ¶é€ ç«™orè´¸æ˜“ç«™è¿›è¡Œæ¢ç­ï¼Œä½¿ç”¨InfrastStationTask
 
-	// TODO£¬ÕâÀïĞèÒª¸ù¾İÓÃ»§ÉèÖÃ£¬ÊÇÏÈÖÆÔìÕ¾»¹ÊÇÏÈÃ³Ò×Õ¾£¬»òÕßÊÇ±ğµÄÉèÊ©
-	// ´Ó½øÈëÖÆÔìÕ¾£¬µ½ÉèÊ©ÁĞ±íµÄ½çÃæ
+	// TODOï¼Œè¿™é‡Œéœ€è¦æ ¹æ®ç”¨æˆ·è®¾ç½®ï¼Œæ˜¯å…ˆåˆ¶é€ ç«™è¿˜æ˜¯å…ˆè´¸æ˜“ç«™ï¼Œæˆ–è€…æ˜¯åˆ«çš„è®¾æ–½
+	// ä»è¿›å…¥åˆ¶é€ ç«™ï¼Œåˆ°è®¾æ–½åˆ—è¡¨çš„ç•Œé¢
 	append_match_task(InfrastTaskCahin, { "ManufacturingMini", "Manufacturing" });
 
-	// ÖÆÔìÕ¾»»°à
+	// åˆ¶é€ ç«™æ¢ç­
 	m_tasks_deque.emplace_back(shift_task_ptr);
 
-	// ·µ»Ø»ù½¨µÄÖ÷½çÃæ
+	// è¿”å›åŸºå»ºçš„ä¸»ç•Œé¢
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
-	// TODO£¬ÕâÀïĞèÒª¸ù¾İÓÃ»§ÉèÖÃ£¬ÊÇÏÈÖÆÔìÕ¾»¹ÊÇÏÈÃ³Ò×Õ¾£¬»òÕßÊÇ±ğµÄÉèÊ©
-	// ´Ó½øÈëÃ³Ò×Õ¾£¬µ½ÉèÊ©ÁĞ±íµÄ½çÃæ
+	// TODOï¼Œè¿™é‡Œéœ€è¦æ ¹æ®ç”¨æˆ·è®¾ç½®ï¼Œæ˜¯å…ˆåˆ¶é€ ç«™è¿˜æ˜¯å…ˆè´¸æ˜“ç«™ï¼Œæˆ–è€…æ˜¯åˆ«çš„è®¾æ–½
+	// ä»è¿›å…¥è´¸æ˜“ç«™ï¼Œåˆ°è®¾æ–½åˆ—è¡¨çš„ç•Œé¢
 	append_match_task(InfrastTaskCahin, { "Trade", "TradeMini" });
 
-	// Ã³Ò×Õ¾»»°à
+	// è´¸æ˜“ç«™æ¢ç­
 	m_tasks_deque.emplace_back(shift_task_ptr);
 
-	// 6. ¸ù¾İÓÃ»§ÉèÖÃ£¬Ê¹ÓÃÎŞÈË»ú¼ÓËÙÖÆÔìorÃ³Ò×£¬Ê¹ÓÃProcessTask
-	// ¶ÔÃ³Ò×Õ¾Ê¹ÓÃÎŞÈË»ú¼ÓËÙ
+	// 6. æ ¹æ®ç”¨æˆ·è®¾ç½®ï¼Œä½¿ç”¨æ— äººæœºåŠ é€Ÿåˆ¶é€ orè´¸æ˜“ï¼Œä½¿ç”¨ProcessTask
+	// å¯¹è´¸æ˜“ç«™ä½¿ç”¨æ— äººæœºåŠ é€Ÿ
 	append_match_task(InfrastTaskCahin, { "UavAssist-Trade" });
 
-	// ·µ»Ø»ù½¨µÄÖ÷½çÃæ
+	// è¿”å›åŸºå»ºçš„ä¸»ç•Œé¢
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
-	// 7. »á¿ÍÊÒÏßË÷´¦Àí¡¢·¢µçÕ¾»»°à¡¢¿ØÖÆÖĞÊà¡¢°ì¹«ÊÒ»»°à£¬Í¬ÑùĞèÒª¸ù¾İÓÃ»§ÉèÖÃ¾ö¶¨Ë³Ğò£¬TODO
-	// ·¢µçÕ¾»»°à
+	// 7. ä¼šå®¢å®¤çº¿ç´¢å¤„ç†ã€å‘ç”µç«™æ¢ç­ã€æ§åˆ¶ä¸­æ¢ã€åŠå…¬å®¤æ¢ç­ï¼ŒåŒæ ·éœ€è¦æ ¹æ®ç”¨æˆ·è®¾ç½®å†³å®šé¡ºåºï¼ŒTODO
+	// å‘ç”µç«™æ¢ç­
 	auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
 	power_task_ptr->set_task_chain(InfrastTaskCahin);
 	m_tasks_deque.emplace_back(std::move(power_task_ptr));
 
-	// ·µ»Ø»ù½¨µÄÖ÷½çÃæ
+	// è¿”å›åŸºå»ºçš„ä¸»ç•Œé¢
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
 	auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
 	office_task_ptr->set_task_chain(InfrastTaskCahin);
 	m_tasks_deque.emplace_back(std::move(office_task_ptr));
 
-	// ·µ»Ø»ù½¨µÄÖ÷½çÃæ
+	// è¿”å›åŸºå»ºçš„ä¸»ç•Œé¢
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
-	// 8. ÔÙ´Î½øÈëËŞÉá£¬°Ñ»ù½¨ÖĞ¿ÉÄÜ»»ÏÂÀ´µÄ¸ÉÔ±£¨ĞÄÇé²»µÍµÄ£©¼ÓÈëËŞÉá
+	// 8. å†æ¬¡è¿›å…¥å®¿èˆï¼ŒæŠŠåŸºå»ºä¸­å¯èƒ½æ¢ä¸‹æ¥çš„å¹²å‘˜ï¼ˆå¿ƒæƒ…ä¸ä½çš„ï¼‰åŠ å…¥å®¿èˆ
 	dorm_task_ptr->set_select_with_swipe(true);
 	m_tasks_deque.emplace_back(dorm_task_ptr);
 
-	// È«²Ù×÷ÍêÖ®ºó£¬ÔÙ·µ»Ø»ù½¨µÄÖ÷½çÃæ
+	// å…¨æ“ä½œå®Œä¹‹åï¼Œå†è¿”å›åŸºå»ºçš„ä¸»ç•Œé¢
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
 	m_thread_idle = false;
@@ -398,7 +398,7 @@ void Assistance::stop(bool block)
 
 	std::unique_lock<std::mutex> lock;
 	if (block)
-	{ // Íâ²¿µ÷ÓÃ
+	{ // å¤–éƒ¨è°ƒç”¨
 		lock = std::unique_lock<std::mutex>(m_mutex);
 	}
 	decltype(m_tasks_deque) empty;
@@ -428,7 +428,7 @@ void Assistance::working_proc(Assistance* p_this)
 		{
 			auto start_time = std::chrono::system_clock::now();
 			std::shared_ptr<AbstractTask> task_ptr = p_this->m_tasks_deque.front();
-			// ÏÈpop³öÀ´£¬Èç¹ûÖ´ĞĞÊ§°ÜÔÙ»¹Ô­»ØÈ¥
+			// å…ˆpopå‡ºæ¥ï¼Œå¦‚æœæ‰§è¡Œå¤±è´¥å†è¿˜åŸå›å»
 			p_this->m_tasks_deque.pop_front();
 
 			task_ptr->set_ptr(p_this->m_controller_ptr, p_this->m_identify_ptr);
@@ -440,7 +440,7 @@ void Assistance::working_proc(Assistance* p_this)
 			}
 			else
 			{
-				// Ê§°ÜÁËÀÛ¼ÓÊ§°Ü´ÎÊı£¬³¬ÏŞÁËÔÙpop
+				// å¤±è´¥äº†ç´¯åŠ å¤±è´¥æ¬¡æ•°ï¼Œè¶…é™äº†å†pop
 				if (retry_times >= task_ptr->get_retry_times())
 				{
 					json::value task_error_json;
@@ -454,7 +454,7 @@ void Assistance::working_proc(Assistance* p_this)
 				else
 				{
 					++retry_times;
-					// Ö´ĞĞÊ§°ÜÔÙ»¹Ô­»ØÈ¥
+					// æ‰§è¡Œå¤±è´¥å†è¿˜åŸå›å»
 					p_this->m_tasks_deque.emplace_front(task_ptr);
 				}
 			}
@@ -481,7 +481,7 @@ void Assistance::msg_proc(Assistance* p_this)
 		std::unique_lock<std::mutex> lock(p_this->m_msg_mutex);
 		if (!p_this->m_msg_queue.empty())
 		{
-			// ½á¹¹»¯°ó¶¨Ö»ÄÜÊÇÒıÓÃ£¬ºóĞøµÄpop»áÊ¹ÒıÓÃÊ§Ğ§£¬ËùÒÔĞèÒªÖØĞÂ¹¹ÔìÒ»·İ£¬ÕâÀï²ÉÓÃÁËmoveµÄ·½Ê½
+			// ç»“æ„åŒ–ç»‘å®šåªèƒ½æ˜¯å¼•ç”¨ï¼Œåç»­çš„popä¼šä½¿å¼•ç”¨å¤±æ•ˆï¼Œæ‰€ä»¥éœ€è¦é‡æ–°æ„é€ ä¸€ä»½ï¼Œè¿™é‡Œé‡‡ç”¨äº†moveçš„æ–¹å¼
 			auto&& [temp_msg, temp_detail] = p_this->m_msg_queue.front();
 			AsstMsg msg = std::move(temp_msg);
 			json::value detail = std::move(temp_detail);
@@ -520,17 +520,17 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
 		[[fallthrough]];
 	case AsstMsg::AppendTask:
 		p_this->append_task(more_detail, true);
-		return;	// ÕâÁ©ÏûÏ¢Assistance»áĞÂÔöÈÎÎñ£¬Íâ²¿²»ĞèÒª´¦Àí£¬Ö±½ÓÀ¹µô
+		return;	// è¿™ä¿©æ¶ˆæ¯Assistanceä¼šæ–°å¢ä»»åŠ¡ï¼Œå¤–éƒ¨ä¸éœ€è¦å¤„ç†ï¼Œç›´æ¥æ‹¦æ‰
 		break;
 	case AsstMsg::OpersIdtfResult:
-		set_opers_idtf_result(more_detail);	// ±£´æµ½ÎÄ¼ş
+		set_opers_idtf_result(more_detail);	// ä¿å­˜åˆ°æ–‡ä»¶
 		break;
 	default:
 		break;
 	}
 
-	// Todo: ÓĞĞ©²»ĞèÒª»Øµ÷¸øÍâ²¿µÄÏûÏ¢£¬µÃÔÚÕâÀï¸øÀ¹½Øµô
-	// ¼ÓÈë»Øµ÷ÏûÏ¢¶ÓÁĞ£¬ÓÉ»Øµ÷ÏûÏ¢Ïß³ÌÍâÅ×¸øÍâ²¿
+	// Todo: æœ‰äº›ä¸éœ€è¦å›è°ƒç»™å¤–éƒ¨çš„æ¶ˆæ¯ï¼Œå¾—åœ¨è¿™é‡Œç»™æ‹¦æˆªæ‰
+	// åŠ å…¥å›è°ƒæ¶ˆæ¯é˜Ÿåˆ—ï¼Œç”±å›è°ƒæ¶ˆæ¯çº¿ç¨‹å¤–æŠ›ç»™å¤–éƒ¨
 	p_this->append_callback(msg, std::move(more_detail));
 }
 

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "InfrastAbstractTask.h"
 
@@ -23,31 +23,31 @@ namespace asst {
 		}
 	protected:
 		struct MoodStatus {
-			Rect rect;					// ĞÄÇé½ø¶ÈÌõÔÚÔ­Í¼ÖĞµÄÎ»ÖÃ£¨×ÜµÄ½ø¶ÈÌõ£©
-			Rect actual_rect;			// ĞÄÇé½ø¶ÈÌõÔÚÔ­Í¼ÖĞµÄÎ»ÖÃ£¨°×É«ÓĞĞ§²¿·Ö£©
-			int actual_length;			// ĞÄÇé½ø¶ÈÌõ°×É«ÓĞĞ§²¿·ÖµÄ³¤¶È£¨ÏñËØµãÊıÁ¿£©
-			double process = 0.0;		// ĞÄÇé½ø¶ÈÌõÊ£Óà°Ù·Ö±È
-			int time_left_hour = 0.0;	// Ê£Óà¹¤×÷Ê±¼ä£¨Ğ¡Ê±Êı£©
+			Rect rect;					// å¿ƒæƒ…è¿›åº¦æ¡åœ¨åŸå›¾ä¸­çš„ä½ç½®ï¼ˆæ€»çš„è¿›åº¦æ¡ï¼‰
+			Rect actual_rect;			// å¿ƒæƒ…è¿›åº¦æ¡åœ¨åŸå›¾ä¸­çš„ä½ç½®ï¼ˆç™½è‰²æœ‰æ•ˆéƒ¨åˆ†ï¼‰
+			int actual_length;			// å¿ƒæƒ…è¿›åº¦æ¡ç™½è‰²æœ‰æ•ˆéƒ¨åˆ†çš„é•¿åº¦ï¼ˆåƒç´ ç‚¹æ•°é‡ï¼‰
+			double process = 0.0;		// å¿ƒæƒ…è¿›åº¦æ¡å‰©ä½™ç™¾åˆ†æ¯”
+			int time_left_hour = 0.0;	// å‰©ä½™å·¥ä½œæ—¶é—´ï¼ˆå°æ—¶æ•°ï¼‰
 		};
-		constexpr static int MaxOperNumInDorm = 5;	// ËŞÉá×î´ó¸ÉÔ±Êı
-		constexpr static int DormNum = 4;			// ËŞÉáÊıÁ¿
+		constexpr static int MaxOperNumInDorm = 5;	// å®¿èˆæœ€å¤§å¹²å‘˜æ•°
+		constexpr static int DormNum = 4;			// å®¿èˆæ•°é‡
 
 		virtual bool click_confirm_button() override;
-		// ½øÈëÏÂÒ»¸öËŞÉá
+		// è¿›å…¥ä¸‹ä¸€ä¸ªå®¿èˆ
 		bool enter_next_dorm();
-		// ½øÈëµ±Ç°ËŞÉáµÄ¸ÉÔ±Ñ¡Ôñ½çÃæ
+		// è¿›å…¥å½“å‰å®¿èˆçš„å¹²å‘˜é€‰æ‹©ç•Œé¢
 		bool enter_operator_selection();
-		// Ñ¡Ôñ¸ÉÔ±£¬·µ»Ø±¾´ÎÑ¡ÔñÁË¼¸¸ö¸ÉÔ±
+		// é€‰æ‹©å¹²å‘˜ï¼Œè¿”å›æœ¬æ¬¡é€‰æ‹©äº†å‡ ä¸ªå¹²å‘˜
 		int select_operators(const cv::Mat& image);
-		// Ñ¡Ôñ¸ÉÔ±£¬¶ş´Î·â×°£¬°üÀ¨½ØÍ¼¡¢µã»÷Çå³ı¡¢È·¶¨°´Å¥µÈ£¬·µ»Ø±¾´ÎÑ¡ÔñÁË¼¸¸ö¸ÉÔ±
+		// é€‰æ‹©å¹²å‘˜ï¼ŒäºŒæ¬¡å°è£…ï¼ŒåŒ…æ‹¬æˆªå›¾ã€ç‚¹å‡»æ¸…é™¤ã€ç¡®å®šæŒ‰é’®ç­‰ï¼Œè¿”å›æœ¬æ¬¡é€‰æ‹©äº†å‡ ä¸ªå¹²å‘˜
 		int select_operators(bool need_to_the_left = false);
-		// Ò»±ß»¬¶¯Ò»±ßÑ¡Ôñ¸ÉÔ±£¬·µ»Ø±¾´ÎÑ¡ÔñÁË¼¸¸ö¸ÉÔ±
+		// ä¸€è¾¹æ»‘åŠ¨ä¸€è¾¹é€‰æ‹©å¹²å‘˜ï¼Œè¿”å›æœ¬æ¬¡é€‰æ‹©äº†å‡ ä¸ªå¹²å‘˜
 		int select_operators_with_swipe(bool need_to_the_left = false);
-		// ¼ì²âÕıÔÚ¹¤×÷ÖĞµÄ¸ÉÔ±ĞÄÇé×´Ì¬
+		// æ£€æµ‹æ­£åœ¨å·¥ä½œä¸­çš„å¹²å‘˜å¿ƒæƒ…çŠ¶æ€
 		std::vector<MoodStatus> detect_mood_status_at_work(
 			const cv::Mat& image, double process_threshold = 1.0) const;
 
-		int m_dorm_begin = 0;				// ´ÓµÚ¼¸¸öËŞÉá¿ªÊ¼
-		int m_select_with_swipe = false;	// Ñ¡Ôñ¸ÉÔ±ÊÇ·ñĞèÒª»¬¶¯£¬²»»¬¶¯¼´Ö»Ñ¡ÔñµÚÒ»Ò³µÄ¸ÉÔ±
+		int m_dorm_begin = 0;				// ä»ç¬¬å‡ ä¸ªå®¿èˆå¼€å§‹
+		int m_select_with_swipe = false;	// é€‰æ‹©å¹²å‘˜æ˜¯å¦éœ€è¦æ»‘åŠ¨ï¼Œä¸æ»‘åŠ¨å³åªé€‰æ‹©ç¬¬ä¸€é¡µçš„å¹²å‘˜
 	};
 }

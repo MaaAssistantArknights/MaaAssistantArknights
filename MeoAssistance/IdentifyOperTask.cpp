@@ -1,4 +1,4 @@
-#include "IdentifyOperTask.h"
+ï»¿#include "IdentifyOperTask.h"
 
 #include <functional>
 #include <thread>
@@ -55,10 +55,10 @@ bool asst::IdentifyOperTask::run()
 	}
 	result_json["all"] = json::array(opers_json_vec);
 
-	// ²éÕÒÃ»ÓĞÄÄĞ©¸ÉÔ±£¨Ò²¿ÉÄÜÊÇÃ»Ê¶±ğµ½£©
+	// æŸ¥æ‰¾æ²¡æœ‰å“ªäº›å¹²å‘˜ï¼ˆä¹Ÿå¯èƒ½æ˜¯æ²¡è¯†åˆ«åˆ°ï¼‰
 	std::vector<json::value> not_found_vector;
 	for (const std::string& name : InfrastConfiger::get_instance().m_all_opers_name) {
-		auto iter = std::find_if(detected_opers.cbegin(), detected_opers.cend(), 
+		auto iter = std::find_if(detected_opers.cbegin(), detected_opers.cend(),
 			[&](const auto& pair) -> bool {
 				return pair.first == name;
 			});
@@ -88,12 +88,12 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::IdentifyOp
 
 	int times = 0;
 	bool reverse = false;
-	// Ò»±ßÊ¶±ğÒ»±ß»¬¶¯£¬°ÑËùÓĞ¸ÉÔ±Ãû×Ö×¥³öÀ´
-	// ÕıÏòÍêÕû»¬Ò»±é£¬ÔÙ·´ÏòÍêÕû»¬Ò»±é£¬Ìá¸ßÊ¶±ğÂÊ
+	// ä¸€è¾¹è¯†åˆ«ä¸€è¾¹æ»‘åŠ¨ï¼ŒæŠŠæ‰€æœ‰å¹²å‘˜åå­—æŠ“å‡ºæ¥
+	// æ­£å‘å®Œæ•´æ»‘ä¸€éï¼Œå†åå‘å®Œæ•´æ»‘ä¸€éï¼Œæé«˜è¯†åˆ«ç‡
 	while (true) {
 		const cv::Mat& image = m_controller_ptr->get_image(true);
 
-		// Òì²½½øĞĞ»¬¶¯²Ù×÷
+		// å¼‚æ­¥è¿›è¡Œæ»‘åŠ¨æ“ä½œ
 		std::future<bool> swipe_future = std::async(
 			std::launch::async, &IdentifyOperTask::swipe, this, reverse);
 
@@ -124,20 +124,20 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::IdentifyOp
 		opers_json["all"] = json::array(opers_json_vec);
 		m_callback(AsstMsg::OpersDetected, opers_json, m_callback_arg);
 
-		// ÕıÏò»¬¶¯µÄÊ±ºò
+		// æ­£å‘æ»‘åŠ¨çš„æ—¶å€™
 		if (!reverse) {
 			++times;
-			// ËµÃ÷±¾´ÎÊ¶±ğÒ»¸öĞÂµÄ¶¼Ã»Ê¶±ğµ½£¬Ó¦¸ÃÊÇ»¬¶¯µ½×îºóÁË£¬Ö±½Ó½áÊøÑ­»·
+			// è¯´æ˜æœ¬æ¬¡è¯†åˆ«ä¸€ä¸ªæ–°çš„éƒ½æ²¡è¯†åˆ«åˆ°ï¼Œåº”è¯¥æ˜¯æ»‘åŠ¨åˆ°æœ€åäº†ï¼Œç›´æ¥ç»“æŸå¾ªç¯
 			if (oper_numer == detected_opers.size()) {
 				reverse = true;
 			}
 		}
-		else {	// ·´Ïò»¬¶¯µÄÊ±ºò
+		else {	// åå‘æ»‘åŠ¨çš„æ—¶å€™
 			if (--times <= 0) {
 				break;
 			}
 		}
-		// ×èÈûµÈ´ı±¾´Î»¬¶¯½áÊø
+		// é˜»å¡ç­‰å¾…æœ¬æ¬¡æ»‘åŠ¨ç»“æŸ
 		if (!swipe_future.get()) {
 			return std::nullopt;
 		}
@@ -145,11 +145,10 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::IdentifyOp
 	return detected_opers;
 }
 
-
 int asst::IdentifyOperTask::detect_elite(const cv::Mat& image, const asst::Rect name_rect)
 {
 	cv::Rect elite_rect;
-	// ÒòÎªÓĞµÄÃû×Ö³¤ÓĞµÄÃû×Ö¶Ì£¬µ«ÊÇÓÒ¶ÔÆëµÄ£¬ËùÒÔ¸ú×ÅÓÒ±ß×ß
+	// å› ä¸ºæœ‰çš„åå­—é•¿æœ‰çš„åå­—çŸ­ï¼Œä½†æ˜¯å³å¯¹é½çš„ï¼Œæ‰€ä»¥è·Ÿç€å³è¾¹èµ°
 	elite_rect.x = name_rect.x + name_rect.width - image.cols * 0.1;
 	elite_rect.y = name_rect.y - image.rows * 0.14;
 	if (elite_rect.x < 0 || elite_rect.y < 0) {
@@ -160,8 +159,8 @@ int asst::IdentifyOperTask::detect_elite(const cv::Mat& image, const asst::Rect 
 	cv::Mat elite_mat = image(elite_rect);
 
 	// for debug
-	// ÕâÁ½¸öÍ¼ÊÇÔÚ2560*1440ÏÂ½ØµÄ£¬×¼±¸×öÄ£°åÆ¥Åä£¬ËùÒÔÒªËõ·ÅÒ»ÏÂ
-	// TODO£ººóÃæÔÙÅªÍêÕûµÄ¹¤³Ì»¯£¬ÏÈ¼òµ¥Ëõ·ÅÏÂ
+	// è¿™ä¸¤ä¸ªå›¾æ˜¯åœ¨2560*1440ä¸‹æˆªçš„ï¼Œå‡†å¤‡åšæ¨¡æ¿åŒ¹é…ï¼Œæ‰€ä»¥è¦ç¼©æ”¾ä¸€ä¸‹
+	// TODOï¼šåé¢å†å¼„å®Œæ•´çš„å·¥ç¨‹åŒ–ï¼Œå…ˆç®€å•ç¼©æ”¾ä¸‹
 	static cv::Mat elite1 = cv::imread(GetResourceDir() + "operators\\Elite1.png");
 	static cv::Mat elite2 = cv::imread(GetResourceDir() + "operators\\Elite2.png");
 	static bool scaled = false;
@@ -174,7 +173,6 @@ int asst::IdentifyOperTask::detect_elite(const cv::Mat& image, const asst::Rect 
 		cv::Size size2(elite2.size().width * ratio, elite2.size().height * ratio);
 		cv::resize(elite2, elite2, size2);
 	}
-
 
 	auto&& [score1, point1] = m_identify_ptr->match_template(elite_mat, elite1);
 	auto&& [score2, point2] = m_identify_ptr->match_template(elite_mat, elite2);

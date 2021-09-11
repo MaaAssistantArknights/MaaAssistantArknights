@@ -1,42 +1,42 @@
-#pragma once
+ï»¿#pragma once
 
 #include "OcrAbstractTask.h"
 #include "AsstDef.h"
 
 namespace asst {
-    class InfrastAbstractTask : public OcrAbstractTask
-    {
-    public:
-        InfrastAbstractTask(AsstCallback callback, void* callback_arg);
-        virtual ~InfrastAbstractTask() = default;
-        virtual bool run() = 0;
-    protected:
-        virtual bool swipe_to_the_left();   // »¬¶¯µ½×î×ó²à
-        virtual bool click_clear_button();
-        virtual bool click_confirm_button();
-        virtual bool click_return_button();
-        virtual bool swipe(bool reverse = false);
-        virtual bool swipe_left();          // Íù×ó»®£¨Ö»»¬Ò»ÏÂ£©
-        virtual bool swipe_right();         // ÍùÓÒ»®£¨Ö»»¬Ò»ÏÂ£©
+	class InfrastAbstractTask : public OcrAbstractTask
+	{
+	public:
+		InfrastAbstractTask(AsstCallback callback, void* callback_arg);
+		virtual ~InfrastAbstractTask() = default;
+		virtual bool run() = 0;
+	protected:
+		virtual bool swipe_to_the_left();   // æ»‘åŠ¨åˆ°æœ€å·¦ä¾§
+		virtual bool click_clear_button();
+		virtual bool click_confirm_button();
+		virtual bool click_return_button();
+		virtual bool swipe(bool reverse = false);
+		virtual bool swipe_left();          // å¾€å·¦åˆ’ï¼ˆåªæ»‘ä¸€ä¸‹ï¼‰
+		virtual bool swipe_right();         // å¾€å³åˆ’ï¼ˆåªæ»‘ä¸€ä¸‹ï¼‰
 
-        // ¼ì²â¸ÉÔ±Ãû
-        virtual std::vector<TextArea> detect_operators_name(const cv::Mat& image,
-            std::unordered_map<std::string, std::string>& feature_cond,
-            std::unordered_set<std::string>& feature_whatever);
-        virtual bool enter_station(const std::vector<std::string>& templ_names, int index, double threshold = 0.8);
-        virtual bool click_first_operator();
+		// æ£€æµ‹å¹²å‘˜å
+		virtual std::vector<TextArea> detect_operators_name(const cv::Mat& image,
+			std::unordered_map<std::string, std::string>& feature_cond,
+			std::unordered_set<std::string>& feature_whatever);
+		virtual bool enter_station(const std::vector<std::string>& templ_names, int index, double threshold = 0.8);
+		virtual bool click_first_operator();
 
-        constexpr static int SwipeExtraDelayDefault = 1000;
-        constexpr static int SwipeDurationDefault = 2000;
+		constexpr static int SwipeExtraDelayDefault = 1000;
+		constexpr static int SwipeDurationDefault = 2000;
 
-        double m_cropped_height_ratio = 0.052;	// Í¼Æ¬²Ã¼ô³ö¸ÉÔ±ÃûµÄ³¤ÌõĞÎÍ¼Æ¬ µÄ¸ß¶È±ÈÀı£¨Ïà±ÈÔ­Í¼£©
-        double m_cropped_upper_y_ratio = 0.441;	// Í¼Æ¬²Ã¼ô³ö¸ÉÔ±ÃûµÄ³¤ÌõĞÎÍ¼Æ¬£¬ÉÏ°ë²¿·Ö¸ÉÔ±ÃûµÄ²Ã¼ôÇøÓòy×ø±ê±ÈÀı£¨Ïà±ÈÔ­Í¼£©
-        double m_cropped_lower_y_ratio = 0.831;	// Í¼Æ¬²Ã¼ô³ö¸ÉÔ±ÃûµÄ³¤ÌõĞÎÍ¼Æ¬£¬ÏÂ°ë²¿·Ö¸ÉÔ±ÃûµÄ²Ã¼ôÇøÓòy×ø±ê±ÈÀı£¨Ïà±ÈÔ­Í¼£©
-        Rect m_swipe_begin;									// ±ß»¬¶¯±ßÊ¶±ğ£¬µ¥´Î»¬¶¯ÆğÊ¼µã£¨RectÄÚËæ»úµã£©
-        Rect m_swipe_end;									// ±ß»¬¶¯±ßÊ¶±ğ£¬µ¥´Î»¬¶¯½áÊøµã£¨RectÄÚËæ»úµã£©
-        int m_swipe_duration = SwipeDurationDefault;		// »¬¶¯³ÖĞøÊ±¼ä£¬Ê±¼äÔ½³¤»¬µÄÔ½Âı
-        int m_swipe_extra_delay = SwipeExtraDelayDefault;	// »¬¶¯Ö®ºó¶îÍâµÄµÈ´ıÊ±¼ä
-        int m_swipe_times = 0;								// »¬¶¯ÁË¼¸´Î£¬ÕıÏò»¬¶¯Ôö¼Ó£¬·´Ïò»¬¶¯¼õÉÙ
-        bool m_keep_swipe = false;							// keep_swipeº¯ÊıÊÇ·ñ½áÊøµÄ±êÖ¾Î»
-    };
+		double m_cropped_height_ratio = 0.052;	// å›¾ç‰‡è£å‰ªå‡ºå¹²å‘˜åçš„é•¿æ¡å½¢å›¾ç‰‡ çš„é«˜åº¦æ¯”ä¾‹ï¼ˆç›¸æ¯”åŸå›¾ï¼‰
+		double m_cropped_upper_y_ratio = 0.441;	// å›¾ç‰‡è£å‰ªå‡ºå¹²å‘˜åçš„é•¿æ¡å½¢å›¾ç‰‡ï¼Œä¸ŠåŠéƒ¨åˆ†å¹²å‘˜åçš„è£å‰ªåŒºåŸŸyåæ ‡æ¯”ä¾‹ï¼ˆç›¸æ¯”åŸå›¾ï¼‰
+		double m_cropped_lower_y_ratio = 0.831;	// å›¾ç‰‡è£å‰ªå‡ºå¹²å‘˜åçš„é•¿æ¡å½¢å›¾ç‰‡ï¼Œä¸‹åŠéƒ¨åˆ†å¹²å‘˜åçš„è£å‰ªåŒºåŸŸyåæ ‡æ¯”ä¾‹ï¼ˆç›¸æ¯”åŸå›¾ï¼‰
+		Rect m_swipe_begin;									// è¾¹æ»‘åŠ¨è¾¹è¯†åˆ«ï¼Œå•æ¬¡æ»‘åŠ¨èµ·å§‹ç‚¹ï¼ˆRectå†…éšæœºç‚¹ï¼‰
+		Rect m_swipe_end;									// è¾¹æ»‘åŠ¨è¾¹è¯†åˆ«ï¼Œå•æ¬¡æ»‘åŠ¨ç»“æŸç‚¹ï¼ˆRectå†…éšæœºç‚¹ï¼‰
+		int m_swipe_duration = SwipeDurationDefault;		// æ»‘åŠ¨æŒç»­æ—¶é—´ï¼Œæ—¶é—´è¶Šé•¿æ»‘çš„è¶Šæ…¢
+		int m_swipe_extra_delay = SwipeExtraDelayDefault;	// æ»‘åŠ¨ä¹‹åé¢å¤–çš„ç­‰å¾…æ—¶é—´
+		int m_swipe_times = 0;								// æ»‘åŠ¨äº†å‡ æ¬¡ï¼Œæ­£å‘æ»‘åŠ¨å¢åŠ ï¼Œåå‘æ»‘åŠ¨å‡å°‘
+		bool m_keep_swipe = false;							// keep_swipeå‡½æ•°æ˜¯å¦ç»“æŸçš„æ ‡å¿—ä½
+	};
 }

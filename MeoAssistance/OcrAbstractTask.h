@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "AbstractTask.h"
 
@@ -19,7 +19,7 @@ namespace asst {
 		std::vector<TextArea> ocr_detect(const cv::Mat& image);
 		bool click_text(const cv::Mat& image, const std::string& text);
 
-		// ÎÄ×ÖÆ¥Åä£¬ÒªÇóÏàµÈ
+		// æ–‡å­—åŒ¹é…ï¼Œè¦æ±‚ç›¸ç­‰
 		template<typename FilterArray, typename ReplaceMap>
 		std::vector<TextArea> text_match(const std::vector<TextArea>& src,
 			const FilterArray& filter_array, const ReplaceMap& replace_map)
@@ -39,7 +39,7 @@ namespace asst {
 			return dst;
 		}
 
-		// ÎÄ×ÖËÑË÷£¬ÊÇ×Ó´®¼´¿É
+		// æ–‡å­—æœç´¢ï¼Œæ˜¯å­ä¸²å³å¯
 		template<typename FilterArray, typename ReplaceMap>
 		std::vector<TextArea> text_search(const std::vector<TextArea>& src,
 			const FilterArray& filter_array, const ReplaceMap& replace_map)

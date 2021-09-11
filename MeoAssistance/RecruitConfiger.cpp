@@ -1,4 +1,4 @@
-#include "RecruitConfiger.h"
+ï»¿#include "RecruitConfiger.h"
 
 #include <fstream>
 #include <sstream>
@@ -18,8 +18,9 @@ bool asst::RecruitConfiger::parse(json::value&& json)
 		oper_temp.name = oper["name"].as_string();
 		oper_temp.type = oper["type"].as_string();
 		m_all_types.emplace(oper_temp.type);
-		// Ö°ÒµÀàĞÍÒ²×÷ÎªtagÖ®Ò»£¬¼ÓÉÏ"¸ÉÔ±"Á½¸ö×Ö
-		std::string type_as_tag = oper_temp.type + GbkToUtf8("¸ÉÔ±");
+		// èŒä¸šç±»å‹ä¹Ÿä½œä¸ºtagä¹‹ä¸€ï¼ŒåŠ ä¸Š"å¹²å‘˜"ä¸¤ä¸ªå­—
+		const static std::string oper_word("å¹²å‘˜");
+		std::string type_as_tag = oper_temp.type + oper_word;
 		oper_temp.tags.emplace(type_as_tag);
 		m_all_tags.emplace(std::move(type_as_tag));
 
@@ -41,7 +42,7 @@ bool asst::RecruitConfiger::parse(json::value&& json)
 	//	}
 	//#endif
 
-	// °´¸ÉÔ±µÈ¼¶ÅÅ¸öĞò
+	// æŒ‰å¹²å‘˜ç­‰çº§æ’ä¸ªåº
 	std::sort(m_all_opers.begin(), m_all_opers.end(), [](
 		const auto& lhs,
 		const auto& rhs)

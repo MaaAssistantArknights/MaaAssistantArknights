@@ -1,4 +1,4 @@
-#include "AbstractTask.h"
+ï»¿#include "AbstractTask.h"
 
 #include <algorithm>
 #include <filesystem>
@@ -64,8 +64,8 @@ bool AbstractTask::print_window(const std::string& dir)
 	if (image.empty()) {
 		return false;
 	}
-	// ÏÖÔÚÓÃadbÖ±½Ó½ØÍ¼ÁË£¬²»ÓÃ²Ã¼ôÁË
-	//// ±£´æµÄ½ØÍ¼¶îÍâÔÙ²Ã¼ôµôÒ»È¦£¬²»È»Æó¶ìÎïÁ÷Ê¶±ğ²»³öÀ´
+	// ç°åœ¨ç”¨adbç›´æ¥æˆªå›¾äº†ï¼Œä¸ç”¨è£å‰ªäº†
+	//// ä¿å­˜çš„æˆªå›¾é¢å¤–å†è£å‰ªæ‰ä¸€åœˆï¼Œä¸ç„¶ä¼é¹…ç‰©æµè¯†åˆ«ä¸å‡ºæ¥
 	//int offset = Configer::get_instance().m_options.print_window_crop_offset;
 	//cv::Rect rect(offset, offset, image.cols - offset * 2, image.rows - offset * 2);
 

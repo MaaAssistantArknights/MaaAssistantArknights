@@ -1,4 +1,4 @@
-#include "InfrastDormTask.h"
+ï»¿#include "InfrastDormTask.h"
 
 #include <future>
 #include <thread>
@@ -20,10 +20,10 @@ bool asst::InfrastDormTask::run()
 		return false;
 	}
 
-	// for debug 
+	// for debug
 	//m_select_with_swipe = true;
 
-	enter_station({"Dorm", "DormMini"}, m_dorm_begin, 0.8);
+	enter_station({ "Dorm", "DormMini" }, m_dorm_begin, 0.8);
 
 	int dorm_index = m_dorm_begin;
 	for (; dorm_index < DormNum; ++dorm_index) {
@@ -33,7 +33,7 @@ bool asst::InfrastDormTask::run()
 			to_left = false;
 		}
 		else {
-			to_left = true;	// µÚÒ»¸ö½øÈëµÄËŞÉáĞèÒª»¬¶¯µ½×î×ó²àÒ»ÏÂ¡£ºóÃæµÄËŞÉá¶¼²»ÓÃÁË
+			to_left = true;	// ç¬¬ä¸€ä¸ªè¿›å…¥çš„å®¿èˆéœ€è¦æ»‘åŠ¨åˆ°æœ€å·¦ä¾§ä¸€ä¸‹ã€‚åé¢çš„å®¿èˆéƒ½ä¸ç”¨äº†
 		}
 		enter_operator_selection();
 		int selected = 0;
@@ -43,7 +43,7 @@ bool asst::InfrastDormTask::run()
 		else {
 			selected = select_operators(to_left);
 		}
-		if (selected < MaxOperNumInDorm) {	// Èç¹ûÑ¡²»Âú5¸öÈË£¬ËµÃ÷Ã»ÓĞ¸ü¶àĞèÒªĞİÏ¢µÄÁË£¬Ö±½Ó½áÊøËŞÉáÈÎÎñ
+		if (selected < MaxOperNumInDorm) {	// å¦‚æœé€‰ä¸æ»¡5ä¸ªäººï¼Œè¯´æ˜æ²¡æœ‰æ›´å¤šéœ€è¦ä¼‘æ¯çš„äº†ï¼Œç›´æ¥ç»“æŸå®¿èˆä»»åŠ¡
 			break;
 		}
 	}
@@ -57,7 +57,7 @@ bool asst::InfrastDormTask::click_confirm_button()
 	InfrastAbstractTask::click_confirm_button();
 	sleep(300);
 
-	// µãÍêÈ·¶¨ºó£¬Èç¹û°Ñ¹¤×÷ÖĞµÄ¸ÉÔ±³·ÏÂÀ´ÁË£¬»áÔÙµ¯³öÀ´Ò»¸öÈ·ÈÏµÄ½çÃæ£¬Èç¹ûÃ»³·ÏÂÀ´Ôò²»»áµ¯³ö¡£ÏÈÊ¶±ğÒ»ÏÂÔÙ¾ö¶¨Òª²»Òªµã»÷
+	// ç‚¹å®Œç¡®å®šåï¼Œå¦‚æœæŠŠå·¥ä½œä¸­çš„å¹²å‘˜æ’¤ä¸‹æ¥äº†ï¼Œä¼šå†å¼¹å‡ºæ¥ä¸€ä¸ªç¡®è®¤çš„ç•Œé¢ï¼Œå¦‚æœæ²¡æ’¤ä¸‹æ¥åˆ™ä¸ä¼šå¼¹å‡ºã€‚å…ˆè¯†åˆ«ä¸€ä¸‹å†å†³å®šè¦ä¸è¦ç‚¹å‡»
 	auto&& [algorithm, score, second_confirm_rect] =
 		m_identify_ptr->find_image(m_controller_ptr->get_image(), "DormConfirm");
 	if (score >= Configer::TemplThresholdDefault) {
@@ -69,21 +69,21 @@ bool asst::InfrastDormTask::click_confirm_button()
 
 bool asst::InfrastDormTask::enter_next_dorm()
 {
-	static const Rect swipe_down_begin(		// ÏòÏÂ»¬¶¯Æğµã
+	static const Rect swipe_down_begin(		// å‘ä¸‹æ»‘åŠ¨èµ·ç‚¹
 		Configer::WindowWidthDefault * 0.3,
 		Configer::WindowHeightDefault * 0.8,
 		Configer::WindowWidthDefault * 0.2,
 		Configer::WindowWidthDefault * 0.1);
-	static const Rect swipe_down_end(		// ÏòÏÂ»¬¶¯ÖÕµã
+	static const Rect swipe_down_end(		// å‘ä¸‹æ»‘åŠ¨ç»ˆç‚¹
 		Configer::WindowWidthDefault * 0.3,
 		Configer::WindowHeightDefault * 0.2,
 		Configer::WindowWidthDefault * 0.2,
 		Configer::WindowWidthDefault * 0.1);
 
-	static const int swipe_dwon_duration = 1000;	// ÏòÏÂ»¬¶¯³ÖĞøÊ±¼ä
+	static const int swipe_dwon_duration = 1000;	// å‘ä¸‹æ»‘åŠ¨æŒç»­æ—¶é—´
 
-	// ÓÎÏ·bug£¬ËŞÉáÖĞÈç¹û¡°½ø×¤ĞÅÏ¢¡±ÒÑ±»Ñ¡ÖĞ£¬Ö±½Ó½øĞĞ»¬¶¯»á±»»¬µÄºÜÔ¶
-	// ËùÒÔÕâÀïÏÈ¼ì²éÒ»ÏÂ£¬Èç¹û½ø×¤ĞÅÏ¢±»Ñ¡ÖĞÁË£¬¾ÍÏÈ°ÑËü¹ØÁË£¬ÔÙ½øĞĞ»¬¶¯
+	// æ¸¸æˆbugï¼Œå®¿èˆä¸­å¦‚æœâ€œè¿›é©»ä¿¡æ¯â€å·²è¢«é€‰ä¸­ï¼Œç›´æ¥è¿›è¡Œæ»‘åŠ¨ä¼šè¢«æ»‘çš„å¾ˆè¿œ
+	// æ‰€ä»¥è¿™é‡Œå…ˆæ£€æŸ¥ä¸€ä¸‹ï¼Œå¦‚æœè¿›é©»ä¿¡æ¯è¢«é€‰ä¸­äº†ï¼Œå°±å…ˆæŠŠå®ƒå…³äº†ï¼Œå†è¿›è¡Œæ»‘åŠ¨
 	auto find_result = m_identify_ptr->find_image(m_controller_ptr->get_image(), "StationInfoSelected");
 	if (find_result.score >= 0.75) {
 		m_controller_ptr->click(find_result.rect);
@@ -98,7 +98,7 @@ bool asst::InfrastDormTask::enter_next_dorm()
 		Configer::WindowWidthDefault * 0.2
 	);
 
-	// ÓÎÏ·ÖĞµÄËŞÉáÀï£¬Ë«»÷¿ÉÒÔÈÃµ±Ç°ÉèÊ©»Øµ½ÕıÈ·µÄÎ»ÖÃ
+	// æ¸¸æˆä¸­çš„å®¿èˆé‡Œï¼ŒåŒå‡»å¯ä»¥è®©å½“å‰è®¾æ–½å›åˆ°æ­£ç¡®çš„ä½ç½®
 	m_controller_ptr->click(double_click_rect);
 	m_controller_ptr->click(double_click_rect);
 
@@ -107,12 +107,8 @@ bool asst::InfrastDormTask::enter_next_dorm()
 
 bool asst::InfrastDormTask::enter_operator_selection()
 {
-	// ÓĞÕâĞ©ÎÄ×ÖÖ®Ò»¾ÍËµÃ÷¡°½ø×¤ĞÅÏ¢¡±Õâ¸ö°´Å¥ÒÑ¾­µã¿ªÁË
-	static const std::vector<std::string> info_opened_flags = {
-		GbkToUtf8("µ±Ç°·¿¼äÈë×¡ĞÅÏ¢"),
-		GbkToUtf8("½ø×¤ÈËÊı"),
-		GbkToUtf8("Çå¿Õ")
-	};
+	// æœ‰è¿™äº›æ–‡å­—ä¹‹ä¸€å°±è¯´æ˜â€œè¿›é©»ä¿¡æ¯â€è¿™ä¸ªæŒ‰é’®å·²ç»ç‚¹å¼€äº†
+	static const std::vector<std::string> info_opened_flags = { "å½“å‰æˆ¿é—´å…¥ä½ä¿¡æ¯","è¿›é©»äººæ•°","æ¸…ç©º" };
 
 	std::vector<TextArea> ocr_result = ocr_detect();
 
@@ -124,8 +120,8 @@ bool asst::InfrastDormTask::enter_operator_selection()
 			-> bool { return lhs.text == rhs; })
 		!= ocr_result.cend();
 
-	static const std::string station_info = GbkToUtf8("½ø×¤ĞÅÏ¢");
-	// Èç¹û¡°½ø×¤ĞÅÏ¢¡±´°¿ÚÃ»µã¿ª£¬ÄÇ¾Íµã¿ª
+	static const std::string station_info = "è¿›é©»ä¿¡æ¯";
+	// å¦‚æœâ€œè¿›é©»ä¿¡æ¯â€çª—å£æ²¡ç‚¹å¼€ï¼Œé‚£å°±ç‚¹å¼€
 	if (!is_info_opened) {
 		auto station_info_iter = std::find_if(ocr_result.cbegin(), ocr_result.cend(),
 			[](const TextArea& textarea) -> bool {
@@ -136,13 +132,8 @@ bool asst::InfrastDormTask::enter_operator_selection()
 		ocr_result = ocr_detect();
 	}
 
-	// µã»÷ÕâÀïÃæÈÎÒâÒ»¸ö£¬¶¼¿ÉÒÔ½øÈë¸ÉÔ±Ñ¡ÔñÒ³Ãæ
-	static const std::vector<std::string> enter_operator_page_buttons = {
-		GbkToUtf8("½ø×¤"),
-		GbkToUtf8("ĞİÏ¢ÖĞ"),
-		GbkToUtf8("¿ÕÏĞÖĞ"),
-		GbkToUtf8("ĞÄÇé")
-	};
+	// ç‚¹å‡»è¿™é‡Œé¢ä»»æ„ä¸€ä¸ªï¼Œéƒ½å¯ä»¥è¿›å…¥å¹²å‘˜é€‰æ‹©é¡µé¢
+	static const std::vector<std::string> enter_operator_page_buttons = { "è¿›é©»","ä¼‘æ¯ä¸­","ç©ºé—²ä¸­","å¿ƒæƒ…" };
 
 	auto button_iter = std::find_first_of(
 		ocr_result.cbegin(), ocr_result.cend(),
@@ -150,7 +141,7 @@ bool asst::InfrastDormTask::enter_operator_selection()
 		[](const TextArea& lhs, const std::string& rhs)
 		-> bool { return lhs.text == rhs; });
 	if (button_iter == ocr_result.cend()) {
-		// TODO ±¨´í
+		// TODO æŠ¥é”™
 		return false;
 	}
 	m_controller_ptr->click(button_iter->rect);
@@ -161,37 +152,37 @@ bool asst::InfrastDormTask::enter_operator_selection()
 
 int asst::InfrastDormTask::select_operators(const cv::Mat& image)
 {
-	// Ê¶±ğ¡°ĞİÏ¢ÖĞ¡±µÄ¸ÉÔ±
+	// è¯†åˆ«â€œä¼‘æ¯ä¸­â€çš„å¹²å‘˜
 	auto resting_result = m_identify_ptr->find_all_images(image, "Resting", 0.8);
-	if (resting_result.size() == MaxOperNumInDorm) {	// Èç¹ûËùÓĞÈË¶¼ÔÚĞİÏ¢£¬ÄÇÕâ¸öËŞÉá²»ÓÃ»»°à£¬Ö±½Ó¹ØÁË
+	if (resting_result.size() == MaxOperNumInDorm) {	// å¦‚æœæ‰€æœ‰äººéƒ½åœ¨ä¼‘æ¯ï¼Œé‚£è¿™ä¸ªå®¿èˆä¸ç”¨æ¢ç­ï¼Œç›´æ¥å…³äº†
 		return MaxOperNumInDorm;
 	}
 
-	// Ê¶±ğ¡°×¢ÒâÁ¦»ÁÉ¢¡±µÄ¸ÉÔ±
-	// TODO£¬Õâ¸öãĞÖµÌ«µÍÁË£¬²»Õı³££¬ÓĞÊ±¼äÔÙµ÷ÕûÒ»ÏÂÄ£°åÍ¼Æ¬
+	// è¯†åˆ«â€œæ³¨æ„åŠ›æ¶£æ•£â€çš„å¹²å‘˜
+	// TODOï¼Œè¿™ä¸ªé˜ˆå€¼å¤ªä½äº†ï¼Œä¸æ­£å¸¸ï¼Œæœ‰æ—¶é—´å†è°ƒæ•´ä¸€ä¸‹æ¨¡æ¿å›¾ç‰‡
 	auto listless_result = m_identify_ptr->find_all_images(image, "Listless", 0.6);
-	// Ê¶±ğÕıÔÚ¹¤×÷ÖĞµÄ¸ÉÔ±µÄĞÄÇé×´Ì¬
+	// è¯†åˆ«æ­£åœ¨å·¥ä½œä¸­çš„å¹²å‘˜çš„å¿ƒæƒ…çŠ¶æ€
 	auto work_mood_result = detect_mood_status_at_work(image, Configer::get_instance().m_infrast_options.dorm_threshold);
 
 	int count = 0;
-	// °Ñ¡°ĞİÏ¢ÖĞ¡±µÄ¸ÉÔ±£¬¶¼ÔÙ´ÎÑ¡ÉÏ
+	// æŠŠâ€œä¼‘æ¯ä¸­â€çš„å¹²å‘˜ï¼Œéƒ½å†æ¬¡é€‰ä¸Š
 	for (const auto& resting : resting_result) {
 		m_controller_ptr->click(resting.rect);
 		++count;
 	}
 
-	if (listless_result.size() == 0 && work_mood_result.size() == 0) {	// Èç¹ûÃ»ÓĞ×¢ÒâÁ¦»ÁÉ¢µÄºÍĞÄÇéµÍµÄ£¬Ò²Ö±½Ó¹ØÁË
+	if (listless_result.size() == 0 && work_mood_result.size() == 0) {	// å¦‚æœæ²¡æœ‰æ³¨æ„åŠ›æ¶£æ•£çš„å’Œå¿ƒæƒ…ä½çš„ï¼Œä¹Ÿç›´æ¥å…³äº†
 		return 0;
 	}
 
-	// Ñ¡Ôñ¡°×¢ÒâÁ¦»ÁÉ¢¡±µÄ¸ÉÔ±
+	// é€‰æ‹©â€œæ³¨æ„åŠ›æ¶£æ•£â€çš„å¹²å‘˜
 	for (const auto& listless : listless_result) {
 		if (count++ >= MaxOperNumInDorm) {
 			break;
 		}
 		m_controller_ptr->click(listless.rect);
 	}
-	// Ñ¡ÔñĞÄÇé½ÏµÍµÄ¸ÉÔ±
+	// é€‰æ‹©å¿ƒæƒ…è¾ƒä½çš„å¹²å‘˜
 	for (const auto& mood_status : work_mood_result) {
 		if (count++ >= MaxOperNumInDorm) {
 			break;
@@ -235,7 +226,7 @@ int asst::InfrastDormTask::select_operators_with_swipe(bool need_to_the_left)
 		if (count >= MaxOperNumInDorm) {
 			break;
 		}
-			 
+
 		auto rest_result = m_identify_ptr->find_image(image, "SmileyAtRest");
 		if (rest_result.score > Configer::TemplThresholdDefault) {
 			break;
@@ -256,23 +247,23 @@ int asst::InfrastDormTask::select_operators_with_swipe(bool need_to_the_left)
 
 std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_work(const cv::Mat& image, double process_threshold) const
 {
-	constexpr static int MoodWidth = Configer::WindowWidthDefault * 0.0664 + 0.5;		// ĞÄÇé½ø¶ÈÌõ³¤¶È£¨ÂúĞÄÇéµÄÊ±ºò£©
-	constexpr static int MoodHeight = Configer::WindowHeightDefault * 0.00416 + 0.5;	// ĞÄÇé½ø¶ÈÌõ¸ß¶È
+	constexpr static int MoodWidth = Configer::WindowWidthDefault * 0.0664 + 0.5;		// å¿ƒæƒ…è¿›åº¦æ¡é•¿åº¦ï¼ˆæ»¡å¿ƒæƒ…çš„æ—¶å€™ï¼‰
+	constexpr static int MoodHeight = Configer::WindowHeightDefault * 0.00416 + 0.5;	// å¿ƒæƒ…è¿›åº¦æ¡é«˜åº¦
 
 #ifdef LOG_TRACE
 	cv::Mat draw_image = image.clone();
 #endif
 
-	// °Ñ¹¤×÷ÖĞµÄÄÇ¸ö»ÆÉ«Ğ¦Á³È«×¥³öÀ´
+	// æŠŠå·¥ä½œä¸­çš„é‚£ä¸ªé»„è‰²ç¬‘è„¸å…¨æŠ“å‡ºæ¥
 	auto smiley_result = m_identify_ptr->find_all_images(image, "SmileyAtWork", 0.8, false);
 
 	std::vector<MoodStatus> moods_vec;
 	for (const auto& smiley : smiley_result) {
-		// ¼ì²é½ø¶ÈÌõÊÇ·ñ³¬³öÁËÍ¼Æ¬·¶Î§
+		// æ£€æŸ¥è¿›åº¦æ¡æ˜¯å¦è¶…å‡ºäº†å›¾ç‰‡èŒƒå›´
 		if (smiley.rect.x + smiley.rect.width + MoodWidth >= image.cols) {
 			continue;
 		}
-		// ¸ù¾İ»ÆÉ«Ğ¦Á³ÍùÓÒÍÆĞÄÇé½ø¶ÈÌõµÄÇøÓò
+		// æ ¹æ®é»„è‰²ç¬‘è„¸å¾€å³æ¨å¿ƒæƒ…è¿›åº¦æ¡çš„åŒºåŸŸ
 		cv::Rect process_rect(
 			smiley.rect.x + smiley.rect.width,
 			smiley.rect.y,
@@ -283,16 +274,16 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 		cv::Mat process_gray;
 		cv::cvtColor(process_mat, process_gray, cv::COLOR_BGR2GRAY);
 
-		int max_white_length = 0;	// ×î³¤µÄºáÏòÁ¬ĞøµÄ°×É«³¤ÌõµÄ³¤¶È
+		int max_white_length = 0;	// æœ€é•¿çš„æ¨ªå‘è¿ç»­çš„ç™½è‰²é•¿æ¡çš„é•¿åº¦
 		for (int i = 0; i != process_gray.rows; ++i) {
 			int cur_white_length = 0;
-			cv::uint8_t left_value = 250;	// µ±Ç°µã×ó²àµÄµãµÄÖµ
+			cv::uint8_t left_value = 250;	// å½“å‰ç‚¹å·¦ä¾§çš„ç‚¹çš„å€¼
 			for (int j = 0; j != process_gray.cols; ++j) {
 				constexpr static cv::uint8_t LowerLimit = 180;
 				constexpr static cv::uint8_t DiffThreshold = 20;
 
 				auto value = process_gray.at<cv::uint8_t>(i, j);
-				if (value >= LowerLimit && left_value - value < DiffThreshold) {	// ÓÒ±ßµÄÑÕÉ«Ïà±È×ó±ß±ä»¯ÔÚãĞÖµÒÔÄÚ£¬¶¼ÈÏÎªÊÇÁ¬ĞøµÄ
+				if (value >= LowerLimit && left_value - value < DiffThreshold) {	// å³è¾¹çš„é¢œè‰²ç›¸æ¯”å·¦è¾¹å˜åŒ–åœ¨é˜ˆå€¼ä»¥å†…ï¼Œéƒ½è®¤ä¸ºæ˜¯è¿ç»­çš„
 					left_value = value;
 					++cur_white_length;
 					if (max_white_length < cur_white_length) {
@@ -312,9 +303,9 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 		MoodStatus mood_status;
 		mood_status.actual_length = max_white_length;
 		mood_status.process = static_cast<double>(max_white_length) / MoodWidth;
-		mood_status.rect = asst::Rect(smiley.rect.x, smiley.rect.y, 
+		mood_status.rect = asst::Rect(smiley.rect.x, smiley.rect.y,
 			smiley.rect.width + process_rect.width, smiley.rect.height + process_rect.height);
-		mood_status.actual_rect = asst::Rect(process_rect.x, process_rect.y, 
+		mood_status.actual_rect = asst::Rect(process_rect.x, process_rect.y,
 			max_white_length, process_rect.height);
 #ifdef LOG_TRACE
 		cv::Rect cv_actual_rect(mood_status.actual_rect.x, mood_status.actual_rect.y,
@@ -323,19 +314,19 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 		cv::putText(draw_image, std::to_string(mood_status.process), cv::Point(cv_actual_rect.x, cv_actual_rect.y), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 0, 255));
 #endif
 		if (mood_status.process == 0) {
-			// ÖµÎª0ËµÃ÷ÊÇ¡°×¢ÒâÁ¦»ÁÉ¢¡±£¬ºìÉ«¿ŞÁ³±»´íÎóµÄÊ¶±ğ³É»ÆÉ«Ğ¦Á³ÁË£¬ÕâÀïÖ±½ÓºöÂÔÕâ¸öÖµ
+			// å€¼ä¸º0è¯´æ˜æ˜¯â€œæ³¨æ„åŠ›æ¶£æ•£â€ï¼Œçº¢è‰²å“­è„¸è¢«é”™è¯¯çš„è¯†åˆ«æˆé»„è‰²ç¬‘è„¸äº†ï¼Œè¿™é‡Œç›´æ¥å¿½ç•¥è¿™ä¸ªå€¼
 		}
-		else if (mood_status.process <= process_threshold) {	// ĞÄÇéĞ¡ÓÚãĞÖµµÄÖ±½Ó¼ÓÈë½á¹û
+		else if (mood_status.process <= process_threshold) {	// å¿ƒæƒ…å°äºé˜ˆå€¼çš„ç›´æ¥åŠ å…¥ç»“æœ
 			moods_vec.emplace_back(std::move(mood_status));
 		}
 		else {
-			// ¼È²»ÔÚ¹¤×÷ÖĞ£¬Ò²²»ÔÚĞİÏ¢ÖĞ£¬µ«ÊÇĞÄÇéÖµ»¹´óÓÚãĞÖµµÄ£¬Ò²ĞèÒª¼ÓÈë½á¹ûÖĞ
-			// Ë¼Â·£º¸ù¾İĞÄÇé½ø¶ÈÌõµÄÎ»ÖÃ£¬ÍùÉÏ²Ã¼ô³ö¡°¹¤×÷ÖĞ¡±or¡°ĞİÏ¢ÖĞ¡±µÄÄÇÒ»¿éÇøÓò
-			// ½øĞĞÄ£°åÆ¥Åä£¬Èç¹ûÃ»Æ¥ÅäÉÏ£¬ÔòÈÏÎªÕâ¸ö¸ÉÔ±¼È²»ÔÚ¹¤×÷£¬Ò²²»ÔÚĞİÏ¢
+			// æ—¢ä¸åœ¨å·¥ä½œä¸­ï¼Œä¹Ÿä¸åœ¨ä¼‘æ¯ä¸­ï¼Œä½†æ˜¯å¿ƒæƒ…å€¼è¿˜å¤§äºé˜ˆå€¼çš„ï¼Œä¹Ÿéœ€è¦åŠ å…¥ç»“æœä¸­
+			// æ€è·¯ï¼šæ ¹æ®å¿ƒæƒ…è¿›åº¦æ¡çš„ä½ç½®ï¼Œå¾€ä¸Šè£å‰ªå‡ºâ€œå·¥ä½œä¸­â€orâ€œä¼‘æ¯ä¸­â€çš„é‚£ä¸€å—åŒºåŸŸ
+			// è¿›è¡Œæ¨¡æ¿åŒ¹é…ï¼Œå¦‚æœæ²¡åŒ¹é…ä¸Šï¼Œåˆ™è®¤ä¸ºè¿™ä¸ªå¹²å‘˜æ—¢ä¸åœ¨å·¥ä½œï¼Œä¹Ÿä¸åœ¨ä¼‘æ¯
 			constexpr static int HeightDiff = Configer::WindowHeightDefault * 0.13;
 			constexpr static int OnShiftHeight = Configer::WindowHeightDefault * 0.08;
 			cv::Rect on_shift_rect(mood_status.rect.x, mood_status.rect.y - HeightDiff, mood_status.rect.width, OnShiftHeight);
-			// ¡°ĞİÏ¢ÖĞ¡±µÄĞ¦Á³Ç°ÃæµÄÄ£°åÆ¥ÅäÊÇ¶Ô²»ÉÏµÄ£¬×ß²»µ½ÕâÀï£¬ËùÒÔÕâÀïÖ»Æ¥Åä¡°¹¤×÷ÖĞ¡±¼´¿É
+			// â€œä¼‘æ¯ä¸­â€çš„ç¬‘è„¸å‰é¢çš„æ¨¡æ¿åŒ¹é…æ˜¯å¯¹ä¸ä¸Šçš„ï¼Œèµ°ä¸åˆ°è¿™é‡Œï¼Œæ‰€ä»¥è¿™é‡ŒåªåŒ¹é…â€œå·¥ä½œä¸­â€å³å¯
 			auto find_result = m_identify_ptr->find_image(image(on_shift_rect), "OnShift");
 			if (find_result.score < 0.5) {
 				moods_vec.emplace_back(std::move(mood_status));
@@ -345,11 +336,11 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 
 	std::sort(moods_vec.begin(), moods_vec.end(),
 		[](const auto& lhs, const auto& rhs) -> bool {
-			// °´Ê£ÓàĞÄÇé½ø¶ÈÅÅ¸öĞò£¬ÉÙµÄÔÚÇ°Ãæ
+			// æŒ‰å‰©ä½™å¿ƒæƒ…è¿›åº¦æ’ä¸ªåºï¼Œå°‘çš„åœ¨å‰é¢
 			if (lhs.actual_length != rhs.actual_length) {
 				return lhs.actual_length < rhs.actual_length;
 			}
-			// Èç¹ûÊ£ÓàĞÄÇéÏàµÈ£¬ÓÅÏÈÑ¡¿¿×ó²à¡¢¿¿ÉÏ²àµÄ£¬¸ü·ûºÏÓÃ»§Ö±¾õ
+			// å¦‚æœå‰©ä½™å¿ƒæƒ…ç›¸ç­‰ï¼Œä¼˜å…ˆé€‰é å·¦ä¾§ã€é ä¸Šä¾§çš„ï¼Œæ›´ç¬¦åˆç”¨æˆ·ç›´è§‰
 			else if (lhs.rect.x != rhs.rect.x) {
 				return lhs.rect.x < rhs.rect.x;
 			}
