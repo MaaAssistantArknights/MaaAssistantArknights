@@ -8,6 +8,7 @@
 #include "Identify.h"
 #include "Configer.h"
 #include "InfrastConfiger.h"
+#include "Logger.hpp"
 
 using namespace asst;
 
@@ -20,6 +21,8 @@ asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* call
 
 bool asst::InfrastAbstractTask::swipe_to_the_left()
 {
+	DebugTraceFunction;
+
 	constexpr int SwipeTimes = 5;
 
 	m_swipe_duration = 100;
@@ -40,24 +43,32 @@ bool asst::InfrastAbstractTask::swipe_to_the_left()
 
 bool asst::InfrastAbstractTask::click_clear_button()
 {
+	DebugTraceFunction;
+
 	const static Rect ClearButtonRect(430, 655, 150, 40);
 	return m_controller_ptr->click(ClearButtonRect);
 }
 
 bool asst::InfrastAbstractTask::click_confirm_button()
 {
+	DebugTraceFunction;
+
 	const static Rect ConfirmButtonRect(1105, 655, 150, 40);
 	return m_controller_ptr->click(ConfirmButtonRect);
 }
 
 bool asst::InfrastAbstractTask::click_return_button()
 {
+	DebugTraceFunction;
+
 	const static Rect ConfirmButtonRect(20, 20, 135, 35);
 	return m_controller_ptr->click(ConfirmButtonRect);
 }
 
 bool asst::InfrastAbstractTask::swipe(bool reverse)
 {
+	DebugTraceFunction;
+
 	//#ifndef LOG_TRACE
 	bool ret = true;
 	if (!reverse) {
@@ -81,6 +92,8 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 	std::string>& feature_cond,
 	std::unordered_set<std::string>& feature_whatever)
 {
+	DebugTraceFunction;
+
 	// 裁剪出来干员名的一个长条形图片，没必要把整张图片送去识别
 	int cropped_height = image.rows * m_cropped_height_ratio;
 	int cropped_upper_y = image.rows * m_cropped_upper_y_ratio;
@@ -247,6 +260,8 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 
 bool asst::InfrastAbstractTask::enter_station(const std::vector<std::string>& templ_names, int index, double threshold)
 {
+	DebugTraceFunction;
+
 	cv::Mat image = m_controller_ptr->get_image();
 
 	std::vector<asst::Identify::FindImageResult> max_score_reslut;
@@ -283,4 +298,12 @@ bool asst::InfrastAbstractTask::enter_station(const std::vector<std::string>& te
 	sleep(1000);
 
 	return false;
+}
+
+bool asst::InfrastAbstractTask::click_first_operator()
+{
+	DebugTraceFunction;
+
+	const static Rect FirstOperatorRect(420, 80, 125, 270);
+	return m_controller_ptr->click(FirstOperatorRect);
 }
