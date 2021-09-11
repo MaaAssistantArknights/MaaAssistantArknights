@@ -21,7 +21,7 @@ std::vector<TextArea> OcrAbstractTask::ocr_detect(const cv::Mat& image)
 
 	std::vector<json::value> all_text_json_vector;
 	for (const TextArea& text_area : dst) {
-		all_text_json_vector.emplace_back(Utf8ToGbk(text_area.text));
+		all_text_json_vector.emplace_back(text_area.text);
 	}
 	json::value all_text_json;
 	all_text_json["text"] = json::array(all_text_json_vector);

@@ -35,7 +35,7 @@ AsstCallback _callback = nullptr;
 
 void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg)
 {
-	_callback(static_cast<int>(msg), json.to_string().c_str(), custom_arg);
+	_callback(static_cast<int>(msg), asst::Utf8ToGbk(json.to_string()).c_str(), custom_arg);
 }
 
 asst::Assistance* AsstCreate()

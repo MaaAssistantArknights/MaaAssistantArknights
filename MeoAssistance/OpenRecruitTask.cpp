@@ -58,7 +58,7 @@ bool OpenRecruitTask::run()
 	std::vector<json::value> all_tags_json_vector;
 	for (const TextArea& text_area : all_tags) {
 		all_tags_name.emplace(text_area.text);
-		all_tags_json_vector.emplace_back(Utf8ToGbk(text_area.text));
+		all_tags_json_vector.emplace_back(text_area.text);
 	}
 	json::value all_tags_json;
 	all_tags_json["tags"] = json::array(all_tags_json_vector);
@@ -76,7 +76,7 @@ bool OpenRecruitTask::run()
 	static const std::string SupportMachine = "支援机械";
 	if (std::find(all_tags_name.cbegin(), all_tags_name.cend(), SupportMachine) != all_tags_name.cend()) {
 		json::value special_tag_json;
-		special_tag_json["tag"] = Utf8ToGbk(SupportMachine);
+		special_tag_json["tag"] = SupportMachine;
 		m_callback(AsstMsg::RecruitSpecialTag, special_tag_json, m_callback_arg);
 	}
 
@@ -181,14 +181,14 @@ bool OpenRecruitTask::run()
 
 		std::vector<json::value> tags_json_vector;
 		for (const std::string& tag : tags_comb) {
-			tags_json_vector.emplace_back(Utf8ToGbk(tag));
+			tags_json_vector.emplace_back(tag);
 		}
 		comb_json["tags"] = json::array(std::move(tags_json_vector));
 
 		std::vector<json::value> opers_json_vector;
 		for (const OperRecruitInfo& oper_info : oper_comb.opers) {
 			json::value oper_json;
-			oper_json["name"] = Utf8ToGbk(oper_info.name);
+			oper_json["name"] = oper_info.name;
 			oper_json["level"] = oper_info.level;
 			opers_json_vector.emplace_back(std::move(oper_json));
 		}

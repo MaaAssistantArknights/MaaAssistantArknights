@@ -122,7 +122,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastPro
 		std::vector<json::value> opers_json_vec;
 		for (const auto& [name, info] : cur_opers_info) {
 			json::value info_json;
-			info_json["name"] = Utf8ToGbk(info.name);
+			info_json["name"] = info.name;
 			info_json["elite"] = info.elite;
 			//info_json["level"] = info.level;
 			opers_json_vec.emplace_back(std::move(info_json));
@@ -202,14 +202,12 @@ std::list<std::string> asst::InfrastProductionTask::calc_optimal_comb(
 		? three_optimal_comb : single_optimal_comb;
 
 	std::list<std::string> optimal_opers_name;
-	std::vector<std::string> optimal_comb_gbk;	// 给回调json用的，gbk的
 	for (const auto& info : optimal_comb.comb) {
 		optimal_opers_name.emplace_back(info.name);
-		optimal_comb_gbk.emplace_back(Utf8ToGbk(info.name));
 	}
 
 	json::value opers_json;
-	opers_json["comb"] = json::array(optimal_comb_gbk);
+	opers_json["comb"] = json::array(optimal_opers_name);
 	m_callback(AsstMsg::InfrastComb, opers_json, m_callback_arg);
 
 	return optimal_opers_name;
