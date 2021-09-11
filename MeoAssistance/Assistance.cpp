@@ -234,7 +234,7 @@ bool Assistance::start_debug_task()
 	//}
 	{
 		constexpr static const char* InfrastTaskCahin = "Debug";
-		auto shift_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
+		auto shift_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
 		shift_task_ptr->set_task_chain(InfrastTaskCahin);
 		m_tasks_deque.emplace_back(shift_task_ptr);
 	}
@@ -364,6 +364,13 @@ bool asst::Assistance::start_infrast()
 	auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
 	power_task_ptr->set_task_chain(InfrastTaskCahin);
 	m_tasks_deque.emplace_back(std::move(power_task_ptr));
+
+	// 返回基建的主界面
+	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
+	auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
+	office_task_ptr->set_task_chain(InfrastTaskCahin);
+	m_tasks_deque.emplace_back(std::move(office_task_ptr));
 
 	// 全操作完之后，再返回基建的主界面
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });

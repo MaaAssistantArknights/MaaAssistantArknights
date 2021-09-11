@@ -6,3 +6,4 @@
 #include "InfrastProductionTask.h"
 #include "InfrastDormTask.h"
 #include "InfrastPowerTask.h"
+#include "InfrastOfficeTask.h"
