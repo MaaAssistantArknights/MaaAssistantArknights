@@ -371,6 +371,7 @@ std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(
 	cv::Mat draw_mat = image.clone();
 	for (const auto& info : results) {
 		cv::rectangle(draw_mat, rect_2_cvrect(info.rect), cv::Scalar(0, 0, 255), 1);
+		cv::putText(draw_mat, std::to_string(info.score), cv::Point(info.rect.x, info.rect.y), 1, 1.0, cv::Scalar(0, 0, 255));
 	}
 #endif
 

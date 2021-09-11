@@ -1,5 +1,7 @@
 #include "InfrastAbstractTask.h"
 
+#include <numeric>
+
 #include <opencv2/opencv.hpp>
 
 #include "WinMacro.h"
@@ -56,7 +58,7 @@ bool asst::InfrastAbstractTask::click_return_button()
 
 bool asst::InfrastAbstractTask::swipe(bool reverse)
 {
-//#ifndef LOG_TRACE
+	//#ifndef LOG_TRACE
 	bool ret = true;
 	if (!reverse) {
 		ret &= m_controller_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
@@ -68,9 +70,9 @@ bool asst::InfrastAbstractTask::swipe(bool reverse)
 	}
 	ret &= sleep(m_swipe_extra_delay);
 	return ret;
-//#else
-//	return sleep(SwipeExtraDelay);
-//#endif
+	//#else
+	//	return sleep(SwipeExtraDelay);
+	//#endif
 }
 
 std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
@@ -247,24 +249,29 @@ bool asst::InfrastAbstractTask::enter_station(const std::vector<std::string>& te
 {
 	cv::Mat image = m_controller_ptr->get_image();
 
-	std::vector<asst::Identify::FindImageResult> max_size_reslut;
+	std::vector<asst::Identify::FindImageResult> max_score_reslut;
 	for (const auto& templ : templ_names) {
-		auto temp_result = m_identify_ptr->find_all_images(image, templ, threshold);
-		if (temp_result.size() > max_size_reslut.size()) {
-			max_size_reslut = temp_result;
+		auto cur_result = m_identify_ptr->find_all_images(image, templ, threshold);
+		if (cur_result.empty()) {
+			continue;
+		}
+		if (max_score_reslut.empty() 
+			|| cur_result.at(0).score > max_score_reslut.at(0).score) {	// find_all_image里是排过序的，直接取第一个就是最大得分
+			max_score_reslut = std::move(cur_result);
 		}
 	}
 
-	if (max_size_reslut.empty()) {
+	if (max_score_reslut.empty()) {
 		return false;
 	}
-	if (index >= max_size_reslut.size()) {
+	if (index >= max_score_reslut.size()) {
 		return false;
 	}
 
-	std::sort(max_size_reslut.begin(), max_size_reslut.end(), [](
+	// 按照坐标排个序，左上的排前面
+	std::sort(max_score_reslut.begin(), max_score_reslut.end(), [](
 		const auto& lhs, const auto& rhs) -> bool {
-			if (std::abs(lhs.rect.y - rhs.rect.y) < 5) {	// 同一排的
+			if (std::abs(lhs.rect.y - rhs.rect.y) < 5) {	// y差距较小则理解为是同一排的，按x排序
 				return lhs.rect.x < rhs.rect.x;
 			}
 			else {
@@ -272,7 +279,7 @@ bool asst::InfrastAbstractTask::enter_station(const std::vector<std::string>& te
 			}
 		});
 
-	m_controller_ptr->click(max_size_reslut.at(index).rect);
+	m_controller_ptr->click(max_score_reslut.at(index).rect);
 	sleep(1000);
 
 	return false;
