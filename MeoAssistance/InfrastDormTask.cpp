@@ -20,11 +20,15 @@ bool asst::InfrastDormTask::run()
 		return false;
 	}
 
+	// for debug 
+	//m_select_with_swipe = true;
+
 	enter_station({"Dorm", "DormMini"}, m_dorm_begin, 0.8);
 
-	for (int i = m_dorm_begin; i != DormNum; ++i) {
+	int dorm_index = m_dorm_begin;
+	for (; dorm_index < DormNum; ++dorm_index) {
 		bool to_left = false;
-		if (i != m_dorm_begin) {
+		if (dorm_index != m_dorm_begin) {
 			enter_next_dorm();
 			to_left = false;
 		}
@@ -32,12 +36,34 @@ bool asst::InfrastDormTask::run()
 			to_left = true;	// 第一个进入的宿舍需要滑动到最左侧一下。后面的宿舍都不用了
 		}
 		enter_operator_selection();
-		int selected = select_operators(to_left);
+		int selected = 0;
+		if (m_select_with_swipe) {
+			selected = select_operators_with_swipe(to_left);
+		}
+		else {
+			selected = select_operators(to_left);
+		}
 		if (selected < MaxOperNumInDorm) {	// 如果选不满5个人，说明没有更多需要休息的了，直接结束宿舍任务
 			break;
 		}
 	}
+	m_dorm_begin = dorm_index;
 
+	return true;
+}
+
+bool asst::InfrastDormTask::click_confirm_button()
+{
+	InfrastAbstractTask::click_confirm_button();
+	sleep(300);
+
+	// 点完确定后，如果把工作中的干员撤下来了，会再弹出来一个确认的界面，如果没撤下来则不会弹出。先识别一下再决定要不要点击
+	auto&& [algorithm, score, second_confirm_rect] =
+		m_identify_ptr->find_image(m_controller_ptr->get_image(), "DormConfirm");
+	if (score >= Configer::TemplThresholdDefault) {
+		m_controller_ptr->click(second_confirm_rect);
+	}
+	sleep(2000);
 	return true;
 }
 
@@ -133,19 +159,12 @@ bool asst::InfrastDormTask::enter_operator_selection()
 	return true;
 }
 
-int asst::InfrastDormTask::select_operators(bool need_to_the_left)
+int asst::InfrastDormTask::select_operators(const cv::Mat& image)
 {
-	if (need_to_the_left) {
-		swipe_to_the_left();
-	}
-
-	cv::Mat image = m_controller_ptr->get_image();
-
 	// 识别“休息中”的干员
 	auto resting_result = m_identify_ptr->find_all_images(image, "Resting", 0.8);
 	if (resting_result.size() == MaxOperNumInDorm) {	// 如果所有人都在休息，那这个宿舍不用换班，直接关了
-		click_confirm_button();
-		return resting_result.size();
+		return MaxOperNumInDorm;
 	}
 
 	// 识别“注意力涣散”的干员
@@ -154,18 +173,17 @@ int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 	// 识别正在工作中的干员的心情状态
 	auto work_mood_result = detect_mood_status_at_work(image, Configer::get_instance().m_infrast_options.dorm_threshold);
 
-	if (listless_result.size() == 0 && work_mood_result.size() == 0) {	// 如果没有注意力涣散的和心情低的，也直接关了
-		click_confirm_button();
-		return 0;
-	}
-	click_clear_button();
-
 	int count = 0;
 	// 把“休息中”的干员，都再次选上
 	for (const auto& resting : resting_result) {
 		m_controller_ptr->click(resting.rect);
 		++count;
 	}
+
+	if (listless_result.size() == 0 && work_mood_result.size() == 0) {	// 如果没有注意力涣散的和心情低的，也直接关了
+		return 0;
+	}
+
 	// 选择“注意力涣散”的干员
 	for (const auto& listless : listless_result) {
 		if (count++ >= MaxOperNumInDorm) {
@@ -180,17 +198,58 @@ int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 		}
 		m_controller_ptr->click(mood_status.rect);
 	}
+	return count;
+}
 
-	click_confirm_button();
-	sleep(300);
-
-	// 点完确定后，如果把工作中的干员撤下来了，会再弹出来一个确认的界面，如果没扯下来则不会弹出。先识别一下再决定要不要点击
-	auto&& [algorithm, score, second_confirm_rect] = 
-		m_identify_ptr->find_image(m_controller_ptr->get_image(), "DormConfirm");
-	if (score >= Configer::TemplThresholdDefault) {
-		m_controller_ptr->click(second_confirm_rect);
+int asst::InfrastDormTask::select_operators(bool need_to_the_left)
+{
+	if (need_to_the_left) {
+		swipe_to_the_left();
 	}
-	sleep(2000);
+
+	cv::Mat image = m_controller_ptr->get_image();
+	click_clear_button();
+	int count = select_operators(image);
+	if (count == 0) {
+		click_return_button();
+	}
+	else {
+		click_confirm_button();
+	}
+
+	return count;
+}
+
+int asst::InfrastDormTask::select_operators_with_swipe(bool need_to_the_left)
+{
+	if (need_to_the_left) {
+		swipe_to_the_left();
+	}
+	cv::Mat image = m_controller_ptr->get_image();
+	click_clear_button();
+
+	int count = 0;
+	while (true) {
+		count += select_operators(image);
+
+		if (count >= MaxOperNumInDorm) {
+			break;
+		}
+			 
+		auto rest_result = m_identify_ptr->find_image(image, "SmileyAtRest");
+		if (rest_result.score > Configer::TemplThresholdDefault) {
+			break;
+		}
+		swipe();
+		image = m_controller_ptr->get_image();
+	}
+
+	if (count == 0) {
+		click_return_button();
+	}
+	else {
+		click_confirm_button();
+	}
 
 	return count;
 }

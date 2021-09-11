@@ -234,7 +234,7 @@ bool Assistance::start_debug_task()
 	//}
 	{
 		constexpr static const char* InfrastTaskCahin = "Debug";
-		auto shift_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
+		auto shift_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
 		shift_task_ptr->set_task_chain(InfrastTaskCahin);
 		m_tasks_deque.emplace_back(shift_task_ptr);
 	}
@@ -318,6 +318,7 @@ bool asst::Assistance::start_infrast()
 	5. 对制造站or贸易站进行换班，使用InfrastStationTask
 	6. 根据用户设置，使用无人机加速制造or贸易，使用ProcessTask
 	7. 会客室线索处理、发电站换班、控制中枢、办公室换班，同样需要根据用户设置决定顺序，TODO
+	8. 再次进入宿舍，把基建中可能换下来的干员（心情不低的）加入宿舍
 	*/
 
 	// 1. 从任意界面进入基建，使用ProcessTask
@@ -328,7 +329,7 @@ bool asst::Assistance::start_infrast()
 	// 3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去
 	auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
 	dorm_task_ptr->set_task_chain(InfrastTaskCahin);
-	m_tasks_deque.emplace_back(std::move(dorm_task_ptr));
+	m_tasks_deque.emplace_back(dorm_task_ptr);
 
 	// 返回基建的主界面
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
@@ -371,6 +372,13 @@ bool asst::Assistance::start_infrast()
 	auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
 	office_task_ptr->set_task_chain(InfrastTaskCahin);
 	m_tasks_deque.emplace_back(std::move(office_task_ptr));
+
+	// 返回基建的主界面
+	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
+	// 8. 再次进入宿舍，把基建中可能换下来的干员（心情不低的）加入宿舍
+	dorm_task_ptr->set_select_with_swipe(true);
+	m_tasks_deque.emplace_back(dorm_task_ptr);
 
 	// 全操作完之后，再返回基建的主界面
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
