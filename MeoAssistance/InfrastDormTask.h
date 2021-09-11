@@ -27,7 +27,7 @@ namespace asst {
 			Rect actual_rect;			// 心情进度条在原图中的位置（白色有效部分）
 			int actual_length;			// 心情进度条白色有效部分的长度（像素点数量）
 			double process = 0.0;		// 心情进度条剩余百分比
-			int time_left_hour = 0.0;	// 剩余工作时间（小时数）
+			int time_left_hour = 0;	// 剩余工作时间（小时数）
 		};
 		constexpr static int MaxOperNumInDorm = 5;	// 宿舍最大干员数
 		constexpr static int DormNum = 4;			// 宿舍数量

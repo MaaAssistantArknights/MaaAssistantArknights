@@ -628,7 +628,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> Assistance::get_
 		}
 	}
 	catch (json::exception& exp) {
-		DebugTraceError(__FUNCTION__, "json parsing error!");
+		DebugTraceError(__FUNCTION__, "json parsing error!", exp.what());
 		return std::nullopt;
 	}
 	return opers_info;
