@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <ostream>
 #include <memory>
@@ -22,8 +22,8 @@ namespace asst {
 		ReachedLimit,
 		ReadyToSleep,
 		EndOfSleep,
-		AppendProcessTask,	// Õâ¸öÏûÏ¢Assistance»áĞÂÔöÈÎÎñ£¬Íâ²¿²»ĞèÒª´¦Àí
-		AppendTask,			// Õâ¸öÏûÏ¢Assistance»áĞÂÔöÈÎÎñ£¬Íâ²¿²»ĞèÒª´¦Àí
+		AppendProcessTask,	// è¿™ä¸ªæ¶ˆæ¯Assistanceä¼šæ–°å¢ä»»åŠ¡ï¼Œå¤–éƒ¨ä¸éœ€è¦å¤„ç†
+		AppendTask,			// è¿™ä¸ªæ¶ˆæ¯Assistanceä¼šæ–°å¢ä»»åŠ¡ï¼Œå¤–éƒ¨ä¸éœ€è¦å¤„ç†
 		TaskCompleted,
 		PrintWindow,
 		TaskStop,
@@ -35,9 +35,9 @@ namespace asst {
 		RecruitSpecialTag,
 		RecruitResult,
 		/* Infrast Msg*/
-		OpersDetected,		// Ê¶±ğµ½ÁË¸ÉÔ±s
-		OpersIdtfResult,	// ¸ÉÔ±Ê¶±ğ½á¹û£¨×ÜµÄ£©
-		InfrastComb			// µ±Ç°ÉèÖÃµÄ×îÓÅ¸ÉÔ±×éºÏ
+		OpersDetected,		// è¯†åˆ«åˆ°äº†å¹²å‘˜s
+		OpersIdtfResult,	// å¹²å‘˜è¯†åˆ«ç»“æœï¼ˆæ€»çš„ï¼‰
+		InfrastComb			// å½“å‰è®¾ç½®çš„æœ€ä¼˜å¹²å‘˜ç»„åˆ
 	};
 
 	static std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
@@ -72,10 +72,10 @@ namespace asst {
 		return os << _type_name.at(type);
 	}
 
-	// AsstCallback ÏûÏ¢»Øµ÷º¯Êı
-	// ²ÎÊı£º
-	// AsstMsg ÏûÏ¢ÀàĞÍ
-	// const json::value& ÏûÏ¢ÏêÇéjson£¬Ã¿ÖÖÏûÏ¢²»Í¬£¬Todo£¬ĞèÒª²¹³ä¸öĞ­ÒéÎÄµµÉ¶µÄ
-	// void* Íâ²¿µ÷ÓÃÕß×Ô¶¨Òå²ÎÊı£¬Ã¿´Î»Øµ÷»á´ø³öÈ¥£¬½¨Òé´«¸ö(void*)thisÖ¸Õë½øÀ´
+	// AsstCallback æ¶ˆæ¯å›è°ƒå‡½æ•°
+	// å‚æ•°ï¼š
+	// AsstMsg æ¶ˆæ¯ç±»å‹
+	// const json::value& æ¶ˆæ¯è¯¦æƒ…jsonï¼Œæ¯ç§æ¶ˆæ¯ä¸åŒï¼ŒTodoï¼Œéœ€è¦è¡¥å……ä¸ªåè®®æ–‡æ¡£å•¥çš„
+	// void* å¤–éƒ¨è°ƒç”¨è€…è‡ªå®šä¹‰å‚æ•°ï¼Œæ¯æ¬¡å›è°ƒä¼šå¸¦å‡ºå»ï¼Œå»ºè®®ä¼ ä¸ª(void*)thisæŒ‡é’ˆè¿›æ¥
 	using AsstCallback = std::function<void(AsstMsg, const json::value&, void*)>;
 }

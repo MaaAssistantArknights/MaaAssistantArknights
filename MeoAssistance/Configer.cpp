@@ -1,4 +1,4 @@
-#include "Configer.h"
+ï»¿#include "Configer.h"
 
 #include <fstream>
 #include <sstream>
@@ -12,7 +12,7 @@ using namespace asst;
 
 bool Configer::set_param(const std::string& type, const std::string& param, const std::string& value)
 {
-	// ÔİÊ±Ö»ÓÃµ½ÁËÕâĞ©£¬×ÜµÄ²ÎÊıÌ«¶àÁË£¬ºóÃæÒªÓÃÉ¶ÔÙ¼ÓÉÏ
+	// æš‚æ—¶åªç”¨åˆ°äº†è¿™äº›ï¼Œæ€»çš„å‚æ•°å¤ªå¤šäº†ï¼Œåé¢è¦ç”¨å•¥å†åŠ ä¸Š
 	if (type == "task.type") {
 		if (m_all_tasks_info.find(param) == m_all_tasks_info.cend()) {
 			return false;
@@ -86,7 +86,7 @@ bool asst::Configer::parse(json::value&& json)
 		else if (algorithm_str == "ocrdetect") {
 			algorithm = AlgorithmType::OcrDetect;
 		}
-		//else if (algorithm_str == "comparehist") {} // CompareHistÊÇMatchTemplateµÄÑÜÉúËã·¨£¬²»Ó¦×÷Îªµ¥¶ÀµÄÅäÖÃ²ÎÊı³öÏÖ
+		//else if (algorithm_str == "comparehist") {} // CompareHistæ˜¯MatchTemplateçš„è¡ç”Ÿç®—æ³•ï¼Œä¸åº”ä½œä¸ºå•ç‹¬çš„é…ç½®å‚æ•°å‡ºç°
 		else {
 			DebugTraceError("Algorithm error:", algorithm_str);
 			return false;

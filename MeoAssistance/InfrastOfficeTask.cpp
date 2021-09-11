@@ -1,4 +1,4 @@
-#include "InfrastOfficeTask.h"
+ï»¿#include "InfrastOfficeTask.h"
 
 #include "Configer.h"
 #include "Identify.h"
@@ -39,7 +39,7 @@ int asst::InfrastOfficeTask::select_operators(bool need_to_the_left)
 	if (need_to_the_left) {
 		swipe_to_the_left();
 	}
-	// °ì¹«ÊÒ¸ÉÔ±²»ÓÃ×öÊ¶±ğ£¬Ö±½ÓÑ¡ÔñµÚÒ»¸ö¼´¿É
+	// åŠå…¬å®¤å¹²å‘˜ä¸ç”¨åšè¯†åˆ«ï¼Œç›´æ¥é€‰æ‹©ç¬¬ä¸€ä¸ªå³å¯
 	click_first_operator();
 	click_confirm_button();
 

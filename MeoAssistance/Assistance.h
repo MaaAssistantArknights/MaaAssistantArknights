@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <thread>
 #include <mutex>
@@ -28,22 +28,22 @@ namespace asst {
 
 		std::optional<std::string> catch_emulator(const std::string& emulator_name = std::string());
 
-		// ¿ªÊ¼Ë¢ÀíÖÇ
+		// å¼€å§‹åˆ·ç†æ™º
 		bool start_sanity();
-		// ¿ªÊ¼·ÃÎÊºÃÓÑ»ù½¨
+		// å¼€å§‹è®¿é—®å¥½å‹åŸºå»º
 		bool start_visit();
 
-		// ¿ªÊ¼¹«¿ªÕĞÄ¼²Ù×÷
+		// å¼€å§‹å…¬å¼€æ‹›å‹Ÿæ“ä½œ
 		bool start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
-		// ¿ªÊ¼¸ÉÔ±Ê¶±ğÈÎÎñ
+		// å¼€å§‹å¹²å‘˜è¯†åˆ«ä»»åŠ¡
 		bool start_to_identify_opers();
-		// ¿ªÊ¼È«×Ô¶¯»ù½¨ÈÎÎñ
+		// å¼€å§‹å…¨è‡ªåŠ¨åŸºå»ºä»»åŠ¡
 		bool start_infrast();
 
-		// ¿ªÊ¼Æ¥ÅäÈÎÎñ£¬µ÷ÊÔÓÃ
+		// å¼€å§‹åŒ¹é…ä»»åŠ¡ï¼Œè°ƒè¯•ç”¨
 		bool start_match_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool block = true);
 #ifdef LOG_TRACE
-		// µ÷ÊÔÓÃ
+		// è°ƒè¯•ç”¨
 		bool start_debug_task();
 #endif
 
@@ -63,9 +63,9 @@ namespace asst {
 		void append_task(const json::value& detail, bool front = false);
 		void append_callback(AsstMsg msg, json::value detail);
 		void clear_exec_times();
-		static void set_opers_idtf_result(const json::value& detail);	// ±£´æ¸ÉÔ±Ê¶±ğ½á¹û
+		static void set_opers_idtf_result(const json::value& detail);	// ä¿å­˜å¹²å‘˜è¯†åˆ«ç»“æœ
 		static std::optional<std::unordered_map<std::string, OperInfrastInfo>>
-			get_opers_idtf_result();	// ¶ÁÈ¡¸ÉÔ±Ê¶±ğ½á¹û
+			get_opers_idtf_result();	// è¯»å–å¹²å‘˜è¯†åˆ«ç»“æœ
 
 		std::shared_ptr<WinMacro> m_controller_ptr = nullptr;
 		std::shared_ptr<Identify> m_identify_ptr = nullptr;

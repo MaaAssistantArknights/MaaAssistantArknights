@@ -1,4 +1,4 @@
-#include "InfrastProductionTask.h"
+ï»¿#include "InfrastProductionTask.h"
 
 #include <thread>
 #include <future>
@@ -26,10 +26,10 @@ bool asst::InfrastProductionTask::run()
 	}
 
 	cv::Mat image = m_controller_ptr->get_image();
-	// ÏÈÊ¶±ğÒ»ÏÂÓĞ¼¸¸öÖÆÔìÕ¾/Ã³Ò×Õ¾
+	// å…ˆè¯†åˆ«ä¸€ä¸‹æœ‰å‡ ä¸ªåˆ¶é€ ç«™/è´¸æ˜“ç«™
 	const static std::vector<std::string> facility_number_key = { "02", "03", "04", "05" };
 	std::vector<Rect> facility_number_rect;
-	facility_number_rect.emplace_back(Rect());	// ¼Ù×°¸ø01 pushÒ»¸ö£¬ºóÃæÑ­»·ºÃĞ´=¡£=
+	facility_number_rect.emplace_back(Rect());	// å‡è£…ç»™01 pushä¸€ä¸ªï¼Œåé¢å¾ªç¯å¥½å†™=ã€‚=
 
 	for (const std::string& key : facility_number_key) {
 		auto&& [algorithm, score, temp_rect] = m_identify_ptr->find_image(image, key);
@@ -42,19 +42,19 @@ bool asst::InfrastProductionTask::run()
 	}
 	for (size_t i = 0; i != facility_number_rect.size(); ++i) {
 		if (i != 0) {
-			// µãµ½Õâ¸ö»ù½¨
+			// ç‚¹åˆ°è¿™ä¸ªåŸºå»º
 			m_controller_ptr->click(facility_number_rect[i]);
 			sleep(300);
 			image = m_controller_ptr->get_image();
 		}
-		// Èç¹ûµ±Ç°½çÃæÃ»ÓĞÌí¼Ó¸ÉÔ±µÄ°´Å¥£¬ÄÇ¾Í²»»»°à
+		// å¦‚æœå½“å‰ç•Œé¢æ²¡æœ‰æ·»åŠ å¹²å‘˜çš„æŒ‰é’®ï¼Œé‚£å°±ä¸æ¢ç­
 		auto&& [algorithm1, score1, add_rect1] = m_identify_ptr->find_image(image, "AddOperator");
 		auto&& [algorithm2, score2, add_rect2] = m_identify_ptr->find_image(image, "AddOperator-Trade");
 		if (score1 < Configer::TemplThresholdDefault && score2 < Configer::TemplThresholdDefault) {
 			continue;
 		}
 
-		// Ê¶±ğµ±Ç°ÕıÔÚÔìÊ²Ã´
+		// è¯†åˆ«å½“å‰æ­£åœ¨é€ ä»€ä¹ˆ
 		for (const auto& [key, useless_value] : InfrastConfiger::get_instance().m_infrast_combs) {
 			auto&& [algorithm, score, useless_rect] = m_identify_ptr->find_image(image, key);
 			if (score >= Configer::TemplThresholdDefault) {
@@ -62,7 +62,7 @@ bool asst::InfrastProductionTask::run()
 				break;
 			}
 		}
-		//µã»÷Ìí¼Ó¸ÉÔ±µÄÄÇ¸ö°´Å¥
+		//ç‚¹å‡»æ·»åŠ å¹²å‘˜çš„é‚£ä¸ªæŒ‰é’®
 		Rect add_rect = score1 >= score2 ? std::move(add_rect1) : std::move(add_rect2);
 		m_controller_ptr->click(add_rect);
 		sleep(2000);
@@ -75,7 +75,7 @@ bool asst::InfrastProductionTask::run()
 			return false;
 		}
 		auto cur_opers_info = std::move(detect_ret.value());
-		// TODO£¬¿ÉÒÔÊ¶±ğÒ»´Î£¬°ÑÇ°6¸ö×îÓÅ½â¶¼ÁĞ³öÀ´£¨×î¶à6¸öÖÆÔìÕ¾£©£¬È»ºó¾Í²»ÓÃÃ¿´Î¶¼Ê¶±ğ²¢¼ÆËã×îÓÅ½âÁË
+		// TODOï¼Œå¯ä»¥è¯†åˆ«ä¸€æ¬¡ï¼ŒæŠŠå‰6ä¸ªæœ€ä¼˜è§£éƒ½åˆ—å‡ºæ¥ï¼ˆæœ€å¤š6ä¸ªåˆ¶é€ ç«™ï¼‰ï¼Œç„¶åå°±ä¸ç”¨æ¯æ¬¡éƒ½è¯†åˆ«å¹¶è®¡ç®—æœ€ä¼˜è§£äº†
 		std::list<std::string> optimal_comb = calc_optimal_comb(cur_opers_info);
 		bool select_ret = swipe_and_select(optimal_comb);
 	}
@@ -95,18 +95,18 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastPro
 	std::vector<std::string> end_flag_vec = InfrastConfiger::get_instance().m_infrast_end_flag[m_facility];
 
 	std::unordered_map<std::string, OperInfrastInfo> cur_opers_info;
-	// ÒòÎªÓĞĞ©¸ÉÔ±ÔÚËŞÉáĞİÏ¢£¬»òÕß±»ÆäËû»ù½¨Õ¼ÓÃÁË£¬ËùÒÔĞèÒªÖØĞÂÊ¶±ğÒ»±éµ±Ç°¿ÉÓÃµÄ¸ÉÔ±
+	// å› ä¸ºæœ‰äº›å¹²å‘˜åœ¨å®¿èˆä¼‘æ¯ï¼Œæˆ–è€…è¢«å…¶ä»–åŸºå»ºå ç”¨äº†ï¼Œæ‰€ä»¥éœ€è¦é‡æ–°è¯†åˆ«ä¸€éå½“å‰å¯ç”¨çš„å¹²å‘˜
 	for (int i = 0; i != SwipeMaxTimes; ++i) {
 		const cv::Mat& image = m_controller_ptr->get_image(true);
-		// Òì²½½øĞĞ»¬¶¯²Ù×÷
+		// å¼‚æ­¥è¿›è¡Œæ»‘åŠ¨æ“ä½œ
 		std::future<bool> swipe_future = std::async(
 			std::launch::async, &InfrastProductionTask::swipe, this, false);
 
 		auto cur_name_textarea = detect_operators_name(image, feature_cond, feature_whatever);
 		for (const TextArea& textarea : cur_name_textarea) {
 			OperInfrastInfo info;
-			// ¿¼ÂÇmapÖĞÃ»ÓĞÕâ¸öÃû×ÖµÄÇé¿ö£º°üÀ¨Ò»¿ªÊ¼Ê¶±ğÂ©ÁË¡¢³éµ½ÁËĞÂ¸ÉÔ±µ«Ã»¸üĞÂµÈ£¬Ò²ÓĞ¿ÉÄÜÊÇ±¾´ÎÊ¶±ğ´íÁË
-			// TODO£¬ÕâÀï¿ÉÒÔÅ×¸ö»Øµ÷³öÈ¥£¬ÌáÊ¾ÕâÖÖcase
+			// è€ƒè™‘mapä¸­æ²¡æœ‰è¿™ä¸ªåå­—çš„æƒ…å†µï¼šåŒ…æ‹¬ä¸€å¼€å§‹è¯†åˆ«æ¼äº†ã€æŠ½åˆ°äº†æ–°å¹²å‘˜ä½†æ²¡æ›´æ–°ç­‰ï¼Œä¹Ÿæœ‰å¯èƒ½æ˜¯æœ¬æ¬¡è¯†åˆ«é”™äº†
+			// TODOï¼Œè¿™é‡Œå¯ä»¥æŠ›ä¸ªå›è°ƒå‡ºå»ï¼Œæç¤ºè¿™ç§case
 			if (m_all_opers_info.find(textarea.text) == m_all_opers_info.cend()) {
 				info.name = textarea.text;
 				info.elite = 0;
@@ -131,7 +131,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastPro
 		m_callback(AsstMsg::OpersDetected, opers_json, m_callback_arg);
 
 		bool break_flag = false;
-		// Èç¹ûÕÒµ½ÁËend_flag_vecÖĞµÄÃû×Ö£¬ËµÃ÷ÒÑ¾­Ê¶±ğµ½ÓĞµ±Ç°»ù½¨¼¼ÄÜµÄ×îºóÒ»¸ö¸ÉÔ±ÁË£¬¾Í²»ÓÃ½Ó×ÅÊ¶±ğÁË
+		// å¦‚æœæ‰¾åˆ°äº†end_flag_vecä¸­çš„åå­—ï¼Œè¯´æ˜å·²ç»è¯†åˆ«åˆ°æœ‰å½“å‰åŸºå»ºæŠ€èƒ½çš„æœ€åä¸€ä¸ªå¹²å‘˜äº†ï¼Œå°±ä¸ç”¨æ¥ç€è¯†åˆ«äº†
 		auto find_iter = std::find_first_of(
 			cur_opers_info.cbegin(), cur_opers_info.cend(),
 			end_flag_vec.cbegin(), end_flag_vec.cend(),
@@ -141,7 +141,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastPro
 		if (find_iter != cur_opers_info.cend()) {
 			break_flag = true;
 		}
-		// ×èÈûµÈ´ıÒì²½µÄ»¬¶¯½áÊø
+		// é˜»å¡ç­‰å¾…å¼‚æ­¥çš„æ»‘åŠ¨ç»“æŸ
 		if (!swipe_future.get()) {
 			return std::nullopt;
 		}
@@ -155,17 +155,17 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastPro
 std::list<std::string> asst::InfrastProductionTask::calc_optimal_comb(
 	const std::unordered_map<std::string, OperInfrastInfo>& cur_opers_info) const
 {
-	// ÅäÖÃÎÄ¼şÖĞµÄ¸ÉÔ±×éºÏ£¬ºÍ×¥³öÀ´µÄ¸ÉÔ±Ãû±È¶Ô£¬Èç¹û×éºÏÖĞµÄ¸ÉÔ±¶¼ÓĞ£¬ÄÇ¾ÍÓÃÕâ¸ö×éºÏ
-	// ×¢ÒâÅäÖÃÖĞµÄ¸ÉÔ±×éºÏĞèÒªÊÇÓĞĞòµÄ
-	// Todo Ê±¼ä¸´ÔÓ¶ÈÆğ·ÉÁË£¬ĞèÒªÓÅ»¯ÏÂ
+	// é…ç½®æ–‡ä»¶ä¸­çš„å¹²å‘˜ç»„åˆï¼Œå’ŒæŠ“å‡ºæ¥çš„å¹²å‘˜åæ¯”å¯¹ï¼Œå¦‚æœç»„åˆä¸­çš„å¹²å‘˜éƒ½æœ‰ï¼Œé‚£å°±ç”¨è¿™ä¸ªç»„åˆ
+	// æ³¨æ„é…ç½®ä¸­çš„å¹²å‘˜ç»„åˆéœ€è¦æ˜¯æœ‰åºçš„
+	// Todo æ—¶é—´å¤æ‚åº¦èµ·é£äº†ï¼Œéœ€è¦ä¼˜åŒ–ä¸‹
 
-	OperInfrastComb three_optimal_comb;		// ÈıÈË×éºÏµÄ×îÓÅ½â
-	OperInfrastComb single_optimal_comb;	// ÓÉÈı¸öµ¥ÈË×é³ÉµÄ×éºÏ ÖĞµÄ×îÓÅ½â
+	OperInfrastComb three_optimal_comb;		// ä¸‰äººç»„åˆçš„æœ€ä¼˜è§£
+	OperInfrastComb single_optimal_comb;	// ç”±ä¸‰ä¸ªå•äººç»„æˆçš„ç»„åˆ ä¸­çš„æœ€ä¼˜è§£
 	for (const OperInfrastComb& comb : InfrastConfiger::get_instance().m_infrast_combs[m_facility]) {
 		if (comb.comb.size() == 3) {
 			int count = 0;
 			for (const OperInfrastInfo& info : comb.comb) {
-				// ÕÒµ½ÁË¸ÉÔ±Ãû£¬¶øÇÒµ±Ç°¾«Ó¢»¯µÈ¼¶ĞèÒª´óÓÚµÈÓÚÅäÖÃÎÄ¼şÖĞÒªÇóµÄ¾«Ó¢»¯µÈ¼¶
+				// æ‰¾åˆ°äº†å¹²å‘˜åï¼Œè€Œä¸”å½“å‰ç²¾è‹±åŒ–ç­‰çº§éœ€è¦å¤§äºç­‰äºé…ç½®æ–‡ä»¶ä¸­è¦æ±‚çš„ç²¾è‹±åŒ–ç­‰çº§
 				auto find_iter = cur_opers_info.find(info.name);
 				if (find_iter != cur_opers_info.cend()
 					&& find_iter->second.elite >= info.elite) {
@@ -193,16 +193,16 @@ std::list<std::string> asst::InfrastProductionTask::calc_optimal_comb(
 			}
 		}
 		else {
-			// ÅäÖÃÎÄ¼şÖĞÃ»ÓĞÁ½ÈËµÄ£¬²»¿ÉÄÜ×ßµ½ÕâÀï£¬TODO£¬±¨´í¡£
-			// ÒÔºóÓÎÏ·¸üĞÂÁËÓĞË«ÈËµÄÔÙËµ£¬Ë¼Â·ÊÇÒ»ÑùµÄ£¬ÕÒ³öË«ÈË×éºÏÖĞ¸ÉÔ±¶¼ÓĞµÄ+µ¥ÈË×éºÏÖĞÓĞµÄ¡£
-			// ÔÙ½¨Ò»¸öOperInfrastComb£¬±ÈÒ»ÏÂĞ§ÂÊ
+			// é…ç½®æ–‡ä»¶ä¸­æ²¡æœ‰ä¸¤äººçš„ï¼Œä¸å¯èƒ½èµ°åˆ°è¿™é‡Œï¼ŒTODOï¼ŒæŠ¥é”™ã€‚
+			// ä»¥åæ¸¸æˆæ›´æ–°äº†æœ‰åŒäººçš„å†è¯´ï¼Œæ€è·¯æ˜¯ä¸€æ ·çš„ï¼Œæ‰¾å‡ºåŒäººç»„åˆä¸­å¹²å‘˜éƒ½æœ‰çš„+å•äººç»„åˆä¸­æœ‰çš„ã€‚
+			// å†å»ºä¸€ä¸ªOperInfrastCombï¼Œæ¯”ä¸€ä¸‹æ•ˆç‡
 		}
 	}
-	OperInfrastComb optimal_comb = three_optimal_comb.efficiency >= single_optimal_comb.efficiency 
+	OperInfrastComb optimal_comb = three_optimal_comb.efficiency >= single_optimal_comb.efficiency
 		? three_optimal_comb : single_optimal_comb;
 
 	std::list<std::string> optimal_opers_name;
-	std::vector<std::string> optimal_comb_gbk;	// ¸ø»Øµ÷jsonÓÃµÄ£¬gbkµÄ
+	std::vector<std::string> optimal_comb_gbk;	// ç»™å›è°ƒjsonç”¨çš„ï¼Œgbkçš„
 	for (const auto& info : optimal_comb.comb) {
 		optimal_opers_name.emplace_back(info.name);
 		optimal_comb_gbk.emplace_back(Utf8ToGbk(info.name));
@@ -223,13 +223,13 @@ bool asst::InfrastProductionTask::swipe_and_select(std::list<std::string>& name_
 
 	std::unordered_map<std::string, std::string> feature_cond = InfrastConfiger::get_instance().m_oper_name_feat;
 	std::unordered_set<std::string> feature_whatever = InfrastConfiger::get_instance().m_oper_name_feat_whatever;
-	// Ò»±ß»¬¶¯Ò»±ßµã»÷×îÓÅ½âÖĞµÄ¸ÉÔ±
+	// ä¸€è¾¹æ»‘åŠ¨ä¸€è¾¹ç‚¹å‡»æœ€ä¼˜è§£ä¸­çš„å¹²å‘˜
 	for (int i = 0; i != swipe_max_times; ++i) {
 		const cv::Mat& image = m_controller_ptr->get_image(true);
 		auto cur_name_textarea = detect_operators_name(image, feature_cond, feature_whatever);
 
 		for (TextArea& text_area : cur_name_textarea) {
-			// µã¹ıÁË¾Í²»»áÔÙµãÁË£¬Ö±½Ó´Ó×îÓÅ½âvectorÀïÃæÉ¾ÁË
+			// ç‚¹è¿‡äº†å°±ä¸ä¼šå†ç‚¹äº†ï¼Œç›´æ¥ä»æœ€ä¼˜è§£vectoré‡Œé¢åˆ äº†
 			auto iter = std::find(name_comb.begin(), name_comb.end(), text_area.text);
 			if (iter != name_comb.end()) {
 				m_controller_ptr->click_without_scale(text_area.rect);
@@ -240,12 +240,12 @@ bool asst::InfrastProductionTask::swipe_and_select(std::list<std::string>& name_
 		if (name_comb.empty()) {
 			break;
 		}
-		// ÒòÎª»¬¶¯ºÍµã»÷ÊÇÃ¬¶ÜµÄ£¬ÕâÀïÃ»·¨Òì²½×ö
+		// å› ä¸ºæ»‘åŠ¨å’Œç‚¹å‡»æ˜¯çŸ›ç›¾çš„ï¼Œè¿™é‡Œæ²¡æ³•å¼‚æ­¥åš
 		if (!swipe(true)) {
 			return false;
 		}
 	}
-	// µã»÷¡°È·¶¨¡±°´Å¥£¬È·¶¨ÍêÒªÁªÍø¼ÓÔØµÄ£¬±È½ÏÂı£¬¶àsleepÒ»»á
+	// ç‚¹å‡»â€œç¡®å®šâ€æŒ‰é’®ï¼Œç¡®å®šå®Œè¦è”ç½‘åŠ è½½çš„ï¼Œæ¯”è¾ƒæ…¢ï¼Œå¤šsleepä¸€ä¼š
 	m_controller_ptr->click(Rect(1105, 655, 150, 40));
 	sleep(2000);
 	return true;

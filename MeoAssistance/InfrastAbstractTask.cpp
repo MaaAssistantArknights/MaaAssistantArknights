@@ -1,4 +1,4 @@
-#include "InfrastAbstractTask.h"
+ï»¿#include "InfrastAbstractTask.h"
 
 #include <numeric>
 
@@ -27,7 +27,7 @@ bool asst::InfrastAbstractTask::swipe_to_the_left()
 
 	m_swipe_duration = 100;
 	m_swipe_extra_delay = 0;
-	// Íù×óÊ¹¾¢»¬¼¸ÏÂ
+	// å¾€å·¦ä½¿åŠ²æ»‘å‡ ä¸‹
 	bool ret = false;
 	for (int i = 0; i != SwipeTimes; ++i) {
 		ret = swipe(true);
@@ -124,56 +124,56 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 {
 	DebugTraceFunction;
 
-	// ²Ã¼ô³öÀ´¸ÉÔ±ÃûµÄÒ»¸ö³¤ÌõĞÎÍ¼Æ¬£¬Ã»±ØÒª°ÑÕûÕÅÍ¼Æ¬ËÍÈ¥Ê¶±ğ
+	// è£å‰ªå‡ºæ¥å¹²å‘˜åçš„ä¸€ä¸ªé•¿æ¡å½¢å›¾ç‰‡ï¼Œæ²¡å¿…è¦æŠŠæ•´å¼ å›¾ç‰‡é€å»è¯†åˆ«
 	int cropped_height = image.rows * m_cropped_height_ratio;
 	int cropped_upper_y = image.rows * m_cropped_upper_y_ratio;
 	cv::Mat upper_part_name_image = image(cv::Rect(0, cropped_upper_y, image.cols, cropped_height));
-	// ocr¿â£¬µ¥É«Í¼Æ¬Ê¶±ğĞ§¹ûºÃºÜ¶à£»µ«ÊÇÖ»½ÓÊÜÈıÍ¨µÀµÄÍ¼Æ¬£¬ËùÒÔÕâÀï×ªÁ½´Î£¬ËÍ½øÈ¥µ¥É«µÄ¡¢ÈıÍ¨µÀµÄÍ¼Æ¬
+	// ocråº“ï¼Œå•è‰²å›¾ç‰‡è¯†åˆ«æ•ˆæœå¥½å¾ˆå¤šï¼›ä½†æ˜¯åªæ¥å—ä¸‰é€šé“çš„å›¾ç‰‡ï¼Œæ‰€ä»¥è¿™é‡Œè½¬ä¸¤æ¬¡ï¼Œé€è¿›å»å•è‰²çš„ã€ä¸‰é€šé“çš„å›¾ç‰‡
 	cv::cvtColor(upper_part_name_image, upper_part_name_image, cv::COLOR_BGR2GRAY);
 	cv::cvtColor(upper_part_name_image, upper_part_name_image, cv::COLOR_GRAY2BGR);
 
-	std::vector<TextArea> upper_text_area = ocr_detect(upper_part_name_image);	// ËùÓĞÎÄ×Ö
-	// ÒòÎªÍ¼Æ¬ÊÇ²Ã¼ô¹ıµÄ£¬ËùÒÔ¶ÔÓ¦Ô­Í¼µÄ×ø±êÒª¼ÓÉÏ²Ã¼ôµÄ²ÎÊı
+	std::vector<TextArea> upper_text_area = ocr_detect(upper_part_name_image);	// æ‰€æœ‰æ–‡å­—
+	// å› ä¸ºå›¾ç‰‡æ˜¯è£å‰ªè¿‡çš„ï¼Œæ‰€ä»¥å¯¹åº”åŸå›¾çš„åæ ‡è¦åŠ ä¸Šè£å‰ªçš„å‚æ•°
 	for (TextArea& textarea : upper_text_area) {
 		textarea.rect.y += cropped_upper_y;
 	}
-	// ¹ıÂË³öËùÓĞµÄ¸ÉÔ±Ãû
+	// è¿‡æ»¤å‡ºæ‰€æœ‰çš„å¹²å‘˜å
 	std::vector<TextArea> upper_part_names = text_match(
 		upper_text_area,
 		InfrastConfiger::get_instance().m_all_opers_name,
 		Configer::get_instance().m_infrast_ocr_replace);
-	// °ÑÕâÒ»¿éÍ¿ºÚ£¬±ÜÃâºóÃæ±»ÌØÕ÷¼ì²âµÄÎóÊ¶±ğÁË
+	// æŠŠè¿™ä¸€å—æ¶‚é»‘ï¼Œé¿å…åé¢è¢«ç‰¹å¾æ£€æµ‹çš„è¯¯è¯†åˆ«äº†
 	for (const TextArea& textarea : upper_part_names) {
 		cv::Rect rect(textarea.rect.x, textarea.rect.y - cropped_upper_y, textarea.rect.width, textarea.rect.height);
-		// ÕâÀïÊÇ×ª¹ı»Ò¶ÈÍ¼ÔÙ×ª»ØÀ´µÄ£¬Ïàµ±ÓÚÉî¿½±´£¬²»»áÓ°ÏìÔ­Í¼
+		// è¿™é‡Œæ˜¯è½¬è¿‡ç°åº¦å›¾å†è½¬å›æ¥çš„ï¼Œç›¸å½“äºæ·±æ‹·è´ï¼Œä¸ä¼šå½±å“åŸå›¾
 		cv::rectangle(upper_part_name_image, rect, cv::Scalar(0, 0, 0), -1);
 	}
 
-	// ÏÂ°ë²¿·ÖµÄ¸ÉÔ±
+	// ä¸‹åŠéƒ¨åˆ†çš„å¹²å‘˜
 	int cropped_lower_y = image.rows * m_cropped_lower_y_ratio;
 	cv::Mat lower_part_name_image = image(cv::Rect(0, cropped_lower_y, image.cols, cropped_height));
-	// ocr¿â£¬µ¥É«Í¼Æ¬Ê¶±ğĞ§¹ûºÃºÜ¶à£»µ«ÊÇÖ»½ÓÊÜÈıÍ¨µÀµÄÍ¼Æ¬£¬ËùÒÔÕâÀï×ªÁ½´Î£¬ËÍ½øÈ¥µ¥É«µÄ¡¢ÈıÍ¨µÀµÄÍ¼Æ¬
+	// ocråº“ï¼Œå•è‰²å›¾ç‰‡è¯†åˆ«æ•ˆæœå¥½å¾ˆå¤šï¼›ä½†æ˜¯åªæ¥å—ä¸‰é€šé“çš„å›¾ç‰‡ï¼Œæ‰€ä»¥è¿™é‡Œè½¬ä¸¤æ¬¡ï¼Œé€è¿›å»å•è‰²çš„ã€ä¸‰é€šé“çš„å›¾ç‰‡
 	cv::cvtColor(lower_part_name_image, lower_part_name_image, cv::COLOR_BGR2GRAY);
 	cv::cvtColor(lower_part_name_image, lower_part_name_image, cv::COLOR_GRAY2BGR);
 
-	std::vector<TextArea> lower_text_area = ocr_detect(lower_part_name_image);	// ËùÓĞÎÄ×Ö
-	// ÒòÎªÍ¼Æ¬ÊÇ²Ã¼ô¹ıµÄ£¬ËùÒÔ¶ÔÓ¦Ô­Í¼µÄ×ø±êÒª¼ÓÉÏ²Ã¼ôµÄ²ÎÊı
+	std::vector<TextArea> lower_text_area = ocr_detect(lower_part_name_image);	// æ‰€æœ‰æ–‡å­—
+	// å› ä¸ºå›¾ç‰‡æ˜¯è£å‰ªè¿‡çš„ï¼Œæ‰€ä»¥å¯¹åº”åŸå›¾çš„åæ ‡è¦åŠ ä¸Šè£å‰ªçš„å‚æ•°
 	for (TextArea& textarea : lower_text_area) {
 		textarea.rect.y += cropped_lower_y;
 	}
-	// ¹ıÂË³öËùÓĞµÄ¸ÉÔ±Ãû
+	// è¿‡æ»¤å‡ºæ‰€æœ‰çš„å¹²å‘˜å
 	std::vector<TextArea> lower_part_names = text_match(
 		lower_text_area,
 		InfrastConfiger::get_instance().m_all_opers_name,
 		Configer::get_instance().m_infrast_ocr_replace);
-	// °ÑÕâÒ»¿éÍ¿ºÚ£¬±ÜÃâºóÃæ±»ÌØÕ÷¼ì²âµÄÎóÊ¶±ğÁË
+	// æŠŠè¿™ä¸€å—æ¶‚é»‘ï¼Œé¿å…åé¢è¢«ç‰¹å¾æ£€æµ‹çš„è¯¯è¯†åˆ«äº†
 	for (const TextArea& textarea : lower_part_names) {
 		cv::Rect rect(textarea.rect.x, textarea.rect.y - cropped_lower_y, textarea.rect.width, textarea.rect.height);
-		// ÕâÀïÊÇ×ª¹ı»Ò¶ÈÍ¼ÔÙ×ª»ØÀ´µÄ£¬Ïàµ±ÓÚÉî¿½±´£¬²»»áÓ°ÏìÔ­Í¼
+		// è¿™é‡Œæ˜¯è½¬è¿‡ç°åº¦å›¾å†è½¬å›æ¥çš„ï¼Œç›¸å½“äºæ·±æ‹·è´ï¼Œä¸ä¼šå½±å“åŸå›¾
 		cv::rectangle(lower_part_name_image, rect, cv::Scalar(0, 0, 0), -1);
 	}
 
-	// ÉÏÏÂÁ½²¿·ÖÊ¶±ğ½á¹ûºÏ²¢
+	// ä¸Šä¸‹ä¸¤éƒ¨åˆ†è¯†åˆ«ç»“æœåˆå¹¶
 	std::vector<TextArea> all_text_area = std::move(upper_text_area);
 	all_text_area.insert(all_text_area.end(),
 		std::make_move_iterator(lower_text_area.begin()),
@@ -183,7 +183,7 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 		std::make_move_iterator(lower_part_names.begin()),
 		std::make_move_iterator(lower_part_names.end()));
 
-	// Èç¹ûocr½á¹ûÖĞÒÑ¾­ÓĞÄ³¸ö¸ÉÔ±ÁË£¬¾ÍÃ»±ØÒªÔÙ³¢ÊÔ¶ÔËûÌØÕ÷¼ì²âÁË£¬Ö±½ÓÉ¾ÁË
+	// å¦‚æœocrç»“æœä¸­å·²ç»æœ‰æŸä¸ªå¹²å‘˜äº†ï¼Œå°±æ²¡å¿…è¦å†å°è¯•å¯¹ä»–ç‰¹å¾æ£€æµ‹äº†ï¼Œç›´æ¥åˆ äº†
 	for (const TextArea& textarea : all_opers_textarea) {
 		auto cond_iter = std::find_if(feature_cond.begin(), feature_cond.end(),
 			[&textarea](const auto& pair) -> bool {
@@ -202,7 +202,7 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 		}
 	}
 
-	// ÓÃÌØÕ÷¼ì²âÔÙÉ¸Ñ¡Ò»±éOCRÊ¶±ğÂ©ÁËµÄ¡ª¡ªÓĞ¹Ø¼ü×ÖµÄ
+	// ç”¨ç‰¹å¾æ£€æµ‹å†ç­›é€‰ä¸€éOCRè¯†åˆ«æ¼äº†çš„â€”â€”æœ‰å…³é”®å­—çš„
 	for (const TextArea& textarea : all_text_area) {
 		auto find_iter = std::find_if(all_opers_textarea.cbegin(), all_opers_textarea.cend(),
 			[&textarea](const auto& rhs) -> bool {
@@ -212,10 +212,10 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 		}
 		for (auto iter = feature_cond.begin(); iter != feature_cond.end(); ++iter) {
 			auto& [key, value] = *iter;
-			// Ê¶±ğµ½ÁËkey£¬µ«ÊÇÃ»Ê¶±ğµ½value£¬ÕâÖÖÇé¿ö¾ÍĞèÒª½øĞĞÌØÕ÷¼ì²â½øÒ»²½È·ÈÏÁË
+			// è¯†åˆ«åˆ°äº†keyï¼Œä½†æ˜¯æ²¡è¯†åˆ«åˆ°valueï¼Œè¿™ç§æƒ…å†µå°±éœ€è¦è¿›è¡Œç‰¹å¾æ£€æµ‹è¿›ä¸€æ­¥ç¡®è®¤äº†
 			if (textarea.text.find(key) != std::string::npos
 				&& textarea.text.find(value) == std::string::npos) {
-				// °ÑkeyËùÔÚµÄ¾ØĞÎ·Å´óÒ»µãËÍÈ¥×öÌØÕ÷¼ì²â£¬²»ĞèÒª°ÑÕûÕÅÍ¼Æ¬¶¼ËÍÈ¥¼ì²â
+				// æŠŠkeyæ‰€åœ¨çš„çŸ©å½¢æ”¾å¤§ä¸€ç‚¹é€å»åšç‰¹å¾æ£€æµ‹ï¼Œä¸éœ€è¦æŠŠæ•´å¼ å›¾ç‰‡éƒ½é€å»æ£€æµ‹
 				Rect magnified_area = textarea.rect.center_zoom(2.0);
 				magnified_area.x = (std::max)(0, magnified_area.x);
 				magnified_area.y = (std::max)(0, magnified_area.y);
@@ -226,14 +226,14 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 					magnified_area.height = image.rows - magnified_area.y - 1;
 				}
 				cv::Rect cv_rect(magnified_area.x, magnified_area.y, magnified_area.width, magnified_area.height);
-				// keyÊÇ¹Ø¼ü×Ö¶øÒÑ£¬ÕæÕıÒªÊ¶±ğµÄÊÇvalue
+				// keyæ˜¯å…³é”®å­—è€Œå·²ï¼ŒçœŸæ­£è¦è¯†åˆ«çš„æ˜¯value
 				auto&& ret = OcrAbstractTask::m_identify_ptr->feature_match(image(cv_rect), value);
 				if (ret) {
-					// Æ¥ÅäÉÏÁËÏÂ´Î¾Í²»ÓÃÔÙÆ¥ÅäÕâ¸öÁË£¬Ö±½ÓÉ¾ÁË
+					// åŒ¹é…ä¸Šäº†ä¸‹æ¬¡å°±ä¸ç”¨å†åŒ¹é…è¿™ä¸ªäº†ï¼Œç›´æ¥åˆ äº†
 					all_opers_textarea.emplace_back(value, textarea.rect);
 					iter = feature_cond.erase(iter);
 					--iter;
-					// Ò²´ÓwhateverÀïÃæÉ¾ÁË
+					// ä¹Ÿä»whateveré‡Œé¢åˆ äº†
 					auto whatever_iter = std::find_if(feature_whatever.begin(), feature_whatever.end(),
 						[&textarea](const std::string& str) -> bool {
 							return textarea.text == str;
@@ -241,42 +241,42 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 					if (whatever_iter != feature_whatever.end()) {
 						feature_whatever.erase(whatever_iter);
 					}
-					// Ë³±ãÔÙÍ¿ºÚÁË£¬±ÜÃâºóÃæ±»whateverÌØÕ÷¼ì²âµÄÎóÊ¶±ğ
-					// ×¢ÒâÕâÀïÊÇÇ³¿½±´£¬Ô­Í¼imageÒ²»á±»Í¿ºÚ
+					// é¡ºä¾¿å†æ¶‚é»‘äº†ï¼Œé¿å…åé¢è¢«whateverç‰¹å¾æ£€æµ‹çš„è¯¯è¯†åˆ«
+					// æ³¨æ„è¿™é‡Œæ˜¯æµ…æ‹·è´ï¼ŒåŸå›¾imageä¹Ÿä¼šè¢«æ¶‚é»‘
 					//cv::rectangle(draw_image, cv_rect, cv::Scalar(0, 0, 0), -1);
 				}
 			}
 		}
 	}
 
-	// ÓÃÌØÕ÷¼ì²âÔÙÉ¸Ñ¡Ò»±éOCRÊ¶±ğÂ©ÁËµÄ¡ª¡ªÎŞÂÛÈçºÎ¶¼½øĞĞÊ¶±ğµÄ
+	// ç”¨ç‰¹å¾æ£€æµ‹å†ç­›é€‰ä¸€éOCRè¯†åˆ«æ¼äº†çš„â€”â€”æ— è®ºå¦‚ä½•éƒ½è¿›è¡Œè¯†åˆ«çš„
 	for (auto iter = feature_whatever.begin(); iter != feature_whatever.end(); ++iter) {
-		// ÉÏ°ë²¿·Ö³¤ÌõĞÎµÄÍ¼Æ¬
+		// ä¸ŠåŠéƒ¨åˆ†é•¿æ¡å½¢çš„å›¾ç‰‡
 		auto&& upper_ret = OcrAbstractTask::m_identify_ptr->feature_match(upper_part_name_image, *iter);
 		if (upper_ret) {
 			TextArea temp = std::move(upper_ret.value());
-#ifdef LOG_TRACE	// Ò²Ë³±ãÍ¿ºÚÒ»ÏÂ£¬·½±ã¿´Ë­Ã»±»Ê¶±ğ³öÀ´
+#ifdef LOG_TRACE	// ä¹Ÿé¡ºä¾¿æ¶‚é»‘ä¸€ä¸‹ï¼Œæ–¹ä¾¿çœ‹è°æ²¡è¢«è¯†åˆ«å‡ºæ¥
 			cv::Rect draw_rect(temp.rect.x, temp.rect.y, temp.rect.width, temp.rect.height);
-			// ×¢ÒâÕâÀïÊÇÇ³¿½±´£¬Ô­Í¼imageÒ²»á±»Í¿ºÚ
+			// æ³¨æ„è¿™é‡Œæ˜¯æµ…æ‹·è´ï¼ŒåŸå›¾imageä¹Ÿä¼šè¢«æ¶‚é»‘
 			cv::rectangle(upper_part_name_image, draw_rect, cv::Scalar(0, 0, 0), -1);
 #endif
-			// ÒòÎªÍ¼Æ¬ÊÇ²Ã¼ô¹ıµÄ£¬ËùÒÔ¶ÔÓ¦Ô­Í¼µÄ×ø±êÒª¼ÓÉÏ²Ã¼ôµÄ²ÎÊı
+			// å› ä¸ºå›¾ç‰‡æ˜¯è£å‰ªè¿‡çš„ï¼Œæ‰€ä»¥å¯¹åº”åŸå›¾çš„åæ ‡è¦åŠ ä¸Šè£å‰ªçš„å‚æ•°
 			temp.rect.y += cropped_upper_y;
 			all_opers_textarea.emplace_back(std::move(temp));
 			iter = feature_whatever.erase(iter);
 			--iter;
 			continue;
 		}
-		// ÏÂ°ë²¿·Ö³¤ÌõĞÎµÄÍ¼Æ¬
+		// ä¸‹åŠéƒ¨åˆ†é•¿æ¡å½¢çš„å›¾ç‰‡
 		auto&& lower_ret = OcrAbstractTask::m_identify_ptr->feature_match(lower_part_name_image, *iter);
 		if (lower_ret) {
 			TextArea temp = std::move(lower_ret.value());
-#ifdef LOG_TRACE	// Ò²Ë³±ãÍ¿ºÚÒ»ÏÂ£¬·½±ã¿´Ë­Ã»±»Ê¶±ğ³öÀ´
+#ifdef LOG_TRACE	// ä¹Ÿé¡ºä¾¿æ¶‚é»‘ä¸€ä¸‹ï¼Œæ–¹ä¾¿çœ‹è°æ²¡è¢«è¯†åˆ«å‡ºæ¥
 			cv::Rect draw_rect(temp.rect.x, temp.rect.y, temp.rect.width, temp.rect.height);
-			// ×¢ÒâÕâÀïÊÇÇ³¿½±´£¬Ô­Í¼imageÒ²»á±»Í¿ºÚ
+			// æ³¨æ„è¿™é‡Œæ˜¯æµ…æ‹·è´ï¼ŒåŸå›¾imageä¹Ÿä¼šè¢«æ¶‚é»‘
 			cv::rectangle(lower_part_name_image, draw_rect, cv::Scalar(0, 0, 0), -1);
 #endif
-			// ÒòÎªÍ¼Æ¬ÊÇ²Ã¼ô¹ıµÄ£¬ËùÒÔ¶ÔÓ¦Ô­Í¼µÄ×ø±êÒª¼ÓÉÏ²Ã¼ôµÄ²ÎÊı
+			// å› ä¸ºå›¾ç‰‡æ˜¯è£å‰ªè¿‡çš„ï¼Œæ‰€ä»¥å¯¹åº”åŸå›¾çš„åæ ‡è¦åŠ ä¸Šè£å‰ªçš„å‚æ•°
 			temp.rect.y += cropped_lower_y;
 			all_opers_textarea.emplace_back(std::move(temp));
 			iter = feature_whatever.erase(iter);
@@ -300,8 +300,8 @@ bool asst::InfrastAbstractTask::enter_station(const std::vector<std::string>& te
 		if (cur_result.empty()) {
 			continue;
 		}
-		if (max_score_reslut.empty() 
-			|| cur_result.at(0).score > max_score_reslut.at(0).score) {	// find_all_imageÀïÊÇÅÅ¹ıĞòµÄ£¬Ö±½ÓÈ¡µÚÒ»¸ö¾ÍÊÇ×î´óµÃ·Ö
+		if (max_score_reslut.empty()
+			|| cur_result.at(0).score > max_score_reslut.at(0).score) {	// find_all_imageé‡Œæ˜¯æ’è¿‡åºçš„ï¼Œç›´æ¥å–ç¬¬ä¸€ä¸ªå°±æ˜¯æœ€å¤§å¾—åˆ†
 			max_score_reslut = std::move(cur_result);
 		}
 	}
@@ -313,10 +313,10 @@ bool asst::InfrastAbstractTask::enter_station(const std::vector<std::string>& te
 		return false;
 	}
 
-	// °´ÕÕ×ø±êÅÅ¸öĞò£¬×óÉÏµÄÅÅÇ°Ãæ
+	// æŒ‰ç…§åæ ‡æ’ä¸ªåºï¼Œå·¦ä¸Šçš„æ’å‰é¢
 	std::sort(max_score_reslut.begin(), max_score_reslut.end(), [](
 		const auto& lhs, const auto& rhs) -> bool {
-			if (std::abs(lhs.rect.y - rhs.rect.y) < 5) {	// y²î¾à½ÏĞ¡ÔòÀí½âÎªÊÇÍ¬Ò»ÅÅµÄ£¬°´xÅÅĞò
+			if (std::abs(lhs.rect.y - rhs.rect.y) < 5) {	// yå·®è·è¾ƒå°åˆ™ç†è§£ä¸ºæ˜¯åŒä¸€æ’çš„ï¼ŒæŒ‰xæ’åº
 				return lhs.rect.x < rhs.rect.x;
 			}
 			else {

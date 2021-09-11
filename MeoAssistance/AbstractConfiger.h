@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -28,4 +28,3 @@ namespace asst {
 		virtual bool parse(json::value&& json) = 0;
 	};
 }
-

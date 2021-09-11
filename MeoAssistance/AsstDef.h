@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -13,19 +13,18 @@ namespace json
 }
 
 namespace asst {
-
 	enum class ProcessTaskAction {
 		Invalid = 0,
 		BasicClick = 0x100,
-		ClickSelf = BasicClick | 1,		// µã»÷Ä£°å×ÔÉíÎ»ÖÃ
-		ClickRect = BasicClick | 2,		// µã»÷Ö¸¶¨ÇøÓò
-		ClickRand = BasicClick | 4,		// µã»÷Ëæ»úÇøÓò
-		DoNothing = 0x200,				// Ê²Ã´¶¼²»×ö
-		Stop = 0x400,					// Í£Ö¹¹¤×÷Ïß³Ì
-		PrintWindow = 0x800,			// ½ØÍ¼
+		ClickSelf = BasicClick | 1,		// ç‚¹å‡»æ¨¡æ¿è‡ªèº«ä½ç½®
+		ClickRect = BasicClick | 2,		// ç‚¹å‡»æŒ‡å®šåŒºåŸŸ
+		ClickRand = BasicClick | 4,		// ç‚¹å‡»éšæœºåŒºåŸŸ
+		DoNothing = 0x200,				// ä»€ä¹ˆéƒ½ä¸åš
+		Stop = 0x400,					// åœæ­¢å·¥ä½œçº¿ç¨‹
+		PrintWindow = 0x800,			// æˆªå›¾
 		BasicSwipe = 0x1000,
-		SwipeToTheLeft = BasicSwipe | 1,	// Íù×ó»®Ò»ÏÂ
-		SwipeToTheRight = BasicSwipe | 2,	// ÍùÓÒ»®Ò»ÏÂ
+		SwipeToTheLeft = BasicSwipe | 1,	// å¾€å·¦åˆ’ä¸€ä¸‹
+		SwipeToTheRight = BasicSwipe | 2,	// å¾€å³åˆ’ä¸€ä¸‹
 	};
 
 	enum class AlgorithmType {
@@ -118,59 +117,59 @@ namespace asst {
 		HandleInfo handle;
 	};
 
-	// ÈÎÎñĞÅÏ¢
+	// ä»»åŠ¡ä¿¡æ¯
 	struct TaskInfo {
 		virtual ~TaskInfo() = default;
-		std::string name;								// ÈÎÎñÃû
-		AlgorithmType algorithm =						// Í¼ÏñËã·¨ÀàĞÍ
+		std::string name;								// ä»»åŠ¡å
+		AlgorithmType algorithm =						// å›¾åƒç®—æ³•ç±»å‹
 			AlgorithmType::Invaild;
-		ProcessTaskAction action =						// Òª½øĞĞµÄ²Ù×÷
+		ProcessTaskAction action =						// è¦è¿›è¡Œçš„æ“ä½œ
 			ProcessTaskAction::Invalid;
-		std::vector<std::string> next;					// ÏÂÒ»¸ö¿ÉÄÜµÄÈÎÎñ£¨ÁĞ±í£©
-		int exec_times = 0;								// ÈÎÎñÒÑÖ´ĞĞÁË¶àÉÙ´Î
-		int max_times = INT_MAX;						// ÈÎÎñ×î¶àÖ´ĞĞ¶àÉÙ´Î
-		std::vector<std::string> exceeded_next;			// ´ïµ½×î¶à´ÎÊıÁËÖ®ºó£¬ÏÂÒ»¸ö¿ÉÄÜµÄÈÎÎñ£¨ÁĞ±í£©
-		std::vector<std::string> reduce_other_times;	// Ö´ĞĞÁË¸ÃÈÎÎñºó£¬ĞèÒª¼õÉÙ±ğµÄÈÎÎñµÄÖ´ĞĞ´ÎÊı¡£ÀıÈçÖ´ĞĞÁË³ÔÀíÖÇÒ©£¬ÔòËµÃ÷ÉÏÒ»´Îµã»÷À¶É«¿ªÊ¼ĞĞ¶¯°´Å¥Ã»ÉúĞ§£¬ËùÒÔÀ¶É«¿ªÊ¼ĞĞ¶¯Òª-1
-		asst::Rect specific_area;						// Ö¸¶¨ÇøÓò£¬Ä¿Ç°½öÕë¶ÔClickRectÈÎÎñÓĞÓÃ£¬»áµãÕâ¸öÇøÓò
-		int pre_delay = 0;								// Ö´ĞĞ¸ÃÈÎÎñÇ°µÄÑÓÊ±
-		int rear_delay = 0;								// Ö´ĞĞ¸ÃÈÎÎñºóµÄÑÓÊ±
-		int retry_times = INT_MAX;						// Î´ÕÒµ½Í¼ÏñÊ±µÄÖØÊÔ´ÎÊı
+		std::vector<std::string> next;					// ä¸‹ä¸€ä¸ªå¯èƒ½çš„ä»»åŠ¡ï¼ˆåˆ—è¡¨ï¼‰
+		int exec_times = 0;								// ä»»åŠ¡å·²æ‰§è¡Œäº†å¤šå°‘æ¬¡
+		int max_times = INT_MAX;						// ä»»åŠ¡æœ€å¤šæ‰§è¡Œå¤šå°‘æ¬¡
+		std::vector<std::string> exceeded_next;			// è¾¾åˆ°æœ€å¤šæ¬¡æ•°äº†ä¹‹åï¼Œä¸‹ä¸€ä¸ªå¯èƒ½çš„ä»»åŠ¡ï¼ˆåˆ—è¡¨ï¼‰
+		std::vector<std::string> reduce_other_times;	// æ‰§è¡Œäº†è¯¥ä»»åŠ¡åï¼Œéœ€è¦å‡å°‘åˆ«çš„ä»»åŠ¡çš„æ‰§è¡Œæ¬¡æ•°ã€‚ä¾‹å¦‚æ‰§è¡Œäº†åƒç†æ™ºè¯ï¼Œåˆ™è¯´æ˜ä¸Šä¸€æ¬¡ç‚¹å‡»è“è‰²å¼€å§‹è¡ŒåŠ¨æŒ‰é’®æ²¡ç”Ÿæ•ˆï¼Œæ‰€ä»¥è“è‰²å¼€å§‹è¡ŒåŠ¨è¦-1
+		asst::Rect specific_area;						// æŒ‡å®šåŒºåŸŸï¼Œç›®å‰ä»…é’ˆå¯¹ClickRectä»»åŠ¡æœ‰ç”¨ï¼Œä¼šç‚¹è¿™ä¸ªåŒºåŸŸ
+		int pre_delay = 0;								// æ‰§è¡Œè¯¥ä»»åŠ¡å‰çš„å»¶æ—¶
+		int rear_delay = 0;								// æ‰§è¡Œè¯¥ä»»åŠ¡åçš„å»¶æ—¶
+		int retry_times = INT_MAX;						// æœªæ‰¾åˆ°å›¾åƒæ—¶çš„é‡è¯•æ¬¡æ•°
 	};
 
-	// ÎÄ×ÖÊ¶±ğÈÎÎñµÄĞÅÏ¢
+	// æ–‡å­—è¯†åˆ«ä»»åŠ¡çš„ä¿¡æ¯
 	struct OcrTaskInfo : public TaskInfo {
 		virtual ~OcrTaskInfo() = default;
-		std::vector<std::string> text;					// ÎÄ×ÖµÄÈİÆ÷£¬Æ¥Åäµ½ÕâÀïÃæÈÎÒ»¸ö£¬¾ÍËãÆ¥ÅäÉÏÁË
-		bool need_match = false;						// ÊÇ·ñĞèÒªÈ«Æ¥Åä£¬·ñÔòËÑË÷µ½×Ó´®¾ÍËãÆ¥ÅäÉÏÁË
+		std::vector<std::string> text;					// æ–‡å­—çš„å®¹å™¨ï¼ŒåŒ¹é…åˆ°è¿™é‡Œé¢ä»»ä¸€ä¸ªï¼Œå°±ç®—åŒ¹é…ä¸Šäº†
+		bool need_match = false;						// æ˜¯å¦éœ€è¦å…¨åŒ¹é…ï¼Œå¦åˆ™æœç´¢åˆ°å­ä¸²å°±ç®—åŒ¹é…ä¸Šäº†
 		std::unordered_map<std::string, std::string>
-			replace_map;								// ²¿·ÖÎÄ×ÖÈİÒ×Ê¶±ğ´í£¬×Ö·û´®Ç¿ÖÆreplaceÖ®ºó£¬ÔÙ½øĞĞÆ¥Åä
+			replace_map;								// éƒ¨åˆ†æ–‡å­—å®¹æ˜“è¯†åˆ«é”™ï¼Œå­—ç¬¦ä¸²å¼ºåˆ¶replaceä¹‹åï¼Œå†è¿›è¡ŒåŒ¹é…
 	};
 
-	// Í¼Æ¬Æ¥ÅäÈÎÎñµÄĞÅÏ¢
+	// å›¾ç‰‡åŒ¹é…ä»»åŠ¡çš„ä¿¡æ¯
 	struct MatchTaskInfo : public TaskInfo {
 		virtual ~MatchTaskInfo() = default;
-		std::string template_filename;					// Æ¥ÅäÄ£°åÍ¼Æ¬ÎÄ¼şÃû
-		double templ_threshold = 0;						// Ä£°åÆ¥ÅäãĞÖµ
-		double hist_threshold = 0;						// Ö±·½Í¼±È½ÏãĞÖµ
-		bool cache = false;								// ÊÇ·ñÊ¹ÓÃ»º´æ£¨Ö±·½Í¼£©£¬falseÊ±¾ÍÒ»Ö±ÓÃÄ£°åÆ¥Åä¡£Ä¬ÈÏÎªtrue
+		std::string template_filename;					// åŒ¹é…æ¨¡æ¿å›¾ç‰‡æ–‡ä»¶å
+		double templ_threshold = 0;						// æ¨¡æ¿åŒ¹é…é˜ˆå€¼
+		double hist_threshold = 0;						// ç›´æ–¹å›¾æ¯”è¾ƒé˜ˆå€¼
+		bool cache = false;								// æ˜¯å¦ä½¿ç”¨ç¼“å­˜ï¼ˆç›´æ–¹å›¾ï¼‰ï¼Œfalseæ—¶å°±ä¸€ç›´ç”¨æ¨¡æ¿åŒ¹é…ã€‚é»˜è®¤ä¸ºtrue
 	};
 
 	struct Options {
-		bool identify_cache = false;		// Í¼ÏñÊ¶±ğ»º´æ¹¦ÄÜ£º¿ªÆôºó¿ÉÒÔ´ó·ù½µµÍCPUÏûºÄ£¬µ«ĞèÒª±£Ö¤ÒªÊ¶±ğµÄ°´Å¥Ã¿´ÎµÄÎ»ÖÃ²»»á¸Ä±ä
-		int task_delay = 0;		// ÈÎÎñ¼äÑÓÊ±£ºÔ½¿ì²Ù×÷Ô½¿ì£¬µ«»áÔö¼ÓCPUÏûºÄ
-		int control_delay_lower = 0;		// µã»÷Ëæ»úÑÓÊ±ÏÂÏŞ£ºÃ¿´Îµã»÷²Ù×÷»á½øĞĞËæ»úÑÓÊ±
-		int control_delay_upper = 0;		// µã»÷Ëæ»úÑÓÊ±ÉÏÏŞ£ºÃ¿´Îµã»÷²Ù×÷»á½øĞĞËæ»úÑÓÊ±
-		bool print_window = false;			// ½ØÍ¼¹¦ÄÜ£º¿ªÆôºóÃ¿´Î½áËã½çÃæ»á½ØÍ¼µ½screenshotÄ¿Â¼ÏÂ
-		int print_window_delay = 0;			// ½ØÍ¼ÑÓÊ±£ºÃ¿´Îµ½½áËã½çÃæ£¬µôÂäÎïÆ·²»ÊÇÒ»´ÎĞÔ³öÀ´µÄ£¬ÓĞ¸ö¶¯»­£¬ËùÒÔĞèÒªµÈÒ»»áÔÙ½ØÍ¼
-		int ocr_gpu_index = -1;				// OcrLiteÊ¹ÓÃGPU±àºÅ£¬-1(Ê¹ÓÃCPU)/0(Ê¹ÓÃGPU0)/1(Ê¹ÓÃGPU1)/...
-		int ocr_thread_number = 0;			// OcrLiteÏß³ÌÊıÁ¿
+		bool identify_cache = false;		// å›¾åƒè¯†åˆ«ç¼“å­˜åŠŸèƒ½ï¼šå¼€å¯åå¯ä»¥å¤§å¹…é™ä½CPUæ¶ˆè€—ï¼Œä½†éœ€è¦ä¿è¯è¦è¯†åˆ«çš„æŒ‰é’®æ¯æ¬¡çš„ä½ç½®ä¸ä¼šæ”¹å˜
+		int task_delay = 0;		// ä»»åŠ¡é—´å»¶æ—¶ï¼šè¶Šå¿«æ“ä½œè¶Šå¿«ï¼Œä½†ä¼šå¢åŠ CPUæ¶ˆè€—
+		int control_delay_lower = 0;		// ç‚¹å‡»éšæœºå»¶æ—¶ä¸‹é™ï¼šæ¯æ¬¡ç‚¹å‡»æ“ä½œä¼šè¿›è¡Œéšæœºå»¶æ—¶
+		int control_delay_upper = 0;		// ç‚¹å‡»éšæœºå»¶æ—¶ä¸Šé™ï¼šæ¯æ¬¡ç‚¹å‡»æ“ä½œä¼šè¿›è¡Œéšæœºå»¶æ—¶
+		bool print_window = false;			// æˆªå›¾åŠŸèƒ½ï¼šå¼€å¯åæ¯æ¬¡ç»“ç®—ç•Œé¢ä¼šæˆªå›¾åˆ°screenshotç›®å½•ä¸‹
+		int print_window_delay = 0;			// æˆªå›¾å»¶æ—¶ï¼šæ¯æ¬¡åˆ°ç»“ç®—ç•Œé¢ï¼Œæ‰è½ç‰©å“ä¸æ˜¯ä¸€æ¬¡æ€§å‡ºæ¥çš„ï¼Œæœ‰ä¸ªåŠ¨ç”»ï¼Œæ‰€ä»¥éœ€è¦ç­‰ä¸€ä¼šå†æˆªå›¾
+		int ocr_gpu_index = -1;				// OcrLiteä½¿ç”¨GPUç¼–å·ï¼Œ-1(ä½¿ç”¨CPU)/0(ä½¿ç”¨GPU0)/1(ä½¿ç”¨GPU1)/...
+		int ocr_thread_number = 0;			// OcrLiteçº¿ç¨‹æ•°é‡
 	};
 
-	struct InfrastOptions {					// »ù½¨µÄÑ¡Ïî
-		double dorm_threshold = 0;			// ËŞÉáĞÄÇé°Ù·Ö±ÈãĞÖµ£¬ĞÄÇé°Ù·Ö±ÈĞ¡ÓÚ¸ÃÖµµÄ¸ÉÔ±»á±»·Å½øËŞÉá
+	struct InfrastOptions {					// åŸºå»ºçš„é€‰é¡¹
+		double dorm_threshold = 0;			// å®¿èˆå¿ƒæƒ…ç™¾åˆ†æ¯”é˜ˆå€¼ï¼Œå¿ƒæƒ…ç™¾åˆ†æ¯”å°äºè¯¥å€¼çš„å¹²å‘˜ä¼šè¢«æ”¾è¿›å®¿èˆ
 	};
 
-	// ¸ÉÔ±ĞÅÏ¢£¬¹«¿ªÕĞÄ¼Ïà¹Ø
+	// å¹²å‘˜ä¿¡æ¯ï¼Œå…¬å¼€æ‹›å‹Ÿç›¸å…³
 	struct OperRecruitInfo {
 		std::string name;
 		std::string type;
@@ -181,7 +180,7 @@ namespace asst {
 		std::string name_en;
 	};
 
-	// ¹«¿ªÕĞÄ¼µÄ¸ÉÔ±×éºÏ
+	// å…¬å¼€æ‹›å‹Ÿçš„å¹²å‘˜ç»„åˆ
 	struct OperRecruitCombs {
 		std::vector<OperRecruitInfo> opers;
 		int max_level = 0;
@@ -189,19 +188,19 @@ namespace asst {
 		double avg_level = 0;
 	};
 
-	// ¸ÉÔ±ĞÅÏ¢£¬»ù½¨Ïà¹Ø
+	// å¹²å‘˜ä¿¡æ¯ï¼ŒåŸºå»ºç›¸å…³
 	struct OperInfrastInfo {
 		std::string name;
-		int elite = 0;		// ¾«Ó¢»¯µÈ¼¶
-		int level = 0;		// µÈ¼¶
+		int elite = 0;		// ç²¾è‹±åŒ–ç­‰çº§
+		int level = 0;		// ç­‰çº§
 		bool operator==(const OperInfrastInfo& rhs) const {
 			return name == rhs.name;
 		}
 	};
-	// »ù½¨¸ÉÔ±×éºÏ
+	// åŸºå»ºå¹²å‘˜ç»„åˆ
 	struct OperInfrastComb {
 		std::vector<OperInfrastInfo> comb;
-		int efficiency = 0;	// ×éºÏµÄĞ§ÂÊ
+		int efficiency = 0;	// ç»„åˆçš„æ•ˆç‡
 	};
 
 	constexpr double DoubleDiff = 1e-12;

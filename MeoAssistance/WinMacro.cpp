@@ -1,4 +1,4 @@
-#include "WinMacro.h"
+ï»¿#include "WinMacro.h"
 
 #include <stdint.h>
 #include <WinUser.h>
@@ -26,7 +26,7 @@ WinMacro::WinMacro(const EmulatorInfo& info)
 
 bool WinMacro::captured() const noexcept
 {
-	// TODO£¬¼ÓÈë¶ÔADBÊÇ·ñÁ¬½ÓµÄ¼ì²é
+	// TODOï¼ŒåŠ å…¥å¯¹ADBæ˜¯å¦è¿æ¥çš„æ£€æŸ¥
 	return m_handle != NULL && ::IsWindow(m_handle);
 }
 
@@ -78,7 +78,7 @@ bool WinMacro::find_handle()
 	adb_dir = adb_dir.substr(0, pos);
 	adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
 
-	// TODO£¬¼ì²éÁ¬½ÓÊÇ·ñ³É¹¦
+	// TODOï¼Œæ£€æŸ¥è¿æ¥æ˜¯å¦æˆåŠŸ
 	std::string connect_cmd = StringReplaceAll(m_emulator_info.adb.connect, "[Adb]", adb_dir);
 	if (!call_command(connect_cmd)) {
 		DebugTraceError("Connect Adb Error", connect_cmd);
@@ -95,11 +95,11 @@ bool WinMacro::find_handle()
 		m_emulator_info.adb.display_width = width;
 		m_emulator_info.adb.display_height = height;
 
-		constexpr double DefaultRatio = 
+		constexpr double DefaultRatio =
 			static_cast<double>(Configer::WindowWidthDefault) / static_cast<double>(Configer::WindowHeightDefault);
 		double cur_ratio = static_cast<double>(width) / static_cast<double>(height);
 
-		if (cur_ratio >= DefaultRatio	// ËµÃ÷ÊÇ¿íÆÁ»òÄ¬ÈÏ16:9£¬°´ÕÕ¸ß¶È¼ÆËãËõ·Å
+		if (cur_ratio >= DefaultRatio	// è¯´æ˜æ˜¯å®½å±æˆ–é»˜è®¤16:9ï¼ŒæŒ‰ç…§é«˜åº¦è®¡ç®—ç¼©æ”¾
 			|| std::fabs(cur_ratio - DefaultRatio) < DoubleDiff)
 		{
 			int scale_width = cur_ratio * Configer::WindowHeightDefault;
@@ -107,7 +107,7 @@ bool WinMacro::find_handle()
 			m_control_scale = static_cast<double>(height) / static_cast<double>(Configer::WindowHeightDefault);
 		}
 		else
-		{	// ·ñÔò¿ÉÄÜÊÇÆ«Õı·½ĞÎµÄÆÁÄ»£¬°´¿í¶È¼ÆËã
+		{	// å¦åˆ™å¯èƒ½æ˜¯åæ­£æ–¹å½¢çš„å±å¹•ï¼ŒæŒ‰å®½åº¦è®¡ç®—
 			int scale_height = Configer::WindowWidthDefault / cur_ratio;
 			m_scale_size = std::make_pair(Configer::WindowWidthDefault, scale_height);
 			m_control_scale = static_cast<double>(width) / static_cast<double>(Configer::WindowWidthDefault);
@@ -134,7 +134,7 @@ bool WinMacro::find_handle()
 
 std::optional<std::string> asst::WinMacro::call_command(const std::string& cmd, bool use_pipe)
 {
-	// ³õÊ¼»¯¹ÜµÀ
+	// åˆå§‹åŒ–ç®¡é“
 	constexpr int PipeBuffSize = 1024;
 	HANDLE pipe_read = NULL;
 	HANDLE pipe_write = NULL;
@@ -149,7 +149,7 @@ std::optional<std::string> asst::WinMacro::call_command(const std::string& cmd, 
 		DebugTrace("Create Pipe ret", pipe_ret ? "True" : "False");
 	}
 
-	// ×¼±¸Æô¶¯ADB½ø³Ì
+	// å‡†å¤‡å¯åŠ¨ADBè¿›ç¨‹
 	STARTUPINFOA startup_info;
 	PROCESS_INFORMATION process_info;
 	ZeroMemory(&startup_info, sizeof(startup_info));

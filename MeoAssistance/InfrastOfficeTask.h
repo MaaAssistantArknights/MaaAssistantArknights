@@ -1,19 +1,18 @@
-#pragma once
+ï»¿#pragma once
 #include "InfrastAbstractTask.h"
 
 namespace asst {
-    class InfrastOfficeTask : public InfrastAbstractTask
-    {
-    public:
-        using InfrastAbstractTask::InfrastAbstractTask;
-        virtual ~InfrastOfficeTask() = default;
+	class InfrastOfficeTask : public InfrastAbstractTask
+	{
+	public:
+		using InfrastAbstractTask::InfrastAbstractTask;
+		virtual ~InfrastOfficeTask() = default;
 
-        virtual bool run() override;
-    protected:
-        // ½øÈë¸ÉÔ±Ñ¡Ôñ½çÃæ
-        bool enter_operator_selection();
-        // Ñ¡Ôñ¸ÉÔ±£¬·µ»Ø±¾´ÎÑ¡ÔñÁË¼¸¸ö¸ÉÔ±£¬DuckType£¬°ì¹«ÊÒ¹Ì¶¨·µ»Ø 1
-        int select_operators(bool need_to_the_left = false);
-    };
-
+		virtual bool run() override;
+	protected:
+		// è¿›å…¥å¹²å‘˜é€‰æ‹©ç•Œé¢
+		bool enter_operator_selection();
+		// é€‰æ‹©å¹²å‘˜ï¼Œè¿”å›æœ¬æ¬¡é€‰æ‹©äº†å‡ ä¸ªå¹²å‘˜ï¼ŒDuckTypeï¼ŒåŠå…¬å®¤å›ºå®šè¿”å› 1
+		int select_operators(bool need_to_the_left = false);
+	};
 }

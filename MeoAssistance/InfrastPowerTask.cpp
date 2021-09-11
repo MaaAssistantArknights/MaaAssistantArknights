@@ -1,4 +1,4 @@
-#include "InfrastPowerTask.h"
+ï»¿#include "InfrastPowerTask.h"
 
 #include "WinMacro.h"
 #include "Identify.h"
@@ -15,7 +15,7 @@ bool asst::InfrastPowerTask::run()
 
 	bool is_the_left = false;
 	for (int i = 0; i != PowerNum; ++i) {
-		enter_station({ "Power", "PowerMini"}, i);
+		enter_station({ "Power", "PowerMini" }, i);
 		sleep(1000);
 		if (enter_operator_selection()) {
 			if (is_the_left) {
@@ -30,17 +30,13 @@ bool asst::InfrastPowerTask::run()
 		click_return_button();
 		sleep(1000);
 	}
-    return true;
+	return true;
 }
 
 bool asst::InfrastPowerTask::enter_operator_selection()
 {
-	// ÓĞÕâĞ©ÎÄ×ÖÖ®Ò»¾ÍËµÃ÷¡°½ø×¤ĞÅÏ¢¡±Õâ¸ö°´Å¥ÒÑ¾­µã¿ªÁË
-	static const std::vector<std::string> info_opened_flags = {
-		GbkToUtf8("µ±Ç°·¿¼äÈë×¡ĞÅÏ¢"),
-		GbkToUtf8("½ø×¤ÈËÊı"),
-		GbkToUtf8("Çå¿Õ")
-	};
+	// æœ‰è¿™äº›æ–‡å­—ä¹‹ä¸€å°±è¯´æ˜â€œè¿›é©»ä¿¡æ¯â€è¿™ä¸ªæŒ‰é’®å·²ç»ç‚¹å¼€äº†
+	static const std::vector<std::string> info_opened_flags = {"å½“å‰æˆ¿é—´å…¥ä½ä¿¡æ¯","è¿›é©»äººæ•°","æ¸…ç©º"};
 
 	std::vector<TextArea> ocr_result = ocr_detect();
 
@@ -52,8 +48,8 @@ bool asst::InfrastPowerTask::enter_operator_selection()
 			-> bool { return lhs.text == rhs; })
 		!= ocr_result.cend();
 
-	static const std::string station_info = GbkToUtf8("½ø×¤ĞÅÏ¢");
-	// Èç¹û¡°½ø×¤ĞÅÏ¢¡±´°¿ÚÃ»µã¿ª£¬ÄÇ¾Íµã¿ª
+	static const std::string station_info = "è¿›é©»ä¿¡æ¯";
+	// å¦‚æœâ€œè¿›é©»ä¿¡æ¯â€çª—å£æ²¡ç‚¹å¼€ï¼Œé‚£å°±ç‚¹å¼€
 	if (!is_info_opened) {
 		auto station_info_iter = std::find_if(ocr_result.cbegin(), ocr_result.cend(),
 			[](const TextArea& textarea) -> bool {
@@ -65,14 +61,14 @@ bool asst::InfrastPowerTask::enter_operator_selection()
 
 	cv::Mat image = m_controller_ptr->get_image();
 	auto goin_result = m_identify_ptr->find_image(image, "GoIn");
-	// Èç¹ûÕÒµ½ÁËGoIn£¨¡°½ø×¤¡±°´Å¥£©£¬½øµã½øÈ¥£¬×¼±¸Ñ¡Ôñ¸ÉÔ±
+	// å¦‚æœæ‰¾åˆ°äº†GoInï¼ˆâ€œè¿›é©»â€æŒ‰é’®ï¼‰ï¼Œè¿›ç‚¹è¿›å»ï¼Œå‡†å¤‡é€‰æ‹©å¹²å‘˜
 	if (goin_result.score > Configer::TemplThresholdDefault) {
 		m_controller_ptr->click(goin_result.rect);
 		sleep(1000);
 		return true;
 	}
 	else {
-		return false;	// ·ñÔòËµÃ÷Õâ¸ö·¢µçÕ¾ÊÇÓĞÈËÔÚµÄ£¬²»ÓÃ»»°à
+		return false;	// å¦åˆ™è¯´æ˜è¿™ä¸ªå‘ç”µç«™æ˜¯æœ‰äººåœ¨çš„ï¼Œä¸ç”¨æ¢ç­
 	}
 }
 
@@ -81,7 +77,7 @@ int asst::InfrastPowerTask::select_operators(bool need_to_the_left)
 	if (need_to_the_left) {
 		swipe_to_the_left();
 	}
-	// ·¢µçÕ¾¸ÉÔ±²»ÓÃ×öÊ¶±ğ£¬Ö±½ÓÑ¡ÔñµÚÒ»¸ö¼´¿É
+	// å‘ç”µç«™å¹²å‘˜ä¸ç”¨åšè¯†åˆ«ï¼Œç›´æ¥é€‰æ‹©ç¬¬ä¸€ä¸ªå³å¯
 	click_first_operator();
 	click_confirm_button();
 

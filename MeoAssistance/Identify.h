@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <unordered_map>
 #include <unordered_set>
@@ -20,7 +20,9 @@ namespace asst {
 		struct FindImageResult {
 			FindImageResult() = default;
 			FindImageResult(AlgorithmType algorithm, double value, asst::Rect rect)
-				: algorithm(algorithm), score(value), rect(rect) { ; }
+				: algorithm(algorithm), score(value), rect(rect) {
+				;
+			}
 			AlgorithmType algorithm;
 			double score = 0.0;
 			asst::Rect rect;
@@ -61,7 +63,7 @@ namespace asst {
 		static asst::Rect cvrect_2_rect(const cv::Rect& cvRect);
 		static cv::Rect rect_2_cvrect(const asst::Rect& rect);
 
-		// return pair<ÌØÕ÷µãs£¬ÌØÕ÷µãÃèÊö×Ó£¨ÏòÁ¿£©>
+		// return pair<ç‰¹å¾ç‚¹sï¼Œç‰¹å¾ç‚¹æè¿°å­ï¼ˆå‘é‡ï¼‰>
 		std::pair<std::vector<cv::KeyPoint>, cv::Mat> surf_detect(const cv::Mat& mat);
 		std::optional<Rect> feature_match(
 			const std::vector<cv::KeyPoint>& query_keypoints, const cv::Mat& query_mat_vector,
@@ -72,9 +74,9 @@ namespace asst {
 		);
 
 		std::unordered_map<std::string, cv::Mat> m_mat_map;
-		bool m_use_cache = true;	// ÊÇ·ñÊ¹ÓÃ»º´æ¡ª¡ª×Ü¿ª¹Ø
-		std::unordered_map<std::string, std::pair<cv::Rect, cv::Mat>> m_cache_map;	// Î»ÖÃ¡¢Ö±·½Í¼»º´æ
-		// value: pair<ÌØÕ÷µãs£¬ÌØÕ÷µãÃèÊö×Ó£¨ÏòÁ¿£©>
+		bool m_use_cache = true;	// æ˜¯å¦ä½¿ç”¨ç¼“å­˜â€”â€”æ€»å¼€å…³
+		std::unordered_map<std::string, std::pair<cv::Rect, cv::Mat>> m_cache_map;	// ä½ç½®ã€ç›´æ–¹å›¾ç¼“å­˜
+		// value: pair<ç‰¹å¾ç‚¹sï¼Œç‰¹å¾ç‚¹æè¿°å­ï¼ˆå‘é‡ï¼‰>
 		std::unordered_map<std::string, std::pair<std::vector<cv::KeyPoint>, cv::Mat>> m_feature_map;
 
 		OcrLiteCaller m_ocr_lite;

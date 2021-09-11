@@ -9,18 +9,17 @@
         Height="350" Width="500">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="200" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <local:ParamSettingUserControl/>
+        <local:ParamSettingUserControl />
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Command="{s:Action StartSanity}" Content="开始刷理智" Margin="10" HorizontalAlignment="Center" Width="120" Height="50"/>
-            <Button Command="{s:Action Visit}" Content="访问好友" Margin="10" HorizontalAlignment="Center" Width="120" Height="50"/>
-            <Button Command="{s:Action Stop}" Content="停止" Margin="10" HorizontalAlignment="Center" Width="120" Height="50"/>
+            <Button Command="{s:Action StartSanity}" Content="开始刷理智" Margin="10" HorizontalAlignment="Center" Width="120" Height="50" />
+            <Button Command="{s:Action Visit}" Content="访问好友" Margin="10" HorizontalAlignment="Center" Width="120" Height="50" />
+            <Button Command="{s:Action Stop}" Content="停止" Margin="10" HorizontalAlignment="Center" Width="120" Height="50" />
         </StackPanel>
-
 
         <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}" HorizontalAlignment="Left" Text="{Binding CatchStatus}"></TextBlock>
         <!-- CatchStatus-->

@@ -1,4 +1,4 @@
-#include "AsstCaller.h"
+ï»¿#include "AsstCaller.h"
 
 #include <string.h>
 
@@ -10,7 +10,7 @@
 
 #if 0
 #if _MSC_VER
-// Win32Æ½Ì¨ÏÂDllµÄÈë¿Ú
+// Win32å¹³å°ä¸‹Dllçš„å…¥å£
 BOOL APIENTRY DllMain(HANDLE hModule,
 	DWORD  ul_reason_for_call,
 	LPVOID lpReserved
@@ -45,7 +45,7 @@ asst::Assistance* AsstCreate()
 
 MEOAPI_PORT asst::Assistance* AsstCreateEx(AsstCallback callback, void* custom_arg)
 {
-	// ´´½¨¶àÊµÀı»Øµ÷»áÓĞÎÊÌâ£¬ÓĞ¿ÕÔÙÂıÂıÕû
+	// åˆ›å»ºå¤šå®ä¾‹å›è°ƒä¼šæœ‰é—®é¢˜ï¼Œæœ‰ç©ºå†æ…¢æ…¢æ•´
 	_callback = callback;
 	return new asst::Assistance(CallbackTrans, custom_arg);
 }

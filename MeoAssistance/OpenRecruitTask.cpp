@@ -1,4 +1,4 @@
-#include "OpenRecruitTask.h"
+ï»¿#include "OpenRecruitTask.h"
 
 #include <map>
 #include <vector>
@@ -30,7 +30,7 @@ bool OpenRecruitTask::run()
 
 	const cv::Mat& image = m_controller_ptr->get_image();
 
-	/* ÉèÖÃÕĞÄ¼Ê±¼ä9Ğ¡Ê± */
+	/* è®¾ç½®æ‹›å‹Ÿæ—¶é—´9å°æ—¶ */
 	auto set_time_foo = [&](bool flag) -> void {
 		if (!flag) {
 			return;
@@ -63,7 +63,7 @@ bool OpenRecruitTask::run()
 	json::value all_tags_json;
 	all_tags_json["tags"] = json::array(all_tags_json_vector);
 
-	/* ¹ıÂËtagsÊıÁ¿²»×ãµÄÇé¿ö£¨¿ÉÄÜÊÇÊ¶±ğÂ©ÁË£© */
+	/* è¿‡æ»¤tagsæ•°é‡ä¸è¶³çš„æƒ…å†µï¼ˆå¯èƒ½æ˜¯è¯†åˆ«æ¼äº†ï¼‰ */
 	if (all_tags.size() != RecruitConfiger::CorrectNumberOfTags) {
 		all_tags_json["type"] = "OpenRecruit";
 		m_callback(AsstMsg::OcrResultError, all_tags_json, m_callback_arg);
@@ -72,16 +72,15 @@ bool OpenRecruitTask::run()
 
 	m_callback(AsstMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
 
-	/* Õë¶ÔÒ»ĞÇ¸ÉÔ±µÄ¶îÍâ»Øµ÷ÏûÏ¢ */
-	static const std::string SupportMachine_GBK = "Ö§Ô®»úĞµ";
-	static const std::string SupportMachine = GbkToUtf8(SupportMachine_GBK);
+	/* é’ˆå¯¹ä¸€æ˜Ÿå¹²å‘˜çš„é¢å¤–å›è°ƒæ¶ˆæ¯ */
+	static const std::string SupportMachine = "æ”¯æ´æœºæ¢°";
 	if (std::find(all_tags_name.cbegin(), all_tags_name.cend(), SupportMachine) != all_tags_name.cend()) {
 		json::value special_tag_json;
-		special_tag_json["tag"] = SupportMachine_GBK;
+		special_tag_json["tag"] = Utf8ToGbk(SupportMachine);
 		m_callback(AsstMsg::RecruitSpecialTag, special_tag_json, m_callback_arg);
 	}
 
-	// Ê¶±ğµ½µÄ5¸öTags£¬È«×éºÏÅÅÁĞ
+	// è¯†åˆ«åˆ°çš„5ä¸ªTagsï¼Œå…¨ç»„åˆæ’åˆ—
 	std::vector<std::vector<std::string>> all_combs;
 	int len = all_tags.size();
 	int count = std::pow(2, len);
@@ -93,14 +92,14 @@ bool OpenRecruitTask::run()
 			}
 			mask = mask * 2;
 		}
-		// ÓÎÏ·Àï×î¶àÑ¡Ôñ3¸ötag
+		// æ¸¸æˆé‡Œæœ€å¤šé€‰æ‹©3ä¸ªtag
 		if (!temp.empty() && temp.size() <= 3) {
 			all_combs.emplace_back(std::move(temp));
 		}
 	}
 
-	// key: tags comb, value: ¸ÉÔ±×éºÏ
-	// ÀıÈç key: { "¾Ñ»÷"¡¢"Èº¹¥" }£¬value: OperRecruitCombs.opers{ "ÔÉĞÇ", "°×Ñ©", "¿Õ±¬" }
+	// key: tags comb, value: å¹²å‘˜ç»„åˆ
+	// ä¾‹å¦‚ key: { "ç‹™å‡»"ã€"ç¾¤æ”»" }ï¼Œvalue: OperRecruitCombs.opers{ "é™¨æ˜Ÿ", "ç™½é›ª", "ç©ºçˆ†" }
 	std::map<std::vector<std::string>, OperRecruitCombs> result_map;
 	for (const std::vector<std::string>& comb : all_combs) {
 		for (const OperRecruitInfo& cur_oper : RecruitConfiger::get_instance().m_all_opers) {
@@ -114,14 +113,14 @@ bool OpenRecruitTask::run()
 				}
 			}
 
-			// µ¥¸ötags combÖĞµÄÃ¿Ò»¸ötag£¬Õâ¸ö¸ÉÔ±¶¼ÓĞ£¬²ÅËã¸Ã¸ÉÔ±·ûºÏÕâ¸ötags comb
+			// å•ä¸ªtags combä¸­çš„æ¯ä¸€ä¸ªtagï¼Œè¿™ä¸ªå¹²å‘˜éƒ½æœ‰ï¼Œæ‰ç®—è¯¥å¹²å‘˜ç¬¦åˆè¿™ä¸ªtags comb
 			if (matched_count != comb.size()) {
 				continue;
 			}
 
 			if (cur_oper.level == 6) {
-				// ¸ß×ÊtagºÍÁùĞÇÇ¿°ó¶¨£¬Èç¹ûÃ»ÓĞ¸ß×Êtag£¬¼´Ê¹ÆäËûtagÆ¥ÅäÉÏÁËÒ²²»¿ÉÄÜ³öÁùĞÇ
-				static const std::string SeniorOper = GbkToUtf8("¸ß¼¶×ÊÉî¸ÉÔ±");
+				// é«˜èµ„tagå’Œå…­æ˜Ÿå¼ºç»‘å®šï¼Œå¦‚æœæ²¡æœ‰é«˜èµ„tagï¼Œå³ä½¿å…¶ä»–tagåŒ¹é…ä¸Šäº†ä¹Ÿä¸å¯èƒ½å‡ºå…­æ˜Ÿ
+				static const std::string SeniorOper = "é«˜çº§èµ„æ·±å¹²å‘˜";
 				if (std::find(comb.cbegin(), comb.cend(), SeniorOper) == comb.cend()) {
 					continue;
 				}
@@ -133,7 +132,7 @@ bool OpenRecruitTask::run()
 			if (cur_oper.level == 1 || cur_oper.level == 2) {
 				if (oper_combs.min_level == 0) oper_combs.min_level = cur_oper.level;
 				if (oper_combs.max_level == 0) oper_combs.max_level = cur_oper.level;
-				// Ò»ĞÇ¡¢¶şĞÇ¸ÉÔ±²»¼ÆÈë×îµÍµÈ¼¶£¬ÒòÎªÀ­Âú9Ğ¡Ê±Ö®ºó²»¿ÉÄÜ³ö1¡¢2ĞÇ
+				// ä¸€æ˜Ÿã€äºŒæ˜Ÿå¹²å‘˜ä¸è®¡å…¥æœ€ä½ç­‰çº§ï¼Œå› ä¸ºæ‹‰æ»¡9å°æ—¶ä¹‹åä¸å¯èƒ½å‡º1ã€2æ˜Ÿ
 				continue;
 			}
 			if (oper_combs.min_level == 0 || oper_combs.min_level > cur_oper.level) {
@@ -150,32 +149,32 @@ bool OpenRecruitTask::run()
 		}
 	}
 
-	// mapÃ»·¨°´ÖµÅÅĞò£¬×ª¸övectorÔÙÅÅĞò
+	// mapæ²¡æ³•æŒ‰å€¼æ’åºï¼Œè½¬ä¸ªvectorå†æ’åº
 	std::vector<std::pair<std::vector<std::string>, OperRecruitCombs>> result_vector;
 	for (auto&& pair : result_map) {
 		result_vector.emplace_back(std::move(pair));
 	}
 	std::sort(result_vector.begin(), result_vector.end(), [](const auto& lhs, const auto& rhs)
 		->bool {
-			// ×îĞ¡µÈ¼¶´óµÄ£¬ÅÅÇ°Ãæ
+			// æœ€å°ç­‰çº§å¤§çš„ï¼Œæ’å‰é¢
 			if (lhs.second.min_level != rhs.second.min_level) {
 				return lhs.second.min_level > rhs.second.min_level;
 			}
-			// ×î´óµÈ¼¶´óµÄ£¬ÅÅÇ°Ãæ
+			// æœ€å¤§ç­‰çº§å¤§çš„ï¼Œæ’å‰é¢
 			else if (lhs.second.max_level != rhs.second.max_level) {
 				return lhs.second.max_level > rhs.second.max_level;
 			}
-			// Æ½¾ùµÈ¼¶¸ßµÄ£¬ÅÅÇ°Ãæ
+			// å¹³å‡ç­‰çº§é«˜çš„ï¼Œæ’å‰é¢
 			else if (std::fabs(lhs.second.avg_level - rhs.second.avg_level) > DoubleDiff) {
 				return lhs.second.avg_level > rhs.second.avg_level;
 			}
-			// TagÊıÁ¿ÉÙµÄ£¬ÅÅÇ°Ãæ
+			// Tagæ•°é‡å°‘çš„ï¼Œæ’å‰é¢
 			else {
 				return lhs.first.size() < rhs.first.size();
 			}
 		});
 
-	/* ÕûÀíÊ¶±ğ½á¹û */
+	/* æ•´ç†è¯†åˆ«ç»“æœ */
 	std::vector<json::value> result_json_vector;
 	for (const auto& [tags_comb, oper_comb] : result_vector) {
 		json::value comb_json;
@@ -203,7 +202,7 @@ bool OpenRecruitTask::run()
 
 	set_time_future.wait();
 
-	/* µã»÷×îÓÅ½âµÄtags */
+	/* ç‚¹å‡»æœ€ä¼˜è§£çš„tags */
 	if (!m_required_level.empty() && !result_vector.empty()) {
 		if (std::find(m_required_level.cbegin(), m_required_level.cend(), result_vector[0].second.min_level)
 			== m_required_level.cend()) {

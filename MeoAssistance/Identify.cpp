@@ -1,4 +1,4 @@
-#include "Identify.h"
+ï»¿#include "Identify.h"
 
 #include <algorithm>
 #include <numeric>
@@ -85,16 +85,16 @@ cv::Rect asst::Identify::rect_2_cvrect(const asst::Rect& rect)
 
 std::pair<std::vector<cv::KeyPoint>, cv::Mat> asst::Identify::surf_detect(const cv::Mat& mat)
 {
-	// »Ò¶ÈÍ¼×ª»»
+	// ç°åº¦å›¾è½¬æ¢
 	cv::Mat mat_gray;
 	cv::cvtColor(mat, mat_gray, cv::COLOR_RGB2GRAY);
 
 	constexpr int min_hessian = 400;
-	// SURFÌØÕ÷µã¼ì²â
+	// SURFç‰¹å¾ç‚¹æ£€æµ‹
 	static cv::Ptr<SURF> detector = SURF::create(min_hessian);
 	std::vector<KeyPoint> keypoints;
 	cv::Mat mat_vector;
-	// ÕÒµ½ÌØÕ÷µã²¢¼ÆËãÌØÕ÷ÃèÊö×Ó(ÏòÁ¿)
+	// æ‰¾åˆ°ç‰¹å¾ç‚¹å¹¶è®¡ç®—ç‰¹å¾æè¿°å­(å‘é‡)
 	detector->detectAndCompute(mat_gray, Mat(), keypoints, mat_vector);
 
 	return std::make_pair(std::move(keypoints), std::move(mat_vector));
@@ -122,11 +122,11 @@ std::optional<asst::Rect> asst::Identify::feature_match(
 	cv::drawMatches(query_mat, query_keypoints, train_mat, train_keypoints, matches, allmatch_mat);
 #endif
 
-	// ×î´óµÄ¾àÀë
+	// æœ€å¤§çš„è·ç¦»
 	auto max_iter = std::max_element(matches.cbegin(), matches.cend(),
 		[](const cv::DMatch& lhs, const cv::DMatch& rhs) ->bool {
 			return lhs.distance < rhs.distance;
-		});	// ÃèÊö·ûÅ·Ê½¾àÀë£¨knn£©
+		});	// æè¿°ç¬¦æ¬§å¼è·ç¦»ï¼ˆknnï¼‰
 	if (max_iter == matches.cend()) {
 		return std::nullopt;;
 	}
@@ -137,12 +137,12 @@ std::optional<asst::Rect> asst::Identify::feature_match(
 	std::vector<cv::KeyPoint> query_approach_keypoints;
 	std::vector<cv::Point> train_approach_points;
 	std::vector<cv::Point> query_approach_points;
-	// ÀûÓÃ¾àÀë½øĞĞÒ»´Î±Æ½ü
+	// åˆ©ç”¨è·ç¦»è¿›è¡Œä¸€æ¬¡é€¼è¿‘
 	constexpr static const double MatchRatio = 0.4;
 	int approach_index = 0;
 	for (const cv::DMatch dmatch : matches) {
 		if (dmatch.distance < maxdist * MatchRatio) {
-			// °´ÀíËµ²»»áÔ½½ç£¬ÒÔ·ÀÍòÒ»»¹ÊÇ¼ì²éÒ»ÏÂ
+			// æŒ‰ç†è¯´ä¸ä¼šè¶Šç•Œï¼Œä»¥é˜²ä¸‡ä¸€è¿˜æ˜¯æ£€æŸ¥ä¸€ä¸‹
 			if (dmatch.queryIdx >= 0 && dmatch.queryIdx < query_keypoints.size()
 				&& dmatch.trainIdx >= 0 && dmatch.trainIdx < train_keypoints.size()) {
 				approach_matches.emplace_back(dmatch);
@@ -164,7 +164,7 @@ std::optional<asst::Rect> asst::Identify::feature_match(
 		return std::nullopt;
 	}
 
-	// Ê¹ÓÃRANSACÌŞ³ıÒì³£Öµ
+	// ä½¿ç”¨RANSACå‰”é™¤å¼‚å¸¸å€¼
 	std::vector<uchar> ransac_status;
 	cv::Mat fundametal = cv::findFundamentalMat(query_approach_points, train_approach_points, ransac_status, cv::FM_RANSAC);
 
@@ -182,7 +182,7 @@ std::optional<asst::Rect> asst::Identify::feature_match(
 		}
 	}
 
-	// ×öÒ»´ÎËãÊı¾ùÖµÂË²¨£¬¹ıÂËÒì³£µÄµã¡£Õâ¸öËã·¨ÓĞµã´À£¬TODO¿ÉÒÔ¿´ÏÂÔõÃ´¸Ä
+	// åšä¸€æ¬¡ç®—æ•°å‡å€¼æ»¤æ³¢ï¼Œè¿‡æ»¤å¼‚å¸¸çš„ç‚¹ã€‚è¿™ä¸ªç®—æ³•æœ‰ç‚¹è ¢ï¼ŒTODOå¯ä»¥çœ‹ä¸‹æ€ä¹ˆæ”¹
 	size_t point_size = train_ransac_keypoints.size();
 	if (point_size == 0) {
 		return std::nullopt;
@@ -195,10 +195,10 @@ std::optional<asst::Rect> asst::Identify::feature_match(
 	cv::Point avg_point(sum_point.x / point_size, sum_point.y / point_size);
 	std::vector<cv::DMatch> good_matchs;
 	std::vector<cv::Point> good_points;
-	// TODO£¬Õâ¸öãĞÖµĞèÒª¸ù¾İ·Ö±æÂÊ½øĞĞËõ·Å£¬¶øÇÒ×îºÃĞ´µ½ÅäÖÃÎÄ¼şÀï
+	// TODOï¼Œè¿™ä¸ªé˜ˆå€¼éœ€è¦æ ¹æ®åˆ†è¾¨ç‡è¿›è¡Œç¼©æ”¾ï¼Œè€Œä¸”æœ€å¥½å†™åˆ°é…ç½®æ–‡ä»¶é‡Œ
 	constexpr static int DistanceThreshold = 100;
 	for (size_t i = 0; i != train_ransac_keypoints.size(); ++i) {
-		// Ã»±ØÒªËã¾àÀë£¬x y¸÷ËãÒ»ÏÂ¾ÍĞĞÁË£¬Ê¡µãCPUÊ±¼ä
+		// æ²¡å¿…è¦ç®—è·ç¦»ï¼Œx yå„ç®—ä¸€ä¸‹å°±è¡Œäº†ï¼Œçœç‚¹CPUæ—¶é—´
 		//int distance = std::sqrt(std::pow(avg_point.x - cur_x, 2) + std::pow(avg_point.y - cur_y, 2));
 		cv::Point2f& pt = train_ransac_keypoints.at(i).pt;
 		int x_distance = std::abs(avg_point.x - pt.x);
@@ -255,7 +255,7 @@ std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& mat)
 		if (text_block.boxPoint.size() != 4) {
 			continue;
 		}
-		// the rect like ¡ı
+		// the rect like â†“
 		// 0 - 1
 		// 3 - 2
 		int x = text_block.boxPoint.at(0).x;
@@ -290,7 +290,7 @@ asst::Identify::FindImageResult asst::Identify::find_image(
 		return { AlgorithmType::JustReturn, 0, Rect() };
 	}
 
-	// ÓĞ»º´æ£¬ÓÃÖ±·½Í¼±È½Ï£¬CPUÕ¼ÓÃ»áµÍºÜ¶à£¬µ«Òª±£Ö¤Ã¿´Î°´Å¥Í¼Æ¬µÄÎ»ÖÃ²»±ä
+	// æœ‰ç¼“å­˜ï¼Œç”¨ç›´æ–¹å›¾æ¯”è¾ƒï¼ŒCPUå ç”¨ä¼šä½å¾ˆå¤šï¼Œä½†è¦ä¿è¯æ¯æ¬¡æŒ‰é’®å›¾ç‰‡çš„ä½ç½®ä¸å˜
 	if (m_use_cache && m_cache_map.find(templ_name) != m_cache_map.cend()) {
 		const auto& [raw_rect, hist] = m_cache_map.at(templ_name);
 		double value = image_hist_comp(image(raw_rect), hist);
@@ -300,7 +300,7 @@ asst::Identify::FindImageResult asst::Identify::find_image(
 		}
 		return { AlgorithmType::CompareHist, value, dst_rect };
 	}
-	else {	// Ã»»º´æ¾ÍÄ£°åÆ¥Åä
+	else {	// æ²¡ç¼“å­˜å°±æ¨¡æ¿åŒ¹é…
 		const cv::Mat& templ_mat = m_mat_map.at(templ_name);
 		const auto& [value, point] = match_template(image, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
@@ -343,15 +343,15 @@ std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(
 				}
 
 				bool need_push = true;
-				// Èç¹ûÓĞÁ½¸öµãÀëµÃÌ«½ü£¬Ö»È¡ÀïÃæµÃ·Ö¸ßµÄÄÇ¸ö
-				// Ò»°ãÏàÁÚµÄ¶¼ÊÇ¸Õ¸Õpush½øÈ¥µÄ£¬ÕâÀïµ¹Ğò¿ìÒ»µã
-				for (auto iter = results.rbegin(); iter != results.rend(); ++ iter) {
+				// å¦‚æœæœ‰ä¸¤ä¸ªç‚¹ç¦»å¾—å¤ªè¿‘ï¼Œåªå–é‡Œé¢å¾—åˆ†é«˜çš„é‚£ä¸ª
+				// ä¸€èˆ¬ç›¸é‚»çš„éƒ½æ˜¯åˆšåˆšpushè¿›å»çš„ï¼Œè¿™é‡Œå€’åºå¿«ä¸€ç‚¹
+				for (auto iter = results.rbegin(); iter != results.rend(); ++iter) {
 					if (std::abs(j - iter->rect.x) < mini_distance
 						&& std::abs(i - iter->rect.y) < mini_distance) {
 						if (iter->score < value) {
 							iter->rect = rect;
 							iter->score = value;
-						}	// else Õâ¸öµã¾Í·ÅÆúÁË
+						}	// else è¿™ä¸ªç‚¹å°±æ”¾å¼ƒäº†
 						need_push = false;
 						break;
 					}
@@ -411,7 +411,7 @@ void Identify::clear_cache()
 	m_cache_map.clear();
 }
 
-// gpu_indexÊÇncnn¿ò¼ÜµÄ²ÎÊı£¬ÏÖÔÚ»»ÁËonnxµÄ£¬ÒÑ¾­Ã»ÓĞÕâ¸ö²ÎÊıÁË£¬µ«ÊÇÎªÁË±£³Ö½Ó¿ÚÒ»ÖÂĞÔ£¬±£ÁôÕâ¸ö²ÎÊı£¬Êµ¼Ê²»Æğ×÷ÓÃ
+// gpu_indexæ˜¯ncnnæ¡†æ¶çš„å‚æ•°ï¼Œç°åœ¨æ¢äº†onnxçš„ï¼Œå·²ç»æ²¡æœ‰è¿™ä¸ªå‚æ•°äº†ï¼Œä½†æ˜¯ä¸ºäº†ä¿æŒæ¥å£ä¸€è‡´æ€§ï¼Œä¿ç•™è¿™ä¸ªå‚æ•°ï¼Œå®é™…ä¸èµ·ä½œç”¨
 void asst::Identify::set_ocr_param(int gpu_index, int number_thread)
 {
 	m_ocr_lite.setNumThread(number_thread);

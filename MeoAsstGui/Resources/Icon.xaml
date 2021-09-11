@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <DrawingImage x:Key="MyTree">
         <DrawingImage.Drawing>
-            <DrawingGroup >
+            <DrawingGroup>
                 <DrawingGroup.ClipGeometry>
                     <RectangleGeometry Rect="0,0,1024,1024" />
                 </DrawingGroup.ClipGeometry>

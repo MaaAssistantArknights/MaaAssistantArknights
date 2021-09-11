@@ -1,4 +1,4 @@
-#include "ProcessTask.h"
+ï»¿#include "ProcessTask.h"
 
 #include <chrono>
 #include <random>
@@ -58,7 +58,7 @@ bool ProcessTask::run()
 		return true;
 	}
 
-	// Ç°ÖÃ¹Ì¶¨ÑÓÊ±
+	// å‰ç½®å›ºå®šå»¶æ—¶
 	if (!sleep(task_info_ptr->pre_delay))
 	{
 		return false;
@@ -98,9 +98,9 @@ bool ProcessTask::run()
 
 	++task_info_ptr->exec_times;
 
-	// ¼õÉÙÆäËûÈÎÎñµÄÖ´ĞĞ´ÎÊı
-	// ÀıÈç£¬½øÈë³ÔÀíÖÇÒ©µÄ½çÃæÁË£¬Ïàµ±ÓÚÉÏÒ»´ÎµãÀ¶É«¿ªÊ¼ĞĞ¶¯Ã»ÉúĞ§
-	// ËùÒÔÒª¸øÀ¶É«¿ªÊ¼ĞĞ¶¯µÄ´ÎÊı¼õÒ»
+	// å‡å°‘å…¶ä»–ä»»åŠ¡çš„æ‰§è¡Œæ¬¡æ•°
+	// ä¾‹å¦‚ï¼Œè¿›å…¥åƒç†æ™ºè¯çš„ç•Œé¢äº†ï¼Œç›¸å½“äºä¸Šä¸€æ¬¡ç‚¹è“è‰²å¼€å§‹è¡ŒåŠ¨æ²¡ç”Ÿæ•ˆ
+	// æ‰€ä»¥è¦ç»™è“è‰²å¼€å§‹è¡ŒåŠ¨çš„æ¬¡æ•°å‡ä¸€
 	for (const std::string& reduce : task_info_ptr->reduce_other_times) {
 		--Configer::get_instance().m_all_tasks_info[reduce]->exec_times;
 	}
@@ -112,7 +112,7 @@ bool ProcessTask::run()
 	callback_json["exec_times"] = task_info_ptr->exec_times;
 	m_callback(AsstMsg::TaskCompleted, callback_json, m_callback_arg);
 
-	// ºóÖÃ¹Ì¶¨ÑÓÊ±
+	// åç½®å›ºå®šå»¶æ—¶
 	if (!sleep(task_info_ptr->rear_delay)) {
 		return false;
 	}
@@ -133,10 +133,10 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 		return nullptr;
 	}
 
-	// Öğ¸öÆ¥Åäµ±Ç°¿ÉÄÜµÄÈÎÎñ
+	// é€ä¸ªåŒ¹é…å½“å‰å¯èƒ½çš„ä»»åŠ¡
 	for (const std::string& task_name : m_cur_tasks_name) {
 		std::shared_ptr<TaskInfo> task_info_ptr = Configer::get_instance().m_all_tasks_info[task_name];
-		if (task_info_ptr == nullptr) {	// ËµÃ÷ÅäÖÃÎÄ¼şÀïÃ»Õâ¸öÈÎÎñ
+		if (task_info_ptr == nullptr) {	// è¯´æ˜é…ç½®æ–‡ä»¶é‡Œæ²¡è¿™ä¸ªä»»åŠ¡
 			m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 			continue;
 		}
@@ -195,8 +195,8 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 				match_result = text_search(all_text_area,
 					ocr_task_info_ptr->text, ocr_task_info_ptr->replace_map);
 			}
-			// TODO£ºÈç¹ûËÑ³öÀ´¶à¸ö½á¹û£¬ÔõÃ´´¦Àí£¿
-			// ÔİÊ±Í¨¹ıÅäÖÃÎÄ¼ş£¬±£Ö¤¾¡Á¿Ö»ËÑ³öÀ´Ò»¸ö½á¹ûorÒ»¸ö¶¼ËÑ²»µ½
+			// TODOï¼šå¦‚æœæœå‡ºæ¥å¤šä¸ªç»“æœï¼Œæ€ä¹ˆå¤„ç†ï¼Ÿ
+			// æš‚æ—¶é€šè¿‡é…ç½®æ–‡ä»¶ï¼Œä¿è¯å°½é‡åªæœå‡ºæ¥ä¸€ä¸ªç»“æœorä¸€ä¸ªéƒ½æœä¸åˆ°
 			if (!match_result.empty()) {
 				callback_json["text"] = Utf8ToGbk(match_result.at(0).text);
 				rect = match_result.at(0).rect;
@@ -204,11 +204,11 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			}
 		}
 		break;
-		//CompareHistÊÇMatchTemplateµÄÑÜÉúËã·¨£¬²»Ó¦×÷Îªµ¥¶ÀµÄÅäÖÃ²ÎÊı³öÏÖ
+		//CompareHistæ˜¯MatchTemplateçš„è¡ç”Ÿç®—æ³•ï¼Œä¸åº”ä½œä¸ºå•ç‹¬çš„é…ç½®å‚æ•°å‡ºç°
 		//case AlgorithmType::CompareHist:
 		//	break;
 		default:
-			// TODO£ºÅ×¸ö±¨´íµÄ»Øµ÷³öÈ¥
+			// TODOï¼šæŠ›ä¸ªæŠ¥é”™çš„å›è°ƒå‡ºå»
 			break;
 		}
 
@@ -226,7 +226,7 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 	return nullptr;
 }
 
-// Ëæ»úÑÓÊ±¹¦ÄÜ
+// éšæœºå»¶æ—¶åŠŸèƒ½
 bool asst::ProcessTask::delay_random()
 {
 	if (Configer::get_instance().m_options.control_delay_upper != 0) {
@@ -257,8 +257,8 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 	if (!delay_random()) {
 		return;
 	}
-	const static Rect right_rect(Configer::WindowWidthDefault * 0.8, 
-		Configer::WindowHeightDefault * 0.4, 
+	const static Rect right_rect(Configer::WindowWidthDefault * 0.8,
+		Configer::WindowHeightDefault * 0.4,
 		Configer::WindowWidthDefault * 0.1,
 		Configer::WindowHeightDefault * 0.2);
 
@@ -275,7 +275,7 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 	case asst::ProcessTaskAction::SwipeToTheRight:
 		m_controller_ptr->swipe(right_rect, left_rect);
 		break;
-	default:	// ×ß²»µ½ÕâÀï£¬TODO ±¨¸ö´í
+	default:	// èµ°ä¸åˆ°è¿™é‡Œï¼ŒTODO æŠ¥ä¸ªé”™
 		break;
 	}
 }

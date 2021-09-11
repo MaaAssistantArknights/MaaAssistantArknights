@@ -1,23 +1,22 @@
-#pragma once
+ï»¿#pragma once
 #include "InfrastAbstractTask.h"
 
 namespace asst {
-    // ·¢µçÕ¾»»°àÈÎÎñ
-    // ÈÎÎñ¿ªÊ¼Ç°ĞèÒª´¦ÔÚ»ù½¨Ö÷½çÃæ
-    class InfrastPowerTask : public InfrastAbstractTask
-    {
-    public:
-        using InfrastAbstractTask::InfrastAbstractTask;
-        virtual ~InfrastPowerTask() = default;
+	// å‘ç”µç«™æ¢ç­ä»»åŠ¡
+	// ä»»åŠ¡å¼€å§‹å‰éœ€è¦å¤„åœ¨åŸºå»ºä¸»ç•Œé¢
+	class InfrastPowerTask : public InfrastAbstractTask
+	{
+	public:
+		using InfrastAbstractTask::InfrastAbstractTask;
+		virtual ~InfrastPowerTask() = default;
 
-        virtual bool run() override;
-    protected:
-        constexpr static int PowerNum = 3;			// ·¢µçÕ¾ÊıÁ¿
+		virtual bool run() override;
+	protected:
+		constexpr static int PowerNum = 3;			// å‘ç”µç«™æ•°é‡
 
-        // ½øÈëµ±Ç°·¢µçÕ¾µÄ¸ÉÔ±Ñ¡Ôñ½çÃæ
-        bool enter_operator_selection();
-        // Ñ¡Ôñ¸ÉÔ±£¬·µ»Ø±¾´ÎÑ¡ÔñÁË¼¸¸ö¸ÉÔ±£¬DuckType£¬·¢µçÕ¾¹Ì¶¨·µ»Ø 1
-        int select_operators(bool need_to_the_left = false);
-
-    };
+		// è¿›å…¥å½“å‰å‘ç”µç«™çš„å¹²å‘˜é€‰æ‹©ç•Œé¢
+		bool enter_operator_selection();
+		// é€‰æ‹©å¹²å‘˜ï¼Œè¿”å›æœ¬æ¬¡é€‰æ‹©äº†å‡ ä¸ªå¹²å‘˜ï¼ŒDuckTypeï¼Œå‘ç”µç«™å›ºå®šè¿”å› 1
+		int select_operators(bool need_to_the_left = false);
+	};
 }

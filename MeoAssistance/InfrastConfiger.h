@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "AbstractConfiger.h"
 
@@ -19,12 +19,12 @@ namespace asst {
 			return unique_instance;
 		}
 
-		std::unordered_set<std::string> m_all_opers_name;				// ËùÓĞ¸ÉÔ±µÄÃû×Ö
-		std::unordered_map<std::string, std::string> m_oper_name_feat;	// ¸ù¾İ¹Ø¼ü×ÖĞèÒªÌØÕ÷¼ì²â¸ÉÔ±Ãû£ºÈç¹ûOCRÊ¶±ğµ½ÁËkeyµÄÄÚÈİµ«ÊÇÈ´Ã»ÓĞvalueµÄÄÚÈİ£¬Ôò½øĞĞÌØÕ÷¼ì²â½øÒ»²½È·ÈÏ
-		std::unordered_set<std::string> m_oper_name_feat_whatever;		// ÎŞÂÛÈçºÎ¶¼½øĞĞÌØÕ÷¼ì²âµÄ¸ÉÔ±Ãû
-		// ¸÷¸öÉèÊ©ÄÚµÄ¿ÉÄÜ¸ÉÔ±×éºÏ£¬×¢ÒâÖµÊÇvector£¬ÊÇÓĞĞòµÄ
+		std::unordered_set<std::string> m_all_opers_name;				// æ‰€æœ‰å¹²å‘˜çš„åå­—
+		std::unordered_map<std::string, std::string> m_oper_name_feat;	// æ ¹æ®å…³é”®å­—éœ€è¦ç‰¹å¾æ£€æµ‹å¹²å‘˜åï¼šå¦‚æœOCRè¯†åˆ«åˆ°äº†keyçš„å†…å®¹ä½†æ˜¯å´æ²¡æœ‰valueçš„å†…å®¹ï¼Œåˆ™è¿›è¡Œç‰¹å¾æ£€æµ‹è¿›ä¸€æ­¥ç¡®è®¤
+		std::unordered_set<std::string> m_oper_name_feat_whatever;		// æ— è®ºå¦‚ä½•éƒ½è¿›è¡Œç‰¹å¾æ£€æµ‹çš„å¹²å‘˜å
+		// å„ä¸ªè®¾æ–½å†…çš„å¯èƒ½å¹²å‘˜ç»„åˆï¼Œæ³¨æ„å€¼æ˜¯vectorï¼Œæ˜¯æœ‰åºçš„
 		std::unordered_map<std::string, std::vector<OperInfrastComb>> m_infrast_combs;
-		// ¸÷¸öÉèÊ©µÄÊ¶±ğ½áÊø±ê¼Ç£¬Ê¶±ğµ½Õâ¸öÃû×Ö¾ÍÍ£Ö¹¼ÌĞøÊ¶±ğÁË£¬Ò»°ã·ÅÁĞ±íÖĞ×îºó¼¸¸öÈËÃû
+		// å„ä¸ªè®¾æ–½çš„è¯†åˆ«ç»“æŸæ ‡è®°ï¼Œè¯†åˆ«åˆ°è¿™ä¸ªåå­—å°±åœæ­¢ç»§ç»­è¯†åˆ«äº†ï¼Œä¸€èˆ¬æ”¾åˆ—è¡¨ä¸­æœ€åå‡ ä¸ªäººå
 		std::unordered_map<std::string, std::vector<std::string>> m_infrast_end_flag;
 
 	protected:

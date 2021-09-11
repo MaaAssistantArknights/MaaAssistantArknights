@@ -1,8 +1,5 @@
-﻿using MeoAsstGui;
-using Stylet;
+﻿using Stylet;
 using StyletIoC;
-using System;
-using System.Windows;
 
 namespace MeoAsstGui
 {
@@ -10,6 +7,7 @@ namespace MeoAsstGui
     {
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
+
         public MainFunctionViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -18,6 +16,7 @@ namespace MeoAsstGui
         }
 
         private string _execInfo;
+
         public string ExecInfo
         {
             get { return _execInfo; }
@@ -28,6 +27,7 @@ namespace MeoAsstGui
         }
 
         private string _stoneInfo;
+
         public string StoneInfo
         {
             get { return _stoneInfo; }
@@ -38,6 +38,7 @@ namespace MeoAsstGui
         }
 
         private string _runStatus;
+
         public string RunStatus
         {
             get { return _runStatus; }
@@ -48,6 +49,7 @@ namespace MeoAsstGui
         }
 
         private bool _shutdown;
+
         public bool Shutdown
         {
             get { return _shutdown; }
@@ -58,6 +60,7 @@ namespace MeoAsstGui
         }
 
         private bool _useMedicine = true;
+
         public bool UseMedicine
         {
             get { return _useMedicine; }
@@ -102,6 +105,7 @@ namespace MeoAsstGui
                 }
             }
         }
+
         private string _stoneNumber = "0";
 
         public string StoneNumber
@@ -120,6 +124,7 @@ namespace MeoAsstGui
         }
 
         private string _catchStatus;
+
         public string CatchStatus
         {
             get { return _catchStatus; }
@@ -130,6 +135,7 @@ namespace MeoAsstGui
         }
 
         private bool _hasTimesLimited;
+
         public bool HasTimesLimited
         {
             get { return _hasTimesLimited; }
@@ -150,6 +156,7 @@ namespace MeoAsstGui
         }
 
         private string _maxTimes = "0";
+
         public string MaxTimes
         {
             get { return _maxTimes; }

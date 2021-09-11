@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 
 #include "InfrastAbstractTask.h"
 
 namespace asst {
-	// »ù½¨Éú²úÕ¾ÈÎÎñ£¨°üÀ¨ÖÆÔìÕ¾¡¢Ã³Ò×Õ¾£©
-	// ÈÎÎñ¿ªÊ¼Ç°ĞèÒª´¦ÔÚ¡°ÉèÊ©ÁĞ±í 01 02 03...¡±µÄ½çÃæ
+	// åŸºå»ºç”Ÿäº§ç«™ä»»åŠ¡ï¼ˆåŒ…æ‹¬åˆ¶é€ ç«™ã€è´¸æ˜“ç«™ï¼‰
+	// ä»»åŠ¡å¼€å§‹å‰éœ€è¦å¤„åœ¨â€œè®¾æ–½åˆ—è¡¨ 01 02 03...â€çš„ç•Œé¢
 	class InfrastProductionTask : public InfrastAbstractTask
 	{
 	public:
@@ -18,16 +18,16 @@ namespace asst {
 		}
 	protected:
 		constexpr static int SwipeMaxTimes = 17;
-		constexpr static int MaxOpers = 3;	// µ¥¸öÖÆÔìÕ¾/Ã³Ò×Õ¾×î´ó¸ÉÔ±Êı
+		constexpr static int MaxOpers = 3;	// å•ä¸ªåˆ¶é€ ç«™/è´¸æ˜“ç«™æœ€å¤§å¹²å‘˜æ•°
 
-		// Ò»±ß»¬¶¯Ò»±ßÊ¶±ğ
+		// ä¸€è¾¹æ»‘åŠ¨ä¸€è¾¹è¯†åˆ«
 		std::optional<std::unordered_map<std::string, OperInfrastInfo>> swipe_and_detect();
-		// ¼ÆËã×îÓÅ½â¸ÉÔ±×éºÏ
+		// è®¡ç®—æœ€ä¼˜è§£å¹²å‘˜ç»„åˆ
 		std::list<std::string> calc_optimal_comb(const std::unordered_map<std::string, OperInfrastInfo>& cur_opers_info) const;
-		// Ò»±ß»¬¶¯Ò»±ßÊ¶±ğ²¢µã»÷¸ÉÔ±Ãû
+		// ä¸€è¾¹æ»‘åŠ¨ä¸€è¾¹è¯†åˆ«å¹¶ç‚¹å‡»å¹²å‘˜å
 		bool swipe_and_select(std::list<std::string>& name_comb, int swipe_max_times = SwipeMaxTimes);
 
-		std::string m_facility;	// ÉèÊ©Ãû£¨ÖÆÔìÕ¾¡¢Ã³Ò×Õ¾¡¢¿ØÖÆÖĞÊà¡­¡­£©
+		std::string m_facility;	// è®¾æ–½åï¼ˆåˆ¶é€ ç«™ã€è´¸æ˜“ç«™ã€æ§åˆ¶ä¸­æ¢â€¦â€¦ï¼‰
 		std::unordered_map<std::string, OperInfrastInfo> m_all_opers_info;
 	};
 }

@@ -6,7 +6,7 @@
         xmlns:s="https://github.com/canton7/Stylet"
         mc:Ignorable="d"
         Title="Meo明日方舟辅助" Height="450" Width="750">
-    <DockPanel> 
-        <TabControl Style="{StaticResource StyletConductorTabControl}" Margin="0,10,0,0"/>
+    <DockPanel>
+        <TabControl Style="{StaticResource StyletConductorTabControl}" Margin="0,10,0,0" />
     </DockPanel>
 </Window>
