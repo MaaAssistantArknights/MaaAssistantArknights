@@ -170,15 +170,15 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 
 bool asst::Assistance::start_sanity()
 {
-	return start_match_task("SanityBegin", ProcessTaskRetryTimesDefault);
+	return start_process_task("SanityBegin", ProcessTaskRetryTimesDefault);
 }
 
 bool asst::Assistance::start_visit()
 {
-	return start_match_task("VisitBegin", ProcessTaskRetryTimesDefault);
+	return start_process_task("VisitBegin", ProcessTaskRetryTimesDefault);
 }
 
-bool Assistance::start_match_task(const std::string& task, int retry_times, bool block)
+bool Assistance::start_process_task(const std::string& task, int retry_times, bool block)
 {
 	DebugTraceFunction;
 	DebugTrace("Start |", task, block ? "block" : "non block");

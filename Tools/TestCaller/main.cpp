@@ -1,11 +1,7 @@
-#include "AsstCaller.h"
+﻿#include "AsstCaller.h"
 #include <stdio.h>
 
 using namespace asst;
-
-void debug_task(Assistance* ptr);
-void test_swipe(Assistance* ptr);
-void test_infrast(Assistance* ptr);
 
 int main(int argc, char** argv)
 {
@@ -22,8 +18,8 @@ int main(int argc, char** argv)
 
 	char ch = 0;
 	while (ch != 'q') {
-		test_infrast(ptr);
-		//debug_task(ptr);
+		//AsstStartInfrast(ptr);
+		AsstStartDebugTask(ptr);
 
 		ch = getchar();
 	}
@@ -34,14 +30,4 @@ int main(int argc, char** argv)
 	}
 
 	return 0;
-}
-
-void debug_task(Assistance* ptr)
-{
-	AsstDebugTask(ptr);
-}
-
-void test_infrast(Assistance* ptr)
-{
-	AsstStartInfrast(ptr);
 }

@@ -43,7 +43,7 @@ asst::Assistance* AsstCreate()
 	return new asst::Assistance();
 }
 
-MEOAPI_PORT asst::Assistance* AsstCreateEx(AsstCallback callback, void* custom_arg)
+asst::Assistance* AsstCreateEx(AsstCallback callback, void* custom_arg)
 {
 	// 创建多实例回调会有问题，有空再慢慢整
 	_callback = callback;
@@ -75,13 +75,31 @@ bool AsstCatchEmulator(asst::Assistance* p_asst)
 	}
 }
 
-bool AsstStart(asst::Assistance* p_asst, const char* task)
+bool AsstStartSanity(asst::Assistance* p_asst)
 {
 	if (p_asst == NULL) {
 		return false;
 	}
 
-	return p_asst->start_match_task(task, asst::Assistance::ProcessTaskRetryTimesDefault);
+	return p_asst->start_sanity();
+}
+
+bool AsstStartVisit(asst::Assistance* p_asst)
+{
+	if (p_asst == NULL) {
+		return false;
+	}
+
+	return p_asst->start_visit();
+}
+
+bool AsstStartProcessTask(asst::Assistance* p_asst, const char* task)
+{
+	if (p_asst == NULL) {
+		return false;
+	}
+
+	return p_asst->start_process_task(task, asst::Assistance::ProcessTaskRetryTimesDefault);
 }
 
 void AsstStop(asst::Assistance* p_asst)
@@ -102,7 +120,7 @@ bool AsstSetParam(asst::Assistance* p_asst, const char* type, const char* param,
 	return p_asst->set_param(type, param, value);
 }
 
-bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], int required_len, bool set_time)
+bool AsstStartOpenRecruit(asst::Assistance* p_asst, const int required_level[], int required_len, bool set_time)
 {
 	if (p_asst == NULL) {
 		return false;
@@ -110,6 +128,15 @@ bool AsstRunOpenRecruit(asst::Assistance* p_asst, const int required_level[], in
 	std::vector<int> level_vector;
 	level_vector.assign(required_level, required_level + required_len);
 	p_asst->start_open_recruit(level_vector, set_time);
+	return true;
+}
+
+bool AsstStartIndertifyOpers(asst::Assistance* p_asst)
+{
+	if (p_asst == NULL) {
+		return false;
+	}
+	p_asst->start_to_identify_opers();
 	return true;
 }
 
@@ -122,16 +149,7 @@ bool AsstStartInfrast(asst::Assistance* p_asst)
 	return true;
 }
 
-MEOAPI_PORT bool AsstStartIndertifyOpers(asst::Assistance* p_asst)
-{
-	if (p_asst == NULL) {
-		return false;
-	}
-	p_asst->start_to_identify_opers();
-	return true;
-}
-
-bool AsstDebugTask(asst::Assistance* p_asst)
+bool AsstStartDebugTask(asst::Assistance* p_asst)
 {
 	if (p_asst == NULL) {
 		return false;
@@ -150,8 +168,8 @@ bool CheckVersionUpdate(char* tag_buffer, int tag_bufsize, char* html_url_buffer
 		return false;
 	}
 	const asst::VersionInfo& info = asst::Updater::get_instance().get_version_info();
-	strcpy_s(tag_buffer, tag_bufsize, info.tag_name.c_str());
-	strcpy_s(html_url_buffer, html_bufsize, info.html_url.c_str());
-	strcpy_s(body_buffer, body_bufsize, info.body.c_str());
+	strcpy_s(tag_buffer, tag_bufsize, asst::Utf8ToGbk(info.tag_name).c_str());
+	strcpy_s(html_url_buffer, html_bufsize, asst::Utf8ToGbk(info.html_url).c_str());
+	strcpy_s(body_buffer, body_bufsize, asst::Utf8ToGbk(info.body).c_str());
 	return true;
 }

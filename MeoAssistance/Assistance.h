@@ -40,8 +40,8 @@ namespace asst {
 		// 开始全自动基建任务
 		bool start_infrast();
 
-		// 开始匹配任务，调试用
-		bool start_match_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool block = true);
+		// 开始流程任务，应该是private的，调试用临时放到public
+		bool start_process_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool block = true);
 #ifdef LOG_TRACE
 		// 调试用
 		bool start_debug_task();
