@@ -10,34 +10,41 @@
 namespace asst {
 	enum class AsstMsg {
 		/* Error Msg */
-		PtrIsNull,
-		ImageIsEmpty,
-		WindowMinimized,
-		InitFaild,
-		/* Info Msg */
-		TaskStart,
-		ImageFindResult,
-		ImageMatched,
-		TaskMatched,
-		ReachedLimit,
-		ReadyToSleep,
-		EndOfSleep,
-		AppendProcessTask,	// 这个消息Assistance会新增任务，外部不需要处理
-		AppendTask,			// 这个消息Assistance会新增任务，外部不需要处理
-		TaskCompleted,
-		PrintWindow,
-		TaskStop,
-		TaskError,
+		PtrIsNull,							// 指针为空
+		ImageIsEmpty,						// 图像为空
+		WindowMinimized,					// [已弃用] 窗口被最小化了
+		InitFaild,							// 初始化失败
+		TaskError,							// 任务错误（任务一直出错，retry次数达到上限）
+		OcrResultError,						// Ocr识别结果错误
+		/* Info Msg: about Task */
+		TaskStart = 1000,					// 任务开始
+		TaskMatched,						// 任务匹配成功
+		ReachedLimit,						// 单个原子任务达到次数上限
+		ReadyToSleep,						// 准备开始睡眠
+		EndOfSleep,							// 睡眠结束
+		AppendProcessTask,					// 新增流程任务，Assistance内部消息，外部不需要处理
+		AppendTask,							// 新增任务，Assistance内部消息，外部不需要处理
+		TaskCompleted,						// 单个原子任务完成
+		PrintWindow,						// 截图消息
+		TaskStop,							// 任务停止
+		/* Info Msg: about Identify */
+		TextDetected = 2000,				// 识别到文字
+		ImageFindResult,					// 查找图像的结果
+		ImageMatched,						// 图像匹配成功
 		/* Open Recruit Msg */
-		TextDetected,
-		RecruitTagsDetected,
-		OcrResultError,
-		RecruitSpecialTag,
-		RecruitResult,
-		/* Infrast Msg*/
-		OpersDetected,		// 识别到了干员s
-		OpersIdtfResult,	// 干员识别结果（总的）
-		InfrastComb			// 当前设置的最优干员组合
+		RecruitTagsDetected = 3000,			// 公招识别到了Tags
+		RecruitSpecialTag,					// 公招识别到了特殊的Tag
+		RecruitResult,						// 公开招募结果
+		/* Infrast Msg */
+		OpersDetected = 4000,				// 识别到了干员s
+		OpersIdtfResult,					// 干员识别结果（总的）
+		InfrastComb,						// 当前房间的最优干员组合
+		EnterStation,						// 进入某个房间
+		StationInfo,						// 当前房间信息
+		ReadyToShift,						// 准备换班
+		ShiftCompleted,						// 换班完成（单个房间）
+		NoNeedToShift						// 无需换班（单个房间）
+
 	};
 
 	static std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
@@ -67,7 +74,12 @@ namespace asst {
 			{AsstMsg::AppendTask, "AppendTask"},
 			{AsstMsg::OpersDetected, "OpersDetected"},
 			{AsstMsg::OpersIdtfResult, "OpersIdtfResult"},
-			{AsstMsg::InfrastComb, "InfrastComb"}
+			{AsstMsg::InfrastComb, "InfrastComb"},
+			{AsstMsg::EnterStation, "EnterStation"},
+			{AsstMsg::StationInfo, "StationInfo"},
+			{AsstMsg::ReadyToShift, "ReadyToShift"},
+			{AsstMsg::ShiftCompleted, "ShiftCompleted"},
+			{AsstMsg::NoNeedToShift, "NoNeedToShift"}
 		};
 		return os << _type_name.at(type);
 	}

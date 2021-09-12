@@ -25,6 +25,12 @@ bool asst::InfrastProductionTask::run()
 		return false;
 	}
 
+	json::value task_start_json = json::object{
+		{ "task_type",  "InfrastProductionTask" },
+		{ "task_chain", m_task_chain}
+	};
+	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
+
 	cv::Mat image = m_controller_ptr->get_image();
 	// 先识别一下有几个制造站/贸易站
 	const static std::array<std::string, 4> facility_number_key = { "02", "03", "04", "05" };
@@ -50,10 +56,16 @@ bool asst::InfrastProductionTask::run()
 			sleep(300);
 			image = m_controller_ptr->get_image();
 		}
+		json::value enter_json;
+		enter_json["station"] = "Production";
+		enter_json["index"] = i;
+		m_callback(AsstMsg::EnterStation, enter_json, m_callback_arg);
+
 		// 如果当前界面没有添加干员的按钮，那就不换班
 		auto&& [algorithm1, score1, add_rect1] = m_identify_ptr->find_image(image, "AddOperator");
 		auto&& [algorithm2, score2, add_rect2] = m_identify_ptr->find_image(image, "AddOperator-Trade");
 		if (score1 < Configer::TemplThresholdDefault && score2 < Configer::TemplThresholdDefault) {
+			m_callback(AsstMsg::NoNeedToShift, enter_json, m_callback_arg);
 			continue;
 		}
 
@@ -65,6 +77,11 @@ bool asst::InfrastProductionTask::run()
 				break;
 			}
 		}
+		enter_json["production"] = m_facility;
+		m_callback(AsstMsg::StationInfo, enter_json, m_callback_arg);
+
+		m_callback(AsstMsg::ReadyToShift, enter_json, m_callback_arg);
+
 		//点击添加干员的那个按钮
 		Rect add_rect = score1 >= score2 ? std::move(add_rect1) : std::move(add_rect2);
 		m_controller_ptr->click(add_rect);
@@ -82,8 +99,11 @@ bool asst::InfrastProductionTask::run()
 		auto cur_opers_info = std::move(detect_ret.value());
 		// TODO，可以识别一次，把前6个最优解都列出来（最多6个制造站），然后就不用每次都识别并计算最优解了
 		std::list<std::string> optimal_comb = calc_optimal_comb(cur_opers_info);
-		swipe_and_select(optimal_comb);
+		if (swipe_and_select(optimal_comb)) {
+			m_callback(AsstMsg::ShiftCompleted, enter_json, m_callback_arg);
+		}
 	}
+	m_callback(AsstMsg::TaskCompleted, task_start_json, m_callback_arg);
 
 	return true;
 }

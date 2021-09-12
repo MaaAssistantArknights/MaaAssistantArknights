@@ -13,15 +13,32 @@ bool asst::InfrastOfficeTask::run()
 		return false;
 	}
 
+	json::value task_start_json = json::object{
+		{ "task_type",  "InfrastOfficeTask" },
+		{ "task_chain", m_task_chain}
+	};
+	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
+
 	bool ret = swipe_right();
 	ret &= enter_station({ "Office", "OfficeMini" }, 0);
 	if (!ret) {
-		append_task_to_back_to_infrast_home();
 		return false;
 	}
+	json::value enter_json;
+	enter_json["station"] = "Office";
+	enter_json["index"] = 0;
+	m_callback(AsstMsg::EnterStation, enter_json, m_callback_arg);
+
 	if (enter_operator_selection()) {
+		m_callback(AsstMsg::ReadyToShift, enter_json, m_callback_arg);
 		select_operators(true);
+		m_callback(AsstMsg::ShiftCompleted, enter_json, m_callback_arg);
 	}
+	else {
+		m_callback(AsstMsg::NoNeedToShift, enter_json, m_callback_arg);
+	}
+	m_callback(AsstMsg::TaskCompleted, task_start_json, m_callback_arg);
+
 	return true;
 }
 

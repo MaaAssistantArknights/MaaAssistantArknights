@@ -20,9 +20,14 @@ bool asst::InfrastDormTask::run()
 		return false;
 	}
 
+	json::value task_start_json = json::object{
+		{ "task_type",  "InfrastDormTask" },
+		{ "task_chain", m_task_chain}
+	};
+	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
+
 	bool ret = enter_station({ "Dorm", "DormMini" }, m_dorm_begin, 0.8);
 	if (!ret) {
-		append_task_to_back_to_infrast_home();
 		return false;
 	}
 
@@ -39,6 +44,14 @@ bool asst::InfrastDormTask::run()
 		else {
 			to_left = true;	// 第一个进入的宿舍需要滑动到最左侧一下。后面的宿舍都不用了
 		}
+		if (!ret) {
+			return false;
+		}
+		json::value enter_json;
+		enter_json["station"] = "Dorm";
+		enter_json["index"] = dorm_index;
+		m_callback(AsstMsg::EnterStation, enter_json, m_callback_arg);
+
 		enter_operator_selection();
 		int selected = select_operators(to_left);
 		if (selected == -1) {
@@ -50,6 +63,8 @@ bool asst::InfrastDormTask::run()
 		}
 	}
 	m_dorm_begin = dorm_index;
+
+	m_callback(AsstMsg::TaskCompleted, task_start_json, m_callback_arg);
 
 	return ret;
 }
@@ -168,10 +183,14 @@ int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 	}
 	cv::Mat image = m_controller_ptr->get_image();
 
+	json::value shift_json;
+	shift_json["station"] = "Dorm";
+
 	// 识别“休息中”的干员
 	auto resting_result = m_identify_ptr->find_all_images(image, "Resting", 0.8);
 	if (resting_result.size() == MaxOperNumInDorm) {	// 如果所有人都在休息，那这个宿舍不用换班，直接关了
 		click_return_button();
+		m_callback(AsstMsg::NoNeedToShift, shift_json, m_callback_arg);
 		return resting_result.size();
 	}
 
@@ -181,6 +200,8 @@ int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 	// 识别正在工作中的干员的心情状态
 	double mood_threshold = Configer::get_instance().m_infrast_options.dorm_threshold;
 	auto work_mood_result = detect_mood_status_at_work(image, mood_threshold);
+
+	m_callback(AsstMsg::ReadyToShift, shift_json, m_callback_arg);
 
 	click_clear_button();
 	// 把“休息中”的干员，都再次选上
@@ -207,6 +228,7 @@ int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 	}
 	if (count >= MaxOperNumInDorm) {
 		click_confirm_button();
+		m_callback(AsstMsg::ShiftCompleted, shift_json, m_callback_arg);
 		return count;
 	}
 
@@ -236,6 +258,7 @@ int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 	}
 	click_confirm_button();
 
+	m_callback(AsstMsg::ShiftCompleted, shift_json, m_callback_arg);
 	return count;
 }
 

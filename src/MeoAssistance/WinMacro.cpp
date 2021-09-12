@@ -19,7 +19,7 @@ using namespace asst;
 WinMacro::WinMacro(const EmulatorInfo& info)
 	: m_emulator_info(info),
 	m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count()),
-	m_screen_filename(GetCurrentDir() + "adb_screen.png")
+	ScreenFilename(GetCurrentDir() + "adb_screen.png")
 {
 	find_handle();
 }
@@ -123,10 +123,10 @@ bool WinMacro::find_handle()
 
 	m_emulator_info.adb.screencap = StringReplaceAll(
 		StringReplaceAll(m_emulator_info.adb.screencap, "[Adb]", adb_dir),
-		"[Filename]", m_screen_filename);
+		"[Filename]", ScreenFilename);
 	m_emulator_info.adb.pullscreen = StringReplaceAll(
 		StringReplaceAll(m_emulator_info.adb.pullscreen, "[Adb]", adb_dir),
-		"[Filename]", m_screen_filename);
+		"[Filename]", ScreenFilename);
 
 	DebugTrace("Handle:", m_handle, "Name:", m_emulator_info.name);
 	return true;
@@ -305,7 +305,7 @@ cv::Mat asst::WinMacro::get_image(bool raw)
 	if (!call_ret) {
 		return cv::Mat();
 	}
-	cv::Mat raw_mat = cv::imread(m_screen_filename);
+	cv::Mat raw_mat = cv::imread(ScreenFilename);
 	if (raw) {
 		return raw_mat;
 	}
