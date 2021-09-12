@@ -14,7 +14,7 @@ notifications:
 - provider: Email
   to:
   - mistereo@hotmail.com
-  subject: '{{status}}: {{projectName}} {{buildVersion}}'
+  subject: 'Build {{status}}: {{projectName}} {{buildVersion}}'
   message: 'Commit #{{commitId}} by {{commitAuthor}} on {{commitDate}}: {{commitMessage}}'
   on_build_success: true
   on_build_failure: true
