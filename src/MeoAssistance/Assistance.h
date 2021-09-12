@@ -55,8 +55,8 @@ namespace asst {
 		static constexpr int OpenRecruitTaskRetyrTimesDefault = 5;
 
 	private:
-		static void working_proc(Assistance* p_this);
-		static void msg_proc(Assistance* p_this);
+		void working_proc();
+		void msg_proc();
 		static void task_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
 
 		void append_match_task(const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times = ProcessTaskRetryTimesDefault, bool front = false);

@@ -132,7 +132,7 @@
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /e /y /i $(SolutionDir)resource $(TargetDir)resource
-xcopy /e /y /i $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
+xcopy /e /y /i /c $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>copy resource</Message>
@@ -141,7 +141,7 @@ xcopy /e /y /i $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
       <Command>xcopy /e /y /i $(SolutionDir)3rdparty\bin $(TargetDir)</Command>
     </PreLinkEvent>
     <PreLinkEvent>
-      <Message>copy 3rd part dll</Message>
+      <Message>copy 3rd party dll</Message>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
@@ -176,7 +176,7 @@ xcopy /e /y /i $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /e /y /i $(SolutionDir)resource $(TargetDir)resource
-xcopy /e /y /i $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
+xcopy /e /y /i /c $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>copy resource</Message>
@@ -185,7 +185,7 @@ xcopy /e /y /i $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
       <Command>xcopy /e /y /i $(SolutionDir)3rdparty\bin $(TargetDir)</Command>
     </PreLinkEvent>
     <PreLinkEvent>
-      <Message>copy 3rd part dll</Message>
+      <Message>copy 3rd party dll</Message>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
