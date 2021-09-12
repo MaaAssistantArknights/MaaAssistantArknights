@@ -17,22 +17,22 @@ using namespace cv::xfeatures2d;
 
 bool Identify::add_image(const std::string& name, const std::string& path)
 {
-	Mat mat = imread(path);
-	if (mat.empty()) {
+	Mat image = imread(path);
+	if (image.empty()) {
 		return false;
 	}
-	m_mat_map.emplace(name, mat);
+	m_mat_map.emplace(name, image);
 	return true;
 }
 
 bool asst::Identify::add_text_image(const std::string& text, const std::string& path)
 {
-	Mat mat = imread(path);
-	if (mat.empty()) {
+	Mat image = imread(path);
+	if (image.empty()) {
 		return false;
 	}
 
-	m_feature_map.emplace(text, surf_detect(mat));
+	m_feature_map.emplace(text, surf_detect(image));
 
 	return true;
 }
@@ -73,21 +73,11 @@ double Identify::image_hist_comp(const cv::Mat& src, const cv::MatND& hist)
 	return 1 - compareHist(image_2_hist(src), hist, CV_COMP_BHATTACHARYYA);
 }
 
-asst::Rect asst::Identify::cvrect_2_rect(const cv::Rect& cvRect)
-{
-	return asst::Rect(cvRect.x, cvRect.y, cvRect.width, cvRect.height);
-}
-
-cv::Rect asst::Identify::rect_2_cvrect(const asst::Rect& rect)
-{
-	return cv::Rect(rect.x, rect.y, rect.width, rect.height);
-}
-
-std::pair<std::vector<cv::KeyPoint>, cv::Mat> asst::Identify::surf_detect(const cv::Mat& mat)
+std::pair<std::vector<cv::KeyPoint>, cv::Mat> asst::Identify::surf_detect(const cv::Mat& image)
 {
 	// 灰度图转换
 	cv::Mat mat_gray;
-	cv::cvtColor(mat, mat_gray, cv::COLOR_RGB2GRAY);
+	cv::cvtColor(image, mat_gray, cv::COLOR_RGB2GRAY);
 
 	constexpr int min_hessian = 400;
 	// SURF特征点检测
@@ -243,9 +233,9 @@ std::optional<asst::Rect> asst::Identify::feature_match(
 	return std::nullopt;
 }
 
-std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& mat)
+std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& image)
 {
-	OcrResult ocr_results = m_ocr_lite.detect(mat,
+	OcrResult ocr_results = m_ocr_lite.detect(image,
 		50, 0,
 		0.2f, 0.3f,
 		2.0f, false, false);
@@ -294,7 +284,7 @@ asst::Identify::FindImageResult asst::Identify::find_image(
 	if (m_use_cache && m_cache_map.find(templ_name) != m_cache_map.cend()) {
 		const auto& [raw_rect, hist] = m_cache_map.at(templ_name);
 		double value = image_hist_comp(image(raw_rect), hist);
-		Rect dst_rect = cvrect_2_rect(raw_rect);
+		Rect dst_rect = make_rect<asst::Rect>(raw_rect);
 		if (rect_zoom) {
 			dst_rect = dst_rect.center_zoom(0.8);
 		}
@@ -307,7 +297,7 @@ asst::Identify::FindImageResult asst::Identify::find_image(
 		if (m_use_cache && value >= add_cache_thres) {
 			m_cache_map.emplace(templ_name, std::make_pair(raw_rect, image_2_hist(image(raw_rect))));
 		}
-		Rect dst_rect = cvrect_2_rect(raw_rect);
+		Rect dst_rect = make_rect<asst::Rect>(raw_rect);
 		if (rect_zoom) {
 			dst_rect = dst_rect.center_zoom(0.8);
 		}
@@ -370,7 +360,7 @@ std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(
 #ifdef LOG_TRACE
 	cv::Mat draw_mat = image.clone();
 	for (const auto& info : results) {
-		cv::rectangle(draw_mat, rect_2_cvrect(info.rect), cv::Scalar(0, 0, 255), 1);
+		cv::rectangle(draw_mat, make_rect<cv::Rect>(info.rect), cv::Scalar(0, 0, 255), 1);
 		cv::putText(draw_mat, std::to_string(info.score), cv::Point(info.rect.x, info.rect.y), 1, 1.0, cv::Scalar(0, 0, 255));
 	}
 #endif
@@ -378,26 +368,26 @@ std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(
 	return results;
 }
 
-std::optional<TextArea> asst::Identify::feature_match(const cv::Mat& mat, const std::string& key)
+std::optional<TextArea> asst::Identify::feature_match(const cv::Mat& image, const std::string& templ_name)
 {
 	//DebugTraceFunction;
 
-	if (m_feature_map.find(key) == m_feature_map.cend()) {
+	if (m_feature_map.find(templ_name) == m_feature_map.cend()) {
 		return std::nullopt;
 	}
-	auto&& [query_keypoints, query_mat_vector] = m_feature_map[key];
-	auto&& [train_keypoints, train_mat_vector] = surf_detect(mat);
+	auto&& [query_keypoints, query_mat_vector] = m_feature_map[templ_name];
+	auto&& [train_keypoints, train_mat_vector] = surf_detect(image);
 
 #ifdef LOG_TRACE
-	cv::Mat query_mat = cv::imread(GetResourceDir() + "operators\\" + Utf8ToGbk(key) + ".png");
+	cv::Mat query_mat = cv::imread(GetResourceDir() + "operators\\" + Utf8ToGbk(templ_name) + ".png");
 	auto&& ret = feature_match(query_keypoints, query_mat_vector, train_keypoints, train_mat_vector,
-		query_mat, mat);
+		query_mat, image);
 #else
 	auto&& ret = feature_match(query_keypoints, query_mat_vector, train_keypoints, train_mat_vector);
 #endif
 	if (ret) {
 		TextArea dst;
-		dst.text = key;
+		dst.text = templ_name;
 		dst.rect = std::move(ret.value());
 		return dst;
 	}
@@ -440,9 +430,9 @@ bool asst::Identify::ocr_init_models(const std::string& dir)
 	return false;
 }
 
-std::optional<asst::Rect> asst::Identify::find_text(const cv::Mat& mat, const std::string& text)
+std::optional<asst::Rect> asst::Identify::find_text(const cv::Mat& image, const std::string& text)
 {
-	std::vector<TextArea> results = ocr_detect(mat);
+	std::vector<TextArea> results = ocr_detect(image);
 	for (const TextArea& res : results) {
 		if (res.text == text) {
 			return res.rect;
@@ -451,10 +441,10 @@ std::optional<asst::Rect> asst::Identify::find_text(const cv::Mat& mat, const st
 	return std::nullopt;
 }
 
-std::vector<TextArea> asst::Identify::find_text(const cv::Mat& mat, const std::vector<std::string>& texts)
+std::vector<TextArea> asst::Identify::find_text(const cv::Mat& image, const std::vector<std::string>& texts)
 {
 	std::vector<TextArea> dst;
-	std::vector<TextArea> detect_result = ocr_detect(mat);
+	std::vector<TextArea> detect_result = ocr_detect(image);
 	for (TextArea& res : detect_result) {
 		for (const std::string& t : texts) {
 			if (res.text == t) {
@@ -465,10 +455,10 @@ std::vector<TextArea> asst::Identify::find_text(const cv::Mat& mat, const std::v
 	return dst;
 }
 
-std::vector<TextArea> asst::Identify::find_text(const cv::Mat& mat, const std::unordered_set<std::string>& texts)
+std::vector<TextArea> asst::Identify::find_text(const cv::Mat& image, const std::unordered_set<std::string>& texts)
 {
 	std::vector<TextArea> dst;
-	std::vector<TextArea> detect_result = ocr_detect(mat);
+	std::vector<TextArea> detect_result = ocr_detect(image);
 	for (TextArea& res : detect_result) {
 		for (const std::string& t : texts) {
 			if (res.text == t) {
@@ -482,10 +472,10 @@ std::vector<TextArea> asst::Identify::find_text(const cv::Mat& mat, const std::u
 /*
 std::pair<double, asst::Rect> Identify::findImageWithFile(const cv::Mat& cur, const std::string& filename)
 {
-	Mat mat = imread(filename);
-	if (mat.empty()) {
+	Mat image = imread(filename);
+	if (image.empty()) {
 		return { 0, asst::Rect() };
 	}
-	return findImage(cur, mat);
+	return findImage(cur, image);
 }
 */

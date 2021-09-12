@@ -284,6 +284,12 @@
             "action": "clickSelf",
             "cache": false,
             "rearDelay": 3000,
+            "identifyArea": [
+                1080,
+                570,
+                195,
+                130
+            ],
             "exceededNext": [
                 "ReturnToMall"
             ],
@@ -298,7 +304,13 @@
             "algorithm": "OcrDetect",
             "text": [ "访问下位" ],
             "action": "clickSelf",
-            "rearDelay": 3000,
+            "rearDelay": 3000,            
+            "identifyArea": [
+                1080,
+                570,
+                195,
+                130
+            ],
             "exceededNext": [
                 "ReturnToMall"
             ],
@@ -366,6 +378,12 @@
             "algorithm": "OcrDetect",
             "text": [ "今日参与", "已达上限" ],
             "action": "doNothing",
+            "identifyArea": [
+                900,
+                50,
+                375,
+                140
+            ],
             "next": [
                 "ReturnToMall"
             ]
@@ -373,6 +391,12 @@
         "VisitNextBlack": {
             "template": "VisitNextBlack.png",
             "action": "doNothing",
+            "identifyArea": [
+                1080,
+                570,
+                195,
+                130
+            ],
             "next": [
                 "ReturnToMall"
             ]
@@ -557,6 +581,12 @@
             "text": [ "可收获", "订单交付", "信赖" ],
             "rearDelay": 1000,
             "action": "clickSelf",
+            "identifyArea": [
+                0,
+                600,
+                800,
+                118
+            ],
             "next": [
                 "InfrastReward",
                 "InfrastExitReward"
