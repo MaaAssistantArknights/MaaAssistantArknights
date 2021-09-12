@@ -425,3 +425,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+screen.png
+adb_screen.png

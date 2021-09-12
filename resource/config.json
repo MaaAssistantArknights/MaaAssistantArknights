@@ -3,209 +3,64 @@
     "options": {
         "identifyCache": true,
         "identifyCache_Doc": "图像识别缓存功能：开启后可以大幅降低CPU消耗，但需要保证要识别的按钮每次的位置不会改变。true-开启，false-关闭，默认true",
-        "taskIdentifyDelay": 1000,
-        "taskIdentifyDelay_Doc": "识别任务间的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认1000",
-        "taskControlDelay": 300,
-        "taskControlDelay_Doc": "点击任务间延迟：越快点的越快，但是太快了句柄可能不响应。单位毫秒，默认300",
+        "taskDelay": 1000,
+        "taskIdentifyDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认1000",
         "printWindow": true,
         "printWindow_Doc": "截图功能：开启后每次结算界面会截图到screenshot目录下。true-开启，false-关闭，默认true",
         "printWindowDelay": 3000,
-        "printWindowDelay_Doc": "截图延时：每次到结算界面，掉落物品不是一次性出来的，有个动画，所以需要等一会再截图。单位毫秒，默认3000",
-        "printWindowCropOffset": 5,
         "printWindowCropOffset_Doc": "截图额外裁剪：再额外把边框裁减掉一圈，不然企鹅物流有可能识别不出来。单位像素，默认5",
         "controlDelayRange": [
             0,
             0
         ],
         "controlDelayRange_Doc": "点击随机延时：每次点击操作会进行随机延时，降低封号风险（好像也没听说过谁被封号的）。格式为 [ 最小延时, 最大延时 ]，单位为毫秒。例如想设置3~5秒延时，即修改为[ 3000, 5000 ]，默认0~0",
-        "ocrGpuIndex": -1,
-        "ocrGpuIndex_Doc": "OcrLite使用GPU编号，-1(使用CPU)/0(使用GPU0)/1(使用GPU1)/...，GPU选择失败时，则使用CPU进行计算。默认-1",
         "ocrThreadNumber": 4,
         "ocrThreadNumber_Doc": "OcrLite线程数量。默认4"
     },
-    "recruitOcrReplace": [
-        [ "沮击", "狙击" ],
-        [ "泪击", "狙击" ],
-        [ "都出", "输出" ],
-        [ "都任", "输出" ]
-    ],
-    "infrastOcrReplace": [
-    ],
-    "handle_Doc": "下面的和模拟器窗口捕获逻辑有关，不需要修改",
-    "handle": {
+    "infrastOptions": {
+        "dormThreshold": 0.3,
+        "dormThreshold_Doc": "宿舍心情百分比阈值，心情百分比小于该值的干员会被放进宿舍。取值范围(0, 1.0)，默认0.5"
+    },
+    "emulator_Doc": "下面的和模拟器窗口捕获逻辑有关，不需要修改",
+    "emulator": {
         "BlueStacks": {
-            "window": [
-                {
-                    "class": "BS2CHINAUI",
-                    "window": "BlueStacks App Player"
-                }
-            ],
-            "view": [
-                {
-                    "class": "BS2CHINAUI",
-                    "window": "BlueStacks App Player"
-                }
-            ],
-            "control": [
-                {
-                    "class": "BS2CHINAUI",
-                    "window": "BlueStacks App Player"
-                },
-                {
-                    "class": "BS2CHINAUI",
-                    "window": "HOSTWND"
-                },
-                {
-                    "class": "",
-                    "window": "BlueStacks Android PluginAndroid"
-                }
-            ],
-            "xOffset": 11,
-            "yOffset": 46,
-            "rightOffset": 11,
-            "bottomOffset": 10
-        },
-        "Nox": {
-            "window": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "夜神模拟器"
-                }
-            ],
-            "view": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "夜神模拟器"
-                }
-            ],
-            "control": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "夜神模拟器"
-                }
-            ],
-            "xOffset": 2,
-            "yOffset": 39,
-            "rightOffset": 39,
-            "bottomOffset": 9
-        },
-        "LDPlayer": {
-            "window": [
-                {
-                    "class": "LDPlayerMainFrame",
-                    "window": "雷电模拟器"
-                }
-            ],
-            "view": [
-                {
-                    "class": "LDPlayerMainFrame",
-                    "window": "雷电模拟器"
-                }
-            ],
-            "control": [
-                {
-                    "class": "LDPlayerMainFrame",
-                    "window": "雷电模拟器"
-                },
-                {
-                    "class": "RenderWindow",
-                    "window": "TheRender"
-                }
-            ],
-            "xOffset": 0,
-            "yOffset": 35
-        },
-        "XYAZ": {
-            "window": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "逍遥模拟器"
-                }
-            ],
-            "view": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "逍遥模拟器"
-                }
-            ],
-            "control": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "逍遥模拟器"
-                },
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "MainWindowWindow"
-                }
-            ],
-            "xOffset": 1,
-            "yOffset": 48,
-            "rightOffset": 1,
-            "bottomOffset": 1
-        },
-        "Tencent": {
-            "window": [
-                {
-                    "class": "TXGuiFoundation",
-                    "window": "腾讯手游助手"
-                }
-            ],
-            "view": [
-                {
-                    "class": "TXGuiFoundation",
-                    "window": "腾讯手游助手"
-                }
-            ],
-            "control": [
-                {
-                    "class": "TXGuiFoundation",
-                    "window": "腾讯手游助手"
-                },
-                {
-                    "class": "AEngineRenderWindowClass",
-                    "window": "AEngineRenderWindow"
-                }
-            ],
-            "xOffset": 1,
-            "yOffset": 42
+            "handle": {
+                "class": "BS2CHINAUI",
+                "window": "BlueStacks App Player"
+            },
+            "adb": {
+                "path": "[EmulatorPath]Engine\\ProgramFiles\\HD-Adb.exe",
+                "connect": "[Adb] connect 127.0.0.1:5555",
+                "click": "[Adb] -s 127.0.0.1:5555 shell input tap [x] [y]",
+                "swipe": "[Adb] -s 127.0.0.1:5555 shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s 127.0.0.1:5555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d",
+                "screencap": "[Adb] -s 127.0.0.1:5555 shell screencap /sdcard/meo_screen.png",
+                "pullscreen": "[Adb] -s 127.0.0.1:5555 pull /sdcard/meo_screen.png [Filename]"
+            }
         },
         "MuMuEmulator": {
-            "window": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "明日方舟 - MuMu模拟器"
-                }
-            ],
-            "view": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "明日方舟 - MuMu模拟器"
-                }
-            ],
-            "control": [
-                {
-                    "class": "Qt5QWindowIcon",
-                    "window": "明日方舟 - MuMu模拟器"
-                }
-            ],
-            "adb": {
-                "path": "[EmulatorPath]..\\\\vmonitor\\\\bin\\\\adb_server.exe",
-                "connect": " connect 127.0.0.1:7555",
-                "click": " shell input tap [x] [y]",
-                "display": " shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d"
+            "handle": {
+                "class": "Qt5QWindowIcon",
+                "window": "明日方舟 - MuMu模拟器"
             },
-            "xOffset": 0,
-            "yOffset": 36,
-            "rightOffset": 0,
-            "bottomOffset": 0
+            "adb": {
+                "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
+                "connect": "[Adb] connect 127.0.0.1:7555",
+                "click": "[Adb] -s 127.0.0.1:7555 shell input tap [x] [y]",
+                "swipe": "[Adb] -s 127.0.0.1:7555 shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s 127.0.0.1:7555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d",
+                "screencap": "[Adb] -s 127.0.0.1:7555 shell screencap /sdcard/meo_screen.png",
+                "pullscreen": "[Adb] -s 127.0.0.1:7555 pull /sdcard/meo_screen.png [Filename]"
+            }
         }
     },
     "tasks_Doc": "下面的和任务队列执行逻辑有关，不需要修改",
     "tasks": {
         "SanityBegin": {
             "algorithm": "justreturn",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "UsePrts",
                 "StartButton1",
@@ -219,7 +74,7 @@
         "UsePrts": {
             "template": "UsePrts.png",
             "templThreshold": 0.8,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "StartButton1"
             ]
@@ -227,7 +82,7 @@
         "StartButton1": {
             "template": "StartButton1.png",
             "templThreshold": 0.8,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "StartButton2",
                 "UseMedicine",
@@ -236,7 +91,7 @@
         },
         "StartButton2": {
             "template": "StartButton2.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "rearDelay": 20000,
             "templThreshold": 0.95,
             "next": [
@@ -246,7 +101,7 @@
         },
         "PRTS": {
             "template": "PRTS.png",
-            "type": "doNothing",
+            "action": "doNothing",
             "rearDelay": 5000,
             "next": [
                 "PRTS",
@@ -258,7 +113,7 @@
         "WaitAfterPRTS": {
             "rearDelay": 3000,
             "algorithm": "justreturn",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "PRTS",
                 "EndOfAction",
@@ -268,7 +123,7 @@
         "ClickCornerAfterPRTS": {
             "ClickCorner_Doc": "点击右下角，既不会点到掉落物品，又能点到蓝色开始按钮（为了容错）的一块位置。",
             "algorithm": "justreturn",
-            "type": "clickRect",
+            "action": "clickRect",
             "specificArea": [
                 1100,
                 700,
@@ -288,7 +143,7 @@
         "EndOfAction": {
             "algorithm": "OcrDetect",
             "text": [ "行动结束" ],
-            "type": "printWindow",
+            "action": "printWindow",
             "next": [
                 "ClickCorner"
             ]
@@ -296,7 +151,7 @@
         "ClickCorner": {
             "ClickCorner_Doc": "点击右下角，既不会点到掉落物品，又能点到蓝色开始按钮（为了容错）的一块位置。",
             "algorithm": "justreturn",
-            "type": "clickRect",
+            "action": "clickRect",
             "specificArea": [
                 1100,
                 700,
@@ -315,21 +170,21 @@
         "Loading": {
             "template": "Loading.png",
             "templThreshold": 0.8,
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "StartButton1"
             ]
         },
         "UseMedicine": {
             "template": "UseMedicine.png",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "MedicineConfirm"
             ]
         },
         "MedicineConfirm": {
             "template": "MedicineConfirm.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "reduceOtherTimes": [
                 "StartButton1"
             ],
@@ -339,14 +194,14 @@
         },
         "UseStone": {
             "template": "UseStone.png",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "StoneConfirm"
             ]
         },
         "StoneConfirm": {
             "template": "MedicineConfirm.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "maxTimes": 0,
             "reduceOtherTimes": [
                 "StartButton1"
@@ -357,14 +212,14 @@
         },
         "PrtsErrorConfirm": {
             "template": "PrtsErrorConfirm.png",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "AbandonAction"
             ]
         },
         "AbandonAction": {
             "template": "AbandonAction.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "reduceOtherTimes": [
                 "StartButton1",
                 "StartButton2",
@@ -376,7 +231,7 @@
         },
         "VisitBegin": {
             "algorithm": "justreturn",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "Friends",
                 "FriendsList",
@@ -390,7 +245,8 @@
             "template": "Return.png",
             "templThreshold": 0.85,
             "histThreshold": 0.85,
-            "type": "clickSelf",
+            "rearDelay": 1000,
+            "action": "clickSelf",
             "next": [
                 "Friends",
                 "ReturnToFriends"
@@ -398,22 +254,24 @@
         },
         "Friends": {
             "template": "Friends.png",
+            "templThreshold": 0.85,
             "preDelay": 1000,
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "FriendsList"
             ]
         },
         "FriendsList": {
             "template": "FriendsList.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "StartToVisit"
             ]
         },
         "StartToVisit": {
             "template": "StartToVisit.png",
-            "type": "clickSelf",
+            "templThreshold": 0.8,
+            "action": "clickSelf",
             "rearDelay": 5000,
             "next": [
                 "VisitNext"
@@ -421,7 +279,8 @@
         },
         "VisitNext": {
             "template": "VisitNext.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
+            "cache": false,
             "rearDelay": 3000,
             "exceededNext": [
                 "ReturnToMall"
@@ -436,7 +295,7 @@
         "VisitNextOcr": {
             "algorithm": "OcrDetect",
             "text": [ "访问下位" ],
-            "type": "clickSelf",
+            "action": "clickSelf",
             "rearDelay": 3000,
             "exceededNext": [
                 "ReturnToMall"
@@ -449,8 +308,9 @@
             ]
         },
         "ReturnToMall": {
+            "rearDelay": 1000,
             "template": "Return.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "Mall",
                 "ReturnToMall",
@@ -459,7 +319,7 @@
         },
         "ReturnToMallConfirm": {
             "template": "PopupConfirm.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "rearDelay": 5000,
             "next": [
                 "ReturnToMall"
@@ -467,16 +327,27 @@
         },
         "Mall": {
             "template": "Mall.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
-                "CreditStore"
+                "CreditStore",
+                "CreditStoreOcr"
             ]
         },
         "CreditStore": {
             "template": "CreditStore.png",
             "templThreshold": 0.85,
             "rearDelay": 1000,
-            "type": "clickSelf",
+            "action": "clickSelf",
+            "next": [
+                "CollectCredit",
+                "Stop"
+            ]
+        },
+        "CreditStoreOcr": {
+            "algorithm": "OcrDetect",
+            "text": [ "信用交易所" ],
+            "rearDelay": 1000,
+            "action": "clickSelf",
             "next": [
                 "CollectCredit",
                 "Stop"
@@ -484,7 +355,7 @@
         },
         "CollectCredit": {
             "template": "CollectCredit.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "Stop"
             ]
@@ -492,26 +363,27 @@
         "VisitLimited": {
             "algorithm": "OcrDetect",
             "text": [ "今日参与", "已达上限" ],
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "ReturnToMall"
             ]
         },
         "VisitNextBlack": {
             "template": "VisitNextBlack.png",
-            "type": "doNothing",
+            "action": "doNothing",
             "next": [
                 "ReturnToMall"
             ]
         },
         "Stop": {
             "algorithm": "justreturn",
-            "type": "stop",
+            "action": "stop",
             "next": []
         },
         "RecruitTime": {
             "template": "RecruitTimeReduce.png",
-            "type": "clickRect",
+            "templThreshold": 0.89,
+            "action": "clickRect",
             "specificArea": [ 391, 279, 129, 44 ],
             "next": [
                 "Stop"
@@ -519,10 +391,258 @@
         },
         "Listless": {
             "template": "Listless.png",
-            "type": "clickSelf",
+            "action": "clickSelf",
             "next": [
                 "Stop"
             ]
+        },
+        "OperatorBegin": {
+            "algorithm": "justreturn",
+            "action": "doNothing",
+            "next": [
+                "EnterOperator",
+                "ReturnToOperator"
+            ]
+        },
+        "EnterOperator": {
+            "template": "EnterOperator.png",
+            "rareDelay": 1000,            
+            "templThreshold": 0.8,
+            "action": "clickSelf",
+            "next": [
+                "Stop"
+            ]
+        },
+        "ReturnToOperator": {
+            "template": "Return.png",
+            "templThreshold": 0.85,
+            "histThreshold": 0.85,
+            "rearDelay": 1000,
+            "action": "clickSelf",
+            "next": [
+                "EnterOperator",
+                "ReturnToOperator"
+            ]
+        },
+        "InfrastBegin": {
+            "algorithm": "justreturn",
+            "action": "doNothing",
+            "next": [
+                "EnterInfrast",
+                "InfrastEnteredFlag",
+                "InfrastNotification",
+                "ReturnToInfrast"
+            ]
+        },
+        "ReturnToInfrast": {
+            "template": "Return.png",
+            "templThreshold": 0.85,
+            "histThreshold": 0.85,
+            "rearDelay": 1000,
+            "action": "clickSelf",
+            "next": [
+                "EnterInfrast",
+                "InfrastNotification",
+                "InfrastEnteredFlag",
+                "ReturnToInfrast"
+            ]
+        },
+        "EnterInfrast": {
+            "template": "EnterInfrast.png",
+            "templThreshold": 0.85,
+            "histThreshold": 0.85,
+            "rareDelay": 3000,
+            "action": "clickSelf",
+            "next": [
+                "InfrastEnteredFlag"
+            ]
+        },
+        "InfrastEnteredFlag": {
+            "template": "InfrastOverview.png",
+            "templThreshold": 0.8,
+            "action": "doNothing",
+            "next": [
+                "InfrastNotification",
+                "InfrastSwipeToTheLeft"
+            ]
+        },
+        "InfrastSwipeToTheLeft": {
+            "algorithm": "justReturn",
+            "action": "swipeToTheLeft",
+            "next": [
+                "Stop"
+            ]
+        },
+        "Trade": {
+            "template": "Trade.png",
+            "templThreshold": 0.8,
+            "cache": false,
+            "action": "clickSelf",
+            "rearDelay": 1000,
+            "next": [
+                "ManufacturingLeftBottom"
+            ]
+        },
+        "TradeMini": {
+            "template": "TradeMini.png",
+            "templThreshold": 0.8,
+            "cache": false,
+            "action": "clickSelf",
+            "rearDelay": 1000,
+            "next": [
+                "ManufacturingLeftBottom"
+            ]
+        },
+        "Manufacturing": {
+            "template": "Manufacturing.png",
+            "templThreshold": 0.8,
+            "cache": false,
+            "action": "clickSelf",
+            "rearDelay": 1000,
+            "next": [
+                "ManufacturingLeftBottom"
+            ]
+        },
+        "ManufacturingMini": {
+            "template": "ManufacturingMini.png",
+            "templThreshold": 0.8,
+            "cache": false,
+            "action": "clickSelf",
+            "rearDelay": 1000,
+            "next": [
+                "ManufacturingLeftBottom"
+            ]
+        },
+        "ManufacturingLeftBottom": {
+            "Doc": "制造站点进去之后，左下角那个“中级作战记录 制造中”",
+            "algorithm": "justreturn",
+            "action": "clickRect",
+            "specificArea": [
+                1,
+                535,
+                525,
+                180
+            ],
+            "next": [
+                "Manufacturing1st"
+            ]
+        },
+        "Manufacturing1st": {
+            "Doc": "设施列表里第一个（第一个制造站或者贸易站）",
+            "algorithm": "justreturn",
+            "action": "clickRect",
+            "specificArea": [
+                1,
+                183,
+                220,
+                60
+            ],
+            "next": [
+                "Stop"
+            ]
+        },
+        "InfrastNotification": {
+            "template": "InfrastNotification.png",
+            "templThreshold": 0.8,
+            "action": "clickSelf",
+            "next": [
+                "InfrastReward",
+                "InfrastExitReward"
+            ]
+        },
+        "InfrastReward": {
+            "algorithm": "OcrDetect",
+            "text": [ "可收获", "订单交付", "信赖" ],
+            "rearDelay": 1000,
+            "action": "clickSelf",
+            "next": [
+                "InfrastReward",
+                "InfrastExitReward"
+            ]
+        },
+        "InfrastExitReward": {
+            "Doc": "干员疲劳、线索收集 是不能一键收获的，所以要先退出一键收获的界面，这里点击的是控制中枢左侧那一片空白的区域",
+            "algorithm": "justreturn",
+            "action": "clickRect",
+            "specificArea": [
+                250,
+                100,
+                380,
+                140
+            ],
+            "next": [
+                "Stop"
+            ]
+        },
+        "UavAssist-MFG": {
+            "template": "UavAssist-MFG.png",
+            "action": "clickSelf",
+            "cache": false,
+            "maxTimes": 1,
+            "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
+            "next": [
+                "UavMax",
+                "UavConfirm"
+            ]
+        },
+        "UavAssist-Trade": {
+            "template": "UavAssist-Trade.png",
+            "action": "clickSelf",
+            "cache": false,
+            "next": [
+                "UavMax",
+                "UavConfirm"
+            ]
+        },
+        "UavMax": {
+            "template": "UavMax.png",
+            "action": "clickSelf",
+            "next": [
+                "UavConfirm"
+            ]
+        },
+        "UavConfirm": {
+            "template": "UavConfirm.png",
+            "action": "clickSelf",
+            "rearDelay": 2000,
+            "next": [
+                "DeliverableOrder",
+                "UavAssist-Trade-Stop",
+                "UavAssist-MFG"
+            ]
+        },
+        "DeliverableOrder": {
+            "template": "DeliverableOrder.png",
+            "cache": false,
+            "action": "clickSelf",
+            "next": [
+                "DeliverableOrder",
+                "UavAssist-Trade"
+            ]
+        },
+        "UavAssist-Trade-Stop": {
+            "Doc": "如果找到了“无人机加速”按钮，却没有找到订单交付：说明上一次无人机没有把一个订单加速完成，也说明没有更多的无人机了，所以直接stop",
+            "template": "UavAssist-Trade.png",
+            "action": "stop",
+            "cache": false,
+            "next": [
+            ]
         }
-    }
+    },
+    "recruitOcrReplace": [
+        [ "沮击", "狙击" ],
+        [ "泪击", "狙击" ],
+        [ "都出", "输出" ],
+        [ "都任", "输出" ],
+        [ "防拍", "防护" ]
+    ],
+    "infrastOcrReplace": [
+        [ "蛇居箱", "蛇屠箱" ],
+        [ "叫米", "古米" ],
+        [ "节草", "苇草" ],
+        [ "粹兰", "梓兰" ],
+        [ "艾丝菜尔", "艾丝黛尔" ],
+        [ "艾丝莱尔", "艾丝黛尔" ],
+        [ "，斑点", "斑点" ]
+    ]
 }
