@@ -14,7 +14,7 @@ bool asst::InfrastOfficeTask::run()
 	}
 
 	swipe_right();
-	enter_station({ "Office", "OfficeMin" }, 0);
+	enter_station({ "Office", "OfficeMini" }, 0);
 	if (enter_operator_selection()) {
 		select_operators(true);
 	}

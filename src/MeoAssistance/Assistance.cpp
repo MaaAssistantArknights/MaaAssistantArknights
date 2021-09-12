@@ -235,7 +235,7 @@ bool Assistance::start_debug_task()
 	//}
 	{
 		constexpr static const char* InfrastTaskCahin = "Debug";
-		auto shift_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
+		auto shift_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
 		shift_task_ptr->set_task_chain(InfrastTaskCahin);
 		m_tasks_deque.emplace_back(shift_task_ptr);
 	}

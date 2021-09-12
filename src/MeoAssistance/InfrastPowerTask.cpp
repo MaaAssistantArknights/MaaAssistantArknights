@@ -15,6 +15,7 @@ bool asst::InfrastPowerTask::run()
 
 	bool is_the_left = false;
 	for (int i = 0; i != PowerNum; ++i) {
+		swipe_left();
 		enter_station({ "Power", "PowerMini" }, i);
 		sleep(1000);
 		if (enter_operator_selection()) {
