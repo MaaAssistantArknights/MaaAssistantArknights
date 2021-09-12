@@ -10,6 +10,9 @@ namespace asst {
 		InfrastAbstractTask(AsstCallback callback, void* callback_arg);
 		virtual ~InfrastAbstractTask() = default;
 		virtual bool run() = 0;
+		virtual void on_run_fails(int retry_times) override {
+			append_task_to_back_to_infrast_home();
+		}
 	protected:
 		virtual bool swipe_to_the_left();   // 滑动到最左侧
 		virtual bool click_clear_button();

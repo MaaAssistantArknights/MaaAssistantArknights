@@ -10,6 +10,7 @@ namespace asst {
 		virtual ~InfrastDormTask() = default;
 
 		virtual bool run() override;
+
 		bool set_dorm_begin(int index) {
 			if (index < 0 || index >= DormNum) {
 				return false;

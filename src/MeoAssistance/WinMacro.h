@@ -33,6 +33,8 @@ namespace asst {
 		bool swipe(const Rect& r1, const Rect& r2, int duration = 0);
 		bool swipe_without_scale(const Point& p1, const Point& p2, int duration = 0);
 		bool swipe_without_scale(const Rect& r1, const Rect& r2, int duration = 0);
+
+		const std::string ScreenFilename;
 	private:
 		bool find_handle();
 		std::optional<std::string> call_command(const std::string& cmd, bool use_pipe = true);
@@ -43,7 +45,5 @@ namespace asst {
 		std::minstd_rand m_rand_engine;
 		std::pair<int, int> m_scale_size;
 		double m_control_scale = 1.0;
-
-		const std::string m_screen_filename;
 	};
 }

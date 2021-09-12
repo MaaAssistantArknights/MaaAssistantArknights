@@ -459,6 +459,7 @@ void Assistance::working_proc()
 					++retry_times;
 					// 执行失败再还原回去
 					m_tasks_deque.emplace_front(task_ptr);
+					task_ptr->on_run_fails(retry_times);
 				}
 			}
 
@@ -515,9 +516,9 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
 	case AsstMsg::ImageIsEmpty:
 		p_this->stop(false);
 		break;
-	case AsstMsg::WindowMinimized:
-		p_this->m_controller_ptr->show_window();
-		break;
+	//case AsstMsg::WindowMinimized:
+	//	p_this->m_controller_ptr->show_window();
+	//	break;
 	case AsstMsg::AppendProcessTask:
 		more_detail["type"] = "ProcessTask";
 		[[fallthrough]];

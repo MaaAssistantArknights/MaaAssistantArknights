@@ -60,10 +60,10 @@ bool AbstractTask::sleep(unsigned millisecond)
 
 bool AbstractTask::print_window(const std::string& dir)
 {
-	const cv::Mat& image = m_controller_ptr->get_image(true);
-	if (image.empty()) {
-		return false;
-	}
+	//const cv::Mat& image = m_controller_ptr->get_image(true);
+	//if (image.empty()) {
+	//	return false;
+	//}
 	// 现在用adb直接截图了，不用裁剪了
 	//// 保存的截图额外再裁剪掉一圈，不然企鹅物流识别不出来
 	//int offset = Configer::get_instance().m_options.print_window_crop_offset;
@@ -73,15 +73,18 @@ bool AbstractTask::print_window(const std::string& dir)
 	const std::string time_str = StringReplaceAll(StringReplaceAll(GetFormatTimeString(), " ", "_"), ":", "-");
 	const std::string filename = dir + time_str + ".png";
 
-	bool ret = cv::imwrite(filename.c_str(), image);
+	//bool ret = cv::imwrite(filename.c_str(), image);
+
+	// 直接把Adb上次pull出来的拷贝过去就行了
+	std::filesystem::copy(m_controller_ptr->ScreenFilename, filename);
 
 	json::value callback_json;
 	callback_json["filename"] = filename;
-	callback_json["ret"] = ret;
+	callback_json["ret"] = true;
 	callback_json["offset"] = 0;
 	m_callback(AsstMsg::PrintWindow, callback_json, m_callback_arg);
 
-	return ret;
+	return true;
 }
 
 bool asst::AbstractTask::need_exit() const noexcept

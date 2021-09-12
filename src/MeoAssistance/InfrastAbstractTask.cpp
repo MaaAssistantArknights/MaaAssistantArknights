@@ -310,21 +310,46 @@ bool asst::InfrastAbstractTask::enter_station(const std::vector<std::string>& te
 	cv::Mat image = m_controller_ptr->get_image();
 
 	std::vector<asst::Identify::FindImageResult> max_score_reslut;
+	json::value callback_json;
+	callback_json["algorithm"] = "MatchTemplate";
+	callback_json["threshold"] = threshold;
+
+	std::string max_score_name;
 	for (const auto& templ : templ_names) {
 		auto cur_result = m_identify_ptr->find_all_images(image, templ, threshold);
+		callback_json["name"] = templ;
+
 		if (cur_result.empty()) {
+			callback_json["value"] = 0;
+			callback_json["rect"] = json::array({ 0, 0, 0, 0 });
+			m_callback(AsstMsg::ImageFindResult, callback_json, m_callback_arg);
 			continue;
 		}
+		Rect& rect = cur_result.at(0).rect;
+		callback_json["value"] = cur_result.at(0).score;
+		callback_json["rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
+		m_callback(AsstMsg::ImageFindResult, callback_json, m_callback_arg);
+
 		if (max_score_reslut.empty()
 			|| cur_result.at(0).score > max_score_reslut.at(0).score) {	// find_all_image里是排过序的，直接取第一个就是最大得分
 			max_score_reslut = std::move(cur_result);
+			max_score_name = templ;
 		}
 	}
 
 	if (max_score_reslut.empty()) {
+		DebugTraceError("The number of matches is empty");
 		return false;
 	}
+	callback_json["name"] = max_score_name;
+	Rect& rect = max_score_reslut.at(0).rect;
+	callback_json["size"] = max_score_reslut.size();
+	callback_json["value"] = max_score_reslut.at(0).score;
+	callback_json["rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
+	m_callback(AsstMsg::ImageMatched, callback_json, m_callback_arg);
+
 	if (index >= max_score_reslut.size()) {
+		DebugTraceError("The number of matches is too few", index, max_score_reslut.size());
 		return false;
 	}
 

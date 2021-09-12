@@ -13,21 +13,36 @@ bool asst::InfrastPowerTask::run()
 		return false;
 	}
 
+	json::value task_start_json = json::object{
+		{ "task_type",  "InfrastPowerTask" },
+		{ "task_chain", m_task_chain}
+	};
+	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
+
 	bool is_the_left = false;
 	for (int i = 0; i != PowerNum; ++i) {
 		if (need_exit()) {
 			return false;
 		}
 		swipe_left();
-		enter_station({ "Power", "PowerMini" }, i);
+		if (!enter_station({ "Power", "PowerMini" }, i)) {
+			return false;
+		}
+		json::value enter_json;
+		enter_json["station"] = "Power";
+		enter_json["index"] = i;
+		m_callback(AsstMsg::EnterStation, enter_json, m_callback_arg);
+
 		if (enter_operator_selection()) {
-			if (is_the_left) {
-				select_operators(false);
-			}
-			else {
-				select_operators(true);
+			m_callback(AsstMsg::ReadyToShift, enter_json, m_callback_arg);
+			select_operators(!is_the_left);
+			if (!is_the_left) {
 				is_the_left = true;
 			}
+			m_callback(AsstMsg::ShiftCompleted, enter_json, m_callback_arg);
+		}
+		else {
+			m_callback(AsstMsg::NoNeedToShift, enter_json, m_callback_arg);
 		}
 		if (!sleep(1000)) {
 			return false;
@@ -37,6 +52,7 @@ bool asst::InfrastPowerTask::run()
 			return false;
 		}
 	}
+	m_callback(AsstMsg::TaskCompleted, task_start_json, m_callback_arg);
 	return true;
 }
 

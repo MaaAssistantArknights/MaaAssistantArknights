@@ -152,6 +152,7 @@
             "ClickCorner_Doc": "点击右下角，既不会点到掉落物品，又能点到蓝色开始按钮（为了容错）的一块位置。",
             "algorithm": "justreturn",
             "action": "clickRect",
+            "rearDelay": 2000,
             "specificArea": [
                 1100,
                 700,
