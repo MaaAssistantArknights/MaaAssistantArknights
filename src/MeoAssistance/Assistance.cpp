@@ -95,8 +95,9 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 		}
 	}
 
-	m_working_thread = std::thread(working_proc, this);
-	m_msg_thread = std::thread(msg_proc, this);
+	
+	m_working_thread = std::thread(std::bind(&Assistance::working_proc, this));
+	m_msg_thread = std::thread(std::bind(&Assistance::msg_proc, this));
 }
 
 Assistance::~Assistance()
@@ -417,24 +418,25 @@ bool Assistance::set_param(const std::string& type, const std::string& param, co
 	return Configer::get_instance().set_param(type, param, value);
 }
 
-void Assistance::working_proc(Assistance* p_this)
+void Assistance::working_proc()
 {
 	DebugTraceFunction;
+	auto p_this = this;
 
 	int retry_times = 0;
-	while (!p_this->m_thread_exit)
+	while (!m_thread_exit)
 	{
 		//DebugTraceScope("Assistance::working_proc Loop");
-		std::unique_lock<std::mutex> lock(p_this->m_mutex);
-		if (!p_this->m_thread_idle && !p_this->m_tasks_deque.empty())
+		std::unique_lock<std::mutex> lock(m_mutex);
+		if (!m_thread_idle && !m_tasks_deque.empty())
 		{
 			auto start_time = std::chrono::system_clock::now();
-			std::shared_ptr<AbstractTask> task_ptr = p_this->m_tasks_deque.front();
+			std::shared_ptr<AbstractTask> task_ptr = m_tasks_deque.front();
 			// 先pop出来，如果执行失败再还原回去
-			p_this->m_tasks_deque.pop_front();
+			m_tasks_deque.pop_front();
 
-			task_ptr->set_ptr(p_this->m_controller_ptr, p_this->m_identify_ptr);
-			task_ptr->set_exit_flag(&p_this->m_thread_idle);
+			task_ptr->set_ptr(m_controller_ptr, m_identify_ptr);
+			task_ptr->set_exit_flag(&m_thread_idle);
 			bool ret = task_ptr->run();
 			if (ret)
 			{
@@ -449,7 +451,7 @@ void Assistance::working_proc(Assistance* p_this)
 					task_error_json["retry_limit"] = task_ptr->get_retry_times();
 					task_error_json["retry_times"] = retry_times;
 					task_error_json["task_chain"] = task_ptr->get_task_chain();
-					p_this->task_callback(AsstMsg::TaskError, std::move(task_error_json), p_this);
+					task_callback(AsstMsg::TaskError, std::move(task_error_json), p_this);
 
 					retry_times = 0;
 				}
@@ -457,47 +459,47 @@ void Assistance::working_proc(Assistance* p_this)
 				{
 					++retry_times;
 					// 执行失败再还原回去
-					p_this->m_tasks_deque.emplace_front(task_ptr);
+					m_tasks_deque.emplace_front(task_ptr);
 				}
 			}
 
 			int& delay = Configer::get_instance().m_options.task_delay;
-			p_this->m_condvar.wait_until(lock, start_time + std::chrono::milliseconds(delay),
-				[&]() -> bool { return p_this->m_thread_idle; });
+			m_condvar.wait_until(lock, start_time + std::chrono::milliseconds(delay),
+				[&]() -> bool { return m_thread_idle; });
 		}
 		else
 		{
-			p_this->m_thread_idle = true;
-			p_this->m_condvar.wait(lock);
+			m_thread_idle = true;
+			m_condvar.wait(lock);
 		}
 	}
 }
 
-void Assistance::msg_proc(Assistance* p_this)
+void Assistance::msg_proc()
 {
 	DebugTraceFunction;
 
-	while (!p_this->m_thread_exit)
+	while (!m_thread_exit)
 	{
 		//DebugTraceScope("Assistance::msg_proc Loop");
-		std::unique_lock<std::mutex> lock(p_this->m_msg_mutex);
-		if (!p_this->m_msg_queue.empty())
+		std::unique_lock<std::mutex> lock(m_msg_mutex);
+		if (!m_msg_queue.empty())
 		{
 			// 结构化绑定只能是引用，后续的pop会使引用失效，所以需要重新构造一份，这里采用了move的方式
-			auto&& [temp_msg, temp_detail] = p_this->m_msg_queue.front();
+			auto&& [temp_msg, temp_detail] = m_msg_queue.front();
 			AsstMsg msg = std::move(temp_msg);
 			json::value detail = std::move(temp_detail);
-			p_this->m_msg_queue.pop();
+			m_msg_queue.pop();
 			lock.unlock();
 
-			if (p_this->m_callback)
+			if (m_callback)
 			{
-				p_this->m_callback(msg, detail, p_this->m_callback_arg);
+				m_callback(msg, detail, m_callback_arg);
 			}
 		}
 		else
 		{
-			p_this->m_msg_condvar.wait(lock);
+			m_msg_condvar.wait(lock);
 		}
 	}
 }
