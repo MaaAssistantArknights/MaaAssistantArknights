@@ -91,6 +91,9 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::IdentifyOp
 	// 一边识别一边滑动，把所有干员名字抓出来
 	// 正向完整滑一遍，再反向完整滑一遍，提高识别率
 	while (true) {
+		if (need_exit()) {
+			return std::nullopt;
+		}
 		const cv::Mat& image = m_controller_ptr->get_image(true);
 
 		// 异步进行滑动操作

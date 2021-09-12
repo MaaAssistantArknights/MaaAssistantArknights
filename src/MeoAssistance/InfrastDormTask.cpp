@@ -20,16 +20,20 @@ bool asst::InfrastDormTask::run()
 		return false;
 	}
 
-	// for debug
-	//m_select_with_swipe = true;
-
-	enter_station({ "Dorm", "DormMini" }, m_dorm_begin, 0.8);
+	bool ret = enter_station({ "Dorm", "DormMini" }, m_dorm_begin, 0.8);
+	if (!ret) {
+		append_task_to_back_to_infrast_home();
+		return false;
+	}
 
 	int dorm_index = m_dorm_begin;
 	for (; dorm_index < DormNum; ++dorm_index) {
+		if (need_exit()) {
+			return false;
+		}
 		bool to_left = false;
 		if (dorm_index != m_dorm_begin) {
-			enter_next_dorm();
+			ret = enter_next_dorm();
 			to_left = false;
 		}
 		else {
@@ -37,28 +41,34 @@ bool asst::InfrastDormTask::run()
 		}
 		enter_operator_selection();
 		int selected = select_operators(to_left);
-		if (selected < MaxOperNumInDorm) {	// 如果选不满5个人，说明没有更多需要休息的了，直接结束宿舍任务
+		if (selected == -1) {
+			ret = false;
+			break;
+		}
+		else if (selected < MaxOperNumInDorm) {	// 如果选不满5个人，说明没有更多需要休息的了，直接结束宿舍任务
 			break;
 		}
 	}
 	m_dorm_begin = dorm_index;
 
-	return true;
+	return ret;
 }
 
 bool asst::InfrastDormTask::click_confirm_button()
 {
 	InfrastAbstractTask::click_confirm_button();
-	sleep(300);
+	if (!sleep(300)) {
+		return false;
+	}
 
 	// 点完确定后，如果把工作中的干员撤下来了，会再弹出来一个确认的界面，如果没撤下来则不会弹出。先识别一下再决定要不要点击
 	auto&& [algorithm, score, second_confirm_rect] =
 		m_identify_ptr->find_image(m_controller_ptr->get_image(), "DormConfirm");
+	bool ret = false;
 	if (score >= Configer::TemplThresholdDefault) {
-		m_controller_ptr->click(second_confirm_rect);
+		ret = m_controller_ptr->click(second_confirm_rect);
 	}
-	sleep(2000);
-	return true;
+	return ret && sleep(2000);
 }
 
 bool asst::InfrastDormTask::enter_next_dorm()
@@ -79,11 +89,12 @@ bool asst::InfrastDormTask::enter_next_dorm()
 	// 游戏bug，宿舍中如果“进驻信息”已被选中，直接进行滑动会被滑的很远
 	// 所以这里先检查一下，如果进驻信息被选中了，就先把它关了，再进行滑动
 	auto find_result = m_identify_ptr->find_image(m_controller_ptr->get_image(), "StationInfoSelected");
+	bool ret = false;
 	if (find_result.score >= 0.75) {
-		m_controller_ptr->click(find_result.rect);
+		ret = m_controller_ptr->click(find_result.rect);
 	}
 
-	m_controller_ptr->swipe(swipe_down_begin, swipe_down_end, swipe_dwon_duration);
+	ret &= m_controller_ptr->swipe(swipe_down_begin, swipe_down_end, swipe_dwon_duration);
 
 	static const Rect double_click_rect(
 		Configer::WindowWidthDefault * 0.4,
@@ -93,10 +104,10 @@ bool asst::InfrastDormTask::enter_next_dorm()
 	);
 
 	// 游戏中的宿舍里，双击可以让当前设施回到正确的位置
-	m_controller_ptr->click(double_click_rect);
-	m_controller_ptr->click(double_click_rect);
+	ret &= m_controller_ptr->click(double_click_rect);
+	ret &= m_controller_ptr->click(double_click_rect);
 
-	return true;
+	return ret;
 }
 
 bool asst::InfrastDormTask::enter_operator_selection()
@@ -124,7 +135,9 @@ bool asst::InfrastDormTask::enter_operator_selection()
 				return textarea.text == station_info;
 			});
 		m_controller_ptr->click(station_info_iter->rect);
-		sleep(1000);
+		if (!sleep(1000)) { 
+			return false; 
+		}
 		ocr_result = ocr_detect();
 	}
 
@@ -142,16 +155,16 @@ bool asst::InfrastDormTask::enter_operator_selection()
 		// TODO 报错
 		return false;
 	}
-	m_controller_ptr->click(button_iter->rect);
-	sleep(3000);
-
-	return true;
+	bool ret = m_controller_ptr->click(button_iter->rect);
+	return ret && sleep(2000);
 }
 
 int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 {
 	if (need_to_the_left) {
-		swipe_to_the_left();
+		if (!swipe_to_the_left()) {
+			return false;
+		}
 	}
 	cv::Mat image = m_controller_ptr->get_image();
 
@@ -198,6 +211,9 @@ int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 	}
 
 	while (count < MaxOperNumInDorm) {
+		if (need_exit()) {
+			return false;
+		}
 		swipe();
 		image = m_controller_ptr->get_image();
 		work_mood_result = detect_mood_status_at_work(image, mood_threshold);

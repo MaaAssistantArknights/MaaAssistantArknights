@@ -37,8 +37,10 @@ bool asst::InfrastAbstractTask::swipe_to_the_left()
 	}
 	m_swipe_duration = SwipeDurationDefault;
 	m_swipe_extra_delay = SwipeExtraDelayDefault;
-	sleep(SwipeExtraDelayDefault);
-	return ret;
+	if (!ret) {
+		return false;
+	}
+	return sleep(SwipeExtraDelayDefault);
 }
 
 bool asst::InfrastAbstractTask::click_clear_button()
@@ -70,17 +72,16 @@ bool asst::InfrastAbstractTask::swipe(bool reverse)
 	DebugTraceFunction;
 
 	//#ifndef LOG_TRACE
-	bool ret = true;
+	bool ret = false;
 	if (!reverse) {
-		ret &= m_controller_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
+		ret = m_controller_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
 		++m_swipe_times;
 	}
 	else {
-		ret &= m_controller_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration);
+		ret = m_controller_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration);
 		--m_swipe_times;
 	}
-	ret &= sleep(m_swipe_extra_delay);
-	return ret;
+	return ret && sleep(m_swipe_extra_delay);
 	//#else
 	//	return sleep(SwipeExtraDelay);
 	//#endif
@@ -88,6 +89,8 @@ bool asst::InfrastAbstractTask::swipe(bool reverse)
 
 bool asst::InfrastAbstractTask::swipe_left()
 {
+	DebugTraceFunction;
+
 	const static Rect right_rect(Configer::WindowWidthDefault * 0.8,
 		Configer::WindowHeightDefault * 0.4,
 		Configer::WindowWidthDefault * 0.1,
@@ -103,6 +106,8 @@ bool asst::InfrastAbstractTask::swipe_left()
 
 bool asst::InfrastAbstractTask::swipe_right()
 {
+	DebugTraceFunction;
+
 	const static Rect right_rect(Configer::WindowWidthDefault * 0.8,
 		Configer::WindowHeightDefault * 0.4,
 		Configer::WindowWidthDefault * 0.1,
@@ -114,6 +119,16 @@ bool asst::InfrastAbstractTask::swipe_right()
 		Configer::WindowHeightDefault * 0.2);
 
 	return m_controller_ptr->swipe(right_rect, left_rect);
+}
+
+bool asst::InfrastAbstractTask::append_task_to_back_to_infrast_home()
+{
+	const static json::value append_json = json::object{
+		{ "task", "InfrastBegin" },
+		{ "task_chain", m_task_chain }
+	};
+	m_callback(AsstMsg::AppendProcessTask, append_json, m_callback_arg);
+	return true;
 }
 
 std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
@@ -324,10 +339,8 @@ bool asst::InfrastAbstractTask::enter_station(const std::vector<std::string>& te
 			}
 		});
 
-	m_controller_ptr->click(max_score_reslut.at(index).rect);
-	sleep(1000);
-
-	return false;
+	bool ret = m_controller_ptr->click(max_score_reslut.at(index).rect);
+	return ret && sleep(1000);
 }
 
 bool asst::InfrastAbstractTask::click_first_operator()
