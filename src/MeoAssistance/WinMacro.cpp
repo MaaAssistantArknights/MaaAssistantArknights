@@ -297,6 +297,8 @@ bool asst::WinMacro::swipe_without_scale(const Rect& r1, const Rect& r2, int dur
 
 cv::Mat asst::WinMacro::get_image(bool raw)
 {
+	DebugTraceFunction;
+
 	bool call_ret = call_command(m_emulator_info.adb.screencap, false).has_value()
 		&& call_command(m_emulator_info.adb.pullscreen, false).has_value();
 

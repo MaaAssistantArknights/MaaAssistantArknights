@@ -15,9 +15,11 @@ bool asst::InfrastPowerTask::run()
 
 	bool is_the_left = false;
 	for (int i = 0; i != PowerNum; ++i) {
+		if (need_exit()) {
+			return false;
+		}
 		swipe_left();
 		enter_station({ "Power", "PowerMini" }, i);
-		sleep(1000);
 		if (enter_operator_selection()) {
 			if (is_the_left) {
 				select_operators(false);
@@ -27,9 +29,13 @@ bool asst::InfrastPowerTask::run()
 				is_the_left = true;
 			}
 		}
-		sleep(1000);
+		if (!sleep(1000)) {
+			return false;
+		}
 		click_return_button();
-		sleep(1000);
+		if (!sleep(1000)) {
+			return false;
+		}
 	}
 	return true;
 }
@@ -67,8 +73,7 @@ bool asst::InfrastPowerTask::enter_operator_selection()
 	// 如果找到了GoIn（“进驻”按钮），进点进去，准备选择干员
 	if (goin_result.score > Configer::TemplThresholdDefault) {
 		m_controller_ptr->click(goin_result.rect);
-		sleep(1000);
-		return true;
+		return sleep(1000);
 	}
 	else {
 		return false;	// 否则说明这个发电站是有人在的，不用换班
@@ -77,12 +82,17 @@ bool asst::InfrastPowerTask::enter_operator_selection()
 
 int asst::InfrastPowerTask::select_operators(bool need_to_the_left)
 {
+	bool ret = false;
 	if (need_to_the_left) {
-		swipe_to_the_left();
+		ret = swipe_to_the_left();
 	}
 	// 发电站干员不用做识别，直接选择第一个即可
-	click_first_operator();
-	click_confirm_button();
+	ret &= click_first_operator();
+	ret &= click_confirm_button();
+	if (!ret) {
+		return -1;
+	}
 
+	// 发电站固定只选择一个干员，return 1
 	return 1;
 }

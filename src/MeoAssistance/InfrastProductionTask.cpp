@@ -27,7 +27,7 @@ bool asst::InfrastProductionTask::run()
 
 	cv::Mat image = m_controller_ptr->get_image();
 	// 先识别一下有几个制造站/贸易站
-	const static std::vector<std::string> facility_number_key = { "02", "03", "04", "05" };
+	const static std::array<std::string, 4> facility_number_key = { "02", "03", "04", "05" };
 	std::vector<Rect> facility_number_rect;
 	facility_number_rect.emplace_back(Rect());	// 假装给01 push一个，后面循环好写=。=
 
@@ -41,6 +41,9 @@ bool asst::InfrastProductionTask::run()
 		}
 	}
 	for (size_t i = 0; i != facility_number_rect.size(); ++i) {
+		if (need_exit()) {
+			return false;
+		}
 		if (i != 0) {
 			// 点到这个基建
 			m_controller_ptr->click(facility_number_rect[i]);
@@ -65,7 +68,9 @@ bool asst::InfrastProductionTask::run()
 		//点击添加干员的那个按钮
 		Rect add_rect = score1 >= score2 ? std::move(add_rect1) : std::move(add_rect2);
 		m_controller_ptr->click(add_rect);
-		sleep(2000);
+		if (!sleep(2000)) {
+			return false;
+		}
 
 		click_clear_button();
 		sleep(300);
@@ -77,7 +82,7 @@ bool asst::InfrastProductionTask::run()
 		auto cur_opers_info = std::move(detect_ret.value());
 		// TODO，可以识别一次，把前6个最优解都列出来（最多6个制造站），然后就不用每次都识别并计算最优解了
 		std::list<std::string> optimal_comb = calc_optimal_comb(cur_opers_info);
-		bool select_ret = swipe_and_select(optimal_comb);
+		swipe_and_select(optimal_comb);
 	}
 
 	return true;
@@ -97,6 +102,9 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastPro
 	std::unordered_map<std::string, OperInfrastInfo> cur_opers_info;
 	// 因为有些干员在宿舍休息，或者被其他基建占用了，所以需要重新识别一遍当前可用的干员
 	for (int i = 0; i != SwipeMaxTimes; ++i) {
+		if (need_exit()) {
+			return std::nullopt;
+		}
 		const cv::Mat& image = m_controller_ptr->get_image(true);
 		// 异步进行滑动操作
 		std::future<bool> swipe_future = std::async(
@@ -215,14 +223,13 @@ std::list<std::string> asst::InfrastProductionTask::calc_optimal_comb(
 
 bool asst::InfrastProductionTask::swipe_and_select(std::list<std::string>& name_comb, int swipe_max_times)
 {
-	//if (!swipe_to_the_left()) {
-	//	return false;
-	//}
-
 	std::unordered_map<std::string, std::string> feature_cond = InfrastConfiger::get_instance().m_oper_name_feat;
 	std::unordered_set<std::string> feature_whatever = InfrastConfiger::get_instance().m_oper_name_feat_whatever;
 	// 一边滑动一边点击最优解中的干员
 	for (int i = 0; i != swipe_max_times; ++i) {
+		if (need_exit()) {
+			return false;
+		}
 		const cv::Mat& image = m_controller_ptr->get_image(true);
 		auto cur_name_textarea = detect_operators_name(image, feature_cond, feature_whatever);
 
@@ -244,7 +251,6 @@ bool asst::InfrastProductionTask::swipe_and_select(std::list<std::string>& name_
 		}
 	}
 	// 点击“确定”按钮，确定完要联网加载的，比较慢，多sleep一会
-	m_controller_ptr->click(Rect(1105, 655, 150, 40));
-	sleep(2000);
-	return true;
+	bool ret = click_confirm_button();
+	return ret && sleep(2000);
 }

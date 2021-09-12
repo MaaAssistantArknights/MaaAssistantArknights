@@ -18,6 +18,7 @@ namespace asst {
 		virtual bool swipe(bool reverse = false);
 		virtual bool swipe_left();          // 往左划（只滑一下）
 		virtual bool swipe_right();         // 往右划（只滑一下）
+		virtual bool append_task_to_back_to_infrast_home();	// 添加返回主界面的任务
 
 		// 检测干员名
 		virtual std::vector<TextArea> detect_operators_name(const cv::Mat& image,
