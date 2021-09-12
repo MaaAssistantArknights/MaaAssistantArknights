@@ -75,6 +75,7 @@ bool AbstractTask::print_window(const std::string& dir)
 
 	//bool ret = cv::imwrite(filename.c_str(), image);
 
+	m_controller_ptr->get_image(true);
 	// 直接把Adb上次pull出来的拷贝过去就行了
 	std::filesystem::copy(m_controller_ptr->ScreenFilename, filename);
 
