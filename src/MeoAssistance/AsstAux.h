@@ -79,6 +79,12 @@ namespace asst {
 		return strTemp;
 	}
 
+	template<typename RetTy, typename ArgType>
+	constexpr inline RetTy make_rect(const ArgType& rect) 
+	{
+		return RetTy{ rect.x, rect.y, rect.width, rect.height };
+	}
+
 	//template<typename T,
 	//	typename = typename std::enable_if<std::is_constructible<T, std::string>::value>::type>
 	//	std::string VectorToString(const std::vector<T>& vector, bool to_gbk = false) {

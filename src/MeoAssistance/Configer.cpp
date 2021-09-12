@@ -182,6 +182,14 @@ bool asst::Configer::parse(json::value&& json)
 				task_info_ptr->reduce_other_times.emplace_back(reduce.as_string());
 			}
 		}
+		if (task_json.exist("identifyArea")) {
+			json::array& area_arr = task_json["identifyArea"].as_array();
+			task_info_ptr->identify_area = Rect(
+				area_arr[0].as_integer(),
+				area_arr[1].as_integer(),
+				area_arr[2].as_integer(),
+				area_arr[3].as_integer());
+		}
 
 		json::array& next_arr = task_json["next"].as_array();
 		for (const json::value& next : next_arr) {

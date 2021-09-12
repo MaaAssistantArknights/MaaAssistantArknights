@@ -41,27 +41,26 @@ namespace asst {
 			const cv::Mat& image, const std::string& templ_name, double add_cache_thres = NotAddCache, bool rect_zoom = true);
 		std::vector<FindImageResult> find_all_images(
 			const cv::Mat& image, const std::string& templ_name, double threshold = 0, bool rect_zoom = true) const;
-
-		// return pair< suitability, raw opencv::point>
-		std::pair<double, cv::Point> match_template(const cv::Mat& cur, const cv::Mat& templ);
-
-		std::optional<TextArea> feature_match(const cv::Mat& mat, const std::string& key);
+		
+		std::optional<TextArea> feature_match(const cv::Mat& image, const std::string& key);
 
 		void clear_cache();
 
 		/*** OcrLite package ***/
 		void set_ocr_param(int gpu_index, int thread_number);
 		bool ocr_init_models(const std::string& dir);
-		std::optional<Rect> find_text(const cv::Mat& mat, const std::string& text);
-		std::vector<TextArea> find_text(const cv::Mat& mat, const std::vector<std::string>& texts);
-		std::vector<TextArea> find_text(const cv::Mat& mat, const std::unordered_set<std::string>& texts);
 
-		std::vector<TextArea> ocr_detect(const cv::Mat& mat);
+		std::vector<TextArea> ocr_detect(const cv::Mat& image);
+
+		[[deprecated]] std::optional<Rect> find_text(const cv::Mat& image, const std::string& text);
+		[[deprecated]] std::vector<TextArea> find_text(const cv::Mat& image, const std::vector<std::string>& texts);
+		[[deprecated]] std::vector<TextArea> find_text(const cv::Mat& image, const std::unordered_set<std::string>& texts);
+
 	private:
 		cv::Mat image_2_hist(const cv::Mat& src);
 		double image_hist_comp(const cv::Mat& src, const cv::MatND& hist);
-		static asst::Rect cvrect_2_rect(const cv::Rect& cvRect);
-		static cv::Rect rect_2_cvrect(const asst::Rect& rect);
+		// return pair< suitability, raw opencv::point>
+		std::pair<double, cv::Point> match_template(const cv::Mat& image, const cv::Mat& templ);
 
 		// return pair<特征点s，特征点描述子（向量）>
 		std::pair<std::vector<cv::KeyPoint>, cv::Mat> surf_detect(const cv::Mat& mat);

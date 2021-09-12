@@ -161,24 +161,8 @@ int asst::IdentifyOperTask::detect_elite(const cv::Mat& image, const asst::Rect 
 	elite_rect.height = image.rows * 0.1;
 	cv::Mat elite_mat = image(elite_rect);
 
-	// for debug
-	// 这两个图是在2560*1440下截的，准备做模板匹配，所以要缩放一下
-	// TODO：后面再弄完整的工程化，先简单缩放下
-	static cv::Mat elite1 = cv::imread(GetResourceDir() + "operators\\Elite1.png");
-	static cv::Mat elite2 = cv::imread(GetResourceDir() + "operators\\Elite2.png");
-	static bool scaled = false;
-	if (!scaled) {
-		scaled = true;
-
-		double ratio = image.rows / 1440.0;
-		cv::Size size1(elite1.size().width * ratio, elite1.size().height * ratio);
-		cv::resize(elite1, elite1, size1);
-		cv::Size size2(elite2.size().width * ratio, elite2.size().height * ratio);
-		cv::resize(elite2, elite2, size2);
-	}
-
-	auto&& [score1, point1] = m_identify_ptr->match_template(elite_mat, elite1);
-	auto&& [score2, point2] = m_identify_ptr->match_template(elite_mat, elite2);
+	auto&& [algorithm1, score1, point1] = m_identify_ptr->find_image(elite_mat, "Elite1");
+	auto&& [algorithm2, score2, point2] = m_identify_ptr->find_image(elite_mat, "Elite2");
 	if (score1 > score2 && score1 > 0.7) {
 		return 1;
 	}

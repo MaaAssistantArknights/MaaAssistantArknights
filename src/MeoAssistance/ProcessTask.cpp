@@ -157,9 +157,18 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			double templ_threshold = process_task_info_ptr->templ_threshold;
 			double hist_threshold = process_task_info_ptr->hist_threshold;
 			double add_cache_thres = process_task_info_ptr->cache ? templ_threshold : Identify::NotAddCache;
-
-			auto&& [algorithm, score, temp_rect] = m_identify_ptr->find_image(cur_image, task_name, add_cache_thres);
+			cv::Mat identify_image;
+			const auto& identify_area = task_info_ptr->identify_area;
+			if (identify_area.width == 0) {
+				identify_image = cur_image;
+			}
+			else {
+				identify_image = cur_image(make_rect<cv::Rect>(task_info_ptr->identify_area));
+			}
+			auto&& [algorithm, score, temp_rect] = m_identify_ptr->find_image(identify_image, task_name, add_cache_thres);
 			rect = std::move(temp_rect);
+			rect.x += identify_area.x;
+			rect.y += identify_area.y;
 			callback_json["value"] = score;
 
 			if (algorithm == AlgorithmType::MatchTemplate) {
@@ -185,7 +194,15 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 		{
 			std::shared_ptr<OcrTaskInfo> ocr_task_info_ptr =
 				std::dynamic_pointer_cast<OcrTaskInfo>(task_info_ptr);
-			std::vector<TextArea> all_text_area = ocr_detect(cur_image);
+			cv::Mat identify_image;
+			const auto& identify_area = task_info_ptr->identify_area;
+			if (identify_area.width == 0) {
+				identify_image = cur_image;
+			}
+			else {
+				identify_image = cur_image(make_rect<cv::Rect>(task_info_ptr->identify_area));
+			}
+			std::vector<TextArea> all_text_area = ocr_detect(identify_image);
 			std::vector<TextArea> match_result;
 			if (ocr_task_info_ptr->need_match) {
 				match_result = text_match(all_text_area,
@@ -200,6 +217,8 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			if (!match_result.empty()) {
 				callback_json["text"] = match_result.at(0).text;
 				rect = match_result.at(0).rect;
+				rect.x += identify_area.x;
+				rect.y += identify_area.y;
 				matched = true;
 			}
 		}
@@ -212,7 +231,7 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			break;
 		}
 
-		callback_json["rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
+		callback_json["rect"] = make_rect<json::array>(rect);
 		callback_json["name"] = task_name;
 		if (matched_rect != NULL) {
 			*matched_rect = std::move(rect);

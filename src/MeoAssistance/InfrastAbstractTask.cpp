@@ -240,9 +240,9 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 				if (magnified_area.y + magnified_area.height >= image.rows) {
 					magnified_area.height = image.rows - magnified_area.y - 1;
 				}
-				cv::Rect cv_rect(magnified_area.x, magnified_area.y, magnified_area.width, magnified_area.height);
 				// key是关键字而已，真正要识别的是value
-				auto&& ret = OcrAbstractTask::m_identify_ptr->feature_match(image(cv_rect), value);
+				auto&& ret = OcrAbstractTask::m_identify_ptr->feature_match(
+					image(make_rect<cv::Rect>(magnified_area)), value);
 				if (ret) {
 					// 匹配上了下次就不用再匹配这个了，直接删了
 					all_opers_textarea.emplace_back(value, textarea.rect);
@@ -271,9 +271,8 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 		if (upper_ret) {
 			TextArea temp = std::move(upper_ret.value());
 #ifdef LOG_TRACE	// 也顺便涂黑一下，方便看谁没被识别出来
-			cv::Rect draw_rect(temp.rect.x, temp.rect.y, temp.rect.width, temp.rect.height);
 			// 注意这里是浅拷贝，原图image也会被涂黑
-			cv::rectangle(upper_part_name_image, draw_rect, cv::Scalar(0, 0, 0), -1);
+			cv::rectangle(upper_part_name_image, make_rect<cv::Rect>(temp.rect), cv::Scalar(0, 0, 0), -1);
 #endif
 			// 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
 			temp.rect.y += cropped_upper_y;
@@ -287,9 +286,8 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 		if (lower_ret) {
 			TextArea temp = std::move(lower_ret.value());
 #ifdef LOG_TRACE	// 也顺便涂黑一下，方便看谁没被识别出来
-			cv::Rect draw_rect(temp.rect.x, temp.rect.y, temp.rect.width, temp.rect.height);
 			// 注意这里是浅拷贝，原图image也会被涂黑
-			cv::rectangle(lower_part_name_image, draw_rect, cv::Scalar(0, 0, 0), -1);
+			cv::rectangle(lower_part_name_image, make_rect<cv::Rect>(temp.rect), cv::Scalar(0, 0, 0), -1);
 #endif
 			// 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
 			temp.rect.y += cropped_lower_y;
@@ -327,7 +325,7 @@ bool asst::InfrastAbstractTask::enter_station(const std::vector<std::string>& te
 		}
 		Rect& rect = cur_result.at(0).rect;
 		callback_json["value"] = cur_result.at(0).score;
-		callback_json["rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
+		callback_json["rect"] = make_rect<json::array>(rect);
 		m_callback(AsstMsg::ImageFindResult, callback_json, m_callback_arg);
 
 		if (max_score_reslut.empty()
@@ -345,7 +343,7 @@ bool asst::InfrastAbstractTask::enter_station(const std::vector<std::string>& te
 	Rect& rect = max_score_reslut.at(0).rect;
 	callback_json["size"] = max_score_reslut.size();
 	callback_json["value"] = max_score_reslut.at(0).score;
-	callback_json["rect"] = json::array({ rect.x, rect.y, rect.width, rect.height });
+	callback_json["rect"] = make_rect<json::array>(rect);
 	m_callback(AsstMsg::ImageMatched, callback_json, m_callback_arg);
 
 	if (index >= max_score_reslut.size()) {
