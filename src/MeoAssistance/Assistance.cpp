@@ -380,7 +380,6 @@ bool asst::Assistance::start_infrast()
 	append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
 	// 8. 再次进入宿舍，把基建中可能换下来的干员（心情不低的）加入宿舍
-	dorm_task_ptr->set_select_with_swipe(true);
 	m_tasks_deque.emplace_back(dorm_task_ptr);
 
 	// 全操作完之后，再返回基建的主界面

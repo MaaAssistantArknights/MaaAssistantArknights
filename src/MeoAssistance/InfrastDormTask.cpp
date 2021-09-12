@@ -36,13 +36,7 @@ bool asst::InfrastDormTask::run()
 			to_left = true;	// 第一个进入的宿舍需要滑动到最左侧一下。后面的宿舍都不用了
 		}
 		enter_operator_selection();
-		int selected = 0;
-		if (m_select_with_swipe) {
-			selected = select_operators_with_swipe(to_left);
-		}
-		else {
-			selected = select_operators(to_left);
-		}
+		int selected = select_operators(to_left);
 		if (selected < MaxOperNumInDorm) {	// 如果选不满5个人，说明没有更多需要休息的了，直接结束宿舍任务
 			break;
 		}
@@ -154,104 +148,84 @@ bool asst::InfrastDormTask::enter_operator_selection()
 	return true;
 }
 
-int asst::InfrastDormTask::select_operators(const cv::Mat& image)
+int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 {
+	if (need_to_the_left) {
+		swipe_to_the_left();
+	}
+	cv::Mat image = m_controller_ptr->get_image();
+
 	// 识别“休息中”的干员
 	auto resting_result = m_identify_ptr->find_all_images(image, "Resting", 0.8);
 	if (resting_result.size() == MaxOperNumInDorm) {	// 如果所有人都在休息，那这个宿舍不用换班，直接关了
-		return MaxOperNumInDorm;
+		click_return_button();
+		return resting_result.size();
 	}
 
 	// 识别“注意力涣散”的干员
 	// TODO，这个阈值太低了，不正常，有时间再调整一下模板图片
 	auto listless_result = m_identify_ptr->find_all_images(image, "Listless", 0.6);
 	// 识别正在工作中的干员的心情状态
-	auto work_mood_result = detect_mood_status_at_work(image, Configer::get_instance().m_infrast_options.dorm_threshold);
+	double mood_threshold = Configer::get_instance().m_infrast_options.dorm_threshold;
+	auto work_mood_result = detect_mood_status_at_work(image, mood_threshold);
 
-	int count = 0;
+	click_clear_button();
 	// 把“休息中”的干员，都再次选上
 	for (const auto& resting : resting_result) {
 		m_controller_ptr->click(resting.rect);
-		++count;
 	}
-
-	if (listless_result.size() == 0 && work_mood_result.size() == 0) {	// 如果没有注意力涣散的和心情低的，也直接关了
-		return 0;
-	}
+	int count = resting_result.size();
 
 	// 选择“注意力涣散”的干员
 	for (const auto& listless : listless_result) {
-		if (count++ >= MaxOperNumInDorm) {
-			break;
-		}
-		m_controller_ptr->click(listless.rect);
-	}
-	// 选择心情较低的干员
-	for (const auto& mood_status : work_mood_result) {
-		if (count++ >= MaxOperNumInDorm) {
-			break;
-		}
-		m_controller_ptr->click(mood_status.rect);
-	}
-	return count;
-}
-
-int asst::InfrastDormTask::select_operators(bool need_to_the_left)
-{
-	if (need_to_the_left) {
-		swipe_to_the_left();
-	}
-
-	cv::Mat image = m_controller_ptr->get_image();
-	click_clear_button();
-	int count = select_operators(image);
-	if (count == 0) {
-		click_return_button();
-	}
-	else {
-		click_confirm_button();
-	}
-
-	return count;
-}
-
-int asst::InfrastDormTask::select_operators_with_swipe(bool need_to_the_left)
-{
-	if (need_to_the_left) {
-		swipe_to_the_left();
-	}
-	cv::Mat image = m_controller_ptr->get_image();
-	click_clear_button();
-
-	int count = 0;
-	while (true) {
-		count += select_operators(image);
-
 		if (count >= MaxOperNumInDorm) {
 			break;
 		}
+		m_controller_ptr->click(listless.rect);
+		++count;
+	}
+	// 选择心情较低的干员
+	for (const auto& mood_status : work_mood_result) {
+		if (count >= MaxOperNumInDorm) {
+			break;
+		}
+		m_controller_ptr->click(mood_status.rect);
+		++count;
+	}
+	if (count >= MaxOperNumInDorm) {
+		click_confirm_button();
+		return count;
+	}
 
+	while (count < MaxOperNumInDorm) {
+		swipe();
+		image = m_controller_ptr->get_image();
+		work_mood_result = detect_mood_status_at_work(image, mood_threshold);
+		// 选择心情较低的干员
+		for (const auto& mood_status : work_mood_result) {
+			if (count >= MaxOperNumInDorm) {
+				break;
+			}
+			m_controller_ptr->click(mood_status.rect);
+			++count;
+		}
+		if (count >= MaxOperNumInDorm) {
+			break;
+		}
+		// 识别到满心情的笑脸，就说明后面的都是满心情的（心情排序的），没必要继续滑动识别后面的了
 		auto rest_result = m_identify_ptr->find_image(image, "SmileyAtRest");
 		if (rest_result.score > Configer::TemplThresholdDefault) {
 			break;
 		}
-		swipe();
-		image = m_controller_ptr->get_image();
 	}
-
-	if (count == 0) {
-		click_return_button();
-	}
-	else {
-		click_confirm_button();
-	}
+	click_confirm_button();
 
 	return count;
 }
 
 std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_work(const cv::Mat& image, double process_threshold) const
 {
-	constexpr static int MoodWidth = Configer::WindowWidthDefault * 0.0664 + 0.5;		// 心情进度条长度（满心情的时候）
+	constexpr static int MoodWidth = Configer::WindowWidthDefault * 0.0664;		// 心情进度条长度（满心情的时候）
 	constexpr static int MoodHeight = Configer::WindowHeightDefault * 0.00416 + 0.5;	// 心情进度条高度
 
 #ifdef LOG_TRACE
@@ -317,8 +291,9 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 		cv::rectangle(draw_image, cv_actual_rect, cv::Scalar(0, 0, 255), 1);
 		cv::putText(draw_image, std::to_string(mood_status.process), cv::Point(cv_actual_rect.x, cv_actual_rect.y), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 0, 255));
 #endif
-		if (mood_status.process == 0) {
+		if (mood_status.process == 0 || mood_status.process >= 1) {
 			// 值为0说明是“注意力涣散”，红色哭脸被错误的识别成黄色笑脸了，这里直接忽略这个值
+			// 值为1说明是“空闲中”，绿色笑脸被误识别了，也直接忽略了
 		}
 		else if (mood_status.process <= process_threshold) {	// 心情小于阈值的直接加入结果
 			moods_vec.emplace_back(std::move(mood_status));
