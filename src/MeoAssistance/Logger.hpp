@@ -13,7 +13,9 @@
 namespace asst {
 	class Logger {
 	public:
-		~Logger() = default;
+		~Logger() {
+			m_ofstream.close();
+		}
 
 		Logger(const Logger&) = delete;
 		Logger(Logger&&) = delete;
@@ -27,21 +29,26 @@ namespace asst {
 		template <typename... Args>
 		inline void log_trace(Args &&... args)
 		{
-			log("TRC", std::forward<Args>(args)...);
+			constexpr static std::string_view level = "TRC";
+			log(level, std::forward<Args>(args)...);
 		}
 		template <typename... Args>
 		inline void log_info(Args &&... args)
 		{
-			log("INF", std::forward<Args>(args)...);
+			constexpr static std::string_view level = "INF";
+			log(level, std::forward<Args>(args)...);
 		}
 		template <typename... Args>
 		inline void log_error(Args &&... args)
 		{
-			log("ERR", std::forward<Args>(args)...);
+			constexpr static std::string_view level = "ERR";
+			log(level, std::forward<Args>(args)...);
 		}
 
 	private:
-		Logger() {
+		Logger()
+			: m_ofstream(asst::GetCurrentDir() + "asst.log", std::ios::out | std::ios::app)
+		{
 			log_trace("-----------------------------");
 			log_trace("MeoAssistance Process Start");
 			log_trace("Version", asst::Version);
@@ -52,24 +59,17 @@ namespace asst {
 		}
 
 		template <typename... Args>
-		void log(const std::string& level, Args &&... args)
+		void log(const std::string_view& level, Args &&... args)
 		{
 			std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
 
 			char buff[128] = { 0 };
 			sprintf_s(buff, "[%s][%s][Px%x][Tx%x]",
 				asst::GetFormatTimeString().c_str(),
-				level.c_str(), _getpid(), ::GetCurrentThreadId());
+				level.data(), _getpid(), ::GetCurrentThreadId());
 
-			if (level == "ERR" || level == "INF"
-#ifdef LOG_TRACE
-				|| level == "TRC"
-#endif
-				) {
-				stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
-			}
-			std::ofstream out_stream(asst::GetCurrentDir() + "asst.log", std::ios::out | std::ios::app);
-			stream_args(out_stream, buff, std::forward<Args>(args)...);
+			stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
+			stream_args(m_ofstream, buff, std::forward<Args>(args)...);
 		}
 
 		template <bool ToGbk = false, typename T, typename... Args>
@@ -102,6 +102,7 @@ namespace asst {
 		};
 
 		std::mutex m_trace_mutex;
+		std::ofstream m_ofstream;
 	};
 
 	class LoggerAux {
