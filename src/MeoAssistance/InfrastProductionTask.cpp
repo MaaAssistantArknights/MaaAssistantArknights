@@ -46,6 +46,8 @@ bool asst::InfrastProductionTask::run()
 			break;
 		}
 	}
+
+	std::unordered_map<std::string, OperInfrastInfo> available_opers;
 	for (size_t i = 0; i != facility_number_rect.size(); ++i) {
 		if (need_exit()) {
 			return false;
@@ -92,15 +94,23 @@ bool asst::InfrastProductionTask::run()
 		click_clear_button();
 		sleep(300);
 
-		auto detect_ret = swipe_and_detect();
-		if (!detect_ret) {
-			return false;
+		if (available_opers.empty()) {
+			auto detect_ret = swipe_and_detect();
+			if (!detect_ret) {
+				return false;
+			}
+			available_opers = std::move(detect_ret.value());
 		}
-		auto cur_opers_info = std::move(detect_ret.value());
-		// TODO，可以识别一次，把前6个最优解都列出来（最多6个制造站），然后就不用每次都识别并计算最优解了
-		std::list<std::string> optimal_comb = calc_optimal_comb(cur_opers_info);
+		auto optimal_comb = calc_optimal_comb(available_opers);
 		if (swipe_and_select(optimal_comb)) {
 			m_callback(AsstMsg::ShiftCompleted, enter_json, m_callback_arg);
+			// 从可用干员中，把刚才已经刚刚已经使用了的干员去掉
+			for (const std::string& name : optimal_comb) {
+				available_opers.erase(name);
+			}
+		}
+		else { // 刚算出来的干员没选上，可能考虑重新识别或者报错，TODO
+
 		}
 	}
 	m_callback(AsstMsg::TaskCompleted, task_start_json, m_callback_arg);
@@ -180,7 +190,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastPro
 	return cur_opers_info;
 }
 
-std::list<std::string> asst::InfrastProductionTask::calc_optimal_comb(
+std::vector<std::string> asst::InfrastProductionTask::calc_optimal_comb(
 	const std::unordered_map<std::string, OperInfrastInfo>& cur_opers_info) const
 {
 	// 配置文件中的干员组合，和抓出来的干员名比对，如果组合中的干员都有，那就用这个组合
@@ -229,7 +239,7 @@ std::list<std::string> asst::InfrastProductionTask::calc_optimal_comb(
 	OperInfrastComb optimal_comb = three_optimal_comb.efficiency >= single_optimal_comb.efficiency
 		? three_optimal_comb : single_optimal_comb;
 
-	std::list<std::string> optimal_opers_name;
+	std::vector<std::string> optimal_opers_name;
 	for (const auto& info : optimal_comb.comb) {
 		optimal_opers_name.emplace_back(info.name);
 	}
@@ -241,8 +251,11 @@ std::list<std::string> asst::InfrastProductionTask::calc_optimal_comb(
 	return optimal_opers_name;
 }
 
-bool asst::InfrastProductionTask::swipe_and_select(std::list<std::string>& name_comb, int swipe_max_times)
+bool asst::InfrastProductionTask::swipe_and_select(const std::vector<std::string>& name_comb, int swipe_max_times)
 {
+	swipe_to_the_left();
+
+	auto need_to_select = name_comb;
 	std::unordered_map<std::string, std::string> feature_cond = InfrastConfiger::get_instance().m_oper_name_feat;
 	std::unordered_set<std::string> feature_whatever = InfrastConfiger::get_instance().m_oper_name_feat_whatever;
 	// 一边滑动一边点击最优解中的干员
@@ -255,18 +268,18 @@ bool asst::InfrastProductionTask::swipe_and_select(std::list<std::string>& name_
 
 		for (TextArea& text_area : cur_name_textarea) {
 			// 点过了就不会再点了，直接从最优解vector里面删了
-			auto iter = std::find(name_comb.begin(), name_comb.end(), text_area.text);
-			if (iter != name_comb.end()) {
+			auto iter = std::find(need_to_select.begin(), need_to_select.end(), text_area.text);
+			if (iter != need_to_select.end()) {
 				m_controller_ptr->click_without_scale(text_area.rect);
 				sleep(200);
-				name_comb.erase(iter);
+				need_to_select.erase(iter);
 			}
 		}
-		if (name_comb.empty()) {
+		if (need_to_select.empty()) {
 			break;
 		}
 		// 因为滑动和点击是矛盾的，这里没法异步做
-		if (!swipe(true)) {
+		if (!swipe()) {
 			return false;
 		}
 	}
