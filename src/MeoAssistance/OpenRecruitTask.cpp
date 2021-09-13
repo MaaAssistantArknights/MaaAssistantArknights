@@ -35,10 +35,11 @@ bool OpenRecruitTask::run()
 		if (!flag) {
 			return;
 		}
+		const static cv::Rect identify_area(340, 140, 510, 160);
 		auto&& [algorithm, score, second_confirm_rect] =
-			m_identify_ptr->find_image(m_controller_ptr->get_image(), "RecruitTime");
+			m_identify_ptr->find_image(image(identify_area), "RecruitTime");
 
-		auto time_reduce_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+		const static auto time_reduce_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
 			Configer::get_instance().m_all_tasks_info["RecruitTime"]);
 
 		if (score >= time_reduce_task_ptr->templ_threshold) {
@@ -47,8 +48,9 @@ bool OpenRecruitTask::run()
 	};
 	std::future<void> set_time_future = std::async(std::launch::async, set_time_foo, m_set_time);
 
+	const static cv::Rect identify_area(360, 340, 520, 160);
 	/* Find all text */
-	std::vector<TextArea> all_text_area = ocr_detect(image);
+	std::vector<TextArea> all_text_area = ocr_detect(image(identify_area));
 
 	/* Filter out all tags from all text */
 	std::vector<TextArea> all_tags = text_match(
@@ -212,7 +214,10 @@ bool OpenRecruitTask::run()
 
 		for (const TextArea& text_area : all_tags) {
 			if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
-				m_controller_ptr->click(text_area.rect);
+				Rect click_rect = text_area.rect;
+				click_rect.x += identify_area.x;
+				click_rect.y += identify_area.y;
+				m_controller_ptr->click(click_rect);
 			}
 		}
 	}
