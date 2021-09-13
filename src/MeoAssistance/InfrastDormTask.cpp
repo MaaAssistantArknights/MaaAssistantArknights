@@ -36,16 +36,11 @@ bool asst::InfrastDormTask::run()
 		if (need_exit()) {
 			return false;
 		}
-		bool to_left = false;
 		if (dorm_index != m_dorm_begin) {
 			ret = enter_next_dorm();
-			to_left = false;
-		}
-		else {
-			to_left = true;	// 第一个进入的宿舍需要滑动到最左侧一下。后面的宿舍都不用了
-		}
-		if (!ret) {
-			return false;
+			if (!ret) {
+				return false;
+			}
 		}
 		json::value enter_json;
 		enter_json["station"] = "Dorm";
@@ -53,7 +48,7 @@ bool asst::InfrastDormTask::run()
 		m_callback(AsstMsg::EnterStation, enter_json, m_callback_arg);
 
 		enter_operator_selection();
-		int selected = select_operators(to_left);
+		int selected = select_operators(true);
 		if (selected == -1) {
 			ret = false;
 			break;
