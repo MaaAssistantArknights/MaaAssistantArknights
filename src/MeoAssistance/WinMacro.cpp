@@ -22,12 +22,55 @@ WinMacro::WinMacro(const EmulatorInfo& info)
 	ScreenFilename(GetCurrentDir() + "adb_screen.png")
 {
 	find_handle();
+
+	auto bind_pipe_working_proc = std::bind(&WinMacro::pipe_working_proc, this);
+	m_cmd_thread = std::thread(bind_pipe_working_proc);
+}
+
+asst::WinMacro::~WinMacro()
+{
+	m_thread_exit = true;
+	m_cmd_condvar.notify_all();
+	m_completed_id = UINT_MAX;	// make all WinMacor::wait to exit
+
+	if (m_cmd_thread.joinable()) {
+		m_cmd_thread.join();
+	}
 }
 
 bool WinMacro::captured() const noexcept
 {
 	// TODO，加入对ADB是否连接的检查
 	return m_handle != NULL && ::IsWindow(m_handle);
+}
+
+void asst::WinMacro::pipe_working_proc()
+{
+	while (!m_thread_exit) {
+		std::unique_lock<std::mutex> cmd_queue_lock(m_cmd_queue_mutex);
+		if (m_cmd_queue.empty()) {
+			cmd_queue_lock.unlock();
+			auto start_time = std::chrono::system_clock::now();
+			{
+				std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+				// 截图
+				// TODO: get image to member var
+			}
+			cmd_queue_lock.lock();
+			if (!m_cmd_queue.empty()) {
+				continue;
+			}
+			m_cmd_condvar.wait_until(cmd_queue_lock, start_time + std::chrono::milliseconds(1000));	// todo 时间写到配置文件里
+		}
+		else {
+			auto cmd = m_cmd_queue.front();
+			m_cmd_queue.pop();
+			cmd_queue_lock.unlock();
+			// todo 执行命令
+
+			++m_completed_id;
+		}
+	}
 }
 
 bool WinMacro::find_handle()
@@ -220,6 +263,20 @@ Point asst::WinMacro::rand_point_in_rect(const Rect& rect)
 	}
 
 	return Point(x, y);
+}
+
+int asst::WinMacro::push_cmd(const std::string& cmd)
+{
+	std::unique_lock<std::mutex> lock(m_cmd_queue_mutex);
+	m_cmd_queue.emplace(cmd);
+	return ++m_push_id;
+}
+
+void asst::WinMacro::wait(unsigned id)
+{
+	while (id >= m_completed_id) {
+		std::this_thread::yield();
+	}
 }
 
 bool WinMacro::show_window()
