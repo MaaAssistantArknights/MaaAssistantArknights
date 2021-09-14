@@ -65,6 +65,9 @@
     <Reference Include="Costura, Version=5.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Costura.Fody.5.6.0\lib\netstandard1.0\Costura.dll</HintPath>
     </Reference>
+    <Reference Include="GongSolutions.WPF.DragDrop, Version=2.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\gong-wpf-dragdrop.2.4.1\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
+    </Reference>
     <Reference Include="HandyControl, Version=3.2.0.0, Culture=neutral, PublicKeyToken=45be8712787a1e5b, processorArchitecture=MSIL">
       <HintPath>..\..\packages\HandyControl.3.2.0\lib\net472\HandyControl.dll</HintPath>
     </Reference>
@@ -207,6 +210,7 @@
     <Compile Include="UserControl\ParamSettingUserControl.xaml.cs">
       <DependentUpon>ParamSettingUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\InfrastructureConstructionViewModel.cs" />
     <Compile Include="ViewModels\MainFunctionViewModel.cs" />
     <Compile Include="ViewModels\RecruitViewModel.cs" />
     <Compile Include="ViewModels\RootViewModel.cs" />
@@ -214,6 +218,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\InfrastructureConstructionView.xaml.cs">
+      <DependentUpon>InfrastructureConstructionView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Icon.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -224,6 +231,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControl\ParamSettingUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InfrastructureConstructionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
