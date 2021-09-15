@@ -34,21 +34,22 @@ int main()
 
 	PROCESS_INFORMATION process_info = { 0 };	// 进程信息结构体
 
-	std::string adb = "adb -s 127.0.0.1:5555 shell";
-	::CreateProcessA(NULL, const_cast<LPSTR>(adb.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &startup_info, &process_info);
+	std::string adb = "adb -s 127.0.0.1:7555 shell echo hello";
+	BOOL create_ret = ::CreateProcessA(NULL, const_cast<LPSTR>(adb.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &startup_info, &process_info);
+	std::cout << "create: " << create_ret << std::endl;
 
 	std::string pipe_str;
-	const std::string end_flag = "__END__\r\n";
-	while (true) {
+	const std::string end_flag = "root@x86_64:/ # ";
+	DWORD process_ret = ::WaitForSingleObject(process_info.hProcess, 0);
+	while (process_ret == WAIT_TIMEOUT) {
 		DWORD read_num = 0;
 		DWORD std_num = 0;
 		DWORD write_num = 0;
-		std::string cmd = "screencap";
-		cmd += "; echo " + end_flag;
-		WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, NULL);
+		//std::string cmd = "screencap -p\r\n";
+		//WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, NULL);
 
 		auto time = std::chrono::system_clock::now();
-		while (true) {
+		while (process_ret == WAIT_TIMEOUT) {
 			while (::PeekNamedPipe(parent_read, NULL, 0, NULL, &read_num, NULL) && read_num > 0) {
 				//std::cout << read_num << std::endl;
 				char* pipe_buffer = new char[read_num];
@@ -67,14 +68,18 @@ int main()
 				break;
 
 			}
+			process_ret = ::WaitForSingleObject(process_info.hProcess, 0);
 
 		}
 		std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - time).count() << "ms" << std::endl;
 
 		std::cout << "size: " << pipe_str.size() << std::endl;
+		if (!pipe_str.empty() && pipe_str.size() < 4096) {
+			std::cout << pipe_str << std::endl;
+		}
 		pipe_str.clear();
 	}
-
+	std::cout << "process ret" << process_ret << std::endl;
 
 	DWORD ret = -1;
 	::GetExitCodeProcess(process_info.hProcess, &ret);
