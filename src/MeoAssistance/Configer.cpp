@@ -10,12 +10,6 @@
 
 using namespace asst;
 
-bool asst::Configer::set_emulator_path(const std::string& name, const std::string& path)
-{
-	m_raw_json["emulator"][name]["path"] = path;
-	return save();
-}
-
 bool asst::Configer::parse(const json::value& json)
 {
 	m_version = json.at("version").as_string();

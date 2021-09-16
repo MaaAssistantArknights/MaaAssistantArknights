@@ -13,6 +13,7 @@
 #include "AsstDef.h"
 #include "Logger.hpp"
 #include "Configer.h"
+#include "UserConfiger.h"
 
 using namespace asst;
 
@@ -148,7 +149,7 @@ bool WinMacro::try_capture(const EmulatorInfo& info)
 		memset(path_buff, 0, MAX_PATH);
 		DWORD path_size = MAX_PATH;
 		QueryFullProcessImageNameA(process_handle, 0, path_buff, &path_size);
-		emulator_path = std::string(path_buff, path_size);
+		emulator_path = std::string(path_buff);
 		if (path_buff != nullptr) {
 			delete[] path_buff;
 			path_buff = nullptr;
@@ -156,7 +157,7 @@ bool WinMacro::try_capture(const EmulatorInfo& info)
 		if (emulator_path.empty()) {
 			return false;
 		}
-		Configer::get_instance().set_emulator_path(info.name, emulator_path);
+		UserConfiger::get_instance().set_emulator_path(info.name, emulator_path);
 	}
 	else {
 		emulator_path = info.path;
