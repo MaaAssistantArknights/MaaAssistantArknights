@@ -7,6 +7,7 @@
 
 #include "AsstAux.h"
 #include "Configer.h"
+#include "TaskConfiger.h"
 #include "WinMacro.h"
 #include "Identify.h"
 
@@ -83,15 +84,12 @@ bool ProcessTask::run()
 		need_stop = true;
 		break;
 	case ProcessTaskAction::PrintWindow:
-	{
-		if (!sleep(Configer::get_instance().m_options.print_window_delay))
-		{
-			return false;
+		if (Configer::get_instance().m_options.print_window) {
+			sleep(Configer::get_instance().m_options.print_window_delay);
+			static const std::string dirname = GetCurrentDir() + "screenshot\\";
+			print_window(dirname);
 		}
-		static const std::string dirname = GetCurrentDir() + "screenshot\\";
-		print_window(dirname);
-	}
-	break;
+		break;
 	default:
 		break;
 	}
@@ -102,7 +100,7 @@ bool ProcessTask::run()
 	// 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
 	// 所以要给蓝色开始行动的次数减一
 	for (const std::string& reduce : task_info_ptr->reduce_other_times) {
-		--Configer::get_instance().m_all_tasks_info[reduce]->exec_times;
+		--TaskConfiger::get_instance().m_all_tasks_info[reduce]->exec_times;
 	}
 
 	if (need_stop) {
@@ -135,7 +133,7 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 
 	// 逐个匹配当前可能的任务
 	for (const std::string& task_name : m_cur_tasks_name) {
-		std::shared_ptr<TaskInfo> task_info_ptr = Configer::get_instance().m_all_tasks_info[task_name];
+		std::shared_ptr<TaskInfo> task_info_ptr = TaskConfiger::get_instance().m_all_tasks_info[task_name];
 		if (task_info_ptr == nullptr) {	// 说明配置文件里没这个任务
 			m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
 			continue;

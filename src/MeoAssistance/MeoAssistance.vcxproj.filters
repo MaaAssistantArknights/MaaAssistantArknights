@@ -120,6 +120,9 @@
     <ClInclude Include="InfrastOfficeTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
+    <ClInclude Include="TaskConfiger.h">
+      <Filter>头文件\Configer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMacro.cpp">
@@ -178,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="InfrastOfficeTask.cpp">
       <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskConfiger.cpp">
+      <Filter>源文件\Configer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
