@@ -32,7 +32,6 @@ namespace asst {
 		~Identify() = default;
 
 		/*** OpenCV package ***/
-		void set_use_cache(bool b) noexcept;
 		bool add_image(const std::string& name, const std::string& path);
 		bool add_text_image(const std::string& text, const std::string& path);
 

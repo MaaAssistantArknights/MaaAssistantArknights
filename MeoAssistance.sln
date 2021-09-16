@@ -18,6 +18,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCaller", "tools\TestCal
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeoAsstGui", "src\MeoAsstGui\MeoAsstGui.csproj", "{FFDC8F49-8EAF-45BE-B0A8-7EF0DB9875A2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{362D1E30-F5AE-4279-9985-65C27B3BA300} = {362D1E30-F5AE-4279-9985-65C27B3BA300}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPipe", "tools\TestPipe\TestPipe.vcxproj", "{0565E66B-28A0-435C-BDFC-6565CADE28D2}"
 EndProject

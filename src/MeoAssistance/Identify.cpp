@@ -37,17 +37,6 @@ bool asst::Identify::add_text_image(const std::string& text, const std::string& 
 	return true;
 }
 
-void Identify::set_use_cache(bool b) noexcept
-{
-	if (b) {
-		m_use_cache = true;
-	}
-	else {
-		m_cache_map.clear();
-		m_use_cache = false;
-	}
-}
-
 Mat Identify::image_2_hist(const cv::Mat& src)
 {
 	Mat src_hsv;
@@ -281,7 +270,7 @@ asst::Identify::FindImageResult asst::Identify::find_image(
 	}
 
 	// 有缓存，用直方图比较，CPU占用会低很多，但要保证每次按钮图片的位置不变
-	if (m_use_cache && m_cache_map.find(templ_name) != m_cache_map.cend()) {
+	if (m_cache_map.find(templ_name) != m_cache_map.cend()) {
 		const auto& [raw_rect, hist] = m_cache_map.at(templ_name);
 		double value = image_hist_comp(image(raw_rect), hist);
 		Rect dst_rect = make_rect<asst::Rect>(raw_rect);
@@ -294,7 +283,7 @@ asst::Identify::FindImageResult asst::Identify::find_image(
 		const cv::Mat& templ_mat = m_mat_map.at(templ_name);
 		const auto& [value, point] = match_template(image, templ_mat);
 		cv::Rect raw_rect(point.x, point.y, templ_mat.cols, templ_mat.rows);
-		if (m_use_cache && value >= add_cache_thres) {
+		if (value >= add_cache_thres) {
 			m_cache_map.emplace(templ_name, std::make_pair(raw_rect, image_2_hist(image(raw_rect))));
 		}
 		Rect dst_rect = make_rect<asst::Rect>(raw_rect);

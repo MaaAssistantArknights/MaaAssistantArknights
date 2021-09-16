@@ -12,6 +12,7 @@
 #include "Logger.hpp"
 #include "AsstAux.h"
 #include "Task.h"
+#include "TaskConfiger.h"
 #include "RecruitConfiger.h"
 #include "InfrastConfiger.h"
 
@@ -38,6 +39,11 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 		callback_error();
 		return;
 	}
+	ret = TaskConfiger::get_instance().load(GetResourceDir() + "tasks.json");
+	if (!ret) {
+		callback_error();
+		return;
+	}
 	ret = RecruitConfiger::get_instance().load(GetResourceDir() + "recruit.json");
 	if (!ret) {
 		callback_error();
@@ -50,7 +56,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 	}
 
 	m_identify_ptr = std::make_shared<Identify>();
-	for (const auto& [name, info] : Configer::get_instance().m_all_tasks_info)
+	for (const auto& [name, info] : TaskConfiger::get_instance().m_all_tasks_info)
 	{
 		if (info->algorithm != AlgorithmType::MatchTemplate)
 		{
@@ -70,8 +76,6 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 			ret = m_identify_ptr->add_image(without_extension, p.path().u8string());
 		}
 	}
-
-	m_identify_ptr->set_use_cache(Configer::get_instance().m_options.identify_cache);
 
 	m_identify_ptr->set_ocr_param(Configer::get_instance().m_options.ocr_gpu_index, Configer::get_instance().m_options.ocr_thread_number);
 	ret = m_identify_ptr->ocr_init_models(GetResourceDir() + "OcrLiteOnnx\\models\\");
@@ -402,7 +406,7 @@ bool Assistance::set_param(const std::string& type, const std::string& param, co
 	DebugTraceFunction;
 	DebugTrace("SetParam |", type, param, value);
 
-	return Configer::get_instance().set_param(type, param, value);
+	return TaskConfiger::get_instance().set_param(type, param, value);
 }
 
 void Assistance::working_proc()
@@ -580,7 +584,7 @@ void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
 
 void Assistance::clear_exec_times()
 {
-	for (auto&& pair : Configer::get_instance().m_all_tasks_info)
+	for (auto&& pair : TaskConfiger::get_instance().m_all_tasks_info)
 	{
 		pair.second->exec_times = 0;
 	}

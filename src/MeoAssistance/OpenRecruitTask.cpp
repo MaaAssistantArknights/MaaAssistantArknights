@@ -8,6 +8,7 @@
 #include "WinMacro.h"
 #include "Configer.h"
 #include "Identify.h"
+#include "TaskConfiger.h"
 #include "RecruitConfiger.h"
 #include "AsstAux.h"
 
@@ -40,7 +41,7 @@ bool OpenRecruitTask::run()
 			m_identify_ptr->find_image(image(identify_area), "RecruitTime");
 
 		const static auto time_reduce_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-			Configer::get_instance().m_all_tasks_info["RecruitTime"]);
+			TaskConfiger::get_instance().m_all_tasks_info["RecruitTime"]);
 
 		if (score >= time_reduce_task_ptr->templ_threshold) {
 			m_controller_ptr->click(time_reduce_task_ptr->specific_area, false);
