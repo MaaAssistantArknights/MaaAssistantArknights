@@ -74,11 +74,10 @@ bool asst::InfrastDormTask::click_confirm_button()
 	// 点完确定后，如果把工作中的干员撤下来了，会再弹出来一个确认的界面，如果没撤下来则不会弹出。先识别一下再决定要不要点击
 	auto&& [algorithm, score, second_confirm_rect] =
 		m_identify_ptr->find_image(m_controller_ptr->get_image(), "DormConfirm");
-	bool ret = false;
 	if (score >= Configer::TemplThresholdDefault) {
-		ret = m_controller_ptr->click(second_confirm_rect);
+		m_controller_ptr->click(second_confirm_rect);
 	}
-	return ret && sleep(2000);
+	return sleep(2000);
 }
 
 bool asst::InfrastDormTask::enter_next_dorm()
@@ -99,12 +98,11 @@ bool asst::InfrastDormTask::enter_next_dorm()
 	// 游戏bug，宿舍中如果“进驻信息”已被选中，直接进行滑动会被滑的很远
 	// 所以这里先检查一下，如果进驻信息被选中了，就先把它关了，再进行滑动
 	auto find_result = m_identify_ptr->find_image(m_controller_ptr->get_image(), "StationInfoSelected");
-	bool ret = false;
 	if (find_result.score >= 0.75) {
-		ret = m_controller_ptr->click(find_result.rect);
+		m_controller_ptr->click(find_result.rect);
 	}
 
-	ret &= m_controller_ptr->swipe(swipe_down_begin, swipe_down_end, swipe_dwon_duration);
+	m_controller_ptr->swipe(swipe_down_begin, swipe_down_end, swipe_dwon_duration);
 
 	static const Rect double_click_rect(
 		Configer::WindowWidthDefault * 0.4,
@@ -114,10 +112,10 @@ bool asst::InfrastDormTask::enter_next_dorm()
 	);
 
 	// 游戏中的宿舍里，双击可以让当前设施回到正确的位置
-	ret &= m_controller_ptr->click(double_click_rect);
-	ret &= m_controller_ptr->click(double_click_rect);
+	m_controller_ptr->click(double_click_rect);
+	m_controller_ptr->click(double_click_rect);
 
-	return ret;
+	return true;
 }
 
 bool asst::InfrastDormTask::enter_operator_selection()
@@ -165,8 +163,8 @@ bool asst::InfrastDormTask::enter_operator_selection()
 		// TODO 报错
 		return false;
 	}
-	bool ret = m_controller_ptr->click(button_iter->rect);
-	return ret && sleep(2000);
+	m_controller_ptr->click(button_iter->rect);
+	return sleep(2000);
 }
 
 int asst::InfrastDormTask::select_operators(bool need_to_the_left)
@@ -191,7 +189,9 @@ int asst::InfrastDormTask::select_operators(bool need_to_the_left)
 
 	// 识别“注意力涣散”的干员
 	// TODO，这个阈值太低了，不正常，有时间再调整一下模板图片
-	auto listless_result = m_identify_ptr->find_all_images(image, "Listless", 0.6);
+	//auto listless_result = m_identify_ptr->find_all_images(image, "Listless", 0.6);
+	const static std::array<std::string, 1> ListlessKeyword = { "注意力" };
+	auto listless_result = text_search(m_identify_ptr->ocr_detect(image), ListlessKeyword);
 	// 识别正在工作中的干员的心情状态
 	double mood_threshold = Configer::get_instance().m_infrast_options.dorm_threshold;
 	auto work_mood_result = detect_mood_status_at_work(image, mood_threshold);
@@ -267,7 +267,7 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 #endif
 
 	// 把工作中的那个黄色笑脸全抓出来
-	auto smiley_result = m_identify_ptr->find_all_images(image, "SmileyAtWork", 0.8, false);
+	auto smiley_result = m_identify_ptr->find_all_images(image, "SmileyAtWork", 0.88, false);
 
 	std::vector<MoodStatus> moods_vec;
 	for (const auto& smiley : smiley_result) {
@@ -341,7 +341,7 @@ std::vector<InfrastDormTask::MoodStatus> InfrastDormTask::detect_mood_status_at_
 			cv::Rect on_shift_rect(mood_status.rect.x, mood_status.rect.y - HeightDiff, mood_status.rect.width, OnShiftHeight);
 			// “休息中”的笑脸前面的模板匹配是对不上的，走不到这里，所以这里只匹配“工作中”即可
 			auto find_result = m_identify_ptr->find_image(image(on_shift_rect), "OnShift");
-			if (find_result.score < 0.5) {
+			if (find_result.score < 0.45) {
 				moods_vec.emplace_back(std::move(mood_status));
 			}
 		}

@@ -35,8 +35,7 @@
                 "swipe": "[Adb] -s 127.0.0.1:5555 shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s 127.0.0.1:5555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] -s 127.0.0.1:5555 shell screencap /sdcard/meo_screen.png",
-                "pullscreen": "[Adb] -s 127.0.0.1:5555 pull /sdcard/meo_screen.png [Filename]"
+                "screencap": "[Adb] -s 127.0.0.1:5555 exec-out screencap -p"
             }
         },
         "MuMuEmulator": {
@@ -51,8 +50,7 @@
                 "swipe": "[Adb] -s 127.0.0.1:7555 shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s 127.0.0.1:7555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] -s 127.0.0.1:7555 shell screencap /sdcard/meo_screen.png",
-                "pullscreen": "[Adb] -s 127.0.0.1:7555 pull /sdcard/meo_screen.png [Filename]"
+                "screencap": "[Adb] -s 127.0.0.1:7555 exec-out screencap -p"
             }
         }
     },

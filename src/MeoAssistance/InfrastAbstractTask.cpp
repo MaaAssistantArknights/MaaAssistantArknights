@@ -72,16 +72,15 @@ bool asst::InfrastAbstractTask::swipe(bool reverse)
 	DebugTraceFunction;
 
 	//#ifndef LOG_TRACE
-	bool ret = false;
 	if (!reverse) {
-		ret = m_controller_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
+		m_controller_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
 		++m_swipe_times;
 	}
 	else {
-		ret = m_controller_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration);
+		m_controller_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration);
 		--m_swipe_times;
 	}
-	return ret && sleep(m_swipe_extra_delay);
+	return sleep(m_swipe_extra_delay);
 	//#else
 	//	return sleep(SwipeExtraDelay);
 	//#endif
@@ -101,7 +100,9 @@ bool asst::InfrastAbstractTask::swipe_left()
 		Configer::WindowWidthDefault * 0.1,
 		Configer::WindowHeightDefault * 0.2);
 
-	return m_controller_ptr->swipe(left_rect, right_rect);
+	m_controller_ptr->swipe(left_rect, right_rect);
+
+	return true;
 }
 
 bool asst::InfrastAbstractTask::swipe_right()
@@ -118,7 +119,9 @@ bool asst::InfrastAbstractTask::swipe_right()
 		Configer::WindowWidthDefault * 0.1,
 		Configer::WindowHeightDefault * 0.2);
 
-	return m_controller_ptr->swipe(right_rect, left_rect);
+	m_controller_ptr->swipe(right_rect, left_rect);
+
+	return true;
 }
 
 bool asst::InfrastAbstractTask::append_task_to_back_to_infrast_home()
@@ -362,8 +365,8 @@ bool asst::InfrastAbstractTask::enter_station(const std::vector<std::string>& te
 			}
 		});
 
-	bool ret = m_controller_ptr->click(max_score_reslut.at(index).rect);
-	return ret && sleep(1000);
+	m_controller_ptr->click(max_score_reslut.at(index).rect);
+	return sleep(1000);
 }
 
 bool asst::InfrastAbstractTask::click_first_operator()

@@ -213,7 +213,7 @@ bool asst::Configer::parse(json::value&& json)
 		emulator_info.adb.display = emulator_json["adb"]["display"].as_string();
 		emulator_info.adb.display_regex = emulator_json["adb"]["displayRegex"].as_string();
 		emulator_info.adb.screencap = emulator_json["adb"]["screencap"].as_string();
-		emulator_info.adb.pullscreen = emulator_json["adb"]["pullscreen"].as_string();
+		//emulator_info.adb.pullscreen = emulator_json["adb"]["pullscreen"].as_string();
 
 		m_handles.emplace(name, std::move(emulator_info));
 	}
