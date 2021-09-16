@@ -26,7 +26,7 @@ namespace json
         template<typename ArrayType>
         array(ArrayType arr) {
             static_assert(
-                std::is_constructible<json::value, ArrayType::value_type>::value,
+                std::is_constructible<json::value, typename ArrayType::value_type>::value,
                 "Parameter can't be used to construct a json::value");
             for (auto&& ele : arr) {
                 _array_data.emplace_back(std::move(ele));
@@ -68,11 +68,15 @@ namespace json
 
         iterator begin() noexcept;
         iterator end() noexcept;
+        const_iterator begin() const noexcept;
+        const_iterator end() const noexcept;
         const_iterator cbegin() const noexcept;
         const_iterator cend() const noexcept;
 
         reverse_iterator rbegin() noexcept;
         reverse_iterator rend() noexcept;
+        const_reverse_iterator rbegin() const noexcept;
+        const_reverse_iterator rend() const noexcept;
         const_reverse_iterator crbegin() const noexcept;
         const_reverse_iterator crend() const noexcept;
 
