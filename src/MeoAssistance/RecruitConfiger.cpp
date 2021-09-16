@@ -10,22 +10,21 @@
 
 using namespace asst;
 
-bool asst::RecruitConfiger::parse(json::value&& json)
+bool asst::RecruitConfiger::parse(const json::value& json)
 {
-	json::value root = std::move(json);
-	for (json::value& oper : root.as_array()) {
+	for (const json::value& oper : json.as_array()) {
 		OperRecruitInfo oper_temp;
-		oper_temp.name = oper["name"].as_string();
-		oper_temp.type = oper["type"].as_string();
+		oper_temp.name = oper.at("name").as_string();
+		oper_temp.type = oper.at("type").as_string();
 		m_all_types.emplace(oper_temp.type);
 		// 职业类型也作为tag之一，加上"干员"两个字
 		std::string type_as_tag = oper_temp.type + "干员";
 		oper_temp.tags.emplace(type_as_tag);
 		m_all_tags.emplace(std::move(type_as_tag));
 
-		oper_temp.level = oper["level"].as_integer();
+		oper_temp.level = oper.at("level").as_integer();
 		oper_temp.sex = oper.get("sex", "unknown");
-		for (const json::value& tag_value : oper["tags"].as_array()) {
+		for (const json::value& tag_value : oper.at("tags").as_array()) {
 			std::string tag = tag_value.as_string();
 			oper_temp.tags.emplace(tag);
 			m_all_tags.emplace(std::move(tag));

@@ -21,7 +21,7 @@ namespace asst {
 
         std::unordered_map<std::string, std::shared_ptr<TaskInfo>> m_all_tasks_info;
     protected:
-        virtual bool parse(json::value&& json);
+        virtual bool parse(const json::value& json);
     };
 
 }

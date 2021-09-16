@@ -115,6 +115,7 @@ namespace asst {
 		std::string name;
 		HandleInfo handle;
 		AdbCmd adb;
+		std::string path;
 	};
 
 	// 任务信息

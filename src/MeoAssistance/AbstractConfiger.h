@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <memory>
 
+#include <json.h>
+
 #include "AsstDef.h"
 
 namespace json {
@@ -16,6 +18,7 @@ namespace asst {
 	public:
 		virtual ~AbstractConfiger() = default;
 		virtual bool load(const std::string& filename);
+		virtual bool save();
 
 	protected:
 		AbstractConfiger() = default;
@@ -25,6 +28,9 @@ namespace asst {
 		AbstractConfiger& operator=(const AbstractConfiger& rhs) = default;
 		AbstractConfiger& operator=(AbstractConfiger&& rhs) noexcept = default;
 
-		virtual bool parse(json::value&& json) = 0;
+		virtual bool parse(const json::value& json) = 0;
+
+		std::string m_filename;
+		json::value m_raw_json;
 	};
 }

@@ -34,6 +34,6 @@ namespace asst {
 		RecruitConfiger& operator=(const RecruitConfiger& rhs) = default;
 		RecruitConfiger& operator=(RecruitConfiger&& rhs) noexcept = default;
 
-		virtual bool parse(json::value&& json) override;
+		virtual bool parse(const json::value& json) override;
 	};
 }
