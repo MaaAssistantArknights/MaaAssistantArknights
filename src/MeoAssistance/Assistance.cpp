@@ -418,7 +418,7 @@ void Assistance::working_proc()
 
 		if (!m_thread_idle && !m_tasks_deque.empty())
 		{
-			m_controller_ptr->set_idle(false);
+			//m_controller_ptr->set_idle(false);
 
 			auto start_time = std::chrono::system_clock::now();
 			std::shared_ptr<AbstractTask> task_ptr = m_tasks_deque.front();
@@ -461,7 +461,7 @@ void Assistance::working_proc()
 		else
 		{
 			m_thread_idle = true;
-			m_controller_ptr->set_idle(true);
+			//m_controller_ptr->set_idle(true);
 			m_condvar.wait(lock);
 		}
 	}
