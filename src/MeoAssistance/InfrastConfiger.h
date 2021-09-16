@@ -35,6 +35,6 @@ namespace asst {
 		InfrastConfiger& operator=(const InfrastConfiger& rhs) = default;
 		InfrastConfiger& operator=(InfrastConfiger&& rhs) noexcept = default;
 
-		virtual bool parse(json::value&& json) override;
+		virtual bool parse(const json::value& json) override;
 	};
 }

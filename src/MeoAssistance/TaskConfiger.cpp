@@ -49,11 +49,9 @@ bool TaskConfiger::set_param(const std::string& type, const std::string& param, 
 	return true;
 }
 
-bool asst::TaskConfiger::parse(json::value&& json)
+bool asst::TaskConfiger::parse(const json::value& json)
 {
-	json::value root = std::move(json);
-
-	for (auto&& [name, task_json] : root.as_object()) {
+	for (const auto& [name, task_json] : json.as_object()) {
 		std::string algorithm_str = task_json.get("algorithm", "matchtemplate");
 		std::transform(algorithm_str.begin(), algorithm_str.end(), algorithm_str.begin(), std::tolower);
 		AlgorithmType algorithm = AlgorithmType::Invaild;
@@ -80,7 +78,7 @@ bool asst::TaskConfiger::parse(json::value&& json)
 		case AlgorithmType::MatchTemplate:
 		{
 			auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
-			match_task_info_ptr->template_filename = task_json["template"].as_string();
+			match_task_info_ptr->template_filename = task_json.at("template").as_string();
 			match_task_info_ptr->templ_threshold = task_json.get("templThreshold", Configer::TemplThresholdDefault);
 			match_task_info_ptr->hist_threshold = task_json.get("histThreshold", Configer::HistThresholdDefault);
 			match_task_info_ptr->cache = task_json.get("cache", true);
@@ -90,14 +88,14 @@ bool asst::TaskConfiger::parse(json::value&& json)
 		case AlgorithmType::OcrDetect:
 		{
 			auto ocr_task_info_ptr = std::make_shared<OcrTaskInfo>();
-			for (const json::value& text : task_json["text"].as_array())
+			for (const json::value& text : task_json.at("text").as_array())
 			{
 				ocr_task_info_ptr->text.emplace_back(text.as_string());
 			}
 			ocr_task_info_ptr->need_match = task_json.get("need_match", false);
 			if (task_json.exist("ocrReplace"))
 			{
-				for (const auto& [key, value] : task_json["ocrReplace"].as_object()) {
+				for (const auto& [key, value] : task_json.at("ocrReplace").as_object()) {
 					ocr_task_info_ptr->replace_map.emplace(key, value.as_string());
 				}
 			}
@@ -107,7 +105,7 @@ bool asst::TaskConfiger::parse(json::value&& json)
 		}
 		task_info_ptr->algorithm = algorithm;
 		task_info_ptr->name = name;
-		std::string action = task_json["action"].as_string();
+		std::string action = task_json.at("action").as_string();
 		std::transform(action.begin(), action.end(), action.begin(), std::tolower);
 		if (action == "clickself") {
 			task_info_ptr->action = ProcessTaskAction::ClickSelf;
@@ -123,7 +121,7 @@ bool asst::TaskConfiger::parse(json::value&& json)
 		}
 		else if (action == "clickrect") {
 			task_info_ptr->action = ProcessTaskAction::ClickRect;
-			json::value& area_json = task_json["specificArea"];
+			const json::value& area_json = task_json.at("specificArea");
 			task_info_ptr->specific_area = Rect(
 				area_json[0].as_integer(),
 				area_json[1].as_integer(),
@@ -146,7 +144,7 @@ bool asst::TaskConfiger::parse(json::value&& json)
 
 		task_info_ptr->max_times = task_json.get("maxTimes", INT_MAX);
 		if (task_json.exist("exceededNext")) {
-			json::array& excceed_next_arr = task_json["exceededNext"].as_array();
+			const json::array& excceed_next_arr = task_json.at("exceededNext").as_array();
 			for (const json::value& excceed_next : excceed_next_arr) {
 				task_info_ptr->exceeded_next.emplace_back(excceed_next.as_string());
 			}
@@ -157,13 +155,13 @@ bool asst::TaskConfiger::parse(json::value&& json)
 		task_info_ptr->pre_delay = task_json.get("preDelay", 0);
 		task_info_ptr->rear_delay = task_json.get("rearDelay", 0);
 		if (task_json.exist("reduceOtherTimes")) {
-			json::array& reduce_arr = task_json["reduceOtherTimes"].as_array();
+			const json::array& reduce_arr = task_json.at("reduceOtherTimes").as_array();
 			for (const json::value& reduce : reduce_arr) {
 				task_info_ptr->reduce_other_times.emplace_back(reduce.as_string());
 			}
 		}
 		if (task_json.exist("identifyArea")) {
-			json::array& area_arr = task_json["identifyArea"].as_array();
+			const json::array& area_arr = task_json.at("identifyArea").as_array();
 			task_info_ptr->identify_area = Rect(
 				area_arr[0].as_integer(),
 				area_arr[1].as_integer(),
@@ -171,12 +169,11 @@ bool asst::TaskConfiger::parse(json::value&& json)
 				area_arr[3].as_integer());
 		}
 
-		json::array& next_arr = task_json["next"].as_array();
+		const json::array& next_arr = task_json.at("next").as_array();
 		for (const json::value& next : next_arr) {
 			task_info_ptr->next.emplace_back(next.as_string());
 		}
 
 		m_all_tasks_info.emplace(name, task_info_ptr);
 	}
-
 }

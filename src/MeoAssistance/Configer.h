@@ -18,8 +18,7 @@ namespace asst {
 			static Configer unique_instance;
 			return unique_instance;
 		}
-
-		//virtual bool load(const std::string& filename) override;
+		bool set_emulator_path(const std::string& name, const std::string& path);
 
 		constexpr static int WindowWidthDefault = 1280;
 		constexpr static int WindowHeightDefault = 720;
@@ -42,6 +41,6 @@ namespace asst {
 		Configer& operator=(const Configer& rhs) = default;
 		Configer& operator=(Configer&& rhs) noexcept = default;
 
-		virtual bool parse(json::value&& json) override;
+		virtual bool parse(const json::value& json) override;
 	};
 }

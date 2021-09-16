@@ -135,23 +135,31 @@ bool WinMacro::try_capture(const EmulatorInfo& info)
 	if (window_handle == nullptr) {
 		return false;
 	}
-	// 获取模拟器窗口句柄对应的进程句柄
-	DWORD process_id = 0;
-	::GetWindowThreadProcessId(window_handle, &process_id);
-	HANDLE process_handle = ::OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, process_id);
 
-	// 获取模拟器程序所在路径
-	LPSTR path_buff = new CHAR[MAX_PATH];
-	memset(path_buff, 0, MAX_PATH);
-	DWORD path_size = MAX_PATH;
-	QueryFullProcessImageNameA(process_handle, 0, path_buff, &path_size);
-	std::string adb_dir(path_buff, path_size);
-	if (path_buff != nullptr) {
-		delete[] path_buff;
-		path_buff = nullptr;
+	std::string emulator_path;
+	if (info.path.empty()) {
+		// 获取模拟器窗口句柄对应的进程句柄
+		DWORD process_id = 0;
+		::GetWindowThreadProcessId(window_handle, &process_id);
+		HANDLE process_handle = ::OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, process_id);
+
+		// 获取模拟器程序所在路径
+		LPSTR path_buff = new CHAR[MAX_PATH];
+		memset(path_buff, 0, MAX_PATH);
+		DWORD path_size = MAX_PATH;
+		QueryFullProcessImageNameA(process_handle, 0, path_buff, &path_size);
+		emulator_path = std::string(path_buff, path_size);
+		if (path_buff != nullptr) {
+			delete[] path_buff;
+			path_buff = nullptr;
+		}
+		if (emulator_path.empty()) {
+			return false;
+		}
+		Configer::get_instance().set_emulator_path(info.name, emulator_path);
 	}
-	if (adb_dir.empty()) {
-		return false;
+	else {
+		emulator_path = info.path;
 	}
 
 	// 到这一步说明句柄和权限没问题了，接下来就是adb的事情了
@@ -159,7 +167,7 @@ bool WinMacro::try_capture(const EmulatorInfo& info)
 	m_handle = window_handle;
 	DebugTrace("Handle:", m_handle, "Name:", m_emulator_info.name);
 
-	adb_dir = adb_dir.substr(0, adb_dir.find_last_of('\\') + 1);
+	std::string adb_dir = emulator_path.substr(0, emulator_path.find_last_of('\\') + 1);
 	adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
 
 
