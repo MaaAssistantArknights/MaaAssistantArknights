@@ -123,6 +123,9 @@
     <ClInclude Include="TaskConfiger.h">
       <Filter>头文件\Configer</Filter>
     </ClInclude>
+    <ClInclude Include="UserConfiger.h">
+      <Filter>头文件\Configer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMacro.cpp">
@@ -183,6 +186,9 @@
       <Filter>源文件\Task</Filter>
     </ClCompile>
     <ClCompile Include="TaskConfiger.cpp">
+      <Filter>源文件\Configer</Filter>
+    </ClCompile>
+    <ClCompile Include="UserConfiger.cpp">
       <Filter>源文件\Configer</Filter>
     </ClCompile>
   </ItemGroup>

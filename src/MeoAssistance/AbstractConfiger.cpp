@@ -37,21 +37,7 @@ bool asst::AbstractConfiger::load(const std::string& filename)
 		DebugTraceError("Load config json error!", e.what());
 		return false;
 	}
-	m_filename = filename;
-	m_raw_json = std::move(root);
 
 	DebugTrace("Load config succeed");
-	return true;
-}
-
-bool asst::AbstractConfiger::save()
-{
-	std::ofstream ofs(m_filename, std::ios::out);
-	if (!ofs.is_open()) {
-		return false;
-	}
-	ofs << m_raw_json.format();
-	ofs.close();
-
 	return true;
 }

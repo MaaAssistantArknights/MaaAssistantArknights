@@ -15,6 +15,7 @@
 #include "TaskConfiger.h"
 #include "RecruitConfiger.h"
 #include "InfrastConfiger.h"
+#include "UserConfiger.h"
 
 using namespace asst;
 
@@ -98,6 +99,12 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 			return;
 		}
 	}
+	ret = UserConfiger::get_instance().load(GetCurrentDir() + "user.json");
+	if (!ret) {
+		callback_error();
+		return;
+	}
+	
 
 	m_controller_ptr = std::make_shared<WinMacro>();
 	

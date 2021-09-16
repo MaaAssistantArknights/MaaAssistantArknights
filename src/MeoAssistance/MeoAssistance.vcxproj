@@ -36,6 +36,7 @@
     <ClInclude Include="Task.h" />
     <ClInclude Include="TaskConfiger.h" />
     <ClInclude Include="Updater.h" />
+    <ClInclude Include="UserConfiger.h" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="WinMacro.h" />
   </ItemGroup>
@@ -59,6 +60,7 @@
     <ClCompile Include="RecruitConfiger.cpp" />
     <ClCompile Include="TaskConfiger.cpp" />
     <ClCompile Include="Updater.cpp" />
+    <ClCompile Include="UserConfiger.cpp" />
     <ClCompile Include="WinMacro.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
