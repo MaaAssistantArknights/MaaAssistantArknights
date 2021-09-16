@@ -52,7 +52,7 @@ asst::WinMacro::~WinMacro()
 	DebugTraceFunction;
 
 	m_thread_exit = true;
-	m_thread_idle = true;
+	//m_thread_idle = true;
 	m_cmd_condvar.notify_all();
 	m_completed_id = UINT_MAX;	// make all WinMacor::wait to exit
 
@@ -81,20 +81,21 @@ void asst::WinMacro::pipe_working_proc()
 			call_command(cmd);
 			++m_completed_id;
 		}
-		else if (!m_thread_idle) {	// 队列中没有任务，又不是闲置的时候，就去截图
-			cmd_queue_lock.unlock();
-			auto start_time = std::chrono::system_clock::now();
-			screencap();
-			cmd_queue_lock.lock();
-			if (!m_cmd_queue.empty()) {
-				continue;
-			}
-			m_cmd_condvar.wait_until(
-				cmd_queue_lock,
-				start_time + std::chrono::milliseconds(1000));	// todo 时间写到配置文件里
-		}
+		//else if (!m_thread_idle) {	// 队列中没有任务，又不是闲置的时候，就去截图
+		//	cmd_queue_lock.unlock();
+		//	auto start_time = std::chrono::system_clock::now();
+		//	screencap();
+		//	cmd_queue_lock.lock();
+		//	if (!m_cmd_queue.empty()) {
+		//		continue;
+		//	}
+		//	m_cmd_condvar.wait_until(
+		//		cmd_queue_lock,
+		//		start_time + std::chrono::milliseconds(1000));	// todo 时间写到配置文件里
+		//}
 		else {
-			m_cmd_condvar.wait(cmd_queue_lock, [&]() -> bool {return !m_thread_idle; });
+			//m_cmd_condvar.wait(cmd_queue_lock, [&]() -> bool {return !m_thread_idle; });
+			m_cmd_condvar.wait(cmd_queue_lock);
 		}
 	}
 }
@@ -202,18 +203,18 @@ bool WinMacro::try_capture(const EmulatorInfo& info)
 	return true;
 }
 
-void asst::WinMacro::set_idle(bool flag)
-{
-	DebugTraceFunction;
-
-	m_thread_idle = flag;
-	if (!flag) {
-		// 开始前，立即截一张图，保证第一张图片非空
-		screencap();
-
-		m_cmd_condvar.notify_one();
-	}
-}
+//void asst::WinMacro::set_idle(bool flag)
+//{
+//	DebugTraceFunction;
+//
+//	m_thread_idle = flag;
+//	if (!flag) {
+//		// 开始前，立即截一张图，保证第一张图片非空
+//		//screencap();
+//
+//		m_cmd_condvar.notify_one();
+//	}
+//}
 
 std::vector<unsigned char> WinMacro::call_command(const std::string& cmd)
 {
@@ -285,6 +286,7 @@ int asst::WinMacro::push_cmd(const std::string& cmd)
 {
 	std::unique_lock<std::mutex> lock(m_cmd_queue_mutex);
 	m_cmd_queue.emplace(cmd);
+	m_cmd_condvar.notify_one();
 	return ++m_push_id;
 }
 
@@ -300,9 +302,11 @@ void asst::WinMacro::screencap()
 	DebugTraceFunction;
 
 	auto data = call_command(m_emulator_info.adb.screencap);
-	cv::Mat temp_image = cv::imdecode(data, cv::IMREAD_COLOR);
-	std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
-	m_cache_image = std::move(temp_image);
+	m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
+
+	//cv::Mat temp_image = cv::imdecode(data, cv::IMREAD_COLOR);
+	////std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+	//m_cache_image = std::move(temp_image);
 }
 
 int WinMacro::click(const Point& p, bool block)
@@ -378,7 +382,8 @@ int asst::WinMacro::swipe_without_scale(const Rect& r1, const Rect& r2, int dura
 
 cv::Mat asst::WinMacro::get_image(bool raw)
 {
-	std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
+	screencap();
+	//std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
 	if (raw) {
 		return m_cache_image;
 	}

@@ -38,6 +38,21 @@ namespace asst {
 			}
 			return dst;
 		}
+		// 文字匹配，要求相等
+		template<typename FilterArray>
+		std::vector<TextArea> text_match(const std::vector<TextArea>& src,
+			const FilterArray& filter_array)
+		{
+			std::vector<TextArea> dst;
+			for (const TextArea& text_area : src) {
+				for (const auto& text : filter_array) {
+					if (text_area.text == text) {
+						dst.emplace_back(text_area);
+					}
+				}
+			}
+			return dst;
+		}
 
 		// 文字搜索，是子串即可
 		template<typename FilterArray, typename ReplaceMap>
@@ -53,6 +68,20 @@ namespace asst {
 				for (const auto& text : filter_array) {
 					if (temp.text.find(text) != std::string::npos) {
 						dst.emplace_back(text, std::move(temp.rect));
+					}
+				}
+			}
+			return dst;
+		}
+		template<typename FilterArray>
+		std::vector<TextArea> text_search(const std::vector<TextArea>& src,
+			const FilterArray& filter_array)
+		{
+			std::vector<TextArea> dst;
+			for (const TextArea& text_area : src) {
+				for (const auto& text : filter_array) {
+					if (text_area.text.find(text) != std::string::npos) {
+						dst.emplace_back(text, text_area.rect);
 					}
 				}
 			}

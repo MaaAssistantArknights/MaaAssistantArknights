@@ -25,7 +25,7 @@ namespace asst {
 		~WinMacro();
 
 		bool try_capture(const EmulatorInfo& info);
-		void set_idle(bool flag);
+		//void set_idle(bool flag);
 
 		cv::Mat get_image(bool raw = false);
 
@@ -48,7 +48,7 @@ namespace asst {
 		Point rand_point_in_rect(const Rect& rect);
 
 		bool m_thread_exit = false;
-		bool m_thread_idle = true;
+		//bool m_thread_idle = true;
 		std::thread m_cmd_thread;
 		std::mutex m_cmd_queue_mutex;
 		std::condition_variable m_cmd_condvar;
@@ -56,7 +56,7 @@ namespace asst {
 		std::atomic<unsigned> m_completed_id = 0;
 		unsigned m_push_id = 0;						// push_id的自增总是伴随着queue的push，肯定是要上锁的，所以没必要原子
 
-		std::shared_mutex m_image_mutex;
+		//std::shared_mutex m_image_mutex;
 		cv::Mat m_cache_image;
 
 		constexpr static int PipeBuffSize = 1048576;	// 管道缓冲区大小
