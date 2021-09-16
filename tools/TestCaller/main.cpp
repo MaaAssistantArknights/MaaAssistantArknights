@@ -21,6 +21,10 @@ int main(int argc, char** argv)
 		//AsstStartIndertifyOpers(ptr);
 		AsstStartInfrast(ptr);
 		//AsstStartDebugTask(ptr);
+		//{
+		//	const int required[] = { 3, 4, 5, 6 };
+		//	AsstStartOpenRecruit(ptr, required, sizeof(required)/sizeof(int), true);
+		//}
 
 		ch = getchar();
 	}

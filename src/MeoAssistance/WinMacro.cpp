@@ -16,187 +16,247 @@
 
 using namespace asst;
 
-WinMacro::WinMacro(const EmulatorInfo& info)
-	: m_emulator_info(info),
-	m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count()),
-	ScreenFilename(GetCurrentDir() + "adb_screen.png")
+WinMacro::WinMacro()
+	: m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count())
 {
-	find_handle();
+	DebugTraceFunction;
+
+	// 安全属性描述符
+	m_pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
+	m_pipe_sec_attr.lpSecurityDescriptor = nullptr;
+	m_pipe_sec_attr.bInheritHandle = TRUE;
+
+	// 创建管道，本进程读-子进程写
+	BOOL pipe_read_ret = ::CreatePipe(&m_pipe_read, &m_pipe_child_write, &m_pipe_sec_attr, PipeBuffSize);
+	// 创建管道，本进程写-子进程读
+	BOOL pipe_write_ret = ::CreatePipe(&m_pipe_write, &m_pipe_child_read, &m_pipe_sec_attr, PipeBuffSize);
+
+	if (!pipe_read_ret || !pipe_write_ret) {
+		// TODO 报错
+	}
+
+	m_child_startup_info.cb = sizeof(STARTUPINFO);
+	m_child_startup_info.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+	m_child_startup_info.wShowWindow = SW_HIDE;
+	// 重定向子进程的读写
+	m_child_startup_info.hStdInput = m_pipe_child_read;
+	m_child_startup_info.hStdOutput = m_pipe_child_write;
+	m_child_startup_info.hStdError = m_pipe_child_write;
+
+	auto bind_pipe_working_proc = std::bind(&WinMacro::pipe_working_proc, this);
+	m_cmd_thread = std::thread(bind_pipe_working_proc);
 }
 
-bool WinMacro::captured() const noexcept
+asst::WinMacro::~WinMacro()
 {
-	// TODO，加入对ADB是否连接的检查
-	return m_handle != NULL && ::IsWindow(m_handle);
+	DebugTraceFunction;
+
+	m_thread_exit = true;
+	//m_thread_idle = true;
+	m_cmd_condvar.notify_all();
+	m_completed_id = UINT_MAX;	// make all WinMacor::wait to exit
+
+	if (m_cmd_thread.joinable()) {
+		m_cmd_thread.join();
+	}
+
+	::CloseHandle(m_pipe_read);
+	::CloseHandle(m_pipe_write);
+	::CloseHandle(m_pipe_child_read);
+	::CloseHandle(m_pipe_child_write);
 }
 
-bool WinMacro::find_handle()
+void asst::WinMacro::pipe_working_proc()
 {
-	const HandleInfo& handle_info = m_emulator_info.handle;
+	DebugTraceFunction;
 
-	wchar_t* class_wbuff = NULL;
+	while (!m_thread_exit) {
+		std::unique_lock<std::mutex> cmd_queue_lock(m_cmd_queue_mutex);
+
+		if (!m_cmd_queue.empty()) {	// 队列中有任务就执行任务
+			std::string cmd = m_cmd_queue.front();
+			m_cmd_queue.pop();
+			cmd_queue_lock.unlock();
+			// todo 判断命令是否执行成功
+			call_command(cmd);
+			++m_completed_id;
+		}
+		//else if (!m_thread_idle) {	// 队列中没有任务，又不是闲置的时候，就去截图
+		//	cmd_queue_lock.unlock();
+		//	auto start_time = std::chrono::system_clock::now();
+		//	screencap();
+		//	cmd_queue_lock.lock();
+		//	if (!m_cmd_queue.empty()) {
+		//		continue;
+		//	}
+		//	m_cmd_condvar.wait_until(
+		//		cmd_queue_lock,
+		//		start_time + std::chrono::milliseconds(1000));	// todo 时间写到配置文件里
+		//}
+		else {
+			//m_cmd_condvar.wait(cmd_queue_lock, [&]() -> bool {return !m_thread_idle; });
+			m_cmd_condvar.wait(cmd_queue_lock);
+		}
+	}
+}
+
+bool WinMacro::try_capture(const EmulatorInfo& info)
+{
+	DebugTraceFunction;
+
+	const HandleInfo& handle_info = info.handle;
+
+	// 转成宽字符的
+	wchar_t* class_wbuff = nullptr;
 	if (!handle_info.class_name.empty()) {
 		size_t class_len = (handle_info.class_name.size() + 1) * 2;
 		class_wbuff = new wchar_t[class_len];
 		::MultiByteToWideChar(CP_UTF8, 0, handle_info.class_name.c_str(), -1, class_wbuff, class_len);
 	}
-	wchar_t* window_wbuff = NULL;
+	wchar_t* window_wbuff = nullptr;
 	if (!handle_info.window_name.empty()) {
 		size_t window_len = (handle_info.window_name.size() + 1) * 2;
 		window_wbuff = new wchar_t[window_len];
 		memset(window_wbuff, 0, window_len);
 		::MultiByteToWideChar(CP_UTF8, 0, handle_info.window_name.c_str(), -1, window_wbuff, window_len);
 	}
+	// 查找窗口句柄
+	HWND window_handle = nullptr;
+	window_handle = ::FindWindowExW(window_handle, nullptr, class_wbuff, window_wbuff);
 
-	m_handle = ::FindWindowExW(m_handle, NULL, class_wbuff, window_wbuff);
-
-	if (class_wbuff != NULL) {
+	if (class_wbuff != nullptr) {
 		delete[] class_wbuff;
-		class_wbuff = NULL;
+		class_wbuff = nullptr;
 	}
-	if (window_wbuff != NULL) {
+	if (window_wbuff != nullptr) {
 		delete[] window_wbuff;
-		window_wbuff = NULL;
+		window_wbuff = nullptr;
 	}
-
-	if (m_handle == NULL) {
+	if (window_handle == nullptr) {
 		return false;
 	}
-	DWORD pid = 0;
-	::GetWindowThreadProcessId(m_handle, &pid);
-	HANDLE handle = ::OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
+	// 获取模拟器窗口句柄对应的进程句柄
+	DWORD process_id = 0;
+	::GetWindowThreadProcessId(window_handle, &process_id);
+	HANDLE process_handle = ::OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, process_id);
+
+	// 获取模拟器程序所在路径
 	LPSTR path_buff = new CHAR[MAX_PATH];
 	memset(path_buff, 0, MAX_PATH);
-	DWORD buff_size = MAX_PATH;
-	QueryFullProcessImageNameA(handle, 0, path_buff, &buff_size);
-	std::string adb_dir = path_buff;
-	if (path_buff != NULL) {
+	DWORD path_size = MAX_PATH;
+	QueryFullProcessImageNameA(process_handle, 0, path_buff, &path_size);
+	std::string adb_dir(path_buff, path_size);
+	if (path_buff != nullptr) {
 		delete[] path_buff;
-		path_buff = NULL;
+		path_buff = nullptr;
 	}
-	size_t pos = adb_dir.find_last_of('\\') + 1;
-	adb_dir = adb_dir.substr(0, pos);
+	if (adb_dir.empty()) {
+		return false;
+	}
+
+	// 到这一步说明句柄和权限没问题了，接下来就是adb的事情了
+	m_emulator_info = info;
+	m_handle = window_handle;
+	DebugTrace("Handle:", m_handle, "Name:", m_emulator_info.name);
+
+	adb_dir = adb_dir.substr(0, adb_dir.find_last_of('\\') + 1);
 	adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
+
 
 	// TODO，检查连接是否成功
 	std::string connect_cmd = StringReplaceAll(m_emulator_info.adb.connect, "[Adb]", adb_dir);
-	if (!call_command(connect_cmd)) {
-		DebugTraceError("Connect Adb Error", connect_cmd);
-		return false;
+	call_command(connect_cmd);
+
+	std::string display_cmd = StringReplaceAll(m_emulator_info.adb.display, "[Adb]", adb_dir);
+	auto display_result = call_command(display_cmd);
+	std::string display_pipe_str(
+		std::make_move_iterator(display_result.begin()),
+		std::make_move_iterator(display_result.end()));
+	int width = 0;
+	int height = 0;
+	sscanf_s(display_pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(), &width, &height);
+	m_emulator_info.adb.display_width = width;
+	m_emulator_info.adb.display_height = height;
+
+	constexpr double DefaultRatio =
+		static_cast<double>(Configer::WindowWidthDefault) / static_cast<double>(Configer::WindowHeightDefault);
+	double cur_ratio = static_cast<double>(width) / static_cast<double>(height);
+
+	if (cur_ratio >= DefaultRatio	// 说明是宽屏或默认16:9，按照高度计算缩放
+		|| std::fabs(cur_ratio - DefaultRatio) < DoubleDiff)
+	{
+		int scale_width = cur_ratio * Configer::WindowHeightDefault;
+		m_scale_size = std::make_pair(scale_width, Configer::WindowHeightDefault);
+		m_control_scale = static_cast<double>(height) / static_cast<double>(Configer::WindowHeightDefault);
 	}
-
-	auto&& display_ret = call_command(StringReplaceAll(m_emulator_info.adb.display, "[Adb]", adb_dir));
-	if (display_ret) {
-		std::string pipe_str = display_ret.value();
-		int width = 0;
-		int height = 0;
-		sscanf_s(pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(), &width, &height);
-
-		m_emulator_info.adb.display_width = width;
-		m_emulator_info.adb.display_height = height;
-
-		constexpr double DefaultRatio =
-			static_cast<double>(Configer::WindowWidthDefault) / static_cast<double>(Configer::WindowHeightDefault);
-		double cur_ratio = static_cast<double>(width) / static_cast<double>(height);
-
-		if (cur_ratio >= DefaultRatio	// 说明是宽屏或默认16:9，按照高度计算缩放
-			|| std::fabs(cur_ratio - DefaultRatio) < DoubleDiff)
-		{
-			int scale_width = cur_ratio * Configer::WindowHeightDefault;
-			m_scale_size = std::make_pair(scale_width, Configer::WindowHeightDefault);
-			m_control_scale = static_cast<double>(height) / static_cast<double>(Configer::WindowHeightDefault);
-		}
-		else
-		{	// 否则可能是偏正方形的屏幕，按宽度计算
-			int scale_height = Configer::WindowWidthDefault / cur_ratio;
-			m_scale_size = std::make_pair(Configer::WindowWidthDefault, scale_height);
-			m_control_scale = static_cast<double>(width) / static_cast<double>(Configer::WindowWidthDefault);
-		}
-	}
-	else {
-		DebugTraceError("Get Display Error");
-		return false;
+	else
+	{	// 否则可能是偏正方形的屏幕，按宽度计算
+		int scale_height = Configer::WindowWidthDefault / cur_ratio;
+		m_scale_size = std::make_pair(Configer::WindowWidthDefault, scale_height);
+		m_control_scale = static_cast<double>(width) / static_cast<double>(Configer::WindowWidthDefault);
 	}
 
 	m_emulator_info.adb.click = StringReplaceAll(m_emulator_info.adb.click, "[Adb]", adb_dir);
 	m_emulator_info.adb.swipe = StringReplaceAll(m_emulator_info.adb.swipe, "[Adb]", adb_dir);
+	m_emulator_info.adb.screencap = StringReplaceAll(m_emulator_info.adb.screencap, "[Adb]", adb_dir);
 
-	m_emulator_info.adb.screencap = StringReplaceAll(
-		StringReplaceAll(m_emulator_info.adb.screencap, "[Adb]", adb_dir),
-		"[Filename]", ScreenFilename);
-	m_emulator_info.adb.pullscreen = StringReplaceAll(
-		StringReplaceAll(m_emulator_info.adb.pullscreen, "[Adb]", adb_dir),
-		"[Filename]", ScreenFilename);
-
-	DebugTrace("Handle:", m_handle, "Name:", m_emulator_info.name);
 	return true;
 }
 
-std::optional<std::string> asst::WinMacro::call_command(const std::string& cmd, bool use_pipe)
+//void asst::WinMacro::set_idle(bool flag)
+//{
+//	DebugTraceFunction;
+//
+//	m_thread_idle = flag;
+//	if (!flag) {
+//		// 开始前，立即截一张图，保证第一张图片非空
+//		//screencap();
+//
+//		m_cmd_condvar.notify_one();
+//	}
+//}
+
+std::vector<unsigned char> WinMacro::call_command(const std::string& cmd)
 {
-	// 初始化管道
-	constexpr int PipeBuffSize = 1024;
-	HANDLE pipe_read = NULL;
-	HANDLE pipe_write = NULL;
-	SECURITY_ATTRIBUTES sa_out_pipe;
-	::ZeroMemory(&sa_out_pipe, sizeof(sa_out_pipe));
-	sa_out_pipe.nLength = sizeof(SECURITY_ATTRIBUTES);
-	sa_out_pipe.lpSecurityDescriptor = NULL;
-	sa_out_pipe.bInheritHandle = TRUE;
-	BOOL pipe_ret = FALSE;
-	if (use_pipe) {
-		pipe_ret = ::CreatePipe(&pipe_read, &pipe_write, &sa_out_pipe, PipeBuffSize);
-		DebugTrace("Create Pipe ret", pipe_ret ? "True" : "False");
-	}
+	DebugTraceFunction;
 
-	// 准备启动ADB进程
-	STARTUPINFOA startup_info;
-	PROCESS_INFORMATION process_info;
-	ZeroMemory(&startup_info, sizeof(startup_info));
-	ZeroMemory(&process_info, sizeof(process_info));
-	startup_info.cb = sizeof(STARTUPINFO);
-	startup_info.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
-	startup_info.hStdOutput = pipe_write;
-	startup_info.hStdError = pipe_write;
-	startup_info.wShowWindow = SW_HIDE;
+	static std::mutex pipe_mutex;
+	std::unique_lock<std::mutex> pipe_lock(pipe_mutex);
 
-	DWORD ret = -1;
-	if (!::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &startup_info, &process_info)) {
-		DebugTraceError("Call", cmd, "Create process error");
-		return std::nullopt;
-	}
-	::WaitForSingleObject(process_info.hProcess, 30000);
+	PROCESS_INFORMATION process_info = { 0 };	// 进程信息结构体
+	::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &m_child_startup_info, &process_info);
 
-	std::string pipe_str;
-	if (use_pipe && pipe_ret) {
+	std::vector<uchar> pipe_data;
+	do {
+		//DWORD write_num = 0;
+		//WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, NULL);
+
 		DWORD read_num = 0;
 		DWORD std_num = 0;
-		if (::PeekNamedPipe(pipe_read, NULL, 0, NULL, &read_num, NULL) && read_num > 0) {
-			char pipe_buffer[PipeBuffSize] = { 0 };
-			BOOL read_ret = ::ReadFile(pipe_read, pipe_buffer, read_num, &std_num, NULL);
+		while (::PeekNamedPipe(m_pipe_read, NULL, 0, NULL, &read_num, NULL) && read_num > 0) {
+			uchar* pipe_buffer = new uchar[read_num];
+			BOOL read_ret = ::ReadFile(m_pipe_read, pipe_buffer, read_num, &std_num, NULL);
 			if (read_ret) {
-				pipe_str = std::string(pipe_buffer, std_num);
+				pipe_data.insert(pipe_data.end(), pipe_buffer, pipe_buffer + std_num);
+			}
+			if (pipe_buffer != nullptr) {
+				delete[] pipe_buffer;
+				pipe_buffer = nullptr;
 			}
 		}
-	}
+	} while (::WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT);
 
-	::GetExitCodeProcess(process_info.hProcess, &ret);
+	DWORD exit_ret = -1;
+	::GetExitCodeProcess(process_info.hProcess, &exit_ret);
 
 	::CloseHandle(process_info.hProcess);
 	::CloseHandle(process_info.hThread);
-	DebugTrace("Call", cmd, "ret", ret);
-	if (use_pipe) {
-		DebugTrace("Pipe:", pipe_str);
+	DebugTrace("Call", cmd, "ret", exit_ret, ", output size:", pipe_data.size());
+	if (!pipe_data.empty() && pipe_data.size() < 4096) {
+		DebugTrace("output:", std::string(pipe_data.cbegin(), pipe_data.cend()));
 	}
 
-	if (pipe_read != NULL) {
-		::CloseHandle(pipe_read);
-	}
-	if (pipe_write != NULL) {
-		::CloseHandle(pipe_write);
-	}
-
-	return pipe_str;
+	return pipe_data;
 }
 
 Point asst::WinMacro::rand_point_in_rect(const Rect& rect)
@@ -222,59 +282,80 @@ Point asst::WinMacro::rand_point_in_rect(const Rect& rect)
 	return Point(x, y);
 }
 
-bool WinMacro::show_window()
+int asst::WinMacro::push_cmd(const std::string& cmd)
 {
-	return ::ShowWindow(m_handle, SW_RESTORE);
+	std::unique_lock<std::mutex> lock(m_cmd_queue_mutex);
+	m_cmd_queue.emplace(cmd);
+	m_cmd_condvar.notify_one();
+	return ++m_push_id;
 }
 
-bool WinMacro::hide_window()
+void asst::WinMacro::wait(unsigned id)
 {
-	return ::ShowWindow(m_handle, SW_HIDE);
+	while (id > m_completed_id) {
+		std::this_thread::yield();
+	}
 }
 
-bool WinMacro::click(const Point& p)
+void asst::WinMacro::screencap()
+{
+	DebugTraceFunction;
+
+	auto data = call_command(m_emulator_info.adb.screencap);
+	m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
+
+	//cv::Mat temp_image = cv::imdecode(data, cv::IMREAD_COLOR);
+	////std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+	//m_cache_image = std::move(temp_image);
+}
+
+int WinMacro::click(const Point& p, bool block)
 {
 	int x = p.x * m_control_scale;
 	int y = p.y * m_control_scale;
-	DebugTrace("Click, raw:", p.x, p.y, "corr:", x, y);
+	//DebugTrace("Click, raw:", p.x, p.y, "corr:", x, y);
 
-	return click_without_scale(Point(x, y));
+	return click_without_scale(Point(x, y), block);
 }
 
-bool WinMacro::click(const Rect& rect)
+int WinMacro::click(const Rect& rect, bool block)
 {
-	return click(rand_point_in_rect(rect));
+	return click(rand_point_in_rect(rect), block);
 }
 
-bool asst::WinMacro::click_without_scale(const Point& p)
+int asst::WinMacro::click_without_scale(const Point& p, bool block)
 {
 	std::string cur_cmd = StringReplaceAll(m_emulator_info.adb.click, "[x]", std::to_string(p.x));
 	cur_cmd = StringReplaceAll(cur_cmd, "[y]", std::to_string(p.y));
-	return call_command(cur_cmd, false).has_value();
+	int id = push_cmd(cur_cmd);
+	if (block) {
+		wait(id);
+	}
+	return id;
 }
 
-bool asst::WinMacro::click_without_scale(const Rect& rect)
+int asst::WinMacro::click_without_scale(const Rect& rect, bool block)
 {
-	return click_without_scale(rand_point_in_rect(rect));
+	return click_without_scale(rand_point_in_rect(rect), block);
 }
 
-bool asst::WinMacro::swipe(const Point& p1, const Point& p2, int duration)
+int asst::WinMacro::swipe(const Point& p1, const Point& p2, int duration, bool block)
 {
 	int x1 = p1.x * m_control_scale;
 	int y1 = p1.y * m_control_scale;
 	int x2 = p2.x * m_control_scale;
 	int y2 = p2.y * m_control_scale;
-	DebugTrace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
+	//DebugTrace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
 
-	return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration);
+	return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block);
 }
 
-bool asst::WinMacro::swipe(const Rect& r1, const Rect& r2, int duration)
+int asst::WinMacro::swipe(const Rect& r1, const Rect& r2, int duration, bool block)
 {
-	return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration);
+	return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block);
 }
 
-bool asst::WinMacro::swipe_without_scale(const Point& p1, const Point& p2, int duration)
+int asst::WinMacro::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block)
 {
 	std::string cur_cmd = StringReplaceAll(m_emulator_info.adb.swipe, "[x1]", std::to_string(p1.x));
 	cur_cmd = StringReplaceAll(cur_cmd, "[y1]", std::to_string(p1.y));
@@ -287,32 +368,32 @@ bool asst::WinMacro::swipe_without_scale(const Point& p1, const Point& p2, int d
 		cur_cmd = StringReplaceAll(cur_cmd, "[duration]", std::to_string(duration));
 	}
 
-	return call_command(cur_cmd, false).has_value();
+	int id = push_cmd(cur_cmd);
+	if (block) {
+		wait(id);
+	}
+	return id;
 }
 
-bool asst::WinMacro::swipe_without_scale(const Rect& r1, const Rect& r2, int duration)
+int asst::WinMacro::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block)
 {
-	return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration);
+	return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block);
 }
 
 cv::Mat asst::WinMacro::get_image(bool raw)
 {
-	DebugTraceFunction;
-
-	bool call_ret = call_command(m_emulator_info.adb.screencap, false).has_value()
-		&& call_command(m_emulator_info.adb.pullscreen, false).has_value();
-
-	if (!call_ret) {
-		return cv::Mat();
-	}
-	cv::Mat raw_mat = cv::imread(ScreenFilename);
+	screencap();
+	//std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
 	if (raw) {
-		return raw_mat;
+		return m_cache_image;
 	}
 	else {
+		if (m_cache_image.empty()) {
+			return m_cache_image;
+		}
 		const static cv::Size size(m_scale_size.first, m_scale_size.second);
 		cv::Mat resize_mat;
-		cv::resize(raw_mat, resize_mat, size, cv::INPAINT_NS);
+		cv::resize(m_cache_image, resize_mat, size, cv::INPAINT_NS);
 		return resize_mat;
 	}
 }

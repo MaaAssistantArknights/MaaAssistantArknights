@@ -16,11 +16,11 @@ namespace asst {
 	enum class ProcessTaskAction {
 		Invalid = 0,
 		BasicClick = 0x100,
-		ClickSelf = BasicClick | 1,		// 点击模板自身位置
+		ClickSelf = BasicClick | 1,		// 点击自身位置
 		ClickRect = BasicClick | 2,		// 点击指定区域
 		ClickRand = BasicClick | 4,		// 点击随机区域
 		DoNothing = 0x200,				// 什么都不做
-		Stop = 0x400,					// 停止工作线程
+		Stop = 0x400,					// 停止当前Task
 		PrintWindow = 0x800,			// 截图
 		BasicSwipe = 0x1000,
 		SwipeToTheLeft = BasicSwipe | 1,	// 往左划一下
@@ -106,15 +106,15 @@ namespace asst {
 		std::string display;
 		std::string display_regex;
 		std::string screencap;
-		std::string pullscreen;
+		//std::string pullscreen;
 		int display_width = 0;
 		int display_height = 0;
 	};
 
 	struct EmulatorInfo {
 		std::string name;
-		AdbCmd adb;
 		HandleInfo handle;
+		AdbCmd adb;
 	};
 
 	// 任务信息

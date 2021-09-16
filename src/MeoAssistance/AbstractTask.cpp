@@ -73,15 +73,11 @@ bool AbstractTask::print_window(const std::string& dir)
 	const std::string time_str = StringReplaceAll(StringReplaceAll(GetFormatTimeString(), " ", "_"), ":", "-");
 	const std::string filename = dir + time_str + ".png";
 
-	//bool ret = cv::imwrite(filename.c_str(), image);
-
-	m_controller_ptr->get_image(true);
-	// 直接把Adb上次pull出来的拷贝过去就行了
-	std::filesystem::copy(m_controller_ptr->ScreenFilename, filename);
+	bool ret = cv::imwrite(filename, m_controller_ptr->get_image(true));
 
 	json::value callback_json;
 	callback_json["filename"] = filename;
-	callback_json["ret"] = true;
+	callback_json["ret"] = ret;
 	callback_json["offset"] = 0;
 	m_callback(AsstMsg::PrintWindow, callback_json, m_callback_arg);
 

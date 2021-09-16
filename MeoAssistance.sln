@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCaller", "tools\TestCal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeoAsstGui", "src\MeoAsstGui\MeoAsstGui.csproj", "{FFDC8F49-8EAF-45BE-B0A8-7EF0DB9875A2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPipe", "tools\TestPipe\TestPipe.vcxproj", "{0565E66B-28A0-435C-BDFC-6565CADE28D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|x64 = Release|x64
@@ -41,6 +43,10 @@ Global
 		{FFDC8F49-8EAF-45BE-B0A8-7EF0DB9875A2}.Release|x64.Build.0 = Release|Any CPU
 		{FFDC8F49-8EAF-45BE-B0A8-7EF0DB9875A2}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|Any CPU
 		{FFDC8F49-8EAF-45BE-B0A8-7EF0DB9875A2}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|Any CPU
+		{0565E66B-28A0-435C-BDFC-6565CADE28D2}.Release|x64.ActiveCfg = Release|x64
+		{0565E66B-28A0-435C-BDFC-6565CADE28D2}.Release|x64.Build.0 = Release|x64
+		{0565E66B-28A0-435C-BDFC-6565CADE28D2}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{0565E66B-28A0-435C-BDFC-6565CADE28D2}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{36BC08F3-71CF-429A-AE69-291BE8962CB2} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 		{63B4F1A2-291C-4C85-91E1-A1F6DAE30D64} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
+		{0565E66B-28A0-435C-BDFC-6565CADE28D2} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F2C0E4B-4FE9-47C6-A878-6BD2FAD8B9B2}

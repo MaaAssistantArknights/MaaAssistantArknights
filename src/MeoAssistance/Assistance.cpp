@@ -95,6 +95,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 		}
 	}
 
+	m_controller_ptr = std::make_shared<WinMacro>();
 	
 	m_working_thread = std::thread(std::bind(&Assistance::working_proc, this));
 	m_msg_thread = std::thread(std::bind(&Assistance::msg_proc, this));
@@ -113,12 +114,10 @@ Assistance::~Assistance()
 	m_condvar.notify_all();
 	m_msg_condvar.notify_all();
 
-	if (m_working_thread.joinable())
-	{
+	if (m_working_thread.joinable()) {
 		m_working_thread.join();
 	}
-	if (m_msg_thread.joinable())
-	{
+	if (m_msg_thread.joinable()) {
 		m_msg_thread.join();
 	}
 }
@@ -129,11 +128,6 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 
 	stop();
 
-	auto create_handles = [&](const EmulatorInfo& info) -> bool
-	{
-		m_controller_ptr = std::make_shared<WinMacro>(info);
-		return m_controller_ptr->captured();
-	};
 
 	bool ret = false;
 	std::string cor_name = emulator_name;
@@ -141,29 +135,23 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 	std::unique_lock<std::mutex> lock(m_mutex);
 
 	// 自动匹配模拟器，逐个找
-	if (emulator_name.empty())
-	{
-		for (const auto& [name, info] : Configer::get_instance().m_handles)
-		{
-			ret = create_handles(info);
-			if (ret)
-			{
+	if (emulator_name.empty()) {
+		for (const auto& [name, info] : Configer::get_instance().m_handles) {
+			ret = m_controller_ptr->try_capture(info);
+			if (ret) {
 				cor_name = name;
 				break;
 			}
 		}
 	}
-	else
-	{ // 指定的模拟器
-		ret = create_handles(Configer::get_instance().m_handles[emulator_name]);
+	else { // 指定的模拟器
+		ret = m_controller_ptr->try_capture(Configer::get_instance().m_handles[emulator_name]);
 	}
-	if (ret)
-	{
+	if (ret) {
 		m_inited = true;
 		return cor_name;
 	}
-	else
-	{
+	else {
 		m_inited = false;
 		return std::nullopt;
 	}
@@ -427,8 +415,11 @@ void Assistance::working_proc()
 	{
 		//DebugTraceScope("Assistance::working_proc Loop");
 		std::unique_lock<std::mutex> lock(m_mutex);
+
 		if (!m_thread_idle && !m_tasks_deque.empty())
 		{
+			//m_controller_ptr->set_idle(false);
+
 			auto start_time = std::chrono::system_clock::now();
 			std::shared_ptr<AbstractTask> task_ptr = m_tasks_deque.front();
 			// 先pop出来，如果执行失败再还原回去
@@ -470,6 +461,7 @@ void Assistance::working_proc()
 		else
 		{
 			m_thread_idle = true;
+			//m_controller_ptr->set_idle(true);
 			m_condvar.wait(lock);
 		}
 	}

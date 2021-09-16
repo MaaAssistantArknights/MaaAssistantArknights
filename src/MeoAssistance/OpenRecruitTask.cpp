@@ -43,7 +43,7 @@ bool OpenRecruitTask::run()
 			Configer::get_instance().m_all_tasks_info["RecruitTime"]);
 
 		if (score >= time_reduce_task_ptr->templ_threshold) {
-			m_controller_ptr->click(time_reduce_task_ptr->specific_area);
+			m_controller_ptr->click(time_reduce_task_ptr->specific_area, false);
 		}
 	};
 	std::future<void> set_time_future = std::async(std::launch::async, set_time_foo, m_set_time);
@@ -217,7 +217,7 @@ bool OpenRecruitTask::run()
 				Rect click_rect = text_area.rect;
 				click_rect.x += identify_area.x;
 				click_rect.y += identify_area.y;
-				m_controller_ptr->click(click_rect);
+				m_controller_ptr->click(click_rect, false);
 			}
 		}
 	}
