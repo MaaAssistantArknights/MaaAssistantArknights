@@ -41,7 +41,17 @@
         ]
     },
     "PRTS": {
-        "template": "PRTS.png",
+        "algorithm": "OcrDetect",
+        "text": [
+            "剩余可放置角色",
+            "接管作战"
+        ],
+        "identifyArea": [
+            0,
+            530,
+            1279,
+            189
+        ],
         "action": "doNothing",
         "rearDelay": 5000,
         "next": [
