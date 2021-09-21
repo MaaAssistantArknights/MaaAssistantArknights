@@ -95,7 +95,7 @@ A game assistance for Arknights
 
 1. 下载[ADB程序](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
 2. 使用USB有线连接安卓手机和电脑
-3. 请打开手机`设置`-`开发者选项`中打开`USB调试`、`USB调试（安全设置）`两个选项。具体操作方式不同品牌手机各不相同，请自行百度查询
+3. 请在手机`设置`-`开发者选项`中打开`USB调试`、`USB调试（安全设置）`两个选项。具体操作方式不同品牌手机各不相同，请自行百度查询
 4. 请手动修改`resource\config.json`文件中，`options`.`connectType`为`1`。文件保存后请重新打开程序
 5. 当前仅兼容刷理智、公招计算功能，且公招计算暂时无法设置时间
 
@@ -103,7 +103,7 @@ A game assistance for Arknights
 
 1. 下载[ADB程序](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
 2. 请保证安卓手机和电脑处于同一局域网中
-3. 请打开手机中`设置`-`开发者选项`中打开`USB调试`、`USB调试（安全设置）`、`无线调试`三个选项。具体操作方式不同品牌手机各不相同，请自行百度查询
+3. 请在手机`设置`-`开发者选项`中打开`USB调试`、`USB调试（安全设置）`、`无线调试`三个选项。具体操作方式不同品牌手机各不相同，请自行百度查询
 4. 请手动修改`resource\config.json`文件中，`options`.`connectType`为`2`
 5. 请手动修改`resource\config.json`文件中，`options`.`connectRemoteAddress`为无线调试的IP地址和端口号。文件保存后请重新打开程序
 6. 当前仅兼容刷理智、公招计算功能，且公招计算暂时无法设置时间
