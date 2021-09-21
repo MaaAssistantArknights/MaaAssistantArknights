@@ -24,7 +24,7 @@ namespace asst {
 		WinMacro();
 		~WinMacro();
 
-		bool try_capture(const EmulatorInfo& info);
+		bool try_capture(const EmulatorInfo& info, bool without_handle = false);
 		//void set_idle(bool flag);
 
 		cv::Mat get_image(bool raw = false);

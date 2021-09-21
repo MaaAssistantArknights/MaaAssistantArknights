@@ -50,6 +50,22 @@
                 "displayRegex": "cur=%dx%d",
                 "screencap": "[Adb] -s 127.0.0.1:7555 exec-out screencap -p"
             }
+        },
+        "Remote": {
+            "handle": {
+                "class": "Remote Class",
+                "window": "Remote Window",
+                "Doc": "这俩不是用来捕获窗口的，是为了兼容现有的捕获模拟器的字段，随手写的，这两个字段实际不会使用到"
+            },
+            "adb": {
+                "path": "[ExecDir]platform-tools\\adb.exe",
+                "connect": "[Adb] connect [Address]",
+                "click": "[Adb] -s [Address] shell input tap [x] [y]",
+                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d",
+                "screencap": "[Adb] -s [Address] exec-out screencap -p"
+            }
         }
     },
     "ocrReplace_Doc": "下面为常见的文字识别错误纠正，不需要修改",

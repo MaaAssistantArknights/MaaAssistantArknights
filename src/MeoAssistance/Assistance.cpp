@@ -133,15 +133,14 @@ Assistance::~Assistance()
 	}
 }
 
-std::optional<std::string> Assistance::catch_emulator(const std::string& emulator_name)
+bool Assistance::catch_emulator(const std::string& emulator_name)
 {
 	DebugTraceFunction;
 
 	stop();
 
-
 	bool ret = false;
-	std::string cor_name = emulator_name;
+	//std::string cor_name = emulator_name;
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -150,7 +149,7 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 		for (const auto& [name, info] : Configer::get_instance().m_handles) {
 			ret = m_controller_ptr->try_capture(info);
 			if (ret) {
-				cor_name = name;
+				//cor_name = name;
 				break;
 			}
 		}
@@ -158,14 +157,32 @@ std::optional<std::string> Assistance::catch_emulator(const std::string& emulato
 	else { // 指定的模拟器
 		ret = m_controller_ptr->try_capture(Configer::get_instance().m_handles[emulator_name]);
 	}
-	if (ret) {
-		m_inited = true;
-		return cor_name;
-	}
-	else {
-		m_inited = false;
-		return std::nullopt;
-	}
+
+	m_inited = ret;
+	return ret;
+}
+
+bool asst::Assistance::catch_remote(const std::string& address)
+{
+	DebugTraceFunction;
+
+	stop();
+
+	bool ret = false;
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+
+	EmulatorInfo remote_info = Configer::get_instance().m_handles["Remote"];
+	remote_info.adb.connect = StringReplaceAll(remote_info.adb.connect, "[Address]", address);
+	remote_info.adb.click = StringReplaceAll(remote_info.adb.click, "[Address]", address);
+	remote_info.adb.swipe = StringReplaceAll(remote_info.adb.swipe, "[Address]", address);
+	remote_info.adb.display = StringReplaceAll(remote_info.adb.display, "[Address]", address);
+	remote_info.adb.screencap = StringReplaceAll(remote_info.adb.screencap, "[Address]", address);
+
+	ret = m_controller_ptr->try_capture(remote_info, true);
+
+	m_inited = ret;
+	return ret;
 }
 
 bool asst::Assistance::start_sanity()
