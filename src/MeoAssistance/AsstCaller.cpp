@@ -60,6 +60,21 @@ void AsstDestory(asst::Assistance* p_asst)
 	p_asst = NULL;
 }
 
+bool AsstCatchDefault(asst::Assistance* p_asst)
+{
+	if (p_asst == NULL) {
+		return false;
+	}
+
+	auto&& ret = p_asst->catch_default();
+	if (ret) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 bool AsstCatchEmulator(asst::Assistance* p_asst)
 {
 	if (p_asst == NULL) {
@@ -67,6 +82,21 @@ bool AsstCatchEmulator(asst::Assistance* p_asst)
 	}
 
 	auto&& ret = p_asst->catch_emulator();
+	if (ret) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool AsstCatchUSB(asst::Assistance* p_asst)
+{
+	if (p_asst == NULL) {
+		return false;
+	}
+
+	auto&& ret = p_asst->catch_usb();
 	if (ret) {
 		return true;
 	}

@@ -133,6 +133,23 @@ Assistance::~Assistance()
 	}
 }
 
+bool asst::Assistance::catch_default()
+{
+	DebugTraceFunction;
+
+	switch (Configer::get_instance().m_options.connect_type)
+	{
+	case ConnectType::Emulator:
+		return catch_emulator();
+	case ConnectType::USB:
+		return catch_usb();
+	case ConnectType::Remote:
+		return catch_remote(Configer::get_instance().m_options.connect_remote_address);
+	default:
+		return false;
+	}
+}
+
 bool Assistance::catch_emulator(const std::string& emulator_name)
 {
 	DebugTraceFunction;
@@ -157,6 +174,24 @@ bool Assistance::catch_emulator(const std::string& emulator_name)
 	else { // 指定的模拟器
 		ret = m_controller_ptr->try_capture(Configer::get_instance().m_handles[emulator_name]);
 	}
+
+	m_inited = ret;
+	return ret;
+}
+
+bool asst::Assistance::catch_usb()
+{
+	DebugTraceFunction;
+
+	stop();
+
+	bool ret = false;
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+
+	EmulatorInfo remote_info = Configer::get_instance().m_handles["USB"];
+
+	ret = m_controller_ptr->try_capture(remote_info, true);
 
 	m_inited = ret;
 	return ret;

@@ -20,7 +20,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] static private extern void AsstDestory(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchEmulator(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchDefault(IntPtr ptr);
 
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStartProcessTask(IntPtr ptr, string task);
 
@@ -237,9 +237,9 @@ namespace MeoAsstGui
             AsstStop(_ptr);
         }
 
-        public bool AsstCatchEmulator()
+        public bool AsstCatchDefault()
         {
-            return AsstCatchEmulator(_ptr);
+            return AsstCatchDefault(_ptr);
         }
 
         public bool AsstStartSanity()

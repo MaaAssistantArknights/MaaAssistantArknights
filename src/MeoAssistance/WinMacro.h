@@ -38,11 +38,14 @@ namespace asst {
 		int swipe(const Rect& r1, const Rect& r2, int duration = 0, bool block = true);
 		int swipe_without_scale(const Point& p1, const Point& p2, int duration = 0, bool block = true);
 		int swipe_without_scale(const Rect& r1, const Rect& r2, int duration = 0, bool block = true);
+
+		// 异形屏矫正
+		Rect shaped_correct(const Rect& rect) const;
 	private:
 		void pipe_working_proc();
 		std::vector<unsigned char> call_command(const std::string& cmd);
 		int push_cmd(const std::string& cmd);
-		void wait(unsigned id);
+		void wait(unsigned id) const noexcept;
 		void screencap();
 
 		Point rand_point_in_rect(const Rect& rect);

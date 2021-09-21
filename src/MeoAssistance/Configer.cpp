@@ -16,6 +16,8 @@ bool asst::Configer::parse(const json::value& json)
 
 	const json::value& options_json = json.at("options");
 	{
+		m_options.connect_type = static_cast<ConnectType>(options_json.at("connectType").as_integer());
+		m_options.connect_remote_address = options_json.at("connectRemoteAddress").as_string();
 		m_options.task_delay = options_json.at("taskDelay").as_integer();
 		//m_options.identify_cache = options_json.at("identifyCache").as_boolean();
 		m_options.control_delay_lower = options_json.at("controlDelayRange")[0].as_integer();
