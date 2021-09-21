@@ -13,7 +13,7 @@ namespace MeoAsstGui
         {
             _container = container;
             _windowManager = windowManager;
-            DisplayName = "全自动公招";
+            DisplayName = "公招识别";
         }
 
         private string _recruitInfo = "识别结果";
@@ -96,7 +96,7 @@ namespace MeoAsstGui
         public void StartCalc()
         {
             var asstProxy = _container.Get<AsstProxy>();
-            if (!asstProxy.AsstCatchEmulator())
+            if (!asstProxy.AsstCatchDefault())
             {
                 return;
             }
