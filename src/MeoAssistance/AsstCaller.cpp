@@ -75,6 +75,21 @@ bool AsstCatchEmulator(asst::Assistance* p_asst)
 	}
 }
 
+bool AsstCatchRemote(asst::Assistance* p_asst, const char* address)
+{
+	if (p_asst == NULL) {
+		return false;
+	}
+
+	auto&& ret = p_asst->catch_remote(address);
+	if (ret) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 bool AsstStartSanity(asst::Assistance* p_asst)
 {
 	if (p_asst == NULL) {

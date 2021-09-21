@@ -101,76 +101,82 @@ void asst::WinMacro::pipe_working_proc()
 	}
 }
 
-bool WinMacro::try_capture(const EmulatorInfo& info)
+bool WinMacro::try_capture(const EmulatorInfo& info, bool without_handle)
 {
 	DebugTraceFunction;
 
 	const HandleInfo& handle_info = info.handle;
+	std::string adb_dir;
 
-	// 转成宽字符的
-	wchar_t* class_wbuff = nullptr;
-	if (!handle_info.class_name.empty()) {
-		size_t class_len = (handle_info.class_name.size() + 1) * 2;
-		class_wbuff = new wchar_t[class_len];
-		::MultiByteToWideChar(CP_UTF8, 0, handle_info.class_name.c_str(), -1, class_wbuff, class_len);
-	}
-	wchar_t* window_wbuff = nullptr;
-	if (!handle_info.window_name.empty()) {
-		size_t window_len = (handle_info.window_name.size() + 1) * 2;
-		window_wbuff = new wchar_t[window_len];
-		memset(window_wbuff, 0, window_len);
-		::MultiByteToWideChar(CP_UTF8, 0, handle_info.window_name.c_str(), -1, window_wbuff, window_len);
-	}
-	// 查找窗口句柄
-	HWND window_handle = nullptr;
-	window_handle = ::FindWindowExW(window_handle, nullptr, class_wbuff, window_wbuff);
-
-	if (class_wbuff != nullptr) {
-		delete[] class_wbuff;
-		class_wbuff = nullptr;
-	}
-	if (window_wbuff != nullptr) {
-		delete[] window_wbuff;
-		window_wbuff = nullptr;
-	}
-	if (window_handle == nullptr) {
-		return false;
-	}
-
-	std::string emulator_path;
-	if (info.path.empty()) {
-		// 获取模拟器窗口句柄对应的进程句柄
-		DWORD process_id = 0;
-		::GetWindowThreadProcessId(window_handle, &process_id);
-		HANDLE process_handle = ::OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, process_id);
-
-		// 获取模拟器程序所在路径
-		LPSTR path_buff = new CHAR[MAX_PATH];
-		memset(path_buff, 0, MAX_PATH);
-		DWORD path_size = MAX_PATH;
-		QueryFullProcessImageNameA(process_handle, 0, path_buff, &path_size);
-		emulator_path = std::string(path_buff);
-		if (path_buff != nullptr) {
-			delete[] path_buff;
-			path_buff = nullptr;
+	if (!without_handle) {	// 使用模拟器自带的adb
+		// 转成宽字符的
+		wchar_t* class_wbuff = nullptr;
+		if (!handle_info.class_name.empty()) {
+			size_t class_len = (handle_info.class_name.size() + 1) * 2;
+			class_wbuff = new wchar_t[class_len];
+			::MultiByteToWideChar(CP_UTF8, 0, handle_info.class_name.c_str(), -1, class_wbuff, class_len);
 		}
-		if (emulator_path.empty()) {
+		wchar_t* window_wbuff = nullptr;
+		if (!handle_info.window_name.empty()) {
+			size_t window_len = (handle_info.window_name.size() + 1) * 2;
+			window_wbuff = new wchar_t[window_len];
+			memset(window_wbuff, 0, window_len);
+			::MultiByteToWideChar(CP_UTF8, 0, handle_info.window_name.c_str(), -1, window_wbuff, window_len);
+		}
+		// 查找窗口句柄
+		HWND window_handle = nullptr;
+		window_handle = ::FindWindowExW(window_handle, nullptr, class_wbuff, window_wbuff);
+
+		if (class_wbuff != nullptr) {
+			delete[] class_wbuff;
+			class_wbuff = nullptr;
+		}
+		if (window_wbuff != nullptr) {
+			delete[] window_wbuff;
+			window_wbuff = nullptr;
+		}
+		if (window_handle == nullptr) {
 			return false;
 		}
-		UserConfiger::get_instance().set_emulator_path(info.name, emulator_path);
+
+		std::string emulator_path;
+		if (info.path.empty()) {
+			// 获取模拟器窗口句柄对应的进程句柄
+			DWORD process_id = 0;
+			::GetWindowThreadProcessId(window_handle, &process_id);
+			HANDLE process_handle = ::OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, process_id);
+
+			// 获取模拟器程序所在路径
+			LPSTR path_buff = new CHAR[MAX_PATH];
+			memset(path_buff, 0, MAX_PATH);
+			DWORD path_size = MAX_PATH;
+			QueryFullProcessImageNameA(process_handle, 0, path_buff, &path_size);
+			emulator_path = std::string(path_buff);
+			if (path_buff != nullptr) {
+				delete[] path_buff;
+				path_buff = nullptr;
+			}
+			if (emulator_path.empty()) {
+				return false;
+			}
+			UserConfiger::get_instance().set_emulator_path(info.name, emulator_path);
+		}
+		else {
+			emulator_path = info.path;
+		}
+
+		// 到这一步说明句柄和权限没问题了，接下来就是adb的事情了
+		m_emulator_info = info;
+		m_handle = window_handle;
+		DebugTrace("Handle:", m_handle, "Name:", m_emulator_info.name);
+
+		adb_dir = emulator_path.substr(0, emulator_path.find_last_of('\\') + 1);
+		adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
 	}
-	else {
-		emulator_path = info.path;
+	else {	// 使用辅助自带的标准adb
+		m_emulator_info = info;
+		adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[ExecDir]", GetCurrentDir()) + '"';
 	}
-
-	// 到这一步说明句柄和权限没问题了，接下来就是adb的事情了
-	m_emulator_info = info;
-	m_handle = window_handle;
-	DebugTrace("Handle:", m_handle, "Name:", m_emulator_info.name);
-
-	std::string adb_dir = emulator_path.substr(0, emulator_path.find_last_of('\\') + 1);
-	adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
-
 
 	// TODO，检查连接是否成功
 	std::string connect_cmd = StringReplaceAll(m_emulator_info.adb.connect, "[Adb]", adb_dir);
@@ -181,28 +187,30 @@ bool WinMacro::try_capture(const EmulatorInfo& info)
 	std::string display_pipe_str(
 		std::make_move_iterator(display_result.begin()),
 		std::make_move_iterator(display_result.end()));
-	int width = 0;
-	int height = 0;
-	sscanf_s(display_pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(), &width, &height);
-	m_emulator_info.adb.display_width = width;
-	m_emulator_info.adb.display_height = height;
+	int size_value1 = 0;
+	int size_value2 = 0;
+	sscanf_s(display_pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(), &size_value1, &size_value2);
+	// 为了防止抓取句柄的时候手机是竖屏的（还没进游戏），这里取大的值为宽，小的为高
+	// 总不能有人竖屏玩明日方舟吧（？
+	m_emulator_info.adb.display_width = (std::max)(size_value1, size_value2);
+	m_emulator_info.adb.display_height = (std::min)(size_value1, size_value2);
 
 	constexpr double DefaultRatio =
 		static_cast<double>(Configer::WindowWidthDefault) / static_cast<double>(Configer::WindowHeightDefault);
-	double cur_ratio = static_cast<double>(width) / static_cast<double>(height);
+	double cur_ratio = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(m_emulator_info.adb.display_height);
 
 	if (cur_ratio >= DefaultRatio	// 说明是宽屏或默认16:9，按照高度计算缩放
 		|| std::fabs(cur_ratio - DefaultRatio) < DoubleDiff)
 	{
 		int scale_width = cur_ratio * Configer::WindowHeightDefault;
 		m_scale_size = std::make_pair(scale_width, Configer::WindowHeightDefault);
-		m_control_scale = static_cast<double>(height) / static_cast<double>(Configer::WindowHeightDefault);
+		m_control_scale = static_cast<double>(m_emulator_info.adb.display_height) / static_cast<double>(Configer::WindowHeightDefault);
 	}
 	else
 	{	// 否则可能是偏正方形的屏幕，按宽度计算
 		int scale_height = Configer::WindowWidthDefault / cur_ratio;
 		m_scale_size = std::make_pair(Configer::WindowWidthDefault, scale_height);
-		m_control_scale = static_cast<double>(width) / static_cast<double>(Configer::WindowWidthDefault);
+		m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(Configer::WindowWidthDefault);
 	}
 
 	m_emulator_info.adb.click = StringReplaceAll(m_emulator_info.adb.click, "[Adb]", adb_dir);

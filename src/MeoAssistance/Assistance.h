@@ -26,7 +26,10 @@ namespace asst {
 		Assistance(AsstCallback callback = nullptr, void* callback_arg = nullptr);
 		~Assistance();
 
-		std::optional<std::string> catch_emulator(const std::string& emulator_name = std::string());
+		// 捕获模拟器
+		bool catch_emulator(const std::string& emulator_name = std::string());
+		// 捕获远程地址（安卓手机）
+		bool catch_remote(const std::string& address);
 
 		// 开始刷理智
 		bool start_sanity();
