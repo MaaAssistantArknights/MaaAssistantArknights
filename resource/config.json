@@ -1,12 +1,16 @@
 {
-    "version": "0.5",
+    "version": "0.6",
     "options": {
+        "connectType" : 0,
+        "connectType_Doc": "连接类型：0-连接电脑上的模拟器，1-连接USB连接的安卓设备，2-连接局域网中的安卓设备。默认0",
+        "connectRemoteAddress": "",
+        "connectRemoteAddress_Doc": "连接局域网中的安卓设备的地址，仅在connectType为2时生效。格式举例：192.168.1.123:5678",
         "taskDelay": 1000,
         "taskDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认1000",
         "printWindow": true,
         "printWindow_Doc": "截图功能：开启后每次结算界面会截图到screenshot目录下。true-开启，false-关闭，默认true",
         "printWindowDelay": 3000,
-        "printWindowDelay_Doc": "截图延时：每次到结算界面，掉落物品不是一次性出来的，有个动画，所以需要等一会再截图。单位毫秒，默认3000",
+        "printWindowDelay_Doc": "截图延时：每次到结算界面，掉落物品不是一次性出来的，有个动画，所以需要等一会再截图。单位毫秒，默认3000，仅在printWindow为true时生效",
         "controlDelayRange": [
             0,
             0
@@ -65,6 +69,23 @@
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayRegex": "cur=%dx%d",
                 "screencap": "[Adb] -s [Address] exec-out screencap -p"
+            }
+        },
+        "USB": {
+            "handle": {
+                "class": "USB Class",
+                "window": "USB Window",
+                "Doc": "这俩不是用来捕获窗口的，是为了兼容现有的捕获模拟器的字段，随手写的，这两个字段实际不会使用到"
+            },
+            "adb": {
+                "Doc": "USB连接暂时不兼容多设备的情况",
+                "path": "[ExecDir]platform-tools\\adb.exe",
+                "connect": "[Adb] devices",
+                "click": "[Adb] shell input tap [x] [y]",
+                "swipe": "[Adb] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d",
+                "screencap": "[Adb] exec-out screencap -p"
             }
         }
     },

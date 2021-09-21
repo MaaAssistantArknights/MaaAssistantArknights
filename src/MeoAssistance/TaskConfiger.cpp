@@ -176,4 +176,5 @@ bool asst::TaskConfiger::parse(const json::value& json)
 
 		m_all_tasks_info.emplace(name, task_info_ptr);
 	}
+	return true;
 }

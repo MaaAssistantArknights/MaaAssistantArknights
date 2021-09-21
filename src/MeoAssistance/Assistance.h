@@ -26,8 +26,12 @@ namespace asst {
 		Assistance(AsstCallback callback = nullptr, void* callback_arg = nullptr);
 		~Assistance();
 
+		// 根据配置文件，决定捕获模拟器、USB 还是远程设备
+		bool catch_default();
 		// 捕获模拟器
 		bool catch_emulator(const std::string& emulator_name = std::string());
+		// 捕获usb设备
+		bool catch_usb();
 		// 捕获远程地址（安卓手机）
 		bool catch_remote(const std::string& address);
 

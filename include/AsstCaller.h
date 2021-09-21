@@ -13,7 +13,10 @@ extern "C" {
 	MEOAPI_PORT asst::Assistance* MEO_CALL AsstCreate();
 	MEOAPI_PORT asst::Assistance* MEO_CALL AsstCreateEx(AsstCallback callback, void* custom_arg);
 	void MEOAPI AsstDestory(asst::Assistance* p_asst);
+
+	bool MEOAPI AsstCatchDefault(asst::Assistance* p_asst);
 	bool MEOAPI AsstCatchEmulator(asst::Assistance* p_asst);
+	bool MEOAPI AsstCatchUSB(asst::Assistance* p_asst);
 	bool MEOAPI AsstCatchRemote(asst::Assistance* p_asst, const char* address);
 
 	bool MEOAPI AsstStartSanity(asst::Assistance* p_asst);

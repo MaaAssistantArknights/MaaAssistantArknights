@@ -30,13 +30,18 @@ bool OpenRecruitTask::run()
 	m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
 	const cv::Mat& image = m_controller_ptr->get_image();
+	if (image.empty()) {
+		m_callback(AsstMsg::ImageIsEmpty, task_start_json, m_callback_arg);
+		return false;
+	}
 
 	/* 设置招募时间9小时 */
 	auto set_time_foo = [&](bool flag) -> void {
 		if (!flag) {
 			return;
 		}
-		const static cv::Rect identify_area(340, 140, 510, 160);
+		const static cv::Rect identify_area = make_rect<cv::Rect>(
+			m_controller_ptr->shaped_correct(Rect(340, 140, 510, 160)));
 		auto&& [algorithm, score, second_confirm_rect] =
 			m_identify_ptr->find_image(image(identify_area), "RecruitTime");
 
@@ -49,7 +54,8 @@ bool OpenRecruitTask::run()
 	};
 	std::future<void> set_time_future = std::async(std::launch::async, set_time_foo, m_set_time);
 
-	const static cv::Rect identify_area(360, 340, 520, 160);
+	const static cv::Rect identify_area = make_rect<cv::Rect>(
+		m_controller_ptr->shaped_correct(Rect(360, 320, 520, 200)));
 	/* Find all text */
 	std::vector<TextArea> all_text_area = ocr_detect(image(identify_area));
 

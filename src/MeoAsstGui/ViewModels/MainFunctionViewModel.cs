@@ -186,7 +186,7 @@ namespace MeoAsstGui
         public void StartSanity()
         {
             var asstProxy = _container.Get<AsstProxy>();
-            bool catched = asstProxy.AsstCatchEmulator();
+            bool catched = asstProxy.AsstCatchDefault();
             CatchStatus = "捕获模拟器窗口：" + catched;
             if (!asstProxy.AsstStartSanity())
             {
@@ -202,7 +202,7 @@ namespace MeoAsstGui
         public void Visit()
         {
             var asstProxy = _container.Get<AsstProxy>();
-            bool catched = asstProxy.AsstCatchEmulator();
+            bool catched = asstProxy.AsstCatchDefault();
             CatchStatus = "捕获模拟器窗口：" + catched;
             if (!asstProxy.AsstStartVisit())
             {

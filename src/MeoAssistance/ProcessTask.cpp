@@ -156,12 +156,12 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			double hist_threshold = process_task_info_ptr->hist_threshold;
 			double add_cache_thres = process_task_info_ptr->cache ? templ_threshold : Identify::NotAddCache;
 			cv::Mat identify_image;
-			const auto& identify_area = task_info_ptr->identify_area;
+			const auto& identify_area = m_controller_ptr->shaped_correct(task_info_ptr->identify_area);
 			if (identify_area.width == 0) {
 				identify_image = cur_image;
 			}
 			else {
-				identify_image = cur_image(make_rect<cv::Rect>(task_info_ptr->identify_area));
+				identify_image = cur_image(make_rect<cv::Rect>(identify_area));
 			}
 			auto&& [algorithm, score, temp_rect] = m_identify_ptr->find_image(identify_image, task_name, add_cache_thres);
 			rect = std::move(temp_rect);
@@ -193,12 +193,12 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 			std::shared_ptr<OcrTaskInfo> ocr_task_info_ptr =
 				std::dynamic_pointer_cast<OcrTaskInfo>(task_info_ptr);
 			cv::Mat identify_image;
-			const auto& identify_area = task_info_ptr->identify_area;
+			const auto& identify_area = m_controller_ptr->shaped_correct(task_info_ptr->identify_area);
 			if (identify_area.width == 0) {
 				identify_image = cur_image;
 			}
 			else {
-				identify_image = cur_image(make_rect<cv::Rect>(task_info_ptr->identify_area));
+				identify_image = cur_image(make_rect<cv::Rect>(identify_area));
 			}
 			std::vector<TextArea> all_text_area = ocr_detect(identify_image);
 			std::vector<TextArea> match_result;
