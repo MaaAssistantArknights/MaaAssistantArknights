@@ -1,11 +1,9 @@
 ﻿#include "AsstCaller.h"
 #include <stdio.h>
 
-using namespace asst;
-
 int main(int argc, char** argv)
 {
-	Assistance* ptr = AsstCreate();
+	void* ptr = AsstCreate();
 	auto ret = AsstCatchEmulator(ptr);
 	if (!ret) {
 		getchar();
