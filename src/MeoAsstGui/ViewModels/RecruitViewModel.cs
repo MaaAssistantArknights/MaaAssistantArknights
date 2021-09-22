@@ -38,7 +38,7 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _chooseLevel3 = false;
+        private bool _chooseLevel3 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel3", bool.FalseString));
 
         public bool ChooseLevel3
         {
@@ -46,10 +46,11 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _chooseLevel3, value);
+                ViewStatusStorage.Set("Recruit.ChooseLevel3", value.ToString());
             }
         }
 
-        private bool _chooseLevel4 = true;
+        private bool _chooseLevel4 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel4", bool.TrueString));
 
         public bool ChooseLevel4
         {
@@ -57,10 +58,11 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _chooseLevel4, value);
+                ViewStatusStorage.Set("Recruit.ChooseLevel4", value.ToString());
             }
         }
 
-        private bool _chooseLevel5 = true;
+        private bool _chooseLevel5 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel5", bool.TrueString));
 
         public bool ChooseLevel5
         {
@@ -68,10 +70,11 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _chooseLevel5, value);
+                ViewStatusStorage.Set("Recruit.ChooseLevel5", value.ToString());
             }
         }
 
-        private bool _chooseLevel6 = true;
+        private bool _chooseLevel6 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel6", bool.TrueString));
 
         public bool ChooseLevel6
         {
@@ -79,10 +82,11 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _chooseLevel6, value);
+                ViewStatusStorage.Set("Recruit.ChooseLevel6", value.ToString());
             }
         }
 
-        private bool _autoSetTime = true;
+        private bool _autoSetTime = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.AutoSetTime", bool.TrueString));
 
         public bool AutoSetTime
         {
@@ -90,6 +94,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _autoSetTime, value);
+                ViewStatusStorage.Set("Recruit.AutoSetTime", value.ToString());
             }
         }
 

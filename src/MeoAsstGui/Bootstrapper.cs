@@ -10,6 +10,7 @@ namespace MeoAsstGui
         // 初始化些啥自己加
         protected override void OnStart()
         {
+            ViewStatusStorage.Load();
         }
 
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
@@ -23,6 +24,7 @@ namespace MeoAsstGui
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
+            ViewStatusStorage.Save();
         }
 
         protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)

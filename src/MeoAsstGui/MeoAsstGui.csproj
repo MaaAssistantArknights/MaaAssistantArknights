@@ -204,6 +204,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Helper\AsstProxy.cs" />
+    <Compile Include="Helper\ViewStatusStorage.cs" />
     <Compile Include="UserControl\ParamSettingUserControl.xaml.cs">
       <DependentUpon>ParamSettingUserControl.xaml</DependentUpon>
     </Compile>

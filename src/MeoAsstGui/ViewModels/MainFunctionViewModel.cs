@@ -13,6 +13,17 @@ namespace MeoAsstGui
             _container = container;
             _windowManager = windowManager;
             DisplayName = "刷理智";
+            
+            var asstProxy = _container.Get<AsstProxy>();
+            if (UseMedicine)
+            {
+                asstProxy.AsstSetParam("task.action", "UseMedicine", "doNothing");
+            }
+            else
+            {
+                asstProxy.AsstSetParam("task.action", "UseMedicine", "stop");
+            }
+
         }
 
         private string _execInfo;
@@ -68,7 +79,7 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _useMedicine = true;
+        private bool _useMedicine = System.Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.TrueString));
 
         public bool UseMedicine
         {
@@ -76,6 +87,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _useMedicine, value);
+                ViewStatusStorage.Set("MainFunction.UseMedicine", value.ToString());
                 var asstProxy = _container.Get<AsstProxy>();
                 if (value)
                 {
