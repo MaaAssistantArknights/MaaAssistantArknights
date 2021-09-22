@@ -7,7 +7,6 @@
 #include <type_traits>
 
 #include "AsstAux.h"
-#include "AsstPort.h"
 #include "Version.h"
 
 namespace asst {

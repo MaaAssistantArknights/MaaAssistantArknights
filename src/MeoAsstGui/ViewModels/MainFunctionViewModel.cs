@@ -231,6 +231,7 @@ namespace MeoAsstGui
 
             CatchStatus = "";
             ExecInfo = "";
+            MedicineInfo = "";
             StoneInfo = "";
             RunStatus = "";
         }
@@ -245,9 +246,13 @@ namespace MeoAsstGui
                 return;
             }
             ExecInfo = "";
+            if (UseMedicine)
+            {
+                MedicineInfo = "已吃药 0 个";
+            }
             if (UseStone)
             {
-                StoneInfo = "已碎石 0 个";
+                StoneInfo = "已碎石 0 颗";
             }
         }
 

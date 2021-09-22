@@ -36,7 +36,7 @@ namespace MeoAsstGui
                     _viewStatus = (JObject)JsonConvert.DeserializeObject(jsonStr);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 _viewStatus = new JObject();
                 return false;
