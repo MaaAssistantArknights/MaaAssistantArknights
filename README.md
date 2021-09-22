@@ -37,8 +37,8 @@ A game assistance for Arknights
     - 所有点击操作，都是点击按钮内随机位置，并模拟泊松分布（按钮偏中间位置点的概率大，越往旁边点到的概率越小）
     - 刷理智及基建的点击操作，支持设置随机延时，没有封号风险~
     - 模拟器窗口可以被遮挡、可以最小化、甚至可以老板键隐藏！即使全屏看视频、玩游戏，也完全不影响辅助运行
-    - 勉强兼容安卓手机（USB调试、无线调试）
 - 支持多款主流模拟器
+- 勉强兼容安卓手机（USB调试、无线调试）
 - 自适应分辨率及屏幕缩放
 - 未来更多功能见[Todo](#Todo)
 
@@ -59,6 +59,10 @@ A game assistance for Arknights
 #### 其他模拟器
 
 其他模拟器已停止支持，若有需要，欢迎给我提[ISSUE](https://github.com/MistEO/MeoAssistance/issues)，会根据情况尽量适配~
+
+#### 安卓手机/平板
+
+支持刷理智功能，支持公招识别（但不支持自动设置9小时），其他功能暂不支持，正在开发中……
 
 ## 使用说明
 
@@ -123,7 +127,7 @@ A game assistance for Arknights
 该功能默认是打开的，不需要的话可以手动关掉：请手动修改`resource\config.json`文件中，`options`.`printWindow`字段的值，`true`是打开，`false`是关闭。文件保存后请重新打开程序。
 ![图例](images/printWindow.png)
 
-## Todo List
+## Todo
 
 - [ ] 彻底去掉管理员权限
 - [ ] 支持设置吃理智药数量
