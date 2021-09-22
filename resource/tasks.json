@@ -209,10 +209,10 @@
     "Friends": {
         "template": "Friends.png",
         "templThreshold": 0.85,
-        "preDelay": 1000,
         "action": "clickSelf",
         "next": [
-            "FriendsList"
+            "FriendsList",
+            "Friends"
         ]
     },
     "FriendsList": {
