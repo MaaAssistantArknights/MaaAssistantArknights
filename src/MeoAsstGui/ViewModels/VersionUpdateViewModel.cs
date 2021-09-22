@@ -70,7 +70,6 @@ namespace MeoAsstGui
             {
                 return string.Empty;
             }
-            return string.Empty;
         }
 
         private string _latestUrl = "https://github.com/MistEO/MeoAssistance/releases/latest";
