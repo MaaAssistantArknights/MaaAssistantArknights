@@ -20,6 +20,7 @@ namespace MeoAsstGui
             [In, Out] StringBuilder body, int body_bufsize);
 
         private string _updateTag;
+        private string _rawTag;
 
         public string UpdateTag
         {
@@ -60,6 +61,11 @@ namespace MeoAsstGui
             {
                 return false;
             }
+            _rawTag = tag.ToString();
+            if (ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _rawTag)
+            {
+                return false;
+            }
 
             UpdateTag = "新版本：" + tag;
             UpdateInfo = body.ToString();
@@ -76,6 +82,12 @@ namespace MeoAsstGui
 
         public void Close()
         {
+            RequestClose();
+        }
+
+        public void Ignore()
+        {
+            ViewStatusStorage.Set("VersionUpdate.Ignore", _rawTag);
             RequestClose();
         }
     }
