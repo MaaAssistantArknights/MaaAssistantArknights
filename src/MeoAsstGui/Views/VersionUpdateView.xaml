@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:s="https://github.com/canton7/Stylet"
              mc:Ignorable="d"
-             Title="有新版本" Height="500" Width="400">
+             Title="有新版本" Height="500" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
@@ -22,6 +22,7 @@
 
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="2">
             <Button Command="{s:Action Download}" Content="前往下载" Margin="20" Width="120" Height="60" />
+            <Button Command="{s:Action Ignore}" Content="不再提示" Margin="20" Width="120" Height="60" />
             <Button Command="{s:Action Close}" Content="下次一定" Margin="20" Width="120" Height="60" />
         </StackPanel>
     </Grid>
