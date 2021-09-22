@@ -34,12 +34,6 @@
     <Filter Include="源文件\Caller">
       <UniqueIdentifier>{557d6d96-11d9-46e1-b611-b2b8216abea6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\Updater">
-      <UniqueIdentifier>{08846a78-d9cf-4d06-aecc-e983ef5c7c83}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\Updater">
-      <UniqueIdentifier>{b39a4ef9-28ad-4173-bc52-68221b765396}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Identify.h">
@@ -98,9 +92,6 @@
     </ClInclude>
     <ClInclude Include="Task.h">
       <Filter>头文件\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="Updater.h">
-      <Filter>头文件\Updater</Filter>
     </ClInclude>
     <ClInclude Include="IdentifyOperTask.h">
       <Filter>头文件\Task</Filter>
@@ -163,9 +154,6 @@
     </ClCompile>
     <ClCompile Include="AsstCaller.cpp">
       <Filter>源文件\Caller</Filter>
-    </ClCompile>
-    <ClCompile Include="Updater.cpp">
-      <Filter>源文件\Updater</Filter>
     </ClCompile>
     <ClCompile Include="IdentifyOperTask.cpp">
       <Filter>源文件\Task</Filter>
