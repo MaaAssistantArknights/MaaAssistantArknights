@@ -138,6 +138,7 @@
     "MedicineConfirm": {
         "template": "MedicineConfirm.png",
         "action": "clickSelf",
+        "maxTimes": 0,
         "reduceOtherTimes": [
             "StartButton1"
         ],

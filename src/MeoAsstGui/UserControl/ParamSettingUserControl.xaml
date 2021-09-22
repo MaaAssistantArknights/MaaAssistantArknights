@@ -14,20 +14,27 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <CheckBox IsChecked="{Binding UseMedicine}" Content="吃理智药" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <CheckBox IsChecked="{Binding UseMedicine}" Content="吃理智药" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" />
+            <TextBox Text="{Binding MedicineNumber}" Margin="5, 10, 5, 10" TextWrapping="Wrap" VerticalAlignment="Center"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="个" VerticalAlignment="Center" />
+            <TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding MedicineInfo}" Margin="50, 0, 0, 0" VerticalAlignment="Center" />
+
+        </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1">
-            <CheckBox IsChecked="{Binding UseStone}" Content="吃石头" Margin="10, 10, 5, 10" VerticalAlignment="Center" />
+            <CheckBox IsChecked="{Binding UseStone}" Content="吃石头     " Margin="10, 10, 5, 10" VerticalAlignment="Center" />
             <TextBox Text="{Binding StoneNumber}" Margin="5, 10, 5, 10" TextWrapping="Wrap" VerticalAlignment="Center"
-                     Width="35" InputMethod.IsInputMethodEnabled="False" />
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="颗" VerticalAlignment="Center" />
             <TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding StoneInfo}" Margin="50, 0, 0, 0" VerticalAlignment="Center" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="2">
-            <CheckBox IsChecked="{Binding HasTimesLimited}" Margin="10, 10, 5, 10" Content="指定次数"  VerticalAlignment="Center" />
+            <CheckBox IsChecked="{Binding HasTimesLimited}" Margin="10, 10, 5, 10" Content="指定次数  "  VerticalAlignment="Center" />
             <TextBox Text="{Binding MaxTimes}" TextWrapping="Wrap" Margin="5, 10, 5, 10" VerticalAlignment="Center"
-                     Width="35" InputMethod.IsInputMethodEnabled="False" />
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="次" VerticalAlignment="Center" />
         </StackPanel>
 

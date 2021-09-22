@@ -25,7 +25,16 @@ namespace MeoAsstGui
                 SetAndNotify(ref _execInfo, value);
             }
         }
+        private string _medicineInfo;
 
+        public string MedicineInfo
+        {
+            get { return _medicineInfo; }
+            set
+            {
+                SetAndNotify(ref _medicineInfo, value);
+            }
+        }
         private string _stoneInfo;
 
         public string StoneInfo
@@ -70,11 +79,22 @@ namespace MeoAsstGui
                 var asstProxy = _container.Get<AsstProxy>();
                 if (value)
                 {
-                    asstProxy.AsstSetParam("task.type", "UseMedicine", "doNothing");
+                    asstProxy.AsstSetParam("task.action", "UseMedicine", "doNothing");
+                    int count;
+                    if (MedicineNumber == "ALL")
+                    {
+                        count = int.MaxValue;
+                    }
+                    else if (!int.TryParse(MedicineNumber, out count))
+                    {
+                        count = 0;
+                    }
+                    asstProxy.AsstSetParam("task.maxTimes", "MedicineConfirm", count.ToString());
                 }
                 else
                 {
-                    asstProxy.AsstSetParam("task.type", "UseMedicine", "stop");
+                    asstProxy.AsstSetParam("task.action", "UseMedicine", "stop");
+                    asstProxy.AsstSetParam("task.maxTimes", "MedicineConfirm", "0");
                 }
             }
         }
@@ -90,9 +110,13 @@ namespace MeoAsstGui
                 var asstProxy = _container.Get<AsstProxy>();
                 if (value)
                 {
-                    asstProxy.AsstSetParam("task.type", "UseStone", "doNothing");
+                    asstProxy.AsstSetParam("task.action", "UseStone", "doNothing");
                     int count;
-                    if (!int.TryParse(StoneNumber, out count))
+                    if (StoneNumber == "ALL")
+                    {
+                        count = int.MaxValue;
+                    }
+                    else if (!int.TryParse(StoneNumber, out count))
                     {
                         count = 0;
                     }
@@ -100,7 +124,7 @@ namespace MeoAsstGui
                 }
                 else
                 {
-                    asstProxy.AsstSetParam("task.type", "UseStone", "stop");
+                    asstProxy.AsstSetParam("task.action", "UseStone", "stop");
                     asstProxy.AsstSetParam("task.maxTimes", "StoneConfirm", "0");
                 }
             }
@@ -119,6 +143,22 @@ namespace MeoAsstGui
                     int.TryParse(value, out var count);
                     var asstProxy = _container.Get<AsstProxy>();
                     asstProxy.AsstSetParam("task.maxTimes", "StoneConfirm", count.ToString());
+                }
+            }
+        }
+
+        private string _medicineNumber = "ALL";
+        public string MedicineNumber
+        {
+            get { return _medicineNumber; }
+            set
+            {
+                SetAndNotify(ref _medicineNumber, value);
+                if (UseMedicine)
+                {
+                    int.TryParse(value, out var count);
+                    var asstProxy = _container.Get<AsstProxy>();
+                    asstProxy.AsstSetParam("task.maxTimes", "MedicineConfirm", count.ToString());
                 }
             }
         }
@@ -155,7 +195,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _maxTimes = "0";
+        private string _maxTimes = "5";
 
         public string MaxTimes
         {

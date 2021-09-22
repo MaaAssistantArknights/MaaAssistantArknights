@@ -13,30 +13,30 @@ using namespace asst;
 bool TaskConfiger::set_param(const std::string& type, const std::string& param, const std::string& value)
 {
 	// 暂时只用到了这些，总的参数太多了，后面要用啥再加上
-	if (type == "task.type") {
+	if (type == "task.action") {
 		if (m_all_tasks_info.find(param) == m_all_tasks_info.cend()) {
 			return false;
 		}
 		auto task_info_ptr = m_all_tasks_info[param];
-		std::string type = value;
-		std::transform(type.begin(), type.end(), type.begin(), std::tolower);
-		if (type == "clickself") {
+		std::string action = value;
+		std::transform(action.begin(), action.end(), action.begin(), std::tolower);
+		if (action == "clickself") {
 			task_info_ptr->action = ProcessTaskAction::ClickSelf;
 		}
-		else if (type == "clickrand") {
+		else if (action == "clickrand") {
 			task_info_ptr->action = ProcessTaskAction::ClickRand;
 		}
-		else if (type == "donothing" || type.empty()) {
+		else if (action == "donothing" || action.empty()) {
 			task_info_ptr->action = ProcessTaskAction::DoNothing;
 		}
-		else if (type == "stop") {
+		else if (action == "stop") {
 			task_info_ptr->action = ProcessTaskAction::Stop;
 		}
-		else if (type == "clickrect") {
+		else if (action == "clickrect") {
 			task_info_ptr->action = ProcessTaskAction::ClickRect;
 		}
 		else {
-			DebugTraceError("Task", param, "'s type error:", type);
+			DebugTraceError("Task", param, "'s action error:", action);
 			return false;
 		}
 	}
