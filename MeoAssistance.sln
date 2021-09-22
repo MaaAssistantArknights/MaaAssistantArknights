@@ -5,11 +5,6 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MeoAssistance", "src\MeoAssistance\MeoAssistance.vcxproj", "{362D1E30-F5AE-4279-9985-65C27B3BA300}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sanity", "tools\Sanity\Sanity.vcxproj", "{36BC08F3-71CF-429A-AE69-291BE8962CB2}"
-	ProjectSection(ProjectDependencies) = postProject
-		{362D1E30-F5AE-4279-9985-65C27B3BA300} = {362D1E30-F5AE-4279-9985-65C27B3BA300}
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{6C4B8D52-51D1-45F8-AAEC-808035443FD6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCaller", "tools\TestCaller\TestCaller.vcxproj", "{63B4F1A2-291C-4C85-91E1-A1F6DAE30D64}"
@@ -22,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeoAsstGui", "src\MeoAsstGu
 		{362D1E30-F5AE-4279-9985-65C27B3BA300} = {362D1E30-F5AE-4279-9985-65C27B3BA300}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPipe", "tools\TestPipe\TestPipe.vcxproj", "{0565E66B-28A0-435C-BDFC-6565CADE28D2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|x64 = Release|x64
@@ -34,10 +27,6 @@ Global
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.Release|x64.Build.0 = Release|x64
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
-		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Release|x64.ActiveCfg = Release|x64
-		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.Release|x64.Build.0 = Release|x64
-		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
-		{36BC08F3-71CF-429A-AE69-291BE8962CB2}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
 		{63B4F1A2-291C-4C85-91E1-A1F6DAE30D64}.Release|x64.ActiveCfg = Release|x64
 		{63B4F1A2-291C-4C85-91E1-A1F6DAE30D64}.Release|x64.Build.0 = Release|x64
 		{63B4F1A2-291C-4C85-91E1-A1F6DAE30D64}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
@@ -46,18 +35,12 @@ Global
 		{FFDC8F49-8EAF-45BE-B0A8-7EF0DB9875A2}.Release|x64.Build.0 = Release|Any CPU
 		{FFDC8F49-8EAF-45BE-B0A8-7EF0DB9875A2}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|Any CPU
 		{FFDC8F49-8EAF-45BE-B0A8-7EF0DB9875A2}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|Any CPU
-		{0565E66B-28A0-435C-BDFC-6565CADE28D2}.Release|x64.ActiveCfg = Release|x64
-		{0565E66B-28A0-435C-BDFC-6565CADE28D2}.Release|x64.Build.0 = Release|x64
-		{0565E66B-28A0-435C-BDFC-6565CADE28D2}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
-		{0565E66B-28A0-435C-BDFC-6565CADE28D2}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{36BC08F3-71CF-429A-AE69-291BE8962CB2} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 		{63B4F1A2-291C-4C85-91E1-A1F6DAE30D64} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
-		{0565E66B-28A0-435C-BDFC-6565CADE28D2} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F2C0E4B-4FE9-47C6-A878-6BD2FAD8B9B2}
