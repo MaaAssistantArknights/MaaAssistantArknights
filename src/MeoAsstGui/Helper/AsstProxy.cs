@@ -241,9 +241,14 @@ namespace MeoAsstGui
             AsstStop(_ptr);
         }
 
+        private bool _isCatched = false;
         public bool AsstCatchDefault()
         {
-            return AsstCatchDefault(_ptr);
+            if (!_isCatched)
+            {
+                _isCatched = AsstCatchDefault(_ptr);
+            }
+            return _isCatched;
         }
 
         public bool AsstStartSanity()
