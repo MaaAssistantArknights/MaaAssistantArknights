@@ -190,6 +190,7 @@ bool WinMacro::try_capture(const EmulatorInfo& info, bool without_handle)
 
 		adb_dir = emulator_path.substr(0, emulator_path.find_last_of('\\') + 1);
 		adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
+		adb_dir = StringReplaceAll(adb_dir, "[ExecDir]", GetCurrentDir());
 	}
 	else {	// 使用辅助自带的标准adb
 		m_emulator_info = info;
