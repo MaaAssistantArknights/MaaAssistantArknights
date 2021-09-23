@@ -1,7 +1,7 @@
 {
     "version": "0.6",
     "options": {
-        "connectType" : 0,
+        "connectType": 0,
         "connectType_Doc": "连接类型：0-连接电脑上的模拟器，1-连接USB连接的安卓设备，2-连接局域网中的安卓设备。默认0",
         "connectRemoteAddress": "",
         "connectRemoteAddress_Doc": "连接局域网中的安卓设备的地址，仅在connectType为2时生效。格式举例：192.168.1.123:5678",
@@ -40,6 +40,21 @@
                 "screencap": "[Adb] -s 127.0.0.1:5555 exec-out screencap -p"
             }
         },
+        "BlueStacksInternational": {
+            "handle": {
+                "class": "",
+                "window": "BlueStacks"
+            },
+            "adb": {
+                "path": "[EmulatorPath]HD-Adb.exe",
+                "connect": "[Adb] connect 127.0.0.1:5555",
+                "click": "[Adb] -s 127.0.0.1:5555 shell input tap [x] [y]",
+                "swipe": "[Adb] -s 127.0.0.1:5555 shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s 127.0.0.1:5555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d",
+                "screencap": "[Adb] -s 127.0.0.1:5555 exec-out screencap -p"
+            }
+        },
         "MuMuEmulator": {
             "handle": {
                 "class": "Qt5QWindowIcon",
@@ -53,6 +68,51 @@
                 "display": "[Adb] -s 127.0.0.1:7555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayRegex": "cur=%dx%d",
                 "screencap": "[Adb] -s 127.0.0.1:7555 exec-out screencap -p"
+            }
+        },
+        "LDPlayer": {
+            "handle": {
+                "class": "LDPlayerMainFrame",
+                "window": "雷电模拟器"
+            },
+            "adb": {
+                "path": "[ExecDir]platform-tools\\adb.exe",
+                "connect": "[Adb] connect emulator-5554",
+                "click": "[Adb] -s emulator-5554 shell input tap [x] [y]",
+                "swipe": "[Adb] -s emulator-5554 shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s emulator-5554 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d",
+                "screencap": "[Adb] -s emulator-5554 exec-out screencap -p"
+            }
+        },
+        "Nox": {
+            "handle": {
+                "class": "Qt5QWindowIcon",
+                "window": "夜神模拟器"
+            },
+            "adb": {
+                "path": "[EmulatorPath]nox_adb.exe",
+                "connect": "[Adb] connect 127.0.0.1:62001",
+                "click": "[Adb] -s 127.0.0.1:62001 shell input tap [x] [y]",
+                "swipe": "[Adb] -s 127.0.0.1:62001 shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s 127.0.0.1:62001 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d",
+                "screencap": "[Adb] -s 127.0.0.1:62001 exec-out screencap -p"
+            }
+        },
+        "XYAZ": {
+            "handle": {
+                "class": "Qt5QWindowIcon",
+                "window": "逍遥模拟器"
+            },
+            "adb": {
+                "path": "[ExecDir]platform-tools\\adb.exe",
+                "connect": "[Adb] connect 127.0.0.1:21503",
+                "click": "[Adb] -s 127.0.0.1:21503 shell input tap [x] [y]",
+                "swipe": "[Adb] -s 127.0.0.1:21503 shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s 127.0.0.1:21503 shell dumpsys window displays | grep init=",
+                "displayRegex": "    init=%dx%d",
+                "screencap": "[Adb] -s 127.0.0.1:21503 exec-out screencap -p"
             }
         },
         "Remote": {
@@ -91,20 +151,59 @@
     },
     "ocrReplace_Doc": "下面为常见的文字识别错误纠正，不需要修改",
     "recruitOcrReplace": [
-        [ "沮击", "狙击" ],
-        [ "泪击", "狙击" ],
-        [ "都出", "输出" ],
-        [ "都任", "输出" ],
-        [ "新于", "新手" ],
-        [ "防拍", "防护" ]
+        [
+            "沮击",
+            "狙击"
+        ],
+        [
+            "泪击",
+            "狙击"
+        ],
+        [
+            "都出",
+            "输出"
+        ],
+        [
+            "都任",
+            "输出"
+        ],
+        [
+            "新于",
+            "新手"
+        ],
+        [
+            "防拍",
+            "防护"
+        ]
     ],
     "infrastOcrReplace": [
-        [ "蛇居箱", "蛇屠箱" ],
-        [ "叫米", "古米" ],
-        [ "节草", "苇草" ],
-        [ "粹兰", "梓兰" ],
-        [ "艾丝菜尔", "艾丝黛尔" ],
-        [ "艾丝莱尔", "艾丝黛尔" ],
-        [ "，斑点", "斑点" ]
+        [
+            "蛇居箱",
+            "蛇屠箱"
+        ],
+        [
+            "叫米",
+            "古米"
+        ],
+        [
+            "节草",
+            "苇草"
+        ],
+        [
+            "粹兰",
+            "梓兰"
+        ],
+        [
+            "艾丝菜尔",
+            "艾丝黛尔"
+        ],
+        [
+            "艾丝莱尔",
+            "艾丝黛尔"
+        ],
+        [
+            "，斑点",
+            "斑点"
+        ]
     ]
 }
