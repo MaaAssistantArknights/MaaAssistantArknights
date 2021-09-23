@@ -18,10 +18,12 @@ namespace MeoAsstGui
             if (UseMedicine)
             {
                 asstProxy.AsstSetParam("task.action", "UseMedicine", "doNothing");
+                asstProxy.AsstSetParam("task.maxTimes", "MedicineConfirm", int.MaxValue.ToString());
             }
             else
             {
                 asstProxy.AsstSetParam("task.action", "UseMedicine", "stop");
+                asstProxy.AsstSetParam("task.maxTimes", "MedicineConfirm", "0");
             }
 
         }
