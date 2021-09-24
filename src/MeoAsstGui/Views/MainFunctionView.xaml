@@ -9,9 +9,9 @@
         Height="350" Width="500">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200" />
-            <RowDefinition Height="100" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="230" />
+            <RowDefinition Height="90" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
         <local:ParamSettingUserControl />
 

@@ -38,7 +38,7 @@ namespace asst {
 		// 开始刷理智
 		bool start_sanity();
 		// 开始访问好友基建
-		bool start_visit();
+		bool start_visit(bool with_shopping = false);
 
 		// 开始公开招募操作
 		bool start_open_recruit(const std::vector<int>& required_level, bool set_time = true);

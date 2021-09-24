@@ -283,8 +283,8 @@
         "action": "clickSelf",
         "next": [
             "Mall",
-            "ReturnToMall",
-            "ReturnToMallConfirm"
+            "ReturnToMallConfirm",
+            "ReturnToMall"
         ]
     },
     "ReturnToMallConfirm": {

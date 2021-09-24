@@ -86,7 +86,7 @@ bool ProcessTask::run()
 	case ProcessTaskAction::DoNothing:
 		break;
 	case ProcessTaskAction::Stop:
-		m_callback(AsstMsg::TaskStop, json::object{ {"task_chain", m_task_chain} }, m_callback_arg);
+		m_callback(AsstMsg::ProcessTaskStopAction, json::object{ {"task_chain", m_task_chain} }, m_callback_arg);
 		need_stop = true;
 		break;
 	case ProcessTaskAction::PrintWindow:
