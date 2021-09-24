@@ -257,6 +257,7 @@ namespace MeoAsstGui
             MedicineInfo = "";
             StoneInfo = "";
             RunStatus = "";
+            CreditShoppingCheckBoxIsEnable = true;
         }
 
         public void StartSanity()
