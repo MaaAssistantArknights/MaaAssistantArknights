@@ -46,7 +46,7 @@ namespace asst {
 		std::vector<unsigned char> call_command(const std::string& cmd);
 		int push_cmd(const std::string& cmd);
 		void wait(unsigned id) const noexcept;
-		void screencap();
+		bool screencap();
 
 		Point rand_point_in_rect(const Rect& rect);
 

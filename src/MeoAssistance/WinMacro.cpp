@@ -333,12 +333,19 @@ void asst::WinMacro::wait(unsigned id) const noexcept
 	}
 }
 
-void asst::WinMacro::screencap()
+bool asst::WinMacro::screencap()
 {
 	DebugTraceFunction;
 
 	auto data = call_command(m_emulator_info.adb.screencap);
-	m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
+	if (!data.empty()) {
+		m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
+		return true;
+	}
+	else {
+		DebugTraceError("Screencap is empty!");
+		return false;
+	}
 
 	//cv::Mat temp_image = cv::imdecode(data, cv::IMREAD_COLOR);
 	////std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
@@ -418,7 +425,9 @@ int asst::WinMacro::swipe_without_scale(const Rect& r1, const Rect& r2, int dura
 
 cv::Mat asst::WinMacro::get_image(bool raw)
 {
-	screencap();
+	if (!screencap()) {
+		return cv::Mat();
+	}
 	//std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
 	if (raw) {
 		return m_cache_image;

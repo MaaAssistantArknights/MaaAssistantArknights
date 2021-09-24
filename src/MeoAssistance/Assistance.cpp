@@ -285,9 +285,9 @@ bool Assistance::start_debug_task()
 	//	m_tasks_deque.emplace_back(shift_task_ptr);
 	//}
 	{
-		constexpr static const char* InfrastTaskCahin = "Debug";
-		auto shift_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
-		shift_task_ptr->set_task_chain(InfrastTaskCahin);
+		constexpr static const char* DebugTaskChain = "Debug";
+		auto shift_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this);
+		shift_task_ptr->set_task_chain(DebugTaskChain);
 		m_tasks_deque.emplace_back(shift_task_ptr);
 	}
 

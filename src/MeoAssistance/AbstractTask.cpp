@@ -10,6 +10,7 @@
 #include "Identify.h"
 #include "Configer.h"
 #include "AsstAux.h"
+#include "Logger.hpp"
 
 using namespace asst;
 
@@ -58,7 +59,7 @@ bool AbstractTask::sleep(unsigned millisecond)
 	return !need_exit();
 }
 
-bool AbstractTask::print_window(const std::string& dir)
+bool AbstractTask::print_window(const std::string& dir, bool raw)
 {
 	//const cv::Mat& image = m_controller_ptr->get_image(true);
 	//if (image.empty()) {
@@ -73,7 +74,7 @@ bool AbstractTask::print_window(const std::string& dir)
 	const std::string time_str = StringReplaceAll(StringReplaceAll(GetFormatTimeString(), " ", "_"), ":", "-");
 	const std::string filename = dir + time_str + ".png";
 
-	bool ret = cv::imwrite(filename, m_controller_ptr->get_image(true));
+	bool ret = cv::imwrite(filename, m_controller_ptr->get_image(raw));
 
 	json::value callback_json;
 	callback_json["filename"] = filename;
@@ -97,4 +98,12 @@ bool asst::AbstractTask::is_ptr_inited() const noexcept
 		return false;
 	}
 	return true;
+}
+
+bool asst::AbstractTask::click_return_button()
+{
+	DebugTraceFunction;
+
+	const static Rect ConfirmButtonRect(20, 20, 135, 35);
+	return m_controller_ptr->click(ConfirmButtonRect);
 }

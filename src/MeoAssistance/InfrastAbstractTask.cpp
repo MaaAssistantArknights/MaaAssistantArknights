@@ -59,14 +59,6 @@ bool asst::InfrastAbstractTask::click_confirm_button()
 	return m_controller_ptr->click(ConfirmButtonRect);
 }
 
-bool asst::InfrastAbstractTask::click_return_button()
-{
-	DebugTraceFunction;
-
-	const static Rect ConfirmButtonRect(20, 20, 135, 35);
-	return m_controller_ptr->click(ConfirmButtonRect);
-}
-
 bool asst::InfrastAbstractTask::swipe(bool reverse)
 {
 	DebugTraceFunction;
