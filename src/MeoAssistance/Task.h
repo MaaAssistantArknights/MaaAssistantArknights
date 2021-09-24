@@ -7,3 +7,5 @@
 #include "InfrastDormTask.h"
 #include "InfrastPowerTask.h"
 #include "InfrastOfficeTask.h"
+#include "ScreenCaptureTask.h"
+#include "CreditShoppingTask.h"

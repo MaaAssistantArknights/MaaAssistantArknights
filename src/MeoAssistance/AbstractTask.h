@@ -32,9 +32,11 @@ namespace asst {
 		virtual void on_run_fails(int retry_times) { ; }
 	protected:
 		virtual bool sleep(unsigned millisecond);
-		virtual bool print_window(const std::string& dir);
+		virtual bool print_window(const std::string& dir, bool raw = true);
 		virtual bool need_exit() const noexcept;
 		virtual bool is_ptr_inited() const noexcept;
+
+		virtual bool click_return_button();
 
 		std::shared_ptr<WinMacro> m_controller_ptr = nullptr;
 		std::shared_ptr<Identify> m_identify_ptr = nullptr;

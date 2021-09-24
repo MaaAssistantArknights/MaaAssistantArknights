@@ -20,6 +20,7 @@
     <ClInclude Include="AsstDef.h" />
     <ClInclude Include="AsstMsg.h" />
     <ClInclude Include="Configer.h" />
+    <ClInclude Include="CreditShoppingTask.h" />
     <ClInclude Include="Identify.h" />
     <ClInclude Include="IdentifyOperTask.h" />
     <ClInclude Include="InfrastAbstractTask.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="OpenRecruitTask.h" />
     <ClInclude Include="ProcessTask.h" />
     <ClInclude Include="RecruitConfiger.h" />
+    <ClInclude Include="ScreenCaptureTask.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TaskConfiger.h" />
     <ClInclude Include="UserConfiger.h" />
@@ -42,6 +44,7 @@
   <ItemGroup>
     <ClCompile Include="AbstractConfiger.cpp" />
     <ClCompile Include="AbstractTask.cpp" />
+    <ClCompile Include="CreditShoppingTask.cpp" />
     <ClCompile Include="IdentifyOperTask.cpp" />
     <ClCompile Include="InfrastAbstractTask.cpp" />
     <ClCompile Include="InfrastConfiger.cpp" />
@@ -57,6 +60,7 @@
     <ClCompile Include="OpenRecruitTask.cpp" />
     <ClCompile Include="ProcessTask.cpp" />
     <ClCompile Include="RecruitConfiger.cpp" />
+    <ClCompile Include="ScreenCaptureTask.cpp" />
     <ClCompile Include="TaskConfiger.cpp" />
     <ClCompile Include="UserConfiger.cpp" />
     <ClCompile Include="WinMacro.cpp" />
