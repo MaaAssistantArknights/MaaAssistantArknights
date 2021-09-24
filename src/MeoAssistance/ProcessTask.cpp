@@ -73,6 +73,12 @@ bool ProcessTask::run()
 	case ProcessTaskAction::ClickSelf:
 		exec_click_task(rect);
 		break;
+	case ProcessTaskAction::ClickRand:
+	{
+		static const Rect full_rect(0, 0, Configer::WindowWidthDefault - 1, Configer::WindowHeightDefault - 1);
+		exec_click_task(full_rect);
+
+	} break;
 	case ProcessTaskAction::SwipeToTheLeft:
 	case ProcessTaskAction::SwipeToTheRight:
 		exec_swipe_task(task_info_ptr->action);

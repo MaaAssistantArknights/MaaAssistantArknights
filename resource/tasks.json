@@ -93,7 +93,9 @@
     },
     "EndOfAction": {
         "algorithm": "OcrDetect",
-        "text": [ "行动结束" ],
+        "text": [
+            "行动结束"
+        ],
         "preDelay": 3000,
         "action": "printWindow",
         "next": [
@@ -254,7 +256,9 @@
     },
     "VisitNextOcr": {
         "algorithm": "OcrDetect",
-        "text": [ "访问下位" ],
+        "text": [
+            "访问下位"
+        ],
         "action": "clickSelf",
         "rearDelay": 3000,
         "identifyArea": [
@@ -311,7 +315,9 @@
     },
     "CreditStoreOcr": {
         "algorithm": "OcrDetect",
-        "text": [ "信用交易所" ],
+        "text": [
+            "信用交易所"
+        ],
         "rearDelay": 1000,
         "action": "clickSelf",
         "next": [
@@ -323,12 +329,22 @@
         "template": "CollectCredit.png",
         "action": "clickSelf",
         "next": [
+            "ColseCollectCredit"
+        ]
+    },
+    "ColseCollectCredit": {
+        "algorithm": "justReturn",
+        "action": "clickRand",
+        "next": [
             "Stop"
         ]
     },
     "VisitLimited": {
         "algorithm": "OcrDetect",
-        "text": [ "今日参与", "已达上限" ],
+        "text": [
+            "今日参与",
+            "已达上限"
+        ],
         "action": "doNothing",
         "identifyArea": [
             900,
@@ -362,7 +378,12 @@
         "template": "RecruitTimeReduce.png",
         "templThreshold": 0.89,
         "action": "clickRect",
-        "specificArea": [ 391, 279, 129, 44 ],
+        "specificArea": [
+            391,
+            279,
+            129,
+            44
+        ],
         "next": [
             "Stop"
         ]
@@ -530,7 +551,11 @@
     },
     "InfrastReward": {
         "algorithm": "OcrDetect",
-        "text": [ "可收获", "订单交付", "信赖" ],
+        "text": [
+            "可收获",
+            "订单交付",
+            "信赖"
+        ],
         "rearDelay": 1000,
         "action": "clickSelf",
         "identifyArea": [
@@ -609,7 +634,6 @@
         "template": "UavAssist-Trade.png",
         "action": "stop",
         "cache": false,
-        "next": [
-        ]
+        "next": []
     }
 }
