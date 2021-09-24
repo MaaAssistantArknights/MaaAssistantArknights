@@ -26,7 +26,8 @@ namespace asst {
 		AppendTask,							// 新增任务，Assistance内部消息，外部不需要处理
 		TaskCompleted,						// 单个原子任务完成
 		PrintWindow,						// 截图消息
-		TaskStop,							// 任务停止
+		ProcessTaskStopAction,				// 流程任务执行到了Stop的动作
+		TaskChainCompleted,					// 任务链完成
 		/* Info Msg: about Identify */
 		TextDetected = 2000,				// 识别到文字
 		ImageFindResult,					// 查找图像的结果
@@ -63,9 +64,10 @@ namespace asst {
 			{AsstMsg::EndOfSleep, "EndOfSleep"},
 			{AsstMsg::AppendProcessTask, "AppendProcessTask"},
 			{AsstMsg::TaskCompleted, "TaskCompleted"},
+			{AsstMsg::TaskChainCompleted, "TaskChainCompleted"},
 			{AsstMsg::PrintWindow, "PrintWindow"},
 			{AsstMsg::TaskError, "TaskError"},
-			{AsstMsg::TaskStop, "TaskStop"},
+			{AsstMsg::ProcessTaskStopAction, "ProcessTaskStopAction"},
 			{AsstMsg::TextDetected, "TextDetected"},
 			{AsstMsg::RecruitTagsDetected, "RecruitTagsDetected"},
 			{AsstMsg::OcrResultError, "OcrResultError"},

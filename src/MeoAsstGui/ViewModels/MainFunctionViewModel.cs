@@ -226,6 +226,27 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _creditShopping = System.Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.CreditShopping", bool.FalseString));
+
+        public bool CreditShopping
+        {
+            get { return _creditShopping; }
+            set
+            {
+                SetAndNotify(ref _creditShopping, value);
+                ViewStatusStorage.Set("MainFunction.CreditShopping", value.ToString());
+            }
+        }
+        private bool _creditShoppingCheckBoxIsEnable = true;
+        public bool CreditShoppingCheckBoxIsEnable
+        {
+            get { return _creditShoppingCheckBoxIsEnable; }
+            set
+            {
+                SetAndNotify(ref _creditShoppingCheckBoxIsEnable, value);
+            }
+        }
+
         public void Stop()
         {
             var asstProxy = _container.Get<AsstProxy>();
@@ -263,10 +284,11 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             bool catched = asstProxy.AsstCatchDefault();
             CatchStatus = "捕获模拟器窗口：" + catched;
-            if (!asstProxy.AsstStartVisit())
+            if (!asstProxy.AsstStartVisit(CreditShopping))
             {
                 return;
             }
+            CreditShoppingCheckBoxIsEnable = false;
             ExecInfo = "";
         }
     }

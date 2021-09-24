@@ -26,6 +26,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 
 	// 检查返回值，若为false则回调错误
 	auto callback_error = [&](const std::string& filename = std::string()) {
+		DebugTraceError("Resource error", filename);
 		if (m_callback == nullptr) {
 			return;
 		}
@@ -37,22 +38,22 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 
 	bool ret = Configer::get_instance().load(GetResourceDir() + "config.json");
 	if (!ret) {
-		callback_error();
+		callback_error("config.json");
 		return;
 	}
 	ret = TaskConfiger::get_instance().load(GetResourceDir() + "tasks.json");
 	if (!ret) {
-		callback_error();
+		callback_error("tasks.json");
 		return;
 	}
 	ret = RecruitConfiger::get_instance().load(GetResourceDir() + "recruit.json");
 	if (!ret) {
-		callback_error();
+		callback_error("recruit.json");
 		return;
 	}
 	ret = InfrastConfiger::get_instance().load(GetResourceDir() + "infrast.json");
 	if (!ret) {
-		callback_error();
+		callback_error("infrast.json");
 		return;
 	}
 
@@ -66,7 +67,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 		std::string filename = std::dynamic_pointer_cast<MatchTaskInfo>(info)->template_filename;
 		ret = m_identify_ptr->add_image(name, GetResourceDir() + "template\\" + filename);
 		if (!ret) {
-			callback_error();
+			callback_error(filename);
 			return;
 		}
 	}
@@ -81,7 +82,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 	m_identify_ptr->set_ocr_param(Configer::get_instance().m_options.ocr_gpu_index, Configer::get_instance().m_options.ocr_thread_number);
 	ret = m_identify_ptr->ocr_init_models(GetResourceDir() + "OcrLiteOnnx\\models\\");
 	if (!ret) {
-		callback_error();
+		callback_error("OcrLiteOnnx\\models\\");
 		return;
 	}
 
@@ -101,10 +102,9 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 	}
 	ret = UserConfiger::get_instance().load(GetCurrentDir() + "user.json");
 	if (!ret) {
-		callback_error();
+		callback_error("user.json");
 		return;
 	}
-	
 
 	m_controller_ptr = std::make_shared<WinMacro>();
 	
@@ -225,9 +225,28 @@ bool asst::Assistance::start_sanity()
 	return start_process_task("SanityBegin", ProcessTaskRetryTimesDefault);
 }
 
-bool asst::Assistance::start_visit()
+bool asst::Assistance::start_visit(bool with_shopping)
 {
-	return start_process_task("VisitBegin", ProcessTaskRetryTimesDefault);
+	DebugTraceFunction;
+	if (!m_thread_idle || !m_inited) {
+		return false;
+	}
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+	m_identify_ptr->clear_cache();
+
+	append_match_task("VisitBegin", { "VisitBegin" }, ProcessTaskRetryTimesDefault);
+
+	if (with_shopping) {
+		auto shopping_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this);
+		shopping_task_ptr->set_task_chain("VisitBegin");
+		m_tasks_deque.emplace_back(shopping_task_ptr);
+	}
+
+	m_thread_idle = false;
+	m_condvar.notify_one();
+
+	return true;
 }
 
 bool Assistance::start_process_task(const std::string& task, int retry_times, bool block)
@@ -474,13 +493,11 @@ void Assistance::working_proc()
 	auto p_this = this;
 
 	int retry_times = 0;
-	while (!m_thread_exit)
-	{
+	while (!m_thread_exit) {
 		//DebugTraceScope("Assistance::working_proc Loop");
 		std::unique_lock<std::mutex> lock(m_mutex);
 
-		if (!m_thread_idle && !m_tasks_deque.empty())
-		{
+		if (!m_thread_idle && !m_tasks_deque.empty()) {
 			//m_controller_ptr->set_idle(false);
 
 			auto start_time = std::chrono::system_clock::now();
@@ -491,25 +508,26 @@ void Assistance::working_proc()
 			task_ptr->set_ptr(m_controller_ptr, m_identify_ptr);
 			task_ptr->set_exit_flag(&m_thread_idle);
 			bool ret = task_ptr->run();
-			if (ret)
-			{
+			if (ret) {
 				retry_times = 0;
+				if (m_tasks_deque.empty()) {
+					json::value task_all_completed_json;
+					task_all_completed_json["task_chain"] = task_ptr->get_task_chain();
+					task_callback(AsstMsg::TaskChainCompleted, task_all_completed_json, p_this);
+				}
 			}
-			else
-			{
+			else {
 				// 失败了累加失败次数，超限了再pop
-				if (retry_times >= task_ptr->get_retry_times())
-				{
+				if (retry_times >= task_ptr->get_retry_times()) {
 					json::value task_error_json;
 					task_error_json["retry_limit"] = task_ptr->get_retry_times();
 					task_error_json["retry_times"] = retry_times;
 					task_error_json["task_chain"] = task_ptr->get_task_chain();
-					task_callback(AsstMsg::TaskError, std::move(task_error_json), p_this);
+					task_callback(AsstMsg::TaskError, task_error_json, p_this);
 
 					retry_times = 0;
 				}
-				else
-				{
+				else {
 					++retry_times;
 					// 执行失败再还原回去
 					m_tasks_deque.emplace_front(task_ptr);
@@ -521,8 +539,7 @@ void Assistance::working_proc()
 			m_condvar.wait_until(lock, start_time + std::chrono::milliseconds(delay),
 				[&]() -> bool { return m_thread_idle; });
 		}
-		else
-		{
+		else {
 			m_thread_idle = true;
 			//m_controller_ptr->set_idle(true);
 			m_condvar.wait(lock);

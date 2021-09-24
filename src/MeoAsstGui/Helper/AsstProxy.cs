@@ -26,7 +26,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStartSanity(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartVisit(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartVisit(IntPtr ptr, bool with_shopping);
 
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStartOpenRecruit(IntPtr ptr, int[] required_level, int required_len, bool set_time);
 
@@ -110,13 +110,14 @@ namespace MeoAsstGui
                     }
                     break;
 
-                case AsstMsg.TaskStop:
+                case AsstMsg.TaskChainCompleted:
                     {
                         string taskChain = detail["task_chain"].ToString();
                         if (taskChain != "SanityBegin" && taskChain != "VisitBegin")
                         {
                             break;
                         }
+                        mfvm.CreditShoppingCheckBoxIsEnable = true;
                         mfvm.RunStatus = "已刷完，自动停止";
                         if (mfvm.Shutdown == true)
                         {
@@ -146,7 +147,7 @@ namespace MeoAsstGui
                         string taskChain = detail["task_chain"].ToString();
                         if (taskChain == "SanityBegin")
                         {
-                            // 出错了会重试两次，再不行就算了
+                            // 刷理智出错了会重试两次，再不行就算了
                             if (_retryTimes >= _retryLimit)
                             {
                                 _retryTimes = 0;
@@ -155,18 +156,6 @@ namespace MeoAsstGui
                             }
                             ++_retryTimes;
                             AsstStartSanity();
-                        }
-                        else if (taskChain == "VisitBegin")
-                        {
-                            // 出错了会重试两次，再不行就算了
-                            if (_retryTimes >= _retryLimit)
-                            {
-                                _retryTimes = 0;
-                                mfvm.RunStatus = "出现错误，已停止运行";
-                                break;
-                            }
-                            ++_retryTimes;
-                            AsstStartVisit();
                         }
                     }
                     break;
@@ -256,9 +245,9 @@ namespace MeoAsstGui
             return AsstStartSanity(_ptr);
         }
 
-        public bool AsstStartVisit()
+        public bool AsstStartVisit(bool with_shopping)
         {
-            return AsstStartVisit(_ptr);
+            return AsstStartVisit(_ptr, with_shopping);
         }
 
         public void AsstSetParam(string type, string param, string value)
@@ -291,7 +280,8 @@ namespace MeoAsstGui
         AppendTask,                         // 新增任务，Assistance内部消息，外部不需要处理
         TaskCompleted,                      // 单个原子任务完成
         PrintWindow,                        // 截图消息
-        TaskStop,                           // 任务停止
+        ProcessTaskStopAction,              // 流程任务执行到了Stop的动作
+        TaskChainCompleted,					// 任务链完成
         /* Info Msg: about Identify */
         TextDetected = 2000,                // 识别到文字
         ImageFindResult,                    // 查找图像的结果

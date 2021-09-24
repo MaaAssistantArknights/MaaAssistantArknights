@@ -20,6 +20,9 @@
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Margin="27,0">
             <StackPanel VerticalAlignment="Center" Margin="40, 0, 40, 0">
                 <CheckBox IsChecked="{Binding AutoSetTime}" Content="自动设置时间" HorizontalAlignment="Left" Margin="0,2" VerticalAlignment="Bottom" />
+            </StackPanel>
+
+            <StackPanel VerticalAlignment="Center" Margin="40, 0, 40, 0">
                 <CheckBox IsChecked="{Binding ChooseLevel3}" Content="自动选择3星Tags" HorizontalAlignment="Left" Margin="0,2"  VerticalAlignment="Bottom" />
                 <CheckBox IsChecked="{Binding ChooseLevel4}" Content="自动选择4星Tags" HorizontalAlignment="Left" Margin="0,2" VerticalAlignment="Bottom" />
                 <CheckBox IsChecked="{Binding ChooseLevel5}" Content="自动选择5星Tags" HorizontalAlignment="Left" Margin="0,2" VerticalAlignment="Bottom" />

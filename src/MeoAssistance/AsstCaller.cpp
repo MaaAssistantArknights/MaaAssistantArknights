@@ -105,13 +105,13 @@ bool AsstStartSanity(void* p_asst)
 	return ((asst::Assistance*)p_asst)->start_sanity();
 }
 
-bool AsstStartVisit(void* p_asst)
+bool AsstStartVisit(void* p_asst, bool with_shopping)
 {
 	if (p_asst == nullptr) {
 		return false;
 	}
 
-	return ((asst::Assistance*)p_asst)->start_visit();
+	return ((asst::Assistance*)p_asst)->start_visit(with_shopping);
 }
 
 bool AsstStartProcessTask(void* p_asst, const char* task)
