@@ -77,6 +77,9 @@ bool asst::CreditShoppingTask::run()
 	}
 
 	for (const Rect& commodity_rect : need_to_buy) {
+		if (need_exit()) {
+			return false;
+		}
 		m_controller_ptr->click(commodity_rect);
 		sleep(1000);
 		image = m_controller_ptr->get_image();
@@ -91,7 +94,9 @@ bool asst::CreditShoppingTask::run()
 			}
 			buy_it_rect = buy_it_res.rect;
 		}
-
+		if (need_exit()) {
+			return false;
+		}
 		m_controller_ptr->click(buy_it_rect);
 		sleep(1000);
 		// 识别是否信用不足无法购买
