@@ -329,12 +329,18 @@
         "template": "CollectCredit.png",
         "action": "clickSelf",
         "next": [
-            "ColseCollectCredit"
+            "CloseCollectCredit"
         ]
     },
-    "ColseCollectCredit": {
+    "CloseCollectCredit": {
         "algorithm": "justReturn",
-        "action": "clickRand",
+        "action": "clickRect",
+        "specificArea": [
+            1100,
+            700,
+            150,
+            30
+        ],
         "next": [
             "Stop"
         ]
