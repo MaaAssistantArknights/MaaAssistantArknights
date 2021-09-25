@@ -34,6 +34,7 @@ bool ProcessTask::run()
 	Rect rect;
 	task_info_ptr = match_image(&rect);
 	if (!task_info_ptr) {
+		m_callback(AsstMsg::ProcessTaskNotMatched, task_start_json, m_callback_arg);
 		return false;
 	}
 
@@ -134,6 +135,7 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 {
 	const cv::Mat& cur_image = m_controller_ptr->get_image();
 	if (cur_image.empty() || cur_image.rows < 100) {
+		m_callback(AsstMsg::ImageIsEmpty, json::value(), m_callback_arg);
 		return nullptr;
 	}
 
