@@ -340,10 +340,14 @@ bool asst::WinMacro::screencap()
 	auto data = call_command(m_emulator_info.adb.screencap);
 	if (!data.empty()) {
 		m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
+		if (m_cache_image.empty()) {
+			DebugTraceError("Data is not empty, but image is empty!");
+			return false;
+		}
 		return true;
 	}
 	else {
-		DebugTraceError("Screencap is empty!");
+		DebugTraceError("Data is empty!");
 		return false;
 	}
 
