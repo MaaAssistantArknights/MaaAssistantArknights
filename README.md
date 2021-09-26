@@ -53,13 +53,13 @@ A game assistance for Arknights
 
 完美支持。需要在模拟器`设定`-`进阶`中打开`Android调试桥`
 
-#### MuMu模拟器
-
-完美支持
-
 #### 夜神模拟器
 
 完美支持
+
+#### MuMu模拟器
+
+支持
 
 #### 雷电模拟器
 
