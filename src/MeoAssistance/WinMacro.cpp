@@ -295,6 +295,39 @@ std::vector<unsigned char> WinMacro::call_command(const std::string& cmd)
 	return pipe_data;
 }
 
+void asst::WinMacro::convert_lf(std::vector<unsigned char>& data)
+{
+	DebugTraceFunction;
+
+	if (data.empty() || data.size() <= 1) {
+		return;
+	}
+	using Iter = std::vector<unsigned char>::iterator;
+	auto pred = [](const Iter& cur) -> bool {
+		return *cur == '\r' && *(cur + 1) == '\n';
+	};
+	// find the first of "\r\n"
+	Iter first_iter;
+	for (Iter iter = data.begin(); iter != data.end() - 1; ++iter) {
+		if (pred(iter)) {
+			first_iter = iter;
+			break;
+		}
+	}
+	// move forward all non-crlf elements
+	Iter end_r1_iter = data.end() - 1;
+	Iter next_iter = first_iter;
+	while (++first_iter != end_r1_iter) {
+		if (!pred(first_iter)) {
+			*next_iter = std::move(*first_iter);
+			++next_iter;
+		}
+	}
+	*next_iter = std::move(*end_r1_iter);
+	++next_iter;
+	data.erase(next_iter, data.end());
+}
+
 Point asst::WinMacro::rand_point_in_rect(const Rect& rect)
 {
 	int x = 0, y = 0;
@@ -339,38 +372,20 @@ bool asst::WinMacro::screencap()
 
 	auto data = call_command(m_emulator_info.adb.screencap);
 	if (!data.empty()) {
+		if (m_image_convert_lf) {
+			convert_lf(data);
+		}
 		m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
 		if (m_cache_image.empty()) {
-			DebugTraceInfo("Data is not empty, but image is empty");
-			// 有些模拟器自带的adb，exec-out输出的\n，会被替换成\r\n，导致解码错误，所以这里转一下回来（点名批评mumu）
-			DebugTraceScope("Convert CRLF to LF");
-			auto first_iter = data.begin();
-			auto end_r1_iter = data.end() - 1;
-			auto next_iter = first_iter;
-			bool start_write = false;
-			while (++first_iter != end_r1_iter) {
-				if (*first_iter == '\r' && *(first_iter + 1) == '\n') {
-					if (!start_write) {
-						start_write = true;
-						next_iter = first_iter;
-					}
-				}
-				else if (start_write) {
-					*next_iter = std::move(*first_iter);
-					++next_iter;
-				}
-				else {
-					// do nothing
-				}
-			}
-			*next_iter = std::move(*end_r1_iter);
-			++next_iter;
-			data.erase(next_iter, data.end());
+			DebugTraceInfo("Data is not empty, but image is empty, try to convert lf");
+			convert_lf(data);
 			m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
 			if (m_cache_image.empty()) {
+				m_image_convert_lf = false;
 				DebugTraceError("convert lf and retry decode falied!");
 				return false;
 			}
+			m_image_convert_lf = true;
 			return true;
 		}
 		return true;

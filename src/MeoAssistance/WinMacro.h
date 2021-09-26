@@ -47,8 +47,10 @@ namespace asst {
 		int push_cmd(const std::string& cmd);
 		void wait(unsigned id) const noexcept;
 		bool screencap();
-
 		Point rand_point_in_rect(const Rect& rect);
+
+		// 转换data中所有的crlf为lf：有些模拟器自带的adb，exec-out输出的\n，会被替换成\r\n，导致解码错误，所以这里转一下回来（点名批评mumu）
+		static void convert_lf(std::vector<unsigned char>& data);
 
 		bool m_thread_exit = false;
 		//bool m_thread_idle = true;
@@ -61,6 +63,7 @@ namespace asst {
 
 		//std::shared_mutex m_image_mutex;
 		cv::Mat m_cache_image;
+		bool m_image_convert_lf = false;
 
 		constexpr static int PipeBuffSize = 1048576;	// 管道缓冲区大小
 		HANDLE m_pipe_read = nullptr;					// 读管道句柄
