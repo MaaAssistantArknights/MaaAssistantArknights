@@ -341,8 +341,37 @@ bool asst::WinMacro::screencap()
 	if (!data.empty()) {
 		m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
 		if (m_cache_image.empty()) {
-			DebugTraceError("Data is not empty, but image is empty!");
-			return false;
+			DebugTraceInfo("Data is not empty, but image is empty");
+			// 有些模拟器自带的adb，exec-out输出的\n，会被替换成\r\n，导致解码错误，所以这里转一下回来（点名批评mumu）
+			DebugTraceScope("Convert CRLF to LF");
+			auto first_iter = data.begin();
+			auto end_r1_iter = data.end() - 1;
+			auto next_iter = first_iter;
+			bool start_write = false;
+			while (++first_iter != end_r1_iter) {
+				if (*first_iter == '\r' && *(first_iter + 1) == '\n') {
+					if (!start_write) {
+						start_write = true;
+						next_iter = first_iter;
+					}
+				}
+				else if (start_write) {
+					*next_iter = std::move(*first_iter);
+					++next_iter;
+				}
+				else {
+					// do nothing
+				}
+			}
+			*next_iter = std::move(*end_r1_iter);
+			++next_iter;
+			data.erase(next_iter, data.end());
+			m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
+			if (m_cache_image.empty()) {
+				DebugTraceError("convert lf and retry decode falied!");
+				return false;
+			}
+			return true;
 		}
 		return true;
 	}
