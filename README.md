@@ -63,11 +63,11 @@ A game assistance for Arknights
 
 #### 雷电模拟器
 
-支持。但是雷电自带的`ADB`版本太老了，有一些命令有问题，所以需要下载[谷歌官方ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
+支持
 
 #### 逍遥模拟器
 
-支持。但是逍遥自带的`ADB`版本太老了，有一些命令有问题，所以需要下载[谷歌官方ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
+支持
 
 #### 腾讯手游助手
 
