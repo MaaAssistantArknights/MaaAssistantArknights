@@ -328,6 +328,7 @@
     "CollectCredit": {
         "template": "CollectCredit.png",
         "action": "clickSelf",
+        "rearDelay": 2000,
         "next": [
             "CloseCollectCredit"
         ]

@@ -29,7 +29,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>0.8.3.0</ApplicationVersion>
+    <ApplicationVersion>0.8.5.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -205,8 +205,11 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Helper\AsstProxy.cs" />
     <Compile Include="Helper\ViewStatusStorage.cs" />
-    <Compile Include="UserControl\ParamSettingUserControl.xaml.cs">
-      <DependentUpon>ParamSettingUserControl.xaml</DependentUpon>
+    <Compile Include="UserControl\VisitParamSettingUserControl.xaml.cs">
+      <DependentUpon>VisitParamSettingUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\SanityParamSettingUserControl.xaml.cs">
+      <DependentUpon>SanityParamSettingUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\MainFunctionViewModel.cs" />
     <Compile Include="ViewModels\RecruitViewModel.cs" />
@@ -224,7 +227,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\ParamSettingUserControl.xaml">
+    <Page Include="UserControl\VisitParamSettingUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl\SanityParamSettingUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -5,9 +5,9 @@ namespace MeoAsstGui
     /// <summary>
     /// ParamSettingUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class ParamSettingUserControl : UserControl
+    public partial class SanityParamSettingUserControl : UserControl
     {
-        public ParamSettingUserControl()
+        public SanityParamSettingUserControl()
         {
             InitializeComponent();
         }
