@@ -99,6 +99,7 @@ bool asst::TaskConfiger::parse(const json::value& json)
 					ocr_task_info_ptr->replace_map.emplace(key, value.as_string());
 				}
 			}
+			ocr_task_info_ptr->cache = task_json.get("cache", true);
 			task_info_ptr = ocr_task_info_ptr;
 		}
 		break;

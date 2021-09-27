@@ -58,12 +58,17 @@ namespace asst {
 		{
 			return { x, y, static_cast<int>(width * rhs), static_cast<int>(height * rhs) };
 		}
-		Rect center_zoom(double scale) const
+		Rect center_zoom(double scale, int max_width = INT_MAX, int max_height = INT_MAX) const
 		{
 			int half_width_scale = static_cast<int>(width * (1 - scale) / 2);
 			int half_hight_scale = static_cast<int>(height * (1 - scale) / 2);
-			return { x + half_width_scale, y + half_hight_scale,
-				static_cast<int>(width * scale),  static_cast<int>(height * scale) };
+			Rect dst(x + half_width_scale, y + half_hight_scale,
+				static_cast<int>(width * scale), static_cast<int>(height * scale));
+			if (dst.x < 0) { dst.x = 0; }
+			if (dst.y < 0) { dst.y = 0; }
+			if (dst.width + dst.x >= max_width) { dst.width = max_width - dst.x; }
+			if (dst.height + dst.y >= max_height) { dst.height = max_height - dst.y; }
+			return dst;
 		}
 		Rect& operator=(const Rect&) noexcept = default;
 		Rect& operator=(Rect&&) noexcept = default;
@@ -145,6 +150,8 @@ namespace asst {
 		bool need_match = false;						// 是否需要全匹配，否则搜索到子串就算匹配上了
 		std::unordered_map<std::string, std::string>
 			replace_map;								// 部分文字容易识别错，字符串强制replace之后，再进行匹配
+		bool cache = false;								// 是否使用缓存区域：上次处理该任务时，在一些rect里识别到过text，这次优先在这些rect里识别，省点性能
+		std::vector<Rect> cache_area;					// 识别缓存区域
 	};
 
 	// 图片匹配任务的信息
