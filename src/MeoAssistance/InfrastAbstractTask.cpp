@@ -226,15 +226,7 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
 			if (textarea.text.find(key) != std::string::npos
 				&& textarea.text.find(value) == std::string::npos) {
 				// 把key所在的矩形放大一点送去做特征检测，不需要把整张图片都送去检测
-				Rect magnified_area = textarea.rect.center_zoom(2.0);
-				magnified_area.x = (std::max)(0, magnified_area.x);
-				magnified_area.y = (std::max)(0, magnified_area.y);
-				if (magnified_area.x + magnified_area.width >= image.cols) {
-					magnified_area.width = image.cols - magnified_area.x - 1;
-				}
-				if (magnified_area.y + magnified_area.height >= image.rows) {
-					magnified_area.height = image.rows - magnified_area.y - 1;
-				}
+				Rect magnified_area = textarea.rect.center_zoom(2.0, image.cols, image.rows);
 				// key是关键字而已，真正要识别的是value
 				auto&& ret = OcrAbstractTask::m_identify_ptr->feature_match(
 					image(make_rect<cv::Rect>(magnified_area)), value);

@@ -318,6 +318,12 @@
         "text": [
             "信用交易所"
         ],
+        "identifyArea": [
+            1000,
+            0,
+            280,
+            300
+        ],
         "rearDelay": 1000,
         "action": "clickSelf",
         "next": [
