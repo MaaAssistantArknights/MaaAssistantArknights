@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:s="https://github.com/canton7/Stylet"
              mc:Ignorable="d"
-             Title="版本已自动更新" Height="500" Width="600">
+             Title="版本已更新" Height="500" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
@@ -13,7 +13,8 @@
             <RowDefinition Height="120" />
         </Grid.RowDefinitions>
 
-        <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Row="0">
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="0">
+            <TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="已更新：" TextWrapping="Wrap" FontSize="24" Margin="0, 20" />
             <TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding UpdateTag}" TextWrapping="Wrap" FontSize="24" Margin="0, 20" />
         </StackPanel>
         <ScrollViewer HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1">

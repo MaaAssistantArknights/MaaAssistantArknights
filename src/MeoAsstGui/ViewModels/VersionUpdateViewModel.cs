@@ -68,22 +68,45 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("VersionUpdate.firstboot", value.ToString());
             }
         }
+        private string _updatePackageName = ViewStatusStorage.Get("VersionUpdate.package", string.Empty);
+        public string UpdatePackageName
+        {
+            get
+            {
+                return _updatePackageName;
+            }
+            set
+            {
+                SetAndNotify(ref _updatePackageName, value);
+                ViewStatusStorage.Set("VersionUpdate.package", value.ToString());
+            }
+        }
 
-        private const string _requestUrl = "https://api.github.com/repos/MistEO/MeoAssistance/releases/latest";
+        private const string _requestUrl = "https://api.github.com/repos/MistEO/MeoAssistance-Arknights/releases/latest";
+        private const string _viewUrl = "https://github.com/MistEO/MeoAssistance-Arknights/releases/latest";
         private JObject _lastestJson;
         private string _downloadUrl;
-        string _extractDir = Directory.GetCurrentDirectory() + "\\NewVersion";
 
         // 检查是否有已下载的更新包，如果有立即更新并重启进程
         public bool CheckAndUpdateNow()
         {
-            if (UpdateTag == string.Empty || !Directory.Exists(_extractDir))
+            if (UpdateTag == string.Empty 
+                || UpdatePackageName == string.Empty 
+                || !File.Exists(UpdatePackageName))
             {
                 return false;
             }
+            new ToastContentBuilder()
+                .AddText("检测到新版本包，正在解压，请稍等……")
+                .AddText(UpdateTag)
+                .Show();
+            string extractDir = Directory.GetCurrentDirectory() + "\\NewVersionExtract";
+            // 解压
+            System.IO.Compression.ZipFile.ExtractToDirectory(UpdatePackageName, extractDir);
+
             var uncopiedList = new List<string>();
             // 复制新版本的所有文件到当前路径下
-            foreach (var file in Directory.GetFiles(_extractDir))
+            foreach (var file in Directory.GetFiles(extractDir))
             {
                 try
                 {
@@ -94,7 +117,7 @@ namespace MeoAsstGui
                     uncopiedList.Add(file);
                 }
             }
-            foreach (var directory in Directory.GetDirectories(_extractDir))
+            foreach (var directory in Directory.GetDirectories(extractDir))
             {
                 CopyFilesRecursively(directory, Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(directory)));
             }
@@ -112,10 +135,11 @@ namespace MeoAsstGui
                 File.Copy(file, curFileName);
             }
 
-            // 操作完了，把更新包里的文件删了
-            Directory.Delete(_extractDir, true);
+            // 操作完了，把解压的文件删了
+            Directory.Delete(extractDir, true);
             // 保存更新信息，下次启动后会弹出已更新完成的提示
             IsFirstBootAfterUpdate = true;
+            UpdatePackageName = string.Empty;
             ViewStatusStorage.Save();
 
             // 重启进程（启动的是更新后的程序了）
@@ -135,17 +159,23 @@ namespace MeoAsstGui
             {
                 return false;
             }
+            // 保存新版本的信息
+            UpdatePackageName = _downloadUrl.Substring(_downloadUrl.LastIndexOf('/') + 1);
+            UpdateTag = _lastestJson["name"].ToString();
+            UpdateInfo = _lastestJson["body"].ToString();
+
             var openUrlToastButton = new ToastButton();
             openUrlToastButton.SetContent("前往页面查看");
+            openUrlToastButton.SetProtocolActivation(new Uri(_viewUrl));
             new ToastContentBuilder()
-                .AddText("检测到新版本：" + _lastestJson["name"].ToString() + "，正在后台下载……")
-                .AddText(_lastestJson["body"].ToString())
+                .AddText("检测到新版本，正在后台下载……")
+                .AddText(UpdateTag)
+                .AddText(UpdateInfo)
                 .AddButton(openUrlToastButton)
                 .Show();
             // 下载压缩包
-            const int downloadRetryMaxTimes = 20;
-            string downloadFilename = _downloadUrl.Substring(_downloadUrl.LastIndexOf('/') + 1);
-            string downloadTempFilename = downloadFilename + ".tmp";
+            const int downloadRetryMaxTimes = 5;
+            string downloadTempFilename = UpdatePackageName + ".tmp";
             bool downloaded = false;
             for (int i = 0; i != downloadRetryMaxTimes; ++i)
             {
@@ -158,21 +188,19 @@ namespace MeoAsstGui
             if (!downloaded)
             {
                 new ToastContentBuilder()
-                    .AddText("新版本下载失败，请尝试手动下载_(:з」∠)_")
+                    .AddText("新版本下载失败")
+                    .AddText("请尝试手动下载后，将压缩包放到exe同级目录_(:з」∠)_")
                     .AddButton(openUrlToastButton)
                     .Show();
                 return false;
             }
-            // 解压并删除压缩包
-            File.Copy(downloadTempFilename, downloadFilename, true);
+            File.Copy(downloadTempFilename, UpdatePackageName, true);
             File.Delete(downloadTempFilename);
-            System.IO.Compression.ZipFile.ExtractToDirectory(downloadFilename, _extractDir);
-            File.Delete(downloadFilename);
             // 把相关信息存下来，更新完之后启动的时候显示
-            UpdateTag = "版本已自动更新：" + _lastestJson["name"].ToString();
-            UpdateInfo = _lastestJson["body"].ToString();
             new ToastContentBuilder()
-                .AddText("新版本下载完成，将在下次启动辅助时自动更新！✿✿ヽ(°▽°)ノ✿")
+                .AddText("新版本下载完成")
+                .AddText("软件将在下次启动时自动更新！")
+                .AddText("✿✿ヽ(°▽°)ノ✿")
                 .Show();
             return true;
         }
@@ -180,7 +208,7 @@ namespace MeoAsstGui
         public bool CheckUpdate()
         {
             string response = string.Empty;
-            const int requestRetryMaxTimes = 20;
+            const int requestRetryMaxTimes = 5;
             for (int i = 0; i != requestRetryMaxTimes; ++i)
             {
                 response = RequestApi(_requestUrl);
