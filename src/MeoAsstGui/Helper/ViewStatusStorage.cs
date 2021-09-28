@@ -15,7 +15,7 @@ namespace MeoAsstGui
             if (_viewStatus.ContainsKey(key))
             {
                 return _viewStatus[key].ToString();
-            } 
+            }
             else
             {
                 return defalut_value;
@@ -45,9 +45,16 @@ namespace MeoAsstGui
         }
         public static bool Save()
         {
-            using (StreamWriter sw = new StreamWriter(_configFilename))
+            try
             {
-                sw.Write(_viewStatus.ToString());
+                using (StreamWriter sw = new StreamWriter(_configFilename))
+                {
+                    sw.Write(_viewStatus.ToString());
+                }
+            }
+            catch (Exception)
+            {
+                return false;
             }
             return true;
         }
