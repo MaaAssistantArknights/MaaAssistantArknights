@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:s="https://github.com/canton7/Stylet"
              mc:Ignorable="d"
-             Title="有新版本" Height="500" Width="600">
+             Title="版本已更新" Height="500" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
@@ -13,7 +13,8 @@
             <RowDefinition Height="120" />
         </Grid.RowDefinitions>
 
-        <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Row="0">
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="0">
+            <TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="已更新：" TextWrapping="Wrap" FontSize="24" Margin="0, 20" />
             <TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding UpdateTag}" TextWrapping="Wrap" FontSize="24" Margin="0, 20" />
         </StackPanel>
         <ScrollViewer HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1">
@@ -21,9 +22,9 @@
         </ScrollViewer>
 
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="2">
-            <Button Command="{s:Action Download}" Content="前往下载" Margin="20" Width="120" Height="60" />
+            <!--<Button Command="{s:Action Download}" Content="前往下载" Margin="20" Width="120" Height="60" />-->
             <!--<Button Command="{s:Action Ignore}" Content="不再提示" Margin="20" Width="120" Height="60" />-->
-            <Button Command="{s:Action Close}" Content="下次一定" Margin="20" Width="120" Height="60" />
+            <Button Command="{s:Action Close}" Content="好的！" Margin="20" Width="120" Height="60" />
         </StackPanel>
     </Grid>
 </Window>

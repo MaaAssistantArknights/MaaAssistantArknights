@@ -19,7 +19,7 @@ bool TaskConfiger::set_param(const std::string& type, const std::string& param, 
 		}
 		auto task_info_ptr = m_all_tasks_info[param];
 		std::string action = value;
-		std::transform(action.begin(), action.end(), action.begin(), std::tolower);
+		std::transform(action.begin(), action.end(), action.begin(), ::tolower);
 		if (action == "clickself") {
 			task_info_ptr->action = ProcessTaskAction::ClickSelf;
 		}
@@ -53,7 +53,7 @@ bool asst::TaskConfiger::parse(const json::value& json)
 {
 	for (const auto& [name, task_json] : json.as_object()) {
 		std::string algorithm_str = task_json.get("algorithm", "matchtemplate");
-		std::transform(algorithm_str.begin(), algorithm_str.end(), algorithm_str.begin(), std::tolower);
+		std::transform(algorithm_str.begin(), algorithm_str.end(), algorithm_str.begin(), ::tolower);
 		AlgorithmType algorithm = AlgorithmType::Invaild;
 		if (algorithm_str == "matchtemplate") {
 			algorithm = AlgorithmType::MatchTemplate;
@@ -107,7 +107,7 @@ bool asst::TaskConfiger::parse(const json::value& json)
 		task_info_ptr->algorithm = algorithm;
 		task_info_ptr->name = name;
 		std::string action = task_json.at("action").as_string();
-		std::transform(action.begin(), action.end(), action.begin(), std::tolower);
+		std::transform(action.begin(), action.end(), action.begin(), ::tolower);
 		if (action == "clickself") {
 			task_info_ptr->action = ProcessTaskAction::ClickSelf;
 		}

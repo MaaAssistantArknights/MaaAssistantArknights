@@ -17,9 +17,10 @@ namespace MeoAsstGui
 
         protected override void OnViewLoaded()
         {
+            CheckAndUpdateNow();
             InitProxy();
-            CheckUpdate();
             InitViewModels();
+            ShowUpdateOrDownload();
         }
 
         private void InitProxy()
@@ -37,20 +38,27 @@ namespace MeoAsstGui
             Items.Add(rvm);
             ActiveItem = mfvm;
         }
-
-        private async void CheckUpdate()
+        private bool CheckAndUpdateNow()
+        {
+            var vuvm = _container.Get<VersionUpdateViewModel>();
+            return vuvm.CheckAndUpdateNow();
+        }
+        private async void ShowUpdateOrDownload()
         {
             var vuvm = _container.Get<VersionUpdateViewModel>();
 
-            var task = Task.Run(() =>
-            {
-                return vuvm.CheckUpdate();
-            });
-
-            var needUpdate = await task;
-            if (needUpdate)
+            if (vuvm.IsFirstBootAfterUpdate)
             {
                 _windowManager.ShowWindow(vuvm);
+            }
+            else
+            {
+                var task = Task.Run(() =>
+                {
+                    return vuvm.CheckAndDownloadUpdate();
+                });
+
+                await task;
             }
         }
     }
