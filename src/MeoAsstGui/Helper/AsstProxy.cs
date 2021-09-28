@@ -4,6 +4,7 @@ using Stylet;
 using StyletIoC;
 using System;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace MeoAsstGui
@@ -154,8 +155,13 @@ namespace MeoAsstGui
                                 mfvm.RunStatus = "出现错误，已停止运行";
                                 break;
                             }
+
                             ++_retryTimes;
-                            AsstStartSanity();
+                            Task.Run(() =>
+                            {
+                                AsstStop();
+                                AsstStartSanity();
+                            });
                         }
                     }
                     break;

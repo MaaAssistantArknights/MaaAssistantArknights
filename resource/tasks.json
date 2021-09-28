@@ -10,6 +10,7 @@
             "UseMedicine",
             "UseStone",
             "EndOfAction",
+            "PrtsErrorConfirm",
             "OfflineConfirm",
             "StartToWakeUp",
             "TodaysSupplies",
@@ -64,6 +65,7 @@
             "PRTS",
             "PrtsErrorConfirm",
             "EndOfAction",
+            "OfflineConfirm",
             "WaitAfterPRTS"
         ]
     },
@@ -174,21 +176,38 @@
     },
     "PrtsErrorConfirm": {
         "template": "PrtsErrorConfirm.png",
+        "templThreshold": 0.8,
+        "cache": false,
         "action": "doNothing",
         "next": [
-            "AbandonAction"
+            "AbandonAction",
+            "OfflineConfirmAfterBattle"
         ]
     },
     "AbandonAction": {
         "template": "AbandonAction.png",
         "action": "clickSelf",
+        "cache": false,
         "reduceOtherTimes": [
             "StartButton1",
             "StartButton2",
             "Loading"
         ],
         "next": [
-            "EndOfAction"
+            "EndOfAction",
+            "StartToWakeUp",
+            "OfflineConfirm"
+        ]
+    },
+    "OfflineConfirmAfterBattle": {
+        "template": "PopupConfirm.png",
+        "action": "clickSelf",
+        "cache": false,
+        "next": [
+            "PRTS",
+            "PrtsErrorConfirm",
+            "OfflineConfirm",
+            "StartToWakeUp"
         ]
     },
     "OfflineConfirm": {
