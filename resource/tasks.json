@@ -9,7 +9,13 @@
             "PRTS",
             "UseMedicine",
             "UseStone",
-            "EndOfAction"
+            "EndOfAction",
+            "OfflineConfirm",
+            "StartToWakeUp",
+            "TodaysSupplies",
+            "CloseAnno",
+            "Terminal",
+            "LastBattle"
         ]
     },
     "UsePrts": {
@@ -185,6 +191,81 @@
             "EndOfAction"
         ]
     },
+    "OfflineConfirm": {
+        "template": "OfflineConfirm.png",
+        "action": "clickSelf",
+        "cache": false,
+        "reduceOtherTimes": [
+            "StartButton1",
+            "StartButton2",
+            "Loading"
+        ],        
+        "next": [
+            "StartToWakeUp",
+            "OfflineConfirm"
+        ]
+    },
+    "StartToWakeUp": {
+        "template": "StartToWakeUp.png",
+        "action": "clickSelf",
+        "cache": false,
+        "next": [
+            "Terminal",
+            "CloseAnno",
+            "OfflineConfirm",
+            "TodaysSupplies"
+        ]
+    },
+    "CloseAnno": {
+        "template": "CloseAnno.png",
+        "action": "clickSelf",
+        "cache": false,
+        "next": [
+            "Terminal",
+            "CloseAnno",
+            "TodaysSupplies"
+        ]
+    },
+    "Terminal": {
+        "template": "Terminal.png",
+        "cache": false,
+        "action": "clickSelf",
+        "next": [
+            "LastBattle",
+            "CloseAnno",
+            "TodaysSupplies"
+        ]
+    },
+    "TodaysSupplies": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "今日配给"
+        ],
+        "action": "clickRect",
+        "specificArea": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "next": [
+            "CloseAnno",
+            "Terminal"
+        ]
+    },
+    "LastBattle": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "上一次作战",
+            "前往上一次"
+        ],
+        "action": "clickSelf",
+        "next": [
+            "StartButton1"
+        ]
+    },
     "VisitBegin": {
         "algorithm": "justreturn",
         "action": "doNothing",
@@ -237,7 +318,7 @@
         "template": "VisitNext.png",
         "action": "clickSelf",
         "cache": false,
-        "rearDelay": 3000,
+        "rearDelay": 2000,
         "identifyArea": [
             1080,
             570,
@@ -260,7 +341,7 @@
             "访问下位"
         ],
         "action": "clickSelf",
-        "rearDelay": 3000,
+        "rearDelay": 2000,
         "identifyArea": [
             1080,
             570,
@@ -290,7 +371,7 @@
     "ReturnToMallConfirm": {
         "template": "PopupConfirm.png",
         "action": "clickSelf",
-        "rearDelay": 5000,
+        "rearDelay": 3000,
         "next": [
             "ReturnToMall"
         ]
