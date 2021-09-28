@@ -416,6 +416,10 @@ int WinMacro::click(const Rect& rect, bool block)
 
 int asst::WinMacro::click_without_scale(const Point& p, bool block)
 {
+	if (p.x < 0 || p.x >= m_emulator_info.adb.display_width
+		|| p.y < 0 || p.y >= m_emulator_info.adb.display_height) {
+		DebugTraceError("click point out of range");
+	}
 	std::string cur_cmd = StringReplaceAll(m_emulator_info.adb.click, "[x]", std::to_string(p.x));
 	cur_cmd = StringReplaceAll(cur_cmd, "[y]", std::to_string(p.y));
 	int id = push_cmd(cur_cmd);
@@ -448,6 +452,12 @@ int asst::WinMacro::swipe(const Rect& r1, const Rect& r2, int duration, bool blo
 
 int asst::WinMacro::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block)
 {
+	if (p1.x < 0 || p1.x >= m_emulator_info.adb.display_width
+		|| p1.y < 0 || p1.y >= m_emulator_info.adb.display_height
+		|| p2.x < 0 || p2.x >= m_emulator_info.adb.display_width
+		|| p2.y < 0 || p2.y >= m_emulator_info.adb.display_height) {
+		DebugTraceError("swipe point out of range");
+	}
 	std::string cur_cmd = StringReplaceAll(m_emulator_info.adb.swipe, "[x1]", std::to_string(p1.x));
 	cur_cmd = StringReplaceAll(cur_cmd, "[y1]", std::to_string(p1.y));
 	cur_cmd = StringReplaceAll(cur_cmd, "[x2]", std::to_string(p2.x));
