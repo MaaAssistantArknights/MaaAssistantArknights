@@ -72,14 +72,14 @@
         ]
     },
     "ClickCornerAfterPRTS": {
-        "ClickCorner_Doc": "点击右下角，既不会点到掉落物品，又能点到蓝色开始按钮（为了容错）的一块位置。",
+        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "justreturn",
         "action": "clickRect",
         "specificArea": [
-            1100,
-            700,
-            150,
-            30
+            1000,
+            1,
+            270,
+            340
         ],
         "next": [
             "EndOfAction",
@@ -103,15 +103,15 @@
         ]
     },
     "ClickCorner": {
-        "ClickCorner_Doc": "点击右下角，既不会点到掉落物品，又能点到蓝色开始按钮（为了容错）的一块位置。",
+        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "justreturn",
         "action": "clickRect",
         "rearDelay": 2000,
         "specificArea": [
-            1100,
-            700,
-            150,
-            30
+            1000,
+            1,
+            270,
+            340
         ],
         "next": [
             "Loading",
@@ -343,10 +343,10 @@
         "algorithm": "justReturn",
         "action": "clickRect",
         "specificArea": [
-            1100,
-            700,
-            150,
-            30
+            1000,
+            1,
+            270,
+            340
         ],
         "next": [
             "Stop"
