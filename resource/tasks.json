@@ -577,6 +577,7 @@
             800,
             118
         ],
+        "cache": false,
         "next": [
             "InfrastReward",
             "InfrastExitReward"
