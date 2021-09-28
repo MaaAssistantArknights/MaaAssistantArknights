@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <type_traits>
+#include <filesystem>
 
 #include "AsstAux.h"
 #include "Version.h"
@@ -46,7 +47,22 @@ namespace asst {
 
 	private:
 		Logger()
-			: m_ofstream(asst::GetCurrentDir() + "asst.log", std::ios::out | std::ios::app)
+		{
+			check_filesize_and_remove();
+			m_ofstream = std::ofstream(m_log_filename, std::ios::out | std::ios::app);
+			log_init_info();
+		}
+
+		void check_filesize_and_remove() 
+		{
+			constexpr uintmax_t MaxLogSize = 4 * 1024 * 1024;
+			uintmax_t log_size = std::filesystem::file_size(m_log_filename);
+			if (log_size >= MaxLogSize) {
+				const static std::string back_filename = asst::GetCurrentDir() + "asst.bak.log";
+				std::filesystem::rename(m_log_filename, back_filename);
+			}
+		}
+		void log_init_info() 
 		{
 			log_trace("-----------------------------");
 			log_trace("MeoAssistance Process Start");
@@ -102,6 +118,7 @@ namespace asst {
 
 		std::mutex m_trace_mutex;
 		std::ofstream m_ofstream;
+		const std::string m_log_filename = asst::GetCurrentDir() + "asst.log";
 	};
 
 	class LoggerAux {
