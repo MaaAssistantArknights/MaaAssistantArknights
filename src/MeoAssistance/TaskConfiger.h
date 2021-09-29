@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 namespace asst {
-    class TaskInfo;
+    struct TaskInfo;
 
     class TaskConfiger : public AbstractConfiger
     {

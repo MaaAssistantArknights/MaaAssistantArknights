@@ -33,6 +33,9 @@ bool ProcessTask::run()
 
     Rect rect;
     task_info_ptr = match_image(&rect);
+    if (need_exit()) {
+        return false;
+    }
     if (!task_info_ptr) {
         m_callback(AsstMsg::ProcessTaskNotMatched, task_start_json, m_callback_arg);
         return false;
@@ -60,8 +63,7 @@ bool ProcessTask::run()
     }
 
     // 前置固定延时
-    if (!sleep(task_info_ptr->pre_delay))
-    {
+    if (!sleep(task_info_ptr->pre_delay)) {
         return false;
     }
 
@@ -132,13 +134,17 @@ bool ProcessTask::run()
 std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 {
     const cv::Mat& cur_image = m_controller_ptr->get_image();
-    if (cur_image.empty() || cur_image.rows < 100) {
+    if (cur_image.empty()) {
         m_callback(AsstMsg::ImageIsEmpty, json::value(), m_callback_arg);
         return nullptr;
     }
 
+    std::unordered_set<TextArea> ocr_cache;
     // 逐个匹配当前可能的任务
     for (const std::string& task_name : m_cur_tasks_name) {
+        if (need_exit()) {
+            return nullptr;
+        }
         std::shared_ptr<TaskInfo> task_info_ptr = TaskConfiger::get_instance().m_all_tasks_info[task_name];
         if (task_info_ptr == nullptr) {	// 说明配置文件里没这个任务
             m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
@@ -198,71 +204,84 @@ std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
         {
             std::shared_ptr<OcrTaskInfo> ocr_task_info_ptr =
                 std::dynamic_pointer_cast<OcrTaskInfo>(task_info_ptr);
-
             std::vector<TextArea> match_result;
-            auto identify_roi = [&](const cv::Mat& roi) -> bool {
-                std::vector<TextArea> all_text_area = ocr_detect(roi);
-                if (ocr_task_info_ptr->need_match) {
-                    match_result = text_match(all_text_area,
-                        ocr_task_info_ptr->text, ocr_task_info_ptr->replace_map);
-                }
-                else {
-                    match_result = text_search(all_text_area,
-                        ocr_task_info_ptr->text, ocr_task_info_ptr->replace_map);
-                }
-                if (!match_result.empty()) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            };
 
-            // 先在缓存的区域里识别
-            Rect roi_area;
-            for (const auto& cache_area : ocr_task_info_ptr->cache_area) {
-                Rect roi_rect = cache_area.center_zoom(2.0, Configer::WindowWidthDefault, Configer::WindowHeightDefault);
-                cv::Mat roi_image = cur_image(make_rect<cv::Rect>(roi_rect));
-                if (identify_roi(roi_image)) {
-                    roi_area = roi_rect;
-                    callback_json["algorithm"] = "OcrDetectRoi";
-                    callback_json["roi"] = make_rect<json::array>(roi_rect);
-                    break;
-                }
+            if (ocr_task_info_ptr->need_match) {
+                match_result = text_match(ocr_cache,
+                    ocr_task_info_ptr->text, ocr_task_info_ptr->replace_map);
             }
-            // 如果缓存的区域里没识别到，那再在用完整的/默认区域识别一次
+            else {
+                match_result = text_search(ocr_cache,
+                    ocr_task_info_ptr->text, ocr_task_info_ptr->replace_map);
+            }
+
+            Rect matched_roi_rect;
             if (match_result.empty()) {
-                const auto& identify_area = m_controller_ptr->shaped_correct(ocr_task_info_ptr->identify_area);
-                if (identify_area.width == 0) {
-                    if (identify_roi(cur_image)) {
-                        roi_area = Rect(0, 0, cur_image.cols, cur_image.rows);
+                auto identify_roi = [&](const Rect roi) -> bool {
+                    cv::Mat roi_image = cur_image(make_rect<cv::Rect>(roi));
+                    std::vector<TextArea> all_text_area = ocr_detect(roi_image);
+                    // 加入ocr识别缓存
+                    for (const TextArea& textarea : all_text_area) {
+                        Rect cor_rect = textarea.rect;
+                        cor_rect.x += roi.x;
+                        cor_rect.y += roi.y;
+                        ocr_cache.emplace(textarea.text, cor_rect);
+                    }
+                    if (ocr_task_info_ptr->need_match) {
+                        match_result = text_match(all_text_area,
+                            ocr_task_info_ptr->text, ocr_task_info_ptr->replace_map);
+                    }
+                    else {
+                        match_result = text_search(all_text_area,
+                            ocr_task_info_ptr->text, ocr_task_info_ptr->replace_map);
+                    }
+                    if (!match_result.empty()) {
+                        matched_roi_rect = roi;
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                };
+
+                // 先在历史区域里识别
+                for (const auto& history_area : ocr_task_info_ptr->history_area) {
+                    Rect roi_rect = history_area.center_zoom(2.0, Configer::WindowWidthDefault, Configer::WindowHeightDefault);
+                    if (identify_roi(roi_rect)) {
+                        callback_json["algorithm"] = "OcrDetectRoi";
+                        callback_json["roi"] = make_rect<json::array>(roi_rect);
+                        break;
                     }
                 }
-                else {
-                    cv::Mat roi_image = cur_image(make_rect<cv::Rect>(identify_area));
-                    if (identify_roi(roi_image)) {
-                        roi_area = identify_area;
+                // 如果历史区域里没识别到，那再在用完整的/默认区域识别一次
+                if (match_result.empty()) {
+                    const auto& identify_area = m_controller_ptr->shaped_correct(ocr_task_info_ptr->identify_area);
+                    if (identify_area.width == 0) {
+                        Rect full(0, 0, cur_image.cols, cur_image.rows);
+                        identify_roi(full);
                     }
-                }
-                // 把本次识别到的区域加入到缓存里
-                if (ocr_task_info_ptr->cache) {
-                    for (const auto& textarea : match_result) {
-                        Rect cache_area = textarea.rect;
-                        cache_area.x += roi_area.x;
-                        cache_area.y += roi_area.y;
-                        ocr_task_info_ptr->cache_area.emplace_back(std::move(cache_area));
+                    else {
+                        identify_roi(identify_area);
                     }
+                    // 把本次识别到的区域加入历史区域
+                    if (ocr_task_info_ptr->cache) {
+                        for (const auto& textarea : match_result) {
+                            Rect history_area = textarea.rect;
+                            history_area.x += matched_roi_rect.x;
+                            history_area.y += matched_roi_rect.y;
+                            ocr_task_info_ptr->history_area.emplace_back(std::move(history_area));
+                        }
+                    }
+                    callback_json["algorithm"] = "OcrDetect";
                 }
-                callback_json["algorithm"] = "OcrDetect";
             }
 
             // TODO：如果搜出来多个结果，怎么处理？
-            // 暂时通过配置文件，保证尽量只搜出来一个结果or一个都搜不到
             if (!match_result.empty()) {
                 callback_json["text"] = match_result.at(0).text;
                 rect = match_result.at(0).rect;
-                rect.x += roi_area.x;
-                rect.y += roi_area.y;
+                rect.x += matched_roi_rect.x;
+                rect.y += matched_roi_rect.y;
                 matched = true;
             }
         }

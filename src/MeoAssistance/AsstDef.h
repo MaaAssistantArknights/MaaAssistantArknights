@@ -72,6 +72,10 @@ namespace asst {
         }
         Rect& operator=(const Rect&) noexcept = default;
         Rect& operator=(Rect&&) noexcept = default;
+        bool operator==(const Rect& rhs) const noexcept
+        {
+            return x == rhs.x && y == rhs.y && width == rhs.width && height == rhs.height;
+        }
 
         int x = 0;
         int y = 0;
@@ -93,6 +97,10 @@ namespace asst {
         operator std::string() const { return text; }
         TextArea& operator=(const TextArea&) = default;
         TextArea& operator=(TextArea&&) noexcept = default;
+        bool operator==(const TextArea& rhs) const noexcept
+        {
+            return text == rhs.text && rect == rhs.rect;
+        }
 
         std::string text;
         Rect rect;
@@ -150,8 +158,8 @@ namespace asst {
         bool need_match = false;						// 是否需要全匹配，否则搜索到子串就算匹配上了
         std::unordered_map<std::string, std::string>
             replace_map;								// 部分文字容易识别错，字符串强制replace之后，再进行匹配
-        bool cache = false;								// 是否使用缓存区域：上次处理该任务时，在一些rect里识别到过text，这次优先在这些rect里识别，省点性能
-        std::vector<Rect> cache_area;					// 识别缓存区域
+        bool cache = false;								// 是否使用历史区域
+        std::vector<Rect> history_area;					// 历史区域：上次处理该任务时，在一些rect里识别到过text，这次优先在这些rect里识别，省点性能
     };
 
     // 图片匹配任务的信息
@@ -229,6 +237,26 @@ namespace std {
         size_t operator()(const asst::OperInfrastInfo& info) const
         {
             return std::hash<std::string>()(info.name);
+        }
+    };
+    template<>
+    class hash<asst::Rect> {
+    public:
+        size_t operator()(const asst::Rect& rect) const
+        {
+            return std::hash<int>()(rect.x)
+                ^ std::hash<int>()(rect.y)
+                ^ std::hash<int>()(rect.width)
+                ^ std::hash<int>()(rect.height);
+        }
+    };
+    template<>
+    class hash<asst::TextArea> {
+    public:
+        size_t operator()(const asst::TextArea& textarea) const
+        {
+            return std::hash<std::string>()(textarea.text)
+                ^ std::hash<asst::Rect>()(textarea.rect);
         }
     };
 }
