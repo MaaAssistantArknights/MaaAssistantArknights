@@ -2,6 +2,8 @@
 using StyletIoC;
 using System.Collections.Generic;
 
+using System.Threading.Tasks;
+
 namespace MeoAsstGui
 {
     public class RecruitViewModel : Screen
@@ -98,11 +100,17 @@ namespace MeoAsstGui
             }
         }
 
-        public void StartCalc()
+        public async void StartCalc()
         {
             var asstProxy = _container.Get<AsstProxy>();
-            if (!asstProxy.AsstCatchDefault())
+            var task = Task.Run(() =>
             {
+                return asstProxy.AsstCatchDefault();
+            });
+            bool catchd = await task;
+            if (!catchd)
+            {
+                RecruitInfo = "捕获模拟器窗口失败";
                 return;
             }
             RecruitInfo = "正在识别……";
