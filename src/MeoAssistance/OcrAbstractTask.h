@@ -20,10 +20,12 @@ namespace asst {
         bool click_text(const cv::Mat& image, const std::string& text);
 
         // 文字匹配，要求相等
-        template<typename FilterArray, typename ReplaceMap>
-        std::vector<TextArea> text_match(const std::vector<TextArea>& src,
+        template<typename TextAreaArray, typename FilterArray, typename ReplaceMap>
+        std::vector<TextArea> text_match(const TextAreaArray& src,
             const FilterArray& filter_array, const ReplaceMap& replace_map)
         {
+            static_assert(std::is_constructible<TextArea, TextAreaArray::value_type>::value,
+                "Parameter can't be used to construct a asst::TextArea");
             std::vector<TextArea> dst;
             for (const TextArea& text_area : src) {
                 TextArea temp = text_area;
@@ -39,10 +41,12 @@ namespace asst {
             return dst;
         }
         // 文字匹配，要求相等
-        template<typename FilterArray>
-        std::vector<TextArea> text_match(const std::vector<TextArea>& src,
+        template<typename TextAreaArray, typename FilterArray>
+        std::vector<TextArea> text_match(const TextAreaArray& src,
             const FilterArray& filter_array)
         {
+            static_assert(std::is_constructible<TextArea, TextAreaArray::value_type>::value,
+                "Parameter can't be used to construct a asst::TextArea");
             std::vector<TextArea> dst;
             for (const TextArea& text_area : src) {
                 for (const auto& text : filter_array) {
@@ -55,10 +59,12 @@ namespace asst {
         }
 
         // 文字搜索，是子串即可
-        template<typename FilterArray, typename ReplaceMap>
-        std::vector<TextArea> text_search(const std::vector<TextArea>& src,
+        template<typename TextAreaArray, typename FilterArray, typename ReplaceMap>
+        std::vector<TextArea> text_search(const TextAreaArray& src,
             const FilterArray& filter_array, const ReplaceMap& replace_map)
         {
+            static_assert(std::is_constructible<TextArea, TextAreaArray::value_type>::value,
+                "Parameter can't be used to construct a asst::TextArea");
             std::vector<TextArea> dst;
             for (const TextArea& text_area : src) {
                 TextArea temp = text_area;
@@ -73,10 +79,12 @@ namespace asst {
             }
             return dst;
         }
-        template<typename FilterArray>
-        std::vector<TextArea> text_search(const std::vector<TextArea>& src,
+        template<typename TextAreaArray, typename FilterArray>
+        std::vector<TextArea> text_search(const TextAreaArray& src,
             const FilterArray& filter_array)
         {
+            static_assert(std::is_constructible<TextArea, TextAreaArray::value_type>::value,
+                "Parameter can't be used to construct a asst::TextArea");
             std::vector<TextArea> dst;
             for (const TextArea& text_area : src) {
                 for (const auto& text : filter_array) {
