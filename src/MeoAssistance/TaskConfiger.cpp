@@ -167,6 +167,9 @@ bool asst::TaskConfiger::parse(const json::value& json)
                 area_arr[2].as_integer(),
                 area_arr[3].as_integer());
         }
+        else {
+            task_info_ptr->identify_area = Rect(0, 0, Configer::WindowWidthDefault, Configer::WindowHeightDefault);
+        }
 
         const json::array& next_arr = task_json.at("next").as_array();
         for (const json::value& next : next_arr) {

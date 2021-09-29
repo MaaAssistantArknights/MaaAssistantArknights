@@ -76,6 +76,13 @@ namespace asst {
         {
             return x == rhs.x && y == rhs.y && width == rhs.width && height == rhs.height;
         }
+        bool include(const Rect& rhs) const noexcept
+        {
+            return x <= rhs.x
+                && y <= rhs.y
+                && (x + width) >= (rhs.x + rhs.width)
+                && (y + height) >= (rhs.y + rhs.height);
+        }
 
         int x = 0;
         int y = 0;
