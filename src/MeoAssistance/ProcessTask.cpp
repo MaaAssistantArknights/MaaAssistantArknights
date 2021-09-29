@@ -133,10 +133,23 @@ bool ProcessTask::run()
 
 std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
 {
-    const cv::Mat& cur_image = m_controller_ptr->get_image();
-    if (cur_image.empty()) {
-        m_callback(AsstMsg::ImageIsEmpty, json::value(), m_callback_arg);
-        return nullptr;
+    // 如果第一个任务就是JustReturn的，那就没必要截图了（截图还挺费时间的）
+    // 直接处理下然后返回
+    bool is_front_return = false;
+    if (m_cur_tasks_name.size() >= 1) {
+        auto front_ptr = TaskConfiger::get_instance().m_all_tasks_info[m_cur_tasks_name.front()];
+        if (front_ptr != nullptr
+            && front_ptr->algorithm == AlgorithmType::JustReturn) {
+            is_front_return = true;
+        }
+    }
+    cv::Mat cur_image;
+    if (!is_front_return) {
+        cur_image = m_controller_ptr->get_image();
+        if (cur_image.empty()) {
+            m_callback(AsstMsg::ImageIsEmpty, json::value(), m_callback_arg);
+            return nullptr;
+        }
     }
 
     std::unordered_set<TextArea> ocr_cache;
