@@ -1,5 +1,6 @@
 ﻿using Stylet;
 using StyletIoC;
+using System.Threading.Tasks;
 
 namespace MeoAsstGui
 {
@@ -264,10 +265,14 @@ namespace MeoAsstGui
             CreditShoppingCheckBoxIsEnable = true;
         }
 
-        public void StartSanity()
+        public async void StartSanity()
         {
             var asstProxy = _container.Get<AsstProxy>();
-            bool catched = asstProxy.AsstCatchDefault();
+            var task = Task.Run(() =>
+            {
+                return asstProxy.AsstCatchDefault();
+            });
+            bool catched = await task;
             CatchStatus = "捕获模拟器窗口：" + catched;
             if (!asstProxy.AsstStartSanity())
             {
@@ -284,10 +289,15 @@ namespace MeoAsstGui
             }
         }
 
-        public void Visit()
+        public async void Visit()
         {
             var asstProxy = _container.Get<AsstProxy>();
-            bool catched = asstProxy.AsstCatchDefault();
+            var task = Task.Run(() =>
+            {
+                return asstProxy.AsstCatchDefault();
+            });
+            bool catched = await task;
+
             CatchStatus = "捕获模拟器窗口：" + catched;
             if (!asstProxy.AsstStartVisit(CreditShopping))
             {
