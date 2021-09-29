@@ -88,7 +88,7 @@ std::optional<asst::Rect> asst::Identify::feature_match(
 )
 {
     if (query_mat_vector.empty() || train_mat_vector.empty()) {
-        DebugTraceError("feature_match | image empty");
+        DebugTraceError("feature_match | input vector is empty");
         return std::nullopt;
     }
     std::vector<cv::DMatch> matches;

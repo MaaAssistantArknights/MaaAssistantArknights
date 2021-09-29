@@ -527,7 +527,7 @@
     "EnterOperator": {
         "template": "EnterOperator.png",
         "rareDelay": 1000,
-        "templThreshold": 0.8,
+        "templThreshold": 0.7,
         "action": "clickSelf",
         "next": [
             "Stop"
