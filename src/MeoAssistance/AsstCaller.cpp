@@ -40,14 +40,24 @@ void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg)
 
 void* AsstCreate()
 {
-    return new asst::Assistance();
+    try {
+        return new asst::Assistance();
+    }
+    catch (...) {
+        return nullptr;
+    }
 }
 
 void* AsstCreateEx(AsstCallback callback, void* custom_arg)
 {
-    // 创建多实例回调会有问题，有空再慢慢整
-    _callback = callback;
-    return new asst::Assistance(CallbackTrans, custom_arg);
+    try {
+        // 创建多实例回调会有问题，有空再慢慢整
+        _callback = callback;
+        return new asst::Assistance(CallbackTrans, custom_arg);
+    }
+    catch (...) {
+        return nullptr;
+    }
 }
 
 void AsstDestory(void* p_asst)

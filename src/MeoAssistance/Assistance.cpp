@@ -26,35 +26,35 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 
     // 检查返回值，若为false则回调错误
     auto callback_error = [&](const std::string& filename = std::string()) {
-        DebugTraceError("Resource error", filename);
+        DebugTraceError("resource broken", filename);
         if (m_callback == nullptr) {
             return;
         }
         json::value callback_json;
         callback_json["filename"] = filename;
-        callback_json["what"] = "Resource";
+        callback_json["what"] = "resource broken";
         m_callback(AsstMsg::InitFaild, callback_json, m_callback_arg);
     };
 
     bool ret = Configer::get_instance().load(GetResourceDir() + "config.json");
     if (!ret) {
         callback_error("config.json");
-        return;
+        throw "resource broken";
     }
     ret = TaskConfiger::get_instance().load(GetResourceDir() + "tasks.json");
     if (!ret) {
         callback_error("tasks.json");
-        return;
+        throw "resource broken";
     }
     ret = RecruitConfiger::get_instance().load(GetResourceDir() + "recruit.json");
     if (!ret) {
         callback_error("recruit.json");
-        return;
+        throw "resource broken";
     }
     ret = InfrastConfiger::get_instance().load(GetResourceDir() + "infrast.json");
     if (!ret) {
         callback_error("infrast.json");
-        return;
+        throw "resource broken";
     }
 
     m_identify_ptr = std::make_shared<Identify>();
@@ -66,7 +66,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
         ret = m_identify_ptr->add_image(name, GetResourceDir() + "template\\" + filename);
         if (!ret) {
             callback_error(filename);
-            return;
+            throw "resource broken";
         }
     }
     for (auto& p : std::filesystem::directory_iterator(GetResourceDir() + "template\\special\\")) {
@@ -81,27 +81,27 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
     ret = m_identify_ptr->ocr_init_models(GetResourceDir() + "OcrLiteOnnx\\models\\");
     if (!ret) {
         callback_error("OcrLiteOnnx\\models\\");
-        return;
+        throw "resource broken";
     }
 
     for (const auto& [key, name] : InfrastConfiger::get_instance().m_oper_name_feat) {
         ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
         if (!ret) {
             callback_error(name);
-            return;
+            throw "resource broken";
         }
     }
     for (const auto& name : InfrastConfiger::get_instance().m_oper_name_feat_whatever) {
         ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
         if (!ret) {
             callback_error(name);
-            return;
+            throw "resource broken";
         }
     }
     ret = UserConfiger::get_instance().load(GetCurrentDir() + "user.json");
     if (!ret) {
         callback_error("user.json");
-        return;
+        throw "resource broken";
     }
 
     m_controller_ptr = std::make_shared<WinMacro>();
