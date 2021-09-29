@@ -26,5 +26,4 @@ namespace asst {
         json::value m_raw_json;
         std::string m_filename;
     };
-
 }

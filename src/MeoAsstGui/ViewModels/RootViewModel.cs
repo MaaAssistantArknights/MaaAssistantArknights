@@ -38,11 +38,13 @@ namespace MeoAsstGui
             Items.Add(rvm);
             ActiveItem = mfvm;
         }
+
         private bool CheckAndUpdateNow()
         {
             var vuvm = _container.Get<VersionUpdateViewModel>();
             return vuvm.CheckAndUpdateNow();
         }
+
         private async void ShowUpdateOrDownload()
         {
             var vuvm = _container.Get<VersionUpdateViewModel>();

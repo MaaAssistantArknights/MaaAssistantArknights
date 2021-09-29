@@ -10,6 +10,7 @@ namespace MeoAsstGui
     {
         private static string _configFilename = System.Environment.CurrentDirectory + "\\gui.json";
         private static JObject _viewStatus;
+
         public static string Get(string key, string defalut_value)
         {
             if (_viewStatus.ContainsKey(key))
@@ -26,6 +27,7 @@ namespace MeoAsstGui
         {
             _viewStatus[key] = value;
         }
+
         public static bool Load()
         {
             try
@@ -43,6 +45,7 @@ namespace MeoAsstGui
             }
             return true;
         }
+
         public static bool Save()
         {
             try

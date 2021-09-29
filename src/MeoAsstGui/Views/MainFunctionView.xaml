@@ -14,8 +14,8 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <local:SanityParamSettingUserControl Width="350"/>
-            <local:VisitParamSettingUserControl/>
+            <local:SanityParamSettingUserControl Width="350" />
+            <local:VisitParamSettingUserControl />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">

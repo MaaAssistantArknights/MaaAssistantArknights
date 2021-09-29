@@ -20,7 +20,6 @@
                      Width="50" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="个" VerticalAlignment="Center" />
             <TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding MedicineInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />
-
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1">

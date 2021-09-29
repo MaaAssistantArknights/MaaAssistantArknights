@@ -218,7 +218,7 @@
             "StartButton1",
             "StartButton2",
             "Loading"
-        ],        
+        ],
         "next": [
             "StartToWakeUp",
             "OfflineConfirm"
