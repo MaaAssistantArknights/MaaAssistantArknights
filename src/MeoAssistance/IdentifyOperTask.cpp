@@ -98,7 +98,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::IdentifyOp
 
         // 异步进行滑动操作
         std::future<bool> swipe_future = std::async(
-            std::launch::async, &IdentifyOperTask::swipe, this, reverse);
+            std::launch::async, &IdentifyOperTask::swipe, this, reverse, WinMacro::SwipeExtraDelayDefault);
 
         auto cur_name_textarea = detect_operators_name(image, feature_cond, feature_whatever);
 

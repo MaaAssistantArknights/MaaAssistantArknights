@@ -137,7 +137,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastPro
         const cv::Mat& image = m_controller_ptr->get_image(true);
         // 异步进行滑动操作
         std::future<bool> swipe_future = std::async(
-            std::launch::async, &InfrastProductionTask::swipe, this, false);
+            std::launch::async, &InfrastProductionTask::swipe, this, false, WinMacro::SwipeExtraDelayDefault);
 
         auto cur_name_textarea = detect_operators_name(image, feature_cond, feature_whatever);
         for (const TextArea& textarea : cur_name_textarea) {

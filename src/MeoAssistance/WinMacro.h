@@ -34,10 +34,12 @@ namespace asst {
         int click(const Rect& rect, bool block = true);
         int click_without_scale(const Point& p, bool block = true);
         int click_without_scale(const Rect& rect, bool block = true);
-        int swipe(const Point& p1, const Point& p2, int duration = 0, bool block = true);
-        int swipe(const Rect& r1, const Rect& r2, int duration = 0, bool block = true);
-        int swipe_without_scale(const Point& p1, const Point& p2, int duration = 0, bool block = true);
-        int swipe_without_scale(const Rect& r1, const Rect& r2, int duration = 0, bool block = true);
+
+        constexpr static int SwipeExtraDelayDefault = 1000;
+        int swipe(const Point& p1, const Point& p2, int duration = 0, bool block = true, int extra_delay = SwipeExtraDelayDefault);
+        int swipe(const Rect& r1, const Rect& r2, int duration = 0, bool block = true, int extra_delay = SwipeExtraDelayDefault);
+        int swipe_without_scale(const Point& p1, const Point& p2, int duration = 0, bool block = true, int extra_delay = SwipeExtraDelayDefault);
+        int swipe_without_scale(const Rect& r1, const Rect& r2, int duration = 0, bool block = true, int extra_delay = SwipeExtraDelayDefault);
 
         // 异形屏矫正
         Rect shaped_correct(const Rect& rect) const;

@@ -26,21 +26,19 @@ bool asst::InfrastAbstractTask::swipe_to_the_left()
     constexpr int SwipeTimes = 5;
 
     m_swipe_duration = 100;
-    m_swipe_extra_delay = 0;
     // 往左使劲滑几下
     bool ret = false;
     for (int i = 0; i != SwipeTimes; ++i) {
-        ret = swipe(true);
+        ret = swipe(true, 0);
         if (!ret) {
             break;
         }
     }
     m_swipe_duration = SwipeDurationDefault;
-    m_swipe_extra_delay = SwipeExtraDelayDefault;
     if (!ret) {
         return false;
     }
-    return sleep(SwipeExtraDelayDefault);
+    return true;
 }
 
 bool asst::InfrastAbstractTask::click_clear_button()
@@ -59,22 +57,22 @@ bool asst::InfrastAbstractTask::click_confirm_button()
     return m_controller_ptr->click(ConfirmButtonRect);
 }
 
-bool asst::InfrastAbstractTask::swipe(bool reverse)
+bool asst::InfrastAbstractTask::swipe(bool reverse, int extra_delay)
 {
     DebugTraceFunction;
 
     //#ifndef LOG_TRACE
     if (!reverse) {
-        m_controller_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration);
+        m_controller_ptr->swipe(m_swipe_begin, m_swipe_end, m_swipe_duration, true, extra_delay);
         ++m_swipe_times;
     }
     else {
-        m_controller_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration);
+        m_controller_ptr->swipe(m_swipe_end, m_swipe_begin, m_swipe_duration, true, extra_delay);
         --m_swipe_times;
     }
-    return sleep(m_swipe_extra_delay);
+    return true;
     //#else
-    //	return sleep(SwipeExtraDelay);
+    //	return true;
     //#endif
 }
 
