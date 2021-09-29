@@ -434,7 +434,7 @@ int asst::WinMacro::click_without_scale(const Rect& rect, bool block)
     return click_without_scale(rand_point_in_rect(rect), block);
 }
 
-int asst::WinMacro::swipe(const Point& p1, const Point& p2, int duration, bool block)
+int asst::WinMacro::swipe(const Point& p1, const Point& p2, int duration, bool block, int extra_delay)
 {
     int x1 = p1.x * m_control_scale;
     int y1 = p1.y * m_control_scale;
@@ -442,15 +442,15 @@ int asst::WinMacro::swipe(const Point& p1, const Point& p2, int duration, bool b
     int y2 = p2.y * m_control_scale;
     //DebugTrace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
 
-    return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block);
+    return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block, extra_delay);
 }
 
-int asst::WinMacro::swipe(const Rect& r1, const Rect& r2, int duration, bool block)
+int asst::WinMacro::swipe(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay)
 {
-    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block);
+    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay);
 }
 
-int asst::WinMacro::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block)
+int asst::WinMacro::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay)
 {
     if (p1.x < 0 || p1.x >= m_emulator_info.adb.display_width
         || p1.y < 0 || p1.y >= m_emulator_info.adb.display_height
@@ -472,13 +472,14 @@ int asst::WinMacro::swipe_without_scale(const Point& p1, const Point& p2, int du
     int id = push_cmd(cur_cmd);
     if (block) {
         wait(id);
+        Sleep(extra_delay);
     }
     return id;
 }
 
-int asst::WinMacro::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block)
+int asst::WinMacro::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay)
 {
-    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block);
+    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay);
 }
 
 cv::Mat asst::WinMacro::get_image(bool raw)
