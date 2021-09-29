@@ -321,14 +321,22 @@
         "template": "FriendsList.png",
         "action": "clickSelf",
         "next": [
-            "StartToVisit"
+            "StartToVisit",
+            "NoFriends"
+        ]
+    },
+    "NoFriends": {
+        "template": "NoFriends.png",
+        "action": "doNothing",
+        "next": [
+            "ReturnToMall"
         ]
     },
     "StartToVisit": {
         "template": "StartToVisit.png",
         "templThreshold": 0.8,
         "action": "clickSelf",
-        "rearDelay": 5000,
+        "rearDelay": 3000,
         "next": [
             "VisitNext"
         ]
