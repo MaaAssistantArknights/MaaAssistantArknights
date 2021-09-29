@@ -92,7 +92,7 @@ namespace MeoAsstGui
                         else if (taskName == "StoneConfirm")
                         {
                             mfvm.StoneInfo = "已碎石 " + (int)detail["exec_times"] + " 颗";
-                        } 
+                        }
                         else if (taskName == "MedicineConfirm")
                         {
                             mfvm.MedicineInfo = "已吃药 " + (int)detail["exec_times"] + " 个";
@@ -237,6 +237,7 @@ namespace MeoAsstGui
         }
 
         private bool _isCatched = false;
+
         public bool AsstCatchDefault()
         {
             if (!_isCatched)

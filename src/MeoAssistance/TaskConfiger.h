@@ -23,5 +23,4 @@ namespace asst {
     protected:
         virtual bool parse(const json::value& json);
     };
-
 }

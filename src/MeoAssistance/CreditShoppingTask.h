@@ -14,5 +14,4 @@ namespace asst {
         virtual bool run() override;
     private:
     };
-
 }

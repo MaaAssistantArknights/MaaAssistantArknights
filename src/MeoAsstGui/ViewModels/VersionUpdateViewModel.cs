@@ -27,6 +27,7 @@ namespace MeoAsstGui
         private string _latestVersion;
 
         private string _updateTag = ViewStatusStorage.Get("VersionUpdate.name", string.Empty);
+
         public string UpdateTag
         {
             get
@@ -56,6 +57,7 @@ namespace MeoAsstGui
         }
 
         private bool _isFirstBootAfterUpdate = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.firstboot", Boolean.FalseString));
+
         public bool IsFirstBootAfterUpdate
         {
             get
@@ -68,7 +70,9 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("VersionUpdate.firstboot", value.ToString());
             }
         }
+
         private string _updatePackageName = ViewStatusStorage.Get("VersionUpdate.package", string.Empty);
+
         public string UpdatePackageName
         {
             get
@@ -90,8 +94,8 @@ namespace MeoAsstGui
         // 检查是否有已下载的更新包，如果有立即更新并重启进程
         public bool CheckAndUpdateNow()
         {
-            if (UpdateTag == string.Empty 
-                || UpdatePackageName == string.Empty 
+            if (UpdateTag == string.Empty
+                || UpdatePackageName == string.Empty
                 || !File.Exists(UpdatePackageName))
             {
                 return false;
@@ -151,6 +155,7 @@ namespace MeoAsstGui
 
             return true;
         }
+
         // 检查更新，并下载更新包
         public bool CheckAndDownloadUpdate()
         {
@@ -263,6 +268,7 @@ namespace MeoAsstGui
                 return string.Empty;
             }
         }
+
         private bool DownloadFile(string url, string path)
         {
             HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);

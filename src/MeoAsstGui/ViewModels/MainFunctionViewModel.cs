@@ -13,7 +13,7 @@ namespace MeoAsstGui
             _container = container;
             _windowManager = windowManager;
             DisplayName = "刷理智";
-            
+
             var asstProxy = _container.Get<AsstProxy>();
             if (UseMedicine)
             {
@@ -25,7 +25,6 @@ namespace MeoAsstGui
                 asstProxy.AsstSetParam("task.action", "UseMedicine", "stop");
                 asstProxy.AsstSetParam("task.maxTimes", "MedicineConfirm", "0");
             }
-
         }
 
         private string _execInfo;
@@ -38,6 +37,7 @@ namespace MeoAsstGui
                 SetAndNotify(ref _execInfo, value);
             }
         }
+
         private string _medicineInfo;
 
         public string MedicineInfo
@@ -48,6 +48,7 @@ namespace MeoAsstGui
                 SetAndNotify(ref _medicineInfo, value);
             }
         }
+
         private string _stoneInfo;
 
         public string StoneInfo
@@ -162,6 +163,7 @@ namespace MeoAsstGui
         }
 
         private string _medicineNumber = "ALL";
+
         public string MedicineNumber
         {
             get { return _medicineNumber; }
@@ -237,7 +239,9 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("MainFunction.CreditShopping", value.ToString());
             }
         }
+
         private bool _creditShoppingCheckBoxIsEnable = true;
+
         public bool CreditShoppingCheckBoxIsEnable
         {
             get { return _creditShoppingCheckBoxIsEnable; }
