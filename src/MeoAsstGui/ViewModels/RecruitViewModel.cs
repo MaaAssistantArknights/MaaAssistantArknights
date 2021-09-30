@@ -102,6 +102,7 @@ namespace MeoAsstGui
 
         public async void StartCalc()
         {
+            RecruitInfo = "正在捕获模拟器窗口……";
             var asstProxy = _container.Get<AsstProxy>();
             var task = Task.Run(() =>
             {
