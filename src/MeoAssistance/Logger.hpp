@@ -58,9 +58,11 @@ namespace asst {
         void check_filesize_and_remove()
         {
             constexpr uintmax_t MaxLogSize = 4 * 1024 * 1024;
-            uintmax_t log_size = std::filesystem::file_size(m_log_filename);
-            if (log_size >= MaxLogSize) {
-                std::filesystem::rename(m_log_filename, m_log_bak_filename);
+            if (std::filesystem::exists(m_log_filename)) {
+                uintmax_t log_size = std::filesystem::file_size(m_log_filename);
+                if (log_size >= MaxLogSize) {
+                    std::filesystem::rename(m_log_filename, m_log_bak_filename);
+                }
             }
         }
         void log_init_info()
