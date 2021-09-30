@@ -267,6 +267,7 @@ namespace MeoAsstGui
 
         public async void StartSanity()
         {
+            CatchStatus = "正在捕获模拟器窗口……";
             var asstProxy = _container.Get<AsstProxy>();
             var task = Task.Run(() =>
             {
@@ -291,6 +292,7 @@ namespace MeoAsstGui
 
         public async void Visit()
         {
+            CatchStatus = "正在捕获模拟器窗口……";
             var asstProxy = _container.Get<AsstProxy>();
             var task = Task.Run(() =>
             {
