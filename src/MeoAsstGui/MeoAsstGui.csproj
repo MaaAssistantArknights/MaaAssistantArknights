@@ -27,8 +27,13 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <SupportUrl>https://github.com/MistEO/MeoAssistance-Arknights</SupportUrl>
+    <ErrorReportUrl>https://github.com/MistEO/MeoAssistance-Arknights/issues</ErrorReportUrl>
+    <ProductName>Meo明日方舟辅助</ProductName>
+    <PublisherName>MistEO</PublisherName>
+    <SuiteName>MeoAssistance</SuiteName>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>0.8.5.0</ApplicationVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
