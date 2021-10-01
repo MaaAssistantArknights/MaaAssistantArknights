@@ -159,7 +159,8 @@ namespace MeoAsstGui
                             ++_retryTimes;
                             Task.Run(() =>
                             {
-                                AsstStop();
+                                //AsstStop();
+                                System.Threading.Thread.Sleep(2000);
                                 AsstStartSanity();
                             });
                         }

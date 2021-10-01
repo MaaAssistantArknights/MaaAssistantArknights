@@ -516,6 +516,7 @@ void Assistance::working_proc()
                     task_callback(AsstMsg::TaskError, task_error_json, p_this);
 
                     retry_times = 0;
+                    continue;
                 }
                 else {
                     ++retry_times;
