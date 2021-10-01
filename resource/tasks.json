@@ -29,7 +29,7 @@
     },
     "StartButton1": {
         "template": "StartButton1.png",
-        "templThreshold": 0.8,
+        "templThreshold": 0.75,
         "action": "clickSelf",
         "next": [
             "StartButton2",
