@@ -338,7 +338,9 @@
         "action": "clickSelf",
         "rearDelay": 3000,
         "next": [
-            "VisitNext"
+            "VisitNext",
+            "VisitNextBlack",
+            "VisitNextOcr"
         ]
     },
     "VisitNext": {
