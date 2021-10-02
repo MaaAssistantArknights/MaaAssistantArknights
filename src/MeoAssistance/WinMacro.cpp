@@ -37,7 +37,7 @@ WinMacro::WinMacro()
     }
 
     m_child_startup_info.cb = sizeof(STARTUPINFO);
-    m_child_startup_info.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+    m_child_startup_info.dwFlags = STARTF_USESTDHANDLES;
     m_child_startup_info.wShowWindow = SW_HIDE;
     // 重定向子进程的读写
     m_child_startup_info.hStdInput = m_pipe_child_read;
