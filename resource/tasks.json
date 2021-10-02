@@ -43,8 +43,9 @@
         "rearDelay": 20000,
         "templThreshold": 0.95,
         "next": [
+            "PRTS",
             "StartButton2",
-            "PRTS"
+            "OfflineConfirm"
         ]
     },
     "PRTS": {
@@ -220,6 +221,7 @@
             "Loading"
         ],
         "next": [
+            "CloseAnno",
             "StartToWakeUp",
             "OfflineConfirm"
         ]
