@@ -13,9 +13,7 @@
 namespace asst {
     class Logger {
     public:
-        ~Logger() {
-            m_ofstream.close();
-        }
+        ~Logger() = default;
 
         Logger(const Logger&) = delete;
         Logger(Logger&&) = delete;
@@ -51,7 +49,6 @@ namespace asst {
         Logger()
         {
             check_filesize_and_remove();
-            m_ofstream = std::ofstream(m_log_filename, std::ios::out | std::ios::app);
             log_init_info();
         }
 
@@ -93,7 +90,9 @@ namespace asst {
                 level.data(), _getpid(), ::GetCurrentThreadId());
 
             stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
-            stream_args(m_ofstream, buff, std::forward<Args>(args)...);
+            std::ofstream ofs(m_log_filename, std::ios::out | std::ios::app);
+            stream_args(ofs, buff, std::forward<Args>(args)...);
+            ofs.close();
         }
 
         template <bool ToGbk = false, typename T, typename... Args>
@@ -126,7 +125,6 @@ namespace asst {
         };
 
         std::mutex m_trace_mutex;
-        std::ofstream m_ofstream;
     };
 
     class LoggerAux {
