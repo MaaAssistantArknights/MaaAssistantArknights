@@ -32,6 +32,7 @@
     <ClInclude Include="Logger.hpp" />
     <ClInclude Include="OcrAbstractTask.h" />
     <ClInclude Include="OpenRecruitTask.h" />
+    <ClInclude Include="PenguinUploader.h" />
     <ClInclude Include="ProcessTask.h" />
     <ClInclude Include="RecruitConfiger.h" />
     <ClInclude Include="ScreenCaptureTask.h" />
@@ -58,6 +59,7 @@
     <ClCompile Include="InfrastProductionTask.cpp" />
     <ClCompile Include="OcrAbstractTask.cpp" />
     <ClCompile Include="OpenRecruitTask.cpp" />
+    <ClCompile Include="PenguinUploader.cpp" />
     <ClCompile Include="ProcessTask.cpp" />
     <ClCompile Include="RecruitConfiger.cpp" />
     <ClCompile Include="ScreenCaptureTask.cpp" />

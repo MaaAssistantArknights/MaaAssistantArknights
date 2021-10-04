@@ -59,22 +59,13 @@ bool AbstractTask::sleep(unsigned millisecond)
     return !need_exit();
 }
 
-bool AbstractTask::print_window(const std::string& dir, bool raw)
+bool AbstractTask::save_image(const cv::Mat& image, const std::string& dir)
 {
-    //const cv::Mat& image = m_controller_ptr->get_image(true);
-    //if (image.empty()) {
-    //	return false;
-    //}
-    // 现在用adb直接截图了，不用裁剪了
-    //// 保存的截图额外再裁剪掉一圈，不然企鹅物流识别不出来
-    //int offset = Configer::get_instance().m_options.print_window_crop_offset;
-    //cv::Rect rect(offset, offset, image.cols - offset * 2, image.rows - offset * 2);
-
     std::filesystem::create_directory(dir);
     const std::string time_str = StringReplaceAll(StringReplaceAll(GetFormatTimeString(), " ", "_"), ":", "-");
     const std::string filename = dir + time_str + ".png";
 
-    bool ret = cv::imwrite(filename, m_controller_ptr->get_image(raw));
+    bool ret = cv::imwrite(filename, image);
 
     json::value callback_json;
     callback_json["filename"] = filename;

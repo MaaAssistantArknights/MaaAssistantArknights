@@ -10,6 +10,7 @@
 #include "TaskConfiger.h"
 #include "WinMacro.h"
 #include "Identify.h"
+#include "PenguinUploader.h"
 
 using namespace asst;
 
@@ -91,10 +92,18 @@ bool ProcessTask::run()
         need_stop = true;
         break;
     case ProcessTaskAction::PrintWindow:
-        if (Configer::get_instance().m_options.print_window) {
-            sleep(Configer::get_instance().m_options.print_window_delay);
-            static const std::string dirname = GetCurrentDir() + "screenshot\\";
-            print_window(dirname);
+        if (Configer::get_instance().m_options.print_window
+            || Configer::get_instance().m_options.upload_to_penguin)
+        {
+            cv::Mat image = m_controller_ptr->get_image(true);
+            if (Configer::get_instance().m_options.print_window) {
+                static const std::string dirname = GetCurrentDir() + "screenshot\\";
+                save_image(image, dirname);
+            }
+            if (Configer::get_instance().m_options.upload_to_penguin) {
+                std::string res = m_identify_ptr->penguin_recognize(image);
+                PenguinUploader::upload(res);
+            }
         }
         break;
     default:

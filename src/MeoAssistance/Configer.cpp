@@ -23,7 +23,9 @@ bool asst::Configer::parse(const json::value& json)
         m_options.control_delay_lower = options_json.at("controlDelayRange")[0].as_integer();
         m_options.control_delay_upper = options_json.at("controlDelayRange")[1].as_integer();
         m_options.print_window = options_json.at("printWindow").as_boolean();
-        m_options.print_window_delay = options_json.at("printWindowDelay").as_integer();
+        m_options.upload_to_penguin = options_json.at("uploadToPenguin").as_boolean();
+        m_options.penguin_api = options_json.at("penguinApi").as_string();
+        m_options.penguin_server = options_json.get("penguinServer", "CN");
         m_options.ocr_thread_number = options_json.at("ocrThreadNumber").as_integer();
     }
     DebugTrace("Options", options_json.to_string());
