@@ -22,9 +22,6 @@
     <Filter Include="源文件\Configer">
       <UniqueIdentifier>{74bd94e1-4973-412a-a17a-d8457de387af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\Aux">
-      <UniqueIdentifier>{87c9dee5-847b-41e6-818e-387a6385ea8b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件\Task">
       <UniqueIdentifier>{3b93d9f2-728c-4a22-bc13-57ce7df5806c}</UniqueIdentifier>
     </Filter>
@@ -33,6 +30,12 @@
     </Filter>
     <Filter Include="源文件\Caller">
       <UniqueIdentifier>{557d6d96-11d9-46e1-b611-b2b8216abea6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\utils">
+      <UniqueIdentifier>{a5c43813-70af-4b0e-94ac-9ddecc2e4a3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\utils">
+      <UniqueIdentifier>{87c9dee5-847b-41e6-818e-387a6385ea8b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,16 +58,16 @@
       <Filter>头文件\Configer</Filter>
     </ClInclude>
     <ClInclude Include="AsstDef.h">
-      <Filter>头文件\Aux</Filter>
+      <Filter>头文件\utils</Filter>
     </ClInclude>
     <ClInclude Include="AsstAux.h">
-      <Filter>头文件\Aux</Filter>
+      <Filter>头文件\utils</Filter>
     </ClInclude>
     <ClInclude Include="Version.h">
-      <Filter>头文件\Aux</Filter>
+      <Filter>头文件\utils</Filter>
     </ClInclude>
     <ClInclude Include="Logger.hpp">
-      <Filter>头文件\Aux</Filter>
+      <Filter>头文件\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\AsstCaller.h">
       <Filter>头文件\Caller</Filter>
@@ -88,7 +91,7 @@
       <Filter>头文件\Task</Filter>
     </ClInclude>
     <ClInclude Include="AsstMsg.h">
-      <Filter>头文件\Aux</Filter>
+      <Filter>头文件\utils</Filter>
     </ClInclude>
     <ClInclude Include="Task.h">
       <Filter>头文件\Task</Filter>
@@ -122,6 +125,9 @@
     </ClInclude>
     <ClInclude Include="CreditShoppingTask.h">
       <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="PenguinUploader.h">
+      <Filter>头文件\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="CreditShoppingTask.cpp">
       <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="PenguinUploader.cpp">
+      <Filter>源文件\utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

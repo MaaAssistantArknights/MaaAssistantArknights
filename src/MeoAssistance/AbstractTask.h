@@ -32,7 +32,7 @@ namespace asst {
         virtual void on_run_fails(int retry_times) { ; }
     protected:
         virtual bool sleep(unsigned millisecond);
-        virtual bool print_window(const std::string& dir, bool raw = true);
+        virtual bool save_image(const cv::Mat& iamge, const std::string& dir);
         virtual bool need_exit() const noexcept;
         virtual bool is_ptr_inited() const noexcept;
 

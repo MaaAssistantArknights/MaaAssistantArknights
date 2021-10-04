@@ -15,6 +15,7 @@ namespace penguin {
 
 #include "Logger.hpp"
 #include "AsstAux.h"
+#include "Configer.h"
 
 using namespace asst;
 using namespace cv;
@@ -256,7 +257,6 @@ std::vector<TextArea> asst::Identify::find_text(const cv::Mat& image, const std:
 
 bool asst::Identify::penguin_load_server(const std::string& server)
 {
-    m_penguin_server = server;
     penguin::load_server(server.c_str());
     return true;
 }
@@ -300,7 +300,7 @@ bool asst::Identify::penguin_load_json(const std::string& stage_path, const std:
                 }
             }
             stage_dst["drops"] = json::array(std::move(drops_vector));
-            std::string server = m_penguin_server.empty() ? "CN" : m_penguin_server;
+            const std::string& server = Configer::get_instance().m_options.penguin_server;
             stage_dst["existence"] = stage_info.at("existence").at(server).at("exist");
 
             cvt_stage_json.emplace(std::move(key), std::move(stage_dst));

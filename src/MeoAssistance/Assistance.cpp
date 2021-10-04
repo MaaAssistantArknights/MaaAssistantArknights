@@ -88,7 +88,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
     }
 
     /* 第三方库`penguin-stats-recognize`（企鹅物流掉落识别）所需资源*/
-    m_identify_ptr->penguin_load_server("CN");
+    m_identify_ptr->penguin_load_server(Configer::get_instance().m_options.penguin_server);
     m_identify_ptr->penguin_load_json(GetResourceDir() + "penguin-stats-recognize\\json\\stages.json", GetResourceDir() + "penguin-stats-recognize\\json\\hash_index.json");
 
     for (const auto& file : std::filesystem::directory_iterator(GetResourceDir() + "penguin-stats-recognize\\items")) {

@@ -18,5 +18,5 @@ bool asst::ScreenCaptureTask::run()
     auto res = m_identify_ptr->penguin_recognize(image);
 
     static const std::string dirname = GetCurrentDir() + "template\\";
-    return print_window(dirname, false);
+    return save_image(image, dirname);
 }

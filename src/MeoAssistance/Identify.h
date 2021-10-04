@@ -67,8 +67,6 @@ namespace asst {
         std::unordered_map<std::string, cv::Mat> m_mat_map;
         std::unordered_map<std::string, std::pair<cv::Rect, cv::Mat>> m_cache_map;	// 位置、直方图缓存
 
-        std::string m_penguin_server;
-
         OcrLiteCaller m_ocr_lite;
     };
 }
