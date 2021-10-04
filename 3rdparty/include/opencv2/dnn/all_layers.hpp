@@ -45,7 +45,7 @@
 
 namespace cv {
 namespace dnn {
-CV__DNN_EXPERIMENTAL_NS_BEGIN
+CV__DNN_INLINE_NS_BEGIN
 //! @addtogroup dnn
 //! @{
 
@@ -364,6 +364,7 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
          * Inner vector has slice ranges for the first number of input dimensions.
          */
         std::vector<std::vector<Range> > sliceRanges;
+        std::vector<std::vector<int> > sliceSteps;
         int axis;
         int num_split;
 
@@ -499,6 +500,14 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
         static Ptr<PowerLayer> create(const LayerParams &params);
     };
 
+    class CV_EXPORTS ExpLayer : public ActivationLayer
+    {
+    public:
+        float base, scale, shift;
+
+        static Ptr<ExpLayer> create(const LayerParams &params);
+    };
+
     /* Layers used in semantic segmentation */
 
     class CV_EXPORTS CropLayer : public Layer
@@ -593,6 +602,8 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
     class CV_EXPORTS RegionLayer : public Layer
     {
     public:
+        float nmsThreshold;
+
         static Ptr<RegionLayer> create(const LayerParams& params);
     };
 
@@ -680,7 +691,7 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
 
 //! @}
 //! @}
-CV__DNN_EXPERIMENTAL_NS_END
+CV__DNN_INLINE_NS_END
 }
 }
 #endif

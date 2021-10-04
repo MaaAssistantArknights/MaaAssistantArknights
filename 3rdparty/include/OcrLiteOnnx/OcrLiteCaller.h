@@ -16,20 +16,24 @@ class OCRLITE_PORT OcrLiteCaller
 {
 public:
 	OcrLiteCaller();
-	~OcrLiteCaller() = default;
+	~OcrLiteCaller();
 	OcrLiteCaller(const OcrLite&) = delete;
 	OcrLiteCaller(OcrLite&&) = delete;
 
 	void setNumThread(int numOfThread);
-	void initModels(const std::string& detPath, const std::string& clsPath,
+	bool initModels(const std::string& detPath, const std::string& clsPath,
 		const std::string& recPath, const std::string& keysPath);
 
 	OcrResult detect(const cv::Mat& mat,
 		int padding, int maxSideLen,
 		float boxScoreThresh, float boxThresh, float unClipRatio, bool doAngle, bool mostAngle);
 
+	OcrResult detect(const std::string& dir, const std::string& file,
+		int padding, int maxSideLen,
+		float boxScoreThresh, float boxThresh, float unClipRatio, bool doAngle, bool mostAngle);
+
 	OcrLiteCaller& operator=(const OcrLiteCaller&) = delete;
 	OcrLiteCaller& operator=(OcrLiteCaller&&) = delete;
 private:
-	std::shared_ptr<OcrLite> m_ocrlite_ptr;
+	std::unique_ptr<OcrLite> m_ocrlite_ptr;
 };

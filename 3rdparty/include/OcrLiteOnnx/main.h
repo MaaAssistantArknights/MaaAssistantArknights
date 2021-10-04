@@ -1,6 +1,5 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
-#ifndef __CLIB__
 
 #include "getopt.h"
 
@@ -52,5 +51,4 @@ const char *otherMsg = "-v --version: show version\n" \
 const char *example1Msg = "Example1: %s --models models --det det.onnx --cls cls.onnx --rec rec.onnx --keys keys.txt --image 1.jpg\n";
 const char *example2Msg = "Example2: %s -d models -1 det.onnx -2 cls.onnx -3 rec.onnx -4 keys.txt -i 1.jpg -t 4 -p 50 -s 0 -b 0.6 -o 0.3 -u 2.0 -a 1 -A 1\n";
 
-#endif
 #endif //__MAIN_H__

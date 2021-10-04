@@ -3,7 +3,7 @@
 
 #include "OcrStruct.h"
 #include "onnxruntime_cxx_api.h"
-#include <opencv/cv.hpp>
+#include <opencv2/opencv.hpp>
 
 class AngleNet {
 public:

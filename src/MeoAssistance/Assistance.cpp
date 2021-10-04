@@ -98,6 +98,16 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
             throw "resource broken";
         }
     }
+    for (const auto& file : std::filesystem::directory_iterator(GetResourceDir() + "penguin-stats-recognize\\items")) {
+        ret = m_identify_ptr->penguin_load_templ(file.path().stem().u8string(), file.path().u8string());
+        if (!ret) {
+            callback_error(file.path().stem().u8string());
+            throw "resource broken";
+        }
+    }
+    m_identify_ptr->penguin_load_json(GetResourceDir() + "penguin-stats-recognize\\json\\stage_index.json", GetResourceDir() + "penguin-stats-recognize\\json\\hash_index.json");
+    m_identify_ptr->penguin_load_server("CN");
+
     ret = UserConfiger::get_instance().load(GetCurrentDir() + "user.json");
     if (!ret) {
         callback_error("user.json");
@@ -299,7 +309,7 @@ bool Assistance::start_debug_task()
     //}
     {
         constexpr static const char* DebugTaskChain = "Debug";
-        auto shift_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this);
+        auto shift_task_ptr = std::make_shared<ScreenCaptureTask>(task_callback, (void*)this);
         shift_task_ptr->set_task_chain(DebugTaskChain);
         m_tasks_deque.emplace_back(shift_task_ptr);
     }
