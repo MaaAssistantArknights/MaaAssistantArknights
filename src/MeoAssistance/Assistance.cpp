@@ -36,6 +36,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
         m_callback(AsstMsg::InitFaild, callback_json, m_callback_arg);
     };
 
+    /* 项目本身的Configer */
     bool ret = Configer::get_instance().load(GetResourceDir() + "config.json");
     if (!ret) {
         callback_error("config.json");
@@ -57,6 +58,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
         throw "resource broken";
     }
 
+    /* 项目使用的图片模板 */
     m_identify_ptr = std::make_shared<Identify>();
     for (const auto& [name, info] : TaskConfiger::get_instance().m_all_tasks_info) {
         if (info->algorithm != AlgorithmType::MatchTemplate) {
@@ -77,12 +79,17 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
         }
     }
 
+    /* 第三方库`OcrLite`所需资源*/
     m_identify_ptr->set_ocr_param(Configer::get_instance().m_options.ocr_gpu_index, Configer::get_instance().m_options.ocr_thread_number);
     ret = m_identify_ptr->ocr_init_models(GetResourceDir() + "OcrLiteOnnx\\models\\");
     if (!ret) {
         callback_error("OcrLiteOnnx\\models\\");
         throw "resource broken";
     }
+
+    /* 第三方库`penguin-stats-recognize`（企鹅物流掉落识别）所需资源*/
+    m_identify_ptr->penguin_load_server("CN");
+    m_identify_ptr->penguin_load_json(GetResourceDir() + "penguin-stats-recognize\\json\\stages.json", GetResourceDir() + "penguin-stats-recognize\\json\\hash_index.json");
 
     for (const auto& file : std::filesystem::directory_iterator(GetResourceDir() + "penguin-stats-recognize\\items")) {
         ret = m_identify_ptr->penguin_load_templ(file.path().stem().u8string(), file.path().u8string());
@@ -91,9 +98,8 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
             throw "resource broken";
         }
     }
-    m_identify_ptr->penguin_load_json(GetResourceDir() + "penguin-stats-recognize\\json\\stage_index.json", GetResourceDir() + "penguin-stats-recognize\\json\\hash_index.json");
-    m_identify_ptr->penguin_load_server("CN");
 
+    /* 用户配置 */
     ret = UserConfiger::get_instance().load(GetCurrentDir() + "user.json");
     if (!ret) {
         callback_error("user.json");
