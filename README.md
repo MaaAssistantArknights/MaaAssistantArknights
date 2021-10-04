@@ -22,7 +22,8 @@ A game assistance for Arknights
     - 支持剿灭模式
     - 支持打完升级了的情况
     - 支持代理失败的情况，会自动放弃本次行动
-    - 支持每次刷完自动截图
+    - **新功能：支持刷完自动上传企鹅物流数据统计**
+    - 支持刷完自动截图
     - 支持掉线后重连，继续刷上次的图
     - 支持凌晨4点更新后重连，继续刷上次的图
 - 全自动公开招募
@@ -174,8 +175,10 @@ A game assistance for Arknights
     - [ ] `激进换班模式`
     - [ ] 自定义换班（手动修改配置文件）
 - [ ] 使用GPU进行识别的版本
-- [ ] 关卡掉落识别
-- [ ] 企鹅物流上传
+- [x] 关卡掉落识别
+- [x] 企鹅物流上传
+- [ ] 关卡掉落显示到界面上，并统计
+- [ ] 指定刷某种材料xx个
 - [ ] `config`中部分选项做成图形化界面
 - [x] 图形化界面部分控件状态保存
 - [x] 支持掉线重连，继续刷理智
@@ -192,6 +195,7 @@ A game assistance for Arknights
 
 - 图像识别库：[opencv](https://github.com/opencv/opencv.git)
 - 文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)
+- 关卡掉落识别：[企鹅物流识别](https://github.com/KumoSiunaus/penguin-stats-recognize-v3)
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
