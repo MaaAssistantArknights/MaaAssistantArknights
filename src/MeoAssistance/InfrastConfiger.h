@@ -20,8 +20,6 @@ namespace asst {
         }
 
         std::unordered_set<std::string> m_all_opers_name;				// 所有干员的名字
-        std::unordered_map<std::string, std::string> m_oper_name_feat;	// 根据关键字需要特征检测干员名：如果OCR识别到了key的内容但是却没有value的内容，则进行特征检测进一步确认
-        std::unordered_set<std::string> m_oper_name_feat_whatever;		// 无论如何都进行特征检测的干员名
         // 各个设施内的可能干员组合，注意值是vector，是有序的
         std::unordered_map<std::string, std::vector<OperInfrastComb>> m_infrast_combs;
         // 各个设施的识别结束标记，识别到这个名字就停止继续识别了，一般放列表中最后几个人名

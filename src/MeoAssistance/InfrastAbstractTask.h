@@ -23,9 +23,7 @@ namespace asst {
         virtual bool append_task_to_back_to_infrast_home();	// 添加返回主界面的任务
 
         // 检测干员名
-        virtual std::vector<TextArea> detect_operators_name(const cv::Mat& image,
-            std::unordered_map<std::string, std::string>& feature_cond,
-            std::unordered_set<std::string>& feature_whatever);
+        virtual std::vector<TextArea> detect_operators_name(const cv::Mat& image);
         virtual bool enter_station(const std::vector<std::string>& templ_names, int index, double threshold = 0.8);
         virtual bool click_first_operator();
 
