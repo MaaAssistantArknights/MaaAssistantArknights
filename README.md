@@ -22,7 +22,7 @@ A game assistance for Arknights
     - 支持剿灭模式
     - 支持打完升级了的情况
     - 支持代理失败的情况，会自动放弃本次行动
-    - **新功能：支持刷完自动上传企鹅物流数据统计**
+    - **新功能：支持刷完自动上传[企鹅物流数据统计](https://penguin-stats.cn/)**（测试版）
     - 支持刷完自动截图
     - 支持掉线后重连，继续刷上次的图
     - 支持凌晨4点更新后重连，继续刷上次的图
@@ -200,6 +200,9 @@ A game assistance for Arknights
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON库: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+- 公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)
+- 干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)
+- 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
 
 ### 贡献/参与者
 
@@ -212,4 +215,4 @@ A game assistance for Arknights
 ## 广告
 
 [B站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本辅助软件  
-[QQ群](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：直播间关联Q群，欢迎加入~
+[QQ群](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：欢迎加入~
