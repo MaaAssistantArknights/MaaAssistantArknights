@@ -1,6 +1,6 @@
 #pragma once
 
-#pragma once
+#if !defined(__JNI__) && !defined(__EXEC__)
 
 // The way how the function is called
 #if !defined(OCRLITE_CALL)
@@ -9,7 +9,7 @@
 #else
 #define OCRLITE_CALL
 #endif /* _WIN32 */
-#endif /* ISSCALL */
+#endif /* OCRLITE_CALL */
 
 #if defined _WIN32 || defined __CYGWIN__
 #define OCRLITE_EXPORT __declspec(dllexport)
@@ -35,3 +35,11 @@
 #define OCR_API OCRLITE_PORT OCRLITE_CALL
 
 #define OCR_LOCAL OCRLITE_LOCAL OCRLITE_CALL
+
+#else // __JNI__ || __EXEC__
+
+#define OCRLITE_PORT
+#define OCR_API
+#define OCR_LOCAL
+
+#endif // __JNI__ || __EXEC__

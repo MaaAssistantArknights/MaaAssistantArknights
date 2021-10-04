@@ -11,7 +11,7 @@
 #include "../dnn.hpp"
 
 namespace cv { namespace dnn {
-CV__DNN_EXPERIMENTAL_NS_BEGIN
+CV__DNN_INLINE_NS_BEGIN
 
 
 /* Values for 'OPENCV_DNN_BACKEND_INFERENCE_ENGINE_TYPE' parameter */
@@ -49,6 +49,8 @@ CV_EXPORTS_W void resetMyriadDevice();
 #define CV_DNN_INFERENCE_ENGINE_VPU_TYPE_MYRIAD_2 "Myriad2"
 /// Intel(R) Neural Compute Stick 2, NCS2 (USB 03e7:2485), MyriadX (https://software.intel.com/ru-ru/neural-compute-stick)
 #define CV_DNN_INFERENCE_ENGINE_VPU_TYPE_MYRIAD_X "MyriadX"
+#define CV_DNN_INFERENCE_ENGINE_CPU_TYPE_ARM_COMPUTE "ARM_COMPUTE"
+#define CV_DNN_INFERENCE_ENGINE_CPU_TYPE_X86         "X86"
 
 
 /** @brief Returns Inference Engine VPU type.
@@ -57,8 +59,18 @@ CV_EXPORTS_W void resetMyriadDevice();
  */
 CV_EXPORTS_W cv::String getInferenceEngineVPUType();
 
+/** @brief Returns Inference Engine CPU type.
+ *
+ * Specify OpenVINO plugin: CPU or ARM.
+ */
+CV_EXPORTS_W cv::String getInferenceEngineCPUType();
 
-CV__DNN_EXPERIMENTAL_NS_END
+/** @brief Release a HDDL plugin.
+ */
+CV_EXPORTS_W void releaseHDDLPlugin();
+
+
+CV__DNN_INLINE_NS_END
 }} // namespace
 
 #endif // OPENCV_DNN_UTILS_INF_ENGINE_HPP

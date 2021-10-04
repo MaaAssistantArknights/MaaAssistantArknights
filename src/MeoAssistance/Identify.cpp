@@ -3,10 +3,14 @@
 #include <algorithm>
 #include <numeric>
 #include <filesystem>
-#include <opencv2/opencv.hpp>
 
+#include <opencv2/opencv.hpp>
 #include <opencv2/xfeatures2d.hpp>
 #include <opencv2/imgproc/types_c.h>
+
+namespace penguin {
+#include <penguin-stats-recognize/penguin_wasm.h>
+}
 
 #include "Logger.hpp"
 #include "AsstAux.h"
@@ -455,6 +459,52 @@ std::vector<TextArea> asst::Identify::find_text(const cv::Mat& image, const std:
         }
     }
     return dst;
+}
+
+bool asst::Identify::penguin_load_server(const std::string& server)
+{
+    penguin::load_server(server.c_str());
+    return true;
+}
+
+bool asst::Identify::penguin_load_json(const std::string& stage_path, const std::string& hash_path)
+{
+    // TODO：文件检查
+
+    auto load_json_string = [](const std::string& path) -> std::string {
+        std::ifstream ifs(path, std::ios::in);
+        if (!ifs.is_open()) {
+            return std::string();
+        }
+        std::stringstream iss;
+        iss << ifs.rdbuf();
+        ifs.close();
+        return iss.str();
+    };
+
+    penguin::load_json(load_json_string(stage_path).c_str(), load_json_string(hash_path).c_str());
+    return true;
+}
+
+bool asst::Identify::penguin_load_templ(const std::string& item_id, const std::string& path)
+{
+    cv::Mat image = cv::imread(path);
+
+    std::vector<uchar> buf;
+    cv::imencode(".png", image, buf);
+
+    penguin::load_templ(item_id.c_str(), buf.data(), buf.size());
+
+    return true;
+}
+
+std::string asst::Identify::penguin_recognize(const cv::Mat& image)
+{
+    cv::Mat resize_mat;
+    cv::resize(image, resize_mat, cv::Size(1024, 768));
+    std::vector<uchar> buf;
+    cv::imencode(".png", resize_mat, buf);
+    return penguin::recognize(buf.data(), buf.size());
 }
 
 /*

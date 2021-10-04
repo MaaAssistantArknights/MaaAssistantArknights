@@ -51,6 +51,7 @@
     @defgroup imgcodecs_c C API
     @defgroup imgcodecs_flags Flags used for image file reading and writing
     @defgroup imgcodecs_ios iOS glue
+    @defgroup imgcodecs_macosx MacOS(OSX) glue
   @}
 */
 
@@ -94,18 +95,33 @@ enum ImwriteFlags {
        IMWRITE_PNG_BILEVEL         = 18, //!< Binary level PNG, 0 or 1, default is 0.
        IMWRITE_PXM_BINARY          = 32, //!< For PPM, PGM, or PBM, it can be a binary format flag, 0 or 1. Default value is 1.
        IMWRITE_EXR_TYPE            = (3 << 4) + 0, /* 48 */ //!< override EXR storage type (FLOAT (FP32) is default)
+       IMWRITE_EXR_COMPRESSION     = (3 << 4) + 1, /* 49 */ //!< override EXR compression type (ZIP_COMPRESSION = 3 is default)
        IMWRITE_WEBP_QUALITY        = 64, //!< For WEBP, it can be a quality from 1 to 100 (the higher is the better). By default (without any parameter) and for quality above 100 the lossless compression is used.
        IMWRITE_PAM_TUPLETYPE       = 128,//!< For PAM, sets the TUPLETYPE field to the corresponding string value that is defined for the format
-       IMWRITE_TIFF_RESUNIT = 256,//!< For TIFF, use to specify which DPI resolution unit to set; see libtiff documentation for valid values.
-       IMWRITE_TIFF_XDPI = 257,//!< For TIFF, use to specify the X direction DPI.
-       IMWRITE_TIFF_YDPI = 258, //!< For TIFF, use to specify the Y direction DPI.
-       IMWRITE_TIFF_COMPRESSION = 259 //!< For TIFF, use to specify the image compression scheme. See libtiff for integer constants corresponding to compression formats. Note, for images whose depth is CV_32F, only libtiff's SGILOG compression scheme is used. For other supported depths, the compression scheme can be specified by this flag; LZW compression is the default.
+       IMWRITE_TIFF_RESUNIT = 256,//!< For TIFF, use to specify which DPI resolution unit to set; see libtiff documentation for valid values
+       IMWRITE_TIFF_XDPI = 257,//!< For TIFF, use to specify the X direction DPI
+       IMWRITE_TIFF_YDPI = 258, //!< For TIFF, use to specify the Y direction DPI
+       IMWRITE_TIFF_COMPRESSION = 259, //!< For TIFF, use to specify the image compression scheme. See libtiff for integer constants corresponding to compression formats. Note, for images whose depth is CV_32F, only libtiff's SGILOG compression scheme is used. For other supported depths, the compression scheme can be specified by this flag; LZW compression is the default.
+       IMWRITE_JPEG2000_COMPRESSION_X1000 = 272 //!< For JPEG2000, use to specify the target compression rate (multiplied by 1000). The value can be from 0 to 1000. Default is 1000.
      };
 
 enum ImwriteEXRTypeFlags {
        /*IMWRITE_EXR_TYPE_UNIT = 0, //!< not supported */
        IMWRITE_EXR_TYPE_HALF = 1,   //!< store as HALF (FP16)
        IMWRITE_EXR_TYPE_FLOAT = 2   //!< store as FP32 (default)
+     };
+
+enum ImwriteEXRCompressionFlags {
+       IMWRITE_EXR_COMPRESSION_NO    = 0, //!< no compression
+       IMWRITE_EXR_COMPRESSION_RLE   = 1, //!< run length encoding
+       IMWRITE_EXR_COMPRESSION_ZIPS  = 2, //!< zlib compression, one scan line at a time
+       IMWRITE_EXR_COMPRESSION_ZIP   = 3, //!< zlib compression, in blocks of 16 scan lines
+       IMWRITE_EXR_COMPRESSION_PIZ   = 4, //!< piz-based wavelet compression
+       IMWRITE_EXR_COMPRESSION_PXR24 = 5, //!< lossy 24-bit float compression
+       IMWRITE_EXR_COMPRESSION_B44   = 6, //!< lossy 4-by-4 pixel block compression, fixed compression rate
+       IMWRITE_EXR_COMPRESSION_B44A  = 7, //!< lossy 4-by-4 pixel block compression, flat fields are compressed more
+       IMWRITE_EXR_COMPRESSION_DWAA  = 8, //!< lossy DCT based compression, in blocks of 32 scanlines. More efficient for partial buffer access. Supported since OpenEXR 2.2.0.
+       IMWRITE_EXR_COMPRESSION_DWAB  = 9, //!< lossy DCT based compression, in blocks of 256 scanlines. More efficient space wise and faster to decode full frames than DWAA_COMPRESSION. Supported since OpenEXR 2.2.0.
      };
 
 //! Imwrite PNG specific flags used to tune the compression algorithm.
@@ -152,6 +168,7 @@ Currently, the following file formats are supported:
 -   Portable Network Graphics - \*.png (see the *Note* section)
 -   WebP - \*.webp (see the *Note* section)
 -   Portable image format - \*.pbm, \*.pgm, \*.ppm \*.pxm, \*.pnm (always supported)
+-   PFM files - \*.pfm (see the *Note* section)
 -   Sun rasters - \*.sr, \*.ras (always supported)
 -   TIFF files - \*.tiff, \*.tif (see the *Note* section)
 -   OpenEXR Image files - \*.exr (see the *Note* section)
@@ -179,6 +196,7 @@ Currently, the following file formats are supported:
 -   If EXIF information is embedded in the image file, the EXIF orientation will be taken into account
     and thus the image will be rotated accordingly except if the flags @ref IMREAD_IGNORE_ORIENTATION
     or @ref IMREAD_UNCHANGED are passed.
+-   Use the IMREAD_UNCHANGED flag to keep the floating point values from PFM image.
 -   By default number of pixels must be less than 2^30. Limit can be set using system
     variable OPENCV_IO_MAX_IMAGE_PIXELS
 
@@ -197,6 +215,26 @@ The function imreadmulti loads a multi-page image from the specified file into a
 */
 CV_EXPORTS_W bool imreadmulti(const String& filename, CV_OUT std::vector<Mat>& mats, int flags = IMREAD_ANYCOLOR);
 
+/** @brief Loads a of images of a multi-page image from a file.
+
+The function imreadmulti loads a specified range from a multi-page image from the specified file into a vector of Mat objects.
+@param filename Name of file to be loaded.
+@param start Start index of the image to load
+@param count Count number of images to load
+@param flags Flag that can take values of cv::ImreadModes, default with cv::IMREAD_ANYCOLOR.
+@param mats A vector of Mat objects holding each page, if more than one.
+@sa cv::imread
+*/
+CV_EXPORTS_W bool imreadmulti(const String& filename, CV_OUT std::vector<Mat>& mats, int start, int count, int flags = IMREAD_ANYCOLOR);
+
+/** @brief Returns the number of images inside the give file
+
+The function imcount will return the number of pages in a multi-page image, or 1 for single-page images
+@param filename Name of file to be loaded.
+@param flags Flag that can take values of cv::ImreadModes, default with cv::IMREAD_ANYCOLOR.
+*/
+CV_EXPORTS_W size_t imcount(const String& filename, int flags = IMREAD_ANYCOLOR);
+
 /** @brief Saves an image to a specified file.
 
 The function imwrite saves the image to the specified file. The image format is chosen based on the
@@ -205,12 +243,15 @@ single-channel or 3-channel (with 'BGR' channel order) images
 can be saved using this function, with these exceptions:
 
 - 16-bit unsigned (CV_16U) images can be saved in the case of PNG, JPEG 2000, and TIFF formats
-- 32-bit float (CV_32F) images can be saved in TIFF, OpenEXR, and Radiance HDR formats; 3-channel
-(CV_32FC3) TIFF images will be saved using the LogLuv high dynamic range encoding (4 bytes per pixel)
+- 32-bit float (CV_32F) images can be saved in PFM, TIFF, OpenEXR, and Radiance HDR formats;
+  3-channel (CV_32FC3) TIFF images will be saved using the LogLuv high dynamic range encoding
+  (4 bytes per pixel)
 - PNG images with an alpha channel can be saved using this function. To do this, create
 8-bit (or 16-bit) 4-channel image BGRA, where the alpha channel goes last. Fully transparent pixels
 should have alpha set to 0, fully opaque pixels should have alpha set to 255/65535 (see the code sample below).
 - Multiple images (vector of Mat) can be saved in TIFF format (see the code sample below).
+
+If the image format is not supported, the image will be converted to 8-bit unsigned (CV_8U) and saved that way.
 
 If the format, depth or channel order is different, use
 Mat::convertTo and cv::cvtColor to convert it before saving. Or, use the universal FileStorage I/O
@@ -268,6 +309,19 @@ result. See cv::imwrite for the list of supported formats and flags description.
 CV_EXPORTS_W bool imencode( const String& ext, InputArray img,
                             CV_OUT std::vector<uchar>& buf,
                             const std::vector<int>& params = std::vector<int>());
+
+/** @brief Returns true if the specified image can be decoded by OpenCV
+
+@param filename File name of the image
+*/
+CV_EXPORTS_W bool haveImageReader( const String& filename );
+
+/** @brief Returns true if an image with the specified filename can be encoded by OpenCV
+
+ @param filename File name of the image
+ */
+CV_EXPORTS_W bool haveImageWriter( const String& filename );
+
 
 //! @} imgcodecs
 

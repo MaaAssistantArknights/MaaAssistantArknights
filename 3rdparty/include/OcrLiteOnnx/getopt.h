@@ -9,8 +9,6 @@
 #ifndef _GETOPT_H_
 #define _GETOPT_H_
 
-#ifndef __CLIB__
-
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
@@ -42,6 +40,5 @@ int getopt_long(int argc, char *const argv[],
 ****************************************************************************/
 #ifdef __cplusplus
 }
-#endif
 #endif // __cplusplus
 #endif // _GETOPT_H_

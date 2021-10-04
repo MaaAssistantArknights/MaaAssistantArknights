@@ -55,6 +55,12 @@ namespace asst {
         [[deprecated]] std::vector<TextArea> find_text(const cv::Mat& image, const std::vector<std::string>& texts);
         [[deprecated]] std::vector<TextArea> find_text(const cv::Mat& image, const std::unordered_set<std::string>& texts);
 
+        /*** Penguin package ***/
+        bool penguin_load_server(const std::string& server);
+        bool penguin_load_json(const std::string& stage_path, const std::string& hash_path);
+        bool penguin_load_templ(const std::string& item_id, const std::string& path);
+        std::string penguin_recognize(const cv::Mat& image);
+
     private:
         cv::Mat image_2_hist(const cv::Mat& src);
         double image_hist_comp(const cv::Mat& src, const cv::MatND& hist);

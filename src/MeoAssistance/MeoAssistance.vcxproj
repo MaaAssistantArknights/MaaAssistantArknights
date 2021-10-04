@@ -128,7 +128,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libmeojson.lib;OcrLiteOnnx.lib;opencv_world3413.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libmeojson.lib;OcrLiteOnnx.lib;opencv_world3413.lib;penguin-stats-recognize.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <AdditionalLibraryDirectories>$(SolutionDir)3rdparty\lib\</AdditionalLibraryDirectories>
     </Link>
@@ -172,7 +172,7 @@ xcopy /e /y /i /c $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libmeojson.lib;OcrLiteOnnx.lib;opencv_world3413.lib;WinInet.Lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libmeojson.lib;OcrLiteOnnx.lib;opencv_world3413.lib;penguin-stats-recognize.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <AdditionalLibraryDirectories>$(SolutionDir)3rdparty\lib\</AdditionalLibraryDirectories>
     </Link>
