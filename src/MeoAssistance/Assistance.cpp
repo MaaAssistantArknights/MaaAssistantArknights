@@ -84,20 +84,6 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
         throw "resource broken";
     }
 
-    for (const auto& [key, name] : InfrastConfiger::get_instance().m_oper_name_feat) {
-        ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
-        if (!ret) {
-            callback_error(name);
-            throw "resource broken";
-        }
-    }
-    for (const auto& name : InfrastConfiger::get_instance().m_oper_name_feat_whatever) {
-        ret = m_identify_ptr->add_text_image(name, GetResourceDir() + "operators\\" + Utf8ToGbk(name) + ".png");
-        if (!ret) {
-            callback_error(name);
-            throw "resource broken";
-        }
-    }
     for (const auto& file : std::filesystem::directory_iterator(GetResourceDir() + "penguin-stats-recognize\\items")) {
         ret = m_identify_ptr->penguin_load_templ(file.path().stem().u8string(), file.path().u8string());
         if (!ret) {

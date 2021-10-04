@@ -15,12 +15,6 @@ bool InfrastConfiger::parse(const json::value& json)
     for (const json::value& name : json.at("allNames").as_array()) {
         m_all_opers_name.emplace(name.as_string());
     }
-    for (const json::value& pair : json.at("featureKey").as_array()) {
-        m_oper_name_feat.emplace(pair[0].as_string(), pair[1].as_string());
-    }
-    for (const json::value& name : json.at("featureWhatever").as_array()) {
-        m_oper_name_feat_whatever.emplace(name.as_string());
-    }
 
     // 每个基建设施中的干员组合信息
     for (const json::value& facility : json.at("infrast").as_array()) {

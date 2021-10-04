@@ -82,8 +82,6 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::IdentifyOp
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
-    std::unordered_map<std::string, std::string> feature_cond = InfrastConfiger::get_instance().m_oper_name_feat;
-    std::unordered_set<std::string> feature_whatever = InfrastConfiger::get_instance().m_oper_name_feat_whatever;
     std::unordered_map<std::string, OperInfrastInfo> detected_opers;
 
     int times = 0;
@@ -100,7 +98,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::IdentifyOp
         std::future<bool> swipe_future = std::async(
             std::launch::async, &IdentifyOperTask::swipe, this, reverse, WinMacro::SwipeExtraDelayDefault);
 
-        auto cur_name_textarea = detect_operators_name(image, feature_cond, feature_whatever);
+        auto cur_name_textarea = detect_operators_name(image);
 
         int oper_numer = detected_opers.size();
         for (const TextArea& textarea : cur_name_textarea) {

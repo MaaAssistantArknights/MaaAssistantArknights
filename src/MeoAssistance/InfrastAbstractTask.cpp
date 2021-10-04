@@ -124,11 +124,7 @@ bool asst::InfrastAbstractTask::append_task_to_back_to_infrast_home()
     return true;
 }
 
-std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
-    const cv::Mat& image,
-    std::unordered_map<std::string,
-    std::string>& feature_cond,
-    std::unordered_set<std::string>& feature_whatever)
+std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(const cv::Mat& image)
 {
     DebugTraceFunction;
 
@@ -190,98 +186,6 @@ std::vector<TextArea> asst::InfrastAbstractTask::detect_operators_name(
     all_opers_textarea.insert(all_opers_textarea.end(),
         std::make_move_iterator(lower_part_names.begin()),
         std::make_move_iterator(lower_part_names.end()));
-
-    // 如果ocr结果中已经有某个干员了，就没必要再尝试对他特征检测了，直接删了
-    for (const TextArea& textarea : all_opers_textarea) {
-        auto cond_iter = std::find_if(feature_cond.begin(), feature_cond.end(),
-            [&textarea](const auto& pair) -> bool {
-                return textarea.text == pair.second;
-            });
-        if (cond_iter != feature_cond.end()) {
-            feature_cond.erase(cond_iter);
-        }
-
-        auto whatever_iter = std::find_if(feature_whatever.begin(), feature_whatever.end(),
-            [&textarea](const std::string& str) -> bool {
-                return textarea.text == str;
-            });
-        if (whatever_iter != feature_whatever.end()) {
-            feature_whatever.erase(whatever_iter);
-        }
-    }
-
-    // 用特征检测再筛选一遍OCR识别漏了的——有关键字的
-    for (const TextArea& textarea : all_text_area) {
-        auto find_iter = std::find_if(all_opers_textarea.cbegin(), all_opers_textarea.cend(),
-            [&textarea](const auto& rhs) -> bool {
-                return textarea.text == rhs.text; });
-        if (find_iter != all_opers_textarea.cend()) {
-            continue;
-        }
-        for (auto iter = feature_cond.begin(); iter != feature_cond.end(); ++iter) {
-            auto& [key, value] = *iter;
-            // 识别到了key，但是没识别到value，这种情况就需要进行特征检测进一步确认了
-            if (textarea.text.find(key) != std::string::npos
-                && textarea.text.find(value) == std::string::npos) {
-                // 把key所在的矩形放大一点送去做特征检测，不需要把整张图片都送去检测
-                Rect magnified_area = textarea.rect.center_zoom(2.0, image.cols, image.rows);
-                // key是关键字而已，真正要识别的是value
-                auto&& ret = OcrAbstractTask::m_identify_ptr->feature_match(
-                    image(make_rect<cv::Rect>(magnified_area)), value);
-                if (ret) {
-                    // 匹配上了下次就不用再匹配这个了，直接删了
-                    all_opers_textarea.emplace_back(value, textarea.rect);
-                    iter = feature_cond.erase(iter);
-                    --iter;
-                    // 也从whatever里面删了
-                    auto whatever_iter = std::find_if(feature_whatever.begin(), feature_whatever.end(),
-                        [&textarea](const std::string& str) -> bool {
-                            return textarea.text == str;
-                        });
-                    if (whatever_iter != feature_whatever.end()) {
-                        feature_whatever.erase(whatever_iter);
-                    }
-                    // 顺便再涂黑了，避免后面被whatever特征检测的误识别
-                    // 注意这里是浅拷贝，原图image也会被涂黑
-                    //cv::rectangle(draw_image, cv_rect, cv::Scalar(0, 0, 0), -1);
-                }
-            }
-        }
-    }
-
-    // 用特征检测再筛选一遍OCR识别漏了的——无论如何都进行识别的
-    for (auto iter = feature_whatever.begin(); iter != feature_whatever.end(); ++iter) {
-        // 上半部分长条形的图片
-        auto&& upper_ret = OcrAbstractTask::m_identify_ptr->feature_match(upper_part_name_image, *iter);
-        if (upper_ret) {
-            TextArea temp = std::move(upper_ret.value());
-#ifdef LOG_TRACE	// 也顺便涂黑一下，方便看谁没被识别出来
-            // 注意这里是浅拷贝，原图image也会被涂黑
-            cv::rectangle(upper_part_name_image, make_rect<cv::Rect>(temp.rect), cv::Scalar(0, 0, 0), -1);
-#endif
-            // 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
-            temp.rect.y += cropped_upper_y;
-            all_opers_textarea.emplace_back(std::move(temp));
-            iter = feature_whatever.erase(iter);
-            --iter;
-            continue;
-        }
-        // 下半部分长条形的图片
-        auto&& lower_ret = OcrAbstractTask::m_identify_ptr->feature_match(lower_part_name_image, *iter);
-        if (lower_ret) {
-            TextArea temp = std::move(lower_ret.value());
-#ifdef LOG_TRACE	// 也顺便涂黑一下，方便看谁没被识别出来
-            // 注意这里是浅拷贝，原图image也会被涂黑
-            cv::rectangle(lower_part_name_image, make_rect<cv::Rect>(temp.rect), cv::Scalar(0, 0, 0), -1);
-#endif
-            // 因为图片是裁剪过的，所以对应原图的坐标要加上裁剪的参数
-            temp.rect.y += cropped_lower_y;
-            all_opers_textarea.emplace_back(std::move(temp));
-            iter = feature_whatever.erase(iter);
-            --iter;
-            continue;
-        }
-    }
 
     return all_opers_textarea;
 }

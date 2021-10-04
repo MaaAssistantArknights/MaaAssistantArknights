@@ -123,9 +123,6 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastPro
         return std::nullopt;
     }
 
-    std::unordered_map<std::string, std::string> feature_cond = InfrastConfiger::get_instance().m_oper_name_feat;
-    std::unordered_set<std::string> feature_whatever = InfrastConfiger::get_instance().m_oper_name_feat_whatever;
-
     std::vector<std::string> end_flag_vec = InfrastConfiger::get_instance().m_infrast_end_flag[m_facility];
 
     std::unordered_map<std::string, OperInfrastInfo> cur_opers_info;
@@ -139,7 +136,7 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> asst::InfrastPro
         std::future<bool> swipe_future = std::async(
             std::launch::async, &InfrastProductionTask::swipe, this, false, WinMacro::SwipeExtraDelayDefault);
 
-        auto cur_name_textarea = detect_operators_name(image, feature_cond, feature_whatever);
+        auto cur_name_textarea = detect_operators_name(image);
         for (const TextArea& textarea : cur_name_textarea) {
             OperInfrastInfo info;
             // 考虑map中没有这个名字的情况：包括一开始识别漏了、抽到了新干员但没更新等，也有可能是本次识别错了
@@ -255,15 +252,13 @@ bool asst::InfrastProductionTask::swipe_and_select(const std::vector<std::string
     swipe_to_the_left();
 
     auto need_to_select = name_comb;
-    std::unordered_map<std::string, std::string> feature_cond = InfrastConfiger::get_instance().m_oper_name_feat;
-    std::unordered_set<std::string> feature_whatever = InfrastConfiger::get_instance().m_oper_name_feat_whatever;
     // 一边滑动一边点击最优解中的干员
     for (int i = 0; i != swipe_max_times; ++i) {
         if (need_exit()) {
             return false;
         }
         const cv::Mat& image = m_controller_ptr->get_image(true);
-        auto cur_name_textarea = detect_operators_name(image, feature_cond, feature_whatever);
+        auto cur_name_textarea = detect_operators_name(image);
 
         for (TextArea& text_area : cur_name_textarea) {
             // 点过了就不会再点了，直接从最优解vector里面删了
