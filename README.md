@@ -15,6 +15,8 @@ A game assistance for Arknights
 ## 功能介绍
 
 - 自动刷理智
+    - **新功能：支持刷完自动上传[企鹅物流数据统计](https://penguin-stats.cn/)**（测试版）
+    - **新功能：界面支持统计掉落数量**（测试版）
     - 可设置是否吃完理智药及数量
     - 可设置是否吃石头及数量
     - 可设置刷的次数（用来刷剿灭啥的）
@@ -22,7 +24,6 @@ A game assistance for Arknights
     - 支持剿灭模式
     - 支持打完升级了的情况
     - 支持代理失败的情况，会自动放弃本次行动
-    - **新功能：支持刷完自动上传[企鹅物流数据统计](https://penguin-stats.cn/)**（测试版）
     - 支持刷完自动截图
     - 支持掉线后重连，继续刷上次的图
     - 支持凌晨4点更新后重连，继续刷上次的图
@@ -148,12 +149,6 @@ A game assistance for Arknights
 
 ![图例](images/controlDelayRange.png)
 
-### 自动截图功能
-
-每次刷完结算界面，会自动截一张图，保存在`screenshot`文件夹中  
-该功能默认是打开的，不需要的话可以手动关掉：请手动修改`resource\config.json`文件中，`options`.`printWindow`字段的值，`true`是打开，`false`是关闭。文件保存后请重新打开程序。
-![图例](images/printWindow.png)
-
 ## Todo
 
 - [ ] 彻底去掉管理员权限
@@ -177,7 +172,7 @@ A game assistance for Arknights
 - [ ] 使用GPU进行识别的版本
 - [x] 关卡掉落识别
 - [x] 企鹅物流上传
-- [ ] 关卡掉落显示到界面上，并统计
+- [x] 关卡掉落显示到界面上，并统计
 - [ ] 指定刷某种材料xx个
 - [ ] `config`中部分选项做成图形化界面
 - [x] 图形化界面部分控件状态保存
@@ -200,6 +195,9 @@ A game assistance for Arknights
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON库: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+
+### 数据源
+
 - 公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)
 - 干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)
 - 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
