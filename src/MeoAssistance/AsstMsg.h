@@ -33,6 +33,7 @@ namespace asst {
         TextDetected = 2000,				// 识别到文字
         ImageFindResult,					// 查找图像的结果
         ImageMatched,						// 图像匹配成功
+        StageDrops,                         // 关卡掉落信息
         /* Open Recruit Msg */
         RecruitTagsDetected = 3000,			// 公招识别到了Tags
         RecruitSpecialTag,					// 公招识别到了特殊的Tag
@@ -58,6 +59,7 @@ namespace asst {
             {AsstMsg::TaskStart, "TaskStart"},
             {AsstMsg::ImageFindResult, "ImageFindResult"},
             {AsstMsg::ImageMatched, "ImageMatched"},
+            {AsstMsg::StageDrops, "StageDrops"},
             {AsstMsg::TaskMatched, "TaskMatched"},
             {AsstMsg::ReachedLimit, "ReachedLimit"},
             {AsstMsg::ReadyToSleep, "ReadyToSleep"},

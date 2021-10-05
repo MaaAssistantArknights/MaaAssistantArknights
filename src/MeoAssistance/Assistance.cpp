@@ -13,6 +13,7 @@
 #include "AsstAux.h"
 #include "Task.h"
 #include "TaskConfiger.h"
+#include "ItemConfiger.h"
 #include "RecruitConfiger.h"
 #include "InfrastConfiger.h"
 #include "UserConfiger.h"
@@ -55,6 +56,11 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
     ret = InfrastConfiger::get_instance().load(GetResourceDir() + "infrast.json");
     if (!ret) {
         callback_error("infrast.json");
+        throw "resource broken";
+    }
+    ret = ItemConfiger::get_instance().load(GetResourceDir() + "item_index.json");
+    if (!ret) {
+        callback_error("item_index.json");
         throw "resource broken";
     }
 
@@ -589,6 +595,9 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
     case AsstMsg::OpersIdtfResult:
         set_opers_idtf_result(more_detail);	// 保存到文件
         break;
+    case AsstMsg::StageDrops:
+        more_detail = p_this->organize_stage_drop(more_detail);
+        break;
     default:
         break;
     }
@@ -647,6 +656,7 @@ void Assistance::clear_exec_times()
     for (auto&& pair : TaskConfiger::get_instance().m_all_tasks_info) {
         pair.second->exec_times = 0;
     }
+    ItemConfiger::get_instance().clear_drop_count();
 }
 
 void asst::Assistance::set_opers_idtf_result(const json::value& detail)
@@ -690,4 +700,29 @@ std::optional<std::unordered_map<std::string, OperInfrastInfo>> Assistance::get_
         return std::nullopt;
     }
     return opers_info;
+}
+
+json::value asst::Assistance::organize_stage_drop(const json::value& rec)
+{
+    json::value dst = rec;
+    for (json::value& drop : dst["drops"].as_array()) {
+        std::string id = drop["itemId"].as_string();
+        int quantity = drop["quantity"].as_integer();
+        ItemConfiger::get_instance().m_drop_count[id] += quantity;
+        const std::string& name = ItemConfiger::get_instance().m_item_name[id];
+        drop["itemName"] = name;
+    }
+    std::vector<json::value> statistics_vec;
+    for (auto&& [id, count] : ItemConfiger::get_instance().m_drop_count) {
+        json::value info;
+        info["itemId"] = id;
+        info["itemName"] = ItemConfiger::get_instance().m_item_name[id];
+        info["count"] = count;
+        statistics_vec.emplace_back(std::move(info));
+    }
+    dst["statistics"] = json::array(std::move(statistics_vec));
+
+    DebugTrace("organize_stage_drop | ", dst.to_string());
+
+    return dst;
 }
