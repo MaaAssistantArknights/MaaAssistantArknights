@@ -111,7 +111,7 @@ namespace MeoAsstGui
             bool catchd = await task;
             if (!catchd)
             {
-                RecruitInfo = "捕获模拟器窗口失败";
+                RecruitInfo = "捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限";
                 return;
             }
             RecruitInfo = "正在识别……";

@@ -24,12 +24,10 @@
             <Button Command="{s:Action Stop}" Content="停止" Margin="10" HorizontalAlignment="Center" Width="120" Height="50" />
         </StackPanel>
 
-        <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}" HorizontalAlignment="Left" Text="{Binding CatchStatus}"></TextBlock>
-        <!-- CatchStatus-->
-        <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}" HorizontalAlignment="Center" Text="{Binding RunStatus}"></TextBlock>
-        <!-- RunStatus -->
-        <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}" HorizontalAlignment="Right" Text="{Binding ExecInfo}"></TextBlock>
-        <!-- RunStatus -->
-        <!-- RunStatus-->
+        <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}" HorizontalAlignment="Left" Text="{Binding RunStatus}"></TextBlock>
+        <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}" HorizontalAlignment="Center" Text="{Binding ExecInfo}"></TextBlock>
+        <ScrollViewer Grid.Row="2" HorizontalAlignment="Right">
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding StageDropsInfo}"></TextBlock>
+        </ScrollViewer>
     </Grid>
 </UserControl>

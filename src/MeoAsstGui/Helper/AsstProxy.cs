@@ -171,6 +171,18 @@ namespace MeoAsstGui
                     _windowManager.ShowMessageBox("资源文件错误！请尝试重新解压或下载", "错误");
                     Environment.Exit(0);
                     break;
+
+                case AsstMsg.StageDrops:
+                    string dropsInfo = "";
+                    JArray statistics = (JArray)detail["statistics"];
+                    foreach (var item in statistics)
+                    {
+                        string itemName = item["itemName"].ToString();
+                        int count = (int)item["count"];
+                        dropsInfo += itemName + " : " + count + "    \n";
+                    }
+                    mfvm.StageDropsInfo = dropsInfo;
+                    break;
             }
         }
 
@@ -272,40 +284,42 @@ namespace MeoAsstGui
     public enum AsstMsg
     {
         /* Error Msg */
-        PtrIsNull,                          // 指针为空
-        ImageIsEmpty,                       // 图像为空
-        WindowMinimized,                    // [已弃用] 窗口被最小化了
-        InitFaild,                          // 初始化失败
-        TaskError,                          // 任务错误（任务一直出错，retry次数达到上限）
-        OcrResultError,                     // Ocr识别结果错误
+        PtrIsNull,							// 指针为空
+        ImageIsEmpty,						// 图像为空
+        WindowMinimized,					// [已弃用] 窗口被最小化了
+        InitFaild,							// 初始化失败
+        TaskError,							// 任务错误（任务一直出错，retry次数达到上限）
+        OcrResultError,						// Ocr识别结果错误
         /* Info Msg: about Task */
-        TaskStart = 1000,                   // 任务开始
-        TaskMatched,                        // 任务匹配成功
-        ReachedLimit,                       // 单个原子任务达到次数上限
-        ReadyToSleep,                       // 准备开始睡眠
-        EndOfSleep,                         // 睡眠结束
-        AppendProcessTask,                  // 新增流程任务，Assistance内部消息，外部不需要处理
-        AppendTask,                         // 新增任务，Assistance内部消息，外部不需要处理
-        TaskCompleted,                      // 单个原子任务完成
-        PrintWindow,                        // 截图消息
-        ProcessTaskStopAction,              // 流程任务执行到了Stop的动作
+        TaskStart = 1000,					// 任务开始
+        TaskMatched,						// 任务匹配成功
+        ReachedLimit,						// 单个原子任务达到次数上限
+        ReadyToSleep,						// 准备开始睡眠
+        EndOfSleep,							// 睡眠结束
+        AppendProcessTask,					// 新增流程任务，Assistance内部消息，外部不需要处理
+        AppendTask,							// 新增任务，Assistance内部消息，外部不需要处理
+        TaskCompleted,						// 单个原子任务完成
+        PrintWindow,						// 截图消息
+        ProcessTaskStopAction,				// 流程任务执行到了Stop的动作
         TaskChainCompleted,					// 任务链完成
+        ProcessTaskNotMatched,				// 流程任务识别错误
         /* Info Msg: about Identify */
-        TextDetected = 2000,                // 识别到文字
-        ImageFindResult,                    // 查找图像的结果
-        ImageMatched,                       // 图像匹配成功
+        TextDetected = 2000,				// 识别到文字
+        ImageFindResult,					// 查找图像的结果
+        ImageMatched,						// 图像匹配成功
+        StageDrops,                         // 关卡掉落信息
         /* Open Recruit Msg */
-        RecruitTagsDetected = 3000,         // 公招识别到了Tags
-        RecruitSpecialTag,                  // 公招识别到了特殊的Tag
-        RecruitResult,                      // 公开招募结果
+        RecruitTagsDetected = 3000,			// 公招识别到了Tags
+        RecruitSpecialTag,					// 公招识别到了特殊的Tag
+        RecruitResult,						// 公开招募结果
         /* Infrast Msg */
-        OpersDetected = 4000,               // 识别到了干员s
-        OpersIdtfResult,                    // 干员识别结果（总的）
-        InfrastComb,                        // 当前房间的最优干员组合
-        EnterStation,                       // 进入某个房间
-        StationInfo,                        // 当前房间信息
-        ReadyToShift,                       // 准备换班
-        ShiftCompleted,                     // 换班完成（单个房间）
+        OpersDetected = 4000,				// 识别到了干员s
+        OpersIdtfResult,					// 干员识别结果（总的）
+        InfrastComb,						// 当前房间的最优干员组合
+        EnterStation,						// 进入某个房间
+        StationInfo,						// 当前房间信息
+        ReadyToShift,						// 准备换班
+        ShiftCompleted,						// 换班完成（单个房间）
         NoNeedToShift						// 无需换班（单个房间）
     };
 }
