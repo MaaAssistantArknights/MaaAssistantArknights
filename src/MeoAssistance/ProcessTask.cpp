@@ -91,21 +91,21 @@ bool ProcessTask::run()
         m_callback(AsstMsg::ProcessTaskStopAction, json::object{ {"task_chain", m_task_chain} }, m_callback_arg);
         need_stop = true;
         break;
-    case ProcessTaskAction::PrintWindow:
-        if (Configer::get_instance().m_options.print_window
-            || Configer::get_instance().m_options.upload_to_penguin)
-        {
-            cv::Mat image = m_controller_ptr->get_image(true);
-            if (Configer::get_instance().m_options.print_window) {
-                static const std::string dirname = GetCurrentDir() + "screenshot\\";
-                save_image(image, dirname);
-            }
-            if (Configer::get_instance().m_options.upload_to_penguin) {
-                std::string res = m_identify_ptr->penguin_recognize(image);
-                PenguinUploader::upload(res);
-            }
+    case ProcessTaskAction::StageDrops:
+    {
+        cv::Mat image = m_controller_ptr->get_image(true);
+        std::string res = m_identify_ptr->penguin_recognize(image);
+        m_callback(AsstMsg::StageDrops, json::parse(res).value(), m_callback_arg);
+
+        if (Configer::get_instance().m_options.print_window) {
+            static const std::string dirname = GetCurrentDir() + "screenshot\\";
+            save_image(image, dirname);
         }
-        break;
+        if (Configer::get_instance().m_options.upload_to_penguin) {
+            PenguinUploader::upload(res);
+        }
+    }
+    break;
     default:
         break;
     }

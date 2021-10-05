@@ -106,7 +106,8 @@
             "行动结束"
         ],
         "preDelay": 5000,
-        "action": "printWindow",
+        "action": "stageDrops",
+        "action_Doc": "为“行动结束”特化的action，包含截图、识别关卡掉落等功能",
         "next": [
             "ClickCorner"
         ]

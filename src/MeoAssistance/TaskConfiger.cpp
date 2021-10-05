@@ -127,8 +127,8 @@ bool asst::TaskConfiger::parse(const json::value& json)
                 area_json[2].as_integer(),
                 area_json[3].as_integer());
         }
-        else if (action == "printwindow") {
-            task_info_ptr->action = ProcessTaskAction::PrintWindow;
+        else if (action == "stagedrops") {
+            task_info_ptr->action = ProcessTaskAction::StageDrops;
         }
         else if (action == "swipetotheleft") {
             task_info_ptr->action = ProcessTaskAction::SwipeToTheLeft;

@@ -73,6 +73,7 @@ namespace asst {
         static void set_opers_idtf_result(const json::value& detail);	// 保存干员识别结果
         static std::optional<std::unordered_map<std::string, OperInfrastInfo>>
             get_opers_idtf_result();	// 读取干员识别结果
+        json::value organize_stage_drop(const json::value& rec);     // 整理关卡掉落的材料信息
 
         std::shared_ptr<WinMacro> m_controller_ptr = nullptr;
         std::shared_ptr<Identify> m_identify_ptr = nullptr;

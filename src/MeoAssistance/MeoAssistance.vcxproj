@@ -29,6 +29,7 @@
     <ClInclude Include="InfrastOfficeTask.h" />
     <ClInclude Include="InfrastPowerTask.h" />
     <ClInclude Include="InfrastProductionTask.h" />
+    <ClInclude Include="ItemConfiger.h" />
     <ClInclude Include="Logger.hpp" />
     <ClInclude Include="OcrAbstractTask.h" />
     <ClInclude Include="OpenRecruitTask.h" />
@@ -57,6 +58,7 @@
     <ClCompile Include="InfrastOfficeTask.cpp" />
     <ClCompile Include="InfrastPowerTask.cpp" />
     <ClCompile Include="InfrastProductionTask.cpp" />
+    <ClCompile Include="ItemConfiger.cpp" />
     <ClCompile Include="OcrAbstractTask.cpp" />
     <ClCompile Include="OpenRecruitTask.cpp" />
     <ClCompile Include="PenguinUploader.cpp" />
@@ -66,6 +68,12 @@
     <ClCompile Include="TaskConfiger.cpp" />
     <ClCompile Include="UserConfiger.cpp" />
     <ClCompile Include="WinMacro.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\resource\config.json" />
+    <None Include="..\..\resource\infrast.json" />
+    <None Include="..\..\resource\recruit.json" />
+    <None Include="..\..\resource\tasks.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
