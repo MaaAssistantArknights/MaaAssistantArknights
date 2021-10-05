@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "AbstractConfiger.h"
 
@@ -15,9 +15,9 @@ namespace asst {
             return unique_instance;
         }
 
-        // key£º²ÄÁÏ±àºÅId£¬value£º²ÄÁÏÃû£¨zh£¬utf8£©
+        // keyï¼šææ–™ç¼–å·Idï¼Œvalueï¼šææ–™åï¼ˆzhï¼Œutf8ï¼‰
         std::unordered_map<std::string, std::string> m_item_name;
-        // key£º²ÄÁÏ±àºÅId£¬value£ºÊıÁ¿
+        // keyï¼šææ–™ç¼–å·Idï¼Œvalueï¼šæ•°é‡
         std::unordered_map<std::string, int> m_drop_count;
 
         void clear_drop_count();
