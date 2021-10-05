@@ -1,5 +1,5 @@
 {
-    "version": "0.6",
+    "version": "0.7",
     "options": {
         "connectType": 0,
         "connectType_Doc": "连接类型：0-连接电脑上的模拟器，1-连接USB连接的安卓设备，2-连接局域网中的安卓设备。默认0",
@@ -7,7 +7,7 @@
         "connectRemoteAddress_Doc": "连接局域网中的安卓设备的地址，仅在connectType为2时生效。格式举例：192.168.1.123:5678",
         "taskDelay": 1000,
         "taskDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认1000",
-        "printWindow": true,
+        "printWindow": false,
         "printWindow_Doc": "截图功能：开启后每次结算界面会截图到screenshot目录下。true-开启，false-关闭，默认true",
         "uploadToPenguin": true,
         "uploadToPenguin_Doc": "上传企鹅物流https://penguin-stats.cn/：每次到结算界面，是否上传企鹅物流数据统计网站。true-开启，false-关闭，默认true",

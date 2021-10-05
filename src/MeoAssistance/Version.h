@@ -1,5 +1,5 @@
 ﻿#pragma once
 
 namespace asst {
-    constexpr static const char* Version = "release.stable.1.1-beta";
+    constexpr static const char* Version = "release.stable.1.1-beta.2";
 }
