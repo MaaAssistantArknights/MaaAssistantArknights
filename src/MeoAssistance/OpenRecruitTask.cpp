@@ -55,7 +55,7 @@ bool OpenRecruitTask::run()
     std::future<void> set_time_future = std::async(std::launch::async, set_time_foo, m_set_time);
 
     const static cv::Rect identify_area = make_rect<cv::Rect>(
-        m_controller_ptr->shaped_correct(Rect(360, 320, 520, 250)));
+        m_controller_ptr->shaped_correct(Rect(200, 200, 800, 500)));
     /* Find all text */
     std::vector<TextArea> all_text_area = ocr_detect(image(identify_area));
 
