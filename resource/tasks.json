@@ -393,6 +393,8 @@
     "ReturnToMall": {
         "rearDelay": 1000,
         "template": "Return.png",
+        "templThreshold": 0.85,
+        "histThreshold": 0.85,
         "action": "clickSelf",
         "next": [
             "Mall",
