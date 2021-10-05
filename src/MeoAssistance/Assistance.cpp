@@ -710,13 +710,14 @@ json::value asst::Assistance::organize_stage_drop(const json::value& rec)
         int quantity = drop["quantity"].as_integer();
         ItemConfiger::get_instance().m_drop_count[id] += quantity;
         const std::string& name = ItemConfiger::get_instance().m_item_name[id];
-        drop["itemName"] = name;
+        drop["itemName"] = name.empty() ? "未知材料" : name;
     }
     std::vector<json::value> statistics_vec;
     for (auto&& [id, count] : ItemConfiger::get_instance().m_drop_count) {
         json::value info;
         info["itemId"] = id;
-        info["itemName"] = ItemConfiger::get_instance().m_item_name[id];
+        const std::string& name = ItemConfiger::get_instance().m_item_name[id];
+        info["itemName"] = name.empty() ? "未知材料" : name;
         info["count"] = count;
         statistics_vec.emplace_back(std::move(info));
     }

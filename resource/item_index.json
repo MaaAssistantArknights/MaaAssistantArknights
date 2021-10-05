@@ -618,5 +618,10 @@
         "name_i18n": {
             "zh": "切削原液"
         }
+    },
+    "act13d5_token_securities": {
+        "name_i18n": {
+            "zh": "梅什科竞技证券"
+        }
     }
 }
