@@ -720,6 +720,13 @@ json::value asst::Assistance::organize_stage_drop(const json::value& rec)
         info["count"] = count;
         statistics_vec.emplace_back(std::move(info));
     }
+    // 排个序，数量多的放前面
+    std::sort(statistics_vec.begin(), statistics_vec.end(),
+        [](const json::value& lhs, const json::value& rhs) ->bool
+        {
+            return lhs.at("count").as_integer() > rhs.at("count").as_integer();
+        });
+
     dst["statistics"] = json::array(std::move(statistics_vec));
 
     DebugTrace("organize_stage_drop | ", dst.to_string());

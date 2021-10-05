@@ -180,17 +180,6 @@ namespace MeoAsstGui
             }
         }
 
-        private string _catchStatus;
-
-        public string CatchStatus
-        {
-            get { return _catchStatus; }
-            set
-            {
-                SetAndNotify(ref _catchStatus, value);
-            }
-        }
-
         private bool _hasTimesLimited;
 
         public bool HasTimesLimited
@@ -252,29 +241,44 @@ namespace MeoAsstGui
             }
         }
 
+        private string _stageDropsInfo = "";
+
+        public string StageDropsInfo
+        {
+            get { return _stageDropsInfo; }
+            set
+            {
+                SetAndNotify(ref _stageDropsInfo, value);
+            }
+        }
+
         public void Stop()
         {
             var asstProxy = _container.Get<AsstProxy>();
             asstProxy.AsstStop();
 
-            CatchStatus = "";
             ExecInfo = "";
             MedicineInfo = "";
             StoneInfo = "";
             RunStatus = "";
+            StageDropsInfo = "";
             CreditShoppingCheckBoxIsEnable = true;
         }
 
         public async void StartSanity()
         {
-            CatchStatus = "正在捕获模拟器窗口……";
+            RunStatus = "正在捕获模拟器窗口……";
             var asstProxy = _container.Get<AsstProxy>();
             var task = Task.Run(() =>
             {
                 return asstProxy.AsstCatchDefault();
             });
             bool catched = await task;
-            CatchStatus = "捕获模拟器窗口：" + catched;
+            if (!catched)
+            {
+                RunStatus = "捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限";
+                return;
+            }
             if (!asstProxy.AsstStartSanity())
             {
                 return;
@@ -292,15 +296,18 @@ namespace MeoAsstGui
 
         public async void Visit()
         {
-            CatchStatus = "正在捕获模拟器窗口……";
+            RunStatus = "正在捕获模拟器窗口……";
             var asstProxy = _container.Get<AsstProxy>();
             var task = Task.Run(() =>
             {
                 return asstProxy.AsstCatchDefault();
             });
             bool catched = await task;
-
-            CatchStatus = "捕获模拟器窗口：" + catched;
+            if (!catched)
+            {
+                RunStatus = "捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限";
+                return;
+            }
             if (!asstProxy.AsstStartVisit(CreditShopping))
             {
                 return;

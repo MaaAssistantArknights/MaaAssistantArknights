@@ -16,9 +16,10 @@ int main(int argc, char** argv)
 
     char ch = 0;
     while (ch != 'q') {
+        AsstStartSanity(ptr);
         //AsstStartIndertifyOpers(ptr);
         //AsstStartInfrast(ptr);
-        AsstStartDebugTask(ptr);
+        //AsstStartDebugTask(ptr);
         //{
         //	const int required[] = { 3, 4, 5, 6 };
         //	AsstStartOpenRecruit(ptr, required, sizeof(required)/sizeof(int), true);
