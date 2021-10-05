@@ -32,8 +32,8 @@ bool Identify::add_image(const std::string& name, const std::string& path)
 
 Mat Identify::image_2_hist(const cv::Mat& src)
 {
-    Mat src_hsv;
-    cvtColor(src, src_hsv, COLOR_BGR2HSV);
+    //Mat src_hsv;
+    //cvtColor(src, src_hsv, COLOR_BGR2HSV);
 
     int histSize[] = { 50, 60 };
     float h_ranges[] = { 0, 180 };
@@ -43,7 +43,7 @@ Mat Identify::image_2_hist(const cv::Mat& src)
 
     MatND src_hist;
 
-    calcHist(&src_hsv, 1, channels, Mat(), src_hist, 2, histSize, ranges);
+    calcHist(&src, 1, channels, Mat(), src_hist, 2, histSize, ranges);
     normalize(src_hist, src_hist, 0, 1, NORM_MINMAX);
 
     return src_hist;
@@ -81,13 +81,13 @@ std::vector<TextArea> asst::Identify::ocr_detect(const cv::Mat& image)
 
 std::pair<double, cv::Point> Identify::match_template(const cv::Mat& image, const cv::Mat& templ)
 {
-    Mat image_hsv;
-    Mat templ_hsv;
-    cvtColor(image, image_hsv, COLOR_BGR2HSV);
-    cvtColor(templ, templ_hsv, COLOR_BGR2HSV);
+    //Mat image_hsv;
+    //Mat templ_hsv;
+    //cvtColor(image, image_hsv, COLOR_BGR2HSV);
+    //cvtColor(templ, templ_hsv, COLOR_BGR2HSV);
 
     Mat matched;
-    matchTemplate(image_hsv, templ_hsv, matched, cv::TM_CCOEFF_NORMED);
+    matchTemplate(image, templ, matched, cv::TM_CCOEFF_NORMED);
 
     double minVal = 0, maxVal = 0;
     cv::Point minLoc, maxLoc;
@@ -135,13 +135,13 @@ std::vector<asst::Identify::FindImageResult> asst::Identify::find_all_images(
     }
     const cv::Mat& templ_mat = m_mat_map.at(templ_name);
 
-    Mat image_hsv;
-    Mat templ_hsv;
-    cvtColor(image, image_hsv, COLOR_BGR2HSV);
-    cvtColor(templ_mat, templ_hsv, COLOR_BGR2HSV);
+    //Mat image_hsv;
+    //Mat templ_hsv;
+    //cvtColor(image, image_hsv, COLOR_BGR2HSV);
+    //cvtColor(templ_mat, templ_hsv, COLOR_BGR2HSV);
 
     Mat matched;
-    matchTemplate(image_hsv, templ_hsv, matched, cv::TM_CCOEFF_NORMED);
+    matchTemplate(image, templ_mat, matched, cv::TM_CCOEFF_NORMED);
 
     std::vector<FindImageResult> results;
     int mini_distance = (std::min)(templ_mat.cols, templ_mat.rows) * 0.5;
