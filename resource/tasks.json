@@ -28,8 +28,16 @@
         ]
     },
     "StartButton1": {
-        "template": "StartButton1.png",
-        "templThreshold": 0.75,
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始行动"
+        ],
+        "identifyArea": [
+            800,
+            400,
+            480,
+            320
+        ],
         "action": "clickSelf",
         "next": [
             "StartButton2",
