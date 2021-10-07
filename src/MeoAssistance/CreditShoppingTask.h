@@ -1,15 +1,16 @@
 ﻿#pragma once
-#include "OcrAbstractTask.h"
+
+#include "AbstractTask.h"
 
 #include <vector>
 
 #include "AsstDef.h"
 
 namespace asst {
-    class CreditShoppingTask : public OcrAbstractTask
+    class CreditShoppingTask : public AbstractTask
     {
     public:
-        using OcrAbstractTask::OcrAbstractTask;
+        using AbstractTask::AbstractTask;
         virtual ~CreditShoppingTask() = default;
         virtual bool run() override;
     private:

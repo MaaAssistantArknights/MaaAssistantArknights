@@ -20,7 +20,6 @@
         ]
     },
     "UsePrts": {
-        "template": "UsePrts.png",
         "templThreshold": 0.8,
         "action": "clickSelf",
         "next": [
@@ -28,8 +27,16 @@
         ]
     },
     "StartButton1": {
-        "template": "StartButton1.png",
-        "templThreshold": 0.75,
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始行动"
+        ],
+        "roi": [
+            800,
+            400,
+            480,
+            320
+        ],
         "action": "clickSelf",
         "next": [
             "StartButton2",
@@ -38,7 +45,6 @@
         ]
     },
     "StartButton2": {
-        "template": "StartButton2.png",
         "action": "clickSelf",
         "rearDelay": 20000,
         "templThreshold": 0.95,
@@ -54,7 +60,7 @@
             "剩余可放置角色",
             "接管作战"
         ],
-        "identifyArea": [
+        "roi": [
             0,
             530,
             1279,
@@ -84,7 +90,7 @@
         "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "justreturn",
         "action": "clickRect",
-        "specificArea": [
+        "specificRect": [
             1000,
             1,
             270,
@@ -92,7 +98,6 @@
         ],
         "next": [
             "EndOfAction",
-            "Loading",
             "StartButton1",
             "StartButton2",
             "UseMedicine",
@@ -117,14 +122,13 @@
         "algorithm": "justreturn",
         "action": "clickRect",
         "rearDelay": 2000,
-        "specificArea": [
+        "specificRect": [
             1000,
             1,
             270,
             340
         ],
         "next": [
-            "Loading",
             "StartButton1",
             "StartButton2",
             "UseMedicine",
@@ -132,23 +136,13 @@
             "EndOfAction"
         ]
     },
-    "Loading": {
-        "template": "Loading.png",
-        "templThreshold": 0.8,
-        "action": "doNothing",
-        "next": [
-            "StartButton1"
-        ]
-    },
     "UseMedicine": {
-        "template": "UseMedicine.png",
         "action": "doNothing",
         "next": [
             "MedicineConfirm"
         ]
     },
     "MedicineConfirm": {
-        "template": "MedicineConfirm.png",
         "action": "clickSelf",
         "maxTimes": 0,
         "reduceOtherTimes": [
@@ -159,7 +153,6 @@
         ]
     },
     "UseStone": {
-        "template": "UseStone.png",
         "action": "doNothing",
         "next": [
             "StoneConfirm"
@@ -177,7 +170,6 @@
         ]
     },
     "PrtsErrorConfirm": {
-        "template": "PrtsErrorConfirm.png",
         "templThreshold": 0.8,
         "cache": false,
         "action": "doNothing",
@@ -187,13 +179,11 @@
         ]
     },
     "AbandonAction": {
-        "template": "AbandonAction.png",
         "action": "clickSelf",
         "cache": false,
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2",
-            "Loading"
+            "StartButton2"
         ],
         "next": [
             "EndOfAction",
@@ -213,13 +203,11 @@
         ]
     },
     "OfflineConfirm": {
-        "template": "OfflineConfirm.png",
         "action": "clickSelf",
         "cache": false,
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2",
-            "Loading"
+            "StartButton2"
         ],
         "next": [
             "CloseAnno",
@@ -228,7 +216,6 @@
         ]
     },
     "StartToWakeUp": {
-        "template": "StartToWakeUp.png",
         "action": "clickSelf",
         "cache": false,
         "next": [
@@ -239,7 +226,6 @@
         ]
     },
     "CloseAnno": {
-        "template": "CloseAnno.png",
         "action": "clickSelf",
         "cache": false,
         "next": [
@@ -249,7 +235,6 @@
         ]
     },
     "Terminal": {
-        "template": "Terminal.png",
         "cache": false,
         "action": "clickSelf",
         "next": [
@@ -265,7 +250,7 @@
             "今日配给"
         ],
         "action": "clickRect",
-        "specificArea": [
+        "specificRect": [
             1000,
             1,
             270,
@@ -312,7 +297,6 @@
         ]
     },
     "Friends": {
-        "template": "Friends.png",
         "templThreshold": 0.85,
         "action": "clickSelf",
         "next": [
@@ -321,7 +305,6 @@
         ]
     },
     "FriendsList": {
-        "template": "FriendsList.png",
         "action": "clickSelf",
         "next": [
             "StartToVisit",
@@ -329,14 +312,12 @@
         ]
     },
     "NoFriends": {
-        "template": "NoFriends.png",
         "action": "doNothing",
         "next": [
             "ReturnToMall"
         ]
     },
     "StartToVisit": {
-        "template": "StartToVisit.png",
         "templThreshold": 0.8,
         "action": "clickSelf",
         "rearDelay": 3000,
@@ -347,11 +328,10 @@
         ]
     },
     "VisitNext": {
-        "template": "VisitNext.png",
         "action": "clickSelf",
         "cache": false,
         "rearDelay": 2000,
-        "identifyArea": [
+        "roi": [
             1080,
             570,
             195,
@@ -374,7 +354,7 @@
         ],
         "action": "clickSelf",
         "rearDelay": 2000,
-        "identifyArea": [
+        "roi": [
             1080,
             570,
             195,
@@ -411,7 +391,6 @@
         ]
     },
     "Mall": {
-        "template": "Mall.png",
         "action": "clickSelf",
         "next": [
             "CreditStore",
@@ -419,7 +398,6 @@
         ]
     },
     "CreditStore": {
-        "template": "CreditStore.png",
         "templThreshold": 0.85,
         "rearDelay": 1000,
         "action": "clickSelf",
@@ -433,7 +411,7 @@
         "text": [
             "信用交易所"
         ],
-        "identifyArea": [
+        "roi": [
             1000,
             0,
             280,
@@ -447,7 +425,6 @@
         ]
     },
     "CollectCredit": {
-        "template": "CollectCredit.png",
         "action": "clickSelf",
         "rearDelay": 2000,
         "next": [
@@ -457,7 +434,7 @@
     "CloseCollectCredit": {
         "algorithm": "justReturn",
         "action": "clickRect",
-        "specificArea": [
+        "specificRect": [
             1000,
             1,
             270,
@@ -474,7 +451,7 @@
             "已达上限"
         ],
         "action": "doNothing",
-        "identifyArea": [
+        "roi": [
             900,
             50,
             375,
@@ -485,9 +462,8 @@
         ]
     },
     "VisitNextBlack": {
-        "template": "VisitNextBlack.png",
         "action": "doNothing",
-        "identifyArea": [
+        "roi": [
             1080,
             570,
             195,
@@ -495,6 +471,30 @@
         ],
         "next": [
             "ReturnToMall"
+        ]
+    },
+    "CreditShop-CreditPoint": {
+        "template": "CreditPoint.png"
+    },
+    "CreditShop-SoldOut": {
+        "template": "SoldOut.png"
+    },
+    "CreditShop-BuyIt": {
+        "template": "BuyIt.png",
+        "preDelay": 1000,
+        "rareDelay": 1000
+    },
+    "CreditShop-NoMoney": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "信用不足",
+            "无法购买"
+        ],
+        "roi": [
+            940,
+            60,
+            339,
+            110
         ]
     },
     "Stop": {
@@ -505,22 +505,60 @@
     "RecruitTime": {
         "template": "RecruitTimeReduce.png",
         "templThreshold": 0.89,
-        "action": "clickRect",
-        "specificArea": [
-            391,
-            279,
+        "action": "clickSelf",
+        "resultMove": [
+            7,
+            94,
             129,
             44
-        ],
-        "next": [
-            "Stop"
         ]
     },
-    "Listless": {
-        "template": "Listless.png",
-        "action": "clickSelf",
-        "next": [
-            "Stop"
+    "RecruitTags": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            200,
+            200,
+            800,
+            500
+        ],
+        "ocrReplace": [
+            [
+                "沮击",
+                "狙击"
+            ],
+            [
+                "犯击",
+                "狙击"
+            ],
+            [
+                "泪击",
+                "狙击"
+            ],
+            [
+                "都出",
+                "输出"
+            ],
+            [
+                "都乐",
+                "输出"
+            ],
+            [
+                "抓出",
+                "输出"
+            ],
+            [
+                "都任",
+                "输出"
+            ],
+            [
+                "新于",
+                "新手"
+            ],
+            [
+                "防拍",
+                "防护"
+            ]
         ]
     },
     "OperatorBegin": {
@@ -532,7 +570,6 @@
         ]
     },
     "EnterOperator": {
-        "template": "EnterOperator.png",
         "rareDelay": 1000,
         "templThreshold": 0.7,
         "action": "clickSelf",
@@ -575,7 +612,6 @@
         ]
     },
     "EnterInfrast": {
-        "template": "EnterInfrast.png",
         "templThreshold": 0.85,
         "histThreshold": 0.85,
         "rareDelay": 3000,
@@ -601,7 +637,6 @@
         ]
     },
     "Trade": {
-        "template": "Trade.png",
         "templThreshold": 0.8,
         "cache": false,
         "action": "clickSelf",
@@ -611,7 +646,6 @@
         ]
     },
     "TradeMini": {
-        "template": "TradeMini.png",
         "templThreshold": 0.8,
         "cache": false,
         "action": "clickSelf",
@@ -621,7 +655,6 @@
         ]
     },
     "Manufacturing": {
-        "template": "Manufacturing.png",
         "templThreshold": 0.8,
         "cache": false,
         "action": "clickSelf",
@@ -631,7 +664,6 @@
         ]
     },
     "ManufacturingMini": {
-        "template": "ManufacturingMini.png",
         "templThreshold": 0.8,
         "cache": false,
         "action": "clickSelf",
@@ -644,7 +676,7 @@
         "Doc": "制造站点进去之后，左下角那个“中级作战记录 制造中”",
         "algorithm": "justreturn",
         "action": "clickRect",
-        "specificArea": [
+        "specificRect": [
             1,
             535,
             525,
@@ -658,7 +690,7 @@
         "Doc": "设施列表里第一个（第一个制造站或者贸易站）",
         "algorithm": "justreturn",
         "action": "clickRect",
-        "specificArea": [
+        "specificRect": [
             1,
             183,
             220,
@@ -669,7 +701,6 @@
         ]
     },
     "InfrastNotification": {
-        "template": "InfrastNotification.png",
         "templThreshold": 0.8,
         "action": "clickSelf",
         "next": [
@@ -686,7 +717,7 @@
         ],
         "rearDelay": 1000,
         "action": "clickSelf",
-        "identifyArea": [
+        "roi": [
             0,
             600,
             800,
@@ -702,7 +733,7 @@
         "Doc": "干员疲劳、线索收集 是不能一键收获的，所以要先退出一键收获的界面，这里点击的是控制中枢左侧那一片空白的区域",
         "algorithm": "justreturn",
         "action": "clickRect",
-        "specificArea": [
+        "specificRect": [
             250,
             100,
             380,
@@ -713,7 +744,6 @@
         ]
     },
     "UavAssist-MFG": {
-        "template": "UavAssist-MFG.png",
         "action": "clickSelf",
         "cache": false,
         "maxTimes": 1,
@@ -724,7 +754,6 @@
         ]
     },
     "UavAssist-Trade": {
-        "template": "UavAssist-Trade.png",
         "action": "clickSelf",
         "cache": false,
         "next": [
@@ -733,14 +762,12 @@
         ]
     },
     "UavMax": {
-        "template": "UavMax.png",
         "action": "clickSelf",
         "next": [
             "UavConfirm"
         ]
     },
     "UavConfirm": {
-        "template": "UavConfirm.png",
         "action": "clickSelf",
         "rearDelay": 2000,
         "next": [
@@ -750,7 +777,6 @@
         ]
     },
     "DeliverableOrder": {
-        "template": "DeliverableOrder.png",
         "cache": false,
         "action": "clickSelf",
         "next": [

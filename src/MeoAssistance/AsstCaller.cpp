@@ -156,31 +156,31 @@ const char* AsstGetVersion()
     return asst::Version;
 }
 
-bool AsstStartOpenRecruit(void* p_asst, const int required_level[], int required_len, bool set_time)
+bool AsstStartRecruiting(void* p_asst, const int required_level[], int required_len, bool set_time)
 {
     if (p_asst == nullptr) {
         return false;
     }
     std::vector<int> level_vector;
     level_vector.assign(required_level, required_level + required_len);
-    return ((asst::Assistance*)p_asst)->start_open_recruit(level_vector, set_time);
+    return ((asst::Assistance*)p_asst)->start_recruiting(level_vector, set_time);
 }
 
-bool AsstStartIndertifyOpers(void* p_asst)
-{
-    if (p_asst == nullptr) {
-        return false;
-    }
-    return ((asst::Assistance*)p_asst)->start_to_identify_opers();
-}
-
-bool AsstStartInfrast(void* p_asst)
-{
-    if (p_asst == nullptr) {
-        return false;
-    }
-    return ((asst::Assistance*)p_asst)->start_infrast();
-}
+//bool AsstStartIndertifyOpers(void* p_asst)
+//{
+//    if (p_asst == nullptr) {
+//        return false;
+//    }
+//    return ((asst::Assistance*)p_asst)->start_to_identify_opers();
+//}
+//
+//bool AsstStartInfrast(void* p_asst)
+//{
+//    if (p_asst == nullptr) {
+//        return false;
+//    }
+//    return ((asst::Assistance*)p_asst)->start_infrast();
+//}
 
 bool AsstStartDebugTask(void* p_asst)
 {

@@ -29,11 +29,11 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStartVisit(IntPtr ptr, bool with_shopping);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartOpenRecruit(IntPtr ptr, int[] required_level, int required_len, bool set_time);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartRecruiting(IntPtr ptr, int[] required_level, int required_len, bool set_time);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartIndertifyOpers(IntPtr ptr);
+        //[DllImport("MeoAssistance.dll")] static private extern bool AsstStartIndertifyOpers(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartInfrast(IntPtr ptr);
+        //[DllImport("MeoAssistance.dll")] static private extern bool AsstStartInfrast(IntPtr ptr);
 
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStartDebugTask(IntPtr ptr);
 
@@ -275,9 +275,9 @@ namespace MeoAsstGui
             AsstSetParam(_ptr, type, param, value);
         }
 
-        public bool AsstStartOpenRecruit(int[] required_level, int required_len, bool set_time)
+        public bool AsstStartRecruiting(int[] required_level, int required_len, bool set_time)
         {
-            return AsstStartOpenRecruit(_ptr, required_level, required_len, set_time);
+            return AsstStartRecruiting(_ptr, required_level, required_len, set_time);
         }
     }
 

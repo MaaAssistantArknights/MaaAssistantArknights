@@ -10,9 +10,6 @@ namespace cv
 }
 
 namespace asst {
-    class WinMacro;
-    class Identify;
-
     class AbstractTask
     {
     public:
@@ -21,7 +18,6 @@ namespace asst {
         AbstractTask(const AbstractTask&) = default;
         AbstractTask(AbstractTask&&) = default;
 
-        virtual void set_ptr(std::shared_ptr<WinMacro> controller_ptr, std::shared_ptr<Identify> identify_ptr);
         virtual bool run() = 0;
 
         virtual void set_exit_flag(bool* exit_flag);
@@ -34,12 +30,8 @@ namespace asst {
         virtual bool sleep(unsigned millisecond);
         virtual bool save_image(const cv::Mat& iamge, const std::string& dir);
         virtual bool need_exit() const noexcept;
-        virtual bool is_ptr_inited() const noexcept;
 
         virtual bool click_return_button();
-
-        std::shared_ptr<WinMacro> m_controller_ptr = nullptr;
-        std::shared_ptr<Identify> m_identify_ptr = nullptr;
 
         AsstCallback m_callback;
         void* m_callback_arg = NULL;

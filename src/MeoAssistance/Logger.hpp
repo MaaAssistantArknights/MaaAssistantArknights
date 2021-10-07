@@ -25,19 +25,19 @@ namespace asst {
         }
 
         template <typename... Args>
-        inline void log_trace(Args &&... args)
+        inline void trace(Args &&... args)
         {
             constexpr static std::string_view level = "TRC";
             log(level, std::forward<Args>(args)...);
         }
         template <typename... Args>
-        inline void log_info(Args &&... args)
+        inline void info(Args &&... args)
         {
             constexpr static std::string_view level = "INF";
             log(level, std::forward<Args>(args)...);
         }
         template <typename... Args>
-        inline void log_error(Args &&... args)
+        inline void error(Args &&... args)
         {
             constexpr static std::string_view level = "ERR";
             log(level, std::forward<Args>(args)...);
@@ -70,13 +70,13 @@ namespace asst {
         }
         void log_init_info()
         {
-            log_trace("-----------------------------");
-            log_trace("MeoAssistance Process Start");
-            log_trace("Version", asst::Version);
-            log_trace("Build DataTime", __DATE__, __TIME__);
-            log_trace("Working Path", GetCurrentDir());
-            log_trace("Resource Path", GetResourceDir());
-            log_trace("-----------------------------");
+            trace("-----------------------------");
+            trace("MeoAssistance Process Start");
+            trace("Version", asst::Version);
+            trace("Build DataTime", __DATE__, __TIME__);
+            trace("Working Path", GetCurrentDir());
+            trace("Resource Path", GetResourceDir());
+            trace("-----------------------------");
         }
 
         template <typename... Args>
@@ -133,22 +133,21 @@ namespace asst {
             : m_func_name(func_name),
             m_start_time(std::chrono::system_clock::now())
         {
-            Logger::get_instance().log_trace(m_func_name, " | enter");
+            Logger::get_instance().trace(m_func_name, " | enter");
         }
         ~LoggerAux()
         {
             auto duration = std::chrono::system_clock::now() - m_start_time;
-            Logger::get_instance().log_trace(m_func_name, " | leave,",
+            Logger::get_instance().trace(m_func_name, " | leave,",
                 std::chrono::duration_cast<std::chrono::milliseconds>(duration).count(), "ms");
         }
     private:
         std::string m_func_name;
         std::chrono::time_point<std::chrono::system_clock> m_start_time;
     };
-}
 
-#define DebugTrace			Logger::get_instance().log_trace
-#define DebugTraceInfo		Logger::get_instance().log_info
-#define DebugTraceError		Logger::get_instance().log_error
-#define DebugTraceFunction	LoggerAux _func_aux(__FUNCTION__)
-#define DebugTraceScope		LoggerAux _func_aux
+    static auto& log = Logger::get_instance();
+
+#define LogTraceFunction    LoggerAux _func_aux(__FUNCTION__)
+#define LogTraceScope	    LoggerAux _func_aux
+}

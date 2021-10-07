@@ -17,7 +17,7 @@ namespace cv {
 }
 
 namespace asst {
-    class WinMacro;
+    class Controller;
     class Identify;
 
     class Assistance
@@ -41,7 +41,7 @@ namespace asst {
         bool start_visit(bool with_shopping = false);
 
         // 开始公开招募操作
-        bool start_open_recruit(const std::vector<int>& required_level, bool set_time = true);
+        bool start_recruiting(const std::vector<int>& required_level, bool set_time = true);
         // 开始干员识别任务
         bool start_to_identify_opers();
         // 开始全自动基建任务
@@ -70,13 +70,8 @@ namespace asst {
         void append_task(const json::value& detail, bool front = false);
         void append_callback(AsstMsg msg, json::value detail);
         void clear_exec_times();
-        static void set_opers_idtf_result(const json::value& detail);	// 保存干员识别结果
-        static std::optional<std::unordered_map<std::string, OperInfrastInfo>>
-            get_opers_idtf_result();	// 读取干员识别结果
         json::value organize_stage_drop(const json::value& rec);     // 整理关卡掉落的材料信息
 
-        std::shared_ptr<WinMacro> m_controller_ptr = nullptr;
-        std::shared_ptr<Identify> m_identify_ptr = nullptr;
         bool m_inited = false;
 
         bool m_thread_exit = false;

@@ -4,7 +4,7 @@
 
 #include <json.h>
 
-#include "Configer.h"
+constexpr static const char* EmulatorPathKey = "emulatorPath";
 
 bool asst::UserConfiger::load(const std::string& filename)
 {
@@ -15,15 +15,15 @@ bool asst::UserConfiger::load(const std::string& filename)
 
 bool asst::UserConfiger::set_emulator_path(const std::string& name, const std::string& path)
 {
-    m_raw_json["emulatorPath"][name] = path;
+    m_emulators_path.emplace(name, path);
     return save();
 }
 
 bool asst::UserConfiger::parse(const json::value& json)
 {
-    if (json.exist("emulatorPath")) {
-        for (const auto& [name, path] : json.at("emulatorPath").as_object()) {
-            Configer::get_instance().m_handles[name].path = path.as_string();
+    if (json.exist(EmulatorPathKey)) {
+        for (const auto& [name, path] : json.at(EmulatorPathKey).as_object()) {
+            m_emulators_path.emplace(name, path.as_string());
         }
     }
     m_raw_json = json;
@@ -33,6 +33,10 @@ bool asst::UserConfiger::parse(const json::value& json)
 
 bool asst::UserConfiger::save()
 {
+    for (const auto& [name, path] : m_emulators_path) {
+        m_raw_json[EmulatorPathKey][name] = path;
+    }
+
     std::ofstream ofs(m_filename, std::ios::out);
     if (!ofs.is_open()) {
         return false;

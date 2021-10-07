@@ -1,20 +1,15 @@
 ﻿#include "AbstractConfiger.h"
 
-#include <memory>
 #include <sstream>
 #include <fstream>
 
 #include <json.h>
 
-#include "Logger.hpp"
-
 bool asst::AbstractConfiger::load(const std::string& filename)
 {
-    DebugTraceFunction;
-    DebugTrace("Configer::load | ", filename);
-
     std::ifstream ifs(filename, std::ios::in);
     if (!ifs.is_open()) {
+        m_last_error = filename + " can't be opened";
         return false;
     }
     std::stringstream iss;
@@ -24,7 +19,7 @@ bool asst::AbstractConfiger::load(const std::string& filename)
 
     auto&& ret = json::parser::parse(content);
     if (!ret) {
-        DebugTrace("parse error", content);
+        m_last_error = "json pasing error " + content;
         return false;
     }
 
@@ -34,10 +29,8 @@ bool asst::AbstractConfiger::load(const std::string& filename)
         parse(root);
     }
     catch (json::exception& e) {
-        DebugTraceError("Load config json error!", e.what());
+        m_last_error = std::string("json field error ") + e.what();
         return false;
     }
-
-    DebugTrace("Load config succeed");
     return true;
 }

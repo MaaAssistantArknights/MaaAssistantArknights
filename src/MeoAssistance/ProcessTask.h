@@ -1,13 +1,14 @@
 ﻿#pragma once
 
-#include "OcrAbstractTask.h"
+#include "AbstractTask.h"
+#include "AsstDef.h"
 
 namespace asst {
     // 流程任务，按照配置文件里的设置的流程运行
-    class ProcessTask : public OcrAbstractTask
+    class ProcessTask : public AbstractTask
     {
     public:
-        using OcrAbstractTask::OcrAbstractTask;
+        using AbstractTask::AbstractTask;
         virtual ~ProcessTask() = default;
 
         virtual bool run() override;
@@ -17,9 +18,8 @@ namespace asst {
         }
 
     protected:
-        std::shared_ptr<TaskInfo> match_image(asst::Rect* matched_rect = NULL);
         bool delay_random();
-        void exec_click_task(const asst::Rect& matched_rect);
+        void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);
 
         std::vector<std::string> m_cur_tasks_name;
