@@ -2,20 +2,11 @@
 
 #include "AsstAux.h"
 
-#include "WinMacro.h"
-#include "Identify.h"
+#include "Controller.h"
 
 bool asst::ScreenCaptureTask::run()
 {
-    if (m_controller_ptr == nullptr
-        || m_identify_ptr == nullptr)
-    {
-        m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
-        return false;
-    }
-
-    auto image = m_controller_ptr->get_image();
-    auto res = m_identify_ptr->penguin_recognize(image);
+    const auto& image = ctrler.get_image();
 
     static const std::string dirname = GetCurrentDir() + "template\\";
     return save_image(image, dirname);

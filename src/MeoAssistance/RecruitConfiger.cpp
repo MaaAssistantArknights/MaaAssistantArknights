@@ -1,14 +1,8 @@
 ﻿#include "RecruitConfiger.h"
 
-#include <fstream>
-#include <sstream>
 #include <algorithm>
 
 #include <json.h>
-
-#include "Logger.hpp"
-
-using namespace asst;
 
 bool asst::RecruitConfiger::parse(const json::value& json)
 {

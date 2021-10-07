@@ -3,26 +3,18 @@
 #include <chrono>
 #include <random>
 
-#include <opencv2/opencv.hpp>
+#include <json.h>
 
 #include "AsstAux.h"
-#include "Configer.h"
-#include "TaskConfiger.h"
-#include "WinMacro.h"
-#include "Identify.h"
+#include "Controller.h"
 #include "PenguinUploader.h"
+#include "ProcessTaskImageAnalyzer.h"
+#include "Resource.h"
 
 using namespace asst;
 
 bool ProcessTask::run()
 {
-    if (m_controller_ptr == NULL
-        || m_identify_ptr == NULL)
-    {
-        m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
-        return false;
-    }
-
     json::value task_start_json = json::object{
         { "task_type",  "ProcessTask" },
         { "task_chain", m_task_chain},
@@ -30,13 +22,23 @@ bool ProcessTask::run()
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
-    std::shared_ptr<TaskInfo> task_info_ptr = nullptr;
-
-    Rect rect;
-    task_info_ptr = match_image(&rect);
+    ProcessTaskImageAnalyzer analyzer(ctrler.get_image(), m_cur_tasks_name);
+    if (!analyzer.analyze()) {
+        return false;
+    }
     if (need_exit()) {
         return false;
     }
+    auto task_info_ptr = analyzer.get_result();
+    Rect rect = analyzer.get_rect();
+    const auto& res_move = task_info_ptr->result_move;
+    if (!res_move.empty()) {
+        rect.x += res_move.x;
+        rect.y += res_move.y;
+        rect.width = res_move.width;
+        rect.height = res_move.height;
+    }
+
     if (!task_info_ptr) {
         m_callback(AsstMsg::ProcessTaskNotMatched, task_start_json, m_callback_arg);
         return false;
@@ -71,14 +73,14 @@ bool ProcessTask::run()
     bool need_stop = false;
     switch (task_info_ptr->action) {
     case ProcessTaskAction::ClickRect:
-        rect = task_info_ptr->specific_area;
+        rect = task_info_ptr->specific_rect;
         [[fallthrough]];
     case ProcessTaskAction::ClickSelf:
         exec_click_task(rect);
         break;
     case ProcessTaskAction::ClickRand:
     {
-        static const Rect full_rect(0, 0, Configer::WindowWidthDefault - 1, Configer::WindowHeightDefault - 1);
+        static const Rect full_rect(0, 0, GeneralConfiger::WindowWidthDefault, GeneralConfiger::WindowHeightDefault);
         exec_click_task(full_rect);
     } break;
     case ProcessTaskAction::SwipeToTheLeft:
@@ -93,15 +95,16 @@ bool ProcessTask::run()
         break;
     case ProcessTaskAction::StageDrops:
     {
-        cv::Mat image = m_controller_ptr->get_image(true);
-        std::string res = m_identify_ptr->penguin_recognize(image);
+        cv::Mat image = ctrler.get_image(true);
+        std::string res = resource.penguin().recognize(image);
         m_callback(AsstMsg::StageDrops, json::parse(res).value(), m_callback_arg);
 
-        if (Configer::get_instance().m_options.print_window) {
+        auto& opt = resource.cfg().get_options();
+        if (opt.print_window) {
             static const std::string dirname = GetCurrentDir() + "screenshot\\";
             save_image(image, dirname);
         }
-        if (Configer::get_instance().m_options.upload_to_penguin) {
+        if (opt.upload_to_penguin) {
             PenguinUploader::upload(res);
         }
     }
@@ -116,7 +119,7 @@ bool ProcessTask::run()
     // 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
     // 所以要给蓝色开始行动的次数减一
     for (const std::string& reduce : task_info_ptr->reduce_other_times) {
-        --TaskConfiger::get_instance().m_all_tasks_info[reduce]->exec_times;
+        --resource.task().task_ptr(reduce)->exec_times;
     }
 
     if (need_stop) {
@@ -140,212 +143,16 @@ bool ProcessTask::run()
     return true;
 }
 
-std::shared_ptr<TaskInfo> ProcessTask::match_image(Rect* matched_rect)
-{
-    // 如果第一个任务就是JustReturn的，那就没必要截图了（截图还挺费时间的）
-    // 直接处理下然后返回
-    bool is_front_return = false;
-    if (m_cur_tasks_name.size() >= 1) {
-        auto front_ptr = TaskConfiger::get_instance().m_all_tasks_info[m_cur_tasks_name.front()];
-        if (front_ptr != nullptr
-            && front_ptr->algorithm == AlgorithmType::JustReturn) {
-            is_front_return = true;
-        }
-    }
-    cv::Mat cur_image;
-    if (!is_front_return) {
-        cur_image = m_controller_ptr->get_image();
-        if (cur_image.empty()) {
-            m_callback(AsstMsg::ImageIsEmpty, json::value(), m_callback_arg);
-            return nullptr;
-        }
-    }
-
-    std::unordered_set<TextArea> ocr_cache;
-    // 逐个匹配当前可能的任务
-    for (const std::string& task_name : m_cur_tasks_name) {
-        if (need_exit()) {
-            return nullptr;
-        }
-        std::shared_ptr<TaskInfo> task_info_ptr = TaskConfiger::get_instance().m_all_tasks_info[task_name];
-        if (task_info_ptr == nullptr) {	// 说明配置文件里没这个任务
-            m_callback(AsstMsg::PtrIsNull, json::value(), m_callback_arg);
-            continue;
-        }
-        json::value callback_json;
-        bool matched = false;
-        Rect rect;
-
-        switch (task_info_ptr->algorithm)
-        {
-        case AlgorithmType::JustReturn:
-            callback_json["algorithm"] = "JustReturn";
-            matched = true;
-            break;
-        case AlgorithmType::MatchTemplate:
-        {
-            std::shared_ptr<MatchTaskInfo> match_task_info_ptr =
-                std::dynamic_pointer_cast<MatchTaskInfo>(task_info_ptr);
-            double templ_threshold = match_task_info_ptr->templ_threshold;
-            double hist_threshold = match_task_info_ptr->hist_threshold;
-            double add_cache_thres = match_task_info_ptr->cache ? templ_threshold : Identify::NotAddCache;
-            cv::Mat identify_image;
-            const auto& identify_area = m_controller_ptr->shaped_correct(match_task_info_ptr->identify_area);
-            if (identify_area.width == 0) {
-                identify_image = cur_image;
-            }
-            else {
-                identify_image = cur_image(make_rect<cv::Rect>(identify_area));
-            }
-            auto&& [algorithm, score, temp_rect] =
-                m_identify_ptr->find_image(identify_image, task_name, add_cache_thres);
-            rect = std::move(temp_rect);
-            rect.x += identify_area.x;
-            rect.y += identify_area.y;
-            callback_json["value"] = score;
-
-            if (algorithm == AlgorithmType::MatchTemplate) {
-                callback_json["threshold"] = templ_threshold;
-                callback_json["algorithm"] = "MatchTemplate";
-                if (score >= templ_threshold) {
-                    matched = true;
-                }
-            }
-            else if (algorithm == AlgorithmType::CompareHist) {
-                callback_json["threshold"] = hist_threshold;
-                callback_json["algorithm"] = "CompareHist";
-                if (score >= hist_threshold) {
-                    matched = true;
-                }
-            }
-            else {
-                continue;
-            }
-        }
-        break;
-        case AlgorithmType::OcrDetect:
-        {
-            std::shared_ptr<OcrTaskInfo> ocr_task_info_ptr =
-                std::dynamic_pointer_cast<OcrTaskInfo>(task_info_ptr);
-            std::vector<TextArea> match_result;
-
-            // 处理ocr匹配结果
-            auto proc_match_result = [&](const Rect& rect_offset) -> bool {
-                if (!match_result.empty()) {
-                    callback_json["text"] = match_result.at(0).text;
-                    rect = match_result.at(0).rect;
-                    rect.x += rect_offset.x;
-                    rect.y += rect_offset.y;
-                    matched = true;
-                    return true;
-                }
-                else {
-                    matched = false;
-                    return false;
-                }
-            };
-
-            bool need_match = ocr_task_info_ptr->need_match;
-            const auto& identify_area = m_controller_ptr->shaped_correct(ocr_task_info_ptr->identify_area);
-
-            // 先从缓存里找找有没有（同一张图片，之前其他任务识别的），找到了直接就不识别了
-            std::vector<TextArea> temp_match;
-            if (need_match) {
-                temp_match = text_match(ocr_cache, ocr_task_info_ptr->text, ocr_task_info_ptr->replace_map);
-            }
-            else {
-                temp_match = text_search(ocr_cache, ocr_task_info_ptr->text, ocr_task_info_ptr->replace_map);
-            }
-            // 即使在缓存里找到了，也得在识别区域里才行，不然过滤掉
-            for (const TextArea& textarea : temp_match) {
-                if (identify_area.include(textarea.rect)) {
-                    match_result.emplace_back(textarea);
-                }
-            }
-            if (proc_match_result(Rect())) {
-                callback_json["algorithm"] = "OcrDetectCache";
-                break;
-            }
-
-            auto identify_roi = [&](const Rect roi) -> bool {
-                cv::Mat roi_image = cur_image(make_rect<cv::Rect>(roi));
-                std::vector<TextArea> all_text_area = ocr_detect(roi_image);
-                // 校正选区坐标，并加入ocr识别缓存
-                for (TextArea& textarea : all_text_area) {
-                    textarea.rect.x += roi.x;
-                    textarea.rect.y += roi.y;
-                    ocr_cache.emplace(textarea);
-                }
-                if (need_match) {
-                    match_result = text_match(all_text_area, ocr_task_info_ptr->text, ocr_task_info_ptr->replace_map);
-                }
-                else {
-                    match_result = text_search(all_text_area, ocr_task_info_ptr->text, ocr_task_info_ptr->replace_map);
-                }
-                return !match_result.empty();
-            };
-
-            // 先在历史区域里识别
-            for (const auto& history_area : ocr_task_info_ptr->history_area) {
-                Rect roi_rect = history_area.center_zoom(2.0, Configer::WindowWidthDefault, Configer::WindowHeightDefault);
-                if (identify_roi(roi_rect)) {
-                    callback_json["roi"] = make_rect<json::array>(roi_rect);
-                    break;
-                }
-            }
-            if (proc_match_result(Rect())) {
-                callback_json["algorithm"] = "OcrDetectRoi";
-                break;
-            }
-
-            // 如果历史区域里没识别到，那再在用完整的区域识别一次
-            identify_roi(identify_area);
-
-            // 把本次完整识别到的区域加入历史区域
-            if (ocr_task_info_ptr->cache) {
-                for (const auto& textarea : match_result) {
-                    ocr_task_info_ptr->history_area.emplace_back(textarea.rect);
-                }
-            }
-
-            if (proc_match_result(Rect())) {
-                callback_json["algorithm"] = "OcrDetect";
-                break;
-            }
-            callback_json["algorithm"] = "OcrDetectNotMatched";
-        }
-        break;
-        //CompareHist是MatchTemplate的衍生算法，不应作为单独的配置参数出现
-        //case AlgorithmType::CompareHist:
-        //	break;
-        default:
-            // TODO：抛个报错的回调出去
-            break;
-        }
-
-        callback_json["rect"] = make_rect<json::array>(rect);
-        callback_json["name"] = task_name;
-        if (matched_rect != NULL) {
-            *matched_rect = std::move(rect);
-        }
-        m_callback(AsstMsg::ImageFindResult, callback_json, m_callback_arg);
-        if (matched) {
-            m_callback(AsstMsg::ImageMatched, callback_json, m_callback_arg);
-            return task_info_ptr;
-        }
-    }
-    return nullptr;
-}
-
 // 随机延时功能
 bool asst::ProcessTask::delay_random()
 {
-    if (Configer::get_instance().m_options.control_delay_upper != 0) {
+    auto& opt = resource.cfg().get_options();
+    if (opt.control_delay_upper != 0) {
         static std::default_random_engine rand_engine(
             std::chrono::system_clock::now().time_since_epoch().count());
         static std::uniform_int_distribution<unsigned> rand_uni(
-            Configer::get_instance().m_options.control_delay_lower,
-            Configer::get_instance().m_options.control_delay_upper);
+            opt.control_delay_lower,
+            opt.control_delay_upper);
 
         unsigned rand_delay = rand_uni(rand_engine);
 
@@ -360,7 +167,7 @@ void ProcessTask::exec_click_task(const Rect& matched_rect)
         return;
     }
 
-    m_controller_ptr->click(matched_rect);
+    ctrler.click(matched_rect);
 }
 
 void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
@@ -368,23 +175,20 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
     if (!delay_random()) {
         return;
     }
-    const static Rect right_rect(Configer::WindowWidthDefault * 0.8,
-        Configer::WindowHeightDefault * 0.4,
-        Configer::WindowWidthDefault * 0.1,
-        Configer::WindowHeightDefault * 0.2);
+    auto& width = resource.cfg().WindowWidthDefault;
+    auto& height = resource.cfg().WindowWidthDefault;
 
-    const static Rect left_rect(Configer::WindowWidthDefault * 0.1,
-        Configer::WindowHeightDefault * 0.4,
-        Configer::WindowWidthDefault * 0.1,
-        Configer::WindowHeightDefault * 0.2);
+    const static Rect right_rect(width * 0.8, height * 0.4, width * 0.1, height * 0.2);
+
+    const static Rect left_rect(width * 0.1, height * 0.4, width * 0.1, height * 0.2);
 
     switch (action)
     {
     case asst::ProcessTaskAction::SwipeToTheLeft:
-        m_controller_ptr->swipe(left_rect, right_rect);
+        ctrler.swipe(left_rect, right_rect);
         break;
     case asst::ProcessTaskAction::SwipeToTheRight:
-        m_controller_ptr->swipe(right_rect, left_rect);
+        ctrler.swipe(right_rect, left_rect);
         break;
     default:	// 走不到这里，TODO 报个错
         break;

@@ -1,30 +1,20 @@
 ﻿#pragma once
 
-#include <string>
-#include <unordered_map>
-#include <memory>
+#include "AbstractResource.h"
 
-#include "AsstDef.h"
+#include <string>
 
 namespace json {
     class value;
 }
 
 namespace asst {
-    class AbstractConfiger
+    class AbstractConfiger : public AbstractResource
     {
     public:
         virtual ~AbstractConfiger() = default;
-        virtual bool load(const std::string& filename);
-
+        virtual bool load(const std::string& filename) override;
     protected:
-        AbstractConfiger() = default;
-        AbstractConfiger(const AbstractConfiger& rhs) = default;
-        AbstractConfiger(AbstractConfiger&& rhs) noexcept = default;
-
-        AbstractConfiger& operator=(const AbstractConfiger& rhs) = default;
-        AbstractConfiger& operator=(AbstractConfiger&& rhs) noexcept = default;
-
         virtual bool parse(const json::value& json) = 0;
     };
 }

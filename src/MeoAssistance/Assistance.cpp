@@ -6,113 +6,30 @@
 #include <json.h>
 #include <opencv2/opencv.hpp>
 
-#include "WinMacro.h"
-#include "Configer.h"
-#include "Identify.h"
+#include "Controller.h"
 #include "Logger.hpp"
 #include "AsstAux.h"
-#include "Task.h"
-#include "TaskConfiger.h"
-#include "ItemConfiger.h"
-#include "RecruitConfiger.h"
-#include "InfrastConfiger.h"
-#include "UserConfiger.h"
+#include "Resource.h"
 
 using namespace asst;
 
 Assistance::Assistance(AsstCallback callback, void* callback_arg)
     : m_callback(callback), m_callback_arg(callback_arg)
 {
-    DebugTraceFunction;
+    LogTraceFunction;
 
-    // 检查返回值，若为false则回调错误
-    auto callback_error = [&](const std::string& filename = std::string()) {
-        DebugTraceError("resource broken", filename);
+    bool resource_ret = resource.load(GetResourceDir());
+    if (!resource_ret) {
+        const std::string& error = resource.get_last_error();
+        log.error("resource broken", error);
         if (m_callback == nullptr) {
             return;
         }
         json::value callback_json;
-        callback_json["filename"] = filename;
-        callback_json["what"] = "resource broken";
+        callback_json["type"] = "resource broken";
+        callback_json["what"] = error;
         m_callback(AsstMsg::InitFaild, callback_json, m_callback_arg);
-    };
-
-    /* 项目本身的Configer */
-    bool ret = Configer::get_instance().load(GetResourceDir() + "config.json");
-    if (!ret) {
-        callback_error("config.json");
-        throw "resource broken";
     }
-    ret = TaskConfiger::get_instance().load(GetResourceDir() + "tasks.json");
-    if (!ret) {
-        callback_error("tasks.json");
-        throw "resource broken";
-    }
-    ret = RecruitConfiger::get_instance().load(GetResourceDir() + "recruit.json");
-    if (!ret) {
-        callback_error("recruit.json");
-        throw "resource broken";
-    }
-    ret = InfrastConfiger::get_instance().load(GetResourceDir() + "infrast.json");
-    if (!ret) {
-        callback_error("infrast.json");
-        throw "resource broken";
-    }
-    ret = ItemConfiger::get_instance().load(GetResourceDir() + "item_index.json");
-    if (!ret) {
-        callback_error("item_index.json");
-        throw "resource broken";
-    }
-
-    /* 项目使用的图片模板 */
-    m_identify_ptr = std::make_shared<Identify>();
-    for (const auto& [name, info] : TaskConfiger::get_instance().m_all_tasks_info) {
-        if (info->algorithm != AlgorithmType::MatchTemplate) {
-            continue;
-        }
-        std::string filename = std::dynamic_pointer_cast<MatchTaskInfo>(info)->template_filename;
-        ret = m_identify_ptr->add_image(name, GetResourceDir() + "template\\" + filename);
-        if (!ret) {
-            callback_error(filename);
-            throw "resource broken";
-        }
-    }
-    for (auto& p : std::filesystem::directory_iterator(GetResourceDir() + "template\\special\\")) {
-        if (p.path().extension() == ".png") {
-            std::string filename = p.path().filename().u8string();
-            std::string without_extension = filename.substr(0, filename.size() - 4);
-            ret = m_identify_ptr->add_image(without_extension, p.path().u8string());
-        }
-    }
-
-    /* 第三方库`OcrLite`所需资源*/
-    m_identify_ptr->set_ocr_param(Configer::get_instance().m_options.ocr_gpu_index, Configer::get_instance().m_options.ocr_thread_number);
-    ret = m_identify_ptr->ocr_init_models(GetResourceDir() + "OcrLiteOnnx\\models\\");
-    if (!ret) {
-        callback_error("OcrLiteOnnx\\models\\");
-        throw "resource broken";
-    }
-
-    /* 第三方库`penguin-stats-recognize`（企鹅物流掉落识别）所需资源*/
-    m_identify_ptr->penguin_load_server(Configer::get_instance().m_options.penguin_server);
-    m_identify_ptr->penguin_load_json(GetResourceDir() + "penguin-stats-recognize\\json\\stages.json", GetResourceDir() + "penguin-stats-recognize\\json\\hash_index.json");
-
-    for (const auto& file : std::filesystem::directory_iterator(GetResourceDir() + "penguin-stats-recognize\\items")) {
-        ret = m_identify_ptr->penguin_load_templ(file.path().stem().u8string(), file.path().u8string());
-        if (!ret) {
-            callback_error(file.path().stem().u8string());
-            throw "resource broken";
-        }
-    }
-
-    /* 用户配置 */
-    ret = UserConfiger::get_instance().load(GetCurrentDir() + "user.json");
-    if (!ret) {
-        callback_error("user.json");
-        throw "resource broken";
-    }
-
-    m_controller_ptr = std::make_shared<WinMacro>();
 
     m_working_thread = std::thread(std::bind(&Assistance::working_proc, this));
     m_msg_thread = std::thread(std::bind(&Assistance::msg_proc, this));
@@ -120,11 +37,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 
 Assistance::~Assistance()
 {
-    DebugTraceFunction;
-
-    //if (m_controller_ptr != nullptr) {
-    //	m_controller_ptr->show_window();
-    //}
+    LogTraceFunction;
 
     m_thread_exit = true;
     m_thread_idle = true;
@@ -141,15 +54,16 @@ Assistance::~Assistance()
 
 bool asst::Assistance::catch_default()
 {
-    DebugTraceFunction;
+    LogTraceFunction;
 
-    switch (Configer::get_instance().m_options.connect_type) {
+    auto& opt = resource.cfg().get_options();
+    switch (opt.connect_type) {
     case ConnectType::Emulator:
         return catch_emulator();
     case ConnectType::USB:
         return catch_usb();
     case ConnectType::Remote:
-        return catch_remote(Configer::get_instance().m_options.connect_remote_address);
+        return catch_remote(opt.connect_remote_address);
     default:
         return false;
     }
@@ -157,19 +71,20 @@ bool asst::Assistance::catch_default()
 
 bool Assistance::catch_emulator(const std::string& emulator_name)
 {
-    DebugTraceFunction;
+    LogTraceFunction;
 
     stop();
 
     bool ret = false;
     //std::string cor_name = emulator_name;
+    auto& cfg = resource.cfg();
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
     // 自动匹配模拟器，逐个找
     if (emulator_name.empty()) {
-        for (const auto& [name, info] : Configer::get_instance().m_handles) {
-            ret = m_controller_ptr->try_capture(info);
+        for (const auto& [name, info] : cfg.get_emulators_info()) {
+            ret = ctrler.try_capture(info);
             if (ret) {
                 //cor_name = name;
                 break;
@@ -177,7 +92,8 @@ bool Assistance::catch_emulator(const std::string& emulator_name)
         }
     }
     else { // 指定的模拟器
-        ret = m_controller_ptr->try_capture(Configer::get_instance().m_handles[emulator_name]);
+        auto& info = cfg.get_emulators_info().at(emulator_name);
+        ret = ctrler.try_capture(info);
     }
 
     m_inited = ret;
@@ -186,17 +102,18 @@ bool Assistance::catch_emulator(const std::string& emulator_name)
 
 bool asst::Assistance::catch_usb()
 {
-    DebugTraceFunction;
+    LogTraceFunction;
 
     stop();
 
     bool ret = false;
+    auto& cfg = resource.cfg();
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    EmulatorInfo remote_info = Configer::get_instance().m_handles["USB"];
+    EmulatorInfo remote_info = cfg.get_emulators_info().at("USB");
 
-    ret = m_controller_ptr->try_capture(remote_info, true);
+    ret = ctrler.try_capture(remote_info, true);
 
     m_inited = ret;
     return ret;
@@ -204,22 +121,23 @@ bool asst::Assistance::catch_usb()
 
 bool asst::Assistance::catch_remote(const std::string& address)
 {
-    DebugTraceFunction;
+    LogTraceFunction;
 
     stop();
 
     bool ret = false;
+    auto& cfg = resource.cfg();
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    EmulatorInfo remote_info = Configer::get_instance().m_handles["Remote"];
+    EmulatorInfo remote_info = cfg.get_emulators_info().at("Remote");
     remote_info.adb.connect = StringReplaceAll(remote_info.adb.connect, "[Address]", address);
     remote_info.adb.click = StringReplaceAll(remote_info.adb.click, "[Address]", address);
     remote_info.adb.swipe = StringReplaceAll(remote_info.adb.swipe, "[Address]", address);
     remote_info.adb.display = StringReplaceAll(remote_info.adb.display, "[Address]", address);
     remote_info.adb.screencap = StringReplaceAll(remote_info.adb.screencap, "[Address]", address);
 
-    ret = m_controller_ptr->try_capture(remote_info, true);
+    ret = ctrler.try_capture(remote_info, true);
 
     m_inited = ret;
     return ret;
@@ -232,13 +150,13 @@ bool asst::Assistance::start_sanity()
 
 bool asst::Assistance::start_visit(bool with_shopping)
 {
-    DebugTraceFunction;
+    LogTraceFunction;
     if (!m_thread_idle || !m_inited) {
         return false;
     }
 
     std::unique_lock<std::mutex> lock(m_mutex);
-    m_identify_ptr->clear_cache();
+    resource.templ().clear_hists();
 
     append_match_task("VisitBegin", { "VisitBegin" }, ProcessTaskRetryTimesDefault);
 
@@ -256,8 +174,8 @@ bool asst::Assistance::start_visit(bool with_shopping)
 
 bool Assistance::start_process_task(const std::string& task, int retry_times, bool block)
 {
-    DebugTraceFunction;
-    DebugTrace("Start |", task, block ? "block" : "non block");
+    LogTraceFunction;
+    log.trace("Start |", task, block ? "block" : "non block");
     if (!m_thread_idle || !m_inited) {
         return false;
     }
@@ -266,7 +184,7 @@ bool Assistance::start_process_task(const std::string& task, int retry_times, bo
     if (block) {
         lock = std::unique_lock<std::mutex>(m_mutex);
         //clear_exec_times();
-        m_identify_ptr->clear_cache();
+        resource.templ().clear_hists();
     }
 
     append_match_task(task, { task }, retry_times);
@@ -280,7 +198,7 @@ bool Assistance::start_process_task(const std::string& task, int retry_times, bo
 #ifdef LOG_TRACE
 bool Assistance::start_debug_task()
 {
-    DebugTraceFunction;
+    LogTraceFunction;
     if (!m_thread_idle || !m_inited) {
         return false;
     }
@@ -296,7 +214,7 @@ bool Assistance::start_debug_task()
 
     //	auto ret = get_opers_idtf_result();
     //	if (!ret) {
-    //		DebugTraceInfo("Get opers info error");
+    //		log.info("Get opers info error");
     //		//return false;
     //	}
     //	else {
@@ -307,7 +225,7 @@ bool Assistance::start_debug_task()
     //}
     {
         constexpr static const char* DebugTaskChain = "Debug";
-        auto shift_task_ptr = std::make_shared<ScreenCaptureTask>(task_callback, (void*)this);
+        auto shift_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this);
         shift_task_ptr->set_task_chain(DebugTaskChain);
         m_tasks_deque.emplace_back(shift_task_ptr);
     }
@@ -319,16 +237,16 @@ bool Assistance::start_debug_task()
 }
 #endif
 
-bool Assistance::start_open_recruit(const std::vector<int>& required_level, bool set_time)
+bool Assistance::start_recruiting(const std::vector<int>& required_level, bool set_time)
 {
-    DebugTraceFunction;
+    LogTraceFunction;
     if (!m_thread_idle || !m_inited) {
         return false;
     }
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    auto task_ptr = std::make_shared<OpenRecruitTask>(task_callback, (void*)this);
+    auto task_ptr = std::make_shared<RecruitTask>(task_callback, (void*)this);
     task_ptr->set_param(required_level, set_time);
     task_ptr->set_retry_times(OpenRecruitTaskRetyrTimesDefault);
     task_ptr->set_task_chain("OpenRecruit");
@@ -340,130 +258,130 @@ bool Assistance::start_open_recruit(const std::vector<int>& required_level, bool
     return true;
 }
 
-bool asst::Assistance::start_to_identify_opers()
-{
-    DebugTraceFunction;
-    if (!m_thread_idle || !m_inited) {
-        return false;
-    }
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    append_match_task("IdentifyOpers", { "OperatorBegin" });
-
-    auto task_ptr = std::make_shared<IdentifyOperTask>(task_callback, (void*)this);
-    task_ptr->set_task_chain("IdentifyOpers");
-    m_tasks_deque.emplace_back(task_ptr);
-
-    m_thread_idle = false;
-    m_condvar.notify_one();
-
-    return true;
-}
-
-bool asst::Assistance::start_infrast()
-{
-    DebugTraceFunction;
-    if (!m_thread_idle || !m_inited) {
-        return false;
-    }
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-    auto ret = get_opers_idtf_result();
-    if (!ret) {
-        DebugTraceInfo("Get opers info error");
-        return false;
-    }
-    constexpr static const char* InfrastTaskCahin = "Infrast";
-    // 换班任务，依次遍历基建设施列表里的最多5个设施，识别并选择最优解干员组合
-    auto shift_task_ptr = std::make_shared<InfrastProductionTask>(task_callback, (void*)this);
-    shift_task_ptr->set_task_chain(InfrastTaskCahin);
-    shift_task_ptr->set_all_opers_info(std::move(ret.value()));
-
-    /* 基建任务整体流程：
-    1. 从任意界面进入基建，使用ProcessTask
-    2. 一键收获贸易站、制造站、干员信赖，使用ProcessTask
-        1) 如果收获了，使用基建全缩放到最小的模板匹配
-        2) 如果没收获，使用基建默认大小的模板匹配
-    3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去，使用InfrastDormTask
-    4. 根据用户设置，按顺序进入制造站or贸易站，使用ProcessTask
-    5. 对制造站or贸易站进行换班，使用InfrastStationTask
-    6. 根据用户设置，使用无人机加速制造or贸易，使用ProcessTask
-    7. 会客室线索处理、发电站换班、控制中枢、办公室换班，同样需要根据用户设置决定顺序，TODO
-    8. 再次进入宿舍，把基建中可能换下来的干员（心情不低的）加入宿舍
-    */
-
-    // 1. 从任意界面进入基建，使用ProcessTask
-    // 2. 一键收获贸易站、制造站、干员信赖，使用ProcessTask
-    // 这个任务结束后，是在进入基建后的主界面
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    // 3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去
-    auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
-    dorm_task_ptr->set_task_chain(InfrastTaskCahin);
-    m_tasks_deque.emplace_back(dorm_task_ptr);
-
-    // 返回基建的主界面
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    // 5. 对制造站or贸易站进行换班，使用InfrastStationTask
-
-    // TODO，这里需要根据用户设置，是先制造站还是先贸易站，或者是别的设施
-    // 从进入制造站，到设施列表的界面
-    append_match_task(InfrastTaskCahin, { "ManufacturingMini", "Manufacturing" });
-
-    // 制造站换班
-    m_tasks_deque.emplace_back(shift_task_ptr);
-
-    // 返回基建的主界面
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    // TODO，这里需要根据用户设置，是先制造站还是先贸易站，或者是别的设施
-    // 从进入贸易站，到设施列表的界面
-    append_match_task(InfrastTaskCahin, { "Trade", "TradeMini" });
-
-    // 贸易站换班
-    m_tasks_deque.emplace_back(shift_task_ptr);
-
-    // 6. 根据用户设置，使用无人机加速制造or贸易，使用ProcessTask
-    // 对贸易站使用无人机加速
-    append_match_task(InfrastTaskCahin, { "UavAssist-Trade" });
-
-    // 返回基建的主界面
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    // 7. 会客室线索处理、发电站换班、控制中枢、办公室换班，同样需要根据用户设置决定顺序，TODO
-    // 发电站换班
-    auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
-    power_task_ptr->set_task_chain(InfrastTaskCahin);
-    m_tasks_deque.emplace_back(std::move(power_task_ptr));
-
-    // 返回基建的主界面
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
-    office_task_ptr->set_task_chain(InfrastTaskCahin);
-    m_tasks_deque.emplace_back(std::move(office_task_ptr));
-
-    // 返回基建的主界面
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    // 8. 再次进入宿舍，把基建中可能换下来的干员（心情不低的）加入宿舍
-    m_tasks_deque.emplace_back(dorm_task_ptr);
-
-    // 全操作完之后，再返回基建的主界面
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    m_thread_idle = false;
-    m_condvar.notify_one();
-
-    return true;
-}
+//bool asst::Assistance::start_to_identify_opers()
+//{
+//    LogTraceFunction;
+//    if (!m_thread_idle || !m_inited) {
+//        return false;
+//    }
+//
+//    std::unique_lock<std::mutex> lock(m_mutex);
+//
+//    append_match_task("IdentifyOpers", { "OperatorBegin" });
+//
+//    auto task_ptr = std::make_shared<IdentifyOperTask>(task_callback, (void*)this);
+//    task_ptr->set_task_chain("IdentifyOpers");
+//    m_tasks_deque.emplace_back(task_ptr);
+//
+//    m_thread_idle = false;
+//    m_condvar.notify_one();
+//
+//    return true;
+//}
+//
+//bool asst::Assistance::start_infrast()
+//{
+//    LogTraceFunction;
+//    if (!m_thread_idle || !m_inited) {
+//        return false;
+//    }
+//
+//    std::unique_lock<std::mutex> lock(m_mutex);
+//    auto ret = get_opers_idtf_result();
+//    if (!ret) {
+//        log.info("Get opers info error");
+//        return false;
+//    }
+//    constexpr static const char* InfrastTaskCahin = "Infrast";
+//    // 换班任务，依次遍历基建设施列表里的最多5个设施，识别并选择最优解干员组合
+//    auto shift_task_ptr = std::make_shared<InfrastProductionTask>(task_callback, (void*)this);
+//    shift_task_ptr->set_task_chain(InfrastTaskCahin);
+//    shift_task_ptr->set_all_opers_info(std::move(ret.value()));
+//
+//    /* 基建任务整体流程：
+//    1. 从任意界面进入基建，使用ProcessTask
+//    2. 一键收获贸易站、制造站、干员信赖，使用ProcessTask
+//        1) 如果收获了，使用基建全缩放到最小的模板匹配
+//        2) 如果没收获，使用基建默认大小的模板匹配
+//    3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去，使用InfrastDormTask
+//    4. 根据用户设置，按顺序进入制造站or贸易站，使用ProcessTask
+//    5. 对制造站or贸易站进行换班，使用InfrastStationTask
+//    6. 根据用户设置，使用无人机加速制造or贸易，使用ProcessTask
+//    7. 会客室线索处理、发电站换班、控制中枢、办公室换班，同样需要根据用户设置决定顺序，TODO
+//    8. 再次进入宿舍，把基建中可能换下来的干员（心情不低的）加入宿舍
+//    */
+//
+//    // 1. 从任意界面进入基建，使用ProcessTask
+//    // 2. 一键收获贸易站、制造站、干员信赖，使用ProcessTask
+//    // 这个任务结束后，是在进入基建后的主界面
+//    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+//
+//    // 3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去
+//    auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
+//    dorm_task_ptr->set_task_chain(InfrastTaskCahin);
+//    m_tasks_deque.emplace_back(dorm_task_ptr);
+//
+//    // 返回基建的主界面
+//    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+//
+//    // 5. 对制造站or贸易站进行换班，使用InfrastStationTask
+//
+//    // TODO，这里需要根据用户设置，是先制造站还是先贸易站，或者是别的设施
+//    // 从进入制造站，到设施列表的界面
+//    append_match_task(InfrastTaskCahin, { "ManufacturingMini", "Manufacturing" });
+//
+//    // 制造站换班
+//    m_tasks_deque.emplace_back(shift_task_ptr);
+//
+//    // 返回基建的主界面
+//    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+//
+//    // TODO，这里需要根据用户设置，是先制造站还是先贸易站，或者是别的设施
+//    // 从进入贸易站，到设施列表的界面
+//    append_match_task(InfrastTaskCahin, { "Trade", "TradeMini" });
+//
+//    // 贸易站换班
+//    m_tasks_deque.emplace_back(shift_task_ptr);
+//
+//    // 6. 根据用户设置，使用无人机加速制造or贸易，使用ProcessTask
+//    // 对贸易站使用无人机加速
+//    append_match_task(InfrastTaskCahin, { "UavAssist-Trade" });
+//
+//    // 返回基建的主界面
+//    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+//
+//    // 7. 会客室线索处理、发电站换班、控制中枢、办公室换班，同样需要根据用户设置决定顺序，TODO
+//    // 发电站换班
+//    auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
+//    power_task_ptr->set_task_chain(InfrastTaskCahin);
+//    m_tasks_deque.emplace_back(std::move(power_task_ptr));
+//
+//    // 返回基建的主界面
+//    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+//
+//    auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
+//    office_task_ptr->set_task_chain(InfrastTaskCahin);
+//    m_tasks_deque.emplace_back(std::move(office_task_ptr));
+//
+//    // 返回基建的主界面
+//    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+//
+//    // 8. 再次进入宿舍，把基建中可能换下来的干员（心情不低的）加入宿舍
+//    m_tasks_deque.emplace_back(dorm_task_ptr);
+//
+//    // 全操作完之后，再返回基建的主界面
+//    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+//
+//    m_thread_idle = false;
+//    m_condvar.notify_one();
+//
+//    return true;
+//}
 
 void Assistance::stop(bool block)
 {
-    DebugTraceFunction;
-    DebugTrace("Stop |", block ? "block" : "non block");
+    LogTraceFunction;
+    log.trace("Stop |", block ? "block" : "non block");
 
     m_thread_idle = true;
 
@@ -474,36 +392,35 @@ void Assistance::stop(bool block)
     decltype(m_tasks_deque) empty;
     m_tasks_deque.swap(empty);
     clear_exec_times();
-    m_identify_ptr->clear_cache();
+    resource.templ().clear_hists();
 }
 
 bool Assistance::set_param(const std::string& type, const std::string& param, const std::string& value)
 {
-    DebugTraceFunction;
-    DebugTrace("SetParam |", type, param, value);
+    LogTraceFunction;
+    log.trace("SetParam |", type, param, value);
 
-    return TaskConfiger::get_instance().set_param(type, param, value);
+    return resource.task().set_param(type, param, value);
 }
 
 void Assistance::working_proc()
 {
-    DebugTraceFunction;
+    LogTraceFunction;
     auto p_this = this;
 
     int retry_times = 0;
     while (!m_thread_exit) {
-        //DebugTraceScope("Assistance::working_proc Loop");
+        //LogTraceScope("Assistance::working_proc Loop");
         std::unique_lock<std::mutex> lock(m_mutex);
 
         if (!m_thread_idle && !m_tasks_deque.empty()) {
-            //m_controller_ptr->set_idle(false);
+            //controller.set_idle(false);
 
             auto start_time = std::chrono::system_clock::now();
             std::shared_ptr<AbstractTask> task_ptr = m_tasks_deque.front();
             // 先pop出来，如果执行失败再还原回去
             m_tasks_deque.pop_front();
 
-            task_ptr->set_ptr(m_controller_ptr, m_identify_ptr);
             task_ptr->set_exit_flag(&m_thread_idle);
             bool ret = task_ptr->run();
             if (ret) {
@@ -534,13 +451,13 @@ void Assistance::working_proc()
                 }
             }
 
-            int& delay = Configer::get_instance().m_options.task_delay;
+            auto& delay = resource.cfg().get_options().task_delay;
             m_condvar.wait_until(lock, start_time + std::chrono::milliseconds(delay),
                 [&]() -> bool { return m_thread_idle; });
         }
         else {
             m_thread_idle = true;
-            //m_controller_ptr->set_idle(true);
+            //controller.set_idle(true);
             m_condvar.wait(lock);
         }
     }
@@ -548,10 +465,10 @@ void Assistance::working_proc()
 
 void Assistance::msg_proc()
 {
-    DebugTraceFunction;
+    LogTraceFunction;
 
     while (!m_thread_exit) {
-        //DebugTraceScope("Assistance::msg_proc Loop");
+        //LogTraceScope("Assistance::msg_proc Loop");
         std::unique_lock<std::mutex> lock(m_msg_mutex);
         if (!m_msg_queue.empty()) {
             // 结构化绑定只能是引用，后续的pop会使引用失效，所以需要重新构造一份，这里采用了move的方式
@@ -573,7 +490,7 @@ void Assistance::msg_proc()
 
 void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
 {
-    DebugTrace("Assistance::task_callback |", msg, detail.to_string());
+    log.trace("Assistance::task_callback |", msg, detail.to_string());
 
     Assistance* p_this = (Assistance*)custom_arg;
     json::value more_detail = detail;
@@ -583,7 +500,7 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
         p_this->stop(false);
         break;
         //case AsstMsg::WindowMinimized:
-        //	p_this->m_controller_ptr->show_window();
+        //	p_this->controller.show_window();
         //	break;
     case AsstMsg::AppendProcessTask:
         more_detail["type"] = "ProcessTask";
@@ -591,9 +508,6 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
     case AsstMsg::AppendTask:
         p_this->append_task(more_detail, true);
         return;	// 这俩消息Assistance会新增任务，外部不需要处理，直接拦掉
-        break;
-    case AsstMsg::OpersIdtfResult:
-        set_opers_idtf_result(more_detail);	// 保存到文件
         break;
     case AsstMsg::StageDrops:
         more_detail = p_this->organize_stage_drop(more_detail);
@@ -653,70 +567,26 @@ void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
 
 void Assistance::clear_exec_times()
 {
-    for (auto&& pair : TaskConfiger::get_instance().m_all_tasks_info) {
-        pair.second->exec_times = 0;
-    }
-    ItemConfiger::get_instance().clear_drop_count();
-}
-
-void asst::Assistance::set_opers_idtf_result(const json::value& detail)
-{
-    constexpr static const char* Filename = "operators.json";
-    std::ofstream ofs(GetCurrentDir() + Filename, std::ios::out);
-    ofs << detail.format() << std::endl;
-    ofs.close();
-}
-
-std::optional<std::unordered_map<std::string, OperInfrastInfo>> Assistance::get_opers_idtf_result()
-{
-    constexpr static const char* Filename = "operators.json";
-    std::ifstream ifs(GetCurrentDir() + Filename, std::ios::in);
-    if (!ifs.is_open()) {
-        return std::nullopt;
-    }
-    std::stringstream iss;
-    iss << ifs.rdbuf();
-    ifs.close();
-    std::string content(iss.str());
-
-    auto&& parse_ret = json::parse(content);
-    if (!parse_ret) {
-        DebugTraceError(__FUNCTION__, "json parsing error!");
-        return std::nullopt;
-    }
-    json::value root = std::move(parse_ret.value());
-    std::unordered_map<std::string, OperInfrastInfo> opers_info;
-    try {
-        for (const json::value& info_json : root["all"].as_array()) {
-            OperInfrastInfo info;
-            info.name = info_json.at("name").as_string();
-            info.elite = info_json.at("elite").as_integer();
-            info.level = info_json.get("level", 0);
-            opers_info.emplace(info.name, std::move(info));
-        }
-    }
-    catch (json::exception& exp) {
-        DebugTraceError(__FUNCTION__, "json parsing error!", exp.what());
-        return std::nullopt;
-    }
-    return opers_info;
+    resource.task().clear_exec_times();
+    resource.item().clear_drop_count();
 }
 
 json::value asst::Assistance::organize_stage_drop(const json::value& rec)
 {
     json::value dst = rec;
+    auto& item = resource.item();
     for (json::value& drop : dst["drops"].as_array()) {
         std::string id = drop["itemId"].as_string();
         int quantity = drop["quantity"].as_integer();
-        ItemConfiger::get_instance().m_drop_count[id] += quantity;
-        const std::string& name = ItemConfiger::get_instance().m_item_name[id];
+        item.increase_drop_count(id, quantity);
+        const std::string& name = item.get_item_name(id);
         drop["itemName"] = name.empty() ? "未知材料" : name;
     }
     std::vector<json::value> statistics_vec;
-    for (auto&& [id, count] : ItemConfiger::get_instance().m_drop_count) {
+    for (auto&& [id, count] : item.get_drop_count()) {
         json::value info;
         info["itemId"] = id;
-        const std::string& name = ItemConfiger::get_instance().m_item_name[id];
+        const std::string& name = item.get_item_name(id);
         info["itemName"] = name.empty() ? "未知材料" : name;
         info["count"] = count;
         statistics_vec.emplace_back(std::move(info));
@@ -730,7 +600,7 @@ json::value asst::Assistance::organize_stage_drop(const json::value& rec)
 
     dst["statistics"] = json::array(std::move(statistics_vec));
 
-    DebugTrace("organize_stage_drop | ", dst.to_string());
+    log.trace("organize_stage_drop | ", dst.to_string());
 
     return dst;
 }

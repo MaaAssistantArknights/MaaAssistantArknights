@@ -6,9 +6,7 @@
 
 #include <opencv2/opencv.hpp>
 
-#include "WinMacro.h"
-#include "Identify.h"
-#include "Configer.h"
+#include "Controller.h"
 #include "AsstAux.h"
 #include "Logger.hpp"
 
@@ -19,14 +17,6 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg)
     m_callback_arg(callback_arg)
 {
     ;
-}
-
-void AbstractTask::set_ptr(
-    std::shared_ptr<WinMacro> controller_ptr,
-    std::shared_ptr<Identify> identify_ptr)
-{
-    m_controller_ptr = controller_ptr;
-    m_identify_ptr = identify_ptr;
 }
 
 void AbstractTask::set_exit_flag(bool* exit_flag)
@@ -81,20 +71,10 @@ bool asst::AbstractTask::need_exit() const noexcept
     return m_exit_flag != NULL && *m_exit_flag == true;
 }
 
-bool asst::AbstractTask::is_ptr_inited() const noexcept
-{
-    if (m_controller_ptr == NULL
-        || m_identify_ptr == NULL)
-    {
-        return false;
-    }
-    return true;
-}
-
 bool asst::AbstractTask::click_return_button()
 {
-    DebugTraceFunction;
+    LogTraceFunction;
 
     const static Rect ConfirmButtonRect(20, 20, 135, 35);
-    return m_controller_ptr->click(ConfirmButtonRect);
+    return ctrler.click(ConfirmButtonRect);
 }

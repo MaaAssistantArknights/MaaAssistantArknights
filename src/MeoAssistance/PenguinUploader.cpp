@@ -1,10 +1,10 @@
-#include "PenguinUploader.h"
+﻿#include "PenguinUploader.h"
 
 #include <Windows.h>
 
 #include <json.h>
 
-#include "Configer.h"
+#include "Resource.h"
 #include "Version.h"
 #include "Logger.hpp"
 #include "AsstAux.h"
@@ -25,7 +25,7 @@ std::string asst::PenguinUploader::cvt_json(const std::string& rec_res)
 
     // Doc: https://developer.penguin-stats.io/public-api/api-v2-instruction/report-api
     json::value body;
-    body["server"] = Configer::get_instance().m_options.penguin_server;
+    body["server"] = resource.cfg().get_options().penguin_server;
     body["stageId"] = rec["stage"]["stageId"];
     body["drops"] = rec["drops"];
     body["source"] = "MeoAssistance";
@@ -37,9 +37,9 @@ std::string asst::PenguinUploader::cvt_json(const std::string& rec_res)
 bool asst::PenguinUploader::request_penguin(const std::string& body)
 {
     std::string curl_cmd = R"(curl -H "Content-Type: application/json" -v -i )";
-    curl_cmd += "-d \"" + StringReplaceAll(body, "\"", "\\\"") + "\" \"" + Configer::get_instance().m_options.penguin_api + '"';
+    curl_cmd += "-d \"" + StringReplaceAll(body, "\"", "\\\"") + "\" \"" + resource.cfg().get_options().penguin_api + '"';
 
-    DebugTrace("request_penguin |", curl_cmd);
+    log.trace("request_penguin |", curl_cmd);
 
     SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
     pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -79,7 +79,7 @@ bool asst::PenguinUploader::request_penguin(const std::string& body)
 
         DWORD exit_ret = -1;
         ::GetExitCodeProcess(pi.hProcess, &exit_ret);
-        DebugTrace("curl say:", pipe_str);
+        log.trace("curl say:", pipe_str);
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
     }
