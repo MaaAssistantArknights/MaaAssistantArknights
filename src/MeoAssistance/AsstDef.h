@@ -62,6 +62,12 @@ namespace asst {
                 && (x + width) >= (rhs.x + rhs.width)
                 && (y + height) >= (rhs.y + rhs.height);
         }
+        std::string to_string() const {
+            return "[" + std::to_string(x) + ", "
+                + std::to_string(y) + ", "
+                + std::to_string(width) + ", "
+                + std::to_string(height) + " ]";
+        }
 
         int x = 0;
         int y = 0;
@@ -76,6 +82,9 @@ namespace asst {
 
         explicit operator std::string() const noexcept { return text; }
         explicit operator Rect() const noexcept { return rect; }
+        std::string to_string() const {
+            return text + " : " + rect.to_string();
+        }
         TextRect& operator=(const TextRect&) = default;
         TextRect& operator=(TextRect&&) noexcept = default;
         bool operator==(const TextRect& rhs) const noexcept {

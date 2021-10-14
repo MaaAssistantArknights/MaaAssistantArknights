@@ -4,6 +4,7 @@
 #include <OcrLiteOnnx/OcrLiteCaller.h>
 
 #include "AsstUtils.hpp"
+#include "Logger.hpp"
 
 asst::OcrPack::OcrPack()
     : m_ocr_ptr(std::make_unique<OcrLiteCaller>())
@@ -49,6 +50,8 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, cons
         unClipRatio, doAngle, mostAngle);
 
     std::vector<TextRect> result;
+    std::string log_str_raw;
+    std::string log_str_proc;
     for (TextBlock& text_block : ocr_results.textBlocks) {
         if (text_block.boxPoint.size() != 4) {
             continue;
@@ -61,20 +64,24 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, cons
         int width = text_block.boxPoint.at(1).x - x;
         int height = text_block.boxPoint.at(3).y - y;
 
-        TextRect ta{ std::move(text_block.text), Rect(x, y, width, height) };
-        if (!pred || pred(ta)) {
-            result.emplace_back(std::move(ta));
+        TextRect tr{ std::move(text_block.text), Rect(x, y, width, height) };
+        log_str_raw += (std::string)tr + ", ";
+        if (!pred || pred(tr)) {
+            log_str_proc += tr.to_string() + ", ";
+            result.emplace_back(std::move(tr));
         }
     }
+    log.trace("OcrPack::recognize | raw : ", log_str_raw);
+    log.trace("OcrPack::recognize | proc : ", log_str_proc);
     return result;
 }
 
 std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, const asst::Rect & roi, const asst::TextRectProc & pred)
 {
-    auto rect_cor = [&roi, &pred](TextRect& ta) -> bool {
-        ta.rect.x += roi.x;
-        ta.rect.y += roi.y;
-        return pred(ta);
+    auto rect_cor = [&roi, &pred](TextRect& tr) -> bool {
+        tr.rect.x += roi.x;
+        tr.rect.y += roi.y;
+        return pred(tr);
     };
     return recognize(image(utils::make_rect<cv::Rect>(roi)), rect_cor);
 }
