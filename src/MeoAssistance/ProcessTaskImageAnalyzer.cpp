@@ -4,6 +4,7 @@
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
 #include "AsstUtils.hpp"
+#include "Logger.hpp"
 
 asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name)
     : AbstractImageAnalyzer(image),
@@ -58,6 +59,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
             if (flag && ocr_task_ptr->roi.include(tr.rect)) {
                 m_result = ocr_task_ptr;
                 m_result_rect = tr.rect;
+                log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in cache", tr.to_string());
                 return true;
             }
         }
@@ -76,8 +78,11 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
         const auto& ocr_result = m_ocr_analyzer->get_result();
         m_ocr_cache.insert(m_ocr_cache.end(), ocr_result.begin(), ocr_result.end());
         if (ret) {
+            auto& res = ocr_result.front();
             m_result = ocr_task_ptr;
-            m_result_rect = ocr_result.front().rect;
+            m_result_rect = res.rect;
+            ocr_task_ptr->region_of_appeared.emplace_back(res.rect);
+            log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found", res.to_string(), "roi :", roi.to_string());
             return true;
         }
         return false;
@@ -85,8 +90,11 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
 
     // 在曾经识别到过的历史区域里识别
     for (const Rect& region : ocr_task_ptr->region_of_appeared) {
-        bool ret = analyze_roi(region.center_zoom(2.0));
+        static auto& max_width = resource.cfg().WindowWidthDefault;
+        static auto& max_height = resource.cfg().WindowHeightDefault;
+        bool ret = analyze_roi(region.center_zoom(2.0, max_width, max_height));
         if (ret) {
+            log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in appeared");
             return true;
         }
     }
