@@ -14,11 +14,11 @@ namespace asst {
             return m_result;
         }
     protected:
-        bool credit_point_analyze();
         bool commoditys_analyze();
+        bool whether_to_buy_analyze();
         bool sold_out_analyze();
 
-        std::vector<Rect> m_credit_points;
+        std::vector<Rect> m_commoditys;
         std::vector<Rect> m_need_to_buy;
         std::vector<Rect> m_result;
     };

@@ -11,6 +11,7 @@ namespace asst {
 
         virtual bool analyze() override;
 
+        void sort_result();
         void set_templ_name(std::string templ_name) noexcept {
             m_templ_name = std::move(templ_name);
         }
