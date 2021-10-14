@@ -60,7 +60,7 @@
     <ClInclude Include="AsstDef.h">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="AsstAux.h">
+    <ClInclude Include="AsstUtils.hpp">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Version.h">

@@ -1,7 +1,7 @@
 ﻿#include "OcrImageAnalyzer.h"
 
 #include "Resource.h"
-#include "AsstAux.h"
+#include "AsstUtils.hpp"
 #include "Logger.hpp"
 
 bool asst::OcrImageAnalyzer::analyze()
@@ -11,7 +11,7 @@ bool asst::OcrImageAnalyzer::analyze()
     if (!m_replace.empty()) {
         TextRectProc text_replace = [&](TextRect& tr) -> bool {
             for (const auto& [old_str, new_str] : m_replace) {
-                tr.text = StringReplaceAll(tr.text, old_str, new_str);
+                tr.text = utils::string_replace_all(tr.text, old_str, new_str);
             }
             return true;
         };

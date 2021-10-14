@@ -1,7 +1,7 @@
-#include "MatchImageAnalyzer.h"
+﻿#include "MatchImageAnalyzer.h"
 
 #include "Resource.h"
-#include "AsstAux.h"
+#include "AsstUtils.hpp"
 #include "Logger.hpp"
 
 asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name, double templ_thres, double hist_thres)
@@ -30,7 +30,7 @@ bool asst::MatchImageAnalyzer::analyze()
     }
     if (match_templ(templ)) {
         if (m_use_cache) {
-            resource.templ().emplace_hist(m_templ_name, to_hist(templ), make_rect<cv::Rect>(m_result.rect));
+            resource.templ().emplace_hist(m_templ_name, to_hist(templ), utils::make_rect<cv::Rect>(m_result.rect));
         }
         return true;
     }
@@ -56,7 +56,7 @@ cv::Mat asst::MatchImageAnalyzer::to_hist(const cv::Mat& src)
 bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
 {
     cv::Mat matched;
-    cv::matchTemplate(m_image(make_rect<cv::Rect>(m_roi)), templ, matched, cv::TM_CCOEFF_NORMED);
+    cv::matchTemplate(m_image(utils::make_rect<cv::Rect>(m_roi)), templ, matched, cv::TM_CCOEFF_NORMED);
 
     double min_val = 0.0, max_val = 0.0;
     cv::Point min_loc, max_loc;
@@ -76,7 +76,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
 
 bool asst::MatchImageAnalyzer::comp_hist(const cv::Mat& hist, const cv::Rect roi)
 {
-    cv::Mat roi_image = m_image(make_rect<cv::Rect>(m_roi))(roi);
+    cv::Mat roi_image = m_image(utils::make_rect<cv::Rect>(m_roi))(roi);
     double score = 1.0 - cv::compareHist(to_hist(roi_image), hist, cv::HISTCMP_BHATTACHARYYA);
 
     log.trace("comp_hist | score:", score);

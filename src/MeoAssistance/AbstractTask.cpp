@@ -7,7 +7,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "Controller.h"
-#include "AsstAux.h"
+#include "AsstUtils.hpp"
 #include "Logger.hpp"
 
 using namespace asst;
@@ -52,7 +52,7 @@ bool AbstractTask::sleep(unsigned millisecond)
 bool AbstractTask::save_image(const cv::Mat& image, const std::string& dir)
 {
     std::filesystem::create_directory(dir);
-    const std::string time_str = StringReplaceAll(StringReplaceAll(GetFormatTimeString(), " ", "_"), ":", "-");
+    const std::string time_str = utils::string_replace_all(utils::string_replace_all(utils::get_format_time(), " ", "_"), ":", "-");
     const std::string filename = dir + time_str + ".png";
 
     bool ret = cv::imwrite(filename, image);

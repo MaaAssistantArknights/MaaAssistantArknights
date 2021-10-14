@@ -5,7 +5,7 @@
 #include <json_value.h>
 
 #include "Version.h"
-#include "AsstAux.h"
+#include "AsstUtils.hpp"
 #include "Assistance.h"
 
 #if 0
@@ -35,7 +35,7 @@ AsstCallback _callback = nullptr;
 
 void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg)
 {
-    _callback(static_cast<int>(msg), asst::Utf8ToGbk(json.to_string()).c_str(), custom_arg);
+    _callback(static_cast<int>(msg), asst::utils::utf8_to_gbk(json.to_string()).c_str(), custom_arg);
 }
 
 void* AsstCreate()
