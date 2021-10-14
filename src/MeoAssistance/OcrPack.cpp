@@ -3,7 +3,7 @@
 #include <opencv2/opencv.hpp>
 #include <OcrLiteOnnx/OcrLiteCaller.h>
 
-#include "AsstAux.h"
+#include "AsstUtils.hpp"
 
 asst::OcrPack::OcrPack()
     : m_ocr_ptr(std::make_unique<OcrLiteCaller>())
@@ -76,5 +76,5 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, cons
         ta.rect.y += roi.y;
         return pred(ta);
     };
-    return recognize(image(make_rect<cv::Rect>(roi)), rect_cor);
+    return recognize(image(utils::make_rect<cv::Rect>(roi)), rect_cor);
 }

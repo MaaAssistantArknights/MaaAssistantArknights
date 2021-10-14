@@ -189,19 +189,19 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         log.trace("Handle:", m_handle, "Name:", m_emulator_info.name);
 
         adb_dir = emulator_path.substr(0, emulator_path.find_last_of('\\') + 1);
-        adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
-        adb_dir = StringReplaceAll(adb_dir, "[ExecDir]", GetCurrentDir());
+        adb_dir = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
+        adb_dir = utils::string_replace_all(adb_dir, "[ExecDir]", utils::get_cur_dir());
     }
     else {	// 使用辅助自带的标准adb
         m_emulator_info = info;
-        adb_dir = '"' + StringReplaceAll(m_emulator_info.adb.path, "[ExecDir]", GetCurrentDir()) + '"';
+        adb_dir = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", utils::get_cur_dir()) + '"';
     }
 
     // TODO，检查连接是否成功
-    std::string connect_cmd = StringReplaceAll(m_emulator_info.adb.connect, "[Adb]", adb_dir);
+    std::string connect_cmd = utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", adb_dir);
     call_command(connect_cmd);
 
-    std::string display_cmd = StringReplaceAll(m_emulator_info.adb.display, "[Adb]", adb_dir);
+    std::string display_cmd = utils::string_replace_all(m_emulator_info.adb.display, "[Adb]", adb_dir);
     auto display_result = call_command(display_cmd);
     std::string display_pipe_str(
         std::make_move_iterator(display_result.begin()),
@@ -232,9 +232,9 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(GeneralConfiger::WindowWidthDefault);
     }
 
-    m_emulator_info.adb.click = StringReplaceAll(m_emulator_info.adb.click, "[Adb]", adb_dir);
-    m_emulator_info.adb.swipe = StringReplaceAll(m_emulator_info.adb.swipe, "[Adb]", adb_dir);
-    m_emulator_info.adb.screencap = StringReplaceAll(m_emulator_info.adb.screencap, "[Adb]", adb_dir);
+    m_emulator_info.adb.click = utils::string_replace_all(m_emulator_info.adb.click, "[Adb]", adb_dir);
+    m_emulator_info.adb.swipe = utils::string_replace_all(m_emulator_info.adb.swipe, "[Adb]", adb_dir);
+    m_emulator_info.adb.screencap = utils::string_replace_all(m_emulator_info.adb.screencap, "[Adb]", adb_dir);
 
     return true;
 }
@@ -420,8 +420,8 @@ int asst::Controller::click_without_scale(const Point& p, bool block)
         || p.y < 0 || p.y >= m_emulator_info.adb.display_height) {
         log.error("click point out of range");
     }
-    std::string cur_cmd = StringReplaceAll(m_emulator_info.adb.click, "[x]", std::to_string(p.x));
-    cur_cmd = StringReplaceAll(cur_cmd, "[y]", std::to_string(p.y));
+    std::string cur_cmd = utils::string_replace_all(m_emulator_info.adb.click, "[x]", std::to_string(p.x));
+    cur_cmd = utils::string_replace_all(cur_cmd, "[y]", std::to_string(p.y));
     int id = push_cmd(cur_cmd);
     if (block) {
         wait(id);
@@ -458,15 +458,15 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
         || p2.y < 0 || p2.y >= m_emulator_info.adb.display_height) {
         log.error("swipe point out of range");
     }
-    std::string cur_cmd = StringReplaceAll(m_emulator_info.adb.swipe, "[x1]", std::to_string(p1.x));
-    cur_cmd = StringReplaceAll(cur_cmd, "[y1]", std::to_string(p1.y));
-    cur_cmd = StringReplaceAll(cur_cmd, "[x2]", std::to_string(p2.x));
-    cur_cmd = StringReplaceAll(cur_cmd, "[y2]", std::to_string(p2.y));
+    std::string cur_cmd = utils::string_replace_all(m_emulator_info.adb.swipe, "[x1]", std::to_string(p1.x));
+    cur_cmd = utils::string_replace_all(cur_cmd, "[y1]", std::to_string(p1.y));
+    cur_cmd = utils::string_replace_all(cur_cmd, "[x2]", std::to_string(p2.x));
+    cur_cmd = utils::string_replace_all(cur_cmd, "[y2]", std::to_string(p2.y));
     if (duration <= 0) {
-        cur_cmd = StringReplaceAll(cur_cmd, "[duration]", "");
+        cur_cmd = utils::string_replace_all(cur_cmd, "[duration]", "");
     }
     else {
-        cur_cmd = StringReplaceAll(cur_cmd, "[duration]", std::to_string(duration));
+        cur_cmd = utils::string_replace_all(cur_cmd, "[duration]", std::to_string(duration));
     }
 
     int id = push_cmd(cur_cmd);

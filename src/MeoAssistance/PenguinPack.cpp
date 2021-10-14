@@ -1,7 +1,5 @@
 ﻿#include "PenguinPack.h"
 
-#include <fstream>
-#include <sstream>
 #include <filesystem>
 
 #include <opencv2/opencv.hpp>
@@ -9,6 +7,8 @@
 namespace penguin {
 #include <penguin-stats-recognize/penguin_wasm.h>
 }
+
+#include "AsstUtils.hpp"
 
 bool asst::PenguinPack::load(const std::string& dir)
 {
@@ -35,18 +35,7 @@ std::string asst::PenguinPack::recognize(const cv::Mat& image)
 
 bool asst::PenguinPack::load_json(const std::string& stage_path, const std::string& hash_path)
 {
-    auto load_file = [](const std::string& path) -> std::string {
-        std::ifstream ifs(path, std::ios::in);
-        if (!ifs.is_open()) {
-            return std::string();
-        }
-        std::stringstream iss;
-        iss << ifs.rdbuf();
-        ifs.close();
-        return iss.str();
-    };
-
-    auto stage_parse_ret = json::parse(load_file(stage_path));
+    auto stage_parse_ret = json::parse(utils::load_file_without_bom(stage_path));
     if (!stage_parse_ret) {
         m_last_error = stage_path + " parsing failed";
         return false;
@@ -84,7 +73,7 @@ bool asst::PenguinPack::load_json(const std::string& stage_path, const std::stri
         return false;
     }
     std::string cvt_stage_string = cvt_stage_json.to_string();
-    penguin::load_json(cvt_stage_string.c_str(), load_file(hash_path).c_str());
+    penguin::load_json(cvt_stage_string.c_str(), utils::load_file_without_bom(hash_path).c_str());
     return true;
 }
 

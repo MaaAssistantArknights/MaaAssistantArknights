@@ -8,7 +8,7 @@
 
 #include "Controller.h"
 #include "Logger.hpp"
-#include "AsstAux.h"
+#include "AsstUtils.hpp"
 #include "Resource.h"
 
 using namespace asst;
@@ -18,7 +18,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
 {
     LogTraceFunction;
 
-    bool resource_ret = resource.load(GetResourceDir());
+    bool resource_ret = resource.load(utils::get_resource_dir());
     if (!resource_ret) {
         const std::string& error = resource.get_last_error();
         log.error("resource broken", error);
@@ -131,11 +131,11 @@ bool asst::Assistance::catch_remote(const std::string& address)
     std::unique_lock<std::mutex> lock(m_mutex);
 
     EmulatorInfo remote_info = cfg.get_emulators_info().at("Remote");
-    remote_info.adb.connect = StringReplaceAll(remote_info.adb.connect, "[Address]", address);
-    remote_info.adb.click = StringReplaceAll(remote_info.adb.click, "[Address]", address);
-    remote_info.adb.swipe = StringReplaceAll(remote_info.adb.swipe, "[Address]", address);
-    remote_info.adb.display = StringReplaceAll(remote_info.adb.display, "[Address]", address);
-    remote_info.adb.screencap = StringReplaceAll(remote_info.adb.screencap, "[Address]", address);
+    remote_info.adb.connect = utils::string_replace_all(remote_info.adb.connect, "[Address]", address);
+    remote_info.adb.click = utils::string_replace_all(remote_info.adb.click, "[Address]", address);
+    remote_info.adb.swipe = utils::string_replace_all(remote_info.adb.swipe, "[Address]", address);
+    remote_info.adb.display = utils::string_replace_all(remote_info.adb.display, "[Address]", address);
+    remote_info.adb.screencap = utils::string_replace_all(remote_info.adb.screencap, "[Address]", address);
 
     ret = ctrler.try_capture(remote_info, true);
 

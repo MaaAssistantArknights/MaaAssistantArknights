@@ -5,7 +5,7 @@
 
 #include <json.h>
 
-#include "AsstAux.h"
+#include "AsstUtils.hpp"
 #include "Controller.h"
 #include "PenguinUploader.h"
 #include "ProcessTaskImageAnalyzer.h"
@@ -101,7 +101,7 @@ bool ProcessTask::run()
 
         auto& opt = resource.cfg().get_options();
         if (opt.print_window) {
-            static const std::string dirname = GetCurrentDir() + "screenshot\\";
+            static const std::string dirname = utils::get_cur_dir() + "screenshot\\";
             save_image(image, dirname);
         }
         if (opt.upload_to_penguin) {

@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <filesystem>
 
-#include "AsstAux.h"
+#include "AsstUtils.hpp"
 #include "Version.h"
 
 namespace asst {
@@ -43,8 +43,8 @@ namespace asst {
             log(level, std::forward<Args>(args)...);
         }
 
-        const std::string m_log_filename = asst::GetCurrentDir() + "asst.log";
-        const std::string m_log_bak_filename = asst::GetCurrentDir() + "asst.bak.log";
+        const std::string m_log_filename = asst::utils::get_cur_dir() + "asst.log";
+        const std::string m_log_bak_filename = asst::utils::get_cur_dir() + "asst.bak.log";
     private:
         Logger()
         {
@@ -74,8 +74,8 @@ namespace asst {
             trace("MeoAssistance Process Start");
             trace("Version", asst::Version);
             trace("Build DataTime", __DATE__, __TIME__);
-            trace("Working Path", GetCurrentDir());
-            trace("Resource Path", GetResourceDir());
+            trace("Working Path", utils::get_cur_dir());
+            trace("Resource Path", utils::get_resource_dir());
             trace("-----------------------------");
         }
 
@@ -86,7 +86,7 @@ namespace asst {
 
             char buff[128] = { 0 };
             sprintf_s(buff, "[%s][%s][Px%x][Tx%x]",
-                asst::GetFormatTimeString().c_str(),
+                asst::utils::get_format_time().c_str(),
                 level.data(), _getpid(), ::GetCurrentThreadId());
 
             stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
@@ -120,7 +120,7 @@ namespace asst {
         {
             inline void operator()(std::ostream& os, T&& first)
             {
-                os << Utf8ToGbk(first) << " ";
+                os << utils::utf8_to_gbk(first) << " ";
             }
         };
 

@@ -3,7 +3,7 @@
 #include "Resource.h"
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
-#include "AsstAux.h"
+#include "AsstUtils.hpp"
 
 asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name)
     : AbstractImageAnalyzer(image),
@@ -42,7 +42,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
     for (const TextRect& tr : m_ocr_cache) {
         TextRect temp = tr;
         for (const auto& [old_str, new_str] : ocr_task_ptr->replace_map) {
-            temp.text = StringReplaceAll(temp.text, old_str, new_str);
+            temp.text = utils::string_replace_all(temp.text, old_str, new_str);
         }
         for (const auto& text : ocr_task_ptr->text) {
             bool flag = false;

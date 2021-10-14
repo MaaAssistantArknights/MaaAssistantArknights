@@ -5,7 +5,7 @@
 #include "MatchImageAnalyzer.h"
 #include "Resource.h"
 
-#include "AsstAux.h"
+#include "AsstUtils.hpp"
 
 bool asst::CreditShopImageAnalyzer::analyze()
 {
@@ -86,7 +86,7 @@ bool asst::CreditShopImageAnalyzer::commoditys_analyze()
         }
         Rect commodity(credit_point.x - 60, credit_point.y - 180, 220, 220);
 #ifdef  LOG_TRACE
-        cv::rectangle(m_image, make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
+        cv::rectangle(m_image, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
 #endif
         m_need_to_buy.emplace_back(commodity);
     }
@@ -109,7 +109,7 @@ bool asst::CreditShopImageAnalyzer::sold_out_analyze()
         sold_out_analyzer.set_roi(commodity);
         if (sold_out_analyzer.analyze()) {
 #ifdef  LOG_TRACE
-            cv::rectangle(m_image, make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255));
+            cv::rectangle(m_image, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255));
             cv::putText(m_image, "Sold Out", cv::Point(commodity.x, commodity.y), 1, 2, cv::Scalar(255, 0, 0));
 #endif //  LOG_TRACE
 

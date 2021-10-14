@@ -1,21 +1,12 @@
 ﻿#include "AbstractConfiger.h"
 
-#include <sstream>
-#include <fstream>
-
 #include <json.h>
+
+#include "AsstUtils.hpp"
 
 bool asst::AbstractConfiger::load(const std::string& filename)
 {
-    std::ifstream ifs(filename, std::ios::in);
-    if (!ifs.is_open()) {
-        m_last_error = filename + " can't be opened";
-        return false;
-    }
-    std::stringstream iss;
-    iss << ifs.rdbuf();
-    ifs.close();
-    std::string content(iss.str());
+    std::string content = utils::load_file_without_bom(filename);
 
     auto&& ret = json::parser::parse(content);
     if (!ret) {

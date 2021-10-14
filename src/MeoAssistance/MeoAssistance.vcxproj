@@ -18,7 +18,7 @@
     <ClInclude Include="AbstractResource.h" />
     <ClInclude Include="AbstractTask.h" />
     <ClInclude Include="Assistance.h" />
-    <ClInclude Include="AsstAux.h" />
+    <ClInclude Include="AsstUtils.hpp" />
     <ClInclude Include="AsstDef.h" />
     <ClInclude Include="AsstMsg.h" />
     <ClInclude Include="CreditShopImageAnalyzer.h" />

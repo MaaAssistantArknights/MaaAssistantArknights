@@ -7,7 +7,7 @@
 #include "Resource.h"
 #include "Version.h"
 #include "Logger.hpp"
-#include "AsstAux.h"
+#include "AsstUtils.hpp"
 
 bool asst::PenguinUploader::upload(const std::string& rec_res)
 {
@@ -37,7 +37,7 @@ std::string asst::PenguinUploader::cvt_json(const std::string& rec_res)
 bool asst::PenguinUploader::request_penguin(const std::string& body)
 {
     std::string curl_cmd = R"(curl -H "Content-Type: application/json" -v -i )";
-    curl_cmd += "-d \"" + StringReplaceAll(body, "\"", "\\\"") + "\" \"" + resource.cfg().get_options().penguin_api + '"';
+    curl_cmd += "-d \"" + utils::string_replace_all(body, "\"", "\\\"") + "\" \"" + resource.cfg().get_options().penguin_api + '"';
 
     log.trace("request_penguin |", curl_cmd);
 
