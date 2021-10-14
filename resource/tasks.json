@@ -473,8 +473,14 @@
             "ReturnToMall"
         ]
     },
-    "CreditShop-CreditPoint": {
-        "template": "CreditPoint.png"
+    "CreditShop-Commoditys": {
+        "template": "CreditPoint.png",
+        "resultMove": [
+            -60,
+            -180,
+            220,
+            220
+        ]
     },
     "CreditShop-SoldOut": {
         "template": "SoldOut.png"
@@ -495,6 +501,20 @@
             60,
             339,
             110
+        ]
+    },
+    "CreditShop-NotToBuy": {
+        "algorithm": "OcrDetect",
+        "Doc": "这里的text，是子串搜索，即商品名中只要含有任一text，就不买",
+        "text": [
+            "碳",
+            "家具"
+        ],
+        "roi": [
+            0,
+            -30,
+            220,
+            70
         ]
     },
     "Stop": {

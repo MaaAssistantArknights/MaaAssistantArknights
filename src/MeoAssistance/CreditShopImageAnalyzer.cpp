@@ -9,82 +9,68 @@
 
 bool asst::CreditShopImageAnalyzer::analyze()
 {
-    m_credit_points.clear();
+    m_commoditys.clear();
     m_need_to_buy.clear();
     m_result.clear();
 
-    return credit_point_analyze()
-        && commoditys_analyze()
+    return commoditys_analyze()
+        && whether_to_buy_analyze()
         && sold_out_analyze();
 }
 
-bool asst::CreditShopImageAnalyzer::credit_point_analyze()
+bool asst::CreditShopImageAnalyzer::commoditys_analyze()
 {
-    const static auto credit_point_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("CreditShop-CreditPoint"));
+    const static auto commodity_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        resource.task().task_ptr("CreditShop-Commoditys"));
 
     // 识别信用点的图标
     MultiMatchImageAnalyzer mm_annlyzer(
         m_image,
-        credit_point_task_ptr->roi,
-        credit_point_task_ptr->templ_name,
-        credit_point_task_ptr->templ_threshold);
+        commodity_task_ptr->roi,
+        commodity_task_ptr->templ_name,
+        commodity_task_ptr->templ_threshold);
 
     if (!mm_annlyzer.analyze()) {
         return false;
     }
+    mm_annlyzer.sort_result();
     auto credit_points_result = mm_annlyzer.get_result();
     if (credit_points_result.empty()) {
         return false;
     }
-    // 按位置排个序
-    std::sort(credit_points_result.begin(), credit_points_result.end(),
-        [](const MatchRect& lhs, const MatchRect& rhs) -> bool {
-            if (std::abs(lhs.rect.y - rhs.rect.y) < 5) {	// y差距较小则理解为是同一排的，按x排序
-                return lhs.rect.x < rhs.rect.x;
-            }
-            else {
-                return lhs.rect.y < rhs.rect.y;
-            }
-        }
-    );
-    m_credit_points.reserve(credit_points_result.size());
+
+    m_commoditys.reserve(credit_points_result.size());
     for (const MatchRect& mr : credit_points_result) {
-        m_credit_points.emplace_back(mr.rect);
+        Rect commodity;
+        commodity.x = mr.rect.x + commodity_task_ptr->result_move.x;
+        commodity.y = mr.rect.y + commodity_task_ptr->result_move.y;
+        commodity.width = commodity_task_ptr->result_move.width;
+        commodity.height = commodity_task_ptr->result_move.height;
+        m_commoditys.emplace_back(std::move(commodity));
     }
 
     return true;
 }
 
-bool asst::CreditShopImageAnalyzer::commoditys_analyze()
+bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 {
-    for (const Rect& credit_point : m_credit_points) {
+    const static auto not_to_buy_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
+        resource.task().task_ptr("CreditShop-NotToBuy"));
+
+    for (const Rect& commodity : m_commoditys) {
         // 商品名的区域
-        Rect name(credit_point.x - 80, credit_point.y - 210, 230, 70);
-        if (name.x < 0) {
-            name.x = 0;
-        }
+        Rect name_roi = not_to_buy_task_ptr->roi;
+        name_roi.x += commodity.x;
+        name_roi.y += commodity.y;
 
-        // TODO，哪些要买哪些不买，提供个接口出去
-        static const std::vector<std::string> not_to_buy_names = { "碳", "家具" };
-
-        OcrImageAnalyzer ocr_analyzer(m_image, name);
-        if (!ocr_analyzer.analyze()) {
+        OcrImageAnalyzer ocr_analyzer(m_image, name_roi);
+        ocr_analyzer.set_required(not_to_buy_task_ptr->text);
+        if (ocr_analyzer.analyze()) {
+            //因为是不买的，有识别结果说明这个商品不买，直接跳过
             continue;
         }
         const auto& ocr_res = ocr_analyzer.get_result();
 
-        auto find_iter = std::find_first_of(ocr_res.cbegin(), ocr_res.cend(), not_to_buy_names.cbegin(), not_to_buy_names.cend(),
-            [](const auto& lhs, const std::string& rhs) -> bool {
-                return lhs.text.find(rhs) != std::string::npos;
-            });
-        if (find_iter != ocr_res.cend()) { // 找到了不需要买的名字
-#ifdef  LOG_TRACE
-            cv::putText(m_image, "Not to buy", cv::Point(credit_point.x, credit_point.y), 1, 2, cv::Scalar(255, 0, 0));
-#endif //  LOG_TRACE
-            continue;
-        }
-        Rect commodity(credit_point.x - 60, credit_point.y - 180, 220, 220);
 #ifdef  LOG_TRACE
         cv::rectangle(m_image, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
 #endif
