@@ -631,6 +631,16 @@
             "ReturnToInfrast"
         ]
     },
+    "Return": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ]
+    },
     "EnterInfrast": {
         "templThreshold": 0.85,
         "histThreshold": 0.85,
@@ -810,5 +820,38 @@
         "action": "stop",
         "cache": false,
         "next": []
+    },
+    "InfrastSkillsUpper": {
+        "algorithm": "justReturn",
+        "roi": [
+            400,
+            250,
+            880,
+            110
+        ]
+    },
+    "InfrastSkillsLower": {
+        "algorithm": "justReturn",
+        "roi": [
+            400,
+            530,
+            880,
+            110
+        ]
+    },
+    "InfrastSmileyOnRest": {
+        "template": "SmileyOnRest.png",
+        "maskRange": [100, 255],
+        "templThreshold":  0.8
+    },
+    "InfrastSmileyOnWork": {
+        "template": "SmileyOnWork.png",
+        "maskRange": [100, 255],
+        "templThreshold":  0.8
+    },
+    "InfrastSmileyOnDistract": {
+        "template": "SmileyOnDistract.png",
+        "maskRange": [100, 255],
+        "templThreshold": 0.8
     }
 }

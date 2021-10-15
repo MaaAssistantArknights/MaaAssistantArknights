@@ -9,6 +9,7 @@
 #include "Controller.h"
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
+#include "Resource.h"
 
 using namespace asst;
 
@@ -75,6 +76,11 @@ bool asst::AbstractTask::click_return_button()
 {
     LogTraceFunction;
 
-    const static Rect ConfirmButtonRect(20, 20, 135, 35);
-    return ctrler.click(ConfirmButtonRect);
+    static Rect ReturnButtonRect;
+    if (ReturnButtonRect.empty()) {
+        const static auto return_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+            resource.task().task_ptr("Return"));
+        ReturnButtonRect = return_task_ptr->specific_rect;
+    }
+    return ctrler.click(ReturnButtonRect);
 }

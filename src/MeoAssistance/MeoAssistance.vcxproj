@@ -24,6 +24,9 @@
     <ClInclude Include="CreditShopImageAnalyzer.h" />
     <ClInclude Include="GeneralConfiger.h" />
     <ClInclude Include="CreditShoppingTask.h" />
+    <ClInclude Include="InfrastShiftTask.h" />
+    <ClInclude Include="InfrastSkillsImageAnalyzer.h" />
+    <ClInclude Include="InfrastSmileyImageAnalyzer.h" />
     <ClInclude Include="MultiMatchImageAnalyzer.h" />
     <ClInclude Include="OcrImageAnalyzer.h" />
     <ClInclude Include="OcrPack.h" />
@@ -38,7 +41,6 @@
     <ClInclude Include="ProcessTaskImageAnalyzer.h" />
     <ClInclude Include="RecruitConfiger.h" />
     <ClInclude Include="ScreenCaptureTask.h" />
-    <ClInclude Include="Task.h" />
     <ClInclude Include="TaskData.h" />
     <ClInclude Include="MatchImageAnalyzer.h" />
     <ClInclude Include="TemplResource.h" />
@@ -53,6 +55,9 @@
     <ClCompile Include="AbstractTask.cpp" />
     <ClCompile Include="CreditShopImageAnalyzer.cpp" />
     <ClCompile Include="CreditShoppingTask.cpp" />
+    <ClCompile Include="InfrastShiftTask.cpp" />
+    <ClCompile Include="InfrastSkillsImageAnalyzer.cpp" />
+    <ClCompile Include="InfrastSmileyImageAnalyzer.cpp" />
     <ClCompile Include="MultiMatchImageAnalyzer.cpp" />
     <ClCompile Include="OcrImageAnalyzer.cpp" />
     <ClCompile Include="OcrPack.cpp" />
