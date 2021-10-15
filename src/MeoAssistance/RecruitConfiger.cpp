@@ -7,7 +7,7 @@
 bool asst::RecruitConfiger::parse(const json::value& json)
 {
     for (const json::value& oper : json.as_array()) {
-        OperRecruitInfo oper_temp;
+        RecruitOperInfo oper_temp;
         oper_temp.name = oper.at("name").as_string();
         oper_temp.type = oper.at("type").as_string();
         m_all_types.emplace(oper_temp.type);

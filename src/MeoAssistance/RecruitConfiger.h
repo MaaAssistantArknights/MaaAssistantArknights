@@ -10,7 +10,7 @@
 
 namespace asst {
     // 干员信息，公开招募相关
-    struct OperRecruitInfo {
+    struct RecruitOperInfo {
         std::string name;
         std::string type;
         int level = 0;
@@ -21,8 +21,8 @@ namespace asst {
     };
 
     // 公开招募的干员组合
-    struct OperRecruitCombs {
-        std::vector<OperRecruitInfo> opers;
+    struct RecruitOperCombs {
+        std::vector<RecruitOperInfo> opers;
         int max_level = 0;
         int min_level = 0;
         double avg_level = 0;
@@ -38,7 +38,7 @@ namespace asst {
         {
             return m_all_tags;
         }
-        const std::vector<OperRecruitInfo>& get_all_opers() const noexcept
+        const std::vector<RecruitOperInfo>& get_all_opers() const noexcept
         {
             return m_all_opers;
         }
@@ -49,6 +49,6 @@ namespace asst {
         std::unordered_set<std::string> m_all_tags;
         std::unordered_set<std::string> m_all_types;
 
-        std::vector<OperRecruitInfo> m_all_opers;
+        std::vector<RecruitOperInfo> m_all_opers;
     };
 }
