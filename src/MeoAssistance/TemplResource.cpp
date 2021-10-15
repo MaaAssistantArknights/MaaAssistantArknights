@@ -38,7 +38,8 @@ const cv::Mat& asst::TemplResource::get_templ(const std::string& key) const noex
         return iter->second;
     }
     else {
-        return cv::Mat();
+        const static cv::Mat empty;
+        return empty;
     }
 }
 
@@ -49,7 +50,8 @@ const std::pair<cv::Mat, cv::Rect>& asst::TemplResource::get_hist(const std::str
         return iter->second;
     }
     else {
-        return std::pair<cv::Mat, cv::Rect>();
+        static const std::pair<cv::Mat, cv::Rect> empty;
+        return empty;
     }
 }
 

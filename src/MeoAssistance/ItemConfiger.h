@@ -17,7 +17,8 @@ namespace asst {
                 return iter->second;
             }
             else {
-                return std::string();
+                static const std::string empty;
+                return empty;
             }
         }
         const std::unordered_map<std::string, int>& get_drop_count() const noexcept {

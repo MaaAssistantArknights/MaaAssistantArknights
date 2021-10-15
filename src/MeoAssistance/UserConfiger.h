@@ -20,7 +20,8 @@ namespace asst {
                 return iter->second;
             }
             else {
-                return std::string();
+                static const std::string empty;
+                return empty;
             }
         }
         const std::unordered_map<std::string, std::string>& get_emulator_path() const noexcept
