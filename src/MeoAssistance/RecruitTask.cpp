@@ -80,10 +80,10 @@ bool RecruitTask::run()
     }
 
     // key: tags comb, value: 干员组合
-    // 例如 key: { "狙击"、"群攻" }，value: OperRecruitCombs.opers{ "陨星", "白雪", "空爆" }
-    std::map<std::vector<std::string>, OperRecruitCombs> result_map;
+    // 例如 key: { "狙击"、"群攻" }，value: RecruitOperCombs.opers{ "陨星", "白雪", "空爆" }
+    std::map<std::vector<std::string>, RecruitOperCombs> result_map;
     for (const std::vector<std::string>& comb : all_combs) {
-        for (const OperRecruitInfo& cur_oper : resource.recruit().get_all_opers()) {
+        for (const RecruitOperInfo& cur_oper : resource.recruit().get_all_opers()) {
             int matched_count = 0;
             for (const std::string& tag : comb) {
                 if (cur_oper.tags.find(tag) != cur_oper.tags.cend()) {
@@ -107,7 +107,7 @@ bool RecruitTask::run()
                 }
             }
 
-            OperRecruitCombs& oper_combs = result_map[comb];
+            RecruitOperCombs& oper_combs = result_map[comb];
             oper_combs.opers.emplace_back(cur_oper);
 
             if (cur_oper.level == 1 || cur_oper.level == 2) {
@@ -125,13 +125,13 @@ bool RecruitTask::run()
             oper_combs.avg_level += cur_oper.level;
         }
         if (result_map.find(comb) != result_map.cend()) {
-            OperRecruitCombs& oper_combs = result_map[comb];
+            RecruitOperCombs& oper_combs = result_map[comb];
             oper_combs.avg_level /= oper_combs.opers.size();
         }
     }
 
     // map没法按值排序，转个vector再排序
-    std::vector<std::pair<std::vector<std::string>, OperRecruitCombs>> result_vector;
+    std::vector<std::pair<std::vector<std::string>, RecruitOperCombs>> result_vector;
     for (auto&& pair : result_map) {
         result_vector.emplace_back(std::move(pair));
     }
@@ -167,7 +167,7 @@ bool RecruitTask::run()
         comb_json["tags"] = json::array(std::move(tags_json_vector));
 
         std::vector<json::value> opers_json_vector;
-        for (const OperRecruitInfo& oper_info : oper_comb.opers) {
+        for (const RecruitOperInfo& oper_info : oper_comb.opers) {
             json::value oper_json;
             oper_json["name"] = oper_info.name;
             oper_json["level"] = oper_info.level;
