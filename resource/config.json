@@ -75,12 +75,12 @@
             },
             "adb": {
                 "path": "[EmulatorPath]adb.exe",
-                "connect": "[Adb] connect emulator-5554",
-                "click": "[Adb] -s emulator-5554 shell input tap [x] [y]",
-                "swipe": "[Adb] -s emulator-5554 shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s emulator-5554 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "connect": "[Adb] connect 127.0.0.1:5555",
+                "click": "[Adb] -e shell input tap [x] [y]",
+                "swipe": "[Adb] -e shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -e shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] -s emulator-5554 shell screencap -p"
+                "screencap": "[Adb] -e shell screencap -p"
             }
         },
         "Nox": {
