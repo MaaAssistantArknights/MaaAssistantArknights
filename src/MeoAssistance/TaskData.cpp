@@ -122,6 +122,12 @@ bool asst::TaskData::parse(const json::value& json)
                 "histThreshold",
                 TemplResource::HistThresholdDefault);
             match_task_info_ptr->cache = task_json.get("cache", true);
+            if (task_json.exist("maskRange")) {
+                match_task_info_ptr->mask_range = std::make_pair(
+                    task_json.at("maskRange")[0].as_integer(),
+                    task_json.at("maskRange")[1].as_integer());
+            }
+
             task_info_ptr = match_task_info_ptr;
         }
         break;

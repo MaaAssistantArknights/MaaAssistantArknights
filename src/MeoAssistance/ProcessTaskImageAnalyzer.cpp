@@ -25,6 +25,7 @@ bool asst::ProcessTaskImageAnalyzer::match_analyze(std::shared_ptr<TaskInfo> tas
     m_match_analyzer->set_roi(match_task_ptr->roi);
     m_match_analyzer->set_templ_name(match_task_ptr->templ_name);
     m_match_analyzer->set_threshold(match_task_ptr->templ_threshold, match_task_ptr->hist_threshold);
+    m_match_analyzer->set_mask_range(match_task_ptr->mask_range);
     m_match_analyzer->set_use_cache(match_task_ptr->cache);
 
     if (m_match_analyzer->analyze()) {
@@ -112,6 +113,9 @@ void asst::ProcessTaskImageAnalyzer::reset() noexcept
 
 bool asst::ProcessTaskImageAnalyzer::analyze()
 {
+    m_result = nullptr;
+    m_result_rect = Rect();
+
     for (const std::string& task_name : m_tasks_name) {
         auto task_ptr = resource.task().task_ptr(task_name);
 
