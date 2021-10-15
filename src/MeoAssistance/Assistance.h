@@ -10,7 +10,8 @@
 #include <deque>
 
 #include "AsstDef.h"
-#include "Task.h"
+#include "AsstMsg.h"
+#include "AbstractTask.h"
 
 namespace cv {
     class Mat;

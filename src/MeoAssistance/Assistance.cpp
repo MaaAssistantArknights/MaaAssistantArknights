@@ -11,6 +11,12 @@
 #include "AsstUtils.hpp"
 #include "Resource.h"
 
+#include "ProcessTask.h"
+#include "RecruitTask.h"
+#include "ScreenCaptureTask.h"
+#include "CreditShoppingTask.h"
+#include "InfrastShiftTask.h"
+
 using namespace asst;
 
 Assistance::Assistance(AsstCallback callback, void* callback_arg)
@@ -225,7 +231,7 @@ bool Assistance::start_debug_task()
     //}
     {
         constexpr static const char* DebugTaskChain = "Debug";
-        auto shift_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this);
+        auto shift_task_ptr = std::make_shared<InfrastShiftTask>(task_callback, (void*)this);
         shift_task_ptr->set_task_chain(DebugTaskChain);
         m_tasks_deque.emplace_back(shift_task_ptr);
     }
