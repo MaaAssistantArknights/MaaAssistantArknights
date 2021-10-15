@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "AbstractImageAnalyzer.h"
 
 namespace asst {
@@ -12,6 +12,12 @@ namespace asst {
         virtual bool analyze() override;
         void set_use_cache(bool is_use) noexcept {
             m_use_cache = is_use;
+        }
+        void set_mask_range(int lower, int upper) {
+            m_mask_range = std::make_pair(lower, upper);
+        }
+        void set_mask_range(std::pair<int, int> mask_range) {
+            m_mask_range = std::move(mask_range);
         }
         void set_templ_name(std::string templ_name) noexcept {
             m_templ_name = std::move(templ_name);
@@ -39,5 +45,6 @@ namespace asst {
         double m_templ_thres = 0.0;
         double m_hist_thres = 0.0;
         bool m_use_cache = false;
+        std::pair<int, int> m_mask_range;
     };
 }

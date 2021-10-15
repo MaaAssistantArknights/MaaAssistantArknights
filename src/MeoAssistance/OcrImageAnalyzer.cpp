@@ -6,6 +6,8 @@
 
 bool asst::OcrImageAnalyzer::analyze()
 {
+    m_ocr_result.clear();
+
     std::vector<TextRectProc> preds_vec;
 
     if (!m_replace.empty()) {

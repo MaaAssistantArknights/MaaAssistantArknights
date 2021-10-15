@@ -6,6 +6,9 @@
 
 bool asst::RecruitImageAnalyzer::analyze()
 {
+    m_tags_result.clear();
+    m_set_time_rect.clear();
+
     bool time_ret = time_analyze();
     bool tags_ret = tags_analyze();
 

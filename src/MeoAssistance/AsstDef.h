@@ -170,6 +170,7 @@ namespace asst {
         std::string templ_name;					        // 匹配模板图片文件名
         double templ_threshold = 0;						// 模板匹配阈值
         double hist_threshold = 0;						// 直方图比较阈值
+        std::pair<int, int> mask_range;                 // 掩码的二值化范围
         bool cache = false;								// 是否使用缓存（直方图），false时就一直用模板匹配。默认为true
     };
 
