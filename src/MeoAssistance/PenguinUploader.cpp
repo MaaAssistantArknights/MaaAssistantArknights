@@ -25,7 +25,8 @@ std::string asst::PenguinUploader::cvt_json(const std::string& rec_res)
 
     // Doc: https://developer.penguin-stats.io/public-api/api-v2-instruction/report-api
     json::value body;
-    body["server"] = resource.cfg().get_options().penguin_server;
+    auto& opt = resource.cfg().get_options();
+    body["server"] = opt.penguin_report_server;
     body["stageId"] = rec["stage"]["stageId"];
     body["drops"] = rec["drops"];
     body["source"] = "MeoAssistance";
@@ -36,10 +37,11 @@ std::string asst::PenguinUploader::cvt_json(const std::string& rec_res)
 
 bool asst::PenguinUploader::request_penguin(const std::string& body)
 {
-    std::string curl_cmd = R"(curl -H "Content-Type: application/json" -v -i )";
-    curl_cmd += "-d \"" + utils::string_replace_all(body, "\"", "\\\"") + "\" \"" + resource.cfg().get_options().penguin_api + '"';
+    auto& opt = resource.cfg().get_options();
+    std::string body_escape = utils::string_replace_all(body, "\"", "\\\"");
+    std::string cmd_line = utils::string_replace_all(opt.penguin_report_cmd_line, "[body]", body_escape);
 
-    log.trace("request_penguin |", curl_cmd);
+    log.trace("request_penguin |", cmd_line);
 
     SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
     pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -58,7 +60,7 @@ bool asst::PenguinUploader::request_penguin(const std::string& body)
 
     PROCESS_INFORMATION pi = { 0 };
 
-    BOOL p_ret = CreateProcessA(NULL, const_cast<LPSTR>(curl_cmd.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+    BOOL p_ret = CreateProcessA(NULL, const_cast<LPSTR>(cmd_line.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
     if (p_ret) {
         std::string pipe_str;
         DWORD read_num = 0;
