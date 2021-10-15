@@ -79,7 +79,7 @@
             },
             "adb": {
                 "path": "[EmulatorPath]adb.exe",
-                "connect": "[Adb] connect emulator-5555",
+                "connect": "[Adb] connect 127.0.0.1:5555",
                 "click": "[Adb] -e shell input tap [x] [y]",
                 "swipe": "[Adb] -e shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -e shell dumpsys window displays | grep init= | awk ' { print $3 } '",
