@@ -104,7 +104,7 @@ bool ProcessTask::run()
             static const std::string dirname = utils::get_cur_dir() + "screenshot\\";
             save_image(image, dirname);
         }
-        if (opt.upload_to_penguin) {
+        if (opt.penguin_report) {
             PenguinUploader::upload(res);
         }
     }

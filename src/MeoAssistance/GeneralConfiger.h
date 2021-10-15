@@ -22,9 +22,9 @@ namespace asst {
         int control_delay_lower = 0;		// 点击随机延时下限：每次点击操作会进行随机延时
         int control_delay_upper = 0;		// 点击随机延时上限：每次点击操作会进行随机延时
         bool print_window = false;			// 截图功能：开启后每次结算界面会截图到screenshot目录下
-        bool upload_to_penguin = false;     // 上传企鹅物流：每次到结算界面，是否上传企鹅物流数据统计网站 https://penguin-stats.cn/
-        std::string penguin_api;            // 企鹅物流汇报接口
-        std::string penguin_server;         // 企鹅物流汇报接口"server"字段，"CN", "US", "JP" and "KR".
+        bool penguin_report = false;        // 企鹅数据汇报：每次到结算界面，是否汇报掉落数据至企鹅数据 https://penguin-stats.cn/
+        std::string penguin_report_cmd_line;// 企鹅数据汇报的命令
+        std::string penguin_report_server;  // 企鹅数据汇报接口"server"字段，"CN", "US", "JP" and "KR".
         int ocr_gpu_index = -1;				// OcrLite使用GPU编号，-1(使用CPU)/0(使用GPU0)/1(使用GPU1)/...
         int ocr_thread_number = 0;			// OcrLite线程数量
     };

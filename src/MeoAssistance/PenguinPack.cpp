@@ -55,7 +55,7 @@ bool asst::PenguinPack::load_json(const std::string& stage_path, const std::stri
             std::vector<json::value> drops_vector;
             for (const json::value& drop_info : stage_info.at("dropInfos").as_array()) {
                 if (drop_info.exist("itemId")) {
-                    // 幸运掉落，家具啥的，企鹅物流不接，忽略掉
+                    // 幸运掉落，家具啥的，企鹅数据不接，忽略掉
                     if (drop_info.at("dropType").as_string() == "FURNITURE") {
                         continue;
                     }
