@@ -488,7 +488,7 @@
     "CreditShop-BuyIt": {
         "template": "BuyIt.png",
         "preDelay": 1000,
-        "rareDelay": 1000
+        "rearDelay": 1000
     },
     "CreditShop-NoMoney": {
         "algorithm": "OcrDetect",
@@ -590,7 +590,7 @@
         ]
     },
     "EnterOperator": {
-        "rareDelay": 1000,
+        "rearDelay": 1000,
         "templThreshold": 0.7,
         "action": "clickSelf",
         "next": [
@@ -634,7 +634,7 @@
     "EnterInfrast": {
         "templThreshold": 0.85,
         "histThreshold": 0.85,
-        "rareDelay": 3000,
+        "rearDelay": 3000,
         "action": "clickSelf",
         "next": [
             "InfrastEnteredFlag"
