@@ -3,6 +3,10 @@
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi)
     : m_image(image),
     m_roi(empty_rect_to_full(roi, image))
+#ifdef LOG_TRACE
+    ,
+    m_image_draw(image.clone())
+#endif
 {
     ;
 }
@@ -11,6 +15,9 @@ void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image, const Rect& ro
 {
     m_image = image;
     m_roi = empty_rect_to_full(roi, image);
+#ifdef LOG_TRACE
+    m_image_draw = image.clone();
+#endif
 }
 
 void asst::AbstractImageAnalyzer::set_roi(const Rect& roi) noexcept
