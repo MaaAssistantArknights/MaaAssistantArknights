@@ -5,7 +5,9 @@
 bool asst::InfrastConfiger::parse(const json::value& json)
 {
     for (const json::value& facility : json.at("facility").as_array()) {
-        for (const json::value& skill_json : json.at(facility.as_string()).as_array()) {
+        std::string facility_name = facility.as_string();
+        std::vector<InfrastSkill> facility_skills;
+        for (const json::value& skill_json : json.at(facility_name).at("skills").as_array()) {
             InfrastSkill skill;
             skill.templ_name = skill_json.at("template").as_string();
             m_templ_required.emplace(skill.templ_name);
@@ -19,8 +21,9 @@ bool asst::InfrastConfiger::parse(const json::value& json)
             }
             skill.intro = skill_json.get("intro", std::string());
 
-            m_skills.emplace(std::move(id), std::move(skill));
+            facility_skills.emplace_back(std::move(skill));
         }
+        m_skills.emplace(std::move(facility_name), std::move(facility_skills));
     }
     return false;
 }
