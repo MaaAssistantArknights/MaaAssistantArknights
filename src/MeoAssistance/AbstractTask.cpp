@@ -34,7 +34,7 @@ bool AbstractTask::sleep(unsigned millisecond)
         return true;
     }
     auto start = std::chrono::system_clock::now();
-    unsigned duration = 0;
+    long long duration = 0;
 
     json::value callback_json;
     callback_json["time"] = millisecond;

@@ -54,7 +54,7 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat& templ)
         cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED, mask);
     }
 
-    int mini_distance = (std::min)(templ.cols, templ.rows) * 0.5;
+    int mini_distance = (std::min)(templ.cols, templ.rows) / 2;
     for (int i = 0; i != matched.rows; ++i) {
         for (int j = 0; j != matched.cols; ++j) {
             auto value = matched.at<float>(i, j);
