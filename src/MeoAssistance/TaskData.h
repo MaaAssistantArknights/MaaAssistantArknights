@@ -16,9 +16,9 @@ namespace asst {
 
         bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
-        const std::shared_ptr<TaskInfo>& task_ptr(const std::string& name) const noexcept;
+        const std::shared_ptr<TaskInfo> task_ptr(const std::string& name) const noexcept;
         const std::unordered_set<std::string>& get_templ_required() const noexcept;
-        std::shared_ptr<TaskInfo>& task_ptr(std::string name);
+        std::shared_ptr<TaskInfo> task_ptr(std::string name);
         void clear_exec_times();
 
     protected:

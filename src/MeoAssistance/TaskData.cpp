@@ -53,7 +53,7 @@ bool asst::TaskData::set_param(const std::string& type, const std::string& param
     return true;
 }
 
-const std::shared_ptr<asst::TaskInfo>& asst::TaskData::task_ptr(const std::string& name) const noexcept
+const std::shared_ptr<asst::TaskInfo> asst::TaskData::task_ptr(const std::string& name) const noexcept
 {
     if (auto iter = m_all_tasks_info.find(name);
         iter != m_all_tasks_info.cend())
@@ -70,7 +70,7 @@ const std::unordered_set<std::string>& asst::TaskData::get_templ_required() cons
     return m_templ_required;
 }
 
-std::shared_ptr<asst::TaskInfo>& asst::TaskData::task_ptr(std::string name)
+std::shared_ptr<asst::TaskInfo> asst::TaskData::task_ptr(std::string name)
 {
     return m_all_tasks_info[std::move(name)];
 }

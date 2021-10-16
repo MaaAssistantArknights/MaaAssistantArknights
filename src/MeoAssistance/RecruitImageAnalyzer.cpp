@@ -17,7 +17,7 @@ bool asst::RecruitImageAnalyzer::analyze()
 
 bool asst::RecruitImageAnalyzer::tags_analyze()
 {
-    const static auto tags_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
+    const auto tags_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
         resource.task().task_ptr("RecruitTags"));
 
     static bool analyzer_inited = false;
@@ -46,7 +46,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
 
 bool asst::RecruitImageAnalyzer::time_analyze()
 {
-    const static auto time_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+    const auto time_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("RecruitTime"));
 
     MatchImageAnalyzer time_analyzer(

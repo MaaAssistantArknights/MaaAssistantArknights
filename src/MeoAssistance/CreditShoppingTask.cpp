@@ -62,7 +62,7 @@ bool asst::CreditShoppingTask::run()
         // 识别是否信用不足无法购买
         const cv::Mat& prompt_image = ctrler.get_image();
 
-        const static auto no_money_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
+        const auto no_money_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
             resource.task().task_ptr("CreditShop-NoMoney"));
         OcrImageAnalyzer prompt_analyzer(prompt_image, no_money_task_ptr->roi);
         prompt_analyzer.set_required(no_money_task_ptr->text);
