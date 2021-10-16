@@ -12,6 +12,7 @@
 #include "TaskData.h"
 #include "RecruitConfiger.h"
 #include "ItemConfiger.h"
+#include "InfrastConfiger.h"
 #include "UserConfiger.h"
 #include "OcrPack.h"
 #include "PenguinPack.h"
@@ -44,6 +45,9 @@ namespace asst {
         ItemConfiger& item() noexcept {
             return m_item_cfg_unique_ins;
         }
+        InfrastConfiger& infrast() noexcept {
+            return m_infrast_cfg_unique_ins;
+        }
         OcrPack& ocr() noexcept {
             return m_ocr_pack_unique_ins;
         }
@@ -66,6 +70,9 @@ namespace asst {
         const ItemConfiger& item() const noexcept {
             return m_item_cfg_unique_ins;
         }
+        const InfrastConfiger& infrast() const noexcept {
+            return m_infrast_cfg_unique_ins;
+        }
         const OcrPack& ocr() const noexcept {
             return m_ocr_pack_unique_ins;
         }
@@ -83,6 +90,7 @@ namespace asst {
         TaskData m_task_data_unique_ins;
         RecruitConfiger m_recruit_cfg_unique_ins;
         ItemConfiger m_item_cfg_unique_ins;
+        InfrastConfiger m_infrast_cfg_unique_ins;
         UserConfiger m_user_cfg_unique_ins;
         OcrPack m_ocr_pack_unique_ins;
         PenguinPack m_penguin_pack_unique_ins;

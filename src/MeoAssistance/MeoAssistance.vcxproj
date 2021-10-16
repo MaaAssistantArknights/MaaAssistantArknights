@@ -24,6 +24,7 @@
     <ClInclude Include="CreditShopImageAnalyzer.h" />
     <ClInclude Include="GeneralConfiger.h" />
     <ClInclude Include="CreditShoppingTask.h" />
+    <ClInclude Include="InfrastConfiger.h" />
     <ClInclude Include="InfrastShiftTask.h" />
     <ClInclude Include="InfrastSkillsImageAnalyzer.h" />
     <ClInclude Include="InfrastSmileyImageAnalyzer.h" />
@@ -55,6 +56,7 @@
     <ClCompile Include="AbstractTask.cpp" />
     <ClCompile Include="CreditShopImageAnalyzer.cpp" />
     <ClCompile Include="CreditShoppingTask.cpp" />
+    <ClCompile Include="InfrastConfiger.cpp" />
     <ClCompile Include="InfrastShiftTask.cpp" />
     <ClCompile Include="InfrastSkillsImageAnalyzer.cpp" />
     <ClCompile Include="InfrastSmileyImageAnalyzer.cpp" />
@@ -82,7 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json" />
-    <None Include="..\..\resource\recruit.json" />
+    <None Include="..\..\resource\infrast.json" />
     <None Include="..\..\resource\tasks.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

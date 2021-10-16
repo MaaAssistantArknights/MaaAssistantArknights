@@ -1,0 +1,189 @@
+﻿{
+    "facility": [ "Mfg" ],
+    "Mfg": {
+        "Mfg_Doc": "制造站",
+        "skills_Doc": "技能ID默认就是模板名（不带.png），name和intro实际都不产生作用，给人看的",
+        "skills": [
+            {
+                "name": [ "咪波·制造型" ],
+                "intro": "进驻制造站时，生产力+30%",
+                "template": "Bskill_man_spd3.png"
+            },
+            {
+                "name": [ "标准化·β", "莱茵科技·β", "红松骑士团·β" ],
+                "intro": "进驻制造站时，生产力+25%",
+                "template": "Bskill_man_spd2.png"
+            },
+            {
+                "name": [ "标准化·α", "莱茵科技·α", "红松骑士团·α", "磐蟹·豆豆" ],
+                "intro": "进驻制造站时，生产力+15%",
+                "template": "Bskill_man_spd1.png"
+            },
+            {
+                "name": [ "大就是好！" ],
+                "intro": "进驻制造站时，当前制造站内干员根据自身提升的仓库容量提供一定的生产力。提升16格以下的，每格仓库容量提供1%生产力；提升大于16格的，每格仓库容量提供3%生产力（无法与回收利用叠加，且优先生效）",
+                "template": "Bskill_man_spd_variable31.png"
+            },
+            {
+                "name": [ "配合意识" ],
+                "intro": "进驻制造站时，当前制造站内其他干员提供的每5%生产力（不包含根据设施数量提供加成的生产力），额外提供5%生产力，最多提供40%生产力",
+                "template": "Bskill_man_spd_variable21.png"
+            },
+            {
+                "name": [ "回收利用" ],
+                "intro": "进驻制造站时，当前制造站内干员提升的每格仓库容量，提供2%生产力",
+                "template": "Bskill_man_spd_variable11.png"
+            },
+            {
+                "name": [ "意识实体" ],
+                "intro": "进驻制造站时，每1点思维链环+1%生产力",
+                "template": "Bskill_man_spd_bd2.png"
+            },
+            {
+                "name": [ "念力" ],
+                "intro": "进驻制造站时，每2点思维链环+1%生产力",
+                "template": "Bskill_man_spd_bd1.png"
+            },
+            {
+                "name": [ "超感" ],
+                "intro": "进驻制造站时，宿舍内每有1名干员则感知信息+1，同时每1点感知信息转化为1点思维链环",
+                "template": "Bskill_man_spd_bd_n1.png"
+            },
+            {
+                "name": [ "慢性子", "延时摄影" ],
+                "intro": "进驻制造站后，生产力首小时+15%，此后每小时+2%，最终达到+25%",
+                "template": "Bskill_man_spd_add2.png"
+            },
+            {
+                "name": [ "急性子", "“等不及”" ],
+                "intro": "进驻制造站后，生产力首小时+20%，此后每小时+1%，最终达到+25%",
+                "template": "Bskill_man_spd_add1.png"
+            },
+            {
+                "name": [ "再生能源" ],
+                "intro": "进驻制造站时，每个贸易站为当前制造站贵金属类配方的生产力+20%",
+                "template": "Bskill_man_spd&trade.png"
+            },
+            {
+                "name": [ "仿生海龙" ],
+                "intro": "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个发电站为当前制造站+15%的生产力",
+                "template": "Bskill_man_spd&power3.png"
+            },
+            {
+                "name": [ "自动化·β" ],
+                "intro": "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个发电站为当前制造站+10%的生产力",
+                "template": "Bskill_man_spd&power2.png"
+            },
+            {
+                "name": [ "自动化·α" ],
+                "intro": "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个发电站为当前制造站+5%的生产力",
+                "template": "Bskill_man_spd&power1.png"
+            },
+            {
+                "name": [ "仓库整备·β" ],
+                "intro": "进驻制造站时，仓库容量上限+10，生产力+10%",
+                "template": "Bskill_man_spd&limit3.png"
+            },
+            {
+                "name": [ "仓库整备·α" ],
+                "intro": "进驻制造站时，仓库容量上限+6，生产力+10%",
+                "template": "Bskill_man_spd&limit1.png"
+            },
+            {
+                "name": [ "“可靠”助手" ],
+                "intro": "进驻制造站时，生产力-20%，仓库容量上限+17，心情每小时消耗-0.25",
+                "template": "Bskill_man_spd&limit&cost4.png"
+            },
+            {
+                "name": [ "特立独行", "麻烦制造者" ],
+                "intro": "",
+                "template": "Bskill_man_spd&limit&cost3.png"
+            },
+            {
+                "name": [ "工匠精神·β" ],
+                "intro": "进驻制造站时，生产力-5%，仓库容量上限+19，心情每小时消耗-0.25",
+                "template": "Bskill_man_spd&limit&cost2.png"
+            },
+            {
+                "name": [ "工匠精神·α" ],
+                "intro": "进驻制造站时，生产力-5%，仓库容量上限+16，心情每小时消耗-0.15",
+                "template": "Bskill_man_spd&limit&cost1.png"
+            },
+            {
+                "name": [ "意识协议" ],
+                "intro": "进驻制造站时，当前制造站内每个标准化类技能为自身+5%的生产力",
+                "template": "Bskill_man_skill_spd.png"
+            },
+            {
+                "name": [ "源石工艺·β", "地质学·β", "火山学家", "源石研究" ],
+                "intro": "进驻制造站时，源石类配方的生产力+35%",
+                "template": "Bskill_man_originium2.png"
+            },
+            {
+                "name": [ "源石工艺·α", "地质学·α" ],
+                "intro": "进驻制造站时，源石类配方的生产力+30%",
+                "template": "Bskill_man_originium1.png"
+            },
+            {
+                "name": [ "探险者" ],
+                "intro": "进驻制造站时，仓库容量上限+16，心情每小时消耗-0.25",
+                "template": "Bskill_man_limit&cost3.png"
+            },
+            {
+                "name": [ "囤积者" ],
+                "intro": "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25",
+                "template": "Bskill_man_limit&cost2.png"
+            },
+            {
+                "name": [ "拾荒者", "智慧之境", "“都想要”", "磐蟹·阿盘" ],
+                "intro": "进驻制造站时，仓库容量上限+8，心情每小时消耗-0.25",
+                "template": "Bskill_man_limit&cost1.png"
+            },
+            {
+                "name": [ "金属工艺·β" ],
+                "intro": "进驻制造站时，贵金属类配方的生产力+35%",
+                "template": "Bskill_man_gold2.png"
+            },
+            {
+                "name": [ "金属工艺·α" ],
+                "intro": "进驻制造站时，贵金属类配方的生产力+30%",
+                "template": "Bskill_man_gold1.png"
+            },
+            {
+                "name": [ "拳术指导录像" ],
+                "intro": "进驻制造站时，作战记录类配方的生产力+35%",
+                "template": "Bskill_man_exp3.png"
+            },
+            {
+                "name": [ "作战指导录像" ],
+                "intro": "进驻制造站时，作战记录类配方的生产力+30%",
+                "template": "Bskill_man_exp2.png"
+            },
+            {
+                "name": [ "胜利之计" ],
+                "intro": "进驻制造站时，作战记录类配方的生产力+25%",
+                "template": "Bskill_man_exp1.png"
+            },
+            {
+                "name": [ "剪辑·β" ],
+                "intro": "进驻制造站时，生产作战记录类配方时，仓库容量上限+15",
+                "template": "Bskill_man_exp&limit2.png"
+            },
+            {
+                "name": [ "剪辑·α" ],
+                "intro": "进驻制造站时，生产作战记录类配方时，仓库容量上限+12",
+                "template": "Bskill_man_exp&limit1.png"
+            },
+            {
+                "name": [ "Vlog" ],
+                "intro": "进驻制造站时，生产作战记录类配方时，心情每小时消耗-0.25",
+                "template": "Bskill_man_exp&cost.png"
+            },
+            {
+                "name": [ "团队精神" ],
+                "intro": "进驻制造站时，消除当前制造站内所有干员自身心情消耗的影响",
+                "template": "Bskill_man_cost_all.png"
+            }
+        ]
+    }
+}

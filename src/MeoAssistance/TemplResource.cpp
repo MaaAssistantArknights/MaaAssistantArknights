@@ -4,9 +4,11 @@
 #include <array>
 #include <string_view>
 
-void asst::TemplResource::set_load_required(std::unordered_set<std::string> required) noexcept
+void asst::TemplResource::append_load_required(std::unordered_set<std::string> required) noexcept
 {
-    m_templs_filename = std::move(required);
+    m_templs_filename.insert(
+        std::make_move_iterator(required.begin()),
+        std::make_move_iterator(required.end()));
 }
 
 bool asst::TemplResource::load(const std::string& dir)
