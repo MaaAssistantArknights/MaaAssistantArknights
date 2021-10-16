@@ -818,8 +818,7 @@
         "Doc": "如果找到了“无人机加速”按钮，却没有找到订单交付：说明上一次无人机没有把一个订单加速完成，也说明没有更多的无人机了，所以直接stop",
         "template": "UavAssist-Trade.png",
         "action": "stop",
-        "cache": false,
-        "next": []
+        "cache": false
     },
     "InfrastSkillsUpper": {
         "algorithm": "justReturn",
@@ -841,17 +840,28 @@
     },
     "InfrastSmileyOnRest": {
         "template": "SmileyOnRest.png",
-        "maskRange": [100, 255],
-        "templThreshold":  0.8
+        "maskRange": [ 100, 255 ],
+        "templThreshold": 0.8
     },
     "InfrastSmileyOnWork": {
         "template": "SmileyOnWork.png",
-        "maskRange": [100, 255],
-        "templThreshold":  0.8
+        "maskRange": [ 100, 255 ],
+        "templThreshold": 0.8
     },
     "InfrastSmileyOnDistract": {
         "template": "SmileyOnDistract.png",
-        "maskRange": [100, 255],
+        "maskRange": [ 100, 255 ],
         "templThreshold": 0.8
+    },
+    "InfrastSkills": {
+        "template": "empty.png",
+        "histThreshold": 120,
+        "histThreshold_Doc": "该任务里的这个阈值，是特化了拿来做亮度平均值的，懒得重新写个字段了",
+        "resultMove": [
+            -6,
+            -40,
+            78,
+            36
+        ]
     }
 }

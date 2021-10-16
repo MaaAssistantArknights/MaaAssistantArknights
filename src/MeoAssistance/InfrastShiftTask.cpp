@@ -17,6 +17,7 @@ bool asst::InfrastShiftTask::run()
     InfrastSkillsImageAnalyzer skills_analyzer(image);
 
     if (skills_analyzer.analyze()) {
+        return true;
     }
 
     return false;
