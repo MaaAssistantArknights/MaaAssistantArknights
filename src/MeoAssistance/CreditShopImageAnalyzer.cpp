@@ -20,7 +20,7 @@ bool asst::CreditShopImageAnalyzer::analyze()
 
 bool asst::CreditShopImageAnalyzer::commoditys_analyze()
 {
-    const static auto commodity_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+    const auto commodity_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("CreditShop-Commoditys"));
 
     // 识别信用点的图标
@@ -54,7 +54,7 @@ bool asst::CreditShopImageAnalyzer::commoditys_analyze()
 
 bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 {
-    const static auto not_to_buy_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
+    const auto not_to_buy_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
         resource.task().task_ptr("CreditShop-NotToBuy"));
 
     for (const Rect& commodity : m_commoditys) {
@@ -81,7 +81,7 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 
 bool asst::CreditShopImageAnalyzer::sold_out_analyze()
 {
-    const static auto sold_out_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+    const auto sold_out_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("CreditShop-SoldOut"));
 
     // 识别是否售罄

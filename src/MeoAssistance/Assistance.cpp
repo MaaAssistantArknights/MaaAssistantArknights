@@ -423,7 +423,7 @@ void Assistance::working_proc()
             //controller.set_idle(false);
 
             auto start_time = std::chrono::system_clock::now();
-            std::shared_ptr<AbstractTask> task_ptr = m_tasks_deque.front();
+            auto task_ptr = m_tasks_deque.front();
             // 先pop出来，如果执行失败再还原回去
             m_tasks_deque.pop_front();
 

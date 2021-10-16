@@ -78,8 +78,7 @@ bool asst::AbstractTask::click_return_button()
 
     static Rect ReturnButtonRect;
     if (ReturnButtonRect.empty()) {
-        const static auto return_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-            resource.task().task_ptr("Return"));
+        const auto return_task_ptr = resource.task().task_ptr("Return");
         ReturnButtonRect = return_task_ptr->specific_rect;
     }
     return ctrler.click(ReturnButtonRect);
