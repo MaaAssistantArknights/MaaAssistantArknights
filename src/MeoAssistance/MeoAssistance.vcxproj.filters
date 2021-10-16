@@ -165,6 +165,9 @@
     <ClInclude Include="InfrastSmileyImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Infrast</Filter>
     </ClInclude>
+    <ClInclude Include="InfrastConfiger.h">
+      <Filter>头文件\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -257,15 +260,18 @@
     <ClCompile Include="OcrImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\General</Filter>
     </ClCompile>
+    <ClCompile Include="InfrastConfiger.cpp">
+      <Filter>源文件\Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="..\..\resource\recruit.json">
+    <None Include="..\..\resource\tasks.json">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="..\..\resource\tasks.json">
+    <None Include="..\..\resource\infrast.json">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
