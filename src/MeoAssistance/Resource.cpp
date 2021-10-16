@@ -38,6 +38,11 @@ bool asst::Resource::load(const std::string& dir)
         m_last_error = m_item_cfg_unique_ins.get_last_error();
         return false;
     }
+    if (!m_infrast_cfg_unique_ins.load(dir + InfrastCfgFilename)) {
+        m_last_error = m_infrast_cfg_unique_ins.get_last_error();
+        return false;
+    }
+
     if (!m_user_cfg_unique_ins.load(dir + UserCfgFilename)) {
         m_last_error = m_user_cfg_unique_ins.get_last_error();
         return false;

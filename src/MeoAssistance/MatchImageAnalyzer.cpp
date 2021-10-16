@@ -57,14 +57,15 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
 {
     cv::Mat matched;
 
+    cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi));
     if (m_mask_range.first == m_mask_range.second) {
-        cv::matchTemplate(m_image, templ, matched, cv::TM_CCOEFF_NORMED);
+        cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED);
     }
     else {
         cv::Mat mask;
         cv::cvtColor(templ, mask, cv::COLOR_BGR2GRAY);
         cv::threshold(mask, mask, m_mask_range.first, m_mask_range.second, cv::THRESH_BINARY);
-        cv::matchTemplate(m_image, templ, matched, cv::TM_CCOEFF_NORMED, mask);
+        cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED, mask);
     }
     double min_val = 0.0, max_val = 0.0;
     cv::Point min_loc, max_loc;

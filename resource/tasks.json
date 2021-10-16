@@ -855,13 +855,15 @@
     },
     "InfrastSkills": {
         "template": "empty.png",
+        "templThreshold": 0.9,
         "histThreshold": 120,
-        "histThreshold_Doc": "该任务里的这个阈值，是特化了拿来做亮度平均值的，懒得重新写个字段了",
+        "histThreshold_Doc": "该任务里的Hist阈值，是特化了拿来做灰度图平均值的，懒得重新写个字段了",
         "resultMove": [
-            -6,
-            -40,
-            78,
-            36
-        ]
+            -8,
+            -42,
+            82,
+            40
+        ],
+        "maskRange": [ 1, 255 ]
     }
 }

@@ -96,7 +96,7 @@
             },
             {
                 "name": [ "特立独行", "麻烦制造者" ],
-                "intro": "",
+                "intro": "进驻制造站时，生产力+25%，仓库容量上限-12，心情每小时消耗+0.25",
                 "template": "Bskill_man_spd&limit&cost3.png"
             },
             {

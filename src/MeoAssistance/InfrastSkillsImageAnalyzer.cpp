@@ -3,6 +3,8 @@
 #include "Resource.h"
 #include "InfrastSmileyImageAnalyzer.h"
 #include "AsstUtils.hpp"
+#include "MatchImageAnalyzer.h"
+#include "Logger.hpp"
 
 bool asst::InfrastSkillsImageAnalyzer::analyze()
 {
@@ -21,6 +23,8 @@ bool asst::InfrastSkillsImageAnalyzer::analyze()
     m_roi = raw_roi;
 
     skills_split();
+
+    skill_analyze();
 
     return true;
 }
@@ -99,7 +103,7 @@ bool asst::InfrastSkillsImageAnalyzer::skills_split()
             skill_rect_in_org.y += roi.y;
 
 #ifdef LOG_TRACE
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(skill_rect_in_org), cv::Scalar(0, 255, 0), 2);
+            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(skill_rect_in_org), cv::Scalar(0, 0, 255), 2);
 #endif
             skills_vec.emplace_back(skill_rect_in_org);
         }
@@ -111,5 +115,38 @@ bool asst::InfrastSkillsImageAnalyzer::skills_split()
 
 bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
 {
-    return false;
+    const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        resource.task().task_ptr("InfrastSkills"));
+
+    MatchImageAnalyzer skill_analyzer(m_image);
+    skill_analyzer.set_mask_range(task_ptr->mask_range);
+    skill_analyzer.set_threshold(task_ptr->templ_threshold);
+
+    for (const auto& skills_rect_vec : m_skills_splited) {
+        for (const Rect& skill_rect : skills_rect_vec) {
+            skill_analyzer.set_roi(skill_rect);
+
+            InfrastSkill most_confident_skills;
+            double max_socre = 0;
+            for (const InfrastSkill& skill : resource.infrast().get_skills("Mfg")) {
+                skill_analyzer.set_templ_name(skill.templ_name);
+
+                if (!skill_analyzer.analyze()) {
+                    continue;
+                }
+                auto cur_score = skill_analyzer.get_result().score;
+                if (max_socre < cur_score) {
+                    max_socre = cur_score;
+                    most_confident_skills = skill;
+                }
+            }
+#ifdef LOG_TRACE
+            std::string skill_id = most_confident_skills.id;
+            //cv::putText(m_image_draw, skill_id, cv::Point(skill_rect.x, skill_rect.y), 1, 1, cv::Scalar(0, 0, 255));
+            cv::Mat skill_mat = m_image(utils::make_rect<cv::Rect>(skill_rect));
+            log.trace(max_socre, skill_id, most_confident_skills.names.front(), most_confident_skills.intro);
+#endif
+        }
+    }
+    return true;
 }
