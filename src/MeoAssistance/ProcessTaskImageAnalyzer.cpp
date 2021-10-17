@@ -113,6 +113,9 @@ void asst::ProcessTaskImageAnalyzer::reset() noexcept
 
 bool asst::ProcessTaskImageAnalyzer::analyze()
 {
+    // 该分析器不接受ROI，只识别整张图片
+    set_roi(Rect());
+
     m_result = nullptr;
     m_result_rect = Rect();
 
@@ -141,14 +144,8 @@ bool asst::ProcessTaskImageAnalyzer::analyze()
     return false;
 }
 
-void asst::ProcessTaskImageAnalyzer::set_image(const cv::Mat & image, const Rect & roi)
+void asst::ProcessTaskImageAnalyzer::set_image(const cv::Mat & image)
 {
-    AbstractImageAnalyzer::set_image(image, roi);
-    reset();
-}
-
-void asst::ProcessTaskImageAnalyzer::set_roi(const Rect & roi) noexcept
-{
-    AbstractImageAnalyzer::set_roi(roi);
+    AbstractImageAnalyzer::set_image(image);
     reset();
 }

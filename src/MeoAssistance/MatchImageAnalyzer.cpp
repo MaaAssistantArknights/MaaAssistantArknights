@@ -71,7 +71,9 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
     cv::Point min_loc, max_loc;
     cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
-    log.trace("match_templ | score:", max_val, "point:", max_loc);
+    if (max_val > 0.6) {    // 得分太低的肯定不对，没必要打印
+        log.trace("match_templ | score:", max_val, "point:", max_loc);
+    }
 
     if (max_val >= m_templ_thres) {
         Rect rect(max_loc.x + m_roi.x, max_loc.y + m_roi.y, templ.cols, templ.rows);
@@ -88,7 +90,9 @@ bool asst::MatchImageAnalyzer::comp_hist(const cv::Mat& hist, const cv::Rect roi
     cv::Mat roi_image = m_image(utils::make_rect<cv::Rect>(m_roi))(roi);
     double score = 1.0 - cv::compareHist(to_hist(roi_image), hist, cv::HISTCMP_BHATTACHARYYA);
 
-    log.trace("comp_hist | score:", score);
+    if (score > 0.6) {    // 得分太低的肯定不对，没必要打印
+        log.trace("comp_hist | score:", score);
+    }
 
     if (score >= m_hist_thres) {
         Rect rect(roi.x + m_roi.x, roi.y + m_roi.y, hist.cols, hist.rows);

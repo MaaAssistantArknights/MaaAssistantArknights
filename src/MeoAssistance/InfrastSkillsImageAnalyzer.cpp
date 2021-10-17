@@ -10,17 +10,9 @@ bool asst::InfrastSkillsImageAnalyzer::analyze()
 {
     m_skills_detected.clear();
     m_skills_splited.clear();
+    m_result.clear();
 
-    auto raw_roi = m_roi;
-    const auto upper_task_ptr = resource.task().task_ptr("InfrastSkillsUpper");
-    m_roi = upper_task_ptr->roi;
-    bool upper_ret = skills_detect();
-
-    const auto lower_task_ptr = resource.task().task_ptr("InfrastSkillsLower");
-    m_roi = lower_task_ptr->roi;
-    bool lower_ret = skills_detect();
-
-    m_roi = raw_roi;
+    skills_detect();
 
     skills_split();
 
@@ -31,36 +23,56 @@ bool asst::InfrastSkillsImageAnalyzer::analyze()
 
 bool asst::InfrastSkillsImageAnalyzer::skills_detect()
 {
-    InfrastSmileyImageAnalyzer smiley_analyzer(m_image, m_roi);
+    const auto upper_task_ptr = resource.task().task_ptr("InfrastSkillsUpper");
+    const auto lower_task_ptr = resource.task().task_ptr("InfrastSkillsLower");
+    const auto hash_task_ptr = resource.task().task_ptr("InfrastSkillsHash");
 
-    if (!smiley_analyzer.analyze()) {
-        return false;
-    }
+    Rect hash_rect_move = hash_task_ptr->result_move;
 
-    const auto& smiley_res = smiley_analyzer.get_result();
+    std::vector<Rect> roi_vec = {
+        upper_task_ptr->roi,
+        lower_task_ptr->roi
+    };
 
-    const auto task_ptr = resource.task().task_ptr("InfrastSkills");
-    int skills_x_offset = task_ptr->result_move.x;
-    int skills_y_offset = task_ptr->result_move.y;
-    int skills_width = task_ptr->result_move.width;
-    int skills_height = task_ptr->result_move.height;
+    InfrastSmileyImageAnalyzer smiley_analyzer(m_image);
 
-    for (const auto& [_type, smiley_rect] : smiley_res) {
-        Rect skills_rect;
-        skills_rect.x = smiley_rect.x + skills_x_offset;
-        skills_rect.y = smiley_rect.y + skills_y_offset;
-        skills_rect.width = skills_width;
-        skills_rect.height = skills_height;
-
-        // 超过ROI边界了
-        if (skills_rect.x + skills_rect.width > m_roi.x + m_roi.width
-            || skills_rect.x < m_roi.x) {
-            continue;
+    for (auto&& roi : roi_vec) {
+        smiley_analyzer.set_roi(roi);
+        if (!smiley_analyzer.analyze()) {
+            return false;
         }
+
+        const auto& smiley_res = smiley_analyzer.get_result();
+
+        const auto task_ptr = resource.task().task_ptr("InfrastSkills");
+        int skills_x_offset = task_ptr->result_move.x;
+        int skills_y_offset = task_ptr->result_move.y;
+        int skills_width = task_ptr->result_move.width;
+        int skills_height = task_ptr->result_move.height;
+
+        for (const auto& [_type, smiley_rect] : smiley_res) {
+            Rect skills_rect;
+            skills_rect.x = smiley_rect.x + skills_x_offset;
+            skills_rect.y = smiley_rect.y + skills_y_offset;
+            skills_rect.width = skills_width;
+            skills_rect.height = skills_height;
+
+            // 超过ROI边界了
+            if (skills_rect.x + skills_rect.width > roi.x + roi.width
+                || skills_rect.x < roi.x) {
+                continue;
+            }
 #ifdef LOG_TRACE
-        //cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(skills_rect), cv::Scalar(0, 0, 255), 2);
+            //cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(skills_rect), cv::Scalar(0, 0, 255), 2);
 #endif // LOG_TRACE
-        m_skills_detected.emplace_back(std::move(skills_rect));
+
+            Rect hash_rect = hash_rect_move;
+            hash_rect.x += skills_rect.x;
+            hash_rect.y += skills_rect.y;
+            std::string hash = calc_hash(hash_rect);
+
+            m_skills_detected.emplace(std::move(hash), std::move(skills_rect));
+        }
     }
 
     if (!m_skills_detected.empty()) {
@@ -75,7 +87,7 @@ bool asst::InfrastSkillsImageAnalyzer::skills_split()
         resource.task().task_ptr("InfrastSkills"));
     const auto thres = task_ptr->hist_threshold;
 
-    for (const Rect& roi : m_skills_detected) {
+    for (const auto& [hash, roi] : m_skills_detected) {
         static int skill_width = roi.height;
         static int spacing = (roi.width - roi.height * MaxNumOfSkills) / (MaxNumOfSkills - 1);
         static cv::Mat mask;
@@ -107,7 +119,7 @@ bool asst::InfrastSkillsImageAnalyzer::skills_split()
 #endif
             skills_vec.emplace_back(skill_rect_in_org);
         }
-        m_skills_splited.emplace_back(skills_vec);
+        m_skills_splited.emplace(hash, skills_vec);
     }
 
     return false;
@@ -122,7 +134,7 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
     skill_analyzer.set_mask_range(task_ptr->mask_range);
     skill_analyzer.set_threshold(task_ptr->templ_threshold);
 
-    for (const auto& skills_rect_vec : m_skills_splited) {
+    for (const auto& [hash, skills_rect_vec] : m_skills_splited) {
         std::vector<InfrastSkill> skills_vec;   // 单个干员的全部技能
         for (const Rect& skill_rect : skills_rect_vec) {
             skill_analyzer.set_roi(skill_rect);
@@ -187,9 +199,13 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
 #endif
             skills_vec.emplace_back(std::move(most_confident_skills));
         }
-        m_skills_result.emplace_back(std::move(skills_vec));
+        InfrastOperSkillInfo res;
+        res.hash = hash;
+        res.skills = std::move(skills_vec);
+        res.rect = m_skills_detected.at(hash);
+        m_result.emplace_back(std::move(res));
     }
-    if (!m_skills_result.empty()) {
+    if (!m_result.empty()) {
         return true;
     }
     return false;

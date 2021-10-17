@@ -13,6 +13,8 @@ namespace json
 }
 
 namespace asst {
+    constexpr double DoubleDiff = 1e-12;
+
     struct Point
     {
         Point() = default;
@@ -199,7 +201,28 @@ namespace asst {
         std::string path;
     };
 
-    constexpr double DoubleDiff = 1e-12;
+    enum class InfrastSmileyType {
+        Invalid = -1,
+        Rest,       // 休息完成，绿色笑脸
+        Work,       // 工作中，黄色笑脸
+        Distract    // 注意力涣散，红色哭脸
+    };
+    struct InfrastSmileyInfo {
+        InfrastSmileyType type;
+        Rect rect;
+    };
+    struct InfrastSkill {
+        std::string id;
+        std::string templ_name;
+        std::vector<std::string> names;  // 很多基建技能是一样的，就是名字不同。所以一个技能id可能对应多个名字
+        std::string intro;
+    };
+    // 基建 干员技能信息
+    struct InfrastOperSkillInfo {
+        std::string hash;       // 有些干员的技能是完全一样的，做个hash区分一下不同干员
+        std::vector<InfrastSkill> skills;
+        Rect rect;
+    };
 }
 
 namespace std {
@@ -217,10 +240,10 @@ namespace std {
     template<>
     class hash<asst::TextRect> {
     public:
-        size_t operator()(const asst::TextRect& textarea) const
+        size_t operator()(const asst::TextRect& tr) const
         {
-            return std::hash<std::string>()(textarea.text)
-                ^ std::hash<asst::Rect>()(textarea.rect);
+            return std::hash<std::string>()(tr.text)
+                ^ std::hash<asst::Rect>()(tr.rect);
         }
     };
 }

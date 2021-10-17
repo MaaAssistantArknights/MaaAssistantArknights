@@ -4,14 +4,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
-namespace asst {
-    struct InfrastSkill {
-        std::string id;
-        std::string templ_name;
-        std::vector<std::string> names;  // 很多基建技能是一样的，就是名字不同。所以一个技能id可能对应多个名字
-        std::string intro;
-    };
+#include "AsstDef.h"
 
+namespace asst {
     class InfrastConfiger : public AbstractConfiger
     {
     public:
