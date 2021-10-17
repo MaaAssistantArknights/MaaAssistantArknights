@@ -9,14 +9,19 @@ namespace asst {
     {
     public:
         AbstractImageAnalyzer() = default;
-        AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi = Rect());
+        AbstractImageAnalyzer(const cv::Mat& image);
+        AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi);
         AbstractImageAnalyzer(const AbstractImageAnalyzer&) = delete;
         AbstractImageAnalyzer(AbstractImageAnalyzer&&) = delete;
         virtual ~AbstractImageAnalyzer() = default;
 
-        virtual void set_image(const cv::Mat& image, const Rect& roi = Rect());
+        virtual void set_image(const cv::Mat& image);
+        virtual void set_image(const cv::Mat& image, const Rect& roi);
         virtual void set_roi(const Rect& roi) noexcept;
         virtual bool analyze() = 0;
+
+        std::string calc_hash() const;               // 使用m_roi
+        std::string calc_hash(const Rect& roi) const;// 使用参数roi
 
         AbstractImageAnalyzer& operator=(const AbstractImageAnalyzer&) = delete;
         AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;

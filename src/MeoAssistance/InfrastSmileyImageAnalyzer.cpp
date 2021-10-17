@@ -6,11 +6,11 @@
 
 bool asst::InfrastSmileyImageAnalyzer::analyze()
 {
-    const static std::unordered_map<SmileyType, std::string> smiley_map =
+    const static std::unordered_map<InfrastSmileyType, std::string> smiley_map =
     {
-        {SmileyType::Rest, "InfrastSmileyOnRest"},
-        {SmileyType::Work, "InfrastSmileyOnWork"},
-        {SmileyType::Distract, "InfrastSmileyOnDistract"}
+        {InfrastSmileyType::Rest, "InfrastSmileyOnRest"},
+        {InfrastSmileyType::Work, "InfrastSmileyOnWork"},
+        {InfrastSmileyType::Distract, "InfrastSmileyOnDistract"}
     };
 
     m_result.clear();
@@ -28,7 +28,7 @@ bool asst::InfrastSmileyImageAnalyzer::analyze()
         }
         auto& res = mm_analyzer.get_result();
         for (const MatchRect& mr : res) {
-            temp_result.emplace_back(SmileyInfo{ type, mr.rect });
+            temp_result.emplace_back(InfrastSmileyInfo{ type, mr.rect });
 #ifdef LOG_TRACE
             cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(mr.rect), cv::Scalar(0, 0, 255), 2);
 #endif

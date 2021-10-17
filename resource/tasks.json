@@ -20,7 +20,7 @@
         ]
     },
     "UsePrts": {
-        "templThreshold": 0.8,
+        "templThreshold": 0.9,
         "action": "clickSelf",
         "next": [
             "StartButton1"
@@ -838,6 +838,15 @@
             110
         ]
     },
+    "InfrastSkillsHash": {
+        "algorithm": "justReturn",
+        "resultMove": [
+            0,
+            -160,
+            82,
+            110
+        ]
+    },
     "InfrastSmileyOnRest": {
         "template": "SmileyOnRest.png",
         "maskRange": [ 100, 255 ],
@@ -855,7 +864,7 @@
     },
     "InfrastSkills": {
         "template": "empty.png",
-        "templThreshold": 0.9,
+        "templThreshold": 0.8,
         "histThreshold": 120,
         "histThreshold_Doc": "该任务里的Hist阈值，是特化了拿来做灰度图平均值的，懒得重新写个字段了",
         "resultMove": [
