@@ -123,10 +123,11 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
     skill_analyzer.set_threshold(task_ptr->templ_threshold);
 
     for (const auto& skills_rect_vec : m_skills_splited) {
+        std::vector<InfrastSkill> skills_vec;   // 单个干员的全部技能
         for (const Rect& skill_rect : skills_rect_vec) {
             skill_analyzer.set_roi(skill_rect);
 
-            InfrastSkill most_confident_skills;
+            std::vector<std::pair<InfrastSkill, MatchRect>> possible_skills;
             double max_socre = 0;
             for (const InfrastSkill& skill : resource.infrast().get_skills("Mfg")) {
                 skill_analyzer.set_templ_name(skill.templ_name);
@@ -134,10 +135,48 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
                 if (!skill_analyzer.analyze()) {
                     continue;
                 }
-                auto cur_score = skill_analyzer.get_result().score;
-                if (max_socre < cur_score) {
-                    max_socre = cur_score;
-                    most_confident_skills = skill;
+                possible_skills.emplace_back(std::make_pair(skill, skill_analyzer.get_result()));
+            }
+            if (possible_skills.empty()) {
+                log.error("skill has no recognition result");
+                continue;
+            }
+            // 可能的结果多于1个，只可能是同一个技能不同等级的结果
+            // 例如：标准化a、标准化b，这两个模板非常像，然后分数都超过了阈值
+            // 如果原图是标准化a，是不可能匹配上标准化b的模板的，因为b的模板左半边多了半个环
+            // 相反如果原图是标准化b，却有可能匹配上标准化a的模板，因为a的模板右半边的环，b的原图中也有
+            // 所以如果结果是同类型的，只需要取里面等级最高的那个即可
+            InfrastSkill most_confident_skills;
+            if (possible_skills.size() == 1) {
+                most_confident_skills = possible_skills.front().first;
+            }
+            else if (possible_skills.size() > 1) {
+                // 匹配得分最高的id作为基准，排除有识别错误，其他的技能混进来了的情况
+                // 即排除容器中，除了有同一个技能的不同等级，还有别的技能的情况
+                auto max_iter = std::max_element(possible_skills.begin(), possible_skills.end(),
+                    [](const auto& lhs, const auto& rhs) -> bool {
+                        return lhs.second.score > rhs.second.score;
+                    });
+                std::string base_id = max_iter->first.id;
+                size_t level_pos = 0;
+                // 倒着找，第一个不是数字的。前面就是技能基础id名字，后面的数字就是技能等级
+                for (size_t i = base_id.size() - 1; i != 0; --i) {
+                    if (!std::isdigit(base_id.at(i))) {
+                        level_pos = i + 1;
+                        break;
+                    }
+                }
+                base_id = base_id.substr(0, level_pos);
+                std::string max_level;
+                for (const auto& [skill, _] : possible_skills) {
+                    if (size_t find_pos = skill.id.find(base_id);
+                        find_pos != std::string::npos) {
+                        std::string cur_skill_level = skill.id.substr(base_id.size());
+                        if (cur_skill_level > max_level) {
+                            max_level = cur_skill_level;
+                            most_confident_skills = skill;
+                        }
+                    } // 这里对应的else就是上述的其他技能混进来了的情况
                 }
             }
 #ifdef LOG_TRACE
@@ -146,7 +185,12 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
             cv::Mat skill_mat = m_image(utils::make_rect<cv::Rect>(skill_rect));
             log.trace(max_socre, skill_id, most_confident_skills.names.front(), most_confident_skills.intro);
 #endif
+            skills_vec.emplace_back(std::move(most_confident_skills));
         }
+        m_skills_result.emplace_back(std::move(skills_vec));
     }
-    return true;
+    if (!m_skills_result.empty()) {
+        return true;
+    }
+    return false;
 }
