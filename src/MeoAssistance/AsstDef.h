@@ -119,7 +119,33 @@ namespace asst {
         double score = 0.0;
         Rect rect;
     };
+}
 
+namespace std {
+    template<>
+    class hash<asst::Rect> {
+    public:
+        size_t operator()(const asst::Rect& rect) const
+        {
+            return std::hash<int>()(rect.x)
+                ^ std::hash<int>()(rect.y)
+                ^ std::hash<int>()(rect.width)
+                ^ std::hash<int>()(rect.height);
+        }
+    };
+    template<>
+    class hash<asst::TextRect> {
+    public:
+        size_t operator()(const asst::TextRect& tr) const
+        {
+            return std::hash<std::string>()(tr.text)
+                ^ std::hash<asst::Rect>()(tr.rect);
+        }
+    };
+}
+
+
+namespace asst {
     enum class ProcessTaskAction {
         Invalid = 0,
         BasicClick = 0x100,
@@ -163,7 +189,7 @@ namespace asst {
         std::unordered_map<std::string, std::string>
             replace_map;								// 部分文字容易识别错，字符串强制replace之后，再进行匹配
         bool cache = false;								// 是否使用历史区域
-        std::vector<Rect> region_of_appeared;			// 曾经出现过的区域：上次处理该任务时，在一些rect里识别到过text，这次优先在这些rect里识别，省点性能
+        std::unordered_set<Rect> region_of_appeared;			// 曾经出现过的区域：上次处理该任务时，在一些rect里识别到过text，这次优先在这些rect里识别，省点性能
     };
 
     // 图片匹配任务的信息
@@ -222,28 +248,5 @@ namespace asst {
         std::string hash;       // 有些干员的技能是完全一样的，做个hash区分一下不同干员
         std::vector<InfrastSkill> skills;
         Rect rect;
-    };
-}
-
-namespace std {
-    template<>
-    class hash<asst::Rect> {
-    public:
-        size_t operator()(const asst::Rect& rect) const
-        {
-            return std::hash<int>()(rect.x)
-                ^ std::hash<int>()(rect.y)
-                ^ std::hash<int>()(rect.width)
-                ^ std::hash<int>()(rect.height);
-        }
-    };
-    template<>
-    class hash<asst::TextRect> {
-    public:
-        size_t operator()(const asst::TextRect& tr) const
-        {
-            return std::hash<std::string>()(tr.text)
-                ^ std::hash<asst::Rect>()(tr.rect);
-        }
     };
 }
