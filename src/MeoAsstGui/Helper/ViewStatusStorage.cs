@@ -9,7 +9,7 @@ namespace MeoAsstGui
     public class ViewStatusStorage
     {
         private static string _configFilename = System.Environment.CurrentDirectory + "\\gui.json";
-        private static JObject _viewStatus;
+        private static JObject _viewStatus = new JObject();
 
         public static string Get(string key, string defalut_value)
         {
@@ -36,6 +36,11 @@ namespace MeoAsstGui
                 {
                     string jsonStr = sr.ReadToEnd();
                     _viewStatus = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                    // 文件存在但为空，会读出来一个null，感觉c#这库有bug
+                    if (_viewStatus == null)
+                    {
+                        _viewStatus = new JObject();
+                    }
                 }
             }
             catch (Exception)
