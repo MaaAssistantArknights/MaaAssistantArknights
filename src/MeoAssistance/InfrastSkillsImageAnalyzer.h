@@ -18,6 +18,9 @@ namespace asst {
         const std::vector<InfrastOperSkillInfo>& get_result() const noexcept {
             return m_result;
         }
+        void set_facility(std::string facility_name) noexcept {
+            m_facility = std::move(facility_name);
+        }
 
         constexpr static int MaxNumOfSkills = 2;    // 单个干员最多有几个基建技能
 
@@ -33,6 +36,7 @@ namespace asst {
         bool skills_split();         // 拆分成一个一个的区域
         bool skill_analyze();        // 识别每个技能区域是啥
 
+        std::string m_facility;
         // skills_detect()的结果，key是hash，value是单个干员的全部技能区域
         std::unordered_map<std::string, Rect> m_skills_detected;
         // skills_split()的结果，key是hash，value中每个Rect是单个技能区域

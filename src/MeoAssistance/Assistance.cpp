@@ -232,6 +232,8 @@ bool Assistance::start_debug_task()
     {
         constexpr static const char* DebugTaskChain = "Debug";
         auto shift_task_ptr = std::make_shared<InfrastShiftTask>(task_callback, (void*)this);
+        shift_task_ptr->set_facility("Mfg");
+        shift_task_ptr->set_product("CombatRecord");
         shift_task_ptr->set_task_chain(DebugTaskChain);
         m_tasks_deque.emplace_back(shift_task_ptr);
     }
