@@ -196,6 +196,39 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         m_emulator_info = info;
         adb_dir = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", utils::get_cur_dir()) + '"';
     }
+    
+    // 针对雷电模拟器连接问题的专用补丁
+    if (m_emulator_info.handle.class_name == "LDPlayerMainFrame") {
+        log.trace("LDPlayer Connection Patch Activated.");
+        std::string connect_cmd = utils::string_replace_all("[Adb] devices", "[Adb]", adb_dir);
+        auto devices_result = call_command(connect_cmd);
+        std::string devices_list(
+            std::make_move_iterator(devices_result.begin()),
+            std::make_move_iterator(devices_result.end()));
+        // 查找连接的所有设备
+        std::string device = {};
+
+        if (devices_list.find("emulator") != devices_list.npos) {
+            device = devices_list.substr(devices_list.find("emulator"), 13);
+            m_emulator_info.adb.connect = "";
+        }
+        else if (devices_list.find("127") != devices_list.npos) {
+            devices_list.substr(devices_list.find("127"), 14);
+        }
+
+        if (device.empty()) {
+            log.trace("no device detected.");
+            return false;
+        }
+
+        log.trace("device detected: ", device);
+
+        m_emulator_info.adb.connect = utils::string_replace_all(m_emulator_info.adb.connect, "127.0.0.1:5555", device);
+        m_emulator_info.adb.click = utils::string_replace_all(m_emulator_info.adb.click, "-e", "-s " + device);
+        m_emulator_info.adb.swipe = utils::string_replace_all(m_emulator_info.adb.swipe, "-e", "-s " + device);
+        m_emulator_info.adb.display = utils::string_replace_all(m_emulator_info.adb.display, "-e", "-s " + device);
+        m_emulator_info.adb.screencap = utils::string_replace_all(m_emulator_info.adb.screencap, "-e", "-s " + device);
+    }
 
     // TODO，检查连接是否成功
     std::string connect_cmd = utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", adb_dir);
