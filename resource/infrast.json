@@ -5,16 +5,8 @@
     "Mfg": {
         "Mfg_Doc": "制造站",
         "products": [
-            {
-                "id:": "CombatRecord",
-                "name": "作战记录",
-                "template": "InfrastMfgDogFoodFlag.png"
-            },
-            {
-                "id": "PureGold",
-                "name": "赤金",
-                "template": "InfrastMfgPureGoldFlag.png"
-            }
+            "CombatRecord",
+            "PureGold"
         ],
         "skills_Doc": "技能ID默认就是模板名（不带.png），name和intro实际都不产生作用，给人看的",
         "skills": [
@@ -127,7 +119,7 @@
                 "intro": "进驻制造站时，每个贸易站为当前制造站贵金属类配方的生产力+20%",
                 "template": "Bskill_man_spd&trade.png",
                 "efficient": {
-                    "PureGold_Reg": "[NumOfTrade] * 20"
+                    "PureGold_reg": "[NumOfTrade] * 20"
                 }
             },
             {
@@ -331,8 +323,43 @@
                 "template": "Bskill_man_cost_all.png"
             }
         ],
-        "skillsComb_Doc": "相关组合参考https://bbs.nga.cn/read.php?tid=25965441",
-        "skillsComb": [
+        "skillsGroup_Doc": "相关技能组参考https://bbs.nga.cn/read.php?tid=25965441",
+        "skillsGroup": [
+            {
+                "intro": "水月组",
+                "necessary": [
+                    {
+                        "intro": "水月-2",
+                        "skills": [
+                            "Bskill_man_skill_spd",
+                            "Bskill_man_spd2"
+                        ],
+                        "efficient": {
+                            "all": 30
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "intro": "标准化·β",
+                        "skills": [
+                            "Bskill_man_spd2"
+                        ],
+                        "efficient": {
+                            "all": 30
+                        }
+                    },
+                    {
+                        "intro": "标准化·α",
+                        "skills": [
+                            "Bskill_man_spd1"
+                        ],
+                        "efficient": {
+                            "all": 20
+                        }
+                    }
+                ]
+            },
             {
                 "intro": "红云组",
                 "necessary": [
@@ -357,6 +384,425 @@
                         "efficient": {
                             "CombatRecord": 47
                         }
+                    },
+                    {
+                        "intro": "帕拉斯-2",
+                        "skills": [
+                            "Bskill_man_limit&cost1",
+                            "Bskill_man_exp1"
+                        ],
+                        "efficient": {
+                            "CombatRecord": 41
+                        }
+                    },
+                    {
+                        "intro": "刻俄柏-2",
+                        "skills": [
+                            "Bskill_man_spd_add1",
+                            "Bskill_man_limit&cost1"
+                        ],
+                        "efficient": {
+                            "all": 40
+                        }
+                    },
+                    {
+                        "intro": "火神-2",
+                        "skills": [
+                            "Bskill_man_spd&limit&cost2"
+                        ],
+                        "efficient": {
+                            "all": 33
+                        }
+                    },
+                    {
+                        "intro": "石棉-2",
+                        "skills": [
+                            "Bskill_man_spd&limit&cost3",
+                            "Bskill_man_limit&cost3"
+                        ],
+                        "efficient": {
+                            "all": 33
+                        }
+                    },
+                    {
+                        "intro": "豆苗-1",
+                        "skills": [
+                            "Bskill_man_spd1",
+                            "Bskill_man_limit&cost1"
+                        ],
+                        "efficient": {
+                            "all": 31
+                        }
+                    },
+                    {
+                        "intro": "黑角、蛇屠箱",
+                        "skills": [
+                            "Bskill_man_spd&limit3"
+                        ],
+                        "efficient": {
+                            "all": 30
+                        }
+                    },
+                    {
+                        "intro": "卡达-1",
+                        "skills": [
+                            "Bskill_man_exp&cost",
+                            "Bskill_man_exp&limit2"
+                        ],
+                        "efficient": {
+                            "all": 30
+                        }
+                    },
+                    {
+                        "intro": "米格鲁、卡缇",
+                        "skills": [
+                            "Bskill_man_spd&limit1"
+                        ],
+                        "efficient": {
+                            "all": 22
+                        }
+                    },
+                    {
+                        "intro": "刻俄柏",
+                        "skills": [
+                            "Bskill_man_limit&cost1"
+                        ],
+                        "efficient": {
+                            "all": 16
+                        }
+                    },
+                    {
+                        "intro": "贝娜",
+                        "skills": [
+                            "Bskill_man_spd&limit&cost4"
+                        ],
+                        "efficient": {
+                            "all": 14
+                        }
+                    },
+                    {
+                        "intro": "帕拉斯",
+                        "skills": [
+                            "Bskill_man_limit&cost1"
+                        ],
+                        "efficient": {
+                            "all": 14
+                        }
+                    }
+                ]
+            },
+            {
+                "intro": "泡泡组",
+                "necessary": [
+                    {
+                        "intro": "泡泡-1",
+                        "skills": [
+                            "Bskill_man_limit&cost2",
+                            "Bskill_man_spd_variable31"
+                        ],
+                        "efficient": {
+                            "all": 10
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "intro": "火神-2",
+                        "skills": [
+                            "Bskill_man_spd&limit&cost2"
+                        ],
+                        "efficient": {
+                            "all": 52
+                        }
+                    },
+                    {
+                        "intro": "稀音-2",
+                        "skills": [
+                            "Bskill_man_spd_add2",
+                            "Bskill_man_exp&limit1"
+                        ],
+                        "efficient": {
+                            "CombatRecord": 35
+                        }
+                    },
+                    {
+                        "intro": "帕拉斯-2",
+                        "skills": [
+                            "Bskill_man_limit&cost1",
+                            "Bskill_man_exp1"
+                        ],
+                        "efficient": {
+                            "CombatRecord": 33
+                        }
+                    },
+                    {
+                        "intro": "刻俄柏-2",
+                        "skills": [
+                            "Bskill_man_spd_add1",
+                            "Bskill_man_limit&cost1"
+                        ],
+                        "efficient": {
+                            "all": 32
+                        }
+                    },
+                    {
+                        "intro": "贝娜",
+                        "skills": [
+                            "Bskill_man_spd&limit&cost4"
+                        ],
+                        "efficient": {
+                            "all": 31
+                        }
+                    },
+                    {
+                        "intro": "豆苗-1",
+                        "skills": [
+                            "Bskill_man_spd1",
+                            "Bskill_man_limit&cost1"
+                        ],
+                        "efficient": {
+                            "all": 23
+                        }
+                    },
+                    {
+                        "intro": "石棉-2",
+                        "skills": [
+                            "Bskill_man_spd&limit&cost3",
+                            "Bskill_man_limit&cost3"
+                        ],
+                        "efficient": {
+                            "all": 29
+                        }
+                    },
+                    {
+                        "intro": "黑角、蛇屠箱",
+                        "skills": [
+                            "Bskill_man_spd&limit3"
+                        ],
+                        "efficient": {
+                            "all": 20
+                        }
+                    },
+                    {
+                        "intro": "米格鲁、卡缇",
+                        "skills": [
+                            "Bskill_man_spd&limit1"
+                        ],
+                        "efficient": {
+                            "all": 16
+                        }
+                    },
+                    {
+                        "intro": "卡达-1",
+                        "skills": [
+                            "Bskill_man_exp&cost",
+                            "Bskill_man_exp&limit2"
+                        ],
+                        "efficient": {
+                            "all": 15
+                        }
+                    },
+                    {
+                        "intro": "刻俄柏",
+                        "skills": [
+                            "Bskill_man_limit&cost1"
+                        ],
+                        "efficient": {
+                            "all": 8
+                        }
+                    },
+                    {
+                        "intro": "帕拉斯",
+                        "skills": [
+                            "Bskill_man_limit&cost1"
+                        ],
+                        "efficient": {
+                            "all": 8
+                        }
+                    }
+                ]
+            },
+            {
+                "intro": "温蒂-2组",
+                "conditions": {
+                    "NumOfPower": 3
+                },
+                "necessary": [
+                    {
+                        "intro": "温蒂-2",
+                        "skills": [
+                            "Bskill_man_spd&power3"
+                        ],
+                        "efficient": {
+                            "all": 45
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "intro": "森蚺-2",
+                        "skills": [
+                            "Bskill_man_spd&power2"
+                        ],
+                        "efficient": {
+                            "all": 30
+                        }
+                    },
+                    {
+                        "intro": "清流-1",
+                        "skills": [
+                            "Bskill_man_spd&trade"
+                        ],
+                        "efficient": {
+                            "PureGold_reg": "[NumOfTrade] * 20"
+                        }
+                    },
+                    {
+                        "intro": "森蚺、异客2",
+                        "skills": [
+                            "Bskill_man_spd&power1"
+                        ],
+                        "efficient": {
+                            "all": 15
+                        }
+                    }
+                ]
+            },
+            {
+                "intro": "温蒂组",
+                "conditions": {
+                    "NumOfPower": 3
+                },
+                "necessary": [
+                    {
+                        "intro": "温蒂、森蚺-2",
+                        "skills": [
+                            "Bskill_man_spd&power2"
+                        ],
+                        "efficient": {
+                            "all": 30
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "intro": "温蒂、森蚺-2",
+                        "skills": [
+                            "Bskill_man_spd&power2"
+                        ],
+                        "efficient": {
+                            "all": 30
+                        }
+                    },
+                    {
+                        "intro": "清流-1",
+                        "skills": [
+                            "Bskill_man_spd&trade"
+                        ],
+                        "efficient": {
+                            "PureGold_reg": "[NumOfTrade] * 20"
+                        }
+                    },
+                    {
+                        "intro": "森蚺、异客2",
+                        "skills": [
+                            "Bskill_man_spd&power1"
+                        ],
+                        "efficient": {
+                            "all": 15
+                        }
+                    }
+                ]
+            },
+            {
+                "intro": "温蒂-2组: 2电站",
+                "conditions": {
+                    "NumOfPower": 2
+                },
+                "necessary": [
+                    {
+                        "intro": "温蒂-2",
+                        "skills": [
+                            "Bskill_man_spd&power3"
+                        ],
+                        "efficient": {
+                            "all": 30
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "intro": "森蚺-2",
+                        "skills": [
+                            "Bskill_man_spd&power2"
+                        ],
+                        "efficient": {
+                            "all": 20
+                        }
+                    },
+                    {
+                        "intro": "清流-1",
+                        "skills": [
+                            "Bskill_man_spd&trade"
+                        ],
+                        "efficient": {
+                            "PureGold_reg": "[NumOfTrade] * 20"
+                        }
+                    },
+                    {
+                        "intro": "森蚺、异客2",
+                        "skills": [
+                            "Bskill_man_spd&power1"
+                        ],
+                        "efficient": {
+                            "all": 10
+                        }
+                    }
+                ]
+            },
+            {
+                "intro": "温蒂组: 2电站",
+                "conditions": {
+                    "NumOfPower": 2
+                },
+                "necessary": [
+                    {
+                        "intro": "温蒂、森蚺-2",
+                        "skills": [
+                            "Bskill_man_spd&power2"
+                        ],
+                        "efficient": {
+                            "all": 30
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "intro": "温蒂、森蚺-2",
+                        "skills": [
+                            "Bskill_man_spd&power2"
+                        ],
+                        "efficient": {
+                            "all": 20
+                        }
+                    },
+                    {
+                        "intro": "清流-1",
+                        "skills": [
+                            "Bskill_man_spd&trade"
+                        ],
+                        "efficient": {
+                            "PureGold_reg": "[NumOfTrade] * 20"
+                        }
+                    },
+                    {
+                        "intro": "森蚺、异客2",
+                        "skills": [
+                            "Bskill_man_spd&power1"
+                        ],
+                        "efficient": {
+                            "all": 10
+                        }
                     }
                 ]
             }
@@ -364,11 +810,7 @@
     },
     "Trade": {
         "products": [
-            {
-                "id:": "Money",
-                "name": "龙门币",
-                "template": "InfrastTradeMoneyFlag.png"
-            }
+            "Money"
         ],
         "skills": [
             {

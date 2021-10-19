@@ -63,7 +63,7 @@ bool asst::InfrastSkillsImageAnalyzer::skills_detect()
                 continue;
             }
 #ifdef LOG_TRACE
-            //cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(skills_rect), cv::Scalar(0, 0, 255), 2);
+            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(skills_rect), cv::Scalar(0, 0, 255), 2);
 #endif // LOG_TRACE
 
             Rect hash_rect = hash_rect_move;
@@ -115,11 +115,13 @@ bool asst::InfrastSkillsImageAnalyzer::skills_split()
             skill_rect_in_org.y += roi.y;
 
 #ifdef LOG_TRACE
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(skill_rect_in_org), cv::Scalar(0, 0, 255), 2);
+            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(skill_rect_in_org), cv::Scalar(0, 255, 0), 2);
 #endif
             skills_vec.emplace_back(skill_rect_in_org);
         }
-        m_skills_splited.emplace(hash, skills_vec);
+        if (!skills_vec.empty()) {
+            m_skills_splited.emplace(hash, skills_vec);
+        }
     }
 
     return false;
@@ -141,7 +143,8 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
 
             std::vector<std::pair<InfrastSkill, MatchRect>> possible_skills;
             double max_socre = 0;
-            for (const InfrastSkill& skill : resource.infrast().get_skills("Mfg")) {
+            // 逐个该设施内所有可能的技能，取得分最高的
+            for (const auto& [id, skill] : resource.infrast().get_skills(m_facility)) {
                 skill_analyzer.set_templ_name(skill.templ_name);
 
                 if (!skill_analyzer.analyze()) {
@@ -199,11 +202,11 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
 #endif
             skills_vec.emplace_back(std::move(most_confident_skills));
         }
-        InfrastOperSkillInfo res;
-        res.hash = hash;
-        res.skills = std::move(skills_vec);
-        res.rect = m_skills_detected.at(hash);
-        m_result.emplace_back(std::move(res));
+        InfrastOperSkillInfo info;
+        info.hash = hash;
+        info.skills = InfrastSkillsComb(std::move(skills_vec));
+        info.rect = m_skills_detected.at(hash);
+        m_result.emplace_back(std::move(info));
     }
     if (!m_result.empty()) {
         return true;
