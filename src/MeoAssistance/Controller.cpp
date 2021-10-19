@@ -213,7 +213,7 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
             m_emulator_info.adb.connect = "";
         }
         else if (devices_list.find("127") != devices_list.npos) {
-            devices_list.substr(devices_list.find("127"), 14);
+            device = devices_list.substr(devices_list.find("127"), 14);
         }
 
         if (device.empty()) {
