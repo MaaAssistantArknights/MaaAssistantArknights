@@ -8,6 +8,7 @@
             "CombatRecord",
             "PureGold"
         ],
+        "maxNumOfOpers" : 3,
         "skills_Doc": "技能ID默认就是模板名（不带.png），name和intro实际都不产生作用，给人看的",
         "skills": [
             {
@@ -812,6 +813,7 @@
         "products": [
             "Money"
         ],
+        "maxNumOfOpers": 3,
         "skills": [
             {
                 "name": [

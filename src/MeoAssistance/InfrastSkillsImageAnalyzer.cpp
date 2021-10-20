@@ -137,7 +137,7 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
     skill_analyzer.set_threshold(task_ptr->templ_threshold);
 
     for (const auto& [hash, skills_rect_vec] : m_skills_splited) {
-        std::vector<InfrastSkill> skills_vec;   // 单个干员的全部技能
+        std::unordered_set<InfrastSkill> skills_set;   // 单个干员的全部技能
         for (const Rect& skill_rect : skills_rect_vec) {
             skill_analyzer.set_roi(skill_rect);
 
@@ -200,11 +200,11 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
             cv::Mat skill_mat = m_image(utils::make_rect<cv::Rect>(skill_rect));
             log.trace(max_socre, skill_id, most_confident_skills.names.front(), most_confident_skills.intro);
 #endif
-            skills_vec.emplace_back(std::move(most_confident_skills));
+            skills_set.emplace(std::move(most_confident_skills));
         }
         InfrastOperSkillInfo info;
         info.hash = hash;
-        info.skills = InfrastSkillsComb(std::move(skills_vec));
+        info.skills = InfrastSkillsComb(std::move(skills_set));
         info.rect = m_skills_detected.at(hash);
         m_result.emplace_back(std::move(info));
     }

@@ -78,6 +78,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
         m_skills.emplace(facility_name, std::move(facility_skills));
 
         /* 解析skillsGroup字段 */
+        std::vector<InfrastSkillsGroup> group_vec;
         for (const json::value& group_json : facility_json.at("skillsGroup").as_array()) {
             InfrastSkillsGroup group;
             group.intro = group_json.get("intro", std::string());
@@ -91,7 +92,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                 comb.intro = necessary_json.get("intro", std::string());
                 for (const json::value& skill_json : necessary_json.at("skills").as_array()) {
                     const auto& skill = m_skills.at(facility_name).at(skill_json.as_string());
-                    comb.skills.emplace_back(skill);
+                    comb.skills.emplace(skill);
                 }
                 /* 解析efficient的数字及正则值 */
                 if (necessary_json.exist("efficient")) {
@@ -134,9 +135,68 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                         comb.efficient.emplace(pd, 0);
                     }
                 }
+                group.necessary.emplace_back(std::move(comb));
             }
-            m_skills_groups.emplace_back(std::move(group));
+            for (const json::value& necessary_json : group_json.at("optional").as_array()) {
+                InfrastSkillsComb comb;
+                comb.intro = necessary_json.get("intro", std::string());
+                for (const json::value& skill_json : necessary_json.at("skills").as_array()) {
+                    const auto& skill = m_skills.at(facility_name).at(skill_json.as_string());
+                    comb.skills.emplace(skill);
+                }
+                /* 解析efficient的数字及正则值 */
+                if (necessary_json.exist("efficient")) {
+                    const static std::string reg_suffix = "_reg";
+                    const json::value& efficient = necessary_json.at("efficient");
+
+                    if (std::string all_reg_key = "all" + reg_suffix;
+                        efficient.exist(all_reg_key)) {
+                        std::string all_reg_value = efficient.at(all_reg_key).as_string();
+                        for (const std::string& pd : products) {
+                            comb.efficient_regex.emplace(pd, all_reg_value);
+                            comb.efficient.emplace(pd, 0);
+                        }
+                    }
+                    else if (efficient.exist("all")) {
+                        int all_value = efficient.at("all").as_integer();
+                        for (const std::string& pd : products) {
+                            comb.efficient.emplace(pd, all_value);
+                        }
+                    }
+                    else {
+                        for (const std::string& pd : products) {
+                            if (std::string pd_reg_key = pd + reg_suffix;
+                                efficient.exist(pd_reg_key))
+                            {
+                                comb.efficient_regex.emplace(pd, efficient.at(pd_reg_key).as_string());
+                                comb.efficient.emplace(pd, 0);
+                            }
+                            else if (efficient.exist(pd)) {
+                                comb.efficient.emplace(pd, efficient.at(pd).as_integer());
+                            }
+                            else {
+                                comb.efficient.emplace(pd, 0);
+                            }
+                        }
+                    }
+                }
+                else {
+                    for (const std::string& pd : products) {
+                        comb.efficient.emplace(pd, 0);
+                    }
+                }
+                group.optional.emplace_back(std::move(comb));
+            }
+            group_vec.emplace_back(std::move(group));
         }
+        m_skills_groups.emplace(facility_name, std::move(group_vec));
+
+        InfrastFacilityInfo fac_info;
+        fac_info.id = facility_name;
+        fac_info.products = std::move(products);
+        fac_info.max_num_of_opers = facility_json.get("maxNumOfOpers", 1);
+
+        m_facilities_info.emplace(facility_name, std::move(fac_info));
     }
     return false;
 }

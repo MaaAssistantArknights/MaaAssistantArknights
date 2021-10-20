@@ -20,16 +20,24 @@ namespace asst {
         {
             return m_skills.at(facility_name);
         }
-        const std::vector<InfrastSkillsGroup>& get_skills_group() const {
-            return m_skills_groups;
+        const std::vector<InfrastSkillsGroup>& get_skills_group(const std::string& facility) const {
+            return m_skills_groups.at(facility);
+        }
+        const InfrastFacilityInfo& get_facility_info(const std::string& facility) const {
+            return m_facilities_info.at(facility);
         }
 
     protected:
         virtual bool parse(const json::value& json) override;
 
+        // 所有基建技能，key：设施名，value：map<技能id，技能>
         std::unordered_map<std::string, std::unordered_map<std::string, InfrastSkill>> m_skills;
-        std::unordered_set<std::string> m_templ_required;
+        // 所有设施信息，key：设施名，value：信息
+        std::unordered_map<std::string, InfrastFacilityInfo> m_facilities_info;
+        // 所有加成技能组
+        std::unordered_map<std::string, std::vector<InfrastSkillsGroup>> m_skills_groups;
 
-        std::vector<InfrastSkillsGroup> m_skills_groups;
+        // 需要加载的模板
+        std::unordered_set<std::string> m_templ_required;
     };
 }

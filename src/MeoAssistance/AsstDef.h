@@ -226,6 +226,15 @@ namespace asst {
         std::string path;
     };
 
+    /* 基建相关 */
+
+    // 设施信息
+    struct InfrastFacilityInfo {
+        std::string id;
+        std::vector<std::string> products;
+        int max_num_of_opers = 0;
+    };
+
     enum class InfrastSmileyType {
         Invalid = -1,
         Rest,       // 休息完成，绿色笑脸
@@ -245,11 +254,30 @@ namespace asst {
             efficient;                      // 技能效率，key：产品名（赤金、经验书等）, value: 效率数值
         std::unordered_map<std::string, std::string>
             efficient_regex;                // 技能效率正则，key：产品名（赤金、经验书等）, value: 效率正则。如不为空，会先对正则进行计算，再加上efficient里面的值
+
+        bool operator==(const InfrastSkill& skill) const noexcept {
+            return id == skill.id;
+        }
     };
+}
+
+namespace std {
+    template<>
+    class hash<asst::InfrastSkill> {
+    public:
+        size_t operator()(const asst::InfrastSkill& skill) const
+        {
+            return std::hash<std::string>()(skill.id);
+        }
+    };
+}
+
+namespace asst
+{
     // 基建单个干员的技能
     struct InfrastSkillsComb {
         InfrastSkillsComb() = default;
-        InfrastSkillsComb(std::vector<InfrastSkill> skill_vec) {
+        InfrastSkillsComb(std::unordered_set<InfrastSkill> skill_vec) {
             skills = std::move(skill_vec);
             for (const auto& s : skills) {
                 for (const auto& [key, value] : s.efficient) {
@@ -260,13 +288,19 @@ namespace asst {
                 }
             }
         }
+        bool operator==(const InfrastSkillsComb& rhs) const {
+            return skills == rhs.skills;
+        }
+
         std::string intro;
-        std::vector<InfrastSkill> skills;
+        std::unordered_set<InfrastSkill> skills;
         std::unordered_map<std::string, int> efficient;
         std::unordered_map<std::string, std::string> efficient_regex;
     };
     // 基建 干员技能信息
     struct InfrastOperSkillInfo {
+        InfrastOperSkillInfo() = default;
+        InfrastOperSkillInfo(InfrastSkillsComb skills_comb) : skills(std::move(skills_comb)) {}
         std::string hash;                   // 有些干员的技能是完全一样的，做个hash区分一下不同干员
         InfrastSkillsComb skills;
         Rect rect;
