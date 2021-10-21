@@ -54,7 +54,7 @@ bool asst::InfrastShiftTask::opers_detect()
             }
         }
         // for debug
-        break;
+        //break;
 
         // 这里本来是判断不相等就可以退出循环。
         // 但是有时候滑动会把一个干员挡住一半，一个页面完整的干员真的只有10个，所以加个2的差值
@@ -169,8 +169,20 @@ bool asst::InfrastShiftTask::optimal_calc()
         }
         if (cur_efficient > max_efficient) {
             optimal_opers = std::move(cur_opers);
+            max_efficient = cur_efficient;
         }
     }
 
-    return false;
+    std::string log_str = "[ ";
+    for (const auto& oper : optimal_opers) {
+        log_str += oper.skills.intro.empty() ? oper.skills.skills.begin()->names.front() : oper.skills.intro;
+        log_str += "; ";
+    }
+    log_str += "]";
+    log.trace("optimal efficient", max_efficient, " , skills:", log_str);
+
+
+    m_optimal_opers = std::move(optimal_opers);
+
+    return true;
 }
