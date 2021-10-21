@@ -106,6 +106,19 @@ bool AsstCatchRemote(void* p_asst, const char* address)
     return ((asst::Assistance*)p_asst)->catch_remote(address);
 }
 
+bool MEOAPI AsstCatchFake(void* p_asst)
+{
+#ifdef LOG_TRACE
+    if (p_asst == nullptr) {
+        return false;
+    }
+
+    return ((asst::Assistance*)p_asst)->catch_fake();
+#else
+    return false;
+#endif // LOG_TRACE
+}
+
 bool AsstStartSanity(void* p_asst)
 {
     if (p_asst == nullptr) {

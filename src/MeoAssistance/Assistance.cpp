@@ -149,6 +149,16 @@ bool asst::Assistance::catch_remote(const std::string& address)
     return ret;
 }
 
+bool asst::Assistance::catch_fake()
+{
+    LogTraceFunction;
+
+    stop();
+
+    m_inited = true;
+    return true;
+}
+
 bool asst::Assistance::start_sanity()
 {
     return start_process_task("SanityBegin", ProcessTaskRetryTimesDefault);

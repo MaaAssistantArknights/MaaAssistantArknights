@@ -35,6 +35,8 @@ namespace asst {
         bool catch_usb();
         // 捕获远程地址（安卓手机）
         bool catch_remote(const std::string& address);
+        // 不实际进行捕获，调试用接口
+        bool catch_fake();
 
         // 开始刷理智
         bool start_sanity();
