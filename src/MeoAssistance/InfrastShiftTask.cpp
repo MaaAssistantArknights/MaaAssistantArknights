@@ -90,12 +90,7 @@ bool asst::InfrastShiftTask::optimal_calc()
         [&](const InfrastOperSkillInfo& lhs, const InfrastOperSkillInfo& rhs) -> bool {
             return lhs.skills_comb.efficient.at(m_product) > rhs.skills_comb.efficient.at(m_product);
         });
-    for (int i = 0; i != max_num_of_opers; ++i) {
-        optimal_opers.emplace_back(m_all_available_opers.at(i));
-        max_efficient += m_all_available_opers.at(i).skills_comb.efficient.at(m_product);
-    }
 
-#ifdef LOG_TRACE
     for (const auto& oper : m_all_available_opers) {
         std::string skill_str;
         for (const auto& skill : oper.skills_comb.skills) {
@@ -103,7 +98,21 @@ bool asst::InfrastShiftTask::optimal_calc()
         }
         log.trace(skill_str, oper.skills_comb.efficient.at(m_product));
     }
-#endif // LOG_TRACE
+
+    for (int i = 0; i != max_num_of_opers; ++i) {
+        optimal_opers.emplace_back(m_all_available_opers.at(i));
+        max_efficient += m_all_available_opers.at(i).skills_comb.efficient.at(m_product);
+    }
+
+    {
+        std::string log_str = "[ ";
+        for (const auto& oper : optimal_opers) {
+            log_str += oper.skills_comb.intro.empty() ? oper.skills_comb.skills.begin()->names.front() : oper.skills_comb.intro;
+            log_str += "; ";
+        }
+        log_str += "]";
+        log.trace("Single comb efficient", max_efficient, " , skills:", log_str);
+    }
 
     // 遍历所有组合，找到效率最高的
     auto& all_group = resource.infrast().get_skills_group(m_facility);
@@ -173,19 +182,30 @@ bool asst::InfrastShiftTask::optimal_calc()
                 continue;
             }
         }
+        {
+            std::string log_str = "[ ";
+            for (const auto& oper : cur_opers) {
+                log_str += oper.skills_comb.intro.empty() ? oper.skills_comb.skills.begin()->names.front() : oper.skills_comb.intro;
+                log_str += "; ";
+            }
+            log_str += "]";
+            log.trace(group.intro, "efficient", cur_efficient, " , skills:", log_str);
+        }
+
         if (cur_efficient > max_efficient) {
             optimal_opers = std::move(cur_opers);
             max_efficient = cur_efficient;
         }
     }
-
-    std::string log_str = "[ ";
-    for (const auto& oper : optimal_opers) {
-        log_str += oper.skills_comb.intro.empty() ? oper.skills_comb.skills.begin()->names.front() : oper.skills_comb.intro;
-        log_str += "; ";
+    {
+        std::string log_str = "[ ";
+        for (const auto& oper : optimal_opers) {
+            log_str += oper.skills_comb.intro.empty() ? oper.skills_comb.skills.begin()->names.front() : oper.skills_comb.intro;
+            log_str += "; ";
+        }
+        log_str += "]";
+        log.trace("optimal efficient", max_efficient, " , skills:", log_str);
     }
-    log_str += "]";
-    log.trace("optimal efficient", max_efficient, " , skills:", log_str);
 
     m_optimal_opers = std::move(optimal_opers);
 

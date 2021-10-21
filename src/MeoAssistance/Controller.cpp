@@ -178,6 +178,7 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
                 return false;
             }
             resource.cfg().set_emulator_path(info.name, emulator_path);
+            resource.user().set_emulator_path(info.name, emulator_path);
         }
         else {
             emulator_path = info.path;
