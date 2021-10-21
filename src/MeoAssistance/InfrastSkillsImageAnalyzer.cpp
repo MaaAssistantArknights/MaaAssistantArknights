@@ -138,11 +138,11 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
 
     for (const auto& [hash, skills_rect_vec] : m_skills_splited) {
         std::unordered_set<InfrastSkill> skills_set;   // 单个干员的全部技能
+        std::string log_str = "[ ";
         for (const Rect& skill_rect : skills_rect_vec) {
             skill_analyzer.set_roi(skill_rect);
 
             std::vector<std::pair<InfrastSkill, MatchRect>> possible_skills;
-            double max_socre = 0;
             // 逐个该设施内所有可能的技能，取得分最高的
             for (const auto& [id, skill] : resource.infrast().get_skills(m_facility)) {
                 skill_analyzer.set_templ_name(skill.templ_name);
@@ -194,14 +194,14 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
                     } // 这里对应的else就是上述的其他技能混进来了的情况
                 }
             }
-#ifdef LOG_TRACE
             std::string skill_id = most_confident_skills.id;
-            //cv::putText(m_image_draw, skill_id, cv::Point(skill_rect.x, skill_rect.y), 1, 1, cv::Scalar(0, 0, 255));
+            log_str += skill_id + ":" + most_confident_skills.names.front() + " ";
+#ifdef LOG_TRACE
             cv::Mat skill_mat = m_image(utils::make_rect<cv::Rect>(skill_rect));
-            log.trace(max_socre, skill_id, most_confident_skills.names.front(), most_confident_skills.intro);
 #endif
             skills_set.emplace(std::move(most_confident_skills));
         }
+        log.trace(log_str, "]");
         InfrastOperSkillInfo info;
         info.hash = hash;
         info.skills = InfrastSkillsComb(std::move(skills_set));

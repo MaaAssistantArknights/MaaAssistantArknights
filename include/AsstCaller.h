@@ -15,6 +15,7 @@ extern "C" {
     bool MEOAPI AsstCatchEmulator(void* p_asst);
     bool MEOAPI AsstCatchUSB(void* p_asst);
     bool MEOAPI AsstCatchRemote(void* p_asst, const char* address);
+    bool MEOAPI AsstCatchFake(void* p_asst);
 
     bool MEOAPI AsstStartSanity(void* p_asst);
     bool MEOAPI AsstStartVisit(void* p_asst, bool with_shopping);
