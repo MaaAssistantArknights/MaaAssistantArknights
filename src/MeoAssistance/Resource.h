@@ -48,6 +48,9 @@ namespace asst {
         InfrastConfiger& infrast() noexcept {
             return m_infrast_cfg_unique_ins;
         }
+        UserConfiger& user() noexcept {
+            return m_user_cfg_unique_ins;
+        }
         OcrPack& ocr() noexcept {
             return m_ocr_pack_unique_ins;
         }
@@ -72,6 +75,9 @@ namespace asst {
         }
         const InfrastConfiger& infrast() const noexcept {
             return m_infrast_cfg_unique_ins;
+        }
+        const UserConfiger& user() const noexcept {
+            return m_user_cfg_unique_ins;
         }
         const OcrPack& ocr() const noexcept {
             return m_ocr_pack_unique_ins;
