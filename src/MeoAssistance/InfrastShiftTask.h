@@ -20,10 +20,20 @@ namespace asst {
     protected:
         bool opers_detect();
         bool optimal_calc();
+        bool opers_choose();
+
+        void async_swipe(bool reverse = false);
+        void await_swipe();
+        void sync_swipe(bool reverse = false);
+        void swipe_to_the_left();   // 干员列表快速滑动到最左侧
+
+        constexpr static int HashDistThres = 25;
 
         std::string m_facility;
         std::string m_product;
         std::vector<InfrastOperSkillInfo> m_all_available_opers;
         std::vector<InfrastOperSkillInfo> m_optimal_opers;
+
+        int m_last_swipe_id = 0;
     };
 }

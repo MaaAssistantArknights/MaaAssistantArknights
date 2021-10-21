@@ -8,7 +8,7 @@
             "CombatRecord",
             "PureGold"
         ],
-        "maxNumOfOpers" : 3,
+        "maxNumOfOpers": 3,
         "skills_Doc": "技能ID默认就是模板名（不带.png），name和intro实际都不产生作用，给人看的",
         "skills": [
             {
@@ -252,7 +252,8 @@
                 "intro": "进驻制造站时，贵金属类配方的生产力+35%",
                 "template": "Bskill_man_gold2.png",
                 "efficient": {
-                    "PureGold": 35
+                    "PureGold": 35.1,
+                    "Doc": "单产品加成的技能一概+0.1分，为了从同效率的技能中胜出来，优先使用单产品技能。把通用技能留给更多的制造站"
                 }
             },
             {
@@ -262,7 +263,7 @@
                 "intro": "进驻制造站时，贵金属类配方的生产力+30%",
                 "template": "Bskill_man_gold1.png",
                 "efficient": {
-                    "PureGold": 30
+                    "PureGold": 30.1
                 }
             },
             {
@@ -272,7 +273,7 @@
                 "intro": "进驻制造站时，作战记录类配方的生产力+35%",
                 "template": "Bskill_man_exp3.png",
                 "efficient": {
-                    "CombatRecord": 35
+                    "CombatRecord": 35.1
                 }
             },
             {
@@ -282,7 +283,7 @@
                 "intro": "进驻制造站时，作战记录类配方的生产力+30%",
                 "template": "Bskill_man_exp2.png",
                 "efficient": {
-                    "CombatRecord": 30
+                    "CombatRecord": 30.1
                 }
             },
             {
@@ -292,7 +293,7 @@
                 "intro": "进驻制造站时，作战记录类配方的生产力+25%",
                 "template": "Bskill_man_exp1.png",
                 "efficient": {
-                    "CombatRecord": 25
+                    "CombatRecord": 25.1
                 }
             },
             {
