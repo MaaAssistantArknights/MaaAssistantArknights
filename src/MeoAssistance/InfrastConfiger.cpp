@@ -45,7 +45,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                     }
                 }
                 else if (efficient.exist("all")) {
-                    int all_value = efficient.at("all").as_integer();
+                    double all_value = efficient.at("all").as_double();
                     for (const std::string& pd : products) {
                         skill.efficient.emplace(pd, all_value);
                     }
@@ -59,7 +59,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                             skill.efficient.emplace(pd, 0);
                         }
                         else if (efficient.exist(pd)) {
-                            skill.efficient.emplace(pd, efficient.at(pd).as_integer());
+                            skill.efficient.emplace(pd, efficient.at(pd).as_double());
                         }
                         else {
                             skill.efficient.emplace(pd, 0);
@@ -108,7 +108,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                         }
                     }
                     else if (efficient.exist("all")) {
-                        int all_value = efficient.at("all").as_integer();
+                        double all_value = efficient.at("all").as_double();
                         for (const std::string& pd : products) {
                             comb.efficient.emplace(pd, all_value);
                         }
@@ -122,7 +122,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                                 comb.efficient.emplace(pd, 0);
                             }
                             else if (efficient.exist(pd)) {
-                                comb.efficient.emplace(pd, efficient.at(pd).as_integer());
+                                comb.efficient.emplace(pd, efficient.at(pd).as_double());
                             }
                             else {
                                 comb.efficient.emplace(pd, 0);
@@ -158,7 +158,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                         }
                     }
                     else if (efficient.exist("all")) {
-                        int all_value = efficient.at("all").as_integer();
+                        double all_value = efficient.at("all").as_double();
                         for (const std::string& pd : products) {
                             comb.efficient.emplace(pd, all_value);
                         }
@@ -172,7 +172,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                                 comb.efficient.emplace(pd, 0);
                             }
                             else if (efficient.exist(pd)) {
-                                comb.efficient.emplace(pd, efficient.at(pd).as_integer());
+                                comb.efficient.emplace(pd, efficient.at(pd).as_double());
                             }
                             else {
                                 comb.efficient.emplace(pd, 0);

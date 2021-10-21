@@ -472,7 +472,7 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
     int id = push_cmd(cur_cmd);
     if (block) {
         wait(id);
-        Sleep(extra_delay);
+        std::this_thread::sleep_for(std::chrono::microseconds(extra_delay));
     }
     return id;
 }

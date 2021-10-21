@@ -45,6 +45,8 @@ namespace asst {
         int swipe_without_scale(const Point& p1, const Point& p2, int duration = 0, bool block = true, int extra_delay = SwipeExtraDelayDefault);
         int swipe_without_scale(const Rect& r1, const Rect& r2, int duration = 0, bool block = true, int extra_delay = SwipeExtraDelayDefault);
 
+        void wait(unsigned id) const noexcept;
+
         // 异形屏矫正
         Rect shaped_correct(const Rect& rect) const;
 
@@ -56,7 +58,6 @@ namespace asst {
         void pipe_working_proc();
         std::vector<unsigned char> call_command(const std::string& cmd);
         int push_cmd(const std::string& cmd);
-        void wait(unsigned id) const noexcept;
         bool screencap();
         Point rand_point_in_rect(const Rect& rect);
 

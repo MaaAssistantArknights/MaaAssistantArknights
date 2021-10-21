@@ -204,7 +204,7 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
         log.trace(log_str, "]");
         InfrastOperSkillInfo info;
         info.hash = hash;
-        info.skills = InfrastSkillsComb(std::move(skills_set));
+        info.skills_comb = InfrastSkillsComb(std::move(skills_set));
         info.rect = m_skills_detected.at(hash);
         m_result.emplace_back(std::move(info));
     }
