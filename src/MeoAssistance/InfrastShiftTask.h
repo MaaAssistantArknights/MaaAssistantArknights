@@ -24,5 +24,6 @@ namespace asst {
         std::string m_facility;
         std::string m_product;
         std::vector<InfrastOperSkillInfo> m_all_available_opers;
+        std::vector<InfrastOperSkillInfo> m_optimal_opers;
     };
 }

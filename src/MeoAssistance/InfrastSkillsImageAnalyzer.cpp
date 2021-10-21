@@ -195,7 +195,7 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
                 }
             }
             std::string skill_id = most_confident_skills.id;
-            log_str += skill_id + ":" + most_confident_skills.names.front() + " ";
+            log_str += skill_id + " - " + most_confident_skills.names.front() + "; ";
 #ifdef LOG_TRACE
             cv::Mat skill_mat = m_image(utils::make_rect<cv::Rect>(skill_rect));
 #endif
