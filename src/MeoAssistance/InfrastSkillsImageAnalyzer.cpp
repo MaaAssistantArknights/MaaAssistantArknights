@@ -67,8 +67,8 @@ bool asst::InfrastSkillsImageAnalyzer::skills_detect()
 #endif // LOG_TRACE
 
             Rect hash_rect = hash_rect_move;
-            hash_rect.x += skills_rect.x;
-            hash_rect.y += skills_rect.y;
+            hash_rect.x += smiley_rect.x;
+            hash_rect.y += smiley_rect.y;
             std::string hash = calc_hash(hash_rect);
 
             m_skills_detected.emplace(std::move(hash), std::move(skills_rect));

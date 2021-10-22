@@ -168,6 +168,12 @@
     <ClInclude Include="InfrastConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="InfrastDormTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastMoodImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -262,6 +268,12 @@
     </ClCompile>
     <ClCompile Include="InfrastConfiger.cpp">
       <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastDormTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastMoodImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

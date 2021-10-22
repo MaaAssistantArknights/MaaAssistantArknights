@@ -841,10 +841,10 @@
     "InfrastSkillsHash": {
         "algorithm": "justReturn",
         "resultMove": [
-            0,
-            -160,
+            -8,
+            -202,
             82,
-            110
+            100
         ]
     },
     "InfrastSmileyOnRest": {
@@ -920,6 +920,18 @@
             200,
             200,
             300
+        ]
+    },
+    "InfrastOperMoodProgressBar": {
+        "template": "empty.png",
+        "templThreshold": 160,
+        "histThreshold": 20,
+        "Doc": "这里的templThreshold，作为进度条最小灰度阈值使用；histThreshold作为进度条相邻点最大变化阈值使用。懒得重新弄个字段了",
+        "resultMove": [
+            21,
+            8,
+            85,
+            4
         ]
     }
 }
