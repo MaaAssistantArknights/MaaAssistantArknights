@@ -280,11 +280,11 @@ void asst::InfrastShiftTask::sync_swipe(bool reverse)
 
 void asst::InfrastShiftTask::swipe_to_the_left()
 {
-    static Rect begin_rect = resource.task().task_ptr("InfrastOperListSwipeBegin")->specific_rect;
-    static Rect end_rect = resource.task().task_ptr("InfrastOperListSwipeEnd")->specific_rect;
-    static int duration = resource.task().task_ptr("InfrastOperListSwipeToTheLeft")->pre_delay;
-    static int extra_delay = resource.task().task_ptr("InfrastOperListSwipeToTheLeft")->rear_delay;
-    static int loop_times = resource.task().task_ptr("InfrastOperListSwipeToTheLeft")->max_times;
+    static Rect begin_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
+    static Rect end_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
+    static int duration = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
+    static int extra_delay = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static int loop_times = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->max_times;
 
     for (int i = 0; i != loop_times; ++i) {
         ctrler.swipe(end_rect, begin_rect, duration, true);
