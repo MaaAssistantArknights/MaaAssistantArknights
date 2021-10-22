@@ -170,7 +170,7 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
                 // 即排除容器中，除了有同一个技能的不同等级，还有别的技能的情况
                 auto max_iter = std::max_element(possible_skills.begin(), possible_skills.end(),
                     [](const auto& lhs, const auto& rhs) -> bool {
-                        return lhs.second.score > rhs.second.score;
+                        return lhs.second.score < rhs.second.score;
                     });
                 std::string base_id = max_iter->first.id;
                 size_t level_pos = 0;
@@ -194,6 +194,7 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
                     } // 这里对应的else就是上述的其他技能混进来了的情况
                 }
             }
+            log.trace(most_confident_skills.id);
             std::string skill_id = most_confident_skills.id;
             log_str += skill_id + " - " + most_confident_skills.names.front() + "; ";
 #ifdef LOG_TRACE
