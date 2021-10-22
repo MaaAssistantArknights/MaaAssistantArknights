@@ -879,10 +879,10 @@
         "algorithm": "justReturn",
         "action": "clickRect",
         "specificRect": [
-            900,
-            200,
-            100,
-            300
+            850,
+            300,
+            50,
+            100
         ],
         "preDelay": 1000,
         "rearDelay": 1000,
@@ -892,17 +892,34 @@
         "algorithm": "justReturn",
         "action": "clickRect",
         "specificRect": [
-            500,
-            200,
-            100,
-            300
+            700,
+            300,
+            50,
+            100
         ]
     },
-    "InfrastOperListSwipeToTheLeft": {
+    "InfrastOperListSwipeToTheLeftBegin": {
         "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            1080,
+            200,
+            200,
+            300
+        ],
         "preDelay": 100,
         "rearDelay": 1000,
         "maxTimes": 2,
         "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
+    },
+    "InfrastOperListSwipeToTheLeftEnd": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            400,
+            200,
+            200,
+            300
+        ]
     }
 }
