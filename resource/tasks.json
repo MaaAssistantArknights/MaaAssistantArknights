@@ -865,7 +865,7 @@
     "InfrastSkills": {
         "template": "empty.png",
         "templThreshold": 0.9,
-        "histThreshold": 120,
+        "histThreshold": 100,
         "histThreshold_Doc": "该任务里的Hist阈值，是特化了拿来做灰度图平均值的，懒得重新写个字段了",
         "resultMove": [
             -8,

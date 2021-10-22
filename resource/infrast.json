@@ -1,6 +1,7 @@
 ﻿{
     "facility": [
-        "Mfg"
+        "Mfg",
+        "Trade"
     ],
     "Mfg": {
         "Mfg_Doc": "制造站",
@@ -919,7 +920,7 @@
                 "intro": "进驻贸易站时，订单获取效率+30%，心情每小时消耗-0.25",
                 "template": "Bskill_tra_spd&cost.png",
                 "efficient": {
-                    "all": 30
+                    "all": 30.1
                 }
             },
             {
@@ -1004,7 +1005,8 @@
             },
             {
                 "name": [
-                    "使命必达"
+                    "使命必达",
+                    "少当家"
                 ],
                 "intro": "进驻贸易站时，订单获取效率+30%，且订单上限+1",
                 "template": "Bskill_tra_spd&limit7.png",
@@ -1100,6 +1102,352 @@
                 ],
                 "intro": "进驻贸易站时，提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
                 "template": "Bskill_tra_wt&cost2.png"
+            }
+        ],
+        "skillsGroup_Doc": "相关技能组参考https://bbs.nga.cn/read.php?tid=25965441",
+        "skillsGroup": [
+            {
+                "intro": "德2拉2组",
+                "necessary": [
+                    {
+                        "intro": "德克萨斯-2",
+                        "skills": [
+                            "Bskill_tra_texas1",
+                            "Bskill_tra_texas2"
+                        ],
+                        "efficient": {
+                            "all": 64.9
+                        }
+                    },
+                    {
+                        "intro": "拉普兰德-2",
+                        "skills": [
+                            "Bskill_tra_Lappland2"
+                        ],
+                        "efficient": {
+                            "all": 0
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "intro": "孑-0",
+                        "skills": [
+                            "Bskill_tra_limit_diff"
+                        ],
+                        "efficient": {
+                            "all": 43
+                        }
+                    },
+                    {
+                        "intro": "孑-1",
+                        "skills": [
+                            "Bskill_tra_limit_diff",
+                            "Bskill_tra_limit_count"
+                        ],
+                        "efficient": {
+                            "all": 32
+                        }
+                    },
+                    {
+                        "intro": "能天使-2",
+                        "skills": [
+                            "Bskill_tra_spd3"
+                        ],
+                        "efficient": {
+                            "all": 35.2
+                        },
+                        "Doc": "能天使1的技能别人也有，识别上不了，管不了了"
+                    }
+                ],
+                "allowExternal": true
+            },
+            {
+                "intro": "德2拉0组",
+                "necessary": [
+                    {
+                        "intro": "德克萨斯-2",
+                        "skills": [
+                            "Bskill_tra_texas1",
+                            "Bskill_tra_texas2"
+                        ],
+                        "efficient": {
+                            "all": 64.9
+                        }
+                    },
+                    {
+                        "intro": "拉普兰德-0",
+                        "skills": [
+                            "Bskill_tra_Lappland1"
+                        ],
+                        "efficient": {
+                            "all": 0
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "intro": "能天使-2",
+                        "skills": [
+                            "Bskill_tra_spd3"
+                        ],
+                        "efficient": {
+                            "all": 35.2
+                        },
+                        "Doc": "能天使1的技能别人也有，识别上不了，管不了了"
+                    }
+                ],
+                "allowExternal": true
+            },
+            {
+                "intro": "德0拉2组",
+                "necessary": [
+                    {
+                        "intro": "德克萨斯-0",
+                        "skills": [
+                            "Bskill_tra_texas1"
+                        ],
+                        "efficient": {
+                            "all": 64.9
+                        }
+                    },
+                    {
+                        "intro": "拉普兰德-2",
+                        "skills": [
+                            "Bskill_tra_Lappland2"
+                        ],
+                        "efficient": {
+                            "all": 0
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "intro": "孑-0",
+                        "skills": [
+                            "Bskill_tra_limit_diff"
+                        ],
+                        "efficient": {
+                            "all": 43
+                        }
+                    },
+                    {
+                        "intro": "孑-1",
+                        "skills": [
+                            "Bskill_tra_limit_diff",
+                            "Bskill_tra_limit_count"
+                        ],
+                        "efficient": {
+                            "all": 32
+                        }
+                    }
+                ],
+                "allowExternal": true
+            },
+            {
+                "intro": "德0拉0组",
+                "necessary": [
+                    {
+                        "intro": "德克萨斯-0",
+                        "skills": [
+                            "Bskill_tra_texas1"
+                        ],
+                        "efficient": {
+                            "all": 64.9
+                        }
+                    },
+                    {
+                        "intro": "拉普兰德-0",
+                        "skills": [
+                            "Bskill_tra_Lappland1"
+                        ],
+                        "efficient": {
+                            "all": 0
+                        }
+                    }
+                ],
+                "optional": [],
+                "allowExternal": true
+            },
+            {
+                "intro": "巫恋组",
+                "necessary": [
+                    {
+                        "intro": "巫恋-2",
+                        "skills": [
+                            "Bskill_tra_wt&cost1",
+                            "Bskill_tra_vodfox"
+                        ],
+                        "efficient": {
+                            "all": 90.1
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "intro": "龙舌兰-2",
+                        "skills": [
+                            "Bskill_tra_long2"
+                        ],
+                        "efficient": {
+                            "all": 80
+                        },
+                        "Doc": "这里具体效率不同攻略各执一词，写个大概的，反正别的组合也没这么高的，大差不差能第一就行_(:з」∠)_"
+                    },
+                    {
+                        "intro": "龙舌兰-1",
+                        "skills": [
+                            "Bskill_tra_long1"
+                        ],
+                        "efficient": {
+                            "all": 40
+                        }
+                    },
+                    {
+                        "intro": "柏喙-2、卡夫卡-2",
+                        "skills": [
+                            "Bskill_tra_wt&cost2"
+                        ],
+                        "efficient": {
+                            "all": 2
+                        }
+                    },
+                    {
+                        "intro": "柏喙-1、卡夫卡-1",
+                        "skills": [
+                            "Bskill_tra_wt&cost1"
+                        ],
+                        "efficient": {
+                            "all": 1
+                        }
+                    }
+                ],
+                "allowExternal": true
+            },
+            {
+                "intro": "孑-0组",
+                "necessary": [
+                    {
+                        "intro": "孑-0",
+                        "skills": [
+                            "Bskill_tra_limit_diff"
+                        ],
+                        "efficient": {
+                            "all": 27
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "intro": "银灰-2",
+                        "skills": [
+                            "Bskill_tra_spd&limit5"
+                        ],
+                        "efficient": {
+                            "all": 36
+                        }
+                    },
+                    {
+                        "intro": "喀兰贸易·β",
+                        "skills": [
+                            "Bskill_tra_spd&limit4"
+                        ],
+                        "efficient": {
+                            "all": 31
+                        }
+                    },
+                    {
+                        "intro": "拜松、可颂",
+                        "skills": [
+                            "Bskill_tra_spd&limit7",
+                            "Bskill_tra_spd1"
+                        ],
+                        "efficient": {
+                            "all": 34
+                        }
+                    },
+                    {
+                        "intro": "供应管理",
+                        "skills": [
+                            "Bskill_tra_spd&limit6"
+                        ],
+                        "efficient": {
+                            "all": 29
+                        }
+                    },
+                    {
+                        "intro": "喀兰贸易·α",
+                        "skills": [
+                            "Bskill_tra_spd&limit3"
+                        ],
+                        "efficient": {
+                            "all": 23
+                        }
+                    }
+                ]
+            },
+            {
+                "intro": "孑-1组",
+                "necessary": [
+                    {
+                        "intro": "孑-1",
+                        "skills": [
+                            "Bskill_tra_limit_count",
+                            "Bskill_tra_limit_diff"
+                        ],
+                        "efficient": {
+                            "all": 40
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "intro": "银灰-2",
+                        "skills": [
+                            "Bskill_tra_spd&limit5"
+                        ],
+                        "efficient": {
+                            "all": 28
+                        }
+                    },
+                    {
+                        "intro": "喀兰贸易·β",
+                        "skills": [
+                            "Bskill_tra_spd&limit4"
+                        ],
+                        "efficient": {
+                            "all": 27
+                        }
+                    },
+                    {
+                        "intro": "拜松-2、可颂-2",
+                        "skills": [
+                            "Bskill_tra_spd&limit7",
+                            "Bskill_tra_spd1"
+                        ],
+                        "efficient": {
+                            "all": 22
+                        }
+                    },
+                    {
+                        "intro": "订单管理·β",
+                        "skills": [
+                            "Bskill_tra_spd&limit6"
+                        ],
+                        "efficient": {
+                            "all": 22
+                        }
+                    },
+                    {
+                        "intro": "谈判",
+                        "skills": [
+                            "Bskill_tra_limit&cost"
+                        ],
+                        "efficient": {
+                            "all": 20
+                        }
+                    }
+                ]
             }
         ]
     }
