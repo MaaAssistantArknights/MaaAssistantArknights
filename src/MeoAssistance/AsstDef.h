@@ -245,6 +245,13 @@ namespace asst {
         InfrastSmileyType type;
         Rect rect;
     };
+    struct InfrastOperMoodInfo {
+        std::string hash;           // 干员部分立绘的hash，作为唯一标识
+        InfrastSmileyInfo smiley;
+        double percentage = 0;      // 心情进度条的百分比
+        Rect rect;
+    };
+
     struct InfrastSkill {
         std::string id;
         std::string templ_name;

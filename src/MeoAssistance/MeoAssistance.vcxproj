@@ -25,6 +25,8 @@
     <ClInclude Include="GeneralConfiger.h" />
     <ClInclude Include="CreditShoppingTask.h" />
     <ClInclude Include="InfrastConfiger.h" />
+    <ClInclude Include="InfrastDormTask.h" />
+    <ClInclude Include="InfrastMoodImageAnalyzer.h" />
     <ClInclude Include="InfrastShiftTask.h" />
     <ClInclude Include="InfrastSkillsImageAnalyzer.h" />
     <ClInclude Include="InfrastSmileyImageAnalyzer.h" />
@@ -57,6 +59,8 @@
     <ClCompile Include="CreditShopImageAnalyzer.cpp" />
     <ClCompile Include="CreditShoppingTask.cpp" />
     <ClCompile Include="InfrastConfiger.cpp" />
+    <ClCompile Include="InfrastDormTask.cpp" />
+    <ClCompile Include="InfrastMoodImageAnalyzer.cpp" />
     <ClCompile Include="InfrastShiftTask.cpp" />
     <ClCompile Include="InfrastSkillsImageAnalyzer.cpp" />
     <ClCompile Include="InfrastSmileyImageAnalyzer.cpp" />
