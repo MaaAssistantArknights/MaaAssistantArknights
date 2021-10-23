@@ -11,6 +11,8 @@ namespace asst {
 
         virtual bool analyze() override;
 
+        void sort_result();
+
         const std::vector<InfrastOperMoodInfo>& get_result() const noexcept {
             return m_result;
         }

@@ -21,8 +21,7 @@ extern "C" {
     bool MEOAPI AsstStartVisit(void* p_asst, bool with_shopping);
     bool MEOAPI AsstStartProcessTask(void* p_asst, const char* task);
     bool MEOAPI AsstStartRecruiting(void* p_asst, const int required_level[], int required_len, bool set_time);
-    //bool MEOAPI AsstStartIndertifyOpers(void* p_asst);
-    //bool MEOAPI AsstStartInfrast(void* p_asst);
+    bool MEOAPI AsstStartInfrastShift(void* p_asst);
     bool MEOAPI AsstStartDebugTask(void* p_asst);
 
     void MEOAPI AsstStop(void* p_asst);

@@ -179,21 +179,13 @@ bool AsstStartRecruiting(void* p_asst, const int required_level[], int required_
     return ((asst::Assistance*)p_asst)->start_recruiting(level_vector, set_time);
 }
 
-//bool AsstStartIndertifyOpers(void* p_asst)
-//{
-//    if (p_asst == nullptr) {
-//        return false;
-//    }
-//    return ((asst::Assistance*)p_asst)->start_to_identify_opers();
-//}
-//
-//bool AsstStartInfrast(void* p_asst)
-//{
-//    if (p_asst == nullptr) {
-//        return false;
-//    }
-//    return ((asst::Assistance*)p_asst)->start_infrast();
-//}
+bool AsstStartInfrastShift(void* p_asst)
+{
+    if (p_asst == nullptr) {
+        return false;
+    }
+    return ((asst::Assistance*)p_asst)->start_infrast_shift();
+}
 
 bool AsstStartDebugTask(void* p_asst)
 {

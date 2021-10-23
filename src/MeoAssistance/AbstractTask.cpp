@@ -72,14 +72,13 @@ bool asst::AbstractTask::need_exit() const noexcept
     return m_exit_flag != NULL && *m_exit_flag == true;
 }
 
-bool asst::AbstractTask::click_return_button()
+void asst::AbstractTask::click_return_button()
 {
     LogTraceFunction;
+    const auto return_task_ptr = resource.task().task_ptr("Return");
 
-    static Rect ReturnButtonRect;
-    if (ReturnButtonRect.empty()) {
-        const auto return_task_ptr = resource.task().task_ptr("Return");
-        ReturnButtonRect = return_task_ptr->specific_rect;
-    }
-    return ctrler.click(ReturnButtonRect);
+    Rect ReturnButtonRect = return_task_ptr->specific_rect;
+
+    ctrler.click(ReturnButtonRect);
+    sleep(return_task_ptr->rear_delay);
 }
