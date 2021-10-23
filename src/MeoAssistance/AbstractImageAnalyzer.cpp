@@ -4,6 +4,7 @@
 
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
     : m_image(image)
+    , m_roi(empty_rect_to_full(Rect(), image))
 #ifdef LOG_TRACE
     ,
     m_image_draw(image.clone())
