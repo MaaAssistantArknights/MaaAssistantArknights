@@ -25,16 +25,19 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
     auto task_analyze = [&](const std::string& task_name) -> bool {
         const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
             resource.task().task_ptr(task_name));
-        mm_analyzer.set_templ_name(task_ptr->templ_name);
-        mm_analyzer.set_threshold(task_ptr->templ_threshold);
-        mm_analyzer.set_mask_range(task_ptr->mask_range);
+        mm_analyzer.set_task_info(*task_ptr);
 
         return mm_analyzer.analyze();
     };
 
     int cor_suffix_index = -1;
 
-    for (const auto& [key, task_name] : facility_task_name) {
+    for (const std::string& key : m_facilities) {
+        const auto find_iter = facility_task_name.find(key);
+        if (find_iter == facility_task_name.cend()) {
+            return false;   // TODO 报错
+        }
+        const std::string& task_name = find_iter->second;
         std::vector<MatchRect> cur_facility_result;
         // 已知基建缩放状态的时候，只识别这个缩放状态下的就行了
         // 否则识别所有状态，直到找出正确的当前缩放状态

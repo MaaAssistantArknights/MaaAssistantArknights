@@ -174,11 +174,11 @@
     <ClInclude Include="InfrastMoodImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="InfrastEnterFacilityTask.h">
-      <Filter>头文件\Task</Filter>
-    </ClInclude>
     <ClInclude Include="InfrastFacilityImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Infrast</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastAbstractTask.h">
+      <Filter>头文件\Task</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,11 +281,11 @@
     <ClCompile Include="InfrastMoodImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="InfrastEnterFacilityTask.cpp">
-      <Filter>源文件\Task</Filter>
-    </ClCompile>
     <ClCompile Include="InfrastFacilityImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\Infrast</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastAbstractTask.cpp">
+      <Filter>源文件\Task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,24 @@ bool asst::InfrastMoodImageAnalyzer::analyze()
     return true;
 }
 
+void asst::InfrastMoodImageAnalyzer::sort_result()
+{
+    std::sort(m_result.begin(), m_result.end(),
+        [](const InfrastOperMoodInfo& lhs, const InfrastOperMoodInfo& rhs) ->bool {
+            // 先按心情排序，心情低的放前面
+            if (std::fabs(lhs.percentage - rhs.percentage) > DoubleDiff) {
+                return lhs.percentage < rhs.percentage;
+            }
+            // 心情一样的就按位置排序，左边的放前面
+            if (std::abs(lhs.rect.x - rhs.rect.x) > 5) {
+                return lhs.rect.x < rhs.rect.x;
+            }
+            else {
+                return lhs.rect.y < rhs.rect.y;
+            }
+        });
+}
+
 bool asst::InfrastMoodImageAnalyzer::mood_detect()
 {
     const auto upper_task_ptr = resource.task().task_ptr("InfrastSkillsUpper");
@@ -48,7 +66,7 @@ bool asst::InfrastMoodImageAnalyzer::mood_detect()
                 continue;
             }
 #ifdef LOG_TRACE
-            //cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(prg_rect), cv::Scalar(0, 0, 255), 2);
+            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(prg_rect), cv::Scalar(0, 0, 255), 2);
 #endif // LOG_TRACE
 
             InfrastOperMoodInfo info;
@@ -125,13 +143,15 @@ bool asst::InfrastMoodImageAnalyzer::mood_analyze()
         }
         // 如果进度条的长度等于ROI的宽度，则说明这个进度条不完整，可能图像再往右滑，还有一部分进度条
         // 所以忽略掉这个结果
-        if (max_white_length == prg_gray.cols) {
+        if (roi.width != iter->rect.width
+            && max_white_length == prg_gray.cols) {
             iter = m_result.erase(iter);
             continue;
         }
 
         // TODO：这里的进度条长度算的并不是特别准，属于能跑就行。有空再优化下
         double pct = static_cast<double>(max_white_length) / iter->rect.width;
+        iter->percentage = pct;
 #ifdef LOG_TRACE
         cv::Point p1(roi.x, roi.y);
         cv::Point p2(roi.x + max_white_length, roi.y);

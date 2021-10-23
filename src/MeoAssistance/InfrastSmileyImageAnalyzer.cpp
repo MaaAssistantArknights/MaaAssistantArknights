@@ -15,14 +15,13 @@ bool asst::InfrastSmileyImageAnalyzer::analyze()
 
     m_result.clear();
 
-    MultiMatchImageAnalyzer mm_analyzer(m_image, m_roi);
+    MultiMatchImageAnalyzer mm_analyzer(m_image);
 
     decltype(m_result) temp_result;
     for (const auto& [type, task_name] : smiley_map) {
         const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(resource.task().task_ptr(task_name));
-        mm_analyzer.set_templ_name(task_ptr->templ_name);
-        mm_analyzer.set_threshold(task_ptr->templ_threshold);
-        mm_analyzer.set_mask_range(task_ptr->mask_range);
+        mm_analyzer.set_task_info(*task_ptr);
+        mm_analyzer.set_roi(m_roi);
         if (!mm_analyzer.analyze()) {
             continue;
         }

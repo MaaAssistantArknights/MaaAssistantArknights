@@ -639,7 +639,8 @@
             20,
             135,
             35
-        ]
+        ],
+        "rearDelay": 1000
     },
     "EnterInfrast": {
         "templThreshold": 0.85,
@@ -849,17 +850,26 @@
     },
     "InfrastSmileyOnRest": {
         "template": "SmileyOnRest.png",
-        "maskRange": [ 100, 255 ],
+        "maskRange": [
+            100,
+            255
+        ],
         "templThreshold": 0.8
     },
     "InfrastSmileyOnWork": {
         "template": "SmileyOnWork.png",
-        "maskRange": [ 100, 255 ],
+        "maskRange": [
+            100,
+            255
+        ],
         "templThreshold": 0.8
     },
     "InfrastSmileyOnDistract": {
         "template": "SmileyOnDistract.png",
-        "maskRange": [ 100, 255 ],
+        "maskRange": [
+            100,
+            255
+        ],
         "templThreshold": 0.8
     },
     "InfrastSkills": {
@@ -873,7 +883,10 @@
             82,
             40
         ],
-        "maskRange": [ 1, 255 ]
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "InfrastOperListSwipeBegin": {
         "algorithm": "justReturn",
@@ -936,68 +949,180 @@
     },
     "InfrastMfg": {
         "template": "Manufacturing.png",
-        "maskRange": [ 1, 255 ]
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "InfrastMfgMini": {
         "template": "ManufacturingMini.png",
-        "maskRange": [ 1, 255 ]
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "InfrastTrade": {
         "template": "Trade.png",
-        "maskRange": [ 1, 255 ]
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "InfrastTradeMini": {
         "template": "TradeMini.png",
-        "maskRange": [ 1, 255 ]
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "InfrastPower": {
         "template": "Power.png",
-        "maskRange": [ 1, 255 ],
+        "maskRange": [
+            1,
+            255
+        ],
         "templThreshold": 0.95
     },
     "InfrastPowerMini": {
         "template": "PowerMini.png",
-        "maskRange": [ 1, 255 ],
+        "maskRange": [
+            1,
+            255
+        ],
         "templThreshold": 0.95
     },
     "InfrastDorm": {
         "template": "Dorm.png",
-        "maskRange": [ 1, 255 ],
+        "maskRange": [
+            1,
+            255
+        ],
         "templThreshold": 0.95
     },
     "InfrastDormMini": {
         "template": "DormMini.png",
-        "maskRange": [ 1, 255 ],
+        "maskRange": [
+            1,
+            255
+        ],
         "templThreshold": 0.95
     },
     "InfrastOffice": {
         "template": "Office.png",
-        "maskRange": [ 1, 255 ],
+        "maskRange": [
+            1,
+            255
+        ],
         "templThreshold": 0.95
     },
     "InfrastOfficeMini": {
         "template": "OfficeMini.png",
-        "maskRange": [ 1, 255 ],
+        "maskRange": [
+            1,
+            255
+        ],
         "templThreshold": 0.95
     },
     "InfrastReception": {
         "template": "Reception.png",
-        "maskRange": [ 1, 255 ],
+        "maskRange": [
+            1,
+            255
+        ],
         "templThreshold": 0.95
     },
     "InfrastReceptionMini": {
         "template": "ReceptionMini.png",
-        "maskRange": [ 1, 255 ],
+        "maskRange": [
+            1,
+            255
+        ],
         "templThreshold": 0.95
     },
     "InfrastControlCenter": {
         "template": "ControlCenter.png",
-        "maskRange": [ 1, 255 ],
+        "maskRange": [
+            1,
+            255
+        ],
         "templThreshold": 0.95
     },
     "InfrastControlCenterMini": {
         "template": "ControlCenterMini.png",
-        "maskRange": [ 1, 255 ],
+        "maskRange": [
+            1,
+            255
+        ],
         "templThreshold": 0.95
+    },
+    "InfrastStationedOnClicked": {
+        "template": "StationedOnClicked.png",
+        "maskRange": [
+            0,
+            5
+        ],
+        "roi": [
+            0,
+            0,
+            150,
+            720
+        ]
+    },
+    "InfrastStationedNotClicked": {
+        "template": "StationedNotClicked.png",
+        "maskRange": [
+            250,
+            255
+        ],
+        "roi": [
+            0,
+            0,
+            150,
+            720
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastEnterOperList": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "心情",
+            "休息中",
+            "工作中",
+            "入驻"
+        ],
+        "roi": [
+            800,
+            0,
+            480,
+            720
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastClearButton": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            430,
+            655,
+            150,
+            40
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastConfirmButton": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            1105,
+            655,
+            150,
+            40
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastDormConfirmButton": {
+        "template": "DormConfirm.png",
+        "action": "clickSelf",
+        "rearDelay": 1000
     }
 }

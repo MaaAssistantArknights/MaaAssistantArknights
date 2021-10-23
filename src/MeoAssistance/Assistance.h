@@ -45,10 +45,8 @@ namespace asst {
 
         // 开始公开招募操作
         bool start_recruiting(const std::vector<int>& required_level, bool set_time = true);
-        // 开始干员识别任务
-        bool start_to_identify_opers();
-        // 开始全自动基建任务
-        bool start_infrast();
+        // 开始基建换班任务
+        bool start_infrast_shift();
 
         // 开始流程任务，应该是private的，调试用临时放到public
         bool start_process_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool block = true);

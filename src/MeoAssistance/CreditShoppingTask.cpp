@@ -70,8 +70,8 @@ bool asst::CreditShoppingTask::run()
 
         const auto no_money_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
             resource.task().task_ptr("CreditShop-NoMoney"));
-        OcrImageAnalyzer prompt_analyzer(prompt_image, no_money_task_ptr->roi);
-        prompt_analyzer.set_required(no_money_task_ptr->text);
+        OcrImageAnalyzer prompt_analyzer(prompt_image);
+        prompt_analyzer.set_task_info(*no_money_task_ptr);
         if (prompt_analyzer.analyze()) {
             click_return_button();
             return true;

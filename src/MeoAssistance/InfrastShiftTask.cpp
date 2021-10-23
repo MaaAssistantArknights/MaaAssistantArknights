@@ -18,7 +18,7 @@ bool asst::InfrastShiftTask::run()
 
     m_all_available_opers.clear();
 
-    swipe_to_the_left();
+    sync_swipe_to_the_left_of_operlist();
     bool ret = opers_detect();
 
     optimal_calc();
@@ -62,7 +62,7 @@ bool asst::InfrastShiftTask::opers_detect()
             break;
         }
         // 异步在最后会多滑动一下，耽误的时间还不如用同步
-        sync_swipe();
+        sync_swipe_of_operlist();
     }
 
     if (!m_all_available_opers.empty()) {
@@ -243,51 +243,8 @@ bool asst::InfrastShiftTask::opers_choose()
         }
 
         // 因为识别完了还要点击，所以这里不能异步滑动
-        sync_swipe(true);
+        sync_swipe_of_operlist(true);
     }
 
     return true;
-}
-
-void asst::InfrastShiftTask::async_swipe(bool reverse)
-{
-    static Rect begin_rect = resource.task().task_ptr("InfrastOperListSwipeBegin")->specific_rect;
-    static Rect end_rect = resource.task().task_ptr("InfrastOperListSwipeEnd")->specific_rect;
-    static int duration = resource.task().task_ptr("InfrastOperListSwipeBegin")->pre_delay;
-
-    if (!reverse) {
-        m_last_swipe_id = ctrler.swipe(begin_rect, end_rect, duration, false);
-    }
-    else {
-        m_last_swipe_id = ctrler.swipe(end_rect, begin_rect, duration, false);
-    }
-}
-
-void asst::InfrastShiftTask::await_swipe()
-{
-    static int extra_delay = resource.task().task_ptr("InfrastOperListSwipeBegin")->rear_delay;
-
-    ctrler.wait(m_last_swipe_id);
-    log.trace("swipe wait over");
-    sleep(extra_delay);
-}
-
-void asst::InfrastShiftTask::sync_swipe(bool reverse)
-{
-    async_swipe(reverse);
-    await_swipe();
-}
-
-void asst::InfrastShiftTask::swipe_to_the_left()
-{
-    static Rect begin_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
-    static Rect end_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
-    static int duration = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
-    static int loop_times = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->max_times;
-
-    for (int i = 0; i != loop_times; ++i) {
-        ctrler.swipe(end_rect, begin_rect, duration, true);
-    }
-    sleep(extra_delay);
 }
