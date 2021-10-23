@@ -11,7 +11,7 @@ namespace asst {
 
         virtual bool analyze() override;
 
-        void sort_result();
+        void sort_result(); // 按位置排序，左上角的排在前面
         void set_mask_range(int lower, int upper) {
             m_mask_range = std::make_pair(lower, upper);
         }

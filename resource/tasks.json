@@ -933,5 +933,71 @@
             85,
             4
         ]
+    },
+    "InfrastMfg": {
+        "template": "Manufacturing.png",
+        "maskRange": [ 1, 255 ]
+    },
+    "InfrastMfgMini": {
+        "template": "ManufacturingMini.png",
+        "maskRange": [ 1, 255 ]
+    },
+    "InfrastTrade": {
+        "template": "Trade.png",
+        "maskRange": [ 1, 255 ]
+    },
+    "InfrastTradeMini": {
+        "template": "TradeMini.png",
+        "maskRange": [ 1, 255 ]
+    },
+    "InfrastPower": {
+        "template": "Power.png",
+        "maskRange": [ 1, 255 ],
+        "templThreshold": 0.95
+    },
+    "InfrastPowerMini": {
+        "template": "PowerMini.png",
+        "maskRange": [ 1, 255 ],
+        "templThreshold": 0.95
+    },
+    "InfrastDorm": {
+        "template": "Dorm.png",
+        "maskRange": [ 1, 255 ],
+        "templThreshold": 0.95
+    },
+    "InfrastDormMini": {
+        "template": "DormMini.png",
+        "maskRange": [ 1, 255 ],
+        "templThreshold": 0.95
+    },
+    "InfrastOffice": {
+        "template": "Office.png",
+        "maskRange": [ 1, 255 ],
+        "templThreshold": 0.95
+    },
+    "InfrastOfficeMini": {
+        "template": "OfficeMini.png",
+        "maskRange": [ 1, 255 ],
+        "templThreshold": 0.95
+    },
+    "InfrastReception": {
+        "template": "Reception.png",
+        "maskRange": [ 1, 255 ],
+        "templThreshold": 0.95
+    },
+    "InfrastReceptionMini": {
+        "template": "ReceptionMini.png",
+        "maskRange": [ 1, 255 ],
+        "templThreshold": 0.95
+    },
+    "InfrastControlCenter": {
+        "template": "ControlCenter.png",
+        "maskRange": [ 1, 255 ],
+        "templThreshold": 0.95
+    },
+    "InfrastControlCenterMini": {
+        "template": "ControlCenterMini.png",
+        "maskRange": [ 1, 255 ],
+        "templThreshold": 0.95
     }
 }
