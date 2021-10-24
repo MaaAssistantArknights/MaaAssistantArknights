@@ -5,31 +5,84 @@
 #include "Resource.h"
 #include "Controller.h"
 #include "InfrastSkillsImageAnalyzer.h"
+#include "MultiMatchImageAnalyzer.h"
+#include "MatchImageAnalyzer.h"
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 
-bool asst::InfrastShiftTask::run()
+//bool asst::InfrastShiftTask::run()
+//{
+//    json::value task_start_json = json::object{
+//        { "task_type",  "InfrastShiftTask" },
+//        { "task_chain", m_task_chain}
+//    };
+//    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
+//
+//    m_all_available_opers.clear();
+//
+//    swipe_to_the_left_of_operlist();
+//    bool ret = opers_detect();
+//
+//    optimal_calc();
+//
+//    opers_choose();
+//
+//    return true;
+//}
+
+bool asst::InfrastShiftTask::shift_facility_list()
 {
-    json::value task_start_json = json::object{
-        { "task_type",  "InfrastShiftTask" },
-        { "task_chain", m_task_chain}
-    };
-    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
+    facility_list_detect();
 
-    m_all_available_opers.clear();
+    for (const Rect& tab : m_facility_list_tabs) {
+        ctrler.click(tab);
+        /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
+        const auto& image = ctrler.get_image();
+        MatchImageAnalyzer add_analyzer(image);
+        const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+            resource.task().task_ptr("InfrastAddOperator" + m_facility));
+        add_analyzer.set_task_info(*add_task_ptr);
+        if (!add_analyzer.analyze()) {
+            continue;
+        }
+        Rect add_button = add_analyzer.get_result().rect;
 
-    sync_swipe_to_the_left_of_operlist();
-    bool ret = opers_detect();
+        /* 识别当前正在造什么 */
+        MatchImageAnalyzer product_analyzer(image);
+        auto& all_products = resource.infrast().get_facility_info(m_facility).products;
+        std::string cur_product;
+        for (const std::string& product : all_products) {
+            const static std::string prefix = "InfrastFlag";
+            const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+                resource.task().task_ptr(prefix + product));
+            product_analyzer.set_task_info(*task_ptr);
+            if (product_analyzer.analyze()) {
+                cur_product = product;
+                break;
+            }
+        }
+        set_product(cur_product);
+        /* 进入干员选择页面 */
+        ctrler.click(add_button);
+        sleep(add_task_ptr->rear_delay);
+        click_clear_button();
+        swipe_to_the_left_of_operlist();
 
-    optimal_calc();
-
-    opers_choose();
-
+        if (m_all_available_opers.empty()) {
+            opers_detect();
+            swipe_to_the_left_of_operlist();
+        }
+        optimal_calc();
+        opers_choose();
+        click_confirm_button();
+    }
     return true;
 }
 
 bool asst::InfrastShiftTask::opers_detect()
 {
+    m_all_available_opers.clear();
+
     int first_number = 0;
     while (true) {
         const auto& image = ctrler.get_image();
@@ -235,6 +288,13 @@ bool asst::InfrastShiftTask::opers_choose()
                 continue;
             }
             ctrler.click(find_iter->rect);
+            {
+                auto avlb_iter = std::find_if(m_all_available_opers.cbegin(), m_all_available_opers.cend(),
+                    [&](const InfrastOperSkillInfo& lhs) -> bool {
+                        return lhs.skills_comb == opt_iter->skills_comb;
+                    });
+                m_all_available_opers.erase(avlb_iter);
+            }
             cur_all_info.erase(find_iter);
             opt_iter = m_optimal_opers.erase(opt_iter);
         }
@@ -243,7 +303,30 @@ bool asst::InfrastShiftTask::opers_choose()
         }
 
         // 因为识别完了还要点击，所以这里不能异步滑动
-        sync_swipe_of_operlist(true);
+        sync_swipe_of_operlist();
+    }
+
+    return true;
+}
+
+bool asst::InfrastShiftTask::facility_list_detect()
+{
+    m_facility_list_tabs.clear();
+
+    const auto& image = ctrler.get_image();
+    MultiMatchImageAnalyzer mm_analyzer(image);
+
+    const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        resource.task().task_ptr("InfrastFacilityListTab"));
+    mm_analyzer.set_task_info(*task_ptr);
+
+    if (!mm_analyzer.analyze()) {
+        return false;
+    }
+    mm_analyzer.sort_result();
+    m_facility_list_tabs.reserve(mm_analyzer.get_result().size());
+    for (const auto& res : mm_analyzer.get_result()) {
+        m_facility_list_tabs.emplace_back(res.rect);
     }
 
     return true;

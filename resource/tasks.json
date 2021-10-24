@@ -1142,6 +1142,17 @@
         ],
         "rearDelay": 1000
     },
+    "InfrastBottomLeftTab": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            0,
+            540,
+            520,
+            180
+        ],
+        "rearDelay": 1000
+    },
     "InfrastDormConfirmButton": {
         "template": "DormConfirm.png",
         "action": "clickSelf",
@@ -1151,5 +1162,60 @@
     "InfrastEnterFacility": {
         "algorithm": "justReturn",
         "rearDelay": 2000
+    },
+    "InfrastFacilityListTab": {
+        "template": "FacilityListTab.png",
+        "cache": false,
+        "maskRange": [
+            0,
+            50
+        ],
+        "roi": [
+            0,
+            0,
+            250,
+            720
+        ]
+    },
+    "InfrastFlagCombatRecord": {
+        "template": "InfrastMfgDogFoodFlag.png",
+        "cache": false,
+        "roi": [
+            1000,
+            0,
+            280,
+            720
+        ]
+    },
+    "InfrastFlagPureGold": {
+        "template": "InfrastMfgPureGoldFlag.png",
+        "cache": false,
+        "roi": [
+            1000,
+            0,
+            280,
+            720
+        ]
+    },
+    "InfrastAddOperatorMfg": {
+        "template": "AddOperatorMfg.png",
+        "cache": false,
+        "roi": [
+            200,
+            500,
+            500,
+            220
+        ]
+    },
+    "InfrastAddOperatorTrade": {
+        "template": "AddOperatorTrade.png",
+        "cache": false,
+        "roi": [
+            200,
+            500,
+            500,
+            220
+        ],
+        "rearDelay": 1000
     }
 }

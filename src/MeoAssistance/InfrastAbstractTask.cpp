@@ -85,6 +85,13 @@ void asst::InfrastAbstractTask::await_swipe()
     sleep(extra_delay);
 }
 
+void asst::InfrastAbstractTask::click_bottomleft_tab()
+{
+    const auto task_ptr = resource.task().task_ptr("InfrastBottomLeftTab");
+    ctrler.click(task_ptr->specific_rect);
+    sleep(task_ptr->rear_delay);
+}
+
 void asst::InfrastAbstractTask::click_clear_button()
 {
     const auto task_ptr = resource.task().task_ptr("InfrastClearButton");
@@ -105,7 +112,7 @@ void asst::InfrastAbstractTask::sync_swipe_of_operlist(bool reverse)
     await_swipe();
 }
 
-void asst::InfrastAbstractTask::sync_swipe_to_the_left_of_operlist()
+void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist()
 {
     static Rect begin_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
     static Rect end_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
@@ -117,4 +124,24 @@ void asst::InfrastAbstractTask::sync_swipe_to_the_left_of_operlist()
         ctrler.swipe(end_rect, begin_rect, duration, true);
     }
     sleep(extra_delay);
+}
+
+void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
+{
+    static Rect begin_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
+    static Rect end_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
+    static int duration = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
+    static int extra_delay = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+
+    ctrler.swipe(end_rect, begin_rect, duration, true);
+}
+
+void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
+{
+    static Rect begin_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
+    static Rect end_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
+    static int duration = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
+    static int extra_delay = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+
+    ctrler.swipe(begin_rect, end_rect, duration, true);
 }
