@@ -10,7 +10,7 @@ namespace asst {
     public:
         using InfrastAbstractTask::InfrastAbstractTask;
         virtual ~InfrastShiftTask() = default;
-        virtual bool run() override;
+        //virtual bool run() override;
         void set_facility(std::string facility_name) noexcept {
             m_facility = std::move(facility_name);
         }
@@ -18,6 +18,8 @@ namespace asst {
             m_product = std::move(product_name);
         }
     protected:
+        bool shift_facility_list();
+        bool facility_list_detect();
         bool opers_detect();
         bool optimal_calc();
         bool opers_choose();
@@ -28,5 +30,6 @@ namespace asst {
         std::string m_product;
         std::vector<InfrastOperSkillInfo> m_all_available_opers;
         std::vector<InfrastOperSkillInfo> m_optimal_opers;
+        std::vector<Rect> m_facility_list_tabs;
     };
 }

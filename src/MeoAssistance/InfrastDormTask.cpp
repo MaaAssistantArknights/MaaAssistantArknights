@@ -19,7 +19,7 @@ bool asst::InfrastDormTask::run()
         enter_facility(FacilityName, i);
         enter_oper_list_page();
         if (i == 0) {
-            sync_swipe_to_the_left_of_operlist();
+            swipe_to_the_left_of_operlist();
         }
         click_clear_button();
 
