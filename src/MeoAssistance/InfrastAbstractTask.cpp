@@ -21,7 +21,9 @@ bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int 
     }
 
     ctrler.click(rect);
-    sleep(1000);
+
+    const auto enter_task_ptr = resource.task().task_ptr("InfrastEnterFacility");
+    sleep(enter_task_ptr->rear_delay);
 
     return true;
 }

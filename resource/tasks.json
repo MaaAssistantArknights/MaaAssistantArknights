@@ -854,6 +854,7 @@
             100,
             255
         ],
+        "cache": false,
         "templThreshold": 0.8
     },
     "InfrastSmileyOnWork": {
@@ -862,6 +863,7 @@
             100,
             255
         ],
+        "cache": false,
         "templThreshold": 0.8
     },
     "InfrastSmileyOnDistract": {
@@ -870,6 +872,7 @@
             100,
             255
         ],
+        "cache": false,
         "templThreshold": 0.8
     },
     "InfrastSkills": {
@@ -877,6 +880,7 @@
         "templThreshold": 0.9,
         "histThreshold": 100,
         "histThreshold_Doc": "该任务里的Hist阈值，是特化了拿来做灰度图平均值的，懒得重新写个字段了",
+        "cache": false,
         "resultMove": [
             -8,
             -42,
@@ -940,6 +944,7 @@
         "templThreshold": 160,
         "histThreshold": 20,
         "Doc": "这里的templThreshold，作为进度条最小灰度阈值使用；histThreshold作为进度条相邻点最大变化阈值使用。懒得重新弄个字段了",
+        "cache": false,
         "resultMove": [
             21,
             8,
@@ -949,6 +954,7 @@
     },
     "InfrastMfg": {
         "template": "Manufacturing.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -956,6 +962,7 @@
     },
     "InfrastMfgMini": {
         "template": "ManufacturingMini.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -963,6 +970,7 @@
     },
     "InfrastTrade": {
         "template": "Trade.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -970,6 +978,7 @@
     },
     "InfrastTradeMini": {
         "template": "TradeMini.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -977,6 +986,7 @@
     },
     "InfrastPower": {
         "template": "Power.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -985,6 +995,7 @@
     },
     "InfrastPowerMini": {
         "template": "PowerMini.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -993,6 +1004,7 @@
     },
     "InfrastDorm": {
         "template": "Dorm.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -1001,6 +1013,7 @@
     },
     "InfrastDormMini": {
         "template": "DormMini.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -1009,6 +1022,7 @@
     },
     "InfrastOffice": {
         "template": "Office.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -1017,6 +1031,7 @@
     },
     "InfrastOfficeMini": {
         "template": "OfficeMini.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -1025,6 +1040,7 @@
     },
     "InfrastReception": {
         "template": "Reception.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -1033,6 +1049,7 @@
     },
     "InfrastReceptionMini": {
         "template": "ReceptionMini.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -1041,6 +1058,7 @@
     },
     "InfrastControlCenter": {
         "template": "ControlCenter.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -1049,6 +1067,7 @@
     },
     "InfrastControlCenterMini": {
         "template": "ControlCenterMini.png",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -1057,6 +1076,7 @@
     },
     "InfrastStationedOnClicked": {
         "template": "StationedOnClicked.png",
+        "cache": false,
         "maskRange": [
             0,
             5
@@ -1070,6 +1090,7 @@
     },
     "InfrastStationedNotClicked": {
         "template": "StationedNotClicked.png",
+        "cache": false,
         "maskRange": [
             250,
             255
@@ -1084,17 +1105,18 @@
     },
     "InfrastEnterOperList": {
         "algorithm": "OcrDetect",
+        "cache": false,
         "text": [
             "心情",
             "休息中",
             "工作中",
-            "入驻"
+            "进驻"
         ],
         "roi": [
             800,
             0,
             480,
-            720
+            650
         ],
         "rearDelay": 1000
     },
@@ -1123,6 +1145,11 @@
     "InfrastDormConfirmButton": {
         "template": "DormConfirm.png",
         "action": "clickSelf",
-        "rearDelay": 1000
+        "cache": false,
+        "rearDelay": 2000
+    },
+    "InfrastEnterFacility": {
+        "algorithm": "justReturn",
+        "rearDelay": 2000
     }
 }
