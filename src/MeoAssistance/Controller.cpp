@@ -470,7 +470,37 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
         cur_cmd = utils::string_replace_all(cur_cmd, "[duration]", std::to_string(duration));
     }
 
-    int id = push_cmd(cur_cmd);
+    int id = 0;
+
+    int extra_swipe_dist = resource.cfg().get_options().adb_extra_swipe_dist;
+    int extra_swipe_duration = resource.cfg().get_options().adb_extra_swipe_duration;
+
+    // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
+    if (extra_swipe_duration >= 0) {
+        std::string extra_cmd = utils::string_replace_all(m_emulator_info.adb.swipe, "[x1]", std::to_string(p2.x));
+        extra_cmd = utils::string_replace_all(extra_cmd, "[y1]", std::to_string(p2.y));
+        int end_x = 0, end_y = 0;
+        if (p2.x != p1.x) {
+            double k = (double)(p2.y - p1.y) / (p2.x - p1.x);
+            double temp = extra_swipe_dist / std::sqrt(1 + k * k);
+            end_x = p2.x + (p2.x > p1.x ? 1 : -1) * temp;
+            end_y = p2.y + (p2.y > p1.y ? 1 : -1) * std::fabs(k) * temp;
+        }
+        else {
+            end_x = p2.x;
+            end_y = p2.y + (p2.y > p1.y ? 1 : -1) * extra_swipe_dist;
+        }
+        extra_cmd = utils::string_replace_all(extra_cmd, "[x2]", std::to_string(end_x));
+        extra_cmd = utils::string_replace_all(extra_cmd, "[y2]", std::to_string(end_y));
+        extra_cmd = utils::string_replace_all(extra_cmd, "[duration]", std::to_string(extra_swipe_duration));
+
+        push_cmd(cur_cmd);
+        id = push_cmd(extra_cmd);
+    }
+    else {
+        id = push_cmd(cur_cmd);
+    }
+
     if (block) {
         wait(id);
         std::this_thread::sleep_for(std::chrono::microseconds(extra_delay));

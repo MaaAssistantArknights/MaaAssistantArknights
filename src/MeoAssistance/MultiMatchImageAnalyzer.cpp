@@ -50,8 +50,10 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat& templ)
     else {
         cv::Mat mask;
         cv::cvtColor(templ, mask, cv::COLOR_BGR2GRAY);
-        cv::threshold(mask, mask, m_mask_range.first, m_mask_range.second, cv::THRESH_BINARY);
+        //cv::threshold(mask, mask, m_mask_range.first, 255, cv::THRESH_BINARY);
+        cv::inRange(mask, m_mask_range.first, m_mask_range.second, mask);
         cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED, mask);
+        int test = 0;
     }
 
     int mini_distance = (std::min)(templ.cols, templ.rows) / 2;

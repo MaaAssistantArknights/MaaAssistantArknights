@@ -896,10 +896,10 @@
         "algorithm": "justReturn",
         "action": "clickRect",
         "specificRect": [
-            850,
-            300,
-            50,
-            100
+            1080,
+            200,
+            200,
+            300
         ],
         "preDelay": 1000,
         "rearDelay": 1000,
@@ -909,10 +909,10 @@
         "algorithm": "justReturn",
         "action": "clickRect",
         "specificRect": [
-            700,
-            300,
-            50,
-            100
+            600,
+            200,
+            200,
+            300
         ]
     },
     "InfrastOperListSwipeToTheLeftBegin": {
@@ -1163,13 +1163,19 @@
         "algorithm": "justReturn",
         "rearDelay": 2000
     },
-    "InfrastFacilityListTab": {
-        "template": "FacilityListTab.png",
+    "InfrastFacilityListTabMfg": {
+        "template": "FacilityListTabMfg.png",
         "cache": false,
-        "maskRange": [
+        "roi": [
             0,
-            50
-        ],
+            0,
+            250,
+            720
+        ]
+    },
+    "InfrastFacilityListTabTrade": {
+        "template": "FacilityListTabTrade.png",
+        "cache": false,
         "roi": [
             0,
             0,
@@ -1197,6 +1203,16 @@
             720
         ]
     },
+    "InfrastFlagMoney": {
+        "template": "InfrastTradeMoneyFlag.png",
+        "cache": false,
+        "roi": [
+            900,
+            500,
+            380,
+            220
+        ]
+    },
     "InfrastAddOperatorMfg": {
         "template": "AddOperatorMfg.png",
         "cache": false,
@@ -1205,7 +1221,8 @@
             500,
             500,
             220
-        ]
+        ],
+        "rearDelay": 1000
     },
     "InfrastAddOperatorTrade": {
         "template": "AddOperatorTrade.png",
@@ -1217,5 +1234,13 @@
             220
         ],
         "rearDelay": 1000
+    },
+    "InfrastOperSelected": {
+        "template": "OperSelectedCropped.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     }
 }

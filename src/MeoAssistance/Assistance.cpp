@@ -15,9 +15,9 @@
 #include "RecruitTask.h"
 #include "ScreenCaptureTask.h"
 #include "CreditShoppingTask.h"
-#include "InfrastShiftTask.h"
 #include "InfrastDormTask.h"
 #include "InfrastMfgTask.h"
+#include "InfrastTradeTask.h"
 
 using namespace asst;
 
@@ -223,24 +223,6 @@ bool Assistance::start_debug_task()
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    //{
-    //	append_match_task("Debug", {"UavAssist-MFG"});
-    //}
-    //{
-    //	constexpr static const char* InfrastTaskCahin = "Debug";
-    //	auto shift_task_ptr = std::make_shared<InfrastProductionTask>(task_callback, (void*)this);
-
-    //	auto ret = get_opers_idtf_result();
-    //	if (!ret) {
-    //		log.info("Get opers info error");
-    //		//return false;
-    //	}
-    //	else {
-    //		shift_task_ptr->set_all_opers_info(std::move(ret.value()));
-    //	}
-    //	shift_task_ptr->set_task_chain(InfrastTaskCahin);
-    //	m_tasks_deque.emplace_back(shift_task_ptr);
-    //}
     {
         constexpr static const char* DebugTaskChain = "Debug";
         auto shift_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this);
@@ -306,6 +288,18 @@ bool asst::Assistance::start_infrast_shift()
     auto enter_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
     enter_task_ptr->set_task_chain(InfrastTaskCahin);
     m_tasks_deque.emplace_back(enter_task_ptr);
+
+    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
+    auto mfg_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this);
+    mfg_task_ptr->set_task_chain(InfrastTaskCahin);
+    m_tasks_deque.emplace_back(mfg_task_ptr);
+
+    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
+    auto trade_task_ptr = std::make_shared<InfrastTradeTask>(task_callback, (void*)this);
+    trade_task_ptr->set_task_chain(InfrastTaskCahin);
+    m_tasks_deque.emplace_back(trade_task_ptr);
 
     append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 

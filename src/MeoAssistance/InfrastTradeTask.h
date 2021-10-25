@@ -2,11 +2,11 @@
 #include "InfrastProductionTask.h"
 
 namespace asst {
-    class InfrastMfgTask : public InfrastProductionTask
+    class InfrastTradeTask : public InfrastProductionTask
     {
     public:
         using InfrastProductionTask::InfrastProductionTask;
-        virtual ~InfrastMfgTask() = default;
+        virtual ~InfrastTradeTask() = default;
         virtual bool run() override;
 
         static const std::string FacilityName;
