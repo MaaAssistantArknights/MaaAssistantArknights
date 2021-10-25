@@ -144,7 +144,7 @@
     <ClInclude Include="CreditShopImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer</Filter>
     </ClInclude>
-    <ClInclude Include="InfrastShiftTask.h">
+    <ClInclude Include="InfrastProductionTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
     <ClInclude Include="AbstractImageAnalyzer.h">
@@ -181,6 +181,9 @@
       <Filter>头文件\Task</Filter>
     </ClInclude>
     <ClInclude Include="InfrastMfgTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastTradeTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
   </ItemGroup>
@@ -254,7 +257,7 @@
     <ClCompile Include="CreditShopImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer</Filter>
     </ClCompile>
-    <ClCompile Include="InfrastShiftTask.cpp">
+    <ClCompile Include="InfrastProductionTask.cpp">
       <Filter>源文件\Task</Filter>
     </ClCompile>
     <ClCompile Include="InfrastSkillsImageAnalyzer.cpp">
@@ -291,6 +294,9 @@
       <Filter>源文件\Task</Filter>
     </ClCompile>
     <ClCompile Include="InfrastMfgTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastTradeTask.cpp">
       <Filter>源文件\Task</Filter>
     </ClCompile>
   </ItemGroup>

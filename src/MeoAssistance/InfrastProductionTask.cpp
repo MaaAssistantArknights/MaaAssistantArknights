@@ -1,4 +1,4 @@
-﻿#include "InfrastShiftTask.h"
+﻿#include "InfrastProductionTask.h"
 
 #include <algorithm>
 
@@ -10,10 +10,10 @@
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 
-//bool asst::InfrastShiftTask::run()
+//bool asst::InfrastProductionTask::run()
 //{
 //    json::value task_start_json = json::object{
-//        { "task_type",  "InfrastShiftTask" },
+//        { "task_type",  "InfrastProductionTask" },
 //        { "task_chain", m_task_chain}
 //    };
 //    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
@@ -30,7 +30,7 @@
 //    return true;
 //}
 
-bool asst::InfrastShiftTask::shift_facility_list()
+bool asst::InfrastProductionTask::shift_facility_list()
 {
     facility_list_detect();
 
@@ -79,7 +79,7 @@ bool asst::InfrastShiftTask::shift_facility_list()
     return true;
 }
 
-bool asst::InfrastShiftTask::opers_detect()
+bool asst::InfrastProductionTask::opers_detect()
 {
     m_all_available_opers.clear();
 
@@ -124,7 +124,7 @@ bool asst::InfrastShiftTask::opers_detect()
     return false;
 }
 
-bool asst::InfrastShiftTask::optimal_calc()
+bool asst::InfrastProductionTask::optimal_calc()
 {
     auto& facility_info = resource.infrast().get_facility_info(m_facility);
     int max_num_of_opers = facility_info.max_num_of_opers;
@@ -265,7 +265,7 @@ bool asst::InfrastShiftTask::optimal_calc()
     return true;
 }
 
-bool asst::InfrastShiftTask::opers_choose()
+bool asst::InfrastProductionTask::opers_choose()
 {
     while (true) {
         const auto& image = ctrler.get_image();
@@ -278,6 +278,7 @@ bool asst::InfrastShiftTask::opers_choose()
         }
         auto cur_all_info = skills_analyzer.get_result();
 
+        std::vector<std::string> selected_hash;
         for (auto opt_iter = m_optimal_opers.begin(); opt_iter != m_optimal_opers.end();) {
             auto find_iter = std::find_if(cur_all_info.cbegin(), cur_all_info.cend(),
                 [&](const InfrastOperSkillInfo& lhs) -> bool {
@@ -288,6 +289,7 @@ bool asst::InfrastShiftTask::opers_choose()
                 continue;
             }
             ctrler.click(find_iter->rect);
+            selected_hash.emplace_back(find_iter->hash);
             {
                 auto avlb_iter = std::find_if(m_all_available_opers.cbegin(), m_all_available_opers.cend(),
                     [&](const InfrastOperSkillInfo& lhs) -> bool {
@@ -309,7 +311,7 @@ bool asst::InfrastShiftTask::opers_choose()
     return true;
 }
 
-bool asst::InfrastShiftTask::facility_list_detect()
+bool asst::InfrastProductionTask::facility_list_detect()
 {
     m_facility_list_tabs.clear();
 
@@ -317,7 +319,7 @@ bool asst::InfrastShiftTask::facility_list_detect()
     MultiMatchImageAnalyzer mm_analyzer(image);
 
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastFacilityListTab"));
+        resource.task().task_ptr("InfrastFacilityListTab" + m_facility));
     mm_analyzer.set_task_info(*task_ptr);
 
     if (!mm_analyzer.analyze()) {

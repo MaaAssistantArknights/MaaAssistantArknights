@@ -27,6 +27,8 @@ namespace asst {
         std::string penguin_report_server;  // 企鹅数据汇报接口"server"字段，"CN", "US", "JP" and "KR".
         int ocr_gpu_index = -1;				// OcrLite使用GPU编号，-1(使用CPU)/0(使用GPU0)/1(使用GPU1)/...
         int ocr_thread_number = 0;			// OcrLite线程数量
+        int adb_extra_swipe_dist = 0;       // 额外的滑动距离：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
+        int adb_extra_swipe_duration = -1;  // 额外的滑动持续时间：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来。若小于0，则关闭额外滑动功能
     };
 
     class GeneralConfiger : public AbstractConfiger

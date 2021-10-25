@@ -30,9 +30,10 @@
     <ClInclude Include="InfrastFacilityImageAnalyzer.h" />
     <ClInclude Include="InfrastMfgTask.h" />
     <ClInclude Include="InfrastMoodImageAnalyzer.h" />
-    <ClInclude Include="InfrastShiftTask.h" />
+    <ClInclude Include="InfrastProductionTask.h" />
     <ClInclude Include="InfrastSkillsImageAnalyzer.h" />
     <ClInclude Include="InfrastSmileyImageAnalyzer.h" />
+    <ClInclude Include="InfrastTradeTask.h" />
     <ClInclude Include="MultiMatchImageAnalyzer.h" />
     <ClInclude Include="OcrImageAnalyzer.h" />
     <ClInclude Include="OcrPack.h" />
@@ -67,9 +68,10 @@
     <ClCompile Include="InfrastFacilityImageAnalyzer.cpp" />
     <ClCompile Include="InfrastMfgTask.cpp" />
     <ClCompile Include="InfrastMoodImageAnalyzer.cpp" />
-    <ClCompile Include="InfrastShiftTask.cpp" />
+    <ClCompile Include="InfrastProductionTask.cpp" />
     <ClCompile Include="InfrastSkillsImageAnalyzer.cpp" />
     <ClCompile Include="InfrastSmileyImageAnalyzer.cpp" />
+    <ClCompile Include="InfrastTradeTask.cpp" />
     <ClCompile Include="MultiMatchImageAnalyzer.cpp" />
     <ClCompile Include="OcrImageAnalyzer.cpp" />
     <ClCompile Include="OcrPack.cpp" />
