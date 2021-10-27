@@ -1096,7 +1096,7 @@
             120,
             255
         ],
-        "templThreshold": 0.8,
+        "templThreshold": 0.65,
         "roi": [
             0,
             0,

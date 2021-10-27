@@ -18,6 +18,7 @@
 #include "InfrastDormTask.h"
 #include "InfrastMfgTask.h"
 #include "InfrastTradeTask.h"
+#include "InfrastPowerTask.h"
 
 using namespace asst;
 
@@ -225,7 +226,7 @@ bool Assistance::start_debug_task()
 
     {
         constexpr static const char* DebugTaskChain = "Debug";
-        auto shift_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this);
+        auto shift_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
         //shift_task_ptr->set_facility("Mfg");
         //shift_task_ptr->set_product("CombatRecord");
         shift_task_ptr->set_task_chain(DebugTaskChain);
@@ -290,6 +291,12 @@ bool asst::Assistance::start_infrast_shift()
 
     // 贸易站无人机
     append_match_task(InfrastTaskCahin, { "UavAssist-Trade" });
+
+    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
+    auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
+    power_task_ptr->set_task_chain(InfrastTaskCahin);
+    m_tasks_deque.emplace_back(power_task_ptr);
 
     append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
