@@ -21,7 +21,7 @@
 //    m_all_available_opers.clear();
 //
 //    swipe_to_the_left_of_operlist();
-//    bool ret = opers_detect();
+//    bool ret = opers_detect_with_swipe();
 //
 //    optimal_calc();
 //
@@ -69,8 +69,11 @@ bool asst::InfrastProductionTask::shift_facility_list()
         swipe_to_the_left_of_operlist();
 
         if (m_all_available_opers.empty()) {
-            opers_detect();
+            opers_detect_with_swipe();
             swipe_to_the_left_of_operlist();
+        }
+        else {
+            opers_detect();
         }
         optimal_calc();
         opers_choose();
@@ -79,41 +82,20 @@ bool asst::InfrastProductionTask::shift_facility_list()
     return true;
 }
 
-bool asst::InfrastProductionTask::opers_detect()
+bool asst::InfrastProductionTask::opers_detect_with_swipe()
 {
     m_all_available_opers.clear();
 
     int first_number = 0;
     while (true) {
-        const auto& image = ctrler.get_image();
-
-        InfrastSkillsImageAnalyzer skills_analyzer(image);
-        skills_analyzer.set_facility(m_facility);
-
-        if (!skills_analyzer.analyze()) {
-            return false;
-        }
-        const auto& cur_all_info = skills_analyzer.get_result();
-        if (first_number == 0) {
-            first_number = cur_all_info.size();
-        }
-        // 如果两个的hash距离过小，则认为是同一个干员，不进行插入
-        for (const auto& cur : cur_all_info) {
-            auto find_iter = std::find_if(m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-                [&cur](const InfrastOperSkillInfo& info) -> bool {
-                    int dist = utils::hamming(cur.hash, info.hash);
-                    return dist < HashDistThres;
-                });
-            if (find_iter == m_all_available_opers.cend()) {
-                m_all_available_opers.emplace_back(cur);
-            }
-        }
+        size_t num = opers_detect();
 
         // 这里本来是判断不相等就可以退出循环。
         // 但是有时候滑动会把一个干员挡住一半，一个页面完整的干员真的只有10个，所以加个2的差值
-        if (first_number - cur_all_info.size() > 2) {
+        if (max_num_of_opers_per_page - num > 2) {
             break;
         }
+
         // 异步在最后会多滑动一下，耽误的时间还不如用同步
         sync_swipe_of_operlist();
     }
@@ -122,6 +104,33 @@ bool asst::InfrastProductionTask::opers_detect()
         return true;
     }
     return false;
+}
+
+size_t asst::InfrastProductionTask::opers_detect()
+{
+    const auto& image = ctrler.get_image();
+
+    InfrastSkillsImageAnalyzer skills_analyzer(image);
+    skills_analyzer.set_facility(m_facility);
+
+    if (!skills_analyzer.analyze()) {
+        return 0;
+    }
+    const auto& cur_all_info = skills_analyzer.get_result();
+    max_num_of_opers_per_page = (std::max)(max_num_of_opers_per_page, cur_all_info.size());
+
+    // 如果两个的hash距离过小，则认为是同一个干员，不进行插入
+    for (const auto& cur : cur_all_info) {
+        auto find_iter = std::find_if(m_all_available_opers.cbegin(), m_all_available_opers.cend(),
+            [&cur](const InfrastOperSkillInfo& info) -> bool {
+                int dist = utils::hamming(cur.hash, info.hash);
+                return dist < HashDistThres;
+            });
+        if (find_iter == m_all_available_opers.cend()) {
+            m_all_available_opers.emplace_back(cur);
+        }
+    }
+    return cur_all_info.size();
 }
 
 bool asst::InfrastProductionTask::optimal_calc()

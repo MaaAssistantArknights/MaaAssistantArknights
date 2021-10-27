@@ -31,7 +31,7 @@ bool ProcessTask::run()
     }
     auto task_info_ptr = analyzer.get_result();
     Rect rect = analyzer.get_rect();
-    const auto& res_move = task_info_ptr->result_move;
+    const auto& res_move = task_info_ptr->rect_move;
     if (!res_move.empty()) {
         rect.x += res_move.x;
         rect.y += res_move.y;

@@ -42,10 +42,10 @@ bool asst::CreditShopImageAnalyzer::commoditys_analyze()
     m_commoditys.reserve(credit_points_result.size());
     for (const MatchRect& mr : credit_points_result) {
         Rect commodity;
-        commodity.x = mr.rect.x + commodity_task_ptr->result_move.x;
-        commodity.y = mr.rect.y + commodity_task_ptr->result_move.y;
-        commodity.width = commodity_task_ptr->result_move.width;
-        commodity.height = commodity_task_ptr->result_move.height;
+        commodity.x = mr.rect.x + commodity_task_ptr->rect_move.x;
+        commodity.y = mr.rect.y + commodity_task_ptr->rect_move.y;
+        commodity.width = commodity_task_ptr->rect_move.width;
+        commodity.height = commodity_task_ptr->rect_move.height;
         m_commoditys.emplace_back(std::move(commodity));
     }
 

@@ -57,7 +57,7 @@ bool asst::RecruitImageAnalyzer::time_analyze()
 
     if (time_analyzer.analyze()) {
         Rect rect = time_analyzer.get_result().rect;
-        const auto& res_move = time_task_ptr->result_move;
+        const auto& res_move = time_task_ptr->rect_move;
         if (!res_move.empty()) {
             rect.x += res_move.x;
             rect.y += res_move.y;

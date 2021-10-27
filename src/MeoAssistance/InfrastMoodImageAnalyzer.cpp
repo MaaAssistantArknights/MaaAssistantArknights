@@ -2,6 +2,7 @@
 
 #include "Resource.h"
 #include "InfrastSmileyImageAnalyzer.h"
+#include "MatchImageAnalyzer.h"
 #include "AsstUtils.hpp"
 
 bool asst::InfrastMoodImageAnalyzer::analyze()
@@ -9,6 +10,8 @@ bool asst::InfrastMoodImageAnalyzer::analyze()
     mood_detect();
     mood_analyze();
     hash_calc();
+    selected_analyze();
+    working_analyze();
 
     return true;
 }
@@ -38,8 +41,8 @@ bool asst::InfrastMoodImageAnalyzer::mood_detect()
     const auto hash_task_ptr = resource.task().task_ptr("InfrastSkillsHash");
     const auto prg_task_ptr = resource.task().task_ptr("InfrastOperMoodProgressBar");
 
-    Rect hash_rect_move = hash_task_ptr->result_move;
-    Rect progress_rect_move = prg_task_ptr->result_move;
+    Rect hash_rect_move = hash_task_ptr->rect_move;
+    Rect progress_rect_move = prg_task_ptr->rect_move;
 
     std::vector<Rect> roi_vec = {
         upper_task_ptr->roi,
@@ -66,7 +69,7 @@ bool asst::InfrastMoodImageAnalyzer::mood_detect()
                 continue;
             }
 #ifdef LOG_TRACE
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(prg_rect), cv::Scalar(0, 0, 255), 2);
+            //cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(prg_rect), cv::Scalar(0, 0, 255), 2);
 #endif // LOG_TRACE
 
             InfrastOperMoodInfo info;
@@ -167,13 +170,61 @@ bool asst::InfrastMoodImageAnalyzer::mood_analyze()
 bool asst::InfrastMoodImageAnalyzer::hash_calc()
 {
     const auto hash_task_ptr = resource.task().task_ptr("InfrastSkillsHash");
-    Rect hash_rect_move = hash_task_ptr->result_move;
+    Rect hash_rect_move = hash_task_ptr->rect_move;
 
     for (auto&& info : m_result) {
         Rect hash_rect = hash_rect_move;
         hash_rect.x += info.rect.x;
         hash_rect.y += info.rect.y;
         info.hash = calc_hash(hash_rect);
+    }
+    return true;
+}
+
+bool asst::InfrastMoodImageAnalyzer::selected_analyze()
+{
+    const auto selected_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        resource.task().task_ptr("InfrastOperSelected"));
+    Rect rect_move = selected_task_ptr->rect_move;
+
+    MatchImageAnalyzer selected_analyzer(m_image);
+    selected_analyzer.set_task_info(*selected_task_ptr);
+
+    for (auto&& info : m_result) {
+        Rect selected_rect = rect_move;
+        selected_rect.x += info.rect.x;
+        selected_rect.y += info.rect.y;
+        selected_analyzer.set_roi(selected_rect);
+        if (selected_analyzer.analyze()) {
+            info.selected = true;
+#ifdef LOG_TRACE
+            cv::putText(m_image_draw, "SELECTED", cv::Point(selected_rect.x, selected_rect.y + 30), 1, 1, cv::Scalar(0, 0, 255), 2);
+#endif
+        }
+    }
+    return true;
+}
+
+bool asst::InfrastMoodImageAnalyzer::working_analyze()
+{
+    const auto working_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        resource.task().task_ptr("InfrastOperOnShift"));
+    Rect rect_move = working_task_ptr->rect_move;
+
+    MatchImageAnalyzer selected_analyzer(m_image);
+    selected_analyzer.set_task_info(*working_task_ptr);
+
+    for (auto&& info : m_result) {
+        Rect working_rect = rect_move;
+        working_rect.x += info.rect.x;
+        working_rect.y += info.rect.y;
+        selected_analyzer.set_roi(working_rect);
+        if (selected_analyzer.analyze()) {
+            info.selected = true;
+#ifdef LOG_TRACE
+            cv::putText(m_image_draw, "ONSHIFT", cv::Point(working_rect.x, working_rect.y), 1, 1, cv::Scalar(0, 0, 255), 2);
+#endif
+        }
     }
     return true;
 }

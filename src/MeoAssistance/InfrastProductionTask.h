@@ -21,7 +21,8 @@ namespace asst {
     protected:
         bool shift_facility_list();
         bool facility_list_detect();
-        bool opers_detect();
+        bool opers_detect_with_swipe();
+        size_t opers_detect();  // 返回当前页面的干员数
         bool optimal_calc();
         bool opers_choose();
 
@@ -32,5 +33,6 @@ namespace asst {
         std::vector<InfrastOperSkillInfo> m_all_available_opers;
         std::vector<InfrastOperSkillInfo> m_optimal_opers;
         std::vector<Rect> m_facility_list_tabs;
+        size_t max_num_of_opers_per_page = 0;
     };
 }

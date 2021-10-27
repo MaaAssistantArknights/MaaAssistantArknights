@@ -475,7 +475,7 @@
     },
     "CreditShop-Commoditys": {
         "template": "CreditPoint.png",
-        "resultMove": [
+        "rectMove": [
             -60,
             -180,
             220,
@@ -526,7 +526,7 @@
         "template": "RecruitTimeReduce.png",
         "templThreshold": 0.89,
         "action": "clickSelf",
-        "resultMove": [
+        "rectMove": [
             7,
             94,
             129,
@@ -825,23 +825,23 @@
         "algorithm": "justReturn",
         "roi": [
             400,
-            250,
+            280,
             880,
-            110
+            80
         ]
     },
     "InfrastSkillsLower": {
         "algorithm": "justReturn",
         "roi": [
             400,
-            530,
+            560,
             880,
-            110
+            80
         ]
     },
     "InfrastSkillsHash": {
         "algorithm": "justReturn",
-        "resultMove": [
+        "rectMove": [
             -8,
             -202,
             82,
@@ -881,7 +881,7 @@
         "histThreshold": 100,
         "histThreshold_Doc": "该任务里的Hist阈值，是特化了拿来做灰度图平均值的，懒得重新写个字段了",
         "cache": false,
-        "resultMove": [
+        "rectMove": [
             -8,
             -42,
             82,
@@ -945,7 +945,7 @@
         "histThreshold": 20,
         "Doc": "这里的templThreshold，作为进度条最小灰度阈值使用；histThreshold作为进度条相邻点最大变化阈值使用。懒得重新弄个字段了",
         "cache": false,
-        "resultMove": [
+        "rectMove": [
             21,
             8,
             85,
@@ -1096,7 +1096,7 @@
             120,
             255
         ],
-        "templThreshold":  0.8,
+        "templThreshold": 0.8,
         "roi": [
             0,
             0,
@@ -1238,11 +1238,29 @@
         "rearDelay": 1000
     },
     "InfrastOperSelected": {
-        "template": "OperSelectedCropped.png",
+        "template": "OperSelected.png",
         "cache": false,
+        "templThreshold": 0.35,
         "maskRange": [
             1,
             255
+        ],
+        "rectMove": [
+            -8,
+            -260,
+            82,
+            320
+        ]
+    },
+    "InfrastOperOnShift": {
+        "template": "OnShift.png",
+        "cache": false,
+        "templThreshold": 0.8,
+        "rectMove": [
+            -20,
+            -100,
+            70,
+            50
         ]
     }
 }

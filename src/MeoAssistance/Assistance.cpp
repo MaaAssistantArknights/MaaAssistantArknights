@@ -267,27 +267,14 @@ bool asst::Assistance::start_infrast_shift()
         return false;
     }
 
-    /* 基建任务整体流程：
-    1. 从任意界面进入基建，使用ProcessTask: "InfrastBegin"
-    2. 一键收获贸易站、制造站、干员信赖，使用ProcessTask
-    3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去，使用InfrastEnterFacilityTask
-    4. 根据用户设置，按顺序进入制造站or贸易站，使用InfrastEnterFacilityTask
-    5. 对制造站or贸易站进行换班，使用InfrastShiftTask
-    6. 根据用户设置，使用无人机加速制造or贸易，使用ProcessTask
-    7. 会客室线索处理、发电站换班、控制中枢、办公室换班，同样需要根据用户设置决定顺序，TODO
-    8. 再次进入宿舍，把基建中可能换下来的干员（心情不低的）加入宿舍
-    */
-
-    // 1. 从任意界面进入基建，使用ProcessTask
-    // 2. 一键收获贸易站、制造站、干员信赖，使用ProcessTask
-    // 这个任务结束后，是在进入基建后的主界面
     constexpr static const char* InfrastTaskCahin = "Infrast";
 
+    // 这个流程任务，结束的时候是处于基建主界面的。既可以用于进入基建，也可以用于从设施里返回基建主界面
     append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
-    auto enter_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
-    enter_task_ptr->set_task_chain(InfrastTaskCahin);
-    m_tasks_deque.emplace_back(enter_task_ptr);
+    auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
+    dorm_task_ptr->set_task_chain(InfrastTaskCahin);
+    m_tasks_deque.emplace_back(dorm_task_ptr);
 
     append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
@@ -301,63 +288,15 @@ bool asst::Assistance::start_infrast_shift()
     trade_task_ptr->set_task_chain(InfrastTaskCahin);
     m_tasks_deque.emplace_back(trade_task_ptr);
 
+    // 贸易站无人机
+    append_match_task(InfrastTaskCahin, { "UavAssist-Trade" });
+
     append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
-    //// 3. 进入宿舍，把心情低于阈值的、心情没满但不在工作的，都换下去
-    //auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
-    //dorm_task_ptr->set_task_chain(InfrastTaskCahin);
-    //m_tasks_deque.emplace_back(dorm_task_ptr);
+    // 再次进宿舍，把刚从设施里换下来的人放进去
+    m_tasks_deque.emplace_back(dorm_task_ptr);
 
-    //// 返回基建的主界面
-    //append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    //// 5. 对制造站or贸易站进行换班，使用InfrastStationTask
-
-    //// TODO，这里需要根据用户设置，是先制造站还是先贸易站，或者是别的设施
-    //// 从进入制造站，到设施列表的界面
-    //append_match_task(InfrastTaskCahin, { "ManufacturingMini", "Manufacturing" });
-
-    //// 制造站换班
-    //m_tasks_deque.emplace_back(shift_task_ptr);
-
-    //// 返回基建的主界面
-    //append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    //// TODO，这里需要根据用户设置，是先制造站还是先贸易站，或者是别的设施
-    //// 从进入贸易站，到设施列表的界面
-    //append_match_task(InfrastTaskCahin, { "Trade", "TradeMini" });
-
-    //// 贸易站换班
-    //m_tasks_deque.emplace_back(shift_task_ptr);
-
-    //// 6. 根据用户设置，使用无人机加速制造or贸易，使用ProcessTask
-    //// 对贸易站使用无人机加速
-    //append_match_task(InfrastTaskCahin, { "UavAssist-Trade" });
-
-    //// 返回基建的主界面
-    //append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    //// 7. 会客室线索处理、发电站换班、控制中枢、办公室换班，同样需要根据用户设置决定顺序，TODO
-    //// 发电站换班
-    //auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
-    //power_task_ptr->set_task_chain(InfrastTaskCahin);
-    //m_tasks_deque.emplace_back(std::move(power_task_ptr));
-
-    //// 返回基建的主界面
-    //append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    //auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
-    //office_task_ptr->set_task_chain(InfrastTaskCahin);
-    //m_tasks_deque.emplace_back(std::move(office_task_ptr));
-
-    //// 返回基建的主界面
-    //append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    //// 8. 再次进入宿舍，把基建中可能换下来的干员（心情不低的）加入宿舍
-    //m_tasks_deque.emplace_back(dorm_task_ptr);
-
-    //// 全操作完之后，再返回基建的主界面
-    //append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
     m_thread_idle = false;
     m_condvar.notify_one();

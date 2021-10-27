@@ -29,6 +29,8 @@ namespace asst {
         bool mood_detect();
         bool mood_analyze();
         bool hash_calc();
+        bool selected_analyze();
+        bool working_analyze();
 
         std::vector<InfrastOperMoodInfo> m_result;
     };
