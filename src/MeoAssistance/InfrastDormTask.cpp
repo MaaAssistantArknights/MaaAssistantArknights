@@ -15,37 +15,56 @@ bool asst::InfrastDormTask::run()
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
-    for (int i = 0; i < m_max_num_of_dorm; ++i) {
-        enter_facility(FacilityName, i);
+    for (; m_cur_dorm_index < m_max_num_of_dorm; ++m_cur_dorm_index) {
+        enter_facility(FacilityName, m_cur_dorm_index);
         if (!enter_oper_list_page()) {
             return false;
         }
-        if (i == 0) {
-            swipe_to_the_left_of_operlist();
-        }
+        swipe_to_the_left_of_operlist();
         click_clear_button();
 
-        const auto& image = ctrler.get_image();
-        InfrastMoodImageAnalyzer mood_analyzer(image);
-        if (!mood_analyzer.analyze()) {
-            return false;
-        }
-        mood_analyzer.sort_result();
-        const auto& mood_result = mood_analyzer.get_result();
-
         int quantity_selected = 0;
-        for (const auto& mood_info : mood_result) {
-            // TODO:这个阈值写到配置文件里去
-            if (mood_info.percentage < 0.3) {
-                ctrler.click(mood_info.rect);
-                if (++quantity_selected >= MaxNumOfOpers) {
+        while (quantity_selected < MaxNumOfOpers) {
+            const auto& image = ctrler.get_image();
+            InfrastMoodImageAnalyzer mood_analyzer(image);
+            if (!mood_analyzer.analyze()) {
+                return false;
+            }
+            mood_analyzer.sort_result();
+            const auto& mood_result = mood_analyzer.get_result();
+
+            int quantity_resting = 0;
+            for (const auto& mood_info : mood_result) {
+                switch (mood_info.smiley.type)
+                {
+                case InfrastSmileyType::Rest:
+                    // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了，直接退出即可
+                    if (++quantity_resting >= MaxNumOfOpers) {
+                        click_confirm_button();
+                        return true;
+                    }
+                    break;
+                case InfrastSmileyType::Work:
+                case InfrastSmileyType::Distract:
+                    // 干员没有被选择的情况下，心情小于30%，或不在工作，就进驻宿舍
+                    if (mood_info.selected == false
+                        && (mood_info.percentage < 0.3      // TODO:这个阈值写到配置文件里去
+                            || mood_info.working == false))
+                    {
+                        ctrler.click(mood_info.rect);
+                        if (++quantity_selected >= MaxNumOfOpers) {
+                            break;
+                        }
+                    }
+                    break;
+                default:
                     break;
                 }
             }
-            else {
-                click_confirm_button();
-                return true;
+            if (quantity_selected >= MaxNumOfOpers) {
+                break;
             }
+            sync_swipe_of_operlist();
         }
         click_confirm_button();
         click_return_button();

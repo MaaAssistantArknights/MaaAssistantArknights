@@ -177,7 +177,7 @@ namespace asst {
         int rear_delay = 0;								// 执行该任务后的延时
         int retry_times = INT_MAX;						// 未找到图像时的重试次数
         Rect roi;								        // 要识别的区域，若为0则全图识别
-        Rect result_move;                               // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。即识别到了res，点击res + result_move的位置
+        Rect rect_move;                               // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。即识别到了res，点击res + result_move的位置
     };
 
     // 文字识别任务的信息
@@ -250,6 +250,8 @@ namespace asst {
         InfrastSmileyInfo smiley;
         double percentage = 0;      // 心情进度条的百分比
         Rect rect;
+        bool working = false;       // 干员是否在工作中
+        bool selected = false;      // 干员是否已被选择（蓝色的选择框）
     };
 
     struct InfrastSkill {
@@ -311,6 +313,7 @@ namespace asst
         std::string hash;                   // 有些干员的技能是完全一样的，做个hash区分一下不同干员
         InfrastSkillsComb skills_comb;
         Rect rect;
+        bool selected = false;              // 干员是否已被选择（蓝色的选择框）
     };
     // 基建技能组
     struct InfrastSkillsGroup {

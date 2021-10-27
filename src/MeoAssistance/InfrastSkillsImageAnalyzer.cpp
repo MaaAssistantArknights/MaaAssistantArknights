@@ -27,7 +27,7 @@ bool asst::InfrastSkillsImageAnalyzer::skills_detect()
     const auto lower_task_ptr = resource.task().task_ptr("InfrastSkillsLower");
     const auto hash_task_ptr = resource.task().task_ptr("InfrastSkillsHash");
 
-    Rect hash_rect_move = hash_task_ptr->result_move;
+    Rect hash_rect_move = hash_task_ptr->rect_move;
 
     std::vector<Rect> roi_vec = {
         upper_task_ptr->roi,
@@ -45,10 +45,10 @@ bool asst::InfrastSkillsImageAnalyzer::skills_detect()
         const auto& smiley_res = smiley_analyzer.get_result();
 
         const auto task_ptr = resource.task().task_ptr("InfrastSkills");
-        int skills_x_offset = task_ptr->result_move.x;
-        int skills_y_offset = task_ptr->result_move.y;
-        int skills_width = task_ptr->result_move.width;
-        int skills_height = task_ptr->result_move.height;
+        int skills_x_offset = task_ptr->rect_move.x;
+        int skills_y_offset = task_ptr->rect_move.y;
+        int skills_width = task_ptr->rect_move.width;
+        int skills_height = task_ptr->rect_move.height;
 
         for (const auto& [_type, smiley_rect] : smiley_res) {
             Rect skills_rect;

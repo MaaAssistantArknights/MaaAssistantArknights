@@ -225,16 +225,16 @@ bool asst::TaskData::parse(const json::value& json)
                 task_info_ptr->next.emplace_back(next.as_string());
             }
         }
-        if (task_json.exist("resultMove")) {
-            const json::array& move_arr = task_json.at("resultMove").as_array();
-            task_info_ptr->result_move = Rect(
+        if (task_json.exist("rectMove")) {
+            const json::array& move_arr = task_json.at("rectMove").as_array();
+            task_info_ptr->rect_move = Rect(
                 move_arr[0].as_integer(),
                 move_arr[1].as_integer(),
                 move_arr[2].as_integer(),
                 move_arr[3].as_integer());
         }
         else {
-            task_info_ptr->result_move = Rect();
+            task_info_ptr->rect_move = Rect();
         }
 
         m_all_tasks_info.emplace(name, task_info_ptr);
