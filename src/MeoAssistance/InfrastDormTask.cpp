@@ -17,7 +17,9 @@ bool asst::InfrastDormTask::run()
 
     for (int i = 0; i < m_max_num_of_dorm; ++i) {
         enter_facility(FacilityName, i);
-        enter_oper_list_page();
+        if (!enter_oper_list_page()) {
+            return false;
+        }
         if (i == 0) {
             swipe_to_the_left_of_operlist();
         }

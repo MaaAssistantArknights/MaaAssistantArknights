@@ -1078,9 +1078,10 @@
         "template": "StationedOnClicked.png",
         "cache": false,
         "maskRange": [
-            0,
-            5
+            120,
+            255
         ],
+        "templThreshold": 0.8,
         "roi": [
             0,
             0,
@@ -1092,9 +1093,10 @@
         "template": "StationedNotClicked.png",
         "cache": false,
         "maskRange": [
-            250,
+            120,
             255
         ],
+        "templThreshold":  0.8,
         "roi": [
             0,
             0,
