@@ -38,6 +38,7 @@ bool asst::InfrastPowerTask::run()
         optimal_calc();
         opers_choose();
         click_confirm_button();
+        click_return_button();
     }
 
     return true;
