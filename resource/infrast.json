@@ -1,7 +1,8 @@
 ﻿{
     "facility": [
         "Mfg",
-        "Trade"
+        "Trade",
+        "Power"
     ],
     "Mfg": {
         "Mfg_Doc": "制造站",
@@ -1450,5 +1451,54 @@
                 ]
             }
         ]
+    },
+    "Power": {
+        "maxNumOfOpers": 1,
+        "products": [
+            "Drone"
+        ],
+        "skills": [
+            {
+                "name": [
+                    "脉冲电弧·β"
+                ],
+                "intro": "进驻发电站时，无人机每小时充能速度+20%",
+                "template": "Bskill_pow_spd3.png",
+                "efficient": {
+                    "all": 20
+                }
+            },
+            {
+                "name": [
+                    "脉冲电弧·α"
+                ],
+                "intro": "进驻发电站时，无人机每小时充能速度+15%",
+                "template": "Bskill_pow_spd2.png",
+                "efficient": {
+                    "all": 15
+                }
+            },
+            {
+                "name": [
+                    "热能充能·α"
+                ],
+                "intro": "进驻发电站时，无人机每小时充能速度+10%",
+                "template": "Bskill_pow_spd1.png",
+                "efficient": {
+                    "all": 10
+                }
+            },
+            {
+                "name": [
+                    "热情澎湃"
+                ],
+                "intro": "进驻发电站时，无人机每小时充能速度+10%",
+                "template": "Bskill_pow_spd&cost.png",
+                "efficient": {
+                    "all": 0.1
+                }
+            }
+        ],
+        "skillsGroup": []
     }
 }

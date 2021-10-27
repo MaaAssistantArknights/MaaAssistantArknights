@@ -198,5 +198,5 @@ bool asst::InfrastConfiger::parse(const json::value& json)
 
         m_facilities_info.emplace(facility_name, std::move(fac_info));
     }
-    return false;
+    return true;
 }
