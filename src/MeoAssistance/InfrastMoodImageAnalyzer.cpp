@@ -38,10 +38,8 @@ bool asst::InfrastMoodImageAnalyzer::mood_detect()
 {
     const auto upper_task_ptr = resource.task().task_ptr("InfrastSkillsUpper");
     const auto lower_task_ptr = resource.task().task_ptr("InfrastSkillsLower");
-    const auto hash_task_ptr = resource.task().task_ptr("InfrastSkillsHash");
     const auto prg_task_ptr = resource.task().task_ptr("InfrastOperMoodProgressBar");
 
-    Rect hash_rect_move = hash_task_ptr->rect_move;
     Rect progress_rect_move = prg_task_ptr->rect_move;
 
     std::vector<Rect> roi_vec = {
@@ -174,8 +172,8 @@ bool asst::InfrastMoodImageAnalyzer::hash_calc()
 
     for (auto&& info : m_result) {
         Rect hash_rect = hash_rect_move;
-        hash_rect.x += info.rect.x;
-        hash_rect.y += info.rect.y;
+        hash_rect.x += info.smiley.rect.x;
+        hash_rect.y += info.smiley.rect.y;
         info.hash = calc_hash(hash_rect);
     }
     return true;
@@ -192,13 +190,13 @@ bool asst::InfrastMoodImageAnalyzer::selected_analyze()
 
     for (auto&& info : m_result) {
         Rect selected_rect = rect_move;
-        selected_rect.x += info.rect.x;
-        selected_rect.y += info.rect.y;
+        selected_rect.x += info.smiley.rect.x;
+        selected_rect.y += info.smiley.rect.y;
         selected_analyzer.set_roi(selected_rect);
         if (selected_analyzer.analyze()) {
             info.selected = true;
 #ifdef LOG_TRACE
-            cv::putText(m_image_draw, "SELECTED", cv::Point(selected_rect.x, selected_rect.y + 30), 1, 1, cv::Scalar(0, 0, 255), 2);
+            cv::putText(m_image_draw, "SELECTED", cv::Point(selected_rect.x, selected_rect.y + 50), 1, 1, cv::Scalar(0, 0, 255), 2);
 #endif
         }
     }
@@ -216,8 +214,8 @@ bool asst::InfrastMoodImageAnalyzer::working_analyze()
 
     for (auto&& info : m_result) {
         Rect working_rect = rect_move;
-        working_rect.x += info.rect.x;
-        working_rect.y += info.rect.y;
+        working_rect.x += info.smiley.rect.x;
+        working_rect.y += info.smiley.rect.y;
         working_analyzer.set_roi(working_rect);
         if (working_analyzer.analyze()) {
             info.working = true;
