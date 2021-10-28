@@ -2,7 +2,8 @@
     "facility": [
         "Mfg",
         "Trade",
-        "Power"
+        "Power",
+        "Office"
     ],
     "Mfg": {
         "Mfg_Doc": "制造站",
@@ -1496,6 +1497,149 @@
                 "template": "Bskill_pow_spd&cost.png",
                 "efficient": {
                     "all": 0.1
+                }
+            }
+        ],
+        "skillsGroup": []
+    },
+    "Office": {
+        "maxNumOfOpers": 1,
+        "products": [
+            "HR"
+        ],
+        "skills": [
+            {
+                "name": [
+                    "准时下班"
+                ],
+                "intro": "进驻人力办公室时，人脉资源的联络速度+45%，心情每小时消耗+2",
+                "template": "Bskill_hire_skgoat.png",
+                "efficient": {
+                    "all": 44.9
+                }
+            },
+            {
+                "name": [
+                    "天灾信使·β"
+                ],
+                "intro": "进驻人力办公室时，人脉资源的联络速度+45%",
+                "template": "Bskill_hire_spd5.png",
+                "efficient": {
+                    "all": 45
+                }
+            },
+            {
+                "name": [
+                    "心理学"
+                ],
+                "intro": "进驻人力办公室时，人脉资源的联络速度+40%",
+                "template": "Bskill_hire_spd4.png",
+                "efficient": {
+                    "all": 40
+                }
+            },
+            {
+                "name": [
+                    "洞悉人心"
+                ],
+                "intro": "进驻人力办公室时，人脉资源的联络速度+35%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度",
+                "template": "Bskill_hire_spd&clue.png",
+                "efficient": {
+                    "all": 35.1
+                }
+            },
+            {
+                "name": [
+                    "天灾信使·α"
+                ],
+                "intro": "进驻人力办公室时，人脉资源的联络速度+30%",
+                "template": "Bskill_hire_spd2.png",
+                "efficient": {
+                    "all": 30
+                }
+            },
+            {
+                "name": [
+                    "人事管理·α"
+                ],
+                "intro": "进驻人力办公室时，人脉资源的联络速度+20%",
+                "template": "Bskill_hire_spd1.png",
+                "efficient": {
+                    "all": 20
+                }
+            },
+            {
+                "name": [
+                    "人望"
+                ],
+                "intro": "进驻人力办公室时，人脉资源的联络速度+20%，每产生1次联络次数，增加乌萨斯学生自治团线索的概率（工作时长和招募位影响概率）",
+                "template": "Bskill_hire_spd&ursus2.png",
+                "efficient": {
+                    "all": 20
+                }
+            },
+            {
+                "name": [
+                    "内幕"
+                ],
+                "intro": "进驻人力办公室时，人脉资源的联络速度+20%，每产生1次联络次数，增加黑钢国际线索的概率（工作时长和招募位影响概率）",
+                "template": "Bskill_hire_spd&blacksteel2.png",
+                "efficient": {
+                    "all": 20
+                }
+            },
+            {
+                "name": [
+                    "巡游"
+                ],
+                "intro": "进驻人力办公室时，人脉资源的联络速度+20%，同时每个招募位（不包含初始招募位）+10点记忆碎片",
+                "template": "Bskill_hire_spd_bd_n1_n1.png",
+                "efficient": {
+                    "all": 20
+                }
+            },
+            {
+                "name": [
+                    "追忆"
+                ],
+                "intro": "进驻人力办公室时，每1点记忆碎片转化为1点感知信息，心情耗尽时清空所有记忆碎片和自身累积的感知信息",
+                "template": "Bskill_hire_spd_memento.png"
+            },
+            {
+                "name": [
+                    "救援队·资源清点"
+                ],
+                "intro": "进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25",
+                "template": "Bskill_hire_spd&cost2.png",
+                "efficient": {
+                    "all": 20.1
+                }
+            },
+            {
+                "name": [
+                    "救援队·灾后普查"
+                ],
+                "intro": "进驻人力办公室时，每个招募位（不包含初始招募位）+10点人间烟火",
+                "template": "Bskill_hire_spd_bd_n2.png"
+            },
+            {
+                "name": [
+                    "语言学"
+                ],
+                "intro": "进驻人力办公室时，人脉资源的联络速度+20%，每1点情报储备额外+5%联络速度，每1瓶乌萨斯特饮额外+5%联络速度",
+                "template": "Bskill_hire_blitz.png",
+                "efficient": {
+                    "all": 20.1
+                }
+            },
+            {
+                "name": [
+                    "救援队·珠算"
+                ],
+                "intro": "进驻人力办公室时，人脉资源的联络速度+10%，心情每小时消耗-0.25",
+                "template": "Bskill_hire_spd&cost1.png",
+                "efficient": {
+                    "all": 10.1
                 }
             }
         ],

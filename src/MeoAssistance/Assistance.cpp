@@ -19,6 +19,7 @@
 #include "InfrastMfgTask.h"
 #include "InfrastTradeTask.h"
 #include "InfrastPowerTask.h"
+#include "InfrastOfficeTask.h"
 
 using namespace asst;
 
@@ -226,7 +227,7 @@ bool Assistance::start_debug_task()
 
     {
         constexpr static const char* DebugTaskChain = "Debug";
-        auto shift_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
+        auto shift_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
         //shift_task_ptr->set_facility("Mfg");
         //shift_task_ptr->set_product("CombatRecord");
         shift_task_ptr->set_task_chain(DebugTaskChain);
