@@ -297,6 +297,9 @@ bool asst::InfrastProductionTask::opers_choose()
                 ++opt_iter;
                 continue;
             }
+            if (find_iter->selected == true) {
+                continue;
+            }
             ctrler.click(find_iter->rect);
             selected_hash.emplace_back(find_iter->hash);
             {

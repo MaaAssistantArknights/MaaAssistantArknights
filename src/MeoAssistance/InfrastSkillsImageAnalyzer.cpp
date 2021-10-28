@@ -136,6 +136,11 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
     skill_analyzer.set_mask_range(task_ptr->mask_range);
     skill_analyzer.set_threshold(task_ptr->templ_threshold);
 
+    const auto selected_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        resource.task().task_ptr("InfrastOperSelected"));
+    MatchImageAnalyzer selected_analyzer(m_image);
+    selected_analyzer.set_task_info(*selected_task_ptr);
+
     for (const auto& [hash, skills_rect_vec] : m_skills_splited) {
         std::unordered_set<InfrastSkill> skills_set;   // 单个干员的全部技能
         std::string log_str = "[ ";
@@ -203,10 +208,26 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
             skills_set.emplace(std::move(most_confident_skills));
         }
         log.trace(log_str, "]");
+
         InfrastOperSkillInfo info;
         info.hash = hash;
         info.skills_comb = InfrastSkillsComb(std::move(skills_set));
         info.rect = m_skills_detected.at(hash);
+
+        // 识别该干员是否被选中。数据结构设计的不太合理，先这么凑合用了
+        int smiley_x = skills_rect_vec.front().x - task_ptr->rect_move.x;
+        int smiley_y = skills_rect_vec.front().y - task_ptr->rect_move.y;
+        Rect selected_rect = selected_task_ptr->rect_move;
+        selected_rect.x += smiley_x;
+        selected_rect.y += smiley_y;
+        selected_analyzer.set_roi(selected_rect);
+        if (selected_analyzer.analyze()) {
+            info.selected = true;
+        }
+        else {
+            info.selected = false;
+        }
+
         m_result.emplace_back(std::move(info));
     }
     if (!m_result.empty()) {
