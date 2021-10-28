@@ -70,10 +70,10 @@ void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
     static int duration = resource.task().task_ptr("InfrastOperListSwipeBegin")->pre_delay;
 
     if (!reverse) {
-        m_last_swipe_id = ctrler.swipe(begin_rect, end_rect, duration, false);
+        m_last_swipe_id = ctrler.swipe(begin_rect, end_rect, duration, false, 0, true);
     }
     else {
-        m_last_swipe_id = ctrler.swipe(end_rect, begin_rect, duration, false);
+        m_last_swipe_id = ctrler.swipe(end_rect, begin_rect, duration, false, 0, true);
     }
 }
 
@@ -121,7 +121,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist()
     static int loop_times = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->max_times;
 
     for (int i = 0; i != loop_times; ++i) {
-        ctrler.swipe(end_rect, begin_rect, duration, true);
+        ctrler.swipe(end_rect, begin_rect, duration, true, 0, false);
     }
     sleep(extra_delay);
 }
@@ -133,7 +133,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
     static int duration = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
     static int extra_delay = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
 
-    ctrler.swipe(end_rect, begin_rect, duration, true);
+    ctrler.swipe(end_rect, begin_rect, duration, true, extra_delay, false);
 }
 
 void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
@@ -143,5 +143,5 @@ void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
     static int duration = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
     static int extra_delay = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
 
-    ctrler.swipe(begin_rect, end_rect, duration, true);
+    ctrler.swipe(begin_rect, end_rect, duration, true, extra_delay, false);
 }

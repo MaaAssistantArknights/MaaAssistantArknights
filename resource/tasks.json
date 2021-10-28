@@ -901,7 +901,7 @@
         "specificRect": [
             1080,
             200,
-            200,
+            100,
             300
         ],
         "preDelay": 1000,
@@ -912,9 +912,9 @@
         "algorithm": "justReturn",
         "action": "clickRect",
         "specificRect": [
-            600,
+            700,
             200,
-            200,
+            100,
             300
         ]
     },
@@ -928,7 +928,7 @@
             300
         ],
         "preDelay": 100,
-        "rearDelay": 1000,
+        "rearDelay": 2000,
         "maxTimes": 2,
         "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
     },
