@@ -13,6 +13,9 @@ bool asst::InfrastPowerTask::run()
     set_facility(FacilityName);
     m_all_available_opers.clear();
 
+    // 发电站只能造这一个
+    set_product("Drone");
+
     swipe_to_the_left_of_main_ui();
 
     for (int i = 0; i != 3; ++i) {
@@ -21,11 +24,6 @@ bool asst::InfrastPowerTask::run()
         if (!enter_oper_list_page()) {
             return false;
         }
-
-        // 发电站只能造这一个
-        set_product("Drone");
-        /* 进入干员选择页面 */
-        click_clear_button();
         swipe_to_the_left_of_operlist();
 
         if (m_all_available_opers.empty()) {
@@ -35,8 +33,20 @@ bool asst::InfrastPowerTask::run()
         else {
             opers_detect();
         }
-        optimal_calc();
-        opers_choose();
+
+        auto find_iter = std::find_if(m_all_available_opers.begin(), m_all_available_opers.end(),
+            [&](const InfrastOperSkillInfo& info) -> bool {
+                return info.selected;
+            });
+        // 如果之前有干员在，那就不换人，直接退出当前发电站
+        if (find_iter != m_all_available_opers.end()) {
+            m_all_available_opers.erase(find_iter);
+        }
+        else {
+            optimal_calc();
+            opers_choose();
+        }
+
         click_confirm_button();
         click_return_button();
     }
