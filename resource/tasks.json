@@ -842,6 +842,7 @@
     },
     "InfrastSkillsHash": {
         "algorithm": "justReturn",
+        "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             -8,
             -202,
@@ -882,6 +883,7 @@
         "histThreshold": 100,
         "histThreshold_Doc": "该任务里的Hist阈值，是特化了拿来做灰度图平均值的，懒得重新写个字段了",
         "cache": false,
+        "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             -8,
             -42,
@@ -946,6 +948,7 @@
         "histThreshold": 20,
         "Doc": "这里的templThreshold，作为进度条最小灰度阈值使用；histThreshold作为进度条相邻点最大变化阈值使用。懒得重新弄个字段了",
         "cache": false,
+        "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             21,
             8,
@@ -1247,8 +1250,8 @@
             255
         ],
         "rectMove": [
-            -8,
-            -260,
+            13,
+            -252,
             82,
             320
         ]
@@ -1258,8 +1261,8 @@
         "cache": false,
         "templThreshold": 0.8,
         "rectMove": [
-            -20,
-            -100,
+            0,
+            -95,
             70,
             50
         ]
