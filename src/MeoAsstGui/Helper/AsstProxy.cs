@@ -31,9 +31,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStartRecruiting(IntPtr ptr, int[] required_level, int required_len, bool set_time);
 
-        //[DllImport("MeoAssistance.dll")] static private extern bool AsstStartIndertifyOpers(IntPtr ptr);
-
-        //[DllImport("MeoAssistance.dll")] static private extern bool AsstStartInfrast(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartInfrastShift(IntPtr ptr);
 
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStartDebugTask(IntPtr ptr);
 
@@ -278,6 +276,11 @@ namespace MeoAsstGui
         public bool AsstStartRecruiting(int[] required_level, int required_len, bool set_time)
         {
             return AsstStartRecruiting(_ptr, required_level, required_len, set_time);
+        }
+
+        public bool AsstStartInfrastShift()
+        {
+            return AsstStartInfrastShift(_ptr);
         }
     }
 
