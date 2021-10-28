@@ -211,16 +211,16 @@ bool asst::InfrastMoodImageAnalyzer::working_analyze()
         resource.task().task_ptr("InfrastOperOnShift"));
     Rect rect_move = working_task_ptr->rect_move;
 
-    MatchImageAnalyzer selected_analyzer(m_image);
-    selected_analyzer.set_task_info(*working_task_ptr);
+    MatchImageAnalyzer working_analyzer(m_image);
+    working_analyzer.set_task_info(*working_task_ptr);
 
     for (auto&& info : m_result) {
         Rect working_rect = rect_move;
         working_rect.x += info.rect.x;
         working_rect.y += info.rect.y;
-        selected_analyzer.set_roi(working_rect);
-        if (selected_analyzer.analyze()) {
-            info.selected = true;
+        working_analyzer.set_roi(working_rect);
+        if (working_analyzer.analyze()) {
+            info.working = true;
 #ifdef LOG_TRACE
             cv::putText(m_image_draw, "ONSHIFT", cv::Point(working_rect.x, working_rect.y), 1, 1, cv::Scalar(0, 0, 255), 2);
 #endif
