@@ -295,14 +295,20 @@ bool asst::Assistance::start_infrast_shift()
 
     append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
+    // 再次进宿舍，把刚从设施里换下来的人放进去
+    m_tasks_deque.emplace_back(dorm_task_ptr);
+
+    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
     auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
     power_task_ptr->set_task_chain(InfrastTaskCahin);
     m_tasks_deque.emplace_back(power_task_ptr);
 
     append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
-    // 再次进宿舍，把刚从设施里换下来的人放进去
-    m_tasks_deque.emplace_back(dorm_task_ptr);
+    auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
+    office_task_ptr->set_task_chain(InfrastTaskCahin);
+    m_tasks_deque.emplace_back(office_task_ptr);
 
     append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 

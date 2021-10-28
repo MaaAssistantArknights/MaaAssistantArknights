@@ -435,7 +435,7 @@ int asst::Controller::click_without_scale(const Rect& rect, bool block)
     return click_without_scale(rand_point_in_rect(rect), block);
 }
 
-int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool block, int extra_delay)
+int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     int x1 = p1.x * m_control_scale;
     int y1 = p1.y * m_control_scale;
@@ -443,15 +443,15 @@ int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool
     int y2 = p2.y * m_control_scale;
     //log.trace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
 
-    return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block, extra_delay);
+    return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block, extra_delay, extra_swipe);
 }
 
-int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay)
+int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
-    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay);
+    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
 
-int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay)
+int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     if (p1.x < 0 || p1.x >= m_emulator_info.adb.display_width
         || p1.y < 0 || p1.y >= m_emulator_info.adb.display_height
@@ -476,7 +476,7 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
     int extra_swipe_duration = resource.cfg().get_options().adb_extra_swipe_duration;
 
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
-    if (extra_swipe_duration >= 0) {
+    if (extra_swipe && extra_swipe_duration >= 0) {
         std::string extra_cmd = utils::string_replace_all(m_emulator_info.adb.swipe, "[x1]", std::to_string(p2.x));
         extra_cmd = utils::string_replace_all(extra_cmd, "[y1]", std::to_string(p2.y));
         int end_x = 0, end_y = 0;
@@ -508,9 +508,9 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
     return id;
 }
 
-int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay)
+int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
-    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay);
+    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
 
 cv::Mat asst::Controller::get_image(bool raw)
