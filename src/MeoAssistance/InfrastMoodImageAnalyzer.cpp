@@ -63,7 +63,8 @@ bool asst::InfrastMoodImageAnalyzer::mood_detect()
             prg_rect.y += smiley.rect.y;
             // mood_analyze是可以识别长度不够的心情条的
             // 这里主要是为了算立绘hash，宽度不够的hash不好算，直接忽略了
-            if (prg_rect.x + prg_rect.width >= m_image.cols) {
+            if (prg_rect.x + prg_rect.width >= roi.x + roi.width
+                || prg_rect.x < roi.x) {
                 continue;
             }
 #ifdef LOG_TRACE
