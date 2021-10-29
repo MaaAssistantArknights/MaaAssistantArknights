@@ -1,8 +1,23 @@
 # MeoAssistance
 
+<div>
+    <img alt="C++" src="https://img.shields.io/badge/c++-17-%2300599C?logo=cplusplus">
+    <img alt="VS" src="https://img.shields.io/badge/VisualStudio-19-%235C2D91?logo=visualstudio">
+</div>
+<div>
+    <img alt="platform" src="https://img.shields.io/badge/platform-Windows%2064bit-%230078D6?logo=windows">
+</div>
+<div>
+    <img alt="license" src="https://img.shields.io/github/license/MistEO/MeoAssistance-Arknights">
+    <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MistEO/MeoAssistance-Arknights?color=%23ff69b4">
+    <img alt="stars" src="https://img.shields.io/github/stars/MistEO/MeoAssistance-Arknights?style=social">
+</div>
+<br>
+
 A game assistance for Arknights
 
-一款明日方舟的游戏辅助，供PC端安卓模拟器使用，也勉强兼容安卓手机，龟速开发中……
+一款明日方舟的游戏辅助，供PC端安卓模拟器使用，也勉强兼容安卓手机，绝赞开发中……  
+<br>
 
 ![界面截图](images/gui.png)
 ![公招截图](images/openRecruit.png)
@@ -15,8 +30,8 @@ A game assistance for Arknights
 ## 功能介绍
 
 - 自动刷理智
-    - **新功能：支持刷完自动上传[企鹅物流数据统计](https://penguin-stats.cn/)**（测试版）
-    - **新功能：界面支持统计掉落数量**（测试版）
+    - **新功能：支持刷完自动上传[企鹅物流数据统计](https://penguin-stats.cn/)**
+    - **新功能：界面支持统计掉落数量**
     - 可设置是否吃完理智药及数量
     - 可设置是否吃石头及数量
     - 可设置刷的次数（用来刷剿灭啥的）
@@ -157,8 +172,8 @@ A game assistance for Arknights
 - [x] 支持所有主流模拟器
 - [ ] 基建智能换班功能
     - [ ] 图形化界面
-    - [x] 干员及精英化识别
-    - [ ] 干员识别准确率提高到100%
+    - [x] 干员技能识别
+    - [x] 干员识别准确率提高到100%
     - [x] 宿舍心情识别及入驻
     - [x] 制造站、贸易站智能换班
     - [x] 发电站、办公室换班

@@ -85,8 +85,8 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
 
 bool asst::MatchImageAnalyzer::comp_hist(const cv::Mat& hist, const cv::Rect roi)
 {
-    cv::Mat roi_image = m_image(utils::make_rect<cv::Rect>(m_roi))(roi);
-    double score = 1.0 - cv::compareHist(to_hist(roi_image), hist, cv::HISTCMP_BHATTACHARYYA);
+    cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi))(roi);
+    double score = 1.0 - cv::compareHist(to_hist(image_roi), hist, cv::HISTCMP_BHATTACHARYYA);
 
     if (score > 0.7) {    // 得分太低的肯定不对，没必要打印
         log.trace("comp_hist |", m_templ_name, "score:", score);
