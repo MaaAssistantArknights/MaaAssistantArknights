@@ -56,7 +56,7 @@ namespace asst {
         Controller();
 
         void pipe_working_proc();
-        std::vector<unsigned char> call_command(const std::string& cmd);
+        std::pair<bool, std::vector<unsigned char>> call_command(const std::string& cmd);
         int push_cmd(const std::string& cmd);
         bool screencap();
         Point rand_point_in_rect(const Rect& rect);
