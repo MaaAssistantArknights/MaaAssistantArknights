@@ -31,7 +31,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStartRecruiting(IntPtr ptr, int[] required_level, int required_len, bool set_time);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartInfrastShift(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartInfrastShift(IntPtr ptr, string[] order, int order_len, int uses_of_drones, double dorm_threshold);
 
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStartDebugTask(IntPtr ptr);
 
@@ -278,9 +278,9 @@ namespace MeoAsstGui
             return AsstStartRecruiting(_ptr, required_level, required_len, set_time);
         }
 
-        public bool AsstStartInfrastShift()
+        public bool AsstStartInfrastShift(string[] order, int order_len, int uses_of_drones, double dorm_threshold)
         {
-            return AsstStartInfrastShift(_ptr);
+            return AsstStartInfrastShift(_ptr, order, order_len, uses_of_drones, dorm_threshold);
         }
     }
 
@@ -324,5 +324,15 @@ namespace MeoAsstGui
         ReadyToShift,						// 准备换班
         ShiftCompleted,						// 换班完成（单个房间）
         NoNeedToShift						// 无需换班（单个房间）
+    };
+
+    public enum UsesOfDrones
+    {
+        DronesNotUse = 0,
+        DronesTrade = 0x100,
+        DronesTradeMoney = DronesTrade & 0x10,
+        DronesMfg = 0x200,
+        DronesMfgCombatRecord = DronesMfg | 0x10,
+        DronesMfgPureGold = DronesMfg | 0x20
     };
 }

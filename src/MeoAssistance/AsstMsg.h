@@ -89,6 +89,15 @@ namespace asst {
         return os << _type_name.at(type);
     }
 
+    enum UsesOfDrones {
+        DronesNotUse = 0,
+        DronesTrade = 0x100,
+        DronesTradeMoney = DronesTrade & 0x10,
+        DronesMfg = 0x200,
+        DronesMfgCombatRecord = DronesMfg | 0x10,
+        DronesMfgPureGold = DronesMfg | 0x20
+    };
+
     // AsstCallback 消息回调函数
     // 参数：
     // AsstMsg 消息类型

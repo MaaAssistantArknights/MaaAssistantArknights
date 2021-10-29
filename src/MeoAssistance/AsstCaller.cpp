@@ -179,12 +179,18 @@ bool AsstStartRecruiting(void* p_asst, const int required_level[], int required_
     return ((asst::Assistance*)p_asst)->start_recruiting(level_vector, set_time);
 }
 
-bool AsstStartInfrastShift(void* p_asst)
+bool AsstStartInfrastShift(void* p_asst, const char** order, int order_size, int uses_of_drones, double dorm_threshold)
 {
     if (p_asst == nullptr) {
         return false;
     }
-    return ((asst::Assistance*)p_asst)->start_infrast_shift();
+    std::vector<std::string> order_vector;
+    order_vector.assign(order, order + order_size);
+
+    return ((asst::Assistance*)p_asst)->start_infrast_shift(
+        order_vector,
+        static_cast<asst::UsesOfDrones>(uses_of_drones),
+        dorm_threshold);
 }
 
 bool AsstStartDebugTask(void* p_asst)

@@ -774,38 +774,38 @@
             "Stop"
         ]
     },
-    "UavAssist-MFG": {
+    "DroneAssist-MFG": {
         "action": "clickSelf",
         "cache": false,
         "maxTimes": 1,
         "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
         "next": [
-            "UavMax",
-            "UavConfirm"
+            "DroneMax",
+            "DroneConfirm"
         ]
     },
-    "UavAssist-Trade": {
+    "DroneAssist-Trade": {
         "action": "clickSelf",
         "cache": false,
         "next": [
-            "UavMax",
-            "UavConfirm"
+            "DroneMax",
+            "DroneConfirm"
         ]
     },
-    "UavMax": {
+    "DroneMax": {
         "action": "clickSelf",
         "next": [
-            "UavConfirm"
+            "DroneConfirm"
         ]
     },
-    "UavConfirm": {
+    "DroneConfirm": {
         "action": "clickSelf",
         "rearDelay": 2000,
         "templThreshold": 0.8,
         "next": [
             "DeliverableOrder",
-            "UavAssist-Trade-Stop",
-            "UavAssist-MFG"
+            "DroneAssist-Trade-Stop",
+            "DroneAssist-MFG"
         ]
     },
     "DeliverableOrder": {
@@ -813,12 +813,12 @@
         "action": "clickSelf",
         "next": [
             "DeliverableOrder",
-            "UavAssist-Trade"
+            "DroneAssist-Trade"
         ]
     },
-    "UavAssist-Trade-Stop": {
+    "DroneAssist-Trade-Stop": {
         "Doc": "如果找到了“无人机加速”按钮，却没有找到订单交付：说明上一次无人机没有把一个订单加速完成，也说明没有更多的无人机了，所以直接stop",
-        "template": "UavAssist-Trade.png",
+        "template": "DroneAssist-Trade.png",
         "action": "stop",
         "cache": false
     },

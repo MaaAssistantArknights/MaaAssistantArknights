@@ -1,5 +1,6 @@
 ﻿using Stylet;
 using StyletIoC;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -12,8 +13,6 @@ namespace MeoAsstGui
 
         public ObservableCollection<ItemViewModel> ItemViewModels { get; set; }
 
-        public string MyName { get; set; }
-
         public InfrastructureConstructionViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -21,7 +20,17 @@ namespace MeoAsstGui
             DisplayName = "基建换班";
             ItemViewModels = new ObservableCollection<ItemViewModel>();
             InitializeItems();
+
+            facility_key.Add("宿舍", "Dorm");
+            facility_key.Add("制造站", "Mfg");
+            facility_key.Add("贸易站", "Trade");
+            facility_key.Add("发电站", "Power");
+            facility_key.Add("办公室", "Office");
+
+            _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
         }
+
+        public Dictionary<string, string> facility_key = new Dictionary<string, string>();
 
         public void InitializeItems()
         {
@@ -31,13 +40,86 @@ namespace MeoAsstGui
             ItemViewModels.Add(new ItemViewModel(4, "发电站"));
             ItemViewModels.Add(new ItemViewModel(5, "办公室"));
             ItemViewModels.Add(new ItemViewModel(6, "宿舍"));
-            //ItemViewModels.Add(new ItemViewModel(6, "会客室"));
-            //ItemViewModels.Add(new ItemViewModel(7, "控制中枢"));
+            //ItemViewModels.Add(new ItemViewModel(7, "会客室"));
+            //ItemViewModels.Add(new ItemViewModel(8, "控制中枢"));
         }
+
+        private bool _notUseDrone = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.NotUseDrone", bool.TrueString));
+
+        public bool NotUseDrone
+        {
+            get { return _notUseDrone; }
+            set
+            {
+                if (value)
+                {
+                    uses_of_drones = UsesOfDrones.DronesNotUse;
+                }
+                SetAndNotify(ref _notUseDrone, value);
+                ViewStatusStorage.Set("Infrast.NotUseDrone", value.ToString());
+            }
+        }
+
+        private bool _droneForTrade = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.DroneForTrade", bool.FalseString));
+
+        public bool DroneForTrade
+        {
+            get { return _droneForTrade; }
+            set
+            {
+                if (value)
+                {
+                    uses_of_drones = UsesOfDrones.DronesTrade;
+                }
+                SetAndNotify(ref _droneForTrade, value);
+                ViewStatusStorage.Set("Infrast.DroneForTrade", value.ToString());
+            }
+        }
+
+        private bool _droneForMfg = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.DroneForMfg", bool.FalseString));
+
+        public bool DroneForMfg
+        {
+            get { return _droneForMfg; }
+            set
+            {
+                if (value)
+                {
+                    uses_of_drones = UsesOfDrones.DronesMfg;
+                }
+                SetAndNotify(ref _droneForMfg, value);
+                ViewStatusStorage.Set("Infrast.DroneForMfg", value.ToString());
+            }
+        }
+
+        private int _dormThreshold = System.Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
+
+        public int DormThreshold
+        {
+            get { return _dormThreshold; }
+            set
+            {
+                DormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
+                SetAndNotify(ref _dormThreshold, value);
+                ViewStatusStorage.Set("Infrast.DormThreshold", value.ToString());
+            }
+        }
+
+        private string _dormThresholdLabel;
+
+        public string DormThresholdLabel
+        {
+            get { return _dormThresholdLabel; }
+            set
+            {
+                SetAndNotify(ref _dormThresholdLabel, value);
+            }
+        }
+
+        private UsesOfDrones uses_of_drones = UsesOfDrones.DronesNotUse;
 
         public async void ChangeShift()
         {
-            //TODO 直接遍历ItemViewModels里面的内容，是排序后的
             var asstProxy = _container.Get<AsstProxy>();
             var task = Task.Run(() =>
             {
@@ -48,7 +130,20 @@ namespace MeoAsstGui
             {
                 return;
             }
-            asstProxy.AsstStartInfrastShift();
+            // 直接遍历ItemViewModels里面的内容，是排序后的
+            var orderList = new List<string>();
+            foreach (var item in ItemViewModels)
+            {
+                orderList.Add(facility_key[item.Name]);
+            }
+
+            asstProxy.AsstStartInfrastShift(orderList.ToArray(), orderList.Count, (int)uses_of_drones, DormThreshold / 100.0);
+        }
+
+        public void Stop()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
+            asstProxy.AsstStop();
         }
     }
 
