@@ -33,7 +33,7 @@ Controller::Controller()
     BOOL pipe_write_ret = ::CreatePipe(&m_pipe_write, &m_pipe_child_read, &m_pipe_sec_attr, PipeBuffSize);
 
     if (!pipe_read_ret || !pipe_write_ret) {
-        // TODO 报错
+        throw "controller pipe created failed";
     }
 
     m_child_startup_info.cb = sizeof(STARTUPINFO);
@@ -198,12 +198,18 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         adb_dir = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", utils::get_cur_dir()) + '"';
     }
 
-    // TODO，检查连接是否成功
     std::string connect_cmd = utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", adb_dir);
-    call_command(connect_cmd);
+    auto&& [connect_ret, connect_result] = call_command(connect_cmd);
+    // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
+    if (!connect_ret) {
+        return false;
+    }
 
     std::string display_cmd = utils::string_replace_all(m_emulator_info.adb.display, "[Adb]", adb_dir);
-    auto display_result = call_command(display_cmd);
+    auto&& [display_ret, display_result] = call_command(display_cmd);
+    if (!display_ret) {
+        return false;
+    }
     std::string display_pipe_str(
         std::make_move_iterator(display_result.begin()),
         std::make_move_iterator(display_result.end()));
@@ -253,7 +259,7 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
 //	}
 //}
 
-std::vector<unsigned char> Controller::call_command(const std::string& cmd)
+std::pair<bool, std::vector<unsigned char>> Controller::call_command(const std::string& cmd)
 {
     LogTraceFunction;
 
@@ -293,7 +299,7 @@ std::vector<unsigned char> Controller::call_command(const std::string& cmd)
         log.trace("output:", std::string(pipe_data.cbegin(), pipe_data.cend()));
     }
 
-    return pipe_data;
+    return make_pair(!exit_ret, std::move(pipe_data));
 }
 
 void asst::Controller::convert_lf(std::vector<unsigned char>& data)
@@ -371,8 +377,8 @@ bool asst::Controller::screencap()
 {
     LogTraceFunction;
 
-    auto data = call_command(m_emulator_info.adb.screencap);
-    if (!data.empty()) {
+    auto&& [ret, data] = call_command(m_emulator_info.adb.screencap);
+    if (ret && !data.empty()) {
         if (m_image_convert_lf) {
             convert_lf(data);
         }
