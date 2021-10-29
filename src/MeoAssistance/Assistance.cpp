@@ -262,7 +262,7 @@ bool Assistance::start_recruiting(const std::vector<int>& required_level, bool s
     return true;
 }
 
-bool asst::Assistance::start_infrast_shift()
+bool asst::Assistance::start_infrast_shift(const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold)
 {
     LogTraceFunction;
     if (!m_thread_idle || !m_inited) {
@@ -274,43 +274,46 @@ bool asst::Assistance::start_infrast_shift()
     // 这个流程任务，结束的时候是处于基建主界面的。既可以用于进入基建，也可以用于从设施里返回基建主界面
     append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
+    // 因为后期要考虑多任务间的联动等，所以这些任务的声明暂时不妨到for循环中
     auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
     dorm_task_ptr->set_task_chain(InfrastTaskCahin);
-    m_tasks_deque.emplace_back(dorm_task_ptr);
-
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
+    dorm_task_ptr->set_mood_threshold(dorm_threshold);
     auto mfg_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this);
     mfg_task_ptr->set_task_chain(InfrastTaskCahin);
-    m_tasks_deque.emplace_back(mfg_task_ptr);
-
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
     auto trade_task_ptr = std::make_shared<InfrastTradeTask>(task_callback, (void*)this);
     trade_task_ptr->set_task_chain(InfrastTaskCahin);
-    m_tasks_deque.emplace_back(trade_task_ptr);
-
-    // 贸易站无人机
-    append_match_task(InfrastTaskCahin, { "UavAssist-Trade" });
-
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
-    // 再次进宿舍，把刚从设施里换下来的人放进去
-    m_tasks_deque.emplace_back(dorm_task_ptr);
-
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
     auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
     power_task_ptr->set_task_chain(InfrastTaskCahin);
-    m_tasks_deque.emplace_back(power_task_ptr);
-
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
-
     auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
     office_task_ptr->set_task_chain(InfrastTaskCahin);
-    m_tasks_deque.emplace_back(office_task_ptr);
 
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+    for (const auto& facility : order) {
+        if (facility == "Dorm") {
+            m_tasks_deque.emplace_back(dorm_task_ptr);
+        }
+        else if (facility == "Mfg") {
+            m_tasks_deque.emplace_back(mfg_task_ptr);
+            if (UsesOfDrones::DronesMfg & uses_of_drones) {
+                append_match_task(InfrastTaskCahin, { "DroneAssist-MFG" });
+            }
+        }
+        else if (facility == "Trade") {
+            m_tasks_deque.emplace_back(trade_task_ptr);
+            if (UsesOfDrones::DronesTrade & uses_of_drones) {
+                append_match_task(InfrastTaskCahin, { "DroneAssist-Trade" });
+            }
+        }
+        else if (facility == "Power") {
+            m_tasks_deque.emplace_back(power_task_ptr);
+        }
+        else if (facility == "Office") {
+            m_tasks_deque.emplace_back(office_task_ptr);
+        }
+        else {
+            log.error("start_infrast_shift | Unknown facility", facility);
+        }
+        append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+    }
 
     m_thread_idle = false;
     m_condvar.notify_one();

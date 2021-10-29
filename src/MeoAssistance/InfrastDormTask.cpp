@@ -48,7 +48,7 @@ bool asst::InfrastDormTask::run()
                 case InfrastSmileyType::Distract:
                     // 干员没有被选择的情况下，心情小于30%，或不在工作，就进驻宿舍
                     if (mood_info.selected == false
-                        && (mood_info.percentage < 0.3      // TODO:这个阈值写到配置文件里去
+                        && (mood_info.percentage < m_mood_threshold
                             || mood_info.working == false))
                     {
                         ctrler.click(mood_info.rect);

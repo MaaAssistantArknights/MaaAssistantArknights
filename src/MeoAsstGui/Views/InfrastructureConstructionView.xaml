@@ -7,41 +7,60 @@
         xmlns:s="https://github.com/canton7/Stylet"
         mc:Ignorable="d"
         Height="350" Width="750">
-    <Grid>
+    <Grid Margin="20, 20">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
-            <ListBox Width="200"
+            <ListBox Width="200" Grid.Column="0"
                   dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True"
                   HorizontalAlignment="Center" VerticalAlignment="Center"
                   ItemsSource="{Binding Path=ItemViewModels}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" IsEnabled="False">
-                            <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ID}" />
-                            <TextBlock Style="{StaticResource TextBlockDefault}" Text=". " />
+                        <StackPanel Orientation="Horizontal">
+                            <!--<TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ID}" />
+                            <TextBlock Style="{StaticResource TextBlockDefault}" Text=". " />-->
                             <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding Name}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Button Grid.Row="1" Command="{s:Action ChangeShift}" Content="开始换班" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="60" />
+                <StackPanel Grid.Row="0"  Orientation="Vertical" HorizontalAlignment="Center"  VerticalAlignment="Center"  Margin="0, 20">
+                    <RadioButton GroupName="无人机" Content="不使用无人机" IsChecked="{Binding NotUseDrone}" Margin="0, 5" />
+                    <RadioButton GroupName="无人机" Content="加速贸易站   " IsChecked="{Binding DroneForTrade}" Margin="0, 5" />
+                    <RadioButton GroupName="无人机" Content="加速制造站   " IsChecked="{Binding DroneForMfg}" Margin="0, 5" />
+                </StackPanel>
+                <StackPanel Grid.Row="1"  Orientation="Vertical" HorizontalAlignment="Center"  VerticalAlignment="Center"  Margin="0, 20">
+                    <TextBlock Style="{StaticResource TextBlockDefault}"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Text="{Binding DormThresholdLabel}" Margin="0, 5" />
+                    <Slider Width="200"  Value="{Binding DormThreshold}" Minimum="0" Maximum="100" Margin="0, 5" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="2" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Command="{s:Action ChangeShift}" Content="开始换班" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="50" Margin="0, 20" />
+                <Button Grid.Row="1" Command="{s:Action Stop}" Content="停止" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="50" Margin="0, 20" />
             </Grid>
         </Grid>
 
         <TextBlock Grid.Row="1" Style="{StaticResource TextBlockDefault}"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Text="测试功能，暂不支持任何设置（你调了顺序也没用）；无人机会给贸易站加速、暂不支持会客室和控制中枢" />
+                   Text="测试功能；暂不支持会客室和控制中枢" />
     </Grid>
 </UserControl>
