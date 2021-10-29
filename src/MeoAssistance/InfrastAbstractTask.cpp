@@ -31,31 +31,33 @@ bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int 
 bool asst::InfrastAbstractTask::enter_oper_list_page()
 {
     auto image = ctrler.get_image();
-    MatchImageAnalyzer station_analyzer(image);
 
-    // 如果“进驻信息”这个按钮没有被点开，那就点开，然后重新抓一次图像
-    const auto notclicked_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastStationedNotClicked"));
-    station_analyzer.set_task_info(*notclicked_task_ptr);
-    if (station_analyzer.analyze()) {
-        ctrler.click(station_analyzer.get_result().rect);
-        sleep(notclicked_task_ptr->rear_delay);
-        image = ctrler.get_image();
-        station_analyzer.set_image(image);
-    }
-
-    const auto onclicked_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastStationedOnClicked"));
-    station_analyzer.set_task_info(*onclicked_task_ptr);
-    if (!station_analyzer.analyze()) {
-        return false;
-    }
+    // 识别右边的“进驻”按钮
     const auto enter_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
         resource.task().task_ptr("InfrastEnterOperList"));
     OcrImageAnalyzer enter_analyzer(image);
     enter_analyzer.set_task_info(*enter_task_ptr);
+
+    // 如果没找到，说明“进驻信息”这个按钮没有被点开，那就点开它
     if (!enter_analyzer.analyze()) {
-        return false;
+        OcrImageAnalyzer station_analyzer(image);
+
+        const auto stationedinfo_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
+            resource.task().task_ptr("InfrastStationedInfo"));
+        station_analyzer.set_task_info(*stationedinfo_task_ptr);
+        if (station_analyzer.analyze()) {
+            ctrler.click(station_analyzer.get_result().front().rect);
+            sleep(stationedinfo_task_ptr->rear_delay);
+            // 点开了按钮之后，再识别一次右边的
+            image = ctrler.get_image();
+            enter_analyzer.set_image(image);
+            if (!enter_analyzer.analyze()) {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
     }
     ctrler.click(enter_analyzer.get_result().front().rect);
     sleep(enter_task_ptr->rear_delay);

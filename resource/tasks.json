@@ -1078,29 +1078,12 @@
         ],
         "templThreshold": 0.95
     },
-    "InfrastStationedOnClicked": {
-        "template": "StationedOnClicked.png",
+    "InfrastStationedInfo": {
+        "algorithm": "OcrDetect",
         "cache": false,
-        "maskRange": [
-            120,
-            255
+        "text": [
+            "进驻信息"
         ],
-        "templThreshold": 0.8,
-        "roi": [
-            0,
-            0,
-            150,
-            720
-        ]
-    },
-    "InfrastStationedNotClicked": {
-        "template": "StationedNotClicked.png",
-        "cache": false,
-        "maskRange": [
-            120,
-            255
-        ],
-        "templThreshold": 0.65,
         "roi": [
             0,
             0,
