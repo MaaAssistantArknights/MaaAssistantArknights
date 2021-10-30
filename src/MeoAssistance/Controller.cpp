@@ -511,7 +511,7 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
 
     int id = 0;
 
-    int extra_swipe_dist = resource.cfg().get_options().adb_extra_swipe_dist;
+    int extra_swipe_dist = resource.cfg().get_options().adb_extra_swipe_dist * m_control_scale;
     int extra_swipe_duration = resource.cfg().get_options().adb_extra_swipe_duration;
 
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
@@ -522,12 +522,12 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
         if (p2.x != p1.x) {
             double k = (double)(p2.y - p1.y) / (p2.x - p1.x);
             double temp = extra_swipe_dist / std::sqrt(1 + k * k);
-            end_x = p2.x + (p2.x > p1.x ? 1 : -1) * temp;
-            end_y = p2.y + (p2.y > p1.y ? 1 : -1) * std::fabs(k) * temp;
+            end_x = p2.x + (p2.x > p1.x ? -1 : 1) * temp;
+            end_y = p2.y + (p2.y > p1.y ? -1 : 1) * std::fabs(k) * temp;
         }
         else {
             end_x = p2.x;
-            end_y = p2.y + (p2.y > p1.y ? 1 : -1) * extra_swipe_dist;
+            end_y = p2.y + (p2.y > p1.y ? -1 : 1) * extra_swipe_dist;
         }
         extra_cmd = utils::string_replace_all(extra_cmd, "[x2]", std::to_string(end_x));
         extra_cmd = utils::string_replace_all(extra_cmd, "[y2]", std::to_string(end_y));

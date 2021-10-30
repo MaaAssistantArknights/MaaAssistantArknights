@@ -22,8 +22,11 @@ int main(int argc, char** argv)
         //    const int required[] = { 3, 4, 5, 6 };
         //    AsstStartRecruiting(ptr, required, sizeof(required) / sizeof(int), true);
         //}
-        AsstStartDebugTask(ptr);
-        //AsstStartInfrastShift(ptr);
+        //AsstStartDebugTask(ptr);
+        {
+            const char* order[] = { "Trade", "Mfg", "Dorm" };
+            AsstStartInfrastShift(ptr, order, 3, 0, 0);
+        }
 
         ch = getchar();
     }
