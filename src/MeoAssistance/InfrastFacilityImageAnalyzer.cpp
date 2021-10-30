@@ -32,12 +32,13 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
 
     int cor_suffix_index = -1;
 
-    for (const std::string& key : m_facilities) {
-        const auto find_iter = facility_task_name.find(key);
-        if (find_iter == facility_task_name.cend()) {
-            return false;   // TODO 报错
+    for (const auto& [key, task_name] : facility_task_name) {
+        if (!m_to_be_analyzed.empty()) {    // 若为空，则分析所有设施
+            if (std::find(m_to_be_analyzed.cbegin(), m_to_be_analyzed.cend(), key)
+                == m_to_be_analyzed.cend()) {
+                continue;
+            }
         }
-        const std::string& task_name = find_iter->second;
         std::vector<MatchRect> cur_facility_result;
         // 已知基建缩放状态的时候，只识别这个缩放状态下的就行了
         // 否则识别所有状态，直到找出正确的当前缩放状态
@@ -72,6 +73,10 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
                 }
             }
         }
+        if (cur_facility_result.empty()) {
+            continue;
+        }
+
 #ifdef LOG_TRACE
         cv::RNG rng(time(0));
         cv::Scalar rand_color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
@@ -85,5 +90,5 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
         m_result.emplace(key, std::move(cur_facility_result));
     }
 
-    return true;
+    return !m_result.empty();
 }

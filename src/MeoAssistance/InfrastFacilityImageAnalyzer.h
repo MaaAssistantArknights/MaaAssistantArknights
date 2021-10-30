@@ -11,8 +11,9 @@ namespace asst {
 
         virtual bool analyze() override;
 
-        void set_facilities(std::vector<std::string> facilities) noexcept {
-            m_facilities = std::move(facilities);
+        // 若为空，则分析所有设施
+        void set_to_be_analyzed(std::vector<std::string> facilities) noexcept {
+            m_to_be_analyzed = std::move(facilities);
         }
 
         int get_quantity(const std::string& name) const {
@@ -38,6 +39,9 @@ namespace asst {
                 }
             }
         }
+        const std::unordered_map<std::string, std::vector<MatchRect>>& get_result() const noexcept {
+            return m_result;
+        }
     private:
         // 该分析器不支持外部设置ROI
         virtual void set_roi(const Rect& roi) noexcept override {
@@ -49,7 +53,7 @@ namespace asst {
 
         // key：设施名，value：所有这种设施的当前Rect（例如所有制造站的位置）
         std::unordered_map<std::string, std::vector<MatchRect>> m_result;
-        // 需要识别的设施名
-        std::vector<std::string> m_facilities;
+        // 需要识别的设施名，若为空，则分析所有设施
+        std::vector<std::string> m_to_be_analyzed;
     };
 }

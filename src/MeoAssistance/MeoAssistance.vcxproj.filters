@@ -192,6 +192,12 @@
     <ClInclude Include="InfrastOfficeTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
+    <ClInclude Include="RuntimeStatus.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastInfoTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -309,6 +315,12 @@
       <Filter>源文件\Task</Filter>
     </ClCompile>
     <ClCompile Include="InfrastOfficeTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeStatus.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastInfoTask.cpp">
       <Filter>源文件\Task</Filter>
     </ClCompile>
   </ItemGroup>

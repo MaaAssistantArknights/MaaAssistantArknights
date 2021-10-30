@@ -11,7 +11,7 @@ bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int 
     const auto& image = ctrler.get_image();
 
     InfrastFacilityImageAnalyzer analyzer(image);
-    analyzer.set_facilities({ facility });
+    analyzer.set_to_be_analyzed({ facility });
     if (!analyzer.analyze()) {
         return false;
     }
