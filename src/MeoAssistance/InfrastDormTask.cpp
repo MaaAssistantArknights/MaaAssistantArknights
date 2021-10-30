@@ -36,11 +36,14 @@ bool asst::InfrastDormTask::run()
 
             int quantity_resting = 0;
             for (const auto& mood_info : mood_result) {
+                if (quantity_selected >= MaxNumOfOpers) {
+                    break;
+                }
                 switch (mood_info.smiley.type)
                 {
                 case InfrastSmileyType::Rest:
                     // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了，直接退出即可
-                    if (++quantity_resting >= MaxNumOfOpers) {
+                    if (++quantity_resting > MaxNumOfOpers) {
                         click_confirm_button();
                         return true;
                     }
