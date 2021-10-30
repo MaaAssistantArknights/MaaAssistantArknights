@@ -1121,7 +1121,6 @@
         "rearDelay": 1000
     },
     "InfrastConfirmButton": {
-        "algorithm": "justReturn",
         "action": "clickRect",
         "specificRect": [
             1105,
@@ -1129,7 +1128,20 @@
             150,
             40
         ],
-        "rearDelay": 1000
+        "rearDelay": 500,
+        "Doc": "这个任务复用了，上半部分用来检测确认按钮点击成功没；下部部分用来点击",
+        "algorithm": "ocrDetect",
+        "cache": false,
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            640,
+            300,
+            80
+        ]
     },
     "InfrastBottomLeftTab": {
         "algorithm": "justReturn",
@@ -1146,7 +1158,7 @@
         "template": "DormConfirm.png",
         "action": "clickSelf",
         "cache": false,
-        "rearDelay": 2000
+        "rearDelay": 1000
     },
     "InfrastEnterFacility": {
         "algorithm": "justReturn",
