@@ -87,25 +87,42 @@ void asst::InfrastAbstractTask::await_swipe()
     sleep(extra_delay);
 }
 
-void asst::InfrastAbstractTask::click_bottomleft_tab()
+bool asst::InfrastAbstractTask::click_bottomleft_tab()
 {
     const auto task_ptr = resource.task().task_ptr("InfrastBottomLeftTab");
     ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
+    return true;
 }
 
-void asst::InfrastAbstractTask::click_clear_button()
+bool asst::InfrastAbstractTask::click_clear_button()
 {
     const auto task_ptr = resource.task().task_ptr("InfrastClearButton");
     ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
+    return true;
 }
 
-void asst::InfrastAbstractTask::click_confirm_button()
+bool asst::InfrastAbstractTask::click_confirm_button()
 {
-    const auto task_ptr = resource.task().task_ptr("InfrastConfirmButton");
+    const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
+        resource.task().task_ptr("InfrastConfirmButton"));
     ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
+
+    // 识别“正在提交反馈至神经”，如果网不好一直确认不了，就多等一会
+    OcrImageAnalyzer analyzer;
+    analyzer.set_task_info(*task_ptr);
+    for (int i = 0; i != m_retry_times; ++i) {
+        const auto& image = ctrler.get_image();
+        analyzer.set_image(image);
+        if (!analyzer.analyze()) {
+            sleep(task_ptr->rear_delay);
+            return true;
+        }
+        sleep(task_ptr->rear_delay);
+    }
+    return false;
 }
 
 void asst::InfrastAbstractTask::sync_swipe_of_operlist(bool reverse)

@@ -18,9 +18,9 @@ namespace asst {
         virtual void async_swipe_of_operlist(bool reverse = false);
         virtual void await_swipe();
 
-        virtual void click_bottomleft_tab();    // 点击进入设施后，左下角的tab（我也不知道这玩意该叫啥）
-        virtual void click_clear_button();      // 点击干员选择页面的“清空选择”按钮
-        virtual void click_confirm_button();    // 点击干员选择页面的“确认”按钮
+        virtual bool click_bottomleft_tab();    // 点击进入设施后，左下角的tab（我也不知道这玩意该叫啥）
+        virtual bool click_clear_button();      // 点击干员选择页面的“清空选择”按钮
+        virtual bool click_confirm_button();    // 点击干员选择页面的“确认”按钮
 
         int m_last_swipe_id = 0;
     };

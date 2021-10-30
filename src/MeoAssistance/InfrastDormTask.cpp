@@ -1,6 +1,7 @@
 ﻿#include "InfrastDormTask.h"
 
 #include "MatchImageAnalyzer.h"
+#include "OcrImageAnalyzer.h"
 #include "InfrastMoodImageAnalyzer.h"
 #include "Resource.h"
 #include "Controller.h"
@@ -72,21 +73,35 @@ bool asst::InfrastDormTask::run()
     return true;
 }
 
-void asst::InfrastDormTask::click_confirm_button()
+bool asst::InfrastDormTask::click_confirm_button()
 {
-    InfrastAbstractTask::click_confirm_button();
+    const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
+        resource.task().task_ptr("InfrastConfirmButton"));
+    ctrler.click(task_ptr->specific_rect);
+    sleep(task_ptr->rear_delay);
 
     // 宿舍在把正在工作的干员换下来的时候，会有个二次确认的按钮
     const auto& image = ctrler.get_image();
     MatchImageAnalyzer cfm_analyzer(image);
-
-    const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+    const auto sec_cfm_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("InfrastDormConfirmButton"));
-
-    cfm_analyzer.set_task_info(*task_ptr);
-    if (!cfm_analyzer.analyze()) {
-        return;
+    cfm_analyzer.set_task_info(*sec_cfm_task_ptr);
+    if (cfm_analyzer.analyze()) {
+        ctrler.click(cfm_analyzer.get_result().rect);
+        sleep(sec_cfm_task_ptr->rear_delay);
     }
-    ctrler.click(cfm_analyzer.get_result().rect);
-    sleep(task_ptr->rear_delay);
+
+    // 识别“正在提交反馈至神经”，如果网不好一直确认不了，就多等一会
+    OcrImageAnalyzer analyzer;
+    analyzer.set_task_info(*task_ptr);
+    for (int i = 0; i != m_retry_times; ++i) {
+        const auto& image = ctrler.get_image();
+        analyzer.set_image(image);
+        if (!analyzer.analyze()) {
+            sleep(sec_cfm_task_ptr->rear_delay);
+            return true;
+        }
+        sleep(sec_cfm_task_ptr->rear_delay);
+    }
+    return false;
 }
