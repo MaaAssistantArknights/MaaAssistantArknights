@@ -18,11 +18,12 @@ int main(int argc, char** argv)
     while (ch != 'q') {
         //AsstStartSanity(ptr);
         //AsstStartVisit(ptr, true);
-        {
-            const int required[] = { 3, 4, 5, 6 };
-            AsstStartRecruiting(ptr, required, sizeof(required) / sizeof(int), true);
-        }
-        //AsstStartDebugTask(ptr);
+        //{
+        //    const int required[] = { 3, 4, 5, 6 };
+        //    AsstStartRecruiting(ptr, required, sizeof(required) / sizeof(int), true);
+        //}
+        AsstStartDebugTask(ptr);
+        //AsstStartInfrastShift(ptr);
 
         ch = getchar();
     }

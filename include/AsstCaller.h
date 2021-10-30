@@ -15,13 +15,13 @@ extern "C" {
     bool MEOAPI AsstCatchEmulator(void* p_asst);
     bool MEOAPI AsstCatchUSB(void* p_asst);
     bool MEOAPI AsstCatchRemote(void* p_asst, const char* address);
+    bool MEOAPI AsstCatchFake(void* p_asst);
 
     bool MEOAPI AsstStartSanity(void* p_asst);
     bool MEOAPI AsstStartVisit(void* p_asst, bool with_shopping);
     bool MEOAPI AsstStartProcessTask(void* p_asst, const char* task);
     bool MEOAPI AsstStartRecruiting(void* p_asst, const int required_level[], int required_len, bool set_time);
-    //bool MEOAPI AsstStartIndertifyOpers(void* p_asst);
-    //bool MEOAPI AsstStartInfrast(void* p_asst);
+    bool MEOAPI AsstStartInfrastShift(void* p_asst, const char** order, int order_size, int uses_of_drones, double dorm_threshold);
     bool MEOAPI AsstStartDebugTask(void* p_asst);
 
     void MEOAPI AsstStop(void* p_asst);

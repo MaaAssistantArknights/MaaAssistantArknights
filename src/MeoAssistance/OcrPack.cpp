@@ -28,7 +28,7 @@ bool asst::OcrPack::load(const std::string & dir)
     return m_ocr_ptr->initModels(dst_filename, cls_filename, rec_filename, keys_filename);
 }
 
-void asst::OcrPack::set_param(int gpu_index, int thread_number)
+void asst::OcrPack::set_param(int /*gpu_index*/, int thread_number)
 {
     // gpu_index是ncnn的参数，onnx架构的没有，预留参数接口
     m_ocr_ptr->setNumThread(thread_number);

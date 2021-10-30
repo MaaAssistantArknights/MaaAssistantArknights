@@ -19,7 +19,7 @@ namespace asst {
         virtual ~OcrPack();
 
         virtual bool load(const std::string& dir) override;
-        void set_param(int gpu_index, int thread_number);
+        void set_param(int /*gpu_index*/, int thread_number);
 
         std::vector<TextRect> recognize(const cv::Mat& image, const TextRectProc& pred = nullptr);
         std::vector<TextRect> recognize(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr);

@@ -26,6 +26,14 @@ namespace asst {
             m_templ_thres = templ_thres;
             m_hist_thres = hist_thres;
         }
+        void set_task_info(MatchTaskInfo task_info) noexcept {
+            m_use_cache = task_info.cache;
+            m_mask_range = std::move(task_info.mask_range);
+            m_templ_name = std::move(task_info.templ_name);
+            m_templ_thres = task_info.templ_threshold;
+            m_hist_thres = task_info.hist_threshold;
+            set_roi(task_info.roi);
+        }
 
         //const std::vector<MatchRect>& get_result() const noexcept {
         //    return m_result;

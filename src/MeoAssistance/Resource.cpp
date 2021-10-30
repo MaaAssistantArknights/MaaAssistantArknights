@@ -15,6 +15,7 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static const char* TaskDataFilename = "tasks.json";
     constexpr static const char* RecruitCfgFilename = "recruit.json";
     constexpr static const char* ItemCfgFilename = "item_index.json";
+    constexpr static const char* InfrastCfgFilename = "infrast.json";
     constexpr static const char* UserCfgFilename = "..\\user.json";
     constexpr static const char* OcrResourceFilename = "OcrLiteOnnx";
     constexpr static const char* PenguinResourceFilename = "penguin-stats-recognize";
@@ -37,6 +38,11 @@ bool asst::Resource::load(const std::string& dir)
         m_last_error = m_item_cfg_unique_ins.get_last_error();
         return false;
     }
+    if (!m_infrast_cfg_unique_ins.load(dir + InfrastCfgFilename)) {
+        m_last_error = m_infrast_cfg_unique_ins.get_last_error();
+        return false;
+    }
+
     if (!m_user_cfg_unique_ins.load(dir + UserCfgFilename)) {
         m_last_error = m_user_cfg_unique_ins.get_last_error();
         return false;
@@ -48,7 +54,11 @@ bool asst::Resource::load(const std::string& dir)
     const auto& opt = m_general_cfg_unique_ins.get_options();
 
     /* 加载模板图片资源 */
-    m_templ_resource_unique_ins.set_load_required(m_task_data_unique_ins.get_templ_required());
+    // task所需要的模板资源
+    m_templ_resource_unique_ins.append_load_required(m_task_data_unique_ins.get_templ_required());
+    // 基建所需要的模板资源
+    m_templ_resource_unique_ins.append_load_required(m_infrast_cfg_unique_ins.get_templ_required());
+
     if (!m_templ_resource_unique_ins.load(dir + TemplsFilename)) {
         m_last_error = m_templ_resource_unique_ins.get_last_error();
         return false;

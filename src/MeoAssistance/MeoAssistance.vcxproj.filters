@@ -43,6 +43,18 @@
     <Filter Include="源文件\Utils">
       <UniqueIdentifier>{a5c43813-70af-4b0e-94ac-9ddecc2e4a3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\ImageAnalyzer\Infrast">
+      <UniqueIdentifier>{a37e0b23-e8f8-499c-adf5-9990277e9ffe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ImageAnalyzer\General">
+      <UniqueIdentifier>{51165426-1842-491a-b5d5-9d26c59facdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\ImageAnalyzer\General">
+      <UniqueIdentifier>{c600668a-0d70-4694-b1e5-6a78cffd0b1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\ImageAnalyzer\Infrast">
+      <UniqueIdentifier>{d173e449-880b-4064-bbab-97007e3d090b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h">
@@ -87,9 +99,6 @@
     <ClInclude Include="AsstMsg.h">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Task.h">
-      <Filter>头文件\Task</Filter>
-    </ClInclude>
     <ClInclude Include="AbstractConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
@@ -111,9 +120,6 @@
     <ClInclude Include="ItemConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="AbstractImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer</Filter>
-    </ClInclude>
     <ClInclude Include="ProcessTaskImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer</Filter>
     </ClInclude>
@@ -129,12 +135,6 @@
     <ClInclude Include="PenguinPack.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="OcrImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer</Filter>
-    </ClInclude>
-    <ClInclude Include="MatchImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer</Filter>
-    </ClInclude>
     <ClInclude Include="RecruitImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer</Filter>
     </ClInclude>
@@ -144,8 +144,53 @@
     <ClInclude Include="CreditShopImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer</Filter>
     </ClInclude>
+    <ClInclude Include="InfrastProductionTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\General</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\General</Filter>
+    </ClInclude>
     <ClInclude Include="MultiMatchImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer</Filter>
+      <Filter>头文件\ImageAnalyzer\General</Filter>
+    </ClInclude>
+    <ClInclude Include="OcrImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\General</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastSkillsImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastSmileyImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastConfiger.h">
+      <Filter>头文件\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastDormTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastMoodImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastFacilityImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastAbstractTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastMfgTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastTradeTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastPowerTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastOfficeTask.h">
+      <Filter>头文件\Task</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -194,9 +239,6 @@
     <ClCompile Include="ItemConfiger.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="AbstractImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer</Filter>
-    </ClCompile>
     <ClCompile Include="ProcessTaskImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer</Filter>
     </ClCompile>
@@ -212,12 +254,6 @@
     <ClCompile Include="PenguinPack.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="OcrImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer</Filter>
-    </ClCompile>
-    <ClCompile Include="MatchImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer</Filter>
-    </ClCompile>
     <ClCompile Include="RecruitImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer</Filter>
     </ClCompile>
@@ -227,18 +263,63 @@
     <ClCompile Include="CreditShopImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer</Filter>
     </ClCompile>
+    <ClCompile Include="InfrastProductionTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastSkillsImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastSmileyImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\General</Filter>
+    </ClCompile>
+    <ClCompile Include="MatchImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\General</Filter>
+    </ClCompile>
     <ClCompile Include="MultiMatchImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer</Filter>
+      <Filter>源文件\ImageAnalyzer\General</Filter>
+    </ClCompile>
+    <ClCompile Include="OcrImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\General</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastConfiger.cpp">
+      <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastDormTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastMoodImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastFacilityImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastAbstractTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastMfgTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastTradeTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastPowerTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastOfficeTask.cpp">
+      <Filter>源文件\Task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="..\..\resource\recruit.json">
+    <None Include="..\..\resource\tasks.json">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="..\..\resource\tasks.json">
+    <None Include="..\..\resource\infrast.json">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

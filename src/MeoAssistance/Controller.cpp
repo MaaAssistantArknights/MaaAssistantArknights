@@ -33,7 +33,7 @@ Controller::Controller()
     BOOL pipe_write_ret = ::CreatePipe(&m_pipe_write, &m_pipe_child_read, &m_pipe_sec_attr, PipeBuffSize);
 
     if (!pipe_read_ret || !pipe_write_ret) {
-        // TODO 报错
+        throw "controller pipe created failed";
     }
 
     m_child_startup_info.cb = sizeof(STARTUPINFO);
@@ -178,6 +178,7 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
                 return false;
             }
             resource.cfg().set_emulator_path(info.name, emulator_path);
+            resource.user().set_emulator_path(info.name, emulator_path);
         }
         else {
             emulator_path = info.path;
@@ -196,46 +197,52 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         m_emulator_info = info;
         adb_dir = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", utils::get_cur_dir()) + '"';
     }
-    
-    // 针对雷电模拟器连接问题的专用补丁
-    if (m_emulator_info.handle.class_name == "LDPlayerMainFrame") {
-        log.trace("LDPlayer Connection Patch Activated.");
-        std::string connect_cmd = utils::string_replace_all("[Adb] devices", "[Adb]", adb_dir);
-        auto devices_result = call_command(connect_cmd);
-        std::string devices_list(
-            std::make_move_iterator(devices_result.begin()),
-            std::make_move_iterator(devices_result.end()));
-        // 查找连接的所有设备
-        std::string device = {};
 
-        if (devices_list.find("emulator") != devices_list.npos) {
-            device = devices_list.substr(devices_list.find("emulator"), 13);
-            m_emulator_info.adb.connect = "";
-        }
-        else if (devices_list.find("127") != devices_list.npos) {
-            device = devices_list.substr(devices_list.find("127"), 14);
-        }
+    //// 针对雷电模拟器连接问题的专用补丁
+    //if (m_emulator_info.handle.class_name == "LDPlayerMainFrame") {
+    //    log.trace("LDPlayer Connection Patch Activated.");
+    //    std::string connect_cmd = utils::string_replace_all("[Adb] devices", "[Adb]", adb_dir);
+    //    auto devices_result = call_command(connect_cmd);
+    //    std::string devices_list(
+    //        std::make_move_iterator(devices_result.begin()),
+    //        std::make_move_iterator(devices_result.end()));
+    //    // 查找连接的所有设备
+    //    std::string device = {};
 
-        if (device.empty()) {
-            log.trace("no device detected.");
-            return false;
-        }
+    //    if (devices_list.find("emulator") != devices_list.npos) {
+    //        device = devices_list.substr(devices_list.find("emulator"), 13);
+    //        m_emulator_info.adb.connect = "";
+    //    }
+    //    else if (devices_list.find("127") != devices_list.npos) {
+    //        device = devices_list.substr(devices_list.find("127"), 14);
+    //    }
 
-        log.trace("device detected: ", device);
+    //    if (device.empty()) {
+    //        log.trace("no device detected.");
+    //        return false;
+    //    }
 
-        m_emulator_info.adb.connect = utils::string_replace_all(m_emulator_info.adb.connect, "127.0.0.1:5555", device);
-        m_emulator_info.adb.click = utils::string_replace_all(m_emulator_info.adb.click, "-e", "-s " + device);
-        m_emulator_info.adb.swipe = utils::string_replace_all(m_emulator_info.adb.swipe, "-e", "-s " + device);
-        m_emulator_info.adb.display = utils::string_replace_all(m_emulator_info.adb.display, "-e", "-s " + device);
-        m_emulator_info.adb.screencap = utils::string_replace_all(m_emulator_info.adb.screencap, "-e", "-s " + device);
+    //    log.trace("device detected: ", device);
+
+    //    m_emulator_info.adb.connect = utils::string_replace_all(m_emulator_info.adb.connect, "127.0.0.1:5555", device);
+    //    m_emulator_info.adb.click = utils::string_replace_all(m_emulator_info.adb.click, "-e", "-s " + device);
+    //    m_emulator_info.adb.swipe = utils::string_replace_all(m_emulator_info.adb.swipe, "-e", "-s " + device);
+    //    m_emulator_info.adb.display = utils::string_replace_all(m_emulator_info.adb.display, "-e", "-s " + device);
+    //    m_emulator_info.adb.screencap = utils::string_replace_all(m_emulator_info.adb.screencap, "-e", "-s " + device);
+    //}
+
+    std::string connect_cmd = utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", adb_dir);
+    auto&& [connect_ret, connect_result] = call_command(connect_cmd);
+    // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
+    if (!connect_ret) {
+        return false;
     }
 
-    // TODO，检查连接是否成功
-    std::string connect_cmd = utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", adb_dir);
-    call_command(connect_cmd);
-
     std::string display_cmd = utils::string_replace_all(m_emulator_info.adb.display, "[Adb]", adb_dir);
-    auto display_result = call_command(display_cmd);
+    auto&& [display_ret, display_result] = call_command(display_cmd);
+    if (!display_ret) {
+        return false;
+    }
     std::string display_pipe_str(
         std::make_move_iterator(display_result.begin()),
         std::make_move_iterator(display_result.end()));
@@ -285,7 +292,7 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
 //	}
 //}
 
-std::vector<unsigned char> Controller::call_command(const std::string& cmd)
+std::pair<bool, std::vector<unsigned char>> Controller::call_command(const std::string& cmd)
 {
     LogTraceFunction;
 
@@ -325,7 +332,7 @@ std::vector<unsigned char> Controller::call_command(const std::string& cmd)
         log.trace("output:", std::string(pipe_data.cbegin(), pipe_data.cend()));
     }
 
-    return pipe_data;
+    return make_pair(!exit_ret, std::move(pipe_data));
 }
 
 void asst::Controller::convert_lf(std::vector<unsigned char>& data)
@@ -403,8 +410,8 @@ bool asst::Controller::screencap()
 {
     LogTraceFunction;
 
-    auto data = call_command(m_emulator_info.adb.screencap);
-    if (!data.empty()) {
+    auto&& [ret, data] = call_command(m_emulator_info.adb.screencap);
+    if (ret && !data.empty()) {
         if (m_image_convert_lf) {
             convert_lf(data);
         }
@@ -467,7 +474,7 @@ int asst::Controller::click_without_scale(const Rect& rect, bool block)
     return click_without_scale(rand_point_in_rect(rect), block);
 }
 
-int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool block, int extra_delay)
+int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     int x1 = p1.x * m_control_scale;
     int y1 = p1.y * m_control_scale;
@@ -475,15 +482,15 @@ int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool
     int y2 = p2.y * m_control_scale;
     //log.trace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
 
-    return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block, extra_delay);
+    return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block, extra_delay, extra_swipe);
 }
 
-int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay)
+int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
-    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay);
+    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
 
-int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay)
+int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     if (p1.x < 0 || p1.x >= m_emulator_info.adb.display_width
         || p1.y < 0 || p1.y >= m_emulator_info.adb.display_height
@@ -502,17 +509,47 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
         cur_cmd = utils::string_replace_all(cur_cmd, "[duration]", std::to_string(duration));
     }
 
-    int id = push_cmd(cur_cmd);
+    int id = 0;
+
+    int extra_swipe_dist = resource.cfg().get_options().adb_extra_swipe_dist;
+    int extra_swipe_duration = resource.cfg().get_options().adb_extra_swipe_duration;
+
+    // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
+    if (extra_swipe && extra_swipe_duration >= 0) {
+        std::string extra_cmd = utils::string_replace_all(m_emulator_info.adb.swipe, "[x1]", std::to_string(p2.x));
+        extra_cmd = utils::string_replace_all(extra_cmd, "[y1]", std::to_string(p2.y));
+        int end_x = 0, end_y = 0;
+        if (p2.x != p1.x) {
+            double k = (double)(p2.y - p1.y) / (p2.x - p1.x);
+            double temp = extra_swipe_dist / std::sqrt(1 + k * k);
+            end_x = p2.x + (p2.x > p1.x ? 1 : -1) * temp;
+            end_y = p2.y + (p2.y > p1.y ? 1 : -1) * std::fabs(k) * temp;
+        }
+        else {
+            end_x = p2.x;
+            end_y = p2.y + (p2.y > p1.y ? 1 : -1) * extra_swipe_dist;
+        }
+        extra_cmd = utils::string_replace_all(extra_cmd, "[x2]", std::to_string(end_x));
+        extra_cmd = utils::string_replace_all(extra_cmd, "[y2]", std::to_string(end_y));
+        extra_cmd = utils::string_replace_all(extra_cmd, "[duration]", std::to_string(extra_swipe_duration));
+
+        push_cmd(cur_cmd);
+        id = push_cmd(extra_cmd);
+    }
+    else {
+        id = push_cmd(cur_cmd);
+    }
+
     if (block) {
         wait(id);
-        Sleep(extra_delay);
+        std::this_thread::sleep_for(std::chrono::microseconds(extra_delay));
     }
     return id;
 }
 
-int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay)
+int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
-    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay);
+    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
 
 cv::Mat asst::Controller::get_image(bool raw)

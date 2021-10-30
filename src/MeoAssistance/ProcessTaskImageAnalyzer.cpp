@@ -17,16 +17,11 @@ asst::ProcessTaskImageAnalyzer::~ProcessTaskImageAnalyzer() = default;
 
 bool asst::ProcessTaskImageAnalyzer::match_analyze(std::shared_ptr<TaskInfo> task_ptr)
 {
-    std::shared_ptr<MatchTaskInfo> match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
-
     if (!m_match_analyzer) {
         m_match_analyzer = std::make_unique<MatchImageAnalyzer>(m_image);
     }
-    m_match_analyzer->set_roi(match_task_ptr->roi);
-    m_match_analyzer->set_templ_name(match_task_ptr->templ_name);
-    m_match_analyzer->set_threshold(match_task_ptr->templ_threshold, match_task_ptr->hist_threshold);
-    m_match_analyzer->set_mask_range(match_task_ptr->mask_range);
-    m_match_analyzer->set_use_cache(match_task_ptr->cache);
+    const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
+    m_match_analyzer->set_task_info(*match_task_ptr);
 
     if (m_match_analyzer->analyze()) {
         m_result = match_task_ptr;
@@ -143,14 +138,8 @@ bool asst::ProcessTaskImageAnalyzer::analyze()
     return false;
 }
 
-void asst::ProcessTaskImageAnalyzer::set_image(const cv::Mat & image, const Rect & roi)
+void asst::ProcessTaskImageAnalyzer::set_image(const cv::Mat & image)
 {
-    AbstractImageAnalyzer::set_image(image, roi);
-    reset();
-}
-
-void asst::ProcessTaskImageAnalyzer::set_roi(const Rect & roi) noexcept
-{
-    AbstractImageAnalyzer::set_roi(roi);
+    AbstractImageAnalyzer::set_image(image);
     reset();
 }

@@ -31,7 +31,7 @@ namespace asst {
         virtual bool save_image(const cv::Mat& iamge, const std::string& dir);
         virtual bool need_exit() const noexcept;
 
-        virtual bool click_return_button();
+        virtual void click_return_button();
 
         AsstCallback m_callback;
         void* m_callback_arg = NULL;
