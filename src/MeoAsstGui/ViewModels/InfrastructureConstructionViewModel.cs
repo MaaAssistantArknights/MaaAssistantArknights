@@ -28,6 +28,18 @@ namespace MeoAsstGui
             facility_key.Add("办公室", "Office");
 
             _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
+            if (NotUseDrone)
+            {
+                uses_of_drones = UsesOfDrones.DronesNotUse;
+            }
+            else if (DroneForTrade)
+            {
+                uses_of_drones = UsesOfDrones.DronesTrade;
+            }
+            else if (DroneForMfg)
+            {
+                uses_of_drones = UsesOfDrones.DronesMfg;
+            }
         }
 
         public Dictionary<string, string> facility_key = new Dictionary<string, string>();
