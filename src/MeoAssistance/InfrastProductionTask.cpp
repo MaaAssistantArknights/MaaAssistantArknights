@@ -34,14 +34,20 @@ bool asst::InfrastProductionTask::shift_facility_list()
 {
     facility_list_detect();
 
+    const auto tab_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        resource.task().task_ptr("InfrastFacilityListTab" + m_facility));
+    MatchImageAnalyzer add_analyzer;
+    const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        resource.task().task_ptr("InfrastAddOperator" + m_facility));
+    add_analyzer.set_task_info(*add_task_ptr);
+
     for (const Rect& tab : m_facility_list_tabs) {
         ctrler.click(tab);
+        sleep(tab_task_ptr->rear_delay);
+
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
         const auto& image = ctrler.get_image();
-        MatchImageAnalyzer add_analyzer(image);
-        const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-            resource.task().task_ptr("InfrastAddOperator" + m_facility));
-        add_analyzer.set_task_info(*add_task_ptr);
+        add_analyzer.set_image(image);
         if (!add_analyzer.analyze()) {
             continue;
         }

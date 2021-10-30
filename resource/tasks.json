@@ -1160,7 +1160,8 @@
             0,
             250,
             720
-        ]
+        ],
+        "rearDelay": 1000
     },
     "InfrastFacilityListTabTrade": {
         "template": "FacilityListTabTrade.png",
@@ -1170,7 +1171,8 @@
             0,
             250,
             720
-        ]
+        ],
+        "rearDelay": 1000
     },
     "InfrastFlagCombatRecord": {
         "template": "InfrastMfgDogFoodFlag.png",

@@ -69,7 +69,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
     cv::Point min_loc, max_loc;
     cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
-    if (max_val > 0.7) {    // 得分太低的肯定不对，没必要打印
+    if (max_val > m_templ_thres * 0.7) {    // 得分太低的肯定不对，没必要打印
         log.trace("match_templ |", m_templ_name, "score:", max_val, "point:", max_loc);
     }
 
