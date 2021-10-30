@@ -24,6 +24,18 @@
     <ClInclude Include="CreditShopImageAnalyzer.h" />
     <ClInclude Include="GeneralConfiger.h" />
     <ClInclude Include="CreditShoppingTask.h" />
+    <ClInclude Include="InfrastAbstractTask.h" />
+    <ClInclude Include="InfrastConfiger.h" />
+    <ClInclude Include="InfrastDormTask.h" />
+    <ClInclude Include="InfrastFacilityImageAnalyzer.h" />
+    <ClInclude Include="InfrastMfgTask.h" />
+    <ClInclude Include="InfrastMoodImageAnalyzer.h" />
+    <ClInclude Include="InfrastOfficeTask.h" />
+    <ClInclude Include="InfrastPowerTask.h" />
+    <ClInclude Include="InfrastProductionTask.h" />
+    <ClInclude Include="InfrastSkillsImageAnalyzer.h" />
+    <ClInclude Include="InfrastSmileyImageAnalyzer.h" />
+    <ClInclude Include="InfrastTradeTask.h" />
     <ClInclude Include="MultiMatchImageAnalyzer.h" />
     <ClInclude Include="OcrImageAnalyzer.h" />
     <ClInclude Include="OcrPack.h" />
@@ -38,7 +50,6 @@
     <ClInclude Include="ProcessTaskImageAnalyzer.h" />
     <ClInclude Include="RecruitConfiger.h" />
     <ClInclude Include="ScreenCaptureTask.h" />
-    <ClInclude Include="Task.h" />
     <ClInclude Include="TaskData.h" />
     <ClInclude Include="MatchImageAnalyzer.h" />
     <ClInclude Include="TemplResource.h" />
@@ -53,6 +64,18 @@
     <ClCompile Include="AbstractTask.cpp" />
     <ClCompile Include="CreditShopImageAnalyzer.cpp" />
     <ClCompile Include="CreditShoppingTask.cpp" />
+    <ClCompile Include="InfrastAbstractTask.cpp" />
+    <ClCompile Include="InfrastConfiger.cpp" />
+    <ClCompile Include="InfrastDormTask.cpp" />
+    <ClCompile Include="InfrastFacilityImageAnalyzer.cpp" />
+    <ClCompile Include="InfrastMfgTask.cpp" />
+    <ClCompile Include="InfrastMoodImageAnalyzer.cpp" />
+    <ClCompile Include="InfrastOfficeTask.cpp" />
+    <ClCompile Include="InfrastPowerTask.cpp" />
+    <ClCompile Include="InfrastProductionTask.cpp" />
+    <ClCompile Include="InfrastSkillsImageAnalyzer.cpp" />
+    <ClCompile Include="InfrastSmileyImageAnalyzer.cpp" />
+    <ClCompile Include="InfrastTradeTask.cpp" />
     <ClCompile Include="MultiMatchImageAnalyzer.cpp" />
     <ClCompile Include="OcrImageAnalyzer.cpp" />
     <ClCompile Include="OcrPack.cpp" />
@@ -77,7 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json" />
-    <None Include="..\..\resource\recruit.json" />
+    <None Include="..\..\resource\infrast.json" />
     <None Include="..\..\resource\tasks.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -117,12 +140,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)include;$(SolutionDir)3rdparty\include;$(SolutionDir)3rdparty\include\meojson;$(SolutionDir)\3rdparty\include\opencv;$(SolutionDir)\3rdparty\include\opencv2;$(SolutionDir)3drPart\include\OcrLiteNcnn;;$(IncludePath)</IncludePath>
-    <LibraryPath>$(TargetDir);$(Solution)\3rdparty\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(TargetDir);$(SolutionDir)\3rdparty\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)include;$(SolutionDir)3rdparty\include;$(SolutionDir)3rdparty\include\meojson;$(SolutionDir)3rdparty\include\opencv;$(SolutionDir)3rdparty\include\opencv2;$(SolutionDir)3drPart\include\OcrLiteNcnn;$(IncludePath)</IncludePath>
-    <LibraryPath>$(TargetDir);$(Solution)\3rdparty\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(TargetDir);$(SolutionDir)\3rdparty\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -145,7 +168,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libmeojson.lib;OcrLiteOnnx.lib;opencv_world453.lib;penguin-stats-recognize.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <AdditionalLibraryDirectories>$(SolutionDir)3rdparty\lib\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -189,7 +213,8 @@ xcopy /e /y /i /c $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libmeojson.lib;OcrLiteOnnx.lib;opencv_world453.lib;penguin-stats-recognize.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <AdditionalLibraryDirectories>$(SolutionDir)3rdparty\lib\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>

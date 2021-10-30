@@ -20,7 +20,7 @@
         ]
     },
     "UsePrts": {
-        "templThreshold": 0.8,
+        "templThreshold": 0.9,
         "action": "clickSelf",
         "next": [
             "StartButton1"
@@ -475,7 +475,7 @@
     },
     "CreditShop-Commoditys": {
         "template": "CreditPoint.png",
-        "resultMove": [
+        "rectMove": [
             -60,
             -180,
             220,
@@ -526,7 +526,7 @@
         "template": "RecruitTimeReduce.png",
         "templThreshold": 0.89,
         "action": "clickSelf",
-        "resultMove": [
+        "rectMove": [
             7,
             94,
             129,
@@ -630,6 +630,17 @@
             "InfrastEnteredFlag",
             "ReturnToInfrast"
         ]
+    },
+    "Return": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ],
+        "rearDelay": 1000
     },
     "EnterInfrast": {
         "templThreshold": 0.85,
@@ -763,37 +774,38 @@
             "Stop"
         ]
     },
-    "UavAssist-MFG": {
+    "DroneAssist-MFG": {
         "action": "clickSelf",
         "cache": false,
         "maxTimes": 1,
         "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
         "next": [
-            "UavMax",
-            "UavConfirm"
+            "DroneMax",
+            "DroneConfirm"
         ]
     },
-    "UavAssist-Trade": {
+    "DroneAssist-Trade": {
         "action": "clickSelf",
         "cache": false,
         "next": [
-            "UavMax",
-            "UavConfirm"
+            "DroneMax",
+            "DroneConfirm"
         ]
     },
-    "UavMax": {
+    "DroneMax": {
         "action": "clickSelf",
         "next": [
-            "UavConfirm"
+            "DroneConfirm"
         ]
     },
-    "UavConfirm": {
+    "DroneConfirm": {
         "action": "clickSelf",
         "rearDelay": 2000,
+        "templThreshold": 0.8,
         "next": [
             "DeliverableOrder",
-            "UavAssist-Trade-Stop",
-            "UavAssist-MFG"
+            "DroneAssist-Trade-Stop",
+            "DroneAssist-MFG"
         ]
     },
     "DeliverableOrder": {
@@ -801,14 +813,443 @@
         "action": "clickSelf",
         "next": [
             "DeliverableOrder",
-            "UavAssist-Trade"
+            "DroneAssist-Trade"
         ]
     },
-    "UavAssist-Trade-Stop": {
+    "DroneAssist-Trade-Stop": {
         "Doc": "如果找到了“无人机加速”按钮，却没有找到订单交付：说明上一次无人机没有把一个订单加速完成，也说明没有更多的无人机了，所以直接stop",
-        "template": "UavAssist-Trade.png",
+        "template": "DroneAssist-Trade.png",
         "action": "stop",
+        "cache": false
+    },
+    "InfrastSkillsUpper": {
+        "algorithm": "justReturn",
+        "roi": [
+            400,
+            280,
+            880,
+            80
+        ]
+    },
+    "InfrastSkillsLower": {
+        "algorithm": "justReturn",
+        "roi": [
+            400,
+            560,
+            880,
+            80
+        ]
+    },
+    "InfrastSkillsHash": {
+        "algorithm": "justReturn",
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [
+            0,
+            -202,
+            74,
+            100
+        ]
+    },
+    "InfrastSmileyOnRest": {
+        "template": "SmileyOnRest.png",
+        "maskRange": [
+            100,
+            255
+        ],
         "cache": false,
-        "next": []
+        "templThreshold": 0.8
+    },
+    "InfrastSmileyOnWork": {
+        "template": "SmileyOnWork.png",
+        "maskRange": [
+            100,
+            255
+        ],
+        "cache": false,
+        "templThreshold": 0.8
+    },
+    "InfrastSmileyOnDistract": {
+        "template": "SmileyOnDistract.png",
+        "maskRange": [
+            100,
+            255
+        ],
+        "cache": false,
+        "templThreshold": 0.8
+    },
+    "InfrastSkills": {
+        "template": "empty.png",
+        "templThreshold": 0.9,
+        "histThreshold": 100,
+        "histThreshold_Doc": "该任务里的Hist阈值，是特化了拿来做灰度图平均值的，懒得重新写个字段了",
+        "cache": false,
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [
+            -8,
+            -42,
+            82,
+            40
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "InfrastOperListSwipeBegin": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            1080,
+            200,
+            100,
+            300
+        ],
+        "preDelay": 1000,
+        "rearDelay": 1000,
+        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
+    },
+    "InfrastOperListSwipeEnd": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            700,
+            200,
+            100,
+            300
+        ]
+    },
+    "InfrastOperListSwipeToTheLeftBegin": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            1080,
+            200,
+            200,
+            300
+        ],
+        "preDelay": 100,
+        "rearDelay": 2000,
+        "maxTimes": 2,
+        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
+    },
+    "InfrastOperListSwipeToTheLeftEnd": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            400,
+            200,
+            200,
+            300
+        ]
+    },
+    "InfrastOperMoodProgressBar": {
+        "template": "empty.png",
+        "templThreshold": 160,
+        "histThreshold": 20,
+        "Doc": "这里的templThreshold，作为进度条最小灰度阈值使用；histThreshold作为进度条相邻点最大变化阈值使用。懒得重新弄个字段了",
+        "cache": false,
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [
+            21,
+            8,
+            85,
+            4
+        ]
+    },
+    "InfrastMfg": {
+        "template": "Manufacturing.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "InfrastMfgMini": {
+        "template": "ManufacturingMini.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "InfrastTrade": {
+        "template": "Trade.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "InfrastTradeMini": {
+        "template": "TradeMini.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "InfrastPower": {
+        "template": "Power.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastPowerMini": {
+        "template": "PowerMini.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastDorm": {
+        "template": "Dorm.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastDormMini": {
+        "template": "DormMini.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastOffice": {
+        "template": "Office.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastOfficeMini": {
+        "template": "OfficeMini.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastReception": {
+        "template": "Reception.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastReceptionMini": {
+        "template": "ReceptionMini.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastControlCenter": {
+        "template": "ControlCenter.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastControlCenterMini": {
+        "template": "ControlCenterMini.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastStationedInfo": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "进驻信息"
+        ],
+        "roi": [
+            0,
+            0,
+            150,
+            720
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastEnterOperList": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "心情",
+            "休息中",
+            "工作中",
+            "进驻"
+        ],
+        "roi": [
+            800,
+            0,
+            480,
+            650
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastClearButton": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            430,
+            655,
+            150,
+            40
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastConfirmButton": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            1105,
+            655,
+            150,
+            40
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastBottomLeftTab": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            0,
+            540,
+            520,
+            180
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastDormConfirmButton": {
+        "template": "DormConfirm.png",
+        "action": "clickSelf",
+        "cache": false,
+        "rearDelay": 2000
+    },
+    "InfrastEnterFacility": {
+        "algorithm": "justReturn",
+        "rearDelay": 2000
+    },
+    "InfrastFacilityListTabMfg": {
+        "template": "FacilityListTabMfg.png",
+        "cache": false,
+        "roi": [
+            0,
+            0,
+            250,
+            720
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastFacilityListTabTrade": {
+        "template": "FacilityListTabTrade.png",
+        "cache": false,
+        "roi": [
+            0,
+            0,
+            250,
+            720
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastFlagCombatRecord": {
+        "template": "InfrastMfgDogFoodFlag.png",
+        "cache": false,
+        "roi": [
+            1000,
+            0,
+            280,
+            720
+        ]
+    },
+    "InfrastFlagPureGold": {
+        "template": "InfrastMfgPureGoldFlag.png",
+        "cache": false,
+        "roi": [
+            1000,
+            0,
+            280,
+            720
+        ]
+    },
+    "InfrastFlagMoney": {
+        "template": "InfrastTradeMoneyFlag.png",
+        "cache": false,
+        "roi": [
+            900,
+            500,
+            380,
+            220
+        ]
+    },
+    "InfrastAddOperatorMfg": {
+        "template": "AddOperatorMfg.png",
+        "cache": false,
+        "roi": [
+            200,
+            500,
+            500,
+            220
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastAddOperatorTrade": {
+        "template": "AddOperatorTrade.png",
+        "cache": false,
+        "roi": [
+            200,
+            500,
+            500,
+            220
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastOperSelected": {
+        "template": "OperSelected.png",
+        "cache": false,
+        "templThreshold": 0.35,
+        "maskRange": [
+            1,
+            255
+        ],
+        "rectMove": [
+            0,
+            -252,
+            74,
+            320
+        ]
+    },
+    "InfrastOperOnShift": {
+        "template": "OnShift.png",
+        "cache": false,
+        "templThreshold": 0.8,
+        "rectMove": [
+            0,
+            -95,
+            70,
+            50
+        ]
     }
 }

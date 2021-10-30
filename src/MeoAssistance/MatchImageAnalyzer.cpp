@@ -15,8 +15,6 @@ asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& r
 
 bool asst::MatchImageAnalyzer::analyze()
 {
-    log.trace("MatchImageAnalyzer::analyze | ", m_templ_name);
-
     if (m_use_cache) {
         auto&& [hist, roi] = resource.templ().get_hist(m_templ_name);
         if (!hist.empty() && comp_hist(hist, roi)) {
@@ -64,14 +62,16 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
     else {
         cv::Mat mask;
         cv::cvtColor(templ, mask, cv::COLOR_BGR2GRAY);
-        cv::threshold(mask, mask, m_mask_range.first, m_mask_range.second, cv::THRESH_BINARY);
+        cv::inRange(mask, m_mask_range.first, m_mask_range.second, mask);
         cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED, mask);
     }
     double min_val = 0.0, max_val = 0.0;
     cv::Point min_loc, max_loc;
     cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
-    log.trace("match_templ | score:", max_val, "point:", max_loc);
+    if (max_val > m_templ_thres * 0.7) {    // 得分太低的肯定不对，没必要打印
+        log.trace("match_templ |", m_templ_name, "score:", max_val, "point:", max_loc);
+    }
 
     if (max_val >= m_templ_thres) {
         Rect rect(max_loc.x + m_roi.x, max_loc.y + m_roi.y, templ.cols, templ.rows);
@@ -88,7 +88,9 @@ bool asst::MatchImageAnalyzer::comp_hist(const cv::Mat& hist, const cv::Rect roi
     cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi))(roi);
     double score = 1.0 - cv::compareHist(to_hist(image_roi), hist, cv::HISTCMP_BHATTACHARYYA);
 
-    log.trace("comp_hist | score:", score);
+    if (score > 0.7) {    // 得分太低的肯定不对，没必要打印
+        log.trace("comp_hist |", m_templ_name, "score:", score);
+    }
 
     if (score >= m_hist_thres) {
         Rect rect(roi.x + m_roi.x, roi.y + m_roi.y, hist.cols, hist.rows);

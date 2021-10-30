@@ -13,6 +13,12 @@
 
 bool asst::CreditShoppingTask::run()
 {
+    json::value task_start_json = json::object{
+        { "task_type",  "CreditShoppingTask" },
+        { "task_chain", m_task_chain}
+    };
+    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
+
     const cv::Mat& image = ctrler.get_image();
 
     CreditShopImageAnalyzer shop_analyzer(image);
@@ -62,10 +68,10 @@ bool asst::CreditShoppingTask::run()
         // 识别是否信用不足无法购买
         const cv::Mat& prompt_image = ctrler.get_image();
 
-        const static auto no_money_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
+        const auto no_money_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
             resource.task().task_ptr("CreditShop-NoMoney"));
-        OcrImageAnalyzer prompt_analyzer(prompt_image, no_money_task_ptr->roi);
-        prompt_analyzer.set_required(no_money_task_ptr->text);
+        OcrImageAnalyzer prompt_analyzer(prompt_image);
+        prompt_analyzer.set_task_info(*no_money_task_ptr);
         if (prompt_analyzer.analyze()) {
             click_return_button();
             return true;

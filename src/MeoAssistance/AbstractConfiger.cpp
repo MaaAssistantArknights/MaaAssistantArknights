@@ -17,7 +17,7 @@ bool asst::AbstractConfiger::load(const std::string& filename)
     json::value root = std::move(ret.value());
 
     try {
-        parse(root);
+        return parse(root);
     }
     catch (json::exception& e) {
         m_last_error = std::string("json field error ") + e.what();

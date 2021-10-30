@@ -9,6 +9,7 @@
 #include "Controller.h"
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
+#include "Resource.h"
 
 using namespace asst;
 
@@ -33,7 +34,7 @@ bool AbstractTask::sleep(unsigned millisecond)
         return true;
     }
     auto start = std::chrono::system_clock::now();
-    unsigned duration = 0;
+    long long duration = 0;
 
     json::value callback_json;
     callback_json["time"] = millisecond;
@@ -71,10 +72,13 @@ bool asst::AbstractTask::need_exit() const noexcept
     return m_exit_flag != NULL && *m_exit_flag == true;
 }
 
-bool asst::AbstractTask::click_return_button()
+void asst::AbstractTask::click_return_button()
 {
     LogTraceFunction;
+    const auto return_task_ptr = resource.task().task_ptr("Return");
 
-    const static Rect ConfirmButtonRect(20, 20, 135, 35);
-    return ctrler.click(ConfirmButtonRect);
+    Rect ReturnButtonRect = return_task_ptr->specific_rect;
+
+    ctrler.click(ReturnButtonRect);
+    sleep(return_task_ptr->rear_delay);
 }

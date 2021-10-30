@@ -21,6 +21,9 @@ bool asst::GeneralConfiger::parse(const json::value& json)
 
         m_options.ocr_gpu_index = options_json.get("ocrGpuIndex", -1);
         m_options.ocr_thread_number = options_json.at("ocrThreadNumber").as_integer();
+
+        m_options.adb_extra_swipe_dist = options_json.get("adbExtraSwipeDist", 100);
+        m_options.adb_extra_swipe_duration = options_json.get("adbExtraSwipeDuration", -1);
     }
 
     for (const auto& [name, emulator_json] : json.at("emulator").as_object()) {

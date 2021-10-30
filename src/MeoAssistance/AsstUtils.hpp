@@ -114,6 +114,25 @@ namespace asst {
             return str;
         }
 
+        static int hamming(std::string hash1, std::string hash2)
+        {
+            constexpr static int HammingFlags = 64;
+
+            hash1.insert(hash1.begin(), HammingFlags - hash1.size(), '0');
+            hash2.insert(hash2.begin(), HammingFlags - hash2.size(), '0');
+            int dist = 0;
+            for (int i = 0; i < HammingFlags; i = i + 16) {
+                unsigned long long x
+                    = strtoull(hash1.substr(i, 16).c_str(), NULL, 16)
+                    ^ strtoull(hash2.substr(i, 16).c_str(), NULL, 16);
+                while (x) {
+                    dist++;
+                    x = x & (x - 1);
+                }
+            }
+            return dist;
+        }
+
         //template<typename T,
         //	typename = typename std::enable_if<std::is_constructible<T, std::string>::value>::type>
         //	std::string VectorToString(const std::vector<T>& vector, bool to_gbk = false) {

@@ -16,29 +16,20 @@ namespace asst {
 
         virtual bool analyze() override;
 
-        //template<typename RequiredArray>
-        //void set_required(RequiredArray required, bool full_match) noexcept {
-        //    static_assert(std::is_constructible<std::string, required::value_type>::value,
-        //        "Parameter can't be used to construct a std::string");
-        //    m_required.assign(std::make_move_iterator(required.begin()), std::make_move_iterator(required.end()));
-        //    m_full_match = full_match;
-        //}
         void set_required(std::vector<std::string> required, bool full_match = false) noexcept {
             m_required = std::move(required);
             m_full_match = full_match;
         }
-
-        //template<typename ReplaceMap>
-        //void set_replace(ReplaceMap replace) noexcept {
-        //    static_assert(std::is_constructible<m_replace::value_type, required::value_type>::value,
-        //        "Parameter can't be used to construct a replace map");
-        //    std::unordered_map<std::string, std::string> temp_map(
-        //        std::make_move_iterator(replace.begin()), std::make_move_iterator(replace.end());
-        //    m_replace.swap(temp_map);
-        //}
         void set_replace(std::unordered_map<std::string, std::string> replace) noexcept {
             m_replace = std::move(replace);
         }
+        void set_task_info(OcrTaskInfo task_info) noexcept {
+            m_required = std::move(task_info.text);
+            m_full_match = task_info.need_full_match;
+            m_replace = std::move(task_info.replace_map);
+            set_roi(task_info.roi);
+        }
+
         void set_pred(const TextRectProc& pred) {
             m_pred = pred;
         }

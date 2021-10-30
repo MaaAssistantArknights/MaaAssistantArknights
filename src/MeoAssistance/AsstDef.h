@@ -13,6 +13,8 @@ namespace json
 }
 
 namespace asst {
+    constexpr double DoubleDiff = 1e-12;
+
     struct Point
     {
         Point() = default;
@@ -142,7 +144,6 @@ namespace std {
     };
 }
 
-
 namespace asst {
     enum class ProcessTaskAction {
         Invalid = 0,
@@ -176,7 +177,7 @@ namespace asst {
         int rear_delay = 0;								// 执行该任务后的延时
         int retry_times = INT_MAX;						// 未找到图像时的重试次数
         Rect roi;								        // 要识别的区域，若为0则全图识别
-        Rect result_move;                               // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。即识别到了res，点击res + result_move的位置
+        Rect rect_move;                               // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。即识别到了res，点击res + result_move的位置
     };
 
     // 文字识别任务的信息
@@ -225,5 +226,101 @@ namespace asst {
         std::string path;
     };
 
-    constexpr double DoubleDiff = 1e-12;
+    /* 基建相关 */
+
+    // 设施信息
+    struct InfrastFacilityInfo {
+        std::string id;
+        std::vector<std::string> products;
+        int max_num_of_opers = 0;
+    };
+
+    enum class InfrastSmileyType {
+        Invalid = -1,
+        Rest,       // 休息完成，绿色笑脸
+        Work,       // 工作中，黄色笑脸
+        Distract    // 注意力涣散，红色哭脸
+    };
+    struct InfrastSmileyInfo {
+        InfrastSmileyType type;
+        Rect rect;
+    };
+    struct InfrastOperMoodInfo {
+        std::string hash;           // 干员部分立绘的hash，作为唯一标识
+        InfrastSmileyInfo smiley;
+        double percentage = 0;      // 心情进度条的百分比
+        Rect rect;
+        bool working = false;       // 干员是否在工作中
+        bool selected = false;      // 干员是否已被选择（蓝色的选择框）
+    };
+
+    struct InfrastSkill {
+        std::string id;
+        std::string templ_name;
+        std::vector<std::string> names;     // 很多基建技能是一样的，就是名字不同。所以一个技能id可能对应多个名字
+        std::string intro;
+        std::unordered_map<std::string, double>
+            efficient;                      // 技能效率，key：产品名（赤金、经验书等）, value: 效率数值
+        std::unordered_map<std::string, std::string>
+            efficient_regex;                // 技能效率正则，key：产品名（赤金、经验书等）, value: 效率正则。如不为空，会先对正则进行计算，再加上efficient里面的值
+
+        bool operator==(const InfrastSkill& skill) const noexcept {
+            return id == skill.id;
+        }
+    };
+}
+
+namespace std {
+    template<>
+    class hash<asst::InfrastSkill> {
+    public:
+        size_t operator()(const asst::InfrastSkill& skill) const
+        {
+            return std::hash<std::string>()(skill.id);
+        }
+    };
+}
+
+namespace asst
+{
+    // 基建单个干员的技能
+    struct InfrastSkillsComb {
+        InfrastSkillsComb() = default;
+        InfrastSkillsComb(std::unordered_set<InfrastSkill> skill_vec) {
+            skills = std::move(skill_vec);
+            for (const auto& s : skills) {
+                for (const auto& [key, value] : s.efficient) {
+                    efficient[key] += value;
+                }
+                for (const auto& [key, reg] : s.efficient_regex) {
+                    efficient_regex[key] += " + " + reg;
+                }
+            }
+        }
+        bool operator==(const InfrastSkillsComb& rhs) const {
+            return skills == rhs.skills;
+        }
+
+        std::string intro;
+        std::unordered_set<InfrastSkill> skills;
+        std::unordered_map<std::string, double> efficient;
+        std::unordered_map<std::string, std::string> efficient_regex;
+    };
+    // 基建 干员技能信息
+    struct InfrastOperSkillInfo {
+        InfrastOperSkillInfo() = default;
+        InfrastOperSkillInfo(InfrastSkillsComb skills_comb) : skills_comb(std::move(skills_comb)) {}
+        std::string hash;                   // 有些干员的技能是完全一样的，做个hash区分一下不同干员
+        InfrastSkillsComb skills_comb;
+        Rect rect;
+        bool selected = false;              // 干员是否已被选择（蓝色的选择框）
+    };
+    // 基建技能组
+    struct InfrastSkillsGroup {
+        std::string intro;                                  // 文字介绍，实际不起作用
+        std::unordered_map<std::string, int> conditions;    // 技能组合可用条件，例如：key 发电站数量，value 3
+        std::vector<InfrastSkillsComb> necessary;           // 必选技能。这里面的缺少任一，则该技能组合不可用
+        std::vector<InfrastSkillsComb> optional;            // 可选技能。
+        bool allow_external = false;                        // 当干员数没满3个的时候，是否允许补充外部干员
+    };
 }
