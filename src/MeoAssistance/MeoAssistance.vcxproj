@@ -28,6 +28,7 @@
     <ClInclude Include="InfrastConfiger.h" />
     <ClInclude Include="InfrastDormTask.h" />
     <ClInclude Include="InfrastFacilityImageAnalyzer.h" />
+    <ClInclude Include="InfrastInfoTask.h" />
     <ClInclude Include="InfrastMfgTask.h" />
     <ClInclude Include="InfrastMoodImageAnalyzer.h" />
     <ClInclude Include="InfrastOfficeTask.h" />
@@ -49,6 +50,7 @@
     <ClInclude Include="ProcessTask.h" />
     <ClInclude Include="ProcessTaskImageAnalyzer.h" />
     <ClInclude Include="RecruitConfiger.h" />
+    <ClInclude Include="RuntimeStatus.h" />
     <ClInclude Include="ScreenCaptureTask.h" />
     <ClInclude Include="TaskData.h" />
     <ClInclude Include="MatchImageAnalyzer.h" />
@@ -68,6 +70,7 @@
     <ClCompile Include="InfrastConfiger.cpp" />
     <ClCompile Include="InfrastDormTask.cpp" />
     <ClCompile Include="InfrastFacilityImageAnalyzer.cpp" />
+    <ClCompile Include="InfrastInfoTask.cpp" />
     <ClCompile Include="InfrastMfgTask.cpp" />
     <ClCompile Include="InfrastMoodImageAnalyzer.cpp" />
     <ClCompile Include="InfrastOfficeTask.cpp" />
@@ -91,6 +94,7 @@
     <ClCompile Include="ProcessTask.cpp" />
     <ClCompile Include="ProcessTaskImageAnalyzer.cpp" />
     <ClCompile Include="RecruitConfiger.cpp" />
+    <ClCompile Include="RuntimeStatus.cpp" />
     <ClCompile Include="ScreenCaptureTask.cpp" />
     <ClCompile Include="TaskData.cpp" />
     <ClCompile Include="MatchImageAnalyzer.cpp" />

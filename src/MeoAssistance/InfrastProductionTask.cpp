@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include <calculator/calculator.hpp>
+
 #include "Resource.h"
 #include "Controller.h"
 #include "InfrastSkillsImageAnalyzer.h"
@@ -9,6 +11,7 @@
 #include "MatchImageAnalyzer.h"
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
+#include "RuntimeStatus.h"
 
 //bool asst::InfrastProductionTask::run()
 //{
@@ -125,16 +128,39 @@ size_t asst::InfrastProductionTask::opers_detect()
     const auto& cur_all_info = skills_analyzer.get_result();
     max_num_of_opers_per_page = (std::max)(max_num_of_opers_per_page, cur_all_info.size());
 
-    // 如果两个的hash距离过小，则认为是同一个干员，不进行插入
-    for (const auto& cur : cur_all_info) {
+    for (const auto& cur_info : cur_all_info) {
         auto find_iter = std::find_if(m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-            [&cur](const InfrastOperSkillInfo& info) -> bool {
-                int dist = utils::hamming(cur.hash, info.hash);
+            [&cur_info](const InfrastOperSkillInfo& info) -> bool {
+                int dist = utils::hamming(cur_info.hash, info.hash);
                 return dist < HashDistThres;
             });
-        if (find_iter == m_all_available_opers.cend()) {
-            m_all_available_opers.emplace_back(cur);
+        // 如果两个的hash距离过小，则认为是同一个干员，不进行插入
+        if (find_iter != m_all_available_opers.cend()) {
+            continue;
         }
+        auto pred_info = cur_info;
+        // 根据正则，计算当前干员的实际效率
+        for (auto&& [product, formula] : pred_info.skills_comb.efficient_regex) {
+            std::string cur_formula = formula;
+            for (size_t pos = 0; pos != std::string::npos;) {
+                pos = cur_formula.find('[', pos);
+                if (pos == std::string::npos) {
+                    break;
+                }
+                size_t rp_pos = cur_formula.find(']', pos);
+                if (rp_pos == std::string::npos) {
+                    break;
+                    // TODO 报错！
+                }
+                std::string status_key = cur_formula.substr(pos + 1, rp_pos - pos - 1);
+                int status_value = std::any_cast<int>(status.get(status_key));
+                cur_formula.replace(pos, rp_pos - pos + 1, std::to_string(status_value));
+            }
+
+            int eff = calculator::eval(cur_formula);
+            pred_info.skills_comb.efficient[product] = eff;
+        }
+        m_all_available_opers.emplace_back(std::move(pred_info));
     }
     return cur_all_info.size();
 }
@@ -147,8 +173,6 @@ bool asst::InfrastProductionTask::optimal_calc()
     if (m_all_available_opers.size() < max_num_of_opers) {
         return false;
     }
-
-    // TODO: 处理效率的正则，将正则的结果计算到数字的efficient中
 
     // 先把单个的技能按效率排个序，取效率最高的几个
     std::vector<InfrastOperSkillInfo> optimal_opers;
@@ -190,9 +214,16 @@ bool asst::InfrastProductionTask::optimal_calc()
         std::vector<InfrastOperSkillInfo> cur_opers;
         cur_opers.reserve(max_num_of_opers);
         double cur_efficient = 0;
-        // TODO：条件判断，不符合的直接过滤掉
-        for (const auto& [cond, value] : group.conditions) {
-            // if xxx continue;
+        // 条件判断，不符合的直接过滤掉
+        for (const auto& [cond, cond_value] : group.conditions) {
+            if (!status.exist(cond)) {
+                continue;
+            }
+            // TODO：这里做成除了不等于，还可计算大于、小于等不同条件的
+            int cur_value = std::any_cast<int>(status.get(cond));
+            if (cur_value != cond_value) {
+                continue;
+            }
         }
         // necessary里的技能，一个都不能少
         for (const InfrastSkillsComb& nec_skills : group.necessary) {

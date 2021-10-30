@@ -26,6 +26,9 @@ namespace asst {
         const InfrastFacilityInfo& get_facility_info(const std::string& facility) const {
             return m_facilities_info.at(facility);
         }
+        const std::unordered_map<std::string, InfrastFacilityInfo>& get_facility_info() const noexcept {
+            return m_facilities_info;
+        }
 
     protected:
         virtual bool parse(const json::value& json) override;

@@ -20,6 +20,7 @@
 #include "InfrastTradeTask.h"
 #include "InfrastPowerTask.h"
 #include "InfrastOfficeTask.h"
+#include "InfrastInfoTask.h"
 
 using namespace asst;
 
@@ -227,7 +228,7 @@ bool Assistance::start_debug_task()
 
     {
         constexpr static const char* DebugTaskChain = "Debug";
-        auto shift_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
+        auto shift_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this);
         //shift_task_ptr->set_facility("Mfg");
         //shift_task_ptr->set_product("CombatRecord");
         shift_task_ptr->set_task_chain(DebugTaskChain);
@@ -273,6 +274,9 @@ bool asst::Assistance::start_infrast_shift(const std::vector<std::string>& order
 
     // 这个流程任务，结束的时候是处于基建主界面的。既可以用于进入基建，也可以用于从设施里返回基建主界面
     append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
+    auto info_task_ptr = std::make_shared<InfrastInfoTask>(task_callback, (void*)this);
+    m_tasks_deque.emplace_back(info_task_ptr);
 
     // 因为后期要考虑多任务间的联动等，所以这些任务的声明暂时不妨到for循环中
     auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);

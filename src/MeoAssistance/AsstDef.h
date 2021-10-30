@@ -293,7 +293,7 @@ namespace asst
                     efficient[key] += value;
                 }
                 for (const auto& [key, reg] : s.efficient_regex) {
-                    efficient_regex[key] += " + " + reg;
+                    efficient_regex[key] += "+(" + reg + ")";
                 }
             }
         }
