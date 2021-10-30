@@ -51,6 +51,11 @@ namespace MeoAsstGui
         public void Init()
         {
             _ptr = AsstCreateEx(_callback, IntPtr.Zero);
+            if (_ptr == IntPtr.Zero)
+            {
+                _windowManager.ShowMessageBox("程序初始化错误！请检查是否是因为使用了中文路径", "错误");
+                Environment.Exit(0);
+            }
         }
 
         private void CallbackFunction(int msg, IntPtr json_buffer, IntPtr custom_arg)
