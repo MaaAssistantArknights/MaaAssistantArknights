@@ -39,11 +39,6 @@ bool ProcessTask::run()
         rect.height = res_move.height;
     }
 
-    if (!task_info_ptr) {
-        m_callback(AsstMsg::ProcessTaskNotMatched, task_start_json, m_callback_arg);
-        return false;
-    }
-
     json::value callback_json = json::object{
         { "name", task_info_ptr->name },
         { "type", static_cast<int>(task_info_ptr->action) },

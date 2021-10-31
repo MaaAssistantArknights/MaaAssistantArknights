@@ -61,6 +61,6 @@
 
         <TextBlock Grid.Row="1" Style="{StaticResource TextBlockDefault}"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Text="测试功能；暂不支持会客室和控制中枢" />
+                   Text="基建换班功能仍处于测试阶段，BUG较多，请酌情使用！（暂不支持控制中枢）" />
     </Grid>
 </UserControl>

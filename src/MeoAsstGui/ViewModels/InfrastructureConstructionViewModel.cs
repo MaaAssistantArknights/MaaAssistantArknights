@@ -25,6 +25,7 @@ namespace MeoAsstGui
             facility_key.Add("制造站", "Mfg");
             facility_key.Add("贸易站", "Trade");
             facility_key.Add("发电站", "Power");
+            facility_key.Add("会客室", "Reception");
             facility_key.Add("办公室", "Office");
 
             _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
@@ -50,9 +51,9 @@ namespace MeoAsstGui
             ItemViewModels.Add(new ItemViewModel(2, "制造站"));
             ItemViewModels.Add(new ItemViewModel(3, "贸易站"));
             ItemViewModels.Add(new ItemViewModel(4, "发电站"));
-            ItemViewModels.Add(new ItemViewModel(5, "办公室"));
-            ItemViewModels.Add(new ItemViewModel(6, "宿舍"));
-            //ItemViewModels.Add(new ItemViewModel(7, "会客室"));
+            ItemViewModels.Add(new ItemViewModel(5, "会客室"));
+            ItemViewModels.Add(new ItemViewModel(6, "办公室"));
+            ItemViewModels.Add(new ItemViewModel(7, "宿舍"));
             //ItemViewModels.Add(new ItemViewModel(8, "控制中枢"));
         }
 

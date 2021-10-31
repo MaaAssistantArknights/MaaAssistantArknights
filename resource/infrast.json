@@ -3,7 +3,8 @@
         "Mfg",
         "Trade",
         "Power",
-        "Office"
+        "Office",
+        "Reception"
     ],
     "Mfg": {
         "Mfg_Doc": "制造站",
@@ -1640,6 +1641,190 @@
                 "template": "Bskill_hire_spd&cost1.png",
                 "efficient": {
                     "all": 10.1
+                }
+            }
+        ],
+        "skillsGroup": []
+    },
+    "Reception": {
+        "Doc": "会客室",
+        "maxNumOfOpers": 2,
+        "products": [
+            "General",
+            "No1",
+            "No2",
+            "No3",
+            "No4",
+            "No5",
+            "No6",
+            "No7"
+        ],
+        "skills": [
+            {
+                "name": [
+                    "信使·罗德岛制药"
+                ],
+                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得罗德岛制药线索（工作时长影响概率）",
+                "template": "Bskill_meet_rhodes2.png",
+                "efficient": {
+                    "General": 10,
+                    "No7": 30
+                }
+            },
+            {
+                "name": [
+                    "通讯员"
+                ],
+                "intro": "进驻会客室时，更容易获得罗德岛制药线索（工作时长影响概率）",
+                "template": "Bskill_meet_blacksteel2.png",
+                "efficient": {
+                    "No7": 10
+                }
+            },
+            {
+                "name": [
+                    "插旗"
+                ],
+                "intro": "进驻会客室后，每当新搜集到的线索不是罗德岛制药时，则额外增加罗德岛制药线索的出现概率（工作时长影响概率）",
+                "template": "Bskill_meet_flag_rhodes.png",
+                "efficient": {
+                    "No7": 15
+                }
+            },
+            {
+                "name": [
+                    "讯使"
+                ],
+                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得喀兰贸易线索（工作时长影响概率）",
+                "template": "Bskill_meet_kjerag2.png",
+                "efficient": {
+                    "General": 10,
+                    "No6": 30
+                }
+            },
+            {
+                "name": [
+                    "传讯者"
+                ],
+                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得格拉斯哥帮线索（工作时长影响概率）",
+                "template": "Bskill_meet_glasgow2.png",
+                "efficient": {
+                    "General": 10,
+                    "No5": 30
+                }
+            },
+            {
+                "name": [
+                    "军师"
+                ],
+                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得乌萨斯学生自治团线索（工作时长影响概率）",
+                "template": "Bskill_meet_ursus2.png",
+                "efficient": {
+                    "General": 10,
+                    "No4": 30
+                }
+            },
+            {
+                "name": [
+                    "秘密搜查"
+                ],
+                "intro": "进驻会客室时，更容易获得乌萨斯学生自治团线索（工作时长影响概率）",
+                "template": "Bskill_meet_ursus1.png",
+                "efficient": {
+                    "No4": 10
+                }
+            },
+            {
+                "name": [
+                    "甄别"
+                ],
+                "intro": "进驻会客室后，每当新搜集到的线索不是乌萨斯学生自治团时，则额外增加乌萨斯学生自治团线索的出现概率（工作时长影响概率）",
+                "template": "Bskill_meet_flag_ursus.png",
+                "efficient": {
+                    "No4": 15
+                }
+            },
+            {
+                "name": [
+                    "B.P.R.S"
+                ],
+                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）",
+                "template": "Bskill_meet_blacksteel2.png",
+                "efficient": {
+                    "General": 10,
+                    "No3": 30
+                }
+            },
+            {
+                "name": [
+                    "信使·企鹅物流"
+                ],
+                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得企鹅物流线索（工作时长影响概率）",
+                "template": "Bskill_meet_penguin2.png",
+                "efficient": {
+                    "General": 10,
+                    "No2": 30
+                }
+            },
+            {
+                "name": [
+                    "皇家探员（自称）"
+                ],
+                "intro": "进驻会客室时，更容易获得企鹅物流线索（工作时长影响概率）",
+                "template": "Bskill_meet_penguin1.png",
+                "efficient": {
+                    "No2": 10
+                }
+            },
+            {
+                "name": [
+                    "守望者"
+                ],
+                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得莱茵生命线索（工作时长影响概率）",
+                "template": "Bskill_meet_rhine2.png",
+                "efficient": {
+                    "General": 10,
+                    "No1": 30
+                }
+            },
+            {
+                "name": [
+                    "哥伦比亚史"
+                ],
+                "intro": "进驻会客室后，每当新搜集到的线索不是莱茵生命时，则额外增加莱茵生命线索的出现概率（工作时长影响概率）",
+                "template": "Bskill_meet_flag_rhine.png",
+                "efficient": {
+                    "No1": 15
+                }
+            },
+            {
+                "name": [
+                    "警司"
+                ],
+                "intro": "进驻会客室时，线索搜集速度提升25%",
+                "template": "Bskill_meet_spd3.png",
+                "efficient": {
+                    "all": 25
+                }
+            },
+            {
+                "name": [
+                    "线索搜集·β"
+                ],
+                "intro": "进驻会客室时，线索搜集速度提升20%",
+                "template": "Bskill_meet_spd2.png",
+                "efficient": {
+                    "all": 20
+                }
+            },
+            {
+                "name": [
+                    "线索搜集·α"
+                ],
+                "intro": "进驻会客室时，线索搜集速度提升10%",
+                "template": "Bskill_meet_spd1.png",
+                "efficient": {
+                    "all": 10
                 }
             }
         ],

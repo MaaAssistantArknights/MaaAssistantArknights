@@ -15,6 +15,8 @@ namespace asst {
         virtual ~InfrastSkillsImageAnalyzer() = default;
         virtual bool analyze() override;
 
+        void sort_result();
+
         const std::vector<InfrastOperSkillInfo>& get_result() const noexcept {
             return m_result;
         }

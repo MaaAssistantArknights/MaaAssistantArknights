@@ -322,6 +322,8 @@ bool asst::InfrastProductionTask::opers_choose()
         if (!skills_analyzer.analyze()) {
             return false;
         }
+        skills_analyzer.sort_result();
+
         auto cur_all_info = skills_analyzer.get_result();
 
         std::vector<std::string> selected_hash;
@@ -335,6 +337,7 @@ bool asst::InfrastProductionTask::opers_choose()
                 continue;
             }
             if (find_iter->selected == true) {
+                cur_all_info.erase(find_iter);
                 continue;
             }
             ctrler.click(find_iter->rect);

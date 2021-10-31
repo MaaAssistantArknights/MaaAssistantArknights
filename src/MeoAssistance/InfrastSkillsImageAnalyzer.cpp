@@ -21,6 +21,21 @@ bool asst::InfrastSkillsImageAnalyzer::analyze()
     return true;
 }
 
+void asst::InfrastSkillsImageAnalyzer::sort_result()
+{
+    // 按位置排个序
+    std::sort(m_result.begin(), m_result.end(),
+        [](const auto& lhs, const auto& rhs) -> bool {
+            if (std::abs(lhs.rect.x - rhs.rect.x) < 5) {	// x差距较小则理解为是同一排的，按y排序
+                return lhs.rect.y < rhs.rect.y;
+            }
+            else {
+                return lhs.rect.x < rhs.rect.x;
+            }
+        }
+    );
+}
+
 bool asst::InfrastSkillsImageAnalyzer::skills_detect()
 {
     const auto upper_task_ptr = resource.task().task_ptr("InfrastSkillsUpper");
@@ -192,7 +207,8 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
                     if (size_t find_pos = skill.id.find(base_id);
                         find_pos != std::string::npos) {
                         std::string cur_skill_level = skill.id.substr(base_id.size());
-                        if (cur_skill_level > max_level) {
+                        if (max_level.empty()
+                            || cur_skill_level > max_level) {
                             max_level = cur_skill_level;
                             most_confident_skills = skill;
                         }
