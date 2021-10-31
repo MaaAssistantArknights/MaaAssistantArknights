@@ -291,6 +291,8 @@ bool asst::Assistance::start_infrast_shift(const std::vector<std::string>& order
     power_task_ptr->set_task_chain(InfrastTaskCahin);
     auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
     office_task_ptr->set_task_chain(InfrastTaskCahin);
+    auto recpt_task_ptr = std::make_shared<InfrastReceptionTask>(task_callback, (void*)this);
+    recpt_task_ptr->set_task_chain(InfrastTaskCahin);
 
     for (const auto& facility : order) {
         if (facility == "Dorm") {
@@ -313,6 +315,9 @@ bool asst::Assistance::start_infrast_shift(const std::vector<std::string>& order
         }
         else if (facility == "Office") {
             m_tasks_deque.emplace_back(office_task_ptr);
+        }
+        else if (facility == "Reception") {
+            m_tasks_deque.emplace_back(recpt_task_ptr);
         }
         else {
             log.error("start_infrast_shift | Unknown facility", facility);

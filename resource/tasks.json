@@ -1238,6 +1238,17 @@
         ],
         "rearDelay": 1000
     },
+    "InfrastAddOperatorReception": {
+        "template": "AddOperatorReception.png",
+        "cache": false,
+        "roi": [
+            0,
+            0,
+            300,
+            720
+        ],
+        "rearDelay": 1000
+    },
     "InfrastOperSelected": {
         "template": "OperSelected.png",
         "cache": false,
@@ -1271,7 +1282,8 @@
             250,
             255
         ],
-        "templThreshold": 0.95
+        "templThreshold": 0.95,
+        "rearDelay": 1000
     },
     "InfrastClueVacancyNo2": {
         "template": "ClueVacancyNo2.png",
@@ -1280,7 +1292,8 @@
             250,
             255
         ],
-        "templThreshold": 0.95
+        "templThreshold": 0.95,
+        "rearDelay": 1000
     },
     "InfrastClueVacancyNo3": {
         "template": "ClueVacancyNo3.png",
@@ -1289,7 +1302,8 @@
             250,
             255
         ],
-        "templThreshold": 0.95
+        "templThreshold": 0.95,
+        "rearDelay": 1000
     },
     "InfrastClueVacancyNo4": {
         "template": "ClueVacancyNo4.png",
@@ -1298,7 +1312,8 @@
             250,
             255
         ],
-        "templThreshold": 0.95
+        "templThreshold": 0.95,
+        "rearDelay": 1000
     },
     "InfrastClueVacancyNo5": {
         "template": "ClueVacancyNo5.png",
@@ -1307,7 +1322,8 @@
             250,
             255
         ],
-        "templThreshold": 0.95
+        "templThreshold": 0.95,
+        "rearDelay": 1000
     },
     "InfrastClueVacancyNo6": {
         "template": "ClueVacancyNo6.png",
@@ -1316,7 +1332,8 @@
             250,
             255
         ],
-        "templThreshold": 0.95
+        "templThreshold": 0.95,
+        "rearDelay": 1000
     },
     "InfrastClueVacancyNo7": {
         "template": "ClueVacancyNo7.png",
@@ -1325,7 +1342,8 @@
             250,
             255
         ],
-        "templThreshold": 0.95
+        "templThreshold": 0.95,
+        "rearDelay": 1000
     },
     "InfrastClue": {
         "template": "Clue.png",
@@ -1358,5 +1376,48 @@
             300,
             100
         ]
+    },
+    "InfrastClueNew": {
+        "template": "ClueNew.png",
+        "action": "clickSelf",
+        "roi": [
+            1000,
+            0,
+            280,
+            720
+        ],
+        "cache": false,
+        "rectMove": [
+            -45,
+            15,
+            60,
+            60
+        ],
+        "next": [
+            "GetClue1",
+            "GetClue2"
+        ]
+    },
+    "GetClue1": {
+        "template": "GetClue1.png",
+        "action": "clickSelf",
+        "cache": false,
+        "next": [
+            "InfrastClueNew"
+        ]
+    },
+    "GetClue2": {
+        "template": "GetClue2.png",
+        "action": "clickSelf",
+        "cache": false,
+        "next": [
+            "InfrastClueNew"
+        ]
+    },
+    "UnlockClues": {
+        "template": "UnlockClues.png",
+        "action": "clickSelf",
+        "cache": false,
+        "rearDelay": 2000
     }
 }
