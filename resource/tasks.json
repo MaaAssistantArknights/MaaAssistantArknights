@@ -1263,5 +1263,100 @@
             70,
             50
         ]
+    },
+    "InfrastClueVacancyNo1": {
+        "template": "ClueVacancyNo1.png",
+        "cache": false,
+        "maskRange": [
+            250,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastClueVacancyNo2": {
+        "template": "ClueVacancyNo2.png",
+        "cache": false,
+        "maskRange": [
+            250,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastClueVacancyNo3": {
+        "template": "ClueVacancyNo3.png",
+        "cache": false,
+        "maskRange": [
+            250,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastClueVacancyNo4": {
+        "template": "ClueVacancyNo4.png",
+        "cache": false,
+        "maskRange": [
+            250,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastClueVacancyNo5": {
+        "template": "ClueVacancyNo5.png",
+        "cache": false,
+        "maskRange": [
+            250,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastClueVacancyNo6": {
+        "template": "ClueVacancyNo6.png",
+        "cache": false,
+        "maskRange": [
+            250,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastClueVacancyNo7": {
+        "template": "ClueVacancyNo7.png",
+        "cache": false,
+        "maskRange": [
+            250,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastClue": {
+        "template": "Clue.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "InfrastClueOnTheRightSwipeBegin": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            900,
+            600,
+            300,
+            100
+        ],
+        "preDelay": 1000,
+        "rearDelay": 1000,
+        "maxTimes": 1,
+        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
+    },
+    "InfrastClueOnTheRightSwipeEnd": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            900,
+            200,
+            300,
+            100
+        ]
     }
 }

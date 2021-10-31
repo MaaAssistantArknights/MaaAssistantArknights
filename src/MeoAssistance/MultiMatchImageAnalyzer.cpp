@@ -82,6 +82,13 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat& templ)
             }
         }
     }
+    std::string log_str = "[ ";
+    for (const auto& res : m_result) {
+        log_str += res.rect.to_string() + " : " + std::to_string(res.score) + "; ";
+    }
+    log_str += "]";
+    log.trace("multi_match_templ | ", m_templ_name, log_str);
+
     if (!m_result.empty()) {
         return true;
     }

@@ -65,7 +65,7 @@ namespace asst {
                 && (y + height) >= (rhs.y + rhs.height);
         }
         std::string to_string() const {
-            return "[" + std::to_string(x) + ", "
+            return "[ " + std::to_string(x) + ", "
                 + std::to_string(y) + ", "
                 + std::to_string(width) + ", "
                 + std::to_string(height) + " ]";
