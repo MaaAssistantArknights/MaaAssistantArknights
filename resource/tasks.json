@@ -905,7 +905,7 @@
             300
         ],
         "preDelay": 1000,
-        "rearDelay": 1000,
+        "rearDelay": 300,
         "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
     },
     "InfrastOperListSwipeEnd": {

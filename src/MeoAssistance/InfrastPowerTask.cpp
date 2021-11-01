@@ -24,29 +24,36 @@ bool asst::InfrastPowerTask::run()
         if (!enter_oper_list_page()) {
             return false;
         }
-        swipe_to_the_left_of_operlist();
-
-        if (m_all_available_opers.empty()) {
-            opers_detect_with_swipe();
+        constexpr int retry_times = 1;
+        for (int i = 0; i <= retry_times; ++i) {
             swipe_to_the_left_of_operlist();
-        }
-        else {
-            opers_detect();
-        }
 
-        auto find_iter = std::find_if(m_all_available_opers.begin(), m_all_available_opers.end(),
-            [&](const InfrastOperSkillInfo& info) -> bool {
-                return info.selected;
-            });
-        // 如果之前有干员在，那就不换人，直接退出当前发电站
-        if (find_iter != m_all_available_opers.end()) {
-            m_all_available_opers.erase(find_iter);
-        }
-        else {
-            optimal_calc();
-            opers_choose();
-        }
+            if (m_all_available_opers.empty()) {
+                opers_detect_with_swipe();
+                swipe_to_the_left_of_operlist();
+            }
+            else {
+                opers_detect();
+            }
 
+            auto find_iter = std::find_if(m_all_available_opers.begin(), m_all_available_opers.end(),
+                [&](const InfrastOperSkillInfo& info) -> bool {
+                    return info.selected;
+                });
+            // 如果之前有干员在，那就不换人，直接退出当前发电站
+            if (find_iter != m_all_available_opers.end()) {
+                m_all_available_opers.erase(find_iter);
+            }
+            else {
+                optimal_calc();
+                bool ret = opers_choose();
+                if (!ret) {
+                    m_all_available_opers.clear();
+                    continue;
+                }
+            }
+            break;
+        }
         click_confirm_button();
         click_return_button();
     }
