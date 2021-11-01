@@ -1317,5 +1317,49 @@
         "hidden": false,
         "name-en": "Ambriel",
         "new": true
+    },
+    {
+        "name": "阿",
+        "type": "特种",
+        "level": 6,
+        "sex": "男",
+        "tags": [
+            "远程位",
+            "支援",
+            "输出",
+            "高级资深干员"
+        ],
+        "hidden": false,
+        "name-en": "Aak",
+        "new": true
+    },
+    {
+        "name": "吽",
+        "type": "重装",
+        "level": 5,
+        "sex": "男",
+        "tags": [
+            "近战位",
+            "防护",
+            "治疗",
+            "资深干员"
+        ],
+        "hidden": false,
+        "name-en": "Hung",
+        "new": true
+    },
+    {
+        "name": "正义骑士号",
+        "type": "狙击",
+        "level": 1,
+        "sex": "女",
+        "tags": [
+            "远程位",
+            "支援",
+            "支援机械"
+        ],
+        "hidden": false,
+        "name-en": "Unknown",
+        "new": true
     }
 ]
