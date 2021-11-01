@@ -30,8 +30,10 @@ bool RecruitTask::run()
         return false;
     }
 
-    for (const auto& rect : analyzer.get_set_time_rect()) {
-        ctrler.click(rect, false);
+    if (m_set_time) {
+        for (const auto& rect : analyzer.get_set_time_rect()) {
+            ctrler.click(rect, false);
+        }
     }
     const std::vector<TextRect>& all_tags = analyzer.get_tags_result();
 
