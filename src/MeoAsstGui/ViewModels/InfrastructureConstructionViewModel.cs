@@ -47,13 +47,13 @@ namespace MeoAsstGui
 
         public void InitializeItems()
         {
-            ItemViewModels.Add(new ItemViewModel(1, "宿舍"));
-            ItemViewModels.Add(new ItemViewModel(2, "制造站"));
-            ItemViewModels.Add(new ItemViewModel(3, "贸易站"));
-            ItemViewModels.Add(new ItemViewModel(4, "发电站"));
-            ItemViewModels.Add(new ItemViewModel(5, "会客室"));
-            ItemViewModels.Add(new ItemViewModel(6, "办公室"));
-            ItemViewModels.Add(new ItemViewModel(7, "宿舍"));
+            ItemViewModels.Add(new ItemViewModel("宿舍"));
+            ItemViewModels.Add(new ItemViewModel("制造站"));
+            ItemViewModels.Add(new ItemViewModel("贸易站"));
+            ItemViewModels.Add(new ItemViewModel("发电站"));
+            ItemViewModels.Add(new ItemViewModel("会客室"));
+            ItemViewModels.Add(new ItemViewModel("办公室"));
+            ItemViewModels.Add(new ItemViewModel("宿舍"));
             //ItemViewModels.Add(new ItemViewModel(8, "控制中枢"));
         }
 
@@ -147,6 +147,10 @@ namespace MeoAsstGui
             var orderList = new List<string>();
             foreach (var item in ItemViewModels)
             {
+                if (item.IsChecked == false)
+                {
+                    continue;
+                }
                 orderList.Add(facility_key[item.Name]);
             }
 
@@ -162,10 +166,10 @@ namespace MeoAsstGui
 
     public class ItemViewModel : PropertyChangedBase
     {
-        public ItemViewModel(int id, string name)
+        public ItemViewModel(string name, bool isChecked = true)
         {
-            this.ID = id;
             this.Name = name;
+            this.IsChecked = IsChecked;
         }
 
         private string _name;
@@ -179,14 +183,14 @@ namespace MeoAsstGui
             }
         }
 
-        private int _id;
+        private bool _isChecked = true;
 
-        public int ID
+        public bool IsChecked
         {
-            get { return _id; }
+            get { return _isChecked; }
             set
             {
-                SetAndNotify(ref _id, value);
+                SetAndNotify(ref _isChecked, value);
             }
         }
 

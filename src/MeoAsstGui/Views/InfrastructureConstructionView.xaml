@@ -27,7 +27,7 @@
                         <StackPanel Orientation="Horizontal">
                             <!--<TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ID}" />
                             <TextBlock Style="{StaticResource TextBlockDefault}" Text=". " />-->
-                            <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding Name}" />
+                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
