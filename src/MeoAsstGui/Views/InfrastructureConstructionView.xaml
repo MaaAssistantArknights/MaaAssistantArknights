@@ -53,9 +53,15 @@
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
-                <Button Grid.Row="0" Command="{s:Action ChangeShift}" Content="开始换班" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="50" Margin="0, 20" />
-                <Button Grid.Row="1" Command="{s:Action Stop}" Content="停止" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="50" Margin="0, 20" />
+                <StackPanel Grid.Row="0"  Orientation="Vertical" HorizontalAlignment="Center"  VerticalAlignment="Center"  Margin="0, 0, 0, 10">
+                    <RadioButton GroupName="换班模式" Content="温和换班" IsChecked="True" Margin="0, 5" />
+                    <RadioButton GroupName="换班模式" Content="激进换班（还没做）" IsChecked="False" Margin="0, 5" />
+                    <RadioButton GroupName="换班模式" Content="偏激换班（还没做）" IsChecked="False" Margin="0, 5" />
+                </StackPanel>
+                <Button Grid.Row="1" Command="{s:Action ChangeShift}" Content="开始换班" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="50" Margin="0, 10" />
+                <Button Grid.Row="2" Command="{s:Action Stop}" Content="停止" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="50" Margin="0, 10, 0, 0" />
             </Grid>
         </Grid>
 
