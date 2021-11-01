@@ -151,17 +151,23 @@ bool asst::InfrastReceptionTask::shift()
     ctrler.click(add_analyzer.get_result().rect);
     sleep(add_task_ptr->rear_delay);
 
-    swipe_to_the_left_of_operlist();
-    click_clear_button();
+    constexpr int retry_times = 1;
+    for (int i = 0; i <= retry_times; ++i) {
+        swipe_to_the_left_of_operlist();
+        click_clear_button();
 
-    opers_detect_with_swipe();
-    swipe_to_the_left_of_operlist();
+        opers_detect_with_swipe();
+        swipe_to_the_left_of_operlist();
 
-    optimal_calc();
-    opers_choose();
-
+        optimal_calc();
+        bool ret = opers_choose();
+        if (!ret) {
+            m_all_available_opers.clear();
+            continue;
+        }
+        break;
+    }
     click_confirm_button();
-
     return true;
 }
 

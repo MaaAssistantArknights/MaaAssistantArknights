@@ -74,18 +74,27 @@ bool asst::InfrastProductionTask::shift_facility_list()
         /* 进入干员选择页面 */
         ctrler.click(add_button);
         sleep(add_task_ptr->rear_delay);
-        click_clear_button();
-        swipe_to_the_left_of_operlist();
 
-        if (m_all_available_opers.empty()) {
-            opers_detect_with_swipe();
+        constexpr int retry_times = 1;
+        for (int i = 0; i <= retry_times; ++i) {
+            click_clear_button();
             swipe_to_the_left_of_operlist();
+
+            if (m_all_available_opers.empty()) {
+                opers_detect_with_swipe();
+                swipe_to_the_left_of_operlist();
+            }
+            else {
+                opers_detect();
+            }
+            optimal_calc();
+            bool ret = opers_choose();
+            if (!ret) {
+                m_all_available_opers.clear();
+                continue;
+            }
+            break;
         }
-        else {
-            opers_detect();
-        }
-        optimal_calc();
-        opers_choose();
         click_confirm_button();
     }
     return true;
@@ -313,6 +322,7 @@ bool asst::InfrastProductionTask::optimal_calc()
 
 bool asst::InfrastProductionTask::opers_choose()
 {
+    bool has_error = false;
     while (true) {
         const auto& image = ctrler.get_image();
 
@@ -325,6 +335,20 @@ bool asst::InfrastProductionTask::opers_choose()
         skills_analyzer.sort_result();
 
         auto cur_all_info = skills_analyzer.get_result();
+
+        // 这个情况一般是滑动/识别出错了，把所有的干员都滑过去了
+        if (cur_all_info.empty()) {
+            if (!has_error) {
+                has_error = true;
+                // 倒回去再来一遍
+                swipe_to_the_left_of_operlist();
+                continue;
+            }
+            else {
+                // 如果已经出过一次错了，那就可能不是opers_choose出错，而是之前的opers_detect出错了
+                return false;
+            }
+        }
 
         std::vector<std::string> selected_hash;
         for (auto opt_iter = m_optimal_opers.begin(); opt_iter != m_optimal_opers.end();) {
