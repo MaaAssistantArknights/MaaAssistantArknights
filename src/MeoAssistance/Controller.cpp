@@ -511,7 +511,7 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
 
     int id = 0;
 
-    int extra_swipe_dist = resource.cfg().get_options().adb_extra_swipe_dist * m_control_scale;
+    int extra_swipe_dist = resource.cfg().get_options().adb_extra_swipe_dist/* * m_control_scale*/;
     int extra_swipe_duration = resource.cfg().get_options().adb_extra_swipe_duration;
 
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
