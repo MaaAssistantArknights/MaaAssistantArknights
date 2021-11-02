@@ -269,4 +269,6 @@ A game assistance for Arknights
 ## 广告
 
 [B站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本辅助软件  
-[QQ群](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：欢迎加入~
+[QQ群](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：欢迎加入~  
+
+另：作者前端苦手，寻大佬帮忙一起写界面，继续现在的WPF也行，用electron或者别的重写也行，球球了QAQ
