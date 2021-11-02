@@ -11,6 +11,7 @@ namespace asst {
 
         const static std::string FacilityName;
         const static int MaxNumOfOpers = 1;
+        const static int MaxNumOfFacility = 3;
     private:
     };
 }
