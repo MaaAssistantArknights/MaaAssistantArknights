@@ -1279,70 +1279,63 @@
         "template": "ClueVacancyNo1.png",
         "cache": false,
         "maskRange": [
-            250,
+            180,
             255
         ],
-        "templThreshold": 0.95,
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo2": {
         "template": "ClueVacancyNo2.png",
         "cache": false,
         "maskRange": [
-            250,
+            180,
             255
         ],
-        "templThreshold": 0.95,
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo3": {
         "template": "ClueVacancyNo3.png",
         "cache": false,
         "maskRange": [
-            250,
+            180,
             255
         ],
-        "templThreshold": 0.95,
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo4": {
         "template": "ClueVacancyNo4.png",
         "cache": false,
         "maskRange": [
-            250,
+            180,
             255
         ],
-        "templThreshold": 0.95,
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo5": {
         "template": "ClueVacancyNo5.png",
         "cache": false,
         "maskRange": [
-            250,
+            180,
             255
         ],
-        "templThreshold": 0.95,
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo6": {
         "template": "ClueVacancyNo6.png",
         "cache": false,
         "maskRange": [
-            250,
+            180,
             255
         ],
-        "templThreshold": 0.95,
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo7": {
         "template": "ClueVacancyNo7.png",
         "cache": false,
         "maskRange": [
-            250,
+            180,
             255
         ],
-        "templThreshold": 0.95,
         "rearDelay": 1000
     },
     "InfrastClue": {
@@ -1403,8 +1396,10 @@
         "action": "clickSelf",
         "cache": false,
         "next": [
-            "InfrastClueNew"
-        ]
+            "InfrastClueNew",
+            "CloseCluePage"
+        ],
+        "rearDelay": 2000
     },
     "GetClue2": {
         "template": "GetClue2.png",
@@ -1412,12 +1407,22 @@
         "cache": false,
         "next": [
             "InfrastClueNew"
-        ]
+        ],
+        "rearDelay": 2000
+    },
+    "CloseCluePage": {
+        "template": "CloseCluePage.png",
+        "action": "clickSelf",
+        "cache": false,
+        "next": [
+            "InfrastClueNew"
+        ],
+        "rearDelay": 1000
     },
     "UnlockClues": {
         "template": "UnlockClues.png",
         "action": "clickSelf",
         "cache": false,
-        "rearDelay": 2000
+        "rearDelay": 3000
     }
 }
