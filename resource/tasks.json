@@ -1424,6 +1424,6 @@
         "template": "UnlockClues.png",
         "action": "clickSelf",
         "cache": false,
-        "rearDelay": 3000
+        "rearDelay": 5000
     }
 }

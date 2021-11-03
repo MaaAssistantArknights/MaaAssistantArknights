@@ -13,6 +13,7 @@ namespace asst {
     private:
         bool harvest_clue();
         bool proc_clue();
+        bool proc_vacancy();
         bool shift();
         bool swipe_to_the_bottom_of_clue_list_on_the_right();
     };
