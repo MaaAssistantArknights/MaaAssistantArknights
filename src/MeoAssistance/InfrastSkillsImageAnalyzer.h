@@ -37,6 +37,7 @@ namespace asst {
         bool skills_detect();        // 检测出所有技能区域
         bool skills_split();         // 拆分成一个一个的区域
         bool skill_analyze();        // 识别每个技能区域是啥
+        bool selected_analyze(int smiley_x, int smiley_y);     // 识别干员是否被选中
 
         std::string m_facility;
         // skills_detect()的结果，key是hash，value是单个干员的全部技能区域

@@ -1250,18 +1250,19 @@
         "rearDelay": 1000
     },
     "InfrastOperSelected": {
-        "template": "OperSelected.png",
+        "template": "empty.png",
         "cache": false,
-        "templThreshold": 0.35,
+        "templThreshold": 8000,
+        "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "maskRange": [
-            1,
-            255
+            95,
+            105
         ],
         "rectMove": [
             0,
-            -252,
+            -230,
             74,
-            320
+            283
         ]
     },
     "InfrastOperOnShift": {
