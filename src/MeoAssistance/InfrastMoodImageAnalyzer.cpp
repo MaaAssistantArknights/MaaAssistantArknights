@@ -4,6 +4,7 @@
 #include "InfrastSmileyImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"
 #include "AsstUtils.hpp"
+#include "Logger.hpp"
 
 bool asst::InfrastMoodImageAnalyzer::analyze()
 {
@@ -186,20 +187,32 @@ bool asst::InfrastMoodImageAnalyzer::selected_analyze()
         resource.task().task_ptr("InfrastOperSelected"));
     Rect rect_move = selected_task_ptr->rect_move;
 
-    MatchImageAnalyzer selected_analyzer(m_image);
-    selected_analyzer.set_task_info(*selected_task_ptr);
-
     for (auto&& info : m_result) {
-        Rect selected_rect = rect_move;
+        cv::Rect selected_rect = utils::make_rect<cv::Rect>(rect_move);
         selected_rect.x += info.smiley.rect.x;
         selected_rect.y += info.smiley.rect.y;
-        selected_analyzer.set_roi(selected_rect);
-        if (selected_analyzer.analyze()) {
-            info.selected = true;
-#ifdef LOG_TRACE
-            cv::putText(m_image_draw, "SELECTED", cv::Point(selected_rect.x, selected_rect.y + 50), 1, 1, cv::Scalar(0, 0, 255), 2);
-#endif
+
+        cv::Mat roi = m_image(selected_rect);
+        cv::Mat hsv, bin;
+        cv::cvtColor(roi, hsv, cv::COLOR_BGR2HSV);
+        std::vector<cv::Mat> channels;
+        cv::split(hsv, channels);
+        int mask_lowb = selected_task_ptr->mask_range.first;
+        int mask_uppb = selected_task_ptr->mask_range.second;
+
+        int count = 0;
+        auto& h_channel = channels.at(0);
+        for (int i = 0; i != h_channel.rows; ++i) {
+            for (int j = 0; j != h_channel.cols; ++j) {
+                cv::uint8_t value = h_channel.at<cv::uint8_t>(i, j);
+                if (mask_lowb < value
+                    && value < mask_uppb) {
+                    ++count;
+                }
+            }
         }
+        log.trace("selected_analyze |", count);
+        info.selected = count >= selected_task_ptr->templ_threshold;
     }
     return true;
 }
