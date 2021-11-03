@@ -121,7 +121,7 @@ void asst::Controller::pipe_working_proc()
 
 bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
 {
-    LogTraceFunction;
+    LogTraceScope("try_capture | " + info.name);
 
     const HandleInfo& handle_info = info.handle;
     std::string adb_dir;
