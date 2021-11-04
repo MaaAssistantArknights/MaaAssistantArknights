@@ -35,6 +35,7 @@
 
 bool asst::InfrastProductionTask::shift_facility_list()
 {
+    LogTraceFunction;
     facility_list_detect();
     if (need_exit()) {
         return false;
@@ -57,6 +58,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         const auto& image = ctrler.get_image();
         add_analyzer.set_image(image);
         if (!add_analyzer.analyze()) {
+            log.info("no add button, just continue");
             continue;
         }
         Rect add_button = add_analyzer.get_result().rect;
@@ -76,6 +78,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
         set_product(cur_product);
+        log.info("cur product", cur_product);
         /* 进入干员选择页面 */
         ctrler.click(add_button);
         sleep(add_task_ptr->rear_delay);
@@ -110,6 +113,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
 bool asst::InfrastProductionTask::opers_detect_with_swipe()
 {
+    LogTraceFunction;
     m_all_available_opers.clear();
 
     int first_number = 0;
@@ -118,6 +122,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
             return false;
         }
         size_t num = opers_detect();
+        log.trace("opers_detect return", num);
 
         // 这里本来是判断不相等就可以退出循环。
         // 但是有时候滑动会把一个干员挡住一半，一个页面完整的干员真的只有10个，所以加个2的差值
@@ -137,6 +142,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
 
 size_t asst::InfrastProductionTask::opers_detect()
 {
+    LogTraceFunction;
     const auto& image = ctrler.get_image();
 
     InfrastSkillsImageAnalyzer skills_analyzer(image);
@@ -187,6 +193,7 @@ size_t asst::InfrastProductionTask::opers_detect()
 
 bool asst::InfrastProductionTask::optimal_calc()
 {
+    LogTraceFunction;
     auto& facility_info = resource.infrast().get_facility_info(m_facility);
     int max_num_of_opers = facility_info.max_num_of_opers;
 
@@ -333,6 +340,7 @@ bool asst::InfrastProductionTask::optimal_calc()
 
 bool asst::InfrastProductionTask::opers_choose()
 {
+    LogTraceFunction;
     bool has_error = false;
     while (true) {
         if (need_exit()) {
@@ -403,6 +411,7 @@ bool asst::InfrastProductionTask::opers_choose()
 
 bool asst::InfrastProductionTask::facility_list_detect()
 {
+    LogTraceFunction;
     m_facility_list_tabs.clear();
 
     const auto& image = ctrler.get_image();

@@ -8,6 +8,8 @@
 
 bool asst::InfrastSkillsImageAnalyzer::analyze()
 {
+    LogTraceFunction;
+
     m_skills_detected.clear();
     m_skills_splited.clear();
     m_result.clear();
@@ -18,11 +20,20 @@ bool asst::InfrastSkillsImageAnalyzer::analyze()
 
     skill_analyze();
 
+    for (auto&& info : m_result) {
+        std::string skill_str;
+        for (auto&& skill : info.skills_comb.skills) {
+            skill_str += skill.names.front() + " ";
+        }
+        log.trace(info.hash, info.rect.to_string(), skill_str);
+    }
+
     return true;
 }
 
 void asst::InfrastSkillsImageAnalyzer::sort_result()
 {
+    LogTraceFunction;
     // 按位置排个序
     std::sort(m_result.begin(), m_result.end(),
         [](const auto& lhs, const auto& rhs) -> bool {
@@ -38,6 +49,7 @@ void asst::InfrastSkillsImageAnalyzer::sort_result()
 
 bool asst::InfrastSkillsImageAnalyzer::skills_detect()
 {
+    LogTraceFunction;
     const auto upper_task_ptr = resource.task().task_ptr("InfrastSkillsUpper");
     const auto lower_task_ptr = resource.task().task_ptr("InfrastSkillsLower");
     const auto hash_task_ptr = resource.task().task_ptr("InfrastSkillsHash");
@@ -98,6 +110,7 @@ bool asst::InfrastSkillsImageAnalyzer::skills_detect()
 
 bool asst::InfrastSkillsImageAnalyzer::skills_split()
 {
+    LogTraceFunction;
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("InfrastSkills"));
     const auto thres = task_ptr->hist_threshold;
@@ -144,6 +157,7 @@ bool asst::InfrastSkillsImageAnalyzer::skills_split()
 
 bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
 {
+    LogTraceFunction;
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("InfrastSkills"));
 
@@ -240,6 +254,7 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
 
 bool asst::InfrastSkillsImageAnalyzer::selected_analyze(int smiley_x, int smiley_y)
 {
+    LogTraceFunction;
     const auto selected_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("InfrastOperSelected"));
     cv::Rect selected_rect = utils::make_rect<cv::Rect>(selected_task_ptr->rect_move);

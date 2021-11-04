@@ -17,10 +17,7 @@ bool asst::InfrastInfoTask::run()
     const auto& image = ctrler.get_image();
 
     InfrastFacilityImageAnalyzer analyzer(image);
-    std::vector<std::string> all_facilities;
-    for (auto&& [key, _value] : resource.infrast().get_facility_info()) {
-        all_facilities.emplace_back(key);
-    }
+    analyzer.set_to_be_analyzed({ "Mfg", "Trade", "Power" });
     if (!analyzer.analyze()) {
         return false;
     }

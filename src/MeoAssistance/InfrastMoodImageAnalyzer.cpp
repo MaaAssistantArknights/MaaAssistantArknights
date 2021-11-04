@@ -8,11 +8,19 @@
 
 bool asst::InfrastMoodImageAnalyzer::analyze()
 {
+    LogTraceFunction;
+
     mood_detect();
     mood_analyze();
     hash_calc();
     selected_analyze();
     working_analyze();
+
+    for (auto&& info : m_result) {
+        log.trace(info.hash, info.rect.to_string(),
+            "smiley:", (int)info.smiley.type, "mood:", info.percentage,
+            "selected:", info.selected, "working:", info.working);
+    }
 
     return true;
 }
