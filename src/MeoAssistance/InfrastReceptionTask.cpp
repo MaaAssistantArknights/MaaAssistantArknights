@@ -40,6 +40,9 @@ bool asst::InfrastReceptionTask::harvest_clue()
 {
     std::vector<std::string> tasks_vec = { "InfrastClueNew" };
     while (!tasks_vec.empty()) {
+        if (need_exit()) {
+            return false;
+        }
         ProcessTaskImageAnalyzer analyzer(ctrler.get_image(), tasks_vec);
         if (!analyzer.analyze()) {
             break;
@@ -121,6 +124,9 @@ bool asst::InfrastReceptionTask::proc_vacancy()
         "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
 
     for (const std::string& clue : clue_suffix) {
+        if (need_exit()) {
+            return false;
+        }
         // 先识别线索的空位
         cv::Mat image = ctrler.get_image();
         InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
@@ -164,6 +170,9 @@ bool asst::InfrastReceptionTask::shift()
 
     constexpr int retry_times = 1;
     for (int i = 0; i <= retry_times; ++i) {
+        if (need_exit()) {
+            return false;
+        }
         swipe_to_the_left_of_operlist();
         click_clear_button();
 

@@ -36,7 +36,9 @@
 bool asst::InfrastProductionTask::shift_facility_list()
 {
     facility_list_detect();
-
+    if (need_exit()) {
+        return false;
+    }
     const auto tab_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("InfrastFacilityListTab" + m_facility));
     MatchImageAnalyzer add_analyzer;
@@ -45,6 +47,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
     add_analyzer.set_task_info(*add_task_ptr);
 
     for (const Rect& tab : m_facility_list_tabs) {
+        if (need_exit()) {
+            return false;
+        }
         ctrler.click(tab);
         sleep(tab_task_ptr->rear_delay);
 
@@ -77,6 +82,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         constexpr int retry_times = 1;
         for (int i = 0; i <= retry_times; ++i) {
+            if (need_exit()) {
+                return false;
+            }
             click_clear_button();
             swipe_to_the_left_of_operlist();
 
@@ -106,6 +114,9 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
 
     int first_number = 0;
     while (true) {
+        if (need_exit()) {
+            return false;
+        }
         size_t num = opers_detect();
 
         // 这里本来是判断不相等就可以退出循环。
@@ -324,6 +335,9 @@ bool asst::InfrastProductionTask::opers_choose()
 {
     bool has_error = false;
     while (true) {
+        if (need_exit()) {
+            return false;
+        }
         const auto& image = ctrler.get_image();
 
         InfrastSkillsImageAnalyzer skills_analyzer(image);
