@@ -42,7 +42,7 @@ namespace asst {
         OpersDetected = 4000,				// 识别到了干员s
         OpersIdtfResult,					// 干员识别结果（总的）
         InfrastComb,						// 当前房间的最优干员组合
-        EnterStation,						// 进入某个房间
+        EnterFacility,						// 进入某个房间
         StationInfo,						// 当前房间信息
         ReadyToShift,						// 准备换班
         ShiftCompleted,						// 换班完成（单个房间）
@@ -80,7 +80,7 @@ namespace asst {
             {AsstMsg::OpersDetected, "OpersDetected"},
             {AsstMsg::OpersIdtfResult, "OpersIdtfResult"},
             {AsstMsg::InfrastComb, "InfrastComb"},
-            {AsstMsg::EnterStation, "EnterStation"},
+            {AsstMsg::EnterFacility, "EnterFacility"},
             {AsstMsg::StationInfo, "StationInfo"},
             {AsstMsg::ReadyToShift, "ReadyToShift"},
             {AsstMsg::ShiftCompleted, "ShiftCompleted"},

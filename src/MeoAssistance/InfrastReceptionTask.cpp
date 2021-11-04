@@ -38,6 +38,7 @@ bool asst::InfrastReceptionTask::run()
 
 bool asst::InfrastReceptionTask::harvest_clue()
 {
+    LogTraceFunction;
     std::vector<std::string> tasks_vec = { "InfrastClueNew" };
     while (!tasks_vec.empty()) {
         if (need_exit()) {
@@ -74,6 +75,7 @@ bool asst::InfrastReceptionTask::harvest_clue()
 
 bool asst::InfrastReceptionTask::proc_clue()
 {
+    LogTraceFunction;
     const static std::string clue_vacancy = "InfrastClueVacancy";
     const static std::vector<std::string> clue_suffix = {
         "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
@@ -119,6 +121,7 @@ bool asst::InfrastReceptionTask::proc_clue()
 
 bool asst::InfrastReceptionTask::proc_vacancy()
 {
+    LogTraceFunction;
     const static std::string clue_vacancy = "InfrastClueVacancy";
     const static std::vector<std::string> clue_suffix = {
         "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
@@ -155,6 +158,7 @@ bool asst::InfrastReceptionTask::proc_vacancy()
 
 bool asst::InfrastReceptionTask::shift()
 {
+    LogTraceFunction;
     const auto& image = ctrler.get_image();
     MatchImageAnalyzer add_analyzer(image);
 
@@ -193,6 +197,7 @@ bool asst::InfrastReceptionTask::shift()
 
 bool asst::InfrastReceptionTask::swipe_to_the_bottom_of_clue_list_on_the_right()
 {
+    LogTraceFunction;
     static Rect begin_rect = resource.task().task_ptr("InfrastClueOnTheRightSwipeBegin")->specific_rect;
     static Rect end_rect = resource.task().task_ptr("InfrastClueOnTheRightSwipeEnd")->specific_rect;
     static int duration = resource.task().task_ptr("InfrastClueOnTheRightSwipeBegin")->pre_delay;

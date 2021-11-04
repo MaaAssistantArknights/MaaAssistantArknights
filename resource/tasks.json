@@ -1345,6 +1345,12 @@
         "maskRange": [
             1,
             255
+        ],
+        "roi": [
+            800,
+            0,
+            480,
+            720
         ]
     },
     "InfrastClueOnTheRightSwipeBegin": {
@@ -1356,8 +1362,8 @@
             300,
             100
         ],
-        "preDelay": 1000,
-        "rearDelay": 1000,
+        "preDelay": 500,
+        "rearDelay": 500,
         "maxTimes": 1,
         "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
     },
