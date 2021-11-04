@@ -22,6 +22,9 @@ bool asst::InfrastOfficeTask::run()
 
     constexpr int retry_times = 1;
     for (int i = 0; i <= retry_times; ++i) {
+        if (need_exit()) {
+            return false;
+        }
         swipe_to_the_left_of_operlist();
         opers_detect_with_swipe();
         swipe_to_the_left_of_operlist();

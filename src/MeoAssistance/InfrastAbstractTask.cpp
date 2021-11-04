@@ -114,6 +114,9 @@ bool asst::InfrastAbstractTask::click_confirm_button()
     OcrImageAnalyzer analyzer;
     analyzer.set_task_info(*task_ptr);
     for (int i = 0; i != m_retry_times; ++i) {
+        if (need_exit()) {
+            return false;
+        }
         const auto& image = ctrler.get_image();
         analyzer.set_image(image);
         if (!analyzer.analyze()) {
@@ -140,6 +143,9 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist()
     static int loop_times = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->max_times;
 
     for (int i = 0; i != loop_times; ++i) {
+        if (need_exit()) {
+            return;
+        }
         ctrler.swipe(end_rect, begin_rect, duration, true, 0, false);
     }
     sleep(extra_delay);

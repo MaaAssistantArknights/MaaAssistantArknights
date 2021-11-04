@@ -17,6 +17,9 @@ bool asst::InfrastDormTask::run()
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
     for (; m_cur_dorm_index < m_max_num_of_dorm; ++m_cur_dorm_index) {
+        if (need_exit()) {
+            return false;
+        }
         enter_facility(FacilityName, m_cur_dorm_index);
         if (!enter_oper_list_page()) {
             return false;
@@ -26,6 +29,9 @@ bool asst::InfrastDormTask::run()
 
         int quantity_selected = 0;
         while (quantity_selected < MaxNumOfOpers) {
+            if (need_exit()) {
+                return false;
+            }
             const auto& image = ctrler.get_image();
             InfrastMoodImageAnalyzer mood_analyzer(image);
             if (!mood_analyzer.analyze()) {
@@ -36,6 +42,9 @@ bool asst::InfrastDormTask::run()
 
             int quantity_resting = 0;
             for (const auto& mood_info : mood_result) {
+                if (need_exit()) {
+                    return false;
+                }
                 if (quantity_selected >= MaxNumOfOpers) {
                     break;
                 }
@@ -98,6 +107,9 @@ bool asst::InfrastDormTask::click_confirm_button()
     OcrImageAnalyzer analyzer;
     analyzer.set_task_info(*task_ptr);
     for (int i = 0; i != m_retry_times; ++i) {
+        if (need_exit()) {
+            return false;
+        }
         const auto& image = ctrler.get_image();
         analyzer.set_image(image);
         if (!analyzer.analyze()) {
