@@ -1279,63 +1279,84 @@
     "InfrastClueVacancyNo1": {
         "template": "ClueVacancyNo1.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            0,
+            100,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo2": {
         "template": "ClueVacancyNo2.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            200,
+            200,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo3": {
         "template": "ClueVacancyNo3.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            400,
+            100,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo4": {
         "template": "ClueVacancyNo4.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            650,
+            150,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo5": {
         "template": "ClueVacancyNo5.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            300,
+            420,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo6": {
         "template": "ClueVacancyNo6.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            500,
+            350,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo7": {
         "template": "ClueVacancyNo7.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            50,
+            350,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
