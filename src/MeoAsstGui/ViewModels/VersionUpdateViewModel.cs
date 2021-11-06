@@ -1,7 +1,14 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Stylet;
+// MeoAssistanceGui - A part of the MeoAssistance-Arknight project
+// Copyright (C) 2021 MistEO and Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +16,10 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Stylet;
 
 namespace MeoAsstGui
 {
