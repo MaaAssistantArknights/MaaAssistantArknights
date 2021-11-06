@@ -112,6 +112,8 @@
     <None Include="..\..\resource\config.json" />
     <None Include="..\..\resource\infrast.json" />
     <None Include="..\..\resource\tasks.json" />
+    <None Include=".clang-format" />
+    <None Include=".editorconfig" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

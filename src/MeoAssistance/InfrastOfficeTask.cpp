@@ -1,12 +1,29 @@
-﻿#include "InfrastOfficeTask.h"
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "InfrastOfficeTask.h"
 
 const std::string asst::InfrastOfficeTask::FacilityName = "Office";
 
-bool asst::InfrastOfficeTask::run()
-{
+bool asst::InfrastOfficeTask::run() {
     json::value task_start_json = json::object{
-        { "task_type",  "InfrastOfficeTask" },
-        { "task_chain", m_task_chain}
+        { "task_type", "InfrastOfficeTask" },
+        { "task_chain", m_task_chain }
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
@@ -30,9 +47,9 @@ bool asst::InfrastOfficeTask::run()
         swipe_to_the_left_of_operlist();
 
         auto find_iter = std::find_if(m_all_available_opers.begin(), m_all_available_opers.end(),
-            [&](const InfrastOperSkillInfo& info) -> bool {
-                return info.selected;
-            });
+                                      [&](const InfrastOperSkillInfo& info) -> bool {
+                                          return info.selected;
+                                      });
         // 如果之前有干员在，那就不换人，直接退出办公室
         if (find_iter != m_all_available_opers.end()) {
             m_all_available_opers.erase(find_iter);

@@ -1,9 +1,27 @@
-﻿#include "RecruitTask.h"
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
-#include <map>
-#include <vector>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "RecruitTask.h"
+
 #include <algorithm>
 #include <future>
+#include <map>
+#include <vector>
 
 #include "Controller.h"
 #include "RecruitImageAnalyzer.h"
@@ -11,11 +29,10 @@
 
 using namespace asst;
 
-bool RecruitTask::run()
-{
+bool RecruitTask::run() {
     json::value task_start_json = json::object{
-        { "task_type",  "RecruitTask" },
-        { "task_chain", m_task_chain},
+        { "task_type", "RecruitTask" },
+        { "task_chain", m_task_chain },
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
@@ -70,7 +87,7 @@ bool RecruitTask::run()
     for (int i = 0; i < count; ++i) {
         std::vector<std::string> temp;
         for (int j = 0, mask = 1; j < len; ++j) {
-            if ((i & mask) != 0) {	// What the fuck???
+            if ((i & mask) != 0) { // What the fuck???
                 temp.emplace_back(all_tags.at(j).text);
             }
             mask = mask * 2;
@@ -113,8 +130,10 @@ bool RecruitTask::run()
             oper_combs.opers.emplace_back(cur_oper);
 
             if (cur_oper.level == 1 || cur_oper.level == 2) {
-                if (oper_combs.min_level == 0) oper_combs.min_level = cur_oper.level;
-                if (oper_combs.max_level == 0) oper_combs.max_level = cur_oper.level;
+                if (oper_combs.min_level == 0)
+                    oper_combs.min_level = cur_oper.level;
+                if (oper_combs.max_level == 0)
+                    oper_combs.max_level = cur_oper.level;
                 // 一星、二星干员不计入最低等级，因为拉满9小时之后不可能出1、2星
                 continue;
             }
@@ -137,25 +156,24 @@ bool RecruitTask::run()
     for (auto&& pair : result_map) {
         result_vector.emplace_back(std::move(pair));
     }
-    std::sort(result_vector.begin(), result_vector.end(), [](const auto& lhs, const auto& rhs)
-        ->bool {
-            // 最小等级大的，排前面
-            if (lhs.second.min_level != rhs.second.min_level) {
-                return lhs.second.min_level > rhs.second.min_level;
-            }
-            // 最大等级大的，排前面
-            else if (lhs.second.max_level != rhs.second.max_level) {
-                return lhs.second.max_level > rhs.second.max_level;
-            }
-            // 平均等级高的，排前面
-            else if (std::fabs(lhs.second.avg_level - rhs.second.avg_level) > DoubleDiff) {
-                return lhs.second.avg_level > rhs.second.avg_level;
-            }
-            // Tag数量少的，排前面
-            else {
-                return lhs.first.size() < rhs.first.size();
-            }
-        });
+    std::sort(result_vector.begin(), result_vector.end(), [](const auto& lhs, const auto& rhs) -> bool {
+        // 最小等级大的，排前面
+        if (lhs.second.min_level != rhs.second.min_level) {
+            return lhs.second.min_level > rhs.second.min_level;
+        }
+        // 最大等级大的，排前面
+        else if (lhs.second.max_level != rhs.second.max_level) {
+            return lhs.second.max_level > rhs.second.max_level;
+        }
+        // 平均等级高的，排前面
+        else if (std::fabs(lhs.second.avg_level - rhs.second.avg_level) > DoubleDiff) {
+            return lhs.second.avg_level > rhs.second.avg_level;
+        }
+        // Tag数量少的，排前面
+        else {
+            return lhs.first.size() < rhs.first.size();
+        }
+    });
 
     /* 整理识别结果 */
     std::vector<json::value> result_json_vector;
@@ -185,8 +203,7 @@ bool RecruitTask::run()
 
     /* 点击最优解的tags */
     if (!m_required_level.empty() && !result_vector.empty()) {
-        if (std::find(m_required_level.cbegin(), m_required_level.cend(), result_vector[0].second.min_level)
-            == m_required_level.cend()) {
+        if (std::find(m_required_level.cbegin(), m_required_level.cend(), result_vector[0].second.min_level) == m_required_level.cend()) {
             return true;
         }
         const std::vector<std::string>& final_tags_name = result_vector[0].first;
@@ -201,8 +218,7 @@ bool RecruitTask::run()
     return true;
 }
 
-void RecruitTask::set_param(std::vector<int> required_level, bool set_time)
-{
+void RecruitTask::set_param(std::vector<int> required_level, bool set_time) {
     m_required_level = std::move(required_level);
     m_set_time = set_time;
 }

@@ -1,20 +1,36 @@
-﻿#include "OcrPack.h"
+﻿/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
-#include <opencv2/opencv.hpp>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "OcrPack.h"
+
 #include <OcrLiteOnnx/OcrLiteCaller.h>
+#include <opencv2/opencv.hpp>
 
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 
 asst::OcrPack::OcrPack()
-    : m_ocr_ptr(std::make_unique<OcrLiteCaller>())
-{
+    : m_ocr_ptr(std::make_unique<OcrLiteCaller>()) {
 }
 
 asst::OcrPack::~OcrPack() = default;
 
-bool asst::OcrPack::load(const std::string & dir)
-{
+bool asst::OcrPack::load(const std::string& dir) {
     constexpr static const char* DetName = "\\models\\dbnet.onnx";
     constexpr static const char* ClsName = "\\models\\angle_net.onnx";
     constexpr static const char* RecName = "\\models\\crnn_lite_lstm.onnx";
@@ -28,14 +44,12 @@ bool asst::OcrPack::load(const std::string & dir)
     return m_ocr_ptr->initModels(dst_filename, cls_filename, rec_filename, keys_filename);
 }
 
-void asst::OcrPack::set_param(int /*gpu_index*/, int thread_number)
-{
+void asst::OcrPack::set_param(int /*gpu_index*/, int thread_number) {
     // gpu_index是ncnn的参数，onnx架构的没有，预留参数接口
     m_ocr_ptr->setNumThread(thread_number);
 }
 
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, const asst::TextRectProc & pred)
-{
+std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::TextRectProc& pred) {
     constexpr int padding = 50;
     constexpr int maxSideLen = 0;
     constexpr float boxScoreThresh = 0.2f;
@@ -45,9 +59,9 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, cons
     constexpr bool mostAngle = false;
 
     OcrResult ocr_results = m_ocr_ptr->detect(image,
-        padding, maxSideLen,
-        boxScoreThresh, boxThresh,
-        unClipRatio, doAngle, mostAngle);
+                                              padding, maxSideLen,
+                                              boxScoreThresh, boxThresh,
+                                              unClipRatio, doAngle, mostAngle);
 
     std::vector<TextRect> result;
     std::string log_str_raw;
@@ -76,8 +90,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, cons
     return result;
 }
 
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, const asst::Rect & roi, const asst::TextRectProc & pred)
-{
+std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::Rect& roi, const asst::TextRectProc& pred) {
     auto rect_cor = [&roi, &pred](TextRect& tr) -> bool {
         tr.rect.x += roi.x;
         tr.rect.y += roi.y;

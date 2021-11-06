@@ -1,4 +1,22 @@
-﻿#include "ProcessTask.h"
+﻿/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "ProcessTask.h"
 
 #include <chrono>
 #include <random>
@@ -13,12 +31,11 @@
 
 using namespace asst;
 
-bool ProcessTask::run()
-{
+bool ProcessTask::run() {
     json::value task_start_json = json::object{
-        { "task_type",  "ProcessTask" },
-        { "task_chain", m_task_chain},
-        { "tasks", json::array(m_cur_tasks_name)}
+        { "task_type", "ProcessTask" },
+        { "task_chain", m_task_chain },
+        { "tasks", json::array(m_cur_tasks_name) }
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
@@ -44,8 +61,8 @@ bool ProcessTask::run()
         { "type", static_cast<int>(task_info_ptr->action) },
         { "exec_times", task_info_ptr->exec_times },
         { "max_times", task_info_ptr->max_times },
-        { "task_type", "ProcessTask"},
-        { "algorithm", static_cast<int>(task_info_ptr->algorithm)}
+        { "task_type", "ProcessTask" },
+        { "algorithm", static_cast<int>(task_info_ptr->algorithm) }
     };
     m_callback(AsstMsg::TaskMatched, callback_json, m_callback_arg);
 
@@ -73,8 +90,7 @@ bool ProcessTask::run()
     case ProcessTaskAction::ClickSelf:
         exec_click_task(rect);
         break;
-    case ProcessTaskAction::ClickRand:
-    {
+    case ProcessTaskAction::ClickRand: {
         static const Rect full_rect(0, 0, GeneralConfiger::WindowWidthDefault, GeneralConfiger::WindowHeightDefault);
         exec_click_task(full_rect);
     } break;
@@ -85,11 +101,10 @@ bool ProcessTask::run()
     case ProcessTaskAction::DoNothing:
         break;
     case ProcessTaskAction::Stop:
-        m_callback(AsstMsg::ProcessTaskStopAction, json::object{ {"task_chain", m_task_chain} }, m_callback_arg);
+        m_callback(AsstMsg::ProcessTaskStopAction, json::object{ { "task_chain", m_task_chain } }, m_callback_arg);
         need_stop = true;
         break;
-    case ProcessTaskAction::StageDrops:
-    {
+    case ProcessTaskAction::StageDrops: {
         cv::Mat image = ctrler.get_image(true);
         std::string res = resource.penguin().recognize(image);
         m_callback(AsstMsg::StageDrops, json::parse(res).value(), m_callback_arg);
@@ -102,8 +117,7 @@ bool ProcessTask::run()
         if (opt.penguin_report) {
             PenguinUploader::upload(res);
         }
-    }
-    break;
+    } break;
     default:
         break;
     }
@@ -139,8 +153,7 @@ bool ProcessTask::run()
 }
 
 // 随机延时功能
-bool asst::ProcessTask::delay_random()
-{
+bool asst::ProcessTask::delay_random() {
     auto& opt = resource.cfg().get_options();
     if (opt.control_delay_upper != 0) {
         static std::default_random_engine rand_engine(
@@ -156,8 +169,7 @@ bool asst::ProcessTask::delay_random()
     return true;
 }
 
-void ProcessTask::exec_click_task(const Rect& matched_rect)
-{
+void ProcessTask::exec_click_task(const Rect& matched_rect) {
     if (!delay_random()) {
         return;
     }
@@ -165,8 +177,7 @@ void ProcessTask::exec_click_task(const Rect& matched_rect)
     ctrler.click(matched_rect);
 }
 
-void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
-{
+void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action) {
     if (!delay_random()) {
         return;
     }
@@ -177,15 +188,14 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 
     const static Rect left_rect(width * 0.1, height * 0.4, width * 0.1, height * 0.2);
 
-    switch (action)
-    {
+    switch (action) {
     case asst::ProcessTaskAction::SwipeToTheLeft:
         ctrler.swipe(left_rect, right_rect);
         break;
     case asst::ProcessTaskAction::SwipeToTheRight:
         ctrler.swipe(right_rect, left_rect);
         break;
-    default:	// 走不到这里，TODO 报个错
+    default: // 走不到这里，TODO 报个错
         break;
     }
 }

@@ -358,5 +358,7 @@
     <None Include="..\..\resource\infrast.json">
       <Filter>资源文件</Filter>
     </None>
+    <None Include=".clang-format" />
+    <None Include=".editorconfig" />
   </ItemGroup>
 </Project>

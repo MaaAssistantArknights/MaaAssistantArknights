@@ -1,12 +1,30 @@
-﻿#include "AsstCaller.h"
+﻿/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "AsstCaller.h"
 
 #include <string.h>
 
 #include <json_value.h>
 
-#include "Version.h"
-#include "AsstUtils.hpp"
 #include "Assistance.h"
+#include "AsstUtils.hpp"
+#include "Version.h"
 
 #if 0
 #if _MSC_VER
@@ -33,13 +51,11 @@ BOOL APIENTRY DllMain(HANDLE hModule,
 
 AsstCallback _callback = nullptr;
 
-void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg)
-{
+void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg) {
     _callback(static_cast<int>(msg), asst::utils::utf8_to_gbk(json.to_string()).c_str(), custom_arg);
 }
 
-void* AsstCreate()
-{
+void* AsstCreate() {
     try {
         return new asst::Assistance();
     }
@@ -48,8 +64,7 @@ void* AsstCreate()
     }
 }
 
-void* AsstCreateEx(AsstCallback callback, void* custom_arg)
-{
+void* AsstCreateEx(AsstCallback callback, void* custom_arg) {
     try {
         // 创建多实例回调会有问题，有空再慢慢整
         _callback = callback;
@@ -60,8 +75,7 @@ void* AsstCreateEx(AsstCallback callback, void* custom_arg)
     }
 }
 
-void AsstDestory(void* p_asst)
-{
+void AsstDestory(void* p_asst) {
     if (p_asst == nullptr) {
         return;
     }
@@ -70,8 +84,7 @@ void AsstDestory(void* p_asst)
     p_asst = nullptr;
 }
 
-bool AsstCatchDefault(void* p_asst)
-{
+bool AsstCatchDefault(void* p_asst) {
     if (p_asst == nullptr) {
         return false;
     }
@@ -79,8 +92,7 @@ bool AsstCatchDefault(void* p_asst)
     return ((asst::Assistance*)p_asst)->catch_default();
 }
 
-bool AsstCatchEmulator(void* p_asst)
-{
+bool AsstCatchEmulator(void* p_asst) {
     if (p_asst == nullptr) {
         return false;
     }
@@ -88,8 +100,7 @@ bool AsstCatchEmulator(void* p_asst)
     return ((asst::Assistance*)p_asst)->catch_emulator();
 }
 
-bool AsstCatchUSB(void* p_asst)
-{
+bool AsstCatchUSB(void* p_asst) {
     if (p_asst == nullptr) {
         return false;
     }
@@ -97,8 +108,7 @@ bool AsstCatchUSB(void* p_asst)
     return ((asst::Assistance*)p_asst)->catch_usb();
 }
 
-bool AsstCatchRemote(void* p_asst, const char* address)
-{
+bool AsstCatchRemote(void* p_asst, const char* address) {
     if (p_asst == nullptr) {
         return false;
     }
@@ -106,8 +116,7 @@ bool AsstCatchRemote(void* p_asst, const char* address)
     return ((asst::Assistance*)p_asst)->catch_remote(address);
 }
 
-bool MEOAPI AsstCatchFake(void* p_asst)
-{
+bool MEOAPI AsstCatchFake(void* p_asst) {
 #ifdef LOG_TRACE
     if (p_asst == nullptr) {
         return false;
@@ -119,8 +128,7 @@ bool MEOAPI AsstCatchFake(void* p_asst)
 #endif // LOG_TRACE
 }
 
-bool AsstStartSanity(void* p_asst)
-{
+bool AsstStartSanity(void* p_asst) {
     if (p_asst == nullptr) {
         return false;
     }
@@ -128,8 +136,7 @@ bool AsstStartSanity(void* p_asst)
     return ((asst::Assistance*)p_asst)->start_sanity();
 }
 
-bool AsstStartVisit(void* p_asst, bool with_shopping)
-{
+bool AsstStartVisit(void* p_asst, bool with_shopping) {
     if (p_asst == nullptr) {
         return false;
     }
@@ -137,8 +144,7 @@ bool AsstStartVisit(void* p_asst, bool with_shopping)
     return ((asst::Assistance*)p_asst)->start_visit(with_shopping);
 }
 
-bool AsstStartProcessTask(void* p_asst, const char* task)
-{
+bool AsstStartProcessTask(void* p_asst, const char* task) {
     if (p_asst == nullptr) {
         return false;
     }
@@ -146,8 +152,7 @@ bool AsstStartProcessTask(void* p_asst, const char* task)
     return ((asst::Assistance*)p_asst)->start_process_task(task, asst::Assistance::ProcessTaskRetryTimesDefault);
 }
 
-void AsstStop(void* p_asst)
-{
+void AsstStop(void* p_asst) {
     if (p_asst == nullptr) {
         return;
     }
@@ -155,8 +160,7 @@ void AsstStop(void* p_asst)
     ((asst::Assistance*)p_asst)->stop();
 }
 
-bool AsstSetParam(void* p_asst, const char* type, const char* param, const char* value)
-{
+bool AsstSetParam(void* p_asst, const char* type, const char* param, const char* value) {
     if (p_asst == nullptr) {
         return false;
     }
@@ -164,13 +168,11 @@ bool AsstSetParam(void* p_asst, const char* type, const char* param, const char*
     return ((asst::Assistance*)p_asst)->set_param(type, param, value);
 }
 
-const char* AsstGetVersion()
-{
+const char* AsstGetVersion() {
     return asst::Version;
 }
 
-bool AsstStartRecruiting(void* p_asst, const int required_level[], int required_len, bool set_time)
-{
+bool AsstStartRecruiting(void* p_asst, const int required_level[], int required_len, bool set_time) {
     if (p_asst == nullptr) {
         return false;
     }
@@ -179,22 +181,17 @@ bool AsstStartRecruiting(void* p_asst, const int required_level[], int required_
     return ((asst::Assistance*)p_asst)->start_recruiting(level_vector, set_time);
 }
 
-bool AsstStartInfrastShift(void* p_asst, const char** order, int order_size, int uses_of_drones, double dorm_threshold)
-{
+bool AsstStartInfrastShift(void* p_asst, const char** order, int order_size, int uses_of_drones, double dorm_threshold) {
     if (p_asst == nullptr) {
         return false;
     }
     std::vector<std::string> order_vector;
     order_vector.assign(order, order + order_size);
 
-    return ((asst::Assistance*)p_asst)->start_infrast_shift(
-        order_vector,
-        static_cast<asst::UsesOfDrones>(uses_of_drones),
-        dorm_threshold);
+    return ((asst::Assistance*)p_asst)->start_infrast_shift(order_vector, static_cast<asst::UsesOfDrones>(uses_of_drones), dorm_threshold);
 }
 
-bool AsstStartDebugTask(void* p_asst)
-{
+bool AsstStartDebugTask(void* p_asst) {
     if (p_asst == nullptr) {
         return false;
     }

@@ -1,20 +1,37 @@
-﻿#include "InfrastReceptionTask.h"
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "InfrastReceptionTask.h"
 
 #include "Controller.h"
-#include "Resource.h"
-#include "InfrastClueVacancyImageAnalyzer.h"
 #include "InfrastClueImageAnalyzer.h"
-#include "MatchImageAnalyzer.h"
+#include "InfrastClueVacancyImageAnalyzer.h"
 #include "Logger.hpp"
+#include "MatchImageAnalyzer.h"
 #include "ProcessTaskImageAnalyzer.h"
+#include "Resource.h"
 
 const std::string asst::InfrastReceptionTask::FacilityName = "Reception";
 
-bool asst::InfrastReceptionTask::run()
-{
+bool asst::InfrastReceptionTask::run() {
     json::value task_start_json = json::object{
-        { "task_type",  "InfrastReceptionTask" },
-        { "task_chain", m_task_chain}
+        { "task_type", "InfrastReceptionTask" },
+        { "task_chain", m_task_chain }
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
@@ -36,8 +53,7 @@ bool asst::InfrastReceptionTask::run()
     return true;
 }
 
-bool asst::InfrastReceptionTask::harvest_clue()
-{
+bool asst::InfrastReceptionTask::harvest_clue() {
     LogTraceFunction;
     std::vector<std::string> tasks_vec = { "InfrastClueNew" };
     while (!tasks_vec.empty()) {
@@ -73,12 +89,12 @@ bool asst::InfrastReceptionTask::harvest_clue()
     return true;
 }
 
-bool asst::InfrastReceptionTask::proc_clue()
-{
+bool asst::InfrastReceptionTask::proc_clue() {
     LogTraceFunction;
     const static std::string clue_vacancy = "InfrastClueVacancy";
     const static std::vector<std::string> clue_suffix = {
-        "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
+        "No1", "No2", "No3", "No4", "No5", "No6", "No7"
+    };
 
     proc_vacancy();
 
@@ -119,12 +135,12 @@ bool asst::InfrastReceptionTask::proc_clue()
     return true;
 }
 
-bool asst::InfrastReceptionTask::proc_vacancy()
-{
+bool asst::InfrastReceptionTask::proc_vacancy() {
     LogTraceFunction;
     const static std::string clue_vacancy = "InfrastClueVacancy";
     const static std::vector<std::string> clue_suffix = {
-        "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
+        "No1", "No2", "No3", "No4", "No5", "No6", "No7"
+    };
 
     for (const std::string& clue : clue_suffix) {
         if (need_exit()) {
@@ -156,8 +172,7 @@ bool asst::InfrastReceptionTask::proc_vacancy()
     return true;
 }
 
-bool asst::InfrastReceptionTask::shift()
-{
+bool asst::InfrastReceptionTask::shift() {
     LogTraceFunction;
     const auto& image = ctrler.get_image();
     MatchImageAnalyzer add_analyzer(image);
@@ -195,8 +210,7 @@ bool asst::InfrastReceptionTask::shift()
     return true;
 }
 
-bool asst::InfrastReceptionTask::swipe_to_the_bottom_of_clue_list_on_the_right()
-{
+bool asst::InfrastReceptionTask::swipe_to_the_bottom_of_clue_list_on_the_right() {
     LogTraceFunction;
     static Rect begin_rect = resource.task().task_ptr("InfrastClueOnTheRightSwipeBegin")->specific_rect;
     static Rect end_rect = resource.task().task_ptr("InfrastClueOnTheRightSwipeEnd")->specific_rect;

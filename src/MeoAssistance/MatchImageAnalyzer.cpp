@@ -1,20 +1,36 @@
-﻿#include "MatchImageAnalyzer.h"
+﻿/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
-#include "Resource.h"
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "MatchImageAnalyzer.h"
+
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
+#include "Resource.h"
 
 asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name, double templ_thres, double hist_thres)
     : AbstractImageAnalyzer(image, roi),
-    m_templ_name(std::move(templ_name)),
-    m_templ_thres(templ_thres),
-    m_hist_thres(hist_thres)
-{
+      m_templ_name(std::move(templ_name)),
+      m_templ_thres(templ_thres),
+      m_hist_thres(hist_thres) {
     ;
 }
 
-bool asst::MatchImageAnalyzer::analyze()
-{
+bool asst::MatchImageAnalyzer::analyze() {
     if (m_use_cache) {
         auto&& [hist, roi] = resource.templ().get_hist(m_templ_name);
         if (!hist.empty() && comp_hist(hist, roi)) {
@@ -35,8 +51,7 @@ bool asst::MatchImageAnalyzer::analyze()
     return false;
 }
 
-cv::Mat asst::MatchImageAnalyzer::to_hist(const cv::Mat& src)
-{
+cv::Mat asst::MatchImageAnalyzer::to_hist(const cv::Mat& src) {
     constexpr int histSize[] = { 50, 60 };
     constexpr float h_ranges[] = { 0, 180 };
     constexpr float s_ranges[] = { 0, 256 };
@@ -51,8 +66,7 @@ cv::Mat asst::MatchImageAnalyzer::to_hist(const cv::Mat& src)
     return hist;
 }
 
-bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
-{
+bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ) {
     cv::Mat matched;
 
     cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi));
@@ -69,7 +83,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
     cv::Point min_loc, max_loc;
     cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
-    if (max_val > m_templ_thres * 0.7) {    // 得分太低的肯定不对，没必要打印
+    if (max_val > m_templ_thres * 0.7) { // 得分太低的肯定不对，没必要打印
         log.trace("match_templ |", m_templ_name, "score:", max_val, "point:", max_loc);
     }
 
@@ -83,12 +97,11 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
     }
 }
 
-bool asst::MatchImageAnalyzer::comp_hist(const cv::Mat& hist, const cv::Rect roi)
-{
+bool asst::MatchImageAnalyzer::comp_hist(const cv::Mat& hist, const cv::Rect roi) {
     cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi))(roi);
     double score = 1.0 - cv::compareHist(to_hist(image_roi), hist, cv::HISTCMP_BHATTACHARYYA);
 
-    if (score > 0.7) {    // 得分太低的肯定不对，没必要打印
+    if (score > 0.7) { // 得分太低的肯定不对，没必要打印
         log.trace("comp_hist |", m_templ_name, "score:", score);
     }
 

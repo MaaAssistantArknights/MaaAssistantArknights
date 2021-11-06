@@ -1,17 +1,35 @@
-﻿#pragma once
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
-#include <thread>
-#include <mutex>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#pragma once
+
 #include <condition_variable>
-#include <memory>
-#include <optional>
-#include <unordered_map>
-#include <queue>
 #include <deque>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <queue>
+#include <thread>
+#include <unordered_map>
 
+#include "AbstractTask.h"
 #include "AsstDef.h"
 #include "AsstMsg.h"
-#include "AbstractTask.h"
 
 namespace cv {
     class Mat;
@@ -21,8 +39,7 @@ namespace asst {
     class Controller;
     class Identify;
 
-    class Assistance
-    {
+    class Assistance {
     public:
         Assistance(AsstCallback callback = nullptr, void* callback_arg = nullptr);
         ~Assistance();
@@ -71,7 +88,7 @@ namespace asst {
         void append_task(const json::value& detail, bool front = false);
         void append_callback(AsstMsg msg, json::value detail);
         void clear_exec_times();
-        json::value organize_stage_drop(const json::value& rec);     // 整理关卡掉落的材料信息
+        json::value organize_stage_drop(const json::value& rec); // 整理关卡掉落的材料信息
 
         bool m_inited = false;
 

@@ -1,25 +1,39 @@
-﻿#include "CreditShopImageAnalyzer.h"
+﻿/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "CreditShopImageAnalyzer.h"
+
+#include "MatchImageAnalyzer.h"
 #include "MultiMatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
-#include "MatchImageAnalyzer.h"
 #include "Resource.h"
 
 #include "AsstUtils.hpp"
 
-bool asst::CreditShopImageAnalyzer::analyze()
-{
+bool asst::CreditShopImageAnalyzer::analyze() {
     m_commoditys.clear();
     m_need_to_buy.clear();
     m_result.clear();
 
-    return commoditys_analyze()
-        && whether_to_buy_analyze()
-        && sold_out_analyze();
+    return commoditys_analyze() && whether_to_buy_analyze() && sold_out_analyze();
 }
 
-bool asst::CreditShopImageAnalyzer::commoditys_analyze()
-{
+bool asst::CreditShopImageAnalyzer::commoditys_analyze() {
     const auto commodity_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("CreditShop-Commoditys"));
 
@@ -52,8 +66,7 @@ bool asst::CreditShopImageAnalyzer::commoditys_analyze()
     return true;
 }
 
-bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
-{
+bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze() {
     const auto not_to_buy_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
         resource.task().task_ptr("CreditShop-NotToBuy"));
 
@@ -71,7 +84,7 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
         }
         const auto& ocr_res = ocr_analyzer.get_result();
 
-#ifdef  LOG_TRACE
+#ifdef LOG_TRACE
         cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
 #endif
         m_need_to_buy.emplace_back(commodity);
@@ -79,8 +92,7 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
     return !m_need_to_buy.empty();
 }
 
-bool asst::CreditShopImageAnalyzer::sold_out_analyze()
-{
+bool asst::CreditShopImageAnalyzer::sold_out_analyze() {
     const auto sold_out_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("CreditShop-SoldOut"));
 
@@ -94,7 +106,7 @@ bool asst::CreditShopImageAnalyzer::sold_out_analyze()
     for (const Rect& commodity : m_need_to_buy) {
         sold_out_analyzer.set_roi(commodity);
         if (sold_out_analyzer.analyze()) {
-#ifdef  LOG_TRACE
+#ifdef LOG_TRACE
             cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255));
             cv::putText(m_image_draw, "Sold Out", cv::Point(commodity.x, commodity.y), 1, 2, cv::Scalar(255, 0, 0));
 #endif //  LOG_TRACE

@@ -1,13 +1,30 @@
-﻿#include "InfrastSkillsImageAnalyzer.h"
+﻿/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
-#include "Resource.h"
-#include "InfrastSmileyImageAnalyzer.h"
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "InfrastSkillsImageAnalyzer.h"
+
 #include "AsstUtils.hpp"
-#include "MatchImageAnalyzer.h"
+#include "InfrastSmileyImageAnalyzer.h"
 #include "Logger.hpp"
+#include "MatchImageAnalyzer.h"
+#include "Resource.h"
 
-bool asst::InfrastSkillsImageAnalyzer::analyze()
-{
+bool asst::InfrastSkillsImageAnalyzer::analyze() {
     LogTraceFunction;
 
     m_skills_detected.clear();
@@ -31,24 +48,21 @@ bool asst::InfrastSkillsImageAnalyzer::analyze()
     return true;
 }
 
-void asst::InfrastSkillsImageAnalyzer::sort_result()
-{
+void asst::InfrastSkillsImageAnalyzer::sort_result() {
     LogTraceFunction;
     // 按位置排个序
     std::sort(m_result.begin(), m_result.end(),
-        [](const auto& lhs, const auto& rhs) -> bool {
-            if (std::abs(lhs.rect.x - rhs.rect.x) < 5) {	// x差距较小则理解为是同一排的，按y排序
-                return lhs.rect.y < rhs.rect.y;
-            }
-            else {
-                return lhs.rect.x < rhs.rect.x;
-            }
-        }
-    );
+              [](const auto& lhs, const auto& rhs) -> bool {
+                  if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
+                      return lhs.rect.y < rhs.rect.y;
+                  }
+                  else {
+                      return lhs.rect.x < rhs.rect.x;
+                  }
+              });
 }
 
-bool asst::InfrastSkillsImageAnalyzer::skills_detect()
-{
+bool asst::InfrastSkillsImageAnalyzer::skills_detect() {
     LogTraceFunction;
     const auto upper_task_ptr = resource.task().task_ptr("InfrastSkillsUpper");
     const auto lower_task_ptr = resource.task().task_ptr("InfrastSkillsLower");
@@ -85,8 +99,7 @@ bool asst::InfrastSkillsImageAnalyzer::skills_detect()
             skills_rect.height = skills_height;
 
             // 超过ROI边界了
-            if (skills_rect.x + skills_rect.width > roi.x + roi.width
-                || skills_rect.x < roi.x) {
+            if (skills_rect.x + skills_rect.width > roi.x + roi.width || skills_rect.x < roi.x) {
                 continue;
             }
 #ifdef LOG_TRACE
@@ -108,8 +121,7 @@ bool asst::InfrastSkillsImageAnalyzer::skills_detect()
     return false;
 }
 
-bool asst::InfrastSkillsImageAnalyzer::skills_split()
-{
+bool asst::InfrastSkillsImageAnalyzer::skills_split() {
     LogTraceFunction;
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("InfrastSkills"));
@@ -126,7 +138,7 @@ bool asst::InfrastSkillsImageAnalyzer::skills_split()
         }
 
         cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(roi));
-        std::vector<Rect> skills_vec;   // 单个干员的所有技能
+        std::vector<Rect> skills_vec; // 单个干员的所有技能
         for (int i = 0; i != MaxNumOfSkills; ++i) {
             int x = i * skill_width + spacing * i;
             Rect skill_rect(x, 0, skill_width, roi.height);
@@ -155,8 +167,7 @@ bool asst::InfrastSkillsImageAnalyzer::skills_split()
     return false;
 }
 
-bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
-{
+bool asst::InfrastSkillsImageAnalyzer::skill_analyze() {
     LogTraceFunction;
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("InfrastSkills"));
@@ -166,7 +177,7 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
     skill_analyzer.set_threshold(task_ptr->templ_threshold);
 
     for (const auto& [hash, skills_rect_vec] : m_skills_splited) {
-        std::unordered_set<InfrastSkill> skills_set;   // 单个干员的全部技能
+        std::unordered_set<InfrastSkill> skills_set; // 单个干员的全部技能
         std::string log_str = "[ ";
         for (const Rect& skill_rect : skills_rect_vec) {
             skill_analyzer.set_roi(skill_rect);
@@ -198,9 +209,9 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
                 // 匹配得分最高的id作为基准，排除有识别错误，其他的技能混进来了的情况
                 // 即排除容器中，除了有同一个技能的不同等级，还有别的技能的情况
                 auto max_iter = std::max_element(possible_skills.begin(), possible_skills.end(),
-                    [](const auto& lhs, const auto& rhs) -> bool {
-                        return lhs.second.score < rhs.second.score;
-                    });
+                                                 [](const auto& lhs, const auto& rhs) -> bool {
+                                                     return lhs.second.score < rhs.second.score;
+                                                 });
                 std::string base_id = max_iter->first.id;
                 size_t level_pos = 0;
                 // 倒着找，第一个不是数字的。前面就是技能基础id名字，后面的数字就是技能等级
@@ -216,8 +227,7 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
                     if (size_t find_pos = skill.id.find(base_id);
                         find_pos != std::string::npos) {
                         std::string cur_skill_level = skill.id.substr(base_id.size());
-                        if (max_level.empty()
-                            || cur_skill_level > max_level) {
+                        if (max_level.empty() || cur_skill_level > max_level) {
                             max_level = cur_skill_level;
                             most_confident_skills = skill;
                         }
@@ -252,8 +262,7 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
     return false;
 }
 
-bool asst::InfrastSkillsImageAnalyzer::selected_analyze(int smiley_x, int smiley_y)
-{
+bool asst::InfrastSkillsImageAnalyzer::selected_analyze(int smiley_x, int smiley_y) {
     LogTraceFunction;
     const auto selected_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("InfrastOperSelected"));
@@ -278,8 +287,7 @@ bool asst::InfrastSkillsImageAnalyzer::selected_analyze(int smiley_x, int smiley
     for (int i = 0; i != h_channel.rows; ++i) {
         for (int j = 0; j != h_channel.cols; ++j) {
             cv::uint8_t value = h_channel.at<cv::uint8_t>(i, j);
-            if (mask_lowb < value
-                && value < mask_uppb) {
+            if (mask_lowb < value && value < mask_uppb) {
                 ++count;
             }
         }

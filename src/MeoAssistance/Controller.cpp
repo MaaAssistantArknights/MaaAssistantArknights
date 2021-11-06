@@ -1,12 +1,30 @@
-﻿#include "Controller.h"
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
-#include <stdint.h>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "Controller.h"
+
 #include <WinUser.h>
+#include <stdint.h>
 
-#include <vector>
-#include <utility>
 #include <algorithm>
 #include <chrono>
+#include <utility>
+#include <vector>
 
 #include <opencv2/opencv.hpp>
 
@@ -18,8 +36,7 @@
 using namespace asst;
 
 Controller::Controller()
-    : m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count())
-{
+    : m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count()) {
     LogTraceFunction;
 
     // 安全属性描述符
@@ -48,14 +65,13 @@ Controller::Controller()
     m_cmd_thread = std::thread(bind_pipe_working_proc);
 }
 
-asst::Controller::~Controller()
-{
+asst::Controller::~Controller() {
     LogTraceFunction;
 
     m_thread_exit = true;
     //m_thread_idle = true;
     m_cmd_condvar.notify_all();
-    m_completed_id = UINT_MAX;	// make all WinMacor::wait to exit
+    m_completed_id = UINT_MAX; // make all WinMacor::wait to exit
 
     if (m_cmd_thread.joinable()) {
         m_cmd_thread.join();
@@ -67,14 +83,13 @@ asst::Controller::~Controller()
     ::CloseHandle(m_pipe_child_write);
 }
 
-Rect asst::Controller::shaped_correct(const Rect& rect) const
-{
+Rect asst::Controller::shaped_correct(const Rect& rect) const {
     if (rect.width == 0 || rect.height == 0) {
         return rect;
     }
     // 明日方舟在异形屏上，有的地方是按比例缩放的，有的地方又是直接位移。没法整，这里简单粗暴一点截一个长条
     Rect dst = rect;
-    if (m_scale_size.first != GeneralConfiger::WindowWidthDefault) {	// 说明是宽屏
+    if (m_scale_size.first != GeneralConfiger::WindowWidthDefault) { // 说明是宽屏
         dst.x = 0;
         dst.width = m_scale_size.first - 1;
     }
@@ -85,14 +100,13 @@ Rect asst::Controller::shaped_correct(const Rect& rect) const
     return dst;
 }
 
-void asst::Controller::pipe_working_proc()
-{
+void asst::Controller::pipe_working_proc() {
     LogTraceFunction;
 
     while (!m_thread_exit) {
         std::unique_lock<std::mutex> cmd_queue_lock(m_cmd_queue_mutex);
 
-        if (!m_cmd_queue.empty()) {	// 队列中有任务就执行任务
+        if (!m_cmd_queue.empty()) { // 队列中有任务就执行任务
             std::string cmd = m_cmd_queue.front();
             m_cmd_queue.pop();
             cmd_queue_lock.unlock();
@@ -119,14 +133,13 @@ void asst::Controller::pipe_working_proc()
     }
 }
 
-bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
-{
+bool Controller::try_capture(const EmulatorInfo& info, bool without_handle) {
     LogTraceScope("try_capture | " + info.name);
 
     const HandleInfo& handle_info = info.handle;
     std::string adb_dir;
 
-    if (!without_handle) {	// 使用模拟器自带的adb
+    if (!without_handle) { // 使用模拟器自带的adb
         // 转成宽字符的
         wchar_t* class_wbuff = nullptr;
         if (!handle_info.class_name.empty()) {
@@ -193,7 +206,7 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         adb_dir = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
         adb_dir = utils::string_replace_all(adb_dir, "[ExecDir]", utils::get_cur_dir());
     }
-    else {	// 使用辅助自带的标准adb
+    else { // 使用辅助自带的标准adb
         m_emulator_info = info;
         adb_dir = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", utils::get_cur_dir()) + '"';
     }
@@ -258,15 +271,13 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         static_cast<double>(GeneralConfiger::WindowWidthDefault) / static_cast<double>(GeneralConfiger::WindowHeightDefault);
     double cur_ratio = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(m_emulator_info.adb.display_height);
 
-    if (cur_ratio >= DefaultRatio	// 说明是宽屏或默认16:9，按照高度计算缩放
-        || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff)
-    {
+    if (cur_ratio >= DefaultRatio // 说明是宽屏或默认16:9，按照高度计算缩放
+        || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff) {
         int scale_width = cur_ratio * GeneralConfiger::WindowHeightDefault;
         m_scale_size = std::make_pair(scale_width, GeneralConfiger::WindowHeightDefault);
         m_control_scale = static_cast<double>(m_emulator_info.adb.display_height) / static_cast<double>(GeneralConfiger::WindowHeightDefault);
     }
-    else
-    {	// 否则可能是偏正方形的屏幕，按宽度计算
+    else { // 否则可能是偏正方形的屏幕，按宽度计算
         int scale_height = GeneralConfiger::WindowWidthDefault / cur_ratio;
         m_scale_size = std::make_pair(GeneralConfiger::WindowWidthDefault, scale_height);
         m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(GeneralConfiger::WindowWidthDefault);
@@ -292,14 +303,13 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
 //	}
 //}
 
-std::pair<bool, std::vector<unsigned char>> Controller::call_command(const std::string& cmd)
-{
+std::pair<bool, std::vector<unsigned char>> Controller::call_command(const std::string& cmd) {
     LogTraceFunction;
 
     static std::mutex pipe_mutex;
     std::unique_lock<std::mutex> pipe_lock(pipe_mutex);
 
-    PROCESS_INFORMATION process_info = { 0 };	// 进程信息结构体
+    PROCESS_INFORMATION process_info = { 0 }; // 进程信息结构体
     ::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &m_child_startup_info, &process_info);
 
     std::vector<uchar> pipe_data;
@@ -335,8 +345,7 @@ std::pair<bool, std::vector<unsigned char>> Controller::call_command(const std::
     return make_pair(!exit_ret, std::move(pipe_data));
 }
 
-void asst::Controller::convert_lf(std::vector<unsigned char>& data)
-{
+void asst::Controller::convert_lf(std::vector<unsigned char>& data) {
     LogTraceFunction;
 
     if (data.empty() || data.size() <= 1) {
@@ -368,8 +377,7 @@ void asst::Controller::convert_lf(std::vector<unsigned char>& data)
     data.erase(next_iter, data.end());
 }
 
-Point asst::Controller::rand_point_in_rect(const Rect& rect)
-{
+Point asst::Controller::rand_point_in_rect(const Rect& rect) {
     int x = 0, y = 0;
     if (rect.width == 0) {
         x = rect.x;
@@ -391,23 +399,20 @@ Point asst::Controller::rand_point_in_rect(const Rect& rect)
     return Point(x, y);
 }
 
-int asst::Controller::push_cmd(const std::string& cmd)
-{
+int asst::Controller::push_cmd(const std::string& cmd) {
     std::unique_lock<std::mutex> lock(m_cmd_queue_mutex);
     m_cmd_queue.emplace(cmd);
     m_cmd_condvar.notify_one();
     return ++m_push_id;
 }
 
-void asst::Controller::wait(unsigned id) const noexcept
-{
+void asst::Controller::wait(unsigned id) const noexcept {
     while (id > m_completed_id) {
         std::this_thread::yield();
     }
 }
 
-bool asst::Controller::screencap()
-{
+bool asst::Controller::screencap() {
     LogTraceFunction;
 
     auto&& [ret, data] = call_command(m_emulator_info.adb.screencap);
@@ -440,8 +445,7 @@ bool asst::Controller::screencap()
     //m_cache_image = std::move(temp_image);
 }
 
-int Controller::click(const Point& p, bool block)
-{
+int Controller::click(const Point& p, bool block) {
     int x = p.x * m_control_scale;
     int y = p.y * m_control_scale;
     //log.trace("Click, raw:", p.x, p.y, "corr:", x, y);
@@ -449,15 +453,12 @@ int Controller::click(const Point& p, bool block)
     return click_without_scale(Point(x, y), block);
 }
 
-int Controller::click(const Rect& rect, bool block)
-{
+int Controller::click(const Rect& rect, bool block) {
     return click(rand_point_in_rect(rect), block);
 }
 
-int asst::Controller::click_without_scale(const Point& p, bool block)
-{
-    if (p.x < 0 || p.x >= m_emulator_info.adb.display_width
-        || p.y < 0 || p.y >= m_emulator_info.adb.display_height) {
+int asst::Controller::click_without_scale(const Point& p, bool block) {
+    if (p.x < 0 || p.x >= m_emulator_info.adb.display_width || p.y < 0 || p.y >= m_emulator_info.adb.display_height) {
         log.error("click point out of range");
     }
     std::string cur_cmd = utils::string_replace_all(m_emulator_info.adb.click, "[x]", std::to_string(p.x));
@@ -469,13 +470,11 @@ int asst::Controller::click_without_scale(const Point& p, bool block)
     return id;
 }
 
-int asst::Controller::click_without_scale(const Rect& rect, bool block)
-{
+int asst::Controller::click_without_scale(const Rect& rect, bool block) {
     return click_without_scale(rand_point_in_rect(rect), block);
 }
 
-int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
-{
+int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe) {
     int x1 = p1.x * m_control_scale;
     int y1 = p1.y * m_control_scale;
     int x2 = p2.x * m_control_scale;
@@ -485,17 +484,12 @@ int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool
     return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block, extra_delay, extra_swipe);
 }
 
-int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe)
-{
+int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe) {
     return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
 
-int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
-{
-    if (p1.x < 0 || p1.x >= m_emulator_info.adb.display_width
-        || p1.y < 0 || p1.y >= m_emulator_info.adb.display_height
-        || p2.x < 0 || p2.x >= m_emulator_info.adb.display_width
-        || p2.y < 0 || p2.y >= m_emulator_info.adb.display_height) {
+int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe) {
+    if (p1.x < 0 || p1.x >= m_emulator_info.adb.display_width || p1.y < 0 || p1.y >= m_emulator_info.adb.display_height || p2.x < 0 || p2.x >= m_emulator_info.adb.display_width || p2.y < 0 || p2.y >= m_emulator_info.adb.display_height) {
         log.error("swipe point out of range");
     }
     std::string cur_cmd = utils::string_replace_all(m_emulator_info.adb.swipe, "[x1]", std::to_string(p1.x));
@@ -511,7 +505,7 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
 
     int id = 0;
 
-    int extra_swipe_dist = resource.cfg().get_options().adb_extra_swipe_dist/* * m_control_scale*/;
+    int extra_swipe_dist = resource.cfg().get_options().adb_extra_swipe_dist /* * m_control_scale*/;
     int extra_swipe_duration = resource.cfg().get_options().adb_extra_swipe_duration;
 
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
@@ -547,13 +541,11 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
     return id;
 }
 
-int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe)
-{
+int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe) {
     return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
 
-cv::Mat asst::Controller::get_image(bool raw)
-{
+cv::Mat asst::Controller::get_image(bool raw) {
     static bool has_successful = false;
     if (!screencap()) {
         // 如果之前成功截图过，这次没成功可能是一次意外，重试一次

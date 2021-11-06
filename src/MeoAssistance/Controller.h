@@ -1,15 +1,33 @@
-﻿#pragma once
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
-#include <string>
-#include <random>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#pragma once
+
 #include <optional>
+#include <random>
+#include <string>
 
-#include <memory>	// for pimpl
-#include <thread>
-#include <mutex>
-#include <shared_mutex>
-#include <queue>
 #include <condition_variable>
+#include <memory> // for pimpl
+#include <mutex>
+#include <queue>
+#include <shared_mutex>
+#include <thread>
 
 #include <Windows.h>
 
@@ -18,8 +36,7 @@
 #include "AsstDef.h"
 
 namespace asst {
-    class Controller
-    {
+    class Controller {
     public:
         Controller(const Controller&) = delete;
         Controller(Controller&&) = delete;
@@ -52,6 +69,7 @@ namespace asst {
 
         Controller& operator=(const Controller&) = delete;
         Controller& operator=(Controller&&) = delete;
+
     private:
         Controller();
 
@@ -71,19 +89,19 @@ namespace asst {
         std::condition_variable m_cmd_condvar;
         std::queue<std::string> m_cmd_queue;
         std::atomic<unsigned> m_completed_id = 0;
-        unsigned m_push_id = 0;						// push_id的自增总是伴随着queue的push，肯定是要上锁的，所以没必要原子
+        unsigned m_push_id = 0; // push_id的自增总是伴随着queue的push，肯定是要上锁的，所以没必要原子
 
         //std::shared_mutex m_image_mutex;
         cv::Mat m_cache_image;
         bool m_image_convert_lf = false;
 
-        constexpr static int PipeBuffSize = 1048576;	// 管道缓冲区大小
-        HANDLE m_pipe_read = nullptr;					// 读管道句柄
-        HANDLE m_pipe_write = nullptr;					// 写管道句柄
-        HANDLE m_pipe_child_read = nullptr;				// 子进程的读管道句柄
-        HANDLE m_pipe_child_write = nullptr;			// 子进程的写管道句柄
-        SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 };	// 管道安全描述符
-        STARTUPINFOA m_child_startup_info = { 0 };		// 子进程启动信息
+        constexpr static int PipeBuffSize = 1048576; // 管道缓冲区大小
+        HANDLE m_pipe_read = nullptr;                // 读管道句柄
+        HANDLE m_pipe_write = nullptr;               // 写管道句柄
+        HANDLE m_pipe_child_read = nullptr;          // 子进程的读管道句柄
+        HANDLE m_pipe_child_write = nullptr;         // 子进程的写管道句柄
+        SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 }; // 管道安全描述符
+        STARTUPINFOA m_child_startup_info = { 0 };   // 子进程启动信息
 
         EmulatorInfo m_emulator_info;
         HWND m_handle = nullptr;

@@ -1,12 +1,29 @@
-﻿#include "InfrastTradeTask.h"
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "InfrastTradeTask.h"
 
 const std::string asst::InfrastTradeTask::FacilityName = "Trade";
 
-bool asst::InfrastTradeTask::run()
-{
+bool asst::InfrastTradeTask::run() {
     json::value task_start_json = json::object{
-        { "task_type",  "InfrastTradeTask" },
-        { "task_chain", m_task_chain}
+        { "task_type", "InfrastTradeTask" },
+        { "task_chain", m_task_chain }
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 

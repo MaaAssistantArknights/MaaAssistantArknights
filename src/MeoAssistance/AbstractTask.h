@@ -1,17 +1,33 @@
-﻿#pragma once
+﻿/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#pragma once
 
 #include <memory>
 
 #include "AsstMsg.h"
 
-namespace cv
-{
+namespace cv {
     class Mat;
 }
 
 namespace asst {
-    class AbstractTask
-    {
+    class AbstractTask {
     public:
         AbstractTask(AsstCallback callback, void* callback_arg);
         virtual ~AbstractTask() = default;
@@ -26,6 +42,7 @@ namespace asst {
         virtual void set_task_chain(std::string name) { m_task_chain = std::move(name); }
         virtual const std::string& get_task_chain() { return m_task_chain; }
         virtual void on_run_fails(int retry_times) { ; }
+
     protected:
         virtual bool sleep(unsigned millisecond);
         virtual bool save_image(const cv::Mat& iamge, const std::string& dir);

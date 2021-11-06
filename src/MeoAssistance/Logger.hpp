@@ -1,11 +1,29 @@
-﻿#pragma once
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
-#include <fstream>
-#include <mutex>
-#include <iostream>
-#include <vector>
-#include <type_traits>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#pragma once
+
 #include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <mutex>
+#include <type_traits>
+#include <vector>
 
 #include "AsstUtils.hpp"
 #include "Version.h"
@@ -18,42 +36,37 @@ namespace asst {
         Logger(const Logger&) = delete;
         Logger(Logger&&) = delete;
 
-        static Logger& get_instance()
-        {
+        static Logger& get_instance() {
             static Logger _unique_instance;
             return _unique_instance;
         }
 
         template <typename... Args>
-        inline void trace(Args &&... args)
-        {
+        inline void trace(Args&&... args) {
             constexpr static std::string_view level = "TRC";
             log(level, std::forward<Args>(args)...);
         }
         template <typename... Args>
-        inline void info(Args &&... args)
-        {
+        inline void info(Args&&... args) {
             constexpr static std::string_view level = "INF";
             log(level, std::forward<Args>(args)...);
         }
         template <typename... Args>
-        inline void error(Args &&... args)
-        {
+        inline void error(Args&&... args) {
             constexpr static std::string_view level = "ERR";
             log(level, std::forward<Args>(args)...);
         }
 
         const std::string m_log_filename = asst::utils::get_cur_dir() + "asst.log";
         const std::string m_log_bak_filename = asst::utils::get_cur_dir() + "asst.bak.log";
+
     private:
-        Logger()
-        {
+        Logger() {
             check_filesize_and_remove();
             log_init_info();
         }
 
-        void check_filesize_and_remove()
-        {
+        void check_filesize_and_remove() {
             constexpr uintmax_t MaxLogSize = 4 * 1024 * 1024;
             try {
                 if (std::filesystem::exists(m_log_filename)) {
@@ -63,13 +76,11 @@ namespace asst {
                     }
                 }
             }
-            catch (...)
-            {
+            catch (...) {
                 ;
             }
         }
-        void log_init_info()
-        {
+        void log_init_info() {
             trace("-----------------------------");
             trace("MeoAssistance Process Start");
             trace("Version", asst::Version);
@@ -80,14 +91,13 @@ namespace asst {
         }
 
         template <typename... Args>
-        void log(const std::string_view& level, Args &&... args)
-        {
+        void log(const std::string_view& level, Args&&... args) {
             std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
 
             char buff[128] = { 0 };
             sprintf_s(buff, "[%s][%s][Px%x][Tx%x]",
-                asst::utils::get_format_time().c_str(),
-                level.data(), _getpid(), ::GetCurrentThreadId());
+                      asst::utils::get_format_time().c_str(),
+                      level.data(), _getpid(), ::GetCurrentThreadId());
 
             stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
             std::ofstream ofs(m_log_filename, std::ios::out | std::ios::app);
@@ -96,30 +106,24 @@ namespace asst {
         }
 
         template <bool ToGbk = false, typename T, typename... Args>
-        inline void stream_args(std::ostream& os, T&& first, Args && ...rest)
-        {
+        inline void stream_args(std::ostream& os, T&& first, Args&&... rest) {
             stream<ToGbk, T>()(os, std::forward<T>(first));
             stream_args<ToGbk>(os, std::forward<Args>(rest)...);
         }
         template <bool>
-        inline void stream_args(std::ostream& os)
-        {
+        inline void stream_args(std::ostream& os) {
             os << std::endl;
         }
 
         template <bool ToGbk, typename T, typename = void>
-        struct stream
-        {
-            inline void operator()(std::ostream& os, T&& first)
-            {
+        struct stream {
+            inline void operator()(std::ostream& os, T&& first) {
                 os << first << " ";
             }
         };
         template <typename T>
-        struct stream<true, T, typename std::enable_if<std::is_constructible<std::string, T>::value>::type>
-        {
-            inline void operator()(std::ostream& os, T&& first)
-            {
+        struct stream<true, T, typename std::enable_if<std::is_constructible<std::string, T>::value>::type> {
+            inline void operator()(std::ostream& os, T&& first) {
                 os << utils::utf8_to_gbk(first) << " ";
             }
         };
@@ -131,16 +135,15 @@ namespace asst {
     public:
         LoggerAux(const std::string& func_name)
             : m_func_name(func_name),
-            m_start_time(std::chrono::system_clock::now())
-        {
+              m_start_time(std::chrono::system_clock::now()) {
             Logger::get_instance().trace(m_func_name, " | enter");
         }
-        ~LoggerAux()
-        {
+        ~LoggerAux() {
             auto duration = std::chrono::system_clock::now() - m_start_time;
             Logger::get_instance().trace(m_func_name, " | leave,",
-                std::chrono::duration_cast<std::chrono::milliseconds>(duration).count(), "ms");
+                                         std::chrono::duration_cast<std::chrono::milliseconds>(duration).count(), "ms");
         }
+
     private:
         std::string m_func_name;
         std::chrono::time_point<std::chrono::system_clock> m_start_time;
@@ -148,6 +151,6 @@ namespace asst {
 
     static auto& log = Logger::get_instance();
 
-#define LogTraceFunction    LoggerAux _func_aux(__FUNCTION__)
-#define LogTraceScope	    LoggerAux _func_aux
+#define LogTraceFunction LoggerAux _func_aux(__FUNCTION__)
+#define LogTraceScope LoggerAux _func_aux
 }

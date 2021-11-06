@@ -1,22 +1,38 @@
-﻿#include "ProcessTaskImageAnalyzer.h"
+﻿/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
-#include "Resource.h"
-#include "MatchImageAnalyzer.h"
-#include "OcrImageAnalyzer.h"
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "ProcessTaskImageAnalyzer.h"
+
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
+#include "MatchImageAnalyzer.h"
+#include "OcrImageAnalyzer.h"
+#include "Resource.h"
 
 asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name)
     : AbstractImageAnalyzer(image),
-    m_tasks_name(std::move(tasks_name))
-{
+      m_tasks_name(std::move(tasks_name)) {
     ;
 }
 
 asst::ProcessTaskImageAnalyzer::~ProcessTaskImageAnalyzer() = default;
 
-bool asst::ProcessTaskImageAnalyzer::match_analyze(std::shared_ptr<TaskInfo> task_ptr)
-{
+bool asst::ProcessTaskImageAnalyzer::match_analyze(std::shared_ptr<TaskInfo> task_ptr) {
     if (!m_match_analyzer) {
         m_match_analyzer = std::make_unique<MatchImageAnalyzer>(m_image);
     }
@@ -31,8 +47,7 @@ bool asst::ProcessTaskImageAnalyzer::match_analyze(std::shared_ptr<TaskInfo> tas
     return false;
 }
 
-bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_ptr)
-{
+bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_ptr) {
     std::shared_ptr<OcrTaskInfo> ocr_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(task_ptr);
 
     // 先尝试从缓存的结果里找
@@ -101,23 +116,20 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
     return analyze_roi(ocr_task_ptr->roi);
 }
 
-void asst::ProcessTaskImageAnalyzer::reset() noexcept
-{
+void asst::ProcessTaskImageAnalyzer::reset() noexcept {
     m_ocr_cache.clear();
     m_ocr_analyzer = nullptr;
     m_match_analyzer = nullptr;
 }
 
-bool asst::ProcessTaskImageAnalyzer::analyze()
-{
+bool asst::ProcessTaskImageAnalyzer::analyze() {
     m_result = nullptr;
     m_result_rect = Rect();
 
     for (const std::string& task_name : m_tasks_name) {
         auto task_ptr = resource.task().task_ptr(task_name);
 
-        switch (task_ptr->algorithm)
-        {
+        switch (task_ptr->algorithm) {
         case AlgorithmType::JustReturn:
             m_result = task_ptr;
             return true;
@@ -138,8 +150,7 @@ bool asst::ProcessTaskImageAnalyzer::analyze()
     return false;
 }
 
-void asst::ProcessTaskImageAnalyzer::set_image(const cv::Mat & image)
-{
+void asst::ProcessTaskImageAnalyzer::set_image(const cv::Mat& image) {
     AbstractImageAnalyzer::set_image(image);
     reset();
 }

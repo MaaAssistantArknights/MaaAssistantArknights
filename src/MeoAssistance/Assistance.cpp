@@ -1,33 +1,50 @@
-﻿#include "Assistance.h"
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
-#include <time.h>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "Assistance.h"
+
 #include <filesystem>
+#include <time.h>
 
 #include <json.h>
 #include <opencv2/opencv.hpp>
 
+#include "AsstUtils.hpp"
 #include "Controller.h"
 #include "Logger.hpp"
-#include "AsstUtils.hpp"
 #include "Resource.h"
 
+#include "CreditShoppingTask.h"
+#include "InfrastDormTask.h"
+#include "InfrastInfoTask.h"
+#include "InfrastMfgTask.h"
+#include "InfrastOfficeTask.h"
+#include "InfrastPowerTask.h"
+#include "InfrastReceptionTask.h"
+#include "InfrastTradeTask.h"
 #include "ProcessTask.h"
 #include "RecruitTask.h"
 #include "ScreenCaptureTask.h"
-#include "CreditShoppingTask.h"
-#include "InfrastDormTask.h"
-#include "InfrastMfgTask.h"
-#include "InfrastTradeTask.h"
-#include "InfrastPowerTask.h"
-#include "InfrastOfficeTask.h"
-#include "InfrastInfoTask.h"
-#include "InfrastReceptionTask.h"
 
 using namespace asst;
 
 Assistance::Assistance(AsstCallback callback, void* callback_arg)
-    : m_callback(callback), m_callback_arg(callback_arg)
-{
+    : m_callback(callback), m_callback_arg(callback_arg) {
     LogTraceFunction;
 
     bool resource_ret = resource.load(utils::get_resource_dir());
@@ -47,8 +64,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
     m_msg_thread = std::thread(std::bind(&Assistance::msg_proc, this));
 }
 
-Assistance::~Assistance()
-{
+Assistance::~Assistance() {
     LogTraceFunction;
 
     m_thread_exit = true;
@@ -64,8 +80,7 @@ Assistance::~Assistance()
     }
 }
 
-bool asst::Assistance::catch_default()
-{
+bool asst::Assistance::catch_default() {
     LogTraceFunction;
 
     auto& opt = resource.cfg().get_options();
@@ -81,8 +96,7 @@ bool asst::Assistance::catch_default()
     }
 }
 
-bool Assistance::catch_emulator(const std::string& emulator_name)
-{
+bool Assistance::catch_emulator(const std::string& emulator_name) {
     LogTraceFunction;
 
     stop();
@@ -112,8 +126,7 @@ bool Assistance::catch_emulator(const std::string& emulator_name)
     return ret;
 }
 
-bool asst::Assistance::catch_usb()
-{
+bool asst::Assistance::catch_usb() {
     LogTraceFunction;
 
     stop();
@@ -131,8 +144,7 @@ bool asst::Assistance::catch_usb()
     return ret;
 }
 
-bool asst::Assistance::catch_remote(const std::string& address)
-{
+bool asst::Assistance::catch_remote(const std::string& address) {
     LogTraceFunction;
 
     stop();
@@ -155,8 +167,7 @@ bool asst::Assistance::catch_remote(const std::string& address)
     return ret;
 }
 
-bool asst::Assistance::catch_fake()
-{
+bool asst::Assistance::catch_fake() {
     LogTraceFunction;
 
     stop();
@@ -165,13 +176,11 @@ bool asst::Assistance::catch_fake()
     return true;
 }
 
-bool asst::Assistance::start_sanity()
-{
+bool asst::Assistance::start_sanity() {
     return start_process_task("SanityBegin", ProcessTaskRetryTimesDefault);
 }
 
-bool asst::Assistance::start_visit(bool with_shopping)
-{
+bool asst::Assistance::start_visit(bool with_shopping) {
     LogTraceFunction;
     if (!m_thread_idle || !m_inited) {
         return false;
@@ -194,8 +203,7 @@ bool asst::Assistance::start_visit(bool with_shopping)
     return true;
 }
 
-bool Assistance::start_process_task(const std::string& task, int retry_times, bool block)
-{
+bool Assistance::start_process_task(const std::string& task, int retry_times, bool block) {
     LogTraceFunction;
     log.trace("Start |", task, block ? "block" : "non block");
     if (!m_thread_idle || !m_inited) {
@@ -218,8 +226,7 @@ bool Assistance::start_process_task(const std::string& task, int retry_times, bo
 }
 
 #ifdef LOG_TRACE
-bool Assistance::start_debug_task()
-{
+bool Assistance::start_debug_task() {
     LogTraceFunction;
     if (!m_thread_idle || !m_inited) {
         return false;
@@ -243,8 +250,7 @@ bool Assistance::start_debug_task()
 }
 #endif
 
-bool Assistance::start_recruiting(const std::vector<int>& required_level, bool set_time)
-{
+bool Assistance::start_recruiting(const std::vector<int>& required_level, bool set_time) {
     LogTraceFunction;
     if (!m_thread_idle || !m_inited) {
         return false;
@@ -264,8 +270,7 @@ bool Assistance::start_recruiting(const std::vector<int>& required_level, bool s
     return true;
 }
 
-bool asst::Assistance::start_infrast_shift(const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold)
-{
+bool asst::Assistance::start_infrast_shift(const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold) {
     LogTraceFunction;
     if (!m_thread_idle || !m_inited) {
         return false;
@@ -331,8 +336,7 @@ bool asst::Assistance::start_infrast_shift(const std::vector<std::string>& order
     return true;
 }
 
-void Assistance::stop(bool block)
-{
+void Assistance::stop(bool block) {
     LogTraceFunction;
     log.trace("Stop |", block ? "block" : "non block");
 
@@ -348,16 +352,14 @@ void Assistance::stop(bool block)
     resource.templ().clear_hists();
 }
 
-bool Assistance::set_param(const std::string& type, const std::string& param, const std::string& value)
-{
+bool Assistance::set_param(const std::string& type, const std::string& param, const std::string& value) {
     LogTraceFunction;
     log.trace("SetParam |", type, param, value);
 
     return resource.task().set_param(type, param, value);
 }
 
-void Assistance::working_proc()
-{
+void Assistance::working_proc() {
     LogTraceFunction;
     auto p_this = this;
 
@@ -406,7 +408,7 @@ void Assistance::working_proc()
 
             auto& delay = resource.cfg().get_options().task_delay;
             m_condvar.wait_until(lock, start_time + std::chrono::milliseconds(delay),
-                [&]() -> bool { return m_thread_idle; });
+                                 [&]() -> bool { return m_thread_idle; });
         }
         else {
             m_thread_idle = true;
@@ -416,8 +418,7 @@ void Assistance::working_proc()
     }
 }
 
-void Assistance::msg_proc()
-{
+void Assistance::msg_proc() {
     LogTraceFunction;
 
     while (!m_thread_exit) {
@@ -441,8 +442,7 @@ void Assistance::msg_proc()
     }
 }
 
-void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
-{
+void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* custom_arg) {
     log.trace("Assistance::task_callback |", msg, detail.to_string());
 
     Assistance* p_this = (Assistance*)custom_arg;
@@ -460,7 +460,7 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
         [[fallthrough]];
     case AsstMsg::AppendTask:
         p_this->append_task(more_detail, true);
-        return;	// 这俩消息Assistance会新增任务，外部不需要处理，直接拦掉
+        return; // 这俩消息Assistance会新增任务，外部不需要处理，直接拦掉
         break;
     case AsstMsg::StageDrops:
         more_detail = p_this->organize_stage_drop(more_detail);
@@ -475,8 +475,7 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
 }
 
 void asst::Assistance::append_match_task(
-    const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times, bool front)
-{
+    const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times, bool front) {
     auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
     task_ptr->set_task_chain(task_chain);
     task_ptr->set_tasks(tasks);
@@ -489,8 +488,7 @@ void asst::Assistance::append_match_task(
     }
 }
 
-void asst::Assistance::append_task(const json::value& detail, bool front)
-{
+void asst::Assistance::append_task(const json::value& detail, bool front) {
     std::string task_type = detail.at("type").as_string();
     std::string task_chain = detail.get("task_chain", "");
     int retry_times = detail.get("retry_times", INT_MAX);
@@ -511,21 +509,18 @@ void asst::Assistance::append_task(const json::value& detail, bool front)
     // else if  // TODO
 }
 
-void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
-{
+void asst::Assistance::append_callback(AsstMsg msg, json::value detail) {
     std::unique_lock<std::mutex> lock(m_msg_mutex);
     m_msg_queue.emplace(msg, std::move(detail));
     m_msg_condvar.notify_one();
 }
 
-void Assistance::clear_exec_times()
-{
+void Assistance::clear_exec_times() {
     resource.task().clear_exec_times();
     resource.item().clear_drop_count();
 }
 
-json::value asst::Assistance::organize_stage_drop(const json::value& rec)
-{
+json::value asst::Assistance::organize_stage_drop(const json::value& rec) {
     json::value dst = rec;
     auto& item = resource.item();
     for (json::value& drop : dst["drops"].as_array()) {
@@ -546,10 +541,9 @@ json::value asst::Assistance::organize_stage_drop(const json::value& rec)
     }
     // 排个序，数量多的放前面
     std::sort(statistics_vec.begin(), statistics_vec.end(),
-        [](const json::value& lhs, const json::value& rhs) ->bool
-        {
-            return lhs.at("count").as_integer() > rhs.at("count").as_integer();
-        });
+              [](const json::value& lhs, const json::value& rhs) -> bool {
+                  return lhs.at("count").as_integer() > rhs.at("count").as_integer();
+              });
 
     dst["statistics"] = json::array(std::move(statistics_vec));
 

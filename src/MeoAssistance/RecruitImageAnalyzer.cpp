@@ -1,11 +1,28 @@
-﻿#include "RecruitImageAnalyzer.h"
+﻿/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
-#include "Resource.h"
-#include "OcrImageAnalyzer.h"
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "RecruitImageAnalyzer.h"
+
 #include "MatchImageAnalyzer.h"
+#include "OcrImageAnalyzer.h"
+#include "Resource.h"
 
-bool asst::RecruitImageAnalyzer::analyze()
-{
+bool asst::RecruitImageAnalyzer::analyze() {
     m_tags_result.clear();
     m_set_time_rect.clear();
 
@@ -15,8 +32,7 @@ bool asst::RecruitImageAnalyzer::analyze()
     return time_ret || tags_ret;
 }
 
-bool asst::RecruitImageAnalyzer::tags_analyze()
-{
+bool asst::RecruitImageAnalyzer::tags_analyze() {
     const auto tags_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
         resource.task().task_ptr("RecruitTags"));
 
@@ -44,8 +60,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     return false;
 }
 
-bool asst::RecruitImageAnalyzer::time_analyze()
-{
+bool asst::RecruitImageAnalyzer::time_analyze() {
     const auto time_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("RecruitTime"));
 

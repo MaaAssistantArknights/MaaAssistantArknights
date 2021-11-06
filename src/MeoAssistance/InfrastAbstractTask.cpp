@@ -1,19 +1,36 @@
-﻿#include "InfrastAbstractTask.h"
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "InfrastAbstractTask.h"
+
+#include "AsstMsg.h"
+#include "Controller.h"
+#include "InfrastFacilityImageAnalyzer.h"
+#include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
-#include "InfrastFacilityImageAnalyzer.h"
-#include "Controller.h"
 #include "Resource.h"
-#include "Logger.hpp"
-#include "AsstMsg.h"
 
-bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int index)
-{
+bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int index) {
     LogTraceFunction;
     json::value enter_json = json::object{
-        { "facility",  facility },
-        { "index", index}
+        { "facility", facility },
+        { "index", index }
     };
     m_callback(AsstMsg::EnterFacility, enter_json, m_callback_arg);
 
@@ -39,8 +56,7 @@ bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int 
     return true;
 }
 
-bool asst::InfrastAbstractTask::enter_oper_list_page()
-{
+bool asst::InfrastAbstractTask::enter_oper_list_page() {
     LogTraceFunction;
 
     auto image = ctrler.get_image();
@@ -83,8 +99,7 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
     return true;
 }
 
-void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
-{
+void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse) {
     LogTraceFunction;
     static Rect begin_rect = resource.task().task_ptr("InfrastOperListSwipeBegin")->specific_rect;
     static Rect end_rect = resource.task().task_ptr("InfrastOperListSwipeEnd")->specific_rect;
@@ -98,8 +113,7 @@ void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
     }
 }
 
-void asst::InfrastAbstractTask::await_swipe()
-{
+void asst::InfrastAbstractTask::await_swipe() {
     LogTraceFunction;
     static int extra_delay = resource.task().task_ptr("InfrastOperListSwipeBegin")->rear_delay;
 
@@ -107,8 +121,7 @@ void asst::InfrastAbstractTask::await_swipe()
     sleep(extra_delay);
 }
 
-bool asst::InfrastAbstractTask::click_bottomleft_tab()
-{
+bool asst::InfrastAbstractTask::click_bottomleft_tab() {
     LogTraceFunction;
     const auto task_ptr = resource.task().task_ptr("InfrastBottomLeftTab");
     ctrler.click(task_ptr->specific_rect);
@@ -116,8 +129,7 @@ bool asst::InfrastAbstractTask::click_bottomleft_tab()
     return true;
 }
 
-bool asst::InfrastAbstractTask::click_clear_button()
-{
+bool asst::InfrastAbstractTask::click_clear_button() {
     LogTraceFunction;
     const auto task_ptr = resource.task().task_ptr("InfrastClearButton");
     ctrler.click(task_ptr->specific_rect);
@@ -125,8 +137,7 @@ bool asst::InfrastAbstractTask::click_clear_button()
     return true;
 }
 
-bool asst::InfrastAbstractTask::click_confirm_button()
-{
+bool asst::InfrastAbstractTask::click_confirm_button() {
     LogTraceFunction;
     const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
         resource.task().task_ptr("InfrastConfirmButton"));
@@ -151,14 +162,12 @@ bool asst::InfrastAbstractTask::click_confirm_button()
     return false;
 }
 
-void asst::InfrastAbstractTask::sync_swipe_of_operlist(bool reverse)
-{
+void asst::InfrastAbstractTask::sync_swipe_of_operlist(bool reverse) {
     async_swipe_of_operlist(reverse);
     await_swipe();
 }
 
-void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist()
-{
+void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist() {
     LogTraceFunction;
     static Rect begin_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
     static Rect end_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
@@ -175,8 +184,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist()
     sleep(extra_delay);
 }
 
-void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
-{
+void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui() {
     LogTraceFunction;
     static Rect begin_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
     static Rect end_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
@@ -186,8 +194,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
     ctrler.swipe(end_rect, begin_rect, duration, true, extra_delay, false);
 }
 
-void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
-{
+void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui() {
     LogTraceFunction;
     static Rect begin_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
     static Rect end_rect = resource.task().task_ptr("InfrastOperListSwipeToTheLeftEnd")->specific_rect;

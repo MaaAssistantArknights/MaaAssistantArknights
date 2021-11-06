@@ -1,4 +1,22 @@
-﻿#pragma once
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#pragma once
 #include "AbstractImageAnalyzer.h"
 
 #include <unordered_map>
@@ -6,8 +24,7 @@
 #include "AsstDef.h"
 
 namespace asst {
-    class InfrastSkillsImageAnalyzer final : public AbstractImageAnalyzer
-    {
+    class InfrastSkillsImageAnalyzer final : public AbstractImageAnalyzer {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         InfrastSkillsImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
@@ -24,7 +41,7 @@ namespace asst {
             m_facility = std::move(facility_name);
         }
 
-        constexpr static int MaxNumOfSkills = 2;    // 单个干员最多有几个基建技能
+        constexpr static int MaxNumOfSkills = 2; // 单个干员最多有几个基建技能
 
     private:
         // 该分析器不支持外部设置ROI
@@ -34,10 +51,10 @@ namespace asst {
         virtual void set_image(const cv::Mat& image, const Rect& roi) {
             AbstractImageAnalyzer::set_image(image, roi);
         }
-        bool skills_detect();        // 检测出所有技能区域
-        bool skills_split();         // 拆分成一个一个的区域
-        bool skill_analyze();        // 识别每个技能区域是啥
-        bool selected_analyze(int smiley_x, int smiley_y);     // 识别干员是否被选中
+        bool skills_detect();                              // 检测出所有技能区域
+        bool skills_split();                               // 拆分成一个一个的区域
+        bool skill_analyze();                              // 识别每个技能区域是啥
+        bool selected_analyze(int smiley_x, int smiley_y); // 识别干员是否被选中
 
         std::string m_facility;
         // skills_detect()的结果，key是hash，value是单个干员的全部技能区域

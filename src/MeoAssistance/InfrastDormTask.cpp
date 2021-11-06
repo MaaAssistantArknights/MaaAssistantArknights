@@ -1,19 +1,36 @@
-﻿#include "InfrastDormTask.h"
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "InfrastDormTask.h"
+
+#include "Controller.h"
+#include "InfrastMoodImageAnalyzer.h"
+#include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
-#include "InfrastMoodImageAnalyzer.h"
 #include "Resource.h"
-#include "Controller.h"
-#include "Logger.hpp"
 
 const std::string asst::InfrastDormTask::FacilityName = "Dorm";
 
-bool asst::InfrastDormTask::run()
-{
+bool asst::InfrastDormTask::run() {
     json::value task_start_json = json::object{
-        { "task_type",  "InfrastDormTask" },
-        { "task_chain", m_task_chain}
+        { "task_type", "InfrastDormTask" },
+        { "task_chain", m_task_chain }
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
@@ -51,8 +68,7 @@ bool asst::InfrastDormTask::run()
                     log.trace("quantity_selected:", quantity_selected, ", just break");
                     break;
                 }
-                switch (mood_info.smiley.type)
-                {
+                switch (mood_info.smiley.type) {
                 case InfrastSmileyType::Rest:
                     // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了，直接退出即可
                     if (++quantity_resting > MaxNumOfOpers) {
@@ -64,10 +80,7 @@ bool asst::InfrastDormTask::run()
                 case InfrastSmileyType::Work:
                 case InfrastSmileyType::Distract:
                     // 干员没有被选择的情况下，心情小于30%，或不在工作，就进驻宿舍
-                    if (mood_info.selected == false
-                        && (mood_info.percentage < m_mood_threshold
-                            || mood_info.working == false))
-                    {
+                    if (mood_info.selected == false && (mood_info.percentage < m_mood_threshold || mood_info.working == false)) {
                         ctrler.click(mood_info.rect);
                         if (++quantity_selected >= MaxNumOfOpers) {
                             log.trace("quantity_selected:", quantity_selected, ", just break");
@@ -91,8 +104,7 @@ bool asst::InfrastDormTask::run()
     return true;
 }
 
-bool asst::InfrastDormTask::click_confirm_button()
-{
+bool asst::InfrastDormTask::click_confirm_button() {
     LogTraceFunction;
 
     const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(

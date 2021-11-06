@@ -1,17 +1,34 @@
-﻿#include "PenguinPack.h"
+﻿/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "PenguinPack.h"
 
 #include <filesystem>
 
-#include <opencv2/opencv.hpp>
 #include <json.h>
+#include <opencv2/opencv.hpp>
 namespace penguin {
 #include <penguin-stats-recognize/penguin_wasm.h>
 }
 
 #include "AsstUtils.hpp"
 
-bool asst::PenguinPack::load(const std::string& dir)
-{
+bool asst::PenguinPack::load(const std::string& dir) {
     bool ret = load_json(dir + "\\json\\stages.json", dir + "\\json\\hash_index.json");
 
     for (const auto& file : std::filesystem::directory_iterator(dir + "\\items")) {
@@ -20,21 +37,18 @@ bool asst::PenguinPack::load(const std::string& dir)
     return ret;
 }
 
-void asst::PenguinPack::set_language(const std::string& server)
-{
+void asst::PenguinPack::set_language(const std::string& server) {
     m_language = server;
     penguin::load_server(server.c_str());
 }
 
-std::string asst::PenguinPack::recognize(const cv::Mat& image)
-{
+std::string asst::PenguinPack::recognize(const cv::Mat& image) {
     std::vector<uchar> buf;
     cv::imencode(".png", image, buf);
     return penguin::recognize(buf.data(), buf.size());
 }
 
-bool asst::PenguinPack::load_json(const std::string& stage_path, const std::string& hash_path)
-{
+bool asst::PenguinPack::load_json(const std::string& stage_path, const std::string& hash_path) {
     auto stage_parse_ret = json::parse(utils::load_file_without_bom(stage_path));
     if (!stage_parse_ret) {
         m_last_error = stage_path + " parsing failed";
@@ -46,7 +60,7 @@ bool asst::PenguinPack::load_json(const std::string& stage_path, const std::stri
     json::object cvt_stage_json;
     try {
         for (const json::value& stage_info : stage_json.as_array()) {
-            if (!stage_info.exist("dropInfos")) {   // 这种一般是以前的活动关，现在已经关闭了的
+            if (!stage_info.exist("dropInfos")) { // 这种一般是以前的活动关，现在已经关闭了的
                 continue;
             }
             std::string key = stage_info.at("code").as_string();
@@ -77,8 +91,7 @@ bool asst::PenguinPack::load_json(const std::string& stage_path, const std::stri
     return true;
 }
 
-bool asst::PenguinPack::load_templ(const std::string& item_id, const std::string& path)
-{
+bool asst::PenguinPack::load_templ(const std::string& item_id, const std::string& path) {
     cv::Mat image = cv::imread(path);
     if (image.empty()) {
         m_last_error = "templ is empty";

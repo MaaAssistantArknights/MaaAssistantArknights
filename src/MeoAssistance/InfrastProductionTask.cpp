@@ -1,16 +1,34 @@
-﻿#include "InfrastProductionTask.h"
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "InfrastProductionTask.h"
 
 #include <algorithm>
 
 #include <calculator/calculator.hpp>
 
-#include "Resource.h"
+#include "AsstUtils.hpp"
 #include "Controller.h"
 #include "InfrastSkillsImageAnalyzer.h"
-#include "MultiMatchImageAnalyzer.h"
-#include "MatchImageAnalyzer.h"
-#include "AsstUtils.hpp"
 #include "Logger.hpp"
+#include "MatchImageAnalyzer.h"
+#include "MultiMatchImageAnalyzer.h"
+#include "Resource.h"
 #include "RuntimeStatus.h"
 
 //bool asst::InfrastProductionTask::run()
@@ -33,8 +51,7 @@
 //    return true;
 //}
 
-bool asst::InfrastProductionTask::shift_facility_list()
-{
+bool asst::InfrastProductionTask::shift_facility_list() {
     LogTraceFunction;
     facility_list_detect();
     if (need_exit()) {
@@ -111,8 +128,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
     return true;
 }
 
-bool asst::InfrastProductionTask::opers_detect_with_swipe()
-{
+bool asst::InfrastProductionTask::opers_detect_with_swipe() {
     LogTraceFunction;
     m_all_available_opers.clear();
 
@@ -140,8 +156,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
     return false;
 }
 
-size_t asst::InfrastProductionTask::opers_detect()
-{
+size_t asst::InfrastProductionTask::opers_detect() {
     LogTraceFunction;
     const auto& image = ctrler.get_image();
 
@@ -156,10 +171,10 @@ size_t asst::InfrastProductionTask::opers_detect()
 
     for (const auto& cur_info : cur_all_info) {
         auto find_iter = std::find_if(m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-            [&cur_info](const InfrastOperSkillInfo& info) -> bool {
-                int dist = utils::hamming(cur_info.hash, info.hash);
-                return dist < HashDistThres;
-            });
+                                      [&cur_info](const InfrastOperSkillInfo& info) -> bool {
+                                          int dist = utils::hamming(cur_info.hash, info.hash);
+                                          return dist < HashDistThres;
+                                      });
         // 如果两个的hash距离过小，则认为是同一个干员，不进行插入
         if (find_iter != m_all_available_opers.cend()) {
             continue;
@@ -191,8 +206,7 @@ size_t asst::InfrastProductionTask::opers_detect()
     return cur_all_info.size();
 }
 
-bool asst::InfrastProductionTask::optimal_calc()
-{
+bool asst::InfrastProductionTask::optimal_calc() {
     LogTraceFunction;
     auto& facility_info = resource.infrast().get_facility_info(m_facility);
     int max_num_of_opers = facility_info.max_num_of_opers;
@@ -206,9 +220,9 @@ bool asst::InfrastProductionTask::optimal_calc()
     optimal_opers.reserve(max_num_of_opers);
     double max_efficient = 0;
     std::sort(m_all_available_opers.begin(), m_all_available_opers.end(),
-        [&](const InfrastOperSkillInfo& lhs, const InfrastOperSkillInfo& rhs) -> bool {
-            return lhs.skills_comb.efficient.at(m_product) > rhs.skills_comb.efficient.at(m_product);
-        });
+              [&](const InfrastOperSkillInfo& lhs, const InfrastOperSkillInfo& rhs) -> bool {
+                  return lhs.skills_comb.efficient.at(m_product) > rhs.skills_comb.efficient.at(m_product);
+              });
 
     for (const auto& oper : m_all_available_opers) {
         std::string skill_str;
@@ -255,9 +269,9 @@ bool asst::InfrastProductionTask::optimal_calc()
         // necessary里的技能，一个都不能少
         for (const InfrastSkillsComb& nec_skills : group.necessary) {
             auto find_iter = std::find_if(cur_available_opers.cbegin(), cur_available_opers.cend(),
-                [&](const InfrastOperSkillInfo& arg) -> bool {
-                    return arg.skills_comb == nec_skills;
-                });
+                                          [&](const InfrastOperSkillInfo& arg) -> bool {
+                                              return arg.skills_comb == nec_skills;
+                                          });
             if (find_iter == cur_available_opers.cend()) {
                 group_unavailable = true;
                 break;
@@ -272,18 +286,18 @@ bool asst::InfrastProductionTask::optimal_calc()
         // 排个序，因为产物不同，效率可能会发生变化，所以配置文件里默认的顺序不一定准确
         auto optional = group.optional;
         std::sort(optional.begin(), optional.end(),
-            [&](const InfrastSkillsComb& lhs, const InfrastSkillsComb& rhs) -> bool {
-                return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
-            });
+                  [&](const InfrastSkillsComb& lhs, const InfrastSkillsComb& rhs) -> bool {
+                      return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
+                  });
 
         // 可能有多个干员有同样的技能，所以这里需要循环找同一个技能，直到找不到为止
         for (const InfrastSkillsComb& opt : optional) {
             auto find_iter = cur_available_opers.cbegin();
             while (cur_opers.size() != max_num_of_opers) {
                 find_iter = std::find_if(find_iter, cur_available_opers.cend(),
-                    [&](const InfrastOperSkillInfo& arg) -> bool {
-                        return arg.skills_comb.skills == opt.skills;
-                    });
+                                         [&](const InfrastOperSkillInfo& arg) -> bool {
+                                             return arg.skills_comb.skills == opt.skills;
+                                         });
                 if (find_iter != cur_available_opers.cend()) {
                     cur_opers.emplace_back(opt);
                     cur_efficient += opt.efficient.at(m_product);
@@ -338,8 +352,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     return true;
 }
 
-bool asst::InfrastProductionTask::opers_choose()
-{
+bool asst::InfrastProductionTask::opers_choose() {
     LogTraceFunction;
     bool has_error = false;
     while (true) {
@@ -375,9 +388,9 @@ bool asst::InfrastProductionTask::opers_choose()
         std::vector<std::string> selected_hash;
         for (auto opt_iter = m_optimal_opers.begin(); opt_iter != m_optimal_opers.end();) {
             auto find_iter = std::find_if(cur_all_info.cbegin(), cur_all_info.cend(),
-                [&](const InfrastOperSkillInfo& lhs) -> bool {
-                    return lhs.skills_comb == opt_iter->skills_comb;
-                });
+                                          [&](const InfrastOperSkillInfo& lhs) -> bool {
+                                              return lhs.skills_comb == opt_iter->skills_comb;
+                                          });
             if (find_iter == cur_all_info.cend()) {
                 ++opt_iter;
                 continue;
@@ -390,9 +403,9 @@ bool asst::InfrastProductionTask::opers_choose()
             selected_hash.emplace_back(find_iter->hash);
             {
                 auto avlb_iter = std::find_if(m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-                    [&](const InfrastOperSkillInfo& lhs) -> bool {
-                        return lhs.skills_comb == opt_iter->skills_comb;
-                    });
+                                              [&](const InfrastOperSkillInfo& lhs) -> bool {
+                                                  return lhs.skills_comb == opt_iter->skills_comb;
+                                              });
                 m_all_available_opers.erase(avlb_iter);
             }
             cur_all_info.erase(find_iter);
@@ -409,8 +422,7 @@ bool asst::InfrastProductionTask::opers_choose()
     return true;
 }
 
-bool asst::InfrastProductionTask::facility_list_detect()
-{
+bool asst::InfrastProductionTask::facility_list_detect() {
     LogTraceFunction;
     m_facility_list_tabs.clear();
 

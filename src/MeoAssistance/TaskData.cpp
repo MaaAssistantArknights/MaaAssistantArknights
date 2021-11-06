@@ -1,4 +1,22 @@
-﻿#include "TaskData.h"
+/*
+    MeoAssistance (CoreLib) - A part of the MeoAssistance-Arknight project
+    Copyright (C) 2021 MistEO and Contributors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "TaskData.h"
 
 #include <algorithm>
 
@@ -8,8 +26,7 @@
 #include "GeneralConfiger.h"
 #include "TemplResource.h"
 
-bool asst::TaskData::set_param(const std::string& type, const std::string& param, const std::string& value)
-{
+bool asst::TaskData::set_param(const std::string& type, const std::string& param, const std::string& value) {
     // 暂时只用到了这些，总的参数太多了，后面要用啥再加上
     if (type == "task.action") {
         if (auto iter = m_all_tasks_info.find(param);
@@ -53,11 +70,9 @@ bool asst::TaskData::set_param(const std::string& type, const std::string& param
     return true;
 }
 
-const std::shared_ptr<asst::TaskInfo> asst::TaskData::task_ptr(const std::string& name) const noexcept
-{
+const std::shared_ptr<asst::TaskInfo> asst::TaskData::task_ptr(const std::string& name) const noexcept {
     if (auto iter = m_all_tasks_info.find(name);
-        iter != m_all_tasks_info.cend())
-    {
+        iter != m_all_tasks_info.cend()) {
         return iter->second;
     }
     else {
@@ -65,25 +80,21 @@ const std::shared_ptr<asst::TaskInfo> asst::TaskData::task_ptr(const std::string
     }
 }
 
-const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
-{
+const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept {
     return m_templ_required;
 }
 
-std::shared_ptr<asst::TaskInfo> asst::TaskData::task_ptr(std::string name)
-{
+std::shared_ptr<asst::TaskInfo> asst::TaskData::task_ptr(std::string name) {
     return m_all_tasks_info[std::move(name)];
 }
 
-void asst::TaskData::clear_exec_times()
-{
+void asst::TaskData::clear_exec_times() {
     for (auto&& [key, task] : m_all_tasks_info) {
         task->exec_times = 0;
     }
 }
 
-bool asst::TaskData::parse(const json::value& json)
-{
+bool asst::TaskData::parse(const json::value& json) {
     for (const auto& [name, task_json] : json.as_object()) {
         std::string algorithm_str = task_json.get("algorithm", "matchtemplate");
         std::transform(algorithm_str.begin(), algorithm_str.end(), algorithm_str.begin(), ::tolower);
@@ -109,8 +120,7 @@ bool asst::TaskData::parse(const json::value& json)
         case AlgorithmType::JustReturn:
             task_info_ptr = std::make_shared<TaskInfo>();
             break;
-        case AlgorithmType::MatchTemplate:
-        {
+        case AlgorithmType::MatchTemplate: {
             auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
             match_task_info_ptr->templ_name = task_json.get("template", name + ".png");
             m_templ_required.emplace(match_task_info_ptr->templ_name);
@@ -129,10 +139,8 @@ bool asst::TaskData::parse(const json::value& json)
             }
 
             task_info_ptr = match_task_info_ptr;
-        }
-        break;
-        case AlgorithmType::OcrDetect:
-        {
+        } break;
+        case AlgorithmType::OcrDetect: {
             auto ocr_task_info_ptr = std::make_shared<OcrTaskInfo>();
             for (const json::value& text : task_json.at("text").as_array()) {
                 ocr_task_info_ptr->text.emplace_back(text.as_string());
@@ -145,8 +153,7 @@ bool asst::TaskData::parse(const json::value& json)
             }
             ocr_task_info_ptr->cache = task_json.get("cache", true);
             task_info_ptr = ocr_task_info_ptr;
-        }
-        break;
+        } break;
         }
         task_info_ptr->algorithm = algorithm;
         task_info_ptr->name = name;
