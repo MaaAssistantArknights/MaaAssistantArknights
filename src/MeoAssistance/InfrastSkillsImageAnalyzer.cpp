@@ -8,6 +8,8 @@
 
 bool asst::InfrastSkillsImageAnalyzer::analyze()
 {
+    LogTraceFunction;
+
     m_skills_detected.clear();
     m_skills_splited.clear();
     m_result.clear();
@@ -18,11 +20,20 @@ bool asst::InfrastSkillsImageAnalyzer::analyze()
 
     skill_analyze();
 
+    for (auto&& info : m_result) {
+        std::string skill_str;
+        for (auto&& skill : info.skills_comb.skills) {
+            skill_str += skill.names.front() + " ";
+        }
+        log.trace(info.hash, info.rect.to_string(), skill_str);
+    }
+
     return true;
 }
 
 void asst::InfrastSkillsImageAnalyzer::sort_result()
 {
+    LogTraceFunction;
     // 按位置排个序
     std::sort(m_result.begin(), m_result.end(),
         [](const auto& lhs, const auto& rhs) -> bool {
@@ -38,6 +49,7 @@ void asst::InfrastSkillsImageAnalyzer::sort_result()
 
 bool asst::InfrastSkillsImageAnalyzer::skills_detect()
 {
+    LogTraceFunction;
     const auto upper_task_ptr = resource.task().task_ptr("InfrastSkillsUpper");
     const auto lower_task_ptr = resource.task().task_ptr("InfrastSkillsLower");
     const auto hash_task_ptr = resource.task().task_ptr("InfrastSkillsHash");
@@ -98,6 +110,7 @@ bool asst::InfrastSkillsImageAnalyzer::skills_detect()
 
 bool asst::InfrastSkillsImageAnalyzer::skills_split()
 {
+    LogTraceFunction;
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("InfrastSkills"));
     const auto thres = task_ptr->hist_threshold;
@@ -144,17 +157,13 @@ bool asst::InfrastSkillsImageAnalyzer::skills_split()
 
 bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
 {
+    LogTraceFunction;
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("InfrastSkills"));
 
     MatchImageAnalyzer skill_analyzer(m_image);
     skill_analyzer.set_mask_range(task_ptr->mask_range);
     skill_analyzer.set_threshold(task_ptr->templ_threshold);
-
-    const auto selected_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastOperSelected"));
-    MatchImageAnalyzer selected_analyzer(m_image);
-    selected_analyzer.set_task_info(*selected_task_ptr);
 
     for (const auto& [hash, skills_rect_vec] : m_skills_splited) {
         std::unordered_set<InfrastSkill> skills_set;   // 单个干员的全部技能
@@ -233,16 +242,7 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
         // 识别该干员是否被选中。数据结构设计的不太合理，先这么凑合用了
         int smiley_x = skills_rect_vec.front().x - task_ptr->rect_move.x;
         int smiley_y = skills_rect_vec.front().y - task_ptr->rect_move.y;
-        Rect selected_rect = selected_task_ptr->rect_move;
-        selected_rect.x += smiley_x;
-        selected_rect.y += smiley_y;
-        selected_analyzer.set_roi(selected_rect);
-        if (selected_analyzer.analyze()) {
-            info.selected = true;
-        }
-        else {
-            info.selected = false;
-        }
+        info.selected = selected_analyze(smiley_x, smiley_y);
 
         m_result.emplace_back(std::move(info));
     }
@@ -250,4 +250,40 @@ bool asst::InfrastSkillsImageAnalyzer::skill_analyze()
         return true;
     }
     return false;
+}
+
+bool asst::InfrastSkillsImageAnalyzer::selected_analyze(int smiley_x, int smiley_y)
+{
+    LogTraceFunction;
+    const auto selected_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        resource.task().task_ptr("InfrastOperSelected"));
+    cv::Rect selected_rect = utils::make_rect<cv::Rect>(selected_task_ptr->rect_move);
+    selected_rect.x += smiley_x;
+    selected_rect.y += smiley_y;
+
+#ifdef LOG_TRACE
+    cv::Mat draw = m_image_draw.clone();
+    cv::rectangle(draw, selected_rect, cv::Scalar(0, 0, 255), 2);
+#endif // LOG_TRACE
+    cv::Mat roi = m_image(selected_rect);
+    cv::Mat hsv, bin;
+    cv::cvtColor(roi, hsv, cv::COLOR_BGR2HSV);
+    std::vector<cv::Mat> channels;
+    cv::split(hsv, channels);
+    int mask_lowb = selected_task_ptr->mask_range.first;
+    int mask_uppb = selected_task_ptr->mask_range.second;
+
+    int count = 0;
+    auto& h_channel = channels.at(0);
+    for (int i = 0; i != h_channel.rows; ++i) {
+        for (int j = 0; j != h_channel.cols; ++j) {
+            cv::uint8_t value = h_channel.at<cv::uint8_t>(i, j);
+            if (mask_lowb < value
+                && value < mask_uppb) {
+                ++count;
+            }
+        }
+    }
+    log.trace("selected_analyze |", count);
+    return count >= selected_task_ptr->templ_threshold;
 }

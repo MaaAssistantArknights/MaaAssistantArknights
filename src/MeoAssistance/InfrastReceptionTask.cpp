@@ -38,8 +38,12 @@ bool asst::InfrastReceptionTask::run()
 
 bool asst::InfrastReceptionTask::harvest_clue()
 {
+    LogTraceFunction;
     std::vector<std::string> tasks_vec = { "InfrastClueNew" };
     while (!tasks_vec.empty()) {
+        if (need_exit()) {
+            return false;
+        }
         ProcessTaskImageAnalyzer analyzer(ctrler.get_image(), tasks_vec);
         if (!analyzer.analyze()) {
             break;
@@ -71,37 +75,15 @@ bool asst::InfrastReceptionTask::harvest_clue()
 
 bool asst::InfrastReceptionTask::proc_clue()
 {
+    LogTraceFunction;
     const static std::string clue_vacancy = "InfrastClueVacancy";
     const static std::vector<std::string> clue_suffix = {
         "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
 
-    cv::Mat image;
-    for (const std::string& clue : clue_suffix) {
-        // 先识别线索的空位
-        image = ctrler.get_image();
-        InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
-        vacancy_analyzer.set_to_be_analyzed({ clue });
-        if (!vacancy_analyzer.analyze()) {
-            continue;
-        }
-        // 点开线索的空位
-        Rect vacancy = vacancy_analyzer.get_vacancy().cbegin()->second;
-        ctrler.click(vacancy);
-        int delay = resource.task().task_ptr(clue_vacancy + clue)->rear_delay;
-        sleep(delay);
+    proc_vacancy();
 
-        // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
-        swipe_to_the_bottom_of_clue_list_on_the_right();
-        image = ctrler.get_image();
-        InfrastClueImageAnalyzer clue_analyzer(image);
-        if (!clue_analyzer.analyze()) {
-            continue;
-        }
-        ctrler.click(clue_analyzer.get_result().back().first);
-        sleep(delay);
-    }
     // 开启线索交流，“解锁线索”
-    image = ctrler.get_image();
+    cv::Mat image = ctrler.get_image();
     MatchImageAnalyzer unlock_analyzer(image);
     const auto unlock_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("UnlockClues"));
@@ -110,6 +92,7 @@ bool asst::InfrastReceptionTask::proc_clue()
         ctrler.click(unlock_analyzer.get_result().rect);
         sleep(unlock_task_ptr->rear_delay);
         click_bottomleft_tab();
+        proc_vacancy();
         image = ctrler.get_image();
     }
 
@@ -136,8 +119,46 @@ bool asst::InfrastReceptionTask::proc_clue()
     return true;
 }
 
+bool asst::InfrastReceptionTask::proc_vacancy()
+{
+    LogTraceFunction;
+    const static std::string clue_vacancy = "InfrastClueVacancy";
+    const static std::vector<std::string> clue_suffix = {
+        "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
+
+    for (const std::string& clue : clue_suffix) {
+        if (need_exit()) {
+            return false;
+        }
+        // 先识别线索的空位
+        cv::Mat image = ctrler.get_image();
+        InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
+        vacancy_analyzer.set_to_be_analyzed({ clue });
+        if (!vacancy_analyzer.analyze()) {
+            continue;
+        }
+        // 点开线索的空位
+        Rect vacancy = vacancy_analyzer.get_vacancy().cbegin()->second;
+        ctrler.click(vacancy);
+        int delay = resource.task().task_ptr(clue_vacancy + clue)->rear_delay;
+        sleep(delay);
+
+        // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
+        swipe_to_the_bottom_of_clue_list_on_the_right();
+        image = ctrler.get_image();
+        InfrastClueImageAnalyzer clue_analyzer(image);
+        if (!clue_analyzer.analyze()) {
+            continue;
+        }
+        ctrler.click(clue_analyzer.get_result().back().first);
+        sleep(delay);
+    }
+    return true;
+}
+
 bool asst::InfrastReceptionTask::shift()
 {
+    LogTraceFunction;
     const auto& image = ctrler.get_image();
     MatchImageAnalyzer add_analyzer(image);
 
@@ -153,6 +174,9 @@ bool asst::InfrastReceptionTask::shift()
 
     constexpr int retry_times = 1;
     for (int i = 0; i <= retry_times; ++i) {
+        if (need_exit()) {
+            return false;
+        }
         swipe_to_the_left_of_operlist();
         click_clear_button();
 
@@ -173,6 +197,7 @@ bool asst::InfrastReceptionTask::shift()
 
 bool asst::InfrastReceptionTask::swipe_to_the_bottom_of_clue_list_on_the_right()
 {
+    LogTraceFunction;
     static Rect begin_rect = resource.task().task_ptr("InfrastClueOnTheRightSwipeBegin")->specific_rect;
     static Rect end_rect = resource.task().task_ptr("InfrastClueOnTheRightSwipeEnd")->specific_rect;
     static int duration = resource.task().task_ptr("InfrastClueOnTheRightSwipeBegin")->pre_delay;

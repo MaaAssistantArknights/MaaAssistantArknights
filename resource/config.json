@@ -72,14 +72,14 @@
                 "screencap": "[Adb] -s 127.0.0.1:7555 exec-out screencap -p"
             }
         },
-        "LDPlayer": {
+        "LDPlayerLocal": {
             "handle": {
                 "class": "LDPlayerMainFrame",
-                "window": "雷电模拟器"
+                "window": ""
             },
             "adb": {
                 "path": "[EmulatorPath]adb.exe",
-                "connect": "[Adb] connect 127.0.0.1:5555",
+                "connect": "[Adb] devices",
                 "click": "[Adb] -s emulator-5554 shell input tap [x] [y]",
                 "swipe": "[Adb] -s emulator-5554 shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s emulator-5554 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
@@ -87,19 +87,19 @@
                 "screencap": "[Adb] -s emulator-5554 shell screencap -p"
             }
         },
-        "LDPlayer64": {
+        "LDPlayerRemote": {
             "handle": {
                 "class": "LDPlayerMainFrame",
-                "window": "雷电模拟器(64)"
+                "window": ""
             },
             "adb": {
                 "path": "[EmulatorPath]adb.exe",
                 "connect": "[Adb] connect 127.0.0.1:5555",
-                "click": "[Adb] -s emulator-5554 shell input tap [x] [y]",
-                "swipe": "[Adb] -s emulator-5554 shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s emulator-5554 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "click": "[Adb] -s 127.0.0.1:5555 shell input tap [x] [y]",
+                "swipe": "[Adb] -s 127.0.0.1:5555 shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s 127.0.0.1:5555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] -s emulator-5554 shell screencap -p"
+                "screencap": "[Adb] -s 127.0.0.1:5555 shell screencap -p"
             }
         },
         "Nox": {
@@ -115,6 +115,21 @@
                 "display": "[Adb] -s 127.0.0.1:62001 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayRegex": "cur=%dx%d",
                 "screencap": "[Adb] -s 127.0.0.1:62001 exec-out screencap -p"
+            }
+        },
+        "NoxPort2": {
+            "handle": {
+                "class": "Qt5QWindowIcon",
+                "window": "夜神模拟器"
+            },
+            "adb": {
+                "path": "[EmulatorPath]nox_adb.exe",
+                "connect": "[Adb] connect 127.0.0.1:59865",
+                "click": "[Adb] -s 127.0.0.1:59865 shell input tap [x] [y]",
+                "swipe": "[Adb] -s 127.0.0.1:59865 shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s 127.0.0.1:59865 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayRegex": "cur=%dx%d",
+                "screencap": "[Adb] -s 127.0.0.1:59865 exec-out screencap -p"
             }
         },
         "XYAZ": {
@@ -158,11 +173,11 @@
                 "Doc": "USB连接暂时不兼容多设备的情况",
                 "path": "[ExecDir]platform-tools\\adb.exe",
                 "connect": "[Adb] devices",
-                "click": "[Adb] shell input tap [x] [y]",
-                "swipe": "[Adb] shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "click": "[Adb] -d shell input tap [x] [y]",
+                "swipe": "[Adb] -d shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -d shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] exec-out screencap -p"
+                "screencap": "[Adb] -d exec-out screencap -p"
             }
         }
     }

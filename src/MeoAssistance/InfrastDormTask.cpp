@@ -5,6 +5,7 @@
 #include "InfrastMoodImageAnalyzer.h"
 #include "Resource.h"
 #include "Controller.h"
+#include "Logger.hpp"
 
 const std::string asst::InfrastDormTask::FacilityName = "Dorm";
 
@@ -17,6 +18,9 @@ bool asst::InfrastDormTask::run()
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
     for (; m_cur_dorm_index < m_max_num_of_dorm; ++m_cur_dorm_index) {
+        if (need_exit()) {
+            return false;
+        }
         enter_facility(FacilityName, m_cur_dorm_index);
         if (!enter_oper_list_page()) {
             return false;
@@ -26,9 +30,13 @@ bool asst::InfrastDormTask::run()
 
         int quantity_selected = 0;
         while (quantity_selected < MaxNumOfOpers) {
+            if (need_exit()) {
+                return false;
+            }
             const auto& image = ctrler.get_image();
             InfrastMoodImageAnalyzer mood_analyzer(image);
             if (!mood_analyzer.analyze()) {
+                log.error("mood analyze faild!");
                 return false;
             }
             mood_analyzer.sort_result();
@@ -36,7 +44,11 @@ bool asst::InfrastDormTask::run()
 
             int quantity_resting = 0;
             for (const auto& mood_info : mood_result) {
+                if (need_exit()) {
+                    return false;
+                }
                 if (quantity_selected >= MaxNumOfOpers) {
+                    log.trace("quantity_selected:", quantity_selected, ", just break");
                     break;
                 }
                 switch (mood_info.smiley.type)
@@ -44,6 +56,7 @@ bool asst::InfrastDormTask::run()
                 case InfrastSmileyType::Rest:
                     // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了，直接退出即可
                     if (++quantity_resting > MaxNumOfOpers) {
+                        log.trace("quantity_resting:", quantity_resting, ", confirm");
                         click_confirm_button();
                         return true;
                     }
@@ -57,6 +70,7 @@ bool asst::InfrastDormTask::run()
                     {
                         ctrler.click(mood_info.rect);
                         if (++quantity_selected >= MaxNumOfOpers) {
+                            log.trace("quantity_selected:", quantity_selected, ", just break");
                             break;
                         }
                     }
@@ -66,6 +80,7 @@ bool asst::InfrastDormTask::run()
                 }
             }
             if (quantity_selected >= MaxNumOfOpers) {
+                log.trace("quantity_selected:", quantity_selected, ", just break");
                 break;
             }
             sync_swipe_of_operlist();
@@ -78,6 +93,8 @@ bool asst::InfrastDormTask::run()
 
 bool asst::InfrastDormTask::click_confirm_button()
 {
+    LogTraceFunction;
+
     const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
         resource.task().task_ptr("InfrastConfirmButton"));
     ctrler.click(task_ptr->specific_rect);
@@ -98,6 +115,9 @@ bool asst::InfrastDormTask::click_confirm_button()
     OcrImageAnalyzer analyzer;
     analyzer.set_task_info(*task_ptr);
     for (int i = 0; i != m_retry_times; ++i) {
+        if (need_exit()) {
+            return false;
+        }
         const auto& image = ctrler.get_image();
         analyzer.set_image(image);
         if (!analyzer.analyze()) {
