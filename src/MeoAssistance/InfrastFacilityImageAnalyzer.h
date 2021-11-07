@@ -11,7 +11,6 @@ namespace asst {
 
         virtual bool analyze() override;
 
-        // 若为空，则分析所有设施
         void set_to_be_analyzed(std::vector<std::string> facilities) noexcept {
             m_to_be_analyzed = std::move(facilities);
         }
@@ -53,7 +52,7 @@ namespace asst {
 
         // key：设施名，value：所有这种设施的当前Rect（例如所有制造站的位置）
         std::unordered_map<std::string, std::vector<MatchRect>> m_result;
-        // 需要识别的设施名，若为空，则分析所有设施
+        // 需要识别的设施名
         std::vector<std::string> m_to_be_analyzed;
     };
 }

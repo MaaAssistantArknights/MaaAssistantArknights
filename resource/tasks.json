@@ -1250,18 +1250,19 @@
         "rearDelay": 1000
     },
     "InfrastOperSelected": {
-        "template": "OperSelected.png",
+        "template": "empty.png",
         "cache": false,
-        "templThreshold": 0.35,
+        "templThreshold": 8000,
+        "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "maskRange": [
-            1,
-            255
+            95,
+            105
         ],
         "rectMove": [
             0,
-            -252,
+            -230,
             74,
-            320
+            283
         ]
     },
     "InfrastOperOnShift": {
@@ -1278,63 +1279,84 @@
     "InfrastClueVacancyNo1": {
         "template": "ClueVacancyNo1.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            0,
+            100,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo2": {
         "template": "ClueVacancyNo2.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            200,
+            200,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo3": {
         "template": "ClueVacancyNo3.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            400,
+            100,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo4": {
         "template": "ClueVacancyNo4.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            650,
+            150,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo5": {
         "template": "ClueVacancyNo5.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            300,
+            420,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo6": {
         "template": "ClueVacancyNo6.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            500,
+            350,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
     "InfrastClueVacancyNo7": {
         "template": "ClueVacancyNo7.png",
         "cache": false,
-        "maskRange": [
-            180,
-            255
+        "templThreshold": 0.75,
+        "roi": [
+            50,
+            350,
+            500,
+            250
         ],
         "rearDelay": 1000
     },
@@ -1344,6 +1366,12 @@
         "maskRange": [
             1,
             255
+        ],
+        "roi": [
+            800,
+            0,
+            480,
+            720
         ]
     },
     "InfrastClueOnTheRightSwipeBegin": {
@@ -1355,8 +1383,8 @@
             300,
             100
         ],
-        "preDelay": 1000,
-        "rearDelay": 1000,
+        "preDelay": 500,
+        "rearDelay": 500,
         "maxTimes": 1,
         "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
     },
@@ -1423,6 +1451,6 @@
         "template": "UnlockClues.png",
         "action": "clickSelf",
         "cache": false,
-        "rearDelay": 3000
+        "rearDelay": 5000
     }
 }

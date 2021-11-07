@@ -17,6 +17,9 @@ bool asst::InfrastPowerTask::run()
     set_product("Drone");
 
     for (int i = 0; i != MaxNumOfFacility; ++i) {
+        if (need_exit()) {
+            return false;
+        }
         swipe_to_the_left_of_main_ui();
         enter_facility(FacilityName, i);
 
