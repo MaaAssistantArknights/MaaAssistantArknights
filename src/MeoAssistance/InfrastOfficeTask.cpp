@@ -1,5 +1,7 @@
 ﻿#include "InfrastOfficeTask.h"
 
+#include "Controller.h"
+
 const std::string asst::InfrastOfficeTask::FacilityName = "Office";
 
 bool asst::InfrastOfficeTask::run()
@@ -33,11 +35,27 @@ bool asst::InfrastOfficeTask::run()
             [&](const InfrastOperSkillInfo& info) -> bool {
                 return info.selected;
             });
-        // 如果之前有干员在，那就不换人，直接退出办公室
+
+        bool need_shift = true;
         if (find_iter != m_all_available_opers.end()) {
-            m_all_available_opers.erase(find_iter);
+            switch (m_work_mode)
+            {
+            case InfrastWorkMode::Gentle:
+                // 如果之前有干员在，那就不换人，直接退出
+                m_all_available_opers.erase(find_iter);
+                need_shift = false;
+                break;
+            case InfrastWorkMode::Aggressive:
+                need_shift = true;
+                ctrler.click(find_iter->rect);
+                break;
+            case InfrastWorkMode::Extreme: // TODO
+                break;
+            default:
+                break;
+            }
         }
-        else {
+        if (need_shift) {
             optimal_calc();
             bool ret = opers_choose();
             if (!ret) {
