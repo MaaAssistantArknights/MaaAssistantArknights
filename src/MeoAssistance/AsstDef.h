@@ -208,11 +208,14 @@ namespace asst {
 
     struct AdbCmd {
         std::string path;
+        std::string devices;
+        std::string address_regex;
+        std::string address;
         std::string connect;
         std::string click;
         std::string swipe;
         std::string display;
-        std::string display_regex;
+        std::string display_format;
         std::string screencap;
         //std::string pullscreen;
         int display_width = 0;
