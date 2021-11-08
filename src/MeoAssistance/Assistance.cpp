@@ -264,7 +264,7 @@ bool Assistance::start_recruiting(const std::vector<int>& required_level, bool s
     return true;
 }
 
-bool asst::Assistance::start_infrast_shift(const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold)
+bool asst::Assistance::start_infrast_shift(InfrastWorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold)
 {
     LogTraceFunction;
     if (!m_thread_idle || !m_inited) {
@@ -277,21 +277,28 @@ bool asst::Assistance::start_infrast_shift(const std::vector<std::string>& order
     append_match_task(InfrastTaskCahin, { "InfrastBegin" });
 
     auto info_task_ptr = std::make_shared<InfrastInfoTask>(task_callback, (void*)this);
+    info_task_ptr->set_work_mode(work_mode);
     m_tasks_deque.emplace_back(info_task_ptr);
 
     // 因为后期要考虑多任务间的联动等，所以这些任务的声明暂时不妨到for循环中
     auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
+    dorm_task_ptr->set_work_mode(work_mode);
     dorm_task_ptr->set_task_chain(InfrastTaskCahin);
     dorm_task_ptr->set_mood_threshold(dorm_threshold);
     auto mfg_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this);
+    mfg_task_ptr->set_work_mode(work_mode);
     mfg_task_ptr->set_task_chain(InfrastTaskCahin);
     auto trade_task_ptr = std::make_shared<InfrastTradeTask>(task_callback, (void*)this);
+    trade_task_ptr->set_work_mode(work_mode);
     trade_task_ptr->set_task_chain(InfrastTaskCahin);
     auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
+    power_task_ptr->set_work_mode(work_mode);
     power_task_ptr->set_task_chain(InfrastTaskCahin);
     auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
+    office_task_ptr->set_work_mode(work_mode);
     office_task_ptr->set_task_chain(InfrastTaskCahin);
     auto recpt_task_ptr = std::make_shared<InfrastReceptionTask>(task_callback, (void*)this);
+    recpt_task_ptr->set_work_mode(work_mode);
     recpt_task_ptr->set_task_chain(InfrastTaskCahin);
 
     for (const auto& facility : order) {

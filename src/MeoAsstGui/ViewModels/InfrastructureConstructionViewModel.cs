@@ -29,6 +29,7 @@ namespace MeoAsstGui
             facility_key.Add("办公室", "Office");
 
             _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
+
             if (NotUseDrone)
             {
                 uses_of_drones = UsesOfDrones.DronesNotUse;
@@ -40,6 +41,19 @@ namespace MeoAsstGui
             else if (DroneForMfg)
             {
                 uses_of_drones = UsesOfDrones.DronesMfg;
+            }
+
+            if (WorkModeGentle)
+            {
+                work_mode = InfrastWorkMode.Gentle;
+            }
+            else if (WorkModeAggressive)
+            {
+                work_mode = InfrastWorkMode.Aggressive;
+            }
+            else if (WorkModeExtreme)
+            {
+                work_mode = InfrastWorkMode.Extreme;
             }
         }
 
@@ -131,6 +145,54 @@ namespace MeoAsstGui
 
         private UsesOfDrones uses_of_drones = UsesOfDrones.DronesNotUse;
 
+        private bool _workModeGentle = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.WorkModeGentle", bool.TrueString));
+        private bool _workModeAggressive = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.WorkModeAggressive", bool.FalseString));
+        private bool _workModeExtreme = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.WorkModeExtreme", bool.FalseString));
+
+        private InfrastWorkMode work_mode = InfrastWorkMode.Gentle;
+
+        public bool WorkModeGentle
+        {
+            get { return _workModeGentle; }
+            set
+            {
+                if (value)
+                {
+                    work_mode = InfrastWorkMode.Gentle;
+                }
+                SetAndNotify(ref _workModeGentle, value);
+                ViewStatusStorage.Set("Infrast.WorkModeGentle", value.ToString());
+            }
+        }
+
+        public bool WorkModeAggressive
+        {
+            get { return _workModeAggressive; }
+            set
+            {
+                if (value)
+                {
+                    work_mode = InfrastWorkMode.Aggressive;
+                }
+                SetAndNotify(ref _workModeAggressive, value);
+                ViewStatusStorage.Set("Infrast.WorkModeAggressive", value.ToString());
+            }
+        }
+
+        public bool WorkModeExtreme
+        {
+            get { return _workModeExtreme; }
+            set
+            {
+                if (value)
+                {
+                    work_mode = InfrastWorkMode.Extreme;
+                }
+                SetAndNotify(ref _workModeExtreme, value);
+                ViewStatusStorage.Set("Infrast.WorkModeExtreme", value.ToString());
+            }
+        }
+
         public async void ChangeShift()
         {
             var asstProxy = _container.Get<AsstProxy>();
@@ -154,7 +216,7 @@ namespace MeoAsstGui
                 orderList.Add(facility_key[item.Name]);
             }
 
-            asstProxy.AsstStartInfrastShift(orderList.ToArray(), orderList.Count, (int)uses_of_drones, DormThreshold / 100.0);
+            asstProxy.AsstStartInfrastShift((int)work_mode, orderList.ToArray(), orderList.Count, (int)uses_of_drones, DormThreshold / 100.0);
         }
 
         public void Stop()

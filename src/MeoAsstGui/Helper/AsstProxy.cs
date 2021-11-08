@@ -31,7 +31,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStartRecruiting(IntPtr ptr, int[] required_level, int required_len, bool set_time);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartInfrastShift(IntPtr ptr, string[] order, int order_len, int uses_of_drones, double dorm_threshold);
+        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartInfrastShift(IntPtr ptr, int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold);
 
         [DllImport("MeoAssistance.dll")] static private extern bool AsstStartDebugTask(IntPtr ptr);
 
@@ -283,9 +283,9 @@ namespace MeoAsstGui
             return AsstStartRecruiting(_ptr, required_level, required_len, set_time);
         }
 
-        public bool AsstStartInfrastShift(string[] order, int order_len, int uses_of_drones, double dorm_threshold)
+        public bool AsstStartInfrastShift(int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold)
         {
-            return AsstStartInfrastShift(_ptr, order, order_len, uses_of_drones, dorm_threshold);
+            return AsstStartInfrastShift(_ptr, work_mode, order, order_len, uses_of_drones, dorm_threshold);
         }
     }
 
@@ -339,5 +339,13 @@ namespace MeoAsstGui
         DronesMfg = 0x200,
         DronesMfgCombatRecord = DronesMfg | 0x10,
         DronesMfgPureGold = DronesMfg | 0x20
+    };
+
+    public enum InfrastWorkMode
+    {
+        Invaild = -1,
+        Gentle,         // 温和换班模式：会对干员人数不满的设施进行换班，计算单设施内最优解，尽量不破坏原有的干员组合；即若设施内干员是满的，则不对该设施进行换班
+        Aggressive,     // 激进换班模式：会对每一个设施进行换班，计算单设施内最优解，但不会将其他设施中的干员替换过来；即按工作状态排序，仅选择前面的干员
+        Extreme         // 偏激换班模式：会对每一个设施进行换班，计算全局的单设施内最优解，为追求更高效率，会将其他设施内的干员也替换过来；即按技能排序，计算所有拥有该设施技能的干员效率，无论他在不在其他地方工作
     };
 }
