@@ -8,6 +8,11 @@
 #include "Logger.hpp"
 #include "AsstMsg.h"
 
+void asst::InfrastAbstractTask::set_work_mode(InfrastWorkMode work_mode) noexcept
+{
+    m_work_mode = work_mode;
+}
+
 bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int index)
 {
     LogTraceFunction;

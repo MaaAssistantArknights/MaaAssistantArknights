@@ -5,6 +5,7 @@
 #include <json_value.h>
 
 #include "Version.h"
+#include "AsstDef.h"
 #include "AsstUtils.hpp"
 #include "Assistance.h"
 
@@ -106,7 +107,7 @@ bool AsstCatchRemote(void* p_asst, const char* address)
     return ((asst::Assistance*)p_asst)->catch_remote(address);
 }
 
-bool MEOAPI AsstCatchFake(void* p_asst)
+bool AsstCatchFake(void* p_asst)
 {
 #ifdef LOG_TRACE
     if (p_asst == nullptr) {
@@ -179,7 +180,7 @@ bool AsstStartRecruiting(void* p_asst, const int required_level[], int required_
     return ((asst::Assistance*)p_asst)->start_recruiting(level_vector, set_time);
 }
 
-bool AsstStartInfrastShift(void* p_asst, const char** order, int order_size, int uses_of_drones, double dorm_threshold)
+bool AsstStartInfrastShift(void* p_asst, int work_mode, const char** order, int order_size, int uses_of_drones, double dorm_threshold)
 {
     if (p_asst == nullptr) {
         return false;
@@ -188,6 +189,7 @@ bool AsstStartInfrastShift(void* p_asst, const char** order, int order_size, int
     order_vector.assign(order, order + order_size);
 
     return ((asst::Assistance*)p_asst)->start_infrast_shift(
+        static_cast<asst::InfrastWorkMode>(work_mode),
         order_vector,
         static_cast<asst::UsesOfDrones>(uses_of_drones),
         dorm_threshold);
