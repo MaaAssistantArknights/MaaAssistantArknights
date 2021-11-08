@@ -34,12 +34,14 @@
             },
             "adb": {
                 "path": "[EmulatorPath]Engine\\ProgramFiles\\HD-Adb.exe",
-                "connect": "[Adb] connect 127.0.0.1:5555",
-                "click": "[Adb] -s 127.0.0.1:5555 shell input tap [x] [y]",
-                "swipe": "[Adb] -s 127.0.0.1:5555 shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s 127.0.0.1:5555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] -s 127.0.0.1:5555 exec-out screencap -p"
+                "devices": "[Adb] devices",
+                "addressRegex": "(.+)\tdevice",
+                "connect": "[Adb] connect [Address]",
+                "click": "[Adb] -s [Address] shell input tap [x] [y]",
+                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayFormat": "cur=%dx%d",
+                "screencap": "[Adb] -s [Address] exec-out screencap -p"
             }
         },
         "BlueStacksInternational": {
@@ -49,12 +51,14 @@
             },
             "adb": {
                 "path": "[EmulatorPath]HD-Adb.exe",
-                "connect": "[Adb] connect 127.0.0.1:5555",
-                "click": "[Adb] -s 127.0.0.1:5555 shell input tap [x] [y]",
-                "swipe": "[Adb] -s 127.0.0.1:5555 shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s 127.0.0.1:5555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] -s 127.0.0.1:5555 exec-out screencap -p"
+                "devices": "[Adb] devices",
+                "addressRegex": "(.+)\tdevice",
+                "connect": "[Adb] connect [Address]",
+                "click": "[Adb] -s [Address] shell input tap [x] [y]",
+                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayFormat": "cur=%dx%d",
+                "screencap": "[Adb] -s [Address] exec-out screencap -p"
             }
         },
         "MuMuEmulator": {
@@ -64,42 +68,31 @@
             },
             "adb": {
                 "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
-                "connect": "[Adb] connect 127.0.0.1:7555",
-                "click": "[Adb] -s 127.0.0.1:7555 shell input tap [x] [y]",
-                "swipe": "[Adb] -s 127.0.0.1:7555 shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s 127.0.0.1:7555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] -s 127.0.0.1:7555 exec-out screencap -p"
+                "devices": "[Adb] devices",
+                "addressRegex": "(.+)\tdevice",
+                "connect": "[Adb] connect [Address]",
+                "click": "[Adb] -s [Address] shell input tap [x] [y]",
+                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayFormat": "cur=%dx%d",
+                "screencap": "[Adb] -s [Address] exec-out screencap -p"
             }
         },
-        "LDPlayerLocal": {
+        "LDPlayer": {
             "handle": {
                 "class": "LDPlayerMainFrame",
                 "window": ""
             },
             "adb": {
                 "path": "[EmulatorPath]adb.exe",
-                "connect": "[Adb] devices",
-                "click": "[Adb] -s emulator-5554 shell input tap [x] [y]",
-                "swipe": "[Adb] -s emulator-5554 shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s emulator-5554 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] -s emulator-5554 shell screencap -p"
-            }
-        },
-        "LDPlayerRemote": {
-            "handle": {
-                "class": "LDPlayerMainFrame",
-                "window": ""
-            },
-            "adb": {
-                "path": "[EmulatorPath]adb.exe",
-                "connect": "[Adb] connect 127.0.0.1:5555",
-                "click": "[Adb] -s 127.0.0.1:5555 shell input tap [x] [y]",
-                "swipe": "[Adb] -s 127.0.0.1:5555 shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s 127.0.0.1:5555 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] -s 127.0.0.1:5555 shell screencap -p"
+                "devices": "[Adb] devices",
+                "addressRegex": "(.+)\tdevice",
+                "connect": "[Adb] connect [Address]",
+                "click": "[Adb] -s [Address] shell input tap [x] [y]",
+                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayFormat": "cur=%dx%d",
+                "screencap": "[Adb] -s [Address] shell screencap -p"
             }
         },
         "Nox": {
@@ -109,27 +102,14 @@
             },
             "adb": {
                 "path": "[EmulatorPath]nox_adb.exe",
-                "connect": "[Adb] connect 127.0.0.1:62001",
-                "click": "[Adb] -s 127.0.0.1:62001 shell input tap [x] [y]",
-                "swipe": "[Adb] -s 127.0.0.1:62001 shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s 127.0.0.1:62001 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] -s 127.0.0.1:62001 exec-out screencap -p"
-            }
-        },
-        "NoxPort2": {
-            "handle": {
-                "class": "Qt5QWindowIcon",
-                "window": "夜神模拟器"
-            },
-            "adb": {
-                "path": "[EmulatorPath]nox_adb.exe",
-                "connect": "[Adb] connect 127.0.0.1:59865",
-                "click": "[Adb] -s 127.0.0.1:59865 shell input tap [x] [y]",
-                "swipe": "[Adb] -s 127.0.0.1:59865 shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s 127.0.0.1:59865 shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] -s 127.0.0.1:59865 exec-out screencap -p"
+                "devices": "[Adb] devices",
+                "addressRegex": "(.+)\tdevice",
+                "connect": "[Adb] connect [Address]",
+                "click": "[Adb] -s [Address] shell input tap [x] [y]",
+                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayFormat": "cur=%dx%d",
+                "screencap": "[Adb] -s [Address] exec-out screencap -p"
             }
         },
         "XYAZ": {
@@ -139,12 +119,14 @@
             },
             "adb": {
                 "path": "[EmulatorPath]adb.exe",
-                "connect": "[Adb] connect 127.0.0.1:21503",
-                "click": "[Adb] -s 127.0.0.1:21503 shell input tap [x] [y]",
-                "swipe": "[Adb] -s 127.0.0.1:21503 shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s 127.0.0.1:21503 shell dumpsys window displays | grep init=",
-                "displayRegex": "    init=%dx%d",
-                "screencap": "[Adb] -s 127.0.0.1:21503 shell screencap -p"
+                "devices": "[Adb] devices",
+                "addressRegex": "(.+)\tdevice",
+                "connect": "[Adb] connect [Address]",
+                "click": "[Adb] -s [Address] shell input tap [x] [y]",
+                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init=",
+                "displayFormat": "    init=%dx%d",
+                "screencap": "[Adb] -s [Address] shell screencap -p"
             }
         },
         "Remote": {
@@ -155,11 +137,13 @@
             },
             "adb": {
                 "path": "[ExecDir]platform-tools\\adb.exe",
+                "devices": "[Adb] devices",
+                "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
                 "click": "[Adb] -s [Address] shell input tap [x] [y]",
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d",
+                "displayFormat": "cur=%dx%d",
                 "screencap": "[Adb] -s [Address] exec-out screencap -p"
             }
         },
@@ -172,12 +156,14 @@
             "adb": {
                 "Doc": "USB连接暂时不兼容多设备的情况",
                 "path": "[ExecDir]platform-tools\\adb.exe",
-                "connect": "[Adb] devices",
-                "click": "[Adb] -d shell input tap [x] [y]",
-                "swipe": "[Adb] -d shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -d shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayRegex": "cur=%dx%d",
-                "screencap": "[Adb] -d exec-out screencap -p"
+                "devices": "[Adb] devices",
+                "addressRegex": "(.+)\tdevice",
+                "connect": "[Adb] connect [Address]",
+                "click": "[Adb] -s [Address] shell input tap [x] [y]",
+                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayFormat": "cur=%dx%d",
+                "screencap": "[Adb] -s [Address] exec-out screencap -p"
             }
         }
     }

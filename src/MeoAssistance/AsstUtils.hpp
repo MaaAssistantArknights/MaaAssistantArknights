@@ -37,6 +37,25 @@ namespace asst {
             return str;
         }
 
+        static std::vector<std::string> string_split(const std::string& str, const std::string& delimiter)
+        {
+            std::string::size_type pos1 = 0;
+            std::string::size_type pos2 = str.find(delimiter);
+            std::vector<std::string> result;
+
+            while (std::string::npos != pos2)
+            {
+                result.emplace_back(str.substr(pos1, pos2 - pos1));
+
+                pos1 = pos2 + delimiter.size();
+                pos2 = str.find(delimiter, pos1);
+            }
+            if (pos1 != str.length())
+                result.emplace_back(str.substr(pos1));
+
+            return result;
+        }
+
         static std::string get_format_time()
         {
             SYSTEMTIME curtime;

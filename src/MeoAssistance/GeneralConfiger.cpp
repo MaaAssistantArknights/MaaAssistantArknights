@@ -36,11 +36,14 @@ bool asst::GeneralConfiger::parse(const json::value& json)
 
         const json::object& adb_json = emulator_json.at("adb").as_object();
         emulator_info.adb.path = adb_json.at("path").as_string();
+        emulator_info.adb.address = adb_json.get("address", std::string());
+        emulator_info.adb.devices = adb_json.at("devices").as_string();
+        emulator_info.adb.address_regex = adb_json.at("addressRegex").as_string();
         emulator_info.adb.connect = adb_json.at("connect").as_string();
         emulator_info.adb.click = adb_json.at("click").as_string();
         emulator_info.adb.swipe = adb_json.at("swipe").as_string();
         emulator_info.adb.display = adb_json.at("display").as_string();
-        emulator_info.adb.display_regex = adb_json.at("displayRegex").as_string();
+        emulator_info.adb.display_format = adb_json.at("displayFormat").as_string();
         emulator_info.adb.screencap = adb_json.at("screencap").as_string();
         //emulator_info.adb.pullscreen = adb_json.at("pullscreen").as_string();
 

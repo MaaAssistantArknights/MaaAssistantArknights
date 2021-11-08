@@ -7,6 +7,7 @@
 #include <utility>
 #include <algorithm>
 #include <chrono>
+#include <regex>
 
 #include <opencv2/opencv.hpp>
 
@@ -198,47 +199,37 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         adb_dir = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", utils::get_cur_dir()) + '"';
     }
 
-    //// 针对雷电模拟器连接问题的专用补丁
-    //if (m_emulator_info.handle.class_name == "LDPlayerMainFrame") {
-    //    log.trace("LDPlayer Connection Patch Activated.");
-    //    std::string connect_cmd = utils::string_replace_all("[Adb] devices", "[Adb]", adb_dir);
-    //    auto devices_result = call_command(connect_cmd);
-    //    std::string devices_list(
-    //        std::make_move_iterator(devices_result.begin()),
-    //        std::make_move_iterator(devices_result.end()));
-    //    // 查找连接的所有设备
-    //    std::string device = {};
+    std::string devices_cmd = utils::string_replace_all(m_emulator_info.adb.devices, "[Adb]", adb_dir);
+    auto&& [devices_ret, devices_result] = call_command(devices_cmd);
+    if (!devices_ret) {
+        return false;
+    }
+    std::string devices_pipe_str(
+        std::make_move_iterator(devices_result.begin()),
+        std::make_move_iterator(devices_result.end()));
+    auto lines = utils::string_split(devices_pipe_str, "\r\n");
 
-    //    if (devices_list.find("emulator") != devices_list.npos) {
-    //        device = devices_list.substr(devices_list.find("emulator"), 13);
-    //        m_emulator_info.adb.connect = "";
-    //    }
-    //    else if (devices_list.find("127") != devices_list.npos) {
-    //        device = devices_list.substr(devices_list.find("127"), 14);
-    //    }
+    std::string address;
+    const std::regex address_regex(m_emulator_info.adb.address_regex);
+    for (const std::string& line : lines) {
+        std::smatch smatch;
+        if (std::regex_match(line, smatch, address_regex)) {
+            address = smatch[1];
+        }
+    }
+    log.trace("address", address);
+    if (address.empty()) {
+        return false;
+    }
 
-    //    if (device.empty()) {
-    //        log.trace("no device detected.");
-    //        return false;
-    //    }
-
-    //    log.trace("device detected: ", device);
-
-    //    m_emulator_info.adb.connect = utils::string_replace_all(m_emulator_info.adb.connect, "127.0.0.1:5555", device);
-    //    m_emulator_info.adb.click = utils::string_replace_all(m_emulator_info.adb.click, "-e", "-s " + device);
-    //    m_emulator_info.adb.swipe = utils::string_replace_all(m_emulator_info.adb.swipe, "-e", "-s " + device);
-    //    m_emulator_info.adb.display = utils::string_replace_all(m_emulator_info.adb.display, "-e", "-s " + device);
-    //    m_emulator_info.adb.screencap = utils::string_replace_all(m_emulator_info.adb.screencap, "-e", "-s " + device);
-    //}
-
-    std::string connect_cmd = utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", adb_dir);
+    std::string connect_cmd = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", adb_dir), "[Address]", address);
     auto&& [connect_ret, connect_result] = call_command(connect_cmd);
     // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
     if (!connect_ret) {
         return false;
     }
 
-    std::string display_cmd = utils::string_replace_all(m_emulator_info.adb.display, "[Adb]", adb_dir);
+    std::string display_cmd = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.display, "[Adb]", adb_dir), "[Address]", address);
     auto&& [display_ret, display_result] = call_command(display_cmd);
     if (!display_ret) {
         return false;
@@ -248,7 +239,7 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         std::make_move_iterator(display_result.end()));
     int size_value1 = 0;
     int size_value2 = 0;
-    sscanf_s(display_pipe_str.c_str(), m_emulator_info.adb.display_regex.c_str(), &size_value1, &size_value2);
+    sscanf_s(display_pipe_str.c_str(), m_emulator_info.adb.display_format.c_str(), &size_value1, &size_value2);
     // 为了防止抓取句柄的时候手机是竖屏的（还没进游戏），这里取大的值为宽，小的为高
     // 总不能有人竖屏玩明日方舟吧（？
     m_emulator_info.adb.display_width = (std::max)(size_value1, size_value2);
@@ -272,9 +263,9 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(GeneralConfiger::WindowWidthDefault);
     }
 
-    m_emulator_info.adb.click = utils::string_replace_all(m_emulator_info.adb.click, "[Adb]", adb_dir);
-    m_emulator_info.adb.swipe = utils::string_replace_all(m_emulator_info.adb.swipe, "[Adb]", adb_dir);
-    m_emulator_info.adb.screencap = utils::string_replace_all(m_emulator_info.adb.screencap, "[Adb]", adb_dir);
+    m_emulator_info.adb.click = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.click, "[Adb]", adb_dir), "[Address]", address);
+    m_emulator_info.adb.swipe = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.swipe, "[Adb]", adb_dir), "[Address]", address);
+    m_emulator_info.adb.screencap = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.screencap, "[Adb]", adb_dir), "[Address]", address);
 
     return true;
 }
