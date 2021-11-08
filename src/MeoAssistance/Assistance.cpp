@@ -271,6 +271,11 @@ bool asst::Assistance::start_infrast_shift(InfrastWorkMode work_mode, const std:
         return false;
     }
 
+    // 偏激模式还没来得及做，保留用户接口，内部先按激进模式走
+    if (work_mode == InfrastWorkMode::Extreme) {
+        work_mode = InfrastWorkMode::Aggressive;
+    }
+
     constexpr static const char* InfrastTaskCahin = "Infrast";
 
     // 这个流程任务，结束的时候是处于基建主界面的。既可以用于进入基建，也可以用于从设施里返回基建主界面
