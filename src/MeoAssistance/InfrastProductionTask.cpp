@@ -44,7 +44,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         resource.task().task_ptr("InfrastFacilityListTab" + m_facility));
     MatchImageAnalyzer add_analyzer;
     const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastAddOperator" + m_facility));
+        resource.task().task_ptr("InfrastAddOperator" + m_facility + m_work_mode_name));
     add_analyzer.set_task_info(*add_task_ptr);
 
     for (const Rect& tab : m_facility_list_tabs) {
@@ -61,7 +61,10 @@ bool asst::InfrastProductionTask::shift_facility_list()
             log.info("no add button, just continue");
             continue;
         }
-        Rect add_button = add_analyzer.get_result().rect;
+        auto& rect = add_analyzer.get_result().rect;
+        Rect add_button = add_task_ptr->rect_move;
+        add_button.x += rect.x;
+        add_button.y += rect.y;
 
         /* 识别当前正在造什么 */
         MatchImageAnalyzer product_analyzer(image);

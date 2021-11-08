@@ -11,6 +11,21 @@
 void asst::InfrastAbstractTask::set_work_mode(InfrastWorkMode work_mode) noexcept
 {
     m_work_mode = work_mode;
+    switch (work_mode)
+    {
+    case InfrastWorkMode::Gentle:
+        m_work_mode_name = "Gentle";
+        break;
+    case InfrastWorkMode::Aggressive:
+        m_work_mode_name = "Aggressive";
+        break;
+    case InfrastWorkMode::Extreme:
+        m_work_mode_name = "Extreme";
+        break;
+    default:
+        m_work_mode_name.clear();
+        break;
+    }
 }
 
 bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int index)

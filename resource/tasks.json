@@ -1216,8 +1216,8 @@
             220
         ]
     },
-    "InfrastAddOperatorMfg": {
-        "template": "AddOperatorMfg.png",
+    "InfrastAddOperatorMfgGentle": {
+        "template": "AddOperatorMfgGentle.png",
         "cache": false,
         "roi": [
             200,
@@ -1227,8 +1227,25 @@
         ],
         "rearDelay": 1000
     },
-    "InfrastAddOperatorTrade": {
-        "template": "AddOperatorTrade.png",
+    "InfrastAddOperatorMfgAggressive": {
+        "template": "AddOperatorMfgAggressive.png",
+        "cache": false,
+        "roi": [
+            200,
+            500,
+            500,
+            100
+        ],
+        "rectMove": [
+            5,
+            50,
+            80,
+            80
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastAddOperatorTradeGentle": {
+        "template": "AddOperatorTradeGentle.png",
         "cache": false,
         "roi": [
             200,
@@ -1238,14 +1255,42 @@
         ],
         "rearDelay": 1000
     },
-    "InfrastAddOperatorReception": {
-        "template": "AddOperatorReception.png",
+    "InfrastAddOperatorTradeAggressive": {
+        "template": "AddOperatorTradeAggressive.png",
+        "cache": false,
+        "roi": [
+            200,
+            500,
+            500,
+            100
+        ],
+        "rectMove": [
+            5,
+            50,
+            80,
+            80
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastAddOperatorReceptionGentle": {
+        "template": "AddOperatorReceptionGentle.png",
         "cache": false,
         "roi": [
             0,
             0,
             300,
             720
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastAddOperatorReceptionAggressive": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            30,
+            200,
+            200,
+            300
         ],
         "rearDelay": 1000
     },

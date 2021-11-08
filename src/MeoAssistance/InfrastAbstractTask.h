@@ -26,5 +26,6 @@ namespace asst {
 
         int m_last_swipe_id = 0;
         InfrastWorkMode m_work_mode = InfrastWorkMode::Gentle;
+        std::string m_work_mode_name = "Gentle";
     };
 }

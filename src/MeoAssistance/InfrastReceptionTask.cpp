@@ -162,15 +162,29 @@ bool asst::InfrastReceptionTask::shift()
     const auto& image = ctrler.get_image();
     MatchImageAnalyzer add_analyzer(image);
 
-    const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastAddOperator" + m_facility));
-    add_analyzer.set_task_info(*add_task_ptr);
+    const auto raw_task_ptr = resource.task().task_ptr("InfrastAddOperator" + m_facility + m_work_mode_name);
+    switch (raw_task_ptr->algorithm)
+    {
+    case AlgorithmType::JustReturn:
+        if (raw_task_ptr->action == ProcessTaskAction::ClickRect) {
+            ctrler.click(raw_task_ptr->specific_rect);
+        }
+        break;
+    case AlgorithmType::MatchTemplate:
+    {
+        const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(raw_task_ptr);
+        add_analyzer.set_task_info(*add_task_ptr);
 
-    if (!add_analyzer.analyze()) {
-        return true;
+        if (!add_analyzer.analyze()) {
+            return true;
+        }
+        ctrler.click(add_analyzer.get_result().rect);
     }
-    ctrler.click(add_analyzer.get_result().rect);
-    sleep(add_task_ptr->rear_delay);
+    break;
+    default:
+        break;
+    }
+    sleep(raw_task_ptr->rear_delay);
 
     constexpr int retry_times = 1;
     for (int i = 0; i <= retry_times; ++i) {
