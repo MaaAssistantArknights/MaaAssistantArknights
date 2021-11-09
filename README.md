@@ -2,7 +2,7 @@
 
 <div>
     <img alt="C++" src="https://img.shields.io/badge/c++-17-%2300599C?logo=cplusplus">
-    <img alt="VS" src="https://img.shields.io/badge/VisualStudio-22-%235C2D91?logo=visualstudio">
+    <img alt="VS" src="https://img.shields.io/badge/VisualStudio-19-%235C2D91?logo=visualstudio">
 </div>
 <div>
     <img alt="platform" src="https://img.shields.io/badge/platform-Windows%2064bit-%230078D6?logo=windows">
