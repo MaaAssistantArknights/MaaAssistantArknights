@@ -17,24 +17,24 @@ end_of_line = crlf
 
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
-indent_size = 2
+indent_size = 4
 
 # XML config files
 [*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
-indent_size = 2
+indent_size = 4
 
 # JSON files
 [*.json]
-indent_size = 2
+indent_size = 4
 
 # Powershell files
 [*.ps1]
-indent_size = 2
+indent_size = 4
 
 # Shell script files
 [*.sh]
 end_of_line = lf
-indent_size = 2
+indent_size = 4
 
 # Dotnet code style settings:
 [*.{cs,vb}]
