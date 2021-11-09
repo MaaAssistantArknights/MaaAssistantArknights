@@ -13,8 +13,8 @@ extern "C" {
 
     bool MEOAPI AsstCatchDefault(void* p_asst);
     bool MEOAPI AsstCatchEmulator(void* p_asst);
-    bool MEOAPI AsstCatchUSB(void* p_asst);
-    bool MEOAPI AsstCatchRemote(void* p_asst, const char* address);
+    bool MEOAPI AsstCatchCustom(void* p_asst);
+    bool MEOAPI AsstCatchSpecific(void* p_asst, const char* address);
     bool MEOAPI AsstCatchFake(void* p_asst);
 
     bool MEOAPI AsstStartSanity(void* p_asst);

@@ -72,10 +72,8 @@ bool asst::Assistance::catch_default()
     switch (opt.connect_type) {
     case ConnectType::Emulator:
         return catch_emulator();
-    case ConnectType::USB:
-        return catch_usb();
-    case ConnectType::Remote:
-        return catch_remote(opt.connect_remote_address);
+    case ConnectType::Custom:
+        return catch_custom();
     default:
         return false;
     }
@@ -112,7 +110,7 @@ bool Assistance::catch_emulator(const std::string& emulator_name)
     return ret;
 }
 
-bool asst::Assistance::catch_usb()
+bool asst::Assistance::catch_custom()
 {
     LogTraceFunction;
 
@@ -123,7 +121,7 @@ bool asst::Assistance::catch_usb()
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    EmulatorInfo remote_info = cfg.get_emulators_info().at("USB");
+    EmulatorInfo remote_info = cfg.get_emulators_info().at("Custom");
 
     ret = ctrler.try_capture(remote_info, true);
 
@@ -131,7 +129,7 @@ bool asst::Assistance::catch_usb()
     return ret;
 }
 
-bool asst::Assistance::catch_remote(const std::string& address)
+bool asst::Assistance::catch_specific(const std::string& address)
 {
     LogTraceFunction;
 
@@ -142,12 +140,7 @@ bool asst::Assistance::catch_remote(const std::string& address)
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    EmulatorInfo remote_info = cfg.get_emulators_info().at("Remote");
-    remote_info.adb.connect = utils::string_replace_all(remote_info.adb.connect, "[Address]", address);
-    remote_info.adb.click = utils::string_replace_all(remote_info.adb.click, "[Address]", address);
-    remote_info.adb.swipe = utils::string_replace_all(remote_info.adb.swipe, "[Address]", address);
-    remote_info.adb.display = utils::string_replace_all(remote_info.adb.display, "[Address]", address);
-    remote_info.adb.screencap = utils::string_replace_all(remote_info.adb.screencap, "[Address]", address);
+    EmulatorInfo remote_info = cfg.get_emulators_info().at("Custom");
 
     ret = ctrler.try_capture(remote_info, true);
 

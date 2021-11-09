@@ -13,14 +13,12 @@ namespace asst
     enum class ConnectType
     {
         Emulator,
-        USB,
-        Remote
+        Custom
     };
 
     struct Options
     {
         ConnectType connect_type;            // 连接类型
-        std::string connect_remote_address;  // 连接局域网中的安卓设备的地址，仅在connectType为Remote时生效
         int task_delay = 0;                  // 任务间延时：越快操作越快，但会增加CPU消耗
         int control_delay_lower = 0;         // 点击随机延时下限：每次点击操作会进行随机延时
         int control_delay_upper = 0;         // 点击随机延时上限：每次点击操作会进行随机延时

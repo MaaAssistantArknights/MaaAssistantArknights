@@ -16,9 +16,7 @@
 #include "Resource.h"
 #include "UserConfiger.h"
 
-using namespace asst;
-
-Controller::Controller()
+asst::Controller::Controller()
     : m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count())
 {
     LogTraceFunction;
@@ -49,6 +47,61 @@ Controller::Controller()
     m_cmd_thread = std::thread(bind_pipe_working_proc);
 }
 
+bool asst::Controller::connect_adb(const std::string& address)
+{
+    LogTraceScope("connect_adb " + address);
+
+    std::string connect_cmd = utils::string_replace_all(
+        utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", m_adb_path),
+        "[Address]", address);
+    auto&& [connect_ret, connect_result] = call_command(connect_cmd);
+    // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
+    if (!connect_ret) {
+        return false;
+    }
+
+    std::string display_cmd = utils::string_replace_all(
+        utils::string_replace_all(m_emulator_info.adb.display, "[Adb]", m_adb_path),
+        "[Address]", address);
+    auto&& [display_ret, display_result] = call_command(display_cmd);
+    if (!display_ret) {
+        return false;
+    }
+
+    std::string display_pipe_str(
+        std::make_move_iterator(display_result.begin()),
+        std::make_move_iterator(display_result.end()));
+    int size_value1 = 0;
+    int size_value2 = 0;
+    sscanf_s(display_pipe_str.c_str(), m_emulator_info.adb.display_format.c_str(), &size_value1, &size_value2);
+    // 为了防止抓取句柄的时候手机是竖屏的（还没进游戏），这里取大的值为宽，小的为高
+    // 总不能有人竖屏玩明日方舟吧（？
+    m_emulator_info.adb.display_width = (std::max)(size_value1, size_value2);
+    m_emulator_info.adb.display_height = (std::min)(size_value1, size_value2);
+
+    constexpr double DefaultRatio =
+        static_cast<double>(GeneralConfiger::WindowWidthDefault) / static_cast<double>(GeneralConfiger::WindowHeightDefault);
+    double cur_ratio = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(m_emulator_info.adb.display_height);
+
+    if (cur_ratio >= DefaultRatio // 说明是宽屏或默认16:9，按照高度计算缩放
+        || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff) {
+        int scale_width = cur_ratio * GeneralConfiger::WindowHeightDefault;
+        m_scale_size = std::make_pair(scale_width, GeneralConfiger::WindowHeightDefault);
+        m_control_scale = static_cast<double>(m_emulator_info.adb.display_height) / static_cast<double>(GeneralConfiger::WindowHeightDefault);
+    }
+    else { // 否则可能是偏正方形的屏幕，按宽度计算
+        int scale_height = GeneralConfiger::WindowWidthDefault / cur_ratio;
+        m_scale_size = std::make_pair(GeneralConfiger::WindowWidthDefault, scale_height);
+        m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(GeneralConfiger::WindowWidthDefault);
+    }
+
+    m_emulator_info.adb.click = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.click, "[Adb]", m_adb_path), "[Address]", address);
+    m_emulator_info.adb.swipe = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.swipe, "[Adb]", m_adb_path), "[Address]", address);
+    m_emulator_info.adb.screencap = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.screencap, "[Adb]", m_adb_path), "[Address]", address);
+
+    return true;
+}
+
 asst::Controller::~Controller()
 {
     LogTraceFunction;
@@ -68,7 +121,7 @@ asst::Controller::~Controller()
     ::CloseHandle(m_pipe_child_write);
 }
 
-Rect asst::Controller::shaped_correct(const Rect& rect) const
+asst::Rect asst::Controller::shaped_correct(const Rect& rect) const
 {
     if (rect.width == 0 || rect.height == 0) {
         return rect;
@@ -120,12 +173,11 @@ void asst::Controller::pipe_working_proc()
     }
 }
 
-bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
+bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle)
 {
     LogTraceScope("try_capture | " + info.name);
 
     const HandleInfo& handle_info = info.handle;
-    std::string adb_dir;
 
     if (!without_handle) { // 使用模拟器自带的adb
 // 转成宽字符的
@@ -190,16 +242,25 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         m_handle = window_handle;
         log.trace("Handle:", m_handle, "Name:", m_emulator_info.name);
 
-        adb_dir = emulator_path.substr(0, emulator_path.find_last_of('\\') + 1);
-        adb_dir = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
-        adb_dir = utils::string_replace_all(adb_dir, "[ExecDir]", utils::get_cur_dir());
+        std::string adb_path = emulator_path.substr(0, emulator_path.find_last_of('\\') + 1);
+        adb_path = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[EmulatorPath]", adb_path) + '"';
+        adb_path = utils::string_replace_all(adb_path, "[ExecDir]", utils::get_cur_dir());
+        m_adb_path = std::move(adb_path);
     }
     else { // 使用辅助自带的标准adb
         m_emulator_info = info;
-        adb_dir = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", utils::get_cur_dir()) + '"';
+        m_adb_path = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", utils::get_cur_dir()) + '"';
     }
 
-    std::string devices_cmd = utils::string_replace_all(m_emulator_info.adb.devices, "[Adb]", adb_dir);
+    // 优先使用addresses里指定的地址
+    for (const std::string& address : info.adb.addresses) {
+        if (connect_adb(address)) {
+            return true;
+        }
+    }
+
+    // 若指定地址都没连上，再尝试用devices查找地址
+    std::string devices_cmd = utils::string_replace_all(m_emulator_info.adb.devices, "[Adb]", m_adb_path);
     auto&& [devices_ret, devices_result] = call_command(devices_cmd);
     if (!devices_ret) {
         return false;
@@ -217,55 +278,12 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
             address = smatch[1];
         }
     }
-    log.trace("address", address);
+    log.trace("device address", address);
     if (address.empty()) {
         return false;
     }
 
-    std::string connect_cmd = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", adb_dir), "[Address]", address);
-    auto&& [connect_ret, connect_result] = call_command(connect_cmd);
-    // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
-    if (!connect_ret) {
-        return false;
-    }
-
-    std::string display_cmd = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.display, "[Adb]", adb_dir), "[Address]", address);
-    auto&& [display_ret, display_result] = call_command(display_cmd);
-    if (!display_ret) {
-        return false;
-    }
-    std::string display_pipe_str(
-        std::make_move_iterator(display_result.begin()),
-        std::make_move_iterator(display_result.end()));
-    int size_value1 = 0;
-    int size_value2 = 0;
-    sscanf_s(display_pipe_str.c_str(), m_emulator_info.adb.display_format.c_str(), &size_value1, &size_value2);
-    // 为了防止抓取句柄的时候手机是竖屏的（还没进游戏），这里取大的值为宽，小的为高
-    // 总不能有人竖屏玩明日方舟吧（？
-    m_emulator_info.adb.display_width = (std::max)(size_value1, size_value2);
-    m_emulator_info.adb.display_height = (std::min)(size_value1, size_value2);
-
-    constexpr double DefaultRatio =
-        static_cast<double>(GeneralConfiger::WindowWidthDefault) / static_cast<double>(GeneralConfiger::WindowHeightDefault);
-    double cur_ratio = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(m_emulator_info.adb.display_height);
-
-    if (cur_ratio >= DefaultRatio // 说明是宽屏或默认16:9，按照高度计算缩放
-        || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff) {
-        int scale_width = cur_ratio * GeneralConfiger::WindowHeightDefault;
-        m_scale_size = std::make_pair(scale_width, GeneralConfiger::WindowHeightDefault);
-        m_control_scale = static_cast<double>(m_emulator_info.adb.display_height) / static_cast<double>(GeneralConfiger::WindowHeightDefault);
-    }
-    else { // 否则可能是偏正方形的屏幕，按宽度计算
-        int scale_height = GeneralConfiger::WindowWidthDefault / cur_ratio;
-        m_scale_size = std::make_pair(GeneralConfiger::WindowWidthDefault, scale_height);
-        m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(GeneralConfiger::WindowWidthDefault);
-    }
-
-    m_emulator_info.adb.click = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.click, "[Adb]", adb_dir), "[Address]", address);
-    m_emulator_info.adb.swipe = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.swipe, "[Adb]", adb_dir), "[Address]", address);
-    m_emulator_info.adb.screencap = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.screencap, "[Adb]", adb_dir), "[Address]", address);
-
-    return true;
+    return connect_adb(address);
 }
 
 //void asst::Controller::set_idle(bool flag)
@@ -281,7 +299,7 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
 //	}
 //}
 
-std::pair<bool, std::vector<unsigned char>> Controller::call_command(const std::string& cmd)
+std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const std::string& cmd)
 {
     LogTraceFunction;
 
@@ -357,7 +375,7 @@ void asst::Controller::convert_lf(std::vector<unsigned char>& data)
     data.erase(next_iter, data.end());
 }
 
-Point asst::Controller::rand_point_in_rect(const Rect& rect)
+asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
 {
     int x = 0, y = 0;
     if (rect.width == 0) {
@@ -429,7 +447,7 @@ bool asst::Controller::screencap()
     //m_cache_image = std::move(temp_image);
 }
 
-int Controller::click(const Point& p, bool block)
+int asst::Controller::click(const Point& p, bool block)
 {
     int x = p.x * m_control_scale;
     int y = p.y * m_control_scale;
@@ -438,7 +456,7 @@ int Controller::click(const Point& p, bool block)
     return click_without_scale(Point(x, y), block);
 }
 
-int Controller::click(const Rect& rect, bool block)
+int asst::Controller::click(const Rect& rect, bool block)
 {
     return click(rand_point_in_rect(rect), block);
 }

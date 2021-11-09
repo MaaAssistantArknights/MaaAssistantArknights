@@ -90,22 +90,22 @@ bool AsstCatchEmulator(void* p_asst)
     return ((asst::Assistance*)p_asst)->catch_emulator();
 }
 
-bool AsstCatchUSB(void* p_asst)
+bool AsstCatchCustom(void* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->catch_usb();
+    return ((asst::Assistance*)p_asst)->catch_custom();
 }
 
-bool AsstCatchRemote(void* p_asst, const char* address)
+bool AsstCatchSpecific(void* p_asst, const char* address)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->catch_remote(address);
+    return ((asst::Assistance*)p_asst)->catch_specific(address);
 }
 
 bool AsstCatchFake(void* p_asst)

@@ -1,10 +1,8 @@
 {
-    "version": "0.8",
+    "version": "0.9",
     "options": {
         "connectType": 0,
-        "connectType_Doc": "连接类型：0-连接电脑上的模拟器，1-连接USB连接的安卓设备，2-连接局域网中的安卓设备。默认0",
-        "connectRemoteAddress": "",
-        "connectRemoteAddress_Doc": "连接局域网中的安卓设备的地址，仅在connectType为2时生效。格式举例：192.168.1.123:5678",
+        "connectType_Doc": "连接类型：0-连接电脑上的模拟器；1-连接自定义端口，请手动修改'emulator.Custom'中的相关字段。默认0",
         "taskDelay": 1000,
         "taskDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认1000",
         "printWindow": false,
@@ -34,6 +32,7 @@
             },
             "adb": {
                 "path": "[EmulatorPath]Engine\\ProgramFiles\\HD-Adb.exe",
+                "addresses": [ "127.0.0.1:5555" ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
@@ -51,6 +50,7 @@
             },
             "adb": {
                 "path": "[EmulatorPath]HD-Adb.exe",
+                "addresses": [ "127.0.0.1:5555" ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
@@ -68,6 +68,7 @@
             },
             "adb": {
                 "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
+                "addresses": [ "127.0.0.1:7555" ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
@@ -85,6 +86,7 @@
             },
             "adb": {
                 "path": "[EmulatorPath]adb.exe",
+                "addresses": [ "127.0.0.1:5555", "emulator-5554" ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
@@ -102,6 +104,7 @@
             },
             "adb": {
                 "path": "[EmulatorPath]nox_adb.exe",
+                "addresses": [ "127.0.0.1:62001", "127.0.0.1:59865" ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
@@ -119,6 +122,7 @@
             },
             "adb": {
                 "path": "[EmulatorPath]adb.exe",
+                "addresses": [ "127.0.0.1:21503" ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
@@ -129,33 +133,16 @@
                 "screencap": "[Adb] -s [Address] shell screencap -p"
             }
         },
-        "Remote": {
+        "Custom": {
             "handle": {
-                "class": "Remote Class",
-                "window": "Remote Window",
+                "class": "Custom Class",
+                "window": "Custom Window",
                 "Doc": "这俩不是用来捕获窗口的，是为了兼容现有的捕获模拟器的字段，随手写的，这两个字段实际不会使用到"
             },
             "adb": {
+                "Doc": "1.请将Adb解压到'path'中的路径（或者修改'path'）；2.请修改addresses为指定地址，若不填写，则使用devices自动查找",
                 "path": "[ExecDir]platform-tools\\adb.exe",
-                "devices": "[Adb] devices",
-                "addressRegex": "(.+)\tdevice",
-                "connect": "[Adb] connect [Address]",
-                "click": "[Adb] -s [Address] shell input tap [x] [y]",
-                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayFormat": "cur=%dx%d",
-                "screencap": "[Adb] -s [Address] exec-out screencap -p"
-            }
-        },
-        "USB": {
-            "handle": {
-                "class": "USB Class",
-                "window": "USB Window",
-                "Doc": "这俩不是用来捕获窗口的，是为了兼容现有的捕获模拟器的字段，随手写的，这两个字段实际不会使用到"
-            },
-            "adb": {
-                "Doc": "USB连接暂时不兼容多设备的情况",
-                "path": "[ExecDir]platform-tools\\adb.exe",
+                "addresses": [],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
