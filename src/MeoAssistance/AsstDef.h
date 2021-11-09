@@ -224,9 +224,9 @@ namespace asst
     struct AdbCmd
     {
         std::string path;
+        std::vector<std::string> addresses; // 会优先尝试连接addresses中的地址，若均失败，则会使用devices获取地址
         std::string devices;
         std::string address_regex;
-        std::string address;
         std::string connect;
         std::string click;
         std::string swipe;

@@ -9,9 +9,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
     const json::value& options_json = json.at("options");
     {
         m_options.connect_type = static_cast<ConnectType>(options_json.at("connectType").as_integer());
-        m_options.connect_remote_address = options_json.at("connectRemoteAddress").as_string();
         m_options.task_delay = options_json.at("taskDelay").as_integer();
-        //m_options.identify_cache = options_json.at("identifyCache").as_boolean();
         m_options.control_delay_lower = options_json.at("controlDelayRange")[0].as_integer();
         m_options.control_delay_upper = options_json.at("controlDelayRange")[1].as_integer();
         m_options.print_window = options_json.at("printWindow").as_boolean();
@@ -36,7 +34,10 @@ bool asst::GeneralConfiger::parse(const json::value& json)
 
         const json::object& adb_json = emulator_json.at("adb").as_object();
         emulator_info.adb.path = adb_json.at("path").as_string();
-        emulator_info.adb.address = adb_json.get("address", std::string());
+
+        for (const json::value& address_json : adb_json.at("addresses").as_array()) {
+            emulator_info.adb.addresses.emplace_back(address_json.as_string());
+        }
         emulator_info.adb.devices = adb_json.at("devices").as_string();
         emulator_info.adb.address_regex = adb_json.at("addressRegex").as_string();
         emulator_info.adb.connect = adb_json.at("connect").as_string();
@@ -46,8 +47,6 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         emulator_info.adb.display_format = adb_json.at("displayFormat").as_string();
         emulator_info.adb.screencap = adb_json.at("screencap").as_string();
         //emulator_info.adb.pullscreen = adb_json.at("pullscreen").as_string();
-
-        emulator_info.path = emulator_json.get("path", std::string());
 
         m_emulators_info.emplace(name, std::move(emulator_info));
     }
