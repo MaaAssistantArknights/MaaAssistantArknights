@@ -1,13 +1,14 @@
-﻿#pragma once
+#pragma once
 #include "AbstractImageAnalyzer.h"
 
-#include <vector>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 #include "AsstDef.h"
 
-namespace asst {
+namespace asst
+{
     class OcrImageAnalyzer;
     class MatchImageAnalyzer;
 
@@ -22,21 +23,27 @@ namespace asst {
         virtual bool analyze() override;
         virtual void set_image(const cv::Mat& image) override;
 
-        void set_tasks(std::vector<std::string> tasks_name) {
+        void set_tasks(std::vector<std::string> tasks_name)
+        {
             m_tasks_name = std::move(tasks_name);
         }
-        std::shared_ptr<TaskInfo> get_result() const noexcept {
+        std::shared_ptr<TaskInfo> get_result() const noexcept
+        {
             return m_result;
         }
-        const Rect& get_rect() const noexcept {
+        const Rect& get_rect() const noexcept
+        {
             return m_result_rect;
         }
+
     private:
         // 该分析器不支持外部设置ROI
-        virtual void set_roi(const Rect& roi) noexcept override {
+        virtual void set_roi(const Rect& roi) noexcept override
+        {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat& image, const Rect& roi) {
+        virtual void set_image(const cv::Mat& image, const Rect& roi)
+        {
             AbstractImageAnalyzer::set_image(image, roi);
         }
         bool match_analyze(std::shared_ptr<TaskInfo> task_ptr);

@@ -1,6 +1,6 @@
-﻿using Stylet;
-using StyletIoC;
 using System.Threading.Tasks;
+using Stylet;
+using StyletIoC;
 
 namespace MeoAsstGui
 {

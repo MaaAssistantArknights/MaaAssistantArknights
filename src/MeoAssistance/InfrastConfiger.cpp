@@ -1,4 +1,4 @@
-﻿#include "InfrastConfiger.h"
+#include "InfrastConfiger.h"
 
 #include <json.h>
 
@@ -53,8 +53,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                 else {
                     for (const std::string& pd : products) {
                         if (std::string pd_reg_key = pd + reg_suffix;
-                            efficient.exist(pd_reg_key))
-                        {
+                            efficient.exist(pd_reg_key)) {
                             skill.efficient_regex.emplace(pd, efficient.at(pd_reg_key).as_string());
                             skill.efficient.emplace(pd, 0);
                         }
@@ -116,8 +115,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                     else {
                         for (const std::string& pd : products) {
                             if (std::string pd_reg_key = pd + reg_suffix;
-                                efficient.exist(pd_reg_key))
-                            {
+                                efficient.exist(pd_reg_key)) {
                                 comb.efficient_regex.emplace(pd, efficient.at(pd_reg_key).as_string());
                                 comb.efficient.emplace(pd, 0);
                             }
@@ -166,8 +164,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                     else {
                         for (const std::string& pd : products) {
                             if (std::string pd_reg_key = pd + reg_suffix;
-                                efficient.exist(pd_reg_key))
-                            {
+                                efficient.exist(pd_reg_key)) {
                                 comb.efficient_regex.emplace(pd, efficient.at(pd_reg_key).as_string());
                                 comb.efficient.emplace(pd, 0);
                             }

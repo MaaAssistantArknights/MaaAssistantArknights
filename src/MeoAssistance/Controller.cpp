@@ -1,13 +1,13 @@
-﻿#include "Controller.h"
+#include "Controller.h"
 
-#include <stdint.h>
 #include <WinUser.h>
+#include <stdint.h>
 
-#include <vector>
-#include <utility>
 #include <algorithm>
 #include <chrono>
 #include <regex>
+#include <utility>
+#include <vector>
 
 #include <opencv2/opencv.hpp>
 
@@ -56,7 +56,7 @@ asst::Controller::~Controller()
     m_thread_exit = true;
     //m_thread_idle = true;
     m_cmd_condvar.notify_all();
-    m_completed_id = UINT_MAX;	// make all WinMacor::wait to exit
+    m_completed_id = UINT_MAX; // make all WinMacor::wait to exit
 
     if (m_cmd_thread.joinable()) {
         m_cmd_thread.join();
@@ -75,7 +75,7 @@ Rect asst::Controller::shaped_correct(const Rect& rect) const
     }
     // 明日方舟在异形屏上，有的地方是按比例缩放的，有的地方又是直接位移。没法整，这里简单粗暴一点截一个长条
     Rect dst = rect;
-    if (m_scale_size.first != GeneralConfiger::WindowWidthDefault) {	// 说明是宽屏
+    if (m_scale_size.first != GeneralConfiger::WindowWidthDefault) { // 说明是宽屏
         dst.x = 0;
         dst.width = m_scale_size.first - 1;
     }
@@ -93,7 +93,7 @@ void asst::Controller::pipe_working_proc()
     while (!m_thread_exit) {
         std::unique_lock<std::mutex> cmd_queue_lock(m_cmd_queue_mutex);
 
-        if (!m_cmd_queue.empty()) {	// 队列中有任务就执行任务
+        if (!m_cmd_queue.empty()) { // 队列中有任务就执行任务
             std::string cmd = m_cmd_queue.front();
             m_cmd_queue.pop();
             cmd_queue_lock.unlock();
@@ -127,8 +127,8 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
     const HandleInfo& handle_info = info.handle;
     std::string adb_dir;
 
-    if (!without_handle) {	// 使用模拟器自带的adb
-        // 转成宽字符的
+    if (!without_handle) { // 使用模拟器自带的adb
+// 转成宽字符的
         wchar_t* class_wbuff = nullptr;
         if (!handle_info.class_name.empty()) {
             size_t class_len = (handle_info.class_name.size() + 1) * 2;
@@ -194,7 +194,7 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         adb_dir = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[EmulatorPath]", adb_dir) + '"';
         adb_dir = utils::string_replace_all(adb_dir, "[ExecDir]", utils::get_cur_dir());
     }
-    else {	// 使用辅助自带的标准adb
+    else { // 使用辅助自带的标准adb
         m_emulator_info = info;
         adb_dir = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", utils::get_cur_dir()) + '"';
     }
@@ -249,15 +249,13 @@ bool Controller::try_capture(const EmulatorInfo& info, bool without_handle)
         static_cast<double>(GeneralConfiger::WindowWidthDefault) / static_cast<double>(GeneralConfiger::WindowHeightDefault);
     double cur_ratio = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(m_emulator_info.adb.display_height);
 
-    if (cur_ratio >= DefaultRatio	// 说明是宽屏或默认16:9，按照高度计算缩放
-        || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff)
-    {
+    if (cur_ratio >= DefaultRatio // 说明是宽屏或默认16:9，按照高度计算缩放
+        || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff) {
         int scale_width = cur_ratio * GeneralConfiger::WindowHeightDefault;
         m_scale_size = std::make_pair(scale_width, GeneralConfiger::WindowHeightDefault);
         m_control_scale = static_cast<double>(m_emulator_info.adb.display_height) / static_cast<double>(GeneralConfiger::WindowHeightDefault);
     }
-    else
-    {	// 否则可能是偏正方形的屏幕，按宽度计算
+    else { // 否则可能是偏正方形的屏幕，按宽度计算
         int scale_height = GeneralConfiger::WindowWidthDefault / cur_ratio;
         m_scale_size = std::make_pair(GeneralConfiger::WindowWidthDefault, scale_height);
         m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(GeneralConfiger::WindowWidthDefault);
@@ -290,7 +288,7 @@ std::pair<bool, std::vector<unsigned char>> Controller::call_command(const std::
     static std::mutex pipe_mutex;
     std::unique_lock<std::mutex> pipe_lock(pipe_mutex);
 
-    PROCESS_INFORMATION process_info = { 0 };	// 进程信息结构体
+    PROCESS_INFORMATION process_info = { 0 }; // 进程信息结构体
     ::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &m_child_startup_info, &process_info);
 
     std::vector<uchar> pipe_data;
@@ -447,8 +445,7 @@ int Controller::click(const Rect& rect, bool block)
 
 int asst::Controller::click_without_scale(const Point& p, bool block)
 {
-    if (p.x < 0 || p.x >= m_emulator_info.adb.display_width
-        || p.y < 0 || p.y >= m_emulator_info.adb.display_height) {
+    if (p.x < 0 || p.x >= m_emulator_info.adb.display_width || p.y < 0 || p.y >= m_emulator_info.adb.display_height) {
         log.error("click point out of range");
     }
     std::string cur_cmd = utils::string_replace_all(m_emulator_info.adb.click, "[x]", std::to_string(p.x));
@@ -483,10 +480,7 @@ int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool b
 
 int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
-    if (p1.x < 0 || p1.x >= m_emulator_info.adb.display_width
-        || p1.y < 0 || p1.y >= m_emulator_info.adb.display_height
-        || p2.x < 0 || p2.x >= m_emulator_info.adb.display_width
-        || p2.y < 0 || p2.y >= m_emulator_info.adb.display_height) {
+    if (p1.x < 0 || p1.x >= m_emulator_info.adb.display_width || p1.y < 0 || p1.y >= m_emulator_info.adb.display_height || p2.x < 0 || p2.x >= m_emulator_info.adb.display_width || p2.y < 0 || p2.y >= m_emulator_info.adb.display_height) {
         log.error("swipe point out of range");
     }
     std::string cur_cmd = utils::string_replace_all(m_emulator_info.adb.swipe, "[x1]", std::to_string(p1.x));
@@ -502,7 +496,7 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
 
     int id = 0;
 
-    int extra_swipe_dist = resource.cfg().get_options().adb_extra_swipe_dist/* * m_control_scale*/;
+    int extra_swipe_dist = resource.cfg().get_options().adb_extra_swipe_dist /* * m_control_scale*/;
     int extra_swipe_duration = resource.cfg().get_options().adb_extra_swipe_duration;
 
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来

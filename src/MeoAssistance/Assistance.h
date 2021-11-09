@@ -1,23 +1,25 @@
-﻿#pragma once
+#pragma once
 
-#include <thread>
-#include <mutex>
 #include <condition_variable>
-#include <memory>
-#include <optional>
-#include <unordered_map>
-#include <queue>
 #include <deque>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <queue>
+#include <thread>
+#include <unordered_map>
 
+#include "AbstractTask.h"
 #include "AsstDef.h"
 #include "AsstMsg.h"
-#include "AbstractTask.h"
 
-namespace cv {
+namespace cv
+{
     class Mat;
 }
 
-namespace asst {
+namespace asst
+{
     class Controller;
     class Identify;
 
@@ -71,7 +73,7 @@ namespace asst {
         void append_task(const json::value& detail, bool front = false);
         void append_callback(AsstMsg msg, json::value detail);
         void clear_exec_times();
-        json::value organize_stage_drop(const json::value& rec);     // 整理关卡掉落的材料信息
+        json::value organize_stage_drop(const json::value& rec); // 整理关卡掉落的材料信息
 
         bool m_inited = false;
 

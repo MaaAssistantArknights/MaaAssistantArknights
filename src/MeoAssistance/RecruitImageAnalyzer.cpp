@@ -1,8 +1,8 @@
-﻿#include "RecruitImageAnalyzer.h"
+#include "RecruitImageAnalyzer.h"
 
-#include "Resource.h"
-#include "OcrImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"
+#include "OcrImageAnalyzer.h"
+#include "Resource.h"
 
 bool asst::RecruitImageAnalyzer::analyze()
 {

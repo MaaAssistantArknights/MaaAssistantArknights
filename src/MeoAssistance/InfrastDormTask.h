@@ -1,7 +1,8 @@
-﻿#pragma once
+#pragma once
 #include "InfrastAbstractTask.h"
 
-namespace asst {
+namespace asst
+{
     class InfrastDormTask : public InfrastAbstractTask
     {
     public:
@@ -9,12 +10,14 @@ namespace asst {
         virtual ~InfrastDormTask() = default;
         virtual bool run() override;
 
-        void set_mood_threshold(double mood_threshold) noexcept {
+        void set_mood_threshold(double mood_threshold) noexcept
+        {
             m_mood_threshold = mood_threshold;
         }
 
         const static std::string FacilityName;
         const static int MaxNumOfOpers = 5;
+
     private:
         virtual bool click_confirm_button() override;
 

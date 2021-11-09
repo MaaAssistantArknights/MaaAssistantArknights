@@ -1,8 +1,8 @@
-﻿#include "OcrImageAnalyzer.h"
+#include "OcrImageAnalyzer.h"
 
-#include "Resource.h"
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
+#include "Resource.h"
 
 bool asst::OcrImageAnalyzer::analyze()
 {

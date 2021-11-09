@@ -1,19 +1,19 @@
-﻿#include "InfrastDormTask.h"
+#include "InfrastDormTask.h"
 
+#include "Controller.h"
+#include "InfrastMoodImageAnalyzer.h"
+#include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
-#include "InfrastMoodImageAnalyzer.h"
 #include "Resource.h"
-#include "Controller.h"
-#include "Logger.hpp"
 
 const std::string asst::InfrastDormTask::FacilityName = "Dorm";
 
 bool asst::InfrastDormTask::run()
 {
     json::value task_start_json = json::object{
-        { "task_type",  "InfrastDormTask" },
-        { "task_chain", m_task_chain}
+        { "task_type", "InfrastDormTask" },
+        { "task_chain", m_task_chain }
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
@@ -51,8 +51,7 @@ bool asst::InfrastDormTask::run()
                     log.trace("quantity_selected:", quantity_selected, ", just break");
                     break;
                 }
-                switch (mood_info.smiley.type)
-                {
+                switch (mood_info.smiley.type) {
                 case InfrastSmileyType::Rest:
                     // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了，直接退出即可
                     if (++quantity_resting > MaxNumOfOpers) {
@@ -64,10 +63,7 @@ bool asst::InfrastDormTask::run()
                 case InfrastSmileyType::Work:
                 case InfrastSmileyType::Distract:
                     // 干员没有被选择的情况下，心情小于30%，或不在工作，就进驻宿舍
-                    if (mood_info.selected == false
-                        && (mood_info.percentage < m_mood_threshold
-                            || mood_info.working == false))
-                    {
+                    if (mood_info.selected == false && (mood_info.percentage < m_mood_threshold || mood_info.working == false)) {
                         ctrler.click(mood_info.rect);
                         if (++quantity_selected >= MaxNumOfOpers) {
                             log.trace("quantity_selected:", quantity_selected, ", just break");

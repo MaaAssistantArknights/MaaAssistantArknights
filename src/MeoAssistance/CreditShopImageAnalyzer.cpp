@@ -1,8 +1,8 @@
-﻿#include "CreditShopImageAnalyzer.h"
+#include "CreditShopImageAnalyzer.h"
 
+#include "MatchImageAnalyzer.h"
 #include "MultiMatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
-#include "MatchImageAnalyzer.h"
 #include "Resource.h"
 
 #include "AsstUtils.hpp"
@@ -13,9 +13,7 @@ bool asst::CreditShopImageAnalyzer::analyze()
     m_need_to_buy.clear();
     m_result.clear();
 
-    return commoditys_analyze()
-        && whether_to_buy_analyze()
-        && sold_out_analyze();
+    return commoditys_analyze() && whether_to_buy_analyze() && sold_out_analyze();
 }
 
 bool asst::CreditShopImageAnalyzer::commoditys_analyze()
@@ -71,7 +69,7 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
         }
         const auto& ocr_res = ocr_analyzer.get_result();
 
-#ifdef  LOG_TRACE
+#ifdef LOG_TRACE
         cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
 #endif
         m_need_to_buy.emplace_back(commodity);
@@ -94,7 +92,7 @@ bool asst::CreditShopImageAnalyzer::sold_out_analyze()
     for (const Rect& commodity : m_need_to_buy) {
         sold_out_analyzer.set_roi(commodity);
         if (sold_out_analyzer.analyze()) {
-#ifdef  LOG_TRACE
+#ifdef LOG_TRACE
             cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255));
             cv::putText(m_image_draw, "Sold Out", cv::Point(commodity.x, commodity.y), 1, 2, cv::Scalar(255, 0, 0));
 #endif //  LOG_TRACE

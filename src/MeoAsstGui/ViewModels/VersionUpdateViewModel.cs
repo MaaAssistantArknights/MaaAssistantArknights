@@ -1,7 +1,3 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Stylet;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +5,10 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Stylet;
 
 namespace MeoAsstGui
 {
@@ -21,7 +21,7 @@ namespace MeoAsstGui
             _windowManager = windowManager;
         }
 
-        [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstGetVersion();
+        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstGetVersion();
 
         private string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
         private string _latestVersion;

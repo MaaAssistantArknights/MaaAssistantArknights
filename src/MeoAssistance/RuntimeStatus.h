@@ -1,9 +1,10 @@
-﻿#pragma once
+#pragma once
 
-#include <unordered_map>
 #include <any>
+#include <unordered_map>
 
-namespace asst {
+namespace asst
+{
     class RuntimeStatus
     {
     public:
@@ -11,12 +12,14 @@ namespace asst {
         RuntimeStatus(RuntimeStatus&& rhs) noexcept = delete;
         ~RuntimeStatus() = default;
 
-        static RuntimeStatus& get_instance() {
+        static RuntimeStatus& get_instance()
+        {
             static RuntimeStatus unique_instance;
             return unique_instance;
         }
 
-        std::any get(const std::string& key) const noexcept {
+        std::any get(const std::string& key) const noexcept
+        {
             if (auto iter = m_data.find(key);
                 iter != m_data.cend()) {
                 return iter->second;
@@ -25,12 +28,14 @@ namespace asst {
                 return std::any();
             }
         }
-        bool exist(const std::string& key) const noexcept {
+        bool exist(const std::string& key) const noexcept
+        {
             return m_data.find(key) != m_data.cend();
         }
 
         template <typename... Args>
-        inline void set(Args &&... args) {
+        inline void set(Args&&... args)
+        {
             static_assert(
                 std::is_constructible<std::unordered_map<std::string, std::any>::value_type, Args...>::value,
                 "Parameter can't be used to construct a std::unordered_map<std::string, std::any>::value_type");
@@ -39,6 +44,7 @@ namespace asst {
 
         RuntimeStatus& operator=(const RuntimeStatus& rhs) = delete;
         RuntimeStatus& operator=(RuntimeStatus&& rhs) noexcept = delete;
+
     private:
         RuntimeStatus() = default;
 

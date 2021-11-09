@@ -1,10 +1,10 @@
-﻿#include "ProcessTaskImageAnalyzer.h"
+#include "ProcessTaskImageAnalyzer.h"
 
-#include "Resource.h"
-#include "MatchImageAnalyzer.h"
-#include "OcrImageAnalyzer.h"
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
+#include "MatchImageAnalyzer.h"
+#include "OcrImageAnalyzer.h"
+#include "Resource.h"
 
 asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name)
     : AbstractImageAnalyzer(image),
@@ -116,8 +116,7 @@ bool asst::ProcessTaskImageAnalyzer::analyze()
     for (const std::string& task_name : m_tasks_name) {
         auto task_ptr = resource.task().task_ptr(task_name);
 
-        switch (task_ptr->algorithm)
-        {
+        switch (task_ptr->algorithm) {
         case AlgorithmType::JustReturn:
             m_result = task_ptr;
             return true;

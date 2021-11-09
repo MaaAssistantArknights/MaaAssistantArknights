@@ -1,10 +1,10 @@
-﻿#include "InfrastMoodImageAnalyzer.h"
+#include "InfrastMoodImageAnalyzer.h"
 
-#include "Resource.h"
-#include "InfrastSmileyImageAnalyzer.h"
-#include "MatchImageAnalyzer.h"
 #include "AsstUtils.hpp"
+#include "InfrastSmileyImageAnalyzer.h"
 #include "Logger.hpp"
+#include "MatchImageAnalyzer.h"
+#include "Resource.h"
 
 bool asst::InfrastMoodImageAnalyzer::analyze()
 {
@@ -18,8 +18,8 @@ bool asst::InfrastMoodImageAnalyzer::analyze()
 
     for (auto&& info : m_result) {
         log.trace(info.hash, info.rect.to_string(),
-            "smiley:", (int)info.smiley.type, "mood:", info.percentage,
-            "selected:", info.selected, "working:", info.working);
+                  "smiley:", (int)info.smiley.type, "mood:", info.percentage,
+                  "selected:", info.selected, "working:", info.working);
     }
 
     return true;
@@ -28,19 +28,19 @@ bool asst::InfrastMoodImageAnalyzer::analyze()
 void asst::InfrastMoodImageAnalyzer::sort_result()
 {
     std::sort(m_result.begin(), m_result.end(),
-        [](const InfrastOperMoodInfo& lhs, const InfrastOperMoodInfo& rhs) ->bool {
-            // 先按心情排序，心情低的放前面
-            if (std::fabs(lhs.percentage - rhs.percentage) > DoubleDiff) {
-                return lhs.percentage < rhs.percentage;
-            }
-            // 心情一样的就按位置排序，左边的放前面
-            if (std::abs(lhs.rect.x - rhs.rect.x) > 5) {
-                return lhs.rect.x < rhs.rect.x;
-            }
-            else {
-                return lhs.rect.y < rhs.rect.y;
-            }
-        });
+              [](const InfrastOperMoodInfo& lhs, const InfrastOperMoodInfo& rhs) -> bool {
+                  // 先按心情排序，心情低的放前面
+                  if (std::fabs(lhs.percentage - rhs.percentage) > DoubleDiff) {
+                      return lhs.percentage < rhs.percentage;
+                  }
+                  // 心情一样的就按位置排序，左边的放前面
+                  if (std::abs(lhs.rect.x - rhs.rect.x) > 5) {
+                      return lhs.rect.x < rhs.rect.x;
+                  }
+                  else {
+                      return lhs.rect.y < rhs.rect.y;
+                  }
+              });
 }
 
 bool asst::InfrastMoodImageAnalyzer::mood_detect()
@@ -72,8 +72,7 @@ bool asst::InfrastMoodImageAnalyzer::mood_detect()
             prg_rect.y += smiley.rect.y;
             // mood_analyze是可以识别长度不够的心情条的
             // 这里主要是为了算立绘hash，宽度不够的hash不好算，直接忽略了
-            if (prg_rect.x + prg_rect.width >= roi.x + roi.width
-                || prg_rect.x < roi.x) {
+            if (prg_rect.x + prg_rect.width >= roi.x + roi.width || prg_rect.x < roi.x) {
                 continue;
             }
 #ifdef LOG_TRACE
@@ -127,15 +126,14 @@ bool asst::InfrastMoodImageAnalyzer::mood_analyze()
         cv::Mat prg_gray;
         cv::cvtColor(prg_image, prg_gray, cv::COLOR_BGR2GRAY);
 
-        int max_white_length = 0;   // 最长横扫的白色长度，即作为进度条长度
+        int max_white_length = 0; // 最长横扫的白色长度，即作为进度条长度
         for (int i = 0; i != prg_gray.rows; ++i) {
             int cur_white_length = 0;
             cv::uint8_t left_value = prg_lower_limit;
             for (int j = 0; j != prg_gray.cols; ++j) {
                 auto value = prg_gray.at<cv::uint8_t>(i, j);
                 // 当前点的颜色，需要大于最低阈值；且与相邻点的差值不能过大，否则就认为当前点不是进度条
-                if (value >= prg_lower_limit
-                    && left_value < value + prg_diff_thres) {
+                if (value >= prg_lower_limit && left_value < value + prg_diff_thres) {
                     left_value = value;
                     ++cur_white_length;
                     if (max_white_length < cur_white_length) {
@@ -154,8 +152,7 @@ bool asst::InfrastMoodImageAnalyzer::mood_analyze()
         }
         // 如果进度条的长度等于ROI的宽度，则说明这个进度条不完整，可能图像再往右滑，还有一部分进度条
         // 所以忽略掉这个结果
-        if (roi.width != iter->rect.width
-            && max_white_length == prg_gray.cols) {
+        if (roi.width != iter->rect.width && max_white_length == prg_gray.cols) {
             iter = m_result.erase(iter);
             continue;
         }
@@ -213,8 +210,7 @@ bool asst::InfrastMoodImageAnalyzer::selected_analyze()
         for (int i = 0; i != h_channel.rows; ++i) {
             for (int j = 0; j != h_channel.cols; ++j) {
                 cv::uint8_t value = h_channel.at<cv::uint8_t>(i, j);
-                if (mask_lowb < value
-                    && value < mask_uppb) {
+                if (mask_lowb < value && value < mask_uppb) {
                     ++count;
                 }
             }

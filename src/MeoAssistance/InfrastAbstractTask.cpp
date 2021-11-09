@@ -1,18 +1,17 @@
-﻿#include "InfrastAbstractTask.h"
+#include "InfrastAbstractTask.h"
 
+#include "AsstMsg.h"
+#include "Controller.h"
+#include "InfrastFacilityImageAnalyzer.h"
+#include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
-#include "InfrastFacilityImageAnalyzer.h"
-#include "Controller.h"
 #include "Resource.h"
-#include "Logger.hpp"
-#include "AsstMsg.h"
 
 void asst::InfrastAbstractTask::set_work_mode(InfrastWorkMode work_mode) noexcept
 {
     m_work_mode = work_mode;
-    switch (work_mode)
-    {
+    switch (work_mode) {
     case InfrastWorkMode::Gentle:
         m_work_mode_name = "Gentle";
         break;
@@ -32,8 +31,8 @@ bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int 
 {
     LogTraceFunction;
     json::value enter_json = json::object{
-        { "facility",  facility },
-        { "index", index}
+        { "facility", facility },
+        { "index", index }
     };
     m_callback(AsstMsg::EnterFacility, enter_json, m_callback_arg);
 

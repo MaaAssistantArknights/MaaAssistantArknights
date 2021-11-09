@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Stylet;
-using StyletIoC;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Stylet;
+using StyletIoC;
 
 namespace MeoAsstGui
 {
@@ -15,29 +15,29 @@ namespace MeoAsstGui
 
         private delegate void ProcCallbckMsg(AsstMsg msg, JObject detail);
 
-        [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstCreate();
+        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstCreate();
 
-        [DllImport("MeoAssistance.dll")] static private extern IntPtr AsstCreateEx(CallbackDelegate callback, IntPtr custom_arg);
+        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstCreateEx(CallbackDelegate callback, IntPtr custom_arg);
 
-        [DllImport("MeoAssistance.dll")] static private extern void AsstDestory(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] private static extern void AsstDestory(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstCatchDefault(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstCatchDefault(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartProcessTask(IntPtr ptr, string task);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartProcessTask(IntPtr ptr, string task);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartSanity(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartSanity(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartVisit(IntPtr ptr, bool with_shopping);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartVisit(IntPtr ptr, bool with_shopping);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartRecruiting(IntPtr ptr, int[] required_level, int required_len, bool set_time);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartRecruiting(IntPtr ptr, int[] required_level, int required_len, bool set_time);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartInfrastShift(IntPtr ptr, int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartInfrastShift(IntPtr ptr, int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstStartDebugTask(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartDebugTask(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] static private extern void AsstStop(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] private static extern void AsstStop(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] static private extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
 
         private CallbackDelegate _callback;
 

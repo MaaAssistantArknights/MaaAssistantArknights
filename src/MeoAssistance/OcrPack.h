@@ -1,17 +1,19 @@
-﻿#pragma once
+#pragma once
 #include "AbstractResource.h"
 
-#include <memory>
 #include <functional>
+#include <memory>
 
 #include "AsstDef.h"
 
 class OcrLiteCaller;
-namespace cv {
+namespace cv
+{
     class Mat;
 }
 
-namespace asst {
+namespace asst
+{
     class OcrPack final : public AbstractResource
     {
     public:
@@ -25,7 +27,6 @@ namespace asst {
         std::vector<TextRect> recognize(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr);
 
     private:
-
         std::unique_ptr<OcrLiteCaller> m_ocr_ptr;
     };
 }

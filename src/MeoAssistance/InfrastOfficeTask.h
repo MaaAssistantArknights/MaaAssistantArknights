@@ -1,7 +1,8 @@
-﻿#pragma once
+#pragma once
 #include "InfrastProductionTask.h"
 
-namespace asst {
+namespace asst
+{
     class InfrastOfficeTask : public InfrastProductionTask
     {
     public:
@@ -11,6 +12,7 @@ namespace asst {
 
         const static std::string FacilityName;
         const static int MaxNumOfOpers = 1;
+
     private:
     };
 }

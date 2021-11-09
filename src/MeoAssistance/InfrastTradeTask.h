@@ -1,7 +1,8 @@
-﻿#pragma once
+#pragma once
 #include "InfrastProductionTask.h"
 
-namespace asst {
+namespace asst
+{
     class InfrastTradeTask : public InfrastProductionTask
     {
     public:

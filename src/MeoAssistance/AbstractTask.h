@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <memory>
 
@@ -9,7 +9,8 @@ namespace cv
     class Mat;
 }
 
-namespace asst {
+namespace asst
+{
     class AbstractTask
     {
     public:
@@ -26,6 +27,7 @@ namespace asst {
         virtual void set_task_chain(std::string name) { m_task_chain = std::move(name); }
         virtual const std::string& get_task_chain() { return m_task_chain; }
         virtual void on_run_fails(int retry_times) { ; }
+
     protected:
         virtual bool sleep(unsigned millisecond);
         virtual bool save_image(const cv::Mat& iamge, const std::string& dir);

@@ -1,4 +1,4 @@
-﻿#include "AbstractTask.h"
+#include "AbstractTask.h"
 
 #include <algorithm>
 #include <filesystem>
@@ -6,8 +6,8 @@
 
 #include <opencv2/opencv.hpp>
 
-#include "Controller.h"
 #include "AsstUtils.hpp"
+#include "Controller.h"
 #include "Logger.hpp"
 #include "Resource.h"
 
@@ -42,7 +42,8 @@ bool AbstractTask::sleep(unsigned millisecond)
 
     while (!need_exit() && duration < millisecond) {
         duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now() - start).count();
+                       std::chrono::system_clock::now() - start)
+            .count();
         std::this_thread::yield();
     }
     m_callback(AsstMsg::EndOfSleep, callback_json, m_callback_arg);

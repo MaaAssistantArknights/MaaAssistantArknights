@@ -1,10 +1,11 @@
-﻿#pragma once
+#pragma once
 
 #include "AbstractConfiger.h"
 
 #include <unordered_map>
 
-namespace asst {
+namespace asst
+{
     class ItemConfiger : public AbstractConfiger
     {
     public:
@@ -21,10 +22,12 @@ namespace asst {
                 return empty;
             }
         }
-        const std::unordered_map<std::string, int>& get_drop_count() const noexcept {
+        const std::unordered_map<std::string, int>& get_drop_count() const noexcept
+        {
             return m_drop_count;
         }
-        std::unordered_map<std::string, int>& get_drop_count() noexcept {
+        std::unordered_map<std::string, int>& get_drop_count() noexcept
+        {
             return m_drop_count;
         }
         int get_drop_count(const std::string& id) const noexcept
@@ -41,7 +44,8 @@ namespace asst {
         {
             m_drop_count.emplace(std::move(id), count);
         }
-        void increase_drop_count(std::string id, int count) {
+        void increase_drop_count(std::string id, int count)
+        {
             m_drop_count[std::move(id)] += count;
         }
         void clear_drop_count() noexcept

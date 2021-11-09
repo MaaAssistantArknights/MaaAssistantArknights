@@ -1,7 +1,7 @@
-﻿#include "TemplResource.h"
+#include "TemplResource.h"
 
-#include <filesystem>
 #include <array>
+#include <filesystem>
 #include <string_view>
 
 void asst::TemplResource::append_load_required(std::unordered_set<std::string> required) noexcept

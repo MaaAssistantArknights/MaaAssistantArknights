@@ -1,10 +1,11 @@
-﻿#include "PenguinPack.h"
+#include "PenguinPack.h"
 
 #include <filesystem>
 
-#include <opencv2/opencv.hpp>
 #include <json.h>
-namespace penguin {
+#include <opencv2/opencv.hpp>
+namespace penguin
+{
 #include <penguin-stats-recognize/penguin_wasm.h>
 }
 
@@ -46,7 +47,7 @@ bool asst::PenguinPack::load_json(const std::string& stage_path, const std::stri
     json::object cvt_stage_json;
     try {
         for (const json::value& stage_info : stage_json.as_array()) {
-            if (!stage_info.exist("dropInfos")) {   // 这种一般是以前的活动关，现在已经关闭了的
+            if (!stage_info.exist("dropInfos")) { // 这种一般是以前的活动关，现在已经关闭了的
                 continue;
             }
             std::string key = stage_info.at("code").as_string();

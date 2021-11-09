@@ -1,20 +1,20 @@
-﻿#include "InfrastReceptionTask.h"
+#include "InfrastReceptionTask.h"
 
 #include "Controller.h"
-#include "Resource.h"
-#include "InfrastClueVacancyImageAnalyzer.h"
 #include "InfrastClueImageAnalyzer.h"
-#include "MatchImageAnalyzer.h"
+#include "InfrastClueVacancyImageAnalyzer.h"
 #include "Logger.hpp"
+#include "MatchImageAnalyzer.h"
 #include "ProcessTaskImageAnalyzer.h"
+#include "Resource.h"
 
 const std::string asst::InfrastReceptionTask::FacilityName = "Reception";
 
 bool asst::InfrastReceptionTask::run()
 {
     json::value task_start_json = json::object{
-        { "task_type",  "InfrastReceptionTask" },
-        { "task_chain", m_task_chain}
+        { "task_type", "InfrastReceptionTask" },
+        { "task_chain", m_task_chain }
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
@@ -78,7 +78,8 @@ bool asst::InfrastReceptionTask::proc_clue()
     LogTraceFunction;
     const static std::string clue_vacancy = "InfrastClueVacancy";
     const static std::vector<std::string> clue_suffix = {
-        "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
+        "No1", "No2", "No3", "No4", "No5", "No6", "No7"
+    };
 
     proc_vacancy();
 
@@ -124,7 +125,8 @@ bool asst::InfrastReceptionTask::proc_vacancy()
     LogTraceFunction;
     const static std::string clue_vacancy = "InfrastClueVacancy";
     const static std::vector<std::string> clue_suffix = {
-        "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
+        "No1", "No2", "No3", "No4", "No5", "No6", "No7"
+    };
 
     for (const std::string& clue : clue_suffix) {
         if (need_exit()) {
@@ -163,15 +165,13 @@ bool asst::InfrastReceptionTask::shift()
     MatchImageAnalyzer add_analyzer(image);
 
     const auto raw_task_ptr = resource.task().task_ptr("InfrastAddOperator" + m_facility + m_work_mode_name);
-    switch (raw_task_ptr->algorithm)
-    {
+    switch (raw_task_ptr->algorithm) {
     case AlgorithmType::JustReturn:
         if (raw_task_ptr->action == ProcessTaskAction::ClickRect) {
             ctrler.click(raw_task_ptr->specific_rect);
         }
         break;
-    case AlgorithmType::MatchTemplate:
-    {
+    case AlgorithmType::MatchTemplate: {
         const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(raw_task_ptr);
         add_analyzer.set_task_info(*add_task_ptr);
 
@@ -179,8 +179,7 @@ bool asst::InfrastReceptionTask::shift()
             return true;
         }
         ctrler.click(add_analyzer.get_result().rect);
-    }
-    break;
+    } break;
     default:
         break;
     }

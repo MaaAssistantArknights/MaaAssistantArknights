@@ -1,10 +1,11 @@
-﻿#pragma once
+#pragma once
 
 #include <opencv2/opencv.hpp>
 
 #include "AsstDef.h"
 
-namespace asst {
+namespace asst
+{
     class AbstractImageAnalyzer
     {
     public:
@@ -20,8 +21,8 @@ namespace asst {
         virtual void set_roi(const Rect& roi) noexcept;
         virtual bool analyze() = 0;
 
-        std::string calc_hash() const;               // 使用m_roi
-        std::string calc_hash(const Rect& roi) const;// 使用参数roi
+        std::string calc_hash() const;                // 使用m_roi
+        std::string calc_hash(const Rect& roi) const; // 使用参数roi
 
         AbstractImageAnalyzer& operator=(const AbstractImageAnalyzer&) = delete;
         AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;

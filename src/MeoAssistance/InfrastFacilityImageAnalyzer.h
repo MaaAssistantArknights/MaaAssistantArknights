@@ -1,7 +1,8 @@
-﻿#pragma once
+#pragma once
 #include "AbstractImageAnalyzer.h"
 
-namespace asst {
+namespace asst
+{
     class InfrastFacilityImageAnalyzer final : public AbstractImageAnalyzer
     {
     public:
@@ -11,11 +12,13 @@ namespace asst {
 
         virtual bool analyze() override;
 
-        void set_to_be_analyzed(std::vector<std::string> facilities) noexcept {
+        void set_to_be_analyzed(std::vector<std::string> facilities) noexcept
+        {
             m_to_be_analyzed = std::move(facilities);
         }
 
-        int get_quantity(const std::string& name) const {
+        int get_quantity(const std::string& name) const
+        {
             if (auto iter = m_result.find(name);
                 iter == m_result.cend()) {
                 return 0;
@@ -24,7 +27,8 @@ namespace asst {
                 return iter->second.size();
             }
         }
-        Rect get_rect(const std::string& name, int index) const {
+        Rect get_rect(const std::string& name, int index) const
+        {
             if (auto iter = m_result.find(name);
                 iter == m_result.cend()) {
                 return Rect();
@@ -38,15 +42,19 @@ namespace asst {
                 }
             }
         }
-        const std::unordered_map<std::string, std::vector<MatchRect>>& get_result() const noexcept {
+        const std::unordered_map<std::string, std::vector<MatchRect>>& get_result() const noexcept
+        {
             return m_result;
         }
+
     private:
         // 该分析器不支持外部设置ROI
-        virtual void set_roi(const Rect& roi) noexcept override {
+        virtual void set_roi(const Rect& roi) noexcept override
+        {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat& image, const Rect& roi) {
+        virtual void set_image(const cv::Mat& image, const Rect& roi)
+        {
             AbstractImageAnalyzer::set_image(image, roi);
         }
 

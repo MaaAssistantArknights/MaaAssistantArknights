@@ -1,16 +1,15 @@
-﻿#include "InfrastSmileyImageAnalyzer.h"
+#include "InfrastSmileyImageAnalyzer.h"
 
-#include "Resource.h"
-#include "MultiMatchImageAnalyzer.h"
 #include "AsstUtils.hpp"
+#include "MultiMatchImageAnalyzer.h"
+#include "Resource.h"
 
 bool asst::InfrastSmileyImageAnalyzer::analyze()
 {
-    const static std::unordered_map<InfrastSmileyType, std::string> smiley_map =
-    {
-        {InfrastSmileyType::Rest, "InfrastSmileyOnRest"},
-        {InfrastSmileyType::Work, "InfrastSmileyOnWork"},
-        {InfrastSmileyType::Distract, "InfrastSmileyOnDistract"}
+    const static std::unordered_map<InfrastSmileyType, std::string> smiley_map = {
+        { InfrastSmileyType::Rest, "InfrastSmileyOnRest" },
+        { InfrastSmileyType::Work, "InfrastSmileyOnWork" },
+        { InfrastSmileyType::Distract, "InfrastSmileyOnDistract" }
     };
 
     m_result.clear();

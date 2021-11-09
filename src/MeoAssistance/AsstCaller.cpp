@@ -1,13 +1,13 @@
-﻿#include "AsstCaller.h"
+#include "AsstCaller.h"
 
 #include <string.h>
 
 #include <json_value.h>
 
-#include "Version.h"
+#include "Assistance.h"
 #include "AsstDef.h"
 #include "AsstUtils.hpp"
-#include "Assistance.h"
+#include "Version.h"
 
 #if 0
 #if _MSC_VER
@@ -15,7 +15,8 @@
 BOOL APIENTRY DllMain(HANDLE hModule,
     DWORD  ul_reason_for_call,
     LPVOID lpReserved
-) {
+)
+{
     UNREFERENCED_PARAMETER(hModule);
     UNREFERENCED_PARAMETER(lpReserved);
     switch (ul_reason_for_call) {
@@ -188,11 +189,7 @@ bool AsstStartInfrastShift(void* p_asst, int work_mode, const char** order, int 
     std::vector<std::string> order_vector;
     order_vector.assign(order, order + order_size);
 
-    return ((asst::Assistance*)p_asst)->start_infrast_shift(
-        static_cast<asst::InfrastWorkMode>(work_mode),
-        order_vector,
-        static_cast<asst::UsesOfDrones>(uses_of_drones),
-        dorm_threshold);
+    return ((asst::Assistance*)p_asst)->start_infrast_shift(static_cast<asst::InfrastWorkMode>(work_mode), order_vector, static_cast<asst::UsesOfDrones>(uses_of_drones), dorm_threshold);
 }
 
 bool AsstStartDebugTask(void* p_asst)

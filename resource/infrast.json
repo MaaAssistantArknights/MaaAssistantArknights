@@ -1,1833 +1,1833 @@
 ﻿{
-    "facility": [
-        "Mfg",
-        "Trade",
-        "Power",
-        "Office",
-        "Reception"
+  "facility": [
+    "Mfg",
+    "Trade",
+    "Power",
+    "Office",
+    "Reception"
+  ],
+  "Mfg": {
+    "Mfg_Doc": "制造站",
+    "products": [
+      "CombatRecord",
+      "PureGold"
     ],
-    "Mfg": {
-        "Mfg_Doc": "制造站",
-        "products": [
-            "CombatRecord",
-            "PureGold"
+    "maxNumOfOpers": 3,
+    "skills_Doc": "技能ID默认就是模板名（不带.png），name和intro实际都不产生作用，给人看的",
+    "skills": [
+      {
+        "name": [
+          "咪波·制造型"
         ],
-        "maxNumOfOpers": 3,
-        "skills_Doc": "技能ID默认就是模板名（不带.png），name和intro实际都不产生作用，给人看的",
-        "skills": [
-            {
-                "name": [
-                    "咪波·制造型"
-                ],
-                "intro": "进驻制造站时，生产力+30%",
-                "template": "Bskill_man_spd3.png",
-                "efficient": {
-                    "all": 30
-                }
-            },
-            {
-                "name": [
-                    "标准化·β",
-                    "莱茵科技·β",
-                    "红松骑士团·β"
-                ],
-                "intro": "进驻制造站时，生产力+25%",
-                "template": "Bskill_man_spd2.png",
-                "efficient": {
-                    "all": 25
-                }
-            },
-            {
-                "name": [
-                    "标准化·α",
-                    "莱茵科技·α",
-                    "红松骑士团·α",
-                    "磐蟹·豆豆"
-                ],
-                "intro": "进驻制造站时，生产力+15%",
-                "template": "Bskill_man_spd1.png",
-                "efficient": {
-                    "all": 15
-                }
-            },
-            {
-                "name": [
-                    "大就是好！"
-                ],
-                "intro": "进驻制造站时，当前制造站内干员根据自身提升的仓库容量提供一定的生产力。提升16格以下的，每格仓库容量提供1%生产力；提升大于16格的，每格仓库容量提供3%生产力（无法与回收利用叠加，且优先生效）",
-                "template": "Bskill_man_spd_variable31.png"
-            },
-            {
-                "name": [
-                    "配合意识"
-                ],
-                "intro": "进驻制造站时，当前制造站内其他干员提供的每5%生产力（不包含根据设施数量提供加成的生产力），额外提供5%生产力，最多提供40%生产力",
-                "template": "Bskill_man_spd_variable21.png",
-                "efficient": {
-                    "all": 40
-                }
-            },
-            {
-                "name": [
-                    "回收利用"
-                ],
-                "intro": "进驻制造站时，当前制造站内干员提升的每格仓库容量，提供2%生产力",
-                "template": "Bskill_man_spd_variable11.png"
-            },
-            {
-                "name": [
-                    "意识实体"
-                ],
-                "intro": "进驻制造站时，每1点思维链环+1%生产力",
-                "template": "Bskill_man_spd_bd2.png"
-            },
-            {
-                "name": [
-                    "念力"
-                ],
-                "intro": "进驻制造站时，每2点思维链环+1%生产力",
-                "template": "Bskill_man_spd_bd1.png"
-            },
-            {
-                "name": [
-                    "超感"
-                ],
-                "intro": "进驻制造站时，宿舍内每有1名干员则感知信息+1，同时每1点感知信息转化为1点思维链环",
-                "template": "Bskill_man_spd_bd_n1.png"
-            },
-            {
-                "name": [
-                    "慢性子",
-                    "延时摄影"
-                ],
-                "intro": "进驻制造站后，生产力首小时+15%，此后每小时+2%，最终达到+25%",
-                "template": "Bskill_man_spd_add2.png",
-                "efficient": {
-                    "all": 23
-                }
-            },
-            {
-                "name": [
-                    "急性子",
-                    "“等不及”"
-                ],
-                "intro": "进驻制造站后，生产力首小时+20%，此后每小时+1%，最终达到+25%",
-                "template": "Bskill_man_spd_add1.png",
-                "efficient": {
-                    "all": 24
-                }
-            },
-            {
-                "name": [
-                    "再生能源"
-                ],
-                "intro": "进驻制造站时，每个贸易站为当前制造站贵金属类配方的生产力+20%",
-                "template": "Bskill_man_spd&trade.png",
-                "efficient": {
-                    "PureGold_reg": "[NumOfTrade] * 20"
-                }
-            },
-            {
-                "name": [
-                    "仿生海龙"
-                ],
-                "intro": "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个发电站为当前制造站+15%的生产力",
-                "template": "Bskill_man_spd&power3.png"
-            },
-            {
-                "name": [
-                    "自动化·β"
-                ],
-                "intro": "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个发电站为当前制造站+10%的生产力",
-                "template": "Bskill_man_spd&power2.png"
-            },
-            {
-                "name": [
-                    "自动化·α"
-                ],
-                "intro": "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个发电站为当前制造站+5%的生产力",
-                "template": "Bskill_man_spd&power1.png"
-            },
-            {
-                "name": [
-                    "仓库整备·β"
-                ],
-                "intro": "进驻制造站时，仓库容量上限+10，生产力+10%",
-                "template": "Bskill_man_spd&limit3.png",
-                "efficient": {
-                    "all": 10
-                }
-            },
-            {
-                "name": [
-                    "仓库整备·α"
-                ],
-                "intro": "进驻制造站时，仓库容量上限+6，生产力+10%",
-                "template": "Bskill_man_spd&limit1.png",
-                "efficient": {
-                    "all": 10
-                }
-            },
-            {
-                "name": [
-                    "“可靠”助手"
-                ],
-                "intro": "进驻制造站时，生产力-20%，仓库容量上限+17，心情每小时消耗-0.25",
-                "template": "Bskill_man_spd&limit&cost4.png"
-            },
-            {
-                "name": [
-                    "特立独行",
-                    "麻烦制造者"
-                ],
-                "intro": "进驻制造站时，生产力+25%，仓库容量上限-12，心情每小时消耗+0.25",
-                "template": "Bskill_man_spd&limit&cost3.png",
-                "efficient": {
-                    "all": 24.9
-                }
-            },
-            {
-                "name": [
-                    "工匠精神·β"
-                ],
-                "intro": "进驻制造站时，生产力-5%，仓库容量上限+19，心情每小时消耗-0.25",
-                "template": "Bskill_man_spd&limit&cost2.png"
-            },
-            {
-                "name": [
-                    "工匠精神·α"
-                ],
-                "intro": "进驻制造站时，生产力-5%，仓库容量上限+16，心情每小时消耗-0.15",
-                "template": "Bskill_man_spd&limit&cost1.png"
-            },
-            {
-                "name": [
-                    "意识协议"
-                ],
-                "intro": "进驻制造站时，当前制造站内每个标准化类技能为自身+5%的生产力",
-                "template": "Bskill_man_skill_spd.png"
-            },
-            {
-                "name": [
-                    "源石工艺·β",
-                    "地质学·β",
-                    "火山学家",
-                    "源石研究"
-                ],
-                "intro": "进驻制造站时，源石类配方的生产力+35%",
-                "template": "Bskill_man_originium2.png"
-            },
-            {
-                "name": [
-                    "源石工艺·α",
-                    "地质学·α"
-                ],
-                "intro": "进驻制造站时，源石类配方的生产力+30%",
-                "template": "Bskill_man_originium1.png"
-            },
-            {
-                "name": [
-                    "探险者"
-                ],
-                "intro": "进驻制造站时，仓库容量上限+16，心情每小时消耗-0.25",
-                "template": "Bskill_man_limit&cost3.png"
-            },
-            {
-                "name": [
-                    "囤积者"
-                ],
-                "intro": "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25",
-                "template": "Bskill_man_limit&cost2.png"
-            },
-            {
-                "name": [
-                    "拾荒者",
-                    "智慧之境",
-                    "“都想要”",
-                    "磐蟹·阿盘"
-                ],
-                "intro": "进驻制造站时，仓库容量上限+8，心情每小时消耗-0.25",
-                "template": "Bskill_man_limit&cost1.png"
-            },
-            {
-                "name": [
-                    "金属工艺·β"
-                ],
-                "intro": "进驻制造站时，贵金属类配方的生产力+35%",
-                "template": "Bskill_man_gold2.png",
-                "efficient": {
-                    "PureGold": 35.1,
-                    "Doc": "单产品加成的技能一概+0.1分，为了从同效率的技能中胜出来，优先使用单产品技能。把通用技能留给更多的制造站"
-                }
-            },
-            {
-                "name": [
-                    "金属工艺·α"
-                ],
-                "intro": "进驻制造站时，贵金属类配方的生产力+30%",
-                "template": "Bskill_man_gold1.png",
-                "efficient": {
-                    "PureGold": 30.1
-                }
-            },
-            {
-                "name": [
-                    "拳术指导录像"
-                ],
-                "intro": "进驻制造站时，作战记录类配方的生产力+35%",
-                "template": "Bskill_man_exp3.png",
-                "efficient": {
-                    "CombatRecord": 35.1
-                }
-            },
-            {
-                "name": [
-                    "作战指导录像"
-                ],
-                "intro": "进驻制造站时，作战记录类配方的生产力+30%",
-                "template": "Bskill_man_exp2.png",
-                "efficient": {
-                    "CombatRecord": 30.1
-                }
-            },
-            {
-                "name": [
-                    "胜利之计"
-                ],
-                "intro": "进驻制造站时，作战记录类配方的生产力+25%",
-                "template": "Bskill_man_exp1.png",
-                "efficient": {
-                    "CombatRecord": 25.1
-                }
-            },
-            {
-                "name": [
-                    "剪辑·β"
-                ],
-                "intro": "进驻制造站时，生产作战记录类配方时，仓库容量上限+15",
-                "template": "Bskill_man_exp&limit2.png"
-            },
-            {
-                "name": [
-                    "剪辑·α"
-                ],
-                "intro": "进驻制造站时，生产作战记录类配方时，仓库容量上限+12",
-                "template": "Bskill_man_exp&limit1.png"
-            },
-            {
-                "name": [
-                    "Vlog"
-                ],
-                "intro": "进驻制造站时，生产作战记录类配方时，心情每小时消耗-0.25",
-                "template": "Bskill_man_exp&cost.png"
-            },
-            {
-                "name": [
-                    "团队精神"
-                ],
-                "intro": "进驻制造站时，消除当前制造站内所有干员自身心情消耗的影响",
-                "template": "Bskill_man_cost_all.png"
-            }
+        "intro": "进驻制造站时，生产力+30%",
+        "template": "Bskill_man_spd3.png",
+        "efficient": {
+          "all": 30
+        }
+      },
+      {
+        "name": [
+          "标准化·β",
+          "莱茵科技·β",
+          "红松骑士团·β"
         ],
-        "skillsGroup_Doc": "相关技能组参考https://bbs.nga.cn/read.php?tid=25965441",
-        "skillsGroup": [
-            {
-                "intro": "水月组",
-                "necessary": [
-                    {
-                        "intro": "水月-2",
-                        "skills": [
-                            "Bskill_man_skill_spd",
-                            "Bskill_man_spd2"
-                        ],
-                        "efficient": {
-                            "all": 30
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "标准化·β",
-                        "skills": [
-                            "Bskill_man_spd2"
-                        ],
-                        "efficient": {
-                            "all": 30
-                        }
-                    },
-                    {
-                        "intro": "标准化·α",
-                        "skills": [
-                            "Bskill_man_spd1"
-                        ],
-                        "efficient": {
-                            "all": 20
-                        }
-                    }
-                ]
-            },
-            {
-                "intro": "红云组",
-                "necessary": [
-                    {
-                        "intro": "红云-1",
-                        "skills": [
-                            "Bskill_man_spd_variable11",
-                            "Bskill_man_limit&cost1"
-                        ],
-                        "efficient": {
-                            "all": 16
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "稀音-2",
-                        "skills": [
-                            "Bskill_man_spd_add2",
-                            "Bskill_man_exp&limit1"
-                        ],
-                        "efficient": {
-                            "CombatRecord": 47
-                        }
-                    },
-                    {
-                        "intro": "帕拉斯-2",
-                        "skills": [
-                            "Bskill_man_limit&cost1",
-                            "Bskill_man_exp1"
-                        ],
-                        "efficient": {
-                            "CombatRecord": 41
-                        }
-                    },
-                    {
-                        "intro": "刻俄柏-2",
-                        "skills": [
-                            "Bskill_man_spd_add1",
-                            "Bskill_man_limit&cost1"
-                        ],
-                        "efficient": {
-                            "all": 40
-                        }
-                    },
-                    {
-                        "intro": "火神-2",
-                        "skills": [
-                            "Bskill_man_spd&limit&cost2"
-                        ],
-                        "efficient": {
-                            "all": 33
-                        }
-                    },
-                    {
-                        "intro": "石棉-2",
-                        "skills": [
-                            "Bskill_man_spd&limit&cost3",
-                            "Bskill_man_limit&cost3"
-                        ],
-                        "efficient": {
-                            "all": 33
-                        }
-                    },
-                    {
-                        "intro": "豆苗-1",
-                        "skills": [
-                            "Bskill_man_spd1",
-                            "Bskill_man_limit&cost1"
-                        ],
-                        "efficient": {
-                            "all": 31
-                        }
-                    },
-                    {
-                        "intro": "黑角、蛇屠箱",
-                        "skills": [
-                            "Bskill_man_spd&limit3"
-                        ],
-                        "efficient": {
-                            "all": 30
-                        }
-                    },
-                    {
-                        "intro": "卡达-1",
-                        "skills": [
-                            "Bskill_man_exp&cost",
-                            "Bskill_man_exp&limit2"
-                        ],
-                        "efficient": {
-                            "all": 30
-                        }
-                    },
-                    {
-                        "intro": "米格鲁、卡缇",
-                        "skills": [
-                            "Bskill_man_spd&limit1"
-                        ],
-                        "efficient": {
-                            "all": 22
-                        }
-                    },
-                    {
-                        "intro": "刻俄柏",
-                        "skills": [
-                            "Bskill_man_limit&cost1"
-                        ],
-                        "efficient": {
-                            "all": 16
-                        }
-                    },
-                    {
-                        "intro": "贝娜",
-                        "skills": [
-                            "Bskill_man_spd&limit&cost4"
-                        ],
-                        "efficient": {
-                            "all": 14
-                        }
-                    },
-                    {
-                        "intro": "帕拉斯",
-                        "skills": [
-                            "Bskill_man_limit&cost1"
-                        ],
-                        "efficient": {
-                            "all": 14
-                        }
-                    }
-                ]
-            },
-            {
-                "intro": "泡泡组",
-                "necessary": [
-                    {
-                        "intro": "泡泡-1",
-                        "skills": [
-                            "Bskill_man_limit&cost2",
-                            "Bskill_man_spd_variable31"
-                        ],
-                        "efficient": {
-                            "all": 10
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "火神-2",
-                        "skills": [
-                            "Bskill_man_spd&limit&cost2"
-                        ],
-                        "efficient": {
-                            "all": 52
-                        }
-                    },
-                    {
-                        "intro": "稀音-2",
-                        "skills": [
-                            "Bskill_man_spd_add2",
-                            "Bskill_man_exp&limit1"
-                        ],
-                        "efficient": {
-                            "CombatRecord": 35
-                        }
-                    },
-                    {
-                        "intro": "帕拉斯-2",
-                        "skills": [
-                            "Bskill_man_limit&cost1",
-                            "Bskill_man_exp1"
-                        ],
-                        "efficient": {
-                            "CombatRecord": 33
-                        }
-                    },
-                    {
-                        "intro": "刻俄柏-2",
-                        "skills": [
-                            "Bskill_man_spd_add1",
-                            "Bskill_man_limit&cost1"
-                        ],
-                        "efficient": {
-                            "all": 32
-                        }
-                    },
-                    {
-                        "intro": "贝娜",
-                        "skills": [
-                            "Bskill_man_spd&limit&cost4"
-                        ],
-                        "efficient": {
-                            "all": 31
-                        }
-                    },
-                    {
-                        "intro": "豆苗-1",
-                        "skills": [
-                            "Bskill_man_spd1",
-                            "Bskill_man_limit&cost1"
-                        ],
-                        "efficient": {
-                            "all": 23
-                        }
-                    },
-                    {
-                        "intro": "石棉-2",
-                        "skills": [
-                            "Bskill_man_spd&limit&cost3",
-                            "Bskill_man_limit&cost3"
-                        ],
-                        "efficient": {
-                            "all": 29
-                        }
-                    },
-                    {
-                        "intro": "黑角、蛇屠箱",
-                        "skills": [
-                            "Bskill_man_spd&limit3"
-                        ],
-                        "efficient": {
-                            "all": 20
-                        }
-                    },
-                    {
-                        "intro": "米格鲁、卡缇",
-                        "skills": [
-                            "Bskill_man_spd&limit1"
-                        ],
-                        "efficient": {
-                            "all": 16
-                        }
-                    },
-                    {
-                        "intro": "卡达-1",
-                        "skills": [
-                            "Bskill_man_exp&cost",
-                            "Bskill_man_exp&limit2"
-                        ],
-                        "efficient": {
-                            "all": 15
-                        }
-                    },
-                    {
-                        "intro": "刻俄柏",
-                        "skills": [
-                            "Bskill_man_limit&cost1"
-                        ],
-                        "efficient": {
-                            "all": 8
-                        }
-                    },
-                    {
-                        "intro": "帕拉斯",
-                        "skills": [
-                            "Bskill_man_limit&cost1"
-                        ],
-                        "efficient": {
-                            "all": 8
-                        }
-                    }
-                ]
-            },
-            {
-                "intro": "温蒂-2组",
-                "conditions": {
-                    "NumOfPower": 3
-                },
-                "necessary": [
-                    {
-                        "intro": "温蒂-2",
-                        "skills": [
-                            "Bskill_man_spd&power3"
-                        ],
-                        "efficient": {
-                            "all": 45
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "森蚺-2",
-                        "skills": [
-                            "Bskill_man_spd&power2"
-                        ],
-                        "efficient": {
-                            "all": 30
-                        }
-                    },
-                    {
-                        "intro": "清流-1",
-                        "skills": [
-                            "Bskill_man_spd&trade"
-                        ],
-                        "efficient": {
-                            "PureGold_reg": "[NumOfTrade] * 20"
-                        }
-                    },
-                    {
-                        "intro": "森蚺、异客2",
-                        "skills": [
-                            "Bskill_man_spd&power1"
-                        ],
-                        "efficient": {
-                            "all": 15
-                        }
-                    }
-                ]
-            },
-            {
-                "intro": "温蒂组",
-                "conditions": {
-                    "NumOfPower": 3
-                },
-                "necessary": [
-                    {
-                        "intro": "温蒂、森蚺-2",
-                        "skills": [
-                            "Bskill_man_spd&power2"
-                        ],
-                        "efficient": {
-                            "all": 30
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "温蒂、森蚺-2",
-                        "skills": [
-                            "Bskill_man_spd&power2"
-                        ],
-                        "efficient": {
-                            "all": 30
-                        }
-                    },
-                    {
-                        "intro": "清流-1",
-                        "skills": [
-                            "Bskill_man_spd&trade"
-                        ],
-                        "efficient": {
-                            "PureGold_reg": "[NumOfTrade] * 20"
-                        }
-                    },
-                    {
-                        "intro": "森蚺、异客2",
-                        "skills": [
-                            "Bskill_man_spd&power1"
-                        ],
-                        "efficient": {
-                            "all": 15
-                        }
-                    }
-                ]
-            },
-            {
-                "intro": "温蒂-2组: 2电站",
-                "conditions": {
-                    "NumOfPower": 2
-                },
-                "necessary": [
-                    {
-                        "intro": "温蒂-2",
-                        "skills": [
-                            "Bskill_man_spd&power3"
-                        ],
-                        "efficient": {
-                            "all": 30
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "森蚺-2",
-                        "skills": [
-                            "Bskill_man_spd&power2"
-                        ],
-                        "efficient": {
-                            "all": 20
-                        }
-                    },
-                    {
-                        "intro": "清流-1",
-                        "skills": [
-                            "Bskill_man_spd&trade"
-                        ],
-                        "efficient": {
-                            "PureGold_reg": "[NumOfTrade] * 20"
-                        }
-                    },
-                    {
-                        "intro": "森蚺、异客2",
-                        "skills": [
-                            "Bskill_man_spd&power1"
-                        ],
-                        "efficient": {
-                            "all": 10
-                        }
-                    }
-                ]
-            },
-            {
-                "intro": "温蒂组: 2电站",
-                "conditions": {
-                    "NumOfPower": 2
-                },
-                "necessary": [
-                    {
-                        "intro": "温蒂、森蚺-2",
-                        "skills": [
-                            "Bskill_man_spd&power2"
-                        ],
-                        "efficient": {
-                            "all": 30
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "温蒂、森蚺-2",
-                        "skills": [
-                            "Bskill_man_spd&power2"
-                        ],
-                        "efficient": {
-                            "all": 20
-                        }
-                    },
-                    {
-                        "intro": "清流-1",
-                        "skills": [
-                            "Bskill_man_spd&trade"
-                        ],
-                        "efficient": {
-                            "PureGold_reg": "[NumOfTrade] * 20"
-                        }
-                    },
-                    {
-                        "intro": "森蚺、异客2",
-                        "skills": [
-                            "Bskill_man_spd&power1"
-                        ],
-                        "efficient": {
-                            "all": 10
-                        }
-                    }
-                ]
+        "intro": "进驻制造站时，生产力+25%",
+        "template": "Bskill_man_spd2.png",
+        "efficient": {
+          "all": 25
+        }
+      },
+      {
+        "name": [
+          "标准化·α",
+          "莱茵科技·α",
+          "红松骑士团·α",
+          "磐蟹·豆豆"
+        ],
+        "intro": "进驻制造站时，生产力+15%",
+        "template": "Bskill_man_spd1.png",
+        "efficient": {
+          "all": 15
+        }
+      },
+      {
+        "name": [
+          "大就是好！"
+        ],
+        "intro": "进驻制造站时，当前制造站内干员根据自身提升的仓库容量提供一定的生产力。提升16格以下的，每格仓库容量提供1%生产力；提升大于16格的，每格仓库容量提供3%生产力（无法与回收利用叠加，且优先生效）",
+        "template": "Bskill_man_spd_variable31.png"
+      },
+      {
+        "name": [
+          "配合意识"
+        ],
+        "intro": "进驻制造站时，当前制造站内其他干员提供的每5%生产力（不包含根据设施数量提供加成的生产力），额外提供5%生产力，最多提供40%生产力",
+        "template": "Bskill_man_spd_variable21.png",
+        "efficient": {
+          "all": 40
+        }
+      },
+      {
+        "name": [
+          "回收利用"
+        ],
+        "intro": "进驻制造站时，当前制造站内干员提升的每格仓库容量，提供2%生产力",
+        "template": "Bskill_man_spd_variable11.png"
+      },
+      {
+        "name": [
+          "意识实体"
+        ],
+        "intro": "进驻制造站时，每1点思维链环+1%生产力",
+        "template": "Bskill_man_spd_bd2.png"
+      },
+      {
+        "name": [
+          "念力"
+        ],
+        "intro": "进驻制造站时，每2点思维链环+1%生产力",
+        "template": "Bskill_man_spd_bd1.png"
+      },
+      {
+        "name": [
+          "超感"
+        ],
+        "intro": "进驻制造站时，宿舍内每有1名干员则感知信息+1，同时每1点感知信息转化为1点思维链环",
+        "template": "Bskill_man_spd_bd_n1.png"
+      },
+      {
+        "name": [
+          "慢性子",
+          "延时摄影"
+        ],
+        "intro": "进驻制造站后，生产力首小时+15%，此后每小时+2%，最终达到+25%",
+        "template": "Bskill_man_spd_add2.png",
+        "efficient": {
+          "all": 23
+        }
+      },
+      {
+        "name": [
+          "急性子",
+          "“等不及”"
+        ],
+        "intro": "进驻制造站后，生产力首小时+20%，此后每小时+1%，最终达到+25%",
+        "template": "Bskill_man_spd_add1.png",
+        "efficient": {
+          "all": 24
+        }
+      },
+      {
+        "name": [
+          "再生能源"
+        ],
+        "intro": "进驻制造站时，每个贸易站为当前制造站贵金属类配方的生产力+20%",
+        "template": "Bskill_man_spd&trade.png",
+        "efficient": {
+          "PureGold_reg": "[NumOfTrade] * 20"
+        }
+      },
+      {
+        "name": [
+          "仿生海龙"
+        ],
+        "intro": "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个发电站为当前制造站+15%的生产力",
+        "template": "Bskill_man_spd&power3.png"
+      },
+      {
+        "name": [
+          "自动化·β"
+        ],
+        "intro": "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个发电站为当前制造站+10%的生产力",
+        "template": "Bskill_man_spd&power2.png"
+      },
+      {
+        "name": [
+          "自动化·α"
+        ],
+        "intro": "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个发电站为当前制造站+5%的生产力",
+        "template": "Bskill_man_spd&power1.png"
+      },
+      {
+        "name": [
+          "仓库整备·β"
+        ],
+        "intro": "进驻制造站时，仓库容量上限+10，生产力+10%",
+        "template": "Bskill_man_spd&limit3.png",
+        "efficient": {
+          "all": 10
+        }
+      },
+      {
+        "name": [
+          "仓库整备·α"
+        ],
+        "intro": "进驻制造站时，仓库容量上限+6，生产力+10%",
+        "template": "Bskill_man_spd&limit1.png",
+        "efficient": {
+          "all": 10
+        }
+      },
+      {
+        "name": [
+          "“可靠”助手"
+        ],
+        "intro": "进驻制造站时，生产力-20%，仓库容量上限+17，心情每小时消耗-0.25",
+        "template": "Bskill_man_spd&limit&cost4.png"
+      },
+      {
+        "name": [
+          "特立独行",
+          "麻烦制造者"
+        ],
+        "intro": "进驻制造站时，生产力+25%，仓库容量上限-12，心情每小时消耗+0.25",
+        "template": "Bskill_man_spd&limit&cost3.png",
+        "efficient": {
+          "all": 24.9
+        }
+      },
+      {
+        "name": [
+          "工匠精神·β"
+        ],
+        "intro": "进驻制造站时，生产力-5%，仓库容量上限+19，心情每小时消耗-0.25",
+        "template": "Bskill_man_spd&limit&cost2.png"
+      },
+      {
+        "name": [
+          "工匠精神·α"
+        ],
+        "intro": "进驻制造站时，生产力-5%，仓库容量上限+16，心情每小时消耗-0.15",
+        "template": "Bskill_man_spd&limit&cost1.png"
+      },
+      {
+        "name": [
+          "意识协议"
+        ],
+        "intro": "进驻制造站时，当前制造站内每个标准化类技能为自身+5%的生产力",
+        "template": "Bskill_man_skill_spd.png"
+      },
+      {
+        "name": [
+          "源石工艺·β",
+          "地质学·β",
+          "火山学家",
+          "源石研究"
+        ],
+        "intro": "进驻制造站时，源石类配方的生产力+35%",
+        "template": "Bskill_man_originium2.png"
+      },
+      {
+        "name": [
+          "源石工艺·α",
+          "地质学·α"
+        ],
+        "intro": "进驻制造站时，源石类配方的生产力+30%",
+        "template": "Bskill_man_originium1.png"
+      },
+      {
+        "name": [
+          "探险者"
+        ],
+        "intro": "进驻制造站时，仓库容量上限+16，心情每小时消耗-0.25",
+        "template": "Bskill_man_limit&cost3.png"
+      },
+      {
+        "name": [
+          "囤积者"
+        ],
+        "intro": "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25",
+        "template": "Bskill_man_limit&cost2.png"
+      },
+      {
+        "name": [
+          "拾荒者",
+          "智慧之境",
+          "“都想要”",
+          "磐蟹·阿盘"
+        ],
+        "intro": "进驻制造站时，仓库容量上限+8，心情每小时消耗-0.25",
+        "template": "Bskill_man_limit&cost1.png"
+      },
+      {
+        "name": [
+          "金属工艺·β"
+        ],
+        "intro": "进驻制造站时，贵金属类配方的生产力+35%",
+        "template": "Bskill_man_gold2.png",
+        "efficient": {
+          "PureGold": 35.1,
+          "Doc": "单产品加成的技能一概+0.1分，为了从同效率的技能中胜出来，优先使用单产品技能。把通用技能留给更多的制造站"
+        }
+      },
+      {
+        "name": [
+          "金属工艺·α"
+        ],
+        "intro": "进驻制造站时，贵金属类配方的生产力+30%",
+        "template": "Bskill_man_gold1.png",
+        "efficient": {
+          "PureGold": 30.1
+        }
+      },
+      {
+        "name": [
+          "拳术指导录像"
+        ],
+        "intro": "进驻制造站时，作战记录类配方的生产力+35%",
+        "template": "Bskill_man_exp3.png",
+        "efficient": {
+          "CombatRecord": 35.1
+        }
+      },
+      {
+        "name": [
+          "作战指导录像"
+        ],
+        "intro": "进驻制造站时，作战记录类配方的生产力+30%",
+        "template": "Bskill_man_exp2.png",
+        "efficient": {
+          "CombatRecord": 30.1
+        }
+      },
+      {
+        "name": [
+          "胜利之计"
+        ],
+        "intro": "进驻制造站时，作战记录类配方的生产力+25%",
+        "template": "Bskill_man_exp1.png",
+        "efficient": {
+          "CombatRecord": 25.1
+        }
+      },
+      {
+        "name": [
+          "剪辑·β"
+        ],
+        "intro": "进驻制造站时，生产作战记录类配方时，仓库容量上限+15",
+        "template": "Bskill_man_exp&limit2.png"
+      },
+      {
+        "name": [
+          "剪辑·α"
+        ],
+        "intro": "进驻制造站时，生产作战记录类配方时，仓库容量上限+12",
+        "template": "Bskill_man_exp&limit1.png"
+      },
+      {
+        "name": [
+          "Vlog"
+        ],
+        "intro": "进驻制造站时，生产作战记录类配方时，心情每小时消耗-0.25",
+        "template": "Bskill_man_exp&cost.png"
+      },
+      {
+        "name": [
+          "团队精神"
+        ],
+        "intro": "进驻制造站时，消除当前制造站内所有干员自身心情消耗的影响",
+        "template": "Bskill_man_cost_all.png"
+      }
+    ],
+    "skillsGroup_Doc": "相关技能组参考https://bbs.nga.cn/read.php?tid=25965441",
+    "skillsGroup": [
+      {
+        "intro": "水月组",
+        "necessary": [
+          {
+            "intro": "水月-2",
+            "skills": [
+              "Bskill_man_skill_spd",
+              "Bskill_man_spd2"
+            ],
+            "efficient": {
+              "all": 30
             }
+          }
+        ],
+        "optional": [
+          {
+            "intro": "标准化·β",
+            "skills": [
+              "Bskill_man_spd2"
+            ],
+            "efficient": {
+              "all": 30
+            }
+          },
+          {
+            "intro": "标准化·α",
+            "skills": [
+              "Bskill_man_spd1"
+            ],
+            "efficient": {
+              "all": 20
+            }
+          }
         ]
-    },
-    "Trade": {
-        "products": [
-            "Money"
-        ],
-        "maxNumOfOpers": 3,
-        "skills": [
-            {
-                "name": [
-                    "“愿者上钩”"
-                ],
-                "intro": "进驻贸易站时，宿舍内每有1名干员则人间烟火+1，同时每有1点人间烟火，则订单获取效率+1%",
-                "template": "Bskill_tra_bd_n2.png"
-            },
-            {
-                "name": [
-                    "订单流可视化·α"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+5%，每有4条赤金生产线，则赤金生产线额外+2",
-                "template": "Bskill_tra_flow_gc1.png",
-                "efficient": {
-                    "all": 5
-                }
-            },
-            {
-                "name": [
-                    "订单流可视化·β"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+5%，每有2条赤金生产线，则赤金生产线额外+2",
-                "template": "Bskill_tra_flow_gc2.png",
-                "efficient": {
-                    "all": 5
-                }
-            },
-            {
-                "name": [
-                    "物流规划·α"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+5%，每有4条赤金生产线，则当前贸易站订单获取效率额外+15%",
-                "template": "Bskill_tra_flow_gs1.png",
-                "efficient": {
-                    "all": 5
-                }
-            },
-            {
-                "name": [
-                    "物流规划·β"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+5%，每有2条赤金生产线，则当前贸易站订单获取效率额外+15%",
-                "template": "Bskill_tra_flow_gs2.png",
-                "efficient": {
-                    "all": 5
-                }
-            },
-            {
-                "name": [
-                    "醉翁之意·α"
-                ],
-                "intro": "当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+2",
-                "template": "Bskill_tra_Lappland1.png"
-            },
-            {
-                "name": [
-                    "醉翁之意·β"
-                ],
-                "intro": "当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+4",
-                "template": "Bskill_tra_Lappland2.png"
-            },
-            {
-                "name": [
-                    "谈判"
-                ],
-                "intro": "进驻贸易站时，订单上限+5，心情每小时消耗-0.25",
-                "template": "Bskill_tra_limit&cost.png"
-            },
-            {
-                "name": [
-                    "市井之道"
-                ],
-                "intro": "进驻贸易站时，当前贸易站内其他干员提供的每10%订单获取效率使订单上限-1（订单最少为1），同时每有1笔订单就+4%订单获取效率",
-                "template": "Bskill_tra_limit_count.png"
-            },
-            {
-                "name": [
-                    "摊贩经济"
-                ],
-                "intro": "进驻贸易站时，当前订单数与订单上限每差1笔订单，则订单获取效率+4%",
-                "template": "Bskill_tra_limit_diff.png"
-            },
-            {
-                "name": [
-                    "投资·α"
-                ],
-                "intro": "进驻贸易站后，如果下笔赤金订单交付数大于3，则其龙门币收益+250，心情每小时消耗-0.25",
-                "template": "Bskill_tra_long1.png"
-            },
-            {
-                "name": [
-                    "投资·β"
-                ],
-                "intro": "进驻贸易站后，如果下笔赤金订单交付数大于3，则其龙门币收益+500，心情每小时消耗-0.25",
-                "template": "Bskill_tra_long2.png"
-            },
-            {
-                "name": [
-                    "交际"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+30%，心情每小时消耗-0.25",
-                "template": "Bskill_tra_spd&cost.png",
-                "efficient": {
-                    "all": 30.1
-                }
-            },
-            {
-                "name": [
-                    "虔诚筹款·α"
-                ],
-                "intro": "进驻贸易站时，每间宿舍每级+1%获取效率",
-                "template": "Bskill_tra_spd&dorm1.png",
-                "efficient": {
-                    "all": 20
-                }
-            },
-            {
-                "name": [
-                    "虔诚筹款·β"
-                ],
-                "intro": "进驻贸易站时，每间宿舍每级+2%获取效率",
-                "template": "Bskill_tra_spd&dorm2.png",
-                "efficient": {
-                    "all": 40
-                }
-            },
-            {
-                "name": [
-                    "订单管理·α"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+10%，且订单上限+2",
-                "template": "Bskill_tra_spd&limit1.png",
-                "efficient": {
-                    "all": 10
-                }
-            },
-            {
-                "name": [
-                    "订单管理·β"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+10%，且订单上限+4",
-                "template": "Bskill_tra_spd&limit2.png",
-                "efficient": {
-                    "all": 10
-                }
-            },
-            {
-                "name": [
-                    "喀兰贸易·α"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+15%，且订单上限+2",
-                "template": "Bskill_tra_spd&limit3.png",
-                "efficient": {
-                    "all": 15
-                }
-            },
-            {
-                "name": [
-                    "喀兰贸易·β"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+15%，且订单上限+4",
-                "template": "Bskill_tra_spd&limit4.png",
-                "efficient": {
-                    "all": 15
-                }
-            },
-            {
-                "name": [
-                    "喀兰之主"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+20%，且订单上限+4",
-                "template": "Bskill_tra_spd&limit5.png",
-                "efficient": {
-                    "all": 20
-                }
-            },
-            {
-                "name": [
-                    "供应管理"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+25%，且订单上限+1",
-                "template": "Bskill_tra_spd&limit6.png",
-                "efficient": {
-                    "all": 25
-                }
-            },
-            {
-                "name": [
-                    "使命必达",
-                    "少当家"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+30%，且订单上限+1",
-                "template": "Bskill_tra_spd&limit7.png",
-                "efficient": {
-                    "all": 30
-                }
-            },
-            {
-                "name": [
-                    "天道酬勤·α"
-                ],
-                "intro": "进驻贸易站时，当前贸易站内干员提供的每5%订单获取效率，额外提供5%效率，最多提供25%效率",
-                "template": "Bskill_tra_spd_variable21.png",
-                "efficient": {
-                    "all": 25
-                }
-            },
-            {
-                "name": [
-                    "天道酬勤·β"
-                ],
-                "intro": "进驻贸易站时，当前贸易站内干员提供的每5%订单获取效率，额外提供5%效率，最多提供35%效率",
-                "template": "Bskill_tra_spd_variable22.png",
-                "efficient": {
-                    "all": 35
-                }
-            },
-            {
-                "name": [
-                    "企鹅物流·α",
-                    "峯驰物流",
-                    "订单分发·α"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+20%",
-                "template": "Bskill_tra_spd1.png",
-                "efficient": {
-                    "all": 20
-                }
-            },
-            {
-                "name": [
-                    "企鹅物流·β",
-                    "订单分发·β"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+30%",
-                "template": "Bskill_tra_spd2.png",
-                "efficient": {
-                    "all": 30
-                }
-            },
-            {
-                "name": [
-                    "物流专家"
-                ],
-                "intro": "进驻贸易站时，订单获取效率+35%",
-                "template": "Bskill_tra_spd3.png",
-                "efficient": {
-                    "all": 35
-                }
-            },
-            {
-                "name": [
-                    "恩怨"
-                ],
-                "intro": "当与拉普兰德在同一个贸易站时，心情每小时消耗+0.3，订单获取效率+65%",
-                "template": "Bskill_tra_texas1.png"
-            },
-            {
-                "name": [
-                    "默契"
-                ],
-                "intro": "当与能天使在同一个贸易站时，心情每小时消耗-0.3",
-                "template": "Bskill_tra_texas2.png"
-            },
-            {
-                "name": [
-                    "低语"
-                ],
-                "intro": "进驻贸易站时，当前贸易站内其他干员提供的订单获取效率全部归零，且每人为自身+45%订单获取效率，同时全体心情每小时消耗+0.25",
-                "template": "Bskill_tra_vodfox.png"
-            },
-            {
-                "name": [
-                    "裁缝·α"
-                ],
-                "intro": "进驻贸易站时，小幅提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
-                "template": "Bskill_tra_wt&cost1.png"
-            },
-            {
-                "name": [
-                    "裁缝·β",
-                    "手工艺品·β"
-                ],
-                "intro": "进驻贸易站时，提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
-                "template": "Bskill_tra_wt&cost2.png"
+      },
+      {
+        "intro": "红云组",
+        "necessary": [
+          {
+            "intro": "红云-1",
+            "skills": [
+              "Bskill_man_spd_variable11",
+              "Bskill_man_limit&cost1"
+            ],
+            "efficient": {
+              "all": 16
             }
+          }
         ],
-        "skillsGroup_Doc": "相关技能组参考https://bbs.nga.cn/read.php?tid=25965441",
-        "skillsGroup": [
-            {
-                "intro": "德2拉2组",
-                "necessary": [
-                    {
-                        "intro": "德克萨斯-2",
-                        "skills": [
-                            "Bskill_tra_texas1",
-                            "Bskill_tra_texas2"
-                        ],
-                        "efficient": {
-                            "all": 64.9
-                        }
-                    },
-                    {
-                        "intro": "拉普兰德-2",
-                        "skills": [
-                            "Bskill_tra_Lappland2"
-                        ],
-                        "efficient": {
-                            "all": 0
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "孑-0",
-                        "skills": [
-                            "Bskill_tra_limit_diff"
-                        ],
-                        "efficient": {
-                            "all": 43
-                        }
-                    },
-                    {
-                        "intro": "孑-1",
-                        "skills": [
-                            "Bskill_tra_limit_diff",
-                            "Bskill_tra_limit_count"
-                        ],
-                        "efficient": {
-                            "all": 32
-                        }
-                    },
-                    {
-                        "intro": "能天使-2",
-                        "skills": [
-                            "Bskill_tra_spd3"
-                        ],
-                        "efficient": {
-                            "all": 35.2
-                        },
-                        "Doc": "能天使1的技能别人也有，识别上不了，管不了了"
-                    }
-                ],
-                "allowExternal": true
-            },
-            {
-                "intro": "德2拉0组",
-                "necessary": [
-                    {
-                        "intro": "德克萨斯-2",
-                        "skills": [
-                            "Bskill_tra_texas1",
-                            "Bskill_tra_texas2"
-                        ],
-                        "efficient": {
-                            "all": 64.9
-                        }
-                    },
-                    {
-                        "intro": "拉普兰德-0",
-                        "skills": [
-                            "Bskill_tra_Lappland1"
-                        ],
-                        "efficient": {
-                            "all": 0
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "能天使-2",
-                        "skills": [
-                            "Bskill_tra_spd3"
-                        ],
-                        "efficient": {
-                            "all": 35.2
-                        },
-                        "Doc": "能天使1的技能别人也有，识别上不了，管不了了"
-                    }
-                ],
-                "allowExternal": true
-            },
-            {
-                "intro": "德0拉2组",
-                "necessary": [
-                    {
-                        "intro": "德克萨斯-0",
-                        "skills": [
-                            "Bskill_tra_texas1"
-                        ],
-                        "efficient": {
-                            "all": 64.9
-                        }
-                    },
-                    {
-                        "intro": "拉普兰德-2",
-                        "skills": [
-                            "Bskill_tra_Lappland2"
-                        ],
-                        "efficient": {
-                            "all": 0
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "孑-0",
-                        "skills": [
-                            "Bskill_tra_limit_diff"
-                        ],
-                        "efficient": {
-                            "all": 43
-                        }
-                    },
-                    {
-                        "intro": "孑-1",
-                        "skills": [
-                            "Bskill_tra_limit_diff",
-                            "Bskill_tra_limit_count"
-                        ],
-                        "efficient": {
-                            "all": 32
-                        }
-                    }
-                ],
-                "allowExternal": true
-            },
-            {
-                "intro": "德0拉0组",
-                "necessary": [
-                    {
-                        "intro": "德克萨斯-0",
-                        "skills": [
-                            "Bskill_tra_texas1"
-                        ],
-                        "efficient": {
-                            "all": 64.9
-                        }
-                    },
-                    {
-                        "intro": "拉普兰德-0",
-                        "skills": [
-                            "Bskill_tra_Lappland1"
-                        ],
-                        "efficient": {
-                            "all": 0
-                        }
-                    }
-                ],
-                "optional": [],
-                "allowExternal": true
-            },
-            {
-                "intro": "巫恋组",
-                "necessary": [
-                    {
-                        "intro": "巫恋-2",
-                        "skills": [
-                            "Bskill_tra_wt&cost1",
-                            "Bskill_tra_vodfox"
-                        ],
-                        "efficient": {
-                            "all": 90.1
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "龙舌兰-2",
-                        "skills": [
-                            "Bskill_tra_long2"
-                        ],
-                        "efficient": {
-                            "all": 80
-                        },
-                        "Doc": "这里具体效率不同攻略各执一词，写个大概的，反正别的组合也没这么高的，大差不差能第一就行_(:з」∠)_"
-                    },
-                    {
-                        "intro": "龙舌兰-1",
-                        "skills": [
-                            "Bskill_tra_long1"
-                        ],
-                        "efficient": {
-                            "all": 40
-                        }
-                    },
-                    {
-                        "intro": "柏喙-2、卡夫卡-2",
-                        "skills": [
-                            "Bskill_tra_wt&cost2"
-                        ],
-                        "efficient": {
-                            "all": 2
-                        }
-                    },
-                    {
-                        "intro": "柏喙-1、卡夫卡-1",
-                        "skills": [
-                            "Bskill_tra_wt&cost1"
-                        ],
-                        "efficient": {
-                            "all": 1
-                        }
-                    }
-                ],
-                "allowExternal": true
-            },
-            {
-                "intro": "孑-0组",
-                "necessary": [
-                    {
-                        "intro": "孑-0",
-                        "skills": [
-                            "Bskill_tra_limit_diff"
-                        ],
-                        "efficient": {
-                            "all": 27
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "银灰-2",
-                        "skills": [
-                            "Bskill_tra_spd&limit5"
-                        ],
-                        "efficient": {
-                            "all": 36
-                        }
-                    },
-                    {
-                        "intro": "喀兰贸易·β",
-                        "skills": [
-                            "Bskill_tra_spd&limit4"
-                        ],
-                        "efficient": {
-                            "all": 31
-                        }
-                    },
-                    {
-                        "intro": "拜松、可颂",
-                        "skills": [
-                            "Bskill_tra_spd&limit7",
-                            "Bskill_tra_spd1"
-                        ],
-                        "efficient": {
-                            "all": 34
-                        }
-                    },
-                    {
-                        "intro": "供应管理",
-                        "skills": [
-                            "Bskill_tra_spd&limit6"
-                        ],
-                        "efficient": {
-                            "all": 29
-                        }
-                    },
-                    {
-                        "intro": "喀兰贸易·α",
-                        "skills": [
-                            "Bskill_tra_spd&limit3"
-                        ],
-                        "efficient": {
-                            "all": 23
-                        }
-                    }
-                ]
-            },
-            {
-                "intro": "孑-1组",
-                "necessary": [
-                    {
-                        "intro": "孑-1",
-                        "skills": [
-                            "Bskill_tra_limit_count",
-                            "Bskill_tra_limit_diff"
-                        ],
-                        "efficient": {
-                            "all": 40
-                        }
-                    }
-                ],
-                "optional": [
-                    {
-                        "intro": "银灰-2",
-                        "skills": [
-                            "Bskill_tra_spd&limit5"
-                        ],
-                        "efficient": {
-                            "all": 28
-                        }
-                    },
-                    {
-                        "intro": "喀兰贸易·β",
-                        "skills": [
-                            "Bskill_tra_spd&limit4"
-                        ],
-                        "efficient": {
-                            "all": 27
-                        }
-                    },
-                    {
-                        "intro": "拜松-2、可颂-2",
-                        "skills": [
-                            "Bskill_tra_spd&limit7",
-                            "Bskill_tra_spd1"
-                        ],
-                        "efficient": {
-                            "all": 22
-                        }
-                    },
-                    {
-                        "intro": "订单管理·β",
-                        "skills": [
-                            "Bskill_tra_spd&limit6"
-                        ],
-                        "efficient": {
-                            "all": 22
-                        }
-                    },
-                    {
-                        "intro": "谈判",
-                        "skills": [
-                            "Bskill_tra_limit&cost"
-                        ],
-                        "efficient": {
-                            "all": 20
-                        }
-                    }
-                ]
+        "optional": [
+          {
+            "intro": "稀音-2",
+            "skills": [
+              "Bskill_man_spd_add2",
+              "Bskill_man_exp&limit1"
+            ],
+            "efficient": {
+              "CombatRecord": 47
             }
+          },
+          {
+            "intro": "帕拉斯-2",
+            "skills": [
+              "Bskill_man_limit&cost1",
+              "Bskill_man_exp1"
+            ],
+            "efficient": {
+              "CombatRecord": 41
+            }
+          },
+          {
+            "intro": "刻俄柏-2",
+            "skills": [
+              "Bskill_man_spd_add1",
+              "Bskill_man_limit&cost1"
+            ],
+            "efficient": {
+              "all": 40
+            }
+          },
+          {
+            "intro": "火神-2",
+            "skills": [
+              "Bskill_man_spd&limit&cost2"
+            ],
+            "efficient": {
+              "all": 33
+            }
+          },
+          {
+            "intro": "石棉-2",
+            "skills": [
+              "Bskill_man_spd&limit&cost3",
+              "Bskill_man_limit&cost3"
+            ],
+            "efficient": {
+              "all": 33
+            }
+          },
+          {
+            "intro": "豆苗-1",
+            "skills": [
+              "Bskill_man_spd1",
+              "Bskill_man_limit&cost1"
+            ],
+            "efficient": {
+              "all": 31
+            }
+          },
+          {
+            "intro": "黑角、蛇屠箱",
+            "skills": [
+              "Bskill_man_spd&limit3"
+            ],
+            "efficient": {
+              "all": 30
+            }
+          },
+          {
+            "intro": "卡达-1",
+            "skills": [
+              "Bskill_man_exp&cost",
+              "Bskill_man_exp&limit2"
+            ],
+            "efficient": {
+              "all": 30
+            }
+          },
+          {
+            "intro": "米格鲁、卡缇",
+            "skills": [
+              "Bskill_man_spd&limit1"
+            ],
+            "efficient": {
+              "all": 22
+            }
+          },
+          {
+            "intro": "刻俄柏",
+            "skills": [
+              "Bskill_man_limit&cost1"
+            ],
+            "efficient": {
+              "all": 16
+            }
+          },
+          {
+            "intro": "贝娜",
+            "skills": [
+              "Bskill_man_spd&limit&cost4"
+            ],
+            "efficient": {
+              "all": 14
+            }
+          },
+          {
+            "intro": "帕拉斯",
+            "skills": [
+              "Bskill_man_limit&cost1"
+            ],
+            "efficient": {
+              "all": 14
+            }
+          }
         ]
-    },
-    "Power": {
-        "maxNumOfOpers": 1,
-        "products": [
-            "Drone"
-        ],
-        "skills": [
-            {
-                "name": [
-                    "脉冲电弧·β"
-                ],
-                "intro": "进驻发电站时，无人机每小时充能速度+20%",
-                "template": "Bskill_pow_spd3.png",
-                "efficient": {
-                    "all": 20
-                }
-            },
-            {
-                "name": [
-                    "脉冲电弧·α"
-                ],
-                "intro": "进驻发电站时，无人机每小时充能速度+15%",
-                "template": "Bskill_pow_spd2.png",
-                "efficient": {
-                    "all": 15
-                }
-            },
-            {
-                "name": [
-                    "热能充能·α"
-                ],
-                "intro": "进驻发电站时，无人机每小时充能速度+10%",
-                "template": "Bskill_pow_spd1.png",
-                "efficient": {
-                    "all": 10
-                }
-            },
-            {
-                "name": [
-                    "热情澎湃"
-                ],
-                "intro": "进驻发电站时，无人机每小时充能速度+10%",
-                "template": "Bskill_pow_spd&cost.png",
-                "efficient": {
-                    "all": 0.1
-                }
+      },
+      {
+        "intro": "泡泡组",
+        "necessary": [
+          {
+            "intro": "泡泡-1",
+            "skills": [
+              "Bskill_man_limit&cost2",
+              "Bskill_man_spd_variable31"
+            ],
+            "efficient": {
+              "all": 10
             }
+          }
         ],
-        "skillsGroup": []
-    },
-    "Office": {
-        "maxNumOfOpers": 1,
-        "products": [
-            "HR"
-        ],
-        "skills": [
-            {
-                "name": [
-                    "准时下班"
-                ],
-                "intro": "进驻人力办公室时，人脉资源的联络速度+45%，心情每小时消耗+2",
-                "template": "Bskill_hire_skgoat.png",
-                "efficient": {
-                    "all": 44.9
-                }
-            },
-            {
-                "name": [
-                    "天灾信使·β"
-                ],
-                "intro": "进驻人力办公室时，人脉资源的联络速度+45%",
-                "template": "Bskill_hire_spd5.png",
-                "efficient": {
-                    "all": 45
-                }
-            },
-            {
-                "name": [
-                    "心理学"
-                ],
-                "intro": "进驻人力办公室时，人脉资源的联络速度+40%",
-                "template": "Bskill_hire_spd4.png",
-                "efficient": {
-                    "all": 40
-                }
-            },
-            {
-                "name": [
-                    "洞悉人心"
-                ],
-                "intro": "进驻人力办公室时，人脉资源的联络速度+35%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度",
-                "template": "Bskill_hire_spd&clue.png",
-                "efficient": {
-                    "all": 35.1
-                }
-            },
-            {
-                "name": [
-                    "天灾信使·α"
-                ],
-                "intro": "进驻人力办公室时，人脉资源的联络速度+30%",
-                "template": "Bskill_hire_spd2.png",
-                "efficient": {
-                    "all": 30
-                }
-            },
-            {
-                "name": [
-                    "人事管理·α"
-                ],
-                "intro": "进驻人力办公室时，人脉资源的联络速度+20%",
-                "template": "Bskill_hire_spd1.png",
-                "efficient": {
-                    "all": 20
-                }
-            },
-            {
-                "name": [
-                    "人望"
-                ],
-                "intro": "进驻人力办公室时，人脉资源的联络速度+20%，每产生1次联络次数，增加乌萨斯学生自治团线索的概率（工作时长和招募位影响概率）",
-                "template": "Bskill_hire_spd&ursus2.png",
-                "efficient": {
-                    "all": 20
-                }
-            },
-            {
-                "name": [
-                    "内幕"
-                ],
-                "intro": "进驻人力办公室时，人脉资源的联络速度+20%，每产生1次联络次数，增加黑钢国际线索的概率（工作时长和招募位影响概率）",
-                "template": "Bskill_hire_spd&blacksteel2.png",
-                "efficient": {
-                    "all": 20
-                }
-            },
-            {
-                "name": [
-                    "巡游"
-                ],
-                "intro": "进驻人力办公室时，人脉资源的联络速度+20%，同时每个招募位（不包含初始招募位）+10点记忆碎片",
-                "template": "Bskill_hire_spd_bd_n1_n1.png",
-                "efficient": {
-                    "all": 20
-                }
-            },
-            {
-                "name": [
-                    "追忆"
-                ],
-                "intro": "进驻人力办公室时，每1点记忆碎片转化为1点感知信息，心情耗尽时清空所有记忆碎片和自身累积的感知信息",
-                "template": "Bskill_hire_spd_memento.png"
-            },
-            {
-                "name": [
-                    "救援队·资源清点"
-                ],
-                "intro": "进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25",
-                "template": "Bskill_hire_spd&cost2.png",
-                "efficient": {
-                    "all": 20.1
-                }
-            },
-            {
-                "name": [
-                    "救援队·灾后普查"
-                ],
-                "intro": "进驻人力办公室时，每个招募位（不包含初始招募位）+10点人间烟火",
-                "template": "Bskill_hire_spd_bd_n2.png"
-            },
-            {
-                "name": [
-                    "语言学"
-                ],
-                "intro": "进驻人力办公室时，人脉资源的联络速度+20%，每1点情报储备额外+5%联络速度，每1瓶乌萨斯特饮额外+5%联络速度",
-                "template": "Bskill_hire_blitz.png",
-                "efficient": {
-                    "all": 20.1
-                }
-            },
-            {
-                "name": [
-                    "救援队·珠算"
-                ],
-                "intro": "进驻人力办公室时，人脉资源的联络速度+10%，心情每小时消耗-0.25",
-                "template": "Bskill_hire_spd&cost1.png",
-                "efficient": {
-                    "all": 10.1
-                }
+        "optional": [
+          {
+            "intro": "火神-2",
+            "skills": [
+              "Bskill_man_spd&limit&cost2"
+            ],
+            "efficient": {
+              "all": 52
             }
-        ],
-        "skillsGroup": []
-    },
-    "Reception": {
-        "Doc": "会客室",
-        "maxNumOfOpers": 2,
-        "products": [
-            "General",
-            "No1",
-            "No2",
-            "No3",
-            "No4",
-            "No5",
-            "No6",
-            "No7"
-        ],
-        "skills": [
-            {
-                "name": [
-                    "信使·罗德岛制药"
-                ],
-                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得罗德岛制药线索（工作时长影响概率）",
-                "template": "Bskill_meet_rhodes2.png",
-                "efficient": {
-                    "General": 10,
-                    "No7": 30
-                }
-            },
-            {
-                "name": [
-                    "通讯员"
-                ],
-                "intro": "进驻会客室时，更容易获得罗德岛制药线索（工作时长影响概率）",
-                "template": "Bskill_meet_blacksteel2.png",
-                "efficient": {
-                    "No7": 10
-                }
-            },
-            {
-                "name": [
-                    "插旗"
-                ],
-                "intro": "进驻会客室后，每当新搜集到的线索不是罗德岛制药时，则额外增加罗德岛制药线索的出现概率（工作时长影响概率）",
-                "template": "Bskill_meet_flag_rhodes.png",
-                "efficient": {
-                    "No7": 15
-                }
-            },
-            {
-                "name": [
-                    "讯使"
-                ],
-                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得喀兰贸易线索（工作时长影响概率）",
-                "template": "Bskill_meet_kjerag2.png",
-                "efficient": {
-                    "General": 10,
-                    "No6": 30
-                }
-            },
-            {
-                "name": [
-                    "传讯者"
-                ],
-                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得格拉斯哥帮线索（工作时长影响概率）",
-                "template": "Bskill_meet_glasgow2.png",
-                "efficient": {
-                    "General": 10,
-                    "No5": 30
-                }
-            },
-            {
-                "name": [
-                    "军师"
-                ],
-                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得乌萨斯学生自治团线索（工作时长影响概率）",
-                "template": "Bskill_meet_ursus2.png",
-                "efficient": {
-                    "General": 10,
-                    "No4": 30
-                }
-            },
-            {
-                "name": [
-                    "秘密搜查"
-                ],
-                "intro": "进驻会客室时，更容易获得乌萨斯学生自治团线索（工作时长影响概率）",
-                "template": "Bskill_meet_ursus1.png",
-                "efficient": {
-                    "No4": 10
-                }
-            },
-            {
-                "name": [
-                    "甄别"
-                ],
-                "intro": "进驻会客室后，每当新搜集到的线索不是乌萨斯学生自治团时，则额外增加乌萨斯学生自治团线索的出现概率（工作时长影响概率）",
-                "template": "Bskill_meet_flag_ursus.png",
-                "efficient": {
-                    "No4": 15
-                }
-            },
-            {
-                "name": [
-                    "B.P.R.S"
-                ],
-                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）",
-                "template": "Bskill_meet_blacksteel2.png",
-                "efficient": {
-                    "General": 10,
-                    "No3": 30
-                }
-            },
-            {
-                "name": [
-                    "信使·企鹅物流"
-                ],
-                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得企鹅物流线索（工作时长影响概率）",
-                "template": "Bskill_meet_penguin2.png",
-                "efficient": {
-                    "General": 10,
-                    "No2": 30
-                }
-            },
-            {
-                "name": [
-                    "皇家探员（自称）"
-                ],
-                "intro": "进驻会客室时，更容易获得企鹅物流线索（工作时长影响概率）",
-                "template": "Bskill_meet_penguin1.png",
-                "efficient": {
-                    "No2": 10
-                }
-            },
-            {
-                "name": [
-                    "守望者"
-                ],
-                "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得莱茵生命线索（工作时长影响概率）",
-                "template": "Bskill_meet_rhine2.png",
-                "efficient": {
-                    "General": 10,
-                    "No1": 30
-                }
-            },
-            {
-                "name": [
-                    "哥伦比亚史"
-                ],
-                "intro": "进驻会客室后，每当新搜集到的线索不是莱茵生命时，则额外增加莱茵生命线索的出现概率（工作时长影响概率）",
-                "template": "Bskill_meet_flag_rhine.png",
-                "efficient": {
-                    "No1": 15
-                }
-            },
-            {
-                "name": [
-                    "警司"
-                ],
-                "intro": "进驻会客室时，线索搜集速度提升25%",
-                "template": "Bskill_meet_spd3.png",
-                "efficient": {
-                    "all": 25
-                }
-            },
-            {
-                "name": [
-                    "线索搜集·β"
-                ],
-                "intro": "进驻会客室时，线索搜集速度提升20%",
-                "template": "Bskill_meet_spd2.png",
-                "efficient": {
-                    "all": 20
-                }
-            },
-            {
-                "name": [
-                    "线索搜集·α"
-                ],
-                "intro": "进驻会客室时，线索搜集速度提升10%",
-                "template": "Bskill_meet_spd1.png",
-                "efficient": {
-                    "all": 10
-                }
+          },
+          {
+            "intro": "稀音-2",
+            "skills": [
+              "Bskill_man_spd_add2",
+              "Bskill_man_exp&limit1"
+            ],
+            "efficient": {
+              "CombatRecord": 35
             }
+          },
+          {
+            "intro": "帕拉斯-2",
+            "skills": [
+              "Bskill_man_limit&cost1",
+              "Bskill_man_exp1"
+            ],
+            "efficient": {
+              "CombatRecord": 33
+            }
+          },
+          {
+            "intro": "刻俄柏-2",
+            "skills": [
+              "Bskill_man_spd_add1",
+              "Bskill_man_limit&cost1"
+            ],
+            "efficient": {
+              "all": 32
+            }
+          },
+          {
+            "intro": "贝娜",
+            "skills": [
+              "Bskill_man_spd&limit&cost4"
+            ],
+            "efficient": {
+              "all": 31
+            }
+          },
+          {
+            "intro": "豆苗-1",
+            "skills": [
+              "Bskill_man_spd1",
+              "Bskill_man_limit&cost1"
+            ],
+            "efficient": {
+              "all": 23
+            }
+          },
+          {
+            "intro": "石棉-2",
+            "skills": [
+              "Bskill_man_spd&limit&cost3",
+              "Bskill_man_limit&cost3"
+            ],
+            "efficient": {
+              "all": 29
+            }
+          },
+          {
+            "intro": "黑角、蛇屠箱",
+            "skills": [
+              "Bskill_man_spd&limit3"
+            ],
+            "efficient": {
+              "all": 20
+            }
+          },
+          {
+            "intro": "米格鲁、卡缇",
+            "skills": [
+              "Bskill_man_spd&limit1"
+            ],
+            "efficient": {
+              "all": 16
+            }
+          },
+          {
+            "intro": "卡达-1",
+            "skills": [
+              "Bskill_man_exp&cost",
+              "Bskill_man_exp&limit2"
+            ],
+            "efficient": {
+              "all": 15
+            }
+          },
+          {
+            "intro": "刻俄柏",
+            "skills": [
+              "Bskill_man_limit&cost1"
+            ],
+            "efficient": {
+              "all": 8
+            }
+          },
+          {
+            "intro": "帕拉斯",
+            "skills": [
+              "Bskill_man_limit&cost1"
+            ],
+            "efficient": {
+              "all": 8
+            }
+          }
+        ]
+      },
+      {
+        "intro": "温蒂-2组",
+        "conditions": {
+          "NumOfPower": 3
+        },
+        "necessary": [
+          {
+            "intro": "温蒂-2",
+            "skills": [
+              "Bskill_man_spd&power3"
+            ],
+            "efficient": {
+              "all": 45
+            }
+          }
         ],
-        "skillsGroup": []
-    }
+        "optional": [
+          {
+            "intro": "森蚺-2",
+            "skills": [
+              "Bskill_man_spd&power2"
+            ],
+            "efficient": {
+              "all": 30
+            }
+          },
+          {
+            "intro": "清流-1",
+            "skills": [
+              "Bskill_man_spd&trade"
+            ],
+            "efficient": {
+              "PureGold_reg": "[NumOfTrade] * 20"
+            }
+          },
+          {
+            "intro": "森蚺、异客2",
+            "skills": [
+              "Bskill_man_spd&power1"
+            ],
+            "efficient": {
+              "all": 15
+            }
+          }
+        ]
+      },
+      {
+        "intro": "温蒂组",
+        "conditions": {
+          "NumOfPower": 3
+        },
+        "necessary": [
+          {
+            "intro": "温蒂、森蚺-2",
+            "skills": [
+              "Bskill_man_spd&power2"
+            ],
+            "efficient": {
+              "all": 30
+            }
+          }
+        ],
+        "optional": [
+          {
+            "intro": "温蒂、森蚺-2",
+            "skills": [
+              "Bskill_man_spd&power2"
+            ],
+            "efficient": {
+              "all": 30
+            }
+          },
+          {
+            "intro": "清流-1",
+            "skills": [
+              "Bskill_man_spd&trade"
+            ],
+            "efficient": {
+              "PureGold_reg": "[NumOfTrade] * 20"
+            }
+          },
+          {
+            "intro": "森蚺、异客2",
+            "skills": [
+              "Bskill_man_spd&power1"
+            ],
+            "efficient": {
+              "all": 15
+            }
+          }
+        ]
+      },
+      {
+        "intro": "温蒂-2组: 2电站",
+        "conditions": {
+          "NumOfPower": 2
+        },
+        "necessary": [
+          {
+            "intro": "温蒂-2",
+            "skills": [
+              "Bskill_man_spd&power3"
+            ],
+            "efficient": {
+              "all": 30
+            }
+          }
+        ],
+        "optional": [
+          {
+            "intro": "森蚺-2",
+            "skills": [
+              "Bskill_man_spd&power2"
+            ],
+            "efficient": {
+              "all": 20
+            }
+          },
+          {
+            "intro": "清流-1",
+            "skills": [
+              "Bskill_man_spd&trade"
+            ],
+            "efficient": {
+              "PureGold_reg": "[NumOfTrade] * 20"
+            }
+          },
+          {
+            "intro": "森蚺、异客2",
+            "skills": [
+              "Bskill_man_spd&power1"
+            ],
+            "efficient": {
+              "all": 10
+            }
+          }
+        ]
+      },
+      {
+        "intro": "温蒂组: 2电站",
+        "conditions": {
+          "NumOfPower": 2
+        },
+        "necessary": [
+          {
+            "intro": "温蒂、森蚺-2",
+            "skills": [
+              "Bskill_man_spd&power2"
+            ],
+            "efficient": {
+              "all": 30
+            }
+          }
+        ],
+        "optional": [
+          {
+            "intro": "温蒂、森蚺-2",
+            "skills": [
+              "Bskill_man_spd&power2"
+            ],
+            "efficient": {
+              "all": 20
+            }
+          },
+          {
+            "intro": "清流-1",
+            "skills": [
+              "Bskill_man_spd&trade"
+            ],
+            "efficient": {
+              "PureGold_reg": "[NumOfTrade] * 20"
+            }
+          },
+          {
+            "intro": "森蚺、异客2",
+            "skills": [
+              "Bskill_man_spd&power1"
+            ],
+            "efficient": {
+              "all": 10
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "Trade": {
+    "products": [
+      "Money"
+    ],
+    "maxNumOfOpers": 3,
+    "skills": [
+      {
+        "name": [
+          "“愿者上钩”"
+        ],
+        "intro": "进驻贸易站时，宿舍内每有1名干员则人间烟火+1，同时每有1点人间烟火，则订单获取效率+1%",
+        "template": "Bskill_tra_bd_n2.png"
+      },
+      {
+        "name": [
+          "订单流可视化·α"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+5%，每有4条赤金生产线，则赤金生产线额外+2",
+        "template": "Bskill_tra_flow_gc1.png",
+        "efficient": {
+          "all": 5
+        }
+      },
+      {
+        "name": [
+          "订单流可视化·β"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+5%，每有2条赤金生产线，则赤金生产线额外+2",
+        "template": "Bskill_tra_flow_gc2.png",
+        "efficient": {
+          "all": 5
+        }
+      },
+      {
+        "name": [
+          "物流规划·α"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+5%，每有4条赤金生产线，则当前贸易站订单获取效率额外+15%",
+        "template": "Bskill_tra_flow_gs1.png",
+        "efficient": {
+          "all": 5
+        }
+      },
+      {
+        "name": [
+          "物流规划·β"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+5%，每有2条赤金生产线，则当前贸易站订单获取效率额外+15%",
+        "template": "Bskill_tra_flow_gs2.png",
+        "efficient": {
+          "all": 5
+        }
+      },
+      {
+        "name": [
+          "醉翁之意·α"
+        ],
+        "intro": "当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+2",
+        "template": "Bskill_tra_Lappland1.png"
+      },
+      {
+        "name": [
+          "醉翁之意·β"
+        ],
+        "intro": "当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+4",
+        "template": "Bskill_tra_Lappland2.png"
+      },
+      {
+        "name": [
+          "谈判"
+        ],
+        "intro": "进驻贸易站时，订单上限+5，心情每小时消耗-0.25",
+        "template": "Bskill_tra_limit&cost.png"
+      },
+      {
+        "name": [
+          "市井之道"
+        ],
+        "intro": "进驻贸易站时，当前贸易站内其他干员提供的每10%订单获取效率使订单上限-1（订单最少为1），同时每有1笔订单就+4%订单获取效率",
+        "template": "Bskill_tra_limit_count.png"
+      },
+      {
+        "name": [
+          "摊贩经济"
+        ],
+        "intro": "进驻贸易站时，当前订单数与订单上限每差1笔订单，则订单获取效率+4%",
+        "template": "Bskill_tra_limit_diff.png"
+      },
+      {
+        "name": [
+          "投资·α"
+        ],
+        "intro": "进驻贸易站后，如果下笔赤金订单交付数大于3，则其龙门币收益+250，心情每小时消耗-0.25",
+        "template": "Bskill_tra_long1.png"
+      },
+      {
+        "name": [
+          "投资·β"
+        ],
+        "intro": "进驻贸易站后，如果下笔赤金订单交付数大于3，则其龙门币收益+500，心情每小时消耗-0.25",
+        "template": "Bskill_tra_long2.png"
+      },
+      {
+        "name": [
+          "交际"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+30%，心情每小时消耗-0.25",
+        "template": "Bskill_tra_spd&cost.png",
+        "efficient": {
+          "all": 30.1
+        }
+      },
+      {
+        "name": [
+          "虔诚筹款·α"
+        ],
+        "intro": "进驻贸易站时，每间宿舍每级+1%获取效率",
+        "template": "Bskill_tra_spd&dorm1.png",
+        "efficient": {
+          "all": 20
+        }
+      },
+      {
+        "name": [
+          "虔诚筹款·β"
+        ],
+        "intro": "进驻贸易站时，每间宿舍每级+2%获取效率",
+        "template": "Bskill_tra_spd&dorm2.png",
+        "efficient": {
+          "all": 40
+        }
+      },
+      {
+        "name": [
+          "订单管理·α"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+10%，且订单上限+2",
+        "template": "Bskill_tra_spd&limit1.png",
+        "efficient": {
+          "all": 10
+        }
+      },
+      {
+        "name": [
+          "订单管理·β"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+10%，且订单上限+4",
+        "template": "Bskill_tra_spd&limit2.png",
+        "efficient": {
+          "all": 10
+        }
+      },
+      {
+        "name": [
+          "喀兰贸易·α"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+15%，且订单上限+2",
+        "template": "Bskill_tra_spd&limit3.png",
+        "efficient": {
+          "all": 15
+        }
+      },
+      {
+        "name": [
+          "喀兰贸易·β"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+15%，且订单上限+4",
+        "template": "Bskill_tra_spd&limit4.png",
+        "efficient": {
+          "all": 15
+        }
+      },
+      {
+        "name": [
+          "喀兰之主"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+20%，且订单上限+4",
+        "template": "Bskill_tra_spd&limit5.png",
+        "efficient": {
+          "all": 20
+        }
+      },
+      {
+        "name": [
+          "供应管理"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+25%，且订单上限+1",
+        "template": "Bskill_tra_spd&limit6.png",
+        "efficient": {
+          "all": 25
+        }
+      },
+      {
+        "name": [
+          "使命必达",
+          "少当家"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+30%，且订单上限+1",
+        "template": "Bskill_tra_spd&limit7.png",
+        "efficient": {
+          "all": 30
+        }
+      },
+      {
+        "name": [
+          "天道酬勤·α"
+        ],
+        "intro": "进驻贸易站时，当前贸易站内干员提供的每5%订单获取效率，额外提供5%效率，最多提供25%效率",
+        "template": "Bskill_tra_spd_variable21.png",
+        "efficient": {
+          "all": 25
+        }
+      },
+      {
+        "name": [
+          "天道酬勤·β"
+        ],
+        "intro": "进驻贸易站时，当前贸易站内干员提供的每5%订单获取效率，额外提供5%效率，最多提供35%效率",
+        "template": "Bskill_tra_spd_variable22.png",
+        "efficient": {
+          "all": 35
+        }
+      },
+      {
+        "name": [
+          "企鹅物流·α",
+          "峯驰物流",
+          "订单分发·α"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+20%",
+        "template": "Bskill_tra_spd1.png",
+        "efficient": {
+          "all": 20
+        }
+      },
+      {
+        "name": [
+          "企鹅物流·β",
+          "订单分发·β"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+30%",
+        "template": "Bskill_tra_spd2.png",
+        "efficient": {
+          "all": 30
+        }
+      },
+      {
+        "name": [
+          "物流专家"
+        ],
+        "intro": "进驻贸易站时，订单获取效率+35%",
+        "template": "Bskill_tra_spd3.png",
+        "efficient": {
+          "all": 35
+        }
+      },
+      {
+        "name": [
+          "恩怨"
+        ],
+        "intro": "当与拉普兰德在同一个贸易站时，心情每小时消耗+0.3，订单获取效率+65%",
+        "template": "Bskill_tra_texas1.png"
+      },
+      {
+        "name": [
+          "默契"
+        ],
+        "intro": "当与能天使在同一个贸易站时，心情每小时消耗-0.3",
+        "template": "Bskill_tra_texas2.png"
+      },
+      {
+        "name": [
+          "低语"
+        ],
+        "intro": "进驻贸易站时，当前贸易站内其他干员提供的订单获取效率全部归零，且每人为自身+45%订单获取效率，同时全体心情每小时消耗+0.25",
+        "template": "Bskill_tra_vodfox.png"
+      },
+      {
+        "name": [
+          "裁缝·α"
+        ],
+        "intro": "进驻贸易站时，小幅提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
+        "template": "Bskill_tra_wt&cost1.png"
+      },
+      {
+        "name": [
+          "裁缝·β",
+          "手工艺品·β"
+        ],
+        "intro": "进驻贸易站时，提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
+        "template": "Bskill_tra_wt&cost2.png"
+      }
+    ],
+    "skillsGroup_Doc": "相关技能组参考https://bbs.nga.cn/read.php?tid=25965441",
+    "skillsGroup": [
+      {
+        "intro": "德2拉2组",
+        "necessary": [
+          {
+            "intro": "德克萨斯-2",
+            "skills": [
+              "Bskill_tra_texas1",
+              "Bskill_tra_texas2"
+            ],
+            "efficient": {
+              "all": 64.9
+            }
+          },
+          {
+            "intro": "拉普兰德-2",
+            "skills": [
+              "Bskill_tra_Lappland2"
+            ],
+            "efficient": {
+              "all": 0
+            }
+          }
+        ],
+        "optional": [
+          {
+            "intro": "孑-0",
+            "skills": [
+              "Bskill_tra_limit_diff"
+            ],
+            "efficient": {
+              "all": 43
+            }
+          },
+          {
+            "intro": "孑-1",
+            "skills": [
+              "Bskill_tra_limit_diff",
+              "Bskill_tra_limit_count"
+            ],
+            "efficient": {
+              "all": 32
+            }
+          },
+          {
+            "intro": "能天使-2",
+            "skills": [
+              "Bskill_tra_spd3"
+            ],
+            "efficient": {
+              "all": 35.2
+            },
+            "Doc": "能天使1的技能别人也有，识别上不了，管不了了"
+          }
+        ],
+        "allowExternal": true
+      },
+      {
+        "intro": "德2拉0组",
+        "necessary": [
+          {
+            "intro": "德克萨斯-2",
+            "skills": [
+              "Bskill_tra_texas1",
+              "Bskill_tra_texas2"
+            ],
+            "efficient": {
+              "all": 64.9
+            }
+          },
+          {
+            "intro": "拉普兰德-0",
+            "skills": [
+              "Bskill_tra_Lappland1"
+            ],
+            "efficient": {
+              "all": 0
+            }
+          }
+        ],
+        "optional": [
+          {
+            "intro": "能天使-2",
+            "skills": [
+              "Bskill_tra_spd3"
+            ],
+            "efficient": {
+              "all": 35.2
+            },
+            "Doc": "能天使1的技能别人也有，识别上不了，管不了了"
+          }
+        ],
+        "allowExternal": true
+      },
+      {
+        "intro": "德0拉2组",
+        "necessary": [
+          {
+            "intro": "德克萨斯-0",
+            "skills": [
+              "Bskill_tra_texas1"
+            ],
+            "efficient": {
+              "all": 64.9
+            }
+          },
+          {
+            "intro": "拉普兰德-2",
+            "skills": [
+              "Bskill_tra_Lappland2"
+            ],
+            "efficient": {
+              "all": 0
+            }
+          }
+        ],
+        "optional": [
+          {
+            "intro": "孑-0",
+            "skills": [
+              "Bskill_tra_limit_diff"
+            ],
+            "efficient": {
+              "all": 43
+            }
+          },
+          {
+            "intro": "孑-1",
+            "skills": [
+              "Bskill_tra_limit_diff",
+              "Bskill_tra_limit_count"
+            ],
+            "efficient": {
+              "all": 32
+            }
+          }
+        ],
+        "allowExternal": true
+      },
+      {
+        "intro": "德0拉0组",
+        "necessary": [
+          {
+            "intro": "德克萨斯-0",
+            "skills": [
+              "Bskill_tra_texas1"
+            ],
+            "efficient": {
+              "all": 64.9
+            }
+          },
+          {
+            "intro": "拉普兰德-0",
+            "skills": [
+              "Bskill_tra_Lappland1"
+            ],
+            "efficient": {
+              "all": 0
+            }
+          }
+        ],
+        "optional": [],
+        "allowExternal": true
+      },
+      {
+        "intro": "巫恋组",
+        "necessary": [
+          {
+            "intro": "巫恋-2",
+            "skills": [
+              "Bskill_tra_wt&cost1",
+              "Bskill_tra_vodfox"
+            ],
+            "efficient": {
+              "all": 90.1
+            }
+          }
+        ],
+        "optional": [
+          {
+            "intro": "龙舌兰-2",
+            "skills": [
+              "Bskill_tra_long2"
+            ],
+            "efficient": {
+              "all": 80
+            },
+            "Doc": "这里具体效率不同攻略各执一词，写个大概的，反正别的组合也没这么高的，大差不差能第一就行_(:з」∠)_"
+          },
+          {
+            "intro": "龙舌兰-1",
+            "skills": [
+              "Bskill_tra_long1"
+            ],
+            "efficient": {
+              "all": 40
+            }
+          },
+          {
+            "intro": "柏喙-2、卡夫卡-2",
+            "skills": [
+              "Bskill_tra_wt&cost2"
+            ],
+            "efficient": {
+              "all": 2
+            }
+          },
+          {
+            "intro": "柏喙-1、卡夫卡-1",
+            "skills": [
+              "Bskill_tra_wt&cost1"
+            ],
+            "efficient": {
+              "all": 1
+            }
+          }
+        ],
+        "allowExternal": true
+      },
+      {
+        "intro": "孑-0组",
+        "necessary": [
+          {
+            "intro": "孑-0",
+            "skills": [
+              "Bskill_tra_limit_diff"
+            ],
+            "efficient": {
+              "all": 27
+            }
+          }
+        ],
+        "optional": [
+          {
+            "intro": "银灰-2",
+            "skills": [
+              "Bskill_tra_spd&limit5"
+            ],
+            "efficient": {
+              "all": 36
+            }
+          },
+          {
+            "intro": "喀兰贸易·β",
+            "skills": [
+              "Bskill_tra_spd&limit4"
+            ],
+            "efficient": {
+              "all": 31
+            }
+          },
+          {
+            "intro": "拜松、可颂",
+            "skills": [
+              "Bskill_tra_spd&limit7",
+              "Bskill_tra_spd1"
+            ],
+            "efficient": {
+              "all": 34
+            }
+          },
+          {
+            "intro": "供应管理",
+            "skills": [
+              "Bskill_tra_spd&limit6"
+            ],
+            "efficient": {
+              "all": 29
+            }
+          },
+          {
+            "intro": "喀兰贸易·α",
+            "skills": [
+              "Bskill_tra_spd&limit3"
+            ],
+            "efficient": {
+              "all": 23
+            }
+          }
+        ]
+      },
+      {
+        "intro": "孑-1组",
+        "necessary": [
+          {
+            "intro": "孑-1",
+            "skills": [
+              "Bskill_tra_limit_count",
+              "Bskill_tra_limit_diff"
+            ],
+            "efficient": {
+              "all": 40
+            }
+          }
+        ],
+        "optional": [
+          {
+            "intro": "银灰-2",
+            "skills": [
+              "Bskill_tra_spd&limit5"
+            ],
+            "efficient": {
+              "all": 28
+            }
+          },
+          {
+            "intro": "喀兰贸易·β",
+            "skills": [
+              "Bskill_tra_spd&limit4"
+            ],
+            "efficient": {
+              "all": 27
+            }
+          },
+          {
+            "intro": "拜松-2、可颂-2",
+            "skills": [
+              "Bskill_tra_spd&limit7",
+              "Bskill_tra_spd1"
+            ],
+            "efficient": {
+              "all": 22
+            }
+          },
+          {
+            "intro": "订单管理·β",
+            "skills": [
+              "Bskill_tra_spd&limit6"
+            ],
+            "efficient": {
+              "all": 22
+            }
+          },
+          {
+            "intro": "谈判",
+            "skills": [
+              "Bskill_tra_limit&cost"
+            ],
+            "efficient": {
+              "all": 20
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "Power": {
+    "maxNumOfOpers": 1,
+    "products": [
+      "Drone"
+    ],
+    "skills": [
+      {
+        "name": [
+          "脉冲电弧·β"
+        ],
+        "intro": "进驻发电站时，无人机每小时充能速度+20%",
+        "template": "Bskill_pow_spd3.png",
+        "efficient": {
+          "all": 20
+        }
+      },
+      {
+        "name": [
+          "脉冲电弧·α"
+        ],
+        "intro": "进驻发电站时，无人机每小时充能速度+15%",
+        "template": "Bskill_pow_spd2.png",
+        "efficient": {
+          "all": 15
+        }
+      },
+      {
+        "name": [
+          "热能充能·α"
+        ],
+        "intro": "进驻发电站时，无人机每小时充能速度+10%",
+        "template": "Bskill_pow_spd1.png",
+        "efficient": {
+          "all": 10
+        }
+      },
+      {
+        "name": [
+          "热情澎湃"
+        ],
+        "intro": "进驻发电站时，无人机每小时充能速度+10%",
+        "template": "Bskill_pow_spd&cost.png",
+        "efficient": {
+          "all": 0.1
+        }
+      }
+    ],
+    "skillsGroup": []
+  },
+  "Office": {
+    "maxNumOfOpers": 1,
+    "products": [
+      "HR"
+    ],
+    "skills": [
+      {
+        "name": [
+          "准时下班"
+        ],
+        "intro": "进驻人力办公室时，人脉资源的联络速度+45%，心情每小时消耗+2",
+        "template": "Bskill_hire_skgoat.png",
+        "efficient": {
+          "all": 44.9
+        }
+      },
+      {
+        "name": [
+          "天灾信使·β"
+        ],
+        "intro": "进驻人力办公室时，人脉资源的联络速度+45%",
+        "template": "Bskill_hire_spd5.png",
+        "efficient": {
+          "all": 45
+        }
+      },
+      {
+        "name": [
+          "心理学"
+        ],
+        "intro": "进驻人力办公室时，人脉资源的联络速度+40%",
+        "template": "Bskill_hire_spd4.png",
+        "efficient": {
+          "all": 40
+        }
+      },
+      {
+        "name": [
+          "洞悉人心"
+        ],
+        "intro": "进驻人力办公室时，人脉资源的联络速度+35%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度",
+        "template": "Bskill_hire_spd&clue.png",
+        "efficient": {
+          "all": 35.1
+        }
+      },
+      {
+        "name": [
+          "天灾信使·α"
+        ],
+        "intro": "进驻人力办公室时，人脉资源的联络速度+30%",
+        "template": "Bskill_hire_spd2.png",
+        "efficient": {
+          "all": 30
+        }
+      },
+      {
+        "name": [
+          "人事管理·α"
+        ],
+        "intro": "进驻人力办公室时，人脉资源的联络速度+20%",
+        "template": "Bskill_hire_spd1.png",
+        "efficient": {
+          "all": 20
+        }
+      },
+      {
+        "name": [
+          "人望"
+        ],
+        "intro": "进驻人力办公室时，人脉资源的联络速度+20%，每产生1次联络次数，增加乌萨斯学生自治团线索的概率（工作时长和招募位影响概率）",
+        "template": "Bskill_hire_spd&ursus2.png",
+        "efficient": {
+          "all": 20
+        }
+      },
+      {
+        "name": [
+          "内幕"
+        ],
+        "intro": "进驻人力办公室时，人脉资源的联络速度+20%，每产生1次联络次数，增加黑钢国际线索的概率（工作时长和招募位影响概率）",
+        "template": "Bskill_hire_spd&blacksteel2.png",
+        "efficient": {
+          "all": 20
+        }
+      },
+      {
+        "name": [
+          "巡游"
+        ],
+        "intro": "进驻人力办公室时，人脉资源的联络速度+20%，同时每个招募位（不包含初始招募位）+10点记忆碎片",
+        "template": "Bskill_hire_spd_bd_n1_n1.png",
+        "efficient": {
+          "all": 20
+        }
+      },
+      {
+        "name": [
+          "追忆"
+        ],
+        "intro": "进驻人力办公室时，每1点记忆碎片转化为1点感知信息，心情耗尽时清空所有记忆碎片和自身累积的感知信息",
+        "template": "Bskill_hire_spd_memento.png"
+      },
+      {
+        "name": [
+          "救援队·资源清点"
+        ],
+        "intro": "进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25",
+        "template": "Bskill_hire_spd&cost2.png",
+        "efficient": {
+          "all": 20.1
+        }
+      },
+      {
+        "name": [
+          "救援队·灾后普查"
+        ],
+        "intro": "进驻人力办公室时，每个招募位（不包含初始招募位）+10点人间烟火",
+        "template": "Bskill_hire_spd_bd_n2.png"
+      },
+      {
+        "name": [
+          "语言学"
+        ],
+        "intro": "进驻人力办公室时，人脉资源的联络速度+20%，每1点情报储备额外+5%联络速度，每1瓶乌萨斯特饮额外+5%联络速度",
+        "template": "Bskill_hire_blitz.png",
+        "efficient": {
+          "all": 20.1
+        }
+      },
+      {
+        "name": [
+          "救援队·珠算"
+        ],
+        "intro": "进驻人力办公室时，人脉资源的联络速度+10%，心情每小时消耗-0.25",
+        "template": "Bskill_hire_spd&cost1.png",
+        "efficient": {
+          "all": 10.1
+        }
+      }
+    ],
+    "skillsGroup": []
+  },
+  "Reception": {
+    "Doc": "会客室",
+    "maxNumOfOpers": 2,
+    "products": [
+      "General",
+      "No1",
+      "No2",
+      "No3",
+      "No4",
+      "No5",
+      "No6",
+      "No7"
+    ],
+    "skills": [
+      {
+        "name": [
+          "信使·罗德岛制药"
+        ],
+        "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得罗德岛制药线索（工作时长影响概率）",
+        "template": "Bskill_meet_rhodes2.png",
+        "efficient": {
+          "General": 10,
+          "No7": 30
+        }
+      },
+      {
+        "name": [
+          "通讯员"
+        ],
+        "intro": "进驻会客室时，更容易获得罗德岛制药线索（工作时长影响概率）",
+        "template": "Bskill_meet_blacksteel2.png",
+        "efficient": {
+          "No7": 10
+        }
+      },
+      {
+        "name": [
+          "插旗"
+        ],
+        "intro": "进驻会客室后，每当新搜集到的线索不是罗德岛制药时，则额外增加罗德岛制药线索的出现概率（工作时长影响概率）",
+        "template": "Bskill_meet_flag_rhodes.png",
+        "efficient": {
+          "No7": 15
+        }
+      },
+      {
+        "name": [
+          "讯使"
+        ],
+        "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得喀兰贸易线索（工作时长影响概率）",
+        "template": "Bskill_meet_kjerag2.png",
+        "efficient": {
+          "General": 10,
+          "No6": 30
+        }
+      },
+      {
+        "name": [
+          "传讯者"
+        ],
+        "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得格拉斯哥帮线索（工作时长影响概率）",
+        "template": "Bskill_meet_glasgow2.png",
+        "efficient": {
+          "General": 10,
+          "No5": 30
+        }
+      },
+      {
+        "name": [
+          "军师"
+        ],
+        "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得乌萨斯学生自治团线索（工作时长影响概率）",
+        "template": "Bskill_meet_ursus2.png",
+        "efficient": {
+          "General": 10,
+          "No4": 30
+        }
+      },
+      {
+        "name": [
+          "秘密搜查"
+        ],
+        "intro": "进驻会客室时，更容易获得乌萨斯学生自治团线索（工作时长影响概率）",
+        "template": "Bskill_meet_ursus1.png",
+        "efficient": {
+          "No4": 10
+        }
+      },
+      {
+        "name": [
+          "甄别"
+        ],
+        "intro": "进驻会客室后，每当新搜集到的线索不是乌萨斯学生自治团时，则额外增加乌萨斯学生自治团线索的出现概率（工作时长影响概率）",
+        "template": "Bskill_meet_flag_ursus.png",
+        "efficient": {
+          "No4": 15
+        }
+      },
+      {
+        "name": [
+          "B.P.R.S"
+        ],
+        "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）",
+        "template": "Bskill_meet_blacksteel2.png",
+        "efficient": {
+          "General": 10,
+          "No3": 30
+        }
+      },
+      {
+        "name": [
+          "信使·企鹅物流"
+        ],
+        "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得企鹅物流线索（工作时长影响概率）",
+        "template": "Bskill_meet_penguin2.png",
+        "efficient": {
+          "General": 10,
+          "No2": 30
+        }
+      },
+      {
+        "name": [
+          "皇家探员（自称）"
+        ],
+        "intro": "进驻会客室时，更容易获得企鹅物流线索（工作时长影响概率）",
+        "template": "Bskill_meet_penguin1.png",
+        "efficient": {
+          "No2": 10
+        }
+      },
+      {
+        "name": [
+          "守望者"
+        ],
+        "intro": "进驻会客室时，线索搜集速度提升10%，且更容易获得莱茵生命线索（工作时长影响概率）",
+        "template": "Bskill_meet_rhine2.png",
+        "efficient": {
+          "General": 10,
+          "No1": 30
+        }
+      },
+      {
+        "name": [
+          "哥伦比亚史"
+        ],
+        "intro": "进驻会客室后，每当新搜集到的线索不是莱茵生命时，则额外增加莱茵生命线索的出现概率（工作时长影响概率）",
+        "template": "Bskill_meet_flag_rhine.png",
+        "efficient": {
+          "No1": 15
+        }
+      },
+      {
+        "name": [
+          "警司"
+        ],
+        "intro": "进驻会客室时，线索搜集速度提升25%",
+        "template": "Bskill_meet_spd3.png",
+        "efficient": {
+          "all": 25
+        }
+      },
+      {
+        "name": [
+          "线索搜集·β"
+        ],
+        "intro": "进驻会客室时，线索搜集速度提升20%",
+        "template": "Bskill_meet_spd2.png",
+        "efficient": {
+          "all": 20
+        }
+      },
+      {
+        "name": [
+          "线索搜集·α"
+        ],
+        "intro": "进驻会客室时，线索搜集速度提升10%",
+        "template": "Bskill_meet_spd1.png",
+        "efficient": {
+          "all": 10
+        }
+      }
+    ],
+    "skillsGroup": []
+  }
 }

@@ -1,4 +1,4 @@
-﻿#include "AbstractConfiger.h"
+#include "AbstractConfiger.h"
 
 #include <json.h>
 

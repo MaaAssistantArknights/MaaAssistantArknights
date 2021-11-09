@@ -1,15 +1,15 @@
-﻿#pragma once
+#pragma once
 
-#include <string>
-#include <random>
 #include <optional>
+#include <random>
+#include <string>
 
-#include <memory>	// for pimpl
-#include <thread>
-#include <mutex>
-#include <shared_mutex>
-#include <queue>
 #include <condition_variable>
+#include <memory> // for pimpl
+#include <mutex>
+#include <queue>
+#include <shared_mutex>
+#include <thread>
 
 #include <Windows.h>
 
@@ -17,7 +17,8 @@
 
 #include "AsstDef.h"
 
-namespace asst {
+namespace asst
+{
     class Controller
     {
     public:
@@ -25,7 +26,8 @@ namespace asst {
         Controller(Controller&&) = delete;
         ~Controller();
 
-        static Controller& get_instance() {
+        static Controller& get_instance()
+        {
             static Controller unique_instance;
             return unique_instance;
         }
@@ -52,6 +54,7 @@ namespace asst {
 
         Controller& operator=(const Controller&) = delete;
         Controller& operator=(Controller&&) = delete;
+
     private:
         Controller();
 
@@ -71,19 +74,19 @@ namespace asst {
         std::condition_variable m_cmd_condvar;
         std::queue<std::string> m_cmd_queue;
         std::atomic<unsigned> m_completed_id = 0;
-        unsigned m_push_id = 0;						// push_id的自增总是伴随着queue的push，肯定是要上锁的，所以没必要原子
+        unsigned m_push_id = 0; // push_id的自增总是伴随着queue的push，肯定是要上锁的，所以没必要原子
 
         //std::shared_mutex m_image_mutex;
         cv::Mat m_cache_image;
         bool m_image_convert_lf = false;
 
-        constexpr static int PipeBuffSize = 1048576;	// 管道缓冲区大小
-        HANDLE m_pipe_read = nullptr;					// 读管道句柄
-        HANDLE m_pipe_write = nullptr;					// 写管道句柄
-        HANDLE m_pipe_child_read = nullptr;				// 子进程的读管道句柄
-        HANDLE m_pipe_child_write = nullptr;			// 子进程的写管道句柄
-        SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 };	// 管道安全描述符
-        STARTUPINFOA m_child_startup_info = { 0 };		// 子进程启动信息
+        constexpr static int PipeBuffSize = 1048576; // 管道缓冲区大小
+        HANDLE m_pipe_read = nullptr;                // 读管道句柄
+        HANDLE m_pipe_write = nullptr;               // 写管道句柄
+        HANDLE m_pipe_child_read = nullptr;          // 子进程的读管道句柄
+        HANDLE m_pipe_child_write = nullptr;         // 子进程的写管道句柄
+        SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 }; // 管道安全描述符
+        STARTUPINFOA m_child_startup_info = { 0 };   // 子进程启动信息
 
         EmulatorInfo m_emulator_info;
         HWND m_handle = nullptr;

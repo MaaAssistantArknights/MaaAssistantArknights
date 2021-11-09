@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "AbstractConfiger.h"
 
 #include <unordered_map>
@@ -6,13 +6,15 @@
 
 #include "AsstDef.h"
 
-namespace asst {
+namespace asst
+{
     class InfrastConfiger : public AbstractConfiger
     {
     public:
         virtual ~InfrastConfiger() = default;
 
-        const std::unordered_set<std::string>& get_templ_required() const noexcept {
+        const std::unordered_set<std::string>& get_templ_required() const noexcept
+        {
             return m_templ_required;
         }
         const std::unordered_map<std::string, InfrastSkill>&
@@ -20,13 +22,16 @@ namespace asst {
         {
             return m_skills.at(facility_name);
         }
-        const std::vector<InfrastSkillsGroup>& get_skills_group(const std::string& facility) const {
+        const std::vector<InfrastSkillsGroup>& get_skills_group(const std::string& facility) const
+        {
             return m_skills_groups.at(facility);
         }
-        const InfrastFacilityInfo& get_facility_info(const std::string& facility) const {
+        const InfrastFacilityInfo& get_facility_info(const std::string& facility) const
+        {
             return m_facilities_info.at(facility);
         }
-        const std::unordered_map<std::string, InfrastFacilityInfo>& get_facility_info() const noexcept {
+        const std::unordered_map<std::string, InfrastFacilityInfo>& get_facility_info() const noexcept
+        {
             return m_facilities_info;
         }
 

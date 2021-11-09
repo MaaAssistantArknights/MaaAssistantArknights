@@ -1,4 +1,4 @@
-﻿#include "GeneralConfiger.h"
+#include "GeneralConfiger.h"
 
 #include <json.h>
 

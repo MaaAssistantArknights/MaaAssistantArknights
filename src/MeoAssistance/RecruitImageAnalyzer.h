@@ -1,9 +1,10 @@
-﻿#pragma once
+#pragma once
 #include "AbstractImageAnalyzer.h"
 
 #include "AsstDef.h"
 
-namespace asst {
+namespace asst
+{
     class RecruitImageAnalyzer final : public AbstractImageAnalyzer
     {
     public:
@@ -13,18 +14,23 @@ namespace asst {
 
         virtual bool analyze() override;
 
-        const std::vector<TextRect>& get_tags_result() const noexcept {
+        const std::vector<TextRect>& get_tags_result() const noexcept
+        {
             return m_tags_result;
         }
-        const std::vector<Rect>& get_set_time_rect() const noexcept {
+        const std::vector<Rect>& get_set_time_rect() const noexcept
+        {
             return m_set_time_rect;
         }
+
     private:
         // 该分析器不支持外部设置ROI
-        virtual void set_roi(const Rect& roi) noexcept override {
+        virtual void set_roi(const Rect& roi) noexcept override
+        {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat& image, const Rect& roi) {
+        virtual void set_image(const cv::Mat& image, const Rect& roi)
+        {
             AbstractImageAnalyzer::set_image(image, roi);
         }
         bool tags_analyze();

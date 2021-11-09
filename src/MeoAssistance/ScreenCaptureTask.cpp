@@ -1,4 +1,4 @@
-﻿#include "ScreenCaptureTask.h"
+#include "ScreenCaptureTask.h"
 
 #include "AsstUtils.hpp"
 

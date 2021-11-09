@@ -1,16 +1,18 @@
-﻿#pragma once
+#pragma once
 
 #include "AbstractConfiger.h"
 
 #include <string>
-#include <vector>
 #include <unordered_set>
+#include <vector>
 
 #include "AsstDef.h"
 
-namespace asst {
+namespace asst
+{
     // 干员信息，公开招募相关
-    struct RecruitOperInfo {
+    struct RecruitOperInfo
+    {
         std::string name;
         std::string type;
         int level = 0;
@@ -21,7 +23,8 @@ namespace asst {
     };
 
     // 公开招募的干员组合
-    struct RecruitOperCombs {
+    struct RecruitOperCombs
+    {
         std::vector<RecruitOperInfo> opers;
         int max_level = 0;
         int min_level = 0;

@@ -1,17 +1,19 @@
-﻿#pragma once
+#pragma once
 
-#include <fstream>
-#include <mutex>
-#include <iostream>
-#include <vector>
-#include <type_traits>
 #include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <mutex>
+#include <type_traits>
+#include <vector>
 
 #include "AsstUtils.hpp"
 #include "Version.h"
 
-namespace asst {
-    class Logger {
+namespace asst
+{
+    class Logger
+    {
     public:
         ~Logger() = default;
 
@@ -25,19 +27,19 @@ namespace asst {
         }
 
         template <typename... Args>
-        inline void trace(Args &&... args)
+        inline void trace(Args&&... args)
         {
             constexpr static std::string_view level = "TRC";
             log(level, std::forward<Args>(args)...);
         }
         template <typename... Args>
-        inline void info(Args &&... args)
+        inline void info(Args&&... args)
         {
             constexpr static std::string_view level = "INF";
             log(level, std::forward<Args>(args)...);
         }
         template <typename... Args>
-        inline void error(Args &&... args)
+        inline void error(Args&&... args)
         {
             constexpr static std::string_view level = "ERR";
             log(level, std::forward<Args>(args)...);
@@ -45,6 +47,7 @@ namespace asst {
 
         const std::string m_log_filename = asst::utils::get_cur_dir() + "asst.log";
         const std::string m_log_bak_filename = asst::utils::get_cur_dir() + "asst.bak.log";
+
     private:
         Logger()
         {
@@ -63,8 +66,7 @@ namespace asst {
                     }
                 }
             }
-            catch (...)
-            {
+            catch (...) {
                 ;
             }
         }
@@ -80,14 +82,14 @@ namespace asst {
         }
 
         template <typename... Args>
-        void log(const std::string_view& level, Args &&... args)
+        void log(const std::string_view& level, Args&&... args)
         {
             std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
 
             char buff[128] = { 0 };
             sprintf_s(buff, "[%s][%s][Px%x][Tx%x]",
-                asst::utils::get_format_time().c_str(),
-                level.data(), _getpid(), ::GetCurrentThreadId());
+                      asst::utils::get_format_time().c_str(),
+                      level.data(), _getpid(), ::GetCurrentThreadId());
 
             stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
             std::ofstream ofs(m_log_filename, std::ios::out | std::ios::app);
@@ -96,7 +98,7 @@ namespace asst {
         }
 
         template <bool ToGbk = false, typename T, typename... Args>
-        inline void stream_args(std::ostream& os, T&& first, Args && ...rest)
+        inline void stream_args(std::ostream& os, T&& first, Args&&... rest)
         {
             stream<ToGbk, T>()(os, std::forward<T>(first));
             stream_args<ToGbk>(os, std::forward<Args>(rest)...);
@@ -127,7 +129,8 @@ namespace asst {
         std::mutex m_trace_mutex;
     };
 
-    class LoggerAux {
+    class LoggerAux
+    {
     public:
         LoggerAux(const std::string& func_name)
             : m_func_name(func_name),
@@ -139,8 +142,9 @@ namespace asst {
         {
             auto duration = std::chrono::system_clock::now() - m_start_time;
             Logger::get_instance().trace(m_func_name, " | leave,",
-                std::chrono::duration_cast<std::chrono::milliseconds>(duration).count(), "ms");
+                                         std::chrono::duration_cast<std::chrono::milliseconds>(duration).count(), "ms");
         }
+
     private:
         std::string m_func_name;
         std::chrono::time_point<std::chrono::system_clock> m_start_time;
@@ -148,6 +152,6 @@ namespace asst {
 
     static auto& log = Logger::get_instance();
 
-#define LogTraceFunction    LoggerAux _func_aux(__FUNCTION__)
-#define LogTraceScope	    LoggerAux _func_aux
+#define LogTraceFunction LoggerAux _func_aux(__FUNCTION__)
+#define LogTraceScope LoggerAux _func_aux
 }

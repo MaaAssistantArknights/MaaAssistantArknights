@@ -1,4 +1,4 @@
-﻿#include "ItemConfiger.h"
+#include "ItemConfiger.h"
 
 #include <json.h>
 
