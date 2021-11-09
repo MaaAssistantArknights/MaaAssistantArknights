@@ -1,4 +1,4 @@
-﻿#include "UserConfiger.h"
+#include "UserConfiger.h"
 
 #include <fstream>
 

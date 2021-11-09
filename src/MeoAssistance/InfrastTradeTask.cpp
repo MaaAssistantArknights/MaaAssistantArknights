@@ -1,12 +1,12 @@
-﻿#include "InfrastTradeTask.h"
+#include "InfrastTradeTask.h"
 
 const std::string asst::InfrastTradeTask::FacilityName = "Trade";
 
 bool asst::InfrastTradeTask::run()
 {
     json::value task_start_json = json::object{
-        { "task_type",  "InfrastTradeTask" },
-        { "task_chain", m_task_chain}
+        { "task_type", "InfrastTradeTask" },
+        { "task_chain", m_task_chain }
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 

@@ -1,16 +1,16 @@
-﻿#include "InfrastInfoTask.h"
+#include "InfrastInfoTask.h"
 
 #include "Controller.h"
-#include "RuntimeStatus.h"
-#include "Resource.h"
 #include "InfrastFacilityImageAnalyzer.h"
 #include "Logger.hpp"
+#include "Resource.h"
+#include "RuntimeStatus.h"
 
 bool asst::InfrastInfoTask::run()
 {
     json::value task_start_json = json::object{
-        { "task_type",  "InfrastInfoTask" },
-        { "task_chain", m_task_chain}
+        { "task_type", "InfrastInfoTask" },
+        { "task_chain", m_task_chain }
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 

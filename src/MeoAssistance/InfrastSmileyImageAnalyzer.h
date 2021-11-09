@@ -1,9 +1,10 @@
-﻿#pragma once
+#pragma once
 #include "AbstractImageAnalyzer.h"
 
 #include "AsstDef.h"
 
-namespace asst {
+namespace asst
+{
     class InfrastSmileyImageAnalyzer : public AbstractImageAnalyzer
     {
     public:
@@ -12,9 +13,11 @@ namespace asst {
 
         virtual bool analyze() override;
 
-        const std::vector<InfrastSmileyInfo>& get_result() const noexcept {
+        const std::vector<InfrastSmileyInfo>& get_result() const noexcept
+        {
             return m_result;
         }
+
     protected:
         std::vector<InfrastSmileyInfo> m_result;
     };

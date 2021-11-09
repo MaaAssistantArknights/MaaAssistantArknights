@@ -1,1501 +1,1501 @@
 ﻿{
-    "SanityBegin": {
-        "algorithm": "justreturn",
-        "action": "doNothing",
-        "next": [
-            "UsePrts",
-            "StartButton1",
-            "StartButton2",
-            "PRTS",
-            "UseMedicine",
-            "UseStone",
-            "EndOfAction",
-            "PrtsErrorConfirm",
-            "OfflineConfirm",
-            "StartToWakeUp",
-            "TodaysSupplies",
-            "CloseAnno",
-            "Terminal",
-            "LastBattle"
-        ]
-    },
-    "UsePrts": {
-        "templThreshold": 0.9,
-        "action": "clickSelf",
-        "next": [
-            "StartButton1"
-        ]
-    },
-    "StartButton1": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "开始行动"
-        ],
-        "roi": [
-            800,
-            400,
-            480,
-            320
-        ],
-        "action": "clickSelf",
-        "next": [
-            "StartButton2",
-            "UseMedicine",
-            "UseStone"
-        ]
-    },
-    "StartButton2": {
-        "action": "clickSelf",
-        "rearDelay": 20000,
-        "templThreshold": 0.95,
-        "next": [
-            "PRTS",
-            "StartButton2",
-            "OfflineConfirm"
-        ]
-    },
-    "PRTS": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "剩余可放置角色",
-            "接管作战"
-        ],
-        "roi": [
-            0,
-            530,
-            1279,
-            189
-        ],
-        "action": "doNothing",
-        "rearDelay": 5000,
-        "next": [
-            "PRTS",
-            "PrtsErrorConfirm",
-            "EndOfAction",
-            "OfflineConfirm",
-            "WaitAfterPRTS"
-        ]
-    },
-    "WaitAfterPRTS": {
-        "rearDelay": 3000,
-        "algorithm": "justreturn",
-        "action": "doNothing",
-        "next": [
-            "PRTS",
-            "EndOfAction",
-            "ClickCornerAfterPRTS"
-        ]
-    },
-    "ClickCornerAfterPRTS": {
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
-        "algorithm": "justreturn",
-        "action": "clickRect",
-        "specificRect": [
-            1000,
-            1,
-            270,
-            340
-        ],
-        "next": [
-            "EndOfAction",
-            "StartButton1",
-            "StartButton2",
-            "UseMedicine",
-            "UseStone",
-            "ClickCornerAfterPRTS"
-        ]
-    },
-    "EndOfAction": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "行动结束"
-        ],
-        "preDelay": 5000,
-        "action": "stageDrops",
-        "action_Doc": "为“行动结束”特化的action，包含截图、识别关卡掉落等功能",
-        "next": [
-            "ClickCorner"
-        ]
-    },
-    "ClickCorner": {
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
-        "algorithm": "justreturn",
-        "action": "clickRect",
-        "rearDelay": 2000,
-        "specificRect": [
-            1000,
-            1,
-            270,
-            340
-        ],
-        "next": [
-            "StartButton1",
-            "StartButton2",
-            "UseMedicine",
-            "UseStone",
-            "EndOfAction"
-        ]
-    },
-    "UseMedicine": {
-        "action": "doNothing",
-        "next": [
-            "MedicineConfirm"
-        ]
-    },
-    "MedicineConfirm": {
-        "action": "clickSelf",
-        "maxTimes": 0,
-        "reduceOtherTimes": [
-            "StartButton1"
-        ],
-        "next": [
-            "StartButton1"
-        ]
-    },
-    "UseStone": {
-        "action": "doNothing",
-        "next": [
-            "StoneConfirm"
-        ]
-    },
-    "StoneConfirm": {
-        "template": "MedicineConfirm.png",
-        "action": "clickSelf",
-        "maxTimes": 0,
-        "reduceOtherTimes": [
-            "StartButton1"
-        ],
-        "next": [
-            "StartButton1"
-        ]
-    },
-    "PrtsErrorConfirm": {
-        "templThreshold": 0.8,
-        "cache": false,
-        "action": "doNothing",
-        "next": [
-            "AbandonAction",
-            "OfflineConfirmAfterBattle"
-        ]
-    },
-    "AbandonAction": {
-        "action": "clickSelf",
-        "cache": false,
-        "reduceOtherTimes": [
-            "StartButton1",
-            "StartButton2"
-        ],
-        "next": [
-            "EndOfAction",
-            "StartToWakeUp",
-            "OfflineConfirm"
-        ]
-    },
-    "OfflineConfirmAfterBattle": {
-        "template": "PopupConfirm.png",
-        "action": "clickSelf",
-        "cache": false,
-        "next": [
-            "PRTS",
-            "PrtsErrorConfirm",
-            "OfflineConfirm",
-            "StartToWakeUp"
-        ]
-    },
-    "OfflineConfirm": {
-        "action": "clickSelf",
-        "cache": false,
-        "reduceOtherTimes": [
-            "StartButton1",
-            "StartButton2"
-        ],
-        "next": [
-            "CloseAnno",
-            "StartToWakeUp",
-            "OfflineConfirm"
-        ]
-    },
-    "StartToWakeUp": {
-        "action": "clickSelf",
-        "cache": false,
-        "next": [
-            "Terminal",
-            "CloseAnno",
-            "OfflineConfirm",
-            "TodaysSupplies"
-        ]
-    },
-    "CloseAnno": {
-        "action": "clickSelf",
-        "cache": false,
-        "next": [
-            "Terminal",
-            "CloseAnno",
-            "TodaysSupplies"
-        ]
-    },
-    "Terminal": {
-        "cache": false,
-        "action": "clickSelf",
-        "next": [
-            "LastBattle",
-            "CloseAnno",
-            "TodaysSupplies"
-        ]
-    },
-    "TodaysSupplies": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "text": [
-            "今日配给"
-        ],
-        "action": "clickRect",
-        "specificRect": [
-            1000,
-            1,
-            270,
-            340
-        ],
-        "next": [
-            "CloseAnno",
-            "Terminal"
-        ]
-    },
-    "LastBattle": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "text": [
-            "上一次作战",
-            "前往上一次"
-        ],
-        "action": "clickSelf",
-        "next": [
-            "StartButton1"
-        ]
-    },
-    "VisitBegin": {
-        "algorithm": "justreturn",
-        "action": "doNothing",
-        "next": [
-            "Friends",
-            "FriendsList",
-            "StartToVisit",
-            "VisitNext",
-            "VisitNextBlack",
-            "ReturnToFriends"
-        ]
-    },
-    "ReturnToFriends": {
-        "template": "Return.png",
-        "templThreshold": 0.85,
-        "histThreshold": 0.85,
-        "rearDelay": 1000,
-        "action": "clickSelf",
-        "next": [
-            "Friends",
-            "ReturnToFriends"
-        ]
-    },
-    "Friends": {
-        "templThreshold": 0.85,
-        "action": "clickSelf",
-        "next": [
-            "FriendsList",
-            "Friends"
-        ]
-    },
-    "FriendsList": {
-        "action": "clickSelf",
-        "next": [
-            "StartToVisit",
-            "NoFriends"
-        ]
-    },
-    "NoFriends": {
-        "action": "doNothing",
-        "next": [
-            "ReturnToMall"
-        ]
-    },
-    "StartToVisit": {
-        "templThreshold": 0.8,
-        "action": "clickSelf",
-        "rearDelay": 3000,
-        "next": [
-            "VisitNext",
-            "VisitNextBlack",
-            "VisitNextOcr"
-        ]
-    },
-    "VisitNext": {
-        "action": "clickSelf",
-        "cache": false,
-        "rearDelay": 2000,
-        "roi": [
-            1080,
-            570,
-            195,
-            130
-        ],
-        "exceededNext": [
-            "ReturnToMall"
-        ],
-        "next": [
-            "VisitLimited",
-            "VisitNext",
-            "VisitNextBlack",
-            "VisitNextOcr"
-        ]
-    },
-    "VisitNextOcr": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "访问下位"
-        ],
-        "action": "clickSelf",
-        "rearDelay": 2000,
-        "roi": [
-            1080,
-            570,
-            195,
-            130
-        ],
-        "exceededNext": [
-            "ReturnToMall"
-        ],
-        "next": [
-            "VisitLimited",
-            "VisitNext",
-            "VisitNextBlack",
-            "VisitNextOcr"
-        ]
-    },
-    "ReturnToMall": {
-        "rearDelay": 1000,
-        "template": "Return.png",
-        "templThreshold": 0.85,
-        "histThreshold": 0.85,
-        "action": "clickSelf",
-        "next": [
-            "Mall",
-            "ReturnToMallConfirm",
-            "ReturnToMall"
-        ]
-    },
-    "ReturnToMallConfirm": {
-        "template": "PopupConfirm.png",
-        "action": "clickSelf",
-        "rearDelay": 3000,
-        "next": [
-            "ReturnToMall"
-        ]
-    },
-    "Mall": {
-        "action": "clickSelf",
-        "next": [
-            "CreditStore",
-            "CreditStoreOcr"
-        ]
-    },
-    "CreditStore": {
-        "templThreshold": 0.85,
-        "rearDelay": 1000,
-        "action": "clickSelf",
-        "next": [
-            "CollectCredit",
-            "Stop"
-        ]
-    },
-    "CreditStoreOcr": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "信用交易所"
-        ],
-        "roi": [
-            1000,
-            0,
-            280,
-            300
-        ],
-        "rearDelay": 1000,
-        "action": "clickSelf",
-        "next": [
-            "CollectCredit",
-            "Stop"
-        ]
-    },
-    "CollectCredit": {
-        "action": "clickSelf",
-        "rearDelay": 2000,
-        "next": [
-            "CloseCollectCredit"
-        ]
-    },
-    "CloseCollectCredit": {
-        "algorithm": "justReturn",
-        "action": "clickRect",
-        "specificRect": [
-            1000,
-            1,
-            270,
-            340
-        ],
-        "next": [
-            "Stop"
-        ]
-    },
-    "VisitLimited": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "今日参与",
-            "已达上限"
-        ],
-        "action": "doNothing",
-        "roi": [
-            900,
-            50,
-            375,
-            140
-        ],
-        "next": [
-            "ReturnToMall"
-        ]
-    },
-    "VisitNextBlack": {
-        "action": "doNothing",
-        "roi": [
-            1080,
-            570,
-            195,
-            130
-        ],
-        "next": [
-            "ReturnToMall"
-        ]
-    },
-    "CreditShop-Commoditys": {
-        "template": "CreditPoint.png",
-        "rectMove": [
-            -60,
-            -180,
-            220,
-            220
-        ]
-    },
-    "CreditShop-SoldOut": {
-        "template": "SoldOut.png"
-    },
-    "CreditShop-BuyIt": {
-        "template": "BuyIt.png",
-        "preDelay": 1000,
-        "rearDelay": 1000
-    },
-    "CreditShop-NoMoney": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "信用不足",
-            "无法购买"
-        ],
-        "roi": [
-            940,
-            60,
-            339,
-            110
-        ]
-    },
-    "CreditShop-NotToBuy": {
-        "algorithm": "OcrDetect",
-        "Doc": "这里的text，是子串搜索，即商品名中只要含有任一text，就不买",
-        "text": [
-            "碳",
-            "家具"
-        ],
-        "roi": [
-            0,
-            -30,
-            220,
-            70
-        ]
-    },
-    "Stop": {
-        "algorithm": "justreturn",
-        "action": "stop",
-        "next": []
-    },
-    "RecruitTime": {
-        "template": "RecruitTimeReduce.png",
-        "templThreshold": 0.89,
-        "action": "clickSelf",
-        "rectMove": [
-            7,
-            94,
-            129,
-            44
-        ]
-    },
-    "RecruitTags": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            200,
-            200,
-            800,
-            500
-        ],
-        "ocrReplace": [
-            [
-                "沮击",
-                "狙击"
-            ],
-            [
-                "犯击",
-                "狙击"
-            ],
-            [
-                "泪击",
-                "狙击"
-            ],
-            [
-                "都出",
-                "输出"
-            ],
-            [
-                "都乐",
-                "输出"
-            ],
-            [
-                "抓出",
-                "输出"
-            ],
-            [
-                "都任",
-                "输出"
-            ],
-            [
-                "新于",
-                "新手"
-            ],
-            [
-                "防拍",
-                "防护"
-            ]
-        ]
-    },
-    "OperatorBegin": {
-        "algorithm": "justreturn",
-        "action": "doNothing",
-        "next": [
-            "EnterOperator",
-            "ReturnToOperator"
-        ]
-    },
-    "EnterOperator": {
-        "rearDelay": 1000,
-        "templThreshold": 0.7,
-        "action": "clickSelf",
-        "next": [
-            "Stop"
-        ]
-    },
-    "ReturnToOperator": {
-        "template": "Return.png",
-        "templThreshold": 0.85,
-        "histThreshold": 0.85,
-        "rearDelay": 1000,
-        "action": "clickSelf",
-        "next": [
-            "EnterOperator",
-            "ReturnToOperator"
-        ]
-    },
-    "InfrastBegin": {
-        "algorithm": "justreturn",
-        "action": "doNothing",
-        "next": [
-            "EnterInfrast",
-            "InfrastEnteredFlag",
-            "InfrastNotification",
-            "ReturnToInfrast"
-        ]
-    },
-    "ReturnToInfrast": {
-        "template": "Return.png",
-        "templThreshold": 0.85,
-        "histThreshold": 0.85,
-        "rearDelay": 1000,
-        "action": "clickSelf",
-        "next": [
-            "EnterInfrast",
-            "InfrastNotification",
-            "InfrastEnteredFlag",
-            "ReturnToInfrast"
-        ]
-    },
-    "Return": {
-        "algorithm": "justReturn",
-        "action": "clickRect",
-        "specificRect": [
-            20,
-            20,
-            135,
-            35
-        ],
-        "rearDelay": 1000
-    },
-    "EnterInfrast": {
-        "templThreshold": 0.85,
-        "histThreshold": 0.85,
-        "rearDelay": 3000,
-        "action": "clickSelf",
-        "next": [
-            "InfrastEnteredFlag"
-        ]
-    },
-    "InfrastEnteredFlag": {
-        "template": "InfrastOverview.png",
-        "templThreshold": 0.8,
-        "action": "doNothing",
-        "next": [
-            "InfrastNotification",
-            "InfrastSwipeToTheLeft"
-        ]
-    },
-    "InfrastSwipeToTheLeft": {
-        "algorithm": "justReturn",
-        "action": "swipeToTheLeft",
-        "next": [
-            "Stop"
-        ]
-    },
-    "Trade": {
-        "templThreshold": 0.8,
-        "cache": false,
-        "action": "clickSelf",
-        "rearDelay": 1000,
-        "next": [
-            "ManufacturingLeftBottom"
-        ]
-    },
-    "TradeMini": {
-        "templThreshold": 0.8,
-        "cache": false,
-        "action": "clickSelf",
-        "rearDelay": 1000,
-        "next": [
-            "ManufacturingLeftBottom"
-        ]
-    },
-    "Manufacturing": {
-        "templThreshold": 0.8,
-        "cache": false,
-        "action": "clickSelf",
-        "rearDelay": 1000,
-        "next": [
-            "ManufacturingLeftBottom"
-        ]
-    },
-    "ManufacturingMini": {
-        "templThreshold": 0.8,
-        "cache": false,
-        "action": "clickSelf",
-        "rearDelay": 1000,
-        "next": [
-            "ManufacturingLeftBottom"
-        ]
-    },
-    "ManufacturingLeftBottom": {
-        "Doc": "制造站点进去之后，左下角那个“中级作战记录 制造中”",
-        "algorithm": "justreturn",
-        "action": "clickRect",
-        "specificRect": [
-            1,
-            535,
-            525,
-            180
-        ],
-        "next": [
-            "Manufacturing1st"
-        ]
-    },
-    "Manufacturing1st": {
-        "Doc": "设施列表里第一个（第一个制造站或者贸易站）",
-        "algorithm": "justreturn",
-        "action": "clickRect",
-        "specificRect": [
-            1,
-            183,
-            220,
-            60
-        ],
-        "next": [
-            "Stop"
-        ]
-    },
-    "InfrastNotification": {
-        "templThreshold": 0.8,
-        "action": "clickSelf",
-        "next": [
-            "InfrastReward",
-            "InfrastExitReward"
-        ]
-    },
-    "InfrastReward": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "可收获",
-            "订单交付",
-            "信赖"
-        ],
-        "rearDelay": 1000,
-        "action": "clickSelf",
-        "roi": [
-            0,
-            600,
-            800,
-            118
-        ],
-        "cache": false,
-        "next": [
-            "InfrastReward",
-            "InfrastExitReward"
-        ]
-    },
-    "InfrastExitReward": {
-        "Doc": "干员疲劳、线索收集 是不能一键收获的，所以要先退出一键收获的界面，这里点击的是控制中枢左侧那一片空白的区域",
-        "algorithm": "justreturn",
-        "action": "clickRect",
-        "specificRect": [
-            250,
-            100,
-            380,
-            140
-        ],
-        "next": [
-            "Stop"
-        ]
-    },
-    "DroneAssist-MFG": {
-        "action": "clickSelf",
-        "cache": false,
-        "maxTimes": 1,
-        "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
-        "next": [
-            "DroneMax",
-            "DroneConfirm"
-        ]
-    },
-    "DroneAssist-Trade": {
-        "action": "clickSelf",
-        "cache": false,
-        "next": [
-            "DroneMax",
-            "DroneConfirm"
-        ]
-    },
-    "DroneMax": {
-        "action": "clickSelf",
-        "next": [
-            "DroneConfirm"
-        ]
-    },
-    "DroneConfirm": {
-        "action": "clickSelf",
-        "rearDelay": 3000,
-        "templThreshold": 0.8,
-        "next": [
-            "DeliverableOrder",
-            "DroneAssist-Trade-Stop",
-            "DroneAssist-MFG"
-        ]
-    },
-    "DeliverableOrder": {
-        "cache": false,
-        "action": "clickSelf",
-        "next": [
-            "DeliverableOrder",
-            "DroneAssist-Trade"
-        ]
-    },
-    "DroneAssist-Trade-Stop": {
-        "Doc": "如果找到了“无人机加速”按钮，却没有找到订单交付：说明上一次无人机没有把一个订单加速完成，也说明没有更多的无人机了，所以直接stop",
-        "template": "DroneAssist-Trade.png",
-        "action": "stop",
-        "cache": false
-    },
-    "InfrastSkillsUpper": {
-        "algorithm": "justReturn",
-        "roi": [
-            400,
-            280,
-            880,
-            80
-        ]
-    },
-    "InfrastSkillsLower": {
-        "algorithm": "justReturn",
-        "roi": [
-            400,
-            560,
-            880,
-            80
-        ]
-    },
-    "InfrastSkillsHash": {
-        "algorithm": "justReturn",
-        "rectMove_Doc": "基于笑脸的位置移动",
-        "rectMove": [
-            0,
-            -202,
-            74,
-            100
-        ]
-    },
-    "InfrastSmileyOnRest": {
-        "template": "SmileyOnRest.png",
-        "maskRange": [
-            100,
-            255
-        ],
-        "cache": false,
-        "templThreshold": 0.8
-    },
-    "InfrastSmileyOnWork": {
-        "template": "SmileyOnWork.png",
-        "maskRange": [
-            100,
-            255
-        ],
-        "cache": false,
-        "templThreshold": 0.8
-    },
-    "InfrastSmileyOnDistract": {
-        "template": "SmileyOnDistract.png",
-        "maskRange": [
-            100,
-            255
-        ],
-        "cache": false,
-        "templThreshold": 0.8
-    },
-    "InfrastSkills": {
-        "template": "empty.png",
-        "templThreshold": 0.9,
-        "histThreshold": 100,
-        "histThreshold_Doc": "该任务里的Hist阈值，是特化了拿来做灰度图平均值的，懒得重新写个字段了",
-        "cache": false,
-        "rectMove_Doc": "基于笑脸的位置移动",
-        "rectMove": [
-            -8,
-            -42,
-            82,
-            40
-        ],
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "InfrastOperListSwipeBegin": {
-        "algorithm": "justReturn",
-        "action": "clickRect",
-        "specificRect": [
-            1080,
-            200,
-            100,
-            300
-        ],
-        "preDelay": 1000,
-        "rearDelay": 300,
-        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
-    },
-    "InfrastOperListSwipeEnd": {
-        "algorithm": "justReturn",
-        "action": "clickRect",
-        "specificRect": [
-            700,
-            200,
-            100,
-            300
-        ]
-    },
-    "InfrastOperListSwipeToTheLeftBegin": {
-        "algorithm": "justReturn",
-        "action": "clickRect",
-        "specificRect": [
-            1080,
-            200,
-            200,
-            300
-        ],
-        "preDelay": 100,
-        "rearDelay": 2000,
-        "maxTimes": 2,
-        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
-    },
-    "InfrastOperListSwipeToTheLeftEnd": {
-        "algorithm": "justReturn",
-        "action": "clickRect",
-        "specificRect": [
-            400,
-            200,
-            200,
-            300
-        ]
-    },
-    "InfrastOperMoodProgressBar": {
-        "template": "empty.png",
-        "templThreshold": 160,
-        "histThreshold": 20,
-        "Doc": "这里的templThreshold，作为进度条最小灰度阈值使用；histThreshold作为进度条相邻点最大变化阈值使用。懒得重新弄个字段了",
-        "cache": false,
-        "rectMove_Doc": "基于笑脸的位置移动",
-        "rectMove": [
-            21,
-            8,
-            85,
-            4
-        ]
-    },
-    "InfrastMfg": {
-        "template": "Manufacturing.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "InfrastMfgMini": {
-        "template": "ManufacturingMini.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "InfrastTrade": {
-        "template": "Trade.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "InfrastTradeMini": {
-        "template": "TradeMini.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "InfrastPower": {
-        "template": "Power.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ],
-        "templThreshold": 0.95
-    },
-    "InfrastPowerMini": {
-        "template": "PowerMini.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ],
-        "templThreshold": 0.95
-    },
-    "InfrastDorm": {
-        "template": "Dorm.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ],
-        "templThreshold": 0.95
-    },
-    "InfrastDormMini": {
-        "template": "DormMini.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ],
-        "templThreshold": 0.95
-    },
-    "InfrastOffice": {
-        "template": "Office.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ],
-        "templThreshold": 0.95
-    },
-    "InfrastOfficeMini": {
-        "template": "OfficeMini.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ],
-        "templThreshold": 0.95
-    },
-    "InfrastReception": {
-        "template": "Reception.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ],
-        "templThreshold": 0.95
-    },
-    "InfrastReceptionMini": {
-        "template": "ReceptionMini.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ],
-        "templThreshold": 0.95
-    },
-    "InfrastControlCenter": {
-        "template": "ControlCenter.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ],
-        "templThreshold": 0.95
-    },
-    "InfrastControlCenterMini": {
-        "template": "ControlCenterMini.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ],
-        "templThreshold": 0.95
-    },
-    "InfrastStationedInfo": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "text": [
-            "进驻信息"
-        ],
-        "roi": [
-            0,
-            0,
-            150,
-            720
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastEnterOperList": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "text": [
-            "心情",
-            "休息中",
-            "工作中",
-            "进驻"
-        ],
-        "roi": [
-            800,
-            0,
-            480,
-            650
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastClearButton": {
-        "algorithm": "justReturn",
-        "action": "clickRect",
-        "specificRect": [
-            430,
-            655,
-            150,
-            40
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastConfirmButton": {
-        "action": "clickRect",
-        "specificRect": [
-            1105,
-            655,
-            150,
-            40
-        ],
-        "rearDelay": 500,
-        "Doc": "这个任务复用了，上半部分用来检测确认按钮点击成功没；下部部分用来点击",
-        "algorithm": "ocrDetect",
-        "cache": false,
-        "text": [
-            "正在提交",
-            "反馈至神经"
-        ],
-        "roi": [
-            700,
-            640,
-            300,
-            80
-        ]
-    },
-    "InfrastBottomLeftTab": {
-        "algorithm": "justReturn",
-        "action": "clickRect",
-        "specificRect": [
-            0,
-            540,
-            520,
-            180
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastDormConfirmButton": {
-        "template": "DormConfirm.png",
-        "action": "clickSelf",
-        "cache": false,
-        "rearDelay": 1000
-    },
-    "InfrastEnterFacility": {
-        "algorithm": "justReturn",
-        "rearDelay": 2000
-    },
-    "InfrastFacilityListTabMfg": {
-        "template": "FacilityListTabMfg.png",
-        "cache": false,
-        "roi": [
-            0,
-            0,
-            250,
-            720
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastFacilityListTabTrade": {
-        "template": "FacilityListTabTrade.png",
-        "cache": false,
-        "roi": [
-            0,
-            0,
-            250,
-            720
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastFlagCombatRecord": {
-        "template": "InfrastMfgDogFoodFlag.png",
-        "cache": false,
-        "roi": [
-            1000,
-            0,
-            280,
-            720
-        ]
-    },
-    "InfrastFlagPureGold": {
-        "template": "InfrastMfgPureGoldFlag.png",
-        "cache": false,
-        "roi": [
-            1000,
-            0,
-            280,
-            720
-        ]
-    },
-    "InfrastFlagMoney": {
-        "template": "InfrastTradeMoneyFlag.png",
-        "cache": false,
-        "roi": [
-            900,
-            500,
-            380,
-            220
-        ]
-    },
-    "InfrastAddOperatorMfgGentle": {
-        "template": "AddOperatorMfgGentle.png",
-        "cache": false,
-        "roi": [
-            200,
-            500,
-            500,
-            220
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastAddOperatorMfgAggressive": {
-        "template": "AddOperatorMfgAggressive.png",
-        "cache": false,
-        "roi": [
-            200,
-            500,
-            500,
-            100
-        ],
-        "rectMove": [
-            5,
-            50,
-            80,
-            80
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastAddOperatorTradeGentle": {
-        "template": "AddOperatorTradeGentle.png",
-        "cache": false,
-        "roi": [
-            200,
-            500,
-            500,
-            220
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastAddOperatorTradeAggressive": {
-        "template": "AddOperatorTradeAggressive.png",
-        "cache": false,
-        "roi": [
-            200,
-            500,
-            500,
-            100
-        ],
-        "rectMove": [
-            5,
-            50,
-            80,
-            80
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastAddOperatorReceptionGentle": {
-        "template": "AddOperatorReceptionGentle.png",
-        "cache": false,
-        "roi": [
-            0,
-            0,
-            300,
-            720
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastAddOperatorReceptionAggressive": {
-        "algorithm": "justReturn",
-        "action": "clickRect",
-        "specificRect": [
-            30,
-            200,
-            200,
-            300
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastOperSelected": {
-        "template": "empty.png",
-        "cache": false,
-        "templThreshold": 8000,
-        "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
-        "maskRange": [
-            95,
-            105
-        ],
-        "rectMove": [
-            0,
-            -230,
-            74,
-            283
-        ]
-    },
-    "InfrastOperOnShift": {
-        "template": "OnShift.png",
-        "cache": false,
-        "templThreshold": 0.8,
-        "rectMove": [
-            0,
-            -95,
-            70,
-            50
-        ]
-    },
-    "InfrastClueVacancyNo1": {
-        "template": "ClueVacancyNo1.png",
-        "cache": false,
-        "templThreshold": 0.75,
-        "roi": [
-            0,
-            100,
-            500,
-            250
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastClueVacancyNo2": {
-        "template": "ClueVacancyNo2.png",
-        "cache": false,
-        "templThreshold": 0.75,
-        "roi": [
-            200,
-            200,
-            500,
-            250
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastClueVacancyNo3": {
-        "template": "ClueVacancyNo3.png",
-        "cache": false,
-        "templThreshold": 0.75,
-        "roi": [
-            400,
-            100,
-            500,
-            250
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastClueVacancyNo4": {
-        "template": "ClueVacancyNo4.png",
-        "cache": false,
-        "templThreshold": 0.75,
-        "roi": [
-            650,
-            150,
-            500,
-            250
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastClueVacancyNo5": {
-        "template": "ClueVacancyNo5.png",
-        "cache": false,
-        "templThreshold": 0.75,
-        "roi": [
-            300,
-            420,
-            500,
-            250
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastClueVacancyNo6": {
-        "template": "ClueVacancyNo6.png",
-        "cache": false,
-        "templThreshold": 0.75,
-        "roi": [
-            500,
-            350,
-            500,
-            250
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastClueVacancyNo7": {
-        "template": "ClueVacancyNo7.png",
-        "cache": false,
-        "templThreshold": 0.75,
-        "roi": [
-            50,
-            350,
-            500,
-            250
-        ],
-        "rearDelay": 1000
-    },
-    "InfrastClue": {
-        "template": "Clue.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ],
-        "roi": [
-            800,
-            0,
-            480,
-            720
-        ]
-    },
-    "InfrastClueOnTheRightSwipeBegin": {
-        "algorithm": "justReturn",
-        "action": "clickRect",
-        "specificRect": [
-            900,
-            600,
-            300,
-            100
-        ],
-        "preDelay": 500,
-        "rearDelay": 500,
-        "maxTimes": 1,
-        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
-    },
-    "InfrastClueOnTheRightSwipeEnd": {
-        "algorithm": "justReturn",
-        "action": "clickRect",
-        "specificRect": [
-            900,
-            200,
-            300,
-            100
-        ]
-    },
-    "InfrastClueNew": {
-        "template": "ClueNew.png",
-        "action": "clickSelf",
-        "roi": [
-            1000,
-            0,
-            280,
-            720
-        ],
-        "cache": false,
-        "rectMove": [
-            -45,
-            15,
-            60,
-            60
-        ],
-        "next": [
-            "GetClue1",
-            "GetClue2"
-        ]
-    },
-    "GetClue1": {
-        "template": "GetClue1.png",
-        "action": "clickSelf",
-        "cache": false,
-        "next": [
-            "InfrastClueNew",
-            "CloseCluePage"
-        ],
-        "rearDelay": 2000
-    },
-    "GetClue2": {
-        "template": "GetClue2.png",
-        "action": "clickSelf",
-        "cache": false,
-        "next": [
-            "InfrastClueNew"
-        ],
-        "rearDelay": 2000
-    },
-    "CloseCluePage": {
-        "template": "CloseCluePage.png",
-        "action": "clickSelf",
-        "cache": false,
-        "next": [
-            "InfrastClueNew"
-        ],
-        "rearDelay": 1000
-    },
-    "UnlockClues": {
-        "template": "UnlockClues.png",
-        "action": "clickSelf",
-        "cache": false,
-        "rearDelay": 5000
-    }
+  "SanityBegin": {
+    "algorithm": "justreturn",
+    "action": "doNothing",
+    "next": [
+      "UsePrts",
+      "StartButton1",
+      "StartButton2",
+      "PRTS",
+      "UseMedicine",
+      "UseStone",
+      "EndOfAction",
+      "PrtsErrorConfirm",
+      "OfflineConfirm",
+      "StartToWakeUp",
+      "TodaysSupplies",
+      "CloseAnno",
+      "Terminal",
+      "LastBattle"
+    ]
+  },
+  "UsePrts": {
+    "templThreshold": 0.9,
+    "action": "clickSelf",
+    "next": [
+      "StartButton1"
+    ]
+  },
+  "StartButton1": {
+    "algorithm": "OcrDetect",
+    "text": [
+      "开始行动"
+    ],
+    "roi": [
+      800,
+      400,
+      480,
+      320
+    ],
+    "action": "clickSelf",
+    "next": [
+      "StartButton2",
+      "UseMedicine",
+      "UseStone"
+    ]
+  },
+  "StartButton2": {
+    "action": "clickSelf",
+    "rearDelay": 20000,
+    "templThreshold": 0.95,
+    "next": [
+      "PRTS",
+      "StartButton2",
+      "OfflineConfirm"
+    ]
+  },
+  "PRTS": {
+    "algorithm": "OcrDetect",
+    "text": [
+      "剩余可放置角色",
+      "接管作战"
+    ],
+    "roi": [
+      0,
+      530,
+      1279,
+      189
+    ],
+    "action": "doNothing",
+    "rearDelay": 5000,
+    "next": [
+      "PRTS",
+      "PrtsErrorConfirm",
+      "EndOfAction",
+      "OfflineConfirm",
+      "WaitAfterPRTS"
+    ]
+  },
+  "WaitAfterPRTS": {
+    "rearDelay": 3000,
+    "algorithm": "justreturn",
+    "action": "doNothing",
+    "next": [
+      "PRTS",
+      "EndOfAction",
+      "ClickCornerAfterPRTS"
+    ]
+  },
+  "ClickCornerAfterPRTS": {
+    "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+    "algorithm": "justreturn",
+    "action": "clickRect",
+    "specificRect": [
+      1000,
+      1,
+      270,
+      340
+    ],
+    "next": [
+      "EndOfAction",
+      "StartButton1",
+      "StartButton2",
+      "UseMedicine",
+      "UseStone",
+      "ClickCornerAfterPRTS"
+    ]
+  },
+  "EndOfAction": {
+    "algorithm": "OcrDetect",
+    "text": [
+      "行动结束"
+    ],
+    "preDelay": 5000,
+    "action": "stageDrops",
+    "action_Doc": "为“行动结束”特化的action，包含截图、识别关卡掉落等功能",
+    "next": [
+      "ClickCorner"
+    ]
+  },
+  "ClickCorner": {
+    "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+    "algorithm": "justreturn",
+    "action": "clickRect",
+    "rearDelay": 2000,
+    "specificRect": [
+      1000,
+      1,
+      270,
+      340
+    ],
+    "next": [
+      "StartButton1",
+      "StartButton2",
+      "UseMedicine",
+      "UseStone",
+      "EndOfAction"
+    ]
+  },
+  "UseMedicine": {
+    "action": "doNothing",
+    "next": [
+      "MedicineConfirm"
+    ]
+  },
+  "MedicineConfirm": {
+    "action": "clickSelf",
+    "maxTimes": 0,
+    "reduceOtherTimes": [
+      "StartButton1"
+    ],
+    "next": [
+      "StartButton1"
+    ]
+  },
+  "UseStone": {
+    "action": "doNothing",
+    "next": [
+      "StoneConfirm"
+    ]
+  },
+  "StoneConfirm": {
+    "template": "MedicineConfirm.png",
+    "action": "clickSelf",
+    "maxTimes": 0,
+    "reduceOtherTimes": [
+      "StartButton1"
+    ],
+    "next": [
+      "StartButton1"
+    ]
+  },
+  "PrtsErrorConfirm": {
+    "templThreshold": 0.8,
+    "cache": false,
+    "action": "doNothing",
+    "next": [
+      "AbandonAction",
+      "OfflineConfirmAfterBattle"
+    ]
+  },
+  "AbandonAction": {
+    "action": "clickSelf",
+    "cache": false,
+    "reduceOtherTimes": [
+      "StartButton1",
+      "StartButton2"
+    ],
+    "next": [
+      "EndOfAction",
+      "StartToWakeUp",
+      "OfflineConfirm"
+    ]
+  },
+  "OfflineConfirmAfterBattle": {
+    "template": "PopupConfirm.png",
+    "action": "clickSelf",
+    "cache": false,
+    "next": [
+      "PRTS",
+      "PrtsErrorConfirm",
+      "OfflineConfirm",
+      "StartToWakeUp"
+    ]
+  },
+  "OfflineConfirm": {
+    "action": "clickSelf",
+    "cache": false,
+    "reduceOtherTimes": [
+      "StartButton1",
+      "StartButton2"
+    ],
+    "next": [
+      "CloseAnno",
+      "StartToWakeUp",
+      "OfflineConfirm"
+    ]
+  },
+  "StartToWakeUp": {
+    "action": "clickSelf",
+    "cache": false,
+    "next": [
+      "Terminal",
+      "CloseAnno",
+      "OfflineConfirm",
+      "TodaysSupplies"
+    ]
+  },
+  "CloseAnno": {
+    "action": "clickSelf",
+    "cache": false,
+    "next": [
+      "Terminal",
+      "CloseAnno",
+      "TodaysSupplies"
+    ]
+  },
+  "Terminal": {
+    "cache": false,
+    "action": "clickSelf",
+    "next": [
+      "LastBattle",
+      "CloseAnno",
+      "TodaysSupplies"
+    ]
+  },
+  "TodaysSupplies": {
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "text": [
+      "今日配给"
+    ],
+    "action": "clickRect",
+    "specificRect": [
+      1000,
+      1,
+      270,
+      340
+    ],
+    "next": [
+      "CloseAnno",
+      "Terminal"
+    ]
+  },
+  "LastBattle": {
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "text": [
+      "上一次作战",
+      "前往上一次"
+    ],
+    "action": "clickSelf",
+    "next": [
+      "StartButton1"
+    ]
+  },
+  "VisitBegin": {
+    "algorithm": "justreturn",
+    "action": "doNothing",
+    "next": [
+      "Friends",
+      "FriendsList",
+      "StartToVisit",
+      "VisitNext",
+      "VisitNextBlack",
+      "ReturnToFriends"
+    ]
+  },
+  "ReturnToFriends": {
+    "template": "Return.png",
+    "templThreshold": 0.85,
+    "histThreshold": 0.85,
+    "rearDelay": 1000,
+    "action": "clickSelf",
+    "next": [
+      "Friends",
+      "ReturnToFriends"
+    ]
+  },
+  "Friends": {
+    "templThreshold": 0.85,
+    "action": "clickSelf",
+    "next": [
+      "FriendsList",
+      "Friends"
+    ]
+  },
+  "FriendsList": {
+    "action": "clickSelf",
+    "next": [
+      "StartToVisit",
+      "NoFriends"
+    ]
+  },
+  "NoFriends": {
+    "action": "doNothing",
+    "next": [
+      "ReturnToMall"
+    ]
+  },
+  "StartToVisit": {
+    "templThreshold": 0.8,
+    "action": "clickSelf",
+    "rearDelay": 3000,
+    "next": [
+      "VisitNext",
+      "VisitNextBlack",
+      "VisitNextOcr"
+    ]
+  },
+  "VisitNext": {
+    "action": "clickSelf",
+    "cache": false,
+    "rearDelay": 2000,
+    "roi": [
+      1080,
+      570,
+      195,
+      130
+    ],
+    "exceededNext": [
+      "ReturnToMall"
+    ],
+    "next": [
+      "VisitLimited",
+      "VisitNext",
+      "VisitNextBlack",
+      "VisitNextOcr"
+    ]
+  },
+  "VisitNextOcr": {
+    "algorithm": "OcrDetect",
+    "text": [
+      "访问下位"
+    ],
+    "action": "clickSelf",
+    "rearDelay": 2000,
+    "roi": [
+      1080,
+      570,
+      195,
+      130
+    ],
+    "exceededNext": [
+      "ReturnToMall"
+    ],
+    "next": [
+      "VisitLimited",
+      "VisitNext",
+      "VisitNextBlack",
+      "VisitNextOcr"
+    ]
+  },
+  "ReturnToMall": {
+    "rearDelay": 1000,
+    "template": "Return.png",
+    "templThreshold": 0.85,
+    "histThreshold": 0.85,
+    "action": "clickSelf",
+    "next": [
+      "Mall",
+      "ReturnToMallConfirm",
+      "ReturnToMall"
+    ]
+  },
+  "ReturnToMallConfirm": {
+    "template": "PopupConfirm.png",
+    "action": "clickSelf",
+    "rearDelay": 3000,
+    "next": [
+      "ReturnToMall"
+    ]
+  },
+  "Mall": {
+    "action": "clickSelf",
+    "next": [
+      "CreditStore",
+      "CreditStoreOcr"
+    ]
+  },
+  "CreditStore": {
+    "templThreshold": 0.85,
+    "rearDelay": 1000,
+    "action": "clickSelf",
+    "next": [
+      "CollectCredit",
+      "Stop"
+    ]
+  },
+  "CreditStoreOcr": {
+    "algorithm": "OcrDetect",
+    "text": [
+      "信用交易所"
+    ],
+    "roi": [
+      1000,
+      0,
+      280,
+      300
+    ],
+    "rearDelay": 1000,
+    "action": "clickSelf",
+    "next": [
+      "CollectCredit",
+      "Stop"
+    ]
+  },
+  "CollectCredit": {
+    "action": "clickSelf",
+    "rearDelay": 2000,
+    "next": [
+      "CloseCollectCredit"
+    ]
+  },
+  "CloseCollectCredit": {
+    "algorithm": "justReturn",
+    "action": "clickRect",
+    "specificRect": [
+      1000,
+      1,
+      270,
+      340
+    ],
+    "next": [
+      "Stop"
+    ]
+  },
+  "VisitLimited": {
+    "algorithm": "OcrDetect",
+    "text": [
+      "今日参与",
+      "已达上限"
+    ],
+    "action": "doNothing",
+    "roi": [
+      900,
+      50,
+      375,
+      140
+    ],
+    "next": [
+      "ReturnToMall"
+    ]
+  },
+  "VisitNextBlack": {
+    "action": "doNothing",
+    "roi": [
+      1080,
+      570,
+      195,
+      130
+    ],
+    "next": [
+      "ReturnToMall"
+    ]
+  },
+  "CreditShop-Commoditys": {
+    "template": "CreditPoint.png",
+    "rectMove": [
+      -60,
+      -180,
+      220,
+      220
+    ]
+  },
+  "CreditShop-SoldOut": {
+    "template": "SoldOut.png"
+  },
+  "CreditShop-BuyIt": {
+    "template": "BuyIt.png",
+    "preDelay": 1000,
+    "rearDelay": 1000
+  },
+  "CreditShop-NoMoney": {
+    "algorithm": "OcrDetect",
+    "text": [
+      "信用不足",
+      "无法购买"
+    ],
+    "roi": [
+      940,
+      60,
+      339,
+      110
+    ]
+  },
+  "CreditShop-NotToBuy": {
+    "algorithm": "OcrDetect",
+    "Doc": "这里的text，是子串搜索，即商品名中只要含有任一text，就不买",
+    "text": [
+      "碳",
+      "家具"
+    ],
+    "roi": [
+      0,
+      -30,
+      220,
+      70
+    ]
+  },
+  "Stop": {
+    "algorithm": "justreturn",
+    "action": "stop",
+    "next": []
+  },
+  "RecruitTime": {
+    "template": "RecruitTimeReduce.png",
+    "templThreshold": 0.89,
+    "action": "clickSelf",
+    "rectMove": [
+      7,
+      94,
+      129,
+      44
+    ]
+  },
+  "RecruitTags": {
+    "algorithm": "OcrDetect",
+    "text": [],
+    "roi": [
+      200,
+      200,
+      800,
+      500
+    ],
+    "ocrReplace": [
+      [
+        "沮击",
+        "狙击"
+      ],
+      [
+        "犯击",
+        "狙击"
+      ],
+      [
+        "泪击",
+        "狙击"
+      ],
+      [
+        "都出",
+        "输出"
+      ],
+      [
+        "都乐",
+        "输出"
+      ],
+      [
+        "抓出",
+        "输出"
+      ],
+      [
+        "都任",
+        "输出"
+      ],
+      [
+        "新于",
+        "新手"
+      ],
+      [
+        "防拍",
+        "防护"
+      ]
+    ]
+  },
+  "OperatorBegin": {
+    "algorithm": "justreturn",
+    "action": "doNothing",
+    "next": [
+      "EnterOperator",
+      "ReturnToOperator"
+    ]
+  },
+  "EnterOperator": {
+    "rearDelay": 1000,
+    "templThreshold": 0.7,
+    "action": "clickSelf",
+    "next": [
+      "Stop"
+    ]
+  },
+  "ReturnToOperator": {
+    "template": "Return.png",
+    "templThreshold": 0.85,
+    "histThreshold": 0.85,
+    "rearDelay": 1000,
+    "action": "clickSelf",
+    "next": [
+      "EnterOperator",
+      "ReturnToOperator"
+    ]
+  },
+  "InfrastBegin": {
+    "algorithm": "justreturn",
+    "action": "doNothing",
+    "next": [
+      "EnterInfrast",
+      "InfrastEnteredFlag",
+      "InfrastNotification",
+      "ReturnToInfrast"
+    ]
+  },
+  "ReturnToInfrast": {
+    "template": "Return.png",
+    "templThreshold": 0.85,
+    "histThreshold": 0.85,
+    "rearDelay": 1000,
+    "action": "clickSelf",
+    "next": [
+      "EnterInfrast",
+      "InfrastNotification",
+      "InfrastEnteredFlag",
+      "ReturnToInfrast"
+    ]
+  },
+  "Return": {
+    "algorithm": "justReturn",
+    "action": "clickRect",
+    "specificRect": [
+      20,
+      20,
+      135,
+      35
+    ],
+    "rearDelay": 1000
+  },
+  "EnterInfrast": {
+    "templThreshold": 0.85,
+    "histThreshold": 0.85,
+    "rearDelay": 3000,
+    "action": "clickSelf",
+    "next": [
+      "InfrastEnteredFlag"
+    ]
+  },
+  "InfrastEnteredFlag": {
+    "template": "InfrastOverview.png",
+    "templThreshold": 0.8,
+    "action": "doNothing",
+    "next": [
+      "InfrastNotification",
+      "InfrastSwipeToTheLeft"
+    ]
+  },
+  "InfrastSwipeToTheLeft": {
+    "algorithm": "justReturn",
+    "action": "swipeToTheLeft",
+    "next": [
+      "Stop"
+    ]
+  },
+  "Trade": {
+    "templThreshold": 0.8,
+    "cache": false,
+    "action": "clickSelf",
+    "rearDelay": 1000,
+    "next": [
+      "ManufacturingLeftBottom"
+    ]
+  },
+  "TradeMini": {
+    "templThreshold": 0.8,
+    "cache": false,
+    "action": "clickSelf",
+    "rearDelay": 1000,
+    "next": [
+      "ManufacturingLeftBottom"
+    ]
+  },
+  "Manufacturing": {
+    "templThreshold": 0.8,
+    "cache": false,
+    "action": "clickSelf",
+    "rearDelay": 1000,
+    "next": [
+      "ManufacturingLeftBottom"
+    ]
+  },
+  "ManufacturingMini": {
+    "templThreshold": 0.8,
+    "cache": false,
+    "action": "clickSelf",
+    "rearDelay": 1000,
+    "next": [
+      "ManufacturingLeftBottom"
+    ]
+  },
+  "ManufacturingLeftBottom": {
+    "Doc": "制造站点进去之后，左下角那个“中级作战记录 制造中”",
+    "algorithm": "justreturn",
+    "action": "clickRect",
+    "specificRect": [
+      1,
+      535,
+      525,
+      180
+    ],
+    "next": [
+      "Manufacturing1st"
+    ]
+  },
+  "Manufacturing1st": {
+    "Doc": "设施列表里第一个（第一个制造站或者贸易站）",
+    "algorithm": "justreturn",
+    "action": "clickRect",
+    "specificRect": [
+      1,
+      183,
+      220,
+      60
+    ],
+    "next": [
+      "Stop"
+    ]
+  },
+  "InfrastNotification": {
+    "templThreshold": 0.8,
+    "action": "clickSelf",
+    "next": [
+      "InfrastReward",
+      "InfrastExitReward"
+    ]
+  },
+  "InfrastReward": {
+    "algorithm": "OcrDetect",
+    "text": [
+      "可收获",
+      "订单交付",
+      "信赖"
+    ],
+    "rearDelay": 1000,
+    "action": "clickSelf",
+    "roi": [
+      0,
+      600,
+      800,
+      118
+    ],
+    "cache": false,
+    "next": [
+      "InfrastReward",
+      "InfrastExitReward"
+    ]
+  },
+  "InfrastExitReward": {
+    "Doc": "干员疲劳、线索收集 是不能一键收获的，所以要先退出一键收获的界面，这里点击的是控制中枢左侧那一片空白的区域",
+    "algorithm": "justreturn",
+    "action": "clickRect",
+    "specificRect": [
+      250,
+      100,
+      380,
+      140
+    ],
+    "next": [
+      "Stop"
+    ]
+  },
+  "DroneAssist-MFG": {
+    "action": "clickSelf",
+    "cache": false,
+    "maxTimes": 1,
+    "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
+    "next": [
+      "DroneMax",
+      "DroneConfirm"
+    ]
+  },
+  "DroneAssist-Trade": {
+    "action": "clickSelf",
+    "cache": false,
+    "next": [
+      "DroneMax",
+      "DroneConfirm"
+    ]
+  },
+  "DroneMax": {
+    "action": "clickSelf",
+    "next": [
+      "DroneConfirm"
+    ]
+  },
+  "DroneConfirm": {
+    "action": "clickSelf",
+    "rearDelay": 3000,
+    "templThreshold": 0.8,
+    "next": [
+      "DeliverableOrder",
+      "DroneAssist-Trade-Stop",
+      "DroneAssist-MFG"
+    ]
+  },
+  "DeliverableOrder": {
+    "cache": false,
+    "action": "clickSelf",
+    "next": [
+      "DeliverableOrder",
+      "DroneAssist-Trade"
+    ]
+  },
+  "DroneAssist-Trade-Stop": {
+    "Doc": "如果找到了“无人机加速”按钮，却没有找到订单交付：说明上一次无人机没有把一个订单加速完成，也说明没有更多的无人机了，所以直接stop",
+    "template": "DroneAssist-Trade.png",
+    "action": "stop",
+    "cache": false
+  },
+  "InfrastSkillsUpper": {
+    "algorithm": "justReturn",
+    "roi": [
+      400,
+      280,
+      880,
+      80
+    ]
+  },
+  "InfrastSkillsLower": {
+    "algorithm": "justReturn",
+    "roi": [
+      400,
+      560,
+      880,
+      80
+    ]
+  },
+  "InfrastSkillsHash": {
+    "algorithm": "justReturn",
+    "rectMove_Doc": "基于笑脸的位置移动",
+    "rectMove": [
+      0,
+      -202,
+      74,
+      100
+    ]
+  },
+  "InfrastSmileyOnRest": {
+    "template": "SmileyOnRest.png",
+    "maskRange": [
+      100,
+      255
+    ],
+    "cache": false,
+    "templThreshold": 0.8
+  },
+  "InfrastSmileyOnWork": {
+    "template": "SmileyOnWork.png",
+    "maskRange": [
+      100,
+      255
+    ],
+    "cache": false,
+    "templThreshold": 0.8
+  },
+  "InfrastSmileyOnDistract": {
+    "template": "SmileyOnDistract.png",
+    "maskRange": [
+      100,
+      255
+    ],
+    "cache": false,
+    "templThreshold": 0.8
+  },
+  "InfrastSkills": {
+    "template": "empty.png",
+    "templThreshold": 0.9,
+    "histThreshold": 100,
+    "histThreshold_Doc": "该任务里的Hist阈值，是特化了拿来做灰度图平均值的，懒得重新写个字段了",
+    "cache": false,
+    "rectMove_Doc": "基于笑脸的位置移动",
+    "rectMove": [
+      -8,
+      -42,
+      82,
+      40
+    ],
+    "maskRange": [
+      1,
+      255
+    ]
+  },
+  "InfrastOperListSwipeBegin": {
+    "algorithm": "justReturn",
+    "action": "clickRect",
+    "specificRect": [
+      1080,
+      200,
+      100,
+      300
+    ],
+    "preDelay": 1000,
+    "rearDelay": 300,
+    "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
+  },
+  "InfrastOperListSwipeEnd": {
+    "algorithm": "justReturn",
+    "action": "clickRect",
+    "specificRect": [
+      700,
+      200,
+      100,
+      300
+    ]
+  },
+  "InfrastOperListSwipeToTheLeftBegin": {
+    "algorithm": "justReturn",
+    "action": "clickRect",
+    "specificRect": [
+      1080,
+      200,
+      200,
+      300
+    ],
+    "preDelay": 100,
+    "rearDelay": 2000,
+    "maxTimes": 2,
+    "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
+  },
+  "InfrastOperListSwipeToTheLeftEnd": {
+    "algorithm": "justReturn",
+    "action": "clickRect",
+    "specificRect": [
+      400,
+      200,
+      200,
+      300
+    ]
+  },
+  "InfrastOperMoodProgressBar": {
+    "template": "empty.png",
+    "templThreshold": 160,
+    "histThreshold": 20,
+    "Doc": "这里的templThreshold，作为进度条最小灰度阈值使用；histThreshold作为进度条相邻点最大变化阈值使用。懒得重新弄个字段了",
+    "cache": false,
+    "rectMove_Doc": "基于笑脸的位置移动",
+    "rectMove": [
+      21,
+      8,
+      85,
+      4
+    ]
+  },
+  "InfrastMfg": {
+    "template": "Manufacturing.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ]
+  },
+  "InfrastMfgMini": {
+    "template": "ManufacturingMini.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ]
+  },
+  "InfrastTrade": {
+    "template": "Trade.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ]
+  },
+  "InfrastTradeMini": {
+    "template": "TradeMini.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ]
+  },
+  "InfrastPower": {
+    "template": "Power.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ],
+    "templThreshold": 0.95
+  },
+  "InfrastPowerMini": {
+    "template": "PowerMini.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ],
+    "templThreshold": 0.95
+  },
+  "InfrastDorm": {
+    "template": "Dorm.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ],
+    "templThreshold": 0.95
+  },
+  "InfrastDormMini": {
+    "template": "DormMini.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ],
+    "templThreshold": 0.95
+  },
+  "InfrastOffice": {
+    "template": "Office.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ],
+    "templThreshold": 0.95
+  },
+  "InfrastOfficeMini": {
+    "template": "OfficeMini.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ],
+    "templThreshold": 0.95
+  },
+  "InfrastReception": {
+    "template": "Reception.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ],
+    "templThreshold": 0.95
+  },
+  "InfrastReceptionMini": {
+    "template": "ReceptionMini.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ],
+    "templThreshold": 0.95
+  },
+  "InfrastControlCenter": {
+    "template": "ControlCenter.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ],
+    "templThreshold": 0.95
+  },
+  "InfrastControlCenterMini": {
+    "template": "ControlCenterMini.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ],
+    "templThreshold": 0.95
+  },
+  "InfrastStationedInfo": {
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "text": [
+      "进驻信息"
+    ],
+    "roi": [
+      0,
+      0,
+      150,
+      720
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastEnterOperList": {
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "text": [
+      "心情",
+      "休息中",
+      "工作中",
+      "进驻"
+    ],
+    "roi": [
+      800,
+      0,
+      480,
+      650
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastClearButton": {
+    "algorithm": "justReturn",
+    "action": "clickRect",
+    "specificRect": [
+      430,
+      655,
+      150,
+      40
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastConfirmButton": {
+    "action": "clickRect",
+    "specificRect": [
+      1105,
+      655,
+      150,
+      40
+    ],
+    "rearDelay": 500,
+    "Doc": "这个任务复用了，上半部分用来检测确认按钮点击成功没；下部部分用来点击",
+    "algorithm": "ocrDetect",
+    "cache": false,
+    "text": [
+      "正在提交",
+      "反馈至神经"
+    ],
+    "roi": [
+      700,
+      640,
+      300,
+      80
+    ]
+  },
+  "InfrastBottomLeftTab": {
+    "algorithm": "justReturn",
+    "action": "clickRect",
+    "specificRect": [
+      0,
+      540,
+      520,
+      180
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastDormConfirmButton": {
+    "template": "DormConfirm.png",
+    "action": "clickSelf",
+    "cache": false,
+    "rearDelay": 1000
+  },
+  "InfrastEnterFacility": {
+    "algorithm": "justReturn",
+    "rearDelay": 2000
+  },
+  "InfrastFacilityListTabMfg": {
+    "template": "FacilityListTabMfg.png",
+    "cache": false,
+    "roi": [
+      0,
+      0,
+      250,
+      720
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastFacilityListTabTrade": {
+    "template": "FacilityListTabTrade.png",
+    "cache": false,
+    "roi": [
+      0,
+      0,
+      250,
+      720
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastFlagCombatRecord": {
+    "template": "InfrastMfgDogFoodFlag.png",
+    "cache": false,
+    "roi": [
+      1000,
+      0,
+      280,
+      720
+    ]
+  },
+  "InfrastFlagPureGold": {
+    "template": "InfrastMfgPureGoldFlag.png",
+    "cache": false,
+    "roi": [
+      1000,
+      0,
+      280,
+      720
+    ]
+  },
+  "InfrastFlagMoney": {
+    "template": "InfrastTradeMoneyFlag.png",
+    "cache": false,
+    "roi": [
+      900,
+      500,
+      380,
+      220
+    ]
+  },
+  "InfrastAddOperatorMfgGentle": {
+    "template": "AddOperatorMfgGentle.png",
+    "cache": false,
+    "roi": [
+      200,
+      500,
+      500,
+      220
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastAddOperatorMfgAggressive": {
+    "template": "AddOperatorMfgAggressive.png",
+    "cache": false,
+    "roi": [
+      200,
+      500,
+      500,
+      100
+    ],
+    "rectMove": [
+      5,
+      50,
+      80,
+      80
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastAddOperatorTradeGentle": {
+    "template": "AddOperatorTradeGentle.png",
+    "cache": false,
+    "roi": [
+      200,
+      500,
+      500,
+      220
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastAddOperatorTradeAggressive": {
+    "template": "AddOperatorTradeAggressive.png",
+    "cache": false,
+    "roi": [
+      200,
+      500,
+      500,
+      100
+    ],
+    "rectMove": [
+      5,
+      50,
+      80,
+      80
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastAddOperatorReceptionGentle": {
+    "template": "AddOperatorReceptionGentle.png",
+    "cache": false,
+    "roi": [
+      0,
+      0,
+      300,
+      720
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastAddOperatorReceptionAggressive": {
+    "algorithm": "justReturn",
+    "action": "clickRect",
+    "specificRect": [
+      30,
+      200,
+      200,
+      300
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastOperSelected": {
+    "template": "empty.png",
+    "cache": false,
+    "templThreshold": 8000,
+    "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
+    "maskRange": [
+      95,
+      105
+    ],
+    "rectMove": [
+      0,
+      -230,
+      74,
+      283
+    ]
+  },
+  "InfrastOperOnShift": {
+    "template": "OnShift.png",
+    "cache": false,
+    "templThreshold": 0.8,
+    "rectMove": [
+      0,
+      -95,
+      70,
+      50
+    ]
+  },
+  "InfrastClueVacancyNo1": {
+    "template": "ClueVacancyNo1.png",
+    "cache": false,
+    "templThreshold": 0.75,
+    "roi": [
+      0,
+      100,
+      500,
+      250
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastClueVacancyNo2": {
+    "template": "ClueVacancyNo2.png",
+    "cache": false,
+    "templThreshold": 0.75,
+    "roi": [
+      200,
+      200,
+      500,
+      250
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastClueVacancyNo3": {
+    "template": "ClueVacancyNo3.png",
+    "cache": false,
+    "templThreshold": 0.75,
+    "roi": [
+      400,
+      100,
+      500,
+      250
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastClueVacancyNo4": {
+    "template": "ClueVacancyNo4.png",
+    "cache": false,
+    "templThreshold": 0.75,
+    "roi": [
+      650,
+      150,
+      500,
+      250
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastClueVacancyNo5": {
+    "template": "ClueVacancyNo5.png",
+    "cache": false,
+    "templThreshold": 0.75,
+    "roi": [
+      300,
+      420,
+      500,
+      250
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastClueVacancyNo6": {
+    "template": "ClueVacancyNo6.png",
+    "cache": false,
+    "templThreshold": 0.75,
+    "roi": [
+      500,
+      350,
+      500,
+      250
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastClueVacancyNo7": {
+    "template": "ClueVacancyNo7.png",
+    "cache": false,
+    "templThreshold": 0.75,
+    "roi": [
+      50,
+      350,
+      500,
+      250
+    ],
+    "rearDelay": 1000
+  },
+  "InfrastClue": {
+    "template": "Clue.png",
+    "cache": false,
+    "maskRange": [
+      1,
+      255
+    ],
+    "roi": [
+      800,
+      0,
+      480,
+      720
+    ]
+  },
+  "InfrastClueOnTheRightSwipeBegin": {
+    "algorithm": "justReturn",
+    "action": "clickRect",
+    "specificRect": [
+      900,
+      600,
+      300,
+      100
+    ],
+    "preDelay": 500,
+    "rearDelay": 500,
+    "maxTimes": 1,
+    "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
+  },
+  "InfrastClueOnTheRightSwipeEnd": {
+    "algorithm": "justReturn",
+    "action": "clickRect",
+    "specificRect": [
+      900,
+      200,
+      300,
+      100
+    ]
+  },
+  "InfrastClueNew": {
+    "template": "ClueNew.png",
+    "action": "clickSelf",
+    "roi": [
+      1000,
+      0,
+      280,
+      720
+    ],
+    "cache": false,
+    "rectMove": [
+      -45,
+      15,
+      60,
+      60
+    ],
+    "next": [
+      "GetClue1",
+      "GetClue2"
+    ]
+  },
+  "GetClue1": {
+    "template": "GetClue1.png",
+    "action": "clickSelf",
+    "cache": false,
+    "next": [
+      "InfrastClueNew",
+      "CloseCluePage"
+    ],
+    "rearDelay": 2000
+  },
+  "GetClue2": {
+    "template": "GetClue2.png",
+    "action": "clickSelf",
+    "cache": false,
+    "next": [
+      "InfrastClueNew"
+    ],
+    "rearDelay": 2000
+  },
+  "CloseCluePage": {
+    "template": "CloseCluePage.png",
+    "action": "clickSelf",
+    "cache": false,
+    "next": [
+      "InfrastClueNew"
+    ],
+    "rearDelay": 1000
+  },
+  "UnlockClues": {
+    "template": "UnlockClues.png",
+    "action": "clickSelf",
+    "cache": false,
+    "rearDelay": 5000
+  }
 }

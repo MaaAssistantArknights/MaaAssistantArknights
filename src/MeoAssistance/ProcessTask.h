@@ -1,9 +1,10 @@
-﻿#pragma once
+#pragma once
 
 #include "AbstractTask.h"
 #include "AsstDef.h"
 
-namespace asst {
+namespace asst
+{
     // 流程任务，按照配置文件里的设置的流程运行
     class ProcessTask : public AbstractTask
     {
@@ -13,7 +14,8 @@ namespace asst {
 
         virtual bool run() override;
 
-        virtual void set_tasks(const std::vector<std::string>& cur_tasks_name) {
+        virtual void set_tasks(const std::vector<std::string>& cur_tasks_name)
+        {
             m_cur_tasks_name = cur_tasks_name;
         }
 

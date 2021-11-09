@@ -1,4 +1,4 @@
-﻿#include "InfrastPowerTask.h"
+#include "InfrastPowerTask.h"
 
 #include "Controller.h"
 
@@ -7,8 +7,8 @@ const std::string asst::InfrastPowerTask::FacilityName = "Power";
 bool asst::InfrastPowerTask::run()
 {
     json::value task_start_json = json::object{
-        { "task_type",  "InfrastPowerTask" },
-        { "task_chain", m_task_chain}
+        { "task_type", "InfrastPowerTask" },
+        { "task_chain", m_task_chain }
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
@@ -41,13 +41,12 @@ bool asst::InfrastPowerTask::run()
             }
 
             auto find_iter = std::find_if(m_all_available_opers.begin(), m_all_available_opers.end(),
-                [&](const InfrastOperSkillInfo& info) -> bool {
-                    return info.selected;
-                });
+                                          [&](const InfrastOperSkillInfo& info) -> bool {
+                                              return info.selected;
+                                          });
             bool need_shift = true;
             if (find_iter != m_all_available_opers.end()) {
-                switch (m_work_mode)
-                {
+                switch (m_work_mode) {
                 case InfrastWorkMode::Gentle:
                     // 如果之前有干员在，那就不换人，直接退出
                     m_all_available_opers.erase(find_iter);

@@ -1,4 +1,4 @@
-﻿#include "InfrastClueImageAnalyzer.h"
+#include "InfrastClueImageAnalyzer.h"
 
 #include "MultiMatchImageAnalyzer.h"
 #include "Resource.h"
@@ -19,7 +19,7 @@ bool asst::InfrastClueImageAnalyzer::clue_detect()
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("InfrastClue"));
     clue_analyzer.set_task_info(*task_ptr);
-    clue_analyzer.set_roi(m_roi);   // 改任务以外部设置的roi为准
+    clue_analyzer.set_roi(m_roi); // 改任务以外部设置的roi为准
     if (!clue_analyzer.analyze()) {
         return false;
     }

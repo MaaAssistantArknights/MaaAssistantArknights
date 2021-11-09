@@ -1,8 +1,9 @@
-﻿#pragma once
+#pragma once
 
 #include <string>
 
-namespace asst {
+namespace asst
+{
     class AbstractResource
     {
     public:

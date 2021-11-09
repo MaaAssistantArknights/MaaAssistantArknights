@@ -1,12 +1,13 @@
-﻿#pragma once
+#pragma once
 
 #include "AbstractConfiger.h"
 
+#include <memory>
 #include <unordered_map>
 #include <unordered_set>
-#include <memory>
 
-namespace asst {
+namespace asst
+{
     struct TaskInfo;
 
     class TaskData : public AbstractConfiger

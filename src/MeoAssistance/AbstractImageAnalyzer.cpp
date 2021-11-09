@@ -1,16 +1,14 @@
-﻿#include "AbstractImageAnalyzer.h"
+#include "AbstractImageAnalyzer.h"
 
 #include "AsstUtils.hpp"
 
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
-    : m_image(image)
-    , m_roi(empty_rect_to_full(Rect(), image))
+    : m_image(image), m_roi(empty_rect_to_full(Rect(), image))
 #ifdef LOG_TRACE
     ,
     m_image_draw(image.clone())
 #endif
-{
-}
+{}
 
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi)
     : m_image(image),

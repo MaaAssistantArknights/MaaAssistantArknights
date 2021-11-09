@@ -1,12 +1,14 @@
-﻿#pragma once
+#pragma once
 
+#include <Windows.h>
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <Windows.h>
 
-namespace asst {
-    namespace utils {
+namespace asst
+{
+    namespace utils
+    {
         static std::string get_cur_dir()
         {
             static std::string cur_dir;
@@ -43,8 +45,7 @@ namespace asst {
             std::string::size_type pos2 = str.find(delimiter);
             std::vector<std::string> result;
 
-            while (std::string::npos != pos2)
-            {
+            while (std::string::npos != pos2) {
                 result.emplace_back(str.substr(pos1, pos2 - pos1));
 
                 pos1 = pos2 + delimiter.size();
@@ -62,8 +63,8 @@ namespace asst {
             GetLocalTime(&curtime);
             char buff[64] = { 0 };
             sprintf_s(buff, "%04d-%02d-%02d %02d:%02d:%02d.%03d",
-                curtime.wYear, curtime.wMonth, curtime.wDay,
-                curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds);
+                      curtime.wYear, curtime.wMonth, curtime.wDay,
+                      curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds);
             return buff;
         }
 
@@ -79,8 +80,10 @@ namespace asst {
             memset(str, 0, len + 1);
             WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, NULL, NULL);
             std::string strTemp = str;
-            if (wstr) delete[] wstr;
-            if (str) delete[] str;
+            if (wstr)
+                delete[] wstr;
+            if (str)
+                delete[] str;
             return strTemp;
         }
 
@@ -96,12 +99,14 @@ namespace asst {
             memset(szGBK, 0, len + 1);
             WideCharToMultiByte(CP_ACP, 0, wszGBK, -1, szGBK, len, NULL, NULL);
             std::string strTemp(szGBK);
-            if (wszGBK) delete[] wszGBK;
-            if (szGBK) delete[] szGBK;
+            if (wszGBK)
+                delete[] wszGBK;
+            if (szGBK)
+                delete[] szGBK;
             return strTemp;
         }
 
-        template<typename RetTy, typename ArgType>
+        template <typename RetTy, typename ArgType>
         constexpr inline RetTy make_rect(const ArgType& rect)
         {
             return RetTy{ rect.x, rect.y, rect.width, rect.height };
@@ -123,10 +128,7 @@ namespace asst {
             constexpr static uchar Bom_1 = 0xBB;
             constexpr static uchar Bom_2 = 0xBF;
 
-            if (str.size() >= 3
-                && static_cast<uchar>(str.at(0)) == Bom_0
-                && static_cast<uchar>(str.at(1)) == Bom_1
-                && static_cast<uchar>(str.at(2)) == Bom_2) {
+            if (str.size() >= 3 && static_cast<uchar>(str.at(0)) == Bom_0 && static_cast<uchar>(str.at(1)) == Bom_1 && static_cast<uchar>(str.at(2)) == Bom_2) {
                 str.assign(str.begin() + 3, str.end());
                 return str;
             }
@@ -141,9 +143,7 @@ namespace asst {
             hash2.insert(hash2.begin(), HammingFlags - hash2.size(), '0');
             int dist = 0;
             for (int i = 0; i < HammingFlags; i = i + 16) {
-                unsigned long long x
-                    = strtoull(hash1.substr(i, 16).c_str(), NULL, 16)
-                    ^ strtoull(hash2.substr(i, 16).c_str(), NULL, 16);
+                unsigned long long x = strtoull(hash1.substr(i, 16).c_str(), NULL, 16) ^ strtoull(hash2.substr(i, 16).c_str(), NULL, 16);
                 while (x) {
                     dist++;
                     x = x & (x - 1);

@@ -1,13 +1,13 @@
-﻿#include "PenguinUploader.h"
+#include "PenguinUploader.h"
 
 #include <Windows.h>
 
 #include <json.h>
 
+#include "AsstUtils.hpp"
+#include "Logger.hpp"
 #include "Resource.h"
 #include "Version.h"
-#include "Logger.hpp"
-#include "AsstUtils.hpp"
 
 bool asst::PenguinUploader::upload(const std::string& rec_res)
 {

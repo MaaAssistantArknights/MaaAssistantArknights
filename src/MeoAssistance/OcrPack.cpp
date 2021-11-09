@@ -1,15 +1,14 @@
-﻿#include "OcrPack.h"
+#include "OcrPack.h"
 
-#include <opencv2/opencv.hpp>
 #include <OcrLiteOnnx/OcrLiteCaller.h>
+#include <opencv2/opencv.hpp>
 
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 
 asst::OcrPack::OcrPack()
     : m_ocr_ptr(std::make_unique<OcrLiteCaller>())
-{
-}
+{}
 
 asst::OcrPack::~OcrPack() = default;
 
@@ -45,9 +44,9 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, cons
     constexpr bool mostAngle = false;
 
     OcrResult ocr_results = m_ocr_ptr->detect(image,
-        padding, maxSideLen,
-        boxScoreThresh, boxThresh,
-        unClipRatio, doAngle, mostAngle);
+                                              padding, maxSideLen,
+                                              boxScoreThresh, boxThresh,
+                                              unClipRatio, doAngle, mostAngle);
 
     std::vector<TextRect> result;
     std::string log_str_raw;

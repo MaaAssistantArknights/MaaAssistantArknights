@@ -1,4 +1,4 @@
-﻿#include "TaskData.h"
+#include "TaskData.h"
 
 #include <algorithm>
 
@@ -56,8 +56,7 @@ bool asst::TaskData::set_param(const std::string& type, const std::string& param
 const std::shared_ptr<asst::TaskInfo> asst::TaskData::task_ptr(const std::string& name) const noexcept
 {
     if (auto iter = m_all_tasks_info.find(name);
-        iter != m_all_tasks_info.cend())
-    {
+        iter != m_all_tasks_info.cend()) {
         return iter->second;
     }
     else {
@@ -109,8 +108,7 @@ bool asst::TaskData::parse(const json::value& json)
         case AlgorithmType::JustReturn:
             task_info_ptr = std::make_shared<TaskInfo>();
             break;
-        case AlgorithmType::MatchTemplate:
-        {
+        case AlgorithmType::MatchTemplate: {
             auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
             match_task_info_ptr->templ_name = task_json.get("template", name + ".png");
             m_templ_required.emplace(match_task_info_ptr->templ_name);
@@ -129,10 +127,8 @@ bool asst::TaskData::parse(const json::value& json)
             }
 
             task_info_ptr = match_task_info_ptr;
-        }
-        break;
-        case AlgorithmType::OcrDetect:
-        {
+        } break;
+        case AlgorithmType::OcrDetect: {
             auto ocr_task_info_ptr = std::make_shared<OcrTaskInfo>();
             for (const json::value& text : task_json.at("text").as_array()) {
                 ocr_task_info_ptr->text.emplace_back(text.as_string());
@@ -145,8 +141,7 @@ bool asst::TaskData::parse(const json::value& json)
             }
             ocr_task_info_ptr->cache = task_json.get("cache", true);
             task_info_ptr = ocr_task_info_ptr;
-        }
-        break;
+        } break;
         }
         task_info_ptr->algorithm = algorithm;
         task_info_ptr->name = name;

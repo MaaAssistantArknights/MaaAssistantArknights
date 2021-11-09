@@ -1,7 +1,7 @@
-﻿using Stylet;
-using StyletIoC;
 using System.Windows;
 using System.Windows.Threading;
+using Stylet;
+using StyletIoC;
 
 namespace MeoAsstGui
 {

@@ -1,27 +1,27 @@
-﻿#include "Assistance.h"
+#include "Assistance.h"
 
-#include <time.h>
 #include <filesystem>
+#include <time.h>
 
 #include <json.h>
 #include <opencv2/opencv.hpp>
 
+#include "AsstUtils.hpp"
 #include "Controller.h"
 #include "Logger.hpp"
-#include "AsstUtils.hpp"
 #include "Resource.h"
 
+#include "CreditShoppingTask.h"
+#include "InfrastDormTask.h"
+#include "InfrastInfoTask.h"
+#include "InfrastMfgTask.h"
+#include "InfrastOfficeTask.h"
+#include "InfrastPowerTask.h"
+#include "InfrastReceptionTask.h"
+#include "InfrastTradeTask.h"
 #include "ProcessTask.h"
 #include "RecruitTask.h"
 #include "ScreenCaptureTask.h"
-#include "CreditShoppingTask.h"
-#include "InfrastDormTask.h"
-#include "InfrastMfgTask.h"
-#include "InfrastTradeTask.h"
-#include "InfrastPowerTask.h"
-#include "InfrastOfficeTask.h"
-#include "InfrastInfoTask.h"
-#include "InfrastReceptionTask.h"
 
 using namespace asst;
 
@@ -418,7 +418,7 @@ void Assistance::working_proc()
 
             auto& delay = resource.cfg().get_options().task_delay;
             m_condvar.wait_until(lock, start_time + std::chrono::milliseconds(delay),
-                [&]() -> bool { return m_thread_idle; });
+                                 [&]() -> bool { return m_thread_idle; });
         }
         else {
             m_thread_idle = true;
@@ -472,7 +472,7 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
         [[fallthrough]];
     case AsstMsg::AppendTask:
         p_this->append_task(more_detail, true);
-        return;	// 这俩消息Assistance会新增任务，外部不需要处理，直接拦掉
+        return; // 这俩消息Assistance会新增任务，外部不需要处理，直接拦掉
         break;
     case AsstMsg::StageDrops:
         more_detail = p_this->organize_stage_drop(more_detail);
@@ -558,10 +558,9 @@ json::value asst::Assistance::organize_stage_drop(const json::value& rec)
     }
     // 排个序，数量多的放前面
     std::sort(statistics_vec.begin(), statistics_vec.end(),
-        [](const json::value& lhs, const json::value& rhs) ->bool
-        {
-            return lhs.at("count").as_integer() > rhs.at("count").as_integer();
-        });
+              [](const json::value& lhs, const json::value& rhs) -> bool {
+                  return lhs.at("count").as_integer() > rhs.at("count").as_integer();
+              });
 
     dst["statistics"] = json::array(std::move(statistics_vec));
 

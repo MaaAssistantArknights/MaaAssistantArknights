@@ -1,7 +1,8 @@
-﻿#pragma once
+#pragma once
 #include "InfrastProductionTask.h"
 
-namespace asst {
+namespace asst
+{
     class InfrastReceptionTask : public InfrastProductionTask
     {
     public:
@@ -10,6 +11,7 @@ namespace asst {
         virtual bool run() override;
 
         const static std::string FacilityName;
+
     private:
         bool harvest_clue();
         bool proc_clue();

@@ -1,8 +1,9 @@
-﻿#pragma once
+#pragma once
 
 #include "AbstractTask.h"
 
-namespace asst {
+namespace asst
+{
     class RecruitTask : public AbstractTask
     {
     public:

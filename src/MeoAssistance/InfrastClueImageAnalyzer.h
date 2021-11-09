@@ -1,7 +1,8 @@
-﻿#pragma once
+#pragma once
 #include "AbstractImageAnalyzer.h"
 
-namespace asst {
+namespace asst
+{
     class InfrastClueImageAnalyzer : public AbstractImageAnalyzer
     {
     public:
@@ -10,14 +11,16 @@ namespace asst {
 
         virtual bool analyze() override;
 
-        const std::vector<std::pair<Rect, std::string>>& get_result() const noexcept {
+        const std::vector<std::pair<Rect, std::string>>& get_result() const noexcept
+        {
             return m_result;
         }
+
     protected:
         bool clue_detect();
         bool clue_analyze();
 
-        bool m_need_detailed = false;   // 是否需要详细分析（线索号）；false时只检测，不识别
+        bool m_need_detailed = false; // 是否需要详细分析（线索号）；false时只检测，不识别
         std::vector<std::pair<Rect, std::string>> m_result;
     };
 }

@@ -1,5 +1,6 @@
-﻿#pragma once
+#pragma once
 
-namespace asst {
+namespace asst
+{
     constexpr static const char* Version = "v1.3-beta.3";
 }

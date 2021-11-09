@@ -1,13 +1,14 @@
-﻿#pragma once
+#pragma once
 
 #include "AbstractResource.h"
 
-#include <unordered_set>
 #include <unordered_map>
+#include <unordered_set>
 
 #include <opencv2/opencv.hpp>
 
-namespace asst {
+namespace asst
+{
     class TemplResource : public AbstractResource
     {
     public:
@@ -26,6 +27,7 @@ namespace asst {
         void emplace_templ(std::string key, cv::Mat templ);
         void emplace_hist(std::string key, cv::Mat hist, cv::Rect roi);
         void clear_hists() noexcept;
+
     private:
         std::unordered_set<std::string> m_templs_filename;
         std::unordered_map<std::string, cv::Mat> m_templs;

@@ -1,16 +1,16 @@
-﻿#include "InfrastMfgTask.h"
+#include "InfrastMfgTask.h"
 
-#include "Resource.h"
 #include "Controller.h"
 #include "MatchImageAnalyzer.h"
+#include "Resource.h"
 
 const std::string asst::InfrastMfgTask::FacilityName = "Mfg";
 
 bool asst::InfrastMfgTask::run()
 {
     json::value task_start_json = json::object{
-    { "task_type",  "InfrastMfgTask" },
-    { "task_chain", m_task_chain}
+        { "task_type", "InfrastMfgTask" },
+        { "task_chain", m_task_chain }
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 

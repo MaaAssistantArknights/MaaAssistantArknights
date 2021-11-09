@@ -1,8 +1,8 @@
-﻿using Stylet;
-using StyletIoC;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Stylet;
+using StyletIoC;
 
 namespace MeoAsstGui
 {

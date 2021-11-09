@@ -1,4 +1,4 @@
-﻿#include "ProcessTask.h"
+#include "ProcessTask.h"
 
 #include <chrono>
 #include <random>
@@ -16,9 +16,9 @@ using namespace asst;
 bool ProcessTask::run()
 {
     json::value task_start_json = json::object{
-        { "task_type",  "ProcessTask" },
-        { "task_chain", m_task_chain},
-        { "tasks", json::array(m_cur_tasks_name)}
+        { "task_type", "ProcessTask" },
+        { "task_chain", m_task_chain },
+        { "tasks", json::array(m_cur_tasks_name) }
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
@@ -44,8 +44,8 @@ bool ProcessTask::run()
         { "type", static_cast<int>(task_info_ptr->action) },
         { "exec_times", task_info_ptr->exec_times },
         { "max_times", task_info_ptr->max_times },
-        { "task_type", "ProcessTask"},
-        { "algorithm", static_cast<int>(task_info_ptr->algorithm)}
+        { "task_type", "ProcessTask" },
+        { "algorithm", static_cast<int>(task_info_ptr->algorithm) }
     };
     m_callback(AsstMsg::TaskMatched, callback_json, m_callback_arg);
 
@@ -73,8 +73,7 @@ bool ProcessTask::run()
     case ProcessTaskAction::ClickSelf:
         exec_click_task(rect);
         break;
-    case ProcessTaskAction::ClickRand:
-    {
+    case ProcessTaskAction::ClickRand: {
         static const Rect full_rect(0, 0, GeneralConfiger::WindowWidthDefault, GeneralConfiger::WindowHeightDefault);
         exec_click_task(full_rect);
     } break;
@@ -85,11 +84,10 @@ bool ProcessTask::run()
     case ProcessTaskAction::DoNothing:
         break;
     case ProcessTaskAction::Stop:
-        m_callback(AsstMsg::ProcessTaskStopAction, json::object{ {"task_chain", m_task_chain} }, m_callback_arg);
+        m_callback(AsstMsg::ProcessTaskStopAction, json::object{ { "task_chain", m_task_chain } }, m_callback_arg);
         need_stop = true;
         break;
-    case ProcessTaskAction::StageDrops:
-    {
+    case ProcessTaskAction::StageDrops: {
         cv::Mat image = ctrler.get_image(true);
         std::string res = resource.penguin().recognize(image);
         m_callback(AsstMsg::StageDrops, json::parse(res).value(), m_callback_arg);
@@ -102,8 +100,7 @@ bool ProcessTask::run()
         if (opt.penguin_report) {
             PenguinUploader::upload(res);
         }
-    }
-    break;
+    } break;
     default:
         break;
     }
@@ -177,15 +174,14 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 
     const static Rect left_rect(width * 0.1, height * 0.4, width * 0.1, height * 0.2);
 
-    switch (action)
-    {
+    switch (action) {
     case asst::ProcessTaskAction::SwipeToTheLeft:
         ctrler.swipe(left_rect, right_rect);
         break;
     case asst::ProcessTaskAction::SwipeToTheRight:
         ctrler.swipe(right_rect, left_rect);
         break;
-    default:	// 走不到这里，TODO 报个错
+    default: // 走不到这里，TODO 报个错
         break;
     }
 }

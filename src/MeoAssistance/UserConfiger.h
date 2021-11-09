@@ -1,12 +1,13 @@
-﻿#pragma once
+#pragma once
 
 #include "AbstractConfiger.h"
 
 #include <json_value.h>
 #include <unordered_map>
 
-namespace asst {
-    class UserConfiger :public AbstractConfiger
+namespace asst
+{
+    class UserConfiger : public AbstractConfiger
     {
     public:
         virtual ~UserConfiger() = default;

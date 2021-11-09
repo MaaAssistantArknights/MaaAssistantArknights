@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "AbstractTask.h"
 
@@ -6,13 +6,15 @@
 
 #include "AsstDef.h"
 
-namespace asst {
+namespace asst
+{
     class CreditShoppingTask : public AbstractTask
     {
     public:
         using AbstractTask::AbstractTask;
         virtual ~CreditShoppingTask() = default;
         virtual bool run() override;
+
     private:
     };
 }

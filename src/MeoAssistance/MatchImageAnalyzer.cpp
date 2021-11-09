@@ -1,8 +1,8 @@
-﻿#include "MatchImageAnalyzer.h"
+#include "MatchImageAnalyzer.h"
 
-#include "Resource.h"
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
+#include "Resource.h"
 
 asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name, double templ_thres, double hist_thres)
     : AbstractImageAnalyzer(image, roi),
@@ -69,7 +69,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
     cv::Point min_loc, max_loc;
     cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
-    if (max_val > m_templ_thres * 0.7) {    // 得分太低的肯定不对，没必要打印
+    if (max_val > m_templ_thres * 0.7) { // 得分太低的肯定不对，没必要打印
         log.trace("match_templ |", m_templ_name, "score:", max_val, "point:", max_loc);
     }
 
@@ -88,7 +88,7 @@ bool asst::MatchImageAnalyzer::comp_hist(const cv::Mat& hist, const cv::Rect roi
     cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi))(roi);
     double score = 1.0 - cv::compareHist(to_hist(image_roi), hist, cv::HISTCMP_BHATTACHARYYA);
 
-    if (score > 0.7) {    // 得分太低的肯定不对，没必要打印
+    if (score > 0.7) { // 得分太低的肯定不对，没必要打印
         log.trace("comp_hist |", m_templ_name, "score:", score);
     }
 
