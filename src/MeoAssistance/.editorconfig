@@ -9,7 +9,7 @@ end_of_line = crlf
 
 [*.json]
 
-indent_size = 2
+indent_size = 4
 
 [*.{c++,cc,cpp,cppm,cxx,h,h++,hh,hpp,hxx,inl,ipp,ixx,tlh,tli}]
 
@@ -34,11 +34,11 @@ cpp_indent_preprocessor = leftmost_column
 cpp_indent_access_specifiers = false
 cpp_indent_namespace_contents = true
 cpp_indent_preserve_comments = false
-cpp_new_line_before_open_brace_namespace = ignore
-cpp_new_line_before_open_brace_type = ignore
-cpp_new_line_before_open_brace_function = ignore
-cpp_new_line_before_open_brace_block = ignore
-cpp_new_line_before_open_brace_lambda = ignore
+cpp_new_line_before_open_brace_namespace = new_line
+cpp_new_line_before_open_brace_type = new_line
+cpp_new_line_before_open_brace_function = new_line
+cpp_new_line_before_open_brace_block = same_line
+cpp_new_line_before_open_brace_lambda = same_line
 cpp_new_line_scope_braces_on_separate_lines = false
 cpp_new_line_close_brace_same_line_empty_type = false
 cpp_new_line_close_brace_same_line_empty_function = false
@@ -72,7 +72,7 @@ cpp_space_remove_around_member_operators = true
 cpp_space_before_inheritance_colon = true
 cpp_space_before_constructor_colon = true
 cpp_space_remove_before_semicolon = true
-cpp_space_after_semicolon = true
+cpp_space_after_semicolon = false
 cpp_space_remove_around_unary_operator = true
 cpp_space_around_binary_operator = insert
 cpp_space_around_assignment_operator = insert
