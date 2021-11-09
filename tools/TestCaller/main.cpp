@@ -25,7 +25,7 @@ int main(int argc, char** argv)
         //AsstStartDebugTask(ptr);
         {
             const char* order[] = { "Trade", "Mfg", "Dorm" };
-            AsstStartInfrastShift(ptr, order, 3, 0, 0);
+            AsstStartInfrastShift(ptr, 1, order, 3, 0, 0);
         }
 
         ch = getchar();
