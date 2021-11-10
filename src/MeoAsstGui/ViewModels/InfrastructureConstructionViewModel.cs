@@ -193,8 +193,21 @@ namespace MeoAsstGui
             }
         }
 
+        private string _statusPrompt = "基建换班功能仍处于测试阶段，BUG较多，请酌情使用！（暂不支持控制中枢）";
+
+        public string StatusPrompt
+        {
+            get { return _statusPrompt; }
+            set
+            {
+                SetAndNotify(ref _statusPrompt, value);
+            }
+        }
+
         public async void ChangeShift()
         {
+            StatusPrompt = "正在捕获模拟器窗口……";
+
             var asstProxy = _container.Get<AsstProxy>();
             var task = Task.Run(() =>
             {
@@ -203,8 +216,10 @@ namespace MeoAsstGui
             bool catchd = await task;
             if (!catchd)
             {
+                StatusPrompt = "捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限";
                 return;
             }
+            StatusPrompt = "正在运行中……";
             // 直接遍历ItemViewModels里面的内容，是排序后的
             var orderList = new List<string>();
             foreach (var item in ItemViewModels)

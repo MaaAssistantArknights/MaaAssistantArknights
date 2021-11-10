@@ -41,14 +41,11 @@ namespace asst
         RecruitSpecialTag,          // 公招识别到了特殊的Tag
         RecruitResult,              // 公开招募结果
         /* Infrast Msg */
-        OpersDetected = 4000, // 识别到了干员s
-        OpersIdtfResult,      // 干员识别结果（总的）
-        InfrastComb,          // 当前房间的最优干员组合
-        EnterFacility,        // 进入某个房间
-        StationInfo,          // 当前房间信息
-        ReadyToShift,         // 准备换班
-        ShiftCompleted,       // 换班完成（单个房间）
-        NoNeedToShift         // 无需换班（单个房间）
+        InfrastSkillsDetected = 4000,  // 识别到了基建技能（当前页面）
+        InfrastSkillsResult,           // 识别到的所有可用技能
+        InfrastComb,                   // 当前房间的最优干员组合
+        EnterFacility,                 // 进入某个房间
+        FacilityInfo,                  // 当前设施信息
     };
 
     static std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
@@ -79,14 +76,11 @@ namespace asst
             { AsstMsg::RecruitSpecialTag, "RecruitSpecialTag" },
             { AsstMsg::RecruitResult, "RecruitResult" },
             { AsstMsg::AppendTask, "AppendTask" },
-            { AsstMsg::OpersDetected, "OpersDetected" },
-            { AsstMsg::OpersIdtfResult, "OpersIdtfResult" },
+            { AsstMsg::InfrastSkillsDetected, "InfrastSkillsDetected" },
+            { AsstMsg::InfrastSkillsResult, "InfrastSkillsResult" },
             { AsstMsg::InfrastComb, "InfrastComb" },
             { AsstMsg::EnterFacility, "EnterFacility" },
-            { AsstMsg::StationInfo, "StationInfo" },
-            { AsstMsg::ReadyToShift, "ReadyToShift" },
-            { AsstMsg::ShiftCompleted, "ShiftCompleted" },
-            { AsstMsg::NoNeedToShift, "NoNeedToShift" }
+            { AsstMsg::FacilityInfo, "FacilityInfo" }
         };
         return os << _type_name.at(type);
     }
