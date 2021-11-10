@@ -65,8 +65,8 @@
             </Grid>
         </Grid>
 
-        <TextBlock Grid.Row="1" Style="{StaticResource TextBlockDefault}"
+        <TextBlock Grid.Row="1" Style="{StaticResource TextBlockDefaultBold}"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Text="基建换班功能仍处于测试阶段，BUG较多，请酌情使用！（暂不支持控制中枢）" />
+                   Text="{Binding StatusPrompt}" />
     </Grid>
 </UserControl>

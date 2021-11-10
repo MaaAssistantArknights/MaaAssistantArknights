@@ -117,6 +117,11 @@ namespace MeoAsstGui
                 case AsstMsg.TaskChainCompleted:
                     {
                         string taskChain = detail["task_chain"].ToString();
+                        if (taskChain == "Infrast")
+                        {
+                            infrast_proc_msg(msg, detail);
+                            break;
+                        }
                         if (taskChain != "SanityBegin" && taskChain != "VisitBegin")
                         {
                             break;
@@ -136,6 +141,18 @@ namespace MeoAsstGui
                     }
                     break;
 
+                case AsstMsg.StageDrops:
+                    string dropsInfo = "";
+                    JArray statistics = (JArray)detail["statistics"];
+                    foreach (var item in statistics)
+                    {
+                        string itemName = item["itemName"].ToString();
+                        int count = (int)item["count"];
+                        dropsInfo += itemName + " : " + count + "    \n";
+                    }
+                    mfvm.StageDropsInfo = dropsInfo;
+                    break;
+
                 case AsstMsg.TextDetected:
                     break;
 
@@ -144,6 +161,14 @@ namespace MeoAsstGui
                 case AsstMsg.RecruitSpecialTag:
                 case AsstMsg.RecruitResult:
                     recruit_proc_msg(msg, detail);
+                    break;
+                /* Infrast Msg */
+                case AsstMsg.InfrastSkillsDetected:
+                case AsstMsg.InfrastSkillsResult:
+                case AsstMsg.InfrastComb:
+                case AsstMsg.EnterFacility:
+                case AsstMsg.FacilityInfo:
+                    infrast_proc_msg(msg, detail);
                     break;
 
                 case AsstMsg.TaskError:
@@ -174,17 +199,32 @@ namespace MeoAsstGui
                     _windowManager.ShowMessageBox("资源文件错误！请尝试重新解压或下载", "错误");
                     Environment.Exit(0);
                     break;
+            }
+        }
 
-                case AsstMsg.StageDrops:
-                    string dropsInfo = "";
-                    JArray statistics = (JArray)detail["statistics"];
-                    foreach (var item in statistics)
-                    {
-                        string itemName = item["itemName"].ToString();
-                        int count = (int)item["count"];
-                        dropsInfo += itemName + " : " + count + "    \n";
-                    }
-                    mfvm.StageDropsInfo = dropsInfo;
+        private void infrast_proc_msg(AsstMsg msg, JObject detail)
+        {
+            var ivm = _container.Get<InfrastructureConstructionViewModel>();
+            switch (msg)
+            {
+                case AsstMsg.InfrastSkillsDetected:
+                    break;
+
+                case AsstMsg.InfrastSkillsResult:
+                    break;
+
+                case AsstMsg.InfrastComb:
+                    break;
+
+                case AsstMsg.EnterFacility:
+                    ivm.StatusPrompt = "当前正在换班：" + detail["facility"];
+                    break;
+
+                case AsstMsg.FacilityInfo:
+                    break;
+
+                case AsstMsg.TaskChainCompleted:
+                    ivm.StatusPrompt = "已完成换班";
                     break;
             }
         }
@@ -321,14 +361,11 @@ namespace MeoAsstGui
         RecruitSpecialTag,					// 公招识别到了特殊的Tag
         RecruitResult,						// 公开招募结果
         /* Infrast Msg */
-        OpersDetected = 4000,				// 识别到了干员s
-        OpersIdtfResult,					// 干员识别结果（总的）
-        InfrastComb,						// 当前房间的最优干员组合
-        EnterStation,						// 进入某个房间
-        StationInfo,						// 当前房间信息
-        ReadyToShift,						// 准备换班
-        ShiftCompleted,						// 换班完成（单个房间）
-        NoNeedToShift						// 无需换班（单个房间）
+        InfrastSkillsDetected = 4000,  // 识别到了基建技能（当前页面）
+        InfrastSkillsResult,           // 识别到的所有可用技能
+        InfrastComb,                   // 当前房间的最优干员组合
+        EnterFacility,                 // 进入某个房间
+        FacilityInfo,                  // 当前设施信息
     };
 
     public enum UsesOfDrones

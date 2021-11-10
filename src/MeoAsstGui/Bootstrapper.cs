@@ -17,6 +17,7 @@ namespace MeoAsstGui
         {
             builder.Bind<MainFunctionViewModel>().ToSelf().InSingletonScope();
             builder.Bind<RecruitViewModel>().ToSelf().InSingletonScope();
+            builder.Bind<InfrastructureConstructionViewModel>().ToSelf().InSingletonScope();
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
         }
 
