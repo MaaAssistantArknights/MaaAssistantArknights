@@ -145,11 +145,11 @@ namespace MeoAsstGui
 
         private UsesOfDrones uses_of_drones = UsesOfDrones.DronesNotUse;
 
-        private bool _workModeGentle = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.WorkModeGentle", bool.TrueString));
-        private bool _workModeAggressive = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.WorkModeAggressive", bool.FalseString));
+        private bool _workModeGentle = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.WorkModeGentle", bool.FalseString));
+        private bool _workModeAggressive = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.WorkModeAggressive", bool.TrueString));
         private bool _workModeExtreme = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.WorkModeExtreme", bool.FalseString));
 
-        private InfrastWorkMode work_mode = InfrastWorkMode.Gentle;
+        private InfrastWorkMode work_mode = InfrastWorkMode.Aggressive;
 
         public bool WorkModeGentle
         {
@@ -219,7 +219,6 @@ namespace MeoAsstGui
                 StatusPrompt = "捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限";
                 return;
             }
-            StatusPrompt = "正在运行中……";
             // 直接遍历ItemViewModels里面的内容，是排序后的
             var orderList = new List<string>();
             foreach (var item in ItemViewModels)
@@ -231,22 +230,28 @@ namespace MeoAsstGui
                 orderList.Add(facility_key[item.Name]);
             }
 
-            asstProxy.AsstStartInfrastShift((int)work_mode, orderList.ToArray(), orderList.Count, (int)uses_of_drones, DormThreshold / 100.0);
+            bool ret = asstProxy.AsstStartInfrastShift((int)work_mode, orderList.ToArray(), orderList.Count, (int)uses_of_drones, DormThreshold / 100.0);
+            if (ret)
+            {
+                StatusPrompt = "正在运行中……";
+            }
         }
 
         public void Stop()
         {
             var asstProxy = _container.Get<AsstProxy>();
             asstProxy.AsstStop();
+            StatusPrompt = "已停止";
         }
     }
 
     public class ItemViewModel : PropertyChangedBase
     {
-        public ItemViewModel(string name, bool isChecked = true)
+        public ItemViewModel(string name)
         {
             this.Name = name;
-            this.IsChecked = IsChecked;
+            this._isCheckedStorageKey = "Infrast." + name + ".IsChecked";
+            this.IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
         }
 
         private string _name;
@@ -260,14 +265,17 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _isChecked = true;
+        private readonly string _isCheckedStorageKey;
+        private bool _isChecked;
 
         public bool IsChecked
         {
             get { return _isChecked; }
+
             set
             {
                 SetAndNotify(ref _isChecked, value);
+                ViewStatusStorage.Set(_isCheckedStorageKey, value.ToString());
             }
         }
 
@@ -276,7 +284,7 @@ namespace MeoAsstGui
 
         public string IconPath
         {
-            get { return _name; }
+            get { return _iconPath; }
             set
             {
                 SetAndNotify(ref _iconPath, value);
