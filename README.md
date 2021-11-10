@@ -174,24 +174,16 @@ A game assistance for Arknights
 4. 然后会贴心的帮你跳转到信用商店，顺便收了当天信用~
 5. 信用商店随缘买，就是从左到右依次买，但不会买`碳`和`家具零件`
 
-### 不使用模拟器，而是USB连接安卓手机
+### 连接自定义模拟器端口，或安卓手机/平板
 
 1. 下载[ADB程序](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
 2. 使用USB有线连接安卓手机和电脑
 3. 请在手机`设置`-`开发者选项`中打开`USB调试`、`USB调试（安全设置）`两个选项。具体操作方式不同品牌手机各不相同，请自行百度查询
-4. 请手动修改`resource\config.json`文件中，`options`.`connectType`为`1`。文件保存后请重新打开程序
-5. 当前仅兼容刷理智、公招计算功能，且公招计算暂时无法设置时间
+4. 请手动修改`resource\config.json`文件中：
+    1. `options`.`connectType`字段值为`1`
+    2. `emulator`.`Custom`.`adb`.`addresses`字段填写为要连接的地址，请注意这是个数组，会以此尝试所有的（若不填写，或`addresses`中所有的都没连上，则会使用`adb devices`自动查找）
 
-### 不使用模拟器，而是无线连接安卓手机
-
-1. 下载[ADB程序](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
-2. 请保证安卓手机和电脑处于同一局域网中
-3. 请在手机`设置`-`开发者选项`中打开`USB调试`、`USB调试（安全设置）`、`无线调试`三个选项。具体操作方式不同品牌手机各不相同，请自行百度查询
-4. 请手动修改`resource\config.json`文件中，`options`.`connectType`为`2`
-5. 请手动修改`resource\config.json`文件中，`options`.`connectRemoteAddress`为无线调试的IP地址和端口号。文件保存后请重新打开程序
-6. 当前仅兼容刷理智、公招计算功能，且公招计算暂时无法设置时间
-
-**警告：`无线调试`是非常危险的选项，若局域网中存在其他攻击性设备或程序，可能导致手机数据泄露或丢失，请勿在公共的WLAN中使用该功能！**
+目前对非16:9分辨率的支持效果很不好，几乎是不可用状态，后期将逐步优化
 
 ### 设置操作延时
 
@@ -206,11 +198,11 @@ A game assistance for Arknights
 - [x] 支持设置吃理智药数量
 - [x] 信用商店`看着买`功能
 - [x] 支持所有主流模拟器
-- [ ] adb连接逻辑重构
+- [x] adb连接逻辑重构
 - [ ] 任务队列功能
 - [ ] 常用关卡选关
 - [ ] 自动收任务功能
-- [ ] 基建智能换班功能
+- [x] 基建智能换班功能
     - [x] 图形化界面
     - [x] 干员技能识别
     - [x] 干员识别准确率提高到100%
@@ -219,10 +211,10 @@ A game assistance for Arknights
     - [x] 发电站、办公室换班
     - [x] 使用无人机
     - [ ] 控制中枢智能换班
-    - [ ] 会客室智能换班
-    - [ ] 会客室智能线索交流
+    - [x] 会客室智能换班
+    - [x] 会客室智能线索交流
     - [ ] 支持`迷迭香`等复杂基建体系
-    - [ ] `激进换班模式`
+    - [x] `激进换班模式`
     - [ ] 自定义换班（手动修改配置文件）
 - [ ] 使用GPU进行识别的版本
 - [x] 关卡掉落识别
@@ -248,6 +240,7 @@ A game assistance for Arknights
 - 文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)
 - 关卡掉落识别：[企鹅物流识别](https://github.com/KumoSiunaus/penguin-stats-recognize-v3)
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
+- C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON库: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
@@ -263,6 +256,7 @@ A game assistance for Arknights
 - 非常感谢 [tcyh035](https://github.com/tcyh035) 帮忙设计重构图形界面
 - 非常感谢 [GengGode](https://github.com/GengGode) 和 [DbgDebug](https://github.com/DbgDebug) 提供图像算法思路并协助验证
 - 非常感谢 [LoveLoliii](https://github.com/LoveLoliii) 提供公开招募算法及数据、部分功能逻辑思路
+- 感谢[AAH](https://github.com/ninthDevilHAUNSTER/ArknightsAutoHelper)的大佬们协助提供部分图像、操作思路
 - 感谢参与软件测试、提bug的小伙伴们~
 - ~~感谢[B站直播间](https://live.bilibili.com/2808861)的小伙伴们陪我弹幕吹水~~
 
