@@ -163,37 +163,18 @@ size_t asst::InfrastProductionTask::opers_detect()
     max_num_of_opers_per_page = (std::max)(max_num_of_opers_per_page, cur_all_info.size());
 
     for (const auto& cur_info : cur_all_info) {
-        auto find_iter = std::find_if(m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-                                      [&cur_info](const InfrastOperSkillInfo& info) -> bool {
-                                          int dist = utils::hamming(cur_info.hash, info.hash);
-                                          return dist < HashDistThres;
-                                      });
+        auto find_iter = std::find_if(
+            m_all_available_opers.cbegin(), m_all_available_opers.cend(),
+            [&cur_info](const InfrastOperSkillInfo& info) -> bool {
+                int dist = utils::hamming(cur_info.hash, info.hash);
+                return dist < HashDistThres;
+            });
         // 如果两个的hash距离过小，则认为是同一个干员，不进行插入
         if (find_iter != m_all_available_opers.cend()) {
             continue;
         }
         auto pred_info = cur_info;
-        // 根据正则，计算当前干员的实际效率
-        for (auto&& [product, formula] : pred_info.skills_comb.efficient_regex) {
-            std::string cur_formula = formula;
-            for (size_t pos = 0; pos != std::string::npos;) {
-                pos = cur_formula.find('[', pos);
-                if (pos == std::string::npos) {
-                    break;
-                }
-                size_t rp_pos = cur_formula.find(']', pos);
-                if (rp_pos == std::string::npos) {
-                    break;
-                    // TODO 报错！
-                }
-                std::string status_key = cur_formula.substr(pos + 1, rp_pos - pos - 1);
-                int status_value = std::any_cast<int>(status.get(status_key));
-                cur_formula.replace(pos, rp_pos - pos + 1, std::to_string(status_value));
-            }
-
-            int eff = calculator::eval(cur_formula);
-            pred_info.skills_comb.efficient[product] = eff;
-        }
+        pred_info.skills_comb = efficient_regex_calc(pred_info.skills_comb);
         m_all_available_opers.emplace_back(std::move(pred_info));
     }
     return cur_all_info.size();
@@ -267,16 +248,23 @@ bool asst::InfrastProductionTask::optimal_calc()
         }
         // necessary里的技能，一个都不能少
         for (const InfrastSkillsComb& nec_skills : group.necessary) {
-            auto find_iter = std::find_if(cur_available_opers.cbegin(), cur_available_opers.cend(),
-                                          [&](const InfrastOperSkillInfo& arg) -> bool {
-                                              return arg.skills_comb == nec_skills;
-                                          });
+            auto find_iter = std::find_if(
+                cur_available_opers.cbegin(), cur_available_opers.cend(),
+                [&](const InfrastOperSkillInfo& arg) -> bool {
+                    return arg.skills_comb == nec_skills;
+                });
             if (find_iter == cur_available_opers.cend()) {
                 group_unavailable = true;
                 break;
             }
             cur_opers.emplace_back(nec_skills);
-            cur_efficient += nec_skills.efficient.at(m_product);
+            if (auto iter = nec_skills.efficient_regex.find(m_product);
+                iter != nec_skills.efficient_regex.cend()) {
+                cur_efficient += efficient_regex_calc(nec_skills).efficient.at(m_product);
+            }
+            else {
+                cur_efficient += nec_skills.efficient.at(m_product);
+            }
             cur_available_opers.erase(find_iter);
         }
         if (group_unavailable) {
@@ -299,7 +287,13 @@ bool asst::InfrastProductionTask::optimal_calc()
                                          });
                 if (find_iter != cur_available_opers.cend()) {
                     cur_opers.emplace_back(opt);
-                    cur_efficient += opt.efficient.at(m_product);
+                    if (auto iter = opt.efficient_regex.find(m_product);
+                        iter != opt.efficient_regex.cend()) {
+                        cur_efficient += efficient_regex_calc(opt).efficient.at(m_product);
+                    }
+                    else {
+                        cur_efficient += opt.efficient.at(m_product);
+                    }
                     find_iter = cur_available_opers.erase(find_iter);
                 }
                 else {
@@ -420,6 +414,32 @@ bool asst::InfrastProductionTask::opers_choose()
     }
 
     return true;
+}
+
+asst::InfrastSkillsComb asst::InfrastProductionTask::efficient_regex_calc(InfrastSkillsComb skills_comb) const
+{
+    // 根据正则，计算当前干员的实际效率
+    for (auto&& [product, formula] : skills_comb.efficient_regex) {
+        std::string cur_formula = formula;
+        for (size_t pos = 0; pos != std::string::npos;) {
+            pos = cur_formula.find('[', pos);
+            if (pos == std::string::npos) {
+                break;
+            }
+            size_t rp_pos = cur_formula.find(']', pos);
+            if (rp_pos == std::string::npos) {
+                break;
+                // TODO 报错！
+            }
+            std::string status_key = cur_formula.substr(pos + 1, rp_pos - pos - 1);
+            int status_value = std::any_cast<int>(status.get(status_key));
+            cur_formula.replace(pos, rp_pos - pos + 1, std::to_string(status_value));
+        }
+
+        int eff = calculator::eval(cur_formula);
+        skills_comb.efficient[product] = eff;
+    }
+    return skills_comb;
 }
 
 bool asst::InfrastProductionTask::facility_list_detect()
