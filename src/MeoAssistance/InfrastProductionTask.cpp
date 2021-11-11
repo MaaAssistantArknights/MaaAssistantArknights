@@ -250,6 +250,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         cur_opers.reserve(max_num_of_opers);
         double cur_efficient = 0;
         // 条件判断，不符合的直接过滤掉
+        bool meet_condition = true;
         for (const auto& [cond, cond_value] : group.conditions) {
             if (!status.exist(cond)) {
                 continue;
@@ -257,8 +258,12 @@ bool asst::InfrastProductionTask::optimal_calc()
             // TODO：这里做成除了不等于，还可计算大于、小于等不同条件的
             int cur_value = std::any_cast<int>(status.get(cond));
             if (cur_value != cond_value) {
-                continue;
+                meet_condition = false;
+                break;
             }
+        }
+        if (!meet_condition) {
+            continue;
         }
         // necessary里的技能，一个都不能少
         for (const InfrastSkillsComb& nec_skills : group.necessary) {
