@@ -16,7 +16,7 @@
 
 A game assistance for Arknights
 
-一款明日方舟的游戏辅助，供PC端安卓模拟器使用，也勉强兼容安卓手机，绝赞开发中……  
+一款明日方舟的游戏助手，自动刷理智、智能基建换班、公招识别，纯图像识别，全图形化界面，兼容模拟器和安卓设备，开罐即食，绝赞开发中！✿✿ヽ(°▽°)ノ✿  
 <br>
 
 ![界面截图](images/gui.png)
@@ -58,7 +58,7 @@ A game assistance for Arknights
     - 自动帮你点击时间9小时
     - 出5、6星干员弹窗提示
     - 最新版本已支持夏活新增的`煌`、`灰喉`等干员
-    - 不会帮你点击确定按钮！！！请自行检查辅助选择的是否正确，若出现识别错误，遗漏了高星干员，作者概不负责哦__(:з」∠)_
+    - 不会帮你点击确定按钮！！！请自行检查软件选择的是否正确，若出现识别错误，遗漏了高星干员，作者概不负责哦__(:з」∠)_
 - 自动访问好友
     - 访问完了还会贴心的帮你点进信用商店~
     - 可设置访问完自动买信用商店的材料
@@ -66,7 +66,7 @@ A game assistance for Arknights
     - 所有点击操作，都是点击按钮内随机位置，并模拟泊松分布（按钮偏中间位置点的概率大，越往旁边点到的概率越小）
     - 刷理智及访问好友的点击操作，支持设置随机延时，没有封号风险~
     - 底层算法纯C++开发，并设计了多重的缓存技术，最大限度降低CPU和内存占用
-    - 模拟器窗口可以被遮挡、可以最小化、甚至可以老板键隐藏！即使全屏看视频、玩游戏，也完全不影响辅助运行
+    - 模拟器窗口可以被遮挡、可以最小化、甚至可以老板键隐藏！即使全屏看视频、玩游戏，也完全不影响软件运行
     - 软件支持自动更新✿✿ヽ(°▽°)ノ✿
 - 支持多款主流模拟器
 - 勉强兼容安卓手机（USB调试、无线调试）
@@ -122,7 +122,7 @@ A game assistance for Arknights
 
 1. 根据上面模拟器支持情况，进行对应的`ADB`相关操作
 2. 解压压缩包，到**没有中文或特殊符号**的文件夹路径
-3. 第一次运行辅助，**请使用管理员权限**打开`MeoAsstGui.exe`。运行过一次后，后续不再需要管理员权限（之后的版本会尝试完全去掉管理员权限）
+3. 第一次运行软件，**请使用管理员权限**打开`MeoAsstGui.exe`。运行过一次后，后续不再需要管理员权限（之后的版本会尝试完全去掉管理员权限）
 4. 运行期间，模拟器窗口可以最小化，全屏玩游戏、看视频等，完全不影响
 
 ### 刷理智
@@ -161,10 +161,10 @@ A game assistance for Arknights
 ### 公开招募识别
 
 1. 明日方舟打开公开招募，有Tag选择的界面
-2. 辅助勾选你需要的选项，点击"开始识别"
+2. 软件勾选你需要的选项，点击"开始识别"
 3. 请检查识别结果是否正确，自行判断是否确定开始招募
 
-再次强调，本辅助仅会帮你选择最优Tags和时间，不会帮你点击确定按钮！！！请自行检查辅助选择的是否正确，若出现识别错误，遗漏了高星干员，作者概不负责哦__(:з」∠)_
+再次强调，本软件仅会帮你选择最优Tags和时间，不会帮你点击确定按钮！！！请自行检查软件选择的是否正确，若出现识别错误，遗漏了高星干员，作者概不负责哦__(:з」∠)_
 
 ### 访问好友
 
@@ -174,24 +174,16 @@ A game assistance for Arknights
 4. 然后会贴心的帮你跳转到信用商店，顺便收了当天信用~
 5. 信用商店随缘买，就是从左到右依次买，但不会买`碳`和`家具零件`
 
-### 不使用模拟器，而是USB连接安卓手机
+### 连接自定义模拟器端口，或安卓手机/平板
 
 1. 下载[ADB程序](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
 2. 使用USB有线连接安卓手机和电脑
 3. 请在手机`设置`-`开发者选项`中打开`USB调试`、`USB调试（安全设置）`两个选项。具体操作方式不同品牌手机各不相同，请自行百度查询
-4. 请手动修改`resource\config.json`文件中，`options`.`connectType`为`1`。文件保存后请重新打开程序
-5. 当前仅兼容刷理智、公招计算功能，且公招计算暂时无法设置时间
+4. 请手动修改`resource\config.json`文件中：
+    1. `options`.`connectType`字段值为`1`
+    2. `emulator`.`Custom`.`adb`.`addresses`字段填写为要连接的地址，请注意这是个数组，会以此尝试所有的（若不填写，或`addresses`中所有的都没连上，则会使用`adb devices`自动查找）
 
-### 不使用模拟器，而是无线连接安卓手机
-
-1. 下载[ADB程序](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
-2. 请保证安卓手机和电脑处于同一局域网中
-3. 请在手机`设置`-`开发者选项`中打开`USB调试`、`USB调试（安全设置）`、`无线调试`三个选项。具体操作方式不同品牌手机各不相同，请自行百度查询
-4. 请手动修改`resource\config.json`文件中，`options`.`connectType`为`2`
-5. 请手动修改`resource\config.json`文件中，`options`.`connectRemoteAddress`为无线调试的IP地址和端口号。文件保存后请重新打开程序
-6. 当前仅兼容刷理智、公招计算功能，且公招计算暂时无法设置时间
-
-**警告：`无线调试`是非常危险的选项，若局域网中存在其他攻击性设备或程序，可能导致手机数据泄露或丢失，请勿在公共的WLAN中使用该功能！**
+目前对非16:9分辨率的支持效果很不好，几乎是不可用状态，后期将逐步优化
 
 ### 设置操作延时
 
@@ -206,11 +198,11 @@ A game assistance for Arknights
 - [x] 支持设置吃理智药数量
 - [x] 信用商店`看着买`功能
 - [x] 支持所有主流模拟器
-- [ ] adb连接逻辑重构
+- [x] adb连接逻辑重构
 - [ ] 任务队列功能
 - [ ] 常用关卡选关
 - [ ] 自动收任务功能
-- [ ] 基建智能换班功能
+- [x] 基建智能换班功能
     - [x] 图形化界面
     - [x] 干员技能识别
     - [x] 干员识别准确率提高到100%
@@ -219,10 +211,10 @@ A game assistance for Arknights
     - [x] 发电站、办公室换班
     - [x] 使用无人机
     - [ ] 控制中枢智能换班
-    - [ ] 会客室智能换班
-    - [ ] 会客室智能线索交流
+    - [x] 会客室智能换班
+    - [x] 会客室智能线索交流
     - [ ] 支持`迷迭香`等复杂基建体系
-    - [ ] `激进换班模式`
+    - [x] `激进换班模式`
     - [ ] 自定义换班（手动修改配置文件）
 - [ ] 使用GPU进行识别的版本
 - [x] 关卡掉落识别
@@ -248,6 +240,7 @@ A game assistance for Arknights
 - 文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)
 - 关卡掉落识别：[企鹅物流识别](https://github.com/KumoSiunaus/penguin-stats-recognize-v3)
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
+- C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON库: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
@@ -263,12 +256,13 @@ A game assistance for Arknights
 - 非常感谢 [tcyh035](https://github.com/tcyh035) 帮忙设计重构图形界面
 - 非常感谢 [GengGode](https://github.com/GengGode) 和 [DbgDebug](https://github.com/DbgDebug) 提供图像算法思路并协助验证
 - 非常感谢 [LoveLoliii](https://github.com/LoveLoliii) 提供公开招募算法及数据、部分功能逻辑思路
+- 感谢[AAH](https://github.com/ninthDevilHAUNSTER/ArknightsAutoHelper)的大佬们协助提供部分图像、操作思路
 - 感谢参与软件测试、提bug的小伙伴们~
 - ~~感谢[B站直播间](https://live.bilibili.com/2808861)的小伙伴们陪我弹幕吹水~~
 
 ## 广告
 
-[B站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本辅助软件  
+[B站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本助手软件  
 [QQ群](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：欢迎加入~  
 
 另：作者前端苦手，寻大佬帮忙一起写界面，继续现在的WPF也行，用electron或者别的重写也行，球球了QAQ
