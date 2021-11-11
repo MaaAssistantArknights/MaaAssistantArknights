@@ -29,6 +29,7 @@ namespace asst
         size_t opers_detect(); // 返回当前页面的干员数
         bool optimal_calc();
         bool opers_choose();
+        InfrastSkillsComb efficient_regex_calc(InfrastSkillsComb skill_info) const;
 
         constexpr static int HashDistThres = 25;
 
