@@ -80,19 +80,19 @@ bool asst::Controller::connect_adb(const std::string& address)
     m_emulator_info.adb.display_height = (std::min)(size_value1, size_value2);
 
     constexpr double DefaultRatio =
-        static_cast<double>(GeneralConfiger::WindowWidthDefault) / static_cast<double>(GeneralConfiger::WindowHeightDefault);
+        static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault);
     double cur_ratio = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(m_emulator_info.adb.display_height);
 
     if (cur_ratio >= DefaultRatio // 说明是宽屏或默认16:9，按照高度计算缩放
         || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff) {
-        int scale_width = cur_ratio * GeneralConfiger::WindowHeightDefault;
-        m_scale_size = std::make_pair(scale_width, GeneralConfiger::WindowHeightDefault);
-        m_control_scale = static_cast<double>(m_emulator_info.adb.display_height) / static_cast<double>(GeneralConfiger::WindowHeightDefault);
+        int scale_width = cur_ratio * WindowHeightDefault;
+        m_scale_size = std::make_pair(scale_width, WindowHeightDefault);
+        m_control_scale = static_cast<double>(m_emulator_info.adb.display_height) / static_cast<double>(WindowHeightDefault);
     }
     else { // 否则可能是偏正方形的屏幕，按宽度计算
-        int scale_height = GeneralConfiger::WindowWidthDefault / cur_ratio;
-        m_scale_size = std::make_pair(GeneralConfiger::WindowWidthDefault, scale_height);
-        m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(GeneralConfiger::WindowWidthDefault);
+        int scale_height = WindowWidthDefault / cur_ratio;
+        m_scale_size = std::make_pair(WindowWidthDefault, scale_height);
+        m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(WindowWidthDefault);
     }
 
     m_emulator_info.adb.click = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.click, "[Adb]", m_adb_path), "[Address]", address);
@@ -123,18 +123,51 @@ asst::Controller::~Controller()
 
 asst::Rect asst::Controller::shaped_correct(const Rect& rect) const
 {
-    if (rect.width == 0 || rect.height == 0) {
+    if (rect.empty()) {
         return rect;
     }
     // 明日方舟在异形屏上，有的地方是按比例缩放的，有的地方又是直接位移。没法整，这里简单粗暴一点截一个长条
     Rect dst = rect;
-    if (m_scale_size.first != GeneralConfiger::WindowWidthDefault) { // 说明是宽屏
-        dst.x = 0;
-        dst.width = m_scale_size.first - 1;
+    if (m_scale_size.first != WindowWidthDefault) {                 // 说明是宽屏
+        if (rect.width < WindowWidthDefault / 2) {
+            if (rect.x + rect.width < WindowWidthDefault / 2) {     // 整个矩形都在左半边
+                dst.x = 0;
+                dst.width = m_scale_size.first / 2;
+            }
+            else if (rect.x >= WindowWidthDefault / 2) {            // 整个矩形都在右半边
+                dst.x = m_scale_size.first / 2;
+                dst.width = m_scale_size.first / 2;
+            }
+            else {                                                  // 整个矩形横跨了中线
+                dst.x = 0;
+                dst.width = m_scale_size.first;
+            }
+        }
+        else {
+            dst.x = 0;
+            dst.width = m_scale_size.first;
+        }
     }
-    else if (m_scale_size.second != GeneralConfiger::WindowHeightDefault) { // 说明是偏方形屏
-        dst.y = 0;
-        dst.height = m_scale_size.second - 1;
+    else if (m_scale_size.second != WindowHeightDefault) {          // 说明是偏方形屏
+        if (rect.height < WindowHeightDefault / 2) {
+            if (rect.y + rect.height < WindowHeightDefault / 2) {   // 整个矩形都在上半边
+                dst.y = 0;
+                dst.height = m_scale_size.second / 2;
+            }
+            else if (rect.y >= WindowHeightDefault / 2) {           // 整个矩形都在下半边
+                dst.y = m_scale_size.second / 2;
+                dst.height = m_scale_size.second / 2;                // 整个矩形横跨了中线
+            }
+            else {
+                dst.y = 0;
+                dst.height = m_scale_size.second;
+            }
+        }
+
+        else {
+            dst.y = 0;
+            dst.height = m_scale_size.second;
+        }
     }
     return dst;
 }

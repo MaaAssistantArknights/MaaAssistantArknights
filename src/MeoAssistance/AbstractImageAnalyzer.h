@@ -20,6 +20,7 @@ namespace asst
         virtual void set_image(const cv::Mat& image, const Rect& roi);
         virtual void set_roi(const Rect& roi) noexcept;
         virtual bool analyze() = 0;
+        virtual void correct_roi() noexcept;
 
         std::string calc_hash() const;                // 使用m_roi
         std::string calc_hash(const Rect& roi) const; // 使用参数roi

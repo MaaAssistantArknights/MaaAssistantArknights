@@ -12,8 +12,6 @@ namespace asst
     class TemplResource : public AbstractResource
     {
     public:
-        constexpr static double TemplThresholdDefault = 0.9;
-        constexpr static double HistThresholdDefault = 0.9;
 
         virtual ~TemplResource() = default;
 

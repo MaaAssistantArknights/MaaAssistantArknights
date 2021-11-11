@@ -183,7 +183,7 @@ A game assistance for Arknights
     1. `options`.`connectType`字段值为`1`
     2. `emulator`.`Custom`.`adb`.`addresses`字段填写为要连接的地址，请注意这是个数组，会以此尝试所有的（若不填写，或`addresses`中所有的都没连上，则会使用`adb devices`自动查找）
 
-目前对非16:9分辨率的支持效果很不好，几乎是不可用状态，后期将逐步优化
+目前对非16:9分辨率的支持效果很不好，刷理智和公招识别勉强可用，其他功能几乎是不可用的状态，后期将逐步优化
 
 ### 设置操作延时
 

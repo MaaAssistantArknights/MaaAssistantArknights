@@ -56,6 +56,12 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
     cv::Mat matched;
 
     cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi));
+    if (templ.rows > image_roi.cols || templ.cols > image_roi.cols) {
+        log.error("templ size is too large",
+            "image_roi size:", image_roi.cols, image_roi.cols,
+            "templ size:", templ.cols, templ.rows);
+        return false;
+    }
     if (m_mask_range.first == m_mask_range.second) {
         cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED);
     }

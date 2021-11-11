@@ -22,6 +22,7 @@ bool asst::ProcessTaskImageAnalyzer::match_analyze(std::shared_ptr<TaskInfo> tas
     }
     const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
     m_match_analyzer->set_task_info(*match_task_ptr);
+    m_match_analyzer->correct_roi();
 
     if (m_match_analyzer->analyze()) {
         m_result = match_task_ptr;
@@ -69,6 +70,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
     // 识别区域文字，并加入缓存
     auto analyze_roi = [&](const Rect& roi, bool is_appeared = false) -> bool {
         m_ocr_analyzer->set_roi(roi);
+        m_ocr_analyzer->correct_roi();
         bool ret = m_ocr_analyzer->analyze();
 
         const auto& ocr_result = m_ocr_analyzer->get_result();
@@ -88,8 +90,8 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
 
     // 在曾经识别到过的历史区域里识别
     for (const Rect& region : ocr_task_ptr->region_of_appeared) {
-        static auto& max_width = resource.cfg().WindowWidthDefault;
-        static auto& max_height = resource.cfg().WindowHeightDefault;
+        static auto& max_width = WindowWidthDefault;
+        static auto& max_height = WindowHeightDefault;
         bool ret = analyze_roi(region.center_zoom(2.0, max_width, max_height), true);
         if (ret) {
             log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in appeared");

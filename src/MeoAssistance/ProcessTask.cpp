@@ -74,7 +74,7 @@ bool ProcessTask::run()
         exec_click_task(rect);
         break;
     case ProcessTaskAction::ClickRand: {
-        static const Rect full_rect(0, 0, GeneralConfiger::WindowWidthDefault, GeneralConfiger::WindowHeightDefault);
+        static const Rect full_rect(0, 0, WindowWidthDefault, WindowHeightDefault);
         exec_click_task(full_rect);
     } break;
     case ProcessTaskAction::SwipeToTheLeft:
@@ -167,12 +167,18 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
     if (!delay_random()) {
         return;
     }
-    auto& width = resource.cfg().WindowWidthDefault;
-    auto& height = resource.cfg().WindowWidthDefault;
 
-    const static Rect right_rect(width * 0.8, height * 0.4, width * 0.1, height * 0.2);
+    const static Rect right_rect = ctrler.shaped_correct(
+        Rect(WindowWidthDefault * 0.8,
+            WindowWidthDefault * 0.4,
+            WindowWidthDefault * 0.1,
+            WindowWidthDefault * 0.2));
 
-    const static Rect left_rect(width * 0.1, height * 0.4, width * 0.1, height * 0.2);
+    const static Rect left_rect = ctrler.shaped_correct(
+        Rect(WindowWidthDefault * 0.1,
+            WindowWidthDefault * 0.4,
+            WindowWidthDefault * 0.1,
+            WindowWidthDefault * 0.2));
 
     switch (action) {
     case asst::ProcessTaskAction::SwipeToTheLeft:
