@@ -1,4 +1,4 @@
-{
+﻿{
     "SanityBegin": {
         "algorithm": "justreturn",
         "action": "doNothing",
@@ -800,7 +800,7 @@
     },
     "DroneConfirm": {
         "action": "clickSelf",
-        "rearDelay": 3000,
+        "rearDelay": 2000,
         "templThreshold": 0.8,
         "next": [
             "DeliverableOrder",
@@ -814,7 +814,8 @@
         "next": [
             "DeliverableOrder",
             "DroneAssist-Trade"
-        ]
+        ],
+        "rearDelay": 2000
     },
     "DroneAssist-Trade-Stop": {
         "Doc": "如果找到了“无人机加速”按钮，却没有找到订单交付：说明上一次无人机没有把一个订单加速完成，也说明没有更多的无人机了，所以直接stop",
