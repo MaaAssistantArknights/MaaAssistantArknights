@@ -62,9 +62,14 @@ bool asst::InfrastProductionTask::shift_facility_list()
             continue;
         }
         auto& rect = add_analyzer.get_result().rect;
-        Rect add_button = add_task_ptr->rect_move;
-        add_button.x += rect.x;
-        add_button.y += rect.y;
+        Rect add_button = rect;
+        auto& rect_move = add_task_ptr->rect_move;
+        if (!rect_move.empty()) {
+            add_button.x += rect_move.x;
+            add_button.y += rect_move.y;
+            add_button.width = rect_move.width;
+            add_button.height = rect_move.height;
+        }
 
         /* 识别当前正在造什么 */
         MatchImageAnalyzer product_analyzer(image);
