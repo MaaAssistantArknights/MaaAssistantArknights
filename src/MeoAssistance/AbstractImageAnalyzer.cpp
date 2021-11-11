@@ -1,6 +1,7 @@
 #include "AbstractImageAnalyzer.h"
 
 #include "AsstUtils.hpp"
+#include "Controller.h"
 
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
     : m_image(image), m_roi(empty_rect_to_full(Rect(), image))
@@ -38,6 +39,11 @@ void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image, const Rect& ro
 void asst::AbstractImageAnalyzer::set_roi(const Rect& roi) noexcept
 {
     m_roi = empty_rect_to_full(roi, m_image);
+}
+
+void asst::AbstractImageAnalyzer::correct_roi() noexcept
+{
+    m_roi = ctrler.shaped_correct(m_roi);
 }
 
 asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, const cv::Mat& image) noexcept

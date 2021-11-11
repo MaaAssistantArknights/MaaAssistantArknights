@@ -114,11 +114,9 @@ bool asst::TaskData::parse(const json::value& json)
             m_templ_required.emplace(match_task_info_ptr->templ_name);
 
             match_task_info_ptr->templ_threshold = task_json.get(
-                "templThreshold",
-                TemplResource::TemplThresholdDefault);
+                "templThreshold", TemplThresholdDefault);
             match_task_info_ptr->hist_threshold = task_json.get(
-                "histThreshold",
-                TemplResource::HistThresholdDefault);
+                "histThreshold", HistThresholdDefault);
             match_task_info_ptr->cache = task_json.get("cache", true);
             if (task_json.exist("maskRange")) {
                 match_task_info_ptr->mask_range = std::make_pair(
@@ -211,8 +209,8 @@ bool asst::TaskData::parse(const json::value& json)
         else {
             task_info_ptr->roi = Rect(
                 0, 0,
-                GeneralConfiger::WindowWidthDefault,
-                GeneralConfiger::WindowHeightDefault);
+                WindowWidthDefault,
+                WindowHeightDefault);
         }
 
         if (task_json.exist("next")) {

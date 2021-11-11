@@ -37,9 +37,6 @@ namespace asst
     public:
         virtual ~GeneralConfiger() = default;
 
-        constexpr static int WindowWidthDefault = 1280;
-        constexpr static int WindowHeightDefault = 720;
-
         const std::string& get_version() const noexcept
         {
             return m_version;
