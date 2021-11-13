@@ -316,7 +316,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                     if (!opt.hashs.empty()) {
                         for (const auto& [key, hash] : opt.hashs) {
                             int dist = utils::hamming(find_iter->hash, hash);
-                            log.trace("hash dist", dist, hash, find_iter->hash);
+                            log.trace("optimal_calc | hash dist", dist, hash, find_iter->hash);
                             if (dist < m_hash_dist_threshold) {
                                 hash_matched = true;
                                 break;
@@ -425,6 +425,7 @@ bool asst::InfrastProductionTask::opers_choose()
                 [&](const InfrastOperSkillInfo& lhs) -> bool {
                     // 既要技能相同，也要hash相同，双重校验
                     int dist = utils::hamming(lhs.hash, opt_iter->hash);
+                    log.trace("opers_choose | hash dist", dist, lhs.hash, opt_iter->hash);
                     return dist < m_hash_dist_threshold
                         && lhs.skills_comb == opt_iter->skills_comb;
                 });
