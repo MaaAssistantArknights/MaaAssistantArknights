@@ -278,6 +278,13 @@ bool asst::InfrastProductionTask::optimal_calc()
         }
         // 排个序，因为产物不同，效率可能会发生变化，所以配置文件里默认的顺序不一定准确
         auto optional = group.optional;
+        for (auto&& opt : optional) {
+            if (auto iter = opt.efficient_regex.find(m_product);
+                iter != opt.efficient_regex.cend()) {
+                opt = efficient_regex_calc(opt);
+            }
+        }
+
         std::sort(optional.begin(), optional.end(),
                   [&](const InfrastSkillsComb& lhs, const InfrastSkillsComb& rhs) -> bool {
                       return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
@@ -314,13 +321,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                     }
 
                     cur_opers.emplace_back(*find_iter);
-                    if (auto iter = opt.efficient_regex.find(m_product);
-                        iter != opt.efficient_regex.cend()) {
-                        cur_efficient += efficient_regex_calc(opt).efficient.at(m_product);
-                    }
-                    else {
-                        cur_efficient += opt.efficient.at(m_product);
-                    }
+                    cur_efficient += opt.efficient.at(m_product);
                     find_iter = cur_available_opers.erase(find_iter);
                 }
                 else {
