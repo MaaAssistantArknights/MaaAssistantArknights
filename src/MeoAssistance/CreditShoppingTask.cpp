@@ -45,11 +45,8 @@ bool asst::CreditShoppingTask::run()
                 resource.task().task_ptr("CreditShop-BuyIt"));
 
             const cv::Mat& buy_image = ctrler.get_image();
-            MatchImageAnalyzer buy_it_analyzer(
-                buy_image,
-                buy_it_task_ptr->roi,
-                buy_it_task_ptr->templ_name,
-                buy_it_task_ptr->templ_threshold);
+            MatchImageAnalyzer buy_it_analyzer(buy_image);
+            buy_it_analyzer.set_task_info(*buy_it_task_ptr);
             if (!buy_it_analyzer.analyze()) {
                 // 没识别到“购买商品”按钮，不应该出现这种情况，TODO 报错
                 return false;

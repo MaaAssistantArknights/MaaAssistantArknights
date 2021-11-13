@@ -22,11 +22,8 @@ bool asst::CreditShopImageAnalyzer::commoditys_analyze()
         resource.task().task_ptr("CreditShop-Commoditys"));
 
     // 识别信用点的图标
-    MultiMatchImageAnalyzer mm_annlyzer(
-        m_image,
-        commodity_task_ptr->roi,
-        commodity_task_ptr->templ_name,
-        commodity_task_ptr->templ_threshold);
+    MultiMatchImageAnalyzer mm_annlyzer(m_image);
+    mm_annlyzer.set_task_info(*commodity_task_ptr);
 
     if (!mm_annlyzer.analyze()) {
         return false;
@@ -83,11 +80,8 @@ bool asst::CreditShopImageAnalyzer::sold_out_analyze()
         resource.task().task_ptr("CreditShop-SoldOut"));
 
     // 识别是否售罄
-    MatchImageAnalyzer sold_out_analyzer(
-        m_image,
-        sold_out_task_ptr->roi,
-        sold_out_task_ptr->templ_name,
-        sold_out_task_ptr->templ_threshold);
+    MatchImageAnalyzer sold_out_analyzer(m_image);
+    sold_out_analyzer.set_task_info(*sold_out_task_ptr);
 
     for (const Rect& commodity : m_need_to_buy) {
         sold_out_analyzer.set_roi(commodity);

@@ -485,6 +485,7 @@
     },
     "CreditShop-Commoditys": {
         "template": "CreditPoint.png",
+        "cache": false,
         "rectMove": [
             -60,
             -180,
@@ -493,10 +494,12 @@
         ]
     },
     "CreditShop-SoldOut": {
+        "cache": false,
         "template": "SoldOut.png"
     },
     "CreditShop-BuyIt": {
         "template": "BuyIt.png",
+        "cache": false,
         "preDelay": 1000,
         "rearDelay": 1000
     },
@@ -535,6 +538,7 @@
     "RecruitTime": {
         "template": "RecruitTimeReduce.png",
         "templThreshold": 0.89,
+        "cache": false,
         "action": "clickSelf",
         "rectMove": [
             7,

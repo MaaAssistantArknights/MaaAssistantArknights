@@ -17,12 +17,11 @@ bool asst::RecruitImageAnalyzer::analyze()
 
 bool asst::RecruitImageAnalyzer::tags_analyze()
 {
-    const auto tags_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-        resource.task().task_ptr("RecruitTags"));
-
     static bool analyzer_inited = false;
     static OcrImageAnalyzer tags_analyzer;
     if (!analyzer_inited) {
+        const auto tags_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
+            resource.task().task_ptr("RecruitTags"));
         tags_analyzer.set_roi(tags_task_ptr->roi);
         auto& all_tags_set = resource.recruit().get_all_tags();
         std::vector<std::string> all_tags_vec;
@@ -49,11 +48,8 @@ bool asst::RecruitImageAnalyzer::time_analyze()
     const auto time_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         resource.task().task_ptr("RecruitTime"));
 
-    MatchImageAnalyzer time_analyzer(
-        m_image,
-        time_task_ptr->roi,
-        time_task_ptr->templ_name,
-        time_task_ptr->templ_threshold);
+    MatchImageAnalyzer time_analyzer(m_image);
+    time_analyzer.set_task_info(*time_task_ptr);
 
     if (time_analyzer.analyze()) {
         Rect rect = time_analyzer.get_result().rect;
