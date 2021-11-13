@@ -225,6 +225,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     // 遍历所有组合，找到效率最高的
     auto& all_group = resource.infrast().get_skills_group(m_facility);
     for (const InfrastSkillsGroup& group : all_group) {
+        LogTraceScope(group.intro);
         auto cur_available_opers = m_all_available_opers;
         bool group_unavailable = false;
         std::vector<InfrastOperSkillInfo> cur_opers;
@@ -262,7 +263,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                 group_unavailable = true;
                 break;
             }
-            cur_opers.emplace_back(nec_skills);
+            cur_opers.emplace_back(*find_iter);
             if (auto iter = nec_skills.efficient_regex.find(m_product);
                 iter != nec_skills.efficient_regex.cend()) {
                 cur_efficient += efficient_regex_calc(nec_skills).efficient.at(m_product);
@@ -286,12 +287,33 @@ bool asst::InfrastProductionTask::optimal_calc()
         for (const InfrastSkillsComb& opt : optional) {
             auto find_iter = cur_available_opers.cbegin();
             while (cur_opers.size() != max_num_of_opers) {
-                find_iter = std::find_if(find_iter, cur_available_opers.cend(),
-                                         [&](const InfrastOperSkillInfo& arg) -> bool {
-                                             return arg.skills_comb.skills == opt.skills;
-                                         });
+                find_iter = std::find_if(
+                    find_iter, cur_available_opers.cend(),
+                    [&](const InfrastOperSkillInfo& arg) -> bool {
+                        return arg.skills_comb.skills == opt.skills;
+                    });
                 if (find_iter != cur_available_opers.cend()) {
-                    cur_opers.emplace_back(opt);
+                    // 要求技能匹配的同时，hash也要匹配
+                    bool hash_matched = false;
+                    if (!opt.hashs.empty()) {
+                        for (const auto& [key, hash] : opt.hashs) {
+                            int dist = utils::hamming(find_iter->hash, hash);
+                            log.trace("hash dist", dist, hash, find_iter->hash);
+                            if (dist < HashDistThres) {
+                                hash_matched = true;
+                                break;
+                            }
+                        }
+                    }
+                    else {
+                        hash_matched = true;
+                    }
+                    if (!hash_matched) {
+                        ++find_iter;
+                        continue;
+                    }
+
+                    cur_opers.emplace_back(*find_iter);
                     if (auto iter = opt.efficient_regex.find(m_product);
                         iter != opt.efficient_regex.cend()) {
                         cur_efficient += efficient_regex_calc(opt).efficient.at(m_product);
@@ -386,10 +408,14 @@ bool asst::InfrastProductionTask::opers_choose()
 
         std::vector<std::string> selected_hash;
         for (auto opt_iter = m_optimal_opers.begin(); opt_iter != m_optimal_opers.end();) {
-            auto find_iter = std::find_if(cur_all_info.cbegin(), cur_all_info.cend(),
-                                          [&](const InfrastOperSkillInfo& lhs) -> bool {
-                                              return lhs.skills_comb == opt_iter->skills_comb;
-                                          });
+            auto find_iter = std::find_if(
+                cur_all_info.cbegin(), cur_all_info.cend(),
+                [&](const InfrastOperSkillInfo& lhs) -> bool {
+                    // 既要技能相同，也要hash相同，双重校验
+                    int dist = utils::hamming(lhs.hash, opt_iter->hash);
+                    return dist < HashDistThres
+                        && lhs.skills_comb == opt_iter->skills_comb;
+                });
             if (find_iter == cur_all_info.cend()) {
                 ++opt_iter;
                 continue;
@@ -401,10 +427,11 @@ bool asst::InfrastProductionTask::opers_choose()
             ctrler.click(find_iter->rect);
             selected_hash.emplace_back(find_iter->hash);
             {
-                auto avlb_iter = std::find_if(m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-                                              [&](const InfrastOperSkillInfo& lhs) -> bool {
-                                                  return lhs.skills_comb == opt_iter->skills_comb;
-                                              });
+                auto avlb_iter = std::find_if(
+                    m_all_available_opers.cbegin(), m_all_available_opers.cend(),
+                    [&](const InfrastOperSkillInfo& lhs) -> bool {
+                        return lhs.skills_comb == opt_iter->skills_comb;
+                    });
                 m_all_available_opers.erase(avlb_iter);
             }
             cur_all_info.erase(find_iter);

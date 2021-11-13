@@ -340,6 +340,7 @@ namespace asst
 
         std::string intro;
         std::unordered_set<InfrastSkill> skills;
+        std::unordered_map<std::string, std::string> hashs; // 限定只允许某些hash匹配的某些干员。若hash不相同，即使技能匹配了也不可用。hashs若为空，则不生效
         std::unordered_map<std::string, double> efficient;
         std::unordered_map<std::string, std::string> efficient_regex;
     };
@@ -356,11 +357,11 @@ namespace asst
     // 基建技能组
     struct InfrastSkillsGroup
     {
-        std::string intro;                               // 文字介绍，实际不起作用
-        std::unordered_map<std::string, int> conditions; // 技能组合可用条件，例如：key 发电站数量，value 3
-        std::vector<InfrastSkillsComb> necessary;        // 必选技能。这里面的缺少任一，则该技能组合不可用
-        std::vector<InfrastSkillsComb> optional;         // 可选技能。
-        bool allow_external = false;                     // 当干员数没满3个的时候，是否允许补充外部干员
+        std::string intro;                                  // 文字介绍，实际不起作用
+        std::unordered_map<std::string, int> conditions;    // 技能组合可用条件，例如：key 发电站数量，value 3
+        std::vector<InfrastSkillsComb> necessary;           // 必选技能。这里面的缺少任一，则该技能组合不可用
+        std::vector<InfrastSkillsComb> optional;            // 可选技能。
+        bool allow_external = false;                        // 当干员数没满3个的时候，是否允许补充外部干员
     };
 
     enum class InfrastWorkMode

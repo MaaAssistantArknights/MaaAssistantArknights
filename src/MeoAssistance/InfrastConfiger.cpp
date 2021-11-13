@@ -133,19 +133,24 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                         comb.efficient.emplace(pd, 0);
                     }
                 }
+                if (necessary_json.exist("hash")) {
+                    for (const auto& [key, value] : necessary_json.at("hash").as_object()) {
+                        comb.hashs.emplace(key, value.as_string());
+                    }
+                }
                 group.necessary.emplace_back(std::move(comb));
             }
-            for (const json::value& necessary_json : group_json.at("optional").as_array()) {
+            for (const json::value& opt_json : group_json.at("optional").as_array()) {
                 InfrastSkillsComb comb;
-                comb.intro = necessary_json.get("intro", std::string());
-                for (const json::value& skill_json : necessary_json.at("skills").as_array()) {
+                comb.intro = opt_json.get("intro", std::string());
+                for (const json::value& skill_json : opt_json.at("skills").as_array()) {
                     const auto& skill = m_skills.at(facility_name).at(skill_json.as_string());
                     comb.skills.emplace(skill);
                 }
                 /* 解析efficient的数字及正则值 */
-                if (necessary_json.exist("efficient")) {
+                if (opt_json.exist("efficient")) {
                     const static std::string reg_suffix = "_reg";
-                    const json::value& efficient = necessary_json.at("efficient");
+                    const json::value& efficient = opt_json.at("efficient");
 
                     if (std::string all_reg_key = "all" + reg_suffix;
                         efficient.exist(all_reg_key)) {
@@ -180,6 +185,11 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                 else {
                     for (const std::string& pd : products) {
                         comb.efficient.emplace(pd, 0);
+                    }
+                }
+                if (opt_json.exist("hash")) {
+                    for (const auto& [key, value] : opt_json.at("hash").as_object()) {
+                        comb.hashs.emplace(key, value.as_string());
                     }
                 }
                 group.optional.emplace_back(std::move(comb));

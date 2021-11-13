@@ -353,6 +353,13 @@
                         ],
                         "efficient": {
                             "all": 30
+                        },
+                        "hash": {
+                            "史都华德": "43174f1fefbae7abcfd3ce13e23bef3bcf0fcf0fcff24ff7ef04fe06be060a00",
+                            "杰西卡": "27c427c4ffc6f88663c473df70dfb0dfaac4aac622c6e047ebc4ebc4cbc40844",
+                            "调香师": "bbcfbb9f0a1a3bda9bdf999fbadf3a5f3fdf3bdf3a4f7bcfea52cbd2cbd20a42",
+                            "香草": "7cff78ff5024fe24fe7e7c427c7ed67efe7e7c7e44187cff44187c187c184418",
+                            "罗比菈塔": "e8f1e8f708f70961ed2eeeff0ef3eaf7a857a9d369f769af4d29cbf38bf38081"
                         }
                     },
                     {
@@ -362,6 +369,10 @@
                         ],
                         "efficient": {
                             "all": 20
+                        },
+                        "hash": {
+                            "夜刀": "1000fe7efe7e68125e105e125a12da12fe32fc225c224c625e627ece72ce6000",
+                            "流星": "887efe7e7e427e7e9642be7ebe7e3a584c7e4cfe4cfe6cfeac18eeffeeff0200"
                         }
                     }
                 ]
