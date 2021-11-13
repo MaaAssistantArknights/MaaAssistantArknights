@@ -14,7 +14,7 @@ namespace asst
 
         void sort_result();
 
-        const std::vector<InfrastOperMoodInfo>& get_result() const noexcept
+        auto get_result() const noexcept -> const std::vector<InfrastOperMoodInfo>&
         {
             return m_result;
         }
@@ -32,7 +32,6 @@ namespace asst
 
         bool mood_detect();
         bool mood_analyze();
-        bool hash_calc();
         bool selected_analyze();
         bool working_analyze();
 
