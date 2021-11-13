@@ -22,7 +22,8 @@ bool ProcessTask::run()
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
-    ProcessTaskImageAnalyzer analyzer(ctrler.get_image(), m_cur_tasks_name);
+    const auto& image = ctrler.get_image();
+    ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name);
     if (!analyzer.analyze()) {
         return false;
     }
@@ -74,7 +75,7 @@ bool ProcessTask::run()
         exec_click_task(rect);
         break;
     case ProcessTaskAction::ClickRand: {
-        static const Rect full_rect(0, 0, WindowWidthDefault, WindowHeightDefault);
+        static const Rect full_rect(0, 0, image.cols, image.rows);
         exec_click_task(full_rect);
     } break;
     case ProcessTaskAction::SwipeToTheLeft:
@@ -167,18 +168,17 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
     if (!delay_random()) {
         return;
     }
+    const auto&& [width, height] = ctrler.get_scale_size();
 
-    const static Rect right_rect = ctrler.shaped_correct(
-        Rect(WindowWidthDefault * 0.8,
-            WindowWidthDefault * 0.4,
-            WindowWidthDefault * 0.1,
-            WindowWidthDefault * 0.2));
+    const static Rect right_rect(width * 0.8,
+            height * 0.4,
+            width * 0.1,
+            height * 0.2);
 
-    const static Rect left_rect = ctrler.shaped_correct(
-        Rect(WindowWidthDefault * 0.1,
-            WindowWidthDefault * 0.4,
-            WindowWidthDefault * 0.1,
-            WindowWidthDefault * 0.2));
+    const static Rect left_rect(width * 0.1,
+            height * 0.4,
+            width * 0.1,
+            height * 0.2);
 
     switch (action) {
     case asst::ProcessTaskAction::SwipeToTheLeft:

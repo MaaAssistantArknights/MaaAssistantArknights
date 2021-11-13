@@ -297,7 +297,7 @@
         ]
     },
     "Friends": {
-        "templThreshold": 0.85,
+        "templThreshold": 0.7,
         "action": "clickSelf",
         "next": [
             "FriendsList",
@@ -391,7 +391,17 @@
         ]
     },
     "Mall": {
+        "algorithm": "OcrDetect",
         "action": "clickSelf",
+        "text": [
+            "中心"
+        ],
+        "roi": [
+            640,
+            360,
+            640,
+            360
+        ],
         "next": [
             "CreditStore",
             "CreditStoreOcr"
