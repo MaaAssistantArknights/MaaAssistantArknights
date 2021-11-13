@@ -55,6 +55,11 @@ namespace asst
         Controller& operator=(const Controller&) = delete;
         Controller& operator=(Controller&&) = delete;
 
+        std::pair<int, int> get_scale_size() const noexcept
+        {
+            return m_scale_size;
+        }
+
     private:
         Controller();
 

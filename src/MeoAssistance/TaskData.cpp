@@ -207,10 +207,7 @@ bool asst::TaskData::parse(const json::value& json)
                 area_arr[3].as_integer());
         }
         else {
-            task_info_ptr->roi = Rect(
-                0, 0,
-                WindowWidthDefault,
-                WindowHeightDefault);
+            task_info_ptr->roi = Rect();
         }
 
         if (task_json.exist("next")) {

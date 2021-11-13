@@ -129,8 +129,8 @@ asst::Rect asst::Controller::shaped_correct(const Rect& rect) const
     // 明日方舟在异形屏上，有的地方是按比例缩放的，有的地方又是直接位移。没法整，这里简单粗暴一点截一个长条
     Rect dst = rect;
     if (m_scale_size.first != WindowWidthDefault) {                 // 说明是宽屏
-        if (rect.width < WindowWidthDefault / 2) {
-            if (rect.x + rect.width < WindowWidthDefault / 2) {     // 整个矩形都在左半边
+        if (rect.width <= WindowWidthDefault / 2) {
+            if (rect.x + rect.width <= WindowWidthDefault / 2) {     // 整个矩形都在左半边
                 dst.x = 0;
                 dst.width = m_scale_size.first / 2;
             }
@@ -149,8 +149,8 @@ asst::Rect asst::Controller::shaped_correct(const Rect& rect) const
         }
     }
     else if (m_scale_size.second != WindowHeightDefault) {          // 说明是偏方形屏
-        if (rect.height < WindowHeightDefault / 2) {
-            if (rect.y + rect.height < WindowHeightDefault / 2) {   // 整个矩形都在上半边
+        if (rect.height <= WindowHeightDefault / 2) {
+            if (rect.y + rect.height <= WindowHeightDefault / 2) {   // 整个矩形都在上半边
                 dst.y = 0;
                 dst.height = m_scale_size.second / 2;
             }
