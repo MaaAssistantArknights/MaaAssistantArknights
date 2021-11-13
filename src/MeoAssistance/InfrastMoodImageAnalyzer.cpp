@@ -12,12 +12,11 @@ bool asst::InfrastMoodImageAnalyzer::analyze()
 
     mood_detect();
     mood_analyze();
-    hash_calc();
     selected_analyze();
     working_analyze();
 
     for (auto&& info : m_result) {
-        log.trace(info.hash, info.rect.to_string(),
+        log.trace(info.rect.to_string(),
                   "smiley:", (int)info.smiley.type, "mood:", info.percentage,
                   "selected:", info.selected, "working:", info.working);
     }
@@ -48,7 +47,6 @@ bool asst::InfrastMoodImageAnalyzer::mood_detect()
     const auto upper_task_ptr = resource.task().task_ptr("InfrastSkillsUpper");
     const auto lower_task_ptr = resource.task().task_ptr("InfrastSkillsLower");
     const auto prg_task_ptr = resource.task().task_ptr("InfrastOperMoodProgressBar");
-
     Rect progress_rect_move = prg_task_ptr->rect_move;
 
     std::vector<Rect> roi_vec = {
@@ -170,20 +168,6 @@ bool asst::InfrastMoodImageAnalyzer::mood_analyze()
     }
 
     return false;
-}
-
-bool asst::InfrastMoodImageAnalyzer::hash_calc()
-{
-    const auto hash_task_ptr = resource.task().task_ptr("InfrastSkillsHash");
-    Rect hash_rect_move = hash_task_ptr->rect_move;
-
-    for (auto&& info : m_result) {
-        Rect hash_rect = hash_rect_move;
-        hash_rect.x += info.smiley.rect.x;
-        hash_rect.y += info.smiley.rect.y;
-        info.hash = calc_name_hash(hash_rect);
-    }
-    return true;
 }
 
 bool asst::InfrastMoodImageAnalyzer::selected_analyze()

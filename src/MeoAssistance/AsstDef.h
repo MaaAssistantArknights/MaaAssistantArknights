@@ -276,7 +276,6 @@ namespace asst
     };
     struct InfrastOperMoodInfo
     {
-        std::string hash; // 干员部分立绘的hash，作为唯一标识
         InfrastSmileyInfo smiley;
         double percentage = 0; // 心情进度条的百分比
         Rect rect;
