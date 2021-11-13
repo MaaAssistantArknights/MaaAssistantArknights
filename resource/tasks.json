@@ -860,9 +860,9 @@
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             0,
-            -202,
-            74,
-            100
+            21,
+            113,
+            20
         ]
     },
     "InfrastSmileyOnRest": {

@@ -87,14 +87,19 @@ bool asst::InfrastSkillsImageAnalyzer::skills_detect()
             if (skills_rect.x + skills_rect.width > roi.x + roi.width || skills_rect.x < roi.x) {
                 continue;
             }
-#ifdef LOG_TRACE
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(skills_rect), cv::Scalar(0, 0, 255), 2);
-#endif // LOG_TRACE
 
             Rect hash_rect = hash_rect_move;
             hash_rect.x += smiley_rect.x;
             hash_rect.y += smiley_rect.y;
-            std::string hash = calc_hash(hash_rect);
+
+            if (hash_rect.x + hash_rect.width > roi.x + roi.width || hash_rect.x < roi.x) {
+                continue;
+            }
+            std::string hash = calc_name_hash(hash_rect);
+
+#ifdef LOG_TRACE
+            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(skills_rect), cv::Scalar(0, 0, 255), 2);
+#endif // LOG_TRACE
 
             m_skills_detected.emplace(std::move(hash), std::move(skills_rect));
         }

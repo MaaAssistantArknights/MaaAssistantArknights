@@ -131,7 +131,7 @@ namespace asst
         MatchRect& operator=(const MatchRect&) = default;
         MatchRect& operator=(MatchRect&&) noexcept = default;
 
-        AlgorithmType algorithm;
+        AlgorithmType algorithm = AlgorithmType::Invaild;
         double score = 0.0;
         Rect rect;
     };
@@ -348,10 +348,10 @@ namespace asst
     {
         InfrastOperSkillInfo() = default;
         InfrastOperSkillInfo(InfrastSkillsComb skills_comb) : skills_comb(std::move(skills_comb)) {}
-        std::string hash; // 有些干员的技能是完全一样的，做个hash区分一下不同干员
+        std::string hash;       // 有些干员的技能是完全一样的，做个hash区分一下不同干员
         InfrastSkillsComb skills_comb;
         Rect rect;
-        bool selected = false; // 干员是否已被选择（蓝色的选择框）
+        bool selected = false;  // 干员是否已被选择（蓝色的选择框）
     };
     // 基建技能组
     struct InfrastSkillsGroup

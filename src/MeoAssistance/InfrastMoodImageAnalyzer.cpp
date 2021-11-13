@@ -181,7 +181,7 @@ bool asst::InfrastMoodImageAnalyzer::hash_calc()
         Rect hash_rect = hash_rect_move;
         hash_rect.x += info.smiley.rect.x;
         hash_rect.y += info.smiley.rect.y;
-        info.hash = calc_hash(hash_rect);
+        info.hash = calc_name_hash(hash_rect);
     }
     return true;
 }
