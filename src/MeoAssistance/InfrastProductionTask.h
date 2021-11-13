@@ -10,7 +10,7 @@ namespace asst
     class InfrastProductionTask : public InfrastAbstractTask
     {
     public:
-        using InfrastAbstractTask::InfrastAbstractTask;
+        InfrastProductionTask(AsstCallback callback, void* callback_arg);
         virtual ~InfrastProductionTask() = default;
         //virtual bool run() override;
         void set_facility(std::string facility_name) noexcept
@@ -31,7 +31,7 @@ namespace asst
         bool opers_choose();
         InfrastSkillsComb efficient_regex_calc(InfrastSkillsComb skill_info) const;
 
-        constexpr static int HashDistThres = 50;
+        static int m_hash_dist_threshold;
 
         std::string m_facility;
         std::string m_product;

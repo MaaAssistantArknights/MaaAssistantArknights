@@ -856,7 +856,9 @@
         ]
     },
     "InfrastSkillsHash": {
-        "algorithm": "justReturn",
+        "template": "empty.png",
+        "templThreshold_Doc": "作为哈希距离的阈值使用",
+        "templThreshold": 60,
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             0,

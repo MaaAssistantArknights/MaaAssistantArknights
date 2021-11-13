@@ -13,6 +13,8 @@
 #include "Resource.h"
 #include "RuntimeStatus.h"
 
+int asst::InfrastProductionTask::m_hash_dist_threshold = 0;
+
 //bool asst::InfrastProductionTask::run()
 //{
 //    json::value task_start_json = json::object{
@@ -32,6 +34,15 @@
 //
 //    return true;
 //}
+
+asst::InfrastProductionTask::InfrastProductionTask(AsstCallback callback, void* callback_arg)
+    : InfrastAbstractTask(callback, callback_arg)
+{
+    if (m_hash_dist_threshold == 0) {
+        m_hash_dist_threshold = std::dynamic_pointer_cast<MatchTaskInfo>(
+        resource.task().task_ptr("InfrastSkillsHash"))->templ_threshold;
+    }
+}
 
 bool asst::InfrastProductionTask::shift_facility_list()
 {
@@ -167,7 +178,7 @@ size_t asst::InfrastProductionTask::opers_detect()
             m_all_available_opers.cbegin(), m_all_available_opers.cend(),
             [&cur_info](const InfrastOperSkillInfo& info) -> bool {
                 int dist = utils::hamming(cur_info.hash, info.hash);
-                return dist < HashDistThres;
+                return dist < m_hash_dist_threshold;
             });
         // 如果两个的hash距离过小，则认为是同一个干员，不进行插入
         if (find_iter != m_all_available_opers.cend()) {
@@ -306,7 +317,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                         for (const auto& [key, hash] : opt.hashs) {
                             int dist = utils::hamming(find_iter->hash, hash);
                             log.trace("hash dist", dist, hash, find_iter->hash);
-                            if (dist < HashDistThres) {
+                            if (dist < m_hash_dist_threshold) {
                                 hash_matched = true;
                                 break;
                             }
@@ -414,7 +425,7 @@ bool asst::InfrastProductionTask::opers_choose()
                 [&](const InfrastOperSkillInfo& lhs) -> bool {
                     // 既要技能相同，也要hash相同，双重校验
                     int dist = utils::hamming(lhs.hash, opt_iter->hash);
-                    return dist < HashDistThres
+                    return dist < m_hash_dist_threshold
                         && lhs.skills_comb == opt_iter->skills_comb;
                 });
             if (find_iter == cur_all_info.cend()) {
