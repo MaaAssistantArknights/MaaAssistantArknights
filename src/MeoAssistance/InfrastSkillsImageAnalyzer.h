@@ -18,7 +18,7 @@ namespace asst
 
         void sort_result();
 
-        const std::vector<InfrastOperSkillInfo>& get_result() const noexcept
+        auto get_result() const noexcept -> const std::vector<InfrastOperSkillInfo>&
         {
             return m_result;
         }

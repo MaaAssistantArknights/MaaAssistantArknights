@@ -31,7 +31,7 @@ namespace asst
         bool opers_choose();
         InfrastSkillsComb efficient_regex_calc(InfrastSkillsComb skill_info) const;
 
-        constexpr static int HashDistThres = 25;
+        constexpr static int HashDistThres = 50;
 
         std::string m_facility;
         std::string m_product;

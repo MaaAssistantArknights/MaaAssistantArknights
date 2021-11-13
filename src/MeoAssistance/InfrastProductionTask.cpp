@@ -237,7 +237,12 @@ bool asst::InfrastProductionTask::optimal_calc()
                 continue;
             }
             // TODO：这里做成除了不等于，还可计算大于、小于等不同条件的
-            int cur_value = std::any_cast<int>(status.get(cond));
+            std::any cur_any_value = status.get(cond);
+            if (!cur_any_value.has_value()) {
+                meet_condition = false;
+                break;
+            }
+            int cur_value = std::any_cast<int>(cur_any_value);
             if (cur_value != cond_value) {
                 meet_condition = false;
                 break;
@@ -432,7 +437,11 @@ asst::InfrastSkillsComb asst::InfrastProductionTask::efficient_regex_calc(Infras
                 // TODO 报错！
             }
             std::string status_key = cur_formula.substr(pos + 1, rp_pos - pos - 1);
-            int status_value = std::any_cast<int>(status.get(status_key));
+            std::any status_any_value = status.get(status_key);
+            int status_value = 0;
+            if (status_any_value.has_value()) {
+                status_value = std::any_cast<int>(status_any_value);
+            }
             cur_formula.replace(pos, rp_pos - pos + 1, std::to_string(status_value));
         }
 
