@@ -77,6 +77,7 @@ std::string asst::AbstractImageAnalyzer::calc_name_hash(const Rect& roi) const
     }
     cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(white_roi));
     cv::Mat bin;
+    cv::cvtColor(image_roi, image_roi, cv::COLOR_BGR2GRAY);
     cv::threshold(image_roi, bin, threshold, 255, cv::THRESH_BINARY);
     cv::resize(bin, bin, cv::Size(HashKernelSize, HashKernelSize));
     std::stringstream hash_value;
