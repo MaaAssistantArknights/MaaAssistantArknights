@@ -6,7 +6,7 @@
 
 #include "AsstUtils.hpp"
 #include "Controller.h"
-#include "InfrastSkillsImageAnalyzer.h"
+#include "InfrastOperImageAnalyzer.h"
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "MultiMatchImageAnalyzer.h"
@@ -164,7 +164,7 @@ size_t asst::InfrastProductionTask::opers_detect()
     LogTraceFunction;
     const auto& image = ctrler.get_image();
 
-    InfrastSkillsImageAnalyzer skills_analyzer(image);
+    InfrastOperImageAnalyzer skills_analyzer(image);
     skills_analyzer.set_facility(m_facility);
 
     if (!skills_analyzer.analyze()) {
@@ -176,7 +176,7 @@ size_t asst::InfrastProductionTask::opers_detect()
     for (const auto& cur_info : cur_all_info) {
         auto find_iter = std::find_if(
             m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-            [&cur_info](const InfrastOperSkillInfo& info) -> bool {
+            [&cur_info](const infrast::Oper& info) -> bool {
                 int dist = utils::hamming(cur_info.hash, info.hash);
                 return dist < m_hash_dist_threshold;
             });
@@ -202,11 +202,11 @@ bool asst::InfrastProductionTask::optimal_calc()
     }
 
     // 先把单个的技能按效率排个序，取效率最高的几个
-    std::vector<InfrastOperSkillInfo> optimal_opers;
+    std::vector<infrast::Oper> optimal_opers;
     optimal_opers.reserve(max_num_of_opers);
     double max_efficient = 0;
     std::sort(m_all_available_opers.begin(), m_all_available_opers.end(),
-              [&](const InfrastOperSkillInfo& lhs, const InfrastOperSkillInfo& rhs) -> bool {
+              [&](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
                   return lhs.skills_comb.efficient.at(m_product) > rhs.skills_comb.efficient.at(m_product);
               });
 
@@ -226,7 +226,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     {
         std::string log_str = "[ ";
         for (const auto& oper : optimal_opers) {
-            log_str += oper.skills_comb.intro.empty() ? oper.skills_comb.skills.begin()->names.front() : oper.skills_comb.intro;
+            log_str += oper.skills_comb.desc.empty() ? oper.skills_comb.skills.begin()->names.front() : oper.skills_comb.desc;
             log_str += "; ";
         }
         log_str += "]";
@@ -235,11 +235,11 @@ bool asst::InfrastProductionTask::optimal_calc()
 
     // 遍历所有组合，找到效率最高的
     auto& all_group = resource.infrast().get_skills_group(m_facility);
-    for (const InfrastSkillsGroup& group : all_group) {
-        LogTraceScope(group.intro);
+    for (const infrast::SkillsGroup& group : all_group) {
+        LogTraceScope(group.desc);
         auto cur_available_opers = m_all_available_opers;
         bool group_unavailable = false;
-        std::vector<InfrastOperSkillInfo> cur_opers;
+        std::vector<infrast::Oper> cur_opers;
         cur_opers.reserve(max_num_of_opers);
         double cur_efficient = 0;
         // 条件判断，不符合的直接过滤掉
@@ -264,23 +264,23 @@ bool asst::InfrastProductionTask::optimal_calc()
             continue;
         }
         // necessary里的技能，一个都不能少
-        for (const InfrastSkillsComb& nec_skills : group.necessary) {
+        for (const infrast::SkillsCombWithCond& nec_skills : group.necessary) {
             auto find_iter = std::find_if(
                 cur_available_opers.cbegin(), cur_available_opers.cend(),
-                [&](const InfrastOperSkillInfo& arg) -> bool {
-                    return arg.skills_comb == nec_skills;
+                [&](const infrast::Oper& arg) -> bool {
+                    return arg.skills_comb == nec_skills.skills_comb;
                 });
             if (find_iter == cur_available_opers.cend()) {
                 group_unavailable = true;
                 break;
             }
             cur_opers.emplace_back(*find_iter);
-            if (auto iter = nec_skills.efficient_regex.find(m_product);
-                iter != nec_skills.efficient_regex.cend()) {
-                cur_efficient += efficient_regex_calc(nec_skills).efficient.at(m_product);
+            if (auto iter = nec_skills.skills_comb.efficient_regex.find(m_product);
+                iter != nec_skills.skills_comb.efficient_regex.cend()) {
+                cur_efficient += efficient_regex_calc(nec_skills.skills_comb).efficient.at(m_product);
             }
             else {
-                cur_efficient += nec_skills.efficient.at(m_product);
+                cur_efficient += nec_skills.skills_comb.efficient.at(m_product);
             }
             cur_available_opers.erase(find_iter);
         }
@@ -290,25 +290,26 @@ bool asst::InfrastProductionTask::optimal_calc()
         // 排个序，因为产物不同，效率可能会发生变化，所以配置文件里默认的顺序不一定准确
         auto optional = group.optional;
         for (auto&& opt : optional) {
-            if (auto iter = opt.efficient_regex.find(m_product);
-                iter != opt.efficient_regex.cend()) {
-                opt = efficient_regex_calc(opt);
+            if (auto iter = opt.skills_comb.efficient_regex.find(m_product);
+                iter != opt.skills_comb.efficient_regex.cend()) {
+                opt.skills_comb = efficient_regex_calc(opt.skills_comb);
             }
         }
 
         std::sort(optional.begin(), optional.end(),
-                  [&](const InfrastSkillsComb& lhs, const InfrastSkillsComb& rhs) -> bool {
-                      return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
+                  [&](const infrast::SkillsCombWithCond& lhs,
+                      const infrast::SkillsCombWithCond& rhs) -> bool {
+                          return lhs.skills_comb.efficient.at(m_product) > rhs.skills_comb.efficient.at(m_product);
                   });
 
         // 可能有多个干员有同样的技能，所以这里需要循环找同一个技能，直到找不到为止
-        for (const InfrastSkillsComb& opt : optional) {
+        for (const infrast::SkillsCombWithCond& opt : optional) {
             auto find_iter = cur_available_opers.cbegin();
             while (cur_opers.size() != max_num_of_opers) {
                 find_iter = std::find_if(
                     find_iter, cur_available_opers.cend(),
-                    [&](const InfrastOperSkillInfo& arg) -> bool {
-                        return arg.skills_comb.skills == opt.skills;
+                    [&](const infrast::Oper& arg) -> bool {
+                        return arg.skills_comb.skills == opt.skills_comb.skills;
                     });
                 if (find_iter != cur_available_opers.cend()) {
                     // 要求技能匹配的同时，hash也要匹配
@@ -332,7 +333,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                     }
 
                     cur_opers.emplace_back(*find_iter);
-                    cur_efficient += opt.efficient.at(m_product);
+                    cur_efficient += opt.skills_comb.efficient.at(m_product);
                     find_iter = cur_available_opers.erase(find_iter);
                 }
                 else {
@@ -357,11 +358,11 @@ bool asst::InfrastProductionTask::optimal_calc()
         {
             std::string log_str = "[ ";
             for (const auto& oper : cur_opers) {
-                log_str += oper.skills_comb.intro.empty() ? oper.skills_comb.skills.begin()->names.front() : oper.skills_comb.intro;
+                log_str += oper.skills_comb.desc.empty() ? oper.skills_comb.skills.begin()->names.front() : oper.skills_comb.desc;
                 log_str += "; ";
             }
             log_str += "]";
-            log.trace(group.intro, "efficient", cur_efficient, " , skills:", log_str);
+            log.trace(group.desc, "efficient", cur_efficient, " , skills:", log_str);
         }
 
         if (cur_efficient > max_efficient) {
@@ -372,7 +373,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     {
         std::string log_str = "[ ";
         for (const auto& oper : optimal_opers) {
-            log_str += oper.skills_comb.intro.empty() ? oper.skills_comb.skills.begin()->names.front() : oper.skills_comb.intro;
+            log_str += oper.skills_comb.desc.empty() ? oper.skills_comb.skills.begin()->names.front() : oper.skills_comb.desc;
             log_str += "; ";
         }
         log_str += "]";
@@ -394,13 +395,13 @@ bool asst::InfrastProductionTask::opers_choose()
         }
         const auto& image = ctrler.get_image();
 
-        InfrastSkillsImageAnalyzer skills_analyzer(image);
+        InfrastOperImageAnalyzer skills_analyzer(image);
         skills_analyzer.set_facility(m_facility);
 
         if (!skills_analyzer.analyze()) {
             return false;
         }
-        skills_analyzer.sort_result();
+        skills_analyzer.sort_by_loc();
 
         auto cur_all_info = skills_analyzer.get_result();
 
@@ -422,7 +423,7 @@ bool asst::InfrastProductionTask::opers_choose()
         for (auto opt_iter = m_optimal_opers.begin(); opt_iter != m_optimal_opers.end();) {
             auto find_iter = std::find_if(
                 cur_all_info.cbegin(), cur_all_info.cend(),
-                [&](const InfrastOperSkillInfo& lhs) -> bool {
+                [&](const infrast::Oper& lhs) -> bool {
                     // 既要技能相同，也要hash相同，双重校验
                     int dist = utils::hamming(lhs.hash, opt_iter->hash);
                     log.trace("opers_choose | hash dist", dist, lhs.hash, opt_iter->hash);
@@ -442,7 +443,7 @@ bool asst::InfrastProductionTask::opers_choose()
             {
                 auto avlb_iter = std::find_if(
                     m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-                    [&](const InfrastOperSkillInfo& lhs) -> bool {
+                    [&](const infrast::Oper& lhs) -> bool {
                         return lhs.skills_comb == opt_iter->skills_comb;
                     });
                 m_all_available_opers.erase(avlb_iter);
@@ -461,7 +462,9 @@ bool asst::InfrastProductionTask::opers_choose()
     return true;
 }
 
-asst::InfrastSkillsComb asst::InfrastProductionTask::efficient_regex_calc(InfrastSkillsComb skills_comb) const
+asst::infrast::SkillsComb
+asst::InfrastProductionTask::efficient_regex_calc(
+    asst::infrast::SkillsComb skills_comb) const
 {
     // 根据正则，计算当前干员的实际效率
     for (auto&& [product, formula] : skills_comb.efficient_regex) {

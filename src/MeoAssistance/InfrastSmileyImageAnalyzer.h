@@ -1,7 +1,7 @@
 #pragma once
 #include "AbstractImageAnalyzer.h"
 
-#include "AsstDef.h"
+#include "AsstInfrastDef.h"
 
 namespace asst
 {
@@ -13,12 +13,12 @@ namespace asst
 
         virtual bool analyze() override;
 
-        const std::vector<InfrastSmileyInfo>& get_result() const noexcept
+        auto get_result() const noexcept -> const std::vector<infrast::Smiley>&
         {
             return m_result;
         }
 
     protected:
-        std::vector<InfrastSmileyInfo> m_result;
+        std::vector<infrast::Smiley> m_result;
     };
 }
