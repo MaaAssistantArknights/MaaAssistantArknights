@@ -41,22 +41,22 @@ bool asst::InfrastPowerTask::run()
             }
 
             auto find_iter = std::find_if(m_all_available_opers.begin(), m_all_available_opers.end(),
-                                          [&](const InfrastOperSkillInfo& info) -> bool {
+                                          [&](const infrast::Oper& info) -> bool {
                                               return info.selected;
                                           });
             bool need_shift = true;
             if (find_iter != m_all_available_opers.end()) {
                 switch (m_work_mode) {
-                case InfrastWorkMode::Gentle:
+                case infrast::WorkMode::Gentle:
                     // 如果之前有干员在，那就不换人，直接退出
                     m_all_available_opers.erase(find_iter);
                     need_shift = false;
                     break;
-                case InfrastWorkMode::Aggressive:
+                case infrast::WorkMode::Aggressive:
                     need_shift = true;
                     ctrler.click(find_iter->rect);
                     break;
-                case InfrastWorkMode::Extreme: // TODO
+                case infrast::WorkMode::Extreme: // TODO
                     break;
                 default:
                     break;

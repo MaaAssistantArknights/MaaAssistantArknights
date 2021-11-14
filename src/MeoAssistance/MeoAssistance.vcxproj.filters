@@ -162,17 +162,11 @@
     <ClInclude Include="OcrImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\General</Filter>
     </ClInclude>
-    <ClInclude Include="InfrastSkillsImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
-    </ClInclude>
     <ClInclude Include="InfrastSmileyImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastConfiger.h">
       <Filter>头文件\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="InfrastMoodImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastFacilityImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Infrast</Filter>
@@ -211,6 +205,12 @@
       <Filter>头文件\Task\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastClueImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
+    </ClInclude>
+    <ClInclude Include="AsstInfrastDef.h">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastOperImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Infrast</Filter>
     </ClInclude>
   </ItemGroup>
@@ -284,9 +284,6 @@
     <ClCompile Include="CreditShopImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer</Filter>
     </ClCompile>
-    <ClCompile Include="InfrastSkillsImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
-    </ClCompile>
     <ClCompile Include="InfrastSmileyImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\Infrast</Filter>
     </ClCompile>
@@ -304,9 +301,6 @@
     </ClCompile>
     <ClCompile Include="InfrastConfiger.cpp">
       <Filter>源文件\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="InfrastMoodImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="InfrastFacilityImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\Infrast</Filter>
@@ -346,6 +340,9 @@
     </ClCompile>
     <ClCompile Include="InfrastReceptionTask.cpp">
       <Filter>源文件\Task\Infrast</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastOperImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

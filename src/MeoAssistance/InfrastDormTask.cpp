@@ -1,7 +1,7 @@
 #include "InfrastDormTask.h"
 
 #include "Controller.h"
-#include "InfrastMoodImageAnalyzer.h"
+#include "InfrastOperImageAnalyzer.h"
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
@@ -34,16 +34,18 @@ bool asst::InfrastDormTask::run()
                 return false;
             }
             const auto& image = ctrler.get_image();
-            InfrastMoodImageAnalyzer mood_analyzer(image);
-            if (!mood_analyzer.analyze()) {
+            InfrastOperImageAnalyzer oper_analyzer(image);
+            const int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
+            oper_analyzer.set_to_be_calced(without_skill);
+            if (!oper_analyzer.analyze()) {
                 log.error("mood analyze faild!");
                 return false;
             }
-            mood_analyzer.sort_result();
-            const auto& mood_result = mood_analyzer.get_result();
+            oper_analyzer.sort_by_mood();
+            const auto& oper_result = oper_analyzer.get_result();
 
             int quantity_resting = 0;
-            for (const auto& mood_info : mood_result) {
+            for (const auto& oper : oper_result) {
                 if (need_exit()) {
                     return false;
                 }
@@ -51,8 +53,8 @@ bool asst::InfrastDormTask::run()
                     log.trace("quantity_selected:", quantity_selected, ", just break");
                     break;
                 }
-                switch (mood_info.smiley.type) {
-                case InfrastSmileyType::Rest:
+                switch (oper.smiley.type) {
+                case infrast::SmileyType::Rest:
                     // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了，直接退出即可
                     if (++quantity_resting > MaxNumOfOpers) {
                         log.trace("quantity_resting:", quantity_resting, ", confirm");
@@ -60,11 +62,13 @@ bool asst::InfrastDormTask::run()
                         return true;
                     }
                     break;
-                case InfrastSmileyType::Work:
-                case InfrastSmileyType::Distract:
+                case infrast::SmileyType::Work:
+                case infrast::SmileyType::Distract:
                     // 干员没有被选择的情况下，心情小于30%，或不在工作，就进驻宿舍
-                    if (mood_info.selected == false && (mood_info.percentage < m_mood_threshold || mood_info.working == false)) {
-                        ctrler.click(mood_info.rect);
+                    if (oper.selected == false &&
+                        (oper.mood_ratio < m_mood_threshold
+                            || oper.doing != infrast::Doing::Working)) {
+                        ctrler.click(oper.rect);
                         if (++quantity_selected >= MaxNumOfOpers) {
                             log.trace("quantity_selected:", quantity_selected, ", just break");
                             break;

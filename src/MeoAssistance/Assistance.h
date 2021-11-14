@@ -12,6 +12,7 @@
 #include "AbstractTask.h"
 #include "AsstDef.h"
 #include "AsstMsg.h"
+#include "AsstInfrastDef.h"
 
 namespace cv
 {
@@ -48,7 +49,7 @@ namespace asst
         // 开始公开招募操作
         bool start_recruiting(const std::vector<int>& required_level, bool set_time = true);
         // 开始基建换班任务
-        bool start_infrast_shift(InfrastWorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses, double dorm_threshold);
+        bool start_infrast_shift(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses, double dorm_threshold);
 
         // 开始流程任务，应该是private的，调试用临时放到public
         bool start_process_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool block = true);

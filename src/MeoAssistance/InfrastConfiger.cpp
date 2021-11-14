@@ -14,9 +14,9 @@ bool asst::InfrastConfiger::parse(const json::value& json)
         }
 
         /* 解析skills字段 */
-        std::unordered_map<std::string, InfrastSkill> facility_skills;
+        std::unordered_map<std::string, infrast::Skill> facility_skills;
         for (const json::value& skill_json : facility_json.at("skills").as_array()) {
-            InfrastSkill skill;
+            infrast::Skill skill;
             std::string templ_name = skill_json.at("template").as_string();
             skill.templ_name = templ_name;
             m_templ_required.emplace(skill.templ_name);
@@ -29,7 +29,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                     skill.names.emplace_back(skill_names.as_string());
                 }
             }
-            skill.intro = skill_json.get("intro", std::string());
+            skill.desc = skill_json.get("desc", std::string());
 
             /* 解析efficient的数字及正则值 */
             if (skill_json.exist("efficient")) {
@@ -77,18 +77,19 @@ bool asst::InfrastConfiger::parse(const json::value& json)
         m_skills.emplace(facility_name, std::move(facility_skills));
 
         /* 解析skillsGroup字段 */
-        std::vector<InfrastSkillsGroup> group_vec;
+        std::vector<infrast::SkillsGroup> group_vec;
         for (const json::value& group_json : facility_json.at("skillsGroup").as_array()) {
-            InfrastSkillsGroup group;
-            group.intro = group_json.get("intro", std::string());
+            infrast::SkillsGroup group;
+            group.desc = group_json.get("desc", std::string());
             if (group_json.exist("conditions")) {
                 for (const auto& [cond, value] : group_json.at("conditions").as_object()) {
                     group.conditions.emplace(cond, value.as_integer());
                 }
             }
             for (const json::value& necessary_json : group_json.at("necessary").as_array()) {
-                InfrastSkillsComb comb;
-                comb.intro = necessary_json.get("intro", std::string());
+                infrast::SkillsCombWithCond comb_with_cond;
+                infrast::SkillsComb& comb = comb_with_cond.skills_comb;
+                comb.desc = necessary_json.get("desc", std::string());
                 for (const json::value& skill_json : necessary_json.at("skills").as_array()) {
                     const auto& skill = m_skills.at(facility_name).at(skill_json.as_string());
                     comb.skills.emplace(skill);
@@ -135,14 +136,15 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                 }
                 if (necessary_json.exist("hash")) {
                     for (const auto& [key, value] : necessary_json.at("hash").as_object()) {
-                        comb.hashs.emplace(key, value.as_string());
+                        comb_with_cond.hashs.emplace(key, value.as_string());
                     }
                 }
-                group.necessary.emplace_back(std::move(comb));
+                group.necessary.emplace_back(std::move(comb_with_cond));
             }
             for (const json::value& opt_json : group_json.at("optional").as_array()) {
-                InfrastSkillsComb comb;
-                comb.intro = opt_json.get("intro", std::string());
+                infrast::SkillsCombWithCond comb_with_cond;
+                infrast::SkillsComb& comb = comb_with_cond.skills_comb;
+                comb.desc = opt_json.get("desc", std::string());
                 for (const json::value& skill_json : opt_json.at("skills").as_array()) {
                     const auto& skill = m_skills.at(facility_name).at(skill_json.as_string());
                     comb.skills.emplace(skill);
@@ -189,16 +191,16 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                 }
                 if (opt_json.exist("hash")) {
                     for (const auto& [key, value] : opt_json.at("hash").as_object()) {
-                        comb.hashs.emplace(key, value.as_string());
+                        comb_with_cond.hashs.emplace(key, value.as_string());
                     }
                 }
-                group.optional.emplace_back(std::move(comb));
+                group.optional.emplace_back(std::move(comb_with_cond));
             }
             group_vec.emplace_back(std::move(group));
         }
         m_skills_groups.emplace(facility_name, std::move(group_vec));
 
-        InfrastFacilityInfo fac_info;
+        infrast::Facility fac_info;
         fac_info.id = facility_name;
         fac_info.products = std::move(products);
         fac_info.max_num_of_opers = facility_json.get("maxNumOfOpers", 1);

@@ -189,7 +189,7 @@ bool AsstStartInfrastShift(void* p_asst, int work_mode, const char** order, int 
     std::vector<std::string> order_vector;
     order_vector.assign(order, order + order_size);
 
-    return ((asst::Assistance*)p_asst)->start_infrast_shift(static_cast<asst::InfrastWorkMode>(work_mode), order_vector, static_cast<asst::UsesOfDrones>(uses_of_drones), dorm_threshold);
+    return ((asst::Assistance*)p_asst)->start_infrast_shift(static_cast<asst::infrast::WorkMode>(work_mode), order_vector, static_cast<asst::UsesOfDrones>(uses_of_drones), dorm_threshold);
 }
 
 bool AsstStartDebugTask(void* p_asst)

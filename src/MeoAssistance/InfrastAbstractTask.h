@@ -1,6 +1,7 @@
 #pragma once
 #include "AbstractTask.h"
 #include "AsstDef.h"
+#include "AsstInfrastDef.h"
 
 namespace asst
 {
@@ -9,7 +10,7 @@ namespace asst
     public:
         using AbstractTask::AbstractTask;
         virtual ~InfrastAbstractTask() = default;
-        virtual void set_work_mode(InfrastWorkMode work_mode) noexcept;
+        virtual void set_work_mode(infrast::WorkMode work_mode) noexcept;
 
     protected:
         virtual bool enter_facility(const std::string& facility, int index = 0);
@@ -27,7 +28,7 @@ namespace asst
         virtual bool click_confirm_button(); // 点击干员选择页面的“确认”按钮
 
         int m_last_swipe_id = 0;
-        InfrastWorkMode m_work_mode = InfrastWorkMode::Gentle;
+        infrast::WorkMode m_work_mode = infrast::WorkMode::Gentle;
         std::string m_work_mode_name = "Gentle";
     };
 }

@@ -8,17 +8,17 @@
 #include "OcrImageAnalyzer.h"
 #include "Resource.h"
 
-void asst::InfrastAbstractTask::set_work_mode(InfrastWorkMode work_mode) noexcept
+void asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexcept
 {
     m_work_mode = work_mode;
     switch (work_mode) {
-    case InfrastWorkMode::Gentle:
+    case infrast::WorkMode::Gentle:
         m_work_mode_name = "Gentle";
         break;
-    case InfrastWorkMode::Aggressive:
+    case infrast::WorkMode::Aggressive:
         m_work_mode_name = "Aggressive";
         break;
-    case InfrastWorkMode::Extreme:
+    case infrast::WorkMode::Extreme:
         m_work_mode_name = "Extreme";
         break;
     default:

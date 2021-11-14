@@ -223,7 +223,7 @@ bool Assistance::start_debug_task()
     {
         constexpr static const char* DebugTaskChain = "Debug";
         auto shift_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this);
-        shift_task_ptr->set_work_mode(InfrastWorkMode::Aggressive);
+        shift_task_ptr->set_work_mode(infrast::WorkMode::Aggressive);
         //shift_task_ptr->set_facility("Mfg");
         //shift_task_ptr->set_product("CombatRecord");
         shift_task_ptr->set_task_chain(DebugTaskChain);
@@ -258,7 +258,7 @@ bool Assistance::start_recruiting(const std::vector<int>& required_level, bool s
     return true;
 }
 
-bool asst::Assistance::start_infrast_shift(InfrastWorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold)
+bool asst::Assistance::start_infrast_shift(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold)
 {
     LogTraceFunction;
     if (!m_thread_idle || !m_inited) {
@@ -266,8 +266,8 @@ bool asst::Assistance::start_infrast_shift(InfrastWorkMode work_mode, const std:
     }
 
     // 偏激模式还没来得及做，保留用户接口，内部先按激进模式走
-    if (work_mode == InfrastWorkMode::Extreme) {
-        work_mode = InfrastWorkMode::Aggressive;
+    if (work_mode == infrast::WorkMode::Extreme) {
+        work_mode = infrast::WorkMode::Aggressive;
     }
 
     constexpr static const char* InfrastTaskCahin = "Infrast";
@@ -412,7 +412,7 @@ void Assistance::working_proc()
 
             auto& delay = resource.cfg().get_options().task_delay;
             m_condvar.wait_until(lock, start_time + std::chrono::milliseconds(delay),
-                                 [&]() -> bool { return m_thread_idle; });
+                [&]() -> bool { return m_thread_idle; });
         }
         else {
             m_thread_idle = true;
@@ -552,9 +552,9 @@ json::value asst::Assistance::organize_stage_drop(const json::value& rec)
     }
     // 排个序，数量多的放前面
     std::sort(statistics_vec.begin(), statistics_vec.end(),
-              [](const json::value& lhs, const json::value& rhs) -> bool {
-                  return lhs.at("count").as_integer() > rhs.at("count").as_integer();
-              });
+        [](const json::value& lhs, const json::value& rhs) -> bool {
+            return lhs.at("count").as_integer() > rhs.at("count").as_integer();
+        });
 
     dst["statistics"] = json::array(std::move(statistics_vec));
 
