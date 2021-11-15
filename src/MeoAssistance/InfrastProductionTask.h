@@ -29,14 +29,15 @@ namespace asst
         size_t opers_detect(); // 返回当前页面的干员数
         bool optimal_calc();
         bool opers_choose();
-        infrast::SkillsComb efficient_regex_calc(infrast::SkillsComb skill_info) const;
+        infrast::SkillsComb efficient_regex_calc(
+            std::unordered_set<infrast::Skill> skills) const;
 
         static int m_hash_dist_threshold;
 
         std::string m_facility;
         std::string m_product;
         std::vector<infrast::Oper> m_all_available_opers;
-        std::vector<infrast::Oper> m_optimal_opers;
+        std::vector<infrast::SkillsComb> m_optimal_combs;
         std::vector<Rect> m_facility_list_tabs;
         size_t max_num_of_opers_per_page = 0;
     };

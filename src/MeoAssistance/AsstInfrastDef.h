@@ -67,7 +67,18 @@ namespace asst
 {
     namespace infrast
     {
-        // 基建单个干员的技能
+        struct Oper
+        {
+            ::std::string hash;             // 有些干员的技能是完全一样的，做个hash区分一下不同干员
+            ::std::string name;             // 预留
+            Smiley smiley;
+            double mood_ratio = 0;          // 心情进度条的百分比
+            Doing doing = Doing::Invalid;
+            bool selected = false;          // 干员是否已被选择（蓝色的选择框）
+            ::std::unordered_set<Skill> skills;
+            Rect rect;
+        };
+
         struct SkillsComb
         {
             SkillsComb() = default;
@@ -92,34 +103,18 @@ namespace asst
             ::std::unordered_set<Skill> skills;
             ::std::unordered_map<std::string, double> efficient;
             ::std::unordered_map<std::string, ::std::string> efficient_regex;
-        };
 
-        struct Oper
-        {
-            ::std::string hash;             // 有些干员的技能是完全一样的，做个hash区分一下不同干员
-            ::std::string name;             // 预留
-            Smiley smiley;
-            double mood_ratio = 0;          // 心情进度条的百分比
-            Doing doing = Doing::Invalid;
-            bool selected = false;          // 干员是否已被选择（蓝色的选择框）
-            SkillsComb skills_comb;
-            Rect rect;
-        };
-
-        struct SkillsCombWithCond
-        {
-            SkillsComb skills_comb;
+            ::std::string hash;
             bool hash_filter = false;
-            ::std::unordered_map<std::string, ::std::string> hashs; // 限定只允许某些hash匹配的某些干员。若hash不相同，即使技能匹配了也不可用。hashs若为空，则不生效
+            ::std::unordered_map<std::string, ::std::string> possible_hashs; // 限定只允许某些hash匹配的某些干员。若hash不相同，即使技能匹配了也不可用。hashs若为空，则不生效
         };
-
         // 基建技能组
         struct SkillsGroup
         {
             ::std::string desc;                                   // 文字介绍，实际不起作用
             ::std::unordered_map<std::string, int> conditions;    // 技能组合可用条件，例如：key 发电站数量，value 3
-            ::std::vector<SkillsCombWithCond> necessary;          // 必选技能。这里面的缺少任一，则该技能组合不可用
-            ::std::vector<SkillsCombWithCond> optional;           // 可选技能。
+            ::std::vector<SkillsComb> necessary;                  // 必选技能。这里面的缺少任一，则该技能组合不可用
+            ::std::vector<SkillsComb> optional;                   // 可选技能。
             bool allow_external = false;                          // 当干员数没满3个的时候，是否允许补充外部干员
         };
 
