@@ -87,8 +87,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                 }
             }
             for (const json::value& necessary_json : group_json.at("necessary").as_array()) {
-                infrast::SkillsCombWithCond comb_with_cond;
-                infrast::SkillsComb& comb = comb_with_cond.skills_comb;
+                infrast::SkillsComb comb;
                 comb.desc = necessary_json.get("desc", std::string());
                 for (const json::value& skill_json : necessary_json.at("skills").as_array()) {
                     const auto& skill = m_skills.at(facility_name).at(skill_json.as_string());
@@ -135,15 +134,15 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                     }
                 }
                 if (necessary_json.exist("hash")) {
+                    comb.hash_filter = true;
                     for (const auto& [key, value] : necessary_json.at("hash").as_object()) {
-                        comb_with_cond.hashs.emplace(key, value.as_string());
+                        comb.possible_hashs.emplace(key, value.as_string());
                     }
                 }
-                group.necessary.emplace_back(std::move(comb_with_cond));
+                group.necessary.emplace_back(std::move(comb));
             }
             for (const json::value& opt_json : group_json.at("optional").as_array()) {
-                infrast::SkillsCombWithCond comb_with_cond;
-                infrast::SkillsComb& comb = comb_with_cond.skills_comb;
+                infrast::SkillsComb comb;
                 comb.desc = opt_json.get("desc", std::string());
                 for (const json::value& skill_json : opt_json.at("skills").as_array()) {
                     const auto& skill = m_skills.at(facility_name).at(skill_json.as_string());
@@ -190,11 +189,12 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                     }
                 }
                 if (opt_json.exist("hash")) {
+                    comb.hash_filter = true;
                     for (const auto& [key, value] : opt_json.at("hash").as_object()) {
-                        comb_with_cond.hashs.emplace(key, value.as_string());
+                        comb.possible_hashs.emplace(key, value.as_string());
                     }
                 }
-                group.optional.emplace_back(std::move(comb_with_cond));
+                group.optional.emplace_back(std::move(comb));
             }
             group_vec.emplace_back(std::move(group));
         }

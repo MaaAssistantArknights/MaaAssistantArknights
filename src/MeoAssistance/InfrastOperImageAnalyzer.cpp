@@ -204,35 +204,46 @@ void asst::InfrastOperImageAnalyzer::hash_analyze()
 
     const Rect hash_rect_move = resource.task().task_ptr("InfrastSkillsHash")->rect_move;
 
+    cv::Mat gray;
+    cv::cvtColor(m_image, gray, cv::COLOR_BGR2GRAY);
+
     for (auto&& oper : m_result) {
         Rect roi = hash_rect_move;
         roi.x += oper.smiley.rect.x;
         roi.y += oper.smiley.rect.y;
 
-        // 从左往右找到第一个白色点
-        Rect white_roi = roi;
-        constexpr static int HashKernelSize = 16;
-        int threshold = 200;
-        bool find_point = false;
-        for (int i = 0; i != white_roi.width && !find_point; ++i) {
-            for (int j = 0; j != white_roi.height && !find_point; ++j) {
-                cv::Point point(white_roi.x + i, white_roi.y + j);
-                auto value = m_image.at<cv::Vec3b>(point);
-                if (value[0] > threshold && value[1] > threshold && value[2] > threshold) {
-                    white_roi.x += i;
-                    white_roi.width -= i;
-                    find_point = true;
-                    break;
+        constexpr static int threshold = 100;
+        auto check_point = [&](cv::Point point) -> bool {
+            auto value = gray.at<uchar>(point);
+            return value > threshold;
+        };
+        // 找到四个方向上最靠外的白色点，把ROI缩小裁出来
+        int left = -1, right = -1, top = INT_MAX, bottom = -1;
+        for (int i = 0; i != roi.width; ++i) {
+            for (int j = 0; j != roi.height; ++j) {
+                cv::Point point(roi.x + i, roi.y + j);
+                if (check_point(point)) {
+                    if (left < 0) {
+                        left = i;
+                    }
+                    right = i;
+                    top = (std::min)(top, j);
+                    bottom = (std::max)(bottom, j);
                 }
             }
         }
-        cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(white_roi));
+        roi.x += left;
+        roi.width = right - left + 1;
+        roi.y += top;
+        roi.height = bottom - top + 1;
+
+        cv::Mat image_roi = gray(utils::make_rect<cv::Rect>(roi));
         cv::Mat bin;
-        cv::cvtColor(image_roi, image_roi, cv::COLOR_BGR2GRAY);
         cv::threshold(image_roi, bin, threshold, 255, cv::THRESH_BINARY);
+        constexpr static int HashKernelSize = 16;
         cv::resize(bin, bin, cv::Size(HashKernelSize, HashKernelSize));
         std::stringstream hash_value;
-        uchar* pix = bin.data;
+        cv::uint8_t* pix = bin.data;
         int tmp_dec = 0;
         for (int ro = 0; ro < 256; ro++) {
             tmp_dec = tmp_dec << 1;
@@ -359,7 +370,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
 #ifdef LOG_TRACE
             cv::Mat skill_mat = m_image(utils::make_rect<cv::Rect>(skill_rect));
 #endif
-            oper.skills_comb.skills.emplace(std::move(most_confident_skills));
+            oper.skills.emplace(std::move(most_confident_skills));
         }
         log.trace(log_str, "]");
     }
