@@ -19,8 +19,11 @@ bool asst::InfrastOperImageAnalyzer::analyze()
     if (m_to_be_calced & Mood) {
         mood_analyze();
     }
-    if (m_to_be_calced & Hash) {
-        hash_analyze();
+    if (m_to_be_calced & NameHash) {
+        name_hash_analyze();
+    }
+    if (m_to_be_calced & FaceHash) {
+        face_hash_analyze();
     }
     if (m_to_be_calced & Skill) {
         skill_analyze();
@@ -81,7 +84,7 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
     const std::vector<Rect> all_roi = { upper_roi, lower_roi };
 
     const Rect skill_rect_move = resource.task().task_ptr("InfrastSkills")->rect_move;
-    const Rect hash_rect_move = resource.task().task_ptr("InfrastSkillsHash")->rect_move;
+    const Rect hash_rect_move = resource.task().task_ptr("InfrastOperNameHash")->rect_move;
     const Rect prg_rect_move = resource.task().task_ptr("InfrastOperMoodProgressBar")->roi;
     const std::vector<Rect> all_rect_move = { skill_rect_move, hash_rect_move, prg_rect_move };
 
@@ -198,11 +201,27 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
     }
 }
 
-void asst::InfrastOperImageAnalyzer::hash_analyze()
+void asst::InfrastOperImageAnalyzer::face_hash_analyze()
 {
     LogTraceFunction;
 
-    const Rect hash_rect_move = resource.task().task_ptr("InfrastSkillsHash")->rect_move;
+    const Rect hash_rect_move = resource.task().task_ptr("InfrastOperFaceHash")->rect_move;
+
+    for (auto&& oper : m_result) {
+        Rect roi = hash_rect_move;
+        roi.x += oper.smiley.rect.x;
+        roi.y += oper.smiley.rect.y;
+
+        cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(roi));
+        oper.face_hash = hash_calc(image_roi);
+    }
+}
+
+void asst::InfrastOperImageAnalyzer::name_hash_analyze()
+{
+    LogTraceFunction;
+
+    const Rect hash_rect_move = resource.task().task_ptr("InfrastOperNameHash")->rect_move;
 
     cv::Mat gray;
     cv::cvtColor(m_image, gray, cv::COLOR_BGR2GRAY);
@@ -237,25 +256,8 @@ void asst::InfrastOperImageAnalyzer::hash_analyze()
         roi.y += top;
         roi.height = bottom - top + 1;
 
-        cv::Mat image_roi = gray(utils::make_rect<cv::Rect>(roi));
-        cv::Mat bin;
-        cv::threshold(image_roi, bin, threshold, 255, cv::THRESH_BINARY);
-        constexpr static int HashKernelSize = 16;
-        cv::resize(bin, bin, cv::Size(HashKernelSize, HashKernelSize));
-        std::stringstream hash_value;
-        cv::uint8_t* pix = bin.data;
-        int tmp_dec = 0;
-        for (int ro = 0; ro < 256; ro++) {
-            tmp_dec = tmp_dec << 1;
-            if ((bool)*pix)
-                tmp_dec++;
-            if (ro % 4 == 3) {
-                hash_value << std::hex << tmp_dec;
-                tmp_dec = 0;
-            }
-            pix++;
-        }
-        oper.hash = hash_value.str();
+        cv::Mat hash_roi = m_image(utils::make_rect<cv::Rect>(roi));
+        oper.name_hash = hash_calc(hash_roi);
     }
 }
 
@@ -437,4 +439,29 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
         }
         // TODO: infrast::Doing::Resting的识别
     }
+}
+
+std::string asst::InfrastOperImageAnalyzer::hash_calc(const cv::Mat& image)
+{
+    //constexpr static int HashKernelSize = 16;
+    const static cv::Size HashKernel(16, 16);
+
+    cv::Mat hash_img;
+    cv::resize(image, hash_img, HashKernel);
+    cv::cvtColor(hash_img, hash_img, cv::COLOR_BGR2GRAY);
+
+    std::stringstream hash_value;
+    cv::uint8_t* pix = hash_img.data;
+    int tmp_dec = 0;
+    for (int ro = 0; ro < 256; ro++) {
+        tmp_dec = tmp_dec << 1;
+        if (*pix > 127)
+            tmp_dec++;
+        if (ro % 4 == 3) {
+            hash_value << std::hex << tmp_dec;
+            tmp_dec = 0;
+        }
+        pix++;
+    }
+    return hash_value.str();
 }

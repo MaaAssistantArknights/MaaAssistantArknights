@@ -13,7 +13,8 @@
 #include "Resource.h"
 #include "RuntimeStatus.h"
 
-int asst::InfrastProductionTask::m_hash_dist_threshold = 0;
+int asst::InfrastProductionTask::m_face_hash_thres = 0;
+int asst::InfrastProductionTask::m_name_hash_thres = 0;
 
 //bool asst::InfrastProductionTask::run()
 //{
@@ -38,9 +39,13 @@ int asst::InfrastProductionTask::m_hash_dist_threshold = 0;
 asst::InfrastProductionTask::InfrastProductionTask(AsstCallback callback, void* callback_arg)
     : InfrastAbstractTask(callback, callback_arg)
 {
-    if (m_hash_dist_threshold == 0) {
-        m_hash_dist_threshold = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastSkillsHash"))->templ_threshold;
+    if (m_face_hash_thres == 0) {
+        m_face_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
+            resource.task().task_ptr("InfrastOperFaceHash"))->templ_threshold;
+    }
+    if (m_name_hash_thres == 0) {
+        m_name_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
+            resource.task().task_ptr("InfrastOperNameHash"))->templ_threshold;
     }
 }
 
@@ -183,16 +188,11 @@ size_t asst::InfrastProductionTask::opers_detect()
             m_all_available_opers.cbegin(), m_all_available_opers.cend(),
             [&cur_oper](const infrast::Oper& oper) -> bool {
                 // 技能相同的有可能是同一个干员，比一下hash
-                if (oper.skills == cur_oper.skills) {
-                    int dist = utils::hamming(cur_oper.hash, oper.hash);
+                int dist = utils::hamming(cur_oper.face_hash, oper.face_hash);
 #ifdef LOG_TRACE
-                    log.trace("opers_detect hash dist |", dist, cur_oper.hash, oper.hash);
+                log.trace("opers_detect hash dist |", dist);
 #endif
-                    return dist < m_hash_dist_threshold;
-                }
-                else {  // 技能不同肯定不是同一个干员，不比了
-                    return false;
-                }
+                return dist < m_face_hash_thres;
             });
         // 如果两个的hash距离过小，则认为是同一个干员，不进行插入
         if (find_iter != m_all_available_opers.cend()) {
@@ -216,7 +216,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     all_avaliable_combs.reserve(m_all_available_opers.size());
     for (auto&& oper : m_all_available_opers) {
         auto comb = efficient_regex_calc(oper.skills);
-        comb.hash = oper.hash;
+        comb.name_hash = oper.name_hash;
         all_avaliable_combs.emplace_back(std::move(comb));
     }
 
@@ -336,9 +336,9 @@ bool asst::InfrastProductionTask::optimal_calc()
                     bool hash_matched = false;
                     if (!opt.possible_hashs.empty()) {
                         for (const auto& [key, hash] : opt.possible_hashs) {
-                            int dist = utils::hamming(find_iter->hash, hash);
-                            log.trace("optimal_calc | hash dist", dist, hash, find_iter->hash);
-                            if (dist < m_hash_dist_threshold) {
+                            int dist = utils::hamming(find_iter->name_hash, hash);
+                            log.trace("optimal_calc | hash dist", dist, hash, find_iter->name_hash);
+                            if (dist < m_name_hash_thres) {
                                 hash_matched = true;
                                 break;
                             }
@@ -439,30 +439,28 @@ bool asst::InfrastProductionTask::opers_choose()
             }
         }
 
-        std::vector<std::string> selected_hash;
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
-            auto oper_equal = [&](const infrast::Oper& lhs) -> bool {
-                if (lhs.skills != opt_iter->skills) {
-                    return false;
-                }
-                if (!opt_iter->hash_filter) {
-                    return true;
-                }
-                else {
-                    // 既要技能相同，也要hash相同，双重校验
-                    for (const auto& [_, hash] : opt_iter->possible_hashs) {
-                        int dist = utils::hamming(lhs.hash, hash);
-                        log.trace("opers_choose | hash dist", dist, lhs.hash, hash);
-                        if (dist < m_hash_dist_threshold) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-            };
-
             auto find_iter = std::find_if(
-                cur_all_opers.cbegin(), cur_all_opers.cend(), oper_equal);
+                cur_all_opers.cbegin(), cur_all_opers.cend(),
+                [&](const infrast::Oper& lhs) -> bool {
+                    if (lhs.skills != opt_iter->skills) {
+                        return false;
+                    }
+                    if (!opt_iter->hash_filter) {
+                        return true;
+                    }
+                    else {
+                        // 既要技能相同，也要hash相同，双重校验
+                        for (const auto& [_, hash] : opt_iter->possible_hashs) {
+                            int dist = utils::hamming(lhs.name_hash, hash);
+                            log.trace("opers_choose | name hash dist", dist);
+                            if (dist < m_name_hash_thres) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+            });
 
             if (find_iter == cur_all_opers.cend()) {
                 ++opt_iter;
@@ -473,10 +471,18 @@ bool asst::InfrastProductionTask::opers_choose()
                 continue;
             }
             ctrler.click(find_iter->rect);
-            selected_hash.emplace_back(find_iter->hash);
             {
                 auto avlb_iter = std::find_if(
-                    m_all_available_opers.cbegin(), m_all_available_opers.cend(), oper_equal);
+                    m_all_available_opers.cbegin(), m_all_available_opers.cend(),
+                    [&](const infrast::Oper& lhs) -> bool {
+                        int dist = utils::hamming(lhs.face_hash, find_iter->face_hash);
+                        log.trace("opers_choose | face hash dist", dist);
+                        if (dist < m_face_hash_thres) {
+                            return true;
+                        }
+                        return false;
+                    }
+                );
                 m_all_available_opers.erase(avlb_iter);
             }
             cur_all_opers.erase(find_iter);

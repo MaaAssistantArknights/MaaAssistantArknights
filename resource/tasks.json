@@ -855,16 +855,28 @@
             80
         ]
     },
-    "InfrastSkillsHash": {
+    "InfrastOperNameHash": {
         "template": "empty.png",
         "templThreshold_Doc": "作为哈希距离的阈值使用",
-        "templThreshold": 55,
+        "templThreshold": 65,
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             0,
             20,
             113,
             22
+        ]
+    },
+    "InfrastOperFaceHash": {
+        "template": "empty.png",
+        "templThreshold_Doc": "作为哈希距离的阈值使用",
+        "templThreshold": 30,
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [
+            0,
+            -185,
+            113,
+            90
         ]
     },
     "InfrastSmileyOnRest": {

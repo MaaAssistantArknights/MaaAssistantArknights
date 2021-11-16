@@ -32,7 +32,8 @@ namespace asst
         infrast::SkillsComb efficient_regex_calc(
             std::unordered_set<infrast::Skill> skills) const;
 
-        static int m_hash_dist_threshold;
+        static int m_face_hash_thres;
+        static int m_name_hash_thres;
 
         std::string m_facility;
         std::string m_product;
