@@ -11,13 +11,14 @@ namespace asst
         enum ToBeCalced
         {
             None = 0,
-            Smiley = 0b1,
-            Mood = 0b10,
-            Hash = 0b100,
-            Skill = 0b1000,
-            Selected = 0b10000,
-            Doing = 0b100000,
-            All = 0b111111
+            Smiley = 1,
+            Mood = 2,
+            FaceHash = 4,
+            NameHash = 8,
+            Selected = 16,
+            Doing = 32,
+            Skill = 64,
+            All = 127
         };
 
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
@@ -57,10 +58,13 @@ namespace asst
 
         void oper_detect();
         void mood_analyze();
-        void hash_analyze();
+        void face_hash_analyze();
+        void name_hash_analyze();
         void skill_analyze();
         void selected_analyze();
         void doing_analyze();
+
+        static std::string hash_calc(const cv::Mat& image);
 
         std::string m_facility;
         std::vector<infrast::Oper> m_result;

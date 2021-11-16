@@ -1,4 +1,4 @@
-{
+﻿{
     "facility": [
         "Mfg",
         "Trade",
@@ -355,11 +355,11 @@
                             "all": 30
                         },
                         "hash": {
-                            "史都华德": "43774f3fefbfefafe7efcff7ef3fef3fef3fcf0fcb0fcff74bf7ef05fe07be07",
-                            "杰西卡": "200427e427e7ffe7fbc473c473df73dfbbc4abc6aac62247ca45dbc4dbc4dbc4",
-                            "调香师": "b8cfbbcfbbdf9b1a3fffbfffbb9fbbdfbfffbffffbdfebcffbd7ebd7cbd2cbd2",
-                            "香草": "1e247eff7cff70fffe7efe7e7c7e7e7eff7eff7e7e7e7e187eff7eff7e187e18",
-                            "罗比菈塔": "e8f3e8f708f70963e96feefe6ef7eaf7e817a857a9f76daf4d29cf29cff38bf3"
+                            "史都华德": "000203620f37ef2ae7ab8ea38e31e23bef080f0f0bf24ff34b054b04be061a02",
+                            "杰西卡": "200427c4fbc6f986218463c471df719fa884a8c422c6000680058bc48bc48804",
+                            "调香师": "00c8bbcf0b1a181a1bdf899f889b3a5b0a5b1bdb2a4b6a437bc34a42cbd24a42",
+                            "香草": "00001c34787f0024ff3eff3e3c22263e4302ff3e220826083e7f02083e080208",
+                            "罗比菈塔": "0000e860c8f78860c90ae80a4ef06af568178800e9c369834d094d298bf38081"
                         }
                     },
                     {
@@ -371,8 +371,8 @@
                             "all": 20
                         },
                         "hash": {
-                            "夜刀": "10001800ff7fff7f78197f195f195f19fe11fe31fe315c315e615f677fe773c6",
-                            "流星": "c87eff7e7f7e7f7e1e7efe7eff7e7f781e7e5e7e5efe5e7eff7eff18afffafff"
+                            "夜刀": "00001000ff7ffe7f28114e115e115a11d611f6114c114c314c214e6153464006",
+                            "流星": "883ec87e7f421a7e10429242fe7e7800187e187e58c8583e583ea908abff227f"
                         }
                     }
                 ]
