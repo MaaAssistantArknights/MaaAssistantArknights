@@ -12,7 +12,9 @@ namespace asst
     public:
         InfrastProductionTask(AsstCallback callback, void* callback_arg);
         virtual ~InfrastProductionTask() = default;
-        //virtual bool run() override;
+#ifdef LOG_TRACE
+        virtual bool run() override;
+#endif
         void set_facility(std::string facility_name) noexcept
         {
             m_facility = std::move(facility_name);
