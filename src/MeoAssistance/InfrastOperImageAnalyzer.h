@@ -34,6 +34,10 @@ namespace asst
         {
             return m_result;
         }
+        int get_num_of_opers_with_skills() const noexcept
+        {
+            return m_num_of_opers_with_skills;
+        }
         void set_facility(std::string facility) noexcept
         {
             m_facility = std::move(facility);
@@ -69,5 +73,6 @@ namespace asst
         std::string m_facility;
         std::vector<infrast::Oper> m_result;
         int m_to_be_calced = All;
+        int m_num_of_opers_with_skills = 0;
     };
 }

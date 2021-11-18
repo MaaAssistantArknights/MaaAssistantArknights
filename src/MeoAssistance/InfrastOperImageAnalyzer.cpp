@@ -8,6 +8,7 @@
 bool asst::InfrastOperImageAnalyzer::analyze()
 {
     m_result.clear();
+    m_num_of_opers_with_skills = 0;
 
     if (m_to_be_calced & None) {
         return true;
@@ -373,6 +374,9 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             cv::Mat skill_mat = m_image(utils::make_rect<cv::Rect>(skill_rect));
 #endif
             oper.skills.emplace(std::move(most_confident_skills));
+        }
+        if (!oper.skills.empty()) {
+            ++m_num_of_opers_with_skills;
         }
         log.trace(log_str, "]");
     }
