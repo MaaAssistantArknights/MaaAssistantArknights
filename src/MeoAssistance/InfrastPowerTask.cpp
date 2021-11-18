@@ -23,8 +23,11 @@ bool asst::InfrastPowerTask::run()
             return false;
         }
         swipe_to_the_left_of_main_ui();
-        enter_facility(FacilityName, i);
 
+        // 进不去说明设施数量不够
+        if (!enter_facility(FacilityName, i)) {
+            break;
+        }
         if (!enter_oper_list_page()) {
             return false;
         }
@@ -40,10 +43,11 @@ bool asst::InfrastPowerTask::run()
                 opers_detect();
             }
 
-            auto find_iter = std::find_if(m_all_available_opers.begin(), m_all_available_opers.end(),
-                                          [&](const infrast::Oper& info) -> bool {
-                                              return info.selected;
-                                          });
+            auto find_iter = std::find_if(
+                m_all_available_opers.begin(), m_all_available_opers.end(),
+                [&](const infrast::Oper& info) -> bool {
+                    return info.selected;
+                });
             bool need_shift = true;
             if (find_iter != m_all_available_opers.end()) {
                 switch (m_work_mode) {

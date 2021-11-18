@@ -21,7 +21,10 @@ bool asst::InfrastDormTask::run()
         if (need_exit()) {
             return false;
         }
-        enter_facility(FacilityName, m_cur_dorm_index);
+        // 进不去说明设施数量不够
+        if (!enter_facility(FacilityName, m_cur_dorm_index)) {
+            break;
+        }
         if (!enter_oper_list_page()) {
             return false;
         }
