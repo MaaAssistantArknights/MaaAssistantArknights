@@ -420,10 +420,8 @@ bool asst::InfrastProductionTask::opers_choose()
         }
         oper_analyzer.sort_by_loc();
 
-        auto cur_all_opers = oper_analyzer.get_result();
-
         // 这个情况一般是滑动/识别出错了，把所有的干员都滑过去了
-        if (cur_all_opers.empty()) {
+        if (oper_analyzer.get_num_of_opers_with_skills() == 0) {
             if (!has_error) {
                 has_error = true;
                 // 倒回去再来一遍
@@ -435,7 +433,7 @@ bool asst::InfrastProductionTask::opers_choose()
                 return false;
             }
         }
-
+        auto cur_all_opers = oper_analyzer.get_result();
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             auto find_iter = std::find_if(
                 cur_all_opers.cbegin(), cur_all_opers.cend(),
@@ -457,7 +455,7 @@ bool asst::InfrastProductionTask::opers_choose()
                         }
                         return false;
                     }
-            });
+                });
 
             if (find_iter == cur_all_opers.cend()) {
                 ++opt_iter;
