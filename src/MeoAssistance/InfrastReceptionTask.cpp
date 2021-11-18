@@ -128,12 +128,12 @@ bool asst::InfrastReceptionTask::proc_vacancy()
         "No1", "No2", "No3", "No4", "No5", "No6", "No7"
     };
 
+    cv::Mat image = ctrler.get_image();
     for (const std::string& clue : clue_suffix) {
         if (need_exit()) {
             return false;
         }
         // 先识别线索的空位
-        cv::Mat image = ctrler.get_image();
         InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
         vacancy_analyzer.set_to_be_analyzed({ clue });
         if (!vacancy_analyzer.analyze()) {
