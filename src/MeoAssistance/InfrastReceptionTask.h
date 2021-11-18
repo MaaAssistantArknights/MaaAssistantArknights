@@ -13,6 +13,7 @@ namespace asst
         const static std::string FacilityName;
 
     private:
+        bool close_end_prompt();
         bool harvest_clue();
         bool proc_clue();
         bool proc_vacancy();

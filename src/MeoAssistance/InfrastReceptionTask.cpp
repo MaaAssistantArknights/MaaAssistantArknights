@@ -25,14 +25,35 @@ bool asst::InfrastReceptionTask::run()
     enter_facility(FacilityName, 0);
     click_bottomleft_tab();
 
+    close_end_prompt();
     harvest_clue();
+    if (need_exit()) {
+        return false;
+    }
     proc_clue();
-
+    if (need_exit()) {
+        return false;
+    }
     click_return_button();
     click_bottomleft_tab();
-
+    if (need_exit()) {
+        return false;
+    }
     shift();
 
+    return true;
+}
+
+bool asst::InfrastReceptionTask::close_end_prompt()
+{
+    const auto end_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        resource.task().task_ptr("EndOfClueExchange"));
+    MatchImageAnalyzer analyzer(ctrler.get_image());
+    analyzer.set_task_info(*end_task_ptr);
+    if (!analyzer.analyze()) {
+        return true;
+    }
+    click_return_button();
     return true;
 }
 

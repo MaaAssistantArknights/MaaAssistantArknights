@@ -1531,5 +1531,15 @@
         "action": "clickSelf",
         "cache": false,
         "rearDelay": 5000
+    },
+    "EndOfClueExchange": {
+        "template": "EndOfClueExchange.png",
+        "cache": false,
+        "roi": [
+            0,
+            0,
+            400,
+            200
+        ]
     }
 }
