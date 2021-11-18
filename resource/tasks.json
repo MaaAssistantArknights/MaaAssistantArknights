@@ -1247,6 +1247,7 @@
     },
     "InfrastAddOperatorMfgGentle": {
         "template": "AddOperatorMfgGentle.png",
+        "templThreshold": 0.8,
         "cache": false,
         "roi": [
             200,
@@ -1258,6 +1259,7 @@
     },
     "InfrastAddOperatorMfgAggressive": {
         "template": "AddOperatorMfgAggressive.png",
+        "templThreshold": 0.8,
         "cache": false,
         "roi": [
             200,
@@ -1275,6 +1277,7 @@
     },
     "InfrastAddOperatorTradeGentle": {
         "template": "AddOperatorTradeGentle.png",
+        "templThreshold": 0.8,
         "cache": false,
         "roi": [
             200,
@@ -1286,6 +1289,7 @@
     },
     "InfrastAddOperatorTradeAggressive": {
         "template": "AddOperatorTradeAggressive.png",
+        "templThreshold": 0.8,
         "cache": false,
         "roi": [
             200,
@@ -1303,6 +1307,7 @@
     },
     "InfrastAddOperatorReceptionGentle": {
         "template": "AddOperatorReceptionGentle.png",
+        "templThreshold": 0.8,
         "cache": false,
         "roi": [
             0,
