@@ -16,25 +16,22 @@
 int asst::InfrastProductionTask::m_face_hash_thres = 0;
 int asst::InfrastProductionTask::m_name_hash_thres = 0;
 
-//bool asst::InfrastProductionTask::run()
-//{
-//    json::value task_start_json = json::object{
-//        { "task_type",  "InfrastProductionTask" },
-//        { "task_chain", m_task_chain}
-//    };
-//    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
-//
-//    m_all_available_opers.clear();
-//
-//    swipe_to_the_left_of_operlist();
-//    bool ret = opers_detect_with_swipe();
-//
-//    optimal_calc();
-//
-//    opers_choose();
-//
-//    return true;
-//}
+#ifdef LOG_TRACE
+bool asst::InfrastProductionTask::run()
+{
+    json::value task_start_json = json::object{
+        { "task_type",  "InfrastProductionTask" },
+        { "task_chain", m_task_chain}
+    };
+    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
+
+    m_all_available_opers.clear();
+
+    shift_facility_list();
+
+    return true;
+}
+#endif
 
 asst::InfrastProductionTask::InfrastProductionTask(AsstCallback callback, void* callback_arg)
     : InfrastAbstractTask(callback, callback_arg)
