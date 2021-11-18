@@ -58,10 +58,11 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
                 }
 
                 const auto& cur_res = mm_analyzer.get_result();
-                auto cur_max_iter = std::max_element(cur_res.cbegin(), cur_res.cend(),
-                                                     [](const MatchRect& lhs, const MatchRect& rhs) -> bool {
-                                                         return lhs.score < rhs.score;
-                                                     });
+                auto cur_max_iter = std::max_element(
+                    cur_res.cbegin(), cur_res.cend(),
+                    [](const MatchRect& lhs, const MatchRect& rhs) -> bool {
+                        return lhs.score < rhs.score;
+                    });
                 if (cur_max_iter == cur_res.cend()) {
                     continue;
                 }
