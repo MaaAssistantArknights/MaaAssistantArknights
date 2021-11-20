@@ -27,7 +27,9 @@ bool asst::InfrastProductionTask::run()
 
     m_all_available_opers.clear();
 
-    shift_facility_list();
+    if (!shift_facility_list()) {
+        return false;
+    }
 
     return true;
 }
@@ -49,7 +51,9 @@ asst::InfrastProductionTask::InfrastProductionTask(AsstCallback callback, void* 
 bool asst::InfrastProductionTask::shift_facility_list()
 {
     LogTraceFunction;
-    facility_list_detect();
+    if (!facility_list_detect()) {
+        return false;
+    }
     if (need_exit()) {
         return false;
     }

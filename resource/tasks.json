@@ -668,6 +668,7 @@
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
         "templThreshold": 0.8,
+        "histThreshold": 0.8,
         "action": "doNothing",
         "next": [
             "InfrastNotification",

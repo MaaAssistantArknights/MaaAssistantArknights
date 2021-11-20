@@ -26,11 +26,11 @@ namespace asst
         virtual int get_retry_times() { return m_retry_times; }
         virtual void set_task_chain(std::string name) { m_task_chain = std::move(name); }
         virtual const std::string& get_task_chain() { return m_task_chain; }
-        virtual void on_run_fails(int retry_times) { ; }
+        virtual void on_run_fails() { ; }
 
     protected:
         virtual bool sleep(unsigned millisecond);
-        virtual bool save_image(const cv::Mat& iamge, const std::string& dir);
+        virtual bool save_image(const cv::Mat& image, const std::string& dir);
         virtual bool need_exit() const noexcept;
 
         virtual void click_return_button();
