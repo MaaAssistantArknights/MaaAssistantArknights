@@ -54,6 +54,7 @@ bool asst::InfrastReceptionTask::close_end_prompt()
         return true;
     }
     click_return_button();
+    sleep(end_task_ptr->rear_delay);
     return true;
 }
 
