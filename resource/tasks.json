@@ -672,13 +672,6 @@
         "action": "doNothing",
         "next": [
             "InfrastNotification",
-            "InfrastSwipeToTheLeft"
-        ]
-    },
-    "InfrastSwipeToTheLeft": {
-        "algorithm": "justReturn",
-        "action": "swipeToTheLeft",
-        "next": [
             "Stop"
         ]
     },
