@@ -215,7 +215,9 @@ bool asst::InfrastReceptionTask::shift()
         swipe_to_the_left_of_operlist();
         click_clear_button();
 
-        opers_detect_with_swipe();
+        if (!opers_detect_with_swipe()) {
+            return false;
+        }
         swipe_to_the_left_of_operlist();
 
         optimal_calc();
