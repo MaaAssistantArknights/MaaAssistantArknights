@@ -406,7 +406,7 @@ void Assistance::working_proc()
                     ++retry_times;
                     // 执行失败再还原回去
                     m_tasks_deque.emplace_front(task_ptr);
-                    task_ptr->on_run_fails(retry_times);
+                    task_ptr->on_run_fails();
                 }
             }
 

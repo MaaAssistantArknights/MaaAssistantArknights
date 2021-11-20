@@ -21,7 +21,9 @@ bool asst::InfrastMfgTask::run()
     enter_facility(FacilityName, 0);
     click_bottomleft_tab();
 
-    shift_facility_list();
+    if (!shift_facility_list()) {
+        return false;
+    }
 
     return true;
 }

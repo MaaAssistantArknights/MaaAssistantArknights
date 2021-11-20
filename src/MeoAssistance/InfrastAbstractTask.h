@@ -11,6 +11,7 @@ namespace asst
         using AbstractTask::AbstractTask;
         virtual ~InfrastAbstractTask() = default;
         virtual void set_work_mode(infrast::WorkMode work_mode) noexcept;
+        virtual void on_run_fails() override;
 
     protected:
         virtual bool enter_facility(const std::string& facility, int index = 0);

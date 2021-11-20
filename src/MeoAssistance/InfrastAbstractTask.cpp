@@ -27,6 +27,17 @@ void asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexc
     }
 }
 
+void asst::InfrastAbstractTask::on_run_fails()
+{
+    LogTraceFunction;
+
+    json::value next_json;
+    next_json["task_chain"] = m_task_chain;
+    next_json["retry_times"] = m_retry_times;
+    next_json["tasks"] = json::array({ "InfrastBegin" });
+    m_callback(AsstMsg::AppendProcessTask, next_json, m_callback_arg);
+}
+
 bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int index)
 {
     LogTraceFunction;
