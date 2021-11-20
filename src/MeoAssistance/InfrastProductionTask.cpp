@@ -117,7 +117,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
             swipe_to_the_left_of_operlist();
 
             if (m_all_available_opers.empty()) {
-                opers_detect_with_swipe();
+                if (!opers_detect_with_swipe()) {
+                    return false;
+                }
                 swipe_to_the_left_of_operlist();
             }
             else {
@@ -148,6 +150,11 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
         }
         size_t num = opers_detect();
         log.trace("opers_detect return", num);
+
+        // 无论如何也不会没有干员的，除非前面的操作哪里出错了，没进到干员选择的页面。那也就没必要继续下去了
+        if (num == 0) {
+            return false;
+        }
 
         // 这里本来是判断不相等就可以退出循环。
         // 但是有时候滑动会把一个干员挡住一半，一个页面完整的干员真的只有10个，所以加个2的差值

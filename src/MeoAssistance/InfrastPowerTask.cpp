@@ -36,7 +36,9 @@ bool asst::InfrastPowerTask::run()
             swipe_to_the_left_of_operlist();
 
             if (m_all_available_opers.empty()) {
-                opers_detect_with_swipe();
+                if (!opers_detect_with_swipe()) {
+                    return false;
+                }
                 swipe_to_the_left_of_operlist();
             }
             else {

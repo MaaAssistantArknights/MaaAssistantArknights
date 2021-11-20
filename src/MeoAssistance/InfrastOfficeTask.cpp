@@ -28,7 +28,9 @@ bool asst::InfrastOfficeTask::run()
             return false;
         }
         swipe_to_the_left_of_operlist();
-        opers_detect_with_swipe();
+        if (!opers_detect_with_swipe()) {
+            return false;
+        }
         swipe_to_the_left_of_operlist();
 
         auto find_iter = std::find_if(
