@@ -482,7 +482,12 @@ bool asst::InfrastProductionTask::opers_choose()
                         return false;
                     }
                 );
-                m_all_available_opers.erase(avlb_iter);
+                if (avlb_iter != m_all_available_opers.cend()) {
+                    m_all_available_opers.erase(avlb_iter);
+                }
+                else {
+                    log.error("opers_choose | not found oper");
+                }
             }
             cur_all_opers.erase(find_iter);
             opt_iter = m_optimal_combs.erase(opt_iter);
