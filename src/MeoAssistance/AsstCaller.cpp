@@ -145,7 +145,7 @@ bool AsstAppendProcessTask(void* p_asst, const char* task)
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->append_process_task(task, asst::Assistance::ProcessTaskRetryTimesDefault);
+    return ((asst::Assistance*)p_asst)->append_process_task(task);
 }
 
 

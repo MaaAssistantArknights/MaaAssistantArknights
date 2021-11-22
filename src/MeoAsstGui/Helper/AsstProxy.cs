@@ -106,14 +106,22 @@ namespace MeoAsstGui
                 case AsstMsg.TaskStart:
                     {
                         string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "SanityBegin" || taskChain == "VisitBegin")
                         {
-                            mfvm.RunStatus = "正在运行中……";
+                            var tfvm = _container.Get<TaskQueueViewModel>();
+                            tfvm.StatusPrompt = "当前任务：" + taskChain;
+                        }
+                        if (taskChain == "Sanity")
+                        {
+                            mfvm.RunStatus = "刷理智正在运行中……";
+                        }
+                        else if (taskChain == "Visit")
+                        {
+                            mfvm.RunStatus = "访问好友正在运行中……";
                         }
                         else if (taskChain == "Infrast")
                         {
                             var ifvm = _container.Get<InfrastructureConstructionViewModel>();
-                            ifvm.StatusPrompt = "正在运行中……";
+                            ifvm.StatusPrompt = "基建换班正在运行中……";
                         }
                     }
                     break;
@@ -126,12 +134,18 @@ namespace MeoAsstGui
                             infrast_proc_msg(msg, detail);
                             break;
                         }
-                        if (taskChain != "SanityBegin" && taskChain != "VisitBegin")
+                        if (taskChain == "OpenRecruit")
                         {
                             break;
                         }
                         mfvm.CreditShoppingCheckBoxIsEnable = true;
                         mfvm.RunStatus = "已刷完，自动停止";
+                    }
+                    break;
+                case AsstMsg.AllTasksCompleted:
+                    {
+                        var tfvm = _container.Get<TaskQueueViewModel>();
+                        tfvm.StatusPrompt = "不要停下来啊！";
                         if (mfvm.Shutdown == true)
                         {
                             System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
@@ -144,7 +158,6 @@ namespace MeoAsstGui
                         }
                     }
                     break;
-
                 case AsstMsg.StageDrops:
                     string dropsInfo = "";
                     JArray statistics = (JArray)detail["statistics"];
@@ -178,7 +191,7 @@ namespace MeoAsstGui
                 case AsstMsg.TaskError:
                     {
                         string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "SanityBegin")
+                        if (taskChain == "Sanity")
                         {
                             // 刷理智出错了会重试两次，再不行就算了
                             if (_retryTimes >= _retryLimit)
@@ -367,6 +380,7 @@ namespace MeoAsstGui
         ProcessTaskStopAction,				// 流程任务执行到了Stop的动作
         TaskChainCompleted,					// 任务链完成
         ProcessTaskNotMatched,				// 流程任务识别错误
+        AllTasksCompleted,                  // 所有任务完成
         /* Info Msg: about Identify */
         TextDetected = 2000,				// 识别到文字
         ImageFindResult,					// 查找图像的结果
