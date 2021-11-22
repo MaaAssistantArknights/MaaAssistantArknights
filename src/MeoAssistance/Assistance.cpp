@@ -129,25 +129,6 @@ bool asst::Assistance::catch_custom()
     return ret;
 }
 
-bool asst::Assistance::catch_specific(const std::string& address)
-{
-    LogTraceFunction;
-
-    stop();
-
-    bool ret = false;
-    auto& cfg = resource.cfg();
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    EmulatorInfo remote_info = cfg.get_emulators_info().at("Custom");
-
-    ret = ctrler.try_capture(remote_info, true);
-
-    m_inited = ret;
-    return ret;
-}
-
 bool asst::Assistance::catch_fake()
 {
     LogTraceFunction;
