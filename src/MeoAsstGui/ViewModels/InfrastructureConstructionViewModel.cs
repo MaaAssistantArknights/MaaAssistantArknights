@@ -219,6 +219,14 @@ namespace MeoAsstGui
                 StatusPrompt = "捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限";
                 return;
             }
+
+            Start();
+            asstProxy.AsstStart();
+        }
+
+        public bool Start()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
             // 直接遍历ItemViewModels里面的内容，是排序后的
             var orderList = new List<string>();
             foreach (var item in ItemViewModels)
@@ -232,13 +240,12 @@ namespace MeoAsstGui
 
             bool ret = asstProxy.AsstAppendInfrastShift(
                     (int)work_mode, orderList.ToArray(), orderList.Count, (int)uses_of_drones, DormThreshold / 100.0);
-            
-            ret &= asstProxy.AsstStart();
 
             if (!ret)
             {
                 StatusPrompt = "出现未知错误";
             }
+            return ret;
         }
 
         public void Stop()
@@ -251,10 +258,10 @@ namespace MeoAsstGui
 
     public class ItemViewModel : PropertyChangedBase
     {
-        public ItemViewModel(string name)
+        public ItemViewModel(string name, string stroageKey = "Infrast.")
         {
             this.Name = name;
-            this._isCheckedStorageKey = "Infrast." + name + ".IsChecked";
+            this._isCheckedStorageKey = stroageKey + name + ".IsChecked";
             this.IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
         }
 

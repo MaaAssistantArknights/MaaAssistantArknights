@@ -52,7 +52,7 @@ namespace asst
         bool append_infrast_shift(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses, double dorm_threshold, bool only_append = true);
 
         // 添加流程任务，应该是private的，调试用临时放到public
-        bool append_process_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool only_append = true);
+        bool append_process_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, std::string task_chain = std::string(), bool only_append = true);
 
 #ifdef LOG_TRACE
         // 调试用

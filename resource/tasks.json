@@ -140,6 +140,9 @@
         "action": "doNothing",
         "next": [
             "MedicineConfirm"
+        ],
+        "exceededNext": [
+            "CloseStonePage"
         ]
     },
     "MedicineConfirm": {
@@ -165,8 +168,24 @@
         "reduceOtherTimes": [
             "StartButton1"
         ],
+        "exceededNext": [
+            "CloseStonePage"
+        ],
         "next": [
             "StartButton1"
+        ]
+    },
+    "CloseStonePage": {
+        "algorithm": "justreturn",
+        "action": "clickRect",
+        "specificRect": [
+            0,
+            200,
+            300,
+            400
+        ],
+        "next": [
+            "Stop"
         ]
     },
     "PrtsErrorConfirm": {
@@ -275,13 +294,7 @@
     },
     "AwardBegin": {
         "algorithm": "justreturn",
-        "action": "clickRect",
-        "specificRect": [
-            0,
-            200,
-            300,
-            400
-        ],
+        "action": "doNothing",
         "next": [
             "ReturnToAward",
             "Award",

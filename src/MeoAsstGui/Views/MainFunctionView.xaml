@@ -19,7 +19,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Command="{s:Action StartSanity}" Content="开始刷理智" Margin="10" HorizontalAlignment="Center" Width="120" Height="50" />
+            <Button Command="{s:Action Sanity}" Content="开始刷理智" Margin="10" HorizontalAlignment="Center" Width="120" Height="50" />
             <Button Command="{s:Action Visit}" Content="访问好友" Margin="10" HorizontalAlignment="Center" Width="120" Height="50" />
             <Button Command="{s:Action Stop}" Content="停止" Margin="10" HorizontalAlignment="Center" Width="120" Height="50" />
         </StackPanel>

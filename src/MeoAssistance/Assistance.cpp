@@ -141,12 +141,12 @@ bool asst::Assistance::catch_fake()
 
 bool asst::Assistance::append_sanity(bool only_append)
 {
-    return append_process_task("SanityBegin", ProcessTaskRetryTimesDefault, only_append);
+    return append_process_task("SanityBegin", ProcessTaskRetryTimesDefault, "Sanity", only_append);
 }
 
 bool asst::Assistance::append_receive_award(bool only_append)
 {
-    return append_process_task("AwardBegin", ProcessTaskRetryTimesDefault, only_append);
+    return append_process_task("AwardBegin", ProcessTaskRetryTimesDefault, "ReceiveAward", only_append);
 }
 
 bool asst::Assistance::append_visit(bool with_shopping, bool only_append)
@@ -159,11 +159,11 @@ bool asst::Assistance::append_visit(bool with_shopping, bool only_append)
     std::unique_lock<std::mutex> lock(m_mutex);
     resource.templ().clear_hists();
 
-    append_match_task("VisitBegin", { "VisitBegin" }, ProcessTaskRetryTimesDefault);
+    append_match_task("Visit", { "VisitBegin" }, ProcessTaskRetryTimesDefault);
 
     if (with_shopping) {
         auto shopping_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this);
-        shopping_task_ptr->set_task_chain("VisitBegin");
+        shopping_task_ptr->set_task_chain("CreditShopping");
         m_tasks_deque.emplace_back(shopping_task_ptr);
     }
 
@@ -174,7 +174,7 @@ bool asst::Assistance::append_visit(bool with_shopping, bool only_append)
     return true;
 }
 
-bool Assistance::append_process_task(const std::string& task, int retry_times, bool only_append)
+bool Assistance::append_process_task(const std::string& task, int retry_times, std::string task_chain, bool only_append)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -183,7 +183,10 @@ bool Assistance::append_process_task(const std::string& task, int retry_times, b
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    append_match_task(task, { task }, retry_times);
+    if (task_chain.empty()) {
+        task_chain = task;
+    }
+    append_match_task(task_chain, { task }, retry_times);
 
     if (!only_append) {
         start(false);
@@ -393,6 +396,9 @@ void Assistance::working_proc()
                     json::value task_all_completed_json;
                     task_all_completed_json["task_chain"] = task_ptr->get_task_chain();
                     task_callback(AsstMsg::TaskChainCompleted, task_all_completed_json, p_this);
+                }
+                if (m_tasks_deque.empty()) {
+
                 }
             }
             else {
