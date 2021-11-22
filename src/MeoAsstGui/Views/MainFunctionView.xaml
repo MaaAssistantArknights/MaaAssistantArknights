@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:MeoAsstGui"
              xmlns:s="https://github.com/canton7/Stylet"
              mc:Ignorable="d"
-        Height="350" Width="500">
+        Height="460" Width="500">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200" />
+            <RowDefinition Height="280" />
             <RowDefinition Height="100" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="80" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
             <local:SanityParamSettingUserControl Width="350" />

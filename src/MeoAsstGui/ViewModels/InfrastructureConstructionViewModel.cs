@@ -230,10 +230,14 @@ namespace MeoAsstGui
                 orderList.Add(facility_key[item.Name]);
             }
 
-            bool ret = asstProxy.AsstStartInfrastShift((int)work_mode, orderList.ToArray(), orderList.Count, (int)uses_of_drones, DormThreshold / 100.0);
-            if (ret)
+            bool ret = asstProxy.AsstAppendInfrastShift(
+                    (int)work_mode, orderList.ToArray(), orderList.Count, (int)uses_of_drones, DormThreshold / 100.0);
+            
+            ret &= asstProxy.AsstStart();
+
+            if (!ret)
             {
-                StatusPrompt = "正在运行中……";
+                StatusPrompt = "出现未知错误";
             }
         }
 
