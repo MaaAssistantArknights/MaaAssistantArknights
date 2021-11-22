@@ -25,13 +25,13 @@ namespace MeoAsstGui
         public void InitializeItems()
         {
             string stroageKey = "TaskQueue.";
-            ItemViewModels.Add(new ItemViewModel("基建换班", stroageKey));
             ItemViewModels.Add(new ItemViewModel("刷理智", stroageKey));
+            ItemViewModels.Add(new ItemViewModel("基建换班", stroageKey));
             ItemViewModels.Add(new ItemViewModel("访问好友", stroageKey));
             ItemViewModels.Add(new ItemViewModel("领取日常奖励", stroageKey));
         }
 
-        private string _statusPrompt = "    Tips：上方任务可拖动调整顺序\nTips2：任务会按每个页面中的设置进行";
+        private string _statusPrompt = "Tips：上方任务可拖动调整顺序\nTips2：任务会按每个页面中的设置进行\nTips3：目前刷理智只会刷上次的图，所以建议放在最前面";
 
         public string StatusPrompt
         {

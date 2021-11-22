@@ -41,6 +41,7 @@
 
         <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefaultBold}"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                   TextAlignment="Center"
                    Text="{Binding StatusPrompt}" />
     </Grid>
 </UserControl>

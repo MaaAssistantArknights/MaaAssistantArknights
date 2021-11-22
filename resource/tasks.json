@@ -16,7 +16,18 @@
             "TodaysSupplies",
             "CloseAnno",
             "Terminal",
-            "LastBattle"
+            "LastBattle",
+            "ReturnToTerminal"
+        ]
+    },
+    "ReturnToTerminal": {
+        "template": "Return.png",
+        "templThreshold": 0.85,
+        "histThreshold": 0.85,
+        "rearDelay": 1000,
+        "action": "clickSelf",
+        "next": [
+            "SanityBegin"
         ]
     },
     "UsePrts": {

@@ -50,7 +50,7 @@ namespace MeoAsstGui
             Items.Add(mfvm);
             Items.Add(ivm);
             Items.Add(rvm);
-            ActiveItem = mfvm;
+            ActiveItem = tvm;
         }
 
         private bool CheckAndUpdateNow()
