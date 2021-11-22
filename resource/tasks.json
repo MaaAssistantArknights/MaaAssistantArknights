@@ -273,6 +273,68 @@
             "StartButton1"
         ]
     },
+    "AwardBegin": {
+        "algorithm": "justreturn",
+        "action": "clickRect",
+        "specificRect": [
+            0,
+            200,
+            300,
+            400
+        ],
+        "next": [
+            "ReturnToAward",
+            "Award",
+            "ReceiveAward",
+            "WeeklyTask"
+        ]
+    },
+    "Award": {
+        "template": "Task.png",
+        "action": "clickSelf",
+        "next": [
+            "ReceiveAward",
+            "WeeklyTask"
+        ]
+    },
+    "ReceiveAward": {
+        "action": "clickSelf",
+        "next": [
+            "CloseTaskAward"
+        ]
+    },
+    "CloseTaskAward": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            1000,
+            100,
+            270,
+            340
+        ],
+        "next": [
+            "WeeklyTask",
+            "Stop"
+        ]
+    },
+    "WeeklyTask": {
+        "action": "clickSelf",
+        "next": [
+            "ReceiveAward",
+            "Stop"
+        ]
+    },
+    "ReturnToAward": {
+        "template": "Return.png",
+        "templThreshold": 0.85,
+        "histThreshold": 0.85,
+        "rearDelay": 1000,
+        "action": "clickSelf",
+        "next": [
+            "Award",
+            "ReturnToAward"
+        ]
+    },
     "VisitBegin": {
         "algorithm": "justreturn",
         "action": "doNothing",
