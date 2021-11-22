@@ -28,7 +28,7 @@ namespace MeoAsstGui
             ItemViewModels.Add(new ItemViewModel("基建换班", stroageKey));
             ItemViewModels.Add(new ItemViewModel("刷理智", stroageKey));
             ItemViewModels.Add(new ItemViewModel("访问好友", stroageKey));
-            ItemViewModels.Add(new ItemViewModel("领取任务奖励", stroageKey));
+            ItemViewModels.Add(new ItemViewModel("领取日常奖励", stroageKey));
         }
 
         private string _statusPrompt = "    Tips：上方任务可拖动调整顺序\nTips2：任务会按每个页面中的设置进行";
@@ -80,7 +80,7 @@ namespace MeoAsstGui
                     var mfvm = _container.Get<MainFunctionViewModel>();
                     ret &= mfvm.StartVisit();
                 }
-                else if (item.Name == "领取任务奖励")
+                else if (item.Name == "领取日常奖励")
                 {
                     var mfvm = _container.Get<MainFunctionViewModel>();
                     ret &= mfvm.StartAward();
