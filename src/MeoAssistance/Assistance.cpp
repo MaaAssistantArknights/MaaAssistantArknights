@@ -139,15 +139,20 @@ bool asst::Assistance::catch_fake()
     return true;
 }
 
-bool asst::Assistance::start_sanity()
+bool asst::Assistance::append_sanity(bool only_append)
 {
-    return start_process_task("SanityBegin", ProcessTaskRetryTimesDefault);
+    return append_process_task("SanityBegin", ProcessTaskRetryTimesDefault, only_append);
 }
 
-bool asst::Assistance::start_visit(bool with_shopping)
+bool asst::Assistance::append_receive_award(bool only_append)
+{
+    return append_process_task("AwardBegin", ProcessTaskRetryTimesDefault, only_append);
+}
+
+bool asst::Assistance::append_visit(bool with_shopping, bool only_append)
 {
     LogTraceFunction;
-    if (!m_thread_idle || !m_inited) {
+    if (!m_inited) {
         return false;
     }
 
@@ -162,40 +167,36 @@ bool asst::Assistance::start_visit(bool with_shopping)
         m_tasks_deque.emplace_back(shopping_task_ptr);
     }
 
-    m_thread_idle = false;
-    m_condvar.notify_one();
+    if (!only_append) {
+        start(false);
+    }
 
     return true;
 }
 
-bool Assistance::start_process_task(const std::string& task, int retry_times, bool block)
+bool Assistance::append_process_task(const std::string& task, int retry_times, bool only_append)
 {
     LogTraceFunction;
-    log.trace("Start |", task, block ? "block" : "non block");
-    if (!m_thread_idle || !m_inited) {
+    if (!m_inited) {
         return false;
     }
 
-    std::unique_lock<std::mutex> lock;
-    if (block) {
-        lock = std::unique_lock<std::mutex>(m_mutex);
-        //clear_exec_times();
-        resource.templ().clear_hists();
-    }
+    std::unique_lock<std::mutex> lock(m_mutex);
 
     append_match_task(task, { task }, retry_times);
 
-    m_thread_idle = false;
-    m_condvar.notify_one();
+    if (!only_append) {
+        start(false);
+    }
 
     return true;
 }
 
 #ifdef LOG_TRACE
-bool Assistance::start_debug_task()
+bool Assistance::append_debug_task()
 {
     LogTraceFunction;
-    if (!m_thread_idle || !m_inited) {
+    if (!m_inited) {
         return false;
     }
 
@@ -211,17 +212,14 @@ bool Assistance::start_debug_task()
         m_tasks_deque.emplace_back(shift_task_ptr);
     }
 
-    m_thread_idle = false;
-    m_condvar.notify_one();
-
     return true;
 }
 #endif
 
-bool Assistance::start_recruiting(const std::vector<int>& required_level, bool set_time)
+bool Assistance::append_recruiting(const std::vector<int>& required_level, bool set_time, bool only_append)
 {
     LogTraceFunction;
-    if (!m_thread_idle || !m_inited) {
+    if (!m_inited) {
         return false;
     }
 
@@ -233,16 +231,17 @@ bool Assistance::start_recruiting(const std::vector<int>& required_level, bool s
     task_ptr->set_task_chain("OpenRecruit");
     m_tasks_deque.emplace_back(task_ptr);
 
-    m_thread_idle = false;
-    m_condvar.notify_one();
+    if (!only_append) {
+        start(false);
+    }
 
     return true;
 }
 
-bool asst::Assistance::start_infrast_shift(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold)
+bool asst::Assistance::append_infrast_shift(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold, bool only_append)
 {
     LogTraceFunction;
-    if (!m_thread_idle || !m_inited) {
+    if (!m_inited) {
         return false;
     }
 
@@ -258,6 +257,8 @@ bool asst::Assistance::start_infrast_shift(infrast::WorkMode work_mode, const st
 
     auto info_task_ptr = std::make_shared<InfrastInfoTask>(task_callback, (void*)this);
     info_task_ptr->set_work_mode(work_mode);
+    info_task_ptr->set_task_chain(InfrastTaskCahin);
+
     m_tasks_deque.emplace_back(info_task_ptr);
 
     // 因为后期要考虑多任务间的联动等，所以这些任务的声明暂时不妨到for循环中
@@ -307,9 +308,29 @@ bool asst::Assistance::start_infrast_shift(infrast::WorkMode work_mode, const st
             m_tasks_deque.emplace_back(recpt_task_ptr);
         }
         else {
-            log.error("start_infrast_shift | Unknown facility", facility);
+            log.error("append_infrast_shift | Unknown facility", facility);
         }
         append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+    }
+
+    if (!only_append) {
+        start(false);
+    }
+
+    return true;
+}
+
+bool asst::Assistance::start(bool block)
+{
+    LogTraceFunction;
+    log.trace("Start |", block ? "block" : "non block");
+
+    if (!m_thread_idle || !m_inited) {
+        return false;
+    }
+    std::unique_lock<std::mutex> lock;
+    if (block) { // 外部调用
+        lock = std::unique_lock<std::mutex>(m_mutex);
     }
 
     m_thread_idle = false;
@@ -318,7 +339,7 @@ bool asst::Assistance::start_infrast_shift(infrast::WorkMode work_mode, const st
     return true;
 }
 
-void Assistance::stop(bool block)
+bool Assistance::stop(bool block)
 {
     LogTraceFunction;
     log.trace("Stop |", block ? "block" : "non block");
@@ -333,6 +354,8 @@ void Assistance::stop(bool block)
     m_tasks_deque.swap(empty);
     clear_exec_times();
     resource.templ().clear_hists();
+
+    return true;
 }
 
 bool Assistance::set_param(const std::string& type, const std::string& param, const std::string& value)
@@ -365,7 +388,8 @@ void Assistance::working_proc()
             bool ret = task_ptr->run();
             if (ret) {
                 retry_times = 0;
-                if (m_tasks_deque.empty()) {
+                if (m_tasks_deque.empty() 
+                    || task_ptr->get_task_chain() != m_tasks_deque.front()->get_task_chain()) {
                     json::value task_all_completed_json;
                     task_all_completed_json["task_chain"] = task_ptr->get_task_chain();
                     task_callback(AsstMsg::TaskChainCompleted, task_all_completed_json, p_this);

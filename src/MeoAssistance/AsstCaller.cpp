@@ -112,40 +112,85 @@ bool AsstCatchFake(void* p_asst)
 #endif // LOG_TRACE
 }
 
-bool AsstStartSanity(void* p_asst)
+bool AsstAppendSanity(void* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->start_sanity();
+    return ((asst::Assistance*)p_asst)->append_sanity();
 }
 
-bool AsstStartVisit(void* p_asst, bool with_shopping)
+bool AsstAppendReceiveAward(void* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->start_visit(with_shopping);
+    return ((asst::Assistance*)p_asst)->append_receive_award();
 }
 
-bool AsstStartProcessTask(void* p_asst, const char* task)
+bool AsstAppendVisit(void* p_asst, bool with_shopping)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->start_process_task(task, asst::Assistance::ProcessTaskRetryTimesDefault);
+    return ((asst::Assistance*)p_asst)->append_visit(with_shopping);
 }
 
-void AsstStop(void* p_asst)
+bool AsstAppendProcessTask(void* p_asst, const char* task)
 {
     if (p_asst == nullptr) {
-        return;
+        return false;
     }
 
-    ((asst::Assistance*)p_asst)->stop();
+    return ((asst::Assistance*)p_asst)->append_process_task(task, asst::Assistance::ProcessTaskRetryTimesDefault);
+}
+
+
+bool AsstAppendRecruiting(void* p_asst, const int required_level[], int required_len, bool set_time)
+{
+    if (p_asst == nullptr) {
+        return false;
+    }
+    std::vector<int> level_vector;
+    level_vector.assign(required_level, required_level + required_len);
+    return ((asst::Assistance*)p_asst)->append_recruiting(level_vector, set_time);
+}
+
+bool AsstAppendInfrastShift(void* p_asst, int work_mode, const char** order, int order_size, int uses_of_drones, double dorm_threshold)
+{
+    if (p_asst == nullptr) {
+        return false;
+    }
+    std::vector<std::string> order_vector;
+    order_vector.assign(order, order + order_size);
+
+    return ((asst::Assistance*)p_asst)->
+        append_infrast_shift(
+            static_cast<asst::infrast::WorkMode>(work_mode),
+            order_vector,
+            static_cast<asst::UsesOfDrones>(uses_of_drones),
+            dorm_threshold);
+}
+
+bool AsstStart(void* p_asst)
+{
+    if (p_asst == nullptr) {
+        return false;
+    }
+
+    return ((asst::Assistance*)p_asst)->start();
+}
+
+bool AsstStop(void* p_asst)
+{
+    if (p_asst == nullptr) {
+        return false;
+    }
+
+    return ((asst::Assistance*)p_asst)->stop();
 }
 
 bool AsstSetParam(void* p_asst, const char* type, const char* param, const char* value)
@@ -162,34 +207,13 @@ const char* AsstGetVersion()
     return asst::Version;
 }
 
-bool AsstStartRecruiting(void* p_asst, const int required_level[], int required_len, bool set_time)
-{
-    if (p_asst == nullptr) {
-        return false;
-    }
-    std::vector<int> level_vector;
-    level_vector.assign(required_level, required_level + required_len);
-    return ((asst::Assistance*)p_asst)->start_recruiting(level_vector, set_time);
-}
-
-bool AsstStartInfrastShift(void* p_asst, int work_mode, const char** order, int order_size, int uses_of_drones, double dorm_threshold)
-{
-    if (p_asst == nullptr) {
-        return false;
-    }
-    std::vector<std::string> order_vector;
-    order_vector.assign(order, order + order_size);
-
-    return ((asst::Assistance*)p_asst)->start_infrast_shift(static_cast<asst::infrast::WorkMode>(work_mode), order_vector, static_cast<asst::UsesOfDrones>(uses_of_drones), dorm_threshold);
-}
-
-bool AsstStartDebugTask(void* p_asst)
+bool AsstAppendDebugTask(void* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
     }
 #if LOG_TRACE
-    return ((asst::Assistance*)p_asst)->start_debug_task();
+    return ((asst::Assistance*)p_asst)->append_debug_task();
 #else
     return false;
 #endif // LOG_TRACE

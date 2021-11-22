@@ -71,6 +71,17 @@ namespace MeoAsstGui
                 SetAndNotify(ref _runStatus, value);
             }
         }
+        private bool _receiveAward = System.Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.ReceiveAward", bool.TrueString));
+        public bool ReceiveAward
+        {
+            get { return _receiveAward; }
+            set
+            {
+                ViewStatusStorage.Set("MainFunction.ReceiveAward", value.ToString());
+                SetAndNotify(ref _receiveAward, value);
+            }
+        }
+
 
         private bool _shutdown;
 
@@ -279,8 +290,15 @@ namespace MeoAsstGui
                 RunStatus = "捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限";
                 return;
             }
-            if (!asstProxy.AsstStartSanity())
+            bool startRet = asstProxy.AsstAppendSanity();
+            if (ReceiveAward)
             {
+                startRet &= asstProxy.AsstAppendReceiveAward();
+            }
+            startRet &= asstProxy.AsstStart();
+            if (!startRet)
+            {
+                RunStatus = "开始失败，出现未知错误";
                 return;
             }
             ExecInfo = "";
@@ -308,8 +326,11 @@ namespace MeoAsstGui
                 RunStatus = "捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限";
                 return;
             }
-            if (!asstProxy.AsstStartVisit(CreditShopping))
+            bool start_ret = asstProxy.AsstAppendVisit(CreditShopping)
+                && asstProxy.AsstStart();
+            if (!start_ret)
             {
+                RunStatus = "出现未知错误";
                 return;
             }
             CreditShoppingCheckBoxIsEnable = false;

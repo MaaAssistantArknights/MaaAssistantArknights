@@ -39,24 +39,30 @@ namespace asst
         // 不实际进行捕获，调试用接口
         bool catch_fake();
 
-        // 开始刷理智
-        bool start_sanity();
-        // 开始访问好友基建
-        bool start_visit(bool with_shopping = false);
+        // 添加刷理智任务
+        bool append_sanity(bool only_append = true);
+        // 添加领取日常任务奖励任务
+        bool append_receive_award(bool only_append = true);
+        // 添加访问好友基建任务
+        bool append_visit(bool with_shopping, bool only_append = true);
 
-        // 开始公开招募操作
-        bool start_recruiting(const std::vector<int>& required_level, bool set_time = true);
-        // 开始基建换班任务
-        bool start_infrast_shift(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses, double dorm_threshold);
+        // 添加公开招募操作任务
+        bool append_recruiting(const std::vector<int>& required_level, bool set_time, bool only_append = true);
+        // 添加基建换班任务任务
+        bool append_infrast_shift(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses, double dorm_threshold, bool only_append = true);
 
-        // 开始流程任务，应该是private的，调试用临时放到public
-        bool start_process_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool block = true);
+        // 添加流程任务，应该是private的，调试用临时放到public
+        bool append_process_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, bool only_append = true);
+
 #ifdef LOG_TRACE
         // 调试用
-        bool start_debug_task();
+        bool append_debug_task();
 #endif
 
-        void stop(bool block = true);
+        // 开始执行任务队列
+        bool start(bool block = true);
+        // 停止任务队列并清空
+        bool stop(bool block = true);
 
         bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
