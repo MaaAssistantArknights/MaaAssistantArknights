@@ -398,7 +398,7 @@ void Assistance::working_proc()
                     task_callback(AsstMsg::TaskChainCompleted, task_all_completed_json, p_this);
                 }
                 if (m_tasks_deque.empty()) {
-
+                    task_callback(AsstMsg::AllTasksCompleted, json::value(), p_this);
                 }
             }
             else {
