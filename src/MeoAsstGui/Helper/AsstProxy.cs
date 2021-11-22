@@ -33,8 +33,6 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstStartInfrastShift(IntPtr ptr, int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartDebugTask(IntPtr ptr);
-
         [DllImport("MeoAssistance.dll")] private static extern void AsstStop(IntPtr ptr);
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
