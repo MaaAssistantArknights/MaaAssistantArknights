@@ -1282,6 +1282,10 @@
             250,
             720
         ],
+		"maskRange": [
+            1,
+            255
+        ],
         "rearDelay": 1000
     },
     "InfrastFacilityListTabTrade": {
@@ -1292,6 +1296,10 @@
             0,
             250,
             720
+        ],		
+		"maskRange": [
+            1,
+            255
         ],
         "rearDelay": 1000
     },
