@@ -23,7 +23,7 @@ bool asst::CreditShoppingTask::run()
 
     CreditShopImageAnalyzer shop_analyzer(image);
     if (!shop_analyzer.analyze()) {
-        return false;
+        return true;
     }
     const auto& shopping_list = shop_analyzer.get_result();
 

@@ -163,6 +163,7 @@ bool asst::Assistance::append_visit(bool with_shopping, bool only_append)
 
     if (with_shopping) {
         auto shopping_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this);
+        shopping_task_ptr->set_retry_times(5);
         shopping_task_ptr->set_task_chain("CreditShopping");
         m_tasks_deque.emplace_back(shopping_task_ptr);
     }
@@ -391,7 +392,7 @@ void Assistance::working_proc()
             bool ret = task_ptr->run();
             if (ret) {
                 retry_times = 0;
-                if (m_tasks_deque.empty() 
+                if (m_tasks_deque.empty()
                     || task_ptr->get_task_chain() != m_tasks_deque.front()->get_task_chain()) {
                     json::value task_all_completed_json;
                     task_all_completed_json["task_chain"] = task_ptr->get_task_chain();
