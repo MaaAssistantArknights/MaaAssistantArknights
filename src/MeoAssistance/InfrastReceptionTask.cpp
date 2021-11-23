@@ -212,8 +212,8 @@ bool asst::InfrastReceptionTask::shift()
         if (need_exit()) {
             return false;
         }
-        swipe_to_the_left_of_operlist();
         click_clear_button();
+        swipe_to_the_left_of_operlist();
 
         if (!opers_detect_with_swipe()) {
             return false;
