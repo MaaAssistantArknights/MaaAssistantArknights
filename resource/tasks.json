@@ -1282,7 +1282,7 @@
             250,
             720
         ],
-		"maskRange": [
+        "maskRange": [
             1,
             255
         ],
@@ -1296,12 +1296,32 @@
             0,
             250,
             720
-        ],		
-		"maskRange": [
+        ],
+        "maskRange": [
             1,
             255
         ],
         "rearDelay": 1000
+    },
+    "InfrastOperLockedMfg": {
+        "template": "OperLockedMfg.png",
+        "cache": false,
+        "roi": [
+            200,
+            500,
+            430,
+            220
+        ]
+    },
+    "InfrastOperLockedTrade": {
+        "template": "OperLockedTrade.png",
+        "cache": false,
+        "roi": [
+            200,
+            500,
+            430,
+            220
+        ]
     },
     "InfrastFlagCombatRecord": {
         "template": "InfrastMfgDogFoodFlag.png",

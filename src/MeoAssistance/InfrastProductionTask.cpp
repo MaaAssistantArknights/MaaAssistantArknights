@@ -64,6 +64,11 @@ bool asst::InfrastProductionTask::shift_facility_list()
         resource.task().task_ptr("InfrastAddOperator" + m_facility + m_work_mode_name));
     add_analyzer.set_task_info(*add_task_ptr);
 
+    const auto locked_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        resource.task().task_ptr("InfrastOperLocked" + m_facility));
+    MultiMatchImageAnalyzer locked_analyzer;
+    locked_analyzer.set_task_info(*locked_task_ptr);
+
     for (const Rect& tab : m_facility_list_tabs) {
         if (need_exit()) {
             return false;
@@ -91,7 +96,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         /* 识别当前正在造什么 */
         MatchImageAnalyzer product_analyzer(image);
         auto& all_products = resource.infrast().get_facility_info(m_facility).products;
-        std::string cur_product;
+        std::string cur_product = all_products.at(0);
         for (const std::string& product : all_products) {
             const static std::string prefix = "InfrastFlag";
             const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
@@ -104,6 +109,15 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         set_product(cur_product);
         log.info("cur product", cur_product);
+
+        locked_analyzer.set_image(image);
+        if (locked_analyzer.analyze()) {
+            m_cur_num_of_lokced_opers = locked_analyzer.get_result().size();
+        }
+        else {
+            m_cur_num_of_lokced_opers = 0;
+        }
+
         /* 进入干员选择页面 */
         ctrler.click(add_button);
         sleep(add_task_ptr->rear_delay);
@@ -215,11 +229,8 @@ bool asst::InfrastProductionTask::optimal_calc()
 {
     LogTraceFunction;
     auto& facility_info = resource.infrast().get_facility_info(m_facility);
-    int max_num_of_opers = facility_info.max_num_of_opers;
+    int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
 
-    if (m_all_available_opers.size() < max_num_of_opers) {
-        return false;
-    }
     std::vector<infrast::SkillsComb> all_avaliable_combs;
     all_avaliable_combs.reserve(m_all_available_opers.size());
     for (auto&& oper : m_all_available_opers) {
@@ -230,7 +241,7 @@ bool asst::InfrastProductionTask::optimal_calc()
 
     // 先把单个的技能按效率排个序，取效率最高的几个
     std::vector<infrast::SkillsComb> optimal_combs;
-    optimal_combs.reserve(max_num_of_opers);
+    optimal_combs.reserve(cur_max_num_of_opers);
     double max_efficient = 0;
     std::sort(all_avaliable_combs.begin(), all_avaliable_combs.end(),
               [&](const infrast::SkillsComb& lhs, const infrast::SkillsComb& rhs) -> bool {
@@ -245,7 +256,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         log.trace(skill_str, comb.efficient.at(m_product));
     }
 
-    for (int i = 0; i != max_num_of_opers; ++i) {
+    for (int i = 0; i != cur_max_num_of_opers && i != m_all_available_opers.size(); ++i) {
         optimal_combs.emplace_back(all_avaliable_combs.at(i));
         max_efficient += all_avaliable_combs.at(i).efficient.at(m_product);
     }
@@ -260,6 +271,12 @@ bool asst::InfrastProductionTask::optimal_calc()
         log.trace("Single comb efficient", max_efficient, " , skills:", log_str);
     }
 
+    // 如果有被锁住的干员，说明当前基建没升满级，组合就不启用
+    if (m_cur_num_of_lokced_opers != 0) {
+        m_optimal_combs = std::move(optimal_combs);
+        return true;
+    }
+
     // 遍历所有组合，找到效率最高的
     auto& all_group = resource.infrast().get_skills_group(m_facility);
     for (const infrast::SkillsGroup& group : all_group) {
@@ -267,7 +284,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         auto cur_available_opers = all_avaliable_combs;
         bool group_unavailable = false;
         std::vector<infrast::SkillsComb> cur_combs;
-        cur_combs.reserve(max_num_of_opers);
+        cur_combs.reserve(cur_max_num_of_opers);
         double cur_efficient = 0;
         // 条件判断，不符合的直接过滤掉
         bool meet_condition = true;
@@ -333,7 +350,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         // 可能有多个干员有同样的技能，所以这里需要循环找同一个技能，直到找不到为止
         for (const infrast::SkillsComb& opt : optional) {
             auto find_iter = cur_available_opers.cbegin();
-            while (cur_combs.size() != max_num_of_opers) {
+            while (cur_combs.size() != cur_max_num_of_opers) {
                 find_iter = std::find_if(
                     find_iter, cur_available_opers.cend(),
                     [&](const infrast::SkillsComb& arg) -> bool {
@@ -371,10 +388,10 @@ bool asst::InfrastProductionTask::optimal_calc()
         }
 
         // 说明可选的没凑满人
-        if (cur_combs.size() < max_num_of_opers) {
+        if (cur_combs.size() < cur_max_num_of_opers) {
             // 允许外部的话，就把单个干员凑进来
             if (group.allow_external) {
-                for (size_t i = cur_combs.size(); i != max_num_of_opers; ++i) {
+                for (size_t i = cur_combs.size(); i != cur_max_num_of_opers; ++i) {
                     cur_combs.emplace_back(cur_available_opers.at(i));
                     cur_efficient += cur_available_opers.at(i).efficient.at(m_product);
                 }
