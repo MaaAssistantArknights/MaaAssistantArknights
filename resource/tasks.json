@@ -151,9 +151,6 @@
         "action": "doNothing",
         "next": [
             "MedicineConfirm"
-        ],
-        "exceededNext": [
-            "CloseStonePage"
         ]
     },
     "MedicineConfirm": {
@@ -161,6 +158,9 @@
         "maxTimes": 0,
         "reduceOtherTimes": [
             "StartButton1"
+        ],
+        "exceededNext": [
+            "CloseStonePage"
         ],
         "next": [
             "StartButton1"
