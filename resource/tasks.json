@@ -331,10 +331,24 @@
         "algorithm": "justReturn",
         "action": "clickRect",
         "specificRect": [
-            1000,
-            100,
-            270,
-            340
+            600,
+            600,
+            60,
+            60
+        ],
+        "next": [
+            "CloseTaskAwardDouble"
+        ]
+    },
+    "CloseTaskAwardDouble": {
+        "Doc": "有时候奖励出的太慢了，所以这里多点一次",
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            600,
+            600,
+            60,
+            60
         ],
         "next": [
             "WeeklyTask",
