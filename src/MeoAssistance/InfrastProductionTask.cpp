@@ -489,11 +489,19 @@ bool asst::InfrastProductionTask::opers_choose()
                 ++opt_iter;
                 continue;
             }
+            // 这种情况可能是需要选择两个同样的技能，上一次循环选了一个，但是没有把滑出当前页面，本次又识别到了这个已选择的人
             if (find_iter->selected == true) {
-                cur_all_opers.erase(find_iter);
-                continue;
+                auto& facility_info = resource.infrast().get_facility_info(m_facility);
+                int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
+                if (cur_max_num_of_opers != 1) {
+                    cur_all_opers.erase(find_iter);
+                    continue;
+                }
+                // 但是如果当前设施只有一个位置，即不存在“上次循环”的情况，说明是清除干员按钮没点到
             }
-            ctrler.click(find_iter->rect);
+            else {
+                ctrler.click(find_iter->rect);
+            }
             {
                 auto avlb_iter = std::find_if(
                     m_all_available_opers.cbegin(), m_all_available_opers.cend(),
