@@ -360,7 +360,8 @@
         "next": [
             "ReceiveAward",
             "Stop"
-        ]
+        ],
+        "rearDelay": 1000
     },
     "ReturnToAward": {
         "template": "Return.png",
