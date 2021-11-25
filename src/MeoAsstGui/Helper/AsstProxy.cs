@@ -23,19 +23,19 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstCatchDefault(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartProcessTask(IntPtr ptr, string task);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendProcessTask(IntPtr ptr, string task);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartSanity(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendSanity(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendReceiveAward(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartVisit(IntPtr ptr, bool with_shopping);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendVisit(IntPtr ptr, bool with_shopping);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartRecruiting(IntPtr ptr, int[] required_level, int required_len, bool set_time);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendRecruiting(IntPtr ptr, int[] required_level, int required_len, bool set_time);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartInfrastShift(IntPtr ptr, int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendInfrastShift(IntPtr ptr, int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartDebugTask(IntPtr ptr);
-
-        [DllImport("MeoAssistance.dll")] private static extern void AsstStop(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstStart(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstStop(IntPtr ptr);
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
 
@@ -106,10 +106,22 @@ namespace MeoAsstGui
                 case AsstMsg.TaskStart:
                     {
                         string taskChain = detail["task_chain"].ToString();
-                        string taskType = detail["task_type"].ToString();
-                        if (taskChain == "SanityBegin" || taskChain == "VisitBegin")
                         {
-                            mfvm.RunStatus = "正在运行中……";
+                            var tfvm = _container.Get<TaskQueueViewModel>();
+                            tfvm.StatusPrompt = "当前任务：" + taskChain;
+                        }
+                        if (taskChain == "Sanity")
+                        {
+                            mfvm.RunStatus = "刷理智正在运行中……";
+                        }
+                        else if (taskChain == "Visit")
+                        {
+                            mfvm.RunStatus = "访问好友正在运行中……";
+                        }
+                        else if (taskChain == "Infrast")
+                        {
+                            var ifvm = _container.Get<InfrastructureConstructionViewModel>();
+                            ifvm.StatusPrompt = "基建换班正在运行中……";
                         }
                     }
                     break;
@@ -122,12 +134,18 @@ namespace MeoAsstGui
                             infrast_proc_msg(msg, detail);
                             break;
                         }
-                        if (taskChain != "SanityBegin" && taskChain != "VisitBegin")
+                        if (taskChain == "OpenRecruit")
                         {
                             break;
                         }
                         mfvm.CreditShoppingCheckBoxIsEnable = true;
                         mfvm.RunStatus = "已刷完，自动停止";
+                    }
+                    break;
+                case AsstMsg.AllTasksCompleted:
+                    {
+                        var tfvm = _container.Get<TaskQueueViewModel>();
+                        tfvm.StatusPrompt = "不要停下来啊！";
                         if (mfvm.Shutdown == true)
                         {
                             System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
@@ -140,7 +158,6 @@ namespace MeoAsstGui
                         }
                     }
                     break;
-
                 case AsstMsg.StageDrops:
                     string dropsInfo = "";
                     JArray statistics = (JArray)detail["statistics"];
@@ -174,7 +191,7 @@ namespace MeoAsstGui
                 case AsstMsg.TaskError:
                     {
                         string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "SanityBegin")
+                        if (taskChain == "Sanity")
                         {
                             // 刷理智出错了会重试两次，再不行就算了
                             if (_retryTimes >= _retryLimit)
@@ -189,7 +206,7 @@ namespace MeoAsstGui
                             {
                                 //AsstStop();
                                 System.Threading.Thread.Sleep(2000);
-                                AsstStartSanity();
+                                AsstAppendSanity();
                             });
                         }
                     }
@@ -287,11 +304,6 @@ namespace MeoAsstGui
             }
         }
 
-        public void AsstStop()
-        {
-            AsstStop(_ptr);
-        }
-
         private bool _isCatched = false;
 
         public bool AsstCatchDefault()
@@ -303,30 +315,47 @@ namespace MeoAsstGui
             return _isCatched;
         }
 
-        public bool AsstStartSanity()
+        public bool AsstAppendSanity()
         {
-            return AsstStartSanity(_ptr);
+            return AsstAppendSanity(_ptr);
         }
 
-        public bool AsstStartVisit(bool with_shopping)
+        public bool AsstAppendReceiveAward()
         {
-            return AsstStartVisit(_ptr, with_shopping);
+            return AsstAppendReceiveAward(_ptr);
         }
+
+        public bool AsstAppendVisit(bool with_shopping)
+        {
+            return AsstAppendVisit(_ptr, with_shopping);
+        }
+
+        public bool AsstAppendRecruiting(int[] required_level, int required_len, bool set_time)
+        {
+            return AsstAppendRecruiting(_ptr, required_level, required_len, set_time);
+        }
+
+        public bool AsstAppendInfrastShift(int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold)
+        {
+            return AsstAppendInfrastShift(_ptr, work_mode, order, order_len, uses_of_drones, dorm_threshold);
+        }
+
+        public bool AsstStart()
+        {
+            return AsstStart(_ptr);
+        }
+
+        public bool AsstStop()
+        {
+            return AsstStop(_ptr);
+        }
+
 
         public void AsstSetParam(string type, string param, string value)
         {
             AsstSetParam(_ptr, type, param, value);
         }
 
-        public bool AsstStartRecruiting(int[] required_level, int required_len, bool set_time)
-        {
-            return AsstStartRecruiting(_ptr, required_level, required_len, set_time);
-        }
-
-        public bool AsstStartInfrastShift(int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold)
-        {
-            return AsstStartInfrastShift(_ptr, work_mode, order, order_len, uses_of_drones, dorm_threshold);
-        }
     }
 
     public enum AsstMsg
@@ -351,6 +380,7 @@ namespace MeoAsstGui
         ProcessTaskStopAction,				// 流程任务执行到了Stop的动作
         TaskChainCompleted,					// 任务链完成
         ProcessTaskNotMatched,				// 流程任务识别错误
+        AllTasksCompleted,                  // 所有任务完成
         /* Info Msg: about Identify */
         TextDetected = 2000,				// 识别到文字
         ImageFindResult,					// 查找图像的结果
