@@ -14,18 +14,6 @@ namespace MeoAsstGui
             _container = container;
             _windowManager = windowManager;
             DisplayName = "刷理智";
-
-            var asstProxy = _container.Get<AsstProxy>();
-            if (UseMedicine)
-            {
-                asstProxy.AsstSetParam("task.action", "UseMedicine", "doNothing");
-                asstProxy.AsstSetParam("task.maxTimes", "MedicineConfirm", int.MaxValue.ToString());
-            }
-            else
-            {
-                asstProxy.AsstSetParam("task.action", "UseMedicine", "stop");
-                asstProxy.AsstSetParam("task.maxTimes", "MedicineConfirm", "0");
-            }
         }
 
         private string _execInfo;
@@ -71,7 +59,9 @@ namespace MeoAsstGui
                 SetAndNotify(ref _runStatus, value);
             }
         }
+
         private bool _receiveAward = System.Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.ReceiveAward", bool.TrueString));
+
         public bool ReceiveAward
         {
             get { return _receiveAward; }
@@ -81,7 +71,6 @@ namespace MeoAsstGui
                 SetAndNotify(ref _receiveAward, value);
             }
         }
-
 
         private bool _shutdown;
 
@@ -108,11 +97,7 @@ namespace MeoAsstGui
                 {
                     asstProxy.AsstSetParam("task.action", "UseMedicine", "doNothing");
                     int count;
-                    if (MedicineNumber == "ALL")
-                    {
-                        count = int.MaxValue;
-                    }
-                    else if (!int.TryParse(MedicineNumber, out count))
+                    if (!int.TryParse(MedicineNumber, out count))
                     {
                         count = 0;
                     }
@@ -139,11 +124,7 @@ namespace MeoAsstGui
                 {
                     asstProxy.AsstSetParam("task.action", "UseStone", "doNothing");
                     int count;
-                    if (StoneNumber == "ALL")
-                    {
-                        count = int.MaxValue;
-                    }
-                    else if (!int.TryParse(StoneNumber, out count))
+                    if (!int.TryParse(StoneNumber, out count))
                     {
                         count = 0;
                     }
@@ -174,7 +155,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _medicineNumber = "ALL";
+        private string _medicineNumber = "999";
 
         public string MedicineNumber
         {
@@ -301,7 +282,33 @@ namespace MeoAsstGui
         public bool StartSanity()
         {
             var asstProxy = _container.Get<AsstProxy>();
-            bool startRet = asstProxy.AsstAppendSanity();
+
+            int max_medicine = 0;
+            if (UseMedicine)
+            {
+                if (!int.TryParse(MedicineNumber, out max_medicine))
+                {
+                    max_medicine = 0;
+                }
+            }
+            int max_stone = 0;
+            if (UseStone)
+            {
+                if (!int.TryParse(StoneNumber, out max_stone))
+                {
+                    max_stone = 0;
+                }
+            }
+            int max_times = int.MaxValue;
+            if (HasTimesLimited)
+            {
+                if (!int.TryParse(MaxTimes, out max_times))
+                {
+                    max_times = 0;
+                }
+            }
+
+            bool startRet = asstProxy.AsstAppendSanity(max_medicine, max_stone, max_times);
 
             if (!startRet)
             {
@@ -350,6 +357,7 @@ namespace MeoAsstGui
             StartVisit();
             asstProxy.AsstStart();
         }
+
         public bool StartVisit()
         {
             var asstProxy = _container.Get<AsstProxy>();

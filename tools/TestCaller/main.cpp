@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 
     char ch = 0;
     while (ch != 'q') {
-        //AsstAppendSanity(ptr);
+        //AsstAppendSanity(ptr, 0, 0, 99999);
         //AsstAppendVisit(ptr, true);
         //{
         //    const int required[] = { 3, 4, 5, 6 };
@@ -29,7 +29,7 @@ int main(int argc, char** argv)
         //}
         AsstAppendProcessTask(ptr, "AwardBegin");
         AsstStart(ptr);
-        
+
         ch = getchar();
     }
 

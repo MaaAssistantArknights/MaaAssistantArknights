@@ -21,7 +21,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     static OcrImageAnalyzer tags_analyzer;
     if (!analyzer_inited) {
         const auto tags_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-            resource.task().task_ptr("RecruitTags"));
+            task.get("RecruitTags"));
         tags_analyzer.set_roi(tags_task_ptr->roi);
         auto& all_tags_set = resource.recruit().get_all_tags();
         std::vector<std::string> all_tags_vec;
@@ -46,7 +46,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
 bool asst::RecruitImageAnalyzer::time_analyze()
 {
     const auto time_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("RecruitTime"));
+        task.get("RecruitTime"));
 
     MatchImageAnalyzer time_analyzer(m_image);
     time_analyzer.set_task_info(*time_task_ptr);

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <condition_variable>
-#include <deque>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -40,7 +39,7 @@ namespace asst
         bool catch_fake();
 
         // 添加刷理智任务
-        bool append_sanity(bool only_append = true);
+        bool append_fight(int mecidine = 0, int stone = 0, int times = INT_MAX, bool only_append = true);
         // 添加领取日常任务奖励任务
         bool append_receive_award(bool only_append = true);
         // 添加访问好友基建任务
@@ -74,16 +73,15 @@ namespace asst
         void msg_proc();
         static void task_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
 
-        void append_match_task(const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times = ProcessTaskRetryTimesDefault, bool front = false);
-        void append_task(const json::value& detail, bool front = false);
+        void append_match_task(const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times = ProcessTaskRetryTimesDefault);
         void append_callback(AsstMsg msg, json::value detail);
-        void clear_exec_times();
+        void clear_cache();
         json::value organize_stage_drop(const json::value& rec); // 整理关卡掉落的材料信息
 
         bool m_inited = false;
 
         bool m_thread_exit = false;
-        std::deque<std::shared_ptr<AbstractTask>> m_tasks_deque;
+        std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;
         AsstCallback m_callback = nullptr;
         void* m_callback_arg = nullptr;
 

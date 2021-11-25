@@ -9,7 +9,7 @@
 
 const std::string asst::InfrastDormTask::FacilityName = "Dorm";
 
-bool asst::InfrastDormTask::run()
+bool asst::InfrastDormTask::_run()
 {
     json::value task_start_json = json::object{
         { "task_type", "InfrastDormTask" },
@@ -99,7 +99,7 @@ bool asst::InfrastDormTask::click_confirm_button()
     LogTraceFunction;
 
     const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-        resource.task().task_ptr("InfrastConfirmButton"));
+        task.get("InfrastConfirmButton"));
     ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
 
@@ -107,7 +107,7 @@ bool asst::InfrastDormTask::click_confirm_button()
     const auto& image = ctrler.get_image();
     MatchImageAnalyzer cfm_analyzer(image);
     const auto sec_cfm_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastDormConfirmButton"));
+        task.get("InfrastDormConfirmButton"));
     cfm_analyzer.set_task_info(*sec_cfm_task_ptr);
     if (cfm_analyzer.analyze()) {
         ctrler.click(cfm_analyzer.get_result().rect);

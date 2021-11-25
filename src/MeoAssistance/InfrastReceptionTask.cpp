@@ -5,12 +5,12 @@
 #include "InfrastClueVacancyImageAnalyzer.h"
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
-#include "ProcessTaskImageAnalyzer.h"
+#include "ProcessTask.h"
 #include "Resource.h"
 
 const std::string asst::InfrastReceptionTask::FacilityName = "Reception";
 
-bool asst::InfrastReceptionTask::run()
+bool asst::InfrastReceptionTask::_run()
 {
     json::value task_start_json = json::object{
         { "task_type", "InfrastReceptionTask" },
@@ -47,7 +47,7 @@ bool asst::InfrastReceptionTask::run()
 bool asst::InfrastReceptionTask::close_end_prompt()
 {
     const auto end_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("EndOfClueExchange"));
+        task.get("EndOfClueExchange"));
     MatchImageAnalyzer analyzer(ctrler.get_image());
     analyzer.set_task_info(*end_task_ptr);
     if (!analyzer.analyze()) {
@@ -61,38 +61,9 @@ bool asst::InfrastReceptionTask::close_end_prompt()
 bool asst::InfrastReceptionTask::harvest_clue()
 {
     LogTraceFunction;
-    std::vector<std::string> tasks_vec = { "InfrastClueNew" };
-    while (!tasks_vec.empty()) {
-        if (need_exit()) {
-            return false;
-        }
-        ProcessTaskImageAnalyzer analyzer(ctrler.get_image(), tasks_vec);
-        if (!analyzer.analyze()) {
-            break;
-        }
-        auto task_info_ptr = analyzer.get_result();
-        Rect rect = analyzer.get_rect();
-        const auto& res_move = task_info_ptr->rect_move;
-        if (!res_move.empty()) {
-            rect.x += res_move.x;
-            rect.y += res_move.y;
-            rect.width = res_move.width;
-            rect.height = res_move.height;
-        }
-        sleep(task_info_ptr->pre_delay);
-        if (task_info_ptr->action == ProcessTaskAction::ClickSelf) {
-            ctrler.click(rect);
-        }
-        else {
-            log.error("InfrastReceptionTask::harvest_clue only support ClickSelf");
-            return false;
-        }
-        int defalut_sleep = resource.cfg().get_options().task_delay;
-        sleep(task_info_ptr->rear_delay + defalut_sleep);
-        tasks_vec = task_info_ptr->next;
-    }
 
-    return true;
+    ProcessTask task(*this, { "InfrastClueNew" });
+    return task.run();
 }
 
 bool asst::InfrastReceptionTask::proc_clue()
@@ -109,7 +80,7 @@ bool asst::InfrastReceptionTask::proc_clue()
     cv::Mat image = ctrler.get_image();
     MatchImageAnalyzer unlock_analyzer(image);
     const auto unlock_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("UnlockClues"));
+        task.get("UnlockClues"));
     unlock_analyzer.set_task_info(*unlock_task_ptr);
     if (unlock_analyzer.analyze()) {
         ctrler.click(unlock_analyzer.get_result().rect);
@@ -164,7 +135,7 @@ bool asst::InfrastReceptionTask::proc_vacancy()
         // 点开线索的空位
         Rect vacancy = vacancy_analyzer.get_vacancy().cbegin()->second;
         ctrler.click(vacancy);
-        int delay = resource.task().task_ptr(clue_vacancy + clue)->rear_delay;
+        int delay = task.get(clue_vacancy + clue)->rear_delay;
         sleep(delay);
 
         // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
@@ -186,7 +157,7 @@ bool asst::InfrastReceptionTask::shift()
     const auto& image = ctrler.get_image();
     MatchImageAnalyzer add_analyzer(image);
 
-    const auto raw_task_ptr = resource.task().task_ptr("InfrastAddOperator" + m_facility + m_work_mode_name);
+    const auto raw_task_ptr = task.get("InfrastAddOperator" + m_facility + m_work_mode_name);
     switch (raw_task_ptr->algorithm) {
     case AlgorithmType::JustReturn:
         if (raw_task_ptr->action == ProcessTaskAction::ClickRect) {
@@ -235,11 +206,11 @@ bool asst::InfrastReceptionTask::shift()
 bool asst::InfrastReceptionTask::swipe_to_the_bottom_of_clue_list_on_the_right()
 {
     LogTraceFunction;
-    static Rect begin_rect = resource.task().task_ptr("InfrastClueOnTheRightSwipeBegin")->specific_rect;
-    static Rect end_rect = resource.task().task_ptr("InfrastClueOnTheRightSwipeEnd")->specific_rect;
-    static int duration = resource.task().task_ptr("InfrastClueOnTheRightSwipeBegin")->pre_delay;
-    static int extra_delay = resource.task().task_ptr("InfrastClueOnTheRightSwipeBegin")->rear_delay;
-    static int loop_times = resource.task().task_ptr("InfrastClueOnTheRightSwipeBegin")->max_times;
+    static Rect begin_rect = task.get("InfrastClueOnTheRightSwipeBegin")->specific_rect;
+    static Rect end_rect = task.get("InfrastClueOnTheRightSwipeEnd")->specific_rect;
+    static int duration = task.get("InfrastClueOnTheRightSwipeBegin")->pre_delay;
+    static int extra_delay = task.get("InfrastClueOnTheRightSwipeBegin")->rear_delay;
+    static int loop_times = task.get("InfrastClueOnTheRightSwipeBegin")->max_times;
 
     for (int i = 0; i != loop_times; ++i) {
         ctrler.swipe(begin_rect, end_rect, duration, true, 0, false);

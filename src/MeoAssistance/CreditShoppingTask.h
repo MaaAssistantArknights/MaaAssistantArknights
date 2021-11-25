@@ -8,13 +8,13 @@
 
 namespace asst
 {
-    class CreditShoppingTask : public AbstractTask
+    class CreditShoppingTask final : public AbstractTask
     {
     public:
         using AbstractTask::AbstractTask;
         virtual ~CreditShoppingTask() = default;
-        virtual bool run() override;
 
-    private:
+    protected:
+        virtual bool _run() override;
     };
 }

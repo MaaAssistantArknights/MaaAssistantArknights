@@ -3,14 +3,16 @@
 
 namespace asst
 {
-    class InfrastReceptionTask : public InfrastProductionTask
+    class InfrastReceptionTask final : public InfrastProductionTask
     {
     public:
         using InfrastProductionTask::InfrastProductionTask;
         virtual ~InfrastReceptionTask() = default;
-        virtual bool run() override;
 
         const static std::string FacilityName;
+
+    protected:
+        virtual bool _run() override;
 
     private:
         bool close_end_prompt();
