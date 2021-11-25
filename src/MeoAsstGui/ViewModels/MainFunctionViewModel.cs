@@ -71,6 +71,17 @@ namespace MeoAsstGui
                 SetAndNotify(ref _runStatus, value);
             }
         }
+        private bool _receiveAward = System.Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.ReceiveAward", bool.TrueString));
+        public bool ReceiveAward
+        {
+            get { return _receiveAward; }
+            set
+            {
+                ViewStatusStorage.Set("MainFunction.ReceiveAward", value.ToString());
+                SetAndNotify(ref _receiveAward, value);
+            }
+        }
+
 
         private bool _shutdown;
 
@@ -265,7 +276,7 @@ namespace MeoAsstGui
             CreditShoppingCheckBoxIsEnable = true;
         }
 
-        public async void StartSanity()
+        public async void Sanity()
         {
             RunStatus = "正在捕获模拟器窗口……";
             var asstProxy = _container.Get<AsstProxy>();
@@ -279,9 +290,23 @@ namespace MeoAsstGui
                 RunStatus = "捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限";
                 return;
             }
-            if (!asstProxy.AsstStartSanity())
+            StartSanity();
+            if (ReceiveAward)
             {
-                return;
+                StartAward();
+            }
+            asstProxy.AsstStart();
+        }
+
+        public bool StartSanity()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
+            bool startRet = asstProxy.AsstAppendSanity();
+
+            if (!startRet)
+            {
+                RunStatus = "开始失败，出现未知错误";
+                return false;
             }
             ExecInfo = "";
             if (UseMedicine)
@@ -292,6 +317,20 @@ namespace MeoAsstGui
             {
                 StoneInfo = "已碎石 0 颗";
             }
+            return true;
+        }
+
+        public bool StartAward()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
+            bool startRet = asstProxy.AsstAppendReceiveAward();
+
+            if (!startRet)
+            {
+                RunStatus = "开始失败，出现未知错误";
+                return false;
+            }
+            return true;
         }
 
         public async void Visit()
@@ -308,12 +347,21 @@ namespace MeoAsstGui
                 RunStatus = "捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限";
                 return;
             }
-            if (!asstProxy.AsstStartVisit(CreditShopping))
+            StartVisit();
+            asstProxy.AsstStart();
+        }
+        public bool StartVisit()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
+            bool start_ret = asstProxy.AsstAppendVisit(CreditShopping);
+            if (!start_ret)
             {
-                return;
+                RunStatus = "出现未知错误";
+                return false;
             }
             CreditShoppingCheckBoxIsEnable = false;
             ExecInfo = "";
+            return true;
         }
     }
 }

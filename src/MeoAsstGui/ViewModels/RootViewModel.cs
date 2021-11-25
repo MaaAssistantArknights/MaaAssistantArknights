@@ -44,11 +44,13 @@ namespace MeoAsstGui
             var mfvm = _container.Get<MainFunctionViewModel>();
             var rvm = _container.Get<RecruitViewModel>();
             var ivm = _container.Get<InfrastructureConstructionViewModel>();
+            var tvm = _container.Get<TaskQueueViewModel>();
 
+            Items.Add(tvm);
             Items.Add(mfvm);
-            Items.Add(rvm);
             Items.Add(ivm);
-            ActiveItem = mfvm;
+            Items.Add(rvm);
+            ActiveItem = tvm;
         }
 
         private bool CheckAndUpdateNow()

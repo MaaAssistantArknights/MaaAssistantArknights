@@ -31,6 +31,7 @@ namespace asst
         ProcessTaskStopAction, // 流程任务执行到了Stop的动作
         TaskChainCompleted,    // 任务链完成
         ProcessTaskNotMatched, // 流程任务识别错误
+        AllTasksCompleted,     // 所有任务完成
         /* Info Msg: about Identify */
         TextDetected = 2000, // 识别到文字
         ImageFindResult,     // 查找图像的结果
@@ -66,6 +67,7 @@ namespace asst
             { AsstMsg::AppendProcessTask, "AppendProcessTask" },
             { AsstMsg::TaskCompleted, "TaskCompleted" },
             { AsstMsg::TaskChainCompleted, "TaskChainCompleted" },
+            { AsstMsg::AllTasksCompleted, "AllTasksCompleted" },
             { AsstMsg::PrintWindow, "PrintWindow" },
             { AsstMsg::TaskError, "TaskError" },
             { AsstMsg::ProcessTaskNotMatched, "ProcessTaskNotMatched" },

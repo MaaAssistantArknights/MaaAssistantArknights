@@ -34,7 +34,7 @@
     <PublisherName>MistEO</PublisherName>
     <SuiteName>MeoAssistance</SuiteName>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.3.0.0</ApplicationVersion>
+    <ApplicationVersion>2.0.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -120,6 +120,7 @@
     <Compile Include="ViewModels\MainFunctionViewModel.cs" />
     <Compile Include="ViewModels\RecruitViewModel.cs" />
     <Compile Include="ViewModels\RootViewModel.cs" />
+    <Compile Include="ViewModels\TaskQueueViewModel.cs" />
     <Compile Include="ViewModels\VersionUpdateViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -148,6 +149,10 @@
     <Page Include="Views\MainFunctionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TaskQueueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RecruitView.xaml">
       <Generator>MSBuild:Compile</Generator>

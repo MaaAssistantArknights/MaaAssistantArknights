@@ -16,7 +16,18 @@
             "TodaysSupplies",
             "CloseAnno",
             "Terminal",
-            "LastBattle"
+            "LastBattle",
+            "ReturnToTerminal"
+        ]
+    },
+    "ReturnToTerminal": {
+        "template": "Return.png",
+        "templThreshold": 0.85,
+        "histThreshold": 0.85,
+        "rearDelay": 1000,
+        "action": "clickSelf",
+        "next": [
+            "SanityBegin"
         ]
     },
     "UsePrts": {
@@ -148,6 +159,9 @@
         "reduceOtherTimes": [
             "StartButton1"
         ],
+        "exceededNext": [
+            "CloseStonePage"
+        ],
         "next": [
             "StartButton1"
         ]
@@ -165,8 +179,24 @@
         "reduceOtherTimes": [
             "StartButton1"
         ],
+        "exceededNext": [
+            "CloseStonePage"
+        ],
         "next": [
             "StartButton1"
+        ]
+    },
+    "CloseStonePage": {
+        "algorithm": "justreturn",
+        "action": "clickRect",
+        "specificRect": [
+            0,
+            200,
+            300,
+            400
+        ],
+        "next": [
+            "Stop"
         ]
     },
     "PrtsErrorConfirm": {
@@ -271,6 +301,77 @@
         "action": "clickSelf",
         "next": [
             "StartButton1"
+        ]
+    },
+    "AwardBegin": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "ReturnToAward",
+            "Award",
+            "ReceiveAward",
+            "WeeklyTask"
+        ]
+    },
+    "Award": {
+        "template": "Task.png",
+        "action": "clickSelf",
+        "next": [
+            "ReceiveAward",
+            "WeeklyTask"
+        ]
+    },
+    "ReceiveAward": {
+        "action": "clickSelf",
+        "next": [
+            "CloseTaskAward"
+        ]
+    },
+    "CloseTaskAward": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            600,
+            600,
+            60,
+            60
+        ],
+        "next": [
+            "CloseTaskAwardDouble"
+        ]
+    },
+    "CloseTaskAwardDouble": {
+        "Doc": "有时候奖励出的太慢了，所以这里多点一次",
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            600,
+            600,
+            60,
+            60
+        ],
+        "next": [
+            "WeeklyTask",
+            "Stop"
+        ]
+    },
+    "WeeklyTask": {
+        "action": "clickSelf",
+        "next": [
+            "ReceiveAward",
+            "Stop"
+        ],
+        "rearDelay": 1000
+    },
+    "ReturnToAward": {
+        "template": "Return.png",
+        "templThreshold": 0.85,
+        "histThreshold": 0.85,
+        "rearDelay": 1000,
+        "action": "clickSelf",
+        "next": [
+            "Award",
+            "ReturnToAward"
         ]
     },
     "VisitBegin": {
@@ -1196,6 +1297,10 @@
             250,
             720
         ],
+        "maskRange": [
+            1,
+            255
+        ],
         "rearDelay": 1000
     },
     "InfrastFacilityListTabTrade": {
@@ -1207,7 +1312,31 @@
             250,
             720
         ],
+        "maskRange": [
+            1,
+            255
+        ],
         "rearDelay": 1000
+    },
+    "InfrastOperLockedMfg": {
+        "template": "OperLockedMfg.png",
+        "cache": false,
+        "roi": [
+            200,
+            500,
+            430,
+            220
+        ]
+    },
+    "InfrastOperLockedTrade": {
+        "template": "OperLockedTrade.png",
+        "cache": false,
+        "roi": [
+            200,
+            500,
+            430,
+            220
+        ]
     },
     "InfrastFlagCombatRecord": {
         "template": "InfrastMfgDogFoodFlag.png",

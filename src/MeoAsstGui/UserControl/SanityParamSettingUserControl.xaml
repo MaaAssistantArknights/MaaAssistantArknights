@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d"
-             d:DesignHeight="200" d:DesignWidth="500">
+             d:DesignHeight="280" d:DesignWidth="500">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -37,6 +38,7 @@
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="次" VerticalAlignment="Center" />
         </StackPanel>
 
-        <CheckBox Grid.Row="3" IsChecked="{Binding Shutdown}" Content="刷完自动关机" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <CheckBox Grid.Row="3" IsChecked="{Binding ReceiveAward}" Content="领取日常奖励" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <CheckBox Grid.Row="4" IsChecked="{Binding Shutdown}" Content="刷完自动关机" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" />
     </Grid>
 </UserControl>
