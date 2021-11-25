@@ -25,7 +25,8 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendProcessTask(IntPtr ptr, string task);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendSanity(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendSanity(IntPtr ptr, int max_medicine, int max_stone, int max_times);
+
         [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendReceiveAward(IntPtr ptr);
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendVisit(IntPtr ptr, bool with_shopping);
@@ -35,6 +36,7 @@ namespace MeoAsstGui
         [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendInfrastShift(IntPtr ptr, int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold);
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstStart(IntPtr ptr);
+
         [DllImport("MeoAssistance.dll")] private static extern bool AsstStop(IntPtr ptr);
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
@@ -72,8 +74,6 @@ namespace MeoAsstGui
 
         private IWindowManager _windowManager;
         private IContainer _container;
-        private int _retryTimes;
-        private int _retryLimit = 2;
         private IntPtr _ptr;
 
         private void proc_msg(AsstMsg msg, JObject detail)
@@ -83,10 +83,6 @@ namespace MeoAsstGui
             {
                 case AsstMsg.TaskCompleted:
                     {
-                        if ((int)detail["algorithm"] > 0)   // JustReturn的执行完成不算
-                        {
-                            _retryTimes = 0;
-                        }
                         string taskName = detail["name"].ToString();
                         if (taskName == "StartButton2")
                         {
@@ -142,6 +138,7 @@ namespace MeoAsstGui
                         mfvm.RunStatus = "已刷完，自动停止";
                     }
                     break;
+
                 case AsstMsg.AllTasksCompleted:
                     {
                         var tfvm = _container.Get<TaskQueueViewModel>();
@@ -158,6 +155,7 @@ namespace MeoAsstGui
                         }
                     }
                     break;
+
                 case AsstMsg.StageDrops:
                     string dropsInfo = "";
                     JArray statistics = (JArray)detail["statistics"];
@@ -189,27 +187,6 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.TaskError:
-                    {
-                        string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "Sanity")
-                        {
-                            // 刷理智出错了会重试两次，再不行就算了
-                            if (_retryTimes >= _retryLimit)
-                            {
-                                _retryTimes = 0;
-                                mfvm.RunStatus = "出现错误，已停止运行";
-                                break;
-                            }
-
-                            ++_retryTimes;
-                            Task.Run(() =>
-                            {
-                                //AsstStop();
-                                System.Threading.Thread.Sleep(2000);
-                                AsstAppendSanity();
-                            });
-                        }
-                    }
                     break;
 
                 case AsstMsg.InitFaild:
@@ -315,9 +292,9 @@ namespace MeoAsstGui
             return _isCatched;
         }
 
-        public bool AsstAppendSanity()
+        public bool AsstAppendSanity(int max_medicine, int max_stone, int max_times)
         {
-            return AsstAppendSanity(_ptr);
+            return AsstAppendSanity(_ptr, max_medicine, max_stone, max_times);
         }
 
         public bool AsstAppendReceiveAward()
@@ -350,12 +327,10 @@ namespace MeoAsstGui
             return AsstStop(_ptr);
         }
 
-
         public void AsstSetParam(string type, string param, string value)
         {
             AsstSetParam(_ptr, type, param, value);
         }
-
     }
 
     public enum AsstMsg

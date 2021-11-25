@@ -112,13 +112,14 @@ bool AsstCatchFake(void* p_asst)
 #endif // LOG_TRACE
 }
 
-bool AsstAppendSanity(void* p_asst)
+bool AsstAppendSanity(void* p_asst, int max_mecidine, int max_stone, int max_times)
 {
     if (p_asst == nullptr) {
         return false;
     }
+    asst::Assistance* ptr = (asst::Assistance*)p_asst;
 
-    return ((asst::Assistance*)p_asst)->append_sanity();
+    return ptr->append_fight(max_mecidine, max_stone, max_times);
 }
 
 bool AsstAppendReceiveAward(void* p_asst)
@@ -147,7 +148,6 @@ bool AsstAppendProcessTask(void* p_asst, const char* task)
 
     return ((asst::Assistance*)p_asst)->append_process_task(task);
 }
-
 
 bool AsstAppendRecruiting(void* p_asst, const int required_level[], int required_len, bool set_time)
 {

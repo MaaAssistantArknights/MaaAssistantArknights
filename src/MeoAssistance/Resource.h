@@ -124,4 +124,5 @@ namespace asst
     };
 
     static auto& resource = Resource::get_instance();
+    static auto& task = Resource::get_instance().task();
 }

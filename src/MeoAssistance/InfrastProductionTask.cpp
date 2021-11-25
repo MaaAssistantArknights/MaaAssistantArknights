@@ -16,35 +16,16 @@
 int asst::InfrastProductionTask::m_face_hash_thres = 0;
 int asst::InfrastProductionTask::m_name_hash_thres = 0;
 
-#ifdef LOG_TRACE
-bool asst::InfrastProductionTask::run()
-{
-    json::value task_start_json = json::object{
-        { "task_type",  "InfrastProductionTask" },
-        { "task_chain", m_task_chain}
-    };
-    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
-
-    m_all_available_opers.clear();
-
-    if (!shift_facility_list()) {
-        return false;
-    }
-
-    return true;
-}
-#endif
-
 asst::InfrastProductionTask::InfrastProductionTask(AsstCallback callback, void* callback_arg)
     : InfrastAbstractTask(callback, callback_arg)
 {
     if (m_face_hash_thres == 0) {
         m_face_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
-            resource.task().task_ptr("InfrastOperFaceHash"))->templ_threshold;
+            task.get("InfrastOperFaceHash"))->templ_threshold;
     }
     if (m_name_hash_thres == 0) {
         m_name_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
-            resource.task().task_ptr("InfrastOperNameHash"))->templ_threshold;
+            task.get("InfrastOperNameHash"))->templ_threshold;
     }
 }
 
@@ -58,14 +39,14 @@ bool asst::InfrastProductionTask::shift_facility_list()
         return false;
     }
     const auto tab_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastFacilityListTab" + m_facility));
+        task.get("InfrastFacilityListTab" + m_facility));
     MatchImageAnalyzer add_analyzer;
     const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastAddOperator" + m_facility + m_work_mode_name));
+        task.get("InfrastAddOperator" + m_facility + m_work_mode_name));
     add_analyzer.set_task_info(*add_task_ptr);
 
     const auto locked_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastOperLocked" + m_facility));
+        task.get("InfrastOperLocked" + m_facility));
     MultiMatchImageAnalyzer locked_analyzer;
     locked_analyzer.set_task_info(*locked_task_ptr);
 
@@ -100,7 +81,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         for (const std::string& product : all_products) {
             const static std::string prefix = "InfrastFlag";
             const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-                resource.task().task_ptr(prefix + product));
+                task.get(prefix + product));
             product_analyzer.set_task_info(*task_ptr);
             if (product_analyzer.analyze()) {
                 cur_product = product;
@@ -244,9 +225,9 @@ bool asst::InfrastProductionTask::optimal_calc()
     optimal_combs.reserve(cur_max_num_of_opers);
     double max_efficient = 0;
     std::sort(all_avaliable_combs.begin(), all_avaliable_combs.end(),
-              [&](const infrast::SkillsComb& lhs, const infrast::SkillsComb& rhs) -> bool {
-                  return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
-              });
+        [&](const infrast::SkillsComb& lhs, const infrast::SkillsComb& rhs) -> bool {
+            return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
+        });
 
     for (const auto& comb : all_avaliable_combs) {
         std::string skill_str;
@@ -342,10 +323,10 @@ bool asst::InfrastProductionTask::optimal_calc()
         }
 
         std::sort(optional.begin(), optional.end(),
-                  [&](const infrast::SkillsComb& lhs,
-                      const infrast::SkillsComb& rhs) -> bool {
-                          return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
-                  });
+            [&](const infrast::SkillsComb& lhs,
+                const infrast::SkillsComb& rhs) -> bool {
+                    return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
+            });
 
         // 可能有多个干员有同样的技能，所以这里需要循环找同一个技能，直到找不到为止
         for (const infrast::SkillsComb& opt : optional) {
@@ -577,7 +558,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
     MultiMatchImageAnalyzer mm_analyzer(image);
 
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastFacilityListTab" + m_facility));
+        task.get("InfrastFacilityListTab" + m_facility));
     mm_analyzer.set_task_info(*task_ptr);
 
     if (!mm_analyzer.analyze()) {

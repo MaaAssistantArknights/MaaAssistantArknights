@@ -20,6 +20,19 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg)
     ;
 }
 
+bool asst::AbstractTask::run()
+{
+    for (int i = 0; i != m_retry_times; ++i) {
+        if (_run()) {
+            return true;
+        }
+        else if (!on_run_fails()) {
+            return false;
+        }
+    }
+    return false;
+}
+
 void AbstractTask::set_exit_flag(bool* exit_flag)
 {
     m_exit_flag = exit_flag;
@@ -42,7 +55,7 @@ bool AbstractTask::sleep(unsigned millisecond)
 
     while (!need_exit() && duration < millisecond) {
         duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                       std::chrono::system_clock::now() - start)
+            std::chrono::system_clock::now() - start)
             .count();
         std::this_thread::yield();
     }
@@ -76,7 +89,7 @@ bool asst::AbstractTask::need_exit() const noexcept
 void asst::AbstractTask::click_return_button()
 {
     LogTraceFunction;
-    const auto return_task_ptr = resource.task().task_ptr("Return");
+    const auto return_task_ptr = task.get("Return");
 
     Rect ReturnButtonRect = return_task_ptr->specific_rect;
 

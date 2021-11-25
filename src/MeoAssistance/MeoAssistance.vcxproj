@@ -54,7 +54,6 @@
     <ClInclude Include="ProcessTaskImageAnalyzer.h" />
     <ClInclude Include="RecruitConfiger.h" />
     <ClInclude Include="RuntimeStatus.h" />
-    <ClInclude Include="ScreenCaptureTask.h" />
     <ClInclude Include="TaskData.h" />
     <ClInclude Include="MatchImageAnalyzer.h" />
     <ClInclude Include="TemplResource.h" />
@@ -100,7 +99,6 @@
     <ClCompile Include="ProcessTaskImageAnalyzer.cpp" />
     <ClCompile Include="RecruitConfiger.cpp" />
     <ClCompile Include="RuntimeStatus.cpp" />
-    <ClCompile Include="ScreenCaptureTask.cpp" />
     <ClCompile Include="TaskData.cpp" />
     <ClCompile Include="MatchImageAnalyzer.cpp" />
     <ClCompile Include="TemplResource.cpp" />

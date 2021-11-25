@@ -11,7 +11,7 @@
 
 using namespace asst;
 
-bool RecruitTask::run()
+bool RecruitTask::_run()
 {
     json::value task_start_json = json::object{
         { "task_type", "RecruitTask" },

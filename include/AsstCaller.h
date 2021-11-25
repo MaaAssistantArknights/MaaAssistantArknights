@@ -16,7 +16,7 @@ extern "C" {
     bool MEOAPI AsstCatchCustom(void* p_asst);
     bool MEOAPI AsstCatchFake(void* p_asst);
 
-    bool MEOAPI AsstAppendSanity(void* p_asst);
+    bool MEOAPI AsstAppendSanity(void* p_asst, int max_mecidine, int max_stone, int max_times);
     bool MEOAPI AsstAppendReceiveAward(void* p_asst);
     bool MEOAPI AsstAppendVisit(void* p_asst, bool with_shopping);
     bool MEOAPI AsstAppendProcessTask(void* p_asst, const char* task);

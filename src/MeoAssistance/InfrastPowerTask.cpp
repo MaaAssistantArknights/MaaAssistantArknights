@@ -4,7 +4,7 @@
 
 const std::string asst::InfrastPowerTask::FacilityName = "Power";
 
-bool asst::InfrastPowerTask::run()
+bool asst::InfrastPowerTask::_run()
 {
     json::value task_start_json = json::object{
         { "task_type", "InfrastPowerTask" },

@@ -11,9 +11,10 @@ namespace asst
         using AbstractTask::AbstractTask;
         virtual ~InfrastAbstractTask() = default;
         virtual void set_work_mode(infrast::WorkMode work_mode) noexcept;
-        virtual void on_run_fails() override;
 
     protected:
+        virtual bool on_run_fails() override;
+
         virtual bool enter_facility(const std::string& facility, int index = 0);
         virtual bool enter_oper_list_page(); // 从刚点进基建的界面，到干员列表页
 

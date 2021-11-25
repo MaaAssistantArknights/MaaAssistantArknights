@@ -10,9 +10,10 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
-        virtual ~ProcessTask() = default;
+        ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name);
+        ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name);
 
-        virtual bool run() override;
+        virtual ~ProcessTask() = default;
 
         virtual void set_tasks(const std::vector<std::string>& cur_tasks_name)
         {
@@ -20,6 +21,7 @@ namespace asst
         }
 
     protected:
+        virtual bool _run() override;
         bool delay_random();
         void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);

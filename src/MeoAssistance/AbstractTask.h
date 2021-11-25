@@ -19,16 +19,17 @@ namespace asst
         AbstractTask(const AbstractTask&) = default;
         AbstractTask(AbstractTask&&) = default;
 
-        virtual bool run() = 0;
+        virtual bool run();
 
         virtual void set_exit_flag(bool* exit_flag);
         virtual void set_retry_times(int times) { m_retry_times = times; }
-        virtual int get_retry_times() { return m_retry_times; }
         virtual void set_task_chain(std::string name) { m_task_chain = std::move(name); }
         virtual const std::string& get_task_chain() { return m_task_chain; }
-        virtual void on_run_fails() { ; }
 
     protected:
+        virtual bool _run() = 0;
+        virtual bool on_run_fails() { return true; }
+
         virtual bool sleep(unsigned millisecond);
         virtual bool save_image(const cv::Mat& image, const std::string& dir);
         virtual bool need_exit() const noexcept;

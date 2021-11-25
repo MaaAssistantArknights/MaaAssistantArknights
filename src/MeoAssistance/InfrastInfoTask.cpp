@@ -6,7 +6,7 @@
 #include "Resource.h"
 #include "RuntimeStatus.h"
 
-bool asst::InfrastInfoTask::run()
+bool asst::InfrastInfoTask::_run()
 {
     json::value task_start_json = json::object{
         { "task_type", "InfrastInfoTask" },

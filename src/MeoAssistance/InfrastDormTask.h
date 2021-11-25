@@ -3,12 +3,11 @@
 
 namespace asst
 {
-    class InfrastDormTask : public InfrastAbstractTask
+    class InfrastDormTask final : public InfrastAbstractTask
     {
     public:
         using InfrastAbstractTask::InfrastAbstractTask;
         virtual ~InfrastDormTask() = default;
-        virtual bool run() override;
 
         void set_mood_threshold(double mood_threshold) noexcept
         {
@@ -19,6 +18,7 @@ namespace asst
         const static int MaxNumOfOpers = 5;
 
     private:
+        virtual bool _run() override;
         virtual bool click_confirm_button() override;
 
         int m_cur_dorm_index = 0;
