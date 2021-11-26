@@ -13,7 +13,16 @@ namespace asst
     class TaskData : public AbstractConfiger
     {
     public:
+        TaskData(const TaskData&) = delete;
+        TaskData(TaskData&&) = delete;
+
         virtual ~TaskData() = default;
+
+        static TaskData& get_instance()
+        {
+            static TaskData unique_instance;
+            return unique_instance;
+        }
 
         bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
@@ -23,9 +32,13 @@ namespace asst
         void clear_exec_times();
 
     protected:
+        TaskData() = default;
+
         virtual bool parse(const json::value& json);
 
         std::unordered_map<std::string, std::shared_ptr<TaskInfo>> m_all_tasks_info;
         std::unordered_set<std::string> m_templ_required;
     };
+
+    static auto& task = TaskData::get_instance();
 }

@@ -108,9 +108,6 @@
     <ClInclude Include="AbstractConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="TaskData.h">
-      <Filter>头文件\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="UserConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
@@ -210,6 +207,9 @@
     <ClInclude Include="InfrastOperImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Infrast</Filter>
     </ClInclude>
+    <ClInclude Include="TaskData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -237,9 +237,6 @@
       <Filter>源文件\Caller</Filter>
     </ClCompile>
     <ClCompile Include="AbstractConfiger.cpp">
-      <Filter>源文件\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="TaskData.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="UserConfiger.cpp">
@@ -337,6 +334,9 @@
     </ClCompile>
     <ClCompile Include="InfrastOperImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\Infrast</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskData.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -25,8 +25,8 @@ bool asst::Resource::load(const std::string& dir)
         m_last_error = m_general_cfg_unique_ins.get_last_error();
         return false;
     }
-    if (!m_task_data_unique_ins.load(dir + TaskDataFilename)) {
-        m_last_error = m_task_data_unique_ins.get_last_error();
+    if (!task.load(dir + TaskDataFilename)) {
+        m_last_error = task.get_last_error();
         return false;
     }
 
@@ -55,7 +55,7 @@ bool asst::Resource::load(const std::string& dir)
 
     /* 加载模板图片资源 */
     // task所需要的模板资源
-    m_templ_resource_unique_ins.append_load_required(m_task_data_unique_ins.get_templ_required());
+    m_templ_resource_unique_ins.append_load_required(task.get_templ_required());
     // 基建所需要的模板资源
     m_templ_resource_unique_ins.append_load_required(m_infrast_cfg_unique_ins.get_templ_required());
 
