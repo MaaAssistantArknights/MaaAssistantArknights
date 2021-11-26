@@ -186,7 +186,7 @@ namespace asst
         ProcessTaskAction action = // 要进行的操作
             ProcessTaskAction::Invalid;
         std::vector<std::string> next;               // 下一个可能的任务（列表）
-        int exec_times = 0;                          // 任务已执行了多少次
+        [[ deprecated ]] int exec_times = 0;         // [已废弃] 任务已执行了多少次
         int max_times = INT_MAX;                     // 任务最多执行多少次
         std::vector<std::string> exceeded_next;      // 达到最多次数了之后，下一个可能的任务（列表）
         std::vector<std::string> reduce_other_times; // 执行了该任务后，需要减少别的任务的执行次数。例如执行了吃理智药，则说明上一次点击蓝色开始行动按钮没生效，所以蓝色开始行动要-1

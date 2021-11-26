@@ -39,7 +39,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstStop(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
+        //[DllImport("MeoAssistance.dll")] private static extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
 
         private CallbackDelegate _callback;
 
@@ -327,10 +327,10 @@ namespace MeoAsstGui
             return AsstStop(_ptr);
         }
 
-        public void AsstSetParam(string type, string param, string value)
-        {
-            AsstSetParam(_ptr, type, param, value);
-        }
+        //public void AsstSetParam(string type, string param, string value)
+        //{
+        //    AsstSetParam(_ptr, type, param, value);
+        //}
     }
 
     public enum AsstMsg

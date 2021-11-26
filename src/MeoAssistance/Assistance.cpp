@@ -140,32 +140,27 @@ bool asst::Assistance::catch_fake()
 
 bool asst::Assistance::append_fight(int mecidine, int stone, int times, bool only_append)
 {
-    if (mecidine > 0) {
-        set_param("task.action", "MedicineConfirm", "doNothing");
-        set_param("task.maxTimes", "MedicineConfirm", std::to_string(mecidine));
-    }
-    else {
-        set_param("task.action", "MedicineConfirm", "stop");
-        set_param("task.maxTimes", "MedicineConfirm", "0");
+    LogTraceFunction;
+    if (!m_inited) {
+        return false;
     }
 
-    if (stone > 0) {
-        set_param("task.action", "StoneConfirm", "doNothing");
-        set_param("task.maxTimes", "StoneConfirm", std::to_string(stone));
-    }
-    else {
-        set_param("task.action", "StoneConfirm", "stop");
-        set_param("task.maxTimes", "StoneConfirm", "0");
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
+    task_ptr->set_task_chain("Sanity");
+    task_ptr->set_tasks({ "SanityBegin" });
+    task_ptr->set_times_limit("MedicineConfirm", mecidine);
+    task_ptr->set_times_limit("StoneConfirm", stone);
+    task_ptr->set_times_limit("StartButton1", times);
+
+    m_tasks_queue.emplace(task_ptr);
+
+    if (!only_append) {
+        start(false);
     }
 
-    if (times > 0) {
-        set_param("task.maxTimes", "StartButton1", std::to_string(times));
-    }
-    else {
-        set_param("task.maxTimes", "StartButton1", "0");
-    }
-
-    return append_process_task("SanityBegin", ProcessTaskRetryTimesDefault, "Sanity", only_append);
+    return true;
 }
 
 bool asst::Assistance::append_receive_award(bool only_append)
@@ -385,14 +380,6 @@ bool Assistance::stop(bool block)
     return true;
 }
 
-bool Assistance::set_param(const std::string& type, const std::string& param, const std::string& value)
-{
-    LogTraceFunction;
-    log.trace("SetParam |", type, param, value);
-
-    return task.set_param(type, param, value);
-}
-
 void Assistance::working_proc()
 {
     LogTraceFunction;
@@ -426,7 +413,7 @@ void Assistance::working_proc()
                 task_callback(AsstMsg::TaskError, task_json, this);
             }
 
-            clear_cache();
+            //clear_cache();
 
             auto& delay = resource.cfg().get_options().task_delay;
             m_condvar.wait_until(lock, start_time + std::chrono::milliseconds(delay),
@@ -508,9 +495,7 @@ void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
 
 void Assistance::clear_cache()
 {
-    task.clear_exec_times();
     resource.templ().clear_hists();
-    //resource.item().clear_drop_count();
 }
 
 json::value asst::Assistance::organize_stage_drop(const json::value& rec)

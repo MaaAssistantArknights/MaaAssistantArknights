@@ -35,6 +35,9 @@ bool ProcessTask::_run()
 
     auto& task_delay = resource.cfg().get_options().task_delay;
     while (!m_cur_tasks_name.empty()) {
+        if (need_exit()) {
+            return false;
+        }
         Rect rect;
         std::shared_ptr<TaskInfo> task_info_ptr;
         // 如果第一个任务是JustReturn的，那就没必要再截图并计算了
@@ -62,17 +65,25 @@ bool ProcessTask::_run()
             rect.height = res_move.height;
         }
 
+        int& exec_times = m_exec_times[task_info_ptr->name];
+
         json::value callback_json = json::object{
             { "name", task_info_ptr->name },
             { "type", static_cast<int>(task_info_ptr->action) },
-            { "exec_times", task_info_ptr->exec_times },
+            { "exec_times", exec_times },
             { "max_times", task_info_ptr->max_times },
             { "task_type", "ProcessTask" },
             { "algorithm", static_cast<int>(task_info_ptr->algorithm) }
         };
         m_callback(AsstMsg::TaskMatched, callback_json, m_callback_arg);
 
-        if (task_info_ptr->exec_times >= task_info_ptr->max_times) {
+        int max_times = task_info_ptr->max_times;
+        if (auto iter = m_times_limit.find(task_info_ptr->name);
+            iter != m_times_limit.cend()) {
+            max_times = iter->second;
+        }
+
+        if (exec_times >= max_times) {
             m_callback(AsstMsg::ReachedLimit, callback_json, m_callback_arg);
 
             json::value next_json = callback_json;
@@ -134,20 +145,20 @@ bool ProcessTask::_run()
             break;
         }
 
-        ++task_info_ptr->exec_times;
+        ++exec_times;
 
         // 减少其他任务的执行次数
         // 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
         // 所以要给蓝色开始行动的次数减一
         for (const std::string& reduce : task_info_ptr->reduce_other_times) {
-            --task.get(reduce)->exec_times;
+            --m_exec_times[reduce];
         }
 
         if (need_stop) {
             return true;
         }
 
-        callback_json["exec_times"] = task_info_ptr->exec_times;
+        callback_json["exec_times"] = exec_times;
         m_callback(AsstMsg::TaskCompleted, callback_json, m_callback_arg);
 
         // 后置固定延时
