@@ -75,12 +75,12 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
     cv::Point min_loc, max_loc;
     cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
+    Rect rect(max_loc.x + m_roi.x, max_loc.y + m_roi.y, templ.cols, templ.rows);
     if (max_val > m_templ_thres * 0.7) { // 得分太低的肯定不对，没必要打印
-        log.trace("match_templ |", m_templ_name, "score:", max_val, "point:", max_loc);
+        log.trace("match_templ |", m_templ_name, "score:", max_val, "rect:", rect.to_string());
     }
 
     if (max_val >= m_templ_thres) {
-        Rect rect(max_loc.x + m_roi.x, max_loc.y + m_roi.y, templ.cols, templ.rows);
         m_result = { AlgorithmType::MatchTemplate, max_val, rect };
         return true;
     }

@@ -26,6 +26,12 @@
         "histThreshold": 0.85,
         "rearDelay": 1000,
         "action": "clickSelf",
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
         "next": [
             "SanityBegin"
         ]
@@ -235,6 +241,12 @@
     "OfflineConfirm": {
         "action": "clickSelf",
         "cache": false,
+        "roi": [
+            0,
+            400,
+            1280,
+            200
+        ],
         "reduceOtherTimes": [
             "StartButton1",
             "StartButton2"
@@ -248,6 +260,12 @@
     "StartToWakeUp": {
         "action": "clickSelf",
         "cache": false,
+        "roi": [
+            520,
+            460,
+            240,
+            100
+        ],
         "next": [
             "Terminal",
             "CloseAnno",
@@ -258,6 +276,12 @@
     "CloseAnno": {
         "action": "clickSelf",
         "cache": false,
+        "roi": [
+            1100,
+            0,
+            180,
+            120
+        ],
         "next": [
             "Terminal",
             "CloseAnno",
@@ -267,6 +291,12 @@
     "Terminal": {
         "cache": false,
         "action": "clickSelf",
+        "roi": [
+            880,
+            100,
+            180,
+            120
+        ],
         "next": [
             "LastBattle",
             "CloseAnno",
@@ -285,6 +315,12 @@
             1,
             270,
             340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
         ],
         "next": [
             "CloseAnno",
@@ -369,6 +405,12 @@
         "histThreshold": 0.85,
         "rearDelay": 1000,
         "action": "clickSelf",
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
         "next": [
             "Award",
             "ReturnToAward"
@@ -392,6 +434,12 @@
         "histThreshold": 0.85,
         "rearDelay": 1000,
         "action": "clickSelf",
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
         "next": [
             "Friends",
             "ReturnToFriends"
@@ -477,6 +525,12 @@
         "templThreshold": 0.85,
         "histThreshold": 0.85,
         "action": "clickSelf",
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
         "next": [
             "Mall",
             "ReturnToMallConfirm",
@@ -696,33 +750,6 @@
             ]
         ]
     },
-    "OperatorBegin": {
-        "algorithm": "justreturn",
-        "action": "doNothing",
-        "next": [
-            "EnterOperator",
-            "ReturnToOperator"
-        ]
-    },
-    "EnterOperator": {
-        "rearDelay": 1000,
-        "templThreshold": 0.7,
-        "action": "clickSelf",
-        "next": [
-            "Stop"
-        ]
-    },
-    "ReturnToOperator": {
-        "template": "Return.png",
-        "templThreshold": 0.85,
-        "histThreshold": 0.85,
-        "rearDelay": 1000,
-        "action": "clickSelf",
-        "next": [
-            "EnterOperator",
-            "ReturnToOperator"
-        ]
-    },
     "InfrastBegin": {
         "algorithm": "justreturn",
         "action": "doNothing",
@@ -738,6 +765,12 @@
         "templThreshold": 0.85,
         "histThreshold": 0.85,
         "rearDelay": 1000,
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
         "action": "clickSelf",
         "next": [
             "EnterInfrast",
@@ -842,6 +875,13 @@
     },
     "InfrastNotification": {
         "templThreshold": 0.8,
+        "roi": [
+            1100,
+            0,
+            180,
+            300
+        ],
+        "cache": false,
         "action": "clickSelf",
         "next": [
             "InfrastReward",

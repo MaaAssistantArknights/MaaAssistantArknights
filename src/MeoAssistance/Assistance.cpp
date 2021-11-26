@@ -141,20 +141,20 @@ bool asst::Assistance::catch_fake()
 bool asst::Assistance::append_fight(int mecidine, int stone, int times, bool only_append)
 {
     if (mecidine > 0) {
-        set_param("task.action", "UseMedicine", "doNothing");
+        set_param("task.action", "MedicineConfirm", "doNothing");
         set_param("task.maxTimes", "MedicineConfirm", std::to_string(mecidine));
     }
     else {
-        set_param("task.action", "UseMedicine", "stop");
+        set_param("task.action", "MedicineConfirm", "stop");
         set_param("task.maxTimes", "MedicineConfirm", "0");
     }
 
     if (stone > 0) {
-        set_param("task.action", "UseStone", "doNothing");
+        set_param("task.action", "StoneConfirm", "doNothing");
         set_param("task.maxTimes", "StoneConfirm", std::to_string(stone));
     }
     else {
-        set_param("task.action", "UseStone", "stop");
+        set_param("task.action", "StoneConfirm", "stop");
         set_param("task.maxTimes", "StoneConfirm", "0");
     }
 
