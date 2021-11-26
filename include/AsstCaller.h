@@ -26,7 +26,7 @@ extern "C" {
 
     bool MEOAPI AsstStart(void* p_asst);
     bool MEOAPI AsstStop(void* p_asst);
-    bool MEOAPI AsstSetParam(void* p_asst, const char* type, const char* param, const char* value);
+    //bool MEOAPI AsstSetParam(void* p_asst, const char* type, const char* param, const char* value);
 
     MEOAPI_PORT const char* MEO_CALL AsstGetVersion();
 #ifdef __cplusplus

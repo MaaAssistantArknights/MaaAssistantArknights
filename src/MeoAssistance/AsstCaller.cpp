@@ -193,14 +193,14 @@ bool AsstStop(void* p_asst)
     return ((asst::Assistance*)p_asst)->stop();
 }
 
-bool AsstSetParam(void* p_asst, const char* type, const char* param, const char* value)
-{
-    if (p_asst == nullptr) {
-        return false;
-    }
-
-    return ((asst::Assistance*)p_asst)->set_param(type, param, value);
-}
+//bool AsstSetParam(void* p_asst, const char* type, const char* param, const char* value)
+//{
+//    if (p_asst == nullptr) {
+//        return false;
+//    }
+//
+//    return ((asst::Assistance*)p_asst)->set_param(type, param, value);
+//}
 
 const char* AsstGetVersion()
 {

@@ -92,22 +92,6 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _useMedicine, value);
                 ViewStatusStorage.Set("MainFunction.UseMedicine", value.ToString());
-                var asstProxy = _container.Get<AsstProxy>();
-                if (value)
-                {
-                    asstProxy.AsstSetParam("task.action", "UseMedicine", "doNothing");
-                    int count;
-                    if (!int.TryParse(MedicineNumber, out count))
-                    {
-                        count = 0;
-                    }
-                    asstProxy.AsstSetParam("task.maxTimes", "MedicineConfirm", count.ToString());
-                }
-                else
-                {
-                    asstProxy.AsstSetParam("task.action", "MedicineConfirm", "stop");
-                    asstProxy.AsstSetParam("task.maxTimes", "MedicineConfirm", "0");
-                }
             }
         }
 
@@ -119,22 +103,6 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _useStone, value);
-                var asstProxy = _container.Get<AsstProxy>();
-                if (value)
-                {
-                    asstProxy.AsstSetParam("task.action", "UseStone", "doNothing");
-                    int count;
-                    if (!int.TryParse(StoneNumber, out count))
-                    {
-                        count = 0;
-                    }
-                    asstProxy.AsstSetParam("task.maxTimes", "StoneConfirm", count.ToString());
-                }
-                else
-                {
-                    asstProxy.AsstSetParam("task.action", "StoneConfirm", "stop");
-                    asstProxy.AsstSetParam("task.maxTimes", "StoneConfirm", "0");
-                }
             }
         }
 
@@ -146,12 +114,6 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _stoneNumber, value);
-                if (UseStone)
-                {
-                    int.TryParse(value, out var count);
-                    var asstProxy = _container.Get<AsstProxy>();
-                    asstProxy.AsstSetParam("task.maxTimes", "StoneConfirm", count.ToString());
-                }
             }
         }
 
@@ -163,12 +125,6 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _medicineNumber, value);
-                if (UseMedicine)
-                {
-                    int.TryParse(value, out var count);
-                    var asstProxy = _container.Get<AsstProxy>();
-                    asstProxy.AsstSetParam("task.maxTimes", "MedicineConfirm", count.ToString());
-                }
             }
         }
 
@@ -180,16 +136,6 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _hasTimesLimited, value);
-                var asstProxy = _container.Get<AsstProxy>();
-                if (value)
-                {
-                    int.TryParse(MaxTimes, out var count);
-                    asstProxy.AsstSetParam("task.maxTimes", "StartButton1", count.ToString());
-                }
-                else
-                {
-                    asstProxy.AsstSetParam("task.maxTimes", "StartButton1", int.MaxValue.ToString());
-                }
             }
         }
 
@@ -201,12 +147,6 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _maxTimes, value);
-                if (HasTimesLimited)
-                {
-                    var asstProxy = _container.Get<AsstProxy>();
-                    int.TryParse(MaxTimes, out var count);
-                    asstProxy.AsstSetParam("task.maxTimes", "StartButton1", count.ToString());
-                }
             }
         }
 

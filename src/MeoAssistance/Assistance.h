@@ -63,7 +63,7 @@ namespace asst
         // 停止任务队列并清空
         bool stop(bool block = true);
 
-        bool set_param(const std::string& type, const std::string& param, const std::string& value);
+        [[deprecated]] bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
         static constexpr int ProcessTaskRetryTimesDefault = 20;
         static constexpr int OpenRecruitTaskRetyrTimesDefault = 5;
