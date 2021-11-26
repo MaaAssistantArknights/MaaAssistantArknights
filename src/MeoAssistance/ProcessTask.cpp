@@ -33,17 +33,27 @@ bool ProcessTask::_run()
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
+    auto& task_delay = resource.cfg().get_options().task_delay;
     while (!m_cur_tasks_name.empty()) {
-        const auto& image = ctrler.get_image();
-        ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name);
-        if (!analyzer.analyze()) {
-            return false;
+        Rect rect;
+        std::shared_ptr<TaskInfo> task_info_ptr;
+        // 如果第一个任务是JustReturn的，那就没必要再截图并计算了
+        if (auto front_task_ptr = task.get(m_cur_tasks_name.front());
+            front_task_ptr->algorithm == AlgorithmType::JustReturn) {
+            task_info_ptr = front_task_ptr;
+        }
+        else {
+            const auto& image = ctrler.get_image();
+            ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name);
+            if (!analyzer.analyze()) {
+                return false;
+            }
+            task_info_ptr = analyzer.get_result();
+            rect = analyzer.get_rect();
         }
         if (need_exit()) {
             return false;
         }
-        auto task_info_ptr = analyzer.get_result();
-        Rect rect = analyzer.get_rect();
         const auto& res_move = task_info_ptr->rect_move;
         if (!res_move.empty()) {
             rect.x += res_move.x;
@@ -74,6 +84,8 @@ bool ProcessTask::_run()
 
             log.trace(next_json.to_string());
             set_tasks(task_info_ptr->exceeded_next);
+            sleep(task_delay);
+            continue;
         }
 
         // 前置固定延时
@@ -90,7 +102,8 @@ bool ProcessTask::_run()
             exec_click_task(rect);
             break;
         case ProcessTaskAction::ClickRand: {
-            static const Rect full_rect(0, 0, image.cols, image.rows);
+            auto&& [width, height] = ctrler.get_scale_size();
+            const Rect full_rect(0, 0, width, height);
             exec_click_task(full_rect);
         } break;
         case ProcessTaskAction::SwipeToTheLeft:
@@ -149,6 +162,7 @@ bool ProcessTask::_run()
         log.trace(next_json.to_string());
 
         set_tasks(task_info_ptr->next);
+        sleep(task_delay);
     }
 
     return true;

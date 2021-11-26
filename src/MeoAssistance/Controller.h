@@ -51,14 +51,10 @@ namespace asst
 
         // 异形屏矫正
         Rect shaped_correct(const Rect& rect) const;
+        std::pair<int, int> get_scale_size() const noexcept;
 
         Controller& operator=(const Controller&) = delete;
         Controller& operator=(Controller&&) = delete;
-
-        std::pair<int, int> get_scale_size() const noexcept
-        {
-            return m_scale_size;
-        }
 
     private:
         Controller();

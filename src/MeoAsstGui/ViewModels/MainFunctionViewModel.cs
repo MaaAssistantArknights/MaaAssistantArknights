@@ -105,7 +105,7 @@ namespace MeoAsstGui
                 }
                 else
                 {
-                    asstProxy.AsstSetParam("task.action", "UseMedicine", "stop");
+                    asstProxy.AsstSetParam("task.action", "MedicineConfirm", "stop");
                     asstProxy.AsstSetParam("task.maxTimes", "MedicineConfirm", "0");
                 }
             }
@@ -132,7 +132,7 @@ namespace MeoAsstGui
                 }
                 else
                 {
-                    asstProxy.AsstSetParam("task.action", "UseStone", "stop");
+                    asstProxy.AsstSetParam("task.action", "StoneConfirm", "stop");
                     asstProxy.AsstSetParam("task.maxTimes", "StoneConfirm", "0");
                 }
             }

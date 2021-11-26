@@ -172,6 +172,11 @@ asst::Rect asst::Controller::shaped_correct(const Rect& rect) const
     return dst;
 }
 
+std::pair<int, int> asst::Controller::get_scale_size() const noexcept
+{
+    return m_scale_size;
+}
+
 void asst::Controller::pipe_working_proc()
 {
     LogTraceFunction;
