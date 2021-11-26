@@ -33,11 +33,6 @@ bool asst::AbstractTask::run()
     return false;
 }
 
-void AbstractTask::set_exit_flag(bool* exit_flag)
-{
-    m_exit_flag = exit_flag;
-}
-
 bool AbstractTask::sleep(unsigned millisecond)
 {
     if (need_exit()) {
@@ -81,7 +76,7 @@ bool AbstractTask::save_image(const cv::Mat& image, const std::string& dir)
     return true;
 }
 
-bool asst::AbstractTask::need_exit() const noexcept
+bool asst::AbstractTask::need_exit() const
 {
     return m_exit_flag != NULL && *m_exit_flag == true;
 }

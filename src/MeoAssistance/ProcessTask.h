@@ -11,13 +11,13 @@ namespace asst
     public:
         using AbstractTask::AbstractTask;
         ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name);
-        ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name);
+        ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name) noexcept;
 
         virtual ~ProcessTask() = default;
 
-        virtual void set_tasks(const std::vector<std::string>& cur_tasks_name)
+        virtual void set_tasks(std::vector<std::string> tasks_name) noexcept
         {
-            m_cur_tasks_name = cur_tasks_name;
+            m_cur_tasks_name = std::move(tasks_name);
         }
 
     protected:
