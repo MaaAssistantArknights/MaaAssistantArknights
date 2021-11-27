@@ -26,7 +26,10 @@ bool asst::AbstractTask::run()
         if (_run()) {
             return true;
         }
-        else if (!on_run_fails()) {
+        if (need_exit()) {
+            return false;
+        }
+        if (!on_run_fails()) {
             return false;
         }
     }

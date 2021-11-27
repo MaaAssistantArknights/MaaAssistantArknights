@@ -794,6 +794,13 @@
         "templThreshold": 0.85,
         "histThreshold": 0.85,
         "rearDelay": 3000,
+        "cache": false,
+        "roi": [
+            900,
+            540,
+            160,
+            160
+        ],
         "action": "clickSelf",
         "next": [
             "InfrastEnteredFlag"
@@ -804,72 +811,14 @@
         "templThreshold": 0.8,
         "histThreshold": 0.8,
         "action": "doNothing",
+        "roi": [
+            0,
+            100,
+            300,
+            150
+        ],
         "next": [
             "InfrastNotification",
-            "Stop"
-        ]
-    },
-    "Trade": {
-        "templThreshold": 0.8,
-        "cache": false,
-        "action": "clickSelf",
-        "rearDelay": 1000,
-        "next": [
-            "ManufacturingLeftBottom"
-        ]
-    },
-    "TradeMini": {
-        "templThreshold": 0.8,
-        "cache": false,
-        "action": "clickSelf",
-        "rearDelay": 1000,
-        "next": [
-            "ManufacturingLeftBottom"
-        ]
-    },
-    "Manufacturing": {
-        "templThreshold": 0.8,
-        "cache": false,
-        "action": "clickSelf",
-        "rearDelay": 1000,
-        "next": [
-            "ManufacturingLeftBottom"
-        ]
-    },
-    "ManufacturingMini": {
-        "templThreshold": 0.8,
-        "cache": false,
-        "action": "clickSelf",
-        "rearDelay": 1000,
-        "next": [
-            "ManufacturingLeftBottom"
-        ]
-    },
-    "ManufacturingLeftBottom": {
-        "Doc": "制造站点进去之后，左下角那个“中级作战记录 制造中”",
-        "algorithm": "justreturn",
-        "action": "clickRect",
-        "specificRect": [
-            1,
-            535,
-            525,
-            180
-        ],
-        "next": [
-            "Manufacturing1st"
-        ]
-    },
-    "Manufacturing1st": {
-        "Doc": "设施列表里第一个（第一个制造站或者贸易站）",
-        "algorithm": "justreturn",
-        "action": "clickRect",
-        "specificRect": [
-            1,
-            183,
-            220,
-            60
-        ],
-        "next": [
             "Stop"
         ]
     },
@@ -926,6 +875,12 @@
     "DroneAssist-MFG": {
         "action": "clickSelf",
         "cache": false,
+        "roi": [
+            1180,
+            500,
+            100,
+            100
+        ],
         "maxTimes": 1,
         "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
         "next": [
@@ -936,6 +891,12 @@
     "DroneAssist-Trade": {
         "action": "clickSelf",
         "cache": false,
+        "roi": [
+            250,
+            430,
+            460,
+            120
+        ],
         "next": [
             "DroneMax",
             "DroneConfirm"
@@ -943,6 +904,12 @@
     },
     "DroneMax": {
         "action": "clickSelf",
+        "roi": [
+            900,
+            300,
+            120,
+            80
+        ],
         "next": [
             "DroneConfirm"
         ]
@@ -951,6 +918,12 @@
         "action": "clickSelf",
         "rearDelay": 3500,
         "templThreshold": 0.8,
+        "roi": [
+            630,
+            500,
+            650,
+            150
+        ],
         "next": [
             "DeliverableOrder",
             "DroneAssist-Trade-Stop",
@@ -960,6 +933,12 @@
     "DeliverableOrder": {
         "cache": false,
         "action": "clickSelf",
+        "roi": [
+            250,
+            130,
+            230,
+            420
+        ],
         "next": [
             "DeliverableOrder",
             "DroneAssist-Trade"
@@ -1126,11 +1105,23 @@
         "maskRange": [
             1,
             255
+        ],
+        "roi": [
+            0,
+            200,
+            820,
+            520
         ]
     },
     "InfrastMfgMini": {
         "template": "ManufacturingMini.png",
         "cache": false,
+        "roi": [
+            0,
+            240,
+            640,
+            400
+        ],
         "maskRange": [
             1,
             255
@@ -1142,11 +1133,23 @@
         "maskRange": [
             1,
             255
+        ],
+        "roi": [
+            0,
+            200,
+            820,
+            520
         ]
     },
     "InfrastTradeMini": {
         "template": "TradeMini.png",
         "cache": false,
+        "roi": [
+            0,
+            240,
+            640,
+            400
+        ],
         "maskRange": [
             1,
             255
@@ -1159,11 +1162,23 @@
             1,
             255
         ],
+        "roi": [
+            0,
+            200,
+            820,
+            520
+        ],
         "templThreshold": 0.95
     },
     "InfrastPowerMini": {
         "template": "PowerMini.png",
         "cache": false,
+        "roi": [
+            0,
+            240,
+            640,
+            400
+        ],
         "maskRange": [
             1,
             255
@@ -1177,6 +1192,12 @@
             1,
             255
         ],
+        "roi": [
+            400,
+            220,
+            880,
+            500
+        ],
         "templThreshold": 0.95
     },
     "InfrastDormMini": {
@@ -1185,6 +1206,12 @@
         "maskRange": [
             1,
             255
+        ],
+        "roi": [
+            620,
+            240,
+            360,
+            480
         ],
         "templThreshold": 0.95
     },
@@ -1195,6 +1222,12 @@
             1,
             255
         ],
+        "roi": [
+            880,
+            330,
+            400,
+            160
+        ],
         "templThreshold": 0.95
     },
     "InfrastOfficeMini": {
@@ -1203,6 +1236,12 @@
         "maskRange": [
             1,
             255
+        ],
+        "roi": [
+            980,
+            320,
+            300,
+            160
         ],
         "templThreshold": 0.95
     },
@@ -1213,6 +1252,12 @@
             1,
             255
         ],
+        "roi": [
+            880,
+            120,
+            400,
+            160
+        ],
         "templThreshold": 0.95
     },
     "InfrastReceptionMini": {
@@ -1221,6 +1266,12 @@
         "maskRange": [
             1,
             255
+        ],
+        "roi": [
+            980,
+            180,
+            300,
+            140
         ],
         "templThreshold": 0.95
     },
@@ -1231,6 +1282,12 @@
             1,
             255
         ],
+        "roi": [
+            620,
+            80,
+            360,
+            230
+        ],
         "templThreshold": 0.95
     },
     "InfrastControlCenterMini": {
@@ -1239,6 +1296,12 @@
         "maskRange": [
             1,
             255
+        ],
+        "roi": [
+            400,
+            0,
+            880,
+            300
         ],
         "templThreshold": 0.95
     },
@@ -1321,7 +1384,12 @@
     "InfrastDormConfirmButton": {
         "template": "DormConfirm.png",
         "action": "clickSelf",
-        "cache": false,
+        "roi": [
+            630,
+            620,
+            650,
+            100
+        ],
         "rearDelay": 1000
     },
     "InfrastEnterFacility": {
@@ -1656,6 +1724,7 @@
             60,
             60
         ],
+        "templThreshold": 0.8,
         "next": [
             "GetClue1",
             "GetClue2"
@@ -1664,7 +1733,12 @@
     "GetClue1": {
         "template": "GetClue1.png",
         "action": "clickSelf",
-        "cache": false,
+        "roi": [
+            680,
+            540,
+            250,
+            80
+        ],
         "next": [
             "InfrastClueNew",
             "CloseCluePage"
@@ -1674,7 +1748,12 @@
     "GetClue2": {
         "template": "GetClue2.png",
         "action": "clickSelf",
-        "cache": false,
+        "roi": [
+            800,
+            600,
+            480,
+            120
+        ],
         "next": [
             "InfrastClueNew"
         ],
@@ -1683,7 +1762,12 @@
     "CloseCluePage": {
         "template": "CloseCluePage.png",
         "action": "clickSelf",
-        "cache": false,
+        "roi": [
+            930,
+            50,
+            120,
+            120
+        ],
         "next": [
             "InfrastClueNew"
         ],
@@ -1692,7 +1776,12 @@
     "UnlockClues": {
         "template": "UnlockClues.png",
         "action": "clickSelf",
-        "cache": false,
+        "roi": [
+            480,
+            600,
+            460,
+            120
+        ],
         "rearDelay": 5000
     },
     "EndOfClueExchange": {
