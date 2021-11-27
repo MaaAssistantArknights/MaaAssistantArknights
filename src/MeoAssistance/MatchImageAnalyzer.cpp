@@ -17,8 +17,8 @@ bool asst::MatchImageAnalyzer::analyze()
 {
     if (m_use_cache) {
         auto&& [hist, roi] = resource.templ().get_hist(m_templ_name);
-        if (!hist.empty() && comp_hist(hist, roi)) {
-            return true;
+        if (!hist.empty()) {
+            return comp_hist(hist, roi);
         }
     }
     const cv::Mat& templ = resource.templ().get_templ(m_templ_name);
@@ -99,7 +99,7 @@ bool asst::MatchImageAnalyzer::comp_hist(const cv::Mat& hist, const cv::Rect roi
     }
 
     if (score >= m_hist_thres) {
-        Rect rect(roi.x + m_roi.x, roi.y + m_roi.y, hist.cols, hist.rows);
+        Rect rect(roi.x, roi.y, hist.cols, hist.rows);
         m_result = { AlgorithmType::CompareHist, score, rect };
         return true;
     }

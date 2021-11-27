@@ -5,25 +5,18 @@
         "next": [
             "UsePrts",
             "StartButton1",
-            "StartButton2",
+            "ReturnToTerminal",
             "PRTS",
-            "UseMedicine",
-            "UseStone",
             "EndOfAction",
-            "PrtsErrorConfirm",
             "OfflineConfirm",
             "StartToWakeUp",
             "TodaysSupplies",
             "CloseAnno",
-            "Terminal",
-            "LastBattle",
-            "ReturnToTerminal"
+            "Terminal"
         ]
     },
     "ReturnToTerminal": {
         "template": "Return.png",
-        "templThreshold": 0.85,
-        "histThreshold": 0.85,
         "rearDelay": 1000,
         "action": "clickSelf",
         "roi": [
@@ -33,11 +26,27 @@
             80
         ],
         "next": [
-            "SanityBegin"
+            "ReturnToTerminal",
+            "Terminal",
+            "ReturnToTerminalConfirm"
+        ]
+    },
+    "ReturnToTerminalConfirm": {
+        "template": "PopupConfirm.png",
+        "action": "clickSelf",
+        "rearDelay": 3000,
+        "roi": [
+            630,
+            400,
+            650,
+            160
+        ],
+        "next": [
+            "ReturnToTerminal",
+            "Terminal"
         ]
     },
     "UsePrts": {
-        "templThreshold": 0.85,
         "action": "clickSelf",
         "roi": [
             1000,
@@ -70,7 +79,6 @@
     "StartButton2": {
         "action": "clickSelf",
         "rearDelay": 20000,
-        "templThreshold": 0.95,
         "roi": [
             1000,
             350,
@@ -248,7 +256,6 @@
         ]
     },
     "PrtsErrorConfirm": {
-        "templThreshold": 0.8,
         "cache": false,
         "roi": [
             0,
@@ -481,8 +488,6 @@
     },
     "ReturnToAward": {
         "template": "Return.png",
-        "templThreshold": 0.85,
-        "histThreshold": 0.85,
         "rearDelay": 1000,
         "action": "clickSelf",
         "roi": [
@@ -490,6 +495,22 @@
             0,
             180,
             80
+        ],
+        "next": [
+            "Award",
+            "ReturnToAward",
+            "ReturnToAwardConfirm"
+        ]
+    },
+    "ReturnToAwardConfirm": {
+        "template": "PopupConfirm.png",
+        "action": "clickSelf",
+        "rearDelay": 3000,
+        "roi": [
+            630,
+            400,
+            650,
+            160
         ],
         "next": [
             "Award",
@@ -510,8 +531,6 @@
     },
     "ReturnToFriends": {
         "template": "Return.png",
-        "templThreshold": 0.85,
-        "histThreshold": 0.85,
         "rearDelay": 1000,
         "action": "clickSelf",
         "roi": [
@@ -519,6 +538,22 @@
             0,
             180,
             80
+        ],
+        "next": [
+            "Friends",
+            "ReturnToFriends",
+            "ReturnToFriendsConfirm"
+        ]
+    },
+    "ReturnToFriendsConfirm": {
+        "template": "PopupConfirm.png",
+        "action": "clickSelf",
+        "rearDelay": 3000,
+        "roi": [
+            630,
+            400,
+            650,
+            160
         ],
         "next": [
             "Friends",
@@ -541,7 +576,7 @@
     },
     "FriendsList": {
         "action": "clickSelf",
-        "roi":[
+        "roi": [
             0,
             150,
             250,
@@ -554,7 +589,7 @@
     },
     "NoFriends": {
         "algorithm": "OcrDetect",
-        "text": ["暂无好友"],
+        "text": [ "暂无好友" ],
         "roi": [
             650,
             100,
@@ -563,11 +598,10 @@
         ],
         "action": "doNothing",
         "next": [
-            "ReturnToMall"
+            "ReturnToHome"
         ]
     },
     "StartToVisit": {
-        "templThreshold": 0.8,
         "action": "clickSelf",
         "cache": false,
         "roi": [
@@ -593,9 +627,6 @@
             195,
             130
         ],
-        "exceededNext": [
-            "ReturnToMall"
-        ],
         "next": [
             "VisitLimited",
             "VisitNext",
@@ -616,9 +647,6 @@
             195,
             130
         ],
-        "exceededNext": [
-            "ReturnToMall"
-        ],
         "next": [
             "VisitLimited",
             "VisitNext",
@@ -626,11 +654,17 @@
             "VisitNextOcr"
         ]
     },
+    "MallBegin": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "ReturnToMall",
+            "Mall"
+        ]
+    },
     "ReturnToMall": {
         "rearDelay": 1000,
         "template": "Return.png",
-        "templThreshold": 0.85,
-        "histThreshold": 0.85,
         "action": "clickSelf",
         "roi": [
             0,
@@ -655,7 +689,8 @@
             160
         ],
         "next": [
-            "ReturnToMall"
+            "ReturnToMall",
+            "Mall"
         ]
     },
     "Mall": {
@@ -732,7 +767,7 @@
             140
         ],
         "next": [
-            "ReturnToMall"
+            "ReturnToHome"
         ]
     },
     "VisitNextBlack": {
@@ -744,7 +779,49 @@
             130
         ],
         "next": [
-            "ReturnToMall"
+            "ReturnToHome"
+        ]
+    },
+    "ReturnToHome": {
+        "rearDelay": 1000,
+        "template": "Return.png",
+        "action": "clickSelf",
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
+        "next": [
+            "HomeFlag",
+            "ReturnToHome",
+            "ReturnToHomeConfirm"
+        ]
+    },
+    "ReturnToHomeConfirm": {
+        "template": "PopupConfirm.png",
+        "action": "clickSelf",
+        "rearDelay": 3000,
+        "roi": [
+            630,
+            400,
+            650,
+            160
+        ],
+        "next": [
+            "HomeFlag",
+            "ReturnToHome"
+        ]
+    },
+    "HomeFlag": {
+        "template": "Terminal.png",
+        "cache": false,
+        "action": "stop",
+        "roi": [
+            880,
+            100,
+            180,
+            120
         ]
     },
     "CreditShop-Commoditys": {
@@ -882,8 +959,6 @@
     },
     "ReturnToInfrast": {
         "template": "Return.png",
-        "templThreshold": 0.85,
-        "histThreshold": 0.85,
         "rearDelay": 1000,
         "roi": [
             0,
@@ -896,7 +971,26 @@
             "EnterInfrast",
             "InfrastNotification",
             "InfrastEnteredFlag",
-            "ReturnToInfrast"
+            "ReturnToInfrast",
+            "ReturnToInfrastConfirm"
+        ]
+    },
+    "ReturnToInfrastConfirm": {
+        "template": "PopupConfirm.png",
+        "action": "clickSelf",
+        "rearDelay": 3000,
+        "roi": [
+            630,
+            400,
+            650,
+            160
+        ],
+        "next": [
+            "EnterInfrast",
+            "InfrastNotification",
+            "InfrastEnteredFlag",
+            "ReturnToInfrast",
+            "ReturnToInfrastConfirm"
         ]
     },
     "Return": {
@@ -911,8 +1005,6 @@
         "rearDelay": 1000
     },
     "EnterInfrast": {
-        "templThreshold": 0.85,
-        "histThreshold": 0.85,
         "rearDelay": 3000,
         "cache": false,
         "roi": [
@@ -928,8 +1020,6 @@
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
-        "templThreshold": 0.8,
-        "histThreshold": 0.8,
         "action": "doNothing",
         "roi": [
             0,
@@ -943,7 +1033,6 @@
         ]
     },
     "InfrastNotification": {
-        "templThreshold": 0.8,
         "roi": [
             1100,
             0,
@@ -1037,7 +1126,6 @@
     "DroneConfirm": {
         "action": "clickSelf",
         "rearDelay": 3500,
-        "templThreshold": 0.8,
         "roi": [
             630,
             500,

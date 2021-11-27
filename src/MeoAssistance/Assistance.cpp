@@ -149,7 +149,7 @@ bool asst::Assistance::append_fight(int mecidine, int stone, int times, bool onl
     std::unique_lock<std::mutex> lock(m_mutex);
 
     auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
-    task_ptr->set_task_chain("Sanity");
+    task_ptr->set_task_chain("Fight");
     task_ptr->set_tasks({ "SanityBegin" });
     task_ptr->set_times_limit("MedicineConfirm", mecidine);
     task_ptr->set_times_limit("StoneConfirm", stone);
@@ -158,18 +158,23 @@ bool asst::Assistance::append_fight(int mecidine, int stone, int times, bool onl
     m_tasks_queue.emplace(task_ptr);
 
     if (!only_append) {
-        start(false);
+        return start(false);
     }
 
     return true;
 }
 
-bool asst::Assistance::append_receive_award(bool only_append)
+bool asst::Assistance::append_award(bool only_append)
 {
-    return append_process_task("AwardBegin", ProcessTaskRetryTimesDefault, "ReceiveAward", only_append);
+    return append_process_task("AwardBegin", "ReceiveAward");
 }
 
-bool asst::Assistance::append_visit(bool with_shopping, bool only_append)
+bool asst::Assistance::append_visit(bool only_append)
+{
+    return append_process_task("VisitBegin", "Visit");
+}
+
+bool asst::Assistance::append_mall(bool with_shopping, bool only_append)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -178,45 +183,52 @@ bool asst::Assistance::append_visit(bool with_shopping, bool only_append)
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    append_match_task("Visit", { "VisitBegin" }, ProcessTaskRetryTimesDefault);
+    const std::string task_chain = "Mall";
+
+    append_process_task("MallBegin", task_chain);
 
     if (with_shopping) {
         auto shopping_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this);
-        shopping_task_ptr->set_retry_times(5);
-        shopping_task_ptr->set_task_chain("CreditShopping");
+        shopping_task_ptr->set_task_chain(task_chain);
         m_tasks_queue.emplace(shopping_task_ptr);
     }
 
     if (!only_append) {
-        start(false);
+        return start(false);
     }
 
     return true;
 }
 
-bool Assistance::append_process_task(const std::string& task, int retry_times, std::string task_chain, bool only_append)
+bool Assistance::append_process_task(const std::string& task, std::string task_chain, int retry_times)
 {
     LogTraceFunction;
     if (!m_inited) {
         return false;
     }
 
-    std::unique_lock<std::mutex> lock(m_mutex);
+    //std::unique_lock<std::mutex> lock(m_mutex);
 
     if (task_chain.empty()) {
         task_chain = task;
     }
-    append_match_task(task_chain, { task }, retry_times);
 
-    if (!only_append) {
-        start(false);
-    }
+    auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
+    task_ptr->set_task_chain(task_chain);
+    task_ptr->set_tasks({ task });
+    task_ptr->set_retry_times(retry_times);
+
+    m_tasks_queue.emplace(task_ptr);
+
+    //if (!only_append) {
+    //    return start(false);
+    //}
 
     return true;
 }
 
 #ifdef LOG_TRACE
-bool Assistance::append_debug_task()
+bool Assistance::append_debug()
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -239,7 +251,7 @@ bool Assistance::append_debug_task()
 }
 #endif
 
-bool Assistance::append_recruiting(const std::vector<int>& required_level, bool set_time, bool only_append)
+bool Assistance::start_recruit_calc(const std::vector<int>& required_level, bool set_time)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -254,29 +266,28 @@ bool Assistance::append_recruiting(const std::vector<int>& required_level, bool 
     task_ptr->set_task_chain("OpenRecruit");
     m_tasks_queue.emplace(task_ptr);
 
-    if (!only_append) {
-        start(false);
-    }
-
-    return true;
+    return start(false);
 }
 
-bool asst::Assistance::append_infrast_shift(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold, bool only_append)
+bool asst::Assistance::append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold, bool only_append)
 {
     LogTraceFunction;
     if (!m_inited) {
         return false;
     }
 
-    // 偏激模式还没来得及做，保留用户接口，内部先按激进模式走
-    if (work_mode == infrast::WorkMode::Extreme) {
-        work_mode = infrast::WorkMode::Aggressive;
-    }
+    // 保留接口，目前强制按激进模式进行换班
+    work_mode = infrast::WorkMode::Aggressive;
 
     constexpr static const char* InfrastTaskCahin = "Infrast";
 
     // 这个流程任务，结束的时候是处于基建主界面的。既可以用于进入基建，也可以用于从设施里返回基建主界面
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
+    auto append_infrast_begin = [&]() {
+        append_process_task("InfrastBegin", InfrastTaskCahin);
+    };
+
+    append_infrast_begin();
 
     auto info_task_ptr = std::make_shared<InfrastInfoTask>(task_callback, (void*)this);
     info_task_ptr->set_work_mode(work_mode);
@@ -312,13 +323,13 @@ bool asst::Assistance::append_infrast_shift(infrast::WorkMode work_mode, const s
         else if (facility == "Mfg") {
             m_tasks_queue.emplace(mfg_task_ptr);
             if (UsesOfDrones::DronesMfg & uses_of_drones) {
-                append_match_task(InfrastTaskCahin, { "DroneAssist-MFG" });
+                append_process_task("DroneAssist-MFG", InfrastTaskCahin);
             }
         }
         else if (facility == "Trade") {
             m_tasks_queue.emplace(trade_task_ptr);
             if (UsesOfDrones::DronesTrade & uses_of_drones) {
-                append_match_task(InfrastTaskCahin, { "DroneAssist-Trade" });
+                append_process_task("DroneAssist-Trade", InfrastTaskCahin);
             }
         }
         else if (facility == "Power") {
@@ -331,13 +342,13 @@ bool asst::Assistance::append_infrast_shift(infrast::WorkMode work_mode, const s
             m_tasks_queue.emplace(recpt_task_ptr);
         }
         else {
-            log.error("append_infrast_shift | Unknown facility", facility);
-        }
-        append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+            log.error("append_infrast | Unknown facility", facility);
+        }    
+        append_infrast_begin();
     }
 
     if (!only_append) {
-        start(false);
+        return start(false);
     }
 
     return true;
@@ -475,17 +486,6 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
     // Todo: 有些不需要回调给外部的消息，得在这里给拦截掉
     // 加入回调消息队列，由回调消息线程外抛给外部
     p_this->append_callback(msg, std::move(more_detail));
-}
-
-void asst::Assistance::append_match_task(
-    const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times)
-{
-    auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
-    task_ptr->set_task_chain(task_chain);
-    task_ptr->set_tasks(tasks);
-    task_ptr->set_retry_times(retry_times);
-
-    m_tasks_queue.emplace(task_ptr);
 }
 
 void asst::Assistance::append_callback(AsstMsg msg, json::value detail)

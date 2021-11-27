@@ -41,22 +41,22 @@ namespace asst
         // 添加刷理智任务
         bool append_fight(int mecidine = 0, int stone = 0, int times = INT_MAX, bool only_append = true);
         // 添加领取日常任务奖励任务
-        bool append_receive_award(bool only_append = true);
-        // 添加访问好友基建任务
-        bool append_visit(bool with_shopping, bool only_append = true);
+        bool append_award(bool only_append = true);
+        // 添加访问好友任务
+        bool append_visit(bool only_append = true);
+        // 添加领取当日信用及信用购的任务
+        bool append_mall(bool with_shopping, bool only_append = true);
 
-        // 添加公开招募操作任务
-        bool append_recruiting(const std::vector<int>& required_level, bool set_time, bool only_append = true);
         // 添加基建换班任务任务
-        bool append_infrast_shift(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses, double dorm_threshold, bool only_append = true);
-
-        // 添加流程任务，应该是private的，调试用临时放到public
-        bool append_process_task(const std::string& task, int retry_times = ProcessTaskRetryTimesDefault, std::string task_chain = std::string(), bool only_append = true);
+        bool append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses, double dorm_threshold, bool only_append = true);
 
 #ifdef LOG_TRACE
         // 调试用
-        bool append_debug_task();
+        bool append_debug();
 #endif
+
+        // 开始公开招募计算
+        bool start_recruit_calc(const std::vector<int>& required_level, bool set_time);
 
         // 开始执行任务队列
         bool start(bool block = true);
@@ -73,7 +73,7 @@ namespace asst
         void msg_proc();
         static void task_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
 
-        void append_match_task(const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times = ProcessTaskRetryTimesDefault);
+        bool append_process_task(const std::string& task, std::string task_chain = std::string(), int retry_times = ProcessTaskRetryTimesDefault);
         void append_callback(AsstMsg msg, json::value detail);
         void clear_cache();
         json::value organize_stage_drop(const json::value& rec); // 整理关卡掉落的材料信息

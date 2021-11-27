@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:s="https://github.com/canton7/Stylet"
              mc:Ignorable="d"
-             d:DesignHeight="460" d:DesignWidth="750">
+             d:DesignHeight="495" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

@@ -1,0 +1,214 @@
+// MeoAssistanceGui - A part of the MeoAssistance-Arknight project
+// Copyright (C) 2021 MistEO and Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Stylet;
+using StyletIoC;
+
+namespace MeoAsstGui
+{
+    public class SettingsViewModel : Screen
+    {
+        private IWindowManager _windowManager;
+        private IContainer _container;
+
+        public SettingsViewModel(IContainer container, IWindowManager windowManager)
+        {
+            _container = container;
+            _windowManager = windowManager;
+            DisplayName = "设置";
+
+            _listTitle.Add("基建");
+            _listTitle.Add("信用商店");
+            _listTitle.Add("企鹅数据");
+            _listTitle.Add("连接");
+            _listTitle.Add("其他");
+
+            InfrastInit();
+        }
+
+        private List<string> _listTitle = new List<string>();
+
+        public List<string> ListTitle
+        {
+            get { return _listTitle; }
+            set
+            {
+                SetAndNotify(ref _listTitle, value);
+            }
+        }
+
+        private void InfrastInit()
+        {
+            /* 基建设置 */
+            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>();
+
+            string key = "Infrast.";
+            //InfrastItemViewModels.Add(new DragItemViewModel("宿舍", key));
+            InfrastItemViewModels.Add(new DragItemViewModel("制造站", key));
+            InfrastItemViewModels.Add(new DragItemViewModel("贸易站", key));
+            InfrastItemViewModels.Add(new DragItemViewModel("发电站", key));
+            InfrastItemViewModels.Add(new DragItemViewModel("会客室", key));
+            InfrastItemViewModels.Add(new DragItemViewModel("办公室", key));
+            InfrastItemViewModels.Add(new DragItemViewModel("宿舍", key));
+            //ItemViewModels.Add(new ItemViewModel(8, "控制中枢"));
+
+            facilityKey.Add("宿舍", "Dorm");
+            facilityKey.Add("制造站", "Mfg");
+            facilityKey.Add("贸易站", "Trade");
+            facilityKey.Add("发电站", "Power");
+            facilityKey.Add("会客室", "Reception");
+            facilityKey.Add("办公室", "Office");
+
+            _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
+
+            if (NotUseDrone)
+            {
+                _usesOfDrones = UsesOfDrones.DronesNotUse;
+            }
+            else if (DroneForTrade)
+            {
+                _usesOfDrones = UsesOfDrones.DronesTrade;
+            }
+            else if (DroneForMfg)
+            {
+                _usesOfDrones = UsesOfDrones.DronesMfg;
+            }
+        }
+
+        /* 基建设置 */
+        public Dictionary<string, string> facilityKey = new Dictionary<string, string>();
+        public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; }
+
+        private bool _notUseDrone = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.NotUseDrone", bool.TrueString));
+
+        public bool NotUseDrone
+        {
+            get { return _notUseDrone; }
+            set
+            {
+                if (value)
+                {
+                    _usesOfDrones = UsesOfDrones.DronesNotUse;
+                }
+                SetAndNotify(ref _notUseDrone, value);
+                ViewStatusStorage.Set("Infrast.NotUseDrone", value.ToString());
+            }
+        }
+
+        private bool _droneForTrade = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.DroneForTrade", bool.FalseString));
+
+        public bool DroneForTrade
+        {
+            get { return _droneForTrade; }
+            set
+            {
+                if (value)
+                {
+                    _usesOfDrones = UsesOfDrones.DronesTrade;
+                }
+                SetAndNotify(ref _droneForTrade, value);
+                ViewStatusStorage.Set("Infrast.DroneForTrade", value.ToString());
+            }
+        }
+
+        private bool _droneForMfg = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.DroneForMfg", bool.FalseString));
+
+        public bool DroneForMfg
+        {
+            get { return _droneForMfg; }
+            set
+            {
+                if (value)
+                {
+                    _usesOfDrones = UsesOfDrones.DronesMfg;
+                }
+                SetAndNotify(ref _droneForMfg, value);
+                ViewStatusStorage.Set("Infrast.DroneForMfg", value.ToString());
+            }
+        }
+
+        private int _dormThreshold = System.Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
+
+        public int DormThreshold
+        {
+            get { return _dormThreshold; }
+            set
+            {
+                DormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
+                SetAndNotify(ref _dormThreshold, value);
+                ViewStatusStorage.Set("Infrast.DormThreshold", value.ToString());
+            }
+        }
+
+        private string _dormThresholdLabel;
+
+        public string DormThresholdLabel
+        {
+            get { return _dormThresholdLabel; }
+            set
+            {
+                SetAndNotify(ref _dormThresholdLabel, value);
+            }
+        }
+
+        public List<string> GetInfrastOrderList()
+        {
+            var orderList = new List<string>();
+            foreach (var item in InfrastItemViewModels)
+            {
+                if (item.IsChecked == false)
+                {
+                    continue;
+                }
+
+                orderList.Add(facilityKey[item.Name]);
+            }
+            return orderList;
+        }
+
+        private UsesOfDrones _usesOfDrones = UsesOfDrones.DronesNotUse;
+
+        public UsesOfDrones UsesOfDrones
+        {
+            get { return _usesOfDrones; }
+            set
+            {
+                SetAndNotify(ref _usesOfDrones, value);
+            }
+        }
+
+        private InfrastWorkMode _infrastWorkMode = InfrastWorkMode.Aggressive;
+
+        public InfrastWorkMode InfrastWorkMode
+        {
+            get { return _infrastWorkMode; }
+            set
+            {
+                SetAndNotify(ref _infrastWorkMode, value);
+            }
+        }
+        /* 信用商店设置 */
+
+        private bool _creditShopping = false;
+
+        public bool CreditShopping
+        {
+            get { return _creditShopping; }
+            set
+            {
+                SetAndNotify(ref _creditShopping, value);
+            }
+        }
+    }
+}
