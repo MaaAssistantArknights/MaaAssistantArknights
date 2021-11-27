@@ -398,8 +398,9 @@ void Assistance::working_proc()
             m_tasks_queue.pop();
 
             std::string cur_taskchain = task_ptr->get_task_chain();
-            json::value task_json;
-            task_json["task_chain"] = cur_taskchain;
+            json::value task_json = json::object{
+                {"task_chain", cur_taskchain}
+            };
 
             if (ret) {
                 if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
