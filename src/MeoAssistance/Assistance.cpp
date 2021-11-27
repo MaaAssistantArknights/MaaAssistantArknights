@@ -40,6 +40,7 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
         callback_json["type"] = "resource broken";
         callback_json["what"] = error;
         m_callback(AsstMsg::InitFaild, callback_json, m_callback_arg);
+        throw error;
     }
 
     m_working_thread = std::thread(std::bind(&Assistance::working_proc, this));
