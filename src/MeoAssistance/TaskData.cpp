@@ -148,11 +148,17 @@ bool asst::TaskData::parse(const json::value& json)
         }
         if (task_json.exist("roi")) {
             const json::array& area_arr = task_json.at("roi").as_array();
-            task_info_ptr->roi = Rect(
-                area_arr[0].as_integer(),
-                area_arr[1].as_integer(),
-                area_arr[2].as_integer(),
-                area_arr[3].as_integer());
+            int x = area_arr[0].as_integer();
+            int y = area_arr[1].as_integer();
+            int width = area_arr[2].as_integer();
+            int height = area_arr[3].as_integer();
+#ifdef LOG_TRACE
+            if (x + width > WindowWidthDefault || y + height > WindowHeightDefault) {
+                m_last_error = name + " roi is out of bounds";
+                return false;
+            }
+#endif
+            task_info_ptr->roi = Rect(x, y, width, height);
         }
         else {
             task_info_ptr->roi = Rect();
@@ -177,5 +183,15 @@ bool asst::TaskData::parse(const json::value& json)
 
         m_all_tasks_info.emplace(name, task_info_ptr);
     }
+#ifdef LOG_TRACE
+    for (const auto& [name, task] : m_all_tasks_info) {
+        for (const auto& next : task->next) {
+            if (m_all_tasks_info.find(next) == m_all_tasks_info.cend()) {
+                m_last_error = name + "'s next " + next + " is null";
+                return false;
+            }
+        }
+    }
+#endif
     return true;
 }
