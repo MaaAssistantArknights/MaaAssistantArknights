@@ -1,15 +1,13 @@
-﻿<UserControl x:Class="MeoAsstGui.SanityParamSettingUserControl"
+﻿<UserControl x:Class="MeoAsstGui.FightSettingsUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d"
-             d:DesignHeight="280" d:DesignWidth="500">
+             d:DesignHeight="150" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -20,7 +18,7 @@
             <TextBox Text="{Binding MedicineNumber}" Margin="5, 10, 5, 10" TextWrapping="Wrap" VerticalAlignment="Center"
                      Width="50" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="个" VerticalAlignment="Center" />
-            <TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding MedicineInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />
+            <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding MedicineInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1">
@@ -28,7 +26,7 @@
             <TextBox Text="{Binding StoneNumber}" Margin="5, 10, 5, 10" TextWrapping="Wrap" VerticalAlignment="Center"
                      Width="50" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="颗" VerticalAlignment="Center" />
-            <TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding StoneInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />
+            <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding StoneInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="2">
@@ -37,8 +35,5 @@
                      Width="50" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="次" VerticalAlignment="Center" />
         </StackPanel>
-
-        <CheckBox Grid.Row="3" IsChecked="{Binding ReceiveAward}" Content="领取日常奖励" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" />
-        <CheckBox Grid.Row="4" IsChecked="{Binding Shutdown}" Content="刷完自动关机" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" />
     </Grid>
 </UserControl>

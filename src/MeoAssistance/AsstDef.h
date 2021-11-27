@@ -19,8 +19,8 @@ namespace asst
     constexpr static int WindowWidthDefault = 1280;
     constexpr static int WindowHeightDefault = 720;
 
-    constexpr static double TemplThresholdDefault = 0.9;
-    constexpr static double HistThresholdDefault = 0.9;
+    constexpr static double TemplThresholdDefault = 0.8;
+    constexpr static double HistThresholdDefault = 0.8;
 
     struct Point
     {

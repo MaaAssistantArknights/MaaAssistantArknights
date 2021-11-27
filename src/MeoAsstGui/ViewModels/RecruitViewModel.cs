@@ -135,7 +135,7 @@ namespace MeoAsstGui
                 levelList.Add(6);
             }
 
-            asstProxy.AsstAppendRecruiting(levelList.ToArray(), levelList.Count, AutoSetTime);
+            asstProxy.AsstStartRecruitCalc(levelList.ToArray(), levelList.Count, AutoSetTime);
             asstProxy.AsstStart();
         }
     }
