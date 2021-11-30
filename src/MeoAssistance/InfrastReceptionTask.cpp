@@ -63,6 +63,7 @@ bool asst::InfrastReceptionTask::harvest_clue()
     LogTraceFunction;
 
     ProcessTask task(*this, { "InfrastClueNew" });
+    task.set_retry_times(5);
     return task.run();
 }
 
