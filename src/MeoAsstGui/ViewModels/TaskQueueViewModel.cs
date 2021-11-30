@@ -177,6 +177,8 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _idle, value);
+                var settings = _container.Get<SettingsViewModel>();
+                settings.Idle = value;
             }
         }
 
