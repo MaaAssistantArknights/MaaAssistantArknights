@@ -84,9 +84,12 @@ namespace MeoAsstGui
             switch (msg)
             {
                 case AsstMsg.TaskStart:
+                    break;
+
+                case AsstMsg.TaskChainStart:
                     {
                         string taskChain = detail["task_chain"].ToString();
-                        tvm.AddLog("当前任务：" + taskChain);
+                        tvm.AddLog("开始任务：" + taskChain);
                     }
                     break;
 
@@ -111,13 +114,13 @@ namespace MeoAsstGui
                 case AsstMsg.TaskChainCompleted:
                     {
                         string taskChain = detail["task_chain"].ToString();
-                        tvm.AddLog("已完成：" + taskChain);
+                        tvm.AddLog("完成任务：" + taskChain);
                     }
                     break;
 
                 case AsstMsg.AllTasksCompleted:
                     {
-                        tvm.AddLog("任务队列已全部完成");
+                        tvm.AddLog("任务已全部完成");
                         tvm.Idle = true;
                         tvm.CheckAndShutdown();
                     }
@@ -346,6 +349,7 @@ namespace MeoAsstGui
         TaskChainCompleted,					// 任务链完成
         ProcessTaskNotMatched,				// 流程任务识别错误
         AllTasksCompleted,                  // 所有任务完成
+        TaskChainStart,                     // 开始任务链
         /* Info Msg: about Identify */
         TextDetected = 2000,				// 识别到文字
         ImageFindResult,					// 查找图像的结果
