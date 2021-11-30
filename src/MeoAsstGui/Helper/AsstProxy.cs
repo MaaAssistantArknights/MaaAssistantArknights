@@ -119,6 +119,7 @@ namespace MeoAsstGui
                     {
                         tvm.AddLog("任务队列已全部完成");
                         tvm.Idle = true;
+                        tvm.CheckAndShutdown();
                     }
                     break;
 
