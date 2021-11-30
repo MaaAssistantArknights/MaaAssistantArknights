@@ -15,7 +15,7 @@
         <ListBox ItemsSource="{Binding ListTitle}" Grid.Column="0"  Margin="10"
                IsSynchronizedWithCurrentItem="true" />
         <ScrollViewer HorizontalAlignment="Stretch" Grid.Column="1" Margin="10">
-            <StackPanel>
+            <StackPanel IsEnabled="{Binding Idle}">
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
                 <local:InfrastSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />

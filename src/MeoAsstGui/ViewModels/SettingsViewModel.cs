@@ -86,6 +86,17 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _idle = true;
+
+        public bool Idle
+        {
+            get { return _idle; }
+            set
+            {
+                SetAndNotify(ref _idle, value);
+            }
+        }
+
         /* 基建设置 */
         public Dictionary<string, string> facilityKey = new Dictionary<string, string>();
         public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; }
