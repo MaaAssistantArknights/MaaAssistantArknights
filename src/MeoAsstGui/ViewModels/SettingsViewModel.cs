@@ -198,9 +198,10 @@ namespace MeoAsstGui
                 SetAndNotify(ref _infrastWorkMode, value);
             }
         }
+
         /* 信用商店设置 */
 
-        private bool _creditShopping = false;
+        private bool _creditShopping = System.Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditShopping", bool.FalseString));
 
         public bool CreditShopping
         {
@@ -208,6 +209,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _creditShopping, value);
+                ViewStatusStorage.Set("Mall.CreditShopping", value.ToString());
             }
         }
     }

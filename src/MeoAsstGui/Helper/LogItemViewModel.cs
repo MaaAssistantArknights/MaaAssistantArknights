@@ -9,6 +9,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -21,9 +22,21 @@ namespace MeoAsstGui
     {
         public LogItemViewModel(string content, string color = "Black", string weight = "Regular")
         {
+            Time = DateTime.Now.ToString("MM'-'dd'  'HH':'mm':'ss") + "  ";
             this.Content = content;
             this.Color = color;
             this.Weight = weight;
+        }
+
+        private string _time;
+
+        public string Time
+        {
+            get { return _time; }
+            set
+            {
+                SetAndNotify(ref _time, value);
+            }
         }
 
         private string _content;
@@ -38,6 +51,7 @@ namespace MeoAsstGui
         }
 
         private string _color;
+
         public string Color
         {
             get { return _color; }
