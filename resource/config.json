@@ -9,7 +9,7 @@
         "printWindow_Doc": "截图功能：开启后每次结算界面会截图到screenshot目录下。true-开启，false-关闭，默认false",
         "penguinReport": true,
         "penguinReport_Doc": "企鹅数据汇报：每次到结算界面，是否汇报掉落数据至企鹅数据 https://penguin-stats.cn/。true-开启，false-关闭，默认true",
-        "penguinReportCmdLine": "curl -H \"Content-Type: application/json\" -d \"[body]\" \"https://penguin-stats.cn/PenguinStats/api/v2/report\"",
+        "penguinReportCmdLine": "curl -H \"Content-Type: application/json\" -d \"[body]\" \"https://penguin-stats.cn/PenguinStats/api/v2/report\" [extra]",
         "penguinReportCmdLine_Doc": "企鹅数据汇报的命令，想打印详细信息可以尝试添加 -v -i",
         "controlDelayRange": [
             0,

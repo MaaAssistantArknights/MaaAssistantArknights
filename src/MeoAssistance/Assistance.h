@@ -63,6 +63,9 @@ namespace asst
         // 停止任务队列并清空
         bool stop(bool block = true);
 
+        // 设置企鹅数据汇报个人ID
+        void set_penguin_id(const std::string& id);
+
         [[deprecated]] bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
         static constexpr int ProcessTaskRetryTimesDefault = 20;

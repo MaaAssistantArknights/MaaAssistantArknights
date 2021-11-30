@@ -27,6 +27,8 @@ extern "C" {
     bool MEOAPI AsstStartRecruitCalc(void* p_asst, const int required_level[], int required_len, bool set_time);
     bool MEOAPI AsstStart(void* p_asst);
     bool MEOAPI AsstStop(void* p_asst);
+
+    bool MEOAPI AsstSetPenguinId(void* p_asst, const char* id);
     //bool MEOAPI AsstSetParam(void* p_asst, const char* type, const char* param, const char* value);
 
     MEOAPI_PORT const char* MEO_CALL AsstGetVersion();
