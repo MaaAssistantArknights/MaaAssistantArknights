@@ -343,7 +343,7 @@ bool asst::Assistance::append_infrast(infrast::WorkMode work_mode, const std::ve
         }
         else {
             log.error("append_infrast | Unknown facility", facility);
-        }    
+        }
         append_infrast_begin();
     }
 
@@ -352,6 +352,17 @@ bool asst::Assistance::append_infrast(infrast::WorkMode work_mode, const std::ve
     }
 
     return true;
+}
+
+void asst::Assistance::set_penguin_id(const std::string& id)
+{
+    auto& opt = resource.cfg().get_options();
+    if (id.empty()) {
+        opt.penguin_report_extra_param.clear();
+    }
+    else {
+        opt.penguin_report_extra_param = "-H \"authorization: PenguinID " + id + "\"";
+    }
 }
 
 bool asst::Assistance::start(bool block)

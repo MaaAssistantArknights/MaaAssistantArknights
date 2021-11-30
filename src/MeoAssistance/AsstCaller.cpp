@@ -202,6 +202,16 @@ bool AsstStop(void* p_asst)
     return ((asst::Assistance*)p_asst)->stop();
 }
 
+bool MEOAPI AsstSetPenguinId(void* p_asst, const char* id)
+{
+    if (p_asst == nullptr) {
+        return false;
+    }
+    auto ptr = (asst::Assistance*)p_asst;
+    ptr->set_penguin_id(id);
+    return true;
+}
+
 //bool AsstSetParam(void* p_asst, const char* type, const char* param, const char* value)
 //{
 //    if (p_asst == nullptr) {

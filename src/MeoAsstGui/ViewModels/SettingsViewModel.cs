@@ -212,5 +212,19 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("Mall.CreditShopping", value.ToString());
             }
         }
+
+        /* 企鹅数据设置 */
+
+        private string _penguinId = ViewStatusStorage.Get("Penguin.Id", "");
+
+        public string PenguinId
+        {
+            get { return _penguinId; }
+            set
+            {
+                SetAndNotify(ref _penguinId, value);
+                ViewStatusStorage.Set("Penguin.Id", value);
+            }
+        }
     }
 }

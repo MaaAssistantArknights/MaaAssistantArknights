@@ -96,7 +96,7 @@ namespace MeoAsstGui
                     ret &= asstProxy.AsstAppendAward();
                 }
             }
-
+            setPenguinId();
             ret &= asstProxy.AsstStart();
 
             if (!ret)
@@ -160,6 +160,13 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendMall(settings.CreditShopping);
+        }
+
+        private void setPenguinId()
+        {
+            var settings = _container.Get<SettingsViewModel>();
+            var asstProxy = _container.Get<AsstProxy>();
+            asstProxy.AsstSetPenguinId(settings.PenguinId);
         }
 
         private bool _idle = true;
