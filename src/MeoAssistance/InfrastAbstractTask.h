@@ -11,6 +11,7 @@ namespace asst
         using AbstractTask::AbstractTask;
         virtual ~InfrastAbstractTask() = default;
         virtual void set_work_mode(infrast::WorkMode work_mode) noexcept;
+        virtual void set_mood_threshold(double mood_thres) noexcept;
 
     protected:
         virtual bool on_run_fails() override;
@@ -32,5 +33,6 @@ namespace asst
         int m_last_swipe_id = 0;
         infrast::WorkMode m_work_mode = infrast::WorkMode::Gentle;
         std::string m_work_mode_name = "Gentle";
+        double m_mood_threshold = 0;
     };
 }

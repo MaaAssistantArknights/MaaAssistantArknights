@@ -187,6 +187,11 @@ size_t asst::InfrastProductionTask::opers_detect()
             --cur_available_num;
             continue;
         }
+        // 心情过低的干员则不可用
+        if (cur_oper.mood_ratio < m_mood_threshold) {
+            //--cur_available_num;
+            continue;
+        }
         auto find_iter = std::find_if(
             m_all_available_opers.cbegin(), m_all_available_opers.cend(),
             [&cur_oper](const infrast::Oper& oper) -> bool {
@@ -343,7 +348,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                     if (!opt.possible_hashs.empty()) {
                         for (const auto& [key, hash] : opt.possible_hashs) {
                             int dist = utils::hamming(find_iter->name_hash, hash);
-                            log.trace("optimal_calc | hash dist", dist, hash, find_iter->name_hash);
+                            log.trace("optimal_calc | name hash dist", dist, hash, find_iter->name_hash);
                             if (dist < m_name_hash_thres) {
                                 hash_matched = true;
                                 break;
@@ -443,6 +448,11 @@ bool asst::InfrastProductionTask::opers_choose()
             }
         }
         auto cur_all_opers = oper_analyzer.get_result();
+        // 小于心情阈值的干员则不可用
+        std::remove_if(cur_all_opers.begin(), cur_all_opers.end(),
+            [&](const infrast::Oper& rhs) -> bool {
+                return rhs.mood_ratio < m_mood_threshold;
+            });
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             auto find_iter = std::find_if(
                 cur_all_opers.cbegin(), cur_all_opers.cend(),
