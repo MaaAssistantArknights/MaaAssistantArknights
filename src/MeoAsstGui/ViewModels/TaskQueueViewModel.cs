@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
 using Stylet;
 using StyletIoC;
 using Windows.UI.Xaml.Documents;
@@ -167,6 +168,20 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
             asstProxy.AsstSetPenguinId(settings.PenguinId);
+        }
+
+        public void CheckAndShutdown()
+        {
+            if (Shutdown == true)
+            {
+                System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
+
+                var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK);
+                if (result == MessageBoxResult.OK)
+                {
+                    System.Diagnostics.Process.Start("shutdown.exe", "-a");
+                }
+            }
         }
 
         private bool _idle = true;
