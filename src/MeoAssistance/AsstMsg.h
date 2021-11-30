@@ -32,6 +32,7 @@ namespace asst
         TaskChainCompleted,    // 任务链完成
         ProcessTaskNotMatched, // 流程任务识别错误
         AllTasksCompleted,     // 所有任务完成
+        TaskChainStart,        // 开始任务链
         /* Info Msg: about Identify */
         TextDetected = 2000, // 识别到文字
         ImageFindResult,     // 查找图像的结果
@@ -67,6 +68,7 @@ namespace asst
             { AsstMsg::AppendProcessTask, "AppendProcessTask" },
             { AsstMsg::TaskCompleted, "TaskCompleted" },
             { AsstMsg::TaskChainCompleted, "TaskChainCompleted" },
+            { AsstMsg::TaskChainStart, "TaskChainStart" },
             { AsstMsg::AllTasksCompleted, "AllTasksCompleted" },
             { AsstMsg::PrintWindow, "PrintWindow" },
             { AsstMsg::TaskError, "TaskError" },

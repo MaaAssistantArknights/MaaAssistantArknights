@@ -414,6 +414,7 @@ void Assistance::working_proc()
 {
     LogTraceFunction;
 
+    std::string pre_taskchain;
     while (!m_thread_exit) {
         //LogTraceScope("Assistance::working_proc Loop");
         std::unique_lock<std::mutex> lock(m_mutex);
@@ -422,15 +423,20 @@ void Assistance::working_proc()
             auto start_time = std::chrono::system_clock::now();
 
             auto task_ptr = m_tasks_queue.front();
-            task_ptr->set_exit_flag(&m_thread_idle);
-
-            bool ret = task_ptr->run();
-            m_tasks_queue.pop();
 
             std::string cur_taskchain = task_ptr->get_task_chain();
             json::value task_json = json::object{
                 {"task_chain", cur_taskchain}
             };
+
+            if (cur_taskchain != pre_taskchain) {
+                task_callback(AsstMsg::TaskChainStart, task_json, this);
+                pre_taskchain = cur_taskchain;
+            }
+
+            task_ptr->set_exit_flag(&m_thread_idle);
+            bool ret = task_ptr->run();
+            m_tasks_queue.pop();
 
             if (ret) {
                 if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
@@ -451,6 +457,7 @@ void Assistance::working_proc()
                 [&]() -> bool { return m_thread_idle; });
         }
         else {
+            pre_taskchain.clear();
             m_thread_idle = true;
             //controller.set_idle(true);
             m_condvar.wait(lock);
