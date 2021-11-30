@@ -7,7 +7,7 @@
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="550">
-    <Grid Margin="20, 20">
+    <Grid>
         <!--IsEnabled="{Binding CreditShoppingCheckBoxIsEnable}"-->
         <CheckBox IsChecked="{Binding CreditShopping}"
                   Content=" 信用商店随缘买&#13;（不买碳和家具）" />

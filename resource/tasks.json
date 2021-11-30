@@ -193,6 +193,7 @@
     },
     "MedicineConfirm": {
         "action": "clickSelf",
+        "cache": false,
         "maxTimes": 0,
         "roi": [
             1000,
@@ -225,6 +226,7 @@
     "StoneConfirm": {
         "template": "MedicineConfirm.png",
         "action": "clickSelf",
+        "cache": false,
         "maxTimes": 0,
         "roi": [
             1000,
@@ -364,6 +366,7 @@
         ],
         "next": [
             "LastBattle",
+            "Terminal",
             "CloseAnno",
             "TodaysSupplies"
         ]

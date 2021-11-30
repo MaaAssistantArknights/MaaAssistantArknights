@@ -4,10 +4,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              xmlns:local="clr-namespace:MeoAsstGui"
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d"
-        Height="495" Width="800">
+             d:DesignHeight="495" d:DesignWidth="800">
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -22,33 +23,36 @@
                 <RowDefinition Height="60" />
                 <RowDefinition Height="60" />
             </Grid.RowDefinitions>
-            <ListBox Grid.Row="0" Width="200" Margin="10" HorizontalAlignment="Center"
-                 dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True"
+            <ListBox x:Name="TaskList" Grid.Row="0" Width="200" Margin="10" HorizontalAlignment="Center"
+                 dd:DragDrop.IsDragSource="{Binding Idle}" dd:DragDrop.IsDropTarget="{Binding Idle}"
                   ItemsSource="{Binding Path=TaskItemViewModels}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <!--<TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ID}" />
                             <TextBlock Style="{StaticResource TextBlockDefault}" Text=". " />-->
-                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
+                            <CheckBox IsChecked="{Binding IsChecked}" IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" Content="{Binding Name}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
             <CheckBox Grid.Row="1" IsChecked="{Binding Shutdown}" Content="自动关机" HorizontalAlignment="Center" Margin="5" />
-            <Button Grid.Row="2" Command="{s:Action LinkStart}" Content="LinkStart !" HorizontalAlignment="Center" Width="120" Height="50" Margin="5" />
+            <Button Grid.Row="2" Command="{s:Action LinkStart}" IsEnabled="{Binding Idle}" Content="LinkStart !" HorizontalAlignment="Center" Width="120" Height="50" Margin="5" />
             <Button Grid.Row="3" Command="{s:Action Stop}" Content="停止" HorizontalAlignment="Center" Width="120" Height="50" Margin="5" />
         </Grid>
-        <local:FightSettingsUserControl Grid.Column="1" VerticalAlignment ="Top"  Margin="10" />
+        <local:FightSettingsUserControl Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"  Margin="10" />
         <!--<GridSplitter Grid.Column="2" Width="5" HorizontalAlignment="Stretch" />-->
         <!--<Rectangle Grid.Column="2" VerticalAlignment="Stretch" Fill="LightGray" Width="4" />-->
-        <ScrollViewer Grid.Column="2"
+        <ScrollViewer Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="10"
                       local:AutoScroll.AutoScroll="True">
             <ItemsControl ItemsSource="{Binding Path=LogItemViewModels}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock FontWeight="{Binding Weight}" Text="{Binding Content}" Foreground="{Binding Color}" />
+                            <TextBlock Text="{Binding Time}"
+                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="5, 5" />
+                            <TextBlock Text="{Binding Content}" Foreground="{Binding Color}" FontWeight="{Binding Weight}"
+                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="5, 5" />
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

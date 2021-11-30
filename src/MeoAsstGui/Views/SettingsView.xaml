@@ -12,14 +12,14 @@
             <ColumnDefinition Width="175" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListBox ItemsSource="{Binding ListTitle}" Grid.Column="0"
+        <ListBox ItemsSource="{Binding ListTitle}" Grid.Column="0"  Margin="10"
                IsSynchronizedWithCurrentItem="true" />
-        <ScrollViewer HorizontalAlignment="Center" Grid.Column="1">
+        <ScrollViewer HorizontalAlignment="Stretch" Grid.Column="1" Margin="10">
             <StackPanel>
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
-                <local:InfrastSettingsUserControl Margin="10" />
+                <local:InfrastSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
-                <local:MallSettingsUserControl Margin="10" />
+                <local:MallSettingsUserControl Margin="20" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />-->
             </StackPanel>
         </ScrollViewer>

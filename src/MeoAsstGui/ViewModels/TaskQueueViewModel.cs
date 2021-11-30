@@ -38,14 +38,19 @@ namespace MeoAsstGui
 
         public void AddLog(string content, string color = "Black", string weight = "Regular")
         {
-            string time = DateTime.Now.ToString("MM'-'dd' 'HH':'mm':'ss") + "  ";
-            LogItemViewModels.Add(new LogItemViewModel(time + content, color, weight));
+            LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
             //LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
+        public void ClearLog()
+        {
+            LogItemViewModels.Clear();
+        }
 
         public async void LinkStart()
         {
+            ClearLog();
+
             AddLog("正在捕获模拟器窗口……");
 
             var asstProxy = _container.Get<AsstProxy>();
@@ -98,6 +103,7 @@ namespace MeoAsstGui
             {
                 AddLog("出现未知错误");
             }
+            Idle = !ret;
         }
 
         public void Stop()
@@ -105,6 +111,7 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             asstProxy.AsstStop();
             AddLog("已停止");
+            Idle = true;
         }
 
         private bool appendFight()
@@ -155,7 +162,18 @@ namespace MeoAsstGui
             return asstProxy.AsstAppendMall(settings.CreditShopping);
         }
 
-        private bool _shutdown;
+        private bool _idle = true;
+
+        public bool Idle
+        {
+            get { return _idle; }
+            set
+            {
+                SetAndNotify(ref _idle, value);
+            }
+        }
+
+        private bool _shutdown = false;
 
         public bool Shutdown
         {

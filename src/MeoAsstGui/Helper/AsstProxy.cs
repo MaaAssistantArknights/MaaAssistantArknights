@@ -87,6 +87,7 @@ namespace MeoAsstGui
                         tvm.AddLog("当前任务：" + taskChain);
                     }
                     break;
+
                 case AsstMsg.TaskCompleted:
                     {
                         string taskName = detail["name"].ToString();
@@ -115,6 +116,7 @@ namespace MeoAsstGui
                 case AsstMsg.AllTasksCompleted:
                     {
                         tvm.AddLog("任务队列已全部完成");
+                        tvm.Idle = true;
                     }
                     break;
 
@@ -126,19 +128,21 @@ namespace MeoAsstGui
                         {
                             string itemName = item["itemName"].ToString();
                             int count = (int)item["quantity"];
-                            cur_drops += itemName + " : " + count + "    \n";
+                            cur_drops += $"{itemName} : {count}\n";
                         }
-                        tvm.AddLog("当次掉落：" + cur_drops);
+                        cur_drops = cur_drops.EndsWith("\n") ? cur_drops.TrimEnd('\n') : "无";
+                        tvm.AddLog("当次掉落：\n" + cur_drops);
+
                         string all_drops = "";
                         JArray statistics = (JArray)detail["statistics"];
                         foreach (var item in statistics)
                         {
                             string itemName = item["itemName"].ToString();
                             int count = (int)item["count"];
-                            all_drops += itemName + " : " + count + "    \n";
+                            all_drops += $"{itemName} : {count}\n";
                         }
-                        tvm.AddLog("掉落统计：" + all_drops);
-
+                        all_drops = all_drops.EndsWith("\n") ? all_drops.TrimEnd('\n') : "无";
+                        tvm.AddLog("掉落统计：\n" + all_drops);
                     }
                     break;
 
