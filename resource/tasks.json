@@ -432,7 +432,8 @@
         ],
         "next": [
             "ReceiveAward",
-            "WeeklyTask"
+            "WeeklyTask",
+            "Award"
         ]
     },
     "ReceiveAward": {
@@ -709,7 +710,8 @@
             360
         ],
         "next": [
-            "CreditStoreOcr"
+            "CreditStoreOcr",
+            "Mall"
         ]
     },
     "CreditStoreOcr": {
@@ -1018,7 +1020,8 @@
         ],
         "action": "clickSelf",
         "next": [
-            "InfrastEnteredFlag"
+            "InfrastEnteredFlag",
+            "EnterInfrast"
         ]
     },
     "InfrastEnteredFlag": {
