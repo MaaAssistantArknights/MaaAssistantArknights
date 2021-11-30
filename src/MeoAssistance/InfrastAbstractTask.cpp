@@ -28,6 +28,11 @@ void asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexc
     }
 }
 
+void asst::InfrastAbstractTask::set_mood_threshold(double mood_thres) noexcept
+{
+    m_mood_threshold = mood_thres;
+}
+
 bool asst::InfrastAbstractTask::on_run_fails()
 {
     LogTraceFunction;

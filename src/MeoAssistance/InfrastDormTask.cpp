@@ -67,10 +67,8 @@ bool asst::InfrastDormTask::_run()
                     break;
                 case infrast::SmileyType::Work:
                 case infrast::SmileyType::Distract:
-                    // 干员没有被选择的情况下，心情小于30%，或不在工作，就进驻宿舍
-                    if (oper.selected == false &&
-                        (oper.mood_ratio < m_mood_threshold
-                            || oper.doing != infrast::Doing::Working)) {
+                    // 干员没有被选择的情况下，且不在工作，就进驻宿舍
+                    if (oper.selected == false && oper.doing != infrast::Doing::Working) {
                         ctrler.click(oper.rect);
                         if (++quantity_selected >= MaxNumOfOpers) {
                             log.trace("quantity_selected:", quantity_selected, ", just break");
