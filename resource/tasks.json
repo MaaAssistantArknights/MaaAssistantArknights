@@ -411,6 +411,138 @@
             "StartButton1"
         ]
     },
+    "RecruitBegin": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "RecruitFinish",
+            "RecruitFlag",
+            "Recruit",
+            "ReturnToRecruit"
+        ]
+    },
+    "ReturnToRecruit": {
+        "template": "Return.png",
+        "rearDelay": 1000,
+        "action": "clickSelf",
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
+        "next": [
+            "Recruit",
+            "ReturnToRecruit",
+            "ReturnToRecruitConfirm"
+        ]
+    },
+    "ReturnToRecruitConfirm": {
+        "template": "PopupConfirm.png",
+        "action": "clickSelf",
+        "rearDelay": 3000,
+        "roi": [
+            630,
+            400,
+            650,
+            160
+        ],
+        "next": [
+            "Recruit",
+            "ReturnToRecruit"
+        ]
+    },
+    "Recruit": {
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            900,
+            450,
+            200,
+            150
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "next": [
+            "RecruitBegin"
+        ]
+    },
+    "RecruitFinish": {
+        "action": "clickSelf",
+        "rearDelay": 3000,
+        "cache": false,
+        "roi": [
+            0,
+            300,
+            1280,
+            420
+        ],
+        "next": [
+            "RecruitFinish",
+            "RecruitSkip",
+            "RecruitSkipWithoutButton"
+        ]
+    },
+    "RecruitSkip": {
+        "action": "clickSelf",
+        "cache": false,
+        "rearDelay": 2000,
+        "roi": [
+            1100,
+            0,
+            180,
+            150
+        ],
+        "next": [
+            "RecruitSkip",
+            "RecruitSkipWithoutButton"
+        ]
+    },
+    "RecruitSkipWithoutButton": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            1180,
+            15,
+            85,
+            60
+        ],
+        "next": [
+            "RecruitFinish",
+            "RecruitFlag",
+            "RecruitSkipWithoutButton"
+        ]
+    },
+    "StartRecruit": {
+        "algorithm": "OcrDetect",
+        "action": "clickSelf",
+        "cache": false,
+        "rearDelay": 1000,
+        "text": [
+            "开始招募"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            420
+        ]
+    },
+    "RecruitFlag": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "公开招募"
+        ],
+        "roi": [
+            50,
+            100,
+            230,
+            100
+        ],
+        "action": "Stop"
+    },
     "AwardBegin": {
         "algorithm": "justreturn",
         "action": "doNothing",
@@ -951,6 +1083,40 @@
                 "防拍",
                 "防护"
             ]
+        ]
+    },
+    "RecruitRefresh": {
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            850,
+            340,
+            220,
+            170
+        ],
+        "next": [
+            "RecruitRefreshConfirm"
+        ]
+    },
+    "RecruitRefreshConfirm": {
+        "template": "PopupConfirm.png",
+        "action": "clickSelf",
+        "rearDelay": 3000,
+        "roi": [
+            630,
+            400,
+            650,
+            160
+        ]
+    },
+    "RecruitConfirm": {
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            860,
+            540,
+            230,
+            80
         ]
     },
     "InfrastBegin": {

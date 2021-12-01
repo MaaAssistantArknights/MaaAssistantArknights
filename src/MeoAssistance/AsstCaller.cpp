@@ -184,6 +184,19 @@ bool AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int orde
             dorm_threshold);
 }
 
+bool AsstAppendRecruit(void* p_asst, unsigned max_times, const int required_level[], int required_len, const int confirm_level[], int confirm_len)
+{
+    if (p_asst == nullptr) {
+        return false;
+    }
+    std::vector<int> required_vector;
+    required_vector.assign(required_level, required_level + required_len);
+    std::vector<int> confirm_vector;
+    confirm_vector.assign(confirm_level, confirm_level + confirm_len);
+
+    return ((asst::Assistance*)p_asst)->append_recruit(max_times, required_vector, confirm_vector);
+}
+
 bool AsstStart(void* p_asst)
 {
     if (p_asst == nullptr) {
