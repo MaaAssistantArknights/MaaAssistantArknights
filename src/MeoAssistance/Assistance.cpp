@@ -21,6 +21,7 @@
 #include "InfrastTradeTask.h"
 #include "ProcessTask.h"
 #include "RecruitTask.h"
+#include "AutoRecruitTask.h"
 
 using namespace asst;
 
@@ -237,7 +238,7 @@ bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>
 
     append_process_task("RecruitBegin", TaskChain);
 
-    auto recruit_task_ptr = std::make_shared<RecruitTask>(task_callback, (void*)this);
+    auto recruit_task_ptr = std::make_shared<AutoRecruitTask>(task_callback, (void*)this);
     recruit_task_ptr->set_task_chain(TaskChain);
     recruit_task_ptr->set_max_times(max_times);
     recruit_task_ptr->set_param(required_level, true);

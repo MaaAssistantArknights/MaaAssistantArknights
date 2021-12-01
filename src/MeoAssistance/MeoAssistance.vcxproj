@@ -22,6 +22,7 @@
     <ClInclude Include="AsstUtils.hpp" />
     <ClInclude Include="AsstDef.h" />
     <ClInclude Include="AsstMsg.h" />
+    <ClInclude Include="AutoRecruitTask.h" />
     <ClInclude Include="CreditShopImageAnalyzer.h" />
     <ClInclude Include="GeneralConfiger.h" />
     <ClInclude Include="CreditShoppingTask.h" />
@@ -66,6 +67,7 @@
     <ClCompile Include="AbstractImageAnalyzer.cpp" />
     <ClCompile Include="AbstractResource.cpp" />
     <ClCompile Include="AbstractTask.cpp" />
+    <ClCompile Include="AutoRecruitTask.cpp" />
     <ClCompile Include="CreditShopImageAnalyzer.cpp" />
     <ClCompile Include="CreditShoppingTask.cpp" />
     <ClCompile Include="InfrastAbstractTask.cpp" />

@@ -210,6 +210,9 @@
     <ClInclude Include="TaskData.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="AutoRecruitTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -337,6 +340,9 @@
     </ClCompile>
     <ClCompile Include="TaskData.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoRecruitTask.cpp">
+      <Filter>源文件\Task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
