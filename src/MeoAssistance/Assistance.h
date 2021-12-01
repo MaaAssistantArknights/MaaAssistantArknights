@@ -50,6 +50,12 @@ namespace asst
         // 添加基建换班任务任务
         bool append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses, double dorm_threshold, bool only_append = true);
 
+        // 添加自动公招任务
+        // 参数max_times: 最多进行几次公招
+        // 参数required_level: 需要的选择Tags的等级
+        // 参数confirm_level: 需要点击确认按钮的等级
+        bool append_recruit(unsigned max_times, const std::vector<int>& required_level, const std::vector<int>& confirm_level);
+
 #ifdef LOG_TRACE
         // 调试用
         bool append_debug();

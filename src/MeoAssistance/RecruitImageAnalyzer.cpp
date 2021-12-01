@@ -9,10 +9,12 @@ bool asst::RecruitImageAnalyzer::analyze()
     m_tags_result.clear();
     m_set_time_rect.clear();
 
-    bool time_ret = time_analyze();
-    bool tags_ret = tags_analyze();
+    bool ret = time_analyze();
+    ret |= tags_analyze();
+    ret |= confirm_analyze();
+    ret |= refresh_analyze();
 
-    return time_ret || tags_ret;
+    return ret;
 }
 
 bool asst::RecruitImageAnalyzer::tags_analyze()
@@ -63,5 +65,33 @@ bool asst::RecruitImageAnalyzer::time_analyze()
         m_set_time_rect.emplace_back(rect);
         return true;
     }
+    return false;
+}
+
+bool asst::RecruitImageAnalyzer::confirm_analyze()
+{
+    const auto confirm_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task.get("RecruitConfirm"));
+    MatchImageAnalyzer confirm_analyzer(m_image);
+    confirm_analyzer.set_task_info(*confirm_task_ptr);
+
+    if (confirm_analyzer.analyze()) {
+        m_confirm_rect = confirm_analyzer.get_result().rect;
+        return true;
+    }
+
+    return false;
+}
+
+bool asst::RecruitImageAnalyzer::refresh_analyze()
+{
+    const auto refresh_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task.get("RecruitRefresh"));
+    MatchImageAnalyzer refresh_analyzer(m_image);
+    refresh_analyzer.set_task_info(*refresh_task_ptr);
+
+    if (refresh_analyzer.analyze()) {
+        m_refresh_rect = refresh_analyzer.get_result().rect;
+        return true;
+    }
+
     return false;
 }

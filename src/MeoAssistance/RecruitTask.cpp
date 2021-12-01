@@ -8,13 +8,15 @@
 #include "Controller.h"
 #include "RecruitImageAnalyzer.h"
 #include "Resource.h"
+#include "ProcessTask.h"
+#include "OcrImageAnalyzer.h"
 
 using namespace asst;
 
 bool RecruitTask::_run()
 {
     json::value task_start_json = json::object{
-        { "task_type", "RecruitTask" },
+        { "task_type", "RecruitTask_run" },
         { "task_chain", m_task_chain },
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
@@ -22,11 +24,13 @@ bool RecruitTask::_run()
     const cv::Mat& image = ctrler.get_image();
     if (image.empty()) {
         m_callback(AsstMsg::ImageIsEmpty, task_start_json, m_callback_arg);
+        m_last_error = ErrorT::OtherError;
         return false;
     }
 
     RecruitImageAnalyzer analyzer(image);
     if (!analyzer.analyze()) {
+        m_last_error = ErrorT::NotInTagsPage;
         return false;
     }
 
@@ -50,17 +54,20 @@ bool RecruitTask::_run()
     if (all_tags.size() != RecruitConfiger::CorrectNumberOfTags) {
         all_tags_json["type"] = "OpenRecruit";
         m_callback(AsstMsg::OcrResultError, all_tags_json, m_callback_arg);
+        m_last_error = ErrorT::TagsError;
         return false;
     }
 
     m_callback(AsstMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
 
+    bool not_confirm = false;
     /* 针对一星干员的额外回调消息 */
     static const std::string SupportMachine = "支援机械";
     if (std::find(all_tags_name.cbegin(), all_tags_name.cend(), SupportMachine) != all_tags_name.cend()) {
         json::value special_tag_json;
         special_tag_json["tag"] = SupportMachine;
         m_callback(AsstMsg::RecruitSpecialTag, special_tag_json, m_callback_arg);
+        not_confirm = true;
     }
 
     // 识别到的5个Tags，全组合排列
@@ -156,7 +163,7 @@ bool RecruitTask::_run()
         else {
             return lhs.first.size() < rhs.first.size();
         }
-    });
+        });
 
     /* 整理识别结果 */
     std::vector<json::value> result_json_vector;
@@ -184,25 +191,110 @@ bool RecruitTask::_run()
     results_json["result"] = json::array(std::move(result_json_vector));
     m_callback(AsstMsg::RecruitResult, results_json, m_callback_arg);
 
-    /* 点击最优解的tags */
-    if (!m_required_level.empty() && !result_vector.empty()) {
-        if (std::find(m_required_level.cbegin(), m_required_level.cend(), result_vector[0].second.min_level) == m_required_level.cend()) {
-            return true;
-        }
-        const std::vector<std::string>& final_tags_name = result_vector[0].first;
-
-        for (const TextRect& text_area : all_tags) {
-            if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
-                ctrler.click(text_area.rect, false);
+    if (!result_vector.empty()) {
+        int maybe_level = result_vector[0].second.min_level;
+        /* 只有3星干员，且可以刷新时，则刷新 */
+        if (maybe_level == 3) {
+            Rect refresh = analyzer.get_refresh_rect();
+            if (!not_confirm && !refresh.empty()) {
+                ProcessTask task(*this, { "RecruitRefresh" });
+                task.set_retry_times(20);
+                if (task.run()) {
+                    // 刷新按钮不是无限的，所以这里应该不会无限递归
+                    return _run();
+                }
             }
+        }
+
+        /* 点击最优解的tags */
+        if (std::find(m_required_level.cbegin(), m_required_level.cend(), maybe_level) != m_required_level.cend()) {
+            const std::vector<std::string>& final_tags_name = result_vector[0].first;
+
+            for (const TextRect& text_area : all_tags) {
+                if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
+                    ctrler.click(text_area.rect, true);
+                }
+            }
+        }
+        /* 点击确认按钮 */
+        if (!not_confirm &&
+            std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
+            ctrler.click(analyzer.get_confirm_rect(), true);
+        }
+        else {
+            click_return_button();
         }
     }
 
     return true;
 }
 
-void RecruitTask::set_param(std::vector<int> required_level, bool set_time)
+bool asst::RecruitTask::run()
+{
+    json::value task_start_json = json::object{
+        { "task_type", "RecruitTask" },
+        { "task_chain", m_task_chain },
+    };
+    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
+
+    int delay = resource.cfg().get_options().task_delay;
+
+    OcrImageAnalyzer start_analyzer;
+    const auto start_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(task.get("StartRecruit"));
+    start_analyzer.set_task_info(*start_task_ptr);
+
+    bool res = false;
+    for (int i = 0; i != m_retry_times; ++i) {
+        const cv::Mat& image = ctrler.get_image();
+        start_analyzer.set_image(image);
+        if (!start_analyzer.analyze()) {
+            sleep(delay);
+            continue;
+        }
+        else {
+            res = true;
+            break;
+        }
+    }
+
+    int count = 0;
+    const auto& start_res = start_analyzer.get_result();
+    for (size_t i = 0; i != start_res.size() && i != m_max_times; ++i) {
+        Rect rect = start_res.at(i).rect;
+        ctrler.click(rect);
+        sleep(delay);
+        for (int j = 0; j != m_retry_times; ++j) {
+            if (_run()) {
+                sleep(delay);
+                break;
+            }
+            switch (m_last_error)
+            {
+            case ErrorT::NotInTagsPage:
+                --i;
+                break;
+            default:
+                break;
+            }
+            sleep(delay);
+        }
+    }
+
+    return res;
+}
+
+void RecruitTask::set_param(std::vector<int> required_level, bool set_time) noexcept
 {
     m_required_level = std::move(required_level);
     m_set_time = set_time;
+}
+
+void asst::RecruitTask::set_confirm_level(std::vector<int> confirm_level) noexcept
+{
+    m_confirm_level = std::move(confirm_level);
+}
+
+void asst::RecruitTask::set_max_times(unsigned max_times)
+{
+    m_max_times = max_times;
 }

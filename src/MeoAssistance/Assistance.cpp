@@ -227,6 +227,26 @@ bool Assistance::append_process_task(const std::string& task, std::string task_c
     return true;
 }
 
+bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>& required_level, const std::vector<int>& confirm_level)
+{
+    LogTraceFunction;
+    if (!m_inited) {
+        return false;
+    }
+    static const std::string TaskChain = "Recruit";
+
+    append_process_task("RecruitBegin", TaskChain);
+
+    auto recruit_task_ptr = std::make_shared<RecruitTask>(task_callback, (void*)this);
+    recruit_task_ptr->set_task_chain(TaskChain);
+    recruit_task_ptr->set_max_times(max_times);
+    recruit_task_ptr->set_param(required_level, true);
+    recruit_task_ptr->set_confirm_level(confirm_level);
+    recruit_task_ptr->set_retry_times(OpenRecruitTaskRetyrTimesDefault);
+    m_tasks_queue.emplace(recruit_task_ptr);
+    return true;
+}
+
 #ifdef LOG_TRACE
 bool Assistance::append_debug()
 {
@@ -426,7 +446,7 @@ void Assistance::working_proc()
 
             std::string cur_taskchain = task_ptr->get_task_chain();
             json::value task_json = json::object{
-                {"task_chain", cur_taskchain}
+                {"task_chain", cur_taskchain},
             };
 
             if (cur_taskchain != pre_taskchain) {
@@ -438,16 +458,15 @@ void Assistance::working_proc()
             bool ret = task_ptr->run();
             m_tasks_queue.pop();
 
-            if (ret) {
-                if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
-                    task_callback(AsstMsg::TaskChainCompleted, task_json, this);
-                }
-                if (m_tasks_queue.empty()) {
-                    task_callback(AsstMsg::AllTasksCompleted, json::value(), this);
-                }
-            }
-            else {
+            if (!ret) {
                 task_callback(AsstMsg::TaskError, task_json, this);
+            }
+
+            if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
+                task_callback(AsstMsg::TaskChainCompleted, task_json, this);
+            }
+            if (m_tasks_queue.empty()) {
+                task_callback(AsstMsg::AllTasksCompleted, json::value(), this);
             }
 
             //clear_cache();
