@@ -437,6 +437,7 @@
         ]
     },
     "ReceiveAward": {
+        "cache": false,
         "action": "clickSelf",
         "roi": [
             950,
