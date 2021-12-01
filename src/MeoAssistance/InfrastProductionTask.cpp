@@ -78,14 +78,18 @@ bool asst::InfrastProductionTask::shift_facility_list()
         MatchImageAnalyzer product_analyzer(image);
         auto& all_products = resource.infrast().get_facility_info(m_facility).products;
         std::string cur_product = all_products.at(0);
+        double max_score = 0;
         for (const std::string& product : all_products) {
             const static std::string prefix = "InfrastFlag";
             const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
                 task.get(prefix + product));
             product_analyzer.set_task_info(*task_ptr);
             if (product_analyzer.analyze()) {
-                cur_product = product;
-                break;
+                double score = product_analyzer.get_result().score;
+                if (score > max_score) {
+                    max_score = score;
+                    cur_product = product;
+                }
             }
         }
         set_product(cur_product);

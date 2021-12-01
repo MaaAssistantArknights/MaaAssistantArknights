@@ -1483,6 +1483,7 @@
     "InfrastMfg": {
         "template": "Manufacturing.png",
         "cache": false,
+        "templThreshold": 0.9,
         "maskRange": [
             1,
             255
@@ -1496,6 +1497,7 @@
     },
     "InfrastMfgMini": {
         "template": "ManufacturingMini.png",
+        "templThreshold": 0.9,
         "cache": false,
         "roi": [
             0,
@@ -1510,6 +1512,7 @@
     },
     "InfrastTrade": {
         "template": "Trade.png",
+        "templThreshold": 0.9,
         "cache": false,
         "maskRange": [
             1,
@@ -1524,6 +1527,7 @@
     },
     "InfrastTradeMini": {
         "template": "TradeMini.png",
+        "templThreshold": 0.9,
         "cache": false,
         "roi": [
             0,
@@ -2098,6 +2102,7 @@
             280,
             720
         ],
+        "maxTimes": 2,
         "cache": false,
         "rectMove": [
             -45,
