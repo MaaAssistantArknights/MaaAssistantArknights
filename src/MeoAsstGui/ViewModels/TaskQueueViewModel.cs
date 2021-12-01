@@ -32,6 +32,7 @@ namespace MeoAsstGui
             string stroageKey = "TaskQueue.";
             TaskItemViewModels.Add(new DragItemViewModel("刷理智", stroageKey));
             TaskItemViewModels.Add(new DragItemViewModel("基建换班", stroageKey));
+            TaskItemViewModels.Add(new DragItemViewModel("自动公招", stroageKey));
             TaskItemViewModels.Add(new DragItemViewModel("访问好友", stroageKey));
             TaskItemViewModels.Add(new DragItemViewModel("收取信用及购物", stroageKey));
             TaskItemViewModels.Add(new DragItemViewModel("领取日常奖励", stroageKey));
@@ -83,6 +84,10 @@ namespace MeoAsstGui
                 else if (item.Name == "刷理智")
                 {
                     ret &= appendFight();
+                }
+                else if (item.Name == "自动公招")
+                {
+                    ret &= appendRecruit();
                 }
                 else if (item.Name == "访问好友")
                 {
@@ -161,6 +166,23 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendMall(settings.CreditShopping);
+        }
+
+        private bool appendRecruit()
+        {
+            // for debug
+            int maxTimes = 3;
+            var reqList = new List<int>();
+            reqList.Add(4);
+            reqList.Add(5);
+            reqList.Add(6);
+
+            var cfmList = new List<int>();
+            cfmList.Add(3);
+            cfmList.Add(4);
+
+            var asstProxy = _container.Get<AsstProxy>();
+            return asstProxy.AsstAppendRecruit(maxTimes, reqList.ToArray(), reqList.Count, cfmList.ToArray(), cfmList.Count);
         }
 
         private void setPenguinId()
