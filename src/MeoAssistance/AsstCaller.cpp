@@ -184,7 +184,7 @@ bool AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int orde
             dorm_threshold);
 }
 
-bool AsstAppendRecruit(void* p_asst, unsigned max_times, const int required_level[], int required_len, const int confirm_level[], int confirm_len)
+bool AsstAppendRecruit(void* p_asst, int max_times, const int required_level[], int required_len, const int confirm_level[], int confirm_len)
 {
     if (p_asst == nullptr) {
         return false;
