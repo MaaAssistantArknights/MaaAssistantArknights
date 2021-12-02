@@ -167,7 +167,7 @@ bool asst::Assistance::append_fight(int mecidine, int stone, int times, bool onl
 
 bool asst::Assistance::append_award(bool only_append)
 {
-    return append_process_task("AwardBegin", "ReceiveAward");
+    return append_process_task("AwardBegin", "Award");
 }
 
 bool asst::Assistance::append_visit(bool only_append)

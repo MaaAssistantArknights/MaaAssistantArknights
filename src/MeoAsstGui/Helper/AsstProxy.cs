@@ -197,7 +197,7 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.EnterFacility:
-                    tvm.AddLog("当前正在换班：" + detail["facility"]);
+                    tvm.AddLog("当前设施：" + detail["facility"] + " " + (int)detail["index"]);
                     break;
 
                 case AsstMsg.FacilityInfo:

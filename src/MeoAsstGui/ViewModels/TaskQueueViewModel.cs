@@ -38,7 +38,7 @@ namespace MeoAsstGui
             TaskItemViewModels.Add(new DragItemViewModel("领取日常奖励", stroageKey));
         }
 
-        public void AddLog(string content, string color = "Black", string weight = "Regular")
+        public void AddLog(string content, string color = "Gray", string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
             //LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
