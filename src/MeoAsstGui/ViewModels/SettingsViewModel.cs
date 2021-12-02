@@ -32,8 +32,8 @@ namespace MeoAsstGui
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
             _listTitle.Add("企鹅数据");
-            _listTitle.Add("连接");
-            _listTitle.Add("其他");
+            //_listTitle.Add("连接");
+            //_listTitle.Add("其他");
 
             InfrastInit();
         }
@@ -208,6 +208,60 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _infrastWorkMode, value);
+            }
+        }
+
+        // 消息源，0：无；1：SelectedIndex；2：ScrollOffset
+        private int _notifySource = 0;
+
+        private int _selectedIndex = 0;
+
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set
+            {
+                if (_notifySource != 1)
+                {
+                    if (_notifySource == 0)
+                    {
+                        _notifySource = 1;
+                    }
+                    ScrollOffset = (double)value / (ListTitle.Count - 1);
+                    SetAndNotify(ref _selectedIndex, value);
+                }
+                _notifySource = 0;
+            }
+        }
+
+        private double _scrollOffset = 0;
+
+        public double ScrollOffset
+        {
+            get { return _scrollOffset; }
+            set
+            {
+                if (_notifySource != 2)
+                {
+                    if (_notifySource == 0)
+                    {
+                        _notifySource = 2;
+                    }
+                    SelectedIndex = (int)(value / ScrollHeight * (ListTitle.Count - 1));
+                    SetAndNotify(ref _scrollOffset, value);
+                }
+                _notifySource = 0;
+            }
+        }
+
+        private double _scrollHeight = 258; // ScrollViewer.ScrollableHeight, 不知道该咋获取，默认值是258
+
+        public double ScrollHeight
+        {
+            get { return _scrollHeight; }
+            set
+            {
+                SetAndNotify(ref _scrollHeight, value);
             }
         }
 

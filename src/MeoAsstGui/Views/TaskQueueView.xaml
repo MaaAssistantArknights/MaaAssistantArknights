@@ -49,7 +49,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Time}"
+                            <TextBlock Text="{Binding Time}" Foreground="Gray"
                                        Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="5, 5" />
                             <TextBlock Text="{Binding Content}" Foreground="{Binding Color}" FontWeight="{Binding Weight}"
                                        Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="5, 5" />

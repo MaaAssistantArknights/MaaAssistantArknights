@@ -50,10 +50,21 @@ bool asst::InfrastProductionTask::shift_facility_list()
     MultiMatchImageAnalyzer locked_analyzer;
     locked_analyzer.set_task_info(*locked_task_ptr);
 
+    int index = 0;
     for (const Rect& tab : m_facility_list_tabs) {
         if (need_exit()) {
             return false;
         }
+        if (index != 0) {
+            json::value enter_json = json::object{
+                { "facility", m_facility },
+                { "index", index }
+            };
+            m_callback(AsstMsg::EnterFacility, enter_json, m_callback_arg);
+        }
+
+        ++index;
+
         ctrler.click(tab);
         sleep(tab_task_ptr->rear_delay);
 

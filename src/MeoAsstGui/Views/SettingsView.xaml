@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              xmlns:local="clr-namespace:MeoAsstGui"
              mc:Ignorable="d"
              d:DesignHeight="495" d:DesignWidth="800">
@@ -12,17 +13,24 @@
             <ColumnDefinition Width="175" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListBox ItemsSource="{Binding ListTitle}" Grid.Column="0"  Margin="10"
-               IsSynchronizedWithCurrentItem="true" />
-        <ScrollViewer HorizontalAlignment="Stretch" Grid.Column="1" Margin="20, 10">
+        <ListBox x:Name="MasterListBox" ItemsSource="{Binding ListTitle}" Grid.Column="0"  Margin="10"
+               IsSynchronizedWithCurrentItem="true" SelectedIndex="{Binding SelectedIndex}" />
+
+        <ScrollViewer local:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"
+                      HorizontalAlignment="Stretch" Grid.Column="1" Margin="20, 10">
+            <!--local:ScrollViewerBinding.ScrollableHeight="{Binding ScrollHeight, Mode=OneWayToSource}"-->
             <StackPanel IsEnabled="{Binding Idle}">
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[0]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:InfrastSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[1]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:AutoRecruitSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[2]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:MallSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[3]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:PenguinReportSettingsUserControl Margin="20" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />-->
             </StackPanel>
