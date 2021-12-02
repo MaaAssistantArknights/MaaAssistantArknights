@@ -48,10 +48,7 @@ bool asst::AutoRecruitTask::run()
             if (need_exit()) {
                 return false;
             }
-            if (_run()) {
-                sleep(delay);
-                break;
-            }
+            bool ret = _run();
             switch (m_last_error) {
             case ErrorT::NotInTagsPage:
                 --i;
@@ -63,6 +60,9 @@ bool asst::AutoRecruitTask::run()
                 break;
             }
             sleep(delay);
+            if (ret) {
+                break;
+            }
         }
     }
 

@@ -115,6 +115,9 @@
     <Compile Include="Helper\LogItemViewModel.cs" />
     <Compile Include="Helper\ViewStatusStorage.cs" />
     <Compile Include="Helper\FlowDocumentPagePadding.cs" />
+    <Compile Include="UserControl\AutoRecruitSettingsUserControl.xaml.cs">
+      <DependentUpon>AutoRecruitSettingsUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\MallSettingsUserControl.xaml.cs">
       <DependentUpon>MallSettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -144,6 +147,10 @@
     <Page Include="Resources\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl\AutoRecruitSettingsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\MallSettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>

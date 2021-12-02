@@ -171,18 +171,36 @@ namespace MeoAsstGui
         private bool appendRecruit()
         {
             // for debug
-            int maxTimes = 3;
-            var reqList = new List<int>();
-            reqList.Add(4);
-            reqList.Add(5);
-            reqList.Add(6);
+            var settings = _container.Get<SettingsViewModel>();
 
+            int max_times = 0;
+            if (!int.TryParse(settings.RecruitMaxTimes, out max_times))
+            {
+                max_times = 0;
+            }
+
+            var reqList = new List<int>();
             var cfmList = new List<int>();
-            cfmList.Add(3);
-            cfmList.Add(4);
+
+            if (settings.ChooseLevel3)
+            {
+                cfmList.Add(3);
+            }
+            if (settings.ChooseLevel4)
+            {
+                reqList.Add(4);
+                cfmList.Add(4);
+            }
+            if (settings.ChooseLevel5)
+            {
+                reqList.Add(5);
+                cfmList.Add(5);
+            }
+
+            bool need_refresh = settings.RefreshLevel3;
 
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendRecruit(maxTimes, reqList.ToArray(), reqList.Count, cfmList.ToArray(), cfmList.Count);
+            return asstProxy.AsstAppendRecruit(max_times, reqList.ToArray(), reqList.Count, cfmList.ToArray(), cfmList.Count, need_refresh);
         }
 
         private void setPenguinId()

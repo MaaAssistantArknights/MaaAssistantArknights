@@ -228,7 +228,7 @@ bool Assistance::append_process_task(const std::string& task, std::string task_c
     return true;
 }
 
-bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>& required_level, const std::vector<int>& confirm_level)
+bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>& required_level, const std::vector<int>& confirm_level, bool need_refresh)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -241,6 +241,7 @@ bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>
     auto recruit_task_ptr = std::make_shared<AutoRecruitTask>(task_callback, (void*)this);
     recruit_task_ptr->set_task_chain(TaskChain);
     recruit_task_ptr->set_max_times(max_times);
+    recruit_task_ptr->set_need_refresh(need_refresh);
     recruit_task_ptr->set_param(required_level, true);
     recruit_task_ptr->set_confirm_level(confirm_level);
     recruit_task_ptr->set_retry_times(OpenRecruitTaskRetyrTimesDefault);

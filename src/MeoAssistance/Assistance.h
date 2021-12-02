@@ -54,7 +54,7 @@ namespace asst
         // 参数max_times: 最多进行几次公招
         // 参数required_level: 需要的选择Tags的等级
         // 参数confirm_level: 需要点击确认按钮的等级
-        bool append_recruit(unsigned max_times, const std::vector<int>& required_level, const std::vector<int>& confirm_level);
+        bool append_recruit(unsigned max_times, const std::vector<int>& required_level, const std::vector<int>& confirm_level, bool need_refresh);
 
 #ifdef LOG_TRACE
         // 调试用

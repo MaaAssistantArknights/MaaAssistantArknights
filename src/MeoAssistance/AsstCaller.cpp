@@ -184,7 +184,7 @@ bool AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int orde
             dorm_threshold);
 }
 
-bool AsstAppendRecruit(void* p_asst, int max_times, const int required_level[], int required_len, const int confirm_level[], int confirm_len)
+bool AsstAppendRecruit(void* p_asst, int max_times, const int required_level[], int required_len, const int confirm_level[], int confirm_len, bool need_refresh)
 {
     if (p_asst == nullptr) {
         return false;
@@ -194,7 +194,7 @@ bool AsstAppendRecruit(void* p_asst, int max_times, const int required_level[], 
     std::vector<int> confirm_vector;
     confirm_vector.assign(confirm_level, confirm_level + confirm_len);
 
-    return ((asst::Assistance*)p_asst)->append_recruit(max_times, required_vector, confirm_vector);
+    return ((asst::Assistance*)p_asst)->append_recruit(max_times, required_vector, confirm_vector, need_refresh);
 }
 
 bool AsstStart(void* p_asst)
