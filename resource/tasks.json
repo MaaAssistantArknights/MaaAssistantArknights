@@ -471,6 +471,7 @@
     },
     "RecruitFinish": {
         "action": "clickSelf",
+		"templThreshold": 0.7,
         "rearDelay": 3000,
         "cache": false,
         "roi": [
@@ -521,7 +522,7 @@
         "cache": false,
         "rearDelay": 1000,
         "text": [
-            "开始招募"
+            "开始招"
         ],
         "roi": [
             0,
