@@ -21,6 +21,8 @@ bool RecruitTask::_run()
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
+    m_last_error = ErrorT::Ok;
+
     const cv::Mat& image = ctrler.get_image();
     if (image.empty()) {
         m_callback(AsstMsg::ImageIsEmpty, task_start_json, m_callback_arg);
@@ -194,7 +196,7 @@ bool RecruitTask::_run()
     if (!result_vector.empty()) {
         int maybe_level = result_vector[0].second.min_level;
         /* 只有3星干员，且可以刷新时，则刷新 */
-        if (maybe_level == 3) {
+        if (maybe_level == 3 && m_need_refresh) {
             Rect refresh = analyzer.get_refresh_rect();
             if (!not_confirm && !refresh.empty()) {
                 ProcessTask task(*this, { "RecruitRefresh" });
@@ -223,7 +225,7 @@ bool RecruitTask::_run()
         }
         else {
             m_last_error = ErrorT::NotInConfirm;
-            return false;
+            return true;
         }
     }
 
@@ -239,4 +241,9 @@ void RecruitTask::set_param(std::vector<int> required_level, bool set_time) noex
 void asst::RecruitTask::set_confirm_level(std::vector<int> confirm_level) noexcept
 {
     m_confirm_level = std::move(confirm_level);
+}
+
+void asst::RecruitTask::set_need_refresh(bool need_refresh) noexcept
+{
+    m_need_refresh = need_refresh;
 }

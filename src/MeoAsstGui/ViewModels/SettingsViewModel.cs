@@ -29,6 +29,7 @@ namespace MeoAsstGui
             DisplayName = "设置";
 
             _listTitle.Add("基建");
+            _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
             _listTitle.Add("企鹅数据");
             _listTitle.Add("连接");
@@ -235,6 +236,67 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _penguinId, value);
                 ViewStatusStorage.Set("Penguin.Id", value);
+            }
+        }
+
+        /* 自动公招设置 */
+        private string _recruitMaxTimes = ViewStatusStorage.Get("AutoRecruit.MaxTimes", "3");
+
+        public string RecruitMaxTimes
+        {
+            get { return _recruitMaxTimes; }
+            set
+            {
+                SetAndNotify(ref _recruitMaxTimes, value);
+                ViewStatusStorage.Set("AutoRecruit.MaxTimes", value);
+            }
+        }
+
+        private bool _refreshLevel3 = System.Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.RefreshLevel3", bool.TrueString));
+
+        public bool RefreshLevel3
+        {
+            get { return _refreshLevel3; }
+            set
+            {
+                SetAndNotify(ref _refreshLevel3, value);
+                ViewStatusStorage.Set("AutoRecruit.RefreshLevel3", value.ToString());
+            }
+        }
+
+        private bool _chooseLevel3 = System.Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.ChooseLevel3", bool.TrueString));
+
+        public bool ChooseLevel3
+        {
+            get { return _chooseLevel3; }
+            set
+            {
+                SetAndNotify(ref _chooseLevel3, value);
+                ViewStatusStorage.Set("AutoRecruit.ChooseLevel3", value.ToString());
+            }
+        }
+
+        private bool _chooseLevel4 = System.Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.ChooseLevel4", bool.TrueString));
+
+        public bool ChooseLevel4
+        {
+            get { return _chooseLevel4; }
+            set
+            {
+                SetAndNotify(ref _chooseLevel4, value);
+                ViewStatusStorage.Set("AutoRecruit.ChooseLevel4", value.ToString());
+            }
+        }
+
+        private bool _chooseLevel5 = System.Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.ChooseLevel5", bool.FalseString));
+
+        public bool ChooseLevel5
+        {
+            get { return _chooseLevel5; }
+            set
+            {
+                SetAndNotify(ref _chooseLevel5, value);
+                ViewStatusStorage.Set("AutoRecruit.ChooseLevel5", value.ToString());
             }
         }
     }
