@@ -1,4 +1,4 @@
-{
+﻿{
     "SanityBegin": {
         "algorithm": "justreturn",
         "action": "doNothing",
@@ -727,7 +727,9 @@
     },
     "NoFriends": {
         "algorithm": "OcrDetect",
-        "text": [ "暂无好友" ],
+        "text": [
+            "暂无好友"
+        ],
         "roi": [
             650,
             100,
@@ -1866,8 +1868,38 @@
             720
         ]
     },
+    "InfrastFlagOriginStone": {
+        "template": "InfrastMfgOriginStoneFlag.png",
+        "cache": false,
+        "roi": [
+            1000,
+            0,
+            280,
+            720
+        ]
+    },
+    "InfrastFlagChip": {
+        "template": "InfrastMfgChipFlag.png",
+        "cache": false,
+        "roi": [
+            1000,
+            0,
+            280,
+            720
+        ]
+    },
     "InfrastFlagMoney": {
         "template": "InfrastTradeMoneyFlag.png",
+        "cache": false,
+        "roi": [
+            900,
+            500,
+            380,
+            220
+        ]
+    },
+    "InfrastFlagSyntheticJade": {
+        "template": "InfrastTradeSyntheticJadeFlag.png",
         "cache": false,
         "roi": [
             900,
