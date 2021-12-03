@@ -884,6 +884,7 @@
     "CloseCollectCredit": {
         "algorithm": "justReturn",
         "action": "clickRect",
+        "rearDelay": 2000,
         "specificRect": [
             1000,
             1,
@@ -891,7 +892,24 @@
             340
         ],
         "next": [
+            "CrisisPopup",
             "Stop"
+        ]
+    },
+    "CrisisPopup": {
+        "action": "clickRect",
+        "roi": [
+            450,
+            130,
+            400,
+            100
+        ],
+        "rearDelay": 1000,
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
         ]
     },
     "VisitLimited": {
