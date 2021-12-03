@@ -44,15 +44,13 @@ bool asst::AutoRecruitTask::run()
         Rect rect = start_res.at(i).rect;
         ctrler.click(rect);
         sleep(delay);
+        bool ret = false;
         for (int j = 0; j != m_retry_times; ++j) {
             if (need_exit()) {
                 return false;
             }
-            bool ret = _run();
+            ret = _run();
             switch (m_last_error) {
-            case ErrorT::NotInTagsPage:
-                --i;
-                break;
             case ErrorT::NotInConfirm:
                 click_return_button();
                 break;
@@ -63,6 +61,10 @@ bool asst::AutoRecruitTask::run()
             if (ret) {
                 break;
             }
+        }
+        // 可能是Tag一直识别错误，那就算了，放弃这个
+        if (ret == false) {
+            click_return_button();
         }
     }
 
