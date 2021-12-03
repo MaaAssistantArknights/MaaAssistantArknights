@@ -60,11 +60,15 @@ bool RecruitTask::_run()
 
     m_callback(AsstMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
 
-    /* 针对一星小车的额外回调消息 */
+    /* 针对特殊Tag的额外回调消息 */
+    static const std::string SeniorOper = "高级资深干员";
     static const std::string SupportMachine = "支援机械";
-    if (std::find(all_tags_name.cbegin(), all_tags_name.cend(), SupportMachine) != all_tags_name.cend()) {
+    const std::vector<std::string> SpecialTags = { SeniorOper, SupportMachine };
+
+    auto special_iter = std::find_first_of(SpecialTags.cbegin(), SpecialTags.cend(), all_tags_name.cbegin(), all_tags_name.cend());
+    if (special_iter != SpecialTags.cend()) {
         json::value special_tag_json;
-        special_tag_json["tag"] = SupportMachine;
+        special_tag_json["tag"] = *special_iter;
         m_callback(AsstMsg::RecruitSpecialTag, special_tag_json, m_callback_arg);
         m_has_special_tag = true;
     }
@@ -110,7 +114,6 @@ bool RecruitTask::_run()
 
             if (cur_oper.level == 6) {
                 // 高资tag和六星强绑定，如果没有高资tag，即使其他tag匹配上了也不可能出六星
-                static const std::string SeniorOper = "高级资深干员";
                 if (std::find(comb.cbegin(), comb.cend(), SeniorOper) == comb.cend()) {
                     continue;
                 }
@@ -170,6 +173,7 @@ bool RecruitTask::_run()
     /* 整理识别结果Json */
     json::value results_json;
     results_json["result"] = json::array();
+    results_json["maybe_level"] = m_maybe_level;
 
     std::vector<json::value> result_json_vector;
     for (const auto& comb : result_vec) {
@@ -205,6 +209,10 @@ bool RecruitTask::_run()
                     ctrler.click(text_area.rect, true);
                 }
             }
+
+            json::value selected_json;
+            selected_json["tags"] = json::array(final_tags_name);
+            m_callback(AsstMsg::RecruitSelected, selected_json, m_callback_arg);
         }
     }
 

@@ -42,6 +42,7 @@ namespace asst
         RecruitTagsDetected = 3000, // 公招识别到了Tags
         RecruitSpecialTag,          // 公招识别到了特殊的Tag
         RecruitResult,              // 公开招募结果
+        RecruitSelected,            // 选择了Tags
         /* Infrast Msg */
         InfrastSkillsDetected = 4000,  // 识别到了基建技能（当前页面）
         InfrastSkillsResult,           // 识别到的所有可用技能
@@ -55,6 +56,7 @@ namespace asst
         static const std::unordered_map<AsstMsg, std::string> _type_name = {
             { AsstMsg::PtrIsNull, "PtrIsNull" },
             { AsstMsg::ImageIsEmpty, "ImageIsEmpty" },
+            { AsstMsg::RecruitSelected, "RecruitSelected" },
             { AsstMsg::WindowMinimized, "WindowMinimized" },
             { AsstMsg::InitFaild, "InitFaild" },
             { AsstMsg::TaskStart, "TaskStart" },

@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MeoAsstGui
 {
@@ -110,6 +111,10 @@ namespace MeoAsstGui
                         {
                             tvm.AddLog("已碎石 " + (int)detail["exec_times"] + " 颗");
                         }
+                        else if (taskName == "RecruitRefresh")
+                        {
+                            tvm.AddLog("已刷新标签");
+                        }
                     }
                     break;
 
@@ -161,6 +166,7 @@ namespace MeoAsstGui
                 case AsstMsg.OcrResultError:
                 case AsstMsg.RecruitSpecialTag:
                 case AsstMsg.RecruitResult:
+                case AsstMsg.RecruitSelected:
                     recruit_proc_msg(msg, detail);
                     break;
                 /* Infrast Msg */
@@ -211,6 +217,7 @@ namespace MeoAsstGui
         private void recruit_proc_msg(AsstMsg msg, JObject detail)
         {
             var rvm = _container.Get<RecruitViewModel>();
+            var tvm = _container.Get<TaskQueueViewModel>();
             switch (msg)
             {
                 case AsstMsg.TextDetected:
@@ -218,12 +225,19 @@ namespace MeoAsstGui
 
                 case AsstMsg.RecruitTagsDetected:
                     JArray tags = (JArray)detail["tags"];
+                    string log_content = "";
                     string info_content = "识别结果:    ";
                     foreach (var tag_name in tags)
                     {
-                        info_content += tag_name.ToString() + "    ";
+                        string tag_str = tag_name.ToString();
+                        info_content += tag_str + "    ";
+                        log_content += tag_str + "\n";
                     }
                     rvm.RecruitInfo = info_content;
+
+                    log_content = log_content.EndsWith("\n") ? log_content.TrimEnd('\n') : "错误";
+                    tvm.AddLog("公招识别结果：\n" + log_content);
+
                     break;
 
                 case AsstMsg.OcrResultError:
@@ -231,20 +245,17 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.RecruitSpecialTag:
-                    _windowManager.ShowMessageBox("检测到特殊Tag:" + detail["tag"].ToString(), "提示");
+                    string special = detail["tag"].ToString();
+                    new ToastContentBuilder().AddText("公招特殊Tag：" + special).Show();
                     break;
 
                 case AsstMsg.RecruitResult:
                     string resultContent = "";
                     JArray result_array = (JArray)detail["result"];
-                    int combs_level = 0;
+                    int combs_level = (int)detail["maybe_level"];
                     foreach (var combs in result_array)
                     {
                         int tag_level = (int)combs["tag_level"];
-                        if (tag_level > combs_level)
-                        {
-                            combs_level = tag_level;
-                        }
                         resultContent += tag_level + "星Tags:  ";
                         foreach (var tag in (JArray)combs["tags"])
                         {
@@ -260,8 +271,26 @@ namespace MeoAsstGui
                     rvm.RecruitResult = resultContent;
                     if (combs_level >= 5)
                     {
-                        _windowManager.ShowMessageBox("出 " + combs_level + " 星了哦！", "提示");
+                        new ToastContentBuilder().AddText("公招出 " + combs_level + " 星了哦！").Show(); ;
+                        tvm.AddLog(combs_level + " 星Tags", "OrangeRed");
                     }
+                    else
+                    {
+                        tvm.AddLog(combs_level + " 星Tags");
+                    }
+
+                    break;
+
+                case AsstMsg.RecruitSelected:
+                    JArray selected = (JArray)detail["tags"];
+                    string selected_log = "";
+                    foreach (var tag in selected)
+                    {
+                        selected_log += tag.ToString() + "\n";
+                    }
+                    selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : "无";
+
+                    tvm.AddLog("选择Tags：\n" + selected_log);
                     break;
             }
         }
@@ -366,6 +395,7 @@ namespace MeoAsstGui
         RecruitTagsDetected = 3000,			// 公招识别到了Tags
         RecruitSpecialTag,					// 公招识别到了特殊的Tag
         RecruitResult,						// 公开招募结果
+        RecruitSelected,                    // 选择了Tags
         /* Infrast Msg */
         InfrastSkillsDetected = 4000,  // 识别到了基建技能（当前页面）
         InfrastSkillsResult,           // 识别到的所有可用技能
