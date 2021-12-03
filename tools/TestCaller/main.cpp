@@ -22,17 +22,17 @@ int main(int argc, char** argv)
         //    const int required[] = { 3, 4, 5, 6 };
         //    AsstStartRecruitCalc(ptr, required, sizeof(required) / sizeof(int), true);
         //}
-        //AsstAppendDebug(ptr);
+        AsstAppendDebug(ptr);
         //{
         //    const char* order[] = { "Trade", "Mfg", "Dorm" };
         //    AsstAppendInfrast(ptr, 1, order, 3, 0, 0);
         //}
         //AsstAppendProcessTask(ptr, "AwardBegin");
-        {
-            const int required[] = { 4 };
-            const int confirm[] = { 3, 4 };
-            AsstAppendRecruit(ptr, 2, required, sizeof(required) / sizeof(int), confirm, sizeof(confirm) / sizeof(int));
-        }
+        //{
+        //    const int required[] = { 4 };
+        //    const int confirm[] = { 3, 4 };
+        //    AsstAppendRecruit(ptr, 2, required, sizeof(required) / sizeof(int), confirm, sizeof(confirm) / sizeof(int));
+        //}
         AsstStart(ptr);
 
         ch = getchar();

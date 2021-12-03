@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30717.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MeoAssistance", "src\MeoAssistance\MeoAssistance.vcxproj", "{362D1E30-F5AE-4279-9985-65C27B3BA300}"
 EndProject
@@ -51,8 +51,8 @@ Global
 		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.Release|x64.Build.0 = Release|x64
 		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.Release|x86.ActiveCfg = Release|Win32
 		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.Release|x86.Build.0 = Release|Win32
-		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.RelWithDebInfo|x64.ActiveCfg = Debug|x64
-		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.RelWithDebInfo|x64.Build.0 = Debug|x64
+		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.RelWithDebInfo|x64.ActiveCfg = Release|x64
+		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.RelWithDebInfo|x64.Build.0 = Release|x64
 		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.RelWithDebInfo|x86.ActiveCfg = Release|Win32
 		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.RelWithDebInfo|x86.Build.0 = Release|Win32
 	EndGlobalSection

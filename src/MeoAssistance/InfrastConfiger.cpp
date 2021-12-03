@@ -71,6 +71,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                     skill.efficient.emplace(pd, 0);
                 }
             }
+            skill.max_num = skill_json.get("maxNum", INT_MAX);
 
             facility_skills.emplace(id, std::move(skill));
         }

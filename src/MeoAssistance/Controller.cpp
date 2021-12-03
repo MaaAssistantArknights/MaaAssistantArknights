@@ -595,15 +595,12 @@ int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int du
 
 cv::Mat asst::Controller::get_image(bool raw)
 {
-    static bool has_successful = false;
-    if (!screencap()) {
-        // 如果之前成功截图过，这次没成功可能是一次意外，重试一次
-        // 点名批评雷电模拟器！
-        if (!(has_successful && screencap())) {
-            return cv::Mat();
+    // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
+    for (int i = 0; i != 20; ++i) {
+        if (screencap()) {
+            break;
         }
     }
-    has_successful = true;
     //std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
     if (raw) {
         return m_cache_image;

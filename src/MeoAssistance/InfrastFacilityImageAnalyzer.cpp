@@ -10,7 +10,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
     const static std::unordered_map<std::string, std::string>
         facility_task_name = {
             { "Dorm", "InfrastDorm" },
-            { "ControlCenter", "InfrastControlCenter" },
+            { "Control", "InfrastControl" },
             { "Mfg", "InfrastMfg" },
             { "Trade", "InfrastTrade" },
             { "Power", "InfrastPower" },

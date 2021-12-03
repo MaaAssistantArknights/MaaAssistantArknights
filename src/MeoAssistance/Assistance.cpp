@@ -22,6 +22,7 @@
 #include "ProcessTask.h"
 #include "RecruitTask.h"
 #include "AutoRecruitTask.h"
+#include "InfrastControlTask.h"
 
 using namespace asst;
 
@@ -260,15 +261,15 @@ bool Assistance::append_debug()
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    //{
-    //    constexpr static const char* DebugTaskChain = "Debug";
-    //    auto shift_task_ptr = std::make_shared<InfrastProductionTask>(task_callback, (void*)this);
-    //    shift_task_ptr->set_work_mode(infrast::WorkMode::Aggressive);
-    //    shift_task_ptr->set_facility("Mfg");
-    //    shift_task_ptr->set_product("CombatRecord");
-    //    shift_task_ptr->set_task_chain(DebugTaskChain);
-    //    m_tasks_queue.emplace(shift_task_ptr);
-    //}
+    {
+        constexpr static const char* DebugTaskChain = "Debug";
+        auto shift_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this);
+        shift_task_ptr->set_work_mode(infrast::WorkMode::Aggressive);
+        shift_task_ptr->set_facility("Control");
+        shift_task_ptr->set_product("MoodAddition");
+        shift_task_ptr->set_task_chain(DebugTaskChain);
+        m_tasks_queue.emplace(shift_task_ptr);
+    }
 
     return true;
 }
@@ -340,6 +341,10 @@ bool asst::Assistance::append_infrast(infrast::WorkMode work_mode, const std::ve
     recpt_task_ptr->set_work_mode(work_mode);
     recpt_task_ptr->set_task_chain(InfrastTaskCahin);
     recpt_task_ptr->set_mood_threshold(dorm_threshold);
+    auto control_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this);
+    control_task_ptr->set_work_mode(work_mode);
+    control_task_ptr->set_task_chain(InfrastTaskCahin);
+    control_task_ptr->set_mood_threshold(dorm_threshold);
 
     auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
     dorm_task_ptr->set_work_mode(work_mode);
@@ -370,6 +375,9 @@ bool asst::Assistance::append_infrast(infrast::WorkMode work_mode, const std::ve
         }
         else if (facility == "Reception") {
             m_tasks_queue.emplace(recpt_task_ptr);
+        }
+        else if (facility == "Control") {
+            m_tasks_queue.emplace(control_task_ptr);
         }
         else {
             log.error("append_infrast | Unknown facility", facility);

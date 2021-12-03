@@ -367,7 +367,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
                     } // 这里对应的else就是上述的其他技能混进来了的情况
                 }
             }
-            log.trace(most_confident_skills.id);
+            log.trace(most_confident_skills.id, most_confident_skills.names.front());
             std::string skill_id = most_confident_skills.id;
             log_str += skill_id + " - " + most_confident_skills.names.front() + "; ";
 #ifdef LOG_TRACE
