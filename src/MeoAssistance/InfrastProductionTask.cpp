@@ -257,9 +257,27 @@ bool asst::InfrastProductionTask::optimal_calc()
         log.trace(skill_str, comb.efficient.at(m_product));
     }
 
+    std::unordered_map<std::string, int> skills_num;
     for (int i = 0; i != cur_max_num_of_opers && i != m_all_available_opers.size(); ++i) {
-        optimal_combs.emplace_back(all_avaliable_combs.at(i));
+        auto comb = all_avaliable_combs.at(i);
+
+        bool out_of_num = false;
+        for (auto&& skill : comb.skills) {
+            if (skills_num[skill.id] >= skill.max_num) {
+                out_of_num = true;
+                break;
+            }
+        }
+        if (out_of_num) {
+            continue;
+        }
+
+        optimal_combs.emplace_back(comb);
         max_efficient += all_avaliable_combs.at(i).efficient.at(m_product);
+
+        for (auto&& skill : comb.skills) {
+            ++skills_num[skill.id];
+        }
     }
 
     {

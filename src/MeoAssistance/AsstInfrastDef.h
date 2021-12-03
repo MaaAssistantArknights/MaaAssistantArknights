@@ -41,6 +41,7 @@ namespace asst
             ::std::string desc;
             ::std::unordered_map<::std::string, double> efficient;              // 技能效率，key：产品名（赤金、经验书等）, value: 效率数值
             ::std::unordered_map<::std::string, ::std::string> efficient_regex; // 技能效率正则，key：产品名（赤金、经验书等）, value: 效率正则。如不为空，会先对正则进行计算，再加上efficient里面的值
+            int max_num = INT_MAX;                                              // 最多选几个该技能
 
             bool operator==(const Skill& skill) const noexcept
             {

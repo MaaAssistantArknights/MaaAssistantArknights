@@ -29,6 +29,7 @@
     <ClInclude Include="InfrastAbstractTask.h" />
     <ClInclude Include="InfrastClueImageAnalyzer.h" />
     <ClInclude Include="InfrastConfiger.h" />
+    <ClInclude Include="InfrastControlTask.h" />
     <ClInclude Include="InfrastDormTask.h" />
     <ClInclude Include="InfrastFacilityImageAnalyzer.h" />
     <ClInclude Include="InfrastInfoTask.h" />
@@ -73,6 +74,7 @@
     <ClCompile Include="InfrastAbstractTask.cpp" />
     <ClCompile Include="InfrastClueImageAnalyzer.cpp" />
     <ClCompile Include="InfrastConfiger.cpp" />
+    <ClCompile Include="InfrastControlTask.cpp" />
     <ClCompile Include="InfrastDormTask.cpp" />
     <ClCompile Include="InfrastFacilityImageAnalyzer.cpp" />
     <ClCompile Include="InfrastInfoTask.cpp" />

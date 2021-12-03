@@ -1419,7 +1419,7 @@
     "InfrastSkills": {
         "template": "empty.png",
         "templThreshold": 0.9,
-        "histThreshold": 100,
+        "histThreshold": 95,
         "histThreshold_Doc": "该任务里的Hist阈值，是特化了拿来做灰度图平均值的，懒得重新写个字段了",
         "cache": false,
         "rectMove_Doc": "基于笑脸的位置移动",
@@ -1675,23 +1675,8 @@
         ],
         "templThreshold": 0.95
     },
-    "InfrastControlCenter": {
+    "InfrastControl": {
         "template": "ControlCenter.png",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ],
-        "roi": [
-            620,
-            80,
-            360,
-            230
-        ],
-        "templThreshold": 0.95
-    },
-    "InfrastControlCenterMini": {
-        "template": "ControlCenterMini.png",
         "cache": false,
         "maskRange": [
             1,
@@ -1702,6 +1687,21 @@
             0,
             880,
             300
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastControlMini": {
+        "template": "ControlCenterMini.png",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            620,
+            80,
+            360,
+            230
         ],
         "templThreshold": 0.95
     },
