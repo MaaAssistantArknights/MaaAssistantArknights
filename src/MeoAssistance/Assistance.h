@@ -75,7 +75,7 @@ namespace asst
         [[deprecated]] bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
         static constexpr int ProcessTaskRetryTimesDefault = 20;
-        static constexpr int OpenRecruitTaskRetyrTimesDefault = 5;
+        static constexpr int OpenRecruitTaskRetryTimesDefault = 10;
 
     private:
         void working_proc();
