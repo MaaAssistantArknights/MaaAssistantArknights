@@ -225,7 +225,6 @@ bool RecruitTask::_run()
         }
         else {
             m_last_error = ErrorT::NotInConfirm;
-            return true;
         }
     }
 
