@@ -29,6 +29,9 @@ bool asst::AbstractTask::run()
         if (need_exit()) {
             return false;
         }
+        int delay = resource.cfg().get_options().task_delay;
+        sleep(delay);
+
         if (!on_run_fails()) {
             return false;
         }

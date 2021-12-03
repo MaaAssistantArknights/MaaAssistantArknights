@@ -3,8 +3,31 @@
 #include "Resource.h"
 #include "OcrImageAnalyzer.h"
 #include "Controller.h"
+#include "RecruitImageAnalyzer.h"
+#include "ProcessTask.h"
+#include "RecruitTask.h"
 
-bool asst::AutoRecruitTask::run()
+void asst::AutoRecruitTask::set_required_level(std::vector<int> required_level) noexcept
+{
+    m_required_level = std::move(required_level);
+}
+
+void asst::AutoRecruitTask::set_confirm_level(std::vector<int> confirm_level) noexcept
+{
+    m_confirm_level = std::move(confirm_level);
+}
+
+void asst::AutoRecruitTask::set_need_refresh(bool need_refresh) noexcept
+{
+    m_need_refresh = need_refresh;
+}
+
+void asst::AutoRecruitTask::set_max_times(int max_times) noexcept
+{
+    m_max_times = max_times;
+}
+
+bool asst::AutoRecruitTask::_run()
 {
     json::value task_start_json = json::object{
         { "task_type", "RecruitTask" },
@@ -14,64 +37,58 @@ bool asst::AutoRecruitTask::run()
 
     int delay = resource.cfg().get_options().task_delay;
 
-    OcrImageAnalyzer start_analyzer;
+    auto image = ctrler.get_image();
+    OcrImageAnalyzer start_analyzer(image);
     const auto start_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(task.get("StartRecruit"));
     start_analyzer.set_task_info(*start_task_ptr);
 
-    bool res = false;
-    for (int i = 0; i != m_retry_times; ++i) {
-        if (need_exit()) {
-            return false;
-        }
-        const cv::Mat& image = ctrler.get_image();
-        start_analyzer.set_image(image);
-        if (!start_analyzer.analyze()) {
-            sleep(delay);
-            continue;
-        }
-        else {
-            res = true;
-            break;
-        }
+    if (!start_analyzer.analyze()) {
+        return false;
     }
 
-    int count = 0;
     const auto& start_res = start_analyzer.get_result();
-    for (size_t i = 0; i != start_res.size() && i != m_max_times; ++i) {
+    for (; m_cur_times < start_res.size() && m_cur_times < m_max_times; ++m_cur_times) {
         if (need_exit()) {
             return false;
         }
-        Rect rect = start_res.at(i).rect;
-        ctrler.click(rect);
+        Rect start_rect = start_res.at(m_cur_times).rect;
+        ctrler.click(start_rect);
         sleep(delay);
-        bool ret = false;
-        for (int j = 0; j != m_retry_times; ++j) {
-            if (need_exit()) {
-                return false;
-            }
-            ret = _run();
-            switch (m_last_error) {
-            case ErrorT::NotInConfirm:
+
+        while (true) {
+            RecruitTask recurit_task(m_callback, m_callback_arg);
+            recurit_task.set_retry_times(10);
+            recurit_task.set_param(m_required_level, true);
+            recurit_task.set_task_chain(m_task_chain);
+
+            // 识别错误，放弃这个公招位，直接返回
+            if (!recurit_task.run()) {
                 click_return_button();
                 break;
-            default:
+            }
+
+            int maybe_level = recurit_task.get_maybe_level();
+
+            // 尝试刷新
+            if (m_need_refresh && maybe_level == 3
+                && !recurit_task.get_has_special_tag()
+                && recurit_task.get_has_refresh()) {
+                ProcessTask refresh_task(*this, { "RecruitRefresh" });
+                if (refresh_task.run()) {
+                    continue;
+                }
+            }
+            if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
+                ProcessTask confirm_task(*this, { "RecruitConfirm" });
+                if (!confirm_task.run()) {
+                    return false;
+                }
                 break;
             }
-            sleep(delay);
-            if (ret) {
+            else {
+                click_return_button();
                 break;
             }
-        }
-        // 可能是Tag一直识别错误，那就算了，放弃这个
-        if (ret == false) {
-            click_return_button();
         }
     }
-
-    return res;
-}
-
-void asst::AutoRecruitTask::set_max_times(unsigned max_times)
-{
-    m_max_times = max_times;
 }

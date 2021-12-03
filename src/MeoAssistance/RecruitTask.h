@@ -2,6 +2,8 @@
 
 #include "AbstractTask.h"
 
+#include <memory>
+
 namespace asst
 {
     class RecruitTask : public AbstractTask
@@ -11,25 +13,30 @@ namespace asst
         virtual ~RecruitTask() = default;
 
         void set_param(std::vector<int> required_level, bool set_time = true) noexcept;
-        void set_confirm_level(std::vector<int> confirm_level) noexcept;
-        void set_need_refresh(bool need_refresh) noexcept;
+
+        bool get_has_special_tag() const noexcept
+        {
+            return m_has_special_tag;
+        }
+        bool get_has_refresh() const noexcept
+        {
+            return m_has_refresh;
+        }
+        int get_maybe_level() const noexcept
+        {
+            return m_maybe_level;
+        }
 
     protected:
         virtual bool _run() override;
 
+        /* 外部设置参数 */
         std::vector<int> m_required_level;
-        std::vector<int> m_confirm_level;
         bool m_set_time = false;
-        bool m_need_refresh = false;
 
-        enum class ErrorT
-        {
-            Ok,
-            NotInTagsPage,
-            TagsError,
-            NotInConfirm,
-            OtherError,
-        };
-        ErrorT m_last_error = ErrorT::Ok;
+        /* 内部处理用参数*/
+        int m_maybe_level = 0;
+        bool m_has_special_tag = false;
+        bool m_has_refresh = false;
     };
 }

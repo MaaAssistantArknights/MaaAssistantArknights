@@ -239,13 +239,14 @@ bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>
     append_process_task("RecruitBegin", TaskChain);
 
     auto recruit_task_ptr = std::make_shared<AutoRecruitTask>(task_callback, (void*)this);
-    recruit_task_ptr->set_task_chain(TaskChain);
     recruit_task_ptr->set_max_times(max_times);
     recruit_task_ptr->set_need_refresh(need_refresh);
-    recruit_task_ptr->set_param(required_level, true);
+    recruit_task_ptr->set_required_level(required_level);
     recruit_task_ptr->set_confirm_level(confirm_level);
-    recruit_task_ptr->set_retry_times(OpenRecruitTaskRetyrTimesDefault);
+    recruit_task_ptr->set_task_chain(TaskChain);
+
     m_tasks_queue.emplace(recruit_task_ptr);
+
     return true;
 }
 
@@ -284,7 +285,7 @@ bool Assistance::start_recruit_calc(const std::vector<int>& required_level, bool
 
     auto task_ptr = std::make_shared<RecruitTask>(task_callback, (void*)this);
     task_ptr->set_param(required_level, set_time);
-    task_ptr->set_retry_times(OpenRecruitTaskRetyrTimesDefault);
+    task_ptr->set_retry_times(OpenRecruitTaskRetryTimesDefault);
     task_ptr->set_task_chain("OpenRecruit");
     m_tasks_queue.emplace(task_ptr);
 

@@ -471,7 +471,7 @@
     },
     "RecruitFinish": {
         "action": "clickSelf",
-		"templThreshold": 0.7,
+        "templThreshold": 0.7,
         "rearDelay": 3000,
         "cache": false,
         "roi": [
@@ -489,7 +489,7 @@
     "RecruitSkip": {
         "action": "clickSelf",
         "cache": false,
-        "rearDelay": 2000,
+        "rearDelay": 3000,
         "roi": [
             1100,
             0,
@@ -1099,9 +1099,20 @@
             "RecruitRefreshConfirm"
         ]
     },
+    "RecruitNoRefresh": {
+        "action": "doNothing",
+        "cache": false,
+        "roi": [
+            850,
+            340,
+            220,
+            170
+        ]
+    },
     "RecruitRefreshConfirm": {
         "template": "PopupConfirm.png",
         "action": "clickSelf",
+        "cache": false,
         "rearDelay": 3000,
         "roi": [
             630,
@@ -1118,6 +1129,9 @@
             540,
             230,
             80
+        ],
+        "next": [
+            "RecruitFlag"
         ]
     },
     "InfrastBegin": {
