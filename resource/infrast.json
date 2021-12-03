@@ -11,7 +11,9 @@
         "Mfg_Doc": "制造站",
         "products": [
             "CombatRecord",
-            "PureGold"
+            "PureGold",
+            "OriginStone",
+            "Chip"
         ],
         "maxNumOfOpers": 3,
         "skills_Doc": "技能ID默认就是模板名（不带.png），name和desc实际都不产生作用，给人看的",
@@ -216,7 +218,10 @@
                     "源石研究"
                 ],
                 "desc": "进驻制造站时，源石类配方的生产力+35%",
-                "template": "Bskill_man_originium2.png"
+                "template": "Bskill_man_originium2.png",
+                "efficient": {
+                    "OriginStone": 35
+                }
             },
             {
                 "name": [
@@ -224,7 +229,10 @@
                     "地质学·α"
                 ],
                 "desc": "进驻制造站时，源石类配方的生产力+30%",
-                "template": "Bskill_man_originium1.png"
+                "template": "Bskill_man_originium1.png",
+                "efficient": {
+                    "OriginStone": 30
+                }
             },
             {
                 "name": [
@@ -828,7 +836,8 @@
     },
     "Trade": {
         "products": [
-            "Money"
+            "Money",
+            "SyntheticJade"
         ],
         "maxNumOfOpers": 3,
         "skills": [
