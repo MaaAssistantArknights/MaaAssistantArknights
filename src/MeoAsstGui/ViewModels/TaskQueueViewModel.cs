@@ -66,10 +66,10 @@ namespace MeoAsstGui
                 AddLog("捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限", "Red");
                 return;
             }
-            AddLog("正在运行中……");
 
             bool ret = true;
             // 直接遍历TaskItemViewModels里面的内容，是排序后的
+            int count = 0;
             foreach (var item in TaskItemViewModels)
             {
                 if (item.IsChecked == false)
@@ -77,6 +77,7 @@ namespace MeoAsstGui
                     continue;
                 }
 
+                ++count;
                 if (item.Name == "基建换班")
                 {
                     ret &= appendInfrast();
@@ -101,11 +102,25 @@ namespace MeoAsstGui
                 {
                     ret &= asstProxy.AsstAppendAward();
                 }
+                else
+                {
+                    --count;
+                    // TODO 报错
+                }
+            }
+            if (count == 0)
+            {
+                AddLog("未选择任务");
+                return;
             }
             setPenguinId();
             ret &= asstProxy.AsstStart();
 
-            if (!ret)
+            if (ret)
+            {
+                AddLog("正在运行中……");
+            }
+            else
             {
                 AddLog("出现未知错误");
             }
