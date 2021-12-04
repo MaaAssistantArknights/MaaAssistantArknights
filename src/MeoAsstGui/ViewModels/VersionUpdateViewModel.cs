@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using StyletIoC;
+
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -15,9 +18,11 @@ namespace MeoAsstGui
     public class VersionUpdateViewModel : Screen
     {
         private IWindowManager _windowManager;
+        private IContainer _container;
 
-        public VersionUpdateViewModel(IWindowManager windowManager)
+        public VersionUpdateViewModel(IContainer container, IWindowManager windowManager)
         {
+            _container = container;
             _windowManager = windowManager;
         }
 
@@ -87,7 +92,8 @@ namespace MeoAsstGui
         }
 
         private const string _requestUrl = "https://api.github.com/repos/MistEO/MeoAssistance-Arknights/releases/latest";
-        private const string _viewUrl = "https://github.com/MistEO/MeoAssistance-Arknights/releases/latest";
+        private const string _requestBetaUrl = "https://api.github.com/repos/MistEO/MeoAssistance-Arknights/releases";
+        private string _viewUrl;
         private JObject _lastestJson;
         private string _downloadUrl;
 
@@ -179,7 +185,7 @@ namespace MeoAsstGui
                 .AddButton(openUrlToastButton)
                 .Show();
             // 下载压缩包
-            const int downloadRetryMaxTimes = 5;
+            const int downloadRetryMaxTimes = 1;
             string downloadTempFilename = UpdatePackageName + ".tmp";
             bool downloaded = false;
             for (int i = 0; i != downloadRetryMaxTimes; ++i)
@@ -194,7 +200,7 @@ namespace MeoAsstGui
             {
                 new ToastContentBuilder()
                     .AddText("新版本下载失败")
-                    .AddText("请尝试手动下载后，将压缩包放到exe同级目录_(:з」∠)_")
+                    .AddText("请尝试手动下载后，将压缩包放到目录下_(:з」∠)_")
                     .AddButton(openUrlToastButton)
                     .Show();
                 return false;
@@ -212,11 +218,19 @@ namespace MeoAsstGui
 
         public bool CheckUpdate()
         {
+            var settings = _container.Get<SettingsViewModel>();
             string response = string.Empty;
             const int requestRetryMaxTimes = 5;
             for (int i = 0; i != requestRetryMaxTimes; ++i)
             {
-                response = RequestApi(_requestUrl);
+                if (settings.UpdateBeta)
+                {
+                    response = RequestApi(_requestBetaUrl);
+                }
+                else
+                {
+                    response = RequestApi(_requestUrl);
+                }
                 if (response.Length != 0)
                 {
                     break;
@@ -226,8 +240,19 @@ namespace MeoAsstGui
             {
                 return false;
             }
-            JObject json = (JObject)JsonConvert.DeserializeObject(response);
+            JObject json;
 
+            if (settings.UpdateBeta)
+            {
+                JArray all = (JArray)JsonConvert.DeserializeObject(response);
+                json = (JObject)all[0];
+            }
+            else
+            {
+                json = (JObject)JsonConvert.DeserializeObject(response);
+            }
+
+            _viewUrl = json["html_url"].ToString();
             _latestVersion = json["tag_name"].ToString();
             if (string.Compare(_latestVersion, _curVersion) <= 0
                 || ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _latestVersion)
@@ -253,6 +278,11 @@ namespace MeoAsstGui
             httpWebRequest.Method = "GET";
             httpWebRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
             httpWebRequest.Accept = "application/vnd.github.v3+json";
+            var settings = _container.Get<SettingsViewModel>();
+            if (settings.Proxy.Length > 0)
+            {
+                httpWebRequest.Proxy = new WebProxy(settings.Proxy);
+            }
             //httpWebRequest.Timeout = 20000;
             try
             {
@@ -269,31 +299,78 @@ namespace MeoAsstGui
             }
         }
 
-        private bool DownloadFile(string url, string path)
+        private bool DownloadFile(string url, string filename)
         {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
-            httpWebRequest.Method = "GET";
-            httpWebRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
-            httpWebRequest.Accept = "application/vnd.github.v3+json";
-            httpWebRequest.Timeout = 20 * 1000;
+            string cmd = Environment.CurrentDirectory + "\\aria2c.exe";
+            string args = "-c " + url + " -o " + filename;
+
+            var settings = _container.Get<SettingsViewModel>();
+            if (settings.Proxy.Length > 0)
+            {
+                args += " --all-proxy " + settings.Proxy;
+            }
+
+            int exit_code = -1;
+
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = cmd;
+            startInfo.Arguments = args;
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+
+            Process processTemp = new Process();
+            processTemp.StartInfo = startInfo;
+            processTemp.EnableRaisingEvents = true;
             try
             {
-                HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                Stream reponseStream = httpWebResponse.GetResponseStream();
-                Stream fileStream = new FileStream(path, FileMode.Create);
-                byte[] bArr = new byte[4096];
-                int size = reponseStream.Read(bArr, 0, (int)bArr.Length);
-                while (size > 0)
+                processTemp.Start();
+                processTemp.WaitForExit();
+                exit_code = processTemp.ExitCode;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return exit_code == 0;
+        }
+
+        public bool ResourceOTA()
+        {
+            const string base_url = "https://raw.githubusercontent.com/MistEO/MeoAssistance-Arknights/master/";
+            var update_dict = new Dictionary<string, string>()
+            {
+                { "3rdparty/resource/penguin-stats-recognize/json/stages.json" , "resource/penguin-stats-recognize/json/stages.json"},
+                { "resource/recruit.json", "resource/recruit.json" }
+            };
+            bool updated = false;
+            foreach (var item in update_dict)
+            {
+                string url = base_url + item.Key;
+                string filename = item.Value;
+                string tempname = filename + ".tmp";
+                if (!DownloadFile(url, tempname))
                 {
-                    fileStream.Write(bArr, 0, size);
-                    size = reponseStream.Read(bArr, 0, (int)bArr.Length);
-                };
-                fileStream.Close();
-                reponseStream.Close();
-                httpWebResponse.Close();
+                    continue;
+                }
+                string src = File.ReadAllText(filename).Replace("\r\n", "\n");
+                string tmp = File.ReadAllText(tempname).Replace("\r\n", "\n");
+
+                if (src.Length < tmp.Length)
+                {
+                    File.Copy(tempname, filename, true);
+                    updated = true;
+                }
+                File.Delete(tempname);
+            }
+            if (updated)
+            {
+                new ToastContentBuilder().AddText("资源文件已更新").AddText("下次启动软件生效！").Show();
                 return true;
             }
-            catch (Exception)
+            else
             {
                 return false;
             }
