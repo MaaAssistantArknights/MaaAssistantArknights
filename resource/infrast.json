@@ -82,7 +82,10 @@
                     "意识实体"
                 ],
                 "desc": "进驻制造站时，每1点思维链环+1%生产力",
-                "template": "Bskill_man_spd_bd2.png"
+                "template": "Bskill_man_spd_bd2.png",
+                "efficient": {
+                    "all": 20
+                }
             },
             {
                 "name": [
