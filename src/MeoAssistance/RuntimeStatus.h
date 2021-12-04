@@ -1,6 +1,6 @@
 #pragma once
 
-#include <any>
+//#include <any>
 #include <unordered_map>
 
 namespace asst
@@ -18,14 +18,14 @@ namespace asst
             return unique_instance;
         }
 
-        std::any get(const std::string& key) const noexcept
+        int get(const std::string& key) const noexcept
         {
             if (auto iter = m_data.find(key);
                 iter != m_data.cend()) {
                 return iter->second;
             }
             else {
-                return std::any();
+                return 0;
             }
         }
         bool exist(const std::string& key) const noexcept
@@ -37,9 +37,14 @@ namespace asst
         inline void set(Args&&... args)
         {
             static_assert(
-                std::is_constructible<std::unordered_map<std::string, std::any>::value_type, Args...>::value,
-                "Parameter can't be used to construct a std::unordered_map<std::string, std::any>::value_type");
+                std::is_constructible<decltype(m_data)::value_type, Args...>::value,
+                "Parameter can't be used to construct a decltype(m_data)::value_type");
             m_data.emplace(std::forward<Args>(args)...);
+        }
+
+        void clear() noexcept
+        {
+            m_data.clear();
         }
 
         RuntimeStatus& operator=(const RuntimeStatus& rhs) = delete;
@@ -48,7 +53,7 @@ namespace asst
     private:
         RuntimeStatus() = default;
 
-        std::unordered_map<std::string, std::any> m_data;
+        std::unordered_map<std::string, int> m_data;
     };
 
     static auto& status = RuntimeStatus::get_instance();

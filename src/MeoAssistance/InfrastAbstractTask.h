@@ -9,6 +9,8 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
+        InfrastAbstractTask(AsstCallback callback, void* callback_arg);
+
         virtual ~InfrastAbstractTask() = default;
         virtual void set_work_mode(infrast::WorkMode work_mode) noexcept;
         virtual void set_mood_threshold(double mood_thres) noexcept;
@@ -34,5 +36,8 @@ namespace asst
         infrast::WorkMode m_work_mode = infrast::WorkMode::Gentle;
         std::string m_work_mode_name = "Gentle";
         double m_mood_threshold = 0;
+
+        static int m_face_hash_thres;
+        static int m_name_hash_thres;
     };
 }

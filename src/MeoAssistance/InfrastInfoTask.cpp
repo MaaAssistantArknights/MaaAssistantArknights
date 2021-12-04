@@ -18,15 +18,15 @@ bool asst::InfrastInfoTask::_run()
     const auto& image = ctrler.get_image();
 
     InfrastFacilityImageAnalyzer analyzer(image);
-    analyzer.set_to_be_analyzed({ "Mfg", "Trade", "Power" });
+    analyzer.set_to_be_analyzed({ "Mfg", "Trade", "Power", "Dorm" });
     if (!analyzer.analyze()) {
         return false;
     }
     for (auto&& [name, res] : analyzer.get_result()) {
         std::string key = "NumOf" + name;
-        int size = static_cast<int>(res.size());
-        status.set(key, size);
-        log.trace("InfrastInfoTask | ", key, size);
+        //int size = static_cast<int>(res.size());
+        status.set(key, res.size());
+        log.trace("InfrastInfoTask | ", key, res.size());
     }
 
     return true;

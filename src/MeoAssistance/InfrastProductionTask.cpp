@@ -13,22 +13,6 @@
 #include "Resource.h"
 #include "RuntimeStatus.h"
 
-int asst::InfrastProductionTask::m_face_hash_thres = 0;
-int asst::InfrastProductionTask::m_name_hash_thres = 0;
-
-asst::InfrastProductionTask::InfrastProductionTask(AsstCallback callback, void* callback_arg)
-    : InfrastAbstractTask(callback, callback_arg)
-{
-    if (m_face_hash_thres == 0) {
-        m_face_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
-            task.get("InfrastOperFaceHash"))->templ_threshold;
-    }
-    if (m_name_hash_thres == 0) {
-        m_name_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
-            task.get("InfrastOperNameHash"))->templ_threshold;
-    }
-}
-
 bool asst::InfrastProductionTask::shift_facility_list()
 {
     LogTraceFunction;
@@ -210,7 +194,7 @@ size_t asst::InfrastProductionTask::opers_detect()
         auto find_iter = std::find_if(
             m_all_available_opers.cbegin(), m_all_available_opers.cend(),
             [&cur_oper](const infrast::Oper& oper) -> bool {
-                // 技能相同的有可能是同一个干员，比一下hash
+                // 有可能是同一个干员，比一下hash
                 int dist = utils::hamming(cur_oper.face_hash, oper.face_hash);
 #ifdef LOG_TRACE
                 log.trace("opers_detect hash dist |", dist);
@@ -316,12 +300,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                 continue;
             }
             // TODO：这里做成除了不等于，还可计算大于、小于等不同条件的
-            std::any cur_any_value = status.get(cond);
-            if (!cur_any_value.has_value()) {
-                meet_condition = false;
-                break;
-            }
-            int cur_value = std::any_cast<int>(cur_any_value);
+            int cur_value = status.get(cond);
             if (cur_value != cond_value) {
                 meet_condition = false;
                 break;
@@ -582,11 +561,7 @@ asst::InfrastProductionTask::efficient_regex_calc(
                 // TODO 报错！
             }
             std::string status_key = cur_formula.substr(pos + 1, rp_pos - pos - 1);
-            std::any status_any_value = status.get(status_key);
-            int status_value = 0;
-            if (status_any_value.has_value()) {
-                status_value = std::any_cast<int>(status_any_value);
-            }
+            int status_value = status.get(status_key);
             cur_formula.replace(pos, rp_pos - pos + 1, std::to_string(status_value));
         }
 
