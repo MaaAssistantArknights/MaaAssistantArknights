@@ -9,6 +9,22 @@
 #include "Resource.h"
 #include "ProcessTask.h"
 
+int asst::InfrastAbstractTask::m_face_hash_thres = 0;
+int asst::InfrastAbstractTask::m_name_hash_thres = 0;
+
+asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* callback_arg)
+    : AbstractTask(callback, callback_arg)
+{
+    if (m_face_hash_thres == 0) {
+        m_face_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
+            task.get("InfrastOperFaceHash"))->templ_threshold;
+    }
+    if (m_name_hash_thres == 0) {
+        m_name_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
+            task.get("InfrastOperNameHash"))->templ_threshold;
+    }
+}
+
 void asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexcept
 {
     m_work_mode = work_mode;
