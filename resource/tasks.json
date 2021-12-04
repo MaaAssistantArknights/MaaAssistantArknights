@@ -570,6 +570,7 @@
             "ReturnToAward",
             "Award",
             "ReceiveAward",
+            "DailyTask",
             "WeeklyTask"
         ]
     },
@@ -584,6 +585,7 @@
         ],
         "next": [
             "ReceiveAward",
+            "DailyTask",
             "WeeklyTask",
             "Award"
         ]
@@ -629,12 +631,25 @@
             "Stop"
         ]
     },
+    "DailyTask": {
+        "action": "clickSelf",
+        "roi": [
+            400,
+            0,
+            880,
+            100
+        ],
+        "next": [
+            "ReceiveAward",
+            "WeeklyTask"
+        ]
+    },
     "WeeklyTask": {
         "action": "clickSelf",
         "roi": [
-            700,
+            400,
             0,
-            250,
+            880,
             100
         ],
         "next": [
