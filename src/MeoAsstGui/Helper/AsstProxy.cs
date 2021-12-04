@@ -246,7 +246,7 @@ namespace MeoAsstGui
 
                 case AsstMsg.RecruitSpecialTag:
                     string special = detail["tag"].ToString();
-                    new ToastContentBuilder().AddText("公招特殊Tag：" + special).Show();
+                    new ToastContentBuilder().AddText("公招提示：" + special).Show();
                     break;
 
                 case AsstMsg.RecruitResult:

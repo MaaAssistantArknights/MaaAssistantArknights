@@ -32,6 +32,9 @@
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[3]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:PenguinReportSettingsUserControl Margin="20" />
+                <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[4]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <local:VersionUpdateSettingsUserControl Margin="20" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />-->
             </StackPanel>
         </ScrollViewer>

@@ -61,7 +61,10 @@ namespace MeoAsstGui
             {
                 var task = Task.Run(() =>
                 {
-                    return vuvm.CheckAndDownloadUpdate();
+                    if (!vuvm.CheckAndDownloadUpdate())
+                    {
+                        vuvm.ResourceOTA();
+                    }
                 });
 
                 await task;

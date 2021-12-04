@@ -9,9 +9,10 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using Stylet;
 using StyletIoC;
 
@@ -22,17 +23,26 @@ namespace MeoAsstGui
         private IWindowManager _windowManager;
         private IContainer _container;
 
+        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstGetVersion();
+
+        private string _versionInfo = "版本号：" + Marshal.PtrToStringAnsi(AsstGetVersion());
+
+        public string VersionInfo
+        {
+            get { return _versionInfo; }
+        }
+
         public SettingsViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
             _windowManager = windowManager;
             DisplayName = "设置";
 
-            _listTitle.Add("基建");
+            _listTitle.Add("基建设置");
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
             _listTitle.Add("企鹅数据");
-            //_listTitle.Add("连接");
+            _listTitle.Add("软件更新");
             //_listTitle.Add("其他");
 
             InfrastInit();
@@ -268,7 +278,7 @@ namespace MeoAsstGui
 
         /* 信用商店设置 */
 
-        private bool _creditShopping = System.Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditShopping", bool.FalseString));
+        private bool _creditShopping = System.Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditShopping", bool.TrueString));
 
         public bool CreditShopping
         {
@@ -352,6 +362,31 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _chooseLevel5, value);
                 ViewStatusStorage.Set("AutoRecruit.ChooseLevel5", value.ToString());
+            }
+        }
+
+        /* 软件更新设置 */
+        private bool _updateBeta = System.Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateBeta", bool.FalseString));
+
+        public bool UpdateBeta
+        {
+            get { return _updateBeta; }
+            set
+            {
+                SetAndNotify(ref _updateBeta, value);
+                ViewStatusStorage.Set("VersionUpdate.UpdateBeta", value.ToString());
+            }
+        }
+
+        private string _proxy = ViewStatusStorage.Get("VersionUpdate.Proxy", "");
+
+        public string Proxy
+        {
+            get { return _proxy; }
+            set
+            {
+                SetAndNotify(ref _proxy, value);
+                ViewStatusStorage.Set("VersionUpdate.Proxy", value);
             }
         }
     }
