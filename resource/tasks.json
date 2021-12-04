@@ -12,7 +12,26 @@
             "StartToWakeUp",
             "TodaysSupplies",
             "CloseAnno",
-            "Terminal"
+            "Terminal",
+            "GameStart"
+        ]
+    },
+    "GameStart": {
+        "action": "clickSelf",
+        "roi": [
+            550,
+            600,
+            200,
+            120
+        ],
+        "cache": false,
+        "rearDelay": 5000,
+        "maskRange": [
+            1,
+            255
+        ],
+        "next": [
+            "StartToWakeUp"
         ]
     },
     "ReturnToTerminal": {
