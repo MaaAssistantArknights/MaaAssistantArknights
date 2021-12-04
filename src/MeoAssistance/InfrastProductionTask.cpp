@@ -258,7 +258,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     }
 
     std::unordered_map<std::string, int> skills_num;
-    for (int i = 0; i != cur_max_num_of_opers && i != m_all_available_opers.size(); ++i) {
+    for (int i = 0; i != m_all_available_opers.size(); ++i) {
         auto comb = all_avaliable_combs.at(i);
 
         bool out_of_num = false;
@@ -277,6 +277,10 @@ bool asst::InfrastProductionTask::optimal_calc()
 
         for (auto&& skill : comb.skills) {
             ++skills_num[skill.id];
+        }
+
+        if (optimal_combs.size() >= cur_max_num_of_opers) {
+            break;
         }
     }
 
