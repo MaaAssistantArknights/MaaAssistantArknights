@@ -25,6 +25,7 @@ namespace asst
         bool print_window = false;           // 截图功能：开启后每次结算界面会截图到screenshot目录下
         bool penguin_report = false;         // 企鹅数据汇报：每次到结算界面，是否汇报掉落数据至企鹅数据 https://penguin-stats.cn/
         std::string penguin_report_cmd_line; // 企鹅数据汇报的命令
+        std::string penguin_report_extra_param; // 企鹅数据汇报的命令
         std::string penguin_report_server;   // 企鹅数据汇报接口"server"字段，"CN", "US", "JP" and "KR".
         int ocr_gpu_index = -1;              // OcrLite使用GPU编号，-1(使用CPU)/0(使用GPU0)/1(使用GPU1)/...
         int ocr_thread_number = 0;           // OcrLite线程数量
@@ -42,6 +43,10 @@ namespace asst
             return m_version;
         }
         const Options& get_options() const noexcept
+        {
+            return m_options;
+        }
+        Options& get_options()
         {
             return m_options;
         }

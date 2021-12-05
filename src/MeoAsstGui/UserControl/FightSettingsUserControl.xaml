@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="MeoAsstGui.FightSettingsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+             mc:Ignorable="d"
+             xmlns:local="clr-namespace:MeoAsstGui"
+             d:DesignHeight="150" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding UseMedicine}" IsHitTestVisible="{Binding Idle}" Content="吃理智药" Margin="10" />
+            <TextBox Text="{Binding MedicineNumber}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="个" />
+            <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding MedicineInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding UseStone}" IsHitTestVisible="{Binding Idle}" Content="吃石头   " Margin="10" />
+            <TextBox Text="{Binding StoneNumber}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="颗" />
+            <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding StoneInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding HasTimesLimited}" IsHitTestVisible="{Binding Idle}" Content="指定次数" Margin="10" />
+            <TextBox Text="{Binding MaxTimes}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="次" />
+        </StackPanel>
+    </Grid>
+</UserControl>

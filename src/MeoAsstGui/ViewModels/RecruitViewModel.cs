@@ -105,7 +105,7 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             var task = Task.Run(() =>
             {
-                return asstProxy.AsstCatchDefault();
+                return asstProxy.AsstCatch();
             });
             bool catchd = await task;
             if (!catchd)
@@ -135,7 +135,7 @@ namespace MeoAsstGui
                 levelList.Add(6);
             }
 
-            asstProxy.AsstAppendRecruiting(levelList.ToArray(), levelList.Count, AutoSetTime);
+            asstProxy.AsstStartRecruitCalc(levelList.ToArray(), levelList.Count, AutoSetTime);
             asstProxy.AsstStart();
         }
     }

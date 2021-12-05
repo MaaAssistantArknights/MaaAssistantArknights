@@ -4,13 +4,16 @@
         "Trade",
         "Power",
         "Office",
-        "Reception"
+        "Reception",
+        "Control"
     ],
     "Mfg": {
         "Mfg_Doc": "制造站",
         "products": [
             "CombatRecord",
-            "PureGold"
+            "PureGold",
+            "OriginStone",
+            "Chip"
         ],
         "maxNumOfOpers": 3,
         "skills_Doc": "技能ID默认就是模板名（不带.png），name和desc实际都不产生作用，给人看的",
@@ -79,7 +82,10 @@
                     "意识实体"
                 ],
                 "desc": "进驻制造站时，每1点思维链环+1%生产力",
-                "template": "Bskill_man_spd_bd2.png"
+                "template": "Bskill_man_spd_bd2.png",
+                "efficient": {
+                    "all": 20
+                }
             },
             {
                 "name": [
@@ -215,7 +221,10 @@
                     "源石研究"
                 ],
                 "desc": "进驻制造站时，源石类配方的生产力+35%",
-                "template": "Bskill_man_originium2.png"
+                "template": "Bskill_man_originium2.png",
+                "efficient": {
+                    "OriginStone": 35
+                }
             },
             {
                 "name": [
@@ -223,7 +232,10 @@
                     "地质学·α"
                 ],
                 "desc": "进驻制造站时，源石类配方的生产力+30%",
-                "template": "Bskill_man_originium1.png"
+                "template": "Bskill_man_originium1.png",
+                "efficient": {
+                    "OriginStone": 30
+                }
             },
             {
                 "name": [
@@ -827,7 +839,8 @@
     },
     "Trade": {
         "products": [
-            "Money"
+            "Money",
+            "SyntheticJade"
         ],
         "maxNumOfOpers": 3,
         "skills": [
@@ -1473,6 +1486,16 @@
         "skills": [
             {
                 "name": [
+                    "“滴滴，启动！”"
+                ],
+                "desc": "进驻发电站时，野鬃所在的制造站生产力+5%",
+                "template": "Bskill_pow_jnight.png",
+                "efficient": {
+                    "all": 0.2
+                }
+            },
+            {
+                "name": [
                     "脉冲电弧·β"
                 ],
                 "desc": "进驻发电站时，无人机每小时充能速度+20%",
@@ -1836,6 +1859,245 @@
                 "template": "Bskill_meet_spd1.png",
                 "efficient": {
                     "all": 10
+                }
+            }
+        ],
+        "skillsGroup": []
+    },
+    "Control": {
+        "products": [
+            "MoodAddition"
+        ],
+        "maxNumOfOpers": 5,
+        "skills": [
+            {
+                "name": [
+                    "学生会会长"
+                ],
+                "desc": "进驻控制中枢时，控制中枢内每个乌萨斯学生自治团干员可使控制中枢内所有干员的心情每小时恢复+0.05",
+                "template": "Bskill_ctrl_ussg.png",
+                "efficient": {
+                    "all": 0.05
+                }
+            },
+            {
+                "name": [
+                    "超频"
+                ],
+                "desc": "进驻控制中枢时，如果有2台以上作业平台进驻在发电站，则所有制造站生产力+2%（同种效果取最高）",
+                "template": "Bskill_ctrl_token_p_spd.png",
+                "efficient": {
+                    "all": 0.01
+                }
+            },
+            {
+                "name": [
+                    "乌萨斯特饮"
+                ],
+                "desc": "进驻控制中枢时，控制中枢内每有1名乌萨斯学生自治团干员，则乌萨斯特饮+1",
+                "template": "Bskill_ctrl_tachanka.png",
+                "efficient": {
+                    "all": 0.01
+                }
+            },
+            {
+                "name": [
+                    "合作协议",
+                    "大小姐"
+                ],
+                "desc": "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）",
+                "template": "Bskill_ctrl_t_spd.png",
+                "efficient": {
+                    "all": 7
+                },
+                "maxNum": 1
+            },
+            {
+                "name": [
+                    "异格者"
+                ],
+                "desc": "进驻控制中枢时，控制中枢内每个异格干员可使控制中枢内所有干员的心情每小时恢复+0.05",
+                "template": "Bskill_ctrl_sp.png",
+                "efficient": {
+                    "all": 0.05
+                }
+            },
+            {
+                "name": [
+                    "彩虹小队"
+                ],
+                "desc": "进驻控制中枢时，控制中枢内每个彩虹小队干员可使控制中枢内所有干员的心情每小时恢复+0.05",
+                "template": "Bskill_ctrl_r6.png",
+                "efficient": {
+                    "all": 0.1
+                }
+            },
+            {
+                "name": [
+                    "红松的骑士"
+                ],
+                "desc": "进驻控制中枢时，每个进驻在制造站的红松骑士团干员，作战记录类配方的生产力+10%，贵金属类配方的生产力-10%",
+                "template": "Bskill_ctrl_psk.png",
+                "efficient": {
+                    "all": 0.01
+                }
+            },
+            {
+                "name": [
+                    "最高权限"
+                ],
+                "desc": "进驻控制中枢时，所有制造站生产力+2%（同种效果取最高）",
+                "template": "Bskill_ctrl_p_spd.png",
+                "efficient": {
+                    "all": 2
+                },
+                "maxNum": 1
+            },
+            {
+                "name": [
+                    "我寻思能行"
+                ],
+                "desc": "进驻控制中枢时，如果Lancet-2进驻在发电站，发电站额外+2（仅影响设施数量）",
+                "template": "Bskill_ctrl_p_bot.png",
+                "efficient": {
+                    "all": 0.01
+                }
+            },
+            {
+                "name": [
+                    "德才兼备"
+                ],
+                "desc": "进驻控制中枢时，控制中枢内每个龙门近卫局干员可使控制中枢内所有干员的心情每小时恢复+0.05",
+                "template": "Bskill_ctrl_lungmen.png",
+                "efficient": {
+                    "all": 0.05
+                }
+            },
+            {
+                "name": [
+                    "坚毅随和"
+                ],
+                "desc": "进驻控制中枢时，控制中枢内每个鲤氏侦探所干员可使该派系干员额外恢复心情（心情每小时恢复+0.15），同时每人可使控制中枢内所有干员的心情每小时恢复+0.05",
+                "template": "Bskill_ctrl_lda.png",
+                "efficient": {
+                    "all": 0.05
+                }
+            },
+            {
+                "name": [
+                    "感染力"
+                ],
+                "desc": "进驻控制中枢时，人力办公室联络速度小于+30%时（其中包含基础联络速度5%），则联络速度额外+20%（该加成全局效果唯一，不受其它加成影响）",
+                "template": "Bskill_ctrl_h_spd.png",
+                "efficient": {
+                    "all": 0.01
+                }
+            },
+            {
+                "name": [
+                    "\"不以己悲\""
+                ],
+                "desc": "进驻控制中枢时，自身心情每小时消耗+0.5；当自身心情大于12时，感知信息+10",
+                "template": "Bskill_ctrl_cost_bd2.png",
+                "efficient": {
+                    "all": 0.01
+                }
+            },
+            {
+                "name": [
+                    "\"不以物喜\""
+                ],
+                "desc": "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05；当自身心情处于12以下时，人间烟火+15",
+                "template": "Bskill_ctrl_cost_bd1.png",
+                "efficient": {
+                    "all": 0.05
+                }
+            },
+            {
+                "name": [
+                    "潮汐守望"
+                ],
+                "desc": "进驻控制中枢时，每有1个深海猎人干员进驻在宿舍以外的设施，则自身心情每小时消耗+0.5；反之则自身心情每小时恢复+0.5，如果进驻在宿舍内的深海猎人干员为满心情，则额外+0.5",
+                "template": "Bskill_ctrl_cost_aegir.png",
+                "efficient": {
+                    "all": 0.01
+                }
+            },
+            {
+                "name": [
+                    "小小的领袖",
+                    "必要责任",
+                    "替身",
+                    "护卫",
+                    "清理协议",
+                    "左膀右臂",
+                    "S.W.E.E.P.",
+                    "零食网络"
+                ],
+                "desc": "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
+                "template": "Bskill_ctrl_cost.png",
+                "efficient": {
+                    "all": 0.05
+                }
+            },
+            {
+                "name": [
+                    "断事如神"
+                ],
+                "desc": "进驻控制中枢时，小幅提升会客室内干员所属派系的线索倾向效果",
+                "template": "Bskill_ctrl_c_wt2.png",
+                "efficient": {
+                    "all": 0.01
+                }
+            },
+            {
+                "name": [
+                    "至察"
+                ],
+                "desc": "进驻控制中枢时，小幅提升会客室内干员所属派系的线索倾向效果，但控制中枢内所有干员小幅提升心情消耗（心情每小时消耗+0.5）",
+                "template": "Bskill_ctrl_c_wt1.png",
+                "efficient": {
+                    "all": 0.01
+                }
+            },
+            {
+                "name": [
+                    "神经质"
+                ],
+                "desc": "进驻控制中枢时，提升会客室内干员所属派系的线索倾向效果，但控制中枢内所有干员大幅提升心情消耗（心情每小时消耗+1.5）",
+                "template": "Bskill_ctrl_c_wt.png",
+                "efficient": {
+                    "all": 0.01
+                }
+            },
+            {
+                "name": [
+                    "情报储备"
+                ],
+                "desc": "进驻控制中枢时，控制中枢内每有1名彩虹小队干员，则情报储备+1",
+                "template": "Bskill_ctrl_ash.png",
+                "efficient": {
+                    "all": 0.1
+                }
+            },
+            {
+                "name": [
+                    "集群狩猎·β"
+                ],
+                "desc": "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05；基建内深海猎人干员获得特殊加成（与部分技能有特殊叠加规则）",
+                "template": "Bskill_ctrl_aegir2.png",
+                "efficient": {
+                    "all": 0.05
+                }
+            },
+            {
+                "name": [
+                    "集群狩猎·α"
+                ],
+                "desc": "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05；基建内深海猎人干员获得特殊加成（与部分技能有特殊叠加规则）",
+                "template": "Bskill_ctrl_aegir.png",
+                "efficient": {
+                    "all": 0.05
                 }
             }
         ],

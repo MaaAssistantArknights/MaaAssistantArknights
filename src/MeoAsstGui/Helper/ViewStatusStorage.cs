@@ -26,6 +26,7 @@ namespace MeoAsstGui
         public static void Set(string key, string value)
         {
             _viewStatus[key] = value;
+            Save();
         }
 
         public static bool Load()

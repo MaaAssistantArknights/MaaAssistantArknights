@@ -45,14 +45,14 @@ void asst::InfrastOperImageAnalyzer::sort_by_loc()
 
     std::sort(
         m_result.begin(), m_result.end(),
-              [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
-                  if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
-                      return lhs.rect.y < rhs.rect.y;
-                  }
-                  else {
-                      return lhs.rect.x < rhs.rect.x;
-                  }
-              });
+        [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
+            if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
+                return lhs.rect.y < rhs.rect.y;
+            }
+            else {
+                return lhs.rect.x < rhs.rect.x;
+            }
+        });
 }
 
 void asst::InfrastOperImageAnalyzer::sort_by_mood()
@@ -61,32 +61,32 @@ void asst::InfrastOperImageAnalyzer::sort_by_mood()
 
     std::sort(
         m_result.begin(), m_result.end(),
-          [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
-              // 先按心情排序，心情低的放前面
-              if (std::fabs(lhs.mood_ratio - rhs.mood_ratio) > DoubleDiff) {
-                  return lhs.mood_ratio < rhs.mood_ratio;
-              }
-              // 心情一样的就按位置排序，左边的放前面
-              if (std::abs(lhs.rect.x - rhs.rect.x) > 5) {
-                  return lhs.rect.x < rhs.rect.x;
-              }
-              else {
-                  return lhs.rect.y < rhs.rect.y;
-              }
-          });
+        [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
+            // 先按心情排序，心情低的放前面
+            if (std::fabs(lhs.mood_ratio - rhs.mood_ratio) > DoubleDiff) {
+                return lhs.mood_ratio < rhs.mood_ratio;
+            }
+            // 心情一样的就按位置排序，左边的放前面
+            if (std::abs(lhs.rect.x - rhs.rect.x) > 5) {
+                return lhs.rect.x < rhs.rect.x;
+            }
+            else {
+                return lhs.rect.y < rhs.rect.y;
+            }
+        });
 }
 
 void asst::InfrastOperImageAnalyzer::oper_detect()
 {
     LogTraceFunction;
 
-    const Rect upper_roi = resource.task().task_ptr("InfrastSkillsUpper")->roi;
-    const Rect lower_roi = resource.task().task_ptr("InfrastSkillsLower")->roi;
+    const Rect upper_roi = task.get("InfrastSkillsUpper")->roi;
+    const Rect lower_roi = task.get("InfrastSkillsLower")->roi;
     const std::vector<Rect> all_roi = { upper_roi, lower_roi };
 
-    const Rect skill_rect_move = resource.task().task_ptr("InfrastSkills")->rect_move;
-    const Rect hash_rect_move = resource.task().task_ptr("InfrastOperNameHash")->rect_move;
-    const Rect prg_rect_move = resource.task().task_ptr("InfrastOperMoodProgressBar")->roi;
+    const Rect skill_rect_move = task.get("InfrastSkills")->rect_move;
+    const Rect hash_rect_move = task.get("InfrastOperNameHash")->rect_move;
+    const Rect prg_rect_move = task.get("InfrastOperMoodProgressBar")->roi;
     const std::vector<Rect> all_rect_move = { skill_rect_move, hash_rect_move, prg_rect_move };
 
     InfrastSmileyImageAnalyzer smiley_analyzer(m_image);
@@ -130,7 +130,7 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
     LogTraceFunction;
 
     const auto prg_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-    resource.task().task_ptr("InfrastOperMoodProgressBar"));
+        task.get("InfrastOperMoodProgressBar"));
     int prg_lower_limit = prg_task_ptr->templ_threshold;
     int prg_diff_thres = prg_task_ptr->hist_threshold;
     Rect rect_move = prg_task_ptr->rect_move;
@@ -206,7 +206,7 @@ void asst::InfrastOperImageAnalyzer::face_hash_analyze()
 {
     LogTraceFunction;
 
-    const Rect hash_rect_move = resource.task().task_ptr("InfrastOperFaceHash")->rect_move;
+    const Rect hash_rect_move = task.get("InfrastOperFaceHash")->rect_move;
 
     for (auto&& oper : m_result) {
         Rect roi = hash_rect_move;
@@ -222,7 +222,7 @@ void asst::InfrastOperImageAnalyzer::name_hash_analyze()
 {
     LogTraceFunction;
 
-    const Rect hash_rect_move = resource.task().task_ptr("InfrastOperNameHash")->rect_move;
+    const Rect hash_rect_move = task.get("InfrastOperNameHash")->rect_move;
 
     cv::Mat gray;
     cv::cvtColor(m_image, gray, cv::COLOR_BGR2GRAY);
@@ -267,7 +267,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
     LogTraceFunction;
 
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastSkills"));
+        task.get("InfrastSkills"));
     const auto bright_thres = task_ptr->hist_threshold;
 
     MatchImageAnalyzer skill_analyzer(m_image);
@@ -367,7 +367,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
                     } // 这里对应的else就是上述的其他技能混进来了的情况
                 }
             }
-            log.trace(most_confident_skills.id);
+            log.trace(most_confident_skills.id, most_confident_skills.names.front());
             std::string skill_id = most_confident_skills.id;
             log_str += skill_id + " - " + most_confident_skills.names.front() + "; ";
 #ifdef LOG_TRACE
@@ -387,7 +387,7 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
     LogTraceFunction;
 
     const auto selected_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-    resource.task().task_ptr("InfrastOperSelected"));
+        task.get("InfrastOperSelected"));
     Rect rect_move = selected_task_ptr->rect_move;
 
     for (auto&& oper : m_result) {
@@ -424,7 +424,7 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
     LogTraceFunction;
 
     const auto working_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-    resource.task().task_ptr("InfrastOperOnShift"));
+        task.get("InfrastOperOnShift"));
     Rect rect_move = working_task_ptr->rect_move;
 
     MatchImageAnalyzer working_analyzer(m_image);

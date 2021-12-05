@@ -4,7 +4,7 @@
 
 const std::string asst::InfrastOfficeTask::FacilityName = "Office";
 
-bool asst::InfrastOfficeTask::run()
+bool asst::InfrastOfficeTask::_run()
 {
     json::value task_start_json = json::object{
         { "task_type", "InfrastOfficeTask" },

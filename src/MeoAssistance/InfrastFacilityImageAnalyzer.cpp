@@ -10,7 +10,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
     const static std::unordered_map<std::string, std::string>
         facility_task_name = {
             { "Dorm", "InfrastDorm" },
-            { "ControlCenter", "InfrastControlCenter" },
+            { "Control", "InfrastControl" },
             { "Mfg", "InfrastMfg" },
             { "Trade", "InfrastTrade" },
             { "Power", "InfrastPower" },
@@ -25,7 +25,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
 
     auto task_analyze = [&](const std::string& task_name) -> bool {
         const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-            resource.task().task_ptr(task_name));
+            task.get(task_name));
         mm_analyzer.set_task_info(*task_ptr);
 
         return mm_analyzer.analyze();

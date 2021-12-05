@@ -24,14 +24,15 @@ namespace asst
         ReachedLimit,          // 单个原子任务达到次数上限
         ReadyToSleep,          // 准备开始睡眠
         EndOfSleep,            // 睡眠结束
-        AppendProcessTask,     // 新增流程任务，Assistance内部消息，外部不需要处理
-        AppendTask,            // 新增任务，Assistance内部消息，外部不需要处理
+        AppendProcessTask,     // [已弃用] 新增流程任务，Assistance内部消息，外部不需要处理
+        AppendTask,            // [已弃用] 新增任务，Assistance内部消息，外部不需要处理
         TaskCompleted,         // 单个原子任务完成
         PrintWindow,           // 截图消息
         ProcessTaskStopAction, // 流程任务执行到了Stop的动作
         TaskChainCompleted,    // 任务链完成
         ProcessTaskNotMatched, // 流程任务识别错误
         AllTasksCompleted,     // 所有任务完成
+        TaskChainStart,        // 开始任务链
         /* Info Msg: about Identify */
         TextDetected = 2000, // 识别到文字
         ImageFindResult,     // 查找图像的结果
@@ -41,6 +42,7 @@ namespace asst
         RecruitTagsDetected = 3000, // 公招识别到了Tags
         RecruitSpecialTag,          // 公招识别到了特殊的Tag
         RecruitResult,              // 公开招募结果
+        RecruitSelected,            // 选择了Tags
         /* Infrast Msg */
         InfrastSkillsDetected = 4000,  // 识别到了基建技能（当前页面）
         InfrastSkillsResult,           // 识别到的所有可用技能
@@ -54,6 +56,7 @@ namespace asst
         static const std::unordered_map<AsstMsg, std::string> _type_name = {
             { AsstMsg::PtrIsNull, "PtrIsNull" },
             { AsstMsg::ImageIsEmpty, "ImageIsEmpty" },
+            { AsstMsg::RecruitSelected, "RecruitSelected" },
             { AsstMsg::WindowMinimized, "WindowMinimized" },
             { AsstMsg::InitFaild, "InitFaild" },
             { AsstMsg::TaskStart, "TaskStart" },
@@ -67,6 +70,7 @@ namespace asst
             { AsstMsg::AppendProcessTask, "AppendProcessTask" },
             { AsstMsg::TaskCompleted, "TaskCompleted" },
             { AsstMsg::TaskChainCompleted, "TaskChainCompleted" },
+            { AsstMsg::TaskChainStart, "TaskChainStart" },
             { AsstMsg::AllTasksCompleted, "AllTasksCompleted" },
             { AsstMsg::PrintWindow, "PrintWindow" },
             { AsstMsg::TaskError, "TaskError" },
@@ -86,16 +90,6 @@ namespace asst
         };
         return os << _type_name.at(type);
     }
-
-    enum UsesOfDrones
-    {
-        DronesNotUse = 0,
-        DronesTrade = 0x100,
-        DronesTradeMoney = DronesTrade & 0x10,
-        DronesMfg = 0x200,
-        DronesMfgCombatRecord = DronesMfg | 0x10,
-        DronesMfgPureGold = DronesMfg | 0x20
-    };
 
     // AsstCallback 消息回调函数
     // 参数：

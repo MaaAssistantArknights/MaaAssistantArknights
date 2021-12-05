@@ -2,6 +2,8 @@
 
 #include "AbstractTask.h"
 
+#include <memory>
+
 namespace asst
 {
     class RecruitTask : public AbstractTask
@@ -10,11 +12,31 @@ namespace asst
         using AbstractTask::AbstractTask;
         virtual ~RecruitTask() = default;
 
-        virtual bool run() override;
-        virtual void set_param(std::vector<int> required_level, bool set_time = true);
+        void set_param(std::vector<int> required_level, bool set_time = true) noexcept;
+
+        bool get_has_special_tag() const noexcept
+        {
+            return m_has_special_tag;
+        }
+        bool get_has_refresh() const noexcept
+        {
+            return m_has_refresh;
+        }
+        int get_maybe_level() const noexcept
+        {
+            return m_maybe_level;
+        }
 
     protected:
+        virtual bool _run() override;
+
+        /* 外部设置参数 */
         std::vector<int> m_required_level;
         bool m_set_time = false;
+
+        /* 内部处理用参数*/
+        int m_maybe_level = 0;
+        bool m_has_special_tag = false;
+        bool m_has_refresh = false;
     };
 }

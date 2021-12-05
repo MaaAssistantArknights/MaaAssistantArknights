@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MeoAsstGui
 {
@@ -23,21 +24,29 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstCatchDefault(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendProcessTask(IntPtr ptr, string task);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstCatchCustom(IntPtr ptr, string address);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendSanity(IntPtr ptr);
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendReceiveAward(IntPtr ptr);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendFight(IntPtr ptr, int max_medicine, int max_stone, int max_times);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendVisit(IntPtr ptr, bool with_shopping);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendAward(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendRecruiting(IntPtr ptr, int[] required_level, int required_len, bool set_time);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendVisit(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendInfrastShift(IntPtr ptr, int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendMall(IntPtr ptr, bool with_shopping);
+
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendInfrast(IntPtr ptr, int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold);
+
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendRecruit(IntPtr ptr, int max_times, int[] required_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh);
+
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartRecruitCalc(IntPtr ptr, int[] required_level, int required_len, bool set_time);
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstStart(IntPtr ptr);
+
         [DllImport("MeoAssistance.dll")] private static extern bool AsstStop(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstSetPenguinId(IntPtr p_asst, string id);
+
+        //[DllImport("MeoAssistance.dll")] private static extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
 
         private CallbackDelegate _callback;
 
@@ -72,56 +81,41 @@ namespace MeoAsstGui
 
         private IWindowManager _windowManager;
         private IContainer _container;
-        private int _retryTimes;
-        private int _retryLimit = 2;
         private IntPtr _ptr;
 
         private void proc_msg(AsstMsg msg, JObject detail)
         {
-            var mfvm = _container.Get<MainFunctionViewModel>();
+            var tvm = _container.Get<TaskQueueViewModel>();
             switch (msg)
             {
-                case AsstMsg.TaskCompleted:
+                case AsstMsg.TaskStart:
+                    break;
+
+                case AsstMsg.TaskChainStart:
                     {
-                        if ((int)detail["algorithm"] > 0)   // JustReturn的执行完成不算
-                        {
-                            _retryTimes = 0;
-                        }
-                        string taskName = detail["name"].ToString();
-                        if (taskName == "StartButton2")
-                        {
-                            mfvm.ExecInfo = "已开始行动 " + (int)detail["exec_times"] + " 次";
-                        }
-                        else if (taskName == "StoneConfirm")
-                        {
-                            mfvm.StoneInfo = "已碎石 " + (int)detail["exec_times"] + " 颗";
-                        }
-                        else if (taskName == "MedicineConfirm")
-                        {
-                            mfvm.MedicineInfo = "已吃药 " + (int)detail["exec_times"] + " 个";
-                        }
+                        string taskChain = detail["task_chain"].ToString();
+                        tvm.AddLog("开始任务：" + taskChain);
                     }
                     break;
 
-                case AsstMsg.TaskStart:
+                case AsstMsg.TaskCompleted:
                     {
-                        string taskChain = detail["task_chain"].ToString();
+                        string taskName = detail["name"].ToString();
+                        if (taskName == "StartButton2")
                         {
-                            var tfvm = _container.Get<TaskQueueViewModel>();
-                            tfvm.StatusPrompt = "当前任务：" + taskChain;
+                            tvm.AddLog("已开始行动 " + (int)detail["exec_times"] + " 次");
                         }
-                        if (taskChain == "Sanity")
+                        else if (taskName == "MedicineConfirm")
                         {
-                            mfvm.RunStatus = "刷理智正在运行中……";
+                            tvm.AddLog("已吃药 " + (int)detail["exec_times"] + " 个");
                         }
-                        else if (taskChain == "Visit")
+                        else if (taskName == "StoneConfirm")
                         {
-                            mfvm.RunStatus = "访问好友正在运行中……";
+                            tvm.AddLog("已碎石 " + (int)detail["exec_times"] + " 颗");
                         }
-                        else if (taskChain == "Infrast")
+                        else if (taskName == "RecruitRefresh")
                         {
-                            var ifvm = _container.Get<InfrastructureConstructionViewModel>();
-                            ifvm.StatusPrompt = "基建换班正在运行中……";
+                            tvm.AddLog("已刷新标签");
                         }
                     }
                     break;
@@ -129,45 +123,42 @@ namespace MeoAsstGui
                 case AsstMsg.TaskChainCompleted:
                     {
                         string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "Infrast")
-                        {
-                            infrast_proc_msg(msg, detail);
-                            break;
-                        }
-                        if (taskChain == "OpenRecruit")
-                        {
-                            break;
-                        }
-                        mfvm.CreditShoppingCheckBoxIsEnable = true;
-                        mfvm.RunStatus = "已刷完，自动停止";
+                        tvm.AddLog("完成任务：" + taskChain);
                     }
                     break;
+
                 case AsstMsg.AllTasksCompleted:
                     {
-                        var tfvm = _container.Get<TaskQueueViewModel>();
-                        tfvm.StatusPrompt = "不要停下来啊！";
-                        if (mfvm.Shutdown == true)
-                        {
-                            System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
-
-                            var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK);
-                            if (result == MessageBoxResult.OK)
-                            {
-                                System.Diagnostics.Process.Start("shutdown.exe", "-a");
-                            }
-                        }
+                        tvm.AddLog("任务已全部完成");
+                        tvm.Idle = true;
+                        tvm.CheckAndShutdown();
                     }
                     break;
+
                 case AsstMsg.StageDrops:
-                    string dropsInfo = "";
-                    JArray statistics = (JArray)detail["statistics"];
-                    foreach (var item in statistics)
                     {
-                        string itemName = item["itemName"].ToString();
-                        int count = (int)item["count"];
-                        dropsInfo += itemName + " : " + count + "    \n";
+                        string cur_drops = "";
+                        JArray drops = (JArray)detail["drops"];
+                        foreach (var item in drops)
+                        {
+                            string itemName = item["itemName"].ToString();
+                            int count = (int)item["quantity"];
+                            cur_drops += $"{itemName} : {count}\n";
+                        }
+                        cur_drops = cur_drops.EndsWith("\n") ? cur_drops.TrimEnd('\n') : "无";
+                        tvm.AddLog("当次掉落：\n" + cur_drops);
+
+                        string all_drops = "";
+                        JArray statistics = (JArray)detail["statistics"];
+                        foreach (var item in statistics)
+                        {
+                            string itemName = item["itemName"].ToString();
+                            int count = (int)item["count"];
+                            all_drops += $"{itemName} : {count}\n";
+                        }
+                        all_drops = all_drops.EndsWith("\n") ? all_drops.TrimEnd('\n') : "无";
+                        tvm.AddLog("掉落统计：\n" + all_drops);
                     }
-                    mfvm.StageDropsInfo = dropsInfo;
                     break;
 
                 case AsstMsg.TextDetected:
@@ -177,6 +168,7 @@ namespace MeoAsstGui
                 case AsstMsg.OcrResultError:
                 case AsstMsg.RecruitSpecialTag:
                 case AsstMsg.RecruitResult:
+                case AsstMsg.RecruitSelected:
                     recruit_proc_msg(msg, detail);
                     break;
                 /* Infrast Msg */
@@ -189,27 +181,6 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.TaskError:
-                    {
-                        string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "Sanity")
-                        {
-                            // 刷理智出错了会重试两次，再不行就算了
-                            if (_retryTimes >= _retryLimit)
-                            {
-                                _retryTimes = 0;
-                                mfvm.RunStatus = "出现错误，已停止运行";
-                                break;
-                            }
-
-                            ++_retryTimes;
-                            Task.Run(() =>
-                            {
-                                //AsstStop();
-                                System.Threading.Thread.Sleep(2000);
-                                AsstAppendSanity();
-                            });
-                        }
-                    }
                     break;
 
                 case AsstMsg.InitFaild:
@@ -221,7 +192,7 @@ namespace MeoAsstGui
 
         private void infrast_proc_msg(AsstMsg msg, JObject detail)
         {
-            var ivm = _container.Get<InfrastructureConstructionViewModel>();
+            var tvm = _container.Get<TaskQueueViewModel>();
             switch (msg)
             {
                 case AsstMsg.InfrastSkillsDetected:
@@ -234,14 +205,13 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.EnterFacility:
-                    ivm.StatusPrompt = "当前正在换班：" + detail["facility"];
+                    tvm.AddLog("当前设施：" + detail["facility"] + " " + (int)detail["index"]);
                     break;
 
                 case AsstMsg.FacilityInfo:
                     break;
 
                 case AsstMsg.TaskChainCompleted:
-                    ivm.StatusPrompt = "已完成换班";
                     break;
             }
         }
@@ -249,6 +219,7 @@ namespace MeoAsstGui
         private void recruit_proc_msg(AsstMsg msg, JObject detail)
         {
             var rvm = _container.Get<RecruitViewModel>();
+            var tvm = _container.Get<TaskQueueViewModel>();
             switch (msg)
             {
                 case AsstMsg.TextDetected:
@@ -256,12 +227,19 @@ namespace MeoAsstGui
 
                 case AsstMsg.RecruitTagsDetected:
                     JArray tags = (JArray)detail["tags"];
+                    string log_content = "";
                     string info_content = "识别结果:    ";
                     foreach (var tag_name in tags)
                     {
-                        info_content += tag_name.ToString() + "    ";
+                        string tag_str = tag_name.ToString();
+                        info_content += tag_str + "    ";
+                        log_content += tag_str + "\n";
                     }
                     rvm.RecruitInfo = info_content;
+
+                    log_content = log_content.EndsWith("\n") ? log_content.TrimEnd('\n') : "错误";
+                    tvm.AddLog("公招识别结果：\n" + log_content);
+
                     break;
 
                 case AsstMsg.OcrResultError:
@@ -269,20 +247,17 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.RecruitSpecialTag:
-                    _windowManager.ShowMessageBox("检测到特殊Tag:" + detail["tag"].ToString(), "提示");
+                    string special = detail["tag"].ToString();
+                    new ToastContentBuilder().AddText("公招提示：" + special).Show();
                     break;
 
                 case AsstMsg.RecruitResult:
                     string resultContent = "";
                     JArray result_array = (JArray)detail["result"];
-                    int combs_level = 0;
+                    int combs_level = (int)detail["maybe_level"];
                     foreach (var combs in result_array)
                     {
                         int tag_level = (int)combs["tag_level"];
-                        if (tag_level > combs_level)
-                        {
-                            combs_level = tag_level;
-                        }
                         resultContent += tag_level + "星Tags:  ";
                         foreach (var tag in (JArray)combs["tags"])
                         {
@@ -298,46 +273,72 @@ namespace MeoAsstGui
                     rvm.RecruitResult = resultContent;
                     if (combs_level >= 5)
                     {
-                        _windowManager.ShowMessageBox("出 " + combs_level + " 星了哦！", "提示");
+                        new ToastContentBuilder().AddText("公招出 " + combs_level + " 星了哦！").Show(); ;
+                        tvm.AddLog(combs_level + " 星Tags", "OrangeRed");
                     }
+                    else
+                    {
+                        tvm.AddLog(combs_level + " 星Tags");
+                    }
+
+                    break;
+
+                case AsstMsg.RecruitSelected:
+                    JArray selected = (JArray)detail["tags"];
+                    string selected_log = "";
+                    foreach (var tag in selected)
+                    {
+                        selected_log += tag.ToString() + "\n";
+                    }
+                    selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : "无";
+
+                    tvm.AddLog("选择Tags：\n" + selected_log);
                     break;
             }
         }
 
-        private bool _isCatched = false;
-
-        public bool AsstCatchDefault()
+        public bool AsstCatch()
         {
-            if (!_isCatched)
+            var settings = _container.Get<SettingsViewModel>();
+            settings.TryToSetBlueStacksHyperVAddress();
+            if (settings.ConnectAddress.Length == 0)
             {
-                _isCatched = AsstCatchDefault(_ptr);
+                return AsstCatchDefault(_ptr);
             }
-            return _isCatched;
+            else
+            {
+                return AsstCatchCustom(_ptr, settings.ConnectAddress);
+            }
         }
 
-        public bool AsstAppendSanity()
+        public bool AsstAppendFight(int max_medicine, int max_stone, int max_times)
         {
-            return AsstAppendSanity(_ptr);
+            return AsstAppendFight(_ptr, max_medicine, max_stone, max_times);
         }
 
-        public bool AsstAppendReceiveAward()
+        public bool AsstAppendAward()
         {
-            return AsstAppendReceiveAward(_ptr);
+            return AsstAppendAward(_ptr);
         }
 
-        public bool AsstAppendVisit(bool with_shopping)
+        public bool AsstAppendVisit()
         {
-            return AsstAppendVisit(_ptr, with_shopping);
+            return AsstAppendVisit(_ptr);
         }
 
-        public bool AsstAppendRecruiting(int[] required_level, int required_len, bool set_time)
+        public bool AsstAppendMall(bool with_shopping)
         {
-            return AsstAppendRecruiting(_ptr, required_level, required_len, set_time);
+            return AsstAppendMall(_ptr, with_shopping);
         }
 
-        public bool AsstAppendInfrastShift(int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold)
+        public bool AsstAppendRecruit(int max_times, int[] required_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh)
         {
-            return AsstAppendInfrastShift(_ptr, work_mode, order, order_len, uses_of_drones, dorm_threshold);
+            return AsstAppendRecruit(_ptr, max_times, required_level, required_len, confirm_level, confirm_len, need_refresh);
+        }
+
+        public bool AsstAppendInfrast(int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold)
+        {
+            return AsstAppendInfrast(_ptr, work_mode, order, order_len, uses_of_drones, dorm_threshold);
         }
 
         public bool AsstStart()
@@ -345,67 +346,67 @@ namespace MeoAsstGui
             return AsstStart(_ptr);
         }
 
+        public bool AsstStartRecruitCalc(int[] required_level, int required_len, bool set_time)
+        {
+            return AsstStartRecruitCalc(_ptr, required_level, required_len, set_time);
+        }
+
         public bool AsstStop()
         {
             return AsstStop(_ptr);
         }
 
-
-        public void AsstSetParam(string type, string param, string value)
+        public void AsstSetPenguinId(string id)
         {
-            AsstSetParam(_ptr, type, param, value);
+            AsstSetPenguinId(_ptr, id);
         }
 
+        //public void AsstSetParam(string type, string param, string value)
+        //{
+        //    AsstSetParam(_ptr, type, param, value);
+        //}
     }
 
     public enum AsstMsg
     {
         /* Error Msg */
-        PtrIsNull,							// 指针为空
-        ImageIsEmpty,						// 图像为空
-        WindowMinimized,					// [已弃用] 窗口被最小化了
-        InitFaild,							// 初始化失败
-        TaskError,							// 任务错误（任务一直出错，retry次数达到上限）
-        OcrResultError,						// Ocr识别结果错误
+        PtrIsNull,                          // 指针为空
+        ImageIsEmpty,                       // 图像为空
+        WindowMinimized,                    // [已弃用] 窗口被最小化了
+        InitFaild,                          // 初始化失败
+        TaskError,                          // 任务错误（任务一直出错，retry次数达到上限）
+        OcrResultError,                     // Ocr识别结果错误
         /* Info Msg: about Task */
-        TaskStart = 1000,					// 任务开始
-        TaskMatched,						// 任务匹配成功
-        ReachedLimit,						// 单个原子任务达到次数上限
-        ReadyToSleep,						// 准备开始睡眠
-        EndOfSleep,							// 睡眠结束
-        AppendProcessTask,					// 新增流程任务，Assistance内部消息，外部不需要处理
-        AppendTask,							// 新增任务，Assistance内部消息，外部不需要处理
-        TaskCompleted,						// 单个原子任务完成
-        PrintWindow,						// 截图消息
-        ProcessTaskStopAction,				// 流程任务执行到了Stop的动作
-        TaskChainCompleted,					// 任务链完成
-        ProcessTaskNotMatched,				// 流程任务识别错误
+        TaskStart = 1000,                   // 任务开始
+        TaskMatched,                        // 任务匹配成功
+        ReachedLimit,                       // 单个原子任务达到次数上限
+        ReadyToSleep,                       // 准备开始睡眠
+        EndOfSleep,                         // 睡眠结束
+        AppendProcessTask,                  // 新增流程任务，Assistance内部消息，外部不需要处理
+        AppendTask,                         // 新增任务，Assistance内部消息，外部不需要处理
+        TaskCompleted,                      // 单个原子任务完成
+        PrintWindow,                        // 截图消息
+        ProcessTaskStopAction,              // 流程任务执行到了Stop的动作
+        TaskChainCompleted,                 // 任务链完成
+        ProcessTaskNotMatched,              // 流程任务识别错误
         AllTasksCompleted,                  // 所有任务完成
+        TaskChainStart,                     // 开始任务链
         /* Info Msg: about Identify */
-        TextDetected = 2000,				// 识别到文字
-        ImageFindResult,					// 查找图像的结果
-        ImageMatched,						// 图像匹配成功
+        TextDetected = 2000,                // 识别到文字
+        ImageFindResult,                    // 查找图像的结果
+        ImageMatched,                       // 图像匹配成功
         StageDrops,                         // 关卡掉落信息
         /* Open Recruit Msg */
-        RecruitTagsDetected = 3000,			// 公招识别到了Tags
-        RecruitSpecialTag,					// 公招识别到了特殊的Tag
-        RecruitResult,						// 公开招募结果
+        RecruitTagsDetected = 3000,         // 公招识别到了Tags
+        RecruitSpecialTag,                  // 公招识别到了特殊的Tag
+        RecruitResult,                      // 公开招募结果
+        RecruitSelected,                    // 选择了Tags
         /* Infrast Msg */
         InfrastSkillsDetected = 4000,  // 识别到了基建技能（当前页面）
         InfrastSkillsResult,           // 识别到的所有可用技能
         InfrastComb,                   // 当前房间的最优干员组合
         EnterFacility,                 // 进入某个房间
         FacilityInfo,                  // 当前设施信息
-    };
-
-    public enum UsesOfDrones
-    {
-        DronesNotUse = 0,
-        DronesTrade = 0x100,
-        DronesTradeMoney = DronesTrade & 0x10,
-        DronesMfg = 0x200,
-        DronesMfgCombatRecord = DronesMfg | 0x10,
-        DronesMfgPureGold = DronesMfg | 0x20
     };
 
     public enum InfrastWorkMode

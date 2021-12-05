@@ -90,13 +90,13 @@ bool AsstCatchEmulator(void* p_asst)
     return ((asst::Assistance*)p_asst)->catch_emulator();
 }
 
-bool AsstCatchCustom(void* p_asst)
+bool AsstCatchCustom(void* p_asst, const char* address)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->catch_custom();
+    return ((asst::Assistance*)p_asst)->catch_custom(address);
 }
 
 bool AsstCatchFake(void* p_asst)
@@ -112,54 +112,63 @@ bool AsstCatchFake(void* p_asst)
 #endif // LOG_TRACE
 }
 
-bool AsstAppendSanity(void* p_asst)
+bool AsstAppendFight(void* p_asst, int max_mecidine, int max_stone, int max_times)
+{
+    if (p_asst == nullptr) {
+        return false;
+    }
+    asst::Assistance* ptr = (asst::Assistance*)p_asst;
+
+    return ptr->append_fight(max_mecidine, max_stone, max_times);
+}
+
+bool AsstAppendAward(void* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->append_sanity();
+    return ((asst::Assistance*)p_asst)->append_award();
 }
 
-bool AsstAppendReceiveAward(void* p_asst)
+bool AsstAppendVisit(void* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->append_receive_award();
+    return ((asst::Assistance*)p_asst)->append_visit();
 }
 
-bool AsstAppendVisit(void* p_asst, bool with_shopping)
+bool AsstAppendMall(void* p_asst, bool with_shopping)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->append_visit(with_shopping);
+    return ((asst::Assistance*)p_asst)->append_mall(with_shopping);
 }
 
-bool AsstAppendProcessTask(void* p_asst, const char* task)
-{
-    if (p_asst == nullptr) {
-        return false;
-    }
+//bool AsstAppendProcessTask(void* p_asst, const char* task)
+//{
+//    if (p_asst == nullptr) {
+//        return false;
+//    }
+//
+//    return ((asst::Assistance*)p_asst)->append_process_task(task);
+//}
 
-    return ((asst::Assistance*)p_asst)->append_process_task(task);
-}
-
-
-bool AsstAppendRecruiting(void* p_asst, const int required_level[], int required_len, bool set_time)
+bool AsstStartRecruitCalc(void* p_asst, const int required_level[], int required_len, bool set_time)
 {
     if (p_asst == nullptr) {
         return false;
     }
     std::vector<int> level_vector;
     level_vector.assign(required_level, required_level + required_len);
-    return ((asst::Assistance*)p_asst)->append_recruiting(level_vector, set_time);
+    return ((asst::Assistance*)p_asst)->start_recruit_calc(level_vector, set_time);
 }
 
-bool AsstAppendInfrastShift(void* p_asst, int work_mode, const char** order, int order_size, int uses_of_drones, double dorm_threshold)
+bool AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold)
 {
     if (p_asst == nullptr) {
         return false;
@@ -168,11 +177,24 @@ bool AsstAppendInfrastShift(void* p_asst, int work_mode, const char** order, int
     order_vector.assign(order, order + order_size);
 
     return ((asst::Assistance*)p_asst)->
-        append_infrast_shift(
+        append_infrast(
             static_cast<asst::infrast::WorkMode>(work_mode),
             order_vector,
-            static_cast<asst::UsesOfDrones>(uses_of_drones),
+            uses_of_drones,
             dorm_threshold);
+}
+
+bool AsstAppendRecruit(void* p_asst, int max_times, const int required_level[], int required_len, const int confirm_level[], int confirm_len, bool need_refresh)
+{
+    if (p_asst == nullptr) {
+        return false;
+    }
+    std::vector<int> required_vector;
+    required_vector.assign(required_level, required_level + required_len);
+    std::vector<int> confirm_vector;
+    confirm_vector.assign(confirm_level, confirm_level + confirm_len);
+
+    return ((asst::Assistance*)p_asst)->append_recruit(max_times, required_vector, confirm_vector, need_refresh);
 }
 
 bool AsstStart(void* p_asst)
@@ -193,27 +215,37 @@ bool AsstStop(void* p_asst)
     return ((asst::Assistance*)p_asst)->stop();
 }
 
-bool AsstSetParam(void* p_asst, const char* type, const char* param, const char* value)
+bool MEOAPI AsstSetPenguinId(void* p_asst, const char* id)
 {
     if (p_asst == nullptr) {
         return false;
     }
-
-    return ((asst::Assistance*)p_asst)->set_param(type, param, value);
+    auto ptr = (asst::Assistance*)p_asst;
+    ptr->set_penguin_id(id);
+    return true;
 }
+
+//bool AsstSetParam(void* p_asst, const char* type, const char* param, const char* value)
+//{
+//    if (p_asst == nullptr) {
+//        return false;
+//    }
+//
+//    return ((asst::Assistance*)p_asst)->set_param(type, param, value);
+//}
 
 const char* AsstGetVersion()
 {
     return asst::Version;
 }
 
-bool AsstAppendDebugTask(void* p_asst)
+bool AsstAppendDebug(void* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
     }
 #if LOG_TRACE
-    return ((asst::Assistance*)p_asst)->append_debug_task();
+    return ((asst::Assistance*)p_asst)->append_debug();
 #else
     return false;
 #endif // LOG_TRACE

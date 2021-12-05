@@ -10,20 +10,27 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
+        ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name);
+        ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name) noexcept;
+
         virtual ~ProcessTask() = default;
 
-        virtual bool run() override;
-
-        virtual void set_tasks(const std::vector<std::string>& cur_tasks_name)
+        void set_tasks(std::vector<std::string> tasks_name) noexcept
         {
-            m_cur_tasks_name = cur_tasks_name;
+            m_cur_tasks_name = std::move(tasks_name);
+        }
+        void set_times_limit(std::string name, int limit)
+        {
+            m_times_limit.emplace(std::move(name), limit);
         }
 
     protected:
-        bool delay_random();
+        virtual bool _run() override;
         void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);
 
         std::vector<std::string> m_cur_tasks_name;
+        std::unordered_map<std::string, int> m_times_limit;
+        std::unordered_map<std::string, int> m_exec_times;
     };
 }

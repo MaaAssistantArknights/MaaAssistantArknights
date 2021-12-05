@@ -2,7 +2,7 @@
 
 const std::string asst::InfrastTradeTask::FacilityName = "Trade";
 
-bool asst::InfrastTradeTask::run()
+bool asst::InfrastTradeTask::_run()
 {
     json::value task_start_json = json::object{
         { "task_type", "InfrastTradeTask" },

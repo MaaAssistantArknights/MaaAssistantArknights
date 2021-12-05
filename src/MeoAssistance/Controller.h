@@ -51,14 +51,10 @@ namespace asst
 
         // 异形屏矫正
         Rect shaped_correct(const Rect& rect) const;
+        std::pair<int, int> get_scale_size() const noexcept;
 
         Controller& operator=(const Controller&) = delete;
         Controller& operator=(Controller&&) = delete;
-
-        std::pair<int, int> get_scale_size() const noexcept
-        {
-            return m_scale_size;
-        }
 
     private:
         Controller();
@@ -70,6 +66,8 @@ namespace asst
         int push_cmd(const std::string& cmd);
         bool screencap();
         Point rand_point_in_rect(const Rect& rect);
+
+        void random_delay() const;
 
         // 转换data中所有的crlf为lf：有些模拟器自带的adb，exec-out输出的\n，会被替换成\r\n，导致解码错误，所以这里转一下回来（点名批评mumu）
         static void convert_lf(std::vector<unsigned char>& data);

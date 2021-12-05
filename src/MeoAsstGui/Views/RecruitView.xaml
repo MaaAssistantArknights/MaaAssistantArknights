@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:s="https://github.com/canton7/Stylet"
              mc:Ignorable="d"
-             d:DesignHeight="460" d:DesignWidth="750">
-    <Grid>
+             d:DesignHeight="495" d:DesignWidth="800">
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="150" />
@@ -29,7 +29,7 @@
                 <CheckBox IsChecked="{Binding ChooseLevel6}" Content="自动选择6星Tags" HorizontalAlignment="Left" Margin="0,2" VerticalAlignment="Bottom" />
             </StackPanel>
             <!--<Label x:Name="prompt" Content="提示：本辅助仅会帮你选择最优Tags，&#xA;但是不会帮你点击确定按钮！！！&#xA;请自行检查辅助选择的是否正确，&#xA;若辅助出现识别错误，遗漏了高星干员，&#xA;作者概不负责哦__(:з」∠)_"-->
-                   <!--HorizontalAlignment="Center" VerticalAlignment="Center" Height="121" Width="292" FontSize="16" />-->
+            <!--HorizontalAlignment="Center" VerticalAlignment="Center" Height="121" Width="292" FontSize="16" />-->
             <Button Command="{s:Action StartCalc}" Content="开始识别" Margin="30" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="60" />
         </StackPanel>
     </Grid>

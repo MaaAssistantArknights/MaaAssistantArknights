@@ -6,7 +6,7 @@
 
 const std::string asst::InfrastMfgTask::FacilityName = "Mfg";
 
-bool asst::InfrastMfgTask::run()
+bool asst::InfrastMfgTask::_run()
 {
     json::value task_start_json = json::object{
         { "task_type", "InfrastMfgTask" },
