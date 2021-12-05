@@ -31,9 +31,14 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0"  Orientation="Vertical" Margin="0, 20">
-                <RadioButton GroupName="无人机" Content="不使用无人机" IsChecked="{Binding NotUseDrone}" Margin="0, 5" />
-                <RadioButton GroupName="无人机" Content="加速贸易站   " IsChecked="{Binding DroneForTrade}" Margin="0, 5" />
-                <RadioButton GroupName="无人机" Content="加速制造站   " IsChecked="{Binding DroneForMfg}" Margin="0, 5" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Margin="0, 5"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Text="无人机用途" />
+                <ComboBox Width="150" Margin="0, 5"
+                      ItemsSource="{Binding UsesOfDronesList}"
+                      DisplayMemberPath="Display"
+                      SelectedValuePath="Value"
+                      SelectedValue="{Binding UsesOfDrones}" />
             </StackPanel>
             <StackPanel Grid.Row="1"  Orientation="Vertical" Margin="0, 20">
                 <TextBlock Style="{StaticResource TextBlockDefault}"

@@ -48,7 +48,7 @@ namespace asst
         bool append_mall(bool with_shopping, bool only_append = true);
 
         // 添加基建换班任务任务
-        bool append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses, double dorm_threshold, bool only_append = true);
+        bool append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, const std::string& uses_of_drones, double dorm_threshold, bool only_append = true);
 
         // 添加自动公招任务
         // 参数max_times: 最多进行几次公招

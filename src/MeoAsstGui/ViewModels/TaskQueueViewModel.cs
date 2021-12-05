@@ -173,7 +173,7 @@ namespace MeoAsstGui
             int orderLen = order.Count;
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendInfrast((int)settings.InfrastWorkMode, order.ToArray(), orderLen,
-                (int)settings.UsesOfDrones, settings.DormThreshold / 100.0);
+                settings.UsesOfDrones, settings.DormThreshold / 100.0);
         }
 
         private bool appendMall()
