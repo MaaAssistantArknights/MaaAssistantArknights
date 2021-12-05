@@ -112,7 +112,7 @@ bool Assistance::catch_emulator(const std::string& emulator_name)
     return ret;
 }
 
-bool asst::Assistance::catch_custom()
+bool asst::Assistance::catch_custom(const std::string& address)
 {
     LogTraceFunction;
 
@@ -124,6 +124,9 @@ bool asst::Assistance::catch_custom()
     std::unique_lock<std::mutex> lock(m_mutex);
 
     EmulatorInfo remote_info = cfg.get_emulators_info().at("Custom");
+    if (!address.empty()) {
+        remote_info.adb.addresses.push_back(address);
+    }
 
     ret = ctrler.try_capture(remote_info, true);
 

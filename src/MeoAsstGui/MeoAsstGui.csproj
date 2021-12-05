@@ -120,6 +120,9 @@
     <Compile Include="UserControl\AutoRecruitSettingsUserControl.xaml.cs">
       <DependentUpon>AutoRecruitSettingsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\ConnectSettingsUserControl.xaml.cs">
+      <DependentUpon>ConnectSettingsUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\MallSettingsUserControl.xaml.cs">
       <DependentUpon>MallSettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControl\AutoRecruitSettingsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\ConnectSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

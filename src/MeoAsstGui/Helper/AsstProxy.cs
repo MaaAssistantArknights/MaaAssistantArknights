@@ -24,6 +24,8 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstCatchDefault(IntPtr ptr);
 
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstCatchCustom(IntPtr ptr, string address);
+
         [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendFight(IntPtr ptr, int max_medicine, int max_stone, int max_times);
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendAward(IntPtr ptr);
@@ -295,15 +297,18 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _isCatched = false;
-
-        public bool AsstCatchDefault()
+        public bool AsstCatch()
         {
-            if (!_isCatched)
+            var settings = _container.Get<SettingsViewModel>();
+            settings.TryToSetBlueStacksHyperVAddress();
+            if (settings.ConnectAddress.Length == 0)
             {
-                _isCatched = AsstCatchDefault(_ptr);
+                return AsstCatchDefault(_ptr);
             }
-            return _isCatched;
+            else
+            {
+                return AsstCatchCustom(_ptr, settings.ConnectAddress);
+            }
         }
 
         public bool AsstAppendFight(int max_medicine, int max_stone, int max_times)
@@ -365,36 +370,36 @@ namespace MeoAsstGui
     public enum AsstMsg
     {
         /* Error Msg */
-        PtrIsNull,							// 指针为空
-        ImageIsEmpty,						// 图像为空
-        WindowMinimized,					// [已弃用] 窗口被最小化了
-        InitFaild,							// 初始化失败
-        TaskError,							// 任务错误（任务一直出错，retry次数达到上限）
-        OcrResultError,						// Ocr识别结果错误
+        PtrIsNull,                          // 指针为空
+        ImageIsEmpty,                       // 图像为空
+        WindowMinimized,                    // [已弃用] 窗口被最小化了
+        InitFaild,                          // 初始化失败
+        TaskError,                          // 任务错误（任务一直出错，retry次数达到上限）
+        OcrResultError,                     // Ocr识别结果错误
         /* Info Msg: about Task */
-        TaskStart = 1000,					// 任务开始
-        TaskMatched,						// 任务匹配成功
-        ReachedLimit,						// 单个原子任务达到次数上限
-        ReadyToSleep,						// 准备开始睡眠
-        EndOfSleep,							// 睡眠结束
-        AppendProcessTask,					// 新增流程任务，Assistance内部消息，外部不需要处理
-        AppendTask,							// 新增任务，Assistance内部消息，外部不需要处理
-        TaskCompleted,						// 单个原子任务完成
-        PrintWindow,						// 截图消息
-        ProcessTaskStopAction,				// 流程任务执行到了Stop的动作
-        TaskChainCompleted,					// 任务链完成
-        ProcessTaskNotMatched,				// 流程任务识别错误
+        TaskStart = 1000,                   // 任务开始
+        TaskMatched,                        // 任务匹配成功
+        ReachedLimit,                       // 单个原子任务达到次数上限
+        ReadyToSleep,                       // 准备开始睡眠
+        EndOfSleep,                         // 睡眠结束
+        AppendProcessTask,                  // 新增流程任务，Assistance内部消息，外部不需要处理
+        AppendTask,                         // 新增任务，Assistance内部消息，外部不需要处理
+        TaskCompleted,                      // 单个原子任务完成
+        PrintWindow,                        // 截图消息
+        ProcessTaskStopAction,              // 流程任务执行到了Stop的动作
+        TaskChainCompleted,                 // 任务链完成
+        ProcessTaskNotMatched,              // 流程任务识别错误
         AllTasksCompleted,                  // 所有任务完成
         TaskChainStart,                     // 开始任务链
         /* Info Msg: about Identify */
-        TextDetected = 2000,				// 识别到文字
-        ImageFindResult,					// 查找图像的结果
-        ImageMatched,						// 图像匹配成功
+        TextDetected = 2000,                // 识别到文字
+        ImageFindResult,                    // 查找图像的结果
+        ImageMatched,                       // 图像匹配成功
         StageDrops,                         // 关卡掉落信息
         /* Open Recruit Msg */
-        RecruitTagsDetected = 3000,			// 公招识别到了Tags
-        RecruitSpecialTag,					// 公招识别到了特殊的Tag
-        RecruitResult,						// 公开招募结果
+        RecruitTagsDetected = 3000,         // 公招识别到了Tags
+        RecruitSpecialTag,                  // 公招识别到了特殊的Tag
+        RecruitResult,                      // 公开招募结果
         RecruitSelected,                    // 选择了Tags
         /* Infrast Msg */
         InfrastSkillsDetected = 4000,  // 识别到了基建技能（当前页面）
