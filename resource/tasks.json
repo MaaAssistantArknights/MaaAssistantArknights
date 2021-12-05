@@ -1397,7 +1397,7 @@
     },
     "DroneAssist-Trade-Stop": {
         "Doc": "如果找到了“无人机加速”按钮，却没有找到订单交付：说明上一次无人机没有把一个订单加速完成，也说明没有更多的无人机了，所以直接stop",
-        "template": "DroneAssist-Trade.png",
+        "template": "DroneAssistTrade.png",
         "action": "stop",
         "cache": false
     },
