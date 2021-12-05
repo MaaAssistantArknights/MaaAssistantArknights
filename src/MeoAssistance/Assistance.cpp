@@ -293,7 +293,7 @@ bool Assistance::start_recruit_calc(const std::vector<int>& required_level, bool
     return start(false);
 }
 
-bool asst::Assistance::append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold, bool only_append)
+bool asst::Assistance::append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, const std::string& uses_of_drones, double dorm_threshold, bool only_append)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -325,10 +325,12 @@ bool asst::Assistance::append_infrast(infrast::WorkMode work_mode, const std::ve
     mfg_task_ptr->set_work_mode(work_mode);
     mfg_task_ptr->set_task_chain(InfrastTaskCahin);
     mfg_task_ptr->set_mood_threshold(dorm_threshold);
+    mfg_task_ptr->set_uses_of_drone(uses_of_drones);
     auto trade_task_ptr = std::make_shared<InfrastTradeTask>(task_callback, (void*)this);
     trade_task_ptr->set_work_mode(work_mode);
     trade_task_ptr->set_task_chain(InfrastTaskCahin);
     trade_task_ptr->set_mood_threshold(dorm_threshold);
+    trade_task_ptr->set_uses_of_drone(uses_of_drones);
     auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
     power_task_ptr->set_work_mode(work_mode);
     power_task_ptr->set_task_chain(InfrastTaskCahin);
@@ -357,15 +359,9 @@ bool asst::Assistance::append_infrast(infrast::WorkMode work_mode, const std::ve
         }
         else if (facility == "Mfg") {
             m_tasks_queue.emplace(mfg_task_ptr);
-            if (UsesOfDrones::DronesMfg & uses_of_drones) {
-                append_process_task("DroneAssist-MFG", InfrastTaskCahin);
-            }
         }
         else if (facility == "Trade") {
             m_tasks_queue.emplace(trade_task_ptr);
-            if (UsesOfDrones::DronesTrade & uses_of_drones) {
-                append_process_task("DroneAssist-Trade", InfrastTaskCahin);
-            }
         }
         else if (facility == "Power") {
             m_tasks_queue.emplace(power_task_ptr);

@@ -12,6 +12,7 @@
 #include "MultiMatchImageAnalyzer.h"
 #include "Resource.h"
 #include "RuntimeStatus.h"
+#include "ProcessTask.h"
 
 bool asst::InfrastProductionTask::shift_facility_list()
 {
@@ -89,6 +90,13 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         set_product(cur_product);
         log.info("cur product", cur_product);
+
+        // 使用无人机
+        if (cur_product == m_uses_of_drones) {
+            if (use_drone()) {
+                m_uses_of_drones = "_Used";
+            }
+        }
 
         locked_analyzer.set_image(image);
         if (locked_analyzer.analyze()) {
@@ -542,6 +550,13 @@ bool asst::InfrastProductionTask::opers_choose()
     }
 
     return true;
+}
+
+bool asst::InfrastProductionTask::use_drone()
+{
+    std::string task_name = "DroneAssist" + m_facility;
+    ProcessTask task(*this, { task_name });
+    return task.run();
 }
 
 asst::infrast::SkillsComb

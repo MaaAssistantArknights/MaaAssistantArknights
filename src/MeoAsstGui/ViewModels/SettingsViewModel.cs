@@ -74,28 +74,24 @@ namespace MeoAsstGui
             InfrastItemViewModels.Add(new DragItemViewModel("办公室", key));
             InfrastItemViewModels.Add(new DragItemViewModel("宿舍", key));
 
-            facilityKey.Add("宿舍", "Dorm");
-            facilityKey.Add("制造站", "Mfg");
-            facilityKey.Add("贸易站", "Trade");
-            facilityKey.Add("发电站", "Power");
-            facilityKey.Add("会客室", "Reception");
-            facilityKey.Add("办公室", "Office");
-            facilityKey.Add("控制中枢", "Control");
+            FacilityKey.Add("宿舍", "Dorm");
+            FacilityKey.Add("制造站", "Mfg");
+            FacilityKey.Add("贸易站", "Trade");
+            FacilityKey.Add("发电站", "Power");
+            FacilityKey.Add("会客室", "Reception");
+            FacilityKey.Add("办公室", "Office");
+            FacilityKey.Add("控制中枢", "Control");
+
+            UsesOfDronesList = new List<CombData>();
+            UsesOfDronesList.Add(new CombData { Display = "不使用无人机", Value = "_NotUse" });
+            UsesOfDronesList.Add(new CombData { Display = "贸易站-龙门币", Value = "Money" });
+            UsesOfDronesList.Add(new CombData { Display = "贸易站-合成玉", Value = "SyntheticJade" });
+            UsesOfDronesList.Add(new CombData { Display = "制造站-经验书", Value = "CombatRecord" });
+            UsesOfDronesList.Add(new CombData { Display = "制造站-赤金", Value = "PureGold" });
+            UsesOfDronesList.Add(new CombData { Display = "制造站-源石碎片", Value = "OriginStone" });
+            UsesOfDronesList.Add(new CombData { Display = "制造站-芯片组", Value = "Chip" });
 
             _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
-
-            if (NotUseDrone)
-            {
-                _usesOfDrones = UsesOfDrones.DronesNotUse;
-            }
-            else if (DroneForTrade)
-            {
-                _usesOfDrones = UsesOfDrones.DronesTrade;
-            }
-            else if (DroneForMfg)
-            {
-                _usesOfDrones = UsesOfDrones.DronesMfg;
-            }
         }
 
         private bool _idle = true;
@@ -110,56 +106,10 @@ namespace MeoAsstGui
         }
 
         /* 基建设置 */
-        public Dictionary<string, string> facilityKey = new Dictionary<string, string>();
+        public Dictionary<string, string> FacilityKey = new Dictionary<string, string>();
         public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; }
 
-        private bool _notUseDrone = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.NotUseDrone", bool.TrueString));
-
-        public bool NotUseDrone
-        {
-            get { return _notUseDrone; }
-            set
-            {
-                if (value)
-                {
-                    _usesOfDrones = UsesOfDrones.DronesNotUse;
-                }
-                SetAndNotify(ref _notUseDrone, value);
-                ViewStatusStorage.Set("Infrast.NotUseDrone", value.ToString());
-            }
-        }
-
-        private bool _droneForTrade = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.DroneForTrade", bool.FalseString));
-
-        public bool DroneForTrade
-        {
-            get { return _droneForTrade; }
-            set
-            {
-                if (value)
-                {
-                    _usesOfDrones = UsesOfDrones.DronesTrade;
-                }
-                SetAndNotify(ref _droneForTrade, value);
-                ViewStatusStorage.Set("Infrast.DroneForTrade", value.ToString());
-            }
-        }
-
-        private bool _droneForMfg = System.Convert.ToBoolean(ViewStatusStorage.Get("Infrast.DroneForMfg", bool.FalseString));
-
-        public bool DroneForMfg
-        {
-            get { return _droneForMfg; }
-            set
-            {
-                if (value)
-                {
-                    _usesOfDrones = UsesOfDrones.DronesMfg;
-                }
-                SetAndNotify(ref _droneForMfg, value);
-                ViewStatusStorage.Set("Infrast.DroneForMfg", value.ToString());
-            }
-        }
+        public List<CombData> UsesOfDronesList { get; set; }
 
         private int _dormThreshold = System.Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
 
@@ -195,19 +145,20 @@ namespace MeoAsstGui
                     continue;
                 }
 
-                orderList.Add(facilityKey[item.Name]);
+                orderList.Add(FacilityKey[item.Name]);
             }
             return orderList;
         }
 
-        private UsesOfDrones _usesOfDrones = UsesOfDrones.DronesNotUse;
+        private string _usesOfDrones = ViewStatusStorage.Get("Infrast.UsesOfDrones", "Money");
 
-        public UsesOfDrones UsesOfDrones
+        public string UsesOfDrones
         {
             get { return _usesOfDrones; }
             set
             {
                 SetAndNotify(ref _usesOfDrones, value);
+                ViewStatusStorage.Set("Infrast.UsesOfDrones", value);
             }
         }
 

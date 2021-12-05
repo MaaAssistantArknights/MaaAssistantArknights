@@ -168,7 +168,7 @@ bool AsstStartRecruitCalc(void* p_asst, const int required_level[], int required
     return ((asst::Assistance*)p_asst)->start_recruit_calc(level_vector, set_time);
 }
 
-bool AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int order_size, int uses_of_drones, double dorm_threshold)
+bool AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold)
 {
     if (p_asst == nullptr) {
         return false;
@@ -180,7 +180,7 @@ bool AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int orde
         append_infrast(
             static_cast<asst::infrast::WorkMode>(work_mode),
             order_vector,
-            static_cast<asst::UsesOfDrones>(uses_of_drones),
+            uses_of_drones,
             dorm_threshold);
 }
 

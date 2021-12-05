@@ -112,6 +112,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Helper\AsstProxy.cs" />
     <Compile Include="Helper\AutoScroll.cs" />
+    <Compile Include="Helper\CombData.cs" />
     <Compile Include="Helper\LogItemViewModel.cs" />
     <Compile Include="Helper\ScrollViewerBinding.cs" />
     <Compile Include="Helper\ViewStatusStorage.cs" />

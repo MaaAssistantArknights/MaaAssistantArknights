@@ -21,7 +21,7 @@ extern "C" {
     bool MEOAPI AsstAppendVisit(void* p_asst);
     bool MEOAPI AsstAppendMall(void* p_asst, bool with_shopping);
     //bool MEOAPI AsstAppendProcessTask(void* p_asst, const char* task);
-    bool MEOAPI AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int order_size, int uses_of_drones, double dorm_threshold);
+    bool MEOAPI AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold);
     bool MEOAPI AsstAppendRecruit(void* p_asst, int max_times, const int required_level[], int required_len, const int confirm_level[], int confirm_len, bool need_refresh);
     bool MEOAPI AsstAppendDebug(void* p_asst);
 

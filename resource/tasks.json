@@ -1323,7 +1323,7 @@
             "Stop"
         ]
     },
-    "DroneAssist-MFG": {
+    "DroneAssistMfg": {
         "action": "clickSelf",
         "cache": false,
         "roi": [
@@ -1339,7 +1339,7 @@
             "DroneConfirm"
         ]
     },
-    "DroneAssist-Trade": {
+    "DroneAssistTrade": {
         "action": "clickSelf",
         "cache": false,
         "roi": [
@@ -1377,7 +1377,7 @@
         "next": [
             "DeliverableOrder",
             "DroneAssist-Trade-Stop",
-            "DroneAssist-MFG"
+            "DroneAssistMfg"
         ]
     },
     "DeliverableOrder": {
@@ -1391,7 +1391,7 @@
         ],
         "next": [
             "DeliverableOrder",
-            "DroneAssist-Trade"
+            "DroneAssistTrade"
         ],
         "rearDelay": 2000
     },

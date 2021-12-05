@@ -32,7 +32,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendMall(IntPtr ptr, bool with_shopping);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendInfrast(IntPtr ptr, int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold);
+        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendInfrast(IntPtr ptr, int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold);
 
         [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendRecruit(IntPtr ptr, int max_times, int[] required_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh);
 
@@ -331,7 +331,7 @@ namespace MeoAsstGui
             return AsstAppendRecruit(_ptr, max_times, required_level, required_len, confirm_level, confirm_len, need_refresh);
         }
 
-        public bool AsstAppendInfrast(int work_mode, string[] order, int order_len, int uses_of_drones, double dorm_threshold)
+        public bool AsstAppendInfrast(int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold)
         {
             return AsstAppendInfrast(_ptr, work_mode, order, order_len, uses_of_drones, dorm_threshold);
         }
@@ -402,16 +402,6 @@ namespace MeoAsstGui
         InfrastComb,                   // 当前房间的最优干员组合
         EnterFacility,                 // 进入某个房间
         FacilityInfo,                  // 当前设施信息
-    };
-
-    public enum UsesOfDrones
-    {
-        DronesNotUse = 0,
-        DronesTrade = 0x100,
-        DronesTradeMoney = DronesTrade & 0x10,
-        DronesMfg = 0x200,
-        DronesMfgCombatRecord = DronesMfg | 0x10,
-        DronesMfgPureGold = DronesMfg | 0x20
     };
 
     public enum InfrastWorkMode
