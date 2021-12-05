@@ -179,38 +179,13 @@ bool ProcessTask::_run()
     return true;
 }
 
-// 随机延时功能
-bool asst::ProcessTask::delay_random()
-{
-    auto& opt = resource.cfg().get_options();
-    if (opt.control_delay_upper != 0) {
-        static std::default_random_engine rand_engine(
-            std::chrono::system_clock::now().time_since_epoch().count());
-        static std::uniform_int_distribution<unsigned> rand_uni(
-            opt.control_delay_lower,
-            opt.control_delay_upper);
-
-        unsigned rand_delay = rand_uni(rand_engine);
-
-        return sleep(rand_delay);
-    }
-    return true;
-}
-
 void ProcessTask::exec_click_task(const Rect& matched_rect)
 {
-    if (!delay_random()) {
-        return;
-    }
-
     ctrler.click(matched_rect);
 }
 
 void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 {
-    if (!delay_random()) {
-        return;
-    }
     const auto&& [width, height] = ctrler.get_scale_size();
 
     const static Rect right_rect(width * 0.8,

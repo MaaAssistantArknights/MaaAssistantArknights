@@ -26,7 +26,6 @@ namespace asst
 
     protected:
         virtual bool _run() override;
-        bool delay_random();
         void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);
 

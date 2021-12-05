@@ -436,8 +436,28 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
     return Point(x, y);
 }
 
+void asst::Controller::random_delay() const
+{
+    auto& opt = resource.cfg().get_options();
+    if (opt.control_delay_upper != 0) {
+        LogTraceFunction;
+        static std::default_random_engine rand_engine(
+            std::chrono::system_clock::now().time_since_epoch().count());
+        static std::uniform_int_distribution<unsigned> rand_uni(
+            opt.control_delay_lower,
+            opt.control_delay_upper);
+
+        unsigned rand_delay = rand_uni(rand_engine);
+
+        log.trace("random_delay |", rand_delay, "ms");
+        std::this_thread::sleep_for(std::chrono::milliseconds(rand_delay));
+    }
+}
+
 int asst::Controller::push_cmd(const std::string& cmd)
 {
+    random_delay();
+
     std::unique_lock<std::mutex> lock(m_cmd_queue_mutex);
     m_cmd_queue.emplace(cmd);
     m_cmd_condvar.notify_one();
