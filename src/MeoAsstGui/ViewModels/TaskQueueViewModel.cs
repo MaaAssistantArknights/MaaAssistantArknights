@@ -22,20 +22,31 @@ namespace MeoAsstGui
             _container = container;
             _windowManager = windowManager;
             DisplayName = "一键长草";
-            TaskItemViewModels = new ObservableCollection<DragItemViewModel>();
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             InitializeItems();
         }
 
         public void InitializeItems()
         {
-            string stroageKey = "TaskQueue.";
-            TaskItemViewModels.Add(new DragItemViewModel("刷理智", stroageKey));
-            TaskItemViewModels.Add(new DragItemViewModel("基建换班", stroageKey));
-            TaskItemViewModels.Add(new DragItemViewModel("自动公招", stroageKey));
-            TaskItemViewModels.Add(new DragItemViewModel("访问好友", stroageKey));
-            TaskItemViewModels.Add(new DragItemViewModel("收取信用及购物", stroageKey));
-            TaskItemViewModels.Add(new DragItemViewModel("领取日常奖励", stroageKey));
+            string[] task_list = new string[] { "刷理智", "基建换班", "自动公招", "访问好友", "收取信用及购物", "领取日常奖励" };
+
+            var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
+            for (int i = 0; i != task_list.Length; ++i)
+            {
+                var task = task_list[i];
+                int order = -1;
+                bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out order);
+
+                if (!parsed || order < 0)
+                {
+                    temp_order_list[i] = new DragItemViewModel(task, "TaskQueue.");
+                }
+                else
+                {
+                    temp_order_list[order] = new DragItemViewModel(task, "TaskQueue.");
+                }
+            }
+            TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
         }
 
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
@@ -70,8 +81,12 @@ namespace MeoAsstGui
             bool ret = true;
             // 直接遍历TaskItemViewModels里面的内容，是排序后的
             int count = 0;
+            int index = 0;
             foreach (var item in TaskItemViewModels)
             {
+                ViewStatusStorage.Set("TaskQueue.Order." + item.Name, index.ToString());
+                ++index;
+
                 if (item.IsChecked == false)
                 {
                     continue;
@@ -170,6 +185,7 @@ namespace MeoAsstGui
         {
             var settings = _container.Get<SettingsViewModel>();
             var order = settings.GetInfrastOrderList();
+            settings.SaveInfrastOrderList();
             int orderLen = order.Count;
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendInfrast((int)settings.InfrastWorkMode, order.ToArray(), orderLen,
