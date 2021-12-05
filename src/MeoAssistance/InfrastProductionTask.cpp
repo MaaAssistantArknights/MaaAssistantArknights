@@ -109,11 +109,13 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
             click_clear_button();
             swipe_to_the_left_of_operlist();
+            swipe_to_the_left_of_operlist();
 
             if (m_all_available_opers.empty()) {
                 if (!opers_detect_with_swipe()) {
                     return false;
                 }
+                swipe_to_the_left_of_operlist();
                 swipe_to_the_left_of_operlist();
             }
             else {
