@@ -13,7 +13,7 @@ extern "C" {
 
     bool MEOAPI AsstCatchDefault(void* p_asst);
     bool MEOAPI AsstCatchEmulator(void* p_asst);
-    bool MEOAPI AsstCatchCustom(void* p_asst);
+    bool MEOAPI AsstCatchCustom(void* p_asst, const char* address);
     bool MEOAPI AsstCatchFake(void* p_asst);
 
     bool MEOAPI AsstAppendFight(void* p_asst, int max_mecidine, int max_stone, int max_times);

@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Runtime.InteropServices;
 using Stylet;
 using StyletIoC;
@@ -42,6 +43,7 @@ namespace MeoAsstGui
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
             _listTitle.Add("企鹅数据");
+            _listTitle.Add("连接设置");
             _listTitle.Add("软件更新");
             //_listTitle.Add("其他");
 
@@ -354,6 +356,49 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _proxy, value);
                 ViewStatusStorage.Set("VersionUpdate.Proxy", value);
+            }
+        }
+
+        /* 连接设置 */
+
+        private string _connectAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
+
+        public string ConnectAddress
+        {
+            get { return _connectAddress; }
+            set
+            {
+                SetAndNotify(ref _connectAddress, value);
+                ViewStatusStorage.Set("Connect.Address", value);
+            }
+        }
+
+        private string _bluestacksConfPath = ViewStatusStorage.Get("Connect.BluestacksConfPath", string.Empty);
+
+        public string BluestacksConfPath
+        {
+            get { return _bluestacksConfPath; }
+            set
+            {
+                SetAndNotify(ref _bluestacksConfPath, value);
+                ViewStatusStorage.Set("Connect.BluestacksConfPath", value);
+            }
+        }
+
+        public void TryToSetBlueStacksHyperVAddress()
+        {
+            if (BluestacksConfPath.Length == 0)
+            {
+                return;
+            }
+            var all_lines = File.ReadAllLines(BluestacksConfPath);
+            foreach (var line in all_lines)
+            {
+                if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))
+                {
+                    var sp = line.Split('"');
+                    ConnectAddress = "127.0.0.1:" + sp[1];
+                }
             }
         }
     }

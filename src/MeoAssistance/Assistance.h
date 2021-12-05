@@ -34,7 +34,7 @@ namespace asst
         // 捕获模拟器
         bool catch_emulator(const std::string& emulator_name = std::string());
         // 捕获自定义设备
-        bool catch_custom();
+        bool catch_custom(const std::string& address = std::string());
         // 不实际进行捕获，调试用接口
         bool catch_fake();
 
