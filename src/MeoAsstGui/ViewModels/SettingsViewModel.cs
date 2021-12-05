@@ -62,17 +62,25 @@ namespace MeoAsstGui
         private void InfrastInit()
         {
             /* 基建设置 */
-            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>();
+            string[] facility_list = new string[] { "制造站", "贸易站", "控制中枢", "发电站", "会客室", "办公室", "宿舍" };
 
-            string key = "Infrast.";
-            //InfrastItemViewModels.Add(new DragItemViewModel("宿舍", key));
-            InfrastItemViewModels.Add(new DragItemViewModel("制造站", key));
-            InfrastItemViewModels.Add(new DragItemViewModel("贸易站", key));
-            InfrastItemViewModels.Add(new DragItemViewModel("控制中枢", key));
-            InfrastItemViewModels.Add(new DragItemViewModel("发电站", key));
-            InfrastItemViewModels.Add(new DragItemViewModel("会客室", key));
-            InfrastItemViewModels.Add(new DragItemViewModel("办公室", key));
-            InfrastItemViewModels.Add(new DragItemViewModel("宿舍", key));
+            var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[facility_list.Length]);
+            for (int i = 0; i != facility_list.Length; ++i)
+            {
+                var facility = facility_list[i];
+                int order = -1;
+                bool parsed = int.TryParse(ViewStatusStorage.Get("Infrast.Order." + facility, "-1"), out order);
+
+                if (!parsed || order < 0)
+                {
+                    temp_order_list[i] = new DragItemViewModel(facility, "Infrast.");
+                }
+                else
+                {
+                    temp_order_list[order] = new DragItemViewModel(facility, "Infrast.");
+                }
+            }
+            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
             FacilityKey.Add("宿舍", "Dorm");
             FacilityKey.Add("制造站", "Mfg");
@@ -148,6 +156,14 @@ namespace MeoAsstGui
                 orderList.Add(FacilityKey[item.Name]);
             }
             return orderList;
+        }
+
+        public void SaveInfrastOrderList()
+        {
+            for (int i = 0; i < InfrastItemViewModels.Count; i++)
+            {
+                ViewStatusStorage.Set("Infrast.Order." + InfrastItemViewModels[i].Name, i.ToString());
+            }
         }
 
         private string _usesOfDrones = ViewStatusStorage.Get("Infrast.UsesOfDrones", "Money");
