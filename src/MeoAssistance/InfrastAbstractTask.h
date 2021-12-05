@@ -9,11 +9,15 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
+        InfrastAbstractTask(AsstCallback callback, void* callback_arg);
+
         virtual ~InfrastAbstractTask() = default;
         virtual void set_work_mode(infrast::WorkMode work_mode) noexcept;
-        virtual void on_run_fails() override;
+        virtual void set_mood_threshold(double mood_thres) noexcept;
 
     protected:
+        virtual bool on_run_fails() override;
+
         virtual bool enter_facility(const std::string& facility, int index = 0);
         virtual bool enter_oper_list_page(); // 从刚点进基建的界面，到干员列表页
 
@@ -31,5 +35,9 @@ namespace asst
         int m_last_swipe_id = 0;
         infrast::WorkMode m_work_mode = infrast::WorkMode::Gentle;
         std::string m_work_mode_name = "Gentle";
+        double m_mood_threshold = 0;
+
+        static int m_face_hash_thres;
+        static int m_name_hash_thres;
     };
 }

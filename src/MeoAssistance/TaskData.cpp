@@ -8,52 +8,7 @@
 #include "GeneralConfiger.h"
 #include "TemplResource.h"
 
-bool asst::TaskData::set_param(const std::string& type, const std::string& param, const std::string& value)
-{
-    // 暂时只用到了这些，总的参数太多了，后面要用啥再加上
-    if (type == "task.action") {
-        if (auto iter = m_all_tasks_info.find(param);
-            iter == m_all_tasks_info.cend()) {
-            return false;
-        }
-        else {
-            auto& task_info_ptr = iter->second;
-            std::string action = value;
-            std::transform(action.begin(), action.end(), action.begin(), ::tolower);
-            if (action == "clickself") {
-                task_info_ptr->action = ProcessTaskAction::ClickSelf;
-            }
-            else if (action == "clickrand") {
-                task_info_ptr->action = ProcessTaskAction::ClickRand;
-            }
-            else if (action == "donothing" || action.empty()) {
-                task_info_ptr->action = ProcessTaskAction::DoNothing;
-            }
-            else if (action == "stop") {
-                task_info_ptr->action = ProcessTaskAction::Stop;
-            }
-            else if (action == "clickrect") {
-                task_info_ptr->action = ProcessTaskAction::ClickRect;
-            }
-            else {
-                m_last_error = "Task " + param + " 's action error: " + action;
-                return false;
-            }
-        }
-    }
-    else if (type == "task.maxTimes") {
-        if (auto iter = m_all_tasks_info.find(param);
-            iter == m_all_tasks_info.cend()) {
-            return false;
-        }
-        else {
-            iter->second->max_times = std::stoi(value);
-        }
-    }
-    return true;
-}
-
-const std::shared_ptr<asst::TaskInfo> asst::TaskData::task_ptr(const std::string& name) const noexcept
+const std::shared_ptr<asst::TaskInfo> asst::TaskData::get(const std::string& name) const noexcept
 {
     if (auto iter = m_all_tasks_info.find(name);
         iter != m_all_tasks_info.cend()) {
@@ -69,16 +24,9 @@ const std::unordered_set<std::string>& asst::TaskData::get_templ_required() cons
     return m_templ_required;
 }
 
-std::shared_ptr<asst::TaskInfo> asst::TaskData::task_ptr(std::string name)
+std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string name)
 {
     return m_all_tasks_info[std::move(name)];
-}
-
-void asst::TaskData::clear_exec_times()
-{
-    for (auto&& [key, task] : m_all_tasks_info) {
-        task->exec_times = 0;
-    }
 }
 
 bool asst::TaskData::parse(const json::value& json)
@@ -200,11 +148,17 @@ bool asst::TaskData::parse(const json::value& json)
         }
         if (task_json.exist("roi")) {
             const json::array& area_arr = task_json.at("roi").as_array();
-            task_info_ptr->roi = Rect(
-                area_arr[0].as_integer(),
-                area_arr[1].as_integer(),
-                area_arr[2].as_integer(),
-                area_arr[3].as_integer());
+            int x = area_arr[0].as_integer();
+            int y = area_arr[1].as_integer();
+            int width = area_arr[2].as_integer();
+            int height = area_arr[3].as_integer();
+#ifdef LOG_TRACE
+            if (x + width > WindowWidthDefault || y + height > WindowHeightDefault) {
+                m_last_error = name + " roi is out of bounds";
+                return false;
+            }
+#endif
+            task_info_ptr->roi = Rect(x, y, width, height);
         }
         else {
             task_info_ptr->roi = Rect();
@@ -229,5 +183,15 @@ bool asst::TaskData::parse(const json::value& json)
 
         m_all_tasks_info.emplace(name, task_info_ptr);
     }
+#ifdef LOG_TRACE
+    for (const auto& [name, task] : m_all_tasks_info) {
+        for (const auto& next : task->next) {
+            if (m_all_tasks_info.find(next) == m_all_tasks_info.cend()) {
+                m_last_error = name + "'s next " + next + " is null";
+                return false;
+            }
+        }
+    }
+#endif
     return true;
 }

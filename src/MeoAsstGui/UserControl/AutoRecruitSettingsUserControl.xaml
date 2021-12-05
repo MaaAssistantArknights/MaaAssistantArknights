@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="MeoAsstGui.AutoRecruitSettingsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:dd="urn:gong-wpf-dragdrop"
+             mc:Ignorable="d"
+             d:DesignHeight="150" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="10">
+            <CheckBox IsChecked="{Binding RefreshLevel3}" Content="自动刷新3星Tags" VerticalAlignment="Center" Margin="10" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 10">
+                <TextBlock Style="{StaticResource TextBlockDefault}"
+                   Text="每次执行时&#xA;的招募次数" Margin="5" VerticalAlignment="Center" />
+                <TextBox Text="{Binding RecruitMaxTimes}" Margin="5"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10">
+            <CheckBox IsChecked="{Binding ChooseLevel3}" Content="自动确认3星" Margin="5" />
+            <CheckBox IsChecked="{Binding ChooseLevel4}" Content="自动确认4星" Margin="5" />
+            <CheckBox IsChecked="{Binding ChooseLevel5}" Content="自动确认5星" Margin="5" />
+            <CheckBox IsEnabled="False" IsChecked="False" Content="自动确认6星" Margin="5" />
+        </StackPanel>
+    </Grid>
+</UserControl>

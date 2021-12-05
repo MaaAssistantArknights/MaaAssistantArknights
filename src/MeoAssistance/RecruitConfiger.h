@@ -23,8 +23,9 @@ namespace asst
     };
 
     // 公开招募的干员组合
-    struct RecruitOperCombs
+    struct RecruitCombs
     {
+        std::vector<std::string> tags;
         std::vector<RecruitOperInfo> opers;
         int max_level = 0;
         int min_level = 0;

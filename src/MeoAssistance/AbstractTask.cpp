@@ -20,9 +20,23 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg)
     ;
 }
 
-void AbstractTask::set_exit_flag(bool* exit_flag)
+bool asst::AbstractTask::run()
 {
-    m_exit_flag = exit_flag;
+    for (int i = 0; i != m_retry_times; ++i) {
+        if (_run()) {
+            return true;
+        }
+        if (need_exit()) {
+            return false;
+        }
+        int delay = resource.cfg().get_options().task_delay;
+        sleep(delay);
+
+        if (!on_run_fails()) {
+            return false;
+        }
+    }
+    return false;
 }
 
 bool AbstractTask::sleep(unsigned millisecond)
@@ -42,7 +56,7 @@ bool AbstractTask::sleep(unsigned millisecond)
 
     while (!need_exit() && duration < millisecond) {
         duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                       std::chrono::system_clock::now() - start)
+            std::chrono::system_clock::now() - start)
             .count();
         std::this_thread::yield();
     }
@@ -68,7 +82,7 @@ bool AbstractTask::save_image(const cv::Mat& image, const std::string& dir)
     return true;
 }
 
-bool asst::AbstractTask::need_exit() const noexcept
+bool asst::AbstractTask::need_exit() const
 {
     return m_exit_flag != NULL && *m_exit_flag == true;
 }
@@ -76,7 +90,7 @@ bool asst::AbstractTask::need_exit() const noexcept
 void asst::AbstractTask::click_return_button()
 {
     LogTraceFunction;
-    const auto return_task_ptr = resource.task().task_ptr("Return");
+    const auto return_task_ptr = task.get("Return");
 
     Rect ReturnButtonRect = return_task_ptr->specific_rect;
 

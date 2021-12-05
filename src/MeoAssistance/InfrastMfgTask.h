@@ -3,15 +3,15 @@
 
 namespace asst
 {
-    class InfrastMfgTask : public InfrastProductionTask
+    class InfrastMfgTask final : public InfrastProductionTask
     {
     public:
         using InfrastProductionTask::InfrastProductionTask;
         virtual ~InfrastMfgTask() = default;
-        virtual bool run() override;
 
         static const std::string FacilityName;
 
-    private:
+    protected:
+        virtual bool _run() override;
     };
 }

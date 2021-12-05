@@ -172,6 +172,11 @@ asst::Rect asst::Controller::shaped_correct(const Rect& rect) const
     return dst;
 }
 
+std::pair<int, int> asst::Controller::get_scale_size() const noexcept
+{
+    return m_scale_size;
+}
+
 void asst::Controller::pipe_working_proc()
 {
     LogTraceFunction;
@@ -431,8 +436,28 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
     return Point(x, y);
 }
 
+void asst::Controller::random_delay() const
+{
+    auto& opt = resource.cfg().get_options();
+    if (opt.control_delay_upper != 0) {
+        LogTraceFunction;
+        static std::default_random_engine rand_engine(
+            std::chrono::system_clock::now().time_since_epoch().count());
+        static std::uniform_int_distribution<unsigned> rand_uni(
+            opt.control_delay_lower,
+            opt.control_delay_upper);
+
+        unsigned rand_delay = rand_uni(rand_engine);
+
+        log.trace("random_delay |", rand_delay, "ms");
+        std::this_thread::sleep_for(std::chrono::milliseconds(rand_delay));
+    }
+}
+
 int asst::Controller::push_cmd(const std::string& cmd)
 {
+    random_delay();
+
     std::unique_lock<std::mutex> lock(m_cmd_queue_mutex);
     m_cmd_queue.emplace(cmd);
     m_cmd_condvar.notify_one();
@@ -590,15 +615,12 @@ int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int du
 
 cv::Mat asst::Controller::get_image(bool raw)
 {
-    static bool has_successful = false;
-    if (!screencap()) {
-        // 如果之前成功截图过，这次没成功可能是一次意外，重试一次
-        // 点名批评雷电模拟器！
-        if (!(has_successful && screencap())) {
-            return cv::Mat();
+    // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
+    for (int i = 0; i != 20; ++i) {
+        if (screencap()) {
+            break;
         }
     }
-    has_successful = true;
     //std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
     if (raw) {
         return m_cache_image;

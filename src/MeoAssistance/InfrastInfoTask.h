@@ -9,6 +9,7 @@ namespace asst
         using InfrastAbstractTask::InfrastAbstractTask;
         virtual ~InfrastInfoTask() = default;
 
-        virtual bool run() override;
+    protected:
+        virtual bool _run() override;
     };
 }

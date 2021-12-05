@@ -5,8 +5,6 @@
 #include <memory>
 #include <utility>
 
-#include <opencv2/opencv.hpp>
-
 #include "GeneralConfiger.h"
 #include "InfrastConfiger.h"
 #include "ItemConfiger.h"
@@ -39,10 +37,6 @@ namespace asst
         GeneralConfiger& cfg() noexcept
         {
             return m_general_cfg_unique_ins;
-        }
-        TaskData& task() noexcept
-        {
-            return m_task_data_unique_ins;
         }
         RecruitConfiger& recruit() noexcept
         {
@@ -77,10 +71,6 @@ namespace asst
         {
             return m_general_cfg_unique_ins;
         }
-        const TaskData& task() const noexcept
-        {
-            return m_task_data_unique_ins;
-        }
         const RecruitConfiger& recruit() const noexcept
         {
             return m_recruit_cfg_unique_ins;
@@ -114,7 +104,6 @@ namespace asst
 
         TemplResource m_templ_resource_unique_ins;
         GeneralConfiger m_general_cfg_unique_ins;
-        TaskData m_task_data_unique_ins;
         RecruitConfiger m_recruit_cfg_unique_ins;
         ItemConfiger m_item_cfg_unique_ins;
         InfrastConfiger m_infrast_cfg_unique_ins;

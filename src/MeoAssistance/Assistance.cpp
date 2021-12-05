@@ -21,7 +21,8 @@
 #include "InfrastTradeTask.h"
 #include "ProcessTask.h"
 #include "RecruitTask.h"
-#include "ScreenCaptureTask.h"
+#include "AutoRecruitTask.h"
+#include "InfrastControlTask.h"
 
 using namespace asst;
 
@@ -35,12 +36,13 @@ Assistance::Assistance(AsstCallback callback, void* callback_arg)
         const std::string& error = resource.get_last_error();
         log.error("resource broken", error);
         if (m_callback == nullptr) {
-            return;
+            throw error;
         }
         json::value callback_json;
         callback_json["type"] = "resource broken";
         callback_json["what"] = error;
         m_callback(AsstMsg::InitFaild, callback_json, m_callback_arg);
+        throw error;
     }
 
     m_working_thread = std::thread(std::bind(&Assistance::working_proc, this));
@@ -110,7 +112,7 @@ bool Assistance::catch_emulator(const std::string& emulator_name)
     return ret;
 }
 
-bool asst::Assistance::catch_custom()
+bool asst::Assistance::catch_custom(const std::string& address)
 {
     LogTraceFunction;
 
@@ -122,6 +124,9 @@ bool asst::Assistance::catch_custom()
     std::unique_lock<std::mutex> lock(m_mutex);
 
     EmulatorInfo remote_info = cfg.get_emulators_info().at("Custom");
+    if (!address.empty()) {
+        remote_info.adb.addresses.push_back(address);
+    }
 
     ret = ctrler.try_capture(remote_info, true);
 
@@ -139,17 +144,7 @@ bool asst::Assistance::catch_fake()
     return true;
 }
 
-bool asst::Assistance::append_sanity(bool only_append)
-{
-    return append_process_task("SanityBegin", ProcessTaskRetryTimesDefault, "Sanity", only_append);
-}
-
-bool asst::Assistance::append_receive_award(bool only_append)
-{
-    return append_process_task("AwardBegin", ProcessTaskRetryTimesDefault, "ReceiveAward", only_append);
-}
-
-bool asst::Assistance::append_visit(bool with_shopping, bool only_append)
+bool asst::Assistance::append_fight(int mecidine, int stone, int times, bool only_append)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -157,25 +152,34 @@ bool asst::Assistance::append_visit(bool with_shopping, bool only_append)
     }
 
     std::unique_lock<std::mutex> lock(m_mutex);
-    resource.templ().clear_hists();
 
-    append_match_task("Visit", { "VisitBegin" }, ProcessTaskRetryTimesDefault);
+    auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
+    task_ptr->set_task_chain("Fight");
+    task_ptr->set_tasks({ "SanityBegin" });
+    task_ptr->set_times_limit("MedicineConfirm", mecidine);
+    task_ptr->set_times_limit("StoneConfirm", stone);
+    task_ptr->set_times_limit("StartButton1", times);
 
-    if (with_shopping) {
-        auto shopping_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this);
-        shopping_task_ptr->set_retry_times(5);
-        shopping_task_ptr->set_task_chain("CreditShopping");
-        m_tasks_deque.emplace_back(shopping_task_ptr);
-    }
+    m_tasks_queue.emplace(task_ptr);
 
     if (!only_append) {
-        start(false);
+        return start(false);
     }
 
     return true;
 }
 
-bool Assistance::append_process_task(const std::string& task, int retry_times, std::string task_chain, bool only_append)
+bool asst::Assistance::append_award(bool only_append)
+{
+    return append_process_task("AwardBegin", "Award");
+}
+
+bool asst::Assistance::append_visit(bool only_append)
+{
+    return append_process_task("VisitBegin", "Visit");
+}
+
+bool asst::Assistance::append_mall(bool with_shopping, bool only_append)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -184,20 +188,74 @@ bool Assistance::append_process_task(const std::string& task, int retry_times, s
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
+    const std::string task_chain = "Mall";
+
+    append_process_task("MallBegin", task_chain);
+
+    if (with_shopping) {
+        auto shopping_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this);
+        shopping_task_ptr->set_task_chain(task_chain);
+        m_tasks_queue.emplace(shopping_task_ptr);
+    }
+
+    if (!only_append) {
+        return start(false);
+    }
+
+    return true;
+}
+
+bool Assistance::append_process_task(const std::string& task, std::string task_chain, int retry_times)
+{
+    LogTraceFunction;
+    if (!m_inited) {
+        return false;
+    }
+
+    //std::unique_lock<std::mutex> lock(m_mutex);
+
     if (task_chain.empty()) {
         task_chain = task;
     }
-    append_match_task(task_chain, { task }, retry_times);
 
-    if (!only_append) {
-        start(false);
+    auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
+    task_ptr->set_task_chain(task_chain);
+    task_ptr->set_tasks({ task });
+    task_ptr->set_retry_times(retry_times);
+
+    m_tasks_queue.emplace(task_ptr);
+
+    //if (!only_append) {
+    //    return start(false);
+    //}
+
+    return true;
+}
+
+bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>& required_level, const std::vector<int>& confirm_level, bool need_refresh)
+{
+    LogTraceFunction;
+    if (!m_inited) {
+        return false;
     }
+    static const std::string TaskChain = "Recruit";
+
+    append_process_task("RecruitBegin", TaskChain);
+
+    auto recruit_task_ptr = std::make_shared<AutoRecruitTask>(task_callback, (void*)this);
+    recruit_task_ptr->set_max_times(max_times);
+    recruit_task_ptr->set_need_refresh(need_refresh);
+    recruit_task_ptr->set_required_level(required_level);
+    recruit_task_ptr->set_confirm_level(confirm_level);
+    recruit_task_ptr->set_task_chain(TaskChain);
+
+    m_tasks_queue.emplace(recruit_task_ptr);
 
     return true;
 }
 
 #ifdef LOG_TRACE
-bool Assistance::append_debug_task()
+bool Assistance::append_debug()
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -208,19 +266,19 @@ bool Assistance::append_debug_task()
 
     {
         constexpr static const char* DebugTaskChain = "Debug";
-        auto shift_task_ptr = std::make_shared<InfrastProductionTask>(task_callback, (void*)this);
+        auto shift_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this);
         shift_task_ptr->set_work_mode(infrast::WorkMode::Aggressive);
-        shift_task_ptr->set_facility("Mfg");
-        shift_task_ptr->set_product("CombatRecord");
+        shift_task_ptr->set_facility("Control");
+        shift_task_ptr->set_product("MoodAddition");
         shift_task_ptr->set_task_chain(DebugTaskChain);
-        m_tasks_deque.emplace_back(shift_task_ptr);
+        m_tasks_queue.emplace(shift_task_ptr);
     }
 
     return true;
 }
 #endif
 
-bool Assistance::append_recruiting(const std::vector<int>& required_level, bool set_time, bool only_append)
+bool Assistance::start_recruit_calc(const std::vector<int>& required_level, bool set_time)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -231,97 +289,117 @@ bool Assistance::append_recruiting(const std::vector<int>& required_level, bool 
 
     auto task_ptr = std::make_shared<RecruitTask>(task_callback, (void*)this);
     task_ptr->set_param(required_level, set_time);
-    task_ptr->set_retry_times(OpenRecruitTaskRetyrTimesDefault);
+    task_ptr->set_retry_times(OpenRecruitTaskRetryTimesDefault);
     task_ptr->set_task_chain("OpenRecruit");
-    m_tasks_deque.emplace_back(task_ptr);
+    m_tasks_queue.emplace(task_ptr);
 
-    if (!only_append) {
-        start(false);
-    }
-
-    return true;
+    return start(false);
 }
 
-bool asst::Assistance::append_infrast_shift(infrast::WorkMode work_mode, const std::vector<std::string>& order, UsesOfDrones uses_of_drones, double dorm_threshold, bool only_append)
+bool asst::Assistance::append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, const std::string& uses_of_drones, double dorm_threshold, bool only_append)
 {
     LogTraceFunction;
     if (!m_inited) {
         return false;
     }
 
-    // 偏激模式还没来得及做，保留用户接口，内部先按激进模式走
-    if (work_mode == infrast::WorkMode::Extreme) {
-        work_mode = infrast::WorkMode::Aggressive;
-    }
+    // 保留接口，目前强制按激进模式进行换班
+    work_mode = infrast::WorkMode::Aggressive;
 
     constexpr static const char* InfrastTaskCahin = "Infrast";
 
     // 这个流程任务，结束的时候是处于基建主界面的。既可以用于进入基建，也可以用于从设施里返回基建主界面
-    append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+
+    auto append_infrast_begin = [&]() {
+        append_process_task("InfrastBegin", InfrastTaskCahin);
+    };
+
+    append_infrast_begin();
 
     auto info_task_ptr = std::make_shared<InfrastInfoTask>(task_callback, (void*)this);
     info_task_ptr->set_work_mode(work_mode);
     info_task_ptr->set_task_chain(InfrastTaskCahin);
+    info_task_ptr->set_mood_threshold(dorm_threshold);
 
-    m_tasks_deque.emplace_back(info_task_ptr);
+    m_tasks_queue.emplace(info_task_ptr);
 
-    // 因为后期要考虑多任务间的联动等，所以这些任务的声明暂时不妨到for循环中
+    // 因为后期要考虑多任务间的联动等，所以这些任务的声明暂时不放到for循环中
+    auto mfg_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this);
+    mfg_task_ptr->set_work_mode(work_mode);
+    mfg_task_ptr->set_task_chain(InfrastTaskCahin);
+    mfg_task_ptr->set_mood_threshold(dorm_threshold);
+    mfg_task_ptr->set_uses_of_drone(uses_of_drones);
+    auto trade_task_ptr = std::make_shared<InfrastTradeTask>(task_callback, (void*)this);
+    trade_task_ptr->set_work_mode(work_mode);
+    trade_task_ptr->set_task_chain(InfrastTaskCahin);
+    trade_task_ptr->set_mood_threshold(dorm_threshold);
+    trade_task_ptr->set_uses_of_drone(uses_of_drones);
+    auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
+    power_task_ptr->set_work_mode(work_mode);
+    power_task_ptr->set_task_chain(InfrastTaskCahin);
+    power_task_ptr->set_mood_threshold(dorm_threshold);
+    auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
+    office_task_ptr->set_work_mode(work_mode);
+    office_task_ptr->set_task_chain(InfrastTaskCahin);
+    office_task_ptr->set_mood_threshold(dorm_threshold);
+    auto recpt_task_ptr = std::make_shared<InfrastReceptionTask>(task_callback, (void*)this);
+    recpt_task_ptr->set_work_mode(work_mode);
+    recpt_task_ptr->set_task_chain(InfrastTaskCahin);
+    recpt_task_ptr->set_mood_threshold(dorm_threshold);
+    auto control_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this);
+    control_task_ptr->set_work_mode(work_mode);
+    control_task_ptr->set_task_chain(InfrastTaskCahin);
+    control_task_ptr->set_mood_threshold(dorm_threshold);
+
     auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
     dorm_task_ptr->set_work_mode(work_mode);
     dorm_task_ptr->set_task_chain(InfrastTaskCahin);
     dorm_task_ptr->set_mood_threshold(dorm_threshold);
-    auto mfg_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this);
-    mfg_task_ptr->set_work_mode(work_mode);
-    mfg_task_ptr->set_task_chain(InfrastTaskCahin);
-    auto trade_task_ptr = std::make_shared<InfrastTradeTask>(task_callback, (void*)this);
-    trade_task_ptr->set_work_mode(work_mode);
-    trade_task_ptr->set_task_chain(InfrastTaskCahin);
-    auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
-    power_task_ptr->set_work_mode(work_mode);
-    power_task_ptr->set_task_chain(InfrastTaskCahin);
-    auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
-    office_task_ptr->set_work_mode(work_mode);
-    office_task_ptr->set_task_chain(InfrastTaskCahin);
-    auto recpt_task_ptr = std::make_shared<InfrastReceptionTask>(task_callback, (void*)this);
-    recpt_task_ptr->set_work_mode(work_mode);
-    recpt_task_ptr->set_task_chain(InfrastTaskCahin);
 
     for (const auto& facility : order) {
         if (facility == "Dorm") {
-            m_tasks_deque.emplace_back(dorm_task_ptr);
+            m_tasks_queue.emplace(dorm_task_ptr);
         }
         else if (facility == "Mfg") {
-            m_tasks_deque.emplace_back(mfg_task_ptr);
-            if (UsesOfDrones::DronesMfg & uses_of_drones) {
-                append_match_task(InfrastTaskCahin, { "DroneAssist-MFG" });
-            }
+            m_tasks_queue.emplace(mfg_task_ptr);
         }
         else if (facility == "Trade") {
-            m_tasks_deque.emplace_back(trade_task_ptr);
-            if (UsesOfDrones::DronesTrade & uses_of_drones) {
-                append_match_task(InfrastTaskCahin, { "DroneAssist-Trade" });
-            }
+            m_tasks_queue.emplace(trade_task_ptr);
         }
         else if (facility == "Power") {
-            m_tasks_deque.emplace_back(power_task_ptr);
+            m_tasks_queue.emplace(power_task_ptr);
         }
         else if (facility == "Office") {
-            m_tasks_deque.emplace_back(office_task_ptr);
+            m_tasks_queue.emplace(office_task_ptr);
         }
         else if (facility == "Reception") {
-            m_tasks_deque.emplace_back(recpt_task_ptr);
+            m_tasks_queue.emplace(recpt_task_ptr);
+        }
+        else if (facility == "Control") {
+            m_tasks_queue.emplace(control_task_ptr);
         }
         else {
-            log.error("append_infrast_shift | Unknown facility", facility);
+            log.error("append_infrast | Unknown facility", facility);
         }
-        append_match_task(InfrastTaskCahin, { "InfrastBegin" });
+        append_infrast_begin();
     }
 
     if (!only_append) {
-        start(false);
+        return start(false);
     }
 
     return true;
+}
+
+void asst::Assistance::set_penguin_id(const std::string& id)
+{
+    auto& opt = resource.cfg().get_options();
+    if (id.empty()) {
+        opt.penguin_report_extra_param.clear();
+    }
+    else {
+        opt.penguin_report_extra_param = "-H \"authorization: PenguinID " + id + "\"";
+    }
 }
 
 bool asst::Assistance::start(bool block)
@@ -354,79 +432,61 @@ bool Assistance::stop(bool block)
     if (block) { // 外部调用
         lock = std::unique_lock<std::mutex>(m_mutex);
     }
-    decltype(m_tasks_deque) empty;
-    m_tasks_deque.swap(empty);
-    clear_exec_times();
-    resource.templ().clear_hists();
+    decltype(m_tasks_queue) empty;
+    m_tasks_queue.swap(empty);
+
+    clear_cache();
 
     return true;
-}
-
-bool Assistance::set_param(const std::string& type, const std::string& param, const std::string& value)
-{
-    LogTraceFunction;
-    log.trace("SetParam |", type, param, value);
-
-    return resource.task().set_param(type, param, value);
 }
 
 void Assistance::working_proc()
 {
     LogTraceFunction;
-    auto p_this = this;
 
-    int retry_times = 0;
+    std::string pre_taskchain;
     while (!m_thread_exit) {
         //LogTraceScope("Assistance::working_proc Loop");
         std::unique_lock<std::mutex> lock(m_mutex);
 
-        if (!m_thread_idle && !m_tasks_deque.empty()) {
-            //controller.set_idle(false);
-
+        if (!m_thread_idle && !m_tasks_queue.empty()) {
             auto start_time = std::chrono::system_clock::now();
-            auto task_ptr = m_tasks_deque.front();
-            // 先pop出来，如果执行失败再还原回去
-            m_tasks_deque.pop_front();
+
+            auto task_ptr = m_tasks_queue.front();
+
+            std::string cur_taskchain = task_ptr->get_task_chain();
+            json::value task_json = json::object{
+                {"task_chain", cur_taskchain},
+            };
+
+            if (cur_taskchain != pre_taskchain) {
+                task_callback(AsstMsg::TaskChainStart, task_json, this);
+                pre_taskchain = cur_taskchain;
+            }
 
             task_ptr->set_exit_flag(&m_thread_idle);
             bool ret = task_ptr->run();
-            if (ret) {
-                retry_times = 0;
-                if (m_tasks_deque.empty()
-                    || task_ptr->get_task_chain() != m_tasks_deque.front()->get_task_chain()) {
-                    json::value task_all_completed_json;
-                    task_all_completed_json["task_chain"] = task_ptr->get_task_chain();
-                    task_callback(AsstMsg::TaskChainCompleted, task_all_completed_json, p_this);
-                }
-                if (m_tasks_deque.empty()) {
-                    task_callback(AsstMsg::AllTasksCompleted, json::value(), p_this);
-                }
-            }
-            else {
-                // 失败了累加失败次数，超限了再pop
-                if (retry_times >= task_ptr->get_retry_times()) {
-                    json::value task_error_json;
-                    task_error_json["retry_limit"] = task_ptr->get_retry_times();
-                    task_error_json["retry_times"] = retry_times;
-                    task_error_json["task_chain"] = task_ptr->get_task_chain();
-                    task_callback(AsstMsg::TaskError, task_error_json, p_this);
+            m_tasks_queue.pop();
 
-                    retry_times = 0;
-                    continue;
-                }
-                else {
-                    ++retry_times;
-                    // 执行失败再还原回去
-                    m_tasks_deque.emplace_front(task_ptr);
-                    task_ptr->on_run_fails();
-                }
+            if (!ret) {
+                task_callback(AsstMsg::TaskError, task_json, this);
             }
+
+            if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
+                task_callback(AsstMsg::TaskChainCompleted, task_json, this);
+            }
+            if (m_tasks_queue.empty()) {
+                task_callback(AsstMsg::AllTasksCompleted, json::value(), this);
+            }
+
+            //clear_cache();
 
             auto& delay = resource.cfg().get_options().task_delay;
             m_condvar.wait_until(lock, start_time + std::chrono::milliseconds(delay),
                 [&]() -> bool { return m_thread_idle; });
         }
         else {
+            pre_taskchain.clear();
             m_thread_idle = true;
             //controller.set_idle(true);
             m_condvar.wait(lock);
@@ -470,16 +530,6 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
     case AsstMsg::ImageIsEmpty:
         p_this->stop(false);
         break;
-        //case AsstMsg::WindowMinimized:
-        //	p_this->controller.show_window();
-        //	break;
-    case AsstMsg::AppendProcessTask:
-        more_detail["type"] = "ProcessTask";
-        [[fallthrough]];
-    case AsstMsg::AppendTask:
-        p_this->append_task(more_detail, true);
-        return; // 这俩消息Assistance会新增任务，外部不需要处理，直接拦掉
-        break;
     case AsstMsg::StageDrops:
         more_detail = p_this->organize_stage_drop(more_detail);
         break;
@@ -492,43 +542,6 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
     p_this->append_callback(msg, std::move(more_detail));
 }
 
-void asst::Assistance::append_match_task(
-    const std::string& task_chain, const std::vector<std::string>& tasks, int retry_times, bool front)
-{
-    auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
-    task_ptr->set_task_chain(task_chain);
-    task_ptr->set_tasks(tasks);
-    task_ptr->set_retry_times(retry_times);
-    if (front) {
-        m_tasks_deque.emplace_front(task_ptr);
-    }
-    else {
-        m_tasks_deque.emplace_back(task_ptr);
-    }
-}
-
-void asst::Assistance::append_task(const json::value& detail, bool front)
-{
-    std::string task_type = detail.at("type").as_string();
-    std::string task_chain = detail.get("task_chain", "");
-    int retry_times = detail.get("retry_times", INT_MAX);
-
-    if (task_type == "ProcessTask") {
-        std::vector<std::string> next_vec;
-        if (detail.exist("tasks")) {
-            json::array next_arr = detail.at("tasks").as_array();
-            for (const json::value& next_json : next_arr) {
-                next_vec.emplace_back(next_json.as_string());
-            }
-        }
-        else if (detail.exist("task")) {
-            next_vec.emplace_back(detail.at("task").as_string());
-        }
-        append_match_task(task_chain, next_vec, retry_times, front);
-    }
-    // else if  // TODO
-}
-
 void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
 {
     std::unique_lock<std::mutex> lock(m_msg_mutex);
@@ -536,10 +549,9 @@ void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
     m_msg_condvar.notify_one();
 }
 
-void Assistance::clear_exec_times()
+void Assistance::clear_cache()
 {
-    resource.task().clear_exec_times();
-    resource.item().clear_drop_count();
+    resource.templ().clear_hists();
 }
 
 json::value asst::Assistance::organize_stage_drop(const json::value& rec)

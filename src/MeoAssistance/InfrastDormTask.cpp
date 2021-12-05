@@ -9,7 +9,7 @@
 
 const std::string asst::InfrastDormTask::FacilityName = "Dorm";
 
-bool asst::InfrastDormTask::run()
+bool asst::InfrastDormTask::_run()
 {
     json::value task_start_json = json::object{
         { "task_type", "InfrastDormTask" },
@@ -17,6 +17,7 @@ bool asst::InfrastDormTask::run()
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
+    bool random_select = false;
     for (; m_cur_dorm_index < m_max_num_of_dorm; ++m_cur_dorm_index) {
         if (need_exit()) {
             return false;
@@ -28,11 +29,16 @@ bool asst::InfrastDormTask::run()
         if (!enter_oper_list_page()) {
             return false;
         }
-        swipe_to_the_left_of_operlist();
         click_clear_button();
+        if (!random_select) {
+            swipe_to_the_left_of_operlist();
+        }
+        else {
+            async_swipe_of_operlist();
+        }
 
-        int quantity_selected = 0;
-        while (quantity_selected < MaxNumOfOpers) {
+        int num_of_selected = 0;
+        while (num_of_selected < MaxNumOfOpers) {
             if (need_exit()) {
                 return false;
             }
@@ -47,43 +53,53 @@ bool asst::InfrastDormTask::run()
             oper_analyzer.sort_by_mood();
             const auto& oper_result = oper_analyzer.get_result();
 
-            int quantity_resting = 0;
+            int num_of_resting = 0;
             for (const auto& oper : oper_result) {
                 if (need_exit()) {
                     return false;
                 }
-                if (quantity_selected >= MaxNumOfOpers) {
-                    log.trace("quantity_selected:", quantity_selected, ", just break");
+                if (num_of_selected >= MaxNumOfOpers) {
+                    log.trace("num_of_selected:", num_of_selected, ", just break");
                     break;
                 }
-                switch (oper.smiley.type) {
-                case infrast::SmileyType::Rest:
-                    // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了，直接退出即可
-                    if (++quantity_resting > MaxNumOfOpers) {
-                        log.trace("quantity_resting:", quantity_resting, ", confirm");
-                        click_confirm_button();
-                        return true;
+                if (!random_select) {
+                    switch (oper.smiley.type) {
+                    case infrast::SmileyType::Rest:
+                        // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
+                        // 从这时候开始，随机选人，尽量把宿舍填满（游戏机制，可以加信赖，还有些别的加成什么的）
+                        if (++num_of_resting > MaxNumOfOpers) {
+                            log.trace("num_of_resting:", num_of_resting, ", enable random");
+                            random_select = true;
+                            continue;
+                        }
+                        break;
+                    case infrast::SmileyType::Work:
+                    case infrast::SmileyType::Distract:
+                        // 干员没有被选择的情况下，且不在工作，就进驻宿舍
+                        if (oper.selected == false && oper.doing != infrast::Doing::Working) {
+                            ctrler.click(oper.rect);
+                            if (++num_of_selected >= MaxNumOfOpers) {
+                                log.trace("num_of_selected:", num_of_selected, ", just break");
+                                break;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
                     }
-                    break;
-                case infrast::SmileyType::Work:
-                case infrast::SmileyType::Distract:
-                    // 干员没有被选择的情况下，心情小于30%，或不在工作，就进驻宿舍
-                    if (oper.selected == false &&
-                        (oper.mood_ratio < m_mood_threshold
-                            || oper.doing != infrast::Doing::Working)) {
+                }
+                else {
+                    if (oper.doing != infrast::Doing::Working) {
                         ctrler.click(oper.rect);
-                        if (++quantity_selected >= MaxNumOfOpers) {
-                            log.trace("quantity_selected:", quantity_selected, ", just break");
+                        if (++num_of_selected >= MaxNumOfOpers) {
+                            log.trace("num_of_selected:", num_of_selected, ", just break");
                             break;
                         }
                     }
-                    break;
-                default:
-                    break;
                 }
             }
-            if (quantity_selected >= MaxNumOfOpers) {
-                log.trace("quantity_selected:", quantity_selected, ", just break");
+            if (num_of_selected >= MaxNumOfOpers) {
+                log.trace("num_of_selected:", num_of_selected, ", just break");
                 break;
             }
             sync_swipe_of_operlist();
@@ -99,7 +115,7 @@ bool asst::InfrastDormTask::click_confirm_button()
     LogTraceFunction;
 
     const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-        resource.task().task_ptr("InfrastConfirmButton"));
+        task.get("InfrastConfirmButton"));
     ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
 
@@ -107,7 +123,7 @@ bool asst::InfrastDormTask::click_confirm_button()
     const auto& image = ctrler.get_image();
     MatchImageAnalyzer cfm_analyzer(image);
     const auto sec_cfm_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastDormConfirmButton"));
+        task.get("InfrastDormConfirmButton"));
     cfm_analyzer.set_task_info(*sec_cfm_task_ptr);
     if (cfm_analyzer.analyze()) {
         ctrler.click(cfm_analyzer.get_result().rect);

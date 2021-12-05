@@ -12,41 +12,7 @@
 #include "MultiMatchImageAnalyzer.h"
 #include "Resource.h"
 #include "RuntimeStatus.h"
-
-int asst::InfrastProductionTask::m_face_hash_thres = 0;
-int asst::InfrastProductionTask::m_name_hash_thres = 0;
-
-#ifdef LOG_TRACE
-bool asst::InfrastProductionTask::run()
-{
-    json::value task_start_json = json::object{
-        { "task_type",  "InfrastProductionTask" },
-        { "task_chain", m_task_chain}
-    };
-    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
-
-    m_all_available_opers.clear();
-
-    if (!shift_facility_list()) {
-        return false;
-    }
-
-    return true;
-}
-#endif
-
-asst::InfrastProductionTask::InfrastProductionTask(AsstCallback callback, void* callback_arg)
-    : InfrastAbstractTask(callback, callback_arg)
-{
-    if (m_face_hash_thres == 0) {
-        m_face_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
-            resource.task().task_ptr("InfrastOperFaceHash"))->templ_threshold;
-    }
-    if (m_name_hash_thres == 0) {
-        m_name_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
-            resource.task().task_ptr("InfrastOperNameHash"))->templ_threshold;
-    }
-}
+#include "ProcessTask.h"
 
 bool asst::InfrastProductionTask::shift_facility_list()
 {
@@ -58,21 +24,32 @@ bool asst::InfrastProductionTask::shift_facility_list()
         return false;
     }
     const auto tab_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastFacilityListTab" + m_facility));
+        task.get("InfrastFacilityListTab" + m_facility));
     MatchImageAnalyzer add_analyzer;
     const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastAddOperator" + m_facility + m_work_mode_name));
+        task.get("InfrastAddOperator" + m_facility + m_work_mode_name));
     add_analyzer.set_task_info(*add_task_ptr);
 
     const auto locked_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastOperLocked" + m_facility));
+        task.get("InfrastOperLocked" + m_facility));
     MultiMatchImageAnalyzer locked_analyzer;
     locked_analyzer.set_task_info(*locked_task_ptr);
 
+    int index = 0;
     for (const Rect& tab : m_facility_list_tabs) {
         if (need_exit()) {
             return false;
         }
+        if (index != 0) {
+            json::value enter_json = json::object{
+                { "facility", m_facility },
+                { "index", index }
+            };
+            m_callback(AsstMsg::EnterFacility, enter_json, m_callback_arg);
+        }
+
+        ++index;
+
         ctrler.click(tab);
         sleep(tab_task_ptr->rear_delay);
 
@@ -97,18 +74,29 @@ bool asst::InfrastProductionTask::shift_facility_list()
         MatchImageAnalyzer product_analyzer(image);
         auto& all_products = resource.infrast().get_facility_info(m_facility).products;
         std::string cur_product = all_products.at(0);
+        double max_score = 0;
         for (const std::string& product : all_products) {
             const static std::string prefix = "InfrastFlag";
             const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-                resource.task().task_ptr(prefix + product));
+                task.get(prefix + product));
             product_analyzer.set_task_info(*task_ptr);
             if (product_analyzer.analyze()) {
-                cur_product = product;
-                break;
+                double score = product_analyzer.get_result().score;
+                if (score > max_score) {
+                    max_score = score;
+                    cur_product = product;
+                }
             }
         }
         set_product(cur_product);
         log.info("cur product", cur_product);
+
+        // 使用无人机
+        if (cur_product == m_uses_of_drones) {
+            if (use_drone()) {
+                m_uses_of_drones = "_Used";
+            }
+        }
 
         locked_analyzer.set_image(image);
         if (locked_analyzer.analyze()) {
@@ -129,11 +117,13 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
             click_clear_button();
             swipe_to_the_left_of_operlist();
+            swipe_to_the_left_of_operlist();
 
             if (m_all_available_opers.empty()) {
                 if (!opers_detect_with_swipe()) {
                     return false;
                 }
+                swipe_to_the_left_of_operlist();
                 swipe_to_the_left_of_operlist();
             }
             else {
@@ -206,10 +196,15 @@ size_t asst::InfrastProductionTask::opers_detect()
             --cur_available_num;
             continue;
         }
+        // 心情过低的干员则不可用
+        if (cur_oper.mood_ratio < m_mood_threshold) {
+            //--cur_available_num;
+            continue;
+        }
         auto find_iter = std::find_if(
             m_all_available_opers.cbegin(), m_all_available_opers.cend(),
             [&cur_oper](const infrast::Oper& oper) -> bool {
-                // 技能相同的有可能是同一个干员，比一下hash
+                // 有可能是同一个干员，比一下hash
                 int dist = utils::hamming(cur_oper.face_hash, oper.face_hash);
 #ifdef LOG_TRACE
                 log.trace("opers_detect hash dist |", dist);
@@ -244,9 +239,9 @@ bool asst::InfrastProductionTask::optimal_calc()
     optimal_combs.reserve(cur_max_num_of_opers);
     double max_efficient = 0;
     std::sort(all_avaliable_combs.begin(), all_avaliable_combs.end(),
-              [&](const infrast::SkillsComb& lhs, const infrast::SkillsComb& rhs) -> bool {
-                  return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
-              });
+        [&](const infrast::SkillsComb& lhs, const infrast::SkillsComb& rhs) -> bool {
+            return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
+        });
 
     for (const auto& comb : all_avaliable_combs) {
         std::string skill_str;
@@ -256,9 +251,31 @@ bool asst::InfrastProductionTask::optimal_calc()
         log.trace(skill_str, comb.efficient.at(m_product));
     }
 
-    for (int i = 0; i != cur_max_num_of_opers && i != m_all_available_opers.size(); ++i) {
-        optimal_combs.emplace_back(all_avaliable_combs.at(i));
+    std::unordered_map<std::string, int> skills_num;
+    for (int i = 0; i != m_all_available_opers.size(); ++i) {
+        auto comb = all_avaliable_combs.at(i);
+
+        bool out_of_num = false;
+        for (auto&& skill : comb.skills) {
+            if (skills_num[skill.id] >= skill.max_num) {
+                out_of_num = true;
+                break;
+            }
+        }
+        if (out_of_num) {
+            continue;
+        }
+
+        optimal_combs.emplace_back(comb);
         max_efficient += all_avaliable_combs.at(i).efficient.at(m_product);
+
+        for (auto&& skill : comb.skills) {
+            ++skills_num[skill.id];
+        }
+
+        if (optimal_combs.size() >= cur_max_num_of_opers) {
+            break;
+        }
     }
 
     {
@@ -293,12 +310,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                 continue;
             }
             // TODO：这里做成除了不等于，还可计算大于、小于等不同条件的
-            std::any cur_any_value = status.get(cond);
-            if (!cur_any_value.has_value()) {
-                meet_condition = false;
-                break;
-            }
-            int cur_value = std::any_cast<int>(cur_any_value);
+            int cur_value = status.get(cond);
             if (cur_value != cond_value) {
                 meet_condition = false;
                 break;
@@ -342,10 +354,10 @@ bool asst::InfrastProductionTask::optimal_calc()
         }
 
         std::sort(optional.begin(), optional.end(),
-                  [&](const infrast::SkillsComb& lhs,
-                      const infrast::SkillsComb& rhs) -> bool {
-                          return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
-                  });
+            [&](const infrast::SkillsComb& lhs,
+                const infrast::SkillsComb& rhs) -> bool {
+                    return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
+            });
 
         // 可能有多个干员有同样的技能，所以这里需要循环找同一个技能，直到找不到为止
         for (const infrast::SkillsComb& opt : optional) {
@@ -362,7 +374,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                     if (!opt.possible_hashs.empty()) {
                         for (const auto& [key, hash] : opt.possible_hashs) {
                             int dist = utils::hamming(find_iter->name_hash, hash);
-                            log.trace("optimal_calc | hash dist", dist, hash, find_iter->name_hash);
+                            log.trace("optimal_calc | name hash dist", dist, hash, find_iter->name_hash);
                             if (dist < m_name_hash_thres) {
                                 hash_matched = true;
                                 break;
@@ -462,6 +474,11 @@ bool asst::InfrastProductionTask::opers_choose()
             }
         }
         auto cur_all_opers = oper_analyzer.get_result();
+        // 小于心情阈值的干员则不可用
+        std::remove_if(cur_all_opers.begin(), cur_all_opers.end(),
+            [&](const infrast::Oper& rhs) -> bool {
+                return rhs.mood_ratio < m_mood_threshold;
+            });
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             auto find_iter = std::find_if(
                 cur_all_opers.cbegin(), cur_all_opers.cend(),
@@ -535,6 +552,13 @@ bool asst::InfrastProductionTask::opers_choose()
     return true;
 }
 
+bool asst::InfrastProductionTask::use_drone()
+{
+    std::string task_name = "DroneAssist" + m_facility;
+    ProcessTask task(*this, { task_name });
+    return task.run();
+}
+
 asst::infrast::SkillsComb
 asst::InfrastProductionTask::efficient_regex_calc(
     std::unordered_set<infrast::Skill> skills) const
@@ -554,11 +578,7 @@ asst::InfrastProductionTask::efficient_regex_calc(
                 // TODO 报错！
             }
             std::string status_key = cur_formula.substr(pos + 1, rp_pos - pos - 1);
-            std::any status_any_value = status.get(status_key);
-            int status_value = 0;
-            if (status_any_value.has_value()) {
-                status_value = std::any_cast<int>(status_any_value);
-            }
+            int status_value = status.get(status_key);
             cur_formula.replace(pos, rp_pos - pos + 1, std::to_string(status_value));
         }
 
@@ -577,7 +597,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
     MultiMatchImageAnalyzer mm_analyzer(image);
 
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        resource.task().task_ptr("InfrastFacilityListTab" + m_facility));
+        task.get("InfrastFacilityListTab" + m_facility));
     mm_analyzer.set_task_info(*task_ptr);
 
     if (!mm_analyzer.analyze()) {

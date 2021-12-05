@@ -17,7 +17,7 @@ namespace asst
             m_to_be_analyzed = std::move(facilities);
         }
 
-        int get_quantity(const std::string& name) const
+        size_t get_quantity(const std::string& name) const
         {
             if (auto iter = m_result.find(name);
                 iter == m_result.cend()) {

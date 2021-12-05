@@ -108,14 +108,8 @@
     <ClInclude Include="AbstractConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="TaskData.h">
-      <Filter>头文件\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="UserConfiger.h">
       <Filter>头文件\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="ScreenCaptureTask.h">
-      <Filter>头文件\Task</Filter>
     </ClInclude>
     <ClInclude Include="CreditShoppingTask.h">
       <Filter>头文件\Task</Filter>
@@ -213,6 +207,15 @@
     <ClInclude Include="InfrastOperImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Infrast</Filter>
     </ClInclude>
+    <ClInclude Include="TaskData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoRecruitTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastControlTask.h">
+      <Filter>头文件\Task\Infrast</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -242,14 +245,8 @@
     <ClCompile Include="AbstractConfiger.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="TaskData.cpp">
-      <Filter>源文件\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="UserConfiger.cpp">
       <Filter>源文件\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="ScreenCaptureTask.cpp">
-      <Filter>源文件\Task</Filter>
     </ClCompile>
     <ClCompile Include="CreditShoppingTask.cpp">
       <Filter>源文件\Task</Filter>
@@ -343,6 +340,15 @@
     </ClCompile>
     <ClCompile Include="InfrastOperImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\Infrast</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskData.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoRecruitTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastControlTask.cpp">
+      <Filter>源文件\Task\Infrast</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

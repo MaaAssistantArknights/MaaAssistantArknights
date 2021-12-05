@@ -88,8 +88,10 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -109,17 +111,37 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Helper\AsstProxy.cs" />
+    <Compile Include="Helper\AutoScroll.cs" />
+    <Compile Include="Helper\CombData.cs" />
+    <Compile Include="Helper\LogItemViewModel.cs" />
+    <Compile Include="Helper\ScrollViewerBinding.cs" />
     <Compile Include="Helper\ViewStatusStorage.cs" />
-    <Compile Include="UserControl\VisitParamSettingUserControl.xaml.cs">
-      <DependentUpon>VisitParamSettingUserControl.xaml</DependentUpon>
+    <Compile Include="Helper\FlowDocumentPagePadding.cs" />
+    <Compile Include="UserControl\AutoRecruitSettingsUserControl.xaml.cs">
+      <DependentUpon>AutoRecruitSettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\SanityParamSettingUserControl.xaml.cs">
-      <DependentUpon>SanityParamSettingUserControl.xaml</DependentUpon>
+    <Compile Include="UserControl\ConnectSettingsUserControl.xaml.cs">
+      <DependentUpon>ConnectSettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\InfrastructureConstructionViewModel.cs" />
-    <Compile Include="ViewModels\MainFunctionViewModel.cs" />
+    <Compile Include="UserControl\MallSettingsUserControl.xaml.cs">
+      <DependentUpon>MallSettingsUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\InfrastSettingsUserControl.xaml.cs">
+      <DependentUpon>InfrastSettingsUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\FightSettingsUserControl.xaml.cs">
+      <DependentUpon>FightSettingsUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\DragItemViewModel.cs" />
+    <Compile Include="UserControl\PenguinReportSettingsUserControl.xaml.cs">
+      <DependentUpon>PenguinReportSettingsUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\VersionUpdateSettingsUserControl.xaml.cs">
+      <DependentUpon>VersionUpdateSettingsUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\RecruitViewModel.cs" />
     <Compile Include="ViewModels\RootViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\TaskQueueViewModel.cs" />
     <Compile Include="ViewModels\VersionUpdateViewModel.cs" />
     <Compile Include="App.xaml.cs">
@@ -134,21 +156,37 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\VisitParamSettingUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControl\SanityParamSettingUserControl.xaml">
+    <Page Include="UserControl\AutoRecruitSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\InfrastructureConstructionView.xaml">
+    <Page Include="UserControl\ConnectSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainFunctionView.xaml">
+    <Page Include="UserControl\MallSettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl\InfrastSettingsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\FightSettingsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\PenguinReportSettingsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\VersionUpdateSettingsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TaskQueueView.xaml">
       <SubType>Designer</SubType>
@@ -210,6 +248,9 @@
     <Resource Include="favicon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CalcBinding">
+      <Version>2.5.2</Version>
+    </PackageReference>
     <PackageReference Include="Costura.Fody">
       <Version>5.7.0</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
