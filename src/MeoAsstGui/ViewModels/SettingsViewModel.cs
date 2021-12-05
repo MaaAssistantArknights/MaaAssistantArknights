@@ -194,6 +194,18 @@ namespace MeoAsstGui
         // 消息源，0：无；1：SelectedIndex；2：ScrollOffset
         private int _notifySource = 0;
 
+        private void resetNotifySource()
+        {
+            System.Timers.Timer t = new System.Timers.Timer(20);
+            t.Elapsed += new System.Timers.ElapsedEventHandler(delegate (object source, System.Timers.ElapsedEventArgs e)
+            {
+                _notifySource = 0;
+            });
+            t.AutoReset = false;
+            t.Enabled = true;
+            t.Start();
+        }
+
         private int _selectedIndex = 0;
 
         public int SelectedIndex
@@ -201,16 +213,18 @@ namespace MeoAsstGui
             get { return _selectedIndex; }
             set
             {
-                if (_notifySource != 1)
+                if (_notifySource == 0)
                 {
-                    if (_notifySource == 0)
-                    {
-                        _notifySource = 1;
-                    }
-                    ScrollOffset = (double)value / (ListTitle.Count - 1);
+                    _notifySource = 1;
+                    SetAndNotify(ref _selectedIndex, value);
+                    ScrollOffset = (double)value / ListTitle.Count;
+                    //_notifySource = 0;
+                    resetNotifySource();
+                }
+                else if (_notifySource == 2)
+                {
                     SetAndNotify(ref _selectedIndex, value);
                 }
-                _notifySource = 0;
             }
         }
 
@@ -221,20 +235,22 @@ namespace MeoAsstGui
             get { return _scrollOffset; }
             set
             {
-                if (_notifySource != 2)
+                if (_notifySource == 0)
                 {
-                    if (_notifySource == 0)
-                    {
-                        _notifySource = 2;
-                    }
-                    SelectedIndex = (int)(value / ScrollHeight * (ListTitle.Count - 1));
+                    _notifySource = 2;
+                    SetAndNotify(ref _scrollOffset, value);
+                    SelectedIndex = (int)(value / ScrollHeight * ListTitle.Count);
+                    //_notifySource = 0;
+                    resetNotifySource();
+                }
+                else if (_notifySource == 1)
+                {
                     SetAndNotify(ref _scrollOffset, value);
                 }
-                _notifySource = 0;
             }
         }
 
-        private double _scrollHeight = 258; // ScrollViewer.ScrollableHeight, 不知道该咋获取，默认值是258
+        private double _scrollHeight = 660; // ScrollViewer.ScrollableHeight, 不知道该咋获取，当前的默认值是这个
 
         public double ScrollHeight
         {
