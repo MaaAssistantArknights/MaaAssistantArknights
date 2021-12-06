@@ -34,45 +34,45 @@ A game assistance for Arknights
 [稳定版](https://github.com/MistEO/MeoAssistance/releases/latest)  
 [测试版](https://github.com/MistEO/MeoAssistance/releases)
 
-### 模拟器支持
+## 模拟器支持
 
-#### 蓝叠模拟器
+### 蓝叠模拟器
 
 完美支持。需要在模拟器`设置`-`引擎设置`中打开`允许ADB连接`
 
-#### 蓝叠模拟器国际版
+### 蓝叠模拟器国际版
 
 完美支持。需要在模拟器`设定`-`进阶`中打开`Android调试桥`
 
-#### 夜神模拟器
+### 夜神模拟器
 
 完美支持
 
-#### MuMu模拟器
+### MuMu模拟器
 
 完美支持
 
-#### 雷电模拟器
+### 雷电模拟器
 
 勉强支持。雷电总有莫名其妙的问题，可以试试看，不保证能用（
 
-#### 逍遥模拟器
+### 逍遥模拟器
 
 支持
 
-#### 腾讯手游助手
+### 腾讯手游助手
 
 不支持。新版本的腾讯好像也是自研引擎了，没开放ADB端口；但是测试是能响应Win32 Api的，有需求再做
 
-#### MuMu手游助手（星云引擎）  
+### MuMu手游助手（星云引擎）  
 
 不支持。星云引擎这个版本不支持adb控制，甚至不响应Win32 Api鼠标消息，无解_(:з」∠)_
 
-#### Win11 WSA
+### Win11 WSA
 
 不支持，WSA 目前没有实现 AOSP screencap 需要的接口，无法进行截图。等微软支持后会尝试适配
 
-#### 蓝叠模拟器Hyper-V版本
+### 蓝叠模拟器Hyper-V版本
 
 支持
 
@@ -80,7 +80,7 @@ A game assistance for Arknights
 2. 下载[ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
 3. 在软件`设置`-`连接设置`中填写蓝叠安装目录下`bluestacks.conf`文件的完整路径
 
-#### 其他模拟器、安卓手机/平板、自定义设备
+### 其他模拟器、安卓手机/平板、自定义设备
 
 部分支持
 
