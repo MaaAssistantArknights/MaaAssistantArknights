@@ -209,10 +209,10 @@ A game assistance for Arknights
 - 非常感谢 [tcyh035](https://github.com/tcyh035) 帮忙设计重构图形界面
 - 非常感谢 [GengGode](https://github.com/GengGode) 和 [DbgDebug](https://github.com/DbgDebug) 提供图像算法思路并协助验证
 - 非常感谢 [LoveLoliii](https://github.com/LoveLoliii) 提供公开招募算法及数据、部分功能逻辑思路
-- 感谢 [内卷地狱] (https://jq.qq.com/?_wv=1027&k=ypbzXcA2)的大佬们提供的各种协助支持
-- 感谢 [LmeSzinc] (https://github.com/LmeSzinc)提供的界面样式参考，~~虽然我抄了个四不像orz~~
+- 感谢 [内卷地狱](https://jq.qq.com/?_wv=1027&k=ypbzXcA2) 的大佬们提供的各种协助支持
+- 感谢 [LmeSzinc](https://github.com/LmeSzinc) 提供的界面样式参考，~~虽然我抄了个四不像orz~~
 - 感谢参与软件测试、提bug的小伙伴们~
-- ~~感谢 [B站直播间] (https://live.bilibili.com/2808861)的小伙伴们陪我弹幕吹水~~
+- ~~感谢 [B站直播间](https://live.bilibili.com/2808861) 的小伙伴们陪我弹幕吹水~~
 
 ## 广告
 
