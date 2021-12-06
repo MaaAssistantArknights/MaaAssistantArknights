@@ -23,6 +23,7 @@
 #include "RecruitTask.h"
 #include "AutoRecruitTask.h"
 #include "InfrastControlTask.h"
+#include "RuntimeStatus.h"
 
 using namespace asst;
 
@@ -553,6 +554,8 @@ void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
 void Assistance::clear_cache()
 {
     resource.templ().clear_hists();
+    resource.item().clear_drop_count();
+    task.clear_cache();
 }
 
 json::value asst::Assistance::organize_stage_drop(const json::value& rec)

@@ -29,6 +29,17 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string name)
     return m_all_tasks_info[std::move(name)];
 }
 
+void asst::TaskData::clear_cache() noexcept
+{
+    for (auto&& [name, ptr] : m_all_tasks_info) {
+        switch (ptr->algorithm) {
+        case AlgorithmType::OcrDetect:
+            std::dynamic_pointer_cast<OcrTaskInfo>(ptr)->region_of_appeared.clear();
+            break;
+        }
+    }
+}
+
 bool asst::TaskData::parse(const json::value& json)
 {
     for (const auto& [name, task_json] : json.as_object()) {
