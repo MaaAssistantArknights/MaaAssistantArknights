@@ -147,6 +147,7 @@ namespace MeoAsstGui
 
             // 操作完了，把解压的文件删了
             Directory.Delete(extractDir, true);
+            File.Delete(UpdatePackageName);
             // 保存更新信息，下次启动后会弹出已更新完成的提示
             IsFirstBootAfterUpdate = true;
             UpdatePackageName = string.Empty;
@@ -240,34 +241,41 @@ namespace MeoAsstGui
             {
                 return false;
             }
-            JObject json;
 
-            if (settings.UpdateBeta)
+            try
             {
-                JArray all = (JArray)JsonConvert.DeserializeObject(response);
-                json = (JObject)all[0];
-            }
-            else
-            {
-                json = (JObject)JsonConvert.DeserializeObject(response);
-            }
+                JObject json;
+                if (settings.UpdateBeta)
+                {
+                    JArray all = (JArray)JsonConvert.DeserializeObject(response);
+                    json = (JObject)all[0];
+                }
+                else
+                {
+                    json = (JObject)JsonConvert.DeserializeObject(response);
+                }
 
-            _viewUrl = json["html_url"].ToString();
-            _latestVersion = json["tag_name"].ToString();
-            if (string.Compare(_latestVersion, _curVersion) <= 0
-                || ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _latestVersion)
+                _viewUrl = json["html_url"].ToString();
+                _latestVersion = json["tag_name"].ToString();
+                if (string.Compare(_latestVersion, _curVersion) <= 0
+                    || ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _latestVersion)
+                {
+                    return false;
+                }
+                foreach (JObject asset in json["assets"])
+                {
+                    string downUrl = asset["browser_download_url"].ToString();
+                    if (downUrl.IndexOf("MeoAssistance") != -1)
+                    {
+                        _downloadUrl = downUrl.Replace("github.com", "hub.fastgit.org");
+                        _lastestJson = json;
+                        return true;
+                    }
+                }
+            }
+            catch (Exception)
             {
                 return false;
-            }
-            foreach (JObject asset in json["assets"])
-            {
-                string downUrl = asset["browser_download_url"].ToString();
-                if (downUrl.IndexOf("MeoAssistance") != -1)
-                {
-                    _downloadUrl = downUrl;
-                    _lastestJson = json;
-                    return true;
-                }
             }
             return false;
         }
@@ -339,35 +347,72 @@ namespace MeoAsstGui
 
         public bool ResourceOTA()
         {
-            const string base_url = "https://raw.githubusercontent.com/MistEO/MeoAssistance-Arknights/master/";
+            const string req_base_url = "https://api.github.com/repos/MistEO/MeoAssistance-Arknights/commits?path=";
+            const string down_base_url = "https://cdn.jsdelivr.net/gh/MistEO/MeoAssistance-Arknights@master/";
             var update_dict = new Dictionary<string, string>()
             {
                 { "3rdparty/resource/penguin-stats-recognize/json/stages.json" , "resource/penguin-stats-recognize/json/stages.json"},
                 { "resource/recruit.json", "resource/recruit.json" }
             };
             bool updated = false;
+            string message = "";
             foreach (var item in update_dict)
             {
-                string url = base_url + item.Key;
+                string url = item.Key;
                 string filename = item.Value;
-                string tempname = filename + ".tmp";
-                if (!DownloadFile(url, tempname))
+                string cur_sha = ViewStatusStorage.Get(filename, string.Empty);
+
+                string response = RequestApi(req_base_url + url);
+                string cloud_sha;
+                string cur_message = "";
+                try
+                {
+                    JArray arr = (JArray)JsonConvert.DeserializeObject(response);
+                    JObject commit_info = (JObject)arr[0];
+                    cloud_sha = commit_info["sha"].ToString();
+                    cur_message = commit_info["commit"]["message"].ToString();
+                }
+                catch (Exception)
                 {
                     continue;
                 }
-                string src = File.ReadAllText(filename).Replace("\r\n", "\n");
+                if (cur_sha == cloud_sha)
+                {
+                    continue;
+                }
+
+                string tempname = filename + ".tmp";
+                if (!DownloadFile(down_base_url + url, tempname))
+                {
+                    continue;
+                }
                 string tmp = File.ReadAllText(tempname).Replace("\r\n", "\n");
 
-                if (src.Length < tmp.Length)
+                try
+                {
+                    JsonConvert.DeserializeObject(tmp);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+
+                string src = File.ReadAllText(filename).Replace("\r\n", "\n");
+                if (src.Length != tmp.Length)
                 {
                     File.Copy(tempname, filename, true);
                     updated = true;
+                    message += cur_message + "\n";
                 }
+                ViewStatusStorage.Set(filename, cloud_sha);
                 File.Delete(tempname);
             }
             if (updated)
             {
-                new ToastContentBuilder().AddText("资源文件已更新").AddText("下次启动软件生效！").Show();
+                new ToastContentBuilder()
+                    .AddText("资源已更新，重启软件生效！")
+                    .AddText(message)
+                    .Show();
                 return true;
             }
             else

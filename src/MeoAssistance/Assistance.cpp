@@ -23,6 +23,7 @@
 #include "RecruitTask.h"
 #include "AutoRecruitTask.h"
 #include "InfrastControlTask.h"
+#include "RuntimeStatus.h"
 
 using namespace asst;
 
@@ -248,6 +249,7 @@ bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>
     recruit_task_ptr->set_required_level(required_level);
     recruit_task_ptr->set_confirm_level(confirm_level);
     recruit_task_ptr->set_task_chain(TaskChain);
+    recruit_task_ptr->set_retry_times(AutoRecruitTaskRetryTimesDefault);
 
     m_tasks_queue.emplace(recruit_task_ptr);
 
@@ -552,6 +554,8 @@ void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
 void Assistance::clear_cache()
 {
     resource.templ().clear_hists();
+    resource.item().clear_drop_count();
+    task.clear_cache();
 }
 
 json::value asst::Assistance::organize_stage_drop(const json::value& rec)

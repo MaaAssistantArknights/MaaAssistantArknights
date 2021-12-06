@@ -76,6 +76,7 @@ namespace asst
 
         static constexpr int ProcessTaskRetryTimesDefault = 20;
         static constexpr int OpenRecruitTaskRetryTimesDefault = 10;
+        static constexpr int AutoRecruitTaskRetryTimesDefault = 5;
 
     private:
         void working_proc();
