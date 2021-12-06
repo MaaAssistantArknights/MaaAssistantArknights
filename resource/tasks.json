@@ -879,6 +879,7 @@
             640,
             360
         ],
+        "rearDelay": 1000,
         "next": [
             "CreditStoreOcr",
             "Mall"
@@ -1173,6 +1174,28 @@
             400,
             650,
             160
+        ],
+        "next": [
+            "RecruitLoading",
+            "Stop"
+        ]
+    },
+    "RecruitLoading": {
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "RecruitLoading",
+            "Stop"
         ]
     },
     "RecruitConfirm": {

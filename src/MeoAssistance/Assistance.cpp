@@ -248,6 +248,7 @@ bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>
     recruit_task_ptr->set_required_level(required_level);
     recruit_task_ptr->set_confirm_level(confirm_level);
     recruit_task_ptr->set_task_chain(TaskChain);
+    recruit_task_ptr->set_retry_times(AutoRecruitTaskRetryTimesDefault);
 
     m_tasks_queue.emplace(recruit_task_ptr);
 

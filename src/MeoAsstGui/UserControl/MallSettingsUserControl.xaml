@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="550">
     <Grid>
         <!--IsEnabled="{Binding CreditShoppingCheckBoxIsEnable}"-->
-        <CheckBox IsChecked="{Binding CreditShopping}"
-                  Content=" 信用商店随缘买&#13;（不买碳和家具）" />
+        <CheckBox IsChecked="{Binding CreditShopping}"  Block.TextAlignment="Center"
+                  Content="信用商店随缘买&#13;（不买碳和家具）" />
     </Grid>
 </UserControl>
