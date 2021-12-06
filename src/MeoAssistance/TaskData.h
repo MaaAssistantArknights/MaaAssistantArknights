@@ -24,12 +24,10 @@ namespace asst
             return unique_instance;
         }
 
-        [[deprecated]] bool set_param(const std::string& type, const std::string& param, const std::string& value);
-
         const std::shared_ptr<TaskInfo> get(const std::string& name) const noexcept;
         const std::unordered_set<std::string>& get_templ_required() const noexcept;
         std::shared_ptr<TaskInfo> get(std::string name);
-        [[deprecated]] void clear_exec_times();
+        void clear_cache() noexcept;
 
     protected:
         TaskData() = default;
