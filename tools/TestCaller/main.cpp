@@ -8,7 +8,7 @@ int main(int argc, char** argv)
     if (!ret) {
         getchar();
         if (ptr) {
-            AsstDestory(ptr);
+            AsstDestroy(ptr);
             ptr = nullptr;
         }
         return -1;
@@ -39,7 +39,7 @@ int main(int argc, char** argv)
     }
 
     if (ptr) {
-        AsstDestory(ptr);
+        AsstDestroy(ptr);
         ptr = nullptr;
     }
 

@@ -201,7 +201,7 @@ bool RecruitTask::_run()
 
     if (!result_vec.empty()) {
         /* 点击最优解的tags */
-        if (std::find(m_required_level.cbegin(), m_required_level.cend(), m_maybe_level) != m_required_level.cend()) {
+        if (std::find(m_select_level.cbegin(), m_select_level.cend(), m_maybe_level) != m_select_level.cend()) {
             const std::vector<std::string>& final_tags_name = result_vec.at(0).tags;
 
             for (const TextRect& text_area : all_tags) {
@@ -219,8 +219,8 @@ bool RecruitTask::_run()
     return true;
 }
 
-void RecruitTask::set_param(std::vector<int> required_level, bool set_time) noexcept
+void RecruitTask::set_param(std::vector<int> select_level, bool set_time) noexcept
 {
-    m_required_level = std::move(required_level);
+    m_select_level = std::move(select_level);
     m_set_time = set_time;
 }

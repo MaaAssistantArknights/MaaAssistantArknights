@@ -9,18 +9,22 @@
 #include "AsstUtils.hpp"
 #include "Version.h"
 
-#if 0
 #if _MSC_VER
 // Win32平台下Dll的入口
-BOOL APIENTRY DllMain(HANDLE hModule,
+BOOL APIENTRY DllMain(HINSTANCE hModule,
     DWORD  ul_reason_for_call,
     LPVOID lpReserved
 )
 {
-    UNREFERENCED_PARAMETER(hModule);
+    //UNREFERENCED_PARAMETER(hModule);
     UNREFERENCED_PARAMETER(lpReserved);
     switch (ul_reason_for_call) {
-    case DLL_PROCESS_ATTACH:
+    case DLL_PROCESS_ATTACH: {
+        char exepath_buff[_MAX_PATH] = { 0 };
+        ::GetModuleFileNameA(hModule, exepath_buff, _MAX_PATH);
+        std::string exepath(exepath_buff);
+        asst::utils::_cur_dir = exepath.substr(0, exepath.find_last_of('\\') + 1);
+    } break;
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
@@ -30,7 +34,6 @@ BOOL APIENTRY DllMain(HANDLE hModule,
 }
 #elif VA_GNUC
 
-#endif
 #endif
 
 AsstCallback _callback = nullptr;
@@ -62,7 +65,7 @@ void* AsstCreateEx(AsstCallback callback, void* custom_arg)
     }
 }
 
-void AsstDestory(void* p_asst)
+void AsstDestroy(void* p_asst)
 {
     if (p_asst == nullptr) {
         return;
@@ -158,13 +161,13 @@ bool AsstAppendMall(void* p_asst, bool with_shopping)
 //    return ((asst::Assistance*)p_asst)->append_process_task(task);
 //}
 
-bool AsstStartRecruitCalc(void* p_asst, const int required_level[], int required_len, bool set_time)
+bool AsstStartRecruitCalc(void* p_asst, const int select_level[], int required_len, bool set_time)
 {
     if (p_asst == nullptr) {
         return false;
     }
     std::vector<int> level_vector;
-    level_vector.assign(required_level, required_level + required_len);
+    level_vector.assign(select_level, select_level + required_len);
     return ((asst::Assistance*)p_asst)->start_recruit_calc(level_vector, set_time);
 }
 
@@ -184,13 +187,13 @@ bool AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int orde
             dorm_threshold);
 }
 
-bool AsstAppendRecruit(void* p_asst, int max_times, const int required_level[], int required_len, const int confirm_level[], int confirm_len, bool need_refresh)
+bool AsstAppendRecruit(void* p_asst, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh)
 {
     if (p_asst == nullptr) {
         return false;
     }
     std::vector<int> required_vector;
-    required_vector.assign(required_level, required_level + required_len);
+    required_vector.assign(select_level, select_level + select_len);
     std::vector<int> confirm_vector;
     confirm_vector.assign(confirm_level, confirm_level + confirm_len);
 

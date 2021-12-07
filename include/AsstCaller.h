@@ -9,7 +9,7 @@ extern "C" {
 
     MEOAPI_PORT void* MEO_CALL AsstCreate();
     MEOAPI_PORT void* MEO_CALL AsstCreateEx(AsstCallback callback, void* custom_arg);
-    void MEOAPI AsstDestory(void* p_asst);
+    void MEOAPI AsstDestroy(void* p_asst);
 
     bool MEOAPI AsstCatchDefault(void* p_asst);
     bool MEOAPI AsstCatchEmulator(void* p_asst);
@@ -22,10 +22,10 @@ extern "C" {
     bool MEOAPI AsstAppendMall(void* p_asst, bool with_shopping);
     //bool MEOAPI AsstAppendProcessTask(void* p_asst, const char* task);
     bool MEOAPI AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold);
-    bool MEOAPI AsstAppendRecruit(void* p_asst, int max_times, const int required_level[], int required_len, const int confirm_level[], int confirm_len, bool need_refresh);
+    bool MEOAPI AsstAppendRecruit(void* p_asst, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh);
     bool MEOAPI AsstAppendDebug(void* p_asst);
 
-    bool MEOAPI AsstStartRecruitCalc(void* p_asst, const int required_level[], int required_len, bool set_time);
+    bool MEOAPI AsstStartRecruitCalc(void* p_asst, const int select_level[], int required_len, bool set_time);
     bool MEOAPI AsstStart(void* p_asst);
     bool MEOAPI AsstStop(void* p_asst);
 

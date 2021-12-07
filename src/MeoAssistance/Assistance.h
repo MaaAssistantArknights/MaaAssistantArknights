@@ -52,9 +52,9 @@ namespace asst
 
         // 添加自动公招任务
         // 参数max_times: 最多进行几次公招
-        // 参数required_level: 需要的选择Tags的等级
+        // 参数select_level: 需要的选择Tags的等级
         // 参数confirm_level: 需要点击确认按钮的等级
-        bool append_recruit(unsigned max_times, const std::vector<int>& required_level, const std::vector<int>& confirm_level, bool need_refresh);
+        bool append_recruit(unsigned max_times, const std::vector<int>& select_level, const std::vector<int>& confirm_level, bool need_refresh);
 
 #ifdef LOG_TRACE
         // 调试用
@@ -62,7 +62,7 @@ namespace asst
 #endif
 
         // 开始公开招募计算
-        bool start_recruit_calc(const std::vector<int>& required_level, bool set_time);
+        bool start_recruit_calc(const std::vector<int>& select_level, bool set_time);
 
         // 开始执行任务队列
         bool start(bool block = true);

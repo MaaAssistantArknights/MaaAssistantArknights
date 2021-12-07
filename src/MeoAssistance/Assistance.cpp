@@ -233,7 +233,7 @@ bool Assistance::append_process_task(const std::string& task, std::string task_c
     return true;
 }
 
-bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>& required_level, const std::vector<int>& confirm_level, bool need_refresh)
+bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>& select_level, const std::vector<int>& confirm_level, bool need_refresh)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -246,7 +246,7 @@ bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>
     auto recruit_task_ptr = std::make_shared<AutoRecruitTask>(task_callback, (void*)this);
     recruit_task_ptr->set_max_times(max_times);
     recruit_task_ptr->set_need_refresh(need_refresh);
-    recruit_task_ptr->set_required_level(required_level);
+    recruit_task_ptr->set_select_level(select_level);
     recruit_task_ptr->set_confirm_level(confirm_level);
     recruit_task_ptr->set_task_chain(TaskChain);
     recruit_task_ptr->set_retry_times(AutoRecruitTaskRetryTimesDefault);
@@ -280,7 +280,7 @@ bool Assistance::append_debug()
 }
 #endif
 
-bool Assistance::start_recruit_calc(const std::vector<int>& required_level, bool set_time)
+bool Assistance::start_recruit_calc(const std::vector<int>& select_level, bool set_time)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -290,7 +290,7 @@ bool Assistance::start_recruit_calc(const std::vector<int>& required_level, bool
     std::unique_lock<std::mutex> lock(m_mutex);
 
     auto task_ptr = std::make_shared<RecruitTask>(task_callback, (void*)this);
-    task_ptr->set_param(required_level, set_time);
+    task_ptr->set_param(select_level, set_time);
     task_ptr->set_retry_times(OpenRecruitTaskRetryTimesDefault);
     task_ptr->set_task_chain("OpenRecruit");
     m_tasks_queue.emplace(task_ptr);
