@@ -200,10 +200,11 @@
     },
     "UseMedicine": {
         "action": "doNothing",
+        "cache": false,
         "roi": [
             580,
             50,
-            700,
+            400,
             100
         ],
         "next": [
