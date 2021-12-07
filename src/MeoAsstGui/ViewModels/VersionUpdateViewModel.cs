@@ -348,7 +348,7 @@ namespace MeoAsstGui
         public bool ResourceOTA()
         {
             const string req_base_url = "https://api.github.com/repos/MistEO/MeoAssistance-Arknights/commits?path=";
-            const string down_base_url = "https://cdn.jsdelivr.net/gh/MistEO/MeoAssistance-Arknights@master/";
+            const string down_base_url = "https://cdn.jsdelivr.net/gh/MistEO/MeoAssistance-Arknights@";
             var update_dict = new Dictionary<string, string>()
             {
                 { "3rdparty/resource/penguin-stats-recognize/json/stages.json" , "resource/penguin-stats-recognize/json/stages.json"},
@@ -382,7 +382,8 @@ namespace MeoAsstGui
                 }
 
                 string tempname = filename + ".tmp";
-                if (!DownloadFile(down_base_url + url, tempname))
+                string download_url = down_base_url + cloud_sha + "/" + url;
+                if (!DownloadFile(download_url, tempname))
                 {
                     continue;
                 }
