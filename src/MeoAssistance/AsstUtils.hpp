@@ -10,16 +10,10 @@ namespace asst
 {
     namespace utils
     {
+        static std::string _cur_dir;
         static std::string get_cur_dir()
         {
-            static std::string cur_dir;
-            if (cur_dir.empty()) {
-                char exepath_buff[_MAX_PATH] = { 0 };
-                ::GetModuleFileNameA(NULL, exepath_buff, _MAX_PATH);
-                std::string exepath(exepath_buff);
-                cur_dir = exepath.substr(0, exepath.find_last_of('\\') + 1);
-            }
-            return cur_dir;
+            return _cur_dir;
         }
 
         static std::string get_resource_dir()

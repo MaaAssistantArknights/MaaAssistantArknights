@@ -7,9 +7,9 @@
 #include "ProcessTask.h"
 #include "RecruitTask.h"
 
-void asst::AutoRecruitTask::set_required_level(std::vector<int> required_level) noexcept
+void asst::AutoRecruitTask::set_select_level(std::vector<int> select_level) noexcept
 {
-    m_required_level = std::move(required_level);
+    m_select_level = std::move(select_level);
 }
 
 void asst::AutoRecruitTask::set_confirm_level(std::vector<int> confirm_level) noexcept
@@ -58,7 +58,7 @@ bool asst::AutoRecruitTask::_run()
         while (true) {
             RecruitTask recurit_task(m_callback, m_callback_arg);
             recurit_task.set_retry_times(10);
-            recurit_task.set_param(m_required_level, true);
+            recurit_task.set_param(m_select_level, true);
             recurit_task.set_task_chain(m_task_chain);
 
             // 识别错误，放弃这个公招位，直接返回
