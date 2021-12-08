@@ -5,6 +5,9 @@ import pathlib
 from msg import Msg
 
 
+
+
+
 class Asst:
     CallBackType = ctypes.CFUNCTYPE(
         None, ctypes.c_int, ctypes.c_char_p, ctypes.c_void_p)
@@ -108,6 +111,11 @@ class Asst:
         self.__dll.AsstGetVersion.restype = ctypes.c_char_p
         return self.__dll.AsstGetVersion()
 
+    def main_loop(self) -> None:
+        print(self.__dict__)
+        from time import sleep
+        while True:
+            sleep(1)
 
 @Asst.CallBackType
 def my_callback(msg, details, arg):
@@ -117,7 +125,8 @@ def my_callback(msg, details, arg):
 
 if __name__ == "__main__":
 
-    asst = Asst('D:\\Code\\MeoAssistance\\x64\\Release\\', my_callback)
+    dirname: str = (pathlib.Path.cwd().parent.parent / 'x64' / 'Release').__str__()
+    asst = Asst(dirname=dirname, callback=my_callback)
     if asst.catch_default():
         print('连接成功')
     else:
@@ -129,5 +138,4 @@ if __name__ == "__main__":
 
     asst.start_recurit_clac([4, 5, 6], True)
 
-    while True:
-        pass
+    asst.main_loop()
