@@ -200,6 +200,7 @@
     },
     "UseMedicine": {
         "action": "doNothing",
+        "templThreshold": 0.7,
         "cache": false,
         "roi": [
             580,
