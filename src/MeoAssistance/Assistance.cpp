@@ -292,7 +292,7 @@ bool Assistance::start_recruit_calc(const std::vector<int>& select_level, bool s
     auto task_ptr = std::make_shared<RecruitTask>(task_callback, (void*)this);
     task_ptr->set_param(select_level, set_time);
     task_ptr->set_retry_times(OpenRecruitTaskRetryTimesDefault);
-    task_ptr->set_task_chain("OpenRecruit");
+    task_ptr->set_task_chain("RecruitCalc");
     m_tasks_queue.emplace(task_ptr);
 
     return start(false);
