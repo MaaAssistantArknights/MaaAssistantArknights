@@ -5,9 +5,6 @@ import pathlib
 from msg import Msg
 
 
-
-
-
 class Asst:
     CallBackType = ctypes.CFUNCTYPE(
         None, ctypes.c_int, ctypes.c_char_p, ctypes.c_void_p)
@@ -116,6 +113,7 @@ class Asst:
         from time import sleep
         while True:
             sleep(1)
+
 
 @Asst.CallBackType
 def my_callback(msg, details, arg):
