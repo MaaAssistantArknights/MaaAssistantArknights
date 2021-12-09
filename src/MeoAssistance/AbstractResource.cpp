@@ -1,1 +1,1 @@
-﻿#include "AbstractResource.h"
+#include "AbstractResource.h"

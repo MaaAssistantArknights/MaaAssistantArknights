@@ -35,9 +35,9 @@ bool asst::AutoRecruitTask::_run()
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
-    int delay = resource.cfg().get_options().task_delay;
+    int delay = Resrc.cfg().get_options().task_delay;
 
-    auto image = ctrler.get_image();
+    auto image = Ctrler.get_image();
     OcrImageAnalyzer start_analyzer(image);
     const auto start_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(task.get("StartRecruit"));
     start_analyzer.set_task_info(*start_task_ptr);
@@ -52,7 +52,7 @@ bool asst::AutoRecruitTask::_run()
             return false;
         }
         Rect start_rect = start_res.at(m_cur_times).rect;
-        ctrler.click(start_rect);
+        Ctrler.click(start_rect);
         sleep(delay);
 
         while (true) {

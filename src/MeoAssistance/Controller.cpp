@@ -211,6 +211,11 @@ void asst::Controller::pipe_working_proc()
     }
 }
 
+void asst::Controller::set_dirname(std::string dirname) noexcept
+{
+    m_dirname = std::move(dirname);
+}
+
 bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle)
 {
     LogTraceScope("try_capture | " + info.name);
@@ -268,8 +273,8 @@ bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle
             if (emulator_path.empty()) {
                 return false;
             }
-            resource.cfg().set_emulator_path(info.name, emulator_path);
-            resource.user().set_emulator_path(info.name, emulator_path);
+            Resrc.cfg().set_emulator_path(info.name, emulator_path);
+            Resrc.user().set_emulator_path(info.name, emulator_path);
         }
         else {
             emulator_path = info.path;
@@ -278,16 +283,16 @@ bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle
         // 到这一步说明句柄和权限没问题了，接下来就是adb的事情了
         m_emulator_info = info;
         m_handle = window_handle;
-        log.trace("Handle:", m_handle, "Name:", m_emulator_info.name);
+        Log.trace("Handle:", m_handle, "Name:", m_emulator_info.name);
 
         std::string adb_path = emulator_path.substr(0, emulator_path.find_last_of('\\') + 1);
         adb_path = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[EmulatorPath]", adb_path) + '"';
-        adb_path = utils::string_replace_all(adb_path, "[ExecDir]", utils::get_cur_dir());
+        adb_path = utils::string_replace_all(adb_path, "[ExecDir]", m_dirname);
         m_adb_path = std::move(adb_path);
     }
     else { // 使用辅助自带的标准adb
         m_emulator_info = info;
-        m_adb_path = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", utils::get_cur_dir()) + '"';
+        m_adb_path = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", m_dirname) + '"';
     }
 
     // 优先使用addresses里指定的地址
@@ -316,7 +321,7 @@ bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle
             address = smatch[1];
         }
     }
-    log.trace("device address", address);
+    Log.trace("device address", address);
     if (address.empty()) {
         return false;
     }
@@ -372,9 +377,9 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
 
     ::CloseHandle(process_info.hProcess);
     ::CloseHandle(process_info.hThread);
-    log.trace("Call", cmd, "ret", exit_ret, ", output size:", pipe_data.size());
+    Log.trace("Call", cmd, "ret", exit_ret, ", output size:", pipe_data.size());
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
-        log.trace("output:", std::string(pipe_data.cbegin(), pipe_data.cend()));
+        Log.trace("output:", std::string(pipe_data.cbegin(), pipe_data.cend()));
     }
 
     return make_pair(!exit_ret, std::move(pipe_data));
@@ -438,7 +443,7 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
 
 void asst::Controller::random_delay() const
 {
-    auto& opt = resource.cfg().get_options();
+    auto& opt = Resrc.cfg().get_options();
     if (opt.control_delay_upper != 0) {
         LogTraceFunction;
         static std::default_random_engine rand_engine(
@@ -449,7 +454,7 @@ void asst::Controller::random_delay() const
 
         unsigned rand_delay = rand_uni(rand_engine);
 
-        log.trace("random_delay |", rand_delay, "ms");
+        Log.trace("random_delay |", rand_delay, "ms");
         std::this_thread::sleep_for(std::chrono::milliseconds(rand_delay));
     }
 }
@@ -482,12 +487,12 @@ bool asst::Controller::screencap()
         }
         m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
         if (m_cache_image.empty()) {
-            log.info("Data is not empty, but image is empty, try to convert lf");
+            Log.info("Data is not empty, but image is empty, try to convert lf");
             convert_lf(data);
             m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
             if (m_cache_image.empty()) {
                 m_image_convert_lf = false;
-                log.error("convert lf and retry decode falied!");
+                Log.error("convert lf and retry decode falied!");
                 return false;
             }
             m_image_convert_lf = true;
@@ -496,7 +501,7 @@ bool asst::Controller::screencap()
         return true;
     }
     else {
-        log.error("Data is empty!");
+        Log.error("Data is empty!");
         return false;
     }
 
@@ -522,7 +527,7 @@ int asst::Controller::click(const Rect& rect, bool block)
 int asst::Controller::click_without_scale(const Point& p, bool block)
 {
     if (p.x < 0 || p.x >= m_emulator_info.adb.display_width || p.y < 0 || p.y >= m_emulator_info.adb.display_height) {
-        log.error("click point out of range");
+        Log.error("click point out of range");
     }
     std::string cur_cmd = utils::string_replace_all(m_emulator_info.adb.click, "[x]", std::to_string(p.x));
     cur_cmd = utils::string_replace_all(cur_cmd, "[y]", std::to_string(p.y));
@@ -557,7 +562,7 @@ int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool b
 int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     if (p1.x < 0 || p1.x >= m_emulator_info.adb.display_width || p1.y < 0 || p1.y >= m_emulator_info.adb.display_height || p2.x < 0 || p2.x >= m_emulator_info.adb.display_width || p2.y < 0 || p2.y >= m_emulator_info.adb.display_height) {
-        log.error("swipe point out of range");
+        Log.error("swipe point out of range");
     }
     std::string cur_cmd = utils::string_replace_all(m_emulator_info.adb.swipe, "[x1]", std::to_string(p1.x));
     cur_cmd = utils::string_replace_all(cur_cmd, "[y1]", std::to_string(p1.y));
@@ -572,8 +577,8 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
 
     int id = 0;
 
-    int extra_swipe_dist = resource.cfg().get_options().adb_extra_swipe_dist /* * m_control_scale*/;
-    int extra_swipe_duration = resource.cfg().get_options().adb_extra_swipe_duration;
+    int extra_swipe_dist = Resrc.cfg().get_options().adb_extra_swipe_dist /* * m_control_scale*/;
+    int extra_swipe_duration = Resrc.cfg().get_options().adb_extra_swipe_duration;
 
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
     if (extra_swipe && extra_swipe_duration >= 0) {

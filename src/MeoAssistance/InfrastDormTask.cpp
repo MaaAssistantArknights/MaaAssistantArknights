@@ -42,12 +42,12 @@ bool asst::InfrastDormTask::_run()
             if (need_exit()) {
                 return false;
             }
-            const auto& image = ctrler.get_image();
+            const auto& image = Ctrler.get_image();
             InfrastOperImageAnalyzer oper_analyzer(image);
             const int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
             oper_analyzer.set_to_be_calced(without_skill);
             if (!oper_analyzer.analyze()) {
-                log.error("mood analyze faild!");
+                Log.error("mood analyze faild!");
                 return false;
             }
             oper_analyzer.sort_by_mood();
@@ -59,7 +59,7 @@ bool asst::InfrastDormTask::_run()
                     return false;
                 }
                 if (num_of_selected >= MaxNumOfOpers) {
-                    log.trace("num_of_selected:", num_of_selected, ", just break");
+                    Log.trace("num_of_selected:", num_of_selected, ", just break");
                     break;
                 }
                 if (!random_select) {
@@ -68,7 +68,7 @@ bool asst::InfrastDormTask::_run()
                         // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
                         // 从这时候开始，随机选人，尽量把宿舍填满（游戏机制，可以加信赖，还有些别的加成什么的）
                         if (++num_of_resting > MaxNumOfOpers) {
-                            log.trace("num_of_resting:", num_of_resting, ", enable random");
+                            Log.trace("num_of_resting:", num_of_resting, ", enable random");
                             random_select = true;
                             continue;
                         }
@@ -77,9 +77,9 @@ bool asst::InfrastDormTask::_run()
                     case infrast::SmileyType::Distract:
                         // 干员没有被选择的情况下，且不在工作，就进驻宿舍
                         if (oper.selected == false && oper.doing != infrast::Doing::Working) {
-                            ctrler.click(oper.rect);
+                            Ctrler.click(oper.rect);
                             if (++num_of_selected >= MaxNumOfOpers) {
-                                log.trace("num_of_selected:", num_of_selected, ", just break");
+                                Log.trace("num_of_selected:", num_of_selected, ", just break");
                                 break;
                             }
                         }
@@ -90,16 +90,16 @@ bool asst::InfrastDormTask::_run()
                 }
                 else {
                     if (oper.doing != infrast::Doing::Working) {
-                        ctrler.click(oper.rect);
+                        Ctrler.click(oper.rect);
                         if (++num_of_selected >= MaxNumOfOpers) {
-                            log.trace("num_of_selected:", num_of_selected, ", just break");
+                            Log.trace("num_of_selected:", num_of_selected, ", just break");
                             break;
                         }
                     }
                 }
             }
             if (num_of_selected >= MaxNumOfOpers) {
-                log.trace("num_of_selected:", num_of_selected, ", just break");
+                Log.trace("num_of_selected:", num_of_selected, ", just break");
                 break;
             }
             sync_swipe_of_operlist();
@@ -116,17 +116,17 @@ bool asst::InfrastDormTask::click_confirm_button()
 
     const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
         task.get("InfrastConfirmButton"));
-    ctrler.click(task_ptr->specific_rect);
+    Ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
 
     // 宿舍在把正在工作的干员换下来的时候，会有个二次确认的按钮
-    const auto& image = ctrler.get_image();
+    const auto& image = Ctrler.get_image();
     MatchImageAnalyzer cfm_analyzer(image);
     const auto sec_cfm_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         task.get("InfrastDormConfirmButton"));
     cfm_analyzer.set_task_info(*sec_cfm_task_ptr);
     if (cfm_analyzer.analyze()) {
-        ctrler.click(cfm_analyzer.get_result().rect);
+        Ctrler.click(cfm_analyzer.get_result().rect);
         sleep(sec_cfm_task_ptr->rear_delay);
     }
 
@@ -137,7 +137,7 @@ bool asst::InfrastDormTask::click_confirm_button()
         if (need_exit()) {
             return false;
         }
-        const auto& image = ctrler.get_image();
+        const auto& image = Ctrler.get_image();
         analyzer.set_image(image);
         if (!analyzer.analyze()) {
             sleep(sec_cfm_task_ptr->rear_delay);

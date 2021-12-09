@@ -33,7 +33,7 @@ bool ProcessTask::_run()
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
-    auto& task_delay = resource.cfg().get_options().task_delay;
+    auto& task_delay = Resrc.cfg().get_options().task_delay;
     while (!m_cur_tasks_name.empty()) {
         if (need_exit()) {
             return false;
@@ -46,7 +46,7 @@ bool ProcessTask::_run()
             task_info_ptr = front_task_ptr;
         }
         else {
-            const auto& image = ctrler.get_image();
+            const auto& image = Ctrler.get_image();
             ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name);
             if (!analyzer.analyze()) {
                 return false;
@@ -93,7 +93,7 @@ bool ProcessTask::_run()
             //m_callback(AsstMsg::AppendProcessTask, next_json, m_callback_arg);
             //return true;
 
-            log.trace(next_json.to_string());
+            Log.trace(next_json.to_string());
             set_tasks(task_info_ptr->exceeded_next);
             sleep(task_delay);
             continue;
@@ -113,7 +113,7 @@ bool ProcessTask::_run()
             exec_click_task(rect);
             break;
         case ProcessTaskAction::ClickRand: {
-            auto&& [width, height] = ctrler.get_scale_size();
+            auto&& [width, height] = Ctrler.get_scale_size();
             const Rect full_rect(0, 0, width, height);
             exec_click_task(full_rect);
         } break;
@@ -128,14 +128,14 @@ bool ProcessTask::_run()
             need_stop = true;
             break;
         case ProcessTaskAction::StageDrops: {
-            cv::Mat image = ctrler.get_image(true);
-            std::string res = resource.penguin().recognize(image);
+            cv::Mat image = Ctrler.get_image(true);
+            std::string res = Resrc.penguin().recognize(image);
             m_callback(AsstMsg::StageDrops, json::parse(res).value(), m_callback_arg);
 
-            auto& opt = resource.cfg().get_options();
+            auto& opt = Resrc.cfg().get_options();
             if (opt.print_window) {
-                static const std::string dirname = utils::get_cur_dir() + "screenshot\\";
-                save_image(image, dirname);
+                //static const std::string dirname = utils::get_cur_dir() + "screenshot\\";
+                //save_image(image, dirname);
             }
             if (opt.penguin_report) {
                 PenguinUploader::upload(res);
@@ -170,7 +170,7 @@ bool ProcessTask::_run()
         next_json["task_chain"] = m_task_chain;
         next_json["retry_times"] = m_retry_times;
         next_json["tasks"] = json::array(task_info_ptr->next);
-        log.trace(next_json.to_string());
+        Log.trace(next_json.to_string());
 
         set_tasks(task_info_ptr->next);
         sleep(task_delay);
@@ -181,12 +181,12 @@ bool ProcessTask::_run()
 
 void ProcessTask::exec_click_task(const Rect& matched_rect)
 {
-    ctrler.click(matched_rect);
+    Ctrler.click(matched_rect);
 }
 
 void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 {
-    const auto&& [width, height] = ctrler.get_scale_size();
+    const auto&& [width, height] = Ctrler.get_scale_size();
 
     const static Rect right_rect(width * 0.8,
         height * 0.4,
@@ -200,10 +200,10 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 
     switch (action) {
     case asst::ProcessTaskAction::SwipeToTheLeft:
-        ctrler.swipe(left_rect, right_rect);
+        Ctrler.swipe(left_rect, right_rect);
         break;
     case asst::ProcessTaskAction::SwipeToTheRight:
-        ctrler.swipe(right_rect, left_rect);
+        Ctrler.swipe(right_rect, left_rect);
         break;
     default: // 走不到这里，TODO 报个错
         break;

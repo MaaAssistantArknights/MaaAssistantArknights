@@ -25,7 +25,7 @@ std::string asst::PenguinUploader::cvt_json(const std::string& rec_res)
 
     // Doc: https://developer.penguin-stats.io/public-api/api-v2-instruction/report-api
     json::value body;
-    auto& opt = resource.cfg().get_options();
+    auto& opt = Resrc.cfg().get_options();
     body["server"] = opt.penguin_report_server;
     body["stageId"] = rec["stage"]["stageId"];
     // To fix: https://github.com/MistEO/MeoAssistance-Arknights/issues/40
@@ -43,12 +43,12 @@ std::string asst::PenguinUploader::cvt_json(const std::string& rec_res)
 
 bool asst::PenguinUploader::request_penguin(const std::string& body)
 {
-    auto& opt = resource.cfg().get_options();
+    auto& opt = Resrc.cfg().get_options();
     std::string body_escape = utils::string_replace_all(body, "\"", "\\\"");
     std::string cmd_line = utils::string_replace_all(opt.penguin_report_cmd_line, "[body]", body_escape);
     cmd_line = utils::string_replace_all(cmd_line, "[extra]", opt.penguin_report_extra_param);
 
-    log.trace("request_penguin |", cmd_line);
+    Log.trace("request_penguin |", cmd_line);
 
     SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
     pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -88,7 +88,7 @@ bool asst::PenguinUploader::request_penguin(const std::string& body)
 
         DWORD exit_ret = -1;
         ::GetExitCodeProcess(pi.hProcess, &exit_ret);
-        log.trace("curl say:", pipe_str);
+        Log.trace("curl say:", pipe_str);
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
     }

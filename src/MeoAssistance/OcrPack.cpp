@@ -70,8 +70,8 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, cons
             result.emplace_back(std::move(tr));
         }
     }
-    log.trace("OcrPack::recognize | raw : ", log_str_raw);
-    log.trace("OcrPack::recognize | proc : ", log_str_proc);
+    Log.trace("OcrPack::recognize | raw : ", log_str_raw);
+    Log.trace("OcrPack::recognize | proc : ", log_str_proc);
     return result;
 }
 

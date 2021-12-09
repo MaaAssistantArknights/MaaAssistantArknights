@@ -16,19 +16,19 @@ asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& r
 bool asst::MatchImageAnalyzer::analyze()
 {
     if (m_use_cache) {
-        auto&& [hist, roi] = resource.templ().get_hist(m_templ_name);
+        auto&& [hist, roi] = Resrc.templ().get_hist(m_templ_name);
         if (!hist.empty()) {
             return comp_hist(hist, roi);
         }
     }
-    const cv::Mat& templ = resource.templ().get_templ(m_templ_name);
+    const cv::Mat& templ = Resrc.templ().get_templ(m_templ_name);
     if (templ.empty()) {
-        log.error("templ is empty!");
+        Log.error("templ is empty!");
         return false;
     }
     if (match_templ(templ)) {
         if (m_use_cache) {
-            resource.templ().emplace_hist(m_templ_name, to_hist(templ), utils::make_rect<cv::Rect>(m_result.rect));
+            Resrc.templ().emplace_hist(m_templ_name, to_hist(templ), utils::make_rect<cv::Rect>(m_result.rect));
         }
         return true;
     }
@@ -57,7 +57,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
 
     cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi));
     if (templ.cols > image_roi.cols || templ.rows > image_roi.rows) {
-        log.error("templ size is too large", m_templ_name,
+        Log.error("templ size is too large", m_templ_name,
             "image_roi size:", image_roi.cols, image_roi.rows,
             "templ size:", templ.cols, templ.rows);
         return false;
@@ -77,7 +77,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
 
     Rect rect(max_loc.x + m_roi.x, max_loc.y + m_roi.y, templ.cols, templ.rows);
     if (max_val > m_templ_thres * 0.7) { // 得分太低的肯定不对，没必要打印
-        log.trace("match_templ |", m_templ_name, "score:", max_val, "rect:", rect.to_string());
+        Log.trace("match_templ |", m_templ_name, "score:", max_val, "rect:", rect.to_string());
     }
 
     if (max_val >= m_templ_thres) {
@@ -95,7 +95,7 @@ bool asst::MatchImageAnalyzer::comp_hist(const cv::Mat& hist, const cv::Rect roi
     double score = 1.0 - cv::compareHist(to_hist(image_roi), hist, cv::HISTCMP_BHATTACHARYYA);
 
     if (score > 0.7) { // 得分太低的肯定不对，没必要打印
-        log.trace("comp_hist |", m_templ_name, "score:", score);
+        Log.trace("comp_hist |", m_templ_name, "score:", score);
     }
 
     if (score >= m_hist_thres) {

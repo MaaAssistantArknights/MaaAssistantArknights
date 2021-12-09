@@ -56,7 +56,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
             if (flag && ocr_task_ptr->roi.include(tr.rect)) {
                 m_result = ocr_task_ptr;
                 m_result_rect = tr.rect;
-                log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in cache", tr.to_string());
+                Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in cache", tr.to_string());
                 return true;
             }
         }
@@ -82,7 +82,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
             if (!is_appeared) {
                 ocr_task_ptr->region_of_appeared.emplace(res.rect);
             }
-            log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found", res.to_string(), "roi :", roi.to_string());
+            Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found", res.to_string(), "roi :", roi.to_string());
             return true;
         }
         return false;
@@ -94,7 +94,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
         static auto& max_height = WindowHeightDefault;
         bool ret = analyze_roi(region.center_zoom(2.0, max_width, max_height), true);
         if (ret) {
-            log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in appeared");
+            Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in appeared");
             return true;
         }
     }

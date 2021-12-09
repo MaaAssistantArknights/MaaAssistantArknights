@@ -13,12 +13,12 @@ asst::MultiMatchImageAnalyzer::MultiMatchImageAnalyzer(const cv::Mat& image, con
 
 bool asst::MultiMatchImageAnalyzer::analyze()
 {
-    log.trace("MultiMatchImageAnalyzer::analyze | ", m_templ_name);
+    Log.trace("MultiMatchImageAnalyzer::analyze | ", m_templ_name);
     m_result.clear();
 
-    const cv::Mat& templ = resource.templ().get_templ(m_templ_name);
+    const cv::Mat& templ = Resrc.templ().get_templ(m_templ_name);
     if (templ.empty()) {
-        log.error("templ is empty!");
+        Log.error("templ is empty!");
         return false;
     }
 
@@ -45,7 +45,7 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat& templ)
     cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi));
 
     if (templ.cols > image_roi.cols || templ.rows > image_roi.rows) {
-        log.error("templ size is too large", m_templ_name,
+        Log.error("templ size is too large", m_templ_name,
             "image_roi size:", image_roi.cols, image_roi.rows,
             "templ size:", templ.cols, templ.rows);
         return false;
@@ -92,7 +92,7 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat& templ)
         log_str += res.rect.to_string() + " : " + std::to_string(res.score) + "; ";
     }
     log_str += "]";
-    log.trace("multi_match_templ | ", m_templ_name, log_str);
+    Log.trace("multi_match_templ | ", m_templ_name, log_str);
 
     if (!m_result.empty()) {
         return true;

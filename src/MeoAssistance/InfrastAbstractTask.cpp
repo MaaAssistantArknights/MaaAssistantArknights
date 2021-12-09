@@ -67,21 +67,21 @@ bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int 
     };
     m_callback(AsstMsg::EnterFacility, enter_json, m_callback_arg);
 
-    const auto& image = ctrler.get_image();
+    const auto& image = Ctrler.get_image();
 
     InfrastFacilityImageAnalyzer analyzer(image);
     analyzer.set_to_be_analyzed({ facility });
     if (!analyzer.analyze()) {
-        log.trace("result is empty");
+        Log.trace("result is empty");
         return false;
     }
     Rect rect = analyzer.get_rect(facility, index);
     if (rect.empty()) {
-        log.trace("facility index is out of range");
+        Log.trace("facility index is out of range");
         return false;
     }
 
-    ctrler.click(rect);
+    Ctrler.click(rect);
 
     const auto enter_task_ptr = task.get("InfrastEnterFacility");
     sleep(enter_task_ptr->rear_delay);
@@ -93,7 +93,7 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
 {
     LogTraceFunction;
 
-    auto image = ctrler.get_image();
+    auto image = Ctrler.get_image();
 
     // 识别右边的“进驻”按钮
     const auto enter_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
@@ -103,31 +103,31 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
 
     // 如果没找到，说明“进驻信息”这个按钮没有被点开，那就点开它
     if (!enter_analyzer.analyze()) {
-        log.trace("ready to analyze the stationed info button");
+        Log.trace("ready to analyze the stationed info button");
         OcrImageAnalyzer station_analyzer(image);
 
         const auto stationedinfo_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
             task.get("InfrastStationedInfo"));
         station_analyzer.set_task_info(*stationedinfo_task_ptr);
         if (station_analyzer.analyze()) {
-            log.trace("the stationed info button found");
-            ctrler.click(station_analyzer.get_result().front().rect);
+            Log.trace("the stationed info button found");
+            Ctrler.click(station_analyzer.get_result().front().rect);
             sleep(stationedinfo_task_ptr->rear_delay);
             // 点开了按钮之后，再识别一次右边的
-            image = ctrler.get_image();
+            image = Ctrler.get_image();
             enter_analyzer.set_image(image);
             if (!enter_analyzer.analyze()) {
-                log.error("no enterlist button");
+                Log.error("no enterlist button");
                 return false;
             }
         }
         else {
-            log.error("no stationed info button");
+            Log.error("no stationed info button");
             return false;
         }
     }
-    log.trace("ready to click the enterlist button");
-    ctrler.click(enter_analyzer.get_result().front().rect);
+    Log.trace("ready to click the enterlist button");
+    Ctrler.click(enter_analyzer.get_result().front().rect);
     sleep(enter_task_ptr->rear_delay);
 
     return true;
@@ -141,10 +141,10 @@ void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
     static int duration = task.get("InfrastOperListSwipeBegin")->pre_delay;
 
     if (!reverse) {
-        m_last_swipe_id = ctrler.swipe(begin_rect, end_rect, duration, false, 0, true);
+        m_last_swipe_id = Ctrler.swipe(begin_rect, end_rect, duration, false, 0, true);
     }
     else {
-        m_last_swipe_id = ctrler.swipe(end_rect, begin_rect, duration, false, 0, true);
+        m_last_swipe_id = Ctrler.swipe(end_rect, begin_rect, duration, false, 0, true);
     }
 }
 
@@ -153,7 +153,7 @@ void asst::InfrastAbstractTask::await_swipe()
     LogTraceFunction;
     static int extra_delay = task.get("InfrastOperListSwipeBegin")->rear_delay;
 
-    ctrler.wait(m_last_swipe_id);
+    Ctrler.wait(m_last_swipe_id);
     sleep(extra_delay);
 }
 
@@ -161,7 +161,7 @@ bool asst::InfrastAbstractTask::click_bottomleft_tab()
 {
     LogTraceFunction;
     const auto task_ptr = task.get("InfrastBottomLeftTab");
-    ctrler.click(task_ptr->specific_rect);
+    Ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
     return true;
 }
@@ -170,7 +170,7 @@ bool asst::InfrastAbstractTask::click_clear_button()
 {
     LogTraceFunction;
     const auto task_ptr = task.get("InfrastClearButton");
-    ctrler.click(task_ptr->specific_rect);
+    Ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
     return true;
 }
@@ -180,7 +180,7 @@ bool asst::InfrastAbstractTask::click_confirm_button()
     LogTraceFunction;
     const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
         task.get("InfrastConfirmButton"));
-    ctrler.click(task_ptr->specific_rect);
+    Ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
 
     // 识别“正在提交反馈至神经”，如果网不好一直确认不了，就多等一会
@@ -190,7 +190,7 @@ bool asst::InfrastAbstractTask::click_confirm_button()
         if (need_exit()) {
             return false;
         }
-        const auto& image = ctrler.get_image();
+        const auto& image = Ctrler.get_image();
         analyzer.set_image(image);
         if (!analyzer.analyze()) {
             sleep(task_ptr->rear_delay);
@@ -220,7 +220,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist()
         if (need_exit()) {
             return;
         }
-        ctrler.swipe(end_rect, begin_rect, duration, true, 0, false);
+        Ctrler.swipe(end_rect, begin_rect, duration, true, 0, false);
     }
     sleep(extra_delay);
 }
@@ -233,7 +233,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
     static int duration = task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
     static int extra_delay = task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
 
-    ctrler.swipe(end_rect, begin_rect, duration, true, extra_delay, false);
+    Ctrler.swipe(end_rect, begin_rect, duration, true, extra_delay, false);
 }
 
 void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
@@ -244,5 +244,5 @@ void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
     static int duration = task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
     static int extra_delay = task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
 
-    ctrler.swipe(begin_rect, end_rect, duration, true, extra_delay, false);
+    Ctrler.swipe(begin_rect, end_rect, duration, true, extra_delay, false);
 }

@@ -25,7 +25,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
         const auto tags_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
             task.get("RecruitTags"));
         tags_analyzer.set_roi(tags_task_ptr->roi);
-        auto& all_tags_set = resource.recruit().get_all_tags();
+        auto& all_tags_set = Resrc.recruit().get_all_tags();
         std::vector<std::string> all_tags_vec;
         all_tags_vec.assign(all_tags_set.begin(), all_tags_set.end());
         tags_analyzer.set_required(std::move(all_tags_vec));
@@ -38,7 +38,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     if (tags_analyzer.analyze()) {
         m_tags_result = tags_analyzer.get_result();
         return true;
-        //if (m_tags_result.size() == resource.recruit().CorrectNumberOfTags) {
+        //if (m_tags_result.size() == Resrc.recruit().CorrectNumberOfTags) {
         //    return true;
         //}
     }

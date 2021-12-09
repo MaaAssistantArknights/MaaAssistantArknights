@@ -32,6 +32,8 @@ namespace asst
             return unique_instance;
         }
 
+        static void set_dirname(std::string dirname) noexcept;
+
         bool try_capture(const EmulatorInfo& info, bool without_handle = false);
         cv::Mat get_image(bool raw = false);
 
@@ -72,6 +74,8 @@ namespace asst
         // 转换data中所有的crlf为lf：有些模拟器自带的adb，exec-out输出的\n，会被替换成\r\n，导致解码错误，所以这里转一下回来（点名批评mumu）
         static void convert_lf(std::vector<unsigned char>& data);
 
+        inline static std::string m_dirname;
+
         bool m_thread_exit = false;
         //bool m_thread_idle = true;
         std::thread m_cmd_thread;
@@ -101,5 +105,6 @@ namespace asst
         double m_control_scale = 1.0;
     };
 
-    static auto& ctrler = Controller::get_instance();
+    //static auto& ctrler = Controller::get_instance();
+#define Ctrler Controller::get_instance()
 }

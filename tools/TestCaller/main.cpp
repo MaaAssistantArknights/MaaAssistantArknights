@@ -1,9 +1,22 @@
 ﻿#include "AsstCaller.h"
+
 #include <stdio.h>
+#include <string>
+
+#include <Windows.h>
+
+const char* get_cur_dir()
+{
+    char exepath_buff[_MAX_PATH] = { 0 };
+    ::GetModuleFileNameA(NULL, exepath_buff, _MAX_PATH);
+    std::string exepath(exepath_buff);
+    std::string cur_dir = exepath.substr(0, exepath.find_last_of('\\') + 1);
+    return cur_dir.c_str();
+}
 
 int main(int argc, char** argv)
 {
-    void* ptr = AsstCreate();
+    void* ptr = AsstCreate(get_cur_dir());
     auto ret = AsstCatchEmulator(ptr);
     if (!ret) {
         getchar();

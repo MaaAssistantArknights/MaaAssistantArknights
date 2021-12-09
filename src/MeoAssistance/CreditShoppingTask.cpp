@@ -19,7 +19,7 @@ bool asst::CreditShoppingTask::_run()
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
-    const cv::Mat& image = ctrler.get_image();
+    const cv::Mat& image = Ctrler.get_image();
 
     CreditShopImageAnalyzer shop_analyzer(image);
     if (!shop_analyzer.analyze()) {
@@ -31,7 +31,7 @@ bool asst::CreditShoppingTask::_run()
         if (need_exit()) {
             return false;
         }
-        ctrler.click(commodity);
+        Ctrler.click(commodity);
 
         static int pre_delay = 1000;
         static int rare_delay = 1000;
@@ -44,7 +44,7 @@ bool asst::CreditShoppingTask::_run()
             const auto buy_it_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
                 task.get("CreditShop-BuyIt"));
 
-            const cv::Mat& buy_image = ctrler.get_image();
+            const cv::Mat& buy_image = Ctrler.get_image();
             MatchImageAnalyzer buy_it_analyzer(buy_image);
             buy_it_analyzer.set_task_info(*buy_it_task_ptr);
             if (!buy_it_analyzer.analyze()) {
@@ -59,11 +59,11 @@ bool asst::CreditShoppingTask::_run()
         if (need_exit()) {
             return false;
         }
-        ctrler.click(buy_it_rect);
+        Ctrler.click(buy_it_rect);
         sleep(rare_delay);
 
         // 识别是否信用不足无法购买
-        const cv::Mat& prompt_image = ctrler.get_image();
+        const cv::Mat& prompt_image = Ctrler.get_image();
 
         const auto no_money_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
             task.get("CreditShop-NoMoney"));
@@ -75,7 +75,7 @@ bool asst::CreditShoppingTask::_run()
         }
 
         // 这里随便点一下都行，把购买完弹出来物品的界面取消掉
-        ctrler.click(buy_it_rect);
+        Ctrler.click(buy_it_rect);
         sleep(rare_delay);
     }
 

@@ -29,7 +29,7 @@ bool asst::AbstractTask::run()
         if (need_exit()) {
             return false;
         }
-        int delay = resource.cfg().get_options().task_delay;
+        int delay = Resrc.cfg().get_options().task_delay;
         sleep(delay);
 
         if (!on_run_fails()) {
@@ -94,6 +94,6 @@ void asst::AbstractTask::click_return_button()
 
     Rect ReturnButtonRect = return_task_ptr->specific_rect;
 
-    ctrler.click(ReturnButtonRect);
+    Ctrler.click(ReturnButtonRect);
     sleep(return_task_ptr->rear_delay);
 }
