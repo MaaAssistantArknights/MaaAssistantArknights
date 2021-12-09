@@ -91,4 +91,5 @@ bool asst::AutoRecruitTask::_run()
             }
         }
     }
+    return true;
 }
