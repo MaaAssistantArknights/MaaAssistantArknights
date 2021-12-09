@@ -1,7 +1,8 @@
 <div align="center">
 
-# MeoAssistance
+# MeoAssistantArknights
 
+<br>
 <div>
     <img alt="C++" src="https://img.shields.io/badge/c++-17-%2300599C?logo=cplusplus">
     <img alt="VS" src="https://img.shields.io/badge/VisualStudio-19-%235C2D91?logo=visualstudio">
@@ -16,7 +17,7 @@
 </div>
 <br>
 
-A game assistant for Arknights
+A Game Assistant for Arknights
 
 一款明日方舟的游戏小助手，一键完成所有日常，全自动长草！！！
 
@@ -26,7 +27,6 @@ A game assistant for Arknights
 
 </div>
 
-<br>
 
 ## 功能介绍
 
@@ -89,10 +89,9 @@ A game assistant for Arknights
 
 ### 自定义连接
 
-
 - 下载 [ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) ，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
 - 进入软件`设置`-`连接设置`，填写自定义地址（需要填写IP+端口，例如`127.0.0.1:5555`）
-- **注意 :** 目前非`16:9`分辨率下，刷理智、访问好友、信用商店、公招识别、领任务等功能已初步可用；基建功能暂不可用，正在进一步适配中。但仍推荐使用16:9分辨率，经过的测试验证最多，也最稳定。
+- **注意 :** 若是使用手机，在非`16:9`分辨率下，部分功能不稳定（但也凑合能用），尤其是基建，几乎是不可用状态，正在进一步适配中。推荐使用`16:9`分辨率，经过的测试验证最多，也最稳定。
 
 ## 使用说明
 
@@ -155,7 +154,21 @@ A game assistant for Arknights
 - `resource\config.json`中有一些自定义选项，可以尝试根据自己的需要进行修改
 - 底层算法纯C++开发，并设计了多重的缓存技术，最大限度降低CPU和内存占用
 - 软件支持自动更新✿✿ヽ(°▽°)ノ✿ 推荐非杠精的同学使用测试版，一般来说更新快且bug少（什么MIUI (╯‵□′)╯︵┻━┻
-- [反馈问题](https://github.com/MistEO/MeoAssistance-Arknights/issues) 最好可以带上目录下的`asst.log`日志文件，并说下使用的模拟器版本，感谢！
+
+## 常见问题
+
+### 软件一打开就闪退
+
+- 目前初步怀疑是运行库问题。可以尝试把 [Visual C++ Redistributable](https://docs.microsoft.com/sl-SI/cpp/windows/latest-supported-vc-redist?view=msvc-160)、[.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) 都安装一下看看有没有效果
+- 若您有一定的开发能力，也可使用 [Python接口](src/Python/interface.py) 自行调用
+
+### 连接错误/捕获模拟器窗口错误
+
+- 方法1: 使用 [自定义连接](#自定义连接) 的方式连接模拟器
+- 方法2: 换模拟器，推荐 [蓝叠国际版](https://www.bluestacks.com/download.html)
+- 方法3: _根本解决方法_ 编辑`resource/config.json`，修改（最好是新增）模拟器窗口句柄名，并修改对应的adb设置。若您修改后可以提PR给我，我会感激不尽的_(:з」∠)_
+
+### 
 
 ## Todo
 
