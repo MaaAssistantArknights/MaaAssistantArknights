@@ -32,11 +32,7 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string name)
 void asst::TaskData::clear_cache() noexcept
 {
     for (auto&& [name, ptr] : m_all_tasks_info) {
-        switch (ptr->algorithm) {
-        case AlgorithmType::OcrDetect:
-            std::dynamic_pointer_cast<OcrTaskInfo>(ptr)->region_of_appeared.clear();
-            break;
-        }
+        ptr->region_of_appeared = Rect();
     }
 }
 
@@ -74,9 +70,8 @@ bool asst::TaskData::parse(const json::value& json)
 
             match_task_info_ptr->templ_threshold = task_json.get(
                 "templThreshold", TemplThresholdDefault);
-            match_task_info_ptr->hist_threshold = task_json.get(
-                "histThreshold", HistThresholdDefault);
-            match_task_info_ptr->cache = task_json.get("cache", true);
+            match_task_info_ptr->special_threshold = task_json.get(
+                "specialThreshold", 0);
             if (task_json.exist("maskRange")) {
                 match_task_info_ptr->mask_range = std::make_pair(
                     task_json.at("maskRange")[0].as_integer(),
@@ -96,10 +91,10 @@ bool asst::TaskData::parse(const json::value& json)
                     ocr_task_info_ptr->replace_map.emplace(rep.as_array()[0].as_string(), rep.as_array()[1].as_string());
                 }
             }
-            ocr_task_info_ptr->cache = task_json.get("cache", true);
             task_info_ptr = ocr_task_info_ptr;
         } break;
         }
+        task_info_ptr->cache = task_json.get("cache", true);
         task_info_ptr->algorithm = algorithm;
         task_info_ptr->name = name;
         std::string action = task_json.get("action", std::string());

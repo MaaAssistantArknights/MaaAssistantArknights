@@ -50,10 +50,5 @@ bool asst::OcrImageAnalyzer::analyze()
     };
     m_ocr_result = Resrc.ocr().recognize(m_image, m_roi, all_pred);
     //log.trace("ocr result", m_ocr_result);
-    if (!m_ocr_result.empty()) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return !m_ocr_result.empty();
 }
