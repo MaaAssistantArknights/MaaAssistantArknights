@@ -22,7 +22,7 @@ bool RecruitTask::_run()
     m_has_special_tag = false;
     m_has_refresh = false;
 
-    const cv::Mat& image = ctrler.get_image();
+    const cv::Mat& image = Ctrler.get_image();
     if (image.empty()) {
         m_callback(AsstMsg::ImageIsEmpty, task_start_json, m_callback_arg);
         return false;
@@ -37,7 +37,7 @@ bool RecruitTask::_run()
 
     if (m_set_time) {
         for (const auto& rect : analyzer.get_set_time_rect()) {
-            ctrler.click(rect, false);
+            Ctrler.click(rect, false);
         }
     }
     const std::vector<TextRect>& all_tags = analyzer.get_tags_result();
@@ -96,7 +96,7 @@ bool RecruitTask::_run()
         RecruitCombs oper_combs;
         oper_combs.tags = comb;
 
-        for (const RecruitOperInfo& cur_oper : resource.recruit().get_all_opers()) {
+        for (const RecruitOperInfo& cur_oper : Resrc.recruit().get_all_opers()) {
             int matched_count = 0;
             for (const std::string& tag : comb) {
                 if (cur_oper.tags.find(tag) != cur_oper.tags.cend()) {
@@ -206,7 +206,7 @@ bool RecruitTask::_run()
 
             for (const TextRect& text_area : all_tags) {
                 if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
-                    ctrler.click(text_area.rect, true);
+                    Ctrler.click(text_area.rect, true);
                 }
             }
 

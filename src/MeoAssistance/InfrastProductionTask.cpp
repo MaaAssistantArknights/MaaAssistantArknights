@@ -50,14 +50,14 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         ++index;
 
-        ctrler.click(tab);
+        Ctrler.click(tab);
         sleep(tab_task_ptr->rear_delay);
 
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
-        const auto& image = ctrler.get_image();
+        const auto& image = Ctrler.get_image();
         add_analyzer.set_image(image);
         if (!add_analyzer.analyze()) {
-            log.info("no add button, just continue");
+            Log.info("no add button, just continue");
             continue;
         }
         auto& rect = add_analyzer.get_result().rect;
@@ -72,7 +72,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 识别当前正在造什么 */
         MatchImageAnalyzer product_analyzer(image);
-        auto& all_products = resource.infrast().get_facility_info(m_facility).products;
+        auto& all_products = Resrc.infrast().get_facility_info(m_facility).products;
         std::string cur_product = all_products.at(0);
         double max_score = 0;
         for (const std::string& product : all_products) {
@@ -89,7 +89,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
         set_product(cur_product);
-        log.info("cur product", cur_product);
+        Log.info("cur product", cur_product);
 
         // 使用无人机
         if (cur_product == m_uses_of_drones) {
@@ -107,7 +107,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         /* 进入干员选择页面 */
-        ctrler.click(add_button);
+        Ctrler.click(add_button);
         sleep(add_task_ptr->rear_delay);
 
         constexpr int retry_times = 1;
@@ -153,7 +153,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
             return false;
         }
         size_t num = opers_detect();
-        log.trace("opers_detect return", num);
+        Log.trace("opers_detect return", num);
 
         // 无论如何也不会没有干员的，除非前面的操作哪里出错了，没进到干员选择的页面。那也就没必要继续下去了
         if (num == 0) {
@@ -179,7 +179,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
 size_t asst::InfrastProductionTask::opers_detect()
 {
     LogTraceFunction;
-    const auto& image = ctrler.get_image();
+    const auto& image = Ctrler.get_image();
 
     InfrastOperImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_facility(m_facility);
@@ -207,7 +207,7 @@ size_t asst::InfrastProductionTask::opers_detect()
                 // 有可能是同一个干员，比一下hash
                 int dist = utils::hamming(cur_oper.face_hash, oper.face_hash);
 #ifdef LOG_TRACE
-                log.trace("opers_detect hash dist |", dist);
+                Log.trace("opers_detect hash dist |", dist);
 #endif
                 return dist < m_face_hash_thres;
             });
@@ -223,7 +223,7 @@ size_t asst::InfrastProductionTask::opers_detect()
 bool asst::InfrastProductionTask::optimal_calc()
 {
     LogTraceFunction;
-    auto& facility_info = resource.infrast().get_facility_info(m_facility);
+    auto& facility_info = Resrc.infrast().get_facility_info(m_facility);
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
 
     std::vector<infrast::SkillsComb> all_avaliable_combs;
@@ -248,7 +248,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         for (const auto& skill : comb.skills) {
             skill_str += skill.id + " ";
         }
-        log.trace(skill_str, comb.efficient.at(m_product));
+        Log.trace(skill_str, comb.efficient.at(m_product));
     }
 
     std::unordered_map<std::string, int> skills_num;
@@ -285,7 +285,7 @@ bool asst::InfrastProductionTask::optimal_calc()
             log_str += "; ";
         }
         log_str += "]";
-        log.trace("Single comb efficient", max_efficient, " , skills:", log_str);
+        Log.trace("Single comb efficient", max_efficient, " , skills:", log_str);
     }
 
     // 如果有被锁住的干员，说明当前基建没升满级，组合就不启用
@@ -295,7 +295,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     }
 
     // 遍历所有组合，找到效率最高的
-    auto& all_group = resource.infrast().get_skills_group(m_facility);
+    auto& all_group = Resrc.infrast().get_skills_group(m_facility);
     for (const infrast::SkillsGroup& group : all_group) {
         LogTraceScope(group.desc);
         auto cur_available_opers = all_avaliable_combs;
@@ -374,7 +374,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                     if (!opt.possible_hashs.empty()) {
                         for (const auto& [key, hash] : opt.possible_hashs) {
                             int dist = utils::hamming(find_iter->name_hash, hash);
-                            log.trace("optimal_calc | name hash dist", dist, hash, find_iter->name_hash);
+                            Log.trace("optimal_calc | name hash dist", dist, hash, find_iter->name_hash);
                             if (dist < m_name_hash_thres) {
                                 hash_matched = true;
                                 break;
@@ -419,7 +419,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                 log_str += "; ";
             }
             log_str += "]";
-            log.trace(group.desc, "efficient", cur_efficient, " , skills:", log_str);
+            Log.trace(group.desc, "efficient", cur_efficient, " , skills:", log_str);
         }
 
         if (cur_efficient > max_efficient) {
@@ -434,7 +434,7 @@ bool asst::InfrastProductionTask::optimal_calc()
             log_str += "; ";
         }
         log_str += "]";
-        log.trace("optimal efficient", max_efficient, " , skills:", log_str);
+        Log.trace("optimal efficient", max_efficient, " , skills:", log_str);
     }
 
     m_optimal_combs = std::move(optimal_combs);
@@ -450,7 +450,7 @@ bool asst::InfrastProductionTask::opers_choose()
         if (need_exit()) {
             return false;
         }
-        const auto& image = ctrler.get_image();
+        const auto& image = Ctrler.get_image();
 
         InfrastOperImageAnalyzer oper_analyzer(image);
         oper_analyzer.set_facility(m_facility);
@@ -493,7 +493,7 @@ bool asst::InfrastProductionTask::opers_choose()
                         // 既要技能相同，也要hash相同，双重校验
                         for (const auto& [_, hash] : opt_iter->possible_hashs) {
                             int dist = utils::hamming(lhs.name_hash, hash);
-                            log.trace("opers_choose | name hash dist", dist);
+                            Log.trace("opers_choose | name hash dist", dist);
                             if (dist < m_name_hash_thres) {
                                 return true;
                             }
@@ -508,7 +508,7 @@ bool asst::InfrastProductionTask::opers_choose()
             }
             // 这种情况可能是需要选择两个同样的技能，上一次循环选了一个，但是没有把滑出当前页面，本次又识别到了这个已选择的人
             if (find_iter->selected == true) {
-                auto& facility_info = resource.infrast().get_facility_info(m_facility);
+                auto& facility_info = Resrc.infrast().get_facility_info(m_facility);
                 int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
                 if (cur_max_num_of_opers != 1) {
                     cur_all_opers.erase(find_iter);
@@ -517,14 +517,14 @@ bool asst::InfrastProductionTask::opers_choose()
                 // 但是如果当前设施只有一个位置，即不存在“上次循环”的情况，说明是清除干员按钮没点到
             }
             else {
-                ctrler.click(find_iter->rect);
+                Ctrler.click(find_iter->rect);
             }
             {
                 auto avlb_iter = std::find_if(
                     m_all_available_opers.cbegin(), m_all_available_opers.cend(),
                     [&](const infrast::Oper& lhs) -> bool {
                         int dist = utils::hamming(lhs.face_hash, find_iter->face_hash);
-                        log.trace("opers_choose | face hash dist", dist);
+                        Log.trace("opers_choose | face hash dist", dist);
                         if (dist < m_face_hash_thres) {
                             return true;
                         }
@@ -535,7 +535,7 @@ bool asst::InfrastProductionTask::opers_choose()
                     m_all_available_opers.erase(avlb_iter);
                 }
                 else {
-                    log.error("opers_choose | not found oper");
+                    Log.error("opers_choose | not found oper");
                 }
             }
             cur_all_opers.erase(find_iter);
@@ -593,7 +593,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
     LogTraceFunction;
     m_facility_list_tabs.clear();
 
-    const auto& image = ctrler.get_image();
+    const auto& image = Ctrler.get_image();
     MultiMatchImageAnalyzer mm_analyzer(image);
 
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(

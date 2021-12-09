@@ -7,9 +7,9 @@ extern "C" {
 #endif
     typedef void (MEO_CALL* AsstCallback)(int msg, const char* detail_json, void* custom_arg);
 
-    MEOAPI_PORT void* MEO_CALL AsstCreate();
-    MEOAPI_PORT void* MEO_CALL AsstCreateEx(AsstCallback callback, void* custom_arg);
-    void MEOAPI AsstDestroy(void* p_asst);
+    MEOAPI_PORT void* MEO_CALL AsstCreate(const char* dirname);
+    MEOAPI_PORT void* MEO_CALL AsstCreateEx(const char* dirname, AsstCallback callback, void* custom_arg);
+    void MEOAPI AsstDestory(void* p_asst);
 
     bool MEOAPI AsstCatchDefault(void* p_asst);
     bool MEOAPI AsstCatchEmulator(void* p_asst);

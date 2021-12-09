@@ -48,7 +48,7 @@ bool asst::InfrastReceptionTask::close_end_prompt()
 {
     const auto end_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         task.get("EndOfClueExchange"));
-    MatchImageAnalyzer analyzer(ctrler.get_image());
+    MatchImageAnalyzer analyzer(Ctrler.get_image());
     analyzer.set_task_info(*end_task_ptr);
     if (!analyzer.analyze()) {
         return true;
@@ -78,17 +78,17 @@ bool asst::InfrastReceptionTask::proc_clue()
     proc_vacancy();
 
     // 开启线索交流，“解锁线索”
-    cv::Mat image = ctrler.get_image();
+    cv::Mat image = Ctrler.get_image();
     MatchImageAnalyzer unlock_analyzer(image);
     const auto unlock_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         task.get("UnlockClues"));
     unlock_analyzer.set_task_info(*unlock_task_ptr);
     if (unlock_analyzer.analyze()) {
-        ctrler.click(unlock_analyzer.get_result().rect);
+        Ctrler.click(unlock_analyzer.get_result().rect);
         sleep(unlock_task_ptr->rear_delay);
         click_bottomleft_tab();
         proc_vacancy();
-        image = ctrler.get_image();
+        image = Ctrler.get_image();
     }
 
     // 所有的空位分析一次，看看还缺哪些线索
@@ -98,7 +98,7 @@ bool asst::InfrastReceptionTask::proc_clue()
     }
     const auto& vacancy = vacancy_analyzer.get_vacancy();
     for (auto&& [id, _] : vacancy) {
-        log.trace("InfrastReceptionTask | Vacancy", id);
+        Log.trace("InfrastReceptionTask | Vacancy", id);
     }
 
     std::string product;
@@ -108,7 +108,7 @@ bool asst::InfrastReceptionTask::proc_clue()
     else {
         product = "General";
     }
-    log.trace("InfrastReceptionTask | product", product);
+    Log.trace("InfrastReceptionTask | product", product);
     set_product(product);
 
     return true;
@@ -122,7 +122,7 @@ bool asst::InfrastReceptionTask::proc_vacancy()
         "No1", "No2", "No3", "No4", "No5", "No6", "No7"
     };
 
-    cv::Mat image = ctrler.get_image();
+    cv::Mat image = Ctrler.get_image();
     for (const std::string& clue : clue_suffix) {
         if (need_exit()) {
             return false;
@@ -135,18 +135,18 @@ bool asst::InfrastReceptionTask::proc_vacancy()
         }
         // 点开线索的空位
         Rect vacancy = vacancy_analyzer.get_vacancy().cbegin()->second;
-        ctrler.click(vacancy);
+        Ctrler.click(vacancy);
         int delay = task.get(clue_vacancy + clue)->rear_delay;
         sleep(delay);
 
         // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
         swipe_to_the_bottom_of_clue_list_on_the_right();
-        image = ctrler.get_image();
+        image = Ctrler.get_image();
         InfrastClueImageAnalyzer clue_analyzer(image);
         if (!clue_analyzer.analyze()) {
             continue;
         }
-        ctrler.click(clue_analyzer.get_result().back().first);
+        Ctrler.click(clue_analyzer.get_result().back().first);
         sleep(delay);
     }
     return true;
@@ -155,14 +155,14 @@ bool asst::InfrastReceptionTask::proc_vacancy()
 bool asst::InfrastReceptionTask::shift()
 {
     LogTraceFunction;
-    const auto& image = ctrler.get_image();
+    const auto& image = Ctrler.get_image();
     MatchImageAnalyzer add_analyzer(image);
 
     const auto raw_task_ptr = task.get("InfrastAddOperator" + m_facility + m_work_mode_name);
     switch (raw_task_ptr->algorithm) {
     case AlgorithmType::JustReturn:
         if (raw_task_ptr->action == ProcessTaskAction::ClickRect) {
-            ctrler.click(raw_task_ptr->specific_rect);
+            Ctrler.click(raw_task_ptr->specific_rect);
         }
         break;
     case AlgorithmType::MatchTemplate: {
@@ -172,7 +172,7 @@ bool asst::InfrastReceptionTask::shift()
         if (!add_analyzer.analyze()) {
             return true;
         }
-        ctrler.click(add_analyzer.get_result().rect);
+        Ctrler.click(add_analyzer.get_result().rect);
     } break;
     default:
         break;
@@ -214,7 +214,7 @@ bool asst::InfrastReceptionTask::swipe_to_the_bottom_of_clue_list_on_the_right()
     static int loop_times = task.get("InfrastClueOnTheRightSwipeBegin")->max_times;
 
     for (int i = 0; i != loop_times; ++i) {
-        ctrler.swipe(begin_rect, end_rect, duration, true, 0, false);
+        Ctrler.swipe(begin_rect, end_rect, duration, true, 0, false);
     }
     sleep(extra_delay);
     return false;

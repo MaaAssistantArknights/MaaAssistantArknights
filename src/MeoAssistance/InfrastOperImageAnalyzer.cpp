@@ -316,7 +316,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
 
             std::vector<std::pair<infrast::Skill, MatchRect>> possible_skills;
             // 逐个该设施内所有可能的技能，取得分最高的
-            for (const auto& [id, skill] : resource.infrast().get_skills(m_facility)) {
+            for (const auto& [id, skill] : Resrc.infrast().get_skills(m_facility)) {
                 skill_analyzer.set_templ_name(skill.templ_name);
 
                 if (!skill_analyzer.analyze()) {
@@ -325,7 +325,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
                 possible_skills.emplace_back(std::make_pair(skill, skill_analyzer.get_result()));
             }
             if (possible_skills.empty()) {
-                log.error("skill has no recognition result");
+                Log.error("skill has no recognition result");
                 continue;
             }
             // 可能的结果多于1个，只可能是同一个技能不同等级的结果
@@ -367,7 +367,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
                     } // 这里对应的else就是上述的其他技能混进来了的情况
                 }
             }
-            log.trace(most_confident_skills.id, most_confident_skills.names.front());
+            Log.trace(most_confident_skills.id, most_confident_skills.names.front());
             std::string skill_id = most_confident_skills.id;
             log_str += skill_id + " - " + most_confident_skills.names.front() + "; ";
 #ifdef LOG_TRACE
@@ -378,7 +378,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
         if (!oper.skills.empty()) {
             ++m_num_of_opers_with_skills;
         }
-        log.trace(log_str, "]");
+        Log.trace(log_str, "]");
     }
 }
 
@@ -413,7 +413,7 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
                 }
             }
         }
-        log.trace("selected_analyze |", count);
+        Log.trace("selected_analyze |", count);
         oper.selected = count >= selected_task_ptr->templ_threshold;
         oper.rect = selected_rect;  // 先凑合用（
     }

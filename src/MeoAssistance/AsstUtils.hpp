@@ -10,18 +10,6 @@ namespace asst
 {
     namespace utils
     {
-        static std::string _cur_dir;
-        static std::string get_cur_dir()
-        {
-            return _cur_dir;
-        }
-
-        static std::string get_resource_dir()
-        {
-            static std::string res_dir = get_cur_dir() + "resource\\";
-            return res_dir;
-        }
-
         static std::string string_replace_all(const std::string& src, const std::string& old_value, const std::string& new_value)
         {
             std::string str = src;

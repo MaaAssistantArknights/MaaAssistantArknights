@@ -26,6 +26,11 @@ namespace asst
             return _unique_instance;
         }
 
+        static void set_dirname(std::string dirname) noexcept
+        {
+            m_dirname = std::move(dirname);
+        }
+
         template <typename... Args>
         inline void trace(Args&&... args)
         {
@@ -45,8 +50,8 @@ namespace asst
             log(level, std::forward<Args>(args)...);
         }
 
-        const std::string m_log_filename = asst::utils::get_cur_dir() + "asst.log";
-        const std::string m_log_bak_filename = asst::utils::get_cur_dir() + "asst.bak.log";
+        const std::string m_log_filename = m_dirname + "asst.log";
+        const std::string m_log_bak_filename = m_dirname + "asst.bak.log";
 
     private:
         Logger()
@@ -76,8 +81,7 @@ namespace asst
             trace("MeoAssistance Process Start");
             trace("Version", asst::Version);
             trace("Build DataTime", __DATE__, __TIME__);
-            trace("Working Path", utils::get_cur_dir());
-            trace("Resource Path", utils::get_resource_dir());
+            trace("Working Path", m_dirname);
             trace("-----------------------------");
         }
 
@@ -126,6 +130,7 @@ namespace asst
             }
         };
 
+        inline static std::string m_dirname;
         std::mutex m_trace_mutex;
     };
 
@@ -150,8 +155,8 @@ namespace asst
         std::chrono::time_point<std::chrono::system_clock> m_start_time;
     };
 
-    static auto& log = Logger::get_instance();
-
+    //static auto& log = Logger::get_instance();
+#define Log Logger::get_instance()
 #define LogTraceFunction LoggerAux _func_aux(__FUNCTION__)
 #define LogTraceScope LoggerAux _func_aux
 }

@@ -16,9 +16,9 @@ namespace MeoAsstGui
 
         private delegate void ProcCallbckMsg(AsstMsg msg, JObject detail);
 
-        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstCreate();
+        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstCreate(string dirname);
 
-        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstCreateEx(CallbackDelegate callback, IntPtr custom_arg);
+        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstCreateEx(string dirname, CallbackDelegate callback, IntPtr custom_arg);
 
         [DllImport("MeoAssistance.dll")] private static extern void AsstDestroy(IntPtr ptr);
 
@@ -59,7 +59,7 @@ namespace MeoAsstGui
 
         public void Init()
         {
-            _ptr = AsstCreateEx(_callback, IntPtr.Zero);
+            _ptr = AsstCreateEx(System.IO.Directory.GetCurrentDirectory(), _callback, IntPtr.Zero);
             if (_ptr == IntPtr.Zero)
             {
                 _windowManager.ShowMessageBox("程序初始化错误！请检查是否是因为使用了中文路径", "错误");

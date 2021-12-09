@@ -26,7 +26,7 @@ namespace asst
     class Assistance
     {
     public:
-        Assistance(AsstCallback callback = nullptr, void* callback_arg = nullptr);
+        Assistance(std::string dirname, AsstCallback callback = nullptr, void* callback_arg = nullptr);
         ~Assistance();
 
         // 根据配置文件，决定捕获模拟器、USB 还是远程设备
@@ -89,6 +89,7 @@ namespace asst
         json::value organize_stage_drop(const json::value& rec); // 整理关卡掉落的材料信息
 
         bool m_inited = false;
+        std::string m_dirname;
 
         bool m_thread_exit = false;
         std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;

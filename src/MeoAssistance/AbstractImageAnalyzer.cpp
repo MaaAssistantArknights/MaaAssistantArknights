@@ -43,7 +43,7 @@ void asst::AbstractImageAnalyzer::set_roi(const Rect& roi) noexcept
 
 void asst::AbstractImageAnalyzer::correct_roi() noexcept
 {
-    m_roi = ctrler.shaped_correct(m_roi);
+    m_roi = Ctrler.shaped_correct(m_roi);
 }
 
 asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, const cv::Mat& image) noexcept

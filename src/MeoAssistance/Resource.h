@@ -112,5 +112,6 @@ namespace asst
         PenguinPack m_penguin_pack_unique_ins;
     };
 
-    static auto& resource = Resource::get_instance();
+    //static auto& resource = Resource::get_instance();
+#define Resrc Resource::get_instance()
 }

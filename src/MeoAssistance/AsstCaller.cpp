@@ -9,6 +9,7 @@
 #include "AsstUtils.hpp"
 #include "Version.h"
 
+#ifdef 0
 #if _MSC_VER
 // Win32平台下Dll的入口
 BOOL APIENTRY DllMain(HINSTANCE hModule,
@@ -16,15 +17,10 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
     LPVOID lpReserved
 )
 {
-    //UNREFERENCED_PARAMETER(hModule);
+    UNREFERENCED_PARAMETER(hModule);
     UNREFERENCED_PARAMETER(lpReserved);
     switch (ul_reason_for_call) {
-    case DLL_PROCESS_ATTACH: {
-        char exepath_buff[_MAX_PATH] = { 0 };
-        ::GetModuleFileNameA(hModule, exepath_buff, _MAX_PATH);
-        std::string exepath(exepath_buff);
-        asst::utils::_cur_dir = exepath.substr(0, exepath.find_last_of('\\') + 1);
-    } break;
+    case DLL_PROCESS_ATTACH:
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
@@ -35,6 +31,7 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
 #elif VA_GNUC
 
 #endif
+#endif
 
 AsstCallback _callback = nullptr;
 
@@ -43,22 +40,22 @@ void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg)
     _callback(static_cast<int>(msg), asst::utils::utf8_to_gbk(json.to_string()).c_str(), custom_arg);
 }
 
-void* AsstCreate()
+void* AsstCreate(const char* dirname)
 {
     try {
-        return new asst::Assistance();
+        return new asst::Assistance(dirname);
     }
     catch (...) {
         return nullptr;
     }
 }
 
-void* AsstCreateEx(AsstCallback callback, void* custom_arg)
+void* AsstCreateEx(const char* dirname, AsstCallback callback, void* custom_arg)
 {
     try {
         // 创建多实例回调会有问题，有空再慢慢整
         _callback = callback;
-        return new asst::Assistance(CallbackTrans, custom_arg);
+        return new asst::Assistance(dirname, CallbackTrans, custom_arg);
     }
     catch (...) {
         return nullptr;
