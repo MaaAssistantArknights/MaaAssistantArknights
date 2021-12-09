@@ -9,7 +9,7 @@ extern "C" {
 
     MEOAPI_PORT void* MEO_CALL AsstCreate(const char* dirname);
     MEOAPI_PORT void* MEO_CALL AsstCreateEx(const char* dirname, AsstCallback callback, void* custom_arg);
-    void MEOAPI AsstDestory(void* p_asst);
+    void MEOAPI AsstDestroy(void* p_asst);
 
     bool MEOAPI AsstCatchDefault(void* p_asst);
     bool MEOAPI AsstCatchEmulator(void* p_asst);

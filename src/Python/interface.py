@@ -24,13 +24,12 @@ class Asst:
             ``callback``:   回调函数
             ``arg``:        自定义参数
         """
-        os.chdir(dirname)
         self.__dllpath = pathlib.Path(dirname) / 'MeoAssistance.dll'
         self.__dll = ctypes.WinDLL(str(self.__dllpath))
 
         self.__dll.AsstCreateEx.restype = ctypes.c_void_p
-        self.__dll.AsstCreateEx.argtypes = (ctypes.c_void_p, ctypes.c_void_p,)
-        self.__ptr = self.__dll.AsstCreateEx(callback, arg)
+        self.__dll.AsstCreateEx.argtypes = (ctypes.c_char_p, ctypes.c_void_p, ctypes.c_void_p,)
+        self.__ptr = self.__dll.AsstCreateEx(dirname.encode('utf-8'), callback, arg)
 
     def __del__(self):
         self.__dll.AsstDestroy.argtypes = (ctypes.c_void_p,)
@@ -62,7 +61,7 @@ class Asst:
         """
         self.__dll.AsstCatchCustom.argtypes = (
             ctypes.c_void_p, ctypes.c_char_p,)
-        return self.__dll.AsstCatchCustom(self.__ptr, address)
+        return self.__dll.AsstCatchCustom(self.__ptr, address.encode('utf-8'))
 
     def append_fight(self, max_medicine: int, max_stone: int, max_times: int) -> bool:
         """
@@ -111,9 +110,14 @@ class Asst:
             ``uses_of_drones``:     无人机用途，支持以下之一："_NotUse"、"Money"、"SyntheticJade"、"CombatRecord"、"PureGold"、"OriginStone"、"Chip"
             ``dorm_threshold``:     宿舍心情阈值，取值 [0, 1.0]
         """
-        order_len = len(order_list)
+        order_byte_list = []
+
+        for item in order_list:
+            order_byte_list.append(item.encode('utf-8'))
+
+        order_len = len(order_byte_list)
         order_arr = (ctypes.c_char_p * order_len)()
-        order_arr[:] = order_list
+        order_arr[:] = order_byte_list
 
         self.__dll.AsstAppendInfrast.argtypes = (
             ctypes.c_void_p, ctypes.c_int,
@@ -121,7 +125,7 @@ class Asst:
             ctypes.c_char_p, ctypes.c_double,)
         return self.__dll.AsstAppendInfrast(self.__ptr, work_mode,
                                             order_arr, order_len,
-                                            uses_of_drones, dorm_threshold)
+                                            uses_of_drones.encode('utf-8'), dorm_threshold)
 
     def append_recruit(self, max_times: int, select_level: list, confirm_level: list, need_refresh: bool) -> bool:
         """
@@ -188,7 +192,7 @@ class Asst:
         """
         self.__dll.AsstSetPenguinId.argtypes = (
             ctypes.c_void_p, ctypes.c_char_p)
-        return self.__dll.AsstSetPenguinId(self.__ptr, id)
+        return self.__dll.AsstSetPenguinId(self.__ptr, id.encode('utf-8'))
 
     def get_version(self) -> str:
         """
@@ -197,7 +201,7 @@ class Asst:
         :return: 版本号
         """
         self.__dll.AsstGetVersion.restype = ctypes.c_char_p
-        return self.__dll.AsstGetVersion()
+        return self.__dll.AsstGetVersion().decode('utf-8')
 
 
 if __name__ == "__main__":
@@ -207,7 +211,11 @@ if __name__ == "__main__":
         d = json.loads(details.decode('gbk'))
         print(Message(msg), d, arg)
 
-    asst = Asst('D:\\Code\\MeoAssistance\\x64\\Release\\', my_callback)
+    dirname: str = (pathlib.Path.cwd().parent.parent / 'x64' / 'Release').__str__()
+    asst = Asst(dirname=dirname, callback=my_callback)
+
+    print('version', asst.get_version())
+
     if asst.catch_default():
         print('连接成功')
     else:
@@ -215,9 +223,11 @@ if __name__ == "__main__":
         os.system.exit()
 
     # asst.append_fight(0, 0, 1)
-    # asst.start()
+    asst.append_infrast(1, [ "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm"], "Money", 0.3)
+    # asst.append_award()
+    asst.start()
 
-    asst.start_recurit_clac([4, 5, 6], True)
+    # asst.start_recurit_clac([4, 5, 6], True)
 
     while True:
         pass

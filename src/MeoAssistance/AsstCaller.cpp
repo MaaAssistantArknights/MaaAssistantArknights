@@ -9,7 +9,7 @@
 #include "AsstUtils.hpp"
 #include "Version.h"
 
-#ifdef 0
+#if 0
 #if _MSC_VER
 // Win32平台下Dll的入口
 BOOL APIENTRY DllMain(HINSTANCE hModule,
