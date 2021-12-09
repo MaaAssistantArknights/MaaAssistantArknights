@@ -18,7 +18,7 @@ A game assistance for Arknights
 
 一款明日方舟的游戏助手，自动刷理智、智能基建换班、公招识别等，一键完成所有日常，全自动长草！！！
 
-纯图像识别，非内存挂！全图形化界面，开罐即食！并提供了[Python接口](src/Python/interface.py)供自行DIY！绝赞开发中！✿✿ヽ(°▽°)ノ✿  
+纯图像识别，非内存挂！全图形化界面，开罐即食！并提供了 [Python接口](src/Python/interface.py) 供自行DIY！绝赞开发中！✿✿ヽ(°▽°)ノ✿  
 
 <br>
 
@@ -78,16 +78,15 @@ A game assistance for Arknights
 支持
 
 1. 在模拟器`设定`-`进阶`中打开`Android调试桥`
-2. 下载[ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
+2. 下载 [ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) ，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
 3. 在软件`设置`-`连接设置`中填写蓝叠安装目录下`bluestacks.conf`文件的完整路径
 
-### 其他模拟器、安卓手机/平板、自定义设备
+### 自定义连接
 
-部分支持
 
-- 下载[ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
+- 下载 [ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) ，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
 - 进入软件`设置`-`连接设置`，填写自定义地址（需要填写IP+端口，例如`127.0.0.1:5555`）
-- 目前非`16:9`分辨率下，刷理智、访问好友、信用商店、公招识别、领任务等功能已初步可用；基建功能暂不可用，正在进一步适配中。但仍推荐使用16:9分辨率，经过的测试验证最多，也最稳定。
+- **注意 :** 目前非`16:9`分辨率下，刷理智、访问好友、信用商店、公招识别、领任务等功能已初步可用；基建功能暂不可用，正在进一步适配中。但仍推荐使用16:9分辨率，经过的测试验证最多，也最稳定。
 
 ## 使用说明
 
@@ -150,7 +149,7 @@ A game assistance for Arknights
 - `resource\config.json`中有一些自定义选项，可以尝试根据自己的需要进行修改
 - 底层算法纯C++开发，并设计了多重的缓存技术，最大限度降低CPU和内存占用
 - 软件支持自动更新✿✿ヽ(°▽°)ノ✿ 推荐非杠精的同学使用测试版，一般来说更新快且bug少（什么MIUI (╯‵□′)╯︵┻━┻
-- [反馈问题](https://github.com/MistEO/MeoAssistance-Arknights/issues)最好可以带上目录下的`asst.log`日志文件，并说下使用的模拟器版本，感谢！
+- [反馈问题](https://github.com/MistEO/MeoAssistance-Arknights/issues) 最好可以带上目录下的`asst.log`日志文件，并说下使用的模拟器版本，感谢！
 
 ## Todo
 
