@@ -1,3 +1,5 @@
+<div align="center">
+
 # MeoAssistance
 
 <div>
@@ -14,11 +16,15 @@
 </div>
 <br>
 
-A game assistance for Arknights
+A game assistant for Arknights
 
-一款明日方舟的游戏助手，自动刷理智、智能基建换班、公招识别等，一键完成所有日常，全自动长草！！！
+一款明日方舟的游戏小助手，一键完成所有日常，全自动长草！！！
 
-纯图像识别，非内存挂！全图形化界面，开罐即食！并提供了 [Python接口](src/Python/interface.py) 供自行DIY！绝赞开发中！✿✿ヽ(°▽°)ノ✿  
+纯图像识别，非内存挂！全图形化界面，开罐即食！
+
+并提供 [Python接口](src/Python/interface.py) 供自行DIY~ 绝赞更新中！✿✿ヽ(°▽°)ノ✿  
+
+</div>
 
 <br>
 
