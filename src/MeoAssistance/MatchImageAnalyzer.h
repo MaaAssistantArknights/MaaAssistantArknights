@@ -27,19 +27,23 @@ namespace asst
         {
             m_templ_name = std::move(templ_name);
         }
-        void set_threshold(double templ_thres, double hist_thres = 0.0) noexcept
+        void set_threshold(double templ_thres) noexcept
         {
             m_templ_thres = templ_thres;
-            m_hist_thres = hist_thres;
         }
         void set_task_info(MatchTaskInfo task_info) noexcept
         {
-            m_use_cache = task_info.cache;
             m_mask_range = std::move(task_info.mask_range);
             m_templ_name = std::move(task_info.templ_name);
             m_templ_thres = task_info.templ_threshold;
-            m_hist_thres = task_info.hist_threshold;
-            set_roi(task_info.roi);
+
+            if (task_info.cache && !task_info.region_of_appeared.empty()) {
+                m_roi = task_info.region_of_appeared;
+            }
+            else {
+                set_roi(task_info.roi);
+                correct_roi();
+            }
         }
 
         //const std::vector<MatchRect>& get_result() const noexcept {
@@ -51,15 +55,11 @@ namespace asst
         }
 
     protected:
-        static cv::Mat to_hist(const cv::Mat& src);
-
         virtual bool match_templ(const cv::Mat& templ);
-        virtual bool comp_hist(const cv::Mat& hist, const cv::Rect roi);
 
         std::string m_templ_name;
         MatchRect m_result;
         double m_templ_thres = 0.0;
-        double m_hist_thres = 0.0;
         bool m_use_cache = false;
         std::pair<int, int> m_mask_range;
     };

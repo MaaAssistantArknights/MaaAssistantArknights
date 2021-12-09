@@ -7,48 +7,19 @@
 asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name, double templ_thres, double hist_thres)
     : AbstractImageAnalyzer(image, roi),
     m_templ_name(std::move(templ_name)),
-    m_templ_thres(templ_thres),
-    m_hist_thres(hist_thres)
+    m_templ_thres(templ_thres)
 {
     ;
 }
 
 bool asst::MatchImageAnalyzer::analyze()
 {
-    if (m_use_cache) {
-        auto&& [hist, roi] = Resrc.templ().get_hist(m_templ_name);
-        if (!hist.empty()) {
-            return comp_hist(hist, roi);
-        }
-    }
     const cv::Mat& templ = Resrc.templ().get_templ(m_templ_name);
     if (templ.empty()) {
         Log.error("templ is empty!");
         return false;
     }
-    if (match_templ(templ)) {
-        if (m_use_cache) {
-            Resrc.templ().emplace_hist(m_templ_name, to_hist(templ), utils::make_rect<cv::Rect>(m_result.rect));
-        }
-        return true;
-    }
-    return false;
-}
-
-cv::Mat asst::MatchImageAnalyzer::to_hist(const cv::Mat& src)
-{
-    constexpr int histSize[] = { 50, 60 };
-    constexpr float h_ranges[] = { 0, 180 };
-    constexpr float s_ranges[] = { 0, 256 };
-    const float* ranges[] = { h_ranges, s_ranges };
-    constexpr int channels[] = { 0, 1 };
-
-    cv::MatND hist;
-
-    cv::calcHist(&src, 1, channels, cv::Mat(), hist, 2, histSize, ranges);
-    cv::normalize(hist, hist, 0, 1, cv::NORM_MINMAX);
-
-    return hist;
+    match_templ(templ);
 }
 
 bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
@@ -77,30 +48,11 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
 
     Rect rect(max_loc.x + m_roi.x, max_loc.y + m_roi.y, templ.cols, templ.rows);
     if (max_val > m_templ_thres * 0.7) { // 得分太低的肯定不对，没必要打印
-        Log.trace("match_templ |", m_templ_name, "score:", max_val, "rect:", rect.to_string());
+        Log.trace("match_templ |", m_templ_name, "score:", max_val, "rect:", rect.to_string(), "roi:", m_roi.to_string());
     }
 
     if (max_val >= m_templ_thres) {
         m_result = { AlgorithmType::MatchTemplate, max_val, rect };
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-bool asst::MatchImageAnalyzer::comp_hist(const cv::Mat& hist, const cv::Rect roi)
-{
-    cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(roi));
-    double score = 1.0 - cv::compareHist(to_hist(image_roi), hist, cv::HISTCMP_BHATTACHARYYA);
-
-    if (score > 0.7) { // 得分太低的肯定不对，没必要打印
-        Log.trace("comp_hist |", m_templ_name, "score:", score);
-    }
-
-    if (score >= m_hist_thres) {
-        Rect rect(roi.x, roi.y, hist.cols, hist.rows);
-        m_result = { AlgorithmType::CompareHist, score, rect };
         return true;
     }
     else {

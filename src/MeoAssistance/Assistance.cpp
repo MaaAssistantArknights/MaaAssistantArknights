@@ -558,7 +558,6 @@ void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
 
 void Assistance::clear_cache()
 {
-    Resrc.templ().clear_hists();
     Resrc.item().clear_drop_count();
     task.clear_cache();
 }

@@ -114,14 +114,17 @@
         "algorithm": "OcrDetect",
         "text": [
             "剩余可放置角色",
-            "接管作战"
+            "接管作战",
+            "代理指挥",
+            "运行中"
         ],
         "roi": [
-            0,
+            300,
             530,
-            1280,
+            980,
             190
         ],
+        "cache": false,
         "action": "doNothing",
         "rearDelay": 5000,
         "next": [
@@ -1498,8 +1501,8 @@
     "InfrastSkills": {
         "template": "empty.png",
         "templThreshold": 0.9,
-        "histThreshold": 95,
-        "histThreshold_Doc": "该任务里的Hist阈值，是特化了拿来做灰度图平均值的，懒得重新写个字段了",
+        "specialThreshold": 95,
+        "specialThreshold_Doc": "用于做灰度图平均值",
         "cache": false,
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
@@ -1563,8 +1566,8 @@
     "InfrastOperMoodProgressBar": {
         "template": "empty.png",
         "templThreshold": 160,
-        "histThreshold": 20,
-        "Doc": "这里的templThreshold，作为进度条最小灰度阈值使用；histThreshold作为进度条相邻点最大变化阈值使用。懒得重新弄个字段了",
+        "specialThreshold": 20,
+        "Doc": "这里的templThreshold，作为进度条最小灰度阈值使用；specialThreshold作为进度条相邻点最大变化阈值使用。懒得重新弄个字段了",
         "cache": false,
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [

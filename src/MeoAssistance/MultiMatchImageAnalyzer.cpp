@@ -29,14 +29,14 @@ void asst::MultiMatchImageAnalyzer::sort_result()
 {
     // 按位置排个序
     std::sort(m_result.begin(), m_result.end(),
-              [](const MatchRect& lhs, const MatchRect& rhs) -> bool {
-                  if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
-                      return lhs.rect.x < rhs.rect.x;
-                  }
-                  else {
-                      return lhs.rect.y < rhs.rect.y;
-                  }
-              });
+        [](const MatchRect& lhs, const MatchRect& rhs) -> bool {
+            if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
+                return lhs.rect.x < rhs.rect.x;
+            }
+            else {
+                return lhs.rect.y < rhs.rect.y;
+            }
+        });
 }
 
 bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat& templ)
@@ -92,7 +92,7 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat& templ)
         log_str += res.rect.to_string() + " : " + std::to_string(res.score) + "; ";
     }
     log_str += "]";
-    Log.trace("multi_match_templ | ", m_templ_name, log_str);
+    Log.trace("multi_match_templ | ", m_templ_name, log_str, "roi:", m_roi.to_string());
 
     if (!m_result.empty()) {
         return true;
