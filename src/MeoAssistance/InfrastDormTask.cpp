@@ -34,7 +34,7 @@ bool asst::InfrastDormTask::_run()
             swipe_to_the_left_of_operlist();
         }
         else {
-            async_swipe_of_operlist();
+            swipe_of_operlist();
         }
 
         int num_of_selected = 0;
@@ -89,7 +89,7 @@ bool asst::InfrastDormTask::_run()
                     }
                 }
                 else {
-                    if (oper.doing != infrast::Doing::Working) {
+                    if (oper.selected == false && oper.doing != infrast::Doing::Working) {
                         Ctrler.click(oper.rect);
                         if (++num_of_selected >= MaxNumOfOpers) {
                             Log.trace("num_of_selected:", num_of_selected, ", just break");
@@ -102,7 +102,7 @@ bool asst::InfrastDormTask::_run()
                 Log.trace("num_of_selected:", num_of_selected, ", just break");
                 break;
             }
-            sync_swipe_of_operlist();
+            swipe_of_operlist();
         }
         click_confirm_button();
         click_return_button();

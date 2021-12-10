@@ -24,7 +24,7 @@ namespace asst
         virtual void swipe_to_the_left_of_operlist(); // 滑动到干员列表的最左侧
         virtual void swipe_to_the_left_of_main_ui();  // 滑动基建的主界面到最左侧
         virtual void swipe_to_the_right_of_main_ui(); // 滑动基建的主界面到最右侧
-        virtual void sync_swipe_of_operlist(bool reverse = false);
+        virtual void swipe_of_operlist(bool reverse = false);
         virtual void async_swipe_of_operlist(bool reverse = false);
         virtual void await_swipe();
 

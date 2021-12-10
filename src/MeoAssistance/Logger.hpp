@@ -50,8 +50,8 @@ namespace asst
             log(level, std::forward<Args>(args)...);
         }
 
-        const std::string m_log_filename = m_dirname + "asst.log";
-        const std::string m_log_bak_filename = m_dirname + "asst.bak.log";
+        const std::string m_log_filename = m_dirname + "\\asst.log";
+        const std::string m_log_bak_filename = m_dirname + "\\asst.bak.log";
 
     private:
         Logger()

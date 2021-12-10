@@ -110,7 +110,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         Ctrler.click(add_button);
         sleep(add_task_ptr->rear_delay);
 
-        constexpr int retry_times = 1;
+        constexpr int retry_times = 3;
         for (int i = 0; i <= retry_times; ++i) {
             if (need_exit()) {
                 return false;
@@ -167,7 +167,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
         }
 
         // 异步在最后会多滑动一下，耽误的时间还不如用同步
-        sync_swipe_of_operlist();
+        swipe_of_operlist();
     }
 
     if (!m_all_available_opers.empty()) {
@@ -555,7 +555,7 @@ bool asst::InfrastProductionTask::opers_choose()
         }
 
         // 因为识别完了还要点击，所以这里不能异步滑动
-        sync_swipe_of_operlist();
+        swipe_of_operlist();
     }
 
     return true;

@@ -201,7 +201,7 @@ bool asst::InfrastAbstractTask::click_confirm_button()
     return false;
 }
 
-void asst::InfrastAbstractTask::sync_swipe_of_operlist(bool reverse)
+void asst::InfrastAbstractTask::swipe_of_operlist(bool reverse)
 {
     async_swipe_of_operlist(reverse);
     await_swipe();

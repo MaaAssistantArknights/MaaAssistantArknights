@@ -179,7 +179,7 @@ bool asst::InfrastReceptionTask::shift()
     }
     sleep(raw_task_ptr->rear_delay);
 
-    constexpr int retry_times = 1;
+    constexpr int retry_times = 3;
     for (int i = 0; i <= retry_times; ++i) {
         if (need_exit()) {
             return false;
