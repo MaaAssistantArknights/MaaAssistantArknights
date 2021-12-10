@@ -22,7 +22,7 @@ bool asst::InfrastOfficeTask::_run()
     enter_facility(FacilityName, 0);
     click_bottomleft_tab();
 
-    constexpr int retry_times = 1;
+    constexpr int retry_times = 3;
     for (int i = 0; i <= retry_times; ++i) {
         if (need_exit()) {
             return false;
