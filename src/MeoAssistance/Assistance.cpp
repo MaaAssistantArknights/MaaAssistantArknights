@@ -478,8 +478,7 @@ void Assistance::working_proc()
             if (!ret) {
                 task_callback(AsstMsg::TaskError, task_json, this);
             }
-
-            if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
+            else if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
                 task_callback(AsstMsg::TaskChainCompleted, task_json, this);
             }
             if (m_tasks_queue.empty()) {

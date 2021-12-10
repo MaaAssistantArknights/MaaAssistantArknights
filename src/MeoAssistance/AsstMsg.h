@@ -43,6 +43,7 @@ namespace asst
         RecruitSpecialTag,          // 公招识别到了特殊的Tag
         RecruitResult,              // 公开招募结果
         RecruitSelected,            // 选择了Tags
+        RecruitError,               // 公招错误
         /* Infrast Msg */
         InfrastSkillsDetected = 4000,  // 识别到了基建技能（当前页面）
         InfrastSkillsResult,           // 识别到的所有可用技能
@@ -64,6 +65,7 @@ namespace asst
             { AsstMsg::ImageMatched, "ImageMatched" },
             { AsstMsg::StageDrops, "StageDrops" },
             { AsstMsg::TaskMatched, "TaskMatched" },
+            { AsstMsg::RecruitError, "RecruitError" },
             { AsstMsg::ReachedLimit, "ReachedLimit" },
             { AsstMsg::ReadyToSleep, "ReadyToSleep" },
             { AsstMsg::EndOfSleep, "EndOfSleep" },

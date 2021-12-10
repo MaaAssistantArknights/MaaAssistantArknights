@@ -103,19 +103,23 @@ namespace MeoAsstGui
                         string taskName = detail["name"].ToString();
                         if (taskName == "StartButton2")
                         {
-                            tvm.AddLog("已开始行动 " + (int)detail["exec_times"] + " 次");
+                            tvm.AddLog("已开始行动 " + (int)detail["exec_times"] + " 次", "darkcyan");
                         }
                         else if (taskName == "MedicineConfirm")
                         {
-                            tvm.AddLog("已吃药 " + (int)detail["exec_times"] + " 个");
+                            tvm.AddLog("已吃药 " + (int)detail["exec_times"] + " 个", "darkcyan");
                         }
                         else if (taskName == "StoneConfirm")
                         {
-                            tvm.AddLog("已碎石 " + (int)detail["exec_times"] + " 颗");
+                            tvm.AddLog("已碎石 " + (int)detail["exec_times"] + " 颗", "darkcyan");
                         }
-                        else if (taskName == "RecruitRefresh")
+                        else if (taskName == "RecruitRefreshConfirm")
                         {
-                            tvm.AddLog("已刷新标签");
+                            tvm.AddLog("已刷新标签", "darkcyan");
+                        }
+                        else if (taskName == "RecruitConfirm")
+                        {
+                            tvm.AddLog("已确认招募", "darkcyan");
                         }
                     }
                     break;
@@ -169,6 +173,7 @@ namespace MeoAsstGui
                 case AsstMsg.RecruitSpecialTag:
                 case AsstMsg.RecruitResult:
                 case AsstMsg.RecruitSelected:
+                case AsstMsg.RecruitError:
                     recruit_proc_msg(msg, detail);
                     break;
                 /* Infrast Msg */
@@ -181,6 +186,7 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.TaskError:
+                    tvm.AddLog("任务出错：" + detail["task_chain"].ToString(), "darkred");
                     break;
 
                 case AsstMsg.InitFaild:
@@ -274,11 +280,11 @@ namespace MeoAsstGui
                     if (combs_level >= 5)
                     {
                         new ToastContentBuilder().AddText("公招出 " + combs_level + " 星了哦！").Show(); ;
-                        tvm.AddLog(combs_level + " 星Tags", "OrangeRed");
+                        tvm.AddLog(combs_level + " 星Tags", "darkorange", "Bold");
                     }
                     else
                     {
-                        tvm.AddLog(combs_level + " 星Tags");
+                        tvm.AddLog(combs_level + " 星Tags", "darkcyan");
                     }
 
                     break;
@@ -293,6 +299,10 @@ namespace MeoAsstGui
                     selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : "无";
 
                     tvm.AddLog("选择Tags：\n" + selected_log);
+                    break;
+
+                case AsstMsg.RecruitError:
+                    tvm.AddLog("公招识别错误，已返回", "darkred");
                     break;
             }
         }
@@ -401,6 +411,7 @@ namespace MeoAsstGui
         RecruitSpecialTag,                  // 公招识别到了特殊的Tag
         RecruitResult,                      // 公开招募结果
         RecruitSelected,                    // 选择了Tags
+        RecruitError,                       // 公招错误
         /* Infrast Msg */
         InfrastSkillsDetected = 4000,  // 识别到了基建技能（当前页面）
         InfrastSkillsResult,           // 识别到的所有可用技能

@@ -23,8 +23,8 @@ bool asst::InfrastControlTask::_run()
     if (!enter_oper_list_page()) {
         return false;
     }
-    constexpr int retry_times = 3;
-    for (int i = 0; i <= retry_times; ++i) {
+
+    for (int i = 0; i <= OperSelectRetryTimes; ++i) {
         if (need_exit()) {
             return false;
         }
