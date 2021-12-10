@@ -19,7 +19,7 @@ bool asst::MatchImageAnalyzer::analyze()
         Log.error("templ is empty!");
         return false;
     }
-    match_templ(templ);
+    return match_templ(templ);
 }
 
 bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
