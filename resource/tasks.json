@@ -359,6 +359,7 @@
     },
     "CloseAnno": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             1100,
             0,

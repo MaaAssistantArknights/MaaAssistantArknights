@@ -56,6 +56,8 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
             if (flag && ocr_task_ptr->roi.include(tr.rect)) {
                 m_result = ocr_task_ptr;
                 m_result_rect = tr.rect;
+                ocr_task_ptr->region_of_appeared
+                    = m_result_rect.center_zoom(1.5, m_image.cols, m_image.rows);   // OCR库不扩大一点容易识别不到
                 Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in cache", tr.to_string());
                 return true;
             }
@@ -74,7 +76,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
         m_result = ocr_task_ptr;
         m_result_rect = res.rect;
         ocr_task_ptr->region_of_appeared
-            = res.rect.center_zoom(2.0, m_image.cols, m_image.rows);   // OCR库不扩大一点容易识别不到
+            = res.rect.center_zoom(1.5, m_image.cols, m_image.rows);   // OCR库不扩大一点容易识别不到
         m_ocr_cache.insert(m_ocr_cache.end(), ocr_result.begin(), ocr_result.end());
         Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found", res.to_string());
     }
