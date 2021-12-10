@@ -74,7 +74,7 @@ namespace MeoAsstGui
             bool catchd = await task;
             if (!catchd)
             {
-                AddLog("捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限", "Red");
+                AddLog("捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限", "darkred");
                 return;
             }
 

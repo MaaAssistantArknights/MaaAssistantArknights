@@ -110,21 +110,18 @@ bool asst::InfrastProductionTask::shift_facility_list()
         Ctrler.click(add_button);
         sleep(add_task_ptr->rear_delay);
 
-        constexpr int retry_times = 3;
-        for (int i = 0; i <= retry_times; ++i) {
+        for (int i = 0; i <= OperSelectRetryTimes; ++i) {
             if (need_exit()) {
                 return false;
             }
             click_clear_button();
-            swipe_to_the_left_of_operlist();
-            swipe_to_the_left_of_operlist();
+            swipe_to_the_left_of_operlist(2);
 
             if (m_all_available_opers.empty()) {
                 if (!opers_detect_with_swipe()) {
                     return false;
                 }
-                swipe_to_the_left_of_operlist();
-                swipe_to_the_left_of_operlist();
+                swipe_to_the_left_of_operlist(2);
             }
             else {
                 opers_detect();

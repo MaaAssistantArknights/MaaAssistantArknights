@@ -63,6 +63,7 @@ bool asst::AutoRecruitTask::_run()
 
             // 识别错误，放弃这个公招位，直接返回
             if (!recurit_task.run()) {
+                m_callback(AsstMsg::RecruitError, json::value(), m_callback_arg);
                 click_return_button();
                 break;
             }
