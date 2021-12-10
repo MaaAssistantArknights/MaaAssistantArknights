@@ -475,10 +475,11 @@ bool asst::InfrastProductionTask::opers_choose()
         }
         auto cur_all_opers = oper_analyzer.get_result();
         // 小于心情阈值的干员则不可用
-        cur_all_opers.erase(std::remove_if(cur_all_opers.begin(), cur_all_opers.end(),
+        auto remove_iter = std::remove_if(cur_all_opers.begin(), cur_all_opers.end(),
             [&](const infrast::Oper& rhs) -> bool {
                 return rhs.mood_ratio < m_mood_threshold;
-            }));
+            });
+        cur_all_opers.erase(remove_iter, cur_all_opers.end());
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             auto find_iter = std::find_if(
                 cur_all_opers.cbegin(), cur_all_opers.cend(),
