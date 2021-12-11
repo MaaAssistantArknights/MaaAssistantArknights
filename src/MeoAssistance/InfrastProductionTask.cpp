@@ -443,6 +443,8 @@ bool asst::InfrastProductionTask::opers_choose()
 {
     LogTraceFunction;
     bool has_error = false;
+
+    int count = 0;
     auto& facility_info = Resrc.infrast().get_facility_info(m_facility);
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
 
@@ -481,7 +483,6 @@ bool asst::InfrastProductionTask::opers_choose()
             });
         cur_all_opers.erase(remove_iter, cur_all_opers.end());
 
-        int count = 0;
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             auto find_iter = std::find_if(
                 cur_all_opers.cbegin(), cur_all_opers.cend(),
@@ -548,6 +549,8 @@ bool asst::InfrastProductionTask::opers_choose()
                 break;
             }
             else { // 这种情况可能是萌新，可用干员人数不足以填满当前设施
+                // TODO!!!
+                break;
             }
         }
 
