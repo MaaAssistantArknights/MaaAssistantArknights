@@ -28,7 +28,7 @@
 using namespace asst;
 
 Assistance::Assistance(std::string dirname, AsstCallback callback, void* callback_arg)
-    : m_dirname(std::move(dirname)),
+    : m_dirname(std::move(dirname) + "\\"),
     m_callback(callback),
     m_callback_arg(callback_arg)
 {
@@ -37,7 +37,7 @@ Assistance::Assistance(std::string dirname, AsstCallback callback, void* callbac
 
     LogTraceFunction;
 
-    bool resource_ret = Resrc.load(m_dirname + "\\Resource\\");
+    bool resource_ret = Resrc.load(m_dirname + "Resource\\");
     if (!resource_ret) {
         const std::string& error = Resrc.get_last_error();
         Log.error("resource broken", error);
