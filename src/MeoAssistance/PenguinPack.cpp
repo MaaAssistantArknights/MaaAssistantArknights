@@ -2,7 +2,7 @@
 
 #include <filesystem>
 
-#include <json.h>
+#include <meojson/json.h>
 #include <opencv2/opencv.hpp>
 namespace penguin
 {
