@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include <json.h>
+#include <meojson/json.h>
 
 bool asst::RecruitConfiger::parse(const json::value& json)
 {
@@ -31,7 +31,7 @@ bool asst::RecruitConfiger::parse(const json::value& json)
     // 按干员等级排个序
     std::sort(m_all_opers.begin(), m_all_opers.end(), [](const auto& lhs, const auto& rhs) -> bool {
         return lhs.level > rhs.level;
-    });
+        });
 
     return true;
 }

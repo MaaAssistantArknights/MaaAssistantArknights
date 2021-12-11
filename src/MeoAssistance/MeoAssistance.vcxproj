@@ -150,12 +150,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;$(SolutionDir)3rdparty\include;$(SolutionDir)3rdparty\include\meojson;$(SolutionDir)\3rdparty\include\opencv;$(SolutionDir)\3rdparty\include\opencv2;$(SolutionDir)3drPart\include\OcrLiteNcnn;;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;$(SolutionDir)3rdparty\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(TargetDir);$(SolutionDir)\3rdparty\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;$(SolutionDir)3rdparty\include;$(SolutionDir)3rdparty\include\meojson;$(SolutionDir)3rdparty\include\opencv;$(SolutionDir)3rdparty\include\opencv2;$(SolutionDir)3drPart\include\OcrLiteNcnn;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;$(SolutionDir)3rdparty\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(TargetDir);$(SolutionDir)\3rdparty\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

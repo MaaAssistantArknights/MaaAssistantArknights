@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-#include <json_value.h>
+#include <meojson/json_value.h>
 
 #include "Assistance.h"
 #include "AsstDef.h"
@@ -215,7 +215,7 @@ bool AsstStop(void* p_asst)
     return ((asst::Assistance*)p_asst)->stop();
 }
 
-bool MEOAPI AsstSetPenguinId(void* p_asst, const char* id)
+bool AsstSetPenguinId(void* p_asst, const char* id)
 {
     if (p_asst == nullptr) {
         return false;

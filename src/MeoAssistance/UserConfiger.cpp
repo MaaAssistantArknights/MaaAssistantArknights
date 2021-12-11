@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include <json.h>
+#include <meojson/json.h>
 
 constexpr static const char* EmulatorPathKey = "emulatorPath";
 
