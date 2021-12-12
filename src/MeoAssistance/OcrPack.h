@@ -2,31 +2,31 @@
 #include "AbstractResource.h"
 
 #include <functional>
-#include <memory>
 
 #include "AsstDef.h"
 
-class OcrLiteCaller;
 namespace cv
 {
     class Mat;
 }
+struct paddle_ocr_t;
 
 namespace asst
 {
     class OcrPack final : public AbstractResource
     {
     public:
-        OcrPack();
+        using AbstractResource::AbstractResource;
         virtual ~OcrPack();
 
         virtual bool load(const std::string& dir) override;
-        void set_param(int /*gpu_index*/, int thread_number);
 
         std::vector<TextRect> recognize(const cv::Mat& image, const TextRectProc& pred = nullptr);
         std::vector<TextRect> recognize(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr);
 
+        std::vector<std::string> only_rec(const cv::Mat& image, const TextRectProc& pred = nullptr);
+        std::vector<std::string> only_rec(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr);
     private:
-        std::unique_ptr<OcrLiteCaller> m_ocr_ptr;
+        paddle_ocr_t* m_ocr = nullptr;
     };
 }
