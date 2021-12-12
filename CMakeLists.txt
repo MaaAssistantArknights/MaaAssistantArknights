@@ -17,8 +17,8 @@ set(CMAKE_CXX_STANDARD 17)
 add_library(MeoAsst_LIB SHARED ${SRC})
 
 find_library(Opencv_LIB NAMES opencv_world453 PATHS 3rdparty/lib)
-find_library(OcrLite_LIB NAMES OcrLiteOnnx PATHS 3rdparty/lib)
+find_library(PaddleOCR_LIB NAMES ppocr PATHS 3rdparty/lib)
 find_library(Penguin_LIB NAMES penguin-stats-recognize PATHS 3rdparty/lib)
 find_library(MeoJson_LIB NAMES libmeojson PATHS 3rdparty/lib)
 
-target_link_libraries(MeoAsst_LIB ${Opencv_LIB} ${OcrLite_LIB} ${Penguin_LIB} ${MeoJson_LIB})
+target_link_libraries(MeoAsst_LIB ${Opencv_LIB} ${PaddleOCR_LIB} ${Penguin_LIB} ${MeoJson_LIB})

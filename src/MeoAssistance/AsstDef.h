@@ -101,7 +101,7 @@ namespace asst
         explicit operator Rect() const noexcept { return rect; }
         std::string to_string() const
         {
-            return text + " : " + rect.to_string();
+            return text + " : " + rect.to_string() + ", score: " + std::to_string(score);
         }
         TextRect& operator=(const TextRect&) = default;
         TextRect& operator=(TextRect&&) noexcept = default;
@@ -112,6 +112,7 @@ namespace asst
 
         std::string text;
         Rect rect;
+        float score;
     };
     using TextRectProc = std::function<bool(TextRect&)>;
 

@@ -1,81 +1,95 @@
 #include "OcrPack.h"
 
-#include <OcrLiteOnnx/OcrLiteCaller.h>
+#include <PaddleOCR/paddle_ocr.h>
 #include <opencv2/opencv.hpp>
 
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 
-asst::OcrPack::OcrPack()
-    : m_ocr_ptr(std::make_unique<OcrLiteCaller>())
-{}
-
-asst::OcrPack::~OcrPack() = default;
-
-bool asst::OcrPack::load(const std::string & dir)
+asst::OcrPack::~OcrPack()
 {
-    constexpr static const char* DetName = "\\models\\dbnet.onnx";
-    constexpr static const char* ClsName = "\\models\\angle_net.onnx";
-    constexpr static const char* RecName = "\\models\\crnn_lite_lstm.onnx";
-    constexpr static const char* KeysName = "\\models\\keys.txt";
+    PaddleOcrDestroy(m_ocr);
+}
+
+bool asst::OcrPack::load(const std::string& dir)
+{
+    constexpr static const char* DetName = "\\det";
+    //constexpr static const char* ClsName = "\\cls";
+    constexpr static const char* RecName = "\\rec";
+    constexpr static const char* KeysName = "\\ppocr_keys_v1.txt";
 
     const std::string dst_filename = dir + DetName;
-    const std::string cls_filename = dir + ClsName;
+    //const std::string cls_filename = dir + ClsName;
     const std::string rec_filename = dir + RecName;
     const std::string keys_filename = dir + KeysName;
 
-    return m_ocr_ptr->initModels(dst_filename, cls_filename, rec_filename, keys_filename);
+    if (m_ocr != nullptr) {
+        PaddleOcrDestroy(m_ocr);
+    }
+    m_ocr = PaddleOcrCreate(dst_filename.c_str(), rec_filename.c_str(), keys_filename.c_str(), nullptr);
+
+    return m_ocr != nullptr;
 }
 
-void asst::OcrPack::set_param(int /*gpu_index*/, int thread_number)
+std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::TextRectProc& pred)
 {
-    // gpu_index是ncnn的参数，onnx架构的没有，预留参数接口
-    m_ocr_ptr->setNumThread(thread_number);
-}
+    std::vector<uchar> buf;
+    cv::imencode(".png", image, buf);
 
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, const asst::TextRectProc & pred)
-{
-    constexpr int padding = 50;
-    constexpr int maxSideLen = 0;
-    constexpr float boxScoreThresh = 0.2f;
-    constexpr float boxThresh = 0.3f;
-    constexpr float unClipRatio = 2.0f;
-    constexpr bool doAngle = false;
-    constexpr bool mostAngle = false;
+    constexpr static size_t MaxBoxSize = 128;
 
-    OcrResult ocr_results = m_ocr_ptr->detect(image,
-                                              padding, maxSideLen,
-                                              boxScoreThresh, boxThresh,
-                                              unClipRatio, doAngle, mostAngle);
+    // each box has 8 value ( 4 points, x and y )
+    int boxes[MaxBoxSize * 8] = { 0 };
+    char* strs[MaxBoxSize] = { 0 };
+    for (size_t i = 0; i != MaxBoxSize; ++i) {
+        constexpr static size_t MaxTextSize = 128;
+        *(strs + i) = new char[MaxTextSize];
+        memset(*(strs + i), 0, MaxTextSize);
+    }
+    float scores[MaxBoxSize] = { 0 };
+    size_t size;
+
+    PaddleOcrSystem(
+        m_ocr, buf.data(), buf.size(), false,
+        boxes, strs, scores, &size, nullptr, nullptr);
 
     std::vector<TextRect> result;
     std::string log_str_raw;
     std::string log_str_proc;
-    for (TextBlock& text_block : ocr_results.textBlocks) {
-        if (text_block.boxPoint.size() != 4) {
-            continue;
-        }
-        // the rect like ↓
+    for (size_t i = 0; i != size; ++i) {
+        // the box rect like ↓
         // 0 - 1
         // 3 - 2
-        int x = text_block.boxPoint.at(0).x;
-        int y = text_block.boxPoint.at(0).y;
-        int width = text_block.boxPoint.at(1).x - x;
-        int height = text_block.boxPoint.at(3).y - y;
+        int* box = boxes + i * 8;
+        int x_collect[4] = { *(box + 0), *(box + 2), *(box + 4), *(box + 6) };
+        int y_collect[4] = { *(box + 1), *(box + 3), *(box + 5), *(box + 7) };
+        int left = int(*std::min_element(x_collect, x_collect + 4));
+        int right = int(*std::max_element(x_collect, x_collect + 4));
+        int top = int(*std::min_element(y_collect, y_collect + 4));
+        int bottom = int(*std::max_element(y_collect, y_collect + 4));
 
-        TextRect tr{ std::move(text_block.text), Rect(x, y, width, height) };
+        Rect rect(left, top, right - left, bottom - top);
+
+        std::string text(*(strs + i));
+        float score = *(scores + i);
+        TextRect tr{ text, rect, score };
+
         log_str_raw += (std::string)tr + ", ";
         if (!pred || pred(tr)) {
             log_str_proc += tr.to_string() + ", ";
             result.emplace_back(std::move(tr));
         }
     }
+    for (size_t i = 0; i != MaxBoxSize; ++i) {
+        delete[] * (strs + i);
+    }
+
     Log.trace("OcrPack::recognize | raw : ", log_str_raw);
     Log.trace("OcrPack::recognize | proc : ", log_str_proc);
     return result;
 }
 
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, const asst::Rect & roi, const asst::TextRectProc & pred)
+std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::Rect& roi, const asst::TextRectProc& pred)
 {
     auto rect_cor = [&roi, &pred](TextRect& tr) -> bool {
         tr.rect.x += roi.x;

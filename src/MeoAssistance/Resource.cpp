@@ -17,7 +17,7 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static const char* ItemCfgFilename = "item_index.json";
     constexpr static const char* InfrastCfgFilename = "infrast.json";
     constexpr static const char* UserCfgFilename = "..\\user.json";
-    constexpr static const char* OcrResourceFilename = "OcrLiteOnnx";
+    constexpr static const char* OcrResourceFilename = "PaddleOCR";
     constexpr static const char* PenguinResourceFilename = "penguin-stats-recognize";
 
     /* 加载各个Json配置文件 */
@@ -65,7 +65,7 @@ bool asst::Resource::load(const std::string& dir)
     }
 
     /* 加载OCR库所需要的资源 */
-    m_ocr_pack_unique_ins.set_param(opt.ocr_gpu_index, opt.ocr_thread_number);
+    //m_ocr_pack_unique_ins.set_param(opt.ocr_gpu_index, opt.ocr_thread_number);
     if (!m_ocr_pack_unique_ins.load(dir + OcrResourceFilename)) {
         m_last_error = m_ocr_pack_unique_ins.get_last_error();
         return false;
