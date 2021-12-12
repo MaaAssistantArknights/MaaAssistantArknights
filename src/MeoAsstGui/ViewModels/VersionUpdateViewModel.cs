@@ -186,12 +186,13 @@ namespace MeoAsstGui
                 .AddButton(openUrlToastButton)
                 .Show();
             // 下载压缩包
-            const int downloadRetryMaxTimes = 1;
+            const int downloadRetryMaxTimes = 2;
             string downloadTempFilename = UpdatePackageName + ".tmp";
             bool downloaded = false;
             for (int i = 0; i != downloadRetryMaxTimes; ++i)
             {
-                if (DownloadFile(_downloadUrl, downloadTempFilename))
+                if (DownloadFile(_downloadUrl.Replace("github.com", "hub.fastgit.org"), downloadTempFilename)
+                    || DownloadFile(_downloadUrl, downloadTempFilename))
                 {
                     downloaded = true;
                     break;
@@ -267,7 +268,7 @@ namespace MeoAsstGui
                     string downUrl = asset["browser_download_url"].ToString();
                     if (downUrl.IndexOf("MeoAssistance") != -1)
                     {
-                        _downloadUrl = downUrl.Replace("github.com", "hub.fastgit.org");
+                        _downloadUrl = downUrl;
                         _lastestJson = json;
                         return true;
                     }
