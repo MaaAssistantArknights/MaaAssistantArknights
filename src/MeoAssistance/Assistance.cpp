@@ -442,7 +442,7 @@ bool Assistance::stop(bool block)
     decltype(m_tasks_queue) empty;
     m_tasks_queue.swap(empty);
 
-    clear_cache();
+    //clear_cache();
 
     return true;
 }

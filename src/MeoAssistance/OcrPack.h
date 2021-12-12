@@ -21,11 +21,9 @@ namespace asst
 
         virtual bool load(const std::string& dir) override;
 
-        std::vector<TextRect> recognize(const cv::Mat& image, const TextRectProc& pred = nullptr);
-        std::vector<TextRect> recognize(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr);
+        std::vector<TextRect> recognize(const cv::Mat& image, const TextRectProc& pred = nullptr, bool without_det = false);
+        std::vector<TextRect> recognize(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr, bool without_det = false);
 
-        std::vector<std::string> only_rec(const cv::Mat& image, const TextRectProc& pred = nullptr);
-        std::vector<std::string> only_rec(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr);
     private:
         paddle_ocr_t* m_ocr = nullptr;
     };

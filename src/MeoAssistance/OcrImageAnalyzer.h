@@ -36,9 +36,11 @@ namespace asst
             correct_roi();
             auto& cache_roi = task_info.region_of_appeared;
             if (task_info.cache && !cache_roi.empty()) {
-                if (cache_roi.area() < m_roi.area()) {
-                    m_roi = cache_roi;
-                }
+                m_roi = cache_roi;
+                m_without_det = true;
+            }
+            else {
+                m_without_det = false;
             }
         }
 
@@ -57,5 +59,6 @@ namespace asst
         bool m_full_match = false;
         std::unordered_map<std::string, std::string> m_replace;
         TextRectProc m_pred = nullptr;
+        bool m_without_det = false;
     };
 }
