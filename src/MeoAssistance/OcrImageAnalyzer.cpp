@@ -48,7 +48,7 @@ bool asst::OcrImageAnalyzer::analyze()
         }
         return true;
     };
-    m_ocr_result = Resrc.ocr().recognize(m_image, m_roi, all_pred);
+    m_ocr_result = Resrc.ocr().recognize(m_image, m_roi, all_pred, m_without_det);
     //log.trace("ocr result", m_ocr_result);
     return !m_ocr_result.empty();
 }

@@ -56,8 +56,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
             if (flag && ocr_task_ptr->roi.include(tr.rect)) {
                 m_result = ocr_task_ptr;
                 m_result_rect = tr.rect;
-                ocr_task_ptr->region_of_appeared
-                    = m_result_rect.center_zoom(1.5, m_image.cols, m_image.rows);   // OCR库不扩大一点容易识别不到
+                ocr_task_ptr->region_of_appeared = m_result_rect;
                 Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in cache", tr.to_string());
                 return true;
             }

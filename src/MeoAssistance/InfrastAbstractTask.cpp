@@ -95,7 +95,7 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
 
     auto image = Ctrler.get_image();
 
-    // 识别右边的“进驻”按钮
+    // 识别左边的“进驻”按钮
     const auto enter_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
         task.get("InfrastEnterOperList"));
     OcrImageAnalyzer enter_analyzer(image);
