@@ -4,7 +4,7 @@
 
 #include <meojson/json_value.h>
 
-#include "Assistance.h"
+#include "Assistant.h"
 #include "AsstDef.h"
 #include "AsstUtils.hpp"
 #include "Version.h"
@@ -43,7 +43,7 @@ void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg)
 void* AsstCreate(const char* dirname)
 {
     try {
-        return new asst::Assistance(dirname);
+        return new asst::Assistant(dirname);
     }
     catch (...) {
         return nullptr;
@@ -55,7 +55,7 @@ void* AsstCreateEx(const char* dirname, AsstCallback callback, void* custom_arg)
     try {
         // 创建多实例回调会有问题，有空再慢慢整
         _callback = callback;
-        return new asst::Assistance(dirname, CallbackTrans, custom_arg);
+        return new asst::Assistant(dirname, CallbackTrans, custom_arg);
     }
     catch (...) {
         return nullptr;
@@ -78,7 +78,7 @@ bool AsstCatchDefault(void* p_asst)
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->catch_default();
+    return ((asst::Assistant*)p_asst)->catch_default();
 }
 
 bool AsstCatchEmulator(void* p_asst)
@@ -87,7 +87,7 @@ bool AsstCatchEmulator(void* p_asst)
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->catch_emulator();
+    return ((asst::Assistant*)p_asst)->catch_emulator();
 }
 
 bool AsstCatchCustom(void* p_asst, const char* address)
@@ -96,7 +96,7 @@ bool AsstCatchCustom(void* p_asst, const char* address)
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->catch_custom(address);
+    return ((asst::Assistant*)p_asst)->catch_custom(address);
 }
 
 bool AsstCatchFake(void* p_asst)
@@ -106,7 +106,7 @@ bool AsstCatchFake(void* p_asst)
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->catch_fake();
+    return ((asst::Assistant*)p_asst)->catch_fake();
 #else
     return false;
 #endif // LOG_TRACE
@@ -117,7 +117,7 @@ bool AsstAppendFight(void* p_asst, int max_mecidine, int max_stone, int max_time
     if (p_asst == nullptr) {
         return false;
     }
-    asst::Assistance* ptr = (asst::Assistance*)p_asst;
+    asst::Assistant* ptr = (asst::Assistant*)p_asst;
 
     return ptr->append_fight(max_mecidine, max_stone, max_times);
 }
@@ -128,7 +128,7 @@ bool AsstAppendAward(void* p_asst)
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->append_award();
+    return ((asst::Assistant*)p_asst)->append_award();
 }
 
 bool AsstAppendVisit(void* p_asst)
@@ -137,7 +137,7 @@ bool AsstAppendVisit(void* p_asst)
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->append_visit();
+    return ((asst::Assistant*)p_asst)->append_visit();
 }
 
 bool AsstAppendMall(void* p_asst, bool with_shopping)
@@ -146,7 +146,7 @@ bool AsstAppendMall(void* p_asst, bool with_shopping)
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->append_mall(with_shopping);
+    return ((asst::Assistant*)p_asst)->append_mall(with_shopping);
 }
 
 //bool AsstAppendProcessTask(void* p_asst, const char* task)
@@ -155,7 +155,7 @@ bool AsstAppendMall(void* p_asst, bool with_shopping)
 //        return false;
 //    }
 //
-//    return ((asst::Assistance*)p_asst)->append_process_task(task);
+//    return ((asst::Assistant*)p_asst)->append_process_task(task);
 //}
 
 bool AsstStartRecruitCalc(void* p_asst, const int select_level[], int required_len, bool set_time)
@@ -165,7 +165,7 @@ bool AsstStartRecruitCalc(void* p_asst, const int select_level[], int required_l
     }
     std::vector<int> level_vector;
     level_vector.assign(select_level, select_level + required_len);
-    return ((asst::Assistance*)p_asst)->start_recruit_calc(level_vector, set_time);
+    return ((asst::Assistant*)p_asst)->start_recruit_calc(level_vector, set_time);
 }
 
 bool AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold)
@@ -176,7 +176,7 @@ bool AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int orde
     std::vector<std::string> order_vector;
     order_vector.assign(order, order + order_size);
 
-    return ((asst::Assistance*)p_asst)->
+    return ((asst::Assistant*)p_asst)->
         append_infrast(
             static_cast<asst::infrast::WorkMode>(work_mode),
             order_vector,
@@ -194,7 +194,7 @@ bool AsstAppendRecruit(void* p_asst, int max_times, const int select_level[], in
     std::vector<int> confirm_vector;
     confirm_vector.assign(confirm_level, confirm_level + confirm_len);
 
-    return ((asst::Assistance*)p_asst)->append_recruit(max_times, required_vector, confirm_vector, need_refresh);
+    return ((asst::Assistant*)p_asst)->append_recruit(max_times, required_vector, confirm_vector, need_refresh);
 }
 
 bool AsstStart(void* p_asst)
@@ -203,7 +203,7 @@ bool AsstStart(void* p_asst)
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->start();
+    return ((asst::Assistant*)p_asst)->start();
 }
 
 bool AsstStop(void* p_asst)
@@ -212,7 +212,7 @@ bool AsstStop(void* p_asst)
         return false;
     }
 
-    return ((asst::Assistance*)p_asst)->stop();
+    return ((asst::Assistant*)p_asst)->stop();
 }
 
 bool AsstSetPenguinId(void* p_asst, const char* id)
@@ -220,7 +220,7 @@ bool AsstSetPenguinId(void* p_asst, const char* id)
     if (p_asst == nullptr) {
         return false;
     }
-    auto ptr = (asst::Assistance*)p_asst;
+    auto ptr = (asst::Assistant*)p_asst;
     ptr->set_penguin_id(id);
     return true;
 }
@@ -231,7 +231,7 @@ bool AsstSetPenguinId(void* p_asst, const char* id)
 //        return false;
 //    }
 //
-//    return ((asst::Assistance*)p_asst)->set_param(type, param, value);
+//    return ((asst::Assistant*)p_asst)->set_param(type, param, value);
 //}
 
 const char* AsstGetVersion()
@@ -245,7 +245,7 @@ bool AsstAppendDebug(void* p_asst)
         return false;
     }
 #if LOG_TRACE
-    return ((asst::Assistance*)p_asst)->append_debug();
+    return ((asst::Assistant*)p_asst)->append_debug();
 #else
     return false;
 #endif // LOG_TRACE

@@ -23,11 +23,11 @@ namespace asst
     class Controller;
     class Identify;
 
-    class Assistance
+    class Assistant
     {
     public:
-        Assistance(std::string dirname, AsstCallback callback = nullptr, void* callback_arg = nullptr);
-        ~Assistance();
+        Assistant(std::string dirname, AsstCallback callback = nullptr, void* callback_arg = nullptr);
+        ~Assistant();
 
         // 根据配置文件，决定捕获模拟器、USB 还是远程设备
         bool catch_default();
