@@ -1,4 +1,4 @@
-// MeoAssistanceGui - A part of the MeoAssistance-Arknight project
+// MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ namespace MeoAsstGui
         private IWindowManager _windowManager;
         private IContainer _container;
 
-        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstGetVersion();
+        [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstGetVersion();
 
         private string _versionInfo = "版本号：" + Marshal.PtrToStringAnsi(AsstGetVersion());
 

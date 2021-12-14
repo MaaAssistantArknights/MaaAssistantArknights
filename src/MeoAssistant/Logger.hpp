@@ -78,7 +78,7 @@ namespace asst
         void log_init_info()
         {
             trace("-----------------------------");
-            trace("MeoAssistance Process Start");
+            trace("MeoAssistant Process Start");
             trace("Version", asst::Version);
             trace("Build DataTime", __DATE__, __TIME__);
             trace("Working Path", m_dirname);

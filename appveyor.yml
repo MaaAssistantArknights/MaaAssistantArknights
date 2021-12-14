@@ -7,7 +7,7 @@ clone_depth: 1
 before_build:
 - ps: nuget restore
 build:
-  project: MeoAssistance.sln
+  project: MeoAssistantArknights.sln
   parallel: true
   verbosity: minimal
 notifications:
