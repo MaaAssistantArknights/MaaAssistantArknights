@@ -1,5 +1,7 @@
 #include "ProcessTaskImageAnalyzer.h"
 
+#include <regex>
+
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
@@ -39,8 +41,8 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
     // 先尝试从缓存的结果里找
     for (const TextRect& tr : m_ocr_cache) {
         TextRect temp = tr;
-        for (const auto& [old_str, new_str] : ocr_task_ptr->replace_map) {
-            temp.text = utils::string_replace_all(temp.text, old_str, new_str);
+        for (const auto& [regex, new_str] : ocr_task_ptr->replace_map) {
+            temp.text = std::regex_replace(temp.text, std::regex(regex), new_str);
         }
         for (const auto& text : ocr_task_ptr->text) {
             bool flag = false;

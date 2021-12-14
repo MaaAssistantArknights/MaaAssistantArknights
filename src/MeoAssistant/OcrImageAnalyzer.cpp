@@ -1,6 +1,7 @@
 #include "OcrImageAnalyzer.h"
 
-#include "AsstUtils.hpp"
+#include <regex>
+
 #include "Logger.hpp"
 #include "Resource.h"
 
@@ -12,8 +13,8 @@ bool asst::OcrImageAnalyzer::analyze()
 
     if (!m_replace.empty()) {
         TextRectProc text_replace = [&](TextRect& tr) -> bool {
-            for (const auto& [old_str, new_str] : m_replace) {
-                tr.text = utils::string_replace_all(tr.text, old_str, new_str);
+            for (const auto& [regex, new_str] : m_replace) {
+                tr.text = std::regex_replace(tr.text, std::regex(regex), new_str);
             }
             return true;
         };
