@@ -17,7 +17,7 @@
     <ClInclude Include="AbstractImageAnalyzer.h" />
     <ClInclude Include="AbstractResource.h" />
     <ClInclude Include="AbstractTask.h" />
-    <ClInclude Include="Assistance.h" />
+    <ClInclude Include="Assistant.h" />
     <ClInclude Include="AsstInfrastDef.h" />
     <ClInclude Include="AsstUtils.hpp" />
     <ClInclude Include="AsstDef.h" />
@@ -93,7 +93,7 @@
     <ClCompile Include="PenguinPack.cpp" />
     <ClCompile Include="RecruitImageAnalyzer.cpp" />
     <ClCompile Include="Resource.cpp" />
-    <ClCompile Include="Assistance.cpp" />
+    <ClCompile Include="Assistant.cpp" />
     <ClCompile Include="AsstCaller.cpp" />
     <ClCompile Include="GeneralConfiger.cpp" />
     <ClCompile Include="ItemConfiger.cpp" />

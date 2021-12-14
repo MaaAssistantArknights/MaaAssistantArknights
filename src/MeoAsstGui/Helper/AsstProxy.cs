@@ -401,8 +401,8 @@ namespace MeoAsstGui
         ReachedLimit,                       // 单个原子任务达到次数上限
         ReadyToSleep,                       // 准备开始睡眠
         EndOfSleep,                         // 睡眠结束
-        AppendProcessTask,                  // 新增流程任务，Assistance内部消息，外部不需要处理
-        AppendTask,                         // 新增任务，Assistance内部消息，外部不需要处理
+        AppendProcessTask,                  // 新增流程任务，Assistant内部消息，外部不需要处理
+        AppendTask,                         // 新增任务，Assistant内部消息，外部不需要处理
         TaskCompleted,                      // 单个原子任务完成
         PrintWindow,                        // 截图消息
         ProcessTaskStopAction,              // 流程任务执行到了Stop的动作

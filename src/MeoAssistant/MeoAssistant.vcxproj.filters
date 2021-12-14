@@ -66,7 +66,7 @@
     <ClInclude Include="Controller.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Assistance.h">
+    <ClInclude Include="Assistant.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="RecruitConfiger.h">
@@ -221,7 +221,7 @@
     <ClCompile Include="Controller.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Assistance.cpp">
+    <ClCompile Include="Assistant.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="RecruitConfiger.cpp">

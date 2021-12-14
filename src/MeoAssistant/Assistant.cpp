@@ -1,4 +1,4 @@
-#include "Assistance.h"
+#include "Assistant.h"
 
 #include <filesystem>
 #include <time.h>
@@ -27,7 +27,7 @@
 
 using namespace asst;
 
-Assistance::Assistance(std::string dirname, AsstCallback callback, void* callback_arg)
+Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_arg)
     : m_dirname(std::move(dirname) + "\\"),
     m_callback(callback),
     m_callback_arg(callback_arg)
@@ -51,11 +51,11 @@ Assistance::Assistance(std::string dirname, AsstCallback callback, void* callbac
         throw error;
     }
 
-    m_working_thread = std::thread(std::bind(&Assistance::working_proc, this));
-    m_msg_thread = std::thread(std::bind(&Assistance::msg_proc, this));
+    m_working_thread = std::thread(std::bind(&Assistant::working_proc, this));
+    m_msg_thread = std::thread(std::bind(&Assistant::msg_proc, this));
 }
 
-Assistance::~Assistance()
+Assistant::~Assistant()
 {
     LogTraceFunction;
 
@@ -72,7 +72,7 @@ Assistance::~Assistance()
     }
 }
 
-bool asst::Assistance::catch_default()
+bool asst::Assistant::catch_default()
 {
     LogTraceFunction;
 
@@ -87,7 +87,7 @@ bool asst::Assistance::catch_default()
     }
 }
 
-bool Assistance::catch_emulator(const std::string& emulator_name)
+bool Assistant::catch_emulator(const std::string& emulator_name)
 {
     LogTraceFunction;
 
@@ -118,7 +118,7 @@ bool Assistance::catch_emulator(const std::string& emulator_name)
     return ret;
 }
 
-bool asst::Assistance::catch_custom(const std::string& address)
+bool asst::Assistant::catch_custom(const std::string& address)
 {
     LogTraceFunction;
 
@@ -140,7 +140,7 @@ bool asst::Assistance::catch_custom(const std::string& address)
     return ret;
 }
 
-bool asst::Assistance::catch_fake()
+bool asst::Assistant::catch_fake()
 {
     LogTraceFunction;
 
@@ -150,7 +150,7 @@ bool asst::Assistance::catch_fake()
     return true;
 }
 
-bool asst::Assistance::append_fight(int mecidine, int stone, int times, bool only_append)
+bool asst::Assistant::append_fight(int mecidine, int stone, int times, bool only_append)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -175,17 +175,17 @@ bool asst::Assistance::append_fight(int mecidine, int stone, int times, bool onl
     return true;
 }
 
-bool asst::Assistance::append_award(bool only_append)
+bool asst::Assistant::append_award(bool only_append)
 {
     return append_process_task("AwardBegin", "Award");
 }
 
-bool asst::Assistance::append_visit(bool only_append)
+bool asst::Assistant::append_visit(bool only_append)
 {
     return append_process_task("VisitBegin", "Visit");
 }
 
-bool asst::Assistance::append_mall(bool with_shopping, bool only_append)
+bool asst::Assistant::append_mall(bool with_shopping, bool only_append)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -211,7 +211,7 @@ bool asst::Assistance::append_mall(bool with_shopping, bool only_append)
     return true;
 }
 
-bool Assistance::append_process_task(const std::string& task, std::string task_chain, int retry_times)
+bool Assistant::append_process_task(const std::string& task, std::string task_chain, int retry_times)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -238,7 +238,7 @@ bool Assistance::append_process_task(const std::string& task, std::string task_c
     return true;
 }
 
-bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>& select_level, const std::vector<int>& confirm_level, bool need_refresh)
+bool asst::Assistant::append_recruit(unsigned max_times, const std::vector<int>& select_level, const std::vector<int>& confirm_level, bool need_refresh)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -262,7 +262,7 @@ bool asst::Assistance::append_recruit(unsigned max_times, const std::vector<int>
 }
 
 #ifdef LOG_TRACE
-bool Assistance::append_debug()
+bool Assistant::append_debug()
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -285,7 +285,7 @@ bool Assistance::append_debug()
 }
 #endif
 
-bool Assistance::start_recruit_calc(const std::vector<int>& select_level, bool set_time)
+bool Assistant::start_recruit_calc(const std::vector<int>& select_level, bool set_time)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -303,7 +303,7 @@ bool Assistance::start_recruit_calc(const std::vector<int>& select_level, bool s
     return start(false);
 }
 
-bool asst::Assistance::append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, const std::string& uses_of_drones, double dorm_threshold, bool only_append)
+bool asst::Assistant::append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, const std::string& uses_of_drones, double dorm_threshold, bool only_append)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -398,7 +398,7 @@ bool asst::Assistance::append_infrast(infrast::WorkMode work_mode, const std::ve
     return true;
 }
 
-void asst::Assistance::set_penguin_id(const std::string& id)
+void asst::Assistant::set_penguin_id(const std::string& id)
 {
     auto& opt = Resrc.cfg().get_options();
     if (id.empty()) {
@@ -409,7 +409,7 @@ void asst::Assistance::set_penguin_id(const std::string& id)
     }
 }
 
-bool asst::Assistance::start(bool block)
+bool asst::Assistant::start(bool block)
 {
     LogTraceFunction;
     Log.trace("Start |", block ? "block" : "non block");
@@ -428,7 +428,7 @@ bool asst::Assistance::start(bool block)
     return true;
 }
 
-bool Assistance::stop(bool block)
+bool Assistant::stop(bool block)
 {
     LogTraceFunction;
     Log.trace("Stop |", block ? "block" : "non block");
@@ -447,13 +447,13 @@ bool Assistance::stop(bool block)
     return true;
 }
 
-void Assistance::working_proc()
+void Assistant::working_proc()
 {
     LogTraceFunction;
 
     std::string pre_taskchain;
     while (!m_thread_exit) {
-        //LogTraceScope("Assistance::working_proc Loop");
+        //LogTraceScope("Assistant::working_proc Loop");
         std::unique_lock<std::mutex> lock(m_mutex);
 
         if (!m_thread_idle && !m_tasks_queue.empty()) {
@@ -500,12 +500,12 @@ void Assistance::working_proc()
     }
 }
 
-void Assistance::msg_proc()
+void Assistant::msg_proc()
 {
     LogTraceFunction;
 
     while (!m_thread_exit) {
-        //LogTraceScope("Assistance::msg_proc Loop");
+        //LogTraceScope("Assistant::msg_proc Loop");
         std::unique_lock<std::mutex> lock(m_msg_mutex);
         if (!m_msg_queue.empty()) {
             // 结构化绑定只能是引用，后续的pop会使引用失效，所以需要重新构造一份，这里采用了move的方式
@@ -525,11 +525,11 @@ void Assistance::msg_proc()
     }
 }
 
-void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
+void Assistant::task_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
 {
-    Log.trace("Assistance::task_callback |", msg, detail.to_string());
+    Log.trace("Assistant::task_callback |", msg, detail.to_string());
 
-    Assistance* p_this = (Assistance*)custom_arg;
+    Assistant* p_this = (Assistant*)custom_arg;
     json::value more_detail = detail;
     switch (msg) {
     case AsstMsg::PtrIsNull:
@@ -548,20 +548,20 @@ void Assistance::task_callback(AsstMsg msg, const json::value& detail, void* cus
     p_this->append_callback(msg, std::move(more_detail));
 }
 
-void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
+void asst::Assistant::append_callback(AsstMsg msg, json::value detail)
 {
     std::unique_lock<std::mutex> lock(m_msg_mutex);
     m_msg_queue.emplace(msg, std::move(detail));
     m_msg_condvar.notify_one();
 }
 
-void Assistance::clear_cache()
+void Assistant::clear_cache()
 {
     Resrc.item().clear_drop_count();
     task.clear_cache();
 }
 
-json::value asst::Assistance::organize_stage_drop(const json::value& rec)
+json::value asst::Assistant::organize_stage_drop(const json::value& rec)
 {
     json::value dst = rec;
     auto& item = Resrc.item();
