@@ -47,7 +47,7 @@ bool AbstractTask::sleep(unsigned millisecond)
     if (millisecond == 0) {
         return true;
     }
-    auto start = std::chrono::system_clock::now();
+    auto start = std::chrono::steady_clock::now();
     long long duration = 0;
 
     json::value callback_json;
@@ -56,7 +56,7 @@ bool AbstractTask::sleep(unsigned millisecond)
 
     while (!need_exit() && duration < millisecond) {
         duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now() - start)
+            std::chrono::steady_clock::now() - start)
             .count();
         std::this_thread::yield();
     }
