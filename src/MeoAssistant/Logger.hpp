@@ -34,19 +34,19 @@ namespace asst
         template <typename... Args>
         inline void trace(Args&&... args)
         {
-            constexpr static std::string_view level = "TRC";
+            std::string_view level = "TRC";
             log(level, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void info(Args&&... args)
         {
-            constexpr static std::string_view level = "INF";
+            std::string_view level = "INF";
             log(level, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void error(Args&&... args)
         {
-            constexpr static std::string_view level = "ERR";
+            std::string_view level = "ERR";
             log(level, std::forward<Args>(args)...);
         }
 
@@ -86,7 +86,7 @@ namespace asst
         }
 
         template <typename... Args>
-        void log(const std::string_view& level, Args&&... args)
+        void log(std::string_view level, Args&&... args)
         {
             std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
 
@@ -96,7 +96,11 @@ namespace asst
                       level.data(), _getpid(), ::GetCurrentThreadId());
 
             std::ofstream ofs(m_log_filename, std::ios::out | std::ios::app);
+#ifdef LOG_TRACE
+            stream_args(ofs, buff, args...);
+#else
             stream_args(ofs, buff, std::forward<Args>(args)...);
+#endif
             ofs.close();
 
 #ifdef LOG_TRACE
