@@ -413,8 +413,8 @@
     "LastBattle": {
         "algorithm": "OcrDetect",
         "text": [
-            "上一次作战",
-            "前往上一次"
+            "前往上",
+            "次作战"
         ],
         "roi": [
             900,
