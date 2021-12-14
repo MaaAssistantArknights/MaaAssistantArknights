@@ -1,7 +1,16 @@
+// MeoAsstGui - A part of the MeoAssistantArknights project
+// Copyright (C) 2021 MistEO and Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+
 using System;
 using System.Collections.Generic;
-using StyletIoC;
-
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -12,6 +21,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
+using StyletIoC;
 
 namespace MeoAsstGui
 {
