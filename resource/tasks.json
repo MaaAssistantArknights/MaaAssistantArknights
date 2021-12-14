@@ -1089,7 +1089,12 @@
             480,
             120
         ],
-        "ocrReplace": []
+        "ocrReplace": [
+            [
+                ".+击干员",
+                "狙击干员"
+            ]
+        ]
     },
     "RecruitRefresh": {
         "action": "clickSelf",

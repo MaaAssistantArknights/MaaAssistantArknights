@@ -9,10 +9,10 @@ bool asst::RecruitImageAnalyzer::analyze()
     m_tags_result.clear();
     m_set_time_rect.clear();
 
-    bool ret = time_analyze();
-    ret |= tags_analyze();
-    ret |= confirm_analyze();
-    ret |= refresh_analyze();
+    time_analyze();
+    refresh_analyze();
+    bool ret = tags_analyze();
+    ret &= confirm_analyze();
 
     return ret;
 }
