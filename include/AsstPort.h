@@ -1,37 +1,37 @@
 #pragma once
 
 // The way how the function is called
-#if !defined(MEO_CALL)
+#if !defined(ASST_CALL)
 #if defined(_WIN32)
-#define MEO_CALL __stdcall
+#define ASST_CALL __stdcall
 #else
-#define MEO_CALL
+#define ASST_CALL
 #endif /* _WIN32 */
-#endif /* MEO_CALL */
+#endif /* ASST_CALL */
 
 // The function exported symbols
 #if defined _WIN32 || defined __CYGWIN__
-#define MEO_DLL_IMPORT __declspec(dllimport)
-#define MEO_DLL_EXPORT __declspec(dllexport)
-#define MEO_DLL_LOCAL
+#define ASST_DLL_IMPORT __declspec(dllimport)
+#define ASST_DLL_EXPORT __declspec(dllexport)
+#define ASST_DLL_LOCAL
 #else
 #if __GNUC__ >= 4
-#define MEO_DLL_IMPORT __attribute__ ((visibility ("default")))
-#define MEO_DLL_EXPORT __attribute__ ((visibility ("default")))
-#define MEO_DLL_LOCAL  __attribute__ ((visibility ("hidden")))
+#define ASST_DLL_IMPORT __attribute__ ((visibility ("default")))
+#define ASST_DLL_EXPORT __attribute__ ((visibility ("default")))
+#define ASST_DLL_LOCAL  __attribute__ ((visibility ("hidden")))
 #else
-#define MEO_DLL_IMPORT
-#define MEO_DLL_EXPORT
-#define MEO_DLL_LOCAL
+#define ASST_DLL_IMPORT
+#define ASST_DLL_EXPORT
+#define ASST_DLL_LOCAL
 #endif
 #endif
 
-#ifdef MEO_DLL_EXPORTS // defined if we are building the DLL (instead of using it)
-#define MEOAPI_PORT MEO_DLL_EXPORT
+#ifdef ASST_DLL_EXPORTS // defined if we are building the DLL (instead of using it)
+#define ASSTAPI_PORT ASST_DLL_EXPORT
 #else
-#define MEOAPI_PORT MEO_DLL_IMPORT
-#endif // MEO_DLL_EXPORTS
+#define ASSTAPI_PORT ASST_DLL_IMPORT
+#endif // ASST_DLL_EXPORTS
 
-#define MEOAPI MEOAPI_PORT MEO_CALL
+#define ASSTAPI ASSTAPI_PORT ASST_CALL
 
-#define MEOLOCAL MEO_DLL_LOCAL MEO_CALL
+#define ASSTLOCAL ASST_DLL_LOCAL ASST_CALL

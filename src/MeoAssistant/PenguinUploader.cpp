@@ -28,14 +28,14 @@ std::string asst::PenguinUploader::cvt_json(const std::string& rec_res)
     auto& opt = Resrc.cfg().get_options();
     body["server"] = opt.penguin_report_server;
     body["stageId"] = rec["stage"]["stageId"];
-    // To fix: https://github.com/MistEO/MeoAssistance-Arknights/issues/40
+    // To fix: https://github.com/MistEO/MeoAssistantArknights/issues/40
     body["drops"] = json::array();
     for (auto&& drop : rec["drops"].as_array()) {
         if (!drop["itemId"].as_string().empty()) {
             body["drops"].as_array().emplace_back(drop);
         }
     }
-    body["source"] = "MeoAssistance";
+    body["source"] = "MeoAssistant";
     body["version"] = Version;
 
     return body.to_string();

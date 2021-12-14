@@ -26,7 +26,7 @@ namespace MeoAsstGui
             _windowManager = windowManager;
         }
 
-        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstGetVersion();
+        [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstGetVersion();
 
         private string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
         private string _latestVersion;
@@ -91,8 +91,8 @@ namespace MeoAsstGui
             }
         }
 
-        private const string _requestUrl = "https://api.github.com/repos/MistEO/MeoAssistance-Arknights/releases/latest";
-        private const string _requestBetaUrl = "https://api.github.com/repos/MistEO/MeoAssistance-Arknights/releases";
+        private const string _requestUrl = "https://api.github.com/repos/MistEO/MeoAssistantArknights/releases/latest";
+        private const string _requestBetaUrl = "https://api.github.com/repos/MistEO/MeoAssistantArknights/releases";
         private string _viewUrl;
         private JObject _lastestJson;
         private string _downloadUrl;
@@ -266,7 +266,7 @@ namespace MeoAsstGui
                 foreach (JObject asset in json["assets"])
                 {
                     string downUrl = asset["browser_download_url"].ToString();
-                    if (downUrl.IndexOf("MeoAssistance") != -1)
+                    if (downUrl.IndexOf("MeoAssistantArknights") != -1)
                     {
                         _downloadUrl = downUrl;
                         _lastestJson = json;
@@ -348,8 +348,8 @@ namespace MeoAsstGui
 
         public bool ResourceOTA()
         {
-            const string req_base_url = "https://api.github.com/repos/MistEO/MeoAssistance-Arknights/commits?path=";
-            const string down_base_url = "https://cdn.jsdelivr.net/gh/MistEO/MeoAssistance-Arknights@";
+            const string req_base_url = "https://api.github.com/repos/MistEO/MeoAssistantArknights/commits?path=";
+            const string down_base_url = "https://cdn.jsdelivr.net/gh/MistEO/MeoAssistantArknights@";
             var update_dict = new Dictionary<string, string>()
             {
                 { "3rdparty/resource/penguin-stats-recognize/json/stages.json" , "resource/penguin-stats-recognize/json/stages.json"},

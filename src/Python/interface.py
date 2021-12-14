@@ -24,7 +24,7 @@ class Asst:
             ``callback``:   回调函数
             ``arg``:        自定义参数
         """
-        self.__dllpath = pathlib.Path(dirname) / 'MeoAssistance.dll'
+        self.__dllpath = pathlib.Path(dirname) / 'MeoAssistant.dll'
         self.__dll = ctypes.WinDLL(str(self.__dllpath))
 
         self.__dll.AsstCreateEx.restype = ctypes.c_void_p

@@ -11,9 +11,9 @@
     <img alt="platform" src="https://img.shields.io/badge/platform-Windows%2064bit-%230078D6?logo=windows">
 </div>
 <div>
-    <img alt="license" src="https://img.shields.io/github/license/MistEO/MeoAssistance-Arknights">
-    <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MistEO/MeoAssistance-Arknights?color=%23ff69b4">
-    <img alt="stars" src="https://img.shields.io/github/stars/MistEO/MeoAssistance-Arknights?style=social">
+    <img alt="license" src="https://img.shields.io/github/license/MistEO/MeoAssistantArknights">
+    <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MistEO/MeoAssistantArknights?color=%23ff69b4">
+    <img alt="stars" src="https://img.shields.io/github/stars/MistEO/MeoAssistantArknights?style=social">
 </div>
 <br>
 
@@ -38,8 +38,8 @@ A Game Assistant for Arknights
 
 ## 下载地址
 
-[稳定版](https://github.com/MistEO/MeoAssistance/releases/latest)  
-[测试版](https://github.com/MistEO/MeoAssistance/releases)
+[稳定版](https://github.com/MistEO/MeoAssistantArknights/releases/latest)  
+[测试版](https://github.com/MistEO/MeoAssistantArknights/releases)
 
 ## 模拟器支持
 

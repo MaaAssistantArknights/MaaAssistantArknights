@@ -16,37 +16,37 @@ namespace MeoAsstGui
 
         private delegate void ProcCallbckMsg(AsstMsg msg, JObject detail);
 
-        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstCreate(string dirname);
+        [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstCreate(string dirname);
 
-        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstCreateEx(string dirname, CallbackDelegate callback, IntPtr custom_arg);
+        [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstCreateEx(string dirname, CallbackDelegate callback, IntPtr custom_arg);
 
-        [DllImport("MeoAssistance.dll")] private static extern void AsstDestroy(IntPtr ptr);
+        [DllImport("MeoAssistant.dll")] private static extern void AsstDestroy(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstCatchDefault(IntPtr ptr);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstCatchDefault(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstCatchCustom(IntPtr ptr, string address);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstCatchCustom(IntPtr ptr, string address);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendFight(IntPtr ptr, int max_medicine, int max_stone, int max_times);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendFight(IntPtr ptr, int max_medicine, int max_stone, int max_times);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendAward(IntPtr ptr);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendAward(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendVisit(IntPtr ptr);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendVisit(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendMall(IntPtr ptr, bool with_shopping);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendMall(IntPtr ptr, bool with_shopping);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendInfrast(IntPtr ptr, int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendInfrast(IntPtr ptr, int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstAppendRecruit(IntPtr ptr, int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendRecruit(IntPtr ptr, int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstStartRecruitCalc(IntPtr ptr, int[] select_level, int required_len, bool set_time);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstStartRecruitCalc(IntPtr ptr, int[] select_level, int required_len, bool set_time);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstStart(IntPtr ptr);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstStart(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstStop(IntPtr ptr);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstStop(IntPtr ptr);
 
-        [DllImport("MeoAssistance.dll")] private static extern bool AsstSetPenguinId(IntPtr p_asst, string id);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstSetPenguinId(IntPtr p_asst, string id);
 
-        //[DllImport("MeoAssistance.dll")] private static extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
+        //[DllImport("MeoAssistant.dll")] private static extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
 
         private CallbackDelegate _callback;
 
