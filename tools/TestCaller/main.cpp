@@ -16,7 +16,7 @@ const char* get_cur_dir()
 
 int main(int argc, char** argv)
 {
-    void* ptr = AsstCreate(get_cur_dir());
+    auto ptr = AsstCreate(get_cur_dir());
     auto ret = AsstCatchEmulator(ptr);
     if (!ret) {
         getchar();

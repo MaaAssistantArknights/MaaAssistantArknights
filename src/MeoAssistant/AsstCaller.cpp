@@ -40,7 +40,7 @@ void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg)
     _callback(static_cast<int>(msg), asst::utils::utf8_to_gbk(json.to_string()).c_str(), custom_arg);
 }
 
-void* AsstCreate(const char* dirname)
+asst::Assistant* AsstCreate(const char* dirname)
 {
     try {
         return new asst::Assistant(dirname);
@@ -50,7 +50,7 @@ void* AsstCreate(const char* dirname)
     }
 }
 
-void* AsstCreateEx(const char* dirname, AsstCallback callback, void* custom_arg)
+asst::Assistant* AsstCreateEx(const char* dirname, AsstCallback callback, void* custom_arg)
 {
     try {
         // 创建多实例回调会有问题，有空再慢慢整
@@ -62,7 +62,7 @@ void* AsstCreateEx(const char* dirname, AsstCallback callback, void* custom_arg)
     }
 }
 
-void AsstDestroy(void* p_asst)
+void AsstDestroy(asst::Assistant* p_asst)
 {
     if (p_asst == nullptr) {
         return;
@@ -72,7 +72,7 @@ void AsstDestroy(void* p_asst)
     p_asst = nullptr;
 }
 
-bool AsstCatchDefault(void* p_asst)
+bool AsstCatchDefault(asst::Assistant* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
@@ -81,7 +81,7 @@ bool AsstCatchDefault(void* p_asst)
     return ((asst::Assistant*)p_asst)->catch_default();
 }
 
-bool AsstCatchEmulator(void* p_asst)
+bool AsstCatchEmulator(asst::Assistant* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
@@ -90,7 +90,7 @@ bool AsstCatchEmulator(void* p_asst)
     return ((asst::Assistant*)p_asst)->catch_emulator();
 }
 
-bool AsstCatchCustom(void* p_asst, const char* address)
+bool AsstCatchCustom(asst::Assistant* p_asst, const char* address)
 {
     if (p_asst == nullptr) {
         return false;
@@ -99,76 +99,75 @@ bool AsstCatchCustom(void* p_asst, const char* address)
     return ((asst::Assistant*)p_asst)->catch_custom(address);
 }
 
-bool AsstCatchFake(void* p_asst)
+bool AsstCatchFake(asst::Assistant* p_asst)
 {
 #ifdef LOG_TRACE
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistant*)p_asst)->catch_fake();
+    return p_asst->catch_fake();
 #else
     return false;
 #endif // LOG_TRACE
 }
 
-bool AsstAppendFight(void* p_asst, int max_mecidine, int max_stone, int max_times)
-{
-    if (p_asst == nullptr) {
-        return false;
-    }
-    asst::Assistant* ptr = (asst::Assistant*)p_asst;
-
-    return ptr->append_fight(max_mecidine, max_stone, max_times);
-}
-
-bool AsstAppendAward(void* p_asst)
+bool AsstAppendFight(asst::Assistant* p_asst, int max_mecidine, int max_stone, int max_times)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistant*)p_asst)->append_award();
+    return p_asst->append_fight(max_mecidine, max_stone, max_times);
 }
 
-bool AsstAppendVisit(void* p_asst)
+bool AsstAppendAward(asst::Assistant* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistant*)p_asst)->append_visit();
+    return p_asst->append_award();
 }
 
-bool AsstAppendMall(void* p_asst, bool with_shopping)
+bool AsstAppendVisit(asst::Assistant* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistant*)p_asst)->append_mall(with_shopping);
+    return p_asst->append_visit();
 }
 
-//bool AsstAppendProcessTask(void* p_asst, const char* task)
+bool AsstAppendMall(asst::Assistant* p_asst, bool with_shopping)
+{
+    if (p_asst == nullptr) {
+        return false;
+    }
+
+    return p_asst->append_mall(with_shopping);
+}
+
+//bool AsstAppendProcessTask(asst::Assistant* p_asst, const char* task)
 //{
 //    if (p_asst == nullptr) {
 //        return false;
 //    }
 //
-//    return ((asst::Assistant*)p_asst)->append_process_task(task);
+//    return p_asst->append_process_task(task);
 //}
 
-bool AsstStartRecruitCalc(void* p_asst, const int select_level[], int required_len, bool set_time)
+bool AsstStartRecruitCalc(asst::Assistant* p_asst, const int select_level[], int required_len, bool set_time)
 {
     if (p_asst == nullptr) {
         return false;
     }
     std::vector<int> level_vector;
     level_vector.assign(select_level, select_level + required_len);
-    return ((asst::Assistant*)p_asst)->start_recruit_calc(level_vector, set_time);
+    return p_asst->start_recruit_calc(level_vector, set_time);
 }
 
-bool AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold)
+bool AsstAppendInfrast(asst::Assistant* p_asst, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold)
 {
     if (p_asst == nullptr) {
         return false;
@@ -176,15 +175,14 @@ bool AsstAppendInfrast(void* p_asst, int work_mode, const char** order, int orde
     std::vector<std::string> order_vector;
     order_vector.assign(order, order + order_size);
 
-    return ((asst::Assistant*)p_asst)->
-        append_infrast(
+    return p_asst->append_infrast(
             static_cast<asst::infrast::WorkMode>(work_mode),
             order_vector,
             uses_of_drones,
             dorm_threshold);
 }
 
-bool AsstAppendRecruit(void* p_asst, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh)
+bool AsstAppendRecruit(asst::Assistant* p_asst, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh)
 {
     if (p_asst == nullptr) {
         return false;
@@ -194,44 +192,44 @@ bool AsstAppendRecruit(void* p_asst, int max_times, const int select_level[], in
     std::vector<int> confirm_vector;
     confirm_vector.assign(confirm_level, confirm_level + confirm_len);
 
-    return ((asst::Assistant*)p_asst)->append_recruit(max_times, required_vector, confirm_vector, need_refresh);
+    return p_asst->append_recruit(max_times, required_vector, confirm_vector, need_refresh);
 }
 
-bool AsstStart(void* p_asst)
+bool AsstStart(asst::Assistant* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistant*)p_asst)->start();
+    return p_asst->start();
 }
 
-bool AsstStop(void* p_asst)
+bool AsstStop(asst::Assistant* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return ((asst::Assistant*)p_asst)->stop();
+    return p_asst->stop();
 }
 
-bool AsstSetPenguinId(void* p_asst, const char* id)
+bool AsstSetPenguinId(asst::Assistant* p_asst, const char* id)
 {
     if (p_asst == nullptr) {
         return false;
     }
-    auto ptr = (asst::Assistant*)p_asst;
-    ptr->set_penguin_id(id);
+
+    p_asst->set_penguin_id(id);
     return true;
 }
 
-//bool AsstSetParam(void* p_asst, const char* type, const char* param, const char* value)
+//bool AsstSetParam(asst::Assistant* p_asst, const char* type, const char* param, const char* value)
 //{
 //    if (p_asst == nullptr) {
 //        return false;
 //    }
 //
-//    return ((asst::Assistant*)p_asst)->set_param(type, param, value);
+//    return p_asst->set_param(type, param, value);
 //}
 
 const char* AsstGetVersion()
@@ -239,13 +237,13 @@ const char* AsstGetVersion()
     return asst::Version;
 }
 
-bool AsstAppendDebug(void* p_asst)
+bool AsstAppendDebug(asst::Assistant* p_asst)
 {
     if (p_asst == nullptr) {
         return false;
     }
 #if LOG_TRACE
-    return ((asst::Assistant*)p_asst)->append_debug();
+    return p_asst->append_debug();
 #else
     return false;
 #endif // LOG_TRACE
