@@ -194,7 +194,7 @@ void asst::Controller::pipe_working_proc()
         }
         //else if (!m_thread_idle) {	// 队列中没有任务，又不是闲置的时候，就去截图
         //	cmd_queue_lock.unlock();
-        //	auto start_time = std::chrono::system_clock::now();
+        //	auto start_time = std::chrono::steady_clock::now();
         //	screencap();
         //	cmd_queue_lock.lock();
         //	if (!m_cmd_queue.empty()) {
@@ -447,7 +447,7 @@ void asst::Controller::random_delay() const
     if (opt.control_delay_upper != 0) {
         LogTraceFunction;
         static std::default_random_engine rand_engine(
-            std::chrono::system_clock::now().time_since_epoch().count());
+            std::chrono::steady_clock::now().time_since_epoch().count());
         static std::uniform_int_distribution<unsigned> rand_uni(
             opt.control_delay_lower,
             opt.control_delay_upper);

@@ -146,20 +146,20 @@ namespace asst
     public:
         LoggerAux(const std::string& func_name)
             : m_func_name(func_name),
-            m_start_time(std::chrono::system_clock::now())
+            m_start_time(std::chrono::steady_clock::now())
         {
             Logger::get_instance().trace(m_func_name, " | enter");
         }
         ~LoggerAux()
         {
-            auto duration = std::chrono::system_clock::now() - m_start_time;
+            auto duration = std::chrono::steady_clock::now() - m_start_time;
             Logger::get_instance().trace(m_func_name, " | leave,",
                                          std::chrono::duration_cast<std::chrono::milliseconds>(duration).count(), "ms");
         }
 
     private:
         std::string m_func_name;
-        std::chrono::time_point<std::chrono::system_clock> m_start_time;
+        std::chrono::time_point<std::chrono::steady_clock> m_start_time;
     };
 
     //static auto& log = Logger::get_instance();

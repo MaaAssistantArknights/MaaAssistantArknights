@@ -457,7 +457,7 @@ void Assistance::working_proc()
         std::unique_lock<std::mutex> lock(m_mutex);
 
         if (!m_thread_idle && !m_tasks_queue.empty()) {
-            auto start_time = std::chrono::system_clock::now();
+            auto start_time = std::chrono::steady_clock::now();
 
             auto task_ptr = m_tasks_queue.front();
 
