@@ -1,7 +1,16 @@
+// MeoAsstGui - A part of the MeoAssistantArknights project
+// Copyright (C) 2021 MistEO and Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+
 using System;
 using System.Collections.Generic;
-using StyletIoC;
-
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -12,6 +21,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
+using StyletIoC;
 
 namespace MeoAsstGui
 {
@@ -26,7 +36,7 @@ namespace MeoAsstGui
             _windowManager = windowManager;
         }
 
-        [DllImport("MeoAssistance.dll")] private static extern IntPtr AsstGetVersion();
+        [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstGetVersion();
 
         private string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
         private string _latestVersion;
@@ -91,8 +101,8 @@ namespace MeoAsstGui
             }
         }
 
-        private const string _requestUrl = "https://api.github.com/repos/MistEO/MeoAssistance-Arknights/releases/latest";
-        private const string _requestBetaUrl = "https://api.github.com/repos/MistEO/MeoAssistance-Arknights/releases";
+        private const string _requestUrl = "https://api.github.com/repos/MistEO/MeoAssistantArknights/releases/latest";
+        private const string _requestBetaUrl = "https://api.github.com/repos/MistEO/MeoAssistantArknights/releases";
         private string _viewUrl;
         private JObject _lastestJson;
         private string _downloadUrl;
@@ -266,7 +276,7 @@ namespace MeoAsstGui
                 foreach (JObject asset in json["assets"])
                 {
                     string downUrl = asset["browser_download_url"].ToString();
-                    if (downUrl.IndexOf("MeoAssistance") != -1)
+                    if (downUrl.IndexOf("MeoAssistantArknights") != -1)
                     {
                         _downloadUrl = downUrl;
                         _lastestJson = json;
@@ -348,8 +358,8 @@ namespace MeoAsstGui
 
         public bool ResourceOTA()
         {
-            const string req_base_url = "https://api.github.com/repos/MistEO/MeoAssistance-Arknights/commits?path=";
-            const string down_base_url = "https://cdn.jsdelivr.net/gh/MistEO/MeoAssistance-Arknights@";
+            const string req_base_url = "https://api.github.com/repos/MistEO/MeoAssistantArknights/commits?path=";
+            const string down_base_url = "https://cdn.jsdelivr.net/gh/MistEO/MeoAssistantArknights@";
             var update_dict = new Dictionary<string, string>()
             {
                 { "3rdparty/resource/penguin-stats-recognize/json/stages.json" , "resource/penguin-stats-recognize/json/stages.json"},
