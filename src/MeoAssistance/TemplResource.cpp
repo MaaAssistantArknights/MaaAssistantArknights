@@ -45,29 +45,7 @@ const cv::Mat& asst::TemplResource::get_templ(const std::string& key) const noex
     }
 }
 
-const std::pair<cv::Mat, cv::Rect>& asst::TemplResource::get_hist(const std::string& key) const noexcept
-{
-    if (auto iter = m_hists.find(key);
-        iter != m_hists.cend()) {
-        return iter->second;
-    }
-    else {
-        static const std::pair<cv::Mat, cv::Rect> empty;
-        return empty;
-    }
-}
-
 void asst::TemplResource::emplace_templ(std::string key, cv::Mat templ)
 {
     m_templs.emplace(std::move(key), std::move(templ));
-}
-
-void asst::TemplResource::emplace_hist(std::string key, cv::Mat hist, cv::Rect roi)
-{
-    m_hists.emplace(std::move(key), std::make_pair(std::move(hist), std::move(roi)));
-}
-
-void asst::TemplResource::clear_hists() noexcept
-{
-    m_hists.clear();
 }

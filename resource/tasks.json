@@ -24,7 +24,6 @@
             200,
             120
         ],
-        "cache": false,
         "rearDelay": 5000,
         "maskRange": [
             1,
@@ -114,14 +113,17 @@
         "algorithm": "OcrDetect",
         "text": [
             "剩余可放置角色",
-            "接管作战"
+            "接管作战",
+            "代理指挥",
+            "运行中"
         ],
         "roi": [
-            0,
+            300,
             530,
-            1280,
+            980,
             190
         ],
+        "cache": false,
         "action": "doNothing",
         "rearDelay": 5000,
         "next": [
@@ -201,7 +203,6 @@
     "UseMedicine": {
         "action": "doNothing",
         "templThreshold": 0.7,
-        "cache": false,
         "roi": [
             580,
             50,
@@ -214,7 +215,6 @@
     },
     "MedicineConfirm": {
         "action": "clickSelf",
-        "cache": false,
         "maxTimes": 0,
         "roi": [
             1000,
@@ -247,7 +247,6 @@
     "StoneConfirm": {
         "template": "MedicineConfirm.png",
         "action": "clickSelf",
-        "cache": false,
         "maxTimes": 0,
         "roi": [
             1000,
@@ -279,7 +278,6 @@
         ]
     },
     "PrtsErrorConfirm": {
-        "cache": false,
         "roi": [
             0,
             120,
@@ -294,7 +292,6 @@
     },
     "AbandonAction": {
         "action": "clickSelf",
-        "cache": false,
         "reduceOtherTimes": [
             "StartButton1",
             "StartButton2"
@@ -314,7 +311,6 @@
     "OfflineConfirmAfterBattle": {
         "template": "PopupConfirm.png",
         "action": "clickSelf",
-        "cache": false,
         "roi": [
             630,
             400,
@@ -330,7 +326,6 @@
     },
     "OfflineConfirm": {
         "action": "clickSelf",
-        "cache": false,
         "roi": [
             0,
             400,
@@ -475,7 +470,6 @@
     },
     "Recruit": {
         "action": "clickSelf",
-        "cache": false,
         "roi": [
             900,
             450,
@@ -509,7 +503,6 @@
     },
     "RecruitSkip": {
         "action": "clickSelf",
-        "cache": false,
         "rearDelay": 3000,
         "roi": [
             1100,
@@ -540,7 +533,6 @@
     "StartRecruit": {
         "algorithm": "OcrDetect",
         "action": "clickSelf",
-        "cache": false,
         "rearDelay": 1000,
         "text": [
             "开始招"
@@ -593,7 +585,6 @@
         ]
     },
     "ReceiveAward": {
-        "cache": false,
         "action": "clickSelf",
         "roi": [
             950,
@@ -795,7 +786,6 @@
     },
     "VisitNext": {
         "action": "clickSelf",
-        "cache": false,
         "rearDelay": 2000,
         "roi": [
             1080,
@@ -1011,7 +1001,6 @@
     },
     "HomeFlag": {
         "template": "Terminal.png",
-        "cache": false,
         "action": "stop",
         "roi": [
             880,
@@ -1022,7 +1011,6 @@
     },
     "CreditShop-Commoditys": {
         "template": "CreditPoint.png",
-        "cache": false,
         "rectMove": [
             -60,
             -180,
@@ -1031,7 +1019,6 @@
         ]
     },
     "CreditShop-SoldOut": {
-        "cache": false,
         "template": "SoldOut.png"
     },
     "CreditShop-BuyIt": {
@@ -1042,7 +1029,6 @@
             250,
             150
         ],
-        "cache": false,
         "preDelay": 1000,
         "rearDelay": 1000
     },
@@ -1080,7 +1066,6 @@
     "RecruitTime": {
         "template": "RecruitTimeReduce.png",
         "templThreshold": 0.89,
-        "cache": false,
         "action": "clickSelf",
         "roi": [
             350,
@@ -1145,7 +1130,6 @@
     },
     "RecruitRefresh": {
         "action": "clickSelf",
-        "cache": false,
         "roi": [
             850,
             340,
@@ -1158,7 +1142,6 @@
     },
     "RecruitNoRefresh": {
         "action": "doNothing",
-        "cache": false,
         "roi": [
             850,
             340,
@@ -1169,7 +1152,6 @@
     "RecruitRefreshConfirm": {
         "template": "PopupConfirm.png",
         "action": "clickSelf",
-        "cache": false,
         "rearDelay": 3000,
         "roi": [
             630,
@@ -1202,7 +1184,6 @@
     },
     "RecruitConfirm": {
         "action": "clickSelf",
-        "cache": false,
         "roi": [
             860,
             540,
@@ -1272,7 +1253,6 @@
     },
     "EnterInfrast": {
         "rearDelay": 3000,
-        "cache": false,
         "roi": [
             900,
             540,
@@ -1350,7 +1330,6 @@
     },
     "DroneAssistMfg": {
         "action": "clickSelf",
-        "cache": false,
         "roi": [
             1180,
             500,
@@ -1366,7 +1345,6 @@
     },
     "DroneAssistTrade": {
         "action": "clickSelf",
-        "cache": false,
         "roi": [
             250,
             430,
@@ -1406,13 +1384,12 @@
         ]
     },
     "DeliverableOrder": {
-        "cache": false,
         "action": "clickSelf",
         "roi": [
             250,
-            130,
+            300,
             230,
-            420
+            250
         ],
         "next": [
             "DeliverableOrder",
@@ -1423,8 +1400,7 @@
     "DroneAssist-Trade-Stop": {
         "Doc": "如果找到了“无人机加速”按钮，却没有找到订单交付：说明上一次无人机没有把一个订单加速完成，也说明没有更多的无人机了，所以直接stop",
         "template": "DroneAssistTrade.png",
-        "action": "stop",
-        "cache": false
+        "action": "stop"
     },
     "InfrastSkillsUpper": {
         "algorithm": "justReturn",
@@ -1474,7 +1450,6 @@
             100,
             255
         ],
-        "cache": false,
         "templThreshold": 0.8
     },
     "InfrastSmileyOnWork": {
@@ -1483,7 +1458,6 @@
             100,
             255
         ],
-        "cache": false,
         "templThreshold": 0.8
     },
     "InfrastSmileyOnDistract": {
@@ -1492,15 +1466,13 @@
             100,
             255
         ],
-        "cache": false,
         "templThreshold": 0.8
     },
     "InfrastSkills": {
         "template": "empty.png",
         "templThreshold": 0.9,
-        "histThreshold": 95,
-        "histThreshold_Doc": "该任务里的Hist阈值，是特化了拿来做灰度图平均值的，懒得重新写个字段了",
-        "cache": false,
+        "specialThreshold": 95,
+        "specialThreshold_Doc": "用于做灰度图平均值",
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             -8,
@@ -1563,9 +1535,8 @@
     "InfrastOperMoodProgressBar": {
         "template": "empty.png",
         "templThreshold": 160,
-        "histThreshold": 20,
-        "Doc": "这里的templThreshold，作为进度条最小灰度阈值使用；histThreshold作为进度条相邻点最大变化阈值使用。懒得重新弄个字段了",
-        "cache": false,
+        "specialThreshold": 20,
+        "Doc": "这里的templThreshold，作为进度条最小灰度阈值使用；specialThreshold作为进度条相邻点最大变化阈值使用。懒得重新弄个字段了",
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             21,
@@ -1576,7 +1547,6 @@
     },
     "InfrastMfg": {
         "template": "Manufacturing.png",
-        "cache": false,
         "templThreshold": 0.9,
         "maskRange": [
             1,
@@ -1592,7 +1562,6 @@
     "InfrastMfgMini": {
         "template": "ManufacturingMini.png",
         "templThreshold": 0.9,
-        "cache": false,
         "roi": [
             0,
             240,
@@ -1607,7 +1576,6 @@
     "InfrastTrade": {
         "template": "Trade.png",
         "templThreshold": 0.9,
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -1622,7 +1590,6 @@
     "InfrastTradeMini": {
         "template": "TradeMini.png",
         "templThreshold": 0.9,
-        "cache": false,
         "roi": [
             0,
             240,
@@ -1636,7 +1603,6 @@
     },
     "InfrastPower": {
         "template": "Power.png",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -1651,7 +1617,6 @@
     },
     "InfrastPowerMini": {
         "template": "PowerMini.png",
-        "cache": false,
         "roi": [
             0,
             240,
@@ -1666,7 +1631,6 @@
     },
     "InfrastDorm": {
         "template": "Dorm.png",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -1681,7 +1645,6 @@
     },
     "InfrastDormMini": {
         "template": "DormMini.png",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -1696,7 +1659,6 @@
     },
     "InfrastOffice": {
         "template": "Office.png",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -1711,7 +1673,6 @@
     },
     "InfrastOfficeMini": {
         "template": "OfficeMini.png",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -1726,7 +1687,6 @@
     },
     "InfrastReception": {
         "template": "Reception.png",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -1741,7 +1701,6 @@
     },
     "InfrastReceptionMini": {
         "template": "ReceptionMini.png",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -1756,7 +1715,6 @@
     },
     "InfrastControl": {
         "template": "ControlCenter.png",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -1771,7 +1729,6 @@
     },
     "InfrastControlMini": {
         "template": "ControlCenterMini.png",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -1786,7 +1743,6 @@
     },
     "InfrastStationedInfo": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "text": [
             "进驻信息"
         ],
@@ -1800,7 +1756,6 @@
     },
     "InfrastEnterOperList": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "text": [
             "心情",
             "休息中",
@@ -1837,7 +1792,6 @@
         "rearDelay": 500,
         "Doc": "这个任务复用了，上半部分用来检测确认按钮点击成功没；下部部分用来点击",
         "algorithm": "ocrDetect",
-        "cache": false,
         "text": [
             "正在提交",
             "反馈至神经"
@@ -1877,7 +1831,6 @@
     },
     "InfrastFacilityListTabMfg": {
         "template": "FacilityListTabMfg.png",
-        "cache": false,
         "roi": [
             0,
             0,
@@ -1892,7 +1845,6 @@
     },
     "InfrastFacilityListTabTrade": {
         "template": "FacilityListTabTrade.png",
-        "cache": false,
         "roi": [
             0,
             0,
@@ -1907,7 +1859,6 @@
     },
     "InfrastOperLockedMfg": {
         "template": "OperLockedMfg.png",
-        "cache": false,
         "roi": [
             200,
             500,
@@ -1917,7 +1868,6 @@
     },
     "InfrastOperLockedTrade": {
         "template": "OperLockedTrade.png",
-        "cache": false,
         "roi": [
             200,
             500,
@@ -1927,7 +1877,6 @@
     },
     "InfrastFlagCombatRecord": {
         "template": "InfrastMfgDogFoodFlag.png",
-        "cache": false,
         "roi": [
             1000,
             0,
@@ -1937,7 +1886,6 @@
     },
     "InfrastFlagPureGold": {
         "template": "InfrastMfgPureGoldFlag.png",
-        "cache": false,
         "roi": [
             1000,
             0,
@@ -1947,7 +1895,6 @@
     },
     "InfrastFlagOriginStone": {
         "template": "InfrastMfgOriginStoneFlag.png",
-        "cache": false,
         "roi": [
             1000,
             0,
@@ -1957,7 +1904,6 @@
     },
     "InfrastFlagChip": {
         "template": "InfrastMfgChipFlag.png",
-        "cache": false,
         "roi": [
             1000,
             0,
@@ -1967,7 +1913,6 @@
     },
     "InfrastFlagMoney": {
         "template": "InfrastTradeMoneyFlag.png",
-        "cache": false,
         "roi": [
             900,
             500,
@@ -1977,7 +1922,6 @@
     },
     "InfrastFlagSyntheticJade": {
         "template": "InfrastTradeSyntheticJadeFlag.png",
-        "cache": false,
         "roi": [
             900,
             500,
@@ -1988,7 +1932,6 @@
     "InfrastAddOperatorMfgGentle": {
         "template": "AddOperatorMfgGentle.png",
         "templThreshold": 0.8,
-        "cache": false,
         "roi": [
             200,
             500,
@@ -2000,7 +1943,6 @@
     "InfrastAddOperatorMfgAggressive": {
         "template": "AddOperatorMfgAggressive.png",
         "templThreshold": 0.8,
-        "cache": false,
         "roi": [
             200,
             500,
@@ -2018,7 +1960,6 @@
     "InfrastAddOperatorTradeGentle": {
         "template": "AddOperatorTradeGentle.png",
         "templThreshold": 0.8,
-        "cache": false,
         "roi": [
             200,
             500,
@@ -2030,7 +1971,6 @@
     "InfrastAddOperatorTradeAggressive": {
         "template": "AddOperatorTradeAggressive.png",
         "templThreshold": 0.8,
-        "cache": false,
         "roi": [
             200,
             500,
@@ -2048,7 +1988,6 @@
     "InfrastAddOperatorReceptionGentle": {
         "template": "AddOperatorReceptionGentle.png",
         "templThreshold": 0.8,
-        "cache": false,
         "roi": [
             0,
             0,
@@ -2070,7 +2009,6 @@
     },
     "InfrastOperSelected": {
         "template": "empty.png",
-        "cache": false,
         "templThreshold": 8000,
         "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "maskRange": [
@@ -2086,7 +2024,6 @@
     },
     "InfrastOperOnShift": {
         "template": "OnShift.png",
-        "cache": false,
         "templThreshold": 0.8,
         "rectMove": [
             0,
@@ -2181,7 +2118,6 @@
     },
     "InfrastClue": {
         "template": "Clue.png",
-        "cache": false,
         "maskRange": [
             1,
             255

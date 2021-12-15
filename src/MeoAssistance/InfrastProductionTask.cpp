@@ -110,21 +110,18 @@ bool asst::InfrastProductionTask::shift_facility_list()
         Ctrler.click(add_button);
         sleep(add_task_ptr->rear_delay);
 
-        constexpr int retry_times = 1;
-        for (int i = 0; i <= retry_times; ++i) {
+        for (int i = 0; i <= OperSelectRetryTimes; ++i) {
             if (need_exit()) {
                 return false;
             }
             click_clear_button();
-            swipe_to_the_left_of_operlist();
-            swipe_to_the_left_of_operlist();
+            swipe_to_the_left_of_operlist(2);
 
             if (m_all_available_opers.empty()) {
                 if (!opers_detect_with_swipe()) {
                     return false;
                 }
-                swipe_to_the_left_of_operlist();
-                swipe_to_the_left_of_operlist();
+                swipe_to_the_left_of_operlist(2);
             }
             else {
                 opers_detect();
@@ -167,7 +164,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
         }
 
         // 异步在最后会多滑动一下，耽误的时间还不如用同步
-        sync_swipe_of_operlist();
+        swipe_of_operlist();
     }
 
     if (!m_all_available_opers.empty()) {
@@ -446,6 +443,11 @@ bool asst::InfrastProductionTask::opers_choose()
 {
     LogTraceFunction;
     bool has_error = false;
+
+    int count = 0;
+    auto& facility_info = Resrc.infrast().get_facility_info(m_facility);
+    int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
+
     while (true) {
         if (need_exit()) {
             return false;
@@ -480,6 +482,7 @@ bool asst::InfrastProductionTask::opers_choose()
                 return rhs.mood_ratio < m_mood_threshold;
             });
         cur_all_opers.erase(remove_iter, cur_all_opers.end());
+
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             auto find_iter = std::find_if(
                 cur_all_opers.cbegin(), cur_all_opers.cend(),
@@ -509,8 +512,6 @@ bool asst::InfrastProductionTask::opers_choose()
             }
             // 这种情况可能是需要选择两个同样的技能，上一次循环选了一个，但是没有把滑出当前页面，本次又识别到了这个已选择的人
             if (find_iter->selected == true) {
-                auto& facility_info = Resrc.infrast().get_facility_info(m_facility);
-                int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
                 if (cur_max_num_of_opers != 1) {
                     cur_all_opers.erase(find_iter);
                     continue;
@@ -539,15 +540,22 @@ bool asst::InfrastProductionTask::opers_choose()
                     Log.error("opers_choose | not found oper");
                 }
             }
+            ++count;
             cur_all_opers.erase(find_iter);
             opt_iter = m_optimal_combs.erase(opt_iter);
         }
         if (m_optimal_combs.empty()) {
-            break;
+            if (count >= cur_max_num_of_opers) {
+                break;
+            }
+            else { // 这种情况可能是萌新，可用干员人数不足以填满当前设施
+                // TODO!!!
+                break;
+            }
         }
 
         // 因为识别完了还要点击，所以这里不能异步滑动
-        sync_swipe_of_operlist();
+        swipe_of_operlist();
     }
 
     return true;

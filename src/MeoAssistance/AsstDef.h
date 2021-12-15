@@ -20,7 +20,6 @@ namespace asst
     constexpr static int WindowHeightDefault = 720;
 
     constexpr static double TemplThresholdDefault = 0.8;
-    constexpr static double HistThresholdDefault = 0.8;
 
     struct Point
     {
@@ -45,6 +44,10 @@ namespace asst
         Rect operator*(double rhs) const
         {
             return { x, y, static_cast<int>(width * rhs), static_cast<int>(height * rhs) };
+        }
+        int area() const noexcept
+        {
+            return width * height;
         }
         Rect center_zoom(double scale, int max_width = INT_MAX, int max_height = INT_MAX) const
         {
@@ -196,6 +199,8 @@ namespace asst
         int retry_times = INT_MAX;                   // 未找到图像时的重试次数
         Rect roi;                                    // 要识别的区域，若为0则全图识别
         Rect rect_move;                              // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。即识别到了res，点击res + result_move的位置
+        bool cache = false;                          // 是否使用缓存区域
+        Rect region_of_appeared;                     // 缓存区域：上次识别成功过，本次只在这个rect里识别，省点性能
     };
 
     // 文字识别任务的信息
@@ -206,8 +211,6 @@ namespace asst
         bool need_full_match = false;  // 是否需要全匹配，否则搜索到子串就算匹配上了
         std::unordered_map<std::string, std::string>
             replace_map;                             // 部分文字容易识别错，字符串强制replace之后，再进行匹配
-        bool cache = false;                          // 是否使用历史区域
-        std::unordered_set<Rect> region_of_appeared; // 曾经出现过的区域：上次处理该任务时，在一些rect里识别到过text，这次优先在这些rect里识别，省点性能
     };
 
     // 图片匹配任务的信息
@@ -216,9 +219,8 @@ namespace asst
         virtual ~MatchTaskInfo() = default;
         std::string templ_name;         // 匹配模板图片文件名
         double templ_threshold = 0;     // 模板匹配阈值
-        double hist_threshold = 0;      // 直方图比较阈值
+        double special_threshold = 0;   // 某些任务使用的特殊的阈值
         std::pair<int, int> mask_range; // 掩码的二值化范围
-        bool cache = false;             // 是否使用缓存（直方图），false时就一直用模板匹配。默认为true
     };
 
     struct HandleInfo

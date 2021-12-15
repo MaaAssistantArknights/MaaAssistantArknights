@@ -22,11 +22,11 @@ bool asst::ProcessTaskImageAnalyzer::match_analyze(std::shared_ptr<TaskInfo> tas
     }
     const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
     m_match_analyzer->set_task_info(*match_task_ptr);
-    m_match_analyzer->correct_roi();
 
     if (m_match_analyzer->analyze()) {
         m_result = match_task_ptr;
         m_result_rect = m_match_analyzer->get_result().rect;
+        task_ptr->region_of_appeared = m_result_rect;
         return true;
     }
     return false;
@@ -56,6 +56,8 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
             if (flag && ocr_task_ptr->roi.include(tr.rect)) {
                 m_result = ocr_task_ptr;
                 m_result_rect = tr.rect;
+                ocr_task_ptr->region_of_appeared
+                    = m_result_rect.center_zoom(1.5, m_image.cols, m_image.rows);   // OCR库不扩大一点容易识别不到
                 Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in cache", tr.to_string());
                 return true;
             }
@@ -64,43 +66,21 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
     if (!m_ocr_analyzer) {
         m_ocr_analyzer = std::make_unique<OcrImageAnalyzer>(m_image);
     }
-    m_ocr_analyzer->set_required(ocr_task_ptr->text);
-    m_ocr_analyzer->set_replace(ocr_task_ptr->replace_map);
+    m_ocr_analyzer->set_task_info(*ocr_task_ptr);
 
-    // 识别区域文字，并加入缓存
-    auto analyze_roi = [&](const Rect& roi, bool is_appeared = false) -> bool {
-        m_ocr_analyzer->set_roi(roi);
-        m_ocr_analyzer->correct_roi();
-        bool ret = m_ocr_analyzer->analyze();
+    bool ret = m_ocr_analyzer->analyze();
 
-        const auto& ocr_result = m_ocr_analyzer->get_result();
+    const auto& ocr_result = m_ocr_analyzer->get_result();
+    if (ret) {
+        auto& res = ocr_result.front();
+        m_result = ocr_task_ptr;
+        m_result_rect = res.rect;
+        ocr_task_ptr->region_of_appeared
+            = res.rect.center_zoom(1.5, m_image.cols, m_image.rows);   // OCR库不扩大一点容易识别不到
         m_ocr_cache.insert(m_ocr_cache.end(), ocr_result.begin(), ocr_result.end());
-        if (ret) {
-            auto& res = ocr_result.front();
-            m_result = ocr_task_ptr;
-            m_result_rect = res.rect;
-            if (!is_appeared) {
-                ocr_task_ptr->region_of_appeared.emplace(res.rect);
-            }
-            Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found", res.to_string(), "roi :", roi.to_string());
-            return true;
-        }
-        return false;
-    };
-
-    // 在曾经识别到过的历史区域里识别
-    for (const Rect& region : ocr_task_ptr->region_of_appeared) {
-        static auto& max_width = WindowWidthDefault;
-        static auto& max_height = WindowHeightDefault;
-        bool ret = analyze_roi(region.center_zoom(2.0, max_width, max_height), true);
-        if (ret) {
-            Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in appeared");
-            return true;
-        }
+        Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found", res.to_string());
     }
-
-    // 都没有的话，再完整的识别整个ROI
-    return analyze_roi(ocr_task_ptr->roi);
+    return ret;
 }
 
 void asst::ProcessTaskImageAnalyzer::reset() noexcept

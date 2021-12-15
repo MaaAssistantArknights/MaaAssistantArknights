@@ -95,10 +95,13 @@ namespace asst
                       asst::utils::get_format_time().c_str(),
                       level.data(), _getpid(), ::GetCurrentThreadId());
 
-            stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
             std::ofstream ofs(m_log_filename, std::ios::out | std::ios::app);
             stream_args(ofs, buff, std::forward<Args>(args)...);
             ofs.close();
+
+#ifdef LOG_TRACE
+            stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
+#endif
         }
 
         template <bool ToGbk = false, typename T, typename... Args>
