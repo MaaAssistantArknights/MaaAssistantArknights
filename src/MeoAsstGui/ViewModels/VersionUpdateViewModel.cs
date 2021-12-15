@@ -276,7 +276,7 @@ namespace MeoAsstGui
                 foreach (JObject asset in json["assets"])
                 {
                     string downUrl = asset["browser_download_url"].ToString();
-                    if (downUrl.IndexOf("MeoAssistantArknights") != -1)
+                    if (downUrl.Length != 0)
                     {
                         _downloadUrl = downUrl;
                         _lastestJson = json;
