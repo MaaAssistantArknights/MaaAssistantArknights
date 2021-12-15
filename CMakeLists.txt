@@ -14,11 +14,11 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(MeoAssistant_LIB SHARED ${SRC})
+add_library(MeoAssistant SHARED ${SRC})
 
 find_library(Opencv_LIB NAMES opencv_world453 PATHS 3rdparty/lib)
 find_library(PaddleOCR_LIB NAMES ppocr PATHS 3rdparty/lib)
 find_library(Penguin_LIB NAMES penguin-stats-recognize PATHS 3rdparty/lib)
 find_library(MeoJson_LIB NAMES libmeojson PATHS 3rdparty/lib)
 
-target_link_libraries(MeoAssistant_LIB ${Opencv_LIB} ${PaddleOCR_LIB} ${Penguin_LIB} ${MeoJson_LIB})
+target_link_libraries(MeoAssistant ${Opencv_LIB} ${PaddleOCR_LIB} ${Penguin_LIB} ${MeoJson_LIB})
