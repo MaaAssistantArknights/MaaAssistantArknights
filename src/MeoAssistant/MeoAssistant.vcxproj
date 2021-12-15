@@ -47,6 +47,7 @@
     <ClInclude Include="OcrPack.h" />
     <ClInclude Include="PenguinPack.h" />
     <ClInclude Include="RecruitImageAnalyzer.h" />
+    <ClInclude Include="AipOcr.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ItemConfiger.h" />
     <ClInclude Include="Logger.hpp" />
@@ -92,6 +93,7 @@
     <ClCompile Include="OcrPack.cpp" />
     <ClCompile Include="PenguinPack.cpp" />
     <ClCompile Include="RecruitImageAnalyzer.cpp" />
+    <ClCompile Include="AipOcr.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Assistant.cpp" />
     <ClCompile Include="AsstCaller.cpp" />

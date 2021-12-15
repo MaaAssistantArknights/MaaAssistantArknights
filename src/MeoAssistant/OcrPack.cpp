@@ -75,10 +75,9 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
         int bottom = int(*std::max_element(y_collect, y_collect + 4));
 
         Rect rect(left, top, right - left, bottom - top);
-
         std::string text(*(strs + i));
-        std::cout << text.size() << std::endl;
         float score = *(scores + i);
+
         TextRect tr{ text, rect, score };
 
         log_str_raw += tr.to_string() + ", ";
