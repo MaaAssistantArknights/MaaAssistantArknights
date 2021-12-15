@@ -213,6 +213,7 @@ A Game Assistant for Arknights
 - 关卡掉落识别：[企鹅物流识别](https://github.com/KumoSiunaus/penguin-stats-recognize-v3)
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
 - C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)
+- C++ base64编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON库: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
