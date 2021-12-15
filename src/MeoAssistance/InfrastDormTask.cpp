@@ -34,7 +34,7 @@ bool asst::InfrastDormTask::_run()
             swipe_to_the_left_of_operlist();
         }
         else {
-            async_swipe_of_operlist();
+            swipe_of_operlist();
         }
 
         int num_of_selected = 0;
@@ -89,7 +89,7 @@ bool asst::InfrastDormTask::_run()
                     }
                 }
                 else {
-                    if (oper.doing != infrast::Doing::Working) {
+                    if (oper.selected == false && oper.doing != infrast::Doing::Working) {
                         Ctrler.click(oper.rect);
                         if (++num_of_selected >= MaxNumOfOpers) {
                             Log.trace("num_of_selected:", num_of_selected, ", just break");
@@ -102,7 +102,7 @@ bool asst::InfrastDormTask::_run()
                 Log.trace("num_of_selected:", num_of_selected, ", just break");
                 break;
             }
-            sync_swipe_of_operlist();
+            swipe_of_operlist();
         }
         click_confirm_button();
         click_return_button();
@@ -110,40 +110,40 @@ bool asst::InfrastDormTask::_run()
     return true;
 }
 
-bool asst::InfrastDormTask::click_confirm_button()
-{
-    LogTraceFunction;
-
-    const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-        task.get("InfrastConfirmButton"));
-    Ctrler.click(task_ptr->specific_rect);
-    sleep(task_ptr->rear_delay);
-
-    // 宿舍在把正在工作的干员换下来的时候，会有个二次确认的按钮
-    const auto& image = Ctrler.get_image();
-    MatchImageAnalyzer cfm_analyzer(image);
-    const auto sec_cfm_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        task.get("InfrastDormConfirmButton"));
-    cfm_analyzer.set_task_info(*sec_cfm_task_ptr);
-    if (cfm_analyzer.analyze()) {
-        Ctrler.click(cfm_analyzer.get_result().rect);
-        sleep(sec_cfm_task_ptr->rear_delay);
-    }
-
-    // 识别“正在提交反馈至神经”，如果网不好一直确认不了，就多等一会
-    OcrImageAnalyzer analyzer;
-    analyzer.set_task_info(*task_ptr);
-    for (int i = 0; i != m_retry_times; ++i) {
-        if (need_exit()) {
-            return false;
-        }
-        const auto& image = Ctrler.get_image();
-        analyzer.set_image(image);
-        if (!analyzer.analyze()) {
-            sleep(sec_cfm_task_ptr->rear_delay);
-            return true;
-        }
-        sleep(sec_cfm_task_ptr->rear_delay);
-    }
-    return false;
-}
+//bool asst::InfrastDormTask::click_confirm_button()
+//{
+//    LogTraceFunction;
+//
+//    const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
+//        task.get("InfrastConfirmButton"));
+//    Ctrler.click(task_ptr->specific_rect);
+//    sleep(task_ptr->rear_delay);
+//
+//    // 宿舍在把正在工作的干员换下来的时候，会有个二次确认的按钮
+//    const auto& image = Ctrler.get_image();
+//    MatchImageAnalyzer cfm_analyzer(image);
+//    const auto sec_cfm_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+//        task.get("InfrastDormConfirmButton"));
+//    cfm_analyzer.set_task_info(*sec_cfm_task_ptr);
+//    if (cfm_analyzer.analyze()) {
+//        Ctrler.click(cfm_analyzer.get_result().rect);
+//        sleep(sec_cfm_task_ptr->rear_delay);
+//    }
+//
+//    // 识别“正在提交反馈至神经”，如果网不好一直确认不了，就多等一会
+//    OcrImageAnalyzer analyzer;
+//    analyzer.set_task_info(*task_ptr);
+//    for (int i = 0; i != m_retry_times; ++i) {
+//        if (need_exit()) {
+//            return false;
+//        }
+//        const auto& image = Ctrler.get_image();
+//        analyzer.set_image(image);
+//        if (!analyzer.analyze()) {
+//            sleep(sec_cfm_task_ptr->rear_delay);
+//            return true;
+//        }
+//        sleep(sec_cfm_task_ptr->rear_delay);
+//    }
+//    return false;
+//}

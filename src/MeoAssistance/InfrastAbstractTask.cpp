@@ -201,22 +201,22 @@ bool asst::InfrastAbstractTask::click_confirm_button()
     return false;
 }
 
-void asst::InfrastAbstractTask::sync_swipe_of_operlist(bool reverse)
+void asst::InfrastAbstractTask::swipe_of_operlist(bool reverse)
 {
     async_swipe_of_operlist(reverse);
     await_swipe();
 }
 
-void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist()
+void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 {
     LogTraceFunction;
     static Rect begin_rect = task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
     static Rect end_rect = task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
     static int duration = task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
     static int extra_delay = task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
-    static int loop_times = task.get("InfrastOperListSwipeToTheLeftBegin")->max_times;
+    static int cfg_loop_times = task.get("InfrastOperListSwipeToTheLeftBegin")->max_times;
 
-    for (int i = 0; i != loop_times; ++i) {
+    for (int i = 0; i != cfg_loop_times * loop_times; ++i) {
         if (need_exit()) {
             return;
         }

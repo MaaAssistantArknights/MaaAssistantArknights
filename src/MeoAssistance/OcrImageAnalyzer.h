@@ -31,7 +31,15 @@ namespace asst
             m_required = std::move(task_info.text);
             m_full_match = task_info.need_full_match;
             m_replace = std::move(task_info.replace_map);
+
             set_roi(task_info.roi);
+            correct_roi();
+            auto& cache_roi = task_info.region_of_appeared;
+            if (task_info.cache && !cache_roi.empty()) {
+                if (cache_roi.area() < m_roi.area()) {
+                    m_roi = cache_roi;
+                }
+            }
         }
 
         void set_pred(const TextRectProc& pred)

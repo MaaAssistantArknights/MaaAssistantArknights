@@ -132,7 +132,7 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
     const auto prg_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         task.get("InfrastOperMoodProgressBar"));
     int prg_lower_limit = prg_task_ptr->templ_threshold;
-    int prg_diff_thres = prg_task_ptr->hist_threshold;
+    int prg_diff_thres = prg_task_ptr->special_threshold;
     Rect rect_move = prg_task_ptr->rect_move;
 
     for (auto&& oper : m_result) {
@@ -268,7 +268,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
 
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         task.get("InfrastSkills"));
-    const auto bright_thres = task_ptr->hist_threshold;
+    const auto bright_thres = task_ptr->special_threshold;
 
     MatchImageAnalyzer skill_analyzer(m_image);
     skill_analyzer.set_mask_range(task_ptr->mask_range);

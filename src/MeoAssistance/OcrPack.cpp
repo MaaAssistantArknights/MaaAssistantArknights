@@ -82,5 +82,6 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat & image, cons
         tr.rect.y += roi.y;
         return pred(tr);
     };
+    Log.trace("OcrPack::recognize | roi : ", roi.to_string());
     return recognize(image(utils::make_rect<cv::Rect>(roi)), rect_cor);
 }

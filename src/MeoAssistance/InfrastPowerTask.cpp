@@ -31,8 +31,8 @@ bool asst::InfrastPowerTask::_run()
         if (!enter_oper_list_page()) {
             return false;
         }
-        constexpr int retry_times = 1;
-        for (int i = 0; i <= retry_times; ++i) {
+
+        for (int i = 0; i <= OperSelectRetryTimes; ++i) {
             swipe_to_the_left_of_operlist();
 
             if (m_all_available_opers.empty()) {

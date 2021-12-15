@@ -28,7 +28,7 @@
 using namespace asst;
 
 Assistance::Assistance(std::string dirname, AsstCallback callback, void* callback_arg)
-    : m_dirname(std::move(dirname)),
+    : m_dirname(std::move(dirname) + "\\"),
     m_callback(callback),
     m_callback_arg(callback_arg)
 {
@@ -37,7 +37,7 @@ Assistance::Assistance(std::string dirname, AsstCallback callback, void* callbac
 
     LogTraceFunction;
 
-    bool resource_ret = Resrc.load(m_dirname + "\\Resource\\");
+    bool resource_ret = Resrc.load(m_dirname + "Resource\\");
     if (!resource_ret) {
         const std::string& error = Resrc.get_last_error();
         Log.error("resource broken", error);
@@ -478,8 +478,7 @@ void Assistance::working_proc()
             if (!ret) {
                 task_callback(AsstMsg::TaskError, task_json, this);
             }
-
-            if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
+            else if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
                 task_callback(AsstMsg::TaskChainCompleted, task_json, this);
             }
             if (m_tasks_queue.empty()) {
@@ -558,7 +557,6 @@ void asst::Assistance::append_callback(AsstMsg msg, json::value detail)
 
 void Assistance::clear_cache()
 {
-    Resrc.templ().clear_hists();
     Resrc.item().clear_drop_count();
     task.clear_cache();
 }

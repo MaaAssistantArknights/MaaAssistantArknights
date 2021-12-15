@@ -15,16 +15,17 @@ namespace asst
         virtual void set_work_mode(infrast::WorkMode work_mode) noexcept;
         virtual void set_mood_threshold(double mood_thres) noexcept;
 
+        constexpr static int OperSelectRetryTimes = 3;
     protected:
         virtual bool on_run_fails() override;
 
         virtual bool enter_facility(const std::string& facility, int index = 0);
         virtual bool enter_oper_list_page(); // 从刚点进基建的界面，到干员列表页
 
-        virtual void swipe_to_the_left_of_operlist(); // 滑动到干员列表的最左侧
+        virtual void swipe_to_the_left_of_operlist(int loop_times = 1); // 滑动到干员列表的最左侧
         virtual void swipe_to_the_left_of_main_ui();  // 滑动基建的主界面到最左侧
         virtual void swipe_to_the_right_of_main_ui(); // 滑动基建的主界面到最右侧
-        virtual void sync_swipe_of_operlist(bool reverse = false);
+        virtual void swipe_of_operlist(bool reverse = false);
         virtual void async_swipe_of_operlist(bool reverse = false);
         virtual void await_swipe();
 
