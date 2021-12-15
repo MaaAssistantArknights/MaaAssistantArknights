@@ -8,8 +8,9 @@
 
 int main()
 {
-    std::string input_dir = R"(D:\Code\MeoAssistance\resource\infrast)";
-    std::string output_dir = R"(D:\Code\MeoAssistance\resource\infrast\cvt\)";
+    auto solution_dir = std::filesystem::current_path().parent_path().parent_path();
+    auto input_dir = solution_dir / "resource" / "infrast";
+    auto output_dir = solution_dir / "resource" / "infrast" / "cvt";
 
     for (auto&& entry : std::filesystem::directory_iterator(input_dir)) {
         if (entry.path().extension() != ".png") {
@@ -27,7 +28,7 @@ int main()
                 }
             }
         }
-        std::string out_file = output_dir + entry.path().filename().u8string();
+        std::string out_file = (output_dir / entry.path().filename()).u8string();
         cv::imwrite(out_file, cvt);
     }
 

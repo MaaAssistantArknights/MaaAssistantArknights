@@ -16,8 +16,6 @@
             0
         ],
         "controlDelayRange_Doc": "点击随机延时：每次点击操作会进行随机延时，降低封号风险（好像也没听说过谁被封号的）。格式为 [ 最小延时, 最大延时 ]，单位为毫秒。例如想设置3~5秒延时，即修改为[ 3000, 5000 ]，默认0~0",
-        "ocrThreadNumber": 4,
-        "ocrThreadNumber_Doc": "文字识别库OcrLite的线程数量，理论上开的高点识别会快点，但是会更卡。默认4",
         "adbExtraSwipeDist": 50,
         "adbExtraSwipeDist_Doc": "额外的滑动距离：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来",
         "adbExtraSwipeDuration": 1000,

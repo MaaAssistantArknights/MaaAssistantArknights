@@ -1,0 +1,1 @@
+ch_ppocr_mobile_v2.0_rec_slim_infer

@@ -16,7 +16,7 @@ const char* get_cur_dir()
 
 int main(int argc, char** argv)
 {
-    void* ptr = AsstCreate(get_cur_dir());
+    auto ptr = AsstCreate(get_cur_dir());
     auto ret = AsstCatchEmulator(ptr);
     if (!ret) {
         getchar();
@@ -31,11 +31,11 @@ int main(int argc, char** argv)
     while (ch != 'q') {
         //AsstAppendFight(ptr, 0, 0, 99999);
         //AsstAppendVisit(ptr, true);
-        //{
-        //    const int required[] = { 3, 4, 5, 6 };
-        //    AsstStartRecruitCalc(ptr, required, sizeof(required) / sizeof(int), true);
-        //}
-        AsstAppendDebug(ptr);
+        {
+            const int required[] = { 3, 4, 5, 6 };
+            AsstStartRecruitCalc(ptr, required, sizeof(required) / sizeof(int), true);
+        }
+        //AsstAppendDebug(ptr);
         //{
         //    const char* order[] = { "Trade", "Mfg", "Dorm" };
         //    AsstAppendInfrast(ptr, 1, order, 3, 0, 0);

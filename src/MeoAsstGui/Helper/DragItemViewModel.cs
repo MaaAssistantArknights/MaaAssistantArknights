@@ -1,4 +1,4 @@
-// MeoAssistanceGui - A part of the MeoAssistance-Arknight project
+// MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
@@ -9,11 +9,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using Stylet;
-using StyletIoC;
 
 namespace MeoAsstGui
 {

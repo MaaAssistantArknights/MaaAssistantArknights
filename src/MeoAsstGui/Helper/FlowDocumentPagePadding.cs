@@ -1,4 +1,4 @@
-// MeoAssistanceGui - A part of the MeoAssistance-Arknight project
+// MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
@@ -10,11 +10,7 @@
 // but WITHOUT ANY WARRANTY
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 
@@ -26,10 +22,12 @@ namespace MeoAsstGui
         {
             return (Thickness)obj.GetValue(PagePaddingProperty);
         }
+
         public static void SetPagePadding(DependencyObject obj, Thickness value)
         {
             obj.SetValue(PagePaddingProperty, value);
         }
+
         public static readonly DependencyProperty PagePaddingProperty =
             DependencyProperty.RegisterAttached("PagePadding", typeof(Thickness), typeof(FlowDocumentPagePadding), new UIPropertyMetadata(new Thickness(double.NegativeInfinity), (o, args) =>
             {
@@ -40,6 +38,7 @@ namespace MeoAsstGui
                 fd.PagePadding = (Thickness)args.NewValue;
                 dpd.AddValueChanged(fd, PaddingChanged);
             }));
+
         public static void PaddingChanged(object s, EventArgs e)
         {
             ((FlowDocument)s).PagePadding = GetPagePadding((DependencyObject)s);

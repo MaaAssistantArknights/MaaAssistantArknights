@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\AsstCaller.h" />
+    <ClInclude Include="..\..\include\AsstPort.h" />
+    <ClInclude Include="AbstractConfiger.h" />
+    <ClInclude Include="AbstractImageAnalyzer.h" />
+    <ClInclude Include="AbstractResource.h" />
+    <ClInclude Include="AbstractTask.h" />
+    <ClInclude Include="Assistant.h" />
+    <ClInclude Include="AsstInfrastDef.h" />
+    <ClInclude Include="AsstUtils.hpp" />
+    <ClInclude Include="AsstDef.h" />
+    <ClInclude Include="AsstMsg.h" />
+    <ClInclude Include="AutoRecruitTask.h" />
+    <ClInclude Include="CreditShopImageAnalyzer.h" />
+    <ClInclude Include="GeneralConfiger.h" />
+    <ClInclude Include="CreditShoppingTask.h" />
+    <ClInclude Include="InfrastAbstractTask.h" />
+    <ClInclude Include="InfrastClueImageAnalyzer.h" />
+    <ClInclude Include="InfrastConfiger.h" />
+    <ClInclude Include="InfrastControlTask.h" />
+    <ClInclude Include="InfrastDormTask.h" />
+    <ClInclude Include="InfrastFacilityImageAnalyzer.h" />
+    <ClInclude Include="InfrastInfoTask.h" />
+    <ClInclude Include="InfrastMfgTask.h" />
+    <ClInclude Include="InfrastOfficeTask.h" />
+    <ClInclude Include="InfrastOperImageAnalyzer.h" />
+    <ClInclude Include="InfrastPowerTask.h" />
+    <ClInclude Include="InfrastProductionTask.h" />
+    <ClInclude Include="InfrastClueVacancyImageAnalyzer.h" />
+    <ClInclude Include="InfrastReceptionTask.h" />
+    <ClInclude Include="InfrastSmileyImageAnalyzer.h" />
+    <ClInclude Include="InfrastTradeTask.h" />
+    <ClInclude Include="MultiMatchImageAnalyzer.h" />
+    <ClInclude Include="OcrImageAnalyzer.h" />
+    <ClInclude Include="OcrPack.h" />
+    <ClInclude Include="PenguinPack.h" />
+    <ClInclude Include="RecruitImageAnalyzer.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ItemConfiger.h" />
+    <ClInclude Include="Logger.hpp" />
+    <ClInclude Include="RecruitTask.h" />
+    <ClInclude Include="PenguinUploader.h" />
+    <ClInclude Include="ProcessTask.h" />
+    <ClInclude Include="ProcessTaskImageAnalyzer.h" />
+    <ClInclude Include="RecruitConfiger.h" />
+    <ClInclude Include="RuntimeStatus.h" />
+    <ClInclude Include="TaskData.h" />
+    <ClInclude Include="MatchImageAnalyzer.h" />
+    <ClInclude Include="TemplResource.h" />
+    <ClInclude Include="UserConfiger.h" />
+    <ClInclude Include="Version.h" />
+    <ClInclude Include="Controller.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AbstractConfiger.cpp" />
+    <ClCompile Include="AbstractImageAnalyzer.cpp" />
+    <ClCompile Include="AbstractResource.cpp" />
+    <ClCompile Include="AbstractTask.cpp" />
+    <ClCompile Include="AutoRecruitTask.cpp" />
+    <ClCompile Include="CreditShopImageAnalyzer.cpp" />
+    <ClCompile Include="CreditShoppingTask.cpp" />
+    <ClCompile Include="InfrastAbstractTask.cpp" />
+    <ClCompile Include="InfrastClueImageAnalyzer.cpp" />
+    <ClCompile Include="InfrastConfiger.cpp" />
+    <ClCompile Include="InfrastControlTask.cpp" />
+    <ClCompile Include="InfrastDormTask.cpp" />
+    <ClCompile Include="InfrastFacilityImageAnalyzer.cpp" />
+    <ClCompile Include="InfrastInfoTask.cpp" />
+    <ClCompile Include="InfrastMfgTask.cpp" />
+    <ClCompile Include="InfrastOfficeTask.cpp" />
+    <ClCompile Include="InfrastOperImageAnalyzer.cpp" />
+    <ClCompile Include="InfrastPowerTask.cpp" />
+    <ClCompile Include="InfrastProductionTask.cpp" />
+    <ClCompile Include="InfrastClueVacancyImageAnalyzer.cpp" />
+    <ClCompile Include="InfrastReceptionTask.cpp" />
+    <ClCompile Include="InfrastSmileyImageAnalyzer.cpp" />
+    <ClCompile Include="InfrastTradeTask.cpp" />
+    <ClCompile Include="MultiMatchImageAnalyzer.cpp" />
+    <ClCompile Include="OcrImageAnalyzer.cpp" />
+    <ClCompile Include="OcrPack.cpp" />
+    <ClCompile Include="PenguinPack.cpp" />
+    <ClCompile Include="RecruitImageAnalyzer.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="Assistant.cpp" />
+    <ClCompile Include="AsstCaller.cpp" />
+    <ClCompile Include="GeneralConfiger.cpp" />
+    <ClCompile Include="ItemConfiger.cpp" />
+    <ClCompile Include="RecruitTask.cpp" />
+    <ClCompile Include="PenguinUploader.cpp" />
+    <ClCompile Include="ProcessTask.cpp" />
+    <ClCompile Include="ProcessTaskImageAnalyzer.cpp" />
+    <ClCompile Include="RecruitConfiger.cpp" />
+    <ClCompile Include="RuntimeStatus.cpp" />
+    <ClCompile Include="TaskData.cpp" />
+    <ClCompile Include="MatchImageAnalyzer.cpp" />
+    <ClCompile Include="TemplResource.cpp" />
+    <ClCompile Include="UserConfiger.cpp" />
+    <ClCompile Include="Controller.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\resource\config.json" />
+    <None Include="..\..\resource\infrast.json" />
+    <None Include="..\..\resource\tasks.json" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{362d1e30-f5ae-4279-9985-65c27b3ba300}</ProjectGuid>
+    <RootNamespace>MeoAssistant</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)include;$(SolutionDir)3rdparty\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(TargetDir);$(SolutionDir)\3rdparty\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)include;$(SolutionDir)3rdparty\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(TargetDir);$(SolutionDir)\3rdparty\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;ASST_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalOptions>/utf-8 /MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libmeojson.lib;ppocr.lib;opencv_world453.lib;penguin-stats-recognize.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /e /y /i /c $(SolutionDir)resource $(TargetDir)resource
+xcopy /e /y /i /c $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>copy resource</Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>xcopy /e /y /i /c $(SolutionDir)3rdparty\bin $(TargetDir)</Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>copy 3rd party dll</Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;ASST_DLL_EXPORTS;LOG_TRACE;DEBUG_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/utf-8 /MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libmeojson.lib;ppocr.lib;opencv_world453.lib;penguin-stats-recognize.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /e /y /i /c $(SolutionDir)resource $(TargetDir)resource
+xcopy /e /y /i /c $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>copy resource</Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>xcopy /e /y /i /c $(SolutionDir)3rdparty\bin $(TargetDir)</Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>copy 3rd party dll</Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
