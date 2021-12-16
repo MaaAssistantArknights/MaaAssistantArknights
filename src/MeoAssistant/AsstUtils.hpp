@@ -135,6 +135,56 @@ namespace asst
             return dist;
         }
 
+        static std::string callcmd(const std::string& cmdline)
+        {
+            SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
+            pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
+            pipe_sec_attr.lpSecurityDescriptor = nullptr;
+            pipe_sec_attr.bInheritHandle = TRUE;
+            HANDLE pipe_read = nullptr;
+            HANDLE pipe_child_write = nullptr;
+            CreatePipe(&pipe_read, &pipe_child_write, &pipe_sec_attr, 4096);
+
+            STARTUPINFOA si = { 0 };
+            si.cb = sizeof(STARTUPINFO);
+            si.dwFlags = STARTF_USESTDHANDLES;
+            si.wShowWindow = SW_HIDE;
+            si.hStdOutput = pipe_child_write;
+            si.hStdError = pipe_child_write;
+
+            PROCESS_INFORMATION pi = { 0 };
+
+            BOOL p_ret = CreateProcessA(NULL, const_cast<LPSTR>(cmdline.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+            std::string pipe_str;
+            if (p_ret) {
+                DWORD read_num = 0;
+                DWORD std_num = 0;
+                do {
+                    while (::PeekNamedPipe(pipe_read, NULL, 0, NULL, &read_num, NULL) && read_num > 0) {
+                        char* pipe_buffer = new char[read_num];
+                        BOOL read_ret = ::ReadFile(pipe_read, pipe_buffer, read_num, &std_num, NULL);
+                        if (read_ret) {
+                            pipe_str.append(pipe_buffer, pipe_buffer + std_num);
+                        }
+                        if (pipe_buffer != nullptr) {
+                            delete[] pipe_buffer;
+                            pipe_buffer = nullptr;
+                        }
+                    }
+                } while (::WaitForSingleObject(pi.hProcess, 0) == WAIT_TIMEOUT);
+
+                DWORD exit_ret = -1;
+                ::GetExitCodeProcess(pi.hProcess, &exit_ret);
+                CloseHandle(pi.hProcess);
+                CloseHandle(pi.hThread);
+            }
+
+            ::CloseHandle(pipe_read);
+            ::CloseHandle(pipe_child_write);
+
+            return pipe_str;
+        }
+
         //template<typename T,
         //	typename = typename std::enable_if<std::is_constructible<T, std::string>::value>::type>
         //	std::string VectorToString(const std::vector<T>& vector, bool to_gbk = false) {

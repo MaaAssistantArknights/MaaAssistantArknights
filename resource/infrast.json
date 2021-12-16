@@ -483,6 +483,15 @@
                         }
                     },
                     {
+                        "desc": "火神-1",
+                        "skills": [
+                            "Bskill_man_spd&limit&cost1"
+                        ],
+                        "efficient": {
+                            "all": 27
+                        }
+                    },
+                    {
                         "desc": "米格鲁、卡缇",
                         "skills": [
                             "Bskill_man_spd&limit1"

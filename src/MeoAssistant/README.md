@@ -14,6 +14,8 @@
 - 文字识别库：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
 - 关卡掉落识别：[企鹅物流识别](https://github.com/KumoSiunaus/penguin-stats-recognize-v3)
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
+- C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)
+- C++ base64编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)
 
 ## 数据
 
