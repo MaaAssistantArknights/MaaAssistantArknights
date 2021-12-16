@@ -90,8 +90,9 @@ namespace asst
         {
             std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
 
-            char buff[128] = { 0 };
-            sprintf_s(buff, "[%s][%s][Px%x][Tx%x]",
+            constexpr int buff_len = 128;
+            char buff[buff_len] = { 0 };
+            sprintf_s(buff, buff_len, "[%s][%s][Px%x][Tx%x]",
                       asst::utils::get_format_time().c_str(),
                       level.data(), _getpid(), ::GetCurrentThreadId());
 
