@@ -4,6 +4,7 @@
 
 #include "Logger.hpp"
 #include "Resource.h"
+#include "AipOcr.h"
 
 bool asst::OcrImageAnalyzer::analyze()
 {
@@ -49,7 +50,20 @@ bool asst::OcrImageAnalyzer::analyze()
         }
         return true;
     };
-    m_ocr_result = Resrc.ocr().recognize(m_image, m_roi, all_pred, m_without_det);
+
+    auto& aip_ocr = Resrc.cfg().get_options().aip_ocr;
+    bool need_local = true;
+    if (aip_ocr.enable) {
+        if (aip_ocr.accurate) {
+            need_local = !AipOcr::get_instance().request_ocr_accurate(m_image, m_ocr_result, all_pred);
+        }
+        else {
+            need_local = !AipOcr::get_instance().request_ocr_general(m_image, m_ocr_result, all_pred);
+        }
+    }
+    if (need_local) {
+        m_ocr_result = Resrc.ocr().recognize(m_image, m_roi, all_pred, m_without_det);
+    }
     //log.trace("ocr result", m_ocr_result);
     return !m_ocr_result.empty();
 }

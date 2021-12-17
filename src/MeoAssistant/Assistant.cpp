@@ -402,10 +402,10 @@ void asst::Assistant::set_penguin_id(const std::string& id)
 {
     auto& opt = Resrc.cfg().get_options();
     if (id.empty()) {
-        opt.penguin_report_extra_param.clear();
+        opt.penguin_report.extra_param.clear();
     }
     else {
-        opt.penguin_report_extra_param = "-H \"authorization: PenguinID " + id + "\"";
+        opt.penguin_report.extra_param = "-H \"authorization: PenguinID " + id + "\"";
     }
 }
 
