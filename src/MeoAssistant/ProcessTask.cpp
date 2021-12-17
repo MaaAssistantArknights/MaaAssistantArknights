@@ -133,11 +133,11 @@ bool ProcessTask::_run()
             m_callback(AsstMsg::StageDrops, json::parse(res).value(), m_callback_arg);
 
             auto& opt = Resrc.cfg().get_options();
-            if (opt.print_window) {
-                //static const std::string dirname = utils::get_cur_dir() + "screenshot\\";
-                //save_image(image, dirname);
-            }
-            if (opt.penguin_report) {
+            //if (opt.print_window) {
+            //    //static const std::string dirname = utils::get_cur_dir() + "screenshot\\";
+            //    //save_image(image, dirname);
+            //}
+            if (opt.penguin_report.enable) {
                 PenguinUploader::upload(res);
             }
         } break;

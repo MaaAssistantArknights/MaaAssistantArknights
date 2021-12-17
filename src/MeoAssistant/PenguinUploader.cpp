@@ -26,7 +26,7 @@ std::string asst::PenguinUploader::cvt_json(const std::string& rec_res)
     // Doc: https://developer.penguin-stats.io/public-api/api-v2-instruction/report-api
     json::value body;
     auto& opt = Resrc.cfg().get_options();
-    body["server"] = opt.penguin_report_server;
+    body["server"] = opt.penguin_report.server;
     body["stageId"] = rec["stage"]["stageId"];
     // To fix: https://github.com/MistEO/MeoAssistantArknights/issues/40
     body["drops"] = json::array();
@@ -45,8 +45,8 @@ bool asst::PenguinUploader::request_penguin(const std::string& body)
 {
     auto& opt = Resrc.cfg().get_options();
     std::string body_escape = utils::string_replace_all(body, "\"", "\\\"");
-    std::string cmd_line = utils::string_replace_all(opt.penguin_report_cmd_line, "[body]", body_escape);
-    cmd_line = utils::string_replace_all(cmd_line, "[extra]", opt.penguin_report_extra_param);
+    std::string cmd_line = utils::string_replace_all(opt.penguin_report.cmd_format, "[body]", body_escape);
+    cmd_line = utils::string_replace_all(cmd_line, "[extra]", opt.penguin_report.extra_param);
 
     Log.trace("request_penguin |", cmd_line);
 

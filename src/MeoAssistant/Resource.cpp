@@ -71,7 +71,7 @@ bool asst::Resource::load(const std::string& dir)
         return false;
     }
     /* 加载企鹅数据识别库所需要的资源 */
-    m_penguin_pack_unique_ins.set_language(opt.penguin_report_server);
+    m_penguin_pack_unique_ins.set_language(opt.penguin_report.server);
     if (!m_penguin_pack_unique_ins.load(dir + PenguinResourceFilename)) {
         m_last_error = m_penguin_pack_unique_ins.get_last_error();
         return false;
