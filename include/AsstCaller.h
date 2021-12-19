@@ -20,7 +20,8 @@ extern "C" {
     bool ASSTAPI AsstCatchCustom(asst::Assistant* p_asst, const char* address);
     bool ASSTAPI AsstCatchFake(asst::Assistant* p_asst);
 
-    bool ASSTAPI AsstAppendFight(asst::Assistant* p_asst, int max_mecidine, int max_stone, int max_times);
+    bool ASSTAPI AsstAppendStartUp(asst::Assistant* p_asst);
+    bool ASSTAPI AsstAppendFight(asst::Assistant* p_asst, const char* stage, int max_mecidine, int max_stone, int max_times);
     bool ASSTAPI AsstAppendAward(asst::Assistant* p_asst);
     bool ASSTAPI AsstAppendVisit(asst::Assistant* p_asst);
     bool ASSTAPI AsstAppendMall(asst::Assistant* p_asst, bool with_shopping);

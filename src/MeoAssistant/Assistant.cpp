@@ -150,7 +150,7 @@ bool asst::Assistant::catch_fake()
     return true;
 }
 
-bool asst::Assistant::append_fight(int mecidine, int stone, int times, bool only_append)
+bool asst::Assistant::append_start_up(bool only_append)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -160,13 +160,52 @@ bool asst::Assistant::append_fight(int mecidine, int stone, int times, bool only
     std::unique_lock<std::mutex> lock(m_mutex);
 
     auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
-    task_ptr->set_task_chain("Fight");
-    task_ptr->set_tasks({ "SanityBegin" });
-    task_ptr->set_times_limit("MedicineConfirm", mecidine);
-    task_ptr->set_times_limit("StoneConfirm", stone);
-    task_ptr->set_times_limit("StartButton1", times);
+    task_ptr->set_task_chain("StartUp");
+    task_ptr->set_tasks({ "StartUp" });
+    task_ptr->set_times_limit("Terminal", 0);
 
     m_tasks_queue.emplace(task_ptr);
+
+    if (!only_append) {
+        return start(false);
+    }
+
+    return true;
+}
+
+bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int stone, int times, bool only_append)
+{
+    LogTraceFunction;
+    if (!m_inited) {
+        return false;
+    }
+
+    constexpr const char* TaskChain = "Fight";
+
+    // 进入选关界面（主界面的“终端”点进去）
+    auto terminal_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
+    terminal_task_ptr->set_task_chain(TaskChain);
+    terminal_task_ptr->set_tasks({ "StageBegin" });
+    terminal_task_ptr->set_times_limit("LastBattle", 0);
+
+    // 进入对应的关卡
+    auto stage_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
+    stage_task_ptr->set_task_chain(TaskChain);
+    stage_task_ptr->set_tasks({ stage });
+
+    // 开始战斗任务
+    auto fight_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
+    fight_task_ptr->set_task_chain(TaskChain);
+    fight_task_ptr->set_tasks({ "FightBegin" });
+    fight_task_ptr->set_times_limit("MedicineConfirm", mecidine);
+    fight_task_ptr->set_times_limit("StoneConfirm", stone);
+    fight_task_ptr->set_times_limit("StartButton1", times);
+
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    m_tasks_queue.emplace(terminal_task_ptr);
+    m_tasks_queue.emplace(stage_task_ptr);
+    m_tasks_queue.emplace(fight_task_ptr);
 
     if (!only_append) {
         return start(false);
