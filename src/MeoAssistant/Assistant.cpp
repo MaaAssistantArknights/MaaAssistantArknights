@@ -203,8 +203,10 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    m_tasks_queue.emplace(terminal_task_ptr);
-    m_tasks_queue.emplace(stage_task_ptr);
+    if (!stage.empty()) {
+        m_tasks_queue.emplace(terminal_task_ptr);
+        m_tasks_queue.emplace(stage_task_ptr);
+    }
     m_tasks_queue.emplace(fight_task_ptr);
 
     if (!only_append) {

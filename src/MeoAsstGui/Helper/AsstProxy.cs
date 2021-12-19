@@ -35,6 +35,8 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstCatchCustom(IntPtr ptr, string address);
 
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendStartUp(IntPtr ptr);
+
         [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendFight(IntPtr ptr, string stage, int max_medicine, int max_stone, int max_times);
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendAward(IntPtr ptr);
@@ -338,6 +340,11 @@ namespace MeoAsstGui
         public bool AsstAppendAward()
         {
             return AsstAppendAward(_ptr);
+        }
+
+        public bool AsstAppendStartUp()
+        {
+            return AsstAppendStartUp(_ptr);
         }
 
         public bool AsstAppendVisit()
