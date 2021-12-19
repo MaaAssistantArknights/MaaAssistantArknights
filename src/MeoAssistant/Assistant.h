@@ -38,8 +38,10 @@ namespace asst
         // 不实际进行捕获，调试用接口
         bool catch_fake();
 
+        // 添加开始游戏的任务（进入到主界面）
+        bool append_start_up(bool only_append = true);
         // 添加刷理智任务
-        bool append_fight(int mecidine = 0, int stone = 0, int times = INT_MAX, bool only_append = true);
+        bool append_fight(const std::string& stage, int mecidine = 0, int stone = 0, int times = INT_MAX, bool only_append = true);
         // 添加领取日常任务奖励任务
         bool append_award(bool only_append = true);
         // 添加访问好友任务

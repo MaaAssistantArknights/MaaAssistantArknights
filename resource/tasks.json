@@ -1,10 +1,65 @@
 ﻿{
-    "SanityBegin": {
+    "StartUp": {
         "algorithm": "justreturn",
         "action": "doNothing",
         "next": [
-            "UsePrts",
-            "StartButton1",
+            "GameStart",
+            "StartToWakeUp",
+            "ReturnToTerminal",
+            "Terminal",
+            "CloseAnno",
+            "TodaysSupplies",
+            "OfflineConfirm"
+        ]
+    },
+    "CE-5": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "StageResourceToCE5",
+            "StageCE",
+            "StageCE5"
+        ]
+    },
+    "StageResourceToCE5": {
+        "template": "StageResource.png",
+        "roi": [
+            790,
+            640,
+            60,
+            60
+        ],
+        "action": "clickSelf",
+        "next": [
+            "SwipeToStageCE"
+        ]
+    },
+    "SwipeToStageCE": {
+        "algorithm": "justReturn",
+        "action": "swipeToTheLeft",
+        "next": [
+            "StageCE"
+        ]
+    },
+    "StageCE": {
+        "action": "clickSelf",
+        "next": [
+            "StageCE5"
+        ]
+    },
+    "StageCE5": {
+        "action": "clickSelf",
+        "roi": [
+            850,
+            140,
+            250,
+            80
+        ]
+    },
+    "StageBegin": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
             "ReturnToTerminal",
             "PRTS",
             "EndOfAction",
@@ -14,6 +69,14 @@
             "CloseAnno",
             "Terminal",
             "GameStart"
+        ]
+    },
+    "FightBegin": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "UsePrts",
+            "StartButton1"
         ]
     },
     "GameStart": {
@@ -381,7 +444,8 @@
             "LastBattle",
             "Terminal",
             "CloseAnno",
-            "TodaysSupplies"
+            "TodaysSupplies",
+            "Stop"
         ]
     },
     "TodaysSupplies": {
@@ -410,8 +474,8 @@
     "LastBattle": {
         "algorithm": "OcrDetect",
         "text": [
-            "前往上",
-            "次作战"
+            "前往",
+            "作战"
         ],
         "roi": [
             900,

@@ -56,6 +56,10 @@ namespace MeoAsstGui
                 }
             }
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
+
+            StageList = new List<CombData>();
+            StageList.Add(new CombData { Display = "上次作战", Value = "LastBattle" });
+            StageList.Add(new CombData { Display = "龙门币-5", Value = "CE-5" });
         }
 
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
@@ -187,7 +191,7 @@ namespace MeoAsstGui
             }
 
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendFight(medicine, stone, times);
+            return asstProxy.AsstAppendFight(Stage, medicine, stone, times);
         }
 
         private bool appendInfrast()
@@ -285,6 +289,20 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _shutdown, value);
+            }
+        }
+
+        public List<CombData> StageList { get; set; }
+
+        private string _stage = ViewStatusStorage.Get("MainFunction.Stage", "LastBattle");
+
+        public string Stage
+        {
+            get { return _stage; }
+            set
+            {
+                SetAndNotify(ref _stage, value);
+                ViewStatusStorage.Set("MainFunction.Stage", value);
             }
         }
 
