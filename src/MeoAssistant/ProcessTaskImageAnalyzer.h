@@ -55,6 +55,6 @@ namespace asst
         std::vector<std::string> m_tasks_name;
         std::shared_ptr<TaskInfo> m_result;
         Rect m_result_rect;
-        std::vector<TextRect> m_ocr_cache;
+        //std::vector<TextRect> m_ocr_cache;
     };
 }

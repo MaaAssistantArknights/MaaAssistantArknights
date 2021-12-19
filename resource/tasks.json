@@ -112,18 +112,15 @@
     "PRTS": {
         "algorithm": "OcrDetect",
         "text": [
-            "剩余可放置角色",
-            "接管作战",
-            "代理指挥",
-            "运行中"
+            "剩余可放置角色"
         ],
         "roi": [
-            300,
-            530,
-            980,
-            190
+            900,
+            500,
+            380,
+            150
+
         ],
-        "cache": false,
         "action": "doNothing",
         "rearDelay": 5000,
         "next": [

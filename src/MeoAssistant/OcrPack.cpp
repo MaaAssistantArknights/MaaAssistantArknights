@@ -50,6 +50,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     float scores[MaxBoxSize] = { 0 };
     size_t size;
 
+    Log.trace("Without Det:", without_det);
     if (!without_det) {
         PaddleOcrSystem(m_ocr, buf.data(), buf.size(), false,
             boxes, strs, scores, &size, nullptr, nullptr);
@@ -66,15 +67,17 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
         // the box rect like ↓
         // 0 - 1
         // 3 - 2
-        int* box = boxes + i * 8;
-        int x_collect[4] = { *(box + 0), *(box + 2), *(box + 4), *(box + 6) };
-        int y_collect[4] = { *(box + 1), *(box + 3), *(box + 5), *(box + 7) };
-        int left = int(*std::min_element(x_collect, x_collect + 4));
-        int right = int(*std::max_element(x_collect, x_collect + 4));
-        int top = int(*std::min_element(y_collect, y_collect + 4));
-        int bottom = int(*std::max_element(y_collect, y_collect + 4));
-
-        Rect rect(left, top, right - left, bottom - top);
+        Rect rect;
+        if (!without_det) {
+            int* box = boxes + i * 8;
+            int x_collect[4] = { *(box + 0), *(box + 2), *(box + 4), *(box + 6) };
+            int y_collect[4] = { *(box + 1), *(box + 3), *(box + 5), *(box + 7) };
+            int left = int(*std::min_element(x_collect, x_collect + 4));
+            int right = int(*std::max_element(x_collect, x_collect + 4));
+            int top = int(*std::min_element(y_collect, y_collect + 4));
+            int bottom = int(*std::max_element(y_collect, y_collect + 4));
+            rect = Rect(left, top, right - left, bottom - top);
+        }
         std::string text(*(strs + i));
         float score = *(scores + i);
 
@@ -97,9 +100,14 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
 
 std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::Rect& roi, const asst::TextRectProc& pred, bool without_det)
 {
-    auto rect_cor = [&roi, &pred](TextRect& tr) -> bool {
-        tr.rect.x += roi.x;
-        tr.rect.y += roi.y;
+    auto rect_cor = [&roi, &pred, &without_det](TextRect& tr) -> bool {
+        if (without_det) {
+            tr.rect = roi;
+        }
+        else {
+            tr.rect.x += roi.x;
+            tr.rect.y += roi.y;
+        }
         return pred(tr);
     };
     Log.trace("OcrPack::recognize | roi : ", roi.to_string());

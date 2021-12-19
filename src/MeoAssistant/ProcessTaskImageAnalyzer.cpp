@@ -39,31 +39,31 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
     std::shared_ptr<OcrTaskInfo> ocr_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(task_ptr);
 
     // 先尝试从缓存的结果里找
-    for (const TextRect& tr : m_ocr_cache) {
-        TextRect temp = tr;
-        for (const auto& [regex, new_str] : ocr_task_ptr->replace_map) {
-            temp.text = std::regex_replace(temp.text, std::regex(regex), new_str);
-        }
-        for (const auto& text : ocr_task_ptr->text) {
-            bool flag = false;
-            if (ocr_task_ptr->need_full_match) {
-                if (temp.text == text) {
-                    flag = true;
-                }
-            }
-            else if (temp.text.find(text) != std::string::npos) {
-                flag = true;
-            }
-            // 即使找到了，也得在ROI里才行，不然过滤掉
-            if (flag && ocr_task_ptr->roi.include(tr.rect)) {
-                m_result = ocr_task_ptr;
-                m_result_rect = tr.rect;
-                ocr_task_ptr->region_of_appeared = m_result_rect;
-                Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in cache", tr.to_string());
-                return true;
-            }
-        }
-    }
+    //for (const TextRect& tr : m_ocr_cache) {
+    //    TextRect temp = tr;
+    //    for (const auto& [regex, new_str] : ocr_task_ptr->replace_map) {
+    //        temp.text = std::regex_replace(temp.text, std::regex(regex), new_str);
+    //    }
+    //    for (const auto& text : ocr_task_ptr->text) {
+    //        bool flag = false;
+    //        if (ocr_task_ptr->need_full_match) {
+    //            if (temp.text == text) {
+    //                flag = true;
+    //            }
+    //        }
+    //        else if (temp.text.find(text) != std::string::npos) {
+    //            flag = true;
+    //        }
+    //        // 即使找到了，也得在ROI里才行，不然过滤掉
+    //        if (flag && ocr_task_ptr->roi.include(tr.rect)) {
+    //            m_result = ocr_task_ptr;
+    //            m_result_rect = tr.rect;
+    //            ocr_task_ptr->region_of_appeared = m_result_rect;
+    //            Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found in cache", tr.to_string());
+    //            return true;
+    //        }
+    //    }
+    //}
     if (!m_ocr_analyzer) {
         m_ocr_analyzer = std::make_unique<OcrImageAnalyzer>(m_image);
     }
@@ -71,14 +71,13 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
 
     bool ret = m_ocr_analyzer->analyze();
 
-    const auto& ocr_result = m_ocr_analyzer->get_result();
     if (ret) {
+        const auto& ocr_result = m_ocr_analyzer->get_result();
         auto& res = ocr_result.front();
         m_result = ocr_task_ptr;
         m_result_rect = res.rect;
-        ocr_task_ptr->region_of_appeared
-            = res.rect.center_zoom(1.5, m_image.cols, m_image.rows);   // OCR库不扩大一点容易识别不到
-        m_ocr_cache.insert(m_ocr_cache.end(), ocr_result.begin(), ocr_result.end());
+        ocr_task_ptr->region_of_appeared = res.rect;
+        //m_ocr_cache.insert(m_ocr_cache.end(), ocr_result.begin(), ocr_result.end());
         Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found", res.to_string());
     }
     return ret;
@@ -86,7 +85,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
 
 void asst::ProcessTaskImageAnalyzer::reset() noexcept
 {
-    m_ocr_cache.clear();
+    //m_ocr_cache.clear();
     m_ocr_analyzer = nullptr;
     m_match_analyzer = nullptr;
 }
