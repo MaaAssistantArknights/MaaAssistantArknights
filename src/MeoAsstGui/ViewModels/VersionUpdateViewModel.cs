@@ -374,6 +374,10 @@ namespace MeoAsstGui
                 string cur_sha = ViewStatusStorage.Get(filename, string.Empty);
 
                 string response = RequestApi(req_base_url + url);
+                if (response == String.Empty)
+                {
+                    continue;
+                }
                 string cloud_sha;
                 string cur_message = "";
                 try

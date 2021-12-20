@@ -242,6 +242,7 @@ namespace asst
         std::string display;
         std::string display_format;
         std::string screencap;
+        std::string release;
         //std::string pullscreen;
         int display_width = 0;
         int display_height = 0;

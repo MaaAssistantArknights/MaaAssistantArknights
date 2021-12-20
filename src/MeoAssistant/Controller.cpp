@@ -98,6 +98,7 @@ bool asst::Controller::connect_adb(const std::string& address)
     m_emulator_info.adb.click = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.click, "[Adb]", m_adb_path), "[Address]", address);
     m_emulator_info.adb.swipe = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.swipe, "[Adb]", m_adb_path), "[Address]", address);
     m_emulator_info.adb.screencap = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.screencap, "[Adb]", m_adb_path), "[Address]", address);
+    m_emulator_info.adb.release = utils::string_replace_all(m_emulator_info.adb.release, "[Adb]", m_adb_path);
 
     return true;
 }
@@ -113,6 +114,10 @@ asst::Controller::~Controller()
 
     if (m_cmd_thread.joinable()) {
         m_cmd_thread.join();
+    }
+
+    if (!m_emulator_info.adb.release.empty()) {
+        call_command(m_emulator_info.adb.release);
     }
 
     ::CloseHandle(m_pipe_read);
@@ -220,10 +225,14 @@ bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle
 {
     LogTraceScope("try_capture | " + info.name);
 
+    if (!m_emulator_info.adb.release.empty()) {
+        call_command(m_emulator_info.adb.release);
+    }
+
     const HandleInfo& handle_info = info.handle;
 
     if (!without_handle) { // 使用模拟器自带的adb
-// 转成宽字符的
+        // 转成宽字符的
         wchar_t* class_wbuff = nullptr;
         if (!handle_info.class_name.empty()) {
             size_t class_len = (handle_info.class_name.size() + 1) * 2;
