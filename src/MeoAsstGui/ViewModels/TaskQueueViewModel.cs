@@ -64,6 +64,9 @@ namespace MeoAsstGui
             StageList.Add(new CombData { Display = "上次作战", Value = "LastBattle" });
             StageList.Add(new CombData { Display = "剿灭作战", Value = "Annihilation" });
             StageList.Add(new CombData { Display = "龙门币-5", Value = "CE-5" });
+            StageList.Add(new CombData { Display = "红票-5", Value = "AP-5" });
+            StageList.Add(new CombData { Display = "狗粮-5", Value = "LS-5" });
+            //StageList.Add(new CombData { Display = "技能-5", Value = "CA-5" });
         }
 
         public void AddLog(string content, string color = "Gray", string weight = "Regular")

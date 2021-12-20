@@ -162,6 +162,7 @@ bool asst::Assistant::append_start_up(bool only_append)
     auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
     task_ptr->set_task_chain("StartUp");
     task_ptr->set_tasks({ "StartUp" });
+    task_ptr->set_times_limit("ReturnToTerminal", 0);
     task_ptr->set_times_limit("Terminal", 0);
 
     m_tasks_queue.emplace(task_ptr);
