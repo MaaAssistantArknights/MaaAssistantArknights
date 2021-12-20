@@ -63,18 +63,20 @@ class Asst:
             ctypes.c_void_p, ctypes.c_char_p,)
         return self.__dll.AsstCatchCustom(self.__ptr, address.encode('utf-8'))
 
-    def append_fight(self, max_medicine: int, max_stone: int, max_times: int) -> bool:
+    def append_fight(self, stage: str, max_medicine: int, max_stone: int, max_times: int) -> bool:
         """
         添加刷理智任务
 
         :params:
+            ``stage``:              关卡名，为空则不进行选关（需要当前在蓝色开始按钮界面），否则跳转到对应关卡
+                                        支持：''、'LastBattle'、'Annihilation'、'CE-5'、'AP-5'、'LS-5'、'CA-5'
             ``max_medicine``:       最多吃多少理智药
             ``max_stone``:          最多吃多少源石
             ``max_times``:          最多刷多少
         """
         self.__dll.AsstAppendFight.argtypes = (
-            ctypes.c_void_p, ctypes.c_int, ctypes.c_int, ctypes.c_int,)
-        return self.__dll.AsstAppendFight(self.__ptr, max_medicine, max_stone, max_times)
+            ctypes.c_void_p, ctypes.c_char_p, ctypes.c_int, ctypes.c_int, ctypes.c_int,)
+        return self.__dll.AsstAppendFight(self.__ptr, stage.encode('utf-8'), max_medicine, max_stone, max_times)
 
     def append_award(self) -> bool:
         """
@@ -222,8 +224,8 @@ if __name__ == "__main__":
         print('连接失败')
         os.system.exit()
 
-    # asst.append_fight(0, 0, 1)
-    asst.append_infrast(1, [ "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm"], "Money", 0.3)
+    asst.append_fight("CE-5", 0, 0, 1)
+    # asst.append_infrast(1, [ "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm"], "Money", 0.3)
     # asst.append_award()
     asst.start()
 
