@@ -110,16 +110,21 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _catched = false;
+
         public async void StartCalc()
         {
-            RecruitInfo = "正在捕获模拟器窗口……";
             var asstProxy = _container.Get<AsstProxy>();
-            var task = Task.Run(() =>
+            if (!_catched)
             {
-                return asstProxy.AsstCatch();
-            });
-            bool catchd = await task;
-            if (!catchd)
+                RecruitInfo = "正在捕获模拟器窗口……";
+                var task = Task.Run(() =>
+                {
+                    return asstProxy.AsstCatch();
+                });
+                _catched = await task;
+            }
+            if (!_catched)
             {
                 RecruitInfo = "捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限";
                 return;

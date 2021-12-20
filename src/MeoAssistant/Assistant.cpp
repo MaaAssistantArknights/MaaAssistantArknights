@@ -524,7 +524,7 @@ void Assistant::working_proc()
                 task_callback(AsstMsg::TaskChainCompleted, task_json, this);
             }
             if (m_tasks_queue.empty()) {
-                task_callback(AsstMsg::AllTasksCompleted, json::value(), this);
+                task_callback(AsstMsg::AllTasksCompleted, task_json, this);
             }
 
             //clear_cache();
