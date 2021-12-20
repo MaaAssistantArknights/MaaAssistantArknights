@@ -144,8 +144,9 @@ namespace MeoAsstGui
 
                 case AsstMsg.AllTasksCompleted:
                     {
-                        tvm.AddLog("任务已全部完成");
                         tvm.Idle = true;
+                        tvm.AddLog("任务已全部完成");
+                        new ToastContentBuilder().AddText("任务已全部完成！").Show();
                         tvm.CheckAndShutdown();
                     }
                     break;
@@ -290,7 +291,7 @@ namespace MeoAsstGui
                     rvm.RecruitResult = resultContent;
                     if (combs_level >= 5)
                     {
-                        new ToastContentBuilder().AddText("公招出 " + combs_level + " 星了哦！").Show(); ;
+                        new ToastContentBuilder().AddText("公招出 " + combs_level + " 星了哦！").Show();
                         tvm.AddLog(combs_level + " 星Tags", "darkorange", "Bold");
                     }
                     else
