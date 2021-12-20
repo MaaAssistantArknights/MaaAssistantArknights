@@ -37,7 +37,7 @@ class Message(Enum):
 
     OcrResultError = auto()
     """
-    Ocr识别结果错误。公招如果识别的Tags数量不足5个，会报这个错
+    Ocr识别结果错误
     """
 
     TaskStart = 1000
@@ -220,6 +220,11 @@ class Message(Enum):
 
     :Json格式:
         {"tags":["术师干员","减速"]}
+    """
+
+    RecruitError = auto()
+    """
+    公招识别错误。
     """
 
     InfrastSkillsDetected = 4000
