@@ -536,6 +536,7 @@ void Assistant::working_proc()
         else {
             pre_taskchain.clear();
             m_thread_idle = true;
+            Log.flush();
             //controller.set_idle(true);
             m_condvar.wait(lock);
         }
