@@ -19,6 +19,7 @@
             <TextBlock Style="{StaticResource TextBlockDefault}" Margin="10" VerticalAlignment="Center"
                    Text="关卡选择" />
             <ComboBox Width="100" Margin="10"
+                      IsHitTestVisible ="{Binding Path=Idle}"
                       ItemsSource="{Binding StageList}"
                       DisplayMemberPath="Display"
                       SelectedValuePath="Value"
