@@ -5,11 +5,99 @@
         "next": [
             "GameStart",
             "StartToWakeUp",
-            "ReturnToTerminal",
             "Terminal",
             "CloseAnno",
             "TodaysSupplies",
+            "ReturnToTerminal",
             "OfflineConfirm"
+        ]
+    },
+    "LS-5": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "StageResourceToLS5",
+            "StageLS",
+            "StageLS5"
+        ]
+    },
+    "StageResourceToLS5": {
+        "template": "StageResource.png",
+        "roi": [
+            790,
+            640,
+            60,
+            60
+        ],
+        "action": "clickSelf",
+        "next": [
+            "SwipeToStageLS"
+        ]
+    },
+    "SwipeToStageLS": {
+        "algorithm": "justReturn",
+        "action": "swipeToTheLeft",
+        "next": [
+            "StageLS"
+        ]
+    },
+    "StageLS": {
+        "action": "clickSelf",
+        "next": [
+            "StageLS5"
+        ]
+    },
+    "StageLS5": {
+        "action": "clickSelf",
+        "roi": [
+            850,
+            140,
+            250,
+            80
+        ]
+    },
+    "AP-5": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "StageResourceToAP5",
+            "StageAP",
+            "StageAP5"
+        ]
+    },
+    "StageResourceToAP5": {
+        "template": "StageResource.png",
+        "roi": [
+            790,
+            640,
+            60,
+            60
+        ],
+        "action": "clickSelf",
+        "next": [
+            "SwipeToStageAP"
+        ]
+    },
+    "SwipeToStageAP": {
+        "algorithm": "justReturn",
+        "action": "swipeToTheLeft",
+        "next": [
+            "StageAP"
+        ]
+    },
+    "StageAP": {
+        "action": "clickSelf",
+        "next": [
+            "StageAP5"
+        ]
+    },
+    "StageAP5": {
+        "action": "clickSelf",
+        "roi": [
+            850,
+            140,
+            250,
+            80
         ]
     },
     "CE-5": {
