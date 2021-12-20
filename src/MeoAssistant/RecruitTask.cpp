@@ -50,6 +50,7 @@ bool RecruitTask::_run()
     }
     json::value all_tags_json;
     all_tags_json["tags"] = json::array(all_tags_json_vector);
+    all_tags_json["task_chain"] = m_task_chain;
 
     /* 过滤tags数量不足的情况（可能是识别漏了） */
     if (all_tags.size() != RecruitConfiger::CorrectNumberOfTags) {
@@ -174,6 +175,7 @@ bool RecruitTask::_run()
     json::value results_json;
     results_json["result"] = json::array();
     results_json["maybe_level"] = m_maybe_level;
+    results_json["task_chain"] = m_task_chain;
 
     std::vector<json::value> result_json_vector;
     for (const auto& comb : result_vec) {
