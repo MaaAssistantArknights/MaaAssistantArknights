@@ -56,6 +56,128 @@
             80
         ]
     },
+    "BI-8": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "StageBreakIceToBI8",
+            "StageBIToBI8",
+            "StageBI8"
+        ]
+    },
+    "StageBreakIceToBI8": {
+        "template": "StageBreakIce.png",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "action": "clickSelf",
+        "next": [
+            "StageBIToBI8"
+        ]
+    },
+    "StageBIToBI8": {
+        "template": "StageBI.png",
+        "action": "clickSelf",
+        "roi": [
+            1000,
+            250,
+            280,
+            150
+        ],
+        "cache": false,
+        "next": [
+            "SwipeToStageBI8"
+        ]
+    },
+    "SwipeToStageBI8": {
+        "algorithm": "justReturn",
+        "action": "swipeToTheRight",
+        "maxTimes": 3,
+        "exceededNext": [
+            "StageBI8"
+        ],
+        "next": [
+            "StageBI8",
+            "SwipeToStageBI8"
+        ]
+    },
+    "StageBI8": {
+        "action": "clickSelf",
+        "roi": [
+            200,
+            350,
+            200,
+            80
+        ]
+    },
+    "BI-7": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "StageBreakIceToBI7",
+            "StageBIToBI7",
+            "StageBI7"
+        ]
+    },
+    "StageBreakIceToBI7": {
+        "template": "StageBreakIce.png",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "action": "clickSelf",
+        "next": [
+            "StageBIToBI7"
+        ]
+    },
+    "StageBIToBI7": {
+        "template": "StageBI.png",
+        "action": "clickSelf",
+        "roi": [
+            1000,
+            250,
+            280,
+            150
+        ],
+        "cache": false,
+        "next": [
+            "SwipeToStageBI7"
+        ]
+    },
+    "SwipeToStageBI7": {
+        "algorithm": "justReturn",
+        "action": "swipeToTheRight",
+        "maxTimes": 3,
+        "exceededNext": [
+            "StageBI7"
+        ],
+        "next": [
+            "StageBI7",
+            "SwipeToStageBI7"
+        ]
+    },
+    "StageBI7": {
+        "action": "clickSelf",
+        "roi": [
+            50,
+            250,
+            200,
+            80
+        ]
+    },
     "CA-5": {
         "algorithm": "justreturn",
         "action": "doNothing",
