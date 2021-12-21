@@ -56,6 +56,50 @@
             80
         ]
     },
+    "CA-5": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "StageResourceToCA5",
+            "StageCA",
+            "StageCA5"
+        ]
+    },
+    "StageResourceToCA5": {
+        "template": "StageResource.png",
+        "roi": [
+            790,
+            640,
+            60,
+            60
+        ],
+        "action": "clickSelf",
+        "next": [
+            "SwipeToStageCA"
+        ]
+    },
+    "SwipeToStageCA": {
+        "algorithm": "justReturn",
+        "action": "swipeToTheLeft",
+        "next": [
+            "StageCA"
+        ]
+    },
+    "StageCA": {
+        "action": "clickSelf",
+        "next": [
+            "StageCA5"
+        ]
+    },
+    "StageCA5": {
+        "action": "clickSelf",
+        "roi": [
+            850,
+            140,
+            250,
+            80
+        ]
+    },
     "AP-5": {
         "algorithm": "justreturn",
         "action": "doNothing",
