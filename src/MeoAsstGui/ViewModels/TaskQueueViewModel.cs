@@ -65,7 +65,7 @@ namespace MeoAsstGui
             StageList.Add(new CombData { Display = "剿灭作战", Value = "Annihilation" });
             StageList.Add(new CombData { Display = "龙门币-5", Value = "CE-5" });
             StageList.Add(new CombData { Display = "红票-5", Value = "AP-5" });
-            StageList.Add(new CombData { Display = "狗粮-5", Value = "LS-5" });
+            StageList.Add(new CombData { Display = "经验-5", Value = "LS-5" });
             StageList.Add(new CombData { Display = "技能-5", Value = "CA-5" });
         }
 
@@ -317,7 +317,7 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _useMedicine = System.Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.TrueString));
+        private bool _useMedicine = System.Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));
 
         public bool UseMedicine
         {

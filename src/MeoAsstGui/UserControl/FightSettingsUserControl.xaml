@@ -15,7 +15,29 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0"  Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding UseMedicine}" IsHitTestVisible="{Binding Idle}" Content="吃理智药" Margin="10" />
+            <TextBox Text="{Binding MedicineNumber}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="个" />
+            <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding MedicineInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding UseStone}" IsHitTestVisible="{Binding Idle}" Content="吃石头   " Margin="10" />
+            <TextBox Text="{Binding StoneNumber}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="颗" />
+            <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding StoneInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding HasTimesLimited}" IsHitTestVisible="{Binding Idle}" Content="指定次数" Margin="10" />
+            <TextBox Text="{Binding MaxTimes}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="次" />
+        </StackPanel>
+        <StackPanel Grid.Row="4"  Orientation="Horizontal">
             <TextBlock Style="{StaticResource TextBlockDefault}" Margin="10" VerticalAlignment="Center"
                    Text="关卡选择" />
             <ComboBox Width="100" Margin="10"
@@ -24,28 +46,6 @@
                       DisplayMemberPath="Display"
                       SelectedValuePath="Value"
                       SelectedValue="{Binding Stage}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding UseMedicine}" IsHitTestVisible="{Binding Idle}" Content="吃理智药" Margin="10" />
-            <TextBox Text="{Binding MedicineNumber}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
-                     Width="50" InputMethod.IsInputMethodEnabled="False" />
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="个" />
-            <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding MedicineInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding UseStone}" IsHitTestVisible="{Binding Idle}" Content="吃石头   " Margin="10" />
-            <TextBox Text="{Binding StoneNumber}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
-                     Width="50" InputMethod.IsInputMethodEnabled="False" />
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="颗" />
-            <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding StoneInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding HasTimesLimited}" IsHitTestVisible="{Binding Idle}" Content="指定次数" Margin="10" />
-            <TextBox Text="{Binding MaxTimes}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
-                     Width="50" InputMethod.IsInputMethodEnabled="False" />
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="次" />
         </StackPanel>
     </Grid>
 </UserControl>
