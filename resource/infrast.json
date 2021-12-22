@@ -1736,13 +1736,24 @@
             },
             {
                 "name": [
-                    "讯使"
+                    "讯使",
+                    "雪境守望"
                 ],
                 "desc": "进驻会客室时，线索搜集速度提升10%，且更容易获得喀兰贸易线索（工作时长影响概率）",
                 "template": "Bskill_meet_kjerag2.png",
                 "efficient": {
                     "General": 10,
                     "No6": 30
+                }
+            },
+            {
+                "name": [
+                    "耶拉冈德"
+                ],
+                "desc": "进驻会客室后，每当新搜集到的线索不是喀兰贸易时，则额外增加喀兰贸易线索的出现概率（工作时长影响概率）",
+                "template": "Bskill_meet_flag_kjerag.png",
+                "efficient": {
+                    "No6": 15
                 }
             },
             {
@@ -2108,6 +2119,23 @@
                 "efficient": {
                     "all": 0.05
                 }
+            },
+            {
+                "name": [
+                    "幕后指挥"
+                ],
+                "desc": "进驻控制中枢时，控制中枢内每个喀兰贸易干员可使控制中枢内所有干员的心情每小时恢复+0.05",
+                "template": "Bskill_ctrl_karlan.png",
+                "efficient": {
+                    "all": 0.05
+                }
+            },
+            {
+                "name": [
+                    "精密计算"
+                ],
+                "desc": "进驻控制中枢时，每个进驻在贸易站的喀兰贸易干员，订单获取效率-15%，订单上限+6",
+                "template": "Bskill_ctrl_t_limit&spd.png"
             }
         ],
         "skillsGroup": []
