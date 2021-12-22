@@ -281,7 +281,7 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _idle = true;
+        private bool _idle = false;
 
         public bool Idle
         {

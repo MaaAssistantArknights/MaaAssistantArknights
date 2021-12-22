@@ -76,6 +76,8 @@ namespace MeoAsstGui
                 _windowManager.ShowMessageBox("程序初始化错误！请检查是否是因为使用了中文路径", "错误");
                 Environment.Exit(0);
             }
+            var tvm = _container.Get<TaskQueueViewModel>();
+            tvm.Idle = true;
         }
 
         private void CallbackFunction(int msg, IntPtr json_buffer, IntPtr custom_arg)
