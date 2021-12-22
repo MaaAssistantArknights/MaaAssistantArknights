@@ -34,10 +34,15 @@ namespace MeoAsstGui
             ShowUpdateOrDownload();
         }
 
-        private void InitProxy()
+        private async void InitProxy()
         {
-            var p = _container.Get<AsstProxy>();
-            p.Init();
+            var task = Task.Run(() =>
+            {
+                var p = _container.Get<AsstProxy>();
+                p.Init();
+            });
+
+            await task;
         }
 
         private void InitViewModels()
