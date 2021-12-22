@@ -484,7 +484,7 @@ bool Assistant::stop(bool block)
     decltype(m_tasks_queue) empty;
     m_tasks_queue.swap(empty);
 
-    //clear_cache();
+    clear_cache();
 
     return true;
 }
@@ -601,7 +601,7 @@ void asst::Assistant::append_callback(AsstMsg msg, json::value detail)
 void Assistant::clear_cache()
 {
     Resrc.item().clear_drop_count();
-    task.clear_cache();
+    //task.clear_cache();
 }
 
 json::value asst::Assistant::organize_stage_drop(const json::value& rec)
@@ -624,11 +624,11 @@ json::value asst::Assistant::organize_stage_drop(const json::value& rec)
         info["count"] = count;
         statistics_vec.emplace_back(std::move(info));
     }
-    // 排个序，数量多的放前面
-    std::sort(statistics_vec.begin(), statistics_vec.end(),
-        [](const json::value& lhs, const json::value& rhs) -> bool {
-            return lhs.at("count").as_integer() > rhs.at("count").as_integer();
-        });
+    //// 排个序，数量多的放前面
+    //std::sort(statistics_vec.begin(), statistics_vec.end(),
+    //    [](const json::value& lhs, const json::value& rhs) -> bool {
+    //        return lhs.at("count").as_integer() > rhs.at("count").as_integer();
+    //    });
 
     dst["statistics"] = json::array(std::move(statistics_vec));
 
