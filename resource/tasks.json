@@ -346,7 +346,9 @@
         "next": [
             "UsePrts",
             "StartButton1",
-            "LastBattle"
+            "StartButton2",
+            "PRTS",
+            "EndOfAction"
         ]
     },
     "GameStart": {
