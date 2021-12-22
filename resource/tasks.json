@@ -784,7 +784,8 @@
         "next": [
             "Recruit",
             "ReturnToRecruit",
-            "ReturnToRecruitConfirm"
+            "ReturnToRecruitConfirm",
+            "ReturnToRecruitCloseAnno"
         ]
     },
     "ReturnToRecruitConfirm": {
@@ -799,6 +800,23 @@
         ],
         "next": [
             "Recruit",
+            "ReturnToRecruit",
+            "ReturnToRecruitCloseAnno"
+        ]
+    },
+    "ReturnToRecruitCloseAnno": {
+        "template": "CloseAnno.png",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            1100,
+            0,
+            180,
+            120
+        ],
+        "next": [
+            "Recruit",
+            "ReturnToRecruitCloseAnno",
             "ReturnToRecruit"
         ]
     },
@@ -998,7 +1016,8 @@
         "next": [
             "Award",
             "ReturnToAward",
-            "ReturnToAwardConfirm"
+            "ReturnToAwardConfirm",
+            "ReturnToRecruitCloseAnno"
         ]
     },
     "ReturnToAwardConfirm": {
@@ -1013,6 +1032,23 @@
         ],
         "next": [
             "Award",
+            "ReturnToAward",
+            "ReturnToRecruitCloseAnno"
+        ]
+    },
+    "ReturnToAwardCloseAnno": {
+        "template": "CloseAnno.png",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            1100,
+            0,
+            180,
+            120
+        ],
+        "next": [
+            "Award",
+            "ReturnToRecruitCloseAnno",
             "ReturnToAward"
         ]
     },
@@ -1041,7 +1077,8 @@
         "next": [
             "Friends",
             "ReturnToFriends",
-            "ReturnToFriendsConfirm"
+            "ReturnToFriendsConfirm",
+            "ReturnToFriendsCloseAnno"
         ]
     },
     "ReturnToFriendsConfirm": {
@@ -1056,7 +1093,24 @@
         ],
         "next": [
             "Friends",
-            "ReturnToFriends"
+            "ReturnToFriends",
+            "ReturnToFriendsCloseAnno"
+        ]
+    },
+    "ReturnToFriendsCloseAnno": {
+        "template": "CloseAnno.png",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            1100,
+            0,
+            180,
+            120
+        ],
+        "next": [
+            "Friends",
+            "ReturnToFriends",
+            "ReturnToFriendsCloseAnno"
         ]
     },
     "Friends": {
@@ -1175,7 +1229,8 @@
         "next": [
             "Mall",
             "ReturnToMallConfirm",
-            "ReturnToMall"
+            "ReturnToMall",
+            "ReturnToMallCloseAnno"
         ]
     },
     "ReturnToMallConfirm": {
@@ -1190,7 +1245,24 @@
         ],
         "next": [
             "ReturnToMall",
-            "Mall"
+            "Mall",
+            "ReturnToMallCloseAnno"
+        ]
+    },
+    "ReturnToMallCloseAnno": {
+        "template": "CloseAnno.png",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            1100,
+            0,
+            180,
+            120
+        ],
+        "next": [
+            "Mall",
+            "ReturnToMallCloseAnno",
+            "ReturnToMall"
         ]
     },
     "Mall": {
@@ -1315,7 +1387,8 @@
         "next": [
             "HomeFlag",
             "ReturnToHome",
-            "ReturnToHomeConfirm"
+            "ReturnToHomeConfirm",
+            "ReturnToHomeCloseAnno"
         ]
     },
     "ReturnToHomeConfirm": {
@@ -1330,7 +1403,24 @@
         ],
         "next": [
             "HomeFlag",
-            "ReturnToHome"
+            "ReturnToHome",
+            "ReturnToHomeCloseAnno"
+        ]
+    },
+    "ReturnToHomeCloseAnno": {
+        "template": "CloseAnno.png",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            1100,
+            0,
+            180,
+            120
+        ],
+        "next": [
+            "HomeFlag",
+            "ReturnToHome",
+            "ReturnToHomeCloseAnno"
         ]
     },
     "HomeFlag": {
@@ -1525,7 +1615,8 @@
             "InfrastNotification",
             "InfrastEnteredFlag",
             "ReturnToInfrast",
-            "ReturnToInfrastConfirm"
+            "ReturnToInfrastConfirm",
+            "ReturnToInfrastCloseAnno"
         ]
     },
     "ReturnToInfrastConfirm": {
@@ -1543,7 +1634,25 @@
             "InfrastNotification",
             "InfrastEnteredFlag",
             "ReturnToInfrast",
-            "ReturnToInfrastConfirm"
+            "ReturnToInfrastCloseAnno"
+        ]
+    },
+    "ReturnToInfrastCloseAnno": {
+        "template": "CloseAnno.png",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            1100,
+            0,
+            180,
+            120
+        ],
+        "next": [
+            "EnterInfrast",
+            "InfrastNotification",
+            "InfrastEnteredFlag",
+            "ReturnToInfrast",
+            "ReturnToInfrastCloseAnno"
         ]
     },
     "Return": {
