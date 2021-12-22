@@ -22,7 +22,7 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg)
 
 bool asst::AbstractTask::run()
 {
-    for (int i = 0; i != m_retry_times; ++i) {
+    for (m_cur_retry = 0; m_cur_retry < m_retry_times; ++m_cur_retry) {
         if (_run()) {
             return true;
         }

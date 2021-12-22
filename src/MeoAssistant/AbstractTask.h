@@ -41,6 +41,7 @@ namespace asst
         void* m_callback_arg = NULL;
         bool* m_exit_flag = NULL;
         std::string m_task_chain;
+        int m_cur_retry = 0;
         int m_retry_times = RetryTimesDefault;
     };
 }

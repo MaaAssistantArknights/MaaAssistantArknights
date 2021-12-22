@@ -144,7 +144,7 @@ bool ProcessTask::_run()
         default:
             break;
         }
-        m_retry_times = 0;
+        m_cur_retry = 0;
 
         ++exec_times;
 
