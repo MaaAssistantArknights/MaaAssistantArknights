@@ -7,14 +7,14 @@
              xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              mc:Ignorable="d"
              xmlns:local="clr-namespace:MeoAsstGui"
-             d:DesignHeight="150" d:DesignWidth="300">
+             d:DesignHeight="200" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-
         <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center">
             <CheckBox IsChecked="{Binding UseMedicine}" IsHitTestVisible="{Binding Idle}" Content="吃理智药" Margin="10" />
             <TextBox Text="{Binding MedicineNumber}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
@@ -36,6 +36,16 @@
             <TextBox Text="{Binding MaxTimes}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
                      Width="50" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="次" />
+        </StackPanel>
+        <StackPanel Grid.Row="4"  Orientation="Horizontal">
+            <TextBlock Style="{StaticResource TextBlockDefault}" Margin="10" VerticalAlignment="Center"
+                   Text="关卡选择" />
+            <ComboBox Width="100" Margin="10"
+                      IsHitTestVisible ="{Binding Path=Idle}"
+                      ItemsSource="{Binding StageList}"
+                      DisplayMemberPath="Display"
+                      SelectedValuePath="Value"
+                      SelectedValue="{Binding Stage}" />
         </StackPanel>
     </Grid>
 </UserControl>

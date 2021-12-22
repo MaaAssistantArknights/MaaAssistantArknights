@@ -35,7 +35,9 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstCatchCustom(IntPtr ptr, string address);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendFight(IntPtr ptr, int max_medicine, int max_stone, int max_times);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendStartUp(IntPtr ptr);
+
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendFight(IntPtr ptr, string stage, int max_medicine, int max_stone, int max_times);
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendAward(IntPtr ptr);
 
@@ -103,6 +105,10 @@ namespace MeoAsstGui
                 case AsstMsg.TaskChainStart:
                     {
                         string taskChain = detail["task_chain"].ToString();
+                        if (taskChain == "RecruitCalc")
+                        {
+                            break;
+                        }
                         tvm.AddLog("开始任务：" + taskChain);
                     }
                     break;
@@ -136,14 +142,24 @@ namespace MeoAsstGui
                 case AsstMsg.TaskChainCompleted:
                     {
                         string taskChain = detail["task_chain"].ToString();
+                        if (taskChain == "RecruitCalc")
+                        {
+                            break;
+                        }
                         tvm.AddLog("完成任务：" + taskChain);
                     }
                     break;
 
                 case AsstMsg.AllTasksCompleted:
                     {
-                        tvm.AddLog("任务已全部完成");
+                        string taskChain = detail["task_chain"].ToString();
+                        if (taskChain == "RecruitCalc")
+                        {
+                            break;
+                        }
                         tvm.Idle = true;
+                        tvm.AddLog("任务已全部完成");
+                        new ToastContentBuilder().AddText("任务已全部完成！").Show();
                         tvm.CheckAndShutdown();
                     }
                     break;
@@ -195,7 +211,18 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.TaskError:
-                    tvm.AddLog("任务出错：" + detail["task_chain"].ToString(), "darkred");
+                    {
+                        string taskChain = detail["task_chain"].ToString();
+                        if (taskChain == "RecruitCalc")
+                        {
+                            var rvm = _container.Get<RecruitViewModel>();
+                            rvm.RecruitInfo = "识别错误！";
+                        }
+                        else
+                        {
+                            tvm.AddLog("任务出错：" + detail["task_chain"].ToString(), "darkred");
+                        }
+                    }
                     break;
 
                 case AsstMsg.InitFaild:
@@ -241,20 +268,27 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.RecruitTagsDetected:
-                    JArray tags = (JArray)detail["tags"];
-                    string log_content = "";
-                    string info_content = "识别结果:    ";
-                    foreach (var tag_name in tags)
                     {
-                        string tag_str = tag_name.ToString();
-                        info_content += tag_str + "    ";
-                        log_content += tag_str + "\n";
+                        JArray tags = (JArray)detail["tags"];
+                        string log_content = "";
+                        string info_content = "识别结果:    ";
+                        foreach (var tag_name in tags)
+                        {
+                            string tag_str = tag_name.ToString();
+                            info_content += tag_str + "    ";
+                            log_content += tag_str + "\n";
+                        }
+                        string taskChain = detail["task_chain"].ToString();
+                        if (taskChain == "RecruitCalc")
+                        {
+                            rvm.RecruitInfo = info_content;
+                        }
+                        else
+                        {
+                            log_content = log_content.EndsWith("\n") ? log_content.TrimEnd('\n') : "错误";
+                            tvm.AddLog("公招识别结果：\n" + log_content);
+                        }
                     }
-                    rvm.RecruitInfo = info_content;
-
-                    log_content = log_content.EndsWith("\n") ? log_content.TrimEnd('\n') : "错误";
-                    tvm.AddLog("公招识别结果：\n" + log_content);
-
                     break;
 
                 case AsstMsg.OcrResultError:
@@ -267,33 +301,45 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.RecruitResult:
-                    string resultContent = "";
-                    JArray result_array = (JArray)detail["result"];
-                    int combs_level = (int)detail["maybe_level"];
-                    foreach (var combs in result_array)
                     {
-                        int tag_level = (int)combs["tag_level"];
-                        resultContent += tag_level + "星Tags:  ";
-                        foreach (var tag in (JArray)combs["tags"])
+                        string resultContent = "";
+                        JArray result_array = (JArray)detail["result"];
+                        int combs_level = (int)detail["maybe_level"];
+                        foreach (var combs in result_array)
                         {
-                            resultContent += tag.ToString() + "    ";
+                            int tag_level = (int)combs["tag_level"];
+                            resultContent += tag_level + "星Tags:  ";
+                            foreach (var tag in (JArray)combs["tags"])
+                            {
+                                resultContent += tag.ToString() + "    ";
+                            }
+                            resultContent += "\n\t";
+                            foreach (var oper in (JArray)combs["opers"])
+                            {
+                                resultContent += oper["level"].ToString() + " - " + oper["name"].ToString() + "    ";
+                            }
+                            resultContent += "\n\n";
                         }
-                        resultContent += "\n\t";
-                        foreach (var oper in (JArray)combs["opers"])
+                        string taskChain = detail["task_chain"].ToString();
+                        if (taskChain == "RecruitCalc")
                         {
-                            resultContent += oper["level"].ToString() + " - " + oper["name"].ToString() + "    ";
+                            rvm.RecruitResult = resultContent;
                         }
-                        resultContent += "\n\n";
-                    }
-                    rvm.RecruitResult = resultContent;
-                    if (combs_level >= 5)
-                    {
-                        new ToastContentBuilder().AddText("公招出 " + combs_level + " 星了哦！").Show(); ;
-                        tvm.AddLog(combs_level + " 星Tags", "darkorange", "Bold");
-                    }
-                    else
-                    {
-                        tvm.AddLog(combs_level + " 星Tags", "darkcyan");
+                        if (combs_level >= 5)
+                        {
+                            new ToastContentBuilder().AddText("公招出 " + combs_level + " 星了哦！").Show();
+                            if (taskChain != "RecruitCalc")
+                            {
+                                tvm.AddLog(combs_level + " 星Tags", "darkorange", "Bold");
+                            }
+                        }
+                        else
+                        {
+                            if (taskChain != "RecruitCalc")
+                            {
+                                tvm.AddLog(combs_level + " 星Tags", "darkcyan");
+                            }
+                        }
                     }
 
                     break;
@@ -330,14 +376,19 @@ namespace MeoAsstGui
             }
         }
 
-        public bool AsstAppendFight(int max_medicine, int max_stone, int max_times)
+        public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times)
         {
-            return AsstAppendFight(_ptr, max_medicine, max_stone, max_times);
+            return AsstAppendFight(_ptr, stage, max_medicine, max_stone, max_times);
         }
 
         public bool AsstAppendAward()
         {
             return AsstAppendAward(_ptr);
+        }
+
+        public bool AsstAppendStartUp()
+        {
+            return AsstAppendStartUp(_ptr);
         }
 
         public bool AsstAppendVisit()

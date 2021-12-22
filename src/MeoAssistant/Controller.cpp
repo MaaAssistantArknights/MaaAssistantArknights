@@ -52,7 +52,7 @@ bool asst::Controller::connect_adb(const std::string& address)
     LogTraceScope("connect_adb " + address);
 
     std::string connect_cmd = utils::string_replace_all(
-        utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", m_adb_path),
+        utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", m_emulator_info.adb.path),
         "[Address]", address);
     auto&& [connect_ret, connect_result] = call_command(connect_cmd);
     // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
@@ -61,7 +61,7 @@ bool asst::Controller::connect_adb(const std::string& address)
     }
 
     std::string display_cmd = utils::string_replace_all(
-        utils::string_replace_all(m_emulator_info.adb.display, "[Adb]", m_adb_path),
+        utils::string_replace_all(m_emulator_info.adb.display, "[Adb]", m_emulator_info.adb.path),
         "[Address]", address);
     auto&& [display_ret, display_result] = call_command(display_cmd);
     if (!display_ret) {
@@ -95,9 +95,10 @@ bool asst::Controller::connect_adb(const std::string& address)
         m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(WindowWidthDefault);
     }
 
-    m_emulator_info.adb.click = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.click, "[Adb]", m_adb_path), "[Address]", address);
-    m_emulator_info.adb.swipe = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.swipe, "[Adb]", m_adb_path), "[Address]", address);
-    m_emulator_info.adb.screencap = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.screencap, "[Adb]", m_adb_path), "[Address]", address);
+    m_emulator_info.adb.click = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.click, "[Adb]", m_emulator_info.adb.path), "[Address]", address);
+    m_emulator_info.adb.swipe = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.swipe, "[Adb]", m_emulator_info.adb.path), "[Address]", address);
+    m_emulator_info.adb.screencap = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.screencap, "[Adb]", m_emulator_info.adb.path), "[Address]", address);
+    m_emulator_info.adb.release = utils::string_replace_all(m_emulator_info.adb.release, "[Adb]", m_emulator_info.adb.path);
 
     return true;
 }
@@ -113,6 +114,10 @@ asst::Controller::~Controller()
 
     if (m_cmd_thread.joinable()) {
         m_cmd_thread.join();
+    }
+
+    if (!m_emulator_info.adb.release.empty()) {
+        call_command(m_emulator_info.adb.release);
     }
 
     ::CloseHandle(m_pipe_read);
@@ -222,8 +227,9 @@ bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle
 
     const HandleInfo& handle_info = info.handle;
 
+    std::string adb_path;
     if (!without_handle) { // 使用模拟器自带的adb
-// 转成宽字符的
+        // 转成宽字符的
         wchar_t* class_wbuff = nullptr;
         if (!handle_info.class_name.empty()) {
             size_t class_len = (handle_info.class_name.size() + 1) * 2;
@@ -282,18 +288,18 @@ bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle
 
         // 到这一步说明句柄和权限没问题了，接下来就是adb的事情了
         m_emulator_info = info;
-        m_handle = window_handle;
-        Log.trace("Handle:", m_handle, "Name:", m_emulator_info.name);
+        Log.trace("Handle:", window_handle, "Name:", m_emulator_info.name);
 
-        std::string adb_path = emulator_path.substr(0, emulator_path.find_last_of('\\') + 1);
+        adb_path = emulator_path.substr(0, emulator_path.find_last_of('\\') + 1);
         adb_path = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[EmulatorPath]", adb_path) + '"';
         adb_path = utils::string_replace_all(adb_path, "[ExecDir]", m_dirname);
-        m_adb_path = std::move(adb_path);
     }
     else { // 使用辅助自带的标准adb
         m_emulator_info = info;
-        m_adb_path = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", m_dirname) + '"';
+        adb_path = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", m_dirname) + '"';
     }
+
+    m_emulator_info.adb.path = std::move(adb_path);
 
     // 优先使用addresses里指定的地址
     for (const std::string& address : info.adb.addresses) {
@@ -303,7 +309,7 @@ bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle
     }
 
     // 若指定地址都没连上，再尝试用devices查找地址
-    std::string devices_cmd = utils::string_replace_all(m_emulator_info.adb.devices, "[Adb]", m_adb_path);
+    std::string devices_cmd = utils::string_replace_all(m_emulator_info.adb.devices, "[Adb]", m_emulator_info.adb.path);
     auto&& [devices_ret, devices_result] = call_command(devices_cmd);
     if (!devices_ret) {
         return false;

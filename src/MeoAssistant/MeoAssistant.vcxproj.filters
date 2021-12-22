@@ -40,9 +40,6 @@
     <Filter Include="头文件\Utils">
       <UniqueIdentifier>{87c9dee5-847b-41e6-818e-387a6385ea8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\Utils">
-      <UniqueIdentifier>{a5c43813-70af-4b0e-94ac-9ddecc2e4a3c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\ImageAnalyzer\Infrast">
       <UniqueIdentifier>{a37e0b23-e8f8-499c-adf5-9990277e9ffe}</UniqueIdentifier>
     </Filter>
@@ -60,6 +57,12 @@
     </Filter>
     <Filter Include="源文件\Task\Infrast">
       <UniqueIdentifier>{9a6160e3-cd35-4dda-ba04-23ede1878740}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Requester">
+      <UniqueIdentifier>{a5c43813-70af-4b0e-94ac-9ddecc2e4a3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Requester">
+      <UniqueIdentifier>{6cd85910-b561-4cf3-85a2-20be3cd1dd76}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +116,6 @@
     </ClInclude>
     <ClInclude Include="CreditShoppingTask.h">
       <Filter>头文件\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="PenguinUploader.h">
-      <Filter>头文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="ItemConfiger.h">
       <Filter>头文件\Resource</Filter>
@@ -216,6 +216,12 @@
     <ClInclude Include="InfrastControlTask.h">
       <Filter>头文件\Task\Infrast</Filter>
     </ClInclude>
+    <ClInclude Include="PenguinUploader.h">
+      <Filter>头文件\Requester</Filter>
+    </ClInclude>
+    <ClInclude Include="AipOcr.h">
+      <Filter>头文件\Requester</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -252,7 +258,7 @@
       <Filter>源文件\Task</Filter>
     </ClCompile>
     <ClCompile Include="PenguinUploader.cpp">
-      <Filter>源文件\Utils</Filter>
+      <Filter>源文件\Requester</Filter>
     </ClCompile>
     <ClCompile Include="ItemConfiger.cpp">
       <Filter>源文件\Resource</Filter>
@@ -349,6 +355,9 @@
     </ClCompile>
     <ClCompile Include="InfrastControlTask.cpp">
       <Filter>源文件\Task\Infrast</Filter>
+    </ClCompile>
+    <ClCompile Include="AipOcr.cpp">
+      <Filter>源文件\Requester</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

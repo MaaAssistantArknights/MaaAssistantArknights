@@ -37,9 +37,10 @@ namespace MeoAsstGui
 
         public void InitializeItems()
         {
-            string[] task_list = new string[] { "刷理智", "基建换班", "自动公招", "访问好友", "收取信用及购物", "领取日常奖励" };
+            string[] task_list = new string[] { "开始唤醒", "刷理智", "自动公招", "基建换班", "访问好友", "收取信用及购物", "领取日常奖励" };
 
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
+            int order_offset = 0;
             for (int i = 0; i != task_list.Length; ++i)
             {
                 var task = task_list[i];
@@ -49,13 +50,25 @@ namespace MeoAsstGui
                 if (!parsed || order < 0)
                 {
                     temp_order_list[i] = new DragItemViewModel(task, "TaskQueue.");
+                    ++order_offset;
                 }
                 else
                 {
-                    temp_order_list[order] = new DragItemViewModel(task, "TaskQueue.");
+                    temp_order_list[order + order_offset] = new DragItemViewModel(task, "TaskQueue.");
                 }
             }
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
+
+            StageList = new List<CombData>();
+            StageList.Add(new CombData { Display = "当前关卡", Value = "" });
+            StageList.Add(new CombData { Display = "上次作战", Value = "LastBattle" });
+            StageList.Add(new CombData { Display = "剿灭作战", Value = "Annihilation" });
+            StageList.Add(new CombData { Display = "龙门币-5", Value = "CE-5" });
+            StageList.Add(new CombData { Display = "红票-5", Value = "AP-5" });
+            StageList.Add(new CombData { Display = "经验-5", Value = "LS-5" });
+            StageList.Add(new CombData { Display = "技能-5", Value = "CA-5" });
+            StageList.Add(new CombData { Display = "BI-7", Value = "BI-7" });
+            StageList.Add(new CombData { Display = "BI-8", Value = "BI-8" });
         }
 
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
@@ -105,6 +118,10 @@ namespace MeoAsstGui
                 if (item.Name == "基建换班")
                 {
                     ret &= appendInfrast();
+                }
+                else if (item.Name == "开始唤醒")
+                {
+                    ret &= asstProxy.AsstAppendStartUp();
                 }
                 else if (item.Name == "刷理智")
                 {
@@ -187,7 +204,7 @@ namespace MeoAsstGui
             }
 
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendFight(medicine, stone, times);
+            return asstProxy.AsstAppendFight(Stage, medicine, stone, times);
         }
 
         private bool appendInfrast()
@@ -288,7 +305,21 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _useMedicine = System.Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.TrueString));
+        public List<CombData> StageList { get; set; }
+
+        private string _stage = ViewStatusStorage.Get("MainFunction.Stage", "LastBattle");
+
+        public string Stage
+        {
+            get { return _stage; }
+            set
+            {
+                SetAndNotify(ref _stage, value);
+                ViewStatusStorage.Set("MainFunction.Stage", value);
+            }
+        }
+
+        private bool _useMedicine = System.Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));
 
         public bool UseMedicine
         {

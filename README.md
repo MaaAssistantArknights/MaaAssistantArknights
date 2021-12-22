@@ -19,7 +19,7 @@
 
 A Game Assistant for Arknights
 
-一款明日方舟的游戏小助手，一键完成所有日常，全自动长草！！！
+一款明日方舟的游戏小助手，一键完成所有日常，全自动长草！！
 
 纯图像识别，非内存挂！全图形化界面，开罐即食！
 
@@ -27,10 +27,17 @@ A Game Assistant for Arknights
 
 </div>
 
-
 ## 功能介绍
 
-废话不多说，看图！
+- 刷理智，可选关
+- 基建智能换班
+- 自动公招
+- 访问好友
+- 信用商店及购物
+- 收取日常奖励
+- 全日常流程一键完成！
+
+话不多说，看图！
 
 ![界面截图1](images/gui.png)
 ![界面截图2](images/settings1.png)
@@ -104,7 +111,7 @@ A Game Assistant for Arknights
 
 ### 刷理智
 
-- 若游戏处于**蓝色开始按钮**界面，则会刷当前关卡。否则会前往上次作战的关卡！
+- 若选项中没有你需要的关卡，请手动点击游戏进入**蓝色开始按钮**界面，并选择`当前关卡`
 - 主界面上的`吃理智`、`吃石头`、`指定次数`三个选项为短路开关，即三个选项中的任一条件达到，均会视为任务完成，停止刷理智。
     - 举例1：设置`吃理智药`:`999`、`吃石头`:`10`、`指定次数`:`1`。则在刷完**一次**后，由于满足了`指定次数`:`1`的条件，视为任务完成，停止刷理智。
     - 举例2：不勾选`吃理智药`、不勾选`吃石头`，设置`指定次数`:`100`。则在当前可用理智全部刷完后（可能只刷了几次），由于满足了`不吃理智药`、`不吃石头`的条件，视为任务完成，停止刷理智。
@@ -173,7 +180,7 @@ A Game Assistant for Arknights
 ## Todo
 
 - [x] 任务队列功能
-- [ ] 常用关卡选关
+- [x] 常用关卡选关
 - [x] 自动收任务功能
 - [x] 基建智能换班功能
     - [x] 图形化界面
@@ -200,7 +207,7 @@ A Game Assistant for Arknights
 - [x] 后台自动更新
 - [x] 忽略当前版本更新
 - [ ] 提供log接口，以及界面log
-- [ ] 更换OCR库，提高公开招募识别率
+- [x] 更换OCR库，提高公开招募识别率
 - [x] 终极目标！全自动长草机！！！
 
 ## 致谢
@@ -213,6 +220,7 @@ A Game Assistant for Arknights
 - 关卡掉落识别：[企鹅物流识别](https://github.com/KumoSiunaus/penguin-stats-recognize-v3)
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
 - C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)
+- C++ base64编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON库: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)

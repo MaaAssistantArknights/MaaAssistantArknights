@@ -98,8 +98,6 @@ namespace asst
         STARTUPINFOA m_child_startup_info = { 0 };   // 子进程启动信息
 
         EmulatorInfo m_emulator_info;
-        std::string m_adb_path;
-        HWND m_handle = nullptr;
         std::minstd_rand m_rand_engine;
         std::pair<int, int> m_scale_size;
         double m_control_scale = 1.0;

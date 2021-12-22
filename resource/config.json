@@ -5,12 +5,6 @@
         "connectType_Doc": "连接类型：0-连接电脑上的模拟器；1-连接自定义端口，请手动修改'emulator.Custom'中的相关字段。默认0",
         "taskDelay": 2000,
         "taskDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认2000",
-        "printWindow": false,
-        "printWindow_Doc": "截图功能：开启后每次结算界面会截图到screenshot目录下。true-开启，false-关闭，默认false",
-        "penguinReport": true,
-        "penguinReport_Doc": "企鹅数据汇报：每次到结算界面，是否汇报掉落数据至企鹅数据 https://penguin-stats.cn/。true-开启，false-关闭，默认true",
-        "penguinReportCmdLine": "curl -H \"Content-Type: application/json\" -d \"[body]\" \"https://penguin-stats.cn/PenguinStats/api/v2/report\" [extra]",
-        "penguinReportCmdLine_Doc": "企鹅数据汇报的命令，想打印详细信息可以尝试添加 -v -i",
         "controlDelayRange": [
             0,
             0
@@ -19,7 +13,13 @@
         "adbExtraSwipeDist": 50,
         "adbExtraSwipeDist_Doc": "额外的滑动距离：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来",
         "adbExtraSwipeDuration": 1000,
-        "adbExtraSwipeDuration_Doc": "额外的滑动持续时间：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来。若小于0，则关闭额外滑动功能"
+        "adbExtraSwipeDuration_Doc": "额外的滑动持续时间：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来。若小于0，则关闭额外滑动功能",
+        "penguinReport": {
+            "Doc": "企鹅数据汇报：每次到结算界面，汇报掉落数据至企鹅数据 https://penguin-stats.cn/。true-开启，false-关闭，默认true",
+            "enable": true,
+            "cmdFormat": "curl -H \"Content-Type: application/json\" -d \"[body]\" \"https://penguin-stats.cn/PenguinStats/api/v2/report\" [extra]",
+            "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i"
+        }
     },
     "emulator_Doc": "下面的和模拟器窗口捕获逻辑有关，不需要修改",
     "emulator": {
@@ -38,7 +38,8 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "screencap": "[Adb] -s [Address] exec-out screencap -p"
+                "screencap": "[Adb] -s [Address] exec-out screencap -p",
+                "release": "[Adb] kill-server"
             }
         },
         "BlueStacksInternational": {
@@ -56,7 +57,8 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "screencap": "[Adb] -s [Address] exec-out screencap -p"
+                "screencap": "[Adb] -s [Address] exec-out screencap -p",
+                "release": "[Adb] kill-server"
             }
         },
         "MuMuEmulator": {
@@ -74,7 +76,8 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "screencap": "[Adb] -s [Address] exec-out screencap -p"
+                "screencap": "[Adb] -s [Address] exec-out screencap -p",
+                "release": "[Adb] kill-server"
             }
         },
         "LDPlayer": {
@@ -92,7 +95,8 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "screencap": "[Adb] -s [Address] shell screencap -p"
+                "screencap": "[Adb] -s [Address] shell screencap -p",
+                "release": "[Adb] kill-server"
             }
         },
         "Nox": {
@@ -110,7 +114,8 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "screencap": "[Adb] -s [Address] exec-out screencap -p"
+                "screencap": "[Adb] -s [Address] exec-out screencap -p",
+                "release": "[Adb] kill-server"
             }
         },
         "XYAZ": {
@@ -128,7 +133,8 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init=",
                 "displayFormat": "    init=%dx%d",
-                "screencap": "[Adb] -s [Address] shell screencap -p"
+                "screencap": "[Adb] -s [Address] shell screencap -p",
+                "release": "[Adb] kill-server"
             }
         },
         "Custom": {
@@ -148,7 +154,8 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "screencap": "[Adb] -s [Address] exec-out screencap -p"
+                "screencap": "[Adb] -s [Address] exec-out screencap -p",
+                "release": "[Adb] kill-server"
             }
         }
     }
