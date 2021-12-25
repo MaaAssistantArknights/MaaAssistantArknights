@@ -7,8 +7,6 @@
 #include <type_traits>
 #include <vector>
 
-#include <unistd.h>
-
 #include "AsstUtils.hpp"
 #include "Version.h"
 
