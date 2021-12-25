@@ -8,7 +8,7 @@
     <img alt="VS" src="https://img.shields.io/badge/VisualStudio-19-%235C2D91?logo=visualstudio">
 </div>
 <div>
-    <img alt="platform" src="https://img.shields.io/badge/platform-Windows%2064bit-%230078D6?logo=windows">
+    <img alt="platform" src="https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-blueviolet">
 </div>
 <div>
     <img alt="license" src="https://img.shields.io/github/license/MistEO/MeoAssistantArknights">
@@ -241,6 +241,16 @@ A Game Assistant for Arknights
 - 感谢 [LmeSzinc](https://github.com/LmeSzinc) 提供的界面样式参考，~~虽然我抄了个四不像orz~~
 - 感谢参与软件测试、提bug的小伙伴们~
 - ~~感谢 [B站直播间](https://live.bilibili.com/2808861) 的小伙伴们陪我弹幕吹水~~
+
+## 开发相关
+
+### Windows
+
+直接使用 Visual 2019 及以上版本打开`MeoAssistantArknights.sln`即可，所有环境都是配置好的
+
+### Linux | MacOs
+
+[编译教程](src/MeoAssistant/Linux编译教程.md)
 
 ## 广告
 
