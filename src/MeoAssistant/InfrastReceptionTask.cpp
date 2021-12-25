@@ -140,7 +140,7 @@ bool asst::InfrastReceptionTask::proc_vacancy()
         sleep(delay);
 
         // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
-        swipe_to_the_bottom_of_clue_list_on_the_right();
+        //swipe_to_the_bottom_of_clue_list_on_the_right();
         image = Ctrler.get_image();
         InfrastClueImageAnalyzer clue_analyzer(image);
         if (!clue_analyzer.analyze()) {
