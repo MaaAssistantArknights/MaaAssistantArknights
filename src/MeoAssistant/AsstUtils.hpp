@@ -10,6 +10,8 @@
 #include <time.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
 #endif
 
 namespace asst
@@ -60,7 +62,7 @@ namespace asst
             "%04d-%02d-%02d %02d:%02d:%02d.%03d",
                       curtime.wYear, curtime.wMonth, curtime.wDay,
                       curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds);
-            
+
 #else   // ! _WIN32
             struct timeval tv = { 0 };
             gettimeofday(&tv, NULL);
@@ -166,6 +168,7 @@ namespace asst
 
         static std::string callcmd(const std::string& cmdline)
         {
+            constexpr int BuffSize = 4096;
             std::string pipe_str;
 #ifdef _WIN32
             SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
@@ -174,7 +177,7 @@ namespace asst
             pipe_sec_attr.bInheritHandle = TRUE;
             HANDLE pipe_read = nullptr;
             HANDLE pipe_child_write = nullptr;
-            CreatePipe(&pipe_read, &pipe_child_write, &pipe_sec_attr, 4096);
+            CreatePipe(&pipe_read, &pipe_child_write, &pipe_sec_attr, BuffSize);
 
             STARTUPINFOA si = { 0 };
             si.cb = sizeof(STARTUPINFO);
@@ -212,15 +215,58 @@ namespace asst
             ::CloseHandle(pipe_read);
             ::CloseHandle(pipe_child_write);
 
-            return pipe_str;
 #else
-            char buff[4096] = { 0 };
-            std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmdline.c_str(), "r"), pclose);
-            if (!pipe) {
-                return std::string();
+            constexpr static int PIPE_READ = 0;
+            constexpr static int PIPE_WRITE = 1;
+            int m_pipe_in[2] = { 0 };
+            int m_pipe_out[2] = { 0 };
+            int pipe_in_ret = pipe(m_pipe_in);
+            int pipe_out_ret = pipe(m_pipe_out);
+            fcntl(m_pipe_out[PIPE_READ], F_SETFL, O_NONBLOCK);
+            int exit_ret = 0;
+            int m_child = fork();
+            if (m_child == 0) {
+                // child process
+                dup2(m_pipe_in[PIPE_READ], STDIN_FILENO);
+                dup2(m_pipe_out[PIPE_WRITE], STDOUT_FILENO);
+                dup2(m_pipe_out[PIPE_WRITE], STDERR_FILENO);
+
+                // all these are for use by parent only
+                close(m_pipe_in[PIPE_READ]);
+                close(m_pipe_in[PIPE_WRITE]);
+                close(m_pipe_out[PIPE_READ]);
+                close(m_pipe_out[PIPE_WRITE]);
+
+                exit_ret = execlp("sh", "sh", "-c", cmdline.c_str(), NULL);
+                exit(exit_ret);
             }
-            while (fgets(buff, sizeof(buff), pipe.get()) != nullptr) {
-                pipe_str += buff;
+            else if (m_child > 0) {
+                // parent process
+                // LogTraceScope("Parent process: " + cmd);
+                std::unique_ptr<char> pipe_buffer = std::make_unique<char>(BuffSize);
+
+                // close unused file descriptors, these are for child only
+                close(m_pipe_in[PIPE_READ]);
+                close(m_pipe_out[PIPE_WRITE]);
+                do {
+                    ssize_t read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
+
+                    while (read_num > 0) {
+                        pipe_str.append(pipe_buffer.get(), pipe_buffer.get() + read_num);
+                        read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
+                    };
+
+                } while (::waitpid(m_child, NULL, WNOHANG) == 0);
+
+                close(m_pipe_in[PIPE_WRITE]);
+                close(m_pipe_out[PIPE_READ]);
+            }
+            else {
+                // failed to create child process
+                close(m_pipe_in[PIPE_READ]);
+                close(m_pipe_in[PIPE_WRITE]);
+                close(m_pipe_out[PIPE_READ]);
+                close(m_pipe_out[PIPE_WRITE]);
             }
 #endif
             return pipe_str;
