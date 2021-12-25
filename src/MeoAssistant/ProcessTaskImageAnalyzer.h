@@ -36,6 +36,9 @@ namespace asst
             return m_result_rect;
         }
 
+        ProcessTaskImageAnalyzer& operator=(const ProcessTaskImageAnalyzer&) = delete;
+        ProcessTaskImageAnalyzer& operator=(ProcessTaskImageAnalyzer&&) = delete;
+ 
     private:
         // 该分析器不支持外部设置ROI
         virtual void set_roi(const Rect& roi) noexcept override
@@ -50,8 +53,8 @@ namespace asst
         bool ocr_analyze(std::shared_ptr<TaskInfo> task_ptr);
         void reset() noexcept;
 
-        std::unique_ptr<OcrImageAnalyzer> m_ocr_analyzer = nullptr;
-        std::unique_ptr<MatchImageAnalyzer> m_match_analyzer = nullptr;
+        std::unique_ptr<OcrImageAnalyzer> m_ocr_analyzer;
+        std::unique_ptr<MatchImageAnalyzer> m_match_analyzer;
         std::vector<std::string> m_tasks_name;
         std::shared_ptr<TaskInfo> m_result;
         Rect m_result_rect;
