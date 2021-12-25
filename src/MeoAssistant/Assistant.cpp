@@ -28,7 +28,7 @@
 using namespace asst;
 
 Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_arg)
-    : m_dirname(std::move(dirname) + "\\"),
+    : m_dirname(std::move(dirname) + "/"),
     m_callback(callback),
     m_callback_arg(callback_arg)
 {
@@ -37,10 +37,10 @@ Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_
 
     LogTraceFunction;
 
-    bool resource_ret = Resrc.load(m_dirname + "Resource\\");
+    bool resource_ret = Resrc.load(m_dirname + "Resource/");
     if (!resource_ret) {
         const std::string& error = Resrc.get_last_error();
-        Log.error("resource broken", error);
+        Log.error("resource broken:", error);
         if (m_callback == nullptr) {
             throw error;
         }
@@ -92,7 +92,7 @@ bool Assistant::catch_emulator(const std::string& emulator_name)
     LogTraceFunction;
 
     stop();
-
+#ifdef _WIN32
     bool ret = false;
     //std::string cor_name = emulator_name;
     auto& cfg = Resrc.cfg();
@@ -116,6 +116,9 @@ bool Assistant::catch_emulator(const std::string& emulator_name)
 
     m_inited = ret;
     return ret;
+#else   // Not supported catch emulator in Linux
+    return false;
+#endif
 }
 
 bool asst::Assistant::catch_custom(const std::string& address)

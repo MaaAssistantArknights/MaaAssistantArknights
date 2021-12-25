@@ -1,6 +1,8 @@
 #include "Controller.h"
 
+#ifdef _WIN32
 #include <WinUser.h>
+#endif
 #include <stdint.h>
 
 #include <algorithm>
@@ -21,6 +23,7 @@ asst::Controller::Controller()
 {
     LogTraceFunction;
 
+#ifdef _WIN32
     // 安全属性描述符
     m_pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
     m_pipe_sec_attr.lpSecurityDescriptor = nullptr;
@@ -42,6 +45,7 @@ asst::Controller::Controller()
     m_child_startup_info.hStdInput = m_pipe_child_read;
     m_child_startup_info.hStdOutput = m_pipe_child_write;
     m_child_startup_info.hStdError = m_pipe_child_write;
+#endif
 
     auto bind_pipe_working_proc = std::bind(&Controller::pipe_working_proc, this);
     m_cmd_thread = std::thread(bind_pipe_working_proc);
@@ -73,7 +77,11 @@ bool asst::Controller::connect_adb(const std::string& address)
         std::make_move_iterator(display_result.end()));
     int size_value1 = 0;
     int size_value2 = 0;
+#ifdef _MSC_VER
     sscanf_s(display_pipe_str.c_str(), m_emulator_info.adb.display_format.c_str(), &size_value1, &size_value2);
+#else
+    sscanf(display_pipe_str.c_str(), m_emulator_info.adb.display_format.c_str(), &size_value1, &size_value2);
+#endif
     // 为了防止抓取句柄的时候手机是竖屏的（还没进游戏），这里取大的值为宽，小的为高
     // 总不能有人竖屏玩明日方舟吧（？
     m_emulator_info.adb.display_width = (std::max)(size_value1, size_value2);
@@ -120,10 +128,12 @@ asst::Controller::~Controller()
         call_command(m_emulator_info.adb.release);
     }
 
+#ifdef _WIN32
     ::CloseHandle(m_pipe_read);
     ::CloseHandle(m_pipe_write);
     ::CloseHandle(m_pipe_child_read);
     ::CloseHandle(m_pipe_child_write);
+#endif
 }
 
 asst::Rect asst::Controller::shaped_correct(const Rect& rect) const
@@ -225,10 +235,18 @@ bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle
 {
     LogTraceScope("try_capture | " + info.name);
 
+#ifndef _WIN32
+    if (without_handle) {
+        Log.error("Capture handle is only supported on Windows!");
+        return false;
+    }
+#endif
+
     const HandleInfo& handle_info = info.handle;
 
     std::string adb_path;
     if (!without_handle) { // 使用模拟器自带的adb
+#ifdef _WIN32   // Only support Windows
         // 转成宽字符的
         wchar_t* class_wbuff = nullptr;
         if (!handle_info.class_name.empty()) {
@@ -293,7 +311,8 @@ bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle
         adb_path = emulator_path.substr(0, emulator_path.find_last_of('\\') + 1);
         adb_path = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[EmulatorPath]", adb_path) + '"';
         adb_path = utils::string_replace_all(adb_path, "[ExecDir]", m_dirname);
-    }
+#endif
+}
     else { // 使用辅助自带的标准adb
         m_emulator_info = info;
         adb_path = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", m_dirname) + '"';
@@ -355,10 +374,12 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
     static std::mutex pipe_mutex;
     std::unique_lock<std::mutex> pipe_lock(pipe_mutex);
 
+    std::vector<uchar> pipe_data;
+
+#ifdef _WIN32
     PROCESS_INFORMATION process_info = { 0 }; // 进程信息结构体
     ::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &m_child_startup_info, &process_info);
 
-    std::vector<uchar> pipe_data;
     do {
         //DWORD write_num = 0;
         //WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, NULL);
@@ -383,6 +404,20 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
 
     ::CloseHandle(process_info.hProcess);
     ::CloseHandle(process_info.hThread);
+
+#else
+    int exit_ret = 1;
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd.c_str(), "r"), pclose);
+    if (!pipe) {
+        return make_pair(false, std::vector<unsigned char>());
+    }
+    char pipe_buffer[4096] = { 0 };
+    while (fgets(pipe_buffer, sizeof(pipe_buffer), pipe.get()) != nullptr) {
+        pipe_data.insert(pipe_data.end(), pipe_buffer, pipe_buffer + sizeof(pipe_buffer));
+    }
+
+#endif
+
     Log.trace("Call", cmd, "ret", exit_ret, ", output size:", pipe_data.size());
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
         Log.trace("output:", std::string(pipe_data.cbegin(), pipe_data.cend()));

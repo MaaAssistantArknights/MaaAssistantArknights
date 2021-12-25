@@ -7,6 +7,8 @@
 #include <type_traits>
 #include <vector>
 
+#include <unistd.h>
+
 #include "AsstUtils.hpp"
 #include "Version.h"
 
@@ -102,9 +104,22 @@ namespace asst
 
             constexpr int buff_len = 128;
             char buff[buff_len] = { 0 };
-            sprintf_s(buff, buff_len, "[%s][%s][Px%x][Tx%x]",
+#ifdef _WIN32
+#ifdef _MSC_VER
+            sprintf_s(buff, buff_len,
+#else   // ! _MSC_VER
+            sprintf(buff,
+#endif  // END _MSC_VER
+            "[%s][%s][Px%x][Tx%x]",
                       asst::utils::get_format_time().c_str(),
-                      level.data(), _getpid(), ::GetCurrentThreadId());
+                      level.data(), _getpid(), ::GetCurrentThreadId()
+            );
+#else   // ! _WIN32
+            sprintf(buff, "[%s][%s][Px%x][Tx%x]",
+                      asst::utils::get_format_time().c_str(),
+                      level.data(), getpid(), gettid()
+            );
+#endif  // END _WIN32
 
             if (!m_ofs.is_open()) {
                 m_ofs = std::ofstream(m_log_filename, std::ios::out | std::ios::app);
@@ -145,7 +160,11 @@ namespace asst
         {
             inline void operator()(std::ostream& os, T&& first)
             {
+#ifdef _WIN32
                 os << utils::utf8_to_gbk(first) << " ";
+#else
+                os << first << " "; // Don't fucking use gbk in linux
+#endif
             }
         };
 

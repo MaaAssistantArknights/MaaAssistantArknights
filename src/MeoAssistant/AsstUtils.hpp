@@ -4,7 +4,13 @@
 #include <sstream>
 #include <string>
 
+#ifdef _WIN32
 #include <Windows.h>
+#else
+#include <time.h>
+#include <sys/time.h>
+#include <unistd.h>
+#endif
 
 namespace asst
 {
@@ -42,17 +48,33 @@ namespace asst
 
         static std::string get_format_time()
         {
+            char buff[128] = { 0 };
+#ifdef _WIN32
             SYSTEMTIME curtime;
             GetLocalTime(&curtime);
-            char buff[64] = { 0 };
-            sprintf_s(buff, "%04d-%02d-%02d %02d:%02d:%02d.%03d",
+#ifdef _MSC_VER
+            sprintf_s(buff, sizeof(buff),
+#else   // ! _MSC_VER
+            sprintf(buff,
+#endif  // END _MSC_VER
+            "%04d-%02d-%02d %02d:%02d:%02d.%03d",
                       curtime.wYear, curtime.wMonth, curtime.wDay,
                       curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds);
+            
+#else   // ! _WIN32
+            struct timeval tv = { 0 };
+            gettimeofday(&tv, NULL);
+            time_t nowtime = tv.tv_sec;
+            struct tm* tm_info = localtime(&nowtime);
+            strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", tm_info);
+            sprintf(buff, "%s.%03d", buff, tv.tv_usec / 1000);
+#endif  // END _WIN32
             return buff;
         }
 
         static std::string gbk_2_utf8(const std::string& gbk_str)
         {
+#ifdef _WIN32
             const char* src_str = gbk_str.c_str();
             int len = MultiByteToWideChar(CP_ACP, 0, src_str, -1, NULL, 0);
             wchar_t* wstr = new wchar_t[len + 1];
@@ -68,10 +90,14 @@ namespace asst
             if (str)
                 delete[] str;
             return strTemp;
+#else   // Don't fucking use gbk in linux!
+            return gbk_str;
+#endif
         }
 
         static std::string utf8_to_gbk(const std::string& utf8_str)
         {
+#ifdef _WIN32
             const char* src_str = utf8_str.c_str();
             int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, NULL, 0);
             wchar_t* wszGBK = new wchar_t[len + 1];
@@ -87,6 +113,9 @@ namespace asst
             if (szGBK)
                 delete[] szGBK;
             return strTemp;
+#else   // Don't fucking use gbk in linux!
+            return utf8_str;
+#endif
         }
 
         template <typename RetTy, typename ArgType>
@@ -137,6 +166,8 @@ namespace asst
 
         static std::string callcmd(const std::string& cmdline)
         {
+            std::string pipe_str;
+#ifdef _WIN32
             SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
             pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
             pipe_sec_attr.lpSecurityDescriptor = nullptr;
@@ -155,7 +186,6 @@ namespace asst
             PROCESS_INFORMATION pi = { 0 };
 
             BOOL p_ret = CreateProcessA(NULL, const_cast<LPSTR>(cmdline.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
-            std::string pipe_str;
             if (p_ret) {
                 DWORD read_num = 0;
                 DWORD std_num = 0;
@@ -182,6 +212,17 @@ namespace asst
             ::CloseHandle(pipe_read);
             ::CloseHandle(pipe_child_write);
 
+            return pipe_str;
+#else
+            char buff[4096] = { 0 };
+            std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmdline.c_str(), "r"), pclose);
+            if (!pipe) {
+                return std::string();
+            }
+            while (fgets(buff, sizeof(buff), pipe.get()) != nullptr) {
+                pipe_str += buff;
+            }
+#endif
             return pipe_str;
         }
 

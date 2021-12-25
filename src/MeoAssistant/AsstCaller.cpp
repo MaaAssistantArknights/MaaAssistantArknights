@@ -1,6 +1,7 @@
 #include "AsstCaller.h"
 
 #include <string.h>
+#include <iostream>
 
 #include <meojson/json_value.h>
 
@@ -45,9 +46,13 @@ asst::Assistant* AsstCreate(const char* dirname)
     try {
         return new asst::Assistant(dirname);
     }
-    catch (...) {
-        return nullptr;
+    catch (std::exception& e) {
+        std::cerr << "create failed: " << e.what() << std::endl;
     }
+    catch (...) {
+        std::cerr << "create failed: unknown exception" << std::endl;
+    }
+    return nullptr;
 }
 
 asst::Assistant* AsstCreateEx(const char* dirname, AsstCallback callback, void* custom_arg)

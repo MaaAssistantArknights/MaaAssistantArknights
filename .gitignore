@@ -432,3 +432,4 @@ screen.png
 adb_screen.png
 tools/*.png
 resource/infrast
+.vscode/settings.json
