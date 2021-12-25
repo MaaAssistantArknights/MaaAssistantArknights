@@ -39,8 +39,9 @@ make shared
 ## 部署
 
 1. 直接拷贝上面编译的第三方库到`3rdparty/lib` or 手动修改`CMakeLists.txt`指定第三方库路径
-2. 复制资源文件到`libMeoAssitant.so`同一目录下，具体可参考 [这个脚本](../../tools/update_resource.sh)
-3. 通过 [Python 接口](../Python/interface.py) 或 [C 接口](../../include/AsstCaller.h) 进行调用，需要自行编写少量的代码
+2. 安装`adb`，并修改`resource/config.json`中`Custom`.`adb`.`path`的值为`"adb"`
+3. 复制资源文件到`libMeoAssitant.so`同一目录下，具体可参考 [这个脚本](../../tools/update_resource.sh)
+4. 通过 [Python 接口](../Python/interface.py) 或 [C 接口](../../include/AsstCaller.h) 进行调用，需要自行编写少量的代码
 
 ## 集成文档
 
