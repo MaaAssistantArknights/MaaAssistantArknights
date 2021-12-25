@@ -35,3 +35,25 @@ make shared
 ### penguin-stats-recognize-v3
 
 使用我魔改了接口的版本：https://github.com/MistEO/penguin-stats-recognize-v3
+
+## 部署
+
+1. 直接拷贝上面编译的第三方库到`3rdparty/lib` or 手动修改`CMakeLists.txt`指定第三方库路径
+2. 复制资源文件到`libMeoAssitant.so`同一目录下，具体可参考`tools/update_resource.sh`
+3. 通过 [Python 接口](../Python/interface.py) 或 [C 接口](../../include/AsstCaller.h) 进行调用，需要自行编写少量的代码
+
+## 集成文档
+
+[~~或许算不上文档~~](https://github.com/MistEO/MeoAssistantArknights/wiki)
+
+### Python
+
+可参考 [Python 接口](../Python/interface.py) 中 `__main__` 的实现
+
+### C
+
+可参考 [TestCaller](../../tools/TestCaller/main.cpp) 中的实现
+
+### C sharp
+
+可参考 [MeoAsstGui](../MeoAsstGui/Helper/AsstProxy.cs) 中的实现
