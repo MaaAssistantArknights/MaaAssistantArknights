@@ -81,6 +81,7 @@ bool ProcessTask::_run()
         if (auto iter = m_times_limit.find(task_info_ptr->name);
             iter != m_times_limit.cend()) {
             max_times = iter->second;
+            callback_json["times_limit"] = max_times;
         }
 
         if (exec_times >= max_times) {
