@@ -1719,7 +1719,7 @@
                     "通讯员"
                 ],
                 "desc": "进驻会客室时，更容易获得罗德岛制药线索（工作时长影响概率）",
-                "template": "Bskill_meet_blacksteel2.png",
+                "template": "Bskill_meet_rhodes1.png",
                 "efficient": {
                     "No7": 10
                 }
