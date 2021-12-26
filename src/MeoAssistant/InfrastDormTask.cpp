@@ -42,7 +42,7 @@ bool asst::InfrastDormTask::_run()
             if (need_exit()) {
                 return false;
             }
-            const auto& image = Ctrler.get_image();
+            const auto image = Ctrler.get_image();
             InfrastOperImageAnalyzer oper_analyzer(image);
             const int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
             oper_analyzer.set_to_be_calced(without_skill);
@@ -120,7 +120,7 @@ bool asst::InfrastDormTask::_run()
 //    sleep(task_ptr->rear_delay);
 //
 //    // 宿舍在把正在工作的干员换下来的时候，会有个二次确认的按钮
-//    const auto& image = Ctrler.get_image();
+//    const auto image = Ctrler.get_image();
 //    MatchImageAnalyzer cfm_analyzer(image);
 //    const auto sec_cfm_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
 //        task.get("InfrastDormConfirmButton"));
@@ -137,7 +137,7 @@ bool asst::InfrastDormTask::_run()
 //        if (need_exit()) {
 //            return false;
 //        }
-//        const auto& image = Ctrler.get_image();
+//        const auto image = Ctrler.get_image();
 //        analyzer.set_image(image);
 //        if (!analyzer.analyze()) {
 //            sleep(sec_cfm_task_ptr->rear_delay);

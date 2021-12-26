@@ -17,11 +17,12 @@
 1. 使用我魔改了接口的版本：https://github.com/MistEO/PaddleOCR
 2. 参考 [这个教程](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.3/deploy/cpp_infer#readme)
 3. PaddlePaddle 直接[下载](https://www.paddlepaddle.org.cn/documentation/docs/zh/2.0/guides/05_inference_deployment/inference/build_and_install_lib_cn.html)即可
+4. 如果 cmake 找不到 opencv，可以尝试修改 CMakeLists.txt 里 49 行，非 Win32 下的 Opencv 查找路径
 
 编译选项参考
 
 ```bash
-cmake ../ -DPADDLE_LIB=/your_path/paddle_inference/ -D OPENCV_DIR=/your_path_to_opencv/ -DBUILD_SHARED=ON -DWITH_MKL=OFF -DWITH_STATIC_LIB=OFF
+cmake ../ -DPADDLE_LIB=/your_path/paddle_inference/ -D OPENCV_DIR=/your_path_to_opencv/ -DWITH_STATIC_LIB=OFF -DBUILD_SHARED=ON # 若设备不支持 MKL, 可再额外添加 -DWITH_MKL=OFF 选项，并下载对应的 PaddlePaddle 预测库版本
 ```
 
 ### meojson

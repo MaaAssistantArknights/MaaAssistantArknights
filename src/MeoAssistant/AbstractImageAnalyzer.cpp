@@ -3,7 +3,7 @@
 #include "AsstUtils.hpp"
 #include "Controller.h"
 
-asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
+asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat image)
     : m_image(image), m_roi(empty_rect_to_full(Rect(), image))
 #ifdef LOG_TRACE
     ,
@@ -11,7 +11,7 @@ asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
 #endif
 {}
 
-asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi)
+asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat image, const Rect& roi)
     : m_image(image),
     m_roi(empty_rect_to_full(roi, image))
 #ifdef LOG_TRACE
@@ -22,7 +22,7 @@ asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const R
     ;
 }
 
-void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image)
+void asst::AbstractImageAnalyzer::set_image(const cv::Mat image)
 {
     m_image = image;
 #ifdef LOG_TRACE
@@ -30,7 +30,7 @@ void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image)
 #endif
 }
 
-void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image, const Rect& roi)
+void asst::AbstractImageAnalyzer::set_image(const cv::Mat image, const Rect& roi)
 {
     set_image(image);
     m_roi = empty_rect_to_full(roi, image);
@@ -46,7 +46,7 @@ void asst::AbstractImageAnalyzer::correct_roi() noexcept
     m_roi = Ctrler.shaped_correct(m_roi);
 }
 
-asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, const cv::Mat& image) noexcept
+asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, const cv::Mat image) noexcept
 {
     return rect.empty() ? Rect(0, 0, image.cols, image.rows) : rect;
 }

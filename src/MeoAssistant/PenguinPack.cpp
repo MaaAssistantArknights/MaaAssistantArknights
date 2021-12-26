@@ -27,7 +27,7 @@ void asst::PenguinPack::set_language(const std::string& server)
     penguin::load_server(server.c_str());
 }
 
-std::string asst::PenguinPack::recognize(const cv::Mat& image)
+std::string asst::PenguinPack::recognize(const cv::Mat image)
 {
     std::vector<uchar> buf;
     cv::imencode(".png", image, buf);

@@ -155,7 +155,7 @@ bool asst::InfrastReceptionTask::proc_vacancy()
 bool asst::InfrastReceptionTask::shift()
 {
     LogTraceFunction;
-    const auto& image = Ctrler.get_image();
+    const auto image = Ctrler.get_image();
     MatchImageAnalyzer add_analyzer(image);
 
     const auto raw_task_ptr = task.get("InfrastAddOperator" + m_facility + m_work_mode_name);

@@ -23,7 +23,7 @@ namespace asst
 
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~InfrastOperImageAnalyzer() = default;
-        InfrastOperImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
+        InfrastOperImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
 
         virtual bool analyze() override;
 
@@ -55,7 +55,7 @@ namespace asst
         {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat& image, const Rect& roi)
+        virtual void set_image(const cv::Mat image, const Rect& roi)
         {
             AbstractImageAnalyzer::set_image(image, roi);
         }
@@ -68,7 +68,7 @@ namespace asst
         void selected_analyze();
         void doing_analyze();
 
-        static std::string hash_calc(const cv::Mat& image);
+        static std::string hash_calc(const cv::Mat image);
 
         std::string m_facility;
         std::vector<infrast::Oper> m_result;

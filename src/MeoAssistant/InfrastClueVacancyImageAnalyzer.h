@@ -8,7 +8,7 @@ namespace asst
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~InfrastClueVacancyImageAnalyzer() = default;
-        InfrastClueVacancyImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
+        InfrastClueVacancyImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
 
         virtual bool analyze() override;
         constexpr static int MaxNumOfClue = 7;
@@ -29,7 +29,7 @@ namespace asst
         {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat& image, const Rect& roi)
+        virtual void set_image(const cv::Mat image, const Rect& roi)
         {
             AbstractImageAnalyzer::set_image(image, roi);
         }

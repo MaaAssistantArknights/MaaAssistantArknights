@@ -47,7 +47,7 @@ bool asst::AipOcr::request_access_token(const std::string& client_id, const std:
     return true;
 }
 
-bool asst::AipOcr::request_ocr_general(const cv::Mat& image, std::vector<TextRect>& out_result, const TextRectProc& pred)
+bool asst::AipOcr::request_ocr_general(const cv::Mat image, std::vector<TextRect>& out_result, const TextRectProc& pred)
 {
     LogTraceFunction;
 
@@ -62,7 +62,7 @@ bool asst::AipOcr::request_ocr_general(const cv::Mat& image, std::vector<TextRec
     return request_ocr_and_parse(cmd_fmt, image, out_result, pred);
 }
 
-bool asst::AipOcr::request_ocr_accurate(const cv::Mat& image, std::vector<TextRect>& out_result, const TextRectProc& pred)
+bool asst::AipOcr::request_ocr_accurate(const cv::Mat image, std::vector<TextRect>& out_result, const TextRectProc& pred)
 {
     LogTraceFunction;
 
@@ -77,7 +77,7 @@ bool asst::AipOcr::request_ocr_accurate(const cv::Mat& image, std::vector<TextRe
     return request_ocr_and_parse(cmd_fmt, image, out_result, pred);
 }
 
-bool asst::AipOcr::request_ocr_and_parse(std::string_view cmd_fmt, const cv::Mat& image, std::vector<TextRect>& out_result, const TextRectProc& pred)
+bool asst::AipOcr::request_ocr_and_parse(std::string_view cmd_fmt, const cv::Mat image, std::vector<TextRect>& out_result, const TextRectProc& pred)
 {
     if (m_access_token.empty()) {
         return false;

@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        CreditShopImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
+        CreditShopImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
         virtual ~CreditShopImageAnalyzer() = default;
 
         virtual bool analyze() override;
@@ -23,7 +23,7 @@ namespace asst
         {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat& image, const Rect& roi)
+        virtual void set_image(const cv::Mat image, const Rect& roi)
         {
             AbstractImageAnalyzer::set_image(image, roi);
         }

@@ -18,7 +18,7 @@ namespace asst
         virtual bool load(const std::string& dir) override;
         void set_language(const std::string& server);
 
-        std::string recognize(const cv::Mat& image);
+        std::string recognize(const cv::Mat image);
 
     private:
         bool load_json(const std::string& stage_path, const std::string& hash_path);

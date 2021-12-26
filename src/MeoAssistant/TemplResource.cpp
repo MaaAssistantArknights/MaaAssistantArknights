@@ -33,7 +33,7 @@ bool asst::TemplResource::exist_templ(const std::string& key) const noexcept
     return m_templs.find(key) != m_templs.cend();
 }
 
-const cv::Mat& asst::TemplResource::get_templ(const std::string& key) const noexcept
+const cv::Mat asst::TemplResource::get_templ(const std::string& key) const noexcept
 {
     if (auto iter = m_templs.find(key);
         iter != m_templs.cend()) {

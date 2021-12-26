@@ -330,7 +330,7 @@ bool asst::Controller::try_capture(const EmulatorInfo & info, bool without_handl
         Log.error("Capture handle is only supported on Windows!");
         return false;
 #endif
-}
+    }
     else { // 使用辅助自带的标准adb
         m_emulator_info = info;
 #ifdef _WIN32
@@ -452,8 +452,9 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
         // parent process
         // LogTraceScope("Parent process: " + cmd);
         constexpr int BuffSize = 4096;
-        std::unique_ptr<uchar> pipe_buffer = std::make_unique<uchar>(BuffSize);
+        std::unique_ptr<uchar> pipe_buffer(new uchar[BuffSize + 1]);
         do {
+            memset(pipe_buffer.get(), 0, BuffSize);
             ssize_t read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
 
             while (read_num > 0) {
@@ -571,6 +572,7 @@ bool asst::Controller::screencap()
 {
     LogTraceFunction;
 
+#if 0
     auto&& [ret, data] = call_command(m_emulator_info.adb.screencap);
     if (ret && !data.empty()) {
         if (m_image_convert_lf) {
@@ -595,6 +597,10 @@ bool asst::Controller::screencap()
         Log.error("Data is empty!");
         return false;
     }
+#else
+    m_cache_image = cv::imread("/home/mreo/test.png");
+    return true;
+#endif
 
     //cv::Mat temp_image = cv::imdecode(data, cv::IMREAD_COLOR);
     ////std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
@@ -711,7 +717,6 @@ int asst::Controller::swipe_without_scale(const Rect & r1, const Rect & r2, int 
 
 cv::Mat asst::Controller::get_image(bool raw)
 {
-    LogTraceFunction;
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
     for (int i = 0; i != 20; ++i) {
         if (screencap()) {
@@ -726,9 +731,9 @@ cv::Mat asst::Controller::get_image(bool raw)
         if (m_cache_image.empty()) {
             return m_cache_image;
         }
-        const static cv::Size newsize(m_scale_size.first, m_scale_size.second);
-        cv::Mat resize_mat;
-        cv::resize(m_cache_image, resize_mat, newsize, cv::INPAINT_NS);
-        return resize_mat;
+        cv::Mat resized_mat;
+        const static cv::Size dsize(m_scale_size.first, m_scale_size.second);
+        cv::resize(m_cache_image, resized_mat, dsize);
+        return resized_mat;
     }
 }
