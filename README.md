@@ -91,12 +91,12 @@ A Game Assistant for Arknights
 支持
 
 1. 在模拟器`设定`-`进阶`中打开`Android调试桥`
-2. 下载 [ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) ，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
+2. 下载 [ADB](https://developer.android.google.cn/studio/releases/platform-tools?hl=zh-cn) ，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
 3. 在软件`设置`-`连接设置`中填写蓝叠安装目录下`bluestacks.conf`文件的完整路径
 
 ### 自定义连接
 
-- 下载 [ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) ，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
+- 下载 [ADB](https://developer.android.google.cn/studio/releases/platform-tools?hl=zh-cn) ，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
 - 进入软件`设置`-`连接设置`，填写自定义地址（需要填写IP+端口，例如`127.0.0.1:5555`）
 - **注意 :** 若是使用手机，在非`16:9`分辨率下，部分功能不稳定（但也凑合能用），尤其是基建，几乎是不可用状态，正在进一步适配中。推荐使用`16:9`分辨率，经过的测试验证最多，也最稳定。
 
