@@ -15,7 +15,7 @@ bool asst::InfrastInfoTask::_run()
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
     swipe_to_the_left_of_main_ui();
-    const auto& image = Ctrler.get_image();
+    const auto image = Ctrler.get_image();
 
     InfrastFacilityImageAnalyzer analyzer(image);
     analyzer.set_to_be_analyzed({ "Mfg", "Trade", "Power", "Dorm" });

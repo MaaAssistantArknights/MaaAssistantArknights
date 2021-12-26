@@ -16,12 +16,12 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        ProcessTaskImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
-        ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name);
+        ProcessTaskImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
+        ProcessTaskImageAnalyzer(const cv::Mat image, std::vector<std::string> tasks_name);
         virtual ~ProcessTaskImageAnalyzer();
 
         virtual bool analyze() override;
-        virtual void set_image(const cv::Mat& image) override;
+        virtual void set_image(const cv::Mat image) override;
 
         void set_tasks(std::vector<std::string> tasks_name)
         {
@@ -45,7 +45,7 @@ namespace asst
         {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat& image, const Rect& roi)
+        virtual void set_image(const cv::Mat image, const Rect& roi)
         {
             AbstractImageAnalyzer::set_image(image, roi);
         }

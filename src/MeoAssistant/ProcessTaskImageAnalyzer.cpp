@@ -8,7 +8,7 @@
 #include "OcrImageAnalyzer.h"
 #include "Resource.h"
 
-asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name)
+asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat image, std::vector<std::string> tasks_name)
     : AbstractImageAnalyzer(image),
     m_tasks_name(std::move(tasks_name))
 {
@@ -119,7 +119,7 @@ bool asst::ProcessTaskImageAnalyzer::analyze()
     return false;
 }
 
-void asst::ProcessTaskImageAnalyzer::set_image(const cv::Mat & image)
+void asst::ProcessTaskImageAnalyzer::set_image(const cv::Mat image)
 {
     AbstractImageAnalyzer::set_image(image);
     reset();

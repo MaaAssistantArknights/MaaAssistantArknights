@@ -46,7 +46,7 @@ bool ProcessTask::_run()
             task_info_ptr = front_task_ptr;
         }
         else {
-            const auto& image = Ctrler.get_image();
+            const auto image = Ctrler.get_image();
             ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name);
             if (!analyzer.analyze()) {
                 return false;

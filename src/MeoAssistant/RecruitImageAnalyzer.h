@@ -9,7 +9,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        RecruitImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
+        RecruitImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
         virtual ~RecruitImageAnalyzer() = default;
 
         virtual bool analyze() override;
@@ -37,7 +37,7 @@ namespace asst
         {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat& image, const Rect& roi)
+        virtual void set_image(const cv::Mat image, const Rect& roi)
         {
             AbstractImageAnalyzer::set_image(image, roi);
         }

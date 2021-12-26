@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <memory.h>
 #endif
 
 namespace asst
@@ -69,7 +70,7 @@ namespace asst
             time_t nowtime = tv.tv_sec;
             struct tm* tm_info = localtime(&nowtime);
             strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", tm_info);
-            sprintf(buff, "%s.%03d", buff, tv.tv_usec / 1000);
+            sprintf(buff, "%s.%03ld", buff, tv.tv_usec / 1000);
 #endif  // END _WIN32
             return buff;
         }
@@ -218,55 +219,56 @@ namespace asst
 #else
             constexpr static int PIPE_READ = 0;
             constexpr static int PIPE_WRITE = 1;
-            int m_pipe_in[2] = { 0 };
-            int m_pipe_out[2] = { 0 };
-            int pipe_in_ret = pipe(m_pipe_in);
-            int pipe_out_ret = pipe(m_pipe_out);
-            fcntl(m_pipe_out[PIPE_READ], F_SETFL, O_NONBLOCK);
+            int pipe_in[2] = { 0 };
+            int pipe_out[2] = { 0 };
+            int pipe_in_ret = pipe(pipe_in);
+            int pipe_out_ret = pipe(pipe_out);
+            fcntl(pipe_out[PIPE_READ], F_SETFL, O_NONBLOCK);
             int exit_ret = 0;
-            int m_child = fork();
-            if (m_child == 0) {
+            int child = fork();
+            if (child == 0) {
                 // child process
-                dup2(m_pipe_in[PIPE_READ], STDIN_FILENO);
-                dup2(m_pipe_out[PIPE_WRITE], STDOUT_FILENO);
-                dup2(m_pipe_out[PIPE_WRITE], STDERR_FILENO);
+                dup2(pipe_in[PIPE_READ], STDIN_FILENO);
+                dup2(pipe_out[PIPE_WRITE], STDOUT_FILENO);
+                dup2(pipe_out[PIPE_WRITE], STDERR_FILENO);
 
                 // all these are for use by parent only
-                close(m_pipe_in[PIPE_READ]);
-                close(m_pipe_in[PIPE_WRITE]);
-                close(m_pipe_out[PIPE_READ]);
-                close(m_pipe_out[PIPE_WRITE]);
+                close(pipe_in[PIPE_READ]);
+                close(pipe_in[PIPE_WRITE]);
+                close(pipe_out[PIPE_READ]);
+                close(pipe_out[PIPE_WRITE]);
 
                 exit_ret = execlp("sh", "sh", "-c", cmdline.c_str(), NULL);
                 exit(exit_ret);
             }
-            else if (m_child > 0) {
+            else if (child > 0) {
                 // parent process
-                // LogTraceScope("Parent process: " + cmd);
-                std::unique_ptr<char> pipe_buffer = std::make_unique<char>(BuffSize);
 
                 // close unused file descriptors, these are for child only
-                close(m_pipe_in[PIPE_READ]);
-                close(m_pipe_out[PIPE_WRITE]);
+                close(pipe_in[PIPE_READ]);
+                close(pipe_out[PIPE_WRITE]);
+
+                std::unique_ptr<char> pipe_buffer(new char[BuffSize + 1]);
                 do {
-                    ssize_t read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
+                    memset(pipe_buffer.get(), 0, BuffSize);
+                    ssize_t read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
 
                     while (read_num > 0) {
                         pipe_str.append(pipe_buffer.get(), pipe_buffer.get() + read_num);
-                        read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
+                        read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
                     };
 
-                } while (::waitpid(m_child, NULL, WNOHANG) == 0);
+                } while (::waitpid(child, NULL, WNOHANG) == 0);
 
-                close(m_pipe_in[PIPE_WRITE]);
-                close(m_pipe_out[PIPE_READ]);
+                close(pipe_in[PIPE_WRITE]);
+                close(pipe_out[PIPE_READ]);
             }
             else {
                 // failed to create child process
-                close(m_pipe_in[PIPE_READ]);
-                close(m_pipe_in[PIPE_WRITE]);
-                close(m_pipe_out[PIPE_READ]);
-                close(m_pipe_out[PIPE_WRITE]);
+                close(pipe_in[PIPE_READ]);
+                close(pipe_in[PIPE_WRITE]);
+                close(pipe_out[PIPE_READ]);
+                close(pipe_out[PIPE_WRITE]);
             }
 #endif
             return pipe_str;

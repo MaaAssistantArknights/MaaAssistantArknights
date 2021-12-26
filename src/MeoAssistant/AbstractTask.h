@@ -32,7 +32,7 @@ namespace asst
         virtual bool on_run_fails() { return true; }
 
         bool sleep(unsigned millisecond);
-        bool save_image(const cv::Mat& image, const std::string& dir);
+        bool save_image(const cv::Mat image, const std::string& dir);
         bool need_exit() const;
 
         virtual void click_return_button();

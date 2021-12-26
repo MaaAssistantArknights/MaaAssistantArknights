@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        MultiMatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name, double templ_thres);
+        MultiMatchImageAnalyzer(const cv::Mat image, const Rect& roi, std::string templ_name, double templ_thres);
         virtual ~MultiMatchImageAnalyzer() = default;
 
         virtual bool analyze() override;
@@ -42,7 +42,7 @@ namespace asst
         }
 
     protected:
-        virtual bool multi_match_templ(const cv::Mat& templ);
+        virtual bool multi_match_templ(const cv::Mat templ);
 
         std::string m_templ_name;
         double m_templ_thres = 0.0;
