@@ -166,7 +166,7 @@ A Game Assistant for Arknights
 
 ### 软件一打开就闪退
 
-- 目前初步怀疑是运行库问题。可以尝试把 [Visual C++ Redistributable](https://docs.microsoft.com/sl-SI/cpp/windows/latest-supported-vc-redist?view=msvc-160)、[.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) 都安装一下看看有没有效果
+- 目前初步怀疑是运行库问题。可以尝试把 [Visual C++ Redistributable](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-160)、[.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) 都安装一下看看有没有效果
 - 若您有一定的开发能力，也可使用 [Python接口](src/Python/interface.py) 自行调用
 
 ### 连接错误/捕获模拟器窗口错误
