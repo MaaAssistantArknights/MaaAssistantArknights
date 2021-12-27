@@ -10,14 +10,15 @@
 
 ### Opencv
 
-请自行搜索教程安装，没什么特别的，作者当前成功验证过的版本为`4.5.3`版本，不需要`opencv_contrib`
+- 请自行搜索教程安装，没什么特别的，作者当前成功验证过的版本为`4.5.3`版本，不需要`opencv_contrib`
+- 请注意，`3rdparty/include/opencv`中的头文件是`4.5.3`版本的，若是使用其他版本，请注意头文件冲突问题（直接删了`3rdparty/include/opencv`就好，用你自己的）
 
 ### PaddleOCR
 
 1. 使用我魔改了接口的版本：https://github.com/MistEO/PaddleOCR
 2. 参考 [这个教程](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.3/deploy/cpp_infer#readme)
-3. PaddlePaddle 直接[下载](https://www.paddlepaddle.org.cn/documentation/docs/zh/2.0/guides/05_inference_deployment/inference/build_and_install_lib_cn.html)即可
-4. 如果 cmake 找不到 opencv，可以尝试修改 CMakeLists.txt 里 49 行，非 Win32 下的 Opencv 查找路径
+3. PaddlePaddle 直接 [下载](https://www.paddlepaddle.org.cn/documentation/docs/zh/2.0/guides/05_inference_deployment/inference/build_and_install_lib_cn.html) 即可
+4. 如果 cmake 找不到 opencv，可以尝试修改 CMakeLists.txt 里 49 行 Opencv 查找路径
 
 编译选项参考
 

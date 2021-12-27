@@ -79,7 +79,7 @@ asst::Controller::~Controller()
 
 #ifndef _WIN32
     if (m_child) {
-#else 
+#else
     if (true) {
 #endif
         call_command(m_emulator_info.adb.release);
@@ -96,7 +96,7 @@ asst::Controller::~Controller()
     close(m_pipe_out[PIPE_READ]);
     close(m_pipe_out[PIPE_WRITE]);
 #endif
-}
+    }
 
 bool asst::Controller::connect_adb(const std::string & address)
 {
@@ -461,7 +461,6 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
                 pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
                 read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
             };
-
         } while (::waitpid(m_child, NULL, WNOHANG) == 0);
     }
     else {

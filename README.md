@@ -250,7 +250,7 @@ A Game Assistant for Arknights
 
 ### Linux | MacOs
 
-[编译教程](src/MeoAssistant/Linux编译教程.md)
+[Linux 编译教程](src/MeoAssistant/Linux编译教程.md)
 
 ## 广告
 
