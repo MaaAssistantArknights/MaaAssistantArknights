@@ -216,8 +216,13 @@ if __name__ == "__main__":
 
     @Asst.CallBackType
     def my_callback(msg, details, arg):
-        d = json.loads(details.decode('gbk'))
-        print(Message(msg), d, arg)
+        m = Message(msg)
+        if platform.system().lower() == 'windows':
+            d = json.loads(details.decode('gbk'))
+        else:
+            d = json.loads(details.decode('utf-8'))
+
+        print(m, d, arg)
 
     if platform.system().lower() == 'windows':
         dirname: str = (pathlib.Path.cwd().parent.parent / 'x64' / 'Release').__str__()
