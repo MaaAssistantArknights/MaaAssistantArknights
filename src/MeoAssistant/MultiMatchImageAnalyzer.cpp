@@ -3,7 +3,7 @@
 #include "Logger.hpp"
 #include "Resource.h"
 
-asst::MultiMatchImageAnalyzer::MultiMatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name, double templ_thres)
+asst::MultiMatchImageAnalyzer::MultiMatchImageAnalyzer(const cv::Mat image, const Rect& roi, std::string templ_name, double templ_thres)
     : AbstractImageAnalyzer(image, roi),
     m_templ_name(templ_name),
     m_templ_thres(templ_thres)
@@ -16,7 +16,7 @@ bool asst::MultiMatchImageAnalyzer::analyze()
     Log.trace("MultiMatchImageAnalyzer::analyze | ", m_templ_name);
     m_result.clear();
 
-    const cv::Mat& templ = Resrc.templ().get_templ(m_templ_name);
+    const cv::Mat templ = Resrc.templ().get_templ(m_templ_name);
     if (templ.empty()) {
         Log.error("templ is empty!");
         return false;
@@ -39,7 +39,7 @@ void asst::MultiMatchImageAnalyzer::sort_result()
         });
 }
 
-bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat& templ)
+bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
 {
     cv::Mat matched;
     cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi));

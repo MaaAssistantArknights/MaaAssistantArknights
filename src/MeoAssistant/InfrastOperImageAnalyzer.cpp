@@ -445,7 +445,7 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
     }
 }
 
-std::string asst::InfrastOperImageAnalyzer::hash_calc(const cv::Mat& image)
+std::string asst::InfrastOperImageAnalyzer::hash_calc(const cv::Mat image)
 {
     //constexpr static int HashKernelSize = 16;
     const static cv::Size HashKernel(16, 16);

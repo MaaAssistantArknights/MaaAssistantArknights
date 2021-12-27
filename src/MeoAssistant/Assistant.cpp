@@ -28,7 +28,7 @@
 using namespace asst;
 
 Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_arg)
-    : m_dirname(std::move(dirname) + "\\"),
+    : m_dirname(std::move(dirname) + "/"),
     m_callback(callback),
     m_callback_arg(callback_arg)
 {
@@ -37,10 +37,10 @@ Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_
 
     LogTraceFunction;
 
-    bool resource_ret = Resrc.load(m_dirname + "Resource\\");
+    bool resource_ret = Resrc.load(m_dirname + "Resource/");
     if (!resource_ret) {
         const std::string& error = Resrc.get_last_error();
-        Log.error("resource broken", error);
+        Log.error("resource broken:", error);
         if (m_callback == nullptr) {
             throw error;
         }
@@ -92,7 +92,7 @@ bool Assistant::catch_emulator(const std::string& emulator_name)
     LogTraceFunction;
 
     stop();
-
+#ifdef _WIN32
     bool ret = false;
     //std::string cor_name = emulator_name;
     auto& cfg = Resrc.cfg();
@@ -116,6 +116,9 @@ bool Assistant::catch_emulator(const std::string& emulator_name)
 
     m_inited = ret;
     return ret;
+#else   // Not supported catch emulator in Linux
+    return false;
+#endif
 }
 
 bool asst::Assistant::catch_custom(const std::string& address)
@@ -188,19 +191,11 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
     terminal_task_ptr->set_task_chain(TaskChain);
     terminal_task_ptr->set_tasks({ "StageBegin" });
     terminal_task_ptr->set_times_limit("LastBattle", 0);
-    terminal_task_ptr->set_times_limit("StartButton1", 0);
-    terminal_task_ptr->set_times_limit("StartButton2", 0);
-    terminal_task_ptr->set_times_limit("MedicineConfirm", 0);
-    terminal_task_ptr->set_times_limit("StoneConfirm", 0);
 
     // 进入对应的关卡
     auto stage_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
     stage_task_ptr->set_task_chain(TaskChain);
     stage_task_ptr->set_tasks({ stage });
-    stage_task_ptr->set_times_limit("StartButton1", 0);
-    stage_task_ptr->set_times_limit("StartButton2", 0);
-    stage_task_ptr->set_times_limit("MedicineConfirm", 0);
-    stage_task_ptr->set_times_limit("StoneConfirm", 0);
 
     // 开始战斗任务
     auto fight_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
@@ -209,7 +204,6 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
     fight_task_ptr->set_times_limit("MedicineConfirm", mecidine);
     fight_task_ptr->set_times_limit("StoneConfirm", stone);
     fight_task_ptr->set_times_limit("StartButton1", times);
-    fight_task_ptr->set_times_limit("StartButton2", times);
 
     std::unique_lock<std::mutex> lock(m_mutex);
 

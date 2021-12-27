@@ -13,9 +13,9 @@ namespace penguin
 
 bool asst::PenguinPack::load(const std::string& dir)
 {
-    bool ret = load_json(dir + "\\json\\stages.json", dir + "\\json\\hash_index.json");
+    bool ret = load_json(dir + "/json/stages.json", dir + "/json/hash_index.json");
 
-    for (const auto& file : std::filesystem::directory_iterator(dir + "\\items")) {
+    for (const auto& file : std::filesystem::directory_iterator(dir + "/items")) {
         ret &= load_templ(file.path().stem().u8string(), file.path().u8string());
     }
     return ret;
@@ -27,7 +27,7 @@ void asst::PenguinPack::set_language(const std::string& server)
     penguin::load_server(server.c_str());
 }
 
-std::string asst::PenguinPack::recognize(const cv::Mat& image)
+std::string asst::PenguinPack::recognize(const cv::Mat image)
 {
     std::vector<uchar> buf;
     cv::imencode(".png", image, buf);

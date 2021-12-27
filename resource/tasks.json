@@ -99,7 +99,8 @@
     "SwipeToStageBI8": {
         "algorithm": "justReturn",
         "action": "swipeToTheRight",
-        "maxTimes": 3,
+        "maxTimes": 20,
+        "maxTimes_Doc": "SwipeToStageBI8是JustReturn的，为了避免无限卡在这里，设个上限",
         "exceededNext": [
             "StageBI8"
         ],
@@ -160,7 +161,7 @@
     "SwipeToStageBI7": {
         "algorithm": "justReturn",
         "action": "swipeToTheRight",
-        "maxTimes": 3,
+        "maxTimes": 20,
         "exceededNext": [
             "StageBI7"
         ],
@@ -547,7 +548,6 @@
     },
     "MedicineConfirm": {
         "action": "clickSelf",
-        "maxTimes": 0,
         "roi": [
             1000,
             500,
@@ -579,7 +579,6 @@
     "StoneConfirm": {
         "template": "MedicineConfirm.png",
         "action": "clickSelf",
-        "maxTimes": 0,
         "roi": [
             1000,
             500,

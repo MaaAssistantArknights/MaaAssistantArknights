@@ -10,8 +10,11 @@
 #include <queue>
 #include <shared_mutex>
 #include <thread>
+#include <atomic>
 
+#ifdef _WIN32
 #include <Windows.h>
+#endif
 
 #include <opencv2/opencv.hpp>
 
@@ -90,12 +93,20 @@ namespace asst
         bool m_image_convert_lf = false;
 
         constexpr static int PipeBuffSize = 1048576; // 管道缓冲区大小
+#ifdef _WIN32
         HANDLE m_pipe_read = nullptr;                // 读管道句柄
         HANDLE m_pipe_write = nullptr;               // 写管道句柄
         HANDLE m_pipe_child_read = nullptr;          // 子进程的读管道句柄
         HANDLE m_pipe_child_write = nullptr;         // 子进程的写管道句柄
         SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 }; // 管道安全描述符
         STARTUPINFOA m_child_startup_info = { 0 };   // 子进程启动信息
+#else
+        constexpr static int PIPE_READ = 0;
+        constexpr static int PIPE_WRITE = 1;
+        int m_pipe_in[2] = { 0 };
+        int m_pipe_out[2] = { 0 };
+        int m_child = 0;
+#endif
 
         EmulatorInfo m_emulator_info;
         std::minstd_rand m_rand_engine;
