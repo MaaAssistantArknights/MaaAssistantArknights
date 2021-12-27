@@ -73,7 +73,7 @@ namespace MeoAsstGui
             _ptr = AsstCreateEx(System.IO.Directory.GetCurrentDirectory(), _callback, IntPtr.Zero);
             if (_ptr == IntPtr.Zero)
             {
-                _windowManager.ShowMessageBox("程序初始化错误！请检查是否是因为使用了中文路径", "错误");
+                _windowManager.ShowMessageBox("出现未知异常", "错误");
                 Environment.Exit(0);
             }
             var tvm = _container.Get<TaskQueueViewModel>();
@@ -228,7 +228,7 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.InitFaild:
-                    _windowManager.ShowMessageBox("资源文件错误！请尝试重新解压或下载", "错误");
+                    _windowManager.ShowMessageBox("初始化错误！请检查是否使用了中文路径", "错误");
                     Environment.Exit(0);
                     break;
             }
