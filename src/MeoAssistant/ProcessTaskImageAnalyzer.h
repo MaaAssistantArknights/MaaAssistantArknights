@@ -38,7 +38,7 @@ namespace asst
 
         ProcessTaskImageAnalyzer& operator=(const ProcessTaskImageAnalyzer&) = delete;
         ProcessTaskImageAnalyzer& operator=(ProcessTaskImageAnalyzer&&) = delete;
- 
+
     private:
         // 该分析器不支持外部设置ROI
         virtual void set_roi(const Rect& roi) noexcept override

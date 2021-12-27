@@ -22,3 +22,13 @@
 - 公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)
 - 干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)
 - 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
+
+## 开发相关
+
+### Windows
+
+直接使用 Visual 2019 或以上版本打开`MeoAssistantArknights.sln`即可，所有环境都是配置好的
+
+### Linux | MacOs
+
+[Linux 编译教程](Linux编译教程.md)

@@ -30,7 +30,6 @@ if (WIN32)
 else ()
     find_package(OpenCV REQUIRED)
 endif ()
-include_directories(${OpenCV_INCLUDE_DIRS})
 
 target_link_libraries(MeoAssistant ${OpenCV} ${PaddleOCR_LIB} ${Penguin_LIB} ${MeoJson_LIB})
 
