@@ -572,7 +572,7 @@ bool asst::Controller::screencap()
 {
     LogTraceFunction;
 
-#if 0
+#if 1
     auto&& [ret, data] = call_command(m_emulator_info.adb.screencap);
     if (ret && !data.empty()) {
         if (m_image_convert_lf) {
