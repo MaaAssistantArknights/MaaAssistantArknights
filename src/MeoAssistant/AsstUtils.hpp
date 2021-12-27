@@ -4,7 +4,16 @@
 #include <sstream>
 #include <string>
 
+#ifdef _WIN32
 #include <Windows.h>
+#else
+#include <time.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <memory.h>
+#endif
 
 namespace asst
 {
@@ -42,17 +51,33 @@ namespace asst
 
         static std::string get_format_time()
         {
+            char buff[128] = { 0 };
+#ifdef _WIN32
             SYSTEMTIME curtime;
             GetLocalTime(&curtime);
-            char buff[64] = { 0 };
-            sprintf_s(buff, "%04d-%02d-%02d %02d:%02d:%02d.%03d",
+#ifdef _MSC_VER
+            sprintf_s(buff, sizeof(buff),
+#else   // ! _MSC_VER
+            sprintf(buff,
+#endif  // END _MSC_VER
+            "%04d-%02d-%02d %02d:%02d:%02d.%03d",
                       curtime.wYear, curtime.wMonth, curtime.wDay,
                       curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds);
+
+#else   // ! _WIN32
+            struct timeval tv = { 0 };
+            gettimeofday(&tv, NULL);
+            time_t nowtime = tv.tv_sec;
+            struct tm* tm_info = localtime(&nowtime);
+            strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", tm_info);
+            sprintf(buff, "%s.%03ld", buff, tv.tv_usec / 1000);
+#endif  // END _WIN32
             return buff;
         }
 
         static std::string gbk_2_utf8(const std::string& gbk_str)
         {
+#ifdef _WIN32
             const char* src_str = gbk_str.c_str();
             int len = MultiByteToWideChar(CP_ACP, 0, src_str, -1, NULL, 0);
             wchar_t* wstr = new wchar_t[len + 1];
@@ -68,10 +93,14 @@ namespace asst
             if (str)
                 delete[] str;
             return strTemp;
+#else   // Don't fucking use gbk in linux!
+            return gbk_str;
+#endif
         }
 
         static std::string utf8_to_gbk(const std::string& utf8_str)
         {
+#ifdef _WIN32
             const char* src_str = utf8_str.c_str();
             int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, NULL, 0);
             wchar_t* wszGBK = new wchar_t[len + 1];
@@ -87,6 +116,9 @@ namespace asst
             if (szGBK)
                 delete[] szGBK;
             return strTemp;
+#else   // Don't fucking use gbk in linux!
+            return utf8_str;
+#endif
         }
 
         template <typename RetTy, typename ArgType>
@@ -137,13 +169,16 @@ namespace asst
 
         static std::string callcmd(const std::string& cmdline)
         {
+            constexpr int BuffSize = 4096;
+            std::string pipe_str;
+#ifdef _WIN32
             SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
             pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
             pipe_sec_attr.lpSecurityDescriptor = nullptr;
             pipe_sec_attr.bInheritHandle = TRUE;
             HANDLE pipe_read = nullptr;
             HANDLE pipe_child_write = nullptr;
-            CreatePipe(&pipe_read, &pipe_child_write, &pipe_sec_attr, 4096);
+            CreatePipe(&pipe_read, &pipe_child_write, &pipe_sec_attr, BuffSize);
 
             STARTUPINFOA si = { 0 };
             si.cb = sizeof(STARTUPINFO);
@@ -155,7 +190,6 @@ namespace asst
             PROCESS_INFORMATION pi = { 0 };
 
             BOOL p_ret = CreateProcessA(NULL, const_cast<LPSTR>(cmdline.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
-            std::string pipe_str;
             if (p_ret) {
                 DWORD read_num = 0;
                 DWORD std_num = 0;
@@ -182,6 +216,61 @@ namespace asst
             ::CloseHandle(pipe_read);
             ::CloseHandle(pipe_child_write);
 
+#else
+            constexpr static int PIPE_READ = 0;
+            constexpr static int PIPE_WRITE = 1;
+            int pipe_in[2] = { 0 };
+            int pipe_out[2] = { 0 };
+            int pipe_in_ret = pipe(pipe_in);
+            int pipe_out_ret = pipe(pipe_out);
+            fcntl(pipe_out[PIPE_READ], F_SETFL, O_NONBLOCK);
+            int exit_ret = 0;
+            int child = fork();
+            if (child == 0) {
+                // child process
+                dup2(pipe_in[PIPE_READ], STDIN_FILENO);
+                dup2(pipe_out[PIPE_WRITE], STDOUT_FILENO);
+                dup2(pipe_out[PIPE_WRITE], STDERR_FILENO);
+
+                // all these are for use by parent only
+                close(pipe_in[PIPE_READ]);
+                close(pipe_in[PIPE_WRITE]);
+                close(pipe_out[PIPE_READ]);
+                close(pipe_out[PIPE_WRITE]);
+
+                exit_ret = execlp("sh", "sh", "-c", cmdline.c_str(), NULL);
+                exit(exit_ret);
+            }
+            else if (child > 0) {
+                // parent process
+
+                // close unused file descriptors, these are for child only
+                close(pipe_in[PIPE_READ]);
+                close(pipe_out[PIPE_WRITE]);
+
+                std::unique_ptr<char> pipe_buffer(new char[BuffSize + 1]);
+                do {
+                    memset(pipe_buffer.get(), 0, BuffSize);
+                    ssize_t read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
+
+                    while (read_num > 0) {
+                        pipe_str.append(pipe_buffer.get(), pipe_buffer.get() + read_num);
+                        read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
+                    };
+
+                } while (::waitpid(child, NULL, WNOHANG) == 0);
+
+                close(pipe_in[PIPE_WRITE]);
+                close(pipe_out[PIPE_READ]);
+            }
+            else {
+                // failed to create child process
+                close(pipe_in[PIPE_READ]);
+                close(pipe_in[PIPE_WRITE]);
+                close(pipe_out[PIPE_READ]);
+                close(pipe_out[PIPE_WRITE]);
+            }
+#endif
             return pipe_str;
         }
 

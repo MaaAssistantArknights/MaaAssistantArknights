@@ -1,8 +1,14 @@
 #include "Controller.h"
 
+#ifdef _WIN32
 #include <WinUser.h>
-#include <stdint.h>
+#else
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#endif
 
+#include <stdint.h>
 #include <algorithm>
 #include <chrono>
 #include <regex>
@@ -21,6 +27,7 @@ asst::Controller::Controller()
 {
     LogTraceFunction;
 
+#ifdef _WIN32
     // 安全属性描述符
     m_pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
     m_pipe_sec_attr.lpSecurityDescriptor = nullptr;
@@ -42,12 +49,56 @@ asst::Controller::Controller()
     m_child_startup_info.hStdInput = m_pipe_child_read;
     m_child_startup_info.hStdOutput = m_pipe_child_write;
     m_child_startup_info.hStdError = m_pipe_child_write;
+#else
+    int pipe_in_ret = pipe(m_pipe_in);
+    int pipe_out_ret = pipe(m_pipe_out);
+    fcntl(m_pipe_out[PIPE_READ], F_SETFL, O_NONBLOCK);
+
+    if (pipe_in_ret < 0 || pipe_out_ret < 0) {
+        throw "controller pipe created failed";
+    }
+
+#endif
 
     auto bind_pipe_working_proc = std::bind(&Controller::pipe_working_proc, this);
     m_cmd_thread = std::thread(bind_pipe_working_proc);
 }
 
-bool asst::Controller::connect_adb(const std::string& address)
+asst::Controller::~Controller()
+{
+    LogTraceFunction;
+
+    m_thread_exit = true;
+    //m_thread_idle = true;
+    m_cmd_condvar.notify_all();
+    m_completed_id = UINT_MAX; // make all WinMacor::wait to exit
+
+    if (m_cmd_thread.joinable()) {
+        m_cmd_thread.join();
+    }
+
+#ifndef _WIN32
+    if (m_child) {
+#else 
+    if (true) {
+#endif
+        call_command(m_emulator_info.adb.release);
+    }
+
+#ifdef _WIN32
+    ::CloseHandle(m_pipe_read);
+    ::CloseHandle(m_pipe_write);
+    ::CloseHandle(m_pipe_child_read);
+    ::CloseHandle(m_pipe_child_write);
+#else
+    close(m_pipe_in[PIPE_READ]);
+    close(m_pipe_in[PIPE_WRITE]);
+    close(m_pipe_out[PIPE_READ]);
+    close(m_pipe_out[PIPE_WRITE]);
+#endif
+}
+
+bool asst::Controller::connect_adb(const std::string & address)
 {
     LogTraceScope("connect_adb " + address);
 
@@ -73,7 +124,11 @@ bool asst::Controller::connect_adb(const std::string& address)
         std::make_move_iterator(display_result.end()));
     int size_value1 = 0;
     int size_value2 = 0;
+#ifdef _MSC_VER
     sscanf_s(display_pipe_str.c_str(), m_emulator_info.adb.display_format.c_str(), &size_value1, &size_value2);
+#else
+    sscanf(display_pipe_str.c_str(), m_emulator_info.adb.display_format.c_str(), &size_value1, &size_value2);
+#endif
     // 为了防止抓取句柄的时候手机是竖屏的（还没进游戏），这里取大的值为宽，小的为高
     // 总不能有人竖屏玩明日方舟吧（？
     m_emulator_info.adb.display_width = (std::max)(size_value1, size_value2);
@@ -103,30 +158,7 @@ bool asst::Controller::connect_adb(const std::string& address)
     return true;
 }
 
-asst::Controller::~Controller()
-{
-    LogTraceFunction;
-
-    m_thread_exit = true;
-    //m_thread_idle = true;
-    m_cmd_condvar.notify_all();
-    m_completed_id = UINT_MAX; // make all WinMacor::wait to exit
-
-    if (m_cmd_thread.joinable()) {
-        m_cmd_thread.join();
-    }
-
-    if (!m_emulator_info.adb.release.empty()) {
-        call_command(m_emulator_info.adb.release);
-    }
-
-    ::CloseHandle(m_pipe_read);
-    ::CloseHandle(m_pipe_write);
-    ::CloseHandle(m_pipe_child_read);
-    ::CloseHandle(m_pipe_child_write);
-}
-
-asst::Rect asst::Controller::shaped_correct(const Rect& rect) const
+asst::Rect asst::Controller::shaped_correct(const Rect & rect) const
 {
     if (rect.empty()) {
         return rect;
@@ -221,7 +253,7 @@ void asst::Controller::set_dirname(std::string dirname) noexcept
     m_dirname = std::move(dirname);
 }
 
-bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle)
+bool asst::Controller::try_capture(const EmulatorInfo & info, bool without_handle)
 {
     LogTraceScope("try_capture | " + info.name);
 
@@ -229,6 +261,7 @@ bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle
 
     std::string adb_path;
     if (!without_handle) { // 使用模拟器自带的adb
+#ifdef _WIN32   // Only support Windows
         // 转成宽字符的
         wchar_t* class_wbuff = nullptr;
         if (!handle_info.class_name.empty()) {
@@ -293,10 +326,18 @@ bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle
         adb_path = emulator_path.substr(0, emulator_path.find_last_of('\\') + 1);
         adb_path = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[EmulatorPath]", adb_path) + '"';
         adb_path = utils::string_replace_all(adb_path, "[ExecDir]", m_dirname);
+#else
+        Log.error("Capture handle is only supported on Windows!");
+        return false;
+#endif
     }
     else { // 使用辅助自带的标准adb
         m_emulator_info = info;
+#ifdef _WIN32
         adb_path = '"' + utils::string_replace_all(m_emulator_info.adb.path, "[ExecDir]", m_dirname) + '"';
+#else
+        adb_path = m_emulator_info.adb.path;
+#endif
     }
 
     m_emulator_info.adb.path = std::move(adb_path);
@@ -348,17 +389,19 @@ bool asst::Controller::try_capture(const EmulatorInfo& info, bool without_handle
 //	}
 //}
 
-std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const std::string& cmd)
+std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const std::string & cmd)
 {
     LogTraceFunction;
 
     static std::mutex pipe_mutex;
     std::unique_lock<std::mutex> pipe_lock(pipe_mutex);
 
+    std::vector<uchar> pipe_data;
+
+#ifdef _WIN32
     PROCESS_INFORMATION process_info = { 0 }; // 进程信息结构体
     ::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &m_child_startup_info, &process_info);
 
-    std::vector<uchar> pipe_data;
     do {
         //DWORD write_num = 0;
         //WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, NULL);
@@ -383,7 +426,50 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
 
     ::CloseHandle(process_info.hProcess);
     ::CloseHandle(process_info.hThread);
-    Log.trace("Call", cmd, "ret", exit_ret, ", output size:", pipe_data.size());
+
+#else
+    int exit_ret = 0;
+    m_child = fork();
+    if (m_child == 0) {
+        // child process
+        LogTraceScope("Child process: " + cmd);
+        std::cout << ("Child process: " + cmd) << std::endl;
+
+        dup2(m_pipe_in[PIPE_READ], STDIN_FILENO);
+        dup2(m_pipe_out[PIPE_WRITE], STDOUT_FILENO);
+        dup2(m_pipe_out[PIPE_WRITE], STDERR_FILENO);
+
+        // all these are for use by parent only
+        // close(m_pipe_in[PIPE_READ]);
+        // close(m_pipe_in[PIPE_WRITE]);
+        // close(m_pipe_out[PIPE_READ]);
+        // close(m_pipe_out[PIPE_WRITE]);
+
+        exit_ret = execlp("sh", "sh", "-c", cmd.c_str(), NULL);
+        exit(exit_ret);
+    }
+    else if (m_child > 0) {
+        // parent process
+        // LogTraceScope("Parent process: " + cmd);
+        constexpr int BuffSize = 4096;
+        std::unique_ptr<uchar> pipe_buffer(new uchar[BuffSize + 1]);
+        do {
+            memset(pipe_buffer.get(), 0, BuffSize);
+            ssize_t read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
+
+            while (read_num > 0) {
+                pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
+                read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
+            };
+
+        } while (::waitpid(m_child, NULL, WNOHANG) == 0);
+    }
+    else {
+        // failed to create child process
+    }
+#endif
+
+    Log.trace("Call `", cmd, "` ret", exit_ret, ", output size:", pipe_data.size());
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
         Log.trace("output:", std::string(pipe_data.cbegin(), pipe_data.cend()));
     }
@@ -391,7 +477,7 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
     return make_pair(!exit_ret, std::move(pipe_data));
 }
 
-void asst::Controller::convert_lf(std::vector<unsigned char>& data)
+void asst::Controller::convert_lf(std::vector<unsigned char>&data)
 {
     LogTraceFunction;
 
@@ -424,7 +510,7 @@ void asst::Controller::convert_lf(std::vector<unsigned char>& data)
     data.erase(next_iter, data.end());
 }
 
-asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
+asst::Point asst::Controller::rand_point_in_rect(const Rect & rect)
 {
     int x = 0, y = 0;
     if (rect.width == 0) {
@@ -465,7 +551,7 @@ void asst::Controller::random_delay() const
     }
 }
 
-int asst::Controller::push_cmd(const std::string& cmd)
+int asst::Controller::push_cmd(const std::string & cmd)
 {
     random_delay();
 
@@ -486,6 +572,7 @@ bool asst::Controller::screencap()
 {
     LogTraceFunction;
 
+#if 1
     auto&& [ret, data] = call_command(m_emulator_info.adb.screencap);
     if (ret && !data.empty()) {
         if (m_image_convert_lf) {
@@ -510,13 +597,17 @@ bool asst::Controller::screencap()
         Log.error("Data is empty!");
         return false;
     }
+#else
+    m_cache_image = cv::imread("/home/mreo/test.png");
+    return true;
+#endif
 
     //cv::Mat temp_image = cv::imdecode(data, cv::IMREAD_COLOR);
     ////std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
     //m_cache_image = std::move(temp_image);
 }
 
-int asst::Controller::click(const Point& p, bool block)
+int asst::Controller::click(const Point & p, bool block)
 {
     int x = p.x * m_control_scale;
     int y = p.y * m_control_scale;
@@ -525,12 +616,12 @@ int asst::Controller::click(const Point& p, bool block)
     return click_without_scale(Point(x, y), block);
 }
 
-int asst::Controller::click(const Rect& rect, bool block)
+int asst::Controller::click(const Rect & rect, bool block)
 {
     return click(rand_point_in_rect(rect), block);
 }
 
-int asst::Controller::click_without_scale(const Point& p, bool block)
+int asst::Controller::click_without_scale(const Point & p, bool block)
 {
     if (p.x < 0 || p.x >= m_emulator_info.adb.display_width || p.y < 0 || p.y >= m_emulator_info.adb.display_height) {
         Log.error("click point out of range");
@@ -544,12 +635,12 @@ int asst::Controller::click_without_scale(const Point& p, bool block)
     return id;
 }
 
-int asst::Controller::click_without_scale(const Rect& rect, bool block)
+int asst::Controller::click_without_scale(const Rect & rect, bool block)
 {
     return click_without_scale(rand_point_in_rect(rect), block);
 }
 
-int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
+int asst::Controller::swipe(const Point & p1, const Point & p2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     int x1 = p1.x * m_control_scale;
     int y1 = p1.y * m_control_scale;
@@ -560,12 +651,12 @@ int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool
     return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block, extra_delay, extra_swipe);
 }
 
-int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe)
+int asst::Controller::swipe(const Rect & r1, const Rect & r2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
 
-int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
+int asst::Controller::swipe_without_scale(const Point & p1, const Point & p2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     if (p1.x < 0 || p1.x >= m_emulator_info.adb.display_width || p1.y < 0 || p1.y >= m_emulator_info.adb.display_height || p2.x < 0 || p2.x >= m_emulator_info.adb.display_width || p2.y < 0 || p2.y >= m_emulator_info.adb.display_height) {
         Log.error("swipe point out of range");
@@ -619,7 +710,7 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
     return id;
 }
 
-int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe)
+int asst::Controller::swipe_without_scale(const Rect & r1, const Rect & r2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
@@ -640,9 +731,9 @@ cv::Mat asst::Controller::get_image(bool raw)
         if (m_cache_image.empty()) {
             return m_cache_image;
         }
-        const static cv::Size size(m_scale_size.first, m_scale_size.second);
-        cv::Mat resize_mat;
-        cv::resize(m_cache_image, resize_mat, size, cv::INPAINT_NS);
-        return resize_mat;
+        cv::Mat resized_mat;
+        const static cv::Size dsize(m_scale_size.first, m_scale_size.second);
+        cv::resize(m_cache_image, resized_mat, dsize);
+        return resized_mat;
     }
 }

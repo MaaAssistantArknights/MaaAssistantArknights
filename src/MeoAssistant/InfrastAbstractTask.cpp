@@ -67,7 +67,7 @@ bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int 
     };
     m_callback(AsstMsg::EnterFacility, enter_json, m_callback_arg);
 
-    const auto& image = Ctrler.get_image();
+    const auto image = Ctrler.get_image();
 
     InfrastFacilityImageAnalyzer analyzer(image);
     analyzer.set_to_be_analyzed({ facility });
@@ -190,7 +190,7 @@ bool asst::InfrastAbstractTask::click_confirm_button()
         if (need_exit()) {
             return false;
         }
-        const auto& image = Ctrler.get_image();
+        const auto image = Ctrler.get_image();
         analyzer.set_image(image);
         if (!analyzer.analyze()) {
             sleep(task_ptr->rear_delay);

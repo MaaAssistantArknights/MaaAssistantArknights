@@ -22,7 +22,7 @@ bool RecruitTask::_run()
     m_has_special_tag = false;
     m_has_refresh = false;
 
-    const cv::Mat& image = Ctrler.get_image();
+    const cv::Mat image = Ctrler.get_image();
     if (image.empty()) {
         m_callback(AsstMsg::ImageIsEmpty, task_start_json, m_callback_arg);
         return false;

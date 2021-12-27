@@ -21,7 +21,11 @@ bool asst::AipOcr::request_access_token(const std::string& client_id, const std:
 
     constexpr int cmd_len = 256;
     char cmd[cmd_len] = { 0 };
+#ifdef _MSC_VER
     sprintf_s(cmd, cmd_len, cmd_fmt.data(), client_id.c_str(), client_secret.c_str());
+#else
+    sprintf(cmd, cmd_fmt.data(), client_id.c_str(), client_secret.c_str());
+#endif
 
     Log.trace("call cmd:", cmd);
 
@@ -43,7 +47,7 @@ bool asst::AipOcr::request_access_token(const std::string& client_id, const std:
     return true;
 }
 
-bool asst::AipOcr::request_ocr_general(const cv::Mat& image, std::vector<TextRect>& out_result, const TextRectProc& pred)
+bool asst::AipOcr::request_ocr_general(const cv::Mat image, std::vector<TextRect>& out_result, const TextRectProc& pred)
 {
     LogTraceFunction;
 
@@ -58,7 +62,7 @@ bool asst::AipOcr::request_ocr_general(const cv::Mat& image, std::vector<TextRec
     return request_ocr_and_parse(cmd_fmt, image, out_result, pred);
 }
 
-bool asst::AipOcr::request_ocr_accurate(const cv::Mat& image, std::vector<TextRect>& out_result, const TextRectProc& pred)
+bool asst::AipOcr::request_ocr_accurate(const cv::Mat image, std::vector<TextRect>& out_result, const TextRectProc& pred)
 {
     LogTraceFunction;
 
@@ -73,7 +77,7 @@ bool asst::AipOcr::request_ocr_accurate(const cv::Mat& image, std::vector<TextRe
     return request_ocr_and_parse(cmd_fmt, image, out_result, pred);
 }
 
-bool asst::AipOcr::request_ocr_and_parse(std::string_view cmd_fmt, const cv::Mat& image, std::vector<TextRect>& out_result, const TextRectProc& pred)
+bool asst::AipOcr::request_ocr_and_parse(std::string_view cmd_fmt, const cv::Mat image, std::vector<TextRect>& out_result, const TextRectProc& pred)
 {
     if (m_access_token.empty()) {
         return false;
@@ -88,8 +92,11 @@ bool asst::AipOcr::request_ocr_and_parse(std::string_view cmd_fmt, const cv::Mat
     size_t cmd_len = encoded.size() + cmd_fmt.size() + m_access_token.size();
     char* cmd = new char[cmd_len];
     memset(cmd, 0, cmd_len);
+#ifdef _MSC_VER
     sprintf_s(cmd, cmd_len, cmd_fmt.data(), m_access_token.c_str(), encoded.c_str());
-
+#else
+    sprintf(cmd, cmd_fmt.data(), m_access_token.c_str(), encoded.c_str());
+#endif
     Log.trace("call cmd:", cmd);
     std::string response = utils::callcmd(cmd);
     delete[] cmd;

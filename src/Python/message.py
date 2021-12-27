@@ -10,7 +10,7 @@ class Message(Enum):
     注释部分仅展示常用消息的回调JSON格式，完全的回调JSON请参考C++侧实现代码
     """
 
-    PtrIsNull = auto()
+    PtrIsNull = 0
     """
     指针为空
     """

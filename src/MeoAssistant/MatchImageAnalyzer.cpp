@@ -4,7 +4,7 @@
 #include "Logger.hpp"
 #include "Resource.h"
 
-asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name, double templ_thres, double hist_thres)
+asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat image, const Rect& roi, std::string templ_name, double templ_thres, double hist_thres)
     : AbstractImageAnalyzer(image, roi),
     m_templ_name(std::move(templ_name)),
     m_templ_thres(templ_thres)
@@ -14,7 +14,7 @@ asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& r
 
 bool asst::MatchImageAnalyzer::analyze()
 {
-    const cv::Mat& templ = Resrc.templ().get_templ(m_templ_name);
+    const cv::Mat templ = Resrc.templ().get_templ(m_templ_name);
     if (templ.empty()) {
         Log.error("templ is empty!");
         return false;
@@ -22,7 +22,7 @@ bool asst::MatchImageAnalyzer::analyze()
     return match_templ(templ);
 }
 
-bool asst::MatchImageAnalyzer::match_templ(const cv::Mat& templ)
+bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
 {
     cv::Mat matched;
 

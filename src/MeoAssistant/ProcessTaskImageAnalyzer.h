@@ -16,12 +16,12 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        ProcessTaskImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
-        ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name);
+        ProcessTaskImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
+        ProcessTaskImageAnalyzer(const cv::Mat image, std::vector<std::string> tasks_name);
         virtual ~ProcessTaskImageAnalyzer();
 
         virtual bool analyze() override;
-        virtual void set_image(const cv::Mat& image) override;
+        virtual void set_image(const cv::Mat image) override;
 
         void set_tasks(std::vector<std::string> tasks_name)
         {
@@ -36,13 +36,16 @@ namespace asst
             return m_result_rect;
         }
 
+        ProcessTaskImageAnalyzer& operator=(const ProcessTaskImageAnalyzer&) = delete;
+        ProcessTaskImageAnalyzer& operator=(ProcessTaskImageAnalyzer&&) = delete;
+ 
     private:
         // 该分析器不支持外部设置ROI
         virtual void set_roi(const Rect& roi) noexcept override
         {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat& image, const Rect& roi)
+        virtual void set_image(const cv::Mat image, const Rect& roi)
         {
             AbstractImageAnalyzer::set_image(image, roi);
         }
@@ -50,8 +53,8 @@ namespace asst
         bool ocr_analyze(std::shared_ptr<TaskInfo> task_ptr);
         void reset() noexcept;
 
-        std::unique_ptr<OcrImageAnalyzer> m_ocr_analyzer = nullptr;
-        std::unique_ptr<MatchImageAnalyzer> m_match_analyzer = nullptr;
+        std::unique_ptr<OcrImageAnalyzer> m_ocr_analyzer;
+        std::unique_ptr<MatchImageAnalyzer> m_match_analyzer;
         std::vector<std::string> m_tasks_name;
         std::shared_ptr<TaskInfo> m_result;
         Rect m_result_rect;

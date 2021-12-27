@@ -14,7 +14,7 @@ void asst::TemplResource::append_load_required(std::unordered_set<std::string> r
 bool asst::TemplResource::load(const std::string& dir)
 {
     for (const std::string& filename : m_templs_filename) {
-        std::string filepath = dir + "\\" + filename;
+        std::string filepath = dir + "/" + filename;
         if (std::filesystem::exists(filepath)) {
             cv::Mat templ = cv::imread(filepath);
             emplace_templ(filename, std::move(templ));
@@ -33,7 +33,7 @@ bool asst::TemplResource::exist_templ(const std::string& key) const noexcept
     return m_templs.find(key) != m_templs.cend();
 }
 
-const cv::Mat& asst::TemplResource::get_templ(const std::string& key) const noexcept
+const cv::Mat asst::TemplResource::get_templ(const std::string& key) const noexcept
 {
     if (auto iter = m_templs.find(key);
         iter != m_templs.cend()) {
