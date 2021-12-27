@@ -5,10 +5,9 @@
 <br>
 <div>
     <img alt="C++" src="https://img.shields.io/badge/c++-17-%2300599C?logo=cplusplus">
-    <img alt="VS" src="https://img.shields.io/badge/VisualStudio-19-%235C2D91?logo=visualstudio">
 </div>
 <div>
-    <img alt="platform" src="https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-blueviolet">
+    <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blueviolet">
 </div>
 <div>
     <img alt="license" src="https://img.shields.io/github/license/MistEO/MeoAssistantArknights">
@@ -155,10 +154,10 @@ A Game Assistant for Arknights
 
 - 公招出 5、6 星会有弹窗提示
 - 主界面上要执行的任务，是可以拖动改变顺序的。同样设置中基建换班的顺序，也是可以拖动改变的
-- 活动关卡掉落识别到的`未知材料`，一般就是活动商店的票据
 - 新的活动关卡刚上线的时候可能无法正常识别，一般一两天内软件会自动 OTA 更新资源，更新后即可正常识别
-- 所有点击操作，都是点击按钮内随机位置，并模拟泊松分布（按钮偏中间位置点的概率大，越往旁边点到的概率越小）
+- 活动关卡掉落识别到的`未知材料`，一般就是活动商店的票据
 - `resource\config.json`中有一些自定义选项，可以尝试根据自己的需要进行修改
+- 所有点击操作，都是点击按钮内随机位置，并模拟泊松分布（按钮偏中间位置点的概率大，越往旁边点到的概率越小）
 - 底层算法纯 C++ 开发，并设计了多重的缓存技术，最大限度降低 CPU 和内存占用
 - 软件支持自动更新✿✿ヽ(°▽°)ノ✿ 推荐非杠精的同学使用测试版，一般来说更新快且 bug 少（什么 MIUI (╯‵□′)╯︵┻━┻
 
@@ -166,50 +165,14 @@ A Game Assistant for Arknights
 
 ### 软件一打开就闪退
 
-- 项目使用了 `PaddleOCR` 来处理公招 tag，而 `PaddleOCR` 在一些老旧设备上无法正常工作。
-- 目前已有计划提供降低性能的替代品来解决该兼容问题，在这之前，很遗憾，您无法正常使用 MeoAssistantArknights 的最新版本。但您可以尝试使用 [2.3.6 版本](https://github.com/MistEO/MeoAssistantArknights/releases/tag/v2.3.6)。
-- 您可以加入 QQ 群跟进相关进展（见底部）
+- 可能性1: CPU指令集不支持。项目使用了 `PaddleOCR` 来进行文字识别，使用到了一些较新发布的 CPU 才支持的指令集。目前已有计划提供降低性能的替代品来解决该兼容问题，在这之前，很遗憾，您无法正常使用 MeoAssistantArknights 的最新版本。但您可以尝试使用 `PaddleOCR` 上线前的 [2.3.6 版本](https://github.com/MistEO/MeoAssistantArknights/releases/tag/v2.3.6)。
+- 可能性2: 运行库问题。可以尝试把 [Visual C++ Redistributable](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-160)、[.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) 都安装一下看看有没有效果。
 
 ### 连接错误/捕获模拟器窗口错误
 
 - 方法1: 使用 [自定义连接](#自定义连接) 的方式连接模拟器
 - 方法2: 换模拟器，推荐 [蓝叠国际版](https://www.bluestacks.com/download.html)
 - 方法3: _根本解决方法_ 编辑`resource/config.json`，修改（最好是新增）模拟器窗口句柄名，并修改对应的 adb 设置。若您修改后可以提 PR 给我，我会感激不尽的_(:з」∠)_
-
-### 
-
-## Todo
-
-- [x] 任务队列功能
-- [x] 常用关卡选关
-- [x] 自动收任务功能
-- [x] 基建智能换班功能
-    - [x] 图形化界面
-    - [x] 干员技能识别
-    - [x] 干员识别准确率提高到 100%
-    - [x] 宿舍心情识别及入驻
-    - [x] 制造站、贸易站智能换班
-    - [x] 发电站、办公室换班
-    - [x] 使用无人机
-    - [x] 控制中枢智能换班
-    - [x] 会客室智能换班
-    - [x] 会客室智能线索交流
-    - [ ] 支持`迷迭香`等复杂基建体系
-    - [x] `激进换班模式`
-    - [ ] 自定义换班（手动修改配置文件）
-    - [ ] 宿舍换班支持加速心情的干员识别
-    - [x] 贸易站无人机支持设置给经验书还是赤金
-- [ ] 使用 GPU 进行识别的版本
-- [x] 企鹅物流汇报，自定义 ID
-- [ ] 指定刷某种材料 xx 个
-- [ ] `config`中部分选项做成图形化界面
-- [x] 界面拖动顺序保存
-- [ ] 进一步的异形屏支持
-- [x] 后台自动更新
-- [x] 忽略当前版本更新
-- [ ] 提供 log 接口，以及界面 log
-- [x] 更换 OCR 库，提高公开招募识别率
-- [x] 终极目标！全自动长草机！！！
 
 ## 致谢
 
