@@ -191,11 +191,19 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
     terminal_task_ptr->set_task_chain(TaskChain);
     terminal_task_ptr->set_tasks({ "StageBegin" });
     terminal_task_ptr->set_times_limit("LastBattle", 0);
+    terminal_task_ptr->set_times_limit("StartButton1", 0);
+    terminal_task_ptr->set_times_limit("StartButton2", 0);
+    terminal_task_ptr->set_times_limit("MedicineConfirm", 0);
+    terminal_task_ptr->set_times_limit("StoneConfirm", 0);
 
     // 进入对应的关卡
     auto stage_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
     stage_task_ptr->set_task_chain(TaskChain);
     stage_task_ptr->set_tasks({ stage });
+    stage_task_ptr->set_times_limit("StartButton1", 0);
+    stage_task_ptr->set_times_limit("StartButton2", 0);
+    stage_task_ptr->set_times_limit("MedicineConfirm", 0);
+    stage_task_ptr->set_times_limit("StoneConfirm", 0);
 
     // 开始战斗任务
     auto fight_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
@@ -204,6 +212,7 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
     fight_task_ptr->set_times_limit("MedicineConfirm", mecidine);
     fight_task_ptr->set_times_limit("StoneConfirm", stone);
     fight_task_ptr->set_times_limit("StartButton1", times);
+    fight_task_ptr->set_times_limit("StartButton2", times);
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
