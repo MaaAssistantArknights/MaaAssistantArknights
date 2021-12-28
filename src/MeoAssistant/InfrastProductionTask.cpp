@@ -115,7 +115,6 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 return false;
             }
             click_clear_button();
-            swipe_to_the_left_of_operlist(2);
 
             if (m_all_available_opers.empty()) {
                 if (!opers_detect_with_swipe()) {
@@ -130,6 +129,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             bool ret = opers_choose();
             if (!ret) {
                 m_all_available_opers.clear();
+                swipe_to_the_left_of_operlist(2);
                 continue;
             }
             break;

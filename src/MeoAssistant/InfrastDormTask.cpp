@@ -17,7 +17,6 @@ bool asst::InfrastDormTask::_run()
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
-    bool random_select = false;
     for (; m_cur_dorm_index < m_max_num_of_dorm; ++m_cur_dorm_index) {
         if (need_exit()) {
             return false;
@@ -30,82 +29,76 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
         click_clear_button();
-        if (!random_select) {
-            swipe_to_the_left_of_operlist();
-        }
-        else {
-            swipe_of_operlist();
-        }
 
-        int num_of_selected = 0;
-        while (num_of_selected < MaxNumOfOpers) {
+        opers_choose();
+
+        click_confirm_button();
+        click_return_button();
+
+        if (m_all_finished) {
+            break;
+        }
+    }
+    return true;
+}
+
+bool asst::InfrastDormTask::opers_choose()
+{
+    int num_of_selected = 0;
+    while (num_of_selected < MaxNumOfOpers) {
+        if (need_exit()) {
+            return false;
+        }
+        const auto image = Ctrler.get_image();
+        InfrastOperImageAnalyzer oper_analyzer(image);
+        const int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
+        oper_analyzer.set_to_be_calced(without_skill);
+        if (!oper_analyzer.analyze()) {
+            Log.error("mood analyze faild!");
+            return false;
+        }
+        oper_analyzer.sort_by_mood();
+        const auto& oper_result = oper_analyzer.get_result();
+
+        int num_of_resting = 0;
+        for (const auto& oper : oper_result) {
             if (need_exit()) {
                 return false;
-            }
-            const auto image = Ctrler.get_image();
-            InfrastOperImageAnalyzer oper_analyzer(image);
-            const int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
-            oper_analyzer.set_to_be_calced(without_skill);
-            if (!oper_analyzer.analyze()) {
-                Log.error("mood analyze faild!");
-                return false;
-            }
-            oper_analyzer.sort_by_mood();
-            const auto& oper_result = oper_analyzer.get_result();
-
-            int num_of_resting = 0;
-            for (const auto& oper : oper_result) {
-                if (need_exit()) {
-                    return false;
-                }
-                if (num_of_selected >= MaxNumOfOpers) {
-                    Log.trace("num_of_selected:", num_of_selected, ", just break");
-                    break;
-                }
-                if (!random_select) {
-                    switch (oper.smiley.type) {
-                    case infrast::SmileyType::Rest:
-                        // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
-                        // 从这时候开始，随机选人，尽量把宿舍填满（游戏机制，可以加信赖，还有些别的加成什么的）
-                        if (++num_of_resting > MaxNumOfOpers) {
-                            Log.trace("num_of_resting:", num_of_resting, ", enable random");
-                            random_select = true;
-                            continue;
-                        }
-                        break;
-                    case infrast::SmileyType::Work:
-                    case infrast::SmileyType::Distract:
-                        // 干员没有被选择的情况下，且不在工作，就进驻宿舍
-                        if (oper.selected == false && oper.doing != infrast::Doing::Working) {
-                            Ctrler.click(oper.rect);
-                            if (++num_of_selected >= MaxNumOfOpers) {
-                                Log.trace("num_of_selected:", num_of_selected, ", just break");
-                                break;
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                    }
-                }
-                else {
-                    if (oper.selected == false && oper.doing != infrast::Doing::Working) {
-                        Ctrler.click(oper.rect);
-                        if (++num_of_selected >= MaxNumOfOpers) {
-                            Log.trace("num_of_selected:", num_of_selected, ", just break");
-                            break;
-                        }
-                    }
-                }
             }
             if (num_of_selected >= MaxNumOfOpers) {
                 Log.trace("num_of_selected:", num_of_selected, ", just break");
                 break;
             }
-            swipe_of_operlist();
+            switch (oper.smiley.type) {
+            case infrast::SmileyType::Rest:
+                // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
+                if (++num_of_resting > MaxNumOfOpers) {
+                    Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
+                    m_all_finished = true;
+                    return true;
+                }
+                break;
+            case infrast::SmileyType::Work:
+            case infrast::SmileyType::Distract:
+                // 干员没有被选择的情况下，且不在工作，就进驻宿舍
+                if (oper.selected == false && oper.doing != infrast::Doing::Working) {
+                    Ctrler.click(oper.rect);
+                    if (++num_of_selected >= MaxNumOfOpers) {
+                        Log.trace("num_of_selected:", num_of_selected, ", just break");
+                        break;
+                    }
+                }
+                break;
+            default:
+                break;
+            }
+
         }
-        click_confirm_button();
-        click_return_button();
+        if (num_of_selected >= MaxNumOfOpers) {
+            Log.trace("num_of_selected:", num_of_selected, ", just break");
+            break;
+        }
+        swipe_of_operlist();
     }
     return true;
 }
