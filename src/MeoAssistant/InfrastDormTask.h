@@ -14,9 +14,11 @@ namespace asst
 
     private:
         virtual bool _run() override;
+        bool opers_choose();
         //virtual bool click_confirm_button() override;
 
         int m_cur_dorm_index = 0;
         int m_max_num_of_dorm = 4;
+        int m_all_finished = false;
     };
 }

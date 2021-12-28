@@ -29,7 +29,6 @@ bool asst::InfrastControlTask::_run()
             return false;
         }
         click_clear_button();
-        swipe_to_the_left_of_operlist();
 
         if (!opers_detect_with_swipe()) {
             return false;
@@ -40,6 +39,7 @@ bool asst::InfrastControlTask::_run()
         bool ret = opers_choose();
         if (!ret) {
             m_all_available_opers.clear();
+            swipe_to_the_left_of_operlist();
             continue;
         }
         break;
