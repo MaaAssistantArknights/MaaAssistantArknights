@@ -7,7 +7,7 @@
     <img alt="C++" src="https://img.shields.io/badge/c++-17-%2300599C?logo=cplusplus">
 </div>
 <div>
-    <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blueviolet">
+    <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%20%7C%20Linux%7C%20macOS-blueviolet">
 </div>
 <div>
     <img alt="license" src="https://img.shields.io/github/license/MistEO/MeoAssistantArknights">
@@ -63,7 +63,7 @@ A Game Assistant for Arknights
 
 ### MuMu 模拟器
 
-完美支持
+支持
 
 ### 雷电模拟器
 
@@ -165,7 +165,7 @@ A Game Assistant for Arknights
 
 ### 软件一打开就闪退
 
-- 可能性1: CPU指令集不支持。项目使用了 `PaddleOCR` 来进行文字识别，使用到了一些较新发布的 CPU 才支持的指令集。目前已有计划提供降低性能的替代品来解决该兼容问题，在这之前，很遗憾，您无法正常使用 MeoAssistantArknights 的最新版本。但您可以尝试使用 `PaddleOCR` 上线前的 [2.3.6 版本](https://github.com/MistEO/MeoAssistantArknights/releases/tag/v2.3.6)。
+- 可能性1: CPU 指令集不支持。项目使用 `PaddleOCR` 来进行文字识别，用到了较新发布的 CPU 才支持的 `avx` 指令集。目前已有计划提供降低性能的替代品来解决该兼容问题，在这之前，很遗憾，您无法正常使用 MeoAssistantArknights 的最新版本。但您可以尝试使用 `PaddleOCR` 上线前的 [2.3.6 版本](https://github.com/MistEO/MeoAssistantArknights/releases/tag/v2.3.6)。
 - 可能性2: 运行库问题。可以尝试把 [Visual C++ Redistributable](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-160)、[.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) 都安装一下看看有没有效果。
 
 ### 连接错误/捕获模拟器窗口错误
@@ -210,9 +210,9 @@ A Game Assistant for Arknights
 
 ### Windows
 
-直接使用 Visual 2019 及以上版本打开`MeoAssistantArknights.sln`即可，所有环境都是配置好的
+直接使用 Visual 2019 或以上版本打开`MeoAssistantArknights.sln`即可，所有环境都是配置好的
 
-### Linux | MacOs
+### Linux | macOS
 
 [Linux 编译教程](src/MeoAssistant/Linux编译教程.md)
 
