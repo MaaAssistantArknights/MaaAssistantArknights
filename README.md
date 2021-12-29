@@ -7,7 +7,7 @@
     <img alt="C++" src="https://img.shields.io/badge/c++-17-%2300599C?logo=cplusplus">
 </div>
 <div>
-    <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%20%7C%20Linux%7C%20macOS-blueviolet">
+    <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet">
 </div>
 <div>
     <img alt="license" src="https://img.shields.io/github/license/MistEO/MeoAssistantArknights">
