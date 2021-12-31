@@ -11,6 +11,7 @@
 #include "ProcessTaskImageAnalyzer.h"
 #include "Resource.h"
 #include "Logger.hpp"
+#include "RuntimeStatus.h"
 
 using namespace asst;
 
@@ -39,11 +40,10 @@ bool ProcessTask::_run()
             return false;
         }
         Rect rect;
-        std::shared_ptr<TaskInfo> task_info_ptr;
         // 如果第一个任务是JustReturn的，那就没必要再截图并计算了
         if (auto front_task_ptr = task.get(m_cur_tasks_name.front());
             front_task_ptr->algorithm == AlgorithmType::JustReturn) {
-            task_info_ptr = front_task_ptr;
+            m_cur_task_ptr = front_task_ptr;
         }
         else {
             const auto image = Ctrler.get_image();
@@ -51,13 +51,15 @@ bool ProcessTask::_run()
             if (!analyzer.analyze()) {
                 return false;
             }
-            task_info_ptr = analyzer.get_result();
+            m_cur_task_ptr = analyzer.get_result();
             rect = analyzer.get_rect();
         }
         if (need_exit()) {
             return false;
         }
-        const auto& res_move = task_info_ptr->rect_move;
+        std::string cur_name = m_cur_task_ptr->name;
+
+        const auto& res_move = m_cur_task_ptr->rect_move;
         if (!res_move.empty()) {
             rect.x += res_move.x;
             rect.y += res_move.y;
@@ -65,20 +67,20 @@ bool ProcessTask::_run()
             rect.height = res_move.height;
         }
 
-        int& exec_times = m_exec_times[task_info_ptr->name];
+        int& exec_times = m_exec_times[cur_name];
 
         json::value callback_json = json::object{
-            { "name", task_info_ptr->name },
-            { "type", static_cast<int>(task_info_ptr->action) },
+            { "name", cur_name },
+            { "type", static_cast<int>(m_cur_task_ptr->action) },
             { "exec_times", exec_times },
-            { "max_times", task_info_ptr->max_times },
+            { "max_times", m_cur_task_ptr->max_times },
             { "task_type", "ProcessTask" },
-            { "algorithm", static_cast<int>(task_info_ptr->algorithm) }
+            { "algorithm", static_cast<int>(m_cur_task_ptr->algorithm) }
         };
         m_callback(AsstMsg::TaskMatched, callback_json, m_callback_arg);
 
-        int max_times = task_info_ptr->max_times;
-        if (auto iter = m_times_limit.find(task_info_ptr->name);
+        int max_times = m_cur_task_ptr->max_times;
+        if (auto iter = m_times_limit.find(cur_name);
             iter != m_times_limit.cend()) {
             max_times = iter->second;
             callback_json["times_limit"] = max_times;
@@ -88,27 +90,27 @@ bool ProcessTask::_run()
             m_callback(AsstMsg::ReachedLimit, callback_json, m_callback_arg);
 
             json::value next_json = callback_json;
-            next_json["tasks"] = json::array(task_info_ptr->exceeded_next);
+            next_json["tasks"] = json::array(m_cur_task_ptr->exceeded_next);
             next_json["retry_times"] = m_retry_times;
             next_json["task_chain"] = m_task_chain;
             //m_callback(AsstMsg::AppendProcessTask, next_json, m_callback_arg);
             //return true;
 
             Log.trace(next_json.to_string());
-            set_tasks(task_info_ptr->exceeded_next);
+            set_tasks(m_cur_task_ptr->exceeded_next);
             sleep(task_delay);
             continue;
         }
 
         // 前置固定延时
-        if (!sleep(task_info_ptr->pre_delay)) {
+        if (!sleep(m_cur_task_ptr->pre_delay)) {
             return false;
         }
 
         bool need_stop = false;
-        switch (task_info_ptr->action) {
+        switch (m_cur_task_ptr->action) {
         case ProcessTaskAction::ClickRect:
-            rect = task_info_ptr->specific_rect;
+            rect = m_cur_task_ptr->specific_rect;
             [[fallthrough]];
         case ProcessTaskAction::ClickSelf:
             exec_click_task(rect);
@@ -120,7 +122,7 @@ bool ProcessTask::_run()
         } break;
         case ProcessTaskAction::SwipeToTheLeft:
         case ProcessTaskAction::SwipeToTheRight:
-            exec_swipe_task(task_info_ptr->action);
+            exec_swipe_task(m_cur_task_ptr->action);
             break;
         case ProcessTaskAction::DoNothing:
             break;
@@ -129,18 +131,7 @@ bool ProcessTask::_run()
             need_stop = true;
             break;
         case ProcessTaskAction::StageDrops: {
-            cv::Mat image = Ctrler.get_image(true);
-            std::string res = Resrc.penguin().recognize(image);
-            m_callback(AsstMsg::StageDrops, json::parse(res).value(), m_callback_arg);
-
-            auto& opt = Resrc.cfg().get_options();
-            //if (opt.print_window) {
-            //    //static const std::string dirname = utils::get_cur_dir() + "screenshot\\";
-            //    //save_image(image, dirname);
-            //}
-            if (opt.penguin_report.enable) {
-                PenguinUploader::upload(res);
-            }
+            exec_stage_drops();
         } break;
         default:
             break;
@@ -149,10 +140,12 @@ bool ProcessTask::_run()
 
         ++exec_times;
 
+        status.set("Last" + cur_name, time(NULL));
+
         // 减少其他任务的执行次数
         // 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
         // 所以要给蓝色开始行动的次数减一
-        for (const std::string& reduce : task_info_ptr->reduce_other_times) {
+        for (const std::string& reduce : m_cur_task_ptr->reduce_other_times) {
             --m_exec_times[reduce];
         }
 
@@ -164,21 +157,51 @@ bool ProcessTask::_run()
         m_callback(AsstMsg::TaskCompleted, callback_json, m_callback_arg);
 
         // 后置固定延时
-        if (!sleep(task_info_ptr->rear_delay)) {
+        int rear_delay = m_cur_task_ptr->rear_delay;
+        if (auto iter = m_rear_delay.find(cur_name);
+            iter != m_rear_delay.cend()) {
+            rear_delay = iter->second;
+        }
+        if (!sleep(rear_delay)) {
             return false;
         }
 
         json::value next_json = callback_json;
         next_json["task_chain"] = m_task_chain;
         next_json["retry_times"] = m_retry_times;
-        next_json["tasks"] = json::array(task_info_ptr->next);
+        next_json["tasks"] = json::array(m_cur_task_ptr->next);
         Log.trace(next_json.to_string());
 
-        set_tasks(task_info_ptr->next);
+        set_tasks(m_cur_task_ptr->next);
         sleep(task_delay);
     }
 
     return true;
+}
+
+void asst::ProcessTask::exec_stage_drops()
+{
+    cv::Mat image = Ctrler.get_image(true);
+    std::string res = Resrc.penguin().recognize(image);
+    m_callback(AsstMsg::StageDrops, json::parse(res).value(), m_callback_arg);
+
+    if (m_rear_delay.find("StartButton2") == m_rear_delay.cend()) {
+        int64_t start_times = status.get("LastStartButton2");
+        if (start_times > 0) {
+            int64_t duration = time(NULL) - start_times;
+            int64_t delay = duration * 1000 - m_cur_task_ptr->rear_delay;
+            m_rear_delay["StartButton2"] = delay;
+        }
+    }
+
+    auto& opt = Resrc.cfg().get_options();
+    //if (opt.print_window) {
+    //    //static const std::string dirname = utils::get_cur_dir() + "screenshot\\";
+    //    //save_image(image, dirname);
+    //}
+    if (opt.penguin_report.enable) {
+        PenguinUploader::upload(res);
+    }
 }
 
 void ProcessTask::exec_click_task(const Rect& matched_rect)
