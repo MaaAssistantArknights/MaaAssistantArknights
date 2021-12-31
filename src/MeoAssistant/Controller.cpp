@@ -397,26 +397,20 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
     std::unique_lock<std::mutex> pipe_lock(pipe_mutex);
 
     std::vector<uchar> pipe_data;
+    auto pipe_buffer = std::make_unique<uchar[]>(PipeBuffSize);
 
 #ifdef _WIN32
     PROCESS_INFORMATION process_info = { 0 }; // 进程信息结构体
     ::CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
 
+    DWORD peek_num = 0;
+    DWORD read_num = 0;
     do {
         //DWORD write_num = 0;
         //WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, nullptr);
-
-        DWORD read_num = 0;
-        DWORD std_num = 0;
-        while (::PeekNamedPipe(m_pipe_read, nullptr, 0, nullptr, &read_num, nullptr) && read_num > 0) {
-            uchar* pipe_buffer = new uchar[read_num];
-            BOOL read_ret = ::ReadFile(m_pipe_read, pipe_buffer, read_num, &std_num, nullptr);
-            if (read_ret) {
-                pipe_data.insert(pipe_data.end(), pipe_buffer, pipe_buffer + std_num);
-            }
-            if (pipe_buffer != nullptr) {
-                delete[] pipe_buffer;
-                pipe_buffer = nullptr;
+        while (::PeekNamedPipe(m_pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
+            if (::ReadFile(m_pipe_read, pipe_buffer.get(), PipeBuffSize, &read_num, nullptr)) {
+                pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
             }
         }
     } while (::WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT);
@@ -451,10 +445,7 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
     else if (m_child > 0) {
         // parent process
         // LogTraceScope("Parent process: " + cmd);
-        constexpr int BuffSize = 4096;
-        std::unique_ptr<uchar> pipe_buffer(new uchar[BuffSize + 1]);
         do {
-            memset(pipe_buffer.get(), 0, BuffSize);
             ssize_t read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
 
             while (read_num > 0) {
@@ -562,6 +553,7 @@ int asst::Controller::push_cmd(const std::string & cmd)
 void asst::Controller::wait(unsigned id) const noexcept
 {
     while (id > m_completed_id) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
         std::this_thread::yield();
     }
 }
