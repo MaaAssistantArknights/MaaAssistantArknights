@@ -30,7 +30,9 @@
             },
             "adb": {
                 "path": "[EmulatorPath]Engine\\ProgramFiles\\HD-Adb.exe",
-                "addresses": [ "127.0.0.1:5555" ],
+                "addresses": [
+                    "127.0.0.1:5555"
+                ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
@@ -49,7 +51,9 @@
             },
             "adb": {
                 "path": "[EmulatorPath]HD-Adb.exe",
-                "addresses": [ "127.0.0.1:5555" ],
+                "addresses": [
+                    "127.0.0.1:5555"
+                ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
@@ -68,7 +72,9 @@
             },
             "adb": {
                 "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
-                "addresses": [ "127.0.0.1:7555" ],
+                "addresses": [
+                    "127.0.0.1:7555"
+                ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
@@ -87,7 +93,10 @@
             },
             "adb": {
                 "path": "[EmulatorPath]adb.exe",
-                "addresses": [ "127.0.0.1:5555", "emulator-5554" ],
+                "addresses": [
+                    "127.0.0.1:5555",
+                    "emulator-5554"
+                ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
@@ -106,7 +115,10 @@
             },
             "adb": {
                 "path": "[EmulatorPath]nox_adb.exe",
-                "addresses": [ "127.0.0.1:62001", "127.0.0.1:59865" ],
+                "addresses": [
+                    "127.0.0.1:62001",
+                    "127.0.0.1:59865"
+                ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",
@@ -125,7 +137,9 @@
             },
             "adb": {
                 "path": "[EmulatorPath]adb.exe",
-                "addresses": [ "127.0.0.1:21503" ],
+                "addresses": [
+                    "127.0.0.1:21503"
+                ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
                 "connect": "[Adb] connect [Address]",

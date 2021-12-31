@@ -1,12 +1,11 @@
 from enum import Enum, unique, auto
 
 
-
 @unique
 class Message(Enum):
     """
     回调消息类型
-    
+
     注释部分仅展示常用消息的回调JSON格式，完全的回调JSON请参考C++侧实现代码
     """
 
@@ -253,7 +252,7 @@ class Message(Enum):
         ``index``       第几个该类房间
     """
 
-    # 
+    #
     FacilityInfo = auto()
     """
     当前设施信息

@@ -457,7 +457,6 @@
             500,
             380,
             150
-
         ],
         "action": "doNothing",
         "rearDelay": 5000,

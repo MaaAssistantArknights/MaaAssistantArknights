@@ -16,9 +16,9 @@
 #define ASST_DLL_LOCAL
 #else
 #if __GNUC__ >= 4
-#define ASST_DLL_IMPORT __attribute__ ((visibility ("default")))
-#define ASST_DLL_EXPORT __attribute__ ((visibility ("default")))
-#define ASST_DLL_LOCAL  __attribute__ ((visibility ("hidden")))
+#define ASST_DLL_IMPORT __attribute__((visibility("default")))
+#define ASST_DLL_EXPORT __attribute__((visibility("default")))
+#define ASST_DLL_LOCAL __attribute__((visibility("hidden")))
 #else
 #define ASST_DLL_IMPORT
 #define ASST_DLL_EXPORT
