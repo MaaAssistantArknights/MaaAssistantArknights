@@ -80,13 +80,13 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
 {
     LogTraceFunction;
 
-    const Rect upper_roi = task.get("InfrastSkillsUpper")->roi;
-    const Rect lower_roi = task.get("InfrastSkillsLower")->roi;
+    const Rect upper_roi = Task.get("InfrastSkillsUpper")->roi;
+    const Rect lower_roi = Task.get("InfrastSkillsLower")->roi;
     const std::vector<Rect> all_roi = { upper_roi, lower_roi };
 
-    const Rect skill_rect_move = task.get("InfrastSkills")->rect_move;
-    const Rect hash_rect_move = task.get("InfrastOperNameHash")->rect_move;
-    const Rect prg_rect_move = task.get("InfrastOperMoodProgressBar")->roi;
+    const Rect skill_rect_move = Task.get("InfrastSkills")->rect_move;
+    const Rect hash_rect_move = Task.get("InfrastOperNameHash")->rect_move;
+    const Rect prg_rect_move = Task.get("InfrastOperMoodProgressBar")->roi;
     const std::vector<Rect> all_rect_move = { skill_rect_move, hash_rect_move, prg_rect_move };
 
     InfrastSmileyImageAnalyzer smiley_analyzer(m_image);
@@ -130,7 +130,7 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
     LogTraceFunction;
 
     const auto prg_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        task.get("InfrastOperMoodProgressBar"));
+        Task.get("InfrastOperMoodProgressBar"));
     int prg_lower_limit = prg_task_ptr->templ_threshold;
     int prg_diff_thres = prg_task_ptr->special_threshold;
     Rect rect_move = prg_task_ptr->rect_move;
@@ -206,7 +206,7 @@ void asst::InfrastOperImageAnalyzer::face_hash_analyze()
 {
     LogTraceFunction;
 
-    const Rect hash_rect_move = task.get("InfrastOperFaceHash")->rect_move;
+    const Rect hash_rect_move = Task.get("InfrastOperFaceHash")->rect_move;
 
     for (auto&& oper : m_result) {
         Rect roi = hash_rect_move;
@@ -222,7 +222,7 @@ void asst::InfrastOperImageAnalyzer::name_hash_analyze()
 {
     LogTraceFunction;
 
-    const Rect hash_rect_move = task.get("InfrastOperNameHash")->rect_move;
+    const Rect hash_rect_move = Task.get("InfrastOperNameHash")->rect_move;
 
     cv::Mat gray;
     cv::cvtColor(m_image, gray, cv::COLOR_BGR2GRAY);
@@ -267,7 +267,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
     LogTraceFunction;
 
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        task.get("InfrastSkills"));
+        Task.get("InfrastSkills"));
     const auto bright_thres = task_ptr->special_threshold;
 
     MatchImageAnalyzer skill_analyzer(m_image);
@@ -348,9 +348,9 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
                 std::string base_id = max_iter->first.id;
                 size_t level_pos = 0;
                 // 倒着找，第一个不是数字的。前面就是技能基础id名字，后面的数字就是技能等级
-                for (size_t i = base_id.size() - 1; i != 0; --i) {
-                    if (!std::isdigit(base_id.at(i))) {
-                        level_pos = i + 1;
+                for (size_t j = base_id.size() - 1; j != 0; --j) {
+                    if (!std::isdigit(base_id.at(j))) {
+                        level_pos = j + 1;
                         break;
                     }
                 }
@@ -387,7 +387,7 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
     LogTraceFunction;
 
     const auto selected_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        task.get("InfrastOperSelected"));
+        Task.get("InfrastOperSelected"));
     Rect rect_move = selected_task_ptr->rect_move;
 
     for (auto&& oper : m_result) {
@@ -424,7 +424,7 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
     LogTraceFunction;
 
     const auto working_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        task.get("InfrastOperOnShift"));
+        Task.get("InfrastOperOnShift"));
     Rect rect_move = working_task_ptr->rect_move;
 
     MatchImageAnalyzer working_analyzer(m_image);

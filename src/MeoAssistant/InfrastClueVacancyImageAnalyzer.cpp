@@ -12,7 +12,7 @@ bool asst::InfrastClueVacancyImageAnalyzer::analyze()
     MatchImageAnalyzer analyzer(m_image);
     for (const std::string& suffix : m_to_be_analyzed) {
         const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-            task.get(clue_vacancy + suffix));
+            Task.get(clue_vacancy + suffix));
         analyzer.set_task_info(*task_ptr);
         if (!analyzer.analyze()) {
             Log.trace("no", clue_vacancy, suffix);

@@ -96,7 +96,7 @@ bool asst::ProcessTaskImageAnalyzer::analyze()
     m_result_rect = Rect();
 
     for (const std::string& task_name : m_tasks_name) {
-        auto task_ptr = task.get(task_name);
+        auto task_ptr = Task.get(task_name);
 
         switch (task_ptr->algorithm) {
         case AlgorithmType::JustReturn:

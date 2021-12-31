@@ -38,5 +38,5 @@ namespace asst
         std::unordered_set<std::string> m_templ_required;
     };
 
-    static auto& task = TaskData::get_instance();
+    static auto& Task = TaskData::get_instance();
 }

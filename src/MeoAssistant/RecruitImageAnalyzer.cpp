@@ -23,7 +23,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     static OcrImageAnalyzer tags_analyzer;
     if (!analyzer_inited) {
         const auto tags_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-            task.get("RecruitTags"));
+            Task.get("RecruitTags"));
         tags_analyzer.set_roi(tags_task_ptr->roi);
         auto& all_tags_set = Resrc.recruit().get_all_tags();
         std::vector<std::string> all_tags_vec;
@@ -48,7 +48,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
 bool asst::RecruitImageAnalyzer::time_analyze()
 {
     const auto time_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        task.get("RecruitTime"));
+        Task.get("RecruitTime"));
 
     MatchImageAnalyzer time_analyzer(m_image);
     time_analyzer.set_task_info(*time_task_ptr);
@@ -70,7 +70,7 @@ bool asst::RecruitImageAnalyzer::time_analyze()
 
 bool asst::RecruitImageAnalyzer::confirm_analyze()
 {
-    const auto confirm_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task.get("RecruitConfirm"));
+    const auto confirm_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(Task.get("RecruitConfirm"));
     MatchImageAnalyzer confirm_analyzer(m_image);
     confirm_analyzer.set_task_info(*confirm_task_ptr);
 
@@ -84,7 +84,7 @@ bool asst::RecruitImageAnalyzer::confirm_analyze()
 
 bool asst::RecruitImageAnalyzer::refresh_analyze()
 {
-    const auto refresh_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task.get("RecruitRefresh"));
+    const auto refresh_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(Task.get("RecruitRefresh"));
     MatchImageAnalyzer refresh_analyzer(m_image);
     refresh_analyzer.set_task_info(*refresh_task_ptr);
 

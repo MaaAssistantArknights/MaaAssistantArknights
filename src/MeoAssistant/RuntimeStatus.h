@@ -18,7 +18,7 @@ namespace asst
             return unique_instance;
         }
 
-        int get(const std::string& key) const noexcept
+        int64_t get(const std::string& key) const noexcept
         {
             if (auto iter = m_data.find(key);
                 iter != m_data.cend()) {
@@ -56,5 +56,5 @@ namespace asst
         std::unordered_map<std::string, int64_t> m_data;
     };
 
-    static auto& status = RuntimeStatus::get_instance();
+    static auto& Status = RuntimeStatus::get_instance();
 }

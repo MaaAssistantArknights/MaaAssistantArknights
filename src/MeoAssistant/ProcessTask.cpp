@@ -41,7 +41,7 @@ bool ProcessTask::_run()
         }
         Rect rect;
         // 如果第一个任务是JustReturn的，那就没必要再截图并计算了
-        if (auto front_task_ptr = task.get(m_cur_tasks_name.front());
+        if (auto front_task_ptr = Task.get(m_cur_tasks_name.front());
             front_task_ptr->algorithm == AlgorithmType::JustReturn) {
             m_cur_task_ptr = front_task_ptr;
         }
@@ -140,7 +140,7 @@ bool ProcessTask::_run()
 
         ++exec_times;
 
-        status.set("Last" + cur_name, time(NULL));
+        Status.set("Last" + cur_name, time(NULL));
 
         // 减少其他任务的执行次数
         // 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
@@ -186,7 +186,7 @@ void asst::ProcessTask::exec_stage_drops()
     m_callback(AsstMsg::StageDrops, json::parse(res).value(), m_callback_arg);
 
     if (m_rear_delay.find("StartButton2") == m_rear_delay.cend()) {
-        int64_t start_times = status.get("LastStartButton2");
+        int64_t start_times = Status.get("LastStartButton2");
         if (start_times > 0) {
             int64_t duration = time(NULL) - start_times;
             int64_t delay = duration * 1000 - m_cur_task_ptr->rear_delay;

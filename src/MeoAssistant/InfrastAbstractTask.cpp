@@ -17,11 +17,11 @@ asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* call
 {
     if (m_face_hash_thres == 0) {
         m_face_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
-            task.get("InfrastOperFaceHash"))->templ_threshold;
+            Task.get("InfrastOperFaceHash"))->templ_threshold;
     }
     if (m_name_hash_thres == 0) {
         m_name_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
-            task.get("InfrastOperNameHash"))->templ_threshold;
+            Task.get("InfrastOperNameHash"))->templ_threshold;
     }
 }
 
@@ -83,7 +83,7 @@ bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int 
 
     Ctrler.click(rect);
 
-    const auto enter_task_ptr = task.get("InfrastEnterFacility");
+    const auto enter_task_ptr = Task.get("InfrastEnterFacility");
     sleep(enter_task_ptr->rear_delay);
 
     return true;
@@ -97,7 +97,7 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
 
     // 识别左边的“进驻”按钮
     const auto enter_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-        task.get("InfrastEnterOperList"));
+        Task.get("InfrastEnterOperList"));
     OcrImageAnalyzer enter_analyzer(image);
     enter_analyzer.set_task_info(*enter_task_ptr);
 
@@ -107,7 +107,7 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
         OcrImageAnalyzer station_analyzer(image);
 
         const auto stationedinfo_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-            task.get("InfrastStationedInfo"));
+            Task.get("InfrastStationedInfo"));
         station_analyzer.set_task_info(*stationedinfo_task_ptr);
         if (station_analyzer.analyze()) {
             Log.trace("the stationed info button found");
@@ -136,9 +136,9 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
 void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
 {
     LogTraceFunction;
-    static Rect begin_rect = task.get("InfrastOperListSwipeBegin")->specific_rect;
-    static Rect end_rect = task.get("InfrastOperListSwipeEnd")->specific_rect;
-    static int duration = task.get("InfrastOperListSwipeBegin")->pre_delay;
+    static Rect begin_rect = Task.get("InfrastOperListSwipeBegin")->specific_rect;
+    static Rect end_rect = Task.get("InfrastOperListSwipeEnd")->specific_rect;
+    static int duration = Task.get("InfrastOperListSwipeBegin")->pre_delay;
 
     if (!reverse) {
         m_last_swipe_id = Ctrler.swipe(begin_rect, end_rect, duration, false, 0, true);
@@ -151,7 +151,7 @@ void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
 void asst::InfrastAbstractTask::await_swipe()
 {
     LogTraceFunction;
-    static int extra_delay = task.get("InfrastOperListSwipeBegin")->rear_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeBegin")->rear_delay;
 
     Ctrler.wait(m_last_swipe_id);
     sleep(extra_delay);
@@ -160,7 +160,7 @@ void asst::InfrastAbstractTask::await_swipe()
 bool asst::InfrastAbstractTask::click_bottomleft_tab()
 {
     LogTraceFunction;
-    const auto task_ptr = task.get("InfrastBottomLeftTab");
+    const auto task_ptr = Task.get("InfrastBottomLeftTab");
     Ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
     return true;
@@ -169,7 +169,7 @@ bool asst::InfrastAbstractTask::click_bottomleft_tab()
 bool asst::InfrastAbstractTask::click_clear_button()
 {
     LogTraceFunction;
-    const auto task_ptr = task.get("InfrastClearButton");
+    const auto task_ptr = Task.get("InfrastClearButton");
     Ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
     return true;
@@ -179,7 +179,7 @@ bool asst::InfrastAbstractTask::click_confirm_button()
 {
     LogTraceFunction;
     const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-        task.get("InfrastConfirmButton"));
+        Task.get("InfrastConfirmButton"));
     Ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
 
@@ -210,11 +210,11 @@ void asst::InfrastAbstractTask::swipe_of_operlist(bool reverse)
 void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 {
     LogTraceFunction;
-    static Rect begin_rect = task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
-    static Rect end_rect = task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
-    static int duration = task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
-    static int cfg_loop_times = task.get("InfrastOperListSwipeToTheLeftBegin")->max_times;
+    static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
+    static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
+    static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static int cfg_loop_times = Task.get("InfrastOperListSwipeToTheLeftBegin")->max_times;
 
     for (int i = 0; i != cfg_loop_times * loop_times; ++i) {
         if (need_exit()) {
@@ -228,10 +228,10 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
 {
     LogTraceFunction;
-    static Rect begin_rect = task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
-    static Rect end_rect = task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
-    static int duration = task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
+    static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
+    static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
 
     Ctrler.swipe(end_rect, begin_rect, duration, true, extra_delay, false);
 }
@@ -239,10 +239,10 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
 void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
 {
     LogTraceFunction;
-    static Rect begin_rect = task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
-    static Rect end_rect = task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
-    static int duration = task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
+    static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
+    static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
 
     Ctrler.swipe(begin_rect, end_rect, duration, true, extra_delay, false);
 }
