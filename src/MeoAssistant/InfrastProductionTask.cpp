@@ -24,14 +24,14 @@ bool asst::InfrastProductionTask::shift_facility_list()
         return false;
     }
     const auto tab_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        task.get("InfrastFacilityListTab" + m_facility));
+        Task.get("InfrastFacilityListTab" + m_facility));
     MatchImageAnalyzer add_analyzer;
     const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        task.get("InfrastAddOperator" + m_facility + m_work_mode_name));
+        Task.get("InfrastAddOperator" + m_facility + m_work_mode_name));
     add_analyzer.set_task_info(*add_task_ptr);
 
     const auto locked_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        task.get("InfrastOperLocked" + m_facility));
+        Task.get("InfrastOperLocked" + m_facility));
     MultiMatchImageAnalyzer locked_analyzer;
     locked_analyzer.set_task_info(*locked_task_ptr);
 
@@ -78,7 +78,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         for (const std::string& product : all_products) {
             const static std::string prefix = "InfrastFlag";
             const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-                task.get(prefix + product));
+                Task.get(prefix + product));
             product_analyzer.set_task_info(*task_ptr);
             if (product_analyzer.analyze()) {
                 double score = product_analyzer.get_result().score;
@@ -303,11 +303,11 @@ bool asst::InfrastProductionTask::optimal_calc()
         // 条件判断，不符合的直接过滤掉
         bool meet_condition = true;
         for (const auto& [cond, cond_value] : group.conditions) {
-            if (!status.exist(cond)) {
+            if (!Status.exist(cond)) {
                 continue;
             }
             // TODO：这里做成除了不等于，还可计算大于、小于等不同条件的
-            int cur_value = status.get(cond);
+            int cur_value = Status.get(cond);
             if (cur_value != cond_value) {
                 meet_condition = false;
                 break;
@@ -564,8 +564,8 @@ bool asst::InfrastProductionTask::opers_choose()
 bool asst::InfrastProductionTask::use_drone()
 {
     std::string task_name = "DroneAssist" + m_facility;
-    ProcessTask task(*this, { task_name });
-    return task.run();
+    ProcessTask task_temp(*this, { task_name });
+    return task_temp.run();
 }
 
 asst::infrast::SkillsComb
@@ -587,7 +587,7 @@ asst::InfrastProductionTask::efficient_regex_calc(
                 // TODO 报错！
             }
             std::string status_key = cur_formula.substr(pos + 1, rp_pos - pos - 1);
-            int status_value = status.get(status_key);
+            int status_value = Status.get(status_key);
             cur_formula.replace(pos, rp_pos - pos + 1, std::to_string(status_value));
         }
 
@@ -606,7 +606,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
     MultiMatchImageAnalyzer mm_analyzer(image);
 
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        task.get("InfrastFacilityListTab" + m_facility));
+        Task.get("InfrastFacilityListTab" + m_facility));
     mm_analyzer.set_task_info(*task_ptr);
 
     if (!mm_analyzer.analyze()) {

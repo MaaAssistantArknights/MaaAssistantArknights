@@ -32,8 +32,7 @@ bool asst::InfrastPowerTask::_run()
             return false;
         }
 
-        for (int i = 0; i <= OperSelectRetryTimes; ++i) {
-
+        for (int j = 0; j <= OperSelectRetryTimes; ++j) {
             if (m_all_available_opers.empty()) {
                 if (!opers_detect_with_swipe()) {
                     return false;

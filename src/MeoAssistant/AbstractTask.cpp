@@ -90,7 +90,7 @@ bool asst::AbstractTask::need_exit() const
 void asst::AbstractTask::click_return_button()
 {
     LogTraceFunction;
-    const auto return_task_ptr = task.get("Return");
+    const auto return_task_ptr = Task.get("Return");
 
     Rect ReturnButtonRect = return_task_ptr->specific_rect;
 

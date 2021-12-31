@@ -207,7 +207,7 @@ namespace asst
                     }
                 } while (::WaitForSingleObject(pi.hProcess, 0) == WAIT_TIMEOUT);
 
-                DWORD exit_ret = -1;
+                DWORD exit_ret = 255;
                 ::GetExitCodeProcess(pi.hProcess, &exit_ret);
                 CloseHandle(pi.hProcess);
                 CloseHandle(pi.hThread);

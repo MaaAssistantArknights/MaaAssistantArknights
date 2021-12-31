@@ -162,13 +162,13 @@ bool AsstAppendMall(asst::Assistant* p_asst, bool with_shopping)
     return p_asst->append_mall(with_shopping);
 }
 
-//bool AsstAppendProcessTask(asst::Assistant* p_asst, const char* task)
+//bool AsstAppendProcessTask(asst::Assistant* p_asst, const char* task_name)
 //{
 //    if (p_asst == nullptr) {
 //        return false;
 //    }
 //
-//    return p_asst->append_process_task(task);
+//    return p_asst->append_process_task(task_name);
 //}
 
 bool AsstStartRecruitCalc(asst::Assistant* p_asst, const int select_level[], int required_len, bool set_time)

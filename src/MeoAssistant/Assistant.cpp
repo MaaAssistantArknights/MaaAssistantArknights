@@ -265,7 +265,7 @@ bool asst::Assistant::append_mall(bool with_shopping, bool only_append)
     return true;
 }
 
-bool Assistant::append_process_task(const std::string& task, std::string task_chain, int retry_times)
+bool Assistant::append_process_task(const std::string& task_name, std::string task_chain, int retry_times)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -275,12 +275,12 @@ bool Assistant::append_process_task(const std::string& task, std::string task_ch
     //std::unique_lock<std::mutex> lock(m_mutex);
 
     if (task_chain.empty()) {
-        task_chain = task;
+        task_chain = task_name;
     }
 
     auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
     task_ptr->set_task_chain(task_chain);
-    task_ptr->set_tasks({ task });
+    task_ptr->set_tasks({ task_name });
     task_ptr->set_retry_times(retry_times);
 
     m_tasks_queue.emplace(task_ptr);
@@ -612,9 +612,9 @@ void asst::Assistant::append_callback(AsstMsg msg, json::value detail)
 
 void Assistant::clear_cache()
 {
-    status.clear();
+    Status.clear();
     Resrc.item().clear_drop_count();
-    //task.clear_cache();
+    //Task.clear_cache();
 }
 
 json::value asst::Assistant::organize_stage_drop(const json::value& rec)

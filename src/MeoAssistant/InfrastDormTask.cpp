@@ -92,7 +92,6 @@ bool asst::InfrastDormTask::opers_choose()
             default:
                 break;
             }
-
         }
         if (num_of_selected >= MaxNumOfOpers) {
             Log.trace("num_of_selected:", num_of_selected, ", just break");
@@ -108,7 +107,7 @@ bool asst::InfrastDormTask::opers_choose()
 //    LogTraceFunction;
 //
 //    const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-//        task.get("InfrastConfirmButton"));
+//        Task.get("InfrastConfirmButton"));
 //    Ctrler.click(task_ptr->specific_rect);
 //    sleep(task_ptr->rear_delay);
 //
@@ -116,7 +115,7 @@ bool asst::InfrastDormTask::opers_choose()
 //    const auto image = Ctrler.get_image();
 //    MatchImageAnalyzer cfm_analyzer(image);
 //    const auto sec_cfm_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-//        task.get("InfrastDormConfirmButton"));
+//        Task.get("InfrastDormConfirmButton"));
 //    cfm_analyzer.set_task_info(*sec_cfm_task_ptr);
 //    if (cfm_analyzer.analyze()) {
 //        Ctrler.click(cfm_analyzer.get_result().rect);

@@ -85,7 +85,7 @@ namespace asst
         void msg_proc();
         static void task_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
 
-        bool append_process_task(const std::string& task, std::string task_chain = std::string(), int retry_times = ProcessTaskRetryTimesDefault);
+        bool append_process_task(const std::string& task_name, std::string task_chain = std::string(), int retry_times = ProcessTaskRetryTimesDefault);
         void append_callback(AsstMsg msg, json::value detail);
         void clear_cache();
         json::value organize_stage_drop(const json::value& rec); // 整理关卡掉落的材料信息

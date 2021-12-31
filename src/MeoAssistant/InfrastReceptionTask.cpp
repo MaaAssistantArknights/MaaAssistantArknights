@@ -47,7 +47,7 @@ bool asst::InfrastReceptionTask::_run()
 bool asst::InfrastReceptionTask::close_end_prompt()
 {
     const auto end_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        task.get("EndOfClueExchange"));
+        Task.get("EndOfClueExchange"));
     MatchImageAnalyzer analyzer(Ctrler.get_image());
     analyzer.set_task_info(*end_task_ptr);
     if (!analyzer.analyze()) {
@@ -62,9 +62,9 @@ bool asst::InfrastReceptionTask::harvest_clue()
 {
     LogTraceFunction;
 
-    ProcessTask task(*this, { "InfrastClueNew" });
-    task.set_retry_times(5);
-    return task.run();
+    ProcessTask task_temp(*this, { "InfrastClueNew" });
+    task_temp.set_retry_times(5);
+    return task_temp.run();
 }
 
 bool asst::InfrastReceptionTask::proc_clue()
@@ -81,7 +81,7 @@ bool asst::InfrastReceptionTask::proc_clue()
     cv::Mat image = Ctrler.get_image();
     MatchImageAnalyzer unlock_analyzer(image);
     const auto unlock_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        task.get("UnlockClues"));
+        Task.get("UnlockClues"));
     unlock_analyzer.set_task_info(*unlock_task_ptr);
     if (unlock_analyzer.analyze()) {
         Ctrler.click(unlock_analyzer.get_result().rect);
@@ -136,7 +136,7 @@ bool asst::InfrastReceptionTask::proc_vacancy()
         // 点开线索的空位
         Rect vacancy = vacancy_analyzer.get_vacancy().cbegin()->second;
         Ctrler.click(vacancy);
-        int delay = task.get(clue_vacancy + clue)->rear_delay;
+        int delay = Task.get(clue_vacancy + clue)->rear_delay;
         sleep(delay);
 
         // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
@@ -158,7 +158,7 @@ bool asst::InfrastReceptionTask::shift()
     const auto image = Ctrler.get_image();
     MatchImageAnalyzer add_analyzer(image);
 
-    const auto raw_task_ptr = task.get("InfrastAddOperator" + m_facility + m_work_mode_name);
+    const auto raw_task_ptr = Task.get("InfrastAddOperator" + m_facility + m_work_mode_name);
     switch (raw_task_ptr->algorithm) {
     case AlgorithmType::JustReturn:
         if (raw_task_ptr->action == ProcessTaskAction::ClickRect) {
@@ -206,11 +206,11 @@ bool asst::InfrastReceptionTask::shift()
 bool asst::InfrastReceptionTask::swipe_to_the_bottom_of_clue_list_on_the_right()
 {
     LogTraceFunction;
-    static Rect begin_rect = task.get("InfrastClueOnTheRightSwipeBegin")->specific_rect;
-    static Rect end_rect = task.get("InfrastClueOnTheRightSwipeEnd")->specific_rect;
-    static int duration = task.get("InfrastClueOnTheRightSwipeBegin")->pre_delay;
-    static int extra_delay = task.get("InfrastClueOnTheRightSwipeBegin")->rear_delay;
-    static int loop_times = task.get("InfrastClueOnTheRightSwipeBegin")->max_times;
+    static Rect begin_rect = Task.get("InfrastClueOnTheRightSwipeBegin")->specific_rect;
+    static Rect end_rect = Task.get("InfrastClueOnTheRightSwipeEnd")->specific_rect;
+    static int duration = Task.get("InfrastClueOnTheRightSwipeBegin")->pre_delay;
+    static int extra_delay = Task.get("InfrastClueOnTheRightSwipeBegin")->rear_delay;
+    static int loop_times = Task.get("InfrastClueOnTheRightSwipeBegin")->max_times;
 
     for (int i = 0; i != loop_times; ++i) {
         Ctrler.swipe(begin_rect, end_rect, duration, true, 0, false);

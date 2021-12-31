@@ -25,7 +25,7 @@ bool asst::InfrastInfoTask::_run()
     for (auto&& [name, res] : analyzer.get_result()) {
         std::string key = "NumOf" + name;
         //int size = static_cast<int>(res.size());
-        status.set(key, res.size());
+        Status.set(key, res.size());
         Log.trace("InfrastInfoTask | ", key, res.size());
     }
 
