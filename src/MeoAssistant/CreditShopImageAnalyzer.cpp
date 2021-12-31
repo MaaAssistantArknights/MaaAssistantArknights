@@ -64,7 +64,6 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
             //因为是不买的，有识别结果说明这个商品不买，直接跳过
             continue;
         }
-        const auto& ocr_res = ocr_analyzer.get_result();
 
 #ifdef LOG_TRACE
         cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);

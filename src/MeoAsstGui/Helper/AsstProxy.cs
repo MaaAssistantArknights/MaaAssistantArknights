@@ -59,7 +59,7 @@ namespace MeoAsstGui
 
         //[DllImport("MeoAssistant.dll")] private static extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
 
-        private CallbackDelegate _callback;
+        private readonly CallbackDelegate _callback;
 
         public AsstProxy(IContainer container, IWindowManager windowManager)
         {
@@ -92,8 +92,8 @@ namespace MeoAsstGui
             });
         }
 
-        private IWindowManager _windowManager;
-        private IContainer _container;
+        private readonly IWindowManager _windowManager;
+        private readonly IContainer _container;
         private IntPtr _ptr;
 
         private void proc_msg(AsstMsg msg, JObject detail)

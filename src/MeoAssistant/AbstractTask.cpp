@@ -84,7 +84,7 @@ bool AbstractTask::save_image(const cv::Mat image, const std::string& dir)
 
 bool asst::AbstractTask::need_exit() const
 {
-    return m_exit_flag != NULL && *m_exit_flag == true;
+    return m_exit_flag != nullptr && *m_exit_flag == true;
 }
 
 void asst::AbstractTask::click_return_button()

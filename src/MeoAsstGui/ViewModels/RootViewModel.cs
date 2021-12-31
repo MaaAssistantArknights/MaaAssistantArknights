@@ -17,8 +17,8 @@ namespace MeoAsstGui
 {
     public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
-        private IContainer _container;
-        private IWindowManager _windowManager;
+        private readonly IContainer _container;
+        private readonly IWindowManager _windowManager;
 
         public RootViewModel(IContainer container, IWindowManager windowManager)
         {

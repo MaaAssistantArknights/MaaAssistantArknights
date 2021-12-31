@@ -20,8 +20,8 @@ namespace MeoAsstGui
 {
     public class TaskQueueViewModel : Screen
     {
-        private IWindowManager _windowManager;
-        private IContainer _container;
+        private readonly IWindowManager _windowManager;
+        private readonly IContainer _container;
 
         public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; set; }
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }

@@ -21,12 +21,12 @@ namespace MeoAsstGui
 {
     public class SettingsViewModel : Screen
     {
-        private IWindowManager _windowManager;
-        private IContainer _container;
+        private readonly IWindowManager _windowManager;
+        private readonly IContainer _container;
 
         [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstGetVersion();
 
-        private string _versionInfo = "版本号：" + Marshal.PtrToStringAnsi(AsstGetVersion());
+        private readonly string _versionInfo = "版本号：" + Marshal.PtrToStringAnsi(AsstGetVersion());
 
         public string VersionInfo
         {

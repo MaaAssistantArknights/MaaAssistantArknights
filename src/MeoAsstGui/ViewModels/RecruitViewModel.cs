@@ -18,8 +18,8 @@ namespace MeoAsstGui
 {
     public class RecruitViewModel : Screen
     {
-        private IWindowManager _windowManager;
-        private IContainer _container;
+        private readonly IWindowManager _windowManager;
+        private readonly IContainer _container;
 
         public RecruitViewModel(IContainer container, IWindowManager windowManager)
         {

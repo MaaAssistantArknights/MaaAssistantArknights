@@ -19,7 +19,7 @@ namespace asst
 {
     namespace utils
     {
-        static std::string string_replace_all(const std::string& src, const std::string& old_value, const std::string& new_value)
+        inline std::string string_replace_all(const std::string& src, const std::string& old_value, const std::string& new_value)
         {
             std::string str = src;
             for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length()) {
@@ -31,7 +31,7 @@ namespace asst
             return str;
         }
 
-        static std::vector<std::string> string_split(const std::string& str, const std::string& delimiter)
+        inline std::vector<std::string> string_split(const std::string& str, const std::string& delimiter)
         {
             std::string::size_type pos1 = 0;
             std::string::size_type pos2 = str.find(delimiter);
@@ -49,7 +49,7 @@ namespace asst
             return result;
         }
 
-        static std::string get_format_time()
+        inline std::string get_format_time()
         {
             char buff[128] = { 0 };
 #ifdef _WIN32
@@ -66,7 +66,7 @@ namespace asst
 
 #else   // ! _WIN32
             struct timeval tv = { 0 };
-            gettimeofday(&tv, NULL);
+            gettimeofday(&tv, nullptr);
             time_t nowtime = tv.tv_sec;
             struct tm* tm_info = localtime(&nowtime);
             strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", tm_info);
@@ -75,18 +75,18 @@ namespace asst
             return buff;
         }
 
-        static std::string gbk_2_utf8(const std::string& gbk_str)
+        inline std::string gbk_2_utf8(const std::string& gbk_str)
         {
 #ifdef _WIN32
             const char* src_str = gbk_str.c_str();
-            int len = MultiByteToWideChar(CP_ACP, 0, src_str, -1, NULL, 0);
+            int len = MultiByteToWideChar(CP_ACP, 0, src_str, -1, nullptr, 0);
             wchar_t* wstr = new wchar_t[len + 1];
             memset(wstr, 0, len + 1);
             MultiByteToWideChar(CP_ACP, 0, src_str, -1, wstr, len);
-            len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, NULL, 0, NULL, NULL);
+            len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, nullptr, 0, nullptr, nullptr);
             char* str = new char[len + 1];
             memset(str, 0, len + 1);
-            WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, NULL, NULL);
+            WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, nullptr, nullptr);
             std::string strTemp = str;
             if (wstr)
                 delete[] wstr;
@@ -98,18 +98,18 @@ namespace asst
 #endif
         }
 
-        static std::string utf8_to_gbk(const std::string& utf8_str)
+        inline std::string utf8_to_gbk(const std::string& utf8_str)
         {
 #ifdef _WIN32
             const char* src_str = utf8_str.c_str();
-            int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, NULL, 0);
+            int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, nullptr, 0);
             wchar_t* wszGBK = new wchar_t[len + 1];
             memset(wszGBK, 0, len * 2 + 2);
             MultiByteToWideChar(CP_UTF8, 0, src_str, -1, wszGBK, len);
-            len = WideCharToMultiByte(CP_ACP, 0, wszGBK, -1, NULL, 0, NULL, NULL);
+            len = WideCharToMultiByte(CP_ACP, 0, wszGBK, -1, nullptr, 0, nullptr, nullptr);
             char* szGBK = new char[len + 1];
             memset(szGBK, 0, len + 1);
-            WideCharToMultiByte(CP_ACP, 0, wszGBK, -1, szGBK, len, NULL, NULL);
+            WideCharToMultiByte(CP_ACP, 0, wszGBK, -1, szGBK, len, nullptr, nullptr);
             std::string strTemp(szGBK);
             if (wszGBK)
                 delete[] wszGBK;
@@ -127,7 +127,7 @@ namespace asst
             return RetTy{ rect.x, rect.y, rect.width, rect.height };
         }
 
-        static std::string load_file_without_bom(const std::string& filename)
+        inline std::string load_file_without_bom(const std::string& filename)
         {
             std::ifstream ifs(filename, std::ios::in);
             if (!ifs.is_open()) {
@@ -150,7 +150,7 @@ namespace asst
             return str;
         }
 
-        static int hamming(std::string hash1, std::string hash2)
+        inline int hamming(std::string hash1, std::string hash2)
         {
             constexpr static int HammingFlags = 64;
 
@@ -158,7 +158,7 @@ namespace asst
             hash2.insert(hash2.begin(), HammingFlags - hash2.size(), '0');
             int dist = 0;
             for (int i = 0; i < HammingFlags; i = i + 16) {
-                unsigned long long x = strtoull(hash1.substr(i, 16).c_str(), NULL, 16) ^ strtoull(hash2.substr(i, 16).c_str(), NULL, 16);
+                unsigned long long x = strtoull(hash1.substr(i, 16).c_str(), nullptr, 16) ^ strtoull(hash2.substr(i, 16).c_str(), nullptr, 16);
                 while (x) {
                     dist++;
                     x = x & (x - 1);
@@ -167,7 +167,7 @@ namespace asst
             return dist;
         }
 
-        static std::string callcmd(const std::string& cmdline)
+        inline std::string callcmd(const std::string& cmdline)
         {
             constexpr int BuffSize = 4096;
             std::string pipe_str;
@@ -189,14 +189,14 @@ namespace asst
 
             PROCESS_INFORMATION pi = { 0 };
 
-            BOOL p_ret = CreateProcessA(NULL, const_cast<LPSTR>(cmdline.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+            BOOL p_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmdline.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi);
             if (p_ret) {
                 DWORD read_num = 0;
                 DWORD std_num = 0;
                 do {
-                    while (::PeekNamedPipe(pipe_read, NULL, 0, NULL, &read_num, NULL) && read_num > 0) {
+                    while (::PeekNamedPipe(pipe_read, nullptr, 0, nullptr, &read_num, nullptr) && read_num > 0) {
                         char* pipe_buffer = new char[read_num];
-                        BOOL read_ret = ::ReadFile(pipe_read, pipe_buffer, read_num, &std_num, NULL);
+                        BOOL read_ret = ::ReadFile(pipe_read, pipe_buffer, read_num, &std_num, nullptr);
                         if (read_ret) {
                             pipe_str.append(pipe_buffer, pipe_buffer + std_num);
                         }
@@ -238,7 +238,7 @@ namespace asst
                 close(pipe_out[PIPE_READ]);
                 close(pipe_out[PIPE_WRITE]);
 
-                exit_ret = execlp("sh", "sh", "-c", cmdline.c_str(), NULL);
+                exit_ret = execlp("sh", "sh", "-c", cmdline.c_str(), nullptr);
                 exit(exit_ret);
             }
             else if (child > 0) {
@@ -257,7 +257,7 @@ namespace asst
                         pipe_str.append(pipe_buffer.get(), pipe_buffer.get() + read_num);
                         read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
                     };
-                } while (::waitpid(child, NULL, WNOHANG) == 0);
+                } while (::waitpid(child, nullptr, WNOHANG) == 0);
 
                 close(pipe_in[PIPE_WRITE]);
                 close(pipe_out[PIPE_READ]);

@@ -231,12 +231,24 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
 
 bool asst::Assistant::append_award(bool only_append)
 {
-    return append_process_task("AwardBegin", "Award");
+    append_process_task("AwardBegin", "Award");
+
+    if (!only_append) {
+        return start(false);
+    }
+
+    return true;
 }
 
 bool asst::Assistant::append_visit(bool only_append)
 {
-    return append_process_task("VisitBegin", "Visit");
+    append_process_task("VisitBegin", "Visit");
+
+    if (!only_append) {
+        return start(false);
+    }
+
+    return true;
 }
 
 bool asst::Assistant::append_mall(bool with_shopping, bool only_append)
