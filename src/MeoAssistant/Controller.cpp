@@ -23,7 +23,7 @@
 #include "UserConfiger.h"
 
 asst::Controller::Controller()
-    : m_rand_engine(std::chrono::system_clock::now().time_since_epoch().count())
+    : m_rand_engine(time(nullptr))
 {
     LogTraceFunction;
 
@@ -96,7 +96,7 @@ asst::Controller::~Controller()
     close(m_pipe_out[PIPE_READ]);
     close(m_pipe_out[PIPE_WRITE]);
 #endif
-    }
+}
 
 bool asst::Controller::connect_adb(const std::string & address)
 {
@@ -400,17 +400,17 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
 
 #ifdef _WIN32
     PROCESS_INFORMATION process_info = { 0 }; // 进程信息结构体
-    ::CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &m_child_startup_info, &process_info);
+    ::CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
 
     do {
         //DWORD write_num = 0;
-        //WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, NULL);
+        //WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, nullptr);
 
         DWORD read_num = 0;
         DWORD std_num = 0;
-        while (::PeekNamedPipe(m_pipe_read, NULL, 0, NULL, &read_num, NULL) && read_num > 0) {
+        while (::PeekNamedPipe(m_pipe_read, nullptr, 0, nullptr, &read_num, nullptr) && read_num > 0) {
             uchar* pipe_buffer = new uchar[read_num];
-            BOOL read_ret = ::ReadFile(m_pipe_read, pipe_buffer, read_num, &std_num, NULL);
+            BOOL read_ret = ::ReadFile(m_pipe_read, pipe_buffer, read_num, &std_num, nullptr);
             if (read_ret) {
                 pipe_data.insert(pipe_data.end(), pipe_buffer, pipe_buffer + std_num);
             }
@@ -421,7 +421,7 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
         }
     } while (::WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT);
 
-    DWORD exit_ret = -1;
+    DWORD exit_ret = 255;
     ::GetExitCodeProcess(process_info.hProcess, &exit_ret);
 
     ::CloseHandle(process_info.hProcess);
@@ -445,7 +445,7 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
         // close(m_pipe_out[PIPE_READ]);
         // close(m_pipe_out[PIPE_WRITE]);
 
-        exit_ret = execlp("sh", "sh", "-c", cmd.c_str(), NULL);
+        exit_ret = execlp("sh", "sh", "-c", cmd.c_str(), nullptr);
         exit(exit_ret);
     }
     else if (m_child > 0) {
@@ -461,7 +461,7 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
                 pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
                 read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
             };
-        } while (::waitpid(m_child, NULL, WNOHANG) == 0);
+        } while (::waitpid(m_child, nullptr, WNOHANG) == 0);
     }
     else {
         // failed to create child process
@@ -537,8 +537,7 @@ void asst::Controller::random_delay() const
     auto& opt = Resrc.cfg().get_options();
     if (opt.control_delay_upper != 0) {
         LogTraceFunction;
-        static std::default_random_engine rand_engine(
-            std::chrono::steady_clock::now().time_since_epoch().count());
+        static std::default_random_engine rand_engine(time(nullptr));
         static std::uniform_int_distribution<unsigned> rand_uni(
             opt.control_delay_lower,
             opt.control_delay_upper);

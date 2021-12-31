@@ -19,7 +19,7 @@ namespace MeoAsstGui
     // 界面设置存储（读写json文件）
     public class ViewStatusStorage
     {
-        private static string _configFilename = System.Environment.CurrentDirectory + "\\gui.json";
+        private static readonly string _configFilename = System.Environment.CurrentDirectory + "\\gui.json";
         private static JObject _viewStatus = new JObject();
 
         public static string Get(string key, string defalut_value)

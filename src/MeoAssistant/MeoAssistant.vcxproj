@@ -156,7 +156,7 @@
     <LibraryPath>$(TargetDir);$(SolutionDir)\3rdparty\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)include;$(SolutionDir)3rdparty\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(TargetDir);$(SolutionDir)\3rdparty\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -215,7 +215,7 @@ xcopy /e /y /i /c $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>Disabled</Optimization>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <AdditionalOptions>/utf-8 /MP %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>

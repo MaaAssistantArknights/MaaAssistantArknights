@@ -38,8 +38,8 @@ namespace asst
         virtual void click_return_button();
 
         AsstCallback m_callback;
-        void* m_callback_arg = NULL;
-        bool* m_exit_flag = NULL;
+        void* m_callback_arg = nullptr;
+        bool* m_exit_flag = nullptr;
         std::string m_task_chain;
         int m_cur_retry = 0;
         int m_retry_times = RetryTimesDefault;

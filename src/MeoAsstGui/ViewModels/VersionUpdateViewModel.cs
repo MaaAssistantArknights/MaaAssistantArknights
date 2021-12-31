@@ -27,8 +27,8 @@ namespace MeoAsstGui
 {
     public class VersionUpdateViewModel : Screen
     {
-        private IWindowManager _windowManager;
-        private IContainer _container;
+        private readonly IWindowManager _windowManager;
+        private readonly IContainer _container;
 
         public VersionUpdateViewModel(IContainer container, IWindowManager windowManager)
         {
@@ -38,7 +38,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstGetVersion();
 
-        private string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
+        private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
         private string _latestVersion;
 
         private string _updateTag = ViewStatusStorage.Get("VersionUpdate.name", string.Empty);
@@ -348,7 +348,7 @@ namespace MeoAsstGui
                 processTemp.WaitForExit();
                 exit_code = processTemp.ExitCode;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

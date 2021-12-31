@@ -18,14 +18,12 @@ using namespace asst;
 asst::ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name)
     : AbstractTask(abs),
     m_cur_tasks_name(std::move(tasks_name))
-{
-}
+{}
 
 asst::ProcessTask::ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name) noexcept
     : AbstractTask(std::move(abs)),
     m_cur_tasks_name(std::move(tasks_name))
-{
-}
+{}
 
 bool ProcessTask::_run()
 {
@@ -142,7 +140,7 @@ bool ProcessTask::_run()
 
         ++exec_times;
 
-        Status.set("Last" + cur_name, time(NULL));
+        Status.set("Last" + cur_name, time(nullptr));
 
         // 减少其他任务的执行次数
         // 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
@@ -190,7 +188,7 @@ void asst::ProcessTask::exec_stage_drops()
     if (m_rear_delay.find("StartButton2") == m_rear_delay.cend()) {
         int64_t start_times = Status.get("LastStartButton2");
         if (start_times > 0) {
-            int64_t duration = time(NULL) - start_times;
+            int64_t duration = time(nullptr) - start_times;
             int64_t delay = duration * 1000 - m_cur_task_ptr->rear_delay;
             m_rear_delay["StartButton2"] = delay;
         }

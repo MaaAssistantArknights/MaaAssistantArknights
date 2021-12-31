@@ -144,7 +144,6 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
     LogTraceFunction;
     m_all_available_opers.clear();
 
-    int first_number = 0;
     while (true) {
         if (need_exit()) {
             return false;
@@ -294,7 +293,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     // 遍历所有组合，找到效率最高的
     auto& all_group = Resrc.infrast().get_skills_group(m_facility);
     for (const infrast::SkillsGroup& group : all_group) {
-        LogTraceScope(group.desc);
+        Log.trace(group.desc);
         auto cur_available_opers = all_avaliable_combs;
         bool group_unavailable = false;
         std::vector<infrast::SkillsComb> cur_combs;

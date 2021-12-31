@@ -52,7 +52,7 @@ namespace asst
         FacilityInfo,                  // 当前设施信息
     };
 
-    static std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
+    inline std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
     {
         static const std::unordered_map<AsstMsg, std::string> _type_name = {
             { AsstMsg::PtrIsNull, "PtrIsNull" },
