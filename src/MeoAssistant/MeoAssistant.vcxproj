@@ -183,6 +183,7 @@
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
+      <Profile>true</Profile>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -228,6 +229,7 @@ xcopy /e /y /i /c $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
+      <Profile>true</Profile>
     </Link>
     <PreBuildEvent>
       <Command>

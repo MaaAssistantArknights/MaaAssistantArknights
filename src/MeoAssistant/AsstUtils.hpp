@@ -169,8 +169,10 @@ namespace asst
 
         inline std::string callcmd(const std::string& cmdline)
         {
-            constexpr int BuffSize = 4096;
+            constexpr int PipeBuffSize = 4096;
             std::string pipe_str;
+            auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
+
 #ifdef _WIN32
             SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
             pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -178,7 +180,7 @@ namespace asst
             pipe_sec_attr.bInheritHandle = TRUE;
             HANDLE pipe_read = nullptr;
             HANDLE pipe_child_write = nullptr;
-            CreatePipe(&pipe_read, &pipe_child_write, &pipe_sec_attr, BuffSize);
+            CreatePipe(&pipe_read, &pipe_child_write, &pipe_sec_attr, PipeBuffSize);
 
             STARTUPINFOA si = { 0 };
             si.cb = sizeof(STARTUPINFO);
@@ -191,18 +193,12 @@ namespace asst
 
             BOOL p_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmdline.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi);
             if (p_ret) {
+                DWORD peek_num = 0;
                 DWORD read_num = 0;
-                DWORD std_num = 0;
                 do {
-                    while (::PeekNamedPipe(pipe_read, nullptr, 0, nullptr, &read_num, nullptr) && read_num > 0) {
-                        char* pipe_buffer = new char[read_num];
-                        BOOL read_ret = ::ReadFile(pipe_read, pipe_buffer, read_num, &std_num, nullptr);
-                        if (read_ret) {
-                            pipe_str.append(pipe_buffer, pipe_buffer + std_num);
-                        }
-                        if (pipe_buffer != nullptr) {
-                            delete[] pipe_buffer;
-                            pipe_buffer = nullptr;
+                    while (::PeekNamedPipe(pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
+                        if (::ReadFile(pipe_read, pipe_buffer.get(), peek_num, &read_num, nullptr)) {
+                            pipe_str.append(pipe_buffer.get(), pipe_buffer.get() + read_num);
                         }
                     }
                 } while (::WaitForSingleObject(pi.hProcess, 0) == WAIT_TIMEOUT);
@@ -248,14 +244,12 @@ namespace asst
                 close(pipe_in[PIPE_READ]);
                 close(pipe_out[PIPE_WRITE]);
 
-                std::unique_ptr<char> pipe_buffer(new char[BuffSize + 1]);
                 do {
-                    memset(pipe_buffer.get(), 0, BuffSize);
-                    ssize_t read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
+                    ssize_t read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), PipeBuffSize);
 
                     while (read_num > 0) {
                         pipe_str.append(pipe_buffer.get(), pipe_buffer.get() + read_num);
-                        read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
+                        read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), PipeBuffSize);
                     };
                 } while (::waitpid(child, nullptr, WNOHANG) == 0);
 
@@ -268,10 +262,10 @@ namespace asst
                 close(pipe_in[PIPE_WRITE]);
                 close(pipe_out[PIPE_READ]);
                 close(pipe_out[PIPE_WRITE]);
-            }
+        }
 #endif
             return pipe_str;
-        }
+    }
 
         //template<typename T,
         //	typename = typename std::enable_if<std::is_constructible<T, std::string>::value>::type>
@@ -313,5 +307,5 @@ namespace asst
         //	}
         //	return str;
         //}
-    }
+}
 }
