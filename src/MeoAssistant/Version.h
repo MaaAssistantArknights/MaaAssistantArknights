@@ -2,5 +2,5 @@
 
 namespace asst
 {
-    constexpr static const char* Version = "v2.5.7";
+    constexpr static const char* Version = "v2.6.0";
 }
