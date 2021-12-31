@@ -9,7 +9,8 @@ asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat image)
     ,
     m_image_draw(image.clone())
 #endif
-{}
+{
+}
 
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat image, const Rect& roi)
     : m_image(image),
