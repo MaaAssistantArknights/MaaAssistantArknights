@@ -440,8 +440,11 @@
         ],
         "next": [
             "PRTS",
+            "EndOfAction",
             "StartButton2",
-            "OfflineConfirm"
+            "PrtsErrorConfirm",
+            "OfflineConfirm",
+            "WaitAfterPRTS"
         ]
     },
     "PRTS": {

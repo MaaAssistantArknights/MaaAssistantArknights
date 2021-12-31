@@ -53,7 +53,7 @@ namespace asst
     private:
         RuntimeStatus() = default;
 
-        std::unordered_map<std::string, int> m_data;
+        std::unordered_map<std::string, int64_t> m_data;
     };
 
     static auto& status = RuntimeStatus::get_instance();
