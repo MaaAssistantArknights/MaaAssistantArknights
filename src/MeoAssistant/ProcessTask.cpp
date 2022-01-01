@@ -189,8 +189,8 @@ void asst::ProcessTask::exec_stage_drops()
         int64_t start_times = Status.get("LastStartButton2");
         if (start_times > 0) {
             int64_t duration = time(nullptr) - start_times;
-            int64_t delay = duration * 1000 - m_cur_task_ptr->rear_delay;
-            m_rear_delay["StartButton2"] = delay;
+            int64_t delay = duration * 1000ll - static_cast<long long>(m_cur_task_ptr->rear_delay);
+            m_rear_delay["StartButton2"] = static_cast<int>(delay);
         }
     }
 

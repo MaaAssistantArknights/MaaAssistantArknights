@@ -77,7 +77,7 @@ bool RecruitTask::_run()
     // 识别到的5个Tags，全组合排列
     std::vector<std::vector<std::string>> all_combs;
     size_t len = all_tags.size();
-    int count = (std::pow)(2, len);
+    int count = static_cast<int>(std::pow(2, len));
     for (int i = 0; i < count; ++i) {
         std::vector<std::string> temp;
         for (int j = 0, mask = 1; j < len; ++j) {

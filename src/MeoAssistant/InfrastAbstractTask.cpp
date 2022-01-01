@@ -16,11 +16,11 @@ asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* call
     : AbstractTask(callback, callback_arg)
 {
     if (m_face_hash_thres == 0) {
-        m_face_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
+        m_face_hash_thres = (int)std::dynamic_pointer_cast<MatchTaskInfo>(
             Task.get("InfrastOperFaceHash"))->templ_threshold;
     }
     if (m_name_hash_thres == 0) {
-        m_name_hash_thres = std::dynamic_pointer_cast<MatchTaskInfo>(
+        m_name_hash_thres = (int)std::dynamic_pointer_cast<MatchTaskInfo>(
             Task.get("InfrastOperNameHash"))->templ_threshold;
     }
 }

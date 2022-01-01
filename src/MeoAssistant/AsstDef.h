@@ -41,8 +41,7 @@ namespace asst
         Rect(Rect&&) noexcept = default;
         Rect(int x, int y, int width, int height)
             : x(x), y(y), width(width), height(height)
-        {
-        }
+        {}
         Rect operator*(double rhs) const
         {
             return { x, y, static_cast<int>(width * rhs), static_cast<int>(height * rhs) };

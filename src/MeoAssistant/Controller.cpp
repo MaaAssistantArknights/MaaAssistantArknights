@@ -23,13 +23,13 @@
 #include "UserConfiger.h"
 
 asst::Controller::Controller()
-    : m_rand_engine(time(nullptr))
+    : m_rand_engine(static_cast<unsigned int>(time(nullptr)))
 {
     LogTraceFunction;
 
 #ifdef _WIN32
     // 安全属性描述符
-    m_pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
+    m_pipe_sec_attr.nLength = sizeof SECURITY_ATTRIBUTES;
     m_pipe_sec_attr.lpSecurityDescriptor = nullptr;
     m_pipe_sec_attr.bInheritHandle = TRUE;
 
@@ -140,12 +140,12 @@ bool asst::Controller::connect_adb(const std::string & address)
 
     if (cur_ratio >= DefaultRatio // 说明是宽屏或默认16:9，按照高度计算缩放
         || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff) {
-        int scale_width = cur_ratio * WindowHeightDefault;
+        int scale_width = static_cast<int>(cur_ratio) * WindowHeightDefault;
         m_scale_size = std::make_pair(scale_width, WindowHeightDefault);
         m_control_scale = static_cast<double>(m_emulator_info.adb.display_height) / static_cast<double>(WindowHeightDefault);
     }
     else { // 否则可能是偏正方形的屏幕，按宽度计算
-        int scale_height = WindowWidthDefault / cur_ratio;
+        int scale_height = WindowWidthDefault / static_cast<int>(cur_ratio);
         m_scale_size = std::make_pair(WindowWidthDefault, scale_height);
         m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(WindowWidthDefault);
     }
@@ -265,13 +265,13 @@ bool asst::Controller::try_capture(const EmulatorInfo & info, bool without_handl
         // 转成宽字符的
         wchar_t* class_wbuff = nullptr;
         if (!handle_info.class_name.empty()) {
-            size_t class_len = (handle_info.class_name.size() + 1) * 2;
+            int class_len = static_cast<int>(handle_info.class_name.size() + 1U) * 2;
             class_wbuff = new wchar_t[class_len];
             ::MultiByteToWideChar(CP_UTF8, 0, handle_info.class_name.c_str(), -1, class_wbuff, class_len);
         }
         wchar_t* window_wbuff = nullptr;
         if (!handle_info.window_name.empty()) {
-            size_t window_len = (handle_info.window_name.size() + 1) * 2;
+            int window_len = static_cast<int>(handle_info.window_name.size() + 1U) * 2;
             window_wbuff = new wchar_t[window_len];
             memset(window_wbuff, 0, window_len);
             ::MultiByteToWideChar(CP_UTF8, 0, handle_info.window_name.c_str(), -1, window_wbuff, window_len);
@@ -528,7 +528,7 @@ void asst::Controller::random_delay() const
     auto& opt = Resrc.cfg().get_options();
     if (opt.control_delay_upper != 0) {
         LogTraceFunction;
-        static std::default_random_engine rand_engine(time(nullptr));
+        static std::default_random_engine rand_engine(static_cast<unsigned int>(time(nullptr)));
         static std::uniform_int_distribution<unsigned> rand_uni(
             opt.control_delay_lower,
             opt.control_delay_upper);
@@ -599,8 +599,8 @@ bool asst::Controller::screencap()
 
 int asst::Controller::click(const Point & p, bool block)
 {
-    int x = p.x * m_control_scale;
-    int y = p.y * m_control_scale;
+    int x = p.x * static_cast<int>(m_control_scale);
+    int y = p.y * static_cast<int>(m_control_scale);
     //log.trace("Click, raw:", p.x, p.y, "corr:", x, y);
 
     return click_without_scale(Point(x, y), block);
@@ -632,10 +632,10 @@ int asst::Controller::click_without_scale(const Rect & rect, bool block)
 
 int asst::Controller::swipe(const Point & p1, const Point & p2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
-    int x1 = p1.x * m_control_scale;
-    int y1 = p1.y * m_control_scale;
-    int x2 = p2.x * m_control_scale;
-    int y2 = p2.y * m_control_scale;
+    int x1 = p1.x * static_cast<int>(m_control_scale);
+    int y1 = p1.y * static_cast<int>(m_control_scale);
+    int x2 = p2.x * static_cast<int>(m_control_scale);
+    int y2 = p2.y * static_cast<int>(m_control_scale);
     //log.trace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
 
     return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block, extra_delay, extra_swipe);
@@ -675,8 +675,8 @@ int asst::Controller::swipe_without_scale(const Point & p1, const Point & p2, in
         if (p2.x != p1.x) {
             double k = (double)(p2.y - p1.y) / (p2.x - p1.x);
             double temp = extra_swipe_dist / std::sqrt(1 + k * k);
-            end_x = p2.x + (p2.x > p1.x ? -1 : 1) * temp;
-            end_y = p2.y + (p2.y > p1.y ? -1 : 1) * std::fabs(k) * temp;
+            end_x = p2.x + static_cast<int>((p2.x > p1.x ? -1.0 : 1.0) * temp);
+            end_y = p2.y + static_cast<int>((p2.y > p1.y ? -1.0 : 1.0) * std::fabs(k) * temp);
         }
         else {
             end_x = p2.x;

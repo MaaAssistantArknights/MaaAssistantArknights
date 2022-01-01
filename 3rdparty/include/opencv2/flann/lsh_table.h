@@ -98,7 +98,7 @@ struct LshStats
     size_t bucket_size_std_dev;
     /** Each contained vector contains three value: beginning/end for interval, number of elements in the bin
      */
-    std::vector<std::vector<unsigned int> > size_histogram_;
+    std::vector<std::vector<unsigned int>> size_histogram_;
 };
 
 /** Overload the << operator for LshStats

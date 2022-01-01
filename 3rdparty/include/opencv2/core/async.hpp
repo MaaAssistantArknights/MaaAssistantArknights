@@ -70,7 +70,7 @@ public:
     CV_WRAP bool valid() const CV_NOEXCEPT;
 
 #ifdef CV_CXX11
-    inline AsyncArray(AsyncArray&& o) { p = o.p; o.p = NULL; }
+    inline AsyncArray(AsyncArray&& o) noexcept { p = o.p; o.p = NULL; }
     inline AsyncArray& operator=(AsyncArray&& o) CV_NOEXCEPT { std::swap(p, o.p); return *this; }
 
     template<typename _Rep, typename _Period>

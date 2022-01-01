@@ -131,8 +131,8 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
 
     const auto prg_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         Task.get("InfrastOperMoodProgressBar"));
-    int prg_lower_limit = prg_task_ptr->templ_threshold;
-    int prg_diff_thres = prg_task_ptr->special_threshold;
+    int prg_lower_limit = static_cast<int>(prg_task_ptr->templ_threshold);
+    int prg_diff_thres = static_cast<int>(prg_task_ptr->special_threshold);
     Rect rect_move = prg_task_ptr->rect_move;
 
     for (auto&& oper : m_result) {
@@ -168,7 +168,7 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
         int max_white_length = 0; // 最长横扫的白色长度，即作为进度条长度
         for (int i = 0; i != prg_gray.rows; ++i) {
             int cur_white_length = 0;
-            cv::uint8_t left_value = prg_lower_limit;
+            cv::uint8_t left_value = static_cast<cv::uint8_t>(prg_lower_limit);
             for (int j = 0; j != prg_gray.cols; ++j) {
                 auto value = prg_gray.at<cv::uint8_t>(i, j);
                 // 当前点的颜色，需要大于最低阈值；且与相邻点的差值不能过大，否则就认为当前点不是进度条
@@ -183,7 +183,7 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
                     if (max_white_length < cur_white_length) {
                         max_white_length = cur_white_length;
                     }
-                    left_value = prg_lower_limit;
+                    left_value = static_cast<cv::uint8_t>(prg_lower_limit);
                     cur_white_length = 0;
                     break;
                 }
