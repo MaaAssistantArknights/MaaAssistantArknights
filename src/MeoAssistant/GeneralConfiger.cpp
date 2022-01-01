@@ -52,6 +52,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         emulator_info.adb.display = adb_json.at("display").as_string();
         emulator_info.adb.display_format = adb_json.at("displayFormat").as_string();
         emulator_info.adb.screencap = adb_json.at("screencap").as_string();
+        emulator_info.adb.screencap_gzip = adb_json.get("screencapGzip", false);
         emulator_info.adb.release = adb_json.at("release").as_string();
         //emulator_info.adb.pullscreen = adb_json.at("pullscreen").as_string();
 
