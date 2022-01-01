@@ -61,7 +61,8 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "screencap": "[Adb] -s [Address] exec-out screencap -p",
+                "screencap": "[Adb] -s [Address] shell screencap | gzip -1",
+                "screencapGzip": true,
                 "release": "[Adb] kill-server"
             }
         },

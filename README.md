@@ -185,6 +185,8 @@ A Game Assistant for Arknights
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
 - C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)
 - C++ base64编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)
+- C++ 解压压缩库：[zlib](https://github.com/madler/zlib)
+- C++ Gzip封装：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON库: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)

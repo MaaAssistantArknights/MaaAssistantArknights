@@ -16,6 +16,7 @@
 #include <vector>
 
 #include <opencv2/opencv.hpp>
+#include <zlib/decompress.hpp>
 
 #include "AsstDef.h"
 #include "Logger.hpp"
@@ -562,39 +563,50 @@ bool asst::Controller::screencap()
 {
     LogTraceFunction;
 
-#if 1
-    auto&& [ret, data] = call_command(m_emulator_info.adb.screencap);
-    if (ret && !data.empty()) {
-        if (m_image_convert_lf) {
-            convert_lf(data);
-        }
-        m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
-        if (m_cache_image.empty()) {
-            Log.info("Data is not empty, but image is empty, try to convert lf");
-            convert_lf(data);
-            m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
-            if (m_cache_image.empty()) {
-                m_image_convert_lf = false;
-                Log.error("convert lf and retry decode falied!");
-                return false;
-            }
-            m_image_convert_lf = true;
-            return true;
-        }
-        return true;
-    }
-    else {
+    auto& adb = m_emulator_info.adb;
+    auto&& [ret, data] = call_command(adb.screencap);
+
+    if (!ret || data.empty()) {
         Log.error("Data is empty!");
         return false;
     }
-#else
-    m_cache_image = cv::imread("/home/mreo/test.png");
-    return true;
-#endif
 
-    //cv::Mat temp_image = cv::imdecode(data, cv::IMREAD_COLOR);
-    ////std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
-    //m_cache_image = std::move(temp_image);
+    if (m_image_convert_lf) {
+        convert_lf(data);
+    }
+
+    std::function<bool(const std::vector<uchar>&)> decode_func = nullptr;
+    if (adb.screencap_gzip) {
+        decode_func = [&](const std::vector<uchar>& data) -> bool {
+            auto dst = gzip::decompress(data.data(), data.size());
+            if (dst.empty()) {
+                return false;
+            }
+            constexpr static int BmpHeaderSize = 12;
+            m_cache_image = cv::Mat(adb.display_height, adb.display_width, CV_8UC4, dst.data() + BmpHeaderSize);
+            cv::cvtColor(m_cache_image, m_cache_image, cv::COLOR_RGB2BGR);
+            return !m_cache_image.empty();
+        };
+    }
+    else {
+        decode_func = [&](const std::vector<uchar>& data) -> bool {
+            m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
+            return !m_cache_image.empty();
+        };
+    }
+
+    if (!decode_func(data)) {
+        Log.info("Data is not empty, but image is empty, try to convert lf");
+        convert_lf(data);
+        if (!decode_func(data)) {
+            m_image_convert_lf = false;
+            Log.error("convert lf and retry decode falied!");
+            return false;
+        }
+        m_image_convert_lf = true;
+        return true;
+    }
+    return true;
 }
 
 int asst::Controller::click(const Point & p, bool block)
