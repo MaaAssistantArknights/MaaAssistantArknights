@@ -190,7 +190,7 @@ void asst::ProcessTask::exec_stage_drops()
         if (start_times > 0) {
             int64_t duration = time(nullptr) - start_times;
             int64_t delay = duration * 1000 - m_cur_task_ptr->rear_delay;
-            m_rear_delay["StartButton2"] = delay;
+            m_rear_delay["StartButton2"] = static_cast<int>(delay);
         }
     }
 
@@ -213,15 +213,17 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 {
     const auto&& [width, height] = Ctrler.get_scale_size();
 
-    const static Rect right_rect(width * 0.8,
-        height * 0.4,
-        width * 0.1,
-        height * 0.2);
+    const static Rect right_rect(
+        static_cast<int>(width * 0.8),
+        static_cast<int>(height * 0.4),
+        static_cast<int>(width * 0.1),
+        static_cast<int>(height * 0.2));
 
-    const static Rect left_rect(width * 0.1,
-        height * 0.4,
-        width * 0.1,
-        height * 0.2);
+    const static Rect left_rect(
+        static_cast<int>(width * 0.1),
+        static_cast<int>(height * 0.4),
+        static_cast<int>(width * 0.1),
+        static_cast<int>(height * 0.2));
 
     switch (action) {
     case asst::ProcessTaskAction::SwipeToTheLeft:

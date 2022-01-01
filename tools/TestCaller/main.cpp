@@ -48,7 +48,7 @@ int main(int argc, char** argv)
         // }
         AsstStart(ptr);
 
-        ch = getchar();
+        ch = static_cast<char>(getchar());
     }
 
     if (ptr) {

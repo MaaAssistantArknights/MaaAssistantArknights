@@ -93,7 +93,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         locked_analyzer.set_image(image);
         if (locked_analyzer.analyze()) {
-            m_cur_num_of_lokced_opers = locked_analyzer.get_result().size();
+            m_cur_num_of_lokced_opers = static_cast<int>(locked_analyzer.get_result().size());
         }
         else {
             m_cur_num_of_lokced_opers = 0;
@@ -186,7 +186,7 @@ size_t asst::InfrastProductionTask::opers_detect()
     const auto& cur_all_opers = oper_analyzer.get_result();
     max_num_of_opers_per_page = (std::max)(max_num_of_opers_per_page, cur_all_opers.size());
 
-    int cur_available_num = cur_all_opers.size();
+    int cur_available_num = static_cast<int>(cur_all_opers.size());
     for (const auto& cur_oper : cur_all_opers) {
         if (cur_oper.skills.empty()) {
             --cur_available_num;
@@ -306,7 +306,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                 continue;
             }
             // TODO：这里做成除了不等于，还可计算大于、小于等不同条件的
-            int cur_value = Status.get(cond);
+            int cur_value = static_cast<int>(Status.get(cond));
             if (cur_value != cond_value) {
                 meet_condition = false;
                 break;
@@ -586,7 +586,7 @@ asst::InfrastProductionTask::efficient_regex_calc(
                 // TODO 报错！
             }
             std::string status_key = cur_formula.substr(pos + 1, rp_pos - pos - 1);
-            int status_value = Status.get(status_key);
+            int64_t status_value = Status.get(status_key);
             cur_formula.replace(pos, rp_pos - pos + 1, std::to_string(status_value));
         }
 
