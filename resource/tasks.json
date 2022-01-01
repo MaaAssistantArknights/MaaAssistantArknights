@@ -639,7 +639,8 @@
         "next": [
             "EndOfAction",
             "StartToWakeUp",
-            "OfflineConfirm"
+            "OfflineConfirm",
+			"StartButton1"
         ]
     },
     "OfflineConfirmAfterBattle": {
