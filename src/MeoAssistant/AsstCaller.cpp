@@ -113,6 +113,7 @@ bool AsstCatchFake(asst::Assistant* p_asst)
 
     return p_asst->catch_fake();
 #else
+    (void*)p_asst;
     return false;
 #endif // LOG_TRACE
 }
@@ -261,4 +262,4 @@ bool AsstAppendDebug(asst::Assistant* p_asst)
 #else
     return false;
 #endif // LOG_TRACE
-}
+    }

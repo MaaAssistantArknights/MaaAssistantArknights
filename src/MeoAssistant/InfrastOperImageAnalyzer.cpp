@@ -131,8 +131,8 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
 
     const auto prg_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
         Task.get("InfrastOperMoodProgressBar"));
-    int prg_lower_limit = prg_task_ptr->templ_threshold;
-    int prg_diff_thres = prg_task_ptr->special_threshold;
+    uint8_t prg_lower_limit = static_cast<uint8_t>(prg_task_ptr->templ_threshold);
+    int prg_diff_thres = static_cast<int>(prg_task_ptr->special_threshold);
     Rect rect_move = prg_task_ptr->rect_move;
 
     for (auto&& oper : m_result) {

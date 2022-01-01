@@ -71,7 +71,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
                     mm_analyzer.sort_result();
                     max_score = cur_score;
                     cur_facility_result = cur_res;
-                    cor_suffix_index = i;
+                    cor_suffix_index = static_cast<int>(i);
                 }
             }
         }
