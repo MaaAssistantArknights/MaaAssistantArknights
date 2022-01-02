@@ -92,7 +92,8 @@ namespace asst
         cv::Mat m_cache_image;
         bool m_image_convert_lf = false;
 
-        constexpr static int PipeBuffSize = 4 * 1024; // 管道缓冲区大小
+        constexpr static int PipeBuffSize = 4 * 1024 * 1024; // 管道缓冲区大小
+        std::unique_ptr<uchar[]> m_pipe_buffer = nullptr;
 #ifdef _WIN32
         HANDLE m_pipe_read = nullptr;                // 读管道句柄
         HANDLE m_pipe_write = nullptr;               // 写管道句柄
