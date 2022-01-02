@@ -1,5 +1,7 @@
 <div align="center">
 
+<img alt="LOGO" src="https://user-images.githubusercontent.com/18511905/147876304-55743fb8-69c4-4e95-8fa9-c7c52d9f458d.png" width=220 height=220/>
+
 # MeoAssistantArknights
 
 <br>
@@ -38,9 +40,8 @@ A Game Assistant for Arknights
 
 话不多说，看图！
 
-![界面截图1](images/gui.png)
-![界面截图2](images/settings1.png)
-![界面截图3](images/settings2.png)
+![image](https://user-images.githubusercontent.com/18511905/147876643-c1fb24cc-fe31-4938-816d-6c6e1488bbef.png)
+![image](https://user-images.githubusercontent.com/18511905/147876661-da0da603-3b8c-4da3-9b52-797e536b16d7.png)
 
 ## 下载地址
 
@@ -198,11 +199,13 @@ A Game Assistant for Arknights
 
 ### 贡献/参与者
 
-- 非常感谢 [tcyh035](https://github.com/tcyh035) 帮忙设计重构图形界面
-- 非常感谢 [GengGode](https://github.com/GengGode) 和 [DbgDebug](https://github.com/DbgDebug) 提供图像算法思路并协助验证
-- 非常感谢 [LoveLoliii](https://github.com/LoveLoliii) 提供公开招募算法及数据、部分功能逻辑思路
+- 感谢 [tcyh035](https://github.com/tcyh035) 帮忙设计重构图形界面
+- 感谢 [GengGode](https://github.com/GengGode) 和 [DbgDebug](https://github.com/DbgDebug) 提供图像算法思路并协助验证
+- 感谢 [LoveLoliii](https://github.com/LoveLoliii) 提供公开招募算法及数据、部分功能逻辑思路
+- 感谢 [dantmnf](https://github.com/dantmnf) 大佬提供各种 adb 及其他系统相关逻辑处理思路
 - 感谢 [内卷地狱](https://jq.qq.com/?_wv=1027&k=ypbzXcA2) 的大佬们提供的各种协助支持
 - 感谢 [LmeSzinc](https://github.com/LmeSzinc) 提供的界面样式参考，~~虽然我抄了个四不像orz~~
+- 感谢 [Rosalindlo](https://space.bilibili.com/352372683) 帮忙制作的项目 logo
 - 感谢参与软件测试、提 bug 的小伙伴们~
 - ~~感谢 [B站直播间](https://live.bilibili.com/2808861) 的小伙伴们陪我弹幕吹水~~
 
@@ -214,7 +217,7 @@ A Game Assistant for Arknights
 
 ### Linux | macOS
 
-[Linux 编译教程](src/MeoAssistant/Linux编译教程.md)
+请参考 [Linux 编译教程](src/MeoAssistant/Linux编译教程.md)
 
 ## 广告
 
