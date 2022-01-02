@@ -23,7 +23,7 @@
 编译选项参考
 
 ```bash
-cmake ../ -DPADDLE_LIB=/your_path/paddle_inference/ -D OPENCV_DIR=/your_path_to_opencv/ -DWITH_STATIC_LIB=OFF -DBUILD_SHARED=ON
+cmake ../ -DPADDLE_LIB=/your_path/paddle_inference/ -DOpenCV_DIR=/your_path_to_opencv/ -DWITH_STATIC_LIB=OFF -DBUILD_SHARED=ON
 # 若设备不支持 MKL, 可再额外添加 -DWITH_MKL=OFF 选项，并下载对应的 PaddlePaddle 预测库版本
 ```
 
