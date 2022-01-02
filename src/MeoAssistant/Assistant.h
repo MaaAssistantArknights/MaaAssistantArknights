@@ -76,7 +76,7 @@ namespace asst
 
         [[deprecated]] bool set_param(const std::string& type, const std::string& param, const std::string& value);
 
-        static constexpr int ProcessTaskRetryTimesDefault = 50;
+        static constexpr int ProcessTaskRetryTimesDefault = AbstractTask::RetryTimesDefault;
         static constexpr int OpenRecruitTaskRetryTimesDefault = 20;
         static constexpr int AutoRecruitTaskRetryTimesDefault = 10;
 
