@@ -578,12 +578,13 @@ bool asst::Controller::screencap()
     std::function<bool(const std::vector<uchar>&)> decode_func = nullptr;
     if (adb.screencap_gzip) {
         decode_func = [&](const std::vector<uchar>& data) -> bool {
-            auto dst = gzip::decompress(data.data(), data.size());
-            if (dst.empty()) {
+            auto unzip_data = gzip::decompress(data.data(), data.size());
+            Log.trace("unzip data size:", unzip_data.size());
+            if (unzip_data.empty()) {
                 return false;
             }
             constexpr static int BmpHeaderSize = 12;
-            m_cache_image = cv::Mat(adb.display_height, adb.display_width, CV_8UC4, dst.data() + BmpHeaderSize);
+            m_cache_image = cv::Mat(adb.display_height, adb.display_width, CV_8UC4, unzip_data.data() + BmpHeaderSize);
             cv::cvtColor(m_cache_image, m_cache_image, cv::COLOR_RGB2BGR);
             return !m_cache_image.empty();
         };
