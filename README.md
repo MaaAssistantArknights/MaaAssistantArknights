@@ -48,66 +48,14 @@ A Game Assistant for Arknights
 [稳定版](https://github.com/MistEO/MeoAssistantArknights/releases/latest)  
 [测试版](https://github.com/MistEO/MeoAssistantArknights/releases)
 
-## 模拟器支持
-
-### 蓝叠模拟器
-
-完美支持。需要在模拟器`设置`-`引擎设置`中打开`允许ADB连接`
-
-### 蓝叠模拟器国际版
-
-完美支持。需要在模拟器`设定`-`进阶`中打开`Android调试桥`
-
-### 夜神模拟器
-
-完美支持
-
-### MuMu 模拟器
-
-支持
-
-### 雷电模拟器
-
-勉强支持。雷电总有莫名其妙的问题，可以试试看，不保证能用（
-
-### 逍遥模拟器
-
-支持
-
-### 腾讯手游助手
-
-不支持。新版本的腾讯好像也是自研引擎了，没开放 ADB 端口；但是测试是能响应 Win32 Api 的，有需求再做
-
-### MuMu 手游助手（星云引擎）  
-
-不支持。星云引擎这个版本不支持 ADB 控制，甚至不响应 Win32 Api 鼠标消息，无解_(:з」∠)_
-
-### Win11 WSA
-
-不支持，WSA 目前没有实现 AOSP screencap 需要的接口，无法进行截图。等微软支持后会尝试适配
-
-### 蓝叠模拟器 Hyper-V 版本
-
-支持
-
-1. 在模拟器`设定`-`进阶`中打开`Android调试桥`
-2. 下载 [ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) ，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
-3. 在软件`设置`-`连接设置`中填写蓝叠安装目录下`bluestacks.conf`文件的完整路径
-
-### 自定义连接
-
-- 下载 [ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) ，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
-- 进入软件`设置`-`连接设置`，填写自定义地址（需要填写IP+端口，例如`127.0.0.1:5555`）
-- **注意 :** 若是使用手机，在非`16:9`分辨率下，部分功能不稳定（但也凑合能用），尤其是基建，几乎是不可用状态，正在进一步适配中。推荐使用`16:9`分辨率，经过的测试验证最多，也最稳定。
-
 ## 使用说明
 
 ### 基本说明
 
-1. 根据上面模拟器支持情况，进行对应的操作
+1. 请根据 [模拟器支持情况](docs/模拟器支持.md)，进行对应的操作
 2. 解压压缩包，到**没有中文或特殊符号**的文件夹路径
 3. 第一次运行软件，**请使用管理员权限**打开`MeoAsstGui.exe`。运行过一次后，后续不再需要管理员权限
-4. 开始运行后，所有设置均不可再修改
+4. 开始运行后，除`自动关机`外，所有设置均不可再修改
 
 ### 刷理智
 
@@ -137,7 +85,7 @@ A Game Assistant for Arknights
 
 #### 特殊说明
 
-- 基建换班目前均为单设施最优解，但非跨设施的全局最优解。例如：`巫恋 龙舌兰`、`红云 稀音`等这类单设施内的组合，都是可以正常识别并使用的；`迷迭香`、`红松骑士团`这类多个设施间联动的体系，目前都是不支持的
+- 基建换班目前均为单设施最优解，但非跨设施的全局最优解。例如：`巫恋+龙舌兰`、`红云+稀音`等这类单设施内的组合，都是可以正常识别并使用的；`迷迭香`、`红松骑士团`这类多个设施间联动的体系，目前赞不支持的
 - 会客室仅缺一个线索时，会选择对应流派的干员；否则会选择通用干员
 - 会客室暂不支持送出线索，当线索满时可能会处理异常。建议自动换班完成后自己再去看下会客室的情况
 - 控制中枢策略太过复杂，目前只考虑`阿米娅`、`诗怀雅`、`凯尔希`、`彩虹小队`及其他心情 +0.05 的干员，后续逐步优化
@@ -162,27 +110,29 @@ A Game Assistant for Arknights
 - 底层算法纯 C++ 开发，并设计了多重的缓存技术，最大限度降低 CPU 和内存占用
 - 软件支持自动更新✿✿ヽ(°▽°)ノ✿ 推荐非杠精的同学使用测试版，一般来说更新快且 bug 少（什么 MIUI (╯‵□′)╯︵┻━┻
 
+### 自定义连接
+
+- 下载 [ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) ，将`platform-tools`文件夹解压到`MeoAsstGui.exe`的同级目录
+- 进入软件`设置`-`连接设置`，填写自定义地址（需要填写IP+端口，例如`127.0.0.1:5555`）
+- **注意 :** 若是使用手机，在非`16:9`分辨率下，部分功能不稳定（但也凑合能用），尤其是基建，几乎是不可用状态，正在进一步适配中。推荐使用`16:9`分辨率，经过的测试验证最多，也最稳定。
+
 ## 常见问题
 
 ### 软件一打开就闪退
 
 这是一个已知问题。有多个可能可以触发这个问题的操作或环境，请根据下面的内容进行排查：
 
-- 可能性 1: CPU 指令集不支持。  
+- 可能性 1: 运行库问题。  
+  请尝试安装 [Visual C++ Redistributable](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-160#visual-studio-2015-2017-2019-and-2022)、[.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) 后重新运行本软件。
+- 可能性 2: CPU 指令集不支持。  
   项目使用 `PaddleOCR` 对游戏界面进行 `光学字符识别(OCR)` 以识别内容。`PaddleOCR` 用到了较新发布的 CPU 才支持的 `AVX` 指令集，而一些较老的 CPU 可能并不支持该指令集。  
-  您可以下载 [CPU-Z](https://www.cpuid.com/softwares/cpu-z.html)，查看“指令集”中有无 `AVX`。  
-  如果有：  
-  ![avx-true](https://user-images.githubusercontent.com/63091661/147875617-0ff7205f-c3ed-4b10-99fa-adfe8ad569ae.png)  
-  请跳转至可能性 2  
-  如果没有：  
-  ![avx-false](https://user-images.githubusercontent.com/63091661/147875531-bbc345ab-a708-461e-a330-6dcb3893a4a0.png)  
-  请使用带有 `noavx` 标签的版本（见 Releases）
-  注：这是对于使用不支持 `AVX` 指令集的 CPU 的用户的性能降低的替代方案，如非必要，请不要使用 
-- 可能性 2: 运行库问题。  
-  可以尝试把 [Visual C++ Redistributable](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-160)、[.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) 都安装一下看看有没有效果。  
-  如果没有效果，请提 issues。
+  您可以尝试下载 [NoAVX](3rdparty/ppocr_noavx.zip) 版本的 `PaddleOCR`, 解压后替换本软件中同名的文件。这是对于使用不支持 AVX 指令集的 CPU 的用户的性能降低的替代方案，如非必要，请不要使用。  
+  （具体可以下载 [CPU-Z](https://www.cpuid.com/softwares/cpu-z.html)，查看“指令集”中有无 `AVX` 这一项来判断）  
+- 若上述均没有效果，请提 issues。
 
 ### 连接错误/捕获模拟器窗口错误
+
+提示: 若是首次使用，请确认您使用管理员权限打开了本软件
 
 - 方法 1: 使用 [自定义连接](#自定义连接) 的方式连接模拟器
 - 方法 2: 换模拟器，推荐 [蓝叠国际版](https://www.bluestacks.com/download.html)
@@ -233,6 +183,10 @@ A Game Assistant for Arknights
 ### Linux | macOS
 
 请参考 [Linux 编译教程](src/MeoAssistant/Linux编译教程.md)
+
+### 自行编写脚本
+
+请参考 [Python 接口文档](https://github.com/MistEO/MeoAssistantArknights/wiki/Python%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3)
 
 ## 广告
 

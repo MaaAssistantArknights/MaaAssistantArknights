@@ -117,7 +117,7 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             if (!_catched)
             {
-                RecruitInfo = "正在捕获模拟器窗口……";
+                RecruitInfo = "正在连接模拟器……";
                 var task = Task.Run(() =>
                 {
                     return asstProxy.AsstCatch();
@@ -126,7 +126,7 @@ namespace MeoAsstGui
             }
             if (!_catched)
             {
-                RecruitInfo = "捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限";
+                RecruitInfo = "连接模拟器失败，请参考使用说明处理";
                 return;
             }
             RecruitInfo = "正在识别……";
