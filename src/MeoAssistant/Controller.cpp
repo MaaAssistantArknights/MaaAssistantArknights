@@ -60,6 +60,7 @@ asst::Controller::Controller()
     }
 
 #endif
+    m_pipe_buffer = std::make_unique<uchar[]>(PipeBuffSize);
 
     auto bind_pipe_working_proc = std::bind(&Controller::pipe_working_proc, this);
     m_cmd_thread = std::thread(bind_pipe_working_proc);
@@ -398,7 +399,6 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
     std::unique_lock<std::mutex> pipe_lock(pipe_mutex);
 
     std::vector<uchar> pipe_data;
-    auto pipe_buffer = std::make_unique<uchar[]>(PipeBuffSize);
 
 #ifdef _WIN32
     PROCESS_INFORMATION process_info = { 0 }; // 进程信息结构体
@@ -410,8 +410,8 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
         //DWORD write_num = 0;
         //WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, nullptr);
         while (::PeekNamedPipe(m_pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
-            if (::ReadFile(m_pipe_read, pipe_buffer.get(), PipeBuffSize, &read_num, nullptr)) {
-                pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
+            if (::ReadFile(m_pipe_read, m_pipe_buffer.get(), PipeBuffSize, &read_num, nullptr)) {
+                pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + read_num);
             }
         }
     } while (::WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT);
@@ -447,11 +447,11 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
         // parent process
         // LogTraceScope("Parent process: " + cmd);
         do {
-            ssize_t read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
+            ssize_t read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), BuffSize);
 
             while (read_num > 0) {
-                pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
-                read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), BuffSize);
+                pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + read_num);
+                read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), BuffSize);
             };
         } while (::waitpid(m_child, nullptr, WNOHANG) == 0);
     }
