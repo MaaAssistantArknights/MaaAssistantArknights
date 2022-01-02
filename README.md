@@ -165,14 +165,27 @@ A Game Assistant for Arknights
 
 ### 软件一打开就闪退
 
-- 可能性1: CPU 指令集不支持。项目使用 `PaddleOCR` 来进行文字识别，用到了较新发布的 CPU 才支持的 `avx` 指令集。目前已有计划提供降低性能的替代品来解决该兼容问题，在这之前，很遗憾，您无法正常使用 MeoAssistantArknights 的最新版本。但您可以尝试使用 `PaddleOCR` 上线前的 [2.3.6 版本](https://github.com/MistEO/MeoAssistantArknights/releases/tag/v2.3.6)。
-- 可能性2: 运行库问题。可以尝试把 [Visual C++ Redistributable](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-160)、[.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) 都安装一下看看有没有效果。
+这是一个已知问题。有多个可能可以触发这个问题的操作或环境，请根据下面的内容进行排查：
+
+- 可能性 1: CPU 指令集不支持。  
+  项目使用 `PaddleOCR` 对游戏界面进行 `光学字符识别(OCR)` 以识别内容。`PaddleOCR` 用到了较新发布的 CPU 才支持的 `AVX` 指令集，而一些较老的 CPU 可能并不支持该指令集。  
+  您可以下载 [CPU-Z](https://www.cpuid.com/softwares/cpu-z.html)，查看“指令集”中有无 `AVX`。  
+  如果有：  
+  ![avx-true](https://user-images.githubusercontent.com/63091661/147875617-0ff7205f-c3ed-4b10-99fa-adfe8ad569ae.png)  
+  请跳转至可能性 2  
+  如果没有：  
+  ![avx-false](https://user-images.githubusercontent.com/63091661/147875531-bbc345ab-a708-461e-a330-6dcb3893a4a0.png)  
+  很遗憾，您无法正常使用 MeoAssistantArknights 的最新版本。目前已有计划提供降低性能或准确性的替代品来解决该兼容问题，在这之前，您可以尝试使用 `PaddleOCR` 上线前的 [2.3.6 版本](https://github.com/MistEO/MeoAssistantArknights/releases/tag/v2.3.6)。  
+  如果您有时间，也可以帮助编译 `PaddleOCR` 的 `noavx` 版本。这对您的设备有相关要求，具体您可以添加底部的 QQ 群了解。
+- 可能性 2: 运行库问题。  
+  可以尝试把 [Visual C++ Redistributable](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-160)、[.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) 都安装一下看看有没有效果。  
+  如果没有效果，请提 issues。
 
 ### 连接错误/捕获模拟器窗口错误
 
-- 方法1: 使用 [自定义连接](#自定义连接) 的方式连接模拟器
-- 方法2: 换模拟器，推荐 [蓝叠国际版](https://www.bluestacks.com/download.html)
-- 方法3: _根本解决方法_ 编辑`resource/config.json`，修改（最好是新增）模拟器窗口句柄名，并修改对应的 adb 设置。若您修改后可以提 PR 给我，我会感激不尽的_(:з」∠)_
+- 方法 1: 使用 [自定义连接](#自定义连接) 的方式连接模拟器
+- 方法 2: 换模拟器，推荐 [蓝叠国际版](https://www.bluestacks.com/download.html)
+- 方法 3: _根本解决方法_ 编辑`resource/config.json`，修改（最好是新增）模拟器窗口句柄名，并修改对应的 adb 设置。若您修改后可以提 PR 给我，我会感激不尽的_(:з」∠)_
 
 ## 致谢
 
