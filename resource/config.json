@@ -3,8 +3,8 @@
     "options": {
         "connectType": 0,
         "connectType_Doc": "连接类型：0-连接电脑上的模拟器；1-连接自定义端口，请手动修改'emulator.Custom'中的相关字段。默认0",
-        "taskDelay": 2000,
-        "taskDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认2000",
+        "taskDelay": 500,
+        "taskDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认500",
         "controlDelayRange": [
             0,
             0
