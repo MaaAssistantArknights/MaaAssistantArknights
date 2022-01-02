@@ -175,8 +175,8 @@ A Game Assistant for Arknights
   请跳转至可能性 2  
   如果没有：  
   ![avx-false](https://user-images.githubusercontent.com/63091661/147875531-bbc345ab-a708-461e-a330-6dcb3893a4a0.png)  
-  很遗憾，您无法正常使用 MeoAssistantArknights 的最新版本。目前已有计划提供降低性能或准确性的替代品来解决该兼容问题，在这之前，您可以尝试使用 `PaddleOCR` 上线前的 [2.3.6 版本](https://github.com/MistEO/MeoAssistantArknights/releases/tag/v2.3.6)。  
-  如果您有时间，也可以帮助编译 `PaddleOCR` 的 `noavx` 版本。这对您的设备有相关要求，具体您可以添加底部的 QQ 群了解。
+  请使用带有 `noavx` 标签的版本（见 Releases）
+  注：这是对于使用不支持 `AVX` 指令集的 CPU 的用户的性能降低的替代方案，如非必要，请不要使用 
 - 可能性 2: 运行库问题。  
   可以尝试把 [Visual C++ Redistributable](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-160)、[.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) 都安装一下看看有没有效果。  
   如果没有效果，请提 issues。
