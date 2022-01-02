@@ -86,7 +86,7 @@ namespace MeoAsstGui
         {
             ClearLog();
 
-            AddLog("正在捕获模拟器窗口……");
+            AddLog("正在连接模拟器……");
 
             var asstProxy = _container.Get<AsstProxy>();
             var task = Task.Run(() =>
@@ -96,7 +96,7 @@ namespace MeoAsstGui
             bool catchd = await task;
             if (!catchd)
             {
-                AddLog("捕获模拟器窗口失败，若是第一次运行，请尝试使用管理员权限", "darkred");
+                AddLog("连接模拟器失败\n请参考使用说明处理", "darkred");
                 return;
             }
 
