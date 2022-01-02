@@ -61,6 +61,9 @@ asst::Controller::Controller()
 
 #endif
     m_pipe_buffer = std::make_unique<uchar[]>(PipeBuffSize);
+    if (!m_pipe_buffer) {
+        throw "controller pipe buffer allocated failed";
+    }
 
     auto bind_pipe_working_proc = std::bind(&Controller::pipe_working_proc, this);
     m_cmd_thread = std::thread(bind_pipe_working_proc);
@@ -447,11 +450,11 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
         // parent process
         // LogTraceScope("Parent process: " + cmd);
         do {
-            ssize_t read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), BuffSize);
+            ssize_t read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
 
             while (read_num > 0) {
                 pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + read_num);
-                read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), BuffSize);
+                read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
             };
         } while (::waitpid(m_child, nullptr, WNOHANG) == 0);
     }

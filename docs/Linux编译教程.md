@@ -10,7 +10,7 @@
 
 ### Opencv
 
-请自行搜索教程安装，没什么特别的，作者当前成功验证过的版本为`4.5.3`版本，其他版本应该也没什么问题。仅`Opencv`本体即可，不需要额外安装`opencv_contrib`。
+请自行搜索教程安装，没什么特别的，作者当前成功验证过的版本为`4.5.3`版本。其他版本应该也可以，但仍然推荐使用`4.5.3`版本，与项目保持一致，避免一些不必要的问题。仅`Opencv`本体即可，不需要额外安装`opencv_contrib`。
 
 ### PaddleOCR
 
@@ -38,6 +38,16 @@ make shared
 ### penguin-stats-recognize-v3
 
 使用我魔改了接口的版本：https://github.com/MistEO/penguin-stats-recognize-v3
+
+### zlib
+
+Ubuntu 下:  
+```bash
+sudo apt update && sudo apt install zlib1g-dev
+sudo ldconfig
+```
+
+其他发行版若源中没有 zlib, 也可尝试通过 [源码](https://github.com/madler/zlib) 编译
 
 ## MeoAssistant
 

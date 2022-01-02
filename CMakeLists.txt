@@ -27,11 +27,13 @@ find_library(MeoJson_LIB NAMES meojson PATHS 3rdparty/lib)
 
 if (WIN32)
     find_library(OpenCV NAMES opencv_world453 PATHS 3rdparty/lib)
+    find_library(ZLIB NAMES zlibstatic PATHS 3rdparty/lib)
 else ()
     find_package(OpenCV REQUIRED)
+    find_package(ZLIB REQUIRED)
 endif ()
 
-target_link_libraries(MeoAssistant ${OpenCV} ${PaddleOCR_LIB} ${Penguin_LIB} ${MeoJson_LIB})
+target_link_libraries(MeoAssistant ${OpenCV} ${PaddleOCR_LIB} ${Penguin_LIB} ${MeoJson_LIB} ${ZLIB})
 
 if (BUILD_TEST)
     add_executable(test tools/TestCaller/main.cpp)
