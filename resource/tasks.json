@@ -1,4 +1,4 @@
-﻿{
+{
     "StartUp": {
         "algorithm": "justreturn",
         "action": "doNothing",
@@ -359,7 +359,7 @@
             200,
             120
         ],
-        "rearDelay": 5000,
+        "rearDelay": 3000,
         "maskRange": [
             1,
             255
@@ -370,7 +370,6 @@
     },
     "ReturnToTerminal": {
         "template": "Return.png",
-        "rearDelay": 1000,
         "action": "clickSelf",
         "roi": [
             0,
@@ -387,7 +386,6 @@
     "ReturnToTerminalConfirm": {
         "template": "PopupConfirm.png",
         "action": "clickSelf",
-        "rearDelay": 3000,
         "roi": [
             630,
             400,
@@ -469,7 +467,6 @@
         ]
     },
     "WaitAfterPRTS": {
-        "rearDelay": 3000,
         "algorithm": "justreturn",
         "action": "doNothing",
         "next": [
@@ -519,7 +516,6 @@
         "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "justreturn",
         "action": "clickRect",
-        "rearDelay": 2000,
         "specificRect": [
             1000,
             1,
@@ -640,7 +636,7 @@
             "EndOfAction",
             "StartToWakeUp",
             "OfflineConfirm",
-			"StartButton1"
+            "StartButton1"
         ]
     },
     "OfflineConfirmAfterBattle": {
@@ -776,7 +772,6 @@
     },
     "ReturnToRecruit": {
         "template": "Return.png",
-        "rearDelay": 1000,
         "action": "clickSelf",
         "roi": [
             0,
@@ -794,7 +789,6 @@
     "ReturnToRecruitConfirm": {
         "template": "PopupConfirm.png",
         "action": "clickSelf",
-        "rearDelay": 3000,
         "roi": [
             630,
             400,
@@ -842,7 +836,6 @@
     "RecruitFinish": {
         "action": "clickSelf",
         "templThreshold": 0.7,
-        "rearDelay": 3000,
         "cache": false,
         "roi": [
             0,
@@ -858,7 +851,6 @@
     },
     "RecruitSkip": {
         "action": "clickSelf",
-        "rearDelay": 3000,
         "roi": [
             1100,
             0,
@@ -888,7 +880,7 @@
     "StartRecruit": {
         "algorithm": "OcrDetect",
         "action": "clickSelf",
-        "rearDelay": 1000,
+        "rearDelay": 500,
         "text": [
             "开始招"
         ],
@@ -976,7 +968,7 @@
         ],
         "next": [
             "WeeklyTask",
-            "Stop"
+            "CloseTaskAwardDouble"
         ]
     },
     "DailyTask": {
@@ -1003,12 +995,10 @@
         "next": [
             "ReceiveAward",
             "Stop"
-        ],
-        "rearDelay": 1000
+        ]
     },
     "ReturnToAward": {
         "template": "Return.png",
-        "rearDelay": 1000,
         "action": "clickSelf",
         "roi": [
             0,
@@ -1026,7 +1016,6 @@
     "ReturnToAwardConfirm": {
         "template": "PopupConfirm.png",
         "action": "clickSelf",
-        "rearDelay": 3000,
         "roi": [
             630,
             400,
@@ -1069,7 +1058,6 @@
     },
     "ReturnToFriends": {
         "template": "Return.png",
-        "rearDelay": 1000,
         "action": "clickSelf",
         "roi": [
             0,
@@ -1087,7 +1075,6 @@
     "ReturnToFriendsConfirm": {
         "template": "PopupConfirm.png",
         "action": "clickSelf",
-        "rearDelay": 3000,
         "roi": [
             630,
             400,
@@ -1168,7 +1155,6 @@
             200,
             720
         ],
-        "rearDelay": 3000,
         "next": [
             "VisitNext",
             "VisitNextBlack",
@@ -1177,7 +1163,6 @@
     },
     "VisitNext": {
         "action": "clickSelf",
-        "rearDelay": 2000,
         "roi": [
             1080,
             570,
@@ -1197,7 +1182,6 @@
             "访问下位"
         ],
         "action": "clickSelf",
-        "rearDelay": 2000,
         "roi": [
             1080,
             570,
@@ -1220,7 +1204,6 @@
         ]
     },
     "ReturnToMall": {
-        "rearDelay": 1000,
         "template": "Return.png",
         "action": "clickSelf",
         "roi": [
@@ -1239,7 +1222,6 @@
     "ReturnToMallConfirm": {
         "template": "PopupConfirm.png",
         "action": "clickSelf",
-        "rearDelay": 3000,
         "roi": [
             630,
             400,
@@ -1280,7 +1262,6 @@
             640,
             360
         ],
-        "rearDelay": 1000,
         "next": [
             "CreditStoreOcr",
             "Mall"
@@ -1297,7 +1278,6 @@
             280,
             300
         ],
-        "rearDelay": 1000,
         "action": "clickSelf",
         "next": [
             "CollectCredit",
@@ -1306,7 +1286,6 @@
     },
     "CollectCredit": {
         "action": "clickSelf",
-        "rearDelay": 2000,
         "roi": [
             900,
             0,
@@ -1320,7 +1299,6 @@
     "CloseCollectCredit": {
         "algorithm": "justReturn",
         "action": "clickRect",
-        "rearDelay": 2000,
         "specificRect": [
             1000,
             1,
@@ -1340,7 +1318,6 @@
             400,
             100
         ],
-        "rearDelay": 1000,
         "specificRect": [
             20,
             20,
@@ -1378,7 +1355,6 @@
         ]
     },
     "ReturnToHome": {
-        "rearDelay": 1000,
         "template": "Return.png",
         "action": "clickSelf",
         "roi": [
@@ -1397,7 +1373,6 @@
     "ReturnToHomeConfirm": {
         "template": "PopupConfirm.png",
         "action": "clickSelf",
-        "rearDelay": 3000,
         "roi": [
             630,
             400,
@@ -1456,8 +1431,8 @@
             250,
             150
         ],
-        "preDelay": 1000,
-        "rearDelay": 1000
+        "preDelay": 500,
+        "rearDelay": 500
     },
     "CreditShop-NoMoney": {
         "algorithm": "OcrDetect",
@@ -1551,7 +1526,6 @@
     "RecruitRefreshConfirm": {
         "template": "PopupConfirm.png",
         "action": "clickSelf",
-        "rearDelay": 3000,
         "roi": [
             630,
             400,
@@ -1605,7 +1579,6 @@
     },
     "ReturnToInfrast": {
         "template": "Return.png",
-        "rearDelay": 1000,
         "roi": [
             0,
             0,
@@ -1625,7 +1598,6 @@
     "ReturnToInfrastConfirm": {
         "template": "PopupConfirm.png",
         "action": "clickSelf",
-        "rearDelay": 3000,
         "roi": [
             630,
             400,
@@ -1667,10 +1639,9 @@
             135,
             35
         ],
-        "rearDelay": 1000
+        "rearDelay": 500
     },
     "EnterInfrast": {
-        "rearDelay": 3000,
         "roi": [
             900,
             540,
@@ -1718,7 +1689,6 @@
             "订单交付",
             "信赖"
         ],
-        "rearDelay": 1000,
         "action": "clickSelf",
         "roi": [
             0,
@@ -1936,7 +1906,7 @@
             300
         ],
         "preDelay": 100,
-        "rearDelay": 2000,
+        "rearDelay": 1000,
         "maxTimes": 2,
         "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
     },
@@ -2460,7 +2430,7 @@
             500,
             250
         ],
-        "rearDelay": 1000
+        "rearDelay": 500
     },
     "InfrastClueVacancyNo2": {
         "template": "ClueVacancyNo2.png",
@@ -2472,7 +2442,7 @@
             500,
             250
         ],
-        "rearDelay": 1000
+        "rearDelay": 500
     },
     "InfrastClueVacancyNo3": {
         "template": "ClueVacancyNo3.png",
@@ -2484,7 +2454,7 @@
             500,
             250
         ],
-        "rearDelay": 1000
+        "rearDelay": 500
     },
     "InfrastClueVacancyNo4": {
         "template": "ClueVacancyNo4.png",
@@ -2496,7 +2466,7 @@
             500,
             250
         ],
-        "rearDelay": 1000
+        "rearDelay": 500
     },
     "InfrastClueVacancyNo5": {
         "template": "ClueVacancyNo5.png",
@@ -2508,7 +2478,7 @@
             500,
             250
         ],
-        "rearDelay": 1000
+        "rearDelay": 500
     },
     "InfrastClueVacancyNo6": {
         "template": "ClueVacancyNo6.png",
@@ -2520,7 +2490,7 @@
             500,
             250
         ],
-        "rearDelay": 1000
+        "rearDelay": 500
     },
     "InfrastClueVacancyNo7": {
         "template": "ClueVacancyNo7.png",
@@ -2532,7 +2502,7 @@
             500,
             250
         ],
-        "rearDelay": 1000
+        "rearDelay": 500
     },
     "InfrastClue": {
         "template": "Clue.png",

@@ -554,7 +554,7 @@ void Assistant::working_proc()
             //clear_cache();
 
             auto& delay = Resrc.cfg().get_options().task_delay;
-            m_condvar.wait_until(lock, start_time + std::chrono::milliseconds(delay),
+            m_condvar.wait_for(lock, std::chrono::milliseconds(delay),
                 [&]() -> bool { return m_thread_idle; });
         }
         else {
