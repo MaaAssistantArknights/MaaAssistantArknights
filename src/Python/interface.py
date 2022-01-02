@@ -247,4 +247,4 @@ if __name__ == "__main__":
     # asst.start_recurit_clac([4, 5, 6], True)
 
     while True:
-        pass
+        exec(input('>'))
