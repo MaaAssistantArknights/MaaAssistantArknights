@@ -42,6 +42,7 @@ make shared
 ### zlib
 
 Ubuntu 下:  
+
 ```bash
 sudo apt update && sudo apt install zlib1g-dev
 sudo ldconfig
@@ -54,8 +55,8 @@ sudo ldconfig
 1. 直接拷贝上面编译的第三方库到 `3rdparty/lib` 或者 手动修改 `CMakeLists.txt` 指定第三方库路径
 2. `3rdparty/include/opencv` 中的头文件是 `4.5.3` 版本的，若是使用其他版本，请注意头文件冲突问题（直接将你的 `opencv` 头文件覆盖过去就好）
 3. 安装 `adb`, 并修改 `resource/config.json` 中 `Custom`.`adb`.`path` 的值为 `"adb"`
-4. 复制资源文件到 `libMeoAssitant.so` 同一目录下，具体可参考 [这个脚本](../../tools/update_resource.sh)
-5. 通过 [Python 接口](../Python/interface.py) 或 [C 接口](../../include/AsstCaller.h) 进行调用，需要自行编写少量的代码
+4. 复制资源文件到 `libMeoAssitant.so` 同一目录下，具体可参考 [这个脚本](../tools/update_resource.sh)
+5. 通过 [Python 接口](../src/Python/interface.py) 或 [C 接口](../include/AsstCaller.h) 进行调用，需要自行编写少量的代码
 6. `cmake` 可通过添加 `-DBUILD_TEST=ON` 选项来编译一个测试小 demo
 
 ## 集成文档
@@ -64,12 +65,12 @@ sudo ldconfig
 
 ### Python
 
-可参考 [Python 接口](../Python/interface.py) 中 `__main__` 的实现
+可参考 [Python demo](../src/Python/sample.py) 中 `__main__` 的实现
 
 ### C
 
-可参考 [TestCaller](../../tools/TestCaller/main.cpp) 中的实现
+可参考 [TestCaller](../tools/TestCaller/main.cpp) 中的实现
 
 ### C sharp
 
-可参考 [MeoAsstGui](../MeoAsstGui/Helper/AsstProxy.cs) 中的实现
+可参考 [MeoAsstGui](../src/MeoAsstGui/Helper/AsstProxy.cs) 中的实现
