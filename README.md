@@ -182,11 +182,11 @@ A Game Assistant for Arknights
 
 ### Linux | macOS
 
-请参考 [Linux 编译教程](src/MeoAssistant/Linux编译教程.md)
+请参考 [Linux 编译教程](docs/Linux编译教程.md)
 
 ### 自行编写脚本
 
-请参考 [Python 接口文档](https://github.com/MistEO/MeoAssistantArknights/wiki/Python%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3)
+请参考 [Python 接口文档](https://github.com/MistEO/MeoAssistantArknights/wiki/Python%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3)，可参考 [demo](src/Python/sample.py)
 
 ## 广告
 
