@@ -24,7 +24,7 @@ A Game Assistant for Arknights
 
 纯图像识别，非内存挂！全图形化界面，开罐即食！
 
-并提供 [Python 接口](src/Python/interface.py) 供自行 DIY~ 绝赞更新中！✿✿ヽ(°▽°)ノ✿  
+并提供 [Python 接口](https://github.com/MistEO/MeoAssistantArknights/wiki/Python%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3) 供自行 DIY~ 绝赞更新中！✿✿ヽ(°▽°)ノ✿  
 
 </div>
 
@@ -186,7 +186,7 @@ A Game Assistant for Arknights
 
 ### 自行编写脚本
 
-请参考 [Python 接口文档](https://github.com/MistEO/MeoAssistantArknights/wiki/Python%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3)，可参考 [demo](src/Python/sample.py)
+请参考 [Python 接口文档](https://github.com/MistEO/MeoAssistantArknights/wiki/Python%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3)
 
 ## 广告
 
