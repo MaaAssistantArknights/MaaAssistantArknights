@@ -214,6 +214,7 @@ bool RecruitTask::_run()
 
             json::value selected_json;
             selected_json["tags"] = json::array(final_tags_name);
+            selected_json["task_chain"] = m_task_chain;
             m_callback(AsstMsg::RecruitSelected, selected_json, m_callback_arg);
         }
     }

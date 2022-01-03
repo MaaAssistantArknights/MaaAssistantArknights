@@ -347,17 +347,23 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.RecruitSelected:
-                    JArray selected = (JArray)detail["tags"];
-                    string selected_log = "";
-                    foreach (var tag in selected)
                     {
-                        selected_log += tag.ToString() + "\n";
+                        string taskChain = detail["task_chain"].ToString();
+                        if (taskChain == "RecruitCalc")
+                        {
+                            break;
+                        }
+                        JArray selected = (JArray)detail["tags"];
+                        string selected_log = "";
+                        foreach (var tag in selected)
+                        {
+                            selected_log += tag.ToString() + "\n";
+                        }
+                        selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : "无";
+
+                        tvm.AddLog("选择Tags：\n" + selected_log);
+                        break;
                     }
-                    selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : "无";
-
-                    tvm.AddLog("选择Tags：\n" + selected_log);
-                    break;
-
                 case AsstMsg.RecruitError:
                     tvm.AddLog("公招识别错误，已返回", "darkred");
                     break;
