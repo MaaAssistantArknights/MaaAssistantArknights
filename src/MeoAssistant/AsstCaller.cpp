@@ -83,7 +83,7 @@ bool AsstCatchDefault(asst::Assistant* p_asst)
         return false;
     }
 
-    return ((asst::Assistant*)p_asst)->catch_default();
+    return p_asst->catch_default();
 }
 
 bool AsstCatchEmulator(asst::Assistant* p_asst)
@@ -92,7 +92,7 @@ bool AsstCatchEmulator(asst::Assistant* p_asst)
         return false;
     }
 
-    return ((asst::Assistant*)p_asst)->catch_emulator();
+    return p_asst->catch_emulator();
 }
 
 bool AsstCatchCustom(asst::Assistant* p_asst, const char* address)
@@ -101,7 +101,7 @@ bool AsstCatchCustom(asst::Assistant* p_asst, const char* address)
         return false;
     }
 
-    return ((asst::Assistant*)p_asst)->catch_custom(address);
+    return p_asst->catch_custom(address);
 }
 
 bool AsstCatchFake(asst::Assistant* p_asst)
@@ -262,4 +262,4 @@ bool AsstAppendDebug(asst::Assistant* p_asst)
 #else
     return false;
 #endif // LOG_TRACE
-    }
+}
