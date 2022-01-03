@@ -370,7 +370,9 @@ bool asst::InfrastProductionTask::optimal_calc()
                     if (!opt.possible_hashs.empty()) {
                         for (const auto& [key, hash] : opt.possible_hashs) {
                             int dist = utils::hamming(find_iter->name_hash, hash);
+#ifdef LOG_TRACE
                             Log.trace("optimal_calc | name hash dist", dist, hash, find_iter->name_hash);
+#endif
                             if (dist < m_name_hash_thres) {
                                 hash_matched = true;
                                 break;
@@ -496,7 +498,9 @@ bool asst::InfrastProductionTask::opers_choose()
                         // 既要技能相同，也要hash相同，双重校验
                         for (const auto& [_, hash] : opt_iter->possible_hashs) {
                             int dist = utils::hamming(lhs.name_hash, hash);
+#ifdef LOG_TRACE
                             Log.trace("opers_choose | name hash dist", dist);
+#endif
                             if (dist < m_name_hash_thres) {
                                 return true;
                             }
@@ -525,7 +529,9 @@ bool asst::InfrastProductionTask::opers_choose()
                     m_all_available_opers.cbegin(), m_all_available_opers.cend(),
                     [&](const infrast::Oper& lhs) -> bool {
                         int dist = utils::hamming(lhs.face_hash, find_iter->face_hash);
+#ifdef LOG_TRACE
                         Log.trace("opers_choose | face hash dist", dist);
+#endif
                         if (dist < m_face_hash_thres) {
                             return true;
                         }
