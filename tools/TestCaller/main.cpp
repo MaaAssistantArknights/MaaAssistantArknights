@@ -12,6 +12,7 @@ std::string get_cur_dir()
 
 int main(int argc, char** argv)
 {
+    // 若使用 VS，请先设置 TestCaller 属性-调试-工作目录为 $(TargetDir)
     auto ptr = AsstCreate(get_cur_dir().c_str());
     if (ptr == nullptr) {
         return -1;
@@ -37,9 +38,9 @@ int main(int argc, char** argv)
         // }
         // AsstAppendDebug(ptr);
         //{
-        //     const char* order[] = { "Trade", "Mfg", "Dorm" };
-        //     AsstAppendInfrast(ptr, 1, order, 3, 0, 0);
-        // }
+        //    const char* order[] = { "Trade", "Dorm" };
+        //    AsstAppendInfrast(ptr, 1, order, 2, "Money", 0.3);
+        //}
         // AsstAppendProcessTask(ptr, "AwardBegin");
         //{
         //     const int required[] = { 4 };
