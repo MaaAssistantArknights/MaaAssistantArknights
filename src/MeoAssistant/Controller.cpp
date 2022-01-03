@@ -475,7 +475,7 @@ void asst::Controller::convert_lf(std::vector<unsigned char>&data)
 {
     LogTraceFunction;
 
-    if (data.empty() || data.size() <= 1) {
+    if (data.empty() || data.size() < 2) {
         return;
     }
     using Iter = std::vector<unsigned char>::iterator;
@@ -483,12 +483,15 @@ void asst::Controller::convert_lf(std::vector<unsigned char>&data)
         return *cur == '\r' && *(cur + 1) == '\n';
     };
     // find the first of "\r\n"
-    Iter first_iter;
+    Iter first_iter = data.end();
     for (Iter iter = data.begin(); iter != data.end() - 1; ++iter) {
         if (pred(iter)) {
             first_iter = iter;
             break;
         }
+    }
+    if (first_iter == data.end()) {
+        return;
     }
     // move forward all non-crlf elements
     Iter end_r1_iter = data.end() - 1;
