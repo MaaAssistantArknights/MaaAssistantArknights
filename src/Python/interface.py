@@ -1,11 +1,8 @@
 import ctypes
-import os
-import json
 import pathlib
 import platform
 
 from message import Message
-
 
 class Asst:
     CallBackType = ctypes.CFUNCTYPE(
@@ -32,13 +29,11 @@ class Asst:
         else:
             self.__libpath = pathlib.Path(dirname) / 'libMeoAssistant.so'
             self.__lib = ctypes.CDLL(str(self.__libpath))
+        self.__set_lib_properties()
 
-        self.__lib.AsstCreateEx.restype = ctypes.c_void_p
-        self.__lib.AsstCreateEx.argtypes = (ctypes.c_char_p, ctypes.c_void_p, ctypes.c_void_p,)
         self.__ptr = self.__lib.AsstCreateEx(dirname.encode('utf-8'), callback, arg)
 
     def __del__(self):
-        self.__lib.AsstDestroy.argtypes = (ctypes.c_void_p,)
         self.__lib.AsstDestroy(self.__ptr)
 
     def catch_default(self) -> bool:
@@ -47,7 +42,6 @@ class Asst:
 
         :return: 是否连接成功
         """
-        self.__lib.AsstCatchDefault.argtypes = (ctypes.c_void_p,)
         return self.__lib.AsstCatchDefault(self.__ptr)
 
     def catch_emulator(self) -> bool:
@@ -56,7 +50,6 @@ class Asst:
 
         :return: 是否连接成功
         """
-        self.__lib.AsstCatchEmulator.argtypes = (ctypes.c_void_p,)
         return self.__lib.AsstCatchEmulator(self.__ptr)
 
     def catch_custom(self, address: str) -> bool:
@@ -65,8 +58,6 @@ class Asst:
 
         :return: 是否连接成功
         """
-        self.__lib.AsstCatchCustom.argtypes = (
-            ctypes.c_void_p, ctypes.c_char_p,)
         return self.__lib.AsstCatchCustom(self.__ptr, address.encode('utf-8'))
 
     def append_fight(self, stage: str, max_medicine: int, max_stone: int, max_times: int) -> bool:
@@ -80,22 +71,18 @@ class Asst:
             ``max_stone``:          最多吃多少源石
             ``max_times``:          最多刷多少
         """
-        self.__lib.AsstAppendFight.argtypes = (
-            ctypes.c_void_p, ctypes.c_char_p, ctypes.c_int, ctypes.c_int, ctypes.c_int,)
         return self.__lib.AsstAppendFight(self.__ptr, stage.encode('utf-8'), max_medicine, max_stone, max_times)
 
     def append_award(self) -> bool:
         """
         添加领取每日奖励任务
         """
-        self.__lib.AsstAppendAward.argtypes = (ctypes.c_void_p,)
         return self.__lib.AsstAppendAward(self.__ptr)
 
     def append_visit(self) -> bool:
         """
         添加访问好友任务
         """
-        self.__lib.AsstAppendVisit.argtypes = (ctypes.c_void_p,)
         return self.__lib.AsstAppendVisit(self.__ptr)
 
     def append_mall(self, with_shopping: bool) -> bool:
@@ -105,7 +92,6 @@ class Asst:
         :params:
             ``with_shopping``:    是否信用商店购物
         """
-        self.__lib.AsstAppendMall.argtypes = (ctypes.c_void_p, ctypes.c_bool)
         return self.__lib.AsstAppendMall(self.__ptr, with_shopping)
 
     def append_infrast(self, work_mode: int, order_list: list, uses_of_drones: str, dorm_threshold: float) -> bool:
@@ -127,10 +113,6 @@ class Asst:
         order_arr = (ctypes.c_char_p * order_len)()
         order_arr[:] = order_byte_list
 
-        self.__lib.AsstAppendInfrast.argtypes = (
-            ctypes.c_void_p, ctypes.c_int,
-            ctypes.POINTER(ctypes.c_char_p), ctypes.c_int,
-            ctypes.c_char_p, ctypes.c_double,)
         return self.__lib.AsstAppendInfrast(self.__ptr, work_mode,
                                             order_arr, order_len,
                                             uses_of_drones.encode('utf-8'), dorm_threshold)
@@ -153,10 +135,6 @@ class Asst:
         confirm_arr = (ctypes.c_int * confirm_len)()
         confirm_arr[:] = confirm_level
 
-        self.__lib.AsstAppendRecruit.argtypes = (
-            ctypes.c_void_p, ctypes.c_int,
-            ctypes.POINTER(ctypes.c_int), ctypes.c_int,
-            ctypes.POINTER(ctypes.c_int), ctypes.c_int, ctypes.c_bool,)
         return self.__lib.AsstAppendRecruit(self.__ptr, max_times,
                                             select_arr, select_len,
                                             confirm_arr, confirm_len, need_refresh)
@@ -165,7 +143,6 @@ class Asst:
         """
         开始任务
         """
-        self.__lib.AsstStart.argtypes = (ctypes.c_void_p,)
         return self.__lib.AsstStart(self.__ptr)
 
     def start_recurit_calc(self, select_level: list, set_time: bool) -> bool:
@@ -180,14 +157,13 @@ class Asst:
         select_arr = (ctypes.c_int * select_len)()
         select_arr[:] = select_level
 
-        self.__lib.AsstStartRecruitCalc.argtypes = (
-            ctypes.c_void_p, ctypes.POINTER(ctypes.c_int), ctypes.c_int, ctypes.c_bool,)
         return self.__lib.AsstStartRecruitCalc(self.__ptr, select_arr, select_len, set_time)
 
     def stop(self) -> bool:
         """
         停止并清空所有任务
         """
+        self.__lib.AsstStop.restype = ctypes.c_bool
         self.__lib.AsstStop.argtypes = (ctypes.c_void_p,)
         return self.__lib.AsstStop(self.__ptr)
 
@@ -198,8 +174,7 @@ class Asst:
         :params:
             ``id``:     企鹅物流ID，仅数字部分
         """
-        self.__lib.AsstSetPenguinId.argtypes = (
-            ctypes.c_void_p, ctypes.c_char_p)
+
         return self.__lib.AsstSetPenguinId(self.__ptr, id.encode('utf-8'))
 
     def get_version(self) -> str:
@@ -208,43 +183,58 @@ class Asst:
 
         :return: 版本号
         """
-        self.__lib.AsstGetVersion.restype = ctypes.c_char_p
         return self.__lib.AsstGetVersion().decode('utf-8')
 
+    def __set_lib_properties(self):
+        self.__lib.AsstCreateEx.restype = ctypes.c_void_p
+        self.__lib.AsstCreateEx.argtypes = (ctypes.c_char_p, ctypes.c_void_p, ctypes.c_void_p,)
+        
+        self.__lib.AsstDestroy.argtypes = (ctypes.c_void_p,)
 
-if __name__ == "__main__":
+        self.__lib.AsstCatchDefault.restype = ctypes.c_bool
+        self.__lib.AsstCatchDefault.argtypes = (ctypes.c_void_p,)
 
-    @Asst.CallBackType
-    def my_callback(msg, details, arg):
-        m = Message(msg)
-        if platform.system().lower() == 'windows':
-            d = json.loads(details.decode('gbk'))
-        else:
-            d = json.loads(details.decode('utf-8'))
+        self.__lib.AsstCatchEmulator.restype = ctypes.c_bool
+        self.__lib.AsstCatchEmulator.argtypes = (ctypes.c_void_p,)
+        
+        self.__lib.AsstCatchCustom.restype = ctypes.c_bool
+        self.__lib.AsstCatchCustom.argtypes = (
+            ctypes.c_void_p, ctypes.c_char_p,)
 
-        print(m, d, arg)
+        self.__lib.AsstAppendFight.restype = ctypes.c_bool
+        self.__lib.AsstAppendFight.argtypes = (
+            ctypes.c_void_p, ctypes.c_char_p, ctypes.c_int, ctypes.c_int, ctypes.c_int,)
 
-    if platform.system().lower() == 'windows':
-        dirname: str = (pathlib.Path.cwd().parent.parent / 'x64' / 'Release').__str__()
-    else:
-        dirname: str = (pathlib.Path.cwd().parent.parent / 'build').__str__()
+        self.__lib.AsstAppendAward.restype = ctypes.c_bool
+        self.__lib.AsstAppendAward.argtypes = (ctypes.c_void_p,)
 
-    asst = Asst(dirname=dirname, callback=my_callback)
+        self.__lib.AsstAppendVisit.restype = ctypes.c_bool
+        self.__lib.AsstAppendVisit.argtypes = (ctypes.c_void_p,)
 
-    print('version', asst.get_version())
+        self.__lib.AsstAppendMall.restype = ctypes.c_bool
+        self.__lib.AsstAppendMall.argtypes = (ctypes.c_void_p, ctypes.c_bool)
 
-    if asst.catch_custom('127.0.0.1:5555'):
-        print('连接成功')
-    else:
-        print('连接失败')
-        exit()
+        self.__lib.AsstAppendInfrast.restype = ctypes.c_bool
+        self.__lib.AsstAppendInfrast.argtypes = (
+            ctypes.c_void_p, ctypes.c_int,
+            ctypes.POINTER(ctypes.c_char_p), ctypes.c_int,
+            ctypes.c_char_p, ctypes.c_double,)
 
-    asst.append_fight("CE-5", 0, 0, 1)
-    # asst.append_infrast(1, [ "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm"], "Money", 0.3)
-    # asst.append_award()
-    asst.start()
+        self.__lib.AsstAppendRecruit.restype = ctypes.c_bool
+        self.__lib.AsstAppendRecruit.argtypes = (
+            ctypes.c_void_p, ctypes.c_int,
+            ctypes.POINTER(ctypes.c_int), ctypes.c_int,
+            ctypes.POINTER(ctypes.c_int), ctypes.c_int, ctypes.c_bool,)
 
-    # asst.start_recurit_clac([4, 5, 6], True)
+        self.__lib.AsstStart.restype = ctypes.c_bool
+        self.__lib.AsstStart.argtypes = (ctypes.c_void_p,)
 
-    while True:
-        exec(input('>'))
+        self.__lib.AsstStartRecruitCalc.restype = ctypes.c_bool
+        self.__lib.AsstStartRecruitCalc.argtypes = (
+            ctypes.c_void_p, ctypes.POINTER(ctypes.c_int), ctypes.c_int, ctypes.c_bool,)
+
+        self.__lib.AsstSetPenguinId.restype = ctypes.c_bool
+        self.__lib.AsstSetPenguinId.argtypes = (
+            ctypes.c_void_p, ctypes.c_char_p)
+
+        self.__lib.AsstGetVersion.restype = ctypes.c_char_p
