@@ -28,7 +28,7 @@ namespace MeoAsstGui
             DisplayName = "公招识别";
         }
 
-        private string _recruitInfo = "识别结果";
+        private string _recruitInfo = "小提示：和主界面的自动公招是两个独立的功能，请手动打开游戏公招Tags界面后使用~";
 
         public string RecruitInfo
         {
