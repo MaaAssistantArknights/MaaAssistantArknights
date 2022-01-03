@@ -974,6 +974,12 @@
     },
     "AwardFinished": {
         "action": "Stop",
+        "roi": [
+            400,
+            0,
+            880,
+            100
+        ],
         "maskRange": [
             1,
             255
