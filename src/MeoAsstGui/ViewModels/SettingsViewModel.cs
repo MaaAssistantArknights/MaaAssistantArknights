@@ -250,7 +250,7 @@ namespace MeoAsstGui
             }
         }
 
-        private double _scrollHeight = 660; // ScrollViewer.ScrollableHeight, 不知道该咋获取，当前的默认值是这个
+        private double _scrollHeight = 684; // ScrollViewer.ScrollableHeight, 不知道该咋获取，当前的默认值是这个
 
         public double ScrollHeight
         {
@@ -312,6 +312,14 @@ namespace MeoAsstGui
                 SetAndNotify(ref _refreshLevel3, value);
                 ViewStatusStorage.Set("AutoRecruit.RefreshLevel3", value.ToString());
             }
+        }
+
+        private bool _useExpedited = false;
+
+        public bool UseExpedited
+        {
+            get { return _useExpedited; }
+            set { SetAndNotify(ref _useExpedited, value); }
         }
 
         private bool _chooseLevel3 = System.Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.ChooseLevel3", bool.TrueString));

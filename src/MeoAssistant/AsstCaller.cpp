@@ -197,7 +197,7 @@ bool AsstAppendInfrast(asst::Assistant* p_asst, int work_mode, const char** orde
         dorm_threshold);
 }
 
-bool AsstAppendRecruit(asst::Assistant* p_asst, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh)
+bool AsstAppendRecruit(asst::Assistant* p_asst, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh, bool use_expedited)
 {
     if (p_asst == nullptr) {
         return false;
@@ -207,7 +207,7 @@ bool AsstAppendRecruit(asst::Assistant* p_asst, int max_times, const int select_
     std::vector<int> confirm_vector;
     confirm_vector.assign(confirm_level, confirm_level + confirm_len);
 
-    return p_asst->append_recruit(max_times, required_vector, confirm_vector, need_refresh);
+    return p_asst->append_recruit(max_times, required_vector, confirm_vector, need_refresh, use_expedited);
 }
 
 bool AsstStart(asst::Assistant* p_asst)

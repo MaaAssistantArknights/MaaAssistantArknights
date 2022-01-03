@@ -17,7 +17,8 @@ int main(int argc, char** argv)
     if (ptr == nullptr) {
         return -1;
     }
-    auto ret = AsstCatchCustom(ptr, "127.0.0.1:5555");
+    //auto ret = AsstCatchCustom(ptr, "127.0.0.1:5555");
+    auto ret = AsstCatchDefault(ptr);
     if (!ret) {
         std::cout << "connect failed" << std::endl;
         if (ptr) {
@@ -43,10 +44,10 @@ int main(int argc, char** argv)
         //}
         // AsstAppendProcessTask(ptr, "AwardBegin");
         //{
-        //     const int required[] = { 4 };
-        //     const int confirm[] = { 3, 4 };
-        //     AsstAppendRecruit(ptr, 2, required, sizeof(required) / sizeof(int), confirm, sizeof(confirm) / sizeof(int));
-        // }
+        //    const int required[] = { 4 };
+        //    const int confirm[] = { 3, 4 };
+        //    AsstAppendRecruit(ptr, 3, required, sizeof(required) / sizeof(int), confirm, sizeof(confirm) / sizeof(int), true, true);
+        //}
         AsstStart(ptr);
 
         ch = static_cast<char>(getchar());

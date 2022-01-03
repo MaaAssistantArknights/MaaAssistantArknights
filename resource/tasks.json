@@ -904,6 +904,36 @@
         ],
         "action": "Stop"
     },
+    "RecruitNow": {
+        "algorithm": "OcrDetect",
+        "action": "clickSelf",
+        "rearDelay": 500,
+        "cache": false,
+        "text": [
+            "立即招"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            420
+        ],
+        "next": [
+            "RecruitNowConfirm"
+        ]
+    },
+    "RecruitNowConfirm": {
+        "action": "clickSelf",
+        "roi": [
+            640,
+            450,
+            640,
+            150
+        ],
+        "next": [
+            "RecruitFinish"
+        ]
+    },
     "AwardBegin": {
         "algorithm": "justreturn",
         "action": "doNothing",

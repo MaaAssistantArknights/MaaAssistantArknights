@@ -26,7 +26,7 @@ namespace asst
         void set_task_chain(std::string name) noexcept { m_task_chain = std::move(name); }
         const std::string& get_task_chain() const noexcept { return m_task_chain; }
 
-        constexpr static int RetryTimesDefault = 50;
+        constexpr static int RetryTimesDefault = 20;
     protected:
         virtual bool _run() = 0;
         virtual bool on_run_fails() { return true; }

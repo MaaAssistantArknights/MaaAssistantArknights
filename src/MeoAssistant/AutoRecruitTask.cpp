@@ -27,6 +27,11 @@ void asst::AutoRecruitTask::set_max_times(int max_times) noexcept
     m_max_times = max_times;
 }
 
+void asst::AutoRecruitTask::set_use_expedited(bool use_or_not) noexcept
+{
+    m_use_expedited = use_or_not;
+}
+
 bool asst::AutoRecruitTask::_run()
 {
     json::value task_start_json = json::object{
@@ -37,60 +42,97 @@ bool asst::AutoRecruitTask::_run()
 
     int delay = Resrc.cfg().get_options().task_delay;
 
-    auto image = Ctrler.get_image();
-    OcrImageAnalyzer start_analyzer(image);
+    OcrImageAnalyzer start_analyzer;
     const auto start_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("StartRecruit"));
     start_analyzer.set_task_info(*start_task_ptr);
+    std::vector<TextRect> start_res;
 
-    if (!start_analyzer.analyze()) {
-        return false;
-    }
-
-    const auto& start_res = start_analyzer.get_result();
-    for (; m_cur_times < start_res.size() && m_cur_times < m_max_times; ++m_cur_times) {
-        if (need_exit()) {
+    auto analyze_start = [&]() -> bool {
+        auto image = Ctrler.get_image();
+        start_analyzer.set_image(image);
+        if (!start_analyzer.analyze()) {
             return false;
         }
-        Rect start_rect = start_res.at(m_cur_times).rect;
+        start_analyzer.sort_result();
+        start_res = start_analyzer.get_result();
+        return true;
+    };
+
+    for (; m_cur_times < m_max_times; ++m_cur_times) {
+        analyze_start();
+        if (m_cur_times >= start_res.size()) {
+            if (m_use_expedited) {
+                recruit_now();
+                analyze_start();
+            }
+            else {
+                break;
+            }
+        }
+        if (start_res.empty()) {
+            if (check_recruit_home_page()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        Rect start_rect = start_res.at(0).rect;
         Ctrler.click(start_rect);
         sleep(delay);
 
-        while (true) {
-            RecruitTask recurit_task(m_callback, m_callback_arg);
-            recurit_task.set_retry_times(10);
-            recurit_task.set_param(m_select_level, true);
-            recurit_task.set_task_chain(m_task_chain);
-
-            // 识别错误，放弃这个公招位，直接返回
-            if (!recurit_task.run()) {
-                m_callback(AsstMsg::RecruitError, json::value(), m_callback_arg);
-                click_return_button();
-                break;
-            }
-
-            int maybe_level = recurit_task.get_maybe_level();
-
-            // 尝试刷新
-            if (m_need_refresh && maybe_level == 3
-                && !recurit_task.get_has_special_tag()
-                && recurit_task.get_has_refresh()) {
-                ProcessTask refresh_task(*this, { "RecruitRefresh" });
-                if (refresh_task.run()) {
-                    continue;
-                }
-            }
-            if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
-                ProcessTask confirm_task(*this, { "RecruitConfirm" });
-                if (!confirm_task.run()) {
-                    return false;
-                }
-                break;
-            }
-            else {
-                click_return_button();
-                break;
-            }
+        if (!calc_and_recruit()) {
+            return false;
         }
     }
     return true;
+}
+
+bool asst::AutoRecruitTask::calc_and_recruit()
+{
+    RecruitTask recurit_task(m_callback, m_callback_arg);
+    recurit_task.set_retry_times(10);
+    recurit_task.set_param(m_select_level, true);
+    recurit_task.set_task_chain(m_task_chain);
+
+    // 识别错误，放弃这个公招位，直接返回
+    if (!recurit_task.run()) {
+        m_callback(AsstMsg::RecruitError, json::value(), m_callback_arg);
+        click_return_button();
+        return true;
+    }
+
+    int maybe_level = recurit_task.get_maybe_level();
+
+    // 尝试刷新
+    if (m_need_refresh && maybe_level == 3
+        && !recurit_task.get_has_special_tag()
+        && recurit_task.get_has_refresh()) {
+        ProcessTask refresh_task(*this, { "RecruitRefresh" });
+        if (refresh_task.run()) {
+            return calc_and_recruit();
+        }
+    }
+    if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
+        ProcessTask confirm_task(*this, { "RecruitConfirm" });
+        if (!confirm_task.run()) {
+            return false;
+        }
+    }
+    else {
+        click_return_button();
+    }
+    return true;
+}
+
+bool asst::AutoRecruitTask::check_recruit_home_page()
+{
+    ProcessTask task(*this, { "RecruitFlag" });
+    return task.run();
+}
+
+bool asst::AutoRecruitTask::recruit_now()
+{
+    ProcessTask task(*this, { "RecruitNow" });
+    return task.run();
 }

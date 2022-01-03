@@ -67,3 +67,18 @@ bool asst::OcrImageAnalyzer::analyze()
     //log.trace("ocr result", m_ocr_result);
     return !m_ocr_result.empty();
 }
+
+void asst::OcrImageAnalyzer::sort_result()
+{
+    // 按位置排个序
+    std::sort(m_ocr_result.begin(), m_ocr_result.end(),
+        [](const TextRect& lhs, const TextRect& rhs) -> bool {
+            if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
+                return lhs.rect.x < rhs.rect.x;
+            }
+            else {
+                return lhs.rect.y < rhs.rect.y;
+            }
+        }
+    );
+}
