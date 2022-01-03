@@ -117,7 +117,7 @@ class Asst:
                                             order_arr, order_len,
                                             uses_of_drones.encode('utf-8'), dorm_threshold)
 
-    def append_recruit(self, max_times: int, select_level: list, confirm_level: list, need_refresh: bool) -> bool:
+    def append_recruit(self, max_times: int, select_level: list, confirm_level: list, need_refresh: bool, use_expedited: bool) -> bool:
         """
         添加自动公招任务
 
@@ -126,6 +126,7 @@ class Asst:
             ``select_level``:    要点击的Tags等级（例如3级Tags不选也可以直接确认），int list
             ``confirm_level``:   要确认开始招募的Tags等级，int list
             ``need_refresh``:    是否刷新3级Tags
+            ``use_expedited``:   是否使用加急许可
         """
         select_len = len(select_level)
         select_arr = (ctypes.c_int * select_len)()
@@ -137,7 +138,8 @@ class Asst:
 
         return self.__lib.AsstAppendRecruit(self.__ptr, max_times,
                                             select_arr, select_len,
-                                            confirm_arr, confirm_len, need_refresh)
+                                            confirm_arr, confirm_len,
+                                            need_refresh, use_expedited)
 
     def start(self) -> bool:
         """
@@ -224,7 +226,8 @@ class Asst:
         self.__lib.AsstAppendRecruit.argtypes = (
             ctypes.c_void_p, ctypes.c_int,
             ctypes.POINTER(ctypes.c_int), ctypes.c_int,
-            ctypes.POINTER(ctypes.c_int), ctypes.c_int, ctypes.c_bool,)
+            ctypes.POINTER(ctypes.c_int), ctypes.c_int,
+            ctypes.c_bool, ctypes.c_bool,)
 
         self.__lib.AsstStart.restype = ctypes.c_bool
         self.__lib.AsstStart.argtypes = (ctypes.c_void_p,)

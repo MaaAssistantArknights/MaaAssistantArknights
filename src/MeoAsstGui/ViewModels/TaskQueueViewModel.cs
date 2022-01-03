@@ -256,9 +256,11 @@ namespace MeoAsstGui
             }
 
             bool need_refresh = settings.RefreshLevel3;
+            bool use_expedited = settings.UseExpedited;
 
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendRecruit(max_times, reqList.ToArray(), reqList.Count, cfmList.ToArray(), cfmList.Count, need_refresh);
+            return asstProxy.AsstAppendRecruit(
+                max_times, reqList.ToArray(), reqList.Count, cfmList.ToArray(), cfmList.Count, need_refresh, use_expedited);
         }
 
         private void setPenguinId()

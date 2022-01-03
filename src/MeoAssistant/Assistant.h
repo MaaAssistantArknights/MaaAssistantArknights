@@ -53,10 +53,12 @@ namespace asst
         bool append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, const std::string& uses_of_drones, double dorm_threshold, bool only_append = true);
 
         // 添加自动公招任务
-        // 参数max_times: 最多进行几次公招
-        // 参数select_level: 需要的选择Tags的等级
-        // 参数confirm_level: 需要点击确认按钮的等级
-        bool append_recruit(unsigned max_times, const std::vector<int>& select_level, const std::vector<int>& confirm_level, bool need_refresh);
+        // 参数 max_times: 最多进行几次公招
+        // 参数 select_level: 需要的选择Tags的等级
+        // 参数 confirm_level: 需要点击确认按钮的等级
+        // 参数 need_refresh: 是否刷新 3 星 Tags
+        // 参数 use_expedited: 是否使用加急券
+        bool append_recruit(unsigned max_times, const std::vector<int>& select_level, const std::vector<int>& confirm_level, bool need_refresh, bool use_expedited);
 
 #ifdef LOG_TRACE
         // 调试用
@@ -78,7 +80,7 @@ namespace asst
 
         static constexpr int ProcessTaskRetryTimesDefault = AbstractTask::RetryTimesDefault;
         static constexpr int OpenRecruitTaskRetryTimesDefault = 5;
-        static constexpr int AutoRecruitTaskRetryTimesDefault = 10;
+        static constexpr int AutoRecruitTaskRetryTimesDefault = 5;
 
     private:
         void working_proc();

@@ -47,7 +47,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendInfrast(IntPtr ptr, int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendRecruit(IntPtr ptr, int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendRecruit(IntPtr ptr, int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited);
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstStartRecruitCalc(IntPtr ptr, int[] select_level, int required_len, bool set_time);
 
@@ -409,9 +409,9 @@ namespace MeoAsstGui
             return AsstAppendMall(_ptr, with_shopping);
         }
 
-        public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh)
+        public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited)
         {
-            return AsstAppendRecruit(_ptr, max_times, select_level, required_len, confirm_level, confirm_len, need_refresh);
+            return AsstAppendRecruit(_ptr, max_times, select_level, required_len, confirm_level, confirm_len, need_refresh, use_expedited);
         }
 
         public bool AsstAppendInfrast(int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold)

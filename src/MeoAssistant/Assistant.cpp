@@ -304,7 +304,7 @@ bool Assistant::append_process_task(const std::string& task_name, std::string ta
     return true;
 }
 
-bool asst::Assistant::append_recruit(unsigned max_times, const std::vector<int>& select_level, const std::vector<int>& confirm_level, bool need_refresh)
+bool asst::Assistant::append_recruit(unsigned max_times, const std::vector<int>& select_level, const std::vector<int>& confirm_level, bool need_refresh, bool use_expedited)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -317,6 +317,7 @@ bool asst::Assistant::append_recruit(unsigned max_times, const std::vector<int>&
     auto recruit_task_ptr = std::make_shared<AutoRecruitTask>(task_callback, (void*)this);
     recruit_task_ptr->set_max_times(max_times);
     recruit_task_ptr->set_need_refresh(need_refresh);
+    recruit_task_ptr->set_use_expedited(use_expedited);
     recruit_task_ptr->set_select_level(select_level);
     recruit_task_ptr->set_confirm_level(confirm_level);
     recruit_task_ptr->set_task_chain(TaskChain);

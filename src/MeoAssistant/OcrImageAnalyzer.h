@@ -17,6 +17,8 @@ namespace asst
 
         virtual bool analyze() override;
 
+        void sort_result(); // 按位置排序，左上角的排在前面
+
         void set_required(std::vector<std::string> required, bool full_match = false) noexcept
         {
             m_required = std::move(required);

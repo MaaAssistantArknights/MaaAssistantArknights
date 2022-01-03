@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "AsstPort.h"
 
@@ -28,7 +28,7 @@ extern "C" {
     bool ASSTAPI AsstAppendMall(asst::Assistant* p_asst, bool with_shopping);
     // bool ASSTAPI AsstAppendProcessTask(asst::Assistant* p_asst, const char* task_name);
     bool ASSTAPI AsstAppendInfrast(asst::Assistant* p_asst, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold);
-    bool ASSTAPI AsstAppendRecruit(asst::Assistant* p_asst, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh);
+    bool ASSTAPI AsstAppendRecruit(asst::Assistant* p_asst, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh, bool use_expedited);
     bool ASSTAPI AsstAppendDebug(asst::Assistant* p_asst);
 
     bool ASSTAPI AsstStartRecruitCalc(asst::Assistant* p_asst, const int select_level[], int required_len, bool set_time);
