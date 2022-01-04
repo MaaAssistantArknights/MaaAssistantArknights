@@ -114,9 +114,9 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
                 continue;
             }
 
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
             cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(smiley_rect), cv::Scalar(0, 0, 255), 2);
-#endif // LOG_TRACE
+#endif // ASST_DEBUG
 
             infrast::Oper oper;
             oper.smiley = smiley;
@@ -193,12 +193,12 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
         // TODO：这里的进度条长度算的并不是特别准，属于能跑就行。有空再优化下
         double ratio = static_cast<double>(max_white_length) / roi.width;
         oper.mood_ratio = ratio;
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
         cv::Point p1(roi.x, roi.y);
         cv::Point p2(roi.x + max_white_length, roi.y);
         cv::line(m_image_draw, p1, p2, cv::Scalar(0, 255, 0), 1);
         cv::putText(m_image_draw, std::to_string(ratio), p1, 1, 1.0, cv::Scalar(0, 255, 0));
-#endif // LOG_TRACE
+#endif // ASST_DEBUG
     }
 }
 
@@ -307,7 +307,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             skill_rect.x += roi.x;
             skill_rect.y += roi.y;
 
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
             cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(skill_rect), cv::Scalar(0, 255, 0), 2);
 #endif
 
@@ -370,7 +370,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             Log.trace(most_confident_skills.id, most_confident_skills.names.front());
             std::string skill_id = most_confident_skills.id;
             log_str += skill_id + " - " + most_confident_skills.names.front() + "; ";
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
             cv::Mat skill_mat = m_image(utils::make_rect<cv::Rect>(skill_rect));
 #endif
             oper.skills.emplace(std::move(most_confident_skills));
@@ -437,7 +437,7 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
         working_analyzer.set_roi(working_rect);
         if (working_analyzer.analyze()) {
             oper.doing = infrast::Doing::Working;
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
             cv::putText(m_image_draw, "Working", cv::Point(working_rect.x, working_rect.y), 1, 1, cv::Scalar(0, 0, 255), 2);
 #endif
         }

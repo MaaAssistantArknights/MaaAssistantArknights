@@ -328,7 +328,7 @@ bool asst::Assistant::append_recruit(unsigned max_times, const std::vector<int>&
     return true;
 }
 
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
 bool Assistant::append_debug()
 {
     LogTraceFunction;

@@ -35,6 +35,15 @@ namespace asst
         }
 
         template <typename... Args>
+        inline void debug([[maybe_unused]] Args&&... args)
+        {
+#ifdef ASST_DEBUG
+            std::string_view level = "DEB";
+            log(level, std::forward<Args>(args)...);
+#endif
+        }
+
+        template <typename... Args>
         inline void trace(Args&&... args)
         {
             std::string_view level = "TRC";
@@ -122,13 +131,13 @@ namespace asst
             if (!m_ofs.is_open()) {
                 m_ofs = std::ofstream(m_log_filename, std::ios::out | std::ios::app);
             }
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
             stream_args(m_ofs, buff, args...);
 #else
             stream_args(m_ofs, buff, std::forward<Args>(args)...);
 #endif
 
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
             stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
 #endif
         }

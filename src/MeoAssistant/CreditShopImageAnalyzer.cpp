@@ -65,7 +65,7 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
             continue;
         }
 
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
 #endif
         m_need_to_buy.emplace_back(commodity);
@@ -85,10 +85,10 @@ bool asst::CreditShopImageAnalyzer::sold_out_analyze()
     for (const Rect& commodity : m_need_to_buy) {
         sold_out_analyzer.set_roi(commodity);
         if (sold_out_analyzer.analyze()) {
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
             cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255));
             cv::putText(m_image_draw, "Sold Out", cv::Point(commodity.x, commodity.y), 1, 2, cv::Scalar(255, 0, 0));
-#endif //  LOG_TRACE
+#endif //  ASST_DEBUG
 
             // 如果识别到了售罄，那这个商品就不用买了，跳过
             continue;

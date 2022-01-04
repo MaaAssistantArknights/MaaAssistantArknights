@@ -17,7 +17,7 @@ namespace asst
         {
             m_uses_of_drones = std::move(uses_of_drones);
         }
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
     public:
 #else
         // 为了方便调试，把这两个个接口拿到public来了

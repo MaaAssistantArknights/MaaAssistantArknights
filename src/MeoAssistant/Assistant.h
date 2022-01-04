@@ -60,7 +60,7 @@ namespace asst
         // 参数 use_expedited: 是否使用加急券
         bool append_recruit(unsigned max_times, const std::vector<int>& select_level, const std::vector<int>& confirm_level, bool need_refresh, bool use_expedited);
 
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
         // 调试用
         bool append_debug();
 #endif
