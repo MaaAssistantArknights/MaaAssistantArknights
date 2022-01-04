@@ -106,7 +106,7 @@ bool AsstCatchCustom(asst::Assistant* p_asst, const char* address)
 
 bool AsstCatchFake(asst::Assistant* p_asst)
 {
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
     if (p_asst == nullptr) {
         return false;
     }
@@ -115,7 +115,7 @@ bool AsstCatchFake(asst::Assistant* p_asst)
 #else
     (void*)p_asst;
     return false;
-#endif // LOG_TRACE
+#endif // ASST_DEBUG
 }
 
 bool ASSTAPI AsstAppendStartUp(asst::Assistant* p_asst)
@@ -257,9 +257,9 @@ bool AsstAppendDebug(asst::Assistant* p_asst)
     if (p_asst == nullptr) {
         return false;
     }
-#if LOG_TRACE
+#if ASST_DEBUG
     return p_asst->append_debug();
 #else
     return false;
-#endif // LOG_TRACE
+#endif // ASST_DEBUG
 }

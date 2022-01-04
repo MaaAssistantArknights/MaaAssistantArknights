@@ -27,7 +27,7 @@ bool asst::InfrastSmileyImageAnalyzer::analyze()
         auto& res = mm_analyzer.get_result();
         for (const MatchRect& mr : res) {
             temp_result.emplace_back(infrast::Smiley{ type, mr.rect });
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
             cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(mr.rect), cv::Scalar(0, 0, 255), 2);
 #endif
         }

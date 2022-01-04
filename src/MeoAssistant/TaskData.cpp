@@ -161,7 +161,7 @@ bool asst::TaskData::parse(const json::value& json)
             int y = area_arr[1].as_integer();
             int width = area_arr[2].as_integer();
             int height = area_arr[3].as_integer();
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
             if (x + width > WindowWidthDefault || y + height > WindowHeightDefault) {
                 m_last_error = name + " roi is out of bounds";
                 return false;
@@ -192,7 +192,7 @@ bool asst::TaskData::parse(const json::value& json)
 
         m_all_tasks_info.emplace(name, task_info_ptr);
     }
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
     for (const auto& [name, task] : m_all_tasks_info) {
         for (const auto& next : task->next) {
             if (m_all_tasks_info.find(next) == m_all_tasks_info.cend()) {

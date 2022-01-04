@@ -34,7 +34,7 @@ namespace asst
         cv::Mat m_image;
         Rect m_roi;
 
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
         cv::Mat m_image_draw;
 #endif
     };

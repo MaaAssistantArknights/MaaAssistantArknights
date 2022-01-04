@@ -79,7 +79,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
             continue;
         }
 
-#ifdef LOG_TRACE
+#ifdef ASST_DEBUG
         cv::RNG rng(time(0));
         cv::Scalar rand_color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
         int index = 0;
