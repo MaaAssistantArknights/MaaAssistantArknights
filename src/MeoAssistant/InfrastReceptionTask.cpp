@@ -46,16 +46,11 @@ bool asst::InfrastReceptionTask::_run()
 
 bool asst::InfrastReceptionTask::close_end_prompt()
 {
-    const auto end_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("EndOfClueExchange"));
-    MatchImageAnalyzer analyzer(Ctrler.get_image());
-    analyzer.set_task_info(*end_task_ptr);
-    if (!analyzer.analyze()) {
-        return true;
-    }
-    click_return_button();
-    sleep(end_task_ptr->rear_delay);
-    return true;
+    LogTraceFunction;
+
+    ProcessTask task_temp(*this, { "EndOfClueExchange" });
+    task_temp.set_retry_times(5);
+    return task_temp.run();
 }
 
 bool asst::InfrastReceptionTask::harvest_clue()
@@ -150,6 +145,12 @@ bool asst::InfrastReceptionTask::proc_vacancy()
         sleep(delay);
     }
     return true;
+}
+
+bool asst::InfrastReceptionTask::send_clue()
+{
+    ProcessTask task(*this, { "SendClues" });
+    return task.run();
 }
 
 bool asst::InfrastReceptionTask::shift()
