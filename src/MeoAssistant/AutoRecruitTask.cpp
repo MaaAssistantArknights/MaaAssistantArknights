@@ -40,52 +40,63 @@ bool asst::AutoRecruitTask::_run()
     };
     m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
 
-    int delay = Resrc.cfg().get_options().task_delay;
+    if (!check_recruit_home_page()) {
+        return false;
+    }
 
-    OcrImageAnalyzer start_analyzer;
-    const auto start_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("StartRecruit"));
-    start_analyzer.set_task_info(*start_task_ptr);
-    std::vector<TextRect> start_res;
+    analyze_start_buttons();
 
-    auto analyze_start = [&]() -> bool {
-        auto image = Ctrler.get_image();
-        start_analyzer.set_image(image);
-        if (!start_analyzer.analyze()) {
-            return false;
-        }
-        start_analyzer.sort_result();
-        start_res = start_analyzer.get_result();
-        return true;
-    };
-
-    for (; m_cur_times < m_max_times; ++m_cur_times) {
-        analyze_start();
-        if (m_cur_times >= start_res.size()) {
-            if (m_use_expedited) {
-                recruit_now();
-                analyze_start();
-            }
-            else {
-                break;
-            }
-        }
-        if (start_res.empty()) {
-            if (check_recruit_home_page()) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        Rect start_rect = start_res.at(0).rect;
-        Ctrler.click(start_rect);
-        sleep(delay);
-
-        if (!calc_and_recruit()) {
+    // 不使用加急许可的正常公招
+    for (; m_cur_times < m_max_times && m_cur_times < m_start_buttons.size(); ++m_cur_times) {
+        if (!recruit_index(m_cur_times)) {
             return false;
         }
     }
+    if (!m_use_expedited) {
+        return true;
+    }
+    // 使用加急许可
+    for (; m_cur_times < m_max_times; ++m_cur_times) {
+        if (!recruit_now()) {
+            return true;
+        }
+        analyze_start_buttons();
+        if (!recruit_index(0)) {
+            return false;
+        }
+    }
+
     return true;
+}
+
+bool asst::AutoRecruitTask::analyze_start_buttons()
+{
+    OcrImageAnalyzer start_analyzer;
+    const auto start_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("StartRecruit"));
+    start_analyzer.set_task_info(*start_task_ptr);
+
+    auto image = Ctrler.get_image();
+    start_analyzer.set_image(image);
+    if (!start_analyzer.analyze()) {
+        return false;
+    }
+    start_analyzer.sort_result();
+    m_start_buttons = start_analyzer.get_result();
+    return true;
+}
+
+bool asst::AutoRecruitTask::recruit_index(size_t index)
+{
+    int delay = Resrc.cfg().get_options().task_delay;
+
+    if (m_start_buttons.size() <= index) {
+        return false;
+    }
+    Rect button = m_start_buttons.at(index).rect;
+    Ctrler.click(button);
+    sleep(delay);
+
+    return calc_and_recruit();
 }
 
 bool asst::AutoRecruitTask::calc_and_recruit()
@@ -108,16 +119,12 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     if (m_need_refresh && maybe_level == 3
         && !recurit_task.get_has_special_tag()
         && recurit_task.get_has_refresh()) {
-        ProcessTask refresh_task(*this, { "RecruitRefresh" });
-        if (refresh_task.run()) {
+        if (refresh()) {
             return calc_and_recruit();
         }
     }
     if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
-        ProcessTask confirm_task(*this, { "RecruitConfirm" });
-        if (!confirm_task.run()) {
-            return false;
-        }
+        confirm();
     }
     else {
         click_return_button();
@@ -135,4 +142,16 @@ bool asst::AutoRecruitTask::recruit_now()
 {
     ProcessTask task(*this, { "RecruitNow" });
     return task.run();
+}
+
+bool asst::AutoRecruitTask::confirm()
+{
+    ProcessTask confirm_task(*this, { "RecruitConfirm" });
+    return confirm_task.run();
+}
+
+bool asst::AutoRecruitTask::refresh()
+{
+    ProcessTask refresh_task(*this, { "RecruitRefresh" });
+    return refresh_task.run();
 }
