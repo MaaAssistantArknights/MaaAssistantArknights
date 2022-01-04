@@ -92,7 +92,7 @@ func (m *MaaCliWin) CatchCustom(address string) error {
 	if err != nil {
 		return err
 	}
-	r1, _, err := proc.Call(a1)
+	r1, _, err := proc.Call(m.Ptr, a1)
 	if !errors.Is(err, syscall.Errno(0)) {
 		log.Warn("CatchCustom", err)
 	}
