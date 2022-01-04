@@ -2663,7 +2663,6 @@
         "rearDelay": 5000
     },
     "EndOfClueExchange": {
-        "template": "EndOfClueExchange.png",
         "cache": false,
         "roi": [
             0,
@@ -2671,6 +2670,216 @@
             400,
             200
         ],
+        "next": [
+            "EndOfClueExchangeClose"
+        ]
+    },
+    "EndOfClueExchangeClose": {
+        "template": "Return.png",
+        "action": "clickSelf",
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
         "rearDelay": 3000
+    },
+    "SendClues": {
+        "action": "clickSelf",
+        "roi": [
+            1157,
+            346,
+            84,
+            81
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "rearDelay": 1000,
+        "next": [
+            "SelectClue",
+            "CloseSendClue"
+        ]
+    },
+    "SelectClue": {
+        "action": "clickSelf",
+        "roi": [
+            2,
+            133,
+            418,
+            196
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "maxTimes": 3,
+        "exceededNext": [
+            "CloseSendClue"
+        ],
+        "next": [
+            "ClueGiveTo1st",
+            "ClueGiveTo2nd",
+            "ClueGiveTo3rd",
+            "ClueGiveTo4th",
+            "ClueGiveToNextPage",
+            "ClueGiveTo1stConfirm"
+        ]
+    },
+    "ClueGiveTo1st": {
+        "template": "ClusCanBeSent.png",
+        "action": "doNothing",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            830,
+            70,
+            320,
+            100
+        ],
+        "next": [
+            "ClueGiveTo1stConfirm"
+        ]
+    },
+    "ClueGiveTo1stConfirm": {
+        "template": "SendClueConfirm.png",
+        "action": "clickSelf",
+        "roi": [
+            1150,
+            50,
+            100,
+            160
+        ],
+        "next": [
+            "SelectClue",
+            "CloseSendClue"
+        ]
+    },
+    "ClueGiveTo2nd": {
+        "template": "ClusCanBeSent.png",
+        "action": "doNothing",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            830,
+            220,
+            320,
+            100
+        ],
+        "next": [
+            "ClueGiveTo2ndConfirm"
+        ]
+    },
+    "ClueGiveTo2ndConfirm": {
+        "template": "SendClueConfirm.png",
+        "action": "clickSelf",
+        "roi": [
+            1150,
+            200,
+            100,
+            160
+        ],
+        "next": [
+            "SelectClue",
+            "CloseSendClue"
+        ]
+    },
+    "ClueGiveTo3rd": {
+        "template": "ClusCanBeSent.png",
+        "action": "doNothing",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            830,
+            370,
+            320,
+            100
+        ],
+        "next": [
+            "ClueGiveTo3rdConfirm"
+        ]
+    },
+    "ClueGiveTo3rdConfirm": {
+        "template": "SendClueConfirm.png",
+        "action": "clickSelf",
+        "roi": [
+            1150,
+            350,
+            100,
+            160
+        ],
+        "next": [
+            "SelectClue",
+            "CloseSendClue"
+        ]
+    },
+    "ClueGiveTo4th": {
+        "template": "ClusCanBeSent.png",
+        "action": "doNothing",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            830,
+            520,
+            320,
+            100
+        ],
+        "next": [
+            "ClueGiveTo4thConfirm"
+        ]
+    },
+    "ClueGiveTo4thConfirm": {
+        "template": "SendClueConfirm.png",
+        "action": "clickSelf",
+        "roi": [
+            1150,
+            500,
+            100,
+            160
+        ],
+        "next": [
+            "SelectClue",
+            "CloseSendClue"
+        ]
+    },
+    "CloseSendClue": {
+        "action": "clickSelf",
+        "roi": [
+            1225,
+            16,
+            41,
+            41
+        ]
+    },
+    "ClueGiveToNextPage": {
+        "action": "clickSelf",
+        "roi": [
+            1184,
+            655,
+            50,
+            48
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "next": [
+            "ClueGiveTo1st",
+            "ClueGiveTo2nd",
+            "ClueGiveTo3rd",
+            "ClueGiveTo4th",
+            "ClueGiveToNextPage",
+            "ClueGiveTo1stConfirm"
+        ]
     }
 }
