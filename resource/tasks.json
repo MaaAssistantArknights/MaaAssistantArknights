@@ -24,9 +24,9 @@
     "StageResourceToLS5": {
         "template": "StageResource.png",
         "roi": [
-            790,
             640,
-            60,
+            640,
+            300,
             60
         ],
         "action": "clickSelf",
@@ -190,9 +190,9 @@
     "StageResourceToCA5": {
         "template": "StageResource.png",
         "roi": [
-            790,
             640,
-            60,
+            640,
+            300,
             60
         ],
         "action": "clickSelf",
@@ -234,9 +234,9 @@
     "StageResourceToAP5": {
         "template": "StageResource.png",
         "roi": [
-            790,
             640,
-            60,
+            640,
+            300,
             60
         ],
         "action": "clickSelf",
@@ -278,9 +278,9 @@
     "StageResourceToCE5": {
         "template": "StageResource.png",
         "roi": [
-            790,
             640,
-            60,
+            640,
+            300,
             60
         ],
         "action": "clickSelf",
