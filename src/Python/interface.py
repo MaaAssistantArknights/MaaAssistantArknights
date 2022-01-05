@@ -147,7 +147,7 @@ class Asst:
         """
         return self.__lib.AsstStart(self.__ptr)
 
-    def start_recurit_calc(self, select_level: list, set_time: bool) -> bool:
+    def start_recruit_calc(self, select_level: list, set_time: bool) -> bool:
         """
         进行公招计算
 
