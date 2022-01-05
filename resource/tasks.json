@@ -448,7 +448,7 @@
     "PRTS": {
         "algorithm": "OcrDetect",
         "text": [
-            "剩余可放置角色"
+            "角色"
         ],
         "roi": [
             900,
