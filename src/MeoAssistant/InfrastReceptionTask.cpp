@@ -25,12 +25,13 @@ bool asst::InfrastReceptionTask::_run()
     enter_facility(FacilityName, 0);
     click_bottomleft_tab();
 
-    close_end_prompt();
-    harvest_clue();
+    close_end_of_clue_exchange();
+
+    get_clue();
     if (need_exit()) {
         return false;
     }
-    proc_clue();
+    use_clue();
     if (need_exit()) {
         return false;
     }
@@ -44,25 +45,19 @@ bool asst::InfrastReceptionTask::_run()
     return true;
 }
 
-bool asst::InfrastReceptionTask::close_end_prompt()
+bool asst::InfrastReceptionTask::close_end_of_clue_exchange()
 {
-    LogTraceFunction;
-
-    ProcessTask task_temp(*this, { "EndOfClueExchange" });
-    task_temp.set_retry_times(5);
+    ProcessTask task_temp(*this, { "ReceptionFlag", "EndOfClueExchange" });
     return task_temp.run();
 }
 
-bool asst::InfrastReceptionTask::harvest_clue()
+bool asst::InfrastReceptionTask::get_clue()
 {
-    LogTraceFunction;
-
-    ProcessTask task_temp(*this, { "InfrastClueNew" });
-    task_temp.set_retry_times(5);
+    ProcessTask task_temp(*this, { "InfrastClueSelfNew", "InfrastClueFriendNew", "ReceptionFlag" });
     return task_temp.run();
 }
 
-bool asst::InfrastReceptionTask::proc_clue()
+bool asst::InfrastReceptionTask::use_clue()
 {
     LogTraceFunction;
     const static std::string clue_vacancy = "InfrastClueVacancy";
@@ -70,21 +65,12 @@ bool asst::InfrastReceptionTask::proc_clue()
         "No1", "No2", "No3", "No4", "No5", "No6", "No7"
     };
 
-    proc_vacancy();
-
-    // 开启线索交流，“解锁线索”
-    cv::Mat image = Ctrler.get_image();
-    MatchImageAnalyzer unlock_analyzer(image);
-    const auto unlock_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("UnlockClues"));
-    unlock_analyzer.set_task_info(*unlock_task_ptr);
-    if (unlock_analyzer.analyze()) {
-        Ctrler.click(unlock_analyzer.get_result().rect);
-        sleep(unlock_task_ptr->rear_delay);
-        click_bottomleft_tab();
-        proc_vacancy();
-        image = Ctrler.get_image();
+    proc_clue_vacancy();
+    if (unlock_clue_exchange()) {
+        proc_clue_vacancy();
     }
+
+    cv::Mat image = Ctrler.get_image();
 
     // 所有的空位分析一次，看看还缺哪些线索
     InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
@@ -109,7 +95,7 @@ bool asst::InfrastReceptionTask::proc_clue()
     return true;
 }
 
-bool asst::InfrastReceptionTask::proc_vacancy()
+bool asst::InfrastReceptionTask::proc_clue_vacancy()
 {
     LogTraceFunction;
     const static std::string clue_vacancy = "InfrastClueVacancy";
@@ -145,6 +131,13 @@ bool asst::InfrastReceptionTask::proc_vacancy()
         sleep(delay);
     }
     return true;
+}
+
+bool asst::InfrastReceptionTask::unlock_clue_exchange()
+{
+    ProcessTask task(*this, { "UnlockClues" });
+    task.set_retry_times(2);
+    return task.run();
 }
 
 bool asst::InfrastReceptionTask::send_clue()
@@ -202,20 +195,4 @@ bool asst::InfrastReceptionTask::shift()
     }
     click_confirm_button();
     return true;
-}
-
-bool asst::InfrastReceptionTask::swipe_to_the_bottom_of_clue_list_on_the_right()
-{
-    LogTraceFunction;
-    static Rect begin_rect = Task.get("InfrastClueOnTheRightSwipeBegin")->specific_rect;
-    static Rect end_rect = Task.get("InfrastClueOnTheRightSwipeEnd")->specific_rect;
-    static int duration = Task.get("InfrastClueOnTheRightSwipeBegin")->pre_delay;
-    static int extra_delay = Task.get("InfrastClueOnTheRightSwipeBegin")->rear_delay;
-    static int loop_times = Task.get("InfrastClueOnTheRightSwipeBegin")->max_times;
-
-    for (int i = 0; i != loop_times; ++i) {
-        Ctrler.swipe(begin_rect, end_rect, duration, true, 0, false);
-    }
-    sleep(extra_delay);
-    return false;
 }
