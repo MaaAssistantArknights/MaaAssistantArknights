@@ -2585,30 +2585,26 @@
             100
         ]
     },
-    "InfrastClueNew": {
+    "InfrastClueSelfNew": {
         "template": "ClueNew.png",
         "action": "clickSelf",
         "roi": [
-            1000,
-            0,
-            280,
-            720
+            1150,
+            100,
+            130,
+            80
         ],
-        "maxTimes": 2,
-        "cache": false,
         "rectMove": [
             -45,
             15,
             60,
             60
         ],
-        "templThreshold": 0.8,
         "next": [
-            "GetClue1",
-            "GetClue2"
+            "GetSelfClue"
         ]
     },
-    "GetClue1": {
+    "GetSelfClue": {
         "template": "GetClue1.png",
         "action": "clickSelf",
         "roi": [
@@ -2618,12 +2614,31 @@
             80
         ],
         "next": [
-            "InfrastClueNew",
-            "CloseCluePage"
-        ],
-        "rearDelay": 2000
+            "InfrastClueFriendNew",
+            "CloseCluePage",
+            "ReceptionFlag"
+        ]
     },
-    "GetClue2": {
+    "InfrastClueFriendNew": {
+        "template": "ClueNew.png",
+        "action": "clickSelf",
+        "roi": [
+            1150,
+            220,
+            130,
+            80
+        ],
+        "rectMove": [
+            -45,
+            15,
+            60,
+            60
+        ],
+        "next": [
+            "GetFriendClue"
+        ]
+    },
+    "GetFriendClue": {
         "template": "GetClue2.png",
         "action": "clickSelf",
         "roi": [
@@ -2633,9 +2648,8 @@
             120
         ],
         "next": [
-            "InfrastClueNew"
-        ],
-        "rearDelay": 2000
+            "ReceptionFlag"
+        ]
     },
     "CloseCluePage": {
         "template": "CloseCluePage.png",
@@ -2647,20 +2661,49 @@
             120
         ],
         "next": [
-            "InfrastClueNew"
+            "CloseCluePage",
+            "SendClueFlag",
+            "InfrastClueFriendNew",
+            "ReceptionFlag"
+        ]
+    },
+    "SendClueFlag": {
+        "action": "doNothing",
+        "doc": "这里识别的是自己的线索的new：如果获取完自己的线索、再获取完好友送的线索，自己的线索new还亮着，则说明自己的线索没获取成功，即线索满了",
+        "next": [
+            "SendClues"
         ],
-        "rearDelay": 1000
+        "roi": [
+            1150,
+            100,
+            130,
+            80
+        ],
+        "template": "ClueNew.png"
     },
     "UnlockClues": {
         "template": "UnlockClues.png",
         "action": "clickSelf",
+        "templThreshold": 0.95,
         "roi": [
-            480,
+            200,
             600,
-            460,
+            700,
             120
         ],
-        "rearDelay": 5000
+        "rearDelay": 5000,
+        "next": [
+            "InfrastBottomLeftTab"
+        ]
+    },
+    "ReceptionFlag": {
+        "action": "doNothing",
+        "roi": [
+            350,
+            0,
+            200,
+            100
+        ]
     },
     "EndOfClueExchange": {
         "cache": false,
@@ -2683,7 +2726,9 @@
             180,
             80
         ],
-        "rearDelay": 3000
+        "next": [
+            "ReceptionFlag"
+        ]
     },
     "SendClues": {
         "action": "clickSelf",
@@ -2731,6 +2776,7 @@
     "ClueGiveTo1st": {
         "template": "ClusCanBeSent.png",
         "action": "doNothing",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -2762,6 +2808,7 @@
     "ClueGiveTo2nd": {
         "template": "ClusCanBeSent.png",
         "action": "doNothing",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -2793,6 +2840,7 @@
     "ClueGiveTo3rd": {
         "template": "ClusCanBeSent.png",
         "action": "doNothing",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -2824,6 +2872,7 @@
     "ClueGiveTo4th": {
         "template": "ClusCanBeSent.png",
         "action": "doNothing",
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -2859,10 +2908,14 @@
             16,
             41,
             41
+        ],
+        "next": [
+            "InfrastClueSelfNew"
         ]
     },
     "ClueGiveToNextPage": {
         "action": "clickSelf",
+        "templThreshold": 0.95,
         "roi": [
             1184,
             655,
