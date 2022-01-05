@@ -36,7 +36,7 @@ if __name__ == "__main__":
     # asst.append_award()
     asst.start()
 
-    # asst.start_recurit_calc([4, 5, 6], True)
+    # asst.start_recruit_calc([4, 5, 6], True)
 
     while True:
         input('>')
