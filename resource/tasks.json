@@ -931,7 +931,8 @@
             150
         ],
         "next": [
-            "RecruitFinish"
+            "RecruitFinish",
+            "RecruitNowConfirm"
         ]
     },
     "AwardBegin": {
