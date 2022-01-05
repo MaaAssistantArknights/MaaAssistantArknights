@@ -48,6 +48,9 @@ bool asst::AutoRecruitTask::_run()
 
     // 不使用加急许可的正常公招
     for (; m_cur_times < m_max_times && m_cur_times < m_start_buttons.size(); ++m_cur_times) {
+        if (need_exit()) {
+            return false;
+        }
         if (!recruit_index(m_cur_times)) {
             return false;
         }
@@ -57,8 +60,14 @@ bool asst::AutoRecruitTask::_run()
     }
     // 使用加急许可
     for (; m_cur_times < m_max_times; ++m_cur_times) {
+        if (need_exit()) {
+            return false;
+        }
         if (!recruit_now()) {
             return true;
+        }
+        if (need_exit()) {
+            return false;
         }
         analyze_start_buttons();
         if (!recruit_index(0)) {
@@ -102,7 +111,7 @@ bool asst::AutoRecruitTask::recruit_index(size_t index)
 bool asst::AutoRecruitTask::calc_and_recruit()
 {
     RecruitTask recurit_task(m_callback, m_callback_arg);
-    recurit_task.set_retry_times(10);
+    recurit_task.set_retry_times(m_retry_times);
     recurit_task.set_param(m_select_level, true);
     recurit_task.set_task_chain(m_task_chain);
 
@@ -114,7 +123,9 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     }
 
     int maybe_level = recurit_task.get_maybe_level();
-
+    if (need_exit()) {
+        return false;
+    }
     // 尝试刷新
     if (m_need_refresh && maybe_level == 3
         && !recurit_task.get_has_special_tag()
@@ -122,6 +133,9 @@ bool asst::AutoRecruitTask::calc_and_recruit()
         if (refresh()) {
             return calc_and_recruit();
         }
+    }
+    if (need_exit()) {
+        return false;
     }
     if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
         confirm();
