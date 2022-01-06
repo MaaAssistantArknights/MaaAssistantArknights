@@ -111,9 +111,9 @@ namespace asst
             return text == rhs.text && rect == rhs.rect;
         }
 
-        std::string text;
+        double score = 0.0;
         Rect rect;
-        float score;
+        std::string text;
     };
     using TextRectProc = std::function<bool(TextRect&)>;
 
@@ -136,7 +136,6 @@ namespace asst
         MatchRect& operator=(const MatchRect&) = default;
         MatchRect& operator=(MatchRect&&) noexcept = default;
 
-        AlgorithmType algorithm = AlgorithmType::Invaild;
         double score = 0.0;
         Rect rect;
     };

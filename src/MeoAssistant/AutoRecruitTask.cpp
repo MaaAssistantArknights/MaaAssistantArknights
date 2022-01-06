@@ -149,6 +149,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
 bool asst::AutoRecruitTask::check_recruit_home_page()
 {
     ProcessTask task(*this, { "RecruitFlag" });
+    task.set_retry_times(2);
     return task.run();
 }
 
