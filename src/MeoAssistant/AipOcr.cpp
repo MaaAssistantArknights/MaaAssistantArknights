@@ -135,7 +135,7 @@ bool asst::AipOcr::parse_response(const json::value& json, std::vector<TextRect>
 
         Rect rect(left, top, right - left, bottom - top);
 
-        TextRect tr{ text, rect, 0 };
+        TextRect tr{ 0, rect, text };
 
         log_str_raw += tr.to_string() + ", ";
         if (!pred || pred(tr)) {

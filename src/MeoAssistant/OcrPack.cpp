@@ -79,7 +79,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat image, const 
         std::string text(*(strs + i));
         float score = *(scores + i);
 
-        TextRect tr{ text, rect, score };
+        TextRect tr{ score, rect, text };
 
         log_str_raw += tr.to_string() + ", ";
         if (!pred || pred(tr)) {

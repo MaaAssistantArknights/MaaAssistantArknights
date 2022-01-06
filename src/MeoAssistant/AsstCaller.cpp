@@ -62,9 +62,13 @@ asst::Assistant* AsstCreateEx(const char* dirname, AsstCallback callback, void* 
         _callback = callback;
         return new asst::Assistant(dirname, CallbackTrans, custom_arg);
     }
-    catch (...) {
-        return nullptr;
+    catch (std::exception& e) {
+        std::cerr << "create failed: " << e.what() << std::endl;
     }
+    catch (...) {
+        std::cerr << "create failed: unknown exception" << std::endl;
+    }
+    return nullptr;
 }
 
 void AsstDestroy(asst::Assistant* p_asst)
