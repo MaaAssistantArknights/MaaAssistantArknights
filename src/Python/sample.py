@@ -1,6 +1,5 @@
 import json
 import pathlib
-import platform
 
 from interface import Asst, Message
 
@@ -9,18 +8,11 @@ if __name__ == "__main__":
     @Asst.CallBackType
     def my_callback(msg, details, arg):
         m = Message(msg)
-        if platform.system().lower() == 'windows':
-            d = json.loads(details.decode('gbk'))
-        else:
-            d = json.loads(details.decode('utf-8'))
+        d = json.loads(details.decode('utf-8'))
 
         print(m, d, arg)
 
-    if platform.system().lower() == 'windows':
-        dirname: str = (pathlib.Path.cwd().parent.parent / 'x64' / 'Release').__str__()
-    else:
-        dirname: str = (pathlib.Path.cwd().parent.parent / 'build').__str__()
-
+    dirname: str = (pathlib.Path.cwd()).__str__()
     asst = Asst(dirname=dirname, callback=my_callback)
 
     print('version', asst.get_version())

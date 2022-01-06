@@ -80,9 +80,29 @@ namespace MeoAsstGui
             tvm.Idle = true;
         }
 
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true)]
+        internal static extern int lstrlenA(IntPtr ptr);
+
+        private static string PtrToStringCustom(IntPtr ptr, System.Text.Encoding enc)
+        {
+            if (IntPtr.Zero == ptr)
+            {
+                return null;
+            }
+            if (lstrlenA(ptr) == 0)
+            {
+                return string.Empty;
+            }
+            int len = lstrlenA(ptr);
+            Byte[] bytes = new Byte[len + 1];
+            Marshal.Copy(ptr, bytes, 0, len + 1);
+            return enc.GetString(bytes);
+        }
+
         private void CallbackFunction(int msg, IntPtr json_buffer, IntPtr custom_arg)
         {
-            string json_str = Marshal.PtrToStringAnsi(json_buffer);
+            string json_str = PtrToStringCustom(json_buffer, System.Text.Encoding.UTF8);
             //Console.WriteLine(json_str);
             JObject json = (JObject)JsonConvert.DeserializeObject(json_str);
             ProcCallbckMsg dlg = new ProcCallbckMsg(proc_msg);
