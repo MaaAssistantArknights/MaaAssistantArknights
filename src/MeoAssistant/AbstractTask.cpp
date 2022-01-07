@@ -22,8 +22,10 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg)
 
 bool asst::AbstractTask::run()
 {
+    m_callback(AsstMsg::SubTaskStart, basic_info(), m_callback_arg);
     for (m_cur_retry = 0; m_cur_retry < m_retry_times; ++m_cur_retry) {
         if (_run()) {
+            m_callback(AsstMsg::SubTaskCompleted, basic_info(), m_callback_arg);
             return true;
         }
         if (need_exit()) {
@@ -33,10 +35,23 @@ bool asst::AbstractTask::run()
         sleep(delay);
 
         if (!on_run_fails()) {
+            m_callback(AsstMsg::SubTaskError, basic_info(), m_callback_arg);
             return false;
         }
     }
+    m_callback(AsstMsg::SubTaskError, basic_info(), m_callback_arg);
     return false;
+}
+
+json::value asst::AbstractTask::basic_info() const
+{
+    return json::object{
+        { "taskchain", m_task_chain },
+        { "class", typeid(*this).name() },
+        { "details", json::object() }
+        //{ "CurRetryTimes", m_cur_retry },
+        //{ "MaxRetryTimes", m_retry_times }
+    };
 }
 
 bool AbstractTask::sleep(unsigned millisecond)
@@ -50,9 +65,7 @@ bool AbstractTask::sleep(unsigned millisecond)
     auto start = std::chrono::steady_clock::now();
     long long duration = 0;
 
-    json::value callback_json;
-    callback_json["time"] = millisecond;
-    m_callback(AsstMsg::ReadyToSleep, callback_json, m_callback_arg);
+    Log.trace("ready to sleep", millisecond);
 
     while (!need_exit() && duration < millisecond) {
         duration = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -60,7 +73,7 @@ bool AbstractTask::sleep(unsigned millisecond)
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         std::this_thread::yield();
     }
-    m_callback(AsstMsg::EndOfSleep, callback_json, m_callback_arg);
+    Log.trace("end of sleep", millisecond);
 
     return !need_exit();
 }
@@ -72,12 +85,6 @@ bool AbstractTask::save_image(const cv::Mat image, const std::string& dir)
     const std::string filename = dir + time_str + ".png";
 
     bool ret = cv::imwrite(filename, image);
-
-    json::value callback_json;
-    callback_json["filename"] = filename;
-    callback_json["ret"] = ret;
-    callback_json["offset"] = 0;
-    m_callback(AsstMsg::PrintWindow, callback_json, m_callback_arg);
 
     return true;
 }

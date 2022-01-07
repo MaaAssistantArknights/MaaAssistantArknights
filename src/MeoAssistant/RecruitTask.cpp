@@ -12,22 +12,11 @@ using namespace asst;
 
 bool RecruitTask::_run()
 {
-    json::value task_start_json = json::object{
-        { "task_type", "RecruitTask_run" },
-        { "task_chain", m_task_chain },
-    };
-    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
-
     m_maybe_level = 0;
     m_has_special_tag = false;
     m_has_refresh = false;
 
     const cv::Mat image = Ctrler.get_image();
-    if (image.empty()) {
-        m_callback(AsstMsg::ImageIsEmpty, task_start_json, m_callback_arg);
-        return false;
-    }
-
     RecruitImageAnalyzer analyzer(image);
 
     if (!analyzer.analyze()) {
@@ -48,29 +37,29 @@ bool RecruitTask::_run()
         all_tags_name.emplace(text_area.text);
         all_tags_json_vector.emplace_back(text_area.text);
     }
-    json::value all_tags_json;
-    all_tags_json["tags"] = json::array(all_tags_json_vector);
-    all_tags_json["task_chain"] = m_task_chain;
 
     /* 过滤tags数量不足的情况（可能是识别漏了） */
     if (all_tags.size() != RecruitConfiger::CorrectNumberOfTags) {
-        //all_tags_json["type"] = "OpenRecruit";
-        //m_callback(AsstMsg::OcrResultError, all_tags_json, m_callback_arg);
         return false;
     }
-
-    m_callback(AsstMsg::RecruitTagsDetected, all_tags_json, m_callback_arg);
+    json::value info = basic_info();
+    info["what"] = "RecruitTagsDetected";
+    info["details"] = json::object{
+        { "tags", json::array(all_tags_json_vector) }
+    };
+    m_callback(AsstMsg::SubTaskExtraInfo, info, m_callback_arg);
 
     /* 针对特殊Tag的额外回调消息 */
     static const std::string SeniorOper = "高级资深干员";
-    static const std::string SupportMachine = "支援机械";
-    const std::vector<std::string> SpecialTags = { SeniorOper, SupportMachine };
+    const std::vector<std::string> SpecialTags = { SeniorOper, "资深干员" };
 
     auto special_iter = std::find_first_of(SpecialTags.cbegin(), SpecialTags.cend(), all_tags_name.cbegin(), all_tags_name.cend());
     if (special_iter != SpecialTags.cend()) {
-        json::value special_tag_json;
-        special_tag_json["tag"] = *special_iter;
-        m_callback(AsstMsg::RecruitSpecialTag, special_tag_json, m_callback_arg);
+        info["what"] = "RecruitSpecialTag";
+        info["details"] = json::object{
+            { "tag", *special_iter }
+        };
+        m_callback(AsstMsg::SubTaskExtraInfo, info, m_callback_arg);
         m_has_special_tag = true;
     }
 
@@ -174,8 +163,7 @@ bool RecruitTask::_run()
     /* 整理识别结果Json */
     json::value results_json;
     results_json["result"] = json::array();
-    results_json["maybe_level"] = m_maybe_level;
-    results_json["task_chain"] = m_task_chain;
+    results_json["level"] = m_maybe_level;
 
     std::vector<json::value> result_json_vector;
     for (const auto& comb : result_vec) {
@@ -196,10 +184,12 @@ bool RecruitTask::_run()
             opers_json_vector.emplace_back(std::move(oper_json));
         }
         comb_json["opers"] = json::array(std::move(opers_json_vector));
-        comb_json["tag_level"] = comb.min_level;
+        comb_json["level"] = comb.min_level;
         results_json["result"].as_array().emplace_back(std::move(comb_json));
     }
-    m_callback(AsstMsg::RecruitResult, results_json, m_callback_arg);
+    info["what"] = "RecruitResult";
+    info["details"] = results_json;
+    m_callback(AsstMsg::SubTaskExtraInfo, info, m_callback_arg);
 
     if (!result_vec.empty()) {
         /* 点击最优解的tags */
@@ -212,10 +202,11 @@ bool RecruitTask::_run()
                 }
             }
 
-            json::value selected_json;
-            selected_json["tags"] = json::array(final_tags_name);
-            selected_json["task_chain"] = m_task_chain;
-            m_callback(AsstMsg::RecruitSelected, selected_json, m_callback_arg);
+            info["what"] = "RecruitTagsSelected";
+            info["details"] = json::object{
+                { "tags", json::array(final_tags_name) }
+            };
+            m_callback(AsstMsg::SubTaskExtraInfo, info, m_callback_arg);
         }
     }
 

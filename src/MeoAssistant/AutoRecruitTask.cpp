@@ -34,12 +34,6 @@ void asst::AutoRecruitTask::set_use_expedited(bool use_or_not) noexcept
 
 bool asst::AutoRecruitTask::_run()
 {
-    json::value task_start_json = json::object{
-        { "task_type", "RecruitTask" },
-        { "task_chain", m_task_chain },
-    };
-    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
-
     if (!check_recruit_home_page()) {
         return false;
     }
@@ -117,7 +111,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
 
     // 识别错误，放弃这个公招位，直接返回
     if (!recurit_task.run()) {
-        m_callback(AsstMsg::RecruitError, json::value(), m_callback_arg);
+        m_callback(AsstMsg::SubTaskError, basic_info(), m_callback_arg);
         click_return_button();
         return true;
     }

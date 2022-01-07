@@ -45,9 +45,11 @@ Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_
             throw error;
         }
         json::value callback_json;
-        callback_json["type"] = "resource broken";
-        callback_json["what"] = error;
-        m_callback(AsstMsg::InitFaild, callback_json, m_callback_arg);
+        callback_json["what"] = "resource broken";
+        callback_json["details"] = json::object{
+            { "error", error }
+        };
+        m_callback(AsstMsg::InitFailed, callback_json, m_callback_arg);
         throw error;
     }
 
@@ -529,12 +531,13 @@ void Assistant::working_proc()
             auto task_ptr = m_tasks_queue.front();
 
             std::string cur_taskchain = task_ptr->get_task_chain();
-            json::value task_json = json::object{
-                {"task_chain", cur_taskchain},
+            json::value callback_json = json::object{
+                {"taskchain", cur_taskchain},
+                {"pre_taskchain", pre_taskchain}
             };
 
             if (cur_taskchain != pre_taskchain) {
-                task_callback(AsstMsg::TaskChainStart, task_json, this);
+                task_callback(AsstMsg::TaskChainStart, callback_json, this);
                 pre_taskchain = cur_taskchain;
             }
 
@@ -542,17 +545,23 @@ void Assistant::working_proc()
             bool ret = task_ptr->run();
             m_tasks_queue.pop();
 
-            if (!ret) {
-                task_callback(AsstMsg::TaskError, task_json, this);
+            if (!m_tasks_queue.empty()) {
+                callback_json["next_taskchain"] = m_tasks_queue.front()->get_task_chain();
             }
-            else if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
-                task_callback(AsstMsg::TaskChainCompleted, task_json, this);
-            }
-            if (m_tasks_queue.empty()) {
-                task_callback(AsstMsg::AllTasksCompleted, task_json, this);
+            else {
+                callback_json["next_taskchain"] = std::string();
             }
 
-            //clear_cache();
+            if (!ret) {
+                task_callback(AsstMsg::TaskChainError, callback_json, this);
+            }
+            else if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
+                task_callback(AsstMsg::TaskChainCompleted, callback_json, this);
+            }
+
+            if (m_tasks_queue.empty()) {
+                task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
+            }
 
             auto& delay = Resrc.cfg().get_options().task_delay;
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay),
@@ -562,7 +571,6 @@ void Assistant::working_proc()
             pre_taskchain.clear();
             m_thread_idle = true;
             Log.flush();
-            //controller.set_idle(true);
             m_condvar.wait(lock);
         }
     }
@@ -600,13 +608,14 @@ void Assistant::task_callback(AsstMsg msg, const json::value& detail, void* cust
     Assistant* p_this = (Assistant*)custom_arg;
     json::value more_detail = detail;
     switch (msg) {
-    case AsstMsg::PtrIsNull:
-    case AsstMsg::ImageIsEmpty:
+    case AsstMsg::InternalError:
+    case AsstMsg::InitFailed:
+    case AsstMsg::ConnectionError:
         p_this->stop(false);
         break;
-    case AsstMsg::StageDrops:
-        more_detail = p_this->organize_stage_drop(more_detail);
-        break;
+        //case AsstMsg::StageDrops:
+        //    more_detail = p_this->organize_stage_drop(more_detail);
+        //    break;
     default:
         break;
     }

@@ -15,6 +15,8 @@ namespace asst
 
         virtual ~ProcessTask() = default;
 
+        virtual bool run() override;
+
         void set_tasks(std::vector<std::string> tasks_name) noexcept
         {
             m_cur_tasks_name = std::move(tasks_name);
@@ -26,6 +28,7 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+
         void exec_stage_drops();
         void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);
