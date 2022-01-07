@@ -8,6 +8,10 @@ namespace cv
 {
     class Mat;
 }
+namespace json
+{
+    class value;
+}
 
 namespace asst
 {
@@ -30,6 +34,7 @@ namespace asst
     protected:
         virtual bool _run() = 0;
         virtual bool on_run_fails() { return true; }
+        virtual json::value basic_info() const;
 
         bool sleep(unsigned millisecond);
         bool save_image(const cv::Mat image, const std::string& dir);

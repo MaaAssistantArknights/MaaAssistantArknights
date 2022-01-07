@@ -41,11 +41,13 @@ bool asst::InfrastProductionTask::shift_facility_list()
             return false;
         }
         if (index != 0) {
-            json::value enter_json = json::object{
+            json::value info = basic_info();
+            info["what"] = "EnterFacility";
+            info["details"] = json::object{
                 { "facility", m_facility },
                 { "index", index }
             };
-            m_callback(AsstMsg::EnterFacility, enter_json, m_callback_arg);
+            m_callback(AsstMsg::SubTaskExtraInfo, info, m_callback_arg);
         }
 
         ++index;
