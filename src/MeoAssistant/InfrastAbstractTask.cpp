@@ -12,8 +12,8 @@
 int asst::InfrastAbstractTask::m_face_hash_thres = 0;
 int asst::InfrastAbstractTask::m_name_hash_thres = 0;
 
-asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* callback_arg)
-    : AbstractTask(callback, callback_arg)
+asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain)
+    : AbstractTask(callback, callback_arg, std::move(task_chain))
 {
     if (m_face_hash_thres == 0) {
         m_face_hash_thres = static_cast<int>(std::dynamic_pointer_cast<MatchTaskInfo>(
@@ -25,7 +25,7 @@ asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* call
     }
 }
 
-void asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexcept
+asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexcept
 {
     m_work_mode = work_mode;
     switch (work_mode) {
@@ -42,11 +42,13 @@ void asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexc
         m_work_mode_name.clear();
         break;
     }
+    return *this;
 }
 
-void asst::InfrastAbstractTask::set_mood_threshold(double mood_thres) noexcept
+asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_mood_threshold(double mood_thres) noexcept
 {
     m_mood_threshold = mood_thres;
+    return *this;
 }
 
 bool asst::InfrastAbstractTask::on_run_fails()

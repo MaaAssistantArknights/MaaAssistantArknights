@@ -13,9 +13,10 @@
 
 using namespace asst;
 
-AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg)
+AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain)
     : m_callback(callback),
-    m_callback_arg(callback_arg)
+    m_callback_arg(callback_arg),
+    m_task_chain(std::move(task_chain))
 {
     ;
 }
@@ -41,6 +42,18 @@ bool asst::AbstractTask::run()
     }
     m_callback(AsstMsg::SubTaskError, basic_info(), m_callback_arg);
     return false;
+}
+
+AbstractTask& asst::AbstractTask::set_exit_flag(bool* exit_flag) noexcept
+{
+    m_exit_flag = exit_flag;
+    return *this;
+}
+
+AbstractTask& asst::AbstractTask::set_retry_times(int times) noexcept
+{
+    m_retry_times = times;
+    return *this;
 }
 
 json::value asst::AbstractTask::basic_info() const

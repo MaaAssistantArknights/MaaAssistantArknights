@@ -12,7 +12,7 @@ namespace asst
         using AbstractTask::AbstractTask;
         virtual ~RecruitTask() = default;
 
-        void set_param(std::vector<int> select_level, bool set_time = true) noexcept;
+        RecruitTask& set_param(std::vector<int> select_level, bool set_time = true) noexcept;
 
         bool get_has_special_tag() const noexcept
         {

@@ -7,29 +7,34 @@
 #include "ProcessTask.h"
 #include "RecruitTask.h"
 
-void asst::AutoRecruitTask::set_select_level(std::vector<int> select_level) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_level(std::vector<int> select_level) noexcept
 {
     m_select_level = std::move(select_level);
+    return *this;
 }
 
-void asst::AutoRecruitTask::set_confirm_level(std::vector<int> confirm_level) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_confirm_level(std::vector<int> confirm_level) noexcept
 {
     m_confirm_level = std::move(confirm_level);
+    return *this;
 }
 
-void asst::AutoRecruitTask::set_need_refresh(bool need_refresh) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_need_refresh(bool need_refresh) noexcept
 {
     m_need_refresh = need_refresh;
+    return *this;
 }
 
-void asst::AutoRecruitTask::set_max_times(int max_times) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_max_times(int max_times) noexcept
 {
     m_max_times = max_times;
+    return *this;
 }
 
-void asst::AutoRecruitTask::set_use_expedited(bool use_or_not) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_use_expedited(bool use_or_not) noexcept
 {
     m_use_expedited = use_or_not;
+    return *this;
 }
 
 bool asst::AutoRecruitTask::_run()
@@ -104,10 +109,9 @@ bool asst::AutoRecruitTask::recruit_index(size_t index)
 
 bool asst::AutoRecruitTask::calc_and_recruit()
 {
-    RecruitTask recurit_task(m_callback, m_callback_arg);
+    RecruitTask recurit_task(m_callback, m_callback_arg, m_task_chain);
     recurit_task.set_retry_times(m_retry_times);
     recurit_task.set_param(m_select_level, true);
-    recurit_task.set_task_chain(m_task_chain);
 
     // 识别错误，放弃这个公招位，直接返回
     if (!recurit_task.run()) {

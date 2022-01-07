@@ -45,6 +45,18 @@ bool asst::ProcessTask::run()
     return false;
 }
 
+asst::ProcessTask& asst::ProcessTask::set_tasks(std::vector<std::string> tasks_name) noexcept
+{
+    m_cur_tasks_name = std::move(tasks_name);
+    return *this;
+}
+
+ProcessTask& asst::ProcessTask::set_times_limit(std::string name, int limit)
+{
+    m_times_limit.emplace(std::move(name), limit);
+    return *this;
+}
+
 bool ProcessTask::_run()
 {
     LogTraceFunction;
