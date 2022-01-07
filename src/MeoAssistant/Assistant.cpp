@@ -37,7 +37,7 @@ Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_
 
     LogTraceFunction;
 
-    bool resource_ret = Resrc.load(m_dirname + "Resource/");
+    bool resource_ret = Resrc.load(m_dirname + "resource/");
     if (!resource_ret) {
         const std::string& error = Resrc.get_last_error();
         Log.error("resource broken:", error);
