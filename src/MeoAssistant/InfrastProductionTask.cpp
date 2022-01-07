@@ -14,6 +14,24 @@
 #include "RuntimeStatus.h"
 #include "ProcessTask.h"
 
+asst::InfrastProductionTask& asst::InfrastProductionTask::set_uses_of_drone(std::string uses_of_drones) noexcept
+{
+    m_uses_of_drones = std::move(uses_of_drones);
+    return *this;
+}
+
+asst::InfrastProductionTask& asst::InfrastProductionTask::set_facility(std::string facility_name) noexcept
+{
+    m_facility = std::move(facility_name);
+    return *this;
+}
+
+asst::InfrastProductionTask& asst::InfrastProductionTask::set_product(std::string product_name) noexcept
+{
+    m_product = std::move(product_name);
+    return *this;
+}
+
 bool asst::InfrastProductionTask::shift_facility_list()
 {
     LogTraceFunction;

@@ -9,11 +9,11 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
-        InfrastAbstractTask(AsstCallback callback, void* callback_arg);
+        InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain);
 
         virtual ~InfrastAbstractTask() = default;
-        virtual void set_work_mode(infrast::WorkMode work_mode) noexcept;
-        virtual void set_mood_threshold(double mood_thres) noexcept;
+        virtual InfrastAbstractTask& set_work_mode(infrast::WorkMode work_mode) noexcept;
+        virtual InfrastAbstractTask& set_mood_threshold(double mood_thres) noexcept;
 
         constexpr static int OperSelectRetryTimes = 3;
     protected:

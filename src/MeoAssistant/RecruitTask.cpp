@@ -213,8 +213,9 @@ bool RecruitTask::_run()
     return true;
 }
 
-void RecruitTask::set_param(std::vector<int> select_level, bool set_time) noexcept
+RecruitTask& RecruitTask::set_param(std::vector<int> select_level, bool set_time) noexcept
 {
     m_select_level = std::move(select_level);
     m_set_time = set_time;
+    return *this;
 }

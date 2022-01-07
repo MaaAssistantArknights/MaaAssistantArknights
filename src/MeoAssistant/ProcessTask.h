@@ -17,14 +17,8 @@ namespace asst
 
         virtual bool run() override;
 
-        void set_tasks(std::vector<std::string> tasks_name) noexcept
-        {
-            m_cur_tasks_name = std::move(tasks_name);
-        }
-        void set_times_limit(std::string name, int limit)
-        {
-            m_times_limit.emplace(std::move(name), limit);
-        }
+        ProcessTask& set_tasks(std::vector<std::string> tasks_name) noexcept;
+        ProcessTask& set_times_limit(std::string name, int limit);
 
     protected:
         virtual bool _run() override;
