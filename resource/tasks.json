@@ -1906,7 +1906,7 @@
     },
     "InfrastSkills": {
         "template": "empty.png",
-        "templThreshold": 0.9,
+        "templThreshold": 0.85,
         "specialThreshold": 95,
         "specialThreshold_Doc": "用于做灰度图平均值",
         "rectMove_Doc": "基于笑脸的位置移动",
