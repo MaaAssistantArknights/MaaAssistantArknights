@@ -505,12 +505,14 @@
             440,
             280
         ],
-        "preDelay": 5000,
-        "action": "stageDrops",
-        "action_Doc": "为“行动结束”特化的action，包含截图、识别关卡掉落等功能",
+        "action": "doNothing",
         "next": [
             "ClickCorner"
         ]
+    },
+    "StageDrops": {
+        "algorithm": "JustReturn",
+        "preDelay": 5000
     },
     "ClickCorner": {
         "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",

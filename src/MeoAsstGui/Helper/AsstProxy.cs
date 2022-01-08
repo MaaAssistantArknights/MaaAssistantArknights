@@ -196,6 +196,7 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.SubTaskStart:
+                    procSubTaskStart(details);
                     break;
 
                 case AsstMsg.SubTaskCompleted:
@@ -220,7 +221,7 @@ namespace MeoAsstGui
             }
         }
 
-        private void procSubTaskCompleted(JObject details)
+        private void procSubTaskStart(JObject details)
         {
             string classType = details["class"].ToString();
 
@@ -255,6 +256,10 @@ namespace MeoAsstGui
             }
         }
 
+        private void procSubTaskCompleted(JObject details)
+        {
+        }
+
         private void procSubTaskExtraInfo(JObject details)
         {
             string taskChain = details["taskchain"].ToString();
@@ -285,7 +290,7 @@ namespace MeoAsstGui
                         mainModel.AddLog("当次掉落：\n" + cur_drops);
 
                         string all_drops = "";
-                        JArray statistics = (JArray)details["statistics"];
+                        JArray statistics = (JArray)subTaskDetails["statistics"];
                         foreach (var item in statistics)
                         {
                             string itemName = item["itemName"].ToString();

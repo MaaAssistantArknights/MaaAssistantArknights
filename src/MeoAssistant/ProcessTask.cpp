@@ -7,7 +7,6 @@
 
 #include "AsstUtils.hpp"
 #include "Controller.h"
-#include "PenguinUploader.h"
 #include "ProcessTaskImageAnalyzer.h"
 #include "Resource.h"
 #include "Logger.hpp"
@@ -41,7 +40,7 @@ bool asst::ProcessTask::run()
             return false;
         }
     }
-    m_callback(AsstMsg::SubTaskError, basic_info(), m_callback_arg);
+    callback(AsstMsg::SubTaskError, basic_info());
     return false;
 }
 
@@ -54,6 +53,12 @@ asst::ProcessTask& asst::ProcessTask::set_tasks(std::vector<std::string> tasks_n
 ProcessTask& asst::ProcessTask::set_times_limit(std::string name, int limit)
 {
     m_times_limit.emplace(std::move(name), limit);
+    return *this;
+}
+
+ProcessTask& asst::ProcessTask::set_rear_delay(std::string name, int delay)
+{
+    m_rear_delay.emplace(std::move(name), delay);
     return *this;
 }
 
@@ -108,6 +113,16 @@ bool ProcessTask::_run()
             max_times = iter->second;
         }
 
+        if (exec_times >= max_times) {
+            Log.info("exec times exceeds the limit", info.to_string());
+            set_tasks(m_cur_task_ptr->exceeded_next);
+            sleep(task_delay);
+            continue;
+        }
+
+        m_cur_retry = 0;
+        ++exec_times;
+
         info["details"] = json::object{
             { "task", cur_name },
             { "action", static_cast<int>(m_cur_task_ptr->action) },
@@ -116,14 +131,7 @@ bool ProcessTask::_run()
             { "algorithm", static_cast<int>(m_cur_task_ptr->algorithm) }
         };
 
-        if (exec_times >= max_times) {
-            Log.info("exec times exceeds the limit", info.to_string());
-            set_tasks(m_cur_task_ptr->exceeded_next);
-            sleep(task_delay);
-            continue;
-        }
-
-        m_callback(AsstMsg::SubTaskStart, info, m_callback_arg);
+        callback(AsstMsg::SubTaskStart, info);
 
         // 前置固定延时
         if (!sleep(m_cur_task_ptr->pre_delay)) {
@@ -153,14 +161,9 @@ bool ProcessTask::_run()
             Log.info("stop action", info.to_string());
             need_stop = true;
             break;
-        case ProcessTaskAction::StageDrops: {
-            exec_stage_drops();
-        } break;
         default:
             break;
         }
-        m_cur_retry = 0;
-        ++exec_times;
 
         Status.set("Last" + cur_name, time(nullptr));
 
@@ -170,9 +173,6 @@ bool ProcessTask::_run()
         for (const std::string& reduce : m_cur_task_ptr->reduce_other_times) {
             --m_exec_times[reduce];
         }
-
-        info["details"]["exec_times"] = exec_times;
-        m_callback(AsstMsg::SubTaskCompleted, info, m_callback_arg);
 
         // 后置固定延时
         int rear_delay = m_cur_task_ptr->rear_delay;
@@ -184,6 +184,8 @@ bool ProcessTask::_run()
             return false;
         }
 
+        callback(AsstMsg::SubTaskCompleted, info);
+
         if (need_stop) {
             return true;
         }
@@ -192,36 +194,6 @@ bool ProcessTask::_run()
     }
 
     return true;
-}
-
-void asst::ProcessTask::exec_stage_drops()
-{
-    cv::Mat image = Ctrler.get_image(true);
-    std::string res = Resrc.penguin().recognize(image);
-
-    json::value info = basic_info();
-    info["what"] = "StageDrops";
-    info["details"] = json::parse(res).value();
-
-    m_callback(AsstMsg::SubTaskExtraInfo, info, m_callback_arg);
-
-    if (m_rear_delay.find("StartButton2") == m_rear_delay.cend()) {
-        int64_t start_times = Status.get("LastStartButton2");
-        if (start_times > 0) {
-            int64_t duration = time(nullptr) - start_times;
-            int64_t delay = duration * 1000 - m_cur_task_ptr->rear_delay;
-            m_rear_delay["StartButton2"] = static_cast<int>(delay);
-        }
-    }
-
-    auto& opt = Resrc.cfg().get_options();
-    //if (opt.print_window) {
-    //    //static const std::string dirname = utils::get_cur_dir() + "screenshot\\";
-    //    //save_image(image, dirname);
-    //}
-    if (opt.penguin_report.enable) {
-        PenguinUploader::upload(res);
-    }
 }
 
 void ProcessTask::exec_click_task(const Rect& matched_rect)
