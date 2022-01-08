@@ -74,7 +74,7 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
         info["itemId"] = id;
         const std::string& name = item.get_item_name(id);
         info["itemName"] = name.empty() ? "未知材料" : name;
-        info["count"] = count;
+        info["quantity"] = count;
         statistics_vec.emplace_back(std::move(info));
     }
     //// 排个序，数量多的放前面
@@ -83,7 +83,7 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
     //        return lhs.at("count").as_integer() > rhs.at("count").as_integer();
     //    });
 
-    drops_details["statistics"] = json::array(std::move(statistics_vec));
+    drops_details["stats"] = json::array(std::move(statistics_vec));
 
     json::value info = basic_info();
     info["what"] = "StageDrops";
