@@ -11,11 +11,11 @@ namespace asst
         using AbstractTask::AbstractTask;
         virtual ~AutoRecruitTask() = default;
 
-        void set_select_level(std::vector<int> select_level) noexcept;
-        void set_confirm_level(std::vector<int> confirm_level) noexcept;
-        void set_need_refresh(bool need_refresh) noexcept;
-        void set_max_times(int max_times) noexcept;
-        void set_use_expedited(bool use_or_not) noexcept;
+        AutoRecruitTask& set_select_level(std::vector<int> select_level) noexcept;
+        AutoRecruitTask& set_confirm_level(std::vector<int> confirm_level) noexcept;
+        AutoRecruitTask& set_need_refresh(bool need_refresh) noexcept;
+        AutoRecruitTask& set_max_times(int max_times) noexcept;
+        AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
 
     protected:
         virtual bool _run() override;

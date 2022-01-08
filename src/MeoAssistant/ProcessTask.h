@@ -15,17 +15,14 @@ namespace asst
 
         virtual ~ProcessTask() = default;
 
-        void set_tasks(std::vector<std::string> tasks_name) noexcept
-        {
-            m_cur_tasks_name = std::move(tasks_name);
-        }
-        void set_times_limit(std::string name, int limit)
-        {
-            m_times_limit.emplace(std::move(name), limit);
-        }
+        virtual bool run() override;
+
+        ProcessTask& set_tasks(std::vector<std::string> tasks_name) noexcept;
+        ProcessTask& set_times_limit(std::string name, int limit);
 
     protected:
         virtual bool _run() override;
+
         void exec_stage_drops();
         void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);
