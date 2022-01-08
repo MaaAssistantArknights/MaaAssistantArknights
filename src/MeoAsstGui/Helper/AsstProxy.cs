@@ -294,11 +294,11 @@ namespace MeoAsstGui
                         mainModel.AddLog("当次掉落：\n" + cur_drops);
 
                         string all_drops = "";
-                        JArray statistics = (JArray)subTaskDetails["statistics"];
+                        JArray statistics = (JArray)subTaskDetails["stats"];
                         foreach (var item in statistics)
                         {
                             string itemName = item["itemName"].ToString();
-                            int count = (int)item["count"];
+                            int count = (int)item["quantity"];
                             all_drops += $"{itemName} : {count}\n";
                         }
                         all_drops = all_drops.EndsWith("\n") ? all_drops.TrimEnd('\n') : "无";
