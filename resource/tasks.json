@@ -1339,7 +1339,8 @@
         ],
         "next": [
             "CloseCollectCredit"
-        ]
+        ],
+        "rearDelay": 2000
     },
     "CloseCollectCredit": {
         "algorithm": "justReturn",
