@@ -115,7 +115,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
 
     // 识别错误，放弃这个公招位，直接返回
     if (!recurit_task.run()) {
-        m_callback(AsstMsg::SubTaskError, basic_info(), m_callback_arg);
+        callback(AsstMsg::SubTaskError, basic_info());
         click_return_button();
         return true;
     }

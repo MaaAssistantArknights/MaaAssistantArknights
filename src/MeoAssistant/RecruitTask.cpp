@@ -47,7 +47,7 @@ bool RecruitTask::_run()
     info["details"] = json::object{
         { "tags", json::array(all_tags_json_vector) }
     };
-    m_callback(AsstMsg::SubTaskExtraInfo, info, m_callback_arg);
+    callback(AsstMsg::SubTaskExtraInfo, info);
 
     /* 针对特殊Tag的额外回调消息 */
     static const std::string SeniorOper = "高级资深干员";
@@ -59,7 +59,7 @@ bool RecruitTask::_run()
         info["details"] = json::object{
             { "tag", *special_iter }
         };
-        m_callback(AsstMsg::SubTaskExtraInfo, info, m_callback_arg);
+        callback(AsstMsg::SubTaskExtraInfo, info);
         m_has_special_tag = true;
     }
 
@@ -189,7 +189,7 @@ bool RecruitTask::_run()
     }
     info["what"] = "RecruitResult";
     info["details"] = results_json;
-    m_callback(AsstMsg::SubTaskExtraInfo, info, m_callback_arg);
+    callback(AsstMsg::SubTaskExtraInfo, info);
 
     if (!result_vec.empty()) {
         /* 点击最优解的tags */
@@ -206,7 +206,7 @@ bool RecruitTask::_run()
             info["details"] = json::object{
                 { "tags", json::array(final_tags_name) }
             };
-            m_callback(AsstMsg::SubTaskExtraInfo, info, m_callback_arg);
+            callback(AsstMsg::SubTaskExtraInfo, info);
         }
     }
 

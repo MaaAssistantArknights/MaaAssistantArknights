@@ -19,11 +19,11 @@ namespace asst
 
         ProcessTask& set_tasks(std::vector<std::string> tasks_name) noexcept;
         ProcessTask& set_times_limit(std::string name, int limit);
+        ProcessTask& set_rear_delay(std::string name, int delay);
 
     protected:
         virtual bool _run() override;
 
-        void exec_stage_drops();
         void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);
 

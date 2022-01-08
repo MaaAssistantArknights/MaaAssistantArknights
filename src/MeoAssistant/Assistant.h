@@ -90,7 +90,6 @@ namespace asst
         bool append_process_task(const std::string& task_name, std::string task_chain = std::string(), int retry_times = ProcessTaskRetryTimesDefault);
         void append_callback(AsstMsg msg, json::value detail);
         void clear_cache();
-        json::value organize_stage_drop(const json::value& rec); // 整理关卡掉落的材料信息
 
         bool m_inited = false;
         std::string m_dirname;

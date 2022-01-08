@@ -10,6 +10,7 @@
 #include "Controller.h"
 #include "Logger.hpp"
 #include "Resource.h"
+#include "AbstractTaskPlugin.h"
 
 using namespace asst;
 
@@ -23,10 +24,10 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg, std::strin
 
 bool asst::AbstractTask::run()
 {
-    m_callback(AsstMsg::SubTaskStart, basic_info(), m_callback_arg);
+    callback(AsstMsg::SubTaskStart, basic_info());
     for (m_cur_retry = 0; m_cur_retry < m_retry_times; ++m_cur_retry) {
         if (_run()) {
-            m_callback(AsstMsg::SubTaskCompleted, basic_info(), m_callback_arg);
+            callback(AsstMsg::SubTaskCompleted, basic_info());
             return true;
         }
         if (need_exit()) {
@@ -36,11 +37,11 @@ bool asst::AbstractTask::run()
         sleep(delay);
 
         if (!on_run_fails()) {
-            m_callback(AsstMsg::SubTaskError, basic_info(), m_callback_arg);
+            callback(AsstMsg::SubTaskError, basic_info());
             return false;
         }
     }
-    m_callback(AsstMsg::SubTaskError, basic_info(), m_callback_arg);
+    callback(AsstMsg::SubTaskError, basic_info());
     return false;
 }
 
@@ -54,6 +55,11 @@ AbstractTask& asst::AbstractTask::set_retry_times(int times) noexcept
 {
     m_retry_times = times;
     return *this;
+}
+
+void asst::AbstractTask::clear_plugin() noexcept
+{
+    m_plugins.clear();
 }
 
 json::value asst::AbstractTask::basic_info() const
@@ -99,12 +105,30 @@ bool AbstractTask::save_image(const cv::Mat image, const std::string& dir)
 
     bool ret = cv::imwrite(filename, image);
 
-    return true;
+    return ret;
 }
 
 bool asst::AbstractTask::need_exit() const
 {
     return m_exit_flag != nullptr && *m_exit_flag == true;
+}
+
+void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
+{
+    for (TaskPluginPtr plugin : m_plugins) {
+        plugin->set_plugin_exit_flag(m_exit_flag);
+
+        if (!plugin->verify(msg, detail)) {
+            continue;
+        }
+
+        plugin->run(this);
+
+        if (plugin->block()) {
+            break;
+        }
+    }
+    m_callback(msg, detail, m_callback_arg);
 }
 
 void asst::AbstractTask::click_return_button()

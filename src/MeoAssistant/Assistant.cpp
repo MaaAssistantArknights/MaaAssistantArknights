@@ -24,6 +24,7 @@
 #include "AutoRecruitTask.h"
 #include "InfrastControlTask.h"
 #include "RuntimeStatus.h"
+#include "StageDropsTaskPlugin.h"
 
 using namespace asst;
 
@@ -210,7 +211,8 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
         .set_times_limit("MedicineConfirm", mecidine)
         .set_times_limit("StoneConfirm", stone)
         .set_times_limit("StartButton1", times)
-        .set_times_limit("StartButton2", times);
+        .set_times_limit("StartButton2", times)
+        .regiseter_plugin<StageDropsTaskPlugin>();
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -596,14 +598,10 @@ void Assistant::task_callback(AsstMsg msg, const json::value& detail, void* cust
     case AsstMsg::ConnectionError:
         p_this->stop(false);
         break;
-        //case AsstMsg::StageDrops:
-        //    more_detail = p_this->organize_stage_drop(more_detail);
-        //    break;
     default:
         break;
     }
 
-    // Todo: 有些不需要回调给外部的消息，得在这里给拦截掉
     // 加入回调消息队列，由回调消息线程外抛给外部
     p_this->append_callback(msg, std::move(more_detail));
 }
@@ -618,39 +616,5 @@ void asst::Assistant::append_callback(AsstMsg msg, json::value detail)
 void Assistant::clear_cache()
 {
     Status.clear();
-    Resrc.item().clear_drop_count();
     //Task.clear_cache();
-}
-
-json::value asst::Assistant::organize_stage_drop(const json::value& rec)
-{
-    json::value dst = rec;
-    auto& item = Resrc.item();
-    for (json::value& drop : dst["drops"].as_array()) {
-        std::string id = drop["itemId"].as_string();
-        int quantity = drop["quantity"].as_integer();
-        item.increase_drop_count(id, quantity);
-        const std::string& name = item.get_item_name(id);
-        drop["itemName"] = name.empty() ? "未知材料" : name;
-    }
-    std::vector<json::value> statistics_vec;
-    for (auto&& [id, count] : item.get_drop_count()) {
-        json::value info;
-        info["itemId"] = id;
-        const std::string& name = item.get_item_name(id);
-        info["itemName"] = name.empty() ? "未知材料" : name;
-        info["count"] = count;
-        statistics_vec.emplace_back(std::move(info));
-    }
-    //// 排个序，数量多的放前面
-    //std::sort(statistics_vec.begin(), statistics_vec.end(),
-    //    [](const json::value& lhs, const json::value& rhs) -> bool {
-    //        return lhs.at("count").as_integer() > rhs.at("count").as_integer();
-    //    });
-
-    dst["statistics"] = json::array(std::move(statistics_vec));
-
-    Log.trace("organize_stage_drop | ", dst.to_string());
-
-    return dst;
 }

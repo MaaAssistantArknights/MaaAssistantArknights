@@ -68,7 +68,7 @@ bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int 
         { "facility", facility },
         { "index", index }
     };
-    m_callback(AsstMsg::SubTaskExtraInfo, info, m_callback_arg);
+    callback(AsstMsg::SubTaskExtraInfo, info);
 
     const auto image = Ctrler.get_image();
 

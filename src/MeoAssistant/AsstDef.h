@@ -174,7 +174,6 @@ namespace asst
         ClickRand = BasicClick | 4, // 点击随机区域
         DoNothing = 0x200,          // 什么都不做
         Stop = 0x400,               // 停止当前Task
-        StageDrops = 0x800,         // 关卡结束，特化动作
         BasicSwipe = 0x1000,
         SwipeToTheLeft = BasicSwipe | 1,  // 往左划一下
         SwipeToTheRight = BasicSwipe | 2, // 往右划一下

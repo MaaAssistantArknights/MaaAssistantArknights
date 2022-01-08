@@ -65,7 +65,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 { "facility", m_facility },
                 { "index", index }
             };
-            m_callback(AsstMsg::SubTaskExtraInfo, info, m_callback_arg);
+            callback(AsstMsg::SubTaskExtraInfo, info);
         }
 
         ++index;
