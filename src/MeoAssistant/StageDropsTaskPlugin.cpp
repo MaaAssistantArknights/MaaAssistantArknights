@@ -43,6 +43,8 @@ bool asst::StageDropsTaskPlugin::run(AbstractTask* ptr)
         std::launch::async,
         std::bind(&StageDropsTaskPlugin::upload_to_penguin, this));
     m_upload_pending.emplace_back(std::move(upload_future));
+
+    return true;
 }
 
 void asst::StageDropsTaskPlugin::recognize_drops()
