@@ -13,12 +13,6 @@
 
 bool asst::CreditShoppingTask::_run()
 {
-    json::value task_start_json = json::object{
-        { "task_type", "CreditShoppingTask" },
-        { "task_chain", m_task_chain }
-    };
-    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
-
     const cv::Mat image = Ctrler.get_image();
 
     CreditShopImageAnalyzer shop_analyzer(image);
@@ -78,6 +72,5 @@ bool asst::CreditShoppingTask::_run()
         Ctrler.click(buy_it_rect);
         sleep(rare_delay);
     }
-
     return true;
 }

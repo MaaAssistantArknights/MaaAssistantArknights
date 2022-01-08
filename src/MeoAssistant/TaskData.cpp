@@ -123,9 +123,6 @@ bool asst::TaskData::parse(const json::value& json)
                 rect_json[2].as_integer(),
                 rect_json[3].as_integer());
         }
-        else if (action == "stagedrops") {
-            task_info_ptr->action = ProcessTaskAction::StageDrops;
-        }
         else if (action == "swipetotheleft") {
             task_info_ptr->action = ProcessTaskAction::SwipeToTheLeft;
         }

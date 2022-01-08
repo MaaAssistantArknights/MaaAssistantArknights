@@ -12,8 +12,8 @@
 int asst::InfrastAbstractTask::m_face_hash_thres = 0;
 int asst::InfrastAbstractTask::m_name_hash_thres = 0;
 
-asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* callback_arg)
-    : AbstractTask(callback, callback_arg)
+asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain)
+    : AbstractTask(callback, callback_arg, std::move(task_chain))
 {
     if (m_face_hash_thres == 0) {
         m_face_hash_thres = static_cast<int>(std::dynamic_pointer_cast<MatchTaskInfo>(
@@ -25,7 +25,7 @@ asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* call
     }
 }
 
-void asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexcept
+asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexcept
 {
     m_work_mode = work_mode;
     switch (work_mode) {
@@ -42,11 +42,13 @@ void asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexc
         m_work_mode_name.clear();
         break;
     }
+    return *this;
 }
 
-void asst::InfrastAbstractTask::set_mood_threshold(double mood_thres) noexcept
+asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_mood_threshold(double mood_thres) noexcept
 {
     m_mood_threshold = mood_thres;
+    return *this;
 }
 
 bool asst::InfrastAbstractTask::on_run_fails()
@@ -60,12 +62,13 @@ bool asst::InfrastAbstractTask::on_run_fails()
 
 bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int index)
 {
-    LogTraceFunction;
-    json::value enter_json = json::object{
+    json::value info = basic_info();
+    info["what"] = "EnterFacility";
+    info["details"] = json::object{
         { "facility", facility },
         { "index", index }
     };
-    m_callback(AsstMsg::EnterFacility, enter_json, m_callback_arg);
+    callback(AsstMsg::SubTaskExtraInfo, info);
 
     const auto image = Ctrler.get_image();
 
@@ -103,14 +106,14 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
 
     // 如果没找到，说明“进驻信息”这个按钮没有被点开，那就点开它
     if (!enter_analyzer.analyze()) {
-        Log.trace("ready to analyze the stationed info button");
+        Log.trace("ready to analyze the stationed basic_info button");
         OcrImageAnalyzer station_analyzer(image);
 
         const auto stationedinfo_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
             Task.get("InfrastStationedInfo"));
         station_analyzer.set_task_info(*stationedinfo_task_ptr);
         if (station_analyzer.analyze()) {
-            Log.trace("the stationed info button found");
+            Log.trace("the stationed basic_info button found");
             Ctrler.click(station_analyzer.get_result().front().rect);
             sleep(stationedinfo_task_ptr->rear_delay);
             // 点开了按钮之后，再识别一次右边的
@@ -122,7 +125,7 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
             }
         }
         else {
-            Log.error("no stationed info button");
+            Log.error("no stationed basic_info button");
             return false;
         }
     }

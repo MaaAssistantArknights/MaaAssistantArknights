@@ -82,7 +82,7 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
                     }
                 }
                 if (need_push) {
-                    m_result.emplace_back(MatchRect{ AlgorithmType::MatchTemplate, value, rect });
+                    m_result.emplace_back(MatchRect{ value, rect });
                 }
             }
         }

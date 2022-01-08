@@ -111,9 +111,9 @@ namespace asst
             return text == rhs.text && rect == rhs.rect;
         }
 
-        std::string text;
+        double score = 0.0;
         Rect rect;
-        float score;
+        std::string text;
     };
     using TextRectProc = std::function<bool(TextRect&)>;
 
@@ -136,7 +136,6 @@ namespace asst
         MatchRect& operator=(const MatchRect&) = default;
         MatchRect& operator=(MatchRect&&) noexcept = default;
 
-        AlgorithmType algorithm = AlgorithmType::Invaild;
         double score = 0.0;
         Rect rect;
     };
@@ -175,7 +174,6 @@ namespace asst
         ClickRand = BasicClick | 4, // 点击随机区域
         DoNothing = 0x200,          // 什么都不做
         Stop = 0x400,               // 停止当前Task
-        StageDrops = 0x800,         // 关卡结束，特化动作
         BasicSwipe = 0x1000,
         SwipeToTheLeft = BasicSwipe | 1,  // 往左划一下
         SwipeToTheRight = BasicSwipe | 2, // 往右划一下

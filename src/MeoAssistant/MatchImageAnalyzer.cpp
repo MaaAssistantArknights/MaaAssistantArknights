@@ -52,7 +52,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
     }
 
     if (max_val >= m_templ_thres) {
-        m_result = { AlgorithmType::MatchTemplate, max_val, rect };
+        m_result = { max_val, rect };
         return true;
     }
     else {
