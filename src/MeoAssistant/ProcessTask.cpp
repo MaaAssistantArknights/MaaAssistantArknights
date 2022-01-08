@@ -171,6 +171,9 @@ bool ProcessTask::_run()
             --m_exec_times[reduce];
         }
 
+        info["details"]["exec_times"] = exec_times;
+        m_callback(AsstMsg::SubTaskCompleted, info, m_callback_arg);
+
         // 后置固定延时
         int rear_delay = m_cur_task_ptr->rear_delay;
         if (auto iter = m_rear_delay.find(cur_name);
@@ -180,9 +183,6 @@ bool ProcessTask::_run()
         if (!sleep(rear_delay)) {
             return false;
         }
-
-        info["exec_times"] = exec_times;
-        m_callback(AsstMsg::SubTaskCompleted, info.to_string(), m_callback_arg);
 
         if (need_stop) {
             return true;
