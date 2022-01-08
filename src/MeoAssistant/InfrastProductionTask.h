@@ -13,24 +13,16 @@ namespace asst
         using InfrastAbstractTask::InfrastAbstractTask;
         virtual ~InfrastProductionTask() = default;
 
-        void set_uses_of_drone(std::string uses_of_drones) noexcept
-        {
-            m_uses_of_drones = std::move(uses_of_drones);
-        }
+        InfrastProductionTask& set_uses_of_drone(std::string uses_of_drones) noexcept;
+
 #ifdef ASST_DEBUG
     public:
 #else
         // 为了方便调试，把这两个个接口拿到public来了
     protected:
 #endif
-        void set_facility(std::string facility_name) noexcept
-        {
-            m_facility = std::move(facility_name);
-        }
-        void set_product(std::string product_name) noexcept
-        {
-            m_product = std::move(product_name);
-        }
+        InfrastProductionTask& set_facility(std::string facility_name) noexcept;
+        InfrastProductionTask& set_product(std::string product_name) noexcept;
 
     protected:
         bool shift_facility_list();
