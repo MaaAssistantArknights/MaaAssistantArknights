@@ -43,7 +43,6 @@ A Game Assistant for Arknights
 ![image](https://user-images.githubusercontent.com/18511905/148376809-a80537b7-5e97-4978-959e-afada28c03c3.png)  
 ![image](https://user-images.githubusercontent.com/18511905/148376301-c3296ff4-8df9-4573-858c-5dd2d03569b2.png)
 
-
 ## 下载地址
 
 [稳定版](https://github.com/MistEO/MeoAssistantArknights/releases/latest)  
@@ -54,9 +53,9 @@ A Game Assistant for Arknights
 ### 基本说明
 
 1. 请根据 [模拟器支持情况](docs/模拟器支持.md)，进行对应的操作。
-3. 解压压缩包，到 **没有中文或特殊符号** 的文件夹路径。
-4. 第一次运行软件，**请使用管理员权限** 打开 `MeoAsstGui.exe`。运行过一次后，后续不再需要管理员权限。
-5. 开始运行后，除`自动关机`外，所有设置均不可再修改。
+2. 解压压缩包，到 **没有中文或特殊符号** 的文件夹路径。
+3. 第一次运行软件，**请使用管理员权限** 打开 `MeoAsstGui.exe`。运行过一次后，后续不再需要管理员权限。
+4. 开始运行后，除`自动关机`外，所有设置均不可再修改。
 
 目前仅对 `16:9` 分辨率支持较好，其他分辨率勉强可用，但可能会有奇奇怪怪的问题，正在进一步适配中_(:з」∠)_
 
@@ -128,7 +127,7 @@ A Game Assistant for Arknights
 
 ### 连接错误/捕获模拟器窗口错误
 
-提示: 若是首次使用，请确认您使用管理员权限打开了本软件
+提示 : 请根据 [基本使用说明](#基本说明) 确定您的模拟器及打开方式正确
 
 - 方法 1: 使用 [自定义连接](#自定义连接) 的方式连接模拟器
 - 方法 2: 换模拟器，推荐 [蓝叠国际版](https://www.bluestacks.com/download.html)
