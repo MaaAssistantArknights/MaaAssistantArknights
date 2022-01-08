@@ -24,6 +24,7 @@
 #include "AutoRecruitTask.h"
 #include "InfrastControlTask.h"
 #include "RuntimeStatus.h"
+#include "StageDropsTaskPlugin.h"
 
 using namespace asst;
 
@@ -37,7 +38,7 @@ Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_
 
     LogTraceFunction;
 
-    bool resource_ret = Resrc.load(m_dirname + "Resource/");
+    bool resource_ret = Resrc.load(m_dirname + "resource/");
     if (!resource_ret) {
         const std::string& error = Resrc.get_last_error();
         Log.error("resource broken:", error);
@@ -45,9 +46,11 @@ Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_
             throw error;
         }
         json::value callback_json;
-        callback_json["type"] = "resource broken";
-        callback_json["what"] = error;
-        m_callback(AsstMsg::InitFaild, callback_json, m_callback_arg);
+        callback_json["what"] = "resource broken";
+        callback_json["details"] = json::object{
+            { "error", error }
+        };
+        m_callback(AsstMsg::InitFailed, callback_json, m_callback_arg);
         throw error;
     }
 
@@ -162,11 +165,10 @@ bool asst::Assistant::append_start_up(bool only_append)
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
-    task_ptr->set_task_chain("StartUp");
-    task_ptr->set_tasks({ "StartUp" });
-    task_ptr->set_times_limit("ReturnToTerminal", 0);
-    task_ptr->set_times_limit("Terminal", 0);
+    auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, "StartUp");
+    task_ptr->set_tasks({ "StartUp" })
+        .set_times_limit("ReturnToTerminal", 0)
+        .set_times_limit("Terminal", 0);
 
     m_tasks_queue.emplace(task_ptr);
 
@@ -187,32 +189,30 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
     constexpr const char* TaskChain = "Fight";
 
     // 进入选关界面（主界面的“终端”点进去）
-    auto terminal_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
-    terminal_task_ptr->set_task_chain(TaskChain);
-    terminal_task_ptr->set_tasks({ "StageBegin" });
-    terminal_task_ptr->set_times_limit("LastBattle", 0);
-    terminal_task_ptr->set_times_limit("StartButton1", 0);
-    terminal_task_ptr->set_times_limit("StartButton2", 0);
-    terminal_task_ptr->set_times_limit("MedicineConfirm", 0);
-    terminal_task_ptr->set_times_limit("StoneConfirm", 0);
+    auto terminal_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, TaskChain);
+    terminal_task_ptr->set_tasks({ "StageBegin" })
+        .set_times_limit("LastBattle", 0)
+        .set_times_limit("StartButton1", 0)
+        .set_times_limit("StartButton2", 0)
+        .set_times_limit("MedicineConfirm", 0)
+        .set_times_limit("StoneConfirm", 0);
 
     // 进入对应的关卡
-    auto stage_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
-    stage_task_ptr->set_task_chain(TaskChain);
-    stage_task_ptr->set_tasks({ stage });
-    stage_task_ptr->set_times_limit("StartButton1", 0);
-    stage_task_ptr->set_times_limit("StartButton2", 0);
-    stage_task_ptr->set_times_limit("MedicineConfirm", 0);
-    stage_task_ptr->set_times_limit("StoneConfirm", 0);
+    auto stage_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, TaskChain);
+    stage_task_ptr->set_tasks({ stage })
+        .set_times_limit("StartButton1", 0)
+        .set_times_limit("StartButton2", 0)
+        .set_times_limit("MedicineConfirm", 0)
+        .set_times_limit("StoneConfirm", 0);
 
     // 开始战斗任务
-    auto fight_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
-    fight_task_ptr->set_task_chain(TaskChain);
-    fight_task_ptr->set_tasks({ "FightBegin" });
-    fight_task_ptr->set_times_limit("MedicineConfirm", mecidine);
-    fight_task_ptr->set_times_limit("StoneConfirm", stone);
-    fight_task_ptr->set_times_limit("StartButton1", times);
-    fight_task_ptr->set_times_limit("StartButton2", times);
+    auto fight_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, TaskChain);
+    fight_task_ptr->set_tasks({ "FightBegin" })
+        .set_times_limit("MedicineConfirm", mecidine)
+        .set_times_limit("StoneConfirm", stone)
+        .set_times_limit("StartButton1", times)
+        .set_times_limit("StartButton2", times)
+        .regiseter_plugin<StageDropsTaskPlugin>();
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -260,13 +260,12 @@ bool asst::Assistant::append_mall(bool with_shopping, bool only_append)
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    const std::string task_chain = "Mall";
+    const std::string TaskChain = "Mall";
 
-    append_process_task("MallBegin", task_chain);
+    append_process_task("MallBegin", TaskChain);
 
     if (with_shopping) {
-        auto shopping_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this);
-        shopping_task_ptr->set_task_chain(task_chain);
+        auto shopping_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this, TaskChain);
         m_tasks_queue.emplace(shopping_task_ptr);
     }
 
@@ -290,10 +289,9 @@ bool Assistant::append_process_task(const std::string& task_name, std::string ta
         task_chain = task_name;
     }
 
-    auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this);
-    task_ptr->set_task_chain(task_chain);
-    task_ptr->set_tasks({ task_name });
-    task_ptr->set_retry_times(retry_times);
+    auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, task_chain);
+    task_ptr->set_tasks({ task_name })
+        .set_retry_times(retry_times);
 
     m_tasks_queue.emplace(task_ptr);
 
@@ -314,14 +312,13 @@ bool asst::Assistant::append_recruit(unsigned max_times, const std::vector<int>&
 
     append_process_task("RecruitBegin", TaskChain);
 
-    auto recruit_task_ptr = std::make_shared<AutoRecruitTask>(task_callback, (void*)this);
-    recruit_task_ptr->set_max_times(max_times);
-    recruit_task_ptr->set_need_refresh(need_refresh);
-    recruit_task_ptr->set_use_expedited(use_expedited);
-    recruit_task_ptr->set_select_level(select_level);
-    recruit_task_ptr->set_confirm_level(confirm_level);
-    recruit_task_ptr->set_task_chain(TaskChain);
-    recruit_task_ptr->set_retry_times(AutoRecruitTaskRetryTimesDefault);
+    auto recruit_task_ptr = std::make_shared<AutoRecruitTask>(task_callback, (void*)this, TaskChain);
+    recruit_task_ptr->set_max_times(max_times)
+        .set_need_refresh(need_refresh)
+        .set_use_expedited(use_expedited)
+        .set_select_level(select_level)
+        .set_confirm_level(confirm_level)
+        .set_retry_times(AutoRecruitTaskRetryTimesDefault);
 
     m_tasks_queue.emplace(recruit_task_ptr);
 
@@ -340,11 +337,10 @@ bool Assistant::append_debug()
 
     {
         constexpr static const char* DebugTaskChain = "Debug";
-        auto shift_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this);
+        auto shift_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this, DebugTaskChain);
         shift_task_ptr->set_work_mode(infrast::WorkMode::Aggressive);
         shift_task_ptr->set_facility("Control");
         shift_task_ptr->set_product("MoodAddition");
-        shift_task_ptr->set_task_chain(DebugTaskChain);
         m_tasks_queue.emplace(shift_task_ptr);
     }
 
@@ -361,10 +357,9 @@ bool Assistant::start_recruit_calc(const std::vector<int>& select_level, bool se
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    auto task_ptr = std::make_shared<RecruitTask>(task_callback, (void*)this);
-    task_ptr->set_param(select_level, set_time);
+    auto task_ptr = std::make_shared<RecruitTask>(task_callback, (void*)this, "RecruitCalc");
     task_ptr->set_retry_times(OpenRecruitTaskRetryTimesDefault);
-    task_ptr->set_task_chain("RecruitCalc");
+    task_ptr->set_param(select_level, set_time);
     m_tasks_queue.emplace(task_ptr);
 
     return start(false);
@@ -390,45 +385,37 @@ bool asst::Assistant::append_infrast(infrast::WorkMode work_mode, const std::vec
 
     append_infrast_begin();
 
-    auto info_task_ptr = std::make_shared<InfrastInfoTask>(task_callback, (void*)this);
-    info_task_ptr->set_work_mode(work_mode);
-    info_task_ptr->set_task_chain(InfrastTaskCahin);
-    info_task_ptr->set_mood_threshold(dorm_threshold);
+    auto info_task_ptr = std::make_shared<InfrastInfoTask>(task_callback, (void*)this, InfrastTaskCahin);
+    info_task_ptr->set_work_mode(work_mode)
+        .set_mood_threshold(dorm_threshold);
 
     m_tasks_queue.emplace(info_task_ptr);
 
     // 因为后期要考虑多任务间的联动等，所以这些任务的声明暂时不放到for循环中
-    auto mfg_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this);
-    mfg_task_ptr->set_work_mode(work_mode);
-    mfg_task_ptr->set_task_chain(InfrastTaskCahin);
-    mfg_task_ptr->set_mood_threshold(dorm_threshold);
-    mfg_task_ptr->set_uses_of_drone(uses_of_drones);
-    auto trade_task_ptr = std::make_shared<InfrastTradeTask>(task_callback, (void*)this);
-    trade_task_ptr->set_work_mode(work_mode);
-    trade_task_ptr->set_task_chain(InfrastTaskCahin);
-    trade_task_ptr->set_mood_threshold(dorm_threshold);
-    trade_task_ptr->set_uses_of_drone(uses_of_drones);
-    auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this);
-    power_task_ptr->set_work_mode(work_mode);
-    power_task_ptr->set_task_chain(InfrastTaskCahin);
-    power_task_ptr->set_mood_threshold(dorm_threshold);
-    auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this);
-    office_task_ptr->set_work_mode(work_mode);
-    office_task_ptr->set_task_chain(InfrastTaskCahin);
-    office_task_ptr->set_mood_threshold(dorm_threshold);
-    auto recpt_task_ptr = std::make_shared<InfrastReceptionTask>(task_callback, (void*)this);
-    recpt_task_ptr->set_work_mode(work_mode);
-    recpt_task_ptr->set_task_chain(InfrastTaskCahin);
-    recpt_task_ptr->set_mood_threshold(dorm_threshold);
-    auto control_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this);
-    control_task_ptr->set_work_mode(work_mode);
-    control_task_ptr->set_task_chain(InfrastTaskCahin);
-    control_task_ptr->set_mood_threshold(dorm_threshold);
+    auto mfg_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this, InfrastTaskCahin);
+    mfg_task_ptr->set_uses_of_drone(uses_of_drones)
+        .set_work_mode(work_mode)
+        .set_mood_threshold(dorm_threshold);
+    auto trade_task_ptr = std::make_shared<InfrastTradeTask>(task_callback, (void*)this, InfrastTaskCahin);
+    trade_task_ptr->set_uses_of_drone(uses_of_drones)
+        .set_work_mode(work_mode)
+        .set_mood_threshold(dorm_threshold);
+    auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this, InfrastTaskCahin);
+    power_task_ptr->set_work_mode(work_mode)
+        .set_mood_threshold(dorm_threshold);
+    auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this, InfrastTaskCahin);
+    office_task_ptr->set_work_mode(work_mode)
+        .set_mood_threshold(dorm_threshold);
+    auto recpt_task_ptr = std::make_shared<InfrastReceptionTask>(task_callback, (void*)this, InfrastTaskCahin);
+    recpt_task_ptr->set_work_mode(work_mode)
+        .set_mood_threshold(dorm_threshold);
+    auto control_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this, InfrastTaskCahin);
+    control_task_ptr->set_work_mode(work_mode)
+        .set_mood_threshold(dorm_threshold);
 
-    auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this);
-    dorm_task_ptr->set_work_mode(work_mode);
-    dorm_task_ptr->set_task_chain(InfrastTaskCahin);
-    dorm_task_ptr->set_mood_threshold(dorm_threshold);
+    auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this, InfrastTaskCahin);
+    dorm_task_ptr->set_work_mode(work_mode)
+        .set_mood_threshold(dorm_threshold);
 
     for (const auto& facility : order) {
         if (facility == "Dorm") {
@@ -529,12 +516,13 @@ void Assistant::working_proc()
             auto task_ptr = m_tasks_queue.front();
 
             std::string cur_taskchain = task_ptr->get_task_chain();
-            json::value task_json = json::object{
-                {"task_chain", cur_taskchain},
+            json::value callback_json = json::object{
+                {"taskchain", cur_taskchain},
+                {"pre_taskchain", pre_taskchain}
             };
 
             if (cur_taskchain != pre_taskchain) {
-                task_callback(AsstMsg::TaskChainStart, task_json, this);
+                task_callback(AsstMsg::TaskChainStart, callback_json, this);
                 pre_taskchain = cur_taskchain;
             }
 
@@ -542,17 +530,23 @@ void Assistant::working_proc()
             bool ret = task_ptr->run();
             m_tasks_queue.pop();
 
-            if (!ret) {
-                task_callback(AsstMsg::TaskError, task_json, this);
+            if (!m_tasks_queue.empty()) {
+                callback_json["next_taskchain"] = m_tasks_queue.front()->get_task_chain();
             }
-            else if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
-                task_callback(AsstMsg::TaskChainCompleted, task_json, this);
-            }
-            if (m_tasks_queue.empty()) {
-                task_callback(AsstMsg::AllTasksCompleted, task_json, this);
+            else {
+                callback_json["next_taskchain"] = std::string();
             }
 
-            //clear_cache();
+            if (!ret) {
+                task_callback(AsstMsg::TaskChainError, callback_json, this);
+            }
+            else if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
+                task_callback(AsstMsg::TaskChainCompleted, callback_json, this);
+            }
+
+            if (m_tasks_queue.empty()) {
+                task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
+            }
 
             auto& delay = Resrc.cfg().get_options().task_delay;
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay),
@@ -562,7 +556,6 @@ void Assistant::working_proc()
             pre_taskchain.clear();
             m_thread_idle = true;
             Log.flush();
-            //controller.set_idle(true);
             m_condvar.wait(lock);
         }
     }
@@ -600,18 +593,15 @@ void Assistant::task_callback(AsstMsg msg, const json::value& detail, void* cust
     Assistant* p_this = (Assistant*)custom_arg;
     json::value more_detail = detail;
     switch (msg) {
-    case AsstMsg::PtrIsNull:
-    case AsstMsg::ImageIsEmpty:
+    case AsstMsg::InternalError:
+    case AsstMsg::InitFailed:
+    case AsstMsg::ConnectionError:
         p_this->stop(false);
-        break;
-    case AsstMsg::StageDrops:
-        more_detail = p_this->organize_stage_drop(more_detail);
         break;
     default:
         break;
     }
 
-    // Todo: 有些不需要回调给外部的消息，得在这里给拦截掉
     // 加入回调消息队列，由回调消息线程外抛给外部
     p_this->append_callback(msg, std::move(more_detail));
 }
@@ -626,39 +616,5 @@ void asst::Assistant::append_callback(AsstMsg msg, json::value detail)
 void Assistant::clear_cache()
 {
     Status.clear();
-    Resrc.item().clear_drop_count();
     //Task.clear_cache();
-}
-
-json::value asst::Assistant::organize_stage_drop(const json::value& rec)
-{
-    json::value dst = rec;
-    auto& item = Resrc.item();
-    for (json::value& drop : dst["drops"].as_array()) {
-        std::string id = drop["itemId"].as_string();
-        int quantity = drop["quantity"].as_integer();
-        item.increase_drop_count(id, quantity);
-        const std::string& name = item.get_item_name(id);
-        drop["itemName"] = name.empty() ? "未知材料" : name;
-    }
-    std::vector<json::value> statistics_vec;
-    for (auto&& [id, count] : item.get_drop_count()) {
-        json::value info;
-        info["itemId"] = id;
-        const std::string& name = item.get_item_name(id);
-        info["itemName"] = name.empty() ? "未知材料" : name;
-        info["count"] = count;
-        statistics_vec.emplace_back(std::move(info));
-    }
-    //// 排个序，数量多的放前面
-    //std::sort(statistics_vec.begin(), statistics_vec.end(),
-    //    [](const json::value& lhs, const json::value& rhs) -> bool {
-    //        return lhs.at("count").as_integer() > rhs.at("count").as_integer();
-    //    });
-
-    dst["statistics"] = json::array(std::move(statistics_vec));
-
-    Log.trace("organize_stage_drop | ", dst.to_string());
-
-    return dst;
 }

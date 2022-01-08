@@ -1,0 +1,1 @@
+sh ./zip_release.sh

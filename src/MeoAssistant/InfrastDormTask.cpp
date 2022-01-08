@@ -11,12 +11,6 @@ const std::string asst::InfrastDormTask::FacilityName = "Dorm";
 
 bool asst::InfrastDormTask::_run()
 {
-    json::value task_start_json = json::object{
-        { "task_type", "InfrastDormTask" },
-        { "task_chain", m_task_chain }
-    };
-    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
-
     for (; m_cur_dorm_index < m_max_num_of_dorm; ++m_cur_dorm_index) {
         if (need_exit()) {
             return false;

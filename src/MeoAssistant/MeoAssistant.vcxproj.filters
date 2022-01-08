@@ -64,6 +64,12 @@
     <Filter Include="头文件\Requester">
       <UniqueIdentifier>{6cd85910-b561-4cf3-85a2-20be3cd1dd76}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\TaskPlugin">
+      <UniqueIdentifier>{34a52261-b34b-49ac-8102-22b0125617f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\TaskPlugin">
+      <UniqueIdentifier>{f5faaa93-ae82-472e-9c59-9eccc29294a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h">
@@ -216,11 +222,14 @@
     <ClInclude Include="InfrastControlTask.h">
       <Filter>头文件\Task\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="PenguinUploader.h">
-      <Filter>头文件\Requester</Filter>
-    </ClInclude>
     <ClInclude Include="AipOcr.h">
       <Filter>头文件\Requester</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractTaskPlugin.h">
+      <Filter>头文件\TaskPlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="StageDropsTaskPlugin.h">
+      <Filter>头文件\TaskPlugin</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -256,9 +265,6 @@
     </ClCompile>
     <ClCompile Include="CreditShoppingTask.cpp">
       <Filter>源文件\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="PenguinUploader.cpp">
-      <Filter>源文件\Requester</Filter>
     </ClCompile>
     <ClCompile Include="ItemConfiger.cpp">
       <Filter>源文件\Resource</Filter>
@@ -358,6 +364,12 @@
     </ClCompile>
     <ClCompile Include="AipOcr.cpp">
       <Filter>源文件\Requester</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractTaskPlugin.cpp">
+      <Filter>源文件\TaskPlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="StageDropsTaskPlugin.cpp">
+      <Filter>源文件\TaskPlugin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

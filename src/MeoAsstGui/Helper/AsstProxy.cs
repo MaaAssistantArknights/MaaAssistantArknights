@@ -23,7 +23,7 @@ namespace MeoAsstGui
     {
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
-        private delegate void ProcCallbckMsg(AsstMsg msg, JObject detail);
+        private delegate void ProcCallbckMsg(AsstMsg msg, JObject details);
 
         [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstCreate(string dirname);
 
@@ -80,12 +80,31 @@ namespace MeoAsstGui
             tvm.Idle = true;
         }
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true)]
+        internal static extern int lstrlenA(IntPtr ptr);
+
+        private static string PtrToStringCustom(IntPtr ptr, System.Text.Encoding enc)
+        {
+            if (IntPtr.Zero == ptr)
+            {
+                return null;
+            }
+            if (lstrlenA(ptr) == 0)
+            {
+                return string.Empty;
+            }
+            int len = lstrlenA(ptr);
+            Byte[] bytes = new Byte[len + 1];
+            Marshal.Copy(ptr, bytes, 0, len + 1);
+            return enc.GetString(bytes);
+        }
+
         private void CallbackFunction(int msg, IntPtr json_buffer, IntPtr custom_arg)
         {
-            string json_str = Marshal.PtrToStringAnsi(json_buffer);
+            string json_str = PtrToStringCustom(json_buffer, System.Text.Encoding.UTF8);
             //Console.WriteLine(json_str);
             JObject json = (JObject)JsonConvert.DeserializeObject(json_str);
-            ProcCallbckMsg dlg = new ProcCallbckMsg(proc_msg);
+            ProcCallbckMsg dlg = new ProcCallbckMsg(procMsg);
             Execute.OnUIThread(() =>
             {
                 dlg((AsstMsg)msg, json);
@@ -96,80 +115,171 @@ namespace MeoAsstGui
         private readonly IContainer _container;
         private IntPtr _ptr;
 
-        private void proc_msg(AsstMsg msg, JObject detail)
+        private void procMsg(AsstMsg msg, JObject details)
         {
-            var tvm = _container.Get<TaskQueueViewModel>();
             switch (msg)
             {
-                case AsstMsg.TaskStart:
+                case AsstMsg.InternalError:
+                    break;
+
+                case AsstMsg.InitFailed:
+                    _windowManager.ShowMessageBox("初始化错误！请检查是否使用了中文路径", "错误");
+                    Environment.Exit(0);
+                    break;
+
+                case AsstMsg.ConnectionError:
+                    break;
+
+                case AsstMsg.TaskChainError:
+                case AsstMsg.TaskChainStart:
+                case AsstMsg.TaskChainExtraInfo:
+                case AsstMsg.AllTasksCompleted:
+                    procTaskChainMsg(msg, details);
+                    break;
+
+                case AsstMsg.SubTaskError:
+                case AsstMsg.SubTaskStart:
+                case AsstMsg.SubTaskCompleted:
+                case AsstMsg.SubTaskExtraInfo:
+                    procSubTaskMsg(msg, details);
+                    break;
+            }
+        }
+
+        private void procTaskChainMsg(AsstMsg msg, JObject details)
+        {
+            string taskChain = details["taskchain"].ToString();
+
+            if (taskChain == "RecruitCalc")
+            {
+                if (msg == AsstMsg.TaskChainError)
+                {
+                    var recruitModel = _container.Get<RecruitViewModel>();
+                    recruitModel.RecruitInfo = "识别错误！";
+                }
+                return;
+            }
+            var mainModel = _container.Get<TaskQueueViewModel>();
+
+            switch (msg)
+            {
+                case AsstMsg.TaskChainError:
+                    mainModel.AddLog("任务出错：" + taskChain, "darkred");
                     break;
 
                 case AsstMsg.TaskChainStart:
-                    {
-                        string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "RecruitCalc")
-                        {
-                            break;
-                        }
-                        tvm.AddLog("开始任务：" + taskChain);
-                    }
+                    mainModel.AddLog("开始任务：" + taskChain);
                     break;
 
-                case AsstMsg.TaskCompleted:
-                    {
-                        string taskName = detail["name"].ToString();
-                        if (taskName == "StartButton2")
-                        {
-                            tvm.AddLog("已开始行动 " + (int)detail["exec_times"] + " 次", "darkcyan");
-                        }
-                        else if (taskName == "MedicineConfirm")
-                        {
-                            tvm.AddLog("已吃药 " + (int)detail["exec_times"] + " 个", "darkcyan");
-                        }
-                        else if (taskName == "StoneConfirm")
-                        {
-                            tvm.AddLog("已碎石 " + (int)detail["exec_times"] + " 颗", "darkcyan");
-                        }
-                        else if (taskName == "RecruitRefreshConfirm")
-                        {
-                            tvm.AddLog("已刷新标签", "darkcyan");
-                        }
-                        else if (taskName == "RecruitConfirm")
-                        {
-                            tvm.AddLog("已确认招募", "darkcyan");
-                        }
-                    }
-                    break;
-
-                case AsstMsg.TaskChainCompleted:
-                    {
-                        string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "RecruitCalc")
-                        {
-                            break;
-                        }
-                        tvm.AddLog("完成任务：" + taskChain);
-                    }
+                case AsstMsg.TaskChainExtraInfo:
                     break;
 
                 case AsstMsg.AllTasksCompleted:
-                    {
-                        string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "RecruitCalc")
-                        {
-                            break;
-                        }
-                        tvm.Idle = true;
-                        tvm.AddLog("任务已全部完成");
-                        new ToastContentBuilder().AddText("任务已全部完成！").Show();
-                        tvm.CheckAndShutdown();
-                    }
+                    mainModel.Idle = true;
+                    mainModel.AddLog("任务已全部完成");
+                    new ToastContentBuilder().AddText("任务已全部完成！").Show();
+                    mainModel.CheckAndShutdown();
+                    break;
+            }
+        }
+
+        private void procSubTaskMsg(AsstMsg msg, JObject details)
+        {
+            string taskChain = details["taskchain"].ToString();
+            string classType = details["class"].ToString();
+
+            var mainModel = _container.Get<TaskQueueViewModel>();
+            switch (msg)
+            {
+                case AsstMsg.SubTaskError:
+                    procSubTaskError(details);
                     break;
 
-                case AsstMsg.StageDrops:
+                case AsstMsg.SubTaskStart:
+                    procSubTaskStart(details);
+                    break;
+
+                case AsstMsg.SubTaskCompleted:
+                    procSubTaskCompleted(details);
+                    break;
+
+                case AsstMsg.SubTaskExtraInfo:
+                    procSubTaskExtraInfo(details);
+                    break;
+            }
+        }
+
+        private void procSubTaskError(JObject details)
+        {
+            string classType = details["class"].ToString();
+
+            var mainModel = _container.Get<TaskQueueViewModel>();
+
+            if (classType == "class asst::AutoRecruitTask")
+            {
+                mainModel.AddLog("公招识别错误，已返回", "darkred");
+            }
+        }
+
+        private void procSubTaskStart(JObject details)
+        {
+            string classType = details["class"].ToString();
+
+            var mainModel = _container.Get<TaskQueueViewModel>();
+            if (classType == "class asst::ProcessTask")
+            {
+                string taskName = details["details"]["task"].ToString();
+                int execTimes = (int)details["details"]["exec_times"];
+
+                switch (taskName)
+                {
+                    case "StartButton2":
+                        mainModel.AddLog("已开始行动 " + execTimes + " 次", "darkcyan");
+                        break;
+
+                    case "MedicineConfirm":
+                        mainModel.AddLog("已吃药 " + execTimes + " 个", "darkcyan");
+                        break;
+
+                    case "StoneConfirm":
+                        mainModel.AddLog("已碎石 " + execTimes + " 颗", "darkcyan");
+                        break;
+
+                    case "RecruitRefreshConfirm":
+                        mainModel.AddLog("已刷新标签", "darkcyan");
+                        break;
+
+                    case "RecruitConfirm":
+                        mainModel.AddLog("已确认招募", "darkcyan");
+                        break;
+                }
+            }
+        }
+
+        private void procSubTaskCompleted(JObject details)
+        {
+        }
+
+        private void procSubTaskExtraInfo(JObject details)
+        {
+            string taskChain = details["taskchain"].ToString();
+
+            if (taskChain == "RecruitCalc")
+            {
+                procRecruitCalcMsg(details);
+                return;
+            }
+
+            string what = details["what"].ToString();
+            var subTaskDetails = details["details"];
+
+            var mainModel = _container.Get<TaskQueueViewModel>();
+            switch (what)
+            {
+                case "StageDrops":
                     {
                         string cur_drops = "";
-                        JArray drops = (JArray)detail["drops"];
+                        JArray drops = (JArray)subTaskDetails["drops"];
                         foreach (var item in drops)
                         {
                             string itemName = item["itemName"].ToString();
@@ -177,10 +287,10 @@ namespace MeoAsstGui
                             cur_drops += $"{itemName} : {count}\n";
                         }
                         cur_drops = cur_drops.EndsWith("\n") ? cur_drops.TrimEnd('\n') : "无";
-                        tvm.AddLog("当次掉落：\n" + cur_drops);
+                        mainModel.AddLog("当次掉落：\n" + cur_drops);
 
                         string all_drops = "";
-                        JArray statistics = (JArray)detail["statistics"];
+                        JArray statistics = (JArray)subTaskDetails["statistics"];
                         foreach (var item in statistics)
                         {
                             string itemName = item["itemName"].ToString();
@@ -188,128 +298,103 @@ namespace MeoAsstGui
                             all_drops += $"{itemName} : {count}\n";
                         }
                         all_drops = all_drops.EndsWith("\n") ? all_drops.TrimEnd('\n') : "无";
-                        tvm.AddLog("掉落统计：\n" + all_drops);
+                        mainModel.AddLog("掉落统计：\n" + all_drops);
                     }
                     break;
 
-                case AsstMsg.TextDetected:
+                case "EnterFacility":
+                    mainModel.AddLog("当前设施：" + subTaskDetails["facility"] + " " + (int)subTaskDetails["index"]);
                     break;
 
-                case AsstMsg.RecruitTagsDetected:
-                case AsstMsg.OcrResultError:
-                case AsstMsg.RecruitSpecialTag:
-                case AsstMsg.RecruitResult:
-                case AsstMsg.RecruitSelected:
-                case AsstMsg.RecruitError:
-                    recruit_proc_msg(msg, detail);
-                    break;
-                /* Infrast Msg */
-                case AsstMsg.InfrastSkillsDetected:
-                case AsstMsg.InfrastSkillsResult:
-                case AsstMsg.InfrastComb:
-                case AsstMsg.EnterFacility:
-                case AsstMsg.FacilityInfo:
-                    infrast_proc_msg(msg, detail);
-                    break;
-
-                case AsstMsg.TaskError:
+                case "RecruitTagsDetected":
                     {
-                        string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "RecruitCalc")
+                        JArray tags = (JArray)subTaskDetails["tags"];
+                        string log_content = "";
+                        foreach (var tag_name in tags)
                         {
-                            var rvm = _container.Get<RecruitViewModel>();
-                            rvm.RecruitInfo = "识别错误！";
+                            string tag_str = tag_name.ToString();
+                            log_content += tag_str + "\n";
+                        }
+                        log_content = log_content.EndsWith("\n") ? log_content.TrimEnd('\n') : "错误";
+                        mainModel.AddLog("公招识别结果：\n" + log_content);
+                    }
+                    break;
+
+                case "RecruitSpecialTag":
+                    {
+                        string special = subTaskDetails["tag"].ToString();
+                        new ToastContentBuilder().AddText("公招提示：" + special).Show();
+                    }
+                    break;
+
+                case "RecruitResult":
+                    {
+                        int level = (int)subTaskDetails["level"];
+                        if (level >= 5)
+                        {
+                            new ToastContentBuilder().AddText("公招出 " + level + " 星了哦！").Show();
+                            mainModel.AddLog(level + " 星 Tags", "darkorange", "Bold");
                         }
                         else
                         {
-                            tvm.AddLog("任务出错：" + detail["task_chain"].ToString(), "darkred");
+                            mainModel.AddLog(level + " 星 Tags", "darkcyan");
                         }
                     }
                     break;
 
-                case AsstMsg.InitFaild:
-                    _windowManager.ShowMessageBox("初始化错误！请检查是否使用了中文路径", "错误");
-                    Environment.Exit(0);
-                    break;
-            }
-        }
-
-        private void infrast_proc_msg(AsstMsg msg, JObject detail)
-        {
-            var tvm = _container.Get<TaskQueueViewModel>();
-            switch (msg)
-            {
-                case AsstMsg.InfrastSkillsDetected:
-                    break;
-
-                case AsstMsg.InfrastSkillsResult:
-                    break;
-
-                case AsstMsg.InfrastComb:
-                    break;
-
-                case AsstMsg.EnterFacility:
-                    tvm.AddLog("当前设施：" + detail["facility"] + " " + (int)detail["index"]);
-                    break;
-
-                case AsstMsg.FacilityInfo:
-                    break;
-
-                case AsstMsg.TaskChainCompleted:
-                    break;
-            }
-        }
-
-        private void recruit_proc_msg(AsstMsg msg, JObject detail)
-        {
-            var rvm = _container.Get<RecruitViewModel>();
-            var tvm = _container.Get<TaskQueueViewModel>();
-            switch (msg)
-            {
-                case AsstMsg.TextDetected:
-                    break;
-
-                case AsstMsg.RecruitTagsDetected:
+                case "RecruitTagsSelected":
                     {
-                        JArray tags = (JArray)detail["tags"];
-                        string log_content = "";
+                        JArray selected = (JArray)details["tags"];
+                        string selected_log = "";
+                        foreach (var tag in selected)
+                        {
+                            selected_log += tag.ToString() + "\n";
+                        }
+                        selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : "无";
+
+                        mainModel.AddLog("选择 Tags：\n" + selected_log);
+                    }
+                    break;
+            }
+        }
+
+        private void procRecruitCalcMsg(JObject details)
+        {
+            string what = details["what"].ToString();
+            var subTaskDetails = details["details"];
+
+            var recruitModel = _container.Get<RecruitViewModel>();
+
+            switch (what)
+            {
+                case "RecruitTagsDetected":
+                    {
+                        JArray tags = (JArray)subTaskDetails["tags"];
                         string info_content = "识别结果:    ";
                         foreach (var tag_name in tags)
                         {
                             string tag_str = tag_name.ToString();
                             info_content += tag_str + "    ";
-                            log_content += tag_str + "\n";
                         }
-                        string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "RecruitCalc")
-                        {
-                            rvm.RecruitInfo = info_content;
-                        }
-                        else
-                        {
-                            log_content = log_content.EndsWith("\n") ? log_content.TrimEnd('\n') : "错误";
-                            tvm.AddLog("公招识别结果：\n" + log_content);
-                        }
+                        recruitModel.RecruitInfo = info_content;
                     }
                     break;
 
-                case AsstMsg.OcrResultError:
-                    rvm.RecruitInfo = "识别错误！";
+                case "RecruitSpecialTag":
+                    {
+                        string special = subTaskDetails["tag"].ToString();
+                        new ToastContentBuilder().AddText("公招提示：" + special).Show();
+                    }
                     break;
 
-                case AsstMsg.RecruitSpecialTag:
-                    string special = detail["tag"].ToString();
-                    new ToastContentBuilder().AddText("公招提示：" + special).Show();
-                    break;
-
-                case AsstMsg.RecruitResult:
+                case "RecruitResult":
                     {
                         string resultContent = "";
-                        JArray result_array = (JArray)detail["result"];
-                        int combs_level = (int)detail["maybe_level"];
+                        JArray result_array = (JArray)subTaskDetails["result"];
+                        int level = (int)subTaskDetails["level"];
                         foreach (var combs in result_array)
                         {
-                            int tag_level = (int)combs["tag_level"];
+                            int tag_level = (int)combs["level"];
                             resultContent += tag_level + "星Tags:  ";
                             foreach (var tag in (JArray)combs["tags"])
                             {
@@ -322,50 +407,12 @@ namespace MeoAsstGui
                             }
                             resultContent += "\n\n";
                         }
-                        string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "RecruitCalc")
+                        recruitModel.RecruitResult = resultContent;
+                        if (level >= 5)
                         {
-                            rvm.RecruitResult = resultContent;
-                        }
-                        if (combs_level >= 5)
-                        {
-                            new ToastContentBuilder().AddText("公招出 " + combs_level + " 星了哦！").Show();
-                            if (taskChain != "RecruitCalc")
-                            {
-                                tvm.AddLog(combs_level + " 星Tags", "darkorange", "Bold");
-                            }
-                        }
-                        else
-                        {
-                            if (taskChain != "RecruitCalc")
-                            {
-                                tvm.AddLog(combs_level + " 星Tags", "darkcyan");
-                            }
+                            new ToastContentBuilder().AddText("公招出 " + level + " 星了哦！").Show();
                         }
                     }
-
-                    break;
-
-                case AsstMsg.RecruitSelected:
-                    {
-                        string taskChain = detail["task_chain"].ToString();
-                        if (taskChain == "RecruitCalc")
-                        {
-                            break;
-                        }
-                        JArray selected = (JArray)detail["tags"];
-                        string selected_log = "";
-                        foreach (var tag in selected)
-                        {
-                            selected_log += tag.ToString() + "\n";
-                        }
-                        selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : "无";
-
-                        tvm.AddLog("选择Tags：\n" + selected_log);
-                        break;
-                    }
-                case AsstMsg.RecruitError:
-                    tvm.AddLog("公招识别错误，已返回", "darkred");
                     break;
             }
         }
@@ -447,45 +494,21 @@ namespace MeoAsstGui
 
     public enum AsstMsg
     {
-        /* Error Msg */
-        PtrIsNull,                          // 指针为空
-        ImageIsEmpty,                       // 图像为空
-        WindowMinimized,                    // [已弃用] 窗口被最小化了
-        InitFaild,                          // 初始化失败
-        TaskError,                          // 任务错误（任务一直出错，retry次数达到上限）
-        OcrResultError,                     // Ocr识别结果错误
-        /* Info Msg: about Task */
-        TaskStart = 1000,                   // 任务开始
-        TaskMatched,                        // 任务匹配成功
-        ReachedLimit,                       // 单个原子任务达到次数上限
-        ReadyToSleep,                       // 准备开始睡眠
-        EndOfSleep,                         // 睡眠结束
-        AppendProcessTask,                  // 新增流程任务，Assistant内部消息，外部不需要处理
-        AppendTask,                         // 新增任务，Assistant内部消息，外部不需要处理
-        TaskCompleted,                      // 单个原子任务完成
-        PrintWindow,                        // 截图消息
-        ProcessTaskStopAction,              // 流程任务执行到了Stop的动作
-        TaskChainCompleted,                 // 任务链完成
-        ProcessTaskNotMatched,              // 流程任务识别错误
-        AllTasksCompleted,                  // 所有任务完成
-        TaskChainStart,                     // 开始任务链
-        /* Info Msg: about Identify */
-        TextDetected = 2000,                // 识别到文字
-        ImageFindResult,                    // 查找图像的结果
-        ImageMatched,                       // 图像匹配成功
-        StageDrops,                         // 关卡掉落信息
-        /* Open Recruit Msg */
-        RecruitTagsDetected = 3000,         // 公招识别到了Tags
-        RecruitSpecialTag,                  // 公招识别到了特殊的Tag
-        RecruitResult,                      // 公开招募结果
-        RecruitSelected,                    // 选择了Tags
-        RecruitError,                       // 公招错误
-        /* Infrast Msg */
-        InfrastSkillsDetected = 4000,  // 识别到了基建技能（当前页面）
-        InfrastSkillsResult,           // 识别到的所有可用技能
-        InfrastComb,                   // 当前房间的最优干员组合
-        EnterFacility,                 // 进入某个房间
-        FacilityInfo,                  // 当前设施信息
+        /* Global Info */
+        InternalError = 0,          // 内部错误
+        InitFailed,                 // 初始化失败
+        ConnectionError,            // 连接相关错误
+        AllTasksCompleted,          // 全部任务完成
+        /* TaskChain Info */
+        TaskChainError = 10000,     // 任务链执行/识别错误
+        TaskChainStart,             // 任务链开始
+        TaskChainCompleted,         // 任务链完成
+        TaskChainExtraInfo,         // 任务链额外信息
+        /* SubTask Info */
+        SubTaskError = 20000,       // 原子任务执行/识别错误
+        SubTaskStart,               // 原子任务开始
+        SubTaskCompleted,           // 原子任务完成
+        SubTaskExtraInfo            // 原子任务额外信息
     };
 
     public enum InfrastWorkMode

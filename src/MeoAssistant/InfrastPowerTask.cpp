@@ -6,12 +6,6 @@ const std::string asst::InfrastPowerTask::FacilityName = "Power";
 
 bool asst::InfrastPowerTask::_run()
 {
-    json::value task_start_json = json::object{
-        { "task_type", "InfrastPowerTask" },
-        { "task_chain", m_task_chain }
-    };
-    m_callback(AsstMsg::TaskStart, task_start_json, m_callback_arg);
-
     set_facility(FacilityName);
     m_all_available_opers.clear();
 

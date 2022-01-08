@@ -7,7 +7,6 @@
 
 #include "Assistant.h"
 #include "AsstDef.h"
-#include "AsstUtils.hpp"
 #include "Version.h"
 
 #if 0
@@ -38,7 +37,7 @@ AsstCallback _callback = nullptr;
 
 void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg)
 {
-    _callback(static_cast<int>(msg), asst::utils::utf8_to_gbk(json.to_string()).c_str(), custom_arg);
+    _callback(static_cast<int>(msg), json.to_string().c_str(), custom_arg);
 }
 
 asst::Assistant* AsstCreate(const char* dirname)
@@ -62,9 +61,13 @@ asst::Assistant* AsstCreateEx(const char* dirname, AsstCallback callback, void* 
         _callback = callback;
         return new asst::Assistant(dirname, CallbackTrans, custom_arg);
     }
-    catch (...) {
-        return nullptr;
+    catch (std::exception& e) {
+        std::cerr << "create failed: " << e.what() << std::endl;
     }
+    catch (...) {
+        std::cerr << "create failed: unknown exception" << std::endl;
+    }
+    return nullptr;
 }
 
 void AsstDestroy(asst::Assistant* p_asst)
