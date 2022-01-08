@@ -171,6 +171,10 @@ namespace MeoAsstGui
                     mainModel.AddLog("开始任务：" + taskChain);
                     break;
 
+                case AsstMsg.TaskChainCompleted:
+                    mainModel.AddLog("完成任务：" + taskChain);
+                    break;
+
                 case AsstMsg.TaskChainExtraInfo:
                     break;
 
