@@ -719,7 +719,8 @@
             "CloseAnno",
             "TodaysSupplies",
             "Stop"
-        ]
+        ],
+        "rearDelay": 1000
     },
     "TodaysSupplies": {
         "algorithm": "OcrDetect",
