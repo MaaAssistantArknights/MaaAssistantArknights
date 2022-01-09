@@ -201,8 +201,12 @@ namespace asst
         std::chrono::time_point<std::chrono::steady_clock> m_start_time;
     };
 
-    //static auto& log = Logger::get_instance();
+#define _Cat_(a, b) a ## b
+#define _Cat(a, b) _Cat_(a, b)
+#define _CatVarNameWithLine(Var) _Cat(Var, __LINE__)
+
 #define Log Logger::get_instance()
-#define LogTraceFunction LoggerAux _func_aux(__FUNCTION__)
-#define LogTraceScope LoggerAux _func_aux
+#define LogTraceScope LoggerAux _CatVarNameWithLine(_func_aux_)
+#define LogTraceFunction LogTraceScope(__FUNCTION__)
+#define LogTraceFunctionWithArgs // how to do this?, like LogTraceScope(__FUNCTION__, __FUNCTION_ALL_ARGS__)
 }
