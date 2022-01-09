@@ -514,39 +514,35 @@ void Assistant::working_proc()
             auto start_time = std::chrono::steady_clock::now();
 
             auto task_ptr = m_tasks_queue.front();
+            m_tasks_queue.pop();
 
             std::string cur_taskchain = task_ptr->get_task_chain();
+            std::string next_taskchain = m_tasks_queue.empty() ? std::string() : m_tasks_queue.front()->get_task_chain();
             json::value callback_json = json::object{
-                {"taskchain", cur_taskchain},
-                {"pre_taskchain", pre_taskchain}
+                { "taskchain", cur_taskchain },
+                { "pre_taskchain", pre_taskchain },
+                { "next_taskchain", next_taskchain }
             };
-
             if (cur_taskchain != pre_taskchain) {
                 task_callback(AsstMsg::TaskChainStart, callback_json, this);
-                pre_taskchain = cur_taskchain;
             }
 
             task_ptr->set_exit_flag(&m_thread_idle);
             bool ret = task_ptr->run();
-            m_tasks_queue.pop();
 
-            if (!m_tasks_queue.empty()) {
-                callback_json["next_taskchain"] = m_tasks_queue.front()->get_task_chain();
+            if (cur_taskchain != next_taskchain) {
+                if (ret) {
+                    task_callback(AsstMsg::TaskChainCompleted, callback_json, this);
+                }
+                else {
+                    task_callback(AsstMsg::TaskChainError, callback_json, this);
+                }
             }
-            else {
-                callback_json["next_taskchain"] = std::string();
-            }
-
-            if (!ret) {
-                task_callback(AsstMsg::TaskChainError, callback_json, this);
-            }
-            else if (m_tasks_queue.empty() || cur_taskchain != m_tasks_queue.front()->get_task_chain()) {
-                task_callback(AsstMsg::TaskChainCompleted, callback_json, this);
-            }
-
             if (m_tasks_queue.empty()) {
                 task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
             }
+
+            pre_taskchain = cur_taskchain;
 
             auto& delay = Resrc.cfg().get_options().task_delay;
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay),
