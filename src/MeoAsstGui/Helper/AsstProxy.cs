@@ -360,6 +360,12 @@ namespace MeoAsstGui
                         mainModel.AddLog("选择 Tags：\n" + selected_log);
                     }
                     break;
+
+                case "NotEnoughStaff":
+                    {
+                        mainModel.AddLog("可用干员不足", "darkred");
+                    }
+                    break;
             }
         }
 

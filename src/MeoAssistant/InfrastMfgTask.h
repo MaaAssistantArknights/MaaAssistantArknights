@@ -9,7 +9,8 @@ namespace asst
         using InfrastProductionTask::InfrastProductionTask;
         virtual ~InfrastMfgTask() = default;
 
-        static const std::string FacilityName;
+        virtual size_t max_num_of_facility() const noexcept override { return 5ULL; }
+        virtual size_t max_num_of_opers() const noexcept override { return 3ULL; }
 
     protected:
         virtual bool _run() override;

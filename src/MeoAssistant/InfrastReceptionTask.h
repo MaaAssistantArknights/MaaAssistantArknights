@@ -9,8 +9,6 @@ namespace asst
         using InfrastProductionTask::InfrastProductionTask;
         virtual ~InfrastReceptionTask() = default;
 
-        const static std::string FacilityName;
-
     protected:
         virtual bool _run() override;
 

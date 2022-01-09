@@ -1,17 +1,13 @@
 #include "InfrastControlTask.h"
 
-const std::string asst::InfrastControlTask::FacilityName = "Control";
-
 bool asst::InfrastControlTask::_run()
 {
-    set_facility(FacilityName);
     m_all_available_opers.clear();
 
     // 控制中枢只能造这一个
     set_product("MoodAddition");
 
-    // 进不去说明设施数量不够
-    if (!enter_facility(FacilityName, 0)) {
+    if (!enter_facility()) {
         return false;
     }
     if (!enter_oper_list_page()) {

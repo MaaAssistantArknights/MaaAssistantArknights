@@ -7,16 +7,14 @@
 #include "OcrImageAnalyzer.h"
 #include "Resource.h"
 
-const std::string asst::InfrastDormTask::FacilityName = "Dorm";
-
 bool asst::InfrastDormTask::_run()
 {
-    for (; m_cur_dorm_index < m_max_num_of_dorm; ++m_cur_dorm_index) {
+    for (; m_cur_facility_index < m_max_num_of_dorm; ++m_cur_facility_index) {
         if (need_exit()) {
             return false;
         }
         // 进不去说明设施数量不够
-        if (!enter_facility(FacilityName, m_cur_dorm_index)) {
+        if (!enter_facility(m_cur_facility_index)) {
             break;
         }
         if (!enter_oper_list_page()) {
@@ -39,7 +37,7 @@ bool asst::InfrastDormTask::_run()
 bool asst::InfrastDormTask::opers_choose()
 {
     int num_of_selected = 0;
-    while (num_of_selected < MaxNumOfOpers) {
+    while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
             return false;
         }
@@ -59,14 +57,14 @@ bool asst::InfrastDormTask::opers_choose()
             if (need_exit()) {
                 return false;
             }
-            if (num_of_selected >= MaxNumOfOpers) {
+            if (num_of_selected >= max_num_of_opers()) {
                 Log.trace("num_of_selected:", num_of_selected, ", just break");
                 break;
             }
             switch (oper.smiley.type) {
             case infrast::SmileyType::Rest:
                 // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
-                if (++num_of_resting > MaxNumOfOpers) {
+                if (++num_of_resting > max_num_of_opers()) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
                     m_all_finished = true;
                     return true;
@@ -77,7 +75,7 @@ bool asst::InfrastDormTask::opers_choose()
                 // 干员没有被选择的情况下，且不在工作，就进驻宿舍
                 if (oper.selected == false && oper.doing != infrast::Doing::Working) {
                     Ctrler.click(oper.rect);
-                    if (++num_of_selected >= MaxNumOfOpers) {
+                    if (++num_of_selected >= max_num_of_opers()) {
                         Log.trace("num_of_selected:", num_of_selected, ", just break");
                         break;
                     }
@@ -87,7 +85,7 @@ bool asst::InfrastDormTask::opers_choose()
                 break;
             }
         }
-        if (num_of_selected >= MaxNumOfOpers) {
+        if (num_of_selected >= max_num_of_opers()) {
             Log.trace("num_of_selected:", num_of_selected, ", just break");
             break;
         }

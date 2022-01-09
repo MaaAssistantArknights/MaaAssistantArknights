@@ -2,24 +2,21 @@
 
 #include "Controller.h"
 
-const std::string asst::InfrastPowerTask::FacilityName = "Power";
-
 bool asst::InfrastPowerTask::_run()
 {
-    set_facility(FacilityName);
     m_all_available_opers.clear();
 
     // 发电站只能造这一个
     set_product("Drone");
 
-    for (int i = 0; i != MaxNumOfFacility; ++i) {
+    for (int i = 0; i != max_num_of_facility(); ++i) {
         if (need_exit()) {
             return false;
         }
         swipe_to_the_left_of_main_ui();
 
         // 进不去说明设施数量不够
-        if (!enter_facility(FacilityName, i)) {
+        if (!enter_facility(i)) {
             break;
         }
         if (!enter_oper_list_page()) {

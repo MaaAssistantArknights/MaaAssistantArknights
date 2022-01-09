@@ -339,7 +339,6 @@ bool Assistant::append_debug()
         constexpr static const char* DebugTaskChain = "Debug";
         auto shift_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this, DebugTaskChain);
         shift_task_ptr->set_work_mode(infrast::WorkMode::Aggressive);
-        shift_task_ptr->set_facility("Control");
         shift_task_ptr->set_product("MoodAddition");
         m_tasks_queue.emplace(shift_task_ptr);
     }
