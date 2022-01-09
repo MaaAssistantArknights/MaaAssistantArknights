@@ -424,7 +424,8 @@
         "next": [
             "StartButton2",
             "UseMedicine",
-            "UseStone"
+            "UseStone",
+            "NoStone"
         ]
     },
     "StartButton2": {
@@ -491,6 +492,7 @@
             "StartButton2",
             "UseMedicine",
             "UseStone",
+            "NoStone",
             "ClickCornerAfterPRTS"
         ]
     },
@@ -529,6 +531,7 @@
             "StartButton2",
             "UseMedicine",
             "UseStone",
+            "NoStone",
             "EndOfAction"
         ]
     },
@@ -594,6 +597,18 @@
         ],
         "next": [
             "StartButton1"
+        ]
+    },
+    "NoStone": {
+        "action": "doNothing",
+        "roi": [
+            800,
+            250,
+            350,
+            250
+        ],
+        "next": [
+            "CloseStonePage"
         ]
     },
     "CloseStonePage": {
