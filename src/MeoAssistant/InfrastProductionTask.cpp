@@ -20,12 +20,6 @@ asst::InfrastProductionTask& asst::InfrastProductionTask::set_uses_of_drone(std:
     return *this;
 }
 
-asst::InfrastProductionTask& asst::InfrastProductionTask::set_facility(std::string facility_name) noexcept
-{
-    m_facility = std::move(facility_name);
-    return *this;
-}
-
 asst::InfrastProductionTask& asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 {
     m_product = std::move(product_name);
@@ -42,30 +36,25 @@ bool asst::InfrastProductionTask::shift_facility_list()
         return false;
     }
     const auto tab_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastFacilityListTab" + m_facility));
+        Task.get("InfrastFacilityListTab" + facility_name()));
     MatchImageAnalyzer add_analyzer;
     const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastAddOperator" + m_facility + m_work_mode_name));
+        Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name));
     add_analyzer.set_task_info(*add_task_ptr);
 
     const auto locked_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastOperLocked" + m_facility));
+        Task.get("InfrastOperLocked" + facility_name()));
     MultiMatchImageAnalyzer locked_analyzer;
     locked_analyzer.set_task_info(*locked_task_ptr);
 
     int index = 0;
     for (const Rect& tab : m_facility_list_tabs) {
+        m_cur_facility_index = index;
         if (need_exit()) {
             return false;
         }
         if (index != 0) {
-            json::value info = basic_info();
-            info["what"] = "EnterFacility";
-            info["details"] = json::object{
-                { "facility", m_facility },
-                { "index", index }
-            };
-            callback(AsstMsg::SubTaskExtraInfo, info);
+            callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
         }
 
         ++index;
@@ -92,7 +81,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 识别当前正在造什么 */
         MatchImageAnalyzer product_analyzer(image);
-        auto& all_products = Resrc.infrast().get_facility_info(m_facility).products;
+        auto& all_products = Resrc.infrast().get_facility_info(facility_name()).products;
         std::string cur_product = all_products.at(0);
         double max_score = 0;
         for (const std::string& product : all_products) {
@@ -198,7 +187,7 @@ size_t asst::InfrastProductionTask::opers_detect()
     const auto image = Ctrler.get_image();
 
     InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_facility(m_facility);
+    oper_analyzer.set_facility(facility_name());
 
     if (!oper_analyzer.analyze()) {
         return 0;
@@ -219,7 +208,7 @@ size_t asst::InfrastProductionTask::opers_detect()
         }
         auto find_iter = std::find_if(
             m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-            [&cur_oper](const infrast::Oper& oper) -> bool {
+            [&](const infrast::Oper& oper) -> bool {
                 // 有可能是同一个干员，比一下hash
                 int dist = utils::hamming(cur_oper.face_hash, oper.face_hash);
                 Log.debug("opers_detect hash dist |", dist);
@@ -237,7 +226,7 @@ size_t asst::InfrastProductionTask::opers_detect()
 bool asst::InfrastProductionTask::optimal_calc()
 {
     LogTraceFunction;
-    auto& facility_info = Resrc.infrast().get_facility_info(m_facility);
+    auto& facility_info = Resrc.infrast().get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
 
     std::vector<infrast::SkillsComb> all_avaliable_combs;
@@ -309,7 +298,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     }
 
     // 遍历所有组合，找到效率最高的
-    auto& all_group = Resrc.infrast().get_skills_group(m_facility);
+    auto& all_group = Resrc.infrast().get_skills_group(facility_name());
     for (const infrast::SkillsGroup& group : all_group) {
         Log.trace(group.desc);
         auto cur_available_opers = all_avaliable_combs;
@@ -462,7 +451,7 @@ bool asst::InfrastProductionTask::opers_choose()
     bool has_error = false;
 
     int count = 0;
-    auto& facility_info = Resrc.infrast().get_facility_info(m_facility);
+    auto& facility_info = Resrc.infrast().get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
 
     while (true) {
@@ -472,7 +461,7 @@ bool asst::InfrastProductionTask::opers_choose()
         const auto image = Ctrler.get_image();
 
         InfrastOperImageAnalyzer oper_analyzer(image);
-        oper_analyzer.set_facility(m_facility);
+        oper_analyzer.set_facility(facility_name());
 
         if (!oper_analyzer.analyze()) {
             return false;
@@ -566,7 +555,7 @@ bool asst::InfrastProductionTask::opers_choose()
                 break;
             }
             else { // 这种情况可能是萌新，可用干员人数不足以填满当前设施
-                // TODO!!!
+                callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("NotEnoughStaff"));
                 break;
             }
         }
@@ -580,7 +569,7 @@ bool asst::InfrastProductionTask::opers_choose()
 
 bool asst::InfrastProductionTask::use_drone()
 {
-    std::string task_name = "DroneAssist" + m_facility;
+    std::string task_name = "DroneAssist" + facility_name();
     ProcessTask task_temp(*this, { task_name });
     return task_temp.run();
 }
@@ -623,7 +612,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
     MultiMatchImageAnalyzer mm_analyzer(image);
 
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastFacilityListTab" + m_facility));
+        Task.get("InfrastFacilityListTab" + facility_name()));
     mm_analyzer.set_task_info(*task_ptr);
 
     if (!mm_analyzer.analyze()) {

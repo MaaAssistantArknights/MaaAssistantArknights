@@ -2,18 +2,15 @@
 
 #include "Controller.h"
 
-const std::string asst::InfrastOfficeTask::FacilityName = "Office";
-
 bool asst::InfrastOfficeTask::_run()
 {
-    set_facility(FacilityName);
     m_all_available_opers.clear();
 
     // 办公室只能造这一个
     set_product("HR");
 
     swipe_to_the_right_of_main_ui();
-    enter_facility(FacilityName, 0);
+    enter_facility();
     click_bottomleft_tab();
 
     for (int i = 0; i <= OperSelectRetryTimes; ++i) {

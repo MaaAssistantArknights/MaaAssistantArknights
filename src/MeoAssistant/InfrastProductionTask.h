@@ -21,7 +21,6 @@ namespace asst
         // 为了方便调试，把这两个个接口拿到public来了
     protected:
 #endif
-        InfrastProductionTask& set_facility(std::string facility_name) noexcept;
         InfrastProductionTask& set_product(std::string product_name) noexcept;
 
     protected:
@@ -36,7 +35,6 @@ namespace asst
         infrast::SkillsComb efficient_regex_calc(
             std::unordered_set<infrast::Skill> skills) const;
 
-        std::string m_facility;
         std::string m_product;
         std::string m_uses_of_drones;
         int m_cur_num_of_lokced_opers = 0;

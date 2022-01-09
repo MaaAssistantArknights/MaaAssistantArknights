@@ -9,9 +9,6 @@ namespace asst
         using InfrastProductionTask::InfrastProductionTask;
         virtual ~InfrastOfficeTask() = default;
 
-        const static std::string FacilityName;
-        const static int MaxNumOfOpers = 1;
-
     protected:
         virtual bool _run() override;
     };

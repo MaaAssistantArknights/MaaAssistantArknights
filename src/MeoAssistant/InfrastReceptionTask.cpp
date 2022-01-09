@@ -8,15 +8,12 @@
 #include "ProcessTask.h"
 #include "Resource.h"
 
-const std::string asst::InfrastReceptionTask::FacilityName = "Reception";
-
 bool asst::InfrastReceptionTask::_run()
 {
-    set_facility(FacilityName);
     m_all_available_opers.clear();
 
     swipe_to_the_right_of_main_ui();
-    enter_facility(FacilityName, 0);
+    enter_facility();
     click_bottomleft_tab();
 
     close_end_of_clue_exchange();
@@ -146,7 +143,7 @@ bool asst::InfrastReceptionTask::shift()
     const auto image = Ctrler.get_image();
     MatchImageAnalyzer add_analyzer(image);
 
-    const auto raw_task_ptr = Task.get("InfrastAddOperator" + m_facility + m_work_mode_name);
+    const auto raw_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
     switch (raw_task_ptr->algorithm) {
     case AlgorithmType::JustReturn:
         if (raw_task_ptr->action == ProcessTaskAction::ClickRect) {

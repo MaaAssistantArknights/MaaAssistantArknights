@@ -73,6 +73,13 @@ json::value asst::AbstractTask::basic_info() const
     };
 }
 
+json::value asst::AbstractTask::basic_info_with_what(std::string what) const
+{
+    json::value info = basic_info();
+    info["what"] = std::move(what);
+    return info;
+}
+
 bool AbstractTask::sleep(unsigned millisecond)
 {
     if (need_exit()) {

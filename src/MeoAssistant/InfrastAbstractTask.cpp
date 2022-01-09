@@ -1,5 +1,7 @@
 #include "InfrastAbstractTask.h"
 
+#include <regex>
+
 #include "AsstMsg.h"
 #include "Controller.h"
 #include "InfrastFacilityImageAnalyzer.h"
@@ -9,20 +11,13 @@
 #include "Resource.h"
 #include "ProcessTask.h"
 
-int asst::InfrastAbstractTask::m_face_hash_thres = 0;
-int asst::InfrastAbstractTask::m_name_hash_thres = 0;
-
 asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain)
     : AbstractTask(callback, callback_arg, std::move(task_chain))
 {
-    if (m_face_hash_thres == 0) {
-        m_face_hash_thres = static_cast<int>(std::dynamic_pointer_cast<MatchTaskInfo>(
-            Task.get("InfrastOperFaceHash"))->templ_threshold);
-    }
-    if (m_name_hash_thres == 0) {
-        m_name_hash_thres = static_cast<int>(std::dynamic_pointer_cast<MatchTaskInfo>(
-            Task.get("InfrastOperNameHash"))->templ_threshold);
-    }
+    m_face_hash_thres = static_cast<int>(std::dynamic_pointer_cast<MatchTaskInfo>(
+        Task.get("InfrastOperFaceHash"))->templ_threshold);
+    m_name_hash_thres = static_cast<int>(std::dynamic_pointer_cast<MatchTaskInfo>(
+        Task.get("InfrastOperNameHash"))->templ_threshold);
 }
 
 asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexcept
@@ -51,38 +46,55 @@ asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_mood_threshold(double 
     return *this;
 }
 
+json::value asst::InfrastAbstractTask::basic_info() const
+{
+    json::value info = AbstractTask::basic_info();
+    info["details"]["facility"] = facility_name();
+    info["details"]["index"] = m_cur_facility_index;
+    return info;
+}
+
+std::string asst::InfrastAbstractTask::facility_name() const
+{
+    // typeid.name() 结果可能和编译器有关，所以这里使用正则尽可能保证结果正确。
+    // 但还是不能完全保证，如果不行的话建议 override
+    static std::regex regex("Infrast(.*)Task");
+    std::smatch match_obj;
+    std::string class_name = typeid(*this).name();
+    if (std::regex_search(class_name, match_obj, regex)) {
+        return match_obj[1].str();
+    }
+    else {
+        return class_name;
+    }
+}
+
 bool asst::InfrastAbstractTask::on_run_fails()
 {
     LogTraceFunction;
 
     ProcessTask return_task(*this, { "InfrastBegin" });
-
     return return_task.run();
 }
 
-bool asst::InfrastAbstractTask::enter_facility(const std::string& facility, int index)
+bool asst::InfrastAbstractTask::enter_facility(int index)
 {
-    json::value info = basic_info();
-    info["what"] = "EnterFacility";
-    info["details"] = json::object{
-        { "facility", facility },
-        { "index", index }
-    };
-    callback(AsstMsg::SubTaskExtraInfo, info);
-
     const auto image = Ctrler.get_image();
 
     InfrastFacilityImageAnalyzer analyzer(image);
-    analyzer.set_to_be_analyzed({ facility });
+    analyzer.set_to_be_analyzed({ facility_name() });
     if (!analyzer.analyze()) {
         Log.trace("result is empty");
         return false;
     }
-    Rect rect = analyzer.get_rect(facility, index);
+    Rect rect = analyzer.get_rect(facility_name(), index);
     if (rect.empty()) {
         Log.trace("facility index is out of range");
         return false;
     }
+
+    m_cur_facility_index = index;
+    callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
 
     Ctrler.click(rect);
 

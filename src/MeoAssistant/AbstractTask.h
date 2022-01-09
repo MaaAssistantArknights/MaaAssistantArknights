@@ -53,12 +53,12 @@ namespace asst
         virtual bool _run() = 0;
         virtual bool on_run_fails() { return true; }
         virtual void callback(AsstMsg msg, const json::value& detail);
-
         virtual void click_return_button();
 
+        json::value basic_info_with_what(std::string what) const;
         bool sleep(unsigned millisecond);
-        bool save_image(const cv::Mat image, const std::string& dir);
         bool need_exit() const;
+        bool save_image(const cv::Mat image, const std::string& dir);
 
         AsstCallback m_callback;
         void* m_callback_arg = nullptr;

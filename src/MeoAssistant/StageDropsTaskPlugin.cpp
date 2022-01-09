@@ -89,8 +89,7 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
 
     drops_details["stats"] = json::array(std::move(statistics_vec));
 
-    json::value info = basic_info();
-    info["what"] = "StageDrops";
+    json::value info = basic_info_with_what("StageDrops");
     info["details"] = drops_details;
 
     callback(AsstMsg::SubTaskExtraInfo, info);
