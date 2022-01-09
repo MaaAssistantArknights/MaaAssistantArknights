@@ -349,7 +349,7 @@ namespace MeoAsstGui
 
                 case "RecruitTagsSelected":
                     {
-                        JArray selected = (JArray)details["tags"];
+                        JArray selected = (JArray)subTaskDetails["tags"];
                         string selected_log = "";
                         foreach (var tag in selected)
                         {
