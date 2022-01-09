@@ -130,10 +130,11 @@ namespace MeoAsstGui
                 case AsstMsg.ConnectionError:
                     break;
 
+                case AsstMsg.AllTasksCompleted:
                 case AsstMsg.TaskChainError:
                 case AsstMsg.TaskChainStart:
+                case AsstMsg.TaskChainCompleted:
                 case AsstMsg.TaskChainExtraInfo:
-                case AsstMsg.AllTasksCompleted:
                     procTaskChainMsg(msg, details);
                     break;
 
