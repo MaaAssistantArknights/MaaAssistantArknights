@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <thread>
+#include <regex>
 
 #include <opencv2/opencv.hpp>
 
@@ -64,9 +65,23 @@ void asst::AbstractTask::clear_plugin() noexcept
 
 json::value asst::AbstractTask::basic_info() const
 {
+    // typeid.name() 结果可能和编译器有关，所以这里使用正则尽可能保证结果正确。
+    // 但还是不能完全保证，如果不行的话建议 override
+    static std::regex regex("[a-zA-Z]+Task");
+    std::smatch match_obj;
+    std::string class_name = typeid(*this).name();
+    std::string task_name;
+    if (std::regex_search(class_name, match_obj, regex)) {
+        task_name = match_obj[0].str();
+    }
+    else {
+        task_name = class_name;
+    }
+
     return json::object{
         { "taskchain", m_task_chain },
-        { "class", typeid(*this).name() },
+        { "class", class_name },
+        { "subtask", task_name },
         { "details", json::object() }
         //{ "CurRetryTimes", m_cur_retry },
         //{ "MaxRetryTimes", m_retry_times }
