@@ -7,7 +7,7 @@
 
 namespace asst
 {
-    class AbstractTaskPlugin : protected AbstractTask
+    class AbstractTaskPlugin : public AbstractTask
     {
     public:
         using AbstractTask::AbstractTask;
@@ -18,19 +18,15 @@ namespace asst
 
         void set_priority(int priority);
         void set_block(bool block);
+        virtual void set_task_ptr(AbstractTask* ptr);
 
         virtual bool verify(AsstMsg msg, const json::value& details) const = 0;
-        virtual bool run(AbstractTask* ptr) = 0;
 
-        bool operator<(const AbstractTaskPlugin& rhs) const
-        {
-            return priority() < rhs.priority();
-        }
-        void set_plugin_exit_flag(bool* exit_flag) noexcept;
+        bool operator<(const AbstractTaskPlugin& rhs) const;
 
     protected:
-        virtual bool _run() override { return false; }
 
+        AbstractTask* m_task_ptr = nullptr;
         int m_priority = 0;
         bool m_block = false;
     };

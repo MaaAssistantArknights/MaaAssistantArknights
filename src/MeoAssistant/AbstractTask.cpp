@@ -25,7 +25,7 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg, std::strin
 bool asst::AbstractTask::run()
 {
     callback(AsstMsg::SubTaskStart, basic_info());
-    for (m_cur_retry = 0; m_cur_retry < m_retry_times; ++m_cur_retry) {
+    for (m_cur_retry = 0; m_cur_retry <= m_retry_times; ++m_cur_retry) {
         if (_run()) {
             callback(AsstMsg::SubTaskCompleted, basic_info());
             return true;
@@ -116,13 +116,14 @@ bool asst::AbstractTask::need_exit() const
 void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
 {
     for (TaskPluginPtr plugin : m_plugins) {
-        plugin->set_plugin_exit_flag(m_exit_flag);
+        plugin->set_exit_flag(m_exit_flag);
+        plugin->set_task_ptr(this);
 
         if (!plugin->verify(msg, detail)) {
             continue;
         }
 
-        plugin->run(this);
+        plugin->run();
 
         if (plugin->block()) {
             break;
