@@ -228,10 +228,10 @@ namespace MeoAsstGui
 
         private void procSubTaskStart(JObject details)
         {
-            string classType = details["class"].ToString();
+            string subTask = details["subtask"].ToString();
 
             var mainModel = _container.Get<TaskQueueViewModel>();
-            if (classType == "class asst::ProcessTask")
+            if (subTask == "ProcessTask")
             {
                 string taskName = details["details"]["task"].ToString();
                 int execTimes = (int)details["details"]["exec_times"];
