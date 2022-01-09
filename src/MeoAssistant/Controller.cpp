@@ -110,7 +110,7 @@ bool asst::Controller::connect_adb(const std::string & address)
     std::string connect_cmd = utils::string_replace_all(
         utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", m_emulator_info.adb.path),
         "[Address]", address);
-    auto&& [connect_ret, connect_result] = call_command(connect_cmd);
+    auto connect_ret = call_command(connect_cmd);
     // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
     if (!connect_ret) {
         return false;
@@ -119,11 +119,11 @@ bool asst::Controller::connect_adb(const std::string & address)
     std::string display_cmd = utils::string_replace_all(
         utils::string_replace_all(m_emulator_info.adb.display, "[Adb]", m_emulator_info.adb.path),
         "[Address]", address);
-    auto&& [display_ret, display_result] = call_command(display_cmd);
+    auto display_ret = call_command(display_cmd);
     if (!display_ret) {
         return false;
     }
-
+    auto& display_result = display_ret.value();
     std::string display_pipe_str(
         std::make_move_iterator(display_result.begin()),
         std::make_move_iterator(display_result.end()));
@@ -356,10 +356,11 @@ bool asst::Controller::try_capture(const EmulatorInfo & info, bool without_handl
 
     // 若指定地址都没连上，再尝试用devices查找地址
     std::string devices_cmd = utils::string_replace_all(m_emulator_info.adb.devices, "[Adb]", m_emulator_info.adb.path);
-    auto&& [devices_ret, devices_result] = call_command(devices_cmd);
+    auto devices_ret = call_command(devices_cmd);
     if (!devices_ret) {
         return false;
     }
+    auto& devices_result = devices_ret.value();
     std::string devices_pipe_str(
         std::make_move_iterator(devices_result.begin()),
         std::make_move_iterator(devices_result.end()));
@@ -394,7 +395,7 @@ bool asst::Controller::try_capture(const EmulatorInfo & info, bool without_handl
 //	}
 //}
 
-std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const std::string & cmd)
+std::optional<std::vector<unsigned char>> asst::Controller::call_command(const std::string & cmd)
 {
     LogTraceFunction;
 
@@ -405,8 +406,10 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
 
 #ifdef _WIN32
     PROCESS_INFORMATION process_info = { 0 }; // 进程信息结构体
-    ::CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
-
+    BOOL create_ret = ::CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
+    if (!create_ret) {
+        return std::nullopt;
+    }
     DWORD peek_num = 0;
     DWORD read_num = 0;
     do {
@@ -460,6 +463,7 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
     }
     else {
         // failed to create child process
+        return std::nullopt;
     }
 #endif
 
@@ -468,7 +472,12 @@ std::pair<bool, std::vector<unsigned char>> asst::Controller::call_command(const
         Log.trace("output:", std::string(pipe_data.cbegin(), pipe_data.cend()));
     }
 
-    return make_pair(!exit_ret, std::move(pipe_data));
+    if (!exit_ret) {
+        return pipe_data;
+    }
+    else {
+        return std::nullopt;
+    }
 }
 
 void asst::Controller::convert_lf(std::vector<unsigned char>&data)
@@ -570,13 +579,13 @@ bool asst::Controller::screencap()
     LogTraceFunction;
 
     auto& adb = m_emulator_info.adb;
-    auto&& [ret, data] = call_command(adb.screencap);
+    auto ret = call_command(adb.screencap);
 
-    if (!ret || data.empty()) {
+    if (!ret || ret.value().empty()) {
         Log.error("Data is empty!");
         return false;
     }
-
+    auto data = std::move(ret).value();
     if (m_image_convert_lf) {
         convert_lf(data);
     }
@@ -590,6 +599,10 @@ bool asst::Controller::screencap()
                 return false;
             }
             constexpr static int BmpHeaderSize = 12;
+            size_t std_size = adb.display_height * adb.display_width * 4 + BmpHeaderSize;
+            if (unzip_data.size() != std_size) {
+                return false;
+            }
             m_cache_image = cv::Mat(adb.display_height, adb.display_width, CV_8UC4, unzip_data.data() + BmpHeaderSize);
             cv::cvtColor(m_cache_image, m_cache_image, cv::COLOR_RGB2BGR);
             return !m_cache_image.empty();

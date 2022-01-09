@@ -3,9 +3,8 @@
 #include <optional>
 #include <random>
 #include <string>
-
 #include <condition_variable>
-#include <memory> // for pimpl
+#include <memory>
 #include <mutex>
 #include <queue>
 #include <shared_mutex>
@@ -67,7 +66,7 @@ namespace asst
         bool connect_adb(const std::string& address);
 
         void pipe_working_proc();
-        std::pair<bool, std::vector<unsigned char>> call_command(const std::string& cmd);
+        std::optional<std::vector<unsigned char>> call_command(const std::string& cmd);
         int push_cmd(const std::string& cmd);
         bool screencap();
         Point rand_point_in_rect(const Rect& rect);
