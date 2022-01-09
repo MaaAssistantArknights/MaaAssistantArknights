@@ -20,7 +20,12 @@ void asst::AbstractTaskPlugin::set_block(bool block)
     m_block = block;
 }
 
-void asst::AbstractTaskPlugin::set_plugin_exit_flag(bool* exit_flag) noexcept
+void asst::AbstractTaskPlugin::set_task_ptr(asst::AbstractTask* ptr)
 {
-    AbstractTask::set_exit_flag(exit_flag);
+    m_task_ptr = ptr;
+}
+
+bool asst::AbstractTaskPlugin::operator<(const asst::AbstractTaskPlugin& rhs) const
+{
+    return priority() < rhs.priority();
 }

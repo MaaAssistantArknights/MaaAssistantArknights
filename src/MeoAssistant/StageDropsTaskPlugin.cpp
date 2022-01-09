@@ -27,11 +27,15 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
     }
 }
 
-bool asst::StageDropsTaskPlugin::run(AbstractTask* ptr)
+void asst::StageDropsTaskPlugin::set_task_ptr(AbstractTask* ptr)
 {
-    ProcessTask* cast_ptr = dynamic_cast<ProcessTask*>(ptr);
+    AbstractTaskPlugin::set_task_ptr(ptr);
+    m_cast_ptr = dynamic_cast<ProcessTask*>(ptr);
+}
 
-    set_startbutton_delay(cast_ptr);
+bool asst::StageDropsTaskPlugin::_run()
+{
+    set_startbutton_delay();
 
     recognize_drops();
     if (need_exit()) {
@@ -92,7 +96,7 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
-void asst::StageDropsTaskPlugin::set_startbutton_delay(ProcessTask* ptr)
+void asst::StageDropsTaskPlugin::set_startbutton_delay()
 {
     if (!m_startbutton_delay_setted) {
         int64_t start_times = Status.get("LastStartButton2");
@@ -101,7 +105,7 @@ void asst::StageDropsTaskPlugin::set_startbutton_delay(ProcessTask* ptr)
             int64_t duration = time(nullptr) - start_times;
             int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->rear_delay;
             int64_t delay = duration * 1000 - elapsed;
-            ptr->set_rear_delay("StartButton2", static_cast<int>(delay));
+            m_cast_ptr->set_rear_delay("StartButton2", static_cast<int>(delay));
         }
     }
 }

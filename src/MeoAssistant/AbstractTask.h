@@ -34,12 +34,14 @@ namespace asst
         AbstractTask& set_retry_times(int times) noexcept;
 
         template<typename PluginType>
-        AbstractTask& regiseter_plugin()
+        std::shared_ptr<PluginType> regiseter_plugin()
         {
             static_assert(std::is_base_of<AbstractTaskPlugin, PluginType>::value,
-                "Plugin must inherit AbstractTaskPlugin as public");
-            m_plugins.emplace(std::make_shared<PluginType>(m_callback, m_callback_arg, m_task_chain));
-            return *this;
+                "Plugin must inherit AbstractTaskPlugin");
+
+            auto plugin = std::make_shared<PluginType>(m_callback, m_callback_arg, m_task_chain);
+            m_plugins.emplace(plugin);
+            return plugin;
         }
         void clear_plugin() noexcept;
 
