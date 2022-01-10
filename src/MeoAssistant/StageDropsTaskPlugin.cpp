@@ -15,7 +15,7 @@
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskCompleted
-        || details.get("class", std::string()) != "class asst::ProcessTask") {
+        || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 

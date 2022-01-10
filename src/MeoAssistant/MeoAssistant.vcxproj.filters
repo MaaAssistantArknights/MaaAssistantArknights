@@ -231,6 +231,9 @@
     <ClInclude Include="StageDropsTaskPlugin.h">
       <Filter>头文件\TaskPlugin</Filter>
     </ClInclude>
+    <ClInclude Include="DronesForShamareTaskPlugin.h">
+      <Filter>头文件\TaskPlugin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -369,6 +372,9 @@
       <Filter>源文件\TaskPlugin</Filter>
     </ClCompile>
     <ClCompile Include="StageDropsTaskPlugin.cpp">
+      <Filter>源文件\TaskPlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="DronesForShamareTaskPlugin.cpp">
       <Filter>源文件\TaskPlugin</Filter>
     </ClCompile>
   </ItemGroup>

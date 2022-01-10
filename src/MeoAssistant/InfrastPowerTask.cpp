@@ -9,7 +9,7 @@ bool asst::InfrastPowerTask::_run()
     // 发电站只能造这一个
     set_product("Drone");
 
-    for (int i = 0; i != max_num_of_facility(); ++i) {
+    for (int i = 0; i != max_num_of_facilities(); ++i) {
         if (need_exit()) {
             return false;
         }

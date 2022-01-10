@@ -25,6 +25,7 @@
 #include "InfrastControlTask.h"
 #include "RuntimeStatus.h"
 #include "StageDropsTaskPlugin.h"
+#include "DronesForShamareTaskPlugin.h"
 
 using namespace asst;
 
@@ -333,15 +334,15 @@ bool Assistant::append_debug()
         return false;
     }
 
-    std::unique_lock<std::mutex> lock(m_mutex);
+    //std::unique_lock<std::mutex> lock(m_mutex);
 
-    {
-        constexpr static const char* DebugTaskChain = "Debug";
-        auto shift_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this, DebugTaskChain);
-        shift_task_ptr->set_work_mode(infrast::WorkMode::Aggressive);
-        shift_task_ptr->set_product("MoodAddition");
-        m_tasks_queue.emplace(shift_task_ptr);
-    }
+    //{
+    //    constexpr static const char* DebugTaskChain = "Debug";
+    //    auto shift_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this, DebugTaskChain);
+    //    shift_task_ptr->set_work_mode(infrast::WorkMode::Aggressive);
+    //    shift_task_ptr->set_product("MoodAddition");
+    //    m_tasks_queue.emplace(shift_task_ptr);
+    //}
 
     return true;
 }
@@ -399,6 +400,7 @@ bool asst::Assistant::append_infrast(infrast::WorkMode work_mode, const std::vec
     trade_task_ptr->set_uses_of_drone(uses_of_drones)
         .set_work_mode(work_mode)
         .set_mood_threshold(dorm_threshold);
+    trade_task_ptr->regiseter_plugin<DronesForShamareTaskPlugin>();
     auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this, InfrastTaskCahin);
     power_task_ptr->set_work_mode(work_mode)
         .set_mood_threshold(dorm_threshold);

@@ -3,16 +3,13 @@
 #include <memory>
 #include <set>
 #include <type_traits>
+#include <meojson/json_value.h>
 
 #include "AsstMsg.h"
 
 namespace cv
 {
     class Mat;
-}
-namespace json
-{
-    class value;
 }
 
 namespace asst
@@ -67,6 +64,7 @@ namespace asst
         int m_cur_retry = 0;
         int m_retry_times = RetryTimesDefault;
 
+        mutable json::value m_basic_info_cache;
         std::set<TaskPluginPtr> m_plugins;
     };
 }

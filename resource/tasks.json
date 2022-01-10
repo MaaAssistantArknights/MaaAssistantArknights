@@ -1854,6 +1854,48 @@
         "template": "DroneAssistTrade.png",
         "action": "stop"
     },
+    "ShamareThumbnail": {
+        "algorithm": "JustReturn",
+        "action": "doNothing",
+        "next": [
+            "ShamareThumbnail1",
+            "ShamareThumbnail2",
+            "ShamareThumbnail3"
+        ]
+    },
+    "ShamareThumbnail1": {
+        "action": "doNothing",
+        "templThreshold": 0.95,
+        "cache": false,
+        "roi": [
+            240,
+            550,
+            380,
+            170
+        ]
+    },
+    "ShamareThumbnail2": {
+        "action": "doNothing",
+        "templThreshold": 0.95,
+        "cache": false,
+        "roi": [
+            240,
+            550,
+            380,
+            170
+        ]
+    },
+    "ShamareThumbnail3": {
+        "action": "doNothing",
+        "templThreshold": 0.95,
+        "cache": false,
+        "roi": [
+            240,
+            550,
+            380,
+            170
+        ]
+    },
     "InfrastSkillsUpper": {
         "algorithm": "justReturn",
         "roi": [
