@@ -138,6 +138,10 @@ A Game Assistant for Arknights
 - 下载 [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) ，将 `platform-tools` 文件夹解压到 `MeoAsstGui.exe` 的同级目录
 - 进入软件 `设置` - `连接设置`，填写自定义 adb 地址（需要填写 IP + 端口，例如 `127.0.0.1:5555` ）
 
+### I'm an international server player, could I use it?
+
+Yes, but there are few supported features, please refer to [this link](resource/international/)
+
 ## 致谢
 
 ### 开源库
