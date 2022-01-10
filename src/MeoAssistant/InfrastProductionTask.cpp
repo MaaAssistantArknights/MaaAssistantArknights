@@ -20,10 +20,13 @@ asst::InfrastProductionTask& asst::InfrastProductionTask::set_uses_of_drone(std:
     return *this;
 }
 
-asst::InfrastProductionTask& asst::InfrastProductionTask::set_product(std::string product_name) noexcept
+void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 {
     m_product = std::move(product_name);
-    return *this;
+
+    json::value callback_info = basic_info_with_what("ProductOfFacility");
+    callback_info["details"]["product"] = m_product;
+    callback(AsstMsg::SubTaskExtraInfo, callback_info);
 }
 
 bool asst::InfrastProductionTask::shift_facility_list()
@@ -98,7 +101,6 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
         set_product(cur_product);
-        Log.info("cur product", cur_product);
 
         locked_analyzer.set_image(image);
         if (locked_analyzer.analyze()) {

@@ -10,7 +10,7 @@ namespace asst
 {
     class ProcessTask;
 
-    class StageDropsTaskPlugin : public AbstractTaskPlugin
+    class StageDropsTaskPlugin final : public AbstractTaskPlugin
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;

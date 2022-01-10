@@ -56,17 +56,20 @@ json::value asst::InfrastAbstractTask::basic_info() const
 
 std::string asst::InfrastAbstractTask::facility_name() const
 {
-    // typeid.name() 结果可能和编译器有关，所以这里使用正则尽可能保证结果正确。
-    // 但还是不能完全保证，如果不行的话建议 override
-    static std::regex regex("Infrast(.*)Task");
-    std::smatch match_obj;
-    std::string class_name = typeid(*this).name();
-    if (std::regex_search(class_name, match_obj, regex)) {
-        return match_obj[1].str();
+    if (m_facility_name_cache.empty()) {
+        std::string class_name = typeid(*this).name();
+        // typeid.name() 结果可能和编译器有关，所以这里使用正则尽可能保证结果正确。
+        // 但还是不能完全保证，如果不行的话建议 override
+        std::regex regex("Infrast(.*)Task");
+        std::smatch match_obj;
+        if (std::regex_search(class_name, match_obj, regex)) {
+            m_facility_name_cache = match_obj[1].str();
+        }
+        else {
+            m_facility_name_cache = class_name;
+        }
     }
-    else {
-        return class_name;
-    }
+    return m_facility_name_cache;
 }
 
 bool asst::InfrastAbstractTask::on_run_fails()

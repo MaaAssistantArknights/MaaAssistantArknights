@@ -17,7 +17,7 @@ namespace asst
 
         virtual json::value basic_info() const override;
         virtual std::string facility_name() const;
-        virtual size_t max_num_of_facility() const noexcept { return 1ULL; }
+        virtual size_t max_num_of_facilities() const noexcept { return 1ULL; }
         virtual size_t max_num_of_opers() const noexcept { return 1ULL; }
 
         constexpr static int OperSelectRetryTimes = 3;
@@ -42,6 +42,7 @@ namespace asst
         infrast::WorkMode m_work_mode = infrast::WorkMode::Gentle;
         std::string m_work_mode_name = "Gentle";
         double m_mood_threshold = 0;
+        mutable std::string m_facility_name_cache;
         int m_cur_facility_index = 0;
 
         int m_face_hash_thres = 0;

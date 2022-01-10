@@ -15,13 +15,6 @@ namespace asst
 
         InfrastProductionTask& set_uses_of_drone(std::string uses_of_drones) noexcept;
 
-#ifdef ASST_DEBUG
-    public:
-#else
-        // 为了方便调试，把这两个个接口拿到public来了
-    protected:
-#endif
-        InfrastProductionTask& set_product(std::string product_name) noexcept;
 
     protected:
         bool shift_facility_list();
@@ -31,6 +24,7 @@ namespace asst
         bool optimal_calc();
         bool opers_choose();
         bool use_drone();
+        void set_product(std::string product_name) noexcept;
 
         infrast::SkillsComb efficient_regex_calc(
             std::unordered_set<infrast::Skill> skills) const;
