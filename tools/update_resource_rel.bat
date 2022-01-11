@@ -1,1 +1,1 @@
-sh ./update_resource.sh ..\x64\Release
+sh ./update_resource.sh ../x64/Release

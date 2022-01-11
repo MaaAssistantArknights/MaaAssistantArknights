@@ -380,7 +380,8 @@
         "next": [
             "ReturnToTerminal",
             "Terminal",
-            "ReturnToTerminalConfirm"
+            "ReturnToTerminalConfirm",
+            "CloseAnno"
         ]
     },
     "ReturnToTerminalConfirm": {
@@ -394,7 +395,8 @@
         ],
         "next": [
             "ReturnToTerminal",
-            "Terminal"
+            "Terminal",
+            "CloseAnno"
         ]
     },
     "UsePrts": {
@@ -785,7 +787,8 @@
             "RecruitFinish",
             "RecruitFlag",
             "Recruit",
-            "ReturnToRecruit"
+            "ReturnToRecruit",
+            "ReturnToRecruitCloseAnno"
         ]
     },
     "ReturnToRecruit": {
@@ -961,7 +964,8 @@
             "Award",
             "ReceiveAward",
             "DailyTask",
-            "WeeklyTask"
+            "WeeklyTask",
+            "ReturnToRecruitCloseAnno"
         ]
     },
     "Award": {
@@ -1116,7 +1120,8 @@
             "StartToVisit",
             "VisitNext",
             "VisitNextBlack",
-            "ReturnToFriends"
+            "ReturnToFriends",
+            "ReturnToFriendsCloseAnno"
         ]
     },
     "ReturnToFriends": {
@@ -1263,7 +1268,8 @@
         "action": "doNothing",
         "next": [
             "ReturnToMall",
-            "Mall"
+            "Mall",
+            "ReturnToMallCloseAnno"
         ]
     },
     "ReturnToMall": {
@@ -1638,7 +1644,8 @@
             "EnterInfrast",
             "InfrastEnteredFlag",
             "InfrastNotification",
-            "ReturnToInfrast"
+            "ReturnToInfrast",
+            "ReturnToInfrastCloseAnno"
         ]
     },
     "ReturnToInfrast": {
@@ -1716,7 +1723,8 @@
         "next": [
             "InfrastEnteredFlag",
             "EnterInfrast"
-        ]
+        ],
+        "rearDelay": 3000
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
@@ -1865,7 +1873,7 @@
     },
     "ShamareThumbnail1": {
         "action": "doNothing",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "cache": false,
         "roi": [
             240,
@@ -1876,7 +1884,7 @@
     },
     "ShamareThumbnail2": {
         "action": "doNothing",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "cache": false,
         "roi": [
             240,
@@ -1887,7 +1895,7 @@
     },
     "ShamareThumbnail3": {
         "action": "doNothing",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "cache": false,
         "roi": [
             240,
