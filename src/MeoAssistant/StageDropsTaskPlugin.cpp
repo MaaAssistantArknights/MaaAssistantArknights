@@ -61,13 +61,6 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     }
     cv::Mat image = Ctrler.get_image(true);
     m_cur_drops = json::parse(Resrc.penguin().recognize(image)).value();
-    for (auto&& ex : m_cur_drops.at("exceptions").as_array()) {
-        if (ex.at("type").as_string() == "ERROR"
-            || ex.at("where").as_string() == "stage"
-            || ex.at("what").as_string() == "NotFound") {
-            return false;
-        }
-    }
     return true;
 }
 
@@ -125,17 +118,28 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     if (!opt.penguin_report.enable) {
         return;
     }
+    json::value info = basic_info();
+    info["subtask"] = "ReportToPenguinStats";
+    callback(AsstMsg::SubTaskStart, info);
 
     // Doc: https://developer.penguin-stats.io/public-api/api-v2-instruction/report-api
+    std::string stage_id = m_cur_drops["stage"]["stageId"].as_string();
+    if (stage_id.empty()) {
+        info["why"] = "关卡错误，可能是资源未更新。";
+        callback(AsstMsg::SubTaskError, info);
+        return;
+    }
     json::value body;
     body["server"] = opt.penguin_report.server;
-    body["stageId"] = m_cur_drops["stage"]["stageId"];
+    body["stageId"] = stage_id;
     // To fix: https://github.com/MistEO/MeoAssistantArknights/issues/40
     body["drops"] = json::array();
     for (auto&& drop : m_cur_drops["drops"].as_array()) {
-        if (!drop["itemId"].as_string().empty()) {
-            body["drops"].as_array().emplace_back(drop);
+        if (drop["itemId"].as_string().empty()
+            || drop["dropType"].as_string() == "LMB") {
+            continue;
         }
+        body["drops"].as_array().emplace_back(drop);
     }
     body["source"] = "MeoAssistant";
     body["version"] = Version;
@@ -149,4 +153,6 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     std::string response = utils::callcmd(cmd_line);
 
     Log.trace("response:\n", response);
+
+    callback(AsstMsg::SubTaskCompleted, info);
 }
