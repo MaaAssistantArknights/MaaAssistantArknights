@@ -740,7 +740,7 @@
     "TodaysSupplies": {
         "algorithm": "OcrDetect",
         "text": [
-            "今日配给"
+            "Resource Today"
         ],
         "action": "clickRect",
         "specificRect": [
@@ -763,8 +763,8 @@
     "LastBattle": {
         "algorithm": "OcrDetect",
         "text": [
-            "前往",
-            "作战"
+            "recent",
+            "stage"
         ],
         "roi": [
             900,
@@ -1242,7 +1242,7 @@
     "VisitNextOcr": {
         "algorithm": "OcrDetect",
         "text": [
-            "访问下位"
+            "Visit Next"
         ],
         "action": "clickSelf",
         "roi": [
@@ -1392,8 +1392,8 @@
     "VisitLimited": {
         "algorithm": "OcrDetect",
         "text": [
-            "今日参与",
-            "已达上限"
+            "limit",
+            "reached"
         ],
         "action": "doNothing",
         "roi": [
@@ -1557,12 +1557,116 @@
         ],
         "ocrReplace": [
             [
-                "千员",
-                "干员"
+                "Starter",
+                "新手"
             ],
             [
-                ".+击干员",
+                "Senior Operator",
+                "资深干员"
+            ],
+            [
+                "Top Operator",
+                "高级资深干员"
+            ],
+            [
+                "Melee",
+                "近战位"
+            ],
+            [
+                "Ranged",
+                "远程位"
+            ],
+            [
+                "Guard",
+                "近卫干员"
+            ],
+            [
+                "Medic",
+                "医疗干员"
+            ],
+            [
+                "Vanguard",
+                "先锋干员"
+            ],
+            [
+                "Caster",
+                "术师干员"
+            ],
+            [
+                "Sniper",
                 "狙击干员"
+            ],
+            [
+                "Defender",
+                "重装干员"
+            ],
+            [
+                "Supporter",
+                "辅助干员"
+            ],
+            [
+                "Specialist",
+                "特种干员"
+            ],
+            [
+                "Healing",
+                "治疗"
+            ],
+            [
+                "Support",
+                "支援"
+            ],
+            [
+                "DPS",
+                "输出"
+            ],
+            [
+                "AoE",
+                "群攻"
+            ],
+            [
+                "Slow",
+                "减速"
+            ],
+            [
+                "Survival",
+                "生存"
+            ],
+            [
+                "Defense",
+                "防护"
+            ],
+            [
+                "Debuff",
+                "削弱"
+            ],
+            [
+                "Shift",
+                "位移"
+            ],
+            [
+                "Crowd Control",
+                "控场"
+            ],
+            [
+                "Nuker",
+                "爆发"
+            ],
+            [
+                "Summon",
+                "召唤"
+            ],
+            [
+                "Fast-Redeploy",
+                "快速复活"
+            ],
+            [
+                "DP-Recovery",
+                "费用回复"
+            ],
+            [
+                "Rebot",
+                "支援机械"
             ]
         ]
     },
@@ -1605,8 +1709,8 @@
         "algorithm": "OcrDetect",
         "action": "doNothing",
         "text": [
-            "正在提交",
-            "反馈至神经"
+            "Submitting",
+            "feedback"
         ],
         "roi": [
             700,
@@ -1749,9 +1853,10 @@
     "InfrastReward": {
         "algorithm": "OcrDetect",
         "text": [
-            "可收获",
-            "订单交付",
-            "信赖"
+            "Collectable",
+            "Orders",
+            "Acquired",
+            "Trust"
         ],
         "action": "clickSelf",
         "roi": [
@@ -2196,7 +2301,7 @@
     "InfrastStationedInfo": {
         "algorithm": "OcrDetect",
         "text": [
-            "进驻信息"
+            "Operator"
         ],
         "roi": [
             0,
@@ -2209,10 +2314,10 @@
     "InfrastEnterOperList": {
         "algorithm": "OcrDetect",
         "text": [
-            "心情",
-            "休息中",
-            "工作中",
-            "进驻"
+            "Morale",
+            "Resting",
+            "Working",
+            "Assign"
         ],
         "roi": [
             800,
@@ -2245,8 +2350,8 @@
         "Doc": "这个任务复用了，上半部分用来检测确认按钮点击成功没；下部部分用来点击",
         "algorithm": "ocrDetect",
         "text": [
-            "正在提交",
-            "反馈至神经"
+            "Submitting",
+            "feedback"
         ],
         "roi": [
             700,
