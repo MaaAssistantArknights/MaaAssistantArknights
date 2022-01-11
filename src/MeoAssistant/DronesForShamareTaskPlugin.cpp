@@ -29,7 +29,7 @@ void asst::DronesForShamareTaskPlugin::set_task_ptr(AbstractTask* ptr)
 bool asst::DronesForShamareTaskPlugin::_run()
 {
     ProcessTask shamare_task(*this, { "ShamareThumbnail" });
-    shamare_task.set_retry_times(1);
+    shamare_task.set_retry_times(0);
     bool has_shamare = shamare_task.run();
     if (!has_shamare) {
         return true;

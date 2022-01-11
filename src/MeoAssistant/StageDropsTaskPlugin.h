@@ -22,7 +22,7 @@ namespace asst
     private:
         virtual bool _run() override;
 
-        void recognize_drops();
+        bool recognize_drops();
         void drop_info_callback();
         void set_startbutton_delay();
         void upload_to_penguin();

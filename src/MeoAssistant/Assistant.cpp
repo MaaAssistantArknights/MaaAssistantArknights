@@ -213,7 +213,8 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
         .set_times_limit("StoneConfirm", stone)
         .set_times_limit("StartButton1", times)
         .set_times_limit("StartButton2", times);
-    fight_task_ptr->regiseter_plugin<StageDropsTaskPlugin>();
+    fight_task_ptr->regiseter_plugin<StageDropsTaskPlugin>()
+        ->set_retry_times(0);
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
