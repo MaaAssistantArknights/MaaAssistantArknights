@@ -1,6 +1,6 @@
 <div align="center">
 
-<img alt="LOGO" src="https://user-images.githubusercontent.com/18511905/147876304-55743fb8-69c4-4e95-8fa9-c7c52d9f458d.png" width=220 height=220/>
+<img alt="LOGO" src="https://user-images.githubusercontent.com/18511905/148931479-23aef436-2fc1-4c1e-84c9-bae17be710a5.png" width=360 height=270/>
 
 # MeoAssistantArknights
 
@@ -20,11 +20,11 @@
 
 A Game Assistant for Arknights
 
-一款明日方舟游戏小助手，一键完成所有日常，全自动长草！！
+一款明日方舟游戏小助手，简称 MAA
 
-纯图像识别，非内存挂！全图形化界面，开罐即食！
+基于图像识别技术，一键完成全部日常任务！
 
-并提供了 [API](#API) 供自行 DIY~  绝赞更新中！✿✿ヽ(°▽°)ノ✿  
+绝赞更新中  ✿✿ヽ(°▽°)ノ✿  
 
 </div>
 
@@ -36,7 +36,7 @@ A Game Assistant for Arknights
 - 访问好友
 - 收取信用及购物
 - 收取日常奖励
-- 全日常流程一键完成！
+- 全自动长草！
 
 话不多说，看图！  
 
@@ -173,7 +173,6 @@ Yes, but there are few supported features, please refer to [this link](resource/
 - 感谢 [LoveLoliii](https://github.com/LoveLoliii) 提供公开招募算法及数据、部分功能逻辑思路
 - 感谢 [dantmnf](https://github.com/dantmnf) 大佬提供各种 adb 及其他逻辑处理思路
 - 感谢 [LmeSzinc](https://github.com/LmeSzinc) 提供的界面样式参考，~~虽然我抄了个四不像orz~~
-- 感谢 [Rosalindlo](https://space.bilibili.com/352372683) 帮忙制作的项目 logo
 - 感谢 [内卷地狱](https://jq.qq.com/?_wv=1027&k=ypbzXcA2) 的大佬们提供的各种帮助！
 - 感谢参与软件测试、提 bug 的小伙伴们~
 - ~~感谢 [B站直播间](https://live.bilibili.com/2808861) 的小伙伴们陪我弹幕吹水~~
@@ -194,6 +193,10 @@ Yes, but there are few supported features, please refer to [this link](resource/
 - [Python 接口](https://github.com/MistEO/MeoAssistantArknights/wiki/Python-%E6%8E%A5%E5%8F%A3)
 - [Golang 接口](https://github.com/MistEO/MeoAssistantArknights/wiki/Golang-%E6%8E%A5%E5%8F%A3)
 - [回调消息协议](docs/回调消息协议.md)
+
+## 声明
+
+本项目 logo 并非使用 AGPL 3.0 协议开源，画师 [耗毛](https://weibo.com/u/3251357314) 及项目全体开发者保留所有权利。不得以 AGPL 3.0 协议已授权为由在未经授权的情况下使用本项目 logo, 不得在未经授权的情况下将本项目 logo 用于任何商业用途，不得在未经授权的情况下使用本项目仓库名称及 logo 进行任何形式的宣传。
 
 ## 广告
 
