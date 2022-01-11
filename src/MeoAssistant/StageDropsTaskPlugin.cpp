@@ -37,7 +37,9 @@ bool asst::StageDropsTaskPlugin::_run()
 {
     set_startbutton_delay();
 
-    recognize_drops();
+    if (!recognize_drops()) {
+        return false;
+    }
     if (need_exit()) {
         return false;
     }
@@ -51,14 +53,22 @@ bool asst::StageDropsTaskPlugin::_run()
     return true;
 }
 
-void asst::StageDropsTaskPlugin::recognize_drops()
+bool asst::StageDropsTaskPlugin::recognize_drops()
 {
     sleep(Task.get("PRTS")->rear_delay);
     if (need_exit()) {
-        return;
+        return false;
     }
     cv::Mat image = Ctrler.get_image(true);
     m_cur_drops = json::parse(Resrc.penguin().recognize(image)).value();
+    for (auto&& ex : m_cur_drops.at("exceptions").as_array()) {
+        if (ex.at("type").as_string() == "ERROR"
+            || ex.at("where").as_string() == "stage"
+            || ex.at("what").as_string() == "NotFound") {
+            return false;
+        }
+    }
+    return true;
 }
 
 void asst::StageDropsTaskPlugin::drop_info_callback()

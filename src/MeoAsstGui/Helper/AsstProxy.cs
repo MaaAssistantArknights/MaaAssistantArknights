@@ -216,13 +216,19 @@ namespace MeoAsstGui
 
         private void procSubTaskError(JObject details)
         {
-            string classType = details["class"].ToString();
+            string subTask = details["subtask"].ToString();
 
             var mainModel = _container.Get<TaskQueueViewModel>();
 
-            if (classType == "class asst::AutoRecruitTask")
+            switch (subTask)
             {
-                mainModel.AddLog("公招识别错误，已返回", "darkred");
+                case "AutoRecruitTask":
+                    mainModel.AddLog("公招识别错误，已返回", "darkred");
+                    break;
+
+                case "StageDropsTask":
+                    mainModel.AddLog("关卡识别错误", "darkred");
+                    break;
             }
         }
 
