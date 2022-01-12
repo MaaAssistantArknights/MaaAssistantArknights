@@ -65,15 +65,14 @@ A Game Assistant for Arknights
 - 主界面上的 `吃理智`、`吃石头`、`指定次数` 三个选项为短路开关，即三个选项中的任一条件达到，均会视为任务完成，停止刷理智。
     - 举例1：设置 `吃理智药` : `999`、`吃石头` : `10`、`指定次数` : `1`。则在刷完 **一次** 后，由于满足了 `指定次数`:`1` 的条件，视为任务完成，停止刷理智。
     - 举例2：不勾选 `吃理智药`、不勾选 `吃石头`，设置 `指定次数` : `100`。则在当前可用理智全部刷完后（可能只刷了几次），由于满足了 `不吃理智药`、`不吃石头` 的条件，视为任务完成，停止刷理智。
-- 其他优势
-    - 刷完自动上传 [企鹅物流数据统计](https://penguin-stats.cn/)
-    - 可自定义企鹅物流 ID
-    - 识别并显示材料掉落
-    - 掉线后会重连，继续刷上次的图
-    - 凌晨 4 点刷新后也会重连，继续刷上次的图
-    - 支持剿灭模式
-    - 支持打完升级了的情况
-    - 支持代理失败的情况，会自动放弃本次行动
+- 刷完自动上传 [企鹅物流数据统计](https://penguin-stats.cn/)
+- 可自定义企鹅物流 ID
+- 识别并显示材料掉落
+- 掉线后会重连，继续刷上次的图
+- 凌晨 4 点刷新后也会重连，继续刷上次的图
+- 支持剿灭模式
+- 支持打完升级了的情况
+- 支持代理失败的情况，会自动放弃本次行动
 
 ### 基建换班
 
@@ -139,9 +138,11 @@ A Game Assistant for Arknights
 - 下载 [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) ，将 `platform-tools` 文件夹解压到 `MeoAsstGui.exe` 的同级目录
 - 进入软件 `设置` - `连接设置`，填写自定义 adb 地址（需要填写 IP + 端口，例如 `127.0.0.1:5555` ）
 
-### 我是国际服玩家，可以使用么？ | I'm an international server player, could I use it?
+### 我是国际服玩家，可以使用么？
 
 可以！但是目前只支持少部分功能，请参考 [这个链接](resource/international/)
+
+### I'm an international server player, could I use it?
 
 Yes, but there are few supported features, please refer to [this link](resource/international/)
 
