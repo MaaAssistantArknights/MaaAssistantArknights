@@ -353,6 +353,10 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _useStone, value);
+                if (value)
+                {
+                    UseMedicine = true;
+                }
             }
         }
 
