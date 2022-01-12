@@ -42,7 +42,12 @@ void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg)
 
 asst::Assistant* AsstCreate(const char* dirname)
 {
+    if (_callback != nullptr) {
+        std::cerr << "An instance of Asst already exists" << std::endl;
+        return nullptr;
+    }
     try {
+        _callback = nullptr;
         return new asst::Assistant(dirname);
     }
     catch (std::exception& e) {
@@ -56,8 +61,11 @@ asst::Assistant* AsstCreate(const char* dirname)
 
 asst::Assistant* AsstCreateEx(const char* dirname, AsstCallback callback, void* custom_arg)
 {
+    if (_callback != nullptr) {
+        std::cerr << "An instance of Asst already exists" << std::endl;
+        return nullptr;
+    }
     try {
-        // 创建多实例回调会有问题，有空再慢慢整
         _callback = callback;
         return new asst::Assistant(dirname, CallbackTrans, custom_arg);
     }
@@ -78,6 +86,7 @@ void AsstDestroy(asst::Assistant* p_asst)
 
     delete p_asst;
     p_asst = nullptr;
+    _callback = nullptr;
 }
 
 bool AsstCatchDefault(asst::Assistant* p_asst)
