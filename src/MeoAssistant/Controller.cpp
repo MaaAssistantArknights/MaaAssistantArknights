@@ -459,7 +459,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
                 pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + read_num);
                 read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
             };
-        } while (::waitpid(m_child, nullptr, WNOHANG) == 0);
+        } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0);
     }
     else {
         // failed to create child process

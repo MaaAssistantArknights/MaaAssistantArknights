@@ -251,7 +251,7 @@ namespace asst
                         pipe_str.append(pipe_buffer.get(), pipe_buffer.get() + read_num);
                         read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), PipeBuffSize);
                     };
-                } while (::waitpid(child, nullptr, WNOHANG) == 0);
+                } while (::waitpid(child, &exit_ret, WNOHANG) == 0);
 
                 close(pipe_in[PIPE_WRITE]);
                 close(pipe_out[PIPE_READ]);
