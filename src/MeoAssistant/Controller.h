@@ -69,6 +69,8 @@ namespace asst
         std::optional<std::vector<unsigned char>> call_command(const std::string& cmd);
         int push_cmd(const std::string& cmd);
         bool screencap();
+        using DecodeFunc = std::function<bool(const std::vector<uchar>&)>;
+        bool screencap(const std::string& cmd, DecodeFunc decode_func);
         Point rand_point_in_rect(const Rect& rect);
 
         void random_delay() const;
@@ -89,7 +91,6 @@ namespace asst
 
         //std::shared_mutex m_image_mutex;
         cv::Mat m_cache_image;
-        bool m_image_convert_lf = false;
 
         constexpr static int PipeBuffSize = 4 * 1024 * 1024; // 管道缓冲区大小
         std::unique_ptr<uchar[]> m_pipe_buffer = nullptr;

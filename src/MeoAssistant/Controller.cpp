@@ -157,7 +157,8 @@ bool asst::Controller::connect_adb(const std::string & address)
 
     m_emulator_info.adb.click = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.click, "[Adb]", m_emulator_info.adb.path), "[Address]", address);
     m_emulator_info.adb.swipe = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.swipe, "[Adb]", m_emulator_info.adb.path), "[Address]", address);
-    m_emulator_info.adb.screencap = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.screencap, "[Adb]", m_emulator_info.adb.path), "[Address]", address);
+    m_emulator_info.adb.screencap_raw_with_gzip = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.screencap_raw_with_gzip, "[Adb]", m_emulator_info.adb.path), "[Address]", address);
+    m_emulator_info.adb.screencap_encode = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.screencap_encode, "[Adb]", m_emulator_info.adb.path), "[Address]", address);
     m_emulator_info.adb.release = utils::string_replace_all(m_emulator_info.adb.release, "[Adb]", m_emulator_info.adb.path);
 
     return true;
@@ -579,54 +580,103 @@ bool asst::Controller::screencap()
     LogTraceFunction;
 
     auto& adb = m_emulator_info.adb;
-    auto ret = call_command(adb.screencap);
+
+    DecodeFunc decode_raw_with_gzip = [&](const std::vector<uchar>& data) -> bool {
+        auto unzip_data = gzip::decompress(data.data(), data.size());
+        Log.trace("unzip data size:", unzip_data.size());
+        if (unzip_data.empty()) {
+            return false;
+        }
+        size_t std_size = adb.display_height * adb.display_width * 4;
+        if (unzip_data.size() < std_size) {
+            return false;
+        }
+        size_t header_size = unzip_data.size() - std_size;
+        Log.trace("header size:", header_size);
+        m_cache_image = cv::Mat(
+            adb.display_height,
+            adb.display_width,
+            CV_8UC4,
+            unzip_data.data() + header_size);
+        cv::cvtColor(m_cache_image, m_cache_image, cv::COLOR_RGB2BGR);
+        return !m_cache_image.empty();
+    };
+
+    DecodeFunc decode_encode = [&](const std::vector<uchar>& data) -> bool {
+        m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
+        return !m_cache_image.empty();
+    };
+
+    switch (adb.screencap_method) {
+    case AdbCmd::ScreencapMethod::UnknownYet:
+    {
+        if (screencap(adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
+            adb.screencap_method = AdbCmd::ScreencapMethod::RawWithGzip;
+            return true;
+        }
+        else if (screencap(adb.screencap_encode, decode_encode)) {
+            adb.screencap_method = AdbCmd::ScreencapMethod::Encode;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    case AdbCmd::ScreencapMethod::RawWithGzip:
+    {
+        return screencap(adb.screencap_raw_with_gzip, decode_raw_with_gzip);
+    }
+    break;
+    case AdbCmd::ScreencapMethod::Encode:
+    {
+        return screencap(adb.screencap_encode, decode_encode);
+    }
+    break;
+    }
+
+    return false;
+}
+
+bool asst::Controller::screencap(const std::string & cmd, DecodeFunc decode_func)
+{
+    LogTraceFunction;
+
+    auto& adb = m_emulator_info.adb;
+    auto ret = call_command(cmd);
 
     if (!ret || ret.value().empty()) {
-        Log.error("Data is empty!");
+        Log.error("data is empty!");
         return false;
     }
     auto data = std::move(ret).value();
-    if (m_image_convert_lf) {
+
+    if (adb.screencap_end_of_line == AdbCmd::ScreencapEndOfLine::CRLF) {
         convert_lf(data);
     }
 
-    std::function<bool(const std::vector<uchar>&)> decode_func = nullptr;
-    if (adb.screencap_gzip) {
-        decode_func = [&](const std::vector<uchar>& data) -> bool {
-            auto unzip_data = gzip::decompress(data.data(), data.size());
-            Log.trace("unzip data size:", unzip_data.size());
-            if (unzip_data.empty()) {
-                return false;
-            }
-            constexpr static int BmpHeaderSize = 12;
-            size_t std_size = adb.display_height * adb.display_width * 4 + BmpHeaderSize;
-            if (unzip_data.size() != std_size) {
-                return false;
-            }
-            m_cache_image = cv::Mat(adb.display_height, adb.display_width, CV_8UC4, unzip_data.data() + BmpHeaderSize);
-            cv::cvtColor(m_cache_image, m_cache_image, cv::COLOR_RGB2BGR);
-            return !m_cache_image.empty();
-        };
-    }
-    else {
-        decode_func = [&](const std::vector<uchar>& data) -> bool {
-            m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
-            return !m_cache_image.empty();
-        };
-    }
-
-    if (!decode_func(data)) {
-        Log.info("Data is not empty, but image is empty, try to convert lf");
-        convert_lf(data);
-        if (!decode_func(data)) {
-            m_image_convert_lf = false;
-            Log.error("convert lf and retry decode falied!");
-            return false;
+    if (decode_func(data)) {
+        if (adb.screencap_end_of_line == AdbCmd::ScreencapEndOfLine::UnknownYet) {
+            adb.screencap_end_of_line = AdbCmd::ScreencapEndOfLine::LF;
         }
-        m_image_convert_lf = true;
         return true;
     }
-    return true;
+    else {
+        Log.info("data is not empty, but image is empty");
+
+        if (adb.screencap_end_of_line == AdbCmd::ScreencapEndOfLine::UnknownYet) {
+            Log.info("try to cvt lf");
+            convert_lf(data);
+
+            if (decode_func(data)) {
+                adb.screencap_end_of_line = AdbCmd::ScreencapEndOfLine::CRLF;
+                return true;
+            }
+            else {
+                Log.error("convert lf and retry decode falied!");
+            }
+        }
+        return false;
+    }
 }
 
 int asst::Controller::click(const Point & p, bool block)
