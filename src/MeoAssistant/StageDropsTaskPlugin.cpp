@@ -35,6 +35,8 @@ void asst::StageDropsTaskPlugin::set_task_ptr(AbstractTask* ptr)
 
 bool asst::StageDropsTaskPlugin::_run()
 {
+    LogTraceFunction;
+
     set_startbutton_delay();
 
     if (!recognize_drops()) {
@@ -55,17 +57,23 @@ bool asst::StageDropsTaskPlugin::_run()
 
 bool asst::StageDropsTaskPlugin::recognize_drops()
 {
+    LogTraceFunction;
+
     sleep(Task.get("PRTS")->rear_delay);
     if (need_exit()) {
         return false;
     }
     cv::Mat image = Ctrler.get_image(true);
-    m_cur_drops = json::parse(Resrc.penguin().recognize(image)).value();
+    std::string res = Resrc.penguin().recognize(image);
+    Log.trace("Results of penguin recognition:\n", res);
+    m_cur_drops = json::parse(res).value();
     return true;
 }
 
 void asst::StageDropsTaskPlugin::drop_info_callback()
 {
+    LogTraceFunction;
+
     json::value drops_details = m_cur_drops;
     auto& item = Resrc.item();
     for (json::value& drop : drops_details["drops"].as_array()) {
@@ -100,6 +108,8 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
 
 void asst::StageDropsTaskPlugin::set_startbutton_delay()
 {
+    LogTraceFunction;
+
     if (!m_startbutton_delay_setted) {
         int64_t start_times = Status.get("LastStartButton2");
 
@@ -114,6 +124,8 @@ void asst::StageDropsTaskPlugin::set_startbutton_delay()
 
 void asst::StageDropsTaskPlugin::upload_to_penguin()
 {
+    LogTraceFunction;
+
     auto& opt = Resrc.cfg().get_options();
     if (!opt.penguin_report.enable) {
         return;
@@ -125,7 +137,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     // Doc: https://developer.penguin-stats.io/public-api/api-v2-instruction/report-api
     std::string stage_id = m_cur_drops["stage"]["stageId"].as_string();
     if (stage_id.empty()) {
-        info["why"] = "关卡错误，可能是资源未更新。";
+        info["why"] = "未知关卡";
         callback(AsstMsg::SubTaskError, info);
         return;
     }

@@ -330,14 +330,8 @@
         "action": "doNothing",
         "next": [
             "ReturnToTerminal",
-            "PRTS",
-            "EndOfAction",
-            "OfflineConfirm",
-            "StartToWakeUp",
-            "TodaysSupplies",
-            "CloseAnno",
             "Terminal",
-            "GameStart"
+            "CloseAnno"
         ]
     },
     "FightBegin": {
@@ -763,6 +757,14 @@
         ]
     },
     "LastBattle": {
+        "algorithm": "justReturn",
+        "action": "doNothing",
+        "next": [
+            "StartButton1",
+            "GoLastBattle"
+        ]
+    },
+    "GoLastBattle": {
         "algorithm": "OcrDetect",
         "text": [
             "前往",
