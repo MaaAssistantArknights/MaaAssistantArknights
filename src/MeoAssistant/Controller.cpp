@@ -800,11 +800,12 @@ cv::Mat asst::Controller::get_image(bool raw)
         return m_cache_image;
     }
     else {
+        const static cv::Size dsize(m_scale_size.first, m_scale_size.second);
         if (m_cache_image.empty()) {
-            return m_cache_image;
+            Log.error("image is empty");
+            return cv::Mat(dsize, CV_8UC3);
         }
         cv::Mat resized_mat;
-        const static cv::Size dsize(m_scale_size.first, m_scale_size.second);
         cv::resize(m_cache_image, resized_mat, dsize);
         return resized_mat;
     }
