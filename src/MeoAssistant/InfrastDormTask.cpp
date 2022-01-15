@@ -117,7 +117,7 @@ bool asst::InfrastDormTask::opers_choose()
 //    // 识别“正在提交反馈至神经”，如果网不好一直确认不了，就多等一会
 //    OcrImageAnalyzer analyzer;
 //    analyzer.set_task_info(*task_ptr);
-//    for (int i = 0; i != m_retry_times; ++i) {
+//    for (int i = 0; i <= m_retry_times; ++i) {
 //        if (need_exit()) {
 //            return false;
 //        }

@@ -2316,7 +2316,8 @@
             520,
             180
         ],
-        "rearDelay": 1000
+        "preDelay": 1000,
+        "rearDelay": 2000
     },
     "InfrastDormConfirmButton": {
         "template": "DormConfirm.png",
