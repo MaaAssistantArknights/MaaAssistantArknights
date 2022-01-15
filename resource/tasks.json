@@ -1726,7 +1726,7 @@
             "InfrastEnteredFlag",
             "EnterInfrast"
         ],
-        "rearDelay": 3000
+        "rearDelay": 5000
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
