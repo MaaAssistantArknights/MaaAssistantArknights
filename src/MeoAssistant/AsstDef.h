@@ -239,12 +239,28 @@ namespace asst
         std::string swipe;
         std::string display;
         std::string display_format;
-        std::string screencap;
-        bool screencap_gzip = false;
+        std::string screencap_raw_with_gzip;
+        std::string screencap_encode;
         std::string release;
         //std::string pullscreen;
         int display_width = 0;
         int display_height = 0;
+
+        enum class ScreencapEndOfLine
+        {
+            UnknownYet,
+            CRLF,
+            LF,
+            CR
+        } screencap_end_of_line = ScreencapEndOfLine::UnknownYet;
+
+        enum class ScreencapMethod
+        {
+            UnknownYet,
+            Default,
+            RawWithGzip,
+            Encode
+        } screencap_method = ScreencapMethod::UnknownYet;
     };
 
     struct EmulatorInfo

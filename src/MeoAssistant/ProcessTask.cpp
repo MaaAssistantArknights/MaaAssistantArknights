@@ -26,7 +26,7 @@ asst::ProcessTask::ProcessTask(AbstractTask&& abs, std::vector<std::string> task
 
 bool asst::ProcessTask::run()
 {
-    for (m_cur_retry = 0; m_cur_retry < m_retry_times; ++m_cur_retry) {
+    for (m_cur_retry = 0; m_cur_retry <= m_retry_times; ++m_cur_retry) {
         if (_run()) {
             return true;
         }
