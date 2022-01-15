@@ -80,8 +80,7 @@ bool asst::AutoRecruitTask::_run()
 bool asst::AutoRecruitTask::analyze_start_buttons()
 {
     OcrImageAnalyzer start_analyzer;
-    const auto start_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("StartRecruit"));
-    start_analyzer.set_task_info(*start_task_ptr);
+    start_analyzer.set_task_info("StartRecruit");
 
     auto image = Ctrler.get_image();
     start_analyzer.set_image(image);

@@ -19,43 +19,17 @@ namespace asst
 
         void sort_result(); // 按位置排序，左上角的排在前面
 
-        void set_required(std::vector<std::string> required, bool full_match = false) noexcept
-        {
-            m_required = std::move(required);
-            m_full_match = full_match;
-        }
-        void set_replace(std::unordered_map<std::string, std::string> replace) noexcept
-        {
-            m_replace = std::move(replace);
-        }
-        void set_task_info(OcrTaskInfo task_info) noexcept
-        {
-            m_required = std::move(task_info.text);
-            m_full_match = task_info.need_full_match;
-            m_replace = std::move(task_info.replace_map);
+        void set_required(std::vector<std::string> required, bool full_match = false) noexcept;
+        void set_replace(std::unordered_map<std::string, std::string> replace) noexcept;
+        void set_task_info(std::shared_ptr<TaskInfo> task_ptr);
+        void set_task_info(const std::string& task_name);
 
-            set_roi(task_info.roi);
-            correct_roi();
-            auto& cache_roi = task_info.region_of_appeared;
-            if (task_info.cache && !cache_roi.empty()) {
-                m_roi = cache_roi;
-                m_without_det = true;
-            }
-            else {
-                m_without_det = false;
-            }
-        }
-
-        void set_pred(const TextRectProc& pred)
-        {
-            m_pred = pred;
-        }
-        const std::vector<TextRect>& get_result() const noexcept
-        {
-            return m_ocr_result;
-        }
+        void set_pred(const TextRectProc& pred);
+        const std::vector<TextRect>& get_result() const noexcept;
 
     protected:
+        void set_task_info(OcrTaskInfo task_info) noexcept;
+
         std::vector<TextRect> m_ocr_result;
         std::vector<std::string> m_required;
         bool m_full_match = false;

@@ -114,19 +114,17 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
     auto image = Ctrler.get_image();
 
     // 识别左边的“进驻”按钮
-    const auto enter_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-        Task.get("InfrastEnterOperList"));
+    const auto enter_task_ptr = Task.get("InfrastEnterOperList");
     OcrImageAnalyzer enter_analyzer(image);
-    enter_analyzer.set_task_info(*enter_task_ptr);
+    enter_analyzer.set_task_info(enter_task_ptr);
 
     // 如果没找到，说明“进驻信息”这个按钮没有被点开，那就点开它
     if (!enter_analyzer.analyze()) {
         Log.trace("ready to analyze the stationed basic_info button");
         OcrImageAnalyzer station_analyzer(image);
 
-        const auto stationedinfo_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-            Task.get("InfrastStationedInfo"));
-        station_analyzer.set_task_info(*stationedinfo_task_ptr);
+        const auto stationedinfo_task_ptr = Task.get("InfrastStationedInfo");
+        station_analyzer.set_task_info(stationedinfo_task_ptr);
         if (station_analyzer.analyze()) {
             Log.trace("the stationed basic_info button found");
             Ctrler.click(station_analyzer.get_result().front().rect);
@@ -196,14 +194,13 @@ bool asst::InfrastAbstractTask::click_clear_button()
 bool asst::InfrastAbstractTask::click_confirm_button()
 {
     LogTraceFunction;
-    const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-        Task.get("InfrastConfirmButton"));
+    const auto task_ptr = Task.get("InfrastConfirmButton");
     Ctrler.click(task_ptr->specific_rect);
     sleep(task_ptr->rear_delay);
 
     // 识别“正在提交反馈至神经”，如果网不好一直确认不了，就多等一会
     OcrImageAnalyzer analyzer;
-    analyzer.set_task_info(*task_ptr);
+    analyzer.set_task_info(task_ptr);
     for (int i = 0; i <= m_retry_times; ++i) {
         if (need_exit()) {
             return false;

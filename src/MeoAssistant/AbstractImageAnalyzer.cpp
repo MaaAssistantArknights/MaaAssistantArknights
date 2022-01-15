@@ -52,12 +52,12 @@ asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, con
     return rect.empty() ? Rect(0, 0, image.cols, image.rows) : rect;
 }
 
-std::string asst::AbstractImageAnalyzer::calc_name_hash() const
+std::string asst::AbstractImageAnalyzer::calc_text_hash() const
 {
-    return calc_name_hash(m_roi);
+    return calc_text_hash(m_roi);
 }
 
-std::string asst::AbstractImageAnalyzer::calc_name_hash(const Rect& roi) const
+std::string asst::AbstractImageAnalyzer::calc_text_hash(const Rect& roi) const
 {
     // 从左往右找到第一个白色点
     Rect white_roi = roi;

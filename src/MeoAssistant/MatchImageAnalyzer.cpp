@@ -22,6 +22,60 @@ bool asst::MatchImageAnalyzer::analyze()
     return match_templ(templ);
 }
 
+void asst::MatchImageAnalyzer::set_use_cache(bool is_use) noexcept
+{
+    m_use_cache = is_use;
+}
+
+void asst::MatchImageAnalyzer::set_mask_range(int lower, int upper) noexcept
+{
+    m_mask_range = std::make_pair(lower, upper);
+}
+
+void asst::MatchImageAnalyzer::set_mask_range(std::pair<int, int> mask_range) noexcept
+{
+    m_mask_range = std::move(mask_range);
+}
+
+void asst::MatchImageAnalyzer::set_templ_name(std::string templ_name) noexcept
+{
+    m_templ_name = std::move(templ_name);
+}
+
+void asst::MatchImageAnalyzer::set_threshold(double templ_thres) noexcept
+{
+    m_templ_thres = templ_thres;
+}
+
+void asst::MatchImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
+{
+    set_task_info(*std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr));
+}
+
+void asst::MatchImageAnalyzer::set_task_info(const std::string& task_name)
+{
+    set_task_info(Task.get(task_name));
+}
+
+const asst::MatchRect& asst::MatchImageAnalyzer::get_result() const noexcept
+{
+    return m_result;
+}
+
+void asst::MatchImageAnalyzer::set_task_info(MatchTaskInfo task_info) noexcept
+{
+    m_mask_range = std::move(task_info.mask_range);
+    m_templ_name = std::move(task_info.templ_name);
+    m_templ_thres = task_info.templ_threshold;
+
+    if (task_info.cache && !task_info.region_of_appeared.empty()) {
+        m_roi = task_info.region_of_appeared;
+    }
+    else {
+        set_roi(task_info.roi);
+        correct_roi();
+    }
+}
 bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
 {
     cv::Mat matched;
