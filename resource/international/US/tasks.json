@@ -330,14 +330,8 @@
         "action": "doNothing",
         "next": [
             "ReturnToTerminal",
-            "PRTS",
-            "EndOfAction",
-            "OfflineConfirm",
-            "StartToWakeUp",
-            "TodaysSupplies",
-            "CloseAnno",
             "Terminal",
-            "GameStart"
+            "CloseAnno"
         ]
     },
     "FightBegin": {
@@ -380,7 +374,8 @@
         "next": [
             "ReturnToTerminal",
             "Terminal",
-            "ReturnToTerminalConfirm"
+            "ReturnToTerminalConfirm",
+            "CloseAnno"
         ]
     },
     "ReturnToTerminalConfirm": {
@@ -394,7 +389,8 @@
         ],
         "next": [
             "ReturnToTerminal",
-            "Terminal"
+            "Terminal",
+            "CloseAnno"
         ]
     },
     "UsePrts": {
@@ -761,6 +757,14 @@
         ]
     },
     "LastBattle": {
+        "algorithm": "justReturn",
+        "action": "doNothing",
+        "next": [
+            "StartButton1",
+            "GoLastBattle"
+        ]
+    },
+    "GoLastBattle": {
         "algorithm": "OcrDetect",
         "text": [
             "recent",
@@ -785,7 +789,8 @@
             "RecruitFinish",
             "RecruitFlag",
             "Recruit",
-            "ReturnToRecruit"
+            "ReturnToRecruit",
+            "ReturnToRecruitCloseAnno"
         ]
     },
     "ReturnToRecruit": {
@@ -961,7 +966,8 @@
             "Award",
             "ReceiveAward",
             "DailyTask",
-            "WeeklyTask"
+            "WeeklyTask",
+            "ReturnToRecruitCloseAnno"
         ]
     },
     "Award": {
@@ -1116,7 +1122,8 @@
             "StartToVisit",
             "VisitNext",
             "VisitNextBlack",
-            "ReturnToFriends"
+            "ReturnToFriends",
+            "ReturnToFriendsCloseAnno"
         ]
     },
     "ReturnToFriends": {
@@ -1263,7 +1270,8 @@
         "action": "doNothing",
         "next": [
             "ReturnToMall",
-            "Mall"
+            "Mall",
+            "ReturnToMallCloseAnno"
         ]
     },
     "ReturnToMall": {
@@ -1742,7 +1750,8 @@
             "EnterInfrast",
             "InfrastEnteredFlag",
             "InfrastNotification",
-            "ReturnToInfrast"
+            "ReturnToInfrast",
+            "ReturnToInfrastCloseAnno"
         ]
     },
     "ReturnToInfrast": {
@@ -1820,7 +1829,8 @@
         "next": [
             "InfrastEnteredFlag",
             "EnterInfrast"
-        ]
+        ],
+        "rearDelay": 5000
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
@@ -1958,6 +1968,48 @@
         "Doc": "如果找到了“无人机加速”按钮，却没有找到订单交付：说明上一次无人机没有把一个订单加速完成，也说明没有更多的无人机了，所以直接stop",
         "template": "DroneAssistTrade.png",
         "action": "stop"
+    },
+    "ShamareThumbnail": {
+        "algorithm": "JustReturn",
+        "action": "doNothing",
+        "next": [
+            "ShamareThumbnail1",
+            "ShamareThumbnail2",
+            "ShamareThumbnail3"
+        ]
+    },
+    "ShamareThumbnail1": {
+        "action": "doNothing",
+        "templThreshold": 0.9,
+        "cache": false,
+        "roi": [
+            240,
+            550,
+            380,
+            170
+        ]
+    },
+    "ShamareThumbnail2": {
+        "action": "doNothing",
+        "templThreshold": 0.9,
+        "cache": false,
+        "roi": [
+            240,
+            550,
+            380,
+            170
+        ]
+    },
+    "ShamareThumbnail3": {
+        "action": "doNothing",
+        "templThreshold": 0.9,
+        "cache": false,
+        "roi": [
+            240,
+            550,
+            380,
+            170
+        ]
     },
     "InfrastSkillsUpper": {
         "algorithm": "justReturn",
@@ -2369,7 +2421,8 @@
             520,
             180
         ],
-        "rearDelay": 1000
+        "preDelay": 1000,
+        "rearDelay": 2000
     },
     "InfrastDormConfirmButton": {
         "template": "DormConfirm.png",
