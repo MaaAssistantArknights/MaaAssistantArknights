@@ -38,17 +38,12 @@ bool asst::InfrastProductionTask::shift_facility_list()
     if (need_exit()) {
         return false;
     }
-    const auto tab_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastFacilityListTab" + facility_name()));
+    const auto tab_task_ptr = Task.get("InfrastFacilityListTab" + facility_name());
     MatchImageAnalyzer add_analyzer;
-    const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name));
-    add_analyzer.set_task_info(*add_task_ptr);
-
-    const auto locked_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastOperLocked" + facility_name()));
+    const auto add_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
+    add_analyzer.set_task_info(add_task_ptr);
     MultiMatchImageAnalyzer locked_analyzer;
-    locked_analyzer.set_task_info(*locked_task_ptr);
+    locked_analyzer.set_task_info("InfrastOperLocked" + facility_name());
 
     int index = 0;
     for (const Rect& tab : m_facility_list_tabs) {
@@ -88,10 +83,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         std::string cur_product = all_products.at(0);
         double max_score = 0;
         for (const std::string& product : all_products) {
-            const static std::string prefix = "InfrastFlag";
-            const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-                Task.get(prefix + product));
-            product_analyzer.set_task_info(*task_ptr);
+            product_analyzer.set_task_info("InfrastFlag" + product);
             if (product_analyzer.analyze()) {
                 double score = product_analyzer.get_result().score;
                 if (score > max_score) {
@@ -612,10 +604,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
 
     const auto image = Ctrler.get_image();
     MultiMatchImageAnalyzer mm_analyzer(image);
-
-    const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastFacilityListTab" + facility_name()));
-    mm_analyzer.set_task_info(*task_ptr);
+    mm_analyzer.set_task_info("InfrastFacilityListTab" + facility_name());
 
     if (!mm_analyzer.analyze()) {
         return false;

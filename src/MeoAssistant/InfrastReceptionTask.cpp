@@ -151,8 +151,7 @@ bool asst::InfrastReceptionTask::shift()
         }
         break;
     case AlgorithmType::MatchTemplate: {
-        const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(raw_task_ptr);
-        add_analyzer.set_task_info(*add_task_ptr);
+        add_analyzer.set_task_info(raw_task_ptr);
 
         if (!add_analyzer.analyze()) {
             return true;

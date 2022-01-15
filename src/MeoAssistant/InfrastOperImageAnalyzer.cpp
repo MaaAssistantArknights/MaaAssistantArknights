@@ -428,12 +428,11 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
 {
     LogTraceFunction;
 
-    const auto working_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastOperOnShift"));
+    const auto working_task_ptr = Task.get("InfrastOperOnShift");
     Rect rect_move = working_task_ptr->rect_move;
 
     MatchImageAnalyzer working_analyzer(m_image);
-    working_analyzer.set_task_info(*working_task_ptr);
+    working_analyzer.set_task_info(working_task_ptr);
 
     for (auto&& oper : m_result) {
         Rect working_rect = rect_move;
