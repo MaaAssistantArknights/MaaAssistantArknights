@@ -47,12 +47,9 @@ namespace MeoAsstGui
                 using (StreamReader sr = new StreamReader(_configFilename))
                 {
                     string jsonStr = sr.ReadToEnd();
-                    _viewStatus = (JObject)JsonConvert.DeserializeObject(jsonStr);
-                    // 文件存在但为空，会读出来一个null，感觉c#这库有bug
-                    if (_viewStatus == null)
-                    {
-                        _viewStatus = new JObject();
-                    }
+
+                    // 文件存在但为空，会读出来一个null，感觉c#这库有bug，如果是null 就赋值一个空JObject
+                    _viewStatus = (JObject)JsonConvert.DeserializeObject(jsonStr) ?? new JObject();
                 }
             }
             catch (Exception)

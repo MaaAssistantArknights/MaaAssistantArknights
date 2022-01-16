@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Stylet;
 using StyletIoC;
@@ -121,7 +122,7 @@ namespace MeoAsstGui
 
         public List<CombData> UsesOfDronesList { get; set; }
 
-        private int _dormThreshold = System.Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
+        private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
 
         public int DormThreshold
         {
@@ -191,75 +192,109 @@ namespace MeoAsstGui
             }
         }
 
-        // 消息源，0：无；1：SelectedIndex；2：ScrollOffset
-        private int _notifySource = 0;
+        #region 设置页面列表和滚动视图联动绑定
 
-        private void resetNotifySource()
+        private enum NotifyType
         {
-            System.Timers.Timer t = new System.Timers.Timer(20);
+            None,
+            SelectedIndex,
+            ScrollOffset
+        }
+
+        private NotifyType _notifySource = NotifyType.None;
+
+        private void ResetNotifySource()
+        {
+            var t = new System.Timers.Timer(20);
             t.Elapsed += new System.Timers.ElapsedEventHandler(delegate (object source, System.Timers.ElapsedEventArgs e)
             {
-                _notifySource = 0;
+                _notifySource = NotifyType.None;
             });
             t.AutoReset = false;
             t.Enabled = true;
             t.Start();
         }
+        public double ScrollViewportHeight { get; set; }
+
+        public double ScrollExtentHeight { get; set; }
+
+        public List<double> RectangleVerticalOffsetList { get; set; }
 
         private int _selectedIndex = 0;
-
         public int SelectedIndex
         {
             get { return _selectedIndex; }
             set
             {
-                if (_notifySource == 0)
+                switch (_notifySource)
                 {
-                    _notifySource = 1;
-                    SetAndNotify(ref _selectedIndex, value);
-                    ScrollOffset = (double)value / ListTitle.Count;
-                    //_notifySource = 0;
-                    resetNotifySource();
-                }
-                else if (_notifySource == 2)
-                {
-                    SetAndNotify(ref _selectedIndex, value);
+                    case NotifyType.None:
+                        _notifySource = NotifyType.SelectedIndex;
+                        SetAndNotify(ref _selectedIndex, value);
+
+                        var isInRange = RectangleVerticalOffsetList != null
+                            && RectangleVerticalOffsetList.Count > 0
+                            && value < RectangleVerticalOffsetList.Count;
+
+                        if (isInRange)
+                            ScrollOffset = RectangleVerticalOffsetList[value];
+
+                        ResetNotifySource();
+                        break;
+
+                    case NotifyType.ScrollOffset:
+                        SetAndNotify(ref _selectedIndex, value);
+                        break;
                 }
             }
         }
 
         private double _scrollOffset = 0;
-
         public double ScrollOffset
         {
             get { return _scrollOffset; }
             set
             {
-                if (_notifySource == 0)
+                switch (_notifySource)
                 {
-                    _notifySource = 2;
-                    SetAndNotify(ref _scrollOffset, value);
-                    SelectedIndex = (int)(value / ScrollHeight * ListTitle.Count);
-                    //_notifySource = 0;
-                    resetNotifySource();
-                }
-                else if (_notifySource == 1)
-                {
-                    SetAndNotify(ref _scrollOffset, value);
+                    case NotifyType.None:
+                        _notifySource = NotifyType.ScrollOffset;
+                        SetAndNotify(ref _scrollOffset, value);
+
+                        // 设置 ListBox SelectedIndex 为当前 ScrollOffset 索引
+                        var isInRange = RectangleVerticalOffsetList != null && RectangleVerticalOffsetList.Count > 0;
+
+                        if (isInRange)
+                        {
+                            // 滚动条滚动到底部，返回最后一个 Rectangle 索引
+                            if (ScrollOffset + ScrollViewportHeight >= ScrollExtentHeight)
+                            {
+                                SelectedIndex = RectangleVerticalOffsetList.Count - 1;
+                                ResetNotifySource();
+                                break;
+                            }
+
+                            // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Rectangle 索引
+                            var rectangleSelect = RectangleVerticalOffsetList.Select((n, i) => (
+                            rectangleAppeared: value + 10 >= n,
+                            index: i
+                            ));
+
+                            var index = rectangleSelect.LastOrDefault(n => n.rectangleAppeared).index;
+                            SelectedIndex = index;
+                        }
+
+                        ResetNotifySource();
+                        break;
+
+                    case NotifyType.SelectedIndex:
+                        SetAndNotify(ref _scrollOffset, value);
+                        break;
                 }
             }
         }
 
-        private double _scrollHeight = 684; // ScrollViewer.ScrollableHeight, 不知道该咋获取，当前的默认值是这个
-
-        public double ScrollHeight
-        {
-            get { return _scrollHeight; }
-            set
-            {
-                SetAndNotify(ref _scrollHeight, value);
-            }
-        }
+        #endregion 设置页面列表和滚动视图联动绑定
 
         /* 信用商店设置 */
 
@@ -371,7 +406,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _proxy = ViewStatusStorage.Get("VersionUpdate.Proxy", "");
+        private string _proxy = ViewStatusStorage.Get("VersionUpdate.Proxy", string.Empty);
 
         public string Proxy
         {
