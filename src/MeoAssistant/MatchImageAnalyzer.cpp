@@ -87,7 +87,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
             "templ size:", templ.cols, templ.rows);
         return false;
     }
-    if (m_mask_range.first == m_mask_range.second) {
+    if (m_mask_range.first == 0 && m_mask_range.second == 0) {
         cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED);
     }
     else {
