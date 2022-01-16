@@ -12,6 +12,7 @@
 #include "Resource.h"
 
 #include "CreditShoppingTask.h"
+#include "BattleTask.h"
 #include "InfrastDormTask.h"
 #include "InfrastInfoTask.h"
 #include "InfrastMfgTask.h"
@@ -335,15 +336,13 @@ bool Assistant::append_debug()
         return false;
     }
 
-    //std::unique_lock<std::mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
 
-    //{
-    //    constexpr static const char* DebugTaskChain = "Debug";
-    //    auto shift_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this, DebugTaskChain);
-    //    shift_task_ptr->set_work_mode(infrast::WorkMode::Aggressive);
-    //    shift_task_ptr->set_product("MoodAddition");
-    //    m_tasks_queue.emplace(shift_task_ptr);
-    //}
+    {
+        constexpr static const char* DebugTaskChain = "Debug";
+        auto debug_task_ptr = std::make_shared<BattleTask>(task_callback, (void*)this, DebugTaskChain);
+        m_tasks_queue.emplace(debug_task_ptr);
+    }
 
     return true;
 }

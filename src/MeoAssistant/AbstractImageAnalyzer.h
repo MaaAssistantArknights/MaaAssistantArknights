@@ -16,8 +16,7 @@ namespace asst
         AbstractImageAnalyzer(AbstractImageAnalyzer&&) = delete;
         virtual ~AbstractImageAnalyzer() = default;
 
-        virtual void set_image(const cv::Mat image);
-        virtual void set_image(const cv::Mat image, const Rect& roi);
+        virtual void set_image(const cv::Mat image, const Rect& roi = Rect());
         virtual void set_roi(const Rect& roi) noexcept;
         virtual bool analyze() = 0;
         void correct_roi() noexcept;
@@ -29,6 +28,7 @@ namespace asst
         AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;
 
     protected:
+        virtual void _set_image(const cv::Mat image);
         static Rect empty_rect_to_full(const Rect& rect, const cv::Mat image) noexcept;
 
         cv::Mat m_image;
