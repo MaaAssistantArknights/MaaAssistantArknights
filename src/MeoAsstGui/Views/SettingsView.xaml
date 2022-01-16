@@ -16,9 +16,11 @@
         <ListBox x:Name="MasterListBox" ItemsSource="{Binding ListTitle}" Grid.Column="0"  Margin="10"
                IsSynchronizedWithCurrentItem="true" SelectedIndex="{Binding SelectedIndex}" />
 
-        <ScrollViewer local:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"
-                      HorizontalAlignment="Stretch" Grid.Column="1" Margin="20, 10">
-            <!--local:ScrollViewerBinding.ScrollableHeight="{Binding ScrollHeight, Mode=OneWayToSource}"-->
+        <ScrollViewer HorizontalAlignment="Stretch" Grid.Column="1" Margin="20, 10"
+                      local:ScrollViewerBinding.ViewportHeight="{Binding ScrollViewportHeight}"
+                      local:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
+                      local:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"
+                      local:ScrollViewerBinding.RectangleVerticalOffsetList="{Binding RectangleVerticalOffsetList}">
             <StackPanel IsEnabled="{Binding Idle}">
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[0]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
