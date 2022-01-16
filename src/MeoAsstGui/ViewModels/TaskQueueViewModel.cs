@@ -59,14 +59,16 @@ namespace MeoAsstGui
             }
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            StageList = new List<CombData>();
-            StageList.Add(new CombData { Display = "当前关卡", Value = "" });
-            StageList.Add(new CombData { Display = "上次作战", Value = "LastBattle" });
-            StageList.Add(new CombData { Display = "剿灭作战", Value = "Annihilation" });
-            StageList.Add(new CombData { Display = "龙门币-5", Value = "CE-5" });
-            StageList.Add(new CombData { Display = "红票-5", Value = "AP-5" });
-            StageList.Add(new CombData { Display = "经验-5", Value = "LS-5" });
-            StageList.Add(new CombData { Display = "技能-5", Value = "CA-5" });
+            StageList = new List<CombData>
+            {
+                new CombData { Display = "当前关卡", Value = string.Empty },
+                new CombData { Display = "上次作战", Value = "LastBattle" },
+                new CombData { Display = "剿灭作战", Value = "Annihilation" },
+                new CombData { Display = "龙门币-5", Value = "CE-5" },
+                new CombData { Display = "红票-5", Value = "AP-5" },
+                new CombData { Display = "经验-5", Value = "LS-5" },
+                new CombData { Display = "技能-5", Value = "CA-5" }
+            };
             // “风雪过境” 活动关卡
             //StageList.Add(new CombData { Display = "BI-7", Value = "BI-7" });
             //StageList.Add(new CombData { Display = "BI-8", Value = "BI-8" });
@@ -86,6 +88,8 @@ namespace MeoAsstGui
         public async void LinkStart()
         {
             ClearLog();
+
+            SaveSettingValue();
 
             AddLog("正在连接模拟器……");
 
@@ -175,6 +179,19 @@ namespace MeoAsstGui
             asstProxy.AsstStop();
             AddLog("已停止");
             Idle = true;
+        }
+
+        /// <summary>
+        /// 保存界面设置数值
+        /// </summary>
+        private void SaveSettingValue()
+        {
+            // 吃理智药个数
+            ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
+            // 吃石头颗数
+            ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
+            // 指定刷关次数
+            ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
         }
 
         private bool appendFight()
@@ -272,11 +289,11 @@ namespace MeoAsstGui
 
         public void CheckAndShutdown()
         {
-            if (Shutdown == true)
+            if (Shutdown)
             {
                 System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
 
-                var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK);
+                var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
                 if (result == MessageBoxResult.OK)
                 {
                     System.Diagnostics.Process.Start("shutdown.exe", "-a");
@@ -334,7 +351,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _medicineNumber = "999";
+        private string _medicineNumber = ViewStatusStorage.Get("MainFunction.UseMedicine.Quantity", "999");
 
         public string MedicineNumber
         {
@@ -360,7 +377,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _stoneNumber = "0";
+        private string _stoneNumber = ViewStatusStorage.Get("MainFunction.UseStone.Quantity", "0");
 
         public string StoneNumber
         {
@@ -382,7 +399,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _maxTimes = "5";
+        private string _maxTimes = ViewStatusStorage.Get("MainFunction.TimesLimited.Quantity", "5");
 
         public string MaxTimes
         {

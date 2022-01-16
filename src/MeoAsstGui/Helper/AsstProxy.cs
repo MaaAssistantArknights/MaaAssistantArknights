@@ -11,7 +11,7 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Microsoft.Toolkit.Uwp.Notifications;
+using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -73,8 +73,11 @@ namespace MeoAsstGui
             _ptr = AsstCreateEx(System.IO.Directory.GetCurrentDirectory(), _callback, IntPtr.Zero);
             if (_ptr == IntPtr.Zero)
             {
-                _windowManager.ShowMessageBox("出现未知异常", "错误");
-                Environment.Exit(0);
+                Execute.OnUIThread(() =>
+                {
+                    _windowManager.ShowMessageBox("出现未知异常", "错误", icon: MessageBoxImage.Error);
+                    Environment.Exit(0);
+                });
             }
             var tvm = _container.Get<TaskQueueViewModel>();
             tvm.Idle = true;
@@ -123,7 +126,7 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.InitFailed:
-                    _windowManager.ShowMessageBox("初始化错误！请检查是否使用了中文路径", "错误");
+                    _windowManager.ShowMessageBox("初始化错误！请检查是否使用了中文路径", "错误", icon: MessageBoxImage.Error);
                     Environment.Exit(0);
                     break;
 
@@ -182,7 +185,10 @@ namespace MeoAsstGui
                 case AsstMsg.AllTasksCompleted:
                     mainModel.Idle = true;
                     mainModel.AddLog("任务已全部完成");
-                    new ToastContentBuilder().AddText("任务已全部完成！").Show();
+                    using (var toast = new ToastNotification("任务已全部完成！"))
+                    {
+                        toast.Show();
+                    }
                     mainModel.CheckAndShutdown();
                     break;
             }
@@ -190,10 +196,11 @@ namespace MeoAsstGui
 
         private void procSubTaskMsg(AsstMsg msg, JObject details)
         {
-            string taskChain = details["taskchain"].ToString();
-            string classType = details["class"].ToString();
+            // 下面几行注释暂时没用到，先注释起来...
+            //string taskChain = details["taskchain"].ToString();
+            //string classType = details["class"].ToString();
 
-            var mainModel = _container.Get<TaskQueueViewModel>();
+            //var mainModel = _container.Get<TaskQueueViewModel>();
             switch (msg)
             {
                 case AsstMsg.SubTaskError:
@@ -293,7 +300,7 @@ namespace MeoAsstGui
             {
                 case "StageDrops":
                     {
-                        string cur_drops = "";
+                        string cur_drops = string.Empty;
                         JArray drops = (JArray)subTaskDetails["drops"];
                         foreach (var item in drops)
                         {
@@ -304,7 +311,7 @@ namespace MeoAsstGui
                         cur_drops = cur_drops.EndsWith("\n") ? cur_drops.TrimEnd('\n') : "无";
                         mainModel.AddLog("当次掉落：\n" + cur_drops);
 
-                        string all_drops = "";
+                        string all_drops = string.Empty;
                         JArray statistics = (JArray)subTaskDetails["stats"];
                         foreach (var item in statistics)
                         {
@@ -324,7 +331,7 @@ namespace MeoAsstGui
                 case "RecruitTagsDetected":
                     {
                         JArray tags = (JArray)subTaskDetails["tags"];
-                        string log_content = "";
+                        string log_content = string.Empty;
                         foreach (var tag_name in tags)
                         {
                             string tag_str = tag_name.ToString();
@@ -338,7 +345,10 @@ namespace MeoAsstGui
                 case "RecruitSpecialTag":
                     {
                         string special = subTaskDetails["tag"].ToString();
-                        new ToastContentBuilder().AddText("公招提示：" + special).Show();
+                        using (var toast = new ToastNotification("公招提示"))
+                        {
+                            toast.AddContentText(special).ShowRecruit();
+                        }
                     }
                     break;
 
@@ -347,7 +357,10 @@ namespace MeoAsstGui
                         int level = (int)subTaskDetails["level"];
                         if (level >= 5)
                         {
-                            new ToastContentBuilder().AddText("公招出 " + level + " 星了哦！").Show();
+                            using (var toast = new ToastNotification($"公招出 {level} 星了哦！"))
+                            {
+                                toast.AddContentText(new string('★', level)).ShowRecruit(row: 2);
+                            }
                             mainModel.AddLog(level + " 星 Tags", "darkorange", "Bold");
                         }
                         else
@@ -360,7 +373,7 @@ namespace MeoAsstGui
                 case "RecruitTagsSelected":
                     {
                         JArray selected = (JArray)subTaskDetails["tags"];
-                        string selected_log = "";
+                        string selected_log = string.Empty;
                         foreach (var tag in selected)
                         {
                             selected_log += tag.ToString() + "\n";
@@ -404,13 +417,16 @@ namespace MeoAsstGui
                 case "RecruitSpecialTag":
                     {
                         string special = subTaskDetails["tag"].ToString();
-                        new ToastContentBuilder().AddText("公招提示：" + special).Show();
+                        using (var toast = new ToastNotification("公招提示"))
+                        {
+                            toast.AddContentText(special).ShowRecruit();
+                        }
                     }
                     break;
 
                 case "RecruitResult":
                     {
-                        string resultContent = "";
+                        string resultContent = string.Empty;
                         JArray result_array = (JArray)subTaskDetails["result"];
                         int level = (int)subTaskDetails["level"];
                         foreach (var combs in result_array)
@@ -431,7 +447,10 @@ namespace MeoAsstGui
                         recruitModel.RecruitResult = resultContent;
                         if (level >= 5)
                         {
-                            new ToastContentBuilder().AddText("公招出 " + level + " 星了哦！").Show();
+                            using (var toast = new ToastNotification($"公招出 {level} 星了哦！"))
+                            {
+                                toast.AddContentText(new string('★', level)).ShowRecruit(row: 2);
+                            }
                         }
                     }
                     break;

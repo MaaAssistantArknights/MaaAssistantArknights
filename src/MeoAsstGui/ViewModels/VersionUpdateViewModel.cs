@@ -17,7 +17,6 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -116,10 +115,14 @@ namespace MeoAsstGui
             {
                 return false;
             }
-            new ToastContentBuilder()
-                .AddText("检测到新版本包，正在解压，请稍等……")
-                .AddText(UpdateTag)
-                .Show();
+
+            using (var toast = new ToastNotification("检测到新版本包"))
+            {
+                toast.AddContentText("正在解压，请稍等……")
+                    .AddContentText(UpdateTag)
+                    .ShowMore();
+            }
+
             string extractDir = Directory.GetCurrentDirectory() + "\\NewVersionExtract";
             // 解压
             System.IO.Compression.ZipFile.ExtractToDirectory(UpdatePackageName, extractDir);
@@ -186,15 +189,23 @@ namespace MeoAsstGui
             UpdateTag = _lastestJson["name"].ToString();
             UpdateInfo = _lastestJson["body"].ToString();
 
-            var openUrlToastButton = new ToastButton();
-            openUrlToastButton.SetContent("前往页面查看");
-            openUrlToastButton.SetProtocolActivation(new Uri(_viewUrl));
-            new ToastContentBuilder()
-                .AddText("检测到新版本，正在后台下载……")
-                .AddText(UpdateTag)
-                .AddText(UpdateInfo)
-                .AddButton(openUrlToastButton)
-                .Show();
+            var openUrlToastButton = (
+                text: "前往页面查看",
+                action: new Action(() =>
+                {
+                    Process.Start(_viewUrl);
+                })
+            );
+
+            using (var toast = new ToastNotification("检测到新版本"))
+            {
+                toast.AddContentText("正在后台下载……")
+                    .AddContentText(UpdateTag)
+                    .AddContentText(UpdateInfo)
+                    .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                    .ShowMore(row: 3);
+            }
+
             // 下载压缩包
             const int downloadRetryMaxTimes = 2;
             string downloadTempFilename = UpdatePackageName + ".tmp";
@@ -208,23 +219,30 @@ namespace MeoAsstGui
                     break;
                 }
             }
+
             if (!downloaded)
             {
-                new ToastContentBuilder()
-                    .AddText("新版本下载失败")
-                    .AddText("请尝试手动下载后，将压缩包放到目录下_(:з」∠)_")
-                    .AddButton(openUrlToastButton)
-                    .Show();
+                using (var toast = new ToastNotification("新版本下载失败"))
+                {
+                    toast.AddContentText("请尝试手动下载后，将压缩包放到目录下_(:з」∠)_")
+                        .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                        .Show();
+                }
+
                 return false;
             }
+
             File.Copy(downloadTempFilename, UpdatePackageName, true);
             File.Delete(downloadTempFilename);
+
             // 把相关信息存下来，更新完之后启动的时候显示
-            new ToastContentBuilder()
-                .AddText("新版本下载完成")
-                .AddText("软件将在下次启动时自动更新！")
-                .AddText("✿✿ヽ(°▽°)ノ✿")
-                .Show();
+            using (var toast = new ToastNotification("新版本下载完成"))
+            {
+                toast.AddContentText("软件将在下次启动时自动更新！")
+                    .AddContentText("✿✿ヽ(°▽°)ノ✿")
+                    .Show(lifeTime: 10d, row: 2);
+            }
+
             return true;
         }
 
@@ -293,18 +311,19 @@ namespace MeoAsstGui
 
         private string RequestApi(string url)
         {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
-            httpWebRequest.Method = "GET";
-            httpWebRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
-            httpWebRequest.Accept = "application/vnd.github.v3+json";
-            var settings = _container.Get<SettingsViewModel>();
-            if (settings.Proxy.Length > 0)
-            {
-                httpWebRequest.Proxy = new WebProxy(settings.Proxy);
-            }
-            //httpWebRequest.Timeout = 20000;
             try
             {
+                HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
+                httpWebRequest.Method = "GET";
+                httpWebRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
+                httpWebRequest.Accept = "application/vnd.github.v3+json";
+                var settings = _container.Get<SettingsViewModel>();
+                if (settings.Proxy.Length > 0)
+                {
+                    httpWebRequest.Proxy = new WebProxy(settings.Proxy);
+                }
+                //httpWebRequest.Timeout = 20000;
+
                 HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                 StreamReader streamReader = new StreamReader(httpWebResponse.GetResponseStream(), Encoding.UTF8);
                 string responseContent = streamReader.ReadToEnd();
@@ -423,18 +442,20 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set(filename, cloud_sha);
                 File.Delete(tempname);
             }
-            if (updated)
-            {
-                new ToastContentBuilder()
-                    .AddText("资源已更新，重启软件生效！")
-                    .AddText(message)
-                    .Show();
-                return true;
-            }
-            else
+
+            if (!updated)
             {
                 return false;
             }
+
+            using (var toast = new ToastNotification("资源已更新"))
+            {
+                toast.AddContentText("重启软件生效！")
+                    .AddContentText(message)
+                    .ShowMore();
+            }
+
+            return true;
         }
 
         private static void CopyFilesRecursively(string sourcePath, string targetPath)
@@ -456,8 +477,8 @@ namespace MeoAsstGui
         {
             RequestClose();
             IsFirstBootAfterUpdate = false;
-            UpdateTag = "";
-            UpdateInfo = "";
+            UpdateTag = string.Empty;
+            UpdateInfo = string.Empty;
         }
     }
 }
