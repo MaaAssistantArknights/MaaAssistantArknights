@@ -358,12 +358,12 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
                 base_id = base_id.substr(0, level_pos);
                 std::string max_level;
                 for (const auto& [skill, skill_mr] : possible_skills) {
+                    // 得分差距过大的，直接忽略
+                    if (base_score - skill_mr.score > 0.05) {
+                        continue;
+                    }
                     if (size_t find_pos = skill.id.find(base_id);
                         find_pos != std::string::npos) {
-                        // 得分差距过大的，直接忽略
-                        if (base_score - skill_mr.score > 0.5) {
-                            continue;
-                        }
                         std::string cur_skill_level = skill.id.substr(base_id.size());
                         if (max_level.empty() || cur_skill_level > max_level) {
                             max_level = cur_skill_level;
