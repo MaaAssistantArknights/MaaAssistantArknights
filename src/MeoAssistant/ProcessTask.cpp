@@ -17,12 +17,16 @@ using namespace asst;
 asst::ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name)
     : AbstractTask(abs),
     m_cur_tasks_name(std::move(tasks_name))
-{}
+{
+    m_basic_info_cache = json::value();
+}
 
 asst::ProcessTask::ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name) noexcept
     : AbstractTask(std::move(abs)),
     m_cur_tasks_name(std::move(tasks_name))
-{}
+{
+    m_basic_info_cache = json::value();
+}
 
 bool asst::ProcessTask::run()
 {
