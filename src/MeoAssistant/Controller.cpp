@@ -601,19 +601,28 @@ bool asst::Controller::screencap()
         if (is_all_zero) {
             return false;
         }
-
-        m_cache_image = cv::Mat(
+        cv::Mat temp = cv::Mat(
             adb.display_height,
             adb.display_width,
             CV_8UC4,
             unzip_data.data() + header_size);
-        cv::cvtColor(m_cache_image, m_cache_image, cv::COLOR_RGB2BGR);
-        return !m_cache_image.empty();
+        if (temp.empty()) {
+            return false;
+        }
+        cv::cvtColor(temp, temp, cv::COLOR_RGB2BGR);
+        std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+        m_cache_image = temp;
+        return true;
     };
 
     DecodeFunc decode_encode = [&](const std::vector<uchar>& data) -> bool {
-        m_cache_image = cv::imdecode(data, cv::IMREAD_COLOR);
-        return !m_cache_image.empty();
+        cv::Mat temp = cv::imdecode(data, cv::IMREAD_COLOR);
+        if (temp.empty()) {
+            return false;
+        }
+        std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+        m_cache_image = temp;
+        return true;
     };
 
     switch (adb.screencap_method) {
@@ -818,4 +827,16 @@ cv::Mat asst::Controller::get_image(bool raw)
         cv::resize(m_cache_image, resized_mat, dsize);
         return resized_mat;
     }
+}
+
+std::vector<uchar> asst::Controller::get_image_encode()
+{
+    std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
+
+    std::vector<uchar> buf;
+    cv::imencode(".png", m_cache_image, buf);
+
+    image_lock.unlock();
+
+    return buf;
 }

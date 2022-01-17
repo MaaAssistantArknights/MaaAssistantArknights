@@ -465,6 +465,17 @@ void asst::Assistant::set_penguin_id(const std::string& id)
     }
 }
 
+std::vector<uchar> asst::Assistant::get_image() const
+{
+    return Ctrler.get_image_encode();
+}
+
+bool asst::Assistant::ctrler_click(int x, int y, bool block)
+{
+    Ctrler.click_without_scale(Point(x, y), block);
+    return true;
+}
+
 bool asst::Assistant::start(bool block)
 {
     LogTraceFunction;

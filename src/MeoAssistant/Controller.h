@@ -38,6 +38,7 @@ namespace asst
 
         bool try_capture(const EmulatorInfo& info, bool without_handle = false);
         cv::Mat get_image(bool raw = false);
+        std::vector<uchar> get_image_encode();
 
         // 点击和滑动都是异步执行，返回该任务的id
         int click(const Point& p, bool block = true);
@@ -89,7 +90,7 @@ namespace asst
         std::atomic<unsigned> m_completed_id = 0;
         unsigned m_push_id = 0; // push_id的自增总是伴随着queue的push，肯定是要上锁的，所以没必要原子
 
-        //std::shared_mutex m_image_mutex;
+        std::shared_mutex m_image_mutex;
         cv::Mat m_cache_image;
 
         constexpr static int PipeBuffSize = 4 * 1024 * 1024; // 管道缓冲区大小

@@ -2,6 +2,8 @@
 
 #include "AsstPort.h"
 
+typedef unsigned long long size_t;
+
 namespace asst
 {
     class Assistant;
@@ -37,6 +39,9 @@ extern "C" {
 
     bool ASSTAPI AsstSetPenguinId(asst::Assistant* p_asst, const char* id);
     // bool ASSTAPI AsstSetParam(asst::Assistant* p_asst, const char* type, const char* param, const char* value);
+
+    size_t ASSTAPI AsstGetImage(asst::Assistant* p_asst, void* buff, size_t buff_size);
+    bool ASSTAPI AsstCtrlerClick(asst::Assistant* p_asst, int x, int y, bool block);
 
     ASSTAPI_PORT const char* ASST_CALL AsstGetVersion();
 #ifdef __cplusplus
