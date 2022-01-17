@@ -8,7 +8,7 @@ namespace asst
     public:
         enum class Role
         {
-            Invaild,
+            Unknown,
             Caster,
             Medic,
             Pioneer,
@@ -16,12 +16,13 @@ namespace asst
             Special,
             Support,
             Tank,
-            Warrior
+            Warrior,
+            Drone
         };
         struct Oper
         {
             int cost = 0;
-            Role role = Role::Invaild;
+            Role role = Role::Unknown;
             bool available = false;
             Rect rect;
         };
