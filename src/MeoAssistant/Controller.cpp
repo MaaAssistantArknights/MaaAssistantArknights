@@ -593,6 +593,15 @@ bool asst::Controller::screencap()
         }
         size_t header_size = unzip_data.size() - std_size;
         Log.trace("header size:", header_size);
+
+        bool is_all_zero = std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size, 
+            [](uchar uch) -> bool {
+            return uch == 0;
+        });
+        if (is_all_zero) {
+            return false;
+        }
+
         m_cache_image = cv::Mat(
             adb.display_height,
             adb.display_width,
