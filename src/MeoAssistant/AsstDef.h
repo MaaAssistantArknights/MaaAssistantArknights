@@ -230,10 +230,10 @@ namespace asst
     struct HashTaskInfo : public TaskInfo
     {
         virtual ~HashTaskInfo() = default;
-        std::vector<std::string> hashs; // 多个哈希值
-        int hamming_threshold = 0;      // 汉明距离阈值
-        std::pair<int, int> mask_range; // 掩码的二值化范围
-        bool bound = false;              // 是否裁剪周围黑边
+        std::vector<std::string> hashs;     // 需要多个哈希值
+        int dist_threshold = 0;             // 汉明距离阈值
+        std::pair<int, int> mask_range;     // 掩码的二值化范围
+        bool bound = false;                 // 是否裁剪周围黑边
     };
 
     struct HandleInfo

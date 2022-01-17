@@ -132,7 +132,7 @@ int asst::BattleImageAnalyzer::oper_cost_analyze(const Rect& roi)
     hash_analyzer.analyze();
 
     int cost = 0;
-    for (const std::string& num_name : hash_analyzer.get_result()) {
+    for (const std::string& num_name : hash_analyzer.get_min_dist_name()) {
         if (num_name.empty()) {
             Log.error("hash result is empty");
             return 0;

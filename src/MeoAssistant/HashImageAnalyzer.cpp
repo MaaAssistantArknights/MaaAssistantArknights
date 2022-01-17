@@ -5,13 +5,15 @@
 bool asst::HashImageAnalyzer::analyze()
 {
     m_hash_result.clear();
-    m_hamming_result.clear();
-    m_result.clear();
+    m_min_dist_name.clear();
 
     cv::Mat roi = m_image(utils::make_rect<cv::Rect>(m_roi));
 
     if (m_mask_range.first != 0 || m_mask_range.second != 0) {
         cv::Mat bin;
+        if (roi.channels() == 3) {
+            cv::cvtColor(roi, roi, cv::COLOR_BGR2GRAY);
+        }
         cv::inRange(roi, m_mask_range.first, m_mask_range.second, bin);
         roi = bin;
     }
@@ -30,21 +32,16 @@ bool asst::HashImageAnalyzer::analyze()
         }
         std::string hash_result = shash(to_hash);
 
-        decltype(m_hamming_result)::value_type cur_hamming;
-        std::string min_hm_name;
-
-        int min_hamming = INT_MAX;
+        int min_dist = INT_MAX;
+        std::string cur_min_dist_name;
         for (auto&& [name, templ] : m_hash_templates) {
             int hm = hamming(hash_result, templ);
-            cur_hamming.emplace(name, hm);
-            if (hm < min_hamming) {
-                min_hm_name = name;
-                min_hamming = hm;
+            if (hm < min_dist) {
+                cur_min_dist_name = name;
+                min_dist = hm;
             }
         }
-        m_result.emplace_back(min_hm_name);
-        m_hamming_result.emplace_back(std::move(cur_hamming));
-
+        m_min_dist_name.emplace_back(std::move(cur_min_dist_name));
         m_hash_result.emplace_back(std::move(hash_result));
     }
 
@@ -76,16 +73,26 @@ void asst::HashImageAnalyzer::set_need_bound(bool need_bound) noexcept
     m_need_bound = need_bound;
 }
 
-const std::vector<std::string>& asst::HashImageAnalyzer::get_result() const noexcept
+const std::vector<std::string>& asst::HashImageAnalyzer::get_min_dist_name() const noexcept
 {
-    return m_result;
+    return m_min_dist_name;
 }
 
-std::string asst::HashImageAnalyzer::shash(const cv::Mat& gray)
+const std::vector<std::string>& asst::HashImageAnalyzer::get_hash() const noexcept
+{
+    return m_hash_result;
+}
+
+std::string asst::HashImageAnalyzer::shash(const cv::Mat& img)
 {
     constexpr static int HashKernelSize = 16;
     cv::Mat resized;
-    cv::resize(gray, resized, cv::Size(HashKernelSize, HashKernelSize));
+    cv::resize(img, resized, cv::Size(HashKernelSize, HashKernelSize));
+    if (img.channels() == 3) {
+        cv::Mat temp;
+        cv::cvtColor(resized, temp, cv::COLOR_BGR2GRAY);
+        resized = temp;
+    }
     std::stringstream hash_value;
     uchar* pix = resized.data;
     int tmp_dec = 0;
