@@ -21,9 +21,6 @@ namespace asst
         virtual bool analyze() = 0;
         void correct_roi() noexcept;
 
-        std::string calc_text_hash() const;                // 使用m_roi
-        std::string calc_text_hash(const Rect& roi) const; // 使用参数roi
-
         AbstractImageAnalyzer& operator=(const AbstractImageAnalyzer&) = delete;
         AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;
 

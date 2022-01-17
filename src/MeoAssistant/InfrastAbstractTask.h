@@ -9,7 +9,6 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
-        InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain);
 
         virtual ~InfrastAbstractTask() = default;
         InfrastAbstractTask& set_work_mode(infrast::WorkMode work_mode) noexcept;
@@ -44,8 +43,5 @@ namespace asst
         double m_mood_threshold = 0;
         mutable std::string m_facility_name_cache;
         int m_cur_facility_index = 0;
-
-        int m_face_hash_thres = 0;
-        int m_name_hash_thres = 0;
     };
 }

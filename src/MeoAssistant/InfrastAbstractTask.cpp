@@ -11,15 +11,6 @@
 #include "Resource.h"
 #include "ProcessTask.h"
 
-asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain)
-    : AbstractTask(callback, callback_arg, std::move(task_chain))
-{
-    m_face_hash_thres = static_cast<int>(std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastOperFaceHash"))->templ_threshold);
-    m_name_hash_thres = static_cast<int>(std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastOperNameHash"))->templ_threshold);
-}
-
 asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexcept
 {
     m_work_mode = work_mode;

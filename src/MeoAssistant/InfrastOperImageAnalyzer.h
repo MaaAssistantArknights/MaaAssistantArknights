@@ -68,8 +68,6 @@ namespace asst
         void selected_analyze();
         void doing_analyze();
 
-        static std::string hash_calc(const cv::Mat image);
-
         std::string m_facility;
         std::vector<infrast::Oper> m_result;
         int m_to_be_calced = All;

@@ -2,6 +2,7 @@
 
 #include "InfrastSmileyImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"
+#include "HashImageAnalyzer.h"
 #include "Logger.hpp"
 #include "Resource.h"
 
@@ -208,13 +209,12 @@ void asst::InfrastOperImageAnalyzer::face_hash_analyze()
 
     const Rect hash_rect_move = Task.get("InfrastOperFaceHash")->rect_move;
 
+    HashImageAnalyzer hash_analyzer(m_image);
     for (auto&& oper : m_result) {
-        Rect roi = hash_rect_move;
-        roi.x += oper.smiley.rect.x;
-        roi.y += oper.smiley.rect.y;
-
-        cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(roi));
-        oper.face_hash = hash_calc(image_roi);
+        Rect roi = oper.smiley.rect.move(hash_rect_move);
+        hash_analyzer.set_roi(roi);
+        hash_analyzer.analyze();
+        oper.face_hash = hash_analyzer.get_hash().front();
     }
 }
 
@@ -222,43 +222,17 @@ void asst::InfrastOperImageAnalyzer::name_hash_analyze()
 {
     LogTraceFunction;
 
-    const Rect hash_rect_move = Task.get("InfrastOperNameHash")->rect_move;
+    const auto task_ptr = std::dynamic_pointer_cast<HashTaskInfo>(
+        Task.get("InfrastOperNameHash"));
 
-    cv::Mat gray;
-    cv::cvtColor(m_image, gray, cv::COLOR_BGR2GRAY);
-
+    HashImageAnalyzer hash_analyzer(m_image);
+    hash_analyzer.set_mask_range(task_ptr->mask_range);
+    hash_analyzer.set_need_bound(true);
     for (auto&& oper : m_result) {
-        Rect roi = hash_rect_move;
-        roi.x += oper.smiley.rect.x;
-        roi.y += oper.smiley.rect.y;
-
-        constexpr static int threshold = 100;
-        auto check_point = [&](cv::Point point) -> bool {
-            auto value = gray.at<uchar>(point);
-            return value > threshold;
-        };
-        // 找到四个方向上最靠外的白色点，把ROI缩小裁出来
-        int left = -1, right = -1, top = INT_MAX, bottom = -1;
-        for (int i = 0; i != roi.width; ++i) {
-            for (int j = 0; j != roi.height; ++j) {
-                cv::Point point(roi.x + i, roi.y + j);
-                if (check_point(point)) {
-                    if (left < 0) {
-                        left = i;
-                    }
-                    right = i;
-                    top = (std::min)(top, j);
-                    bottom = (std::max)(bottom, j);
-                }
-            }
-        }
-        roi.x += left;
-        roi.width = right - left + 1;
-        roi.y += top;
-        roi.height = bottom - top + 1;
-
-        cv::Mat hash_roi = m_image(utils::make_rect<cv::Rect>(roi));
-        oper.name_hash = hash_calc(hash_roi);
+        Rect roi = oper.smiley.rect.move(task_ptr->rect_move);
+        hash_analyzer.set_roi(roi);
+        hash_analyzer.analyze();
+        oper.name_hash = hash_analyzer.get_hash().front();
     }
 }
 
@@ -447,29 +421,4 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
         }
         // TODO: infrast::Doing::Resting的识别
     }
-}
-
-std::string asst::InfrastOperImageAnalyzer::hash_calc(const cv::Mat image)
-{
-    //constexpr static int HashKernelSize = 16;
-    const static cv::Size HashKernel(16, 16);
-
-    cv::Mat hash_img;
-    cv::resize(image, hash_img, HashKernel);
-    cv::cvtColor(hash_img, hash_img, cv::COLOR_BGR2GRAY);
-
-    std::stringstream hash_value;
-    cv::uint8_t* pix = hash_img.data;
-    int tmp_dec = 0;
-    for (int ro = 0; ro < 256; ro++) {
-        tmp_dec = tmp_dec << 1;
-        if (*pix > 127)
-            tmp_dec++;
-        if (ro % 4 == 3) {
-            hash_value << std::hex << tmp_dec;
-            tmp_dec = 0;
-        }
-        pix++;
-    }
-    return hash_value.str();
 }
