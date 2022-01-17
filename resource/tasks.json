@@ -2801,7 +2801,8 @@
         ],
         "next": [
             "ReceptionFlag"
-        ]
+        ],
+        "rearDelay": 3000
     },
     "SendClues": {
         "action": "clickSelf",
