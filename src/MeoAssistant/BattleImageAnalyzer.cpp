@@ -18,6 +18,8 @@ const std::vector<asst::BattleImageAnalyzer::Oper>& asst::BattleImageAnalyzer::g
 
 bool asst::BattleImageAnalyzer::opers_analyze()
 {
+    LogTraceFunction;
+
     MultiMatchImageAnalyzer flags_analyzer(m_image);
     flags_analyzer.set_task_info("BattleOpersFlag");
     if (!flags_analyzer.analyze()) {
@@ -28,11 +30,14 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     const auto click_move = Task.get("BattleOperClickRange")->rect_move;
     const auto role_move = Task.get("BattleOperRoleRange")->rect_move;
     const auto cost_move = Task.get("BattleOperCostRange")->rect_move;
+    const auto avlb_move = Task.get("BattleOperAvailable")->rect_move;
 
     for (const MatchRect& flag_mrect : flags_analyzer.get_result()) {
         Oper oper;
         oper.rect = flag_mrect.rect.move(click_move);
-        oper.available = oper_available_analyze(oper.rect);
+
+        Rect available_rect = flag_mrect.rect.move(avlb_move);
+        oper.available = oper_available_analyze(available_rect);
 
 #ifdef ASST_DEBUG
         if (oper.available) {
@@ -65,12 +70,13 @@ asst::BattleImageAnalyzer::Role asst::BattleImageAnalyzer::oper_role_analyze(con
         { Role::Special, "Special" },
         { Role::Support, "Support" },
         { Role::Tank, "Tank" },
-        { Role::Warrior, "Warrior" }
+        { Role::Warrior, "Warrior" },
+        { Role::Drone, "Drone" }
     };
 
     MatchImageAnalyzer role_analyzer(m_image);
 
-    Role result = Role::Invaild;
+    Role result = Role::Unknown;
     double max_score = 0;
     for (auto&& [role, role_name] : RolesName) {
         role_analyzer.set_task_info("BattleOperRole" + role_name);
@@ -86,7 +92,15 @@ asst::BattleImageAnalyzer::Role asst::BattleImageAnalyzer::oper_role_analyze(con
     }
 
 #ifdef ASST_DEBUG
-    cv::putText(m_image_draw, RolesName.at(result), cv::Point(roi.x, roi.y - 5), 1, 1, cv::Scalar(0, 255, 255));
+    std::string role_name;
+    if (auto iter = RolesName.find(result);
+        iter == RolesName.cend()) {
+        role_name = "Unknown";
+    }
+    else {
+        role_name = iter->second;
+    }
+    cv::putText(m_image_draw, role_name, cv::Point(roi.x, roi.y - 5), 1, 1, cv::Scalar(0, 255, 255));
 #endif
 
     return result;

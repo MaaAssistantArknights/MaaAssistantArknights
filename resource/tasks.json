@@ -3036,8 +3036,14 @@
     },
     "BattleOperAvailable": {
         "template": "empty.png",
-        "specialThreshold": 100,
-        "specialThreshold_Doc": "用于做V通道平均值阈值"
+        "specialThreshold": 110,
+        "specialThreshold_Doc": "用于做V通道平均值阈值",
+        "rectMove": [
+            -41,
+            6,
+            31,
+            25
+        ]
     },
     "BattleOperRoleRange": {
         "algorithm": "JustReturn",
@@ -3063,6 +3069,8 @@
     "BattleOperRoleTank": {
     },
     "BattleOperRoleWarrior": {
+    },
+    "BattleOperRoleDrone": {
     },
     "BattleOperCostRange": {
         "algorithm": "hash",
@@ -3123,7 +3131,8 @@
     "BattleOperCost3": {
         "algorithm": "hash",
         "hash": [
-            "3ffe7ffffc3ff81fe01f001f03fe07fc07fe003f001fe01fe01ff83fffff7ffe"
+            "3ffe7ffffc3ff81fe01f001f03fe07fc07fe003f001fe01fe01ff83fffff7ffe",
+            "07f01ffe700e700700070007000c0078003c000700070007e007700e1e7e0ff0"
         ]
     },
     "BattleOperCost4": {
@@ -3135,7 +3144,8 @@
     "BattleOperCost5": {
         "algorithm": "hash",
         "hash": [
-            "3ffe7c007c0078007ff87ffe7ffe7c3f781f0007e007f81ffc1fffff7ffe3ffc"
+            "3ffe7c007c0078007ff87ffe7ffe7c3f781f0007e007f81ffc1fffff7ffe3ffc",
+            "3ffe38003800780070007ff87ffe703e000f000fc00ff81ffc3f7ffe3ffc07e0"
         ]
     },
     "BattleOperCost6": {

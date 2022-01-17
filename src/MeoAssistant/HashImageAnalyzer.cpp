@@ -1,6 +1,7 @@
 #include "HashImageAnalyzer.h"
 
 #include "AsstUtils.hpp"
+#include "Logger.hpp"
 
 bool asst::HashImageAnalyzer::analyze()
 {
@@ -31,11 +32,13 @@ bool asst::HashImageAnalyzer::analyze()
             to_hash = bound_bin(to_hash);
         }
         std::string hash_result = shash(to_hash);
+        Log.trace(hash_result);
 
         int min_dist = INT_MAX;
         std::string cur_min_dist_name;
         for (auto&& [name, templ] : m_hash_templates) {
             int hm = hamming(hash_result, templ);
+            Log.trace(name, "dist:", hm);
             if (hm < min_dist) {
                 cur_min_dist_name = name;
                 min_dist = hm;
