@@ -520,8 +520,7 @@ void Assistant::working_proc()
             std::string next_taskchain = m_tasks_queue.empty() ? std::string() : m_tasks_queue.front()->get_task_chain();
             json::value callback_json = json::object{
                 { "taskchain", cur_taskchain },
-                { "pre_taskchain", pre_taskchain },
-                { "next_taskchain", next_taskchain }
+                { "pre_taskchain", pre_taskchain }
             };
             if (cur_taskchain != pre_taskchain) {
                 task_callback(AsstMsg::TaskChainStart, callback_json, this);
