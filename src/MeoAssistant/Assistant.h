@@ -13,6 +13,8 @@
 #include "AsstMsg.h"
 #include "AsstInfrastDef.h"
 
+typedef unsigned char uchar;
+
 namespace cv
 {
     class Mat;
@@ -75,6 +77,9 @@ namespace asst
 
         // 设置企鹅数据汇报个人ID
         void set_penguin_id(const std::string& id);
+
+        std::vector<uchar> get_image() const;
+        bool ctrler_click(int x, int y, bool block = true);
 
         [[deprecated]] bool set_param(const std::string& type, const std::string& param, const std::string& value);
 

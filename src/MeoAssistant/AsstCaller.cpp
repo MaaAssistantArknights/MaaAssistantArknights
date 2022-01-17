@@ -250,6 +250,28 @@ bool AsstSetPenguinId(asst::Assistant* p_asst, const char* id)
     return true;
 }
 
+size_t ASSTAPI AsstGetImage(asst::Assistant* p_asst, void* buff, size_t buff_size)
+{
+    if (p_asst == nullptr || buff == nullptr) {
+        return 0;
+    }
+    auto img_data = p_asst->get_image();
+    size_t data_size = img_data.size();
+    if (buff_size < data_size) {
+        return 0;
+    }
+    memcpy(buff, img_data.data(), data_size);
+    return data_size;
+}
+
+bool ASSTAPI AsstCtrlerClick(asst::Assistant* p_asst, int x, int y, bool block)
+{
+    if (p_asst == nullptr) {
+        return false;
+    }
+    return p_asst->ctrler_click(x, y, block);
+}
+
 //bool AsstSetParam(asst::Assistant* p_asst, const char* type, const char* param, const char* value)
 //{
 //    if (p_asst == nullptr) {
