@@ -291,7 +291,7 @@ bool AsstAppendDebug(asst::Assistant* p_asst)
     if (p_asst == nullptr) {
         return false;
     }
-#if ASST_DEBUG
+#ifdef ASST_DEBUG
     return p_asst->append_debug();
 #else
     return false;
