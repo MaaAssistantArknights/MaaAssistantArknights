@@ -472,7 +472,7 @@ std::vector<uchar> asst::Assistant::get_image() const
 
 bool asst::Assistant::ctrler_click(int x, int y, bool block)
 {
-    Ctrler.click_without_scale(Point(x, y), block);
+    Ctrler.click(Point(x, y), block);
     return true;
 }
 
