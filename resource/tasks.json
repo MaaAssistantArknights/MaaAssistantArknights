@@ -2247,6 +2247,7 @@
     },
     "InfrastStationedInfo": {
         "algorithm": "OcrDetect",
+        "action": "clickSelf",
         "text": [
             "进驻信息"
         ],
@@ -2256,10 +2257,15 @@
             150,
             720
         ],
-        "rearDelay": 1000
+        "rearDelay": 1000,
+        "next": [
+            "InfrastEnterOperList"
+        ]
     },
     "InfrastEnterOperList": {
         "algorithm": "OcrDetect",
+        "cache": false,
+        "action": "clickSelf",
         "text": [
             "心情",
             "休息中",
