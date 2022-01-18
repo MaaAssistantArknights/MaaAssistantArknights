@@ -234,6 +234,15 @@
     <ClInclude Include="DronesForShamareTaskPlugin.h">
       <Filter>头文件\TaskPlugin</Filter>
     </ClInclude>
+    <ClInclude Include="BattleTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="HashImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\General</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -376,6 +385,15 @@
     </ClCompile>
     <ClCompile Include="DronesForShamareTaskPlugin.cpp">
       <Filter>源文件\TaskPlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer</Filter>
+    </ClCompile>
+    <ClCompile Include="HashImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\General</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

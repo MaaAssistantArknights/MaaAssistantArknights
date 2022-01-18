@@ -150,23 +150,6 @@ namespace asst
             return str;
         }
 
-        inline int hamming(std::string hash1, std::string hash2)
-        {
-            constexpr static int HammingFlags = 64;
-
-            hash1.insert(hash1.begin(), HammingFlags - hash1.size(), '0');
-            hash2.insert(hash2.begin(), HammingFlags - hash2.size(), '0');
-            int dist = 0;
-            for (int i = 0; i < HammingFlags; i = i + 16) {
-                unsigned long long x = strtoull(hash1.substr(i, 16).c_str(), nullptr, 16) ^ strtoull(hash2.substr(i, 16).c_str(), nullptr, 16);
-                while (x) {
-                    dist++;
-                    x = x & (x - 1);
-                }
-            }
-            return dist;
-        }
-
         inline std::string callcmd(const std::string& cmdline)
         {
             constexpr int PipeBuffSize = 4096;

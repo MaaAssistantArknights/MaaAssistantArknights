@@ -1925,21 +1925,25 @@
         ]
     },
     "InfrastOperNameHash": {
-        "template": "empty.png",
-        "templThreshold_Doc": "作为哈希距离的阈值使用",
-        "templThreshold": 65,
+        "algorithm": "hash",
+        "hash": [],
+        "threshold": 65,
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             0,
             20,
             113,
             22
+        ],
+        "maskRange": [
+            100,
+            255
         ]
     },
     "InfrastOperFaceHash": {
-        "template": "empty.png",
-        "templThreshold_Doc": "作为哈希距离的阈值使用",
-        "templThreshold": 30,
+        "algorithm": "hash",
+        "hash": [],
+        "threshold": 30,
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             0,
@@ -3064,6 +3068,166 @@
             "ClueGiveTo4th",
             "ClueGiveToNextPage",
             "ClueGiveTo1stConfirm"
+        ]
+    },
+    "BattleOpersFlag": {
+        "templThreshold": 0.85,
+        "roi": [
+            0,
+            588,
+            1280,
+            18
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "BattleOperClickRange": {
+        "algorithm": "JustReturn",
+        "rectMove": [
+            -59,
+            6,
+            98,
+            120
+        ]
+    },
+    "BattleOperAvailable": {
+        "template": "empty.png",
+        "specialThreshold": 110,
+        "specialThreshold_Doc": "用于做V通道平均值阈值",
+        "rectMove": [
+            -41,
+            6,
+            31,
+            25
+        ]
+    },
+    "BattleOperRoleRange": {
+        "algorithm": "JustReturn",
+        "rectMove": [
+            -41,
+            6,
+            31,
+            25
+        ]
+    },
+    "BattleOperRoleCaster": {
+    },
+    "BattleOperRoleMedic": {
+    },
+    "BattleOperRolePioneer": {
+    },
+    "BattleOperRoleSniper": {
+    },
+    "BattleOperRoleSpecial": {
+    },
+    "BattleOperRoleSupport": {
+    },
+    "BattleOperRoleTank": {
+    },
+    "BattleOperRoleWarrior": {
+    },
+    "BattleOperRoleDrone": {
+    },
+    "BattleOperCostRange": {
+        "algorithm": "hash",
+        "hash": [
+        ],
+        "rectMove": [
+            -10,
+            12,
+            30,
+            17
+        ]
+    },
+    "BattleOperCostChannelH": {
+        "algorithm": "hash",
+        "hash": [
+        ],
+        "maskRange": [
+            0,
+            255
+        ]
+    },
+    "BattleOperCostChannelS": {
+        "algorithm": "hash",
+        "hash": [
+        ],
+        "maskRange": [
+            0,
+            50
+        ]
+    },
+    "BattleOperCostChannelV": {
+        "algorithm": "hash",
+        "hash": [
+        ],
+        "maskRange": [
+            80,
+            255
+        ]
+    },
+    "BattleOperCost0": {
+        "algorithm": "hash",
+        "hash": [
+            "1ff83ffc3c3e780e700ee007e007e007e007e007e007f00f780e7c1e3ffc1ff8"
+        ]
+    },
+    "BattleOperCost1": {
+        "algorithm": "hash",
+        "hash": [
+            "00ff03ff1fff7fffffffff3f003f003f003f003f003f003f003f003f003f003f"
+        ]
+    },
+    "BattleOperCost2": {
+        "algorithm": "hash",
+        "hash": [
+            "3ffe7ffefc3ff81fe01f001f001f003e007e01fc07f81fe03fc07e00ffffffff"
+        ]
+    },
+    "BattleOperCost3": {
+        "algorithm": "hash",
+        "hash": [
+            "3ffe7ffffc3ff81fe01f001f03fe07fc07fe003f001fe01fe01ff83fffff7ffe",
+            "07f01ffe700e700700070007000c0078003c000700070007e007700e1e7e0ff0"
+        ]
+    },
+    "BattleOperCost4": {
+        "algorithm": "hash",
+        "hash": [
+            "007c00fc01fc03fc03fc0fbc1f3c3f3c7e3cfc3cffffffffffff003c003c003c"
+        ]
+    },
+    "BattleOperCost5": {
+        "algorithm": "hash",
+        "hash": [
+            "3ffe7c007c0078007ff87ffe7ffe7c3f781f0007e007f81ffc1fffff7ffe3ffc",
+            "3ffe38003800780070007ff87ffe703e000f000fc00ff81ffc3f7ffe3ffc07e0"
+        ]
+    },
+    "BattleOperCost6": {
+        "algorithm": "hash",
+        "hash": [
+            "03c003800f001f003e003ff87ffc7c3ef00ee00fe007e00ff00e7c3e3ffc1ff8"
+        ]
+    },
+    "BattleOperCost7": {
+        "algorithm": "hash",
+        "hash": [
+            "ffffffff003e007e007c00f800f801f001f003c003c00f801f001f003e003e00"
+        ]
+    },
+    "BattleOperCost8": {
+        "algorithm": "hash",
+        "hash": [
+            "3ffc7ffe7c3e700e700e7c7e7ffc3ffc7ffefefef00fe00ff00ff03ffffe7ffe"
+        ]
+    },
+    "BattleOperCost9": {
+        "algorithm": "hash",
+        "hash": [
+            "3ffc7ffe7c3ff00ff007f007f00ffc0f7fff3ffe1ffe00fc01f803f00ff00fc0"
         ]
     }
 }

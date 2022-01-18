@@ -21,7 +21,7 @@ namespace asst
         virtual ~ProcessTaskImageAnalyzer();
 
         virtual bool analyze() override;
-        virtual void set_image(const cv::Mat image) override;
+        void set_image(const cv::Mat image);
 
         void set_tasks(std::vector<std::string> tasks_name)
         {
