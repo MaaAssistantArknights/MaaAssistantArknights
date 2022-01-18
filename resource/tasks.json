@@ -2286,6 +2286,7 @@
         "rearDelay": 1000
     },
     "InfrastConfirmButton": {
+        "algorithm": "justReturn",
         "action": "clickRect",
         "specificRect": [
             1105,
@@ -2294,7 +2295,12 @@
             40
         ],
         "rearDelay": 500,
-        "Doc": "这个任务复用了，上半部分用来检测确认按钮点击成功没；下部部分用来点击",
+        "next": [
+            "InfrastConfirmButtonWait",
+            "Stop"
+        ]
+    },
+    "InfrastConfirmButtonWait": {
         "algorithm": "ocrDetect",
         "text": [
             "正在提交",
@@ -2305,6 +2311,11 @@
             640,
             300,
             80
+        ],
+        "rearDelay": 500,
+        "next": [
+            "InfrastConfirmButtonWait",
+            "Stop"
         ]
     },
     "InfrastBottomLeftTab": {
@@ -2320,6 +2331,41 @@
         "rearDelay": 2000
     },
     "InfrastDormConfirmButton": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            1105,
+            655,
+            150,
+            40
+        ],
+        "rearDelay": 500,
+        "next": [
+            "InfrastDormConfirmButtonWait",
+            "InfrastDormDoubleConfirmButton",
+            "Stop"
+        ]
+    },
+    "InfrastDormConfirmButtonWait": {
+        "algorithm": "ocrDetect",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            640,
+            300,
+            80
+        ],
+        "rearDelay": 500,
+        "next": [
+            "InfrastDormConfirmButtonWait",
+            "InfrastDormDoubleConfirmButton",
+            "Stop"
+        ]
+    },
+    "InfrastDormDoubleConfirmButton": {
         "template": "DormConfirm.png",
         "action": "clickSelf",
         "roi": [
@@ -2328,7 +2374,12 @@
             650,
             100
         ],
-        "rearDelay": 1000
+        "rearDelay": 500,
+        "next": [
+            "InfrastDormConfirmButtonWait",
+            "InfrastDormDoubleConfirmButton",
+            "Stop"
+        ]
     },
     "InfrastEnterFacility": {
         "algorithm": "justReturn",
