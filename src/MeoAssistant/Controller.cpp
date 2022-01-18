@@ -101,7 +101,7 @@ asst::Controller::~Controller()
     close(m_pipe_out[PIPE_READ]);
     close(m_pipe_out[PIPE_WRITE]);
 #endif
-}
+    }
 
 bool asst::Controller::connect_adb(const std::string & address)
 {
@@ -594,9 +594,9 @@ bool asst::Controller::screencap()
         size_t header_size = unzip_data.size() - std_size;
         Log.trace("header size:", header_size);
 
-        bool is_all_zero = std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size, 
+        bool is_all_zero = std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size,
             [](uchar uch) -> bool {
-            return uch == 0;
+                return uch == 0;
         });
         if (is_all_zero) {
             return false;
