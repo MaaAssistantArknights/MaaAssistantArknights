@@ -54,8 +54,9 @@ bool asst::TaskData::parse(const json::value& json)
         else if (algorithm_str == "ocrdetect") {
             algorithm = AlgorithmType::OcrDetect;
         }
-        // CompareHist是MatchTemplate的衍生算法，不应作为单独的配置参数出现
-        // else if (algorithm_str == "comparehist") {}
+        else if (algorithm_str == "hash") {
+            algorithm = AlgorithmType::Hash;
+        }
         else {
             m_last_error = "algorithm error " + algorithm_str;
             return false;
@@ -95,6 +96,22 @@ bool asst::TaskData::parse(const json::value& json)
                 }
             }
             task_info_ptr = ocr_task_info_ptr;
+        } break;
+        case AlgorithmType::Hash:
+        {
+            auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
+            for (const json::value& hash : task_json.at("hash").as_array()) {
+                hash_task_info_ptr->hashs.emplace_back(hash.as_string());
+            }
+            hash_task_info_ptr->dist_threshold = task_json.get("threshold", 0.0);
+            if (task_json.exist("maskRange")) {
+                hash_task_info_ptr->mask_range = std::make_pair(
+                    task_json.at("maskRange")[0].as_integer(),
+                    task_json.at("maskRange")[1].as_integer());
+            }
+            hash_task_info_ptr->bound = task_json.get("bound", true);
+
+            task_info_ptr = hash_task_info_ptr;
         } break;
         }
         task_info_ptr->cache = task_json.get("cache", true);

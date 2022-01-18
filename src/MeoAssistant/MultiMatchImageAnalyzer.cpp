@@ -2,6 +2,7 @@
 
 #include "Logger.hpp"
 #include "Resource.h"
+#include "TaskData.h"
 
 asst::MultiMatchImageAnalyzer::MultiMatchImageAnalyzer(const cv::Mat image, const Rect& roi, std::string templ_name, double templ_thres)
     : AbstractImageAnalyzer(image, roi),
@@ -39,6 +40,49 @@ void asst::MultiMatchImageAnalyzer::sort_result()
         });
 }
 
+void asst::MultiMatchImageAnalyzer::set_mask_range(int lower, int upper) noexcept
+{
+    m_mask_range = std::make_pair(lower, upper);
+}
+
+void asst::MultiMatchImageAnalyzer::set_mask_range(std::pair<int, int> mask_range) noexcept
+{
+    m_mask_range = std::move(mask_range);
+}
+
+void asst::MultiMatchImageAnalyzer::set_templ_name(std::string templ_name) noexcept
+{
+    m_templ_name = std::move(templ_name);
+}
+
+void asst::MultiMatchImageAnalyzer::set_threshold(double templ_thres) noexcept
+{
+    m_templ_thres = templ_thres;
+}
+
+void asst::MultiMatchImageAnalyzer::set_task_info(MatchTaskInfo task_info) noexcept
+{
+    m_mask_range = std::move(task_info.mask_range);
+    m_templ_name = std::move(task_info.templ_name);
+    m_templ_thres = task_info.templ_threshold;
+    set_roi(task_info.roi);
+}
+
+void asst::MultiMatchImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
+{
+    set_task_info(*std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr));
+}
+
+void asst::MultiMatchImageAnalyzer::set_task_info(const std::string& task_name)
+{
+    set_task_info(Task.get(task_name));
+}
+
+const std::vector<asst::MatchRect>& asst::MultiMatchImageAnalyzer::get_result() const noexcept
+{
+    return m_result;
+}
+
 bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
 {
     cv::Mat matched;
@@ -51,7 +95,7 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
         return false;
     }
 
-    if (m_mask_range.first == m_mask_range.second) {
+    if (m_mask_range.first == 0 && m_mask_range.second == 0) {
         cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED);
     }
     else {

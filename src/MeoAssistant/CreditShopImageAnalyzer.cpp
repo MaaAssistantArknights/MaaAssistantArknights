@@ -18,12 +18,10 @@ bool asst::CreditShopImageAnalyzer::analyze()
 
 bool asst::CreditShopImageAnalyzer::commoditys_analyze()
 {
-    const auto commodity_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("CreditShop-Commoditys"));
-
     // 识别信用点的图标
+    const auto commodity_task_ptr = Task.get("CreditShop-Commoditys");
     MultiMatchImageAnalyzer mm_annlyzer(m_image);
-    mm_annlyzer.set_task_info(*commodity_task_ptr);
+    mm_annlyzer.set_task_info(commodity_task_ptr);
 
     if (!mm_annlyzer.analyze()) {
         return false;
@@ -75,12 +73,9 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 
 bool asst::CreditShopImageAnalyzer::sold_out_analyze()
 {
-    const auto sold_out_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("CreditShop-SoldOut"));
-
     // 识别是否售罄
     MatchImageAnalyzer sold_out_analyzer(m_image);
-    sold_out_analyzer.set_task_info(*sold_out_task_ptr);
+    sold_out_analyzer.set_task_info("CreditShop-SoldOut");
 
     for (const Rect& commodity : m_need_to_buy) {
         sold_out_analyzer.set_roi(commodity);

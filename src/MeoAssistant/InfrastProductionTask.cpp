@@ -4,9 +4,9 @@
 
 #include <calculator/calculator.hpp>
 
-#include "AsstUtils.hpp"
 #include "Controller.h"
 #include "InfrastOperImageAnalyzer.h"
+#include "HashImageAnalyzer.h"
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "MultiMatchImageAnalyzer.h"
@@ -38,17 +38,12 @@ bool asst::InfrastProductionTask::shift_facility_list()
     if (need_exit()) {
         return false;
     }
-    const auto tab_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastFacilityListTab" + facility_name()));
+    const auto tab_task_ptr = Task.get("InfrastFacilityListTab" + facility_name());
     MatchImageAnalyzer add_analyzer;
-    const auto add_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name));
-    add_analyzer.set_task_info(*add_task_ptr);
-
-    const auto locked_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastOperLocked" + facility_name()));
+    const auto add_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
+    add_analyzer.set_task_info(add_task_ptr);
     MultiMatchImageAnalyzer locked_analyzer;
-    locked_analyzer.set_task_info(*locked_task_ptr);
+    locked_analyzer.set_task_info("InfrastOperLocked" + facility_name());
 
     int index = 0;
     for (const Rect& tab : m_facility_list_tabs) {
@@ -88,10 +83,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         std::string cur_product = all_products.at(0);
         double max_score = 0;
         for (const std::string& product : all_products) {
-            const static std::string prefix = "InfrastFlag";
-            const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-                Task.get(prefix + product));
-            product_analyzer.set_task_info(*task_ptr);
+            product_analyzer.set_task_info("InfrastFlag" + product);
             if (product_analyzer.analyze()) {
                 double score = product_analyzer.get_result().score;
                 if (score > max_score) {
@@ -197,6 +189,8 @@ size_t asst::InfrastProductionTask::opers_detect()
     const auto& cur_all_opers = oper_analyzer.get_result();
     max_num_of_opers_per_page = (std::max)(max_num_of_opers_per_page, cur_all_opers.size());
 
+    const int face_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
+        Task.get("InfrastOperFaceHash"))->dist_threshold;
     int cur_available_num = static_cast<int>(cur_all_opers.size());
     for (const auto& cur_oper : cur_all_opers) {
         if (cur_oper.skills.empty()) {
@@ -212,9 +206,9 @@ size_t asst::InfrastProductionTask::opers_detect()
             m_all_available_opers.cbegin(), m_all_available_opers.cend(),
             [&](const infrast::Oper& oper) -> bool {
                 // 有可能是同一个干员，比一下hash
-                int dist = utils::hamming(cur_oper.face_hash, oper.face_hash);
+                int dist = HashImageAnalyzer::hamming(cur_oper.face_hash, oper.face_hash);
                 Log.debug("opers_detect hash dist |", dist);
-                return dist < m_face_hash_thres;
+                return dist < face_hash_thres;
             });
         // 如果两个的hash距离过小，则认为是同一个干员，不进行插入
         if (find_iter != m_all_available_opers.cend()) {
@@ -299,6 +293,9 @@ bool asst::InfrastProductionTask::optimal_calc()
         return true;
     }
 
+    const int name_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
+        Task.get("InfrastOperNameHash"))->dist_threshold;
+
     // 遍历所有组合，找到效率最高的
     auto& all_group = Resrc.infrast().get_skills_group(facility_name());
     for (const infrast::SkillsGroup& group : all_group) {
@@ -378,9 +375,9 @@ bool asst::InfrastProductionTask::optimal_calc()
                     bool hash_matched = false;
                     if (!opt.possible_hashs.empty()) {
                         for (const auto& [key, hash] : opt.possible_hashs) {
-                            int dist = utils::hamming(find_iter->name_hash, hash);
+                            int dist = HashImageAnalyzer::hamming(find_iter->name_hash, hash);
                             Log.debug("optimal_calc | name hash dist", dist, hash, find_iter->name_hash);
-                            if (dist < m_name_hash_thres) {
+                            if (dist < name_hash_thres) {
                                 hash_matched = true;
                                 break;
                             }
@@ -456,6 +453,10 @@ bool asst::InfrastProductionTask::opers_choose()
     auto& facility_info = Resrc.infrast().get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
 
+    const int name_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
+        Task.get("InfrastOperNameHash"))->dist_threshold;
+    const int face_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
+        Task.get("InfrastOperFaceHash"))->dist_threshold;
     while (true) {
         if (need_exit()) {
             return false;
@@ -504,9 +505,9 @@ bool asst::InfrastProductionTask::opers_choose()
                     else {
                         // 既要技能相同，也要hash相同，双重校验
                         for (const auto& [_, hash] : opt_iter->possible_hashs) {
-                            int dist = utils::hamming(lhs.name_hash, hash);
+                            int dist = HashImageAnalyzer::hamming(lhs.name_hash, hash);
                             Log.debug("opers_choose | name hash dist", dist);
-                            if (dist < m_name_hash_thres) {
+                            if (dist < name_hash_thres) {
                                 return true;
                             }
                         }
@@ -533,9 +534,9 @@ bool asst::InfrastProductionTask::opers_choose()
                 auto avlb_iter = std::find_if(
                     m_all_available_opers.cbegin(), m_all_available_opers.cend(),
                     [&](const infrast::Oper& lhs) -> bool {
-                        int dist = utils::hamming(lhs.face_hash, find_iter->face_hash);
+                        int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
                         Log.debug("opers_choose | face hash dist", dist);
-                        if (dist < m_face_hash_thres) {
+                        if (dist < face_hash_thres) {
                             return true;
                         }
                         return false;
@@ -612,10 +613,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
 
     const auto image = Ctrler.get_image();
     MultiMatchImageAnalyzer mm_analyzer(image);
-
-    const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("InfrastFacilityListTab" + facility_name()));
-    mm_analyzer.set_task_info(*task_ptr);
+    mm_analyzer.set_task_info("InfrastFacilityListTab" + facility_name());
 
     if (!mm_analyzer.analyze()) {
         return false;
