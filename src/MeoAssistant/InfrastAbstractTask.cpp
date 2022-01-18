@@ -49,8 +49,9 @@ asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_mood_threshold(double 
 json::value asst::InfrastAbstractTask::basic_info() const
 {
     json::value info = AbstractTask::basic_info();
-    info["details"]["facility"] = facility_name();
-    info["details"]["index"] = m_cur_facility_index;
+    auto& details = info["details"];
+    details["facility"] = facility_name();
+    details["index"] = m_cur_facility_index;
     return info;
 }
 
@@ -111,44 +112,8 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
 {
     LogTraceFunction;
 
-    auto image = Ctrler.get_image();
-
-    // 识别左边的“进驻”按钮
-    const auto enter_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-        Task.get("InfrastEnterOperList"));
-    OcrImageAnalyzer enter_analyzer(image);
-    enter_analyzer.set_task_info(*enter_task_ptr);
-
-    // 如果没找到，说明“进驻信息”这个按钮没有被点开，那就点开它
-    if (!enter_analyzer.analyze()) {
-        Log.trace("ready to analyze the stationed basic_info button");
-        OcrImageAnalyzer station_analyzer(image);
-
-        const auto stationedinfo_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-            Task.get("InfrastStationedInfo"));
-        station_analyzer.set_task_info(*stationedinfo_task_ptr);
-        if (station_analyzer.analyze()) {
-            Log.trace("the stationed basic_info button found");
-            Ctrler.click(station_analyzer.get_result().front().rect);
-            sleep(stationedinfo_task_ptr->rear_delay);
-            // 点开了按钮之后，再识别一次右边的
-            image = Ctrler.get_image();
-            enter_analyzer.set_image(image);
-            if (!enter_analyzer.analyze()) {
-                Log.error("no enterlist button");
-                return false;
-            }
-        }
-        else {
-            Log.error("no stationed basic_info button");
-            return false;
-        }
-    }
-    Log.trace("ready to click the enterlist button");
-    Ctrler.click(enter_analyzer.get_result().front().rect);
-    sleep(enter_task_ptr->rear_delay);
-
-    return true;
+    ProcessTask task(*this, { "InfrastEnterOperList", "InfrastStationedInfo" });
+    return task.run();
 }
 
 void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
