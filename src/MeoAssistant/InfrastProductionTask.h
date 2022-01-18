@@ -15,7 +15,6 @@ namespace asst
 
         InfrastProductionTask& set_uses_of_drone(std::string uses_of_drones) noexcept;
 
-
     protected:
         bool shift_facility_list();
         bool facility_list_detect();

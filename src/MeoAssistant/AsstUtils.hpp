@@ -262,10 +262,10 @@ namespace asst
                 close(pipe_in[PIPE_WRITE]);
                 close(pipe_out[PIPE_READ]);
                 close(pipe_out[PIPE_WRITE]);
-        }
+            }
 #endif
             return pipe_str;
-    }
+        }
 
         //template<typename T,
         //	typename = typename std::enable_if<std::is_constructible<T, std::string>::value>::type>
@@ -307,5 +307,5 @@ namespace asst
         //	}
         //	return str;
         //}
-}
+    }
 }
