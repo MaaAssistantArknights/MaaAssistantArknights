@@ -3070,6 +3070,12 @@
             "ClueGiveTo1stConfirm"
         ]
     },
+    "BattleUseOper": {
+        "algorithm": "JustReturn",
+        "preDelay": 500,
+        "rearDelay": 0,
+        "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；rear是干员上场，到设置朝向之间等待的时间"
+    },
     "BattleOpersFlag": {
         "templThreshold": 0.85,
         "roi": [

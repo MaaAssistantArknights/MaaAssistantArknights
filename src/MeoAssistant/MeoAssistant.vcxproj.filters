@@ -243,6 +243,9 @@
     <ClInclude Include="HashImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\General</Filter>
     </ClInclude>
+    <ClInclude Include="BattlePerspectiveImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\General</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -394,6 +397,9 @@
     </ClCompile>
     <ClCompile Include="HashImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\General</Filter>
+    </ClCompile>
+    <ClCompile Include="BattlePerspectiveImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
