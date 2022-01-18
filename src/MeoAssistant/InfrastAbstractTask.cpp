@@ -178,45 +178,25 @@ void asst::InfrastAbstractTask::await_swipe()
 bool asst::InfrastAbstractTask::click_bottomleft_tab()
 {
     LogTraceFunction;
-    const auto task_ptr = Task.get("InfrastBottomLeftTab");
-    Ctrler.click(task_ptr->specific_rect);
-    sleep(task_ptr->rear_delay);
-    return true;
+
+    ProcessTask task(*this, { "InfrastBottomLeftTab" });
+    return task.run();
 }
 
 bool asst::InfrastAbstractTask::click_clear_button()
 {
     LogTraceFunction;
-    const auto task_ptr = Task.get("InfrastClearButton");
-    Ctrler.click(task_ptr->specific_rect);
-    sleep(task_ptr->rear_delay);
-    return true;
+
+    ProcessTask task(*this, { "InfrastClearButton" });
+    return task.run();
 }
 
 bool asst::InfrastAbstractTask::click_confirm_button()
 {
     LogTraceFunction;
-    const auto task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-        Task.get("InfrastConfirmButton"));
-    Ctrler.click(task_ptr->specific_rect);
-    sleep(task_ptr->rear_delay);
 
-    // 识别“正在提交反馈至神经”，如果网不好一直确认不了，就多等一会
-    OcrImageAnalyzer analyzer;
-    analyzer.set_task_info(*task_ptr);
-    for (int i = 0; i <= m_retry_times; ++i) {
-        if (need_exit()) {
-            return false;
-        }
-        const auto image = Ctrler.get_image();
-        analyzer.set_image(image);
-        if (!analyzer.analyze()) {
-            sleep(task_ptr->rear_delay);
-            return true;
-        }
-        sleep(task_ptr->rear_delay);
-    }
-    return false;
+    ProcessTask task(*this, { "InfrastConfirmButton" });
+    return task.run();
 }
 
 void asst::InfrastAbstractTask::swipe_of_operlist(bool reverse)

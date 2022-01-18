@@ -274,6 +274,10 @@ namespace MeoAsstGui
                     case "RecruitConfirm":
                         mainModel.AddLog("已确认招募", "darkcyan");
                         break;
+
+                    case "InfrastDormDoubleConfirmButton":
+                        mainModel.AddLog("干员冲突", "darkred");
+                        break;
                 }
             }
         }
