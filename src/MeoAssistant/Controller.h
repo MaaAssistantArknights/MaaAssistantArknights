@@ -69,9 +69,12 @@ namespace asst
         void pipe_working_proc();
         std::optional<std::vector<unsigned char>> call_command(const std::string& cmd);
         int push_cmd(const std::string& cmd);
-        bool screencap();
+
         using DecodeFunc = std::function<bool(const std::vector<uchar>&)>;
+        bool screencap();
         bool screencap(const std::string& cmd, DecodeFunc decode_func);
+        cv::Mat get_resized_image() const;
+
         Point rand_point_in_rect(const Rect& rect);
 
         void random_delay() const;
@@ -90,7 +93,7 @@ namespace asst
         std::atomic<unsigned> m_completed_id = 0;
         unsigned m_push_id = 0; // push_id的自增总是伴随着queue的push，肯定是要上锁的，所以没必要原子
 
-        std::shared_mutex m_image_mutex;
+        mutable std::shared_mutex m_image_mutex;
         cv::Mat m_cache_image;
 
         constexpr static int PipeBuffSize = 4 * 1024 * 1024; // 管道缓冲区大小

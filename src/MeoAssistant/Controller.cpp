@@ -697,6 +697,20 @@ bool asst::Controller::screencap(const std::string & cmd, DecodeFunc decode_func
     }
 }
 
+cv::Mat asst::Controller::get_resized_image() const
+{
+    const static cv::Size dsize(m_scale_size.first, m_scale_size.second);
+
+    std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
+    if (m_cache_image.empty()) {
+        Log.error("image is empty");
+        return cv::Mat(dsize, CV_8UC3);
+    }
+    cv::Mat resized_mat;
+    cv::resize(m_cache_image, resized_mat, dsize);
+    return resized_mat;
+}
+
 int asst::Controller::click(const Point & p, bool block)
 {
     int x = static_cast<int>(p.x * m_control_scale);
@@ -818,25 +832,15 @@ cv::Mat asst::Controller::get_image(bool raw)
         return m_cache_image;
     }
     else {
-        const static cv::Size dsize(m_scale_size.first, m_scale_size.second);
-        if (m_cache_image.empty()) {
-            Log.error("image is empty");
-            return cv::Mat(dsize, CV_8UC3);
-        }
-        cv::Mat resized_mat;
-        cv::resize(m_cache_image, resized_mat, dsize);
-        return resized_mat;
+        return get_resized_image();
     }
 }
 
 std::vector<uchar> asst::Controller::get_image_encode()
 {
-    std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
-
+    cv::Mat img = get_resized_image();
     std::vector<uchar> buf;
-    cv::imencode(".png", m_cache_image, buf);
-
-    image_lock.unlock();
+    cv::imencode(".png", img, buf);
 
     return buf;
 }
