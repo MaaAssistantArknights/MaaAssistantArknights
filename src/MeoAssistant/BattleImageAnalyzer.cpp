@@ -1,5 +1,7 @@
 #include "BattleImageAnalyzer.h"
 
+#include <algorithm>
+
 #include "MultiMatchImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"
 #include "HashImageAnalyzer.h"
@@ -8,12 +10,19 @@
 
 bool asst::BattleImageAnalyzer::analyze()
 {
-    return opers_analyze();
+    bool ret = opers_analyze();
+    ret |= home_analyze();
+    return ret;
 }
 
 const std::vector<asst::BattleImageAnalyzer::Oper>& asst::BattleImageAnalyzer::get_opers() const noexcept
 {
     return m_opers;
+}
+
+const std::vector<asst::Rect>& asst::BattleImageAnalyzer::get_homes() const noexcept
+{
+    return m_homes;
 }
 
 bool asst::BattleImageAnalyzer::opers_analyze()
@@ -169,7 +178,8 @@ bool asst::BattleImageAnalyzer::oper_available_analyze(const Rect& roi)
     cv::Scalar avg = cv::mean(hsv);
     Log.trace("oper available, mean", avg[2]);
 
-    static int thres = std::dynamic_pointer_cast<MatchTaskInfo>(Task.get("BattleOperAvailable"))->special_threshold;
+    static int thres = static_cast<int>(std::dynamic_pointer_cast<MatchTaskInfo>(
+        Task.get("BattleOperAvailable"))->special_threshold);
     if (avg[2] < thres) {
         return false;
     }
@@ -178,10 +188,42 @@ bool asst::BattleImageAnalyzer::oper_available_analyze(const Rect& roi)
 
 bool asst::BattleImageAnalyzer::home_analyze()
 {
-    return false;
-}
+    // 颜色转换
+    cv::Mat hsv;
+    cv::cvtColor(m_image, hsv, cv::COLOR_BGR2HSV);
+    cv::Mat bin;
+    cv::inRange(hsv, cv::Scalar(106, 160, 200), cv::Scalar(107, 220, 255), bin);
 
-bool asst::BattleImageAnalyzer::placed_analyze()
-{
-    return false;
+    // 开操作降噪
+    cv::Mat morph_dst;
+    cv::Mat open_kernel = cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(1, 1));
+    cv::morphologyEx(bin, morph_dst, cv::MORPH_OPEN, open_kernel);
+
+    // 霍夫线
+    std::vector<cv::Vec4i> lines;
+    cv::HoughLinesP(morph_dst, lines, 1, 60 * CV_PI / 180, 10, 20, 10);
+
+    int left = INT_MAX, right = 0, top = INT_MAX, bottom = 0;
+    for (auto&& l : lines) {
+        left = (std::min)({ left, l[0], l[2] });
+        right = (std::max)({ right, l[0], l[2] });
+        top = (std::min)({ top, l[1], l[3] });
+        bottom = (std::max)({ bottom, l[1], l[3] });
+
+#ifdef ASST_DEBUG
+        cv::line(m_image_draw, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(0, 0, 255), 3);
+#endif
+    }
+    if (right == 0) {
+        Log.error("home recognition error");
+        return false;
+    }
+    Rect home_rect(left, top, right - left, bottom - top);
+    m_homes.emplace_back(home_rect);
+
+#ifdef ASST_DEBUG
+    cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(home_rect), cv::Scalar(0, 255, 0), 5);
+#endif
+
+    return true;
 }

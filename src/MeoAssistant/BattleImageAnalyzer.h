@@ -32,7 +32,8 @@ namespace asst
 
         virtual bool analyze() override;
 
-        const std::vector<Oper>& get_opers() const noexcept;
+        virtual const std::vector<Oper>& get_opers() const noexcept;
+        virtual const std::vector<Rect>& get_homes() const noexcept;
     protected:
 
         bool opers_analyze();   // 识别干员
@@ -40,11 +41,11 @@ namespace asst
         int oper_cost_analyze(const Rect& roi);
         bool oper_available_analyze(const Rect& roi);
         bool home_analyze();    // 识别蓝色的家门
-        bool placed_analyze();  // 识别可放置干员的位置
 
-        std::vector<Oper> m_opers;
+        std::vector<Oper> m_opers;  // 下方干员信息
+        std::vector<Rect> m_homes;   // 蓝色的家门位置
 
-    private:
+    protected:
         // 该分析器不支持外部设置ROI
         virtual void set_roi(const Rect& roi) noexcept override
         {

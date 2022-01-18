@@ -12,5 +12,7 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+
+        bool auto_battle();
     };
 }
