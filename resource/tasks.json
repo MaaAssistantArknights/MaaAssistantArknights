@@ -2248,6 +2248,7 @@
     "InfrastStationedInfo": {
         "algorithm": "OcrDetect",
         "action": "clickSelf",
+        "cache": false,
         "text": [
             "进驻信息"
         ],
