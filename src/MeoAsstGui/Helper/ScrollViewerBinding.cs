@@ -238,7 +238,7 @@ namespace MeoAsstGui
 
                 var rectangleOffsetList = new List<double>();
                 var stackPanel = (StackPanel)scrollViewer.Content;
-                var point = new Point(0, scrollViewer.VerticalOffset);
+                var point = new Point(10, scrollViewer.VerticalOffset);
 
                 foreach (var child in stackPanel.Children)
                 {
