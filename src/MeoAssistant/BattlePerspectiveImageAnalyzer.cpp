@@ -61,8 +61,16 @@ bool asst::BattlePerspectiveImageAnalyzer::placed_analyze()
     }
 
 #ifdef ASST_DEBUG
-    cv::circle(m_image_draw, cv::Point(m_nearest_point.x, m_nearest_point.y), 3, cv::Scalar(0, 255, 0));
+    cv::circle(m_image_draw, cv::Point(m_nearest_point.x, m_nearest_point.y), 3, cv::Scalar(255, 255, 0));
 #endif
 
+//    // 格子的边缘是没法上人的，往格子中间位置校正一下
+//    Point home_center(home.x + home.width / 2, home.y + home.height / 2);
+//    m_nearest_point.x += home_center.x < m_nearest_point.x ? 30 : -30;
+//    m_nearest_point.y += home_center.y < m_nearest_point.y ? 20 : -20;
+//
+//#ifdef ASST_DEBUG
+//    cv::circle(m_image_draw, cv::Point(m_nearest_point.x, m_nearest_point.y), 3, cv::Scalar(255, 255, 0), -1);
+//#endif
     return true;
 }
