@@ -65,6 +65,7 @@ namespace MeoAsstGui
         /// <summary>
         /// Toast通知，基于 Notification.Wpf 实现，方便管理通知样式
         /// <para>建议使用 using 调用，如果不使用 using 调用，建议手动调用 Dispose() 方法释放</para>
+        /// <para>在线程中必须使用 Dispatcher.Invoke 相关方法调用</para>
         /// </summary>
         /// <param name="title">通知标题</param>
         public ToastNotification(string title = null)
@@ -81,20 +82,20 @@ namespace MeoAsstGui
             NotificationConstants.MessagePosition = NotificationPosition.BottomRight;
 
             // 最小显示宽度
-            NotificationConstants.MinWidth = 350d;
+            NotificationConstants.MinWidth = 400d;
 
             // 最大显示宽度
-            NotificationConstants.MaxWidth = 380d;
+            NotificationConstants.MaxWidth = 460d;
 
             #endregion
         }
 
         /// <summary>
-        /// 添加一行内容文本
+        /// 添加一行文本内容
         /// </summary>
         /// <param name="text">文本内容</param>
-        /// <returns>返回类本身，可继续调用其它方法</returns>
-        public ToastNotification AddContentText(string text = null)
+        /// <returns>返回本类，可继续调用其它方法</returns>
+        public ToastNotification AppendContentText(string text = null)
         {
             _contentCollection.AppendLine(text ?? string.Empty);
             return this;
@@ -257,7 +258,7 @@ namespace MeoAsstGui
                 RowsCount = 1,
                 TrimType = NotificationTextTrimType.AttachIfMoreRows,
 
-                Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF332A3A"),
+                Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF1F3550"),
 
                 LeftButtonContent = _buttonLeftText ?? NotificationConstants.DefaultLeftButtonContent,
                 LeftButtonAction = _buttonLeftAction ?? null,
@@ -347,6 +348,21 @@ namespace MeoAsstGui
             content.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFC800");
 
             Show(row: row,
+                 sound: NotificationSounds.Notification,
+                 notificationContent: content);
+        }
+
+        /// <summary>
+        /// 显示更新版本的通知
+        /// </summary>
+        /// <param name="row">内容行数</param>
+        public void ShowUpdateVersion(uint row = 3)
+        {
+            var content = BaseContent();
+
+            content.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF007280");
+
+            ShowMore(row: row,
                  sound: NotificationSounds.Notification,
                  notificationContent: content);
         }

@@ -351,7 +351,7 @@ namespace MeoAsstGui
                         string special = subTaskDetails["tag"].ToString();
                         using (var toast = new ToastNotification("公招提示"))
                         {
-                            toast.AddContentText(special).ShowRecruit();
+                            toast.AppendContentText(special).ShowRecruit();
                         }
                     }
                     break;
@@ -363,7 +363,7 @@ namespace MeoAsstGui
                         {
                             using (var toast = new ToastNotification($"公招出 {level} 星了哦！"))
                             {
-                                toast.AddContentText(new string('★', level)).ShowRecruit(row: 2);
+                                toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                             }
                             mainModel.AddLog(level + " 星 Tags", "darkorange", "Bold");
                         }
@@ -423,7 +423,7 @@ namespace MeoAsstGui
                         string special = subTaskDetails["tag"].ToString();
                         using (var toast = new ToastNotification("公招提示"))
                         {
-                            toast.AddContentText(special).ShowRecruit();
+                            toast.AppendContentText(special).ShowRecruit();
                         }
                     }
                     break;
@@ -453,7 +453,7 @@ namespace MeoAsstGui
                         {
                             using (var toast = new ToastNotification($"公招出 {level} 星了哦！"))
                             {
-                                toast.AddContentText(new string('★', level)).ShowRecruit(row: 2);
+                                toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                             }
                         }
                     }

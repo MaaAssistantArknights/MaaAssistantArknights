@@ -100,8 +100,8 @@ namespace MeoAsstGui
             }
         }
 
-        private const string _requestUrl = "https://api.github.com/repos/MistEO/MeoAssistantArknights/releases/latest";
         private const string _requestBetaUrl = "https://api.github.com/repos/MistEO/MeoAssistantArknights/releases";
+        private const string _requestUrl = _requestBetaUrl + "/latest";
         private string _viewUrl;
         private JObject _lastestJson;
         private string _downloadUrl;
@@ -116,12 +116,15 @@ namespace MeoAsstGui
                 return false;
             }
 
-            using (var toast = new ToastNotification("检测到新版本包"))
+            Execute.OnUIThread(() =>
             {
-                toast.AddContentText("正在解压，请稍等……")
-                    .AddContentText(UpdateTag)
-                    .ShowMore();
-            }
+                using (var toast = new ToastNotification("检测到新版本包"))
+                {
+                    toast.AppendContentText("正在解压，请稍等……")
+                        .AppendContentText(UpdateTag)
+                        .ShowUpdateVersion(row: 2);
+                }
+            });
 
             string extractDir = Directory.GetCurrentDirectory() + "\\NewVersionExtract";
             // 解压
@@ -186,6 +189,7 @@ namespace MeoAsstGui
             }
             // 保存新版本的信息
             UpdatePackageName = _downloadUrl.Substring(_downloadUrl.LastIndexOf('/') + 1);
+
             UpdateTag = _lastestJson["name"].ToString();
             UpdateInfo = _lastestJson["body"].ToString();
 
@@ -193,18 +197,24 @@ namespace MeoAsstGui
                 text: "前往页面查看",
                 action: new Action(() =>
                 {
-                    Process.Start(_viewUrl);
+                    if (!string.IsNullOrWhiteSpace(_viewUrl))
+                    {
+                        Process.Start(_viewUrl);
+                    }
                 })
             );
 
-            using (var toast = new ToastNotification("检测到新版本"))
+            Execute.OnUIThread(() =>
             {
-                toast.AddContentText("正在后台下载……")
-                    .AddContentText(UpdateTag)
-                    .AddContentText(UpdateInfo)
-                    .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                    .ShowMore(row: 3);
-            }
+                using (var toast = new ToastNotification("检测到新版本"))
+                {
+                    toast.AppendContentText("正在后台下载……")
+                        .AppendContentText(UpdateTag)
+                        .AppendContentText(UpdateInfo)
+                        .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                        .ShowUpdateVersion();
+                }
+            });
 
             // 下载压缩包
             const int downloadRetryMaxTimes = 2;
@@ -222,13 +232,15 @@ namespace MeoAsstGui
 
             if (!downloaded)
             {
-                using (var toast = new ToastNotification("新版本下载失败"))
+                Execute.OnUIThread(() =>
                 {
-                    toast.AddContentText("请尝试手动下载后，将压缩包放到目录下_(:з」∠)_")
-                        .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                        .Show();
-                }
-
+                    using (var toast = new ToastNotification("新版本下载失败"))
+                    {
+                        toast.AppendContentText("请尝试手动下载后，将压缩包放到目录下_(:з」∠)_")
+                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                            .Show();
+                    }
+                });
                 return false;
             }
 
@@ -236,12 +248,15 @@ namespace MeoAsstGui
             File.Delete(downloadTempFilename);
 
             // 把相关信息存下来，更新完之后启动的时候显示
-            using (var toast = new ToastNotification("新版本下载完成"))
+            Execute.OnUIThread(() =>
             {
-                toast.AddContentText("软件将在下次启动时自动更新！")
-                    .AddContentText("✿✿ヽ(°▽°)ノ✿")
-                    .Show(lifeTime: 10d, row: 2);
-            }
+                using (var toast = new ToastNotification("新版本下载完成"))
+                {
+                    toast.AppendContentText("软件将在下次启动时自动更新！")
+                        .AppendContentText("✿✿ヽ(°▽°)ノ✿")
+                        .ShowUpdateVersion(row: 2);
+                }
+            });
 
             return true;
         }
@@ -331,8 +346,9 @@ namespace MeoAsstGui
                 httpWebResponse.Close();
                 return responseContent;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return string.Empty;
             }
         }
@@ -378,27 +394,44 @@ namespace MeoAsstGui
         public bool ResourceOTA()
         {
             const string req_base_url = "https://api.github.com/repos/MistEO/MeoAssistantArknights/commits?path=";
-            const string down_base_url = "https://cdn.jsdelivr.net/gh/MistEO/MeoAssistantArknights@";
-            var update_dict = new Dictionary<string, string>()
-            {
-                { "3rdparty/resource/penguin-stats-recognize/json/stages.json" , "resource/penguin-stats-recognize/json/stages.json"},
-                { "resource/recruit.json", "resource/recruit.json" }
+            const string repositorie_base = "MistEO/MeoAssistantArknights";
+            const string branche_base = "master";
+
+            // cdn接口地址组
+            // new string[]
+            // {
+            //      下载域名地址,
+            //      连接地址的参数格式: {0}是文件路径, {1}是 sha 值
+            // }
+            var down_base_url = new List<string[]>() {
+                 new string[]{$"https://cdn.jsdelivr.net/gh/{repositorie_base}@" , "{1}/{0}" },
+                 new string[]{$"https://pd.zwc365.com/seturl/https://raw.githubusercontent.com/{repositorie_base}/{branche_base}/" , "{0}?{1}" },
+                 new string[]{$"https://cdn.staticaly.com/gh/{repositorie_base}/{branche_base}/" , "{0}?{1}" },
+                 new string[]{$"https://ghproxy.fsou.cc/https://github.com/{repositorie_base}/blob/{branche_base}/" , "{0}?{1}" },
             };
-            bool updated = false;
-            string message = "";
-            foreach (var item in update_dict)
+
+            // 一般文件路径都是相同的，使用 List<string> 遍历更合适
+            var update_dict = new List<string>()
             {
-                string url = item.Key;
-                string filename = item.Value;
+                "3rdparty/resource/penguin-stats-recognize/json/stages.json",
+                "resource/recruit.json"
+            };
+
+            bool updated = false;
+            string message = string.Empty;
+
+            foreach (var filename in update_dict)
+            {
+                // 下面这行用来比较 云文件 和 本地文件 的sha，看起来好像没用到… 先备注一下_(:з」∠)_ 
                 string cur_sha = ViewStatusStorage.Get(filename, string.Empty);
 
-                string response = RequestApi(req_base_url + url);
-                if (response == String.Empty)
+                string response = RequestApi(req_base_url + filename);
+                if (string.IsNullOrWhiteSpace(response))
                 {
                     continue;
                 }
                 string cloud_sha;
-                string cur_message = "";
+                string cur_message = string.Empty;
                 try
                 {
                     JArray arr = (JArray)JsonConvert.DeserializeObject(response);
@@ -410,17 +443,33 @@ namespace MeoAsstGui
                 {
                     continue;
                 }
+
+                // 这里就是比较 云文件 和 本地文件 的sha，因为没有实际保存sha到本地配置里，所以基本没用上
                 if (cur_sha == cloud_sha)
                 {
                     continue;
                 }
 
+                bool downloaded = false;
                 string tempname = filename + ".tmp";
-                string download_url = down_base_url + cloud_sha + "/" + url;
-                if (!DownloadFile(download_url, tempname))
+                foreach (var down_item in down_base_url)
+                {
+                    var download_url = down_item[0];
+                    var download_args_format = down_item[1];
+
+                    download_url += string.Format(download_args_format, filename, cloud_sha);
+                    if (DownloadFile(download_url, tempname))
+                    {
+                        downloaded = true;
+                        break;
+                    }
+                }
+
+                if (!downloaded)
                 {
                     continue;
                 }
+
                 string tmp = File.ReadAllText(tempname).Replace("\r\n", "\n");
 
                 try
@@ -448,12 +497,15 @@ namespace MeoAsstGui
                 return false;
             }
 
-            using (var toast = new ToastNotification("资源已更新"))
+            Execute.OnUIThread(() =>
             {
-                toast.AddContentText("重启软件生效！")
-                    .AddContentText(message)
-                    .ShowMore();
-            }
+                using (var toast = new ToastNotification("资源已更新"))
+                {
+                    toast.AppendContentText("重启软件生效！")
+                        .AppendContentText(message)
+                        .ShowUpdateVersion();
+                }
+            });
 
             return true;
         }
