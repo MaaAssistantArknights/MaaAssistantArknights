@@ -93,14 +93,16 @@ namespace MeoAsstGui
             FacilityKey.Add("办公室", "Office");
             FacilityKey.Add("控制中枢", "Control");
 
-            UsesOfDronesList = new List<CombData>();
-            UsesOfDronesList.Add(new CombData { Display = "不使用无人机", Value = "_NotUse" });
-            UsesOfDronesList.Add(new CombData { Display = "贸易站-龙门币", Value = "Money" });
-            UsesOfDronesList.Add(new CombData { Display = "贸易站-合成玉", Value = "SyntheticJade" });
-            UsesOfDronesList.Add(new CombData { Display = "制造站-经验书", Value = "CombatRecord" });
-            UsesOfDronesList.Add(new CombData { Display = "制造站-赤金", Value = "PureGold" });
-            UsesOfDronesList.Add(new CombData { Display = "制造站-源石碎片", Value = "OriginStone" });
-            UsesOfDronesList.Add(new CombData { Display = "制造站-芯片组", Value = "Chip" });
+            UsesOfDronesList = new List<CombData>
+            {
+                new CombData { Display = "不使用无人机", Value = "_NotUse" },
+                new CombData { Display = "贸易站-龙门币", Value = "Money" },
+                new CombData { Display = "贸易站-合成玉", Value = "SyntheticJade" },
+                new CombData { Display = "制造站-经验书", Value = "CombatRecord" },
+                new CombData { Display = "制造站-赤金", Value = "PureGold" },
+                new CombData { Display = "制造站-源石碎片", Value = "OriginStone" },
+                new CombData { Display = "制造站-芯片组", Value = "Chip" }
+            };
 
             _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
         }
@@ -203,17 +205,24 @@ namespace MeoAsstGui
 
         private NotifyType _notifySource = NotifyType.None;
 
+        private System.Timers.Timer _resetNotifyTimer;
         private void ResetNotifySource()
         {
-            var t = new System.Timers.Timer(20);
-            t.Elapsed += new System.Timers.ElapsedEventHandler(delegate (object source, System.Timers.ElapsedEventArgs e)
+            if (_resetNotifyTimer != null)
+            {
+                _resetNotifyTimer.Stop();
+                _resetNotifyTimer.Close();
+            }
+            _resetNotifyTimer = new System.Timers.Timer(20);
+            _resetNotifyTimer.Elapsed += new System.Timers.ElapsedEventHandler(delegate (object source, System.Timers.ElapsedEventArgs e)
             {
                 _notifySource = NotifyType.None;
             });
-            t.AutoReset = false;
-            t.Enabled = true;
-            t.Start();
+            _resetNotifyTimer.AutoReset = false;
+            _resetNotifyTimer.Enabled = true;
+            _resetNotifyTimer.Start();
         }
+
         public double ScrollViewportHeight { get; set; }
 
         public double ScrollExtentHeight { get; set; }
@@ -267,7 +276,7 @@ namespace MeoAsstGui
                         if (isInRange)
                         {
                             // 滚动条滚动到底部，返回最后一个 Rectangle 索引
-                            if (ScrollOffset + ScrollViewportHeight >= ScrollExtentHeight)
+                            if (value + ScrollViewportHeight >= ScrollExtentHeight)
                             {
                                 SelectedIndex = RectangleVerticalOffsetList.Count - 1;
                                 ResetNotifySource();
@@ -276,7 +285,7 @@ namespace MeoAsstGui
 
                             // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Rectangle 索引
                             var rectangleSelect = RectangleVerticalOffsetList.Select((n, i) => (
-                            rectangleAppeared: value + 10 >= n,
+                            rectangleAppeared: value >= n,
                             index: i
                             ));
 
@@ -312,7 +321,7 @@ namespace MeoAsstGui
 
         /* 企鹅数据设置 */
 
-        private string _penguinId = ViewStatusStorage.Get("Penguin.Id", "");
+        private string _penguinId = ViewStatusStorage.Get("Penguin.Id", string.Empty);
 
         public string PenguinId
         {
