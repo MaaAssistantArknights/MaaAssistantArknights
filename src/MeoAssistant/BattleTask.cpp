@@ -85,16 +85,16 @@ bool asst::BattleTask::auto_battle()
 
     // 拖动干员朝向
     Rect home = placed_analyzer.get_homes().front();
-    Point home_center((home.x + home.width) / 2, (home.y + home.height) / 2);
+    Point home_center(home.x + home.width / 2, home.y + home.height / 2);
 
     switch (opt_oper.role) {
     case Role::Medic:
-        Ctrler.swipe(nearest_point, home_center, 1000);
+    case Role::Support:
+        Ctrler.swipe(nearest_point, home_center, 300);
         break;
     case Role::Pioneer:
     case Role::Warrior:
     case Role::Sniper:
-    case Role::Support:
     case Role::Special:
     case Role::Tank:
     case Role::Caster:
@@ -102,9 +102,9 @@ bool asst::BattleTask::auto_battle()
     default:
     {
         Point reverse_point;
-        reverse_point.x = nearest_point.x - home_center.x + nearest_point.x;
-        reverse_point.y = nearest_point.y - home_center.y + nearest_point.y;
-        Ctrler.swipe(nearest_point, reverse_point, 1000);
+        reverse_point.x = nearest_point.x * 2 - home_center.x;
+        reverse_point.y = nearest_point.y * 2 - home_center.y;
+        Ctrler.swipe(nearest_point, reverse_point, 300);
     }
     break;
     }
