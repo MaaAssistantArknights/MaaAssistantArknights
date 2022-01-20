@@ -410,22 +410,24 @@ namespace MeoAsstGui
                  new string[]{$"https://ghproxy.fsou.cc/https://github.com/{repositorie_base}/blob/{branche_base}/" , "{0}?{1}" },
             };
 
-            // 一般文件路径都是相同的，使用 List<string> 遍历更合适
-            var update_dict = new List<string>()
+            // 资源文件在仓库中的路径，与实际打包后的路径并不相同，需要使用dict
+            var update_dict = new Dictionary<string, string>()
             {
-                "3rdparty/resource/penguin-stats-recognize/json/stages.json",
-                "resource/recruit.json"
+                { "3rdparty/resource/penguin-stats-recognize/json/stages.json" , "resource/penguin-stats-recognize/json/stages.json"},
+                { "resource/recruit.json", "resource/recruit.json" }
             };
 
             bool updated = false;
             string message = string.Empty;
 
-            foreach (var filename in update_dict)
+            foreach (var item in update_dict)
             {
-                // 下面这行用来比较 云文件 和 本地文件 的sha，看起来好像没用到… 先备注一下_(:з」∠)_ 
+                string url = item.Key;
+                string filename = item.Value;
+
                 string cur_sha = ViewStatusStorage.Get(filename, string.Empty);
 
-                string response = RequestApi(req_base_url + filename);
+                string response = RequestApi(req_base_url + url);
                 if (string.IsNullOrWhiteSpace(response))
                 {
                     continue;
@@ -444,7 +446,6 @@ namespace MeoAsstGui
                     continue;
                 }
 
-                // 这里就是比较 云文件 和 本地文件 的sha，因为没有实际保存sha到本地配置里，所以基本没用上
                 if (cur_sha == cloud_sha)
                 {
                     continue;
@@ -457,7 +458,7 @@ namespace MeoAsstGui
                     var download_url = down_item[0];
                     var download_args_format = down_item[1];
 
-                    download_url += string.Format(download_args_format, filename, cloud_sha);
+                    download_url += string.Format(download_args_format, url, cloud_sha);
                     if (DownloadFile(download_url, tempname))
                     {
                         downloaded = true;
@@ -488,6 +489,7 @@ namespace MeoAsstGui
                     updated = true;
                     message += cur_message + "\n";
                 }
+                // 保存最新的 sha 到配置文件
                 ViewStatusStorage.Set(filename, cloud_sha);
                 File.Delete(tempname);
             }
