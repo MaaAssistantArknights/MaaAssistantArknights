@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include <meojson/json.h>
+#include <meojson/json.hpp>
 
 #include "AsstDef.h"
 #include "GeneralConfiger.h"

@@ -1,6 +1,6 @@
 #include "AbstractConfiger.h"
 
-#include <meojson/json.h>
+#include <meojson/json.hpp>
 
 #include "AsstUtils.hpp"
 

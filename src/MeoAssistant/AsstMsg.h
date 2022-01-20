@@ -4,7 +4,7 @@
 #include <ostream>
 #include <unordered_map>
 
-#include <meojson/json.h>
+#include <meojson/json.hpp>
 
 namespace asst
 {

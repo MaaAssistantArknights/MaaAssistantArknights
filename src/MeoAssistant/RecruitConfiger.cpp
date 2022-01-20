@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include <meojson/json.h>
+#include <meojson/json.hpp>
 
 bool asst::RecruitConfiger::parse(const json::value& json)
 {

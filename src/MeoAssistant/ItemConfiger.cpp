@@ -1,6 +1,6 @@
 #include "ItemConfiger.h"
 
-#include <meojson/json.h>
+#include <meojson/json.hpp>
 
 bool asst::ItemConfiger::parse(const json::value& json)
 {

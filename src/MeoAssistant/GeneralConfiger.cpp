@@ -1,6 +1,6 @@
 #include "GeneralConfiger.h"
 
-#include <meojson/json.h>
+#include <meojson/json.hpp>
 
 bool asst::GeneralConfiger::parse(const json::value& json)
 {

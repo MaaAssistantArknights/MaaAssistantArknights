@@ -27,14 +27,6 @@ cmake ../ -DPADDLE_LIB=/your_path/paddle_inference/ -DOpenCV_DIR=/your_path_to_o
 # 若设备不支持 MKL, 可再额外添加 -DWITH_MKL=OFF 选项，并下载对应的 PaddlePaddle 预测库版本
 ```
 
-### meojson
-
-https://github.com/MistEO/meojson
-
-```bash
-make shared
-```
-
 ### penguin-stats-recognize-v3
 
 使用我魔改了接口的版本：https://github.com/MistEO/penguin-stats-recognize-v3
