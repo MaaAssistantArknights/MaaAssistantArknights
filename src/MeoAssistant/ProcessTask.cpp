@@ -3,7 +3,7 @@
 #include <chrono>
 #include <random>
 
-#include <meojson/json.h>
+#include <meojson/json.hpp>
 
 #include "AsstUtils.hpp"
 #include "Controller.h"

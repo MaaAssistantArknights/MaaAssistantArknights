@@ -3,7 +3,7 @@
 #include <string.h>
 #include <iostream>
 
-#include <meojson/json_value.h>
+#include <meojson/json.hpp>
 
 #include "Assistant.h"
 #include "AsstDef.h"

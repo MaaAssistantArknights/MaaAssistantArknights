@@ -3,7 +3,7 @@
 #include <string_view>
 
 #include <opencv2/opencv.hpp>
-#include <meojson/json.h>
+#include <meojson/json.hpp>
 #include <cpp-base64/base64.hpp>
 
 #include "AsstUtils.hpp"

@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-#include <meojson/json.h>
+#include <meojson/json.hpp>
 
 #include "AsstDef.h"
 

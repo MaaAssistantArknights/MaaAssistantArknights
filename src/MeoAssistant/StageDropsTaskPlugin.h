@@ -4,7 +4,7 @@
 #include <future>
 #include <vector>
 
-#include <meojson/json.h>
+#include <meojson/json.hpp>
 
 namespace asst
 {
