@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AbstractTask.h"
+#include "AsstDef.h"
 
 namespace asst
 {
@@ -14,5 +15,7 @@ namespace asst
         virtual bool _run() override;
 
         bool auto_battle();
+
+        std::vector<Rect> m_home_cache;
     };
 }

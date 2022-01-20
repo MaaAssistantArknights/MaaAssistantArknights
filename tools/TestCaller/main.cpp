@@ -30,14 +30,14 @@ int main(int argc, char** argv)
 
     char ch = 0;
     while (ch != 'q') {
+        AsstAppendDebug(ptr);
         // AsstAppendStartUp(ptr);
-        AsstAppendFight(ptr, "CE-5", 0, 0, 99999);
+        //AsstAppendFight(ptr, "CE-5", 0, 0, 99999);
         // AsstAppendVisit(ptr, true);
         //{
         //     const int required[] = { 3, 4, 5, 6 };
         //     AsstStartRecruitCalc(ptr, required, sizeof(required) / sizeof(int), true);
         // }
-        // AsstAppendDebug(ptr);
         //{
         //    const char* order[] = { "Trade", "Dorm" };
         //    AsstAppendInfrast(ptr, 1, order, 2, "Money", 0.3);

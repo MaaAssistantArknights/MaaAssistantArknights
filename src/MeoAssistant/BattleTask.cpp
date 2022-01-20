@@ -27,30 +27,25 @@ bool asst::BattleTask::auto_battle()
     if (opers.empty()) {
         return true;
     }
+    if (auto cur_home = oper_analyzer.get_homes();
+    !cur_home.empty()) {
+        m_home_cache = cur_home;
+    }
 
     static const std::array<Role, 9> RoleOrder = {
+        Role::Medic,
         Role::Pioneer,
         Role::Sniper,
-        Role::Support,
         Role::Warrior,
+        Role::Support,
         Role::Caster,
         Role::Special,
-        Role::Medic,
         Role::Tank,
         Role::Drone
     };
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
 
     // 点击当前最合适的干员
-
-    //auto oper_iter = std::find_first_of(
-    //    opers.cbegin(), opers.cend(), RoleOrder.cbegin(), RoleOrder.cend(),
-    //    [](const Oper& oper, const Role& role) -> bool {
-    //        return oper.available && oper.role == role;
-    //});
-    //if (oper_iter == opers.cend()) {
-    //    return true;
-    //}
     Oper opt_oper;
     bool oper_found = false;
     for (auto role : RoleOrder) {
@@ -74,7 +69,7 @@ bool asst::BattleTask::auto_battle()
 
     // 将干员拖动到场上
     BattlePerspectiveImageAnalyzer placed_analyzer(Ctrler.get_image());
-    placed_analyzer.set_src_homes(oper_analyzer.get_homes());
+    placed_analyzer.set_src_homes(m_home_cache);
     if (!placed_analyzer.analyze()) {
         return true;
     }
@@ -87,11 +82,19 @@ bool asst::BattleTask::auto_battle()
     Rect home = placed_analyzer.get_homes().front();
     Point home_center(home.x + home.width / 2, home.y + home.height / 2);
 
+    int dx = nearest_point.x - home_center.x;
+    int dy = nearest_point.y - home_center.y;
+    Point end_point;
+
     switch (opt_oper.role) {
     case Role::Medic:
     case Role::Support:
-        Ctrler.swipe(nearest_point, home_center, 300);
-        break;
+    {
+        constexpr int coeff = 5;
+        end_point.x = nearest_point.x - coeff * dx;
+        end_point.y = nearest_point.y - coeff * dy;
+    }
+    break;
     case Role::Pioneer:
     case Role::Warrior:
     case Role::Sniper:
@@ -101,12 +104,12 @@ bool asst::BattleTask::auto_battle()
     case Role::Drone:
     default:
     {
-        Point reverse_point;
-        reverse_point.x = nearest_point.x * 2 - home_center.x;
-        reverse_point.y = nearest_point.y * 2 - home_center.y;
-        Ctrler.swipe(nearest_point, reverse_point, 300);
+        constexpr int coeff = 5;
+        end_point.x = nearest_point.x + coeff * dx;
+        end_point.y = nearest_point.y + coeff * dy;
     }
     break;
     }
+    Ctrler.swipe(nearest_point, end_point, 300);
     return true;
 }
