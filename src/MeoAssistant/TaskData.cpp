@@ -103,7 +103,7 @@ bool asst::TaskData::parse(const json::value& json)
             for (const json::value& hash : task_json.at("hash").as_array()) {
                 hash_task_info_ptr->hashs.emplace_back(hash.as_string());
             }
-            hash_task_info_ptr->dist_threshold = task_json.get("threshold", 0.0);
+            hash_task_info_ptr->dist_threshold = task_json.get("threshold", 0);
             if (task_json.exist("maskRange")) {
                 hash_task_info_ptr->mask_range = std::make_pair(
                     task_json.at("maskRange")[0].as_integer(),
