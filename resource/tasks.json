@@ -3251,5 +3251,63 @@
         "hash": [
             "3ffc7ffe7c3ff00ff007f007f00ffc0f7fff3ffe1ffe00fc01f803f00ff00fc0"
         ]
+    },
+    "Roguelike1Start": {
+        "action": "clickSelf",
+        "roi": [
+            1026,
+            470,
+            254,
+            248
+        ],
+        "next": [
+            "Roguelike1Recruit1"
+        ]
+    },
+    "Roguelike1Recruit1": {
+        "action": "clickSelf",
+        "roi": [
+            0,
+            153,
+            365,
+            532
+        ],
+        "next": [
+            "Roguelike1RecruitConfirm"
+        ]
+    },
+    "Roguelike1RecruitConfirm": {
+        "action": "clickSelf",
+        "roi": [
+            0,
+            483,
+            1280,
+            200
+        ],
+        "next": [
+            "Roguelike1Team3"
+        ]
+    },
+    "Roguelike1Team3": {
+        "action": "clickSelf",
+        "roi": [
+            601,
+            153,
+            363,
+            529
+        ],
+        "next": [
+            "Roguelike1TeamConfirm"
+        ]
+    },
+    "Roguelike1TeamConfirm": {
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            153,
+            1280,
+            529
+        ]
     }
 }
