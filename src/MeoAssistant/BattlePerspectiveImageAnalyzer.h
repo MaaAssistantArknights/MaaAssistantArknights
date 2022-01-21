@@ -20,6 +20,7 @@ namespace asst
         bool placed_analyze();  // 识别可放置干员的位置
 
         std::vector<Rect> m_src_homes;
+        std::vector<Rect> m_available_placed;
         Point m_nearest_point;
     };
 }
