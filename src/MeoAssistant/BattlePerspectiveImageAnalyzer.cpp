@@ -29,13 +29,44 @@ bool asst::BattlePerspectiveImageAnalyzer::placed_analyze()
     cv::Mat hsv;
     cv::cvtColor(m_image, hsv, cv::COLOR_BGR2HSV);
     cv::Mat bin;
-    cv::inRange(hsv, cv::Scalar(60, 100, 60), cv::Scalar(80, 150, 150), bin);
+    cv::inRange(hsv, cv::Scalar(60, 90, 70), cv::Scalar(80, 150, 150), bin);
 
     // 形态学降噪
     cv::Mat morph_dst = bin;
-    cv::Mat morph_kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(9, 9));
-    cv::morphologyEx(morph_dst, morph_dst, cv::MORPH_CLOSE, morph_kernel);
-    cv::morphologyEx(morph_dst, morph_dst, cv::MORPH_OPEN, morph_kernel);
+    cv::Mat morph_open_kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(9, 9));
+    cv::morphologyEx(morph_dst, morph_dst, cv::MORPH_OPEN, morph_open_kernel);
+    //cv::Mat morph_close_kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+    //cv::morphologyEx(morph_dst, morph_dst, cv::MORPH_CLOSE, morph_close_kernel);
+
+    cv::Mat out, stats, centroids;
+    int number = cv::connectedComponentsWithStats(morph_dst, out, stats, centroids);
+    if (number < 2) {
+        return false;
+    }
+    std::vector<Point> placed_centers;
+    for (int i = 1; i != number; ++i) { // 第 0 个是整张图，所以从 1 开始
+        int area = stats.at<int>(i, cv::CC_STAT_AREA);
+        if (area < 300) {
+            continue;
+        }
+        int x = stats.at<int>(i, cv::CC_STAT_LEFT);
+        int y = stats.at<int>(i, cv::CC_STAT_TOP);
+        int w = stats.at<int>(i, cv::CC_STAT_WIDTH);
+        int h = stats.at<int>(i, cv::CC_STAT_HEIGHT);
+        m_available_placed.emplace_back(Rect(x, y, w, h));
+
+        int center_x = centroids.at<double>(i, 0);
+        int center_y = centroids.at<double>(i, 1);
+        placed_centers.emplace_back(Point(center_x, center_y));
+
+#ifdef ASST_DEBUG
+        cv::circle(m_image_draw, cv::Point(center_x, center_y), 3, cv::Scalar(0, 0, 255), -1);
+        cv::rectangle(m_image_draw, cv::Rect(x, y, w, h), cv::Scalar(255, 0, 0), 3);
+#endif
+    }
+    if (m_available_placed.empty()) {
+        return false;
+    }
 
     const auto& all_homes = get_homes();
     if (all_homes.empty()) {
@@ -43,34 +74,16 @@ bool asst::BattlePerspectiveImageAnalyzer::placed_analyze()
     }
     Rect home = all_homes.front();
 
-    int min_dist = INT_MAX;
-    for (int row = 0; row != morph_dst.rows; ++row) {
-        for (int col = 0; col != morph_dst.cols; ++col) {
-            cv::uint8_t value = morph_dst.at<cv::uint8_t>(row, col);
-            if (value) {
-                int dist = std::abs(home.x - col) + std::abs(home.y - row);
-                if (min_dist > dist) {
-                    min_dist = dist;
-                    m_nearest_point = Point(col, row);
-                }
-            }
-        }
-    }
-    if (m_nearest_point.x == 0 && m_nearest_point.y == 0) {
+    auto nearest_iter = std::min_element(placed_centers.cbegin(), placed_centers.cend(),
+        [&home](const Point& lhs, const Point& rhs) -> bool {
+            int lhs_dist = std::pow((home.x - lhs.x), 2) + std::pow((home.y - lhs.y), 2);
+            int rhs_dist = std::pow((home.x - rhs.x), 2) + std::pow((home.y - rhs.y), 2);
+            return lhs_dist < rhs_dist;
+    });
+    if (nearest_iter == placed_centers.cend()) {
         return false;
     }
+    m_nearest_point = *nearest_iter;
 
-#ifdef ASST_DEBUG
-    cv::circle(m_image_draw, cv::Point(m_nearest_point.x, m_nearest_point.y), 3, cv::Scalar(255, 255, 0));
-#endif
-
-    //    // 格子的边缘是没法上人的，往格子中间位置校正一下
-    //    Point home_center(home.x + home.width / 2, home.y + home.height / 2);
-    //    m_nearest_point.x += home_center.x < m_nearest_point.x ? 30 : -30;
-    //    m_nearest_point.y += home_center.y < m_nearest_point.y ? 20 : -20;
-    //
-    //#ifdef ASST_DEBUG
-    //    cv::circle(m_image_draw, cv::Point(m_nearest_point.x, m_nearest_point.y), 3, cv::Scalar(255, 255, 0), -1);
-    //#endif
     return true;
 }
