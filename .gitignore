@@ -430,6 +430,6 @@ FodyWeavers.xsd
 
 screen.png
 adb_screen.png
-tools/*.png
+tools/**/*.png
 resource/infrast
 .vscode
