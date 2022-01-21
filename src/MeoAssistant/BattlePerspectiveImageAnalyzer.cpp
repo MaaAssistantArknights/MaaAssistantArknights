@@ -55,8 +55,8 @@ bool asst::BattlePerspectiveImageAnalyzer::placed_analyze()
         int h = stats.at<int>(i, cv::CC_STAT_HEIGHT);
         m_available_placed.emplace_back(Rect(x, y, w, h));
 
-        int center_x = centroids.at<double>(i, 0);
-        int center_y = centroids.at<double>(i, 1);
+        int center_x = static_cast<int>(centroids.at<double>(i, 0));
+        int center_y = static_cast<int>(centroids.at<double>(i, 1));
         placed_centers.emplace_back(Point(center_x, center_y));
 
 #ifdef ASST_DEBUG
@@ -76,8 +76,8 @@ bool asst::BattlePerspectiveImageAnalyzer::placed_analyze()
 
     auto nearest_iter = std::min_element(placed_centers.cbegin(), placed_centers.cend(),
         [&home](const Point& lhs, const Point& rhs) -> bool {
-            int lhs_dist = std::pow((home.x - lhs.x), 2) + std::pow((home.y - lhs.y), 2);
-            int rhs_dist = std::pow((home.x - rhs.x), 2) + std::pow((home.y - rhs.y), 2);
+            double lhs_dist = std::pow((home.x - lhs.x), 2) + std::pow((home.y - lhs.y), 2);
+            double rhs_dist = std::pow((home.x - rhs.x), 2) + std::pow((home.y - rhs.y), 2);
             return lhs_dist < rhs_dist;
     });
     if (nearest_iter == placed_centers.cend()) {

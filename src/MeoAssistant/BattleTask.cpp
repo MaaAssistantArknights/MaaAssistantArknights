@@ -33,11 +33,11 @@ bool asst::BattleTask::auto_battle()
     }
 
     static const std::array<Role, 9> RoleOrder = {
-        Role::Medic,
         Role::Pioneer,
         Role::Sniper,
         Role::Warrior,
         Role::Support,
+        Role::Medic,
         Role::Caster,
         Role::Special,
         Role::Tank,
@@ -84,13 +84,18 @@ bool asst::BattleTask::auto_battle()
 
     int dx = nearest_point.x - home_center.x;
     int dy = nearest_point.y - home_center.y;
+    if ((dx * 7) < (dy * 11)) {
+        dx = 0;
+    }
+    else {
+        dy = 0;
+    }
+    constexpr int coeff = 5;
     Point end_point;
-
     switch (opt_oper.role) {
     case Role::Medic:
     case Role::Support:
     {
-        constexpr int coeff = 5;
         end_point.x = nearest_point.x - coeff * dx;
         end_point.y = nearest_point.y - coeff * dy;
     }
@@ -104,7 +109,6 @@ bool asst::BattleTask::auto_battle()
     case Role::Drone:
     default:
     {
-        constexpr int coeff = 5;
         end_point.x = nearest_point.x + coeff * dx;
         end_point.y = nearest_point.y + coeff * dy;
     }
