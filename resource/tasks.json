@@ -3258,6 +3258,19 @@
             "3ffc7ffe7c3ff00ff007f007f00ffc0f7fff3ffe1ffe00fc01f803f00ff00fc0"
         ]
     },
+    "BattleSpeedUp": {
+        "action": "clickSelf",
+        "roi": [
+            1025,
+            0,
+            149,
+            153
+        ],
+        "maksRange": [
+            100,
+            255
+        ]
+    },
     "Roguelike1Start": {
         "action": "clickSelf",
         "roi": [
@@ -3539,6 +3552,83 @@
             593,
             375,
             127
+        ]
+    },
+    "Roguelike1InBattleFlag": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "角色"
+        ],
+        "roi": [
+            900,
+            500,
+            380,
+            150
+        ],
+        "action": "doNothing",
+        "rearDelay": 5000,
+        "next": [
+            "Roguelike1InBattleFlag",
+            "Roguelike1MissionCompletedFlag",
+            "Roguelike1MissionFailedFlag"
+        ]
+    },
+    "Roguelike1MissionCompletedFlag": {
+        "roi": [
+            0,
+            0,
+            148,
+            143
+        ],
+        "next": [
+            "Roguelike1ClickToDrops"
+        ]
+    },
+    "Roguelike1ClickToDrops": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            600,
+            600,
+            50,
+            50
+        ],
+        "next": [
+            "Roguelike1DropsFlag",
+            "Roguelike1ClickToDrops"
+        ]
+    },
+    "Roguelike1DropsFlag": {
+        "roi": [
+            875,
+            601,
+            152,
+            119
+        ]
+    },
+    "Roguelike1MissionFailedFlag": {
+        "roi": [
+            504,
+            163,
+            480,
+            167
+        ],
+        "next": [
+            "Roguelike1ClickToStartPoint"
+        ]
+    },
+    "Roguelike1ClickToStartPoint": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            600,
+            600,
+            50,
+            50
+        ],
+        "next": [
+            "Roguelike1Start",
+            "Roguelike1ClickToStartPoint"
         ]
     }
 }

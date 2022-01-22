@@ -4,17 +4,23 @@
 #include "BattlePerspectiveImageAnalyzer.h"
 #include "Controller.h"
 #include "TaskData.h"
+#include "ProcessTask.h"
 
 typedef asst::BattleImageAnalyzer::Role Role;
 typedef asst::BattleImageAnalyzer::Oper Oper;
 
 bool asst::BattleTask::_run()
 {
-    while (!need_exit()
-        && auto_battle()) {
-        ;
+    m_used_opers = false;
+
+    while (!need_exit()) {
+        if (!auto_battle() && m_used_opers) {
+            break;
+        }
     }
-    return false;
+    speed_up();
+
+    return wait_for_mission_completed();
 }
 
 bool asst::BattleTask::auto_battle()
@@ -25,13 +31,12 @@ bool asst::BattleTask::auto_battle()
     }
     const auto& opers = oper_analyzer.get_opers();
     if (opers.empty()) {
-        return true;
+        return false;
     }
     if (auto cur_home = oper_analyzer.get_homes();
-    !cur_home.empty()) {
+        !cur_home.empty()) {
         m_home_cache = cur_home;
     }
-
     static const std::array<Role, 9> RoleOrder = {
         Role::Pioneer,
         Role::Sniper,
@@ -91,7 +96,7 @@ bool asst::BattleTask::auto_battle()
     else {
         dy = 0;
     }
-    constexpr int coeff = 5;
+    constexpr int coeff = 50;
     Point end_point;
     switch (opt_oper.role) {
     case Role::Medic:
@@ -115,6 +120,33 @@ bool asst::BattleTask::auto_battle()
     }
     break;
     }
+    if (end_point.x < 0) {
+        end_point.x = 0;
+    }
+    else if (end_point.x >= WindowWidthDefault) {
+        end_point.x = WindowWidthDefault - 1;
+    }
+    if (end_point.y < 0) {
+        end_point.y = 0;
+    }
+    else if (end_point.y >= WindowHeightDefault) {
+        end_point.y = WindowHeightDefault - 1;
+    }
     Ctrler.swipe(nearest_point, end_point, swipe_oper_task_ptr->rear_delay);
+
+    m_used_opers = true;
+
     return true;
+}
+
+bool asst::BattleTask::speed_up()
+{
+    ProcessTask task(*this, { "BattleSpeedUp" });
+    return task.run();
+}
+
+bool asst::BattleTask::wait_for_mission_completed()
+{
+    ProcessTask task(*this, { "Roguelike1InBattleFlag" });
+    return task.run();
 }
