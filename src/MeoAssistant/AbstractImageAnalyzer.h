@@ -18,6 +18,7 @@ namespace asst
 
         virtual void set_image(const cv::Mat image, const Rect& roi = Rect());
         virtual void set_roi(const Rect& roi) noexcept;
+
         virtual bool analyze() = 0;
         void correct_roi() noexcept;
 

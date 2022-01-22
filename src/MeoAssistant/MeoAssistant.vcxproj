@@ -61,6 +61,8 @@
     <ClInclude Include="ProcessTask.h" />
     <ClInclude Include="ProcessTaskImageAnalyzer.h" />
     <ClInclude Include="RecruitConfiger.h" />
+    <ClInclude Include="RoguelikeFormationTask.h" />
+    <ClInclude Include="RoguelikeFormationImageAnalyzer.h" />
     <ClInclude Include="RuntimeStatus.h" />
     <ClInclude Include="StageDropsTaskPlugin.h" />
     <ClInclude Include="TaskData.h" />
@@ -115,6 +117,8 @@
     <ClCompile Include="ProcessTask.cpp" />
     <ClCompile Include="ProcessTaskImageAnalyzer.cpp" />
     <ClCompile Include="RecruitConfiger.cpp" />
+    <ClCompile Include="RoguelikeFormationTask.cpp" />
+    <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp" />
     <ClCompile Include="RuntimeStatus.cpp" />
     <ClCompile Include="StageDropsTaskPlugin.cpp" />
     <ClCompile Include="TaskData.cpp" />

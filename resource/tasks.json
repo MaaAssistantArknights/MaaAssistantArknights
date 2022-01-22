@@ -3090,7 +3090,13 @@
         "algorithm": "JustReturn",
         "preDelay": 500,
         "rearDelay": 0,
-        "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；rear是干员上场，到设置朝向之间等待的时间"
+        "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；rear 是干员上场，到设置朝向之间等待的时间"
+    },
+    "BattleSwipeOper": {
+        "algorithm": "JustReturn",
+        "preDelay": 1000,
+        "rearDelay": 300,
+        "Doc": "pre 是将干员滑动到场上的 duration；rear 是设置干员朝向滑动的 duration"
     },
     "BattleOpersFlag": {
         "templThreshold": 0.85,
@@ -3308,6 +3314,231 @@
             153,
             1280,
             529
+        ],
+        "next": [
+            "Roguelike1Recruit"
+        ]
+    },
+    "Roguelike1Recruit": {
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            190,
+            470,
+            900,
+            154
+        ],
+        "next": [
+            "Roguelike1ChooseOper"
+        ]
+    },
+    "Roguelike1ChooseOper": {
+        "algorithm": "OcrDetect",
+        "action": "clickSelf",
+        "cache": false,
+        "text": [
+            "棘刺",
+            "山",
+            "梓兰",
+            "芙蓉",
+            "安塞尔"
+        ],
+        "roi": [
+            560,
+            69,
+            666,
+            614
+        ],
+        "next": [
+            "Roguelike1ChooseOperConfirm"
+        ]
+    },
+    "Roguelike1ChooseOperConfirm": {
+        "action": "clickself",
+        "roi": [
+            1016,
+            602,
+            264,
+            118
+        ],
+        "next": [
+            "Roguelike1RecruitSkip"
+        ]
+    },
+    "Roguelike1RecruitSkip": {
+        "template": "RecruitSkip.png",
+        "action": "clickSelf",
+        "roi": [
+            1100,
+            0,
+            180,
+            150
+        ],
+        "next": [
+            "Roguelike1RecruitSkip",
+            "Roguelike1RecruitWithoutButton"
+        ]
+    },
+    "Roguelike1RecruitWithoutButton": {
+        "template": "RecruitSkipWithoutButton.png",
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            1180,
+            15,
+            85,
+            60
+        ],
+        "next": [
+            "Roguelike1Recruit",
+            "Roguelike1EnterAfterRecruit",
+            "Roguelike1RecruitWithoutButton"
+        ]
+    },
+    "Roguelike1EnterAfterRecruit": {
+        "action": "clickSelf",
+        "roi": [
+            1078,
+            234,
+            202,
+            239
+        ],
+        "rearDelay": 3000,
+        "next": [
+            "Roguelike1StageTrader",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps"
+        ]
+    },
+    "Roguelike1StageTrader": {
+        "Doc": "诡异行商（交易所）",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ]
+    },
+    "Roguelike1StageEncounter": {
+        "Doc": "不期而遇（随机奖励）",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ]
+    },
+    "Roguelike1StageCambatDps": {
+        "Doc": "普通作战",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ],
+        "next": [
+            "Roguelike1StageCambatDpsEnter",
+            "Roguelike1StageEmergencyDpsEnter"
+        ],
+        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
+    },
+    "Roguelike1StageCambatDpsEnter": {
+        "action": "clickSelf",
+        "roi": [
+            1036,
+            371,
+            223,
+            223
+        ],
+        "next": [
+            "Roguelike1QuickFormation"
+        ]
+    },
+    "Roguelike1StageEmergencyDps": {
+        "Doc": "紧急作战",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ],
+        "next": [
+            "Roguelike1StageCambatDpsEnter",
+            "Roguelike1StageEmergencyDpsEnter"
+        ],
+        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
+    },
+    "Roguelike1StageEmergencyDpsEnter": {
+        "action": "clickSelf",
+        "roi": [
+            1036,
+            371,
+            223,
+            223
+        ],
+        "next": [
+            "Roguelike1QuickFormation"
+        ]
+    },
+    "Roguelike1QuickFormation": {
+        "action": "clickSelf",
+        "roi": [
+            817,
+            0,
+            402,
+            146
+        ]
+    },
+    "Roguelike1FormationOper": {
+        "cache": false,
+        "roi": [
+            363,
+            11,
+            891,
+            668
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "Roguelike1FormationOperSelected": {
+        "template": "empty.png",
+        "templThreshold": 12000,
+        "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
+        "maskRange": [
+            95,
+            105
+        ]
+    },
+    "Roguelike1FormationConfirm": {
+        "action": "clickSelf",
+        "roi": [
+            1015,
+            601,
+            265,
+            119
+        ],
+        "next": [
+            "Roguelike1StartAction"
+        ]
+    },
+    "Roguelike1StartAction": {
+        "action": "clickSelf",
+        "roi": [
+            905,
+            593,
+            375,
+            127
         ]
     }
 }

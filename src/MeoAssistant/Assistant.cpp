@@ -27,6 +27,7 @@
 #include "RuntimeStatus.h"
 #include "StageDropsTaskPlugin.h"
 #include "DronesForShamareTaskPlugin.h"
+#include "RoguelikeFormationTask.h"
 
 using namespace asst;
 
@@ -340,8 +341,13 @@ bool Assistant::append_debug()
 
     {
         constexpr static const char* DebugTaskChain = "Debug";
-        auto debug_task_ptr = std::make_shared<BattleTask>(task_callback, (void*)this, DebugTaskChain);
+        append_process_task("Roguelike1Start", DebugTaskChain);
+
+        auto debug_task_ptr = std::make_shared<RoguelikeFormationTask>(task_callback, (void*)this, DebugTaskChain);
         m_tasks_queue.emplace(debug_task_ptr);
+
+        auto debug2_task_ptr = std::make_shared<BattleTask>(task_callback, (void*)this, DebugTaskChain);
+        m_tasks_queue.emplace(debug2_task_ptr);
     }
 
     return true;

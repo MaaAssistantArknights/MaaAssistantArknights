@@ -14,7 +14,7 @@ bool asst::BattleTask::_run()
         && auto_battle()) {
         ;
     }
-    return true;
+    return false;
 }
 
 bool asst::BattleTask::auto_battle()
@@ -44,6 +44,7 @@ bool asst::BattleTask::auto_battle()
         Role::Drone
     };
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
+    const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
 
     // 点击当前最合适的干员
     Oper opt_oper;
@@ -75,7 +76,7 @@ bool asst::BattleTask::auto_battle()
     }
     Point nearest_point = placed_analyzer.get_nearest_point();
     Rect nearest_rect(nearest_point.x, nearest_point.y, 1, 1);
-    Ctrler.swipe(opt_oper.rect, nearest_rect, 1000);
+    Ctrler.swipe(opt_oper.rect, nearest_rect, swipe_oper_task_ptr->pre_delay);
     sleep(use_oper_task_ptr->rear_delay);
 
     // 拖动干员朝向
@@ -114,6 +115,6 @@ bool asst::BattleTask::auto_battle()
     }
     break;
     }
-    Ctrler.swipe(nearest_point, end_point, 300);
+    Ctrler.swipe(nearest_point, end_point, swipe_oper_task_ptr->rear_delay);
     return true;
 }
