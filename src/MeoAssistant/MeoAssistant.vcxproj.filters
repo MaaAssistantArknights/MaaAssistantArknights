@@ -246,6 +246,12 @@
     <ClInclude Include="BattlePerspectiveImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\General</Filter>
     </ClInclude>
+    <ClInclude Include="RoguelikeFormationTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeFormationImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -399,6 +405,12 @@
       <Filter>源文件\ImageAnalyzer\General</Filter>
     </ClCompile>
     <ClCompile Include="BattlePerspectiveImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeFormationTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer</Filter>
     </ClCompile>
   </ItemGroup>
