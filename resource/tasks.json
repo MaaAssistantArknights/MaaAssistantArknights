@@ -2720,6 +2720,45 @@
             100
         ]
     },
+    "InfrastClueSelfMaybeFull": {
+        "Doc": "有一种情况是，自己的线索满了，但是却没有new的标记",
+        "roi": [
+            1110,
+            89,
+            170,
+            177
+        ],
+        "action": "clickSelf",
+        "next": [
+            "InfrastClueSelfFull",
+            "CloseCluePage"
+        ]
+    },
+    "InfrastClueSelfFull": {
+        "roi": [
+            286,
+            550,
+            366,
+            130
+        ],
+        "next": [
+            "CloseCluePageThenSendClue"
+        ]
+    },
+    "CloseCluePageThenSendClue": {
+        "template": "CloseCluePage.png",
+        "action": "clickSelf",
+        "roi": [
+            930,
+            50,
+            120,
+            120
+        ],
+        "next": [
+            "CloseCluePageThenSendClue",
+            "SendClues"
+        ]
+    },
     "InfrastClueSelfNew": {
         "template": "ClueNew.png",
         "action": "clickSelf",
@@ -3061,7 +3100,9 @@
             41
         ],
         "next": [
-            "InfrastClueSelfNew"
+            "InfrastClueSelfNew",
+            "InfrastClueFriendNew",
+            "ReceptionFlag"
         ]
     },
     "ClueGiveToNextPage": {
