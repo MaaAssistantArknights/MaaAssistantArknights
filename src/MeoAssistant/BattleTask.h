@@ -15,7 +15,10 @@ namespace asst
         virtual bool _run() override;
 
         bool auto_battle();
+        bool speed_up();
+        bool wait_for_mission_completed();
 
         std::vector<Rect> m_home_cache;
+        bool m_used_opers = false;
     };
 }
