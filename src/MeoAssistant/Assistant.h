@@ -62,12 +62,12 @@ namespace asst
         // 参数 use_expedited: 是否使用加急券
         bool append_recruit(unsigned max_times, const std::vector<int>& select_level, const std::vector<int>& confirm_level, bool need_refresh, bool use_expedited);
 
-#ifdef ASST_DEBUG
+        //#ifdef ASST_DEBUG
         // 调试用
         bool append_debug();
-#endif
+        //#endif
 
-        // 开始公开招募计算
+                // 开始公开招募计算
         bool start_recruit_calc(const std::vector<int>& select_level, bool set_time);
 
         // 开始执行任务队列

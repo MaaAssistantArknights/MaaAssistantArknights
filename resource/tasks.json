@@ -3486,6 +3486,7 @@
             254,
             248
         ],
+        "rearDelay": 500,
         "next": [
             "Roguelike1LastReward",
             "Roguelike1Recruit1"
@@ -3583,8 +3584,11 @@
         "action": "clickSelf",
         "cache": false,
         "text": [
+            "煌",
+            "银灰",
+            "陈",
+            "帕拉斯",
             "棘刺",
-            "山",
             "梓兰",
             "芙蓉",
             "安塞尔"
