@@ -234,9 +234,6 @@
     <ClInclude Include="DronesForShamareTaskPlugin.h">
       <Filter>头文件\TaskPlugin</Filter>
     </ClInclude>
-    <ClInclude Include="BattleTask.h">
-      <Filter>头文件\Task</Filter>
-    </ClInclude>
     <ClInclude Include="BattleImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer</Filter>
     </ClInclude>
@@ -246,11 +243,14 @@
     <ClInclude Include="BattlePerspectiveImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\General</Filter>
     </ClInclude>
-    <ClInclude Include="RoguelikeFormationTask.h">
-      <Filter>头文件\Task</Filter>
-    </ClInclude>
     <ClInclude Include="RoguelikeFormationImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeBattleTaskPlugin.h">
+      <Filter>头文件\TaskPlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeFormationTaskPlugin.h">
+      <Filter>头文件\TaskPlugin</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -395,9 +395,6 @@
     <ClCompile Include="DronesForShamareTaskPlugin.cpp">
       <Filter>源文件\TaskPlugin</Filter>
     </ClCompile>
-    <ClCompile Include="BattleTask.cpp">
-      <Filter>源文件\Task</Filter>
-    </ClCompile>
     <ClCompile Include="BattleImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer</Filter>
     </ClCompile>
@@ -407,11 +404,14 @@
     <ClCompile Include="BattlePerspectiveImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer</Filter>
     </ClCompile>
-    <ClCompile Include="RoguelikeFormationTask.cpp">
-      <Filter>源文件\Task</Filter>
-    </ClCompile>
     <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeBattleTaskPlugin.cpp">
+      <Filter>源文件\TaskPlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeFormationTask.cpp">
+      <Filter>源文件\TaskPlugin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

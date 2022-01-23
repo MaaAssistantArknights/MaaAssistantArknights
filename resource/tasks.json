@@ -3447,7 +3447,7 @@
             40
         ]
     },
-    "BattleReleaseSkill": {
+    "BattleUseSkill": {
         "algorithm": "justReturn",
         "action": "clickRect",
         "specificRect": [
@@ -3458,6 +3458,16 @@
         ],
         "preDelay": 1000,
         "rearDelay": 500
+    },
+    "Roguelike1Begin": {
+        "algorithm": "justReturn",
+        "next": [
+            "Roguelike1Start",
+            "Roguelike1StageTrader",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps"
+        ]
     },
     "Roguelike1Start": {
         "action": "clickSelf",
@@ -3697,6 +3707,9 @@
             0,
             402,
             146
+        ],
+        "next": [
+            "Roguelike1FormationConfirm"
         ]
     },
     "Roguelike1FormationOper": {
@@ -3740,6 +3753,11 @@
             593,
             375,
             127
+        ],
+        "next": [
+            "Roguelike1InBattleFlag",
+            "Roguelike1MissionCompletedFlag",
+            "Roguelike1MissionFailedFlag"
         ]
     },
     "Roguelike1InBattleFlag": {

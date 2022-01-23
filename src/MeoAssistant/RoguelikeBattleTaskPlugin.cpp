@@ -1,4 +1,4 @@
-#include "BattleTask.h"
+#include "RoguelikeBattleTaskPlugin.h"
 
 #include "BattleImageAnalyzer.h"
 #include "BattlePerspectiveImageAnalyzer.h"
@@ -6,10 +6,26 @@
 #include "TaskData.h"
 #include "ProcessTask.h"
 
-bool asst::BattleTask::_run()
+bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
+{
+    if (msg != AsstMsg::SubTaskCompleted
+        || details.get("subtask", std::string()) != "ProcessTask") {
+        return false;
+    }
+
+    if (details.at("details").at("task").as_string() == "Roguelike1StartAction") {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+bool asst::RoguelikeBattleTaskPlugin::_run()
 {
     m_used_opers = false;
     m_pre_hp = 0;
+    m_home_cache.clear();
 
     speed_up();
 
@@ -20,15 +36,14 @@ bool asst::BattleTask::_run()
         }
     }
 
-    return wait_for_mission_completed();
+    return true;
 }
 
-bool asst::BattleTask::auto_battle()
+bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 {
     using Role = asst::BattleImageAnalyzer::Role;
     using Oper = asst::BattleImageAnalyzer::Oper;
 
-    //cv::Mat test = cv::imread("f.png");
     BattleImageAnalyzer battle_analyzer(Ctrler.get_image());
     if (!battle_analyzer.analyze()) {
         return false;
@@ -39,7 +54,7 @@ bool asst::BattleTask::auto_battle()
         bool used_skills = false;
         if (hp < m_pre_hp) {    // 说明漏怪了，漏怪就开技能（
             for (const Rect& rect : battle_analyzer.get_ready_skills()) {
-                release_skill(rect);
+                use_skill(rect);
                 used_skills = true;
             }
         }
@@ -159,25 +174,16 @@ bool asst::BattleTask::auto_battle()
     return true;
 }
 
-bool asst::BattleTask::speed_up()
+bool asst::RoguelikeBattleTaskPlugin::speed_up()
 {
     ProcessTask task(*this, { "BattleSpeedUp" });
     return task.run();
 }
 
-bool asst::BattleTask::wait_for_mission_completed()
-{
-    ProcessTask task(*this, {
-        "Roguelike1InBattleFlag",
-        "Roguelike1MissionCompletedFlag",
-        "Roguelike1MissionFailedFlag" });
-    return task.run();
-}
-
-bool asst::BattleTask::release_skill(const asst::Rect& rect)
+bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
 {
     Ctrler.click(rect);
 
-    ProcessTask task(*this, { "BattleReleaseSkill" });
+    ProcessTask task(*this, { "BattleUseSkill" });
     return task.run();
 }
