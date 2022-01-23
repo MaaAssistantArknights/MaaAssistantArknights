@@ -10,7 +10,10 @@
 
 bool asst::BattleImageAnalyzer::analyze()
 {
-    bool ret = opers_analyze();
+    opers_analyze();
+    skill_analyze();
+    // 生命值和家门，只要识别到了任一个，就可以说明当前是在战斗场景
+    bool ret = hp_analyze();
     ret |= home_analyze();
     return ret;
 }
@@ -23,6 +26,16 @@ const std::vector<asst::BattleImageAnalyzer::Oper>& asst::BattleImageAnalyzer::g
 const std::vector<asst::Rect>& asst::BattleImageAnalyzer::get_homes() const noexcept
 {
     return m_homes;
+}
+
+const std::vector<asst::Rect>& asst::BattleImageAnalyzer::get_ready_skills() const noexcept
+{
+    return m_ready_skills;
+}
+
+int asst::BattleImageAnalyzer::get_hp() const noexcept
+{
+    return m_hp;
 }
 
 bool asst::BattleImageAnalyzer::opers_analyze()
@@ -225,5 +238,91 @@ bool asst::BattleImageAnalyzer::home_analyze()
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(home_rect), cv::Scalar(0, 255, 0), 5);
 #endif
 
+    return true;
+}
+
+bool asst::BattleImageAnalyzer::skill_analyze()
+{
+    const auto skill_task_ptr = Task.get("BattleSkillReady");
+    const Rect& rect_move = skill_task_ptr->rect_move;
+
+    MultiMatchImageAnalyzer mm_analyzer(m_image);
+    mm_analyzer.set_task_info(skill_task_ptr);
+    if (!mm_analyzer.analyze()) {
+        return false;
+    }
+    for (const auto& mr : mm_analyzer.get_result()) {
+        m_ready_skills.emplace_back(mr.rect.move(rect_move));
+    }
+    return true;
+}
+
+bool asst::BattleImageAnalyzer::hp_analyze()
+{
+    // 识别 HP 的那个蓝白色图标
+    auto flag_task_ptr = Task.get("BattleHpFlag");
+    MatchImageAnalyzer flag_analyzer(m_image);
+    flag_analyzer.set_task_info(flag_task_ptr);
+    if (!flag_analyzer.analyze()) {
+        // 漏怪的时候，那个图标会变成红色的，所以多识别一次
+        flag_task_ptr = Task.get("BattleHpFlag2");
+        flag_analyzer.set_task_info(flag_task_ptr);
+        if (!flag_analyzer.analyze()) {
+            return false;
+        }
+    }
+    Rect roi_rect = flag_analyzer.get_result().rect.move(flag_task_ptr->rect_move);
+    cv::Mat roi = m_image(utils::make_rect<cv::Rect>(roi_rect));
+
+    static const std::array<std::string, 10> NumName = {
+    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
+    };
+    static bool inited = false;
+    static cv::Scalar range_lower, range_upper;
+    static HashImageAnalyzer hash_analyzer;
+    if (!inited) {
+        auto [h_l, h_u] = std::dynamic_pointer_cast<HashTaskInfo>(
+            Task.get("BattleHpChannelH"))->mask_range;
+        auto [s_l, s_u] = std::dynamic_pointer_cast<HashTaskInfo>(
+            Task.get("BattleHpChannelS"))->mask_range;
+        auto [v_l, v_u] = std::dynamic_pointer_cast<HashTaskInfo>(
+            Task.get("BattleHpChannelV"))->mask_range;
+        range_lower = cv::Scalar(h_l, s_l, v_l);
+        range_upper = cv::Scalar(h_u, s_u, v_u);
+        std::unordered_map<std::string, std::string> num_hashs;
+        for (auto&& num : NumName) {
+            auto hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(
+                Task.get("BattleHp" + num))->hashs;
+            for (size_t i = 0; i != hashs_vec.size(); ++i) {
+                num_hashs.emplace(num + "_" + std::to_string(i), hashs_vec.at(i));
+            }
+        }
+        hash_analyzer.set_hash_templates(std::move(num_hashs));
+        hash_analyzer.set_need_bound(true);
+        hash_analyzer.set_need_split(true);
+        inited = true;
+    }
+
+    cv::Mat hsv;
+    cv::cvtColor(roi, hsv, cv::COLOR_BGR2HSV);
+    cv::Mat bin;
+    cv::inRange(hsv, range_lower, range_upper, bin);
+    hash_analyzer.set_image(bin);
+    hash_analyzer.analyze();
+
+    int hp = 0;
+    for (const std::string& num_name : hash_analyzer.get_min_dist_name()) {
+        if (num_name.empty()) {
+            Log.error("hash result is empty");
+            return 0;
+        }
+        hp *= 10;
+        hp += num_name.at(0) - '0';
+    }
+
+#ifdef ASST_DEBUG
+    cv::putText(m_image_draw, "HP: " + std::to_string(hp), cv::Point(roi_rect.x, roi_rect.y + 50), 2, 1, cv::Scalar(0, 0, 255));
+#endif
+    m_hp = hp;
     return true;
 }

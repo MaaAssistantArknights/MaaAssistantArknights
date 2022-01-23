@@ -101,7 +101,7 @@ asst::Controller::~Controller()
     close(m_pipe_out[PIPE_READ]);
     close(m_pipe_out[PIPE_WRITE]);
 #endif
-    }
+}
 
 bool asst::Controller::connect_adb(const std::string & address)
 {
@@ -166,7 +166,9 @@ bool asst::Controller::connect_adb(const std::string & address)
 
 asst::Rect asst::Controller::shaped_correct(const Rect & rect) const
 {
-    if (rect.empty()) {
+    if (rect.empty()
+        || m_scale_size.first == 0
+        || m_scale_size.second == 0) {
         return rect;
     }
     // 明日方舟在异形屏上，有的地方是按比例缩放的，有的地方又是直接位移。没法整，这里简单粗暴一点截一个长条
@@ -465,7 +467,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     else {
         // failed to create child process
         return std::nullopt;
-    }
+}
 #endif
 
     Log.trace("Call `", cmd, "` ret", exit_ret, ", output size:", pipe_data.size());
