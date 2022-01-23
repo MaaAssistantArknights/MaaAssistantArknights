@@ -329,7 +329,7 @@ bool asst::Assistant::append_recruit(unsigned max_times, const std::vector<int>&
     return true;
 }
 
-#ifdef ASST_DEBUG
+//#ifdef ASST_DEBUG
 bool Assistant::append_debug()
 {
     LogTraceFunction;
@@ -352,7 +352,7 @@ bool Assistant::append_debug()
 
     return true;
 }
-#endif
+//#endif
 
 bool Assistant::start_recruit_calc(const std::vector<int>& select_level, bool set_time)
 {
