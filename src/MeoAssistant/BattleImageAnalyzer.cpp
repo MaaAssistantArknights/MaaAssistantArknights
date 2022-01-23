@@ -205,7 +205,7 @@ bool asst::BattleImageAnalyzer::home_analyze()
     cv::Mat hsv;
     cv::cvtColor(m_image, hsv, cv::COLOR_BGR2HSV);
     cv::Mat bin;
-    cv::inRange(hsv, cv::Scalar(106, 160, 180), cv::Scalar(107, 220, 255), bin);
+    cv::inRange(hsv, cv::Scalar(104, 160, 180), cv::Scalar(107, 220, 255), bin);
 
     // 开操作降噪
     cv::Mat morph_dst;

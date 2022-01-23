@@ -29,7 +29,7 @@ bool asst::BattlePerspectiveImageAnalyzer::placed_analyze()
     cv::Mat hsv;
     cv::cvtColor(m_image, hsv, cv::COLOR_BGR2HSV);
     cv::Mat bin;
-    cv::inRange(hsv, cv::Scalar(60, 90, 70), cv::Scalar(80, 150, 150), bin);
+    cv::inRange(hsv, cv::Scalar(55, 90, 70), cv::Scalar(80, 150, 150), bin);
 
     // 形态学降噪
     cv::Mat morph_dst = bin;
@@ -38,6 +38,7 @@ bool asst::BattlePerspectiveImageAnalyzer::placed_analyze()
     //cv::Mat morph_close_kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
     //cv::morphologyEx(morph_dst, morph_dst, cv::MORPH_CLOSE, morph_close_kernel);
 
+    // 计算可放干员格子的连通域，圈出每个单独的格子
     cv::Mat out, stats, centroids;
     int number = cv::connectedComponentsWithStats(morph_dst, out, stats, centroids);
     if (number < 2) {

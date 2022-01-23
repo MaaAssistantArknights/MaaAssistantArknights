@@ -104,6 +104,9 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             break;
         }
     }
+    if (!oper_found) {
+        return true;
+    }
 
     Ctrler.click(opt_oper.rect);
     sleep(use_oper_task_ptr->pre_delay);
@@ -125,22 +128,22 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
     int dx = nearest_point.x - home_center.x;
     int dy = nearest_point.y - home_center.y;
-    if ((dx * 7) < (dy * 11)) {
+    if (std::abs(dx * 7) < std::abs(dy * 11)) {
         dx = 0;
     }
     else {
         dy = 0;
     }
-    constexpr int coeff = 50;
+    constexpr int coeff = 100;
     Point end_point;
     switch (opt_oper.role) {
     case Role::Medic:
-    case Role::Support:
     {
         end_point.x = nearest_point.x - coeff * dx;
         end_point.y = nearest_point.y - coeff * dy;
     }
     break;
+    case Role::Support:
     case Role::Pioneer:
     case Role::Warrior:
     case Role::Sniper:
@@ -155,6 +158,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
     break;
     }
+
     if (end_point.x < 0) {
         end_point.x = 0;
     }
