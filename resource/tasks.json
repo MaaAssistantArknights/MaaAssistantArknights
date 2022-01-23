@@ -3299,6 +3299,121 @@
             "3ffc7ffe7c3ff00ff007f007f00ffc0f7fff3ffe1ffe00fc01f803f00ff00fc0"
         ]
     },
+    "BattleHpFlag": {
+        "roi": [
+            400,
+            0,
+            650,
+            60
+        ],
+        "rectMove": [
+            40,
+            0,
+            100,
+            35
+        ]
+    },
+    "BattleHpFlag2": {
+        "roi": [
+            400,
+            0,
+            650,
+            60
+        ],
+        "rectMove": [
+            40,
+            0,
+            100,
+            35
+        ]
+    },
+    "BattleHpChannelH": {
+        "algorithm": "hash",
+        "hash": [
+        ],
+        "maskRange": [
+            0,
+            1
+        ]
+    },
+    "BattleHpChannelS": {
+        "algorithm": "hash",
+        "hash": [
+        ],
+        "maskRange": [
+            120,
+            150
+        ]
+    },
+    "BattleHpChannelV": {
+        "algorithm": "hash",
+        "hash": [
+        ],
+        "maskRange": [
+            170,
+            255
+        ]
+    },
+    "BattleHp0": {
+        "algorithm": "hash",
+        "hash": [
+            "03e007fc3c0638066003400140014001c001400140016003600338061e1c07f8"
+        ]
+    },
+    "BattleHp1": {
+        "algorithm": "hash",
+        "hash": [
+            "003f01ff1ffffe0f000700070007000700070007000700070007000700070007"
+        ]
+    },
+    "BattleHp2": {
+        "algorithm": "hash",
+        "hash": [
+            "07e03c3c2007c0030003000300030007001c003800e003c004003800f800ffff"
+        ]
+    },
+    "BattleHp3": {
+        "algorithm": "hash",
+        "hash": [
+            "0ff07e78700ee00700070006000e03f80078000e000700078007e00e703e1ff8"
+        ]
+    },
+    "BattleHp4": {
+        "algorithm": "hash",
+        "hash": [
+            "0010003c007c007c01dc039c061c0c1c381c301c783effff001c001c001c001c"
+        ]
+    },
+    "BattleHp5": {
+        "algorithm": "hash",
+        "hash": [
+            "1ff87ffe7000600060006000fff0f038e00e0006000700078007e00e703e1ff0"
+        ]
+    },
+    "BattleHp6": {
+        "algorithm": "hash",
+        "hash": [
+            "018002000e000c0010003fe07808f004c006800380018003c007e006300c1ff0"
+        ]
+    },
+    "BattleHp7": {
+        "algorithm": "hash",
+        "hash": [
+            "7fffffff00070006000e003800380070004001c0018003800e000e001c001000"
+        ]
+    },
+    "BattleHp8": {
+        "algorithm": "hash",
+        "hash": [
+            "0ff01038600ee006e006600670081ff01c7860068007800180018007600e1ff8"
+        ]
+    },
+    "BattleHp9": {
+        "algorithm": "hash",
+        "hash": [
+            "07e01e78700e6006e007e007e0076006700e1ffe011800700060008001800700"
+        ]
+    },
     "BattleSpeedUp": {
         "action": "clickSelf",
         "roi": [
@@ -3307,10 +3422,42 @@
             149,
             153
         ],
-        "maksRange": [
+        "maskRange": [
             100,
             255
+        ],
+        "templThreshold": 0.95,
+        "preDelay": 2000
+    },
+    "BattleSkillReady": {
+        "roi": [
+            0,
+            0,
+            1280,
+            580
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "rectMove": [
+            0,
+            100,
+            40,
+            40
         ]
+    },
+    "BattleReleaseSkill": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            820,
+            380,
+            100,
+            100
+        ],
+        "preDelay": 1000,
+        "rearDelay": 500
     },
     "Roguelike1Start": {
         "action": "clickSelf",

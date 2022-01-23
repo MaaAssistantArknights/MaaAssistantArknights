@@ -6,34 +6,54 @@
 #include "TaskData.h"
 #include "ProcessTask.h"
 
-typedef asst::BattleImageAnalyzer::Role Role;
-typedef asst::BattleImageAnalyzer::Oper Oper;
-
 bool asst::BattleTask::_run()
 {
     m_used_opers = false;
+    m_pre_hp = 0;
+
+    speed_up();
 
     while (!need_exit()) {
+        // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
         if (!auto_battle() && m_used_opers) {
             break;
         }
     }
-    speed_up();
 
     return wait_for_mission_completed();
 }
 
 bool asst::BattleTask::auto_battle()
 {
-    BattleImageAnalyzer oper_analyzer(Ctrler.get_image());
-    if (!oper_analyzer.analyze()) {
+    using Role = asst::BattleImageAnalyzer::Role;
+    using Oper = asst::BattleImageAnalyzer::Oper;
+
+    //cv::Mat test = cv::imread("f.png");
+    BattleImageAnalyzer battle_analyzer(Ctrler.get_image());
+    if (!battle_analyzer.analyze()) {
         return false;
     }
-    const auto& opers = oper_analyzer.get_opers();
+
+    if (int hp = battle_analyzer.get_hp();
+        hp != 0) {
+        bool used_skills = false;
+        if (hp < m_pre_hp) {    // 说明漏怪了，漏怪就开技能（
+            for (const Rect& rect : battle_analyzer.get_ready_skills()) {
+                release_skill(rect);
+                used_skills = true;
+            }
+        }
+        m_pre_hp = hp;
+        if (used_skills) {
+            return true;
+        }
+    }
+
+    const auto& opers = battle_analyzer.get_opers();
     if (opers.empty()) {
-        return false;
+        return true;
     }
-    if (auto cur_home = oper_analyzer.get_homes();
+    if (auto cur_home = battle_analyzer.get_homes();
         !cur_home.empty()) {
         m_home_cache = cur_home;
     }
@@ -147,6 +167,17 @@ bool asst::BattleTask::speed_up()
 
 bool asst::BattleTask::wait_for_mission_completed()
 {
-    ProcessTask task(*this, { "Roguelike1InBattleFlag" });
+    ProcessTask task(*this, {
+        "Roguelike1InBattleFlag",
+        "Roguelike1MissionCompletedFlag",
+        "Roguelike1MissionFailedFlag" });
+    return task.run();
+}
+
+bool asst::BattleTask::release_skill(const asst::Rect& rect)
+{
+    Ctrler.click(rect);
+
+    ProcessTask task(*this, { "BattleReleaseSkill" });
     return task.run();
 }
