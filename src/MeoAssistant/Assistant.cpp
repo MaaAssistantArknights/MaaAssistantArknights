@@ -12,7 +12,8 @@
 #include "Resource.h"
 
 #include "CreditShoppingTask.h"
-#include "BattleTask.h"
+#include "RoguelikeBattleTaskPlugin.h"
+#include "RoguelikeFormationTaskPlugin.h"
 #include "InfrastDormTask.h"
 #include "InfrastInfoTask.h"
 #include "InfrastMfgTask.h"
@@ -27,7 +28,6 @@
 #include "RuntimeStatus.h"
 #include "StageDropsTaskPlugin.h"
 #include "DronesForShamareTaskPlugin.h"
-#include "RoguelikeFormationTask.h"
 
 using namespace asst;
 
@@ -341,13 +341,13 @@ bool Assistant::append_debug()
 
     {
         constexpr static const char* DebugTaskChain = "Debug";
-        append_process_task("Roguelike1Start", DebugTaskChain);
 
-        auto debug_task_ptr = std::make_shared<RoguelikeFormationTask>(task_callback, (void*)this, DebugTaskChain);
+        auto debug_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, DebugTaskChain);
+        debug_task_ptr->set_tasks({ "Roguelike1Begin" });
+        debug_task_ptr->regiseter_plugin<RoguelikeFormationTaskPlugin>();
+        debug_task_ptr->regiseter_plugin<RoguelikeBattleTaskPlugin>();
+
         m_tasks_queue.emplace(debug_task_ptr);
-
-        auto debug2_task_ptr = std::make_shared<BattleTask>(task_callback, (void*)this, DebugTaskChain);
-        m_tasks_queue.emplace(debug2_task_ptr);
     }
 
     return true;
