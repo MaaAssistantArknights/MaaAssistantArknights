@@ -63,7 +63,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     if (need_exit()) {
         return false;
     }
-    cv::Mat image = Ctrler.get_image(true);
+    cv::Mat image = Ctrler.get_image();
     std::string res = Resrc.penguin().recognize(image);
     Log.trace("Results of penguin recognition:\n", res);
     m_cur_drops = json::parse(res).value();

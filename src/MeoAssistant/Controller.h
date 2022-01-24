@@ -37,7 +37,7 @@ namespace asst
         static void set_dirname(std::string dirname) noexcept;
 
         bool try_capture(const EmulatorInfo& info, bool without_handle = false);
-        cv::Mat get_image(bool raw = false);
+        cv::Mat get_image();
         std::vector<uchar> get_image_encode();
 
         // 点击和滑动都是异步执行，返回该任务的id

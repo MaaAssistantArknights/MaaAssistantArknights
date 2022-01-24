@@ -467,7 +467,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     else {
         // failed to create child process
         return std::nullopt;
-}
+    }
 #endif
 
     Log.trace("Call `", cmd, "` ret", exit_ret, ", output size:", pipe_data.size());
@@ -821,7 +821,7 @@ int asst::Controller::swipe_without_scale(const Rect & r1, const Rect & r2, int 
     return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
 
-cv::Mat asst::Controller::get_image(bool raw)
+cv::Mat asst::Controller::get_image()
 {
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
     for (int i = 0; i != 20; ++i) {
@@ -829,13 +829,8 @@ cv::Mat asst::Controller::get_image(bool raw)
             break;
         }
     }
-    //std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
-    if (raw) {
-        return m_cache_image;
-    }
-    else {
-        return get_resized_image();
-    }
+
+    return get_resized_image();
 }
 
 std::vector<uchar> asst::Controller::get_image_encode()
