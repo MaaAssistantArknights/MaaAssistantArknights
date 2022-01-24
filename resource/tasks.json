@@ -3127,6 +3127,18 @@
             "ClueGiveTo1stConfirm"
         ]
     },
+    "BattleStageName": {
+        "algorithm": "OcrDetect",
+        "text": [
+
+        ],
+        "roi": [
+            255,
+            263,
+            785,
+            328
+        ]
+    },
     "BattleUseOper": {
         "algorithm": "JustReturn",
         "preDelay": 500,

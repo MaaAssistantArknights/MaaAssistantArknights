@@ -163,6 +163,7 @@ Yes, but there are few supported features, please refer to [this link](resource/
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON库: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 - 下载器：[aria2](https://github.com/aria2/aria2)
+- 明日方舟地图格子识别: [Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 
 ### 数据源
 
