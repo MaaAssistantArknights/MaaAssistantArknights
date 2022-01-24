@@ -5,6 +5,8 @@
 #include "Controller.h"
 #include "TaskData.h"
 #include "ProcessTask.h"
+#include "OcrImageAnalyzer.h"
+#include "Resource.h"
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -23,11 +25,9 @@ bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& det
 
 bool asst::RoguelikeBattleTaskPlugin::_run()
 {
-    m_used_opers = false;
-    m_pre_hp = 0;
-    m_home_cache.clear();
+    clear();
 
-    speed_up();
+    get_stage_info();
 
     while (!need_exit()) {
         // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
@@ -37,6 +37,38 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     }
 
     return true;
+}
+
+bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
+{
+    const auto& tile = Resrc.tile();
+    bool calced = false;
+    for (int i = 0; i != m_retry_times; ++i) {
+        OcrImageAnalyzer name_analyzer(Ctrler.get_image());
+        name_analyzer.set_task_info("BattleStageName");
+        name_analyzer.analyze();
+
+        for (const auto& tr : name_analyzer.get_result()) {
+            auto normal_info = tile.calc(tr.text, false);
+            if (normal_info.empty()) {
+                continue;
+            }
+            auto side_info = tile.calc(tr.text, true);
+            if (side_info.empty()) {
+                continue;
+            }
+
+            m_tile_info = std::move(normal_info);
+            m_side_tile_info = std::move(side_info);
+            calced = true;
+            break;
+        }
+        if (calced) {
+            break;
+        }
+    }
+
+    return calced;
 }
 
 bool asst::RoguelikeBattleTaskPlugin::auto_battle()
@@ -190,4 +222,13 @@ bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
 
     ProcessTask task(*this, { "BattleUseSkill" });
     return task.run();
+}
+
+void asst::RoguelikeBattleTaskPlugin::clear()
+{
+    m_used_opers = false;
+    m_pre_hp = 0;
+    m_home_cache.clear();
+    m_tile_info.clear();
+    m_side_tile_info.clear();
 }

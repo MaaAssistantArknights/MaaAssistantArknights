@@ -68,6 +68,7 @@
     <ClInclude Include="TaskData.h" />
     <ClInclude Include="MatchImageAnalyzer.h" />
     <ClInclude Include="TemplResource.h" />
+    <ClInclude Include="TilePack.h" />
     <ClInclude Include="UserConfiger.h" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="Controller.h" />
@@ -124,6 +125,7 @@
     <ClCompile Include="TaskData.cpp" />
     <ClCompile Include="MatchImageAnalyzer.cpp" />
     <ClCompile Include="TemplResource.cpp" />
+    <ClCompile Include="TilePack.cpp" />
     <ClCompile Include="UserConfiger.cpp" />
     <ClCompile Include="Controller.cpp" />
   </ItemGroup>

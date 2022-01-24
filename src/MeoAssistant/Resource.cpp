@@ -16,9 +16,10 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static const char* RecruitCfgFilename = "recruit.json";
     constexpr static const char* ItemCfgFilename = "item_index.json";
     constexpr static const char* InfrastCfgFilename = "infrast.json";
-    constexpr static const char* UserCfgFilename = "..\\user.json";
+    constexpr static const char* UserCfgFilename = "../user.json";
     constexpr static const char* OcrResourceFilename = "PaddleOCR";
     constexpr static const char* PenguinResourceFilename = "penguin-stats-recognize";
+    constexpr static const char* TilesCalcResourceFilename = "Arknights-Tile-Pos";
 
     /* 加载各个Json配置文件 */
     if (!m_general_cfg_unique_ins.load(dir + GeneralCfgFilename)) {
@@ -74,6 +75,12 @@ bool asst::Resource::load(const std::string& dir)
     m_penguin_pack_unique_ins.set_language(opt.penguin_report.server);
     if (!m_penguin_pack_unique_ins.load(dir + PenguinResourceFilename)) {
         m_last_error = std::string(PenguinResourceFilename) + ": " + m_penguin_pack_unique_ins.get_last_error();
+        return false;
+    }
+
+    /* 加载地图格子识别库所需要的资源 */
+    if (!m_tile_pack_unique_ins.load(dir + TilesCalcResourceFilename)) {
+        m_last_error = std::string(TilesCalcResourceFilename) + ": " + m_tile_pack_unique_ins.get_last_error();
         return false;
     }
 

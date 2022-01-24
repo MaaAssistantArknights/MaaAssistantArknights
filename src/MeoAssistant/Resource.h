@@ -14,6 +14,7 @@
 #include "TaskData.h"
 #include "TemplResource.h"
 #include "UserConfiger.h"
+#include "TilePack.h"
 
 namespace asst
 {
@@ -62,6 +63,10 @@ namespace asst
         {
             return m_penguin_pack_unique_ins;
         }
+        TilePack& tile() noexcept
+        {
+            return m_tile_pack_unique_ins;
+        }
 
         const TemplResource& templ() const noexcept
         {
@@ -95,6 +100,10 @@ namespace asst
         {
             return m_penguin_pack_unique_ins;
         }
+        const TilePack& tile() const noexcept
+        {
+            return m_tile_pack_unique_ins;
+        }
 
         Resource& operator=(const Resource&) = delete;
         Resource& operator=(Resource&&) noexcept = delete;
@@ -110,6 +119,7 @@ namespace asst
         UserConfiger m_user_cfg_unique_ins;
         OcrPack m_ocr_pack_unique_ins;
         PenguinPack m_penguin_pack_unique_ins;
+        TilePack m_tile_pack_unique_ins;
     };
 
     //static auto& resource = Resource::get_instance();
