@@ -21,7 +21,7 @@ bool asst::UserConfiger::set_emulator_path(const std::string& name, const std::s
 
 bool asst::UserConfiger::parse(const json::value& json)
 {
-    if (json.exist(EmulatorPathKey)) {
+    if (json.contains(EmulatorPathKey)) {
         for (const auto& [name, path] : json.at(EmulatorPathKey).as_object()) {
             m_emulators_path.emplace(name, path.as_string());
         }

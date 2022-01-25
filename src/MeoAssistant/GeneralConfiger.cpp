@@ -21,7 +21,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         m_options.penguin_report.cmd_format = penguin_report.get("cmdFormat", std::string());
         m_options.penguin_report.server = penguin_report.get("server", "CN");
 
-        if (options_json.exist("aipOcr")) {
+        if (options_json.contains("aipOcr")) {
             auto& aip_ocr = options_json.at("aipOcr");
             m_options.aip_ocr.enable = aip_ocr.get("enable", false);
             m_options.aip_ocr.accurate = aip_ocr.get("accurate", false);

@@ -45,7 +45,7 @@ bool asst::PenguinPack::load_json(const std::string& stage_path, const std::stri
     json::object cvt_stage_json;
     try {
         for (const json::value& stage_info : stage_json.as_array()) {
-            if (!stage_info.exist("dropInfos")) { // 这种一般是以前的活动关，现在已经关闭了的
+            if (!stage_info.contains("dropInfos")) { // 这种一般是以前的活动关，现在已经关闭了的
                 continue;
             }
             std::string key = stage_info.at("code").as_string();
@@ -53,7 +53,7 @@ bool asst::PenguinPack::load_json(const std::string& stage_path, const std::stri
             stage_dst["stageId"] = stage_info.at("stageId");
             std::vector<json::value> drops_vector;
             for (const json::value& drop_info : stage_info.at("dropInfos").as_array()) {
-                if (drop_info.exist("itemId")) {
+                if (drop_info.contains("itemId")) {
                     // 幸运掉落，家具啥的，企鹅数据不接，忽略掉
                     if (drop_info.at("dropType").as_string() == "FURNITURE") {
                         continue;

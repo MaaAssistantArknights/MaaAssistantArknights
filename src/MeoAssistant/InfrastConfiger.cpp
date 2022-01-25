@@ -24,7 +24,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
             std::string defalut_id = templ_name.substr(0, templ_name.find_last_of('.'));
             std::string id = skill_json.get("id", defalut_id);
             skill.id = id;
-            if (skill_json.exist("name")) {
+            if (skill_json.contains("name")) {
                 for (const json::value& skill_names : skill_json.at("name").as_array()) {
                     skill.names.emplace_back(skill_names.as_string());
                 }
@@ -32,19 +32,19 @@ bool asst::InfrastConfiger::parse(const json::value& json)
             skill.desc = skill_json.get("desc", std::string());
 
             /* 解析efficient的数字及正则值 */
-            if (skill_json.exist("efficient")) {
+            if (skill_json.contains("efficient")) {
                 const static std::string reg_suffix = "_reg";
                 const json::value& efficient = skill_json.at("efficient");
 
                 if (std::string all_reg_key = "all" + reg_suffix;
-                    efficient.exist(all_reg_key)) {
+                    efficient.contains(all_reg_key)) {
                     std::string all_reg_value = efficient.at(all_reg_key).as_string();
                     for (const std::string& pd : products) {
                         skill.efficient_regex.emplace(pd, all_reg_value);
                         skill.efficient.emplace(pd, 0);
                     }
                 }
-                else if (efficient.exist("all")) {
+                else if (efficient.contains("all")) {
                     double all_value = efficient.at("all").as_double();
                     for (const std::string& pd : products) {
                         skill.efficient.emplace(pd, all_value);
@@ -53,11 +53,11 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                 else {
                     for (const std::string& pd : products) {
                         if (std::string pd_reg_key = pd + reg_suffix;
-                            efficient.exist(pd_reg_key)) {
+                            efficient.contains(pd_reg_key)) {
                             skill.efficient_regex.emplace(pd, efficient.at(pd_reg_key).as_string());
                             skill.efficient.emplace(pd, 0);
                         }
-                        else if (efficient.exist(pd)) {
+                        else if (efficient.contains(pd)) {
                             skill.efficient.emplace(pd, efficient.at(pd).as_double());
                         }
                         else {
@@ -82,7 +82,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
         for (const json::value& group_json : facility_json.at("skillsGroup").as_array()) {
             infrast::SkillsGroup group;
             group.desc = group_json.get("desc", std::string());
-            if (group_json.exist("conditions")) {
+            if (group_json.contains("conditions")) {
                 for (const auto& [cond, value] : group_json.at("conditions").as_object()) {
                     group.conditions.emplace(cond, value.as_integer());
                 }
@@ -95,19 +95,19 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                     comb.skills.emplace(skill);
                 }
                 /* 解析efficient的数字及正则值 */
-                if (necessary_json.exist("efficient")) {
+                if (necessary_json.contains("efficient")) {
                     const static std::string reg_suffix = "_reg";
                     const json::value& efficient = necessary_json.at("efficient");
 
                     if (std::string all_reg_key = "all" + reg_suffix;
-                        efficient.exist(all_reg_key)) {
+                        efficient.contains(all_reg_key)) {
                         std::string all_reg_value = efficient.at(all_reg_key).as_string();
                         for (const std::string& pd : products) {
                             comb.efficient_regex.emplace(pd, all_reg_value);
                             comb.efficient.emplace(pd, 0);
                         }
                     }
-                    else if (efficient.exist("all")) {
+                    else if (efficient.contains("all")) {
                         double all_value = efficient.at("all").as_double();
                         for (const std::string& pd : products) {
                             comb.efficient.emplace(pd, all_value);
@@ -116,11 +116,11 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                     else {
                         for (const std::string& pd : products) {
                             if (std::string pd_reg_key = pd + reg_suffix;
-                                efficient.exist(pd_reg_key)) {
+                                efficient.contains(pd_reg_key)) {
                                 comb.efficient_regex.emplace(pd, efficient.at(pd_reg_key).as_string());
                                 comb.efficient.emplace(pd, 0);
                             }
-                            else if (efficient.exist(pd)) {
+                            else if (efficient.contains(pd)) {
                                 comb.efficient.emplace(pd, efficient.at(pd).as_double());
                             }
                             else {
@@ -134,7 +134,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                         comb.efficient.emplace(pd, 0);
                     }
                 }
-                if (necessary_json.exist("hash")) {
+                if (necessary_json.contains("hash")) {
                     comb.hash_filter = true;
                     for (const auto& [key, value] : necessary_json.at("hash").as_object()) {
                         comb.possible_hashs.emplace(key, value.as_string());
@@ -150,19 +150,19 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                     comb.skills.emplace(skill);
                 }
                 /* 解析efficient的数字及正则值 */
-                if (opt_json.exist("efficient")) {
+                if (opt_json.contains("efficient")) {
                     const static std::string reg_suffix = "_reg";
                     const json::value& efficient = opt_json.at("efficient");
 
                     if (std::string all_reg_key = "all" + reg_suffix;
-                        efficient.exist(all_reg_key)) {
+                        efficient.contains(all_reg_key)) {
                         std::string all_reg_value = efficient.at(all_reg_key).as_string();
                         for (const std::string& pd : products) {
                             comb.efficient_regex.emplace(pd, all_reg_value);
                             comb.efficient.emplace(pd, 0);
                         }
                     }
-                    else if (efficient.exist("all")) {
+                    else if (efficient.contains("all")) {
                         double all_value = efficient.at("all").as_double();
                         for (const std::string& pd : products) {
                             comb.efficient.emplace(pd, all_value);
@@ -171,11 +171,11 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                     else {
                         for (const std::string& pd : products) {
                             if (std::string pd_reg_key = pd + reg_suffix;
-                                efficient.exist(pd_reg_key)) {
+                                efficient.contains(pd_reg_key)) {
                                 comb.efficient_regex.emplace(pd, efficient.at(pd_reg_key).as_string());
                                 comb.efficient.emplace(pd, 0);
                             }
-                            else if (efficient.exist(pd)) {
+                            else if (efficient.contains(pd)) {
                                 comb.efficient.emplace(pd, efficient.at(pd).as_double());
                             }
                             else {
@@ -189,7 +189,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                         comb.efficient.emplace(pd, 0);
                     }
                 }
-                if (opt_json.exist("hash")) {
+                if (opt_json.contains("hash")) {
                     comb.hash_filter = true;
                     for (const auto& [key, value] : opt_json.at("hash").as_object()) {
                         comb.possible_hashs.emplace(key, value.as_string());

@@ -29,7 +29,7 @@ namespace asst
                 return 0;
             }
         }
-        bool exist(const std::string& key) const noexcept
+        bool contains(const std::string& key) const noexcept
         {
             return m_data.find(key) != m_data.cend();
         }

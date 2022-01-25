@@ -76,7 +76,7 @@ bool asst::TaskData::parse(const json::value& json)
                 "templThreshold", TemplThresholdDefault);
             match_task_info_ptr->special_threshold = task_json.get(
                 "specialThreshold", 0);
-            if (task_json.exist("maskRange")) {
+            if (task_json.contains("maskRange")) {
                 match_task_info_ptr->mask_range = std::make_pair(
                     task_json.at("maskRange")[0].as_integer(),
                     task_json.at("maskRange")[1].as_integer());
@@ -90,7 +90,7 @@ bool asst::TaskData::parse(const json::value& json)
                 ocr_task_info_ptr->text.emplace_back(text.as_string());
             }
             ocr_task_info_ptr->need_full_match = task_json.get("need_match", false);
-            if (task_json.exist("ocrReplace")) {
+            if (task_json.contains("ocrReplace")) {
                 for (const json::value& rep : task_json.at("ocrReplace").as_array()) {
                     ocr_task_info_ptr->replace_map.emplace(rep.as_array()[0].as_string(), rep.as_array()[1].as_string());
                 }
@@ -104,7 +104,7 @@ bool asst::TaskData::parse(const json::value& json)
                 hash_task_info_ptr->hashs.emplace_back(hash.as_string());
             }
             hash_task_info_ptr->dist_threshold = task_json.get("threshold", 0);
-            if (task_json.exist("maskRange")) {
+            if (task_json.contains("maskRange")) {
                 hash_task_info_ptr->mask_range = std::make_pair(
                     task_json.at("maskRange")[0].as_integer(),
                     task_json.at("maskRange")[1].as_integer());
@@ -152,7 +152,7 @@ bool asst::TaskData::parse(const json::value& json)
         }
 
         task_info_ptr->max_times = task_json.get("maxTimes", INT_MAX);
-        if (task_json.exist("exceededNext")) {
+        if (task_json.contains("exceededNext")) {
             const json::array& excceed_next_arr = task_json.at("exceededNext").as_array();
             for (const json::value& excceed_next : excceed_next_arr) {
                 task_info_ptr->exceeded_next.emplace_back(excceed_next.as_string());
@@ -163,13 +163,13 @@ bool asst::TaskData::parse(const json::value& json)
         }
         task_info_ptr->pre_delay = task_json.get("preDelay", 0);
         task_info_ptr->rear_delay = task_json.get("rearDelay", 0);
-        if (task_json.exist("reduceOtherTimes")) {
+        if (task_json.contains("reduceOtherTimes")) {
             const json::array& reduce_arr = task_json.at("reduceOtherTimes").as_array();
             for (const json::value& reduce : reduce_arr) {
                 task_info_ptr->reduce_other_times.emplace_back(reduce.as_string());
             }
         }
-        if (task_json.exist("roi")) {
+        if (task_json.contains("roi")) {
             const json::array& area_arr = task_json.at("roi").as_array();
             int x = area_arr[0].as_integer();
             int y = area_arr[1].as_integer();
@@ -187,12 +187,12 @@ bool asst::TaskData::parse(const json::value& json)
             task_info_ptr->roi = Rect();
         }
 
-        if (task_json.exist("next")) {
+        if (task_json.contains("next")) {
             for (const json::value& next : task_json.at("next").as_array()) {
                 task_info_ptr->next.emplace_back(next.as_string());
             }
         }
-        if (task_json.exist("rectMove")) {
+        if (task_json.contains("rectMove")) {
             const json::array& move_arr = task_json.at("rectMove").as_array();
             task_info_ptr->rect_move = Rect(
                 move_arr[0].as_integer(),

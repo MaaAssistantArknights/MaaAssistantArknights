@@ -117,7 +117,7 @@ bool asst::AipOcr::request_ocr_and_parse(std::string_view cmd_fmt, const cv::Mat
 
 bool asst::AipOcr::parse_response(const json::value& json, std::vector<TextRect>& out_result, const TextRectProc& pred)
 {
-    if (!json.exist("words_result")) {
+    if (!json.contains("words_result")) {
         return false;
     }
 
