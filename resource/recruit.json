@@ -1361,5 +1361,34 @@
         "hidden": false,
         "name-en": "Unknown",
         "new": true
+    },
+    {
+        "name": "刻俄柏",
+        "type": "术师",
+        "level": 6,
+        "sex": "女",
+        "tags": [
+            "远程位",
+            "输出",
+            "控场",
+            "高级资深干员"
+        ],
+        "hidden": false,
+        "name-en": "Ceobe",
+        "new": true
+    },
+    {
+        "name": "惊蛰",
+        "type": "术师",
+        "level": 5,
+        "sex": "女",
+        "tags": [
+            "远程位",
+            "输出",
+            "资深干员"
+        ],
+        "hidden": false,
+        "name-en": "Leizi",
+        "new": true
     }
 ]
