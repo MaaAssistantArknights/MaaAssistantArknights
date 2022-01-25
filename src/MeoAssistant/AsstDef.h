@@ -30,6 +30,7 @@ namespace asst
         Point(int x, int y) : x(x), y(y) {}
         Point& operator=(const Point&) noexcept = default;
         Point& operator=(Point&&) noexcept = default;
+        bool operator==(const Point& rhs) const noexcept { return x == rhs.x && y == rhs.y; }
         int x = 0;
         int y = 0;
     };
@@ -147,6 +148,16 @@ namespace asst
 
 namespace std
 {
+    template <>
+    class hash<asst::Point>
+    {
+    public:
+        size_t operator()(const asst::Point& point) const
+        {
+            return std::hash<int>()(point.x) ^ std::hash<int>()(point.y);
+        }
+    };
+
     template <>
     class hash<asst::Rect>
     {

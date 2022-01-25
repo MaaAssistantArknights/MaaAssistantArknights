@@ -3132,6 +3132,12 @@
         "text": [
 
         ],
+        "ocrReplace": [
+            [
+                ".+兽小屋",
+                "驯兽小屋"
+            ]
+        ],
         "roi": [
             255,
             263,
@@ -3575,11 +3581,25 @@
             529
         ],
         "next": [
-            "Roguelike1Recruit"
+            "Roguelike1RecruitMain"
         ]
     },
-    "Roguelike1Recruit": {
+    "Roguelike1RecruitMain": {
         "action": "clickSelf",
+        "template": "Roguelike1Recruit.png",
+        "roi": [
+            190,
+            470,
+            300,
+            154
+        ],
+        "next": [
+            "Roguelike1ChooseOper"
+        ]
+    },
+    "Roguelike1RecruitOther": {
+        "action": "clickSelf",
+        "template": "Roguelike1Recruit.png",
         "cache": false,
         "roi": [
             190,
@@ -3652,7 +3672,7 @@
             60
         ],
         "next": [
-            "Roguelike1Recruit",
+            "Roguelike1RecruitOther",
             "Roguelike1EnterAfterRecruit",
             "Roguelike1RecruitWithoutButton"
         ]
