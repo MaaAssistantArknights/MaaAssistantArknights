@@ -40,15 +40,34 @@ std::vector<asst::TilePack::TileInfo> asst::TilePack::calc(const std::string & s
 
     std::vector<TileInfo> dst;
 
+    static const std::unordered_map<std::string, TileKey> TileKeyMapping = {
+        { "tile_forbidden", TileKey::Forbidden },
+        { "tile_wall", TileKey::Wall },
+        { "tile_road", TileKey::Road },
+        { "tile_end", TileKey::Home },
+        { "tile_start", TileKey::EnemyHome }
+    };
+
     for (size_t y = 0; y < pos.size(); ++y) {
         for (size_t x = 0; x < pos[y].size(); ++x) {
             const auto& cv_p = pos[y][x];
             const auto& tile = tiles[y][x];
 
+            TileKey key = TileKey::Invaild;
+            if (auto iter = TileKeyMapping.find(tile.tileKey);
+                iter != TileKeyMapping.cend()) {
+                key = iter->second;
+            }
+            else {
+                key = TileKey::Invaild;
+                Log.error("Unknown tile type:", tile.tileKey);
+            }
+
             dst.emplace_back(
                 TileInfo{
                     static_cast<BuildableType>(tile.buildableType),
                     static_cast<HeightType>(tile.heightType),
+                    key,
                     Point(static_cast<int>(cv_p.x), static_cast<int>(cv_p.y))
                 });
         }

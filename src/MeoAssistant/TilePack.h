@@ -29,10 +29,21 @@ namespace asst
             Highland = 0,
             Floor = 1
         };
+        enum class TileKey
+        {
+            Invaild = -1,
+            Forbidden,
+            Wall,
+            Road,
+            Home,
+            EnemyHome
+        };
+
         struct TileInfo
         {
             BuildableType buildable = BuildableType::Invaild;
             HeightType height = HeightType::Invaild;
+            TileKey key = TileKey::Invaild;
             Point pos;
         };
     public:

@@ -7,6 +7,7 @@
 #include "ProcessTask.h"
 #include "OcrImageAnalyzer.h"
 #include "Resource.h"
+#include "Logger.hpp"
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -29,6 +30,8 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 
     get_stage_info();
 
+    speed_up();
+
     while (!need_exit()) {
         // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
         if (!auto_battle() && m_used_opers) {
@@ -49,16 +52,10 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         name_analyzer.analyze();
 
         for (const auto& tr : name_analyzer.get_result()) {
-            auto normal_info = tile.calc(tr.text, false);
-            if (normal_info.empty()) {
-                continue;
-            }
             auto side_info = tile.calc(tr.text, true);
             if (side_info.empty()) {
                 continue;
             }
-
-            m_tile_info = std::move(normal_info);
             m_side_tile_info = std::move(side_info);
             calced = true;
             break;
@@ -100,10 +97,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (opers.empty()) {
         return true;
     }
-    if (auto cur_home = battle_analyzer.get_homes();
-        !cur_home.empty()) {
-        m_home_cache = cur_home;
-    }
+
     static const std::array<Role, 9> RoleOrder = {
         Role::Pioneer,
         Role::Sniper,
@@ -139,28 +133,53 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (!oper_found) {
         return true;
     }
-
     Ctrler.click(opt_oper.rect);
     sleep(use_oper_task_ptr->pre_delay);
 
     // 将干员拖动到场上
-    BattlePerspectiveImageAnalyzer placed_analyzer(Ctrler.get_image());
-    placed_analyzer.set_src_homes(m_home_cache);
-    if (!placed_analyzer.analyze()) {
-        return true;
+    Loc loc = Loc::All;
+    switch (opt_oper.role) {
+    case Role::Medic:
+    case Role::Support:
+    case Role::Sniper:
+    case Role::Caster:
+        loc = Loc::Ranged;
+        break;
+    case Role::Pioneer:
+    case Role::Warrior:
+    case Role::Tank:
+        loc = Loc::Melee;
+        break;
+    case Role::Special:
+    case Role::Drone:
+    default:
+        loc = Loc::All;
+        break;
     }
-    Point nearest_point = placed_analyzer.get_nearest_point();
-    Rect nearest_rect(nearest_point.x, nearest_point.y, 1, 1);
-    Ctrler.swipe(opt_oper.rect, nearest_rect, swipe_oper_task_ptr->pre_delay);
+
+    Point placed_point = get_placed(loc);
+#ifdef ASST_DEBUG
+    auto image = Ctrler.get_image();
+    cv::circle(image, cv::Point(placed_point.x, placed_point.y), 10, cv::Scalar(0, 0, 255), -1);
+#endif
+    Rect placed_rect(placed_point.x, placed_point.y, 1, 1);
+    Ctrler.swipe(opt_oper.rect, placed_rect, swipe_oper_task_ptr->pre_delay);
     sleep(use_oper_task_ptr->rear_delay);
 
     // 拖动干员朝向
-    Rect home = placed_analyzer.get_homes().front();
-    Point home_center(home.x + home.width / 2, home.y + home.height / 2);
+    if (m_cur_home_index >= m_homes.size()) {
+        m_cur_home_index = 0;
+    }
+    Point home_point(WindowWidthDefault / 2, WindowHeightDefault / 2);
+    if (m_cur_home_index < m_homes.size()) {
+        home_point = m_homes.at(m_cur_home_index);
+    }
 
-    int dx = nearest_point.x - home_center.x;
-    int dy = nearest_point.y - home_center.y;
-    if (std::abs(dx * 7) < std::abs(dy * 11)) {
+    Rect home_rect(home_point.x, home_point.y, 1, 1);
+
+    int dx = placed_point.x - home_point.x;
+    int dy = placed_point.y - home_point.y;
+    if (std::abs(dx) < std::abs(dy)) {
         dx = 0;
     }
     else {
@@ -171,8 +190,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     switch (opt_oper.role) {
     case Role::Medic:
     {
-        end_point.x = nearest_point.x - coeff * dx;
-        end_point.y = nearest_point.y - coeff * dy;
+        end_point.x = placed_point.x - coeff * dx;
+        end_point.y = placed_point.y - coeff * dy;
     }
     break;
     case Role::Support:
@@ -185,8 +204,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     case Role::Drone:
     default:
     {
-        end_point.x = nearest_point.x + coeff * dx;
-        end_point.y = nearest_point.y + coeff * dy;
+        end_point.x = placed_point.x + coeff * dx;
+        end_point.y = placed_point.y + coeff * dy;
     }
     break;
     }
@@ -203,9 +222,11 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     else if (end_point.y >= WindowHeightDefault) {
         end_point.y = WindowHeightDefault - 1;
     }
-    Ctrler.swipe(nearest_point, end_point, swipe_oper_task_ptr->rear_delay);
+    Ctrler.swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
 
+    m_used_tiles.emplace(placed_point);
     m_used_opers = true;
+    ++m_cur_home_index;
 
     return true;
 }
@@ -228,7 +249,63 @@ void asst::RoguelikeBattleTaskPlugin::clear()
 {
     m_used_opers = false;
     m_pre_hp = 0;
-    m_home_cache.clear();
-    m_tile_info.clear();
+    m_homes.clear();
+    m_cur_home_index = 0;
     m_side_tile_info.clear();
+    m_used_tiles.clear();
+}
+
+//asst::Rect asst::RoguelikeBattleTaskPlugin::get_placed_by_cv()
+//{
+//    BattlePerspectiveImageAnalyzer placed_analyzer(Ctrler.get_image());
+//    placed_analyzer.set_src_homes(m_home_cache);
+//    if (!placed_analyzer.analyze()) {
+//        return Rect();
+//    }
+//    Point nearest_point = placed_analyzer.get_nearest_point();
+//    Rect placed_rect(nearest_point.x, nearest_point.y, 1, 1);
+//    return placed_rect;
+//}
+
+asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
+{
+    if (m_homes.empty()) {
+        for (const auto& side : m_side_tile_info) {
+            if (side.key == TilePack::TileKey::Home) {
+                m_homes.emplace_back(side.pos);
+            }
+        }
+        if (m_homes.empty()) {
+            Log.error("Unknown home pos");
+        }
+    }
+    if (m_cur_home_index >= m_homes.size()) {
+        m_cur_home_index = 0;
+    }
+
+    Point nearest;
+    int min_dist = INT_MAX;
+
+    Point home(WindowWidthDefault / 2, WindowHeightDefault / 2);
+    if (m_cur_home_index < m_homes.size()) {
+        home = m_homes.at(m_cur_home_index);
+    }
+
+    for (const auto& tile : m_side_tile_info) {
+        if (tile.buildable == buildable_type
+            || tile.buildable == Loc::All) {
+            if (m_used_tiles.find(tile.pos) != m_used_tiles.cend()) {
+                continue;
+            }
+            int dx = std::abs(home.x - tile.pos.x);
+            int dy = std::abs(home.y - tile.pos.y);
+            int dist = dx * dx + dy * dy;
+            if (dist < min_dist) {
+                min_dist = dist;
+                nearest = tile.pos;
+            }
+        }
+    }
+
+    return nearest;
 }
