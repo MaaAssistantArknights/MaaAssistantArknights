@@ -7,33 +7,12 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <tuple>
 
 #define MEOJSON_INLINE inline
 
 namespace json
 {
-    // *************************
-    // *   exception declare   *
-    // *************************
-    class exception : public std::exception
-    {
-    public:
-        exception() = default;
-        exception(const std::string& msg) : _what(msg) {}
-
-        exception(const exception&) = default;
-        exception& operator=(const exception&) = default;
-        exception(exception&&) = default;
-        exception& operator=(exception&&) = default;
-
-        virtual ~exception() noexcept override = default;
-
-        virtual const char* what() const noexcept override { return _what.empty() ? "Unknown exception" : _what.c_str(); }
-
-    protected:
-        std::string _what;
-    };
-
     class array;
     class object;
 
@@ -102,19 +81,17 @@ namespace json
         bool is_number() const noexcept { return _type == value_type::Number; }
         bool is_boolean() const noexcept { return _type == value_type::Boolean; }
         bool is_string() const noexcept { return _type == value_type::String; }
-        bool is_array() const noexcept { return _type == value_type::Array; }
-        bool is_object() const noexcept { return _type == value_type::Object; }
-        bool exist(const std::string& key) const;
-        bool exist(size_t pos) const;
+        bool is_array() const noexcept { return _type == value_type::Array && _array_ptr; }
+        bool is_object() const noexcept { return _type == value_type::Object && _object_ptr; }
+        bool contains(const std::string& key) const;
+        bool contains(size_t pos) const;
         value_type type() const noexcept { return _type; }
         const value& at(size_t pos) const;
         const value& at(const std::string& key) const;
 
-        template <typename Type>
-        auto get(const std::string& key, const Type& default_value) const;
-
-        template <typename Type>
-        auto get(size_t pos, const Type& default_value) const;
+        // usage: get(key, key_child, ..., default_value);
+        template <typename... KeysThenDefaultValue>
+        auto get(KeysThenDefaultValue &&... keys_then_default_value) const;
 
         bool as_boolean() const;
         int as_integer() const;
@@ -133,8 +110,8 @@ namespace json
         array& as_array();
         object& as_object();
 
-        template<typename... Args> decltype(auto) array_emplace(Args &&...args);
-        template<typename... Args> decltype(auto) object_emplace(Args &&...args);
+        template<typename... Args> auto array_emplace(Args &&...args);
+        template<typename... Args> auto object_emplace(Args &&...args);
         void clear() noexcept;
 
         // return raw string
@@ -149,7 +126,6 @@ namespace json
         value& operator[](size_t pos);
         value& operator[](const std::string& key);
         value& operator[](std::string&& key);
-        // explicit operator bool() const noexcept { return valid(); }
 
         explicit operator bool() const { return as_boolean(); }
         explicit operator int() const { return as_integer(); }
@@ -168,10 +144,18 @@ namespace json
         {
             return t ? std::make_unique<T>(*t) : nullptr;
         }
+        template <typename... KeysThenDefaultValue, size_t... KeysIndexes>
+        auto get(std::tuple<KeysThenDefaultValue...> keys_then_default_value, std::index_sequence<KeysIndexes...>) const;
+
+        template <typename T, typename FirstKey, typename... RestKeys>
+        auto get_aux(T&& default_value, FirstKey&& first, RestKeys &&... rest) const;
+        template <typename T, typename UniqueKey>
+        auto get_aux(T&& default_value, UniqueKey&& first) const;
+
 
         value_type _type = value_type::Null;
-        std::string _raw_data = "null"; // If the value_type is Object or Array, the
-        // _raw_data will be a empty string.
+        // If the value_type is Object or Array, the _raw_data will be a empty string.
+        std::string _raw_data = "null";
         unique_array _array_ptr;
         unique_object _object_ptr;
     };
@@ -203,7 +187,7 @@ namespace json
 
         bool empty() const noexcept { return _array_data.empty(); }
         size_t size() const noexcept { return _array_data.size(); }
-        bool exist(size_t pos) const { return _array_data.size() < pos; }
+        bool contains(size_t pos) const { return pos < _array_data.size(); }
         const value& at(size_t pos) const;
         const std::string to_string() const;
         const std::string format(std::string shift_str = "    ",
@@ -221,8 +205,9 @@ namespace json
         long double get(size_t pos, long double default_value) const;
         const std::string get(size_t pos, std::string default_value) const;
         const std::string get(size_t pos, const char* default_value) const;
+        const value& get(size_t pos) const;
 
-        template <typename... Args> decltype(auto) emplace_back(Args &&...args);
+        template <typename... Args> auto emplace_back(Args &&...args);
 
         void clear() noexcept;
         // void earse(size_t pos);
@@ -275,7 +260,7 @@ namespace json
 
         bool empty() const noexcept { return _object_data.empty(); }
         size_t size() const noexcept { return _object_data.size(); }
-        bool exist(const std::string& key) const { return _object_data.find(key) != _object_data.cend(); }
+        bool contains(const std::string& key) const { return _object_data.find(key) != _object_data.cend(); }
         const value& at(const std::string& key) const;
         const std::string to_string() const;
         const std::string format(std::string shift_str = "    ",
@@ -296,8 +281,9 @@ namespace json
                               std::string default_value) const;
         const std::string get(const std::string& key,
                               const char* default_value) const;
+        const value& get(const std::string& key) const;
 
-        template <typename... Args> decltype(auto) emplace(Args &&...args);
+        template <typename... Args> auto emplace(Args &&...args);
 
         void clear() noexcept;
         bool earse(const std::string& key);
@@ -322,758 +308,32 @@ namespace json
     };
 
     // *************************
+    // *   exception declare   *
+    // *************************
+    class exception : public std::exception
+    {
+    public:
+        exception() = default;
+        exception(const std::string& msg) : _what(msg) {}
+
+        exception(const exception&) = default;
+        exception& operator=(const exception&) = default;
+        exception(exception&&) = default;
+        exception& operator=(exception&&) = default;
+
+        virtual ~exception() noexcept override = default;
+
+        virtual const char* what() const noexcept override { return _what.empty() ? "Unknown exception" : _what.c_str(); }
+
+    protected:
+        std::string _what;
+    };
+
+    // *************************
     // *      aux declare      *
     // *************************
-
-    inline std::string unescape_string(std::string str)
-    {
-        for (size_t pos = 0; pos < str.size(); ++pos) {
-            std::string replace_str;
-            switch (str[pos]) {
-            case '\"':
-                replace_str = R"(\")";
-                break;
-            case '\\':
-                replace_str = R"(\\)";
-                break;
-            case '\b':
-                replace_str = R"(\b)";
-                break;
-            case '\f':
-                replace_str = R"(\f)";
-                break;
-            case '\n':
-                replace_str = R"(\n)";
-                break;
-            case '\r':
-                replace_str = R"(\r)";
-                break;
-            case '\t':
-                replace_str = R"(\t)";
-                break;
-            default:
-                continue;
-                break;
-            }
-            str.replace(pos, 1, replace_str);
-            ++pos;
-        }
-        return str;
-    }
-
-    inline std::string escape_string(std::string str)
-    {
-        for (size_t pos = 0; pos + 1 < str.size(); ++pos) {
-            if (str[pos] != '\\') {
-                continue;
-            }
-            std::string replace_str;
-            switch (str[pos + 1]) {
-            case '"':
-                replace_str = "\"";
-                break;
-            case '\\':
-                replace_str = "\\";
-                break;
-            case 'b':
-                replace_str = "\b";
-                break;
-            case 'f':
-                replace_str = "\f";
-                break;
-            case 'n':
-                replace_str = "\n";
-                break;
-            case 'r':
-                replace_str = "\r";
-                break;
-            case 't':
-                replace_str = "\t";
-                break;
-            default:
-                return std::string();
-                break;
-            }
-            str.replace(pos, 2, replace_str);
-        }
-        return str;
-    }
-
-    enum class value_type : char;
-
-    // *************************
-    // *       array impl      *
-    // *************************
-    template <typename... Args> decltype(auto) array::emplace_back(Args &&...args)
-    {
-        static_assert(std::is_constructible<raw_array::value_type, Args...>::value,
-                      "Parameter can't be used to construct a raw_array::value_type");
-        return _array_data.emplace_back(std::forward<Args>(args)...);
-    }
-
-    MEOJSON_INLINE array::array(const raw_array& arr) : _array_data(arr) { ; }
-
-    MEOJSON_INLINE array::array(raw_array&& arr) noexcept
-        : _array_data(std::move(arr))
-    {
-        ;
-    }
-
-    MEOJSON_INLINE
-        array::array(std::initializer_list<raw_array::value_type> init_list)
-        : _array_data(init_list)
-    {
-        ;
-    }
-
-    template<typename ArrayType>
-    MEOJSON_INLINE array::array(ArrayType arr)
-    {
-        static_assert(
-            std::is_constructible<json::value, typename ArrayType::value_type>::value,
-            "Parameter can't be used to construct a json::value");
-        for (auto&& ele : arr) {
-            _array_data.emplace_back(std::move(ele));
-        }
-    }
-
-    MEOJSON_INLINE const value& array::at(size_t pos) const
-    {
-        return _array_data.at(pos);
-    }
-
-    MEOJSON_INLINE void array::clear() noexcept { _array_data.clear(); }
-
-    MEOJSON_INLINE const std::string array::to_string() const
-    {
-        std::string str = "[";
-        for (const value& val : _array_data) {
-            str += val.to_string() + ",";
-        }
-        if (str.back() == ',') {
-            str.pop_back();
-        }
-        str += "]";
-        return str;
-    }
-
-    MEOJSON_INLINE const std::string array::format(std::string shift_str,
-                                                   size_t basic_shift_count) const
-    {
-        std::string shift;
-        for (size_t i = 0; i != basic_shift_count + 1; ++i) {
-            shift += shift_str;
-        }
-
-        std::string str = "[";
-        for (const value& val : _array_data) {
-            str += "\n" + shift + val.format(shift_str, basic_shift_count + 1) + ",";
-        }
-        if (str.back() == ',') {
-            str.pop_back(); // pop last ','
-        }
-
-        str += '\n';
-        for (size_t i = 0; i != basic_shift_count; ++i) {
-            str += shift_str;
-        }
-        str += ']';
-        return str;
-    }
-
-    MEOJSON_INLINE bool array::get(size_t pos, bool default_value) const
-    {
-        if (exist(pos)) {
-            value value = _array_data.at(pos);
-            if (value.is_boolean()) {
-                return value.as_boolean();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE int array::get(size_t pos, int default_value) const
-    {
-        if (exist(pos)) {
-            value value = _array_data.at(pos);
-            if (value.is_number()) {
-                return value.as_integer();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE long array::get(size_t pos, long default_value) const
-    {
-        if (exist(pos)) {
-            value value = _array_data.at(pos);
-            if (value.is_number()) {
-                return value.as_long();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE unsigned long array::get(size_t pos,
-                                                  unsigned default_value) const
-    {
-        if (exist(pos)) {
-            value value = _array_data.at(pos);
-            if (value.is_number()) {
-                return value.as_unsigned_long();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE long long array::get(size_t pos,
-                                              long long default_value) const
-    {
-        if (exist(pos)) {
-            value value = _array_data.at(pos);
-            if (value.is_number()) {
-                return value.as_long_long();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE unsigned long long
-        array::get(size_t pos, unsigned long long default_value) const
-    {
-        if (exist(pos)) {
-            value value = _array_data.at(pos);
-            if (value.is_number()) {
-                return value.as_unsigned_long_long();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE float array::get(size_t pos, float default_value) const
-    {
-        if (exist(pos)) {
-            value value = _array_data.at(pos);
-            if (value.is_number()) {
-                return value.as_float();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE double array::get(size_t pos, double default_value) const
-    {
-        if (exist(pos)) {
-            value value = _array_data.at(pos);
-            if (value.is_number()) {
-                return value.as_double();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE long double array::get(size_t pos,
-                                                long double default_value) const
-    {
-        if (exist(pos)) {
-            value value = _array_data.at(pos);
-            if (value.is_number()) {
-                return value.as_long_double();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE const std::string array::get(size_t pos,
-                                                std::string default_value) const
-    {
-        if (exist(pos)) {
-            value value = _array_data.at(pos);
-            if (value.is_string()) {
-                return value.as_string();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE const std::string array::get(size_t pos,
-                                                const char* default_value) const
-    {
-        if (exist(pos)) {
-            value value = _array_data.at(pos);
-            if (value.is_string()) {
-                return value.as_string();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE array::iterator array::begin() noexcept
-    {
-        return _array_data.begin();
-    }
-
-    MEOJSON_INLINE array::iterator array::end() noexcept
-    {
-        return _array_data.end();
-    }
-
-    MEOJSON_INLINE array::const_iterator array::begin() const noexcept
-    {
-        return _array_data.begin();
-    }
-
-    MEOJSON_INLINE array::const_iterator array::end() const noexcept
-    {
-        return _array_data.end();
-    }
-
-    MEOJSON_INLINE array::const_iterator array::cbegin() const noexcept
-    {
-        return _array_data.cbegin();
-    }
-
-    MEOJSON_INLINE array::const_iterator array::cend() const noexcept
-    {
-        return _array_data.cend();
-    }
-
-    MEOJSON_INLINE array::reverse_iterator array::rbegin() noexcept
-    {
-        return _array_data.rbegin();
-    }
-
-    MEOJSON_INLINE array::reverse_iterator array::rend() noexcept
-    {
-        return _array_data.rend();
-    }
-
-    MEOJSON_INLINE array::const_reverse_iterator array::rbegin() const noexcept
-    {
-        return _array_data.rbegin();
-    }
-
-    MEOJSON_INLINE array::const_reverse_iterator array::rend() const noexcept
-    {
-        return _array_data.rend();
-    }
-
-    MEOJSON_INLINE array::const_reverse_iterator array::crbegin() const noexcept
-    {
-        return _array_data.crbegin();
-    }
-
-    MEOJSON_INLINE array::const_reverse_iterator array::crend() const noexcept
-    {
-        return _array_data.crend();
-    }
-
-    MEOJSON_INLINE value& array::operator[](size_t pos) { return _array_data[pos]; }
-
-    MEOJSON_INLINE const value& array::operator[](size_t pos) const
-    {
-        return _array_data[pos];
-    }
-
-    // const raw_array &array::raw_data() const
-    // {
-    //     return _array_data;
-    // }
-
-    // *************************
-    // *      object impl      *
-    // *************************
-    template <typename... Args> decltype(auto) object::emplace(Args &&...args)
-    {
-        static_assert(
-            std::is_constructible<raw_object::value_type, Args...>::value,
-            "Parameter can't be used to construct a raw_object::value_type");
-        return _object_data.emplace(std::forward<Args>(args)...);
-    }
-
-    MEOJSON_INLINE std::ostream& operator<<(std::ostream& out, const array& arr)
-    {
-        // TODO: format output
-
-        out << arr.to_string();
-        return out;
-    }
-
-    MEOJSON_INLINE object::object(const raw_object& raw_obj)
-        : _object_data(raw_obj)
-    {
-        ;
-    }
-
-    MEOJSON_INLINE object::object(raw_object&& raw_obj)
-        : _object_data(std::move(raw_obj))
-    {
-        ;
-    }
-
-    MEOJSON_INLINE
-        object::object(std::initializer_list<raw_object::value_type> init_list)
-    {
-        for (const auto& [key, val] : init_list) {
-            emplace(key, val);
-        }
-    }
-
-    MEOJSON_INLINE const value& object::at(const std::string& key) const
-    {
-        return _object_data.at(key);
-    }
-
-    MEOJSON_INLINE void object::clear() noexcept { _object_data.clear(); }
-
-    MEOJSON_INLINE bool object::earse(const std::string& key)
-    {
-        return _object_data.erase(key) > 0 ? true : false;
-    }
-
-    MEOJSON_INLINE const std::string object::to_string() const
-    {
-        std::string str = "{";
-        for (const auto& [key, val] : _object_data) {
-            str += "\"" + unescape_string(key) + "\":" + val.to_string() + ",";
-        }
-        if (str.back() == ',') {
-            str.pop_back();
-        }
-        str += "}";
-        return str;
-    }
-
-    MEOJSON_INLINE const std::string
-        object::format(std::string shift_str, size_t basic_shift_count) const
-    {
-        std::string shift;
-        for (size_t i = 0; i != basic_shift_count + 1; ++i) {
-            shift += shift_str;
-        }
-
-        std::string str = "{";
-        for (const auto& [key, val] : _object_data) {
-            str += "\n" + shift + "\"" + unescape_string(key) +
-                "\": " + val.format(shift_str, basic_shift_count + 1) + ",";
-        }
-        if (str.back() == ',') {
-            str.pop_back(); // pop last ','
-        }
-
-        str += '\n';
-        for (size_t i = 0; i != basic_shift_count; ++i) {
-            str += shift_str;
-        }
-        str += '}';
-        return str;
-    }
-
-    MEOJSON_INLINE bool object::get(const std::string& key,
-                                          bool default_value) const
-    {
-        if (exist(key)) {
-            value value = _object_data.at(key);
-            if (value.is_boolean()) {
-                return value.as_boolean();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE int object::get(const std::string& key,
-                                         int default_value) const
-    {
-        if (exist(key)) {
-            value value = _object_data.at(key);
-            if (value.is_number()) {
-                return value.as_integer();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE long object::get(const std::string& key,
-                                          long default_value) const
-    {
-        if (exist(key)) {
-            value value = _object_data.at(key);
-            if (value.is_number()) {
-                return value.as_long();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE unsigned long object::get(const std::string& key,
-                                                   unsigned default_value) const
-    {
-        if (exist(key)) {
-            value value = _object_data.at(key);
-            if (value.is_number()) {
-                return value.as_unsigned_long();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE long long object::get(const std::string& key,
-                                               long long default_value) const
-    {
-        if (exist(key)) {
-            value value = _object_data.at(key);
-            if (value.is_number()) {
-                return value.as_long_long();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE unsigned long long
-        object::get(const std::string& key, unsigned long long default_value) const
-    {
-        if (exist(key)) {
-            value value = _object_data.at(key);
-            if (value.is_number()) {
-                return value.as_unsigned_long_long();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE float object::get(const std::string& key,
-                                           float default_value) const
-    {
-        if (exist(key)) {
-            value value = _object_data.at(key);
-            if (value.is_number()) {
-                return value.as_float();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE double object::get(const std::string& key,
-                                            double default_value) const
-    {
-        if (exist(key)) {
-            value value = _object_data.at(key);
-            if (value.is_number()) {
-                return value.as_double();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE long double object::get(const std::string& key,
-                                                 long double default_value) const
-    {
-        if (exist(key)) {
-            value value = _object_data.at(key);
-            if (value.is_number()) {
-                return value.as_long_double();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE const std::string object::get(const std::string& key,
-                                                 std::string default_value) const
-    {
-        if (exist(key)) {
-            value value = _object_data.at(key);
-            if (value.is_string()) {
-                return value.as_string();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE const std::string object::get(const std::string& key,
-                                                 const char* default_value) const
-    {
-        if (exist(key)) {
-            value value = _object_data.at(key);
-            if (value.is_string()) {
-                return value.as_string();
-            }
-            else {
-                return default_value;
-            }
-        }
-        else {
-            return default_value;
-        }
-    }
-
-    MEOJSON_INLINE object::iterator object::begin() noexcept
-    {
-        return _object_data.begin();
-    }
-
-    MEOJSON_INLINE object::iterator object::end() noexcept
-    {
-        return _object_data.end();
-    }
-
-    MEOJSON_INLINE object::const_iterator object::begin() const noexcept
-    {
-        return _object_data.begin();
-    }
-
-    MEOJSON_INLINE object::const_iterator object::end() const noexcept
-    {
-        return _object_data.end();
-    }
-
-    MEOJSON_INLINE object::const_iterator object::cbegin() const noexcept
-    {
-        return _object_data.cbegin();
-    }
-
-    MEOJSON_INLINE object::const_iterator object::cend() const noexcept
-    {
-        return _object_data.cend();
-    }
-
-    MEOJSON_INLINE value& object::operator[](const std::string& key)
-    {
-        return _object_data[key];
-    }
-
-    MEOJSON_INLINE value& object::operator[](std::string&& key)
-    {
-        return _object_data[std::move(key)];
-    }
-
-    // const raw_object &object::raw_data() const
-    // {
-    //     return _object_data;
-    // }
-
-    MEOJSON_INLINE std::ostream& operator<<(std::ostream& out, const object& obj)
-    {
-        // TODO: format output
-
-        out << obj.to_string();
-        return out;
-    }
-
-    template <typename MapType> object::object(MapType map)
-    {
-        static_assert(std::is_constructible<raw_object::value_type,
-                                            typename MapType::value_type>::value,
-                      "Parameter can't be used to construct a "
-                      "object::raw_object::value_type");
-        for (auto&& ele : map) {
-            _object_data.emplace(std::move(ele));
-        }
-    }
+    std::string unescape_string(std::string str);
+    std::string escape_string(std::string str);
 
     // *************************
     // *       value impl      *
@@ -1199,19 +459,19 @@ namespace json
     // for Pimpl
     MEOJSON_INLINE value::~value() = default;
 
-    MEOJSON_INLINE bool value::exist(const std::string& key) const
+    MEOJSON_INLINE bool value::contains(const std::string& key) const
     {
-        return _type == value_type::Object && as_object().exist(key);
+        return is_object() && as_object().contains(key);
     }
 
-    MEOJSON_INLINE bool value::exist(size_t pos) const
+    MEOJSON_INLINE bool value::contains(size_t pos) const
     {
-        return _type == value_type::Array && as_array().exist(pos);
+        return is_array() && as_array().contains(pos);
     }
 
     MEOJSON_INLINE const value& value::at(size_t pos) const
     {
-        if (_type == value_type::Array && _array_ptr != nullptr) {
+        if (is_array()) {
             return _array_ptr->at(pos);
         }
 
@@ -1220,28 +480,76 @@ namespace json
 
     MEOJSON_INLINE const value& value::at(const std::string& key) const
     {
-        if (_type == value_type::Object && _object_ptr != nullptr) {
+        if (is_object()) {
             return _object_ptr->at(key);
         }
 
         throw exception("Wrong Type or data empty");
     }
 
-    template <typename Type>
-    MEOJSON_INLINE auto value::get(const std::string& key, const Type& default_value) const
+    template <typename... KeysThenDefaultValue>
+    MEOJSON_INLINE auto value::get(
+        KeysThenDefaultValue &&... keys_then_default_value) const
     {
-        return is_object() ? as_object().get(key, default_value) : default_value;
+        return get(
+            std::forward_as_tuple(keys_then_default_value...),
+            std::make_index_sequence<sizeof...(keys_then_default_value) - 1>{});
     }
 
-    template <typename Type>
-    MEOJSON_INLINE auto value::get(size_t pos, const Type& default_value) const
+    template <typename... KeysThenDefaultValue, size_t... KeysIndexes>
+    MEOJSON_INLINE auto value::get(
+        std::tuple<KeysThenDefaultValue...> keys_then_default_value,
+        std::index_sequence<KeysIndexes...>) const
     {
-        return is_array() ? as_array().get(pos, default_value) : default_value;
+        constexpr unsigned long DefaultValueIndex = sizeof...(KeysThenDefaultValue) - 1;
+        return get_aux(
+            std::get<DefaultValueIndex>(keys_then_default_value),
+            std::get<KeysIndexes>(keys_then_default_value)...);
+    }
+
+    template <typename T, typename FirstKey, typename... RestKeys>
+    MEOJSON_INLINE auto value::get_aux(T&& default_value, FirstKey&& first, RestKeys &&... rest) const
+    {
+        if constexpr (std::is_constructible<std::string, FirstKey>::value) {
+            return is_object() ?
+                as_object().get(
+                    std::forward<FirstKey>(first)).get_aux(
+                        std::forward<T>(default_value), std::forward<RestKeys>(rest)...)
+                : default_value;
+        }
+        else if constexpr (std::is_integral<typename std::remove_reference<FirstKey>::type>::value) {
+            return is_array()
+                ? as_array().get(
+                    std::forward<FirstKey>(first)).get_aux(
+                        std::forward<T>(default_value), std::forward<RestKeys>(rest)...)
+                : default_value;
+        }
+        else {
+            static_assert(!sizeof(FirstKey), "Parameter must be integral or std::string constructible");
+        }
+    }
+
+    template <typename T, typename UniqueKey>
+    MEOJSON_INLINE auto value::get_aux(T&& default_value, UniqueKey&& first) const
+    {
+        if constexpr (std::is_constructible<std::string, UniqueKey>::value) {
+            return is_object() ?
+                as_object().get(std::forward<UniqueKey>(first), std::forward<T>(default_value))
+                : default_value;
+        }
+        else if constexpr (std::is_integral<typename std::remove_reference<UniqueKey>::type>::value) {
+            return is_array() ?
+                as_array().get(std::forward<UniqueKey>(first), std::forward<T>(default_value))
+                : default_value;
+        }
+        else {
+            static_assert(!sizeof(UniqueKey), "Parameter must be integral or std::string constructible");
+        }
     }
 
     MEOJSON_INLINE bool value::as_boolean() const
     {
-        if (_type == value_type::Boolean) {
+        if (is_boolean()) {
             if (_raw_data == "true") {
                 return true;
             }
@@ -1259,7 +567,7 @@ namespace json
 
     MEOJSON_INLINE int value::as_integer() const
     {
-        if (_type == value_type::Number) {
+        if (is_number()) {
             return std::stoi(_raw_data);
         }
         else {
@@ -1269,9 +577,9 @@ namespace json
 
     // const unsigned value::as_unsigned() const
     // {
-    //     if (_type == value_type::Number)
+    //     if (is_number())
     //     {
-    //         return std::stou(_raw_data); // not exist
+    //         return std::stou(_raw_data); // not contains
     //     }
     //     else
     //     {
@@ -1281,7 +589,7 @@ namespace json
 
     MEOJSON_INLINE long value::as_long() const
     {
-        if (_type == value_type::Number) {
+        if (is_number()) {
             return std::stol(_raw_data);
         }
         else {
@@ -1291,7 +599,7 @@ namespace json
 
     MEOJSON_INLINE unsigned long value::as_unsigned_long() const
     {
-        if (_type == value_type::Number) {
+        if (is_number()) {
             return std::stoul(_raw_data);
         }
         else {
@@ -1301,7 +609,7 @@ namespace json
 
     MEOJSON_INLINE long long value::as_long_long() const
     {
-        if (_type == value_type::Number) {
+        if (is_number()) {
             return std::stoll(_raw_data);
         }
         else {
@@ -1311,7 +619,7 @@ namespace json
 
     MEOJSON_INLINE unsigned long long value::as_unsigned_long_long() const
     {
-        if (_type == value_type::Number) {
+        if (is_number()) {
             return std::stoull(_raw_data);
         }
         else {
@@ -1321,7 +629,7 @@ namespace json
 
     MEOJSON_INLINE float value::as_float() const
     {
-        if (_type == value_type::Number) {
+        if (is_number()) {
             return std::stof(_raw_data);
         }
         else {
@@ -1331,7 +639,7 @@ namespace json
 
     MEOJSON_INLINE double value::as_double() const
     {
-        if (_type == value_type::Number) {
+        if (is_number()) {
             return std::stod(_raw_data);
         }
         else {
@@ -1341,7 +649,7 @@ namespace json
 
     MEOJSON_INLINE long double value::as_long_double() const
     {
-        if (_type == value_type::Number) {
+        if (is_number()) {
             return std::stold(_raw_data);
         }
         else {
@@ -1351,7 +659,7 @@ namespace json
 
     MEOJSON_INLINE const std::string value::as_string() const
     {
-        if (_type == value_type::String) {
+        if (is_string()) {
             return escape_string(_raw_data);
         }
         else {
@@ -1361,7 +669,7 @@ namespace json
 
     MEOJSON_INLINE const array& value::as_array() const
     {
-        if (_type == value_type::Array && _array_ptr != nullptr) {
+        if (is_array()) {
             return *_array_ptr;
         }
 
@@ -1370,7 +678,7 @@ namespace json
 
     MEOJSON_INLINE const object& value::as_object() const
     {
-        if (_type == value_type::Object && _object_ptr != nullptr) {
+        if (is_object()) {
             return *_object_ptr;
         }
 
@@ -1379,10 +687,10 @@ namespace json
 
     MEOJSON_INLINE array& value::as_array()
     {
-        if (_type == value_type::Array && _array_ptr != nullptr) {
+        if (is_array()) {
             return *_array_ptr;
         }
-        else if (_type == value_type::Null) {
+        else if (empty()) {
             *this = array();
             return *_array_ptr;
         }
@@ -1392,10 +700,10 @@ namespace json
 
     MEOJSON_INLINE object& value::as_object()
     {
-        if (_type == value_type::Object && _object_ptr != nullptr) {
+        if (is_object()) {
             return *_object_ptr;
         }
-        else if (_type == value_type::Null) {
+        else if (empty()) {
             *this = object();
             return *_object_ptr;
         }
@@ -1404,13 +712,13 @@ namespace json
     }
 
     template<typename... Args>
-    MEOJSON_INLINE decltype(auto) value::array_emplace(Args &&...args)
+    MEOJSON_INLINE auto value::array_emplace(Args &&...args)
     {
         return as_array().emplace_back(std::forward<Args>(args)...);
     }
 
     template<typename... Args>
-    MEOJSON_INLINE decltype(auto) value::object_emplace(Args &&...args)
+    MEOJSON_INLINE auto value::object_emplace(Args &&...args)
     {
         return as_object().emplace(std::forward<Args>(args)...);
     }
@@ -1471,7 +779,7 @@ namespace json
 
     MEOJSON_INLINE const value& value::operator[](size_t pos) const
     {
-        if (_type == value_type::Array && _array_ptr != nullptr) {
+        if (is_array()) {
             return _array_ptr->operator[](pos);
         }
         // Array not support to create by operator[]
@@ -1481,7 +789,7 @@ namespace json
 
     MEOJSON_INLINE value& value::operator[](size_t pos)
     {
-        if (_type == value_type::Array && _array_ptr != nullptr) {
+        if (is_array()) {
             return _array_ptr->operator[](pos);
         }
         // Array not support to create by operator[]
@@ -1491,11 +799,11 @@ namespace json
 
     MEOJSON_INLINE value& value::operator[](const std::string& key)
     {
-        if (_type == value_type::Object && _object_ptr != nullptr) {
+        if (is_object()) {
             return _object_ptr->operator[](key);
         }
         // Create a new value by operator[]
-        else if (_type == value_type::Null) {
+        else if (empty()) {
             _type = value_type::Object;
             _object_ptr = std::make_unique<object>();
             return _object_ptr->operator[](key);
@@ -1506,11 +814,11 @@ namespace json
 
     MEOJSON_INLINE value& value::operator[](std::string&& key)
     {
-        if (_type == value_type::Object && _object_ptr != nullptr) {
+        if (is_object()) {
             return _object_ptr->operator[](std::move(key));
         }
         // Create a new value by operator[]
-        else if (_type == value_type::Null) {
+        else if (empty()) {
             _type = value_type::Object;
             _object_ptr = std::make_unique<object>();
             return _object_ptr->operator[](std::move(key));
@@ -1546,6 +854,702 @@ namespace json
     // }
 
     // *************************
+    // *       array impl      *
+    // *************************
+    template <typename... Args> auto array::emplace_back(Args &&...args)
+    {
+        static_assert(std::is_constructible<raw_array::value_type, Args...>::value,
+                      "Parameter can't be used to construct a raw_array::value_type");
+        return _array_data.emplace_back(std::forward<Args>(args)...);
+    }
+
+    MEOJSON_INLINE array::array(const raw_array& arr) : _array_data(arr) { ; }
+
+    MEOJSON_INLINE array::array(raw_array&& arr) noexcept
+        : _array_data(std::move(arr))
+    {
+        ;
+    }
+
+    MEOJSON_INLINE
+        array::array(std::initializer_list<raw_array::value_type> init_list)
+        : _array_data(init_list)
+    {
+        ;
+    }
+
+    template<typename ArrayType>
+    MEOJSON_INLINE array::array(ArrayType arr)
+    {
+        static_assert(
+            std::is_constructible<json::value, typename ArrayType::value_type>::value,
+            "Parameter can't be used to construct a json::value");
+        for (auto&& ele : arr) {
+            _array_data.emplace_back(std::move(ele));
+        }
+    }
+
+    MEOJSON_INLINE const value& array::at(size_t pos) const
+    {
+        return _array_data.at(pos);
+    }
+
+    MEOJSON_INLINE void array::clear() noexcept { _array_data.clear(); }
+
+    MEOJSON_INLINE const std::string array::to_string() const
+    {
+        std::string str = "[";
+        for (const value& val : _array_data) {
+            str += val.to_string() + ",";
+        }
+        if (str.back() == ',') {
+            str.pop_back();
+        }
+        str += "]";
+        return str;
+    }
+
+    MEOJSON_INLINE const std::string array::format(std::string shift_str,
+                                                   size_t basic_shift_count) const
+    {
+        std::string shift;
+        for (size_t i = 0; i != basic_shift_count + 1; ++i) {
+            shift += shift_str;
+        }
+
+        std::string str = "[";
+        for (const value& val : _array_data) {
+            str += "\n" + shift + val.format(shift_str, basic_shift_count + 1) + ",";
+        }
+        if (str.back() == ',') {
+            str.pop_back(); // pop last ','
+        }
+
+        str += '\n';
+        for (size_t i = 0; i != basic_shift_count; ++i) {
+            str += shift_str;
+        }
+        str += ']';
+        return str;
+    }
+
+    MEOJSON_INLINE bool array::get(size_t pos, bool default_value) const
+    {
+        if (contains(pos)) {
+            value value = _array_data.at(pos);
+            if (value.is_boolean()) {
+                return value.as_boolean();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE int array::get(size_t pos, int default_value) const
+    {
+        if (contains(pos)) {
+            value value = _array_data.at(pos);
+            if (value.is_number()) {
+                return value.as_integer();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE long array::get(size_t pos, long default_value) const
+    {
+        if (contains(pos)) {
+            value value = _array_data.at(pos);
+            if (value.is_number()) {
+                return value.as_long();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE unsigned long array::get(size_t pos,
+                                                  unsigned default_value) const
+    {
+        if (contains(pos)) {
+            value value = _array_data.at(pos);
+            if (value.is_number()) {
+                return value.as_unsigned_long();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE long long array::get(size_t pos,
+                                              long long default_value) const
+    {
+        if (contains(pos)) {
+            value value = _array_data.at(pos);
+            if (value.is_number()) {
+                return value.as_long_long();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE unsigned long long
+        array::get(size_t pos, unsigned long long default_value) const
+    {
+        if (contains(pos)) {
+            value value = _array_data.at(pos);
+            if (value.is_number()) {
+                return value.as_unsigned_long_long();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE float array::get(size_t pos, float default_value) const
+    {
+        if (contains(pos)) {
+            value value = _array_data.at(pos);
+            if (value.is_number()) {
+                return value.as_float();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE double array::get(size_t pos, double default_value) const
+    {
+        if (contains(pos)) {
+            value value = _array_data.at(pos);
+            if (value.is_number()) {
+                return value.as_double();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE long double array::get(size_t pos,
+                                                long double default_value) const
+    {
+        if (contains(pos)) {
+            value value = _array_data.at(pos);
+            if (value.is_number()) {
+                return value.as_long_double();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE const std::string array::get(size_t pos,
+                                                std::string default_value) const
+    {
+        if (contains(pos)) {
+            value value = _array_data.at(pos);
+            if (value.is_string()) {
+                return value.as_string();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE const std::string array::get(size_t pos,
+                                                const char* default_value) const
+    {
+        if (contains(pos)) {
+            value value = _array_data.at(pos);
+            if (value.is_string()) {
+                return value.as_string();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE const value& array::get(size_t pos) const
+    {
+        if (contains(pos)) {
+            return _array_data.at(pos);
+        }
+        else {
+            static value null;
+            return null;
+        }
+    }
+
+    MEOJSON_INLINE array::iterator array::begin() noexcept
+    {
+        return _array_data.begin();
+    }
+
+    MEOJSON_INLINE array::iterator array::end() noexcept
+    {
+        return _array_data.end();
+    }
+
+    MEOJSON_INLINE array::const_iterator array::begin() const noexcept
+    {
+        return _array_data.begin();
+    }
+
+    MEOJSON_INLINE array::const_iterator array::end() const noexcept
+    {
+        return _array_data.end();
+    }
+
+    MEOJSON_INLINE array::const_iterator array::cbegin() const noexcept
+    {
+        return _array_data.cbegin();
+    }
+
+    MEOJSON_INLINE array::const_iterator array::cend() const noexcept
+    {
+        return _array_data.cend();
+    }
+
+    MEOJSON_INLINE array::reverse_iterator array::rbegin() noexcept
+    {
+        return _array_data.rbegin();
+    }
+
+    MEOJSON_INLINE array::reverse_iterator array::rend() noexcept
+    {
+        return _array_data.rend();
+    }
+
+    MEOJSON_INLINE array::const_reverse_iterator array::rbegin() const noexcept
+    {
+        return _array_data.rbegin();
+    }
+
+    MEOJSON_INLINE array::const_reverse_iterator array::rend() const noexcept
+    {
+        return _array_data.rend();
+    }
+
+    MEOJSON_INLINE array::const_reverse_iterator array::crbegin() const noexcept
+    {
+        return _array_data.crbegin();
+    }
+
+    MEOJSON_INLINE array::const_reverse_iterator array::crend() const noexcept
+    {
+        return _array_data.crend();
+    }
+
+    MEOJSON_INLINE value& array::operator[](size_t pos) { return _array_data[pos]; }
+
+    MEOJSON_INLINE const value& array::operator[](size_t pos) const
+    {
+        return _array_data[pos];
+    }
+
+    // const raw_array &array::raw_data() const
+    // {
+    //     return _array_data;
+    // }
+
+    // *************************
+    // *      object impl      *
+    // *************************
+    template <typename... Args> auto object::emplace(Args &&...args)
+    {
+        static_assert(
+            std::is_constructible<raw_object::value_type, Args...>::value,
+            "Parameter can't be used to construct a raw_object::value_type");
+        return _object_data.emplace(std::forward<Args>(args)...);
+    }
+
+    MEOJSON_INLINE std::ostream& operator<<(std::ostream& out, const array& arr)
+    {
+        // TODO: format output
+
+        out << arr.to_string();
+        return out;
+    }
+
+    MEOJSON_INLINE object::object(const raw_object& raw_obj)
+        : _object_data(raw_obj)
+    {
+        ;
+    }
+
+    MEOJSON_INLINE object::object(raw_object&& raw_obj)
+        : _object_data(std::move(raw_obj))
+    {
+        ;
+    }
+
+    MEOJSON_INLINE
+        object::object(std::initializer_list<raw_object::value_type> init_list)
+    {
+        for (const auto& [key, val] : init_list) {
+            emplace(key, val);
+        }
+    }
+
+    MEOJSON_INLINE const value& object::at(const std::string& key) const
+    {
+        return _object_data.at(key);
+    }
+
+    MEOJSON_INLINE void object::clear() noexcept { _object_data.clear(); }
+
+    MEOJSON_INLINE bool object::earse(const std::string& key)
+    {
+        return _object_data.erase(key) > 0 ? true : false;
+    }
+
+    MEOJSON_INLINE const std::string object::to_string() const
+    {
+        std::string str = "{";
+        for (const auto& [key, val] : _object_data) {
+            str += "\"" + unescape_string(key) + "\":" + val.to_string() + ",";
+        }
+        if (str.back() == ',') {
+            str.pop_back();
+        }
+        str += "}";
+        return str;
+    }
+
+    MEOJSON_INLINE const std::string
+        object::format(std::string shift_str, size_t basic_shift_count) const
+    {
+        std::string shift;
+        for (size_t i = 0; i != basic_shift_count + 1; ++i) {
+            shift += shift_str;
+        }
+
+        std::string str = "{";
+        for (const auto& [key, val] : _object_data) {
+            str += "\n" + shift + "\"" + unescape_string(key) +
+                "\": " + val.format(shift_str, basic_shift_count + 1) + ",";
+        }
+        if (str.back() == ',') {
+            str.pop_back(); // pop last ','
+        }
+
+        str += '\n';
+        for (size_t i = 0; i != basic_shift_count; ++i) {
+            str += shift_str;
+        }
+        str += '}';
+        return str;
+    }
+
+    MEOJSON_INLINE bool object::get(const std::string& key,
+                                          bool default_value) const
+    {
+        if (contains(key)) {
+            value value = _object_data.at(key);
+            if (value.is_boolean()) {
+                return value.as_boolean();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE int object::get(const std::string& key,
+                                         int default_value) const
+    {
+        if (contains(key)) {
+            value value = _object_data.at(key);
+            if (value.is_number()) {
+                return value.as_integer();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE long object::get(const std::string& key,
+                                          long default_value) const
+    {
+        if (contains(key)) {
+            value value = _object_data.at(key);
+            if (value.is_number()) {
+                return value.as_long();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE unsigned long object::get(const std::string& key,
+                                                   unsigned default_value) const
+    {
+        if (contains(key)) {
+            value value = _object_data.at(key);
+            if (value.is_number()) {
+                return value.as_unsigned_long();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE long long object::get(const std::string& key,
+                                               long long default_value) const
+    {
+        if (contains(key)) {
+            value value = _object_data.at(key);
+            if (value.is_number()) {
+                return value.as_long_long();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE unsigned long long
+        object::get(const std::string& key, unsigned long long default_value) const
+    {
+        if (contains(key)) {
+            value value = _object_data.at(key);
+            if (value.is_number()) {
+                return value.as_unsigned_long_long();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE float object::get(const std::string& key,
+                                           float default_value) const
+    {
+        if (contains(key)) {
+            value value = _object_data.at(key);
+            if (value.is_number()) {
+                return value.as_float();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE double object::get(const std::string& key,
+                                            double default_value) const
+    {
+        if (contains(key)) {
+            value value = _object_data.at(key);
+            if (value.is_number()) {
+                return value.as_double();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE long double object::get(const std::string& key,
+                                                 long double default_value) const
+    {
+        if (contains(key)) {
+            value value = _object_data.at(key);
+            if (value.is_number()) {
+                return value.as_long_double();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE const std::string object::get(const std::string& key,
+                                                 std::string default_value) const
+    {
+        if (contains(key)) {
+            value value = _object_data.at(key);
+            if (value.is_string()) {
+                return value.as_string();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE const std::string object::get(const std::string& key,
+                                                 const char* default_value) const
+    {
+        if (contains(key)) {
+            value value = _object_data.at(key);
+            if (value.is_string()) {
+                return value.as_string();
+            }
+            else {
+                return default_value;
+            }
+        }
+        else {
+            return default_value;
+        }
+    }
+
+    MEOJSON_INLINE const value& object::get(const std::string& key) const
+    {
+        if (contains(key)) {
+            return _object_data.at(key);
+        }
+        else {
+            static value null;
+            return null;
+        }
+    }
+
+    MEOJSON_INLINE object::iterator object::begin() noexcept
+    {
+        return _object_data.begin();
+    }
+
+    MEOJSON_INLINE object::iterator object::end() noexcept
+    {
+        return _object_data.end();
+    }
+
+    MEOJSON_INLINE object::const_iterator object::begin() const noexcept
+    {
+        return _object_data.begin();
+    }
+
+    MEOJSON_INLINE object::const_iterator object::end() const noexcept
+    {
+        return _object_data.end();
+    }
+
+    MEOJSON_INLINE object::const_iterator object::cbegin() const noexcept
+    {
+        return _object_data.cbegin();
+    }
+
+    MEOJSON_INLINE object::const_iterator object::cend() const noexcept
+    {
+        return _object_data.cend();
+    }
+
+    MEOJSON_INLINE value& object::operator[](const std::string& key)
+    {
+        return _object_data[key];
+    }
+
+    MEOJSON_INLINE value& object::operator[](std::string&& key)
+    {
+        return _object_data[std::move(key)];
+    }
+
+    // const raw_object &object::raw_data() const
+    // {
+    //     return _object_data;
+    // }
+
+    MEOJSON_INLINE std::ostream& operator<<(std::ostream& out, const object& obj)
+    {
+        // TODO: format output
+
+        out << obj.to_string();
+        return out;
+    }
+
+    template <typename MapType> object::object(MapType map)
+    {
+        static_assert(std::is_constructible<raw_object::value_type,
+                                            typename MapType::value_type>::value,
+                      "Parameter can't be used to construct a "
+                      "object::raw_object::value_type");
+        for (auto&& ele : map) {
+            _object_data.emplace(std::move(ele));
+        }
+    }
+
+    // *************************
     // *     parser declare    *
     // *************************
     class parser
@@ -1559,7 +1563,8 @@ namespace json
         parser(const std::string::const_iterator& cbegin,
                const std::string::const_iterator& cend) noexcept
             : _cur(cbegin), _end(cend)
-        {}
+        {
+        }
 
         std::optional<value> parse();
         value parse_value();
@@ -1964,5 +1969,83 @@ namespace json
     MEOJSON_INLINE std::optional<value> parse(const std::string& content)
     {
         return parser::parse(content);
+    }
+
+    // *************************
+    // *      aux impl         *
+    // *************************
+
+    MEOJSON_INLINE std::string unescape_string(std::string str)
+    {
+        for (size_t pos = 0; pos < str.size(); ++pos) {
+            std::string replace_str;
+            switch (str[pos]) {
+            case '\"':
+                replace_str = R"(\")";
+                break;
+            case '\\':
+                replace_str = R"(\\)";
+                break;
+            case '\b':
+                replace_str = R"(\b)";
+                break;
+            case '\f':
+                replace_str = R"(\f)";
+                break;
+            case '\n':
+                replace_str = R"(\n)";
+                break;
+            case '\r':
+                replace_str = R"(\r)";
+                break;
+            case '\t':
+                replace_str = R"(\t)";
+                break;
+            default:
+                continue;
+                break;
+            }
+            str.replace(pos, 1, replace_str);
+            ++pos;
+        }
+        return str;
+    }
+
+    MEOJSON_INLINE std::string escape_string(std::string str)
+    {
+        for (size_t pos = 0; pos + 1 < str.size(); ++pos) {
+            if (str[pos] != '\\') {
+                continue;
+            }
+            std::string replace_str;
+            switch (str[pos + 1]) {
+            case '"':
+                replace_str = "\"";
+                break;
+            case '\\':
+                replace_str = "\\";
+                break;
+            case 'b':
+                replace_str = "\b";
+                break;
+            case 'f':
+                replace_str = "\f";
+                break;
+            case 'n':
+                replace_str = "\n";
+                break;
+            case 'r':
+                replace_str = "\r";
+                break;
+            case 't':
+                replace_str = "\t";
+                break;
+            default:
+                return std::string();
+                break;
+            }
+            str.replace(pos, 2, replace_str);
+        }
+        return str;
     }
 } // namespace json

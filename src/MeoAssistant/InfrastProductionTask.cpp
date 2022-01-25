@@ -308,7 +308,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         // 条件判断，不符合的直接过滤掉
         bool meet_condition = true;
         for (const auto& [cond, cond_value] : group.conditions) {
-            if (!Status.exist(cond)) {
+            if (!Status.contains(cond)) {
                 continue;
             }
             // TODO：这里做成除了不等于，还可计算大于、小于等不同条件的
