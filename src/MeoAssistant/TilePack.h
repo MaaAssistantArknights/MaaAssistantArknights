@@ -44,7 +44,8 @@ namespace asst
             BuildableType buildable = BuildableType::Invaild;
             HeightType height = HeightType::Invaild;
             TileKey key = TileKey::Invaild;
-            Point pos;
+            Point pos;  // 像素坐标
+            Point loc;  // 格子坐标
         };
     public:
         using AbstractResource::AbstractResource;

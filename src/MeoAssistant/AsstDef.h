@@ -115,6 +115,10 @@ namespace asst
         {
             return text == rhs.text && rect == rhs.rect;
         }
+        bool operator==(const std::string& rhs) const noexcept
+        {
+            return text == rhs;
+        }
 
         double score = 0.0;
         Rect rect;

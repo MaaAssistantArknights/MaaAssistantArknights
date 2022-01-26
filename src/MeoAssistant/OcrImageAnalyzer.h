@@ -17,7 +17,8 @@ namespace asst
 
         virtual bool analyze() override;
 
-        void sort_result(); // 按位置排序，左上角的排在前面
+        void sort_result();             // 按位置排序，左上角的排在前面
+        void sort_result_by_required(); // 按传入的需求数组排序，传入的在前面结果接在前面
 
         void set_required(std::vector<std::string> required, bool full_match = false) noexcept;
         void set_replace(std::unordered_map<std::string, std::string> replace) noexcept;

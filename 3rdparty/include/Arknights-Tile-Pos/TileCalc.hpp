@@ -39,7 +39,7 @@ namespace Map
     {
     public:
         TileCalc(int width, int height, const std::string& dir);
-        bool run(const std::string& name, bool side, std::vector<std::vector<cv::Point2d>>& out_pos, std::vector<std::vector<Tile>>& out_tiles) const;
+        bool run(const std::string& code_or_name, bool side, std::vector<std::vector<cv::Point2d>>& out_pos, std::vector<std::vector<Tile>>& out_tiles) const;
     private:
         int width = 0;
         int height = 0;
@@ -68,19 +68,13 @@ namespace Map
         Level::width = data.at("width").as_integer();
         Level::view = data.at("view").as_integer();
         for (const json::value& row : data.at("tiles").as_array()) {
-            std::vector<Tile> tmp(Level::width);
-            auto iter = tmp.begin();
+            std::vector<Tile> tmp;
+            tmp.reserve(Level::width);
             for (const json::value& tile : row.as_array()) {
-                if (iter != tmp.end()) {
-                    *iter = Tile{
-                        tile.at("heightType").as_integer(),
-                        tile.at("buildableType").as_integer(),
-                        tile.get("tileKey", std::string()) };
-                    ++iter;
-                }
-                else {
-                    std::cerr << "Tiles json error" << std::endl;
-                }
+                tmp.emplace_back(Tile{
+                    tile.at("heightType").as_integer(),
+                    tile.at("buildableType").as_integer(),
+                    tile.get("tileKey", std::string()) });
             }
             tiles.emplace_back(std::move(tmp));
         }
@@ -147,13 +141,13 @@ namespace Map
         return true;
     }
 
-    inline bool TileCalc::run(const std::string& name, bool side, std::vector<std::vector<cv::Point2d>>& out_pos, std::vector<std::vector<Tile>>& out_tiles) const
+    inline bool TileCalc::run(const std::string& code_or_name, bool side, std::vector<std::vector<cv::Point2d>>& out_pos, std::vector<std::vector<Tile>>& out_tiles) const
     {
         bool runned = false;
         double x = 0, y = 0, z = 0;
         for (const Map::Level& level : TileCalc::levels) {
-            if (/*level.code == code || */
-                level.name == name) {
+            if (/*level.code == code_or_name || */
+                level.name == code_or_name) {
                 switch (level.view) {
                 case 0:
                     x = 0;

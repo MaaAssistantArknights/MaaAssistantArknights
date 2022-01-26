@@ -3136,6 +3136,10 @@
             [
                 ".+兽小屋",
                 "驯兽小屋"
+            ],
+            [
+                "分.+不均",
+                "分赃不均"
             ]
         ],
         "roi": [
@@ -3481,14 +3485,7 @@
         "algorithm": "justReturn",
         "next": [
             "Roguelike1Start",
-            "Roguelike1StageTrader",
-            "Roguelike1StageEncounter",
-            "Roguelike1StageCambatDps",
-            "Roguelike1StageEmergencyDps",
-            "Roguelike1GetDrop1",
-            "Roguelike1GetDrop2",
-            "Roguelike1GetDrop3",
-            "Roguelike1GetDropLeave",
+            "Roguelike1DropsFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
@@ -3506,12 +3503,27 @@
         ],
         "rearDelay": 500,
         "next": [
-            "Roguelike1LastReward",
             "Roguelike1Recruit1"
         ]
     },
     "Roguelike1LastReward": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
         "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            174,
+            151,
+            935,
+            533
+        ],
+        "next": [
+            "Roguelike1LastRewardConfirm"
+        ]
+    },
+    "Roguelike1LastReward2": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——5源石锭",
+        "action": "clickSelf",
+        "cache": false,
         "roi": [
             174,
             151,
@@ -3532,7 +3544,7 @@
             533
         ],
         "next": [
-            "Roguelike1Recruit1"
+            "Roguelike1Team3"
         ]
     },
     "Roguelike1Recruit1": {
@@ -3556,6 +3568,8 @@
             200
         ],
         "next": [
+            "Roguelike1LastReward",
+            "Roguelike1LastReward2",
             "Roguelike1Team3"
         ]
     },
@@ -3595,7 +3609,8 @@
         ],
         "next": [
             "Roguelike1ChooseOper"
-        ]
+        ],
+        "rearDelay": 1000
     },
     "Roguelike1RecruitOther": {
         "action": "clickSelf",
@@ -3609,27 +3624,89 @@
         ],
         "next": [
             "Roguelike1ChooseOper"
-        ]
+        ],
+        "rearDelay": 1000
     },
     "Roguelike1ChooseOper": {
         "algorithm": "OcrDetect",
         "action": "clickSelf",
         "cache": false,
+        "Doc": "所有肉鸽可能招募的干员，不在列表里的不会则被招募，可以手动修改，在前面的会优先招募",
+        "Doc2": "画面中如果既有低星又有高星，说明希望不够（高星是灰的不让选，但也被识别到了），所以尽量把低星的放前面，优先招募",
         "text": [
+            "---三星备选干员---",
+            "芬",
+            "玫兰莎",
+            "香草",
+            "梓兰",
+            "芙蓉",
+            "安塞尔",
+            "预备干员",
+            "---近卫---",
+            "幽灵鲨",
             "煌",
             "银灰",
             "陈",
             "帕拉斯",
             "棘刺",
-            "梓兰",
-            "芙蓉",
-            "安塞尔"
+            "---先锋---",
+            "凛冬",
+            "德克萨斯",
+            "风笛",
+            "嵯峨",
+            "推进之王",
+            "---重装---",
+            "古米",
+            "蛇屠箱",
+            "临光",
+            "泥岩",
+            "塞雷娅",
+            "星熊",
+            "---狙击---",
+            "白金",
+            "能天使",
+            "假日威龙陈",
+            "黑",
+            "---术士---",
+            "阿米娅",
+            "天火",
+            "艾雅法拉",
+            "异客",
+            "---治疗---",
+            "白面鸮",
+            "赫默",
+            "凯尔希",
+            "闪灵",
+            "夜莺",
+            "---辅助---",
+            "梅尔",
+            "巫恋",
+            "初雪",
+            "真理",
+            "安洁莉娜",
+            "铃兰",
+            "令",
+            "麦哲伦",
+            "---特种---",
+            "孑",
+            "水月",
+            "狮蝎"
         ],
         "roi": [
             560,
             69,
             666,
             614
+        ],
+        "ocrReplace": [
+            [
+                "白面.+",
+                "白面鸮"
+            ],
+            [
+                "^子$",
+                "孑"
+            ]
         ],
         "next": [
             "Roguelike1ChooseOperConfirm"
@@ -3658,6 +3735,7 @@
         ],
         "next": [
             "Roguelike1RecruitSkip",
+            "Roguelike1DropsFlag",
             "Roguelike1RecruitWithoutButton"
         ]
     },
@@ -3674,6 +3752,7 @@
         "next": [
             "Roguelike1RecruitOther",
             "Roguelike1EnterAfterRecruit",
+            "Roguelike1DropsFlag",
             "Roguelike1RecruitWithoutButton"
         ]
     },
@@ -3689,6 +3768,7 @@
         "next": [
             "Roguelike1StageTrader",
             "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps"
         ]
@@ -3707,6 +3787,7 @@
             "Roguelike1StageTraderEnter",
             "Roguelike1StageTrader",
             "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps"
         ]
@@ -3811,6 +3892,7 @@
         "next": [
             "Roguelike1StageTrader",
             "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps"
         ]
@@ -3829,6 +3911,26 @@
             "Roguelike1StageEncounterEnter",
             "Roguelike1StageTrader",
             "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps"
+        ]
+    },
+    "Roguelike1StageBoons": {
+        "Doc": "古堡馈赠（随机奖励）",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ],
+        "next": [
+            "Roguelike1StageEncounterEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps"
         ]
@@ -3904,6 +4006,7 @@
         ],
         "rearDelay": 1000,
         "next": [
+            "Roguelike1ChooseOper",
             "Roguelike1StageEncounterGiveUpRecruit",
             "Roguelike1ClickToDrops"
         ]
@@ -3930,6 +4033,7 @@
             171
         ],
         "next": [
+            "Roguelike1DropsFlag",
             "Roguelike1ClickToDrops"
         ]
     },
@@ -3964,6 +4068,7 @@
             "Roguelike1StageEmergencyDpsEnter",
             "Roguelike1StageTrader",
             "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps"
         ],
@@ -3979,7 +4084,8 @@
         ],
         "next": [
             "Roguelike1QuickFormation"
-        ]
+        ],
+        "rearDelay": 2000
     },
     "Roguelike1StageEmergencyDps": {
         "Doc": "紧急作战",
@@ -3996,6 +4102,7 @@
             "Roguelike1StageEmergencyDpsEnter",
             "Roguelike1StageTrader",
             "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps"
         ],
@@ -4116,6 +4223,7 @@
             "Roguelike1DropsFlag",
             "Roguelike1StageTrader",
             "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1ClickToDrops"
@@ -4129,12 +4237,15 @@
             119
         ],
         "next": [
+            "Roguelike1GetDropCompleted",
             "Roguelike1GetDrop1",
             "Roguelike1GetDrop2",
             "Roguelike1GetDrop3",
+            "Roguelike1GetDropRecruit",
             "Roguelike1GetDropLeave",
             "Roguelike1StageTrader",
             "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps"
         ]
@@ -4150,8 +4261,7 @@
             157
         ],
         "next": [
-            "Roguelike1DropsFlag",
-            "Roguelike1GetDropCompleted"
+            "Roguelike1DropsFlag"
         ]
     },
     "Roguelike1GetDrop2": {
@@ -4166,7 +4276,6 @@
         ],
         "next": [
             "Roguelike1DropsFlag",
-            "Roguelike1GetDropCompleted",
             "Roguelike1ClickToDrops"
         ]
     },
@@ -4182,8 +4291,23 @@
         ],
         "next": [
             "Roguelike1DropsFlag",
-            "Roguelike1GetDropCompleted",
             "Roguelike1ClickToDrops"
+        ]
+    },
+    "Roguelike1GetDropRecruit": {
+        "Doc": "招募券，白色的“招募”按钮",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            471,
+            1280,
+            157
+        ],
+        "rearDelay": 1000,
+        "next": [
+            "Roguelike1ChooseOper",
+            "Roguelike1StageEncounterGiveUpRecruit"
         ]
     },
     "Roguelike1GetDropCompleted": {

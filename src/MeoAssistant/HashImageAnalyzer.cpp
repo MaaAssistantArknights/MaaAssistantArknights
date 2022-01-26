@@ -38,7 +38,7 @@ bool asst::HashImageAnalyzer::analyze()
         std::string cur_min_dist_name;
         for (auto&& [name, templ] : m_hash_templates) {
             int hm = hamming(hash_result, templ);
-            Log.trace(name, "dist:", hm);
+            //Log.debug(name, "dist:", hm);
             if (hm < min_dist) {
                 cur_min_dist_name = name;
                 min_dist = hm;
