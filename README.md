@@ -65,7 +65,7 @@ A Game Assistant for Arknights
 
 ## 关联项目
 
-- 全新 GUI: [MeoAsstElectronUI](https://github.com/ChingCdesu/MeoAsstElectronUI) （正在开发中）
+- 全新 GUI: [MeoAsstElectronUI](https://github.com/MaaAssistantArknights/MeoAsstElectronUI) （正在开发中）
 - 自动更新服务器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)（正在开发中）
 
 ## 致谢
@@ -96,7 +96,7 @@ A Game Assistant for Arknights
 ### 贡献/参与者
 
 感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！  
-这里仅列出对 MAA 产生了巨大帮助的大佬们 (*´▽｀)ノノ
+这里仅列出对 MAA 提供了巨大帮助的大佬们 (*´▽｀)ノノ
 
 - 感谢 [tcyh035](https://github.com/tcyh035) 帮忙设计重构 WPF 图形界面
 - 感谢 [LoveLoliii](https://github.com/LoveLoliii) 提供公开招募算法及数据
