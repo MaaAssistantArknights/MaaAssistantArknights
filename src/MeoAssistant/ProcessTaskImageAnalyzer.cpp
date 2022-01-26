@@ -72,6 +72,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
     bool ret = m_ocr_analyzer->analyze();
 
     if (ret) {
+        m_ocr_analyzer->sort_result_by_required();
         const auto& ocr_result = m_ocr_analyzer->get_result();
         auto& res = ocr_result.front();
         m_result = ocr_task_ptr;

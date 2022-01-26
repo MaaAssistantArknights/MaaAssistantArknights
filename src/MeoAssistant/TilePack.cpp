@@ -68,7 +68,8 @@ std::vector<asst::TilePack::TileInfo> asst::TilePack::calc(const std::string & s
                     static_cast<BuildableType>(tile.buildableType),
                     static_cast<HeightType>(tile.heightType),
                     key,
-                    Point(static_cast<int>(cv_p.x), static_cast<int>(cv_p.y))
+                    Point(static_cast<int>(cv_p.x), static_cast<int>(cv_p.y)),
+                    Point(static_cast<int>(x), static_cast<int>(y))
                 });
         }
     }

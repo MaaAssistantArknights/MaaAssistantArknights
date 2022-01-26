@@ -1,6 +1,7 @@
 #include "OcrImageAnalyzer.h"
 
 #include <regex>
+#include <unordered_map>
 
 #include "Logger.hpp"
 #include "Resource.h"
@@ -32,7 +33,11 @@ bool asst::OcrImageAnalyzer::analyze()
         else {
             TextRectProc required_search = [&](TextRect& tr) -> bool {
                 auto is_sub = [&tr](const std::string& str) -> bool {
-                    return tr.text.find(str) != std::string::npos;
+                    if (tr.text.find(str) == std::string::npos) {
+                        return false;
+                    }
+                    tr.text = str;
+                    return true;
                 };
                 return std::find_if(m_required.cbegin(), m_required.cend(), is_sub) != m_required.cend();
             };
@@ -130,4 +135,21 @@ void asst::OcrImageAnalyzer::sort_result()
             }
         }
     );
+}
+
+void asst::OcrImageAnalyzer::sort_result_by_required()
+{
+    if (m_required.empty()) {
+        return;
+    }
+
+    std::unordered_map<std::string, size_t> m_req_cache;
+    for (size_t i = 0; i != m_required.size(); ++i) {
+        m_req_cache.emplace(m_required.at(i), i + 1);
+    }
+
+    std::sort(m_ocr_result.begin(), m_ocr_result.end(),
+        [&m_req_cache](const auto& lhs, const auto& rhs) -> bool {
+            return m_req_cache[lhs.text] < m_req_cache[rhs.text];
+    });
 }

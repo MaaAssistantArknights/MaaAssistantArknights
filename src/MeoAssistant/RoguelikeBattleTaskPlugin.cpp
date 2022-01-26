@@ -153,8 +153,19 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     case Role::Special:
     case Role::Drone:
     default:
-        loc = Loc::All;
-        break;
+        // 特种和无人机，有的只能放地面，有的又只能放高台，不好判断
+        // 笨办法，都试试，总有一次能成的
+    {
+        static Loc static_loc = Loc::Melee;
+        loc = static_loc;
+        if (static_loc == Loc::Melee) {
+            static_loc = Loc::Ranged;
+        }
+        else {
+            static_loc = Loc::Melee;
+        }
+    }
+    break;
     }
 
     Point placed_point = get_placed(loc);
