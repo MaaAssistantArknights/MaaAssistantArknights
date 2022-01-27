@@ -222,6 +222,14 @@ bool AsstAppendRecruit(asst::Assistant* p_asst, int max_times, const int select_
     return p_asst->append_recruit(max_times, required_vector, confirm_vector, need_refresh, use_expedited);
 }
 
+bool AsstAppendRoguelike(asst::Assistant* p_asst, int mode)
+{
+    if (p_asst == nullptr) {
+        return false;
+    }
+    return p_asst->append_roguelike(mode);
+}
+
 bool AsstStart(asst::Assistant* p_asst)
 {
     if (p_asst == nullptr) {
@@ -291,9 +299,9 @@ bool AsstAppendDebug(asst::Assistant* p_asst)
     if (p_asst == nullptr) {
         return false;
     }
-    //#ifdef ASST_DEBUG
+#ifdef ASST_DEBUG
     return p_asst->append_debug();
-    //#else
-    //  return false;
-    //#endif // ASST_DEBUG
-}
+#else
+    return false;
+#endif // ASST_DEBUG
+    }

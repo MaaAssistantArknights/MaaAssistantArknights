@@ -44,6 +44,8 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 
 bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 {
+    LogTraceFunction;
+
     const auto& tile = Resrc.tile();
     bool calced = false;
     for (int i = 0; i != m_retry_times; ++i) {
@@ -71,6 +73,8 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 
 bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 {
+    LogTraceFunction;
+
     using Role = asst::BattleImageAnalyzer::Role;
     using Oper = asst::BattleImageAnalyzer::Oper;
 
@@ -259,6 +263,8 @@ bool asst::RoguelikeBattleTaskPlugin::speed_up()
 
 bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
 {
+    LogTraceFunction;
+
     Ctrler.click(rect);
 
     ProcessTask task(*this, { "BattleUseSkill" });
@@ -289,6 +295,8 @@ void asst::RoguelikeBattleTaskPlugin::clear()
 
 asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
 {
+    LogTraceFunction;
+
     if (m_homes.empty()) {
         for (const auto& [loc, side] : m_side_tile_info) {
             if (side.key == TilePack::TileKey::Home) {

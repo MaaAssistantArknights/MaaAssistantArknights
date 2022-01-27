@@ -3449,7 +3449,8 @@
             255
         ],
         "templThreshold": 0.95,
-        "preDelay": 2000
+        "preDelay": 3000,
+        "rearDelay": 5000
     },
     "BattleSkillReady": {
         "roi": [
@@ -3591,6 +3592,7 @@
     },
     "Roguelike1Team3": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             601,
             153,
@@ -3617,6 +3619,7 @@
     "Roguelike1RecruitMain": {
         "action": "clickSelf",
         "template": "Roguelike1Recruit.png",
+        "cache": false,
         "roi": [
             190,
             470,
@@ -3931,8 +3934,48 @@
             234,
             204
         ],
+        "exceededNext": [
+            "Roguelike1ExitThenAbandon"
+        ],
         "next": [
             "Roguelike1StageTraderLeaveConfirm"
+        ]
+    },
+    "Roguelike1ExitThenAbandon": {
+        "action": "clickSelf",
+        "roi": [
+            0,
+            0,
+            148,
+            149
+        ],
+        "next": [
+            "Roguelike1Abandon"
+        ]
+    },
+    "Roguelike1Abandon": {
+        "action": "clickSelf",
+        "roi": [
+            1076,
+            243,
+            177,
+            179
+        ],
+        "next": [
+            "Roguelike1AbandonConfirm"
+        ]
+    },
+    "Roguelike1AbandonConfirm": {
+        "action": "clickSelf",
+        "roi": [
+            720,
+            413,
+            249,
+            168
+        ],
+        "next": [
+            "Roguelike1MissionFailedFlag2",
+            "Roguelike1Start"
         ]
     },
     "Roguelike1StageTraderLeaveConfirm": {
@@ -4236,7 +4279,8 @@
         "next": [
             "Roguelike1InBattleFlag",
             "Roguelike1MissionCompletedFlag",
-            "Roguelike1MissionFailedFlag"
+            "Roguelike1MissionFailedFlag",
+            "Roguelike1MissionFailedFlag2"
         ]
     },
     "Roguelike1InBattleFlag": {
@@ -4255,7 +4299,8 @@
         "next": [
             "Roguelike1InBattleFlag",
             "Roguelike1MissionCompletedFlag",
-            "Roguelike1MissionFailedFlag"
+            "Roguelike1MissionFailedFlag",
+            "Roguelike1MissionFailedFlag2"
         ]
     },
     "Roguelike1MissionCompletedFlag": {
@@ -4424,6 +4469,7 @@
         ]
     },
     "Roguelike1MissionFailedFlag2": {
+        "cache": false,
         "roi": [
             473,
             0,
