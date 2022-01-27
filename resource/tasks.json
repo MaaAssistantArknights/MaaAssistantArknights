@@ -3140,6 +3140,10 @@
             [
                 "分.+不均",
                 "分赃不均"
+            ],
+            [
+                "落.+骑士",
+                "落魄骑士"
             ]
         ],
         "roi": [
@@ -3701,10 +3705,8 @@
             "真理",
             "安洁莉娜",
             "铃兰",
-            "令",
             "麦哲伦",
             "---特种---",
-            "孑",
             "水月",
             "狮蝎"
         ],
@@ -3718,10 +3720,6 @@
             [
                 "白面.+",
                 "白面鸮"
-            ],
-            [
-                "^子$",
-                "孑"
             ]
         ],
         "next": [
@@ -3860,6 +3858,7 @@
         ]
     },
     "Roguelike1StageTraderInvestSystem": {
+        "templThreshold": 0.75,
         "action": "clickSelf",
         "roi": [
             365,
@@ -4087,7 +4086,7 @@
             700
         ],
         "templThreshold": 0.9,
-        "preDelay": 500,
+        "preDelay": 1500,
         "next": [
             "Roguelike1StageEncounterLeaveConfirm"
         ]
