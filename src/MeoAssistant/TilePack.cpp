@@ -23,7 +23,8 @@ bool asst::TilePack::load(const std::string & dir)
     return m_tile_calculator != nullptr;
 }
 
-std::vector<asst::TilePack::TileInfo> asst::TilePack::calc(const std::string & stage_code, bool side) const
+std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(
+    const std::string & stage_code, bool side) const
 {
     LogTraceFunction;
 
@@ -35,10 +36,10 @@ std::vector<asst::TilePack::TileInfo> asst::TilePack::calc(const std::string & s
     Log.trace("After tiles cacl run");
     if (!ret) {
         Log.info("Tiles calc error!");
-        return std::vector<TileInfo>();
+        return std::unordered_map<asst::Point, asst::TilePack::TileInfo>();
     }
 
-    std::vector<TileInfo> dst;
+    std::unordered_map<asst::Point, asst::TilePack::TileInfo> dst;
 
     static const std::unordered_map<std::string, TileKey> TileKeyMapping = {
         { "tile_forbidden", TileKey::Forbidden },
@@ -63,14 +64,11 @@ std::vector<asst::TilePack::TileInfo> asst::TilePack::calc(const std::string & s
                 Log.error("Unknown tile type:", tile.tileKey);
             }
 
-            dst.emplace_back(
-                TileInfo{
+            dst.emplace(Point(static_cast<int>(x), static_cast<int>(y)), TileInfo{
                     static_cast<BuildableType>(tile.buildableType),
                     static_cast<HeightType>(tile.heightType),
                     key,
-                    Point(static_cast<int>(cv_p.x), static_cast<int>(cv_p.y)),
-                    Point(static_cast<int>(x), static_cast<int>(y))
-                });
+                    Point(static_cast<int>(cv_p.x), static_cast<int>(cv_p.y)) });
         }
     }
     return dst;

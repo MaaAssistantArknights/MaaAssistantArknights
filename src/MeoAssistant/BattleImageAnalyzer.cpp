@@ -10,11 +10,14 @@
 
 bool asst::BattleImageAnalyzer::analyze()
 {
-    opers_analyze();
-    skill_analyze();
     // 生命值和家门，只要识别到了任一个，就可以说明当前是在战斗场景
     bool ret = hp_analyze();
     ret |= home_analyze();
+
+    if (ret) {
+        opers_analyze();
+        skill_analyze();
+    }
     return ret;
 }
 

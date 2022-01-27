@@ -45,7 +45,7 @@ namespace asst
             HeightType height = HeightType::Invaild;
             TileKey key = TileKey::Invaild;
             Point pos;  // 像素坐标
-            Point loc;  // 格子坐标
+            Point loc;  // 格子位置
         };
     public:
         using AbstractResource::AbstractResource;
@@ -53,7 +53,7 @@ namespace asst
 
         virtual bool load(const std::string& dir) override;
 
-        std::vector<TileInfo> calc(const std::string& stage_code, bool side) const;
+        std::unordered_map<Point, TileInfo> calc(const std::string& stage_code, bool side) const;
 
     private:
         std::shared_ptr<Map::TileCalc> m_tile_calculator = nullptr;
