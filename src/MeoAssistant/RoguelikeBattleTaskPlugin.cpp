@@ -58,6 +58,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
             }
             m_side_tile_info = std::move(side_info);
             calced = true;
+            Log.info("stage info getted, tiles_size", m_side_tile_info.size());
             break;
         }
         if (calced) {
@@ -168,7 +169,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     break;
     }
 
-    Point placed_point = get_placed(loc);
+    Point placed_loc = get_placed(loc);
+    Point placed_point = m_side_tile_info.at(placed_loc).pos;
 #ifdef ASST_DEBUG
     auto image = Ctrler.get_image();
     cv::circle(image, cv::Point(placed_point.x, placed_point.y), 10, cv::Scalar(0, 0, 255), -1);
@@ -181,26 +183,27 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (m_cur_home_index >= m_homes.size()) {
         m_cur_home_index = 0;
     }
-    Point home_point(WindowWidthDefault / 2, WindowHeightDefault / 2);
+    Point home_loc(5, 5);
     if (m_cur_home_index < m_homes.size()) {
-        home_point = m_homes.at(m_cur_home_index);
+        home_loc = m_homes.at(m_cur_home_index);
     }
-
+    Point home_point = m_side_tile_info.at(home_loc).pos;
     Rect home_rect(home_point.x, home_point.y, 1, 1);
 
-    int dx = placed_point.x - home_point.x;
-    int dy = placed_point.y - home_point.y;
-    if (std::abs(dx) < std::abs(dy)) {
-        dx = 0;
-    }
-    else {
-        dy = 0;
-    }
-    constexpr int coeff = 100;
+    int dx = placed_loc.x - home_loc.x;
+    int dy = placed_loc.y - home_loc.y;
+
+    constexpr int coeff = 500;
     Point end_point;
     switch (opt_oper.role) {
     case Role::Medic:
     {
+        if (std::abs(dx) <= std::abs(dy)) {
+            dx = 0;
+        }
+        else {
+            dy = 0;
+        }
         end_point.x = placed_point.x - coeff * dx;
         end_point.y = placed_point.y - coeff * dy;
     }
@@ -215,6 +218,12 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     case Role::Drone:
     default:
     {
+        if (std::abs(dx) < std::abs(dy)) {
+            dx = 0;
+        }
+        else {
+            dy = 0;
+        }
         end_point.x = placed_point.x + coeff * dx;
         end_point.y = placed_point.y + coeff * dy;
     }
@@ -235,7 +244,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
     Ctrler.swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
 
-    m_used_tiles.emplace(placed_point);
+    m_used_tiles.emplace(placed_loc);
     m_used_opers = true;
     ++m_cur_home_index;
 
@@ -281,9 +290,9 @@ void asst::RoguelikeBattleTaskPlugin::clear()
 asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
 {
     if (m_homes.empty()) {
-        for (const auto& side : m_side_tile_info) {
+        for (const auto& [loc, side] : m_side_tile_info) {
             if (side.key == TilePack::TileKey::Home) {
-                m_homes.emplace_back(side.pos);
+                m_homes.emplace_back(loc);
             }
         }
         if (m_homes.empty()) {
@@ -297,26 +306,27 @@ asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
     Point nearest;
     int min_dist = INT_MAX;
 
-    Point home(WindowWidthDefault / 2, WindowHeightDefault / 2);
+    Point home(5, 5);   // 默认值，一般是地图的中间
     if (m_cur_home_index < m_homes.size()) {
         home = m_homes.at(m_cur_home_index);
     }
 
-    for (const auto& tile : m_side_tile_info) {
+    for (const auto& [loc, tile] : m_side_tile_info) {
         if (tile.buildable == buildable_type
             || tile.buildable == Loc::All) {
-            if (m_used_tiles.find(tile.pos) != m_used_tiles.cend()) {
+            if (m_used_tiles.find(loc) != m_used_tiles.cend()) {
                 continue;
             }
-            int dx = std::abs(home.x - tile.pos.x);
-            int dy = std::abs(home.y - tile.pos.y);
+            int dx = std::abs(home.x - loc.x);
+            int dy = std::abs(home.y - loc.y);
             int dist = dx * dx + dy * dy;
             if (dist < min_dist) {
                 min_dist = dist;
-                nearest = tile.pos;
+                nearest = loc;
             }
         }
     }
+    Log.info(__FUNCTION__, nearest.to_string());
 
     return nearest;
 }

@@ -3479,7 +3479,7 @@
             100
         ],
         "preDelay": 1000,
-        "rearDelay": 200
+        "rearDelay": 0
     },
     "Roguelike1Begin": {
         "algorithm": "justReturn",
@@ -3521,7 +3521,21 @@
         ]
     },
     "Roguelike1LastReward2": {
-        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——5源石锭",
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 5 源石锭",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            174,
+            151,
+            935,
+            533
+        ],
+        "next": [
+            "Roguelike1LastRewardConfirm"
+        ]
+    },
+    "Roguelike1LastReward3": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 3 目标生命",
         "action": "clickSelf",
         "cache": false,
         "roi": [
@@ -3537,6 +3551,7 @@
     "Roguelike1LastRewardConfirm": {
         "template": "Roguelike1RecruitConfirm.png",
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             174,
             151,
@@ -3570,6 +3585,7 @@
         "next": [
             "Roguelike1LastReward",
             "Roguelike1LastReward2",
+            "Roguelike1LastReward3",
             "Roguelike1Team3"
         ]
     },
@@ -3767,6 +3783,7 @@
         "rearDelay": 3000,
         "next": [
             "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
@@ -3783,9 +3800,11 @@
             1280,
             554
         ],
+        "templThreshold": 0.85,
         "next": [
             "Roguelike1StageTraderEnter",
             "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
@@ -3803,6 +3822,41 @@
         "next": [
             "Roguelike1StageTraderInvestSystem",
             "Roguelike1StageTraderLeave"
+        ]
+    },
+    "Roguelike1StageSafeHouse": {
+        "Doc": "安全的角落",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ],
+        "next": [
+            "Roguelike1StageSafeHouseEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps"
+        ]
+    },
+    "Roguelike1StageSafeHouseEnter": {
+        "action": "clickSelf",
+        "roi": [
+            1037,
+            374,
+            221,
+            221
+        ],
+        "next": [
+            "Roguelike1StageEncounterFree",
+            "Roguelike1StageEncounterLeave",
+            "Roguelike1StageEncounterUnknown",
+            "Roguelike1StageEncounterClickToLeave"
         ]
     },
     "Roguelike1StageTraderInvestSystem": {
@@ -3891,6 +3945,7 @@
         ],
         "next": [
             "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
@@ -3910,6 +3965,7 @@
         "next": [
             "Roguelike1StageEncounterEnter",
             "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
@@ -3929,6 +3985,7 @@
         "next": [
             "Roguelike1StageEncounterEnter",
             "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
@@ -4067,6 +4124,7 @@
             "Roguelike1StageCambatDpsEnter",
             "Roguelike1StageEmergencyDpsEnter",
             "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
@@ -4084,8 +4142,7 @@
         ],
         "next": [
             "Roguelike1QuickFormation"
-        ],
-        "rearDelay": 2000
+        ]
     },
     "Roguelike1StageEmergencyDps": {
         "Doc": "紧急作战",
@@ -4101,6 +4158,7 @@
             "Roguelike1StageCambatDpsEnter",
             "Roguelike1StageEmergencyDpsEnter",
             "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
@@ -4130,7 +4188,8 @@
         ],
         "next": [
             "Roguelike1FormationConfirm"
-        ]
+        ],
+        "rearDelay": 2000
     },
     "Roguelike1FormationOper": {
         "cache": false,
@@ -4222,6 +4281,7 @@
         "next": [
             "Roguelike1DropsFlag",
             "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
@@ -4244,6 +4304,7 @@
             "Roguelike1GetDropRecruit",
             "Roguelike1GetDropLeave",
             "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
@@ -4357,6 +4418,17 @@
             163,
             480,
             167
+        ],
+        "next": [
+            "Roguelike1ClickToStartPoint"
+        ]
+    },
+    "Roguelike1MissionFailedFlag2": {
+        "roi": [
+            473,
+            0,
+            351,
+            194
         ],
         "next": [
             "Roguelike1ClickToStartPoint"

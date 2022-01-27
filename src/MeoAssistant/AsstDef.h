@@ -31,6 +31,10 @@ namespace asst
         Point& operator=(const Point&) noexcept = default;
         Point& operator=(Point&&) noexcept = default;
         bool operator==(const Point& rhs) const noexcept { return x == rhs.x && y == rhs.y; }
+        std::string to_string() const
+        {
+            return "[ " + std::to_string(x) + ", " + std::to_string(y) + " ]";
+        }
         int x = 0;
         int y = 0;
     };
