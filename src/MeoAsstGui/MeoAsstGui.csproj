@@ -125,6 +125,9 @@
     <Compile Include="UserControl\ConnectSettingsUserControl.xaml.cs">
       <DependentUpon>ConnectSettingsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\RogueliekSettingsUserControl.xaml.cs">
+      <DependentUpon>RogueliekSettingsUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\MallSettingsUserControl.xaml.cs">
       <DependentUpon>MallSettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -165,6 +168,10 @@
     <Page Include="UserControl\ConnectSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\RogueliekSettingsUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControl\MallSettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>

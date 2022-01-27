@@ -3487,11 +3487,8 @@
         "next": [
             "Roguelike1Start",
             "Roguelike1DropsFlag",
-            "Roguelike1StageEncounterFree",
-            "Roguelike1StageEncounterLeave",
-            "Roguelike1StageEncounterUnknown",
-            "Roguelike1StageTraderInvestSystem",
-            "Roguelike1StageTraderLeave"
+            "Roguelike1ExitThenAbandon",
+            "Roguelike1Abandon"
         ]
     },
     "Roguelike1Start": {

@@ -41,6 +41,7 @@ namespace MeoAsstGui
             DisplayName = "设置";
 
             _listTitle.Add("基建设置");
+            _listTitle.Add("肉鸽设置");
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
             _listTitle.Add("企鹅数据");
@@ -206,6 +207,7 @@ namespace MeoAsstGui
         private NotifyType _notifySource = NotifyType.None;
 
         private System.Timers.Timer _resetNotifyTimer;
+
         private void ResetNotifySource()
         {
             if (_resetNotifyTimer != null)
@@ -230,6 +232,7 @@ namespace MeoAsstGui
         public List<double> RectangleVerticalOffsetList { get; set; }
 
         private int _selectedIndex = 0;
+
         public int SelectedIndex
         {
             get { return _selectedIndex; }
@@ -259,6 +262,7 @@ namespace MeoAsstGui
         }
 
         private double _scrollOffset = 0;
+
         public double ScrollOffset
         {
             get { return _scrollOffset; }
@@ -304,6 +308,20 @@ namespace MeoAsstGui
         }
 
         #endregion 设置页面列表和滚动视图联动绑定
+
+        /* 肉鸽设置 */
+
+        private bool _onlyInvest = System.Convert.ToBoolean(ViewStatusStorage.Get("Roguelike.OnlyInvest", bool.FalseString));
+
+        public bool OnlyInvest
+        {
+            get { return _onlyInvest; }
+            set
+            {
+                SetAndNotify(ref _onlyInvest, value);
+                ViewStatusStorage.Set("Roguelike.OnlyInvest", value.ToString());
+            }
+        }
 
         /* 信用商店设置 */
 
