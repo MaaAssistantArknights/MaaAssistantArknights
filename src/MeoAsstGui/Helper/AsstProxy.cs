@@ -49,6 +49,8 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendRecruit(IntPtr ptr, int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited);
 
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendRoguelike(IntPtr ptr, int mode);
+
         [DllImport("MeoAssistant.dll")] private static extern bool AsstStartRecruitCalc(IntPtr ptr, int[] select_level, int required_len, bool set_time);
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstStart(IntPtr ptr);
@@ -277,6 +279,55 @@ namespace MeoAsstGui
 
                     case "InfrastDormDoubleConfirmButton":
                         mainModel.AddLog("干员冲突", "darkred");
+                        break;
+
+                    /* 肉鸽相关 */
+                    case "Roguelike1Start":
+                        mainModel.AddLog("已开始探索 " + execTimes + " 次", "darkcyan");
+                        break;
+
+                    case "Roguelike1StageTraderInvestConfirm":
+                        mainModel.AddLog("已投资 " + execTimes + " 个源石锭", "darkcyan");
+                        break;
+
+                    case "Roguelike1ExitThenAbandon":
+                        mainModel.AddLog("已放弃本次探索");
+                        break;
+
+                    case "Roguelike1StartAction":
+                        mainModel.AddLog("开始战斗");
+                        break;
+
+                    case "Roguelike1MissionCompletedFlag":
+                        mainModel.AddLog("战斗完成");
+                        break;
+
+                    case "Roguelike1MissionFailedFlag":
+                        mainModel.AddLog("战斗失败");
+                        break;
+
+                    case "Roguelike1StageTraderEnter":
+                        mainModel.AddLog("关卡：诡异行商");
+                        break;
+
+                    case "Roguelike1StageSafeHouseEnter":
+                        mainModel.AddLog("关卡：安全的角落");
+                        break;
+
+                    case "Roguelike1StageEncounterEnter":
+                        mainModel.AddLog("关卡：不期而遇/古堡馈赠");
+                        break;
+
+                    //case "Roguelike1StageBoonsEnter":
+                    //    mainModel.AddLog("古堡馈赠");
+                    //    break;
+
+                    case "Roguelike1StageCambatDpsEnter":
+                        mainModel.AddLog("关卡：普通作战");
+                        break;
+
+                    case "Roguelike1StageEmergencyDps":
+                        mainModel.AddLog("关卡：紧急作战");
                         break;
                 }
             }
@@ -508,6 +559,11 @@ namespace MeoAsstGui
         public bool AsstAppendInfrast(int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold)
         {
             return AsstAppendInfrast(_ptr, work_mode, order, order_len, uses_of_drones, dorm_threshold);
+        }
+
+        public bool AsstAppendRoguelike(int mode)
+        {
+            return AsstAppendRoguelike(_ptr, mode);
         }
 
         public bool AsstStart()

@@ -37,7 +37,7 @@ namespace MeoAsstGui
 
         public void InitializeItems()
         {
-            string[] task_list = new string[] { "开始唤醒", "刷理智", "自动公招", "基建换班", "访问好友", "收取信用及购物", "领取日常奖励" };
+            string[] task_list = new string[] { "开始唤醒", "刷理智", "自动公招", "基建换班", "访问好友", "收取信用及购物", "领取日常奖励", "无限刷肉鸽" };
 
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             int order_offset = 0;
@@ -47,14 +47,19 @@ namespace MeoAsstGui
                 int order = -1;
                 bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out order);
 
+                var vm = new DragItemViewModel(task, "TaskQueue.");
+                if (task == "无限刷肉鸽")
+                {
+                    vm.IsChecked = false;
+                }
                 if (!parsed || order < 0)
                 {
-                    temp_order_list[i] = new DragItemViewModel(task, "TaskQueue.");
+                    temp_order_list[i] = vm;
                     ++order_offset;
                 }
                 else
                 {
-                    temp_order_list[order + order_offset] = new DragItemViewModel(task, "TaskQueue.");
+                    temp_order_list[order + order_offset] = vm;
                 }
             }
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
@@ -147,6 +152,10 @@ namespace MeoAsstGui
                 else if (item.Name == "领取日常奖励")
                 {
                     ret &= asstProxy.AsstAppendAward();
+                }
+                else if (item.Name == "无限刷肉鸽")
+                {
+                    ret &= appendRoguelike();
                 }
                 else
                 {
@@ -278,6 +287,18 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRecruit(
                 max_times, reqList.ToArray(), reqList.Count, cfmList.ToArray(), cfmList.Count, need_refresh, use_expedited);
+        }
+
+        private bool appendRoguelike()
+        {
+            var settings = _container.Get<SettingsViewModel>();
+            var asstProxy = _container.Get<AsstProxy>();
+            int mode = 0;
+            if (settings.OnlyInvest)
+            {
+                mode = 1;
+            }
+            return asstProxy.AsstAppendRoguelike(mode);
         }
 
         private void setPenguinId()
