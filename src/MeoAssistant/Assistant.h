@@ -41,18 +41,18 @@ namespace asst
         bool catch_fake();
 
         // 添加开始游戏的任务（进入到主界面）
-        bool append_start_up(bool only_append = true);
+        bool append_start_up();
         // 添加刷理智任务
-        bool append_fight(const std::string& stage, int mecidine = 0, int stone = 0, int times = INT_MAX, bool only_append = true);
+        bool append_fight(const std::string& stage, int mecidine = 0, int stone = 0, int times = INT_MAX);
         // 添加领取日常任务奖励任务
-        bool append_award(bool only_append = true);
+        bool append_award();
         // 添加访问好友任务
-        bool append_visit(bool only_append = true);
+        bool append_visit();
         // 添加领取当日信用及信用购的任务
-        bool append_mall(bool with_shopping, bool only_append = true);
+        bool append_mall(bool with_shopping);
 
         // 添加基建换班任务任务
-        bool append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, const std::string& uses_of_drones, double dorm_threshold, bool only_append = true);
+        bool append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, const std::string& uses_of_drones, double dorm_threshold);
 
         // 添加自动公招任务
         // 参数 max_times: 最多进行几次公招
@@ -62,12 +62,18 @@ namespace asst
         // 参数 use_expedited: 是否使用加急券
         bool append_recruit(unsigned max_times, const std::vector<int>& select_level, const std::vector<int>& confirm_level, bool need_refresh, bool use_expedited);
 
-        //#ifdef ASST_DEBUG
+        /*** 添加自动肉鸽任务
+        * mode: 0 - 尽可能一直往后打
+        *       1 - 第一层投资完源石锭就退出
+        ***/
+        bool append_roguelike(int mode);
+
+#ifdef ASST_DEBUG
         // 调试用
         bool append_debug();
-        //#endif
+#endif
 
-                // 开始公开招募计算
+        // 开始公开招募计算
         bool start_recruit_calc(const std::vector<int>& select_level, bool set_time);
 
         // 开始执行任务队列

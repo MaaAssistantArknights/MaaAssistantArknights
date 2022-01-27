@@ -159,30 +159,26 @@ bool asst::Assistant::catch_fake()
     return true;
 }
 
-bool asst::Assistant::append_start_up(bool only_append)
+bool asst::Assistant::append_start_up()
 {
     LogTraceFunction;
     if (!m_inited) {
         return false;
     }
 
-    std::unique_lock<std::mutex> lock(m_mutex);
-
     auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, "StartUp");
     task_ptr->set_tasks({ "StartUp" })
         .set_times_limit("ReturnToTerminal", 0)
         .set_times_limit("Terminal", 0);
 
-    m_tasks_queue.emplace(task_ptr);
+    std::unique_lock<std::mutex> lock(m_mutex);
 
-    if (!only_append) {
-        return start(false);
-    }
+    m_tasks_queue.emplace(task_ptr);
 
     return true;
 }
 
-bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int stone, int times, bool only_append)
+bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int stone, int times)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -226,55 +222,39 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
     }
     m_tasks_queue.emplace(fight_task_ptr);
 
-    if (!only_append) {
-        return start(false);
-    }
-
     return true;
 }
 
-bool asst::Assistant::append_award(bool only_append)
+bool asst::Assistant::append_award()
 {
-    append_process_task("AwardBegin", "Award");
+    std::unique_lock<std::mutex> lock(m_mutex);
 
-    if (!only_append) {
-        return start(false);
-    }
-
-    return true;
+    return append_process_task("AwardBegin", "Award");
 }
 
-bool asst::Assistant::append_visit(bool only_append)
+bool asst::Assistant::append_visit()
 {
-    append_process_task("VisitBegin", "Visit");
+    std::unique_lock<std::mutex> lock(m_mutex);
 
-    if (!only_append) {
-        return start(false);
-    }
-
-    return true;
+    return append_process_task("VisitBegin", "Visit");
 }
 
-bool asst::Assistant::append_mall(bool with_shopping, bool only_append)
+bool asst::Assistant::append_mall(bool with_shopping)
 {
     LogTraceFunction;
     if (!m_inited) {
         return false;
     }
 
-    std::unique_lock<std::mutex> lock(m_mutex);
-
     const std::string TaskChain = "Mall";
+
+    std::unique_lock<std::mutex> lock(m_mutex);
 
     append_process_task("MallBegin", TaskChain);
 
     if (with_shopping) {
         auto shopping_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this, TaskChain);
         m_tasks_queue.emplace(shopping_task_ptr);
-    }
-
-    if (!only_append) {
-        return start(false);
     }
 
     return true;
@@ -299,10 +279,6 @@ bool Assistant::append_process_task(const std::string& task_name, std::string ta
 
     m_tasks_queue.emplace(task_ptr);
 
-    //if (!only_append) {
-    //    return start(false);
-    //}
-
     return true;
 }
 
@@ -314,8 +290,6 @@ bool asst::Assistant::append_recruit(unsigned max_times, const std::vector<int>&
     }
     static const std::string TaskChain = "Recruit";
 
-    append_process_task("RecruitBegin", TaskChain);
-
     auto recruit_task_ptr = std::make_shared<AutoRecruitTask>(task_callback, (void*)this, TaskChain);
     recruit_task_ptr->set_max_times(max_times)
         .set_need_refresh(need_refresh)
@@ -324,12 +298,48 @@ bool asst::Assistant::append_recruit(unsigned max_times, const std::vector<int>&
         .set_confirm_level(confirm_level)
         .set_retry_times(AutoRecruitTaskRetryTimesDefault);
 
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    append_process_task("RecruitBegin", TaskChain);
     m_tasks_queue.emplace(recruit_task_ptr);
 
     return true;
 }
 
-//#ifdef ASST_DEBUG
+bool asst::Assistant::append_roguelike(int mode)
+{
+    LogTraceFunction;
+    if (!m_inited) {
+        return false;
+    }
+
+    constexpr static const char* RoguelikeTaskChain = "Roguelike";
+
+    auto roguelike_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, RoguelikeTaskChain);
+    roguelike_task_ptr->set_tasks({ "Roguelike1Begin" })
+        .set_retry_times(50);
+
+    switch (mode) {
+    case 0:
+        break;
+    case 1:
+        roguelike_task_ptr->set_times_limit("Roguelike1StageTraderLeave", 0);
+        break;
+    default:
+        return false;
+    }
+
+    roguelike_task_ptr->regiseter_plugin<RoguelikeFormationTaskPlugin>();
+    roguelike_task_ptr->regiseter_plugin<RoguelikeBattleTaskPlugin>();
+
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    m_tasks_queue.emplace(roguelike_task_ptr);
+
+    return true;
+}
+
+#ifdef ASST_DEBUG
 bool Assistant::append_debug()
 {
     LogTraceFunction;
@@ -352,7 +362,7 @@ bool Assistant::append_debug()
 
     return true;
 }
-//#endif
+#endif
 
 bool Assistant::start_recruit_calc(const std::vector<int>& select_level, bool set_time)
 {
@@ -361,17 +371,18 @@ bool Assistant::start_recruit_calc(const std::vector<int>& select_level, bool se
         return false;
     }
 
-    std::unique_lock<std::mutex> lock(m_mutex);
-
     auto task_ptr = std::make_shared<RecruitTask>(task_callback, (void*)this, "RecruitCalc");
     task_ptr->set_retry_times(OpenRecruitTaskRetryTimesDefault);
     task_ptr->set_param(select_level, set_time);
+
+    std::unique_lock<std::mutex> lock(m_mutex);
+
     m_tasks_queue.emplace(task_ptr);
 
     return start(false);
 }
 
-bool asst::Assistant::append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, const std::string& uses_of_drones, double dorm_threshold, bool only_append)
+bool asst::Assistant::append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, const std::string& uses_of_drones, double dorm_threshold)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -382,6 +393,7 @@ bool asst::Assistant::append_infrast(infrast::WorkMode work_mode, const std::vec
     work_mode = infrast::WorkMode::Aggressive;
 
     constexpr static const char* InfrastTaskCahin = "Infrast";
+    constexpr int InfrastRetryTimes = 3;
 
     // 这个流程任务，结束的时候是处于基建主界面的。既可以用于进入基建，也可以用于从设施里返回基建主界面
 
@@ -393,7 +405,8 @@ bool asst::Assistant::append_infrast(infrast::WorkMode work_mode, const std::vec
 
     auto info_task_ptr = std::make_shared<InfrastInfoTask>(task_callback, (void*)this, InfrastTaskCahin);
     info_task_ptr->set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold);
+        .set_mood_threshold(dorm_threshold)
+        .set_retry_times(InfrastRetryTimes);
 
     m_tasks_queue.emplace(info_task_ptr);
 
@@ -401,28 +414,40 @@ bool asst::Assistant::append_infrast(infrast::WorkMode work_mode, const std::vec
     auto mfg_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this, InfrastTaskCahin);
     mfg_task_ptr->set_uses_of_drone(uses_of_drones)
         .set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold);
+        .set_mood_threshold(dorm_threshold)
+        .set_retry_times(InfrastRetryTimes);
+
     auto trade_task_ptr = std::make_shared<InfrastTradeTask>(task_callback, (void*)this, InfrastTaskCahin);
     trade_task_ptr->set_uses_of_drone(uses_of_drones)
         .set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold);
+        .set_mood_threshold(dorm_threshold)
+        .set_retry_times(InfrastRetryTimes);
+
     trade_task_ptr->regiseter_plugin<DronesForShamareTaskPlugin>();
     auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this, InfrastTaskCahin);
     power_task_ptr->set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold);
+        .set_mood_threshold(dorm_threshold)
+        .set_retry_times(InfrastRetryTimes);
+
     auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this, InfrastTaskCahin);
     office_task_ptr->set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold);
+        .set_mood_threshold(dorm_threshold)
+        .set_retry_times(InfrastRetryTimes);
+
     auto recpt_task_ptr = std::make_shared<InfrastReceptionTask>(task_callback, (void*)this, InfrastTaskCahin);
     recpt_task_ptr->set_work_mode(work_mode)
         .set_mood_threshold(dorm_threshold);
     auto control_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this, InfrastTaskCahin);
     control_task_ptr->set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold);
+        .set_mood_threshold(dorm_threshold)
+        .set_retry_times(InfrastRetryTimes);
 
     auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this, InfrastTaskCahin);
     dorm_task_ptr->set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold);
+        .set_mood_threshold(dorm_threshold)
+        .set_retry_times(InfrastRetryTimes);
+
+    std::unique_lock<std::mutex> lock(m_mutex);
 
     for (const auto& facility : order) {
         if (facility == "Dorm") {
@@ -450,10 +475,6 @@ bool asst::Assistant::append_infrast(infrast::WorkMode work_mode, const std::vec
             Log.error("append_infrast | Unknown facility", facility);
         }
         append_infrast_begin();
-    }
-
-    if (!only_append) {
-        return start(false);
     }
 
     return true;
