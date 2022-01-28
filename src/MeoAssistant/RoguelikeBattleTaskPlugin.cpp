@@ -69,12 +69,19 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
             }
             m_side_tile_info = std::move(side_info);
             calced = true;
-            Log.info("stage info getted, name: ", tr.text, ", tiles_size: ", m_side_tile_info.size());
+            auto cb_info = basic_info_with_what("StageInfo");
+            auto& details = cb_info["details"];
+            details["name"] = tr.text;
+            details["size"] = m_side_tile_info.size();
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
             break;
         }
         if (calced) {
             break;
         }
+    }
+    if (!calced) {
+        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("StageInfoError"));
     }
 
     return calced;
