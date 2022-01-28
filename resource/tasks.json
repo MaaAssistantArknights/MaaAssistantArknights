@@ -3492,7 +3492,6 @@
         "algorithm": "justReturn",
         "next": [
             "Roguelike1Start",
-            "Roguelike1DropsFlag",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon"
         ]
@@ -4109,7 +4108,8 @@
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
             "Roguelike1StageEncounterGiveUpRecruit",
-            "Roguelike1QuickFormation",
+            "Roguelike1StageCambatDpsEnter",
+            "Roguelike1StageEmergencyDpsEnter",
             "Roguelike1ClickToDrops"
         ]
     },
@@ -4355,7 +4355,11 @@
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
-            "Roguelike1StageEmergencyDps"
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageEncounterFree",
+            "Roguelike1StageEncounterLeave",
+            "Roguelike1StageEncounterUnknown",
+            "Roguelike1StageEncounterGiveUpRecruit"
         ]
     },
     "Roguelike1GetDrop1": {
@@ -4443,7 +4447,7 @@
         ],
         "next": [
             "Roguelike1GetDropLeaveConfirm",
-            "Roguelike1Begin"
+            "Roguelike1DropsFlag"
         ]
     },
     "Roguelike1GetDropLeaveConfirm": {
@@ -4456,7 +4460,7 @@
             138
         ],
         "next": [
-            "Roguelike1Begin"
+            "Roguelike1DropsFlag"
         ]
     },
     "Roguelike1MissionFailedFlag": {
