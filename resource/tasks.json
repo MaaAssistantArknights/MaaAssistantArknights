@@ -4119,8 +4119,23 @@
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
             "Roguelike1StageEncounterGiveUpRecruit",
+            "Roguelike1StageEncounterSpecialClose",
             "Roguelike1StageCambatDpsEnter",
             "Roguelike1StageEmergencyDpsEnter",
+            "Roguelike1ClickToDrops"
+        ]
+    },
+    "Roguelike1StageEncounterSpecialClose": {
+        "Doc": "关掉“大锁”",
+        "action": "clickSelf",
+        "roi": [
+            570,
+            400,
+            140,
+            138
+        ],
+        "next": [
+            "Roguelike1StageEncounterSpecialClose",
             "Roguelike1ClickToDrops"
         ]
     },
@@ -4345,6 +4360,7 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageEncounterGiveUpRecruit",
+            "Roguelike1StageEncounterSpecialClose",
             "Roguelike1ClickToDrops"
         ]
     },
@@ -4371,7 +4387,8 @@
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
-            "Roguelike1StageEncounterGiveUpRecruit"
+            "Roguelike1StageEncounterGiveUpRecruit",
+            "Roguelike1StageEncounterSpecialClose"
         ]
     },
     "Roguelike1GetDrop1": {
