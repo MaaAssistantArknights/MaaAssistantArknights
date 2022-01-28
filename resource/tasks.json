@@ -725,7 +725,7 @@
             120
         ],
         "next": [
-            "LastBattle",
+            "GoLastBattle",
             "Terminal",
             "CloseAnno",
             "TodaysSupplies",
@@ -3130,7 +3130,7 @@
     "BattleStageName": {
         "algorithm": "OcrDetect",
         "cache": false,
-        "text": [ ],
+        "text": [],
         "ocrReplace": [
             [
                 ".+兽小屋",
@@ -3733,7 +3733,8 @@
             118
         ],
         "next": [
-            "Roguelike1RecruitSkip"
+            "Roguelike1RecruitSkip",
+            "Roguelike1StageEncounterGiveUpRecruitConfirm"
         ]
     },
     "Roguelike1RecruitSkip": {
@@ -4399,6 +4400,7 @@
             1280,
             157
         ],
+        "rearDalay": 500,
         "next": [
             "Roguelike1DropsFlag",
             "Roguelike1ClickToDrops"
