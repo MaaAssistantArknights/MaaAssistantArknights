@@ -3548,6 +3548,20 @@
             "Roguelike1LastRewardConfirm"
         ]
     },
+    "Roguelike1LastRewardRand": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 问号",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            174,
+            151,
+            935,
+            533
+        ],
+        "next": [
+            "Roguelike1LastRewardConfirm"
+        ]
+    },
     "Roguelike1LastRewardConfirm": {
         "template": "Roguelike1RecruitConfirm.png",
         "action": "clickSelf",
@@ -3586,6 +3600,7 @@
             "Roguelike1LastReward",
             "Roguelike1LastReward2",
             "Roguelike1LastReward3",
+            "Roguelike1LastRewardRand",
             "Roguelike1Team3"
         ]
     },
