@@ -3143,12 +3143,16 @@
             [
                 "落.+骑士",
                 "落魄骑士"
+            ],
+            [
+                ".+爵的戏.+",
+                "鸭爵的戏剧"
             ]
         ],
         "roi": [
-            500,
+            480,
             430,
-            280,
+            320,
             100
         ]
     },
@@ -3933,6 +3937,9 @@
             418,
             242,
             149
+        ],
+        "exceededNext": [
+            "Roguelike1ExitThenAbandon"
         ],
         "next": [
             "Roguelike1StageTraderInvestSystemLeave"

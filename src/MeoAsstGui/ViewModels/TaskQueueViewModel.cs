@@ -241,7 +241,7 @@ namespace MeoAsstGui
             settings.SaveInfrastOrderList();
             int orderLen = order.Count;
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendInfrast((int)settings.InfrastWorkMode, order.ToArray(), orderLen,
+            return asstProxy.AsstAppendInfrast(1, order.ToArray(), orderLen,
                 settings.UsesOfDrones, settings.DormThreshold / 100.0);
         }
 
@@ -292,12 +292,10 @@ namespace MeoAsstGui
         private bool appendRoguelike()
         {
             var settings = _container.Get<SettingsViewModel>();
-            var asstProxy = _container.Get<AsstProxy>();
             int mode = 0;
-            if (settings.OnlyInvest)
-            {
-                mode = 1;
-            }
+            int.TryParse(settings.RoguelikeMode, out mode);
+
+            var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRoguelike(mode);
         }
 

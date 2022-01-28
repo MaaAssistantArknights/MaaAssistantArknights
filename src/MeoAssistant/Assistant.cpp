@@ -325,6 +325,9 @@ bool asst::Assistant::append_roguelike(int mode)
     case 1:
         roguelike_task_ptr->set_times_limit("Roguelike1StageTraderLeave", 0);
         break;
+    case 2:
+        roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestCancel", 0);
+        break;
     default:
         return false;
     }
