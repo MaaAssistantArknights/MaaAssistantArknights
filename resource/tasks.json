@@ -4242,8 +4242,8 @@
             554
         ],
         "next": [
-            "Roguelike1StageCambatDpsEnter",
             "Roguelike1StageEmergencyDpsEnter",
+            "Roguelike1StageCambatDpsEnter",
             "Roguelike1StageTrader",
             "Roguelike1StageSafeHouse",
             "Roguelike1StageEncounter",
