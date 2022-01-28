@@ -9,14 +9,14 @@ bool asst::InfrastPowerTask::_run()
     // 发电站只能造这一个
     set_product("Drone");
 
-    for (int i = 0; i != max_num_of_facilities(); ++i) {
+    for (; m_cur_facility_index != max_num_of_facilities(); ++m_cur_facility_index) {
         if (need_exit()) {
             return false;
         }
         swipe_to_the_left_of_main_ui();
 
         // 进不去说明设施数量不够
-        if (!enter_facility(i)) {
+        if (!enter_facility(m_cur_facility_index)) {
             break;
         }
         if (!enter_oper_list_page()) {
