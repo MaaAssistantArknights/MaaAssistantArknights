@@ -3456,7 +3456,7 @@
         ],
         "templThreshold": 0.95,
         "preDelay": 3000,
-        "rearDelay": 5000
+        "rearDelay": 3000
     },
     "BattleSkillReady": {
         "roi": [
