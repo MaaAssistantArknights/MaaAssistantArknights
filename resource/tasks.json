@@ -3129,6 +3129,7 @@
     },
     "BattleStageName": {
         "algorithm": "OcrDetect",
+        "cache": false,
         "text": [
 
         ],
@@ -3817,6 +3818,7 @@
             226,
             220
         ],
+        "rearDelay": 3000,
         "next": [
             "Roguelike1StageTraderInvestSystem",
             "Roguelike1StageTraderLeave"
@@ -4102,7 +4104,11 @@
         ],
         "rearDelay": 1000,
         "next": [
+            "Roguelike1StageEncounterFree",
+            "Roguelike1StageEncounterLeave",
+            "Roguelike1StageEncounterUnknown",
             "Roguelike1StageEncounterGiveUpRecruit",
+            "Roguelike1QuickFormation",
             "Roguelike1ClickToDrops"
         ]
     },
