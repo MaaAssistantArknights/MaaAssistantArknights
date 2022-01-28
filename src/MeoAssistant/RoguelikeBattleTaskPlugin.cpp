@@ -28,14 +28,16 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 {
     clear();
 
-    get_stage_info();
+    bool getted_info = get_stage_info();
 
     speed_up();
 
-    while (!need_exit()) {
-        // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
-        if (!auto_battle() && m_used_opers) {
-            break;
+    if (getted_info) {
+        while (!need_exit()) {
+            // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
+            if (!auto_battle() && m_used_opers) {
+                break;
+            }
         }
     }
 
@@ -46,12 +48,19 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 {
     LogTraceFunction;
 
+    const auto stage_name_task_ptr = Task.get("BattleStageName");
+    sleep(stage_name_task_ptr->pre_delay);
+
     const auto& tile = Resrc.tile();
     bool calced = false;
-    for (int i = 0; i != m_retry_times; ++i) {
-        OcrImageAnalyzer name_analyzer(Ctrler.get_image());
-        name_analyzer.set_task_info("BattleStageName");
-        name_analyzer.analyze();
+    constexpr int StageNameRetryTimes = 50;
+    for (int i = 0; i != StageNameRetryTimes; ++i) {
+        cv::Mat image = Ctrler.get_image();
+        OcrImageAnalyzer name_analyzer(image);
+        name_analyzer.set_task_info(stage_name_task_ptr);
+        if (!name_analyzer.analyze()) {
+            continue;
+        }
 
         for (const auto& tr : name_analyzer.get_result()) {
             auto side_info = tile.calc(tr.text, true);
@@ -60,12 +69,19 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
             }
             m_side_tile_info = std::move(side_info);
             calced = true;
-            Log.info("stage info getted, tiles_size", m_side_tile_info.size());
+            auto cb_info = basic_info_with_what("StageInfo");
+            auto& details = cb_info["details"];
+            details["name"] = tr.text;
+            details["size"] = m_side_tile_info.size();
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
             break;
         }
         if (calced) {
             break;
         }
+    }
+    if (!calced) {
+        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("StageInfoError"));
     }
 
     return calced;
