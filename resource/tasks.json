@@ -4333,6 +4333,7 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
+            "Roguelike1StageEncounterGiveUpRecruit",
             "Roguelike1ClickToDrops"
         ]
     },
