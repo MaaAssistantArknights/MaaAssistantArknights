@@ -3917,10 +3917,10 @@
     "Roguelike1StageTraderInvestSystemError": {
         "action": "clickSelf",
         "roi": [
-            601,
-            372,
-            384,
-            134
+            605,
+            377,
+            338,
+            129
         ],
         "next": [
             "Roguelike1StageTraderInvestCancel"
@@ -4462,6 +4462,7 @@
             1280,
             157
         ],
+        "templThreshold": 0.85,
         "rearDelay": 1000,
         "next": [
             "Roguelike1ChooseOper",
