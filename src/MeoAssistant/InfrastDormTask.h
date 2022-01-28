@@ -13,7 +13,7 @@ namespace asst
 
     private:
         virtual bool _run() override;
-        virtual bool click_confirm_button() override;
+        //virtual bool click_confirm_button() override;
 
         bool opers_choose();
 

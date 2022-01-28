@@ -45,17 +45,14 @@ bool asst::InfrastProductionTask::shift_facility_list()
     MultiMatchImageAnalyzer locked_analyzer;
     locked_analyzer.set_task_info("InfrastOperLocked" + facility_name());
 
-    int index = 0;
-    for (const Rect& tab : m_facility_list_tabs) {
-        m_cur_facility_index = index;
+    for (; m_cur_facility_index < m_facility_list_tabs.size(); ++m_cur_facility_index) {
+        Rect tab = m_facility_list_tabs.at(m_cur_facility_index);
         if (need_exit()) {
             return false;
         }
-        if (index != 0) {
+        if (m_cur_facility_index != 0) {
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
         }
-
-        ++index;
 
         Ctrler.click(tab);
         sleep(tab_task_ptr->rear_delay);
