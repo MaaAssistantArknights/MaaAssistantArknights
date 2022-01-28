@@ -294,9 +294,9 @@ namespace MeoAsstGui
                         mainModel.AddLog("已放弃本次探索");
                         break;
 
-                    case "Roguelike1StartAction":
-                        mainModel.AddLog("开始战斗");
-                        break;
+                    //case "Roguelike1StartAction":
+                    //    mainModel.AddLog("开始战斗");
+                    //    break;
 
                     case "Roguelike1MissionCompletedFlag":
                         mainModel.AddLog("战斗完成");
@@ -442,6 +442,19 @@ namespace MeoAsstGui
                 case "NotEnoughStaff":
                     {
                         mainModel.AddLog("可用干员不足", "darkred");
+                    }
+                    break;
+
+                /* Roguelike */
+                case "StageInfo":
+                    {
+                        mainModel.AddLog("开始战斗：" + subTaskDetails["name"]);
+                    }
+                    break;
+
+                case "StageInfoError":
+                    {
+                        mainModel.AddLog("关卡识别错误", "darkred");
                     }
                     break;
             }
