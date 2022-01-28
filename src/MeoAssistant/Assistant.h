@@ -65,6 +65,7 @@ namespace asst
         /*** 添加自动肉鸽任务
         * mode: 0 - 尽可能一直往后打
         *       1 - 第一层投资完源石锭就退出
+        *       2 - 投资过后再退出，没有投资就继续往后打
         ***/
         bool append_roguelike(int mode);
 
