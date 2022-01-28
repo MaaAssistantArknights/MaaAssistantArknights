@@ -3130,9 +3130,7 @@
     "BattleStageName": {
         "algorithm": "OcrDetect",
         "cache": false,
-        "text": [
-
-        ],
+        "text": [ ],
         "ocrReplace": [
             [
                 ".+兽小屋",
@@ -3147,12 +3145,11 @@
                 "落魄骑士"
             ]
         ],
-        "preDelay": 1000,
         "roi": [
-            255,
-            263,
-            785,
-            328
+            500,
+            430,
+            280,
+            100
         ]
     },
     "BattleUseOper": {

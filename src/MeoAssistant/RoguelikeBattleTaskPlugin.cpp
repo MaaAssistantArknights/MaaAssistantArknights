@@ -53,10 +53,14 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 
     const auto& tile = Resrc.tile();
     bool calced = false;
-    for (int i = 0; i != m_retry_times; ++i) {
-        OcrImageAnalyzer name_analyzer(Ctrler.get_image());
+    constexpr int StageNameRetryTimes = 50;
+    for (int i = 0; i != StageNameRetryTimes; ++i) {
+        cv::Mat image = Ctrler.get_image();
+        OcrImageAnalyzer name_analyzer(image);
         name_analyzer.set_task_info(stage_name_task_ptr);
-        name_analyzer.analyze();
+        if (!name_analyzer.analyze()) {
+            continue;
+        }
 
         for (const auto& tr : name_analyzer.get_result()) {
             auto side_info = tile.calc(tr.text, true);
@@ -65,7 +69,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
             }
             m_side_tile_info = std::move(side_info);
             calced = true;
-            Log.info("stage info getted, tiles_size", m_side_tile_info.size());
+            Log.info("stage info getted, name: ", tr.text, ", tiles_size: ", m_side_tile_info.size());
             break;
         }
         if (calced) {
