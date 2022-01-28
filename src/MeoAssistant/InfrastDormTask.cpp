@@ -95,10 +95,10 @@ bool asst::InfrastDormTask::opers_choose()
     return true;
 }
 
-bool asst::InfrastDormTask::click_confirm_button()
-{
-    LogTraceFunction;
-
-    ProcessTask task(*this, { "InfrastDormConfirmButton" });
-    return task.run();
-}
+//bool asst::InfrastDormTask::click_confirm_button()
+//{
+//    LogTraceFunction;
+//
+//    ProcessTask task(*this, { "InfrastDormConfirmButton" });
+//    return task.run();
+//}

@@ -1995,12 +1995,43 @@
             },
             {
                 "name": [
-                    "坚毅随和"
+                    "坚毅随和",
+                    "浮生得闲"
                 ],
                 "desc": "进驻控制中枢时，控制中枢内每个鲤氏侦探所干员可使该派系干员额外恢复心情（心情每小时恢复+0.15），同时每人可使控制中枢内所有干员的心情每小时恢复+0.05",
                 "template": "Bskill_ctrl_lda.png",
                 "efficient": {
                     "all": 0.05
+                }
+            },
+            {
+                "name": [
+                    "世事洞明"
+                ],
+                "desc": "进驻控制中枢时，会客室线索搜集速度+25%",
+                "template": "Bskill_ctrl_c_spd.png",
+                "efficient": {
+                    "all": 0.01
+                }
+            },
+            {
+                "name": [
+                    "杯莫停"
+                ],
+                "desc": "进驻控制中枢时，消除当前控制中枢内所有岁干员自身心情消耗的影响",
+                "template": "Bskill_ctrl_clear_sui.png",
+                "efficient": {
+                    "all": 0.01
+                }
+            },
+            {
+                "name": [
+                    "“山河远阔”"
+                ],
+                "desc": "\t进驻控制中枢时，当自身心情大于12时，人间烟火+15；当自身心情处于12以下时，感知信息+10",
+                "template": "Bskill_ctrl_cost_bd1&bd2.png",
+                "efficient": {
+                    "all": 0.01
                 }
             },
             {

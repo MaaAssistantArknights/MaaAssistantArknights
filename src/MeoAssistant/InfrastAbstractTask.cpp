@@ -151,7 +151,7 @@ bool asst::InfrastAbstractTask::click_confirm_button()
 {
     LogTraceFunction;
 
-    ProcessTask task(*this, { "InfrastConfirmButton" });
+    ProcessTask task(*this, { "InfrastDormConfirmButton" });
     return task.run();
 }
 
