@@ -28,14 +28,16 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 {
     clear();
 
-    get_stage_info();
+    bool getted_info = get_stage_info();
 
     speed_up();
 
-    while (!need_exit()) {
-        // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
-        if (!auto_battle() && m_used_opers) {
-            break;
+    if (getted_info) {
+        while (!need_exit()) {
+            // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
+            if (!auto_battle() && m_used_opers) {
+                break;
+            }
         }
     }
 
