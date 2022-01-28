@@ -48,11 +48,14 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 {
     LogTraceFunction;
 
+    const auto stage_name_task_ptr = Task.get("BattleStageName");
+    sleep(stage_name_task_ptr->pre_delay);
+
     const auto& tile = Resrc.tile();
     bool calced = false;
     for (int i = 0; i != m_retry_times; ++i) {
         OcrImageAnalyzer name_analyzer(Ctrler.get_image());
-        name_analyzer.set_task_info("BattleStageName");
+        name_analyzer.set_task_info(stage_name_task_ptr);
         name_analyzer.analyze();
 
         for (const auto& tr : name_analyzer.get_result()) {
