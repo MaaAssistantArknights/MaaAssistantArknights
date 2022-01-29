@@ -3986,6 +3986,7 @@
             149
         ],
         "next": [
+            "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon"
         ]
     },
