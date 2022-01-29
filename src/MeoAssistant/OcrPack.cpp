@@ -61,6 +61,11 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat image, const 
     std::vector<TextRect> result;
     std::string log_str_raw;
     std::string log_str_proc;
+
+#ifdef ASST_DEBUG
+    cv::Mat draw = image.clone();
+#endif
+
     for (size_t i = 0; i != size; ++i) {
         // the box rect like ↓
         // 0 - 1
@@ -80,7 +85,9 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat image, const 
         float score = *(scores + i);
 
         TextRect tr{ score, rect, text };
-
+#ifdef ASST_DEBUG
+        cv::rectangle(draw, utils::make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
+#endif
         log_str_raw += tr.to_string() + ", ";
         if (!pred || pred(tr)) {
             log_str_proc += tr.to_string() + ", ";
