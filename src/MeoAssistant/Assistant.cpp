@@ -338,8 +338,9 @@ bool asst::Assistant::append_roguelike(int mode)
     std::unique_lock<std::mutex> lock(m_mutex);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
-    for (int i = 0; i != 10000; ++i) {
-        m_tasks_queue.emplace(roguelike_task_ptr);
+    for (int i = 0; i != 100; ++i) {
+        auto temp = std::make_shared<ProcessTask>(*roguelike_task_ptr);
+        m_tasks_queue.emplace(temp);
     }
 
     return true;
