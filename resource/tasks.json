@@ -1539,12 +1539,11 @@
     },
     "RecruitTime": {
         "template": "RecruitTimeReduce.png",
-        "templThreshold": 0.89,
         "action": "clickSelf",
         "roi": [
             350,
             150,
-            500,
+            200,
             150
         ],
         "rectMove": [
