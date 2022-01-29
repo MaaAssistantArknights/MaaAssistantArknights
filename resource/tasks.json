@@ -4375,6 +4375,7 @@
         ],
         "next": [
             "Roguelike1InBattleFlag",
+            "Roguelike1InBattleFlag2",
             "Roguelike1MissionCompletedFlag",
             "Roguelike1MissionFailedFlag",
             "Roguelike1MissionFailedFlag2"
@@ -4395,6 +4396,28 @@
         "rearDelay": 5000,
         "next": [
             "Roguelike1InBattleFlag",
+            "Roguelike1InBattleFlag2",
+            "Roguelike1MissionCompletedFlag",
+            "Roguelike1MissionFailedFlag",
+            "Roguelike1MissionFailedFlag2"
+        ]
+    },
+    "Roguelike1InBattleFlag2": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "接管"
+        ],
+        "roi": [
+            324,
+            579,
+            219,
+            141
+        ],
+        "action": "doNothing",
+        "rearDelay": 5000,
+        "next": [
+            "Roguelike1InBattleFlag",
+            "Roguelike1InBattleFlag2",
             "Roguelike1MissionCompletedFlag",
             "Roguelike1MissionFailedFlag",
             "Roguelike1MissionFailedFlag2"
