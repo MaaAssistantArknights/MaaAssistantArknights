@@ -61,28 +61,12 @@ A Game Assistant for Arknights
 
 ## 常见问题
 
-### 软件一打开就闪退
+- 软件一打开就闪退
+- 连接错误/捕获模拟器窗口错误
+- 识别错误/任务开始后一直不动、没有反应
+- 如何连接自定义端口
 
-- 可能性 1: 运行库问题。  
-  请尝试安装 [Visual C++ Redistributable](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-160#visual-studio-2015-2017-2019-and-2022)、[.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) 后重新运行本软件。
-- 可能性 2: CPU 指令集不支持。  
-  项目使用 `PaddleOCR` 对游戏部分界面进行识别。`PaddleOCR` 用到了较新发布的 CPU 才支持的 `AVX` 指令集，而一些较老的 CPU 可能并不支持该指令集。  
-  您可以尝试下载 [NoAVX](../3rdparty/ppocr_noavx.zip) 版本的 `PaddleOCR`, 解压后替换本软件中同名的文件。这是对于使用不支持 `AVX` 指令集的 CPU 的用户的性能降低的替代方案，如非必要，请不要使用。  
-  （具体可以下载 [CPU-Z](https://www.cpuid.com/softwares/cpu-z.html)，查看“指令集”中有无 `AVX` 这一项来判断）  
-- 若上述均没有效果，请提 issue。
-
-### 连接错误/捕获模拟器窗口错误
-
-提示 : 请根据 [基本使用说明](../README.md#基本说明) 确定您的模拟器及打开方式正确
-
-- 方法 1: 使用 [自定义连接](#自定义连接) 的方式连接模拟器
-- 方法 2: 换模拟器，推荐 [蓝叠国际版](https://www.bluestacks.com/download.html)
-- 方法 3: _根本解决方法_ 编辑 `resource/config.json`, 修改（最好是新增）模拟器窗口句柄名，并修改对应的 adb 设置。若您修改后可以提 PR 给我，我会感激不尽的_(:з」∠)_
-
-### 自定义连接
-
-- 下载 [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) ，将 `platform-tools` 文件夹解压到 `MeoAsstGui.exe` 的同级目录
-- 进入软件 `设置` - `连接设置`，填写自定义 adb 地址（需要填写 IP + 端口，例如 `127.0.0.1:5555` ）
+请参考 [常见问题](docs/常见问题.md)
 
 ## 关联项目
 
@@ -143,7 +127,8 @@ A Game Assistant for Arknights
 
 ## 声明
 
-本项目 logo 并非使用 AGPL 3.0 协议开源，画师 [耗毛](https://weibo.com/u/3251357314) 及项目全体开发者保留所有权利。不得以 AGPL 3.0 协议已授权为由在未经授权的情况下使用本项目 logo, 不得在未经授权的情况下将本项目 logo 用于任何商业用途。
+- 本项目 logo 并非使用 AGPL 3.0 协议开源，画师 [耗毛](https://weibo.com/u/3251357314) 及项目全体开发者保留所有权利。不得以 AGPL 3.0 协议已授权为由在未经授权的情况下使用本项目 logo, 不得在未经授权的情况下将本项目 logo 用于任何商业用途。
+- 本软件开源、免费，仅供学习交流使用。若您遇到商家使用本软件进行代练并收费，可能是设备与时间等费用，产生的问题及后果与本软件无关。
 
 ## 广告
 

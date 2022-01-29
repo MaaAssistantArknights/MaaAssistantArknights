@@ -190,7 +190,7 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
     // 进入选关界面（主界面的“终端”点进去）
     auto terminal_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, TaskChain);
     terminal_task_ptr->set_tasks({ "StageBegin" })
-        .set_times_limit("LastBattle", 0)
+        .set_times_limit("GoLastBattle", 0)
         .set_times_limit("StartButton1", 0)
         .set_times_limit("StartButton2", 0)
         .set_times_limit("MedicineConfirm", 0)
@@ -324,6 +324,9 @@ bool asst::Assistant::append_roguelike(int mode)
         break;
     case 1:
         roguelike_task_ptr->set_times_limit("Roguelike1StageTraderLeave", 0);
+        break;
+    case 2:
+        roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestCancel", 0);
         break;
     default:
         return false;

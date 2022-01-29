@@ -258,7 +258,7 @@ bool AsstSetPenguinId(asst::Assistant* p_asst, const char* id)
     return true;
 }
 
-size_t ASSTAPI AsstGetImage(asst::Assistant* p_asst, void* buff, size_t buff_size)
+unsigned long long AsstGetImage(asst::Assistant* p_asst, void* buff, unsigned long long buff_size)
 {
     if (p_asst == nullptr || buff == nullptr) {
         return 0;
@@ -272,7 +272,7 @@ size_t ASSTAPI AsstGetImage(asst::Assistant* p_asst, void* buff, size_t buff_siz
     return data_size;
 }
 
-bool ASSTAPI AsstCtrlerClick(asst::Assistant* p_asst, int x, int y, bool block)
+bool AsstCtrlerClick(asst::Assistant* p_asst, int x, int y, bool block)
 {
     if (p_asst == nullptr) {
         return false;
@@ -304,4 +304,4 @@ bool AsstAppendDebug(asst::Assistant* p_asst)
 #else
     return false;
 #endif // ASST_DEBUG
-    }
+}
