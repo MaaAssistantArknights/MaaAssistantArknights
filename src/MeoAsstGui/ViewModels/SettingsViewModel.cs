@@ -106,6 +106,13 @@ namespace MeoAsstGui
             };
 
             _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
+
+            RoguelikeModeList = new List<CombData>
+            {
+                new CombData { Display = "尽可能往后打", Value = "0" },
+                new CombData { Display = "刷源石锭投资，第一层商店后直接退出", Value = "1" },
+                new CombData { Display = "刷源石锭投资，投资过后退出", Value = "2" }
+            };
         }
 
         private bool _idle = true;
@@ -124,6 +131,7 @@ namespace MeoAsstGui
         public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; }
 
         public List<CombData> UsesOfDronesList { get; set; }
+        public List<CombData> RoguelikeModeList { get; set; }
 
         private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
 
@@ -181,17 +189,6 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _usesOfDrones, value);
                 ViewStatusStorage.Set("Infrast.UsesOfDrones", value);
-            }
-        }
-
-        private InfrastWorkMode _infrastWorkMode = InfrastWorkMode.Aggressive;
-
-        public InfrastWorkMode InfrastWorkMode
-        {
-            get { return _infrastWorkMode; }
-            set
-            {
-                SetAndNotify(ref _infrastWorkMode, value);
             }
         }
 
@@ -311,15 +308,15 @@ namespace MeoAsstGui
 
         /* 肉鸽设置 */
 
-        private bool _onlyInvest = System.Convert.ToBoolean(ViewStatusStorage.Get("Roguelike.OnlyInvest", bool.FalseString));
+        private string _roguelikeMode = ViewStatusStorage.Get("Roguelike.Mode", "0");
 
-        public bool OnlyInvest
+        public string RoguelikeMode
         {
-            get { return _onlyInvest; }
+            get { return _roguelikeMode; }
             set
             {
-                SetAndNotify(ref _onlyInvest, value);
-                ViewStatusStorage.Set("Roguelike.OnlyInvest", value.ToString());
+                SetAndNotify(ref _roguelikeMode, value);
+                ViewStatusStorage.Set("Roguelike.Mode", value);
             }
         }
 

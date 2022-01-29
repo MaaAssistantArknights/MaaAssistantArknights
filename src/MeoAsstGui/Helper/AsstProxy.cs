@@ -329,6 +329,10 @@ namespace MeoAsstGui
                     case "Roguelike1StageEmergencyDps":
                         mainModel.AddLog("关卡：紧急作战");
                         break;
+
+                    case "Roguelike1StageDreadfulFoe":
+                        mainModel.AddLog("关卡：险路恶敌");
+                        break;
                 }
             }
         }
@@ -622,13 +626,5 @@ namespace MeoAsstGui
         SubTaskStart,               // 原子任务开始
         SubTaskCompleted,           // 原子任务完成
         SubTaskExtraInfo            // 原子任务额外信息
-    };
-
-    public enum InfrastWorkMode
-    {
-        Invaild = -1,
-        Gentle,         // 温和换班模式：会对干员人数不满的设施进行换班，计算单设施内最优解，尽量不破坏原有的干员组合；即若设施内干员是满的，则不对该设施进行换班
-        Aggressive,     // 激进换班模式：会对每一个设施进行换班，计算单设施内最优解，但不会将其他设施中的干员替换过来；即按工作状态排序，仅选择前面的干员
-        Extreme         // 偏激换班模式：会对每一个设施进行换班，计算全局的单设施内最优解，为追求更高效率，会将其他设施内的干员也替换过来；即按技能排序，计算所有拥有该设施技能的干员效率，无论他在不在其他地方工作
     };
 }

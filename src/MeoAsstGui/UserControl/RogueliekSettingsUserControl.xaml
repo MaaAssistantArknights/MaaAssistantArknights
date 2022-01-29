@@ -8,8 +8,11 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="550">
     <Grid>
-        <!--IsEnabled="{Binding CreditShoppingCheckBoxIsEnable}"-->
-        <CheckBox IsChecked="{Binding OnlyInvest}"  Block.TextAlignment="Center"
-                  Content="仅刷源石锭投资&#13;（第一层商店后自动放弃）" />
+        <ComboBox Width="300" Margin="10"
+                      IsHitTestVisible ="{Binding Path=Idle}"
+                      ItemsSource="{Binding RoguelikeModeList}"
+                      DisplayMemberPath="Display"
+                      SelectedValuePath="Value"
+                      SelectedValue="{Binding RoguelikeMode}" />
     </Grid>
 </UserControl>
