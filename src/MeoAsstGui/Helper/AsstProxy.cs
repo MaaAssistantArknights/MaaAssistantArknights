@@ -329,6 +329,10 @@ namespace MeoAsstGui
                     case "Roguelike1StageEmergencyDps":
                         mainModel.AddLog("关卡：紧急作战");
                         break;
+
+                    case "Roguelike1StageDreadfulFoe":
+                        mainModel.AddLog("关卡：险路恶敌");
+                        break;
                 }
             }
         }

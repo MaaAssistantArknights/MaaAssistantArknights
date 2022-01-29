@@ -3767,6 +3767,7 @@
         ],
         "next": [
             "Roguelike1RecruitSkip",
+            "Roguelike1RecruitOther",
             "Roguelike1DropsFlag",
             "Roguelike1RecruitWithoutButton"
         ]
@@ -3803,7 +3804,8 @@
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
-            "Roguelike1StageEmergencyDps"
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ]
     },
     "Roguelike1StageTrader": {
@@ -3824,7 +3826,8 @@
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
-            "Roguelike1StageEmergencyDps"
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ]
     },
     "Roguelike1StageTraderEnter": {
@@ -3858,7 +3861,8 @@
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
-            "Roguelike1StageEmergencyDps"
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ]
     },
     "Roguelike1StageSafeHouseEnter": {
@@ -3921,10 +3925,10 @@
     "Roguelike1StageTraderInvestSystemError": {
         "action": "clickSelf",
         "roi": [
-            605,
-            377,
-            338,
-            129
+            508,
+            204,
+            235,
+            240
         ],
         "next": [
             "Roguelike1StageTraderInvestCancel"
@@ -4024,7 +4028,8 @@
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
-            "Roguelike1StageEmergencyDps"
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ]
     },
     "Roguelike1StageEncounter": {
@@ -4044,7 +4049,8 @@
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
-            "Roguelike1StageEmergencyDps"
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ]
     },
     "Roguelike1StageBoons": {
@@ -4064,7 +4070,8 @@
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
-            "Roguelike1StageEmergencyDps"
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ]
     },
     "Roguelike1StageEncounterEnter": {
@@ -4222,7 +4229,8 @@
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
-            "Roguelike1StageEmergencyDps"
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -4256,11 +4264,48 @@
             "Roguelike1StageEncounter",
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
-            "Roguelike1StageEmergencyDps"
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
     "Roguelike1StageEmergencyDpsEnter": {
+        "action": "clickSelf",
+        "roi": [
+            1036,
+            371,
+            223,
+            223
+        ],
+        "next": [
+            "Roguelike1QuickFormation"
+        ]
+    },
+    "Roguelike1StageDreadfulFoe": {
+        "Doc": "险路恶敌（boss关卡）",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ],
+        "next": [
+            "Roguelike1StageDreadfulFoeEnter",
+            "Roguelike1StageEmergencyDpsEnter",
+            "Roguelike1StageCambatDpsEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
+        ],
+        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
+    },
+    "Roguelike1StageDreadfulFoeEnter": {
         "action": "clickSelf",
         "roi": [
             1036,
@@ -4382,6 +4427,7 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
             "Roguelike1StageEncounterGiveUpRecruit",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1ClickToDrops"
@@ -4407,11 +4453,13 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
             "Roguelike1StageEncounterGiveUpRecruit",
-            "Roguelike1StageEncounterSpecialClose"
+            "Roguelike1StageEncounterSpecialClose",
+            "Roguelike1EnterAfterRecruit"
         ]
     },
     "Roguelike1GetDrop1": {
@@ -4453,9 +4501,7 @@
             1280,
             157
         ],
-        "rearDalay": 500,
         "next": [
-            "Roguelike1DropsFlag",
             "Roguelike1ClickToDrops"
         ]
     },
