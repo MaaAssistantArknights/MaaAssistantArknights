@@ -3754,7 +3754,8 @@
         ],
         "next": [
             "Roguelike1RecruitSkip",
-            "Roguelike1StageEncounterGiveUpRecruitConfirm"
+            "Roguelike1StageEncounterGiveUpRecruitConfirm",
+            "Roguelike1RecruitWithoutButton"
         ]
     },
     "Roguelike1RecruitSkip": {
