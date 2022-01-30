@@ -3489,12 +3489,135 @@
         "preDelay": 1000,
         "rearDelay": 0
     },
+    "TodaysSuppliesToRoguelike1": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配给"
+        ],
+        "action": "clickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "CloseAnnoToRoguelike1",
+            "TerminalToRoguelike1"
+        ]
+    },
+    "CloseAnnoToRoguelike1": {
+        "template": "CloseAnno.png",
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            1100,
+            0,
+            180,
+            200
+        ],
+        "next": [
+            "TerminalToRoguelike1",
+            "CloseAnnoToRoguelike1",
+            "TodaysSuppliesToRoguelike1"
+        ]
+    },
+    "TerminalToRoguelike1": {
+        "template": "Terminal.png",
+        "action": "clickSelf",
+        "roi": [
+            880,
+            100,
+            180,
+            120
+        ],
+        "next": [
+            "TerminalToRoguelike1",
+            "CloseAnnoToRoguelike1",
+            "Roguelike1TodoEnter"
+        ],
+        "rearDelay": 1000
+    },
+    "Roguelike1TodoEnter": {
+        "action": "clickSelf",
+        "roi": [
+            908,
+            54,
+            372,
+            500
+        ],
+        "next": [
+            "Roguelike1TodoEnter",
+            "Roguelike1Begin"
+        ]
+    },
+    "ReturnToRoguelike1": {
+        "template": "Return.png",
+        "action": "clickSelf",
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
+        "next": [
+            "Roguelike1Start",
+            "Roguelike1ExitThenAbandon",
+            "Roguelike1Abandon",
+            "TerminalToRoguelike1",
+            "ReturnToRoguelike1",
+            "ReturnToRoguelike1Confirm",
+            "CloseAnnoToRoguelike1"
+        ]
+    },
+    "ReturnToRoguelike1Confirm": {
+        "template": "PopupConfirm.png",
+        "action": "clickSelf",
+        "roi": [
+            630,
+            400,
+            650,
+            160
+        ],
+        "next": [
+            "TerminalToRoguelike1",
+            "ReturnToRoguelike1",
+            "CloseAnnoToRoguelike1"
+        ]
+    },
     "Roguelike1Begin": {
         "algorithm": "justReturn",
         "next": [
             "Roguelike1Start",
             "Roguelike1ExitThenAbandon",
-            "Roguelike1Abandon"
+            "Roguelike1Abandon",
+            "TodaysSuppliesToRoguelike1",
+            "TerminalToRoguelike1",
+            "Roguelike1TodoEnter",
+            "Roguelike1Continue",
+            "ReturnToRoguelike1",
+            "ReturnToRoguelike1Confirm"
+        ]
+    },
+    "Roguelike1Continue": {
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            1032,
+            487,
+            248,
+            215
+        ],
+        "rearDelay": 500,
+        "next": [
+            "Roguelike1MissionFailedFlag2",
+            "Roguelike1ExitThenAbandon"
         ]
     },
     "Roguelike1Start": {
