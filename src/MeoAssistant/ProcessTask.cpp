@@ -1,4 +1,4 @@
-#include "ProcessTask.h"
+﻿#include "ProcessTask.h"
 
 #include <chrono>
 #include <random>
@@ -78,7 +78,9 @@ bool ProcessTask::_run()
         }
         json::value info = basic_info();
         info["details"] = json::object{
-            {"to_be_recognized", json::array(m_cur_tasks_name)}
+            {"to_be_recognized", json::array(m_cur_tasks_name)},
+            {"cur_retry", m_cur_retry},
+            {"retry_times", m_retry_times}
         };
         Log.info(info.to_string());
 

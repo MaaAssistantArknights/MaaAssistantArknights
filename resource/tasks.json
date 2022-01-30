@@ -671,10 +671,10 @@
     "OfflineConfirm": {
         "action": "clickSelf",
         "roi": [
-            0,
-            400,
-            1280,
-            200
+            310,
+            409,
+            648,
+            165
         ],
         "reduceOtherTimes": [
             "StartButton1",
@@ -3489,6 +3489,21 @@
         "preDelay": 1000,
         "rearDelay": 0
     },
+    "StartToWakeUpToRoguelike1": {
+        "template": "StartToWakeUp.png",
+        "action": "clickSelf",
+        "roi": [
+            520,
+            460,
+            240,
+            100
+        ],
+        "next": [
+            "TerminalToRoguelike1",
+            "CloseAnnoToRoguelike1",
+            "TodaysSuppliesToRoguelike1"
+        ]
+    },
     "TodaysSuppliesToRoguelike1": {
         "algorithm": "OcrDetect",
         "text": [
@@ -3591,6 +3606,21 @@
             "CloseAnnoToRoguelike1"
         ]
     },
+    "OfflineConfirmToRoguelike1": {
+        "template": "OfflineConfirm.png",
+        "action": "clickSelf",
+        "roi": [
+            310,
+            409,
+            648,
+            165
+        ],
+        "next": [
+            "CloseAnnoToRoguelike1",
+            "StartToWakeUpToRoguelike1",
+            "OfflineConfirmToRoguelike1"
+        ]
+    },
     "Roguelike1Begin": {
         "algorithm": "justReturn",
         "next": [
@@ -3602,7 +3632,9 @@
             "Roguelike1TodoEnter",
             "Roguelike1Continue",
             "ReturnToRoguelike1",
-            "ReturnToRoguelike1Confirm"
+            "ReturnToRoguelike1Confirm",
+            "OfflineConfirmToRoguelike1",
+            "StartToWakeUpToRoguelike1"
         ]
     },
     "Roguelike1Continue": {
