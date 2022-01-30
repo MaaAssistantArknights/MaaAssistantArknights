@@ -1,4 +1,4 @@
-#include "HashImageAnalyzer.h"
+﻿#include "HashImageAnalyzer.h"
 
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
@@ -32,7 +32,7 @@ bool asst::HashImageAnalyzer::analyze()
             to_hash = bound_bin(to_hash);
         }
         std::string hash_result = shash(to_hash);
-        Log.trace(hash_result);
+        //Log.debug(hash_result);
 
         int min_dist = INT_MAX;
         std::string cur_min_dist_name;

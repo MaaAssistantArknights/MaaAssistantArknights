@@ -1,4 +1,4 @@
-#include "RoguelikeBattleTaskPlugin.h"
+﻿#include "RoguelikeBattleTaskPlugin.h"
 
 #include "BattleImageAnalyzer.h"
 #include "BattlePerspectiveImageAnalyzer.h"
@@ -273,6 +273,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
 bool asst::RoguelikeBattleTaskPlugin::speed_up()
 {
+    LogTraceFunction;
+
     ProcessTask task(*this, { "BattleSpeedUp" });
     return task.run();
 }
