@@ -1,4 +1,4 @@
-{
+﻿{
     "StartUp": {
         "algorithm": "justreturn",
         "action": "doNothing",
@@ -3499,6 +3499,7 @@
     },
     "Roguelike1Start": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             1026,
             470,
@@ -3728,17 +3729,21 @@
             "水月",
             "狮蝎"
         ],
+        "ocrReplace": [
+            [
+                "白面.+",
+                "白面鸮"
+            ],
+            [
+                "蛇居箱",
+                "蛇屠箱"
+            ]
+        ],
         "roi": [
             560,
             69,
             666,
             614
-        ],
-        "ocrReplace": [
-            [
-                "白面.+",
-                "白面鸮"
-            ]
         ],
         "next": [
             "Roguelike1ChooseOperConfirm"
@@ -3834,6 +3839,7 @@
     },
     "Roguelike1StageTraderEnter": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             1035,
             374,
@@ -3869,6 +3875,7 @@
     },
     "Roguelike1StageSafeHouseEnter": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             1037,
             374,
@@ -4017,8 +4024,8 @@
         ]
     },
     "Roguelike1StageTraderLeaveConfirm": {
-        "cache": false,
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             985,
             447,
@@ -4079,6 +4086,7 @@
     },
     "Roguelike1StageEncounterEnter": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             1037,
             374,
@@ -4239,6 +4247,7 @@
     },
     "Roguelike1StageCambatDpsEnter": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             1036,
             371,
@@ -4274,6 +4283,7 @@
     },
     "Roguelike1StageEmergencyDpsEnter": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             1036,
             371,
@@ -4310,6 +4320,7 @@
     },
     "Roguelike1StageDreadfulFoeEnter": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             1036,
             371,
