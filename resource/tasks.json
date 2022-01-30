@@ -4095,6 +4095,7 @@
     },
     "Roguelike1StageTraderLeave": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             1046,
             443,
