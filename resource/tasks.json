@@ -3738,6 +3738,7 @@
     },
     "Roguelike1Recruit1": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             0,
             153,
@@ -3750,6 +3751,7 @@
     },
     "Roguelike1RecruitConfirm": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             0,
             483,
