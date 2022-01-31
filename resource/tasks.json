@@ -1,4 +1,4 @@
-{
+﻿{
     "StartUp": {
         "algorithm": "justreturn",
         "action": "doNothing",
@@ -4592,8 +4592,8 @@
         "action": "doNothing",
         "rearDelay": 5000,
         "next": [
-            "Roguelike1InBattleFlag",
             "Roguelike1InBattleFlag2",
+            "Roguelike1InBattleFlag",
             "Roguelike1MissionCompletedFlag",
             "Roguelike1MissionFailedFlag",
             "Roguelike1MissionFailedFlag2"
