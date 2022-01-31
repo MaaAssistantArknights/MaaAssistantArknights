@@ -3147,6 +3147,10 @@
             [
                 ".+爵的戏.+",
                 "鸭爵的戏剧"
+            ],
+            [
+                "邪异因笼",
+                "邪异囚笼"
             ]
         ],
         "roi": [
@@ -4081,6 +4085,7 @@
             278,
             144
         ],
+        "maxTimes": 1000,
         "rearDelay": 500,
         "next": [
             "Roguelike1StageTraderInvestSystemError",
