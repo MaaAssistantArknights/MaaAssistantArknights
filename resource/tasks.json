@@ -4089,7 +4089,11 @@
         "rearDelay": 500,
         "next": [
             "Roguelike1StageTraderInvestSystemError",
+            "Roguelike1StageTraderInvestSystemFull",
             "Roguelike1StageTraderInvestConfirm",
+            "Roguelike1StageTraderInvestCancel"
+        ],
+        "exceededNext": [
             "Roguelike1StageTraderInvestCancel"
         ]
     },
@@ -4100,6 +4104,24 @@
             204,
             235,
             240
+        ],
+        "next": [
+            "Roguelike1StageTraderInvestCancel"
+        ]
+    },
+    "Roguelike1StageTraderInvestSystemFull": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "当前储备余额已达上限",
+            "当前",
+            "上限"
+        ],
+        "roi": [
+            982,
+            28,
+            298,
+            289
         ],
         "next": [
             "Roguelike1StageTraderInvestCancel"
