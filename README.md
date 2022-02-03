@@ -133,6 +133,7 @@ A Game Assistant for Arknights
 ## 广告
 
 [B站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本助手软件  
-[QQ群：内卷地狱](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：欢迎加入~  
+[QQ群：内卷地狱（技术群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：欢迎加入~  
+[QQ群：平躺天堂（舟舟群）](https://jq.qq.com/?_wv=1027&k=PiPtKgkJ)：欢迎加入~
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我最大的支持了！
