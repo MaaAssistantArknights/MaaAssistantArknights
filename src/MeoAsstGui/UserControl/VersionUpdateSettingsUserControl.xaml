@@ -10,19 +10,29 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Text="{Binding VersionInfo, Mode=OneWay}" Margin="10" />
-        <CheckBox Grid.Row="1" IsChecked="{Binding UpdateBeta}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"
-                  Content="检查测试版本更新" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource TextBlockDefault}"
-                   Text="Proxy" Margin="10" />
-            <TextBox Text="{Binding Proxy}" Margin="10"
-                     Width="150" InputMethod.IsInputMethodEnabled="False" />
+        <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="3">
+            <CheckBox IsChecked="{Binding AutoDownloadUpdatePackage}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Content="自动下载更新包" />
+            <CheckBox IsChecked="{Binding UpdateBeta}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Content="检查测试版本更新" />
+            <CheckBox IsChecked="{Binding UseAria2}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Content="使用aria2进行下载" />
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Style="{StaticResource TextBlockDefault}" VerticalAlignment="Center" Text="代理服务器" Margin="1" />
+                <TextBox Grid.Row="1" Text="{Binding Proxy}" Margin="10" Width="150" VerticalAlignment="Center" InputMethod.IsInputMethodEnabled="False" />
+                <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding VersionInfo, Mode=OneWay}" Margin="10" />
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>
