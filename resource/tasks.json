@@ -2734,6 +2734,13 @@
         ]
     },
     "InfrastClueSelfFull": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "已达线索上限",
+            "无法获取新的线索",
+            "上限",
+            "无法"
+        ],
         "roi": [
             286,
             550,
