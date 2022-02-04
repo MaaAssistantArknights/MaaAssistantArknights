@@ -222,7 +222,7 @@ namespace MeoAsstGui
             bool downloaded = false;
             for (int i = 0; i != downloadRetryMaxTimes; ++i)
             {
-                if (DownloadFile(_downloadUrl.Replace("github.com", "hub.fastgit.org"), downloadTempFilename)
+                if (DownloadFile(_downloadUrl.Replace("github.com", "download.fastgit.org"), downloadTempFilename)
                     || DownloadFile(_downloadUrl, downloadTempFilename))
                 {
                     downloaded = true;
