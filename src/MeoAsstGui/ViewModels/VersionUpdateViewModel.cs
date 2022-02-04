@@ -100,13 +100,16 @@ namespace MeoAsstGui
             }
         }
 
-        private const string _requestBetaUrl = "https://api.github.com/repos/MistEO/MeoAssistantArknights/releases";
-        private const string _requestUrl = _requestBetaUrl + "/latest";
-        private string _viewUrl;
+        private const string RequestUrl = "https://api.github.com/repos/MistEO/MeoAssistantArknights/releases";
+        private const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
         private JObject _lastestJson;
-        private string _downloadUrl;
+        private JObject _assetsObject;
 
-        // 检查是否有已下载的更新包，如果有立即更新并重启进程
+        /// <summary>
+        /// 检查是否有已下载的更新包，如果有立即更新并重启进程
+        /// </summary>
+        /// <returns>操作成功返回 true，反之则返回 false</returns>
+
         public bool CheckAndUpdateNow()
         {
             if (UpdateTag == string.Empty
@@ -128,7 +131,24 @@ namespace MeoAsstGui
 
             string extractDir = Directory.GetCurrentDirectory() + "\\NewVersionExtract";
             // 解压
-            System.IO.Compression.ZipFile.ExtractToDirectory(UpdatePackageName, extractDir);
+            try
+            {
+                System.IO.Compression.ZipFile.ExtractToDirectory(UpdatePackageName, extractDir);
+            }
+            catch (InvalidDataException)
+            {
+                File.Delete(UpdatePackageName);
+                Execute.OnUIThread(() =>
+                {
+                    using (var toast = new ToastNotification("更新文件不正确！"))
+                    {
+                        toast.AppendContentText("文件名: " + UpdatePackageName)
+                            .AppendContentText("已将其删除！")
+                            .ShowUpdateVersion();
+                    }
+                });
+                return false;
+            }
 
             var uncopiedList = new List<string>();
             // 复制新版本的所有文件到当前路径下
@@ -170,8 +190,8 @@ namespace MeoAsstGui
             ViewStatusStorage.Save();
 
             // 重启进程（启动的是更新后的程序了）
-            System.Diagnostics.Process newProcess = new System.Diagnostics.Process();
-            newProcess.StartInfo.FileName = System.AppDomain.CurrentDomain.FriendlyName;
+            var newProcess = new Process();
+            newProcess.StartInfo.FileName = AppDomain.CurrentDomain.FriendlyName;
             newProcess.StartInfo.WorkingDirectory = Directory.GetCurrentDirectory();
             newProcess.Start();
             Application.Current.Shutdown();
@@ -179,7 +199,11 @@ namespace MeoAsstGui
             return true;
         }
 
-        // 检查更新，并下载更新包
+        /// <summary>
+        /// 检查更新，并下载更新包
+        /// </summary>
+        /// <returns>操作成功返回 true，反之则返回 false</returns>
+
         public bool CheckAndDownloadUpdate()
         {
             // 检查更新
@@ -188,8 +212,7 @@ namespace MeoAsstGui
                 return false;
             }
             // 保存新版本的信息
-            UpdatePackageName = _downloadUrl.Substring(_downloadUrl.LastIndexOf('/') + 1);
-
+            UpdatePackageName = _assetsObject["name"].ToString();
             UpdateTag = _lastestJson["name"].ToString();
             UpdateInfo = _lastestJson["body"].ToString();
 
@@ -197,33 +220,51 @@ namespace MeoAsstGui
                 text: "前往页面查看",
                 action: new Action(() =>
                 {
-                    if (!string.IsNullOrWhiteSpace(_viewUrl))
+                    if (!string.IsNullOrWhiteSpace(_lastestJson["html_url"].ToString()))
                     {
-                        Process.Start(_viewUrl);
+                        Process.Start(_lastestJson["html_url"].ToString());
                     }
                 })
             );
 
-            Execute.OnUIThread(() =>
+            if (_container.Get<SettingsViewModel>().AutoDownloadUpdatePackage)
             {
-                using (var toast = new ToastNotification("检测到新版本"))
+                Execute.OnUIThread(() =>
                 {
-                    toast.AppendContentText("正在后台下载……")
-                        .AppendContentText(UpdateTag)
-                        .AppendContentText(UpdateInfo)
-                        .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                        .ShowUpdateVersion();
-                }
-            });
+                    using (var toast = new ToastNotification("检测到新版本"))
+                    {
+                        toast.AppendContentText("正在后台下载……")
+                            .AppendContentText("新版本: " + UpdateTag)
+                            .AppendContentText("更新信息: " + UpdateInfo)
+                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                            .ShowUpdateVersion();
+                    }
+                });
+            }
+            else
+            {
+                Execute.OnUIThread(() =>
+                {
+                    using (var toast = new ToastNotification("检测到新版本"))
+                    {
+                        toast.AppendContentText("新版本: " + UpdateTag)
+                            .AppendContentText("更新信息: " + UpdateInfo)
+                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                            .ShowUpdateVersion();
+                    }
+                });
+                return false;
+            }
 
             // 下载压缩包
-            const int downloadRetryMaxTimes = 2;
-            string downloadTempFilename = UpdatePackageName + ".tmp";
-            bool downloaded = false;
-            for (int i = 0; i != downloadRetryMaxTimes; ++i)
+            const int DownloadRetryMaxTimes = 3;
+            var downloaded = false;
+            for (int i = 1; i <= DownloadRetryMaxTimes; i++)
             {
-                if (DownloadFile(_downloadUrl.Replace("github.com", "download.fastgit.org"), downloadTempFilename)
-                    || DownloadFile(_downloadUrl, downloadTempFilename))
+                var mirroredAssets = (JObject)_assetsObject.DeepClone();
+                mirroredAssets.Property("browser_download_url").Remove();
+                mirroredAssets.Add("browser_download_url", _assetsObject["browser_download_url"].ToString().Replace("github.com", "download.fastgit.org"));
+                if (DownloadGithubAssets(mirroredAssets) || DownloadGithubAssets(_assetsObject))
                 {
                     downloaded = true;
                     break;
@@ -244,9 +285,6 @@ namespace MeoAsstGui
                 return false;
             }
 
-            File.Copy(downloadTempFilename, UpdatePackageName, true);
-            File.Delete(downloadTempFilename);
-
             // 把相关信息存下来，更新完之后启动的时候显示
             Execute.OnUIThread(() =>
             {
@@ -261,25 +299,19 @@ namespace MeoAsstGui
             return true;
         }
 
+        /// <summary>
+        /// 检查更新
+        /// </summary>
+        /// <returns>操作成功返回 true，反之则返回 false</returns>
+
         public bool CheckUpdate()
         {
             var settings = _container.Get<SettingsViewModel>();
-            string response = string.Empty;
             const int requestRetryMaxTimes = 5;
-            for (int i = 0; i != requestRetryMaxTimes; ++i)
+            var response = RequestApi(RequestUrl);
+            for (int i = 0; response.Length == 0 && i >= requestRetryMaxTimes; i++)
             {
-                if (settings.UpdateBeta)
-                {
-                    response = RequestApi(_requestBetaUrl);
-                }
-                else
-                {
-                    response = RequestApi(_requestUrl);
-                }
-                if (response.Length != 0)
-                {
-                    break;
-                }
+                response = RequestApi(RequestUrl);
             }
             if (response.Length == 0)
             {
@@ -288,41 +320,41 @@ namespace MeoAsstGui
 
             try
             {
-                JObject json;
-                if (settings.UpdateBeta)
+                var releaseArray = JsonConvert.DeserializeObject(response) as JArray;
+
+                for (int i = 0; i <= releaseArray.Count; i++)
                 {
-                    JArray all = (JArray)JsonConvert.DeserializeObject(response);
-                    json = (JObject)all[0];
-                }
-                else
-                {
-                    json = (JObject)JsonConvert.DeserializeObject(response);
+                    if (((bool)releaseArray[i]["prerelease"]) && settings.UpdateBeta)
+                    {
+                        _lastestJson = releaseArray[i] as JObject;
+                        break;
+                    }
+                    else if ((!(bool)releaseArray[i]["prerelease"]) && (!settings.UpdateBeta))
+                    {
+                        _lastestJson = releaseArray[i] as JObject;
+                        break;
+                    }
                 }
 
-                _viewUrl = json["html_url"].ToString();
-                _latestVersion = json["tag_name"].ToString();
-                if (string.Compare(_latestVersion, _curVersion) <= 0
-                    || ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _latestVersion)
+                _latestVersion = _lastestJson["tag_name"].ToString();
+                if ((string.Compare(_latestVersion, _curVersion) <= 0) || (ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _latestVersion))
                 {
                     return false;
                 }
-                foreach (JObject asset in json["assets"])
-                {
-                    string downUrl = asset["browser_download_url"].ToString();
-                    if (downUrl.Length != 0)
-                    {
-                        _downloadUrl = downUrl;
-                        _lastestJson = json;
-                        return true;
-                    }
-                }
+                _assetsObject = _lastestJson["assets"][0] as JObject;
             }
             catch (Exception)
             {
                 return false;
             }
-            return false;
+            return true;
         }
+
+        /// <summary>
+        /// 访问 API
+        /// </summary>
+        /// <param name="url">API 地址</param>
+        /// <returns>返回 API 的返回值，如出现错误则返回空字符串</returns>
 
         private string RequestApi(string url)
         {
@@ -330,65 +362,184 @@ namespace MeoAsstGui
             {
                 HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
                 httpWebRequest.Method = "GET";
-                httpWebRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
+                httpWebRequest.UserAgent = RequestUserAgent;
                 httpWebRequest.Accept = "application/vnd.github.v3+json";
                 var settings = _container.Get<SettingsViewModel>();
                 if (settings.Proxy.Length > 0)
                 {
                     httpWebRequest.Proxy = new WebProxy(settings.Proxy);
                 }
-                //httpWebRequest.Timeout = 20000;
 
-                HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                StreamReader streamReader = new StreamReader(httpWebResponse.GetResponseStream(), Encoding.UTF8);
-                string responseContent = streamReader.ReadToEnd();
+                var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
+                var streamReader = new StreamReader(httpWebResponse.GetResponseStream(), Encoding.UTF8);
+                var responseContent = streamReader.ReadToEnd();
                 streamReader.Close();
                 httpWebResponse.Close();
                 return responseContent;
             }
-            catch (Exception e)
+            catch (Exception info)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(info.Message);
                 return string.Empty;
             }
         }
 
-        private bool DownloadFile(string url, string filename)
+        /// <summary>
+        /// 获取 GitHub Assets 对象对应的文件
+        /// </summary>
+        /// <param name="assetsObject">Github Assets 对象</param>
+        /// <param name="downloader">下载方式，如为空则使用 CSharp 原生方式下载</param>
+        /// <param name="saveTo">保存至的文件夹，如为空则使用当前位置</param>
+        /// <returns>操作成功返回 true，反之则返回 false</returns>
+
+        public bool DownloadGithubAssets(JObject assetsObject, string downloader = null, string saveTo = null)
         {
-            string cmd = Environment.CurrentDirectory + "\\aria2c.exe";
-            string args = "-c " + url + " -o " + filename;
+            return DownloadFile(
+                url: assetsObject["browser_download_url"].ToString(),
+                fileName: assetsObject["name"].ToString(), contentType:
+                assetsObject["content_type"].ToString(),
+                downloader: downloader,
+                saveTo: saveTo
+                );
+        }
+
+        /// <summary>
+        /// 通过网络获取文件资源
+        /// </summary>
+        /// <param name="url">网络资源地址</param>
+        /// <param name="fileName">保存此文件使用的文件名</param>
+        /// <param name="contentType">获取对象的物联网通用类型</param>
+        /// <param name="downloader">下载方式，如为空则使用 CSharp 原生方式下载</param>
+        /// <param name="saveTo">保存至的文件夹，如为空则使用当前位置</param>
+        /// <returns>操作成功返回 true，反之则返回 false</returns>
+
+        public bool DownloadFile(string url, string fileName, string contentType = null, string downloader = null, string saveTo = null)
+        {
+            string usedDownloader;
+            string filePath;
+            bool returned;
+
+            if (saveTo != null)
+            {
+                filePath = Path.GetFullPath(saveTo);
+            }
+            else
+            {
+                filePath = Directory.GetCurrentDirectory();
+            }
+
+            if (downloader != null)
+            {
+                usedDownloader = downloader;
+            }
+            else
+            {
+                usedDownloader = _container.Get<SettingsViewModel>().UseAria2 ? "ARIA2" : "NATIVE";
+            }
+
+            var fileNameWithTemp = fileName + ".temp";
+            var fullFilePath = Path.GetFullPath(filePath + "/" + fileName);
+            var fullFilePathWithTemp = Path.GetFullPath(filePath + "/" + fileNameWithTemp);
+
+            try
+            {
+                if (usedDownloader == "ARIA2")
+                {
+                    returned = DownloadFileForAria2(url: url, filePath: filePath, fileName: fileNameWithTemp);
+                }
+                else // 如对应下载器不存在则默认使用 Native 方式下载
+                {
+                    returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType);
+                }
+            }
+            catch (Exception info)
+            {
+                Console.WriteLine(info.Message);
+                returned = false;
+            }
+
+            if (returned)
+            {
+                // 重命名文件
+                File.Move(fullFilePathWithTemp, fullFilePath);
+                return true;
+            }
+            else
+            {
+                // 删除错误的文件
+                File.Delete(fullFilePathWithTemp);
+                return false;
+            }
+        }
+
+
+        private bool DownloadFileForAria2(string url, string filePath, string fileName)
+        {
+            var aria2FilePath = Path.GetFullPath(Directory.GetCurrentDirectory() + "/aria2c.exe");
+            var aria2Args = "\"" + url + "\" --continue=true --dir=\"" + filePath + "\" --out=\"" + fileName + "\" --user-agent=\"" + RequestUserAgent + "\"";
 
             var settings = _container.Get<SettingsViewModel>();
             if (settings.Proxy.Length > 0)
             {
-                args += " --all-proxy " + settings.Proxy;
+                aria2Args += " --all-proxy=\"" + settings.Proxy + "\"";
             }
 
-            int exit_code = -1;
-
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = cmd;
-            startInfo.Arguments = args;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.RedirectStandardError = true;
-            startInfo.UseShellExecute = false;
-            startInfo.CreateNoWindow = true;
-
-            Process processTemp = new Process();
-            processTemp.StartInfo = startInfo;
-            processTemp.EnableRaisingEvents = true;
-            try
+            var aria2Process = new Process
             {
-                processTemp.Start();
-                processTemp.WaitForExit();
-                exit_code = processTemp.ExitCode;
-            }
-            catch (Exception)
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = aria2FilePath,
+                    Arguments = aria2Args,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+                },
+                EnableRaisingEvents = true
+            };
+
+            aria2Process.Start();
+            aria2Process.WaitForExit();
+            aria2Process.Close();
+            return aria2Process.ExitCode == 0;
+        }
+
+
+        private bool DownloadFileForCSharpNative(string url, string filePath, string contentType = null)
+        {
+            // 创建 Http 请求
+            var httpWebRequest = WebRequest.Create(url) as HttpWebRequest;
+            // 设定相关属性
+            var settings = _container.Get<SettingsViewModel>();
+            httpWebRequest.Method = "GET";
+            httpWebRequest.UserAgent = RequestUserAgent;
+            if (contentType != null)
             {
-                return false;
+                httpWebRequest.Accept = contentType;
+            }
+            if (settings.Proxy.Length > 0)
+            {
+                httpWebRequest.Proxy = new WebProxy(settings.Proxy);
             }
 
-            return exit_code == 0;
+            // 转换为 HttpWebResponse
+            var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
+            // 获取输入输出流
+            var responseStream = httpWebResponse.GetResponseStream();
+            var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            // 获取并写入流
+            var byteArray = new byte[1024];
+            var byteArraySize = responseStream.Read(byteArray, 0, byteArray.Length);
+            while (byteArraySize > 0)
+            {
+                fileStream.Write(byteArray, 0, byteArraySize);
+                byteArraySize = responseStream.Read(byteArray, 0, byteArray.Length);
+            }
+            // 关闭流
+            responseStream.Close();
+            fileStream.Close();
+
+            return true;
         }
 
         public bool ResourceOTA()
@@ -459,7 +610,7 @@ namespace MeoAsstGui
                     var download_args_format = down_item[1];
 
                     download_url += string.Format(download_args_format, url, cloud_sha);
-                    if (DownloadFile(download_url, tempname))
+                    if (DownloadFile(download_url, tempname, downloader: "NATIVE"))
                     {
                         downloaded = true;
                         break;
