@@ -4376,7 +4376,8 @@
             118
         ],
         "next": [
-            "Roguelike1StageEncounterGiveUpRecruitConfirm"
+            "Roguelike1StageEncounterGiveUpRecruitConfirm",
+            "Roguelike1StageEncounterGiveUpRecruit"
         ]
     },
     "Roguelike1StageEncounterGiveUpRecruitConfirm": {
