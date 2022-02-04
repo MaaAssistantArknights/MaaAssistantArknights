@@ -1,4 +1,4 @@
-﻿{
+{
     "StartUp": {
         "algorithm": "justreturn",
         "action": "doNothing",
@@ -3565,6 +3565,7 @@
     },
     "Roguelike1TodoEnter": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             908,
             54,
