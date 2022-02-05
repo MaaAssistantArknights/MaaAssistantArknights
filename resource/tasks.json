@@ -3675,6 +3675,20 @@
         ],
         "rearDelay": 500,
         "next": [
+            "Roguelike1Recruit1",
+            "Roguelike1InitalDrop"
+        ]
+    },
+    "Roguelike1InitalDrop": {
+        "Doc": "古堡观光（简单模式）初始会有一个免费道具，点确认",
+        "action": "clickSelf",
+        "roi": [
+            569,
+            583,
+            141,
+            137
+        ],
+        "next": [
             "Roguelike1Recruit1"
         ]
     },
