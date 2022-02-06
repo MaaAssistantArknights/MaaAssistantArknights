@@ -217,17 +217,18 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     default:
         // 特种和无人机，有的只能放地面，有的又只能放高台，不好判断
         // 笨办法，都试试，总有一次能成的
-    {
-        static Loc static_loc = Loc::Melee;
-        loc = static_loc;
-        if (static_loc == Loc::Melee) {
-            static_loc = Loc::Ranged;
-        }
-        else {
-            static_loc = Loc::Melee;
-        }
-    }
-    break;
+    //{
+    //    static Loc static_loc = Loc::Melee;
+    //    loc = static_loc;
+    //    if (static_loc == Loc::Melee) {
+    //        static_loc = Loc::Ranged;
+    //    }
+    //    else {
+    //        static_loc = Loc::Melee;
+    //    }
+    //}
+        loc = Loc::Melee;
+        break;
     }
 
     Point placed_loc = get_placed(loc);
@@ -273,7 +274,7 @@ bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
 {
     Ctrler.click(rect);
 
-    ProcessTask task(*this, { "BattleUseSkill" });
+    ProcessTask task(*this, { "BattleUseSkillBegin" });
     task.set_retry_times(0);
     return task.run();
 }
