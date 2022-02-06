@@ -8,6 +8,8 @@
 #include <vector>
 #include <climits>
 
+#define NOMINMAX
+
 namespace json
 {
     class value;
@@ -60,7 +62,7 @@ namespace asst
             int half_width_scale = static_cast<int>(width * (1 - scale) / 2);
             int half_hight_scale = static_cast<int>(height * (1 - scale) / 2);
             Rect dst(x + half_width_scale, y + half_hight_scale,
-                     static_cast<int>(width * scale), static_cast<int>(height * scale));
+                static_cast<int>(width * scale), static_cast<int>(height * scale));
             if (dst.x < 0) {
                 dst.x = 0;
             }
@@ -132,7 +134,7 @@ namespace asst
 
     enum class AlgorithmType
     {
-        Invaild = -1,
+        Invalid = -1,
         JustReturn,
         MatchTemplate,
         OcrDetect,
@@ -208,7 +210,7 @@ namespace asst
         virtual ~TaskInfo() = default;
         std::string name;         // 任务名
         AlgorithmType algorithm = // 图像算法类型
-            AlgorithmType::Invaild;
+            AlgorithmType::Invalid;
         ProcessTaskAction action = // 要进行的操作
             ProcessTaskAction::Invalid;
         std::vector<std::string> next;               // 下一个可能的任务（列表）

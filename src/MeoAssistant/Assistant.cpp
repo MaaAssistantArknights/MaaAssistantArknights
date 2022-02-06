@@ -358,10 +358,8 @@ bool Assistant::append_debug()
     {
         constexpr static const char* DebugTaskChain = "Debug";
 
-        auto debug_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, DebugTaskChain);
-        debug_task_ptr->set_tasks({ "Roguelike1Begin" });
-        debug_task_ptr->regiseter_plugin<RoguelikeFormationTaskPlugin>();
-        debug_task_ptr->regiseter_plugin<RoguelikeBattleTaskPlugin>();
+        auto debug_task_ptr = std::make_shared<RoguelikeBattleTaskPlugin>(task_callback, (void*)this, DebugTaskChain);
+        debug_task_ptr->set_stage_name("暴君");
 
         m_tasks_queue.emplace(debug_task_ptr);
     }

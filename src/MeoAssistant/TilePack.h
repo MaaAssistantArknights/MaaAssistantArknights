@@ -17,7 +17,7 @@ namespace asst
     public:
         enum class BuildableType
         {
-            Invaild = -1,
+            Invalid = -1,
             None = 0,
             Melee = 1,
             Ranged = 2,
@@ -25,25 +25,29 @@ namespace asst
         };
         enum class HeightType
         {
-            Invaild = -1,
+            Invalid = -1,
             Highland = 0,
             Floor = 1
         };
         enum class TileKey
         {
-            Invaild = -1,
+            Invalid = -1,
             Forbidden,
             Wall,
             Road,
             Home,
-            EnemyHome
+            EnemyHome,
+            Floor,
+            Hole,
+            Telin,
+            Telout
         };
 
         struct TileInfo
         {
-            BuildableType buildable = BuildableType::Invaild;
-            HeightType height = HeightType::Invaild;
-            TileKey key = TileKey::Invaild;
+            BuildableType buildable = BuildableType::Invalid;
+            HeightType height = HeightType::Invalid;
+            TileKey key = TileKey::Invalid;
             Point pos;  // 像素坐标
             Point loc;  // 格子位置
         };
