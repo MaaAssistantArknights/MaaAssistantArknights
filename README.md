@@ -34,12 +34,12 @@ A Game Assistant for Arknights
 - 智能基建换班，自动计算干员效率，单设施内最优解
 - 自动公招，可选使用加急许可，一次全部刷完
 - 访问好友、收取信用及购物、领取日常奖励等。一键全日常自动长草！
-- 新功能！全自动肉鸽刷源石锭及收藏品
+- **新功能！肉鸽全自动刷源石锭和蜡烛**
 
 话不多说，看图！  
 
 ![image](https://user-images.githubusercontent.com/18511905/148376809-a80537b7-5e97-4978-959e-afada28c03c3.png)  
-![image](https://user-images.githubusercontent.com/18511905/148376301-c3296ff4-8df9-4573-858c-5dd2d03569b2.png)
+![image](https://user-images.githubusercontent.com/18511905/152695664-382dc0cd-de6c-4012-890f-456f697e8724.png)  
 
 ## 下载地址
 
