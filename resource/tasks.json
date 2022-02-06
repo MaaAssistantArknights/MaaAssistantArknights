@@ -4664,6 +4664,7 @@
             50,
             50
         ],
+        "rearDelay": 500,
         "next": [
             "Roguelike1DropsFlag",
             "Roguelike1StageTrader",
