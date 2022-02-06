@@ -1,4 +1,4 @@
-﻿#include "RoguelikeBattleTaskPlugin.h"
+#include "RoguelikeBattleTaskPlugin.h"
 
 #include "BattleImageAnalyzer.h"
 #include "BattlePerspectiveImageAnalyzer.h"
@@ -104,8 +104,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         bool used_skills = false;
         if (hp < m_pre_hp) {    // 说明漏怪了，漏怪就开技能（
             for (const Rect& rect : battle_analyzer.get_ready_skills()) {
-                use_skill(rect);
                 used_skills = true;
+                if (!use_skill(rect)) {
+                    break;
+                }
             }
         }
         m_pre_hp = hp;
@@ -286,6 +288,7 @@ bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
     Ctrler.click(rect);
 
     ProcessTask task(*this, { "BattleUseSkill" });
+    task.set_retry_times(0);
     return task.run();
 }
 
