@@ -3516,7 +3516,16 @@
         ]
     },
     "BattleUseSkill": {
-        "algorithm": "justReturn",
+        "algorithm": "OcrDetect",
+        "text": [
+            "角色"
+        ],
+        "roi": [
+            900,
+            500,
+            380,
+            150
+        ],
         "action": "clickRect",
         "specificRect": [
             820,
