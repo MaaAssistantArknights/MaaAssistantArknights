@@ -342,6 +342,7 @@
             "StartButton1",
             "StartButton2",
             "PRTS",
+            "PRTS2",
             "EndOfAction"
         ]
     },
@@ -435,6 +436,7 @@
         ],
         "next": [
             "PRTS",
+            "PRTS2",
             "EndOfAction",
             "StartButton2",
             "PrtsErrorConfirm",
@@ -457,6 +459,29 @@
         "rearDelay": 5000,
         "next": [
             "PRTS",
+            "PRTS2",
+            "EndOfAction",
+            "PrtsErrorConfirm",
+            "OfflineConfirm",
+            "WaitAfterPRTS"
+        ]
+    },
+    "PRTS2": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "接管"
+        ],
+        "roi": [
+            324,
+            579,
+            219,
+            141
+        ],
+        "action": "doNothing",
+        "rearDelay": 5000,
+        "next": [
+            "PRTS2",
+            "PRTS",
             "EndOfAction",
             "PrtsErrorConfirm",
             "OfflineConfirm",
@@ -468,6 +493,7 @@
         "action": "doNothing",
         "next": [
             "PRTS",
+            "PRTS2",
             "EndOfAction",
             "ClickCornerAfterPRTS"
         ]
@@ -663,6 +689,7 @@
         ],
         "next": [
             "PRTS",
+            "PRTS2",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "StartToWakeUp"
@@ -4596,7 +4623,6 @@
         ],
         "next": [
             "Roguelike1InBattleFlag",
-            "Roguelike1InBattleFlag2",
             "Roguelike1MissionCompletedFlag",
             "Roguelike1MissionFailedFlag",
             "Roguelike1MissionFailedFlag2"
@@ -4616,28 +4642,6 @@
         "action": "doNothing",
         "rearDelay": 5000,
         "next": [
-            "Roguelike1InBattleFlag",
-            "Roguelike1InBattleFlag2",
-            "Roguelike1MissionCompletedFlag",
-            "Roguelike1MissionFailedFlag",
-            "Roguelike1MissionFailedFlag2"
-        ]
-    },
-    "Roguelike1InBattleFlag2": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "接管"
-        ],
-        "roi": [
-            324,
-            579,
-            219,
-            141
-        ],
-        "action": "doNothing",
-        "rearDelay": 5000,
-        "next": [
-            "Roguelike1InBattleFlag2",
             "Roguelike1InBattleFlag",
             "Roguelike1MissionCompletedFlag",
             "Roguelike1MissionFailedFlag",
@@ -4664,7 +4668,6 @@
             50,
             50
         ],
-        "rearDelay": 500,
         "next": [
             "Roguelike1DropsFlag",
             "Roguelike1StageTrader",
