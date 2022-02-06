@@ -3515,6 +3515,14 @@
             40
         ]
     },
+    "BattleUseSkillBegin": {
+        "algorithm": "JustReturn",
+        "action": "doNothing",
+        "rearDelay": 1000,
+        "next": [
+            "BattleUseSkill"
+        ]
+    },
     "BattleUseSkill": {
         "algorithm": "OcrDetect",
         "text": [
@@ -3532,9 +3540,7 @@
             380,
             100,
             100
-        ],
-        "preDelay": 1000,
-        "rearDelay": 0
+        ]
     },
     "StartToWakeUpToRoguelike1": {
         "template": "StartToWakeUp.png",
