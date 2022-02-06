@@ -265,16 +265,12 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
 bool asst::RoguelikeBattleTaskPlugin::speed_up()
 {
-    LogTraceFunction;
-
     ProcessTask task(*this, { "BattleSpeedUp" });
     return task.run();
 }
 
 bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
 {
-    LogTraceFunction;
-
     Ctrler.click(rect);
 
     ProcessTask task(*this, { "BattleUseSkill" });
@@ -340,7 +336,7 @@ asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
             int dx = std::abs(home.x - loc.x);
             int dy = std::abs(home.y - loc.y);
             int dist = dx * dx + dy * dy;
-            if (dist < min_dist) {
+            if (dist <= min_dist) {
                 min_dist = dist;
                 nearest = loc;
             }
@@ -353,6 +349,8 @@ asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
 
 asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, Role role)
 {
+    LogTraceFunction;
+
     // 根据家门的方向计算一下大概的朝向
     if (m_cur_home_index >= m_homes.size()) {
         m_cur_home_index = 0;
@@ -364,18 +362,25 @@ asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, Role role
     Point home_point = m_side_tile_info.at(home_loc).pos;
     Rect home_rect(home_point.x, home_point.y, 1, 1);
 
-    int dx = loc.x - home_loc.x;
-    int dy = loc.y - home_loc.y;
+    int dx = 0;
+    if (loc.x > home_loc.x) dx = 1;
+    else if (loc.x < home_loc.x) dx = -1;
+    else dx = 0;
 
-    Point direction(0, 0);
+    int dy = 0;
+    if (loc.y > home_loc.y) dy = 1;
+    else if (loc.y < home_loc.y) dy = -1;
+    else dy = 0;
+
+    Point base_direction(0, 0);
     switch (role) {
     case Role::Medic:
     {
         if (std::abs(dx) < std::abs(dy)) {
-            direction.y = -dy;
+            base_direction.y = -dy;
         }
         else {
-            direction.x = -dx;
+            base_direction.x = -dx;
         }
     }
     break;
@@ -390,14 +395,85 @@ asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, Role role
     default:
     {
         if (std::abs(dx) < std::abs(dy)) {
-            direction.y = dy;
+            base_direction.y = dy;
         }
         else {
-            direction.x = dx;
+            base_direction.x = dx;
         }
     }
     break;
     }
 
-    return direction;
+    using TileKey = TilePack::TileKey;
+
+    // 战斗干员朝向的权重
+    static const std::unordered_map<TileKey, int> TileKeyFightWeights = {
+        { TileKey::Invalid, 0 },
+        { TileKey::Forbidden, 0 },
+        { TileKey::Wall, 500 },
+        { TileKey::Road, 1000 },
+        { TileKey::Home, 1000 },
+        { TileKey::EnemyHome, 1000 },
+        { TileKey::Floor, 1000 },
+        { TileKey::Hole, 0 },
+        { TileKey::Telin, 0 },
+        { TileKey::Telout, 0 }
+    };
+
+    static const std::unordered_map<Point, Point> DirectionStartingPoint = {
+        { Point(1, 0), Point(0, -1) },   // 朝右
+        { Point(0, 1), Point(-1, 0) },   // 朝下
+        { Point(-1, 0), Point(-2, -1) }, // 朝左
+        { Point(0, -1), Point(-1, -2) }, // 朝上
+    };
+
+    int max_score = 0;
+    Point opt_direction;
+
+    // 计算每个方向上的得分
+    for (const auto& [direction, point_move] : DirectionStartingPoint) {
+        Point start_point = loc;
+        start_point.x += point_move.x;
+        start_point.y += point_move.y;
+        int score = 0;
+
+        constexpr int AttackRangeSize = 3;
+        // 这个方向上 3x3 的格子，计算总的得分
+        for (int i = 0; i != AttackRangeSize; ++i) {
+            for (int j = 0; j != AttackRangeSize; ++j) {
+                Point cur_point = start_point;
+                cur_point.x += i;
+                cur_point.y += j;
+
+                switch (role) {
+                    // 医疗干员根据哪个方向上人多决定朝向哪
+                case Role::Medic:
+                    if (m_used_tiles.find(cur_point) != m_used_tiles.cend()) {
+                        score += 1000;
+                    }
+                    break;
+                    // 其他干员（战斗干员）根据哪个方向上权重高决定朝向哪
+                default:
+                    if (auto iter = m_side_tile_info.find(cur_point);
+                        iter == m_side_tile_info.cend()) {
+                        continue;
+                    }
+                    else {
+                        score += TileKeyFightWeights.at(iter->second.key);
+                    }
+                }
+            }
+        }
+
+        if (direction == base_direction) {
+            score += 50;
+        }
+
+        if (score > max_score) {
+            max_score = score;
+            opt_direction = direction;
+        }
+    }
+
+    return opt_direction;
 }
