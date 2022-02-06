@@ -46,7 +46,11 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(
         { "tile_wall", TileKey::Wall },
         { "tile_road", TileKey::Road },
         { "tile_end", TileKey::Home },
-        { "tile_start", TileKey::EnemyHome }
+        { "tile_start", TileKey::EnemyHome },
+        { "tile_floor", TileKey::Floor },
+        { "tile_hole", TileKey::Hole },
+        { "tile_telin", TileKey::Telin },
+        { "tile_telout", TileKey::Telout }
     };
 
     for (size_t y = 0; y < pos.size(); ++y) {
@@ -54,13 +58,13 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(
             const auto& cv_p = pos[y][x];
             const auto& tile = tiles[y][x];
 
-            TileKey key = TileKey::Invaild;
+            TileKey key = TileKey::Invalid;
             if (auto iter = TileKeyMapping.find(tile.tileKey);
                 iter != TileKeyMapping.cend()) {
                 key = iter->second;
             }
             else {
-                key = TileKey::Invaild;
+                key = TileKey::Invalid;
                 Log.error("Unknown tile type:", tile.tileKey);
             }
 
