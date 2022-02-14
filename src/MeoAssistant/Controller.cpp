@@ -659,8 +659,6 @@ bool asst::Controller::screencap()
 
 bool asst::Controller::screencap(const std::string & cmd, DecodeFunc decode_func)
 {
-    LogTraceFunction;
-
     auto& adb = m_emulator_info.adb;
     auto ret = call_command(cmd);
 

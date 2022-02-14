@@ -1,4 +1,4 @@
-﻿#include "RoguelikeBattleTaskPlugin.h"
+#include "RoguelikeBattleTaskPlugin.h"
 
 #include "BattleImageAnalyzer.h"
 #include "BattlePerspectiveImageAnalyzer.h"
@@ -24,22 +24,29 @@ bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& det
     }
 }
 
+void asst::RoguelikeBattleTaskPlugin::set_stage_name(std::string stage)
+{
+    m_stage_name = std::move(stage);
+}
+
 bool asst::RoguelikeBattleTaskPlugin::_run()
 {
-    clear();
-
     bool getted_info = get_stage_info();
 
     speed_up();
 
-    if (getted_info) {
-        while (!need_exit()) {
-            // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
-            if (!auto_battle() && m_used_opers) {
-                break;
-            }
+    if (!getted_info) {
+        return true;
+    }
+
+    while (!need_exit()) {
+        // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
+        if (!auto_battle() && m_used_opers) {
+            break;
         }
     }
+
+    clear();
 
     return true;
 }
@@ -48,39 +55,72 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 {
     LogTraceFunction;
 
-    const auto stage_name_task_ptr = Task.get("BattleStageName");
-    sleep(stage_name_task_ptr->pre_delay);
-
     const auto& tile = Resrc.tile();
     bool calced = false;
-    constexpr int StageNameRetryTimes = 50;
-    for (int i = 0; i != StageNameRetryTimes; ++i) {
-        cv::Mat image = Ctrler.get_image();
-        OcrImageAnalyzer name_analyzer(image);
-        name_analyzer.set_task_info(stage_name_task_ptr);
-        if (!name_analyzer.analyze()) {
-            continue;
-        }
 
-        for (const auto& tr : name_analyzer.get_result()) {
-            auto side_info = tile.calc(tr.text, true);
-            if (side_info.empty()) {
+    if (m_stage_name.empty()) {
+        const auto stage_name_task_ptr = Task.get("BattleStageName");
+        sleep(stage_name_task_ptr->pre_delay);
+
+        constexpr int StageNameRetryTimes = 50;
+        for (int i = 0; i != StageNameRetryTimes; ++i) {
+            cv::Mat image = Ctrler.get_image();
+            OcrImageAnalyzer name_analyzer(image);
+            name_analyzer.set_task_info(stage_name_task_ptr);
+            if (!name_analyzer.analyze()) {
                 continue;
             }
-            m_side_tile_info = std::move(side_info);
-            calced = true;
-            auto cb_info = basic_info_with_what("StageInfo");
-            auto& details = cb_info["details"];
-            details["name"] = tr.text;
-            details["size"] = m_side_tile_info.size();
-            callback(AsstMsg::SubTaskExtraInfo, cb_info);
-            break;
-        }
-        if (calced) {
-            break;
+
+            for (const auto& tr : name_analyzer.get_result()) {
+                auto side_info = tile.calc(tr.text, true);
+                if (side_info.empty()) {
+                    continue;
+                }
+                m_side_tile_info = std::move(side_info);
+                m_stage_name = tr.text;
+                calced = true;
+                break;
+            }
+            if (calced) {
+                break;
+            }
         }
     }
-    if (!calced) {
+    else {
+        m_side_tile_info = tile.calc(m_stage_name, true);
+        calced = true;
+    }
+
+    if (calced) {
+#ifdef ASST_DEBUG
+        auto normal_tiles = tile.calc(m_stage_name, false);
+        cv::Mat draw = Ctrler.get_image();
+        for (const auto& [point, info] : normal_tiles) {
+            using TileKey = TilePack::TileKey;
+            static const std::unordered_map<TileKey, std::string> TileKeyMapping = {
+                { TileKey::Invalid, "invalid" },
+                { TileKey::Forbidden, "forbidden" },
+                { TileKey::Wall, "wall" },
+                { TileKey::Road, "road" },
+                { TileKey::Home, "end" },
+                { TileKey::EnemyHome, "start" },
+                { TileKey::Floor, "floor" },
+                { TileKey::Hole, "hole" },
+                { TileKey::Telin, "telin" },
+                { TileKey::Telout, "telout" }
+            };
+
+            cv::putText(draw, TileKeyMapping.at(info.key), cv::Point(info.pos.x, info.pos.y), 1, 1, cv::Scalar(0, 0, 255));
+        }
+#endif
+
+        auto cb_info = basic_info_with_what("StageInfo");
+        auto& details = cb_info["details"];
+        details["name"] = m_stage_name;
+        details["size"] = m_side_tile_info.size();
+        callback(AsstMsg::SubTaskExtraInfo, cb_info);
+    }
+    else {
         callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("StageInfoError"));
     }
 
@@ -91,7 +131,6 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 {
     LogTraceFunction;
 
-    using Role = asst::BattleImageAnalyzer::Role;
     using Oper = asst::BattleImageAnalyzer::Oper;
 
     BattleImageAnalyzer battle_analyzer(Ctrler.get_image());
@@ -104,8 +143,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         bool used_skills = false;
         if (hp < m_pre_hp) {    // 说明漏怪了，漏怪就开技能（
             for (const Rect& rect : battle_analyzer.get_ready_skills()) {
-                use_skill(rect);
                 used_skills = true;
+                if (!use_skill(rect)) {
+                    break;
+                }
             }
         }
         m_pre_hp = hp;
@@ -176,17 +217,18 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     default:
         // 特种和无人机，有的只能放地面，有的又只能放高台，不好判断
         // 笨办法，都试试，总有一次能成的
-    {
-        static Loc static_loc = Loc::Melee;
-        loc = static_loc;
-        if (static_loc == Loc::Melee) {
-            static_loc = Loc::Ranged;
-        }
-        else {
-            static_loc = Loc::Melee;
-        }
-    }
-    break;
+    //{
+    //    static Loc static_loc = Loc::Melee;
+    //    loc = static_loc;
+    //    if (static_loc == Loc::Melee) {
+    //        static_loc = Loc::Ranged;
+    //    }
+    //    else {
+    //        static_loc = Loc::Melee;
+    //    }
+    //}
+        loc = Loc::Melee;
+        break;
     }
 
     Point placed_loc = get_placed(loc);
@@ -199,69 +241,20 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     Ctrler.swipe(opt_oper.rect, placed_rect, swipe_oper_task_ptr->pre_delay);
     sleep(use_oper_task_ptr->rear_delay);
 
-    // 拖动干员朝向
-    if (m_cur_home_index >= m_homes.size()) {
-        m_cur_home_index = 0;
-    }
-    Point home_loc(5, 5);
-    if (m_cur_home_index < m_homes.size()) {
-        home_loc = m_homes.at(m_cur_home_index);
-    }
-    Point home_point = m_side_tile_info.at(home_loc).pos;
-    Rect home_rect(home_point.x, home_point.y, 1, 1);
+    // 计算往哪边拖动（干员朝向）
+    Point direction = calc_direction(placed_loc, opt_oper.role);
 
-    int dx = placed_loc.x - home_loc.x;
-    int dy = placed_loc.y - home_loc.y;
-
+    // 将方向转换为实际的 swipe end 坐标点
+    Point end_point = placed_point;
     constexpr int coeff = 500;
-    Point end_point;
-    switch (opt_oper.role) {
-    case Role::Medic:
-    {
-        if (std::abs(dx) <= std::abs(dy)) {
-            dx = 0;
-        }
-        else {
-            dy = 0;
-        }
-        end_point.x = placed_point.x - coeff * dx;
-        end_point.y = placed_point.y - coeff * dy;
-    }
-    break;
-    case Role::Support:
-    case Role::Pioneer:
-    case Role::Warrior:
-    case Role::Sniper:
-    case Role::Special:
-    case Role::Tank:
-    case Role::Caster:
-    case Role::Drone:
-    default:
-    {
-        if (std::abs(dx) < std::abs(dy)) {
-            dx = 0;
-        }
-        else {
-            dy = 0;
-        }
-        end_point.x = placed_point.x + coeff * dx;
-        end_point.y = placed_point.y + coeff * dy;
-    }
-    break;
-    }
+    end_point.x += direction.x * coeff;
+    end_point.y += direction.y * coeff;
 
-    if (end_point.x < 0) {
-        end_point.x = 0;
-    }
-    else if (end_point.x >= WindowWidthDefault) {
-        end_point.x = WindowWidthDefault - 1;
-    }
-    if (end_point.y < 0) {
-        end_point.y = 0;
-    }
-    else if (end_point.y >= WindowHeightDefault) {
-        end_point.y = WindowHeightDefault - 1;
-    }
+    end_point.x = std::max(0, end_point.x);
+    end_point.x = std::min(end_point.x, WindowWidthDefault);
+    end_point.y = std::max(0, end_point.y);
+    end_point.y = std::min(end_point.y, WindowHeightDefault);
+
     Ctrler.swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
 
     m_used_tiles.emplace(placed_loc);
@@ -273,19 +266,16 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
 bool asst::RoguelikeBattleTaskPlugin::speed_up()
 {
-    LogTraceFunction;
-
     ProcessTask task(*this, { "BattleSpeedUp" });
     return task.run();
 }
 
 bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
 {
-    LogTraceFunction;
-
     Ctrler.click(rect);
 
-    ProcessTask task(*this, { "BattleUseSkill" });
+    ProcessTask task(*this, { "BattleUseSkillBegin" });
+    task.set_retry_times(0);
     return task.run();
 }
 
@@ -295,6 +285,7 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_pre_hp = 0;
     m_homes.clear();
     m_cur_home_index = 0;
+    m_stage_name.clear();
     m_side_tile_info.clear();
     m_used_tiles.clear();
 }
@@ -346,7 +337,7 @@ asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
             int dx = std::abs(home.x - loc.x);
             int dy = std::abs(home.y - loc.y);
             int dist = dx * dx + dy * dy;
-            if (dist < min_dist) {
+            if (dist <= min_dist) {
                 min_dist = dist;
                 nearest = loc;
             }
@@ -355,4 +346,135 @@ asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
     Log.info(__FUNCTION__, nearest.to_string());
 
     return nearest;
+}
+
+asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, Role role)
+{
+    LogTraceFunction;
+
+    // 根据家门的方向计算一下大概的朝向
+    if (m_cur_home_index >= m_homes.size()) {
+        m_cur_home_index = 0;
+    }
+    Point home_loc(5, 5);
+    if (m_cur_home_index < m_homes.size()) {
+        home_loc = m_homes.at(m_cur_home_index);
+    }
+    Point home_point = m_side_tile_info.at(home_loc).pos;
+    Rect home_rect(home_point.x, home_point.y, 1, 1);
+
+    int dx = 0;
+    if (loc.x > home_loc.x) dx = 1;
+    else if (loc.x < home_loc.x) dx = -1;
+    else dx = 0;
+
+    int dy = 0;
+    if (loc.y > home_loc.y) dy = 1;
+    else if (loc.y < home_loc.y) dy = -1;
+    else dy = 0;
+
+    Point base_direction(0, 0);
+    switch (role) {
+    case Role::Medic:
+    {
+        if (std::abs(dx) < std::abs(dy)) {
+            base_direction.y = -dy;
+        }
+        else {
+            base_direction.x = -dx;
+        }
+    }
+    break;
+    case Role::Support:
+    case Role::Pioneer:
+    case Role::Warrior:
+    case Role::Sniper:
+    case Role::Special:
+    case Role::Tank:
+    case Role::Caster:
+    case Role::Drone:
+    default:
+    {
+        if (std::abs(dx) < std::abs(dy)) {
+            base_direction.y = dy;
+        }
+        else {
+            base_direction.x = dx;
+        }
+    }
+    break;
+    }
+
+    using TileKey = TilePack::TileKey;
+
+    // 战斗干员朝向的权重
+    static const std::unordered_map<TileKey, int> TileKeyFightWeights = {
+        { TileKey::Invalid, 0 },
+        { TileKey::Forbidden, 0 },
+        { TileKey::Wall, 500 },
+        { TileKey::Road, 1000 },
+        { TileKey::Home, 1000 },
+        { TileKey::EnemyHome, 1000 },
+        { TileKey::Floor, 1000 },
+        { TileKey::Hole, 0 },
+        { TileKey::Telin, 0 },
+        { TileKey::Telout, 0 }
+    };
+
+    static const std::unordered_map<Point, Point> DirectionStartingPoint = {
+        { Point(1, 0), Point(0, -1) },   // 朝右
+        { Point(0, 1), Point(-1, 0) },   // 朝下
+        { Point(-1, 0), Point(-2, -1) }, // 朝左
+        { Point(0, -1), Point(-1, -2) }, // 朝上
+    };
+
+    int max_score = 0;
+    Point opt_direction;
+
+    // 计算每个方向上的得分
+    for (const auto& [direction, point_move] : DirectionStartingPoint) {
+        Point start_point = loc;
+        start_point.x += point_move.x;
+        start_point.y += point_move.y;
+        int score = 0;
+
+        constexpr int AttackRangeSize = 3;
+        // 这个方向上 3x3 的格子，计算总的得分
+        for (int i = 0; i != AttackRangeSize; ++i) {
+            for (int j = 0; j != AttackRangeSize; ++j) {
+                Point cur_point = start_point;
+                cur_point.x += i;
+                cur_point.y += j;
+
+                switch (role) {
+                    // 医疗干员根据哪个方向上人多决定朝向哪
+                case Role::Medic:
+                    if (m_used_tiles.find(cur_point) != m_used_tiles.cend()) {
+                        score += 1000;
+                    }
+                    break;
+                    // 其他干员（战斗干员）根据哪个方向上权重高决定朝向哪
+                default:
+                    if (auto iter = m_side_tile_info.find(cur_point);
+                        iter == m_side_tile_info.cend()) {
+                        continue;
+                    }
+                    else {
+                        score += TileKeyFightWeights.at(iter->second.key);
+                    }
+                }
+            }
+        }
+
+        if (direction == base_direction) {
+            score += 50;
+        }
+
+        if (score > max_score) {
+            max_score = score;
+            opt_direction = direction;
+        }
+    }
+
+    return opt_direction;
 }
