@@ -135,7 +135,9 @@ bool asst::AutoRecruitTask::calc_and_recruit()
         return false;
     }
     if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
-        confirm();
+        if (!confirm()) {
+            return false;
+        }
     }
     else {
         click_return_button();
