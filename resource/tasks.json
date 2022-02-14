@@ -1833,6 +1833,7 @@
     },
     "DroneAssistTrade": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             250,
             430,
