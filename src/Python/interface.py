@@ -4,6 +4,7 @@ import platform
 
 from message import Message
 
+
 class Asst:
     CallBackType = ctypes.CFUNCTYPE(
         None, ctypes.c_int, ctypes.c_char_p, ctypes.c_void_p)
@@ -31,7 +32,8 @@ class Asst:
             self.__lib = ctypes.CDLL(str(self.__libpath))
         self.__set_lib_properties()
 
-        self.__ptr = self.__lib.AsstCreateEx(dirname.encode('utf-8'), callback, arg)
+        self.__ptr = self.__lib.AsstCreateEx(
+            dirname.encode('utf-8'), callback, arg)
 
     def __del__(self):
         self.__lib.AsstDestroy(self.__ptr)
@@ -141,6 +143,19 @@ class Asst:
                                             confirm_arr, confirm_len,
                                             need_refresh, use_expedited)
 
+    def append_roguelike(self, mode: int) -> bool:
+        """
+        添加无限肉鸽任务
+
+        :params:
+            ``mode``:   工作模式 : 
+                    0 - 尽可能一直往后打
+                    1 - 第一层投资完源石锭就退出
+                    2 - 投资过后再退出，没有投资就继续往后打
+        """
+
+        return self.__lib.AsstAppendRoguelike(self.__ptr, mode)
+
     def start(self) -> bool:
         """
         开始任务
@@ -189,8 +204,9 @@ class Asst:
 
     def __set_lib_properties(self):
         self.__lib.AsstCreateEx.restype = ctypes.c_void_p
-        self.__lib.AsstCreateEx.argtypes = (ctypes.c_char_p, ctypes.c_void_p, ctypes.c_void_p,)
-        
+        self.__lib.AsstCreateEx.argtypes = (
+            ctypes.c_char_p, ctypes.c_void_p, ctypes.c_void_p,)
+
         self.__lib.AsstDestroy.argtypes = (ctypes.c_void_p,)
 
         self.__lib.AsstCatchDefault.restype = ctypes.c_bool
@@ -198,7 +214,7 @@ class Asst:
 
         self.__lib.AsstCatchEmulator.restype = ctypes.c_bool
         self.__lib.AsstCatchEmulator.argtypes = (ctypes.c_void_p,)
-        
+
         self.__lib.AsstCatchCustom.restype = ctypes.c_bool
         self.__lib.AsstCatchCustom.argtypes = (
             ctypes.c_void_p, ctypes.c_char_p,)
@@ -228,6 +244,10 @@ class Asst:
             ctypes.POINTER(ctypes.c_int), ctypes.c_int,
             ctypes.POINTER(ctypes.c_int), ctypes.c_int,
             ctypes.c_bool, ctypes.c_bool,)
+
+        self.__lib.AsstAppendRoguelike.restype = ctypes.c_bool
+        self.__lib.AsstAppendRoguelike.argtypes = (
+            ctypes.c_void_p, ctypes.c_int,)
 
         self.__lib.AsstStart.restype = ctypes.c_bool
         self.__lib.AsstStart.argtypes = (ctypes.c_void_p,)
