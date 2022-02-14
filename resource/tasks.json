@@ -4835,6 +4835,13 @@
             167
         ],
         "next": [
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
             "Roguelike1ClickToStartPoint"
         ]
     },

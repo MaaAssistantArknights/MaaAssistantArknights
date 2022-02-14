@@ -30,7 +30,8 @@ int main(int argc, char** argv)
 
     char ch = 0;
     while (ch != 'q') {
-        AsstAppendRoguelike(ptr, 0);
+        //AsstAppendRoguelike(ptr, 0);
+        AsstAppendDebug(ptr);
         // AsstAppendStartUp(ptr);
         //AsstAppendFight(ptr, "CE-5", 0, 0, 99999);
         // AsstAppendVisit(ptr, true);
