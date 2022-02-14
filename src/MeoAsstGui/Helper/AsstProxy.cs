@@ -1,4 +1,4 @@
-// MeoAsstGui - A part of the MeoAssistantArknights project
+﻿// MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
@@ -332,6 +332,10 @@ namespace MeoAsstGui
 
                     case "Roguelike1StageDreadfulFoe":
                         mainModel.AddLog("关卡：险路恶敌");
+                        break;
+
+                    case "Roguelike1StageTraderInvestSystemFull":
+                        mainModel.AddLog("投资达到上限", "darkcyan");
                         break;
                 }
             }
