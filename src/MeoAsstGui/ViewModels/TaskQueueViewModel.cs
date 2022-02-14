@@ -79,10 +79,12 @@ namespace MeoAsstGui
             //StageList.Add(new CombData { Display = "BI-7", Value = "BI-7" });
             //StageList.Add(new CombData { Display = "BI-8", Value = "BI-8" });
 
-            DayOfWeek day_of_week = System.DateTime.Now.DayOfWeek;
-            if (System.DateTime.Now.Hour > 0 && System.DateTime.Now.Hour < 4)
+            var now = System.DateTime.Now;
+            DayOfWeek day_of_week = now.DayOfWeek;
+            var hour = now.Hour;
+            if (hour >= 0 && hour < 4)
             {
-                day_of_week = System.DateTime.Now.AddDays(-1).DayOfWeek;
+                day_of_week = now.AddDays(-1).DayOfWeek;
             }
 
             var stage_dict = new Dictionary<string, List<DayOfWeek>>
