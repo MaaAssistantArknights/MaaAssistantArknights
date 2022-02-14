@@ -17,7 +17,7 @@
         "penguinReport": {
             "Doc": "企鹅数据汇报：每次到结算界面，汇报掉落数据至企鹅数据 https://penguin-stats.cn/。true-开启，false-关闭，默认true",
             "enable": true,
-            "cmdFormat": "curl -H \"Content-Type: application/json\" -d \"[body]\" \"https://penguin-stats.cn/PenguinStats/api/v2/report\" [extra]",
+            "cmdFormat": "curl -H \"Content-Type: application/json\" -s -i -d \"[body]\" \"https://penguin-stats.cn/PenguinStats/api/v2/report\" [extra]",
             "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i"
         }
     },

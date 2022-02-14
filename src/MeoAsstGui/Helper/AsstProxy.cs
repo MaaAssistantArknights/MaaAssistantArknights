@@ -1,4 +1,4 @@
-﻿// MeoAsstGui - A part of the MeoAssistantArknights project
+// MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
@@ -463,6 +463,18 @@ namespace MeoAsstGui
                 case "StageInfoError":
                     {
                         mainModel.AddLog("关卡识别错误", "darkred");
+                    }
+                    break;
+
+                case "PenguinId":
+                    {
+                        var settings = _container.Get<SettingsViewModel>();
+                        if (settings.PenguinId == String.Empty)
+                        {
+                            string id = subTaskDetails["id"].ToString();
+                            settings.PenguinId = id;
+                            AsstSetPenguinId(id);
+                        }
                     }
                     break;
             }
