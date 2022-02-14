@@ -9,6 +9,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -77,7 +78,35 @@ namespace MeoAsstGui
             // “风雪过境” 活动关卡
             //StageList.Add(new CombData { Display = "BI-7", Value = "BI-7" });
             //StageList.Add(new CombData { Display = "BI-8", Value = "BI-8" });
+
+            DayOfWeek day_of_week = System.DateTime.Now.DayOfWeek;
+            if (System.DateTime.Now.Hour > 0 && System.DateTime.Now.Hour < 4)
+            {
+                day_of_week = System.DateTime.Now.AddDays(-1).DayOfWeek;
+            }
+
+            var stage_dict = new Dictionary<string, List<DayOfWeek>>
+            {
+                { "货物运送（龙门币）", new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday } },
+                { "粉碎防御（红票）", new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday } },
+                { "空中威胁（技能）", new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday } },
+                { "资源保障（碳）", new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday } },
+                { "战术演习（经验）", new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday } },
+                { "周日了，记得打剿灭哦~", new List<DayOfWeek> { DayOfWeek.Sunday } }
+            };
+
+            StagesOfToday = "今日关卡小提示：\n";
+
+            foreach (var item in stage_dict)
+            {
+                if (item.Value.Contains(day_of_week))
+                {
+                    StagesOfToday += item.Key + "\n";
+                }
+            }
         }
+
+        public string StagesOfToday { get; set; }
 
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
         {
