@@ -487,14 +487,17 @@ bool asst::InfrastProductionTask::opers_choose()
             }
         }
         auto cur_all_opers = oper_analyzer.get_result();
+        Log.trace("before mood filter, opers size:", cur_all_opers.size());
         // 小于心情阈值的干员则不可用
         auto remove_iter = std::remove_if(cur_all_opers.begin(), cur_all_opers.end(),
             [&](const infrast::Oper& rhs) -> bool {
                 return rhs.mood_ratio < m_mood_threshold;
             });
         cur_all_opers.erase(remove_iter, cur_all_opers.end());
+        Log.trace("after mood filter, opers size:", cur_all_opers.size());
 
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
+            Log.trace("to find", opt_iter->skills.begin()->names.front());
             auto find_iter = std::find_if(
                 cur_all_opers.cbegin(), cur_all_opers.cend(),
                 [&](const infrast::Oper& lhs) -> bool {
@@ -505,6 +508,7 @@ bool asst::InfrastProductionTask::opers_choose()
                         return true;
                     }
                     else {
+                        Log.trace("to comp hash");
                         // 既要技能相同，也要hash相同，双重校验
                         for (const auto& [_, hash] : opt_iter->possible_hashs) {
                             int dist = HashImageAnalyzer::hamming(lhs.name_hash, hash);
@@ -519,12 +523,15 @@ bool asst::InfrastProductionTask::opers_choose()
 
             if (find_iter == cur_all_opers.cend()) {
                 ++opt_iter;
+                Log.trace("not found in this page");
                 continue;
             }
+            Log.trace("found in this page");
             // 这种情况可能是需要选择两个同样的技能，上一次循环选了一个，但是没有把滑出当前页面，本次又识别到了这个已选择的人
             if (find_iter->selected == true) {
                 if (cur_max_num_of_opers != 1) {
                     cur_all_opers.erase(find_iter);
+                    Log.trace("skill matched, but it's selected, pass");
                     continue;
                 }
                 // 但是如果当前设施只有一个位置，即不存在“上次循环”的情况，说明是清除干员按钮没点到
