@@ -79,12 +79,11 @@ namespace MeoAsstGui
             //StageList.Add(new CombData { Display = "BI-7", Value = "BI-7" });
             //StageList.Add(new CombData { Display = "BI-8", Value = "BI-8" });
 
-            var now = System.DateTime.Now;
-            DayOfWeek day_of_week = now.DayOfWeek;
+            var now = DateTime.Now;
             var hour = now.Hour;
             if (hour >= 0 && hour < 4)
             {
-                day_of_week = now.AddDays(-1).DayOfWeek;
+                now = now.AddDays(-1);
             }
 
             var stage_dict = new Dictionary<string, List<DayOfWeek>>
@@ -94,6 +93,7 @@ namespace MeoAsstGui
                 { "空中威胁（技能）", new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday } },
                 { "资源保障（碳）", new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday } },
                 { "战术演习（经验）", new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday } },
+                { "周一了，可以打剿灭了~", new List<DayOfWeek> { DayOfWeek.Monday } },
                 { "周日了，记得打剿灭哦~", new List<DayOfWeek> { DayOfWeek.Sunday } }
             };
 
@@ -101,7 +101,7 @@ namespace MeoAsstGui
 
             foreach (var item in stage_dict)
             {
-                if (item.Value.Contains(day_of_week))
+                if (item.Value.Contains(now.DayOfWeek))
                 {
                     StagesOfToday += item.Key + "\n";
                 }
