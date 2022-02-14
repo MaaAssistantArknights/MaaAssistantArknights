@@ -29,7 +29,9 @@ void asst::PenguinPack::set_language(const std::string& server)
 
 std::string asst::PenguinPack::recognize(const cv::Mat image)
 {
-    return penguin::recognize_with_data(image.rows, image.cols, image.type(), image.data);
+    std::vector<uchar> buf;
+    cv::imencode(".png", image, buf);
+    return penguin::recognize(buf.data(), buf.size());
 }
 
 bool asst::PenguinPack::load_json(const std::string& stage_path, const std::string& hash_path)
@@ -83,8 +85,9 @@ bool asst::PenguinPack::load_templ(const std::string& item_id, const std::string
         m_last_error = "templ is empty";
         return false;
     }
-
-    penguin::load_templ_with_data(item_id.c_str(), image.rows, image.cols, image.type(), image.data);
+    std::vector<uchar> buf;
+    cv::imencode(".png", image, buf);
+    penguin::load_templ(item_id.c_str(), buf.data(), buf.size());
 
     return true;
 }

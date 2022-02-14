@@ -47,14 +47,17 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat image, const 
     float scores[MaxBoxSize] = { 0 };
     size_t size = 0;
 
+    std::vector<uchar> buf;
+    cv::imencode(".png", image, buf);
+
     if (!without_det) {
         Log.trace("Ocr System");
-        PaddleOcrSystemWithData(m_ocr, image.rows, image.cols, image.type(), image.data,
+        PaddleOcrSystem(m_ocr, buf.data(), buf.size(),
             false, boxes, strs, scores, &size, nullptr, nullptr);
     }
     else {
         Log.trace("Ocr Rec");
-        PaddleOcrRecWithData(m_ocr, image.rows, image.cols, image.type(), image.data,
+        PaddleOcrRec(m_ocr, buf.data(), buf.size(),
             strs, scores, &size, nullptr, nullptr);
     }
 
@@ -116,7 +119,6 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat image, const 
         return pred(tr);
     };
     Log.trace("OcrPack::recognize | roi : ", roi.to_string());
-    // 使用 data 直接传给 paddleocr， 如果不 clone, image.data 会出错
-    cv::Mat roi_img = image(utils::make_rect<cv::Rect>(roi)).clone();
+    cv::Mat roi_img = image(utils::make_rect<cv::Rect>(roi));
     return recognize(roi_img, rect_cor, without_det);
 }
