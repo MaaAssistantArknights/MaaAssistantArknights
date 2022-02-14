@@ -14,6 +14,7 @@ namespace asst
         virtual ~InfrastProductionTask() = default;
 
         InfrastProductionTask& set_uses_of_drone(std::string uses_of_drones) noexcept;
+        std::string get_uses_of_drone() const noexcept;
 
     protected:
         bool shift_facility_list();

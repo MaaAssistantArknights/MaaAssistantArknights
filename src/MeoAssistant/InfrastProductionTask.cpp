@@ -20,6 +20,11 @@ asst::InfrastProductionTask& asst::InfrastProductionTask::set_uses_of_drone(std:
     return *this;
 }
 
+std::string asst::InfrastProductionTask::get_uses_of_drone() const noexcept
+{
+    return m_uses_of_drones;
+}
+
 void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 {
     m_product = std::move(product_name);
