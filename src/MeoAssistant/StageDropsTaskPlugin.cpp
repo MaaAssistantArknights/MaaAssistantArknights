@@ -2,6 +2,7 @@
 
 #include <thread>
 #include <chrono>
+#include <regex>
 
 #include "Controller.h"
 #include "Resource.h"
@@ -163,6 +164,14 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     Log.trace("request_penguin |", cmd_line);
 
     std::string response = utils::callcmd(cmd_line);
+
+    static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
+    std::smatch penguinid_sm;
+    if (std::regex_search(response, penguinid_sm, penguinid_regex)) {
+        json::value id_info = basic_info_with_what("PenguinId");
+        id_info["details"]["id"] = std::string(penguinid_sm[1]);
+        callback(AsstMsg::SubTaskExtraInfo, id_info);
+    }
 
     Log.trace("response:\n", response);
 
