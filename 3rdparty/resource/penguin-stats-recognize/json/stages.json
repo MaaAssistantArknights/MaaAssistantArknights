@@ -123,6 +123,9 @@
             }
         },
         "minClearTime": 63700,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "0-1",
             "ja": "0-1",
@@ -254,6 +257,9 @@
             }
         },
         "minClearTime": 73000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "0-2",
             "ja": "0-2",
@@ -385,6 +391,9 @@
             }
         },
         "minClearTime": 88600,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "0-3",
             "ja": "0-3",
@@ -516,6 +525,9 @@
             }
         },
         "minClearTime": 120600,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "0-4",
             "ja": "0-4",
@@ -647,6 +659,9 @@
             }
         },
         "minClearTime": 95000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "0-5",
             "ja": "0-5",
@@ -778,6 +793,9 @@
             }
         },
         "minClearTime": 101800,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "0-6",
             "ja": "0-6",
@@ -909,6 +927,9 @@
             }
         },
         "minClearTime": 92000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "0-7",
             "ja": "0-7",
@@ -1040,6 +1061,9 @@
             }
         },
         "minClearTime": 102000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "0-8",
             "ja": "0-8",
@@ -1171,6 +1195,9 @@
             }
         },
         "minClearTime": 102000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "0-9",
             "ja": "0-9",
@@ -1302,6 +1329,9 @@
             }
         },
         "minClearTime": 113600,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "0-10",
             "ja": "0-10",
@@ -1433,6 +1463,9 @@
             }
         },
         "minClearTime": 103000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "0-11",
             "ja": "0-11",
@@ -1556,6 +1589,9 @@
             }
         },
         "minClearTime": 137000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "1-1",
             "ja": "1-1",
@@ -1746,6 +1782,9 @@
             }
         },
         "minClearTime": 112000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "1-3",
             "ja": "1-3",
@@ -1869,6 +1908,9 @@
             }
         },
         "minClearTime": 135000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "1-4",
             "ja": "1-4",
@@ -2000,6 +2042,9 @@
             }
         },
         "minClearTime": 165000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "1-5",
             "ja": "1-5",
@@ -2131,6 +2176,9 @@
             }
         },
         "minClearTime": 174000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "1-6",
             "ja": "1-6",
@@ -2262,6 +2310,9 @@
             }
         },
         "minClearTime": 118000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "1-7",
             "ja": "1-7",
@@ -2393,6 +2444,9 @@
             }
         },
         "minClearTime": 130100,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "1-8",
             "ja": "1-8",
@@ -2524,6 +2578,9 @@
             }
         },
         "minClearTime": 120000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "1-9",
             "ja": "1-9",
@@ -2655,6 +2712,9 @@
             }
         },
         "minClearTime": 120000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "1-10",
             "ja": "1-10",
@@ -2845,6 +2905,9 @@
             }
         },
         "minClearTime": 144000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "1-12",
             "ja": "1-12",
@@ -2976,6 +3039,9 @@
             }
         },
         "minClearTime": 184000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "2-1",
             "ja": "2-1",
@@ -3107,6 +3173,9 @@
             }
         },
         "minClearTime": 166700,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "2-2",
             "ja": "2-2",
@@ -3238,6 +3307,9 @@
             }
         },
         "minClearTime": 218700,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "2-3",
             "ja": "2-3",
@@ -3369,6 +3441,9 @@
             }
         },
         "minClearTime": 149000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "2-4",
             "ja": "2-4",
@@ -3500,6 +3575,9 @@
             }
         },
         "minClearTime": 170500,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "2-5",
             "ja": "2-5",
@@ -3631,6 +3709,9 @@
             }
         },
         "minClearTime": 174000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "2-6",
             "ja": "2-6",
@@ -3754,6 +3835,9 @@
             }
         },
         "minClearTime": 176000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "2-7",
             "ja": "2-7",
@@ -3885,6 +3969,9 @@
             }
         },
         "minClearTime": 187000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "2-8",
             "ja": "2-8",
@@ -4016,6 +4103,9 @@
             }
         },
         "minClearTime": 193000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "2-9",
             "ja": "2-9",
@@ -4147,6 +4237,9 @@
             }
         },
         "minClearTime": 171000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "2-10",
             "ja": "2-10",
@@ -4278,6 +4371,9 @@
             }
         },
         "minClearTime": 113000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S2-1",
             "ja": "S2-1",
@@ -4401,6 +4497,9 @@
             }
         },
         "minClearTime": 132000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S2-2",
             "ja": "S2-2",
@@ -4532,6 +4631,9 @@
             }
         },
         "minClearTime": 130000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S2-3",
             "ja": "S2-3",
@@ -4655,6 +4757,9 @@
             }
         },
         "minClearTime": 144000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S2-4",
             "ja": "S2-4",
@@ -4786,6 +4891,9 @@
             }
         },
         "minClearTime": 178000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S2-5",
             "ja": "S2-5",
@@ -4917,6 +5025,9 @@
             }
         },
         "minClearTime": 142000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S2-6",
             "ja": "S2-6",
@@ -5048,6 +5159,9 @@
             }
         },
         "minClearTime": 166000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S2-7",
             "ja": "S2-7",
@@ -5179,6 +5293,9 @@
             }
         },
         "minClearTime": 110000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S2-8",
             "ja": "S2-8",
@@ -5310,6 +5427,9 @@
             }
         },
         "minClearTime": 142000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S2-9",
             "ja": "S2-9",
@@ -5441,6 +5561,9 @@
             }
         },
         "minClearTime": 172000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S2-10",
             "ja": "S2-10",
@@ -5484,7 +5607,7 @@
                 "dropType": "EXTRA_DROP",
                 "bounds": {
                     "lower": 1,
-                    "upper": 2
+                    "upper": 3
                 }
             },
             {
@@ -5564,6 +5687,9 @@
             }
         },
         "minClearTime": 179000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S2-11",
             "ja": "S2-11",
@@ -5687,6 +5813,9 @@
             }
         },
         "minClearTime": 135000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S2-12",
             "ja": "S2-12",
@@ -5818,6 +5947,9 @@
             }
         },
         "minClearTime": 181000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "3-1",
             "ja": "3-1",
@@ -5941,6 +6073,9 @@
             }
         },
         "minClearTime": 173000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "3-2",
             "ja": "3-2",
@@ -6064,6 +6199,9 @@
             }
         },
         "minClearTime": 172700,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "3-3",
             "ja": "3-3",
@@ -6187,6 +6325,9 @@
             }
         },
         "minClearTime": 216400,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "3-4",
             "ja": "3-4",
@@ -6310,6 +6451,9 @@
             }
         },
         "minClearTime": 165000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "3-5",
             "ja": "3-5",
@@ -6433,6 +6577,9 @@
             }
         },
         "minClearTime": 138000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "3-6",
             "ja": "3-6",
@@ -6564,6 +6711,9 @@
             }
         },
         "minClearTime": 238700,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "3-7",
             "ja": "3-7",
@@ -6719,6 +6869,9 @@
             }
         },
         "minClearTime": 205000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "3-8",
             "ja": "3-8",
@@ -6850,6 +7003,9 @@
             }
         },
         "minClearTime": 130000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S3-1",
             "ja": "S3-1",
@@ -6973,6 +7129,9 @@
             }
         },
         "minClearTime": 125000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S3-2",
             "ja": "S3-2",
@@ -7104,6 +7263,9 @@
             }
         },
         "minClearTime": 208000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S3-3",
             "ja": "S3-3",
@@ -7227,6 +7389,9 @@
             }
         },
         "minClearTime": 136000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S3-4",
             "ja": "S3-4",
@@ -7350,6 +7515,9 @@
             }
         },
         "minClearTime": 147200,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S3-5",
             "ja": "S3-5",
@@ -7489,6 +7657,9 @@
             }
         },
         "minClearTime": 201000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "4-1",
             "ja": "4-1",
@@ -7652,6 +7823,9 @@
             }
         },
         "minClearTime": 140000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "4-2",
             "ja": "4-2",
@@ -7799,6 +7973,9 @@
             }
         },
         "minClearTime": 217500,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "4-3",
             "ja": "4-3",
@@ -7954,6 +8131,9 @@
             }
         },
         "minClearTime": 174000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "4-4",
             "ja": "4-4",
@@ -8109,6 +8289,9 @@
             }
         },
         "minClearTime": 173000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "4-5",
             "ja": "4-5",
@@ -8264,6 +8447,9 @@
             }
         },
         "minClearTime": 198000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "4-6",
             "ja": "4-6",
@@ -8419,6 +8605,9 @@
             }
         },
         "minClearTime": 200000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "4-7",
             "ja": "4-7",
@@ -8582,6 +8771,9 @@
             }
         },
         "minClearTime": 166000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "4-8",
             "ja": "4-8",
@@ -8745,6 +8937,9 @@
             }
         },
         "minClearTime": 216500,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "4-9",
             "ja": "4-9",
@@ -8892,6 +9087,9 @@
             }
         },
         "minClearTime": 240500,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "4-10",
             "ja": "4-10",
@@ -9055,6 +9253,9 @@
             }
         },
         "minClearTime": 179000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S4-1",
             "ja": "S4-1",
@@ -9194,6 +9395,9 @@
             }
         },
         "minClearTime": 214000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S4-2",
             "ja": "S4-2",
@@ -9341,6 +9545,9 @@
             }
         },
         "minClearTime": 160000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S4-3",
             "ja": "S4-3",
@@ -9488,6 +9695,9 @@
             }
         },
         "minClearTime": 181000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S4-4",
             "ja": "S4-4",
@@ -9627,6 +9837,9 @@
             }
         },
         "minClearTime": 150000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S4-5",
             "ja": "S4-5",
@@ -9774,6 +9987,9 @@
             }
         },
         "minClearTime": 120000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S4-6",
             "ja": "S4-6",
@@ -9921,6 +10137,9 @@
             }
         },
         "minClearTime": 199000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S4-7",
             "ja": "S4-7",
@@ -10060,6 +10279,9 @@
             }
         },
         "minClearTime": 195000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S4-8",
             "ja": "S4-8",
@@ -10215,6 +10437,9 @@
             }
         },
         "minClearTime": 247000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S4-9",
             "ja": "S4-9",
@@ -10498,6 +10723,9 @@
             }
         },
         "minClearTime": 99000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "SK-1",
             "ja": "SK-1",
@@ -10565,6 +10793,9 @@
             }
         },
         "minClearTime": 118000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "SK-2",
             "ja": "SK-2",
@@ -10640,6 +10871,9 @@
             }
         },
         "minClearTime": 136000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "SK-3",
             "ja": "SK-3",
@@ -10715,6 +10949,9 @@
             }
         },
         "minClearTime": 121000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "SK-4",
             "ja": "SK-4",
@@ -10790,6 +11027,9 @@
             }
         },
         "minClearTime": 204000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "SK-5",
             "ja": "SK-5",
@@ -10857,6 +11097,9 @@
             }
         },
         "minClearTime": 97000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "CA-1",
             "ja": "CA-1",
@@ -10924,6 +11167,9 @@
             }
         },
         "minClearTime": 101000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "CA-2",
             "ja": "CA-2",
@@ -10999,6 +11245,9 @@
             }
         },
         "minClearTime": 152000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "CA-3",
             "ja": "CA-3",
@@ -11082,6 +11331,9 @@
             }
         },
         "minClearTime": 191000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "CA-4",
             "ja": "CA-4",
@@ -11165,6 +11417,9 @@
             }
         },
         "minClearTime": 173000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "CA-5",
             "ja": "CA-5",
@@ -11316,6 +11571,9 @@
             }
         },
         "minClearTime": 166000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "5-1",
             "ja": "5-1",
@@ -11475,6 +11733,9 @@
             }
         },
         "minClearTime": 187000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "5-2",
             "ja": "5-2",
@@ -11554,6 +11815,9 @@
             }
         },
         "minClearTime": 218000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "5-3",
             "ja": "5-3",
@@ -11705,6 +11969,9 @@
             }
         },
         "minClearTime": 176000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "5-4",
             "ja": "5-4",
@@ -11864,6 +12131,9 @@
             }
         },
         "minClearTime": 193000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "5-5",
             "ja": "5-5",
@@ -12023,6 +12293,9 @@
             }
         },
         "minClearTime": 314000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "5-6",
             "ja": "5-6",
@@ -12102,6 +12375,9 @@
             }
         },
         "minClearTime": 182800,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "5-7",
             "ja": "5-7",
@@ -12261,6 +12537,9 @@
             }
         },
         "minClearTime": 188000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "5-8",
             "ja": "5-8",
@@ -12412,6 +12691,9 @@
             }
         },
         "minClearTime": 194000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "5-9",
             "ja": "5-9",
@@ -12494,6 +12776,9 @@
             }
         },
         "minClearTime": 337000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "5-10",
             "ja": "5-10",
@@ -12573,6 +12858,9 @@
             }
         },
         "minClearTime": 193000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S5-1",
             "ja": "S5-1",
@@ -12724,6 +13012,9 @@
             }
         },
         "minClearTime": 176000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S5-2",
             "ja": "S5-2",
@@ -12795,6 +13086,9 @@
             }
         },
         "minClearTime": 180000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S5-3",
             "ja": "S5-3",
@@ -12874,6 +13168,9 @@
             }
         },
         "minClearTime": 184000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S5-4",
             "ja": "S5-4",
@@ -12945,6 +13242,9 @@
             }
         },
         "minClearTime": 208000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S5-5",
             "ja": "S5-5",
@@ -13104,6 +13404,9 @@
             }
         },
         "minClearTime": 196000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S5-6",
             "ja": "S5-6",
@@ -14182,6 +14485,9 @@
             }
         },
         "minClearTime": 183000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-1",
             "ja": "6-1",
@@ -14341,6 +14647,9 @@
             }
         },
         "minClearTime": 206000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-2",
             "ja": "6-2",
@@ -14492,6 +14801,9 @@
             }
         },
         "minClearTime": 172000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-3",
             "ja": "6-3",
@@ -14651,6 +14963,9 @@
             }
         },
         "minClearTime": 155000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-4",
             "ja": "6-4",
@@ -14730,6 +15045,9 @@
             }
         },
         "minClearTime": 241000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-5",
             "ja": "6-5",
@@ -14952,6 +15270,9 @@
             }
         },
         "minClearTime": 140000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-8",
             "ja": "6-8",
@@ -15031,6 +15352,9 @@
             }
         },
         "minClearTime": 158000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-9",
             "ja": "6-9",
@@ -15182,6 +15506,9 @@
             }
         },
         "minClearTime": 174200,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-10",
             "ja": "6-10",
@@ -15261,6 +15588,9 @@
             }
         },
         "minClearTime": 236000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-11",
             "ja": "6-11",
@@ -15428,6 +15758,9 @@
             }
         },
         "minClearTime": 171000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-12",
             "ja": "6-12",
@@ -15579,6 +15912,9 @@
             }
         },
         "minClearTime": 194000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-14",
             "ja": "6-14",
@@ -15738,6 +16074,9 @@
             }
         },
         "minClearTime": 184000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-15",
             "ja": "6-15",
@@ -15817,6 +16156,9 @@
             }
         },
         "minClearTime": 312000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "6-16",
             "ja": "6-16",
@@ -16003,6 +16345,9 @@
             }
         },
         "minClearTime": 122000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S3-6",
             "ja": "S3-6",
@@ -16150,6 +16495,9 @@
             }
         },
         "minClearTime": 129000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S4-10",
             "ja": "S4-10",
@@ -16309,6 +16657,9 @@
             }
         },
         "minClearTime": 148000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S5-7",
             "ja": "S5-7",
@@ -16468,6 +16819,9 @@
             }
         },
         "minClearTime": 148000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S5-8",
             "ja": "S5-8",
@@ -16619,6 +16973,9 @@
             }
         },
         "minClearTime": 172000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S6-1",
             "ja": "S6-1",
@@ -16690,6 +17047,9 @@
             }
         },
         "minClearTime": 203000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S6-2",
             "ja": "S6-2",
@@ -16769,6 +17129,9 @@
             }
         },
         "minClearTime": 195000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S6-3",
             "ja": "S6-3",
@@ -16912,6 +17275,9 @@
             }
         },
         "minClearTime": 180000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S6-4",
             "ja": "S6-4",
@@ -16952,14 +17318,6 @@
                 }
             },
             {
-                "itemId": "30051",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 100
-                }
-            },
-            {
                 "itemId": "30041",
                 "dropType": "NORMAL_DROP",
                 "bounds": {
@@ -16968,7 +17326,23 @@
                 }
             },
             {
+                "itemId": "30051",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                }
+            },
+            {
                 "itemId": "30061",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                }
+            },
+            {
+                "itemId": "30012",
                 "dropType": "NORMAL_DROP",
                 "bounds": {
                     "lower": 0,
@@ -16985,14 +17359,6 @@
             },
             {
                 "itemId": "30032",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 100
-                }
-            },
-            {
-                "itemId": "30012",
                 "dropType": "NORMAL_DROP",
                 "bounds": {
                     "lower": 0,
@@ -17024,7 +17390,7 @@
                 }
             },
             {
-                "itemId": "30023",
+                "itemId": "30013",
                 "dropType": "NORMAL_DROP",
                 "bounds": {
                     "lower": 0,
@@ -17032,7 +17398,7 @@
                 }
             },
             {
-                "itemId": "30013",
+                "itemId": "30023",
                 "dropType": "NORMAL_DROP",
                 "bounds": {
                     "lower": 0,
@@ -17479,7 +17845,7 @@
                 }
             },
             {
-                "itemId": "30031",
+                "itemId": "30021",
                 "dropType": "NORMAL_DROP",
                 "bounds": {
                     "lower": 0,
@@ -17487,7 +17853,7 @@
                 }
             },
             {
-                "itemId": "30021",
+                "itemId": "30031",
                 "dropType": "NORMAL_DROP",
                 "bounds": {
                     "lower": 0,
@@ -17512,6 +17878,14 @@
             },
             {
                 "itemId": "30061",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                }
+            },
+            {
+                "itemId": "30012",
                 "dropType": "NORMAL_DROP",
                 "bounds": {
                     "lower": 0,
@@ -17623,14 +17997,6 @@
                 }
             },
             {
-                "itemId": "30012",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 100
-                }
-            },
-            {
                 "itemId": "30093",
                 "dropType": "NORMAL_DROP",
                 "bounds": {
@@ -17648,6 +18014,14 @@
             },
             {
                 "itemId": "31013",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                }
+            },
+            {
+                "itemId": "31023",
                 "dropType": "NORMAL_DROP",
                 "bounds": {
                     "lower": 0,
@@ -17681,14 +18055,6 @@
                 "bounds": {
                     "lower": 0,
                     "upper": 0
-                }
-            },
-            {
-                "itemId": "31023",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 100
                 }
             }
         ],
@@ -17765,6 +18131,9 @@
             }
         },
         "minClearTime": 125000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "CE-1",
             "ja": "CE-1",
@@ -17824,6 +18193,9 @@
             }
         },
         "minClearTime": 144000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "CE-2",
             "ja": "CE-2",
@@ -17883,6 +18255,9 @@
             }
         },
         "minClearTime": 141000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "CE-3",
             "ja": "CE-3",
@@ -17942,6 +18317,9 @@
             }
         },
         "minClearTime": 172800,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "CE-4",
             "ja": "CE-4",
@@ -18001,6 +18379,9 @@
             }
         },
         "minClearTime": 196000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "CE-5",
             "ja": "CE-5",
@@ -18061,7 +18442,8 @@
         },
         "minClearTime": 83000,
         "recognitionOnly": [
-            "4006"
+            "4006",
+            "act10mini_token_ticket"
         ],
         "code_i18n": {
             "ko": "AP-1",
@@ -18123,7 +18505,8 @@
         },
         "minClearTime": 139000,
         "recognitionOnly": [
-            "4006"
+            "4006",
+            "act10mini_token_ticket"
         ],
         "code_i18n": {
             "ko": "AP-2",
@@ -18185,7 +18568,8 @@
         },
         "minClearTime": 160000,
         "recognitionOnly": [
-            "4006"
+            "4006",
+            "act10mini_token_ticket"
         ],
         "code_i18n": {
             "ko": "AP-3",
@@ -18247,7 +18631,8 @@
         },
         "minClearTime": 123000,
         "recognitionOnly": [
-            "4006"
+            "4006",
+            "act10mini_token_ticket"
         ],
         "code_i18n": {
             "ko": "AP-4",
@@ -18309,7 +18694,8 @@
         },
         "minClearTime": 208000,
         "recognitionOnly": [
-            "4006"
+            "4006",
+            "act10mini_token_ticket"
         ],
         "code_i18n": {
             "ko": "AP-5",
@@ -18647,6 +19033,13 @@
                 }
             },
             {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 12
+                }
+            },
+            {
                 "dropType": "SPECIAL_DROP",
                 "bounds": {
                     "lower": 0,
@@ -18658,13 +19051,6 @@
                 "bounds": {
                     "lower": 0,
                     "upper": 0
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 12
                 }
             }
         ],
@@ -19129,6 +19515,9 @@
             }
         },
         "minClearTime": 175000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-2",
             "ja": "7-2",
@@ -19200,6 +19589,9 @@
             }
         },
         "minClearTime": 233000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-3",
             "ja": "7-3",
@@ -19359,6 +19751,9 @@
             }
         },
         "minClearTime": 184000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-4",
             "ja": "7-4",
@@ -19518,6 +19913,9 @@
             }
         },
         "minClearTime": 213000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-5",
             "ja": "7-5",
@@ -19597,6 +19995,9 @@
             }
         },
         "minClearTime": 209000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-6",
             "ja": "7-6",
@@ -19764,6 +20165,9 @@
             }
         },
         "minClearTime": 182000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-8",
             "ja": "7-8",
@@ -19931,6 +20335,9 @@
             }
         },
         "minClearTime": 207000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-9",
             "ja": "7-9",
@@ -20082,6 +20489,9 @@
             }
         },
         "minClearTime": 170000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-10",
             "ja": "7-10",
@@ -20161,6 +20571,9 @@
             }
         },
         "minClearTime": 199000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-11",
             "ja": "7-11",
@@ -20240,6 +20653,9 @@
             }
         },
         "minClearTime": 226000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-12",
             "ja": "7-12",
@@ -20391,6 +20807,9 @@
             }
         },
         "minClearTime": 183000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-13",
             "ja": "7-13",
@@ -20542,6 +20961,9 @@
             }
         },
         "minClearTime": 196000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-14",
             "ja": "7-14",
@@ -20701,6 +21123,9 @@
             }
         },
         "minClearTime": 200000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-15",
             "ja": "7-15",
@@ -20780,6 +21205,9 @@
             }
         },
         "minClearTime": 195000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-16",
             "ja": "7-16",
@@ -20947,6 +21375,9 @@
             }
         },
         "minClearTime": 219000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-17",
             "ja": "7-17",
@@ -21026,6 +21457,9 @@
             }
         },
         "minClearTime": 227000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "7-18",
             "ja": "7-18",
@@ -21169,6 +21603,9 @@
             }
         },
         "minClearTime": 141000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S7-1",
             "ja": "S7-1",
@@ -21240,6 +21677,9 @@
             }
         },
         "minClearTime": 188000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S7-2",
             "ja": "S7-2",
@@ -21518,6 +21958,9 @@
             }
         },
         "minClearTime": 167800,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "PR-A-1",
             "ja": "PR-A-1",
@@ -21593,6 +22036,9 @@
             }
         },
         "minClearTime": 214500,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "PR-A-2",
             "ja": "PR-A-2",
@@ -21668,6 +22114,9 @@
             }
         },
         "minClearTime": 151000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "PR-B-1",
             "ja": "PR-B-1",
@@ -21743,6 +22192,9 @@
             }
         },
         "minClearTime": 213000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "PR-B-2",
             "ja": "PR-B-2",
@@ -21818,6 +22270,9 @@
             }
         },
         "minClearTime": 145000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "PR-C-1",
             "ja": "PR-C-1",
@@ -21893,6 +22348,9 @@
             }
         },
         "minClearTime": 179000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "PR-C-2",
             "ja": "PR-C-2",
@@ -21968,6 +22426,9 @@
             }
         },
         "minClearTime": 173800,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "PR-D-1",
             "ja": "PR-D-1",
@@ -22043,6 +22504,9 @@
             }
         },
         "minClearTime": 205000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "PR-D-2",
             "ja": "PR-D-2",
@@ -22118,6 +22582,9 @@
             }
         },
         "minClearTime": 112000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "LS-1",
             "ja": "LS-1",
@@ -22193,6 +22660,9 @@
             }
         },
         "minClearTime": 111000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "LS-2",
             "ja": "LS-2",
@@ -22276,6 +22746,9 @@
             }
         },
         "minClearTime": 140000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "LS-3",
             "ja": "LS-3",
@@ -22367,6 +22840,9 @@
             }
         },
         "minClearTime": 130000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "LS-4",
             "ja": "LS-4",
@@ -22450,6 +22926,9 @@
             }
         },
         "minClearTime": 174500,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "LS-5",
             "ja": "LS-5",
@@ -24547,6 +25026,9 @@
             }
         },
         "minClearTime": 147000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S5-9",
             "ja": "S5-9",
@@ -24626,6 +25108,9 @@
             }
         },
         "minClearTime": 147000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S3-7",
             "ja": "S3-7",
@@ -24769,6 +25254,9 @@
             }
         },
         "minClearTime": 187000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "R8-1",
             "ja": "R8-1",
@@ -24936,6 +25424,9 @@
             }
         },
         "minClearTime": 171000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "R8-2",
             "ja": "R8-2",
@@ -25095,6 +25586,9 @@
             }
         },
         "minClearTime": 169000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "R8-3",
             "ja": "R8-3",
@@ -25166,6 +25660,9 @@
             }
         },
         "minClearTime": 163000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "R8-4",
             "ja": "R8-4",
@@ -25245,6 +25742,9 @@
             }
         },
         "minClearTime": 219000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "R8-5",
             "ja": "R8-5",
@@ -25396,6 +25896,9 @@
             }
         },
         "minClearTime": 193000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "R8-6",
             "ja": "R8-6",
@@ -25563,6 +26066,9 @@
             }
         },
         "minClearTime": 211000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "R8-7",
             "ja": "R8-7",
@@ -25642,6 +26148,9 @@
             }
         },
         "minClearTime": 280000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "R8-8",
             "ja": "R8-8",
@@ -25721,6 +26230,9 @@
             }
         },
         "minClearTime": 220000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "M8-6",
             "ja": "M8-6",
@@ -25872,6 +26384,9 @@
             }
         },
         "minClearTime": 207000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "R8-9",
             "ja": "R8-9",
@@ -26031,6 +26546,9 @@
             }
         },
         "minClearTime": 175000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "R8-10",
             "ja": "R8-10",
@@ -26110,6 +26628,9 @@
             }
         },
         "minClearTime": 157000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "M8-7",
             "ja": "M8-7",
@@ -26261,6 +26782,9 @@
             }
         },
         "minClearTime": 274000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "R8-11",
             "ja": "R8-11",
@@ -26412,6 +26936,9 @@
             }
         },
         "minClearTime": 257000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "M8-8",
             "ja": "M8-8",
@@ -26642,6 +27169,9 @@
             }
         },
         "minClearTime": 187000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "JT8-2",
             "ja": "JT8-2",
@@ -26801,6 +27331,9 @@
             }
         },
         "minClearTime": 295000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "JT8-3",
             "ja": "JT8-3",
@@ -36559,18 +37092,24 @@
         "apCost": 9,
         "existence": {
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643994000000,
+                "closeTime": 1644836400000
+            },
+            "JP": {
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             },
             "CN": {
                 "exist": true,
                 "openTime": 1626768000000,
                 "closeTime": 1627588800000
             },
-            "JP": {
-                "exist": false
-            },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             }
         },
         "minClearTime": 126000,
@@ -36589,18 +37128,24 @@
         "apCost": 9,
         "existence": {
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643994000000,
+                "closeTime": 1644836400000
+            },
+            "JP": {
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             },
             "CN": {
                 "exist": true,
                 "openTime": 1626768000000,
                 "closeTime": 1627588800000
             },
-            "JP": {
-                "exist": false
-            },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             }
         },
         "minClearTime": 178000,
@@ -36619,18 +37164,24 @@
         "apCost": 12,
         "existence": {
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643994000000,
+                "closeTime": 1644836400000
+            },
+            "JP": {
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             },
             "CN": {
                 "exist": true,
                 "openTime": 1626768000000,
                 "closeTime": 1627588800000
             },
-            "JP": {
-                "exist": false
-            },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             }
         },
         "minClearTime": 155000,
@@ -36649,18 +37200,24 @@
         "apCost": 12,
         "existence": {
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643994000000,
+                "closeTime": 1644836400000
+            },
+            "JP": {
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             },
             "CN": {
                 "exist": true,
                 "openTime": 1626768000000,
                 "closeTime": 1627588800000
             },
-            "JP": {
-                "exist": false
-            },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             }
         },
         "minClearTime": 169000,
@@ -36679,18 +37236,24 @@
         "apCost": 15,
         "existence": {
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643994000000,
+                "closeTime": 1644836400000
+            },
+            "JP": {
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             },
             "CN": {
                 "exist": true,
                 "openTime": 1626768000000,
                 "closeTime": 1627588800000
             },
-            "JP": {
-                "exist": false
-            },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             }
         },
         "minClearTime": 175000,
@@ -36709,18 +37272,24 @@
         "apCost": 15,
         "existence": {
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643994000000,
+                "closeTime": 1644836400000
+            },
+            "JP": {
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             },
             "CN": {
                 "exist": true,
                 "openTime": 1626768000000,
                 "closeTime": 1627588800000
             },
-            "JP": {
-                "exist": false
-            },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             }
         },
         "minClearTime": 195000,
@@ -36739,18 +37308,24 @@
         "apCost": 18,
         "existence": {
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643994000000,
+                "closeTime": 1644836400000
+            },
+            "JP": {
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             },
             "CN": {
                 "exist": true,
                 "openTime": 1626768000000,
                 "closeTime": 1627588800000
             },
-            "JP": {
-                "exist": false
-            },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             }
         },
         "minClearTime": 176500,
@@ -36769,18 +37344,24 @@
         "apCost": 18,
         "existence": {
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643994000000,
+                "closeTime": 1644836400000
+            },
+            "JP": {
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             },
             "CN": {
                 "exist": true,
                 "openTime": 1626768000000,
                 "closeTime": 1627588800000
             },
-            "JP": {
-                "exist": false
-            },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1643958000000,
+                "closeTime": 1644778800000
             }
         },
         "minClearTime": 250000,
@@ -38647,6 +39228,9 @@
             }
         },
         "minClearTime": 185000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-2",
             "ja": "9-2",
@@ -38715,6 +39299,9 @@
             }
         },
         "minClearTime": 205000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-3",
             "ja": "9-3",
@@ -38871,6 +39458,9 @@
             }
         },
         "minClearTime": 219000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-4",
             "ja": "9-4",
@@ -39035,6 +39625,9 @@
             }
         },
         "minClearTime": 176000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-5",
             "ja": "9-5",
@@ -39191,6 +39784,9 @@
             }
         },
         "minClearTime": 231000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-6",
             "ja": "9-6",
@@ -39347,6 +39943,9 @@
             }
         },
         "minClearTime": 176000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-7",
             "ja": "9-7",
@@ -39503,6 +40102,9 @@
             }
         },
         "minClearTime": 204000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-9",
             "ja": "9-9",
@@ -39659,6 +40261,9 @@
             }
         },
         "minClearTime": 204000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-10",
             "ja": "9-10",
@@ -39807,6 +40412,9 @@
             }
         },
         "minClearTime": 183000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-11",
             "ja": "9-11",
@@ -39963,6 +40571,9 @@
             }
         },
         "minClearTime": 193000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-12",
             "ja": "9-12",
@@ -40119,6 +40730,9 @@
             }
         },
         "minClearTime": 184000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-13",
             "ja": "9-13",
@@ -40259,6 +40873,9 @@
             }
         },
         "minClearTime": 208000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-14",
             "ja": "9-14",
@@ -40415,6 +41032,9 @@
             }
         },
         "minClearTime": 180000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-15",
             "ja": "9-15",
@@ -40491,6 +41111,9 @@
             }
         },
         "minClearTime": 218000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-16",
             "ja": "9-16",
@@ -40647,6 +41270,9 @@
             }
         },
         "minClearTime": 182000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-17",
             "ja": "9-17",
@@ -40811,6 +41437,9 @@
             }
         },
         "minClearTime": 225000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-18",
             "ja": "9-18",
@@ -40967,6 +41596,9 @@
             }
         },
         "minClearTime": 276000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "9-19",
             "ja": "9-19",
@@ -41131,6 +41763,9 @@
             }
         },
         "minClearTime": 204000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
         "code_i18n": {
             "ko": "S9-1",
             "ja": "S9-1",
@@ -45227,85 +45862,6 @@
         "zoneId": "act15side_zone1",
         "code": "IW-1",
         "apCost": 9,
-        "dropInfos": [
-            {
-                "itemId": "30031",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30061",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30041",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30051",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30021",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30011",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 1,
-                    "upper": 6
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ],
         "existence": {
             "US": {
                 "exist": false
@@ -45323,9 +45879,6 @@
             }
         },
         "minClearTime": 135000,
-        "recognitionOnly": [
-            "act15side_token_tea"
-        ],
         "code_i18n": {
             "ko": "IW-1",
             "ja": "IW-1",
@@ -45339,85 +45892,6 @@
         "zoneId": "act15side_zone1",
         "code": "IW-2",
         "apCost": 9,
-        "dropInfos": [
-            {
-                "itemId": "30031",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30061",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30041",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30051",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30021",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30011",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 1,
-                    "upper": 6
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ],
         "existence": {
             "CN": {
                 "exist": true,
@@ -45435,9 +45909,6 @@
             }
         },
         "minClearTime": 217000,
-        "recognitionOnly": [
-            "act15side_token_tea"
-        ],
         "code_i18n": {
             "ko": "IW-2",
             "ja": "IW-2",
@@ -45450,6 +45921,216 @@
         "stageId": "act15side_03",
         "zoneId": "act15side_zone1",
         "code": "IW-3",
+        "apCost": 9,
+        "existence": {
+            "US": {
+                "exist": false
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "CN": {
+                "exist": true,
+                "openTime": 1643097600000,
+                "closeTime": 1644264000000
+            }
+        },
+        "minClearTime": 166000,
+        "code_i18n": {
+            "ko": "IW-3",
+            "ja": "IW-3",
+            "en": "IW-3",
+            "zh": "IW-3"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act15side_04",
+        "zoneId": "act15side_zone1",
+        "code": "IW-4",
+        "apCost": 12,
+        "existence": {
+            "US": {
+                "exist": false
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "CN": {
+                "exist": true,
+                "openTime": 1643097600000,
+                "closeTime": 1644264000000
+            }
+        },
+        "minClearTime": 181000,
+        "code_i18n": {
+            "ko": "IW-4",
+            "ja": "IW-4",
+            "en": "IW-4",
+            "zh": "IW-4"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act15side_05",
+        "zoneId": "act15side_zone1",
+        "code": "IW-5",
+        "apCost": 12,
+        "existence": {
+            "US": {
+                "exist": false
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "CN": {
+                "exist": true,
+                "openTime": 1643097600000,
+                "closeTime": 1644264000000
+            }
+        },
+        "minClearTime": 171000,
+        "code_i18n": {
+            "ko": "IW-5",
+            "ja": "IW-5",
+            "en": "IW-5",
+            "zh": "IW-5"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act15side_06",
+        "zoneId": "act15side_zone1",
+        "code": "IW-6",
+        "apCost": 18,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1643097600000,
+                "closeTime": 1644264000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 182000,
+        "code_i18n": {
+            "ko": "IW-6",
+            "ja": "IW-6",
+            "en": "IW-6",
+            "zh": "IW-6"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act15side_07",
+        "zoneId": "act15side_zone1",
+        "code": "IW-7",
+        "apCost": 21,
+        "existence": {
+            "US": {
+                "exist": false
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "CN": {
+                "exist": true,
+                "openTime": 1643097600000,
+                "closeTime": 1644264000000
+            }
+        },
+        "minClearTime": 180000,
+        "code_i18n": {
+            "ko": "IW-7",
+            "ja": "IW-7",
+            "en": "IW-7",
+            "zh": "IW-7"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act15side_08",
+        "zoneId": "act15side_zone1",
+        "code": "IW-8",
+        "apCost": 21,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1643097600000,
+                "closeTime": 1644264000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 175000,
+        "code_i18n": {
+            "ko": "IW-8",
+            "ja": "IW-8",
+            "en": "IW-8",
+            "zh": "IW-8"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act15side_09",
+        "zoneId": "act15side_zone1",
+        "code": "IW-9",
+        "apCost": 10,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1643097600000,
+                "closeTime": 1644264000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 230000,
+        "code_i18n": {
+            "ko": "IW-9",
+            "ja": "IW-9",
+            "en": "IW-9",
+            "zh": "IW-9"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act10mini_01",
+        "zoneId": "act10mini_zone1",
+        "code": "TB-1",
         "apCost": 9,
         "dropInfos": [
             {
@@ -45501,6 +46182,62 @@
                 }
             },
             {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
                 "itemId": "furni",
                 "dropType": "FURNITURE",
                 "bounds": {
@@ -45511,7 +46248,7 @@
             {
                 "dropType": "NORMAL_DROP",
                 "bounds": {
-                    "lower": 1,
+                    "lower": 0,
                     "upper": 6
                 }
             },
@@ -45526,13 +46263,15 @@
                 "dropType": "EXTRA_DROP",
                 "bounds": {
                     "lower": 0,
-                    "upper": 0
+                    "upper": 7
                 }
             }
         ],
         "existence": {
-            "US": {
-                "exist": false
+            "CN": {
+                "exist": true,
+                "openTime": 1644912000000,
+                "closeTime": 1645473600000
             },
             "JP": {
                 "exist": false
@@ -45540,32 +46279,30 @@
             "KR": {
                 "exist": false
             },
-            "CN": {
-                "exist": true,
-                "openTime": 1643097600000,
-                "closeTime": 1644264000000
+            "US": {
+                "exist": false
             }
         },
-        "minClearTime": 166000,
+        "minClearTime": 124000,
         "recognitionOnly": [
-            "act15side_token_tea"
+            "act10mini_token_ticket"
         ],
         "code_i18n": {
-            "ko": "IW-3",
-            "ja": "IW-3",
-            "en": "IW-3",
-            "zh": "IW-3"
+            "ko": "TB-1",
+            "ja": "TB-1",
+            "en": "TB-1",
+            "zh": "TB-1"
         }
     },
     {
         "stageType": "ACTIVITY",
-        "stageId": "act15side_04",
-        "zoneId": "act15side_zone1",
-        "code": "IW-4",
-        "apCost": 12,
+        "stageId": "act10mini_02",
+        "zoneId": "act10mini_zone1",
+        "code": "TB-2",
+        "apCost": 9,
         "dropInfos": [
             {
-                "itemId": "30052",
+                "itemId": "30031",
                 "dropType": "NORMAL_DROP",
                 "bounds": {
                     "lower": 0,
@@ -45573,8 +46310,96 @@
                 }
             },
             {
-                "itemId": "30012",
+                "itemId": "30061",
                 "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
                 "bounds": {
                     "lower": 0,
                     "upper": 3
@@ -45591,8 +46416,984 @@
             {
                 "dropType": "NORMAL_DROP",
                 "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 7
+                }
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1644912000000,
+                "closeTime": 1645473600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 139000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
+        "code_i18n": {
+            "ko": "TB-2",
+            "ja": "TB-2",
+            "en": "TB-2",
+            "zh": "TB-2"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act10mini_03",
+        "zoneId": "act10mini_zone1",
+        "code": "TB-3",
+        "apCost": 12,
+        "dropInfos": [
+            {
+                "itemId": "30031",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30012",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30032",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30062",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            }
+        ],
+        "existence": {
+            "US": {
+                "exist": false
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "CN": {
+                "exist": true,
+                "openTime": 1644912000000,
+                "closeTime": 1645473600000
+            }
+        },
+        "minClearTime": 181000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
+        "code_i18n": {
+            "ko": "TB-3",
+            "ja": "TB-3",
+            "en": "TB-3",
+            "zh": "TB-3"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act10mini_04",
+        "zoneId": "act10mini_zone1",
+        "code": "TB-4",
+        "apCost": 12,
+        "dropInfos": [
+            {
+                "itemId": "30031",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2001",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30022",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30042",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30052",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2002",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1644912000000,
+                "closeTime": 1645473600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 226100,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
+        "code_i18n": {
+            "ko": "TB-4",
+            "ja": "TB-4",
+            "en": "TB-4",
+            "zh": "TB-4"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act10mini_05",
+        "zoneId": "act10mini_zone1",
+        "code": "TB-5",
+        "apCost": 15,
+        "dropInfos": [
+            {
+                "itemId": "30042",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30012",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30032",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30062",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
                     "lower": 1,
                     "upper": 2
+                }
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1644912000000,
+                "closeTime": 1645473600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 184000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
+        "code_i18n": {
+            "ko": "TB-5",
+            "ja": "TB-5",
+            "en": "TB-5",
+            "zh": "TB-5"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act10mini_06",
+        "zoneId": "act10mini_zone1",
+        "code": "TB-6",
+        "apCost": 15,
+        "dropInfos": [
+            {
+                "itemId": "30052",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2001",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30022",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30042",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30052",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2002",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 2
+                }
+            }
+        ],
+        "existence": {
+            "US": {
+                "exist": false
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "CN": {
+                "exist": true,
+                "openTime": 1644912000000,
+                "closeTime": 1645473600000
+            }
+        },
+        "minClearTime": 229000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
+        "code_i18n": {
+            "ko": "TB-6",
+            "ja": "TB-6",
+            "en": "TB-6",
+            "zh": "TB-6"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act10mini_07",
+        "zoneId": "act10mini_zone1",
+        "code": "TB-7",
+        "apCost": 21,
+        "dropInfos": [
+            {
+                "itemId": "30033",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30012",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30062",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30013",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30063",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30073",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "31013",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1644912000000,
+                "closeTime": 1645473600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 247000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
+        "code_i18n": {
+            "ko": "TB-7",
+            "ja": "TB-7",
+            "en": "TB-7",
+            "zh": "TB-7"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act10mini_08",
+        "zoneId": "act10mini_zone1",
+        "code": "TB-8",
+        "apCost": 21,
+        "dropInfos": [
+            {
+                "itemId": "31033",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2001",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30022",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30042",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2002",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30023",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30043",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30083",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "31023",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1644912000000,
+                "closeTime": 1645473600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 274000,
+        "recognitionOnly": [
+            "act10mini_token_ticket"
+        ],
+        "code_i18n": {
+            "ko": "TB-8",
+            "ja": "TB-8",
+            "en": "TB-8",
+            "zh": "TB-8"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act10mini_09",
+        "zoneId": "act10mini_zone1",
+        "code": "TB-9",
+        "apCost": 0,
+        "dropInfos": [
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
                 }
             },
             {
@@ -45611,8 +47412,10 @@
             }
         ],
         "existence": {
-            "US": {
-                "exist": false
+            "CN": {
+                "exist": true,
+                "openTime": 1644912000000,
+                "closeTime": 1645473600000
             },
             "JP": {
                 "exist": false
@@ -45620,29 +47423,85 @@
             "KR": {
                 "exist": false
             },
-            "CN": {
-                "exist": true,
-                "openTime": 1643097600000,
-                "closeTime": 1644264000000
+            "US": {
+                "exist": false
             }
         },
-        "minClearTime": 181000,
-        "recognitionOnly": [
-            "act15side_token_tea"
-        ],
+        "minClearTime": 222000,
         "code_i18n": {
-            "ko": "IW-4",
-            "ja": "IW-4",
-            "en": "IW-4",
-            "zh": "IW-4"
+            "ko": "TB-9",
+            "ja": "TB-9",
+            "en": "TB-9",
+            "zh": "TB-9"
         }
     },
     {
         "stageType": "ACTIVITY",
-        "stageId": "act15side_05",
-        "zoneId": "act15side_zone1",
-        "code": "IW-5",
-        "apCost": 12,
+        "stageId": "act10mini_10",
+        "zoneId": "act10mini_zone1",
+        "code": "TB-10",
+        "apCost": 0,
+        "dropInfos": [
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1644912000000,
+                "closeTime": 1645473600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 101000,
+        "code_i18n": {
+            "ko": "TB-10",
+            "ja": "TB-10",
+            "en": "TB-10",
+            "zh": "TB-10"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act16d5_01_perm",
+        "zoneId": "permanent_sidestory_8_zone1",
+        "code": "WR-1",
+        "apCost": 9,
         "dropInfos": [
             {
                 "itemId": "30032",
@@ -45653,11 +47512,307 @@
                 }
             },
             {
-                "itemId": "30022",
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                }
+            }
+        ],
+        "existence": {
+            "US": {
+                "exist": false
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "CN": {
+                "exist": true,
+                "openTime": 1642968000000
+            }
+        },
+        "minClearTime": 187000,
+        "code_i18n": {
+            "ko": "WR-1",
+            "ja": "WR-1",
+            "en": "WR-1",
+            "zh": "WR-1"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act16d5_02_perm",
+        "zoneId": "permanent_sidestory_8_zone1",
+        "code": "WR-2",
+        "apCost": 9,
+        "dropInfos": [
+            {
+                "itemId": "30052",
                 "dropType": "NORMAL_DROP",
                 "bounds": {
                     "lower": 0,
                     "upper": 3
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                }
+            }
+        ],
+        "existence": {
+            "US": {
+                "exist": false
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "CN": {
+                "exist": true,
+                "openTime": 1642968000000
+            }
+        },
+        "minClearTime": 146000,
+        "code_i18n": {
+            "ko": "WR-2",
+            "ja": "WR-2",
+            "en": "WR-2",
+            "zh": "WR-2"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act16d5_03_perm",
+        "zoneId": "permanent_sidestory_8_zone1",
+        "code": "WR-3",
+        "apCost": 12,
+        "dropInfos": [
+            {
+                "itemId": "2002",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30012",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30032",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30062",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
                 }
             },
             {
@@ -45672,7 +47827,7 @@
                 "dropType": "NORMAL_DROP",
                 "bounds": {
                     "lower": 1,
-                    "upper": 2
+                    "upper": 1
                 }
             },
             {
@@ -45685,8 +47840,256 @@
             {
                 "dropType": "EXTRA_DROP",
                 "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                }
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1642968000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 153000,
+        "code_i18n": {
+            "ko": "WR-3",
+            "ja": "WR-3",
+            "en": "WR-3",
+            "zh": "WR-3"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act16d5_04_perm",
+        "zoneId": "permanent_sidestory_8_zone1",
+        "code": "WR-4",
+        "apCost": 12,
+        "dropInfos": [
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2001",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30022",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30042",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30052",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2002",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
                     "lower": 0,
                     "upper": 0
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                }
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1642968000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 205000,
+        "code_i18n": {
+            "ko": "WR-4",
+            "ja": "WR-4",
+            "en": "WR-4",
+            "zh": "WR-4"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act16d5_05_perm",
+        "zoneId": "permanent_sidestory_8_zone1",
+        "code": "WR-5",
+        "apCost": 12,
+        "dropInfos": [
+            {
+                "itemId": "30021",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30012",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30032",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30062",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
                 }
             }
         ],
@@ -45702,31 +48105,339 @@
             },
             "CN": {
                 "exist": true,
-                "openTime": 1643097600000,
-                "closeTime": 1644264000000
+                "openTime": 1642968000000
             }
         },
-        "minClearTime": 171000,
-        "recognitionOnly": [
-            "act15side_token_tea"
-        ],
+        "minClearTime": 165000,
         "code_i18n": {
-            "ko": "IW-5",
-            "ja": "IW-5",
-            "en": "IW-5",
-            "zh": "IW-5"
+            "ko": "WR-5",
+            "ja": "WR-5",
+            "en": "WR-5",
+            "zh": "WR-5"
         }
     },
     {
         "stageType": "ACTIVITY",
-        "stageId": "act15side_06",
-        "zoneId": "act15side_zone1",
-        "code": "IW-6",
-        "apCost": 18,
+        "stageId": "act16d5_06_perm",
+        "zoneId": "permanent_sidestory_8_zone1",
+        "code": "WR-6",
+        "apCost": 12,
         "dropInfos": [
             {
-                "itemId": "30063",
+                "itemId": "30031",
                 "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2001",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30022",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30042",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30052",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2002",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                }
+            }
+        ],
+        "existence": {
+            "US": {
+                "exist": false
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "CN": {
+                "exist": true,
+                "openTime": 1642968000000
+            }
+        },
+        "minClearTime": 169000,
+        "code_i18n": {
+            "ko": "WR-6",
+            "ja": "WR-6",
+            "en": "WR-6",
+            "zh": "WR-6"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act16d5_07_perm",
+        "zoneId": "permanent_sidestory_8_zone1",
+        "code": "WR-7",
+        "apCost": 12,
+        "dropInfos": [
+            {
+                "itemId": "30041",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30012",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30032",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30062",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                }
+            }
+        ],
+        "existence": {
+            "US": {
+                "exist": false
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "CN": {
+                "exist": true,
+                "openTime": 1642968000000
+            }
+        },
+        "minClearTime": 164000,
+        "code_i18n": {
+            "ko": "WR-7",
+            "ja": "WR-7",
+            "en": "WR-7",
+            "zh": "WR-7"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act16d5_08_perm",
+        "zoneId": "permanent_sidestory_8_zone1",
+        "code": "WR-8",
+        "apCost": 15,
+        "dropInfos": [
+            {
+                "itemId": "31023",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30012",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30032",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30062",
+                "dropType": "EXTRA_DROP",
                 "bounds": {
                     "lower": 0,
                     "upper": 1
@@ -45757,16 +48468,15 @@
             {
                 "dropType": "EXTRA_DROP",
                 "bounds": {
-                    "lower": 0,
-                    "upper": 0
+                    "lower": 1,
+                    "upper": 1
                 }
             }
         ],
         "existence": {
             "CN": {
                 "exist": true,
-                "openTime": 1643097600000,
-                "closeTime": 1644264000000
+                "openTime": 1642968000000
             },
             "JP": {
                 "exist": false
@@ -45778,23 +48488,168 @@
                 "exist": false
             }
         },
-        "minClearTime": 182000,
-        "recognitionOnly": [
-            "act15side_token_tea"
-        ],
+        "minClearTime": 206000,
         "code_i18n": {
-            "ko": "IW-6",
-            "ja": "IW-6",
-            "en": "IW-6",
-            "zh": "IW-6"
+            "ko": "WR-8",
+            "ja": "WR-8",
+            "en": "WR-8",
+            "zh": "WR-8"
         }
     },
     {
         "stageType": "ACTIVITY",
-        "stageId": "act15side_07",
-        "zoneId": "act15side_zone1",
-        "code": "IW-7",
-        "apCost": 21,
+        "stageId": "act16d5_09_perm",
+        "zoneId": "permanent_sidestory_8_zone1",
+        "code": "WR-9",
+        "apCost": 18,
+        "dropInfos": [
+            {
+                "itemId": "30033",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30034",
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30032",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30052",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30033",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30053",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30093",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "31033",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30103",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                }
+            }
+        ],
+        "existence": {
+            "US": {
+                "exist": false
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "CN": {
+                "exist": true,
+                "openTime": 1642968000000
+            }
+        },
+        "minClearTime": 177000,
+        "code_i18n": {
+            "ko": "WR-9",
+            "ja": "WR-9",
+            "en": "WR-9",
+            "zh": "WR-9"
+        }
+    },
+    {
+        "stageType": "ACTIVITY",
+        "stageId": "act16d5_10_perm",
+        "zoneId": "permanent_sidestory_8_zone1",
+        "code": "WR-10",
+        "apCost": 18,
         "dropInfos": [
             {
                 "itemId": "30013",
@@ -45805,6 +48660,86 @@
                 }
             },
             {
+                "itemId": "30014",
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30012",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30062",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30013",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30063",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30073",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "31013",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
                 "itemId": "furni",
                 "dropType": "FURNITURE",
                 "bounds": {
@@ -45823,94 +48758,21 @@
                 "dropType": "SPECIAL_DROP",
                 "bounds": {
                     "lower": 0,
-                    "upper": 0
+                    "upper": 1
                 }
             },
             {
                 "dropType": "EXTRA_DROP",
                 "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ],
-        "existence": {
-            "US": {
-                "exist": false
-            },
-            "JP": {
-                "exist": false
-            },
-            "KR": {
-                "exist": false
-            },
-            "CN": {
-                "exist": true,
-                "openTime": 1643097600000,
-                "closeTime": 1644264000000
-            }
-        },
-        "minClearTime": 180000,
-        "recognitionOnly": [
-            "act15side_token_tea"
-        ],
-        "code_i18n": {
-            "ko": "IW-7",
-            "ja": "IW-7",
-            "en": "IW-7",
-            "zh": "IW-7"
-        }
-    },
-    {
-        "stageType": "ACTIVITY",
-        "stageId": "act15side_08",
-        "zoneId": "act15side_zone1",
-        "code": "IW-8",
-        "apCost": 21,
-        "dropInfos": [
-            {
-                "itemId": "30103",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
+                    "lower": 1,
                     "upper": 1
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
                 }
             }
         ],
         "existence": {
             "CN": {
                 "exist": true,
-                "openTime": 1643097600000,
-                "closeTime": 1644264000000
+                "openTime": 1642968000000
             },
             "JP": {
                 "exist": false
@@ -45922,79 +48784,13 @@
                 "exist": false
             }
         },
-        "minClearTime": 175000,
-        "recognitionOnly": [
-            "act15side_token_tea"
-        ],
+        "minClearTime": 251000,
         "code_i18n": {
-            "ko": "IW-8",
-            "ja": "IW-8",
-            "en": "IW-8",
-            "zh": "IW-8"
-        }
-    },
-    {
-        "stageType": "ACTIVITY",
-        "stageId": "act15side_09",
-        "zoneId": "act15side_zone1",
-        "code": "IW-9",
-        "apCost": 10,
-        "dropInfos": [
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ],
-        "existence": {
-            "CN": {
-                "exist": true,
-                "openTime": 1643097600000,
-                "closeTime": 1644264000000
-            },
-            "JP": {
-                "exist": false
-            },
-            "KR": {
-                "exist": false
-            },
-            "US": {
-                "exist": false
-            }
-        },
-        "minClearTime": 230000,
-        "recognitionOnly": [
-            "act15side_token_tea"
-        ],
-        "code_i18n": {
-            "ko": "IW-9",
-            "ja": "IW-9",
-            "en": "IW-9",
-            "zh": "IW-9"
+            "ko": "WR-10",
+            "ja": "WR-10",
+            "en": "WR-10",
+            "zh": "WR-10"
         }
     }
 ]
+
