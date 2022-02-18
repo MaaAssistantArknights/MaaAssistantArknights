@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <optional>
 
 #include "AsstDef.h"
 
@@ -45,6 +46,23 @@ namespace asst
         AipOcrCfg aip_ocr;                   // 百度 OCR API 的配置
     };
 
+    struct AdbCfg
+    {
+        /* format */
+        std::string address_regex;
+        std::string display_format;
+
+        /* command */
+        std::string devices;
+        std::string connect;
+        std::string click;
+        std::string swipe;
+        std::string display;
+        std::string screencap_raw_with_gzip;
+        std::string screencap_encode;
+        std::string release;
+    };
+
     class GeneralConfiger : public AbstractConfiger
     {
     public:
@@ -62,22 +80,20 @@ namespace asst
         {
             return m_options;
         }
-        const std::unordered_map<std::string, EmulatorInfo>& get_emulators_info() const noexcept
+        std::optional<AdbCfg> get_adb_cfg(const std::string& name) const
         {
-            return m_emulators_info;
+            if (auto iter = m_adb_cfg.find(name);
+                iter != m_adb_cfg.cend()) {
+                return iter->second;
+            }
+            else {
+                return std::nullopt;
+            }
         }
 
         void set_options(Options opt) noexcept
         {
             m_options = std::move(opt);
-        }
-        void set_emulator_info(std::string name, EmulatorInfo emu)
-        {
-            m_emulators_info.emplace(std::move(name), std::move(emu));
-        }
-        void set_emulator_path(std::string name, std::string path)
-        {
-            m_emulators_info[name].path = path;
         }
 
     protected:
@@ -85,6 +101,6 @@ namespace asst
 
         std::string m_version;
         Options m_options;
-        std::unordered_map<std::string, EmulatorInfo> m_emulators_info;
+        std::unordered_map<std::string, AdbCfg> m_adb_cfg;
     };
 }

@@ -13,7 +13,6 @@
 #include "RecruitConfiger.h"
 #include "TaskData.h"
 #include "TemplResource.h"
-#include "UserConfiger.h"
 #include "TilePack.h"
 
 namespace asst
@@ -51,10 +50,6 @@ namespace asst
         {
             return m_infrast_cfg_unique_ins;
         }
-        UserConfiger& user() noexcept
-        {
-            return m_user_cfg_unique_ins;
-        }
         OcrPack& ocr() noexcept
         {
             return m_ocr_pack_unique_ins;
@@ -88,10 +83,6 @@ namespace asst
         {
             return m_infrast_cfg_unique_ins;
         }
-        const UserConfiger& user() const noexcept
-        {
-            return m_user_cfg_unique_ins;
-        }
         const OcrPack& ocr() const noexcept
         {
             return m_ocr_pack_unique_ins;
@@ -116,7 +107,6 @@ namespace asst
         RecruitConfiger m_recruit_cfg_unique_ins;
         ItemConfiger m_item_cfg_unique_ins;
         InfrastConfiger m_infrast_cfg_unique_ins;
-        UserConfiger m_user_cfg_unique_ins;
         OcrPack m_ocr_pack_unique_ins;
         PenguinPack m_penguin_pack_unique_ins;
         TilePack m_tile_pack_unique_ins;

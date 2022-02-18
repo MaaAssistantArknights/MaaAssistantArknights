@@ -16,7 +16,7 @@ bool RecruitTask::_run()
     m_has_special_tag = false;
     m_has_refresh = false;
 
-    const cv::Mat image = Ctrler.get_image();
+    const cv::Mat image = m_ctrler->get_image();
     RecruitImageAnalyzer analyzer(image);
 
     if (!analyzer.analyze()) {
@@ -26,7 +26,7 @@ bool RecruitTask::_run()
 
     if (m_set_time) {
         for (const auto& rect : analyzer.get_set_time_rect()) {
-            Ctrler.click(rect, false);
+            m_ctrler->click(rect, false);
         }
     }
     const std::vector<TextRect>& all_tags = analyzer.get_tags_result();
@@ -198,7 +198,7 @@ bool RecruitTask::_run()
 
             for (const TextRect& text_area : all_tags) {
                 if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
-                    Ctrler.click(text_area.rect, true);
+                    m_ctrler->click(text_area.rect, true);
                 }
             }
 

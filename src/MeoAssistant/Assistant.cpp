@@ -37,7 +37,6 @@ Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_
     m_callback_arg(callback_arg)
 {
     Logger::set_dirname(m_dirname);
-    Controller::set_dirname(m_dirname);
 
     LogTraceFunction;
 
@@ -56,6 +55,8 @@ Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_
         m_callback(AsstMsg::InitFailed, callback_json, m_callback_arg);
         throw error;
     }
+
+    m_ctrler = std::make_shared<Controller>(task_callback, (void*)this);
 
     m_working_thread = std::thread(std::bind(&Assistant::working_proc, this));
     m_msg_thread = std::thread(std::bind(&Assistant::msg_proc, this));
@@ -78,85 +79,17 @@ Assistant::~Assistant()
     }
 }
 
-bool asst::Assistant::catch_default()
+bool asst::Assistant::connect(const std::string& adb_path, const std::string& address, const std::string& config)
 {
     LogTraceFunction;
-
-    auto& opt = Resrc.cfg().get_options();
-    switch (opt.connect_type) {
-    case ConnectType::Emulator:
-        return catch_emulator();
-    case ConnectType::Custom:
-        return catch_custom();
-    default:
-        return false;
-    }
-}
-
-bool Assistant::catch_emulator(const std::string& emulator_name)
-{
-    LogTraceFunction;
-
-    stop();
-#ifdef _WIN32
-    bool ret = false;
-    //std::string cor_name = emulator_name;
-    auto& cfg = Resrc.cfg();
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    // 自动匹配模拟器，逐个找
-    if (emulator_name.empty()) {
-        for (const auto& [name, info] : cfg.get_emulators_info()) {
-            ret = Ctrler.try_capture(info);
-            if (ret) {
-                //cor_name = name;
-                break;
-            }
-        }
-    }
-    else { // 指定的模拟器
-        auto& info = cfg.get_emulators_info().at(emulator_name);
-        ret = Ctrler.try_capture(info);
-    }
+    stop(false);
 
+    bool ret = m_ctrler->connect(adb_path, address, config.empty() ? "General" : config);
     m_inited = ret;
     return ret;
-#else   // Not supported catch emulator in Linux
-    return false;
-#endif
-}
-
-bool asst::Assistant::catch_custom(const std::string& address)
-{
-    LogTraceFunction;
-
-    stop();
-
-    bool ret = false;
-    auto& cfg = Resrc.cfg();
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    EmulatorInfo remote_info = cfg.get_emulators_info().at("Custom");
-    if (!address.empty()) {
-        remote_info.adb.addresses.push_back(address);
-    }
-
-    ret = Ctrler.try_capture(remote_info, true);
-
-    m_inited = ret;
-    return ret;
-}
-
-bool asst::Assistant::catch_fake()
-{
-    LogTraceFunction;
-
-    stop();
-
-    m_inited = true;
-    return true;
 }
 
 bool asst::Assistant::append_start_up()
@@ -497,12 +430,18 @@ void asst::Assistant::set_penguin_id(const std::string& id)
 
 std::vector<uchar> asst::Assistant::get_image() const
 {
-    return Ctrler.get_image_encode();
+    if (!m_inited) {
+        return std::vector<uchar>();
+    }
+    return m_ctrler->get_image_encode();
 }
 
 bool asst::Assistant::ctrler_click(int x, int y, bool block)
 {
-    Ctrler.click(Point(x, y), block);
+    if (!m_inited) {
+        return false;
+    }
+    m_ctrler->click(Point(x, y), block);
     return true;
 }
 
@@ -568,6 +507,7 @@ void Assistant::working_proc()
             }
 
             task_ptr->set_exit_flag(&m_thread_idle);
+            task_ptr->set_ctrler(m_ctrler);
             bool ret = task_ptr->run();
 
             if (cur_taskchain != next_taskchain) {

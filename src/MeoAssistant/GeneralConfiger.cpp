@@ -30,33 +30,22 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         }
     }
 
-    for (const auto& [name, emulator_json] : json.at("emulator").as_object()) {
-        EmulatorInfo emulator_info;
-        emulator_info.name = name;
+    for (const auto& [name, cfg_json] : json.at("emulator").as_object()) {
+        AdbCfg adb;
 
-        const json::object& handle_json = emulator_json.at("handle").as_object();
-        emulator_info.handle.class_name = handle_json.at("class").as_string();
-        emulator_info.handle.window_name = handle_json.at("window").as_string();
+        adb.devices = cfg_json.at("devices").as_string();
+        adb.address_regex = cfg_json.at("addressRegex").as_string();
+        adb.connect = cfg_json.at("connect").as_string();
+        adb.click = cfg_json.at("click").as_string();
+        adb.swipe = cfg_json.at("swipe").as_string();
+        adb.display = cfg_json.at("display").as_string();
+        adb.display_format = cfg_json.at("displayFormat").as_string();
+        adb.screencap_raw_with_gzip = cfg_json.at("screencapRawWithGzip").as_string();
+        adb.screencap_encode = cfg_json.at("screencapEncode").as_string();
+        adb.release = cfg_json.at("release").as_string();
+        //adb.pullscreen = cfg_json.at("pullscreen").as_string();
 
-        const json::object& adb_json = emulator_json.at("adb").as_object();
-        emulator_info.adb.path = adb_json.at("path").as_string();
-
-        for (const json::value& address_json : adb_json.at("addresses").as_array()) {
-            emulator_info.adb.addresses.emplace_back(address_json.as_string());
-        }
-        emulator_info.adb.devices = adb_json.at("devices").as_string();
-        emulator_info.adb.address_regex = adb_json.at("addressRegex").as_string();
-        emulator_info.adb.connect = adb_json.at("connect").as_string();
-        emulator_info.adb.click = adb_json.at("click").as_string();
-        emulator_info.adb.swipe = adb_json.at("swipe").as_string();
-        emulator_info.adb.display = adb_json.at("display").as_string();
-        emulator_info.adb.display_format = adb_json.at("displayFormat").as_string();
-        emulator_info.adb.screencap_raw_with_gzip = adb_json.at("screencapRawWithGzip").as_string();
-        emulator_info.adb.screencap_encode = adb_json.at("screencapEncode").as_string();
-        emulator_info.adb.release = adb_json.at("release").as_string();
-        //emulator_info.adb.pullscreen = adb_json.at("pullscreen").as_string();
-
-        m_emulators_info.emplace(name, std::move(emulator_info));
+        m_adb_cfg.emplace(name, std::move(adb));
     }
 
     return true;
