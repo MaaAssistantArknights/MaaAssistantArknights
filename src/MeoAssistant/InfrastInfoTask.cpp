@@ -9,7 +9,7 @@
 bool asst::InfrastInfoTask::_run()
 {
     swipe_to_the_left_of_main_ui();
-    const auto image = Ctrler.get_image();
+    const auto image = m_ctrler->get_image();
 
     InfrastFacilityImageAnalyzer analyzer(image);
     analyzer.set_to_be_analyzed({ "Mfg", "Trade", "Power", "Dorm" });

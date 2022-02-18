@@ -91,7 +91,6 @@ void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
     m_replace = std::move(task_info.replace_map);
 
     set_roi(task_info.roi);
-    correct_roi();
     auto& cache_roi = task_info.region_of_appeared;
     if (task_info.cache && !cache_roi.empty()) {
         m_roi = cache_roi;

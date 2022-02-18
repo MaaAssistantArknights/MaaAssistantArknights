@@ -8,7 +8,7 @@
 bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskCompleted
-    || details.get("subtask", std::string()) != "ProcessTask") {
+        || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
@@ -22,7 +22,7 @@ bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& 
 
 bool asst::RoguelikeFormationTaskPlugin::_run()
 {
-    RoguelikeFormationImageAnalyzer formation_analyzer(Ctrler.get_image());
+    RoguelikeFormationImageAnalyzer formation_analyzer(m_ctrler->get_image());
     if (!formation_analyzer.analyze()) {
         return false;
     }
@@ -31,7 +31,7 @@ bool asst::RoguelikeFormationTaskPlugin::_run()
         if (oper.selected) {
             continue;
         }
-        Ctrler.click(oper.rect);
+        m_ctrler->click(oper.rect);
     }
 
     return true;

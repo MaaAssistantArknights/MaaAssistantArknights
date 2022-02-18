@@ -73,7 +73,6 @@ void asst::MatchImageAnalyzer::set_task_info(MatchTaskInfo task_info) noexcept
     }
     else {
         set_roi(task_info.roi);
-        correct_roi();
     }
 }
 bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)

@@ -18,7 +18,7 @@ int main(int argc, char** argv)
         return -1;
     }
     //auto ret = AsstCatchCustom(ptr, "127.0.0.1:5555");
-    auto ret = AsstCatchDefault(ptr);
+    auto ret = AsstConnect(ptr, "adb", "127.0.0.1:5555", nullptr);
     if (!ret) {
         std::cout << "connect failed" << std::endl;
         if (ptr) {
