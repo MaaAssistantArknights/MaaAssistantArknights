@@ -19,14 +19,14 @@ def job():
     # print("I'm running on thread %s" % threading.current_thread())
     print("现在时间：" + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
-    # asst.append_fight("LastBattle", 0, 0, 999)
-    # asst.append_recruit(3, [4, 5], [3, 4, 5], True, False)
-    # asst.append_infrast(1, ["Mfg", "Trade", "Control",
-    #                     "Power", "Reception", "Office", "Dorm"], "Money", 0.1)
-    # asst.append_visit()
-    # asst.append_mall(True)
+    asst.append_fight("LastBattle", 0, 0, 999)
+    asst.append_recruit(3, [4, 5], [3, 4, 5], True, False)
+    asst.append_infrast(1, ["Mfg", "Trade", "Control",
+                        "Power", "Reception", "Office", "Dorm"], "Money", 0.1)
+    asst.append_visit()
+    asst.append_mall(True)
     asst.append_award()
-    asst.set_penguin_id('18688523')
+    # asst.set_penguin_id('18688523')
 
     asst.start()
 
