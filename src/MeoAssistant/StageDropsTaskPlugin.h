@@ -27,6 +27,7 @@ namespace asst
         void set_startbutton_delay();
         void upload_to_penguin();
 
+        static constexpr int64_t RecognizationTimeOffset = 20;
         std::unordered_map<std::string, int> m_drop_stats;
         json::value m_cur_drops;
         bool m_startbutton_delay_setted = false;
