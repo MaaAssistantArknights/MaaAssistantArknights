@@ -421,7 +421,8 @@
             "StartButton2",
             "UseMedicine",
             "UseStone",
-            "NoStone"
+            "NoStone",
+            "StartButton1"
         ]
     },
     "StartButton2": {
