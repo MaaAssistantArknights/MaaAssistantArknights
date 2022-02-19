@@ -110,6 +110,8 @@ bool asst::Controller::connect_adb(const std::string & address)
     std::string connect_cmd = utils::string_replace_all(
         utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", m_emulator_info.adb.path),
         "[Address]", address);
+
+    std::string display_id;
     auto connect_ret = call_command(connect_cmd, 600 * 1000);
     // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
     if (!connect_ret) {
@@ -136,17 +138,18 @@ bool asst::Controller::connect_adb(const std::string & address)
             return false;
         }
 
-        m_emulator_info.adb.display_id = display_id_pipe_str.substr(last + 1);
+        display_id = display_id_pipe_str.substr(last + 1);
         // 去掉换行
-        m_emulator_info.adb.display_id.pop_back();
+        display_id.pop_back();
     }
+    std::vector<std::pair<std::string, std::string>> replaces = {
+        {"[Adb]", m_emulator_info.adb.path},
+        {"[Address]", address},
+        {"[DisplayId]", display_id}
+    };
 
-
-    std::string display_cmd = utils::string_replace_all(
-        utils::string_replace_all(
-        utils::string_replace_all(m_emulator_info.adb.display, "[Adb]", m_emulator_info.adb.path),
-        "[Address]", address),
-        "[DisplayId]", m_emulator_info.adb.display_id);
+    std::string display_cmd = utils::string_replace_all_batch(
+        m_emulator_info.adb.display, replaces);
 
     auto display_ret = call_command(display_cmd);
     if (!display_ret) {
@@ -188,11 +191,7 @@ bool asst::Controller::connect_adb(const std::string & address)
         m_scale_size = std::make_pair(WindowWidthDefault, scale_height);
         m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(WindowWidthDefault);
     }
-    std::vector<std::pair<std::string, std::string>> replaces = {
-        {"[Adb]", m_emulator_info.adb.path},
-        {"[Address]", address},
-        {"[DisplayId]", m_emulator_info.adb.display_id}
-    };
+    
     m_emulator_info.adb.click = utils::string_replace_all_batch(
         m_emulator_info.adb.click, replaces);
     m_emulator_info.adb.swipe = utils::string_replace_all_batch(
