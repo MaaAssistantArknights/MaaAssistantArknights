@@ -148,6 +148,7 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
 {
     for (TaskPluginPtr plugin : m_plugins) {
         plugin->set_exit_flag(m_exit_flag);
+        plugin->set_ctrler(m_ctrler);
         plugin->set_task_ptr(this);
 
         if (!plugin->verify(msg, detail)) {
