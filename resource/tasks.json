@@ -340,7 +340,6 @@
         "next": [
             "UsePrts",
             "StartButton1",
-            "StartButton2",
             "PRTS",
             "PRTS2",
             "EndOfAction"
