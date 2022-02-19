@@ -41,6 +41,9 @@ extern "C" {
     bool ASSTAPI AsstCtrlerClick(asst::Assistant* p_asst, int x, int y, bool block);
 
     ASSTAPI_PORT const char* ASST_CALL AsstGetVersion();
+
+    void ASSTAPI AsstLog(asst::Assistant* p_asst, const char* level, const char* message);
+
 #ifdef __cplusplus
 }
 #endif

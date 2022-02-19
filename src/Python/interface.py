@@ -38,29 +38,19 @@ class Asst:
     def __del__(self):
         self.__lib.AsstDestroy(self.__ptr)
 
-    def catch_default(self) -> bool:
+    def connect(self, adb_path: str, address: str, config: str = 'General'):
         """
-        连接配置文件中的默认选项（模拟器or安卓手机）
+        连接设备
+
+        :params:
+            ``adb_path``:   adb 程序的路径
+            ``address``:    adb 地址+端口
+            ``config``:     adb 配置，可参考 resource/config.json
 
         :return: 是否连接成功
         """
-        return self.__lib.AsstCatchDefault(self.__ptr)
-
-    def catch_emulator(self) -> bool:
-        """
-        连接模拟器
-
-        :return: 是否连接成功
-        """
-        return self.__lib.AsstCatchEmulator(self.__ptr)
-
-    def catch_custom(self, address: str) -> bool:
-        """
-        连接自定义设备
-
-        :return: 是否连接成功
-        """
-        return self.__lib.AsstCatchCustom(self.__ptr, address.encode('utf-8'))
+        return self.__lib.AsstConnect(self.__ptr,
+                                      adb_path.encode('utf-8'), address.encode('utf-8'), config.encode('utf-8'))
 
     def append_fight(self, stage: str, max_medicine: int, max_stone: int, max_times: int) -> bool:
         """
@@ -194,6 +184,17 @@ class Asst:
 
         return self.__lib.AsstSetPenguinId(self.__ptr, id.encode('utf-8'))
 
+    def log(self, level: str, message: str):
+        '''
+        打印日志
+
+        :params:
+            ``level``:      日志等级标签
+            ``message``:    日志内容
+        '''
+
+        return self.__lib.AsstLog(self.__ptr, level.encode('utf-8'), message.encode('utf-8'))
+
     def get_version(self) -> str:
         """
         获取DLL版本号
@@ -209,15 +210,9 @@ class Asst:
 
         self.__lib.AsstDestroy.argtypes = (ctypes.c_void_p,)
 
-        self.__lib.AsstCatchDefault.restype = ctypes.c_bool
-        self.__lib.AsstCatchDefault.argtypes = (ctypes.c_void_p,)
-
-        self.__lib.AsstCatchEmulator.restype = ctypes.c_bool
-        self.__lib.AsstCatchEmulator.argtypes = (ctypes.c_void_p,)
-
-        self.__lib.AsstCatchCustom.restype = ctypes.c_bool
-        self.__lib.AsstCatchCustom.argtypes = (
-            ctypes.c_void_p, ctypes.c_char_p,)
+        self.__lib.AsstConnect.restype = ctypes.c_bool
+        self.__lib.AsstConnect.argtypes = (
+            ctypes.c_void_p, ctypes.c_char_p, ctypes.c_char_p, ctypes.c_char_p,)
 
         self.__lib.AsstAppendFight.restype = ctypes.c_bool
         self.__lib.AsstAppendFight.argtypes = (
@@ -261,3 +256,7 @@ class Asst:
             ctypes.c_void_p, ctypes.c_char_p)
 
         self.__lib.AsstGetVersion.restype = ctypes.c_char_p
+
+        self.__lib.AsstLog.restype = ctypes.c_none
+        self.__lib.AsstLog.argtypes = (
+            ctypes.c_void_p, ctypes.c_char_p, ctypes.c_char_p)
