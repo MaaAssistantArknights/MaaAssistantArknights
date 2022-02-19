@@ -586,7 +586,8 @@
             "CloseStonePage"
         ],
         "next": [
-            "StartButton1"
+            "StartButton1",
+            "OfflineConfirm"
         ]
     },
     "UseStone": {
@@ -618,7 +619,8 @@
             "CloseStonePage"
         ],
         "next": [
-            "StartButton1"
+            "StartButton1",
+            "OfflineConfirm"
         ]
     },
     "NoStone": {
