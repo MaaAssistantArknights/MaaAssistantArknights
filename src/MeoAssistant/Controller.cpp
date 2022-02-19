@@ -116,9 +116,38 @@ bool asst::Controller::connect_adb(const std::string & address)
         return false;
     }
 
+    // 按需获取display ID 信息
+    if (!m_emulator_info.adb.display_id.empty()) {
+        std::string display_id_cmd = utils::string_replace_all(
+            utils::string_replace_all(m_emulator_info.adb.display_id, "[Adb]", m_emulator_info.adb.path),
+            "[Address]", address);
+        auto display_id_ret = call_command(display_id_cmd);
+        if (!display_id_ret) {
+            return false;
+        }
+
+        auto& display_id_result = display_id_ret.value();
+        convert_lf(display_id_result);
+        std::string display_id_pipe_str(
+            std::make_move_iterator(display_id_result.begin()),
+            std::make_move_iterator(display_id_result.end()));
+        auto last = display_id_pipe_str.rfind(':');
+        if (last == std::string::npos) {
+            return false;
+        }
+
+        m_emulator_info.adb.display_id = display_id_pipe_str.substr(last + 1);
+        // 去掉换行
+        m_emulator_info.adb.display_id.pop_back();
+    }
+
+
     std::string display_cmd = utils::string_replace_all(
+        utils::string_replace_all(
         utils::string_replace_all(m_emulator_info.adb.display, "[Adb]", m_emulator_info.adb.path),
-        "[Address]", address);
+        "[Address]", address),
+        "[DisplayId]", m_emulator_info.adb.display_id);
+
     auto display_ret = call_command(display_cmd);
     if (!display_ret) {
         return false;
@@ -154,11 +183,19 @@ bool asst::Controller::connect_adb(const std::string & address)
         m_scale_size = std::make_pair(WindowWidthDefault, scale_height);
         m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(WindowWidthDefault);
     }
-
-    m_emulator_info.adb.click = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.click, "[Adb]", m_emulator_info.adb.path), "[Address]", address);
-    m_emulator_info.adb.swipe = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.swipe, "[Adb]", m_emulator_info.adb.path), "[Address]", address);
-    m_emulator_info.adb.screencap_raw_with_gzip = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.screencap_raw_with_gzip, "[Adb]", m_emulator_info.adb.path), "[Address]", address);
-    m_emulator_info.adb.screencap_encode = utils::string_replace_all(utils::string_replace_all(m_emulator_info.adb.screencap_encode, "[Adb]", m_emulator_info.adb.path), "[Address]", address);
+    std::vector<std::pair<std::string, std::string>> replaces = {
+        {"[Adb]", m_emulator_info.adb.path},
+        {"[Address]", address},
+        {"[DisplayId]", m_emulator_info.adb.display_id}
+    };
+    m_emulator_info.adb.click = utils::string_replace_all_batch(
+        m_emulator_info.adb.click, replaces);
+    m_emulator_info.adb.swipe = utils::string_replace_all_batch(
+        m_emulator_info.adb.swipe, replaces);
+    m_emulator_info.adb.screencap_raw_with_gzip =
+        utils::string_replace_all_batch(
+            m_emulator_info.adb.screencap_raw_with_gzip, replaces);
+    m_emulator_info.adb.screencap_encode = utils::string_replace_all_batch(m_emulator_info.adb.screencap_encode, replaces);
     m_emulator_info.adb.release = utils::string_replace_all(m_emulator_info.adb.release, "[Adb]", m_emulator_info.adb.path);
 
     return true;

@@ -31,6 +31,15 @@ namespace asst
             return str;
         }
 
+        inline std::string string_replace_all_batch(const std::string& src, const std::vector<std::pair<std::string, std::string>>& replace_pairs)
+        {
+            std::string str = src;
+            for (auto &[old_value, new_value] : replace_pairs) {
+                str = string_replace_all(str, old_value, new_value);
+            }
+            return str;
+        }
+
         inline std::vector<std::string> string_split(const std::string& str, const std::string& delimiter)
         {
             std::string::size_type pos1 = 0;
