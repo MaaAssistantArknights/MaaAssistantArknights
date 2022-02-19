@@ -276,6 +276,7 @@ namespace asst
         std::string swipe;
         std::string display;
         std::string display_format;
+        std::string display_id;
         std::string screencap_raw_with_gzip;
         std::string screencap_encode;
         std::string release;
