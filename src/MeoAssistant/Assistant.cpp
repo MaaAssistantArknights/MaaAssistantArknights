@@ -221,7 +221,7 @@ bool asst::Assistant::append_recruit(unsigned max_times, const std::vector<int>&
     if (!m_inited) {
         return false;
     }
-    static const std::string TaskChain = "Recruit";
+    constexpr static const char* TaskChain = "Recruit";
 
     auto recruit_task_ptr = std::make_shared<AutoRecruitTask>(task_callback, (void*)this, TaskChain);
     recruit_task_ptr->set_max_times(max_times)

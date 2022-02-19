@@ -50,7 +50,7 @@ namespace asst
         void wait(unsigned id) const noexcept;
 
         // 异形屏矫正
-        Rect shaped_correct(const Rect& rect) const;
+        //Rect shaped_correct(const Rect& rect) const;
         std::pair<int, int> get_scale_size() const noexcept;
 
         Controller& operator=(const Controller&) = delete;

@@ -104,58 +104,58 @@ asst::Controller::~Controller()
 #endif
 }
 
-asst::Rect asst::Controller::shaped_correct(const Rect & rect) const
-{
-    if (rect.empty()
-        || m_scale_size.first == 0
-        || m_scale_size.second == 0) {
-        return rect;
-    }
-    // 明日方舟在异形屏上，有的地方是按比例缩放的，有的地方又是直接位移。没法整，这里简单粗暴一点截一个长条
-    Rect dst = rect;
-    if (m_scale_size.first != WindowWidthDefault) {                 // 说明是宽屏
-        if (rect.width <= WindowWidthDefault / 2) {
-            if (rect.x + rect.width <= WindowWidthDefault / 2) {     // 整个矩形都在左半边
-                dst.x = 0;
-                dst.width = m_scale_size.first / 2;
-            }
-            else if (rect.x >= WindowWidthDefault / 2) {            // 整个矩形都在右半边
-                dst.x = m_scale_size.first / 2;
-                dst.width = m_scale_size.first / 2;
-            }
-            else {                                                  // 整个矩形横跨了中线
-                dst.x = 0;
-                dst.width = m_scale_size.first;
-            }
-        }
-        else {
-            dst.x = 0;
-            dst.width = m_scale_size.first;
-        }
-    }
-    else if (m_scale_size.second != WindowHeightDefault) {          // 说明是偏方形屏
-        if (rect.height <= WindowHeightDefault / 2) {
-            if (rect.y + rect.height <= WindowHeightDefault / 2) {   // 整个矩形都在上半边
-                dst.y = 0;
-                dst.height = m_scale_size.second / 2;
-            }
-            else if (rect.y >= WindowHeightDefault / 2) {           // 整个矩形都在下半边
-                dst.y = m_scale_size.second / 2;
-                dst.height = m_scale_size.second / 2;                // 整个矩形横跨了中线
-            }
-            else {
-                dst.y = 0;
-                dst.height = m_scale_size.second;
-            }
-        }
-
-        else {
-            dst.y = 0;
-            dst.height = m_scale_size.second;
-        }
-    }
-    return dst;
-}
+//asst::Rect asst::Controller::shaped_correct(const Rect & rect) const
+//{
+//    if (rect.empty()
+//        || m_scale_size.first == 0
+//        || m_scale_size.second == 0) {
+//        return rect;
+//    }
+//    // 明日方舟在异形屏上，有的地方是按比例缩放的，有的地方又是直接位移。没法整，这里简单粗暴一点截一个长条
+//    Rect dst = rect;
+//    if (m_scale_size.first != WindowWidthDefault) {                 // 说明是宽屏
+//        if (rect.width <= WindowWidthDefault / 2) {
+//            if (rect.x + rect.width <= WindowWidthDefault / 2) {     // 整个矩形都在左半边
+//                dst.x = 0;
+//                dst.width = m_scale_size.first / 2;
+//            }
+//            else if (rect.x >= WindowWidthDefault / 2) {            // 整个矩形都在右半边
+//                dst.x = m_scale_size.first / 2;
+//                dst.width = m_scale_size.first / 2;
+//            }
+//            else {                                                  // 整个矩形横跨了中线
+//                dst.x = 0;
+//                dst.width = m_scale_size.first;
+//            }
+//        }
+//        else {
+//            dst.x = 0;
+//            dst.width = m_scale_size.first;
+//        }
+//    }
+//    else if (m_scale_size.second != WindowHeightDefault) {          // 说明是偏方形屏
+//        if (rect.height <= WindowHeightDefault / 2) {
+//            if (rect.y + rect.height <= WindowHeightDefault / 2) {   // 整个矩形都在上半边
+//                dst.y = 0;
+//                dst.height = m_scale_size.second / 2;
+//            }
+//            else if (rect.y >= WindowHeightDefault / 2) {           // 整个矩形都在下半边
+//                dst.y = m_scale_size.second / 2;
+//                dst.height = m_scale_size.second / 2;                // 整个矩形横跨了中线
+//            }
+//            else {
+//                dst.y = 0;
+//                dst.height = m_scale_size.second;
+//            }
+//        }
+//
+//        else {
+//            dst.y = 0;
+//            dst.height = m_scale_size.second;
+//        }
+//    }
+//    return dst;
+//}
 
 std::pair<int, int> asst::Controller::get_scale_size() const noexcept
 {
@@ -379,8 +379,6 @@ bool asst::Controller::screencap()
 {
     LogTraceFunction;
 
-    auto& adb = m_adb;
-
     DecodeFunc decode_raw_with_gzip = [&](const std::vector<uchar>& data) -> bool {
         auto unzip_data = gzip::decompress(data.data(), data.size());
         Log.trace("unzip data size:", unzip_data.size());
@@ -401,7 +399,7 @@ bool asst::Controller::screencap()
         if (is_all_zero) {
             return false;
         }
-        cv::Mat temp = cv::Mat(m_width, m_height, CV_8UC4, unzip_data.data() + header_size);
+        cv::Mat temp(m_height, m_width, CV_8UC4, unzip_data.data() + header_size);
         if (temp.empty()) {
             return false;
         }
@@ -421,15 +419,15 @@ bool asst::Controller::screencap()
         return true;
     };
 
-    switch (adb.screencap_method) {
+    switch (m_adb.screencap_method) {
     case AdbProperty::ScreencapMethod::UnknownYet:
     {
-        if (screencap(adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
-            adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
+        if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
+            m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
             return true;
         }
-        else if (screencap(adb.screencap_encode, decode_encode)) {
-            adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
+        else if (screencap(m_adb.screencap_encode, decode_encode)) {
+            m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
             return true;
         }
         else {
@@ -438,12 +436,12 @@ bool asst::Controller::screencap()
     }
     case AdbProperty::ScreencapMethod::RawWithGzip:
     {
-        return screencap(adb.screencap_raw_with_gzip, decode_raw_with_gzip);
+        return screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip);
     }
     break;
     case AdbProperty::ScreencapMethod::Encode:
     {
-        return screencap(adb.screencap_encode, decode_encode);
+        return screencap(m_adb.screencap_encode, decode_encode);
     }
     break;
     }
@@ -453,7 +451,6 @@ bool asst::Controller::screencap()
 
 bool asst::Controller::screencap(const std::string & cmd, DecodeFunc decode_func)
 {
-    auto& adb = m_adb;
     auto ret = call_command(cmd);
 
     if (!ret || ret.value().empty()) {
@@ -462,25 +459,25 @@ bool asst::Controller::screencap(const std::string & cmd, DecodeFunc decode_func
     }
     auto data = std::move(ret).value();
 
-    if (adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::CRLF) {
+    if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::CRLF) {
         convert_lf(data);
     }
 
     if (decode_func(data)) {
-        if (adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
-            adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
+        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+            m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
         }
         return true;
     }
     else {
         Log.info("data is not empty, but image is empty");
 
-        if (adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
             Log.info("try to cvt lf");
             convert_lf(data);
 
             if (decode_func(data)) {
-                adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
+                m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
                 return true;
             }
             else {
