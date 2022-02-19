@@ -1363,8 +1363,27 @@
             360
         ],
         "next": [
+            "MallLoading",
             "CreditStoreOcr",
             "Mall"
+        ]
+    },
+    "MallLoading": {
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "MallLoading",
+            "CreditStoreOcr"
         ]
     },
     "CreditStoreOcr": {
@@ -1381,6 +1400,7 @@
         "action": "clickSelf",
         "next": [
             "CollectCredit",
+            "MallLoading",
             "Stop"
         ]
     },
