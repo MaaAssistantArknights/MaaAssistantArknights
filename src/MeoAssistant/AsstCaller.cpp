@@ -8,6 +8,7 @@
 #include "Assistant.h"
 #include "AsstDef.h"
 #include "Version.h"
+#include "Logger.hpp"
 
 #if 0
 #if _MSC_VER
@@ -260,6 +261,15 @@ bool AsstCtrlerClick(asst::Assistant* p_asst, int x, int y, bool block)
 const char* AsstGetVersion()
 {
     return asst::Version;
+}
+
+void AsstLog(asst::Assistant* p_asst, const char* level, const char* message)
+{
+    if (p_asst == nullptr) {
+        return;
+    }
+
+    asst::Log.log_with_custom_level(level, message);
 }
 
 bool AsstAppendDebug(asst::Assistant* p_asst)

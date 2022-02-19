@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
     print('version', asst.get_version())
 
-    if asst.catch_custom('127.0.0.1:7555'):
+    if asst.connect('adb', '127.0.0.1:5555'):
         print('连接成功')
     else:
         print('连接失败')
