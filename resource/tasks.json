@@ -504,9 +504,9 @@
         "action": "clickRect",
         "specificRect": [
             1000,
-            1,
+            10,
             270,
-            340
+            120
         ],
         "next": [
             "EndOfAction",
@@ -544,9 +544,9 @@
         "action": "clickRect",
         "specificRect": [
             1000,
-            1,
+            10,
             270,
-            340
+            120
         ],
         "next": [
             "StartButton1",
