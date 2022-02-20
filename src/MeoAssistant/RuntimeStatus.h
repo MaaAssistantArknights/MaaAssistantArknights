@@ -34,13 +34,9 @@ namespace asst
             return m_data.find(key) != m_data.cend();
         }
 
-        template <typename... Args>
-        inline void set(Args&&... args)
+        void set(std::string key, int64_t value)
         {
-            static_assert(
-                std::is_constructible<decltype(m_data)::value_type, Args...>::value,
-                "Parameter can't be used to construct a decltype(m_data)::value_type");
-            m_data.emplace(std::forward<Args>(args)...);
+            m_data[std::move(key)] = value;
         }
 
         void clear() noexcept
