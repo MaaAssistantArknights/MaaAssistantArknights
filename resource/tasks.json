@@ -4110,6 +4110,7 @@
             1280,
             554
         ],
+        "templThreshold": 0.85,
         "next": [
             "Roguelike1StageSafeHouseEnter",
             "Roguelike1StageTrader",
@@ -4324,6 +4325,7 @@
             1280,
             554
         ],
+        "templThreshold": 0.85,
         "next": [
             "Roguelike1StageEncounterEnter",
             "Roguelike1StageTrader",
@@ -4345,6 +4347,7 @@
             1280,
             554
         ],
+        "templThreshold": 0.85,
         "next": [
             "Roguelike1StageEncounterEnter",
             "Roguelike1StageTrader",
