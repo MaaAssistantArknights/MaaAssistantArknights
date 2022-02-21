@@ -23,7 +23,7 @@
 extern "C" {
 #endif
 
-    JNIEXPORT jlong JNICALL Java_com_maa_create(JNIEnv* env, jclass c, jstring jstr_dirname)
+    JNIEXPORT jlong JNICALL Java_com_meo_asst_libmaa_create(JNIEnv* env, jclass c, jstring jstr_dirname)
     {
         LOG_D(__FUNCTION__);
 
@@ -46,7 +46,7 @@ extern "C" {
         return (jlong)p_asst;
     }
 
-    JNIEXPORT void JNICALL Java_com_maa_destroy(JNIEnv* env, jclass c, jlong jlong_asst)
+    JNIEXPORT void JNICALL Java_com_meo_asst_libmaa_destroy(JNIEnv* env, jclass c, jlong jlong_asst)
     {
         LOG_D(__FUNCTION__);
 
