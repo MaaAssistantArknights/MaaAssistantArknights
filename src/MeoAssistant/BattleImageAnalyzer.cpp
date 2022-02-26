@@ -294,7 +294,7 @@ bool asst::BattleImageAnalyzer::hp_analyze()
         range_upper = cv::Scalar(h_u, s_u, v_u);
         std::unordered_map<std::string, std::string> num_hashs;
         for (auto&& num : NumName) {
-            auto hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(
+            const auto &hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(
                 Task.get("BattleHp" + num))->hashs;
             for (size_t i = 0; i != hashs_vec.size(); ++i) {
                 num_hashs.emplace(num + "_" + std::to_string(i), hashs_vec.at(i));
