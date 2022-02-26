@@ -54,10 +54,14 @@ bool asst::StageDropsTaskPlugin::_run()
     }
     drop_info_callback();
 
-    auto upload_future = std::async(
-        std::launch::async,
-        std::bind(&StageDropsTaskPlugin::upload_to_penguin, this));
-    m_upload_pending.emplace_back(std::move(upload_future));
+    auto& opt = Resrc.cfg().get_options();
+
+    if (opt.penguin_report.enable) {
+        auto upload_future = std::async(
+            std::launch::async,
+            std::bind(&StageDropsTaskPlugin::upload_to_penguin, this));
+        m_upload_pending.emplace_back(std::move(upload_future));
+    }
 
     return true;
 }
@@ -137,9 +141,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     LogTraceFunction;
 
     auto& opt = Resrc.cfg().get_options();
-    if (!opt.penguin_report.enable) {
-        return;
-    }
+
     json::value info = basic_info();
     info["subtask"] = "ReportToPenguinStats";
     callback(AsstMsg::SubTaskStart, info);

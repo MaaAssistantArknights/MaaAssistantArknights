@@ -1,8 +1,6 @@
 {
-    "version": "0.9",
+    "version": "1.0",
     "options": {
-        "connectType": 0,
-        "connectType_Doc": "连接类型：0-连接电脑上的模拟器；1-连接自定义端口，请手动修改'emulator.Custom'中的相关字段。默认0",
         "taskDelay": 500,
         "taskDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认500",
         "controlDelayRange": [
@@ -21,8 +19,19 @@
             "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i"
         }
     },
-    "emulator_Doc": "下面的和模拟器窗口捕获逻辑有关，不需要修改",
-    "emulator": {
+    "connection": {
+        "General": {
+            "devices": "[Adb] devices",
+            "addressRegex": "(.+)\tdevice",
+            "connect": "[Adb] connect [Address]",
+            "click": "[Adb] -s [Address] shell input tap [x] [y]",
+            "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+            "display": "[Adb] -s [Address] shell dumpsys window displays | grep init=",
+            "displayFormat": "    init=%dx%d",
+            "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
+            "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
+            "release": "[Adb] kill-server"
+        },
         "BlueStacks": {
             "devices": "[Adb] devices",
             "addressRegex": "(.+)\tdevice",
@@ -94,18 +103,6 @@
             "displayFormat": "Physical size:%dx%d",
             "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap -d [DisplayId] | gzip -1\"",
             "screencapEncode": "[Adb] -s [Address] shell screencap -d [DisplayId] -p",
-            "release": "[Adb] kill-server"
-        },
-        "General": {
-            "devices": "[Adb] devices",
-            "addressRegex": "(.+)\tdevice",
-            "connect": "[Adb] connect [Address]",
-            "click": "[Adb] -s [Address] shell input tap [x] [y]",
-            "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
-            "display": "[Adb] -s [Address] shell dumpsys window displays | grep init=",
-            "displayFormat": "    init=%dx%d",
-            "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
-            "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
             "release": "[Adb] kill-server"
         }
     }

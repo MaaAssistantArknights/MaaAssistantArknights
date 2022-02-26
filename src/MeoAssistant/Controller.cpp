@@ -629,13 +629,13 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
 
     auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
         const std::unordered_map<std::string, std::string> replacements = {
-            {"[Adb]", address},
+            {"[Adb]", adb_path},
             {"[Address]", address},
             {"[DisplayId]", display_id}
         };
         std::string formatted = cfg_cmd;
         for (const auto& [key, value] : replacements) {
-            utils::string_replace_all(formatted, key, value);
+            formatted = utils::string_replace_all(formatted, key, value);
         }
         return formatted;
     };
