@@ -48,7 +48,7 @@ bool asst::OcrImageAnalyzer::analyze()
     preds_vec.emplace_back(m_pred);
 
     TextRectProc all_pred = [&](TextRect& tr) -> bool {
-        for (auto pred : preds_vec) {
+        for (const auto &pred : preds_vec) {
             if (pred && !pred(tr)) {
                 return false;
             }
