@@ -16,10 +16,7 @@ extern "C" {
     ASSTAPI_PORT asst::Assistant* ASST_CALL AsstCreateEx(const char* dirname, AsstCallback callback, void* custom_arg);
     void ASSTAPI AsstDestroy(asst::Assistant* p_asst);
 
-    bool ASSTAPI AsstCatchDefault(asst::Assistant* p_asst);
-    bool ASSTAPI AsstCatchEmulator(asst::Assistant* p_asst);
-    bool ASSTAPI AsstCatchCustom(asst::Assistant* p_asst, const char* address);
-    bool ASSTAPI AsstCatchFake(asst::Assistant* p_asst);
+    bool ASSTAPI AsstConnect(asst::Assistant* p_asst, const char* adb_path, const char* address, const char* config);
 
     bool ASSTAPI AsstAppendStartUp(asst::Assistant* p_asst);
     bool ASSTAPI AsstAppendFight(asst::Assistant* p_asst, const char* stage, int max_mecidine, int max_stone, int max_times);
@@ -44,6 +41,9 @@ extern "C" {
     bool ASSTAPI AsstCtrlerClick(asst::Assistant* p_asst, int x, int y, bool block);
 
     ASSTAPI_PORT const char* ASST_CALL AsstGetVersion();
+
+    void ASSTAPI AsstLog(asst::Assistant* p_asst, const char* level, const char* message);
+
 #ifdef __cplusplus
 }
 #endif

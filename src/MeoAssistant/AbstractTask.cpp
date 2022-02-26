@@ -58,6 +58,12 @@ AbstractTask& asst::AbstractTask::set_retry_times(int times) noexcept
     return *this;
 }
 
+AbstractTask& asst::AbstractTask::set_ctrler(std::shared_ptr<Controller> ctrler) noexcept
+{
+    m_ctrler = ctrler;
+    return *this;
+}
+
 void asst::AbstractTask::clear_plugin() noexcept
 {
     m_plugins.clear();
@@ -142,6 +148,7 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
 {
     for (TaskPluginPtr plugin : m_plugins) {
         plugin->set_exit_flag(m_exit_flag);
+        plugin->set_ctrler(m_ctrler);
         plugin->set_task_ptr(this);
 
         if (!plugin->verify(msg, detail)) {
@@ -164,6 +171,6 @@ void asst::AbstractTask::click_return_button()
 
     Rect ReturnButtonRect = return_task_ptr->specific_rect;
 
-    Ctrler.click(ReturnButtonRect);
+    m_ctrler->click(ReturnButtonRect);
     sleep(return_task_ptr->rear_delay);
 }

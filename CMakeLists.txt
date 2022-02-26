@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(MeoAssistantArknights)
 
+option(BUILD_JNI "build jni" OFF)
 option(BUILD_TEST "build a demo" OFF)
 
 include_directories(include 3rdparty/include)
@@ -33,6 +34,15 @@ else ()
 endif ()
 
 target_link_libraries(MeoAssistant ${OpenCV} ${PaddleOCR_LIB} ${Penguin_LIB} ${ZLIB})
+
+if (BUILD_JNI)
+    find_package(JNI REQUIRED)
+    include_directories(${JNI_INCLUDE_DIRS})
+
+    set(JNI_SRC src/Java/jni/meoasst_jni.cpp)
+    add_library(MeoAssistantJni SHARED ${JNI_SRC})
+    target_link_libraries(MeoAssistantJni MeoAssistant)
+endif(BUILD_JNI)
 
 if (BUILD_TEST)
     add_executable(test tools/TestCaller/main.cpp)

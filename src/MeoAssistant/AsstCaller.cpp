@@ -8,6 +8,7 @@
 #include "Assistant.h"
 #include "AsstDef.h"
 #include "Version.h"
+#include "Logger.hpp"
 
 #if 0
 #if _MSC_VER
@@ -89,45 +90,13 @@ void AsstDestroy(asst::Assistant* p_asst)
     _callback = nullptr;
 }
 
-bool AsstCatchDefault(asst::Assistant* p_asst)
+bool AsstConnect(asst::Assistant* p_asst, const char* adb_path, const char* address, const char* config)
 {
     if (p_asst == nullptr) {
         return false;
     }
 
-    return p_asst->catch_default();
-}
-
-bool AsstCatchEmulator(asst::Assistant* p_asst)
-{
-    if (p_asst == nullptr) {
-        return false;
-    }
-
-    return p_asst->catch_emulator();
-}
-
-bool AsstCatchCustom(asst::Assistant* p_asst, const char* address)
-{
-    if (p_asst == nullptr) {
-        return false;
-    }
-
-    return p_asst->catch_custom(address);
-}
-
-bool AsstCatchFake(asst::Assistant* p_asst)
-{
-#ifdef ASST_DEBUG
-    if (p_asst == nullptr) {
-        return false;
-    }
-
-    return p_asst->catch_fake();
-#else
-    (void*)p_asst;
-    return false;
-#endif // ASST_DEBUG
+    return p_asst->connect(adb_path, address, config ? config : std::string());
 }
 
 bool ASSTAPI AsstAppendStartUp(asst::Assistant* p_asst)
@@ -292,6 +261,15 @@ bool AsstCtrlerClick(asst::Assistant* p_asst, int x, int y, bool block)
 const char* AsstGetVersion()
 {
     return asst::Version;
+}
+
+void AsstLog(asst::Assistant* p_asst, const char* level, const char* message)
+{
+    if (p_asst == nullptr) {
+        return;
+    }
+
+    asst::Log.log_with_custom_level(level, message);
 }
 
 bool AsstAppendDebug(asst::Assistant* p_asst)

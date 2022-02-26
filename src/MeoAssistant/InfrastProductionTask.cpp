@@ -37,10 +37,7 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 bool asst::InfrastProductionTask::shift_facility_list()
 {
     LogTraceFunction;
-    if (!facility_list_detect()) {
-        return false;
-    }
-    if (need_exit()) {
+    if (!facility_list_detect() || need_exit()) {
         return false;
     }
     const auto tab_task_ptr = Task.get("InfrastFacilityListTab" + facility_name());
@@ -59,11 +56,11 @@ bool asst::InfrastProductionTask::shift_facility_list()
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
         }
 
-        Ctrler.click(tab);
+        m_ctrler->click(tab);
         sleep(tab_task_ptr->rear_delay);
 
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
-        const auto image = Ctrler.get_image();
+        const auto image = m_ctrler->get_image();
         add_analyzer.set_image(image);
         if (!add_analyzer.analyze()) {
             Log.info("no add button, just continue");
@@ -105,7 +102,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         /* 进入干员选择页面 */
-        Ctrler.click(add_button);
+        m_ctrler->click(add_button);
         sleep(add_task_ptr->rear_delay);
 
         for (int i = 0; i <= OperSelectRetryTimes; ++i) {
@@ -124,8 +121,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 opers_detect();
             }
             optimal_calc();
-            bool ret = opers_choose();
-            if (!ret) {
+            if (!opers_choose()) {
                 m_all_available_opers.clear();
                 swipe_to_the_left_of_operlist(2);
                 continue;
@@ -180,7 +176,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
 size_t asst::InfrastProductionTask::opers_detect()
 {
     LogTraceFunction;
-    const auto image = Ctrler.get_image();
+    const auto image = m_ctrler->get_image();
 
     InfrastOperImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_facility(facility_name());
@@ -254,7 +250,7 @@ bool asst::InfrastProductionTask::optimal_calc()
 
     std::unordered_map<std::string, int> skills_num;
     for (int i = 0; i != m_all_available_opers.size(); ++i) {
-        auto comb = all_avaliable_combs.at(i);
+        const auto& comb = all_avaliable_combs.at(i);
 
         bool out_of_num = false;
         for (auto&& skill : comb.skills) {
@@ -451,7 +447,6 @@ bool asst::InfrastProductionTask::opers_choose()
     LogTraceFunction;
     bool has_error = false;
 
-    int count = 0;
     auto& facility_info = Resrc.infrast().get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
 
@@ -463,7 +458,7 @@ bool asst::InfrastProductionTask::opers_choose()
         if (need_exit()) {
             return false;
         }
-        const auto image = Ctrler.get_image();
+        const auto image = m_ctrler->get_image();
 
         InfrastOperImageAnalyzer oper_analyzer(image);
         oper_analyzer.set_facility(facility_name());
@@ -495,7 +490,7 @@ bool asst::InfrastProductionTask::opers_choose()
             });
         cur_all_opers.erase(remove_iter, cur_all_opers.end());
         Log.trace("after mood filter, opers size:", cur_all_opers.size());
-
+        int count = 0;
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             Log.trace("to find", opt_iter->skills.begin()->names.front());
             auto find_iter = std::find_if(
@@ -537,7 +532,7 @@ bool asst::InfrastProductionTask::opers_choose()
                 // 但是如果当前设施只有一个位置，即不存在“上次循环”的情况，说明是清除干员按钮没点到
             }
             else {
-                Ctrler.click(find_iter->rect);
+                m_ctrler->click(find_iter->rect);
             }
             {
                 auto avlb_iter = std::find_if(
@@ -620,7 +615,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
     LogTraceFunction;
     m_facility_list_tabs.clear();
 
-    const auto image = Ctrler.get_image();
+    const auto image = m_ctrler->get_image();
     MultiMatchImageAnalyzer mm_analyzer(image);
     mm_analyzer.set_task_info("InfrastFacilityListTab" + facility_name());
 

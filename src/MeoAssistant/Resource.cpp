@@ -16,7 +16,6 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static const char* RecruitCfgFilename = "recruit.json";
     constexpr static const char* ItemCfgFilename = "item_index.json";
     constexpr static const char* InfrastCfgFilename = "infrast.json";
-    constexpr static const char* UserCfgFilename = "../user.json";
     constexpr static const char* OcrResourceFilename = "PaddleOCR";
     constexpr static const char* PenguinResourceFilename = "penguin-stats-recognize";
     constexpr static const char* TilesCalcResourceFilename = "Arknights-Tile-Pos";
@@ -44,14 +43,6 @@ bool asst::Resource::load(const std::string& dir)
         return false;
     }
 
-    if (!m_user_cfg_unique_ins.load(dir + UserCfgFilename)) {
-        m_last_error = std::string(UserCfgFilename) + ": " + m_user_cfg_unique_ins.get_last_error();
-        return false;
-    }
-    /* 根据用户配置，覆盖原有的部分配置 */
-    for (const auto& [name, path] : m_user_cfg_unique_ins.get_emulator_path()) {
-        m_general_cfg_unique_ins.set_emulator_path(name, path);
-    }
     const auto& opt = m_general_cfg_unique_ins.get_options();
 
     /* 加载模板图片资源 */

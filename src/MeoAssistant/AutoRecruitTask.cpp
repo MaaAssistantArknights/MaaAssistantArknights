@@ -82,7 +82,7 @@ bool asst::AutoRecruitTask::analyze_start_buttons()
     OcrImageAnalyzer start_analyzer;
     start_analyzer.set_task_info("StartRecruit");
 
-    auto image = Ctrler.get_image();
+    auto image = m_ctrler->get_image();
     start_analyzer.set_image(image);
     if (!start_analyzer.analyze()) {
         return false;
@@ -100,7 +100,7 @@ bool asst::AutoRecruitTask::recruit_index(size_t index)
         return false;
     }
     Rect button = m_start_buttons.at(index).rect;
-    Ctrler.click(button);
+    m_ctrler->click(button);
     sleep(delay);
 
     return calc_and_recruit();

@@ -61,6 +61,11 @@ namespace asst
             std::string_view level = "ERR";
             log(level, std::forward<Args>(args)...);
         }
+        template <typename... Args>
+        inline void log_with_custom_level(std::string_view level, Args&&... args)
+        {
+            log(level, std::forward<Args>(args)...);
+        }
         void flush()
         {
             std::unique_lock<std::mutex> trace_lock(m_trace_mutex);

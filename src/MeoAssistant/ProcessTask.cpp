@@ -1,4 +1,4 @@
-﻿#include "ProcessTask.h"
+#include "ProcessTask.h"
 
 #include <chrono>
 #include <random>
@@ -93,7 +93,7 @@ bool ProcessTask::_run()
             cur_task_ptr = front_task_ptr;
         }
         else {
-            const auto image = Ctrler.get_image();
+            const auto image = m_ctrler->get_image();
             ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name);
             if (!analyzer.analyze()) {
                 return false;
@@ -156,7 +156,7 @@ bool ProcessTask::_run()
             exec_click_task(rect);
             break;
         case ProcessTaskAction::ClickRand: {
-            auto&& [width, height] = Ctrler.get_scale_size();
+            auto&& [width, height] = m_ctrler->get_scale_size();
             const Rect full_rect(0, 0, width, height);
             exec_click_task(full_rect);
         } break;
@@ -207,12 +207,12 @@ bool ProcessTask::_run()
 
 void ProcessTask::exec_click_task(const Rect& matched_rect)
 {
-    Ctrler.click(matched_rect);
+    m_ctrler->click(matched_rect);
 }
 
 void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 {
-    const auto&& [width, height] = Ctrler.get_scale_size();
+    const auto&& [width, height] = m_ctrler->get_scale_size();
 
     const static Rect right_rect(
         static_cast<int>(width * 0.8),
@@ -228,10 +228,10 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 
     switch (action) {
     case asst::ProcessTaskAction::SwipeToTheLeft:
-        Ctrler.swipe(left_rect, right_rect);
+        m_ctrler->swipe(left_rect, right_rect);
         break;
     case asst::ProcessTaskAction::SwipeToTheRight:
-        Ctrler.swipe(right_rect, left_rect);
+        m_ctrler->swipe(right_rect, left_rect);
         break;
     default: // 走不到这里，TODO 报个错
         break;

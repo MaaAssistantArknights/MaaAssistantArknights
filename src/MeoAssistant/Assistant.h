@@ -24,6 +24,7 @@ namespace asst
 {
     class Controller;
     class Identify;
+    class Controller;
 
     class Assistant
     {
@@ -31,14 +32,8 @@ namespace asst
         Assistant(std::string dirname, AsstCallback callback = nullptr, void* callback_arg = nullptr);
         ~Assistant();
 
-        // 根据配置文件，决定捕获模拟器、USB 还是远程设备
-        bool catch_default();
-        // 捕获模拟器
-        bool catch_emulator(const std::string& emulator_name = std::string());
-        // 捕获自定义设备
-        bool catch_custom(const std::string& address = std::string());
-        // 不实际进行捕获，调试用接口
-        bool catch_fake();
+        // 连接adb
+        bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
 
         // 添加开始游戏的任务（进入到主界面）
         bool append_start_up();
@@ -105,6 +100,8 @@ namespace asst
 
         bool m_inited = false;
         std::string m_dirname;
+
+        std::shared_ptr<Controller> m_ctrler;
 
         bool m_thread_exit = false;
         std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;

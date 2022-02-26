@@ -69,7 +69,6 @@
     <ClInclude Include="MatchImageAnalyzer.h" />
     <ClInclude Include="TemplResource.h" />
     <ClInclude Include="TilePack.h" />
-    <ClInclude Include="UserConfiger.h" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="Controller.h" />
   </ItemGroup>
@@ -126,7 +125,6 @@
     <ClCompile Include="MatchImageAnalyzer.cpp" />
     <ClCompile Include="TemplResource.cpp" />
     <ClCompile Include="TilePack.cpp" />
-    <ClCompile Include="UserConfiger.cpp" />
     <ClCompile Include="Controller.cpp" />
   </ItemGroup>
   <ItemGroup>
