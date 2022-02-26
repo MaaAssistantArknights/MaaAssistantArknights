@@ -493,7 +493,7 @@ void Assistant::working_proc()
         std::unique_lock<std::mutex> lock(m_mutex);
 
         if (!m_thread_idle && !m_tasks_queue.empty()) {
-            const auto& task_ptr = m_tasks_queue.front();
+            const auto task_ptr = m_tasks_queue.front();
             m_tasks_queue.pop();
 
             std::string cur_taskchain = task_ptr->get_task_chain();
