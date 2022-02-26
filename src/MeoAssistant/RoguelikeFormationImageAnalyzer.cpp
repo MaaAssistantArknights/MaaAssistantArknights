@@ -13,7 +13,7 @@ bool asst::RoguelikeFormationImageAnalyzer::analyze()
         return false;
     }
     opers_analyzer.sort_result();
-    const auto all_opers = opers_analyzer.get_result();
+    const auto& all_opers = opers_analyzer.get_result();
     for (const MatchRect& oper_mr : all_opers) {
         Oper oper;
         oper.rect = oper_mr.rect;

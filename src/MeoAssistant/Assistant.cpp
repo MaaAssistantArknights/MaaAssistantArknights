@@ -493,12 +493,12 @@ void Assistant::working_proc()
         std::unique_lock<std::mutex> lock(m_mutex);
 
         if (!m_thread_idle && !m_tasks_queue.empty()) {
-            auto task_ptr = m_tasks_queue.front();
+            const auto& task_ptr = m_tasks_queue.front();
             m_tasks_queue.pop();
 
             std::string cur_taskchain = task_ptr->get_task_chain();
             std::string next_taskchain = m_tasks_queue.empty() ? std::string() : m_tasks_queue.front()->get_task_chain();
-            json::value callback_json = json::object{
+            json::value callback_json = json::object {
                 { "taskchain", cur_taskchain },
                 { "pre_taskchain", pre_taskchain }
             };

@@ -40,8 +40,7 @@ const cv::Mat asst::TemplResource::get_templ(const std::string& key) const noexc
         return iter->second;
     }
     else {
-        const static cv::Mat empty;
-        return empty;
+        return cv::Mat();
     }
 }
 
