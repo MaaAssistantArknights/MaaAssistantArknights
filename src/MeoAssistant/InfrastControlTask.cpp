@@ -26,8 +26,7 @@ bool asst::InfrastControlTask::_run()
         swipe_to_the_left_of_operlist();
 
         optimal_calc();
-        bool ret = opers_choose();
-        if (!ret) {
+        if (!opers_choose()) {
             m_all_available_opers.clear();
             swipe_to_the_left_of_operlist();
             continue;

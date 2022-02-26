@@ -37,10 +37,7 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 bool asst::InfrastProductionTask::shift_facility_list()
 {
     LogTraceFunction;
-    if (!facility_list_detect()) {
-        return false;
-    }
-    if (need_exit()) {
+    if (!facility_list_detect() || need_exit()) {
         return false;
     }
     const auto tab_task_ptr = Task.get("InfrastFacilityListTab" + facility_name());
@@ -124,8 +121,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 opers_detect();
             }
             optimal_calc();
-            bool ret = opers_choose();
-            if (!ret) {
+            if (!opers_choose()) {
                 m_all_available_opers.clear();
                 swipe_to_the_left_of_operlist(2);
                 continue;
@@ -254,7 +250,7 @@ bool asst::InfrastProductionTask::optimal_calc()
 
     std::unordered_map<std::string, int> skills_num;
     for (int i = 0; i != m_all_available_opers.size(); ++i) {
-        auto comb = all_avaliable_combs.at(i);
+        const auto& comb = all_avaliable_combs.at(i);
 
         bool out_of_num = false;
         for (auto&& skill : comb.skills) {
@@ -451,7 +447,6 @@ bool asst::InfrastProductionTask::opers_choose()
     LogTraceFunction;
     bool has_error = false;
 
-    int count = 0;
     auto& facility_info = Resrc.infrast().get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
 
@@ -495,7 +490,7 @@ bool asst::InfrastProductionTask::opers_choose()
             });
         cur_all_opers.erase(remove_iter, cur_all_opers.end());
         Log.trace("after mood filter, opers size:", cur_all_opers.size());
-
+        int count = 0;
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             Log.trace("to find", opt_iter->skills.begin()->names.front());
             auto find_iter = std::find_if(
