@@ -8,7 +8,6 @@ bool asst::GeneralConfiger::parse(const json::value& json)
 
     {
         const json::value& options_json = json.at("options");
-        m_options.connect_type = static_cast<ConnectType>(options_json.at("connectType").as_integer());
         m_options.task_delay = options_json.at("taskDelay").as_integer();
         m_options.control_delay_lower = options_json.at("controlDelayRange")[0].as_integer();
         m_options.control_delay_upper = options_json.at("controlDelayRange")[1].as_integer();
@@ -30,7 +29,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         }
     }
 
-    for (const auto& [name, cfg_json] : json.at("emulator").as_object()) {
+    for (const auto& [name, cfg_json] : json.at("connection").as_object()) {
         AdbCfg adb;
 
         adb.devices = cfg_json.at("devices").as_string();

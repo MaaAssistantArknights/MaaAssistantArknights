@@ -11,12 +11,6 @@
 
 namespace asst
 {
-    enum class ConnectType
-    {
-        Emulator,
-        Custom
-    };
-
     struct AipOcrCfg                        // 百度 OCR API 的配置
     {
         bool enable = false;
@@ -35,7 +29,6 @@ namespace asst
 
     struct Options
     {
-        ConnectType connect_type = ConnectType::Emulator; // 连接类型
         int task_delay = 0;                  // 任务间延时：越快操作越快，但会增加CPU消耗
         int control_delay_lower = 0;         // 点击随机延时下限：每次点击操作会进行随机延时
         int control_delay_upper = 0;         // 点击随机延时上限：每次点击操作会进行随机延时
