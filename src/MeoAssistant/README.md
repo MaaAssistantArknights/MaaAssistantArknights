@@ -33,4 +33,4 @@
 
 ### Linux | macOS
 
-[Linux 编译教程](Linux编译教程.md)
+[Linux 编译教程](../../docs/Linux编译教程.md)
