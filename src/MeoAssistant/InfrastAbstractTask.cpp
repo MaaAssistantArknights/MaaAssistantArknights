@@ -74,7 +74,7 @@ bool asst::InfrastAbstractTask::on_run_fails()
 
 bool asst::InfrastAbstractTask::enter_facility(int index)
 {
-    const auto image = Ctrler.get_image();
+    const auto image = m_ctrler->get_image();
 
     InfrastFacilityImageAnalyzer analyzer(image);
     analyzer.set_to_be_analyzed({ facility_name() });
@@ -91,7 +91,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     m_cur_facility_index = index;
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
 
-    Ctrler.click(rect);
+    m_ctrler->click(rect);
 
     const auto enter_task_ptr = Task.get("InfrastEnterFacility");
     sleep(enter_task_ptr->rear_delay);
@@ -115,10 +115,10 @@ void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
     static int duration = Task.get("InfrastOperListSwipeBegin")->pre_delay;
 
     if (!reverse) {
-        m_last_swipe_id = Ctrler.swipe(begin_rect, end_rect, duration, false, 0, true);
+        m_last_swipe_id = m_ctrler->swipe(begin_rect, end_rect, duration, false, 0, true);
     }
     else {
-        m_last_swipe_id = Ctrler.swipe(end_rect, begin_rect, duration, false, 0, true);
+        m_last_swipe_id = m_ctrler->swipe(end_rect, begin_rect, duration, false, 0, true);
     }
 }
 
@@ -127,7 +127,7 @@ void asst::InfrastAbstractTask::await_swipe()
     LogTraceFunction;
     static int extra_delay = Task.get("InfrastOperListSwipeBegin")->rear_delay;
 
-    Ctrler.wait(m_last_swipe_id);
+    m_ctrler->wait(m_last_swipe_id);
     sleep(extra_delay);
 }
 
@@ -174,7 +174,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
         if (need_exit()) {
             return;
         }
-        Ctrler.swipe(end_rect, begin_rect, duration, true, 0, false);
+        m_ctrler->swipe(end_rect, begin_rect, duration, true, 0, false);
     }
     sleep(extra_delay);
 }
@@ -187,7 +187,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
     static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
     static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
 
-    Ctrler.swipe(end_rect, begin_rect, duration, true, extra_delay, false);
+    m_ctrler->swipe(end_rect, begin_rect, duration, true, extra_delay, false);
 }
 
 void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
@@ -198,5 +198,5 @@ void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
     static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
     static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
 
-    Ctrler.swipe(begin_rect, end_rect, duration, true, extra_delay, false);
+    m_ctrler->swipe(begin_rect, end_rect, duration, true, extra_delay, false);
 }

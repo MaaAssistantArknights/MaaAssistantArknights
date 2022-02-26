@@ -20,7 +20,6 @@ namespace asst
         virtual void set_roi(const Rect& roi) noexcept;
 
         virtual bool analyze() = 0;
-        void correct_roi() noexcept;
 
         AbstractImageAnalyzer& operator=(const AbstractImageAnalyzer&) = delete;
         AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;

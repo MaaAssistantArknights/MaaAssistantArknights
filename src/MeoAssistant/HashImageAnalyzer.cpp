@@ -1,4 +1,4 @@
-﻿#include "HashImageAnalyzer.h"
+#include "HashImageAnalyzer.h"
 
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
@@ -163,7 +163,7 @@ int asst::HashImageAnalyzer::hamming(std::string hash1, std::string hash2)
         unsigned long long x = strtoull(hash1.substr(i, 16).c_str(), nullptr, 16)
             ^ strtoull(hash2.substr(i, 16).c_str(), nullptr, 16);
         while (x) {
-            dist++;
+            ++dist;
             x = x & (x - 1);
         }
     }
