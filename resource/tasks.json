@@ -753,6 +753,12 @@
             180,
             120
         ],
+        "exceededNext": [
+            "TodaysSupplies",
+            "CloseAnno",
+            "Terminal",
+            "Stop"
+        ],
         "next": [
             "GoLastBattle",
             "Terminal",
