@@ -6,8 +6,21 @@
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 
+asst::OcrPack::OcrPack()
+{
+    for (size_t i = 0; i != MaxBoxSize; ++i) {
+        constexpr static size_t MaxTextSize = 1024;
+        *(m_strs_buffer + i) = new char[MaxTextSize];
+        //memset(*(m_strs_buffer + i), 0, MaxTextSize);
+    }
+}
+
 asst::OcrPack::~OcrPack()
 {
+    for (size_t i = 0; i != MaxBoxSize; ++i) {
+        delete[] * (m_strs_buffer + i);
+    }
+
     PaddleOcrDestroy(m_ocr);
 }
 
@@ -35,16 +48,6 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat image, const 
 {
     LogTraceFunction;
 
-    constexpr static size_t MaxBoxSize = 128;
-    // each box has 8 value ( 4 points, x and y )
-    int boxes[MaxBoxSize * 8] = { 0 };
-    char* strs[MaxBoxSize] = { 0 };
-    for (size_t i = 0; i != MaxBoxSize; ++i) {
-        constexpr static size_t MaxTextSize = 1024;
-        *(strs + i) = new char[MaxTextSize];
-        memset(*(strs + i), 0, MaxTextSize);
-    }
-    float scores[MaxBoxSize] = { 0 };
     size_t size = 0;
 
     std::vector<uchar> buf;
@@ -53,12 +56,12 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat image, const 
     if (!without_det) {
         Log.trace("Ocr System");
         PaddleOcrSystem(m_ocr, buf.data(), buf.size(),
-            false, boxes, strs, scores, &size, nullptr, nullptr);
+            false, m_boxes_buffer, m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
     }
     else {
         Log.trace("Ocr Rec");
         PaddleOcrRec(m_ocr, buf.data(), buf.size(),
-            strs, scores, &size, nullptr, nullptr);
+            m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
     }
 
     std::vector<TextRect> result;
@@ -75,7 +78,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat image, const 
         // 3 - 2
         Rect rect;
         if (!without_det) {
-            int* box = boxes + i * 8;
+            int* box = m_boxes_buffer + i * 8;
             int x_collect[4] = { *(box + 0), *(box + 2), *(box + 4), *(box + 6) };
             int y_collect[4] = { *(box + 1), *(box + 3), *(box + 5), *(box + 7) };
             int left = int(*std::min_element(x_collect, x_collect + 4));
@@ -84,8 +87,8 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat image, const 
             int bottom = int(*std::max_element(y_collect, y_collect + 4));
             rect = Rect(left, top, right - left, bottom - top);
         }
-        std::string text(*(strs + i));
-        float score = *(scores + i);
+        std::string text(*(m_strs_buffer + i));
+        float score = *(m_scores_buffer + i);
 
         TextRect tr{ score, rect, text };
 #ifdef ASST_DEBUG
@@ -96,9 +99,6 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat image, const 
             log_str_proc += tr.to_string() + ", ";
             result.emplace_back(std::move(tr));
         }
-    }
-    for (size_t i = 0; i != MaxBoxSize; ++i) {
-        delete[] * (strs + i);
     }
 
     Log.trace("OcrPack::recognize | raw : ", log_str_raw);

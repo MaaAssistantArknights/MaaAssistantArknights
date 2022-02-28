@@ -15,8 +15,10 @@ namespace asst
 {
     class OcrPack final : public AbstractResource
     {
+        constexpr static size_t MaxBoxSize = 128;
     public:
         using AbstractResource::AbstractResource;
+        OcrPack();
         virtual ~OcrPack();
 
         virtual bool load(const std::string& dir) override;
@@ -26,5 +28,10 @@ namespace asst
 
     private:
         paddle_ocr_t* m_ocr = nullptr;
+
+        // each box has 8 value ( 4 points, x and y )
+        int m_boxes_buffer[MaxBoxSize * 8] = { 0 };
+        char* m_strs_buffer[MaxBoxSize] = { 0 };
+        float m_scores_buffer[MaxBoxSize] = { 0 };
     };
 }
