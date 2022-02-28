@@ -756,7 +756,6 @@
         "exceededNext": [
             "TodaysSupplies",
             "CloseAnno",
-            "Terminal",
             "Stop"
         ],
         "next": [
