@@ -30,7 +30,7 @@ asst::Controller::Controller()
 
 #ifdef _WIN32
     // 安全属性描述符
-    m_pipe_sec_attr.nLength = sizeof SECURITY_ATTRIBUTES;
+    m_pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
     m_pipe_sec_attr.lpSecurityDescriptor = nullptr;
     m_pipe_sec_attr.bInheritHandle = TRUE;
 
