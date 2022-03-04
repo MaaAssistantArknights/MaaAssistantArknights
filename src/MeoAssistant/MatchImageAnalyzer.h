@@ -19,6 +19,7 @@ namespace asst
         void set_threshold(double templ_thres) noexcept;
         void set_task_info(std::shared_ptr<TaskInfo> task_ptr);
         void set_task_info(const std::string& task_name);
+        void set_region_of_appeared(Rect region) noexcept;
 
         const MatchRect& get_result() const noexcept;
 
@@ -30,6 +31,7 @@ namespace asst
         MatchRect m_result;
         double m_templ_thres = 0.0;
         bool m_use_cache = false;
+        Rect m_region_of_appeared;
         std::pair<int, int> m_mask_range;
     };
 }

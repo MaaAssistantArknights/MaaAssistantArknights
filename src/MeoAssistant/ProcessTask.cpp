@@ -95,6 +95,7 @@ bool ProcessTask::_run()
         else {
             const auto image = m_ctrler->get_image();
             ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name);
+            analyzer.set_status(m_status);
             if (!analyzer.analyze()) {
                 return false;
             }
@@ -174,7 +175,7 @@ bool ProcessTask::_run()
             break;
         }
 
-        Status.set("Last" + cur_name, time(nullptr));
+        m_status->set_data("Last" + cur_name, time(nullptr));
 
         // 减少其他任务的执行次数
         // 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效

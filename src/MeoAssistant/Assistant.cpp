@@ -30,16 +30,17 @@
 
 using namespace asst;
 
-Assistant::Assistant(AsstCallback callback, void* callback_arg)
+Assistant::Assistant(AsstApiCallback callback, void* callback_arg)
     : m_callback(callback),
     m_callback_arg(callback_arg)
 {
     LogTraceFunction;
 
+    m_status = std::make_shared<RuntimeStatus>();
     m_ctrler = std::make_shared<Controller>(task_callback, (void*)this);
 
-    m_working_thread = std::thread(std::bind(&Assistant::working_proc, this));
-    m_msg_thread = std::thread(std::bind(&Assistant::msg_proc, this));
+    m_working_thread = std::thread(&Assistant::working_proc, this);
+    m_msg_thread = std::thread(&Assistant::msg_proc, this);
 }
 
 Assistant::~Assistant()
@@ -489,8 +490,10 @@ void Assistant::working_proc()
                 task_callback(AsstMsg::TaskChainStart, callback_json, this);
             }
 
-            task_ptr->set_exit_flag(&m_thread_idle);
-            task_ptr->set_ctrler(m_ctrler);
+            task_ptr->set_exit_flag(&m_thread_idle)
+                .set_ctrler(m_ctrler)
+                .set_status(m_status);
+
             bool ret = task_ptr->run();
 
             if (cur_taskchain != next_taskchain) {
@@ -536,7 +539,7 @@ void Assistant::msg_proc()
             lock.unlock();
 
             if (m_callback) {
-                m_callback(msg, detail, m_callback_arg);
+                m_callback(static_cast<int>(msg), detail.to_string().c_str(), m_callback_arg);
             }
         }
         else {
@@ -575,6 +578,6 @@ void asst::Assistant::append_callback(AsstMsg msg, json::value detail)
 
 void Assistant::clear_cache()
 {
-    Status.clear();
+    m_status->clear_data();
     //Task.clear_cache();
 }

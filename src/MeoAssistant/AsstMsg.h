@@ -55,4 +55,6 @@ namespace asst
     // const json::value& 消息详情json，每种消息不同，Todo，需要补充个协议文档啥的
     // void* 外部调用者自定义参数，每次回调会带出去，建议传个(void*)this指针进来
     using AsstCallback = std::function<void(AsstMsg, const json::value&, void*)>;
+
+    using AsstApiCallback = void(*)(int msg, const char* detail_json, void* custom_arg);
 }

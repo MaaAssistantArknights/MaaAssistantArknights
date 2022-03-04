@@ -29,7 +29,7 @@ namespace asst
     class Assistant
     {
     public:
-        Assistant(AsstCallback callback = nullptr, void* callback_arg = nullptr);
+        Assistant(AsstApiCallback callback = nullptr, void* callback_arg = nullptr);
         ~Assistant();
 
         // 连接adb
@@ -101,11 +101,12 @@ namespace asst
         bool m_inited = false;
         std::string m_uuid;
 
-        std::shared_ptr<Controller> m_ctrler;
+        std::shared_ptr<Controller> m_ctrler = nullptr;
+        std::shared_ptr<RuntimeStatus> m_status = nullptr;
 
         bool m_thread_exit = false;
         std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;
-        AsstCallback m_callback = nullptr;
+        AsstApiCallback m_callback = nullptr;
         void* m_callback_arg = nullptr;
 
         bool m_thread_idle = true;
