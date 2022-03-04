@@ -199,7 +199,8 @@ class Asst:
 
         return Asst.__lib.AsstSetPenguinId(self.__ptr, id.encode('utf-8'))
 
-    def log(self, level: str, message: str) -> None:
+    @staticmethod
+    def log(level: str, message: str) -> None:
         '''
         打印日志
 
@@ -208,8 +209,7 @@ class Asst:
             ``message``:    日志内容
         '''
 
-        Asst.__lib.AsstLog(self.__ptr, level.encode(
-            'utf-8'), message.encode('utf-8'))
+        Asst.__lib.AsstLog(level.encode('utf-8'), message.encode('utf-8'))
 
     def get_version(self) -> str:
         """
@@ -283,4 +283,4 @@ class Asst:
 
         Asst.__lib.AsstLog.restype = None
         Asst.__lib.AsstLog.argtypes = (
-            ctypes.c_void_p, ctypes.c_char_p, ctypes.c_char_p)
+            ctypes.c_char_p, ctypes.c_char_p)
