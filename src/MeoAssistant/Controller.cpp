@@ -621,9 +621,10 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
             {"why", "ConfigNotFound"},
             {"details", json::object{}}
         };
-        m_callback(AsstMsg::ConnectionError, info, m_callback_arg);
+        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
         return false;
     }
+
     const auto adb_cfg = std::move(adb_ret.value());
     std::string display_id;
 
@@ -650,8 +651,16 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
                 {"why", "Connection command failed to exec"},
                 {"details", json::object{}}
             };
-            m_callback(AsstMsg::ConnectionError, info, m_callback_arg);
+            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
             return false;
+        }
+        else {
+            json::value info = json::object{
+                {"what", "Connected"},
+                {"why", ""},
+                {"details", json::object{}}
+            };
+            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
         }
     }
 
@@ -686,7 +695,7 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
                 {"why", "Display command failed to exec"},
                 {"details", json::object{}}
             };
-            m_callback(AsstMsg::ConnectionError, info, m_callback_arg);
+            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
             return false;
         }
 
@@ -726,6 +735,36 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
         }
     }
 
+    /* get uuid (imei) */
+    {
+        auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid));
+        if (!uuid_ret) {
+            json::value info = json::object{
+                {"what", "ConnectFailed"},
+                {"why", "Uuid command failed to exec"},
+                {"details", json::object{}}
+            };
+            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            return false;
+        }
+
+        auto& uuid_result = uuid_ret.value();
+        std::string uuid_str(
+            std::make_move_iterator(uuid_result.begin()),
+            std::make_move_iterator(uuid_result.end()));
+        uuid_str.erase(std::remove(uuid_str.begin(), uuid_str.end(), ' '), uuid_str.end());
+        m_uuid = std::move(uuid_str);
+
+        json::value info = json::object{
+            {"what", "UuidGetted"},
+            {"why", ""},
+            {"details", json::object {
+                { "uuid", m_uuid}
+            }}
+        };
+        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+    }
+
     m_adb.click = cmd_replace(adb_cfg.click);
     m_adb.swipe = cmd_replace(adb_cfg.swipe);
     m_adb.screencap_raw_with_gzip = cmd_replace(adb_cfg.screencap_raw_with_gzip);
@@ -733,6 +772,11 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
     m_adb.release = cmd_replace(adb_cfg.release);
 
     return true;
+}
+
+const std::string& asst::Controller::get_uuid() const
+{
+    return m_uuid;
 }
 
 cv::Mat asst::Controller::get_image()
@@ -747,7 +791,7 @@ cv::Mat asst::Controller::get_image()
     return get_resized_image();
 }
 
-std::vector<uchar> asst::Controller::get_image_encode()
+std::vector<uchar> asst::Controller::get_image_encode() const
 {
     cv::Mat img = get_resized_image();
     std::vector<uchar> buf;

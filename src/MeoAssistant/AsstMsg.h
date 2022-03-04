@@ -13,7 +13,7 @@ namespace asst
         /* Global Info */
         InternalError = 0,          // 内部错误
         InitFailed,                 // 初始化失败
-        ConnectionError,            // 连接相关错误
+        ConnectionInfo,            // 连接相关错误
         AllTasksCompleted,          // 全部任务完成
         /* TaskChain Info */
         TaskChainError = 10000,     // 任务链执行/识别错误
@@ -33,7 +33,7 @@ namespace asst
             /* Global Info */
             { AsstMsg::InternalError, "InternalError" },
             { AsstMsg::InitFailed, "InitFailed" },
-            { AsstMsg::ConnectionError, "ConnectionError" },
+            { AsstMsg::ConnectionInfo, "ConnectionInfo" },
             { AsstMsg::AllTasksCompleted, "AllTasksCompleted" },
             /* TaskChain Info */
             { AsstMsg::TaskChainError, "TaskChainError" },

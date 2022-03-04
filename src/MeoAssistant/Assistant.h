@@ -98,8 +98,9 @@ namespace asst
         void append_callback(AsstMsg msg, json::value detail);
         void clear_cache();
 
-        bool m_inited = false;
         std::string m_dirname;
+        bool m_inited = false;
+        std::string m_uuid;
 
         std::shared_ptr<Controller> m_ctrler;
 
@@ -109,13 +110,14 @@ namespace asst
         void* m_callback_arg = nullptr;
 
         bool m_thread_idle = true;
-        std::thread m_working_thread;
         std::mutex m_mutex;
         std::condition_variable m_condvar;
 
-        std::thread m_msg_thread;
         std::queue<std::pair<AsstMsg, json::value>> m_msg_queue;
         std::mutex m_msg_mutex;
         std::condition_variable m_msg_condvar;
+
+        std::thread m_msg_thread;
+        std::thread m_working_thread;
     };
 }

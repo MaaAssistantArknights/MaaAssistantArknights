@@ -49,6 +49,7 @@ namespace asst
         std::string devices;
         std::string connect;
         std::string display_id;
+        std::string uuid;
         std::string click;
         std::string swipe;
         std::string display;
