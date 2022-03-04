@@ -4,6 +4,7 @@ author: Black Cat Bon
 version: v2.0.1
 """
 
+from importlib.resources import path
 import threading
 import time
 import schedule
@@ -110,8 +111,10 @@ if __name__ == "__main__":
 
         print(m, d, arg)
 
-    dirname: str = (pathlib.Path.cwd()).__str__()
-    asst = Asst(dirname=dirname, callback=my_callback)
+    path: str = (pathlib.Path.cwd()).__str__()
+    Asst.load(path)
+
+    asst = Asst(callback=my_callback)
 
     print('version', asst.get_version())
 

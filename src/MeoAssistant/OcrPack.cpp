@@ -13,6 +13,8 @@ asst::OcrPack::~OcrPack()
 
 bool asst::OcrPack::load(const std::string& dir)
 {
+    LogTraceFunction;
+
     constexpr static const char* DetName = "/det";
     //constexpr static const char* ClsName = "/cls";
     constexpr static const char* RecName = "/rec";

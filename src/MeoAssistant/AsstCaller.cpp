@@ -9,6 +9,7 @@
 #include "AsstDef.h"
 #include "Version.h"
 #include "Logger.hpp"
+#include "Resource.h"
 
 #if 0
 #if _MSC_VER
@@ -41,7 +42,13 @@ void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg)
     _callback(static_cast<int>(msg), json.to_string().c_str(), custom_arg);
 }
 
-asst::Assistant* AsstCreate(const char* dirname)
+bool AsstLoadResource(const char* path)
+{
+    return asst::Logger::set_dirname(std::string(path) + "/")
+        && asst::Resrc.load(std::string(path) + "/resource/");
+}
+
+asst::Assistant* AsstCreate()
 {
     if (_callback != nullptr) {
         std::cerr << "An instance of Asst already exists" << std::endl;
@@ -49,7 +56,7 @@ asst::Assistant* AsstCreate(const char* dirname)
     }
     try {
         _callback = nullptr;
-        return new asst::Assistant(dirname);
+        return new asst::Assistant();
     }
     catch (std::exception& e) {
         std::cerr << "create failed: " << e.what() << std::endl;
@@ -60,7 +67,7 @@ asst::Assistant* AsstCreate(const char* dirname)
     return nullptr;
 }
 
-asst::Assistant* AsstCreateEx(const char* dirname, AsstCallback callback, void* custom_arg)
+asst::Assistant* AsstCreateEx(AsstCallback callback, void* custom_arg)
 {
     if (_callback != nullptr) {
         std::cerr << "An instance of Asst already exists" << std::endl;
@@ -68,7 +75,7 @@ asst::Assistant* AsstCreateEx(const char* dirname, AsstCallback callback, void* 
     }
     try {
         _callback = callback;
-        return new asst::Assistant(dirname, CallbackTrans, custom_arg);
+        return new asst::Assistant(CallbackTrans, custom_arg);
     }
     catch (std::exception& e) {
         std::cerr << "create failed: " << e.what() << std::endl;

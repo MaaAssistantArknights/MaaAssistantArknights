@@ -10,9 +10,12 @@ namespace penguin
 }
 
 #include "AsstUtils.hpp"
+#include "Logger.hpp"
 
 bool asst::PenguinPack::load(const std::string& dir)
 {
+    LogTraceFunction;
+
     bool ret = load_json(dir + "/json/stages.json", dir + "/json/hash_index.json");
 
     for (const auto& file : std::filesystem::directory_iterator(dir + "/items")) {

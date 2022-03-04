@@ -3,9 +3,12 @@
 #include <meojson/json.hpp>
 
 #include "AsstUtils.hpp"
+#include "Logger.hpp"
 
 bool asst::AbstractConfiger::load(const std::string& filename)
 {
+    LogTraceFunction;
+
     std::string content = utils::load_file_without_bom(filename);
 
     auto&& ret = json::parser::parse(content);
@@ -14,7 +17,7 @@ bool asst::AbstractConfiger::load(const std::string& filename)
         return false;
     }
 
-    json::value root = std::move(ret.value());
+    const auto& root = ret.value();
 
     try {
         return parse(root);

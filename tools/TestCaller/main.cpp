@@ -13,7 +13,9 @@ std::string get_cur_dir()
 int main(int argc, char** argv)
 {
     // 若使用 VS，请先设置 TestCaller 属性-调试-工作目录为 $(TargetDir)
-    auto ptr = AsstCreate(get_cur_dir().c_str());
+    AsstLoadResource(get_cur_dir().c_str());
+
+    auto ptr = AsstCreate();
     if (ptr == nullptr) {
         return -1;
     }

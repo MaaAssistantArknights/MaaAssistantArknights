@@ -12,8 +12,9 @@ extern "C" {
 #endif
     typedef void(ASST_CALL* AsstCallback)(int msg, const char* detail_json, void* custom_arg);
 
-    ASSTAPI_PORT asst::Assistant* ASST_CALL AsstCreate(const char* dirname);
-    ASSTAPI_PORT asst::Assistant* ASST_CALL AsstCreateEx(const char* dirname, AsstCallback callback, void* custom_arg);
+    bool ASSTAPI AsstLoadResource(const char* path);
+    ASSTAPI_PORT asst::Assistant* ASST_CALL AsstCreate();
+    ASSTAPI_PORT asst::Assistant* ASST_CALL AsstCreateEx(AsstCallback callback, void* custom_arg);
     void ASSTAPI AsstDestroy(asst::Assistant* p_asst);
 
     bool ASSTAPI AsstConnect(asst::Assistant* p_asst, const char* adb_path, const char* address, const char* config);
