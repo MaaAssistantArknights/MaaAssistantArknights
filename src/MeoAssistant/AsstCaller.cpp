@@ -35,19 +35,28 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
 #endif
 #endif
 
+static bool inited = false;
+
 bool AsstLoadResource(const char* path)
 {
-    return asst::Logger::set_dirname(std::string(path) + "/")
+    inited = asst::Logger::set_dirname(std::string(path) + "/")
         && asst::Resrc.load(std::string(path) + "/resource/");
+    return inited;
 }
 
 AsstHandle AsstCreate()
 {
+    if (!inited) {
+        return nullptr;
+    }
     return new asst::Assistant();
 }
 
 AsstHandle AsstCreateEx(AsstApiCallback callback, void* custom_arg)
 {
+    if (!inited) {
+        return nullptr;
+    }
     return new asst::Assistant(callback, custom_arg);
 }
 
@@ -63,7 +72,7 @@ void AsstDestroy(AsstHandle handle)
 
 bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
 
@@ -72,7 +81,7 @@ bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, c
 
 bool ASSTAPI AsstAppendStartUp(AsstHandle handle)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
 
@@ -81,7 +90,7 @@ bool ASSTAPI AsstAppendStartUp(AsstHandle handle)
 
 bool AsstAppendFight(AsstHandle handle, const char* stage, int max_mecidine, int max_stone, int max_times)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
 
@@ -90,7 +99,7 @@ bool AsstAppendFight(AsstHandle handle, const char* stage, int max_mecidine, int
 
 bool AsstAppendAward(AsstHandle handle)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
 
@@ -99,7 +108,7 @@ bool AsstAppendAward(AsstHandle handle)
 
 bool AsstAppendVisit(AsstHandle handle)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
 
@@ -108,7 +117,7 @@ bool AsstAppendVisit(AsstHandle handle)
 
 bool AsstAppendMall(AsstHandle handle, bool with_shopping)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
 
@@ -117,7 +126,7 @@ bool AsstAppendMall(AsstHandle handle, bool with_shopping)
 
 //bool AsstAppendProcessTask(AsstHandle handle, const char* task_name)
 //{
-//    if (handle == nullptr) {
+//    if (!inited || handle == nullptr) {
 //        return false;
 //    }
 //
@@ -126,7 +135,7 @@ bool AsstAppendMall(AsstHandle handle, bool with_shopping)
 
 bool AsstStartRecruitCalc(AsstHandle handle, const int select_level[], int required_len, bool set_time)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
     std::vector<int> level_vector;
@@ -136,7 +145,7 @@ bool AsstStartRecruitCalc(AsstHandle handle, const int select_level[], int requi
 
 bool AsstAppendInfrast(AsstHandle handle, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
     std::vector<std::string> order_vector;
@@ -151,7 +160,7 @@ bool AsstAppendInfrast(AsstHandle handle, int work_mode, const char** order, int
 
 bool AsstAppendRecruit(AsstHandle handle, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh, bool use_expedited)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
     std::vector<int> required_vector;
@@ -164,7 +173,7 @@ bool AsstAppendRecruit(AsstHandle handle, int max_times, const int select_level[
 
 bool AsstAppendRoguelike(AsstHandle handle, int mode)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
     return handle->append_roguelike(mode);
@@ -172,7 +181,7 @@ bool AsstAppendRoguelike(AsstHandle handle, int mode)
 
 bool AsstStart(AsstHandle handle)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
 
@@ -181,7 +190,7 @@ bool AsstStart(AsstHandle handle)
 
 bool AsstStop(AsstHandle handle)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
 
@@ -190,7 +199,7 @@ bool AsstStop(AsstHandle handle)
 
 bool AsstSetPenguinId(AsstHandle handle, const char* id)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
 
@@ -200,7 +209,7 @@ bool AsstSetPenguinId(AsstHandle handle, const char* id)
 
 unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size)
 {
-    if (handle == nullptr || buff == nullptr) {
+    if (!inited || handle == nullptr || buff == nullptr) {
         return 0;
     }
     auto img_data = handle->get_image();
@@ -214,7 +223,7 @@ unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long lon
 
 bool AsstCtrlerClick(AsstHandle handle, int x, int y, bool block)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
     return handle->ctrler_click(x, y, block);
@@ -234,18 +243,18 @@ const char* AsstGetVersion()
     return asst::Version;
 }
 
-void AsstLog(AsstHandle handle, const char* level, const char* message)
+void AsstLog(const char* level, const char* message)
 {
-    if (handle == nullptr) {
+    if (!inited) {
+        std::cerr << "Not inited" << std::endl;
         return;
     }
-
     asst::Log.log_with_custom_level(level, message);
 }
 
 bool AsstAppendDebug(AsstHandle handle)
 {
-    if (handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
 #ifdef ASST_DEBUG
