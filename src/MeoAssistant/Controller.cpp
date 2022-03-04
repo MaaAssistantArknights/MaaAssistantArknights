@@ -66,8 +66,7 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
         throw "controller pipe buffer allocated failed";
     }
 
-    auto bind_pipe_working_proc = std::bind(&Controller::pipe_working_proc, this);
-    m_cmd_thread = std::thread(bind_pipe_working_proc);
+    m_cmd_thread = std::thread(&Controller::pipe_working_proc, this);
 }
 
 asst::Controller::~Controller()

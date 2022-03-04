@@ -224,7 +224,6 @@ namespace asst
         Rect roi;                                    // 要识别的区域，若为0则全图识别
         Rect rect_move;                              // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。即识别到了res，点击res + result_move的位置
         bool cache = false;                          // 是否使用缓存区域
-        Rect region_of_appeared;                     // 缓存区域：上次识别成功过，本次只在这个rect里识别，省点性能
     };
 
     // 文字识别任务的信息

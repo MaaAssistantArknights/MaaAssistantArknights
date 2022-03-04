@@ -21,8 +21,8 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
     }
 
     if (details.at("details").at("task").as_string() == "EndOfAction") {
-        int64_t pre_start_time = Status.get("LastStartButton2");
-        int64_t pre_recognize_time = Status.get("LastRecognizeDrops");
+        int64_t pre_start_time = m_status->get_data("LastStartButton2");
+        int64_t pre_recognize_time = m_status->get_data("LastRecognizeDrops");
         if (pre_start_time + RecognizationTimeOffset == pre_recognize_time) {
             Log.info("Recognization time too close, pass", pre_start_time, pre_recognize_time);
             return false;
@@ -59,7 +59,7 @@ bool asst::StageDropsTaskPlugin::_run()
     if (opt.penguin_report.enable) {
         auto upload_future = std::async(
             std::launch::async,
-            std::bind(&StageDropsTaskPlugin::upload_to_penguin, this));
+            &StageDropsTaskPlugin::upload_to_penguin, this);
         m_upload_pending.emplace_back(std::move(upload_future));
     }
 
@@ -79,7 +79,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     Log.trace("Results of penguin recognition:\n", res);
     m_cur_drops = json::parse(res).value();
 
-    Status.set("LastRecognizeDrops", Status.get("LastStartButton2") + RecognizationTimeOffset);
+    m_status->set_data("LastRecognizeDrops", m_status->get_data("LastStartButton2") + RecognizationTimeOffset);
 
     return true;
 }
@@ -125,7 +125,7 @@ void asst::StageDropsTaskPlugin::set_startbutton_delay()
     LogTraceFunction;
 
     if (!m_startbutton_delay_setted) {
-        int64_t pre_start_time = Status.get("LastStartButton2");
+        int64_t pre_start_time = m_status->get_data("LastStartButton2");
 
         if (pre_start_time > 0) {
             int64_t duration = time(nullptr) - pre_start_time;

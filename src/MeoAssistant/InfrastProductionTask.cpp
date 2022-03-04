@@ -306,11 +306,11 @@ bool asst::InfrastProductionTask::optimal_calc()
         // 条件判断，不符合的直接过滤掉
         bool meet_condition = true;
         for (const auto& [cond, cond_value] : group.conditions) {
-            if (!Status.contains(cond)) {
+            if (!m_status->contains_data(cond)) {
                 continue;
             }
             // TODO：这里做成除了不等于，还可计算大于、小于等不同条件的
-            int cur_value = static_cast<int>(Status.get(cond));
+            int cur_value = static_cast<int>(m_status->get_data(cond));
             if (cur_value != cond_value) {
                 meet_condition = false;
                 break;
@@ -600,7 +600,7 @@ asst::InfrastProductionTask::efficient_regex_calc(
                 // TODO 报错！
             }
             std::string status_key = cur_formula.substr(pos + 1, rp_pos - pos - 1);
-            int64_t status_value = Status.get(status_key);
+            int64_t status_value = m_status->get_data(status_key);
             cur_formula.replace(pos, rp_pos - pos + 1, std::to_string(status_value));
         }
 

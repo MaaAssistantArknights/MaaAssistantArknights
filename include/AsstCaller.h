@@ -10,40 +10,41 @@ namespace asst
 #ifdef __cplusplus
 extern "C" {
 #endif
-    typedef void(ASST_CALL* AsstCallback)(int msg, const char* detail_json, void* custom_arg);
+    typedef asst::Assistant* AsstHandle;
+    typedef void(ASST_CALL* AsstApiCallback)(int msg, const char* detail_json, void* custom_arg);
 
     bool ASSTAPI AsstLoadResource(const char* path);
-    ASSTAPI_PORT asst::Assistant* ASST_CALL AsstCreate();
-    ASSTAPI_PORT asst::Assistant* ASST_CALL AsstCreateEx(AsstCallback callback, void* custom_arg);
-    void ASSTAPI AsstDestroy(asst::Assistant* p_asst);
+    ASSTAPI_PORT AsstHandle ASST_CALL AsstCreate();
+    ASSTAPI_PORT AsstHandle ASST_CALL AsstCreateEx(AsstApiCallback callback, void* custom_arg);
+    void ASSTAPI AsstDestroy(AsstHandle handle);
 
-    bool ASSTAPI AsstConnect(asst::Assistant* p_asst, const char* adb_path, const char* address, const char* config);
+    bool ASSTAPI AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config);
 
-    bool ASSTAPI AsstAppendStartUp(asst::Assistant* p_asst);
-    bool ASSTAPI AsstAppendFight(asst::Assistant* p_asst, const char* stage, int max_mecidine, int max_stone, int max_times);
-    bool ASSTAPI AsstAppendAward(asst::Assistant* p_asst);
-    bool ASSTAPI AsstAppendVisit(asst::Assistant* p_asst);
-    bool ASSTAPI AsstAppendMall(asst::Assistant* p_asst, bool with_shopping);
-    // bool ASSTAPI AsstAppendProcessTask(asst::Assistant* p_asst, const char* task_name);
-    bool ASSTAPI AsstAppendInfrast(asst::Assistant* p_asst, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold);
-    bool ASSTAPI AsstAppendRecruit(asst::Assistant* p_asst, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh, bool use_expedited);
-    bool ASSTAPI AsstAppendRoguelike(asst::Assistant* p_asst, int mode);
+    bool ASSTAPI AsstAppendStartUp(AsstHandle handle);
+    bool ASSTAPI AsstAppendFight(AsstHandle handle, const char* stage, int max_mecidine, int max_stone, int max_times);
+    bool ASSTAPI AsstAppendAward(AsstHandle handle);
+    bool ASSTAPI AsstAppendVisit(AsstHandle handle);
+    bool ASSTAPI AsstAppendMall(AsstHandle handle, bool with_shopping);
+    // bool ASSTAPI AsstAppendProcessTask(AsstHandle handle, const char* task_name);
+    bool ASSTAPI AsstAppendInfrast(AsstHandle handle, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold);
+    bool ASSTAPI AsstAppendRecruit(AsstHandle handle, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh, bool use_expedited);
+    bool ASSTAPI AsstAppendRoguelike(AsstHandle handle, int mode);
 
-    bool ASSTAPI AsstAppendDebug(asst::Assistant* p_asst);
+    bool ASSTAPI AsstAppendDebug(AsstHandle handle);
 
-    bool ASSTAPI AsstStartRecruitCalc(asst::Assistant* p_asst, const int select_level[], int required_len, bool set_time);
-    bool ASSTAPI AsstStart(asst::Assistant* p_asst);
-    bool ASSTAPI AsstStop(asst::Assistant* p_asst);
+    bool ASSTAPI AsstStartRecruitCalc(AsstHandle handle, const int select_level[], int required_len, bool set_time);
+    bool ASSTAPI AsstStart(AsstHandle handle);
+    bool ASSTAPI AsstStop(AsstHandle handle);
 
-    bool ASSTAPI AsstSetPenguinId(asst::Assistant* p_asst, const char* id);
-    // bool ASSTAPI AsstSetParam(asst::Assistant* p_asst, const char* type, const char* param, const char* value);
+    bool ASSTAPI AsstSetPenguinId(AsstHandle handle, const char* id);
+    // bool ASSTAPI AsstSetParam(AsstHandle handle, const char* type, const char* param, const char* value);
 
-    unsigned long long ASSTAPI AsstGetImage(asst::Assistant* p_asst, void* buff, unsigned long long buff_size);
-    bool ASSTAPI AsstCtrlerClick(asst::Assistant* p_asst, int x, int y, bool block);
+    unsigned long long ASSTAPI AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size);
+    bool ASSTAPI AsstCtrlerClick(AsstHandle handle, int x, int y, bool block);
 
     ASSTAPI_PORT const char* ASST_CALL AsstGetVersion();
 
-    void ASSTAPI AsstLog(asst::Assistant* p_asst, const char* level, const char* message);
+    void ASSTAPI AsstLog(AsstHandle handle, const char* level, const char* message);
 
 #ifdef __cplusplus
 }

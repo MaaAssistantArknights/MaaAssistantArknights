@@ -35,159 +35,123 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
 #endif
 #endif
 
-AsstCallback _callback = nullptr;
-
-void CallbackTrans(asst::AsstMsg msg, const json::value& json, void* custom_arg)
-{
-    _callback(static_cast<int>(msg), json.to_string().c_str(), custom_arg);
-}
-
 bool AsstLoadResource(const char* path)
 {
     return asst::Logger::set_dirname(std::string(path) + "/")
         && asst::Resrc.load(std::string(path) + "/resource/");
 }
 
-asst::Assistant* AsstCreate()
+AsstHandle AsstCreate()
 {
-    if (_callback != nullptr) {
-        std::cerr << "An instance of Asst already exists" << std::endl;
-        return nullptr;
-    }
-    try {
-        _callback = nullptr;
-        return new asst::Assistant();
-    }
-    catch (std::exception& e) {
-        std::cerr << "create failed: " << e.what() << std::endl;
-    }
-    catch (...) {
-        std::cerr << "create failed: unknown exception" << std::endl;
-    }
-    return nullptr;
+    return new asst::Assistant();
 }
 
-asst::Assistant* AsstCreateEx(AsstCallback callback, void* custom_arg)
+AsstHandle AsstCreateEx(AsstApiCallback callback, void* custom_arg)
 {
-    if (_callback != nullptr) {
-        std::cerr << "An instance of Asst already exists" << std::endl;
-        return nullptr;
-    }
-    try {
-        _callback = callback;
-        return new asst::Assistant(CallbackTrans, custom_arg);
-    }
-    catch (std::exception& e) {
-        std::cerr << "create failed: " << e.what() << std::endl;
-    }
-    catch (...) {
-        std::cerr << "create failed: unknown exception" << std::endl;
-    }
-    return nullptr;
+    return new asst::Assistant(callback, custom_arg);
 }
 
-void AsstDestroy(asst::Assistant* p_asst)
+void AsstDestroy(AsstHandle handle)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return;
     }
 
-    delete p_asst;
-    p_asst = nullptr;
-    _callback = nullptr;
+    delete handle;
+    handle = nullptr;
 }
 
-bool AsstConnect(asst::Assistant* p_asst, const char* adb_path, const char* address, const char* config)
+bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
 
-    return p_asst->connect(adb_path, address, config ? config : std::string());
+    return handle->connect(adb_path, address, config ? config : std::string());
 }
 
-bool ASSTAPI AsstAppendStartUp(asst::Assistant* p_asst)
+bool ASSTAPI AsstAppendStartUp(AsstHandle handle)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
 
-    return p_asst->append_start_up();
+    return handle->append_start_up();
 }
 
-bool AsstAppendFight(asst::Assistant* p_asst, const char* stage, int max_mecidine, int max_stone, int max_times)
+bool AsstAppendFight(AsstHandle handle, const char* stage, int max_mecidine, int max_stone, int max_times)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
 
-    return p_asst->append_fight(stage, max_mecidine, max_stone, max_times);
+    return handle->append_fight(stage, max_mecidine, max_stone, max_times);
 }
 
-bool AsstAppendAward(asst::Assistant* p_asst)
+bool AsstAppendAward(AsstHandle handle)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
 
-    return p_asst->append_award();
+    return handle->append_award();
 }
 
-bool AsstAppendVisit(asst::Assistant* p_asst)
+bool AsstAppendVisit(AsstHandle handle)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
 
-    return p_asst->append_visit();
+    return handle->append_visit();
 }
 
-bool AsstAppendMall(asst::Assistant* p_asst, bool with_shopping)
+bool AsstAppendMall(AsstHandle handle, bool with_shopping)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
 
-    return p_asst->append_mall(with_shopping);
+    return handle->append_mall(with_shopping);
 }
 
-//bool AsstAppendProcessTask(asst::Assistant* p_asst, const char* task_name)
+//bool AsstAppendProcessTask(AsstHandle handle, const char* task_name)
 //{
-//    if (p_asst == nullptr) {
+//    if (handle == nullptr) {
 //        return false;
 //    }
 //
-//    return p_asst->append_process_task(task_name);
+//    return handle->append_process_task(task_name);
 //}
 
-bool AsstStartRecruitCalc(asst::Assistant* p_asst, const int select_level[], int required_len, bool set_time)
+bool AsstStartRecruitCalc(AsstHandle handle, const int select_level[], int required_len, bool set_time)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
     std::vector<int> level_vector;
     level_vector.assign(select_level, select_level + required_len);
-    return p_asst->start_recruit_calc(level_vector, set_time);
+    return handle->start_recruit_calc(level_vector, set_time);
 }
 
-bool AsstAppendInfrast(asst::Assistant* p_asst, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold)
+bool AsstAppendInfrast(AsstHandle handle, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
     std::vector<std::string> order_vector;
     order_vector.assign(order, order + order_size);
 
-    return p_asst->append_infrast(
+    return handle->append_infrast(
         static_cast<asst::infrast::WorkMode>(work_mode),
         order_vector,
         uses_of_drones,
         dorm_threshold);
 }
 
-bool AsstAppendRecruit(asst::Assistant* p_asst, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh, bool use_expedited)
+bool AsstAppendRecruit(AsstHandle handle, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh, bool use_expedited)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
     std::vector<int> required_vector;
@@ -195,51 +159,51 @@ bool AsstAppendRecruit(asst::Assistant* p_asst, int max_times, const int select_
     std::vector<int> confirm_vector;
     confirm_vector.assign(confirm_level, confirm_level + confirm_len);
 
-    return p_asst->append_recruit(max_times, required_vector, confirm_vector, need_refresh, use_expedited);
+    return handle->append_recruit(max_times, required_vector, confirm_vector, need_refresh, use_expedited);
 }
 
-bool AsstAppendRoguelike(asst::Assistant* p_asst, int mode)
+bool AsstAppendRoguelike(AsstHandle handle, int mode)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
-    return p_asst->append_roguelike(mode);
+    return handle->append_roguelike(mode);
 }
 
-bool AsstStart(asst::Assistant* p_asst)
+bool AsstStart(AsstHandle handle)
 {
-    if (p_asst == nullptr) {
-        return false;
-    }
-
-    return p_asst->start();
-}
-
-bool AsstStop(asst::Assistant* p_asst)
-{
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
 
-    return p_asst->stop();
+    return handle->start();
 }
 
-bool AsstSetPenguinId(asst::Assistant* p_asst, const char* id)
+bool AsstStop(AsstHandle handle)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
 
-    p_asst->set_penguin_id(id);
+    return handle->stop();
+}
+
+bool AsstSetPenguinId(AsstHandle handle, const char* id)
+{
+    if (handle == nullptr) {
+        return false;
+    }
+
+    handle->set_penguin_id(id);
     return true;
 }
 
-unsigned long long AsstGetImage(asst::Assistant* p_asst, void* buff, unsigned long long buff_size)
+unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size)
 {
-    if (p_asst == nullptr || buff == nullptr) {
+    if (handle == nullptr || buff == nullptr) {
         return 0;
     }
-    auto img_data = p_asst->get_image();
+    auto img_data = handle->get_image();
     size_t data_size = img_data.size();
     if (buff_size < data_size) {
         return 0;
@@ -248,21 +212,21 @@ unsigned long long AsstGetImage(asst::Assistant* p_asst, void* buff, unsigned lo
     return data_size;
 }
 
-bool AsstCtrlerClick(asst::Assistant* p_asst, int x, int y, bool block)
+bool AsstCtrlerClick(AsstHandle handle, int x, int y, bool block)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
-    return p_asst->ctrler_click(x, y, block);
+    return handle->ctrler_click(x, y, block);
 }
 
-//bool AsstSetParam(asst::Assistant* p_asst, const char* type, const char* param, const char* value)
+//bool AsstSetParam(AsstHandle handle, const char* type, const char* param, const char* value)
 //{
-//    if (p_asst == nullptr) {
+//    if (handle == nullptr) {
 //        return false;
 //    }
 //
-//    return p_asst->set_param(type, param, value);
+//    return handle->set_param(type, param, value);
 //}
 
 const char* AsstGetVersion()
@@ -270,22 +234,22 @@ const char* AsstGetVersion()
     return asst::Version;
 }
 
-void AsstLog(asst::Assistant* p_asst, const char* level, const char* message)
+void AsstLog(AsstHandle handle, const char* level, const char* message)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return;
     }
 
     asst::Log.log_with_custom_level(level, message);
 }
 
-bool AsstAppendDebug(asst::Assistant* p_asst)
+bool AsstAppendDebug(AsstHandle handle)
 {
-    if (p_asst == nullptr) {
+    if (handle == nullptr) {
         return false;
     }
 #ifdef ASST_DEBUG
-    return p_asst->append_debug();
+    return handle->append_debug();
 #else
     return false;
 #endif // ASST_DEBUG

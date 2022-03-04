@@ -18,6 +18,7 @@ namespace asst
     using TaskPluginPtr = std::shared_ptr<AbstractTaskPlugin>;
 
     class Controller;
+    class RuntimeStatus;
 
     class AbstractTask
     {
@@ -32,6 +33,7 @@ namespace asst
         AbstractTask& set_exit_flag(bool* exit_flag) noexcept;
         AbstractTask& set_retry_times(int times) noexcept;
         AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept;
+        AbstractTask& set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
 
         template<typename PluginType>
         std::shared_ptr<PluginType> regiseter_plugin()
@@ -70,5 +72,6 @@ namespace asst
         mutable json::value m_basic_info_cache;
         std::set<TaskPluginPtr> m_plugins;
         std::shared_ptr<Controller> m_ctrler = nullptr;
+        std::shared_ptr<RuntimeStatus> m_status = nullptr;
     };
 }

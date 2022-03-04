@@ -30,13 +30,6 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string name)
     return m_all_tasks_info[std::move(name)];
 }
 
-void asst::TaskData::clear_cache() noexcept
-{
-    for (auto&& [name, ptr] : m_all_tasks_info) {
-        ptr->region_of_appeared = Rect();
-    }
-}
-
 bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;

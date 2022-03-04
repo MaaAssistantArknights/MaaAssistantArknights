@@ -64,6 +64,12 @@ AbstractTask& asst::AbstractTask::set_ctrler(std::shared_ptr<Controller> ctrler)
     return *this;
 }
 
+AbstractTask& asst::AbstractTask::set_status(std::shared_ptr<RuntimeStatus> status) noexcept
+{
+    m_status = status;
+    return *this;
+}
+
 void asst::AbstractTask::clear_plugin() noexcept
 {
     m_plugins.clear();

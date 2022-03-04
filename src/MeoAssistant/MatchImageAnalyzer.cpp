@@ -57,6 +57,14 @@ void asst::MatchImageAnalyzer::set_task_info(const std::string& task_name)
     set_task_info(Task.get(task_name));
 }
 
+void asst::MatchImageAnalyzer::set_region_of_appeared(Rect region) noexcept
+{
+    m_region_of_appeared = std::move(region);
+    if (m_use_cache && !m_region_of_appeared.empty()) {
+        m_roi = m_region_of_appeared;
+    }
+}
+
 const asst::MatchRect& asst::MatchImageAnalyzer::get_result() const noexcept
 {
     return m_result;
@@ -67,9 +75,10 @@ void asst::MatchImageAnalyzer::set_task_info(MatchTaskInfo task_info) noexcept
     m_mask_range = std::move(task_info.mask_range);
     m_templ_name = std::move(task_info.templ_name);
     m_templ_thres = task_info.templ_threshold;
+    m_use_cache = task_info.cache;
 
-    if (task_info.cache && !task_info.region_of_appeared.empty()) {
-        m_roi = task_info.region_of_appeared;
+    if (m_use_cache && !m_region_of_appeared.empty()) {
+        m_roi = m_region_of_appeared;
     }
     else {
         set_roi(task_info.roi);
