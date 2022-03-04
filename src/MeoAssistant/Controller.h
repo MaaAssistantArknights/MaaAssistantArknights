@@ -32,8 +32,9 @@ namespace asst
 
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
 
+        const std::string& get_uuid() const;
         cv::Mat get_image();
-        std::vector<uchar> get_image_encode();
+        std::vector<uchar> get_image_encode() const;
 
         // 点击和滑动都是异步执行，返回该任务的id
         int click(const Point& p, bool block = true);
@@ -123,6 +124,7 @@ namespace asst
             } screencap_method = ScreencapMethod::UnknownYet;
         } m_adb;
 
+        std::string m_uuid;
         std::pair<int, int> m_scale_size;
         double m_control_scale = 1.0;
         int m_width = 0;

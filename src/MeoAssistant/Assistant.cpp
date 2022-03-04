@@ -87,6 +87,9 @@ bool asst::Assistant::connect(const std::string& adb_path, const std::string& ad
     stop(false);
 
     bool ret = m_ctrler->connect(adb_path, address, config.empty() ? "General" : config);
+    if (ret) {
+        m_uuid = m_ctrler->get_uuid();
+    }
     m_inited = ret;
     return ret;
 }
@@ -497,7 +500,7 @@ void Assistant::working_proc()
 
             std::string cur_taskchain = task_ptr->get_task_chain();
             std::string next_taskchain = m_tasks_queue.empty() ? std::string() : m_tasks_queue.front()->get_task_chain();
-            json::value callback_json = json::object {
+            json::value callback_json = json::object{
                 { "taskchain", cur_taskchain },
                 { "pre_taskchain", pre_taskchain }
             };
@@ -563,19 +566,20 @@ void Assistant::msg_proc()
 
 void Assistant::task_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
 {
-    Log.trace("Assistant::task_callback |", msg, detail.to_string());
-
     Assistant* p_this = (Assistant*)custom_arg;
     json::value more_detail = detail;
+    more_detail["uuid"] = p_this->m_uuid;
+
     switch (msg) {
     case AsstMsg::InternalError:
     case AsstMsg::InitFailed:
-    case AsstMsg::ConnectionError:
         p_this->stop(false);
         break;
     default:
         break;
     }
+
+    Log.trace("Assistant::task_callback |", msg, more_detail.to_string());
 
     // 加入回调消息队列，由回调消息线程外抛给外部
     p_this->append_callback(msg, std::move(more_detail));

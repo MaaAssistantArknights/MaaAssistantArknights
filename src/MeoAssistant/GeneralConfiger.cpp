@@ -36,6 +36,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         adb.address_regex = cfg_json.at("addressRegex").as_string();
         adb.connect = cfg_json.at("connect").as_string();
         adb.display_id = cfg_json.get("displayId", std::string());
+        adb.uuid = cfg_json.at("uuid").as_string();
         adb.click = cfg_json.at("click").as_string();
         adb.swipe = cfg_json.at("swipe").as_string();
         adb.display = cfg_json.at("display").as_string();
