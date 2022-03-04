@@ -52,6 +52,12 @@ class Asst:
         return self.__lib.AsstConnect(self.__ptr,
                                       adb_path.encode('utf-8'), address.encode('utf-8'), config.encode('utf-8'))
 
+    def append_start_up(self) -> bool:
+        """
+        添加开始唤醒任务
+        """
+        return self.__lib.AsstAppendStartUp(self.__ptr)
+
     def append_fight(self, stage: str, max_medicine: int, max_stone: int, max_times: int) -> bool:
         """
         添加刷理智任务
@@ -213,6 +219,9 @@ class Asst:
         self.__lib.AsstConnect.restype = ctypes.c_bool
         self.__lib.AsstConnect.argtypes = (
             ctypes.c_void_p, ctypes.c_char_p, ctypes.c_char_p, ctypes.c_char_p,)
+
+        self.__lib.AsstAppendStartUp.restype = ctypes.c_bool
+        self.__lib.AsstAppendStartUp.argtypes = (ctypes.c_void_p,)
 
         self.__lib.AsstAppendFight.restype = ctypes.c_bool
         self.__lib.AsstAppendFight.argtypes = (
