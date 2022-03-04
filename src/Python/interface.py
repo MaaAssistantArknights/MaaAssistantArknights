@@ -13,30 +13,39 @@ class Asst:
 
     :params:
         ``param1 message``: 消息类型
-        ``param2 details``: gbk json string
+        ``param2 details``: json string
         ``param3 arg``:     自定义参数
     """
 
-    def __init__(self, dirname: str, callback: CallBackType, arg=None):
+    @staticmethod
+    def load(path: str) -> bool:
+        """
+        加载 dll 及资源
+
+        :params:
+            ``path``:    DLL及资源所在文件夹路径
+        """
+        if platform.system().lower() == 'windows':
+            Asst.__libpath = pathlib.Path(path) / 'MeoAssistant.dll'
+            Asst.__lib = ctypes.WinDLL(str(Asst.__libpath))
+        else:
+            Asst.__libpath = pathlib.Path(path) / 'libMeoAssistant.so'
+            Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
+        Asst.__set_lib_properties()
+
+        return Asst.__lib.AsstLoadResource(path.encode('utf-8'))
+
+    def __init__(self, callback: CallBackType, arg=None):
         """
         :params:
-            ``dirname``:    DLL及资源所在文件夹路径
             ``callback``:   回调函数
             ``arg``:        自定义参数
         """
-        if platform.system().lower() == 'windows':
-            self.__libpath = pathlib.Path(dirname) / 'MeoAssistant.dll'
-            self.__lib = ctypes.WinDLL(str(self.__libpath))
-        else:
-            self.__libpath = pathlib.Path(dirname) / 'libMeoAssistant.so'
-            self.__lib = ctypes.CDLL(str(self.__libpath))
-        self.__set_lib_properties()
 
-        self.__ptr = self.__lib.AsstCreateEx(
-            dirname.encode('utf-8'), callback, arg)
+        self.__ptr = Asst.__lib.AsstCreateEx(callback, arg)
 
     def __del__(self):
-        self.__lib.AsstDestroy(self.__ptr)
+        Asst.__lib.AsstDestroy(self.__ptr)
 
     def connect(self, adb_path: str, address: str, config: str = 'General'):
         """
@@ -49,14 +58,14 @@ class Asst:
 
         :return: 是否连接成功
         """
-        return self.__lib.AsstConnect(self.__ptr,
+        return Asst.__lib.AsstConnect(self.__ptr,
                                       adb_path.encode('utf-8'), address.encode('utf-8'), config.encode('utf-8'))
 
     def append_start_up(self) -> bool:
         """
         添加开始唤醒任务
         """
-        return self.__lib.AsstAppendStartUp(self.__ptr)
+        return Asst.__lib.AsstAppendStartUp(self.__ptr)
 
     def append_fight(self, stage: str, max_medicine: int, max_stone: int, max_times: int) -> bool:
         """
@@ -69,19 +78,19 @@ class Asst:
             ``max_stone``:          最多吃多少源石
             ``max_times``:          最多刷多少
         """
-        return self.__lib.AsstAppendFight(self.__ptr, stage.encode('utf-8'), max_medicine, max_stone, max_times)
+        return Asst.__lib.AsstAppendFight(self.__ptr, stage.encode('utf-8'), max_medicine, max_stone, max_times)
 
     def append_award(self) -> bool:
         """
         添加领取每日奖励任务
         """
-        return self.__lib.AsstAppendAward(self.__ptr)
+        return Asst.__lib.AsstAppendAward(self.__ptr)
 
     def append_visit(self) -> bool:
         """
         添加访问好友任务
         """
-        return self.__lib.AsstAppendVisit(self.__ptr)
+        return Asst.__lib.AsstAppendVisit(self.__ptr)
 
     def append_mall(self, with_shopping: bool) -> bool:
         """
@@ -90,7 +99,7 @@ class Asst:
         :params:
             ``with_shopping``:    是否信用商店购物
         """
-        return self.__lib.AsstAppendMall(self.__ptr, with_shopping)
+        return Asst.__lib.AsstAppendMall(self.__ptr, with_shopping)
 
     def append_infrast(self, work_mode: int, order_list: list, uses_of_drones: str, dorm_threshold: float) -> bool:
         """
@@ -111,7 +120,7 @@ class Asst:
         order_arr = (ctypes.c_char_p * order_len)()
         order_arr[:] = order_byte_list
 
-        return self.__lib.AsstAppendInfrast(self.__ptr, work_mode,
+        return Asst.__lib.AsstAppendInfrast(self.__ptr, work_mode,
                                             order_arr, order_len,
                                             uses_of_drones.encode('utf-8'), dorm_threshold)
 
@@ -134,7 +143,7 @@ class Asst:
         confirm_arr = (ctypes.c_int * confirm_len)()
         confirm_arr[:] = confirm_level
 
-        return self.__lib.AsstAppendRecruit(self.__ptr, max_times,
+        return Asst.__lib.AsstAppendRecruit(self.__ptr, max_times,
                                             select_arr, select_len,
                                             confirm_arr, confirm_len,
                                             need_refresh, use_expedited)
@@ -150,13 +159,13 @@ class Asst:
                     2 - 投资过后再退出，没有投资就继续往后打
         """
 
-        return self.__lib.AsstAppendRoguelike(self.__ptr, mode)
+        return Asst.__lib.AsstAppendRoguelike(self.__ptr, mode)
 
     def start(self) -> bool:
         """
         开始任务
         """
-        return self.__lib.AsstStart(self.__ptr)
+        return Asst.__lib.AsstStart(self.__ptr)
 
     def start_recruit_calc(self, select_level: list, set_time: bool) -> bool:
         """
@@ -170,15 +179,15 @@ class Asst:
         select_arr = (ctypes.c_int * select_len)()
         select_arr[:] = select_level
 
-        return self.__lib.AsstStartRecruitCalc(self.__ptr, select_arr, select_len, set_time)
+        return Asst.__lib.AsstStartRecruitCalc(self.__ptr, select_arr, select_len, set_time)
 
     def stop(self) -> bool:
         """
         停止并清空所有任务
         """
-        self.__lib.AsstStop.restype = ctypes.c_bool
-        self.__lib.AsstStop.argtypes = (ctypes.c_void_p,)
-        return self.__lib.AsstStop(self.__ptr)
+        Asst.__lib.AsstStop.restype = ctypes.c_bool
+        Asst.__lib.AsstStop.argtypes = (ctypes.c_void_p,)
+        return Asst.__lib.AsstStop(self.__ptr)
 
     def set_penguin_id(self, id: str) -> bool:
         """
@@ -188,9 +197,9 @@ class Asst:
             ``id``:     企鹅物流ID，仅数字部分
         """
 
-        return self.__lib.AsstSetPenguinId(self.__ptr, id.encode('utf-8'))
+        return Asst.__lib.AsstSetPenguinId(self.__ptr, id.encode('utf-8'))
 
-    def log(self, level: str, message: str):
+    def log(self, level: str, message: str) -> None:
         '''
         打印日志
 
@@ -199,7 +208,8 @@ class Asst:
             ``message``:    日志内容
         '''
 
-        return self.__lib.AsstLog(self.__ptr, level.encode('utf-8'), message.encode('utf-8'))
+        Asst.__lib.AsstLog(self.__ptr, level.encode(
+            'utf-8'), message.encode('utf-8'))
 
     def get_version(self) -> str:
         """
@@ -207,65 +217,70 @@ class Asst:
 
         :return: 版本号
         """
-        return self.__lib.AsstGetVersion().decode('utf-8')
+        return Asst.__lib.AsstGetVersion().decode('utf-8')
 
-    def __set_lib_properties(self):
-        self.__lib.AsstCreateEx.restype = ctypes.c_void_p
-        self.__lib.AsstCreateEx.argtypes = (
-            ctypes.c_char_p, ctypes.c_void_p, ctypes.c_void_p,)
+    @staticmethod
+    def __set_lib_properties():
+        Asst.__lib.AsstLoadResource.restype = ctypes.c_bool
+        Asst.__lib.AsstLoadResource.argtypes = (
+            ctypes.c_char_p,)
 
-        self.__lib.AsstDestroy.argtypes = (ctypes.c_void_p,)
+        Asst.__lib.AsstCreateEx.restype = ctypes.c_void_p
+        Asst.__lib.AsstCreateEx.argtypes = (
+            ctypes.c_void_p, ctypes.c_void_p,)
 
-        self.__lib.AsstConnect.restype = ctypes.c_bool
-        self.__lib.AsstConnect.argtypes = (
+        Asst.__lib.AsstDestroy.argtypes = (ctypes.c_void_p,)
+
+        Asst.__lib.AsstConnect.restype = ctypes.c_bool
+        Asst.__lib.AsstConnect.argtypes = (
             ctypes.c_void_p, ctypes.c_char_p, ctypes.c_char_p, ctypes.c_char_p,)
 
-        self.__lib.AsstAppendStartUp.restype = ctypes.c_bool
-        self.__lib.AsstAppendStartUp.argtypes = (ctypes.c_void_p,)
+        Asst.__lib.AsstAppendStartUp.restype = ctypes.c_bool
+        Asst.__lib.AsstAppendStartUp.argtypes = (ctypes.c_void_p,)
 
-        self.__lib.AsstAppendFight.restype = ctypes.c_bool
-        self.__lib.AsstAppendFight.argtypes = (
+        Asst.__lib.AsstAppendFight.restype = ctypes.c_bool
+        Asst.__lib.AsstAppendFight.argtypes = (
             ctypes.c_void_p, ctypes.c_char_p, ctypes.c_int, ctypes.c_int, ctypes.c_int,)
 
-        self.__lib.AsstAppendAward.restype = ctypes.c_bool
-        self.__lib.AsstAppendAward.argtypes = (ctypes.c_void_p,)
+        Asst.__lib.AsstAppendAward.restype = ctypes.c_bool
+        Asst.__lib.AsstAppendAward.argtypes = (ctypes.c_void_p,)
 
-        self.__lib.AsstAppendVisit.restype = ctypes.c_bool
-        self.__lib.AsstAppendVisit.argtypes = (ctypes.c_void_p,)
+        Asst.__lib.AsstAppendVisit.restype = ctypes.c_bool
+        Asst.__lib.AsstAppendVisit.argtypes = (ctypes.c_void_p,)
 
-        self.__lib.AsstAppendMall.restype = ctypes.c_bool
-        self.__lib.AsstAppendMall.argtypes = (ctypes.c_void_p, ctypes.c_bool)
+        Asst.__lib.AsstAppendMall.restype = ctypes.c_bool
+        Asst.__lib.AsstAppendMall.argtypes = (ctypes.c_void_p, ctypes.c_bool)
 
-        self.__lib.AsstAppendInfrast.restype = ctypes.c_bool
-        self.__lib.AsstAppendInfrast.argtypes = (
+        Asst.__lib.AsstAppendInfrast.restype = ctypes.c_bool
+        Asst.__lib.AsstAppendInfrast.argtypes = (
             ctypes.c_void_p, ctypes.c_int,
             ctypes.POINTER(ctypes.c_char_p), ctypes.c_int,
             ctypes.c_char_p, ctypes.c_double,)
 
-        self.__lib.AsstAppendRecruit.restype = ctypes.c_bool
-        self.__lib.AsstAppendRecruit.argtypes = (
+        Asst.__lib.AsstAppendRecruit.restype = ctypes.c_bool
+        Asst.__lib.AsstAppendRecruit.argtypes = (
             ctypes.c_void_p, ctypes.c_int,
             ctypes.POINTER(ctypes.c_int), ctypes.c_int,
             ctypes.POINTER(ctypes.c_int), ctypes.c_int,
             ctypes.c_bool, ctypes.c_bool,)
 
-        self.__lib.AsstAppendRoguelike.restype = ctypes.c_bool
-        self.__lib.AsstAppendRoguelike.argtypes = (
+        Asst.__lib.AsstAppendRoguelike.restype = ctypes.c_bool
+        Asst.__lib.AsstAppendRoguelike.argtypes = (
             ctypes.c_void_p, ctypes.c_int,)
 
-        self.__lib.AsstStart.restype = ctypes.c_bool
-        self.__lib.AsstStart.argtypes = (ctypes.c_void_p,)
+        Asst.__lib.AsstStart.restype = ctypes.c_bool
+        Asst.__lib.AsstStart.argtypes = (ctypes.c_void_p,)
 
-        self.__lib.AsstStartRecruitCalc.restype = ctypes.c_bool
-        self.__lib.AsstStartRecruitCalc.argtypes = (
+        Asst.__lib.AsstStartRecruitCalc.restype = ctypes.c_bool
+        Asst.__lib.AsstStartRecruitCalc.argtypes = (
             ctypes.c_void_p, ctypes.POINTER(ctypes.c_int), ctypes.c_int, ctypes.c_bool,)
 
-        self.__lib.AsstSetPenguinId.restype = ctypes.c_bool
-        self.__lib.AsstSetPenguinId.argtypes = (
+        Asst.__lib.AsstSetPenguinId.restype = ctypes.c_bool
+        Asst.__lib.AsstSetPenguinId.argtypes = (
             ctypes.c_void_p, ctypes.c_char_p)
 
-        self.__lib.AsstGetVersion.restype = ctypes.c_char_p
+        Asst.__lib.AsstGetVersion.restype = ctypes.c_char_p
 
-        self.__lib.AsstLog.restype = ctypes.c_none
-        self.__lib.AsstLog.argtypes = (
+        Asst.__lib.AsstLog.restype = None
+        Asst.__lib.AsstLog.argtypes = (
             ctypes.c_void_p, ctypes.c_char_p, ctypes.c_char_p)

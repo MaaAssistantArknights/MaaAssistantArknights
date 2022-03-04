@@ -1,9 +1,12 @@
 #include "GeneralConfiger.h"
 
 #include <meojson/json.hpp>
+#include "Logger.hpp"
 
 bool asst::GeneralConfiger::parse(const json::value& json)
 {
+    LogTraceFunction;
+
     m_version = json.at("version").as_string();
 
     {

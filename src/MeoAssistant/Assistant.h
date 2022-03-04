@@ -29,7 +29,7 @@ namespace asst
     class Assistant
     {
     public:
-        Assistant(std::string dirname, AsstCallback callback = nullptr, void* callback_arg = nullptr);
+        Assistant(AsstCallback callback = nullptr, void* callback_arg = nullptr);
         ~Assistant();
 
         // 连接adb
@@ -98,7 +98,6 @@ namespace asst
         void append_callback(AsstMsg msg, json::value detail);
         void clear_cache();
 
-        std::string m_dirname;
         bool m_inited = false;
         std::string m_uuid;
 

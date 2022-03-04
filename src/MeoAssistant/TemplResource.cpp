@@ -4,8 +4,12 @@
 #include <filesystem>
 #include <string_view>
 
+#include "Logger.hpp"
+
 void asst::TemplResource::append_load_required(std::unordered_set<std::string> required) noexcept
 {
+    LogTraceFunction;
+
     m_templs_filename.insert(
         std::make_move_iterator(required.begin()),
         std::make_move_iterator(required.end()));
@@ -13,6 +17,8 @@ void asst::TemplResource::append_load_required(std::unordered_set<std::string> r
 
 bool asst::TemplResource::load(const std::string& dir)
 {
+    LogTraceFunction;
+
     for (const std::string& filename : m_templs_filename) {
         std::string filepath = dir + "/" + filename;
         if (std::filesystem::exists(filepath)) {

@@ -12,8 +12,10 @@ if __name__ == "__main__":
 
         print(m, d, arg)
 
-    dirname: str = (pathlib.Path.cwd()).__str__()
-    asst = Asst(dirname=dirname, callback=my_callback)
+    path: str = (pathlib.Path.cwd()).__str__()
+    Asst.load(path=path)
+
+    asst = Asst(callback=my_callback)
 
     print('version', asst.get_version())
 

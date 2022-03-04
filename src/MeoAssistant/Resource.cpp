@@ -7,9 +7,12 @@
 #include <meojson/json.hpp>
 
 #include "AsstDef.h"
+#include "Logger.hpp"
 
 bool asst::Resource::load(const std::string& dir)
 {
+    LogTraceFunction;
+
     constexpr static const char* TemplsFilename = "template";
     constexpr static const char* GeneralCfgFilename = "config.json";
     constexpr static const char* TaskDataFilename = "tasks.json";

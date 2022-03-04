@@ -30,30 +30,11 @@
 
 using namespace asst;
 
-Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_arg)
-    : m_dirname(std::move(dirname) + "/"),
-    m_callback(callback),
+Assistant::Assistant(AsstCallback callback, void* callback_arg)
+    : m_callback(callback),
     m_callback_arg(callback_arg)
 {
-    Logger::set_dirname(m_dirname);
-
     LogTraceFunction;
-
-    bool resource_ret = Resrc.load(m_dirname + "resource/");
-    if (!resource_ret) {
-        const std::string& error = Resrc.get_last_error();
-        Log.error("resource broken:", error);
-        if (m_callback == nullptr) {
-            throw error;
-        }
-        json::value callback_json;
-        callback_json["what"] = "resource broken";
-        callback_json["details"] = json::object{
-            { "error", error }
-        };
-        m_callback(AsstMsg::InitFailed, callback_json, m_callback_arg);
-        throw error;
-    }
 
     m_ctrler = std::make_shared<Controller>(task_callback, (void*)this);
 
