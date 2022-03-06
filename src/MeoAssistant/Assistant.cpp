@@ -424,7 +424,7 @@ bool asst::Assistant::set_param(const std::string& param_id, const std::string& 
 {
     Log.info(__FUNCTION__, param_id, param_value);
 
-    using SetParamFuncType = std::function<bool(const std::string&)>;
+    using SetParamFuncType = std::function<bool(const json::value&)>;
 
     static const std::unordered_map<std::string, SetParamFuncType> ParamsMapping = {
         {AsstParamIdPenguinId, std::bind(&Assistant::set_penguid_id, this, std::placeholders::_1)},
@@ -433,7 +433,13 @@ bool asst::Assistant::set_param(const std::string& param_id, const std::string& 
 
     if (const auto iter = ParamsMapping.find(param_id);
         iter != ParamsMapping.cend()) {
-        return iter->second(param_value);
+        const auto json_opt = json::parse(param_value);
+        if (!json_opt) {
+            return false;
+        }
+        const auto& root = json_opt.value();
+
+        return iter->second(root);
     }
     else {
         Log.error("Invaild Param Id", param_id);
@@ -595,26 +601,25 @@ void Assistant::clear_cache()
     //Task.clear_cache();
 }
 
-bool asst::Assistant::set_penguid_id(const std::string& param_value)
+bool asst::Assistant::set_penguid_id(const json::value& root)
 {
+    if (!(root.is_object() && root.contains("id") && root.at("id").is_string())) {
+        return false;
+    }
     auto& opt = Resrc.cfg().get_options();
-    if (param_value.empty()) {
+    std::string id = root.at("id").as_string();
+    if (id.empty()) {
         opt.penguin_report.extra_param.clear();
     }
     else {
-        opt.penguin_report.extra_param = "-H \"authorization: PenguinID " + param_value + "\"";
+        opt.penguin_report.extra_param = "-H \"authorization: PenguinID " + id + "\"";
     }
     return true;
 }
 
-bool asst::Assistant::set_ocr_text(const std::string& param_value)
+bool asst::Assistant::set_ocr_text(const json::value& root)
 {
-    const auto json_opt = json::parse(param_value);
-    if (!json_opt) {
-        return false;
-    }
-    const auto& root = json_opt.value();
-
+    bool ret = true;
     for (auto&& [key, text] : root.as_object()) {
         if (!text.is_array()) {
             return false;
@@ -626,8 +631,8 @@ bool asst::Assistant::set_ocr_text(const std::string& param_value)
             }
             text_vec.emplace_back(text.as_string());
         }
-        m_task_data->set_ocr_text(key, std::move(text_vec));
+        ret &= m_task_data->set_ocr_text(key, std::move(text_vec));
     }
 
-    return true;
+    return ret;
 }
