@@ -97,8 +97,8 @@ namespace asst
         void clear_cache();
 
         /* set params */
-        bool set_penguid_id(const std::string& param_value);
-        bool set_ocr_text(const std::string& param_value);
+        bool set_penguid_id(const json::value& root);
+        bool set_ocr_text(const json::value& root);
 
         bool m_inited = false;
         std::string m_uuid;
