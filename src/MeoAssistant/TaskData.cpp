@@ -113,7 +113,7 @@ bool asst::StaticTaskData::parse(const json::value& json)
         task_info_ptr->cache = task_json.get("cache", true);
         task_info_ptr->algorithm = algorithm;
         task_info_ptr->name = name;
-        std::string action = task_json.get("action", std::string());
+        std::string action = task_json.get("action", "donothing");
         std::transform(action.begin(), action.end(), action.begin(), to_lower);
         if (action == "clickself") {
             task_info_ptr->action = ProcessTaskAction::ClickSelf;
@@ -241,6 +241,7 @@ bool asst::TaskData::set_ocr_text(const std::string& key, std::vector<std::strin
     else {
         auto raw_task_ptr = StaticTaskData::get_instance().get(key);
         if (!raw_task_ptr) {
+            Log.error("Task", key, "Not Exists");
             return false;
         }
         // 拷贝一份
