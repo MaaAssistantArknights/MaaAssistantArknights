@@ -16,7 +16,7 @@ bool asst::InfrastClueImageAnalyzer::analyze()
 bool asst::InfrastClueImageAnalyzer::clue_detect()
 {
     MultiMatchImageAnalyzer clue_analyzer(m_image);
-    clue_analyzer.set_task_info("InfrastClue");
+    clue_analyzer.set_task_info(StaticTaskData::get_instance().get("InfrastClue"));
     clue_analyzer.set_roi(m_roi); // 该任务以外部设置的roi为准
     if (!clue_analyzer.analyze()) {
         return false;

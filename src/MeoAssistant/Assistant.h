@@ -9,7 +9,7 @@
 #include <unordered_map>
 
 #include "AbstractTask.h"
-#include "AsstDef.h"
+#include "AsstTypes.h"
 #include "AsstMsg.h"
 #include "AsstInfrastDef.h"
 
@@ -25,6 +25,7 @@ namespace asst
     class Controller;
     class Identify;
     class Controller;
+    class TaskData;
 
     class Assistant
     {
@@ -77,13 +78,10 @@ namespace asst
         // 停止任务队列并清空
         bool stop(bool block = true);
 
-        // 设置企鹅数据汇报个人ID
-        void set_penguin_id(const std::string& id);
-
         std::vector<uchar> get_image() const;
         bool ctrler_click(int x, int y, bool block = true);
 
-        [[deprecated]] bool set_param(const std::string& type, const std::string& param, const std::string& value);
+        bool set_param(const std::string& param_id, const std::string& param_value);
 
         static constexpr int ProcessTaskRetryTimesDefault = AbstractTask::RetryTimesDefault;
         static constexpr int OpenRecruitTaskRetryTimesDefault = 5;
@@ -98,11 +96,16 @@ namespace asst
         void append_callback(AsstMsg msg, json::value detail);
         void clear_cache();
 
+        /* set params */
+        bool set_penguid_id(const std::string& param_value);
+        bool set_ocr_text(const std::string& param_value);
+
         bool m_inited = false;
         std::string m_uuid;
 
         std::shared_ptr<Controller> m_ctrler = nullptr;
         std::shared_ptr<RuntimeStatus> m_status = nullptr;
+        std::shared_ptr<TaskData> m_task_data = nullptr;
 
         bool m_thread_exit = false;
         std::queue<std::shared_ptr<AbstractTask>> m_tasks_queue;

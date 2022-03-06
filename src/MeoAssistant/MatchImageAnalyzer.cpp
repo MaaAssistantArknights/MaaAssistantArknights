@@ -52,11 +52,6 @@ void asst::MatchImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
     set_task_info(*std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr));
 }
 
-void asst::MatchImageAnalyzer::set_task_info(const std::string& task_name)
-{
-    set_task_info(Task.get(task_name));
-}
-
 void asst::MatchImageAnalyzer::set_region_of_appeared(Rect region) noexcept
 {
     m_region_of_appeared = std::move(region);

@@ -8,6 +8,10 @@
 #include "Logger.hpp"
 #include "TaskData.h"
 
+asst::BattleImageAnalyzer::BattleImageAnalyzer(const cv::Mat image, std::shared_ptr<TaskData> task_data)
+    : AbstractImageAnalyzer(image, task_data)
+{}
+
 bool asst::BattleImageAnalyzer::analyze()
 {
     // 生命值和家门，只要识别到了任一个，就可以说明当前是在战斗场景
@@ -46,16 +50,16 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     LogTraceFunction;
 
     MultiMatchImageAnalyzer flags_analyzer(m_image);
-    flags_analyzer.set_task_info("BattleOpersFlag");
+    flags_analyzer.set_task_info(m_task_data->get("BattleOpersFlag"));
     if (!flags_analyzer.analyze()) {
         return false;
     }
     flags_analyzer.sort_result();
 
-    const auto click_move = Task.get("BattleOperClickRange")->rect_move;
-    const auto role_move = Task.get("BattleOperRoleRange")->rect_move;
-    const auto cost_move = Task.get("BattleOperCostRange")->rect_move;
-    const auto avlb_move = Task.get("BattleOperAvailable")->rect_move;
+    const auto click_move = m_task_data->get("BattleOperClickRange")->rect_move;
+    const auto role_move = m_task_data->get("BattleOperRoleRange")->rect_move;
+    const auto cost_move = m_task_data->get("BattleOperCostRange")->rect_move;
+    const auto avlb_move = m_task_data->get("BattleOperAvailable")->rect_move;
 
     for (const MatchRect& flag_mrect : flags_analyzer.get_result()) {
         Oper oper;
@@ -104,7 +108,7 @@ asst::BattleImageAnalyzer::Role asst::BattleImageAnalyzer::oper_role_analyze(con
     Role result = Role::Unknown;
     double max_score = 0;
     for (auto&& [role, role_name] : RolesName) {
-        role_analyzer.set_task_info("BattleOperRole" + role_name);
+        role_analyzer.set_task_info(m_task_data->get("BattleOperRole" + role_name));
         role_analyzer.set_roi(roi);
         if (!role_analyzer.analyze()) {
             continue;
@@ -142,17 +146,17 @@ int asst::BattleImageAnalyzer::oper_cost_analyze(const Rect& roi)
     static HashImageAnalyzer hash_analyzer;
     if (!inited) {
         auto [h_l, h_u] = std::dynamic_pointer_cast<HashTaskInfo>(
-            Task.get("BattleOperCostChannelH"))->mask_range;
+            m_task_data->get("BattleOperCostChannelH"))->mask_range;
         auto [s_l, s_u] = std::dynamic_pointer_cast<HashTaskInfo>(
-            Task.get("BattleOperCostChannelS"))->mask_range;
+            m_task_data->get("BattleOperCostChannelS"))->mask_range;
         auto [v_l, v_u] = std::dynamic_pointer_cast<HashTaskInfo>(
-            Task.get("BattleOperCostChannelV"))->mask_range;
+            m_task_data->get("BattleOperCostChannelV"))->mask_range;
         range_lower = cv::Scalar(h_l, s_l, v_l);
         range_upper = cv::Scalar(h_u, s_u, v_u);
         std::unordered_map<std::string, std::string> num_hashs;
         for (auto&& num : NumName) {
             auto hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(
-                Task.get("BattleOperCost" + num))->hashs;
+                m_task_data->get("BattleOperCost" + num))->hashs;
             for (size_t i = 0; i != hashs_vec.size(); ++i) {
                 num_hashs.emplace(num + "_" + std::to_string(i), hashs_vec.at(i));
             }
@@ -195,7 +199,7 @@ bool asst::BattleImageAnalyzer::oper_available_analyze(const Rect& roi)
     Log.trace("oper available, mean", avg[2]);
 
     static int thres = static_cast<int>(std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("BattleOperAvailable"))->special_threshold);
+        m_task_data->get("BattleOperAvailable"))->special_threshold);
     if (avg[2] < thres) {
         return false;
     }
@@ -246,7 +250,7 @@ bool asst::BattleImageAnalyzer::home_analyze()
 
 bool asst::BattleImageAnalyzer::skill_analyze()
 {
-    const auto skill_task_ptr = Task.get("BattleSkillReady");
+    const auto skill_task_ptr = m_task_data->get("BattleSkillReady");
     const Rect& rect_move = skill_task_ptr->rect_move;
 
     MultiMatchImageAnalyzer mm_analyzer(m_image);
@@ -263,12 +267,12 @@ bool asst::BattleImageAnalyzer::skill_analyze()
 bool asst::BattleImageAnalyzer::hp_analyze()
 {
     // 识别 HP 的那个蓝白色图标
-    auto flag_task_ptr = Task.get("BattleHpFlag");
+    auto flag_task_ptr = m_task_data->get("BattleHpFlag");
     MatchImageAnalyzer flag_analyzer(m_image);
     flag_analyzer.set_task_info(flag_task_ptr);
     if (!flag_analyzer.analyze()) {
         // 漏怪的时候，那个图标会变成红色的，所以多识别一次
-        flag_task_ptr = Task.get("BattleHpFlag2");
+        flag_task_ptr = m_task_data->get("BattleHpFlag2");
         flag_analyzer.set_task_info(flag_task_ptr);
         if (!flag_analyzer.analyze()) {
             return false;
@@ -285,17 +289,17 @@ bool asst::BattleImageAnalyzer::hp_analyze()
     static HashImageAnalyzer hash_analyzer;
     if (!inited) {
         auto [h_l, h_u] = std::dynamic_pointer_cast<HashTaskInfo>(
-            Task.get("BattleHpChannelH"))->mask_range;
+            m_task_data->get("BattleHpChannelH"))->mask_range;
         auto [s_l, s_u] = std::dynamic_pointer_cast<HashTaskInfo>(
-            Task.get("BattleHpChannelS"))->mask_range;
+            m_task_data->get("BattleHpChannelS"))->mask_range;
         auto [v_l, v_u] = std::dynamic_pointer_cast<HashTaskInfo>(
-            Task.get("BattleHpChannelV"))->mask_range;
+            m_task_data->get("BattleHpChannelV"))->mask_range;
         range_lower = cv::Scalar(h_l, s_l, v_l);
         range_upper = cv::Scalar(h_u, s_u, v_u);
         std::unordered_map<std::string, std::string> num_hashs;
         for (auto&& num : NumName) {
-            const auto &hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(
-                Task.get("BattleHp" + num))->hashs;
+            const auto& hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(
+                m_task_data->get("BattleHp" + num))->hashs;
             for (size_t i = 0; i != hashs_vec.size(); ++i) {
                 num_hashs.emplace(num + "_" + std::to_string(i), hashs_vec.at(i));
             }

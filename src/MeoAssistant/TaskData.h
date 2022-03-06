@@ -10,26 +10,26 @@ namespace asst
 {
     struct TaskInfo;
 
-    class TaskData : public AbstractConfiger
+    class StaticTaskData : public AbstractConfiger
     {
     public:
-        TaskData(const TaskData&) = delete;
-        TaskData(TaskData&&) = delete;
+        StaticTaskData(const StaticTaskData&) = delete;
+        StaticTaskData(StaticTaskData&&) = delete;
 
-        virtual ~TaskData() = default;
+        virtual ~StaticTaskData() = default;
 
-        static TaskData& get_instance()
+        static StaticTaskData& get_instance()
         {
-            static TaskData unique_instance;
+            static StaticTaskData unique_instance;
             return unique_instance;
         }
+        const std::unordered_set<std::string>& get_templ_required() const noexcept;
 
         const std::shared_ptr<TaskInfo> get(const std::string& name) const noexcept;
-        const std::unordered_set<std::string>& get_templ_required() const noexcept;
-        std::shared_ptr<TaskInfo> get(std::string name);
+        std::shared_ptr<TaskInfo> get(const std::string& name);
 
     protected:
-        TaskData() = default;
+        StaticTaskData() = default;
 
         virtual bool parse(const json::value& json);
 
@@ -37,5 +37,18 @@ namespace asst
         std::unordered_set<std::string> m_templ_required;
     };
 
-    static auto& Task = TaskData::get_instance();
+    class TaskData
+    {
+    public:
+        TaskData() = default;
+        ~TaskData() noexcept = default;
+
+        const std::shared_ptr<TaskInfo> get(const std::string& name) const noexcept;
+        std::shared_ptr<TaskInfo> get(const std::string& name);
+
+        bool set_ocr_text(const std::string& key, std::vector<std::string> text);
+
+    private:
+        std::unordered_map<std::string, std::shared_ptr<TaskInfo>> m_specal_tasks_info;
+    };
 }

@@ -27,6 +27,7 @@
 #include "RuntimeStatus.h"
 #include "StageDropsTaskPlugin.h"
 #include "DronesForShamareTaskPlugin.h"
+#include "AsstDef.h"
 
 using namespace asst;
 
@@ -37,6 +38,7 @@ Assistant::Assistant(AsstApiCallback callback, void* callback_arg)
     LogTraceFunction;
 
     m_status = std::make_shared<RuntimeStatus>();
+    m_task_data = std::make_shared<TaskData>();
     m_ctrler = std::make_shared<Controller>(task_callback, (void*)this);
 
     m_working_thread = std::thread(&Assistant::working_proc, this);
@@ -401,17 +403,6 @@ bool asst::Assistant::append_infrast(infrast::WorkMode work_mode, const std::vec
     return true;
 }
 
-void asst::Assistant::set_penguin_id(const std::string& id)
-{
-    auto& opt = Resrc.cfg().get_options();
-    if (id.empty()) {
-        opt.penguin_report.extra_param.clear();
-    }
-    else {
-        opt.penguin_report.extra_param = "-H \"authorization: PenguinID " + id + "\"";
-    }
-}
-
 std::vector<uchar> asst::Assistant::get_image() const
 {
     if (!m_inited) {
@@ -427,6 +418,27 @@ bool asst::Assistant::ctrler_click(int x, int y, bool block)
     }
     m_ctrler->click(Point(x, y), block);
     return true;
+}
+
+bool asst::Assistant::set_param(const std::string& param_id, const std::string& param_value)
+{
+    Log.info(__FUNCTION__, param_id, param_value);
+
+    using SetParamFuncType = std::function<bool(const std::string&)>;
+
+    static const std::unordered_map<std::string, SetParamFuncType> ParamsMapping = {
+        {AsstParamIdPenguinId, std::bind(&Assistant::set_penguid_id, this, std::placeholders::_1)},
+        {AsstParamIdOcrText, std::bind(&Assistant::set_ocr_text, this, std::placeholders::_1)},
+    };
+
+    if (const auto iter = ParamsMapping.find(param_id);
+        iter != ParamsMapping.cend()) {
+        return iter->second(param_value);
+    }
+    else {
+        Log.error("Invaild Param Id", param_id);
+        return false;
+    }
 }
 
 bool asst::Assistant::start(bool block)
@@ -492,7 +504,8 @@ void Assistant::working_proc()
 
             task_ptr->set_exit_flag(&m_thread_idle)
                 .set_ctrler(m_ctrler)
-                .set_status(m_status);
+                .set_status(m_status)
+                .set_task_data(m_task_data);
 
             bool ret = task_ptr->run();
 
@@ -580,4 +593,41 @@ void Assistant::clear_cache()
 {
     m_status->clear_data();
     //Task.clear_cache();
+}
+
+bool asst::Assistant::set_penguid_id(const std::string& param_value)
+{
+    auto& opt = Resrc.cfg().get_options();
+    if (param_value.empty()) {
+        opt.penguin_report.extra_param.clear();
+    }
+    else {
+        opt.penguin_report.extra_param = "-H \"authorization: PenguinID " + param_value + "\"";
+    }
+    return true;
+}
+
+bool asst::Assistant::set_ocr_text(const std::string& param_value)
+{
+    const auto json_opt = json::parse(param_value);
+    if (!json_opt) {
+        return false;
+    }
+    const auto& root = json_opt.value();
+
+    for (auto&& [key, text] : root.as_object()) {
+        if (!text.is_array()) {
+            return false;
+        }
+        std::vector<std::string> text_vec;
+        for (auto&& text : text.as_array()) {
+            if (!text.is_string()) {
+                return false;
+            }
+            text_vec.emplace_back(text.as_string());
+        }
+        m_task_data->set_ocr_text(key, std::move(text_vec));
+    }
+
+    return true;
 }

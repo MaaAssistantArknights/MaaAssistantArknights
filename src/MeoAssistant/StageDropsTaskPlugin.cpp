@@ -21,8 +21,10 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
     }
 
     if (details.at("details").at("task").as_string() == "EndOfAction") {
-        int64_t pre_start_time = m_status->get_data("LastStartButton2");
-        int64_t pre_recognize_time = m_status->get_data("LastRecognizeDrops");
+        auto pre_time_opt = m_status->get_data("LastStartButton2");
+        int64_t pre_start_time = pre_time_opt ? pre_time_opt.value() : 0;
+        auto pre_reg_time_opt = m_status->get_data("LastRecognizeDrops");
+        int64_t pre_recognize_time = pre_reg_time_opt ? pre_reg_time_opt.value() : 0;
         if (pre_start_time + RecognizationTimeOffset == pre_recognize_time) {
             Log.info("Recognization time too close, pass", pre_start_time, pre_recognize_time);
             return false;
@@ -70,7 +72,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
 {
     LogTraceFunction;
 
-    sleep(Task.get("PRTS")->rear_delay);
+    sleep(m_task_data->get("PRTS")->rear_delay);
     if (need_exit()) {
         return false;
     }
@@ -79,7 +81,9 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     Log.trace("Results of penguin recognition:\n", res);
     m_cur_drops = json::parse(res).value();
 
-    m_status->set_data("LastRecognizeDrops", m_status->get_data("LastStartButton2") + RecognizationTimeOffset);
+    auto last_time_opt = m_status->get_data("LastStartButton2");
+    auto last_time = last_time_opt ? last_time_opt.value() : 0;
+    m_status->set_data("LastRecognizeDrops", last_time + RecognizationTimeOffset);
 
     return true;
 }
@@ -125,11 +129,12 @@ void asst::StageDropsTaskPlugin::set_startbutton_delay()
     LogTraceFunction;
 
     if (!m_startbutton_delay_setted) {
-        int64_t pre_start_time = m_status->get_data("LastStartButton2");
+        auto last_time_opt = m_status->get_data("LastStartButton2");;
+        int64_t pre_start_time = last_time_opt ? last_time_opt.value() : 0;
 
         if (pre_start_time > 0) {
             int64_t duration = time(nullptr) - pre_start_time;
-            int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->rear_delay;
+            int elapsed = m_task_data->get("EndOfAction")->pre_delay + m_task_data->get("PRTS")->rear_delay;
             int64_t delay = duration * 1000 - elapsed;
             m_cast_ptr->set_rear_delay("StartButton2", static_cast<int>(delay));
         }
