@@ -125,6 +125,7 @@ A Game Assistant for Arknights
 - [Golang 接口](https://github.com/MistEO/MeoAssistantArknights/wiki/Golang-%E6%8E%A5%E5%8F%A3) 已停止维护 orz
 - [集成文档](docs/集成文档.md) 龟速更新中_(:з」∠)_
 - [回调消息协议](docs/回调消息协议.md)
+- [任务流程协议](docs/任务流程协议.md)
 
 ## 声明
 

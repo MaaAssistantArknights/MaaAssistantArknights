@@ -433,12 +433,14 @@ bool asst::Assistant::set_param(const std::string& param_id, const std::string& 
 
     if (const auto iter = ParamsMapping.find(param_id);
         iter != ParamsMapping.cend()) {
-        const auto json_opt = json::parse(param_value);
+        const auto& json_opt = json::parse(param_value);
         if (!json_opt) {
+            Log.error("Param Value Parsing Failed", param_value);
             return false;
         }
         const auto& root = json_opt.value();
 
+        std::unique_lock<std::mutex> lock(m_mutex);
         return iter->second(root);
     }
     else {
@@ -604,15 +606,16 @@ void Assistant::clear_cache()
 bool asst::Assistant::set_penguid_id(const json::value& root)
 {
     if (!(root.is_object() && root.contains("id") && root.at("id").is_string())) {
+        Log.error("Json Field error");
         return false;
     }
-    auto& opt = Resrc.cfg().get_options();
+    auto& param = Resrc.cfg().get_options().penguin_report.extra_param;
     std::string id = root.at("id").as_string();
     if (id.empty()) {
-        opt.penguin_report.extra_param.clear();
+        param.clear();
     }
     else {
-        opt.penguin_report.extra_param = "-H \"authorization: PenguinID " + id + "\"";
+        param = "-H \"authorization: PenguinID " + id + "\"";
     }
     return true;
 }
@@ -622,11 +625,13 @@ bool asst::Assistant::set_ocr_text(const json::value& root)
     bool ret = true;
     for (auto&& [key, text] : root.as_object()) {
         if (!text.is_array()) {
+            Log.error("Json Field error");
             return false;
         }
         std::vector<std::string> text_vec;
         for (auto&& text : text.as_array()) {
             if (!text.is_string()) {
+                Log.error("Json Field error");
                 return false;
             }
             text_vec.emplace_back(text.as_string());
