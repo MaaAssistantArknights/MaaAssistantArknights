@@ -84,7 +84,7 @@
     <ClInclude Include="GeneralConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="AsstDef.h">
+    <ClInclude Include="AsstTypes.h">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="AsstUtils.hpp">
@@ -97,9 +97,6 @@
       <Filter>头文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\AsstCaller.h">
-      <Filter>头文件\Caller</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\AsstPort.h">
       <Filter>头文件\Caller</Filter>
     </ClInclude>
     <ClInclude Include="AbstractTask.h">
@@ -251,6 +248,12 @@
     </ClInclude>
     <ClInclude Include="TilePack.h">
       <Filter>头文件\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="AsstDef.h">
+      <Filter>头文件\Caller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\AsstDef.h">
+      <Filter>头文件\Caller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -407,7 +410,7 @@
     <ClCompile Include="RoguelikeBattleTaskPlugin.cpp">
       <Filter>源文件\TaskPlugin</Filter>
     </ClCompile>
-    <ClCompile Include="RoguelikeFormationTask.cpp">
+    <ClCompile Include="RoguelikeFormationTaskPlugin.cpp">
       <Filter>源文件\TaskPlugin</Filter>
     </ClCompile>
     <ClCompile Include="TilePack.cpp">

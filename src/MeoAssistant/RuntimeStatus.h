@@ -3,8 +3,9 @@
 //#include <any>
 #include <unordered_map>
 #include <string>
+#include <optional>
 
-#include "AsstDef.h"
+#include "AsstTypes.h"
 
 namespace asst
 {
@@ -16,13 +17,13 @@ namespace asst
         RuntimeStatus(RuntimeStatus&& rhs) noexcept = delete;
         ~RuntimeStatus() = default;
 
-        int64_t get_data(const std::string& key) const noexcept;
-        bool contains_data(const std::string& key) const noexcept;
+        std::optional<int64_t> get_data(const std::string& key) const noexcept;
         void set_data(std::string key, int64_t value);
         void clear_data() noexcept;
 
-        Rect get_region(const std::string& key) const noexcept;
+        std::optional<Rect> get_region(const std::string& key) const noexcept;
         void set_region(std::string key, Rect rect);
+        void clear_region() noexcept;
 
         RuntimeStatus& operator=(const RuntimeStatus& rhs) = delete;
         RuntimeStatus& operator=(RuntimeStatus&& rhs) noexcept = delete;

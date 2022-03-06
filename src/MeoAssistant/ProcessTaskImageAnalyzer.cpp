@@ -25,7 +25,10 @@ bool asst::ProcessTaskImageAnalyzer::match_analyze(std::shared_ptr<TaskInfo> tas
     }
     const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
     m_match_analyzer->set_task_info(match_task_ptr);
-    m_match_analyzer->set_region_of_appeared(m_status->get_region(match_task_ptr->name));
+    auto region_opt = m_status->get_region(match_task_ptr->name);
+    if (region_opt) {
+        m_match_analyzer->set_region_of_appeared(region_opt.value());
+    }
 
     if (m_match_analyzer->analyze()) {
         m_result = match_task_ptr;
@@ -70,7 +73,10 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
         m_ocr_analyzer = std::make_unique<OcrImageAnalyzer>(m_image);
     }
     m_ocr_analyzer->set_task_info(ocr_task_ptr);
-    m_ocr_analyzer->set_region_of_appeared(m_status->get_region(ocr_task_ptr->name));
+    auto region_opt = m_status->get_region(ocr_task_ptr->name);
+    if (region_opt) {
+        m_ocr_analyzer->set_region_of_appeared(region_opt.value());
+    }
 
     bool ret = m_ocr_analyzer->analyze();
 
@@ -100,7 +106,7 @@ bool asst::ProcessTaskImageAnalyzer::analyze()
     m_result_rect = Rect();
 
     for (const std::string& task_name : m_tasks_name) {
-        auto task_ptr = Task.get(task_name);
+        auto task_ptr = m_task_data->get(task_name);
 
         switch (task_ptr->algorithm) {
         case AlgorithmType::JustReturn:

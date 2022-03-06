@@ -5,10 +5,14 @@
 #include "TaskData.h"
 #include "Logger.hpp"
 
+asst::RoguelikeFormationImageAnalyzer::RoguelikeFormationImageAnalyzer(const cv::Mat image, std::shared_ptr<TaskData> task_data)
+    : AbstractImageAnalyzer(image, task_data)
+{}
+
 bool asst::RoguelikeFormationImageAnalyzer::analyze()
 {
     MultiMatchImageAnalyzer opers_analyzer(m_image);
-    opers_analyzer.set_task_info("Roguelike1FormationOper");
+    opers_analyzer.set_task_info(m_task_data->get("Roguelike1FormationOper"));
     if (!opers_analyzer.analyze()) {
         return false;
     }
@@ -46,7 +50,7 @@ bool asst::RoguelikeFormationImageAnalyzer::selected_analyze(const Rect& roi)
     cv::Mat hsv;
 
     const auto selected_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("Roguelike1FormationOperSelected"));
+        m_task_data->get("Roguelike1FormationOperSelected"));
     cv::cvtColor(img_roi, hsv, cv::COLOR_BGR2HSV);
     std::vector<cv::Mat> channels;
     cv::split(hsv, channels);

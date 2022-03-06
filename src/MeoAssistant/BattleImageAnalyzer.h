@@ -27,7 +27,7 @@ namespace asst
             Rect rect;
         };
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        BattleImageAnalyzer(const cv::Mat image, std::shared_ptr<TaskData> task_data);
         virtual ~BattleImageAnalyzer() = default;
 
         virtual bool analyze() override;
@@ -51,7 +51,7 @@ namespace asst
         std::vector<Oper> m_opers;   // 下方干员信息
         std::vector<Rect> m_homes;   // 蓝色的家门位置
         std::vector<Rect> m_ready_skills;   // 可以释放的技能（Rect实际是干员的位置）
-        int m_hp;                    // 剩余生命值
+        int m_hp = 0;                    // 剩余生命值
 
     protected:
         // 该分析器不支持外部设置ROI

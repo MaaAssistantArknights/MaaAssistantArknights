@@ -59,7 +59,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
     bool calced = false;
 
     if (m_stage_name.empty()) {
-        const auto stage_name_task_ptr = Task.get("BattleStageName");
+        const auto stage_name_task_ptr = m_task_data->get("BattleStageName");
         sleep(stage_name_task_ptr->pre_delay);
 
         constexpr int StageNameRetryTimes = 50;
@@ -133,7 +133,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
     using Oper = asst::BattleImageAnalyzer::Oper;
 
-    BattleImageAnalyzer battle_analyzer(m_ctrler->get_image());
+    BattleImageAnalyzer battle_analyzer(m_ctrler->get_image(), m_task_data);
     if (!battle_analyzer.analyze()) {
         return false;
     }
@@ -171,8 +171,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         Role::Tank,
         Role::Drone
     };
-    const auto use_oper_task_ptr = Task.get("BattleUseOper");
-    const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
+    const auto use_oper_task_ptr = m_task_data->get("BattleUseOper");
+    const auto swipe_oper_task_ptr = m_task_data->get("BattleSwipeOper");
 
     // 点击当前最合适的干员
     Oper opt_oper;

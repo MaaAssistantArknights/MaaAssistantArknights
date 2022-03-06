@@ -4,12 +4,12 @@
 
 #include <meojson/json.hpp>
 
-#include "AsstDef.h"
+#include "AsstTypes.h"
 #include "GeneralConfiger.h"
 #include "TemplResource.h"
 #include "Logger.hpp"
 
-const std::shared_ptr<asst::TaskInfo> asst::TaskData::get(const std::string& name) const noexcept
+const std::shared_ptr<asst::TaskInfo> asst::StaticTaskData::get(const std::string& name) const noexcept
 {
     if (auto iter = m_all_tasks_info.find(name);
         iter != m_all_tasks_info.cend()) {
@@ -20,17 +20,17 @@ const std::shared_ptr<asst::TaskInfo> asst::TaskData::get(const std::string& nam
     }
 }
 
-const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
+const std::unordered_set<std::string>& asst::StaticTaskData::get_templ_required() const noexcept
 {
     return m_templ_required;
 }
 
-std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string name)
+std::shared_ptr<asst::TaskInfo> asst::StaticTaskData::get(const std::string& name)
 {
-    return m_all_tasks_info[std::move(name)];
+    return m_all_tasks_info[name];
 }
 
-bool asst::TaskData::parse(const json::value& json)
+bool asst::StaticTaskData::parse(const json::value& json)
 {
     LogTraceFunction;
 
@@ -213,4 +213,41 @@ bool asst::TaskData::parse(const json::value& json)
     }
 #endif
     return true;
+}
+
+const std::shared_ptr<asst::TaskInfo> asst::TaskData::get(const std::string& name) const noexcept
+{
+    return std::shared_ptr<TaskInfo>();
+}
+
+std::shared_ptr<asst::TaskInfo> asst::TaskData::get(const std::string& name)
+{
+    if (auto iter = m_specal_tasks_info.find(name);
+        iter != m_specal_tasks_info.cend()) {
+        return iter->second;
+    }
+    else {
+        return StaticTaskData::get_instance().get(name);
+    }
+}
+
+bool asst::TaskData::set_ocr_text(const std::string& key, std::vector<std::string> text)
+{
+    if (auto iter = m_specal_tasks_info.find(key);
+        iter != m_specal_tasks_info.end()) {
+        std::dynamic_pointer_cast<OcrTaskInfo>(iter->second)->text = std::move(text);
+        return true;
+    }
+    else {
+        auto raw_task_ptr = StaticTaskData::get_instance().get(key);
+        if (!raw_task_ptr) {
+            return false;
+        }
+        // 拷贝一份
+        OcrTaskInfo info = *std::dynamic_pointer_cast<OcrTaskInfo>(raw_task_ptr);
+        info.text = std::move(text);
+        auto specail_ptr = std::make_shared<OcrTaskInfo>(std::move(info));
+        m_specal_tasks_info.emplace(key, specail_ptr);
+        return true;
+    }
 }

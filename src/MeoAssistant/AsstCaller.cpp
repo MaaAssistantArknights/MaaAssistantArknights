@@ -6,7 +6,7 @@
 #include <meojson/json.hpp>
 
 #include "Assistant.h"
-#include "AsstDef.h"
+#include "AsstTypes.h"
 #include "Version.h"
 #include "Logger.hpp"
 #include "Resource.h"
@@ -79,7 +79,7 @@ bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, c
     return handle->connect(adb_path, address, config ? config : std::string());
 }
 
-bool ASSTAPI AsstAppendStartUp(AsstHandle handle)
+bool AsstAppendStartUp(AsstHandle handle)
 {
     if (!inited || handle == nullptr) {
         return false;
@@ -197,14 +197,13 @@ bool AsstStop(AsstHandle handle)
     return handle->stop();
 }
 
-bool AsstSetPenguinId(AsstHandle handle, const char* id)
+bool AsstSetParam(AsstHandle handle, const char* param_id, const char* param_value)
 {
     if (!inited || handle == nullptr) {
         return false;
     }
 
-    handle->set_penguin_id(id);
-    return true;
+    return handle->set_param(param_id, param_value);
 }
 
 unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size)

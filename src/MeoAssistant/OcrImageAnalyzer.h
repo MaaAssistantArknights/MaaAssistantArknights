@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "AsstDef.h"
+#include "AsstTypes.h"
 
 namespace asst
 {
@@ -24,7 +24,6 @@ namespace asst
         void set_required(std::vector<std::string> required, bool full_match = false) noexcept;
         void set_replace(std::unordered_map<std::string, std::string> replace) noexcept;
         void set_task_info(std::shared_ptr<TaskInfo> task_ptr);
-        void set_task_info(const std::string& task_name);
         void set_region_of_appeared(Rect region) noexcept;
 
         void set_pred(const TextRectProc& pred);

@@ -73,11 +73,6 @@ void asst::MultiMatchImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task
     set_task_info(*std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr));
 }
 
-void asst::MultiMatchImageAnalyzer::set_task_info(const std::string& task_name)
-{
-    set_task_info(Task.get(task_name));
-}
-
 const std::vector<asst::MatchRect>& asst::MultiMatchImageAnalyzer::get_result() const noexcept
 {
     return m_result;

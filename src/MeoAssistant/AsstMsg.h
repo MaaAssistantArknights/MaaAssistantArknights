@@ -13,7 +13,7 @@ namespace asst
         /* Global Info */
         InternalError = 0,          // 内部错误
         InitFailed,                 // 初始化失败
-        ConnectionInfo,            // 连接相关错误
+        ConnectionInfo,             // 连接相关错误
         AllTasksCompleted,          // 全部任务完成
         /* TaskChain Info */
         TaskChainError = 10000,     // 任务链执行/识别错误

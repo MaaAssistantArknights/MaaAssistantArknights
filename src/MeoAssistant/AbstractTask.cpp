@@ -70,6 +70,12 @@ AbstractTask& asst::AbstractTask::set_status(std::shared_ptr<RuntimeStatus> stat
     return *this;
 }
 
+AbstractTask& asst::AbstractTask::set_task_data(std::shared_ptr<TaskData> task_data) noexcept
+{
+    m_task_data = task_data;
+    return *this;
+}
+
 void asst::AbstractTask::clear_plugin() noexcept
 {
     m_plugins.clear();
@@ -155,6 +161,8 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
     for (TaskPluginPtr plugin : m_plugins) {
         plugin->set_exit_flag(m_exit_flag);
         plugin->set_ctrler(m_ctrler);
+        plugin->set_status(m_status);
+        plugin->set_task_data(m_task_data);
         plugin->set_task_ptr(this);
 
         if (!plugin->verify(msg, detail)) {
@@ -173,7 +181,7 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
 void asst::AbstractTask::click_return_button()
 {
     LogTraceFunction;
-    const auto return_task_ptr = Task.get("Return");
+    const auto return_task_ptr = m_task_data->get("Return");
 
     Rect ReturnButtonRect = return_task_ptr->specific_rect;
 
