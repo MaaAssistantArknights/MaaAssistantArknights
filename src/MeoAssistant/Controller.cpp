@@ -616,9 +616,9 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
     auto adb_ret = Resrc.cfg().get_adb_cfg(config);
     if (!adb_ret) {
         json::value info = json::object{
-            {"what", "ConnectFailed"},
-            {"why", "ConfigNotFound"},
-            {"details", json::object{}}
+            { "what", "ConnectFailed" },
+            { "why", "ConfigNotFound" },
+            { "details", json::object{} }
         };
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
         return false;
@@ -629,9 +629,9 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
 
     auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
         const std::unordered_map<std::string, std::string> replacements = {
-            {"[Adb]", adb_path},
-            {"[Address]", address},
-            {"[DisplayId]", display_id}
+            { "[Adb]", adb_path },
+            { "[Address]", address },
+            { "[DisplayId]", display_id }
         };
         std::string formatted = cfg_cmd;
         for (const auto& [key, value] : replacements) {
@@ -646,21 +646,58 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
         // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
         if (!connect_ret) {
             json::value info = json::object{
-                {"what", "ConnectFailed"},
-                {"why", "Connection command failed to exec"},
-                {"details", json::object{}}
+                { "what", "ConnectFailed" },
+                { "why", "Connection command failed to exec" },
+                { "uuid", ""},
+                { "details", json::object {
+                    { "adb", adb_path },
+                    { "address", address },
+                    { "config", config },
+                    { "uuid", "" }
+                }}
             };
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
             return false;
         }
-        else {
+    }
+
+    /* get uuid (imei) */
+    {
+        auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid));
+        if (!uuid_ret) {
             json::value info = json::object{
-                {"what", "Connected"},
-                {"why", ""},
-                {"details", json::object{}}
+                { "what", "ConnectFailed" },
+                { "why", "Uuid command failed to exec" },
+                { "uuid", "" },
+                { "details", json::object {
+                    { "adb", adb_path },
+                    { "address", address },
+                    { "config", config }
+                }}
             };
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            return false;
         }
+
+        auto& uuid_result = uuid_ret.value();
+        std::string uuid_str(
+            std::make_move_iterator(uuid_result.begin()),
+            std::make_move_iterator(uuid_result.end()));
+        uuid_str.erase(std::remove(uuid_str.begin(), uuid_str.end(), ' '), uuid_str.end());
+        m_uuid = std::move(uuid_str);
+
+        json::value info = json::object{
+            { "what", "UuidGetted" },
+            { "why", "" },
+            { "uuid", m_uuid },
+            { "details", json::object {
+                { "uuid", m_uuid },
+                { "adb", adb_path },
+                { "address", address },
+                { "config", config }
+            }}
+        };
+        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
     }
 
     // 按需获取display ID 信息
@@ -690,9 +727,14 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
         auto display_ret = call_command(cmd_replace(adb_cfg.display));
         if (!display_ret) {
             json::value info = json::object{
-                {"what", "ConnectFailed"},
-                {"why", "Display command failed to exec"},
-                {"details", json::object{}}
+                { "what", "ConnectFailed" },
+                { "why", "Display command failed to exec" },
+                { "uuid", m_uuid },
+                { "details", json::object {
+                    { "adb", adb_path },
+                    { "address", address },
+                    { "config", config }
+                }}
             };
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
             return false;
@@ -713,6 +755,20 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
         // 总不能有人竖屏玩明日方舟吧（？
         m_width = (std::max)(size_value1, size_value2);
         m_height = (std::min)(size_value1, size_value2);
+
+        json::value info = json::object{
+            { "what", "ResolutionGetted" },
+            { "why", "" },
+            { "uuid", m_uuid },
+            { "details", json::object {
+                { "adb", adb_path },
+                { "address", address },
+                { "config", config },
+                { "width", m_width },
+                { "height", m_height }
+            }}
+        };
+        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
     }
 
     /* calc ratio */
@@ -734,31 +790,12 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
         }
     }
 
-    /* get uuid (imei) */
     {
-        auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid));
-        if (!uuid_ret) {
-            json::value info = json::object{
-                {"what", "ConnectFailed"},
-                {"why", "Uuid command failed to exec"},
-                {"details", json::object{}}
-            };
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
-            return false;
-        }
-
-        auto& uuid_result = uuid_ret.value();
-        std::string uuid_str(
-            std::make_move_iterator(uuid_result.begin()),
-            std::make_move_iterator(uuid_result.end()));
-        uuid_str.erase(std::remove(uuid_str.begin(), uuid_str.end(), ' '), uuid_str.end());
-        m_uuid = std::move(uuid_str);
-
         json::value info = json::object{
-            {"what", "UuidGetted"},
-            {"why", ""},
-            {"details", json::object {
-                { "uuid", m_uuid },
+            { "what", "Connected" },
+            { "why", "" },
+            { "uuid", m_uuid },
+            { "details", json::object {
                 { "adb", adb_path },
                 { "address", address },
                 { "config", config }
