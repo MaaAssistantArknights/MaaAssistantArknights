@@ -231,7 +231,7 @@ namespace asst
     {
         virtual ~OcrTaskInfo() = default;
         std::vector<std::string> text; // 文字的容器，匹配到这里面任一个，就算匹配上了
-        bool need_full_match = false;  // 是否需要全匹配，否则搜索到子串就算匹配上了
+        bool full_match = false;  // 是否需要全匹配，否则搜索到子串就算匹配上了
         std::unordered_map<std::string, std::string>
             replace_map;                             // 部分文字容易识别错，字符串强制replace之后，再进行匹配
     };
