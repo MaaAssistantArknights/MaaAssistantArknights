@@ -44,7 +44,7 @@ bool RecruitTask::_run()
     }
     json::value info = basic_info();
     info["what"] = "RecruitTagsDetected";
-    info["details"] = json::object {
+    info["details"] = json::object{
         { "tags", json::array(all_tags_json_vector) }
     };
     callback(AsstMsg::SubTaskExtraInfo, info);
@@ -56,7 +56,7 @@ bool RecruitTask::_run()
     auto special_iter = std::find_first_of(SpecialTags.cbegin(), SpecialTags.cend(), all_tags_name.cbegin(), all_tags_name.cend());
     if (special_iter != SpecialTags.cend()) {
         info["what"] = "RecruitSpecialTag";
-        info["details"] = json::object {
+        info["details"] = json::object{
             { "tag", *special_iter }
         };
         callback(AsstMsg::SubTaskExtraInfo, info);

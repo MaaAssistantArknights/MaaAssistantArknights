@@ -149,7 +149,7 @@ namespace asst
 #ifdef ASST_DEBUG
             stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
 #endif
-            }
+        }
 
         template <bool ToGbk = false, typename T, typename... Args>
         inline void stream_args(std::ostream& os, T&& first, Args&&... rest)
@@ -181,7 +181,7 @@ namespace asst
 #else
                 os << first << " "; // Don't fucking use gbk in linux
 #endif
-        }
+            }
         };
 
         inline static std::string m_dirname;
