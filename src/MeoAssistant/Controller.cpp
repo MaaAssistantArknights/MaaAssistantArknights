@@ -758,7 +758,8 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
 			{"what", "UuidGetted"},
 			{"why", ""},
 			{"details", json::object {
-				{ "uuid", m_uuid}
+                { "uuid", m_uuid},
+                {"address",address},
 			}}
 		};
 		m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
