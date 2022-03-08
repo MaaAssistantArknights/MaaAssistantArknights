@@ -618,7 +618,12 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
         json::value info = json::object{
             { "what", "ConnectFailed" },
             { "why", "ConfigNotFound" },
-            { "details", json::object{} }
+            { "uuid", ""},
+            { "details", json::object {
+                { "adb", adb_path },
+                { "address", address },
+                { "config", config }
+            }}
         };
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
         return false;
@@ -652,8 +657,7 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
                 { "details", json::object {
                     { "adb", adb_path },
                     { "address", address },
-                    { "config", config },
-                    { "uuid", "" }
+                    { "config", config }
                 }}
             };
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
