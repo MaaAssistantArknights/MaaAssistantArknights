@@ -17,8 +17,8 @@ extern "C" {
 
     bool ASSTAPI AsstLoadResource(const char* path);
 
-    ASSTAPI_PORT AsstHandle ASST_CALL AsstCreate();
-    ASSTAPI_PORT AsstHandle ASST_CALL AsstCreateEx(AsstApiCallback callback, void* custom_arg);
+    AsstHandle ASSTAPI AsstCreate();
+    AsstHandle ASSTAPI AsstCreateEx(AsstApiCallback callback, void* custom_arg);
     void ASSTAPI AsstDestroy(AsstHandle handle);
 
     bool ASSTAPI AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config);
