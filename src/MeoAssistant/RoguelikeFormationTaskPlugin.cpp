@@ -23,6 +23,7 @@ bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& 
 bool asst::RoguelikeFormationTaskPlugin::_run()
 {
     RoguelikeFormationImageAnalyzer formation_analyzer(m_ctrler->get_image(), m_task_data);
+    formation_analyzer.set_task_data(m_task_data);
     if (!formation_analyzer.analyze()) {
         return false;
     }

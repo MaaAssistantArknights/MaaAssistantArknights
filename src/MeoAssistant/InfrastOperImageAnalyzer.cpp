@@ -91,6 +91,7 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
     const std::vector<Rect> all_rect_move = { skill_rect_move, hash_rect_move, prg_rect_move };
 
     InfrastSmileyImageAnalyzer smiley_analyzer(m_image);
+    smiley_analyzer.set_task_data(m_task_data);
 
     for (auto&& roi : all_roi) {
         smiley_analyzer.set_roi(roi);
@@ -210,6 +211,7 @@ void asst::InfrastOperImageAnalyzer::face_hash_analyze()
     const Rect hash_rect_move = m_task_data->get("InfrastOperFaceHash")->rect_move;
 
     HashImageAnalyzer hash_analyzer(m_image);
+    hash_analyzer.set_task_data(m_task_data);
     for (auto&& oper : m_result) {
         Rect roi = oper.smiley.rect.move(hash_rect_move);
         hash_analyzer.set_roi(roi);
@@ -226,6 +228,7 @@ void asst::InfrastOperImageAnalyzer::name_hash_analyze()
         m_task_data->get("InfrastOperNameHash"));
 
     HashImageAnalyzer hash_analyzer(m_image);
+    hash_analyzer.set_task_data(m_task_data);
     hash_analyzer.set_mask_range(task_ptr->mask_range);
     hash_analyzer.set_need_bound(true);
     for (auto&& oper : m_result) {
@@ -245,6 +248,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
     const auto bright_thres = task_ptr->special_threshold;
 
     MatchImageAnalyzer skill_analyzer(m_image);
+    skill_analyzer.set_task_data(m_task_data);
     skill_analyzer.set_mask_range(task_ptr->mask_range);
     skill_analyzer.set_threshold(task_ptr->templ_threshold);
 
@@ -406,6 +410,7 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
     Rect rect_move = working_task_ptr->rect_move;
 
     MatchImageAnalyzer working_analyzer(m_image);
+    working_analyzer.set_task_data(m_task_data);
     working_analyzer.set_task_info(working_task_ptr);
 
     for (auto&& oper : m_result) {

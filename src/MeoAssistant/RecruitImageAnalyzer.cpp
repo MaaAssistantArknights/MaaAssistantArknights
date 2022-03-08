@@ -33,6 +33,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
         if (ssr_iter != all_tags_vec.end()) {
             std::swap(*ssr_iter, all_tags_vec.front());
         }
+        tags_analyzer.set_task_data(m_task_data);
         tags_analyzer.set_required(std::move(all_tags_vec));
         tags_analyzer.set_replace(tags_task_ptr->replace_map);
         analyzer_inited = true;
@@ -56,6 +57,7 @@ bool asst::RecruitImageAnalyzer::time_analyze()
 
     MatchImageAnalyzer time_analyzer(m_image);
     time_analyzer.set_task_info(time_task_ptr);
+    time_analyzer.set_task_data(m_task_data);
 
     if (time_analyzer.analyze()) {
         Rect rect = time_analyzer.get_result().rect;
@@ -75,7 +77,8 @@ bool asst::RecruitImageAnalyzer::time_analyze()
 bool asst::RecruitImageAnalyzer::confirm_analyze()
 {
     MatchImageAnalyzer confirm_analyzer(m_image);
-    confirm_analyzer.set_task_info(StaticTaskData::get_instance().get("RecruitConfirm"));
+    confirm_analyzer.set_task_info(m_task_data->get("RecruitConfirm"));
+    confirm_analyzer.set_task_data(m_task_data);
 
     if (confirm_analyzer.analyze()) {
         m_confirm_rect = confirm_analyzer.get_result().rect;
@@ -88,7 +91,8 @@ bool asst::RecruitImageAnalyzer::confirm_analyze()
 bool asst::RecruitImageAnalyzer::refresh_analyze()
 {
     MatchImageAnalyzer refresh_analyzer(m_image);
-    refresh_analyzer.set_task_info(StaticTaskData::get_instance().get("RecruitRefresh"));
+    refresh_analyzer.set_task_data(m_task_data);
+    refresh_analyzer.set_task_info(m_task_data->get("RecruitRefresh"));
 
     if (refresh_analyzer.analyze()) {
         m_refresh_rect = refresh_analyzer.get_result().rect;

@@ -13,6 +13,7 @@ bool asst::RoguelikeFormationImageAnalyzer::analyze()
 {
     MultiMatchImageAnalyzer opers_analyzer(m_image);
     opers_analyzer.set_task_info(m_task_data->get("Roguelike1FormationOper"));
+    opers_analyzer.set_task_data(m_task_data);
     if (!opers_analyzer.analyze()) {
         return false;
     }

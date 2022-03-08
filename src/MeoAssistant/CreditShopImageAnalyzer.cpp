@@ -26,6 +26,7 @@ bool asst::CreditShopImageAnalyzer::commoditys_analyze()
     const auto commodity_task_ptr = m_task_data->get("CreditShop-Commoditys");
     MultiMatchImageAnalyzer mm_annlyzer(m_image);
     mm_annlyzer.set_task_info(commodity_task_ptr);
+    mm_annlyzer.set_task_data(m_task_data);
 
     if (!mm_annlyzer.analyze()) {
         return false;
@@ -61,6 +62,7 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
         name_roi.y += commodity.y;
 
         OcrImageAnalyzer ocr_analyzer(m_image, name_roi);
+        ocr_analyzer.set_task_data(m_task_data);
         ocr_analyzer.set_required(not_to_buy_task_ptr->text);
         if (ocr_analyzer.analyze()) {
             //因为是不买的，有识别结果说明这个商品不买，直接跳过
@@ -80,6 +82,7 @@ bool asst::CreditShopImageAnalyzer::sold_out_analyze()
     // 识别是否售罄
     MatchImageAnalyzer sold_out_analyzer(m_image);
     sold_out_analyzer.set_task_info(m_task_data->get("CreditShop-SoldOut"));
+    sold_out_analyzer.set_task_data(m_task_data);
 
     for (const Rect& commodity : m_need_to_buy) {
         sold_out_analyzer.set_roi(commodity);

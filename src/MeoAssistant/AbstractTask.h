@@ -31,11 +31,11 @@ namespace asst
 
         virtual bool run();
 
-        AbstractTask& set_exit_flag(bool* exit_flag) noexcept;
-        AbstractTask& set_retry_times(int times) noexcept;
-        AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept;
-        AbstractTask& set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
-        AbstractTask& set_task_data(std::shared_ptr<TaskData> task_data) noexcept;
+        virtual AbstractTask& set_exit_flag(bool* exit_flag) noexcept;
+        virtual AbstractTask& set_retry_times(int times) noexcept;
+        virtual AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept;
+        virtual AbstractTask& set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
+        virtual AbstractTask& set_task_data(std::shared_ptr<TaskData> task_data) noexcept;
 
         template<typename PluginType>
         std::shared_ptr<PluginType> regiseter_plugin()
