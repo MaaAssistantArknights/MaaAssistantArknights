@@ -1975,7 +1975,7 @@
     },
     "InfrastOperNameHash": {
         "algorithm": "Hash",
-        "Hash": [],
+        "hash": [],
         "threshold": 65,
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
@@ -1991,7 +1991,7 @@
     },
     "InfrastOperFaceHash": {
         "algorithm": "Hash",
-        "Hash": [],
+        "hash": [],
         "threshold": 30,
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
@@ -3282,7 +3282,7 @@
     "BattleOperRoleDrone": {},
     "BattleOperCostRange": {
         "algorithm": "Hash",
-        "Hash": [],
+        "hash": [],
         "rectMove": [
             -10,
             12,
@@ -3292,7 +3292,7 @@
     },
     "BattleOperCostChannelH": {
         "algorithm": "Hash",
-        "Hash": [],
+        "hash": [],
         "maskRange": [
             0,
             255
@@ -3300,7 +3300,7 @@
     },
     "BattleOperCostChannelS": {
         "algorithm": "Hash",
-        "Hash": [],
+        "hash": [],
         "maskRange": [
             0,
             50
@@ -3308,7 +3308,7 @@
     },
     "BattleOperCostChannelV": {
         "algorithm": "Hash",
-        "Hash": [],
+        "hash": [],
         "maskRange": [
             80,
             255
@@ -3316,63 +3316,63 @@
     },
     "BattleOperCost0": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "1ff83ffc3c3e780e700ee007e007e007e007e007e007f00f780e7c1e3ffc1ff8"
         ]
     },
     "BattleOperCost1": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "00ff03ff1fff7fffffffff3f003f003f003f003f003f003f003f003f003f003f"
         ]
     },
     "BattleOperCost2": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "3ffe7ffefc3ff81fe01f001f001f003e007e01fc07f81fe03fc07e00ffffffff"
         ]
     },
     "BattleOperCost3": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "3ffe7ffffc3ff81fe01f001f03fe07fc07fe003f001fe01fe01ff83fffff7ffe",
             "07f01ffe700e700700070007000c0078003c000700070007e007700e1e7e0ff0"
         ]
     },
     "BattleOperCost4": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "007c00fc01fc03fc03fc0fbc1f3c3f3c7e3cfc3cffffffffffff003c003c003c"
         ]
     },
     "BattleOperCost5": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "3ffe7c007c0078007ff87ffe7ffe7c3f781f0007e007f81ffc1fffff7ffe3ffc",
             "3ffe38003800780070007ff87ffe703e000f000fc00ff81ffc3f7ffe3ffc07e0"
         ]
     },
     "BattleOperCost6": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "03c003800f001f003e003ff87ffc7c3ef00ee00fe007e00ff00e7c3e3ffc1ff8"
         ]
     },
     "BattleOperCost7": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "ffffffff003e007e007c00f800f801f001f003c003c00f801f001f003e003e00"
         ]
     },
     "BattleOperCost8": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "3ffc7ffe7c3e700e700e7c7e7ffc3ffc7ffefefef00fe00ff00ff03ffffe7ffe"
         ]
     },
     "BattleOperCost9": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "3ffc7ffe7c3ff00ff007f007f00ffc0f7fff3ffe1ffe00fc01f803f00ff00fc0"
         ]
     },
@@ -3406,7 +3406,7 @@
     },
     "BattleHpChannelH": {
         "algorithm": "Hash",
-        "Hash": [],
+        "hash": [],
         "maskRange": [
             0,
             1
@@ -3414,7 +3414,7 @@
     },
     "BattleHpChannelS": {
         "algorithm": "Hash",
-        "Hash": [],
+        "hash": [],
         "maskRange": [
             120,
             150
@@ -3422,7 +3422,7 @@
     },
     "BattleHpChannelV": {
         "algorithm": "Hash",
-        "Hash": [],
+        "hash": [],
         "maskRange": [
             170,
             255
@@ -3430,61 +3430,61 @@
     },
     "BattleHp0": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "03e007fc3c0638066003400140014001c001400140016003600338061e1c07f8"
         ]
     },
     "BattleHp1": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "003f01ff1ffffe0f000700070007000700070007000700070007000700070007"
         ]
     },
     "BattleHp2": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "07e03c3c2007c0030003000300030007001c003800e003c004003800f800ffff"
         ]
     },
     "BattleHp3": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "0ff07e78700ee00700070006000e03f80078000e000700078007e00e703e1ff8"
         ]
     },
     "BattleHp4": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "0010003c007c007c01dc039c061c0c1c381c301c783effff001c001c001c001c"
         ]
     },
     "BattleHp5": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "1ff87ffe7000600060006000fff0f038e00e0006000700078007e00e703e1ff0"
         ]
     },
     "BattleHp6": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "018002000e000c0010003fe07808f004c006800380018003c007e006300c1ff0"
         ]
     },
     "BattleHp7": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "7fffffff00070006000e003800380070004001c0018003800e000e001c001000"
         ]
     },
     "BattleHp8": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "0ff01038600ee006e006600670081ff01c7860068007800180018007600e1ff8"
         ]
     },
     "BattleHp9": {
         "algorithm": "Hash",
-        "Hash": [
+        "hash": [
             "07e01e78700e6006e007e007e0076006700e1ffe011800700060008001800700"
         ]
     },
