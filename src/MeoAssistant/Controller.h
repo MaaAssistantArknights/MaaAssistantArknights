@@ -70,6 +70,7 @@ namespace asst
         Point rand_point_in_rect(const Rect& rect);
 
         void random_delay() const;
+        void clear_info() noexcept;
 
         // 转换data中所有的crlf为lf：有些模拟器自带的adb，exec-out输出的\n，会被替换成\r\n，导致解码错误，所以这里转一下回来（点名批评mumu）
         static void convert_lf(std::vector<unsigned char>& data);
