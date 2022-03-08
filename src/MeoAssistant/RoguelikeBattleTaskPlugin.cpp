@@ -66,6 +66,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         for (int i = 0; i != StageNameRetryTimes; ++i) {
             cv::Mat image = m_ctrler->get_image();
             OcrImageAnalyzer name_analyzer(image);
+            name_analyzer.set_task_data(m_task_data);
             name_analyzer.set_task_info(stage_name_task_ptr);
             if (!name_analyzer.analyze()) {
                 continue;
@@ -134,6 +135,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     using Oper = asst::BattleImageAnalyzer::Oper;
 
     BattleImageAnalyzer battle_analyzer(m_ctrler->get_image(), m_task_data);
+    battle_analyzer.set_task_data(m_task_data);
     if (!battle_analyzer.analyze()) {
         return false;
     }
@@ -293,6 +295,7 @@ void asst::RoguelikeBattleTaskPlugin::clear()
 //asst::Rect asst::RoguelikeBattleTaskPlugin::get_placed_by_cv()
 //{
 //    BattlePerspectiveImageAnalyzer placed_analyzer(m_ctrler->get_image());
+//    placed_analyzer.set_task_data(m_task_data);
 //    placed_analyzer.set_src_homes(m_home_cache);
 //    if (!placed_analyzer.analyze()) {
 //        return Rect();

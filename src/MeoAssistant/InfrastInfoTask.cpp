@@ -12,6 +12,7 @@ bool asst::InfrastInfoTask::_run()
     const auto image = m_ctrler->get_image();
 
     InfrastFacilityImageAnalyzer analyzer(image);
+    analyzer.set_task_data(m_task_data);
     analyzer.set_to_be_analyzed({ "Mfg", "Trade", "Power", "Dorm" });
     if (!analyzer.analyze()) {
         return false;

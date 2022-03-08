@@ -24,6 +24,7 @@ bool asst::ProcessTaskImageAnalyzer::match_analyze(std::shared_ptr<TaskInfo> tas
         m_match_analyzer = std::make_unique<MatchImageAnalyzer>(m_image);
     }
     const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
+    m_match_analyzer->set_region_of_appeared(Rect());
     m_match_analyzer->set_task_info(match_task_ptr);
     auto region_opt = m_status->get_region(match_task_ptr->name);
     if (region_opt) {
@@ -72,6 +73,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
     if (!m_ocr_analyzer) {
         m_ocr_analyzer = std::make_unique<OcrImageAnalyzer>(m_image);
     }
+    m_ocr_analyzer->set_region_of_appeared(Rect());
     m_ocr_analyzer->set_task_info(ocr_task_ptr);
     auto region_opt = m_status->get_region(ocr_task_ptr->name);
     if (region_opt) {

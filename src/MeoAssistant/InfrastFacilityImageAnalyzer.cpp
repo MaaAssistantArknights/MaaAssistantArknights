@@ -22,9 +22,10 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
     const static std::vector<std::string> task_name_suffix = { "", "Mini" };
 
     MultiMatchImageAnalyzer mm_analyzer(m_image);
+    mm_analyzer.set_task_data(m_task_data);
 
     auto task_analyze = [&](const std::string& task_name) -> bool {
-        mm_analyzer.set_task_info(StaticTaskData::get_instance().get(task_name));
+        mm_analyzer.set_task_info(m_task_data->get(task_name));
         return mm_analyzer.analyze();
     };
 

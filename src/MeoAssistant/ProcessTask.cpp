@@ -57,13 +57,13 @@ asst::ProcessTask& asst::ProcessTask::set_tasks(std::vector<std::string> tasks_n
 
 ProcessTask& asst::ProcessTask::set_times_limit(std::string name, int limit)
 {
-    m_times_limit.emplace(std::move(name), limit);
+    m_times_limit[std::move(name)] = limit;
     return *this;
 }
 
 ProcessTask& asst::ProcessTask::set_rear_delay(std::string name, int delay)
 {
-    m_rear_delay.emplace(std::move(name), delay);
+    m_rear_delay[std::move(name)] = delay;
     return *this;
 }
 
@@ -95,7 +95,9 @@ bool ProcessTask::_run()
         else {
             const auto image = m_ctrler->get_image();
             ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name);
+            analyzer.set_task_data(m_task_data);
             analyzer.set_status(m_status);
+            analyzer.set_task_data(m_task_data);
             if (!analyzer.analyze()) {
                 return false;
             }

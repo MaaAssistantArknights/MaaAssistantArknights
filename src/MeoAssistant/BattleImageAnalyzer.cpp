@@ -51,6 +51,7 @@ bool asst::BattleImageAnalyzer::opers_analyze()
 
     MultiMatchImageAnalyzer flags_analyzer(m_image);
     flags_analyzer.set_task_info(m_task_data->get("BattleOpersFlag"));
+    flags_analyzer.set_task_data(m_task_data);
     if (!flags_analyzer.analyze()) {
         return false;
     }
@@ -104,6 +105,7 @@ asst::BattleImageAnalyzer::Role asst::BattleImageAnalyzer::oper_role_analyze(con
     };
 
     MatchImageAnalyzer role_analyzer(m_image);
+    role_analyzer.set_task_data(m_task_data);
 
     Role result = Role::Unknown;
     double max_score = 0;
@@ -161,6 +163,7 @@ int asst::BattleImageAnalyzer::oper_cost_analyze(const Rect& roi)
                 num_hashs.emplace(num + "_" + std::to_string(i), hashs_vec.at(i));
             }
         }
+        hash_analyzer.set_task_data(m_task_data);
         hash_analyzer.set_hash_templates(std::move(num_hashs));
         hash_analyzer.set_need_bound(true);
         hash_analyzer.set_need_split(true);
@@ -254,6 +257,7 @@ bool asst::BattleImageAnalyzer::skill_analyze()
     const Rect& rect_move = skill_task_ptr->rect_move;
 
     MultiMatchImageAnalyzer mm_analyzer(m_image);
+    mm_analyzer.set_task_data(m_task_data);
     mm_analyzer.set_task_info(skill_task_ptr);
     if (!mm_analyzer.analyze()) {
         return false;
@@ -269,6 +273,7 @@ bool asst::BattleImageAnalyzer::hp_analyze()
     // 识别 HP 的那个蓝白色图标
     auto flag_task_ptr = m_task_data->get("BattleHpFlag");
     MatchImageAnalyzer flag_analyzer(m_image);
+    flag_analyzer.set_task_data(m_task_data);
     flag_analyzer.set_task_info(flag_task_ptr);
     if (!flag_analyzer.analyze()) {
         // 漏怪的时候，那个图标会变成红色的，所以多识别一次
@@ -304,6 +309,7 @@ bool asst::BattleImageAnalyzer::hp_analyze()
                 num_hashs.emplace(num + "_" + std::to_string(i), hashs_vec.at(i));
             }
         }
+        hash_analyzer.set_task_data(m_task_data);
         hash_analyzer.set_hash_templates(std::move(num_hashs));
         hash_analyzer.set_need_bound(true);
         hash_analyzer.set_need_split(true);

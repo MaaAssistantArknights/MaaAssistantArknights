@@ -78,6 +78,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
 
     InfrastFacilityImageAnalyzer analyzer(image);
     analyzer.set_to_be_analyzed({ facility_name() });
+    analyzer.set_task_data(m_task_data);
     if (!analyzer.analyze()) {
         Log.trace("result is empty");
         return false;

@@ -44,6 +44,7 @@ bool asst::InfrastDormTask::opers_choose()
         }
         const auto image = m_ctrler->get_image();
         InfrastOperImageAnalyzer oper_analyzer(image);
+        oper_analyzer.set_task_data(m_task_data);
         const int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
         oper_analyzer.set_to_be_calced(without_skill);
         if (!oper_analyzer.analyze()) {

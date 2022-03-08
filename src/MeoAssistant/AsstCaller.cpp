@@ -79,106 +79,6 @@ bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, c
     return handle->connect(adb_path, address, config ? config : std::string());
 }
 
-bool AsstAppendStartUp(AsstHandle handle)
-{
-    if (!inited || handle == nullptr) {
-        return false;
-    }
-
-    return handle->append_start_up();
-}
-
-bool AsstAppendFight(AsstHandle handle, const char* stage, int max_mecidine, int max_stone, int max_times)
-{
-    if (!inited || handle == nullptr) {
-        return false;
-    }
-
-    return handle->append_fight(stage, max_mecidine, max_stone, max_times);
-}
-
-bool AsstAppendAward(AsstHandle handle)
-{
-    if (!inited || handle == nullptr) {
-        return false;
-    }
-
-    return handle->append_award();
-}
-
-bool AsstAppendVisit(AsstHandle handle)
-{
-    if (!inited || handle == nullptr) {
-        return false;
-    }
-
-    return handle->append_visit();
-}
-
-bool AsstAppendMall(AsstHandle handle, bool with_shopping)
-{
-    if (!inited || handle == nullptr) {
-        return false;
-    }
-
-    return handle->append_mall(with_shopping);
-}
-
-//bool AsstAppendProcessTask(AsstHandle handle, const char* task_name)
-//{
-//    if (!inited || handle == nullptr) {
-//        return false;
-//    }
-//
-//    return handle->append_process_task(task_name);
-//}
-
-bool AsstStartRecruitCalc(AsstHandle handle, const int select_level[], int required_len, bool set_time)
-{
-    if (!inited || handle == nullptr) {
-        return false;
-    }
-    std::vector<int> level_vector;
-    level_vector.assign(select_level, select_level + required_len);
-    return handle->start_recruit_calc(level_vector, set_time);
-}
-
-bool AsstAppendInfrast(AsstHandle handle, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold)
-{
-    if (!inited || handle == nullptr) {
-        return false;
-    }
-    std::vector<std::string> order_vector;
-    order_vector.assign(order, order + order_size);
-
-    return handle->append_infrast(
-        static_cast<asst::infrast::WorkMode>(work_mode),
-        order_vector,
-        uses_of_drones,
-        dorm_threshold);
-}
-
-bool AsstAppendRecruit(AsstHandle handle, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh, bool use_expedited)
-{
-    if (!inited || handle == nullptr) {
-        return false;
-    }
-    std::vector<int> required_vector;
-    required_vector.assign(select_level, select_level + select_len);
-    std::vector<int> confirm_vector;
-    confirm_vector.assign(confirm_level, confirm_level + confirm_len);
-
-    return handle->append_recruit(max_times, required_vector, confirm_vector, need_refresh, use_expedited);
-}
-
-bool AsstAppendRoguelike(AsstHandle handle, int mode)
-{
-    if (!inited || handle == nullptr) {
-        return false;
-    }
-    return handle->append_roguelike(mode);
-}
-
 bool AsstStart(AsstHandle handle)
 {
     if (!inited || handle == nullptr) {
@@ -204,6 +104,23 @@ bool AsstSetParam(AsstHandle handle, const char* param_id, const char* param_val
     }
 
     return handle->set_param(param_id, param_value);
+}
+
+TaskHandle ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* params)
+{
+    if (!inited || handle == nullptr) {
+        return nullptr;
+    }
+
+    return handle->append_task(type, params);
+}
+
+bool ASSTAPI AsstSetTaskParams(AsstHandle handle, TaskHandle task, const char* params)
+{
+    if (!inited || task == nullptr || handle == nullptr) {
+        return false;
+    }
+    return handle->set_task_params(task, params);
 }
 
 unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size)
@@ -249,16 +166,4 @@ void AsstLog(const char* level, const char* message)
         return;
     }
     asst::Log.log_with_custom_level(level, message);
-}
-
-bool AsstAppendDebug(AsstHandle handle)
-{
-    if (!inited || handle == nullptr) {
-        return false;
-    }
-#ifdef ASST_DEBUG
-    return handle->append_debug();
-#else
-    return false;
-#endif // ASST_DEBUG
 }

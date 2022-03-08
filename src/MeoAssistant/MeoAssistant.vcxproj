@@ -27,6 +27,8 @@
     <ClInclude Include="AutoRecruitTask.h" />
     <ClInclude Include="BattleImageAnalyzer.h" />
     <ClInclude Include="BattlePerspectiveImageAnalyzer.h" />
+    <ClInclude Include="FightTask.h" />
+    <ClInclude Include="PackageTask.h" />
     <ClInclude Include="RoguelikeBattleTaskPlugin.h" />
     <ClInclude Include="CreditShopImageAnalyzer.h" />
     <ClInclude Include="DronesForShamareTaskPlugin.h" />
@@ -66,6 +68,7 @@
     <ClInclude Include="RoguelikeFormationImageAnalyzer.h" />
     <ClInclude Include="RuntimeStatus.h" />
     <ClInclude Include="StageDropsTaskPlugin.h" />
+    <ClInclude Include="StartUpTask.h" />
     <ClInclude Include="TaskData.h" />
     <ClInclude Include="MatchImageAnalyzer.h" />
     <ClInclude Include="TemplResource.h" />
@@ -82,6 +85,8 @@
     <ClCompile Include="AutoRecruitTask.cpp" />
     <ClCompile Include="BattleImageAnalyzer.cpp" />
     <ClCompile Include="BattlePerspectiveImageAnalyzer.cpp" />
+    <ClCompile Include="FightTask.cpp" />
+    <ClCompile Include="PackageTask.cpp" />
     <ClCompile Include="RoguelikeBattleTaskPlugin.cpp" />
     <ClCompile Include="CreditShopImageAnalyzer.cpp" />
     <ClCompile Include="CreditShoppingTask.cpp" />
@@ -122,6 +127,7 @@
     <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp" />
     <ClCompile Include="RuntimeStatus.cpp" />
     <ClCompile Include="StageDropsTaskPlugin.cpp" />
+    <ClCompile Include="StartUpTask.cpp" />
     <ClCompile Include="TaskData.cpp" />
     <ClCompile Include="MatchImageAnalyzer.cpp" />
     <ClCompile Include="TemplResource.cpp" />

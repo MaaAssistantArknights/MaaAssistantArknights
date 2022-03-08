@@ -30,27 +30,15 @@ int main(int argc, char** argv)
         return -1;
     }
 
+    const char* params = R"(
+{
+    "stage": "CE-5"
+}
+)";
+
     char ch = 0;
     while (ch != 'q') {
-        //AsstAppendRoguelike(ptr, 0);
-        //AsstAppendDebug(ptr);
-        AsstAppendStartUp(ptr);
-        //AsstAppendFight(ptr, "CE-5", 0, 0, 99999);
-        // AsstAppendVisit(ptr, true);
-        //{
-        //     const int required[] = { 3, 4, 5, 6 };
-        //     AsstStartRecruitCalc(ptr, required, sizeof(required) / sizeof(int), true);
-        // }
-        //{
-        //    const char* order[] = { "Trade", "Dorm" };
-        //    AsstAppendInfrast(ptr, 1, order, 2, "Money", 0.3);
-        //}
-        // AsstAppendProcessTask(ptr, "AwardBegin");
-        //{
-        //    const int required[] = { 4 };
-        //    const int confirm[] = { 3, 4 };
-        //    AsstAppendRecruit(ptr, 3, required, sizeof(required) / sizeof(int), confirm, sizeof(confirm) / sizeof(int), true, true);
-        //}
+        AsstAppendTask(ptr, "Fight", params);
         AsstStart(ptr);
 
         ch = static_cast<char>(getchar());

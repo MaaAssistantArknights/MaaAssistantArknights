@@ -217,7 +217,13 @@ bool asst::StaticTaskData::parse(const json::value& json)
 
 const std::shared_ptr<asst::TaskInfo> asst::TaskData::get(const std::string& name) const noexcept
 {
-    return std::shared_ptr<TaskInfo>();
+    if (auto iter = m_specal_tasks_info.find(name);
+        iter != m_specal_tasks_info.cend()) {
+        return iter->second;
+    }
+    else {
+        return StaticTaskData::get_instance().get(name);
+    }
 }
 
 std::shared_ptr<asst::TaskInfo> asst::TaskData::get(const std::string& name)
