@@ -52,6 +52,7 @@ bool asst::Assistant::connect(const std::string& adb_path, const std::string& ad
 {
     LogTraceFunction;
 
+    m_inited = false;
     std::unique_lock<std::mutex> lock(m_mutex);
 
     stop(false);
@@ -103,9 +104,8 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
         return false;
     }
 
-    // TODO: 检查任务句柄合法性
-
     bool setted = false;
+    std::unique_lock<std::mutex> lock(m_mutex);
     for (auto&& [id, ptr] : m_tasks_list) {
         if (id == task_id) {
             setted = ptr->set_params(ret.value());
@@ -205,10 +205,11 @@ void Assistant::working_proc()
 
     while (!m_thread_exit) {
         //LogTraceScope("Assistant::working_proc Loop");
-        std::unique_lock<std::mutex> lock(m_mutex);
 
+        std::unique_lock<std::mutex> lock(m_mutex);
         if (!m_thread_idle && !m_tasks_list.empty()) {
-            const auto& [id, task_ptr] = m_tasks_list.front();
+            const auto [id, task_ptr] = m_tasks_list.front();
+            lock.unlock();
 
             json::value callback_json = json::object{
                 { "taskchain", task_ptr->get_task_chain() }
@@ -224,19 +225,18 @@ void Assistant::working_proc()
 
             m_tasks_list.pop_front();
 
-
-            if (ret) {
-                task_callback(AsstMsg::TaskChainCompleted, callback_json, this);
+            auto run_msg = AsstMsg::TaskChainCompleted;
+            if (!ret) {
+                run_msg = AsstMsg::TaskChainError;
             }
-            else {
-                task_callback(AsstMsg::TaskChainError, callback_json, this);
-            }
+            task_callback(run_msg, callback_json, this);
 
             if (m_tasks_list.empty()) {
                 task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
             }
 
-            auto& delay = Resrc.cfg().get_options().task_delay;
+            auto delay = Resrc.cfg().get_options().task_delay;
+            lock.lock();
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay),
                 [&]() -> bool { return m_thread_idle; });
         }
