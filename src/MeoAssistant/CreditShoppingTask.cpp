@@ -27,8 +27,7 @@ bool asst::CreditShoppingTask::_run()
 {
     const cv::Mat image = m_ctrler->get_image();
 
-    CreditShopImageAnalyzer shop_analyzer(image, m_task_data);
-    shop_analyzer.set_task_data(m_task_data);
+    CreditShopImageAnalyzer shop_analyzer(image);
     if (!shop_analyzer.analyze()) {
         return false;
     }
@@ -48,11 +47,11 @@ bool asst::CreditShoppingTask::_run()
         // “购买商品”按钮
         static Rect buy_it_rect;
         if (buy_it_rect.empty()) {
-            const auto buy_it_task_ptr = m_task_data->get("CreditShop-BuyIt");
+            const auto buy_it_task_ptr = Task.get("CreditShop-BuyIt");
 
             const cv::Mat buy_image = m_ctrler->get_image();
             MatchImageAnalyzer buy_it_analyzer(buy_image);
-            buy_it_analyzer.set_task_data(m_task_data);
+
             buy_it_analyzer.set_task_info(buy_it_task_ptr);
             if (!buy_it_analyzer.analyze()) {
                 // 没识别到“购买商品”按钮，不应该出现这种情况，TODO 报错
@@ -73,8 +72,8 @@ bool asst::CreditShoppingTask::_run()
         const cv::Mat prompt_image = m_ctrler->get_image();
 
         OcrImageAnalyzer prompt_analyzer(prompt_image);
-        prompt_analyzer.set_task_data(m_task_data);
-        prompt_analyzer.set_task_info(m_task_data->get("CreditShop-NoMoney"));
+
+        prompt_analyzer.set_task_info(Task.get("CreditShop-NoMoney"));
         if (prompt_analyzer.analyze()) {
             click_return_button();
             return true;

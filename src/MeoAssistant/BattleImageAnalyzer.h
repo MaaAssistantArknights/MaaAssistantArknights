@@ -27,7 +27,7 @@ namespace asst
             Rect rect;
         };
     public:
-        BattleImageAnalyzer(const cv::Mat image, std::shared_ptr<TaskData> task_data);
+        using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~BattleImageAnalyzer() = default;
 
         virtual bool analyze() override;

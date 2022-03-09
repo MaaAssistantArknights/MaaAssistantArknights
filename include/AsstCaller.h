@@ -28,8 +28,6 @@ extern "C" {
     bool ASSTAPI AsstStart(AsstHandle handle);
     bool ASSTAPI AsstStop(AsstHandle handle);
 
-    bool ASSTAPI AsstSetParam(AsstHandle handle, const char* param_id, const char* param_value);
-
     unsigned long long ASSTAPI AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size);
     bool ASSTAPI AsstCtrlerClick(AsstHandle handle, int x, int y, bool block);
 

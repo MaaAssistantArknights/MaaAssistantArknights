@@ -13,7 +13,7 @@ namespace asst
             // TODO
         };
     public:
-        RoguelikeFormationImageAnalyzer(const cv::Mat image, std::shared_ptr<TaskData> task_data);
+        using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~RoguelikeFormationImageAnalyzer() = default;
 
         virtual bool analyze() override;

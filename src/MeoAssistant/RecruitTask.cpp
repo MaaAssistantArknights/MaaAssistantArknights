@@ -18,7 +18,7 @@ bool RecruitTask::_run()
 
     const cv::Mat image = m_ctrler->get_image();
     RecruitImageAnalyzer analyzer(image);
-    analyzer.set_task_data(m_task_data);
+
 
     if (!analyzer.analyze()) {
         return false;

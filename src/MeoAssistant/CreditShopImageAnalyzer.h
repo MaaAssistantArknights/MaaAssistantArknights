@@ -6,7 +6,7 @@ namespace asst
     class CreditShopImageAnalyzer final : public AbstractImageAnalyzer
     {
     public:
-        CreditShopImageAnalyzer(const cv::Mat image, std::shared_ptr<TaskData> task_data);
+        using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~CreditShopImageAnalyzer() = default;
 
         virtual bool analyze() override;

@@ -23,7 +23,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     static OcrImageAnalyzer tags_analyzer;
     if (!analyzer_inited) {
         const auto tags_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-            m_task_data->get("RecruitTags"));
+            Task.get("RecruitTags"));
         tags_analyzer.set_roi(tags_task_ptr->roi);
         auto& all_tags_set = Resrc.recruit().get_all_tags();
         std::vector<std::string> all_tags_vec;
@@ -33,7 +33,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
         if (ssr_iter != all_tags_vec.end()) {
             std::swap(*ssr_iter, all_tags_vec.front());
         }
-        tags_analyzer.set_task_data(m_task_data);
+
         tags_analyzer.set_required(std::move(all_tags_vec));
         tags_analyzer.set_replace(tags_task_ptr->replace_map);
         analyzer_inited = true;
@@ -53,11 +53,11 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
 
 bool asst::RecruitImageAnalyzer::time_analyze()
 {
-    const auto time_task_ptr = m_task_data->get("RecruitTime");
+    const auto time_task_ptr = Task.get("RecruitTime");
 
     MatchImageAnalyzer time_analyzer(m_image);
     time_analyzer.set_task_info(time_task_ptr);
-    time_analyzer.set_task_data(m_task_data);
+
 
     if (time_analyzer.analyze()) {
         Rect rect = time_analyzer.get_result().rect;
@@ -77,8 +77,8 @@ bool asst::RecruitImageAnalyzer::time_analyze()
 bool asst::RecruitImageAnalyzer::confirm_analyze()
 {
     MatchImageAnalyzer confirm_analyzer(m_image);
-    confirm_analyzer.set_task_info(m_task_data->get("RecruitConfirm"));
-    confirm_analyzer.set_task_data(m_task_data);
+    confirm_analyzer.set_task_info(Task.get("RecruitConfirm"));
+
 
     if (confirm_analyzer.analyze()) {
         m_confirm_rect = confirm_analyzer.get_result().rect;
@@ -91,8 +91,8 @@ bool asst::RecruitImageAnalyzer::confirm_analyze()
 bool asst::RecruitImageAnalyzer::refresh_analyze()
 {
     MatchImageAnalyzer refresh_analyzer(m_image);
-    refresh_analyzer.set_task_data(m_task_data);
-    refresh_analyzer.set_task_info(m_task_data->get("RecruitRefresh"));
+
+    refresh_analyzer.set_task_info(Task.get("RecruitRefresh"));
 
     if (refresh_analyzer.analyze()) {
         m_refresh_rect = refresh_analyzer.get_result().rect;

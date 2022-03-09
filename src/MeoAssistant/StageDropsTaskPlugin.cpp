@@ -72,7 +72,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
 {
     LogTraceFunction;
 
-    sleep(m_task_data->get("PRTS")->rear_delay);
+    sleep(Task.get("PRTS")->rear_delay);
     if (need_exit()) {
         return false;
     }
@@ -134,7 +134,7 @@ void asst::StageDropsTaskPlugin::set_startbutton_delay()
 
         if (pre_start_time > 0) {
             int64_t duration = time(nullptr) - pre_start_time;
-            int elapsed = m_task_data->get("EndOfAction")->pre_delay + m_task_data->get("PRTS")->rear_delay;
+            int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->rear_delay;
             int64_t delay = duration * 1000 - elapsed;
             m_cast_ptr->set_rear_delay("StartButton2", static_cast<int>(delay));
         }

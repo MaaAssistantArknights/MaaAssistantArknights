@@ -12,7 +12,6 @@ namespace asst
     public:
         AbstractImageAnalyzer() = default;
         AbstractImageAnalyzer(const cv::Mat image);
-        AbstractImageAnalyzer(const cv::Mat image, std::shared_ptr<TaskData> task_data);
         AbstractImageAnalyzer(const cv::Mat image, const Rect& roi);
         AbstractImageAnalyzer(const AbstractImageAnalyzer&) = delete;
         AbstractImageAnalyzer(AbstractImageAnalyzer&&) = delete;
@@ -33,7 +32,6 @@ namespace asst
 
         cv::Mat m_image;
         Rect m_roi;
-        std::shared_ptr<TaskData> m_task_data = nullptr;
 
 #ifdef ASST_DEBUG
         cv::Mat m_image_draw;

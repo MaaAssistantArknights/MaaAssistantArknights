@@ -81,17 +81,17 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
 {
     LogTraceFunction;
 
-    const Rect upper_roi = m_task_data->get("InfrastSkillsUpper")->roi;
-    const Rect lower_roi = m_task_data->get("InfrastSkillsLower")->roi;
+    const Rect upper_roi = Task.get("InfrastSkillsUpper")->roi;
+    const Rect lower_roi = Task.get("InfrastSkillsLower")->roi;
     const std::vector<Rect> all_roi = { upper_roi, lower_roi };
 
-    const Rect skill_rect_move = m_task_data->get("InfrastSkills")->rect_move;
-    const Rect hash_rect_move = m_task_data->get("InfrastOperNameHash")->rect_move;
-    const Rect prg_rect_move = m_task_data->get("InfrastOperMoodProgressBar")->roi;
+    const Rect skill_rect_move = Task.get("InfrastSkills")->rect_move;
+    const Rect hash_rect_move = Task.get("InfrastOperNameHash")->rect_move;
+    const Rect prg_rect_move = Task.get("InfrastOperMoodProgressBar")->roi;
     const std::vector<Rect> all_rect_move = { skill_rect_move, hash_rect_move, prg_rect_move };
 
     InfrastSmileyImageAnalyzer smiley_analyzer(m_image);
-    smiley_analyzer.set_task_data(m_task_data);
+
 
     for (auto&& roi : all_roi) {
         smiley_analyzer.set_roi(roi);
@@ -132,7 +132,7 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
     LogTraceFunction;
 
     const auto prg_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        m_task_data->get("InfrastOperMoodProgressBar"));
+        Task.get("InfrastOperMoodProgressBar"));
     uint8_t prg_lower_limit = static_cast<uint8_t>(prg_task_ptr->templ_threshold);
     int prg_diff_thres = static_cast<int>(prg_task_ptr->special_threshold);
     Rect rect_move = prg_task_ptr->rect_move;
@@ -208,10 +208,10 @@ void asst::InfrastOperImageAnalyzer::face_hash_analyze()
 {
     LogTraceFunction;
 
-    const Rect hash_rect_move = m_task_data->get("InfrastOperFaceHash")->rect_move;
+    const Rect hash_rect_move = Task.get("InfrastOperFaceHash")->rect_move;
 
     HashImageAnalyzer hash_analyzer(m_image);
-    hash_analyzer.set_task_data(m_task_data);
+
     for (auto&& oper : m_result) {
         Rect roi = oper.smiley.rect.move(hash_rect_move);
         hash_analyzer.set_roi(roi);
@@ -225,10 +225,10 @@ void asst::InfrastOperImageAnalyzer::name_hash_analyze()
     LogTraceFunction;
 
     const auto task_ptr = std::dynamic_pointer_cast<HashTaskInfo>(
-        m_task_data->get("InfrastOperNameHash"));
+        Task.get("InfrastOperNameHash"));
 
     HashImageAnalyzer hash_analyzer(m_image);
-    hash_analyzer.set_task_data(m_task_data);
+
     hash_analyzer.set_mask_range(task_ptr->mask_range);
     hash_analyzer.set_need_bound(true);
     for (auto&& oper : m_result) {
@@ -244,11 +244,11 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
     LogTraceFunction;
 
     const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        m_task_data->get("InfrastSkills"));
+        Task.get("InfrastSkills"));
     const auto bright_thres = task_ptr->special_threshold;
 
     MatchImageAnalyzer skill_analyzer(m_image);
-    skill_analyzer.set_task_data(m_task_data);
+
     skill_analyzer.set_mask_range(task_ptr->mask_range);
     skill_analyzer.set_threshold(task_ptr->templ_threshold);
 
@@ -370,7 +370,7 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
     LogTraceFunction;
 
     const auto selected_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        m_task_data->get("InfrastOperSelected"));
+        Task.get("InfrastOperSelected"));
     Rect rect_move = selected_task_ptr->rect_move;
 
     for (auto&& oper : m_result) {
@@ -406,11 +406,11 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
 {
     LogTraceFunction;
 
-    const auto working_task_ptr = m_task_data->get("InfrastOperOnShift");
+    const auto working_task_ptr = Task.get("InfrastOperOnShift");
     Rect rect_move = working_task_ptr->rect_move;
 
     MatchImageAnalyzer working_analyzer(m_image);
-    working_analyzer.set_task_data(m_task_data);
+
     working_analyzer.set_task_info(working_task_ptr);
 
     for (auto&& oper : m_result) {

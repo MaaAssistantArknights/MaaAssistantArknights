@@ -88,16 +88,16 @@ bool ProcessTask::_run()
         std::shared_ptr<TaskInfo> cur_task_ptr = nullptr;
 
         // 如果第一个任务是JustReturn的，那就没必要再截图并计算了
-        if (auto front_task_ptr = m_task_data->get(m_cur_tasks_name.front());
+        if (auto front_task_ptr = Task.get(m_cur_tasks_name.front());
             front_task_ptr->algorithm == AlgorithmType::JustReturn) {
             cur_task_ptr = front_task_ptr;
         }
         else {
             const auto image = m_ctrler->get_image();
             ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name);
-            analyzer.set_task_data(m_task_data);
+
             analyzer.set_status(m_status);
-            analyzer.set_task_data(m_task_data);
+
             if (!analyzer.analyze()) {
                 return false;
             }
