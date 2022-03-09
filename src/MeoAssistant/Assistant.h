@@ -31,14 +31,16 @@ namespace asst
     class Assistant
     {
     public:
+        using TaskId = int;
+
         Assistant(AsstApiCallback callback = nullptr, void* callback_arg = nullptr);
         ~Assistant();
 
         // 连接adb
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
 
-        PackageTask* append_task(const std::string& type, const std::string& params);
-        bool set_task_params(PackageTask* handle, const std::string& params);
+        TaskId append_task(const std::string& type, const std::string& params);
+        bool set_task_params(TaskId task_id, const std::string& params);
 
         // 开始执行任务队列
         bool start(bool block = true);
@@ -75,7 +77,8 @@ namespace asst
         std::shared_ptr<TaskData> m_task_data = nullptr;
 
         bool m_thread_exit = false;
-        std::queue<std::shared_ptr<PackageTask>> m_tasks_queue;
+        std::list<std::pair<int, std::shared_ptr<PackageTask>>> m_tasks_list;
+        TaskId m_task_id = 0;
         AsstApiCallback m_callback = nullptr;
         void* m_callback_arg = nullptr;
 

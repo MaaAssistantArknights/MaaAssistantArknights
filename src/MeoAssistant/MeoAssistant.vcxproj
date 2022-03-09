@@ -13,13 +13,13 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\AsstCaller.h" />
     <ClInclude Include="..\..\include\AsstDef.h" />
+    <ClInclude Include="..\..\include\AsstPort.h" />
     <ClInclude Include="AbstractConfiger.h" />
     <ClInclude Include="AbstractImageAnalyzer.h" />
     <ClInclude Include="AbstractResource.h" />
     <ClInclude Include="AbstractTask.h" />
     <ClInclude Include="AbstractTaskPlugin.h" />
     <ClInclude Include="Assistant.h" />
-    <ClInclude Include="AsstDef.h" />
     <ClInclude Include="AsstInfrastDef.h" />
     <ClInclude Include="AsstUtils.hpp" />
     <ClInclude Include="AsstTypes.h" />

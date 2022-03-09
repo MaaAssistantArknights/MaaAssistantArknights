@@ -64,13 +64,13 @@ bool asst::Assistant::connect(const std::string& adb_path, const std::string& ad
     return ret;
 }
 
-PackageTask* asst::Assistant::append_task(const std::string& type, const std::string& params)
+asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, const std::string& params)
 {
     Log.info(__FUNCTION__, type, params);
 
     auto ret = json::parse(params);
     if (!ret) {
-        return nullptr;
+        return -1;
     }
 
     std::shared_ptr<PackageTask> ptr = nullptr;
@@ -85,14 +85,16 @@ PackageTask* asst::Assistant::append_task(const std::string& type, const std::st
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    return m_tasks_queue.emplace(ptr).get();
+    ++m_task_id;
+    m_tasks_list.emplace_back(m_task_id, ptr);
+    return m_task_id;
 }
 
-bool asst::Assistant::set_task_params(PackageTask* handle, const std::string& params)
+bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
 {
-    Log.info(__FUNCTION__, handle, params);
+    Log.info(__FUNCTION__, task_id, params);
 
-    if (!handle) {
+    if (task_id <= 0) {
         return false;
     }
 
@@ -103,7 +105,15 @@ bool asst::Assistant::set_task_params(PackageTask* handle, const std::string& pa
 
     // TODO: 检查任务句柄合法性
 
-    return handle->set_params(ret.value());
+    bool setted = false;
+    for (auto&& [id, ptr] : m_tasks_list) {
+        if (id == task_id) {
+            setted = ptr->set_params(ret.value());
+            break;
+        }
+    }
+
+    return setted;
 }
 
 std::vector<uchar> asst::Assistant::get_image() const
@@ -182,8 +192,7 @@ bool Assistant::stop(bool block)
     if (block) { // 外部调用
         lock = std::unique_lock<std::mutex>(m_mutex);
     }
-    decltype(m_tasks_queue) empty;
-    m_tasks_queue.swap(empty);
+    m_tasks_list.clear();
 
     clear_cache();
 
@@ -194,24 +203,17 @@ void Assistant::working_proc()
 {
     LogTraceFunction;
 
-    std::string pre_taskchain;
     while (!m_thread_exit) {
         //LogTraceScope("Assistant::working_proc Loop");
         std::unique_lock<std::mutex> lock(m_mutex);
 
-        if (!m_thread_idle && !m_tasks_queue.empty()) {
-            const auto task_ptr = m_tasks_queue.front();
-            m_tasks_queue.pop();
+        if (!m_thread_idle && !m_tasks_list.empty()) {
+            const auto& [id, task_ptr] = m_tasks_list.front();
 
-            std::string cur_taskchain = task_ptr->get_task_chain();
-            std::string next_taskchain = m_tasks_queue.empty() ? std::string() : m_tasks_queue.front()->get_task_chain();
             json::value callback_json = json::object{
-                { "taskchain", cur_taskchain },
-                { "pre_taskchain", pre_taskchain }
+                { "taskchain", task_ptr->get_task_chain() }
             };
-            if (cur_taskchain != pre_taskchain) {
-                task_callback(AsstMsg::TaskChainStart, callback_json, this);
-            }
+            task_callback(AsstMsg::TaskChainStart, callback_json, this);
 
             task_ptr->set_exit_flag(&m_thread_idle)
                 .set_ctrler(m_ctrler)
@@ -220,26 +222,25 @@ void Assistant::working_proc()
 
             bool ret = task_ptr->run();
 
-            if (cur_taskchain != next_taskchain) {
-                if (ret) {
-                    task_callback(AsstMsg::TaskChainCompleted, callback_json, this);
-                }
-                else {
-                    task_callback(AsstMsg::TaskChainError, callback_json, this);
-                }
+            m_tasks_list.pop_front();
+
+
+            if (ret) {
+                task_callback(AsstMsg::TaskChainCompleted, callback_json, this);
             }
-            if (m_tasks_queue.empty()) {
-                task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
+            else {
+                task_callback(AsstMsg::TaskChainError, callback_json, this);
             }
 
-            pre_taskchain = cur_taskchain;
+            if (m_tasks_list.empty()) {
+                task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
+            }
 
             auto& delay = Resrc.cfg().get_options().task_delay;
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay),
                 [&]() -> bool { return m_thread_idle; });
         }
         else {
-            pre_taskchain.clear();
             m_thread_idle = true;
             Log.flush();
             m_condvar.wait(lock);

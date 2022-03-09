@@ -106,18 +106,18 @@ bool AsstSetParam(AsstHandle handle, const char* param_id, const char* param_val
     return handle->set_param(param_id, param_value);
 }
 
-TaskHandle ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* params)
+TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* params)
 {
     if (!inited || handle == nullptr) {
-        return nullptr;
+        return -1;
     }
 
     return handle->append_task(type, params);
 }
 
-bool ASSTAPI AsstSetTaskParams(AsstHandle handle, TaskHandle task, const char* params)
+bool ASSTAPI AsstSetTaskParams(AsstHandle handle, TaskId task, const char* params)
 {
-    if (!inited || task == nullptr || handle == nullptr) {
+    if (!inited || handle == nullptr) {
         return false;
     }
     return handle->set_task_params(task, params);
