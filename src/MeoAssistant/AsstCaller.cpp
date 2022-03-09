@@ -97,15 +97,6 @@ bool AsstStop(AsstHandle handle)
     return handle->stop();
 }
 
-bool AsstSetParam(AsstHandle handle, const char* param_id, const char* param_value)
-{
-    if (!inited || handle == nullptr) {
-        return false;
-    }
-
-    return handle->set_param(param_id, param_value);
-}
-
 TaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
 {
     if (!inited || handle == nullptr) {
@@ -113,14 +104,6 @@ TaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
     }
 
     return handle->append_task(type, params);
-}
-
-bool AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params)
-{
-    if (!inited || handle == nullptr) {
-        return false;
-    }
-    return handle->set_task_params(id, params);
 }
 
 unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size)

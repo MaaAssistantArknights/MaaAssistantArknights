@@ -65,7 +65,7 @@ bool asst::InfrastReceptionTask::use_clue()
 
     // 所有的空位分析一次，看看还缺哪些线索
     InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
-    vacancy_analyzer.set_task_data(m_task_data);
+
     vacancy_analyzer.set_to_be_analyzed(clue_suffix);
     if (!vacancy_analyzer.analyze()) {
     }
@@ -102,7 +102,7 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
         }
         // 先识别线索的空位
         InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
-        vacancy_analyzer.set_task_data(m_task_data);
+
         vacancy_analyzer.set_to_be_analyzed({ clue });
         if (!vacancy_analyzer.analyze()) {
             continue;
@@ -110,14 +110,14 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
         // 点开线索的空位
         Rect vacancy = vacancy_analyzer.get_vacancy().cbegin()->second;
         m_ctrler->click(vacancy);
-        int delay = m_task_data->get(clue_vacancy + clue)->rear_delay;
+        int delay = Task.get(clue_vacancy + clue)->rear_delay;
         sleep(delay);
 
         // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
         //swipe_to_the_bottom_of_clue_list_on_the_right();
         image = m_ctrler->get_image();
         InfrastClueImageAnalyzer clue_analyzer(image);
-        clue_analyzer.set_task_data(m_task_data);
+
         if (!clue_analyzer.analyze()) {
             continue;
         }
@@ -145,9 +145,9 @@ bool asst::InfrastReceptionTask::shift()
     LogTraceFunction;
     const auto image = m_ctrler->get_image();
     MatchImageAnalyzer add_analyzer(image);
-    add_analyzer.set_task_data(m_task_data);
 
-    const auto raw_task_ptr = m_task_data->get("InfrastAddOperator" + facility_name() + m_work_mode_name);
+
+    const auto raw_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
     switch (raw_task_ptr->algorithm) {
     case AlgorithmType::JustReturn:
         if (raw_task_ptr->action == ProcessTaskAction::ClickRect) {

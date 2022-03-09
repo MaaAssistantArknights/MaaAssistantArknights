@@ -40,14 +40,14 @@ bool asst::InfrastProductionTask::shift_facility_list()
     if (!facility_list_detect() || need_exit()) {
         return false;
     }
-    const auto tab_task_ptr = m_task_data->get("InfrastFacilityListTab" + facility_name());
+    const auto tab_task_ptr = Task.get("InfrastFacilityListTab" + facility_name());
     MatchImageAnalyzer add_analyzer;
-    add_analyzer.set_task_data(m_task_data);
-    const auto add_task_ptr = m_task_data->get("InfrastAddOperator" + facility_name() + m_work_mode_name);
+
+    const auto add_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
     add_analyzer.set_task_info(add_task_ptr);
     MultiMatchImageAnalyzer locked_analyzer;
-    locked_analyzer.set_task_data(m_task_data);
-    locked_analyzer.set_task_info(m_task_data->get("InfrastOperLocked" + facility_name()));
+
+    locked_analyzer.set_task_info(Task.get("InfrastOperLocked" + facility_name()));
 
     for (; m_cur_facility_index < m_facility_list_tabs.size(); ++m_cur_facility_index) {
         Rect tab = m_facility_list_tabs.at(m_cur_facility_index);
@@ -80,12 +80,12 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 识别当前正在造什么 */
         MatchImageAnalyzer product_analyzer(image);
-        product_analyzer.set_task_data(m_task_data);
+
         auto& all_products = Resrc.infrast().get_facility_info(facility_name()).products;
         std::string cur_product = all_products.at(0);
         double max_score = 0;
         for (const std::string& product : all_products) {
-            product_analyzer.set_task_info(m_task_data->get("InfrastFlag" + product));
+            product_analyzer.set_task_info(Task.get("InfrastFlag" + product));
             if (product_analyzer.analyze()) {
                 double score = product_analyzer.get_result().score;
                 if (score > max_score) {
@@ -182,7 +182,7 @@ size_t asst::InfrastProductionTask::opers_detect()
     const auto image = m_ctrler->get_image();
 
     InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_task_data(m_task_data);
+
     oper_analyzer.set_facility(facility_name());
 
     if (!oper_analyzer.analyze()) {
@@ -192,7 +192,7 @@ size_t asst::InfrastProductionTask::opers_detect()
     max_num_of_opers_per_page = (std::max)(max_num_of_opers_per_page, cur_all_opers.size());
 
     const int face_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
-        m_task_data->get("InfrastOperFaceHash"))->dist_threshold;
+        Task.get("InfrastOperFaceHash"))->dist_threshold;
     int cur_available_num = static_cast<int>(cur_all_opers.size());
     for (const auto& cur_oper : cur_all_opers) {
         if (cur_oper.skills.empty()) {
@@ -296,7 +296,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     }
 
     const int name_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
-        m_task_data->get("InfrastOperNameHash"))->dist_threshold;
+        Task.get("InfrastOperNameHash"))->dist_threshold;
 
     // 遍历所有组合，找到效率最高的
     auto& all_group = Resrc.infrast().get_skills_group(facility_name());
@@ -456,9 +456,9 @@ bool asst::InfrastProductionTask::opers_choose()
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
 
     const int name_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
-        m_task_data->get("InfrastOperNameHash"))->dist_threshold;
+        Task.get("InfrastOperNameHash"))->dist_threshold;
     const int face_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
-        m_task_data->get("InfrastOperFaceHash"))->dist_threshold;
+        Task.get("InfrastOperFaceHash"))->dist_threshold;
     while (true) {
         if (need_exit()) {
             return false;
@@ -466,7 +466,7 @@ bool asst::InfrastProductionTask::opers_choose()
         const auto image = m_ctrler->get_image();
 
         InfrastOperImageAnalyzer oper_analyzer(image);
-        oper_analyzer.set_task_data(m_task_data);
+
         oper_analyzer.set_facility(facility_name());
 
         if (!oper_analyzer.analyze()) {
@@ -624,8 +624,8 @@ bool asst::InfrastProductionTask::facility_list_detect()
 
     const auto image = m_ctrler->get_image();
     MultiMatchImageAnalyzer mm_analyzer(image);
-    mm_analyzer.set_task_data(m_task_data);
-    mm_analyzer.set_task_info(m_task_data->get("InfrastFacilityListTab" + facility_name()));
+
+    mm_analyzer.set_task_info(Task.get("InfrastFacilityListTab" + facility_name()));
 
     if (!mm_analyzer.analyze()) {
         return false;

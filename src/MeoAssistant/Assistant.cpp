@@ -27,7 +27,6 @@ Assistant::Assistant(AsstApiCallback callback, void* callback_arg)
     LogTraceFunction;
 
     m_status = std::make_shared<RuntimeStatus>();
-    m_task_data = std::make_shared<TaskData>();
     m_ctrler = std::make_shared<Controller>(task_callback, (void*)this);
 
     m_working_thread = std::thread(&Assistant::working_proc, this);
@@ -148,35 +147,6 @@ bool asst::Assistant::ctrler_click(int x, int y, bool block)
     return true;
 }
 
-bool asst::Assistant::set_param(const std::string& param_id, const std::string& param_value)
-{
-    Log.info(__FUNCTION__, param_id, param_value);
-
-    using SetParamFuncType = std::function<bool(const json::value&)>;
-
-    static const std::unordered_map<std::string, SetParamFuncType> ParamsMapping = {
-        {AsstParamIdPenguinId, std::bind(&Assistant::set_penguid_id, this, std::placeholders::_1)},
-        {AsstParamIdOcrText, std::bind(&Assistant::set_ocr_text, this, std::placeholders::_1)},
-    };
-
-    if (const auto iter = ParamsMapping.find(param_id);
-        iter != ParamsMapping.cend()) {
-        const auto& json_opt = json::parse(param_value);
-        if (!json_opt) {
-            Log.error("Param Value Parsing Failed", param_value);
-            return false;
-        }
-        const auto& root = json_opt.value();
-
-        std::unique_lock<std::mutex> lock(m_mutex);
-        return iter->second(root);
-    }
-    else {
-        Log.error("Invaild Param Id", param_id);
-        return false;
-    }
-}
-
 bool asst::Assistant::start(bool block)
 {
     LogTraceFunction;
@@ -233,8 +203,7 @@ void Assistant::working_proc()
 
             task_ptr->set_exit_flag(&m_thread_idle)
                 .set_ctrler(m_ctrler)
-                .set_status(m_status)
-                .set_task_data(m_task_data);
+                .set_status(m_status);
 
             bool ret = task_ptr->run();
 
@@ -320,43 +289,4 @@ void Assistant::clear_cache()
 {
     m_status->clear_data();
     //Task.clear_cache();
-}
-
-bool asst::Assistant::set_penguid_id(const json::value& root)
-{
-    if (!(root.is_object() && root.contains("id") && root.at("id").is_string())) {
-        Log.error("Json Field error");
-        return false;
-    }
-    auto& param = Resrc.cfg().get_options().penguin_report.extra_param;
-    std::string id = root.at("id").as_string();
-    if (id.empty()) {
-        param.clear();
-    }
-    else {
-        param = "-H \"authorization: PenguinID " + id + "\"";
-    }
-    return true;
-}
-
-bool asst::Assistant::set_ocr_text(const json::value& root)
-{
-    bool ret = true;
-    for (auto&& [key, text_arr] : root.as_object()) {
-        if (!text_arr.is_array()) {
-            Log.error("Json Field error");
-            return false;
-        }
-        std::vector<std::string> text_vec;
-        for (auto&& text : text_arr.as_array()) {
-            if (!text.is_string()) {
-                Log.error("Json Field error");
-                return false;
-            }
-            text_vec.emplace_back(text.as_string());
-        }
-        ret &= m_task_data->set_ocr_text(key, std::move(text_vec));
-    }
-
-    return ret;
 }

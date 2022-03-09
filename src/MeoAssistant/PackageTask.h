@@ -26,7 +26,6 @@ namespace asst
         virtual AbstractTask& set_retry_times(int times) noexcept;
         virtual AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept;
         virtual AbstractTask& set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
-        virtual AbstractTask& set_task_data(std::shared_ptr<TaskData> task_data) noexcept;
 
     protected:
         virtual bool _run() override { return true; }

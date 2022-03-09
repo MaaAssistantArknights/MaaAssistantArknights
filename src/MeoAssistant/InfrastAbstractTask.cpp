@@ -78,7 +78,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
 
     InfrastFacilityImageAnalyzer analyzer(image);
     analyzer.set_to_be_analyzed({ facility_name() });
-    analyzer.set_task_data(m_task_data);
+
     if (!analyzer.analyze()) {
         Log.trace("result is empty");
         return false;
@@ -94,7 +94,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
 
     m_ctrler->click(rect);
 
-    const auto enter_task_ptr = m_task_data->get("InfrastEnterFacility");
+    const auto enter_task_ptr = Task.get("InfrastEnterFacility");
     sleep(enter_task_ptr->rear_delay);
 
     return true;
@@ -111,9 +111,9 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
 void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
 {
     LogTraceFunction;
-    static Rect begin_rect = m_task_data->get("InfrastOperListSwipeBegin")->specific_rect;
-    static Rect end_rect = m_task_data->get("InfrastOperListSwipeEnd")->specific_rect;
-    static int duration = m_task_data->get("InfrastOperListSwipeBegin")->pre_delay;
+    static Rect begin_rect = Task.get("InfrastOperListSwipeBegin")->specific_rect;
+    static Rect end_rect = Task.get("InfrastOperListSwipeEnd")->specific_rect;
+    static int duration = Task.get("InfrastOperListSwipeBegin")->pre_delay;
 
     if (!reverse) {
         m_last_swipe_id = m_ctrler->swipe(begin_rect, end_rect, duration, false, 0, true);
@@ -126,7 +126,7 @@ void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
 void asst::InfrastAbstractTask::await_swipe()
 {
     LogTraceFunction;
-    static int extra_delay = m_task_data->get("InfrastOperListSwipeBegin")->rear_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeBegin")->rear_delay;
 
     m_ctrler->wait(m_last_swipe_id);
     sleep(extra_delay);
@@ -165,11 +165,11 @@ void asst::InfrastAbstractTask::swipe_of_operlist(bool reverse)
 void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 {
     LogTraceFunction;
-    static Rect begin_rect = m_task_data->get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
-    static Rect end_rect = m_task_data->get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
-    static int duration = m_task_data->get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = m_task_data->get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
-    static int cfg_loop_times = m_task_data->get("InfrastOperListSwipeToTheLeftBegin")->max_times;
+    static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
+    static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
+    static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static int cfg_loop_times = Task.get("InfrastOperListSwipeToTheLeftBegin")->max_times;
 
     for (int i = 0; i != cfg_loop_times * loop_times; ++i) {
         if (need_exit()) {
@@ -183,10 +183,10 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
 {
     LogTraceFunction;
-    static Rect begin_rect = m_task_data->get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
-    static Rect end_rect = m_task_data->get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
-    static int duration = m_task_data->get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = m_task_data->get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
+    static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
+    static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
 
     m_ctrler->swipe(end_rect, begin_rect, duration, true, extra_delay, false);
 }
@@ -194,10 +194,10 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
 void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
 {
     LogTraceFunction;
-    static Rect begin_rect = m_task_data->get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
-    static Rect end_rect = m_task_data->get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
-    static int duration = m_task_data->get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = m_task_data->get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
+    static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
+    static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
 
     m_ctrler->swipe(begin_rect, end_rect, duration, true, extra_delay, false);
 }

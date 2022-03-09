@@ -35,7 +35,6 @@ namespace asst
         virtual AbstractTask& set_retry_times(int times) noexcept;
         virtual AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept;
         virtual AbstractTask& set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
-        virtual AbstractTask& set_task_data(std::shared_ptr<TaskData> task_data) noexcept;
 
         template<typename PluginType>
         std::shared_ptr<PluginType> regiseter_plugin()
@@ -75,6 +74,5 @@ namespace asst
         std::set<TaskPluginPtr> m_plugins;
         std::shared_ptr<Controller> m_ctrler = nullptr;
         std::shared_ptr<RuntimeStatus> m_status = nullptr;
-        std::shared_ptr<TaskData> m_task_data = nullptr;
     };
 }

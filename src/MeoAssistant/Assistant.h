@@ -3,15 +3,11 @@
 #include <condition_variable>
 #include <memory>
 #include <mutex>
-#include <optional>
 #include <queue>
 #include <thread>
-#include <unordered_map>
 
-#include "AbstractTask.h"
 #include "AsstTypes.h"
 #include "AsstMsg.h"
-#include "AsstInfrastDef.h"
 
 typedef unsigned char uchar;
 
@@ -23,10 +19,8 @@ namespace cv
 namespace asst
 {
     class Controller;
-    class Identify;
-    class Controller;
-    class TaskData;
     class PackageTask;
+    class RuntimeStatus;
 
     class Assistant
     {
@@ -50,31 +44,19 @@ namespace asst
         std::vector<uchar> get_image() const;
         bool ctrler_click(int x, int y, bool block = true);
 
-        bool set_param(const std::string& param_id, const std::string& param_value);
-
-        static constexpr int ProcessTaskRetryTimesDefault = AbstractTask::RetryTimesDefault;
-        static constexpr int OpenRecruitTaskRetryTimesDefault = 5;
-        static constexpr int AutoRecruitTaskRetryTimesDefault = 5;
-
     private:
         void working_proc();
         void msg_proc();
         static void task_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
 
-        bool append_process_task(const std::string& task_name, std::string task_chain = std::string(), int retry_times = ProcessTaskRetryTimesDefault);
         void append_callback(AsstMsg msg, json::value detail);
         void clear_cache();
-
-        /* set params */
-        bool set_penguid_id(const json::value& root);
-        bool set_ocr_text(const json::value& root);
 
         bool m_inited = false;
         std::string m_uuid;
 
         std::shared_ptr<Controller> m_ctrler = nullptr;
         std::shared_ptr<RuntimeStatus> m_status = nullptr;
-        std::shared_ptr<TaskData> m_task_data = nullptr;
 
         bool m_thread_exit = false;
         std::list<std::pair<int, std::shared_ptr<PackageTask>>> m_tasks_list;

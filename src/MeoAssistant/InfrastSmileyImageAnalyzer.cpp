@@ -15,11 +15,11 @@ bool asst::InfrastSmileyImageAnalyzer::analyze()
     m_result.clear();
 
     MultiMatchImageAnalyzer mm_analyzer(m_image);
-    mm_analyzer.set_task_data(m_task_data);
+
 
     decltype(m_result) temp_result;
     for (const auto& [type, task_name] : smiley_map) {
-        mm_analyzer.set_task_info(m_task_data->get(task_name));
+        mm_analyzer.set_task_info(Task.get(task_name));
         mm_analyzer.set_roi(m_roi);
         if (!mm_analyzer.analyze()) {
             continue;
