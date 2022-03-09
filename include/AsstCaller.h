@@ -5,14 +5,13 @@
 namespace asst
 {
     class Assistant;
-    class PackageTask;
 }
 
 #ifdef __cplusplus
 extern "C" {
 #endif
     typedef asst::Assistant* AsstHandle;
-    typedef asst::PackageTask* TaskHandle;
+    typedef int TaskId;
     typedef void(ASST_CALL* AsstApiCallback)(int msg, const char* detail_json, void* custom_arg);
 
     bool ASSTAPI AsstLoadResource(const char* path);
@@ -23,8 +22,8 @@ extern "C" {
 
     bool ASSTAPI AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config);
 
-    TaskHandle ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* params);
-    bool ASSTAPI AsstSetTaskParams(AsstHandle handle, TaskHandle task, const char* params);
+    TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* params);
+    bool ASSTAPI AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params);
 
     bool ASSTAPI AsstStart(AsstHandle handle);
     bool ASSTAPI AsstStop(AsstHandle handle);
