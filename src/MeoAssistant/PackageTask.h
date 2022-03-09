@@ -20,7 +20,7 @@ namespace asst
 
         virtual bool run() override;
 
-        virtual bool set_params(const json::value& params) = 0;
+        virtual bool set_params([[maybe_unused]] const json::value& params) { return true; }
 
         virtual AbstractTask& set_exit_flag(bool* exit_flag) noexcept;
         virtual AbstractTask& set_retry_times(int times) noexcept;

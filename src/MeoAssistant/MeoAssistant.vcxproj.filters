@@ -276,6 +276,15 @@
     <ClInclude Include="..\..\include\AsstPort.h">
       <Filter>头文件\Caller</Filter>
     </ClInclude>
+    <ClInclude Include="AwardTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="VisitTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="MallTask.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -445,6 +454,15 @@
     </ClCompile>
     <ClCompile Include="StartUpTask.cpp">
       <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="AwardTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="VisitTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="MallTask.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

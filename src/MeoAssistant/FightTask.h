@@ -15,7 +15,7 @@ namespace asst
 
         virtual bool set_params(const json::value& params) override;
 
-        static constexpr const char* TaskChain = "Fight";
+        static constexpr const char* TaskType = "Fight";
     protected:
 
         std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;

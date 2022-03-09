@@ -25,9 +25,11 @@
     <ClInclude Include="AsstTypes.h" />
     <ClInclude Include="AsstMsg.h" />
     <ClInclude Include="AutoRecruitTask.h" />
+    <ClInclude Include="AwardTask.h" />
     <ClInclude Include="BattleImageAnalyzer.h" />
     <ClInclude Include="BattlePerspectiveImageAnalyzer.h" />
     <ClInclude Include="FightTask.h" />
+    <ClInclude Include="MallTask.h" />
     <ClInclude Include="PackageTask.h" />
     <ClInclude Include="RoguelikeBattleTaskPlugin.h" />
     <ClInclude Include="CreditShopImageAnalyzer.h" />
@@ -75,6 +77,7 @@
     <ClInclude Include="TilePack.h" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="VisitTask.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractConfiger.cpp" />
@@ -83,9 +86,11 @@
     <ClCompile Include="AbstractTask.cpp" />
     <ClCompile Include="AbstractTaskPlugin.cpp" />
     <ClCompile Include="AutoRecruitTask.cpp" />
+    <ClCompile Include="AwardTask.cpp" />
     <ClCompile Include="BattleImageAnalyzer.cpp" />
     <ClCompile Include="BattlePerspectiveImageAnalyzer.cpp" />
     <ClCompile Include="FightTask.cpp" />
+    <ClCompile Include="MallTask.cpp" />
     <ClCompile Include="PackageTask.cpp" />
     <ClCompile Include="RoguelikeBattleTaskPlugin.cpp" />
     <ClCompile Include="CreditShopImageAnalyzer.cpp" />
@@ -133,6 +138,7 @@
     <ClCompile Include="TemplResource.cpp" />
     <ClCompile Include="TilePack.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="VisitTask.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json" />
