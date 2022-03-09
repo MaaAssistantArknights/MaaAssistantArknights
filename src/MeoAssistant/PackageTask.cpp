@@ -12,6 +12,9 @@ bool asst::PackageTask::run()
         if (need_exit()) {
             return false;
         }
+        if (!task_ptr) {
+            continue;
+        }
 
         task_ptr->set_exit_flag(m_exit_flag)
             .set_ctrler(m_ctrler)

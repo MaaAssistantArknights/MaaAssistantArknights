@@ -14,6 +14,9 @@
 
 #include "FightTask.h"
 #include "StartUpTask.h"
+#include "AwardTask.h"
+#include "VisitTask.h"
+#include "MallTask.h"
 
 using namespace asst;
 
@@ -75,13 +78,25 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     }
 
     std::shared_ptr<PackageTask> ptr = nullptr;
-    if (type == "Fight") {
+    if (type == FightTask::TaskType) {
         ptr = std::make_shared<FightTask>(task_callback, (void*)this);
-        ptr->set_params(ret.value());
     }
-    else if (type == "StartUp") {
+    else if (type == StartUpTask::TaskType) {
         ptr = std::make_shared<StartUpTask>(task_callback, (void*)this);
-        ptr->set_params(ret.value());
+    }
+    else if (type == AwardTask::TaskType) {
+        ptr = std::make_shared<AwardTask>(task_callback, (void*)this);
+    }
+    else if (type == VisitTask::TaskType) {
+        ptr = std::make_shared<VisitTask>(task_callback, (void*)this);
+    }
+    else if (type == MallTask::TaskType) {
+        ptr = std::make_shared<MallTask>(task_callback, (void*)this);
+    }
+
+    bool params_ret = ptr->set_params(ret.value());
+    if (!params_ret) {
+        return 0;
     }
 
     std::unique_lock<std::mutex> lock(m_mutex);

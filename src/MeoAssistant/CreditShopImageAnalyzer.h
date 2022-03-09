@@ -11,6 +11,9 @@ namespace asst
 
         virtual bool analyze() override;
 
+        void set_black_list(std::vector<std::string> black_list);
+        void set_white_list(std::vector<std::string> white_list);
+
         const std::vector<Rect>& get_result() const noexcept
         {
             return m_result;
@@ -33,5 +36,8 @@ namespace asst
         std::vector<Rect> m_commoditys;
         std::vector<Rect> m_need_to_buy;
         std::vector<Rect> m_result;
+
+        std::vector<std::string> m_shopping_list;
+        bool m_is_white_list = false;
     };
 }

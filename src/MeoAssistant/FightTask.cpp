@@ -4,10 +4,10 @@
 #include "StageDropsTaskPlugin.h"
 
 asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
-    : PackageTask(callback, callback_arg, TaskChain),
-    m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskChain)),
-    m_stage_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskChain)),
-    m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskChain))
+    : PackageTask(callback, callback_arg, TaskType),
+    m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType)),
+    m_stage_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType)),
+    m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType))
 {
     // 进入选关界面（主界面的“终端”点进去）
     m_start_up_task_ptr->set_tasks({ "StageBegin" })
@@ -24,10 +24,15 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
         .set_times_limit("StoneConfirm", 0);
 
     // 开始战斗任务
-    m_fight_task_ptr->set_tasks({ "FightBegin" });
-
+    m_fight_task_ptr->set_tasks({ "FightBegin" })
+        .set_times_limit("MedicineConfirm", 0)
+        .set_times_limit("StoneConfirm", 0)
+        .set_times_limit("StartButton1", INT_MAX)
+        .set_times_limit("StartButton2", INT_MAX);
     m_fight_task_ptr->regiseter_plugin<StageDropsTaskPlugin>()
         ->set_retry_times(0);
+
+    m_subtasks.emplace_back(m_fight_task_ptr);
 }
 
 bool asst::FightTask::set_params(const json::value& params)

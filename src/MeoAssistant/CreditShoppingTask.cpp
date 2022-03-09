@@ -11,6 +11,18 @@
 #include "OcrImageAnalyzer.h"
 #include "Resource.h"
 
+void asst::CreditShoppingTask::set_black_list(std::vector<std::string> black_list)
+{
+    m_shopping_list = std::move(black_list);
+    m_is_white_list = false;
+}
+
+void asst::CreditShoppingTask::set_white_list(std::vector<std::string> black_list)
+{
+    m_shopping_list = std::move(black_list);
+    m_is_white_list = true;
+}
+
 bool asst::CreditShoppingTask::_run()
 {
     const cv::Mat image = m_ctrler->get_image();
