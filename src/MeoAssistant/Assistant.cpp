@@ -70,7 +70,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     auto ret = json::parse(params);
     if (!ret) {
-        return -1;
+        return 0;
     }
 
     std::shared_ptr<PackageTask> ptr = nullptr;
