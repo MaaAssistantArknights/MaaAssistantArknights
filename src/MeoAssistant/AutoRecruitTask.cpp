@@ -5,7 +5,7 @@
 #include "Controller.h"
 #include "RecruitImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "RecruitTask.h"
+#include "RecruitCalcTask.h"
 
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_level(std::vector<int> select_level) noexcept
 {
@@ -108,7 +108,7 @@ bool asst::AutoRecruitTask::recruit_index(size_t index)
 
 bool asst::AutoRecruitTask::calc_and_recruit()
 {
-    RecruitTask recurit_task(m_callback, m_callback_arg, m_task_chain);
+    RecruitCalcTask recurit_task(m_callback, m_callback_arg, m_task_chain);
     recurit_task.set_retry_times(m_retry_times);
     recurit_task.set_param(m_select_level, true);
 

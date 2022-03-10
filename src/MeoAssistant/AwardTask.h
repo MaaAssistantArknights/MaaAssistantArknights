@@ -5,7 +5,7 @@ namespace asst
 {
     class ProcessTask;
 
-    class AwardTask : public PackageTask
+    class AwardTask final : public PackageTask
     {
     public:
         AwardTask(AsstCallback callback, void* callback_arg);
