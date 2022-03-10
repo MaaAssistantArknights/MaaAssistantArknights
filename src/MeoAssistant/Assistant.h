@@ -3,6 +3,7 @@
 #include <condition_variable>
 #include <memory>
 #include <mutex>
+#include <list>
 #include <queue>
 #include <thread>
 
