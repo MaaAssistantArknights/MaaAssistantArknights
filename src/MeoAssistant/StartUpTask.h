@@ -5,13 +5,11 @@ namespace asst
 {
     class ProcessTask;
 
-    class StartUpTask : public PackageTask
+    class StartUpTask final : public PackageTask
     {
     public:
         StartUpTask(AsstCallback callback, void* callback_arg);
         virtual ~StartUpTask() = default;
-
-        virtual bool set_params(const json::value& params) override;
 
         static constexpr const char* TaskType = "StartUp";
     protected:

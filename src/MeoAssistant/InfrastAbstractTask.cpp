@@ -11,6 +11,12 @@
 #include "Resource.h"
 #include "ProcessTask.h"
 
+asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain)
+    : AbstractTask(callback, callback_arg, task_chain)
+{
+    m_retry_times = TaskRetryTimes;
+}
+
 asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexcept
 {
     m_work_mode = work_mode;

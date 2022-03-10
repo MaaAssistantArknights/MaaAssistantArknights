@@ -8,7 +8,7 @@ namespace asst
     class InfrastAbstractTask : public AbstractTask
     {
     public:
-        using AbstractTask::AbstractTask;
+        InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain);
 
         virtual ~InfrastAbstractTask() = default;
         InfrastAbstractTask& set_work_mode(infrast::WorkMode work_mode) noexcept;
@@ -20,6 +20,7 @@ namespace asst
         virtual size_t max_num_of_opers() const noexcept { return 1ULL; }
 
         constexpr static int OperSelectRetryTimes = 3;
+        constexpr static int TaskRetryTimes = 3;
     protected:
         virtual bool on_run_fails() override;
 
@@ -38,7 +39,7 @@ namespace asst
         virtual bool click_confirm_button(); // 点击干员选择页面的“确认”按钮
 
         int m_last_swipe_id = 0;
-        infrast::WorkMode m_work_mode = infrast::WorkMode::Gentle;
+        infrast::WorkMode m_work_mode = infrast::WorkMode::Aggressive;
         std::string m_work_mode_name = "Gentle";
         double m_mood_threshold = 0;
         mutable std::string m_facility_name_cache;

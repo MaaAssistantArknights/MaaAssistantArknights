@@ -11,12 +11,3 @@ asst::StartUpTask::StartUpTask(AsstCallback callback, void* callback_arg)
         .set_times_limit("Terminal", 0);
     m_subtasks.emplace_back(m_start_up_task_ptr);
 }
-
-bool asst::StartUpTask::set_params([[maybe_unused]] const json::value& params)
-{
-    //if (!runned) {
-    //    m_subtasks.clear();
-    //    m_subtasks.emplace_back(m_start_up_task_ptr);
-    //}
-    return true;
-}

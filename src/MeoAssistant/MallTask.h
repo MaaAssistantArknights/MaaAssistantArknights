@@ -6,7 +6,7 @@ namespace asst
     class ProcessTask;
     class CreditShoppingTask;
 
-    class MallTask : public PackageTask
+    class MallTask final : public PackageTask
     {
     public:
         MallTask(AsstCallback callback, void* callback_arg);

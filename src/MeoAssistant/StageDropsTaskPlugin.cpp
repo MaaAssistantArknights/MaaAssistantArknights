@@ -42,6 +42,12 @@ void asst::StageDropsTaskPlugin::set_task_ptr(AbstractTask* ptr)
     m_cast_ptr = dynamic_cast<ProcessTask*>(ptr);
 }
 
+bool asst::StageDropsTaskPlugin::set_penguin_id(std::string id)
+{
+    m_penguin_id = std::move(id);
+    return true;
+}
+
 bool asst::StageDropsTaskPlugin::_run()
 {
     LogTraceFunction;
@@ -175,7 +181,12 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
 
     std::string body_escape = utils::string_replace_all(body.to_string(), "\"", "\\\"");
     std::string cmd_line = utils::string_replace_all(opt.penguin_report.cmd_format, "[body]", body_escape);
-    cmd_line = utils::string_replace_all(cmd_line, "[extra]", opt.penguin_report.extra_param);
+
+    std::string extra_param;
+    if (!m_penguin_id.empty()) {
+        extra_param = "-H \"authorization: PenguinID " + m_penguin_id + "\"";
+    }
+    cmd_line = utils::string_replace_all(cmd_line, "[extra]", extra_param);
 
     Log.trace("request_penguin |", cmd_line);
 

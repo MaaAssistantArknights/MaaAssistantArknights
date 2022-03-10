@@ -5,18 +5,21 @@
 #include <meojson/json.hpp>
 #include <opencv2/opencv.hpp>
 
+#include "AsstDef.h"
 #include "AsstUtils.hpp"
 #include "Controller.h"
 #include "Logger.hpp"
 #include "Resource.h"
 #include "RuntimeStatus.h"
-#include "AsstDef.h"
 
 #include "FightTask.h"
 #include "StartUpTask.h"
 #include "AwardTask.h"
 #include "VisitTask.h"
 #include "MallTask.h"
+#include "InfrastTask.h"
+#include "RecruitTask.h"
+#include "RoguelikeTask.h"
 
 using namespace asst;
 
@@ -77,6 +80,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     }
 
     std::shared_ptr<PackageTask> ptr = nullptr;
+
     if (type == FightTask::TaskType) {
         ptr = std::make_shared<FightTask>(task_callback, (void*)this);
     }
@@ -91,6 +95,15 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     }
     else if (type == MallTask::TaskType) {
         ptr = std::make_shared<MallTask>(task_callback, (void*)this);
+    }
+    else if (type == InfrastTask::TaskType) {
+        ptr = std::make_shared<InfrastTask>(task_callback, (void*)this);
+    }
+    else if (type == RecruitTask::TaskType) {
+        ptr = std::make_shared<RecruitTask>(task_callback, (void*)this);
+    }
+    else if (type == RoguelikeTask::TaskType) {
+        ptr = std::make_shared<RoguelikeTask>(task_callback, (void*)this);
     }
 
     bool params_ret = ptr->set_params(ret.value());

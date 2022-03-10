@@ -243,7 +243,7 @@
     <ClInclude Include="CreditShoppingTask.h">
       <Filter>头文件\Task\Sub</Filter>
     </ClInclude>
-    <ClInclude Include="RecruitTask.h">
+    <ClInclude Include="RecruitCalcTask.h">
       <Filter>头文件\Task\Sub</Filter>
     </ClInclude>
     <ClInclude Include="BattleImageAnalyzer.h">
@@ -283,6 +283,15 @@
       <Filter>头文件\Task</Filter>
     </ClInclude>
     <ClInclude Include="MallTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="RecruitTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
   </ItemGroup>
@@ -422,7 +431,7 @@
     <ClCompile Include="CreditShoppingTask.cpp">
       <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
-    <ClCompile Include="RecruitTask.cpp">
+    <ClCompile Include="RecruitCalcTask.cpp">
       <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
     <ClCompile Include="ProcessTask.cpp">
@@ -462,6 +471,15 @@
       <Filter>源文件\Task</Filter>
     </ClCompile>
     <ClCompile Include="MallTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="RecruitTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeTask.cpp">
       <Filter>源文件\Task</Filter>
     </ClCompile>
   </ItemGroup>

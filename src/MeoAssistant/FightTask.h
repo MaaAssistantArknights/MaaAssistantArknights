@@ -6,8 +6,9 @@
 namespace asst
 {
     class ProcessTask;
+    class StageDropsTaskPlugin;
 
-    class FightTask : public PackageTask
+    class FightTask final : public PackageTask
     {
     public:
         FightTask(AsstCallback callback, void* callback_arg);
@@ -21,5 +22,6 @@ namespace asst
         std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;
         std::shared_ptr<ProcessTask> m_stage_task_ptr = nullptr;
         std::shared_ptr<ProcessTask> m_fight_task_ptr = nullptr;
+        std::shared_ptr<StageDropsTaskPlugin> m_stage_drops_plugin_ptr = nullptr;
     };
 }

@@ -23,7 +23,6 @@ namespace asst
     {
         bool enable = false;
         std::string cmd_format;             // 命令格式
-        std::string extra_param;            // 额外参数
         std::string server;                 // 上传参数中"server"字段，"CN", "US", "JP" and "KR".
     };
 

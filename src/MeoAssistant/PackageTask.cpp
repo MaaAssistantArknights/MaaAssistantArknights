@@ -4,7 +4,7 @@
 
 bool asst::PackageTask::run()
 {
-    runned = true;
+    m_runned = true;
 
     const auto task_delay = Resrc.cfg().get_options().task_delay;
 
