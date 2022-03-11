@@ -105,6 +105,10 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     else if (type == RoguelikeTask::TaskType) {
         ptr = std::make_shared<RoguelikeTask>(task_callback, (void*)this);
     }
+    else {
+        Log.error(__FUNCTION__, "| invalid type:", type);
+        return 0;
+    }
 
     bool params_ret = ptr->set_params(ret.value());
     if (!params_ret) {
