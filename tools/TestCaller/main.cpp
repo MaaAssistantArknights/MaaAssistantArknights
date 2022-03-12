@@ -15,13 +15,16 @@ int main(int argc, char** argv)
     // 若使用 VS，请先设置 TestCaller 属性-调试-工作目录为 $(TargetDir)
     AsstLoadResource(get_cur_dir().c_str());
 
+    // 增量更新国际服的资源
+    //AsstLoadResource((get_cur_dir() + R"(/resource/international/US)").c_str());
+
     auto ptr = AsstCreate();
     if (ptr == nullptr) {
         std::cerr << "create failed" << std::endl;
         return -1;
     }
 
-    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", "");
+    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:7555", "");
     if (!connected) {
         std::cerr << "connect failed" << std::endl;
         AsstDestroy(ptr);
@@ -32,58 +35,58 @@ int main(int argc, char** argv)
 
     /* 详细参数可参考 docs / 集成文档.md */
 
-    AsstAppendTask(ptr, "StartUp", R"({})");
+    //AsstAppendTask(ptr, "StartUp", R"({})");
 
     AsstAppendTask(ptr, "Fight", R"(
 {
-    "stage": "CE-5"
+    "stage": ""
 }
     )");
 
-    AsstAppendTask(ptr, "Recruit", R"(
-{
-    "select":[4],
-    "confirm":[3,4],
-    "times":4
-}
-    )");
-
-    AsstAppendTask(ptr, "Infrast", R"(
-{
-    "facility": ["Mfg", "Trade", "Power", "Control", "Reception", "Office", "Dorm"],
-    "drones": "Money"
-}
-)");
-
-    AsstAppendTask(ptr, "Visit", R"({})");
-
-    AsstAppendTask(ptr, "Mall", R"(
-{
-    "shopping": true,
-    "is_black_list": false,
-    "shopping_list": [
-        "家具",
-        "碳"
-    ]
-}
-)");
-    AsstAppendTask(ptr, "Award", R"({})");
-
-    AsstAppendTask(ptr, "Roguelike", R"(
-{
-    "opers": [
-        {
-            "name": "帕拉斯"
-        },
-        {
-            "name": "梓兰"
-        },
-        {
-            "name": "安赛尔"
-        }
-    ]
-}
-)");
+    //    AsstAppendTask(ptr, "Recruit", R"(
+    //{
+    //    "select":[4],
+    //    "confirm":[3,4],
+    //    "times":4
+    //}
+    //    )");
+    //
+    //    AsstAppendTask(ptr, "Infrast", R"(
+    //{
+    //    "facility": ["Mfg", "Trade", "Power", "Control", "Reception", "Office", "Dorm"],
+    //    "drones": "Money"
+    //}
+    //)");
+    //
+    //    AsstAppendTask(ptr, "Visit", R"({})");
+    //
+    //    AsstAppendTask(ptr, "Mall", R"(
+    //{
+    //    "shopping": true,
+    //    "is_black_list": false,
+    //    "shopping_list": [
+    //        "家具",
+    //        "碳"
+    //    ]
+    //}
+    //)");
+    //    AsstAppendTask(ptr, "Award", R"({})");
+    //
+    //    AsstAppendTask(ptr, "Roguelike", R"(
+    //{
+    //    "opers": [
+    //        {
+    //            "name": "帕拉斯"
+    //        },
+    //        {
+    //            "name": "梓兰"
+    //        },
+    //        {
+    //            "name": "安赛尔"
+    //        }
+    //    ]
+    //}
+    //)");
 
     AsstStart(ptr);
 

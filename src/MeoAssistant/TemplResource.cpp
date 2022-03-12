@@ -25,12 +25,15 @@ bool asst::TemplResource::load(const std::string& dir)
             cv::Mat templ = cv::imread(filepath);
             emplace_templ(filename, std::move(templ));
         }
+        else if (m_loaded) {
+            continue;
+        }
         else {
             m_last_error = filepath + " not exists";
             return false;
         }
     }
-
+    m_loaded = true;
     return true;
 }
 
@@ -52,5 +55,5 @@ const cv::Mat asst::TemplResource::get_templ(const std::string& key) const noexc
 
 void asst::TemplResource::emplace_templ(std::string key, cv::Mat templ)
 {
-    m_templs.emplace(std::move(key), std::move(templ));
+    m_templs[std::move(key)] = std::move(templ);
 }

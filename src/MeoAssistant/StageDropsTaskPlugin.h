@@ -20,6 +20,7 @@ namespace asst
         virtual void set_task_ptr(AbstractTask* ptr) override;
 
         bool set_penguin_id(std::string id);
+        bool set_server(std::string server);
     private:
         virtual bool _run() override;
 
@@ -35,5 +36,6 @@ namespace asst
         std::vector<std::future<void>> m_upload_pending;
         ProcessTask* m_cast_ptr = nullptr;
         std::string m_penguin_id;
+        std::string m_server = "CN";
     };
 }

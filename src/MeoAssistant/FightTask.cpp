@@ -46,11 +46,17 @@ bool asst::FightTask::set_params(const json::value& params)
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
     std::string penguin_id = params.get("penguin_id", "");
+    std::string server = params.get("server", "CN");
 
     if (!m_runned) {
-        m_start_up_task_ptr->set_enable(true);
-
-        m_stage_task_ptr->set_enable(true);
+        if (stage.empty()) {
+            m_start_up_task_ptr->set_enable(false);
+            m_stage_task_ptr->set_enable(false);
+        }
+        else {
+            m_start_up_task_ptr->set_enable(true);
+            m_stage_task_ptr->set_enable(true);
+        }
         m_stage_task_ptr->set_tasks({ stage });
     }
 
