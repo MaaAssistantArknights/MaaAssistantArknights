@@ -28,6 +28,13 @@ bool asst::CreditShoppingTask::_run()
     const cv::Mat image = m_ctrler->get_image();
 
     CreditShopImageAnalyzer shop_analyzer(image);
+    if (m_is_white_list) {
+        shop_analyzer.set_white_list(m_shopping_list);
+    }
+    else {
+        shop_analyzer.set_black_list(m_shopping_list);
+    }
+
     if (!shop_analyzer.analyze()) {
         return false;
     }
