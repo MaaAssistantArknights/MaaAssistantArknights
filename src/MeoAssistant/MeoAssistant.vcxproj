@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\AsstCaller.h" />
-    <ClInclude Include="..\..\include\AsstDef.h" />
     <ClInclude Include="..\..\include\AsstPort.h" />
     <ClInclude Include="AbstractConfiger.h" />
     <ClInclude Include="AbstractImageAnalyzer.h" />
@@ -70,6 +69,7 @@
     <ClInclude Include="RecruitConfiger.h" />
     <ClInclude Include="RoguelikeFormationTaskPlugin.h" />
     <ClInclude Include="RoguelikeFormationImageAnalyzer.h" />
+    <ClInclude Include="RoguelikeRecruitTaskPlugin.h" />
     <ClInclude Include="RoguelikeTask.h" />
     <ClInclude Include="RuntimeStatus.h" />
     <ClInclude Include="StageDropsTaskPlugin.h" />
@@ -135,6 +135,7 @@
     <ClCompile Include="RecruitConfiger.cpp" />
     <ClCompile Include="RoguelikeFormationTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp" />
+    <ClCompile Include="RoguelikeRecruitTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeTask.cpp" />
     <ClCompile Include="RuntimeStatus.cpp" />
     <ClCompile Include="StageDropsTaskPlugin.cpp" />

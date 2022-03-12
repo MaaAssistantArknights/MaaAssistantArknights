@@ -69,6 +69,22 @@ int main(int argc, char** argv)
 )");
     AsstAppendTask(ptr, "Award", R"({})");
 
+    AsstAppendTask(ptr, "Roguelike", R"(
+{
+    "opers": [
+        {
+            "name": "帕拉斯"
+        },
+        {
+            "name": "梓兰"
+        },
+        {
+            "name": "安赛尔"
+        }
+    ]
+}
+)");
+
     AsstStart(ptr);
 
     getchar();

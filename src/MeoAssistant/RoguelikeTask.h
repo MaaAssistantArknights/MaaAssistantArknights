@@ -4,6 +4,7 @@
 namespace asst
 {
     class ProcessTask;
+    class RoguelikeRecruitTaskPlugin;
 
     class RoguelikeTask : public PackageTask
     {
@@ -17,5 +18,6 @@ namespace asst
 
     private:
         std::shared_ptr<ProcessTask> m_roguelike_task_ptr = nullptr;
+        std::shared_ptr<RoguelikeRecruitTaskPlugin> m_recruit_task_ptr = nullptr;
     };
 }
