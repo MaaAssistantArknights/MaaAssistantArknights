@@ -1,23 +1,27 @@
 import json
 import pathlib
 
-from interface import Asst, Message
+from asst import Asst, Message
+
+
+@Asst.CallBackType
+def my_callback(msg, details, arg):
+    m = Message(msg)
+    d = json.loads(details.decode('utf-8'))
+
+    print(m, d, arg)
+
 
 if __name__ == "__main__":
 
-    @Asst.CallBackType
-    def my_callback(msg, details, arg):
-        m = Message(msg)
-        d = json.loads(details.decode('utf-8'))
-
-        print(m, d, arg)
-
+    # 请设置为存放 dll 文件及资源的路径
     path: str = (pathlib.Path.cwd()).__str__()
+
     Asst.load(path=path)
 
-    asst = Asst(callback=my_callback)
-
-    print('version', asst.get_version())
+    # 若需要获取详细执行信息，请传入 callback 参数
+    # 例如 asst = Asst(callback=my_callback)
+    asst = Asst()
 
     if asst.connect('adb', '127.0.0.1:5555'):
         print('连接成功')
@@ -25,12 +29,34 @@ if __name__ == "__main__":
         print('连接失败')
         exit()
 
-    asst.append_fight("CE-5", 0, 0, 1)
-    # asst.append_infrast(1, [ "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm"], "Money", 0.3)
-    # asst.append_award()
-    asst.start()
+    # 任务及参数请参考 docs/集成文档.md
+    # 详细参数请参考 docs/集成文档.md
 
-    # asst.start_recruit_calc([4, 5, 6], True)
+    asst.append_task('StartUp')
+    asst.append_task('Fight', {
+        'stage': 'LastBattle',
+        # 'penguin_id': '1234567'
+    })
+    asst.append_task('Recruit', {
+        'select': [4],
+        'confirm': [3, 4],
+        'times': 4
+    })
+    asst.append_task('Infrast', {
+        'facility': [
+            "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm"
+        ],
+        'drones': "Money"
+    })
+    asst.append_task('Visit')
+    asst.append_task('Mall', {
+        'shopping': True,
+        'shopping': ['家具', '碳'],
+        'is_black_list': True
+    })
+    asst.append_task('Award')
+
+    asst.start()
 
     while True:
         input('>')
