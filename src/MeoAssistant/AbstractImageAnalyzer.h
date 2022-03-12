@@ -19,7 +19,6 @@ namespace asst
 
         virtual void set_image(const cv::Mat image, const Rect& roi = Rect());
         virtual void set_roi(const Rect& roi) noexcept;
-        void set_task_data(std::shared_ptr<TaskData> task_data);
 
         virtual bool analyze() = 0;
 

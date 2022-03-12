@@ -519,6 +519,7 @@
         ]
     },
     "EndOfAction": {
+        "Doc": "本任务注册了插件 StageDropsTaskPlugin",
         "algorithm": "OcrDetect",
         "text": [
             "行动结束"
@@ -3898,69 +3899,16 @@
         "rearDelay": 1000
     },
     "Roguelike1ChooseOper": {
+        "Doc": "本任务注册了插件 RoguelikeRecruitTaskPlugin",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "Roguelike1ChooseOperConfirm"
+        ]
+    },
+    "Roguelike1RecruitData": {
         "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "Doc": "所有肉鸽可能招募的干员，不在列表里的不会则被招募，可以手动修改，在前面的会优先招募",
-        "Doc2": "画面中如果既有低星又有高星，说明希望不够（高星是灰的不让选，但也被识别到了），所以尽量把低星的放前面，优先招募",
-        "text": [
-            "---三星备选干员---",
-            "芬",
-            "玫兰莎",
-            "香草",
-            "梓兰",
-            "芙蓉",
-            "安赛尔",
-            "预备干员",
-            "---近卫---",
-            "幽灵鲨",
-            "煌",
-            "帕拉斯",
-            "银灰",
-            "陈",
-            "棘刺",
-            "---先锋---",
-            "凛冬",
-            "德克萨斯",
-            "风笛",
-            "嵯峨",
-            "推进之王",
-            "---重装---",
-            "古米",
-            "蛇屠箱",
-            "临光",
-            "泥岩",
-            "塞雷娅",
-            "星熊",
-            "---狙击---",
-            "白金",
-            "能天使",
-            "假日威龙陈",
-            "黑",
-            "---术士---",
-            "阿米娅",
-            "天火",
-            "艾雅法拉",
-            "异客",
-            "---治疗---",
-            "白面鸮",
-            "赫默",
-            "凯尔希",
-            "闪灵",
-            "夜莺",
-            "---辅助---",
-            "梅尔",
-            "巫恋",
-            "初雪",
-            "真理",
-            "安洁莉娜",
-            "铃兰",
-            "麦哲伦",
-            "令",
-            "---特种---",
-            "水月",
-            "狮蝎"
-        ],
+        "text": [],
         "ocrReplace": [
             [
                 "白面.+",
@@ -3976,9 +3924,6 @@
             69,
             666,
             614
-        ],
-        "next": [
-            "Roguelike1ChooseOperConfirm"
         ]
     },
     "Roguelike1ChooseOperConfirm": {
@@ -4195,6 +4140,9 @@
             28,
             298,
             289
+        ],
+        "reduceOtherTimes": [
+            "Roguelike1StageTraderInvestConfirm"
         ],
         "next": [
             "Roguelike1StageTraderInvestCancel"
@@ -4593,6 +4541,7 @@
         ]
     },
     "Roguelike1QuickFormation": {
+        "Doc": "本任务注册了插件 RoguelikeFormationTaskPlugin",
         "action": "ClickSelf",
         "roi": [
             817,
@@ -4640,6 +4589,7 @@
         ]
     },
     "Roguelike1StartAction": {
+        "Doc": "本任务注册了插件 RoguelikeBattleTaskPlugin",
         "action": "ClickSelf",
         "roi": [
             905,

@@ -31,6 +31,7 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 
     json::value callback_info = basic_info_with_what("ProductOfFacility");
     callback_info["details"]["product"] = m_product;
+    // 该回调注册了插件 DronesForShamareTaskPlugin
     callback(AsstMsg::SubTaskExtraInfo, callback_info);
 }
 
