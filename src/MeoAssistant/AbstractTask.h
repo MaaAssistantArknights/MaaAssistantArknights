@@ -31,11 +31,11 @@ namespace asst
 
         virtual bool run();
 
-        virtual AbstractTask& set_exit_flag(bool* exit_flag) noexcept;
-        virtual AbstractTask& set_retry_times(int times) noexcept;
-        virtual AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept;
-        virtual AbstractTask& set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
-        virtual AbstractTask& set_enable(bool enable) noexcept;
+        AbstractTask& set_exit_flag(bool* exit_flag) noexcept;
+        AbstractTask& set_retry_times(int times) noexcept;
+        AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept;
+        AbstractTask& set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
+        AbstractTask& set_enable(bool enable) noexcept;
 
         template<typename PluginType>
         std::shared_ptr<PluginType> regiseter_plugin()
@@ -49,6 +49,7 @@ namespace asst
         }
         void clear_plugin() noexcept;
 
+        bool get_enable() const noexcept { return m_enable; }
         const std::string& get_task_chain() const noexcept { return m_task_chain; }
         virtual json::value basic_info() const;
 

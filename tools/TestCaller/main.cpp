@@ -17,37 +17,30 @@ int main(int argc, char** argv)
 
     auto ptr = AsstCreate();
     if (ptr == nullptr) {
-        return -1;
-    }
-    //auto ret = AsstCatchCustom(ptr, "127.0.0.1:5555");
-    auto ret = AsstConnect(ptr, "adb", "127.0.0.1:5555", nullptr);
-    if (!ret) {
-        std::cout << "connect failed" << std::endl;
-        if (ptr) {
-            AsstDestroy(ptr);
-            ptr = nullptr;
-        }
+        std::cerr << "create failed" << std::endl;
         return -1;
     }
 
-    const char* params = R"(
-{
-    "stage": "CE-5"
-}
-)";
-
-    char ch = 0;
-    while (ch != 'q') {
-        AsstAppendTask(ptr, "Fight", params);
-        AsstStart(ptr);
-
-        ch = static_cast<char>(getchar());
-    }
-
-    if (ptr) {
+    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", "");
+    if (!connected) {
+        std::cerr << "connect failed" << std::endl;
         AsstDestroy(ptr);
         ptr = nullptr;
+
+        return -1;
     }
+
+    AsstAppendTask(ptr, "StartUp", R"({})");
+    AsstAppendTask(ptr, "Fight", R"({"stage": "CE-5"})");
+    AsstAppendTask(ptr, "Recruit", R"({"select":[4],"confirm":[3,4],"times":4)");
+
+    AsstStart(ptr);
+
+    getchar();
+
+    AsstStop(ptr);
+    AsstDestroy(ptr);
+    ptr = nullptr;
 
     return 0;
 }
