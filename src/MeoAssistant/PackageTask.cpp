@@ -13,9 +13,14 @@ bool asst::PackageTask::run()
 
     const auto task_delay = Resrc.cfg().get_options().task_delay;
 
-    for (auto task_ptr : m_subtasks) {
+    for (size_t i = 0; i != m_subtasks.size(); ++i) {
         if (need_exit()) {
             return false;
+        }
+
+        auto task_ptr = m_subtasks.at(i);
+        if (!task_ptr->get_enable()) {
+            continue;
         }
 
         task_ptr->set_exit_flag(m_exit_flag)
@@ -26,7 +31,9 @@ bool asst::PackageTask::run()
             return false;
         }
 
-        sleep(task_delay);
+        if (i != m_subtasks.size() - 1) {
+            sleep(task_delay);
+        }
     }
     return true;
 }
