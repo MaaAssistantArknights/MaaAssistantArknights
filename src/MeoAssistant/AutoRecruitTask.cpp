@@ -109,8 +109,11 @@ bool asst::AutoRecruitTask::recruit_index(size_t index)
 bool asst::AutoRecruitTask::calc_and_recruit()
 {
     RecruitCalcTask recurit_task(m_callback, m_callback_arg, m_task_chain);
-    recurit_task.set_retry_times(m_retry_times);
-    recurit_task.set_param(m_select_level, true);
+    recurit_task.set_param(m_select_level, true)
+        .set_retry_times(m_retry_times)
+        .set_exit_flag(m_exit_flag)
+        .set_ctrler(m_ctrler)
+        .set_status(m_status);
 
     // 识别错误，放弃这个公招位，直接返回
     if (!recurit_task.run()) {

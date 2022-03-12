@@ -9,15 +9,16 @@ asst::MallTask::MallTask(AsstCallback callback, void* callback_arg)
     m_shopping_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType))
 {
     m_mall_task_ptr->set_tasks({ "MallBegin" });
+    m_shopping_task_ptr->set_enable(false);
+
     m_subtasks.emplace_back(m_mall_task_ptr);
-    m_subtasks.emplace_back(nullptr);   // reserved for m_shopping_task_ptr
+    m_subtasks.emplace_back(m_shopping_task_ptr);
 }
 
 bool asst::MallTask::set_params(const json::value& params)
 {
     bool shopping = params.get("shopping", true);
 
-    auto& shop_ref = m_subtasks.at(1);
     if (shopping) {
         if (params.contains("shopping_list") && params.at("shopping_list").is_array()) {
             std::vector<std::string> shopping_list;
@@ -34,10 +35,10 @@ bool asst::MallTask::set_params(const json::value& params)
         else {
             return false;
         }
-        shop_ref = m_shopping_task_ptr;
+        m_shopping_task_ptr->set_enable(true);
     }
     else {
-        shop_ref = nullptr;
+        m_shopping_task_ptr->set_enable(false);
     }
     return true;
 }

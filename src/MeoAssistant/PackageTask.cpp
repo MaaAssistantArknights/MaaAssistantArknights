@@ -1,9 +1,14 @@
 #include "PackageTask.h"
 
 #include "Resource.h"
+#include "Logger.hpp"
 
 bool asst::PackageTask::run()
 {
+    if (!m_enable) {
+        Log.info("task is disable, pass", basic_info().to_string());
+        return true;
+    }
     m_runned = true;
 
     const auto task_delay = Resrc.cfg().get_options().task_delay;
@@ -11,9 +16,6 @@ bool asst::PackageTask::run()
     for (auto task_ptr : m_subtasks) {
         if (need_exit()) {
             return false;
-        }
-        if (!task_ptr) {
-            continue;
         }
 
         task_ptr->set_exit_flag(m_exit_flag)
