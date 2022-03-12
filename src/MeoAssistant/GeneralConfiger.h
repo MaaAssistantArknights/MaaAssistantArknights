@@ -21,9 +21,7 @@ namespace asst
 
     struct PenguinReportCfg                 // 企鹅物流数据汇报 的配置
     {
-        bool enable = false;
         std::string cmd_format;             // 命令格式
-        std::string server;                 // 上传参数中"server"字段，"CN", "US", "JP" and "KR".
     };
 
     struct Options

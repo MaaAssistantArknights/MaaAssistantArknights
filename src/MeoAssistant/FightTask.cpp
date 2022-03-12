@@ -45,6 +45,7 @@ bool asst::FightTask::set_params(const json::value& params)
     const int mecidine = params.get("mecidine", 0);
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
+    bool enable_penguid = params.get("report_to_penguin", false);
     std::string penguin_id = params.get("penguin_id", "");
     std::string server = params.get("server", "CN");
 
@@ -64,6 +65,7 @@ bool asst::FightTask::set_params(const json::value& params)
         .set_times_limit("StoneConfirm", stone)
         .set_times_limit("StartButton1", times)
         .set_times_limit("StartButton2", times);
+    m_stage_drops_plugin_ptr->set_enable_penguid(enable_penguid);
     m_stage_drops_plugin_ptr->set_penguin_id(std::move(penguin_id));
 
     return true;
