@@ -42,6 +42,12 @@ void asst::StageDropsTaskPlugin::set_task_ptr(AbstractTask* ptr)
     m_cast_ptr = dynamic_cast<ProcessTask*>(ptr);
 }
 
+bool asst::StageDropsTaskPlugin::set_enable_penguid(bool enable)
+{
+    m_enable_penguid = enable;
+    return true;
+}
+
 bool asst::StageDropsTaskPlugin::set_penguin_id(std::string id)
 {
     m_penguin_id = std::move(id);
@@ -69,7 +75,7 @@ bool asst::StageDropsTaskPlugin::_run()
 
     auto& opt = Resrc.cfg().get_options();
 
-    if (opt.penguin_report.enable) {
+    if (m_enable_penguid) {
         auto upload_future = std::async(
             std::launch::async,
             &StageDropsTaskPlugin::upload_to_penguin, this);

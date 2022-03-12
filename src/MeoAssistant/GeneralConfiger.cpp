@@ -19,9 +19,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         m_options.adb_extra_swipe_duration = options_json.get("adbExtraSwipeDuration", -1);
 
         auto& penguin_report = options_json.at("penguinReport");
-        m_options.penguin_report.enable = penguin_report.get("enable", true);
         m_options.penguin_report.cmd_format = penguin_report.get("cmdFormat", std::string());
-        m_options.penguin_report.server = penguin_report.get("server", "CN");
 
         if (options_json.contains("aipOcr")) {
             auto& aip_ocr = options_json.at("aipOcr");
