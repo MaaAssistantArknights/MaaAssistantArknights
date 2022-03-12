@@ -43,12 +43,14 @@
     },
     "StageLS": {
         "action": "clickSelf",
+        "cache": false,
         "next": [
             "StageLS5"
         ]
     },
     "StageLS5": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             850,
             140,
@@ -110,6 +112,7 @@
     },
     "StageBI8": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             200,
             350,
@@ -171,6 +174,7 @@
     },
     "StageBI7": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             50,
             250,
@@ -209,12 +213,14 @@
     },
     "StageCA": {
         "action": "clickSelf",
+        "cache": false,
         "next": [
             "StageCA5"
         ]
     },
     "StageCA5": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             850,
             140,
@@ -253,12 +259,14 @@
     },
     "StageAP": {
         "action": "clickSelf",
+        "cache": false,
         "next": [
             "StageAP5"
         ]
     },
     "StageAP5": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             850,
             140,
@@ -297,12 +305,14 @@
     },
     "StageCE": {
         "action": "clickSelf",
+        "cache": false,
         "next": [
             "StageCE5"
         ]
     },
     "StageCE5": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             850,
             140,
@@ -313,6 +323,7 @@
     "Annihilation": {
         "doc": "剿灭作战，一般本周的满了也不会有人再刷的，所以只识别右上角ToDoList里的剿灭就可以了",
         "template": "StageAnnihilation.png",
+        "cache": false,
         "action": "clickSelf",
         "roi": [
             900,
