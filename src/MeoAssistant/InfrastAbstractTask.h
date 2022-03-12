@@ -40,7 +40,7 @@ namespace asst
 
         int m_last_swipe_id = 0;
         infrast::WorkMode m_work_mode = infrast::WorkMode::Aggressive;
-        std::string m_work_mode_name = "Gentle";
+        std::string m_work_mode_name = "Aggressive";
         double m_mood_threshold = 0;
         mutable std::string m_facility_name_cache;
         int m_cur_facility_index = 0;
