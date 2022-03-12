@@ -200,7 +200,7 @@ bool asst::TaskData::parse(const json::value& json)
             task_info_ptr->rect_move = Rect();
         }
 
-        m_all_tasks_info.emplace(name, task_info_ptr);
+        m_all_tasks_info[name] = task_info_ptr;
     }
 #ifdef ASST_DEBUG
     for (const auto& [name, task] : m_all_tasks_info) {
