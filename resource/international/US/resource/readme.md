@@ -12,8 +12,6 @@
 - 上传 [企鹅物流数据统计](https://penguin-stats.cn/) 及设置用户 ID
 - 公招计算
 
-请复制并替换 `resource` 文件夹下的同名文件
-
 ## US server resource file
 
 Now supports:  
@@ -25,5 +23,3 @@ Now supports:
 - Identify loot
 - Upload results to [Penguin Statistics](https://penguin-stats.io/) with your own id
 - Recruitment calculate
-
-Please copy and replace these files with the same name in the `resource` folder
