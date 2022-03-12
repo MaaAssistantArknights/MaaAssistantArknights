@@ -35,6 +35,7 @@ namespace asst
         virtual AbstractTask& set_retry_times(int times) noexcept;
         virtual AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept;
         virtual AbstractTask& set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
+        virtual AbstractTask& set_enable(bool enable) noexcept;
 
         template<typename PluginType>
         std::shared_ptr<PluginType> regiseter_plugin()
@@ -63,6 +64,7 @@ namespace asst
         bool need_exit() const;
         bool save_image(const cv::Mat image, const std::string& dir);
 
+        bool m_enable = true;
         AsstCallback m_callback;
         void* m_callback_arg = nullptr;
         bool* m_exit_flag = nullptr;

@@ -15,13 +15,15 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
         .set_times_limit("StartButton1", 0)
         .set_times_limit("StartButton2", 0)
         .set_times_limit("MedicineConfirm", 0)
-        .set_times_limit("StoneConfirm", 0);
+        .set_times_limit("StoneConfirm", 0)
+        .set_enable(false);
 
     // 进入对应的关卡
     m_stage_task_ptr->set_times_limit("StartButton1", 0)
         .set_times_limit("StartButton2", 0)
         .set_times_limit("MedicineConfirm", 0)
-        .set_times_limit("StoneConfirm", 0);
+        .set_times_limit("StoneConfirm", 0)
+        .set_enable(false);
 
     // 开始战斗任务
     m_fight_task_ptr->set_tasks({ "FightBegin" })
@@ -32,6 +34,8 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
     m_stage_drops_plugin_ptr = m_fight_task_ptr->regiseter_plugin<StageDropsTaskPlugin>();
     m_stage_drops_plugin_ptr->set_retry_times(0);
 
+    m_subtasks.emplace_back(m_start_up_task_ptr);
+    m_subtasks.emplace_back(m_stage_task_ptr);
     m_subtasks.emplace_back(m_fight_task_ptr);
 }
 
@@ -44,15 +48,10 @@ bool asst::FightTask::set_params(const json::value& params)
     std::string penguin_id = params.get("penguin_id", "");
 
     if (!m_runned) {
+        m_start_up_task_ptr->set_enable(true);
+
+        m_stage_task_ptr->set_enable(true);
         m_stage_task_ptr->set_tasks({ stage });
-
-        m_subtasks.clear();
-
-        if (!stage.empty()) {
-            m_subtasks.emplace_back(m_start_up_task_ptr);
-            m_subtasks.emplace_back(m_stage_task_ptr);
-        }
-        m_subtasks.emplace_back(m_fight_task_ptr);
     }
 
     m_fight_task_ptr->set_times_limit("MedicineConfirm", mecidine)

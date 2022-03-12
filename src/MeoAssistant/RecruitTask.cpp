@@ -9,7 +9,7 @@ asst::RecruitTask::RecruitTask(AsstCallback callback, void* callback_arg)
     m_recruit_task_ptr(std::make_shared<AutoRecruitTask>(callback, callback_arg, TaskType))
 {
     m_recruit_begin_task_ptr->set_tasks({ "RecruitBegin" });
-    m_subtasks.emplace_back(nullptr); // reversed for m_recruit_begin_task_ptr
+    m_subtasks.emplace_back(m_recruit_begin_task_ptr);
     m_subtasks.emplace_back(m_recruit_task_ptr);
 }
 
@@ -19,14 +19,15 @@ bool asst::RecruitTask::set_params(const json::value& params)
         || !params.contains("confirm") || !params.at("confirm").is_array()) {
         return false;
     }
-    std::vector<int> select;
 
+    std::vector<int> select;
     for (const auto& select_num_json : params.at("select").as_array()) {
         if (!select_num_json.is_number()) {
             return false;
         }
         select.emplace_back(select_num_json.as_integer());
     }
+
     std::vector<int> confirm;
     for (const auto& confirm_num_json : params.at("confirm").as_array()) {
         if (!confirm_num_json.is_number()) {
@@ -40,11 +41,11 @@ bool asst::RecruitTask::set_params(const json::value& params)
     bool expedite = params.get("expedite", false);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
 
-    if (times == 0 || confirm.empty()) {   // 仅识别的情况
-        m_subtasks.at(0) = nullptr;
+    if (times <= 0 || confirm.empty()) {   // 仅识别的情况
+        m_recruit_begin_task_ptr->set_enable(false);
     }
     else {
-        m_subtasks.at(0) = m_recruit_begin_task_ptr;
+        m_recruit_begin_task_ptr->set_enable(true);
     }
 
     m_recruit_task_ptr->set_max_times(times)
@@ -53,5 +54,5 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_select_level(std::move(select))
         .set_confirm_level(std::move(confirm));
 
-    return false;
+    return true;
 }

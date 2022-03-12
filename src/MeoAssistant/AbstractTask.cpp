@@ -25,6 +25,10 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg, std::strin
 
 bool asst::AbstractTask::run()
 {
+    if (!m_enable) {
+        Log.info("task is disable, pass", basic_info().to_string());
+        return true;
+    }
     callback(AsstMsg::SubTaskStart, basic_info());
     for (m_cur_retry = 0; m_cur_retry <= m_retry_times; ++m_cur_retry) {
         if (_run()) {
@@ -67,6 +71,12 @@ AbstractTask& asst::AbstractTask::set_ctrler(std::shared_ptr<Controller> ctrler)
 AbstractTask& asst::AbstractTask::set_status(std::shared_ptr<RuntimeStatus> status) noexcept
 {
     m_status = status;
+    return *this;
+}
+
+AbstractTask& asst::AbstractTask::set_enable(bool enable) noexcept
+{
+    m_enable = enable;
     return *this;
 }
 
