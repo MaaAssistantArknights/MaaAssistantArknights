@@ -9,6 +9,10 @@ bool asst::AbstractConfiger::load(const std::string& filename)
 {
     LogTraceFunction;
 
+    if (!std::filesystem::exists(filename)) {
+        return false;
+    }
+
     std::string content = utils::load_file_without_bom(filename);
 
     auto&& ret = json::parser::parse(content);

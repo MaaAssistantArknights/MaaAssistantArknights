@@ -26,5 +26,7 @@ namespace asst
     private:
         std::unordered_set<std::string> m_templs_filename;
         std::unordered_map<std::string, cv::Mat> m_templs;
+
+        bool m_loaded = false;
     };
 }

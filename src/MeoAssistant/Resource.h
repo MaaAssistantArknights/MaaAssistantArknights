@@ -110,6 +110,8 @@ namespace asst
         OcrPack m_ocr_pack_unique_ins;
         PenguinPack m_penguin_pack_unique_ins;
         TilePack m_tile_pack_unique_ins;
+
+        bool m_loaded = false;
     };
 
     //static auto& resource = Resource::get_instance();

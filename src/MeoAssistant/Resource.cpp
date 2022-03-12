@@ -23,27 +23,57 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static const char* PenguinResourceFilename = "penguin-stats-recognize";
     constexpr static const char* TilesCalcResourceFilename = "Arknights-Tile-Pos";
 
+    bool overload = false;
+
     /* 加载各个Json配置文件 */
     if (!m_general_cfg_unique_ins.load(dir + GeneralCfgFilename)) {
-        m_last_error = std::string(GeneralCfgFilename) + ": " + m_general_cfg_unique_ins.get_last_error();
-        return false;
+        if (!m_loaded) {
+            m_last_error = std::string(GeneralCfgFilename) + ": " + m_general_cfg_unique_ins.get_last_error();
+            return false;
+        }
     }
+    else {
+        overload = true;
+    }
+
     if (!TaskData::get_instance().load(dir + TaskDataFilename)) {
-        m_last_error = std::string(TaskDataFilename) + ": " + TaskData::get_instance().get_last_error();
-        return false;
+        if (!m_loaded) {
+            m_last_error = std::string(TaskDataFilename) + ": " + TaskData::get_instance().get_last_error();
+            return false;
+        }
+    }
+    else {
+        overload = true;
     }
 
     if (!m_recruit_cfg_unique_ins.load(dir + RecruitCfgFilename)) {
-        m_last_error = std::string(RecruitCfgFilename) + ": " + m_recruit_cfg_unique_ins.get_last_error();
-        return false;
+        if (!m_loaded) {
+            m_last_error = std::string(RecruitCfgFilename) + ": " + m_recruit_cfg_unique_ins.get_last_error();
+            return false;
+        }
     }
+    else {
+        overload = true;
+    }
+
     if (!m_item_cfg_unique_ins.load(dir + ItemCfgFilename)) {
-        m_last_error = std::string(ItemCfgFilename) + ": " + m_item_cfg_unique_ins.get_last_error();
-        return false;
+        if (!m_loaded) {
+            m_last_error = std::string(ItemCfgFilename) + ": " + m_item_cfg_unique_ins.get_last_error();
+            return false;
+        }
     }
+    else {
+        overload = true;
+    }
+
     if (!m_infrast_cfg_unique_ins.load(dir + InfrastCfgFilename)) {
-        m_last_error = std::string(InfrastCfgFilename) + ": " + m_infrast_cfg_unique_ins.get_last_error();
-        return false;
+        if (!m_loaded) {
+            m_last_error = std::string(InfrastCfgFilename) + ": " + m_infrast_cfg_unique_ins.get_last_error();
+            return false;
+        }
+    }
+    else {
+        overload = true;
     }
 
     const auto& opt = m_general_cfg_unique_ins.get_options();
@@ -55,28 +85,55 @@ bool asst::Resource::load(const std::string& dir)
     m_templ_resource_unique_ins.append_load_required(m_infrast_cfg_unique_ins.get_templ_required());
 
     if (!m_templ_resource_unique_ins.load(dir + TemplsFilename)) {
-        m_last_error = std::string(TemplsFilename) + ": " + m_templ_resource_unique_ins.get_last_error();
-        return false;
+        if (!m_loaded) {
+            m_last_error = std::string(TemplsFilename) + ": " + m_templ_resource_unique_ins.get_last_error();
+            return false;
+        }
+    }
+    else {
+        overload = true;
     }
 
     /* 加载OCR库所需要的资源 */
     //m_ocr_pack_unique_ins.set_param(opt.ocr_gpu_index, opt.ocr_thread_number);
     if (!m_ocr_pack_unique_ins.load(dir + OcrResourceFilename)) {
-        m_last_error = std::string(OcrResourceFilename) + ": " + m_ocr_pack_unique_ins.get_last_error();
-        return false;
+        if (!m_loaded) {
+            m_last_error = std::string(OcrResourceFilename) + ": " + m_ocr_pack_unique_ins.get_last_error();
+            return false;
+        }
     }
+    else {
+        overload = true;
+    }
+
     /* 加载企鹅数据识别库所需要的资源 */
     m_penguin_pack_unique_ins.set_language(opt.penguin_report.server);
     if (!m_penguin_pack_unique_ins.load(dir + PenguinResourceFilename)) {
-        m_last_error = std::string(PenguinResourceFilename) + ": " + m_penguin_pack_unique_ins.get_last_error();
-        return false;
+        if (!m_loaded) {
+            m_last_error = std::string(PenguinResourceFilename) + ": " + m_penguin_pack_unique_ins.get_last_error();
+            return false;
+        }
+    }
+    else {
+        overload = true;
     }
 
     /* 加载地图格子识别库所需要的资源 */
+
     if (!m_tile_pack_unique_ins.load(dir + TilesCalcResourceFilename)) {
-        m_last_error = std::string(TilesCalcResourceFilename) + ": " + m_tile_pack_unique_ins.get_last_error();
-        return false;
+        if (!m_loaded) {
+            m_last_error = std::string(TilesCalcResourceFilename) + ": " + m_tile_pack_unique_ins.get_last_error();
+            return false;
+        }
+    }
+    else {
+        overload = true;
     }
 
+    if (m_loaded) {
+        return overload;
+    }
+
+    m_loaded = true;
     return true;
 }

@@ -5,7 +5,6 @@
 #include <meojson/json.hpp>
 #include <opencv2/opencv.hpp>
 
-#include "AsstDef.h"
 #include "AsstUtils.hpp"
 #include "Controller.h"
 #include "Logger.hpp"

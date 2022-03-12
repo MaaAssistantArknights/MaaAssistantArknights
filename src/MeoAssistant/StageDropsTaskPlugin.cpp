@@ -48,6 +48,11 @@ bool asst::StageDropsTaskPlugin::set_penguin_id(std::string id)
     return true;
 }
 
+bool asst::StageDropsTaskPlugin::set_server(std::string server)
+{
+    m_server = std::move(server);
+}
+
 bool asst::StageDropsTaskPlugin::_run()
 {
     LogTraceFunction;
@@ -82,6 +87,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     if (need_exit()) {
         return false;
     }
+    Resrc.penguin().set_language(m_server);
     const cv::Mat image = m_ctrler->get_image();
     std::string res = Resrc.penguin().recognize(image);
     Log.trace("Results of penguin recognition:\n", res);
@@ -165,7 +171,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
         return;
     }
     json::value body;
-    body["server"] = opt.penguin_report.server;
+    body["server"] = m_server;
     body["stageId"] = stage_id;
     // To fix: https://github.com/MistEO/MeoAssistantArknights/issues/40
     body["drops"] = json::array();

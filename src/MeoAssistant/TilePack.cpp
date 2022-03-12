@@ -10,6 +10,10 @@ bool asst::TilePack::load(const std::string & dir)
 {
     LogTraceFunction;
 
+    if (!std::filesystem::exists(dir)) {
+        return false;
+    }
+
     constexpr static const char* filename = "/levels.json";
 
     try {
