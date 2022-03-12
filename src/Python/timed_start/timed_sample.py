@@ -1,7 +1,7 @@
 """
 function: 定时启动 maa
 author: Black Cat Bon
-version: v2.0.1
+version: v2.1
 """
 
 from importlib.resources import path
@@ -15,7 +15,7 @@ import pathlib
 import sys
 import re
 
-from interface import Asst, Message
+from asst import Asst, Message
 
 
 def get_now_time():
@@ -26,14 +26,31 @@ def job():
     # print("I'm running on thread %s" % threading.current_thread())
     print("现在时间：" + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
-    asst.append_fight("LastBattle", 0, 0, 999)
-    asst.append_recruit(3, [4, 5], [3, 4, 5], True, False)
-    asst.append_infrast(1, ["Mfg", "Trade", "Control",
-                        "Power", "Reception", "Office", "Dorm"], "Money", 0.1)
-    asst.append_visit()
-    asst.append_mall(True)
-    asst.append_award()
-    # asst.set_penguin_id('1234567')
+    # 详细参数请参考 docs/集成文档.md
+
+    # asst.append_task('StartUp')
+    asst.append_task('Fight', {
+        'stage': 'LastBattle',
+        # 'penguin_id': '1234567'
+    })
+    asst.append_task('Recruit', {
+        'select': [4],
+        'confirm': [3, 4],
+        'times': 4
+    })
+    asst.append_task('Infrast', {
+        'facility': [
+            "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm"
+        ],
+        'drones': "Money"
+    })
+    asst.append_task('Visit')
+    asst.append_task('Mall', {
+        'shopping': True,
+        'shopping': ['家具', '碳'],
+        'is_black_list': True
+    })
+    asst.append_task('Award')
 
     asst.start()
 
@@ -114,7 +131,9 @@ if __name__ == "__main__":
     path: str = (pathlib.Path.cwd()).__str__()
     Asst.load(path)
 
-    asst = Asst(callback=my_callback)
+    # 若需要获取详细执行信息，请传入 callback 参数
+    # 例如 asst = Asst(callback=my_callback)
+    asst = Asst()
 
     print('version', asst.get_version())
 

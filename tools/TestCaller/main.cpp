@@ -30,9 +30,44 @@ int main(int argc, char** argv)
         return -1;
     }
 
+    /* 详细参数可参考 docs / 集成文档.md */
+
     AsstAppendTask(ptr, "StartUp", R"({})");
-    AsstAppendTask(ptr, "Fight", R"({"stage": "CE-5"})");
-    AsstAppendTask(ptr, "Recruit", R"({"select":[4],"confirm":[3,4],"times":4)");
+
+    AsstAppendTask(ptr, "Fight", R"(
+{
+    "stage": "CE-5"
+}
+    )");
+
+    AsstAppendTask(ptr, "Recruit", R"(
+{
+    "select":[4],
+    "confirm":[3,4],
+    "times":4
+}
+    )");
+
+    AsstAppendTask(ptr, "Infrast", R"(
+{
+    "facility": ["Mfg", "Trade", "Power", "Control", "Reception", "Office", "Dorm"],
+    "drones": "Money"
+}
+)");
+
+    AsstAppendTask(ptr, "Visit", R"({})");
+
+    AsstAppendTask(ptr, "Mall", R"(
+{
+    "shopping": true,
+    "is_black_list": false,
+    "shopping_list": [
+        "家具",
+        "碳"
+    ]
+}
+)");
+    AsstAppendTask(ptr, "Award", R"({})");
 
     AsstStart(ptr);
 
