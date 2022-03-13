@@ -179,7 +179,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         switch (usage) {
         case SkillUsage::Once:
             use_skill(rect);
-            usage = SkillUsage::NotUse;
+            usage = SkillUsage::OnceUsed;
             return true;
             break;
         case SkillUsage::Possibly:
@@ -335,6 +335,12 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_stage_name.clear();
     m_side_tile_info.clear();
     m_used_tiles.clear();
+
+    for (auto& [_, usage] : m_skill_usage) {
+        if (usage == SkillUsage::OnceUsed) {
+            usage = SkillUsage::Once;
+        }
+    }
 }
 
 //asst::Rect asst::RoguelikeBattleTaskPlugin::get_placed_by_cv()

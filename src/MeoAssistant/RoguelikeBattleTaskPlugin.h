@@ -12,7 +12,7 @@ namespace asst
         Possibly = 0,   // 有就用，例如干员 棘刺 3 技能
         Once = 1,       // 只用一次，例如干员 银灰 2技能
         InTime = 2,     // 关键时刻使用，例如干员 假日威龙陈 3 技能
-        NotUse
+        OnceUsed
     };
     class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin
     {
