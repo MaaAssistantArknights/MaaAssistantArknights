@@ -20,12 +20,6 @@ bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& 
     }
 }
 
-bool asst::RoguelikeFormationTaskPlugin::set_operators(std::vector<BattleOper> opers)
-{
-    m_opers = std::move(opers);
-    return true;
-}
-
 bool asst::RoguelikeFormationTaskPlugin::_run()
 {
     RoguelikeFormationImageAnalyzer formation_analyzer(m_ctrler->get_image());

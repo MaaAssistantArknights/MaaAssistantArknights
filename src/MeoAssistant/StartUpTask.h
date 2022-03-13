@@ -12,7 +12,7 @@ namespace asst
         virtual ~StartUpTask() = default;
 
         static constexpr const char* TaskType = "StartUp";
-    protected:
+    private:
 
         std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;
     };

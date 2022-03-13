@@ -294,6 +294,15 @@
     <ClInclude Include="RoguelikeRecruitTaskPlugin.h">
       <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
+    <ClInclude Include="RoguelikeSkillSelectionTaskPlugin.h">
+      <Filter>头文件\Task\Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugTask.h">
+      <Filter>头文件\Task\Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeSkillSelectionImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Final</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -484,6 +493,15 @@
     </ClCompile>
     <ClCompile Include="RoguelikeRecruitTaskPlugin.cpp">
       <Filter>源文件\Task\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeSkillSelectionTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeSkillSelectionImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Final</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

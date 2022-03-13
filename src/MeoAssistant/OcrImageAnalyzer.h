@@ -18,6 +18,7 @@ namespace asst
         virtual bool analyze() override;
 
         void sort_result();             // 按位置排序，左上角的排在前面
+        void sort_result_by_score();    // 按分数排序，得分最高的在前面
         void sort_result_by_required(); // 按传入的需求数组排序，传入的在前面结果接在前面
 
         void set_use_cache(bool is_use) noexcept;

@@ -19,6 +19,9 @@
 #include "InfrastTask.h"
 #include "RecruitTask.h"
 #include "RoguelikeTask.h"
+#ifdef ASST_DEBUG
+#include "DebugTask.h"
+#endif
 
 using namespace asst;
 
@@ -104,6 +107,11 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     else if (type == RoguelikeTask::TaskType) {
         ptr = std::make_shared<RoguelikeTask>(task_callback, (void*)this);
     }
+#ifdef ASST_DEBUG
+    else if (type == DebugTask::TaskType) {
+        ptr = std::make_shared<DebugTask>(task_callback, (void*)this);
+    }
+#endif
     else {
         Log.error(__FUNCTION__, "| invalid type:", type);
         return 0;
