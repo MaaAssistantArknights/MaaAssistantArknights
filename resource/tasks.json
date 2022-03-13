@@ -3933,6 +3933,10 @@
             [
                 "蛇居箱",
                 "蛇屠箱"
+            ],
+            [
+                ".+刺",
+                "棘刺"
             ]
         ],
         "roi": [
@@ -4604,8 +4608,57 @@
             "Roguelike1StartAction"
         ]
     },
+    "Roguelike1SkillSelectionFlag": {
+        "templThreshold": 0.9,
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "Roguelike1SkillSelectionName": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "ocrReplace": [
+            [
+                "白面.+",
+                "白面鸮"
+            ],
+            [
+                "蛇居箱",
+                "蛇屠箱"
+            ],
+            [
+                ".+刺",
+                "棘刺"
+            ]
+        ],
+        "rectMove": [
+            150,
+            -30,
+            180,
+            65
+        ]
+    },
+    "Roguelike1SkillSelectionRect": {
+        "template": "empty.png",
+        "roi": [
+            171,
+            2,
+            170,
+            3
+        ],
+        "rectMove": [
+            5,
+            -45,
+            45,
+            45
+        ],
+        "templThreshold": 60,
+        "Doc": "这里的阈值作为平均灰度值（亮度）阈值使用"
+    },
     "Roguelike1StartAction": {
-        "Doc": "本任务注册了插件 RoguelikeBattleTaskPlugin",
+        "Doc": "本任务注册了插件 RoguelikeSkillSelectionTaskPlugin、RoguelikeBattleTaskPlugin",
         "action": "ClickSelf",
         "roi": [
             905,
