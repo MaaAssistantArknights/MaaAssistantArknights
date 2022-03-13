@@ -24,6 +24,11 @@ bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& det
     }
 }
 
+void asst::RoguelikeBattleTaskPlugin::set_skill_usage(SkillUsageMap usage_map)
+{
+    m_skill_usage = std::move(usage_map);
+}
+
 void asst::RoguelikeBattleTaskPlugin::set_stage_name(std::string stage)
 {
     m_stage_name = std::move(stage);
@@ -41,7 +46,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 
     while (!need_exit()) {
         // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
-        if (!auto_battle() && m_used_opers) {
+        if (!auto_battle() && m_opers_used) {
             break;
         }
     }
@@ -78,6 +83,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
                     continue;
                 }
                 m_side_tile_info = std::move(side_info);
+                m_normal_tile_info = tile.calc(tr.text, false);
                 m_stage_name = tr.text;
                 calced = true;
                 break;
@@ -140,20 +146,46 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         return false;
     }
 
-    if (int hp = battle_analyzer.get_hp();
-        hp != 0) {
-        bool used_skills = false;
-        if (hp < m_pre_hp) {    // 说明漏怪了，漏怪就开技能（
-            for (const Rect& rect : battle_analyzer.get_ready_skills()) {
-                used_skills = true;
-                if (!use_skill(rect)) {
-                    break;
-                }
+    //if (int hp = battle_analyzer.get_hp();
+    //    hp != 0) {
+    //    bool used_skills = false;
+    //    if (hp < m_pre_hp) {    // 说明漏怪了，漏怪就开技能（
+    //        for (const Rect& rect : battle_analyzer.get_ready_skills()) {
+    //            used_skills = true;
+    //            if (!use_skill(rect)) {
+    //                break;
+    //            }
+    //        }
+    //    }
+    //    m_pre_hp = hp;
+    //    if (used_skills) {
+    //        return true;
+    //    }
+    //}
+
+    for (const Rect& rect : battle_analyzer.get_ready_skills()) {
+        // 找出这个可以使用的技能是哪个干员的（根据之前放干员的位置）
+        std::string name = "NotFound";
+        for (const auto& [loc, oper_name] : m_used_tiles) {
+            auto point = m_normal_tile_info[loc].pos;
+            if (rect.include(point)) {
+                name = oper_name;
+                break;
             }
         }
-        m_pre_hp = hp;
-        if (used_skills) {
+
+        auto& usage = m_skill_usage[name];
+        Log.info("Oper", name, ", skill usage", static_cast<int>(usage));
+        switch (usage) {
+        case SkillUsage::Once:
+            use_skill(rect);
+            usage = SkillUsage::NotUse;
             return true;
+            break;
+        case SkillUsage::Possibly:
+            use_skill(rect);
+            return true;
+            break;
         }
     }
 
@@ -199,6 +231,19 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
     m_ctrler->click(opt_oper.rect);
     sleep(use_oper_task_ptr->pre_delay);
+
+    OcrImageAnalyzer oper_name_analyzer(m_ctrler->get_image());
+    oper_name_analyzer.set_task_info(Task.get("BattleOperName"));
+    oper_name_analyzer.set_replace(
+        std::dynamic_pointer_cast<OcrTaskInfo>(
+            Task.get("Roguelike1RecruitData"))
+        ->replace_map);
+
+    std::string oper_name = "Unknown";
+    if (oper_name_analyzer.analyze()) {
+        oper_name_analyzer.sort_result_by_score();
+        oper_name = oper_name_analyzer.get_result().front().text;
+    }
 
     // 将干员拖动到场上
     Loc loc = Loc::All;
@@ -259,8 +304,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
     m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
 
-    m_used_tiles.emplace(placed_loc);
-    m_used_opers = true;
+    m_used_tiles.emplace(placed_loc, oper_name);
+    m_opers_used = true;
     ++m_cur_home_index;
 
     return true;
@@ -283,7 +328,7 @@ bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
 
 void asst::RoguelikeBattleTaskPlugin::clear()
 {
-    m_used_opers = false;
+    m_opers_used = false;
     m_pre_hp = 0;
     m_homes.clear();
     m_cur_home_index = 0;

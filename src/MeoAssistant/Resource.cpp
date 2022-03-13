@@ -76,8 +76,6 @@ bool asst::Resource::load(const std::string& dir)
         overload = true;
     }
 
-    const auto& opt = m_general_cfg_unique_ins.get_options();
-
     /* 加载模板图片资源 */
     // task所需要的模板资源
     m_templ_resource_unique_ins.append_load_required(TaskData::get_instance().get_templ_required());

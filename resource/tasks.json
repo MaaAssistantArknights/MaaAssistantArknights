@@ -3234,6 +3234,16 @@
             100
         ]
     },
+    "BattleOperName": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            0,
+            160,
+            180,
+            60
+        ]
+    },
     "BattleUseOper": {
         "algorithm": "JustReturn",
         "preDelay": 500,
@@ -3925,6 +3935,7 @@
     "Roguelike1RecruitData": {
         "algorithm": "OcrDetect",
         "text": [],
+        "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务服用",
         "ocrReplace": [
             [
                 "白面.+",
@@ -4619,20 +4630,6 @@
         "algorithm": "OcrDetect",
         "text": [],
         "action": "DoNothing",
-        "ocrReplace": [
-            [
-                "白面.+",
-                "白面鸮"
-            ],
-            [
-                "蛇居箱",
-                "蛇屠箱"
-            ],
-            [
-                ".+刺",
-                "棘刺"
-            ]
-        ],
         "rectMove": [
             150,
             -30,

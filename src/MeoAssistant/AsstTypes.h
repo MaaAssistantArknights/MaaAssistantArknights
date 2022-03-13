@@ -88,6 +88,10 @@ namespace asst
         {
             return x <= rhs.x && y <= rhs.y && (x + width) >= (rhs.x + rhs.width) && (y + height) >= (rhs.y + rhs.height);
         }
+        bool include(const Point& rhs) const noexcept
+        {
+            return x <= rhs.x && y <= rhs.y && (x + width) >= rhs.x && (y + height) >= rhs.y;
+        }
         std::string to_string() const
         {
             return "[ " + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(width) + ", " + std::to_string(height) + " ]";
