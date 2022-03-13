@@ -5,6 +5,7 @@
 #include "RoguelikeBattleTaskPlugin.h"
 #include "RoguelikeRecruitTaskPlugin.h"
 #include "RoguelikeSkillSelectionTaskPlugin.h"
+#include "RoguelikeBattleTaskPlugin.h"
 
 #include "Logger.hpp"
 
@@ -16,7 +17,9 @@ asst::RoguelikeTask::RoguelikeTask(AsstCallback callback, void* callback_arg)
         .set_retry_times(50);
 
     m_roguelike_task_ptr->regiseter_plugin<RoguelikeFormationTaskPlugin>();
-    m_roguelike_task_ptr->regiseter_plugin<RoguelikeBattleTaskPlugin>();
+
+    m_battle_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeBattleTaskPlugin>();
+
     m_recruit_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeRecruitTaskPlugin>();
     m_recruit_task_ptr->set_retry_times(2);
 
@@ -41,6 +44,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     std::vector<std::string> opers_vec;
     RoguelikeSkillSelectionTaskPlugin::SkillMap skill_map;
+    RoguelikeBattleTaskPlugin::SkillUsageMap usage_map;
 
     for (auto& oper : params.at("opers").as_array()) {
         if (!oper.contains("name") || !oper.at("name").is_string()) {
@@ -53,6 +57,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         std::string name = oper.at("name").as_string();
         opers_vec.emplace_back(name);
         skill_map.emplace(name, skill);
+
+        auto usage = static_cast<SkillUsage>(oper.get("skill_usage", 0));
+        usage_map.emplace(name, usage);
     }
     skill_map.emplace("Unknown", 3);
 
@@ -73,6 +80,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     m_recruit_task_ptr->set_opers(std::move(opers_vec));
     m_skill_task_ptr->set_skill_map(std::move(skill_map));
+
+    m_battle_task_ptr->set_skill_usage(std::move(usage_map));
 
     return true;
 }

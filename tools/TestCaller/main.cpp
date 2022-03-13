@@ -24,7 +24,7 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:7555", "");
+    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", "");
     if (!connected) {
         std::cerr << "connect failed" << std::endl;
         AsstDestroy(ptr);
@@ -37,11 +37,11 @@ int main(int argc, char** argv)
 
     //AsstAppendTask(ptr, "StartUp", R"({})");
 
-    AsstAppendTask(ptr, "Fight", R"(
-{
-    "stage": ""
-}
-    )");
+//    AsstAppendTask(ptr, "Fight", R"(
+//{
+//    "stage": "CE-5"
+//}
+//    )");
 
     //    AsstAppendTask(ptr, "Recruit", R"(
     //{
@@ -72,21 +72,25 @@ int main(int argc, char** argv)
     //)");
     //    AsstAppendTask(ptr, "Award", R"({})");
     //
-    //    AsstAppendTask(ptr, "Roguelike", R"(
-    //{
-    //    "opers": [
-    //        {
-    //            "name": "帕拉斯"
-    //        },
-    //        {
-    //            "name": "梓兰"
-    //        },
-    //        {
-    //            "name": "安赛尔"
-    //        }
-    //    ]
-    //}
-    //)");
+    AsstAppendTask(ptr, "Roguelike", R"(
+    {
+        "opers": [
+            {
+                "name": "棘刺",
+                "skill": 3,
+                "skill_usage": 1
+            },
+            {
+                "name": "梓兰"
+            },
+            {
+                "name": "芙蓉"
+            }
+        ]
+    }
+    )");
+
+    //AsstAppendTask(ptr, "Debug", R"({})");
 
     AsstStart(ptr);
 
