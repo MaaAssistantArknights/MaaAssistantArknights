@@ -76,8 +76,8 @@ int main(int argc, char** argv)
     {
         "opers": [
             {
-                "name": "棘刺",
-                "skill": 3,
+                "name": "山",
+                "skill": 2,
                 "skill_usage": 1
             },
             {
