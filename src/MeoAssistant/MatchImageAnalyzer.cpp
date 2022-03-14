@@ -108,7 +108,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
         Log.trace("match_templ |", m_templ_name, "score:", max_val, "rect:", rect.to_string(), "roi:", m_roi.to_string());
     }
 
-    if (max_val >= m_templ_thres) {
+    if (m_templ_thres <= max_val && max_val < 2.0) {
         m_result = { max_val, rect };
         return true;
     }
