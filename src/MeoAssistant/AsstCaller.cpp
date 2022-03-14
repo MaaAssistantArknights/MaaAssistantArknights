@@ -39,8 +39,12 @@ static bool inited = false;
 
 bool AsstLoadResource(const char* path)
 {
-    inited = asst::Logger::set_dirname(std::string(path) + "/")
-        && asst::Resrc.load(std::string(path) + "/resource/");
+    bool log_inited = asst::Logger::set_dirname(std::string(path) + "/");
+    bool resrc_inited = asst::Resrc.load(std::string(path) + "/resource/");
+    if (!resrc_inited) {
+        std::cerr << asst::Resrc.get_last_error() << std::endl;
+    }
+    inited = log_inited && resrc_inited;
     return inited;
 }
 

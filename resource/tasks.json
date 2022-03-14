@@ -3960,6 +3960,10 @@
             [
                 "^U$",
                 "山"
+            ],
+            [
+                "^1$",
+                "山"
             ]
         ],
         "roi": [
@@ -3967,6 +3971,19 @@
             69,
             666,
             614
+        ]
+    },
+    "Roguelike1ChooseOperFlag": {
+        "template": "Roguelike1ChooseOperConfirm.png",
+        "action": "DoNothing",
+        "roi": [
+            1016,
+            602,
+            264,
+            118
+        ],
+        "next": [
+            "Roguelike1ChooseOper"
         ]
     },
     "Roguelike1ChooseOperConfirm": {
@@ -3979,6 +3996,7 @@
         ],
         "next": [
             "Roguelike1RecruitSkip",
+            "Roguelike1TraderRandomShopping",
             "Roguelike1StageEncounterGiveUpRecruitConfirm",
             "Roguelike1RecruitWithoutButton"
         ]
@@ -3996,6 +4014,9 @@
             "Roguelike1RecruitSkip",
             "Roguelike1RecruitOther",
             "Roguelike1DropsFlag",
+            "Roguelike1TraderRandomShopping",
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1StageTraderLeave",
             "Roguelike1RecruitWithoutButton"
         ]
     },
@@ -4013,7 +4034,11 @@
             "Roguelike1RecruitOther",
             "Roguelike1EnterAfterRecruit",
             "Roguelike1DropsFlag",
+            "Roguelike1TraderRandomShopping",
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1StageTraderLeave",
             "Roguelike1RecruitWithoutButton"
+
         ]
     },
     "Roguelike1EnterAfterRecruit": {
@@ -4069,6 +4094,40 @@
         "rearDelay": 3000,
         "next": [
             "Roguelike1StageTraderInvestSystem",
+            "Roguelike1TraderRandomShopping",
+            "Roguelike1StageTraderLeave"
+        ]
+    },
+    "Roguelike1TraderRandomShopping": {
+        "action": "ClickSelf",
+        "templThreshold": 0.9,
+        "cache": false,
+        "roi": [
+            427,
+            374,
+            661,
+            196
+        ],
+        "next": [
+            "Roguelike1TraderRandomShoppingConfirm"
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "Roguelike1TraderRandomShoppingConfirm": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            872,
+            425,
+            221,
+            136
+        ],
+        "next": [
+            "Roguelike1TraderRandomShopping",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageTraderLeave"
         ]
     },
@@ -4145,15 +4204,11 @@
             278,
             144
         ],
-        "maxTimes": 1000,
         "rearDelay": 500,
         "next": [
             "Roguelike1StageTraderInvestSystemError",
             "Roguelike1StageTraderInvestSystemFull",
             "Roguelike1StageTraderInvestConfirm",
-            "Roguelike1StageTraderInvestCancel"
-        ],
-        "exceededNext": [
             "Roguelike1StageTraderInvestCancel"
         ]
     },
@@ -4215,6 +4270,7 @@
             143
         ],
         "next": [
+            "Roguelike1TraderRandomShopping",
             "Roguelike1StageTraderLeave"
         ]
     },
@@ -4410,7 +4466,7 @@
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
-            "Roguelike1StageEncounterGiveUpRecruit",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1StageCambatDpsEnter",
             "Roguelike1StageEmergencyDpsEnter",
@@ -4431,20 +4487,6 @@
             "Roguelike1ClickToDrops"
         ]
     },
-    "Roguelike1StageEncounterGiveUpRecruit": {
-        "template": "Roguelike1ChooseOperConfirm.png",
-        "action": "ClickSelf",
-        "roi": [
-            1016,
-            602,
-            264,
-            118
-        ],
-        "next": [
-            "Roguelike1StageEncounterGiveUpRecruitConfirm",
-            "Roguelike1StageEncounterGiveUpRecruit"
-        ]
-    },
     "Roguelike1StageEncounterGiveUpRecruitConfirm": {
         "action": "ClickSelf",
         "roi": [
@@ -4454,6 +4496,8 @@
             171
         ],
         "next": [
+            "Roguelike1TraderRandomShopping",
+            "Roguelike1StageTraderLeave",
             "Roguelike1DropsFlag",
             "Roguelike1ClickToDrops"
         ]
@@ -4723,7 +4767,6 @@
             50
         ],
         "next": [
-            "Roguelike1DropsFlag",
             "Roguelike1StageTrader",
             "Roguelike1StageSafeHouse",
             "Roguelike1StageEncounter",
@@ -4731,8 +4774,12 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike1StageEncounterGiveUpRecruit",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
+            "Roguelike1TraderRandomShopping",
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1StageTraderLeave",
+            "Roguelike1DropsFlag",
             "Roguelike1ClickToDrops"
         ]
     },
@@ -4760,7 +4807,7 @@
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
-            "Roguelike1StageEncounterGiveUpRecruit",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1EnterAfterRecruit"
         ]
@@ -4821,8 +4868,8 @@
         "templThreshold": 0.85,
         "rearDelay": 1000,
         "next": [
-            "Roguelike1ChooseOper",
-            "Roguelike1StageEncounterGiveUpRecruit"
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1ChooseOper"
         ]
     },
     "Roguelike1GetDropCompleted": {
