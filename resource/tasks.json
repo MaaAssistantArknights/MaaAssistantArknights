@@ -3956,6 +3956,10 @@
             [
                 "^F$",
                 "山"
+            ],
+            [
+                "^U$",
+                "山"
             ]
         ],
         "roi": [
@@ -4640,9 +4644,9 @@
         "action": "DoNothing",
         "rectMove": [
             150,
-            -30,
+            -50,
             180,
-            65
+            120
         ]
     },
     "Roguelike1SkillSelectionRect": {
