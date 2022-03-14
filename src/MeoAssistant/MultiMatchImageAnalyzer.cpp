@@ -110,7 +110,7 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
     for (int i = 0; i != matched.rows; ++i) {
         for (int j = 0; j != matched.cols; ++j) {
             auto value = matched.at<float>(i, j);
-            if (value >= m_templ_thres) {
+            if (m_templ_thres <= value && value < 2.0) {
                 Rect rect(j + m_roi.x, i + m_roi.y, templ.cols, templ.rows);
                 bool need_push = true;
                 // 如果有两个点离得太近，只取里面得分高的那个
