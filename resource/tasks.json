@@ -438,7 +438,7 @@
     },
     "StartButton2": {
         "action": "clickSelf",
-        "rearDelay": 20000,
+        "rearDelay": 40000,
         "roi": [
             1000,
             350,
