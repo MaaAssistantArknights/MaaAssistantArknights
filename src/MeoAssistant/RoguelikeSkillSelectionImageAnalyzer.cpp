@@ -48,7 +48,12 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
         return std::string();
     }
     analyzer.sort_result_by_score();
-    return analyzer.get_result().front().text;
+    for (const auto& result : analyzer.get_result()) {
+        if (result.text.find("临时招募") == std::string::npos) {
+            return result.text;
+        }
+    }
+    return std::string();
 }
 
 std::vector<asst::Rect> asst::RoguelikeSkillSelectionImageAnalyzer::skill_analyze(const Rect& roi)
