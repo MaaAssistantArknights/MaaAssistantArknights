@@ -89,6 +89,9 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat image, const 
         }
         std::string text(*(m_strs_buffer + i));
         float score = *(m_scores_buffer + i);
+        if (score > 2.0) {
+            score = 0;
+        }
 
         TextRect tr{ score, rect, text };
 #ifdef ASST_DEBUG
