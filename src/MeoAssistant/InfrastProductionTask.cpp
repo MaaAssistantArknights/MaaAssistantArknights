@@ -408,8 +408,9 @@ bool asst::InfrastProductionTask::optimal_calc()
             // 允许外部的话，就把单个干员凑进来
             if (group.allow_external) {
                 for (size_t i = cur_combs.size(); i != cur_max_num_of_opers; ++i) {
-                    cur_combs.emplace_back(cur_available_opers.at(i));
-                    cur_efficient += cur_available_opers.at(i).efficient.at(m_product);
+                    size_t index = i - cur_combs.size();
+                    cur_combs.emplace_back(cur_available_opers.at(index));
+                    cur_efficient += cur_available_opers.at(index).efficient.at(m_product);
                 }
             }
             else { // 否则这个组合人不够，就不可用了
