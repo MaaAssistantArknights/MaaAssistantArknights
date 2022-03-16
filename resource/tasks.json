@@ -1930,6 +1930,27 @@
         "template": "DroneAssistTrade.png",
         "action": "Stop"
     },
+    "ReplenishToMax": {
+        "action": "ClickSelf",
+        "roi": [
+            882,
+            128,
+            165,
+            149
+        ],
+        "next": [
+            "ReplenishToMaxConfirm"
+        ]
+    },
+    "ReplenishToMaxConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            854,
+            504,
+            192,
+            187
+        ]
+    },
     "ShamareThumbnail": {
         "algorithm": "JustReturn",
         "action": "DoNothing",

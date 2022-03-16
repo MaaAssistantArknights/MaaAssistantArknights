@@ -12,6 +12,7 @@
 #include "InfrastOfficeTask.h"
 #include "InfrastDormTask.h"
 #include "DronesForShamareTaskPlugin.h"
+#include "ReplenishOriginiumShardTaskPlugin.h"
 
 asst::InfrastTask::InfrastTask(AsstCallback callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
@@ -27,6 +28,8 @@ asst::InfrastTask::InfrastTask(AsstCallback callback, void* callback_arg)
 {
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" });
     m_trade_task_ptr->regiseter_plugin<DronesForShamareTaskPlugin>();
+    m_replenish_task_ptr = m_mfg_task_ptr->regiseter_plugin<ReplenishOriginiumShardTaskPlugin>();
+
     m_subtasks.emplace_back(m_infrast_begin_task_ptr);
 }
 
@@ -96,6 +99,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_reception_task_ptr->set_mood_threshold(threshold);
     m_office_task_ptr->set_mood_threshold(threshold);
     m_dorm_task_ptr->set_mood_threshold(threshold);
+
+    bool replenish = params.get("replenish", false);
+    m_replenish_task_ptr->set_enable(replenish);
 
     return true;
 }

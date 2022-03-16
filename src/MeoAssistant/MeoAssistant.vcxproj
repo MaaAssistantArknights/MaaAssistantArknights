@@ -33,6 +33,7 @@
     <ClInclude Include="MallTask.h" />
     <ClInclude Include="PackageTask.h" />
     <ClInclude Include="RecruitTask.h" />
+    <ClInclude Include="ReplenishOriginiumShardTaskPlugin.h" />
     <ClInclude Include="RoguelikeBattleTaskPlugin.h" />
     <ClInclude Include="CreditShopImageAnalyzer.h" />
     <ClInclude Include="DronesForShamareTaskPlugin.h" />
@@ -101,6 +102,7 @@
     <ClCompile Include="MallTask.cpp" />
     <ClCompile Include="PackageTask.cpp" />
     <ClCompile Include="RecruitTask.cpp" />
+    <ClCompile Include="ReplenishOriginiumShardTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeBattleTaskPlugin.cpp" />
     <ClCompile Include="CreditShopImageAnalyzer.cpp" />
     <ClCompile Include="CreditShoppingTask.cpp" />
