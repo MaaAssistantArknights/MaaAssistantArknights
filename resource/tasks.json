@@ -2594,6 +2594,29 @@
         "template": "DroneAssistTrade.png",
         "action": "stop"
     },
+    "ReplenishToMax": {
+        "action": "ClickSelf",
+        "roi": [
+            882,
+            128,
+            165,
+            149
+        ],
+        "rearDelay": 1000,
+        "next": [
+            "ReplenishToMaxConfirm",
+            "Stop"
+        ]
+    },
+    "ReplenishToMaxConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            854,
+            504,
+            192,
+            187
+        ]
+    },
     "ShamareThumbnail": {
         "algorithm": "JustReturn",
         "action": "doNothing",

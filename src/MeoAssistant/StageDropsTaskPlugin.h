@@ -34,5 +34,6 @@ namespace asst
         bool m_startbutton_delay_setted = false;
         std::vector<std::future<void>> m_upload_pending;
         ProcessTask* m_cast_ptr = nullptr;
+        bool m_enable_penguid = true;
     };
 }
