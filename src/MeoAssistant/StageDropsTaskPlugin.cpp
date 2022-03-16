@@ -55,12 +55,13 @@ bool asst::StageDropsTaskPlugin::_run()
     drop_info_callback();
 
     check_stage_valid();
-
-    auto upload_future = std::async(
-        std::launch::async,
-        std::bind(&StageDropsTaskPlugin::upload_to_penguin, this));
-    m_upload_pending.emplace_back(std::move(upload_future));
-
+    
+    if (m_enable_penguid) {
+        auto upload_future = std::async(
+            std::launch::async,
+            std::bind(&StageDropsTaskPlugin::upload_to_penguin, this));
+        m_upload_pending.emplace_back(std::move(upload_future));
+    }
     return true;
 }
 

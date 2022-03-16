@@ -28,6 +28,7 @@
 #include "RuntimeStatus.h"
 #include "StageDropsTaskPlugin.h"
 #include "DronesForShamareTaskPlugin.h"
+#include "ReplenishOriginiumShardTaskPlugin.h"
 
 using namespace asst;
 
@@ -429,14 +430,15 @@ bool asst::Assistant::append_infrast(infrast::WorkMode work_mode, const std::vec
         .set_work_mode(work_mode)
         .set_mood_threshold(dorm_threshold)
         .set_retry_times(InfrastRetryTimes);
+    mfg_task_ptr->regiseter_plugin<ReplenishOriginiumShardTaskPlugin>();
 
     auto trade_task_ptr = std::make_shared<InfrastTradeTask>(task_callback, (void*)this, InfrastTaskCahin);
     trade_task_ptr->set_uses_of_drone(uses_of_drones)
         .set_work_mode(work_mode)
         .set_mood_threshold(dorm_threshold)
         .set_retry_times(InfrastRetryTimes);
-
     trade_task_ptr->regiseter_plugin<DronesForShamareTaskPlugin>();
+
     auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this, InfrastTaskCahin);
     power_task_ptr->set_work_mode(work_mode)
         .set_mood_threshold(dorm_threshold)
