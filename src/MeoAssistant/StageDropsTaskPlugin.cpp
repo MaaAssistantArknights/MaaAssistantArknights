@@ -73,8 +73,6 @@ bool asst::StageDropsTaskPlugin::_run()
     }
     drop_info_callback();
 
-    auto& opt = Resrc.cfg().get_options();
-
     if (m_enable_penguid) {
         auto upload_future = std::async(
             std::launch::async,

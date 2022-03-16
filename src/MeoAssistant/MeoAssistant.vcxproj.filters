@@ -303,6 +303,9 @@
     <ClInclude Include="RoguelikeSkillSelectionImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Final</Filter>
     </ClInclude>
+    <ClInclude Include="ReplenishOriginiumShardTaskPlugin.h">
+      <Filter>头文件\Task\Plugin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -502,6 +505,9 @@
     </ClCompile>
     <ClCompile Include="RoguelikeSkillSelectionImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\Final</Filter>
+    </ClCompile>
+    <ClCompile Include="ReplenishOriginiumShardTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
