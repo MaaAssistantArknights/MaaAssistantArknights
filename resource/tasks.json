@@ -932,6 +932,27 @@
             420
         ],
         "next": [
+            "RecruitFinishLoading",
+            "RecruitFinish",
+            "RecruitSkip",
+            "RecruitSkipWithoutButton"
+        ]
+    },
+    "RecruitFinishLoading":{
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "RecruitFinishLoading",
             "RecruitFinish",
             "RecruitSkip",
             "RecruitSkipWithoutButton"
@@ -1720,6 +1741,25 @@
             80
         ],
         "next": [
+            "RecruitConfirmLoading",
+            "RecruitFlag"
+        ]
+    },
+    "RecruitConfirmLoading":{
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "RecruitConfirmLoading",
             "RecruitFlag"
         ]
     },
