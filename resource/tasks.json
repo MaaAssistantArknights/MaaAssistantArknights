@@ -898,6 +898,26 @@
             255
         ],
         "next": [
+            "RecruitBeginLoading",
+            "RecruitBegin"
+        ]
+    },
+    "RecruitBeginLoading": {
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "RecruitBeginLoading",
+            "Recruit",
             "RecruitBegin"
         ]
     },
