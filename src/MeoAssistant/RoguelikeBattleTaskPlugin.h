@@ -4,22 +4,16 @@
 #include "AsstTypes.h"
 #include "TilePack.h"
 #include "BattleImageAnalyzer.h"
+#include "AsstBattleDef.h"
 
 namespace asst
 {
-    enum class SkillUsage
-    {
-        Possibly = 0,   // 有就用，例如干员 棘刺 3 技能
-        Once = 1,       // 只用一次，例如干员 银灰 2技能
-        InTime = 2,     // 关键时刻使用，例如干员 假日威龙陈 3 技能
-        OnceUsed
-    };
     class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin
     {
         using Loc = asst::TilePack::BuildableType;
         using Role = asst::BattleImageAnalyzer::Role;
     public:
-        using SkillUsageMap = std::unordered_map<std::string, SkillUsage>;
+        using SkillUsageMap = std::unordered_map<std::string, BattleSkillUsage>;
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
         virtual ~RoguelikeBattleTaskPlugin() = default;
