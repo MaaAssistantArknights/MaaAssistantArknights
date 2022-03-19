@@ -11,7 +11,6 @@ namespace asst
     class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin
     {
         using Loc = asst::TilePack::BuildableType;
-        using Role = asst::BattleImageAnalyzer::Role;
     public:
         using SkillUsageMap = std::unordered_map<std::string, BattleSkillUsage>;
     public:
@@ -38,7 +37,7 @@ namespace asst
 
         // 计算摆放干员的朝向
         // 返回滑动的方向
-        Point calc_direction(Point loc, Role role);
+        Point calc_direction(Point loc, BattleRole role);
 
         bool m_opers_used = false;
         int m_pre_hp = 0;

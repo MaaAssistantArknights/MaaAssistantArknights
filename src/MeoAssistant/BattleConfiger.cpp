@@ -8,14 +8,14 @@ bool asst::BattleConfiger::parse(const json::value& json)
 {
     std::string stage_name = json.at("stage_name").as_string();
 
-    BattleActions battle_actions;
+    BattleActionsGroup battle_actions;
 
     if (json.contains("opers_groups")) {
         for (const auto& group_info : json.at("opers_groups").as_array()) {
             std::string group_name = group_info.at("name").as_string();
-            std::vector<BattleOper> oper_vec;
+            std::vector<BattleDeployOper> oper_vec;
             for (const auto& oper_info : group_info.at("opers").as_array()) {
-                BattleOper oper;
+                BattleDeployOper oper;
                 oper.name = oper_info.at("name").as_string();
                 oper.skill = oper_info.get("skill", 1);
                 oper.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 0));
@@ -27,7 +27,7 @@ bool asst::BattleConfiger::parse(const json::value& json)
 
     if (json.contains("opers")) {
         for (const auto& oper_info : json.at("opers").as_array()) {
-            BattleOper oper;
+            BattleDeployOper oper;
             oper.name = oper_info.at("name").as_string();
             oper.skill = oper_info.get("skill", 1);
             oper.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 0));
@@ -48,7 +48,7 @@ bool asst::BattleConfiger::parse(const json::value& json)
         action.location.x = action_info.get("location", 0, 0);
         action.location.y = action_info.get("location", 1, 0);
 
-        action.direction = static_cast<DeployDirection>(action_info.get("direction", 0));
+        action.direction = static_cast<BattleDeployDirection>(action_info.get("direction", 0));
         action.pre_delay = action_info.get("pre_delay", 0);
         action.rear_delay = action_info.get("rear_delay", 0);
         action.time_out = action_info.get("timeout", INT_MAX);

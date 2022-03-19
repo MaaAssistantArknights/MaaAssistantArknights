@@ -3265,6 +3265,44 @@
             60
         ]
     },
+    "BattlePause": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1170,
+            20,
+            60,
+            60
+        ]
+    },
+    "BattleCancelSelection": {
+        "algorithm": "JustReturn",
+        "action": "ClickSelf",
+        "specificRect": [
+            150,
+            0,
+            1000,
+            60
+        ]
+    },
+    "BattleKillsFlag": {
+        "roi": [
+            150,
+            0,
+            600,
+            60
+        ],
+        "rectMove": [
+            50,
+            0,
+            150,
+            60
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
     "BattleUseOper": {
         "algorithm": "JustReturn",
         "preDelay": 500,
@@ -3293,9 +3331,9 @@
     "BattleOperClickRange": {
         "algorithm": "JustReturn",
         "rectMove": [
-            -59,
+            -45,
             6,
-            98,
+            75,
             120
         ]
     },

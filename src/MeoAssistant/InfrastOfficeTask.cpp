@@ -24,7 +24,7 @@ bool asst::InfrastOfficeTask::_run()
 
         auto find_iter = std::find_if(
             m_all_available_opers.begin(), m_all_available_opers.end(),
-            [&](const infrast::Oper& info) -> bool {
+            [&](const infrast::BattleRealTimeOper& info) -> bool {
                 return info.selected;
             });
 

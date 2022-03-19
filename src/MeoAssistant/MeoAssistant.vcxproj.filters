@@ -219,9 +219,6 @@
     <ClInclude Include="HashImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\General</Filter>
     </ClInclude>
-    <ClInclude Include="BattlePerspectiveImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer\General</Filter>
-    </ClInclude>
     <ClInclude Include="RoguelikeBattleTaskPlugin.h">
       <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
@@ -308,6 +305,9 @@
     </ClInclude>
     <ClInclude Include="BattleConfiger.h">
       <Filter>头文件\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleProcessTask.h">
+      <Filter>头文件\Task\Sub</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -455,9 +455,6 @@
     <ClCompile Include="BattleImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\Final</Filter>
     </ClCompile>
-    <ClCompile Include="BattlePerspectiveImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer\Final</Filter>
-    </ClCompile>
     <ClCompile Include="CreditShopImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\Final</Filter>
     </ClCompile>
@@ -514,6 +511,9 @@
     </ClCompile>
     <ClCompile Include="BattleConfiger.cpp">
       <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleProcessTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

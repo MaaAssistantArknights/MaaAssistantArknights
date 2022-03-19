@@ -4,24 +4,48 @@
 
 #include "MultiMatchImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"
+#include "OcrImageAnalyzer.h"
 #include "HashImageAnalyzer.h"
 #include "Logger.hpp"
 #include "TaskData.h"
 
-bool asst::BattleImageAnalyzer::analyze()
+bool asst::BattleImageAnalyzer::set_target(int target)
 {
-    // 生命值和家门，只要识别到了任一个，就可以说明当前是在战斗场景
-    bool ret = hp_analyze();
-    ret |= home_analyze();
-
-    if (ret) {
-        opers_analyze();
-        skill_analyze();
-    }
-    return ret;
+    m_target = target;
+    return true;
 }
 
-const std::vector<asst::BattleImageAnalyzer::Oper>& asst::BattleImageAnalyzer::get_opers() const noexcept
+bool asst::BattleImageAnalyzer::analyze()
+{
+    // HP 作为 flag，无论如何都识别。表明当前画面是在战斗场景的
+    bool ret = hp_analyze();
+
+    if (m_target & Target::Home) {
+        ret |= home_analyze();
+    }
+
+    if (!ret) {
+        return false;
+    }
+
+    // 可能没有干员（全上场了），所以干员识别结果不影响返回值
+    if (m_target & Target::Oper) {
+        opers_analyze();
+    }
+
+    // 可能没有可使用的技能，所以技能识别结果不影响返回值
+    if (m_target & Target::Skill) {
+        skill_analyze();
+    }
+
+    if (m_target & Target::Kills) {
+        ret &= kills_analyze();
+    }
+
+    return true;
+}
+
+const std::vector<asst::BattleRealTimeOper>& asst::BattleImageAnalyzer::get_opers() const noexcept
 {
     return m_opers;
 }
@@ -41,12 +65,17 @@ int asst::BattleImageAnalyzer::get_hp() const noexcept
     return m_hp;
 }
 
+int asst::BattleImageAnalyzer::get_kills() const noexcept
+{
+    return m_kills;
+}
+
 bool asst::BattleImageAnalyzer::opers_analyze()
 {
     LogTraceFunction;
 
     MultiMatchImageAnalyzer flags_analyzer(m_image);
-    flags_analyzer.set_task_info(Task.get("BattleOpersFlag"));
+    flags_analyzer.set_task_info("BattleOpersFlag");
     if (!flags_analyzer.analyze()) {
         return false;
     }
@@ -58,8 +87,9 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     const auto avlb_move = Task.get("BattleOperAvailable")->rect_move;
 
     for (const MatchRect& flag_mrect : flags_analyzer.get_result()) {
-        Oper oper;
+        BattleRealTimeOper oper;
         oper.rect = flag_mrect.rect.move(click_move);
+        oper.avatar = m_image(utils::make_rect<cv::Rect>(oper.rect));
 
         Rect available_rect = flag_mrect.rect.move(avlb_move);
         oper.available = oper_available_analyze(available_rect);
@@ -85,26 +115,26 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     return true;
 }
 
-asst::BattleImageAnalyzer::Role asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
+asst::BattleRole asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
 {
-    static const std::unordered_map<Role, std::string> RolesName = {
-        { Role::Caster, "Caster" },
-        { Role::Medic, "Medic" },
-        { Role::Pioneer, "Pioneer" },
-        { Role::Sniper, "Sniper" },
-        { Role::Special, "Special" },
-        { Role::Support, "Support" },
-        { Role::Tank, "Tank" },
-        { Role::Warrior, "Warrior" },
-        { Role::Drone, "Drone" }
+    static const std::unordered_map<BattleRole, std::string> RolesName = {
+        { BattleRole::Caster, "Caster" },
+        { BattleRole::Medic, "Medic" },
+        { BattleRole::Pioneer, "Pioneer" },
+        { BattleRole::Sniper, "Sniper" },
+        { BattleRole::Special, "Special" },
+        { BattleRole::Support, "Support" },
+        { BattleRole::Tank, "Tank" },
+        { BattleRole::Warrior, "Warrior" },
+        { BattleRole::Drone, "Drone" }
     };
 
     MatchImageAnalyzer role_analyzer(m_image);
 
-    Role result = Role::Unknown;
+    BattleRole result = BattleRole::Unknown;
     double max_score = 0;
     for (auto&& [role, role_name] : RolesName) {
-        role_analyzer.set_task_info(Task.get("BattleOperRole" + role_name));
+        role_analyzer.set_task_info("BattleOperRole" + role_name);
         role_analyzer.set_roi(roi);
         if (!role_analyzer.analyze()) {
             continue;
@@ -328,4 +358,50 @@ bool asst::BattleImageAnalyzer::hp_analyze()
 #endif
     m_hp = hp;
     return true;
+}
+
+bool asst::BattleImageAnalyzer::kills_analyze()
+{
+    const auto task_ptr = Task.get("BattleKillsFlag");
+    MatchImageAnalyzer flag_analzyer(m_image);
+    flag_analzyer.set_task_info(task_ptr);
+    if (!flag_analzyer.analyze()) {
+        return false;
+    }
+
+    auto kills_roi = flag_analzyer.get_result().rect.move(task_ptr->rect_move);
+    OcrImageAnalyzer kills_analyzer(m_image);
+    kills_analyzer.set_roi(kills_roi);
+    if (!kills_analyzer.analyze()) {
+        return false;
+    }
+    kills_analyzer.sort_result_by_score();
+
+    // 这里的结果应该是 "击杀数/总的敌人数"，例如 "0/41"
+    std::string kills_res = kills_analyzer.get_result().front().text;
+    int pos = kills_res.find('/');
+    if (pos == std::string::npos) {
+        return false;
+    }
+
+    // 例子中的"0"
+    std::string kills_count = kills_res.substr(0, pos);
+    if (kills_count.empty() ||
+        !std::all_of(kills_count.cbegin(), kills_count.cend(),
+            [](char c) -> bool {return std::isdigit(c);})) {
+        return false;
+    }
+    int cur_kills = std::stoi(kills_count);
+    m_kills = std::max(m_kills, cur_kills);
+    return true;
+}
+
+bool asst::BattleImageAnalyzer::cost_analyze()
+{
+    return false;
+}
+
+bool asst::BattleImageAnalyzer::vacancies_analyze()
+{
+    return false;
 }

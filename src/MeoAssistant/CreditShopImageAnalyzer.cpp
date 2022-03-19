@@ -93,7 +93,7 @@ bool asst::CreditShopImageAnalyzer::sold_out_analyze()
 {
     // 识别是否售罄
     MatchImageAnalyzer sold_out_analyzer(m_image);
-    sold_out_analyzer.set_task_info(Task.get("CreditShop-SoldOut"));
+    sold_out_analyzer.set_task_info("CreditShop-SoldOut");
 
     for (const Rect& commodity : m_need_to_buy) {
         sold_out_analyzer.set_roi(commodity);

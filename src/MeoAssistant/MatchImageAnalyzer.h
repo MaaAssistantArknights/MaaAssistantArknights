@@ -18,6 +18,7 @@ namespace asst
         void set_templ_name(std::string templ_name) noexcept;
         void set_threshold(double templ_thres) noexcept;
         void set_task_info(std::shared_ptr<TaskInfo> task_ptr);
+        void set_task_info(const std::string& task_name);
         void set_region_of_appeared(Rect region) noexcept;
 
         const MatchRect& get_result() const noexcept;

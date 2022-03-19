@@ -101,7 +101,7 @@ asst::Controller::~Controller()
     close(m_pipe_out[PIPE_READ]);
     close(m_pipe_out[PIPE_WRITE]);
 #endif
-}
+    }
 
 //asst::Rect asst::Controller::shaped_correct(const Rect & rect) const
 //{
@@ -638,10 +638,10 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
 
     auto adb_ret = Resrc.cfg().get_adb_cfg(config);
     if (!adb_ret) {
-        json::value info = get_info_json() | 
+        json::value info = get_info_json() |
             json::object{
                 { "what", "ConnectFailed" },
-                { "why", "ConfigNotFound" }};
+                { "why", "ConfigNotFound" } };
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
         return false;
     }
@@ -667,7 +667,7 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
         auto connect_ret = call_command(cmd_replace(adb_cfg.connect));
         // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
         if (!connect_ret) {
-            json::value info = get_info_json() | 
+            json::value info = get_info_json() |
                 json::object{
                     { "what", "ConnectFailed" },
                     { "why", "Connection command failed to exec" }
@@ -681,11 +681,11 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
     {
         auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid));
         if (!uuid_ret) {
-            json::value info = get_info_json() | 
+            json::value info = get_info_json() |
                 json::object{
                     { "what", "ConnectFailed" },
                     { "why", "Uuid command failed to exec" }
-                };
+            };
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
             return false;
         }
@@ -701,7 +701,7 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
             json::object{
                 { "what", "UuidGetted" },
                 { "why", "" }
-            };
+        };
         info["details"]["uuid"] = m_uuid;
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
     }
@@ -736,7 +736,7 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
                 json::object{
                     { "what", "ConnectFailed" },
                     { "why", "Display command failed to exec" }
-                };
+            };
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
             return false;
         }
@@ -763,10 +763,10 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
             { "why", "" }
         };
 
-        info["details"] |= json::object {
+        info["details"] |= json::object{
                 { "width", m_width },
                 { "height", m_height }
-            };
+        };
 
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
     }
@@ -795,7 +795,7 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
             json::object{
                 { "what", "Connected" },
                 { "why", "" }
-            };
+        };
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
     }
 

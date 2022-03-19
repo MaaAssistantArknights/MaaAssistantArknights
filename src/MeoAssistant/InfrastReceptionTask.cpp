@@ -146,7 +146,6 @@ bool asst::InfrastReceptionTask::shift()
     const auto image = m_ctrler->get_image();
     MatchImageAnalyzer add_analyzer(image);
 
-
     const auto raw_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
     switch (raw_task_ptr->algorithm) {
     case AlgorithmType::JustReturn:

@@ -58,7 +58,6 @@ bool asst::RecruitImageAnalyzer::time_analyze()
     MatchImageAnalyzer time_analyzer(m_image);
     time_analyzer.set_task_info(time_task_ptr);
 
-
     if (time_analyzer.analyze()) {
         Rect rect = time_analyzer.get_result().rect;
         const auto& res_move = time_task_ptr->rect_move;
@@ -77,8 +76,7 @@ bool asst::RecruitImageAnalyzer::time_analyze()
 bool asst::RecruitImageAnalyzer::confirm_analyze()
 {
     MatchImageAnalyzer confirm_analyzer(m_image);
-    confirm_analyzer.set_task_info(Task.get("RecruitConfirm"));
-
+    confirm_analyzer.set_task_info("RecruitConfirm");
 
     if (confirm_analyzer.analyze()) {
         m_confirm_rect = confirm_analyzer.get_result().rect;
@@ -92,7 +90,7 @@ bool asst::RecruitImageAnalyzer::refresh_analyze()
 {
     MatchImageAnalyzer refresh_analyzer(m_image);
 
-    refresh_analyzer.set_task_info(Task.get("RecruitRefresh"));
+    refresh_analyzer.set_task_info("RecruitRefresh");
 
     if (refresh_analyzer.analyze()) {
         m_refresh_rect = refresh_analyzer.get_result().rect;

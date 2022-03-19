@@ -1,0 +1,57 @@
+{
+    "minimum_required": "v4.0",
+    "desc": {
+        "title": "Hello World",
+        "details": "第一份测试作业",
+        "requirements": ""
+    },
+    "stage_name": "切尔诺伯格",
+    "opers": [
+        {
+            "name": "能天使"
+        },
+        {
+            "name": "嵯峨"
+        },
+        {
+            "name": "橙闪"
+        },
+        {
+            "name": "临光"
+        }
+    ],
+    "actions": [
+        {
+            "name": "嵯峨",
+            "location": [
+                8,
+                5
+            ],
+            "direction": 2
+        },
+        {
+            "name": "能天使",
+            "location": [
+                9,
+                5
+            ],
+            "direction": 2
+        },
+        {
+            "name": "橙闪",
+            "location": [
+                7,
+                4
+            ],
+            "direction": 2
+        },
+        {
+            "name": "临光",
+            "location": [
+                8,
+                4
+            ],
+            "direction": 2
+        }
+    ]
+}

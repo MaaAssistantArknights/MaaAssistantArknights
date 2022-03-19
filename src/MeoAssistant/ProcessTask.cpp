@@ -202,6 +202,10 @@ bool ProcessTask::_run()
 
         callback(AsstMsg::SubTaskCompleted, info);
 
+        if (cur_task_ptr->next.empty()) {
+            need_stop = true;
+        }
+
         if (need_stop) {
             return true;
         }
