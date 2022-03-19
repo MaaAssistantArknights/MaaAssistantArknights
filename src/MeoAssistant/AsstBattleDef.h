@@ -4,6 +4,8 @@
 #include <string>
 #include <unordered_map>
 
+#include <opencv2/core/mat.hpp>
+
 #include "AsstTypes.h"
 
 namespace asst
@@ -16,14 +18,14 @@ namespace asst
         NotUse = 3,                 // 不自动使用
         OnceUsed
     };
-    struct BattleOper               // 干员
+    struct BattleDeployOper         // 干员
     {
         std::string name;
         int skill = 1;              // 技能序号，取值范围 [1, 3]
         BattleSkillUsage skill_usage = BattleSkillUsage::Possibly;
     };
 
-    enum class DeployDirection
+    enum class BattleDeployDirection
     {
         Right = 0,
         Down = 1,
@@ -47,15 +49,39 @@ namespace asst
         BattleActionType type = BattleActionType::Deploy;
         std::string group_name;     // 目标名，若 type >= SwitchSpeed, group_name 为空
         Point location;
-        DeployDirection direction = DeployDirection::Right;
+        BattleDeployDirection direction = BattleDeployDirection::Right;
         int pre_delay = 0;
         int rear_delay = 0;
         int time_out = INT_MAX;
     };
 
-    struct BattleActions
+    struct BattleActionsGroup
     {
-        std::unordered_map<std::string, std::vector<BattleOper>> opers_groups;
+        std::unordered_map<std::string, std::vector<BattleDeployOper>> opers_groups;
         std::vector<BattleAction> actions;
+    };
+
+    enum class BattleRole
+    {
+        Unknown,
+        Caster,
+        Medic,
+        Pioneer,
+        Sniper,
+        Special,
+        Support,
+        Tank,
+        Warrior,
+        Drone
+    };
+
+    struct BattleRealTimeOper
+    {
+        int cost = 0;
+        BattleRole role = BattleRole::Unknown;
+        bool available = false;
+        Rect rect;
+        cv::Mat avatar;
+        std::string name;
     };
 }

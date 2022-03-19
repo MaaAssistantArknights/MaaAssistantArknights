@@ -16,10 +16,9 @@ bool asst::InfrastSmileyImageAnalyzer::analyze()
 
     MultiMatchImageAnalyzer mm_analyzer(m_image);
 
-
     decltype(m_result) temp_result;
     for (const auto& [type, task_name] : smiley_map) {
-        mm_analyzer.set_task_info(Task.get(task_name));
+        mm_analyzer.set_task_info(task_name);
         mm_analyzer.set_roi(m_roi);
         if (!mm_analyzer.analyze()) {
             continue;

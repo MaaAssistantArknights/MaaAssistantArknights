@@ -68,7 +68,7 @@ namespace asst
 {
     namespace infrast
     {
-        struct Oper
+        struct BattleRealTimeOper
         {
             ::std::string face_hash;             // 有些干员的技能是完全一样的，做个hash区分一下不同干员
             ::std::string name_hash;             // 预留

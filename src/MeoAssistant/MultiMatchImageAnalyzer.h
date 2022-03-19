@@ -20,6 +20,7 @@ namespace asst
         void set_threshold(double templ_thres) noexcept;
 
         void set_task_info(std::shared_ptr<TaskInfo> task_ptr);
+        void set_task_info(const std::string& task_name);
 
         const std::vector<MatchRect>& get_result() const noexcept;
 

@@ -48,7 +48,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
     add_analyzer.set_task_info(add_task_ptr);
     MultiMatchImageAnalyzer locked_analyzer;
 
-    locked_analyzer.set_task_info(Task.get("InfrastOperLocked" + facility_name()));
+    locked_analyzer.set_task_info("InfrastOperLocked" + facility_name());
 
     for (; m_cur_facility_index < m_facility_list_tabs.size(); ++m_cur_facility_index) {
         Rect tab = m_facility_list_tabs.at(m_cur_facility_index);
@@ -86,7 +86,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         std::string cur_product = all_products.at(0);
         double max_score = 0;
         for (const std::string& product : all_products) {
-            product_analyzer.set_task_info(Task.get("InfrastFlag" + product));
+            product_analyzer.set_task_info("InfrastFlag" + product);
             if (product_analyzer.analyze()) {
                 double score = product_analyzer.get_result().score;
                 if (score > max_score) {
@@ -207,7 +207,7 @@ size_t asst::InfrastProductionTask::opers_detect()
         }
         auto find_iter = std::find_if(
             m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-            [&](const infrast::Oper& oper) -> bool {
+            [&](const infrast::BattleRealTimeOper& oper) -> bool {
                 // 有可能是同一个干员，比一下hash
                 int dist = HashImageAnalyzer::hamming(cur_oper.face_hash, oper.face_hash);
                 Log.debug("opers_detect hash dist |", dist);
@@ -492,7 +492,7 @@ bool asst::InfrastProductionTask::opers_choose()
         Log.trace("before mood filter, opers size:", cur_all_opers.size());
         // 小于心情阈值的干员则不可用
         auto remove_iter = std::remove_if(cur_all_opers.begin(), cur_all_opers.end(),
-            [&](const infrast::Oper& rhs) -> bool {
+            [&](const infrast::BattleRealTimeOper& rhs) -> bool {
                 return rhs.mood_ratio < m_mood_threshold;
             });
         cur_all_opers.erase(remove_iter, cur_all_opers.end());
@@ -502,7 +502,7 @@ bool asst::InfrastProductionTask::opers_choose()
             Log.trace("to find", opt_iter->skills.begin()->names.front());
             auto find_iter = std::find_if(
                 cur_all_opers.cbegin(), cur_all_opers.cend(),
-                [&](const infrast::Oper& lhs) -> bool {
+                [&](const infrast::BattleRealTimeOper& lhs) -> bool {
                     if (lhs.skills != opt_iter->skills) {
                         return false;
                     }
@@ -544,7 +544,7 @@ bool asst::InfrastProductionTask::opers_choose()
             {
                 auto avlb_iter = std::find_if(
                     m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-                    [&](const infrast::Oper& lhs) -> bool {
+                    [&](const infrast::BattleRealTimeOper& lhs) -> bool {
                         int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
                         Log.debug("opers_choose | face hash dist", dist);
                         if (dist < face_hash_thres) {
@@ -626,7 +626,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
     const auto image = m_ctrler->get_image();
     MultiMatchImageAnalyzer mm_analyzer(image);
 
-    mm_analyzer.set_task_info(Task.get("InfrastFacilityListTab" + facility_name()));
+    mm_analyzer.set_task_info("InfrastFacilityListTab" + facility_name());
 
     if (!mm_analyzer.analyze()) {
         return false;

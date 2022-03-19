@@ -1,0 +1,38 @@
+#pragma once
+#include "AbstractTask.h"
+
+#include "AsstTypes.h"
+#include "TilePack.h"
+#include "AsstBattleDef.h"
+#include "BattleImageAnalyzer.h"
+
+namespace asst
+{
+    class BattleProcessTask : public AbstractTask
+    {
+    public:
+        using AbstractTask::AbstractTask;
+        virtual ~BattleProcessTask() = default;
+
+        void set_stage_name(std::string name);
+
+    protected:
+        virtual bool _run() override;
+
+        bool get_stage_info();
+        bool battle_pause();
+        bool cancel_selection();  // 取消选择干员
+        bool analyze_opers_preview();
+
+        bool do_action(const BattleAction& action);
+        bool wait_condition(const BattleAction& action);
+
+        std::string m_stage_name;
+
+        std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
+        std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
+        BattleActionsGroup m_actions;
+
+        std::unordered_map<std::string, BattleRealTimeOper> m_cur_opers_info;
+    };
+}

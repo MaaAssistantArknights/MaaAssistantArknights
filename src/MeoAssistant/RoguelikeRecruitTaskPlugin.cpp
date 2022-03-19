@@ -27,7 +27,7 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
 bool asst::RoguelikeRecruitTaskPlugin::_run()
 {
     OcrImageAnalyzer analyzer(m_ctrler->get_image());
-    analyzer.set_task_info(Task.get("Roguelike1RecruitData"));
+    analyzer.set_task_info("Roguelike1RecruitData");
     analyzer.set_required(m_opers);
 
     if (!analyzer.analyze()) {

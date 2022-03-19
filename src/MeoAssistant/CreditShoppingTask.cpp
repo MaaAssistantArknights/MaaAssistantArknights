@@ -80,7 +80,7 @@ bool asst::CreditShoppingTask::_run()
 
         OcrImageAnalyzer prompt_analyzer(prompt_image);
 
-        prompt_analyzer.set_task_info(Task.get("CreditShop-NoMoney"));
+        prompt_analyzer.set_task_info("CreditShop-NoMoney");
         if (prompt_analyzer.analyze()) {
             click_return_button();
             return true;

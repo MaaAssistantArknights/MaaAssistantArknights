@@ -9,7 +9,7 @@
 bool asst::RoguelikeSkillSelectionImageAnalyzer::analyze()
 {
     MultiMatchImageAnalyzer flag_analyzer(m_image);
-    flag_analyzer.set_task_info(Task.get("Roguelike1SkillSelectionFlag"));
+    flag_analyzer.set_task_info("Roguelike1SkillSelectionFlag");
 
     if (!flag_analyzer.analyze()) {
         return false;

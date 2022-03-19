@@ -80,7 +80,7 @@ bool asst::AutoRecruitTask::_run()
 bool asst::AutoRecruitTask::analyze_start_buttons()
 {
     OcrImageAnalyzer start_analyzer;
-    start_analyzer.set_task_info(Task.get("StartRecruit"));
+    start_analyzer.set_task_info("StartRecruit");
 
     auto image = m_ctrler->get_image();
     start_analyzer.set_image(image);

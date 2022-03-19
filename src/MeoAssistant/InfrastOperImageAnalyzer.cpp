@@ -46,7 +46,7 @@ void asst::InfrastOperImageAnalyzer::sort_by_loc()
 
     std::sort(
         m_result.begin(), m_result.end(),
-        [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
+        [](const infrast::BattleRealTimeOper& lhs, const infrast::BattleRealTimeOper& rhs) -> bool {
             if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
                 return lhs.rect.y < rhs.rect.y;
             }
@@ -62,7 +62,7 @@ void asst::InfrastOperImageAnalyzer::sort_by_mood()
 
     std::sort(
         m_result.begin(), m_result.end(),
-        [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
+        [](const infrast::BattleRealTimeOper& lhs, const infrast::BattleRealTimeOper& rhs) -> bool {
             // 先按心情排序，心情低的放前面
             if (std::fabs(lhs.mood_ratio - rhs.mood_ratio) > DoubleDiff) {
                 return lhs.mood_ratio < rhs.mood_ratio;
@@ -92,7 +92,6 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
 
     InfrastSmileyImageAnalyzer smiley_analyzer(m_image);
 
-
     for (auto&& roi : all_roi) {
         smiley_analyzer.set_roi(roi);
         if (!smiley_analyzer.analyze()) {
@@ -120,7 +119,7 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
             cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(smiley_rect), cv::Scalar(0, 0, 255), 2);
 #endif // ASST_DEBUG
 
-            infrast::Oper oper;
+            infrast::BattleRealTimeOper oper;
             oper.smiley = smiley;
             m_result.emplace_back(std::move(oper));
         }

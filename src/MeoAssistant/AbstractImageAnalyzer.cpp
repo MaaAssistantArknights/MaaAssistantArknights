@@ -22,7 +22,7 @@ asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat image, const Re
     ;
 }
 
-void asst::AbstractImageAnalyzer::_set_image(const cv::Mat image)
+void asst::AbstractImageAnalyzer::set_image(const cv::Mat image)
 {
     m_image = image;
 #ifdef ASST_DEBUG
@@ -32,7 +32,7 @@ void asst::AbstractImageAnalyzer::_set_image(const cv::Mat image)
 
 void asst::AbstractImageAnalyzer::set_image(const cv::Mat image, const Rect& roi)
 {
-    _set_image(image);
+    set_image(image);
     m_roi = empty_rect_to_full(roi, image);
 }
 

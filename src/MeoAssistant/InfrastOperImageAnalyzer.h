@@ -30,7 +30,7 @@ namespace asst
         void sort_by_loc();
         void sort_by_mood();
 
-        auto get_result() const noexcept -> const std::vector<infrast::Oper>&
+        auto get_result() const noexcept -> const std::vector<infrast::BattleRealTimeOper>&
         {
             return m_result;
         }
@@ -69,7 +69,7 @@ namespace asst
         void doing_analyze();
 
         std::string m_facility;
-        std::vector<infrast::Oper> m_result;
+        std::vector<infrast::BattleRealTimeOper> m_result;
         int m_to_be_calced = All;
         int m_num_of_opers_with_skills = 0;
     };
