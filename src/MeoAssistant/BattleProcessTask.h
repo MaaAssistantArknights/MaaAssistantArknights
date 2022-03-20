@@ -23,6 +23,7 @@ namespace asst
         bool battle_pause();
         bool cancel_selection();  // 取消选择干员
         bool analyze_opers_preview();
+        bool update_opers_info();
 
         bool do_action(const BattleAction& action);
         bool wait_condition(const BattleAction& action);
@@ -33,6 +34,6 @@ namespace asst
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         BattleActionsGroup m_actions;
 
-        std::unordered_map<std::string, BattleRealTimeOper> m_cur_opers_info;
+        std::unordered_map<std::string, BattleRealTimeOper> m_opers_info;
     };
 }

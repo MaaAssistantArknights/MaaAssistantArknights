@@ -7,6 +7,7 @@
 
 #include "ProcessTask.h"
 
+#include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
 #include "BattleImageAnalyzer.h"
 
@@ -91,7 +92,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         }
         opers.at(i).name = oper_name;
 
-        m_cur_opers_info.emplace(std::move(oper_name), std::move(opers.at(i)));
+        m_opers_info.emplace(std::move(oper_name), std::move(opers.at(i)));
 
         // 干员特别多的时候，任意干员被点开，都会导致下方的干员图标被裁剪和移动。所以这里需要重新识别一下
         analyzer.set_image(image);
@@ -103,17 +104,87 @@ bool asst::BattleProcessTask::analyze_opers_preview()
     return true;
 }
 
+bool asst::BattleProcessTask::update_opers_info()
+{
+    BattleImageAnalyzer analyzer(m_ctrler->get_image());
+    analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+    if (!analyzer.analyze()) {
+        return false;
+    }
+    const auto& cur_opers_info = analyzer.get_opers();
+    // 干员数量没有变化，无需更新
+    if (cur_opers_info.size() == m_opers_info.size()) {
+        return true;
+    }
+    decltype(m_opers_info) pre_opers_info;
+    m_opers_info.swap(pre_opers_info);
+
+    const int size_change = static_cast<int>(cur_opers_info.size()) - static_cast<int>(pre_opers_info.size());
+    const bool is_increased = size_change > 0;
+    for (const auto& cur_oper : cur_opers_info) {
+        int left_index = 0;
+        int right_index = 0;
+        // 干员数变多了，干员可能位于 [之前的位置, 之前的位置 + |size_change|] 之间
+        if (is_increased) {
+            left_index = static_cast<int>(cur_oper.index);
+            right_index = static_cast<int>(cur_oper.index) + size_change;
+        }
+        // 干员数减少了，干员可能位于 [之前的位置 - |size_change|, 之前的位置] 之间
+        else {
+            left_index = static_cast<int>(cur_oper.index);
+            right_index = static_cast<int>(cur_oper.index) - size_change; // size_change 是 负值
+        }
+
+        std::vector<decltype(pre_opers_info)::const_iterator> ranged_iters;
+        // 找出该干员可能对应的之前的谁
+        for (auto iter = pre_opers_info.cbegin(); iter != pre_opers_info.cend(); ++iter) {
+            int pre_index = static_cast<int>(iter->second.index);
+            if (left_index <= pre_index && pre_index <= right_index) {
+                ranged_iters.emplace_back(iter);
+            }
+        }
+        MatchImageAnalyzer avatar_analyzer(cur_oper.avatar);
+        avatar_analyzer.set_task_info("BattleAvatarData");
+        decltype(ranged_iters)::value_type matched_iter;
+        MatchRect matched_result;
+
+        // 遍历比较，得分最高的那个就说明是对应的那个
+        for (const auto& iter : ranged_iters) {
+            avatar_analyzer.set_templ(iter->second.avatar);
+            if (!avatar_analyzer.analyze()) {
+                continue;
+            }
+            if (matched_result.score < avatar_analyzer.get_result().score) {
+                matched_result = avatar_analyzer.get_result();
+                matched_iter = iter;
+            }
+        }
+        if (matched_result.score == 0) {
+            continue;
+        }
+        auto temp_oper = cur_oper;
+        temp_oper.name = matched_iter->first;
+        // 保存当前干员信息
+        m_opers_info.emplace(matched_iter->first, std::move(temp_oper));
+    }
+    return true;
+}
+
 bool asst::BattleProcessTask::do_action(const BattleAction& action)
 {
     if (!wait_condition(action)) {
         return false;
     }
+    while (!update_opers_info()) {
+        ;
+    }
+
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
     const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
 
     // TODO，临时调试方案。正式版本这里需要对 group_name -> oper_name 做一个转换
-    auto iter = m_cur_opers_info.find(action.group_name);
-    if (iter == m_cur_opers_info.cend()) {
+    auto iter = m_opers_info.find(action.group_name);
+    if (iter == m_opers_info.cend()) {
         Log.error("battle opers group", action.group_name, "not found");
         return false;
     }
@@ -126,7 +197,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     // 拖动到场上
     Point placed_point = m_side_tile_info[action.location].pos;
     Rect placed_rect{ placed_point.x ,placed_point.y, 1, 1 };
-    m_ctrler->swipe(oper_rect, placed_rect);
+    m_ctrler->swipe(oper_rect, placed_rect, swipe_oper_task_ptr->pre_delay);
 
     sleep(use_oper_task_ptr->rear_delay);
 
@@ -155,6 +226,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
 
         m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
     }
+    sleep(use_oper_task_ptr->pre_delay);
 
     return true;
 }

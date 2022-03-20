@@ -83,5 +83,6 @@ namespace asst
         Rect rect;
         cv::Mat avatar;
         std::string name;
+        size_t index;
     };
 }

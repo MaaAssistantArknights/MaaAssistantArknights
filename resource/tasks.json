@@ -3285,6 +3285,10 @@
             60
         ]
     },
+    "BattleAvatarData": {
+        "template": "empty.png",
+        "templThreshold": 0.8
+    },
     "BattleKillsFlag": {
         "roi": [
             150,
@@ -4023,6 +4027,10 @@
             [
                 "^1$",
                 "山"
+            ],
+            [
+                "姜哦",
+                "嵯峨"
             ]
         ],
         "roi": [
