@@ -14,7 +14,7 @@ asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat image, const Rect& ro
 
 bool asst::MatchImageAnalyzer::analyze()
 {
-    const cv::Mat templ = Resrc.templ().get_templ(m_templ_name);
+    const cv::Mat templ = m_templ_name.empty() ? m_templ : Resrc.templ().get_templ(m_templ_name);
     if (templ.empty()) {
         Log.error("templ is empty!");
         return false;
@@ -40,6 +40,13 @@ void asst::MatchImageAnalyzer::set_mask_range(std::pair<int, int> mask_range) no
 void asst::MatchImageAnalyzer::set_templ_name(std::string templ_name) noexcept
 {
     m_templ_name = std::move(templ_name);
+    m_templ = cv::Mat();
+}
+
+void asst::MatchImageAnalyzer::set_templ(cv::Mat templ) noexcept
+{
+    m_templ = std::move(templ);
+    m_templ_name.clear();
 }
 
 void asst::MatchImageAnalyzer::set_threshold(double templ_thres) noexcept

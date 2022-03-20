@@ -86,6 +86,7 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     const auto cost_move = Task.get("BattleOperCostRange")->rect_move;
     const auto avlb_move = Task.get("BattleOperAvailable")->rect_move;
 
+    size_t index = 0;
     for (const MatchRect& flag_mrect : flags_analyzer.get_result()) {
         BattleRealTimeOper oper;
         oper.rect = flag_mrect.rect.move(click_move);
@@ -108,6 +109,7 @@ bool asst::BattleImageAnalyzer::opers_analyze()
         Rect cost_rect = flag_mrect.rect.move(cost_move);
 
         oper.cost = oper_cost_analyze(cost_rect);
+        oper.index = index++;
 
         m_opers.emplace_back(std::move(oper));
     }

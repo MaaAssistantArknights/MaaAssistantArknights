@@ -14,7 +14,7 @@
             "name": "嵯峨"
         },
         {
-            "name": "橙闪"
+            "name": "澄闪"
         },
         {
             "name": "临光"
@@ -25,30 +25,30 @@
             "name": "嵯峨",
             "location": [
                 8,
-                5
+                4
             ],
             "direction": 2
         },
         {
             "name": "能天使",
             "location": [
-                9,
+                8,
                 5
             ],
             "direction": 2
         },
         {
-            "name": "橙闪",
+            "name": "澄闪",
             "location": [
                 7,
-                4
+                3
             ],
-            "direction": 2
+            "direction": 1
         },
         {
             "name": "临光",
             "location": [
-                8,
+                7,
                 4
             ],
             "direction": 2
