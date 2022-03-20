@@ -1965,6 +1965,27 @@
             150
         ],
         "next": [
+            "DroneConfirmLoading",
+            "DeliverableOrder",
+            "DroneAssist-Trade-Stop",
+            "DroneAssistMfg"
+        ]
+    },
+    "DroneConfirmLoading": {
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "DroneConfirmLoading",
             "DeliverableOrder",
             "DroneAssist-Trade-Stop",
             "DroneAssistMfg"
