@@ -173,7 +173,7 @@ void asst::Controller::pipe_working_proc()
             m_cmd_queue.pop();
             cmd_queue_lock.unlock();
             // todo 判断命令是否执行成功
-            call_command(cmd, 20 * 1000);
+            call_command(cmd);
             ++m_completed_id;
         }
         //else if (!m_thread_idle) {	// 队列中没有任务，又不是闲置的时候，就去截图
@@ -231,10 +231,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     } while (::WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT && !check_timeout());
 
     DWORD exit_ret = 255;
-    if (!check_timeout()) {
-        ::GetExitCodeProcess(process_info.hProcess, &exit_ret);
-    }
-
+    ::GetExitCodeProcess(process_info.hProcess, &exit_ret);
     ::CloseHandle(process_info.hProcess);
     ::CloseHandle(process_info.hThread);
 
@@ -674,7 +671,7 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
 
     /* connect */
     {
-        auto connect_ret = call_command(cmd_replace(adb_cfg.connect));
+        auto connect_ret = call_command(cmd_replace(adb_cfg.connect), 60 * 1000);
         // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
         if (!connect_ret) {
             json::value info = get_info_json() |
