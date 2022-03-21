@@ -108,25 +108,25 @@ bool asst::AutoRecruitTask::recruit_index(size_t index)
 
 bool asst::AutoRecruitTask::calc_and_recruit()
 {
-    RecruitTask recurit_task(m_callback, m_callback_arg, m_task_chain);
-    recurit_task.set_retry_times(m_retry_times);
-    recurit_task.set_param(m_select_level, true);
+    RecruitTask recruit_task(m_callback, m_callback_arg, m_task_chain);
+    recruit_task.set_retry_times(m_retry_times);
+    recruit_task.set_param(m_select_level, true);
 
     // 识别错误，放弃这个公招位，直接返回
-    if (!recurit_task.run()) {
+    if (!recruit_task.run()) {
         callback(AsstMsg::SubTaskError, basic_info());
         click_return_button();
         return true;
     }
 
-    int maybe_level = recurit_task.get_maybe_level();
+    int maybe_level = recruit_task.get_maybe_level();
     if (need_exit()) {
         return false;
     }
     // 尝试刷新
     if (m_need_refresh && maybe_level == 3
-        && !recurit_task.get_has_special_tag()
-        && recurit_task.get_has_refresh()) {
+        && !recruit_task.get_has_special_tag()
+        && recruit_task.get_has_refresh()) {
         if (refresh()) {
             return calc_and_recruit();
         }
