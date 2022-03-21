@@ -201,6 +201,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                 }
                 group.optional.emplace_back(std::move(comb));
             }
+            group.allow_external = group_json.get("allowExternal", false);
             group_vec.emplace_back(std::move(group));
         }
         m_skills_groups.emplace(facility_name, std::move(group_vec));

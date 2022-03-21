@@ -59,7 +59,7 @@ namespace asst
 
     private:
         void pipe_working_proc();
-        std::optional<std::vector<unsigned char>> call_command(const std::string& cmd);
+        std::optional<std::vector<unsigned char>> call_command(const std::string& cmd, int64_t timeout = 0);
         int push_cmd(const std::string& cmd);
 
         using DecodeFunc = std::function<bool(const std::vector<uchar>&)>;

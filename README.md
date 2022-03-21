@@ -2,7 +2,7 @@
 
 <img alt="LOGO" src="https://user-images.githubusercontent.com/18511905/148931479-23aef436-2fc1-4c1e-84c9-bae17be710a5.png" width=360 height=270/>
 
-# MeoAssistantArknights
+# MaaAssistantArknights
 
 <br>
 <div>
@@ -12,15 +12,15 @@
     <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet">
 </div>
 <div>
-    <img alt="license" src="https://img.shields.io/github/license/MistEO/MeoAssistantArknights">
-    <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MistEO/MeoAssistantArknights?color=%23ff69b4">
-    <img alt="stars" src="https://img.shields.io/github/stars/MistEO/MeoAssistantArknights?style=social">
+    <img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights">
+    <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4">
+    <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">
 </div>
 <br>
 
-A Game Assistant for Arknights
+MAA 的意思是 MAA Assistant Arknights
 
-一款明日方舟游戏小助手，简称 MAA
+一款明日方舟游戏小助手
 
 基于图像识别技术，一键完成全部日常任务！
 
@@ -43,8 +43,8 @@ A Game Assistant for Arknights
 
 ## 下载地址
 
-[稳定版](https://github.com/MistEO/MeoAssistantArknights/releases/latest)  
-[测试版](https://github.com/MistEO/MeoAssistantArknights/releases)
+[稳定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
+[测试版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 使用说明
 
@@ -70,7 +70,7 @@ A Game Assistant for Arknights
 
 ## 关联项目
 
-- 全新 GUI: [MeoAsstElectronUI](https://github.com/MaaAssistantArknights/MeoAsstElectronUI) （正在开发中）
+- 全新 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中）
 - 更新服务器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)（正在开发中）
 
 ## 致谢
@@ -120,12 +120,13 @@ A Game Assistant for Arknights
 
 ### API
 
-- [C 接口](https://github.com/MistEO/MeoAssistantArknights/blob/dev/include/AsstCaller.h)
-- [Python 接口](https://github.com/MistEO/MeoAssistantArknights/wiki/Python-%E6%8E%A5%E5%8F%A3)
-- [Golang 接口](https://github.com/MistEO/MeoAssistantArknights/wiki/Golang-%E6%8E%A5%E5%8F%A3) 已停止维护 orz
+- [C 接口](include/AsstCaller.h)：[集成示例](tools/TestCaller/main.cpp)
+- [Python 接口](src/Python/asst.py)：[集成示例](src/Python/sample.py)
+- [Golang 接口](src/Golang/maa/)：[集成示例](src/Golang/cli.go)（已停止维护 orz）
 - [集成文档](docs/集成文档.md) 龟速更新中_(:з」∠)_
 - [回调消息协议](docs/回调消息协议.md)
 - [任务流程协议](docs/任务流程协议.md)
+- [自动抄作业协议](docs/战斗流程协议.md) 功能正在开发中 ✿✿ヽ(°▽°)ノ✿
 
 ## 声明
 

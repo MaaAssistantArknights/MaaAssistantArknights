@@ -437,8 +437,8 @@
         ]
     },
     "StartButton2": {
-        "action": "ClickSelf",
-        "rearDelay": 20000,
+        "action": "lickSelf",
+        "rearDelay": 40000,
         "roi": [
             1000,
             350,
@@ -1826,7 +1826,7 @@
         "text": [
             "可收获",
             "订单交付",
-            "信赖"
+            "员信赖"
         ],
         "action": "ClickSelf",
         "roi": [

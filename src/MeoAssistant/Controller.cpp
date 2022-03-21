@@ -173,7 +173,7 @@ void asst::Controller::pipe_working_proc()
             m_cmd_queue.pop();
             cmd_queue_lock.unlock();
             // todo 判断命令是否执行成功
-            call_command(cmd);
+            call_command(cmd, 20 * 1000);
             ++m_completed_id;
         }
         //else if (!m_thread_idle) {	// 队列中没有任务，又不是闲置的时候，就去截图
@@ -195,14 +195,22 @@ void asst::Controller::pipe_working_proc()
     }
 }
 
-std::optional<std::vector<unsigned char>> asst::Controller::call_command(const std::string & cmd)
+std::optional<std::vector<unsigned char>> asst::Controller::call_command(const std::string & cmd, int64_t timeout)
 {
     LogTraceFunction;
+
+    std::vector<uchar> pipe_data;
 
     static std::mutex pipe_mutex;
     std::unique_lock<std::mutex> pipe_lock(pipe_mutex);
 
-    std::vector<uchar> pipe_data;
+    auto start_time = std::chrono::steady_clock::now();
+    auto check_timeout = [&]() -> bool {
+        return timeout &&
+            timeout < std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - start_time)
+            .count();
+    };
 
 #ifdef _WIN32
     PROCESS_INFORMATION process_info = { 0 }; // 进程信息结构体
@@ -220,10 +228,12 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
                 pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + read_num);
             }
         }
-    } while (::WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT);
+    } while (::WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT && !check_timeout());
 
     DWORD exit_ret = 255;
-    ::GetExitCodeProcess(process_info.hProcess, &exit_ret);
+    if (!check_timeout()) {
+        ::GetExitCodeProcess(process_info.hProcess, &exit_ret);
+    }
 
     ::CloseHandle(process_info.hProcess);
     ::CloseHandle(process_info.hThread);
@@ -259,7 +269,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
                 pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + read_num);
                 read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
             };
-        } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0);
+        } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
     }
     else {
         // failed to create child process
