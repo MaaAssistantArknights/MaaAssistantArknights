@@ -24,6 +24,7 @@ namespace asst
         bool recruit_index(size_t index);
         bool calc_and_recruit();
         bool check_recruit_home_page();
+        bool check_time_unreduced();
         bool recruit_now();
         bool confirm();
         bool refresh();

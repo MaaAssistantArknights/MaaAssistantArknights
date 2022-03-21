@@ -3,7 +3,6 @@
 #include "Resource.h"
 #include "OcrImageAnalyzer.h"
 #include "Controller.h"
-#include "RecruitImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "RecruitTask.h"
 
@@ -131,9 +130,16 @@ bool asst::AutoRecruitTask::calc_and_recruit()
             return calc_and_recruit();
         }
     }
+    // 如果时间没调整过，那 tag 十有八九也没选，重新试一次
+    // 造成时间没调的原因可见： https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
+    if (check_time_unreduced()) {
+        return calc_and_recruit();
+    }
+
     if (need_exit()) {
         return false;
     }
+
     if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
         if (!confirm()) {
             return false;
@@ -143,6 +149,12 @@ bool asst::AutoRecruitTask::calc_and_recruit()
         click_return_button();
     }
     return true;
+}
+bool asst::AutoRecruitTask::check_time_unreduced()
+{
+    ProcessTask task(*this, {"RecruitCheckTimeUnreduced"});
+    task.set_retry_times(1);
+    return task.run();
 }
 
 bool asst::AutoRecruitTask::check_recruit_home_page()

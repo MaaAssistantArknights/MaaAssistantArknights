@@ -1732,6 +1732,17 @@
             "Stop"
         ]
     },
+    "RecruitCheckTimeUnreduced":{
+        "action": "Stop",
+        "template": "RecruitTimeReduce.png",
+        "Doc": "检查时间是不是没有调整过",
+        "roi": [
+            350,
+            150,
+            200,
+            150
+        ]
+    },
     "RecruitConfirm": {
         "action": "clickSelf",
         "roi": [
