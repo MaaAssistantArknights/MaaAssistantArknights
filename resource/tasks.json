@@ -3128,6 +3128,25 @@
             "ClueGiveTo1stConfirm"
         ]
     },
+    "ClueGiveLoading": {
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "ClueGiveLoading",
+            "SelectClue",
+            "CloseSendClue"
+        ]
+    },
     "ClueGiveTo1st": {
         "template": "ClusCanBeSent.png",
         "action": "doNothing",
@@ -3156,6 +3175,7 @@
             160
         ],
         "next": [
+            "ClueGiveLoading",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -3188,6 +3208,7 @@
             160
         ],
         "next": [
+            "ClueGiveLoading",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -3220,6 +3241,7 @@
             160
         ],
         "next": [
+            "ClueGiveLoading",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -3252,6 +3274,7 @@
             160
         ],
         "next": [
+            "ClueGiveLoading",
             "SelectClue",
             "CloseSendClue"
         ]
