@@ -3327,6 +3327,22 @@
             48
         ]
     },
+    "BattleSkillReadyOnClick": {
+        "roi": [
+            748,
+            414,
+            210,
+            118
+        ],
+        "action": "ClickSelf",
+        "preDelay": 1000,
+        "rectMove": [
+            0,
+            -110,
+            90,
+            90
+        ]
+    },
     "BattleUseOper": {
         "algorithm": "JustReturn",
         "preDelay": 500,
@@ -3598,7 +3614,8 @@
             "07e01e78700e6006e007e007e0076006700e1ffe011800700060008001800700"
         ]
     },
-    "BattleSpeedUp": {
+    "Roguelike1BattleSpeedUp": {
+        "template": "BattleSpeedUp.png",
         "action": "ClickSelf",
         "roi": [
             1025,
@@ -3655,8 +3672,8 @@
         "specificRect": [
             820,
             380,
-            100,
-            100
+            90,
+            90
         ]
     },
     "StartToWakeUpToRoguelike1": {

@@ -55,6 +55,11 @@
                 4
             ],
             "direction": 2
+        },
+        {
+            "kills_condition": 25,
+            "type": 2,
+            "name": "澄闪"
         }
     ]
 }
