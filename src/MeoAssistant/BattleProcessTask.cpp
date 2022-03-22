@@ -188,6 +188,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     case BattleActionType::Retreat:
         break;
     case BattleActionType::UseSkill:
+        return use_skill(action);
         break;
     case BattleActionType::SwitchSpeed:
         return battle_speedup();
@@ -213,7 +214,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
         analyzer.set_target(analyze_target);
 
         if (!analyzer.analyze()) {
-            return true;
+            return false;
         }
         if (action.kills_condition <= analyzer.get_kills()) {
             return true;
@@ -247,6 +248,8 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
 
     // 拖动到场上
     Point placed_point = m_side_tile_info[action.location].pos;
+    m_used_opers_loc[iter->first] = action.location;
+
     Rect placed_rect{ placed_point.x ,placed_point.y, 1, 1 };
     m_ctrler->swipe(oper_rect, placed_rect, swipe_oper_task_ptr->pre_delay);
 
@@ -278,9 +281,23 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
 
         m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
     }
-    sleep(use_oper_task_ptr->pre_delay);
+    //sleep(use_oper_task_ptr->pre_delay);
 
     return true;
+}
+
+bool asst::BattleProcessTask::use_skill(const BattleAction& action)
+{
+    auto iter = m_used_opers_loc.find(action.group_name);
+    if (iter == m_used_opers_loc.cend()) {
+        Log.error(action.group_name, " not used");
+        return false;
+    }
+
+    Point pos = m_normal_tile_info[iter->second].pos;
+    m_ctrler->click(pos);
+
+    return ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_retry_times(10000).run();
 }
 
 bool asst::BattleProcessTask::battle_pause()

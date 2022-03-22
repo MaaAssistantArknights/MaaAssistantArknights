@@ -314,7 +314,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
 bool asst::RoguelikeBattleTaskPlugin::speed_up()
 {
-    ProcessTask task(*this, { "BattleSpeedUp" });
+    ProcessTask task(*this, { "Roguelike1BattleSpeedUp" });
     return task.run();
 }
 
