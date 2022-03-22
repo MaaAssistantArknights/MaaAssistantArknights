@@ -194,7 +194,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     case BattleActionType::SwitchSpeed:
         return battle_speedup();
         break;
-    case BattleActionType::SlowMode:
+    case BattleActionType::BulletTime:
         break;
     }
 
@@ -251,13 +251,13 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     sleep(use_oper_task_ptr->rear_delay);
 
     // 拖动干员朝向
-    if (action.direction != BattleDeployDirection::No) {
+    if (action.direction != BattleDeployDirection::None) {
         static const std::unordered_map<BattleDeployDirection, Point> DirectionMapping = {
             { BattleDeployDirection::Right, Point(1, 0)},
             { BattleDeployDirection::Down, Point(0, 1)},
             { BattleDeployDirection::Left, Point(-1, 0)},
             { BattleDeployDirection::Up, Point(0, -1)},
-            { BattleDeployDirection::No, Point(0, 0)},
+            { BattleDeployDirection::None, Point(0, 0)},
         };
 
         // 计算往哪边拖动

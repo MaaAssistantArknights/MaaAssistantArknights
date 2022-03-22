@@ -27,7 +27,7 @@
                 8,
                 4
             ],
-            "direction": 2
+            "direction": "左"
         },
         {
             "name": "能天使",
@@ -35,7 +35,7 @@
                 8,
                 5
             ],
-            "direction": 2
+            "direction": "左"
         },
         {
             "name": "澄闪",
@@ -43,10 +43,10 @@
                 7,
                 3
             ],
-            "direction": 1
+            "direction": "下"
         },
         {
-            "type": 100
+            "type": "二倍速"
         },
         {
             "name": "临光",
@@ -54,16 +54,16 @@
                 7,
                 4
             ],
-            "direction": 2
+            "direction": "左"
         },
         {
             "kills": 25,
-            "type": 2,
+            "type": "技能",
             "name": "澄闪"
         },
         {
             "kills": 30,
-            "type": 1,
+            "type": "撤退",
             "name": "嵯峨"
         }
     ]
