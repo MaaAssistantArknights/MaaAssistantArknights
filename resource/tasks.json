@@ -3265,6 +3265,16 @@
             60
         ]
     },
+    "BattleSpeedUp": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1070,
+            20,
+            60,
+            60
+        ]
+    },
     "BattlePause": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -3305,6 +3315,16 @@
         "maskRange": [
             1,
             255
+        ]
+    },
+    "BattleCostData": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            1197,
+            492,
+            83,
+            48
         ]
     },
     "BattleUseOper": {

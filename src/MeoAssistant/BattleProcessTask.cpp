@@ -28,7 +28,7 @@ bool asst::BattleProcessTask::_run()
         ;
     }
 
-    for (const BattleAction& action : m_actions.actions) {
+    for (const auto& action : m_actions.actions) {
         do_action(action);
     }
 
@@ -59,18 +59,18 @@ bool asst::BattleProcessTask::get_stage_info()
 
 bool asst::BattleProcessTask::analyze_opers_preview()
 {
-    BattleImageAnalyzer analyzer(m_ctrler->get_image());
-    analyzer.set_target(BattleImageAnalyzer::Target::Oper);
-    if (!analyzer.analyze()) {
+    BattleImageAnalyzer oper_analyzer(m_ctrler->get_image());
+    oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+    if (!oper_analyzer.analyze()) {
         return false;
     }
     // TODO: 干员头像出来之后，还要过 2 秒左右才可以点击，这里可能还要加个延时
 
     battle_pause();
-    auto opers = analyzer.get_opers();
+    auto opers = oper_analyzer.get_opers();
 
     for (size_t i = 0; i != opers.size(); ++i) {
-        const auto& cur_oper = analyzer.get_opers();
+        const auto& cur_oper = oper_analyzer.get_opers();
         size_t offset = opers.size() > cur_oper.size() ? opers.size() - cur_oper.size() : 0;
         m_ctrler->click(cur_oper.at(i - offset).rect);
 
@@ -95,8 +95,8 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         m_opers_info.emplace(std::move(oper_name), std::move(opers.at(i)));
 
         // 干员特别多的时候，任意干员被点开，都会导致下方的干员图标被裁剪和移动。所以这里需要重新识别一下
-        analyzer.set_image(image);
-        analyzer.analyze();
+        oper_analyzer.set_image(image);
+        oper_analyzer.analyze();
     }
     battle_pause();
     cancel_selection();
@@ -112,10 +112,6 @@ bool asst::BattleProcessTask::update_opers_info()
         return false;
     }
     const auto& cur_opers_info = analyzer.get_opers();
-    // 干员数量没有变化，无需更新
-    if (cur_opers_info.size() == m_opers_info.size()) {
-        return true;
-    }
     decltype(m_opers_info) pre_opers_info;
     m_opers_info.swap(pre_opers_info);
 
@@ -124,12 +120,12 @@ bool asst::BattleProcessTask::update_opers_info()
     for (const auto& cur_oper : cur_opers_info) {
         int left_index = 0;
         int right_index = 0;
-        // 干员数变多了，干员可能位于 [之前的位置, 之前的位置 + |size_change|] 之间
+        // 干员数变多了，之前的干员可能位于 [当前位置 - |size_change|, 当前位置 ] 之间
         if (is_increased) {
-            left_index = static_cast<int>(cur_oper.index);
-            right_index = static_cast<int>(cur_oper.index) + size_change;
+            left_index = static_cast<int>(cur_oper.index) - size_change;
+            right_index = static_cast<int>(cur_oper.index);
         }
-        // 干员数减少了，干员可能位于 [之前的位置 - |size_change|, 之前的位置] 之间
+        // 干员数减少了，之前的干员可能位于 [当前位置 , 当前位置 + |size_change|] 之间
         else {
             left_index = static_cast<int>(cur_oper.index);
             right_index = static_cast<int>(cur_oper.index) - size_change; // size_change 是 负值
@@ -143,25 +139,34 @@ bool asst::BattleProcessTask::update_opers_info()
                 ranged_iters.emplace_back(iter);
             }
         }
-        MatchImageAnalyzer avatar_analyzer(cur_oper.avatar);
-        avatar_analyzer.set_task_info("BattleAvatarData");
-        decltype(ranged_iters)::value_type matched_iter;
-        MatchRect matched_result;
 
-        // 遍历比较，得分最高的那个就说明是对应的那个
-        for (const auto& iter : ranged_iters) {
-            avatar_analyzer.set_templ(iter->second.avatar);
-            if (!avatar_analyzer.analyze()) {
-                continue;
-            }
-            if (matched_result.score < avatar_analyzer.get_result().score) {
-                matched_result = avatar_analyzer.get_result();
-                matched_iter = iter;
+        decltype(ranged_iters)::value_type matched_iter = ranged_iters.front();
+
+        if (ranged_iters.empty()) {
+            Log.error("ranged_iters empty", left_index, right_index);
+            return false;
+        }
+        else if (ranged_iters.size() > 1) {
+            MatchImageAnalyzer avatar_analyzer(cur_oper.avatar);
+            avatar_analyzer.set_task_info("BattleAvatarData");
+            MatchRect matched_result;
+
+            // 遍历比较，得分最高的那个就说明是对应的那个
+            for (const auto& iter : ranged_iters) {
+                avatar_analyzer.set_templ(iter->second.avatar);
+                if (!avatar_analyzer.analyze()) {
+                    continue;
+                }
+                if (matched_result.score < avatar_analyzer.get_result().score) {
+                    matched_result = avatar_analyzer.get_result();
+                    matched_iter = iter;
+                }
             }
         }
-        if (matched_result.score == 0) {
-            continue;
+        else {
+            ;   // 只有一个干员的时候就不用计算，就是唯一的那个
         }
+
         auto temp_oper = cur_oper;
         temp_oper.name = matched_iter->first;
         // 保存当前干员信息
@@ -175,19 +180,65 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     if (!wait_condition(action)) {
         return false;
     }
-    while (!update_opers_info()) {
-        ;
+
+    switch (action.type) {
+    case BattleActionType::Deploy:
+        return oper_deploy(action);
+        break;
+    case BattleActionType::Retreat:
+        break;
+    case BattleActionType::UseSkill:
+        break;
+    case BattleActionType::SwitchSpeed:
+        return battle_speedup();
+        break;
+    case BattleActionType::SlowMode:
+        break;
     }
 
+    return false;
+}
+
+bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
+{
+    if (action.kills_condition <= 0) {
+        return true;
+    }
+
+    constexpr int analyze_target = BattleImageAnalyzer::Target::Kills;
+
+    while (true) {
+        auto image = m_ctrler->get_image();
+        BattleImageAnalyzer analyzer(image);
+        analyzer.set_target(analyze_target);
+
+        if (!analyzer.analyze()) {
+            return true;
+        }
+        if (action.kills_condition <= analyzer.get_kills()) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
+{
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
     const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
 
-    // TODO，临时调试方案。正式版本这里需要对 group_name -> oper_name 做一个转换
-    auto iter = m_opers_info.find(action.group_name);
-    if (iter == m_opers_info.cend()) {
-        Log.error("battle opers group", action.group_name, "not found");
-        return false;
-    }
+    decltype(m_opers_info)::iterator iter;
+    do {
+        update_opers_info();
+
+        // TODO，临时调试方案。正式版本这里需要对 group_name -> oper_name 做一个转换
+        iter = m_opers_info.find(action.group_name);
+        if (iter == m_opers_info.cend()) {
+            Log.error("battle opers group", action.group_name, "not found");
+            return false;
+        }
+    } while (!iter->second.available);
 
     // 点击干员
     Rect oper_rect = iter->second.rect;
@@ -201,6 +252,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
 
     sleep(use_oper_task_ptr->rear_delay);
 
+    // 拖动干员朝向
     if (action.direction != BattleDeployDirection::No) {
         static const std::unordered_map<BattleDeployDirection, Point> DirectionMapping = {
             { BattleDeployDirection::Right, Point(1, 0)},
@@ -210,7 +262,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
             { BattleDeployDirection::No, Point(0, 0)},
         };
 
-        // 计算往哪边拖动（干员朝向）
+        // 计算往哪边拖动
         Point direction = DirectionMapping.at(action.direction);
 
         // 将方向转换为实际的 swipe end 坐标点
@@ -231,29 +283,14 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     return true;
 }
 
-bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
-{
-    constexpr int analyze_target = BattleImageAnalyzer::Target::Kills | BattleImageAnalyzer::Target::Vacancies | BattleImageAnalyzer::Target::Cost;
-
-    while (true) {
-        auto image = m_ctrler->get_image();
-        BattleImageAnalyzer analyzer(image);
-        analyzer.set_target(analyze_target);
-
-        if (!analyzer.analyze()) {
-            return true;
-        }
-        if (action.kills_condition <= analyzer.get_kills()) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool asst::BattleProcessTask::battle_pause()
 {
     return ProcessTask(*this, { "BattlePause" }).run();
+}
+
+bool asst::BattleProcessTask::battle_speedup()
+{
+    return ProcessTask(*this, { "BattleSpeedUp" }).run();
 }
 
 bool asst::BattleProcessTask::cancel_selection()

@@ -8,15 +8,16 @@ namespace asst
     class BattleImageAnalyzer : public AbstractImageAnalyzer
     {
     public:
-        enum Target     // 需要识别的目标
+        enum Target          // 需要识别的目标
         {
-            HP,         // 剩余生命值
-            Home,       // 蓝色的家门
-            Oper,       // 下方的干员信息
-            Skill,      // cd 转好了可以使用的技能
-            Kills,      // 击杀数
-            Cost,       // 费用
-            Vacancies,  // 剩余可部署干员数
+            None = 0,
+            HP = 1,          // 剩余生命值
+            Home = 2,        // 蓝色的家门
+            Oper = 4,        // 下方的干员信息
+            Skill = 8,       // cd 转好了可以使用的技能
+            Kills = 16,      // 击杀数
+            Cost = 32,       // 费用
+            Vacancies = 64,  // 剩余可部署干员数
             // 肉鸽模式需要用到的识别
             Roguelike = Home | HP | Oper | Skill
         };
@@ -55,6 +56,7 @@ namespace asst
         std::vector<Rect> m_ready_skills;           // 可以释放的技能（Rect实际是干员的位置）
         int m_hp = 0;                               // 剩余生命值
         int m_kills = 0;                            // 击杀数
+        int m_cost = 0;                             // 部署费用
 
     protected:
         // 该分析器不支持外部设置ROI
