@@ -46,6 +46,9 @@
             "direction": 1
         },
         {
+            "type": 100
+        },
+        {
             "name": "临光",
             "location": [
                 7,

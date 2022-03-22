@@ -42,7 +42,15 @@ bool asst::BattleImageAnalyzer::analyze()
         ret &= kills_analyze();
     }
 
-    return true;
+    if (m_target & Target::Cost) {
+        ret &= cost_analyze();
+    }
+
+    if (m_target & Target::Vacancies) {
+        ret &= vacancies_analyze();
+    }
+
+    return ret;
 }
 
 const std::vector<asst::BattleRealTimeOper>& asst::BattleImageAnalyzer::get_opers() const noexcept
@@ -108,7 +116,7 @@ bool asst::BattleImageAnalyzer::opers_analyze()
         oper.role = oper_role_analyze(role_rect);
         Rect cost_rect = flag_mrect.rect.move(cost_move);
 
-        oper.cost = oper_cost_analyze(cost_rect);
+        //oper.cost = oper_cost_analyze(cost_rect);
         oper.index = index++;
 
         m_opers.emplace_back(std::move(oper));
@@ -381,7 +389,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
 
     // 这里的结果应该是 "击杀数/总的敌人数"，例如 "0/41"
     std::string kills_res = kills_analyzer.get_result().front().text;
-    int pos = kills_res.find('/');
+    size_t pos = kills_res.find('/');
     if (pos == std::string::npos) {
         return false;
     }
@@ -400,7 +408,24 @@ bool asst::BattleImageAnalyzer::kills_analyze()
 
 bool asst::BattleImageAnalyzer::cost_analyze()
 {
-    return false;
+    OcrImageAnalyzer cost_analyzer(m_image);
+    cost_analyzer.set_task_info("BattleKillsFlag");
+
+    if (!cost_analyzer.analyze()) {
+        return false;
+    }
+
+    cost_analyzer.sort_result_by_score();
+    std::string cost_str = cost_analyzer.get_result().front().text;
+
+    if (cost_str.empty() ||
+    !std::all_of(cost_str.cbegin(), cost_str.cend(),
+        [](char c) -> bool {return std::isdigit(c);})) {
+        return false;
+    }
+    m_cost = std::stoi(cost_str);
+
+    return true;
 }
 
 bool asst::BattleImageAnalyzer::vacancies_analyze()
