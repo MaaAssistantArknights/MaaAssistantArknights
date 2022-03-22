@@ -31,6 +31,7 @@ namespace asst
         ~Controller();
 
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
+        bool disconnect();
 
         const std::string& get_uuid() const;
         cv::Mat get_image();

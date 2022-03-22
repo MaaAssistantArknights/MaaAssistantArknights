@@ -82,13 +82,7 @@ asst::Controller::~Controller()
         m_cmd_thread.join();
     }
 
-#ifndef _WIN32
-    if (m_child) {
-#else
-    if (true) {
-#endif
-        call_command(m_adb.release);
-    }
+    disconnect();
 
 #ifdef _WIN32
     ::CloseHandle(m_pipe_read);
@@ -101,7 +95,7 @@ asst::Controller::~Controller()
     close(m_pipe_out[PIPE_READ]);
     close(m_pipe_out[PIPE_WRITE]);
 #endif
-    }
+}
 
 //asst::Rect asst::Controller::shaped_correct(const Rect & rect) const
 //{
@@ -195,7 +189,7 @@ void asst::Controller::pipe_working_proc()
     }
 }
 
-std::optional<std::vector<unsigned char>> asst::Controller::call_command(const std::string & cmd, int64_t timeout)
+std::optional<std::vector<unsigned char>> asst::Controller::call_command(const std::string& cmd, int64_t timeout)
 {
     LogTraceFunction;
 
@@ -271,7 +265,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     else {
         // failed to create child process
         return std::nullopt;
-    }
+}
 #endif
 
     Log.trace("Call `", cmd, "` ret", exit_ret, ", output size:", pipe_data.size());
@@ -287,7 +281,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     }
 }
 
-void asst::Controller::convert_lf(std::vector<unsigned char>&data)
+void asst::Controller::convert_lf(std::vector<unsigned char>& data)
 {
     LogTraceFunction;
 
@@ -323,7 +317,7 @@ void asst::Controller::convert_lf(std::vector<unsigned char>&data)
     data.erase(next_iter, data.end());
 }
 
-asst::Point asst::Controller::rand_point_in_rect(const Rect & rect)
+asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
 {
     int x = 0, y = 0;
     if (rect.width == 0) {
@@ -373,7 +367,7 @@ void asst::Controller::clear_info() noexcept
     m_scale_size = decltype(m_scale_size)();
 }
 
-int asst::Controller::push_cmd(const std::string & cmd)
+int asst::Controller::push_cmd(const std::string& cmd)
 {
     random_delay();
 
@@ -465,7 +459,7 @@ bool asst::Controller::screencap()
     return false;
 }
 
-bool asst::Controller::screencap(const std::string & cmd, DecodeFunc decode_func)
+bool asst::Controller::screencap(const std::string& cmd, DecodeFunc decode_func)
 {
     auto ret = call_command(cmd);
 
@@ -518,7 +512,7 @@ cv::Mat asst::Controller::get_resized_image() const
     return resized_mat;
 }
 
-int asst::Controller::click(const Point & p, bool block)
+int asst::Controller::click(const Point& p, bool block)
 {
     int x = static_cast<int>(p.x * m_control_scale);
     int y = static_cast<int>(p.y * m_control_scale);
@@ -527,12 +521,12 @@ int asst::Controller::click(const Point & p, bool block)
     return click_without_scale(Point(x, y), block);
 }
 
-int asst::Controller::click(const Rect & rect, bool block)
+int asst::Controller::click(const Rect& rect, bool block)
 {
     return click(rand_point_in_rect(rect), block);
 }
 
-int asst::Controller::click_without_scale(const Point & p, bool block)
+int asst::Controller::click_without_scale(const Point& p, bool block)
 {
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
         Log.error("click point out of range");
@@ -546,12 +540,12 @@ int asst::Controller::click_without_scale(const Point & p, bool block)
     return id;
 }
 
-int asst::Controller::click_without_scale(const Rect & rect, bool block)
+int asst::Controller::click_without_scale(const Rect& rect, bool block)
 {
     return click_without_scale(rand_point_in_rect(rect), block);
 }
 
-int asst::Controller::swipe(const Point & p1, const Point & p2, int duration, bool block, int extra_delay, bool extra_swipe)
+int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     int x1 = static_cast<int>(p1.x * m_control_scale);
     int y1 = static_cast<int>(p1.y * m_control_scale);
@@ -562,12 +556,12 @@ int asst::Controller::swipe(const Point & p1, const Point & p2, int duration, bo
     return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block, extra_delay, extra_swipe);
 }
 
-int asst::Controller::swipe(const Rect & r1, const Rect & r2, int duration, bool block, int extra_delay, bool extra_swipe)
+int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
 
-int asst::Controller::swipe_without_scale(const Point & p1, const Point & p2, int duration, bool block, int extra_delay, bool extra_swipe)
+int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     if (p1.x < 0 || p1.x >= m_width || p1.y < 0 || p1.y >= m_height || p2.x < 0 || p2.x >= m_width || p2.y < 0 || p2.y >= m_height) {
         Log.error("swipe point out of range");
@@ -621,12 +615,12 @@ int asst::Controller::swipe_without_scale(const Point & p1, const Point & p2, in
     return id;
 }
 
-int asst::Controller::swipe_without_scale(const Rect & r1, const Rect & r2, int duration, bool block, int extra_delay, bool extra_swipe)
+int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
     return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
 
-bool asst::Controller::connect(const std::string & adb_path, const std::string & address, const std::string & config)
+bool asst::Controller::connect(const std::string& adb_path, const std::string& address, const std::string& config)
 {
     LogTraceFunction;
 
@@ -776,6 +770,13 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
         };
 
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+
+        if (m_width < WindowWidthDefault || m_height < WindowHeightDefault) {
+            info["what"] = "UnsupportedResolution";
+            info["why"] = "Low screen resolution";
+            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            return false;
+        }
     }
 
     /* calc ratio */
@@ -814,6 +815,17 @@ bool asst::Controller::connect(const std::string & adb_path, const std::string &
 
     return true;
 }
+
+bool asst::Controller::disconnect()
+{
+#ifndef _WIN32
+    if (m_child) {
+#else
+    if (true) {
+#endif
+        return call_command(m_adb.release).has_value();
+    }
+    }
 
 const std::string& asst::Controller::get_uuid() const
 {
