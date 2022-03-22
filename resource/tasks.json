@@ -437,7 +437,7 @@
         ]
     },
     "StartButton2": {
-        "action": "lickSelf",
+        "action": "ClickSelf",
         "rearDelay": 40000,
         "roi": [
             1000,
