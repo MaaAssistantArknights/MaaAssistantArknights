@@ -3335,7 +3335,7 @@
             118
         ],
         "action": "ClickSelf",
-        "preDelay": 1000,
+        "preDelay": 500,
         "rectMove": [
             0,
             -110,
@@ -3346,6 +3346,7 @@
     "BattleOperRetreat": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
+        "preDelay": 500,
         "specificRect": [
             563,
             190,
