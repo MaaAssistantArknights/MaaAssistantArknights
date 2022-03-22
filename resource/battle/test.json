@@ -57,9 +57,14 @@
             "direction": 2
         },
         {
-            "kills_condition": 25,
+            "kills": 25,
             "type": 2,
             "name": "澄闪"
+        },
+        {
+            "kills": 30,
+            "type": 1,
+            "name": "嵯峨"
         }
     ]
 }

@@ -30,6 +30,7 @@ namespace asst
         bool wait_condition(const BattleAction& action);
 
         bool oper_deploy(const BattleAction& action);
+        bool oper_retreat(const BattleAction& action);
         bool use_skill(const BattleAction& action);
 
         std::string m_stage_name;
@@ -39,6 +40,7 @@ namespace asst
         BattleActionsGroup m_actions;
 
         /* 实时更新的数据 */
+        int m_kills = 0;
         std::unordered_map<std::string, BattleRealTimeOper> m_opers_info;
         std::unordered_map<std::string, Point> m_used_opers_loc;
     };

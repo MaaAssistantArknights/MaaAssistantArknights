@@ -3343,6 +3343,16 @@
             90
         ]
     },
+    "BattleOperRetreat": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            563,
+            190,
+            80,
+            60
+        ]
+    },
     "BattleUseOper": {
         "algorithm": "JustReturn",
         "preDelay": 500,

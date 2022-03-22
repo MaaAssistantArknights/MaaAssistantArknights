@@ -186,6 +186,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
         return oper_deploy(action);
         break;
     case BattleActionType::Retreat:
+        return oper_retreat(action);
         break;
     case BattleActionType::UseSkill:
         return use_skill(action);
@@ -202,26 +203,20 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
 
 bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 {
-    if (action.kills_condition <= 0) {
-        return true;
-    }
-
     constexpr int analyze_target = BattleImageAnalyzer::Target::Kills;
 
-    while (true) {
+    while (m_kills < action.kills) {
         auto image = m_ctrler->get_image();
         BattleImageAnalyzer analyzer(image);
         analyzer.set_target(analyze_target);
 
         if (!analyzer.analyze()) {
-            return false;
+            continue;
         }
-        if (action.kills_condition <= analyzer.get_kills()) {
-            return true;
-        }
+        m_kills = analyzer.get_kills();
     }
 
-    return false;
+    return true;
 }
 
 bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
@@ -284,6 +279,19 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     //sleep(use_oper_task_ptr->pre_delay);
 
     return true;
+}
+
+bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
+{
+    auto iter = m_used_opers_loc.find(action.group_name);
+    if (iter == m_used_opers_loc.cend()) {
+        Log.error(action.group_name, " not used");
+        return false;
+    }
+    Point pos = m_normal_tile_info[iter->second].pos;
+    m_ctrler->click(pos);
+
+    return ProcessTask(*this, { "BattleOperRetreat" }).run();
 }
 
 bool asst::BattleProcessTask::use_skill(const BattleAction& action)
