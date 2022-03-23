@@ -120,9 +120,9 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### API
 
-- [C 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/include/AsstCaller.h)
-- [Python 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/wiki/Python-%E6%8E%A5%E5%8F%A3)
-- [Golang 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/wiki/Golang-%E6%8E%A5%E5%8F%A3)
+- [C 接口](include/AsstCaller.h)：[集成示例](tools/TestCaller/main.cpp)
+- [Python 接口](src/Python/interface.py)：[集成示例](src/Python/sample.py)
+- [Golang 接口](src/Golang/maa/)：[集成示例](src/Golang/cli.go)（已停止维护 orz）
 - [回调消息协议](docs/回调消息协议.md)
 
 ## 声明
