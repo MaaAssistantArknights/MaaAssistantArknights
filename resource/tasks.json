@@ -685,6 +685,26 @@
             230
         ],
         "next": [
+            "FightMissionFailed",
+            "EndOfAction",
+            "StartToWakeUp",
+            "OfflineConfirm",
+            "StartButton1"
+        ]
+    },
+    "FightMissionFailed": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "任务失败"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            36,
+            226,
+            482,
+            269
+        ],
+        "next": [
             "EndOfAction",
             "StartToWakeUp",
             "OfflineConfirm",
