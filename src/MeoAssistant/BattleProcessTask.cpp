@@ -39,8 +39,16 @@ bool asst::BattleProcessTask::get_stage_info()
 {
     const auto& tile = Resrc.tile();
 
-    m_side_tile_info = tile.calc(m_stage_name, true);
     m_normal_tile_info = tile.calc(m_stage_name, false);
+    m_side_tile_info = tile.calc(m_stage_name, true);
+
+#ifdef ASST_DEBUG
+    auto draw = m_ctrler->get_image();
+    for (const auto& [loc, info] : m_normal_tile_info) {
+        std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
+        cv::putText(draw, text, cv::Point(info.pos.x, info.pos.y), 1, 1, cv::Scalar(0, 0, 255));
+    }
+#endif
 
     if (m_side_tile_info.empty() || m_normal_tile_info.empty()) {
         return false;
@@ -122,7 +130,7 @@ bool asst::BattleProcessTask::update_opers_info()
         int right_index = 0;
         // 干员数变多了，之前的干员可能位于 [当前位置 - |size_change|, 当前位置 ] 之间
         if (is_increased) {
-            left_index = static_cast<int>(cur_oper.index) - size_change;
+            left_index = std::max(0, static_cast<int>(cur_oper.index) - size_change);
             right_index = static_cast<int>(cur_oper.index);
         }
         // 干员数减少了，之前的干员可能位于 [当前位置 , 当前位置 + |size_change|] 之间
@@ -140,37 +148,65 @@ bool asst::BattleProcessTask::update_opers_info()
             }
         }
 
-        decltype(ranged_iters)::value_type matched_iter = ranged_iters.front();
-
-        if (ranged_iters.empty()) {
-            Log.error("ranged_iters empty", left_index, right_index);
-            return false;
+        std::string oper_name = "Unknown";
+        if (is_increased && !cur_oper.available) {
+            continue;
         }
-        else if (ranged_iters.size() > 1) {
-            MatchImageAnalyzer avatar_analyzer(cur_oper.avatar);
-            avatar_analyzer.set_task_info("BattleAvatarData");
-            MatchRect matched_result;
 
-            // 遍历比较，得分最高的那个就说明是对应的那个
-            for (const auto& iter : ranged_iters) {
-                avatar_analyzer.set_templ(iter->second.avatar);
-                if (!avatar_analyzer.analyze()) {
-                    continue;
-                }
-                if (matched_result.score < avatar_analyzer.get_result().score) {
-                    matched_result = avatar_analyzer.get_result();
-                    matched_iter = iter;
+        // 新多出来的干员，上一帧画面里应该是没有的，把所有不在场的都拿出来比较下
+        if (ranged_iters.empty()) {
+            for (auto iter = pre_opers_info.cbegin(); iter != pre_opers_info.cend(); ++iter) {
+                if (iter->second.index == SIZE_MAX) {
+                    ranged_iters.emplace_back(iter);
                 }
             }
         }
+
+        MatchImageAnalyzer avatar_analyzer(cur_oper.avatar);
+        avatar_analyzer.set_task_info("BattleAvatarData");
+        MatchRect matched_result;
+        decltype(ranged_iters)::value_type matched_iter;
+
+        // 遍历比较，得分最高的那个就说明是对应的那个
+        for (const auto& iter : ranged_iters) {
+            avatar_analyzer.set_templ(iter->second.avatar);
+            if (!avatar_analyzer.analyze()) {
+                continue;
+            }
+            if (matched_result.score < avatar_analyzer.get_result().score) {
+                matched_result = avatar_analyzer.get_result();
+                matched_iter = iter;
+            }
+        }
+        // 一个都没匹配上，考虑是新增的召唤物，或者别的东西，点开来看一下
+        if (matched_result.score == 0) {
+            battle_pause();
+            m_ctrler->click(cur_oper.rect);
+            sleep(Task.get("BattleUseOper")->pre_delay);
+
+            auto image = m_ctrler->get_image();
+            OcrImageAnalyzer name_analyzer(image);
+            name_analyzer.set_task_info("BattleOperName");
+            name_analyzer.set_replace(
+                std::dynamic_pointer_cast<OcrTaskInfo>(
+                    Task.get("Roguelike1RecruitData"))
+                ->replace_map);
+
+            if (name_analyzer.analyze()) {
+                name_analyzer.sort_result_by_score();
+                oper_name = name_analyzer.get_result().front().text;
+            }
+            battle_pause();
+            cancel_selection();
+        }
         else {
-            ;   // 只有一个干员的时候就不用计算，就是唯一的那个
+            oper_name = matched_iter->first;
         }
 
         auto temp_oper = cur_oper;
-        temp_oper.name = matched_iter->first;
+        temp_oper.name = oper_name;
         // 保存当前干员信息
-        m_opers_info.emplace(matched_iter->first, std::move(temp_oper));
+        m_opers_info.emplace(oper_name, std::move(temp_oper));
     }
     return true;
 }
@@ -180,25 +216,28 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     if (!wait_condition(action)) {
         return false;
     }
+    sleep(action.pre_delay);
 
+    bool ret = false;
     switch (action.type) {
     case BattleActionType::Deploy:
-        return oper_deploy(action);
+        ret = oper_deploy(action);
         break;
     case BattleActionType::Retreat:
-        return oper_retreat(action);
+        ret = oper_retreat(action);
         break;
     case BattleActionType::UseSkill:
-        return use_skill(action);
+        ret = use_skill(action);
         break;
     case BattleActionType::SwitchSpeed:
-        return battle_speedup();
+        ret = battle_speedup();
         break;
     case BattleActionType::BulletTime:
         break;
     }
+    sleep(action.rear_delay);
 
-    return false;
+    return ret;
 }
 
 bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
@@ -231,10 +270,9 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
         // TODO，临时调试方案。正式版本这里需要对 group_name -> oper_name 做一个转换
         iter = m_opers_info.find(action.group_name);
         if (iter == m_opers_info.cend()) {
-            Log.error("battle opers group", action.group_name, "not found");
-            return false;
+            Log.info("battle opers group", action.group_name, "not found");
         }
-    } while (!iter->second.available);
+    } while (iter == m_opers_info.cend() || !iter->second.available);
 
     // 点击干员
     Rect oper_rect = iter->second.rect;
@@ -243,7 +281,6 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
 
     // 拖动到场上
     Point placed_point = m_side_tile_info[action.location].pos;
-    m_used_opers_loc[iter->first] = action.location;
 
     Rect placed_rect{ placed_point.x ,placed_point.y, 1, 1 };
     m_ctrler->swipe(oper_rect, placed_rect, swipe_oper_task_ptr->pre_delay);
@@ -276,6 +313,12 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
 
         m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
     }
+
+    m_used_opers_loc[iter->first] = action.location;
+
+    iter->second.index = SIZE_MAX;
+    //m_opers_info.erase(iter);
+
     //sleep(use_oper_task_ptr->pre_delay);
 
     return true;

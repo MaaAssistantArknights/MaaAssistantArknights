@@ -387,15 +387,22 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     }
     kills_analyzer.sort_result_by_score();
 
-    // 这里的结果应该是 "击杀数/总的敌人数"，例如 "0/41"
-    std::string kills_res = kills_analyzer.get_result().front().text;
-    size_t pos = kills_res.find('/');
+    std::string kills_text;
+    size_t pos = std::string::npos;
+    for (auto& res : kills_analyzer.get_result()) {
+        // 这里的结果应该是 "击杀数/总的敌人数"，例如 "0/41"
+        pos = res.text.find('/');
+        if (pos != std::string::npos) {
+            kills_text = res.text;
+            break;
+        }
+    }
     if (pos == std::string::npos) {
         return false;
     }
 
     // 例子中的"0"
-    std::string kills_count = kills_res.substr(0, pos);
+    std::string kills_count = kills_text.substr(0, pos);
     if (kills_count.empty() ||
         !std::all_of(kills_count.cbegin(), kills_count.cend(),
             [](char c) -> bool {return std::isdigit(c);})) {
@@ -403,6 +410,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     }
     int cur_kills = std::stoi(kills_count);
     m_kills = std::max(m_kills, cur_kills);
+    Log.trace("Kills:", m_kills, cur_kills);
     return true;
 }
 
