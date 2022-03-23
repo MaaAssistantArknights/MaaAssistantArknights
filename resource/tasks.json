@@ -918,6 +918,26 @@
             255
         ],
         "next": [
+            "RecruitBeginLoading",
+            "RecruitBegin"
+        ]
+    },
+    "RecruitBeginLoading": {
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "RecruitBeginLoading",
+            "Recruit",
             "RecruitBegin"
         ]
     },
@@ -932,6 +952,27 @@
             420
         ],
         "next": [
+            "RecruitFinishLoading",
+            "RecruitFinish",
+            "RecruitSkip",
+            "RecruitSkipWithoutButton"
+        ]
+    },
+    "RecruitFinishLoading":{
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "RecruitFinishLoading",
             "RecruitFinish",
             "RecruitSkip",
             "RecruitSkipWithoutButton"
@@ -1711,6 +1752,17 @@
             "Stop"
         ]
     },
+    "RecruitCheckTimeUnreduced":{
+        "action": "Stop",
+        "template": "RecruitTimeReduce.png",
+        "Doc": "检查时间是不是没有调整过",
+        "roi": [
+            350,
+            150,
+            200,
+            150
+        ]
+    },
     "RecruitConfirm": {
         "action": "clickSelf",
         "roi": [
@@ -1720,6 +1772,25 @@
             80
         ],
         "next": [
+            "RecruitConfirmLoading",
+            "RecruitFlag"
+        ]
+    },
+    "RecruitConfirmLoading":{
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "RecruitConfirmLoading",
             "RecruitFlag"
         ]
     },
@@ -1925,6 +1996,27 @@
             150
         ],
         "next": [
+            "DroneConfirmLoading",
+            "DeliverableOrder",
+            "DroneAssist-Trade-Stop",
+            "DroneAssistMfg"
+        ]
+    },
+    "DroneConfirmLoading": {
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "DroneConfirmLoading",
             "DeliverableOrder",
             "DroneAssist-Trade-Stop",
             "DroneAssistMfg"
@@ -3056,6 +3148,25 @@
             "ClueGiveTo1stConfirm"
         ]
     },
+    "ClueGiveLoading": {
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "ClueGiveLoading",
+            "SelectClue",
+            "CloseSendClue"
+        ]
+    },
     "ClueGiveTo1st": {
         "template": "ClusCanBeSent.png",
         "action": "doNothing",
@@ -3084,6 +3195,7 @@
             160
         ],
         "next": [
+            "ClueGiveLoading",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -3116,6 +3228,7 @@
             160
         ],
         "next": [
+            "ClueGiveLoading",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -3148,6 +3261,7 @@
             160
         ],
         "next": [
+            "ClueGiveLoading",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -3180,6 +3294,7 @@
             160
         ],
         "next": [
+            "ClueGiveLoading",
             "SelectClue",
             "CloseSendClue"
         ]
