@@ -151,6 +151,11 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
         callback(AsstMsg::SubTaskError, info);
         return;
     }
+    if (m_cur_drops.get("stars", 0) != 3) {
+        info["why"] = "非三星作战";
+        callback(AsstMsg::SubTaskError, info);
+        return;
+    }
     json::value body;
     body["server"] = opt.penguin_report.server;
     body["stageId"] = stage_id;
