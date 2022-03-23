@@ -3,7 +3,6 @@
 #include "Resource.h"
 #include "OcrImageAnalyzer.h"
 #include "Controller.h"
-#include "RecruitImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "RecruitCalcTask.h"
 
@@ -108,35 +107,42 @@ bool asst::AutoRecruitTask::recruit_index(size_t index)
 
 bool asst::AutoRecruitTask::calc_and_recruit()
 {
-    RecruitCalcTask recurit_task(m_callback, m_callback_arg, m_task_chain);
-    recurit_task.set_param(m_select_level, true)
+    RecruitCalcTask recruit_task(m_callback, m_callback_arg, m_task_chain);
+    recruit_task.set_param(m_select_level, true)
         .set_retry_times(m_retry_times)
         .set_exit_flag(m_exit_flag)
         .set_ctrler(m_ctrler)
         .set_status(m_status);
 
     // 识别错误，放弃这个公招位，直接返回
-    if (!recurit_task.run()) {
+    if (!recruit_task.run()) {
         callback(AsstMsg::SubTaskError, basic_info());
         click_return_button();
         return true;
     }
 
-    int maybe_level = recurit_task.get_maybe_level();
+    int maybe_level = recruit_task.get_maybe_level();
     if (need_exit()) {
         return false;
     }
     // 尝试刷新
     if (m_need_refresh && maybe_level == 3
-        && !recurit_task.get_has_special_tag()
-        && recurit_task.get_has_refresh()) {
+        && !recruit_task.get_has_special_tag()
+        && recruit_task.get_has_refresh()) {
         if (refresh()) {
             return calc_and_recruit();
         }
     }
+    // 如果时间没调整过，那 tag 十有八九也没选，重新试一次
+    // 造成时间没调的原因可见： https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
+    if (check_time_unreduced()) {
+        return calc_and_recruit();
+    }
+
     if (need_exit()) {
         return false;
     }
+
     if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
         if (!confirm()) {
             return false;
@@ -146,6 +152,12 @@ bool asst::AutoRecruitTask::calc_and_recruit()
         click_return_button();
     }
     return true;
+}
+bool asst::AutoRecruitTask::check_time_unreduced()
+{
+    ProcessTask task(*this, { "RecruitCheckTimeUnreduced" });
+    task.set_retry_times(1);
+    return task.run();
 }
 
 bool asst::AutoRecruitTask::check_recruit_home_page()
