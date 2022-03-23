@@ -145,7 +145,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     callback(AsstMsg::SubTaskStart, info);
 
     // Doc: https://developer.penguin-stats.io/public-api/api-v2-instruction/report-api
-    std::string stage_id = m_cur_drops["stage"]["stageId"].as_string();
+    std::string stage_id = m_cur_drops.get("stage", "stageId", std::string());
     if (stage_id.empty()) {
         info["why"] = "未知关卡";
         callback(AsstMsg::SubTaskError, info);
