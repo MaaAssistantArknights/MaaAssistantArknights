@@ -72,11 +72,13 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(
                 Log.error("Unknown tile type:", tile.tileKey);
             }
 
-            dst.emplace(Point(static_cast<int>(x), static_cast<int>(y)), TileInfo{
+            Point loc(static_cast<int>(x), static_cast<int>(y));
+            dst.emplace(loc, TileInfo{
                     static_cast<BuildableType>(tile.buildableType),
                     static_cast<HeightType>(tile.heightType),
                     key,
-                    Point(static_cast<int>(cv_p.x), static_cast<int>(cv_p.y)) });
+                    Point(static_cast<int>(cv_p.x), static_cast<int>(cv_p.y)),
+                    loc });
         }
     }
     return dst;

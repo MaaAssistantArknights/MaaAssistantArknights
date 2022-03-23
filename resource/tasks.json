@@ -959,7 +959,7 @@
             "RecruitSkipWithoutButton"
         ]
     },
-    "RecruitFinishLoading":{
+    "RecruitFinishLoading": {
         "algorithm": "OcrDetect",
         "action": "doNothing",
         "text": [
@@ -1753,7 +1753,7 @@
             "Stop"
         ]
     },
-    "RecruitCheckTimeUnreduced":{
+    "RecruitCheckTimeUnreduced": {
         "action": "Stop",
         "template": "RecruitTimeReduce.png",
         "Doc": "检查时间是不是没有调整过",
@@ -1777,7 +1777,7 @@
             "RecruitFlag"
         ]
     },
-    "RecruitConfirmLoading":{
+    "RecruitConfirmLoading": {
         "algorithm": "OcrDetect",
         "action": "doNothing",
         "text": [
@@ -3432,7 +3432,7 @@
     },
     "BattleAvatarData": {
         "template": "empty.png",
-        "templThreshold": 0.8
+        "templThreshold": 0.6
     },
     "BattleKillsFlag": {
         "roi": [
@@ -3525,13 +3525,13 @@
     },
     "BattleOperAvailable": {
         "template": "empty.png",
-        "specialThreshold": 110,
+        "specialThreshold": 100,
         "specialThreshold_Doc": "用于做V通道平均值阈值",
         "rectMove": [
-            -41,
-            6,
-            31,
-            25
+            0,
+            0,
+            10,
+            10
         ]
     },
     "BattleOperRoleRange": {

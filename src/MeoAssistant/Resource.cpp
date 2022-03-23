@@ -72,7 +72,7 @@ bool asst::Resource::load(const std::string& dir)
             continue;
         }
         if (!m_battle_cfg_unique_ins.load(entry.path().u8string())) {
-            m_last_error = entry.path().u8string() + " Load field";
+            m_last_error = entry.path().u8string() + " Load faild";
             return false;
         }
     }
