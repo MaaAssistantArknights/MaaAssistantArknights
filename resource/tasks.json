@@ -958,7 +958,7 @@
             "RecruitSkipWithoutButton"
         ]
     },
-    "RecruitFinishLoading":{
+    "RecruitFinishLoading": {
         "algorithm": "OcrDetect",
         "action": "doNothing",
         "text": [
@@ -1752,7 +1752,7 @@
             "Stop"
         ]
     },
-    "RecruitCheckTimeUnreduced":{
+    "RecruitCheckTimeUnreduced": {
         "action": "Stop",
         "template": "RecruitTimeReduce.png",
         "Doc": "检查时间是不是没有调整过",
@@ -1776,7 +1776,7 @@
             "RecruitFlag"
         ]
     },
-    "RecruitConfirmLoading":{
+    "RecruitConfirmLoading": {
         "algorithm": "OcrDetect",
         "action": "doNothing",
         "text": [
@@ -2120,7 +2120,7 @@
     "InfrastOperFaceHash": {
         "algorithm": "hash",
         "hash": [],
-        "threshold": 30,
+        "threshold": 40,
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             0,
