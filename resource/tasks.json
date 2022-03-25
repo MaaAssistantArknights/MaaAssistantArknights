@@ -1325,6 +1325,7 @@
     "StartToVisit": {
         "action": "clickSelf",
         "cache": false,
+        "templThreshold": 0.75,
         "roi": [
             900,
             0,
