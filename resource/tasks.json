@@ -755,6 +755,7 @@
             100
         ],
         "next": [
+            "StartToWakeUp",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
