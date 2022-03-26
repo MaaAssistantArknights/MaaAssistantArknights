@@ -18,7 +18,7 @@ bool asst::BattleConfiger::parse(const json::value& json)
                 BattleDeployOper oper;
                 oper.name = oper_info.at("name").as_string();
                 oper.skill = oper_info.get("skill", 1);
-                oper.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 0));
+                oper.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", -1));
                 oper_vec.emplace_back(std::move(oper));
             }
             battle_actions.opers_groups.emplace(std::move(group_name), std::move(oper_vec));
@@ -30,7 +30,7 @@ bool asst::BattleConfiger::parse(const json::value& json)
             BattleDeployOper oper;
             oper.name = oper_info.at("name").as_string();
             oper.skill = oper_info.get("skill", 1);
-            oper.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 0));
+            oper.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", -1));
 
             // 单个干员的，干员名直接作为组名
             std::string group_name = oper.name;
