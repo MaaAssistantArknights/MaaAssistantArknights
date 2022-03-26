@@ -100,7 +100,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         }
         opers.at(i).name = oper_name;
 
-        m_opers_info.emplace(std::move(oper_name), std::move(opers.at(i)));
+        m_cur_opers_info.emplace(std::move(oper_name), std::move(opers.at(i)));
 
         // 干员特别多的时候，任意干员被点开，都会导致下方的干员图标被裁剪和移动。所以这里需要重新识别一下
         oper_analyzer.set_image(image);
@@ -120,8 +120,8 @@ bool asst::BattleProcessTask::update_opers_info()
         return false;
     }
     const auto& cur_opers_info = analyzer.get_opers();
-    decltype(m_opers_info) pre_opers_info;
-    m_opers_info.swap(pre_opers_info);
+    decltype(m_cur_opers_info) pre_opers_info;
+    m_cur_opers_info.swap(pre_opers_info);
 
     const int size_change = static_cast<int>(cur_opers_info.size()) - static_cast<int>(pre_opers_info.size());
     const bool is_increased = size_change > 0;
@@ -136,7 +136,7 @@ bool asst::BattleProcessTask::update_opers_info()
         // 干员数减少了，之前的干员可能位于 [当前位置 , 当前位置 + |size_change|] 之间
         else {
             left_index = static_cast<int>(cur_oper.index);
-            right_index = static_cast<int>(cur_oper.index) - size_change; // size_change 是 负值
+            right_index = static_cast<int>(cur_oper.index) - size_change + 1; // size_change 是 负值
         }
 
         std::vector<decltype(pre_opers_info)::const_iterator> ranged_iters;
@@ -148,25 +148,34 @@ bool asst::BattleProcessTask::update_opers_info()
             }
         }
 
-        std::string oper_name = "Unknown";
         if (is_increased && !cur_oper.available) {
             continue;
         }
 
-        // 新多出来的干员，上一帧画面里应该是没有的，把所有不在场的都拿出来比较下
+        // 为空说明上一帧画面里没有这个干员，可能是撤退下来的，把所有已使用的都拿出来比较下
         if (ranged_iters.empty()) {
-            for (auto iter = pre_opers_info.cbegin(); iter != pre_opers_info.cend(); ++iter) {
-                if (iter->second.index == SIZE_MAX) {
+            // 已使用的（可能是撤退下来的） = 所有干员 - 当前可用的干员
+            // 求差集
+
+            //std::set_difference(m_all_opers_info.cbegin(), m_all_opers_info.cend(),
+            //    pre_opers_info.cbegin(), pre_opers_info.cend(),
+            //    std::back_inserter(ranged_iters)
+            //);
+            // set_difference 返回的是元素，但我这里需要迭代器，所以只能手写了
+            for (auto iter = m_all_opers_info.cbegin(); iter != m_all_opers_info.cend(); ++iter) {
+                const std::string& key = iter->first;
+                if (pre_opers_info.find(key) == pre_opers_info.cend()) {
                     ranged_iters.emplace_back(iter);
                 }
             }
         }
 
-        MatchImageAnalyzer avatar_analyzer(cur_oper.avatar);
-        avatar_analyzer.set_task_info("BattleAvatarData");
+        std::string oper_name = "Unknown";
         MatchRect matched_result;
         decltype(ranged_iters)::value_type matched_iter;
 
+        MatchImageAnalyzer avatar_analyzer(cur_oper.avatar);
+        avatar_analyzer.set_task_info("BattleAvatarData");
         // 遍历比较，得分最高的那个就说明是对应的那个
         for (const auto& iter : ranged_iters) {
             avatar_analyzer.set_templ(iter->second.avatar);
@@ -206,7 +215,8 @@ bool asst::BattleProcessTask::update_opers_info()
         auto temp_oper = cur_oper;
         temp_oper.name = oper_name;
         // 保存当前干员信息
-        m_opers_info.emplace(oper_name, std::move(temp_oper));
+        m_all_opers_info[oper_name] = temp_oper;
+        m_cur_opers_info.emplace(oper_name, std::move(temp_oper));
     }
     return true;
 }
@@ -263,16 +273,16 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
     const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
 
-    decltype(m_opers_info)::iterator iter;
+    decltype(m_cur_opers_info)::iterator iter;
     do {
         update_opers_info();
 
         // TODO，临时调试方案。正式版本这里需要对 group_name -> oper_name 做一个转换
-        iter = m_opers_info.find(action.group_name);
-        if (iter == m_opers_info.cend()) {
+        iter = m_cur_opers_info.find(action.group_name);
+        if (iter == m_cur_opers_info.cend()) {
             Log.info("battle opers group", action.group_name, "not found");
         }
-    } while (iter == m_opers_info.cend() || !iter->second.available);
+    } while (iter == m_cur_opers_info.cend() || !iter->second.available);
 
     // 点击干员
     Rect oper_rect = iter->second.rect;
@@ -316,8 +326,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
 
     m_used_opers_loc[iter->first] = action.location;
 
-    iter->second.index = SIZE_MAX;
-    //m_opers_info.erase(iter);
+    m_cur_opers_info.erase(iter);
 
     //sleep(use_oper_task_ptr->pre_delay);
 
