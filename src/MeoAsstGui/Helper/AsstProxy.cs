@@ -187,6 +187,7 @@ namespace MeoAsstGui
                 case AsstMsg.AllTasksCompleted:
                     mainModel.Idle = true;
                     mainModel.AddLog("任务已全部完成");
+                    mainModel.UseStone = false;
                     using (var toast = new ToastNotification("任务已全部完成！"))
                     {
                         toast.Show();
