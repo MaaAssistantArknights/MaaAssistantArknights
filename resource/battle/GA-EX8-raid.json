@@ -120,12 +120,47 @@
             "type": "撤退"
         },
         {
+            "name": "银灰",
+            "type": "撤退"
+        },
+        {
             "name": "Mon3tr",
             "location": [
                 5,
                 1
             ],
             "direction": "右"
+        },
+        {
+            "kills": 31,
+            "type": "技能",
+            "name": "凯尔希"
+        },
+        {
+            "kills": 34,
+            "name": "银灰",
+            "location": [
+                9,
+                4
+            ],
+            "direction": "上"
+        },
+        {
+            "name": "史尔特尔",
+            "location": [
+                8,
+                2
+            ],
+            "direction": "右"
+        },
+        {
+            "kills": 37,
+            "type": "技能",
+            "name": "银灰"
+        },
+        {
+            "type": "技能",
+            "name": "史尔特尔"
         }
     ]
 }

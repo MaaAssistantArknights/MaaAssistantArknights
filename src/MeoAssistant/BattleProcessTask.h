@@ -41,7 +41,8 @@ namespace asst
 
         /* 实时更新的数据 */
         int m_kills = 0;
-        std::unordered_map<std::string, BattleRealTimeOper> m_opers_info;
+        std::unordered_map<std::string, BattleRealTimeOper> m_all_opers_info;
+        std::unordered_map<std::string, BattleRealTimeOper> m_cur_opers_info;
         std::unordered_map<std::string, Point> m_used_opers_loc;
     };
 }
