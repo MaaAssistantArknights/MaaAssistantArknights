@@ -12,17 +12,17 @@ namespace asst
 {
     enum class BattleSkillUsage     // 干员技能使用方法
     {
+        NotUse = -1,                // 不自动使用
         Possibly = 0,               // 有就用，例如干员 棘刺 3 技能
         Once = 1,                   // 只用一次，例如干员 银灰 2技能
         InTime = 2,                 // 关键时刻使用，自动判断使用时机，例如干员 假日威龙陈 3 技能
-        NotUse = 3,                 // 不自动使用
         OnceUsed
     };
     struct BattleDeployOper         // 干员
     {
         std::string name;
         int skill = 1;              // 技能序号，取值范围 [1, 3]
-        BattleSkillUsage skill_usage = BattleSkillUsage::Possibly;
+        BattleSkillUsage skill_usage = BattleSkillUsage::NotUse;
     };
 
     enum class BattleDeployDirection

@@ -28,7 +28,7 @@ bool asst::BattleProcessTask::_run()
         ;
     }
 
-    for (const auto& action : m_actions.actions) {
+    for (const auto& action : m_actions_group.actions) {
         do_action(action);
     }
 
@@ -60,7 +60,7 @@ bool asst::BattleProcessTask::get_stage_info()
         return false;
     }
 
-    m_actions = battle.get_actions(m_stage_name);
+    m_actions_group = battle.get_actions(m_stage_name);
 
     return true;
 }
@@ -75,6 +75,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
     // TODO: 干员头像出来之后，还要过 2 秒左右才可以点击，这里可能还要加个延时
 
     battle_pause();
+
     auto opers = oper_analyzer.get_opers();
 
     for (size_t i = 0; i != opers.size(); ++i) {
@@ -99,6 +100,21 @@ bool asst::BattleProcessTask::analyze_opers_preview()
             oper_name = name_analyzer.get_result().front().text;
         }
         opers.at(i).name = oper_name;
+
+        // 找出这个干员是哪个组里的，以及他的技能用法等
+        for (const auto& [group_name, deploy_opers] : m_actions_group.opers_groups) {
+            auto iter = std::find_if(deploy_opers.cbegin(), deploy_opers.cend(),
+                [&](const BattleDeployOper& deploy) -> bool {
+                    return deploy.name == oper_name;
+                });
+            // 没找到，可能是召唤物等新出现的；可能是干员名识别错了（这种情况处理不了，不管了）
+            if (iter == deploy_opers.cend()) {
+                m_group_to_oper_mapping.emplace(group_name, BattleDeployOper{ group_name });
+            }
+            else {
+                m_group_to_oper_mapping.emplace(group_name, *iter);
+            }
+        }
 
         m_cur_opers_info.emplace(std::move(oper_name), std::move(opers.at(i)));
 
@@ -205,6 +221,7 @@ bool asst::BattleProcessTask::update_opers_info()
                 name_analyzer.sort_result_by_score();
                 oper_name = name_analyzer.get_result().front().text;
             }
+            m_group_to_oper_mapping[oper_name] = BattleDeployOper{ oper_name };
             battle_pause();
             cancel_selection();
         }
@@ -277,10 +294,10 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     do {
         update_opers_info();
 
-        // TODO，临时调试方案。正式版本这里需要对 group_name -> oper_name 做一个转换
-        iter = m_cur_opers_info.find(action.group_name);
+        const std::string& name = m_group_to_oper_mapping[action.group_name].name;
+        iter = m_cur_opers_info.find(name);
         if (iter == m_cur_opers_info.cend()) {
-            Log.info("battle opers group", action.group_name, "not found");
+            Log.info("battle opers group", name, "not found");
         }
     } while (iter == m_cur_opers_info.cend() || !iter->second.available);
 
@@ -335,9 +352,10 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
 
 bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
 {
-    auto iter = m_used_opers_loc.find(action.group_name);
+    const std::string& name = m_group_to_oper_mapping[action.group_name].name;
+    auto iter = m_used_opers_loc.find(name);
     if (iter == m_used_opers_loc.cend()) {
-        Log.error(action.group_name, " not used");
+        Log.error(name, " not used");
         return false;
     }
     Point pos = m_normal_tile_info[iter->second].pos;
@@ -348,9 +366,10 @@ bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
 
 bool asst::BattleProcessTask::use_skill(const BattleAction& action)
 {
-    auto iter = m_used_opers_loc.find(action.group_name);
+    const std::string& name = m_group_to_oper_mapping[action.group_name].name;
+    auto iter = m_used_opers_loc.find(name);
     if (iter == m_used_opers_loc.cend()) {
-        Log.error(action.group_name, " not used");
+        Log.error(name, " not used");
         return false;
     }
 
