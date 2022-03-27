@@ -30,12 +30,18 @@ bool asst::BattleImageAnalyzer::analyze()
 
     // 可能没有干员（全上场了），所以干员识别结果不影响返回值
     if (m_target & Target::Oper) {
-        opers_analyze();
+        bool oper_ret = opers_analyze();
+        if (m_target == Target::Skill) {
+            ret = oper_ret;
+        }
     }
 
     // 可能没有可使用的技能，所以技能识别结果不影响返回值
     if (m_target & Target::Skill) {
-        skill_analyze();
+        bool skill_ret = skill_analyze();
+        if (m_target == Target::Skill) {
+            ret = skill_ret;
+        }
     }
 
     if (m_target & Target::Kills) {

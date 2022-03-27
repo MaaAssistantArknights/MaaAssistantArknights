@@ -3428,7 +3428,8 @@
             0,
             1000,
             60
-        ]
+        ],
+        "rearDelay": 500
     },
     "BattleAvatarData": {
         "template": "empty.png",
@@ -3460,6 +3461,19 @@
             492,
             83,
             48
+        ]
+    },
+    "BattleAutoSkillFlag": {
+        "template": "BattleSkillReady.png",
+        "rectMove": [
+            -40,
+            -150,
+            80,
+            100
+        ],
+        "maskRange": [
+            1,
+            255
         ]
     },
     "BattleSkillReadyOnClick": {

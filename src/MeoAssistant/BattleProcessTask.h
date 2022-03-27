@@ -24,7 +24,7 @@ namespace asst
         bool battle_speedup();
         bool cancel_selection();  // 取消选择干员
         bool analyze_opers_preview();
-        bool update_opers_info();
+        bool update_opers_info(const cv::Mat& image);
 
         bool do_action(const BattleAction& action);
         bool wait_condition(const BattleAction& action);
@@ -32,6 +32,8 @@ namespace asst
         bool oper_deploy(const BattleAction& action);
         bool oper_retreat(const BattleAction& action);
         bool use_skill(const BattleAction& action);
+
+        void try_possible_skill(const cv::Mat& image);
 
         std::string m_stage_name;
 
@@ -44,6 +46,6 @@ namespace asst
         int m_kills = 0;
         std::unordered_map<std::string, BattleRealTimeOper> m_all_opers_info;
         std::unordered_map<std::string, BattleRealTimeOper> m_cur_opers_info;
-        std::unordered_map<std::string, Point> m_used_opers_loc;
+        std::unordered_map<std::string, BattleDeployInfo> m_used_opers;
     };
 }
