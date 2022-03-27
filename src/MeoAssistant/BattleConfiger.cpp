@@ -10,8 +10,8 @@ bool asst::BattleConfiger::parse(const json::value& json)
 
     BattleActionsGroup battle_actions;
 
-    if (json.contains("opers_groups")) {
-        for (const auto& group_info : json.at("opers_groups").as_array()) {
+    if (json.contains("groups")) {
+        for (const auto& group_info : json.at("groups").as_array()) {
             std::string group_name = group_info.at("name").as_string();
             std::vector<BattleDeployOper> oper_vec;
             for (const auto& oper_info : group_info.at("opers").as_array()) {
@@ -21,7 +21,7 @@ bool asst::BattleConfiger::parse(const json::value& json)
                 oper.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 0));
                 oper_vec.emplace_back(std::move(oper));
             }
-            battle_actions.opers_groups.emplace(std::move(group_name), std::move(oper_vec));
+            battle_actions.groups.emplace(std::move(group_name), std::move(oper_vec));
         }
     }
 
@@ -35,7 +35,7 @@ bool asst::BattleConfiger::parse(const json::value& json)
             // 单个干员的，干员名直接作为组名
             std::string group_name = oper.name;
 
-            battle_actions.opers_groups.emplace(std::move(group_name), std::vector{ std::move(oper) });
+            battle_actions.groups.emplace(std::move(group_name), std::vector{ std::move(oper) });
         }
     }
 
@@ -68,6 +68,12 @@ bool asst::BattleConfiger::parse(const json::value& json)
             { "Bullettime", BattleActionType::SwitchSpeed },
             { "bullettime", BattleActionType::SwitchSpeed },
             { "子弹时间", BattleActionType::SwitchSpeed },
+
+            { "SkillUsage", BattleActionType::SkillUsage },
+            { "SKILLUSAGE", BattleActionType::SkillUsage },
+            { "Skillusage", BattleActionType::SkillUsage },
+            { "skillusage", BattleActionType::SkillUsage },
+            { "技能用法", BattleActionType::SkillUsage },
         };
 
         std::string type_str = action_info.get("type", "Deploy");
@@ -121,7 +127,7 @@ bool asst::BattleConfiger::parse(const json::value& json)
         else {
             action.direction = BattleDeployDirection::Right;
         }
-
+        action.modify_usage = static_cast<BattleSkillUsage>(action_info.get("skill_usage", 0));
         action.pre_delay = action_info.get("pre_delay", 0);
         action.rear_delay = action_info.get("rear_delay", 0);
         action.time_out = action_info.get("timeout", INT_MAX);
