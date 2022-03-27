@@ -240,9 +240,6 @@
     <ClInclude Include="HashImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\General</Filter>
     </ClInclude>
-    <ClInclude Include="BattlePerspectiveImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer\General</Filter>
-    </ClInclude>
     <ClInclude Include="RoguelikeFormationImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer</Filter>
     </ClInclude>
@@ -403,9 +400,6 @@
     </ClCompile>
     <ClCompile Include="HashImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\General</Filter>
-    </ClCompile>
-    <ClCompile Include="BattlePerspectiveImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer</Filter>
     </ClCompile>
     <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer</Filter>
