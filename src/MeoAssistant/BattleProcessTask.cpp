@@ -128,9 +128,9 @@ bool asst::BattleProcessTask::analyze_opers_preview()
     return true;
 }
 
-bool asst::BattleProcessTask::update_opers_info()
+bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
 {
-    BattleImageAnalyzer analyzer(m_ctrler->get_image());
+    BattleImageAnalyzer analyzer(image);
     analyzer.set_target(BattleImageAnalyzer::Target::Oper);
     if (!analyzer.analyze()) {
         return false;
@@ -167,7 +167,6 @@ bool asst::BattleProcessTask::update_opers_info()
         if (is_increased && !cur_oper.available) {
             continue;
         }
-
         // 为空说明上一帧画面里没有这个干员，可能是撤退下来的，把所有已使用的都拿出来比较下
         if (ranged_iters.empty()) {
             // 已使用的（可能是撤退下来的） = 所有干员 - 当前可用的干员
@@ -227,6 +226,9 @@ bool asst::BattleProcessTask::update_opers_info()
         }
         else {
             oper_name = matched_iter->first;
+            if (is_increased) {
+                m_used_opers.erase(oper_name);
+            }
         }
 
         auto temp_oper = cur_oper;
@@ -269,17 +271,16 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
 
 bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 {
-    constexpr int analyze_target = BattleImageAnalyzer::Target::Kills;
-
     while (m_kills < action.kills) {
         auto image = m_ctrler->get_image();
         BattleImageAnalyzer analyzer(image);
-        analyzer.set_target(analyze_target);
 
-        if (!analyzer.analyze()) {
-            continue;
+        analyzer.set_target(BattleImageAnalyzer::Target::Kills);
+        if (analyzer.analyze()) {
+            m_kills = analyzer.get_kills();
         }
-        m_kills = analyzer.get_kills();
+
+        try_possible_skill(image);
     }
 
     return true;
@@ -291,14 +292,21 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
 
     decltype(m_cur_opers_info)::iterator iter;
+    BattleDeployOper oper_info;
     do {
-        update_opers_info();
+        const auto& image = m_ctrler->get_image();
 
-        const std::string& name = m_group_to_oper_mapping[action.group_name].name;
+        update_opers_info(image);
+
+        oper_info = m_group_to_oper_mapping[action.group_name];
+        const std::string& name = oper_info.name;
         iter = m_cur_opers_info.find(name);
         if (iter == m_cur_opers_info.cend()) {
             Log.info("battle opers group", name, "not found");
         }
+
+        try_possible_skill(image);
+
     } while (iter == m_cur_opers_info.cend() || !iter->second.available);
 
     // 点击干员
@@ -341,7 +349,10 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
         m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
     }
 
-    m_used_opers_loc[iter->first] = action.location;
+    m_used_opers[iter->first] = BattleDeployInfo{ 
+        action.location, 
+        m_normal_tile_info[action.location].pos, 
+        std::move(oper_info) };
 
     m_cur_opers_info.erase(iter);
 
@@ -353,13 +364,15 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
 bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
 {
     const std::string& name = m_group_to_oper_mapping[action.group_name].name;
-    auto iter = m_used_opers_loc.find(name);
-    if (iter == m_used_opers_loc.cend()) {
+    auto iter = m_used_opers.find(name);
+    if (iter == m_used_opers.cend()) {
         Log.error(name, " not used");
         return false;
     }
-    Point pos = m_normal_tile_info[iter->second].pos;
+    Point pos = iter->second.pos;
     m_ctrler->click(pos);
+
+    m_used_opers.erase(name);
 
     return ProcessTask(*this, { "BattleOperRetreat" }).run();
 }
@@ -367,16 +380,40 @@ bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
 bool asst::BattleProcessTask::use_skill(const BattleAction& action)
 {
     const std::string& name = m_group_to_oper_mapping[action.group_name].name;
-    auto iter = m_used_opers_loc.find(name);
-    if (iter == m_used_opers_loc.cend()) {
+    auto iter = m_used_opers.find(name);
+    if (iter == m_used_opers.cend()) {
         Log.error(name, " not used");
         return false;
     }
 
-    Point pos = m_normal_tile_info[iter->second].pos;
+    Point pos = iter->second.pos;
     m_ctrler->click(pos);
 
     return ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_retry_times(10000).run();
+}
+
+void asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
+{
+    static const Rect& skill_roi_move = Task.get("BattleAutoSkillFlag")->rect_move;
+
+    MatchImageAnalyzer analyzer(image);
+    analyzer.set_task_info("BattleAutoSkillFlag");
+    for (auto& [name, info] : m_used_opers) {
+        if (info.info.skill_usage != BattleSkillUsage::Possibly
+            && info.info.skill_usage != BattleSkillUsage::Once) {
+            continue;
+        }
+        const Rect roi = Rect{ info.pos.x, info.pos.y, 0, 0 }.move(skill_roi_move);
+        analyzer.set_roi(roi);
+        if (!analyzer.analyze()) {
+            continue;
+        }
+        m_ctrler->click(info.pos);
+        ProcessTask(*this, { "BattleSkillReadyOnClick" }).run();
+        if (info.info.skill_usage == BattleSkillUsage::Once) {
+            info.info.skill_usage = BattleSkillUsage::OnceUsed;
+        }
+    }
 }
 
 bool asst::BattleProcessTask::battle_pause()

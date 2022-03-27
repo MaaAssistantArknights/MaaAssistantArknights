@@ -57,12 +57,5 @@ namespace asst
         int m_hp = 0;                               // 剩余生命值
         int m_kills = 0;                            // 击杀数
         int m_cost = 0;                             // 部署费用
-
-    protected:
-        // 该分析器不支持外部设置ROI
-        virtual void set_roi(const Rect& roi) noexcept override
-        {
-            AbstractImageAnalyzer::set_roi(roi);
-        }
     };
 }

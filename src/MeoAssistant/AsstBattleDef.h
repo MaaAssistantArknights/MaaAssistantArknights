@@ -24,6 +24,12 @@ namespace asst
         int skill = 1;              // 技能序号，取值范围 [1, 3]
         BattleSkillUsage skill_usage = BattleSkillUsage::NotUse;
     };
+    struct BattleDeployInfo
+    {
+        Point loc;
+        Point pos;
+        BattleDeployOper info;
+    };
 
     enum class BattleDeployDirection
     {
