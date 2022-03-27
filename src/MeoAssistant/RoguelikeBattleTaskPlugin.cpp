@@ -1,7 +1,7 @@
 #include "RoguelikeBattleTaskPlugin.h"
 
 #include "BattleImageAnalyzer.h"
-#include "BattlePerspectiveImageAnalyzer.h"
+//#include "BattlePerspectiveImageAnalyzer.h"
 #include "Controller.h"
 #include "TaskData.h"
 #include "ProcessTask.h"
