@@ -364,6 +364,7 @@
             200,
             120
         ],
+        "templThreshold": 0.7,
         "rearDelay": 3000,
         "maskRange": [
             1,
