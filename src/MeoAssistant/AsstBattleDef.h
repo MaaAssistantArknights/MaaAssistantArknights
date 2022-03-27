@@ -42,11 +42,12 @@ namespace asst
 
     enum class BattleActionType     // 操作类型
     {
-        Deploy = 0,                 // 部署干员
-        UseSkill = 1,               // 开技能
-        Retreat = 2,                // 撤退干员
-        SwitchSpeed = 100,          // 切换二倍速
-        BulletTime = 101            // 使用 1/5 的速度（点击任意干员），会在下一个任意操作后恢复原速度
+        Deploy,                     // 部署干员
+        UseSkill,                   // 开技能
+        Retreat,                    // 撤退干员
+        SkillUsage,                 // 技能用法
+        SwitchSpeed,                // 切换二倍速
+        BulletTime                  // 使用 1/5 的速度（点击任意干员），会在下一个任意操作后恢复原速度
     };
 
     struct BattleAction             // 操作
@@ -56,6 +57,7 @@ namespace asst
         std::string group_name;     // 目标名，若 type >= SwitchSpeed, group_name 为空
         Point location;
         BattleDeployDirection direction = BattleDeployDirection::Right;
+        BattleSkillUsage modify_usage = BattleSkillUsage::NotUse;
         int pre_delay = 0;
         int rear_delay = 0;
         int time_out = INT_MAX;
@@ -63,7 +65,7 @@ namespace asst
 
     struct BattleActionsGroup
     {
-        std::unordered_map<std::string, std::vector<BattleDeployOper>> opers_groups;
+        std::unordered_map<std::string, std::vector<BattleDeployOper>> groups;
         std::vector<BattleAction> actions;
     };
 

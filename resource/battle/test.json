@@ -11,20 +11,32 @@
             "name": "能天使"
         },
         {
-            "name": "桃金娘",
-            "skill": 1,
-            "skill_usage": 1
-        },
-        {
             "name": "澄闪"
         },
         {
             "name": "临光"
         }
     ],
+    "groups": [
+        {
+            "name": "投降先锋",
+            "opers": [
+                {
+                    "name": "桃金娘",
+                    "skill": 1,
+                    "skill_usage": 1
+                },
+                {
+                    "name": "琴柳",
+                    "skill": 1,
+                    "skill_usage": 1
+                }
+            ]
+        }
+    ],
     "actions": [
         {
-            "name": "桃金娘",
+            "name": "投降先锋",
             "location": [
                 8,
                 4

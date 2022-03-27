@@ -102,7 +102,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         opers.at(i).name = oper_name;
 
         // 找出这个干员是哪个组里的，以及他的技能用法等
-        for (const auto& [group_name, deploy_opers] : m_actions_group.opers_groups) {
+        for (const auto& [group_name, deploy_opers] : m_actions_group.groups) {
             auto iter = std::find_if(deploy_opers.cbegin(), deploy_opers.cend(),
                 [&](const BattleDeployOper& deploy) -> bool {
                     return deploy.name == oper_name;
@@ -263,6 +263,13 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
         break;
     case BattleActionType::BulletTime:
         break;
+    case BattleActionType::SkillUsage: 
+    {
+        auto& oper_info = m_group_to_oper_mapping[action.group_name];
+        oper_info.skill_usage = action.modify_usage;
+        m_used_opers[oper_info.name].info.skill_usage = action.modify_usage;
+        return true;
+    } break;
     }
     sleep(action.rear_delay);
 
