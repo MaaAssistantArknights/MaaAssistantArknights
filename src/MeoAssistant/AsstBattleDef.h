@@ -12,10 +12,10 @@ namespace asst
 {
     enum class BattleSkillUsage     // 干员技能使用方法
     {
-        NotUse = -1,                // 不自动使用
-        Possibly = 0,               // 有就用，例如干员 棘刺 3 技能
-        Once = 1,                   // 只用一次，例如干员 银灰 2技能
-        InTime = 2,                 // 关键时刻使用，自动判断使用时机，例如干员 假日威龙陈 3 技能
+        NotUse = 0,                 // 不自动使用
+        Possibly = 1,               // 有就用，例如干员 棘刺 3 技能
+        Once = 2,                   // 只用一次，例如干员 山 2 技能
+        InTime = 3,                 // 自动判断使用时机，画饼.jpg
         OnceUsed
     };
     struct BattleDeployOper         // 干员
