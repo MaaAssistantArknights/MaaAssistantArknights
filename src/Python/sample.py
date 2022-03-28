@@ -35,6 +35,7 @@ if __name__ == "__main__":
     asst.append_task('StartUp')
     asst.append_task('Fight', {
         'stage': 'LastBattle',
+        'report_to_penguin': True,
         # 'penguin_id': '1234567'
     })
     asst.append_task('Recruit', {
@@ -55,6 +56,10 @@ if __name__ == "__main__":
         'is_black_list': True
     })
     asst.append_task('Award')
+    asst.append_task('Copilot', {
+        'stage_name': '千层蛋糕',
+        'filename': './GA-EX8-raid.json'
+    })
 
     asst.start()
 

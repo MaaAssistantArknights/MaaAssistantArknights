@@ -90,11 +90,18 @@ int main(int argc, char** argv)
     //}
     //)");
 
-    AsstAppendTask(ptr, "Debug", R"({})");
+    //AsstAppendTask(ptr, "Debug", R"({})");
+
+    AsstAppendTask(ptr, "Copilot", R"(
+{
+    "stage_name": "千层蛋糕",
+    "filename": "./GA-EX8-raid.json"
+}
+)");
 
     AsstStart(ptr);
 
-    getchar();
+    std::ignore = getchar();
 
     AsstStop(ptr);
     AsstDestroy(ptr);

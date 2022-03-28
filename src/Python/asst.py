@@ -81,7 +81,7 @@ class Asst:
 
         :return: 任务 ID, 可用于 set_task_params 接口
         """
-        return Asst.__lib.AsstAppendTask(self.__ptr, type_name.encode('utf-8'), json.dumps(params).encode('utf-8'))
+        return Asst.__lib.AsstAppendTask(self.__ptr, type_name.encode('utf-8'), json.dumps(params, ensure_ascii=False).encode('utf-8'))
 
     def set_task_params(self, task_id: TaskId, params: JSON) -> bool:
         """
@@ -93,7 +93,7 @@ class Asst:
 
         :return: 是否成功
         """
-        return Asst.__lib.AsstSetTaskParams(self.__ptr, task_id, json.dumps(params).encode('utf-8'))
+        return Asst.__lib.AsstSetTaskParams(self.__ptr, task_id, json.dumps(params, ensure_ascii=False).encode('utf-8'))
 
     def start(self) -> bool:
         """
