@@ -3484,7 +3484,7 @@
             118
         ],
         "action": "ClickSelf",
-        "preDelay": 500,
+        "rearDelay": 500,
         "rectMove": [
             0,
             -110,
@@ -3495,7 +3495,7 @@
     "BattleOperRetreat": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "preDelay": 500,
+        "rearDelay": 500,
         "specificRect": [
             563,
             190,
@@ -4228,6 +4228,10 @@
             [
                 "姜哦",
                 "嵯峨"
+            ],
+            [
+                "健影",
+                "傀影"
             ]
         ],
         "roi": [
