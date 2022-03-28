@@ -101,19 +101,22 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         }
         opers.at(i).name = oper_name;
 
+        bool not_found = true;
         // 找出这个干员是哪个组里的，以及他的技能用法等
         for (const auto& [group_name, deploy_opers] : m_actions_group.groups) {
             auto iter = std::find_if(deploy_opers.cbegin(), deploy_opers.cend(),
                 [&](const BattleDeployOper& deploy) -> bool {
                     return deploy.name == oper_name;
                 });
-            // 没找到，可能是召唤物等新出现的；可能是干员名识别错了（这种情况处理不了，不管了）
-            if (iter == deploy_opers.cend()) {
-                m_group_to_oper_mapping.emplace(group_name, BattleDeployOper{ group_name });
-            }
-            else {
+            if (iter != deploy_opers.cend()) {
                 m_group_to_oper_mapping.emplace(group_name, *iter);
+                not_found = false;
+                break;
             }
+        }
+        // 没找到，可能是召唤物等新出现的
+        if (not_found) {
+            m_group_to_oper_mapping.emplace(oper_name, BattleDeployOper{ oper_name });
         }
 
         m_cur_opers_info.emplace(std::move(oper_name), std::move(opers.at(i)));
@@ -208,8 +211,7 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
             m_ctrler->click(cur_oper.rect);
             sleep(Task.get("BattleUseOper")->pre_delay);
 
-            auto image = m_ctrler->get_image();
-            OcrImageAnalyzer name_analyzer(image);
+            OcrImageAnalyzer name_analyzer(m_ctrler->get_image());
             name_analyzer.set_task_info("BattleOperName");
             name_analyzer.set_replace(
                 std::dynamic_pointer_cast<OcrTaskInfo>(
@@ -263,7 +265,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
         break;
     case BattleActionType::BulletTime:
         break;
-    case BattleActionType::SkillUsage: 
+    case BattleActionType::SkillUsage:
     {
         auto& oper_info = m_group_to_oper_mapping[action.group_name];
         oper_info.skill_usage = action.modify_usage;
@@ -313,7 +315,6 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
         }
 
         try_possible_skill(image);
-
     } while (iter == m_cur_opers_info.cend() || !iter->second.available);
 
     // 点击干员
@@ -356,9 +357,9 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
         m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
     }
 
-    m_used_opers[iter->first] = BattleDeployInfo{ 
-        action.location, 
-        m_normal_tile_info[action.location].pos, 
+    m_used_opers[iter->first] = BattleDeployInfo{
+        action.location,
+        m_normal_tile_info[action.location].pos,
         std::move(oper_info) };
 
     m_cur_opers_info.erase(iter);
