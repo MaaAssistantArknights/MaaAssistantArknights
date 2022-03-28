@@ -28,6 +28,7 @@
     <ClInclude Include="BattleConfiger.h" />
     <ClInclude Include="BattleImageAnalyzer.h" />
     <ClInclude Include="BattleProcessTask.h" />
+    <ClInclude Include="CopilotTask.h" />
     <ClInclude Include="DebugTask.h" />
     <ClInclude Include="FightTask.h" />
     <ClInclude Include="InfrastTask.h" />
@@ -98,6 +99,7 @@
     <ClCompile Include="BattleConfiger.cpp" />
     <ClCompile Include="BattleImageAnalyzer.cpp" />
     <ClCompile Include="BattleProcessTask.cpp" />
+    <ClCompile Include="CopilotTask.cpp" />
     <ClCompile Include="DebugTask.cpp" />
     <ClCompile Include="FightTask.cpp" />
     <ClCompile Include="InfrastTask.cpp" />
