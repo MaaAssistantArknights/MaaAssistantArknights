@@ -15,7 +15,7 @@ def my_callback(msg, details, arg):
 if __name__ == "__main__":
 
     # 请设置为存放 dll 文件及资源的路径
-    path: str = (pathlib.Path.cwd()).__str__()
+    path: str = (pathlib.Path.cwd().parent()).__str__()
 
     Asst.load(path=path)
 
@@ -23,6 +23,7 @@ if __name__ == "__main__":
     # 例如 asst = Asst(callback=my_callback)
     asst = Asst()
 
+    # 请自行配置 adb 环境变量，或修改为 adb 可执行程序的路径
     if asst.connect('adb', '127.0.0.1:5555'):
         print('连接成功')
     else:
@@ -56,10 +57,10 @@ if __name__ == "__main__":
         'is_black_list': True
     })
     asst.append_task('Award')
-    asst.append_task('Copilot', {
-        'stage_name': '千层蛋糕',
-        'filename': './GA-EX8-raid.json'
-    })
+    # asst.append_task('Copilot', {
+    #     'stage_name': '千层蛋糕',
+    #     'filename': './GA-EX8-raid.json'
+    # })
 
     asst.start()
 
