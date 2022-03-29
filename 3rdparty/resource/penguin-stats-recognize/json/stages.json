@@ -47703,5 +47703,685 @@
             }
         },
         "minClearTime": 206000
+    },
+    {
+        "stageId": "act18d0_01_rep",
+        "zoneId": "act10sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "WD-1",
+        "code_i18n": {
+            "en": "WD-1",
+            "ja": "WD-1",
+            "ko": "WD-1",
+            "zh": "WD-1"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1648540800000,
+                "closeTime": 1649361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 194000,
+        "recognitionOnly": [
+            "act18d0_token_page"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "30061",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 6
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d0_02_rep",
+        "zoneId": "act10sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "WD-2",
+        "code_i18n": {
+            "en": "WD-2",
+            "ja": "WD-2",
+            "ko": "WD-2",
+            "zh": "WD-2"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1648540800000,
+                "closeTime": 1649361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 193000,
+        "recognitionOnly": [
+            "act18d0_token_page"
+        ],
+        "dropInfos": [
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 6
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d0_03_rep",
+        "zoneId": "act10sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "WD-3",
+        "code_i18n": {
+            "en": "WD-3",
+            "ja": "WD-3",
+            "ko": "WD-3",
+            "zh": "WD-3"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1648540800000,
+                "closeTime": 1649361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 219000,
+        "recognitionOnly": [
+            "act18d0_token_page"
+        ],
+        "dropInfos": [
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "30022",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "30052",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d0_04_rep",
+        "zoneId": "act10sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "WD-4",
+        "code_i18n": {
+            "en": "WD-4",
+            "ja": "WD-4",
+            "ko": "WD-4",
+            "zh": "WD-4"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1648540800000,
+                "closeTime": 1649361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 195000,
+        "recognitionOnly": [
+            "act18d0_token_page"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30012",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "30042",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 2
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d0_05_rep",
+        "zoneId": "act10sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "WD-5",
+        "code_i18n": {
+            "en": "WD-5",
+            "ja": "WD-5",
+            "ko": "WD-5",
+            "zh": "WD-5"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1648540800000,
+                "closeTime": 1649361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 223000,
+        "recognitionOnly": [
+            "act18d0_token_page"
+        ],
+        "dropInfos": [
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "30022",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30062",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d0_06_rep",
+        "zoneId": "act10sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "WD-6",
+        "code_i18n": {
+            "en": "WD-6",
+            "ja": "WD-6",
+            "ko": "WD-6",
+            "zh": "WD-6"
+        },
+        "apCost": 15,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1648540800000,
+                "closeTime": 1649361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 195000,
+        "recognitionOnly": [
+            "act18d0_token_page"
+        ],
+        "dropInfos": [
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30033",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d0_07_rep",
+        "zoneId": "act10sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "WD-7",
+        "code_i18n": {
+            "en": "WD-7",
+            "ja": "WD-7",
+            "ko": "WD-7",
+            "zh": "WD-7"
+        },
+        "apCost": 18,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1648540800000,
+                "closeTime": 1649361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 184000,
+        "recognitionOnly": [
+            "act18d0_token_page"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "30053",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d0_08_rep",
+        "zoneId": "act10sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "WD-8",
+        "code_i18n": {
+            "en": "WD-8",
+            "ja": "WD-8",
+            "ko": "WD-8",
+            "zh": "WD-8"
+        },
+        "apCost": 18,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1648540800000,
+                "closeTime": 1649361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 145000,
+        "recognitionOnly": [
+            "act18d0_token_page"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "30103",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
     }
 ]
