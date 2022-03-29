@@ -364,6 +364,7 @@
             200,
             120
         ],
+        "templThreshold": 0.7,
         "rearDelay": 3000,
         "maskRange": [
             1,
@@ -756,6 +757,7 @@
             100
         ],
         "next": [
+            "StartToWakeUp",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
@@ -1326,6 +1328,7 @@
     "StartToVisit": {
         "action": "ClickSelf",
         "cache": false,
+        "templThreshold": 0.75,
         "roi": [
             900,
             0,
@@ -2142,7 +2145,7 @@
     "InfrastOperFaceHash": {
         "algorithm": "Hash",
         "hash": [],
-        "threshold": 30,
+        "threshold": 40,
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             0,

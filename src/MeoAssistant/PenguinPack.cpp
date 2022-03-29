@@ -73,7 +73,7 @@ bool asst::PenguinPack::load_json(const std::string& stage_path, const std::stri
             stage_dst["drops"] = json::array(std::move(drops_vector));
             stage_dst["existence"] = stage_info.at("existence").at(m_language).at("exist");
 
-            cvt_stage_json.emplace(std::move(key), std::move(stage_dst));
+            cvt_stage_json[std::move(key)] = std::move(stage_dst);
         }
     }
     catch (json::exception& e) {
