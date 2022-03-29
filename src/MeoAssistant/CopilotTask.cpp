@@ -12,14 +12,14 @@ asst::CopilotTask::CopilotTask(AsstCallback callback, void* callback_arg)
 
 bool asst::CopilotTask::set_params(const json::value& params)
 {
-    if (!params.contains("filename") || !params.at("filename").is_string()
-        || !params.contains("stage_name") || !params.at("stage_name").is_string()) {
+    if (!params.contains("stage_name") || !params.at("stage_name").is_string()) {
         return false;
     }
-    std::string filename = params.at("filename").as_string();
     std::string stage_name = params.at("stage_name").as_string();
 
     m_battle_task_ptr->set_stage_name(stage_name);
 
-    return Resrc.battle().load(filename);
+    std::string filename = params.get("filename", std::string());
+    // 文件名为空时，不加载资源，直接返回 true
+    return filename.empty() || Resrc.battle().load(filename);
 }

@@ -42,13 +42,14 @@ bool asst::BattleProcessTask::get_stage_info()
     m_normal_tile_info = tile.calc(m_stage_name, false);
     m_side_tile_info = tile.calc(m_stage_name, true);
 
-#ifdef ASST_DEBUG
+    //#ifdef ASST_DEBUG
     auto draw = m_ctrler->get_image();
     for (const auto& [loc, info] : m_normal_tile_info) {
         std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
-        cv::putText(draw, text, cv::Point(info.pos.x, info.pos.y), 1, 1, cv::Scalar(0, 0, 255));
+        cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
     }
-#endif
+    cv::imwrite(utils::utf8_to_gbk(m_stage_name) + ".png", draw);
+    //#endif
 
     if (m_side_tile_info.empty() || m_normal_tile_info.empty()) {
         return false;
