@@ -35296,13 +35296,16 @@
                 "openTime": 1625083200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640948400000
             }
         },
         "minClearTime": 150000,
@@ -35420,13 +35423,16 @@
                 "openTime": 1625083200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640948400000
             }
         },
         "minClearTime": 184000,
@@ -35544,13 +35550,16 @@
                 "openTime": 1625083200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640948400000
             }
         },
         "minClearTime": 192000,
@@ -35676,13 +35685,16 @@
                 "openTime": 1625083200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640948400000
             }
         },
         "minClearTime": 175000,
@@ -35807,13 +35819,16 @@
                 "openTime": 1625083200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640948400000
             }
         },
         "minClearTime": 184000,
@@ -35931,13 +35946,16 @@
                 "openTime": 1625083200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640948400000
             }
         },
         "minClearTime": 190000,
@@ -36063,13 +36081,16 @@
                 "openTime": 1625083200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640948400000
             }
         },
         "minClearTime": 169000,
@@ -36211,13 +36232,16 @@
                 "openTime": 1625083200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640890800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1640948400000
             }
         },
         "minClearTime": 252000,
@@ -37223,13 +37247,16 @@
                 "openTime": 1627934400000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645182000000
             }
         },
         "minClearTime": 126000,
@@ -37355,13 +37382,16 @@
                 "openTime": 1627934400000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645182000000
             }
         },
         "minClearTime": 178000,
@@ -37487,13 +37517,16 @@
                 "openTime": 1627934400000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645182000000
             }
         },
         "minClearTime": 155000,
@@ -37619,13 +37652,16 @@
                 "openTime": 1627934400000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645182000000
             }
         },
         "minClearTime": 169000,
@@ -37751,13 +37787,16 @@
                 "openTime": 1627934400000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645182000000
             }
         },
         "minClearTime": 175000,
@@ -37875,13 +37914,16 @@
                 "openTime": 1627934400000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645182000000
             }
         },
         "minClearTime": 195000,
@@ -38007,13 +38049,16 @@
                 "openTime": 1627934400000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645182000000
             }
         },
         "minClearTime": 176500,
@@ -38171,13 +38216,16 @@
                 "openTime": 1627934400000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645182000000
             }
         },
         "minClearTime": 250000,
@@ -38311,13 +38359,16 @@
                 "openTime": 1627934400000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645124400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1645182000000
             }
         },
         "minClearTime": 258000,
@@ -38447,9 +38498,9 @@
         "stageType": "ACTIVITY",
         "code": "蛮鳞行动物资补给",
         "code_i18n": {
-            "en": "蛮鳞行动物资补给",
-            "ja": "蛮鳞行动物资补给",
-            "ko": "蛮鳞行动物资补给",
+            "en": "Operation Wild Scales Supplies",
+            "ja": "補給物資・「蛮鱗」",
+            "ko": "와일드 스케일 작전 보급 물자",
             "zh": "蛮鳞行动物资补给"
         },
         "apCost": 99,
@@ -38458,13 +38509,13 @@
                 "exist": true
             },
             "JP": {
-                "exist": false
+                "exist": true
             },
             "KR": {
-                "exist": false
+                "exist": true
             },
             "US": {
-                "exist": false
+                "exist": true
             }
         },
         "minClearTime": null,
@@ -38622,16 +38673,19 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
-        "minClearTime": 185000,
+        "minClearTime": null,
         "dropInfos": [
             {
                 "itemId": "30031",
@@ -38762,13 +38816,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 205000,
@@ -38830,13 +38887,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 219000,
@@ -38986,13 +39046,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 176000,
@@ -39150,13 +39213,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 231000,
@@ -39306,13 +39372,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 176000,
@@ -39462,13 +39531,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 204000,
@@ -39618,13 +39690,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 204000,
@@ -39774,13 +39849,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 183000,
@@ -39922,13 +40000,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 193000,
@@ -40078,13 +40159,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 184000,
@@ -40234,13 +40318,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 208000,
@@ -40374,13 +40461,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 180000,
@@ -40530,13 +40620,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 218000,
@@ -40606,13 +40699,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 182000,
@@ -40762,13 +40858,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 225000,
@@ -40926,13 +41025,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 276000,
@@ -41082,13 +41184,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": 204000,
@@ -41246,13 +41351,16 @@
                 "openTime": 1631865600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647500400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1647536400000
             }
         },
         "minClearTime": null,
@@ -47363,7 +47471,7 @@
         "code": "GA-1",
         "code_i18n": {
             "en": "GA-1",
-            "jp": "GA-1",
+            "ja": "GA-1",
             "ko": "GA-1",
             "zh": "GA-1"
         },
@@ -47384,89 +47492,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 144000,
-        "recognitionOnly": [
-            "act16side_token_bolt"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30011",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30061",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30031",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30021",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30041",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30051",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 144000
     },
     {
         "stageId": "act16side_02",
@@ -47475,7 +47501,7 @@
         "code": "GA-2",
         "code_i18n": {
             "en": "GA-2",
-            "jp": "GA-2",
+            "ja": "GA-2",
             "ko": "GA-2",
             "zh": "GA-2"
         },
@@ -47496,89 +47522,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 189000,
-        "recognitionOnly": [
-            "act16side_token_bolt"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30011",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30061",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30031",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30021",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30041",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30051",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 189000
     },
     {
         "stageId": "act16side_03",
@@ -47587,7 +47531,7 @@
         "code": "GA-3",
         "code_i18n": {
             "en": "GA-3",
-            "jp": "GA-3",
+            "ja": "GA-3",
             "ko": "GA-3",
             "zh": "GA-3"
         },
@@ -47608,89 +47552,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 121000,
-        "recognitionOnly": [
-            "act16side_token_bolt"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30011",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30061",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30031",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30021",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30041",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30051",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 121000
     },
     {
         "stageId": "act16side_04",
@@ -47699,7 +47561,7 @@
         "code": "GA-4",
         "code_i18n": {
             "en": "GA-4",
-            "jp": "GA-4",
+            "ja": "GA-4",
             "ko": "GA-4",
             "zh": "GA-4"
         },
@@ -47720,57 +47582,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 172000,
-        "recognitionOnly": [
-            "act16side_token_bolt"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30012",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30062",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 172000
     },
     {
         "stageId": "act16side_05",
@@ -47779,7 +47591,7 @@
         "code": "GA-5",
         "code_i18n": {
             "en": "GA-5",
-            "jp": "GA-5",
+            "ja": "GA-5",
             "ko": "GA-5",
             "zh": "GA-5"
         },
@@ -47800,57 +47612,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 197000,
-        "recognitionOnly": [
-            "act16side_token_bolt"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30022",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30042",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 197000
     },
     {
         "stageId": "act16side_06",
@@ -47859,7 +47621,7 @@
         "code": "GA-6",
         "code_i18n": {
             "en": "GA-6",
-            "jp": "GA-6",
+            "ja": "GA-6",
             "ko": "GA-6",
             "zh": "GA-6"
         },
@@ -47880,49 +47642,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 150000,
-        "recognitionOnly": [
-            "act16side_token_bolt"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30023",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 150000
     },
     {
         "stageId": "act16side_07",
@@ -47931,7 +47651,7 @@
         "code": "GA-7",
         "code_i18n": {
             "en": "GA-7",
-            "jp": "GA-7",
+            "ja": "GA-7",
             "ko": "GA-7",
             "zh": "GA-7"
         },
@@ -47952,49 +47672,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 175000,
-        "recognitionOnly": [
-            "act16side_token_bolt"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30073",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 175000
     },
     {
         "stageId": "act16side_08",
@@ -48003,7 +47681,7 @@
         "code": "GA-8",
         "code_i18n": {
             "en": "GA-8",
-            "jp": "GA-8",
+            "ja": "GA-8",
             "ko": "GA-8",
             "zh": "GA-8"
         },
@@ -48024,48 +47702,6 @@
                 "exist": false
             }
         },
-        "minClearTime": 206000,
-        "recognitionOnly": [
-            "act16side_token_bolt"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "31013",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 206000
     }
 ]
