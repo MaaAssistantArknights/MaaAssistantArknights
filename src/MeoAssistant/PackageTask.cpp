@@ -25,7 +25,8 @@ bool asst::PackageTask::run()
 
         task_ptr->set_exit_flag(m_exit_flag)
             .set_ctrler(m_ctrler)
-            .set_status(m_status);
+            .set_status(m_status)
+            .set_task_id(m_task_id);
 
         if (!task_ptr->run()) {
             return false;
@@ -70,6 +71,15 @@ asst::AbstractTask& asst::PackageTask::set_status(std::shared_ptr<RuntimeStatus>
     AbstractTask::set_status(status);
     for (auto&& sub : m_subtasks) {
         sub->set_status(status);
+    }
+    return *this;
+}
+
+asst::AbstractTask& asst::PackageTask::set_task_id(int task_id) noexcept
+{
+    AbstractTask::set_task_id(task_id);
+    for (auto&& sub : m_subtasks) {
+        sub->set_task_id(task_id);
     }
     return *this;
 }

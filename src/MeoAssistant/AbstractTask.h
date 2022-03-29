@@ -31,11 +31,12 @@ namespace asst
 
         virtual bool run();
 
-        AbstractTask& set_exit_flag(bool* exit_flag) noexcept;
-        AbstractTask& set_retry_times(int times) noexcept;
-        AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept;
-        AbstractTask& set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
-        AbstractTask& set_enable(bool enable) noexcept;
+        virtual AbstractTask& set_exit_flag(bool* exit_flag) noexcept;
+        virtual AbstractTask& set_retry_times(int times) noexcept;
+        virtual AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept;
+        virtual AbstractTask& set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
+        virtual AbstractTask& set_enable(bool enable) noexcept;
+        virtual AbstractTask& set_task_id(int task_id) noexcept;
 
         template<typename PluginType>
         std::shared_ptr<PluginType> regiseter_plugin()
@@ -51,6 +52,7 @@ namespace asst
 
         bool get_enable() const noexcept { return m_enable; }
         const std::string& get_task_chain() const noexcept { return m_task_chain; }
+        int get_task_id() const noexcept { return m_task_id; }
         virtual json::value basic_info() const;
 
         constexpr static int RetryTimesDefault = 20;
@@ -74,6 +76,7 @@ namespace asst
         int m_retry_times = RetryTimesDefault;
 
         mutable json::value m_basic_info_cache;
+        int m_task_id = 0;
         std::set<TaskPluginPtr> m_plugins;
         std::shared_ptr<Controller> m_ctrler = nullptr;
         std::shared_ptr<RuntimeStatus> m_status = nullptr;
