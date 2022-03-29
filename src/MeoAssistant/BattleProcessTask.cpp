@@ -398,7 +398,10 @@ bool asst::BattleProcessTask::use_skill(const BattleAction& action)
     Point pos = iter->second.pos;
     m_ctrler->click(pos);
 
-    return ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_retry_times(10000).run();
+    return ProcessTask(*this, { "BattleSkillReadyOnClick" })
+        .set_task_delay(0)
+        .set_retry_times(10000)
+        .run();
 }
 
 void asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
