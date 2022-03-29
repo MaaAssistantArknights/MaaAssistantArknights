@@ -10,7 +10,7 @@ std::string get_cur_dir()
     return std::filesystem::current_path().u8string();
 }
 
-int main(int argc, char** argv)
+int main(/*int argc, char** argv*/)
 {
     // 若使用 VS，请先设置 TestCaller 属性-调试-工作目录为 $(TargetDir)
     AsstLoadResource(get_cur_dir().c_str());
@@ -94,8 +94,7 @@ int main(int argc, char** argv)
 
     AsstAppendTask(ptr, "Copilot", R"(
 {
-    "stage_name": "千层蛋糕",
-    "filename": "./GA-EX8-raid.json"
+    "stage_name": "如帝国之影"
 }
 )");
 

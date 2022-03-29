@@ -18,6 +18,7 @@ asst::ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string>
     : AbstractTask(abs),
     m_raw_tasks_name(std::move(tasks_name))
 {
+    m_task_delay = Resrc.cfg().get_options().task_delay;
     m_basic_info_cache = json::value();
 }
 
@@ -25,6 +26,7 @@ asst::ProcessTask::ProcessTask(AbstractTask&& abs, std::vector<std::string> task
     : AbstractTask(std::move(abs)),
     m_raw_tasks_name(std::move(tasks_name))
 {
+    m_task_delay = Resrc.cfg().get_options().task_delay;
     m_basic_info_cache = json::value();
 }
 
@@ -42,8 +44,7 @@ bool asst::ProcessTask::run()
         if (need_exit()) {
             return false;
         }
-        int delay = Resrc.cfg().get_options().task_delay;
-        sleep(delay);
+        sleep(m_task_delay);
 
         if (!on_run_fails()) {
             return false;
@@ -51,6 +52,12 @@ bool asst::ProcessTask::run()
     }
     callback(AsstMsg::SubTaskError, basic_info());
     return false;
+}
+
+ProcessTask& asst::ProcessTask::set_task_delay(int delay) noexcept
+{
+    m_task_delay = delay;
+    return *this;
 }
 
 asst::ProcessTask& asst::ProcessTask::set_tasks(std::vector<std::string> tasks_name) noexcept
@@ -75,7 +82,6 @@ bool ProcessTask::_run()
 {
     LogTraceFunction;
 
-    auto& task_delay = Resrc.cfg().get_options().task_delay;
     while (!m_cur_tasks_name.empty()) {
         if (need_exit()) {
             return false;
@@ -132,7 +138,7 @@ bool ProcessTask::_run()
         if (exec_times >= max_times) {
             Log.info("exec times exceeds the limit", info.to_string());
             m_cur_tasks_name = cur_task_ptr->exceeded_next;
-            sleep(task_delay);
+            sleep(m_task_delay);
             continue;
         }
 
@@ -210,7 +216,7 @@ bool ProcessTask::_run()
             return true;
         }
         m_cur_tasks_name = cur_task_ptr->next;
-        sleep(task_delay);
+        sleep(m_task_delay);
     }
 
     return true;

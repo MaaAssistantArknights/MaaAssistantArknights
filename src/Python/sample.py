@@ -24,7 +24,7 @@ if __name__ == "__main__":
     asst = Asst()
 
     # 请自行配置 adb 环境变量，或修改为 adb 可执行程序的路径
-    if asst.connect('adb', '127.0.0.1:5555'):
+    if asst.connect('adb.exe', '127.0.0.1:5555'):
         print('连接成功')
     else:
         print('连接失败')
