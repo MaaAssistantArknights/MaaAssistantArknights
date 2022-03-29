@@ -80,6 +80,12 @@ AbstractTask& asst::AbstractTask::set_enable(bool enable) noexcept
     return *this;
 }
 
+AbstractTask& asst::AbstractTask::set_task_id(int task_id) noexcept
+{
+    m_task_id = task_id;
+    return *this;
+}
+
 void asst::AbstractTask::clear_plugin() noexcept
 {
     m_plugins.clear();
@@ -103,6 +109,7 @@ json::value asst::AbstractTask::basic_info() const
 
         m_basic_info_cache = json::object{
             { "taskchain", m_task_chain },
+            { "taskid", m_task_id },
             { "class", class_name },
             { "subtask", task_name },
             { "details", json::object() }
@@ -165,6 +172,7 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
     for (TaskPluginPtr plugin : m_plugins) {
         plugin->set_exit_flag(m_exit_flag);
         plugin->set_ctrler(m_ctrler);
+        plugin->set_task_id(m_task_id);
         plugin->set_status(m_status);
         plugin->set_task_ptr(this);
 

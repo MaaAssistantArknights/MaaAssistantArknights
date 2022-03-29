@@ -112,7 +112,8 @@ bool asst::AutoRecruitTask::calc_and_recruit()
         .set_retry_times(m_retry_times)
         .set_exit_flag(m_exit_flag)
         .set_ctrler(m_ctrler)
-        .set_status(m_status);
+        .set_status(m_status)
+        .set_task_id(m_task_id);
 
     // 识别错误，放弃这个公招位，直接返回
     if (!recruit_task.run()) {

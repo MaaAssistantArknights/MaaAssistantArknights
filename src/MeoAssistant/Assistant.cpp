@@ -129,6 +129,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     std::unique_lock<std::mutex> lock(m_mutex);
 
     ++m_task_id;
+    ptr->set_task_id(m_task_id);
     m_tasks_list.emplace_back(m_task_id, ptr);
     return m_task_id;
 }
@@ -225,7 +226,8 @@ void Assistant::working_proc()
             lock.unlock();
 
             json::value callback_json = json::object{
-                { "taskchain", task_ptr->get_task_chain() }
+                { "taskchain", task_ptr->get_task_chain() },
+                { "taskid", task_ptr->get_task_id() }
             };
             task_callback(AsstMsg::TaskChainStart, callback_json, this);
 
