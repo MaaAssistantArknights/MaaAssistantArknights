@@ -38,6 +38,7 @@ namespace asst
     protected:
         bool opers_analyze();   // 识别干员
         BattleRole oper_role_analyze(const Rect& roi);
+        bool oper_cooling_analyze(const Rect& roi);
         int oper_cost_analyze(const Rect& roi);
         bool oper_available_analyze(const Rect& roi);
 

@@ -99,6 +99,7 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     const auto role_move = Task.get("BattleOperRoleRange")->rect_move;
     const auto cost_move = Task.get("BattleOperCostRange")->rect_move;
     const auto avlb_move = Task.get("BattleOperAvailable")->rect_move;
+    const auto cooling_move = Task.get("BattleOperCooling")->rect_move;
 
     size_t index = 0;
     for (const MatchRect& flag_mrect : flags_analyzer.get_result()) {
@@ -118,10 +119,17 @@ bool asst::BattleImageAnalyzer::opers_analyze()
         }
 #endif
 
+        Rect cooling_rect = flag_mrect.rect.move(cooling_move);
+        oper.cooling = oper_cooling_analyze(cooling_rect);
+        if (oper.cooling && oper.available) {
+            Log.error("oper is available, but with cooling");
+        }
+
         Rect role_rect = flag_mrect.rect.move(role_move);
         oper.role = oper_role_analyze(role_rect);
         Rect cost_rect = flag_mrect.rect.move(cost_move);
 
+        // 费用识别的不太准，暂时也没用上，先注释掉，TODO：优化费用识别
         //oper.cost = oper_cost_analyze(cost_rect);
         oper.index = index++;
 
@@ -175,6 +183,32 @@ asst::BattleRole asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
 #endif
 
     return result;
+}
+
+bool asst::BattleImageAnalyzer::oper_cooling_analyze(const Rect& roi)
+{
+    const auto cooling_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        Task.get("BattleOperCooling"));
+
+    cv::Mat hsv;
+    cv::cvtColor(m_image(utils::make_rect<cv::Rect>(roi)), hsv, cv::COLOR_BGR2HSV);
+    std::vector<cv::Mat> channels;
+    cv::split(hsv, channels);
+    int mask_lowb = cooling_task_ptr->mask_range.first;
+    int mask_uppb = cooling_task_ptr->mask_range.second;
+
+    int count = 0;
+    auto& h_channel = channels.at(0);
+    for (int i = 0; i != h_channel.rows; ++i) {
+        for (int j = 0; j != h_channel.cols; ++j) {
+            cv::uint8_t value = h_channel.at<cv::uint8_t>(i, j);
+            if (mask_lowb < value && value < mask_uppb) {
+                ++count;
+            }
+        }
+    }
+    Log.trace("oper_cooling_analyze |", count);
+    return count >= cooling_task_ptr->special_threshold;
 }
 
 int asst::BattleImageAnalyzer::oper_cost_analyze(const Rect& roi)

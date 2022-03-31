@@ -133,6 +133,7 @@ bool AbstractTask::sleep(unsigned millisecond)
         return false;
     }
     if (millisecond == 0) {
+        std::this_thread::yield();
         return true;
     }
     auto start = std::chrono::steady_clock::now();

@@ -3552,6 +3552,21 @@
             10
         ]
     },
+    "BattleOperCooling": {
+        "template": "empty.png",
+        "specialThreshold": 6000,
+        "specialThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
+        "rectMove": [
+            -45,
+            6,
+            75,
+            120
+        ],
+        "maskRange": [
+            0,
+            10
+        ]
+    },
     "BattleOperRoleRange": {
         "algorithm": "JustReturn",
         "rectMove": [

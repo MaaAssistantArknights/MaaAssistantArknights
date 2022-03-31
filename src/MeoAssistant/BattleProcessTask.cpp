@@ -1,5 +1,8 @@
 #include "BattleProcessTask.h"
 
+#include <thread>
+#include <chrono>
+
 #include "Controller.h"
 #include "Resource.h"
 #include "TaskData.h"
@@ -25,7 +28,7 @@ bool asst::BattleProcessTask::_run()
     }
 
     while (!analyze_opers_preview()) {
-        ;
+        std::this_thread::yield();
     }
 
     for (const auto& action : m_actions_group.actions) {
@@ -140,24 +143,24 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
         return false;
     }
     const auto& cur_opers_info = analyzer.get_opers();
+    // 除非主动使用，不然可用干员数任何情况下都不会减少
+    // 主动使用会 earse, 所以少了就是识别错了
+    if (cur_opers_info.size() < m_cur_opers_info.size()) {
+        Log.error(__FUNCTION__, "Decrease in staff, Just return");
+        return false;
+    }
+
     decltype(m_cur_opers_info) pre_opers_info;
     m_cur_opers_info.swap(pre_opers_info);
 
     const int size_change = static_cast<int>(cur_opers_info.size()) - static_cast<int>(pre_opers_info.size());
-    const bool is_increased = size_change > 0;
     for (const auto& cur_oper : cur_opers_info) {
-        int left_index = 0;
-        int right_index = 0;
-        // 干员数变多了，之前的干员可能位于 [当前位置 - |size_change|, 当前位置 ] 之间
-        if (is_increased) {
-            left_index = std::max(0, static_cast<int>(cur_oper.index) - size_change);
-            right_index = static_cast<int>(cur_oper.index);
+        if (cur_oper.cooling) {
+            continue;
         }
-        // 干员数减少了，之前的干员可能位于 [当前位置 , 当前位置 + |size_change|] 之间
-        else {
-            left_index = static_cast<int>(cur_oper.index);
-            right_index = static_cast<int>(cur_oper.index) - size_change + 1; // size_change 是 负值
-        }
+        // 该干员在上一帧中可能的位置。需要考虑召唤者退场&可用召唤物消失的情况，所以 lhs-1 rhs+1
+        int left_index = std::max(0, static_cast<int>(cur_oper.index) - size_change - 1);
+        int right_index = static_cast<int>(cur_oper.index + 1);
 
         std::vector<decltype(pre_opers_info)::const_iterator> ranged_iters;
         // 找出该干员可能对应的之前的谁
@@ -168,24 +171,11 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
             }
         }
 
-        if (is_increased && !cur_oper.available) {
-            continue;
-        }
-        // 为空说明上一帧画面里没有这个干员，可能是撤退下来的，把所有已使用的都拿出来比较下
-        if (ranged_iters.empty()) {
-            // 已使用的（可能是撤退下来的） = 所有干员 - 当前可用的干员
-            // 求差集
-
-            //std::set_difference(m_all_opers_info.cbegin(), m_all_opers_info.cend(),
-            //    pre_opers_info.cbegin(), pre_opers_info.cend(),
-            //    std::back_inserter(ranged_iters)
-            //);
-            // set_difference 返回的是元素，但我这里需要迭代器，所以只能手写了
-            for (auto iter = m_all_opers_info.cbegin(); iter != m_all_opers_info.cend(); ++iter) {
-                const std::string& key = iter->first;
-                if (pre_opers_info.find(key) == pre_opers_info.cend()) {
-                    ranged_iters.emplace_back(iter);
-                }
+        // 干员也可能是撤退下来的，把所有已使用的都拿出来比较下
+        for (auto iter = m_all_opers_info.cbegin(); iter != m_all_opers_info.cend(); ++iter) {
+            const std::string& key = iter->first;
+            if (pre_opers_info.find(key) == pre_opers_info.cend()) {
+                ranged_iters.emplace_back(iter);
             }
         }
 
@@ -229,9 +219,7 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
         }
         else {
             oper_name = matched_iter->first;
-            if (is_increased) {
-                m_used_opers.erase(oper_name);
-            }
+            m_used_opers.erase(oper_name);
         }
 
         auto temp_oper = cur_oper;
@@ -248,7 +236,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     if (!wait_condition(action)) {
         return false;
     }
-    sleep(action.pre_delay);
+    sleep_with_possible_skill(action.pre_delay);
 
     bool ret = false;
     switch (action.type) {
@@ -274,7 +262,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
         return true;
     } break;
     }
-    sleep(action.rear_delay);
+    sleep_with_possible_skill(action.rear_delay);
 
     return ret;
 }
@@ -291,6 +279,25 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
         }
 
         try_possible_skill(image);
+        std::this_thread::yield();
+    }
+
+    // 部署干员还有额外等待费用够或 CD 转好
+    if (action.type == BattleActionType::Deploy) {
+        const std::string& name = m_group_to_oper_mapping[action.group_name].name;
+
+        while (true) {
+            const auto& image = m_ctrler->get_image();
+            update_opers_info(image);
+
+            if (auto iter = m_cur_opers_info.find(name);
+                iter != m_cur_opers_info.cend() && iter->second.available) {
+                break;
+            }
+
+            try_possible_skill(image);
+            std::this_thread::yield();
+        };
     }
 
     return true;
@@ -301,22 +308,9 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
     const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
 
-    decltype(m_cur_opers_info)::iterator iter;
-    BattleDeployOper oper_info;
-    do {
-        const auto& image = m_ctrler->get_image();
+    const auto& oper_info = m_group_to_oper_mapping[action.group_name];
 
-        update_opers_info(image);
-
-        oper_info = m_group_to_oper_mapping[action.group_name];
-        const std::string& name = oper_info.name;
-        iter = m_cur_opers_info.find(name);
-        if (iter == m_cur_opers_info.cend()) {
-            Log.info("battle opers group", name, "not found");
-        }
-
-        try_possible_skill(image);
-    } while (iter == m_cur_opers_info.cend() || !iter->second.available);
+    auto iter = m_cur_opers_info.find(oper_info.name);
 
     // 点击干员
     Rect oper_rect = iter->second.rect;
@@ -361,7 +355,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     m_used_opers[iter->first] = BattleDeployInfo{
         action.location,
         m_normal_tile_info[action.location].pos,
-        std::move(oper_info) };
+        oper_info };
 
     m_cur_opers_info.erase(iter);
 
@@ -426,6 +420,28 @@ void asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
             info.info.skill_usage = BattleSkillUsage::OnceUsed;
         }
     }
+}
+
+void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
+{
+    if (need_exit()) {
+        return;
+    }
+    if (millisecond == 0) {
+        return;
+    }
+    auto start = std::chrono::steady_clock::now();
+    long long duration = 0;
+
+    Log.trace("ready to sleep_with_possible_skill", millisecond);
+
+    while (!need_exit() && duration < millisecond) {
+        duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start).count();
+        try_possible_skill(m_ctrler->get_image());
+        std::this_thread::yield();
+    }
+    Log.trace("end of sleep_with_possible_skill", millisecond);
 }
 
 bool asst::BattleProcessTask::battle_pause()

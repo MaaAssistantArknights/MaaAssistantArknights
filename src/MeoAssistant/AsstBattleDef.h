@@ -92,5 +92,6 @@ namespace asst
         cv::Mat avatar;
         std::string name;
         size_t index;
+        bool cooling = false;
     };
 }
