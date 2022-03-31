@@ -42,7 +42,7 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
 bool asst::FightTask::set_params(const json::value& params)
 {
     const std::string stage = params.get("stage", "");
-    const int mecidine = params.get("mecidine", 0);
+    const int medicine = params.get("medicine", 0);
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
     bool enable_penguid = params.get("report_to_penguin", false);
@@ -61,7 +61,7 @@ bool asst::FightTask::set_params(const json::value& params)
         m_stage_task_ptr->set_tasks({ stage });
     }
 
-    m_fight_task_ptr->set_times_limit("MedicineConfirm", mecidine)
+    m_fight_task_ptr->set_times_limit("MedicineConfirm", medicine)
         .set_times_limit("StoneConfirm", stone)
         .set_times_limit("StartButton1", times)
         .set_times_limit("StartButton2", times);
