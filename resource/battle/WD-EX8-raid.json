@@ -8,7 +8,28 @@
     "opers": [
         {
             "name": "棘刺",
+            "skill": 3,
             "skill_usage": 1
+        },
+        {
+            "name": "银灰",
+            "skill": 3
+        },
+        {
+            "name": "推进之王",
+            "skill": 2
+        },
+        {
+            "name": "史尔特尔",
+            "skill": 3
+        },
+        {
+            "name": "塞雷娅",
+            "skill": 1
+        },
+        {
+            "name": "艾雅法拉",
+            "skill": 3
         }
     ],
     "actions": [
