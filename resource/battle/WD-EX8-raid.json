@@ -74,7 +74,7 @@
             "direction": "右"
         },
         {
-            "pre_delay": 5000,
+            "pre_delay": 8000,
             "name": "艾雅法拉",
             "type": "技能"
         },
@@ -96,15 +96,7 @@
             "name": "推进之王"
         },
         {
-            "kills": 36,
-            "name": "澄闪",
-            "location": [
-                2,
-                6
-            ],
-            "direction": "右"
-        },
-        {
+            "pre_delay": 2000,
             "name": "史尔特尔",
             "location": [
                 8,
@@ -129,7 +121,7 @@
             "type": "技能"
         },
         {
-            "pre_delay": 7000,
+            "pre_delay": 2000,
             "name": "史尔特尔",
             "type": "技能"
         },
@@ -138,8 +130,13 @@
             "type": "技能"
         },
         {
-            "name": "澄闪",
-            "type": "技能"
+            "pre_delay": 10000,
+            "name": "推进之王",
+            "location": [
+                3,
+                4
+            ],
+            "direction": "下"
         },
         {
             "name": "塞雷娅",
@@ -173,13 +170,13 @@
         {
             "name": "推进之王",
             "location": [
-                7,
+                8,
                 3
             ],
-            "direction": "上"
+            "direction": "左"
         },
         {
-            "pre_delay": 6000,
+            "pre_delay": 3000,
             "name": "艾雅法拉",
             "type": "技能"
         },

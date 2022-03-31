@@ -34,6 +34,7 @@ namespace asst
         bool use_skill(const BattleAction& action);
 
         void try_possible_skill(const cv::Mat& image);
+        void sleep_with_possible_skill(unsigned millisecond);
 
         std::string m_stage_name;
 
