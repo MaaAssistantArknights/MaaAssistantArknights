@@ -3486,7 +3486,6 @@
             210,
             118
         ],
-        "cache": false,
         "action": "ClickSelf",
         "rearDelay": 500,
         "rectMove": [
