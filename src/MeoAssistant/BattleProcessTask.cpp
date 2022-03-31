@@ -71,12 +71,18 @@ bool asst::BattleProcessTask::get_stage_info()
 
 bool asst::BattleProcessTask::analyze_opers_preview()
 {
-    BattleImageAnalyzer oper_analyzer(m_ctrler->get_image());
+    BattleImageAnalyzer oper_analyzer;
     oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
-    if (!oper_analyzer.analyze()) {
-        return false;
+
+    while (true) {
+        oper_analyzer.set_image(m_ctrler->get_image());
+        if (oper_analyzer.analyze()) {
+            break;
+        }
+        std::this_thread::yield();
     }
     // TODO: 干员头像出来之后，还要过 2 秒左右才可以点击，这里可能还要加个延时
+    sleep(3000);
 
     battle_pause();
 

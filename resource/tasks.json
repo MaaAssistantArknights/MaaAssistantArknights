@@ -3393,6 +3393,110 @@
             100
         ]
     },
+    "BattleQuickFormation": {
+        "action": "ClickSelf",
+        "roi": [
+            816,
+            0,
+            404,
+            149
+        ],
+        "next": [
+            "BattleQuickFormationClear"
+        ]
+    },
+    "BattleQuickFormationClear": {
+        "action": "ClickSelf",
+        "roi": [
+            334,
+            605,
+            286,
+            115
+        ],
+        "next": [
+            "BattleQuickFormationCollapseRole",
+            "Stop"
+        ]
+    },
+    "BattleQuickFormationCollapseRole": {
+        "action": "ClickSelf",
+        "roi": [
+            1163,
+            0,
+            117,
+            133
+        ]
+    },
+    "BattleQuickFormationOCR": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            300,
+            240,
+            980,
+            470
+        ]
+    },
+    "BattleQuickFormationSkill1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            15,
+            385,
+            320,
+            100
+        ]
+    },
+    "BattleQuickFormationSkill2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            15,
+            560,
+            320,
+            30
+        ]
+    },
+    "BattleQuickFormationSkill3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            15,
+            690,
+            320,
+            30
+        ]
+    },
+    "BattleQuickFormationConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            880,
+            608,
+            400,
+            112
+        ],
+        "rearDelay": 1000
+    },
+    "BattleStartNormal": {
+        "action": "ClickSelf",
+        "roi": [
+            989,
+            318,
+            232,
+            374
+        ],
+        "rearDelay": 3000
+    },
+    "BattleStartRaid": {
+        "action": "ClickSelf",
+        "roi": [
+            989,
+            318,
+            232,
+            374
+        ],
+        "rearDelay": 3000
+    },
     "BattleOperName": {
         "algorithm": "OcrDetect",
         "text": [],

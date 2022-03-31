@@ -94,7 +94,8 @@ int main(/*int argc, char** argv*/)
 
     AsstAppendTask(ptr, "Copilot", R"(
 {
-    "stage_name": "如帝国之影"
+    "stage_name": "如帝国之影",
+    "formation": true
 }
 )");
 
