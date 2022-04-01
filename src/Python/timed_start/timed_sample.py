@@ -129,7 +129,7 @@ if __name__ == "__main__":
 
         print(m, d, arg)
 
-    path: str = (pathlib.Path.cwd().parent()).__str__()
+    path: str = (pathlib.Path.cwd().parent).__str__()
     Asst.load(path)
 
     # 若需要获取详细执行信息，请传入 callback 参数
