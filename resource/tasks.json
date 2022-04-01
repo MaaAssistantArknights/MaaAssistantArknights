@@ -3497,6 +3497,16 @@
         ],
         "rearDelay": 3000
     },
+    "BattleStartExercise": {
+        "action": "ClickSelf",
+        "roi": [
+            989,
+            318,
+            232,
+            374
+        ],
+        "rearDelay": 3000
+    },
     "BattleOperName": {
         "algorithm": "OcrDetect",
         "text": [],
