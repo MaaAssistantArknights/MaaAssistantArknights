@@ -147,11 +147,12 @@
             "type": "技能"
         },
         {
+            "pre_delay": 1000,
             "name": "艾雅法拉",
             "type": "技能"
         },
         {
-            "pre_delay": 10000,
+            "pre_delay": 12000,
             "name": "推进之王",
             "location": [
                 3,

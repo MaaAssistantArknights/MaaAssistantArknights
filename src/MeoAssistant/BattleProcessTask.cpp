@@ -241,7 +241,11 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     if (!wait_condition(action)) {
         return false;
     }
-    sleep_with_possible_skill(action.pre_delay);
+    if (action.pre_delay > 0) {
+        sleep_with_possible_skill(action.pre_delay);
+        // 等待之后画面可能会变化，再调用一次等待条件更新干员信息
+        wait_condition(action);
+    }
 
     bool ret = false;
     switch (action.type) {
@@ -275,12 +279,15 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
 bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 {
     while (m_kills < action.kills) {
-        auto image = m_ctrler->get_image();
+        const auto& image = m_ctrler->get_image();
         BattleImageAnalyzer analyzer(image);
 
         analyzer.set_target(BattleImageAnalyzer::Target::Kills);
         if (analyzer.analyze()) {
             m_kills = analyzer.get_kills();
+            if (m_kills >= action.kills) {
+                break;
+            }
         }
 
         try_possible_skill(image);
@@ -405,12 +412,13 @@ bool asst::BattleProcessTask::use_skill(const BattleAction& action)
         .run();
 }
 
-void asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
+bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
 {
     static const Rect& skill_roi_move = Task.get("BattleAutoSkillFlag")->rect_move;
 
     MatchImageAnalyzer analyzer(image);
     analyzer.set_task_info("BattleAutoSkillFlag");
+    bool used = false;
     for (auto& [name, info] : m_used_opers) {
         if (info.info.skill_usage != BattleSkillUsage::Possibly
             && info.info.skill_usage != BattleSkillUsage::Once) {
@@ -422,11 +430,12 @@ void asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
             continue;
         }
         m_ctrler->click(info.pos);
-        ProcessTask(*this, { "BattleSkillReadyOnClick" }).run();
+        used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).run();
         if (info.info.skill_usage == BattleSkillUsage::Once) {
             info.info.skill_usage = BattleSkillUsage::OnceUsed;
         }
     }
+    return used;
 }
 
 void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
