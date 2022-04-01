@@ -19,7 +19,7 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static const char* RecruitCfgFilename = "recruit.json";
     constexpr static const char* ItemCfgFilename = "item_index.json";
     constexpr static const char* InfrastCfgFilename = "infrast.json";
-    constexpr static const char* BattleCfgDirname = "battle";
+    constexpr static const char* BattleCfgDirname = "copilot";
     constexpr static const char* OcrResourceFilename = "PaddleOCR";
     constexpr static const char* PenguinResourceFilename = "penguin-stats-recognize";
     constexpr static const char* TilesCalcResourceFilename = "Arknights-Tile-Pos";

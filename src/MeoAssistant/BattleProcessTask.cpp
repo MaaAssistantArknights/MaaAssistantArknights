@@ -81,9 +81,8 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         }
         std::this_thread::yield();
     }
-    // TODO: 干员头像出来之后，还要过 2 秒左右才可以点击，这里可能还要加个延时
-    sleep(3000);
-
+    // 干员头像出来之后，还要过 2 秒左右才可以点击，这里要加个延时
+    sleep(Task.get("BattleWaitingToLoad")->rear_delay);
     battle_pause();
 
     auto opers = oper_analyzer.get_opers();
