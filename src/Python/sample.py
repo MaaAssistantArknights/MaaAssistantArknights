@@ -31,7 +31,6 @@ if __name__ == "__main__":
         exit()
 
     # 任务及参数请参考 docs/集成文档.md
-    # 详细参数请参考 docs/集成文档.md
 
     asst.append_task('StartUp')
     asst.append_task('Fight', {
@@ -53,7 +52,7 @@ if __name__ == "__main__":
     asst.append_task('Visit')
     asst.append_task('Mall', {
         'shopping': True,
-        'shopping': ['家具', '碳'],
+        'shopping_list': ['家具', '碳'],
         'is_black_list': True
     })
     asst.append_task('Award')

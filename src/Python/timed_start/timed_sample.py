@@ -26,10 +26,11 @@ def job():
     # print("I'm running on thread %s" % threading.current_thread())
     print("现在时间：" + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
-    # 详细参数请参考 docs/集成文档.md
+    # 任务及参数请参考 docs/集成文档.md
 
     # asst.append_task('StartUp')
     asst.append_task('Fight', {
+        'report_to_penguin': True,
         'stage': 'LastBattle',
         # 'penguin_id': '1234567'
     })
@@ -47,7 +48,7 @@ def job():
     asst.append_task('Visit')
     asst.append_task('Mall', {
         'shopping': True,
-        'shopping': ['家具', '碳'],
+        'shopping_list': ['家具', '碳'],
         'is_black_list': True
     })
     asst.append_task('Award')
