@@ -36,7 +36,7 @@ class Asst:
             Asst.__lib = ctypes.WinDLL(str(Asst.__libpath))
         else:
             Asst.__libpath = pathlib.Path(path) / 'libMeoAssistant.so'
-            os.environ['LD_LIBRARY_PATH'] += path
+            os.environ['LD_LIBRARY_PATH'] += os.pathsep + path
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         Asst.__set_lib_properties()
 
