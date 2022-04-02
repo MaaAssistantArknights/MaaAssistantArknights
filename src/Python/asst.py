@@ -23,7 +23,7 @@ class Asst:
     """
 
     @staticmethod
-    def load(path: str) -> bool:
+    def load(path: Union[pathlib.Path, str]) -> bool:
         """
         加载 dll 及资源
 
@@ -32,15 +32,15 @@ class Asst:
         """
         if platform.system().lower() == 'windows':
             Asst.__libpath = pathlib.Path(path) / 'MeoAssistant.dll'
-            os.environ["PATH"] += os.pathsep + path
+            os.environ["PATH"] += os.pathsep + str(path)
             Asst.__lib = ctypes.WinDLL(str(Asst.__libpath))
         else:
             Asst.__libpath = pathlib.Path(path) / 'libMeoAssistant.so'
-            os.environ['LD_LIBRARY_PATH'] += os.pathsep + path
+            os.environ['LD_LIBRARY_PATH'] += os.pathsep + str(path)
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         Asst.__set_lib_properties()
 
-        return Asst.__lib.AsstLoadResource(path.encode('utf-8'))
+        return Asst.__lib.AsstLoadResource(str(path).encode('utf-8'))
 
     def __init__(self, callback: CallBackType = None, arg=None):
         """
