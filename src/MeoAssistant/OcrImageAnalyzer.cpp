@@ -154,7 +154,7 @@ void asst::OcrImageAnalyzer::sort_result_by_score()
 {
     std::sort(m_ocr_result.begin(), m_ocr_result.end(),
         [](const TextRect& lhs, const TextRect& rhs) -> bool {
-            return lhs.score < rhs.score;
+            return lhs.score > rhs.score;
         }
     );
 }
