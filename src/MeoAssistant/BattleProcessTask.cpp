@@ -45,15 +45,6 @@ bool asst::BattleProcessTask::get_stage_info()
     m_normal_tile_info = tile.calc(m_stage_name, false);
     m_side_tile_info = tile.calc(m_stage_name, true);
 
-    //#ifdef ASST_DEBUG
-    auto draw = m_ctrler->get_image();
-    for (const auto& [loc, info] : m_normal_tile_info) {
-        std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
-        cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
-    }
-    cv::imwrite(utils::utf8_to_gbk(m_stage_name) + ".png", draw);
-    //#endif
-
     if (m_side_tile_info.empty() || m_normal_tile_info.empty()) {
         return false;
     }
@@ -81,6 +72,16 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         }
         std::this_thread::yield();
     }
+
+    //#ifdef ASST_DEBUG
+    auto draw = m_ctrler->get_image();
+    for (const auto& [loc, info] : m_normal_tile_info) {
+        std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
+        cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
+    }
+    cv::imwrite(utils::utf8_to_gbk(m_stage_name) + ".png", draw);
+    //#endif
+
     // 干员头像出来之后，还要过 2 秒左右才可以点击，这里要加个延时
     sleep(Task.get("BattleWaitingToLoad")->rear_delay);
     battle_pause();

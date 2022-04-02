@@ -16,11 +16,15 @@ bool asst::BattleFormationTask::_run()
     if (!battle.contains_actions(m_stage_name)) {
         return false;
     }
+
+    m_groups = battle.get_actions(m_stage_name).groups;
+    if (m_groups.empty()) {
+        return true;
+    }
+
     if (!enter_selection_page()) {
         return false;
     }
-
-    m_groups = battle.get_actions(m_stage_name).groups;
 
     // TODO: 需要加一个滑到头了的检测
     while (true) {
