@@ -47,7 +47,8 @@ namespace asst
         Retreat,                    // 撤退干员
         SkillUsage,                 // 技能用法
         SwitchSpeed,                // 切换二倍速
-        BulletTime                  // 使用 1/5 的速度（点击任意干员），会在下一个任意操作后恢复原速度
+        BulletTime,                 // 使用 1/5 的速度（点击任意干员），会在下一个任意操作后恢复原速度
+        UseAllSkill                 // 使用所有技能，仅肉鸽模式
     };
 
     struct BattleAction             // 操作
@@ -97,5 +98,18 @@ namespace asst
         {
             return name == oper_name;
         }
+    };
+
+    struct RoguelikeBattleAction
+    {
+        int kills = 0;
+        BattleActionType type = BattleActionType::Deploy;
+        std::vector<BattleRole> roles;
+        bool waiting_cost = false;
+        Point location;
+        BattleDeployDirection direction = BattleDeployDirection::Right;
+        int pre_delay = 0;
+        int rear_delay = 0;
+        int time_out = INT_MAX;
     };
 }

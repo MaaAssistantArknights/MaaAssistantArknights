@@ -37,7 +37,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 {
     bool getted_info = get_stage_info();
 
-    speed_up();
+    //speed_up();
 
     if (!getted_info) {
         return true;

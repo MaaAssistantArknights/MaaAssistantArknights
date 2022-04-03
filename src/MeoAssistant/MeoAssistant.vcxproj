@@ -73,6 +73,7 @@
     <ClInclude Include="ProcessTask.h" />
     <ClInclude Include="ProcessTaskImageAnalyzer.h" />
     <ClInclude Include="RecruitConfiger.h" />
+    <ClInclude Include="RoguelikeCopilotConfiger.h" />
     <ClInclude Include="RoguelikeFormationTaskPlugin.h" />
     <ClInclude Include="RoguelikeFormationImageAnalyzer.h" />
     <ClInclude Include="RoguelikeRecruitTaskPlugin.h" />
@@ -147,6 +148,7 @@
     <ClCompile Include="ProcessTask.cpp" />
     <ClCompile Include="ProcessTaskImageAnalyzer.cpp" />
     <ClCompile Include="RecruitConfiger.cpp" />
+    <ClCompile Include="RoguelikeCopilotConfiger.cpp" />
     <ClCompile Include="RoguelikeFormationTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp" />
     <ClCompile Include="RoguelikeRecruitTaskPlugin.cpp" />

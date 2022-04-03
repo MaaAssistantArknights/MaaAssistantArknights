@@ -19,7 +19,7 @@ namespace asst
     protected:
         virtual bool _run() override;
 
-        bool get_stage_info();
+        virtual bool get_stage_info();
         bool battle_pause();
         bool battle_speedup();
         bool cancel_selection();  // 取消选择干员

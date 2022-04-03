@@ -16,6 +16,7 @@
 #include "TemplResource.h"
 #include "TilePack.h"
 #include "CopilotConfiger.h"
+#include "RoguelikeCopilotConfiger.h"
 
 namespace asst
 {
@@ -60,6 +61,10 @@ namespace asst
         {
             return m_copilot_cfg_unique_ins;
         }
+        RoguelikeCopilotConfiger& roguelike() noexcept
+        {
+            return m_roguelike_cfg_unique_ins;
+        }
         OcrPack& ocr() noexcept
         {
             return m_ocr_pack_unique_ins;
@@ -101,6 +106,10 @@ namespace asst
         {
             return m_copilot_cfg_unique_ins;
         }
+        const RoguelikeCopilotConfiger& roguelike() const noexcept
+        {
+            return m_roguelike_cfg_unique_ins;
+        }
         const OcrPack& ocr() const noexcept
         {
             return m_ocr_pack_unique_ins;
@@ -125,6 +134,7 @@ namespace asst
         RecruitConfiger m_recruit_cfg_unique_ins;
         CombatRecruitConfiger m_combatrecruit_cfg_unique_ins;
         CopilotConfiger m_copilot_cfg_unique_ins;
+        RoguelikeCopilotConfiger m_roguelike_cfg_unique_ins;
         ItemConfiger m_item_cfg_unique_ins;
         InfrastConfiger m_infrast_cfg_unique_ins;
         OcrPack m_ocr_pack_unique_ins;
