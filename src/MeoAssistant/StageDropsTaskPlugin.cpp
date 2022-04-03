@@ -57,6 +57,7 @@ bool asst::StageDropsTaskPlugin::set_penguin_id(std::string id)
 bool asst::StageDropsTaskPlugin::set_server(std::string server)
 {
     m_server = std::move(server);
+    return true;
 }
 
 bool asst::StageDropsTaskPlugin::_run()

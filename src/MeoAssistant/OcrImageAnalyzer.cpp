@@ -73,6 +73,18 @@ bool asst::OcrImageAnalyzer::analyze()
     return !m_ocr_result.empty();
 }
 
+void asst::OcrImageAnalyzer::filter(const TextRectProc& filter_func)
+{
+    decltype(m_ocr_result) temp_result;
+
+    for (auto&& tr : m_ocr_result) {
+        if (filter_func(tr)) {
+            temp_result.emplace_back(std::move(tr));
+        }
+    }
+    m_ocr_result = std::move(temp_result);
+}
+
 void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
 {
     m_use_cache = is_use;
@@ -145,6 +157,25 @@ void asst::OcrImageAnalyzer::sort_result()
             }
             else {
                 return lhs.rect.y < rhs.rect.y;
+            }
+        }
+    );
+}
+
+void asst::OcrImageAnalyzer::sort_result_x_y()
+{
+    // 按位置排个序（顺序如下）
+    // +---+
+    // |1 3|
+    // |2 4|
+    // +---+
+    std::sort(m_ocr_result.begin(), m_ocr_result.end(),
+        [](const TextRect& lhs, const TextRect& rhs) -> bool {
+            if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
+                return lhs.rect.y < rhs.rect.y;
+            }
+            else {
+                return lhs.rect.x < rhs.rect.x;
             }
         }
     );

@@ -315,6 +315,9 @@
     <ClInclude Include="BattleFormationTask.h">
       <Filter>头文件\Task\Sub</Filter>
     </ClInclude>
+    <ClInclude Include="CombatRecruitConfiger.h">
+      <Filter>头文件\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -526,6 +529,9 @@
     </ClCompile>
     <ClCompile Include="BattleFormationTask.cpp">
       <Filter>源文件\Task\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatRecruitConfiger.cpp">
+      <Filter>源文件\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
