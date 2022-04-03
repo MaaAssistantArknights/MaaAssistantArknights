@@ -20,7 +20,7 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static const char* RecruitCfgFilename = "recruit.json";
     constexpr static const char* ItemCfgFilename = "item_index.json";
     constexpr static const char* InfrastCfgFilename = "infrast.json";
-    constexpr static const char* BattleCfgDirname = "copilot";
+    constexpr static const char* CopilotCfgDirname = "copilot";
     constexpr static const char* OcrResourceFilename = "PaddleOCR";
     constexpr static const char* PenguinResourceFilename = "penguin-stats-recognize";
     constexpr static const char* TilesCalcResourceFilename = "Arknights-Tile-Pos";
@@ -78,11 +78,11 @@ bool asst::Resource::load(const std::string& dir)
         overload = true;
     }
 
-    for (const auto& entry : std::filesystem::directory_iterator(dir + BattleCfgDirname)) {
+    for (const auto& entry : std::filesystem::directory_iterator(dir + CopilotCfgDirname)) {
         if (entry.path().extension() != ".json") {
             continue;
         }
-        if (!m_battle_cfg_unique_ins.load(entry.path().u8string())) {
+        if (!m_copilot_cfg_unique_ins.load(entry.path().u8string())) {
             m_last_error = entry.path().u8string() + " Load failed";
             return false;
         }

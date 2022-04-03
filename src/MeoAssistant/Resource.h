@@ -15,7 +15,7 @@
 #include "TaskData.h"
 #include "TemplResource.h"
 #include "TilePack.h"
-#include "BattleConfiger.h"
+#include "CopilotConfiger.h"
 
 namespace asst
 {
@@ -56,9 +56,9 @@ namespace asst
         {
             return m_infrast_cfg_unique_ins;
         }
-        BattleConfiger& battle() noexcept
+        CopilotConfiger& copilot() noexcept
         {
-            return m_battle_cfg_unique_ins;
+            return m_copilot_cfg_unique_ins;
         }
         OcrPack& ocr() noexcept
         {
@@ -97,9 +97,9 @@ namespace asst
         {
             return m_infrast_cfg_unique_ins;
         }
-        const BattleConfiger& battle() const noexcept
+        const CopilotConfiger& copilot() const noexcept
         {
-            return m_battle_cfg_unique_ins;
+            return m_copilot_cfg_unique_ins;
         }
         const OcrPack& ocr() const noexcept
         {
@@ -124,7 +124,7 @@ namespace asst
         GeneralConfiger m_general_cfg_unique_ins;
         RecruitConfiger m_recruit_cfg_unique_ins;
         CombatRecruitConfiger m_combatrecruit_cfg_unique_ins;
-        BattleConfiger m_battle_cfg_unique_ins;
+        CopilotConfiger m_copilot_cfg_unique_ins;
         ItemConfiger m_item_cfg_unique_ins;
         InfrastConfiger m_infrast_cfg_unique_ins;
         OcrPack m_ocr_pack_unique_ins;

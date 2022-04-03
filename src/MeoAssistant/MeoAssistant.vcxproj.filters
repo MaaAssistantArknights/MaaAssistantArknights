@@ -303,7 +303,7 @@
     <ClInclude Include="ReplenishOriginiumShardTaskPlugin.h">
       <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
-    <ClInclude Include="BattleConfiger.h">
+    <ClInclude Include="CopilotConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="BattleProcessTask.h">
@@ -518,7 +518,7 @@
     <ClCompile Include="ReplenishOriginiumShardTaskPlugin.cpp">
       <Filter>源文件\Task\Plugin</Filter>
     </ClCompile>
-    <ClCompile Include="BattleConfiger.cpp">
+    <ClCompile Include="CopilotConfiger.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="BattleProcessTask.cpp">

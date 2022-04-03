@@ -12,12 +12,12 @@ void asst::BattleFormationTask::set_stage_name(std::string name)
 
 bool asst::BattleFormationTask::_run()
 {
-    const auto& battle = Resrc.battle();
-    if (!battle.contains_actions(m_stage_name)) {
+    const auto& copilot = Resrc.copilot();
+    if (!copilot.contains_actions(m_stage_name)) {
         return false;
     }
 
-    m_groups = battle.get_actions(m_stage_name).groups;
+    m_groups = copilot.get_actions(m_stage_name).groups;
     if (m_groups.empty()) {
         return true;
     }

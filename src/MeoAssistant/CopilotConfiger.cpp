@@ -1,10 +1,10 @@
-#include "BattleConfiger.h"
+#include "CopilotConfiger.h"
 
 #include <meojson/json.hpp>
 
 #include "Logger.hpp"
 
-bool asst::BattleConfiger::parse(const json::value& json)
+bool asst::CopilotConfiger::parse(const json::value& json)
 {
     std::string stage_name = json.at("stage_name").as_string();
 
