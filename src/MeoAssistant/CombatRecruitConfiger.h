@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "AsstTypes.h"
+#include "AsstBattleDef.h"
 
 namespace asst
 {
@@ -14,11 +15,10 @@ namespace asst
     struct CombatRecruitOperInfo
     {
         std::string name;
-        // ["MEDIC","WARRIOR","SPECIAL","SNIPER","PIONEER","TANK","SUPPORT","CASTER"]
-        std::string type;
+        BattleRole role;
         int level = 0;
-        std::string subProfession;
-        std::string position; // 高台--RANGED, 地面--MELEE
+        std::string subProfession;  // TODO: 改成枚举
+        std::string position; // 高台--RANGED, 地面--MELEE  // TODO: 改成 TilePack::BuildableType 枚举
     };
     class CombatRecruitConfiger : public AbstractConfiger
     {

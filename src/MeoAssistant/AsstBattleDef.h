@@ -93,7 +93,8 @@ namespace asst
         std::string name;
         size_t index;
         bool cooling = false;
-        bool operator== (const std::string& oper_name) const noexcept {
+        bool operator==(const std::string& oper_name) const noexcept
+        {
             return name == oper_name;
         }
     };
