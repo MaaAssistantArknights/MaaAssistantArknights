@@ -90,6 +90,9 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
             if (calced) {
                 break;
             }
+            // 有些性能非常好的电脑，加载画面很快；但如果使用了不兼容 gzip 的方式截图的模拟器，截图反而非常慢
+            // 这种时候一共可供识别的也没几帧，还要考虑识别错的情况。所以这里不能 sleep
+            std::this_thread::yield();
         }
     }
     else {

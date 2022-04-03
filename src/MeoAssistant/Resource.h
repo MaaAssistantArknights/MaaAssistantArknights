@@ -5,6 +5,7 @@
 #include <memory>
 #include <utility>
 
+#include "CombatRecruitConfiger.h"
 #include "GeneralConfiger.h"
 #include "InfrastConfiger.h"
 #include "ItemConfiger.h"
@@ -43,6 +44,10 @@ namespace asst
         {
             return m_recruit_cfg_unique_ins;
         }
+        CombatRecruitConfiger& combatrecruit() noexcept
+        {
+            return m_combatrecruit_cfg_unique_ins;
+        }
         ItemConfiger& item() noexcept
         {
             return m_item_cfg_unique_ins;
@@ -80,6 +85,10 @@ namespace asst
         {
             return m_recruit_cfg_unique_ins;
         }
+        const CombatRecruitConfiger& combatrecruit() const noexcept
+        {
+            return m_combatrecruit_cfg_unique_ins;
+        }
         const ItemConfiger& item() const noexcept
         {
             return m_item_cfg_unique_ins;
@@ -114,6 +123,7 @@ namespace asst
         TemplResource m_templ_resource_unique_ins;
         GeneralConfiger m_general_cfg_unique_ins;
         RecruitConfiger m_recruit_cfg_unique_ins;
+        CombatRecruitConfiger m_combatrecruit_cfg_unique_ins;
         BattleConfiger m_battle_cfg_unique_ins;
         ItemConfiger m_item_cfg_unique_ins;
         InfrastConfiger m_infrast_cfg_unique_ins;
