@@ -75,11 +75,14 @@ bool asst::OcrImageAnalyzer::analyze()
 
 void asst::OcrImageAnalyzer::filter(const TextRectProc& filter_func)
 {
-    for(auto x = m_ocr_result.begin(); x != m_ocr_result.end(); )
-        if(!filter_func(*x))
-            x = m_ocr_result.erase(x);
-        else
-            ++x;
+    decltype(m_ocr_result) temp_result;
+
+    for (auto&& tr : m_ocr_result) {
+        if (filter_func(tr)) {
+            temp_result.emplace_back(std::move(tr));
+        }
+    }
+    m_ocr_result = std::move(temp_result);
 }
 
 void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
