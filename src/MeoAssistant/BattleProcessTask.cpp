@@ -79,7 +79,12 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
         cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
     }
-    cv::imwrite(utils::utf8_to_gbk(m_stage_name) + ".png", draw);
+#ifdef WIN32
+    std::string output_filename = utils::utf8_to_gbk(m_stage_name);
+#else
+    std::string output_filename = m_stage_name;
+#endif
+    cv::imwrite(output_filename + ".png", draw);
     //#endif
 
     // 干员头像出来之后，还要过 2 秒左右才可以点击，这里要加个延时
