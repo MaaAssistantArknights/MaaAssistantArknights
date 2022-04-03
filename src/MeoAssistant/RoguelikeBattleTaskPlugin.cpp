@@ -67,7 +67,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         sleep(stage_name_task_ptr->pre_delay);
 
         constexpr int StageNameRetryTimes = 50;
-        for (int i = 0; i != StageNameRetryTimes; ++i) {
+        for (int i = 0; i != StageNameRetryTimes; ++i, sleep(200)) {
             cv::Mat image = m_ctrler->get_image();
             OcrImageAnalyzer name_analyzer(image);
 
