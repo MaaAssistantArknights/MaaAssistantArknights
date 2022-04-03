@@ -51,8 +51,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         Log.info("visible opers count：", analyzer.get_result().size(), "visible opers：", visible_opers);
     }
     // demand_filter
+    std::unordered_set<std::string> opers_set(m_opers.cbegin(), m_opers.cend());
     analyzer.filter([&](const TextRect& x) -> bool {
-        return find(m_opers.begin(), m_opers.end(), x.text) != m_opers.end();
+        return opers_set.find(x.text) != opers_set.cend();
         }
     );
 
