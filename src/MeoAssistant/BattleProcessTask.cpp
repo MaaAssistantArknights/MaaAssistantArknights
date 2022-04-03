@@ -49,13 +49,13 @@ bool asst::BattleProcessTask::get_stage_info()
         return false;
     }
 
-    const auto& battle = Resrc.battle();
-    bool contains = battle.contains_actions(m_stage_name);
+    const auto& copilot = Resrc.copilot();
+    bool contains = copilot.contains_actions(m_stage_name);
     if (!contains) {
         return false;
     }
 
-    m_actions_group = battle.get_actions(m_stage_name);
+    m_actions_group = copilot.get_actions(m_stage_name);
 
     return true;
 }

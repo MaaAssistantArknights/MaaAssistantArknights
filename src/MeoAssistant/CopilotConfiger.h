@@ -4,10 +4,10 @@
 
 namespace asst
 {
-    class BattleConfiger : public AbstractConfiger
+    class CopilotConfiger : public AbstractConfiger
     {
     public:
-        virtual ~BattleConfiger() = default;
+        virtual ~CopilotConfiger() = default;
 
         bool contains_actions(const std::string& stage_name) const noexcept
         {
