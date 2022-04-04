@@ -4154,6 +4154,7 @@
     },
     "Roguelike1ChooseOperConfirm": {
         "action": "clickself",
+        "cache": false,
         "roi": [
             1016,
             602,
@@ -4163,6 +4164,7 @@
         "next": [
             "Roguelike1RecruitSkip",
             "Roguelike1StageEncounterGiveUpRecruitConfirm",
+            "Roguelike1ChooseOperConfirm",
             "Roguelike1RecruitWithoutButton"
         ]
     },
@@ -4416,11 +4418,12 @@
     },
     "Roguelike1ExitThenAbandon": {
         "action": "clickSelf",
+        "cache": false,
         "roi": [
             0,
             0,
-            148,
-            149
+            320,
+            160
         ],
         "next": [
             "Roguelike1ExitThenAbandon",
@@ -4613,6 +4616,7 @@
     },
     "Roguelike1StageEncounterGiveUpRecruit": {
         "template": "Roguelike1ChooseOperConfirm.png",
+        "cache": false,
         "action": "clickSelf",
         "roi": [
             1016,
@@ -4865,6 +4869,7 @@
             50,
             50
         ],
+        "rearDelay": 500,
         "next": [
             "Roguelike1DropsFlag",
             "Roguelike1StageTrader",
