@@ -3805,6 +3805,7 @@
     },
     "ReturnToRoguelike1": {
         "template": "Return.png",
+        "cache": false,
         "action": "clickSelf",
         "roi": [
             0,
