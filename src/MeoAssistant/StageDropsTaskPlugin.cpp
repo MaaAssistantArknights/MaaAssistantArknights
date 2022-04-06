@@ -54,6 +54,8 @@ bool asst::StageDropsTaskPlugin::_run()
     }
     drop_info_callback();
 
+    check_stage_valid();
+
     auto upload_future = std::async(
         std::launch::async,
         std::bind(&StageDropsTaskPlugin::upload_to_penguin, this));
@@ -190,4 +192,26 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     Log.trace("response:\n", response);
 
     callback(AsstMsg::SubTaskCompleted, info);
+}
+
+bool asst::StageDropsTaskPlugin::check_stage_valid()
+{
+    LogTraceFunction;
+
+    std::string stage_code = m_cur_drops.get("stage", "stageCode", std::string());
+
+    if (stage_code.find("-EX-") != std::string::npos) {
+        json::value info = basic_info();
+        info["subtask"] = "CheckStageValid";
+        info["why"] = "EX关卡";
+        callback(AsstMsg::SubTaskError, info);
+
+        m_cast_ptr->set_times_limit("StartButton1", 0)
+            .set_times_limit("StartButton2", 0)
+            .set_times_limit("MedicineConfirm", 0)
+            .set_times_limit("StoneConfirm", 0);
+
+        return true;
+    }
+    return true;
 }

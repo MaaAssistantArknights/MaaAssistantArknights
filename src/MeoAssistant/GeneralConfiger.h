@@ -73,7 +73,7 @@ namespace asst
         }
         void set_emulator_info(std::string name, EmulatorInfo emu)
         {
-            m_emulators_info.emplace(std::move(name), std::move(emu));
+            m_emulators_info[std::move(name)] = std::move(emu);
         }
         void set_emulator_path(std::string name, std::string path)
         {

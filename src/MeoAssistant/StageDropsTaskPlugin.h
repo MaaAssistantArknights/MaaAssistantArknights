@@ -25,6 +25,7 @@ namespace asst
         bool recognize_drops();
         void drop_info_callback();
         void set_startbutton_delay();
+        bool check_stage_valid();
         void upload_to_penguin();
 
         static constexpr int64_t RecognizationTimeOffset = 20;

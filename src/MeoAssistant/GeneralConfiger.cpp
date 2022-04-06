@@ -56,7 +56,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         emulator_info.adb.release = adb_json.at("release").as_string();
         //emulator_info.adb.pullscreen = adb_json.at("pullscreen").as_string();
 
-        m_emulators_info.emplace(name, std::move(emulator_info));
+        m_emulators_info[name] = std::move(emulator_info);
     }
 
     return true;
