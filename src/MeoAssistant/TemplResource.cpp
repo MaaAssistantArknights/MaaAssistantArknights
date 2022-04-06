@@ -47,5 +47,5 @@ const cv::Mat asst::TemplResource::get_templ(const std::string& key) const noexc
 
 void asst::TemplResource::emplace_templ(std::string key, cv::Mat templ)
 {
-    m_templs.emplace(std::move(key), std::move(templ));
+    m_templs[std::move(key)] = std::move(templ);
 }

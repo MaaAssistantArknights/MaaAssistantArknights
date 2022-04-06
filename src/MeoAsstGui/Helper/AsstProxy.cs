@@ -243,6 +243,10 @@ namespace MeoAsstGui
                 case "ReportToPenguinStats":
                     mainModel.AddLog("上传企鹅数据错误", "darkred");
                     break;
+
+                case "CheckStageValid":
+                    mainModel.AddLog("EX 关卡，已停止", "darkred");
+                    break;
             }
         }
 
