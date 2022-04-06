@@ -371,7 +371,28 @@
             255
         ],
         "next": [
-            "StartToWakeUp"
+            "StartToWakeUp",
+            "StartUpConnecting",
+            "Terminal",
+            "CloseAnno",
+            "OfflineConfirm",
+            "TodaysSupplies"
+        ]
+    },
+    "StartUpConnecting": {
+        "action": "doNothing",
+        "roi": [
+            464,
+            560,
+            360,
+            80
+        ],
+        "next": [
+            "StartUpConnecting",
+            "Terminal",
+            "CloseAnno",
+            "OfflineConfirm",
+            "TodaysSupplies"
         ]
     },
     "ReturnToTerminal": {
