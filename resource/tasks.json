@@ -4944,6 +4944,7 @@
             1280,
             157
         ],
+        "templThreshold": 0.85,
         "next": [
             "Roguelike1DropsFlag"
         ]
@@ -4958,6 +4959,7 @@
             1280,
             157
         ],
+        "templThreshold": 0.85,
         "next": [
             "Roguelike1DropsFlag",
             "Roguelike1ClickToDrops"
@@ -4973,6 +4975,7 @@
             1280,
             157
         ],
+        "templThreshold": 0.85,
         "next": [
             "Roguelike1ClickToDrops"
         ]
