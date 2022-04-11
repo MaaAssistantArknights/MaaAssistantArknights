@@ -371,7 +371,28 @@
             255
         ],
         "next": [
-            "StartToWakeUp"
+            "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "Terminal",
+            "CloseAnno",
+            "OfflineConfirm",
+            "TodaysSupplies"
+        ]
+    },
+    "StartUpConnectingFlag": {
+        "action": "DoNothing",
+        "roi": [
+            0,
+            635,
+            450,
+            85
+        ],
+        "next": [
+            "StartUpConnectingFlag",
+            "Terminal",
+            "CloseAnno",
+            "OfflineConfirm",
+            "TodaysSupplies"
         ]
     },
     "ReturnToTerminal": {
@@ -758,6 +779,7 @@
         ],
         "next": [
             "StartToWakeUp",
+            "StartUpConnectingFlag",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
@@ -4056,6 +4078,7 @@
     },
     "ReturnToRoguelike1": {
         "template": "Return.png",
+        "cache": false,
         "action": "ClickSelf",
         "roi": [
             0,
@@ -4390,6 +4413,7 @@
     },
     "Roguelike1ChooseOperConfirm": {
         "action": "ClickSelf",
+        "cache": false,
         "roi": [
             1016,
             602,
@@ -4400,6 +4424,7 @@
             "Roguelike1RecruitSkip",
             "Roguelike1TraderRandomShopping",
             "Roguelike1StageEncounterGiveUpRecruitConfirm",
+            "Roguelike1ChooseOperConfirm",
             "Roguelike1RecruitWithoutButton"
         ]
     },
@@ -4694,11 +4719,12 @@
     },
     "Roguelike1ExitThenAbandon": {
         "action": "ClickSelf",
+        "cache": false,
         "roi": [
             0,
             0,
-            148,
-            149
+            320,
+            160
         ],
         "next": [
             "Roguelike1ExitThenAbandon",
@@ -5168,6 +5194,7 @@
             50,
             50
         ],
+        "rearDelay": 500,
         "next": [
             "Roguelike1StageTrader",
             "Roguelike1StageSafeHouse",
@@ -5224,6 +5251,7 @@
             1280,
             157
         ],
+        "templThreshold": 0.85,
         "next": [
             "Roguelike1DropsFlag"
         ]
@@ -5238,6 +5266,7 @@
             1280,
             157
         ],
+        "templThreshold": 0.85,
         "next": [
             "Roguelike1DropsFlag",
             "Roguelike1ClickToDrops"
@@ -5253,6 +5282,7 @@
             1280,
             157
         ],
+        "templThreshold": 0.85,
         "next": [
             "Roguelike1ClickToDrops"
         ]

@@ -45,7 +45,7 @@ namespace MeoAsstGui
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
             _listTitle.Add("企鹅数据");
-            _listTitle.Add("连接设置");
+            _listTitle.Add("调试设置");
             _listTitle.Add("软件更新");
             //_listTitle.Add("其他");
 
@@ -464,7 +464,7 @@ namespace MeoAsstGui
             }
         }
 
-        /* 连接设置 */
+        /* 调试设置 */
 
         private string _connectAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
 
@@ -492,7 +492,7 @@ namespace MeoAsstGui
 
         public void TryToSetBlueStacksHyperVAddress()
         {
-            if (BluestacksConfPath.Length == 0)
+            if (BluestacksConfPath.Length == 0 || !File.Exists(BluestacksConfPath))
             {
                 return;
             }
