@@ -552,19 +552,21 @@
         ]
     },
     "EndOfAction": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "行动结束"
-        ],
+        "algorithm": "MatchTemplate",
+        "cache": false,
         "roi": [
-            0,
-            440,
-            440,
-            280
+            790,
+            410,
+            137,
+            141
         ],
-        "action": "doNothing",
+        "action": "DoNothing",
         "next": [
             "ClickCorner"
+        ],
+        "maskRange": [
+            60,
+            255
         ]
     },
     "StageDrops": {
