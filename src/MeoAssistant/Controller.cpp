@@ -139,6 +139,11 @@ bool asst::Controller::connect_adb(const std::string & address)
     m_emulator_info.adb.display_width = (std::max)(size_value1, size_value2);
     m_emulator_info.adb.display_height = (std::min)(size_value1, size_value2);
 
+    Log.info("Width:", m_emulator_info.adb.display_width, "Height:", m_emulator_info.adb.display_height);
+    if (m_emulator_info.adb.display_width == 0 || m_emulator_info.adb.display_height == 0) {
+        return false;
+    }
+
     constexpr double DefaultRatio =
         static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault);
     double cur_ratio = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(m_emulator_info.adb.display_height);
@@ -471,7 +476,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
                 read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
             };
         } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
-    }
+}
     else {
         // failed to create child process
         return std::nullopt;
