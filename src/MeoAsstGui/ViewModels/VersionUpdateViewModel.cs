@@ -472,7 +472,6 @@ namespace MeoAsstGui
             }
         }
 
-
         private bool DownloadFileForAria2(string url, string filePath, string fileName)
         {
             var aria2FilePath = Path.GetFullPath(Directory.GetCurrentDirectory() + "/aria2c.exe");
@@ -500,10 +499,10 @@ namespace MeoAsstGui
 
             aria2Process.Start();
             aria2Process.WaitForExit();
+            var exit_code = aria2Process.ExitCode;
             aria2Process.Close();
-            return aria2Process.ExitCode == 0;
+            return exit_code == 0;
         }
-
 
         private bool DownloadFileForCSharpNative(string url, string filePath, string contentType = null)
         {
