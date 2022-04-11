@@ -1756,7 +1756,7 @@
         ],
         "next": [
             "RecruitLoading",
-            "Stop"
+            "SleepThenStop"
         ]
     },
     "RecruitLoading": {
@@ -1774,8 +1774,13 @@
         ],
         "next": [
             "RecruitLoading",
-            "Stop"
+            "SleepThenStop"
         ]
+    },
+    "SleepThenStop": {
+        "algorithm": "JustReturn",
+        "action": "doNothing",
+        "rearDelay": 2000
     },
     "RecruitCheckTimeUnreduced": {
         "action": "Stop",
