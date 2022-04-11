@@ -36,6 +36,10 @@ bool asst::ProcessTask::run()
         Log.info("task is disable, pass", basic_info().to_string());
         return true;
     }
+    if (m_task_delay == TaskDelayUnsetted) {
+        m_task_delay = Resrc.cfg().get_options().task_delay;
+    }
+
     m_cur_tasks_name = m_raw_tasks_name;
     for (m_cur_retry = 0; m_cur_retry <= m_retry_times; ++m_cur_retry) {
         if (_run()) {

@@ -33,6 +33,7 @@ namespace asst
         std::unordered_map<std::string, int> m_rear_delay;
         std::unordered_map<std::string, int> m_times_limit;
         std::unordered_map<std::string, int> m_exec_times;
-        int m_task_delay = 0;
+        static constexpr int TaskDelayUnsetted = -1;
+        int m_task_delay = TaskDelayUnsetted;
     };
 }
