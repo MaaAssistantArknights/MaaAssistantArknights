@@ -46,20 +46,20 @@ bool asst::StageDropsTaskPlugin::_run()
 
     set_startbutton_delay();
 
-    if (!recognize_drops()) {
-        return false;
-    }
-    if (need_exit()) {
-        return false;
-    }
-    drop_info_callback();
+    //if (!recognize_drops()) {
+    //    return false;
+    //}
+    //if (need_exit()) {
+    //    return false;
+    //}
+    //drop_info_callback();
 
-    check_stage_valid();
+    //check_stage_valid();
 
-    auto upload_future = std::async(
-        std::launch::async,
-        std::bind(&StageDropsTaskPlugin::upload_to_penguin, this));
-    m_upload_pending.emplace_back(std::move(upload_future));
+    //auto upload_future = std::async(
+    //    std::launch::async,
+    //    std::bind(&StageDropsTaskPlugin::upload_to_penguin, this));
+    //m_upload_pending.emplace_back(std::move(upload_future));
 
     return true;
 }
