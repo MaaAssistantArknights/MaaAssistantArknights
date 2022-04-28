@@ -434,6 +434,7 @@
             280,
             90
         ],
+        "cache": false,
         "next": [
             "StartButton1"
         ]
@@ -443,12 +444,13 @@
         "text": [
             "开始行动"
         ],
+        "cache": false,
         "preDelay": 500,
-        "roi": [
-            800,
-            400,
-            480,
-            320
+        "roi": [ 
+            1000, 
+            600, 
+            280, 
+            120
         ],
         "action": "clickSelf",
         "next": [
