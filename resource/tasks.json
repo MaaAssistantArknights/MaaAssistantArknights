@@ -4099,7 +4099,8 @@
             154
         ],
         "next": [
-            "Roguelike1ChooseOper"
+            "Roguelike1ChooseOper",
+            "Roguelike1RecruitCloseGuide"
         ],
         "rearDelay": 1000
     },
@@ -4114,9 +4115,22 @@
             154
         ],
         "next": [
-            "Roguelike1ChooseOper"
+            "Roguelike1ChooseOper",
+            "Roguelike1RecruitCloseGuide"
         ],
         "rearDelay": 1000
+    },
+    "Roguelike1RecruitCloseGuide": {
+        "action": "clickSelf",
+        "roi": [
+            56,
+            41,
+            194,
+            134
+        ],
+        "next": [
+            "Roguelike1ChooseOper"
+        ]
     },
     "Roguelike1ChooseOper": {
         "algorithm": "OcrDetect",
@@ -4203,7 +4217,8 @@
             614
         ],
         "next": [
-            "Roguelike1ChooseOperConfirm"
+            "Roguelike1ChooseOperConfirm",
+            "Roguelike1RecruitCloseGuide"
         ]
     },
     "Roguelike1ChooseOperConfirm": {
