@@ -4010,7 +4010,8 @@
             533
         ],
         "next": [
-            "Roguelike1Team3"
+            "Roguelike1Team3",
+            "Roguelike1CloseCollection"
         ]
     },
     "Roguelike1Recruit1": {
@@ -4034,6 +4035,24 @@
             483,
             1280,
             200
+        ],
+        "next": [
+            "Roguelike1LastReward",
+            "Roguelike1LastReward2",
+            "Roguelike1LastReward3",
+            "Roguelike1LastRewardRand",
+            "Roguelike1Team3",
+            "Roguelike1CloseCollection"
+        ]
+    },
+    "Roguelike1CloseCollection": {
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            569,
+            400,
+            140,
+            139
         ],
         "next": [
             "Roguelike1LastReward",
