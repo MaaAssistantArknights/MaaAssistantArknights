@@ -767,7 +767,9 @@
         "next": [
             "CloseAnno",
             "StartToWakeUp",
-            "OfflineConfirm"
+            "StartUpConnectingFlag",
+            "OfflineConfirm",
+            "TodaysSupplies"
         ]
     },
     "StartToWakeUp": {
