@@ -5,6 +5,7 @@
 #include "Controller.h"
 #include "ProcessTask.h"
 #include "RecruitCalcTask.h"
+#include "Logger.hpp"
 
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_level(std::vector<int> select_level) noexcept
 {
@@ -56,6 +57,7 @@ bool asst::AutoRecruitTask::_run()
     if (!m_use_expedited) {
         return true;
     }
+    Log.info("ready to use expedited");
     // 使用加急许可
     for (; m_cur_times < m_max_times; ++m_cur_times) {
         if (need_exit()) {
@@ -84,20 +86,25 @@ bool asst::AutoRecruitTask::analyze_start_buttons()
     auto image = m_ctrler->get_image();
     start_analyzer.set_image(image);
     if (!start_analyzer.analyze()) {
+        Log.info("There is no start button");
         return false;
     }
     start_analyzer.sort_result();
     m_start_buttons = start_analyzer.get_result();
+    Log.info("Recruit start button size", m_start_buttons.size());
     return true;
 }
 
 bool asst::AutoRecruitTask::recruit_index(size_t index)
 {
+    LogTraceFunction;
+
     int delay = Resrc.cfg().get_options().task_delay;
 
     if (m_start_buttons.size() <= index) {
         return false;
     }
+    Log.info("recruit_index", index);
     Rect button = m_start_buttons.at(index).rect;
     m_ctrler->click(button);
     sleep(delay);
@@ -107,6 +114,7 @@ bool asst::AutoRecruitTask::recruit_index(size_t index)
 
 bool asst::AutoRecruitTask::calc_and_recruit()
 {
+    LogTraceFunction;
     RecruitCalcTask recruit_task(m_callback, m_callback_arg, m_task_chain);
     recruit_task.set_param(m_select_level, true)
         .set_retry_times(m_retry_times)

@@ -55,7 +55,7 @@
             850,
             140,
             250,
-            80
+            220
         ]
     },
     "BI-8": {
@@ -225,7 +225,7 @@
             850,
             140,
             250,
-            80
+            220
         ]
     },
     "AP-5": {
@@ -271,7 +271,7 @@
             850,
             140,
             250,
-            80
+            220
         ]
     },
     "CE-5": {
@@ -317,7 +317,7 @@
             850,
             140,
             250,
-            80
+            220
         ]
     },
     "Annihilation": {
@@ -434,6 +434,7 @@
             280,
             90
         ],
+        "cache": false,
         "next": [
             "StartButton1"
         ]
@@ -443,12 +444,13 @@
         "text": [
             "开始行动"
         ],
+        "cache": false,
         "preDelay": 500,
-        "roi": [
-            800,
-            400,
-            480,
-            320
+        "roi": [ 
+            1000, 
+            600, 
+            280, 
+            120
         ],
         "action": "ClickSelf",
         "next": [
@@ -559,9 +561,9 @@
         ],
         "roi": [
             0,
+            120,
             440,
-            440,
-            280
+            600
         ],
         "action": "DoNothing",
         "next": [
@@ -766,7 +768,9 @@
         "next": [
             "CloseAnno",
             "StartToWakeUp",
-            "OfflineConfirm"
+            "StartUpConnectingFlag",
+            "OfflineConfirm",
+            "TodaysSupplies"
         ]
     },
     "StartToWakeUp": {
@@ -1757,7 +1761,7 @@
         ],
         "next": [
             "RecruitLoading",
-            "Stop"
+            "SleepThenStop"
         ]
     },
     "RecruitLoading": {
@@ -1775,8 +1779,13 @@
         ],
         "next": [
             "RecruitLoading",
-            "Stop"
+            "SleepThenStop"
         ]
+    },
+    "SleepThenStop": {
+        "algorithm": "JustReturn",
+        "action": "doNothing",
+        "rearDelay": 2000
     },
     "RecruitCheckTimeUnreduced": {
         "action": "Stop",
@@ -4252,7 +4261,8 @@
             533
         ],
         "next": [
-            "Roguelike1Team3"
+            "Roguelike1Team3",
+            "Roguelike1CloseCollection"
         ]
     },
     "Roguelike1Recruit1": {
@@ -4276,6 +4286,24 @@
             483,
             1280,
             200
+        ],
+        "next": [
+            "Roguelike1LastReward",
+            "Roguelike1LastReward2",
+            "Roguelike1LastReward3",
+            "Roguelike1LastRewardRand",
+            "Roguelike1Team3",
+            "Roguelike1CloseCollection"
+        ]
+    },
+    "Roguelike1CloseCollection": {
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            569,
+            400,
+            140,
+            139
         ],
         "next": [
             "Roguelike1LastReward",
@@ -4322,7 +4350,8 @@
             154
         ],
         "next": [
-            "Roguelike1ChooseOper"
+            "Roguelike1ChooseOper",
+            "Roguelike1RecruitCloseGuide"
         ],
         "rearDelay": 1000
     },
@@ -4337,9 +4366,22 @@
             154
         ],
         "next": [
-            "Roguelike1ChooseOper"
+            "Roguelike1ChooseOper",
+            "Roguelike1RecruitCloseGuide"
         ],
         "rearDelay": 1000
+    },
+    "Roguelike1RecruitCloseGuide": {
+        "action": "clickSelf",
+        "roi": [
+            56,
+            41,
+            194,
+            134
+        ],
+        "next": [
+            "Roguelike1ChooseOper"
+        ]
     },
     "Roguelike1ChooseOper": {
         "Doc": "本任务注册了插件 RoguelikeRecruitTaskPlugin",
@@ -4389,6 +4431,10 @@
             [
                 "健影",
                 "傀影"
+            ],
+            [
+                "赤赤黑大",
+                "赫默"
             ]
         ],
         "roi": [
@@ -4408,7 +4454,8 @@
             118
         ],
         "next": [
-            "Roguelike1ChooseOper"
+            "Roguelike1ChooseOper",
+            "Roguelike1RecruitCloseGuide"
         ]
     },
     "Roguelike1ChooseOperConfirm": {
