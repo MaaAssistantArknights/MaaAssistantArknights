@@ -4,10 +4,7 @@
 
 #include <meojson/json.hpp>
 #include <opencv2/opencv.hpp>
-namespace penguin
-{
-#include <penguin-stats-recognize/penguin.h>
-}
+#include <penguin-stats-recognize/recognizer.hpp>
 
 #include "AsstUtils.hpp"
 
@@ -24,14 +21,15 @@ bool asst::PenguinPack::load(const std::string& dir)
 void asst::PenguinPack::set_language(const std::string& server)
 {
     m_language = server;
-    penguin::load_server(server.c_str());
+    ::load_server(server);
 }
 
 std::string asst::PenguinPack::recognize(const cv::Mat image)
 {
-    std::vector<uchar> buf;
-    cv::imencode(".png", image, buf);
-    return penguin::recognize(buf.data(), buf.size());
+    Recognizer recognizer("RESULT");
+    auto report = recognizer.recognize(image);
+
+    return report.dump(4);
 }
 
 bool asst::PenguinPack::load_json(const std::string& stage_path, const std::string& hash_path)
@@ -73,21 +71,27 @@ bool asst::PenguinPack::load_json(const std::string& stage_path, const std::stri
         m_last_error = stage_path + " parsing error " + e.what();
         return false;
     }
-    std::string cvt_stage_string = cvt_stage_json.to_string();
-    penguin::load_json(cvt_stage_string.c_str(), utils::load_file_without_bom(hash_path).c_str());
+    ::wload_stage_index(cvt_stage_json.to_string());
+
+    ::wload_hash_index(utils::load_file_without_bom(hash_path));
     return true;
 }
 
 bool asst::PenguinPack::load_templ(const std::string& item_id, const std::string& path)
 {
-    cv::Mat image = cv::imread(path);
-    if (image.empty()) {
+    cv::Mat templ = cv::imread(path);
+    if (templ.empty()) {
         m_last_error = "templ is empty";
         return false;
     }
-    std::vector<uchar> buf;
-    cv::imencode(".png", image, buf);
-    penguin::load_templ(item_id.c_str(), buf.data(), buf.size());
+
+    auto& resource = penguin::resource;
+    if (!resource.contains<std::map<std::string, cv::Mat>>("item_templs")) {
+        resource.add("item_templs", std::map<std::string, cv::Mat>());
+    }
+    auto& item_templs =
+        resource.get<std::map<std::string, cv::Mat>>("item_templs");
+    item_templs.emplace(item_id, templ);
 
     return true;
 }
