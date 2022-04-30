@@ -261,7 +261,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
                 read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
             };
         } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
-    }
+}
     else {
         // failed to create child process
         return std::nullopt;
