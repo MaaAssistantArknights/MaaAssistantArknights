@@ -125,6 +125,8 @@ namespace MeoAsstGui
 
         public async void LinkStart()
         {
+            Idle = false;
+
             ClearLog();
 
             SaveSettingValue();
@@ -140,6 +142,7 @@ namespace MeoAsstGui
             if (!catchd)
             {
                 AddLog("连接模拟器失败\n请参考使用说明处理", "darkred");
+                Idle = true;
                 return;
             }
 
@@ -199,9 +202,16 @@ namespace MeoAsstGui
             if (count == 0)
             {
                 AddLog("未选择任务");
+                Idle = true;
                 return;
             }
             setPenguinId();
+
+            if (Idle)   // 一般是点了“停止”按钮了
+            {
+                return;
+            }
+
             ret &= asstProxy.AsstStart();
 
             if (ret)
@@ -212,7 +222,6 @@ namespace MeoAsstGui
             {
                 AddLog("出现未知错误");
             }
-            Idle = !ret;
         }
 
         public void Stop()
