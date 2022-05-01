@@ -9,7 +9,8 @@
             "CloseAnno",
             "TodaysSupplies",
             "ReturnToTerminal",
-            "OfflineConfirm"
+            "OfflineConfirm",
+            "StageSNFlag"
         ]
     },
     "LS-6": {
@@ -576,6 +577,17 @@
             "UseStone",
             "NoStone"
         ]
+    },
+    "StageSNFlag": {
+        "template": "StageSNReturnFlag.png",
+        "cache": false,
+        "roi": [
+            809,
+            0,
+            146,
+            146
+        ],
+        "action": "DoNothing"
     },
     "StageSNReturnFlag": {
         "Doc": "三周年活动关卡“愚人号”的“开始行动”界面，没有返回按钮，点一下返回后面任务出错",
