@@ -4744,6 +4744,9 @@
     "Roguelike1StageTraderInvestSystemFull": {
         "algorithm": "OcrDetect",
         "cache": false,
+        "reduceOtherTimes": [
+            "Roguelike1StageTraderInvestConfirm"
+        ],
         "text": [
             "当前储备余额已达上限",
             "当前",
