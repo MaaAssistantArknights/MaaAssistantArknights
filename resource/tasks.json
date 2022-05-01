@@ -12,6 +12,53 @@
             "OfflineConfirm"
         ]
     },
+    "LS-6": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "StageResourceToLS6",
+            "StageLSToStageLS6",
+            "StageLS6"
+        ]
+    },
+    "StageResourceToLS6": {
+        "template": "StageResource.png",
+        "roi": [
+            640,
+            640,
+            300,
+            60
+        ],
+        "action": "clickSelf",
+        "next": [
+            "SwipeToStageLS6"
+        ]
+    },
+    "SwipeToStageLS6": {
+        "algorithm": "justReturn",
+        "action": "swipeToTheLeft",
+        "next": [
+            "StageLSToStageLS6"
+        ]
+    },
+    "StageLSToStageLS6": {
+        "template": "StageLS.png",
+        "action": "clickSelf",
+        "cache": false,
+        "next": [
+            "StageLS6"
+        ]
+    },
+    "StageLS6": {
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            923,
+            102,
+            259,
+            136
+        ]
+    },
     "LS-5": {
         "algorithm": "justreturn",
         "action": "doNothing",
@@ -272,6 +319,53 @@
             140,
             250,
             220
+        ]
+    },
+    "CE-6": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "StageResourceToCE6",
+            "StageCE",
+            "StageCE6"
+        ]
+    },
+    "StageResourceToCE6": {
+        "template": "StageResource.png",
+        "roi": [
+            640,
+            640,
+            300,
+            60
+        ],
+        "action": "clickSelf",
+        "next": [
+            "SwipeToStageCE6"
+        ]
+    },
+    "SwipeToStageCE6": {
+        "algorithm": "justReturn",
+        "action": "swipeToTheLeft",
+        "next": [
+            "StageCEToCE6"
+        ]
+    },
+    "StageCEToCE6": {
+        "template": "StageCE.png",
+        "action": "clickSelf",
+        "cache": false,
+        "next": [
+            "StageCE6"
+        ]
+    },
+    "StageCE6": {
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            936,
+            101,
+            243,
+            143
         ]
     },
     "CE-5": {
