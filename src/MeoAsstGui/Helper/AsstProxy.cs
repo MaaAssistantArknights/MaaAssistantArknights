@@ -274,6 +274,10 @@ namespace MeoAsstGui
                         mainModel.AddLog("已碎石 " + execTimes + " 颗", "darkcyan");
                         break;
 
+                    case "AbandonAction":
+                        mainModel.AddLog("代理指挥失误", "darkred");
+                        break;
+
                     case "RecruitRefreshConfirm":
                         mainModel.AddLog("已刷新标签", "darkcyan");
                         break;
