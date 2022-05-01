@@ -476,7 +476,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
                 read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
             };
         } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
-}
+    }
     else {
         // failed to create child process
         return std::nullopt;
@@ -832,13 +832,19 @@ int asst::Controller::swipe_without_scale(const Rect & r1, const Rect & r2, int 
     return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
 
-cv::Mat asst::Controller::get_image()
+cv::Mat asst::Controller::get_image(bool raw)
 {
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
     for (int i = 0; i != 20; ++i) {
         if (screencap()) {
             break;
         }
+    }
+
+    if (raw) {
+        std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
+        cv::Mat copy = m_cache_image.clone();
+        return copy;
     }
 
     return get_resized_image();
