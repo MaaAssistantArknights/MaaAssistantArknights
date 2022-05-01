@@ -471,12 +471,33 @@
             280,
             120
         ],
+        "exceededNext": [
+            "StageSNReturnFlag",
+            "Stop"
+        ],
         "action": "clickSelf",
         "next": [
             "StartButton2",
             "UseMedicine",
             "UseStone",
             "NoStone"
+        ]
+    },
+    "StageSNReturnFlag": {
+        "Doc": "三周年活动关卡“愚人号”的“开始行动”界面，没有返回按钮，点一下返回后面任务出错",
+        "action": "ClickRect",
+        "cache": false,
+        "roi": [
+            809,
+            0,
+            146,
+            146
+        ],
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
         ]
     },
     "StartButton2": {
