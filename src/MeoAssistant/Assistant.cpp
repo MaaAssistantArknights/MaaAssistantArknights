@@ -193,6 +193,7 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
         .set_times_limit("GoLastBattle", 0)
         .set_times_limit("StartButton1", 0)
         .set_times_limit("StartButton2", 0)
+        .set_times_limit("StageSNReturnFlag", 0)
         .set_times_limit("MedicineConfirm", 0)
         .set_times_limit("StoneConfirm", 0);
 
@@ -201,6 +202,7 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
     stage_task_ptr->set_tasks({ stage })
         .set_times_limit("StartButton1", 0)
         .set_times_limit("StartButton2", 0)
+        .set_times_limit("StageSNReturnFlag", 0)
         .set_times_limit("MedicineConfirm", 0)
         .set_times_limit("StoneConfirm", 0);
 

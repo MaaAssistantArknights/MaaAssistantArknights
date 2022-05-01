@@ -582,10 +582,10 @@
         "template": "StageSNReturnFlag.png",
         "cache": false,
         "roi": [
-            809,
-            0,
-            146,
-            146
+            284,
+            509,
+            242,
+            141
         ],
         "action": "DoNothing"
     },
@@ -594,10 +594,10 @@
         "action": "ClickRect",
         "cache": false,
         "roi": [
-            809,
-            0,
-            146,
-            146
+            284,
+            509,
+            242,
+            141
         ],
         "specificRect": [
             20,
@@ -826,6 +826,7 @@
             400
         ],
         "next": [
+            "StageSNReturnFlag",
             "Stop"
         ]
     },
