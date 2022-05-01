@@ -350,6 +350,7 @@
         "action": "doNothing",
         "next": [
             "UsePrts",
+            "UsePrts-StageSN",
             "StartButton1",
             "PRTS",
             "PRTS2",
@@ -439,6 +440,24 @@
             "StartButton1"
         ]
     },
+    "UsePrts-StageSN": {
+        "Doc": "三周年活动关卡“愚人号”代理指挥按钮",
+        "action": "ClickSelf",
+        "roi": [
+            1010,
+            508,
+            270,
+            143
+        ],
+        "cache": false,
+        "next": [
+            "StartButton1"
+        ],
+        "maskRange": [
+            50,
+            255
+        ]
+    },
     "StartButton1": {
         "algorithm": "OcrDetect",
         "text": [
@@ -446,10 +465,10 @@
         ],
         "cache": false,
         "preDelay": 500,
-        "roi": [ 
-            1000, 
-            600, 
-            280, 
+        "roi": [
+            1000,
+            600,
+            280,
             120
         ],
         "action": "clickSelf",
@@ -872,6 +891,7 @@
         "action": "clickSelf",
         "next": [
             "UsePrts",
+            "UsePrts-StageSN",
             "StartButton1"
         ]
     },
