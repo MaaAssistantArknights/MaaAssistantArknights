@@ -128,7 +128,7 @@ bool ProcessTask::_run()
                 { "exec_times", exec_times },
                 { "max_times", max_times }
             };
-            Log.info("exec times exceeds the limit", info.to_string());
+            Log.info("exec times exceeded the limit", info.to_string());
             m_cur_tasks_name = cur_task_ptr->exceeded_next;
             sleep(task_delay);
             continue;
