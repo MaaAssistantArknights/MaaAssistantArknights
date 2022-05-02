@@ -437,7 +437,8 @@
         "next": [
             "ReturnToTerminal",
             "Terminal",
-            "CloseAnno"
+            "CloseAnno",
+            "StageSNReturnToTerminal"
         ]
     },
     "FightBegin": {
@@ -504,7 +505,8 @@
             "ReturnToTerminal",
             "Terminal",
             "ReturnToTerminalConfirm",
-            "CloseAnno"
+            "CloseAnno",
+            "StageSNReturnToTerminal"
         ]
     },
     "ReturnToTerminalConfirm": {
@@ -519,7 +521,8 @@
         "next": [
             "ReturnToTerminal",
             "Terminal",
-            "CloseAnno"
+            "CloseAnno",
+            "StageSNReturnToTerminal"
         ]
     },
     "UsePrts": {
@@ -604,6 +607,149 @@
             20,
             135,
             35
+        ],
+        "next": [
+            "Stop"
+        ]
+    },
+    "StageSNReturnToAward": {
+        "template": "StageSNReturnFlag.png",
+        "action": "ClickRect",
+        "cache": false,
+        "roi": [
+            284,
+            509,
+            242,
+            141
+        ],
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ],
+        "next": [
+            "ReturnToAward"
+        ]
+    },
+    "StageSNReturnToFriends": {
+        "template": "StageSNReturnFlag.png",
+        "action": "ClickRect",
+        "cache": false,
+        "roi": [
+            284,
+            509,
+            242,
+            141
+        ],
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ],
+        "next": [
+            "ReturnToFriends"
+        ]
+    },
+    "StageSNReturnToInfrast": {
+        "template": "StageSNReturnFlag.png",
+        "action": "ClickRect",
+        "cache": false,
+        "roi": [
+            284,
+            509,
+            242,
+            141
+        ],
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ],
+        "next": [
+            "ReturnToInfrast"
+        ]
+    },
+    "StageSNReturnToMall": {
+        "template": "StageSNReturnFlag.png",
+        "action": "ClickRect",
+        "cache": false,
+        "roi": [
+            284,
+            509,
+            242,
+            141
+        ],
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ],
+        "next": [
+            "ReturnToMall"
+        ]
+    },
+    "StageSNReturnToRecruit": {
+        "template": "StageSNReturnFlag.png",
+        "action": "ClickRect",
+        "cache": false,
+        "roi": [
+            284,
+            509,
+            242,
+            141
+        ],
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ],
+        "next": [
+            "ReturnToRecruit"
+        ]
+    },
+    "StageSNReturnToRoguelike1": {
+        "template": "StageSNReturnFlag.png",
+        "action": "ClickRect",
+        "cache": false,
+        "roi": [
+            284,
+            509,
+            242,
+            141
+        ],
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ],
+        "next": [
+            "ReturnToRoguelike1"
+        ]
+    },
+    "StageSNReturnToTerminal": {
+        "template": "StageSNReturnFlag.png",
+        "action": "ClickRect",
+        "cache": false,
+        "roi": [
+            284,
+            509,
+            242,
+            141
+        ],
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ],
+        "next": [
+            "ReturnToTerminal"
         ]
     },
     "StartButton2": {
@@ -1031,7 +1177,8 @@
             "RecruitFlag",
             "Recruit",
             "ReturnToRecruit",
-            "ReturnToRecruitCloseAnno"
+            "ReturnToRecruitCloseAnno",
+            "StageSNReturnToRecruit"
         ]
     },
     "ReturnToRecruit": {
@@ -1047,7 +1194,8 @@
             "Recruit",
             "ReturnToRecruit",
             "ReturnToRecruitConfirm",
-            "ReturnToRecruitCloseAnno"
+            "ReturnToRecruitCloseAnno",
+            "StageSNReturnToRecruit"
         ]
     },
     "ReturnToRecruitConfirm": {
@@ -1062,7 +1210,8 @@
         "next": [
             "Recruit",
             "ReturnToRecruit",
-            "ReturnToRecruitCloseAnno"
+            "ReturnToRecruitCloseAnno",
+            "StageSNReturnToRecruit"
         ]
     },
     "ReturnToRecruitCloseAnno": {
@@ -1078,7 +1227,8 @@
         "next": [
             "Recruit",
             "ReturnToRecruitCloseAnno",
-            "ReturnToRecruit"
+            "ReturnToRecruit",
+            "StageSNReturnToRecruit"
         ]
     },
     "Recruit": {
@@ -1249,7 +1399,8 @@
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
-            "ReturnToRecruitCloseAnno"
+            "ReturnToRecruitCloseAnno",
+            "StageSNReturnToAward"
         ]
     },
     "Award": {
@@ -1361,7 +1512,8 @@
             "Award",
             "ReturnToAward",
             "ReturnToAwardConfirm",
-            "ReturnToRecruitCloseAnno"
+            "ReturnToRecruitCloseAnno",
+            "StageSNReturnToAward"
         ]
     },
     "ReturnToAwardConfirm": {
@@ -1376,7 +1528,8 @@
         "next": [
             "Award",
             "ReturnToAward",
-            "ReturnToRecruitCloseAnno"
+            "ReturnToRecruitCloseAnno",
+            "StageSNReturnToAward"
         ]
     },
     "ReturnToAwardCloseAnno": {
@@ -1392,7 +1545,8 @@
         "next": [
             "Award",
             "ReturnToRecruitCloseAnno",
-            "ReturnToAward"
+            "ReturnToAward",
+            "StageSNReturnToAward"
         ]
     },
     "VisitBegin": {
@@ -1405,7 +1559,8 @@
             "VisitNext",
             "VisitNextBlack",
             "ReturnToFriends",
-            "ReturnToFriendsCloseAnno"
+            "ReturnToFriendsCloseAnno",
+            "StageSNReturnToFriends"
         ]
     },
     "ReturnToFriends": {
@@ -1421,7 +1576,8 @@
             "Friends",
             "ReturnToFriends",
             "ReturnToFriendsConfirm",
-            "ReturnToFriendsCloseAnno"
+            "ReturnToFriendsCloseAnno",
+            "StageSNReturnToFriends"
         ]
     },
     "ReturnToFriendsConfirm": {
@@ -1436,7 +1592,8 @@
         "next": [
             "Friends",
             "ReturnToFriends",
-            "ReturnToFriendsCloseAnno"
+            "ReturnToFriendsCloseAnno",
+            "StageSNReturnToFriends"
         ]
     },
     "ReturnToFriendsCloseAnno": {
@@ -1452,7 +1609,8 @@
         "next": [
             "Friends",
             "ReturnToFriends",
-            "ReturnToFriendsCloseAnno"
+            "ReturnToFriendsCloseAnno",
+            "StageSNReturnToFriends"
         ]
     },
     "Friends": {
@@ -1554,7 +1712,8 @@
         "next": [
             "ReturnToMall",
             "Mall",
-            "ReturnToMallCloseAnno"
+            "ReturnToMallCloseAnno",
+            "StageSNReturnToMall"
         ]
     },
     "ReturnToMall": {
@@ -1570,7 +1729,8 @@
             "Mall",
             "ReturnToMallConfirm",
             "ReturnToMall",
-            "ReturnToMallCloseAnno"
+            "ReturnToMallCloseAnno",
+            "StageSNReturnToMall"
         ]
     },
     "ReturnToMallConfirm": {
@@ -1585,7 +1745,8 @@
         "next": [
             "ReturnToMall",
             "Mall",
-            "ReturnToMallCloseAnno"
+            "ReturnToMallCloseAnno",
+            "StageSNReturnToMall"
         ]
     },
     "ReturnToMallCloseAnno": {
@@ -1601,7 +1762,8 @@
         "next": [
             "Mall",
             "ReturnToMallCloseAnno",
-            "ReturnToMall"
+            "ReturnToMall",
+            "StageSNReturnToMall"
         ]
     },
     "Mall": {
@@ -1984,7 +2146,8 @@
             "InfrastEnteredFlag",
             "InfrastNotification",
             "ReturnToInfrast",
-            "ReturnToInfrastCloseAnno"
+            "ReturnToInfrastCloseAnno",
+            "StageSNReturnToInfrast"
         ]
     },
     "ReturnToInfrast": {
@@ -2002,7 +2165,8 @@
             "InfrastEnteredFlag",
             "ReturnToInfrast",
             "ReturnToInfrastConfirm",
-            "ReturnToInfrastCloseAnno"
+            "ReturnToInfrastCloseAnno",
+            "StageSNReturnToInfrast"
         ]
     },
     "ReturnToInfrastConfirm": {
@@ -2019,7 +2183,8 @@
             "InfrastNotification",
             "InfrastEnteredFlag",
             "ReturnToInfrast",
-            "ReturnToInfrastCloseAnno"
+            "ReturnToInfrastCloseAnno",
+            "StageSNReturnToInfrast"
         ]
     },
     "ReturnToInfrastCloseAnno": {
@@ -2037,7 +2202,8 @@
             "InfrastNotification",
             "InfrastEnteredFlag",
             "ReturnToInfrast",
-            "ReturnToInfrastCloseAnno"
+            "ReturnToInfrastCloseAnno",
+            "StageSNReturnToInfrast"
         ]
     },
     "Return": {
@@ -3999,7 +4165,8 @@
             "TerminalToRoguelike1",
             "ReturnToRoguelike1",
             "ReturnToRoguelike1Confirm",
-            "CloseAnnoToRoguelike1"
+            "CloseAnnoToRoguelike1",
+            "StageSNReturnToRoguelike1"
         ]
     },
     "ReturnToRoguelike1Confirm": {
@@ -4014,7 +4181,8 @@
         "next": [
             "TerminalToRoguelike1",
             "ReturnToRoguelike1",
-            "CloseAnnoToRoguelike1"
+            "CloseAnnoToRoguelike1",
+            "StageSNReturnToRoguelike1"
         ]
     },
     "OfflineConfirmToRoguelike1": {
@@ -4045,7 +4213,8 @@
             "ReturnToRoguelike1",
             "ReturnToRoguelike1Confirm",
             "OfflineConfirmToRoguelike1",
-            "StartToWakeUpToRoguelike1"
+            "StartToWakeUpToRoguelike1",
+            "StageSNReturnToRoguelike1"
         ]
     },
     "Roguelike1Continue": {
