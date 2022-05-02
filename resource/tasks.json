@@ -478,7 +478,7 @@
         ]
     },
     "StartUpConnectingFlag": {
-        "action": "doNothing",
+        "action": "clickSelf",
         "roi": [
             0,
             635,
