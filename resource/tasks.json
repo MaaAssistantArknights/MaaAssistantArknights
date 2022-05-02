@@ -13,6 +13,184 @@
             "StageSNFlag"
         ]
     },
+    "1-7": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "StageThemeTo1-7",
+            "StageThemeEpisode3ToEpisode1To1-7",
+            "StageThemeEpisode2ToEpisode1To1-7",
+            "StageThemeEpisode1To1-7",
+            "Stage1-7"
+        ]
+    },
+    "StageThemeTo1-7": {
+        "template": "StageTheme.png",
+        "roi": [
+            200,
+            640,
+            300,
+            60
+        ],
+        "action": "clickSelf",
+        "next": [
+            "StageThemeChapter3ToChapter2To1-7"
+        ]
+    },
+    "StageThemeChapter3ToChapter2To1-7": {
+        "algorithm": "OcrDetect",
+        "action": "clickSelf",
+        "text": [
+            "幻灭"
+        ],
+        "roi": [
+            200,
+            120,
+            80,
+            32
+        ],
+        "cache": false,
+        "next": [
+            "StageThemeChapter2ToChapter1To1-7"
+        ]
+    },
+    "StageThemeChapter2ToChapter1To1-7": {
+        "algorithm": "OcrDetect",
+        "action": "clickSelf",
+        "text": [
+            "觉醒"
+        ],
+        "roi": [
+            200,
+            120,
+            80,
+            32
+        ],
+        "cache": false,
+        "next": [
+            "StageThemeEpisode3ToEpisode1To1-7",
+            "StageThemeEpisode2ToEpisode1To1-7",
+            "StageThemeEpisode1To1-7"
+        ]
+    },
+    "StageThemeEpisode3ToEpisode1To1-7": {
+        "action": "clickSelf",
+        "roi": [
+            250,
+            320,
+            155,
+            200
+        ],
+        "cache": false,
+        "next": [
+            "Stage1-7",
+            "SwipeLeftToStage1-7",
+            "SwipeRightToStage1-7",
+            "SwipeRightToStage1-7From1-6"
+        ]
+    },
+    "StageThemeEpisode2ToEpisode1To1-7": {
+        "action": "clickSelf",
+        "roi": [
+            480,
+            230,
+            280,
+            300
+        ],
+        "cache": false,
+        "next": [
+            "Stage1-7",
+            "SwipeLeftToStage1-7",
+            "SwipeRightToStage1-7",
+            "SwipeRightToStage1-7From1-6"
+        ]
+    },
+    "StageThemeEpisode1To1-7": {
+        "action": "clickSelf",
+        "roi": [
+            750,
+            160,
+            400,
+            400
+        ],
+        "cache": false,
+        "next": [
+            "Stage1-7",
+            "SwipeLeftToStage1-7",
+            "SwipeRightToStage1-7",
+            "SwipeRightToStage1-7From1-6"
+        ]
+    },
+    "SwipeLeftToStage1-7": {
+        "algorithm": "OcrDetect",
+        "action": "swipeToTheLeft",
+        "text": [
+            "1-10"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            120,
+            1080,
+            480
+        ],
+        "next": [
+            "Stage1-7",
+            "SwipeLeftToStage1-7"
+        ]
+    },
+    "SwipeRightToStage1-7": {
+        "algorithm": "OcrDetect",
+        "action": "swipeToTheRight",
+        "text": [
+            "1-3"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            120,
+            1080,
+            480
+        ],
+        "next": [
+            "Stage1-7",
+            "SwipeRightToStage1-7",
+            "SwipeRightToStage1-7From1-6"
+        ]
+    },
+    "SwipeRightToStage1-7From1-6": {
+        "algorithm": "OcrDetect",
+        "action": "swipeToTheRight",
+        "text": [
+            "1-6"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            120,
+            1080,
+            480
+        ],
+        "next": [
+            "Stage1-7",
+            "SwipeRightToStage1-7",
+            "SwipeRightToStage1-7From1-6"
+        ]
+    },
+    "Stage1-7": {
+        "algorithm": "OcrDetect",
+        "action": "clickSelf",
+        "text": [
+            "1-7"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            190,
+            1080,
+            60
+        ]
+    },
     "LS-6": {
         "algorithm": "justreturn",
         "action": "doNothing",
