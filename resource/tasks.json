@@ -5,6 +5,7 @@
         "next": [
             "GameStart",
             "StartToWakeUp",
+            "StartUpConnectingFlag",
             "Terminal",
             "CloseAnno",
             "TodaysSupplies",
@@ -1002,6 +1003,7 @@
             "FightMissionFailed",
             "EndOfAction",
             "StartToWakeUp",
+            "StartUpConnectingFlag",
             "OfflineConfirm",
             "StartButton1"
         ]
@@ -1021,6 +1023,7 @@
         "next": [
             "EndOfAction",
             "StartToWakeUp",
+            "StartUpConnectingFlag",
             "OfflineConfirm",
             "StartButton1"
         ]
@@ -1039,7 +1042,8 @@
             "PRTS2",
             "PrtsErrorConfirm",
             "OfflineConfirm",
-            "StartToWakeUp"
+            "StartToWakeUp",
+            "StartUpConnectingFlag"
         ]
     },
     "OfflineConfirm": {
@@ -4071,6 +4075,25 @@
             100
         ],
         "next": [
+            "StartToWakeUpToRoguelike1",
+            "StartUpConnectingToRoguelike1",
+            "TerminalToRoguelike1",
+            "CloseAnnoToRoguelike1",
+            "TodaysSuppliesToRoguelike1"
+        ]
+    },
+    "StartUpConnectingToRoguelike1": {
+        "template": "StartUpConnectingFlag.png",
+        "action": "doNothing",
+        "roi": [
+            520,
+            460,
+            240,
+            100
+        ],
+        "next": [
+            "StartUpConnectingToRoguelike1",
+            "StartToWakeUpToRoguelike1",
             "TerminalToRoguelike1",
             "CloseAnnoToRoguelike1",
             "TodaysSuppliesToRoguelike1"
@@ -4194,6 +4217,7 @@
         "next": [
             "CloseAnnoToRoguelike1",
             "StartToWakeUpToRoguelike1",
+            "StartUpConnectingToRoguelike1",
             "OfflineConfirmToRoguelike1"
         ]
     },
@@ -4211,6 +4235,7 @@
             "ReturnToRoguelike1Confirm",
             "OfflineConfirmToRoguelike1",
             "StartToWakeUpToRoguelike1",
+            "StartUpConnectingToRoguelike1",
             "StageSNReturnToRoguelike1"
         ]
     },
