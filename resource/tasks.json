@@ -486,6 +486,7 @@
             85
         ],
         "next": [
+            "StartToWakeUp",
             "StartUpConnectingFlag",
             "Terminal",
             "CloseAnno",
@@ -4092,8 +4093,8 @@
             100
         ],
         "next": [
-            "StartUpConnectingToRoguelike1",
             "StartToWakeUpToRoguelike1",
+            "StartUpConnectingToRoguelike1",
             "TerminalToRoguelike1",
             "CloseAnnoToRoguelike1",
             "TodaysSuppliesToRoguelike1"
