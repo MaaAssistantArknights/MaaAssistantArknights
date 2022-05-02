@@ -550,10 +550,6 @@
         "cache": false,
         "next": [
             "StartButton1"
-        ],
-        "maskRange": [
-            50,
-            255
         ]
     },
     "StartButton1": {
