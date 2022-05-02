@@ -6,6 +6,7 @@
             "GameStart",
             "StartToWakeUp",
             "StartUpConnectingFlag",
+            "StartLoginBServer",
             "Terminal",
             "CloseAnno",
             "TodaysSupplies",
@@ -471,6 +472,7 @@
         "next": [
             "StartToWakeUp",
             "StartUpConnectingFlag",
+            "StartLoginBServer",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
@@ -487,7 +489,25 @@
         ],
         "next": [
             "StartToWakeUp",
+            "StartLoginBServer",
             "StartUpConnectingFlag",
+            "Terminal",
+            "CloseAnno",
+            "OfflineConfirm",
+            "TodaysSupplies"
+        ]
+    },
+    "StartLoginBServer": {
+        "action": "clickSelf",
+        "roi": [
+            440,
+            370,
+            400,
+            80
+        ],
+        "next": [
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
@@ -1005,6 +1025,7 @@
             "EndOfAction",
             "StartToWakeUp",
             "StartUpConnectingFlag",
+            "StartLoginBServer",
             "OfflineConfirm",
             "StartButton1"
         ]
@@ -1025,6 +1046,7 @@
             "EndOfAction",
             "StartToWakeUp",
             "StartUpConnectingFlag",
+            "StartLoginBServer",
             "OfflineConfirm",
             "StartButton1"
         ]
@@ -1044,7 +1066,8 @@
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "StartToWakeUp",
-            "StartUpConnectingFlag"
+            "StartUpConnectingFlag",
+            "StartLoginBServer"
         ]
     },
     "OfflineConfirm": {
@@ -1063,6 +1086,7 @@
             "CloseAnno",
             "StartToWakeUp",
             "StartUpConnectingFlag",
+            "StartLoginBServer",
             "OfflineConfirm",
             "TodaysSupplies"
         ]
@@ -1078,6 +1102,7 @@
         "next": [
             "StartToWakeUp",
             "StartUpConnectingFlag",
+            "StartLoginBServer",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
