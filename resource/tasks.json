@@ -578,7 +578,8 @@
             "StartButton2",
             "UseMedicine",
             "UseStone",
-            "NoStone"
+            "NoStone",
+            "OfflineConfirm"
         ]
     },
     "StageSNFlag": {
