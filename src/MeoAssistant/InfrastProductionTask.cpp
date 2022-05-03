@@ -200,6 +200,7 @@ size_t asst::InfrastProductionTask::opers_detect()
             continue;
         }
         // 心情过低的干员则不可用
+        Log.trace("mood", cur_oper.mood_ratio, "threshold", m_mood_threshold);
         if (cur_oper.mood_ratio < m_mood_threshold) {
             //--cur_available_num;
             continue;
