@@ -75,7 +75,8 @@ namespace MeoAsstGui
                 new CombData { Display = "红票-5", Value = "AP-5" },
                 new CombData { Display = "经验-5", Value = "LS-5" },
                 new CombData { Display = "经验-6", Value = "LS-6" },
-                new CombData { Display = "技能-5", Value = "CA-5" }
+                new CombData { Display = "技能-5", Value = "CA-5" },
+                new CombData { Display = "1-7", Value = "1-7" }
             };
             // “风雪过境” 活动关卡
             //StageList.Add(new CombData { Display = "BI-7", Value = "BI-7" });
