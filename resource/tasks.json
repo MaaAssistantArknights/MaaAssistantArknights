@@ -2500,7 +2500,8 @@
         "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
         "next": [
             "DroneMax",
-            "DroneConfirm"
+            "DroneConfirm",
+            "DroneCancel"
         ]
     },
     "DroneAssistTrade": {
@@ -2514,7 +2515,8 @@
         ],
         "next": [
             "DroneMax",
-            "DroneConfirm"
+            "DroneConfirm",
+            "DroneCancel"
         ]
     },
     "DroneMax": {
@@ -2526,23 +2528,35 @@
             80
         ],
         "next": [
-            "DroneConfirm"
+            "DroneConfirm",
+            "DroneCancel"
         ]
     },
     "DroneConfirm": {
         "action": "clickSelf",
         "rearDelay": 3500,
+        "cache": false,
         "roi": [
-            630,
-            500,
-            650,
-            150
+            778,
+            501,
+            377,
+            165
         ],
         "next": [
             "DroneConfirmLoading",
             "DeliverableOrder",
             "DroneAssist-Trade-Stop",
             "DroneAssistMfg"
+        ]
+    },
+    "DroneCancel": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            85,
+            498,
+            452,
+            162
         ]
     },
     "DroneConfirmLoading": {
