@@ -120,7 +120,7 @@
     },
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
-        "action": "swipeToTheLeft",
+        "action": "SlowlySwipeToTheLeft",
         "text": [
             "1-8",
             "TR-10",
@@ -143,7 +143,7 @@
     },
     "SwipeRightToStage1-7": {
         "algorithm": "OcrDetect",
-        "action": "swipeToTheRight",
+        "action": "SlowlySwipeToTheRight",
         "text": [
             "1-1",
             "1-2",
@@ -2696,6 +2696,29 @@
         "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
     },
     "InfrastOperListSwipeEnd": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            700,
+            200,
+            100,
+            300
+        ]
+    },
+    "ProcessTaskSlowlySwipeRightRect": {
+        "algorithm": "justReturn",
+        "action": "clickRect",
+        "specificRect": [
+            1080,
+            200,
+            100,
+            300
+        ],
+        "preDelay": 1000,
+        "rearDelay": 300,
+        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
+    },
+    "ProcessTaskSlowlySwipeLeftRect": {
         "algorithm": "justReturn",
         "action": "clickRect",
         "specificRect": [
