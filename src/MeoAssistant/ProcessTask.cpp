@@ -123,7 +123,12 @@ bool ProcessTask::_run()
         }
 
         if (exec_times >= max_times) {
-            Log.info("exec times exceeds the limit", info.to_string());
+            info["details"] = json::object{
+                { "task", cur_name },
+                { "exec_times", exec_times },
+                { "max_times", max_times }
+            };
+            Log.info("exec times exceeded the limit", info.to_string());
             m_cur_tasks_name = cur_task_ptr->exceeded_next;
             sleep(task_delay);
             continue;

@@ -5,6 +5,8 @@
         "next": [
             "GameStart",
             "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
             "Terminal",
             "CloseAnno",
             "TodaysSupplies",
@@ -461,6 +463,7 @@
             200,
             120
         ],
+        "cache": false,
         "templThreshold": 0.7,
         "rearDelay": 3000,
         "maskRange": [
@@ -470,6 +473,7 @@
         "next": [
             "StartToWakeUp",
             "StartUpConnectingFlag",
+            "StartLoginBServer",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
@@ -477,7 +481,7 @@
         ]
     },
     "StartUpConnectingFlag": {
-        "action": "doNothing",
+        "action": "clickSelf",
         "roi": [
             0,
             635,
@@ -485,7 +489,26 @@
             85
         ],
         "next": [
+            "StartToWakeUp",
+            "StartLoginBServer",
             "StartUpConnectingFlag",
+            "Terminal",
+            "CloseAnno",
+            "OfflineConfirm",
+            "TodaysSupplies"
+        ]
+    },
+    "StartLoginBServer": {
+        "action": "clickSelf",
+        "roi": [
+            440,
+            370,
+            400,
+            80
+        ],
+        "next": [
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
@@ -1002,6 +1025,8 @@
             "FightMissionFailed",
             "EndOfAction",
             "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
             "OfflineConfirm",
             "StartButton1"
         ]
@@ -1021,6 +1046,8 @@
         "next": [
             "EndOfAction",
             "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
             "OfflineConfirm",
             "StartButton1"
         ]
@@ -1039,7 +1066,9 @@
             "PRTS2",
             "PrtsErrorConfirm",
             "OfflineConfirm",
-            "StartToWakeUp"
+            "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer"
         ]
     },
     "OfflineConfirm": {
@@ -1058,6 +1087,7 @@
             "CloseAnno",
             "StartToWakeUp",
             "StartUpConnectingFlag",
+            "StartLoginBServer",
             "OfflineConfirm",
             "TodaysSupplies"
         ]
@@ -1073,6 +1103,7 @@
         "next": [
             "StartToWakeUp",
             "StartUpConnectingFlag",
+            "StartLoginBServer",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
@@ -4071,6 +4102,25 @@
             100
         ],
         "next": [
+            "StartToWakeUpToRoguelike1",
+            "StartUpConnectingToRoguelike1",
+            "TerminalToRoguelike1",
+            "CloseAnnoToRoguelike1",
+            "TodaysSuppliesToRoguelike1"
+        ]
+    },
+    "StartUpConnectingToRoguelike1": {
+        "template": "StartUpConnectingFlag.png",
+        "action": "doNothing",
+        "roi": [
+            520,
+            460,
+            240,
+            100
+        ],
+        "next": [
+            "StartToWakeUpToRoguelike1",
+            "StartUpConnectingToRoguelike1",
             "TerminalToRoguelike1",
             "CloseAnnoToRoguelike1",
             "TodaysSuppliesToRoguelike1"
@@ -4194,6 +4244,7 @@
         "next": [
             "CloseAnnoToRoguelike1",
             "StartToWakeUpToRoguelike1",
+            "StartUpConnectingToRoguelike1",
             "OfflineConfirmToRoguelike1"
         ]
     },
@@ -4211,6 +4262,7 @@
             "ReturnToRoguelike1Confirm",
             "OfflineConfirmToRoguelike1",
             "StartToWakeUpToRoguelike1",
+            "StartUpConnectingToRoguelike1",
             "StageSNReturnToRoguelike1"
         ]
     },
