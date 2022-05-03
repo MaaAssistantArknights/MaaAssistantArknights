@@ -15,6 +15,7 @@ using dict = nlohmann::ordered_json;
 
 namespace penguin
 {
+
 enum class StatusFlags
 {
     NORMAL = 0,
@@ -162,10 +163,10 @@ public:
             _templ_list.emplace_back(templ);
         }
     }
-    ItemTemplates(const std::string stage_code)
+    ItemTemplates(const std::string& stage_code, const std::string& difficulty = "NORMAL")
     {
         const auto& stage_drop =
-            resource.get<dict>("stage_index")[stage_code]["drops"];
+            resource.get<dict>("stage_index")[stage_code][difficulty]["drops"];
         const auto& item_templs =
             resource.get<std::map<std::string, cv::Mat>>("item_templs");
         for (const auto& [_, itemId] : stage_drop.items())
@@ -822,8 +823,8 @@ private:
         topleft_new.x *= coeff_multiinv;
         topleft_new.y *= coeff_multiinv;
         cv::Size size_new = cv::Size(
-            static_cast<int>(round(TEMPLATE_WIDTH * ((double)_diameter / TEMPLATE_DIAMETER))),
-            static_cast<int>(round(TEMPLATE_HEIGHT * ((double)_diameter / TEMPLATE_DIAMETER))));
+            round(TEMPLATE_WIDTH * ((double)_diameter / TEMPLATE_DIAMETER)),
+            round(TEMPLATE_HEIGHT * ((double)_diameter / TEMPLATE_DIAMETER)));
         if (topleft_new.x + size_new.width > width)
         {
             size_new.width = width - topleft_new.x;
@@ -842,9 +843,9 @@ private:
     }
     void _get_quantity()
     {
-        cv::Rect quantityrect = cv::Rect(0, static_cast<int>(round(height * _ITEM_QTY_Y_PROP)),
-                                         static_cast<int>(round(width * _ITEM_QTY_WIDTH_PROP)),
-                                         static_cast<int>(round(height * _ITEM_QTY_HEIGHT_PROP)));
+        cv::Rect quantityrect = cv::Rect(0, round(height * _ITEM_QTY_Y_PROP),
+                                         round(width * _ITEM_QTY_WIDTH_PROP),
+                                         round(height * _ITEM_QTY_HEIGHT_PROP));
         cv::Mat quantityimg = _img(quantityrect);
         _quantity.set_img(quantityimg);
         _quantity.analyze();
