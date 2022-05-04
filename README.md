@@ -102,7 +102,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！ (*´▽｀)ノノ
 
-[![Contributors](https://opencollective.com/MaaAssistantArknights/contributors.svg?width=890&button=false)](#contributors-)
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
 ## 开发相关
 
