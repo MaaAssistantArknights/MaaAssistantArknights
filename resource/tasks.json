@@ -1033,15 +1033,11 @@
         ]
     },
     "EndOfAction": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "行动结束"
-        ],
         "roi": [
-            0,
-            120,
-            440,
-            600
+            11,
+            357,
+            153,
+            143
         ],
         "action": "doNothing",
         "next": [
