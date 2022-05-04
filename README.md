@@ -100,13 +100,9 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 贡献/参与者
 
-感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！  
-这里仅列出对 MAA 提供了巨大帮助的大佬们 (*´▽｀)ノノ
+感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！ (*´▽｀)ノノ
 
-- 感谢 [tcyh035](https://github.com/tcyh035) 帮忙设计重构 WPF 图形界面
-- 感谢 [LoveLoliii](https://github.com/LoveLoliii) 提供公开招募算法及数据
-- 感谢 [dantmnf](https://github.com/dantmnf) 提供各种 adb 及其他逻辑处理思路
-- 感谢 [泰迪](https://github.com/yuanyan3060) 提供的地图格子识别算法及开源库
+[![Contributors](https://opencollective.com/MaaAssistantArknights/contributors.svg?width=890&button=false)](#contributors-)
 
 ## 开发相关
 
