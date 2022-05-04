@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "MistEO",
+      "name": "MistEO",
+      "avatar_url": "https://avatars.githubusercontent.com/u/18511905?v=4",
+      "profile": "https://www.misteo.top/",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "MaaAssistantArknights",
+  "projectOwner": "MaaAssistantArknights",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
