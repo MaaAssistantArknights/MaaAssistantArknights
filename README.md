@@ -1,7 +1,4 @@
 <div align="center">
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <img alt="LOGO" src="https://user-images.githubusercontent.com/18511905/148931479-23aef436-2fc1-4c1e-84c9-bae17be710a5.png" width=360 height=270/>
 
@@ -106,10 +103,26 @@ MAA 的意思是 MAA Assistant Arknights
 感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！  
 这里仅列出对 MAA 提供了巨大帮助的大佬们 (*´▽｀)ノノ
 
-- 感谢 [tcyh035](https://github.com/tcyh035) 帮忙设计重构 WPF 图形界面
-- 感谢 [LoveLoliii](https://github.com/LoveLoliii) 提供公开招募算法及数据
-- 感谢 [dantmnf](https://github.com/dantmnf) 提供各种 adb 及其他逻辑处理思路
-- 感谢 [泰迪](https://github.com/yuanyan3060) 提供的地图格子识别算法及开源库
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://www.misteo.top/"><img src="https://avatars.githubusercontent.com/u/18511905?v=4?s=100" width="100px;" alt=""/><br /><sub><b>MistEO</b></sub></a><br /><a href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits?author=MistEO" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+*本段符合 [all-contributors](https://github.com/all-contributors/all-contributors) 规范*
 
 ## 开发相关
 
@@ -143,23 +156,3 @@ MAA 的意思是 MAA Assistant Arknights
 [开发者群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我最大的支持了！
-
-## Contributors ✨
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://www.misteo.top/"><img src="https://avatars.githubusercontent.com/u/18511905?v=4?s=100" width="100px;" alt=""/><br /><sub><b>MistEO</b></sub></a><br /><a href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits?author=MistEO" title="Code">💻</a></td>
-  </tr>
-</table>
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
