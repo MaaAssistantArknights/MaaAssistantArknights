@@ -104,7 +104,7 @@ MAA 的意思是 MAA Assistant Arknights
 这里仅列出对 MAA 提供了巨大帮助的大佬们 (*´▽｀)ノノ
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 
@@ -115,6 +115,7 @@ MAA 的意思是 MAA Assistant Arknights
   <tr>
     <td align="center"><a href="https://www.misteo.top/"><img src="https://avatars.githubusercontent.com/u/18511905?v=4?s=100" width="100px;" alt=""/><br /><sub><b>MistEO</b></sub></a><br /><a href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits?author=MistEO" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/zzyyyl"><img src="https://avatars.githubusercontent.com/u/74587068?v=4?s=100" width="100px;" alt=""/><br /><sub><b>zzyyyl</b></sub></a><br /><a href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits?author=zzyyyl" title="Code">💻</a></td>
+    <td align="center"><a href="http://blog.mslxl.com"><img src="https://avatars.githubusercontent.com/u/11132880?v=4?s=100" width="100px;" alt=""/><br /><sub><b>mslxl</b></sub></a><br /><a href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits?author=mslxl" title="Code">💻</a></td>
   </tr>
 </table>
 
