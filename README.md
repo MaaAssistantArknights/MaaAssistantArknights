@@ -80,7 +80,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 图像识别库：[opencv](https://github.com/opencv/opencv.git)
 - ~~文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - 文字识别库：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- 关卡掉落识别：[企鹅物流识别](https://github.com/KumoSiunaus/penguin-stats-recognize-v3)
+- 关卡掉落识别：[企鹅物流识别](https://github.com/penguin-statistics/recognizer)
 - 地图格子识别：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
 - C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)

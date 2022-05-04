@@ -61,11 +61,11 @@ public:
         static Resource instance;
         return instance;
     }
-    void add(std::string key, std::any src)
+    void add(const std::string& key, const std::any& src)
     {
         if (!key.empty())
         {
-            _resource[std::move(key)] = std::move(src);
+            _resource.insert_or_assign(key, src);
         }
     }
     template <typename ResourceType>

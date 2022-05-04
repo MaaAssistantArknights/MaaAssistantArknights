@@ -64,14 +64,23 @@ bool asst::PenguinPack::load_json(const std::string& stage_path, const std::stri
             stage_dst["drops"] = json::array(std::move(drops_vector));
             stage_dst["existence"] = stage_info.at("existence").at(m_language).at("exist");
 
-            cvt_stage_json[std::move(key)] = std::move(stage_dst);
+            // 企鹅识别 4.2 新增的字段，为了区分第十章的 标准关卡 or 磨难关卡
+            json::value difficulty_json;
+            if (stage_dst["stageId"].as_string().find("tough_") == 0) {
+                difficulty_json["TOUGH"] = std::move(stage_dst);
+            }
+            else {
+                difficulty_json["NORMAL"] = std::move(stage_dst);
+            }
+            cvt_stage_json[std::move(key)] |= std::move(difficulty_json.as_object());
         }
     }
     catch (json::exception& e) {
         m_last_error = stage_path + " parsing error " + e.what();
         return false;
     }
-    ::wload_stage_index(cvt_stage_json.to_string());
+    std::string cvt_string = cvt_stage_json.to_string();
+    ::wload_stage_index(std::move(cvt_stage_json.to_string()));
 
     ::wload_hash_index(utils::load_file_without_bom(hash_path));
     return true;
