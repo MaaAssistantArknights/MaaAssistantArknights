@@ -184,6 +184,13 @@ bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int s
     if (!m_inited) {
         return false;
     }
+    json::value params_info = json::object{
+        { "stage", stage },
+        { "mecidine", mecidine },
+        { "stone", stone },
+        { "times", times }
+    };
+    Log.trace("asst::Assistant::append_fight | ", params_info.to_string());
 
     constexpr const char* TaskChain = "Fight";
 
