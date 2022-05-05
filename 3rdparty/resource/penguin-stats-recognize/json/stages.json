@@ -52619,7 +52619,7 @@
         "code": "SN-1",
         "code_i18n": {
             "en": "SN-1",
-            "jp": "SN-1",
+            "ja": "SN-1",
             "ko": "SN-1",
             "zh": "SN-1"
         },
@@ -52731,7 +52731,7 @@
         "code": "SN-2",
         "code_i18n": {
             "en": "SN-2",
-            "jp": "SN-2",
+            "ja": "SN-2",
             "ko": "SN-2",
             "zh": "SN-2"
         },
@@ -52843,7 +52843,7 @@
         "code": "SN-3",
         "code_i18n": {
             "en": "SN-3",
-            "jp": "SN-3",
+            "ja": "SN-3",
             "ko": "SN-3",
             "zh": "SN-3"
         },
@@ -52955,7 +52955,7 @@
         "code": "SN-4",
         "code_i18n": {
             "en": "SN-4",
-            "jp": "SN-4",
+            "ja": "SN-4",
             "ko": "SN-4",
             "zh": "SN-4"
         },
@@ -53035,7 +53035,7 @@
         "code": "SN-5",
         "code_i18n": {
             "en": "SN-5",
-            "jp": "SN-5",
+            "ja": "SN-5",
             "ko": "SN-5",
             "zh": "SN-5"
         },
@@ -53115,7 +53115,7 @@
         "code": "SN-6",
         "code_i18n": {
             "en": "SN-6",
-            "jp": "SN-6",
+            "ja": "SN-6",
             "ko": "SN-6",
             "zh": "SN-6"
         },
@@ -53195,7 +53195,7 @@
         "code": "SN-7",
         "code_i18n": {
             "en": "SN-7",
-            "jp": "SN-7",
+            "ja": "SN-7",
             "ko": "SN-7",
             "zh": "SN-7"
         },
@@ -53275,7 +53275,7 @@
         "code": "SN-8",
         "code_i18n": {
             "en": "SN-8",
-            "jp": "SN-8",
+            "ja": "SN-8",
             "ko": "SN-8",
             "zh": "SN-8"
         },
@@ -53347,7 +53347,7 @@
         "code": "SN-9",
         "code_i18n": {
             "en": "SN-9",
-            "jp": "SN-9",
+            "ja": "SN-9",
             "ko": "SN-9",
             "zh": "SN-9"
         },
@@ -53419,7 +53419,7 @@
         "code": "SN-10",
         "code_i18n": {
             "en": "SN-10",
-            "jp": "SN-10",
+            "ja": "SN-10",
             "ko": "SN-10",
             "zh": "SN-10"
         },
@@ -53477,6 +53477,140 @@
             },
             {
                 "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "wk_melee_6",
+        "zoneId": "weekly_9",
+        "stageType": "DAILY",
+        "code": "CE-6",
+        "code_i18n": {
+            "en": "CE-6",
+            "ja": "CE-6",
+            "ko": "CE-6",
+            "zh": "CE-6"
+        },
+        "apCost": 36,
+        "existence": {
+            "CN": {
+                "exist": true
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 172000,
+        "dropInfos": [
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "wk_kc_6",
+        "zoneId": "weekly_7",
+        "stageType": "DAILY",
+        "code": "LS-6",
+        "code_i18n": {
+            "en": "LS-6",
+            "ja": "LS-6",
+            "ko": "LS-6",
+            "zh": "LS-6"
+        },
+        "apCost": 36,
+        "existence": {
+            "CN": {
+                "exist": true
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 183000,
+        "dropInfos": [
+            {
+                "itemId": "2004",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 4,
+                    "upper": 4
+                }
+            },
+            {
+                "itemId": "2003",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 2,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 2,
+                    "upper": 2
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
                 "bounds": {
                     "lower": 0,
                     "upper": 0
