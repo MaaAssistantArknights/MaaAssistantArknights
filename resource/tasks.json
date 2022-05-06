@@ -304,7 +304,7 @@
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
         "action": "SlowlySwipeToTheLeft",
-        "need_match": true,
+        "fullMatch": true,
         "text": [
             "1-8",
             "TR-10",
@@ -328,7 +328,7 @@
     "SwipeRightToStage1-7": {
         "algorithm": "OcrDetect",
         "action": "SlowlySwipeToTheRight",
-        "need_match": true,
+        "fullMatch": true,
         "text": [
             "1-1",
             "1-2",
