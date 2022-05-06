@@ -1,4 +1,181 @@
 {
+    "SN-8": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "SNToSN-8"
+        ]
+    },
+    "SNToSN-8": {
+        "algorithm": "OcrDetect",
+        "action": "clickSelf",
+        "text": [
+            "活动已开放"
+        ],
+        "roi": [
+            40,
+            481,
+            308,
+            139
+        ],
+        "next": [
+            "SNChapter2ToSN-8",
+            "SNToSN-8"
+        ]
+    },
+    "SNChapter2ToSN-8": {
+        "algorithm": "MatchTemplate",
+        "action": "clickSelf",
+        "template": "SN-Chapter2.png",
+        "roi": [
+            114,
+            406,
+            330,
+            166
+        ],
+        "next": [
+            "StageSN-8",
+            "SNChapter2ToSN-8",
+            "SwipeRightToStageSN-8"
+        ]
+    },
+    "SwipeRightToStageSN-8": {
+        "algorithm": "justreturn",
+        "action": "SwipeToTheRight",
+        "next": [
+            "StageSN-8",
+            "SwipeRightToStageSN-8"
+        ]
+    },
+    "StageSN-8": {
+        "algorithm": "MatchTemplate",
+        "action": "clickSelf",
+        "template": "SN-8.png",
+        "roi": [
+            296,
+            93,
+            171,
+            195
+        ]
+    },
+    "SN-9": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "SNToSN-9"
+        ]
+    },
+    "SNToSN-9": {
+        "algorithm": "OcrDetect",
+        "action": "clickSelf",
+        "text": [
+            "活动已开放"
+        ],
+        "roi": [
+            40,
+            481,
+            308,
+            139
+        ],
+        "next": [
+            "SNChapter3ToSN-9",
+            "SNToSN-9"
+        ]
+    },
+    "SNChapter3ToSN-9": {
+        "algorithm": "MatchTemplate",
+        "action": "clickSelf",
+        "template": "SN-Chapter3.png",
+        "roi": [
+            205,
+            487,
+            254,
+            165
+        ],
+        "next": [
+            "StageSN-9",
+            "SwipeLeftToStageSN-9",
+            "SNChapter3ToSN-9"
+        ]
+    },
+    "SwipeLeftToStageSN-9": {
+        "algorithm": "justreturn",
+        "action": "SwipeToTheLeft",
+        "next": [
+            "StageSN-9",
+            "SwipeLeftToStageSN-9"
+        ]
+    },
+    "StageSN-9": {
+        "algorithm": "MatchTemplate",
+        "action": "clickSelf",
+        "template": "SN-9.png",
+        "roi": [
+            610,
+            328,
+            176,
+            198
+        ]
+    },
+    "SN-10": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "SNToSN-10"
+        ]
+    },
+    "SNToSN-10": {
+        "algorithm": "OcrDetect",
+        "action": "clickSelf",
+        "text": [
+            "活动已开放"
+        ],
+        "roi": [
+            40,
+            481,
+            308,
+            139
+        ],
+        "next": [
+            "SNChapter3ToSN-10",
+            "SNToSN-10"
+        ]
+    },
+    "SNChapter3ToSN-10": {
+        "algorithm": "MatchTemplate",
+        "action": "clickSelf",
+        "template": "SN-Chapter3.png",
+        "roi": [
+            205,
+            487,
+            254,
+            165
+        ],
+        "next": [
+            "StageSN-10",
+            "SNChapter3ToSN-10",
+            "SwipeLeftToStageSN-10"
+        ]
+    },
+    "SwipeLeftToStageSN-10": {
+        "algorithm": "justreturn",
+        "action": "SwipeToTheLeft",
+        "next": [
+            "StageSN-10",
+            "SwipeLeftToStageSN-10"
+        ]
+    },
+    "StageSN-10": {
+        "algorithm": "MatchTemplate",
+        "action": "clickSelf",
+        "template": "SN-10.png",
+        "roi": [
+            678,
+            220,
+            173,
+            200
+        ]
+    },
     "StartUp": {
         "algorithm": "justreturn",
         "action": "doNothing",
