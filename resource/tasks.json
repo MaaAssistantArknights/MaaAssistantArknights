@@ -213,7 +213,11 @@
         ],
         "action": "clickSelf",
         "next": [
-            "StageThemeChapter3ToChapter2To1-7"
+            "StageThemeChapter3ToChapter2To1-7",
+            "StageThemeChapter2ToChapter1To1-7",
+            "StageThemeEpisode3ToEpisode1To1-7",
+            "StageThemeEpisode2ToEpisode1To1-7",
+            "StageThemeEpisode1To1-7"
         ]
     },
     "StageThemeChapter3ToChapter2To1-7": {
