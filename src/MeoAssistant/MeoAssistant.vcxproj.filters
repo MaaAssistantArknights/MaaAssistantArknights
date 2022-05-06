@@ -252,6 +252,9 @@
     <ClInclude Include="TilePack.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="ReplenishOriginiumShardTaskPlugin.h">
+      <Filter>头文件\TaskPlugin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -412,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="TilePack.cpp">
       <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="ReplenishOriginiumShardTaskPlugin.cpp">
+      <Filter>源文件\TaskPlugin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -98,6 +98,11 @@ bool asst::ProcessTaskImageAnalyzer::analyze()
 
     for (const std::string& task_name : m_tasks_name) {
         auto task_ptr = Task.get(task_name);
+        // 可能有配置错误，导致不存在对应的任务
+        if (task_ptr == nullptr) {
+            Log.error("Invalid task", task_name);
+            continue;
+        }
 
         switch (task_ptr->algorithm) {
         case AlgorithmType::JustReturn:

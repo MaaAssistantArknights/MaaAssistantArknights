@@ -87,9 +87,14 @@ bool ProcessTask::_run()
         Rect rect;
         std::shared_ptr<TaskInfo> cur_task_ptr = nullptr;
 
+        auto front_task_ptr = Task.get(m_cur_tasks_name.front());
+        // 可能有配置错误，导致不存在对应的任务
+        if (front_task_ptr == nullptr) {
+            Log.error("Invalid task", m_cur_tasks_name.front());
+            return false;
+        }
         // 如果第一个任务是JustReturn的，那就没必要再截图并计算了
-        if (auto front_task_ptr = Task.get(m_cur_tasks_name.front());
-            front_task_ptr->algorithm == AlgorithmType::JustReturn) {
+        if (front_task_ptr->algorithm == AlgorithmType::JustReturn) {
             cur_task_ptr = front_task_ptr;
         }
         else {
@@ -123,7 +128,12 @@ bool ProcessTask::_run()
         }
 
         if (exec_times >= max_times) {
-            Log.info("exec times exceeds the limit", info.to_string());
+            info["details"] = json::object{
+                { "task", cur_name },
+                { "exec_times", exec_times },
+                { "max_times", max_times }
+            };
+            Log.info("exec times exceeded the limit", info.to_string());
             m_cur_tasks_name = cur_task_ptr->exceeded_next;
             sleep(task_delay);
             continue;
@@ -163,6 +173,10 @@ bool ProcessTask::_run()
         case ProcessTaskAction::SwipeToTheLeft:
         case ProcessTaskAction::SwipeToTheRight:
             exec_swipe_task(cur_task_ptr->action);
+            break;
+        case ProcessTaskAction::SlowlySwipeToTheLeft:
+        case ProcessTaskAction::SlowlySwipeToTheRight:
+            exec_slowly_swipe_task(cur_task_ptr->action);
             break;
         case ProcessTaskAction::DoNothing:
             break;
@@ -232,6 +246,26 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
         break;
     case asst::ProcessTaskAction::SwipeToTheRight:
         Ctrler.swipe(right_rect, left_rect);
+        break;
+    default: // 走不到这里，TODO 报个错
+        break;
+    }
+}
+
+void asst::ProcessTask::exec_slowly_swipe_task(ProcessTaskAction action)
+{
+    LogTraceFunction;
+    static Rect right_rect = Task.get("ProcessTaskSlowlySwipeRightRect")->specific_rect;
+    static Rect left_rect = Task.get("ProcessTaskSlowlySwipeLeftRect")->specific_rect;
+    static int duration = Task.get("ProcessTaskSlowlySwipeRightRect")->pre_delay;
+    static int extra_delay = Task.get("ProcessTaskSlowlySwipeRightRect")->rear_delay;
+
+    switch (action) {
+    case asst::ProcessTaskAction::SlowlySwipeToTheLeft:
+        Ctrler.swipe(left_rect, right_rect, duration, true, extra_delay, true);
+        break;
+    case asst::ProcessTaskAction::SlowlySwipeToTheRight:
+        Ctrler.swipe(right_rect, left_rect, duration, true, extra_delay, true);
         break;
     default: // 走不到这里，TODO 报个错
         break;

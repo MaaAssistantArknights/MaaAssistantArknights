@@ -31,7 +31,9 @@
             "adb": {
                 "path": "[EmulatorPath]Engine\\ProgramFiles\\HD-Adb.exe",
                 "addresses": [
-                    "127.0.0.1:5555"
+                    "127.0.0.1:5555",
+                    "127.0.0.1:5556",
+                    "127.0.0.1:5557"
                 ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
@@ -53,7 +55,33 @@
             "adb": {
                 "path": "[EmulatorPath]HD-Adb.exe",
                 "addresses": [
-                    "127.0.0.1:5555"
+                    "127.0.0.1:5555",
+                    "127.0.0.1:5556",
+                    "127.0.0.1:5557"
+                ],
+                "devices": "[Adb] devices",
+                "addressRegex": "(.+)\tdevice",
+                "connect": "[Adb] connect [Address]",
+                "click": "[Adb] -s [Address] shell input tap [x] [y]",
+                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+                "displayFormat": "cur=%dx%d",
+                "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
+                "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
+                "release": "[Adb] kill-server"
+            }
+        },
+        "BlueStacksInternationalNewVersion": {
+            "handle": {
+                "class": "",
+                "window": "BlueStacks App Player"
+            },
+            "adb": {
+                "path": "[EmulatorPath]HD-Adb.exe",
+                "addresses": [
+                    "127.0.0.1:5555",
+                    "127.0.0.1:5556",
+                    "127.0.0.1:5557"
                 ],
                 "devices": "[Adb] devices",
                 "addressRegex": "(.+)\tdevice",
@@ -177,6 +205,29 @@
                 "displayFormat": "    init=%dx%d",
                 "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap | gzip -1\"",
                 "screencapEncode": "[Adb] -s [Address] shell screencap -p",
+                "release": "[Adb] kill-server"
+            }
+        },
+        "WSA": {
+            "handle": {
+                "class": "com.hypergryph.arknights",
+                "window": "明日方舟"
+            },
+            "adb": {
+                "path": "[ExecDir]platform-tools\\adb.exe",
+                "addresses": [
+                    "127.0.0.1:58526"
+                ],
+                "devices": "[Adb] devices",
+                "addressRegex": "(.+)\tdevice",
+                "connect": "[Adb] connect [Address]",
+                "click": "[Adb] -s [Address] shell input -d [DisplayId] tap [x] [y]",
+                "swipe": "[Adb] -s [Address] shell input -d [DisplayId] swipe [x1] [y1] [x2] [y2] [duration]",
+                "display": "[Adb] -s [Address] shell \"wm size -d [DisplayId]\"",
+                "displayFormat": "Physical size:%dx%d",
+                "displayId": "[Adb] -s [Address] shell dumpsys display | grep mUniqueId=virtual:com.microsoft.windows.systemapp:com.hypergryph.arknights",
+                "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap -d [DisplayId] | gzip -1\"",
+                "screencapEncode": "[Adb] -s [Address] shell screencap -d [DisplayId] -p",
                 "release": "[Adb] kill-server"
             }
         },
