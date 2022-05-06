@@ -322,7 +322,8 @@
         ],
         "next": [
             "Stage1-7",
-            "SwipeLeftToStage1-7"
+            "SwipeLeftToStage1-7",
+            "SwipeRightToStage1-7"
         ]
     },
     "SwipeRightToStage1-7": {
@@ -348,7 +349,8 @@
         ],
         "next": [
             "Stage1-7",
-            "SwipeRightToStage1-7"
+            "SwipeRightToStage1-7",
+            "SwipeLeftToStage1-7"
         ]
     },
     "Stage1-7": {
