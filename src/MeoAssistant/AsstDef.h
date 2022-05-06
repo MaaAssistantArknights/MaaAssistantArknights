@@ -200,8 +200,10 @@ namespace asst
         DoNothing = 0x200,          // 什么都不做
         Stop = 0x400,               // 停止当前Task
         BasicSwipe = 0x1000,
-        SwipeToTheLeft = BasicSwipe | 1,  // 往左划一下
-        SwipeToTheRight = BasicSwipe | 2, // 往右划一下
+        SwipeToTheLeft = BasicSwipe | 1,                // 往左划一下
+        SwipeToTheRight = BasicSwipe | 2,               // 往右划一下
+        SlowlySwipeToTheLeft = SwipeToTheLeft | 4,      // 慢慢的往左划一下
+        SlowlySwipeToTheRight = SwipeToTheRight | 8     // 慢慢的往右划一下
     };
 
     // 任务信息
@@ -274,6 +276,7 @@ namespace asst
         std::string swipe;
         std::string display;
         std::string display_format;
+        std::string display_id;
         std::string screencap_raw_with_gzip;
         std::string screencap_encode;
         std::string release;

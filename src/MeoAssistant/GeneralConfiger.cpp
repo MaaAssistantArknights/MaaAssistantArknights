@@ -50,6 +50,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         emulator_info.adb.click = adb_json.at("click").as_string();
         emulator_info.adb.swipe = adb_json.at("swipe").as_string();
         emulator_info.adb.display = adb_json.at("display").as_string();
+        emulator_info.adb.display_id = adb_json.get("displayId", std::string());
         emulator_info.adb.display_format = adb_json.at("displayFormat").as_string();
         emulator_info.adb.screencap_raw_with_gzip = adb_json.at("screencapRawWithGzip").as_string();
         emulator_info.adb.screencap_encode = adb_json.at("screencapEncode").as_string();

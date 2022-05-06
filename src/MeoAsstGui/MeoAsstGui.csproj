@@ -141,6 +141,9 @@
     <Compile Include="UserControl\PenguinReportSettingsUserControl.xaml.cs">
       <DependentUpon>PenguinReportSettingsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\ToastSettingsUserControl.xaml.cs">
+      <DependentUpon>ToastSettingsUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\VersionUpdateSettingsUserControl.xaml.cs">
       <DependentUpon>VersionUpdateSettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -186,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\PenguinReportSettingsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\ToastSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

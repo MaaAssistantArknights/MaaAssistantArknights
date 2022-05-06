@@ -55,12 +55,13 @@ bool asst::StageDropsTaskPlugin::_run()
     drop_info_callback();
 
     check_stage_valid();
-
-    auto upload_future = std::async(
-        std::launch::async,
-        std::bind(&StageDropsTaskPlugin::upload_to_penguin, this));
-    m_upload_pending.emplace_back(std::move(upload_future));
-
+    
+    if (m_enable_penguid) {
+        auto upload_future = std::async(
+            std::launch::async,
+            std::bind(&StageDropsTaskPlugin::upload_to_penguin, this));
+        m_upload_pending.emplace_back(std::move(upload_future));
+    }
     return true;
 }
 
@@ -72,10 +73,15 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     if (need_exit()) {
         return false;
     }
-    cv::Mat image = Ctrler.get_image();
+    cv::Mat image = Ctrler.get_image(true);
     std::string res = Resrc.penguin().recognize(image);
     Log.trace("Results of penguin recognition:\n", res);
     m_cur_drops = json::parse(res).value();
+
+    // 兼容老版本 json 格式
+    auto& drop_area = m_cur_drops["dropArea"];
+    m_cur_drops["drops"] = drop_area["drops"];
+    m_cur_drops["dropTypes"] = drop_area["dropTypes"];
 
     Status.set("LastRecognizeDrops", Status.get("LastStartButton2") + RecognizationTimeOffset);
 
