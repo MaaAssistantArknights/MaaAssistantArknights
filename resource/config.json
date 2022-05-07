@@ -42,7 +42,6 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "displayId": "",
                 "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
                 "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
                 "release": "[Adb] kill-server"
@@ -72,7 +71,7 @@
                 "release": "[Adb] kill-server"
             }
         },
-		"BlueStacksInternationalNewVersion": {
+        "BlueStacksInternationalNewVersion": {
             "handle": {
                 "class": "",
                 "window": "BlueStacks App Player"
@@ -91,7 +90,6 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "displayId": "",
                 "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
                 "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
                 "release": "[Adb] kill-server"
@@ -114,7 +112,6 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "displayId": "",
                 "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
                 "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
                 "release": "[Adb] kill-server"
@@ -138,7 +135,6 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "displayId": "",
                 "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap | gzip -1\"",
                 "screencapEncode": "[Adb] -s [Address] shell screencap -p",
                 "release": "[Adb] kill-server"
@@ -162,7 +158,6 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "displayId": "",
                 "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
                 "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
                 "release": "[Adb] kill-server"
@@ -186,7 +181,6 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
                 "displayFormat": "cur=%dx%d",
-                "displayId": "",
                 "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
                 "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
                 "release": "[Adb] kill-server"
@@ -209,7 +203,6 @@
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init=",
                 "displayFormat": "    init=%dx%d",
-                "displayId": "",
                 "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap | gzip -1\"",
                 "screencapEncode": "[Adb] -s [Address] shell screencap -p",
                 "release": "[Adb] kill-server"
@@ -254,7 +247,6 @@
                 "click": "[Adb] -s [Address] shell input tap [x] [y]",
                 "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
                 "display": "[Adb] -s [Address] shell dumpsys window displays | grep init=",
-                "displayId": "",
                 "displayFormat": "    init=%dx%d",
                 "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
                 "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",

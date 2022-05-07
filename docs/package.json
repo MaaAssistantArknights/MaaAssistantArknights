@@ -1,0 +1,20 @@
+{
+  "name": "maa-docs",
+  "version": "1.0.0",
+  "description": "manual for MaaAssistantArknights",
+  "main": "index.js",
+  "repository": "https://github.com/MaaAssistantArknights/MaaAssistantArknights",
+  "author": "bakashigure <me@shigure.fun>",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "@vuepress/plugin-docsearch": "^2.0.0-beta.43",
+    "@vuepress/plugin-search": "^2.0.0-beta.43"
+  },
+  "devDependencies": {
+    "vuepress": "^2.0.0-beta.43"
+  },
+  "scripts": {
+    "dev": ": > readme.md | cat 详细介绍.md 常见问题.md 模拟器支持.md 回调消息协议.md >> readme.md | vuepress dev .",
+    "build": ": > readme.md | cat 详细介绍.md 常见问题.md 模拟器支持.md 回调消息协议.md >> readme.md | vuepress build ."
+  }
+}

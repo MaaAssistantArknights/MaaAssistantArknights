@@ -4508,6 +4508,33 @@
             100
         ]
     },
+    "BattleOperRetreatBegin": {
+        "algorithm": "JustReturn",
+        "rearDelay": 500,
+        "next": [
+            "BattleOperRetreat"
+        ]
+    },
+    "BattleOperRetreat": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "角色"
+        ],
+        "roi": [
+            900,
+            500,
+            380,
+            150
+        ],
+        "rearDelay": 500,
+        "action": "ClickRect",
+        "specificRect": [
+            563,
+            190,
+            80,
+            60
+        ]
+    },
     "StartToWakeUpToRoguelike1": {
         "template": "StartToWakeUp.png",
         "action": "clickSelf",
