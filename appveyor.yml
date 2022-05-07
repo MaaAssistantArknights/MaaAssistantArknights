@@ -1,4 +1,5 @@
 version: 0.9.{build}
+image: Visual Studio 2022
 configuration:
 - RelWithDebInfo
 - Release

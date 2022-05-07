@@ -108,7 +108,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Windows
 
-直接使用 Visual Studio 2019 或更高版本打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
+直接使用 Visual Studio 2022 ~~或更高版本~~ 打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
 
 ### Linux | macOS
 
