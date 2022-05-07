@@ -2971,7 +2971,7 @@
         "algorithm": "justReturn",
         "action": "clickRect",
         "specificRect": [
-            700,
+            200,
             200,
             100,
             300
