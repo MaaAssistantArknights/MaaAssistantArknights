@@ -70,11 +70,9 @@ namespace MeoAsstGui
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
                 new CombData { Display = "剿灭作战", Value = "Annihilation" },
-                new CombData { Display = "龙门币-5", Value = "CE-5" },
-                new CombData { Display = "龙门币-6", Value = "CE-6" },
+                new CombData { Display = "龙门币5/6", Value = "CE-6" },
+                new CombData { Display = "经验5/6", Value = "LS-6" },
                 new CombData { Display = "红票-5", Value = "AP-5" },
-                new CombData { Display = "经验-5", Value = "LS-5" },
-                new CombData { Display = "经验-6", Value = "LS-6" },
                 new CombData { Display = "技能-5", Value = "CA-5" },
                 new CombData { Display = "1-7", Value = "1-7" }
             };
