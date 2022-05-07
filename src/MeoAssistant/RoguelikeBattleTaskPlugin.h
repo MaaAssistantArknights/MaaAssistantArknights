@@ -24,8 +24,10 @@ namespace asst
 
         bool get_stage_info();
         bool auto_battle();
+        void all_melee_retreat();
         bool speed_up();
         bool use_skill(const Rect& rect);
+        bool retreat(const Point& point);
         void clear();
 
         // 通过资源文件离线计算可放置干员的位置，优先使用
@@ -40,6 +42,7 @@ namespace asst
         int m_pre_hp = 0;
 
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
+        std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         std::vector<Point> m_homes;
         size_t m_cur_home_index = 0;
         std::unordered_set<Point> m_used_tiles;
