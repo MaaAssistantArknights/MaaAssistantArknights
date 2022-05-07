@@ -89,7 +89,7 @@ bool asst::TaskData::parse(const json::value& json)
             for (const json::value& text : task_json.at("text").as_array()) {
                 ocr_task_info_ptr->text.emplace_back(text.as_string());
             }
-            ocr_task_info_ptr->need_full_match = task_json.get("need_match", false);
+            ocr_task_info_ptr->need_full_match = task_json.get("fullMatch", false);
             if (task_json.contains("ocrReplace")) {
                 for (const json::value& rep : task_json.at("ocrReplace").as_array()) {
                     ocr_task_info_ptr->replace_map.emplace(rep.as_array()[0].as_string(), rep.as_array()[1].as_string());
