@@ -22,7 +22,6 @@ set(CMAKE_CXX_STANDARD 17)
 add_library(MeoAssistant SHARED ${SRC})
 
 find_library(PaddleOCR_LIB NAMES ppocr PATHS 3rdparty/lib)
-find_library(Penguin_LIB NAMES penguin-stats-recognize PATHS 3rdparty/lib)
 
 if (WIN32)
     find_library(OpenCV NAMES opencv_world453 PATHS 3rdparty/lib)
@@ -32,7 +31,7 @@ else ()
     find_package(ZLIB REQUIRED)
 endif ()
 
-target_link_libraries(MeoAssistant ${OpenCV} ${PaddleOCR_LIB} ${Penguin_LIB} ${ZLIB})
+target_link_libraries(MeoAssistant ${OpenCV} ${PaddleOCR_LIB} ${ZLIB})
 
 if (BUILD_TEST)
     add_executable(test tools/TestCaller/main.cpp)
