@@ -78,6 +78,11 @@ namespace MeoAsstGui
                 new CombData { Display = "技能-5", Value = "CA-5" },
                 new CombData { Display = "1-7", Value = "1-7" }
             };
+            // “愚人号” 活动关卡
+            StageList.Add(new CombData { Display = "SN-8", Value = "SN-8" });
+            StageList.Add(new CombData { Display = "SN-9", Value = "SN-9" });
+            StageList.Add(new CombData { Display = "SN-10", Value = "SN-10" });
+
             // “风雪过境” 活动关卡
             //StageList.Add(new CombData { Display = "BI-7", Value = "BI-7" });
             //StageList.Add(new CombData { Display = "BI-8", Value = "BI-8" });

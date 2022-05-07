@@ -107,11 +107,14 @@ bool asst::Controller::connect_adb(const std::string & address)
 {
     LogTraceScope("connect_adb " + address);
 
-    std::string connect_cmd = utils::string_replace_all(
-        utils::string_replace_all(m_emulator_info.adb.connect, "[Adb]", m_emulator_info.adb.path),
-        "[Address]", address);
+    std::vector<std::pair<std::string, std::string>> replaces = {
+        {"[Adb]", m_emulator_info.adb.path},
+        {"[Address]", address}
+    };
 
-    std::string display_id;
+    std::string connect_cmd = utils::string_replace_all_batch(
+        m_emulator_info.adb.connect, replaces);
+
     auto connect_ret = call_command(connect_cmd, 600 * 1000);
     // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
     if (!connect_ret) {
@@ -120,9 +123,8 @@ bool asst::Controller::connect_adb(const std::string & address)
 
     // 按需获取display ID 信息
     if (!m_emulator_info.adb.display_id.empty()) {
-        std::string display_id_cmd = utils::string_replace_all(
-            utils::string_replace_all(m_emulator_info.adb.display_id, "[Adb]", m_emulator_info.adb.path),
-            "[Address]", address);
+        std::string display_id_cmd = utils::string_replace_all_batch(
+            m_emulator_info.adb.display_id, replaces);
         auto display_id_ret = call_command(display_id_cmd);
         if (!display_id_ret) {
             return false;
@@ -138,15 +140,12 @@ bool asst::Controller::connect_adb(const std::string & address)
             return false;
         }
 
-        display_id = display_id_pipe_str.substr(last + 1);
+        std::string display_id = display_id_pipe_str.substr(last + 1);
         // 去掉换行
         display_id.pop_back();
+
+        replaces.emplace_back("[DisplayId]", std::move(display_id));
     }
-    std::vector<std::pair<std::string, std::string>> replaces = {
-        {"[Adb]", m_emulator_info.adb.path},
-        {"[Address]", address},
-        {"[DisplayId]", display_id}
-    };
 
     std::string display_cmd = utils::string_replace_all_batch(
         m_emulator_info.adb.display, replaces);
@@ -178,29 +177,33 @@ bool asst::Controller::connect_adb(const std::string & address)
 
     constexpr double DefaultRatio =
         static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault);
-    double cur_ratio = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(m_emulator_info.adb.display_height);
+    double cur_ratio = static_cast<double>(m_emulator_info.adb.display_width) /
+        static_cast<double>(m_emulator_info.adb.display_height);
 
     if (cur_ratio >= DefaultRatio // 说明是宽屏或默认16:9，按照高度计算缩放
         || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff) {
         int scale_width = static_cast<int>(cur_ratio * WindowHeightDefault);
         m_scale_size = std::make_pair(scale_width, WindowHeightDefault);
-        m_control_scale = static_cast<double>(m_emulator_info.adb.display_height) / static_cast<double>(WindowHeightDefault);
+        m_control_scale = static_cast<double>(m_emulator_info.adb.display_height) /
+            static_cast<double>(WindowHeightDefault);
     }
     else { // 否则可能是偏正方形的屏幕，按宽度计算
         int scale_height = static_cast<int>(WindowWidthDefault / cur_ratio);
         m_scale_size = std::make_pair(WindowWidthDefault, scale_height);
-        m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) / static_cast<double>(WindowWidthDefault);
+        m_control_scale = static_cast<double>(m_emulator_info.adb.display_width) /
+            static_cast<double>(WindowWidthDefault);
     }
-    
+
     m_emulator_info.adb.click = utils::string_replace_all_batch(
         m_emulator_info.adb.click, replaces);
     m_emulator_info.adb.swipe = utils::string_replace_all_batch(
         m_emulator_info.adb.swipe, replaces);
-    m_emulator_info.adb.screencap_raw_with_gzip =
-        utils::string_replace_all_batch(
+    m_emulator_info.adb.screencap_raw_with_gzip = utils::string_replace_all_batch(
             m_emulator_info.adb.screencap_raw_with_gzip, replaces);
-    m_emulator_info.adb.screencap_encode = utils::string_replace_all_batch(m_emulator_info.adb.screencap_encode, replaces);
-    m_emulator_info.adb.release = utils::string_replace_all(m_emulator_info.adb.release, "[Adb]", m_emulator_info.adb.path);
+    m_emulator_info.adb.screencap_encode = utils::string_replace_all_batch(
+        m_emulator_info.adb.screencap_encode, replaces);
+    m_emulator_info.adb.release = utils::string_replace_all_batch(
+        m_emulator_info.adb.release, replaces);
 
     return true;
 }
