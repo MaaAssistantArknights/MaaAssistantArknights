@@ -371,59 +371,12 @@
         "algorithm": "justreturn",
         "action": "doNothing",
         "next": [
-            "StageResourceToLS6",
-            "StageLSToStageLS6",
+            "StageResourceToLS",
+            "StageLSToLS",
             "StageLS6"
         ]
     },
-    "StageResourceToLS6": {
-        "template": "StageResource.png",
-        "roi": [
-            640,
-            640,
-            300,
-            60
-        ],
-        "action": "clickSelf",
-        "next": [
-            "SwipeToStageLS6"
-        ]
-    },
-    "SwipeToStageLS6": {
-        "algorithm": "justReturn",
-        "action": "swipeToTheLeft",
-        "next": [
-            "StageLSToStageLS6"
-        ]
-    },
-    "StageLSToStageLS6": {
-        "template": "StageLS.png",
-        "action": "clickSelf",
-        "cache": false,
-        "next": [
-            "StageLS6"
-        ]
-    },
-    "StageLS6": {
-        "action": "clickSelf",
-        "cache": false,
-        "roi": [
-            923,
-            102,
-            259,
-            136
-        ]
-    },
-    "LS-5": {
-        "algorithm": "justreturn",
-        "action": "doNothing",
-        "next": [
-            "StageResourceToLS5",
-            "StageLS",
-            "StageLS5"
-        ]
-    },
-    "StageResourceToLS5": {
+    "StageResourceToLS": {
         "template": "StageResource.png",
         "roi": [
             640,
@@ -440,12 +393,44 @@
         "algorithm": "justReturn",
         "action": "swipeToTheLeft",
         "next": [
-            "StageLS"
+            "StageLSToLS"
         ]
     },
-    "StageLS": {
+    "StageLSToLS": {
+        "template": "StageLS.png",
         "action": "clickSelf",
         "cache": false,
+        "next": [
+            "StageLS6"
+        ]
+    },
+    "StageLS6": {
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            936,
+            101,
+            243,
+            143
+        ],
+        "next": [
+            "UnableToAgentLS6",
+            "AgentLS6"
+        ]
+    },
+    "AgentLS6": {
+        "algorithm": "justReturn",
+        "action": "DoNothing"
+    },
+    "UnableToAgentLS6": {
+        "template": "UnableToAgent.png",
+        "action": "swipeToTheLeft",
+        "roi": [
+            994,
+            535,
+            286,
+            143
+        ],
         "next": [
             "StageLS5"
         ]
@@ -680,59 +665,12 @@
         "algorithm": "justreturn",
         "action": "doNothing",
         "next": [
-            "StageResourceToCE6",
-            "StageCE",
+            "StageResourceToCE",
+            "StageCEToCE",
             "StageCE6"
         ]
     },
-    "StageResourceToCE6": {
-        "template": "StageResource.png",
-        "roi": [
-            640,
-            640,
-            300,
-            60
-        ],
-        "action": "clickSelf",
-        "next": [
-            "SwipeToStageCE6"
-        ]
-    },
-    "SwipeToStageCE6": {
-        "algorithm": "justReturn",
-        "action": "swipeToTheLeft",
-        "next": [
-            "StageCEToCE6"
-        ]
-    },
-    "StageCEToCE6": {
-        "template": "StageCE.png",
-        "action": "clickSelf",
-        "cache": false,
-        "next": [
-            "StageCE6"
-        ]
-    },
-    "StageCE6": {
-        "action": "clickSelf",
-        "cache": false,
-        "roi": [
-            936,
-            101,
-            243,
-            143
-        ]
-    },
-    "CE-5": {
-        "algorithm": "justreturn",
-        "action": "doNothing",
-        "next": [
-            "StageResourceToCE5",
-            "StageCE",
-            "StageCE5"
-        ]
-    },
-    "StageResourceToCE5": {
+    "StageResourceToCE": {
         "template": "StageResource.png",
         "roi": [
             640,
@@ -749,12 +687,44 @@
         "algorithm": "justReturn",
         "action": "swipeToTheLeft",
         "next": [
-            "StageCE"
+            "StageCEToCE"
         ]
     },
-    "StageCE": {
+    "StageCEToCE": {
+        "template": "StageCE.png",
         "action": "clickSelf",
         "cache": false,
+        "next": [
+            "StageCE6"
+        ]
+    },
+    "StageCE6": {
+        "action": "clickSelf",
+        "cache": false,
+        "roi": [
+            936,
+            101,
+            243,
+            143
+        ],
+        "next": [
+            "UnableToAgentCE6",
+            "AgentCE6"
+        ]
+    },
+    "AgentCE6": {
+        "algorithm": "justReturn",
+        "action": "DoNothing"
+    },
+    "UnableToAgentCE6": {
+        "template": "UnableToAgent.png",
+        "action": "swipeToTheLeft",
+        "roi": [
+            994,
+            535,
+            286,
+            143
+        ],
         "next": [
             "StageCE5"
         ]
