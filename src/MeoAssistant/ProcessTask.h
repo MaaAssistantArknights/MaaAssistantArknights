@@ -27,6 +27,7 @@ namespace asst
 
         void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);
+        void exec_slowly_swipe_task(ProcessTaskAction action);
 
         std::vector<std::string> m_raw_tasks_name;
         std::vector<std::string> m_cur_tasks_name;

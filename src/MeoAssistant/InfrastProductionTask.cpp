@@ -200,6 +200,14 @@ size_t asst::InfrastProductionTask::opers_detect()
             --cur_available_num;
             continue;
         }
+        {
+            std::string skills_str = "[";
+            for (const auto& skill : cur_oper.skills) {
+                skills_str += skill.id + ", ";
+            }
+            skills_str += "]";
+            Log.trace(skills_str, "mood", cur_oper.mood_ratio, "threshold", m_mood_threshold);
+        }
         // 心情过低的干员则不可用
         if (cur_oper.mood_ratio < m_mood_threshold) {
             //--cur_available_num;

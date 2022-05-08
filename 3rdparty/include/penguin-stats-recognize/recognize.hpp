@@ -162,10 +162,10 @@ public:
             _templ_list.emplace_back(templ);
         }
     }
-    ItemTemplates(const std::string stage_code)
+    ItemTemplates(const std::string& stage_code, const std::string& difficulty = "NORMAL")
     {
         const auto& stage_drop =
-            resource.get<dict>("stage_index")[stage_code]["drops"];
+            resource.get<dict>("stage_index")[stage_code][difficulty]["drops"];
         const auto& item_templs =
             resource.get<std::map<std::string, cv::Mat>>("item_templs");
         for (const auto& [_, itemId] : stage_drop.items())

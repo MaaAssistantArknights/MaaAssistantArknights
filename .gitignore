@@ -1,3 +1,6 @@
+# docs
+docs/node_modules
+docs/.vuepress/.temp
 # Prerequisites
 *.d
 

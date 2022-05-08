@@ -142,6 +142,12 @@ bool asst::TaskData::parse(const json::value& json)
         else if (action == "swipetotheright") {
             task_info_ptr->action = ProcessTaskAction::SwipeToTheRight;
         }
+        else if (action == "slowlyswipetotheleft") {
+            task_info_ptr->action = ProcessTaskAction::SlowlySwipeToTheLeft;
+        }
+        else if (action == "slowlyswipetotheright") {
+            task_info_ptr->action = ProcessTaskAction::SlowlySwipeToTheRight;
+        }
         else {
             m_last_error = "Task: " + name + " error: " + action;
             return false;

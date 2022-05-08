@@ -261,11 +261,11 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
                 read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
             };
         } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
-}
+    }
     else {
         // failed to create child process
         return std::nullopt;
-}
+    }
 #endif
 
     Log.trace("Call `", cmd, "` ret", exit_ret, ", output size:", pipe_data.size());
@@ -819,26 +819,33 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 bool asst::Controller::disconnect()
 {
 #ifndef _WIN32
-    if (m_child) {
+    if (m_child)
 #else
-    if (true) {
+    if (true)
 #endif
+    {
         return call_command(m_adb.release).has_value();
     }
-    }
+}
 
 const std::string& asst::Controller::get_uuid() const
 {
     return m_uuid;
 }
 
-cv::Mat asst::Controller::get_image()
+cv::Mat asst::Controller::get_image(bool raw)
 {
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
     for (int i = 0; i != 20; ++i) {
         if (screencap()) {
             break;
         }
+    }
+
+    if (raw) {
+        std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
+        cv::Mat copy = m_cache_image.clone();
+        return copy;
     }
 
     return get_resized_image();

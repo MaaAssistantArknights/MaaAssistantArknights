@@ -27,8 +27,10 @@ namespace asst
 
         bool get_stage_info();
         bool auto_battle();
+        void all_melee_retreat();
         bool speed_up();
         bool use_skill(const Rect& rect);
+        bool retreat(const Point& point);
         void clear();
 
         // 通过资源文件离线计算可放置干员的位置，优先使用

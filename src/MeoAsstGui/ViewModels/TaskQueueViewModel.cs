@@ -70,14 +70,21 @@ namespace MeoAsstGui
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
                 new CombData { Display = "剿灭作战", Value = "Annihilation" },
-                new CombData { Display = "龙门币-5", Value = "CE-5" },
+                new CombData { Display = "龙门币-6/5", Value = "CE-6" },
+                new CombData { Display = "经验-6/5", Value = "LS-6" },
                 new CombData { Display = "红票-5", Value = "AP-5" },
-                new CombData { Display = "经验-5", Value = "LS-5" },
-                new CombData { Display = "技能-5", Value = "CA-5" }
+                new CombData { Display = "技能-5", Value = "CA-5" },
+                new CombData { Display = "1-7", Value = "1-7" },
+
+                // “愚人号” 活动关卡
+                new CombData { Display = "SN-8", Value = "SN-8" },
+                new CombData { Display = "SN-9", Value = "SN-9" },
+                new CombData { Display = "SN-10", Value = "SN-10" },
+
+                //// “风雪过境” 活动关卡
+                //new CombData { Display = "BI-7", Value = "BI-7" },
+                //new CombData { Display = "BI-8", Value = "BI-8" }
             };
-            // “风雪过境” 活动关卡
-            //StageList.Add(new CombData { Display = "BI-7", Value = "BI-7" });
-            //StageList.Add(new CombData { Display = "BI-8", Value = "BI-8" });
 
             var now = DateTime.Now;
             var hour = now.Hour;
@@ -123,6 +130,8 @@ namespace MeoAsstGui
 
         public async void LinkStart()
         {
+            Idle = false;
+
             ClearLog();
 
             SaveSettingValue();
@@ -138,6 +147,7 @@ namespace MeoAsstGui
             if (!catchd)
             {
                 AddLog("连接模拟器失败\n请参考使用说明处理", "darkred");
+                Idle = true;
                 return;
             }
 
@@ -197,9 +207,16 @@ namespace MeoAsstGui
             if (count == 0)
             {
                 AddLog("未选择任务");
+                Idle = true;
                 return;
             }
             setPenguinId();
+
+            if (Idle)   // 一般是点了“停止”按钮了
+            {
+                return;
+            }
+
             ret &= asstProxy.AsstStart();
 
             if (ret)
@@ -210,7 +227,6 @@ namespace MeoAsstGui
             {
                 AddLog("出现未知错误");
             }
-            Idle = !ret;
         }
 
         public void Stop()
