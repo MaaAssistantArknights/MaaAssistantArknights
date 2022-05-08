@@ -323,7 +323,7 @@ private:
     const int _CANDIDATES_COUNT = 5;
     bool _existance = false;
     std::string _difficulty = "NORMAL"; // for temporary workaround
-    std::vector<Widget_Character> _stage_chrs;
+    std::deque<Widget_Character> _stage_chrs;
     const std::string _stage_code() const
     {
         return _stage_code(_candidate_index);
@@ -407,8 +407,8 @@ private:
     }
     void _get_candidates()
     {
-        auto comp = [](std::vector<Widget_Character> a,
-                       std::vector<Widget_Character> b) {
+        auto comp = [](std::deque<Widget_Character> a,
+                       std::deque<Widget_Character> b) {
             int dist_a = 0, dist_b = 0;
             for (const auto& chr : a)
             {
@@ -421,8 +421,8 @@ private:
             return dist_a > dist_b;
         };
         std::priority_queue<
-            std::vector<Widget_Character>,
-            std::vector<std::vector<Widget_Character>>,
+            std::deque<Widget_Character>,
+            std::vector<std::deque<Widget_Character>>,
             decltype(comp)>
             q(comp);
         auto last_pop = _stage_chrs;
@@ -882,7 +882,7 @@ public:
 private:
     dict _drops_data;
     std::vector<Drop> _drop_list;
-    std::vector<Widget_Droptype> _droptype_list;
+    std::deque<Widget_Droptype> _droptype_list;
     auto _get_separate()
     {
         cv::Mat img_bin = _img;
@@ -960,8 +960,8 @@ private:
     }
     void _next_droptype_candidate()
     {
-        auto comp = [](std::vector<Widget_Droptype> a,
-                       std::vector<Widget_Droptype> b) {
+        auto comp = [](std::deque<Widget_Droptype> a,
+                       std::deque<Widget_Droptype> b) {
             int dist_a = 0, dist_b = 0;
             for (const auto& type : a)
             {
@@ -974,8 +974,8 @@ private:
             return dist_a > dist_b;
         };
         std::priority_queue<
-            std::vector<Widget_Droptype>,
-            std::vector<std::vector<Widget_Droptype>>,
+            std::deque<Widget_Droptype>,
+            std::vector<std::deque<Widget_Droptype>>,
             decltype(comp)>
             q(comp);
         auto last_pop = _droptype_list;
