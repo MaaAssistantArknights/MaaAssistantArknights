@@ -29,7 +29,7 @@ cmake ../ -DPADDLE_LIB=/your_path/paddle_inference/ -DOpenCV_DIR=/your_path_to_o
 
 ### zlib
 
-Ubuntu 下:  
+Ubuntu 下:
 
 ```bash
 sudo apt update && sudo apt install zlib1g-dev
