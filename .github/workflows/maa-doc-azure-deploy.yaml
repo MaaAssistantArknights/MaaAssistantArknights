@@ -6,12 +6,12 @@ on:
       - master
     paths:
       - "docs/*"
-  workflow_dispatch:
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
+    if: github.repository_owner == 'MaaAssistantArknights'
     steps:
       - uses: actions/checkout@v2
         with:
