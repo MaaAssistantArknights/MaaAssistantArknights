@@ -10,7 +10,7 @@
         "algorithm": "OcrDetect",
         "action": "clickSelf",
         "text": [
-            "活动已开放"
+            "已开放"
         ],
         "roi": [
             40,
@@ -69,7 +69,7 @@
         "algorithm": "OcrDetect",
         "action": "clickSelf",
         "text": [
-            "活动已开放"
+            "已开放"
         ],
         "roi": [
             40,
@@ -128,7 +128,7 @@
         "algorithm": "OcrDetect",
         "action": "clickSelf",
         "text": [
-            "活动已开放"
+            "已开放"
         ],
         "roi": [
             40,
