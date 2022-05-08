@@ -80,7 +80,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 图像识别库：[opencv](https://github.com/opencv/opencv.git)
 - ~~文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - 文字识别库：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- 关卡掉落识别：[企鹅物流识别](https://github.com/KumoSiunaus/penguin-stats-recognize-v3)
+- 关卡掉落识别：[企鹅物流识别](https://github.com/penguin-statistics/recognizer)
 - 地图格子识别：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
 - C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)
@@ -100,19 +100,15 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 贡献/参与者
 
-感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！  
-这里仅列出对 MAA 提供了巨大帮助的大佬们 (*´▽｀)ノノ
+感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！ (*´▽｀)ノノ
 
-- 感谢 [tcyh035](https://github.com/tcyh035) 帮忙设计重构 WPF 图形界面
-- 感谢 [LoveLoliii](https://github.com/LoveLoliii) 提供公开招募算法及数据
-- 感谢 [dantmnf](https://github.com/dantmnf) 提供各种 adb 及其他逻辑处理思路
-- 感谢 [泰迪](https://github.com/yuanyan3060) 提供的地图格子识别算法及开源库
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
 ## 开发相关
 
 ### Windows
 
-直接使用 Visual Studio 2019 或更高版本打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
+直接使用 Visual Studio 2022 ~~或更高版本~~ 打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
 
 ### Linux | macOS
 

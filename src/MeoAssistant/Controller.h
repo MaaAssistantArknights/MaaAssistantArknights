@@ -34,7 +34,7 @@ namespace asst
         bool disconnect();
 
         const std::string& get_uuid() const;
-        cv::Mat get_image();
+        cv::Mat get_image(bool raw = false);
         std::vector<uchar> get_image_encode() const;
 
         // 点击和滑动都是异步执行，返回该任务的id

@@ -1,5 +1,7 @@
 #include "RoguelikeBattleTaskPlugin.h"
 
+#include <chrono>
+
 #include "BattleImageAnalyzer.h"
 #include "Controller.h"
 #include "TaskData.h"
@@ -43,11 +45,24 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
         return true;
     }
 
+    constexpr static auto time_limit = std::chrono::minutes(10);
+
+    bool timeout = false;
+    auto start_time = std::chrono::steady_clock::now();
     while (!need_exit()) {
         // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
         if (!auto_battle() && m_opers_used) {
             break;
         }
+        if (std::chrono::steady_clock::now() - start_time > time_limit) {
+            timeout = true;
+            break;
+        }
+    }
+    // 超过时间限制了，一般是某个怪被干员卡住了，一直不结束。
+    if (timeout) {
+        Log.info("Timeout, retreat!");
+        all_melee_retreat();
     }
 
     clear();
@@ -81,9 +96,9 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
                 if (side_info.empty()) {
                     continue;
                 }
-                m_side_tile_info = std::move(side_info);
-                m_normal_tile_info = tile.calc(tr.text, false);
                 m_stage_name = tr.text;
+                m_side_tile_info = std::move(side_info);
+                m_normal_tile_info = tile.calc(m_stage_name, false);
                 calced = true;
                 break;
             }
@@ -328,6 +343,28 @@ bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
     ProcessTask task(*this, { "BattleUseSkillBegin" });
     task.set_retry_times(0);
     return task.run();
+}
+
+bool asst::RoguelikeBattleTaskPlugin::retreat(const Point& point)
+{
+    m_ctrler->click(point);
+
+    ProcessTask task(*this, { "BattleOperRetreatBegin" });
+    task.set_retry_times(0);
+    return task.run();
+}
+
+void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
+{
+    for (const auto& [loc, _] : m_used_tiles) {
+        auto& tile_info = m_normal_tile_info[loc];
+        auto& type = tile_info.buildable;
+        if (type == Loc::Melee || type == Loc::All) {
+            if (!retreat(tile_info.pos)) {
+                return;
+            }
+        }
+    }
 }
 
 void asst::RoguelikeBattleTaskPlugin::clear()

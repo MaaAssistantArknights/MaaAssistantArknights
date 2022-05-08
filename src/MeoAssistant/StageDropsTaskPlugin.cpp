@@ -96,7 +96,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     }
     Resrc.penguin().set_language(m_server);
 
-    const cv::Mat image = m_ctrler->get_image();
+    const cv::Mat image = m_ctrler->get_image(true);
     std::string res = Resrc.penguin().recognize(image);
     Log.trace("Results of penguin recognition:\n", res);
 

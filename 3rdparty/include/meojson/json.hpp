@@ -1022,10 +1022,9 @@ namespace json
         static_assert(
             std::is_constructible<json::value, typename ArrayType::value_type>::value,
             "Parameter can't be used to construct a json::value");
-        _array_data.reserve(arr.size());
-        for (auto&& ele : arr) {
-            _array_data.emplace_back(std::move(ele));
-        }
+        _array_data.assign(
+            std::make_move_iterator(arr.begin()),
+            std::make_move_iterator(arr.end()));
     }
 
     MEOJSON_INLINE const value& array::at(size_t pos) const
@@ -1835,10 +1834,9 @@ namespace json
                                             typename MapType::value_type>::value,
                       "Parameter can't be used to construct a "
                       "object::raw_object::value_type");
-        _object_data.reserve(map.size());
-        for (auto&& ele : map) {
-            _object_data.emplace(std::move(ele));
-        }
+        _object_data.insert(
+            std::make_move_iterator(map.begin()),
+            std::make_move_iterator(map.end()));
     }
 
     // *************************
