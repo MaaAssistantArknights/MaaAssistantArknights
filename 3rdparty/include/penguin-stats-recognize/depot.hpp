@@ -16,6 +16,7 @@ using dict = nlohmann::ordered_json;
 
 namespace penguin
 {
+
 enum CircleFlags
 {
     X = 0,
@@ -36,7 +37,7 @@ public:
         _get_item_list();
         return *this;
     }
-    const dict report([[maybe_unused]] bool debug = false)
+    const dict report(bool debug = false)
     {
         dict _report = dict::object();
         return _report;
@@ -112,7 +113,7 @@ private:
                 }
             }
         }
-        _item_diameter = static_cast<int>(round(cv::mean(item_circles)[R] * 2));
+        _item_diameter = round(cv::mean(item_circles)[R] * 2);
 
         for (const cv::Vec3i& c : item_circles)
         {
@@ -127,7 +128,7 @@ private:
         // show_img(img_blur);
 
         int radius = _item_diameter / 2;
-        int offset = static_cast<int>(radius * 1.2);
+        int offset = radius * 1.2;
         ItemTemplates templs;
         for (const cv::Vec3i& c : item_circles)
         {
@@ -156,6 +157,7 @@ private:
         // show_img(_img_ext);
     }
 };
+
 } // namespace penguin
 
 #endif // PENGUIN_DEPOT_HPP_

@@ -18,7 +18,13 @@
 #include "depot.hpp"
 #include "result.hpp"
 
-static const std::string version = "4.2.3";
+#ifdef PENGUIN_RECOGNIZER_RELEASE_VERSION
+#define PENGUIN_RECOGNIZER_VERSION_STRING PENGUIN_RECOGNIZER_RELEASE_VERSION
+#else
+#define PENGUIN_RECOGNIZER_VERSION_STRING "v0.0.0"
+#endif
+
+static const std::string version = PENGUIN_RECOGNIZER_VERSION_STRING;
 static const std::string opencv_version = CV_VERSION;
 
 cv::Mat decode(std::string JSarrayBuffer)
