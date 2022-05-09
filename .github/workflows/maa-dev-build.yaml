@@ -40,7 +40,7 @@ jobs:
 
       - name: Read file name
         id: read_path
-        run: pwsh .\read_path.ps1 ./artifacts MaaBundle
+        run: pwsh .\read_path.ps1 ./artifacts MaaBundle*
 
       - name: Upload Artifacts 0
         uses: actions/upload-artifact@v3
