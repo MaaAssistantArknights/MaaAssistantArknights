@@ -436,3 +436,4 @@ adb_screen.png
 tools/**/*.png
 resource/infrast
 .vscode
+!3rdparty/tools/*
