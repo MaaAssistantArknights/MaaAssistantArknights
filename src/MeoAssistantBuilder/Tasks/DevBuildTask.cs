@@ -57,22 +57,5 @@ public sealed class DevBuildTask : FrostingTask<MaaBuildContext>
         context.CopyThirdPartyDlls(releaseCiOutput);
         context.CopyResources(releaseCiOutput);
         ZipFile.CreateFromDirectory(releaseCiOutput, releaseCiArtifact);
-
-        context.Information("--------------------------------------------------");
-        context.Information("5. Upload Artifacts");
-        context.Information("--------------------------------------------------");
-
-        var gh = context.GitHubActions();
-        if (gh.IsRunningOnGitHubActions)
-        {
-            context.Information("Upload artifacts to GitHub Actions");
-            gh.Commands.UploadArtifact(Cake.Core.IO.FilePath.FromString(releaseArtifact), artifact.Replace("(CONF)", "Release")).Wait();
-            gh.Commands.UploadArtifact(Cake.Core.IO.FilePath.FromString(releaseDebugArtifact), artifact.Replace("(CONF)", "RelWithDebInfo")).Wait();
-            gh.Commands.UploadArtifact(Cake.Core.IO.FilePath.FromString(releaseCiArtifact), artifact.Replace("(CONF)", "CICD")).Wait();
-        }
-        else
-        {
-            context.Information("Skip");
-        }
     }
 }
