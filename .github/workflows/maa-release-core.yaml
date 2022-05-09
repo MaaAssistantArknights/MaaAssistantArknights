@@ -1,0 +1,44 @@
+name: Release MaaCore
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+
+  release-core:
+
+    runs-on: windows-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
+
+      - name: Setup .NET 6.0.x
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Run release core task
+        run: pwsh .\build.ps1 ReleaseCore
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: MaaCore-${{ steps.tag.outputs.tag }}
+          path: ./artifacts/MaaCore*
+
+      - name: Upload release assets
+        uses: xresloader/upload-to-github-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: ./artifacts/MaaCore*
+          tags: true
+          verbose: true
