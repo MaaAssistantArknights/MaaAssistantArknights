@@ -19,22 +19,19 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Run dev build task
-        run: pwsh .\ci-dev-build.ps1
+        run: pwsh .\build.ps1 DevBuild
 
       - name: Upload Artifacts Release
         uses: actions/upload-artifact@v3
         with:
-          name: MaaFull-DevBuild-Release
           path: ./artifacts/MaaFull-DevBuild-Release*
 
       - name: Upload Artifacts RelWithDebInfo
         uses: actions/upload-artifact@v3
         with:
-          name: MaaFull-DevBuild-RelWithDebInfo
           path: ./artifacts/MaaFull-DevBuild-RelWithDebInfo*
 
       - name: Upload Artifacts CICD
         uses: actions/upload-artifact@v3
         with:
-          name: MaaFull-DevBuild-CICD
           path: ./artifacts/MaaFull-DevBuild-CICD*
