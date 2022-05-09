@@ -3,8 +3,22 @@ name: "Maa Dev Build"
 on:
   push:
     branches:
-      - master
+      - dev
+    paths:
+      - src/MeoAssistant/**
+      - src/MeoAssistantBuilder/**
+      - src/MeoAsstGui/**
+      - 3rdparty/**
+      - include/**
+      - MeoAssistantArknights.sln
   pull_request:
+    paths:
+      - src/MeoAssistant/**
+      - src/MeoAssistantBuilder/**
+      - src/MeoAsstGui/**
+      - 3rdparty/**
+      - include/**
+      - MeoAssistantArknights.sln
   workflow_dispatch:
 
 jobs:
