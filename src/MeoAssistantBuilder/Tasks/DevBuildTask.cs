@@ -17,11 +17,11 @@ public sealed class DevBuildTask : FrostingTask<MaaBuildContext>
 
         context.CleanArtifacts();
         var (bt, hash) = context.GetBuildInformation();
-        var artifact = $"MaaFull-DevBuild-(CONF)-{hash}-{bt}.zip";
+        var artifact = $"MaaBundle-DevBuild-(CONF)-{hash}-{bt}.zip";
         context.Information($"Dev build of commit {hash} at {bt}");
 
         context.Information("--------------------------------------------------");
-        context.Information("2. Build MaaFull with configuration Release");
+        context.Information("2. Build MaaBundle with configuration Release");
         context.Information("--------------------------------------------------");
 
         context.CleanAll();
@@ -33,7 +33,7 @@ public sealed class DevBuildTask : FrostingTask<MaaBuildContext>
         ZipFile.CreateFromDirectory(releaseOutput, releaseArtifact);
 
         context.Information("--------------------------------------------------");
-        context.Information("3. Build MaaFull with configuration RelWithDebInfo");
+        context.Information("3. Build MaaBundle with configuration RelWithDebInfo");
         context.Information("--------------------------------------------------");
 
         context.CleanAll();
@@ -45,7 +45,7 @@ public sealed class DevBuildTask : FrostingTask<MaaBuildContext>
         ZipFile.CreateFromDirectory(releaseDebugOutput, releaseDebugArtifact);
 
         context.Information("--------------------------------------------------");
-        context.Information("4. Build MaaFull with configuration CICD");
+        context.Information("4. Build MaaBundle with configuration CICD");
         context.Information("--------------------------------------------------");
 
         context.CleanAll();
