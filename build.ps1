@@ -3,7 +3,7 @@ if ($args.Length -ne 1) {
 }
 
 $target = $args[0]
-$valid_targets = @("ReleaseCore", "ReleaseWpf", "ReleaseResource", "DevBuild")
+$valid_targets = @("ReleaseCore", "ReleaseWpf", "ReleaseResource", "ReleaseBundle", "DevBuild")
 
 if (!$valid_targets.Contains($target)) {
     throw "$target is not a valid target"
