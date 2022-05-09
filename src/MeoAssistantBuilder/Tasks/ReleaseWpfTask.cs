@@ -42,20 +42,5 @@ public sealed class ReleaseWpfTask : FrostingTask<MaaBuildContext>
         ZipFile.CreateFromDirectory(buildOutput, bundle);
 
         context.Information($"Bundled MaaWpf Executables file: {bundle}");
-
-        context.Information("--------------------------------------------------");
-        context.Information("5. Upload Artifact");
-        context.Information("--------------------------------------------------");
-
-        var gh = context.GitHubActions();
-        if (gh.IsRunningOnGitHubActions)
-        {
-            context.Information("Upload artifacts to GitHub Actions");
-            gh.Commands.UploadArtifact(Cake.Core.IO.FilePath.FromString(bundle), $"MaaWpf-{version}.zip").Wait();
-        }
-        else
-        {
-            context.Information("Skip");
-        }
     }
 }

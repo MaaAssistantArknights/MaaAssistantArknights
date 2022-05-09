@@ -20,5 +20,9 @@ jobs:
 
       - name: Run dev build task
         run: pwsh .\ci-dev-build.ps1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Dev Build Bundles
+          path: ./artifacts

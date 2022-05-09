@@ -39,20 +39,5 @@ public sealed class ReleaseResourceTask : FrostingTask<MaaBuildContext>
         ZipFile.CreateFromDirectory(resDir, bundle);
 
         context.Information($"Bundled MaaResource file: {bundle}");
-
-        context.Information("--------------------------------------------------");
-        context.Information("4. Upload Artifact");
-        context.Information("--------------------------------------------------");
-
-        var gh = context.GitHubActions();
-        if (gh.IsRunningOnGitHubActions)
-        {
-            context.Information("Upload artifacts to GitHub Actions");
-            gh.Commands.UploadArtifact(Cake.Core.IO.FilePath.FromString(bundle), $"MaaResource-{version}.zip").Wait();
-        }
-        else
-        {
-            context.Information("Skip");
-        }
     }
 }
