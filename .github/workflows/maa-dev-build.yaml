@@ -20,3 +20,5 @@ jobs:
 
       - name: Run dev build task
         run: pwsh .\ci-dev-build.ps1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
