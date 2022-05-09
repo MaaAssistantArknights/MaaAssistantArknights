@@ -41,4 +41,5 @@ jobs:
         with:
           file: ./artifacts/MaaCore*
           tags: true
+          draft: false
           verbose: true
