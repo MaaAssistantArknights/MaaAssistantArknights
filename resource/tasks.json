@@ -1736,6 +1736,205 @@
             "RecruitNowConfirm"
         ]
     },
+    "ActivitiesBegin": {
+        "algorithm": "justreturn",
+        "action": "doNothing",
+        "next": [
+            "ReturnToActivities",
+            "MiningActivities",
+            "RecruitingActivities"
+        ]
+    },
+    "ReturnToActivities": {
+        "template": "Return.png",
+        "action": "clickSelf",
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
+        "next": [
+            "ReturnToActivities",
+            "MiningActivities",
+            "RecruitingActivities",
+            "Stop"
+        ]
+    },
+    "MiningActivities": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "限时开采",
+            "开采"
+        ],
+        "action": "clickSelf",
+        "roi": [
+            0,
+            20,
+            302,
+            302
+        ],
+        "next": [
+            "MiningActivityDigging",
+            "MiningActivitiesReturn"
+        ]
+    },
+    "MiningActivityDigging": {
+        "action": "clickSelf",
+        "roi": [
+            901,
+            469,
+            334,
+            182
+        ],
+        "next": [
+            "MiningActivityDigging",
+            "MiningActivityDiggingEnd",
+            "MiningActivitiesReturn"
+        ]
+    },
+    "MiningActivityDiggingEnd": {
+        "action": "clickSelf",
+        "roi": [
+            559,
+            563,
+            160,
+            157
+        ],
+        "next": [
+            "MiningActivitiesReturn"
+        ]
+    },
+    "MiningActivitiesReturn": {
+        "template": "CloseAnno.png",
+        "action": "clickSelf",
+        "roi": [
+            1146,
+            0,
+            134,
+            162
+        ],
+        "next": [
+            "RecruitingActivities",
+            "MiningActivitiesReturn",
+            "Stop"
+        ]
+    },
+    "RecruitingActivities": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "赠送",
+            "次"
+        ],
+        "action": "clickSelf",
+        "roi": [
+            1148,
+            416,
+            132,
+            138
+        ],
+        "next": [
+            "RecruitingActivitiesConfirm",
+            "RecruitingActivities"
+        ]
+    },
+    "RecruitingActivitiesConfirm": {
+        "action": "doNothing",
+        "algorithm": "OcrDetect",
+        "text": [
+            "赠送",
+            "次",
+            "小时"
+        ],
+        "roi": [
+            729,
+            515,
+            303,
+            135
+        ],
+        "next": [
+            "RecruitingActivitiesRecruit",
+            "RecruitingActivitiesConfirm"
+        ]
+    },
+    "RecruitingActivitiesRecruit": {
+        "algorithm": "OcrDetect",
+        "action": "clickSelf",
+        "text": [
+            "寻访一次",
+            "寻访"
+        ],
+        "roi": [
+            770,
+            577,
+            267,
+            143
+        ],
+        "next": [
+            "RecruitingActivitiesRecruitNowConfirm"
+        ]
+    },
+    "RecruitingActivitiesRecruitNowConfirm": {
+        "action": "clickSelf",
+        "template": "RecruitNowConfirm.png",
+        "roi": [
+            586,
+            399,
+            694,
+            192
+        ],
+        "next": [
+            "RecruitingActivitiesRecruitSkip",
+            "RecruitingActivitiesRecruitSkipWithoutButton",
+            "RecruitingActivitiesRecruitNowConfirm"
+        ]
+    },
+    "RecruitingActivitiesRecruitSkip": {
+        "action": "clickSelf",
+        "template": "RecruitSkip.png",
+        "roi": [
+            1100,
+            0,
+            180,
+            150
+        ],
+        "next": [
+            "RecruitingActivitiesRecruitSkip",
+            "RecruitingActivitiesRecruitSkipWithoutButton"
+        ]
+    },
+    "RecruitingActivitiesRecruitSkipWithoutButton": {
+        "action": "clickRect",
+        "algorithm": "justReturn",
+        "specificRect": [
+            1180,
+            15,
+            85,
+            60
+        ],
+        "next": [
+            "RecruitingActivitiesRecruitEnd",
+            "RecruitingActivitiesRecruitSkip",
+            "RecruitingActivitiesRecruitSkipWithoutButton"
+        ]
+    },
+    "RecruitingActivitiesRecruitEnd": {
+        "algorithm": "OcrDetect",
+        "action": "doNothing",
+        "text": [
+            "寻访一次",
+            "寻访"
+        ],
+        "roi": [
+            770,
+            577,
+            267,
+            143
+        ],
+        "next": [
+            "Stop"
+        ]
+    },
     "AwardBegin": {
         "algorithm": "justreturn",
         "action": "doNothing",
