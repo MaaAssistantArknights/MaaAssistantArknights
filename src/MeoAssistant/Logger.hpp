@@ -6,6 +6,7 @@
 #include <mutex>
 #include <type_traits>
 #include <vector>
+#include <thread>
 
 #include "AsstUtils.hpp"
 #include "Version.h"
