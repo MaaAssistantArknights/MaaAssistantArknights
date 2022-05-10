@@ -49,7 +49,7 @@ namespace asst
         // 添加访问好友任务
         bool append_visit();
         // 添加领取当日信用及信用购的任务
-        bool append_mall(bool with_shopping);
+        bool append_mall(const std::vector<int>& black_list);
 
         // 添加基建换班任务任务
         bool append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, const std::string& uses_of_drones, double dorm_threshold);

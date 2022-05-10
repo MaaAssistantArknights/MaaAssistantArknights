@@ -25,7 +25,7 @@ extern "C" {
     bool ASSTAPI AsstAppendFight(asst::Assistant* p_asst, const char* stage, int max_mecidine, int max_stone, int max_times);
     bool ASSTAPI AsstAppendAward(asst::Assistant* p_asst);
     bool ASSTAPI AsstAppendVisit(asst::Assistant* p_asst);
-    bool ASSTAPI AsstAppendMall(asst::Assistant* p_asst, bool with_shopping);
+    bool ASSTAPI AsstAppendMall(asst::Assistant* p_asst, const int black_list[],int list_size);
     // bool ASSTAPI AsstAppendProcessTask(asst::Assistant* p_asst, const char* task_name);
     bool ASSTAPI AsstAppendInfrast(asst::Assistant* p_asst, int work_mode, const char** order, int order_size, const char* uses_of_drones, double dorm_threshold);
     bool ASSTAPI AsstAppendRecruit(asst::Assistant* p_asst, int max_times, const int select_level[], int select_len, const int confirm_level[], int confirm_len, bool need_refresh, bool use_expedited);

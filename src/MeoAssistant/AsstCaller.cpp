@@ -166,13 +166,14 @@ bool AsstAppendVisit(asst::Assistant* p_asst)
     return p_asst->append_visit();
 }
 
-bool AsstAppendMall(asst::Assistant* p_asst, bool with_shopping)
+bool AsstAppendMall(asst::Assistant* p_asst, const int black_list[], int list_size)
 {
     if (p_asst == nullptr) {
         return false;
     }
-
-    return p_asst->append_mall(with_shopping);
+    std::vector<int> black_list_vector;
+    black_list_vector.assign(black_list, black_list + list_size);
+    return p_asst->append_mall(black_list_vector);
 }
 
 //bool AsstAppendProcessTask(asst::Assistant* p_asst, const char* task_name)

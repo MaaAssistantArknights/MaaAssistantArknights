@@ -296,7 +296,24 @@ namespace MeoAsstGui
         {
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendMall(settings.CreditShopping);
+            var blackList = new List<int>();
+            if (settings.CreditShoppingBlackList1)
+            {
+                blackList.Add(0);
+            }
+            if (settings.CreditShoppingBlackList2)
+            {
+                blackList.Add(1);
+            }
+            if (settings.CreditShoppingBlackList3)
+            {
+                blackList.Add(2);
+            }
+            if (settings.CreditShoppingBlackList4)
+            {
+                blackList.Add(3);
+            }
+            return asstProxy.AsstAppendMall(blackList.ToArray(), blackList.Count);
         }
 
         private bool appendRecruit()

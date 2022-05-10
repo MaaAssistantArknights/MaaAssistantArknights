@@ -43,7 +43,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendVisit(IntPtr ptr);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendMall(IntPtr ptr, bool with_shopping);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendMall(IntPtr ptr, int[] black_list, int list_len);
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendInfrast(IntPtr ptr, int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold);
 
@@ -588,9 +588,9 @@ namespace MeoAsstGui
             return AsstAppendVisit(_ptr);
         }
 
-        public bool AsstAppendMall(bool with_shopping)
+        public bool AsstAppendMall(int[] black_list, int black_list_len)
         {
-            return AsstAppendMall(_ptr, with_shopping);
+            return AsstAppendMall(_ptr, black_list, black_list_len);
         }
 
         public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited)

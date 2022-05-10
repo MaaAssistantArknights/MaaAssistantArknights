@@ -9,8 +9,8 @@ namespace asst
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         CreditShopImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
         virtual ~CreditShopImageAnalyzer() = default;
-
-        virtual bool analyze() override;
+        virtual bool analyze();
+        virtual bool analyze(const std::vector<int> black_list);
 
         const std::vector<Rect>& get_result() const noexcept
         {
@@ -28,7 +28,7 @@ namespace asst
             AbstractImageAnalyzer::set_image(image, roi);
         }
         bool commoditys_analyze();
-        bool whether_to_buy_analyze();
+        bool whether_to_buy_analyze(const std::vector<int> black_list);
         bool sold_out_analyze();
 
         std::vector<Rect> m_commoditys;

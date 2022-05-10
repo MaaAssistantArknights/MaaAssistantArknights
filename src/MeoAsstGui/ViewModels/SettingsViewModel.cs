@@ -325,16 +325,50 @@ namespace MeoAsstGui
         }
 
         /* 信用商店设置 */
+        private bool _creditshoppingblacklist1 = System.Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditShoppingBlackList1", bool.TrueString));
 
-        private bool _creditShopping = Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditShopping", bool.TrueString));
-
-        public bool CreditShopping
+        public bool CreditShoppingBlackList1
         {
-            get { return _creditShopping; }
+            get { return _creditshoppingblacklist1; }
             set
             {
-                SetAndNotify(ref _creditShopping, value);
-                ViewStatusStorage.Set("Mall.CreditShopping", value.ToString());
+                SetAndNotify(ref _creditshoppingblacklist1, value);
+                ViewStatusStorage.Set("Mall.CreditShoppingBlackList1", value.ToString());
+            }
+        }
+
+        private bool _creditshoppingblacklist2 = System.Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditShoppingBlackList2", bool.TrueString));
+
+        public bool CreditShoppingBlackList2
+        {
+            get { return _creditshoppingblacklist2; }
+            set
+            {
+                SetAndNotify(ref _creditshoppingblacklist2, value);
+                ViewStatusStorage.Set("Mall.CreditShoppingBlackList2", value.ToString());
+            }
+        }
+
+        private bool _creditshoppingblacklist3 = System.Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditShoppingBlackList3", bool.FalseString));
+
+        public bool CreditShoppingBlackList3
+        {
+            get { return _creditshoppingblacklist3; }
+            set
+            {
+                SetAndNotify(ref _creditshoppingblacklist3, value);
+                ViewStatusStorage.Set("Mall.CreditShoppingBlackList3", value.ToString());
+            }
+        }
+        private bool _creditshoppingblacklist4 = System.Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditShoppingBlackList4", bool.FalseString));
+
+        public bool CreditShoppingBlackList4
+        {
+            get { return _creditshoppingblacklist4; }
+            set
+            {
+                SetAndNotify(ref _creditshoppingblacklist4, value);
+                ViewStatusStorage.Set("Mall.CreditShoppingBlackList4", value.ToString());
             }
         }
 

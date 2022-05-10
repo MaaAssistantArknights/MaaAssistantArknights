@@ -7,10 +7,19 @@
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="550">
-    <Grid>
+    <StackPanel VerticalAlignment="Center" Margin="40, 0, 40, 0">
         <!--IsEnabled="{Binding CreditShoppingCheckBoxIsEnable}"-->
-        <CheckBox IsChecked="{Binding CreditShopping}"  Block.TextAlignment="Center"
-                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                  Content="信用商店随缘买&#13;（不买碳和家具）" />
-    </Grid>
+        <CheckBox IsChecked="{Binding CreditShoppingBlackList1}"  Block.TextAlignment="Center"
+                  HorizontalAlignment="Center" Margin="0,2" VerticalAlignment="Center"
+                  Content="不买碳" />
+        <CheckBox IsChecked="{Binding CreditShoppingBlackList2}"  Block.TextAlignment="Center"
+                  HorizontalAlignment="Center" Margin="0,2" VerticalAlignment="Center"
+                  Content="不买家具" />
+        <CheckBox IsChecked="{Binding CreditShoppingBlackList3}"  Block.TextAlignment="Center"
+                  HorizontalAlignment="Center" Margin="0,2" VerticalAlignment="Center"
+                  Content="不买加急许可" />
+        <CheckBox IsChecked="{Binding CreditShoppingBlackList4}"  Block.TextAlignment="Center"
+                  HorizontalAlignment="Center" Margin="0,2" VerticalAlignment="Center"
+                  Content="不买招募许可" />
+    </StackPanel>
 </UserControl>

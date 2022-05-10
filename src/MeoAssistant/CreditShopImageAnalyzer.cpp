@@ -9,11 +9,16 @@
 
 bool asst::CreditShopImageAnalyzer::analyze()
 {
+    return false;
+}
+
+bool asst::CreditShopImageAnalyzer::analyze(const std::vector<int> black_list)
+{
     m_commoditys.clear();
     m_need_to_buy.clear();
     m_result.clear();
 
-    return commoditys_analyze() && whether_to_buy_analyze() && sold_out_analyze();
+    return commoditys_analyze() && whether_to_buy_analyze(black_list) && sold_out_analyze();
 }
 
 bool asst::CreditShopImageAnalyzer::commoditys_analyze()
@@ -45,11 +50,15 @@ bool asst::CreditShopImageAnalyzer::commoditys_analyze()
     return true;
 }
 
-bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
+bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze(const std::vector<int> black_list)
 {
     const auto not_to_buy_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
         Task.get("CreditShop-NotToBuy"));
+    std::vector<std::string> result;
 
+    for (const int& index : black_list) {
+        result.push_back(not_to_buy_task_ptr->text[index]);
+    }    
     for (const Rect& commodity : m_commoditys) {
         // 商品名的区域
         Rect name_roi = not_to_buy_task_ptr->roi;
@@ -57,7 +66,7 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
         name_roi.y += commodity.y;
 
         OcrImageAnalyzer ocr_analyzer(m_image, name_roi);
-        ocr_analyzer.set_required(not_to_buy_task_ptr->text);
+        ocr_analyzer.set_required(result);
         if (ocr_analyzer.analyze()) {
             //因为是不买的，有识别结果说明这个商品不买，直接跳过
             continue;

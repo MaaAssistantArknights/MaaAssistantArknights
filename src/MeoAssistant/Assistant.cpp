@@ -249,7 +249,7 @@ bool asst::Assistant::append_visit()
     return append_process_task("VisitBegin", "Visit");
 }
 
-bool asst::Assistant::append_mall(bool with_shopping)
+bool asst::Assistant::append_mall(const std::vector<int>& black_list)
 {
     LogTraceFunction;
     if (!m_inited) {
@@ -262,8 +262,9 @@ bool asst::Assistant::append_mall(bool with_shopping)
 
     append_process_task("MallBegin", TaskChain);
 
-    if (with_shopping) {
+    if (black_list.capacity()>1) {
         auto shopping_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this, TaskChain);
+        shopping_task_ptr->set_black_list(black_list);
         m_tasks_queue.emplace(shopping_task_ptr);
     }
 

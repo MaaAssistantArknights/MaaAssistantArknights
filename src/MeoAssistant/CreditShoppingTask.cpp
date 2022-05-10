@@ -16,7 +16,7 @@ bool asst::CreditShoppingTask::_run()
     const cv::Mat image = Ctrler.get_image();
 
     CreditShopImageAnalyzer shop_analyzer(image);
-    if (!shop_analyzer.analyze()) {
+    if (!shop_analyzer.analyze( m_black_list)) {
         return false;
     }
     const auto& shopping_list = shop_analyzer.get_result();
@@ -70,4 +70,10 @@ bool asst::CreditShoppingTask::_run()
         sleep(rare_delay);
     }
     return true;
+}
+
+asst::CreditShoppingTask& asst::CreditShoppingTask::set_black_list(std::vector<int> black_list) noexcept
+{
+    m_black_list = std::move(black_list);
+    return *this;
 }
