@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|x64">
@@ -7,6 +7,10 @@
     </ProjectConfiguration>
     <ProjectConfiguration Include="RelWithDebInfo|x64">
       <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="CICD|x64">
+      <Configuration>CICD</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -185,6 +189,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CICD|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -200,19 +211,30 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='CICD|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;$(SolutionDir)3rdparty\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(TargetDir);$(SolutionDir)\3rdparty\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(TargetDir);$(ProjectDir)..\..\3rdparty\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CICD|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(TargetDir);$(ProjectDir)..\..\3rdparty\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;$(SolutionDir)3rdparty\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(TargetDir);$(SolutionDir)\3rdparty\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(TargetDir);$(ProjectDir)..\..\3rdparty\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -245,18 +267,49 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /e /y /i /c $(SolutionDir)resource $(TargetDir)resource
-xcopy /e /y /i /c $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
+      <Command>
+        xcopy /e /y /i /c $(ProjectDir)..\..\resource $(TargetDir)resource
+        xcopy /e /y /i /c $(ProjectDir)..\..\3rdparty\resource $(TargetDir)resource
+      </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>copy resource</Message>
+      <Message>Copy resource</Message>
     </PostBuildEvent>
     <PreLinkEvent>
-      <Command>xcopy /e /y /i /c $(SolutionDir)3rdparty\bin $(TargetDir)</Command>
+      <Command>
+        xcopy /e /y /i /c $(ProjectDir)..\..\3rdparty\bin $(TargetDir)
+      </Command>
     </PreLinkEvent>
     <PreLinkEvent>
-      <Message>copy 3rd party dll</Message>
+      <Message>Copy 3rd party dll</Message>
     </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='CICD|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;ASST_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalOptions>/utf-8 /MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ppocr.lib;opencv_world453.lib;zlibstatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <Profile>true</Profile>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
@@ -292,17 +345,21 @@ xcopy /e /y /i /c $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /e /y /i /c $(SolutionDir)resource $(TargetDir)resource
-xcopy /e /y /i /c $(SolutionDir)3rdparty\resource $(TargetDir)resource</Command>
+      <Command>
+        xcopy /e /y /i /c $(ProjectDir)..\..\resource $(TargetDir)resource
+        xcopy /e /y /i /c $(ProjectDir)..\..\3rdparty\resource $(TargetDir)resource
+      </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>copy resource</Message>
+      <Message>Copy resource</Message>
     </PostBuildEvent>
     <PreLinkEvent>
-      <Command>xcopy /e /y /i /c $(SolutionDir)3rdparty\bin $(TargetDir)</Command>
+      <Command>
+        xcopy /e /y /i /c $(ProjectDir)..\..\3rdparty\bin $(TargetDir)
+      </Command>
     </PreLinkEvent>
     <PreLinkEvent>
-      <Message>copy 3rd party dll</Message>
+      <Message>Copy 3rd party dll</Message>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

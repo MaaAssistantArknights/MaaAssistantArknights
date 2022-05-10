@@ -15,6 +15,7 @@ using dict = nlohmann::ordered_json;
 
 namespace penguin
 {
+
 enum class StatusFlags
 {
     NORMAL = 0,
@@ -842,9 +843,11 @@ private:
     }
     void _get_quantity()
     {
-        cv::Rect quantityrect = cv::Rect(0, static_cast<int>(round(height * _ITEM_QTY_Y_PROP)),
-                                         static_cast<int>(round(width * _ITEM_QTY_WIDTH_PROP)),
-                                         static_cast<int>(round(height * _ITEM_QTY_HEIGHT_PROP)));
+        cv::Rect quantityrect =
+            cv::Rect(0,
+                     static_cast<int>(round(height * _ITEM_QTY_Y_PROP)),
+                     static_cast<int>(round(width * _ITEM_QTY_WIDTH_PROP)),
+                     static_cast<int>(round(height * _ITEM_QTY_HEIGHT_PROP)));
         cv::Mat quantityimg = _img(quantityrect);
         _quantity.set_img(quantityimg);
         _quantity.analyze();
