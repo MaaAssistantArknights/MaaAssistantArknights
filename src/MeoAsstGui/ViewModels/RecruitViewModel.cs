@@ -120,7 +120,7 @@ namespace MeoAsstGui
                 RecruitInfo = "正在连接模拟器……";
                 var task = Task.Run(() =>
                 {
-                    return asstProxy.AsstCatch();
+                    return asstProxy.AsstConnect();
                 });
                 _catched = await task;
             }

@@ -19,47 +19,34 @@ using StyletIoC;
 
 namespace MeoAsstGui
 {
+    using AsstHandle = IntPtr;
+    using TaskId = Int32;
+
     public class AsstProxy
     {
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
         private delegate void ProcCallbckMsg(AsstMsg msg, JObject details);
 
-        [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstCreate(string dirname);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstLoadResource(string dirname);
 
-        [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstCreateEx(string dirname, CallbackDelegate callback, IntPtr custom_arg);
+        [DllImport("MeoAssistant.dll")] private static extern AsstHandle AsstCreate();
 
-        [DllImport("MeoAssistant.dll")] private static extern void AsstDestroy(IntPtr ptr);
+        [DllImport("MeoAssistant.dll")] private static extern AsstHandle AsstCreateEx(CallbackDelegate callback, IntPtr custom_arg);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstCatchDefault(IntPtr ptr);
+        [DllImport("MeoAssistant.dll")] private static extern void AsstDestroy(AsstHandle handle);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstCatchCustom(IntPtr ptr, string address);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstConnect(AsstHandle handle, string adb_path, string address, string config);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendStartUp(IntPtr ptr);
+        [DllImport("MeoAssistant.dll")] private static extern TaskId AsstAppendTask(AsstHandle handle, string type, string task_params);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendFight(IntPtr ptr, string stage, int max_medicine, int max_stone, int max_times);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstSetTaskParams(AsstHandle handle, TaskId id, string task_params);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendAward(IntPtr ptr);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstStart(AsstHandle handle);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendVisit(IntPtr ptr);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstStop(AsstHandle handle);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendMall(IntPtr ptr, bool with_shopping);
-
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendInfrast(IntPtr ptr, int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold);
-
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendRecruit(IntPtr ptr, int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited);
-
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstAppendRoguelike(IntPtr ptr, int mode);
-
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstStartRecruitCalc(IntPtr ptr, int[] select_level, int required_len, bool set_time);
-
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstStart(IntPtr ptr);
-
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstStop(IntPtr ptr);
-
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstSetPenguinId(IntPtr p_asst, string id);
-
-        //[DllImport("MeoAssistant.dll")] private static extern bool AsstSetParam(IntPtr p_asst, string type, string param, string value);
+        [DllImport("MeoAssistant.dll")] private static extern void AsstLog(string level, string message);
 
         private readonly CallbackDelegate _callback;
 
@@ -72,8 +59,10 @@ namespace MeoAsstGui
 
         public void Init()
         {
-            _ptr = AsstCreateEx(System.IO.Directory.GetCurrentDirectory(), _callback, IntPtr.Zero);
-            if (_ptr == IntPtr.Zero)
+            bool loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory());
+            _handle = AsstCreateEx(_callback, IntPtr.Zero);
+
+            if (loaded == false || _handle == IntPtr.Zero)
             {
                 Execute.OnUIThread(() =>
                 {
@@ -118,7 +107,7 @@ namespace MeoAsstGui
 
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
-        private IntPtr _ptr;
+        private IntPtr _handle;
 
         private void procMsg(AsstMsg msg, JObject details)
         {
@@ -554,78 +543,87 @@ namespace MeoAsstGui
             }
         }
 
-        public bool AsstCatch()
+        public bool AsstConnect()
         {
             var settings = _container.Get<SettingsViewModel>();
-            settings.TryToSetBlueStacksHyperVAddress();
-            if (settings.ConnectAddress.Length == 0)
+            if (settings.AdbPath == String.Empty ||
+                settings.ConnectAddress == String.Empty)
             {
-                return AsstCatchDefault(_ptr);
+                return false;
             }
             else
             {
-                return AsstCatchCustom(_ptr, settings.ConnectAddress);
+                return AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
             }
         }
 
         public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times)
         {
-            return AsstAppendFight(_ptr, stage, max_medicine, max_stone, max_times);
+            return true;
         }
 
         public bool AsstAppendAward()
         {
-            return AsstAppendAward(_ptr);
+            return false;
+            //return AsstAppendAward(_handle);
         }
 
         public bool AsstAppendStartUp()
         {
-            return AsstAppendStartUp(_ptr);
+            AsstAppendTask(_handle, "StartUp", "{}");
+            return true;
+            //return AsstAppendStartUp(_handle);
         }
 
         public bool AsstAppendVisit()
         {
-            return AsstAppendVisit(_ptr);
+            return false;
+            //return AsstAppendVisit(_handle);
         }
 
         public bool AsstAppendMall(bool with_shopping)
         {
-            return AsstAppendMall(_ptr, with_shopping);
+            return false;
+            //return AsstAppendMall(_handle, with_shopping);
         }
 
         public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited)
         {
-            return AsstAppendRecruit(_ptr, max_times, select_level, required_len, confirm_level, confirm_len, need_refresh, use_expedited);
+            return false;
+            //return AsstAppendRecruit(_handle, max_times, select_level, required_len, confirm_level, confirm_len, need_refresh, use_expedited);
         }
 
         public bool AsstAppendInfrast(int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold)
         {
-            return AsstAppendInfrast(_ptr, work_mode, order, order_len, uses_of_drones, dorm_threshold);
+            return false;
+            //return AsstAppendInfrast(_handle, work_mode, order, order_len, uses_of_drones, dorm_threshold);
         }
 
         public bool AsstAppendRoguelike(int mode)
         {
-            return AsstAppendRoguelike(_ptr, mode);
+            return false;
+            //return AsstAppendRoguelike(_handle, mode);
         }
 
         public bool AsstStart()
         {
-            return AsstStart(_ptr);
+            return AsstStart(_handle);
         }
 
         public bool AsstStartRecruitCalc(int[] select_level, int required_len, bool set_time)
         {
-            return AsstStartRecruitCalc(_ptr, select_level, required_len, set_time);
+            return false;
+            //return AsstStartRecruitCalc(_handle, select_level, required_len, set_time);
         }
 
         public bool AsstStop()
         {
-            return AsstStop(_ptr);
+            return AsstStop(_handle);
         }
 
         public void AsstSetPenguinId(string id)
         {
-            AsstSetPenguinId(_ptr, id);
+            //AsstSetPenguinId(_handle, id);
         }
 
         //public void AsstSetParam(string type, string param, string value)

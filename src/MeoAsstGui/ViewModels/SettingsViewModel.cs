@@ -47,7 +47,7 @@ namespace MeoAsstGui
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
             _listTitle.Add("企鹅数据");
-            _listTitle.Add("调试设置");
+            _listTitle.Add("连接设置");
             _listTitle.Add("通知显示");
             _listTitle.Add("软件更新");
             //_listTitle.Add("其他");
@@ -427,6 +427,7 @@ namespace MeoAsstGui
 
         // 左上
         private bool _toastPositionTopLeft = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.TopLeft.ToString();
+
         public bool ToastPositionTopLeft
         {
             get { return _toastPositionTopLeft; }
@@ -455,6 +456,7 @@ namespace MeoAsstGui
 
         // 上
         private bool _toastPositionTopCenter = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.TopCenter.ToString();
+
         public bool ToastPositionTopCenter
         {
             get { return _toastPositionTopCenter; }
@@ -483,6 +485,7 @@ namespace MeoAsstGui
 
         // 右上
         private bool _toastPositionTopRight = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.TopRight.ToString();
+
         public bool ToastPositionTopRight
         {
             get { return _toastPositionTopRight; }
@@ -511,6 +514,7 @@ namespace MeoAsstGui
 
         // 左
         private bool _toastPositionCenterLeft = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.CenterLeft.ToString();
+
         public bool ToastPositionCenterLeft
         {
             get { return _toastPositionCenterLeft; }
@@ -539,6 +543,7 @@ namespace MeoAsstGui
 
         // 右
         private bool _toastPositionCenterRight = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.CenterRight.ToString();
+
         public bool ToastPositionCenterRight
         {
             get { return _toastPositionCenterRight; }
@@ -567,6 +572,7 @@ namespace MeoAsstGui
 
         // 左下
         private bool _toastPositionBottomLeft = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.BottomLeft.ToString();
+
         public bool ToastPositionBottomLeft
         {
             get { return _toastPositionBottomLeft; }
@@ -595,6 +601,7 @@ namespace MeoAsstGui
 
         // 下
         private bool _toastPositionBottomCenter = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.BottomCenter.ToString();
+
         public bool ToastPositionBottomCenter
         {
             get { return _toastPositionBottomCenter; }
@@ -624,6 +631,7 @@ namespace MeoAsstGui
         // 右下
         private bool _toastPositionBottomRight =
             ViewStatusStorage.Get("Toast.Position", NotificationPosition.BottomRight.ToString()) == NotificationPosition.BottomRight.ToString();
+
         public bool ToastPositionBottomRight
         {
             get { return _toastPositionBottomRight; }
@@ -689,7 +697,7 @@ namespace MeoAsstGui
             NotificationConstants.MessagePosition = (NotificationPosition)Enum.Parse(typeof(NotificationPosition), position);
         }
 
-        #endregion
+        #endregion 通知显示
 
         /* 软件更新设置 */
         private bool _updateBeta = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateBeta", bool.FalseString));
@@ -717,6 +725,7 @@ namespace MeoAsstGui
         }
 
         private bool _useAria2 = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UseAria2", bool.TrueString));
+
         public bool UseAria2
         {
             get { return _useAria2; }
@@ -728,6 +737,7 @@ namespace MeoAsstGui
         }
 
         private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.AutoDownloadUpdatePackage", bool.TrueString));
+
         public bool AutoDownloadUpdatePackage
         {
             get { return _autoDownloadUpdatePackage; }
@@ -752,33 +762,45 @@ namespace MeoAsstGui
             }
         }
 
-        private string _bluestacksConfPath = ViewStatusStorage.Get("Connect.BluestacksConfPath", string.Empty);
+        private string _adbPath = ViewStatusStorage.Get("Connect.AdbPath", string.Empty);
 
-        public string BluestacksConfPath
+        public string AdbPath
         {
-            get { return _bluestacksConfPath; }
+            get { return _adbPath; }
             set
             {
-                SetAndNotify(ref _bluestacksConfPath, value);
-                ViewStatusStorage.Set("Connect.BluestacksConfPath", value);
+                SetAndNotify(ref _adbPath, value);
+                ViewStatusStorage.Set("Connect.AdbPath", value);
             }
         }
 
-        public void TryToSetBlueStacksHyperVAddress()
+        private string _connectConfig = ViewStatusStorage.Get("Connect.ConnectConfig", "General");
+
+        public string ConnectConfig
         {
-            if (BluestacksConfPath.Length == 0 || !File.Exists(BluestacksConfPath))
+            get { return _connectConfig; }
+            set
             {
-                return;
-            }
-            var all_lines = File.ReadAllLines(BluestacksConfPath);
-            foreach (var line in all_lines)
-            {
-                if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))
-                {
-                    var sp = line.Split('"');
-                    ConnectAddress = "127.0.0.1:" + sp[1];
-                }
+                SetAndNotify(ref _connectConfig, value);
+                ViewStatusStorage.Set("Connect.ConnectConfig", value);
             }
         }
+
+        //public void TryToSetBlueStacksHyperVAddress()
+        //{
+        //    if (AdbPath.Length == 0 || !File.Exists(AdbPath))
+        //    {
+        //        return;
+        //    }
+        //    var all_lines = File.ReadAllLines(AdbPath);
+        //    foreach (var line in all_lines)
+        //    {
+        //        if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))
+        //        {
+        //            var sp = line.Split('"');
+        //            ConnectAddress = "127.0.0.1:" + sp[1];
+        //        }
+        //    }
+        //}
     }
 }

@@ -13,19 +13,23 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Text="Tips: 以下设置均需要自行下载 ADB&#xA;将 platform-tools 文件夹解压到本软件的同级目录&#xA;详情请参考使用说明" Margin="10" />
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
+                   Text="adb 路径&#xA;（相对/绝对均可）" Margin="10" />
+            <TextBox Text="{Binding AdbPath}" Margin="10"
+                     Width="250" InputMethod.IsInputMethodEnabled="False" />
+        </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="自定义地址" Margin="10" />
+                   Text="连接地址" Margin="10" />
             <TextBox Text="{Binding ConnectAddress}" Margin="10"
                      Width="150" InputMethod.IsInputMethodEnabled="False" />
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="bluestacks.conf 文件路径&#xA;（非 Hyper-V 请不要填写）" Margin="10" />
-            <TextBox Text="{Binding BluestacksConfPath}" Margin="10"
-                     Width="250" InputMethod.IsInputMethodEnabled="False" />
+                   Text="连接配置" Margin="10" />
+            <TextBox Text="{Binding ConnectConfig}" Margin="10"
+                     Width="150" InputMethod.IsInputMethodEnabled="False" />
         </StackPanel>
     </Grid>
 </UserControl>
