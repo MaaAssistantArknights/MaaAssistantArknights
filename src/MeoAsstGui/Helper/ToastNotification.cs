@@ -139,46 +139,45 @@ namespace MeoAsstGui
         /// <param name="sounds">提示音类型</param>
         protected async Task PlayNotificationSoundAsync(NotificationSounds sounds = NotificationSounds.None)
         {
-            await Task.Run(() =>
+            try
             {
-
-                try
+                switch (sounds)
                 {
-                    switch (sounds)
-                    {
-                        case NotificationSounds.Exclamation: SystemSounds.Exclamation.Play(); break;
-                        case NotificationSounds.Asterisk: SystemSounds.Asterisk.Play(); break;
-                        case NotificationSounds.Question: SystemSounds.Question.Play(); break;
-                        case NotificationSounds.Beep: SystemSounds.Beep.Play(); break;
-                        case NotificationSounds.Hand: SystemSounds.Hand.Play(); break;
+                    case NotificationSounds.Exclamation: SystemSounds.Exclamation.Play(); break;
+                    case NotificationSounds.Asterisk: SystemSounds.Asterisk.Play(); break;
+                    case NotificationSounds.Question: SystemSounds.Question.Play(); break;
+                    case NotificationSounds.Beep: SystemSounds.Beep.Play(); break;
+                    case NotificationSounds.Hand: SystemSounds.Hand.Play(); break;
 
-                        case NotificationSounds.Notification:
-                            using (var key = Registry.CurrentUser.OpenSubKey(@"AppEvents\Schemes\Apps\.Default\Notification.Default\.Current"))
+                    case NotificationSounds.Notification:
+                        using (var key = Registry.CurrentUser.OpenSubKey(@"AppEvents\Schemes\Apps\.Default\Notification.Default\.Current"))
+                        {
+                            if (key != null)
                             {
-                                if (key != null)
+                                // 获取 (Default) 项
+                                var o = key.GetValue(null);
+                                if (o != null)
                                 {
-                                    // 获取 (Default) 项
-                                    var o = key.GetValue(null);
-                                    if (o != null)
-                                    {
-                                        var theSound = new SoundPlayer((string)o);
-                                        theSound.Play();
-                                    }
-                                }
-                                else
-                                {
-                                    // 如果不支持就播放其它提示音
-                                    PlayNotificationSoundAsync(NotificationSounds.Asterisk);
+                                    var theSound = new SoundPlayer((string)o);
+                                    theSound.Play();
                                 }
                             }
-                            break;
+                            else
+                            {
+                                // 如果不支持就播放其它提示音
+                                await PlayNotificationSoundAsync(NotificationSounds.Asterisk);
+                            }
+                        }
+                        break;
 
-                        case NotificationSounds.None:
-                        default: break;
-                    }
+                    case NotificationSounds.None:
+                    default: break;
                 }
-                catch (Exception) { }
-            }).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                // Ignore
+            }
         }
 
         #endregion
@@ -316,7 +315,7 @@ namespace MeoAsstGui
             }
 
             // 播放通知提示音
-            PlayNotificationSoundAsync(sound);
+            PlayNotificationSoundAsync(sound).Wait();
 
             // 任务栏闪烁
             FlashWindowEx();
