@@ -71,10 +71,6 @@
         "subProfession": "pioneer",
         "position": "MELEE"
     },
-    "预备干员": {
-        "Doc": "事实上没有叫这个名字的干员，但为了避免肉鸽中，requires设置了但找不到的问题，增设这个干员。",
-        "level": 3
-    },
     "翎羽": {
         "level": 3,
         "profession": "PIONEER",
@@ -297,6 +293,12 @@
         "subProfession": "fearless",
         "position": "MELEE"
     },
+    "断罪者": {
+        "level": 4,
+        "profession": "WARRIOR",
+        "subProfession": "fearless",
+        "position": "MELEE"
+    },
     "霜叶": {
         "level": 4,
         "profession": "WARRIOR",
@@ -379,6 +381,12 @@
         "level": 4,
         "profession": "MEDIC",
         "subProfession": "healer",
+        "position": "RANGED"
+    },
+    "褐果": {
+        "level": 4,
+        "profession": "MEDIC",
+        "subProfession": "wandermedic",
         "position": "RANGED"
     },
     "角峰": {
@@ -747,6 +755,12 @@
         "subProfession": "funnel",
         "position": "RANGED"
     },
+    "洛洛": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "funnel",
+        "position": "RANGED"
+    },
     "梅尔": {
         "level": 5,
         "profession": "SUPPORT",
@@ -969,7 +983,19 @@
         "subProfession": "slower",
         "position": "RANGED"
     },
+    "掠风": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "craftsman",
+        "position": "MELEE"
+    },
     "空": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "bard",
+        "position": "RANGED"
+    },
+    "海蒂": {
         "level": 5,
         "profession": "SUPPORT",
         "subProfession": "bard",
@@ -1251,6 +1277,12 @@
         "subProfession": "stalker",
         "position": "MELEE"
     },
+    "归溟幽灵鲨": {
+        "level": 6,
+        "profession": "SPECIAL",
+        "subProfession": "dollkeeper",
+        "position": "MELEE"
+    },
     "闪灵": {
         "level": 6,
         "profession": "MEDIC",
@@ -1267,6 +1299,12 @@
         "level": 6,
         "profession": "MEDIC",
         "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "流明": {
+        "level": 6,
+        "profession": "MEDIC",
+        "subProfession": "healer",
         "position": "RANGED"
     },
     "星熊": {
@@ -1305,6 +1343,12 @@
         "subProfession": "duelist",
         "position": "MELEE"
     },
+    "号角": {
+        "level": 6,
+        "profession": "TANK",
+        "subProfession": "fortress",
+        "position": "MELEE"
+    },
     "山": {
         "level": 6,
         "profession": "WARRIOR",
@@ -1324,6 +1368,12 @@
         "position": "MELEE"
     },
     "陈": {
+        "level": 6,
+        "profession": "WARRIOR",
+        "subProfession": "sword",
+        "position": "MELEE"
+    },
+    "艾丽妮": {
         "level": 6,
         "profession": "WARRIOR",
         "subProfession": "sword",
@@ -1407,10 +1457,8 @@
         "subProfession": "fearless",
         "position": "MELEE"
     },
-    "断罪者": {
-        "level": 4,
-        "profession": "WARRIOR",
-        "subProfession": "fearless",
-        "position": "MELEE"
+    "预备干员": {
+        "Doc": "事实上没有叫这个名字的干员，但为了避免肉鸽中，requires设置了但找不到的问题，增设这个干员。",
+        "level": 3
     }
 }
