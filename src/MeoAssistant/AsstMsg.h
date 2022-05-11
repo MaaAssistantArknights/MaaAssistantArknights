@@ -13,7 +13,7 @@ namespace asst
         /* Global Info */
         InternalError = 0,          // 内部错误
         InitFailed,                 // 初始化失败
-        ConnectionError,            // 连接相关错误
+        ConnectionInfo,             // 连接相关错误
         AllTasksCompleted,          // 全部任务完成
         /* TaskChain Info */
         TaskChainError = 10000,     // 任务链执行/识别错误
@@ -33,7 +33,7 @@ namespace asst
             /* Global Info */
             { AsstMsg::InternalError, "InternalError" },
             { AsstMsg::InitFailed, "InitFailed" },
-            { AsstMsg::ConnectionError, "ConnectionError" },
+            { AsstMsg::ConnectionInfo, "ConnectionInfo" },
             { AsstMsg::AllTasksCompleted, "AllTasksCompleted" },
             /* TaskChain Info */
             { AsstMsg::TaskChainError, "TaskChainError" },
@@ -55,4 +55,6 @@ namespace asst
     // const json::value& 消息详情json，每种消息不同，Todo，需要补充个协议文档啥的
     // void* 外部调用者自定义参数，每次回调会带出去，建议传个(void*)this指针进来
     using AsstCallback = std::function<void(AsstMsg, const json::value&, void*)>;
+
+    using AsstApiCallback = void(*)(int msg, const char* detail_json, void* custom_arg);
 }

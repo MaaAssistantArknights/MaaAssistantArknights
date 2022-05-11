@@ -9,13 +9,14 @@ bool asst::RoguelikeFormationImageAnalyzer::analyze()
 {
     MultiMatchImageAnalyzer opers_analyzer(m_image);
     opers_analyzer.set_task_info("Roguelike1FormationOper");
+
     if (!opers_analyzer.analyze()) {
         return false;
     }
     opers_analyzer.sort_result();
-    const auto all_opers = opers_analyzer.get_result();
+    const auto& all_opers = opers_analyzer.get_result();
     for (const MatchRect& oper_mr : all_opers) {
-        Oper oper;
+        FormationOper oper;
         oper.rect = oper_mr.rect;
         oper.selected = selected_analyze(oper_mr.rect);
 
@@ -34,7 +35,7 @@ bool asst::RoguelikeFormationImageAnalyzer::analyze()
     return !m_result.empty();
 }
 
-const std::vector<asst::RoguelikeFormationImageAnalyzer::Oper>&
+const std::vector<asst::RoguelikeFormationImageAnalyzer::FormationOper>&
 asst::RoguelikeFormationImageAnalyzer::get_result() const noexcept
 {
     return m_result;

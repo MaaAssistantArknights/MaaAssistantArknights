@@ -33,6 +33,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
         if (ssr_iter != all_tags_vec.end()) {
             std::swap(*ssr_iter, all_tags_vec.front());
         }
+
         tags_analyzer.set_required(std::move(all_tags_vec));
         tags_analyzer.set_replace(tags_task_ptr->replace_map);
         analyzer_inited = true;
@@ -88,6 +89,7 @@ bool asst::RecruitImageAnalyzer::confirm_analyze()
 bool asst::RecruitImageAnalyzer::refresh_analyze()
 {
     MatchImageAnalyzer refresh_analyzer(m_image);
+
     refresh_analyzer.set_task_info("RecruitRefresh");
 
     if (refresh_analyzer.analyze()) {

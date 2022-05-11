@@ -5,12 +5,13 @@
 #include <string>
 #include <vector>
 
-#include "AsstDef.h"
+#include "AsstTypes.h"
 
 namespace asst
 {
     class OcrImageAnalyzer;
     class MatchImageAnalyzer;
+    class RuntimeStatus;
 
     class ProcessTaskImageAnalyzer final : public AbstractImageAnalyzer
     {
@@ -23,10 +24,9 @@ namespace asst
         virtual bool analyze() override;
         void set_image(const cv::Mat image);
 
-        void set_tasks(std::vector<std::string> tasks_name)
-        {
-            m_tasks_name = std::move(tasks_name);
-        }
+        void set_tasks(std::vector<std::string> tasks_name);
+        void set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
+
         std::shared_ptr<TaskInfo> get_result() const noexcept
         {
             return m_result;
@@ -56,7 +56,8 @@ namespace asst
         std::unique_ptr<OcrImageAnalyzer> m_ocr_analyzer;
         std::unique_ptr<MatchImageAnalyzer> m_match_analyzer;
         std::vector<std::string> m_tasks_name;
-        std::shared_ptr<TaskInfo> m_result;
+        std::shared_ptr<TaskInfo> m_result = nullptr;
+        std::shared_ptr<RuntimeStatus> m_status = nullptr;
         Rect m_result_rect;
         //std::vector<TextRect> m_ocr_cache;
     };

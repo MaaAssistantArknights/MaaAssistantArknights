@@ -1,42 +1,25 @@
 #pragma once
-
-#include "AbstractTask.h"
-
-#include <memory>
+#include "PackageTask.h"
 
 namespace asst
 {
-    class RecruitTask : public AbstractTask
+    class ProcessTask;
+    class RecruitCalcTask;
+    class AutoRecruitTask;
+
+    class RecruitTask final : public PackageTask
     {
     public:
-        using AbstractTask::AbstractTask;
+        RecruitTask(AsstCallback callback, void* callback_arg);
         virtual ~RecruitTask() = default;
 
-        RecruitTask& set_param(std::vector<int> select_level, bool set_time = true) noexcept;
+        virtual bool set_params(const json::value& params) override;
 
-        bool get_has_special_tag() const noexcept
-        {
-            return m_has_special_tag;
-        }
-        bool get_has_refresh() const noexcept
-        {
-            return m_has_refresh;
-        }
-        int get_maybe_level() const noexcept
-        {
-            return m_maybe_level;
-        }
+        static constexpr const char* TaskType = "Recruit";
 
-    protected:
-        virtual bool _run() override;
-
-        /* 外部设置参数 */
-        std::vector<int> m_select_level;
-        bool m_set_time = false;
-
-        /* 内部处理用参数*/
-        int m_maybe_level = 0;
-        bool m_has_special_tag = false;
-        bool m_has_refresh = false;
+    private:
+        std::shared_ptr<ProcessTask> m_recruit_begin_task_ptr = nullptr;
+        std::shared_ptr<AutoRecruitTask> m_auto_recruit_task_ptr = nullptr;
+        std::shared_ptr<RecruitCalcTask> m_recruit_only_calc_task_ptr = nullptr;
     };
 }

@@ -3,7 +3,7 @@
 
 #include <functional>
 
-#include "AsstDef.h"
+#include "AsstTypes.h"
 
 namespace cv
 {

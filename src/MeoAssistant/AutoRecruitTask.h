@@ -1,7 +1,7 @@
 #pragma once
 #include "AbstractTask.h"
 
-#include "AsstDef.h"
+#include "AsstTypes.h"
 
 namespace asst
 {

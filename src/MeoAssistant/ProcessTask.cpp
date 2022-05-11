@@ -18,6 +18,7 @@ asst::ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string>
     : AbstractTask(abs),
     m_raw_tasks_name(std::move(tasks_name))
 {
+    m_task_delay = Resrc.cfg().get_options().task_delay;
     m_basic_info_cache = json::value();
 }
 
@@ -25,11 +26,20 @@ asst::ProcessTask::ProcessTask(AbstractTask&& abs, std::vector<std::string> task
     : AbstractTask(std::move(abs)),
     m_raw_tasks_name(std::move(tasks_name))
 {
+    m_task_delay = Resrc.cfg().get_options().task_delay;
     m_basic_info_cache = json::value();
 }
 
 bool asst::ProcessTask::run()
 {
+    if (!m_enable) {
+        Log.info("task is disable, pass", basic_info().to_string());
+        return true;
+    }
+    if (m_task_delay == TaskDelayUnsetted) {
+        m_task_delay = Resrc.cfg().get_options().task_delay;
+    }
+
     m_cur_tasks_name = m_raw_tasks_name;
     for (m_cur_retry = 0; m_cur_retry <= m_retry_times; ++m_cur_retry) {
         if (_run()) {
@@ -38,8 +48,7 @@ bool asst::ProcessTask::run()
         if (need_exit()) {
             return false;
         }
-        int delay = Resrc.cfg().get_options().task_delay;
-        sleep(delay);
+        sleep(m_task_delay);
 
         if (!on_run_fails()) {
             return false;
@@ -47,6 +56,12 @@ bool asst::ProcessTask::run()
     }
     callback(AsstMsg::SubTaskError, basic_info());
     return false;
+}
+
+ProcessTask& asst::ProcessTask::set_task_delay(int delay) noexcept
+{
+    m_task_delay = delay;
+    return *this;
 }
 
 asst::ProcessTask& asst::ProcessTask::set_tasks(std::vector<std::string> tasks_name) noexcept
@@ -71,7 +86,6 @@ bool ProcessTask::_run()
 {
     LogTraceFunction;
 
-    auto& task_delay = Resrc.cfg().get_options().task_delay;
     while (!m_cur_tasks_name.empty()) {
         if (need_exit()) {
             return false;
@@ -98,8 +112,11 @@ bool ProcessTask::_run()
             cur_task_ptr = front_task_ptr;
         }
         else {
-            const auto image = Ctrler.get_image();
+            const auto image = m_ctrler->get_image();
             ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name);
+
+            analyzer.set_status(m_status);
+
             if (!analyzer.analyze()) {
                 return false;
             }
@@ -135,7 +152,7 @@ bool ProcessTask::_run()
             };
             Log.info("exec times exceeded the limit", info.to_string());
             m_cur_tasks_name = cur_task_ptr->exceeded_next;
-            sleep(task_delay);
+            sleep(m_task_delay);
             continue;
         }
 
@@ -166,7 +183,7 @@ bool ProcessTask::_run()
             exec_click_task(rect);
             break;
         case ProcessTaskAction::ClickRand: {
-            auto&& [width, height] = Ctrler.get_scale_size();
+            auto&& [width, height] = m_ctrler->get_scale_size();
             const Rect full_rect(0, 0, width, height);
             exec_click_task(full_rect);
         } break;
@@ -188,7 +205,7 @@ bool ProcessTask::_run()
             break;
         }
 
-        Status.set("Last" + cur_name, time(nullptr));
+        m_status->set_data("Last" + cur_name, time(nullptr));
 
         // 减少其他任务的执行次数
         // 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
@@ -209,11 +226,15 @@ bool ProcessTask::_run()
 
         callback(AsstMsg::SubTaskCompleted, info);
 
+        if (cur_task_ptr->next.empty()) {
+            need_stop = true;
+        }
+
         if (need_stop) {
             return true;
         }
         m_cur_tasks_name = cur_task_ptr->next;
-        sleep(task_delay);
+        sleep(m_task_delay);
     }
 
     return true;
@@ -221,12 +242,12 @@ bool ProcessTask::_run()
 
 void ProcessTask::exec_click_task(const Rect& matched_rect)
 {
-    Ctrler.click(matched_rect);
+    m_ctrler->click(matched_rect);
 }
 
 void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 {
-    const auto&& [width, height] = Ctrler.get_scale_size();
+    const auto&& [width, height] = m_ctrler->get_scale_size();
 
     const static Rect right_rect(
         static_cast<int>(width * 0.8),
@@ -242,10 +263,10 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 
     switch (action) {
     case asst::ProcessTaskAction::SwipeToTheLeft:
-        Ctrler.swipe(left_rect, right_rect);
+        m_ctrler->swipe(left_rect, right_rect);
         break;
     case asst::ProcessTaskAction::SwipeToTheRight:
-        Ctrler.swipe(right_rect, left_rect);
+        m_ctrler->swipe(right_rect, left_rect);
         break;
     default: // 走不到这里，TODO 报个错
         break;
@@ -262,10 +283,10 @@ void asst::ProcessTask::exec_slowly_swipe_task(ProcessTaskAction action)
 
     switch (action) {
     case asst::ProcessTaskAction::SlowlySwipeToTheLeft:
-        Ctrler.swipe(left_rect, right_rect, duration, true, extra_delay, true);
+        m_ctrler->swipe(left_rect, right_rect, duration, true, extra_delay, true);
         break;
     case asst::ProcessTaskAction::SlowlySwipeToTheRight:
-        Ctrler.swipe(right_rect, left_rect, duration, true, extra_delay, true);
+        m_ctrler->swipe(right_rect, left_rect, duration, true, extra_delay, true);
         break;
     default: // 走不到这里，TODO 报个错
         break;

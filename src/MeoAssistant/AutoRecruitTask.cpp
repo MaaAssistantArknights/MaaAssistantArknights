@@ -4,7 +4,7 @@
 #include "OcrImageAnalyzer.h"
 #include "Controller.h"
 #include "ProcessTask.h"
-#include "RecruitTask.h"
+#include "RecruitCalcTask.h"
 #include "Logger.hpp"
 
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_level(std::vector<int> select_level) noexcept
@@ -83,7 +83,7 @@ bool asst::AutoRecruitTask::analyze_start_buttons()
     OcrImageAnalyzer start_analyzer;
     start_analyzer.set_task_info("StartRecruit");
 
-    auto image = Ctrler.get_image();
+    auto image = m_ctrler->get_image();
     start_analyzer.set_image(image);
     if (!start_analyzer.analyze()) {
         Log.info("There is no start button");
@@ -106,7 +106,7 @@ bool asst::AutoRecruitTask::recruit_index(size_t index)
     }
     Log.info("recruit_index", index);
     Rect button = m_start_buttons.at(index).rect;
-    Ctrler.click(button);
+    m_ctrler->click(button);
     sleep(delay);
 
     return calc_and_recruit();
@@ -115,10 +115,13 @@ bool asst::AutoRecruitTask::recruit_index(size_t index)
 bool asst::AutoRecruitTask::calc_and_recruit()
 {
     LogTraceFunction;
-
-    RecruitTask recruit_task(m_callback, m_callback_arg, m_task_chain);
-    recruit_task.set_retry_times(m_retry_times);
-    recruit_task.set_param(m_select_level, true);
+    RecruitCalcTask recruit_task(m_callback, m_callback_arg, m_task_chain);
+    recruit_task.set_param(m_select_level, true)
+        .set_retry_times(m_retry_times)
+        .set_exit_flag(m_exit_flag)
+        .set_ctrler(m_ctrler)
+        .set_status(m_status)
+        .set_task_id(m_task_id);
 
     // 识别错误，放弃这个公招位，直接返回
     if (!recruit_task.run()) {

@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 project(MeoAssistantArknights)
 
+option(BUILD_JNI "build jni" OFF)
 option(BUILD_TEST "build a demo" OFF)
 
-include_directories(include 3rdparty/include)
-aux_source_directory(src/MeoAssistant SRC)
-add_definitions(-DASST_DLL_EXPORTS)
+set(CMAKE_CXX_STANDARD 17)
 
 if (WIN32)
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
@@ -17,7 +16,13 @@ if (WIN32)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 endif()
 
-set(CMAKE_CXX_STANDARD 17)
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/W4>")
+add_compile_options("$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall;-Wextra;-Wpedantic>")
+
+add_definitions(-DASST_DLL_EXPORTS)
+
+include_directories(include 3rdparty/include)
+aux_source_directory(src/MeoAssistant SRC)
 
 add_library(MeoAssistant SHARED ${SRC})
 
@@ -32,6 +37,15 @@ else ()
 endif ()
 
 target_link_libraries(MeoAssistant ${OpenCV} ${PaddleOCR_LIB} ${ZLIB})
+
+if (BUILD_JNI)
+    find_package(JNI REQUIRED)
+    include_directories(${JNI_INCLUDE_DIRS})
+
+    set(JNI_SRC src/Java/jni/meoasst_jni.cpp)
+    add_library(MeoAssistantJni SHARED ${JNI_SRC})
+    target_link_libraries(MeoAssistantJni MeoAssistant)
+endif(BUILD_JNI)
 
 if (BUILD_TEST)
     add_executable(test tools/TestCaller/main.cpp)

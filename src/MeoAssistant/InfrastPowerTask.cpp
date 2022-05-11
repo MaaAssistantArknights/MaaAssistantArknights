@@ -36,7 +36,7 @@ bool asst::InfrastPowerTask::_run()
 
             auto find_iter = std::find_if(
                 m_all_available_opers.begin(), m_all_available_opers.end(),
-                [&](const infrast::Oper& info) -> bool {
+                [&](const infrast::BattleRealTimeOper& info) -> bool {
                     return info.selected;
                 });
             bool need_shift = true;
@@ -51,7 +51,7 @@ bool asst::InfrastPowerTask::_run()
                     need_shift = true;
                     // TODO，这里有个bug，全部干员中的selected，和当前的，不一定是同一个页面
                     // 不过目前没影响，反正滑动到最前面了，selected的一定是在最前面
-                    //Ctrler.click(find_iter->rect);
+                    //m_ctrler->click(find_iter->rect);
                     //sleep(300);
                     break;
                 case infrast::WorkMode::Extreme: // TODO
@@ -62,8 +62,7 @@ bool asst::InfrastPowerTask::_run()
             }
             if (need_shift) {
                 optimal_calc();
-                bool ret = opers_choose();
-                if (!ret) {
+                if (!opers_choose()) {
                     m_all_available_opers.clear();
                     swipe_to_the_left_of_operlist();
                     continue;

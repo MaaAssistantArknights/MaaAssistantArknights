@@ -42,8 +42,9 @@ bool asst::InfrastDormTask::opers_choose()
         if (need_exit()) {
             return false;
         }
-        const auto image = Ctrler.get_image();
+        const auto image = m_ctrler->get_image();
         InfrastOperImageAnalyzer oper_analyzer(image);
+
         const int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
         oper_analyzer.set_to_be_calced(without_skill);
         if (!oper_analyzer.analyze()) {
@@ -75,7 +76,7 @@ bool asst::InfrastDormTask::opers_choose()
             case infrast::SmileyType::Distract:
                 // 干员没有被选择的情况下，且不在工作，就进驻宿舍
                 if (oper.selected == false && oper.doing != infrast::Doing::Working) {
-                    Ctrler.click(oper.rect);
+                    m_ctrler->click(oper.rect);
                     if (++num_of_selected >= max_num_of_opers()) {
                         Log.trace("num_of_selected:", num_of_selected, ", just break");
                         break;

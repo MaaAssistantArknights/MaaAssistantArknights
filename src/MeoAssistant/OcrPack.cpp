@@ -1,5 +1,7 @@
 #include "OcrPack.h"
 
+#include <filesystem>
+
 #include <PaddleOCR/paddle_ocr.h>
 #include <opencv2/opencv.hpp>
 
@@ -26,6 +28,12 @@ asst::OcrPack::~OcrPack()
 
 bool asst::OcrPack::load(const std::string& dir)
 {
+    LogTraceFunction;
+
+    if (!std::filesystem::exists(dir)) {
+        return false;
+    }
+
     constexpr static const char* DetName = "/det";
     //constexpr static const char* ClsName = "/cls";
     constexpr static const char* RecName = "/rec";

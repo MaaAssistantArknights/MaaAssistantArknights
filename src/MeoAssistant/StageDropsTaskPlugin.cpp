@@ -21,8 +21,10 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
     }
 
     if (details.at("details").at("task").as_string() == "EndOfAction") {
-        int64_t pre_start_time = Status.get("LastStartButton2");
-        int64_t pre_recognize_time = Status.get("LastRecognizeDrops");
+        auto pre_time_opt = m_status->get_data("LastStartButton2");
+        int64_t pre_start_time = pre_time_opt ? pre_time_opt.value() : 0;
+        auto pre_reg_time_opt = m_status->get_data("LastRecognizeDrops");
+        int64_t pre_recognize_time = pre_reg_time_opt ? pre_reg_time_opt.value() : 0;
         if (pre_start_time + RecognizationTimeOffset == pre_recognize_time) {
             Log.info("Recognization time too close, pass", pre_start_time, pre_recognize_time);
             return false;
@@ -40,6 +42,24 @@ void asst::StageDropsTaskPlugin::set_task_ptr(AbstractTask* ptr)
     m_cast_ptr = dynamic_cast<ProcessTask*>(ptr);
 }
 
+bool asst::StageDropsTaskPlugin::set_enable_penguid(bool enable)
+{
+    m_enable_penguid = enable;
+    return true;
+}
+
+bool asst::StageDropsTaskPlugin::set_penguin_id(std::string id)
+{
+    m_penguin_id = std::move(id);
+    return true;
+}
+
+bool asst::StageDropsTaskPlugin::set_server(std::string server)
+{
+    m_server = std::move(server);
+    return true;
+}
+
 bool asst::StageDropsTaskPlugin::_run()
 {
     LogTraceFunction;
@@ -55,13 +75,14 @@ bool asst::StageDropsTaskPlugin::_run()
     drop_info_callback();
 
     check_stage_valid();
-    
+
     if (m_enable_penguid) {
         auto upload_future = std::async(
             std::launch::async,
-            std::bind(&StageDropsTaskPlugin::upload_to_penguin, this));
+            &StageDropsTaskPlugin::upload_to_penguin, this);
         m_upload_pending.emplace_back(std::move(upload_future));
     }
+
     return true;
 }
 
@@ -73,17 +94,22 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     if (need_exit()) {
         return false;
     }
-    cv::Mat image = Ctrler.get_image(true);
+    Resrc.penguin().set_language(m_server);
+
+    const cv::Mat image = m_ctrler->get_image(true);
     std::string res = Resrc.penguin().recognize(image);
     Log.trace("Results of penguin recognition:\n", res);
-    m_cur_drops = json::parse(res).value();
 
+    m_cur_drops = json::parse(res).value();
     // 兼容老版本 json 格式
     auto& drop_area = m_cur_drops["dropArea"];
     m_cur_drops["drops"] = drop_area["drops"];
     m_cur_drops["dropTypes"] = drop_area["dropTypes"];
 
-    Status.set("LastRecognizeDrops", Status.get("LastStartButton2") + RecognizationTimeOffset);
+    auto last_time_opt = m_status->get_data("LastStartButton2");
+    auto last_time = last_time_opt ? last_time_opt.value() : 0;
+    m_status->set_data("LastRecognizeDrops", last_time + RecognizationTimeOffset);
+
 
     return true;
 }
@@ -129,7 +155,8 @@ void asst::StageDropsTaskPlugin::set_startbutton_delay()
     LogTraceFunction;
 
     if (!m_startbutton_delay_setted) {
-        int64_t pre_start_time = Status.get("LastStartButton2");
+        auto last_time_opt = m_status->get_data("LastStartButton2");;
+        int64_t pre_start_time = last_time_opt ? last_time_opt.value() : 0;
 
         if (pre_start_time > 0) {
             int64_t duration = time(nullptr) - pre_start_time;
@@ -145,9 +172,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     LogTraceFunction;
 
     auto& opt = Resrc.cfg().get_options();
-    if (!opt.penguin_report.enable) {
-        return;
-    }
+
     json::value info = basic_info();
     info["subtask"] = "ReportToPenguinStats";
     callback(AsstMsg::SubTaskStart, info);
@@ -165,7 +190,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
         return;
     }
     json::value body;
-    body["server"] = opt.penguin_report.server;
+    body["server"] = m_server;
     body["stageId"] = stage_id;
     // To fix: https://github.com/MistEO/MeoAssistantArknights/issues/40
     body["drops"] = json::array();
@@ -181,7 +206,12 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
 
     std::string body_escape = utils::string_replace_all(body.to_string(), "\"", "\\\"");
     std::string cmd_line = utils::string_replace_all(opt.penguin_report.cmd_format, "[body]", body_escape);
-    cmd_line = utils::string_replace_all(cmd_line, "[extra]", opt.penguin_report.extra_param);
+
+    std::string extra_param;
+    if (!m_penguin_id.empty()) {
+        extra_param = "-H \"authorization: PenguinID " + m_penguin_id + "\"";
+    }
+    cmd_line = utils::string_replace_all(cmd_line, "[extra]", extra_param);
 
     Log.trace("request_penguin |", cmd_line);
 

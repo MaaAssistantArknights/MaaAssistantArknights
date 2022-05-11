@@ -1,6 +1,5 @@
 #include "Assistant.h"
 
-#include <filesystem>
 #include <time.h>
 
 #include <meojson/json.hpp>
@@ -10,56 +9,34 @@
 #include "Controller.h"
 #include "Logger.hpp"
 #include "Resource.h"
-
-#include "CreditShoppingTask.h"
-#include "RoguelikeBattleTaskPlugin.h"
-#include "RoguelikeFormationTaskPlugin.h"
-#include "InfrastDormTask.h"
-#include "InfrastInfoTask.h"
-#include "InfrastMfgTask.h"
-#include "InfrastOfficeTask.h"
-#include "InfrastPowerTask.h"
-#include "InfrastReceptionTask.h"
-#include "InfrastTradeTask.h"
-#include "ProcessTask.h"
-#include "RecruitTask.h"
-#include "AutoRecruitTask.h"
-#include "InfrastControlTask.h"
 #include "RuntimeStatus.h"
-#include "StageDropsTaskPlugin.h"
-#include "DronesForShamareTaskPlugin.h"
-#include "ReplenishOriginiumShardTaskPlugin.h"
+
+#include "FightTask.h"
+#include "StartUpTask.h"
+#include "AwardTask.h"
+#include "VisitTask.h"
+#include "MallTask.h"
+#include "InfrastTask.h"
+#include "RecruitTask.h"
+#include "RoguelikeTask.h"
+#include "CopilotTask.h"
+#ifdef ASST_DEBUG
+#include "DebugTask.h"
+#endif
 
 using namespace asst;
 
-Assistant::Assistant(std::string dirname, AsstCallback callback, void* callback_arg)
-    : m_dirname(std::move(dirname) + "/"),
-    m_callback(callback),
+Assistant::Assistant(AsstApiCallback callback, void* callback_arg)
+    : m_callback(callback),
     m_callback_arg(callback_arg)
 {
-    Logger::set_dirname(m_dirname);
-    Controller::set_dirname(m_dirname);
-
     LogTraceFunction;
 
-    bool resource_ret = Resrc.load(m_dirname + "resource/");
-    if (!resource_ret) {
-        const std::string& error = Resrc.get_last_error();
-        Log.error("resource broken:", error);
-        if (m_callback == nullptr) {
-            throw error;
-        }
-        json::value callback_json;
-        callback_json["what"] = "resource broken";
-        callback_json["details"] = json::object{
-            { "error", error }
-        };
-        m_callback(AsstMsg::InitFailed, callback_json, m_callback_arg);
-        throw error;
-    }
+    m_status = std::make_shared<RuntimeStatus>();
+    m_ctrler = std::make_shared<Controller>(task_callback, (void*)this);
 
-    m_working_thread = std::thread(std::bind(&Assistant::working_proc, this));
-    m_msg_thread = std::thread(std::bind(&Assistant::msg_proc, this));
+    m_working_thread = std::thread(&Assistant::working_proc, this);
+    m_msg_thread = std::thread(&Assistant::msg_proc, this);
 }
 
 Assistant::~Assistant()
@@ -79,441 +56,123 @@ Assistant::~Assistant()
     }
 }
 
-bool asst::Assistant::catch_default()
+bool asst::Assistant::connect(const std::string& adb_path, const std::string& address, const std::string& config)
 {
     LogTraceFunction;
 
-    auto& opt = Resrc.cfg().get_options();
-    switch (opt.connect_type) {
-    case ConnectType::Emulator:
-        return catch_emulator();
-    case ConnectType::Custom:
-        return catch_custom();
-    default:
-        return false;
-    }
-}
-
-bool Assistant::catch_emulator(const std::string& emulator_name)
-{
-    LogTraceFunction;
-
-    stop();
-#ifdef _WIN32
-    bool ret = false;
-    //std::string cor_name = emulator_name;
-    auto& cfg = Resrc.cfg();
-
+    m_inited = false;
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    // 自动匹配模拟器，逐个找
-    if (emulator_name.empty()) {
-        for (const auto& [name, info] : cfg.get_emulators_info()) {
-            ret = Ctrler.try_capture(info);
-            if (ret) {
-                //cor_name = name;
-                break;
-            }
-        }
+    stop(false);
+
+    bool ret = m_ctrler->connect(adb_path, address, config.empty() ? "General" : config);
+    if (ret) {
+        m_uuid = m_ctrler->get_uuid();
     }
-    else { // 指定的模拟器
-        auto& info = cfg.get_emulators_info().at(emulator_name);
-        ret = Ctrler.try_capture(info);
-    }
-
-    m_inited = ret;
-    return ret;
-#else   // Not supported catch emulator in Linux
-    return false;
-#endif
-}
-
-bool asst::Assistant::catch_custom(const std::string& address)
-{
-    LogTraceFunction;
-
-    stop();
-
-    bool ret = false;
-    auto& cfg = Resrc.cfg();
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    EmulatorInfo remote_info = cfg.get_emulators_info().at("Custom");
-    if (!address.empty()) {
-        remote_info.adb.addresses.push_back(address);
-    }
-
-    ret = Ctrler.try_capture(remote_info, true);
-
     m_inited = ret;
     return ret;
 }
 
-bool asst::Assistant::catch_fake()
+asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, const std::string& params)
 {
-    LogTraceFunction;
+    Log.info(__FUNCTION__, type, params);
 
-    stop();
-
-    m_inited = true;
-    return true;
-}
-
-bool asst::Assistant::append_start_up()
-{
-    LogTraceFunction;
-    if (!m_inited) {
-        return false;
+    auto ret = json::parse(params);
+    if (!ret) {
+        return 0;
     }
 
-    auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, "StartUp");
-    task_ptr->set_tasks({ "StartUp" })
-        .set_times_limit("ReturnToTerminal", 0)
-        .set_times_limit("Terminal", 0);
+    std::shared_ptr<PackageTask> ptr = nullptr;
 
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    m_tasks_queue.emplace(task_ptr);
-
-    return true;
-}
-
-bool asst::Assistant::append_fight(const std::string& stage, int mecidine, int stone, int times)
-{
-    LogTraceFunction;
-    if (!m_inited) {
-        return false;
+    if (type == FightTask::TaskType) {
+        ptr = std::make_shared<FightTask>(task_callback, (void*)this);
     }
-    json::value params_info = json::object{
-        { "stage", stage },
-        { "mecidine", mecidine },
-        { "stone", stone },
-        { "times", times }
-    };
-    Log.trace("asst::Assistant::append_fight | ", params_info.to_string());
-
-    constexpr const char* TaskChain = "Fight";
-
-    // 进入选关界面（主界面的“终端”点进去）
-    auto terminal_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, TaskChain);
-    terminal_task_ptr->set_tasks({ "StageBegin" })
-        .set_times_limit("GoLastBattle", 0)
-        .set_times_limit("StartButton1", 0)
-        .set_times_limit("StartButton2", 0)
-        .set_times_limit("StageSNReturnFlag", 0)
-        .set_times_limit("MedicineConfirm", 0)
-        .set_times_limit("StoneConfirm", 0);
-
-    // 进入对应的关卡
-    auto stage_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, TaskChain);
-    stage_task_ptr->set_tasks({ stage })
-        .set_times_limit("StartButton1", 0)
-        .set_times_limit("StartButton2", 0)
-        .set_times_limit("StageSNReturnFlag", 0)
-        .set_times_limit("MedicineConfirm", 0)
-        .set_times_limit("StoneConfirm", 0);
-
-    // 开始战斗任务
-    auto fight_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, TaskChain);
-    fight_task_ptr->set_tasks({ "FightBegin" })
-        .set_times_limit("MedicineConfirm", mecidine)
-        .set_times_limit("StoneConfirm", stone)
-        .set_times_limit("StartButton1", times)
-        .set_times_limit("StartButton2", times);
-    fight_task_ptr->regiseter_plugin<StageDropsTaskPlugin>()
-        ->set_retry_times(0);
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    if (!stage.empty()) {
-        m_tasks_queue.emplace(terminal_task_ptr);
-        m_tasks_queue.emplace(stage_task_ptr);
+    else if (type == StartUpTask::TaskType) {
+        ptr = std::make_shared<StartUpTask>(task_callback, (void*)this);
     }
-    m_tasks_queue.emplace(fight_task_ptr);
-
-    return true;
-}
-
-bool asst::Assistant::append_award()
-{
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    return append_process_task("AwardBegin", "Award");
-}
-
-bool asst::Assistant::append_visit()
-{
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    return append_process_task("VisitBegin", "Visit");
-}
-
-bool asst::Assistant::append_mall(bool with_shopping)
-{
-    LogTraceFunction;
-    if (!m_inited) {
-        return false;
+    else if (type == AwardTask::TaskType) {
+        ptr = std::make_shared<AwardTask>(task_callback, (void*)this);
     }
-
-    const std::string TaskChain = "Mall";
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    append_process_task("MallBegin", TaskChain);
-
-    if (with_shopping) {
-        auto shopping_task_ptr = std::make_shared<CreditShoppingTask>(task_callback, (void*)this, TaskChain);
-        m_tasks_queue.emplace(shopping_task_ptr);
+    else if (type == VisitTask::TaskType) {
+        ptr = std::make_shared<VisitTask>(task_callback, (void*)this);
     }
-
-    return true;
-}
-
-bool Assistant::append_process_task(const std::string& task_name, std::string task_chain, int retry_times)
-{
-    LogTraceFunction;
-    if (!m_inited) {
-        return false;
+    else if (type == MallTask::TaskType) {
+        ptr = std::make_shared<MallTask>(task_callback, (void*)this);
     }
-
-    //std::unique_lock<std::mutex> lock(m_mutex);
-
-    if (task_chain.empty()) {
-        task_chain = task_name;
+    else if (type == InfrastTask::TaskType) {
+        ptr = std::make_shared<InfrastTask>(task_callback, (void*)this);
     }
-
-    auto task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, task_chain);
-    task_ptr->set_tasks({ task_name })
-        .set_retry_times(retry_times);
-
-    m_tasks_queue.emplace(task_ptr);
-
-    return true;
-}
-
-bool asst::Assistant::append_recruit(unsigned max_times, const std::vector<int>& select_level, const std::vector<int>& confirm_level, bool need_refresh, bool use_expedited)
-{
-    LogTraceFunction;
-    if (!m_inited) {
-        return false;
+    else if (type == RecruitTask::TaskType) {
+        ptr = std::make_shared<RecruitTask>(task_callback, (void*)this);
     }
-    static const std::string TaskChain = "Recruit";
-
-    auto recruit_task_ptr = std::make_shared<AutoRecruitTask>(task_callback, (void*)this, TaskChain);
-    recruit_task_ptr->set_max_times(max_times)
-        .set_need_refresh(need_refresh)
-        .set_use_expedited(use_expedited)
-        .set_select_level(select_level)
-        .set_confirm_level(confirm_level)
-        .set_retry_times(AutoRecruitTaskRetryTimesDefault);
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    append_process_task("RecruitBegin", TaskChain);
-    m_tasks_queue.emplace(recruit_task_ptr);
-
-    return true;
-}
-
-bool asst::Assistant::append_roguelike(int mode)
-{
-    LogTraceFunction;
-    if (!m_inited) {
-        return false;
+    else if (type == RoguelikeTask::TaskType) {
+        ptr = std::make_shared<RoguelikeTask>(task_callback, (void*)this);
     }
-
-    constexpr static const char* RoguelikeTaskChain = "Roguelike";
-
-    auto roguelike_task_ptr = std::make_shared<ProcessTask>(task_callback, (void*)this, RoguelikeTaskChain);
-    roguelike_task_ptr->set_tasks({ "Roguelike1Begin" })
-        .set_retry_times(50);
-
-    switch (mode) {
-    case 0:
-        break;
-    case 1:
-        roguelike_task_ptr->set_times_limit("Roguelike1StageTraderLeave", 0);
-        break;
-    case 2:
-        roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestCancel", 0);
-        break;
-    default:
-        return false;
+    else if (type == CopilotTask::TaskType) {
+        ptr = std::make_shared<CopilotTask>(task_callback, (void*)this);
     }
-
-    roguelike_task_ptr->regiseter_plugin<RoguelikeFormationTaskPlugin>();
-    roguelike_task_ptr->regiseter_plugin<RoguelikeBattleTaskPlugin>();
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
-    for (int i = 0; i != 10000; ++i) {
-        m_tasks_queue.emplace(roguelike_task_ptr);
-    }
-
-    return true;
-}
-
 #ifdef ASST_DEBUG
-bool Assistant::append_debug()
-{
-    LogTraceFunction;
-    if (!m_inited) {
-        return false;
+    else if (type == DebugTask::TaskType) {
+        ptr = std::make_shared<DebugTask>(task_callback, (void*)this);
     }
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    {
-        constexpr static const char* DebugTaskChain = "Debug";
-
-        auto debug_task_ptr = std::make_shared<RoguelikeBattleTaskPlugin>(task_callback, (void*)this, DebugTaskChain);
-        debug_task_ptr->set_stage_name("暴君");
-
-        m_tasks_queue.emplace(debug_task_ptr);
-    }
-
-    return true;
-}
 #endif
-
-bool Assistant::start_recruit_calc(const std::vector<int>& select_level, bool set_time)
-{
-    LogTraceFunction;
-    if (!m_inited) {
-        return false;
-    }
-
-    auto task_ptr = std::make_shared<RecruitTask>(task_callback, (void*)this, "RecruitCalc");
-    task_ptr->set_retry_times(OpenRecruitTaskRetryTimesDefault);
-    task_ptr->set_param(select_level, set_time);
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    m_tasks_queue.emplace(task_ptr);
-
-    return start(false);
-}
-
-bool asst::Assistant::append_infrast(infrast::WorkMode work_mode, const std::vector<std::string>& order, const std::string& uses_of_drones, double dorm_threshold)
-{
-    LogTraceFunction;
-    if (!m_inited) {
-        return false;
-    }
-
-    // 保留接口，目前强制按激进模式进行换班
-    work_mode = infrast::WorkMode::Aggressive;
-
-    constexpr static const char* InfrastTaskCahin = "Infrast";
-    constexpr int InfrastRetryTimes = 3;
-
-    // 这个流程任务，结束的时候是处于基建主界面的。既可以用于进入基建，也可以用于从设施里返回基建主界面
-
-    auto append_infrast_begin = [&]() {
-        append_process_task("InfrastBegin", InfrastTaskCahin);
-    };
-
-    append_infrast_begin();
-
-    auto info_task_ptr = std::make_shared<InfrastInfoTask>(task_callback, (void*)this, InfrastTaskCahin);
-    info_task_ptr->set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold)
-        .set_retry_times(InfrastRetryTimes);
-
-    m_tasks_queue.emplace(info_task_ptr);
-
-    // 因为后期要考虑多任务间的联动等，所以这些任务的声明暂时不放到for循环中
-    auto mfg_task_ptr = std::make_shared<InfrastMfgTask>(task_callback, (void*)this, InfrastTaskCahin);
-    mfg_task_ptr->set_uses_of_drone(uses_of_drones)
-        .set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold)
-        .set_retry_times(InfrastRetryTimes);
-    mfg_task_ptr->regiseter_plugin<ReplenishOriginiumShardTaskPlugin>();
-
-    auto trade_task_ptr = std::make_shared<InfrastTradeTask>(task_callback, (void*)this, InfrastTaskCahin);
-    trade_task_ptr->set_uses_of_drone(uses_of_drones)
-        .set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold)
-        .set_retry_times(InfrastRetryTimes);
-    trade_task_ptr->regiseter_plugin<DronesForShamareTaskPlugin>();
-
-    auto power_task_ptr = std::make_shared<InfrastPowerTask>(task_callback, (void*)this, InfrastTaskCahin);
-    power_task_ptr->set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold)
-        .set_retry_times(InfrastRetryTimes);
-
-    auto office_task_ptr = std::make_shared<InfrastOfficeTask>(task_callback, (void*)this, InfrastTaskCahin);
-    office_task_ptr->set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold)
-        .set_retry_times(InfrastRetryTimes);
-
-    auto recpt_task_ptr = std::make_shared<InfrastReceptionTask>(task_callback, (void*)this, InfrastTaskCahin);
-    recpt_task_ptr->set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold);
-    auto control_task_ptr = std::make_shared<InfrastControlTask>(task_callback, (void*)this, InfrastTaskCahin);
-    control_task_ptr->set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold)
-        .set_retry_times(InfrastRetryTimes);
-
-    auto dorm_task_ptr = std::make_shared<InfrastDormTask>(task_callback, (void*)this, InfrastTaskCahin);
-    dorm_task_ptr->set_work_mode(work_mode)
-        .set_mood_threshold(dorm_threshold)
-        .set_retry_times(InfrastRetryTimes);
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    for (const auto& facility : order) {
-        if (facility == "Dorm") {
-            m_tasks_queue.emplace(dorm_task_ptr);
-        }
-        else if (facility == "Mfg") {
-            m_tasks_queue.emplace(mfg_task_ptr);
-        }
-        else if (facility == "Trade") {
-            m_tasks_queue.emplace(trade_task_ptr);
-        }
-        else if (facility == "Power") {
-            m_tasks_queue.emplace(power_task_ptr);
-        }
-        else if (facility == "Office") {
-            m_tasks_queue.emplace(office_task_ptr);
-        }
-        else if (facility == "Reception") {
-            m_tasks_queue.emplace(recpt_task_ptr);
-        }
-        else if (facility == "Control") {
-            m_tasks_queue.emplace(control_task_ptr);
-        }
-        else {
-            Log.error("append_infrast | Unknown facility", facility);
-        }
-        append_infrast_begin();
-    }
-
-    return true;
-}
-
-void asst::Assistant::set_penguin_id(const std::string& id)
-{
-    auto& opt = Resrc.cfg().get_options();
-    if (id.empty()) {
-        opt.penguin_report.extra_param.clear();
-    }
     else {
-        opt.penguin_report.extra_param = "-H \"authorization: PenguinID " + id + "\"";
+        Log.error(__FUNCTION__, "| invalid type:", type);
+        return 0;
     }
+
+    bool params_ret = ptr->set_params(ret.value());
+    if (!params_ret) {
+        return 0;
+    }
+
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    ++m_task_id;
+    ptr->set_task_id(m_task_id);
+    m_tasks_list.emplace_back(m_task_id, ptr);
+    return m_task_id;
+}
+
+bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
+{
+    Log.info(__FUNCTION__, task_id, params);
+
+    if (task_id <= 0) {
+        return false;
+    }
+
+    auto ret = json::parse(params);
+    if (!ret) {
+        return false;
+    }
+
+    bool setted = false;
+    std::unique_lock<std::mutex> lock(m_mutex);
+    for (auto&& [id, ptr] : m_tasks_list) {
+        if (id == task_id) {
+            setted = ptr->set_params(ret.value());
+            break;
+        }
+    }
+
+    return setted;
 }
 
 std::vector<uchar> asst::Assistant::get_image() const
 {
-    return Ctrler.get_image_encode();
+    if (!m_inited) {
+        return std::vector<uchar>();
+    }
+    return m_ctrler->get_image_encode();
 }
 
 bool asst::Assistant::ctrler_click(int x, int y, bool block)
 {
-    Ctrler.click(Point(x, y), block);
+    if (!m_inited) {
+        return false;
+    }
+    m_ctrler->click(Point(x, y), block);
     return true;
 }
 
@@ -547,8 +206,7 @@ bool Assistant::stop(bool block)
     if (block) { // 外部调用
         lock = std::unique_lock<std::mutex>(m_mutex);
     }
-    decltype(m_tasks_queue) empty;
-    m_tasks_queue.swap(empty);
+    m_tasks_list.clear();
 
     clear_cache();
 
@@ -559,48 +217,48 @@ void Assistant::working_proc()
 {
     LogTraceFunction;
 
-    std::string pre_taskchain;
     while (!m_thread_exit) {
         //LogTraceScope("Assistant::working_proc Loop");
+
         std::unique_lock<std::mutex> lock(m_mutex);
+        if (!m_thread_idle && !m_tasks_list.empty()) {
+            const auto [id, task_ptr] = m_tasks_list.front();
+            lock.unlock();
 
-        if (!m_thread_idle && !m_tasks_queue.empty()) {
-            auto task_ptr = m_tasks_queue.front();
-            m_tasks_queue.pop();
-
-            std::string cur_taskchain = task_ptr->get_task_chain();
-            std::string next_taskchain = m_tasks_queue.empty() ? std::string() : m_tasks_queue.front()->get_task_chain();
             json::value callback_json = json::object{
-                { "taskchain", cur_taskchain },
-                { "pre_taskchain", pre_taskchain }
+                { "taskchain", task_ptr->get_task_chain() },
+                { "taskid", task_ptr->get_task_id() }
             };
-            if (cur_taskchain != pre_taskchain) {
-                task_callback(AsstMsg::TaskChainStart, callback_json, this);
-            }
+            task_callback(AsstMsg::TaskChainStart, callback_json, this);
 
-            task_ptr->set_exit_flag(&m_thread_idle);
+            task_ptr->set_exit_flag(&m_thread_idle)
+                .set_ctrler(m_ctrler)
+                .set_status(m_status);
+
             bool ret = task_ptr->run();
 
-            if (cur_taskchain != next_taskchain) {
-                if (ret) {
-                    task_callback(AsstMsg::TaskChainCompleted, callback_json, this);
-                }
-                else {
-                    task_callback(AsstMsg::TaskChainError, callback_json, this);
-                }
+            lock.lock();
+            if (!m_tasks_list.empty()) {
+                m_tasks_list.pop_front();
             }
-            if (m_tasks_queue.empty()) {
+            lock.unlock();
+
+            auto run_msg = AsstMsg::TaskChainCompleted;
+            if (!ret) {
+                run_msg = AsstMsg::TaskChainError;
+            }
+            task_callback(run_msg, callback_json, this);
+
+            if (m_tasks_list.empty()) {
                 task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
             }
 
-            pre_taskchain = cur_taskchain;
-
-            auto& delay = Resrc.cfg().get_options().task_delay;
+            auto delay = Resrc.cfg().get_options().task_delay;
+            lock.lock();
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay),
                 [&]() -> bool { return m_thread_idle; });
         }
         else {
-            pre_taskchain.clear();
             m_thread_idle = true;
             Log.flush();
             m_condvar.wait(lock);
@@ -624,7 +282,7 @@ void Assistant::msg_proc()
             lock.unlock();
 
             if (m_callback) {
-                m_callback(msg, detail, m_callback_arg);
+                m_callback(static_cast<int>(msg), detail.to_string().c_str(), m_callback_arg);
             }
         }
         else {
@@ -635,19 +293,20 @@ void Assistant::msg_proc()
 
 void Assistant::task_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
 {
-    Log.trace("Assistant::task_callback |", msg, detail.to_string());
-
     Assistant* p_this = (Assistant*)custom_arg;
     json::value more_detail = detail;
+    more_detail["uuid"] = p_this->m_uuid;
+
     switch (msg) {
     case AsstMsg::InternalError:
     case AsstMsg::InitFailed:
-    case AsstMsg::ConnectionError:
         p_this->stop(false);
         break;
     default:
         break;
     }
+
+    Log.trace("Assistant::task_callback |", msg, more_detail.to_string());
 
     // 加入回调消息队列，由回调消息线程外抛给外部
     p_this->append_callback(msg, std::move(more_detail));
@@ -662,6 +321,6 @@ void asst::Assistant::append_callback(AsstMsg msg, json::value detail)
 
 void Assistant::clear_cache()
 {
-    Status.clear();
+    m_status->clear_data();
     //Task.clear_cache();
 }

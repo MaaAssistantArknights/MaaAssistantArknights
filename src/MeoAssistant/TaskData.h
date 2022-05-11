@@ -23,11 +23,10 @@ namespace asst
             static TaskData unique_instance;
             return unique_instance;
         }
+        const std::unordered_set<std::string>& get_templ_required() const noexcept;
 
         const std::shared_ptr<TaskInfo> get(const std::string& name) const noexcept;
-        const std::unordered_set<std::string>& get_templ_required() const noexcept;
-        std::shared_ptr<TaskInfo> get(std::string name);
-        void clear_cache() noexcept;
+        std::shared_ptr<TaskInfo> get(const std::string& name);
 
     protected:
         TaskData() = default;

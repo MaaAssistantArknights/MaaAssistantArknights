@@ -1,64 +1,54 @@
 #include "GeneralConfiger.h"
 
 #include <meojson/json.hpp>
+#include "Logger.hpp"
 
 bool asst::GeneralConfiger::parse(const json::value& json)
 {
-    m_version = json.at("version").as_string();
+	LogTraceFunction;
 
-    {
-        const json::value& options_json = json.at("options");
-        m_options.connect_type = static_cast<ConnectType>(options_json.at("connectType").as_integer());
-        m_options.task_delay = options_json.at("taskDelay").as_integer();
-        m_options.control_delay_lower = options_json.at("controlDelayRange")[0].as_integer();
-        m_options.control_delay_upper = options_json.at("controlDelayRange")[1].as_integer();
-        //m_options.print_window = options_json.at("printWindow").as_boolean();
-        m_options.adb_extra_swipe_dist = options_json.get("adbExtraSwipeDist", 100);
-        m_options.adb_extra_swipe_duration = options_json.get("adbExtraSwipeDuration", -1);
+	m_version = json.at("version").as_string();
 
-        auto& penguin_report = options_json.at("penguinReport");
-        m_options.penguin_report.enable = penguin_report.get("enable", true);
-        m_options.penguin_report.cmd_format = penguin_report.get("cmdFormat", std::string());
-        m_options.penguin_report.server = penguin_report.get("server", "CN");
+	{
+		const json::value& options_json = json.at("options");
+		m_options.task_delay = options_json.at("taskDelay").as_integer();
+		m_options.control_delay_lower = options_json.at("controlDelayRange")[0].as_integer();
+		m_options.control_delay_upper = options_json.at("controlDelayRange")[1].as_integer();
+		//m_options.print_window = options_json.at("printWindow").as_boolean();
+		m_options.adb_extra_swipe_dist = options_json.get("adbExtraSwipeDist", 100);
+		m_options.adb_extra_swipe_duration = options_json.get("adbExtraSwipeDuration", -1);
 
-        if (options_json.contains("aipOcr")) {
-            auto& aip_ocr = options_json.at("aipOcr");
-            m_options.aip_ocr.enable = aip_ocr.get("enable", false);
-            m_options.aip_ocr.accurate = aip_ocr.get("accurate", false);
-            m_options.aip_ocr.client_id = aip_ocr.get("clientId", std::string());
-            m_options.aip_ocr.client_secret = aip_ocr.get("clientSerect", std::string());
-        }
-    }
+		auto& penguin_report = options_json.at("penguinReport");
+		m_options.penguin_report.cmd_format = penguin_report.get("cmdFormat", std::string());
 
-    for (const auto& [name, emulator_json] : json.at("emulator").as_object()) {
-        EmulatorInfo emulator_info;
-        emulator_info.name = name;
+		if (options_json.contains("aipOcr")) {
+			auto& aip_ocr = options_json.at("aipOcr");
+			m_options.aip_ocr.enable = aip_ocr.get("enable", false);
+			m_options.aip_ocr.accurate = aip_ocr.get("accurate", false);
+			m_options.aip_ocr.client_id = aip_ocr.get("clientId", std::string());
+			m_options.aip_ocr.client_secret = aip_ocr.get("clientSerect", std::string());
+		}
+	}
 
-        const json::object& handle_json = emulator_json.at("handle").as_object();
-        emulator_info.handle.class_name = handle_json.at("class").as_string();
-        emulator_info.handle.window_name = handle_json.at("window").as_string();
+	for (const auto& [name, cfg_json] : json.at("connection").as_object()) {
+		AdbCfg adb;
 
-        const json::object& adb_json = emulator_json.at("adb").as_object();
-        emulator_info.adb.path = adb_json.at("path").as_string();
+		adb.devices = cfg_json.at("devices").as_string();
+		adb.address_regex = cfg_json.at("addressRegex").as_string();
+		adb.connect = cfg_json.at("connect").as_string();
+		adb.display_id = cfg_json.get("displayId", std::string());
+		adb.uuid = cfg_json.at("uuid").as_string();
+		adb.click = cfg_json.at("click").as_string();
+		adb.swipe = cfg_json.at("swipe").as_string();
+		adb.display = cfg_json.at("display").as_string();
+		adb.display_format = cfg_json.at("displayFormat").as_string();
+		adb.screencap_raw_with_gzip = cfg_json.at("screencapRawWithGzip").as_string();
+		adb.screencap_encode = cfg_json.at("screencapEncode").as_string();
+		adb.release = cfg_json.at("release").as_string();
+		//adb.pullscreen = cfg_json.at("pullscreen").as_string();
 
-        for (const json::value& address_json : adb_json.at("addresses").as_array()) {
-            emulator_info.adb.addresses.emplace_back(address_json.as_string());
-        }
-        emulator_info.adb.devices = adb_json.at("devices").as_string();
-        emulator_info.adb.address_regex = adb_json.at("addressRegex").as_string();
-        emulator_info.adb.connect = adb_json.at("connect").as_string();
-        emulator_info.adb.click = adb_json.at("click").as_string();
-        emulator_info.adb.swipe = adb_json.at("swipe").as_string();
-        emulator_info.adb.display = adb_json.at("display").as_string();
-        emulator_info.adb.display_id = adb_json.get("displayId", std::string());
-        emulator_info.adb.display_format = adb_json.at("displayFormat").as_string();
-        emulator_info.adb.screencap_raw_with_gzip = adb_json.at("screencapRawWithGzip").as_string();
-        emulator_info.adb.screencap_encode = adb_json.at("screencapEncode").as_string();
-        emulator_info.adb.release = adb_json.at("release").as_string();
-        //emulator_info.adb.pullscreen = adb_json.at("pullscreen").as_string();
+		m_adb_cfg[name] = std::move(adb);
+	}
 
-        m_emulators_info[name] = std::move(emulator_info);
-    }
-
-    return true;
+	return true;
 }

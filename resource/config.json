@@ -1,8 +1,6 @@
 {
-    "version": "0.9",
+    "version": "1.0",
     "options": {
-        "connectType": 0,
-        "connectType_Doc": "连接类型：0-连接电脑上的模拟器；1-连接自定义端口，请手动修改'emulator.Custom'中的相关字段。默认0",
         "taskDelay": 500,
         "taskDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认500",
         "controlDelayRange": [
@@ -21,237 +19,98 @@
             "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i"
         }
     },
-    "emulator_Doc": "下面的和模拟器窗口捕获逻辑有关，不需要修改",
-    "emulator": {
+    "connection": {
+        "General": {
+            "devices": "[Adb] devices",
+            "addressRegex": "(.+)\tdevice",
+            "connect": "[Adb] connect [Address]",
+            "uuid": "[Adb] -s [Address] shell settings get secure android_id",
+            "click": "[Adb] -s [Address] shell input tap [x] [y]",
+            "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+            "display": "[Adb] -s [Address] shell dumpsys window displays | grep init=",
+            "displayFormat": "    init=%dx%d",
+            "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
+            "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
+            "release": "[Adb] kill-server"
+        },
         "BlueStacks": {
-            "handle": {
-                "class": "BS2CHINAUI",
-                "window": "BlueStacks App Player"
-            },
-            "adb": {
-                "path": "[EmulatorPath]Engine\\ProgramFiles\\HD-Adb.exe",
-                "addresses": [
-                    "127.0.0.1:5555",
-                    "127.0.0.1:5556",
-                    "127.0.0.1:5557"
-                ],
-                "devices": "[Adb] devices",
-                "addressRegex": "(.+)\tdevice",
-                "connect": "[Adb] connect [Address]",
-                "click": "[Adb] -s [Address] shell input tap [x] [y]",
-                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayFormat": "cur=%dx%d",
-                "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
-                "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
-                "release": "[Adb] kill-server"
-            }
-        },
-        "BlueStacksInternational": {
-            "handle": {
-                "class": "",
-                "window": "BlueStacks"
-            },
-            "adb": {
-                "path": "[EmulatorPath]HD-Adb.exe",
-                "addresses": [
-                    "127.0.0.1:5555",
-                    "127.0.0.1:5556",
-                    "127.0.0.1:5557"
-                ],
-                "devices": "[Adb] devices",
-                "addressRegex": "(.+)\tdevice",
-                "connect": "[Adb] connect [Address]",
-                "click": "[Adb] -s [Address] shell input tap [x] [y]",
-                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayFormat": "cur=%dx%d",
-                "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
-                "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
-                "release": "[Adb] kill-server"
-            }
-        },
-        "BlueStacksInternationalNewVersion": {
-            "handle": {
-                "class": "",
-                "window": "BlueStacks App Player"
-            },
-            "adb": {
-                "path": "[EmulatorPath]HD-Adb.exe",
-                "addresses": [
-                    "127.0.0.1:5555",
-                    "127.0.0.1:5556",
-                    "127.0.0.1:5557"
-                ],
-                "devices": "[Adb] devices",
-                "addressRegex": "(.+)\tdevice",
-                "connect": "[Adb] connect [Address]",
-                "click": "[Adb] -s [Address] shell input tap [x] [y]",
-                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayFormat": "cur=%dx%d",
-                "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
-                "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
-                "release": "[Adb] kill-server"
-            }
+            "devices": "[Adb] devices",
+            "addressRegex": "(.+)\tdevice",
+            "connect": "[Adb] connect [Address]",
+            "uuid": "[Adb] -s [Address] shell settings get secure android_id",
+            "click": "[Adb] -s [Address] shell input tap [x] [y]",
+            "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+            "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+            "displayFormat": "cur=%dx%d",
+            "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
+            "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
+            "release": "[Adb] kill-server"
         },
         "MuMuEmulator": {
-            "handle": {
-                "class": "Qt5QWindowIcon",
-                "window": "明日方舟 - MuMu模拟器"
-            },
-            "adb": {
-                "path": "[EmulatorPath]..\\vmonitor\\bin\\adb_server.exe",
-                "addresses": [
-                    "127.0.0.1:7555"
-                ],
-                "devices": "[Adb] devices",
-                "addressRegex": "(.+)\tdevice",
-                "connect": "[Adb] connect [Address]",
-                "click": "[Adb] -s [Address] shell input tap [x] [y]",
-                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayFormat": "cur=%dx%d",
-                "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
-                "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
-                "release": "[Adb] kill-server"
-            }
+            "devices": "[Adb] devices",
+            "addressRegex": "(.+)\tdevice",
+            "connect": "[Adb] connect [Address]",
+            "uuid": "[Adb] -s [Address] shell settings get secure android_id",
+            "click": "[Adb] -s [Address] shell input tap [x] [y]",
+            "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+            "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+            "displayFormat": "cur=%dx%d",
+            "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
+            "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
+            "release": "[Adb] kill-server"
         },
         "LDPlayer": {
-            "handle": {
-                "class": "LDPlayerMainFrame",
-                "window": ""
-            },
-            "adb": {
-                "path": "[EmulatorPath]adb.exe",
-                "addresses": [
-                    "127.0.0.1:5555",
-                    "emulator-5554"
-                ],
-                "devices": "[Adb] devices",
-                "addressRegex": "(.+)\tdevice",
-                "connect": "[Adb] connect [Address]",
-                "click": "[Adb] -s [Address] shell input tap [x] [y]",
-                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayFormat": "cur=%dx%d",
-                "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap | gzip -1\"",
-                "screencapEncode": "[Adb] -s [Address] shell screencap -p",
-                "release": "[Adb] kill-server"
-            }
+            "devices": "[Adb] devices",
+            "addressRegex": "(.+)\tdevice",
+            "connect": "[Adb] connect [Address]",
+            "uuid": "[Adb] -s [Address] shell settings get secure android_id",
+            "click": "[Adb] -s [Address] shell input tap [x] [y]",
+            "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+            "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+            "displayFormat": "cur=%dx%d",
+            "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap | gzip -1\"",
+            "screencapEncode": "[Adb] -s [Address] shell screencap -p",
+            "release": "[Adb] kill-server"
         },
         "Nox": {
-            "handle": {
-                "class": "Qt5QWindowIcon",
-                "window": "夜神模拟器"
-            },
-            "adb": {
-                "path": "[EmulatorPath]nox_adb.exe",
-                "addresses": [
-                    "127.0.0.1:62001",
-                    "127.0.0.1:59865"
-                ],
-                "devices": "[Adb] devices",
-                "addressRegex": "(.+)\tdevice",
-                "connect": "[Adb] connect [Address]",
-                "click": "[Adb] -s [Address] shell input tap [x] [y]",
-                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayFormat": "cur=%dx%d",
-                "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
-                "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
-                "release": "[Adb] kill-server"
-            }
-        },
-        "NoxInternational": {
-            "handle": {
-                "class": "Qt5QWindowIcon",
-                "window": "NoxPlayer"
-            },
-            "adb": {
-                "path": "[EmulatorPath]nox_adb.exe",
-                "addresses": [
-                    "127.0.0.1:62001",
-                    "127.0.0.1:59865"
-                ],
-                "devices": "[Adb] devices",
-                "addressRegex": "(.+)\tdevice",
-                "connect": "[Adb] connect [Address]",
-                "click": "[Adb] -s [Address] shell input tap [x] [y]",
-                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
-                "displayFormat": "cur=%dx%d",
-                "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
-                "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
-                "release": "[Adb] kill-server"
-            }
+            "devices": "[Adb] devices",
+            "addressRegex": "(.+)\tdevice",
+            "connect": "[Adb] connect [Address]",
+            "uuid": "[Adb] -s [Address] shell settings get secure android_id",
+            "click": "[Adb] -s [Address] shell input tap [x] [y]",
+            "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+            "display": "[Adb] -s [Address] shell dumpsys window displays | grep init= | awk ' { print $3 } '",
+            "displayFormat": "cur=%dx%d",
+            "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
+            "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
+            "release": "[Adb] kill-server"
         },
         "XYAZ": {
-            "handle": {
-                "class": "Qt5QWindowIcon",
-                "window": "逍遥模拟器"
-            },
-            "adb": {
-                "path": "[EmulatorPath]adb.exe",
-                "addresses": [
-                    "127.0.0.1:21503"
-                ],
-                "devices": "[Adb] devices",
-                "addressRegex": "(.+)\tdevice",
-                "connect": "[Adb] connect [Address]",
-                "click": "[Adb] -s [Address] shell input tap [x] [y]",
-                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init=",
-                "displayFormat": "    init=%dx%d",
-                "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap | gzip -1\"",
-                "screencapEncode": "[Adb] -s [Address] shell screencap -p",
-                "release": "[Adb] kill-server"
-            }
+            "devices": "[Adb] devices",
+            "addressRegex": "(.+)\tdevice",
+            "connect": "[Adb] connect [Address]",
+            "uuid": "[Adb] -s [Address] shell settings get secure android_id",
+            "click": "[Adb] -s [Address] shell input tap [x] [y]",
+            "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+            "display": "[Adb] -s [Address] shell dumpsys window displays | grep init=",
+            "displayFormat": "    init=%dx%d",
+            "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap | gzip -1\"",
+            "screencapEncode": "[Adb] -s [Address] shell screencap -p",
+            "release": "[Adb] kill-server"
         },
         "WSA": {
-            "handle": {
-                "class": "com.hypergryph.arknights",
-                "window": "明日方舟"
-            },
-            "adb": {
-                "path": "[ExecDir]platform-tools\\adb.exe",
-                "addresses": [
-                    "127.0.0.1:58526"
-                ],
-                "devices": "[Adb] devices",
-                "addressRegex": "(.+)\tdevice",
-                "connect": "[Adb] connect [Address]",
-                "click": "[Adb] -s [Address] shell input -d [DisplayId] tap [x] [y]",
-                "swipe": "[Adb] -s [Address] shell input -d [DisplayId] swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s [Address] shell \"wm size -d [DisplayId]\"",
-                "displayFormat": "Physical size:%dx%d",
-                "displayId": "[Adb] -s [Address] shell dumpsys display | grep mUniqueId=virtual:com.microsoft.windows.systemapp:com.hypergryph.arknights",
-                "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap -d [DisplayId] | gzip -1\"",
-                "screencapEncode": "[Adb] -s [Address] shell screencap -d [DisplayId] -p",
-                "release": "[Adb] kill-server"
-            }
-        },
-        "Custom": {
-            "handle": {
-                "class": "Custom Class",
-                "window": "Custom Window",
-                "Doc": "这俩不是用来捕获窗口的，是为了兼容现有的捕获模拟器的字段，随手写的，这两个字段实际不会使用到"
-            },
-            "adb": {
-                "Doc": "1.请将Adb解压到'path'中的路径（或者修改'path'）；2.请修改addresses为指定地址，若不填写，则使用devices自动查找",
-                "path": "[ExecDir]platform-tools\\adb.exe",
-                "addresses": [],
-                "devices": "[Adb] devices",
-                "addressRegex": "(.+)\tdevice",
-                "connect": "[Adb] connect [Address]",
-                "click": "[Adb] -s [Address] shell input tap [x] [y]",
-                "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
-                "display": "[Adb] -s [Address] shell dumpsys window displays | grep init=",
-                "displayFormat": "    init=%dx%d",
-                "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
-                "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
-                "release": "[Adb] kill-server"
-            }
+            "devices": "[Adb] devices",
+            "addressRegex": "(.+)\tdevice",
+            "connect": "[Adb] connect [Address]",
+            "displayId": "[Adb] -s [Address] shell dumpsys display | grep mUniqueId=virtual:com.microsoft.windows.systemapp:com.hypergryph.arknights",
+            "uuid": "[Adb] -s [Address] shell settings get secure android_id",
+            "click": "[Adb] -s [Address] shell input -d [DisplayId] tap [x] [y]",
+            "swipe": "[Adb] -s [Address] shell input -d [DisplayId] swipe [x1] [y1] [x2] [y2] [duration]",
+            "display": "[Adb] -s [Address] shell \"wm size -d [DisplayId]\"",
+            "displayFormat": "Physical size:%dx%d",
+            "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap -d [DisplayId] | gzip -1\"",
+            "screencapEncode": "[Adb] -s [Address] shell screencap -d [DisplayId] -p",
+            "release": "[Adb] kill-server"
         }
     }
 }

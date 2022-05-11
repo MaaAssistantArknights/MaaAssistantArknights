@@ -4,8 +4,12 @@
 
 #include <meojson/json.hpp>
 
+#include "Logger.hpp"
+
 bool asst::RecruitConfiger::parse(const json::value& json)
 {
+    LogTraceFunction;
+
     for (const json::value& oper : json.as_array()) {
         RecruitOperInfo oper_temp;
         oper_temp.name = oper.at("name").as_string();

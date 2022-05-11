@@ -1,0 +1,355 @@
+{
+    "StartButton1": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "Start"
+        ],
+        "preDelay": 500,
+        "roi": [
+            800,
+            400,
+            480,
+            320
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "StartButton2",
+            "UseMedicine",
+            "UseStone",
+            "NoStone"
+        ]
+    },
+    "PRTS": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "Takeover"
+        ],
+        "roi": [
+            0,
+            500,
+            1280,
+            220
+        ],
+        "action": "DoNothing",
+        "rearDelay": 5000,
+        "next": [
+            "PRTS2",
+            "PRTS",
+            "EndOfAction",
+            "PrtsErrorConfirm",
+            "OfflineConfirm",
+            "WaitAfterPRTS"
+        ]
+    },
+    "EndOfAction": {
+        "Doc": "本任务注册了插件 StageDropsTaskPlugin",
+        "algorithm": "OcrDetect",
+        "text": [
+            "Results"
+        ],
+        "roi": [
+            0,
+            440,
+            440,
+            280
+        ],
+        "action": "DoNothing",
+        "next": [
+            "ClickCorner"
+        ]
+    },
+    "TodaysSupplies": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "Resource Today"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "CloseAnno",
+            "Terminal"
+        ]
+    },
+    "GoLastBattle": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "recent",
+            "stage"
+        ],
+        "roi": [
+            900,
+            500,
+            280,
+            100
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "UsePrts",
+            "StartButton1"
+        ]
+    },
+    "VisitNextOcr": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "Visit Next"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            1080,
+            570,
+            195,
+            130
+        ],
+        "next": [
+            "VisitLimited",
+            "VisitNext",
+            "VisitNextBlack",
+            "VisitNextOcr"
+        ]
+    },
+    "VisitLimited": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "limit",
+            "reached"
+        ],
+        "action": "DoNothing",
+        "roi": [
+            900,
+            50,
+            375,
+            140
+        ],
+        "next": [
+            "ReturnToHome"
+        ]
+    },
+    "MallLoading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "Submitting",
+            "feedback"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "MallLoading",
+            "CreditStoreOcr"
+        ]
+    },
+    "RecruitTags": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            375,
+            360,
+            480,
+            120
+        ],
+        "ocrReplace": [
+            [
+                "Starter",
+                "新手"
+            ],
+            [
+                "Senior Operator",
+                "资深干员"
+            ],
+            [
+                "Top Operator",
+                "高级资深干员"
+            ],
+            [
+                "Melee",
+                "近战位"
+            ],
+            [
+                "Ranged",
+                "远程位"
+            ],
+            [
+                "Guard",
+                "近卫干员"
+            ],
+            [
+                "Medic",
+                "医疗干员"
+            ],
+            [
+                "Vanguard",
+                "先锋干员"
+            ],
+            [
+                "Caster",
+                "术师干员"
+            ],
+            [
+                "Sniper",
+                "狙击干员"
+            ],
+            [
+                "Defender",
+                "重装干员"
+            ],
+            [
+                "Supporter",
+                "辅助干员"
+            ],
+            [
+                "Specialist",
+                "特种干员"
+            ],
+            [
+                "Healing",
+                "治疗"
+            ],
+            [
+                "Support",
+                "支援"
+            ],
+            [
+                "DPS",
+                "输出"
+            ],
+            [
+                "AoE",
+                "群攻"
+            ],
+            [
+                "Slow",
+                "减速"
+            ],
+            [
+                "Survival",
+                "生存"
+            ],
+            [
+                "Defense",
+                "防护"
+            ],
+            [
+                "Debuff",
+                "削弱"
+            ],
+            [
+                "Shift",
+                "位移"
+            ],
+            [
+                "Crowd Control",
+                "控场"
+            ],
+            [
+                "Nuker",
+                "爆发"
+            ],
+            [
+                "Summon",
+                "召唤"
+            ],
+            [
+                "Fast-Redeploy",
+                "快速复活"
+            ],
+            [
+                "DP-Recovery",
+                "费用回复"
+            ],
+            [
+                "Rebot",
+                "支援机械"
+            ]
+        ]
+    },
+    "RecruitLoading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "Submitting",
+            "feedback"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "RecruitLoading",
+            "Stop"
+        ]
+    },
+    "InfrastReward": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "Collectable",
+            "Orders",
+            "Acquired",
+            "Trust"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            600,
+            800,
+            118
+        ],
+        "cache": false,
+        "next": [
+            "InfrastReward",
+            "InfrastExitReward"
+        ]
+    },
+    "InfrastStationedInfo": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "Operator"
+        ],
+        "roi": [
+            0,
+            0,
+            150,
+            720
+        ],
+        "rearDelay": 1000,
+        "next": [
+            "InfrastEnterOperList"
+        ]
+    },
+    "InfrastEnterOperList": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "action": "ClickSelf",
+        "text": [
+            "Morale",
+            "Resting",
+            "Working",
+            "Assign"
+        ],
+        "roi": [
+            800,
+            0,
+            480,
+            650
+        ],
+        "rearDelay": 1000
+    }
+}

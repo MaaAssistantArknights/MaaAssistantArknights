@@ -1,0 +1,169 @@
+{
+    "minimum_required": "v4.0",
+    "desc": {
+        "title": "《AI 都比我打得好》",
+        "details": "作业抄自 https://www.bilibili.com/video/BV1zS4y1U76j"
+    },
+    "stage_name": "千层蛋糕",
+    "opers": [
+        {
+            "name": "银灰",
+            "skill": 3
+        },
+        {
+            "name": "凯尔希",
+            "skill": 3
+        },
+        {
+            "name": "史尔特尔",
+            "skill": 3
+        },
+        {
+            "name": "泥岩",
+            "skill": 2
+        }
+    ],
+    "actions": [
+        {
+            "type": "二倍速"
+        },
+        {
+            "name": "泥岩",
+            "location": [
+                2,
+                6
+            ],
+            "direction": "右"
+        },
+        {
+            "name": "银灰",
+            "location": [
+                4,
+                3
+            ],
+            "direction": "左"
+        },
+        {
+            "kills": 6,
+            "pre_delay": 2000,
+            "type": "技能",
+            "name": "银灰"
+        },
+        {
+            "pre_delay": 12000,
+            "name": "史尔特尔",
+            "location": [
+                4,
+                2
+            ],
+            "direction": "下"
+        },
+        {
+            "pre_delay": 1000,
+            "type": "技能",
+            "name": "史尔特尔"
+        },
+        {
+            "kills": 19,
+            "name": "凯尔希",
+            "location": [
+                5,
+                2
+            ],
+            "direction": "右"
+        },
+        {
+            "name": "Mon3tr",
+            "location": [
+                8,
+                2
+            ],
+            "direction": "上"
+        },
+        {
+            "kills": 23,
+            "pre_delay": 1000,
+            "type": "技能",
+            "name": "凯尔希"
+        },
+        {
+            "name": "银灰",
+            "location": [
+                8,
+                5
+            ],
+            "direction": "上"
+        },
+        {
+            "kills": 26,
+            "type": "技能",
+            "name": "银灰",
+            "rear_delay": 6000
+        },
+        {
+            "name": "史尔特尔",
+            "location": [
+                8,
+                6
+            ],
+            "direction": "上"
+        },
+        {
+            "pre_delay": 1000,
+            "type": "技能",
+            "name": "史尔特尔"
+        },
+        {
+            "kills": 28,
+            "type": "撤退",
+            "name": "史尔特尔"
+        },
+        {
+            "name": "Mon3tr",
+            "type": "撤退"
+        },
+        {
+            "name": "银灰",
+            "type": "撤退"
+        },
+        {
+            "name": "Mon3tr",
+            "location": [
+                5,
+                1
+            ],
+            "direction": "右"
+        },
+        {
+            "kills": 31,
+            "type": "技能",
+            "name": "凯尔希"
+        },
+        {
+            "kills": 34,
+            "name": "银灰",
+            "location": [
+                9,
+                4
+            ],
+            "direction": "上"
+        },
+        {
+            "name": "史尔特尔",
+            "location": [
+                8,
+                2
+            ],
+            "direction": "右"
+        },
+        {
+            "kills": 37,
+            "type": "技能",
+            "name": "银灰"
+        },
+        {
+            "type": "技能",
+            "name": "史尔特尔"
+        }
+    ]
+}

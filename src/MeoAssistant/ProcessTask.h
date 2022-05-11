@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AbstractTask.h"
-#include "AsstDef.h"
+#include "AsstTypes.h"
 
 namespace asst
 {
@@ -17,6 +17,7 @@ namespace asst
 
         virtual bool run() override;
 
+        ProcessTask& set_task_delay(int delay) noexcept;
         ProcessTask& set_tasks(std::vector<std::string> tasks_name) noexcept;
         ProcessTask& set_times_limit(std::string name, int limit);
         ProcessTask& set_rear_delay(std::string name, int delay);
@@ -33,5 +34,7 @@ namespace asst
         std::unordered_map<std::string, int> m_rear_delay;
         std::unordered_map<std::string, int> m_times_limit;
         std::unordered_map<std::string, int> m_exec_times;
+        static constexpr int TaskDelayUnsetted = -1;
+        int m_task_delay = TaskDelayUnsetted;
     };
 }

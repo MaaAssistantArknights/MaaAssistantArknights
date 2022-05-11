@@ -25,10 +25,22 @@
     <ClInclude Include="Assistant.h" />
     <ClInclude Include="AsstInfrastDef.h" />
     <ClInclude Include="AsstUtils.hpp" />
-    <ClInclude Include="AsstDef.h" />
+    <ClInclude Include="AsstTypes.h" />
     <ClInclude Include="AsstMsg.h" />
     <ClInclude Include="AutoRecruitTask.h" />
+    <ClInclude Include="AwardTask.h" />
+    <ClInclude Include="CopilotConfiger.h" />
+    <ClInclude Include="BattleFormationTask.h" />
     <ClInclude Include="BattleImageAnalyzer.h" />
+    <ClInclude Include="BattleProcessTask.h" />
+    <ClInclude Include="CombatRecruitConfiger.h" />
+    <ClInclude Include="CopilotTask.h" />
+    <ClInclude Include="DebugTask.h" />
+    <ClInclude Include="FightTask.h" />
+    <ClInclude Include="InfrastTask.h" />
+    <ClInclude Include="MallTask.h" />
+    <ClInclude Include="PackageTask.h" />
+    <ClInclude Include="RecruitTask.h" />
     <ClInclude Include="ReplenishOriginiumShardTaskPlugin.h" />
     <ClInclude Include="RoguelikeBattleTaskPlugin.h" />
     <ClInclude Include="CreditShopImageAnalyzer.h" />
@@ -61,21 +73,27 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ItemConfiger.h" />
     <ClInclude Include="Logger.hpp" />
-    <ClInclude Include="RecruitTask.h" />
+    <ClInclude Include="RecruitCalcTask.h" />
     <ClInclude Include="ProcessTask.h" />
     <ClInclude Include="ProcessTaskImageAnalyzer.h" />
     <ClInclude Include="RecruitConfiger.h" />
+    <ClInclude Include="RoguelikeCopilotConfiger.h" />
     <ClInclude Include="RoguelikeFormationTaskPlugin.h" />
     <ClInclude Include="RoguelikeFormationImageAnalyzer.h" />
+    <ClInclude Include="RoguelikeRecruitTaskPlugin.h" />
+    <ClInclude Include="RoguelikeSkillSelectionImageAnalyzer.h" />
+    <ClInclude Include="RoguelikeSkillSelectionTaskPlugin.h" />
+    <ClInclude Include="RoguelikeTask.h" />
     <ClInclude Include="RuntimeStatus.h" />
     <ClInclude Include="StageDropsTaskPlugin.h" />
+    <ClInclude Include="StartUpTask.h" />
     <ClInclude Include="TaskData.h" />
     <ClInclude Include="MatchImageAnalyzer.h" />
     <ClInclude Include="TemplResource.h" />
     <ClInclude Include="TilePack.h" />
-    <ClInclude Include="UserConfiger.h" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="VisitTask.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractConfiger.cpp" />
@@ -84,7 +102,19 @@
     <ClCompile Include="AbstractTask.cpp" />
     <ClCompile Include="AbstractTaskPlugin.cpp" />
     <ClCompile Include="AutoRecruitTask.cpp" />
+    <ClCompile Include="AwardTask.cpp" />
+    <ClCompile Include="CopilotConfiger.cpp" />
+    <ClCompile Include="BattleFormationTask.cpp" />
     <ClCompile Include="BattleImageAnalyzer.cpp" />
+    <ClCompile Include="BattleProcessTask.cpp" />
+    <ClCompile Include="CombatRecruitConfiger.cpp" />
+    <ClCompile Include="CopilotTask.cpp" />
+    <ClCompile Include="DebugTask.cpp" />
+    <ClCompile Include="FightTask.cpp" />
+    <ClCompile Include="InfrastTask.cpp" />
+    <ClCompile Include="MallTask.cpp" />
+    <ClCompile Include="PackageTask.cpp" />
+    <ClCompile Include="RecruitTask.cpp" />
     <ClCompile Include="ReplenishOriginiumShardTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeBattleTaskPlugin.cpp" />
     <ClCompile Include="CreditShopImageAnalyzer.cpp" />
@@ -118,20 +148,26 @@
     <ClCompile Include="AsstCaller.cpp" />
     <ClCompile Include="GeneralConfiger.cpp" />
     <ClCompile Include="ItemConfiger.cpp" />
-    <ClCompile Include="RecruitTask.cpp" />
+    <ClCompile Include="RecruitCalcTask.cpp" />
     <ClCompile Include="ProcessTask.cpp" />
     <ClCompile Include="ProcessTaskImageAnalyzer.cpp" />
     <ClCompile Include="RecruitConfiger.cpp" />
-    <ClCompile Include="RoguelikeFormationTask.cpp" />
+    <ClCompile Include="RoguelikeCopilotConfiger.cpp" />
+    <ClCompile Include="RoguelikeFormationTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp" />
+    <ClCompile Include="RoguelikeRecruitTaskPlugin.cpp" />
+    <ClCompile Include="RoguelikeSkillSelectionImageAnalyzer.cpp" />
+    <ClCompile Include="RoguelikeSkillSelectionTaskPlugin.cpp" />
+    <ClCompile Include="RoguelikeTask.cpp" />
     <ClCompile Include="RuntimeStatus.cpp" />
     <ClCompile Include="StageDropsTaskPlugin.cpp" />
+    <ClCompile Include="StartUpTask.cpp" />
     <ClCompile Include="TaskData.cpp" />
     <ClCompile Include="MatchImageAnalyzer.cpp" />
     <ClCompile Include="TemplResource.cpp" />
     <ClCompile Include="TilePack.cpp" />
-    <ClCompile Include="UserConfiger.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="VisitTask.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json" />
@@ -331,7 +367,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties />
+      <UserProperties _1_1_4_1_1_4resource_4config_1json__JsonSchema="" _1_1_4_1_1_4resource_4tasks_1json__JsonSchema="../docs/maa_tasks_schema.json" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
