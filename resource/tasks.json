@@ -44,6 +44,7 @@
         "action": "SwipeToTheRight",
         "next": [
             "StageSN-8",
+            "SNChapter2ToSN-8",
             "SwipeRightToStageSN-8"
         ]
     },
@@ -103,6 +104,7 @@
         "action": "SwipeToTheLeft",
         "next": [
             "StageSN-9",
+            "SNChapter3ToSN-9",
             "SwipeLeftToStageSN-9"
         ]
     },
@@ -162,6 +164,7 @@
         "action": "SwipeToTheLeft",
         "next": [
             "StageSN-10",
+            "SNChapter3ToSN-10",
             "SwipeLeftToStageSN-10"
         ]
     },
