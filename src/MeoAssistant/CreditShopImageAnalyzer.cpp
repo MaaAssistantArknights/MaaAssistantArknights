@@ -7,6 +7,18 @@
 
 #include "AsstUtils.hpp"
 
+void asst::CreditShopImageAnalyzer::set_black_list(std::vector<std::string> black_list)
+{
+    m_shopping_list = std::move(black_list);
+    m_is_white_list = false;
+}
+
+void asst::CreditShopImageAnalyzer::set_white_list(std::vector<std::string> black_list)
+{
+    m_shopping_list = std::move(black_list);
+    m_is_white_list = true;
+}
+
 bool asst::CreditShopImageAnalyzer::analyze()
 {
     m_commoditys.clear();
@@ -57,9 +69,15 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
         name_roi.y += commodity.y;
 
         OcrImageAnalyzer ocr_analyzer(m_image, name_roi);
-        ocr_analyzer.set_required(not_to_buy_task_ptr->text);
+        ocr_analyzer.set_required(m_shopping_list);
         if (ocr_analyzer.analyze()) {
-            //因为是不买的，有识别结果说明这个商品不买，直接跳过
+            // 黑名单模式，有识别结果说明这个商品不买，直接跳过
+            if (!m_is_white_list) {
+                continue;
+            }
+        }
+        // 白名单模式，没有识别结果说明这个商品不买，直接跳过
+        else if (m_is_white_list) {
             continue;
         }
 

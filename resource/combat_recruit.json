@@ -1,0 +1,1464 @@
+{
+    "Lancet-2": {
+        "level": 1,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "Castle-3": {
+        "level": 1,
+        "profession": "WARRIOR",
+        "subProfession": "fearless",
+        "position": "MELEE"
+    },
+    "THRM-EX": {
+        "level": 1,
+        "profession": "SPECIAL",
+        "subProfession": "executor",
+        "position": "MELEE"
+    },
+    "正义骑士号": {
+        "level": 1,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "夜刀": {
+        "level": 2,
+        "profession": "PIONEER",
+        "subProfession": "pioneer",
+        "position": "MELEE"
+    },
+    "黑角": {
+        "level": 2,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "巡林者": {
+        "level": 2,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "杜林": {
+        "level": 2,
+        "profession": "CASTER",
+        "subProfession": "corecaster",
+        "position": "RANGED"
+    },
+    "12F": {
+        "level": 2,
+        "profession": "CASTER",
+        "subProfession": "splashcaster",
+        "position": "RANGED"
+    },
+    "芬": {
+        "level": 3,
+        "profession": "PIONEER",
+        "subProfession": "pioneer",
+        "position": "MELEE"
+    },
+    "香草": {
+        "level": 3,
+        "profession": "PIONEER",
+        "subProfession": "pioneer",
+        "position": "MELEE"
+    },
+    "预备干员-近战": {
+        "level": 3,
+        "profession": "PIONEER",
+        "subProfession": "pioneer",
+        "position": "MELEE"
+    },
+    "翎羽": {
+        "level": 3,
+        "profession": "PIONEER",
+        "subProfession": "charger",
+        "position": "MELEE"
+    },
+    "玫兰莎": {
+        "level": 3,
+        "profession": "WARRIOR",
+        "subProfession": "fearless",
+        "position": "MELEE"
+    },
+    "泡普卡": {
+        "level": 3,
+        "profession": "WARRIOR",
+        "subProfession": "centurion",
+        "position": "MELEE"
+    },
+    "卡缇": {
+        "level": 3,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "米格鲁": {
+        "level": 3,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "斑点": {
+        "level": 3,
+        "profession": "TANK",
+        "subProfession": "guardian",
+        "position": "MELEE"
+    },
+    "克洛丝": {
+        "level": 3,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "安德切尔": {
+        "level": 3,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "预备干员-狙击": {
+        "level": 3,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "炎熔": {
+        "level": 3,
+        "profession": "CASTER",
+        "subProfession": "splashcaster",
+        "position": "RANGED"
+    },
+    "芙蓉": {
+        "level": 3,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "安赛尔": {
+        "level": 3,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "预备干员-后勤": {
+        "level": 3,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "史都华德": {
+        "level": 3,
+        "profession": "CASTER",
+        "subProfession": "corecaster",
+        "position": "RANGED"
+    },
+    "预备干员-术师": {
+        "level": 3,
+        "profession": "CASTER",
+        "subProfession": "corecaster",
+        "position": "RANGED"
+    },
+    "梓兰": {
+        "level": 3,
+        "profession": "SUPPORT",
+        "subProfession": "slower",
+        "position": "RANGED"
+    },
+    "夜烟": {
+        "level": 4,
+        "profession": "CASTER",
+        "subProfession": "corecaster",
+        "position": "RANGED"
+    },
+    "远山": {
+        "level": 4,
+        "profession": "CASTER",
+        "subProfession": "splashcaster",
+        "position": "RANGED"
+    },
+    "格雷伊": {
+        "level": 4,
+        "profession": "CASTER",
+        "subProfession": "splashcaster",
+        "position": "RANGED"
+    },
+    "卡达": {
+        "level": 4,
+        "profession": "CASTER",
+        "subProfession": "funnel",
+        "position": "RANGED"
+    },
+    "深靛": {
+        "level": 4,
+        "profession": "CASTER",
+        "subProfession": "mystic",
+        "position": "RANGED"
+    },
+    "布丁": {
+        "level": 4,
+        "profession": "CASTER",
+        "subProfession": "chain",
+        "position": "RANGED"
+    },
+    "杰西卡": {
+        "level": 4,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "流星": {
+        "level": 4,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "红云": {
+        "level": 4,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "梅": {
+        "level": 4,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "白雪": {
+        "level": 4,
+        "profession": "SNIPER",
+        "subProfession": "aoesniper",
+        "position": "RANGED"
+    },
+    "松果": {
+        "level": 4,
+        "profession": "SNIPER",
+        "subProfession": "reaperrange",
+        "position": "RANGED"
+    },
+    "安比尔": {
+        "level": 4,
+        "profession": "SNIPER",
+        "subProfession": "longrange",
+        "position": "RANGED"
+    },
+    "酸糖": {
+        "level": 4,
+        "profession": "SNIPER",
+        "subProfession": "closerange",
+        "position": "RANGED"
+    },
+    "讯使": {
+        "level": 4,
+        "profession": "PIONEER",
+        "subProfession": "pioneer",
+        "position": "MELEE"
+    },
+    "清道夫": {
+        "level": 4,
+        "profession": "PIONEER",
+        "subProfession": "pioneer",
+        "position": "MELEE"
+    },
+    "红豆": {
+        "level": 4,
+        "profession": "PIONEER",
+        "subProfession": "charger",
+        "position": "MELEE"
+    },
+    "桃金娘": {
+        "level": 4,
+        "profession": "PIONEER",
+        "subProfession": "bearer",
+        "position": "MELEE"
+    },
+    "豆苗": {
+        "level": 4,
+        "profession": "PIONEER",
+        "subProfession": "tactician",
+        "position": "RANGED"
+    },
+    "杜宾": {
+        "level": 4,
+        "profession": "WARRIOR",
+        "subProfession": "instructor",
+        "position": "MELEE"
+    },
+    "缠丸": {
+        "level": 4,
+        "profession": "WARRIOR",
+        "subProfession": "fearless",
+        "position": "MELEE"
+    },
+    "断罪者": {
+        "level": 4,
+        "profession": "WARRIOR",
+        "subProfession": "fearless",
+        "position": "MELEE"
+    },
+    "霜叶": {
+        "level": 4,
+        "profession": "WARRIOR",
+        "subProfession": "lord",
+        "position": "MELEE"
+    },
+    "艾丝黛尔": {
+        "level": 4,
+        "profession": "WARRIOR",
+        "subProfession": "centurion",
+        "position": "MELEE"
+    },
+    "慕斯": {
+        "level": 4,
+        "profession": "WARRIOR",
+        "subProfession": "artsfghter",
+        "position": "MELEE"
+    },
+    "刻刀": {
+        "level": 4,
+        "profession": "WARRIOR",
+        "subProfession": "sword",
+        "position": "MELEE"
+    },
+    "宴": {
+        "level": 4,
+        "profession": "WARRIOR",
+        "subProfession": "musha",
+        "position": "MELEE"
+    },
+    "芳汀": {
+        "level": 4,
+        "profession": "WARRIOR",
+        "subProfession": "lord",
+        "position": "MELEE"
+    },
+    "砾": {
+        "level": 4,
+        "profession": "SPECIAL",
+        "subProfession": "executor",
+        "position": "MELEE"
+    },
+    "孑": {
+        "level": 4,
+        "profession": "SPECIAL",
+        "subProfession": "merchant",
+        "position": "MELEE"
+    },
+    "暗索": {
+        "level": 4,
+        "profession": "SPECIAL",
+        "subProfession": "hookmaster",
+        "position": "MELEE"
+    },
+    "末药": {
+        "level": 4,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "嘉维尔": {
+        "level": 4,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "苏苏洛": {
+        "level": 4,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "调香师": {
+        "level": 4,
+        "profession": "MEDIC",
+        "subProfession": "ringhealer",
+        "position": "RANGED"
+    },
+    "清流": {
+        "level": 4,
+        "profession": "MEDIC",
+        "subProfession": "healer",
+        "position": "RANGED"
+    },
+    "褐果": {
+        "level": 4,
+        "profession": "MEDIC",
+        "subProfession": "wandermedic",
+        "position": "RANGED"
+    },
+    "角峰": {
+        "level": 4,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "蛇屠箱": {
+        "level": 4,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "泡泡": {
+        "level": 4,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "古米": {
+        "level": 4,
+        "profession": "TANK",
+        "subProfession": "guardian",
+        "position": "MELEE"
+    },
+    "坚雷": {
+        "level": 4,
+        "profession": "TANK",
+        "subProfession": "artsprotector",
+        "position": "MELEE"
+    },
+    "深海色": {
+        "level": 4,
+        "profession": "SUPPORT",
+        "subProfession": "summoner",
+        "position": "RANGED"
+    },
+    "地灵": {
+        "level": 4,
+        "profession": "SUPPORT",
+        "subProfession": "slower",
+        "position": "RANGED"
+    },
+    "波登可": {
+        "level": 4,
+        "profession": "SUPPORT",
+        "subProfession": "slower",
+        "position": "RANGED"
+    },
+    "罗比菈塔": {
+        "level": 4,
+        "profession": "SUPPORT",
+        "subProfession": "craftsman",
+        "position": "MELEE"
+    },
+    "伊桑": {
+        "level": 4,
+        "profession": "SPECIAL",
+        "subProfession": "stalker",
+        "position": "MELEE"
+    },
+    "阿消": {
+        "level": 4,
+        "profession": "SPECIAL",
+        "subProfession": "pusher",
+        "position": "MELEE"
+    },
+    "白面鸮": {
+        "level": 5,
+        "profession": "MEDIC",
+        "subProfession": "ringhealer",
+        "position": "RANGED"
+    },
+    "微风": {
+        "level": 5,
+        "profession": "MEDIC",
+        "subProfession": "ringhealer",
+        "position": "RANGED"
+    },
+    "凛冬": {
+        "level": 5,
+        "profession": "PIONEER",
+        "subProfession": "pioneer",
+        "position": "MELEE"
+    },
+    "德克萨斯": {
+        "level": 5,
+        "profession": "PIONEER",
+        "subProfession": "pioneer",
+        "position": "MELEE"
+    },
+    "贾维": {
+        "level": 5,
+        "profession": "PIONEER",
+        "subProfession": "pioneer",
+        "position": "MELEE"
+    },
+    "苇草": {
+        "level": 5,
+        "profession": "PIONEER",
+        "subProfession": "charger",
+        "position": "MELEE"
+    },
+    "野鬃": {
+        "level": 5,
+        "profession": "PIONEER",
+        "subProfession": "charger",
+        "position": "MELEE"
+    },
+    "极境": {
+        "level": 5,
+        "profession": "PIONEER",
+        "subProfession": "bearer",
+        "position": "MELEE"
+    },
+    "夜半": {
+        "level": 5,
+        "profession": "PIONEER",
+        "subProfession": "tactician",
+        "position": "RANGED"
+    },
+    "诗怀雅": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "instructor",
+        "position": "MELEE"
+    },
+    "鞭刃": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "instructor",
+        "position": "MELEE"
+    },
+    "芙兰卡": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "fearless",
+        "position": "MELEE"
+    },
+    "炎客": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "fearless",
+        "position": "MELEE"
+    },
+    "Sharp": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "fearless",
+        "position": "MELEE"
+    },
+    "因陀罗": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "fighter",
+        "position": "MELEE"
+    },
+    "燧石": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "fighter",
+        "position": "MELEE"
+    },
+    "拉普兰德": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "lord",
+        "position": "MELEE"
+    },
+    "断崖": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "lord",
+        "position": "MELEE"
+    },
+    "柏喙": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "sword",
+        "position": "MELEE"
+    },
+    "战车": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "sword",
+        "position": "MELEE"
+    },
+    "幽灵鲨": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "centurion",
+        "position": "MELEE"
+    },
+    "布洛卡": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "centurion",
+        "position": "MELEE"
+    },
+    "星极": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "artsfghter",
+        "position": "MELEE"
+    },
+    "铸铁": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "artsfghter",
+        "position": "MELEE"
+    },
+    "赤冬": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "musha",
+        "position": "MELEE"
+    },
+    "羽毛笔": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "reaper",
+        "position": "MELEE"
+    },
+    "龙舌兰": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "librator",
+        "position": "MELEE"
+    },
+    "蓝毒": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "白金": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "灰喉": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "Stormeye": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "四月": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "寒芒克洛丝": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "陨星": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "aoesniper",
+        "position": "RANGED"
+    },
+    "慑砂": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "aoesniper",
+        "position": "RANGED"
+    },
+    "送葬人": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "reaperrange",
+        "position": "RANGED"
+    },
+    "奥斯塔": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "reaperrange",
+        "position": "RANGED"
+    },
+    "阿米娅": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "corecaster",
+        "position": "RANGED"
+    },
+    "苦艾": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "corecaster",
+        "position": "RANGED"
+    },
+    "特米米": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "corecaster",
+        "position": "RANGED"
+    },
+    "天火": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "splashcaster",
+        "position": "RANGED"
+    },
+    "Pith": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "splashcaster",
+        "position": "RANGED"
+    },
+    "惊蛰": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "chain",
+        "position": "RANGED"
+    },
+    "蜜蜡": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "phalanx",
+        "position": "RANGED"
+    },
+    "莱恩哈特": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "splashcaster",
+        "position": "RANGED"
+    },
+    "薄绿": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "phalanx",
+        "position": "RANGED"
+    },
+    "爱丽丝": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "mystic",
+        "position": "RANGED"
+    },
+    "炎狱炎熔": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "splashcaster",
+        "position": "RANGED"
+    },
+    "蚀清": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "blastcaster",
+        "position": "RANGED"
+    },
+    "耶拉": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "funnel",
+        "position": "RANGED"
+    },
+    "洛洛": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "funnel",
+        "position": "RANGED"
+    },
+    "梅尔": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "summoner",
+        "position": "RANGED"
+    },
+    "稀音": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "summoner",
+        "position": "RANGED"
+    },
+    "赫默": {
+        "level": 5,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "华法琳": {
+        "level": 5,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "亚叶": {
+        "level": 5,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "Touch": {
+        "level": 5,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "锡兰": {
+        "level": 5,
+        "profession": "MEDIC",
+        "subProfession": "healer",
+        "position": "RANGED"
+    },
+    "絮雨": {
+        "level": 5,
+        "profession": "MEDIC",
+        "subProfession": "healer",
+        "position": "RANGED"
+    },
+    "图耶": {
+        "level": 5,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "桑葚": {
+        "level": 5,
+        "profession": "MEDIC",
+        "subProfession": "wandermedic",
+        "position": "RANGED"
+    },
+    "蜜莓": {
+        "level": 5,
+        "profession": "MEDIC",
+        "subProfession": "wandermedic",
+        "position": "RANGED"
+    },
+    "临光": {
+        "level": 5,
+        "profession": "TANK",
+        "subProfession": "guardian",
+        "position": "MELEE"
+    },
+    "吽": {
+        "level": 5,
+        "profession": "TANK",
+        "subProfession": "guardian",
+        "position": "MELEE"
+    },
+    "红": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "executor",
+        "position": "MELEE"
+    },
+    "槐琥": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "executor",
+        "position": "MELEE"
+    },
+    "卡夫卡": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "executor",
+        "position": "MELEE"
+    },
+    "乌有": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "merchant",
+        "position": "MELEE"
+    },
+    "雷蛇": {
+        "level": 5,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "可颂": {
+        "level": 5,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "拜松": {
+        "level": 5,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "火神": {
+        "level": 5,
+        "profession": "TANK",
+        "subProfession": "unyield",
+        "position": "MELEE"
+    },
+    "石棉": {
+        "level": 5,
+        "profession": "TANK",
+        "subProfession": "artsprotector",
+        "position": "MELEE"
+    },
+    "暮落": {
+        "level": 5,
+        "profession": "TANK",
+        "subProfession": "artsprotector",
+        "position": "MELEE"
+    },
+    "闪击": {
+        "level": 5,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "暴雨": {
+        "level": 5,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "灰毫": {
+        "level": 5,
+        "profession": "TANK",
+        "subProfession": "fortress",
+        "position": "MELEE"
+    },
+    "极光": {
+        "level": 5,
+        "profession": "TANK",
+        "subProfession": "duelist",
+        "position": "MELEE"
+    },
+    "普罗旺斯": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "closerange",
+        "position": "RANGED"
+    },
+    "守林人": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "longrange",
+        "position": "RANGED"
+    },
+    "安哲拉": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "longrange",
+        "position": "RANGED"
+    },
+    "熔泉": {
+        "level": 5,
+        "profession": "SNIPER",
+        "subProfession": "siegesniper",
+        "position": "RANGED"
+    },
+    "崖心": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "hookmaster",
+        "position": "MELEE"
+    },
+    "雪雉": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "hookmaster",
+        "position": "MELEE"
+    },
+    "初雪": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "underminer",
+        "position": "RANGED"
+    },
+    "巫恋": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "underminer",
+        "position": "RANGED"
+    },
+    "真理": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "slower",
+        "position": "RANGED"
+    },
+    "格劳克斯": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "slower",
+        "position": "RANGED"
+    },
+    "掠风": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "craftsman",
+        "position": "MELEE"
+    },
+    "空": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "bard",
+        "position": "RANGED"
+    },
+    "海蒂": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "bard",
+        "position": "RANGED"
+    },
+    "月禾": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "blessing",
+        "position": "RANGED"
+    },
+    "九色鹿": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "blessing",
+        "position": "RANGED"
+    },
+    "夏栎": {
+        "level": 5,
+        "profession": "SUPPORT",
+        "subProfession": "blessing",
+        "position": "RANGED"
+    },
+    "狮蝎": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "stalker",
+        "position": "MELEE"
+    },
+    "绮良": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "stalker",
+        "position": "MELEE"
+    },
+    "食铁兽": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "pusher",
+        "position": "MELEE"
+    },
+    "见行者": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "pusher",
+        "position": "MELEE"
+    },
+    "罗宾": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "traper",
+        "position": "RANGED"
+    },
+    "霜华": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "traper",
+        "position": "RANGED"
+    },
+    "贝娜": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "dollkeeper",
+        "position": "MELEE"
+    },
+    "风丸": {
+        "level": 5,
+        "profession": "SPECIAL",
+        "subProfession": "dollkeeper",
+        "position": "MELEE"
+    },
+    "能天使": {
+        "level": 6,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "空弦": {
+        "level": 6,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "灰烬": {
+        "level": 6,
+        "profession": "SNIPER",
+        "subProfession": "fastshot",
+        "position": "RANGED"
+    },
+    "黑": {
+        "level": 6,
+        "profession": "SNIPER",
+        "subProfession": "closerange",
+        "position": "RANGED"
+    },
+    "远牙": {
+        "level": 6,
+        "profession": "SNIPER",
+        "subProfession": "longrange",
+        "position": "RANGED"
+    },
+    "W": {
+        "level": 6,
+        "profession": "SNIPER",
+        "subProfession": "aoesniper",
+        "position": "RANGED"
+    },
+    "菲亚梅塔": {
+        "level": 6,
+        "profession": "SNIPER",
+        "subProfession": "aoesniper",
+        "position": "RANGED"
+    },
+    "早露": {
+        "level": 6,
+        "profession": "SNIPER",
+        "subProfession": "siegesniper",
+        "position": "RANGED"
+    },
+    "迷迭香": {
+        "level": 6,
+        "profession": "SNIPER",
+        "subProfession": "bombarder",
+        "position": "RANGED"
+    },
+    "假日威龙陈": {
+        "level": 6,
+        "profession": "SNIPER",
+        "subProfession": "reaperrange",
+        "position": "RANGED"
+    },
+    "推进之王": {
+        "level": 6,
+        "profession": "PIONEER",
+        "subProfession": "pioneer",
+        "position": "MELEE"
+    },
+    "风笛": {
+        "level": 6,
+        "profession": "PIONEER",
+        "subProfession": "charger",
+        "position": "MELEE"
+    },
+    "嵯峨": {
+        "level": 6,
+        "profession": "PIONEER",
+        "subProfession": "pioneer",
+        "position": "MELEE"
+    },
+    "琴柳": {
+        "level": 6,
+        "profession": "PIONEER",
+        "subProfession": "bearer",
+        "position": "MELEE"
+    },
+    "焰尾": {
+        "level": 6,
+        "profession": "PIONEER",
+        "subProfession": "pioneer",
+        "position": "MELEE"
+    },
+    "伊芙利特": {
+        "level": 6,
+        "profession": "CASTER",
+        "subProfession": "blastcaster",
+        "position": "RANGED"
+    },
+    "莫斯提马": {
+        "level": 6,
+        "profession": "CASTER",
+        "subProfession": "splashcaster",
+        "position": "RANGED"
+    },
+    "艾雅法拉": {
+        "level": 6,
+        "profession": "CASTER",
+        "subProfession": "corecaster",
+        "position": "RANGED"
+    },
+    "刻俄柏": {
+        "level": 6,
+        "profession": "CASTER",
+        "subProfession": "corecaster",
+        "position": "RANGED"
+    },
+    "夕": {
+        "level": 6,
+        "profession": "CASTER",
+        "subProfession": "splashcaster",
+        "position": "RANGED"
+    },
+    "异客": {
+        "level": 6,
+        "profession": "CASTER",
+        "subProfession": "chain",
+        "position": "RANGED"
+    },
+    "卡涅利安": {
+        "level": 6,
+        "profession": "CASTER",
+        "subProfession": "phalanx",
+        "position": "RANGED"
+    },
+    "澄闪": {
+        "level": 6,
+        "profession": "CASTER",
+        "subProfession": "funnel",
+        "position": "RANGED"
+    },
+    "灵知": {
+        "level": 6,
+        "profession": "SUPPORT",
+        "subProfession": "underminer",
+        "position": "RANGED"
+    },
+    "安洁莉娜": {
+        "level": 6,
+        "profession": "SUPPORT",
+        "subProfession": "slower",
+        "position": "RANGED"
+    },
+    "铃兰": {
+        "level": 6,
+        "profession": "SUPPORT",
+        "subProfession": "slower",
+        "position": "RANGED"
+    },
+    "麦哲伦": {
+        "level": 6,
+        "profession": "SUPPORT",
+        "subProfession": "summoner",
+        "position": "RANGED"
+    },
+    "浊心斯卡蒂": {
+        "level": 6,
+        "profession": "SUPPORT",
+        "subProfession": "bard",
+        "position": "RANGED"
+    },
+    "令": {
+        "level": 6,
+        "profession": "SUPPORT",
+        "subProfession": "summoner",
+        "position": "RANGED"
+    },
+    "傀影": {
+        "level": 6,
+        "profession": "SPECIAL",
+        "subProfession": "executor",
+        "position": "MELEE"
+    },
+    "老鲤": {
+        "level": 6,
+        "profession": "SPECIAL",
+        "subProfession": "merchant",
+        "position": "MELEE"
+    },
+    "温蒂": {
+        "level": 6,
+        "profession": "SPECIAL",
+        "subProfession": "pusher",
+        "position": "MELEE"
+    },
+    "阿": {
+        "level": 6,
+        "profession": "SPECIAL",
+        "subProfession": "geek",
+        "position": "RANGED"
+    },
+    "歌蕾蒂娅": {
+        "level": 6,
+        "profession": "SPECIAL",
+        "subProfession": "hookmaster",
+        "position": "MELEE"
+    },
+    "水月": {
+        "level": 6,
+        "profession": "SPECIAL",
+        "subProfession": "stalker",
+        "position": "MELEE"
+    },
+    "归溟幽灵鲨": {
+        "level": 6,
+        "profession": "SPECIAL",
+        "subProfession": "dollkeeper",
+        "position": "MELEE"
+    },
+    "闪灵": {
+        "level": 6,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "夜莺": {
+        "level": 6,
+        "profession": "MEDIC",
+        "subProfession": "ringhealer",
+        "position": "RANGED"
+    },
+    "凯尔希": {
+        "level": 6,
+        "profession": "MEDIC",
+        "subProfession": "physician",
+        "position": "RANGED"
+    },
+    "流明": {
+        "level": 6,
+        "profession": "MEDIC",
+        "subProfession": "healer",
+        "position": "RANGED"
+    },
+    "星熊": {
+        "level": 6,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "塞雷娅": {
+        "level": 6,
+        "profession": "TANK",
+        "subProfession": "guardian",
+        "position": "MELEE"
+    },
+    "瑕光": {
+        "level": 6,
+        "profession": "TANK",
+        "subProfession": "guardian",
+        "position": "MELEE"
+    },
+    "年": {
+        "level": 6,
+        "profession": "TANK",
+        "subProfession": "protector",
+        "position": "MELEE"
+    },
+    "泥岩": {
+        "level": 6,
+        "profession": "TANK",
+        "subProfession": "unyield",
+        "position": "MELEE"
+    },
+    "森蚺": {
+        "level": 6,
+        "profession": "TANK",
+        "subProfession": "duelist",
+        "position": "MELEE"
+    },
+    "号角": {
+        "level": 6,
+        "profession": "TANK",
+        "subProfession": "fortress",
+        "position": "MELEE"
+    },
+    "山": {
+        "level": 6,
+        "profession": "WARRIOR",
+        "subProfession": "fighter",
+        "position": "MELEE"
+    },
+    "银灰": {
+        "level": 6,
+        "profession": "WARRIOR",
+        "subProfession": "lord",
+        "position": "MELEE"
+    },
+    "棘刺": {
+        "level": 6,
+        "profession": "WARRIOR",
+        "subProfession": "lord",
+        "position": "MELEE"
+    },
+    "陈": {
+        "level": 6,
+        "profession": "WARRIOR",
+        "subProfession": "sword",
+        "position": "MELEE"
+    },
+    "艾丽妮": {
+        "level": 6,
+        "profession": "WARRIOR",
+        "subProfession": "sword",
+        "position": "MELEE"
+    },
+    "煌": {
+        "level": 6,
+        "profession": "WARRIOR",
+        "subProfession": "centurion",
+        "position": "MELEE"
+    },
+    "史尔特尔": {
+        "level": 6,
+        "profession": "WARRIOR",
+        "subProfession": "artsfghter",
+        "position": "MELEE"
+    },
+    "赫拉格": {
+        "level": 6,
+        "profession": "WARRIOR",
+        "subProfession": "musha",
+        "position": "MELEE"
+    },
+    "帕拉斯": {
+        "level": 6,
+        "profession": "WARRIOR",
+        "subProfession": "instructor",
+        "position": "MELEE"
+    },
+    "耀骑士临光": {
+        "level": 6,
+        "profession": "WARRIOR",
+        "subProfession": "fearless",
+        "position": "MELEE"
+    },
+    "暴行": {
+        "level": 5,
+        "profession": "WARRIOR",
+        "subProfession": "centurion",
+        "position": "MELEE"
+    },
+    "空爆": {
+        "level": 3,
+        "profession": "SNIPER",
+        "subProfession": "aoesniper",
+        "position": "RANGED"
+    },
+    "月见夜": {
+        "level": 3,
+        "profession": "WARRIOR",
+        "subProfession": "lord",
+        "position": "MELEE"
+    },
+    "猎蜂": {
+        "level": 4,
+        "profession": "WARRIOR",
+        "subProfession": "fighter",
+        "position": "MELEE"
+    },
+    "杰克": {
+        "level": 4,
+        "profession": "WARRIOR",
+        "subProfession": "fighter",
+        "position": "MELEE"
+    },
+    "夜魔": {
+        "level": 5,
+        "profession": "CASTER",
+        "subProfession": "corecaster",
+        "position": "RANGED"
+    },
+    "格拉尼": {
+        "level": 5,
+        "profession": "PIONEER",
+        "subProfession": "charger",
+        "position": "MELEE"
+    },
+    "斯卡蒂": {
+        "level": 6,
+        "profession": "WARRIOR",
+        "subProfession": "fearless",
+        "position": "MELEE"
+    },
+    "预备干员": {
+        "Doc": "事实上没有叫这个名字的干员，但为了避免肉鸽中，requires设置了但找不到的问题，增设这个干员。",
+        "level": 3
+    }
+}

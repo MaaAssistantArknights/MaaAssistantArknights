@@ -46,7 +46,7 @@ void asst::InfrastOperImageAnalyzer::sort_by_loc()
 
     std::sort(
         m_result.begin(), m_result.end(),
-        [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
+        [](const infrast::BattleRealTimeOper& lhs, const infrast::BattleRealTimeOper& rhs) -> bool {
             if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
                 return lhs.rect.y < rhs.rect.y;
             }
@@ -62,7 +62,7 @@ void asst::InfrastOperImageAnalyzer::sort_by_mood()
 
     std::sort(
         m_result.begin(), m_result.end(),
-        [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
+        [](const infrast::BattleRealTimeOper& lhs, const infrast::BattleRealTimeOper& rhs) -> bool {
             // 先按心情排序，心情低的放前面
             if (std::fabs(lhs.mood_ratio - rhs.mood_ratio) > DoubleDiff) {
                 return lhs.mood_ratio < rhs.mood_ratio;
@@ -119,7 +119,7 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
             cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(smiley_rect), cv::Scalar(0, 0, 255), 2);
 #endif // ASST_DEBUG
 
-            infrast::Oper oper;
+            infrast::BattleRealTimeOper oper;
             oper.smiley = smiley;
             m_result.emplace_back(std::move(oper));
         }
@@ -210,6 +210,7 @@ void asst::InfrastOperImageAnalyzer::face_hash_analyze()
     const Rect hash_rect_move = Task.get("InfrastOperFaceHash")->rect_move;
 
     HashImageAnalyzer hash_analyzer(m_image);
+
     for (auto&& oper : m_result) {
         Rect roi = oper.smiley.rect.move(hash_rect_move);
         hash_analyzer.set_roi(roi);
@@ -226,6 +227,7 @@ void asst::InfrastOperImageAnalyzer::name_hash_analyze()
         Task.get("InfrastOperNameHash"));
 
     HashImageAnalyzer hash_analyzer(m_image);
+
     hash_analyzer.set_mask_range(task_ptr->mask_range);
     hash_analyzer.set_need_bound(true);
     for (auto&& oper : m_result) {
@@ -245,6 +247,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
     const auto bright_thres = task_ptr->special_threshold;
 
     MatchImageAnalyzer skill_analyzer(m_image);
+
     skill_analyzer.set_mask_range(task_ptr->mask_range);
     skill_analyzer.set_threshold(task_ptr->templ_threshold);
 
@@ -406,6 +409,7 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
     Rect rect_move = working_task_ptr->rect_move;
 
     MatchImageAnalyzer working_analyzer(m_image);
+
     working_analyzer.set_task_info(working_task_ptr);
 
     for (auto&& oper : m_result) {

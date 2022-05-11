@@ -117,9 +117,12 @@ MAA 的意思是 MAA Assistant Arknights
 ### API
 
 - [C 接口](include/AsstCaller.h)：[集成示例](tools/TestCaller/main.cpp)
-- [Python 接口](src/Python/interface.py)：[集成示例](src/Python/sample.py)
+- [Python 接口](src/Python/asst.py)：[集成示例](src/Python/sample.py)
 - [Golang 接口](src/Golang/maa/)：[集成示例](src/Golang/cli.go)（已停止维护 orz）
+- [集成文档](docs/集成文档.md) 龟速更新中_(:з」∠)_
 - [回调消息协议](docs/回调消息协议.md)
+- [任务流程协议](docs/任务流程协议.md)
+- [自动抄作业协议](docs/战斗流程协议.md) 功能正在开发中 ✿✿ヽ(°▽°)ノ✿
 
 ## 声明
 

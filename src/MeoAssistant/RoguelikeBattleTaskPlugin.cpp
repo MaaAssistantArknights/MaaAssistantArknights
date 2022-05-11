@@ -3,7 +3,6 @@
 #include <chrono>
 
 #include "BattleImageAnalyzer.h"
-//#include "BattlePerspectiveImageAnalyzer.h"
 #include "Controller.h"
 #include "TaskData.h"
 #include "ProcessTask.h"
@@ -26,6 +25,11 @@ bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& det
     }
 }
 
+void asst::RoguelikeBattleTaskPlugin::set_skill_usage(SkillUsageMap usage_map)
+{
+    m_skill_usage = std::move(usage_map);
+}
+
 void asst::RoguelikeBattleTaskPlugin::set_stage_name(std::string stage)
 {
     m_stage_name = std::move(stage);
@@ -35,7 +39,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 {
     bool getted_info = get_stage_info();
 
-    speed_up();
+    //speed_up();
 
     if (!getted_info) {
         return true;
@@ -47,7 +51,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     auto start_time = std::chrono::steady_clock::now();
     while (!need_exit()) {
         // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
-        if (!auto_battle() && m_used_opers) {
+        if (!auto_battle() && m_opers_used) {
             break;
         }
         if (std::chrono::steady_clock::now() - start_time > time_limit) {
@@ -79,8 +83,9 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 
         constexpr int StageNameRetryTimes = 50;
         for (int i = 0; i != StageNameRetryTimes; ++i) {
-            cv::Mat image = Ctrler.get_image();
+            cv::Mat image = m_ctrler->get_image();
             OcrImageAnalyzer name_analyzer(image);
+
             name_analyzer.set_task_info(stage_name_task_ptr);
             if (!name_analyzer.analyze()) {
                 continue;
@@ -100,6 +105,9 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
             if (calced) {
                 break;
             }
+            // 有些性能非常好的电脑，加载画面很快；但如果使用了不兼容 gzip 的方式截图的模拟器，截图反而非常慢
+            // 这种时候一共可供识别的也没几帧，还要考虑识别错的情况。所以这里不能 sleep
+            std::this_thread::yield();
         }
     }
     else {
@@ -111,7 +119,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
     if (calced) {
 #ifdef ASST_DEBUG
         auto normal_tiles = tile.calc(m_stage_name, false);
-        cv::Mat draw = Ctrler.get_image();
+        cv::Mat draw = m_ctrler->get_image();
         for (const auto& [point, info] : normal_tiles) {
             using TileKey = TilePack::TileKey;
             static const std::unordered_map<TileKey, std::string> TileKeyMapping = {
@@ -148,27 +156,55 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 {
     LogTraceFunction;
 
-    using Oper = asst::BattleImageAnalyzer::Oper;
+    using BattleRealTimeOper = asst::BattleRealTimeOper;
 
-    BattleImageAnalyzer battle_analyzer(Ctrler.get_image());
+    BattleImageAnalyzer battle_analyzer(m_ctrler->get_image());
+    battle_analyzer.set_target(BattleImageAnalyzer::Target::Roguelike);
+
     if (!battle_analyzer.analyze()) {
         return false;
     }
 
-    if (int hp = battle_analyzer.get_hp();
-        hp != 0) {
-        bool used_skills = false;
-        if (hp < m_pre_hp) {    // 说明漏怪了，漏怪就开技能（
-            for (const Rect& rect : battle_analyzer.get_ready_skills()) {
-                used_skills = true;
-                if (!use_skill(rect)) {
-                    break;
-                }
+    //if (int hp = battle_analyzer.get_hp();
+    //    hp != 0) {
+    //    bool used_skills = false;
+    //    if (hp < m_pre_hp) {    // 说明漏怪了，漏怪就开技能（
+    //        for (const Rect& rect : battle_analyzer.get_ready_skills()) {
+    //            used_skills = true;
+    //            if (!use_skill(rect)) {
+    //                break;
+    //            }
+    //        }
+    //    }
+    //    m_pre_hp = hp;
+    //    if (used_skills) {
+    //        return true;
+    //    }
+    //}
+
+    for (const Rect& rect : battle_analyzer.get_ready_skills()) {
+        // 找出这个可以使用的技能是哪个干员的（根据之前放干员的位置）
+        std::string name = "NotFound";
+        for (const auto& [loc, oper_name] : m_used_tiles) {
+            auto point = m_normal_tile_info[loc].pos;
+            if (rect.include(point)) {
+                name = oper_name;
+                break;
             }
         }
-        m_pre_hp = hp;
-        if (used_skills) {
+
+        auto& usage = m_skill_usage[name];
+        Log.info("Oper", name, ", skill usage", static_cast<int>(usage));
+        switch (usage) {
+        case BattleSkillUsage::Once:
+            use_skill(rect);
+            usage = BattleSkillUsage::OnceUsed;
             return true;
+            break;
+        case BattleSkillUsage::Possibly:
+            use_skill(rect);
+            return true;
+            break;
         }
     }
 
@@ -177,22 +213,22 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         return true;
     }
 
-    static const std::array<Role, 9> RoleOrder = {
-        Role::Pioneer,
-        Role::Sniper,
-        Role::Warrior,
-        Role::Support,
-        Role::Medic,
-        Role::Caster,
-        Role::Special,
-        Role::Tank,
-        Role::Drone
+    static const std::array<BattleRole, 9> RoleOrder = {
+        BattleRole::Pioneer,
+        BattleRole::Sniper,
+        BattleRole::Warrior,
+        BattleRole::Support,
+        BattleRole::Medic,
+        BattleRole::Caster,
+        BattleRole::Special,
+        BattleRole::Tank,
+        BattleRole::Drone
     };
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
     const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
 
     // 点击当前最合适的干员
-    Oper opt_oper;
+    BattleRealTimeOper opt_oper;
     bool oper_found = false;
     for (auto role : RoleOrder) {
         for (const auto& oper : opers) {
@@ -212,25 +248,38 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (!oper_found) {
         return true;
     }
-    Ctrler.click(opt_oper.rect);
+    m_ctrler->click(opt_oper.rect);
     sleep(use_oper_task_ptr->pre_delay);
+
+    OcrImageAnalyzer oper_name_analyzer(m_ctrler->get_image());
+    oper_name_analyzer.set_task_info("BattleOperName");
+    oper_name_analyzer.set_replace(
+        std::dynamic_pointer_cast<OcrTaskInfo>(
+            Task.get("Roguelike1RecruitData"))
+        ->replace_map);
+
+    std::string oper_name = "Unknown";
+    if (oper_name_analyzer.analyze()) {
+        oper_name_analyzer.sort_result_by_score();
+        oper_name = oper_name_analyzer.get_result().front().text;
+    }
 
     // 将干员拖动到场上
     Loc loc = Loc::All;
     switch (opt_oper.role) {
-    case Role::Medic:
-    case Role::Support:
-    case Role::Sniper:
-    case Role::Caster:
+    case BattleRole::Medic:
+    case BattleRole::Support:
+    case BattleRole::Sniper:
+    case BattleRole::Caster:
         loc = Loc::Ranged;
         break;
-    case Role::Pioneer:
-    case Role::Warrior:
-    case Role::Tank:
+    case BattleRole::Pioneer:
+    case BattleRole::Warrior:
+    case BattleRole::Tank:
         loc = Loc::Melee;
         break;
-    case Role::Special:
-    case Role::Drone:
+    case BattleRole::Special:
+    case BattleRole::Drone:
     default:
         // 特种和无人机，有的只能放地面，有的又只能放高台，不好判断
         // 笨办法，都试试，总有一次能成的
@@ -251,11 +300,11 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     Point placed_loc = get_placed(loc);
     Point placed_point = m_side_tile_info.at(placed_loc).pos;
 #ifdef ASST_DEBUG
-    auto image = Ctrler.get_image();
+    auto image = m_ctrler->get_image();
     cv::circle(image, cv::Point(placed_point.x, placed_point.y), 10, cv::Scalar(0, 0, 255), -1);
 #endif
     Rect placed_rect(placed_point.x, placed_point.y, 1, 1);
-    Ctrler.swipe(opt_oper.rect, placed_rect, swipe_oper_task_ptr->pre_delay);
+    m_ctrler->swipe(opt_oper.rect, placed_rect, swipe_oper_task_ptr->pre_delay);
     sleep(use_oper_task_ptr->rear_delay);
 
     // 计算往哪边拖动（干员朝向）
@@ -272,10 +321,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     end_point.y = std::max(0, end_point.y);
     end_point.y = std::min(end_point.y, WindowHeightDefault);
 
-    Ctrler.swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
+    m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
 
-    m_used_tiles.emplace(placed_loc);
-    m_used_opers = true;
+    m_used_tiles.emplace(placed_loc, oper_name);
+    m_opers_used = true;
     ++m_cur_home_index;
 
     return true;
@@ -283,13 +332,13 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
 bool asst::RoguelikeBattleTaskPlugin::speed_up()
 {
-    ProcessTask task(*this, { "BattleSpeedUp" });
+    ProcessTask task(*this, { "Roguelike1BattleSpeedUp" });
     return task.run();
 }
 
 bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
 {
-    Ctrler.click(rect);
+    m_ctrler->click(rect);
 
     ProcessTask task(*this, { "BattleUseSkillBegin" });
     task.set_retry_times(0);
@@ -298,7 +347,7 @@ bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
 
 bool asst::RoguelikeBattleTaskPlugin::retreat(const Point& point)
 {
-    Ctrler.click(point);
+    m_ctrler->click(point);
 
     ProcessTask task(*this, { "BattleOperRetreatBegin" });
     task.set_retry_times(0);
@@ -307,7 +356,7 @@ bool asst::RoguelikeBattleTaskPlugin::retreat(const Point& point)
 
 void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
 {
-    for (const auto& loc : m_used_tiles) {
+    for (const auto& [loc, _] : m_used_tiles) {
         auto& tile_info = m_normal_tile_info[loc];
         auto& type = tile_info.buildable;
         if (type == Loc::Melee || type == Loc::All) {
@@ -320,18 +369,25 @@ void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
 
 void asst::RoguelikeBattleTaskPlugin::clear()
 {
-    m_used_opers = false;
+    m_opers_used = false;
     m_pre_hp = 0;
     m_homes.clear();
     m_cur_home_index = 0;
     m_stage_name.clear();
     m_side_tile_info.clear();
     m_used_tiles.clear();
+
+    for (auto& [_, usage] : m_skill_usage) {
+        if (usage == BattleSkillUsage::OnceUsed) {
+            usage = BattleSkillUsage::Once;
+        }
+    }
 }
 
 //asst::Rect asst::RoguelikeBattleTaskPlugin::get_placed_by_cv()
 //{
-//    BattlePerspectiveImageAnalyzer placed_analyzer(Ctrler.get_image());
+//    BattlePerspectiveImageAnalyzer placed_analyzer(m_ctrler->get_image());
+
 //    placed_analyzer.set_src_homes(m_home_cache);
 //    if (!placed_analyzer.analyze()) {
 //        return Rect();
@@ -387,7 +443,7 @@ asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
     return nearest;
 }
 
-asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, Role role)
+asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, BattleRole role)
 {
     LogTraceFunction;
 
@@ -414,7 +470,7 @@ asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, Role role
 
     Point base_direction(0, 0);
     switch (role) {
-    case Role::Medic:
+    case BattleRole::Medic:
     {
         if (std::abs(dx) < std::abs(dy)) {
             base_direction.y = -dy;
@@ -424,14 +480,14 @@ asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, Role role
         }
     }
     break;
-    case Role::Support:
-    case Role::Pioneer:
-    case Role::Warrior:
-    case Role::Sniper:
-    case Role::Special:
-    case Role::Tank:
-    case Role::Caster:
-    case Role::Drone:
+    case BattleRole::Support:
+    case BattleRole::Pioneer:
+    case BattleRole::Warrior:
+    case BattleRole::Sniper:
+    case BattleRole::Special:
+    case BattleRole::Tank:
+    case BattleRole::Caster:
+    case BattleRole::Drone:
     default:
     {
         if (std::abs(dx) < std::abs(dy)) {
@@ -487,7 +543,7 @@ asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, Role role
 
                 switch (role) {
                     // 医疗干员根据哪个方向上人多决定朝向哪
-                case Role::Medic:
+                case BattleRole::Medic:
                     if (m_used_tiles.find(cur_point) != m_used_tiles.cend()) {
                         score += 1000;
                     }

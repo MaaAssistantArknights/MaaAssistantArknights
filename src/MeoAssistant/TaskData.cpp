@@ -4,9 +4,10 @@
 
 #include <meojson/json.hpp>
 
-#include "AsstDef.h"
+#include "AsstTypes.h"
 #include "GeneralConfiger.h"
 #include "TemplResource.h"
+#include "Logger.hpp"
 
 const std::shared_ptr<asst::TaskInfo> asst::TaskData::get(const std::string& name) const noexcept
 {
@@ -24,20 +25,15 @@ const std::unordered_set<std::string>& asst::TaskData::get_templ_required() cons
     return m_templ_required;
 }
 
-std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string name)
+std::shared_ptr<asst::TaskInfo> asst::TaskData::get(const std::string& name)
 {
-    return m_all_tasks_info[std::move(name)];
-}
-
-void asst::TaskData::clear_cache() noexcept
-{
-    for (auto&& [name, ptr] : m_all_tasks_info) {
-        ptr->region_of_appeared = Rect();
-    }
+    return m_all_tasks_info[name];
 }
 
 bool asst::TaskData::parse(const json::value& json)
 {
+    LogTraceFunction;
+
     auto to_lower = [](char c) -> char {
         return (c >= 'A' && c <= 'Z') ? (c - 'A' + 'a') : c;
     };
@@ -89,7 +85,7 @@ bool asst::TaskData::parse(const json::value& json)
             for (const json::value& text : task_json.at("text").as_array()) {
                 ocr_task_info_ptr->text.emplace_back(text.as_string());
             }
-            ocr_task_info_ptr->need_full_match = task_json.get("fullMatch", false);
+            ocr_task_info_ptr->full_match = task_json.get("fullMatch", false);
             if (task_json.contains("ocrReplace")) {
                 for (const json::value& rep : task_json.at("ocrReplace").as_array()) {
                     ocr_task_info_ptr->replace_map.emplace(rep.as_array()[0].as_string(), rep.as_array()[1].as_string());
@@ -117,7 +113,7 @@ bool asst::TaskData::parse(const json::value& json)
         task_info_ptr->cache = task_json.get("cache", true);
         task_info_ptr->algorithm = algorithm;
         task_info_ptr->name = name;
-        std::string action = task_json.get("action", std::string());
+        std::string action = task_json.get("action", "donothing");
         std::transform(action.begin(), action.end(), action.begin(), to_lower);
         if (action == "clickself") {
             task_info_ptr->action = ProcessTaskAction::ClickSelf;
@@ -210,7 +206,7 @@ bool asst::TaskData::parse(const json::value& json)
             task_info_ptr->rect_move = Rect();
         }
 
-        m_all_tasks_info.emplace(name, task_info_ptr);
+        m_all_tasks_info[name] = task_info_ptr;
     }
 #ifdef ASST_DEBUG
     for (const auto& [name, task] : m_all_tasks_info) {

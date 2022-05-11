@@ -19,6 +19,9 @@ namespace asst
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
         virtual void set_task_ptr(AbstractTask* ptr) override;
 
+        bool set_enable_penguid(bool enable);
+        bool set_penguin_id(std::string id);
+        bool set_server(std::string server);
     private:
         virtual bool _run() override;
 
@@ -34,6 +37,8 @@ namespace asst
         bool m_startbutton_delay_setted = false;
         std::vector<std::future<void>> m_upload_pending;
         ProcessTask* m_cast_ptr = nullptr;
-        bool m_enable_penguid = true;
+        bool m_enable_penguid = false;
+        std::string m_penguin_id;
+        std::string m_server = "CN";
     };
 }

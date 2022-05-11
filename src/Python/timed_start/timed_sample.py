@@ -1,9 +1,10 @@
 """
 function: 定时启动 maa
 author: Black Cat Bon
-version: v2.0.1
+version: v2.1
 """
 
+from importlib.resources import path
 import threading
 import time
 import schedule
@@ -14,7 +15,7 @@ import pathlib
 import sys
 import re
 
-from interface import Asst, Message
+from asst import Asst, Message
 
 
 def get_now_time():
@@ -25,14 +26,32 @@ def job():
     # print("I'm running on thread %s" % threading.current_thread())
     print("现在时间：" + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
-    asst.append_fight("LastBattle", 0, 0, 999)
-    asst.append_recruit(3, [4, 5], [3, 4, 5], True, False)
-    asst.append_infrast(1, ["Mfg", "Trade", "Control",
-                        "Power", "Reception", "Office", "Dorm"], "Money", 0.1)
-    asst.append_visit()
-    asst.append_mall(True)
-    asst.append_award()
-    # asst.set_penguin_id('1234567')
+    # 任务及参数请参考 docs/集成文档.md
+
+    # asst.append_task('StartUp')
+    asst.append_task('Fight', {
+        'report_to_penguin': True,
+        'stage': 'LastBattle',
+        # 'penguin_id': '1234567'
+    })
+    asst.append_task('Recruit', {
+        'select': [4],
+        'confirm': [3, 4],
+        'times': 4
+    })
+    asst.append_task('Infrast', {
+        'facility': [
+            "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm"
+        ],
+        'drones': "Money"
+    })
+    asst.append_task('Visit')
+    asst.append_task('Mall', {
+        'shopping': True,
+        'shopping_list': ['家具', '碳'],
+        'is_black_list': True
+    })
+    asst.append_task('Award')
 
     asst.start()
 
@@ -110,12 +129,18 @@ if __name__ == "__main__":
 
         print(m, d, arg)
 
-    dirname: str = (pathlib.Path.cwd()).__str__()
-    asst = Asst(dirname=dirname, callback=my_callback)
+    # 请设置为存放 dll 文件及资源的路径
+    path = pathlib.Path.cwd().parent
+    Asst.load(path)
+
+    # 若需要获取详细执行信息，请传入 callback 参数
+    # 例如 asst = Asst(callback=my_callback)
+    asst = Asst()
 
     print('version', asst.get_version())
 
-    if asst.catch_custom('127.0.0.1:' + port):
+    # 请自行配置 adb 环境变量，或修改为 adb 可执行程序的路径
+    if asst.connect('adb.exe', '127.0.0.1:' + port):
         print('连接成功')
     else:
         print('连接失败')

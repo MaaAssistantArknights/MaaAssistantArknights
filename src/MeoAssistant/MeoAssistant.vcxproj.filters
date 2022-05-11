@@ -40,23 +40,11 @@
     <Filter Include="头文件\Utils">
       <UniqueIdentifier>{87c9dee5-847b-41e6-818e-387a6385ea8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\ImageAnalyzer\Infrast">
-      <UniqueIdentifier>{a37e0b23-e8f8-499c-adf5-9990277e9ffe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\ImageAnalyzer\General">
       <UniqueIdentifier>{51165426-1842-491a-b5d5-9d26c59facdd}</UniqueIdentifier>
     </Filter>
     <Filter Include="头文件\ImageAnalyzer\General">
       <UniqueIdentifier>{c600668a-0d70-4694-b1e5-6a78cffd0b1a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\ImageAnalyzer\Infrast">
-      <UniqueIdentifier>{d173e449-880b-4064-bbab-97007e3d090b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\Task\Infrast">
-      <UniqueIdentifier>{fc8aa302-89bb-4016-924d-10177dc8b334}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\Task\Infrast">
-      <UniqueIdentifier>{9a6160e3-cd35-4dda-ba04-23ede1878740}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\Requester">
       <UniqueIdentifier>{a5c43813-70af-4b0e-94ac-9ddecc2e4a3c}</UniqueIdentifier>
@@ -64,11 +52,35 @@
     <Filter Include="头文件\Requester">
       <UniqueIdentifier>{6cd85910-b561-4cf3-85a2-20be3cd1dd76}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\TaskPlugin">
+    <Filter Include="源文件\Task\Sub">
+      <UniqueIdentifier>{de865908-2cef-4993-b3ab-1e20290d97b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Task\Sub\Infrast">
+      <UniqueIdentifier>{9a6160e3-cd35-4dda-ba04-23ede1878740}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Task\Sub">
+      <UniqueIdentifier>{b552c32a-d0c4-4244-bc37-66960444f5f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Task\Sub\Infrast">
+      <UniqueIdentifier>{fc8aa302-89bb-4016-924d-10177dc8b334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\ImageAnalyzer\Final">
+      <UniqueIdentifier>{f57d4124-f652-4b7b-ba65-4decfc69c619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\ImageAnalyzer\Final\Infrast">
+      <UniqueIdentifier>{d173e449-880b-4064-bbab-97007e3d090b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Task\Plugin">
       <UniqueIdentifier>{34a52261-b34b-49ac-8102-22b0125617f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\TaskPlugin">
+    <Filter Include="源文件\Task\Plugin">
       <UniqueIdentifier>{f5faaa93-ae82-472e-9c59-9eccc29294a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ImageAnalyzer\Final">
+      <UniqueIdentifier>{b91b4a75-165e-422c-9892-20c1443447ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ImageAnalyzer\Final\Infrast">
+      <UniqueIdentifier>{a37e0b23-e8f8-499c-adf5-9990277e9ffe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,7 +96,7 @@
     <ClInclude Include="GeneralConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="AsstDef.h">
+    <ClInclude Include="AsstTypes.h">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="AsstUtils.hpp">
@@ -99,35 +111,14 @@
     <ClInclude Include="..\..\include\AsstCaller.h">
       <Filter>头文件\Caller</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\AsstPort.h">
-      <Filter>头文件\Caller</Filter>
-    </ClInclude>
-    <ClInclude Include="AbstractTask.h">
-      <Filter>头文件\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="RecruitTask.h">
-      <Filter>头文件\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="ProcessTask.h">
-      <Filter>头文件\Task</Filter>
-    </ClInclude>
     <ClInclude Include="AsstMsg.h">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="AbstractConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="UserConfiger.h">
-      <Filter>头文件\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="CreditShoppingTask.h">
-      <Filter>头文件\Task</Filter>
-    </ClInclude>
     <ClInclude Include="ItemConfiger.h">
       <Filter>头文件\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="ProcessTaskImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer</Filter>
     </ClInclude>
     <ClInclude Include="TemplResource.h">
       <Filter>头文件\Resource</Filter>
@@ -141,14 +132,8 @@
     <ClInclude Include="PenguinPack.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="RecruitImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CreditShopImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer</Filter>
     </ClInclude>
     <ClInclude Include="AbstractImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\General</Filter>
@@ -163,97 +148,178 @@
       <Filter>头文件\ImageAnalyzer\General</Filter>
     </ClInclude>
     <ClInclude Include="InfrastSmileyImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
+      <Filter>头文件\ImageAnalyzer\Final\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="InfrastFacilityImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
+      <Filter>头文件\ImageAnalyzer\Final\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="RuntimeStatus.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="InfrastClueVacancyImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
+      <Filter>头文件\ImageAnalyzer\Final\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastAbstractTask.h">
-      <Filter>头文件\Task\Infrast</Filter>
+      <Filter>头文件\Task\Sub\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastDormTask.h">
-      <Filter>头文件\Task\Infrast</Filter>
+      <Filter>头文件\Task\Sub\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastInfoTask.h">
-      <Filter>头文件\Task\Infrast</Filter>
+      <Filter>头文件\Task\Sub\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastMfgTask.h">
-      <Filter>头文件\Task\Infrast</Filter>
+      <Filter>头文件\Task\Sub\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastOfficeTask.h">
-      <Filter>头文件\Task\Infrast</Filter>
+      <Filter>头文件\Task\Sub\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastPowerTask.h">
-      <Filter>头文件\Task\Infrast</Filter>
+      <Filter>头文件\Task\Sub\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastProductionTask.h">
-      <Filter>头文件\Task\Infrast</Filter>
+      <Filter>头文件\Task\Sub\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastReceptionTask.h">
-      <Filter>头文件\Task\Infrast</Filter>
+      <Filter>头文件\Task\Sub\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastTradeTask.h">
-      <Filter>头文件\Task\Infrast</Filter>
+      <Filter>头文件\Task\Sub\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="InfrastClueImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
+      <Filter>头文件\ImageAnalyzer\Final\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="AsstInfrastDef.h">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="InfrastOperImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer\Infrast</Filter>
+      <Filter>头文件\ImageAnalyzer\Final\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="TaskData.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="AutoRecruitTask.h">
-      <Filter>头文件\Task</Filter>
-    </ClInclude>
     <ClInclude Include="InfrastControlTask.h">
-      <Filter>头文件\Task\Infrast</Filter>
+      <Filter>头文件\Task\Sub\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="AipOcr.h">
       <Filter>头文件\Requester</Filter>
     </ClInclude>
     <ClInclude Include="AbstractTaskPlugin.h">
-      <Filter>头文件\TaskPlugin</Filter>
+      <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
     <ClInclude Include="StageDropsTaskPlugin.h">
-      <Filter>头文件\TaskPlugin</Filter>
+      <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
     <ClInclude Include="DronesForShamareTaskPlugin.h">
-      <Filter>头文件\TaskPlugin</Filter>
-    </ClInclude>
-    <ClInclude Include="BattleImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer</Filter>
+      <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
     <ClInclude Include="HashImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\General</Filter>
     </ClInclude>
-    <ClInclude Include="RoguelikeFormationImageAnalyzer.h">
-      <Filter>头文件\ImageAnalyzer</Filter>
-    </ClInclude>
     <ClInclude Include="RoguelikeBattleTaskPlugin.h">
-      <Filter>头文件\TaskPlugin</Filter>
+      <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
     <ClInclude Include="RoguelikeFormationTaskPlugin.h">
-      <Filter>头文件\TaskPlugin</Filter>
+      <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
     <ClInclude Include="TilePack.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="AbstractTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoRecruitTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditShoppingTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="RecruitCalcTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Final</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditShopImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Final</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessTaskImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Final</Filter>
+    </ClInclude>
+    <ClInclude Include="RecruitImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Final</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeFormationImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Final</Filter>
+    </ClInclude>
+    <ClInclude Include="PackageTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="FightTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="StartUpTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\AsstPort.h">
+      <Filter>头文件\Caller</Filter>
+    </ClInclude>
+    <ClInclude Include="AwardTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="VisitTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="MallTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="InfrastTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="RecruitTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeRecruitTaskPlugin.h">
+      <Filter>头文件\Task\Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeSkillSelectionTaskPlugin.h">
+      <Filter>头文件\Task\Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugTask.h">
+      <Filter>头文件\Task\Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeSkillSelectionImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Final</Filter>
+    </ClInclude>
     <ClInclude Include="ReplenishOriginiumShardTaskPlugin.h">
-      <Filter>头文件\TaskPlugin</Filter>
+      <Filter>头文件\Task\Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="CopilotConfiger.h">
+      <Filter>头文件\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleProcessTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="CopilotTask.h">
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleFormationTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatRecruitConfiger.h">
+      <Filter>头文件\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeCopilotConfiger.h">
+      <Filter>头文件\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -269,32 +335,14 @@
     <ClCompile Include="GeneralConfiger.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="AbstractTask.cpp">
-      <Filter>源文件\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="RecruitTask.cpp">
-      <Filter>源文件\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="ProcessTask.cpp">
-      <Filter>源文件\Task</Filter>
-    </ClCompile>
     <ClCompile Include="AsstCaller.cpp">
       <Filter>源文件\Caller</Filter>
     </ClCompile>
     <ClCompile Include="AbstractConfiger.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="UserConfiger.cpp">
-      <Filter>源文件\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="CreditShoppingTask.cpp">
-      <Filter>源文件\Task</Filter>
-    </ClCompile>
     <ClCompile Include="ItemConfiger.cpp">
       <Filter>源文件\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="ProcessTaskImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer</Filter>
     </ClCompile>
     <ClCompile Include="TemplResource.cpp">
       <Filter>源文件\Resource</Filter>
@@ -308,17 +356,11 @@
     <ClCompile Include="PenguinPack.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="RecruitImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer</Filter>
-    </ClCompile>
     <ClCompile Include="Resource.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CreditShopImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer</Filter>
-    </ClCompile>
     <ClCompile Include="InfrastSmileyImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
+      <Filter>源文件\ImageAnalyzer\Final\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="AbstractImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\General</Filter>
@@ -336,88 +378,166 @@
       <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="InfrastFacilityImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
+      <Filter>源文件\ImageAnalyzer\Final\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="RuntimeStatus.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="InfrastAbstractTask.cpp">
-      <Filter>源文件\Task\Infrast</Filter>
+      <Filter>源文件\Task\Sub\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="InfrastDormTask.cpp">
-      <Filter>源文件\Task\Infrast</Filter>
+      <Filter>源文件\Task\Sub\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="InfrastInfoTask.cpp">
-      <Filter>源文件\Task\Infrast</Filter>
+      <Filter>源文件\Task\Sub\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="InfrastMfgTask.cpp">
-      <Filter>源文件\Task\Infrast</Filter>
+      <Filter>源文件\Task\Sub\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="InfrastOfficeTask.cpp">
-      <Filter>源文件\Task\Infrast</Filter>
+      <Filter>源文件\Task\Sub\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="InfrastPowerTask.cpp">
-      <Filter>源文件\Task\Infrast</Filter>
+      <Filter>源文件\Task\Sub\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="InfrastProductionTask.cpp">
-      <Filter>源文件\Task\Infrast</Filter>
+      <Filter>源文件\Task\Sub\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="InfrastTradeTask.cpp">
-      <Filter>源文件\Task\Infrast</Filter>
+      <Filter>源文件\Task\Sub\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="InfrastClueVacancyImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
+      <Filter>源文件\ImageAnalyzer\Final\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="InfrastClueImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
+      <Filter>源文件\ImageAnalyzer\Final\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="InfrastReceptionTask.cpp">
-      <Filter>源文件\Task\Infrast</Filter>
+      <Filter>源文件\Task\Sub\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="InfrastOperImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer\Infrast</Filter>
+      <Filter>源文件\ImageAnalyzer\Final\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="TaskData.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="AutoRecruitTask.cpp">
-      <Filter>源文件\Task</Filter>
-    </ClCompile>
     <ClCompile Include="InfrastControlTask.cpp">
-      <Filter>源文件\Task\Infrast</Filter>
+      <Filter>源文件\Task\Sub\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="AipOcr.cpp">
       <Filter>源文件\Requester</Filter>
     </ClCompile>
     <ClCompile Include="AbstractTaskPlugin.cpp">
-      <Filter>源文件\TaskPlugin</Filter>
+      <Filter>源文件\Task\Plugin</Filter>
     </ClCompile>
     <ClCompile Include="StageDropsTaskPlugin.cpp">
-      <Filter>源文件\TaskPlugin</Filter>
+      <Filter>源文件\Task\Plugin</Filter>
     </ClCompile>
     <ClCompile Include="DronesForShamareTaskPlugin.cpp">
-      <Filter>源文件\TaskPlugin</Filter>
-    </ClCompile>
-    <ClCompile Include="BattleImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer</Filter>
+      <Filter>源文件\Task\Plugin</Filter>
     </ClCompile>
     <ClCompile Include="HashImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\General</Filter>
     </ClCompile>
-    <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp">
-      <Filter>源文件\ImageAnalyzer</Filter>
-    </ClCompile>
     <ClCompile Include="RoguelikeBattleTaskPlugin.cpp">
-      <Filter>源文件\TaskPlugin</Filter>
+      <Filter>源文件\Task\Plugin</Filter>
     </ClCompile>
-    <ClCompile Include="RoguelikeFormationTask.cpp">
-      <Filter>源文件\TaskPlugin</Filter>
+    <ClCompile Include="RoguelikeFormationTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin</Filter>
     </ClCompile>
     <ClCompile Include="TilePack.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
+    <ClCompile Include="AbstractTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoRecruitTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditShoppingTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="RecruitCalcTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Final</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditShopImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Final</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessTaskImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Final</Filter>
+    </ClCompile>
+    <ClCompile Include="RecruitImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Final</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Final</Filter>
+    </ClCompile>
+    <ClCompile Include="PackageTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="FightTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="StartUpTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="AwardTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="VisitTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="MallTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="InfrastTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="RecruitTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeRecruitTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeSkillSelectionTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeSkillSelectionImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Final</Filter>
+    </ClCompile>
     <ClCompile Include="ReplenishOriginiumShardTaskPlugin.cpp">
-      <Filter>源文件\TaskPlugin</Filter>
+      <Filter>源文件\Task\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="CopilotConfiger.cpp">
+      <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleProcessTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="CopilotTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleFormationTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatRecruitConfiger.cpp">
+      <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeCopilotConfiger.cpp">
+      <Filter>源文件\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

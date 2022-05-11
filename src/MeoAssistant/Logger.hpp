@@ -29,9 +29,13 @@ namespace asst
             return _unique_instance;
         }
 
-        static void set_dirname(std::string dirname) noexcept
+        static bool set_dirname(std::string dirname) noexcept
         {
+            if (!std::filesystem::exists(dirname) || !std::filesystem::is_directory(dirname)) {
+                return false;
+            }
             m_dirname = std::move(dirname);
+            return true;
         }
 
         template <typename... Args>
@@ -59,6 +63,11 @@ namespace asst
         inline void error(Args&&... args)
         {
             std::string_view level = "ERR";
+            log(level, std::forward<Args>(args)...);
+        }
+        template <typename... Args>
+        inline void log_with_custom_level(std::string_view level, Args&&... args)
+        {
             log(level, std::forward<Args>(args)...);
         }
         void flush()
@@ -124,7 +133,7 @@ namespace asst
 #else   // ! _WIN32
             sprintf(buff, "[%s][%s][Px%x][Tx%x]",
                       asst::utils::get_format_time().c_str(),
-                      level.data(), getpid(), gettid()
+                      level.data(), getpid(), std::this_thread::get_id()
             );
 #endif  // END _WIN32
 

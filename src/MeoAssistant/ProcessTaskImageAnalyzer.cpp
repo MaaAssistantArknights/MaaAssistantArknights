@@ -7,6 +7,7 @@
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
 #include "Resource.h"
+#include "RuntimeStatus.h"
 
 asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat image, std::vector<std::string> tasks_name)
     : AbstractImageAnalyzer(image),
@@ -23,12 +24,17 @@ bool asst::ProcessTaskImageAnalyzer::match_analyze(std::shared_ptr<TaskInfo> tas
         m_match_analyzer = std::make_unique<MatchImageAnalyzer>(m_image);
     }
     const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
+    m_match_analyzer->set_region_of_appeared(Rect());
     m_match_analyzer->set_task_info(match_task_ptr);
+    auto region_opt = m_status->get_region(match_task_ptr->name);
+    if (region_opt) {
+        m_match_analyzer->set_region_of_appeared(region_opt.value());
+    }
 
     if (m_match_analyzer->analyze()) {
         m_result = match_task_ptr;
         m_result_rect = m_match_analyzer->get_result().rect;
-        task_ptr->region_of_appeared = m_result_rect;
+        m_status->set_region(match_task_ptr->name, m_result_rect);
         return true;
     }
     return false;
@@ -46,7 +52,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
     //    }
     //    for (const auto& text : ocr_task_ptr->text) {
     //        bool flag = false;
-    //        if (ocr_task_ptr->need_full_match) {
+    //        if (ocr_task_ptr->full_match) {
     //            if (temp.text == text) {
     //                flag = true;
     //            }
@@ -67,7 +73,12 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
     if (!m_ocr_analyzer) {
         m_ocr_analyzer = std::make_unique<OcrImageAnalyzer>(m_image);
     }
+    m_ocr_analyzer->set_region_of_appeared(Rect());
     m_ocr_analyzer->set_task_info(ocr_task_ptr);
+    auto region_opt = m_status->get_region(ocr_task_ptr->name);
+    if (region_opt) {
+        m_ocr_analyzer->set_region_of_appeared(region_opt.value());
+    }
 
     bool ret = m_ocr_analyzer->analyze();
 
@@ -77,7 +88,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_
         auto& res = ocr_result.front();
         m_result = ocr_task_ptr;
         m_result_rect = res.rect;
-        ocr_task_ptr->region_of_appeared = res.rect;
+        m_status->set_region(ocr_task_ptr->name, m_result_rect);
         //m_ocr_cache.insert(m_ocr_cache.end(), ocr_result.begin(), ocr_result.end());
         Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found", res.to_string());
     }
@@ -129,4 +140,14 @@ void asst::ProcessTaskImageAnalyzer::set_image(const cv::Mat image)
 {
     AbstractImageAnalyzer::set_image(image);
     reset();
+}
+
+void asst::ProcessTaskImageAnalyzer::set_tasks(std::vector<std::string> tasks_name)
+{
+    m_tasks_name = std::move(tasks_name);
+}
+
+void asst::ProcessTaskImageAnalyzer::set_status(std::shared_ptr<RuntimeStatus> status) noexcept
+{
+    m_status = status;
 }

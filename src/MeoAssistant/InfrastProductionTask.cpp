@@ -31,23 +31,23 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 
     json::value callback_info = basic_info_with_what("ProductOfFacility");
     callback_info["details"]["product"] = m_product;
+    // 该回调注册了插件 DronesForShamareTaskPlugin
     callback(AsstMsg::SubTaskExtraInfo, callback_info);
 }
 
 bool asst::InfrastProductionTask::shift_facility_list()
 {
     LogTraceFunction;
-    if (!facility_list_detect()) {
-        return false;
-    }
-    if (need_exit()) {
+    if (!facility_list_detect() || need_exit()) {
         return false;
     }
     const auto tab_task_ptr = Task.get("InfrastFacilityListTab" + facility_name());
     MatchImageAnalyzer add_analyzer;
+
     const auto add_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
     add_analyzer.set_task_info(add_task_ptr);
     MultiMatchImageAnalyzer locked_analyzer;
+
     locked_analyzer.set_task_info("InfrastOperLocked" + facility_name());
 
     for (; m_cur_facility_index < m_facility_list_tabs.size(); ++m_cur_facility_index) {
@@ -59,11 +59,11 @@ bool asst::InfrastProductionTask::shift_facility_list()
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
         }
 
-        Ctrler.click(tab);
+        m_ctrler->click(tab);
         sleep(tab_task_ptr->rear_delay);
 
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
-        const auto image = Ctrler.get_image();
+        const auto image = m_ctrler->get_image();
         add_analyzer.set_image(image);
         if (!add_analyzer.analyze()) {
             Log.info("no add button, just continue");
@@ -81,6 +81,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 识别当前正在造什么 */
         MatchImageAnalyzer product_analyzer(image);
+
         auto& all_products = Resrc.infrast().get_facility_info(facility_name()).products;
         std::string cur_product = all_products.at(0);
         double max_score = 0;
@@ -105,7 +106,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         /* 进入干员选择页面 */
-        Ctrler.click(add_button);
+        m_ctrler->click(add_button);
         sleep(add_task_ptr->rear_delay);
 
         for (int i = 0; i <= OperSelectRetryTimes; ++i) {
@@ -124,8 +125,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 opers_detect();
             }
             optimal_calc();
-            bool ret = opers_choose();
-            if (!ret) {
+            if (!opers_choose()) {
                 m_all_available_opers.clear();
                 swipe_to_the_left_of_operlist(2);
                 continue;
@@ -180,9 +180,10 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
 size_t asst::InfrastProductionTask::opers_detect()
 {
     LogTraceFunction;
-    const auto image = Ctrler.get_image();
+    const auto image = m_ctrler->get_image();
 
     InfrastOperImageAnalyzer oper_analyzer(image);
+
     oper_analyzer.set_facility(facility_name());
 
     if (!oper_analyzer.analyze()) {
@@ -214,7 +215,7 @@ size_t asst::InfrastProductionTask::opers_detect()
         }
         auto find_iter = std::find_if(
             m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-            [&](const infrast::Oper& oper) -> bool {
+            [&](const infrast::BattleRealTimeOper& oper) -> bool {
                 // 有可能是同一个干员，比一下hash
                 int dist = HashImageAnalyzer::hamming(cur_oper.face_hash, oper.face_hash);
                 Log.debug("opers_detect hash dist |", dist);
@@ -262,7 +263,7 @@ bool asst::InfrastProductionTask::optimal_calc()
 
     std::unordered_map<std::string, int> skills_num;
     for (int i = 0; i != m_all_available_opers.size(); ++i) {
-        auto comb = all_avaliable_combs.at(i);
+        const auto& comb = all_avaliable_combs.at(i);
 
         bool out_of_num = false;
         for (auto&& skill : comb.skills) {
@@ -318,11 +319,12 @@ bool asst::InfrastProductionTask::optimal_calc()
         // 条件判断，不符合的直接过滤掉
         bool meet_condition = true;
         for (const auto& [cond, cond_value] : group.conditions) {
-            if (!Status.contains(cond)) {
+            auto cond_opt = m_status->get_data(cond);
+            if (!cond_opt) {
                 continue;
             }
             // TODO：这里做成除了不等于，还可计算大于、小于等不同条件的
-            int cur_value = static_cast<int>(Status.get(cond));
+            int cur_value = static_cast<int>(cond_opt.value());
             if (cur_value != cond_value) {
                 meet_condition = false;
                 break;
@@ -460,7 +462,6 @@ bool asst::InfrastProductionTask::opers_choose()
     LogTraceFunction;
     bool has_error = false;
 
-    int count = 0;
     auto& facility_info = Resrc.infrast().get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
 
@@ -472,9 +473,10 @@ bool asst::InfrastProductionTask::opers_choose()
         if (need_exit()) {
             return false;
         }
-        const auto image = Ctrler.get_image();
+        const auto image = m_ctrler->get_image();
 
         InfrastOperImageAnalyzer oper_analyzer(image);
+
         oper_analyzer.set_facility(facility_name());
 
         if (!oper_analyzer.analyze()) {
@@ -499,17 +501,17 @@ bool asst::InfrastProductionTask::opers_choose()
         Log.trace("before mood filter, opers size:", cur_all_opers.size());
         // 小于心情阈值的干员则不可用
         auto remove_iter = std::remove_if(cur_all_opers.begin(), cur_all_opers.end(),
-            [&](const infrast::Oper& rhs) -> bool {
+            [&](const infrast::BattleRealTimeOper& rhs) -> bool {
                 return rhs.mood_ratio < m_mood_threshold;
             });
         cur_all_opers.erase(remove_iter, cur_all_opers.end());
         Log.trace("after mood filter, opers size:", cur_all_opers.size());
-
+        int count = 0;
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             Log.trace("to find", opt_iter->skills.begin()->names.front());
             auto find_iter = std::find_if(
                 cur_all_opers.cbegin(), cur_all_opers.cend(),
-                [&](const infrast::Oper& lhs) -> bool {
+                [&](const infrast::BattleRealTimeOper& lhs) -> bool {
                     if (lhs.skills != opt_iter->skills) {
                         return false;
                     }
@@ -546,12 +548,12 @@ bool asst::InfrastProductionTask::opers_choose()
                 // 但是如果当前设施只有一个位置，即不存在“上次循环”的情况，说明是清除干员按钮没点到
             }
             else {
-                Ctrler.click(find_iter->rect);
+                m_ctrler->click(find_iter->rect);
             }
             {
                 auto avlb_iter = std::find_if(
                     m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-                    [&](const infrast::Oper& lhs) -> bool {
+                    [&](const infrast::BattleRealTimeOper& lhs) -> bool {
                         int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
                         Log.debug("opers_choose | face hash dist", dist);
                         if (dist < face_hash_thres) {
@@ -614,7 +616,8 @@ asst::InfrastProductionTask::efficient_regex_calc(
                 // TODO 报错！
             }
             std::string status_key = cur_formula.substr(pos + 1, rp_pos - pos - 1);
-            int64_t status_value = Status.get(status_key);
+            auto status_opt = m_status->get_data(status_key);
+            const int64_t status_value = status_opt ? status_opt.value() : 0;
             cur_formula.replace(pos, rp_pos - pos + 1, std::to_string(status_value));
         }
 
@@ -629,8 +632,9 @@ bool asst::InfrastProductionTask::facility_list_detect()
     LogTraceFunction;
     m_facility_list_tabs.clear();
 
-    const auto image = Ctrler.get_image();
+    const auto image = m_ctrler->get_image();
     MultiMatchImageAnalyzer mm_analyzer(image);
+
     mm_analyzer.set_task_info("InfrastFacilityListTab" + facility_name());
 
     if (!mm_analyzer.analyze()) {

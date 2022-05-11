@@ -48,7 +48,7 @@ bool asst::OcrImageAnalyzer::analyze()
     preds_vec.emplace_back(m_pred);
 
     TextRectProc all_pred = [&](TextRect& tr) -> bool {
-        for (auto pred : preds_vec) {
+        for (const auto& pred : preds_vec) {
             if (pred && !pred(tr)) {
                 return false;
             }
@@ -73,6 +73,23 @@ bool asst::OcrImageAnalyzer::analyze()
     return !m_ocr_result.empty();
 }
 
+void asst::OcrImageAnalyzer::filter(const TextRectProc& filter_func)
+{
+    decltype(m_ocr_result) temp_result;
+
+    for (auto&& tr : m_ocr_result) {
+        if (filter_func(tr)) {
+            temp_result.emplace_back(std::move(tr));
+        }
+    }
+    m_ocr_result = std::move(temp_result);
+}
+
+void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
+{
+    m_use_cache = is_use;
+}
+
 void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required, bool full_match) noexcept
 {
     m_required = std::move(required);
@@ -87,17 +104,16 @@ void asst::OcrImageAnalyzer::set_replace(std::unordered_map<std::string, std::st
 void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
 {
     m_required = std::move(task_info.text);
-    m_full_match = task_info.need_full_match;
+    m_full_match = task_info.full_match;
     m_replace = std::move(task_info.replace_map);
+    m_use_cache = task_info.cache;
 
-    set_roi(task_info.roi);
-    correct_roi();
-    auto& cache_roi = task_info.region_of_appeared;
-    if (task_info.cache && !cache_roi.empty()) {
-        m_roi = cache_roi;
+    if (m_use_cache && !m_region_of_appeared.empty()) {
+        m_roi = m_region_of_appeared;
         m_without_det = true;
     }
     else {
+        set_roi(task_info.roi);
         m_without_det = false;
     }
 }
@@ -110,6 +126,15 @@ void asst::OcrImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
 void asst::OcrImageAnalyzer::set_task_info(const std::string& task_name)
 {
     set_task_info(Task.get(task_name));
+}
+
+void asst::OcrImageAnalyzer::set_region_of_appeared(Rect region) noexcept
+{
+    m_region_of_appeared = std::move(region);
+    if (m_use_cache && !m_region_of_appeared.empty()) {
+        m_roi = m_region_of_appeared;
+        m_without_det = true;
+    }
 }
 
 void asst::OcrImageAnalyzer::set_pred(const TextRectProc& pred)
@@ -137,6 +162,34 @@ void asst::OcrImageAnalyzer::sort_result()
     );
 }
 
+void asst::OcrImageAnalyzer::sort_result_x_y()
+{
+    // 按位置排个序（顺序如下）
+    // +---+
+    // |1 3|
+    // |2 4|
+    // +---+
+    std::sort(m_ocr_result.begin(), m_ocr_result.end(),
+        [](const TextRect& lhs, const TextRect& rhs) -> bool {
+            if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
+                return lhs.rect.y < rhs.rect.y;
+            }
+            else {
+                return lhs.rect.x < rhs.rect.x;
+            }
+        }
+    );
+}
+
+void asst::OcrImageAnalyzer::sort_result_by_score()
+{
+    std::sort(m_ocr_result.begin(), m_ocr_result.end(),
+        [](const TextRect& lhs, const TextRect& rhs) -> bool {
+            return lhs.score > rhs.score;
+        }
+    );
+}
+
 void asst::OcrImageAnalyzer::sort_result_by_required()
 {
     if (m_required.empty()) {
@@ -151,5 +204,5 @@ void asst::OcrImageAnalyzer::sort_result_by_required()
     std::sort(m_ocr_result.begin(), m_ocr_result.end(),
         [&m_req_cache](const auto& lhs, const auto& rhs) -> bool {
             return m_req_cache[lhs.text] < m_req_cache[rhs.text];
-    });
+        });
 }

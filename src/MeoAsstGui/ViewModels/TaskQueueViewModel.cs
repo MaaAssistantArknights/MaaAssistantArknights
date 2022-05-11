@@ -141,12 +141,12 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             var task = Task.Run(() =>
             {
-                return asstProxy.AsstCatch();
+                return asstProxy.AsstConnect();
             });
             bool catchd = await task;
             if (!catchd)
             {
-                AddLog("连接模拟器失败\n请参考使用说明处理", "darkred");
+                AddLog("连接模拟器失败\n请检查连接设置", "darkred");
                 Idle = true;
                 return;
             }
@@ -210,7 +210,6 @@ namespace MeoAsstGui
                 Idle = true;
                 return;
             }
-            setPenguinId();
 
             if (Idle)   // 一般是点了“停止”按钮了
             {
@@ -344,13 +343,6 @@ namespace MeoAsstGui
 
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRoguelike(mode);
-        }
-
-        private void setPenguinId()
-        {
-            var settings = _container.Get<SettingsViewModel>();
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstSetPenguinId(settings.PenguinId);
         }
 
         public void CheckAndShutdown()

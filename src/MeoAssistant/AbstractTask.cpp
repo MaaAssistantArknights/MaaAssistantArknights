@@ -25,6 +25,10 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg, std::strin
 
 bool asst::AbstractTask::run()
 {
+    if (!m_enable) {
+        Log.info("task is disable, pass", basic_info().to_string());
+        return true;
+    }
     callback(AsstMsg::SubTaskStart, basic_info());
     for (m_cur_retry = 0; m_cur_retry <= m_retry_times; ++m_cur_retry) {
         if (_run()) {
@@ -58,6 +62,30 @@ AbstractTask& asst::AbstractTask::set_retry_times(int times) noexcept
     return *this;
 }
 
+AbstractTask& asst::AbstractTask::set_ctrler(std::shared_ptr<Controller> ctrler) noexcept
+{
+    m_ctrler = ctrler;
+    return *this;
+}
+
+AbstractTask& asst::AbstractTask::set_status(std::shared_ptr<RuntimeStatus> status) noexcept
+{
+    m_status = status;
+    return *this;
+}
+
+AbstractTask& asst::AbstractTask::set_enable(bool enable) noexcept
+{
+    m_enable = enable;
+    return *this;
+}
+
+AbstractTask& asst::AbstractTask::set_task_id(int task_id) noexcept
+{
+    m_task_id = task_id;
+    return *this;
+}
+
 void asst::AbstractTask::clear_plugin() noexcept
 {
     m_plugins.clear();
@@ -81,6 +109,7 @@ json::value asst::AbstractTask::basic_info() const
 
         m_basic_info_cache = json::object{
             { "taskchain", m_task_chain },
+            { "taskid", m_task_id },
             { "class", class_name },
             { "subtask", task_name },
             { "details", json::object() }
@@ -104,6 +133,7 @@ bool AbstractTask::sleep(unsigned millisecond)
         return false;
     }
     if (millisecond == 0) {
+        std::this_thread::yield();
         return true;
     }
     auto start = std::chrono::steady_clock::now();
@@ -142,6 +172,9 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
 {
     for (TaskPluginPtr plugin : m_plugins) {
         plugin->set_exit_flag(m_exit_flag);
+        plugin->set_ctrler(m_ctrler);
+        plugin->set_task_id(m_task_id);
+        plugin->set_status(m_status);
         plugin->set_task_ptr(this);
 
         if (!plugin->verify(msg, detail)) {
@@ -164,6 +197,6 @@ void asst::AbstractTask::click_return_button()
 
     Rect ReturnButtonRect = return_task_ptr->specific_rect;
 
-    Ctrler.click(ReturnButtonRect);
+    m_ctrler->click(ReturnButtonRect);
     sleep(return_task_ptr->rear_delay);
 }

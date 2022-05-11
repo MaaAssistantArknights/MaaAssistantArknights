@@ -61,10 +61,11 @@ bool asst::InfrastReceptionTask::use_clue()
         proc_clue_vacancy();
     }
 
-    cv::Mat image = Ctrler.get_image();
+    cv::Mat image = m_ctrler->get_image();
 
     // 所有的空位分析一次，看看还缺哪些线索
     InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
+
     vacancy_analyzer.set_to_be_analyzed(clue_suffix);
     if (!vacancy_analyzer.analyze()) {
     }
@@ -94,31 +95,33 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
         "No1", "No2", "No3", "No4", "No5", "No6", "No7"
     };
 
-    cv::Mat image = Ctrler.get_image();
+    cv::Mat image = m_ctrler->get_image();
     for (const std::string& clue : clue_suffix) {
         if (need_exit()) {
             return false;
         }
         // 先识别线索的空位
         InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
+
         vacancy_analyzer.set_to_be_analyzed({ clue });
         if (!vacancy_analyzer.analyze()) {
             continue;
         }
         // 点开线索的空位
         Rect vacancy = vacancy_analyzer.get_vacancy().cbegin()->second;
-        Ctrler.click(vacancy);
+        m_ctrler->click(vacancy);
         int delay = Task.get(clue_vacancy + clue)->rear_delay;
         sleep(delay);
 
         // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
         //swipe_to_the_bottom_of_clue_list_on_the_right();
-        image = Ctrler.get_image();
+        image = m_ctrler->get_image();
         InfrastClueImageAnalyzer clue_analyzer(image);
+
         if (!clue_analyzer.analyze()) {
             continue;
         }
-        Ctrler.click(clue_analyzer.get_result().back().first);
+        m_ctrler->click(clue_analyzer.get_result().back().first);
         sleep(delay);
     }
     return true;
@@ -140,14 +143,14 @@ bool asst::InfrastReceptionTask::send_clue()
 bool asst::InfrastReceptionTask::shift()
 {
     LogTraceFunction;
-    const auto image = Ctrler.get_image();
+    const auto image = m_ctrler->get_image();
     MatchImageAnalyzer add_analyzer(image);
 
     const auto raw_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
     switch (raw_task_ptr->algorithm) {
     case AlgorithmType::JustReturn:
         if (raw_task_ptr->action == ProcessTaskAction::ClickRect) {
-            Ctrler.click(raw_task_ptr->specific_rect);
+            m_ctrler->click(raw_task_ptr->specific_rect);
         }
         break;
     case AlgorithmType::MatchTemplate: {
@@ -156,7 +159,7 @@ bool asst::InfrastReceptionTask::shift()
         if (!add_analyzer.analyze()) {
             return true;
         }
-        Ctrler.click(add_analyzer.get_result().rect);
+        m_ctrler->click(add_analyzer.get_result().rect);
     } break;
     default:
         break;
