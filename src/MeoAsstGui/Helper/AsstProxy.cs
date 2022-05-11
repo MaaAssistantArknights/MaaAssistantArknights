@@ -11,6 +11,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -145,14 +146,13 @@ namespace MeoAsstGui
         {
             string taskChain = details["taskchain"].ToString();
 
-            if (taskChain == "RecruitCalc")
+            if (taskChain == "Recruit")
             {
                 if (msg == AsstMsg.TaskChainError)
                 {
                     var recruitModel = _container.Get<RecruitViewModel>();
                     recruitModel.RecruitInfo = "识别错误！";
                 }
-                return;
             }
             var mainModel = _container.Get<TaskQueueViewModel>();
 
@@ -347,10 +347,9 @@ namespace MeoAsstGui
         {
             string taskChain = details["taskchain"].ToString();
 
-            if (taskChain == "RecruitCalc")
+            if (taskChain == "Recruit")
             {
                 procRecruitCalcMsg(details);
-                return;
             }
 
             string what = details["what"].ToString();
@@ -471,7 +470,7 @@ namespace MeoAsstGui
                         {
                             string id = subTaskDetails["id"].ToString();
                             settings.PenguinId = id;
-                            AsstSetPenguinId(id);
+                            //AsstSetPenguinId(id);
                         }
                     }
                     break;
@@ -557,52 +556,108 @@ namespace MeoAsstGui
             }
         }
 
+        private bool AsstAppendTaskWithEncoding(string type, JObject task_params = null)
+        {
+            task_params = task_params ?? new JObject();
+            return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(task_params)) != 0;
+        }
+
+        public static string Utf16ToUtf8(string utf16String)
+        {
+            // Get UTF16 bytes and convert UTF16 bytes to UTF8 bytes
+            byte[] utf16Bytes = Encoding.Unicode.GetBytes(utf16String);
+            byte[] utf8Bytes = Encoding.Convert(Encoding.Unicode, Encoding.UTF8, utf16Bytes);
+
+            // Return UTF8 bytes as ANSI string
+            return Encoding.Default.GetString(utf8Bytes);
+        }
+
         public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times)
         {
-            return true;
+            var task_params = new JObject();
+            task_params["stage"] = stage;
+            task_params["medicine"] = max_medicine;
+            task_params["stone"] = max_stone;
+            task_params["times"] = max_times;
+            task_params["report_to_penguin"] = true;
+            var settings = _container.Get<SettingsViewModel>();
+            task_params["penguin_id"] = settings.PenguinId;
+            task_params["server"] = "CN";
+            return AsstAppendTaskWithEncoding("Fight", task_params);
         }
 
         public bool AsstAppendAward()
         {
-            return false;
-            //return AsstAppendAward(_handle);
+            return AsstAppendTaskWithEncoding("Award");
         }
 
         public bool AsstAppendStartUp()
         {
-            AsstAppendTask(_handle, "StartUp", "{}");
-            return true;
-            //return AsstAppendStartUp(_handle);
+            return AsstAppendTaskWithEncoding("StartUp");
         }
 
         public bool AsstAppendVisit()
         {
-            return false;
-            //return AsstAppendVisit(_handle);
+            return AsstAppendTaskWithEncoding("Visit");
         }
 
         public bool AsstAppendMall(bool with_shopping)
         {
-            return false;
-            //return AsstAppendMall(_handle, with_shopping);
+            var task_params = new JObject();
+            task_params["shopping"] = with_shopping;
+            task_params["shopping_list"] = new JArray { Utf16ToUtf8("碳"), Utf16ToUtf8("家具") };
+            task_params["is_black_list"] = true;
+            return AsstAppendTaskWithEncoding("Mall", task_params);
         }
 
         public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited)
         {
-            return false;
-            //return AsstAppendRecruit(_handle, max_times, select_level, required_len, confirm_level, confirm_len, need_refresh, use_expedited);
+            var task_params = new JObject();
+            task_params["refresh"] = need_refresh;
+            task_params["select"] = new JArray(select_level);
+            task_params["confirm"] = new JArray(confirm_level);
+            task_params["times"] = max_times;
+            task_params["set_time"] = true;
+            task_params["expedite"] = use_expedited;
+            task_params["expedite_times"] = max_times;
+            return AsstAppendTaskWithEncoding("Recruit", task_params);
         }
 
         public bool AsstAppendInfrast(int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold)
         {
-            return false;
-            //return AsstAppendInfrast(_handle, work_mode, order, order_len, uses_of_drones, dorm_threshold);
+            var task_params = new JObject();
+            //task_params["mode"] = 0;
+            task_params["facility"] = new JArray(order);
+            task_params["drones"] = uses_of_drones;
+            task_params["threshold"] = dorm_threshold;
+            task_params["replenish"] = true;
+            return AsstAppendTaskWithEncoding("Infrast", task_params);
         }
 
         public bool AsstAppendRoguelike(int mode)
         {
-            return false;
-            //return AsstAppendRoguelike(_handle, mode);
+            var task_params = new JObject();
+            task_params["mode"] = mode;
+            task_params["opers"] = new JArray {
+                new JObject { { "name", Utf16ToUtf8("山") }, { "skill", 2 }, { "skill_usage", 2 } },
+                new JObject { { "name", Utf16ToUtf8("棘刺") }, { "skill", 3 }, { "skill_usage", 1 } },
+                new JObject { { "name", Utf16ToUtf8("芙蓉") }, { "skill", 1 }, { "skill_usage", 1 } },
+                new JObject { { "name", Utf16ToUtf8("梓兰") }, { "skill", 1 }, { "skill_usage", 1 } },
+            };
+            return AsstAppendTaskWithEncoding("Roguelike", task_params);
+        }
+
+        public bool AsstStartRecruitCalc(int[] select_level, int required_len, bool set_time)
+        {
+            var task_params = new JObject();
+            task_params["refresh"] = false;
+            task_params["select"] = new JArray(select_level);
+            task_params["confirm"] = new JArray();
+            task_params["times"] = 0;
+            task_params["set_time"] = true;
+            task_params["expedite"] = false;
+            task_params["expedite_times"] = 0;
+            return AsstAppendTaskWithEncoding("Recruit", task_params);
         }
 
         public bool AsstStart()
@@ -610,26 +665,10 @@ namespace MeoAsstGui
             return AsstStart(_handle);
         }
 
-        public bool AsstStartRecruitCalc(int[] select_level, int required_len, bool set_time)
-        {
-            return false;
-            //return AsstStartRecruitCalc(_handle, select_level, required_len, set_time);
-        }
-
         public bool AsstStop()
         {
             return AsstStop(_handle);
         }
-
-        public void AsstSetPenguinId(string id)
-        {
-            //AsstSetPenguinId(_handle, id);
-        }
-
-        //public void AsstSetParam(string type, string param, string value)
-        //{
-        //    AsstSetParam(_ptr, type, param, value);
-        //}
     }
 
     public enum AsstMsg

@@ -237,7 +237,11 @@ void Assistant::working_proc()
 
             bool ret = task_ptr->run();
 
-            m_tasks_list.pop_front();
+            lock.lock();
+            if (!m_tasks_list.empty()) {
+                m_tasks_list.pop_front();
+            }
+            lock.unlock();
 
             auto run_msg = AsstMsg::TaskChainCompleted;
             if (!ret) {
