@@ -1,7 +1,9 @@
 #pragma once
 
 #include "AsstPort.h"
-
+// 添加dart header
+#include "dart_api.h" 
+#include "dart_native_api.h"
 namespace asst
 {
     class Assistant;
@@ -18,6 +20,8 @@ extern "C" {
 
     AsstHandle ASSTAPI AsstCreate();
     AsstHandle ASSTAPI AsstCreateEx(AsstApiCallback callback, void* custom_arg);
+    AsstHandle ASSTAPI AsstCreateWithDartPort(Dart_Port dart_port);
+    
     void ASSTAPI AsstDestroy(AsstHandle handle);
 
     bool ASSTAPI AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config);

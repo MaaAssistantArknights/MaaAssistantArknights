@@ -5,6 +5,7 @@
 
 #include <meojson/json.hpp>
 
+
 #include "Assistant.h"
 #include "AsstTypes.h"
 #include "Version.h"
@@ -72,6 +73,25 @@ void AsstDestroy(AsstHandle handle)
 
     delete handle;
     handle = nullptr;
+}
+
+
+AsstHandle AsstCreateWithDartPort(Dart_Port dart_port) 
+{
+    if (!inited) {
+        return nullptr;
+    }
+        AsstApiCallback dart_cb = [](int msg, const char* detail, void* custom_arg) 
+        {
+            Dart_CObject obj;
+            obj.type = Dart_CObject_kString;
+            obj.value.as_string = const_cast<char*>(detail);
+            Dart_Port port = *(Dart_Port *)custom_arg;
+            Dart_PostCObject(port, &obj); 
+        };
+
+        return AsstCreateEx(dart_cb, &dart_port);
+   
 }
 
 bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)

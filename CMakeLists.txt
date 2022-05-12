@@ -21,10 +21,10 @@ add_compile_options("$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall;-Wextra;-Wpedantic>"
 
 add_definitions(-DASST_DLL_EXPORTS)
 
-include_directories(include 3rdparty/include)
+include_directories(include 3rdparty/include 3rdparty/dart 3rdparty/dart/internal)
 aux_source_directory(src/MeoAssistant SRC)
 
-add_library(MeoAssistant SHARED ${SRC})
+add_library(MeoAssistant SHARED ${SRC} 3rdparty/dart/dart_api_dl.c)
 
 find_library(PaddleOCR_LIB NAMES ppocr PATHS 3rdparty/lib)
 
