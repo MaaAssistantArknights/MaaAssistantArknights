@@ -76,24 +76,44 @@ void AsstDestroy(AsstHandle handle)
 }
 
 
-AsstHandle AsstCreateWithDartPort(Dart_Port dart_port) 
+AsstHandle AsstCreateWithDartPort(Dart_Port *dart_port) 
 {
     if (!inited) {
         return nullptr;
     }
-        AsstApiCallback dart_cb = [](int msg, const char* detail, void* custom_arg) 
-        {
-            Dart_CObject obj;
-            obj.type = Dart_CObject_kString;
-            obj.value.as_string = const_cast<char*>(detail);
-            Dart_Port port = *(Dart_Port *)custom_arg;
-            Dart_PostCObject(port, &obj); 
-        };
+    std::cout << "CPP: Dart_Port Pointer " << dart_port << std::endl;
+    std::cout << "CPP: Native Port: " << *dart_port << std::endl;
+    AsstApiCallback dart_cb = [](int msg, const char* detail, void* custom_arg) 
+    {
+        Dart_CObject obj;
+        obj.type = Dart_CObject_kString;
+        char* json_str = strdup(detail);
+        obj.value.as_string = json_str;
+        Dart_Port port = *(Dart_Port *)custom_arg;
+        std::cout << "CPP: Native Port in closure: " << port << std::endl;
+        bool res = Dart_PostCObject(port, &obj); 
+        if (!res) {
+            std::cerr << "CPP: Dart_PostCObject failed" << std::endl;
+        } else {
+            std::cout << "CPP: Successfully Sent message: " << json_str << std::endl;
+        }
+    };
 
-        return AsstCreateEx(dart_cb, &dart_port);
-   
+    return AsstCreateEx(dart_cb, dart_port);
 }
 
+void InitDartVM(void *data)
+{
+    std::cout << "CPP: InitDartVM" << std::endl;
+    Dart_InitializeParams* params = (Dart_InitializeParams*) data;
+    char* res = Dart_Initialize(params);
+    if (res) {
+        std::cerr << "CPP: Dart_Initialize failed:" << res << std::endl;
+    } else {
+        std::cout << "CPP: Dart_Initialize success" << std::endl;
+    }
+    free(res);
+}
 bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
 {
     if (!inited || handle == nullptr) {

@@ -20,7 +20,8 @@ extern "C" {
 
     AsstHandle ASSTAPI AsstCreate();
     AsstHandle ASSTAPI AsstCreateEx(AsstApiCallback callback, void* custom_arg);
-    AsstHandle ASSTAPI AsstCreateWithDartPort(Dart_Port dart_port);
+    DART_EXPORT AsstHandle AsstCreateWithDartPort(Dart_Port *dart_port);
+    DART_EXPORT void InitDartVM(void *data);
     
     void ASSTAPI AsstDestroy(AsstHandle handle);
 
