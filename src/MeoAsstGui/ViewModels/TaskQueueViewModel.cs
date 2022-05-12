@@ -210,7 +210,6 @@ namespace MeoAsstGui
                 Idle = true;
                 return;
             }
-            setPenguinId();
 
             if (Idle)   // 一般是点了“停止”按钮了
             {
@@ -344,13 +343,6 @@ namespace MeoAsstGui
 
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRoguelike(mode);
-        }
-
-        private void setPenguinId()
-        {
-            var settings = _container.Get<SettingsViewModel>();
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstSetPenguinId(settings.PenguinId);
         }
 
         public void CheckAndShutdown()

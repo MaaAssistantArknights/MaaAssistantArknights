@@ -16,7 +16,11 @@
 #include <vector>
 
 #include <opencv2/opencv.hpp>
+
+#pragma warning( push )
+#pragma warning( disable : 4068)
 #include <zlib/decompress.hpp>
+#pragma warning( pop )
 
 #include "AsstTypes.h"
 #include "Logger.hpp"
