@@ -16,6 +16,7 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
         .set_times_limit("StartButton2", 0)
         .set_times_limit("MedicineConfirm", 0)
         .set_times_limit("StoneConfirm", 0)
+        .set_times_limit("StageSNReturnFlag", 0)
         .set_enable(false);
 
     // 进入对应的关卡
@@ -23,6 +24,7 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
         .set_times_limit("StartButton2", 0)
         .set_times_limit("MedicineConfirm", 0)
         .set_times_limit("StoneConfirm", 0)
+        .set_times_limit("StageSNReturnFlag", 0)
         .set_enable(false);
 
     // 开始战斗任务
