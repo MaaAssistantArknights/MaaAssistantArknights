@@ -25,11 +25,6 @@ extern "C" {
     TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* params);
     bool ASSTAPI AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params);
 
-#ifdef _WIN32
-    TaskId ASSTAPI AsstAppendTaskWithGBK(AsstHandle handle, const char* type, const char* params);
-    bool ASSTAPI AsstSetTaskParamsWithGBK(AsstHandle handle, TaskId id, const char* params);
-#endif
-
     bool ASSTAPI AsstStart(AsstHandle handle);
     bool ASSTAPI AsstStop(AsstHandle handle);
 
