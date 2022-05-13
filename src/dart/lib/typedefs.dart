@@ -3,14 +3,14 @@ import "dart:ffi";
 import "package:ffi/ffi.dart";
 
 typedef Assistant = Pointer<Void>;
-typedef AsstCallbackNative
-    = NativeFunction<Void Function(Int32, StringPtr, Pointer<Void>)>;
-
-typedef AsstCallbackFunc = Void Function(Int32, StringPtr, Pointer<Void>);
+typedef AsstCallbackFunc = void Function(int, Pointer<Utf8>, Pointer<Void>);
+typedef AsstCallbackNative = NativeFunction<Void Function(Int32, Pointer<Utf8>, Pointer<Void>)>;
 // AsstCreateEx
 typedef AsstCreateDartFunc = Assistant Function(Pointer<Int64>);
 typedef AsstCreateDartNative
     = NativeFunction<Assistant Function(Pointer<Int64>)>;
+typedef AsstCreateExFunc = Assistant Function(Pointer<AsstCallbackNative>, Pointer<Void>);
+typedef AsstCreateExNative = NativeFunction<AsstCreateExFunc>;
 
 // AsstCreate
 typedef AsstCreateFunc = Assistant Function();
@@ -65,8 +65,8 @@ typedef TaskId = int;
 typedef TaskIdNative = Int32;
 typedef StringPtr = Pointer<Utf8>;
 
-typedef InitDartVMFunc = void Function(Pointer<Void>);
-typedef InitDartVMNative = NativeFunction<Void Function(Pointer<Void>)>;
+typedef InitDartApiFunc = void Function(Pointer<Void>);
+typedef InitDartApiNative = NativeFunction<Void Function(Pointer<Void>)>;
 
 
 typedef CleanUpDartVMFunc = void Function();
@@ -74,8 +74,7 @@ typedef CleanUpDartVMNative = NativeFunction<Void Function()>;
 
 abstract class MaaCoreInterface {
   void destroy();
-  bool connect(
-      {required String adbPath, required String address, String config = ''});
+  bool connect(String adbPath, String address,[String config = '']);
   TaskId appendTask(String type, [Map<String, dynamic>? params]);
   bool setTaskParams(TaskId taskId, [Map<String, dynamic>? params]);
   bool start();

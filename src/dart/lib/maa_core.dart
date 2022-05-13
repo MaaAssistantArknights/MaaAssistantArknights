@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:convert';
 import 'dart:isolate';
@@ -7,6 +8,9 @@ import 'package:path/path.dart' as p;
 
 class MaaCore implements MaaCoreInterface {
   late Assistant _asst;
+  late AsstLoadResourceFunc _asstLoadResource;
+  late AsstCreateFunc _asstCreate;
+  late AsstCreateExFunc _asstCreateEx;
   late AsstConnectFunc _asstConnect;
   late AsstDestroyFunc _asstDestroy;
   late AsstAppendTaskFunc _asstAppendTask;
@@ -16,39 +20,67 @@ class MaaCore implements MaaCoreInterface {
   late AsstCtrlerClickFunc _asstCtrlerClick;
   late AsstGetVersionFunc _asstGetVersion;
   late AsstLogFunc _asstLog;
-  static bool resourceLoaded = false;
+  static bool _resourceLoaded = false;
   late ReceivePort? _receivePort;
+  static bool _apiInited = false;
   ReceivePort? get receivePort => _receivePort;
-  late Pointer<Int64> _pointer;
+  late StreamSubscription _portSubscription;
+  late List<Pointer> _allocated;
+
   static Future<String> get platformVersion async {
     return Future<String>(() => '0.0.1');
   }
 
-  static bool loadResource(DynamicLibrary lib, String resourceDir) {
-    final AsstLoadResourceFunc asstLoadResource =
-        lib.lookup<AsstLoadResourceNative>('AsstLoadResource').asFunction();
-    if (!resourceLoaded) {
-      return asstLoadResource(resourceDir.toNativeUtf8());
-    }
-    return true;
+  void _loadResource(String path) {
+    final strPtr = toManagedString(path);
+    final result = _asstLoadResource(strPtr);
+    _resourceLoaded = _resourceLoaded || result;
   }
 
-  MaaCore(String libDir, [Function(dynamic)? callback]) {
-  
+  MaaCore(String libDir, [Function(String)? callback]) {
     _loadCppLib(libDir);
-    final _createWithDartPort = loadAsstCreateDart(libDir);
-    _receivePort = ReceivePort();
-    final portPtr = malloc.allocate<Int64>(sizeOf<Int64>());
-    portPtr.value = _receivePort!.sendPort.nativePort;
-    _asst = _createWithDartPort(portPtr);
-    if (callback != null) {
-      _receivePort!.listen(callback);
+    if (!_apiInited) {
+      final callbackLib = DynamicLibrary.open(p.join(libDir, 'libCallback.so'));
+      final InitDartApiFunc initNativeApi =
+          callbackLib.lookup<InitDartApiNative>('init_dart_api').asFunction();
+      initNativeApi(NativeApi.initializeApiDLData);
+      _apiInited = true;
     }
+
+    _allocated = [];
+    if (!_resourceLoaded) {
+      _loadResource(libDir);
+    }
+    _receivePort = ReceivePort();
+    final nativePort = _receivePort!.sendPort.nativePort;
+    final portPtr = malloc.allocate<Int64>(sizeOf<Int64>());
+    _asst = _asstCreateEx(nativeCallback, portPtr.cast<Void>());
+    _allocated.add(portPtr);
+    portPtr.value = nativePort;
+    if (callback != null) {
+      _portSubscription = _receivePort!.listen(_wrapCallback(callback));
+    }
+  }
+
+  void Function(dynamic) _wrapCallback(void Function(String) cb) {
+    return (dynamic data) {
+      // c will manage the memory for the string
+      String msg = data;
+      cb(msg);
+    };
+  }
+
+  Pointer<AsstCallbackNative> get nativeCallback {
+    return DynamicLibrary.open('./libCallback.so')
+        .lookup<AsstCallbackNative>('callback');
   }
 
   void _loadCppLib(String libDir) {
     final lib = DynamicLibrary.open(p.join(libDir, 'libMeoAssistant.so'));
-   
+    _asstLoadResource =
+        lib.lookup<AsstLoadResourceNative>('AsstLoadResource').asFunction();
+    _asstCreate = lib.lookup<AsstCreateNative>('AsstCreate').asFunction();
+    _asstCreateEx = lib.lookup<AsstCreateExNative>('AsstCreateEx').asFunction();
     _asstConnect = lib.lookup<AsstConnectNative>('AsstConnect').asFunction();
     _asstDestroy = lib.lookup<AsstDestroyNative>('AsstDestroy').asFunction();
     _asstAppendTask =
@@ -65,24 +97,24 @@ class MaaCore implements MaaCoreInterface {
   }
 
   @override
-  bool connect({
-    required String adbPath,
-    required String address,
-    String config = '',
-  }) {
+  bool connect(adbPath, address, [config = '']) {
     return _asstConnect(
       _asst,
-      adbPath.toNativeUtf8(),
-      address.toNativeUtf8(),
-      config.toNativeUtf8(),
+      toManagedString(adbPath),
+      toManagedString(address),
+      toManagedString(config),
     );
   }
 
   @override
   void destroy() {
     if (_receivePort != null) {
+      _portSubscription.cancel();
       _receivePort!.close();
-      malloc.free(_pointer);
+    }
+    while (_allocated.isNotEmpty) {
+      final ptr = _allocated.removeLast();
+      malloc.free(ptr);
     }
     _asstDestroy(_asst);
   }
@@ -92,8 +124,8 @@ class MaaCore implements MaaCoreInterface {
     final json = jsonEncode(params ?? {});
     final taskId = _asstAppendTask(
       _asst,
-      type.toNativeUtf8(),
-      json.toNativeUtf8(),
+      toManagedString(type),
+      toManagedString(json),
     );
     return taskId;
   }
@@ -104,7 +136,7 @@ class MaaCore implements MaaCoreInterface {
     final result = _asstSetTaskParams(
       _asst,
       taskId,
-      json.toNativeUtf8(),
+      toManagedString(json),
     );
     return result;
   }
@@ -131,23 +163,12 @@ class MaaCore implements MaaCoreInterface {
 
   @override
   void log(String logLevel, String msg) {
-    _asstLog(logLevel.toNativeUtf8(), msg.toNativeUtf8());
+    _asstLog(toManagedString(logLevel), toManagedString(msg));
   }
-}
 
-AsstCreateDartFunc loadAsstCreateDart(String libPath) {
-  final lib = DynamicLibrary.open(p.join(libPath, 'libMeoAssistantDart.so'));
-  return lib
-      .lookup<AsstCreateDartNative>('AsstCreateWithDartPort')
-      .asFunction();
-}
-
-InitDartVMFunc loadInitDartVM(String libPath) {
-  final lib = DynamicLibrary.open(p.join(libPath, 'libMeoAssistantDart.so'));
-  return lib.lookup<InitDartVMNative>('InitDartVM').asFunction();
-}
-
-CleanUpDartVMFunc loadCleanUpDartVM(String libPath) {
-  final lib = DynamicLibrary.open(p.join(libPath, 'libMeoAssistantDart.so'));
-  return lib.lookup<CleanUpDartVMNative>('CleanUpDartVM').asFunction();
+  Pointer<Utf8> toManagedString(String str) {
+    final ptr = str.toNativeUtf8();
+    _allocated.add(ptr);
+    return ptr;
+  }
 }
