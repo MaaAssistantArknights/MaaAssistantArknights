@@ -307,6 +307,10 @@ namespace MeoAsstGui
         public bool CheckUpdate()
         {
             var settings = _container.Get<SettingsViewModel>();
+            if (!settings.UpdateCheck)
+            {
+                return false;
+            }
             const int requestRetryMaxTimes = 5;
             var response = RequestApi(RequestUrl);
             for (int i = 0; response.Length == 0 && i >= requestRetryMaxTimes; i++)
