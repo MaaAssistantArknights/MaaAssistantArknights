@@ -307,6 +307,10 @@ namespace MeoAsstGui
         public bool CheckUpdate()
         {
             var settings = _container.Get<SettingsViewModel>();
+            if (!settings.UpdateCheck)
+            {
+                return false;
+            }
             const int requestRetryMaxTimes = 5;
             var response = RequestApi(RequestUrl);
             for (int i = 0; response.Length == 0 && i >= requestRetryMaxTimes; i++)
@@ -322,14 +326,17 @@ namespace MeoAsstGui
             {
                 var releaseArray = JsonConvert.DeserializeObject(response) as JArray;
 
-                for (int i = 0; i <= releaseArray.Count; i++)
+                for (int i = 0; i < releaseArray.Count; i++)
                 {
-                    if (((bool)releaseArray[i]["prerelease"]) && settings.UpdateBeta)
+                    if ((bool)releaseArray[i]["prerelease"])
                     {
-                        _lastestJson = releaseArray[i] as JObject;
-                        break;
+                        if (settings.UpdateBeta)
+                        {
+                            _lastestJson = releaseArray[i] as JObject;
+                            break;
+                        }
                     }
-                    else if ((!(bool)releaseArray[i]["prerelease"]) && (!settings.UpdateBeta))
+                    else
                     {
                         _lastestJson = releaseArray[i] as JObject;
                         break;

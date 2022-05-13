@@ -712,6 +712,18 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _updateCheck = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateCheck", bool.TrueString));
+
+        public bool UpdateCheck
+        {
+            get { return _updateCheck; }
+            set
+            {
+                SetAndNotify(ref _updateCheck, value);
+                ViewStatusStorage.Set("VersionUpdate.UpdateCheck", value.ToString());
+            }
+        }
+
         private string _proxy = ViewStatusStorage.Get("VersionUpdate.Proxy", string.Empty);
 
         public string Proxy
