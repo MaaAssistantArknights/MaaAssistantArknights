@@ -601,12 +601,12 @@ namespace MeoAsstGui
             return AsstAppendTaskWithEncoding("Visit");
         }
 
-        public bool AsstAppendMall(bool with_shopping, bool blackMode, string[] shoppingList)
+        public bool AsstAppendMall(bool with_shopping, string[] firstlist, string[] blacklist)
         {
             var task_params = new JObject();
             task_params["shopping"] = with_shopping;
-            task_params["shopping_list"] = new JArray { shoppingList };
-            task_params["is_black_list"] = blackMode;
+            task_params["buy_first"] = new JArray { firstlist };
+            task_params["blacklist"] = new JArray { blacklist };
             return AsstAppendTaskWithEncoding("Mall", task_params);
         }
 

@@ -16,13 +16,15 @@
         <CheckBox Grid.Row="0" IsChecked="{Binding CreditShopping}"  Block.TextAlignment="Center" Margin="10"
                   HorizontalAlignment="Center" VerticalAlignment="Center"
                   Content=" 信用购物  " />
-        <CheckBox Grid.Row="1" IsEnabled="{Binding CreditShopping}" IsChecked="{Binding CreditBlackMode}"  Block.TextAlignment="Center" Margin="10"
-                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                  Content="黑名单模式" />
+        <StackPanel Grid.Row="1" IsEnabled="{Binding CreditShopping}" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
+                   Text="优先购买&#xA;子串即可，空格分隔" Margin="10" />
+            <TextBox Text="{Binding CreditFirstList}" Margin="10" Width="250" />
+        </StackPanel>
         <StackPanel Grid.Row="2" IsEnabled="{Binding CreditShopping}" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
                    Text="黑名单&#xA;子串即可，空格分隔" Margin="10" />
-            <TextBox Text="{Binding CreditShoppingList}" Margin="10" Width="250" />
+            <TextBox Text="{Binding CreditBlackList}" Margin="10" Width="250" />
         </StackPanel>
     </Grid>
 </UserControl>
