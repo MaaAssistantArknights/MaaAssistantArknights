@@ -119,6 +119,28 @@ bool AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params)
     return handle->set_task_params(id, params);
 }
 
+#ifdef _WIN32
+#include "AsstUtils.hpp"
+
+TaskId AsstAppendTaskWithGBK(AsstHandle handle, const char* type, const char* params)
+{
+    if (!inited || handle == nullptr) {
+        return 0;
+    }
+
+    return handle->append_task(type, asst::utils::gbk_2_utf8(params));
+}
+
+bool AsstSetTaskParamsWithGBK(AsstHandle handle, TaskId id, const char* params)
+{
+    if (!inited || handle == nullptr) {
+        return 0;
+    }
+
+    return handle->set_task_params(id, asst::utils::gbk_2_utf8(params));
+}
+#endif
+
 unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size)
 {
     if (!inited || handle == nullptr || buff == nullptr) {

@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
 using Stylet;
@@ -335,6 +336,40 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _creditShopping, value);
                 ViewStatusStorage.Set("Mall.CreditShopping", value.ToString());
+            }
+        }
+
+        private bool _creditBlackMode = Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditBlackMode", bool.TrueString));
+
+        public bool CreditBlackMode
+        {
+            get { return _creditBlackMode; }
+            set
+            {
+                SetAndNotify(ref _creditBlackMode, value);
+                ViewStatusStorage.Set("Mall.CreditBlackMode", value.ToString());
+            }
+        }
+
+        public static string Utf16ToUtf8(string utf16String)
+        {
+            // Get UTF16 bytes and convert UTF16 bytes to UTF8 bytes
+            byte[] utf16Bytes = Encoding.Unicode.GetBytes(utf16String);
+            byte[] utf8Bytes = Encoding.Convert(Encoding.Unicode, Encoding.UTF8, utf16Bytes);
+
+            // Return UTF8 bytes as ANSI string
+            return Encoding.Default.GetString(utf8Bytes);
+        }
+
+        private string _creditShoppingList = ViewStatusStorage.Get("Mall.CreditShoppingList", "碳 家具");
+
+        public string CreditShoppingList
+        {
+            get { return _creditShoppingList; }
+            set
+            {
+                SetAndNotify(ref _creditShoppingList, value);
+                ViewStatusStorage.Set("Mall.CreditShoppingList", value.ToString());
             }
         }
 

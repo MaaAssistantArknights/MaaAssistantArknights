@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Stylet;
@@ -291,11 +292,22 @@ namespace MeoAsstGui
                 settings.UsesOfDrones, settings.DormThreshold / 100.0);
         }
 
+        public static string Utf16ToUtf8(string utf16String)
+        {
+            // Get UTF16 bytes and convert UTF16 bytes to UTF8 bytes
+            byte[] utf16Bytes = Encoding.Unicode.GetBytes(utf16String);
+            byte[] utf8Bytes = Encoding.Convert(Encoding.Unicode, Encoding.UTF8, utf16Bytes);
+
+            // Return UTF8 bytes as ANSI string
+            return Encoding.Default.GetString(utf8Bytes);
+        }
+
         private bool appendMall()
         {
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendMall(settings.CreditShopping);
+            var shopping_list = settings.CreditShoppingList.Split(' ');
+            return asstProxy.AsstAppendMall(settings.CreditShopping, settings.CreditBlackMode, shopping_list);
         }
 
         private bool appendRecruit()
