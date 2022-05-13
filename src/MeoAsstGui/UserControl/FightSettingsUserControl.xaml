@@ -24,7 +24,7 @@
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding UseStone}" IsHitTestVisible="{Binding Idle}" Content="吃石头   " Margin="10" />
+            <CheckBox IsChecked="{Binding UseStone}" IsHitTestVisible="{Binding Idle}" Content="吃石头　" Margin="10" />
             <TextBox Text="{Binding StoneNumber}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
                      Width="50" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="颗" />
