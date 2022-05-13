@@ -36,6 +36,7 @@ namespace asst
         virtual AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept;
         virtual AbstractTask& set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
         virtual AbstractTask& set_enable(bool enable) noexcept;
+        virtual AbstractTask& set_ignore_error(bool ignore) noexcept;
         virtual AbstractTask& set_task_id(int task_id) noexcept;
 
         template<typename PluginType>
@@ -51,6 +52,7 @@ namespace asst
         void clear_plugin() noexcept;
 
         bool get_enable() const noexcept { return m_enable; }
+        bool get_ignore_error() const noexcept { return m_ignore_error; }
         const std::string& get_task_chain() const noexcept { return m_task_chain; }
         int get_task_id() const noexcept { return m_task_id; }
         virtual json::value basic_info() const;
@@ -68,6 +70,7 @@ namespace asst
         bool save_image(const cv::Mat image, const std::string& dir);
 
         bool m_enable = true;
+        bool m_ignore_error = true;
         AsstCallback m_callback;
         void* m_callback_arg = nullptr;
         bool* m_exit_flag = nullptr;
