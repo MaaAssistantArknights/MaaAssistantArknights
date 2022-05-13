@@ -9,12 +9,12 @@ bool asst::AbstractConfiger::load(const std::string& filename)
 {
     LogTraceFunction;
 
-#ifdef WIN32
-    std::string cvt_filename = utils::utf8_to_gbk(filename);
-#else
     std::string cvt_filename = filename;
-#endif
+#ifdef WIN32
+    Log.info("Load:", utils::gbk_2_utf8(cvt_filename));
+#else
     Log.info("Load:", cvt_filename);
+#endif
 
     if (!std::filesystem::exists(cvt_filename)) {
         return false;
