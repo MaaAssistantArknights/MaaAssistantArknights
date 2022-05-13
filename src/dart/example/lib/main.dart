@@ -8,6 +8,7 @@ import 'package:maa_core/typedefs.dart';
 import "package:path/path.dart" as p;
 
 void main() {
+  print(Directory.current.path);
   runApp(const MyApp());
 }
 
@@ -56,16 +57,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late MaaCore _asst;
-  List<String> _logs =[];
+  List<String> _logs = [];
 
   @override
   void initState() {
     setState(() {
-      _asst = MaaCore(p.join(p.current, 'linux'));
+      _asst = MaaCore(p.current, callback);
+      _asst.connect('adb', 'emulator-5554');
     });
     super.initState();
   }
-  void callback(dynamic message) {
+
+  void callback(String message) {
     setState(() {
       _logs.add(message);
     });
@@ -81,16 +84,15 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
 
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          children: _logs.map((e) => Text(e)).toList(),
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text(widget.title),
         ),
-      )
-    );
+        body: Center(
+          child: Column(
+            children: _logs.map((e) => Text(e)).toList(),
+          ),
+        ));
   }
 }
