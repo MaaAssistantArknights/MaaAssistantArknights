@@ -39,9 +39,9 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstConnect(AsstHandle handle, string adb_path, string address, string config);
 
-        [DllImport("MeoAssistant.dll")] private static extern TaskId AsstAppendTask(AsstHandle handle, string type, string task_params);
+        [DllImport("MeoAssistant.dll")] private static extern TaskId AsstAppendTaskWithGBK(AsstHandle handle, string type, string task_params);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstSetTaskParams(AsstHandle handle, TaskId id, string task_params);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstSetTaskParamsWithGBK(AsstHandle handle, TaskId id, string task_params);
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstStart(AsstHandle handle);
 
@@ -559,7 +559,7 @@ namespace MeoAsstGui
         private bool AsstAppendTaskWithEncoding(string type, JObject task_params = null)
         {
             task_params = task_params ?? new JObject();
-            return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(task_params)) != 0;
+            return AsstAppendTaskWithGBK(_handle, type, JsonConvert.SerializeObject(task_params)) != 0;
         }
 
         public static string Utf16ToUtf8(string utf16String)
@@ -601,12 +601,12 @@ namespace MeoAsstGui
             return AsstAppendTaskWithEncoding("Visit");
         }
 
-        public bool AsstAppendMall(bool with_shopping)
+        public bool AsstAppendMall(bool with_shopping, bool blackMode, string[] shoppingList)
         {
             var task_params = new JObject();
             task_params["shopping"] = with_shopping;
-            task_params["shopping_list"] = new JArray { Utf16ToUtf8("碳"), Utf16ToUtf8("家具") };
-            task_params["is_black_list"] = true;
+            task_params["shopping_list"] = new JArray { shoppingList };
+            task_params["is_black_list"] = blackMode;
             return AsstAppendTaskWithEncoding("Mall", task_params);
         }
 
@@ -639,10 +639,10 @@ namespace MeoAsstGui
             var task_params = new JObject();
             task_params["mode"] = mode;
             task_params["opers"] = new JArray {
-                new JObject { { "name", Utf16ToUtf8("山") }, { "skill", 2 }, { "skill_usage", 2 } },
-                new JObject { { "name", Utf16ToUtf8("棘刺") }, { "skill", 3 }, { "skill_usage", 1 } },
-                new JObject { { "name", Utf16ToUtf8("芙蓉") }, { "skill", 1 }, { "skill_usage", 1 } },
-                new JObject { { "name", Utf16ToUtf8("梓兰") }, { "skill", 1 }, { "skill_usage", 1 } },
+                new JObject { { "name", "山" }, { "skill", 2 }, { "skill_usage", 2 } },
+                new JObject { { "name", "棘刺" }, { "skill", 3 }, { "skill_usage", 1 } },
+                new JObject { { "name", "芙蓉" }, { "skill", 1 }, { "skill_usage", 1 } },
+                new JObject { { "name", "梓兰" }, { "skill", 1 }, { "skill_usage", 1 } },
             };
             return AsstAppendTaskWithEncoding("Roguelike", task_params);
         }
