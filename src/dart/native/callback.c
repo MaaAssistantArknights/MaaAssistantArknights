@@ -21,7 +21,7 @@ void callback(int retval, const char *json_str, void *custom_arg) {
     int required_len = n_digits + strlen(json_str) + 1;
     char retstr[required_len];
     retstr[required_len-1] = 0;
-    sprintf(retstr, "{\"retval\": %d, payload: \"%s\" }", retval, json_str);
+    sprintf(retstr, "{\"retval\": %d, \"payload\": %s }", retval, json_str);
     obj.type = Dart_CObject_kString;
     obj.value.as_string = retstr;
     printf("C: Sending Pointer %ld to dart through port %ld\n", (int64_t)json_str, port);
