@@ -249,6 +249,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>MaxSpeed</Optimization>
       <AdditionalOptions>/utf-8 /MP %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -297,6 +298,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>MaxSpeed</Optimization>
       <AdditionalOptions>/utf-8 /MP %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -327,6 +329,7 @@
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <AdditionalOptions>/utf-8 /MP %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
