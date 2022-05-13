@@ -306,8 +306,9 @@ namespace MeoAsstGui
         {
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
-            var shopping_list = settings.CreditShoppingList.Split(' ');
-            return asstProxy.AsstAppendMall(settings.CreditShopping, settings.CreditBlackMode, shopping_list);
+            var buy_first = settings.CreditFirstList.Split(' ');
+            var black_list = settings.CreditBlackList.Split(' ');
+            return asstProxy.AsstAppendMall(settings.CreditShopping, buy_first, black_list);
         }
 
         private bool appendRecruit()

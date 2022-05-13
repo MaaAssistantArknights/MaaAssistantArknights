@@ -339,37 +339,27 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _creditBlackMode = Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditBlackMode", bool.TrueString));
+        private string _creditFirstList = ViewStatusStorage.Get("Mall.CreditFirstList", "招聘许可 龙门币");
 
-        public bool CreditBlackMode
+        public string CreditFirstList
         {
-            get { return _creditBlackMode; }
+            get { return _creditFirstList; }
             set
             {
-                SetAndNotify(ref _creditBlackMode, value);
-                ViewStatusStorage.Set("Mall.CreditBlackMode", value.ToString());
+                SetAndNotify(ref _creditFirstList, value);
+                ViewStatusStorage.Set("Mall.CreditFirstList", value.ToString());
             }
         }
 
-        public static string Utf16ToUtf8(string utf16String)
+        private string _creditBlackList = ViewStatusStorage.Get("Mall.CreditBlackList", "碳 家具");
+
+        public string CreditBlackList
         {
-            // Get UTF16 bytes and convert UTF16 bytes to UTF8 bytes
-            byte[] utf16Bytes = Encoding.Unicode.GetBytes(utf16String);
-            byte[] utf8Bytes = Encoding.Convert(Encoding.Unicode, Encoding.UTF8, utf16Bytes);
-
-            // Return UTF8 bytes as ANSI string
-            return Encoding.Default.GetString(utf8Bytes);
-        }
-
-        private string _creditShoppingList = ViewStatusStorage.Get("Mall.CreditShoppingList", "碳 家具");
-
-        public string CreditShoppingList
-        {
-            get { return _creditShoppingList; }
+            get { return _creditBlackList; }
             set
             {
-                SetAndNotify(ref _creditShoppingList, value);
-                ViewStatusStorage.Set("Mall.CreditShoppingList", value.ToString());
+                SetAndNotify(ref _creditBlackList, value);
+                ViewStatusStorage.Set("Mall.CreditBlackList", value.ToString());
             }
         }
 
