@@ -326,14 +326,17 @@ namespace MeoAsstGui
             {
                 var releaseArray = JsonConvert.DeserializeObject(response) as JArray;
 
-                for (int i = 0; i <= releaseArray.Count; i++)
+                for (int i = 0; i < releaseArray.Count; i++)
                 {
-                    if (((bool)releaseArray[i]["prerelease"]) && settings.UpdateBeta)
+                    if ((bool)releaseArray[i]["prerelease"])
                     {
-                        _lastestJson = releaseArray[i] as JObject;
-                        break;
+                        if (settings.UpdateBeta)
+                        {
+                            _lastestJson = releaseArray[i] as JObject;
+                            break;
+                        }
                     }
-                    else if ((!(bool)releaseArray[i]["prerelease"]) && (!settings.UpdateBeta))
+                    else
                     {
                         _lastestJson = releaseArray[i] as JObject;
                         break;
