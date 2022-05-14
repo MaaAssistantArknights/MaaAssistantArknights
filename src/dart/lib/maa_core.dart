@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 import 'package:maa_core/typedefs.dart';
@@ -26,7 +27,23 @@ class MaaCore implements MaaCoreInterface {
   ReceivePort? get receivePort => _receivePort;
   late StreamSubscription _portSubscription;
   late List<Pointer> _allocated;
+  String get meoAssistantLibName {
+    if (Platform.isLinux) {
+      return 'libMeoAssistant.so';
+    } else if (Platform.isWindows) {
+      return 'MeoAssistant.dll';
+    }
+    return 'libMeoAssistant.dylib';
+  }
 
+  String get callbackLibName {
+    if (Platform.isLinux) {
+      return 'libCallback.so';
+    } else if (Platform.isWindows) {
+      return 'Callback.dll';
+    }
+    return 'libCallback.dylib';
+  }
   static Future<String> get platformVersion async {
     return Future<String>(() => '0.0.1');
   }
@@ -39,7 +56,7 @@ class MaaCore implements MaaCoreInterface {
   MaaCore(String libDir, [Function(String)? callback]) {
     _loadCppLib(libDir);
     if (!_apiInited) {
-      final callbackLib = DynamicLibrary.open(p.join(libDir, 'libCallback.so'));
+      final callbackLib = DynamicLibrary.open(p.join(libDir, callbackLibName));
       final InitDartApiFunc initNativeApi =
           callbackLib.lookup<InitDartApiNative>('init_dart_api').asFunction();
       initNativeApi(NativeApi.initializeApiDLData);
@@ -53,7 +70,7 @@ class MaaCore implements MaaCoreInterface {
     _receivePort = ReceivePort();
     final nativePort = _receivePort!.sendPort.nativePort;
     final portPtr = malloc.allocate<Int64>(sizeOf<Int64>());
-    _asst = _asstCreateEx(nativeCallback, portPtr.cast<Void>());
+    _asst = _asstCreateEx(_loadNativeCallback(libDir), portPtr.cast<Void>());
     _allocated.add(portPtr);
     portPtr.value = nativePort;
     if (callback != null) {
@@ -71,8 +88,8 @@ class MaaCore implements MaaCoreInterface {
     };
   }
 
-  Pointer<AsstCallbackNative> get nativeCallback {
-    return DynamicLibrary.open('./libCallback.so')
+  Pointer<AsstCallbackNative> _loadNativeCallback(String libDir) {
+    return DynamicLibrary.open(p.join(libDir, callbackLibName))
         .lookup<AsstCallbackNative>('callback');
   }
 
