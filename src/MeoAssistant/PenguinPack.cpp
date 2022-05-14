@@ -20,7 +20,7 @@ bool asst::PenguinPack::load(const std::string& dir)
     bool ret = load_json(dir + "/json/stages.json", dir + "/json/hash_index.json");
 
     for (const auto& file : std::filesystem::directory_iterator(dir + "/items")) {
-        ret &= load_templ(file.path().stem().u8string(), file.path().u8string());
+        ret &= load_templ(file.path().stem().string(), file.path().string());
     }
     return ret;
 }

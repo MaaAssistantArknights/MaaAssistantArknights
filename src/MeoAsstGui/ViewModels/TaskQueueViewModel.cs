@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Stylet;
@@ -290,16 +289,6 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendInfrast(1, order.ToArray(), orderLen,
                 settings.UsesOfDrones, settings.DormThreshold / 100.0);
-        }
-
-        public static string Utf16ToUtf8(string utf16String)
-        {
-            // Get UTF16 bytes and convert UTF16 bytes to UTF8 bytes
-            byte[] utf16Bytes = Encoding.Unicode.GetBytes(utf16String);
-            byte[] utf8Bytes = Encoding.Convert(Encoding.Unicode, Encoding.UTF8, utf16Bytes);
-
-            // Return UTF8 bytes as ANSI string
-            return Encoding.Default.GetString(utf8Bytes);
         }
 
         private bool appendMall()
