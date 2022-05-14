@@ -90,26 +90,25 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
 {
     LogTraceFunction;
 
-    sleep(Task.get("PRTS")->rear_delay);
-    if (need_exit()) {
-        return false;
-    }
-    Resrc.penguin().set_language(m_server);
+    //sleep(Task.get("PRTS")->rear_delay);
+    //if (need_exit()) {
+    //    return false;
+    //}
+    //Resrc.penguin().set_language(m_server);
 
-    const cv::Mat image = m_ctrler->get_image(true);
-    std::string res = Resrc.penguin().recognize(image);
-    Log.trace("Results of penguin recognition:\n", res);
+    //const cv::Mat image = m_ctrler->get_image(true);
+    //std::string res = Resrc.penguin().recognize(image);
+    //Log.trace("Results of penguin recognition:\n", res);
 
-    m_cur_drops = json::parse(res).value();
-    // 兼容老版本 json 格式
-    auto& drop_area = m_cur_drops["dropArea"];
-    m_cur_drops["drops"] = drop_area["drops"];
-    m_cur_drops["dropTypes"] = drop_area["dropTypes"];
+    //m_cur_drops = json::parse(res).value();
+    //// 兼容老版本 json 格式
+    //auto& drop_area = m_cur_drops["dropArea"];
+    //m_cur_drops["drops"] = drop_area["drops"];
+    //m_cur_drops["dropTypes"] = drop_area["dropTypes"];
 
-    auto last_time_opt = m_status->get_data("LastStartButton2");
-    auto last_time = last_time_opt ? last_time_opt.value() : 0;
-    m_status->set_data("LastRecognizeDrops", last_time + RecognizationTimeOffset);
-
+    //auto last_time_opt = m_status->get_data("LastStartButton2");
+    //auto last_time = last_time_opt ? last_time_opt.value() : 0;
+    //m_status->set_data("LastRecognizeDrops", last_time + RecognizationTimeOffset);
 
     return true;
 }

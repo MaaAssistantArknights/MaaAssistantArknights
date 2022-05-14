@@ -20,11 +20,13 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static const char* RecruitCfgFilename = "recruit.json";
     constexpr static const char* ItemCfgFilename = "item_index.json";
     constexpr static const char* InfrastCfgFilename = "infrast.json";
+    constexpr static const char* InfrastTempls = "template/infrast";
     constexpr static const char* CopilotCfgDirname = "copilot";
     constexpr static const char* RoguelikeCfgDirname = "roguelike";
     constexpr static const char* OcrResourceFilename = "PaddleOCR";
-    constexpr static const char* PenguinResourceFilename = "penguin-stats-recognize";
     constexpr static const char* TilesCalcResourceFilename = "Arknights-Tile-Pos";
+    constexpr static const char* StageDropsCfgFilename = "stages.json";
+    constexpr static const char* StageDropsTempls = "template/items";
 
     bool overload = false;
 
@@ -109,15 +111,44 @@ bool asst::Resource::load(const std::string& dir)
         overload = true;
     }
 
+    if (!m_stage_drops_cfg_unique_ins.load(dir + StageDropsCfgFilename)) {
+        if (!m_loaded) {
+            m_last_error = std::string(StageDropsCfgFilename) + ": " + m_stage_drops_cfg_unique_ins.get_last_error();
+            return false;
+        }
+    }
+    else {
+        overload = true;
+    }
+
     /* 加载模板图片资源 */
     // task所需要的模板资源
     m_templ_resource_unique_ins.append_load_required(TaskData::get_instance().get_templ_required());
-    // 基建所需要的模板资源
-    m_templ_resource_unique_ins.append_load_required(m_infrast_cfg_unique_ins.get_templ_required());
-
     if (!m_templ_resource_unique_ins.load(dir + TemplsFilename)) {
         if (!m_loaded) {
             m_last_error = std::string(TemplsFilename) + ": " + m_templ_resource_unique_ins.get_last_error();
+            return false;
+        }
+    }
+    else {
+        overload = true;
+    }
+    // 基建所需要的模板资源
+    m_templ_resource_unique_ins.append_load_required(m_infrast_cfg_unique_ins.get_templ_required());
+    if (!m_templ_resource_unique_ins.load(dir + InfrastTempls)) {
+        if (!m_loaded) {
+            m_last_error = std::string(InfrastTempls) + ": " + m_templ_resource_unique_ins.get_last_error();
+            return false;
+        }
+    }
+    else {
+        overload = true;
+    }
+    // 关卡掉落物品的模板资源
+    m_templ_resource_unique_ins.append_load_required(m_stage_drops_cfg_unique_ins.get_all_item_id());
+    if (!m_templ_resource_unique_ins.load(dir + StageDropsTempls)) {
+        if (!m_loaded) {
+            m_last_error = std::string(StageDropsTempls) + ": " + m_templ_resource_unique_ins.get_last_error();
             return false;
         }
     }
@@ -130,17 +161,6 @@ bool asst::Resource::load(const std::string& dir)
     if (!m_ocr_pack_unique_ins.load(dir + OcrResourceFilename)) {
         if (!m_loaded) {
             m_last_error = std::string(OcrResourceFilename) + ": " + m_ocr_pack_unique_ins.get_last_error();
-            return false;
-        }
-    }
-    else {
-        overload = true;
-    }
-
-    /* 加载企鹅数据识别库所需要的资源 */
-    if (!m_penguin_pack_unique_ins.load(dir + PenguinResourceFilename)) {
-        if (!m_loaded) {
-            m_last_error = std::string(PenguinResourceFilename) + ": " + m_penguin_pack_unique_ins.get_last_error();
             return false;
         }
     }

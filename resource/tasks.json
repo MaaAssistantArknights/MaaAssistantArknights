@@ -6399,5 +6399,17 @@
             "Roguelike1StageDreadfulFoe",
             "Roguelike1ClickToStartPoint"
         ]
+    },
+    "StageDrops-StageName": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            98,
+            22,
+            200,
+            136
+        ]
     }
 }
