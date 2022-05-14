@@ -12,6 +12,7 @@
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 #include "TaskData.h"
+#include "StageDropsImageAnalyzer.h"
 
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -90,13 +91,18 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
 {
     LogTraceFunction;
 
-    //sleep(Task.get("PRTS")->rear_delay);
-    //if (need_exit()) {
-    //    return false;
-    //}
-    //Resrc.penguin().set_language(m_server);
+#ifndef ASST_DEBUG
+    sleep(Task.get("PRTS")->rear_delay);
+#endif // !ASST_DEBUG
 
-    //const cv::Mat image = m_ctrler->get_image(true);
+    if (need_exit()) {
+        return false;
+    }
+
+    //StageDropsImageAnalyzer analyzer(m_ctrler->get_image());
+    StageDropsImageAnalyzer analyzer(cv::imread("3.png"));
+    analyzer.analyze();
+
     //std::string res = Resrc.penguin().recognize(image);
     //Log.trace("Results of penguin recognition:\n", res);
 

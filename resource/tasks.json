@@ -6407,9 +6407,78 @@
         "text": [],
         "roi": [
             98,
-            22,
-            200,
-            136
+            24,
+            400,
+            135
         ]
+    },
+    "StageDrops-BaseLine": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            630,
+            1280,
+            10
+        ],
+        "maskRange": [
+            100,
+            255
+        ]
+    },
+    "StageDrops-Item": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            -130,
+            138,
+            130
+        ]
+    },
+    "StageDrops-DropType-ExpAndLMB": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Normal": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Extra": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Funriture": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Special": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
     }
 }

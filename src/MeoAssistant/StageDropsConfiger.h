@@ -8,50 +8,50 @@
 
 namespace asst
 {
+    enum class StageDifficulty
+    {
+        Normal,
+        Tough
+    };
+    struct StageKey
+    {
+        std::string code;
+        StageDifficulty difficulty = StageDifficulty::Normal;
+        bool operator==(const StageKey& other) const
+        {
+            return code == other.code && difficulty == other.difficulty;
+        }
+    };
+    struct StageKeyHasher
+    {
+        size_t operator()(const StageKey& key) const
+        {
+            return std::hash<std::string>()(key.code) ^ (static_cast<size_t>(key.difficulty) << 1);
+        }
+    };
+
+    enum class StageDropType
+    {
+        ExpAndLMB,
+        Normal,
+        Extra,
+        Funriture,
+        Special
+    };
+    struct StageInfo
+    {
+        std::string stage_id;
+        int ap_cost = 0;
+        std::unordered_map<StageDropType, std::vector<std::string>> drops;
+    };
+
     class StageDropsConfiger final : public AbstractConfiger
     {
-    public:
-        enum class Difficulty
-        {
-            Normal,
-            Tough
-        };
-        struct StageKey
-        {
-            std::string code;
-            Difficulty difficulty = Difficulty::Normal;
-            bool operator==(const StageKey& other) const
-            {
-                return code == other.code && difficulty == other.difficulty;
-            }
-        };
-        struct StageKeyHasher
-        {
-            size_t operator()(const StageKey& key) const
-            {
-                return std::hash<std::string>()(key.code) ^ (static_cast<size_t>(key.difficulty) << 1);
-            }
-        };
-
-        enum class DropType
-        {
-            Normal,
-            Extra,
-            Funriture,
-            Special
-        };
-        struct StageInfo
-        {
-            std::string stage_id;
-            int ap_cost = 0;
-            std::unordered_map<DropType, std::vector<std::string>> drops;
-        };
-
     public:
         using AbstractConfiger::AbstractConfiger;
         virtual ~StageDropsConfiger() = default;
 
-        const auto& get_stage_info(const std::string& code, Difficulty difficulty = Difficulty::Normal) const
+        const auto& get_stage_info(const std::string& code, StageDifficulty difficulty = StageDifficulty::Normal) const
         {
             return m_stage_info.at(StageKey{ code, difficulty });
         }
