@@ -11,6 +11,7 @@ class MaaCore implements MaaCoreInterface {
   late Assistant _asst;
   late AsstLoadResourceFunc _asstLoadResource;
   late AsstCreateFunc _asstCreate;
+  late NativeFreeFunc _nativeFree;
   late AsstCreateExFunc _asstCreateEx;
   late AsstConnectFunc _asstConnect;
   late AsstDestroyFunc _asstDestroy;
@@ -54,7 +55,7 @@ class MaaCore implements MaaCoreInterface {
     _resourceLoaded = _resourceLoaded || result;
   }
   MaaCore(String libDir, [Function(String)? callback]) {
-    _loadCppLib(libDir);
+    _loadMeoAssistant(libDir);
     if (!_apiInited) {
       final callbackLib = DynamicLibrary.open(p.join(libDir, callbackLibName));
       final InitDartApiFunc initNativeApi =
@@ -64,6 +65,7 @@ class MaaCore implements MaaCoreInterface {
     }
 
     _allocated = [];
+    _nativeFree = _loadNativeFree(libDir);
     if (!_resourceLoaded) {
       _loadResource(libDir);
     }
@@ -83,8 +85,10 @@ class MaaCore implements MaaCoreInterface {
       // c will manage the memory for the string
       final Pointer<Utf8> ptr = Pointer.fromAddress(data as int);
       String msg = ptr.toDartString();
-      malloc.free(ptr);
+      print("msg from ptr ($ptr): $msg before free");
+      _nativeFree(ptr.cast<Void>());
       cb(msg);
+      
     };
   }
 
@@ -93,8 +97,13 @@ class MaaCore implements MaaCoreInterface {
         .lookup<AsstCallbackNative>('callback');
   }
 
-  void _loadCppLib(String libDir) {
-    final lib = DynamicLibrary.open(p.join(libDir, 'libMeoAssistant.so'));
+  NativeFreeFunc _loadNativeFree(String libDir) {
+    return DynamicLibrary.open(p.join(libDir, callbackLibName))
+        .lookup<NativeFreeNative>('native_free').asFunction();
+  }
+
+  void _loadMeoAssistant(String libDir) {
+    final lib = DynamicLibrary.open(p.join(libDir, meoAssistantLibName));
     _asstLoadResource =
         lib.lookup<AsstLoadResourceNative>('AsstLoadResource').asFunction();
     _asstCreate = lib.lookup<AsstCreateNative>('AsstCreate').asFunction();
