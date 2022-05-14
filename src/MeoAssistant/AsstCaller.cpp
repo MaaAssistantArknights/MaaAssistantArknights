@@ -85,7 +85,11 @@ bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, c
         return false;
     }
 
+#ifdef _WIN32
     return handle->connect(asst::utils::utf8_to_gbk(adb_path), address, config ? config : std::string());
+#else
+    return handle->connect(adb_path, address, config ? config : std::string());
+#endif
 }
 
 bool AsstStart(AsstHandle handle)
