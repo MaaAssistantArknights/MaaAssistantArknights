@@ -39,8 +39,13 @@ static bool inited = false;
 
 bool AsstLoadResource(const char* path)
 {
-    bool log_inited = asst::Logger::set_dirname(std::string(path) + "/");
-    bool resrc_inited = asst::Resrc.load(std::string(path) + "/resource/");
+#ifdef _WIN32
+    std::string working_path = asst::utils::utf8_to_gbk(path);
+#else
+    std::string working_path = std::string(path);
+#endif
+    bool log_inited = asst::Logger::set_dirname(working_path + "/");
+    bool resrc_inited = asst::Resrc.load(working_path + "/resource/");
     if (!resrc_inited) {
         std::cerr << asst::Resrc.get_last_error() << std::endl;
     }
@@ -80,7 +85,11 @@ bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, c
         return false;
     }
 
+#ifdef _WIN32
+    return handle->connect(asst::utils::utf8_to_gbk(adb_path), address, config ? config : std::string());
+#else
     return handle->connect(adb_path, address, config ? config : std::string());
+#endif
 }
 
 bool AsstStart(AsstHandle handle)
@@ -118,28 +127,6 @@ bool AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params)
 
     return handle->set_task_params(id, params);
 }
-
-#ifdef _WIN32
-#include "AsstUtils.hpp"
-
-TaskId AsstAppendTaskWithGBK(AsstHandle handle, const char* type, const char* params)
-{
-    if (!inited || handle == nullptr) {
-        return 0;
-    }
-
-    return handle->append_task(type, asst::utils::gbk_2_utf8(params));
-}
-
-bool AsstSetTaskParamsWithGBK(AsstHandle handle, TaskId id, const char* params)
-{
-    if (!inited || handle == nullptr) {
-        return 0;
-    }
-
-    return handle->set_task_params(id, asst::utils::gbk_2_utf8(params));
-}
-#endif
 
 unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size)
 {

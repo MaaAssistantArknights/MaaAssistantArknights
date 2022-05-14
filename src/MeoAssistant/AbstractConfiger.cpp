@@ -9,18 +9,17 @@ bool asst::AbstractConfiger::load(const std::string& filename)
 {
     LogTraceFunction;
 
-#ifdef WIN32
-    std::string cvt_filename = utils::utf8_to_gbk(filename);
+#ifdef _WIN32
+    Log.info("Load:", utils::gbk_2_utf8(filename));
 #else
-    std::string cvt_filename = filename;
+    Log.info("Load:", filename);
 #endif
-    Log.info("Load:", cvt_filename);
 
-    if (!std::filesystem::exists(cvt_filename)) {
+    if (!std::filesystem::exists(filename)) {
         return false;
     }
 
-    std::string content = utils::load_file_without_bom(cvt_filename);
+    std::string content = utils::load_file_without_bom(filename);
 
     auto&& ret = json::parser::parse(content);
     if (!ret) {
