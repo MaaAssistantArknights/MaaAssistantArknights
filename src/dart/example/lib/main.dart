@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     setState(() {
-      _asst = MaaCore(p.current, callback);
+      _asst = MaaCore(p.join(p.current, 'runtime'), callback);
       _asst.connect('adb', 'emulator-5554');
     });
     super.initState();
