@@ -36,7 +36,6 @@ class MaaCore implements MaaCoreInterface {
     final result = _asstLoadResource(strPtr);
     _resourceLoaded = _resourceLoaded || result;
   }
-
   MaaCore(String libDir, [Function(String)? callback]) {
     _loadCppLib(libDir);
     if (!_apiInited) {
@@ -65,7 +64,9 @@ class MaaCore implements MaaCoreInterface {
   void Function(dynamic) _wrapCallback(void Function(String) cb) {
     return (dynamic data) {
       // c will manage the memory for the string
-      String msg = data;
+      final Pointer<Utf8> ptr = Pointer.fromAddress(data as int);
+      String msg = ptr.toDartString();
+      malloc.free(ptr);
       cb(msg);
     };
   }

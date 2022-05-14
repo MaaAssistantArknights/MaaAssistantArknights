@@ -1,6 +1,7 @@
 #include "dart_api_dl.h"
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 void callback(int, const char *, void *);
 void init_dart_api(void *);
 void init_dart_api(void *api_data) {
@@ -19,12 +20,11 @@ void callback(int retval, const char *json_str, void *custom_arg) {
     }
     Dart_CObject obj;
     int required_len = n_digits + strlen(json_str) + 1;
-    char retstr[required_len];
-    retstr[required_len-1] = 0;
-    sprintf(retstr, "{\"retval\": %d, \"payload\": %s }", retval, json_str);
-    obj.type = Dart_CObject_kString;
-    obj.value.as_string = retstr;
-    printf("C: Sending Pointer %ld to dart through port %ld\n", (int64_t)json_str, port);
+    char* retptr = calloc(required_len, sizeof(char));
+    snprintf(retptr, required_len, "{\"retval\": %d, \"payload\": %s }", retval, json_str);
+    obj.type = Dart_CObject_kInt64;
+    obj.value.as_string = (int64_t)retptr;
+    printf("C: Sending Pointer %p to dart through port %lld\n", retptr, (int64_t) port);
     char res = Dart_PostCObject_DL(port, &obj);
     if (res == 0) {
         printf("C: Failed to send message to Dart\n");
