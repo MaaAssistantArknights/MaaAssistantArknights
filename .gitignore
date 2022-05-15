@@ -437,3 +437,6 @@ tools/**/*.png
 resource/infrast
 .vscode
 !3rdparty/tools/*
+
+# Nuke
+.nuke/temp/*

@@ -3,15 +3,32 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
-    <Platforms>x64</Platforms>
-    <Configurations>Debug;Release;CICD</Configurations>
+    <RootNamespace></RootNamespace>
+    <NoWarn>CS0649;CS0169</NoWarn>
+    <NukeRootDirectory>..\..</NukeRootDirectory>
+    <NukeScriptDirectory>..\..</NukeScriptDirectory>
+    <NukeTelemetryVersion>1</NukeTelemetryVersion>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cake.Frosting" Version="2.2.0" />
-    <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0102" />
+    <PackageReference Include="Nuke.Common" Version="6.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageDownload Include="vswhere" Version="[3.0.2]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="..\..\.github\workflows\release-maa-core.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="..\..\.github\workflows\release-maa-core.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="..\..\.github\workflows\release-maa-core.yml" />
   </ItemGroup>
 
 </Project>
