@@ -239,6 +239,7 @@ public partial class Build : NukeBuild
                 .SetTargets("ReBuild")
                 .SetConfiguration(BuildConfiguration.Release)
                 .SetTargetPlatform(MSBuildTargetPlatform.x64)
+                .EnableRestore()
             );
         });
 
@@ -253,6 +254,7 @@ public partial class Build : NukeBuild
                 .SetTargets("ReBuild")
                 .SetConfiguration(BuildConfiguration.RelWithDebInfo)
                 .SetTargetPlatform(MSBuildTargetPlatform.x64)
+                .EnableRestore()
             );
         });
 
