@@ -5,7 +5,6 @@ using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.Git;
-using Nuke.Common.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -70,8 +69,6 @@ public partial class Build
         // 路径
         public AbsolutePath BuildOutput { get; }
         public AbsolutePath ArtifactOutput { get; }
-        public AbsolutePath ArtifactBundleOutput { get; }
-        public AbsolutePath ArtifactRawOutput { get; }
         public AbsolutePath MaaChangelogFile { get; }
         public AbsolutePath MaaResourceChangeLogFile { get; }
 
@@ -115,9 +112,7 @@ public partial class Build
             // 路径
             BuildOutput = RootDirectory / "x64";
             ArtifactOutput = RootDirectory / "artifacts";
-            ArtifactBundleOutput = ArtifactOutput / "bundle";
-            ArtifactRawOutput = ArtifactOutput / "raw";
-
+            
             MaaChangelogFile = RootDirectory / "CHANGELOG_MAA.md";
             MaaResourceChangeLogFile = RootDirectory / "CHANGELOG_RES.md";
 

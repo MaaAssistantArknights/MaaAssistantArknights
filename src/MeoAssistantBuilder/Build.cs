@@ -78,8 +78,6 @@ public partial class Build : NukeBuild
         Information("3. 路径");
         Information($"编译输出路径：{Parameters.BuildOutput ?? "Null"}");
         Information($"Artifact 输出路径：{Parameters.ArtifactOutput ?? "Null"}");
-        Information($"Artifact 包路径：{Parameters.ArtifactBundleOutput ?? "Null"}");
-        Information($"Artifact 源文件路径：{Parameters.ArtifactRawOutput ?? "Null"}");
 
         Information("4. 项目");
         Information($"MaaCore 项目：{Parameters.MaaCoreProject ?? "Null"}");
@@ -110,13 +108,11 @@ public partial class Build : NukeBuild
     Target Clean => _ => _
         .Executes(() =>
         {
-            RecreateDirectory(Parameters.ArtifactOutput);
-            RecreateDirectory(Parameters.ArtifactBundleOutput);
-            RecreateDirectory(Parameters.ArtifactRawOutput);
+            FileSystemTasks.EnsureCleanDirectory(Parameters.ArtifactOutput);
 
-            RecreateDirectory(Parameters.BuildOutput / BuildConfiguration.Release);
-            RecreateDirectory(Parameters.BuildOutput / BuildConfiguration.RelWithDebInfo);
-            RecreateDirectory(Parameters.BuildOutput / BuildConfiguration.CICD);
+            FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.Release);
+            FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.RelWithDebInfo);
+            FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.CICD);
         });
 
     #endregion
@@ -224,8 +220,9 @@ public partial class Build : NukeBuild
             var output = Parameters.BuildOutput / BuildConfiguration.CICD;
             var dlls = RootDirectory / "3rdparty" / "bin";
 
-            CopyDirectory(dlls, output);
             Information($"复制目录：{dlls} -> {output}");
+            FileSystemTasks.CopyDirectoryRecursively(dlls, output,
+                DirectoryExistsPolicy.Merge, FileExistsPolicy.OverwriteIfNewer);
         });
 
     // TODO 在 MaaElectronUI 发布后移除
@@ -266,10 +263,12 @@ public partial class Build : NukeBuild
             var resourceFile = RootDirectory / "resource";
             var resourceFileThirdParty = RootDirectory / "3rdparty" / "resource";
 
-            CopyDirectory(resourceFile, output);
             Information($"复制目录：{resourceFile} -> {output}");
-            CopyDirectory(resourceFileThirdParty, output);
+            FileSystemTasks.CopyDirectoryRecursively(resourceFile, output,
+                DirectoryExistsPolicy.Merge, FileExistsPolicy.OverwriteIfNewer);
             Information($"复制目录：{resourceFileThirdParty} -> {output}");
+            FileSystemTasks.CopyDirectoryRecursively(resourceFileThirdParty, output,
+                DirectoryExistsPolicy.Merge, FileExistsPolicy.OverwriteIfNewer);
         });
 
     #endregion
@@ -282,10 +281,7 @@ public partial class Build : NukeBuild
         .Executes(() =>
         {
             var buildOutput = Parameters.BuildOutput / BuildConfiguration.RelWithDebInfo;
-            var rawOutput = Parameters.ArtifactRawOutput / MaaDevBundlePackageName;
-            var bundleOutput = Parameters.ArtifactBundleOutput / $"{MaaDevBundlePackageName}.zip";
-
-            BundlePackage(buildOutput, rawOutput, bundleOutput);
+            BundlePackage(buildOutput, MaaDevBundlePackageName);
         });
 
     Target UseMaaLegacyBundle => _ => _
@@ -294,18 +290,14 @@ public partial class Build : NukeBuild
         .Executes(() =>
         {
             var releaseBuildOutput = Parameters.BuildOutput / BuildConfiguration.Release;
-            var releaseRawOutput = Parameters.ArtifactRawOutput / MaaLegacyBundlePackageName;
-            var releaseBundleOutput = Parameters.ArtifactBundleOutput / $"{MaaLegacyBundlePackageName}.zip";
             RemoveDebugSymbols(releaseBuildOutput);
 
-            BundlePackage(releaseBuildOutput, releaseRawOutput, releaseBundleOutput);
+            BundlePackage(releaseBuildOutput, MaaLegacyBundlePackageName);
 
             var cicdBuildOutput = Parameters.BuildOutput / BuildConfiguration.CICD;
-            var cicdRawOutput = Parameters.ArtifactRawOutput / MaaCorePackageName;
-            var cicdBundleOutput = Parameters.ArtifactBundleOutput / $"{MaaCorePackageName}.zip";
             RemoveDebugSymbols(cicdBuildOutput);
             
-            BundlePackage(cicdBuildOutput, cicdRawOutput, cicdBundleOutput);
+            BundlePackage(cicdBuildOutput, MaaCorePackageName);
         });
 
     Target UseMaaCore => _ => _
@@ -314,11 +306,9 @@ public partial class Build : NukeBuild
         .Executes(() =>
         {
             var buildOutput = Parameters.BuildOutput / BuildConfiguration.CICD;
-            var rawOutput = Parameters.ArtifactRawOutput / MaaCorePackageName;
-            var bundleOutput = Parameters.ArtifactBundleOutput / $"{MaaCorePackageName}.zip";
             RemoveDebugSymbols(buildOutput);
             
-            BundlePackage(buildOutput, rawOutput, bundleOutput);
+            BundlePackage(buildOutput, MaaCorePackageName);
         });
 
     Target UseMaaResource => _ => _
@@ -327,21 +317,19 @@ public partial class Build : NukeBuild
         .Executes(() =>
         {
             var buildOutput = Parameters.BuildOutput / BuildConfiguration.Release;
-            var rawOutput = Parameters.ArtifactRawOutput / MaaResourcePackageName;
-            var bundleOutput = Parameters.ArtifactBundleOutput / $"{MaaResourcePackageName}.zip";
             RemoveDebugSymbols(buildOutput);
 
-            BundlePackage(buildOutput, rawOutput, bundleOutput);
+            BundlePackage(buildOutput, MaaResourcePackageName);
         });
 
     Target SetPackageBundled => _ => _
         .Executes(() =>
         {
             Information("已完成打包");
-            foreach (var file in Parameters.ArtifactBundleOutput.GlobFiles("*.zip"))
+            foreach (var file in Parameters.ArtifactOutput.GlobFiles("*.zip"))
             {
                 var size = (new FileInfo(file).Length / 1024.0 / 1024.0).ToString("F3");
-                Information($"找到 Artifact：{file.GetRelativePathTo(RootDirectory)}");
+                Information($"找到 Artifact：{file}");
             }
         });
     
@@ -395,71 +383,53 @@ public partial class Build : NukeBuild
 
     Target UsePublishArtifact => _ => _
         .After(SetPackageBundled, SetMaaChangeLog)
-        .When(GitHubActions is not null, _ => _
-                .Produces(Parameters.ArtifactRawOutput / "**")
-                .Executes(() =>
-                {
-                    Information($"在 GitHub Actions 中运行，上传 Artifacts");
-                }))
-        .Executes(() =>
-        {
-            if (Parameters.IsGitHubActions is false)
-            {
-                Information($"不在 GitHub Actions 中，跳过执行上传 Artifacts");
-            }
-        });
+        .Produces(RootDirectory / "artifacts" / "*.zip")
+        .OnlyWhenStatic(() => GitHubActions != null);
 
     Target UsePublishRelease => _ => _
         .After(UsePublishArtifact)
-        .When(GitHubActions is not null, _ => _
-            .Executes(() =>
-            {
-                Information("在 GitHub Actions 中运行，执行发布 Release 任务");
-                Information($"当前 Actions：{Parameters.GhActionName}");
-
-                if (Parameters.GhActionName == ActionConfiguration.DevBuild)
-                {
-                    Information($"DevBuild 跳过发布 Release");
-                    return;
-                }
-
-                GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
-                {
-                    Credentials = new Credentials(Parameters.GitHubPersonalAccessToken)
-                };
-
-                if (Parameters.GhActionName == ActionConfiguration.ReleaseMaa)
-                {
-                    Information($"运行 ReleaseMaa 将在 {Parameters.MainRepo} 创建 Release {Parameters.GhTag}");
-
-                    CreateGitHubRelease(Parameters.MainRepo, Parameters.CommitHashFull, _version);
-
-                    return;
-                }
-
-                if (Parameters.GhActionName == ActionConfiguration.ReleaseMaaCore)
-                {
-                    Information($"运行 ReleaseMaaCore 将在 {Parameters.MainRepo} 创建 Release {Parameters.GhTag}");
-
-                    CreateGitHubRelease(Parameters.MainRepo, Parameters.CommitHashFull, _version);
-
-                    return;
-                }
-
-                if (Parameters.GhActionName == ActionConfiguration.ReleaseMaaResource)
-                {
-                    Information($"运行 ReleaseMaaResource 将在 {Parameters.MaaResourceReleaseRepo} 创建 Release {_version}");
-                    
-                    CreateGitHubRelease(Parameters.MaaResourceReleaseRepo, Parameters.CommitHashFull, _version);
-
-                    return;
-                }
-            }))
+        .OnlyWhenStatic(() => GitHubActions != null)
         .Executes(() =>
         {
-            if (Parameters.IsGitHubActions is false)
+            Information("在 GitHub Actions 中运行，执行发布 Release 任务");
+            Information($"当前 Actions：{Parameters.GhActionName}");
+
+            if (Parameters.GhActionName == ActionConfiguration.DevBuild)
             {
-                Information($"不在 GitHub Actions 中，跳过执行发布 Release");
+                Information($"DevBuild 跳过发布 Release");
+                return;
+            }
+
+            GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
+            {
+                Credentials = new Credentials(Parameters.GitHubPersonalAccessToken)
+            };
+
+            if (Parameters.GhActionName == ActionConfiguration.ReleaseMaa)
+            {
+                Information($"运行 ReleaseMaa 将在 {Parameters.MainRepo} 创建 Release {Parameters.GhTag}");
+
+                CreateGitHubRelease(Parameters.MainRepo, Parameters.CommitHashFull, _version);
+
+                return;
+            }
+
+            if (Parameters.GhActionName == ActionConfiguration.ReleaseMaaCore)
+            {
+                Information($"运行 ReleaseMaaCore 将在 {Parameters.MainRepo} 创建 Release {Parameters.GhTag}");
+
+                CreateGitHubRelease(Parameters.MainRepo, Parameters.CommitHashFull, _version);
+
+                return;
+            }
+
+            if (Parameters.GhActionName == ActionConfiguration.ReleaseMaaResource)
+            {
+                Information($"运行 ReleaseMaaResource 将在 {Parameters.MaaResourceReleaseRepo} 创建 Release {_version}");
+
+                CreateGitHubRelease(Parameters.MaaResourceReleaseRepo, Parameters.CommitHashFull, _version);
+
+                return;
             }
         });
 
@@ -529,19 +499,16 @@ public partial class Build : NukeBuild
 
     #region Utilities
 
-    private void BundlePackage(AbsolutePath input, AbsolutePath rawOutput, AbsolutePath bundleOutput)
+    private void BundlePackage(AbsolutePath input, string bundleName)
     {
-        Information($"编译输出：{input.GetRelativePathTo(RootDirectory)}");
-        Information($"打包输出：{bundleOutput.GetRelativePathTo(RootDirectory)}");
-        Information($"打包原始输出：{rawOutput.GetRelativePathTo(RootDirectory)}");
+        var bundle = Parameters.ArtifactOutput / bundleName;
+        Information($"编译输出：{input}");
+        Information($"打包输出：{bundle}");
 
         Assert.True(Directory.Exists(input), $"输出目录 {input} 不存在");
 
-        Information($"复制目录：{input.GetRelativePathTo(RootDirectory)} -> {rawOutput.GetRelativePathTo(RootDirectory)}");
-        CopyDirectory(input, rawOutput);
-
-        Information($"创建压缩文件：{bundleOutput.GetRelativePathTo(RootDirectory)}");
-        ZipFile.CreateFromDirectory(rawOutput, bundleOutput, CompressionLevel.SmallestSize, false);
+        Information($"创建压缩文件：{bundle}");
+        ZipFile.CreateFromDirectory(input, bundle, CompressionLevel.SmallestSize, false);
     }
     
     private void RemoveDebugSymbols(AbsolutePath outputDir)
@@ -550,54 +517,14 @@ public partial class Build : NukeBuild
 
         foreach (var file in files)
         {
-            File.Delete(file);
-            Information($"删除文件：{file.GetRelativePathTo(RootDirectory)}");
-        }
-    }
-
-    private void RecreateDirectory(string directoryPath)
-    {
-        if (Directory.Exists(directoryPath))
-        {
-            Directory.Delete(directoryPath, true);
-        }
-        Directory.CreateDirectory(directoryPath);
-
-        Information($"重建目录：{directoryPath}");
-    }
-
-    private static void CopyDirectory(string sourceDir, string destinationDir, bool recursive = true)
-    {
-        var dir = new DirectoryInfo(sourceDir);
-
-        Assert.True(dir.Exists, $"找不到源目录: {dir.FullName}");
-
-        DirectoryInfo[] dirs = dir.GetDirectories();
-
-        if (Directory.Exists(destinationDir) is false)
-        {
-            Directory.CreateDirectory(destinationDir);
-        }
-
-        foreach (var file in dir.GetFiles())
-        {
-            var targetFilePath = Path.Combine(destinationDir, file.Name);
-            file.CopyTo(targetFilePath, true);
-        }
-
-        if (recursive)
-        {
-            foreach (var subDir in dirs)
-            {
-                var newDestinationDir = Path.Combine(destinationDir, subDir.Name);
-                CopyDirectory(subDir.FullName, newDestinationDir);
-            }
+            FileSystemTasks.DeleteFile(file);
+            Information($"删除文件：{file}");
         }
     }
 
     private void CreateGitHubRelease(string repo, string commitHash, string releaseName)
     {
-        var assets = Parameters.ArtifactBundleOutput.GlobFiles("*.zip");
+        var assets = Parameters.ArtifactOutput.GlobFiles("*.zip");
 
         var release = new NewRelease(Parameters.GhTag)
         {
@@ -641,10 +568,10 @@ public partial class Build : NukeBuild
         }
         catch
         {
-            Assert.Fail($"上传文件 {asset.GetRelativePathTo(RootDirectory)} 到 GitHub 失败");
+            Assert.Fail($"上传文件 {asset} 到 GitHub 失败");
         }
 
-        Information($"上传文件 {asset.GetRelativePathTo(RootDirectory)} 到 GitHub 成功");
+        Information($"上传文件 {asset} 到 GitHub 成功");
     }
 
     #endregion
