@@ -68,6 +68,7 @@ public partial class Build : NukeBuild
         Information($"MSBuild 路径：{Parameters.MsBuildPath ?? "Null"}");
 
         Information("2. 仓库");
+        Information($"Fork：{Parameters.IsFork}");
         Information($"主仓库：{Parameters.MainRepo ?? "Null"}");
         Information($"MaaResource 发布仓库：{Parameters.MaaResourceReleaseRepo ?? "Null"}");
         Information($"主分支：{Parameters.MasterBranchRef ?? "Null"}");
