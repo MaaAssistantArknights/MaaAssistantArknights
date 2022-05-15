@@ -138,9 +138,9 @@ public partial class Build
             IsGitHubActions = b.GitHubActions is not null;
             if (IsGitHubActions)
             {
-                GhActionName = (ActionConfiguration)b.GitHubActions.Action;
-                Assert.True(GhActionName is not null, $"GitHub Actions {b.GitHubActions.Action} 无法转换为 ActionConfiguration");
-
+                GhActionName = (ActionConfiguration)b.GitHubActions.Workflow;
+                Assert.True(GhActionName is not null, $"GitHub Actions Workflow 名 {b.GitHubActions.Workflow} 无法转换为 ActionConfiguration");
+                
                 Assert.False(string.IsNullOrEmpty(b.GitHubActions.Ref), "Ref 为 Null");
 
                 GitHubPersonalAccessToken = Environment.GetEnvironmentVariable("GITHUB_PAT");
