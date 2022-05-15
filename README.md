@@ -133,8 +133,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 [B 站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件  
 
-[QQ 群：平躺天堂](https://jq.qq.com/?_wv=1027&k=PiPtKgkJ)：舟游群，欢迎加入~  
-[QQ 群：内卷地狱](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：技术群，欢迎加入~  
+[QQ 群：内卷地狱](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：舟无关技术交流群，欢迎加入~  
 
 [开发者群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
