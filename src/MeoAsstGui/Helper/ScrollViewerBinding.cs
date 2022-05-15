@@ -224,7 +224,6 @@ namespace MeoAsstGui
 
         private static void BindRectangleVerticalOffsetList(ScrollViewer scrollViewer)
         {
-
             if (scrollViewer.GetValue(RectangleVerticalOffsetListBindingProperty) != null)
                 return;
 
@@ -257,6 +256,5 @@ namespace MeoAsstGui
         }
 
         #endregion RectangleVerticalOffsetList attached property
-
     }
 }

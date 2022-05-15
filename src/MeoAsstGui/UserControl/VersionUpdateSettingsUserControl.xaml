@@ -17,9 +17,10 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="3">
-            <CheckBox IsChecked="{Binding AutoDownloadUpdatePackage}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Content="自动下载更新包    " />
-            <CheckBox IsChecked="{Binding UpdateBeta}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Content="检查测试版本更新 " />
-            <CheckBox IsChecked="{Binding UseAria2}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Content="使用aria2进行下载" />
+            <CheckBox IsChecked="{Binding UpdateCheck}" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="10" Content="检查更新" />
+            <CheckBox IsChecked="{Binding AutoDownloadUpdatePackage}" IsEnabled="{Binding UpdateCheck}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="10" Content="自动下载更新包" />
+            <CheckBox IsChecked="{Binding UpdateBeta}" IsEnabled="{Binding UpdateCheck}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="10" Content="检查测试版本更新" />
+            <CheckBox IsChecked="{Binding UseAria2}" IsEnabled="{Binding UpdateCheck}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="10" Content="使用 aria2 进行下载" />
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="3">
             <Grid>

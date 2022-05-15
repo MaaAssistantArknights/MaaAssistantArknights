@@ -34,7 +34,7 @@ namespace asst
         bool sold_out_analyze();
 
         std::vector<Rect> m_commoditys;
-        std::vector<Rect> m_need_to_buy;
+        std::vector<std::pair<Rect, std::string>> m_need_to_buy;
         std::vector<Rect> m_result;
 
         std::vector<std::string> m_shopping_list;
