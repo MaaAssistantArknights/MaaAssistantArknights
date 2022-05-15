@@ -110,7 +110,6 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     auto last_time = last_time_opt ? last_time_opt.value() : 0;
     m_status->set_data("LastRecognizeDrops", last_time + RecognizationTimeOffset);
 
-
     return true;
 }
 
