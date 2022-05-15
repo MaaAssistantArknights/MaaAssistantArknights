@@ -28,7 +28,7 @@ bool asst::PackageTask::run()
             .set_status(m_status)
             .set_task_id(m_task_id);
 
-        if (!task_ptr->run()) {
+        if (!task_ptr->run() && !task_ptr->get_ignore_error()) {
             return false;
         }
 

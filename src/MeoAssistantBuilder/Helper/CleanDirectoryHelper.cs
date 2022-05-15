@@ -2,6 +2,7 @@ using Cake.Common.Diagnostics;
 using Cake.Common.IO;
 
 namespace MeoAssistantBuilder.Helper;
+
 public static class CleanDirectoryHelper
 {
     public static void CleanArtifacts(this MaaBuildContext context)

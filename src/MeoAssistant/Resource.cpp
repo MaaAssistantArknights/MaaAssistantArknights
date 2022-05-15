@@ -83,8 +83,8 @@ bool asst::Resource::load(const std::string& dir)
         if (entry.path().extension() != ".json") {
             continue;
         }
-        if (!m_copilot_cfg_unique_ins.load(entry.path().u8string())) {
-            m_last_error = entry.path().u8string() + " Load failed";
+        if (!m_copilot_cfg_unique_ins.load(entry.path().string())) {
+            m_last_error = entry.path().string() + " Load failed";
             return false;
         }
     }
@@ -93,8 +93,8 @@ bool asst::Resource::load(const std::string& dir)
         if (entry.path().extension() != ".json") {
             continue;
         }
-        if (!m_roguelike_cfg_unique_ins.load(entry.path().u8string())) {
-            m_last_error = entry.path().u8string() + " Load failed";
+        if (!m_roguelike_cfg_unique_ins.load(entry.path().string())) {
+            m_last_error = entry.path().string() + " Load failed";
             return false;
         }
     }

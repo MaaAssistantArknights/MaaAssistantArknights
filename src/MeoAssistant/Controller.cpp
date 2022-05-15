@@ -512,7 +512,7 @@ cv::Mat asst::Controller::get_resized_image() const
         return cv::Mat(dsize, CV_8UC3);
     }
     cv::Mat resized_mat;
-    cv::resize(m_cache_image, resized_mat, dsize);
+    cv::resize(m_cache_image, resized_mat, dsize, 0.0, 0.0, cv::INTER_AREA);
     return resized_mat;
 }
 

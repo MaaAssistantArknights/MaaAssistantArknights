@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Notification.Wpf.Constants;
@@ -335,6 +334,30 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _creditShopping, value);
                 ViewStatusStorage.Set("Mall.CreditShopping", value.ToString());
+            }
+        }
+
+        private string _creditFirstList = ViewStatusStorage.Get("Mall.CreditFirstList", "招聘许可 龙门币");
+
+        public string CreditFirstList
+        {
+            get { return _creditFirstList; }
+            set
+            {
+                SetAndNotify(ref _creditFirstList, value);
+                ViewStatusStorage.Set("Mall.CreditFirstList", value.ToString());
+            }
+        }
+
+        private string _creditBlackList = ViewStatusStorage.Get("Mall.CreditBlackList", "碳 家具");
+
+        public string CreditBlackList
+        {
+            get { return _creditBlackList; }
+            set
+            {
+                SetAndNotify(ref _creditBlackList, value);
+                ViewStatusStorage.Set("Mall.CreditBlackList", value.ToString());
             }
         }
 
@@ -709,6 +732,18 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _updateBeta, value);
                 ViewStatusStorage.Set("VersionUpdate.UpdateBeta", value.ToString());
+            }
+        }
+
+        private bool _updateCheck = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateCheck", bool.TrueString));
+
+        public bool UpdateCheck
+        {
+            get { return _updateCheck; }
+            set
+            {
+                SetAndNotify(ref _updateCheck, value);
+                ViewStatusStorage.Set("VersionUpdate.UpdateCheck", value.ToString());
             }
         }
 

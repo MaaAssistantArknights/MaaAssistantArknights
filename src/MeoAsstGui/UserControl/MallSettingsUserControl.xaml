@@ -8,9 +8,23 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="550">
     <Grid>
-        <!--IsEnabled="{Binding CreditShoppingCheckBoxIsEnable}"-->
-        <CheckBox IsChecked="{Binding CreditShopping}"  Block.TextAlignment="Center"
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <CheckBox Grid.Row="0" IsChecked="{Binding CreditShopping}"  Block.TextAlignment="Center" Margin="10"
                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                  Content="信用商店随缘买&#13;（不买碳和家具）" />
+                  Content=" 信用购物  " />
+        <StackPanel Grid.Row="1" IsEnabled="{Binding CreditShopping}" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
+                   Text="优先购买&#xA;子串即可，空格分隔" Margin="10" />
+            <TextBox Text="{Binding CreditFirstList}" Margin="10" Width="250" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" IsEnabled="{Binding CreditShopping}" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
+                   Text="黑名单&#xA;子串即可，空格分隔" Margin="10" />
+            <TextBox Text="{Binding CreditBlackList}" Margin="10" Width="250" />
+        </StackPanel>
     </Grid>
 </UserControl>

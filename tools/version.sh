@@ -9,4 +9,4 @@ else
     Version="c""$LatestCommitId"
 fi
 
-echo "Version: $Version"
+echo "$Version"

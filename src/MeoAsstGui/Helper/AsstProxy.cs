@@ -29,7 +29,12 @@ namespace MeoAsstGui
 
         private delegate void ProcCallbckMsg(AsstMsg msg, JObject details);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstLoadResource(string dirname);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstLoadResource(byte[] dirname);
+
+        private static bool AsstLoadResource(string dirname)
+        {
+            return AsstLoadResource(Encoding.UTF8.GetBytes(dirname));
+        }
 
         [DllImport("MeoAssistant.dll")] private static extern AsstHandle AsstCreate();
 
@@ -37,17 +42,27 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistant.dll")] private static extern void AsstDestroy(AsstHandle handle);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstConnect(AsstHandle handle, string adb_path, string address, string config);
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstConnect(AsstHandle handle, byte[] adb_path, byte[] address, byte[] config);
 
-        [DllImport("MeoAssistant.dll")] private static extern TaskId AsstAppendTask(AsstHandle handle, string type, string task_params);
+        private static bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
+        {
+            return AsstConnect(handle, Encoding.UTF8.GetBytes(adb_path), Encoding.UTF8.GetBytes(address), Encoding.UTF8.GetBytes(config));
+        }
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstSetTaskParams(AsstHandle handle, TaskId id, string task_params);
+        [DllImport("MeoAssistant.dll")] private static extern TaskId AsstAppendTask(AsstHandle handle, byte[] type, byte[] task_params);
+
+        private static TaskId AsstAppendTask(AsstHandle handle, string type, string task_params)
+        {
+            return AsstAppendTask(handle, Encoding.UTF8.GetBytes(type), Encoding.UTF8.GetBytes(task_params));
+        }
+
+        [DllImport("MeoAssistant.dll")] private static extern bool AsstSetTaskParams(AsstHandle handle, TaskId id, byte[] task_params);
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstStart(AsstHandle handle);
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstStop(AsstHandle handle);
 
-        [DllImport("MeoAssistant.dll")] private static extern void AsstLog(string level, string message);
+        [DllImport("MeoAssistant.dll")] private static extern void AsstLog(byte[] level, byte[] message);
 
         private readonly CallbackDelegate _callback;
 
@@ -562,16 +577,6 @@ namespace MeoAsstGui
             return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(task_params)) != 0;
         }
 
-        public static string Utf16ToUtf8(string utf16String)
-        {
-            // Get UTF16 bytes and convert UTF16 bytes to UTF8 bytes
-            byte[] utf16Bytes = Encoding.Unicode.GetBytes(utf16String);
-            byte[] utf8Bytes = Encoding.Convert(Encoding.Unicode, Encoding.UTF8, utf16Bytes);
-
-            // Return UTF8 bytes as ANSI string
-            return Encoding.Default.GetString(utf8Bytes);
-        }
-
         public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times)
         {
             var task_params = new JObject();
@@ -601,12 +606,12 @@ namespace MeoAsstGui
             return AsstAppendTaskWithEncoding("Visit");
         }
 
-        public bool AsstAppendMall(bool with_shopping)
+        public bool AsstAppendMall(bool with_shopping, string[] firstlist, string[] blacklist)
         {
             var task_params = new JObject();
             task_params["shopping"] = with_shopping;
-            task_params["shopping_list"] = new JArray { Utf16ToUtf8("碳"), Utf16ToUtf8("家具") };
-            task_params["is_black_list"] = true;
+            task_params["buy_first"] = new JArray { firstlist };
+            task_params["blacklist"] = new JArray { blacklist };
             return AsstAppendTaskWithEncoding("Mall", task_params);
         }
 
@@ -639,10 +644,10 @@ namespace MeoAsstGui
             var task_params = new JObject();
             task_params["mode"] = mode;
             task_params["opers"] = new JArray {
-                new JObject { { "name", Utf16ToUtf8("山") }, { "skill", 2 }, { "skill_usage", 2 } },
-                new JObject { { "name", Utf16ToUtf8("棘刺") }, { "skill", 3 }, { "skill_usage", 1 } },
-                new JObject { { "name", Utf16ToUtf8("芙蓉") }, { "skill", 1 }, { "skill_usage", 1 } },
-                new JObject { { "name", Utf16ToUtf8("梓兰") }, { "skill", 1 }, { "skill_usage", 1 } },
+                new JObject { { "name", "山" }, { "skill", 2 }, { "skill_usage", 2 } },
+                new JObject { { "name", "棘刺" }, { "skill", 3 }, { "skill_usage", 1 } },
+                new JObject { { "name", "芙蓉" }, { "skill", 1 }, { "skill_usage", 1 } },
+                new JObject { { "name", "梓兰" }, { "skill", 1 }, { "skill_usage", 1 } },
             };
             return AsstAppendTaskWithEncoding("Roguelike", task_params);
         }

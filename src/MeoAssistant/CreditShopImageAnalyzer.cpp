@@ -59,16 +59,17 @@ bool asst::CreditShopImageAnalyzer::commoditys_analyze()
 
 bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 {
-    const auto not_to_buy_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-        Task.get("CreditShop-NotToBuy"));
+    const auto product_name_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
+        Task.get("CreditShop-ProductName"));
 
     for (const Rect& commodity : m_commoditys) {
         // 商品名的区域
-        Rect name_roi = not_to_buy_task_ptr->roi;
+        Rect name_roi = product_name_task_ptr->roi;
         name_roi.x += commodity.x;
         name_roi.y += commodity.y;
 
         OcrImageAnalyzer ocr_analyzer(m_image, name_roi);
+        ocr_analyzer.set_replace(product_name_task_ptr->replace_map);
         ocr_analyzer.set_required(m_shopping_list);
         if (ocr_analyzer.analyze()) {
             // 黑名单模式，有识别结果说明这个商品不买，直接跳过
@@ -84,8 +85,17 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
 #endif
-        m_need_to_buy.emplace_back(commodity);
+        m_need_to_buy.emplace_back(commodity, ocr_analyzer.get_result().empty() ? std::string() : ocr_analyzer.get_result().front().text);
     }
+
+    if (m_is_white_list) {
+        std::sort(m_need_to_buy.begin(), m_need_to_buy.end(), [&](
+            const auto& lhs, const auto& rhs) -> bool {
+                return std::find(m_shopping_list.cbegin(), m_shopping_list.cend(), lhs.second)
+                    < std::find(m_shopping_list.cbegin(), m_shopping_list.cend(), rhs.second);
+        });
+    }
+
     return !m_need_to_buy.empty();
 }
 
@@ -95,7 +105,7 @@ bool asst::CreditShopImageAnalyzer::sold_out_analyze()
     MatchImageAnalyzer sold_out_analyzer(m_image);
     sold_out_analyzer.set_task_info("CreditShop-SoldOut");
 
-    for (const Rect& commodity : m_need_to_buy) {
+    for (const auto& [commodity, _] : m_need_to_buy) {
         sold_out_analyzer.set_roi(commodity);
         if (sold_out_analyzer.analyze()) {
 #ifdef ASST_DEBUG

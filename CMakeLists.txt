@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 2.8)
-project(MeoAssistantArknights)
+cmake_minimum_required(VERSION 2.8.12)
+project(MaaAssistantArknights)
 
 option(BUILD_JNI "build jni" OFF)
 option(BUILD_TEST "build a demo" OFF)
@@ -16,8 +16,8 @@ if (WIN32)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 endif()
 
-add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/W4>")
-add_compile_options("$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall;-Wextra;-Wpedantic>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/W4;/WX>")
+add_compile_options("$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall;-Wextra;-Wpedantic;-Werror>")
 
 add_definitions(-DASST_DLL_EXPORTS)
 
