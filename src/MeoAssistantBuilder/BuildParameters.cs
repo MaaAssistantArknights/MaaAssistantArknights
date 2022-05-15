@@ -1,10 +1,13 @@
+using Newtonsoft.Json.Linq;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.Git;
+using Nuke.Common.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -61,7 +64,6 @@ public partial class Build
         public string MasterBranchRef { get; }
         public string DevBranchRef { get; }
         public string ReleaseTagRefPrefix { get; }
-        public string MaaCoreReleaseRepo { get; }
         public string MaaResourceReleaseRepo { get; }
 
         // 路径
@@ -69,7 +71,9 @@ public partial class Build
         public AbsolutePath ArtifactOutput { get; }
         public AbsolutePath ArtifactBundleOutput { get; }
         public AbsolutePath ArtifactRawOutput { get; }
-        
+        public AbsolutePath MaaChangelogFile { get; }
+        public AbsolutePath MaaResourceChangeLogFile { get; }
+
         // 项目
         public Project MaaCoreProject { get; }
         public Project MaaWpfProject { get; }
@@ -77,11 +81,15 @@ public partial class Build
         // 配置
         public string BuildTime { get; }
         public string CommitHash { get; }
+        public string CommitHashFull { get; }
 
         // CI
         public bool IsGitHubActions { get; }
+        public bool IsWorkflowDispatch { get; }
+        public string GitHubPersonalAccessToken { get; } = null;
+        public Dictionary<string, string> WorkflowDispatchArguments { get; }
         public ActionConfiguration GhActionName { get; } = null;
-        public string GhBrach { get; } = null;
+        public string GhBranch { get; } = null;
         public string GhTag { get; } = null;
 
         public BuildParameters(Build b)
@@ -96,7 +104,6 @@ public partial class Build
 
             // 仓库
             MainRepo = "MaaAssistantArknights/MaaAssistantArknights";
-            MaaCoreReleaseRepo = "MaaAssistantArknights/MaaCoreRelease";
             MaaResourceReleaseRepo = "MaaAssistantArknights/MaaResourceRelease";
 
             MasterBranchRef = "refs/heads/master";
@@ -109,6 +116,9 @@ public partial class Build
             ArtifactBundleOutput = ArtifactOutput / "bundle";
             ArtifactRawOutput = ArtifactOutput / "raw";
 
+            MaaChangelogFile = RootDirectory / "CHANGELOG_MAA.md";
+            MaaResourceChangeLogFile = RootDirectory / "CHANGELOG_RES.md";
+
             // 项目
             MaaCoreProject = b.Solution.GetProject("MeoAssistant");
             MaaWpfProject = b.Solution.GetProject("MeoAsstGui");
@@ -119,6 +129,7 @@ public partial class Build
             
             CommitHash = GitTasks.GitCurrentCommit();
             Assert.True(CommitHash is not null, "Commit Hash 为 Null");
+            CommitHashFull = CommitHash;
             CommitHash = CommitHash[..7];
 
             // CI
@@ -126,15 +137,13 @@ public partial class Build
             if (IsGitHubActions)
             {
                 GhActionName = (ActionConfiguration)b.GitHubActions.Action;
-                if (b.GitHubActions.Ref == MasterBranchRef)
-                {
-                    GhBrach = MasterBrach;
-                }
-                else if (b.GitHubActions.Ref == DevBranchRef)
-                {
-                    GhBrach = DevBranch;
-                }
-                else if (b.GitHubActions.Ref.StartsWith(ReleaseTagRefPrefix))
+                Assert.True(GhActionName is not null, $"GitHub Actions {b.GitHubActions.Action} 无法转换为 ActionConfiguration");
+
+                Assert.False(string.IsNullOrEmpty(b.GitHubActions.Ref), "Ref 为 Null");
+
+                GitHubPersonalAccessToken = Environment.GetEnvironmentVariable("GITHUB_PAT");
+
+                if (b.GitHubActions.Ref.StartsWith(ReleaseTagRefPrefix))
                 {
                     var tag = $"v{b.GitHubActions.Ref.Replace(ReleaseTagRefPrefix, "")}";
                     var pattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
@@ -147,6 +156,62 @@ public partial class Build
                     {
                         Assert.Fail("Tag 与 SemVer 不匹配");
                     }
+                }
+                else if (b.GitHubActions.Ref.StartsWith("refs/heads/"))
+                {
+                    GhBranch = b.GitHubActions.Ref.Replace("refs/heads/", "");
+                }
+                else
+                {
+                    Assert.Fail($"不支持的 Ref：{b.GitHubActions.Ref}");
+                }
+
+                var ghEvent = b.GitHubActions.GitHubEvent;
+
+                if (ghEvent.ContainsKey("inputs"))
+                {
+                    IsWorkflowDispatch = true;
+                    WorkflowDispatchArguments = new();
+
+                    var inputs = (JObject)ghEvent["inputs"];
+                    foreach (var (k, v) in inputs)
+                    {
+                        WorkflowDispatchArguments.Add(k, v.ToString());
+                    }
+                }
+
+                // 若是 DevBuild，Branch 必须为 Dev，又或者是手动触发
+                if (GhActionName == ActionConfiguration.DevBuild)
+                {
+                    if (IsWorkflowDispatch)
+                    {
+                        Assert.True(GhBranch is not null, "DevBuild -> Workflow Dispatch，Branch 为 Null");
+                    }
+                    else
+                    {
+                        Assert.True(GhBranch == DevBranch, "DevBuild -> Auto Triggered，Branch 不为 dev");
+                    }
+                }
+
+                // 若是 ReleaseMaa，Tag 必须存在，PAT 必须存在
+                if (GhActionName == ActionConfiguration.ReleaseMaa)
+                {
+                    Assert.True(GhTag is not null, "ReleaseMaa -> Auto Triggered，Tag 为 Null");
+                    Assert.True(GitHubPersonalAccessToken is not null, "ReleaseMaa -> Auto Triggered，PAT 为 Null");
+                }
+
+                // 若是 ReleaseMaaCore，Tag 必须存在，PAT 必须存在
+                if (GhActionName == ActionConfiguration.ReleaseMaaCore)
+                {
+                    Assert.True(GhTag is not null, "ReleaseMaaCore -> Auto Triggered，Tag 为 Null");
+                    Assert.True(GitHubPersonalAccessToken is not null, "ReleaseMaaCore -> Auto Triggered，PAT 为 Null");
+                }
+
+                // 若是 ReleaseMaaResource，Branch 必须为 Master，PAT 必须存在
+                if (GhActionName == ActionConfiguration.ReleaseMaaResource)
+                {
+                    Assert.True(GhBranch == MasterBranch, "ReleaseMaaResource -> Auto Triggered，Branch 不为 master");
+                    Assert.True(GitHubPersonalAccessToken is not null, "ReleaseMaaResource -> Auto Triggered，PAT 为 Null");
                 }
             }
         }

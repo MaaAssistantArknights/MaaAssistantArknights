@@ -1,10 +1,12 @@
-using Microsoft.VisualBasic;
+using Microsoft.AspNetCore.StaticFiles;
 using Nuke.Common;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.Tooling;
+using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.MSBuild;
+using Octokit;
 using Serilog;
 using System;
 using System.IO;
@@ -39,25 +41,21 @@ public partial class Build : NukeBuild
     
     BuildParameters Parameters;
 
-    const string MasterBrach = "master";
+    const string MasterBranch = "master";
     const string DevBranch = "dev";
-    const string ReleaseTagPrefix = "v";
 
-    const string MaaBundlePackageName = "MaaBundle-Dev-{VERSION}";
-    const string LegacyMaaBundlePackageName = "MeoAssistantArknights_{VERSION}";
-    const string MaaCorePackageName = "MaaCore-{VERSION}";
-    const string MaaResourcePackageName = "MaaResource-{VERSION}";
-
-    //
-    // 版本号类型
-    // 
-    // Commit 类型: {yyyy-MM-dd-HH-mm-ss}-{commitHash[..7]}
-    // SemVer 类型: {Tag}
-    //
+    const string MaaDevBundlePackageNameTemplate = "MaaBundle-Dev-{VERSION}";
+    const string MaaLegacyBundlePackageNameTemplate = "MeoAssistantArknights_{VERSION}";
+    const string MaaCorePackageNameTemplate = "MaaCore-{VERSION}";
+    const string MaaResourcePackageNameTemplate = "MaaResource-{VERSION}";
 
     private string _version = "";
-    private string _packageName = "";
-    private BuildConfiguration _buildConfiguration = BuildConfiguration.Release;
+    private string _changeLog = "";
+
+    private string MaaDevBundlePackageName => MaaDevBundlePackageNameTemplate.Replace("{VERSION}", _version);
+    private string MaaLegacyBundlePackageName => MaaLegacyBundlePackageNameTemplate.Replace("{VERSION}", _version);
+    private string MaaCorePackageName => MaaCorePackageNameTemplate.Replace("{VERSION}", _version);
+    private string MaaResourcePackageName => MaaResourcePackageNameTemplate.Replace("{VERSION}", _version);
 
     protected override void OnBuildInitialized()
     {
@@ -71,7 +69,6 @@ public partial class Build : NukeBuild
 
         Information("2. 仓库");
         Information($"主仓库：{Parameters.MainRepo ?? "Null"}");
-        Information($"MaaCore 发布仓库：{Parameters.MaaCoreReleaseRepo ?? "Null"}");
         Information($"MaaResource 发布仓库：{Parameters.MaaResourceReleaseRepo ?? "Null"}");
         Information($"主分支：{Parameters.MasterBranchRef ?? "Null"}");
         Information($"开发分支：{Parameters.DevBranchRef ?? "Null"}");
@@ -94,7 +91,7 @@ public partial class Build : NukeBuild
         Information("6. CI");
         Information($"在 GitHub Actions 中运行：{Parameters.IsGitHubActions}");
         Information($"Actions 名称：{Parameters.GhActionName ?? "Null"}");
-        Information($"Actions 分支：{Parameters.GhBrach ?? "Null"}");
+        Information($"Actions 分支：{Parameters.GhBranch ?? "Null"}");
         Information($"Actions Tag：{Parameters.GhTag ?? "Null"}");
 
         Information("==========================");
@@ -107,58 +104,35 @@ public partial class Build : NukeBuild
             Assert.Fail("请指定一个 Target");
         });
 
-    #region 初始化
+    #region 清理
 
-    Target ArtifactInitialize => _ => _
+    Target Clean => _ => _
         .Executes(() =>
         {
             RecreateDirectory(Parameters.ArtifactOutput);
             RecreateDirectory(Parameters.ArtifactBundleOutput);
             RecreateDirectory(Parameters.ArtifactRawOutput);
-        });
 
-    #endregion
-
-    #region 清理
-
-    Target Clean => _ => _
-        .After(SetConfigurationCICD, SetConfigurationRelease, SetConfigurationRelWithDebInfo)
-        .Executes(() =>
-        {
-            Information("清理 MaaCore");
-            MSBuild(c => c
-                .SetProcessToolPath(Parameters.MsBuildPath)
-                .SetProjectFile(Parameters.MaaCoreProject)
-                .SetTargets("Clean")
-                .SetConfiguration(_buildConfiguration)
-                .SetTargetPlatform(MSBuildTargetPlatform.x64)
-            );
-
-            // 在 MaaElectronUI 发布后移除
-            Information("清理 MaaWpf");
-            MSBuild(c => c
-                .SetProcessToolPath(Parameters.MsBuildPath)
-                .SetProjectFile(Parameters.MaaWpfProject)
-                .SetTargets("Clean")
-                .SetConfiguration(_buildConfiguration)
-                .SetTargetPlatform(MSBuildTargetPlatform.x64)
-            );
-
-            RecreateDirectory(Parameters.BuildOutput / _buildConfiguration);
+            RecreateDirectory(Parameters.BuildOutput / BuildConfiguration.Release);
+            RecreateDirectory(Parameters.BuildOutput / BuildConfiguration.RelWithDebInfo);
+            RecreateDirectory(Parameters.BuildOutput / BuildConfiguration.CICD);
         });
 
     #endregion
 
     #region 设置版本
 
-    Target SetCommitVersion => _ => _
+    Target UseCommitVersion => _ => _
+        .DependsOn(Clean)
+        .Triggers(SetVersion)
         .Executes(() =>
         {
             _version = $"{Parameters.BuildTime}-{Parameters.CommitHash}";
-            Information($"当前版本号设置为：{_version}");
         });
 
-    Target SetTagVersion => _ => _
+    Target UseTagVersion => _ => _
+        .DependsOn(Clean)
+        .Triggers(SetVersion)
         .Executes(() =>
         {
             if (Parameters.IsGitHubActions is false)
@@ -178,8 +152,6 @@ public partial class Build : NukeBuild
                 {
                     _version = $"v.{Parameters.CommitHash}-Local";
                 }
-
-                Information($"当前版本号设置为：{_version}");
             }
             else
             {
@@ -191,49 +163,18 @@ public partial class Build : NukeBuild
             }
         });
 
-    #endregion
-
-    #region 设置包名
-
-    Target SetPackageNameMaaBundle => _ => _
-        .After(SetCommitVersion, SetTagVersion)
-        .Before(BundlePackage)
+    Target SetVersion => _ => _
         .Executes(() =>
         {
-            _packageName = MaaBundlePackageName.Replace("{VERSION}", _version);
-            Information($"设置包名：{_packageName}");
-        });
-    Target SetPackageNameLegacyMaaBundle => _ => _
-        .After(SetCommitVersion, SetTagVersion)
-        .Before(BundlePackage)
-        .Executes(() =>
-        {
-            _packageName = LegacyMaaBundlePackageName.Replace("{VERSION}", _version);
-            Information($"设置包名：{_packageName}");
-        });
-    Target SetPackageNameMaaCore => _ => _
-        .After(SetCommitVersion, SetTagVersion)
-        .Before(BundlePackage)
-        .Executes(() =>
-        {
-            _packageName = MaaCorePackageName.Replace("{VERSION}", _version);
-            Information($"设置包名：{_packageName}");
-        });
-    Target SetPackageNameMaaResource => _ => _
-        .After(SetCommitVersion, SetTagVersion)
-        .Before(BundlePackage)
-        .Executes(() =>
-        {
-            _packageName = MaaResourcePackageName.Replace("{VERSION}", _version);
-            Information($"设置包名：{_packageName}");
+            Information($"当前版本号设置为：{_version}");
         });
 
     #endregion
 
     #region 编译
 
-    Target Compile => _ => _
-        .After(Clean, SetCommitVersion, SetTagVersion)
+    Target WithCompileCoreRelease => _ => _
+        .After(SetVersion)
         .Executes(() =>
         {
             var versionEnv = $"/DMAA_VERSION=\\\"{_version}\\\"";
@@ -242,55 +183,83 @@ public partial class Build : NukeBuild
                 .SetProcessToolPath(Parameters.MsBuildPath)
                 .SetProjectFile(Parameters.MaaCoreProject)
                 .SetTargets("ReBuild")
-                .SetConfiguration(_buildConfiguration)
+                .SetConfiguration(BuildConfiguration.Release)
+                .SetTargetPlatform(MSBuildTargetPlatform.x64)
+                .SetProcessEnvironmentVariable("ExternalCompilerOptions", versionEnv)
+            );
+        });
+    
+    Target WithCompileCoreDebug => _ => _
+        .After(SetVersion)
+        .Executes(() =>
+        {
+            var versionEnv = $"/DMAA_VERSION=\\\"{_version}\\\"";
+            Information($"MaaCore 编译环境变量：ExternalCompilerOptions = {versionEnv}");
+            MSBuild(c => c
+                .SetProcessToolPath(Parameters.MsBuildPath)
+                .SetProjectFile(Parameters.MaaCoreProject)
+                .SetTargets("ReBuild")
+                .SetConfiguration(BuildConfiguration.RelWithDebInfo)
                 .SetTargetPlatform(MSBuildTargetPlatform.x64)
                 .SetProcessEnvironmentVariable("ExternalCompilerOptions", versionEnv)
             );
         });
 
-    // 在 MaaElectronUI 发布后移除
-    Target CompileWpf => _ => _
-        .After(Clean)
+    Target WithCompileCoreCICD => _ => _
+        .After(SetVersion)
+        .Executes(() =>
+        {
+            var versionEnv = $"/DMAA_VERSION=\\\"{_version}\\\"";
+            Information($"MaaCore 编译环境变量：ExternalCompilerOptions = {versionEnv}");
+            MSBuild(c => c
+                .SetProcessToolPath(Parameters.MsBuildPath)
+                .SetProjectFile(Parameters.MaaCoreProject)
+                .SetTargets("ReBuild")
+                .SetConfiguration(BuildConfiguration.CICD)
+                .SetTargetPlatform(MSBuildTargetPlatform.x64)
+                .SetProcessEnvironmentVariable("ExternalCompilerOptions", versionEnv)
+            );
+
+            var output = Parameters.BuildOutput / BuildConfiguration.CICD;
+            var dlls = RootDirectory / "3rdparty" / "bin";
+
+            CopyDirectory(dlls, output);
+            Information($"复制目录：{dlls} -> {output}");
+        });
+
+    // TODO 在 MaaElectronUI 发布后移除
+    Target WithCompileWpfRelease => _ => _
+        .After(SetVersion)
         .Executes(() =>
         {
             MSBuild(c => c
                 .SetProcessToolPath(Parameters.MsBuildPath)
                 .SetProjectFile(Parameters.MaaWpfProject)
                 .SetTargets("ReBuild")
-                .SetConfiguration(_buildConfiguration)
+                .SetConfiguration(BuildConfiguration.Release)
                 .SetTargetPlatform(MSBuildTargetPlatform.x64)
             );
         });
 
-    #endregion
-
-    #region 编译后处理
-
-    Target RemoveDebug => _ => _
-        .After(Compile, CompileWpf)
-        .Before(BundlePackage)
+    // TODO 在 MaaElectronUI 发布后移除
+    Target WithCompileWpfDebug => _ => _
+        .After(SetVersion)
         .Executes(() =>
         {
-            var output = Parameters.BuildOutput / _buildConfiguration;
-            var files = output.GlobFiles("*.pdb", "*.lib", "*.exp", "*.exe.config");
-
-            foreach (var file in files)
-            {
-                File.Delete(file);
-                Information($"删除文件：{file}");
-            }
+            MSBuild(c => c
+                .SetProcessToolPath(Parameters.MsBuildPath)
+                .SetProjectFile(Parameters.MaaWpfProject)
+                .SetTargets("ReBuild")
+                .SetConfiguration(BuildConfiguration.RelWithDebInfo)
+                .SetTargetPlatform(MSBuildTargetPlatform.x64)
+            );
         });
 
-    #endregion
-
-    #region 资源文件
-
-    Target BundleResource => _ => _
-        .After(Clean)
+    Target WithCompileResourceRelease => _ => _
+        .After(SetVersion)
         .Executes(() =>
         {
-            var output = Parameters.BuildOutput / _buildConfiguration;
-
+            var output = Parameters.BuildOutput / BuildConfiguration.Release;
             var resourceFile = RootDirectory / "resource";
             var resourceFileThirdParty = RootDirectory / "3rdparty" / "resource";
 
@@ -300,150 +269,244 @@ public partial class Build : NukeBuild
             Information($"复制目录：{resourceFileThirdParty} -> {output}");
         });
 
-    Target BundleThirdPartyDlls => _ => _
-        .After(Clean)
-        .Executes(() =>
-        {
-            var output = Parameters.BuildOutput / _buildConfiguration;
-            var dlls = RootDirectory / "3rdparty" / "bin";
-
-            CopyDirectory(dlls, output);
-            Information($"复制目录：{dlls} -> {output}");
-        });
-
     #endregion
 
     #region 打包
 
-    Target BundlePackage => _ => _
-        .After(Compile, CompileWpf, BundleResource, BundleThirdPartyDlls)
+    Target UseMaaDevBundle => _ => _
+        .DependsOn(WithCompileCoreDebug, WithCompileWpfDebug)
+        .Triggers(SetPackageBundled)
         .Executes(() =>
         {
-            var output = Parameters.BuildOutput / _buildConfiguration;
-            var rawOutput = Parameters.ArtifactRawOutput / _packageName;
-            var bundleOutput = Parameters.ArtifactBundleOutput / $"{_packageName}.zip";
+            var buildOutput = Parameters.BuildOutput / BuildConfiguration.RelWithDebInfo;
+            var rawOutput = Parameters.ArtifactRawOutput / MaaDevBundlePackageName;
+            var bundleOutput = Parameters.ArtifactBundleOutput / $"{MaaDevBundlePackageName}.zip";
 
-            Information($"编译输出：{output}");
-            Information($"打包输出：{bundleOutput}");
-            Information($"打包原始输出：{rawOutput}");
+            BundlePackage(buildOutput, rawOutput, bundleOutput);
+        });
 
-            Assert.True(Directory.Exists(output), $"输出目录 {output} 不存在");
+    Target UseMaaLegacyBundle => _ => _
+        .DependsOn(WithCompileCoreCICD, WithCompileCoreRelease, WithCompileWpfRelease)
+        .Triggers(SetPackageBundled)
+        .Executes(() =>
+        {
+            var releaseBuildOutput = Parameters.BuildOutput / BuildConfiguration.Release;
+            var releaseRawOutput = Parameters.ArtifactRawOutput / MaaLegacyBundlePackageName;
+            var releaseBundleOutput = Parameters.ArtifactBundleOutput / $"{MaaLegacyBundlePackageName}.zip";
+            RemoveDebugSymbols(releaseBuildOutput);
 
-            Information($"复制目录：{output} -> {rawOutput}");
-            CopyDirectory(output, rawOutput);
+            BundlePackage(releaseBuildOutput, releaseRawOutput, releaseBundleOutput);
 
-            Information($"创建压缩文件：{bundleOutput}");
-            ZipFile.CreateFromDirectory(rawOutput, bundleOutput, CompressionLevel.SmallestSize, false);
+            var cicdBuildOutput = Parameters.BuildOutput / BuildConfiguration.CICD;
+            var cicdRawOutput = Parameters.ArtifactRawOutput / MaaCorePackageName;
+            var cicdBundleOutput = Parameters.ArtifactBundleOutput / $"{MaaCorePackageName}.zip";
+            RemoveDebugSymbols(cicdBuildOutput);
+            
+            BundlePackage(cicdBuildOutput, cicdRawOutput, cicdBundleOutput);
+        });
 
-            var size = (new FileInfo(bundleOutput).Length / 1024.0 / 1024.0).ToString("F3");
-            Information($"压缩文件大小：{size} MB");
+    Target UseMaaCore => _ => _
+        .DependsOn(WithCompileCoreCICD)
+        .Triggers(SetPackageBundled)
+        .Executes(() =>
+        {
+            var buildOutput = Parameters.BuildOutput / BuildConfiguration.CICD;
+            var rawOutput = Parameters.ArtifactRawOutput / MaaCorePackageName;
+            var bundleOutput = Parameters.ArtifactBundleOutput / $"{MaaCorePackageName}.zip";
+            RemoveDebugSymbols(buildOutput);
+            
+            BundlePackage(buildOutput, rawOutput, bundleOutput);
+        });
+
+    Target UseMaaResource => _ => _
+        .DependsOn(WithCompileResourceRelease)
+        .Triggers(SetPackageBundled)
+        .Executes(() =>
+        {
+            var buildOutput = Parameters.BuildOutput / BuildConfiguration.Release;
+            var rawOutput = Parameters.ArtifactRawOutput / MaaResourcePackageName;
+            var bundleOutput = Parameters.ArtifactBundleOutput / $"{MaaResourcePackageName}.zip";
+            RemoveDebugSymbols(buildOutput);
+
+            BundlePackage(buildOutput, rawOutput, bundleOutput);
+        });
+
+    Target SetPackageBundled => _ => _
+        .Executes(() =>
+        {
+            Information("已完成打包");
+            foreach (var file in Parameters.ArtifactBundleOutput.GlobFiles("*.zip"))
+            {
+                var size = (new FileInfo(file).Length / 1024.0 / 1024.0).ToString("F3");
+                Information($"找到 Artifact：{file.GetRelativePathTo(RootDirectory)}");
+            }
+        });
+    
+    #endregion
+
+    #region 更新日志
+
+    Target UseMaaChangeLog => _ => _
+        .Triggers(SetMaaChangeLog)
+        .Executes(() =>
+        {
+            _changeLog = $"对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})\n\n";
+            if (File.Exists(Parameters.MaaChangelogFile))
+            {
+                Information($"找到 {Parameters.MaaChangelogFile} 文件，读取内容作为更新日志");
+                var text = File.ReadAllText(Parameters.MaaChangelogFile);
+                _changeLog += text;
+            }
+            else
+            {
+                Warning($"未发现 {Parameters.MaaChangelogFile} 文件，将使用默认值");
+            }
+        });
+
+    Target UseMaaResourceChangeLog => _ => _
+        .Triggers(SetMaaChangeLog)
+        .Executes(() =>
+        {
+            _changeLog = $"对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})\n\n";
+            if (File.Exists(Parameters.MaaResourceChangeLogFile))
+            {
+                Information($"找到 {Parameters.MaaResourceChangeLogFile} 文件，读取内容作为更新日志");
+                var text = File.ReadAllText(Parameters.MaaResourceChangeLogFile);
+                _changeLog += text;
+            }
+            else
+            {
+                Warning($"未发现 {Parameters.MaaResourceChangeLogFile} 文件，将使用默认值");
+            }
+        });
+
+    Target SetMaaChangeLog => _ => _
+        .Executes(() =>
+        {
+            Information($"更新日志：\n================================\n{_changeLog}\n================================");
         });
 
     #endregion
 
     #region 发布
 
-    Target PublishArtifact => _ => _
-        .After(BundlePackage)
+    Target UsePublishArtifact => _ => _
+        .After(SetPackageBundled, SetMaaChangeLog)
         .When(GitHubActions is not null, _ => _
-                .Produces(Parameters.ArtifactRawOutput / _packageName)
+                .Produces(Parameters.ArtifactRawOutput / "**")
                 .Executes(() =>
                 {
-                    Information($"在 GitHub Actions 中运行，上传 Artifact：{Parameters.ArtifactRawOutput / _packageName}");
+                    Information($"在 GitHub Actions 中运行，上传 Artifacts");
                 }))
         .Executes(() =>
         {
             if (Parameters.IsGitHubActions is false)
             {
-                Information($"不在 GitHub Actions 中，跳过执行上传 Artifact");
+                Information($"不在 GitHub Actions 中，跳过执行上传 Artifacts");
+            }
+        });
+
+    Target UsePublishRelease => _ => _
+        .After(UsePublishArtifact)
+        .When(GitHubActions is not null, _ => _
+            .Executes(() =>
+            {
+                Information("在 GitHub Actions 中运行，执行发布 Release 任务");
+                Information($"当前 Actions：{Parameters.GhActionName}");
+
+                if (Parameters.GhActionName == ActionConfiguration.DevBuild)
+                {
+                    Information($"DevBuild 跳过发布 Release");
+                    return;
+                }
+
+                GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
+                {
+                    Credentials = new Credentials(Parameters.GitHubPersonalAccessToken)
+                };
+
+                if (Parameters.GhActionName == ActionConfiguration.ReleaseMaa)
+                {
+                    Information($"运行 ReleaseMaa 将在 {Parameters.MainRepo} 创建 Release {Parameters.GhTag}");
+
+                    CreateGitHubRelease(Parameters.MainRepo, Parameters.CommitHashFull, _version);
+
+                    return;
+                }
+
+                if (Parameters.GhActionName == ActionConfiguration.ReleaseMaaCore)
+                {
+                    Information($"运行 ReleaseMaaCore 将在 {Parameters.MainRepo} 创建 Release {Parameters.GhTag}");
+
+                    CreateGitHubRelease(Parameters.MainRepo, Parameters.CommitHashFull, _version);
+
+                    return;
+                }
+
+                if (Parameters.GhActionName == ActionConfiguration.ReleaseMaaResource)
+                {
+                    Information($"运行 ReleaseMaaResource 将在 {Parameters.MaaResourceReleaseRepo} 创建 Release {_version}");
+                    
+                    CreateGitHubRelease(Parameters.MaaResourceReleaseRepo, Parameters.CommitHashFull, _version);
+
+                    return;
+                }
+            }))
+        .Executes(() =>
+        {
+            if (Parameters.IsGitHubActions is false)
+            {
+                Information($"不在 GitHub Actions 中，跳过执行发布 Release");
             }
         });
 
     #endregion
 
-    #region 设置 Configuration
-
-    Target SetConfigurationRelease => _ => _
-        .DependsOn(ArtifactInitialize)
-        .Executes(() =>
-        {
-            _buildConfiguration = BuildConfiguration.Release;
-            Information($"当前 Configuration：{_buildConfiguration}");
-        });
-
-    Target SetConfigurationRelWithDebInfo => _ => _
-        .DependsOn(ArtifactInitialize)
-        .Executes(() =>
-        {
-            _buildConfiguration = BuildConfiguration.RelWithDebInfo;
-            Information($"当前 Configuration：{_buildConfiguration}");
-        });
-
-    Target SetConfigurationCICD => _ => _
-        .DependsOn(ArtifactInitialize)
-        .Executes(() =>
-        {
-            _buildConfiguration = BuildConfiguration.CICD;
-            Information($"当前 Configuration：{_buildConfiguration}");
-        });
-
-    #endregion
-
-    #region Target Flow
+    #region Work Flow
 
     /// <summary>
     /// 见 <see cref="ActionConfiguration.DevBuild"/>
     /// </summary>
     Target DevBuild => _ => _
-        .DependsOn(SetConfigurationRelWithDebInfo)
-        .DependsOn(SetCommitVersion)
-        .DependsOn(SetPackageNameMaaBundle)
         .DependsOn(Clean)
-        .DependsOn(Compile)
-        .DependsOn(CompileWpf)
-        .DependsOn(BundlePackage)
-        .DependsOn(PublishArtifact);
+        .DependsOn(UseCommitVersion)
+        .DependsOn(UseMaaDevBundle)
+        .DependsOn(UsePublishArtifact);
+        
 
     /// <summary>
     /// 见 <see cref="ActionConfiguration.ReleaseMaa"/>
     /// </summary>
     Target ReleaseMaa => _ => _
-        .DependsOn(SetConfigurationRelease)
-        .DependsOn(SetTagVersion)
-        .DependsOn(SetPackageNameLegacyMaaBundle)
         .DependsOn(Clean)
-        .DependsOn(Compile)
-        .DependsOn(CompileWpf)
-        .DependsOn(RemoveDebug)
-        .DependsOn(BundlePackage)
-        .DependsOn(PublishArtifact);
+        .DependsOn(UseTagVersion)
+        .DependsOn(UseMaaLegacyBundle)
+        .DependsOn(UseMaaChangeLog)
+        .DependsOn(UsePublishArtifact)
+        .DependsOn(UsePublishRelease);
 
     /// <summary>
     /// 见 <see cref="ActionConfiguration.ReleaseMaaCore"/>
     /// </summary>
     Target ReleaseMaaCore => _ => _
-        .DependsOn(SetConfigurationCICD)
-        .DependsOn(SetTagVersion)
-        .DependsOn(SetPackageNameMaaCore)
         .DependsOn(Clean)
-        .DependsOn(Compile)
-        .DependsOn(RemoveDebug)
-        .DependsOn(BundleThirdPartyDlls)
-        .DependsOn(BundlePackage)
-        .DependsOn(PublishArtifact);
+        .DependsOn(UseTagVersion)
+        .DependsOn(UseMaaCore)
+        .DependsOn(UseMaaChangeLog)
+        .DependsOn(UsePublishArtifact)
+        .DependsOn(UsePublishRelease);
 
     /// <summary>
     /// 见 <see cref="ActionConfiguration.ReleaseMaaResource"/>
     /// </summary>
     Target ReleaseMaaResource => _ => _
-        .DependsOn(SetConfigurationRelease)
-        .DependsOn(SetCommitVersion)
-        .DependsOn(SetPackageNameMaaResource)
         .DependsOn(Clean)
-        .DependsOn(BundleResource)
-        .DependsOn(BundlePackage)
-        .DependsOn(PublishArtifact);
-    
+        .DependsOn(UseTagVersion)
+        .DependsOn(UseMaaResource)
+        .DependsOn(UseMaaResourceChangeLog)
+        .DependsOn(UsePublishArtifact)
+        .DependsOn(UsePublishRelease);
+
 
     #endregion
 
@@ -459,14 +522,35 @@ public partial class Build : NukeBuild
         Log.Warning("{Message}", msg);
     };
 
-    private readonly Action<string> Error = (string msg) =>
-    {
-        Log.Error("{Message}", msg);
-    };
-
     #endregion
 
     #region Utilities
+
+    private void BundlePackage(AbsolutePath input, AbsolutePath rawOutput, AbsolutePath bundleOutput)
+    {
+        Information($"编译输出：{input.GetRelativePathTo(RootDirectory)}");
+        Information($"打包输出：{bundleOutput.GetRelativePathTo(RootDirectory)}");
+        Information($"打包原始输出：{rawOutput.GetRelativePathTo(RootDirectory)}");
+
+        Assert.True(Directory.Exists(input), $"输出目录 {input} 不存在");
+
+        Information($"复制目录：{input.GetRelativePathTo(RootDirectory)} -> {rawOutput.GetRelativePathTo(RootDirectory)}");
+        CopyDirectory(input, rawOutput);
+
+        Information($"创建压缩文件：{bundleOutput.GetRelativePathTo(RootDirectory)}");
+        ZipFile.CreateFromDirectory(rawOutput, bundleOutput, CompressionLevel.SmallestSize, false);
+    }
+    
+    private void RemoveDebugSymbols(AbsolutePath outputDir)
+    {
+        var files = outputDir.GlobFiles("*.pdb", "*.lib", "*.exp", "*.exe.config");
+
+        foreach (var file in files)
+        {
+            File.Delete(file);
+            Information($"删除文件：{file.GetRelativePathTo(RootDirectory)}");
+        }
+    }
 
     private void RecreateDirectory(string directoryPath)
     {
@@ -508,11 +592,57 @@ public partial class Build : NukeBuild
         }
     }
 
-    #endregion
+    private void CreateGitHubRelease(string repo, string commitHash, string releaseName)
+    {
+        var assets = Parameters.ArtifactBundleOutput.GlobFiles("*.zip");
 
-    Target DevTest => _ => _
-        .Executes(() =>
+        var release = new NewRelease(Parameters.GhTag)
         {
-            Information("QAQ");
-        });
+            TargetCommitish = commitHash,
+            Name = releaseName,
+            Body = _changeLog,
+            Draft = true,
+            Prerelease = false
+        };
+        var repoOwner = repo.Split('/')[0];
+        var repoName = repo.Split('/')[1];
+
+        var createdRelease = GitHubTasks.GitHubClient.Repository.Release.Create(repoOwner, repoName, release).Result;
+        Information($"创建 Release {Parameters.GhTag} 成功");
+
+        foreach (var asset in assets)
+        {
+            UploadReleaseAssetToGitHub(createdRelease, asset);
+        }
+
+        var _ = GitHubTasks.GitHubClient.Repository.Release.Edit(repoOwner, repoName, createdRelease.Id, new ReleaseUpdate { Draft = false }).Result;
+    }
+
+    private void UploadReleaseAssetToGitHub(Release release, AbsolutePath asset)
+    {
+        if (new FileExtensionContentTypeProvider().TryGetContentType(asset, out var assetContentType) is false)
+        {
+            assetContentType = "application/x-binary";
+        }
+
+        var releaseAssetUpload = new ReleaseAssetUpload
+        {
+            ContentType = assetContentType,
+            FileName = Path.GetFileName(asset),
+            RawData = File.OpenRead(path: asset)
+        };
+
+        try
+        {
+            var _ = GitHubTasks.GitHubClient.Repository.Release.UploadAsset(release, releaseAssetUpload).Result;
+        }
+        catch
+        {
+            Assert.Fail($"上传文件 {asset.GetRelativePathTo(RootDirectory)} 到 GitHub 失败");
+        }
+
+        Information($"上传文件 {asset.GetRelativePathTo(RootDirectory)} 到 GitHub 成功");
+    }
+
+    #endregion
 }
