@@ -14,10 +14,10 @@ public static class Constants
     public const string MaaWpfProjectFilePath = $"{MaaWpfProjectDirectory}/MeoAsstGui.csproj";
 
     public const string MaaBuildOutputDirectory = $"{MaaProjectRootDirectory}/x64";
-   
+
     public const string MaaCoreBuildIntermediatOutputDirectory = $"{MaaCoreProjectDirectory}/x64";
 
-    public static readonly string[] MaaCoreExtraFiles = new [] { "MeoAssistant.pdb", "MeoAssistant.lib", "MeoAssistant.exp" };
+    public static readonly string[] MaaCoreExtraFiles = new[] { "MeoAssistant.pdb", "MeoAssistant.lib", "MeoAssistant.exp" };
 
     public static readonly string[] MaaWpfExtraFiles = new[] { "MeoAsstGui.pdb", "MeoAsstGui.exe.config" };
 }

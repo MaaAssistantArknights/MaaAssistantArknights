@@ -6,7 +6,7 @@
 
 asst::TilePack::~TilePack() = default;
 
-bool asst::TilePack::load(const std::string & dir)
+bool asst::TilePack::load(const std::string& dir)
 {
     LogTraceFunction;
 
@@ -28,7 +28,7 @@ bool asst::TilePack::load(const std::string & dir)
 }
 
 std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(
-    const std::string & stage_code, bool side) const
+    const std::string& stage_code, bool side) const
 {
     LogTraceFunction;
 

@@ -45,7 +45,7 @@ public sealed class ReleaseBundleTask : FrostingTask<MaaBuildContext>
             {
                 version += $"-{ghActions.Environment.Workflow.RunId}";
             }
-            else 
+            else
             {
                 var tag = ghActions.Environment.Workflow.Ref.Replace("refs/tags/", "");
                 if (tag != version)
