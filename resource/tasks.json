@@ -6403,7 +6403,6 @@
     "StageDrops-StageName": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
-        "fullMatch": true,
         "text": [],
         "roi": [
             98,
@@ -6427,11 +6426,16 @@
     },
     "StageDrops-Item": {
         "template": "empty.png",
+        "templThreshold": 0.6,
         "roi": [
             0,
             -130,
             138,
             130
+        ],
+        "maskRange": [
+            1,
+            255
         ]
     },
     "StageDrops-DropType-ExpAndLMB": {

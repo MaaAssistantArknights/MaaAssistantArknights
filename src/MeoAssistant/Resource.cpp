@@ -123,7 +123,7 @@ bool asst::Resource::load(const std::string& dir)
 
     /* 加载模板图片资源 */
     // task所需要的模板资源
-    m_templ_resource_unique_ins.append_load_required(TaskData::get_instance().get_templ_required());
+    m_templ_resource_unique_ins.set_load_required(TaskData::get_instance().get_templ_required());
     if (!m_templ_resource_unique_ins.load(dir + TemplsFilename)) {
         if (!m_loaded) {
             m_last_error = std::string(TemplsFilename) + ": " + m_templ_resource_unique_ins.get_last_error();
@@ -134,7 +134,7 @@ bool asst::Resource::load(const std::string& dir)
         overload = true;
     }
     // 基建所需要的模板资源
-    m_templ_resource_unique_ins.append_load_required(m_infrast_cfg_unique_ins.get_templ_required());
+    m_templ_resource_unique_ins.set_load_required(m_infrast_cfg_unique_ins.get_templ_required());
     if (!m_templ_resource_unique_ins.load(dir + InfrastTempls)) {
         if (!m_loaded) {
             m_last_error = std::string(InfrastTempls) + ": " + m_templ_resource_unique_ins.get_last_error();
@@ -145,7 +145,7 @@ bool asst::Resource::load(const std::string& dir)
         overload = true;
     }
     // 关卡掉落物品的模板资源
-    m_templ_resource_unique_ins.append_load_required(m_stage_drops_cfg_unique_ins.get_all_item_id());
+    m_templ_resource_unique_ins.set_load_required(m_item_cfg_unique_ins.get_all_item_id());
     if (!m_templ_resource_unique_ins.load(dir + StageDropsTempls)) {
         if (!m_loaded) {
             m_last_error = std::string(StageDropsTempls) + ": " + m_templ_resource_unique_ins.get_last_error();

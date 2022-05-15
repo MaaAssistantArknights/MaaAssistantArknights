@@ -11,11 +11,10 @@ bool asst::StageDropsImageAnalyzer::analyze()
 {
     LogTraceFunction;
 
-    bool unknwon_stage = true;
-    if (analyze_stage_name() && analyze_difficulty()) {
-        unknwon_stage = false;
-    }
-    analyze_drops(unknwon_stage);
+    analyze_stage_name();
+    analyze_difficulty();
+    analyze_drops();
+
     return false;
 }
 
@@ -25,8 +24,14 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_name()
 
     OcrImageAnalyzer analyzer(m_image);
     analyzer.set_task_info("StageDrops-StageName");
-    auto& stages = Resrc.drops().get_all_stage_code();
-    analyzer.set_required(std::vector<std::string>(stages.cbegin(), stages.cend()));
+    const auto& stages = Resrc.drops().get_all_stage_code();
+    std::vector<std::string> stages_req(stages.cbegin(), stages.cend());
+    // 名字长的放前面
+    std::sort(stages_req.begin(), stages_req.end(),
+        [](const std::string& lhs, const std::string& rhs) -> bool {
+            return lhs.size() > rhs.size();
+        });
+    analyzer.set_required(std::move(stages_req));
 
     if (!analyzer.analyze()) {
         return false;
@@ -52,11 +57,9 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
 #endif // ASST_DEBUG
 }
 
-bool asst::StageDropsImageAnalyzer::analyze_drops(bool unknown_stage)
+bool asst::StageDropsImageAnalyzer::analyze_drops()
 {
     LogTraceFunction;
-
-    std::ignore = unknown_stage;
 
     if (!analyze_baseline()) {
         return false;
@@ -70,11 +73,14 @@ bool asst::StageDropsImageAnalyzer::analyze_drops(bool unknown_stage)
         for (int i = 1; i <= size; ++i) {
             // 因为第一个黄色的 baseline 是渐变的，圈出来的一般左边会少一段，所以这里直接从右边开始往左推
             int x = baseline.x + baseline.width - i * roi.width;
-            cv::Rect item_roi = cv::Rect(x, baseline.y + roi.y, roi.width, roi.height);
+            Rect item_roi = Rect(x, baseline.y + roi.y, roi.width, roi.height);
+
+            std::string item = match_item(item_roi, droptype, size - i, size);
+            Log.info("item", item);
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw, item_roi, cv::Scalar(0, 0, 255), 2);
+            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(item_roi), cv::Scalar(0, 0, 255), 2);
+            cv::putText(m_image_draw, item, cv::Point(item_roi.x, item_roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 255), 2);
 #endif
-            cv::Mat item_img = m_image(item_roi);
         }
     }
 
@@ -158,8 +164,8 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
         if (!analyzer.analyze()) {
             continue;
         }
-        if (analyzer.get_result().score > max_score) {
-            max_score = analyzer.get_result().score;
+        if (auto score = analyzer.get_result().score; score > max_score) {
+            max_score = score;
             matched = type;
 #ifdef ASST_DEBUG
             matched_name = task_name;
@@ -176,4 +182,66 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
 #endif
 
     return matched;
+}
+
+std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDropType type, int index, int size)
+{
+    LogTraceFunction;
+
+    switch (type) {
+    case StageDropType::ExpAndLMB:
+        if (size == 1) {
+            return "4001"; // 龙门币
+        }
+        else if (size == 2) {
+            if (index == 0) {
+                return "5001";  // 声望（经验）
+            }
+            else {
+                return "4001";  // 龙门币
+            }
+        }
+        else {
+            Log.error("StageDropType::ExpAndLMB, size", size);
+            return std::string();
+        }
+        break;
+    case StageDropType::Funriture:
+        return "funriture"; // 家具
+    }
+
+    auto match_item_with_templs = [&](std::vector<std::string> templs_list) -> std::string {
+        MatchImageAnalyzer analyzer(m_image);
+        analyzer.set_task_info("StageDrops-Item");
+        analyzer.set_mask_with_close(true);
+        analyzer.set_roi(roi);
+
+        double max_score = 0.0;
+        std::string matched;
+        for (const std::string& templ : templs_list) {
+            analyzer.set_templ_name(templ);
+            if (!analyzer.analyze()) {
+                continue;
+            }
+            if (auto score = analyzer.get_result().score; score > max_score) {
+                max_score = score;
+                matched = templ;
+            }
+        }
+        return matched;
+    };
+
+    std::vector<std::string> templs;
+    if (!m_stage_name.empty()) {
+        templs = Resrc.drops().get_stage_info(m_stage_name, m_difficulty).drops.at(type);
+    }
+    std::string result = match_item_with_templs(templs);
+
+    if (result.empty()) {
+        auto items = Resrc.item().get_all_item_id();
+        templs.assign(items.cbegin(), items.cend());
+        result = match_item_with_templs(templs);
+    }
+
+    return result;
 }
