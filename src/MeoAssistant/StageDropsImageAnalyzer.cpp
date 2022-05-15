@@ -76,14 +76,15 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             Rect item_roi = Rect(x, baseline.y + roi.y, roi.width, roi.height);
 
             std::string item = match_item(item_roi, droptype, size - i, size);
-            Log.info("item", item);
+            int quantity = match_quantity(item_roi);
+            Log.info("Item id:", item, ", quantity:", quantity);
 #ifdef ASST_DEBUG
             cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(item_roi), cv::Scalar(0, 0, 255), 2);
-            cv::putText(m_image_draw, item, cv::Point(item_roi.x, item_roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 255), 2);
+            cv::putText(m_image_draw, item, cv::Point(item_roi.x, item_roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+            cv::putText(m_image_draw, std::to_string(quantity), cv::Point(item_roi.x, item_roi.y + 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
 #endif
         }
     }
-
     return true;
 }
 
@@ -140,12 +141,12 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
         {StageDropType::ExpAndLMB, "StageDrops-DropType-ExpAndLMB"},
         {StageDropType::Normal, "StageDrops-DropType-Normal"},
         {StageDropType::Extra, "StageDrops-DropType-Extra"},
-        //{StageDropType::Funriture, "StageDrops-DropType-Funriture"},
-        //{StageDropType::Special, "StageDrops-DropType-Special"},
+        {StageDropType::Funriture, "StageDrops-DropType-Funriture"},
+        {StageDropType::Special, "StageDrops-DropType-Special"},
     };
 
     MatchImageAnalyzer analyzer(m_image);
-    StageDropType matched = StageDropType::Normal;
+    StageDropType matched = StageDropType::ExpAndLMB;
     double max_score = 0.0;
 
 #ifdef ASST_DEBUG
@@ -178,7 +179,7 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_roi), cv::Scalar(0, 0, 255), 2);
     matched_name = matched_name.substr(matched_name.find_last_of('-') + 1, matched_name.size());
     cv::putText(m_image_draw, matched_name, cv::Point(matched_roi.x, matched_roi.y + matched_roi.height + 30),
-        cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 255), 2);
+        cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 1);
 #endif
 
     return matched;
@@ -231,17 +232,124 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         return matched;
     };
 
-    std::vector<std::string> templs;
+    std::string result;
     if (!m_stage_name.empty()) {
-        templs = Resrc.drops().get_stage_info(m_stage_name, m_difficulty).drops.at(type);
+        auto& drops = Resrc.drops().get_stage_info(m_stage_name, m_difficulty).drops;
+        if (auto find_iter = drops.find(type); find_iter != drops.end()) {
+            result = match_item_with_templs(find_iter->second);
+        }
     }
-    std::string result = match_item_with_templs(templs);
 
     if (result.empty()) {
         auto items = Resrc.item().get_all_item_id();
-        templs.assign(items.cbegin(), items.cend());
-        result = match_item_with_templs(templs);
+        result = match_item_with_templs(std::vector<std::string>(items.cbegin(), items.cend()));
     }
 
     return result;
+}
+
+int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
+{
+    auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
+        Task.get("StageDrops-Quantity"));
+
+    Rect quantity_roi = roi.move(task_ptr->roi);
+    cv::Mat quantity_img = m_image(utils::make_rect<cv::Rect>(quantity_roi));
+
+    cv::Mat gray;
+    cv::cvtColor(quantity_img, gray, cv::COLOR_BGR2GRAY);
+    cv::Mat bin;
+    cv::inRange(gray, task_ptr->mask_range.first, task_ptr->mask_range.second, bin);
+
+    std::vector<cv::Range> contours;
+    // split and filter out noise
+    int iright = bin.cols - 1, ileft = 0;
+    bool in = false;
+    int not_in_count = 0;
+    for (int i = bin.cols - 1; i >= 0; --i) {
+        bool has_white = false;
+        for (int j = 0; j < bin.rows; ++j) {
+            if (bin.at<uchar>(j, i)) {
+                has_white = true;
+                break;
+            }
+        }
+        if (in && !has_white) {
+            ileft = i;
+            in = false;
+            not_in_count = 0;
+            contours.emplace_back(ileft, iright + 1);   // range 是前闭后开的
+        }
+        else if (!in && has_white) {
+            iright = i;
+            in = true;
+        }
+        else if (!in) {
+            if (++not_in_count > task_ptr->templ_threshold &&
+                ileft != 0) {
+                // filter out noise
+                break;
+            }
+        }
+    }
+
+    OcrImageAnalyzer analyzer(m_image);
+    analyzer.set_use_cache(true);
+
+    int quantity = 0;
+    for (auto riter = contours.crbegin(); riter != contours.crend(); ++riter) {
+        auto& range = *riter;
+        cv::Mat range_img = bin(cv::Range::all(), range);
+        cv::Rect rect = cv::boundingRect(range_img);
+        cv::Mat bounding = range_img(rect);
+
+        Rect absolute_rect;
+        absolute_rect.x = quantity_roi.x + rect.x + range.start - 1;
+        absolute_rect.y = quantity_roi.y + rect.y - 1;
+        absolute_rect.width = rect.width + 2;
+        absolute_rect.height = rect.height + 2;
+
+#ifdef ASST_DEBUG
+        cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(absolute_rect), cv::Scalar(0, 255, 0), 1);
+#endif
+
+        analyzer.set_region_of_appeared(absolute_rect);
+        if (!analyzer.analyze()) {
+            return 0;
+        }
+        auto digit_str = analyzer.get_result().front().text;
+#ifdef ASST_DEBUG
+        cv::putText(m_image_draw, digit_str, cv::Point(absolute_rect.x, absolute_rect.y - 5),
+            cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
+#endif
+        int dot = 0;
+        if (digit_str == "万") {
+            quantity *= 10000;
+        }
+        else if (digit_str == "亿") {
+            quantity *= 100000000;
+        }
+        else if (digit_str.size() == 1) {
+            if (char c = digit_str[0]; c >= '0' && c <= '9') {
+                quantity *= 10;
+                quantity += c - '0';
+                if (dot) {
+                    ++dot;
+                }
+            }
+            else if (c == '.') {
+                dot = 1;
+            }
+        }
+        else {
+            Log.error("quantity is not a single digit");
+            return 0;
+        }
+        if (dot) {
+            quantity /= (dot - 1);
+        }
+    }
+    Log.info("Quantity:", quantity);
+
+    return quantity;
 }

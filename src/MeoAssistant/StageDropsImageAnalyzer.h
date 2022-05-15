@@ -16,16 +16,17 @@ namespace asst
         bool analyze_stage_name();
         bool analyze_stars();
         bool analyze_difficulty();
+        bool analyze_baseline();
         bool analyze_drops();
 
-        bool analyze_baseline();
+        int match_quantity(const Rect& roi);
         StageDropType match_droptype(const Rect& roi);
         std::string match_item(const Rect& roi, StageDropType type, int index, int size);
 
         std::string m_stage_name;
         StageDifficulty m_difficulty;
         std::vector<std::pair<Rect, StageDropType>> m_baseline;
-        std::vector<std::string> m_drops;
+        std::unordered_map<std::string, int> m_drops;
         int m_stars;
     };
 }

@@ -95,6 +95,9 @@ bool trans_and_save_icon(const std::filesystem::path& input, const std::filesyst
 
     cv::Mat dst_resized;
     cv::resize(dst, dst_resized, cv::Size(), 720.0 / 1080.0, 720.0 / 1080.0, cv::INTER_LINEAR_EXACT);
+    cv::Rect quantity_roi(dst_resized.cols - 80, dst_resized.rows - 50, 80, 50);
+    dst_resized(quantity_roi).setTo(0);
+
     cv::imwrite(output.string(), dst_resized);
     return true;
 }

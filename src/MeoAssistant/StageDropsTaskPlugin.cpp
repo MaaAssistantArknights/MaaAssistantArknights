@@ -100,7 +100,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     }
 
     //StageDropsImageAnalyzer analyzer(m_ctrler->get_image());
-    StageDropsImageAnalyzer analyzer(cv::imread("3.png"));
+    StageDropsImageAnalyzer analyzer(cv::imread("1w.png"));
     analyzer.analyze();
 
     //std::string res = Resrc.penguin().recognize(image);

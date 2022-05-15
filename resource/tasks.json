@@ -6426,7 +6426,7 @@
     },
     "StageDrops-Item": {
         "template": "empty.png",
-        "templThreshold": 0.6,
+        "templThreshold": 0.7,
         "roi": [
             0,
             -130,
@@ -6466,7 +6466,6 @@
         "Doc": "roi 只用到了 y 和 height"
     },
     "StageDrops-DropType-Funriture": {
-        "template": "empty.png",
         "roi": [
             0,
             2,
@@ -6476,7 +6475,6 @@
         "Doc": "roi 只用到了 y 和 height"
     },
     "StageDrops-DropType-Special": {
-        "template": "empty.png",
         "roi": [
             0,
             2,
@@ -6484,5 +6482,20 @@
             25
         ],
         "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-Quantity": {
+        "template": "empty.png",
+        "templThreshold": 3,
+        "templThreshold_Doc": "这里用来作为字间距阈值",
+        "roi": [
+            62,
+            89,
+            45,
+            23
+        ],
+        "maskRange": [
+            150,
+            255
+        ]
     }
 }
