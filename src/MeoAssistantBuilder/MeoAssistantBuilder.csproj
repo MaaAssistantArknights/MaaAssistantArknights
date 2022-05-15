@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+      <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+        
+  <ItemGroup>
     <PackageReference Include="Nuke.Common" Version="6.0.3" />
   </ItemGroup>
 
