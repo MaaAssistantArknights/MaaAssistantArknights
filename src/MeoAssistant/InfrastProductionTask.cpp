@@ -556,10 +556,7 @@ bool asst::InfrastProductionTask::opers_choose()
                     [&](const infrast::BattleRealTimeOper& lhs) -> bool {
                         int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
                         Log.debug("opers_choose | face hash dist", dist);
-                        if (dist < face_hash_thres) {
-                            return true;
-                        }
-                        return false;
+                        return dist < face_hash_thres;
                     }
                 );
                 if (avlb_iter != m_all_available_opers.cend()) {
@@ -574,13 +571,12 @@ bool asst::InfrastProductionTask::opers_choose()
             opt_iter = m_optimal_combs.erase(opt_iter);
         }
         if (m_optimal_combs.empty()) {
-            if (count >= cur_max_num_of_opers) {
-                break;
-            }
-            else { // 这种情况可能是萌新，可用干员人数不足以填满当前设施
+            Log.trace(__FUNCTION__, "| count", count, "cur_max_num_of_opers", cur_max_num_of_opers);
+            if (count < cur_max_num_of_opers) {
+                // 这种情况可能是萌新，可用干员人数不足以填满当前设施
                 callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("NotEnoughStaff"));
-                break;
             }
+            break;
         }
 
         // 因为识别完了还要点击，所以这里不能异步滑动

@@ -48,8 +48,8 @@ def job():
     asst.append_task('Visit')
     asst.append_task('Mall', {
         'shopping': True,
-        'shopping_list': ['家具', '碳'],
-        'is_black_list': True
+        'buy_first': ['招聘许可', '龙门币'],
+        'blacklist': ['家具', '碳'],
     })
     asst.append_task('Award')
 

@@ -80,6 +80,12 @@ AbstractTask& asst::AbstractTask::set_enable(bool enable) noexcept
     return *this;
 }
 
+AbstractTask& asst::AbstractTask::set_ignore_error(bool ignore) noexcept
+{
+    m_ignore_error = ignore;
+    return *this;
+}
+
 AbstractTask& asst::AbstractTask::set_task_id(int task_id) noexcept
 {
     m_task_id = task_id;
