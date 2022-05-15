@@ -185,7 +185,7 @@ bool asst::AutoRecruitTask::recruit_now()
 bool asst::AutoRecruitTask::confirm()
 {
     ProcessTask confirm_task(*this, { "RecruitConfirm" });
-    return confirm_task.run();
+    return confirm_task.set_retry_times(5).run();
 }
 
 bool asst::AutoRecruitTask::refresh()

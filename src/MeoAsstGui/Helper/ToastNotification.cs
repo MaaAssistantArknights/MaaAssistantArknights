@@ -88,7 +88,7 @@ namespace MeoAsstGui
             // 最大显示宽度
             NotificationConstants.MaxWidth = 460d;
 
-            #endregion
+            #endregion 初始化 Notification.Wpf 默认静态配置
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace MeoAsstGui
             None
         }
 
-        #endregion
+        #endregion 通知提示音列表枚举
 
         /// <summary>
         /// 播放通知提示音
@@ -180,19 +180,23 @@ namespace MeoAsstGui
             }
         }
 
-        #endregion
+        #endregion 通知提示音
 
         #region 通知按钮设置
 
         #region 通知按钮变量
+
         // 左边按钮
         protected string _buttonLeftText = null;
+
         protected Action _buttonLeftAction = null;
 
         // 右边按钮
         protected string _buttonRightText = null;
+
         protected Action _buttonRightAction = null;
-        #endregion
+
+        #endregion 通知按钮变量
 
         /// <summary>
         /// 给通知添加一个在左边的按钮，比如确定按钮，多次设置只会按最后一次设置生效
@@ -220,7 +224,7 @@ namespace MeoAsstGui
             return this;
         }
 
-        #endregion
+        #endregion 通知按钮设置
 
         #region 通知显示
 
@@ -279,7 +283,7 @@ namespace MeoAsstGui
             return content;
         }
 
-        #endregion
+        #endregion 通知基本字体样式和内容模板
 
         #region 显示通知方法
 
@@ -373,9 +377,9 @@ namespace MeoAsstGui
                  notificationContent: content);
         }
 
-        #endregion
+        #endregion 显示通知方法
 
-        #endregion
+        #endregion 通知显示
 
         #region 任务栏闪烁
 
@@ -457,7 +461,7 @@ namespace MeoAsstGui
             return FlashWindowEx(ref fInfo);
         }
 
-        #endregion
+        #endregion 任务栏闪烁
 
         /// <summary>
         /// 通知使用完后释放已使用的数据
@@ -472,6 +476,5 @@ namespace MeoAsstGui
             _buttonLeftText = _buttonRightText = null;
             _buttonLeftAction = _buttonRightAction = null;
         }
-
     }
 }

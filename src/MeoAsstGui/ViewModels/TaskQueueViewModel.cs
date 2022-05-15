@@ -210,7 +210,6 @@ namespace MeoAsstGui
                 Idle = true;
                 return;
             }
-            setPenguinId();
 
             if (Idle)   // 一般是点了“停止”按钮了
             {
@@ -296,7 +295,9 @@ namespace MeoAsstGui
         {
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendMall(settings.CreditShopping);
+            var buy_first = settings.CreditFirstList.Split(' ');
+            var black_list = settings.CreditBlackList.Split(' ');
+            return asstProxy.AsstAppendMall(settings.CreditShopping, buy_first, black_list);
         }
 
         private bool appendRecruit()
@@ -344,13 +345,6 @@ namespace MeoAsstGui
 
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRoguelike(mode);
-        }
-
-        private void setPenguinId()
-        {
-            var settings = _container.Get<SettingsViewModel>();
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstSetPenguinId(settings.PenguinId);
         }
 
         public void CheckAndShutdown()

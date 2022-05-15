@@ -6,6 +6,7 @@
 #include <mutex>
 #include <type_traits>
 #include <vector>
+#include <thread>
 
 #include "AsstUtils.hpp"
 #include "Version.h"
@@ -109,7 +110,11 @@ namespace asst
             trace("MeoAssistant Process Start");
             trace("Version", asst::Version);
             trace("Build DataTime", __DATE__, __TIME__);
+#ifdef _WIN32 // 输出到日志的时候统一编码utf8
+            trace("Working Path", asst::utils::gbk_2_utf8(m_dirname));
+#else
             trace("Working Path", m_dirname);
+#endif
             trace("-----------------------------");
         }
 

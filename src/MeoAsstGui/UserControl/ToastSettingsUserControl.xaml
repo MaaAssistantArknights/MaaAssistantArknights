@@ -86,7 +86,6 @@
                     VerticalAlignment="Bottom" Content="↘ 右下"
                     IsChecked="{Binding ToastPositionBottomRight}" />
             </Grid>
-
         </Grid>
 
         <Button

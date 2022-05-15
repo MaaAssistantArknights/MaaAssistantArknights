@@ -44,6 +44,7 @@
         "action": "SwipeToTheRight",
         "next": [
             "StageSN-8",
+            "SNChapter2ToSN-8",
             "SwipeRightToStageSN-8"
         ]
     },
@@ -103,6 +104,7 @@
         "action": "SwipeToTheLeft",
         "next": [
             "StageSN-9",
+            "SNChapter3ToSN-9",
             "SwipeLeftToStageSN-9"
         ]
     },
@@ -162,6 +164,7 @@
         "action": "SwipeToTheLeft",
         "next": [
             "StageSN-10",
+            "SNChapter3ToSN-10",
             "SwipeLeftToStageSN-10"
         ]
     },
@@ -2530,12 +2533,14 @@
             110
         ]
     },
-    "CreditShop-NotToBuy": {
+    "CreditShop-ProductName": {
         "algorithm": "OcrDetect",
-        "Doc": "这里的text，是子串搜索，即商品名中只要含有任一text，就不买",
-        "text": [
-            "碳",
-            "家具"
+        "text": [],
+        "ocrReplace": [
+            [
+                "龙门.+",
+                "龙门币"
+            ]
         ],
         "roi": [
             0,

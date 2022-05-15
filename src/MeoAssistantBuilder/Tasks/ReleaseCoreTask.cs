@@ -45,7 +45,7 @@ public sealed class ReleaseCoreTask : FrostingTask<MaaBuildContext>
             {
                 version += $"-{ghActions.Environment.Workflow.RunId}";
             }
-            else 
+            else
             {
                 var tag = ghActions.Environment.Workflow.Ref.Replace("refs/tags/", "");
                 if (tag != version)
@@ -78,7 +78,7 @@ public sealed class ReleaseCoreTask : FrostingTask<MaaBuildContext>
         context.Information("--------------------------------------------------");
 
         var thirdPartyDlls = Directory.GetFiles(Path.Combine(Constants.MaaProjectThirdPartyDirectory, "bin"));
-        foreach(var f in thirdPartyDlls)
+        foreach (var f in thirdPartyDlls)
         {
             var fileName = new FileInfo(f).Name;
             File.Copy(f, Path.Combine(buildOutput, fileName));

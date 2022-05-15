@@ -9,7 +9,7 @@ namespace MeoAssistantBuilder;
 public class MaaBuildContext : FrostingContext
 {
     public string MsBuildExecutable { get; set; }
-    
+
     public MaaBuildContext(ICakeContext context) : base(context)
     {
         MsBuildExecutable = context.Argument<string>("tool", "");
