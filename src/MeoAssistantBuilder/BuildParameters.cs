@@ -5,6 +5,7 @@ using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.Git;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -161,14 +162,14 @@ public partial class Build
                 {
                     GhBranch = b.GitHubActions.Ref.Replace("refs/heads/", "");
                 }
-                else if (b.GitHubActions.Ref.StartsWith("refs/pull"))
+                else if (b.GitHubActions.IsPullRequest)
                 {
                     IsPullRequest = true;
-                    GhPullRequestId = b.GitHubActions.Ref.Replace("refs/pull/", "");
+                    GhPullRequestId = b.GitHubActions.Ref;
                 }
                 else
                 {
-                    Assert.Fail($"不支持的 Ref：{b.GitHubActions.Ref}");
+                    Log.Warning("未知的 Ref：{Ref}", b.GitHubActions.Ref ?? "Null");
                 }
 
                 var ghEvent = b.GitHubActions.GitHubEvent;
