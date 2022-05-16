@@ -20,6 +20,9 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'resource/**'
+      - '3rdparty/resource/**'
 
 jobs:
   windows-latest:
@@ -37,7 +40,7 @@ jobs:
       - name: Run './build.cmd ReleaseMaaResource'
         run: ./build.cmd ReleaseMaaResource
         env:
-          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+          PUBLISH_GH_PAT: ${{ secrets.PUBLISH_GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v1
         with:

@@ -427,7 +427,7 @@ public partial class Build : NukeBuild
             {
                 Information($"运行 ReleaseMaaResource 将在 {Parameters.MaaResourceReleaseRepo} 创建 Release {_version}");
 
-                CreateGitHubRelease(Parameters.MaaResourceReleaseRepo, Parameters.CommitHashFull, _version);
+                CreateGitHubRelease(Parameters.MaaResourceReleaseRepo, "main", _version);
 
                 return;
             }
@@ -474,7 +474,7 @@ public partial class Build : NukeBuild
     /// </summary>
     Target ReleaseMaaResource => _ => _
         .DependsOn(Clean)
-        .DependsOn(UseTagVersion)
+        .DependsOn(UseCommitVersion)
         .DependsOn(UseMaaResource)
         .DependsOn(UseMaaResourceChangeLog)
         .DependsOn(UsePublishArtifact)
@@ -522,13 +522,13 @@ public partial class Build : NukeBuild
         }
     }
 
-    private void CreateGitHubRelease(string repo, string commitHash, string releaseName)
+    private void CreateGitHubRelease(string repo, string commitish, string releaseName)
     {
         var assets = Parameters.ArtifactOutput.GlobFiles("*.zip");
-
-        var release = new NewRelease(Parameters.GhTag)
+        
+        var release = new NewRelease(_version)
         {
-            TargetCommitish = commitHash,
+            TargetCommitish = commitish,
             Name = releaseName,
             Body = _changeLog,
             Draft = true,

@@ -6,8 +6,13 @@ namespace MeoAssistantBuilder;
     name: "release-maa-resource",
     image: GitHubActionsImage.WindowsLatest,
     OnPushBranches = new[] { MasterBranch },
+    OnPushIncludePaths = new[]
+    {
+      "resource/**",
+      "3rdparty/resource/**"
+    },
     InvokedTargets = new[] { nameof(ReleaseMaaResource) },
-    ImportSecrets = new[] { "GITHUB_PAT" },
+    ImportSecrets = new[] { "PUBLISH_GH_PAT" },
     EnableGitHubToken = true,
     PublishArtifacts = true
     )]

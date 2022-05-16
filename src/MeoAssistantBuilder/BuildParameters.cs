@@ -138,7 +138,7 @@ public partial class Build
                 
                 Assert.False(string.IsNullOrEmpty(b.GitHubActions.Ref), "Ref 为 Null");
 
-                GitHubPersonalAccessToken = Environment.GetEnvironmentVariable("GITHUB_PAT");
+                GitHubPersonalAccessToken = Environment.GetEnvironmentVariable("PUBLISH_GH_PAT");
 
                 if (b.GitHubActions.Ref.StartsWith(ReleaseTagRefPrefix))
                 {
