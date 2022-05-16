@@ -1,4 +1,4 @@
-name: Deploy Docs
+name: deploy-docs
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_and_deploy:
+  deploy-to-azure:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
