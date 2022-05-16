@@ -26,7 +26,11 @@ Maa 的构建工具
 
 关于各个 Target，请参考 [ActionConfiguration.cs](./ActionConfiguration.cs)
 
-关于 Target 之间的流程联系，请参考 [Execution Plan](../../.nuke/temp/execution-plan.html)
+关于 Target 之间的流程联系，请在安装 `Nuke.GlobalTool` 后再 Repo 的任意位置执行
+
+``` sh
+nuke --plan
+```
 
 构建生成的文件将会在 `./artifacts` 中
 

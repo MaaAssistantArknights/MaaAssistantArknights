@@ -440,4 +440,3 @@ resource/infrast
 
 # Nuke
 .nuke/temp/*
-!.nuke/temp/execution-plan.html
