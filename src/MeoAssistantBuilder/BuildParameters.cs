@@ -83,11 +83,13 @@ public partial class Build
 
         // CI
         public bool IsGitHubActions { get; }
+        public bool IsPullRequest { get; }
         public bool IsWorkflowDispatch { get; }
         public string GitHubPersonalAccessToken { get; } = null;
         public Dictionary<string, string> WorkflowDispatchArguments { get; }
         public ActionConfiguration GhActionName { get; } = null;
         public string GhBranch { get; } = null;
+        public string GhPullRequestId { get; } = null;
         public string GhTag { get; } = null;
 
         public BuildParameters(Build b)
@@ -108,6 +110,7 @@ public partial class Build
             MasterBranchRef = "refs/heads/master";
             DevBranchRef = "refs/heads/dev";
             ReleaseTagRefPrefix = "refs/tags/v";
+            
 
             // 路径
             BuildOutput = RootDirectory / "x64";
@@ -158,6 +161,11 @@ public partial class Build
                 {
                     GhBranch = b.GitHubActions.Ref.Replace("refs/heads/", "");
                 }
+                else if (b.GitHubActions.Ref.StartsWith("refs/pull"))
+                {
+                    IsPullRequest = true;
+                    GhPullRequestId = b.GitHubActions.Ref.Replace("refs/pull/", "");
+                }
                 else
                 {
                     Assert.Fail($"不支持的 Ref：{b.GitHubActions.Ref}");
@@ -186,12 +194,16 @@ public partial class Build
                     IsFork = true;
                 }
 
-                // 若是 DevBuild，Branch 必须为 Dev，又或者是手动触发
+                // 若是 DevBuild，Branch 必须为 Dev，或者是 PR，又或者是手动触发
                 if (GhActionName == ActionConfiguration.DevBuild)
                 {
                     if (IsWorkflowDispatch)
                     {
                         Assert.True(GhBranch is not null, "DevBuild -> Workflow Dispatch，Branch 为 Null");
+                    }
+                    else if (IsPullRequest)
+                    {
+                        Assert.True(GhPullRequestId is not null, "DevBuild -> Pull Request，Pull Request Id 为 Null");
                     }
                     else
                     {
