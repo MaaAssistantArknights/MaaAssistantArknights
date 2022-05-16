@@ -131,11 +131,8 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 广告
 
-[B 站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件  
-
-[QQ 群：平躺天堂](https://jq.qq.com/?_wv=1027&k=PiPtKgkJ)：舟游群，欢迎加入~  
-[QQ 群：内卷地狱](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：技术群，欢迎加入~  
-
+[B 站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
+[舟无关技术交流群](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！  
 [开发者群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我最大的支持了！
