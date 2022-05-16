@@ -18,8 +18,8 @@ name: release-maa
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - 'v*'
 
 jobs:
   windows-latest:
@@ -37,7 +37,7 @@ jobs:
       - name: Run './build.cmd ReleaseMaa'
         run: ./build.cmd ReleaseMaa
         env:
-          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+          PUBLISH_GH_PAT: ${{ secrets.PUBLISH_GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v1
         with:

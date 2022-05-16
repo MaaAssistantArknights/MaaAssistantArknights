@@ -5,10 +5,9 @@ namespace MeoAssistantBuilder;
 [GitHubActions(
     name: "release-maa-core",
     image: GitHubActionsImage.WindowsLatest,
-    OnPushBranches = new[] { MasterBranch },
-    OnPushTags = new[] { $"v*" },
+    OnPushTags = new[] { "v*" },
     InvokedTargets = new[] { nameof(ReleaseMaaCore) },
-    ImportSecrets = new[] { "GITHUB_PAT" },
+    ImportSecrets = new[] { "PUBLISH_GH_PAT" },
     EnableGitHubToken = true,
     PublishArtifacts = true
     )]
