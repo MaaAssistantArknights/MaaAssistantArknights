@@ -7,13 +7,28 @@
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 
+#ifndef  ASST_DEBUG
+#define ASST_DEBUG
+#endif // ! ASST_DEBUG
+
 bool asst::StageDropsImageAnalyzer::analyze()
 {
     LogTraceFunction;
 
+#ifdef ASST_DEBUG
+    std::string stem = utils::get_format_time();
+    stem = utils::string_replace_all_batch(stem, { {":", "-"}, {" ", "_"} });
+    std::filesystem::create_directory("debug");
+    cv::imwrite("debug/" + stem + "_raw.png", m_image);
+#endif
+
     analyze_stage_name();
     analyze_difficulty();
     analyze_drops();
+
+#ifdef ASST_DEBUG
+    cv::imwrite("debug/" + stem + "_draw.png", m_image_draw);
+#endif
 
     return false;
 }
@@ -51,10 +66,47 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
 {
     LogTraceFunction;
 
+    static const std::unordered_map<StageDifficulty, std::string> DifficultyTaskName = {
+        {StageDifficulty::Normal, "StageDrops-Difficulty-Normal"},
+        {StageDifficulty::Tough, "StageDrops-Difficulty-Tough"},
+    };
+
+    MatchImageAnalyzer analyzer(m_image);
+    StageDifficulty matched = StageDifficulty::Normal;
+    double max_score = 0.0;
+
 #ifdef ASST_DEBUG
-    m_difficulty = StageDifficulty::Normal;
+    std::string matched_name = "unknown_difficulty";
+    Rect matched_rect;
+#endif
+
+    for (const auto& [difficulty, task_name] : DifficultyTaskName) {
+        auto task_ptr = Task.get(task_name);
+        analyzer.set_task_info(task_name);
+
+        if (!analyzer.analyze()) {
+            continue;
+        }
+
+        if (auto score = analyzer.get_result().score; score > max_score) {
+            max_score = score;
+            matched = difficulty;
+#ifdef ASST_DEBUG
+            matched_name = task_name;
+            matched_rect = analyzer.get_result().rect;
+#endif
+        }
+    }
+    m_difficulty = matched;
+
+#ifdef ASST_DEBUG
+    cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
+    matched_name = matched_name.substr(matched_name.find_last_of('-') + 1, matched_name.size());
+    cv::putText(m_image_draw, matched_name, cv::Point(matched_rect.x, matched_rect.y + matched_rect.height + 20),
+        cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+#endif
+
     return true;
-#endif // ASST_DEBUG
 }
 
 bool asst::StageDropsImageAnalyzer::analyze_drops()
@@ -110,24 +162,49 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     // split
     int istart = 0, iend = bounding.cols - 1;
     bool in = true;
+    int not_in_count = 0;
     for (int i = 0; i < bounding.cols; ++i) {
-        bool is_white = static_cast<bool>(bounding.at<uchar>(0, i));
-
-        if (in && !is_white) {
-            iend = i;
-            in = false;
-            Rect baseline{ x_offset + istart, y_offset, iend - istart, bounding_rect.height };
-            m_baseline.emplace_back(baseline, match_droptype(baseline));
+        bool has_white = false;
+        for (int j = 0; j < bounding.rows; ++j) {
+            if (bounding.at<uchar>(j, i)) {
+                has_white = true;
+                break;
+            }
         }
-        else if (!in && is_white) {
+        if (in && !has_white) {
+            in = false;
+            iend = i;
+            if (iend - istart < task_ptr->special_threshold) {
+                not_in_count += iend - istart;
+            }
+            else {
+                not_in_count = 0;
+                Rect baseline{ x_offset + istart, y_offset, iend - istart, bounding_rect.height };
+                m_baseline.emplace_back(baseline, match_droptype(baseline));
+            }
+        }
+        else if (!in && has_white) {
             istart = i;
             in = true;
+        }
+        else if (!in) {
+            if (++not_in_count > task_ptr->templ_threshold &&
+                istart != 0) {
+                // filter out noise
+                break;
+            }
         }
     }
     if (in) {
         Rect baseline{ x_offset + istart, y_offset, bounding.cols - 1 - istart, bounding_rect.height };
         m_baseline.emplace_back(baseline, match_droptype(baseline));
     }
+
+    //m_baseline.erase(std::remove_if(m_baseline.begin(), m_baseline.end(), [&](const auto& baseline) {
+    //    return baseline.first.width < task_ptr->special_threshold;
+    //    }),
+    //    m_baseline.end());
+
     return !m_baseline.empty();
 }
 
@@ -143,10 +220,12 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
         {StageDropType::Extra, "StageDrops-DropType-Extra"},
         {StageDropType::Funriture, "StageDrops-DropType-Funriture"},
         {StageDropType::Special, "StageDrops-DropType-Special"},
+        {StageDropType::Sanity, "StageDrops-DropType-Sanity"},
+        {StageDropType::Reward, "StageDrops-DropType-Reward"},
     };
 
     MatchImageAnalyzer analyzer(m_image);
-    StageDropType matched = StageDropType::ExpAndLMB;
+    StageDropType matched = StageDropType::Unknown;
     double max_score = 0.0;
 
 #ifdef ASST_DEBUG
@@ -178,7 +257,7 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_roi), cv::Scalar(0, 0, 255), 2);
     matched_name = matched_name.substr(matched_name.find_last_of('-') + 1, matched_name.size());
-    cv::putText(m_image_draw, matched_name, cv::Point(matched_roi.x, matched_roi.y + matched_roi.height + 30),
+    cv::putText(m_image_draw, matched_name, cv::Point(matched_roi.x, matched_roi.y + matched_roi.height + 20),
         cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 1);
 #endif
 
@@ -208,7 +287,11 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         }
         break;
     case StageDropType::Funriture:
-        return "funriture"; // 家具
+        return "funriture";     // 家具
+    case StageDropType::Sanity:
+        return "AP_GAMEPLAY";   // 理智返还
+    case StageDropType::Reward:
+        return "4003";          // 合成玉
     }
 
     auto match_item_with_templs = [&](std::vector<std::string> templs_list) -> std::string {

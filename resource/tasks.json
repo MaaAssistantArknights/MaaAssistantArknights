@@ -6415,12 +6415,16 @@
         "template": "empty.png",
         "roi": [
             0,
-            630,
+            636,
             1280,
-            10
+            2
         ],
+        "templThreshold": 25,
+        "templThreshold_Doc": "这里用来作为基线间距阈值",
+        "specialThreshold": 120,
+        "specialThreshold_Doc": "基建长度阈值（不小于120）",
         "maskRange": [
-            100,
+            35,
             255
         ]
     },
@@ -6483,6 +6487,24 @@
         ],
         "Doc": "roi 只用到了 y 和 height"
     },
+    "StageDrops-DropType-Sanity": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Reward": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
     "StageDrops-Quantity": {
         "template": "empty.png",
         "templThreshold": 3,
@@ -6496,6 +6518,22 @@
         "maskRange": [
             150,
             255
+        ]
+    },
+    "StageDrops-Difficulty-Tough": {
+        "roi": [
+            0,
+            0,
+            220,
+            220
+        ]
+    },
+    "StageDrops-Difficulty-Normal": {
+        "roi": [
+            0,
+            0,
+            220,
+            220
         ]
     }
 }
