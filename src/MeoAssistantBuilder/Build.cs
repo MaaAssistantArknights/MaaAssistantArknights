@@ -501,7 +501,13 @@ public partial class Build : NukeBuild
 
     private void BundlePackage(AbsolutePath input, string bundleName)
     {
-        var bundle = Parameters.ArtifactOutput / bundleName;
+        var packName = bundleName;
+        if (packName.EndsWith(".zip") is false)
+        {
+            packName += ".zip";
+        }
+        var bundle = Parameters.ArtifactOutput / packName;
+
         Information($"编译输出：{input}");
         Information($"打包输出：{bundle}");
 
