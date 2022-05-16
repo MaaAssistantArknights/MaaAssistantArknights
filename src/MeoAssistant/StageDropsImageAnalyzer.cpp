@@ -159,51 +159,39 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     int x_offset = task_ptr->roi.x + bounding_rect.x;
     int y_offset = task_ptr->roi.y + bounding_rect.y;
 
-    // split
+    const int min_width = static_cast<int>(task_ptr->special_threshold);
+    const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
+
     int istart = 0, iend = bounding.cols - 1;
-    bool in = true;
-    int not_in_count = 0;
+    bool in = true;         // 是否正处在白线中
+    int spacing = 0;
+
+    // split
     for (int i = 0; i < bounding.cols; ++i) {
-        bool has_white = false;
-        for (int j = 0; j < bounding.rows; ++j) {
-            if (bounding.at<uchar>(j, i)) {
-                has_white = true;
-                break;
-            }
-        }
-        if (in && !has_white) {
+        bool is_white = bounding.at<uchar>(0, i);
+
+        if (in && !is_white) {
             in = false;
             iend = i;
-            if (iend - istart < task_ptr->special_threshold) {
-                not_in_count += iend - istart;
+            if (iend - istart < min_width) {
+                spacing += iend - istart;
             }
             else {
-                not_in_count = 0;
+                spacing = 0;
                 Rect baseline{ x_offset + istart, y_offset, iend - istart, bounding_rect.height };
                 m_baseline.emplace_back(baseline, match_droptype(baseline));
             }
         }
-        else if (!in && has_white) {
+        else if (!in && is_white) {
             istart = i;
             in = true;
         }
         else if (!in) {
-            if (++not_in_count > task_ptr->templ_threshold &&
-                istart != 0) {
-                // filter out noise
+            if (++spacing > max_spacing && istart != 0) {
                 break;
             }
         }
     }
-    if (in) {
-        Rect baseline{ x_offset + istart, y_offset, bounding.cols - 1 - istart, bounding_rect.height };
-        m_baseline.emplace_back(baseline, match_droptype(baseline));
-    }
-
-    //m_baseline.erase(std::remove_if(m_baseline.begin(), m_baseline.end(), [&](const auto& baseline) {
-    //    return baseline.first.width < task_ptr->special_threshold;
-    //    }),
-    //    m_baseline.end());
 
     return !m_baseline.empty();
 }
@@ -344,11 +332,13 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
     cv::Mat bin;
     cv::inRange(gray, task_ptr->mask_range.first, task_ptr->mask_range.second, bin);
 
+    // split
+    const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
     std::vector<cv::Range> contours;
-    // split and filter out noise
     int iright = bin.cols - 1, ileft = 0;
     bool in = false;
-    int not_in_count = 0;
+    int spacing = 0;
+
     for (int i = bin.cols - 1; i >= 0; --i) {
         bool has_white = false;
         for (int j = 0; j < bin.rows; ++j) {
@@ -360,7 +350,7 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
         if (in && !has_white) {
             ileft = i;
             in = false;
-            not_in_count = 0;
+            spacing = 0;
             contours.emplace_back(ileft, iright + 1);   // range 是前闭后开的
         }
         else if (!in && has_white) {
@@ -368,7 +358,7 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
             in = true;
         }
         else if (!in) {
-            if (++not_in_count > task_ptr->templ_threshold &&
+            if (++spacing > max_spacing &&
                 ileft != 0) {
                 // filter out noise
                 break;
