@@ -173,12 +173,13 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
         if (in && !is_white) {
             in = false;
             iend = i;
-            if (iend - istart < min_width) {
+            int width = iend - istart;
+            if (width < min_width) {
                 spacing += iend - istart;
             }
             else {
                 spacing = 0;
-                Rect baseline{ x_offset + istart, y_offset, iend - istart, bounding_rect.height };
+                Rect baseline{ x_offset + istart, y_offset, width, bounding_rect.height };
                 m_baseline.emplace_back(baseline, match_droptype(baseline));
             }
         }
@@ -194,8 +195,11 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     }
 
     if (in) {   // 最右边的白线贴着 bounding 边的情况
-        Rect baseline{ x_offset + istart, y_offset, bounding.cols - 1 - istart, bounding_rect.height };
-        m_baseline.emplace_back(baseline, match_droptype(baseline));
+        int width = bounding.cols - 1 - istart >= min_width;
+        if (width >= min_width) {
+            Rect baseline{ x_offset + istart, y_offset, width, bounding_rect.height };
+            m_baseline.emplace_back(baseline, match_droptype(baseline));
+        }
     }
 
     return !m_baseline.empty();
