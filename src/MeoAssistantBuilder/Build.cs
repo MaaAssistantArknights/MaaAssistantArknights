@@ -86,11 +86,15 @@ public partial class Build : NukeBuild
         Information("5. 配置");
         Information($"构建时间：{Parameters.BuildTime ?? "Null"}");
         Information($"Commit Hash：{Parameters.CommitHash ?? "Null"}");
+        Information($"Commit Hash Full：{Parameters.CommitHashFull ?? "Null"}");
 
         Information("6. CI");
         Information($"在 GitHub Actions 中运行：{Parameters.IsGitHubActions}");
+        Information($"是 Pull Request：{Parameters.IsPullRequest}");
+        Information($"是 Workflow Dispatch 触发：{Parameters.IsWorkflowDispatch}");
         Information($"Actions 名称：{Parameters.GhActionName ?? "Null"}");
         Information($"Actions 分支：{Parameters.GhBranch ?? "Null"}");
+        Information($"Actions PR：{Parameters.GhPullRequestId ?? "Null"}");
         Information($"Actions Tag：{Parameters.GhTag ?? "Null"}");
 
         Information("==========================");
