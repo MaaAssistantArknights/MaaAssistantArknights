@@ -195,7 +195,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     }
 
     if (in) {   // 最右边的白线贴着 bounding 边的情况
-        int width = bounding.cols - 1 - istart >= min_width;
+        int width = bounding.cols - 1 - istart;
         if (width >= min_width) {
             Rect baseline{ x_offset + istart, y_offset, width, bounding_rect.height };
             m_baseline.emplace_back(baseline, match_droptype(baseline));

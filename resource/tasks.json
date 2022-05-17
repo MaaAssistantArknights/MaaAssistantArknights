@@ -6421,7 +6421,7 @@
         ],
         "templThreshold": 25,
         "templThreshold_Doc": "这里用来作为基线间距阈值",
-        "specialThreshold": 120,
+        "specialThreshold": 100,
         "specialThreshold_Doc": "基建长度阈值（不小于120）",
         "maskRange": [
             35,
@@ -6430,7 +6430,7 @@
     },
     "StageDrops-Item": {
         "template": "empty.png",
-        "templThreshold": 0.7,
+        "templThreshold": 0.6,
         "roi": [
             0,
             -130,
@@ -6521,6 +6521,7 @@
         ]
     },
     "StageDrops-Difficulty-Tough": {
+        "templThreshold": 0.7,
         "roi": [
             0,
             0,
@@ -6529,6 +6530,7 @@
         ]
     },
     "StageDrops-Difficulty-Normal": {
+        "templThreshold": 0.7,
         "roi": [
             0,
             0,
