@@ -10,13 +10,13 @@
 #include "InfrastConfiger.h"
 #include "ItemConfiger.h"
 #include "OcrPack.h"
-#include "PenguinPack.h"
 #include "RecruitConfiger.h"
 #include "TaskData.h"
 #include "TemplResource.h"
 #include "TilePack.h"
 #include "CopilotConfiger.h"
 #include "RoguelikeCopilotConfiger.h"
+#include "StageDropsConfiger.h"
 
 namespace asst
 {
@@ -69,13 +69,13 @@ namespace asst
         {
             return m_ocr_pack_unique_ins;
         }
-        PenguinPack& penguin() noexcept
-        {
-            return m_penguin_pack_unique_ins;
-        }
         TilePack& tile() noexcept
         {
             return m_tile_pack_unique_ins;
+        }
+        StageDropsConfiger& drops() noexcept
+        {
+            return m_stage_drops_cfg_unique_ins;
         }
 
         const TemplResource& templ() const noexcept
@@ -114,13 +114,13 @@ namespace asst
         {
             return m_ocr_pack_unique_ins;
         }
-        const PenguinPack& penguin() const noexcept
-        {
-            return m_penguin_pack_unique_ins;
-        }
         const TilePack& tile() const noexcept
         {
             return m_tile_pack_unique_ins;
+        }
+        const StageDropsConfiger& drops() const noexcept
+        {
+            return m_stage_drops_cfg_unique_ins;
         }
 
         Resource& operator=(const Resource&) = delete;
@@ -138,8 +138,8 @@ namespace asst
         ItemConfiger m_item_cfg_unique_ins;
         InfrastConfiger m_infrast_cfg_unique_ins;
         OcrPack m_ocr_pack_unique_ins;
-        PenguinPack m_penguin_pack_unique_ins;
         TilePack m_tile_pack_unique_ins;
+        StageDropsConfiger m_stage_drops_cfg_unique_ins;
 
         bool m_loaded = false;
     };
