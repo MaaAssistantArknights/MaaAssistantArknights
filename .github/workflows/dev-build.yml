@@ -18,8 +18,8 @@ name: dev-build
 
 on:
   push:
-    branches:
-      - dev
+    branches-ignore:
+      - master
     paths:
       - 'src/MeoAssistant/**'
       - 'src/MeoAssistantBuilder/**'

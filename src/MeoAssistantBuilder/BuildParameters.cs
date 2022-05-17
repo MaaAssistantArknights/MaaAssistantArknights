@@ -195,7 +195,7 @@ public partial class Build
                     IsFork = true;
                 }
 
-                // 若是 DevBuild，Branch 必须为 Dev，或者是 PR，又或者是手动触发
+                // 若是 DevBuild，Branch 必须不为 Master，或者是 PR 至 Dev，又或者是手动触发
                 if (GhActionName == ActionConfiguration.DevBuild)
                 {
                     if (IsWorkflowDispatch)
@@ -208,7 +208,7 @@ public partial class Build
                     }
                     else
                     {
-                        Assert.True(GhBranch == DevBranch, "DevBuild -> Auto Triggered，Branch 不为 dev");
+                        Assert.True(GhBranch != MasterBranch, "DevBuild -> Auto Triggered，Branch 为 master");
                     }
                 }
 
