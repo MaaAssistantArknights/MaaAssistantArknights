@@ -9,6 +9,7 @@
     <NukeScriptDirectory>..\..</NukeScriptDirectory>
     <NukeTelemetryVersion>1</NukeTelemetryVersion>
     <PlatformTarget>x64</PlatformTarget>
+    <Configurations>Release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
