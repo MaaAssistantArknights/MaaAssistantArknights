@@ -22,19 +22,34 @@ bool asst::StageDropsImageAnalyzer::analyze()
     cv::imwrite("debug/" + stem + "_raw.png", m_image);
 #endif
 
-    analyze_stage_name();
+    analyze_stage_code();
     analyze_difficulty();
     analyze_stars();
-    analyze_drops();
+    bool ret = analyze_drops();
 
 #ifdef ASST_DEBUG
     cv::imwrite("debug/" + stem + "_draw.png", m_image_draw);
 #endif
 
-    return false;
+    return ret;
 }
 
-bool asst::StageDropsImageAnalyzer::analyze_stage_name()
+asst::StageKey asst::StageDropsImageAnalyzer::get_stage_key() const
+{
+    return { m_stage_code, m_difficulty };
+}
+
+int asst::StageDropsImageAnalyzer::get_stars() const noexcept
+{
+    return m_stars;
+}
+
+const std::unordered_map<std::string, int>& asst::StageDropsImageAnalyzer::get_drops() const noexcept
+{
+    return m_drops;
+}
+
+bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 {
     LogTraceFunction;
 
@@ -52,12 +67,12 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_name()
     if (!analyzer.analyze()) {
         return false;
     }
-    m_stage_name = analyzer.get_result().front().text;
+    m_stage_code = analyzer.get_result().front().text;
 
 #ifdef ASST_DEBUG
     const Rect& text_rect = analyzer.get_result().front().rect;
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(text_rect), cv::Scalar(0, 0, 255), 2);
-    cv::putText(m_image_draw, m_stage_name, cv::Point(text_rect.x, text_rect.y - 10), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 255), 2);
+    cv::putText(m_image_draw, m_stage_code, cv::Point(text_rect.x, text_rect.y - 10), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 255), 2);
 #endif
 
     return true;
@@ -164,6 +179,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
 
     auto task_ptr = Task.get("StageDrops-Item");
 
+    bool has_error = false;
     const auto& roi = task_ptr->roi;
     for (const auto& [baseline, droptype] : m_baseline) {
         int size = baseline.width / (roi.width + 10) + 1;   // + 10 为了带点容差
@@ -180,9 +196,15 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             cv::putText(m_image_draw, item, cv::Point(item_roi.x, item_roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
             cv::putText(m_image_draw, std::to_string(quantity), cv::Point(item_roi.x, item_roi.y + 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
 #endif
+            if (item.empty() || quantity <= 0) {
+                has_error = true;
+                Log.error(__FUNCTION__, "error");
+                continue;
+            }
+            m_drops.emplace(item, quantity);
         }
     }
-    return true;
+    return !has_error;
 }
 
 bool asst::StageDropsImageAnalyzer::analyze_baseline()
@@ -358,8 +380,8 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
     };
 
     std::string result;
-    if (!m_stage_name.empty()) {
-        auto& drops = Resrc.drops().get_stage_info(m_stage_name, m_difficulty).drops;
+    if (!m_stage_code.empty()) {
+        auto& drops = Resrc.drops().get_stage_info(m_stage_code, m_difficulty).drops;
         if (auto find_iter = drops.find(type); find_iter != drops.end()) {
             result = match_item_with_templs(find_iter->second);
         }
@@ -472,7 +494,7 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
             Log.error("quantity is not a single digit");
             return 0;
         }
-        if (dot) {
+        if (dot > 1) {
             quantity /= (dot - 1);
         }
     }

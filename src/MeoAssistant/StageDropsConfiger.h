@@ -54,7 +54,7 @@ namespace asst
         using AbstractConfiger::AbstractConfiger;
         virtual ~StageDropsConfiger() = default;
 
-        const auto& get_stage_info(const std::string& code, StageDifficulty difficulty = StageDifficulty::Normal) const
+        const auto& get_stage_info(const std::string& code, StageDifficulty difficulty) const
         {
             return m_stage_info.at(StageKey{ code, difficulty });
         }

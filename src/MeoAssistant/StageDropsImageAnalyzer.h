@@ -12,8 +12,12 @@ namespace asst
 
         virtual bool analyze() override;
 
+        StageKey get_stage_key() const;
+        int get_stars() const noexcept;
+        const std::unordered_map<std::string, int>& get_drops() const noexcept;
+
     protected:
-        bool analyze_stage_name();
+        bool analyze_stage_code();
         bool analyze_stars();
         bool analyze_difficulty();
         bool analyze_baseline();
@@ -23,10 +27,10 @@ namespace asst
         StageDropType match_droptype(const Rect& roi);
         std::string match_item(const Rect& roi, StageDropType type, int index, int size);
 
-        std::string m_stage_name;
-        StageDifficulty m_difficulty;
+        std::string m_stage_code;
+        StageDifficulty m_difficulty = StageDifficulty::Normal;
+        int m_stars = 0;
         std::vector<std::pair<Rect, StageDropType>> m_baseline;
         std::unordered_map<std::string, int> m_drops;
-        int m_stars;
     };
 }
