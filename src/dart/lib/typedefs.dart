@@ -72,6 +72,9 @@ typedef InitDartApiNative = NativeFunction<Void Function(Pointer<Void>)>;
 typedef CleanUpDartVMFunc = void Function();
 typedef CleanUpDartVMNative = NativeFunction<Void Function()>;
 
+typedef NativeFreeFunc = void Function(Pointer<Void>);
+typedef NativeFreeNative = NativeFunction<Void Function(Pointer<Void>)>;
+
 abstract class MaaCoreInterface {
   void destroy();
   bool connect(String adbPath, String address,[String config = '']);
