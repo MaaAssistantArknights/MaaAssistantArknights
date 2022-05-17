@@ -6537,5 +6537,23 @@
             220,
             220
         ]
+    },
+    "StageDrops-Stars-3": {
+        "templThreshold": 0.8,
+        "roi": [
+            50,
+            270,
+            250,
+            100
+        ]
+    },
+    "StageDrops-Stars-2": {
+        "templThreshold": 0.8,
+        "roi": [
+            50,
+            270,
+            250,
+            100
+        ]
     }
 }

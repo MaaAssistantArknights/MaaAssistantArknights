@@ -24,6 +24,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
 
     analyze_stage_name();
     analyze_difficulty();
+    analyze_stars();
     analyze_drops();
 
 #ifdef ASST_DEBUG
@@ -57,6 +58,50 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_name()
     const Rect& text_rect = analyzer.get_result().front().rect;
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(text_rect), cv::Scalar(0, 0, 255), 2);
     cv::putText(m_image_draw, m_stage_name, cv::Point(text_rect.x, text_rect.y - 10), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 255), 2);
+#endif
+
+    return true;
+}
+
+bool asst::StageDropsImageAnalyzer::analyze_stars()
+{
+    LogTraceFunction;
+
+    static const std::unordered_map<int, std::string> StarsTaskName = {
+        {2, "StageDrops-Stars-2"},
+        {3, "StageDrops-Stars-3"},
+    };
+
+    MatchImageAnalyzer analyzer(m_image);
+    int matched_stars = 0;
+    double max_score = 0.0;
+
+#ifdef ASST_DEBUG
+    Rect matched_rect(72, 292, 205, 58);
+#endif
+
+    for (const auto& [stars, task_name] : StarsTaskName) {
+        auto task_ptr = Task.get(task_name);
+        analyzer.set_task_info(task_name);
+
+        if (!analyzer.analyze()) {
+            continue;
+        }
+
+        if (auto score = analyzer.get_result().score; score > max_score) {
+            max_score = score;
+            matched_stars = stars;
+#ifdef ASST_DEBUG
+            matched_rect = analyzer.get_result().rect;
+#endif
+        }
+    }
+    m_stars = matched_stars;
+
+#ifdef ASST_DEBUG
+    cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
+    cv::putText(m_image_draw, std::to_string(m_stars) + " stars", cv::Point(matched_rect.x, matched_rect.y + matched_rect.height + 20),
+        cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
 #endif
 
     return true;
