@@ -16,6 +16,7 @@ using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -311,6 +312,34 @@ namespace MeoAsstGui
             {
                 return false;
             }
+
+            // 开发版、测试版不检查更新
+            // 正式版：vX.X.X
+            // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}
+            // DevBuild (Local)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}-Local
+            // Release (Local Commit)：v.{CommitHash[..7]}-Local
+            // Release (Local Tag)：{Tag}-Local
+            // Debug (Local)：DEBUG VERSION
+            // Script Compiled：c{CommitHash[..7]}
+            if (_curVersion == "DEBUG VERSION")
+            {
+                return false;
+            }
+            if (_curVersion.StartsWith("c"))
+            {
+                return false;
+            }
+            if (_curVersion.Contains("Local"))
+            {
+                return false;
+            }
+            var pattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
+            var match = Regex.Match(_curVersion, pattern);
+            if (match.Success is false)
+            {
+                return false;
+            }
+
             const int requestRetryMaxTimes = 5;
             var response = RequestApi(RequestUrl);
             for (int i = 0; response.Length == 0 && i >= requestRetryMaxTimes; i++)
