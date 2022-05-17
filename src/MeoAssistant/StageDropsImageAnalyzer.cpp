@@ -7,10 +7,6 @@
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 
-#ifndef  ASST_DEBUG
-#define ASST_DEBUG
-#endif // ! ASST_DEBUG
-
 bool asst::StageDropsImageAnalyzer::analyze()
 {
     LogTraceFunction;
