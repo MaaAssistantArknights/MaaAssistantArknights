@@ -1,85 +1,150 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 import 'package:maa_core/typedefs.dart';
 import 'package:path/path.dart' as p;
 
 class MaaCore implements MaaCoreInterface {
-  late Assistant _asst;
-  late AsstLoadResourceFunc _asstLoadResource;
-  late AsstCreateFunc _asstCreate;
-  late AsstCreateExFunc _asstCreateEx;
-  late AsstConnectFunc _asstConnect;
-  late AsstDestroyFunc _asstDestroy;
-  late AsstAppendTaskFunc _asstAppendTask;
-  late AsstSetTaskParamsFunc _asstSetTaskParams;
-  late AsstStartFunc _asstStart;
-  late AsstStopFunc _asstStop;
-  late AsstCtrlerClickFunc _asstCtrlerClick;
-  late AsstGetVersionFunc _asstGetVersion;
-  late AsstLogFunc _asstLog;
+
+  // Native Symbols
+  // MeoAssistant
+  static late AsstLoadResourceFunc _asstLoadResource;
+  static late AsstCreateExFunc _asstCreateEx;
+  static late AsstConnectFunc _asstConnect;
+  static late AsstDestroyFunc _asstDestroy;
+  static late AsstAppendTaskFunc _asstAppendTask;
+  static late AsstSetTaskParamsFunc _asstSetTaskParams;
+  static late AsstStartFunc _asstStart;
+  static late AsstStopFunc _asstStop;
+  static late AsstCtrlerClickFunc _asstCtrlerClick;
+  static late AsstGetVersionFunc _asstGetVersion;
+  static late AsstLogFunc _asstLog;
+
+  // callbacklib
+  static late InitDartApiFunc _initDartApi;
+  static late Pointer<AsstCallbackNative> _asstCallback;
+  static late NativeFreeFunc _nativeFree;
+
   static bool _resourceLoaded = false;
-  late ReceivePort? _receivePort;
   static bool _apiInited = false;
-  ReceivePort? get receivePort => _receivePort;
+  static bool _symbolsLoaded = false; 
+ 
+  late ReceivePort? _receivePort;
+  late Assistant _asst;
   late StreamSubscription _portSubscription;
   late List<Pointer> _allocated;
-
-  static Future<String> get platformVersion async {
-    return Future<String>(() => '0.0.1');
-  }
-
-  void _loadResource(String path) {
-    final strPtr = toManagedString(path);
-    final result = _asstLoadResource(strPtr);
-    _resourceLoaded = _resourceLoaded || result;
-  }
-
-  MaaCore(String libDir, [Function(String)? callback]) {
-    _loadCppLib(libDir);
-    if (!_apiInited) {
-      final callbackLib = DynamicLibrary.open(p.join(libDir, 'libCallback.so'));
-      final InitDartApiFunc initNativeApi =
-          callbackLib.lookup<InitDartApiNative>('init_dart_api').asFunction();
-      initNativeApi(NativeApi.initializeApiDLData);
-      _apiInited = true;
+  
+  ReceivePort? get receivePort => _receivePort;
+  static  List<String> get _deps {
+    if (Platform.isWindows){
+      return [
+        'libiomp5md',
+        'mklml',
+        'mkldnn',
+        'opencv_world453',
+        'paddle_inference',
+        'ppocr',
+      ];
     }
+    return [];
+  }
+
+  static String get meoAssistantLibName {
+    if (Platform.isLinux) {
+      return 'libMeoAssistant.so';
+    } else if (Platform.isWindows) {
+      return 'MeoAssistant.dll';
+    }
+    return 'libMeoAssistant.dylib';
+  }
+
+  static String get callbackLibName {
+    if (Platform.isLinux) {
+      return 'libCallback.so';
+    } else if (Platform.isWindows) {
+      return 'Callback.dll';
+    }
+    return 'libCallback.dylib';
+  }
+
+  static _loadResource(String dir) {
+    print("init resource");
+    final dirPtr = dir.toNativeUtf8();
+    _asstLoadResource(dirPtr);
+    malloc.free(dirPtr);
+    _resourceLoaded = true;
+  }
+  
+  MaaCore(String libDir, [Function(String)? callback]) {
+    init(libDir);
 
     _allocated = [];
-    if (!_resourceLoaded) {
-      _loadResource(libDir);
-    }
     _receivePort = ReceivePort();
     final nativePort = _receivePort!.sendPort.nativePort;
     final portPtr = malloc.allocate<Int64>(sizeOf<Int64>());
-    _asst = _asstCreateEx(nativeCallback, portPtr.cast<Void>());
+    _asst = _asstCreateEx(_asstCallback, portPtr.cast<Void>());
     _allocated.add(portPtr);
     portPtr.value = nativePort;
+    
     if (callback != null) {
       _portSubscription = _receivePort!.listen(_wrapCallback(callback));
+    }
+  }
+
+  static void init(String libDir, {bool reloadResource = false}) {
+    if (!_symbolsLoaded) {
+      _loadNativeSymbols(libDir);
+    }
+    
+    if (!_apiInited) {
+      _initDartApi(NativeApi.initializeApiDLData);
+      _apiInited = true;
+    }
+    
+    if (!_resourceLoaded || reloadResource) {
+      _loadResource(libDir);
     }
   }
 
   void Function(dynamic) _wrapCallback(void Function(String) cb) {
     return (dynamic data) {
       // c will manage the memory for the string
-      String msg = data;
+      final Pointer<Utf8> ptr = Pointer.fromAddress(data as int);
+      String msg = ptr.toDartString();
+      print("msg from ptr ($ptr): $msg before free");
+      _nativeFree(ptr.cast<Void>());
       cb(msg);
+      
     };
   }
 
-  Pointer<AsstCallbackNative> get nativeCallback {
-    return DynamicLibrary.open('./libCallback.so')
-        .lookup<AsstCallbackNative>('callback');
+  static void _loadNativeSymbols(String libDir) {
+    _loadMeoAssistant(libDir);
+    _loadCallbackLib(libDir); 
+    _symbolsLoaded = true;
   }
 
-  void _loadCppLib(String libDir) {
-    final lib = DynamicLibrary.open(p.join(libDir, 'libMeoAssistant.so'));
+  static void _loadCallbackLib(String libDir) {
+    final lib = DynamicLibrary.open(p.join(libDir, callbackLibName));
+    _initDartApi = lib.lookup<InitDartApiNative>('init_dart_api').asFunction(); 
+    _nativeFree = lib.lookup<NativeFreeNative>('native_free').asFunction();
+    _asstCallback = lib.lookup<AsstCallbackNative>('callback'); 
+  }
+
+  static void _loadMeoAssistant(String libDir) {
+    if (Platform.isWindows) {
+      for (var dep in _deps) {
+        print("load dep: $dep");
+        DynamicLibrary.open(p.join(libDir, dep+'.dll'));
+        print("loaded dep: $dep"); 
+      } 
+    }
+    final lib = DynamicLibrary.open(p.join(libDir, meoAssistantLibName));
     _asstLoadResource =
         lib.lookup<AsstLoadResourceNative>('AsstLoadResource').asFunction();
-    _asstCreate = lib.lookup<AsstCreateNative>('AsstCreate').asFunction();
     _asstCreateEx = lib.lookup<AsstCreateExNative>('AsstCreateEx').asFunction();
     _asstConnect = lib.lookup<AsstConnectNative>('AsstConnect').asFunction();
     _asstDestroy = lib.lookup<AsstDestroyNative>('AsstDestroy').asFunction();
@@ -170,5 +235,11 @@ class MaaCore implements MaaCoreInterface {
     final ptr = str.toNativeUtf8();
     _allocated.add(ptr);
     return ptr;
+  }
+
+  static String get version {
+    final ptr = _asstGetVersion();
+    final str = ptr.toDartString();
+    return str;
   }
 }
