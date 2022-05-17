@@ -42,6 +42,34 @@ int main()
     auto& input_json = parse_ret.value();
     json::value output_json;
     for (auto&& [item_id, item_info] : input_json["items"].as_object()) {
+        static const std::vector<std::string> BlackList = {
+            "LIMITED_TKT_GACHA_10", // 限定十连
+            "p_char_",              // 角色信物（潜能）
+            "tier",                 // 职业潜能
+            "voucher_",             // 干员晋升、皮肤自选券等
+            "renamingCard",         // 改名卡
+            "ap_item_",             // 干员发邮件送的东西
+            "ap_supply_lt_100_202", // 干员发邮件送的理智（注意前半段id是理智小样，不能全过滤）
+            "clue_",                // 火蓝之心活动的扭蛋什么的
+            "2020recruitment10",    // 周年自选券
+            "2021recruitment10",
+            "2022recruitment10",
+            "2023recruitment10",
+            "2024recruitment10",
+            "2025recruitment10",
+        };
+
+        bool is_blacklist = false;
+        for (const auto& black : BlackList) {
+            if (item_id.find(black) == 0) {
+                is_blacklist = true;
+                break;
+            }
+        }
+        if (is_blacklist) {
+            continue;
+        }
+
         auto input_icon_path = input_dir / "item" / (item_info["iconId"].as_string() + ".png");
         if (!std::filesystem::exists(input_icon_path)) {
             std::cout << input_icon_path << " not exist" << std::endl;
