@@ -1,4 +1,4 @@
-// MeoAsstGui - A part of the MeoAssistantArknights project
+﻿// MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
@@ -9,6 +9,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,6 +17,7 @@ namespace MeoAsstGui
 {
     public static class AutoScroll
     {
+        private static bool _autoScroll;
         public static bool GetAutoScroll(DependencyObject obj)
         {
             return (bool)obj.GetValue(AutoScrollProperty);
@@ -33,10 +35,25 @@ namespace MeoAsstGui
         {
             var scrollViewer = d as ScrollViewer;
 
-            if (scrollViewer != null && (bool)e.NewValue)
+            if (scrollViewer != null)
             {
-                scrollViewer.ScrollToBottom();
+                bool alwaysScrollToEnd = (e.NewValue != null) && (bool)e.NewValue;
+                if (alwaysScrollToEnd)
+                {
+                    scrollViewer.ScrollToEnd();
+                    scrollViewer.ScrollChanged += ScrollChanged;
+                }
+                else { scrollViewer.ScrollChanged -= ScrollChanged; }
             }
+            else { throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances."); }
+        }
+
+        private static void ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            ScrollViewer scroll = sender as ScrollViewer;
+            if (scroll == null) { throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances."); }
+            if (e.ExtentHeightChange == 0) { _autoScroll = scroll.VerticalOffset == scroll.ScrollableHeight; }
+            if (_autoScroll && e.ExtentHeightChange != 0) { scroll.ScrollToVerticalOffset(scroll.ExtentHeight); }
         }
     }
 }
