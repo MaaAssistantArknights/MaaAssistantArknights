@@ -36,7 +36,7 @@ namespace asst
         ExpAndLMB,
         Normal,
         Extra,
-        Funriture,  // 家具
+        Furniture,  // 家具
         Special,    // 稀有材料、周年庆箱子等
         Sanity,     // 理智返还
         Reward      // 报酬（合成玉，仅剿灭）

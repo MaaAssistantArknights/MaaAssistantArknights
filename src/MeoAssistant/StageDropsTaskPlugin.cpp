@@ -77,7 +77,8 @@ bool asst::StageDropsTaskPlugin::_run()
 
     check_stage_valid();
 
-    if (m_enable_penguid) {
+    //if (m_enable_penguid) {
+    if (false) {
         auto upload_future = std::async(
             std::launch::async,
             &StageDropsTaskPlugin::upload_to_penguin, this);
@@ -154,8 +155,8 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
     stage["stageCode"] = m_stage_code;
     stage["stageId"] = Resrc.drops().get_stage_info(m_stage_code, m_stage_difficulty).stage_id;
 
-    m_cur_info_json = std::move(info);
-    callback(AsstMsg::SubTaskExtraInfo, m_cur_info_json);
+    callback(AsstMsg::SubTaskExtraInfo, info);
+    m_cur_info_json = std::move(details);
 }
 
 void asst::StageDropsTaskPlugin::set_startbutton_delay()

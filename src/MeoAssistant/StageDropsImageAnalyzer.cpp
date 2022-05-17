@@ -282,7 +282,7 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
         {StageDropType::ExpAndLMB, "StageDrops-DropType-ExpAndLMB"},
         {StageDropType::Normal, "StageDrops-DropType-Normal"},
         {StageDropType::Extra, "StageDrops-DropType-Extra"},
-        {StageDropType::Funriture, "StageDrops-DropType-Funriture"},
+        {StageDropType::Furniture, "StageDrops-DropType-Furniture"},
         {StageDropType::Special, "StageDrops-DropType-Special"},
         {StageDropType::Sanity, "StageDrops-DropType-Sanity"},
         {StageDropType::Reward, "StageDrops-DropType-Reward"},
@@ -350,8 +350,8 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
             return std::string();
         }
         break;
-    case StageDropType::Funriture:
-        return "funriture";     // 家具
+    case StageDropType::Furniture:
+        return "furni";     // 家具
     case StageDropType::Sanity:
         return "AP_GAMEPLAY";   // 理智返还
     case StageDropType::Reward:
