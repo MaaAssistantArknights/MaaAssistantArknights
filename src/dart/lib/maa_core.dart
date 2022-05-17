@@ -12,7 +12,6 @@ class MaaCore implements MaaCoreInterface {
   // Native Symbols
   // MeoAssistant
   static late AsstLoadResourceFunc _asstLoadResource;
-  static late AsstCreateFunc _asstCreate;
   static late AsstCreateExFunc _asstCreateEx;
   static late AsstConnectFunc _asstConnect;
   static late AsstDestroyFunc _asstDestroy;
@@ -71,7 +70,7 @@ class MaaCore implements MaaCoreInterface {
     return 'libCallback.dylib';
   }
 
-  static loadResource(String dir) {
+  static _loadResource(String dir) {
     print("init resource");
     final dirPtr = dir.toNativeUtf8();
     _asstLoadResource(dirPtr);
@@ -80,21 +79,7 @@ class MaaCore implements MaaCoreInterface {
   }
   
   MaaCore(String libDir, [Function(String)? callback]) {
-    if (!_symbolsLoaded) {
-      _loadNativeSymbols(libDir);
-    }
-    
-    if (!_apiInited) {
-      final callbackLib = DynamicLibrary.open(p.join(libDir, callbackLibName));
-      final InitDartApiFunc initNativeApi =
-          callbackLib.lookup<InitDartApiNative>('init_dart_api').asFunction();
-      initNativeApi(NativeApi.initializeApiDLData);
-      _apiInited = true;
-    }
-
-    if (!_resourceLoaded) {
-      loadResource(libDir);
-    }
+    init(libDir);
 
     _allocated = [];
     _receivePort = ReceivePort();
@@ -106,6 +91,21 @@ class MaaCore implements MaaCoreInterface {
     
     if (callback != null) {
       _portSubscription = _receivePort!.listen(_wrapCallback(callback));
+    }
+  }
+
+  static void init(String libDir, {bool reloadResource = false}) {
+    if (!_symbolsLoaded) {
+      _loadNativeSymbols(libDir);
+    }
+    
+    if (!_apiInited) {
+      _initDartApi(NativeApi.initializeApiDLData);
+      _apiInited = true;
+    }
+    
+    if (!_resourceLoaded || reloadResource) {
+      _loadResource(libDir);
     }
   }
 
@@ -141,11 +141,10 @@ class MaaCore implements MaaCoreInterface {
         DynamicLibrary.open(p.join(libDir, dep+'.dll'));
         print("loaded dep: $dep"); 
       } 
-    };
+    }
     final lib = DynamicLibrary.open(p.join(libDir, meoAssistantLibName));
     _asstLoadResource =
         lib.lookup<AsstLoadResourceNative>('AsstLoadResource').asFunction();
-    _asstCreate = lib.lookup<AsstCreateNative>('AsstCreate').asFunction();
     _asstCreateEx = lib.lookup<AsstCreateExNative>('AsstCreateEx').asFunction();
     _asstConnect = lib.lookup<AsstConnectNative>('AsstConnect').asFunction();
     _asstDestroy = lib.lookup<AsstDestroyNative>('AsstDestroy').asFunction();
@@ -236,5 +235,11 @@ class MaaCore implements MaaCoreInterface {
     final ptr = str.toNativeUtf8();
     _allocated.add(ptr);
     return ptr;
+  }
+
+  static String get version {
+    final ptr = _asstGetVersion();
+    final str = ptr.toDartString();
+    return str;
   }
 }
