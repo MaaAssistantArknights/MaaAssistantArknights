@@ -2024,6 +2024,7 @@
     },
     "DailyTask": {
         "action": "ClickSelf",
+        "cache": false,
         "roi": [
             400,
             0,
@@ -2037,6 +2038,7 @@
     },
     "WeeklyTask": {
         "action": "ClickSelf",
+        "cache": false,
         "roi": [
             400,
             0,
