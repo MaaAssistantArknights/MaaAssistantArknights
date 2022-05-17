@@ -345,7 +345,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _creditFirstList, value);
-                ViewStatusStorage.Set("Mall.CreditFirstList", value.ToString());
+                ViewStatusStorage.Set("Mall.CreditFirstList", value);
             }
         }
 
@@ -357,7 +357,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _creditBlackList, value);
-                ViewStatusStorage.Set("Mall.CreditBlackList", value.ToString());
+                ViewStatusStorage.Set("Mall.CreditBlackList", value);
             }
         }
 
