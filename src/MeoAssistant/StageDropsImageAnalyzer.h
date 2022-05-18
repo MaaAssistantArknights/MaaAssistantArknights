@@ -14,7 +14,12 @@ namespace asst
 
         StageKey get_stage_key() const;
         int get_stars() const noexcept;
-        const std::unordered_map<std::string, int>& get_drops() const noexcept;
+
+        // <droptype, <item_id, quantity>>
+        const auto& get_drops() const noexcept
+        {
+            return m_drops;
+        }
 
     protected:
         bool analyze_stage_code();
@@ -31,6 +36,7 @@ namespace asst
         StageDifficulty m_difficulty = StageDifficulty::Normal;
         int m_stars = 0;
         std::vector<std::pair<Rect, StageDropType>> m_baseline;
-        std::unordered_map<std::string, int> m_drops;
+        // <droptype, <item_id, quantity>>
+        std::vector<StageDropInfo> m_drops;
     };
 }

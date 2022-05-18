@@ -47,6 +47,14 @@ namespace asst
         int ap_cost = 0;
         std::unordered_map<StageDropType, std::vector<std::string>> drops;
     };
+    struct StageDropInfo
+    {
+        StageDropType droptype = StageDropType::Unknown;
+        std::string droptype_name;
+        std::string item_id;
+        std::string item_name;
+        int quantity = 0;
+    };
 
     class StageDropsConfiger final : public AbstractConfiger
     {
@@ -65,6 +73,10 @@ namespace asst
         const auto& get_all_item_id() const
         {
             return m_all_item_id;
+        }
+        void append_drops(const StageKey& stage_key, StageDropType type, std::string item_id)
+        {
+            m_stage_info[stage_key].drops[type].emplace_back(std::move(item_id));
         }
 
     protected:
