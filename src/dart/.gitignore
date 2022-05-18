@@ -3,11 +3,13 @@
 *.log
 *.pyc
 *.swp
+*.exp
 .DS_Store
 .atom/
 .buildlog/
 .history
 .svn/
+cmake-build-debug/
 
 # IntelliJ related
 *.iml

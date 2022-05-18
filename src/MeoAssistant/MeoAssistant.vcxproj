@@ -67,7 +67,6 @@
     <ClInclude Include="MultiMatchImageAnalyzer.h" />
     <ClInclude Include="OcrImageAnalyzer.h" />
     <ClInclude Include="OcrPack.h" />
-    <ClInclude Include="PenguinPack.h" />
     <ClInclude Include="RecruitImageAnalyzer.h" />
     <ClInclude Include="AipOcr.h" />
     <ClInclude Include="Resource.h" />
@@ -85,6 +84,8 @@
     <ClInclude Include="RoguelikeSkillSelectionTaskPlugin.h" />
     <ClInclude Include="RoguelikeTask.h" />
     <ClInclude Include="RuntimeStatus.h" />
+    <ClInclude Include="StageDropsConfiger.h" />
+    <ClInclude Include="StageDropsImageAnalyzer.h" />
     <ClInclude Include="StageDropsTaskPlugin.h" />
     <ClInclude Include="StartUpTask.h" />
     <ClInclude Include="TaskData.h" />
@@ -140,7 +141,6 @@
     <ClCompile Include="MultiMatchImageAnalyzer.cpp" />
     <ClCompile Include="OcrImageAnalyzer.cpp" />
     <ClCompile Include="OcrPack.cpp" />
-    <ClCompile Include="PenguinPack.cpp" />
     <ClCompile Include="RecruitImageAnalyzer.cpp" />
     <ClCompile Include="AipOcr.cpp" />
     <ClCompile Include="Resource.cpp" />
@@ -160,6 +160,8 @@
     <ClCompile Include="RoguelikeSkillSelectionTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeTask.cpp" />
     <ClCompile Include="RuntimeStatus.cpp" />
+    <ClCompile Include="StageDropsConfiger.cpp" />
+    <ClCompile Include="StageDropsImageAnalyzer.cpp" />
     <ClCompile Include="StageDropsTaskPlugin.cpp" />
     <ClCompile Include="StartUpTask.cpp" />
     <ClCompile Include="TaskData.cpp" />

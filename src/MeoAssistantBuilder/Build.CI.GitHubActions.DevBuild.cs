@@ -5,7 +5,7 @@ namespace MeoAssistantBuilder;
 [GitHubActions(
     name: "dev-build",
     image: GitHubActionsImage.WindowsLatest,
-    OnPushBranches = new[] { DevBranch },
+    OnPushBranchesIgnore = new[] { MasterBranch },
     OnPullRequestBranches = new[] { DevBranch },
     OnPushIncludePaths = new[]
     {

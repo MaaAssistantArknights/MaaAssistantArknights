@@ -24,7 +24,7 @@ int main(/*int argc, char** argv*/)
         return -1;
     }
 
-    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", "");
+    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", "DEBUG");
     if (!connected) {
         std::cerr << "connect failed" << std::endl;
         AsstDestroy(ptr);
@@ -63,8 +63,10 @@ int main(/*int argc, char** argv*/)
     //    AsstAppendTask(ptr, "Mall", R"(
     //{
     //    "shopping": true,
-    //    "is_black_list": false,
-    //    "shopping_list": [
+    //    "buy_first": [
+    //        "许可"
+    //    ],
+    //    "black_list": [
     //        "家具",
     //        "碳"
     //    ]
@@ -90,14 +92,14 @@ int main(/*int argc, char** argv*/)
     //}
     //)");
 
-    //AsstAppendTask(ptr, "Debug", R"({})");
+    AsstAppendTask(ptr, "Debug", R"({})");
 
-    AsstAppendTask(ptr, "Copilot", R"(
-{
-    "stage_name": "如帝国之影",
-    "formation": true
-}
-)");
+    //    AsstAppendTask(ptr, "Copilot", R"(
+    //{
+    //    "stage_name": "如帝国之影",
+    //    "formation": true
+    //}
+    //)");
 
     AsstStart(ptr);
 

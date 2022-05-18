@@ -4,6 +4,10 @@
 
 #include "AsstTypes.h"
 
+#ifndef  ASST_DEBUG
+#define ASST_DEBUG
+#endif // ! ASST_DEBUG
+
 namespace asst
 {
     class TaskData;

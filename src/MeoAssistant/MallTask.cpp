@@ -26,7 +26,10 @@ bool asst::MallTask::set_params(const json::value& params)
         if (params.contains("buy_first") && params.at("buy_first").is_array()) {
             std::vector<std::string> buy_first;
             for (auto& name : params.at("buy_first").as_array()) {
-                buy_first.emplace_back(name.as_string());
+                std::string name_str = name.as_string();
+                if (!name_str.empty()) {
+                    buy_first.emplace_back(name_str);
+                }
             }
             if (!buy_first.empty()) {
                 m_shopping_first_task_ptr->set_white_list(std::move(buy_first));
