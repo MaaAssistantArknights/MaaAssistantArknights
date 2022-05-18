@@ -63,7 +63,6 @@
           "items": {
             "type": "string",
             "enum": [
-              "Clean",
               "Default",
               "DevBuild",
               "ReleaseMaa",
@@ -72,6 +71,9 @@
               "SetMaaChangeLog",
               "SetPackageBundled",
               "SetVersion",
+              "UseCleanArtifact",
+              "UseCleanCICD",
+              "UseCleanRelease",
               "UseCommitVersion",
               "UseMaaChangeLog",
               "UseMaaCore",
@@ -83,10 +85,8 @@
               "UsePublishRelease",
               "UseTagVersion",
               "WithCompileCoreCICD",
-              "WithCompileCoreDebug",
               "WithCompileCoreRelease",
               "WithCompileResourceRelease",
-              "WithCompileWpfDebug",
               "WithCompileWpfRelease"
             ]
           }
@@ -101,7 +101,6 @@
           "items": {
             "type": "string",
             "enum": [
-              "Clean",
               "Default",
               "DevBuild",
               "ReleaseMaa",
@@ -110,6 +109,9 @@
               "SetMaaChangeLog",
               "SetPackageBundled",
               "SetVersion",
+              "UseCleanArtifact",
+              "UseCleanCICD",
+              "UseCleanRelease",
               "UseCommitVersion",
               "UseMaaChangeLog",
               "UseMaaCore",
@@ -121,10 +123,8 @@
               "UsePublishRelease",
               "UseTagVersion",
               "WithCompileCoreCICD",
-              "WithCompileCoreDebug",
               "WithCompileCoreRelease",
               "WithCompileResourceRelease",
-              "WithCompileWpfDebug",
               "WithCompileWpfRelease"
             ]
           }

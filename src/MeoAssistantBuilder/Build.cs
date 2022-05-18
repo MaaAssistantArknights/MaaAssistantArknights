@@ -109,13 +109,21 @@ public partial class Build : NukeBuild
 
     #region 清理
 
-    Target Clean => _ => _
+    Target UseCleanArtifact => _ => _
         .Executes(() =>
         {
             FileSystemTasks.EnsureCleanDirectory(Parameters.ArtifactOutput);
-
+        });
+    
+    Target UseCleanRelease => _ => _
+        .Executes(() =>
+        {
             FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.Release);
-            FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.RelWithDebInfo);
+        });
+    
+    Target UseCleanCICD => _ => _
+        .Executes(() =>
+        {
             FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.CICD);
         });
 
@@ -124,7 +132,6 @@ public partial class Build : NukeBuild
     #region 设置版本
 
     Target UseCommitVersion => _ => _
-        .DependsOn(Clean)
         .Triggers(SetVersion)
         .Executes(() =>
         {
@@ -132,7 +139,6 @@ public partial class Build : NukeBuild
         });
 
     Target UseTagVersion => _ => _
-        .DependsOn(Clean)
         .Triggers(SetVersion)
         .Executes(() =>
         {
@@ -175,6 +181,7 @@ public partial class Build : NukeBuild
     #region 编译
 
     Target WithCompileCoreRelease => _ => _
+        .DependsOn(UseCleanRelease)
         .After(SetVersion)
         .Executes(() =>
         {
@@ -190,23 +197,8 @@ public partial class Build : NukeBuild
             );
         });
     
-    Target WithCompileCoreDebug => _ => _
-        .After(SetVersion)
-        .Executes(() =>
-        {
-            var versionEnv = $"/DMAA_VERSION=\\\"{_version}\\\"";
-            Information($"MaaCore 编译环境变量：ExternalCompilerOptions = {versionEnv}");
-            MSBuild(c => c
-                .SetProcessToolPath(Parameters.MsBuildPath)
-                .SetProjectFile(Parameters.MaaCoreProject)
-                .SetTargets("ReBuild")
-                .SetConfiguration(BuildConfiguration.RelWithDebInfo)
-                .SetTargetPlatform(MSBuildTargetPlatform.x64)
-                .SetProcessEnvironmentVariable("ExternalCompilerOptions", versionEnv)
-            );
-        });
-
     Target WithCompileCoreCICD => _ => _
+        .DependsOn(UseCleanCICD)
         .After(SetVersion)
         .Executes(() =>
         {
@@ -231,6 +223,7 @@ public partial class Build : NukeBuild
 
     // TODO 在 MaaElectronUI 发布后移除
     Target WithCompileWpfRelease => _ => _
+        .DependsOn(UseCleanRelease)
         .After(SetVersion)
         .Executes(() =>
         {
@@ -244,22 +237,8 @@ public partial class Build : NukeBuild
             );
         });
 
-    // TODO 在 MaaElectronUI 发布后移除
-    Target WithCompileWpfDebug => _ => _
-        .After(SetVersion)
-        .Executes(() =>
-        {
-            MSBuild(c => c
-                .SetProcessToolPath(Parameters.MsBuildPath)
-                .SetProjectFile(Parameters.MaaWpfProject)
-                .SetTargets("ReBuild")
-                .SetConfiguration(BuildConfiguration.RelWithDebInfo)
-                .SetTargetPlatform(MSBuildTargetPlatform.x64)
-                .EnableRestore()
-            );
-        });
-
     Target WithCompileResourceRelease => _ => _
+        .DependsOn(UseCleanRelease)
         .After(SetVersion)
         .Executes(() =>
         {
@@ -280,16 +259,18 @@ public partial class Build : NukeBuild
     #region 打包
 
     Target UseMaaDevBundle => _ => _
-        .DependsOn(WithCompileCoreDebug, WithCompileWpfDebug)
+        .DependsOn(UseCleanArtifact, WithCompileCoreRelease, WithCompileWpfRelease)
         .Triggers(SetPackageBundled)
         .Executes(() =>
         {
-            var buildOutput = Parameters.BuildOutput / BuildConfiguration.RelWithDebInfo;
+            var buildOutput = Parameters.BuildOutput / BuildConfiguration.Release;
+            RemoveDebugSymbols(buildOutput);
+            
             BundlePackage(buildOutput, MaaDevBundlePackageName);
         });
 
     Target UseMaaLegacyBundle => _ => _
-        .DependsOn(WithCompileCoreCICD, WithCompileCoreRelease, WithCompileWpfRelease)
+        .DependsOn(UseCleanArtifact, WithCompileCoreCICD, WithCompileCoreRelease, WithCompileWpfRelease)
         .Triggers(SetPackageBundled)
         .Executes(() =>
         {
@@ -305,7 +286,7 @@ public partial class Build : NukeBuild
         });
 
     Target UseMaaCore => _ => _
-        .DependsOn(WithCompileCoreCICD)
+        .DependsOn(UseCleanArtifact, WithCompileCoreCICD)
         .Triggers(SetPackageBundled)
         .Executes(() =>
         {
@@ -316,7 +297,7 @@ public partial class Build : NukeBuild
         });
 
     Target UseMaaResource => _ => _
-        .DependsOn(WithCompileResourceRelease)
+        .DependsOn(UseCleanArtifact, WithCompileResourceRelease)
         .Triggers(SetPackageBundled)
         .Executes(() =>
         {
@@ -445,7 +426,6 @@ public partial class Build : NukeBuild
     /// 见 <see cref="ActionConfiguration.DevBuild"/>
     /// </summary>
     Target DevBuild => _ => _
-        .DependsOn(Clean)
         .DependsOn(UseCommitVersion)
         .DependsOn(UseMaaDevBundle)
         .DependsOn(UsePublishArtifact);
@@ -455,7 +435,6 @@ public partial class Build : NukeBuild
     /// 见 <see cref="ActionConfiguration.ReleaseMaa"/>
     /// </summary>
     Target ReleaseMaa => _ => _
-        .DependsOn(Clean)
         .DependsOn(UseTagVersion)
         .DependsOn(UseMaaLegacyBundle)
         .DependsOn(UseMaaChangeLog)
@@ -466,7 +445,6 @@ public partial class Build : NukeBuild
     /// 见 <see cref="ActionConfiguration.ReleaseMaaCore"/>
     /// </summary>
     Target ReleaseMaaCore => _ => _
-        .DependsOn(Clean)
         .DependsOn(UseTagVersion)
         .DependsOn(UseMaaCore)
         .DependsOn(UseMaaChangeLog)
@@ -477,7 +455,6 @@ public partial class Build : NukeBuild
     /// 见 <see cref="ActionConfiguration.ReleaseMaaResource"/>
     /// </summary>
     Target ReleaseMaaResource => _ => _
-        .DependsOn(Clean)
         .DependsOn(UseCommitVersion)
         .DependsOn(UseMaaResource)
         .DependsOn(UseMaaResourceChangeLog)
