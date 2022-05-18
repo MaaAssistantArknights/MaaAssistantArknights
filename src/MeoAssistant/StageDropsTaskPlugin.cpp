@@ -77,8 +77,7 @@ bool asst::StageDropsTaskPlugin::_run()
 
     check_stage_valid();
 
-    //if (m_enable_penguid) {
-    if (false) {
+    if (m_enable_penguid) {
         auto upload_future = std::async(
             std::launch::async,
             &StageDropsTaskPlugin::upload_to_penguin, this);
@@ -119,18 +118,19 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
 {
     LogTraceFunction;
 
-    auto& item = Resrc.item();
-
     std::vector<json::value> drops_vec;
-    for (const auto& [item_id, quantity] : m_cur_drops) {
+    for (const auto& drop : m_cur_drops) {
         json::value info;
-        info["itemId"] = item_id;
-        info["quantity"] = quantity;
-        m_drop_stats[item_id] += quantity;
-        const std::string& name = item.get_item_name(item_id);
-        info["itemName"] = name.empty() ? "未知材料" : name;
+        info["itemId"] = drop.item_id;
+        info["quantity"] = drop.quantity;
+        m_drop_stats[drop.item_id] += drop.quantity;
+        info["itemName"] = drop.item_name;
+        info["dropType"] = drop.droptype_name;
         drops_vec.emplace_back(std::move(info));
     }
+
+    auto& item = Resrc.item();
+
     std::vector<json::value> stats_vec;
     for (auto&& [id, count] : m_drop_stats) {
         json::value info;
@@ -201,7 +201,17 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     json::value body;
     body["server"] = m_server;
     body["stageId"] = stage_id;
-    body["drops"] = m_cur_info_json["drops"];
+    auto& all_drops = body["drops"];
+    for (const auto& drop : m_cur_info_json["drops"].as_array()) {
+        static const std::vector<std::string> filter = { "NORMAL_DROP", "EXTRA_DROP" , "FURNITURE", "SPECIAL_DROP" };
+        std::string droptype = drop.at("dropType").as_string();
+        if (std::find(filter.cbegin(), filter.cend(), droptype) == filter.cend()) {
+            continue;
+        }
+        json::value format_drop = drop;
+        format_drop.as_object().erase("itemName");
+        all_drops.array_emplace(std::move(format_drop));
+    }
     body["source"] = "MeoAssistant";
     body["version"] = Version;
 

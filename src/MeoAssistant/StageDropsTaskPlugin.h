@@ -38,7 +38,7 @@ namespace asst
         std::string m_stage_code;
         StageDifficulty m_stage_difficulty = StageDifficulty::Normal;
         int m_stars = 0;
-        std::unordered_map<std::string, int> m_cur_drops;
+        std::vector<StageDropInfo> m_cur_drops;
         std::unordered_map<std::string, int> m_drop_stats;
         json::value m_cur_info_json;
 
