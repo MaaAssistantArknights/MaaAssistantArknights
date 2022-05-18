@@ -12,6 +12,7 @@
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 #include "TaskData.h"
+#include "StageDropsImageAnalyzer.h"
 
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -94,17 +95,17 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     if (need_exit()) {
         return false;
     }
-    Resrc.penguin().set_language(m_server);
 
-    const cv::Mat image = m_ctrler->get_image(true);
-    std::string res = Resrc.penguin().recognize(image);
-    Log.trace("Results of penguin recognition:\n", res);
+    StageDropsImageAnalyzer analyzer(m_ctrler->get_image());
+    if (!analyzer.analyze()) {
+        return false;
+    }
 
-    m_cur_drops = json::parse(res).value();
-    // 兼容老版本 json 格式
-    auto& drop_area = m_cur_drops["dropArea"];
-    m_cur_drops["drops"] = drop_area["drops"];
-    m_cur_drops["dropTypes"] = drop_area["dropTypes"];
+    auto&& [code, difficulty] = analyzer.get_stage_key();
+    m_stage_code = std::move(code);
+    m_stage_difficulty = difficulty;
+    m_stars = analyzer.get_stars();
+    m_cur_drops = analyzer.get_drops();
 
     auto last_time_opt = m_status->get_data("LastStartButton2");
     auto last_time = last_time_opt ? last_time_opt.value() : 0;
@@ -117,36 +118,45 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
 {
     LogTraceFunction;
 
-    json::value drops_details = m_cur_drops;
-    auto& item = Resrc.item();
-    for (json::value& drop : drops_details["drops"].as_array()) {
-        std::string id = drop["itemId"].as_string();
-        int quantity = drop["quantity"].as_integer();
-        m_drop_stats[id] += quantity;
-        const std::string& name = item.get_item_name(id);
-        drop["itemName"] = name.empty() ? "未知材料" : name;
+    std::vector<json::value> drops_vec;
+    for (const auto& drop : m_cur_drops) {
+        json::value info;
+        info["itemId"] = drop.item_id;
+        info["quantity"] = drop.quantity;
+        m_drop_stats[drop.item_id] += drop.quantity;
+        info["itemName"] = drop.item_name;
+        info["dropType"] = drop.droptype_name;
+        drops_vec.emplace_back(std::move(info));
     }
-    std::vector<json::value> statistics_vec;
+
+    auto& item = Resrc.item();
+
+    std::vector<json::value> stats_vec;
     for (auto&& [id, count] : m_drop_stats) {
         json::value info;
         info["itemId"] = id;
         const std::string& name = item.get_item_name(id);
         info["itemName"] = name.empty() ? "未知材料" : name;
         info["quantity"] = count;
-        statistics_vec.emplace_back(std::move(info));
+        stats_vec.emplace_back(std::move(info));
     }
     //// 排个序，数量多的放前面
-    //std::sort(statistics_vec.begin(), statistics_vec.end(),
+    //std::sort(stats_vec.begin(), stats_vec.end(),
     //    [](const json::value& lhs, const json::value& rhs) -> bool {
     //        return lhs.at("count").as_integer() > rhs.at("count").as_integer();
     //    });
 
-    drops_details["stats"] = json::array(std::move(statistics_vec));
-
     json::value info = basic_info_with_what("StageDrops");
-    info["details"] = drops_details;
+    json::value& details = info["details"];
+    details["stars"] = m_stars;
+    details["stats"] = json::array(std::move(stats_vec));
+    details["drops"] = json::array(std::move(drops_vec));
+    json::value& stage = details["stage"];
+    stage["stageCode"] = m_stage_code;
+    stage["stageId"] = Resrc.drops().get_stage_info(m_stage_code, m_stage_difficulty).stage_id;
 
     callback(AsstMsg::SubTaskExtraInfo, info);
+    m_cur_info_json = std::move(details);
 }
 
 void asst::StageDropsTaskPlugin::set_startbutton_delay()
@@ -176,14 +186,14 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     info["subtask"] = "ReportToPenguinStats";
     callback(AsstMsg::SubTaskStart, info);
 
-    // Doc: https://developer.penguin-stats.io/public-api/api-v2-instruction/report-api
-    std::string stage_id = m_cur_drops.get("stage", "stageId", std::string());
+    // Doc: https://developer.penguin-stats_vec.io/public-api/api-v2-instruction/report-api
+    std::string stage_id = m_cur_info_json.get("stage", "stageId", std::string());
     if (stage_id.empty()) {
         info["why"] = "未知关卡";
         callback(AsstMsg::SubTaskError, info);
         return;
     }
-    if (m_cur_drops.get("stars", 0) != 3) {
+    if (m_stars != 3) {
         info["why"] = "非三星作战";
         callback(AsstMsg::SubTaskError, info);
         return;
@@ -191,14 +201,16 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     json::value body;
     body["server"] = m_server;
     body["stageId"] = stage_id;
-    // To fix: https://github.com/MistEO/MeoAssistantArknights/issues/40
-    body["drops"] = json::array();
-    for (auto&& drop : m_cur_drops["drops"].as_array()) {
-        if (drop["itemId"].as_string().empty()
-            || drop["dropType"].as_string() == "LMB") {
+    auto& all_drops = body["drops"];
+    for (const auto& drop : m_cur_info_json["drops"].as_array()) {
+        static const std::vector<std::string> filter = { "NORMAL_DROP", "EXTRA_DROP" , "FURNITURE", "SPECIAL_DROP" };
+        std::string droptype = drop.at("dropType").as_string();
+        if (std::find(filter.cbegin(), filter.cend(), droptype) == filter.cend()) {
             continue;
         }
-        body["drops"].as_array().emplace_back(drop);
+        json::value format_drop = drop;
+        format_drop.as_object().erase("itemName");
+        all_drops.array_emplace(std::move(format_drop));
     }
     body["source"] = "MeoAssistant";
     body["version"] = Version;
@@ -233,9 +245,7 @@ bool asst::StageDropsTaskPlugin::check_stage_valid()
 {
     LogTraceFunction;
 
-    std::string stage_code = m_cur_drops.get("stage", "stageCode", std::string());
-
-    if (stage_code.find("-EX-") != std::string::npos) {
+    if (m_stage_code.find("-EX-") != std::string::npos) {
         json::value info = basic_info();
         info["subtask"] = "CheckStageValid";
         info["why"] = "EX关卡";

@@ -1,4 +1,4 @@
-// MeoAsstGui - A part of the MeoAssistantArknights project
+// MeoAsstGui - A part of the MaaAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
@@ -101,7 +101,7 @@ namespace MeoAsstGui
             }
         }
 
-        private const string RequestUrl = "https://api.github.com/repos/MistEO/MeoAssistantArknights/releases";
+        private const string RequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases";
         private const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
         private JObject _lastestJson;
         private JObject _assetsObject;
@@ -307,35 +307,14 @@ namespace MeoAsstGui
 
         public bool CheckUpdate()
         {
-            var settings = _container.Get<SettingsViewModel>();
-            if (!settings.UpdateCheck)
+            // 开发版不检查更新
+            if (!isStableVersion())
             {
                 return false;
             }
 
-            // 开发版、测试版不检查更新
-            // 正式版：vX.X.X
-            // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}
-            // DevBuild (Local)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}-Local
-            // Release (Local Commit)：v.{CommitHash[..7]}-Local
-            // Release (Local Tag)：{Tag}-Local
-            // Debug (Local)：DEBUG VERSION
-            // Script Compiled：c{CommitHash[..7]}
-            if (_curVersion == "DEBUG VERSION")
-            {
-                return false;
-            }
-            if (_curVersion.StartsWith("c"))
-            {
-                return false;
-            }
-            if (_curVersion.Contains("Local"))
-            {
-                return false;
-            }
-            var pattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
-            var match = Regex.Match(_curVersion, pattern);
-            if (match.Success is false)
+            var settings = _container.Get<SettingsViewModel>();
+            if (!settings.UpdateCheck)
             {
                 return false;
             }
@@ -577,10 +556,46 @@ namespace MeoAsstGui
             return true;
         }
 
+        private bool isStableVersion()
+        {
+            // 正式版：vX.X.X
+            // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}
+            // DevBuild (Local)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}-Local
+            // Release (Local Commit)：v.{CommitHash[..7]}-Local
+            // Release (Local Tag)：{Tag}-Local
+            // Debug (Local)：DEBUG VERSION
+            // Script Compiled：c{CommitHash[..7]}
+            if (_curVersion == "DEBUG VERSION")
+            {
+                return false;
+            }
+            if (_curVersion.StartsWith("c"))
+            {
+                return false;
+            }
+            if (_curVersion.Contains("Local"))
+            {
+                return false;
+            }
+            var pattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
+            var match = Regex.Match(_curVersion, pattern);
+            if (match.Success is false)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public bool ResourceOTA()
         {
-            const string req_base_url = "https://api.github.com/repos/MistEO/MeoAssistantArknights/commits?path=";
-            const string repositorie_base = "MistEO/MeoAssistantArknights";
+            // 开发版不检查更新
+            if (!isStableVersion())
+            {
+                return false;
+            }
+
+            const string req_base_url = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits?path=";
+            const string repositorie_base = "MaaAssistantArknights/MaaAssistantArknights";
             const string branche_base = "master";
 
             // cdn接口地址组
@@ -599,7 +614,7 @@ namespace MeoAsstGui
             // 资源文件在仓库中的路径，与实际打包后的路径并不相同，需要使用dict
             var update_dict = new Dictionary<string, string>()
             {
-                { "3rdparty/resource/penguin-stats-recognize/json/stages.json" , "resource/penguin-stats-recognize/json/stages.json"},
+                { "resource/stages.json" , "resource/stages.json"},
                 { "resource/recruit.json", "resource/recruit.json" }
             };
 

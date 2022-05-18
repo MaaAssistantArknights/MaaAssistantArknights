@@ -6,6 +6,8 @@
 
 #include <meojson/json.hpp>
 
+#include "StageDropsConfiger.h"
+
 namespace asst
 {
     class ProcessTask;
@@ -32,8 +34,14 @@ namespace asst
         void upload_to_penguin();
 
         static constexpr int64_t RecognizationTimeOffset = 20;
+
+        std::string m_stage_code;
+        StageDifficulty m_stage_difficulty = StageDifficulty::Normal;
+        int m_stars = 0;
+        std::vector<StageDropInfo> m_cur_drops;
         std::unordered_map<std::string, int> m_drop_stats;
-        json::value m_cur_drops;
+        json::value m_cur_info_json;
+
         bool m_startbutton_delay_setted = false;
         std::vector<std::future<void>> m_upload_pending;
         ProcessTask* m_cast_ptr = nullptr;

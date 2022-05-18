@@ -630,6 +630,12 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     clear_info();
 
+#ifdef ASST_DEBUG
+    if (config == "DEBUG") {
+        return true;
+    }
+#endif
+
     auto get_info_json = [&]() -> json::value {
         return json::object{
             { "uuid", m_uuid},
