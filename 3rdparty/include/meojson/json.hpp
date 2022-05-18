@@ -236,7 +236,7 @@ namespace json
         template <typename... Args> decltype(auto) emplace_back(Args &&...args);
 
         void clear() noexcept;
-        // void earse(size_t pos);
+        // void erase(size_t pos);
 
         iterator begin() noexcept;
         iterator end() noexcept;
@@ -325,7 +325,7 @@ namespace json
         template <typename... Args> decltype(auto) insert(Args &&...args);
 
         void clear() noexcept;
-        bool earse(const std::string& key);
+        bool erase(const std::string& key);
 
         iterator begin() noexcept;
         iterator end() noexcept;
@@ -1432,7 +1432,7 @@ namespace json
 
     MEOJSON_INLINE void object::clear() noexcept { _object_data.clear(); }
 
-    MEOJSON_INLINE bool object::earse(const std::string& key)
+    MEOJSON_INLINE bool object::erase(const std::string& key)
     {
         return _object_data.erase(key) > 0 ? true : false;
     }
@@ -1853,8 +1853,7 @@ namespace json
         parser(const std::string::const_iterator& cbegin,
                const std::string::const_iterator& cend) noexcept
             : _cur(cbegin), _end(cend)
-        {
-        }
+        {}
 
         std::optional<value> parse();
         value parse_value();
