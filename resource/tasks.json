@@ -2024,6 +2024,7 @@
     },
     "DailyTask": {
         "action": "ClickSelf",
+        "cache": false,
         "roi": [
             400,
             0,
@@ -2037,6 +2038,7 @@
     },
     "WeeklyTask": {
         "action": "ClickSelf",
+        "cache": false,
         "roi": [
             400,
             0,
@@ -6398,6 +6400,162 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike1ClickToStartPoint"
+        ]
+    },
+    "StageDrops-StageName": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [],
+        "roi": [
+            98,
+            24,
+            400,
+            135
+        ]
+    },
+    "StageDrops-BaseLine": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            636,
+            1280,
+            2
+        ],
+        "templThreshold": 25,
+        "templThreshold_Doc": "这里用来作为基线间距阈值",
+        "specialThreshold": 100,
+        "specialThreshold_Doc": "基建长度阈值（不小于120）",
+        "maskRange": [
+            35,
+            255
+        ]
+    },
+    "StageDrops-Item": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "roi": [
+            0,
+            -130,
+            138,
+            130
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "StageDrops-DropType-ExpAndLMB": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Normal": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Extra": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Furniture": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Special": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Sanity": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Reward": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-Quantity": {
+        "template": "empty.png",
+        "templThreshold": 3,
+        "templThreshold_Doc": "这里用来作为字间距阈值",
+        "roi": [
+            62,
+            89,
+            45,
+            23
+        ],
+        "maskRange": [
+            150,
+            255
+        ]
+    },
+    "StageDrops-Difficulty-Tough": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            0,
+            220,
+            220
+        ]
+    },
+    "StageDrops-Difficulty-Normal": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            0,
+            220,
+            220
+        ]
+    },
+    "StageDrops-Stars-3": {
+        "templThreshold": 0.8,
+        "roi": [
+            50,
+            270,
+            250,
+            100
+        ]
+    },
+    "StageDrops-Stars-2": {
+        "templThreshold": 0.8,
+        "roi": [
+            50,
+            270,
+            250,
+            100
         ]
     }
 }

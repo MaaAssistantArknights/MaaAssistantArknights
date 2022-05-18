@@ -72,6 +72,11 @@ void asst::MatchImageAnalyzer::set_region_of_appeared(Rect region) noexcept
     }
 }
 
+void asst::MatchImageAnalyzer::set_mask_with_close(int with_close) noexcept
+{
+    m_mask_with_close = with_close;
+}
+
 const asst::MatchRect& asst::MatchImageAnalyzer::get_result() const noexcept
 {
     return m_result;
@@ -109,6 +114,10 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
         cv::Mat mask;
         cv::cvtColor(templ, mask, cv::COLOR_BGR2GRAY);
         cv::inRange(mask, m_mask_range.first, m_mask_range.second, mask);
+        if (m_mask_with_close) {
+            cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+            cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel);
+        }
         cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED, mask);
     }
     double min_val = 0.0, max_val = 0.0;

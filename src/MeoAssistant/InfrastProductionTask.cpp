@@ -469,6 +469,9 @@ bool asst::InfrastProductionTask::opers_choose()
         Task.get("InfrastOperNameHash"))->dist_threshold;
     const int face_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
         Task.get("InfrastOperFaceHash"))->dist_threshold;
+
+    int count = 0;
+
     while (true) {
         if (need_exit()) {
             return false;
@@ -506,7 +509,6 @@ bool asst::InfrastProductionTask::opers_choose()
             });
         cur_all_opers.erase(remove_iter, cur_all_opers.end());
         Log.trace("after mood filter, opers size:", cur_all_opers.size());
-        int count = 0;
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             Log.trace("to find", opt_iter->skills.begin()->names.front());
             auto find_iter = std::find_if(
