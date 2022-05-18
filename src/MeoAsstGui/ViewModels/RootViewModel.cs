@@ -51,10 +51,12 @@ namespace MeoAsstGui
             var rvm = _container.Get<RecruitViewModel>();
             //var ivm = _container.Get<InfrastViewModel>();
             var svm = _container.Get<SettingsViewModel>();
+            var cvm = _container.Get<CopilotViewModel>();
 
             Items.Add(tvm);
             Items.Add(rvm);
             //Items.Add(ivm);
+            Items.Add(cvm);
             Items.Add(svm);
             ActiveItem = tvm;
         }
