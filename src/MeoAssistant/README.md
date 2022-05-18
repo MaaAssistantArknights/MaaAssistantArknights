@@ -12,7 +12,7 @@
 - 图像识别库：[opencv](https://github.com/opencv/opencv.git)
 - ~~文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - 文字识别库：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- 关卡掉落识别：[企鹅物流识别](https://github.com/penguin-statistics/recognizer)
+- ~~关卡掉落识别：[企鹅物流识别](https://github.com/penguin-statistics/recognizer)~~
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
 - C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)
 - C++ base64编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)
@@ -24,6 +24,7 @@
 - 公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)
 - 干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)
 - 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
+- 材料数据：[明日方舟bot常用素材](https://github.com/yuanyan3060/Arknights-Bot-Resource)
 
 ## 开发相关
 

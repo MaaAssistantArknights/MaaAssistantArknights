@@ -129,9 +129,6 @@
     <ClInclude Include="OcrPack.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="PenguinPack.h">
-      <Filter>头文件\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -321,6 +318,12 @@
     <ClInclude Include="RoguelikeCopilotConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="StageDropsImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Final</Filter>
+    </ClInclude>
+    <ClInclude Include="StageDropsConfiger.h">
+      <Filter>头文件\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -351,9 +354,6 @@
       <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="OcrPack.cpp">
-      <Filter>源文件\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="PenguinPack.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Resource.cpp">
@@ -537,6 +537,12 @@
       <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="RoguelikeCopilotConfiger.cpp">
+      <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="StageDropsImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Final</Filter>
+    </ClCompile>
+    <ClCompile Include="StageDropsConfiger.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
   </ItemGroup>
