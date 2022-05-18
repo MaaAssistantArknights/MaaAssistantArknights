@@ -40,11 +40,6 @@ int asst::StageDropsImageAnalyzer::get_stars() const noexcept
     return m_stars;
 }
 
-const std::unordered_map<std::string, int>& asst::StageDropsImageAnalyzer::get_drops() const noexcept
-{
-    return m_drops;
-}
-
 bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 {
     LogTraceFunction;
@@ -175,6 +170,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
 
     auto task_ptr = Task.get("StageDrops-Item");
 
+    auto& ResrcItem = Resrc.item();
     bool has_error = false;
     const auto& roi = task_ptr->roi;
     for (const auto& [baseline, droptype] : m_baseline) {
@@ -197,7 +193,27 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
                 Log.error(__FUNCTION__, "error");
                 continue;
             }
-            m_drops.emplace(item, quantity);
+            StageDropInfo info;
+            info.droptype = droptype;
+            info.item_id = std::move(item);
+            info.quantity = quantity;
+
+            const std::string& name = ResrcItem.get_item_name(info.item_id);
+            info.item_name = name.empty() ? "未知材料" : name;
+
+            static const std::unordered_map<StageDropType, std::string> DropTypeName = {
+                { StageDropType::Normal, "NORMAL_DROP" },
+                { StageDropType::Extra,"EXTRA_DROP" },
+                { StageDropType::Furniture, "FURNITURE" },
+                { StageDropType::Special, "SPECIAL_DROP" },
+                { StageDropType::ExpAndLMB, "EXP_LMB_DROP" },
+                { StageDropType::Sanity, "SANITY_DROP" },
+                { StageDropType::Reward, "REWARD_DROP" },
+                { StageDropType::Unknown, "UNKNOWN_DROP" }
+            };
+            info.droptype_name = DropTypeName.at(droptype);
+
+            m_drops.emplace_back(std::move(info));
         }
     }
     return !has_error;
@@ -383,9 +399,14 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         }
     }
 
+    // 没识别到的话就把全部材料都拿来跑一遍
     if (result.empty()) {
         auto items = Resrc.item().get_all_item_id();
         result = match_item_with_templs(std::vector<std::string>(items.cbegin(), items.cend()));
+        // 将这次识别到的加入该关卡的待识别列表
+        if (!result.empty() && !m_stage_code.empty()) {
+            Resrc.drops().append_drops(StageKey{ m_stage_code, m_difficulty }, type, result);
+        }
     }
 
     return result;
