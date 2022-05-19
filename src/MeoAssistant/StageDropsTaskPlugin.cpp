@@ -153,7 +153,9 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
     details["drops"] = json::array(std::move(drops_vec));
     json::value& stage = details["stage"];
     stage["stageCode"] = m_stage_code;
-    stage["stageId"] = Resrc.drops().get_stage_info(m_stage_code, m_stage_difficulty).stage_id;
+    if (!m_stage_code.empty()) {
+        stage["stageId"] = Resrc.drops().get_stage_info(m_stage_code, m_stage_difficulty).stage_id;
+    }
 
     callback(AsstMsg::SubTaskExtraInfo, info);
     m_cur_info_json = std::move(details);
