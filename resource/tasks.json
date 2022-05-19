@@ -7,17 +7,9 @@
         ]
     },
     "SNToSN-8": {
-        "algorithm": "OcrDetect",
+        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "text": [
-            "已开放"
-        ],
-        "roi": [
-            40,
-            481,
-            308,
-            139
-        ],
+        "template": "SN-open.png",
         "next": [
             "SNChapter2ToSN-8",
             "SNToSN-8"
@@ -28,10 +20,10 @@
         "action": "ClickSelf",
         "template": "SN-Chapter2.png",
         "roi": [
-            114,
-            406,
-            330,
-            166
+            163,
+            418,
+            197,
+            125
         ],
         "next": [
             "StageSN-8",
@@ -67,17 +59,9 @@
         ]
     },
     "SNToSN-9": {
-        "algorithm": "OcrDetect",
+        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "text": [
-            "已开放"
-        ],
-        "roi": [
-            40,
-            481,
-            308,
-            139
-        ],
+        "template": "SN-open.png",
         "next": [
             "SNChapter3ToSN-9",
             "SNToSN-9"
@@ -127,17 +111,9 @@
         ]
     },
     "SNToSN-10": {
-        "algorithm": "OcrDetect",
+        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "text": [
-            "已开放"
-        ],
-        "roi": [
-            40,
-            481,
-            308,
-            139
-        ],
+        "template": "SN-open.png",
         "next": [
             "SNChapter3ToSN-10",
             "SNToSN-10"
