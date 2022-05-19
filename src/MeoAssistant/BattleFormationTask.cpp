@@ -27,7 +27,7 @@ bool asst::BattleFormationTask::_run()
     }
 
     // TODO: 需要加一个滑到头了的检测
-    while (true) {
+    while (!need_exit()) {
         select_opers_in_cur_page();
         if (m_groups.empty()) {
             break;
