@@ -26,6 +26,14 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
 
+    json::value info = basic_info_with_what("BattleFormation");
+    auto& details = info["details"];
+    auto& formation = details["formation"];
+    for (const auto& [name, oper_vec] : m_groups) {
+        formation.array_emplace(name);
+    }
+    callback(AsstMsg::SubTaskExtraInfo, info);
+
     // TODO: 需要加一个滑到头了的检测
     while (!need_exit()) {
         select_opers_in_cur_page();
@@ -89,6 +97,11 @@ bool asst::BattleFormationTask::select_opers_in_cur_page()
             m_ctrler->click(SkillRectArray.at(skill - 1));
         }
         m_groups.erase(iter);
+
+        json::value info = basic_info_with_what("BattleFormationSelected");
+        auto& details = info["details"];
+        details["selected"] = name;
+        callback(AsstMsg::SubTaskExtraInfo, info);
     }
 
     return true;

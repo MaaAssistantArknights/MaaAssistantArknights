@@ -65,6 +65,13 @@ bool asst::BattleProcessTask::get_stage_info()
 
 bool asst::BattleProcessTask::analyze_opers_preview()
 {
+    {
+        json::value info = basic_info_with_what("BattleAction");
+        auto& details = info["details"];
+        details["description"] = "识别干员";
+        callback(AsstMsg::SubTaskExtraInfo, info);
+    }
+
     BattleImageAnalyzer oper_analyzer;
     oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
 
@@ -243,6 +250,26 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
 
 bool asst::BattleProcessTask::do_action(const BattleAction& action)
 {
+    json::value info = basic_info_with_what("BattleAction");
+    auto& details = info["details"];
+    std::string desc;
+    switch (action.type) {
+    case BattleActionType::Deploy:
+        desc = action.group_name + " 部署";
+        break;
+    case BattleActionType::Retreat:
+        desc = action.group_name + " 撤退";
+        break;
+    case BattleActionType::UseSkill:
+        desc = action.group_name + " 技能";
+        break;
+    case BattleActionType::SwitchSpeed:
+        desc = "切换二倍速";
+        break;
+    }
+    details["description"] = desc;
+    callback(AsstMsg::SubTaskExtraInfo, info);
+
     if (!wait_condition(action)) {
         return false;
     }
