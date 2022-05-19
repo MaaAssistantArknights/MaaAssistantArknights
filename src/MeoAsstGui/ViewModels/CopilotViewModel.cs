@@ -29,12 +29,25 @@ namespace MeoAsstGui
     {
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
+        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
         public CopilotViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
             _windowManager = windowManager;
-            DisplayName = "自动战斗";
+            DisplayName = "自动战斗 Beta";
+            LogItemViewModels = new ObservableCollection<LogItemViewModel>();
+        }
+
+        public void AddLog(string content, string color = "Gray", string weight = "Regular")
+        {
+            LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
+            //LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
+        }
+
+        public void ClearLog()
+        {
+            LogItemViewModels.Clear();
         }
 
         private string _filename;
@@ -69,6 +82,8 @@ namespace MeoAsstGui
 
         public async void Start()
         {
+            AddLog("正在连接模拟器……");
+
             var asstProxy = _container.Get<AsstProxy>();
             if (!_catched)
             {
@@ -80,10 +95,12 @@ namespace MeoAsstGui
             }
             if (!_catched)
             {
+                AddLog("连接模拟器失败\n请检查连接设置", "darkred");
                 return;
             }
             if (Filename.Length == 0 || !File.Exists(Filename))
             {
+                AddLog("作业文件不存在", "darkred");
                 return;
             }
 
@@ -98,10 +115,12 @@ namespace MeoAsstGui
             }
             catch (Exception)
             {
+                AddLog("作业文件读取出错", "darkred");
                 return;
             }
 
             asstProxy.AsstStartCopilot(data["stage_name"].ToString(), Filename, Form);
+            AddLog("Star Burst Stream!");
         }
 
         public void Stop()

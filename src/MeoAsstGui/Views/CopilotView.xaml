@@ -9,23 +9,33 @@
              mc:Ignorable="d"
              d:DesignHeight="495" d:DesignWidth="800">
     <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
                    Text="作业路径" Margin="10" />
             <TextBox Text="{Binding Filename}" Margin="10"
-                     Width="500" Height="30" InputMethod.IsInputMethodEnabled="False" />
+                     Width="300" Height="30" InputMethod.IsInputMethodEnabled="False" />
             <Button Command="{s:Action SelectFile}" IsEnabled="{Binding Idle}" Content="选择作业" Width="120" Height="50" Margin="10" />
-        </StackPanel>
-
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-            <CheckBox IsChecked="{Binding Form}" IsHitTestVisible="{Binding Idle}" Content="编队" Height="50" Margin="10" />
+            <CheckBox IsChecked="{Binding Form}" HorizontalAlignment="Center" IsHitTestVisible="{Binding Idle}" Content="自动编队" Height="50" Margin="10" />
             <Button Command="{s:Action Start}" IsEnabled="{Binding Idle}" Content="开始" Width="120" Height="50" Margin="10" />
             <Button Command="{s:Action Stop}" Content="停止" Width="120" Height="50" Margin="10" />
         </StackPanel>
+
+        <ScrollViewer Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="10"
+                      local:AutoScroll.AutoScroll="True" Width="300">
+            <ItemsControl ItemsSource="{Binding Path=LogItemViewModels}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Content}" Foreground="{Binding Color}" FontWeight="{Binding Weight}"
+                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="5, 5" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>

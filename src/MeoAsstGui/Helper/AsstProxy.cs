@@ -371,6 +371,7 @@ namespace MeoAsstGui
             var subTaskDetails = details["details"];
 
             var mainModel = _container.Get<TaskQueueViewModel>();
+            var copilotModel = _container.Get<CopilotViewModel>();
             switch (what)
             {
                 case "StageDrops":
@@ -488,6 +489,18 @@ namespace MeoAsstGui
                             //AsstSetPenguinId(id);
                         }
                     }
+                    break;
+
+                case "BattleFormation":
+                    copilotModel.AddLog("开始编队\n" + JsonConvert.SerializeObject(subTaskDetails["formation"]));
+                    break;
+
+                case "BattleFormationSelected":
+                    copilotModel.AddLog("选择干员：" + subTaskDetails["selected"].ToString());
+                    break;
+
+                case "BattleAction":
+                    copilotModel.AddLog("当然步骤：" + subTaskDetails["description"].ToString());
                     break;
             }
         }
