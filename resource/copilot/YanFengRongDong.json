@@ -126,7 +126,7 @@
             "rear_delay": 1500
         },
         {
-            "pre_delay": 3000,
+            "pre_delay": 1000,
             "name": "红",
             "location": [
                 4,
@@ -135,7 +135,6 @@
             "direction": "下"
         },
         {
-            "kills": 30,
             "name": "史尔特尔",
             "type": "技能"
         },
