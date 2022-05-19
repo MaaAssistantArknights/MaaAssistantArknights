@@ -64,7 +64,15 @@ namespace asst
 
         const auto& get_stage_info(const std::string& code, StageDifficulty difficulty) const
         {
-            return m_stage_info.at(StageKey{ code, difficulty });
+            StageKey key{ code, difficulty };
+            if (auto find_iter = m_stage_info.find(key);
+                find_iter != m_stage_info.end()) {
+                return find_iter->second;
+            }
+            else {
+                static StageInfo empty_info;
+                return empty_info;
+            }
         }
         const auto& get_all_stage_code() const
         {
