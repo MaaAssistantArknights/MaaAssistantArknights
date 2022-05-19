@@ -199,7 +199,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             info.quantity = quantity;
 
             const std::string& name = ResrcItem.get_item_name(info.item_id);
-            info.item_name = name.empty() ? "未知材料" : name;
+            info.item_name = name.empty() ? info.item_id : name;
 
             static const std::unordered_map<StageDropType, std::string> DropTypeName = {
                 { StageDropType::Normal, "NORMAL_DROP" },

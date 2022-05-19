@@ -393,6 +393,12 @@ bool asst::Controller::screencap()
 {
     LogTraceFunction;
 
+    //if (true) {
+    //    std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+    //    m_cache_image = cv::imread("err.png");
+    //    return true;
+    //}
+
     DecodeFunc decode_raw_with_gzip = [&](const std::vector<uchar>& data) -> bool {
         auto unzip_data = gzip::decompress(data.data(), data.size());
         Log.trace("unzip data size:", unzip_data.size());

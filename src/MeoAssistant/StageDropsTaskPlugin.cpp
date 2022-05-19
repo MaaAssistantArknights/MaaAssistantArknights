@@ -136,7 +136,7 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
         json::value info;
         info["itemId"] = id;
         const std::string& name = item.get_item_name(id);
-        info["itemName"] = name.empty() ? "未知材料" : name;
+        info["itemName"] = name.empty() ? id : name;
         info["quantity"] = count;
         stats_vec.emplace_back(std::move(info));
     }
