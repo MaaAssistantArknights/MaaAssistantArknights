@@ -1,0 +1,156 @@
+{
+    "minimum_required": "v4.0",
+    "desc": {
+        "title": "《全自动危机合约 18》",
+        "details": "作业抄自 https://www.bilibili.com/video/BV13S4y187NW"
+    },
+    "stage_name": "obt/rune/level_rune_11-01",
+    "opers": [
+        {
+            "name": "史尔特尔",
+            "skill": 3
+        },
+        {
+            "name": "伊芙利特",
+            "skill": 2
+        },
+        {
+            "name": "棘刺",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
+            "name": "克洛丝",
+            "skill": 3
+        },
+        {
+            "name": "红",
+            "skill": 2
+        },
+        {
+            "name": "蜜莓",
+            "skill": 1
+        }
+    ],
+    "actions": [
+        {
+            "type": "二倍速"
+        },
+        {
+            "name": "棘刺",
+            "location": [
+                8,
+                6
+            ],
+            "direction": "上"
+        },
+        {
+            "name": "克洛丝",
+            "location": [
+                2,
+                4
+            ],
+            "direction": "上"
+        },
+        {
+            "name": "伊芙利特",
+            "location": [
+                10,
+                4
+            ],
+            "direction": "左"
+        },
+        {
+            "name": "蜜莓",
+            "location": [
+                10,
+                5
+            ],
+            "direction": "左"
+        },
+        {
+            "kills": 16,
+            "name": "克洛丝",
+            "type": "撤退"
+        },
+        {
+            "kills": 18,
+            "name": "红",
+            "location": [
+                3,
+                5
+            ],
+            "direction": "左"
+        },
+        {
+            "kills": 21,
+            "name": "史尔特尔",
+            "location": [
+                2,
+                3
+            ],
+            "direction": "下",
+            "rear_delay": 1500
+        },
+        {
+            "name": "史尔特尔",
+            "type": "技能"
+        },
+        {
+            "kills": 23,
+            "name": "史尔特尔",
+            "type": "撤退"
+        },
+        {
+            "kills": 25,
+            "pre_delay": 10000,
+            "name": "红",
+            "location": [
+                3,
+                5
+            ],
+            "direction": "左"
+        },
+        {
+            "name": "红",
+            "type": "撤退"
+        },
+        {
+            "kills": 29,
+            "name": "史尔特尔",
+            "location": [
+                9,
+                4
+            ],
+            "direction": "左",
+            "rear_delay": 1500
+        },
+        {
+            "pre_delay": 1000,
+            "name": "红",
+            "location": [
+                4,
+                4
+            ],
+            "direction": "下"
+        },
+        {
+            "name": "史尔特尔",
+            "type": "技能"
+        },
+        {
+            "kills": 34,
+            "name": "史尔特尔",
+            "type": "撤退"
+        },
+        {
+            "pre_delay": 5000,
+            "name": "红",
+            "location": [
+                3,
+                5
+            ],
+            "direction": "左"
+        }
+    ]
+}

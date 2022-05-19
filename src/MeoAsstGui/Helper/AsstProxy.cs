@@ -662,7 +662,16 @@ namespace MeoAsstGui
             task_params["set_time"] = true;
             task_params["expedite"] = false;
             task_params["expedite_times"] = 0;
-            return AsstAppendTaskWithEncoding("Recruit", task_params);
+            return AsstAppendTaskWithEncoding("Recruit", task_params) && AsstStart();
+        }
+
+        public bool AsstStartCopilot(string stage_name, string filename, bool formation)
+        {
+            var task_params = new JObject();
+            task_params["stage_name"] = stage_name;
+            task_params["filename"] = filename;
+            task_params["formation"] = formation;
+            return AsstAppendTaskWithEncoding("Copilot", task_params) && AsstStart();
         }
 
         public bool AsstStart()
