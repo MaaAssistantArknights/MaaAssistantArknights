@@ -126,7 +126,7 @@ namespace MeoAsstGui
             }
             if (!_catched)
             {
-                RecruitInfo = "连接模拟器失败，请参考使用说明处理";
+                RecruitInfo = "连接模拟器失败，请检查连接设置";
                 return;
             }
             RecruitInfo = "正在识别……";

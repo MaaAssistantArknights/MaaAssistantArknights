@@ -7,17 +7,9 @@
         ]
     },
     "SNToSN-8": {
-        "algorithm": "OcrDetect",
+        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "text": [
-            "已开放"
-        ],
-        "roi": [
-            40,
-            481,
-            308,
-            139
-        ],
+        "template": "SN-open.png",
         "next": [
             "SNChapter2ToSN-8",
             "SNToSN-8"
@@ -28,10 +20,10 @@
         "action": "ClickSelf",
         "template": "SN-Chapter2.png",
         "roi": [
-            114,
-            406,
-            330,
-            166
+            163,
+            418,
+            197,
+            125
         ],
         "next": [
             "StageSN-8",
@@ -67,17 +59,9 @@
         ]
     },
     "SNToSN-9": {
-        "algorithm": "OcrDetect",
+        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "text": [
-            "已开放"
-        ],
-        "roi": [
-            40,
-            481,
-            308,
-            139
-        ],
+        "template": "SN-open.png",
         "next": [
             "SNChapter3ToSN-9",
             "SNToSN-9"
@@ -127,17 +111,9 @@
         ]
     },
     "SNToSN-10": {
-        "algorithm": "OcrDetect",
+        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "text": [
-            "已开放"
-        ],
-        "roi": [
-            40,
-            481,
-            308,
-            139
-        ],
+        "template": "SN-open.png",
         "next": [
             "SNChapter3ToSN-10",
             "SNToSN-10"
@@ -4359,7 +4335,8 @@
             0,
             117,
             133
-        ]
+        ],
+        "rearDelay": 1000
     },
     "BattleQuickFormationOCR": {
         "algorithm": "OcrDetect",
@@ -4369,7 +4346,8 @@
             240,
             980,
             470
-        ]
+        ],
+        "rearDelay": 100
     },
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
@@ -4553,6 +4531,7 @@
             210,
             118
         ],
+        "cache": false,
         "action": "ClickSelf",
         "rearDelay": 500,
         "rectMove": [
@@ -5409,6 +5388,10 @@
             [
                 "^灵鲨",
                 "幽灵鲨"
+            ],
+            [
+                "桑甚",
+                "桑葚"
             ]
         ],
         "roi": [
@@ -6529,7 +6512,7 @@
         "roi": [
             62,
             89,
-            45,
+            43,
             23
         ],
         "maskRange": [

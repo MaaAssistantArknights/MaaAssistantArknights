@@ -233,7 +233,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     cv::inRange(gray, task_ptr->mask_range.first, task_ptr->mask_range.second, bin);
 
     cv::Rect bounding_rect = cv::boundingRect(bin);
-    cv::Mat bounding = bin(bounding_rect);
+    cv::Mat bounding = gray(bounding_rect);
 
     int x_offset = task_ptr->roi.x + bounding_rect.x;
     int y_offset = task_ptr->roi.y + bounding_rect.y;
@@ -246,8 +246,12 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     int spacing = 0;
 
     // split
+    int threshold = task_ptr->mask_range.first;
+    uchar pre_value = 0;
     for (int i = 0; i < bounding.cols; ++i) {
-        bool is_white = bounding.at<uchar>(0, i);
+        uchar value = bounding.at<uchar>(0, i);
+        bool is_white = value > threshold && pre_value - value < threshold;
+        pre_value = value;
 
         if (in && !is_white) {
             in = false;
