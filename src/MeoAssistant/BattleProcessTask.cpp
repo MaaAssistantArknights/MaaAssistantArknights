@@ -95,6 +95,13 @@ bool asst::BattleProcessTask::analyze_opers_preview()
 
     // 干员头像出来之后，还要过 2 秒左右才可以点击，这里要加个延时
     sleep(Task.get("BattleWaitingToLoad")->rear_delay);
+    while (true) {
+        oper_analyzer.set_image(m_ctrler->get_image());
+        if (oper_analyzer.analyze()) {
+            break;
+        }
+        std::this_thread::yield();
+    }
     battle_pause();
 
     auto opers = oper_analyzer.get_opers();
@@ -255,13 +262,13 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     std::string desc;
     switch (action.type) {
     case BattleActionType::Deploy:
-        desc = action.group_name + " 部署";
+        desc = "部署 " + action.group_name;
         break;
     case BattleActionType::Retreat:
-        desc = action.group_name + " 撤退";
+        desc = "撤退 " + action.group_name;
         break;
     case BattleActionType::UseSkill:
-        desc = action.group_name + " 技能";
+        desc = "技能 " + action.group_name;
         break;
     case BattleActionType::SwitchSpeed:
         desc = "切换二倍速";
@@ -462,7 +469,7 @@ bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
             continue;
         }
         m_ctrler->click(info.pos);
-        used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).run();
+        used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_task_delay(0).run();
         if (info.info.skill_usage == BattleSkillUsage::Once) {
             info.info.skill_usage = BattleSkillUsage::OnceUsed;
         }
