@@ -116,7 +116,7 @@ TaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
         return 0;
     }
 
-    return handle->append_task(type, params);
+    return handle->append_task(type, params ? params : "");
 }
 
 bool AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params)
@@ -125,7 +125,7 @@ bool AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params)
         return 0;
     }
 
-    return handle->set_task_params(id, params);
+    return handle->set_task_params(id, params ? params : "");
 }
 
 unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size)
