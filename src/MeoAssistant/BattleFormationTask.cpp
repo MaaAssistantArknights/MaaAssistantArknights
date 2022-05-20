@@ -53,8 +53,9 @@ bool asst::BattleFormationTask::enter_selection_page()
 
 bool asst::BattleFormationTask::select_opers_in_cur_page()
 {
+    auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
     OcrImageAnalyzer name_analyzer(m_ctrler->get_image());
-    name_analyzer.set_task_info("BattleQuickFormationOCR");
+    name_analyzer.set_task_info(formation_task_ptr);
     name_analyzer.set_replace(
         std::dynamic_pointer_cast<OcrTaskInfo>(
             Task.get("Roguelike1RecruitData"))
@@ -93,6 +94,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page()
             continue;
         }
         m_ctrler->click(res.rect);
+        sleep(formation_task_ptr->rear_delay);
         if (1 <= skill && skill <= 3) {
             m_ctrler->click(SkillRectArray.at(skill - 1));
         }
