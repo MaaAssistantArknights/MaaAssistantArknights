@@ -4335,7 +4335,8 @@
             0,
             117,
             133
-        ]
+        ],
+        "rearDelay": 1000
     },
     "BattleQuickFormationOCR": {
         "algorithm": "OcrDetect",
