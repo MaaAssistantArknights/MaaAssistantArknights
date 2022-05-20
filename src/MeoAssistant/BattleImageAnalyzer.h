@@ -35,6 +35,8 @@ namespace asst
         int get_hp() const noexcept;
         int get_kills() const noexcept;
 
+        void clear() noexcept;
+
     protected:
         bool opers_analyze();   // 识别干员
         BattleRole oper_role_analyze(const Rect& roi);
