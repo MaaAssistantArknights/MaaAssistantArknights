@@ -17,6 +17,8 @@ bool asst::BattleImageAnalyzer::set_target(int target)
 
 bool asst::BattleImageAnalyzer::analyze()
 {
+    clear();
+
     // HP 作为 flag，无论如何都识别。表明当前画面是在战斗场景的
     bool ret = hp_analyze();
 
@@ -82,6 +84,16 @@ int asst::BattleImageAnalyzer::get_hp() const noexcept
 int asst::BattleImageAnalyzer::get_kills() const noexcept
 {
     return m_kills;
+}
+
+void asst::BattleImageAnalyzer::clear() noexcept
+{
+    m_opers.clear();
+    m_homes.clear();
+    m_ready_skills.clear();
+    m_hp = 0;
+    m_kills = 0;
+    m_cost = 0;
 }
 
 bool asst::BattleImageAnalyzer::opers_analyze()
