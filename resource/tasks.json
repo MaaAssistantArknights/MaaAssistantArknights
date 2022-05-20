@@ -4345,7 +4345,8 @@
             240,
             980,
             470
-        ]
+        ],
+        "rearDelay": 100
     },
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
@@ -4529,6 +4530,7 @@
             210,
             118
         ],
+        "cache": false,
         "action": "ClickSelf",
         "rearDelay": 500,
         "rectMove": [
@@ -5385,6 +5387,10 @@
             [
                 "^灵鲨",
                 "幽灵鲨"
+            ],
+            [
+                "桑甚",
+                "桑葚"
             ]
         ],
         "roi": [
