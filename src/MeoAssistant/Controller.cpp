@@ -368,7 +368,7 @@ void asst::Controller::clear_info() noexcept
     m_width = 0;
     m_height = 0;
     m_control_scale = 1.0;
-    m_scale_size = decltype(m_scale_size)();
+    m_scale_size = { WindowWidthDefault, WindowHeightDefault };
 }
 
 int asst::Controller::push_cmd(const std::string& cmd)
@@ -392,6 +392,12 @@ void asst::Controller::wait(unsigned id) const noexcept
 bool asst::Controller::screencap()
 {
     LogTraceFunction;
+
+    //if (true) {
+    //    std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+    //    m_cache_image = cv::imread("err/1.png");
+    //    return true;
+    //}
 
     DecodeFunc decode_raw_with_gzip = [&](const std::vector<uchar>& data) -> bool {
         auto unzip_data = gzip::decompress(data.data(), data.size());

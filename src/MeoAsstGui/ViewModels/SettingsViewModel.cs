@@ -12,6 +12,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Notification.Wpf.Constants;
@@ -108,6 +110,17 @@ namespace MeoAsstGui
                 new CombData { Display = "制造站-芯片组", Value = "Chip" }
             };
 
+            ConnectConfigList = new List<CombData>
+            {
+                new CombData { Display = "通用", Value = "General" },
+                new CombData { Display = "蓝叠模拟器", Value = "BlueStacks" },
+                new CombData { Display = "MuMu模拟器", Value = "MuMuEmulator" },
+                new CombData { Display = "雷电模拟器", Value = "LDPlayer" },
+                new CombData { Display = "夜神模拟器", Value = "Nox" },
+                new CombData { Display = "逍遥模拟器", Value = "XYAZ" },
+                new CombData { Display = "WSA", Value = "WSA" }
+            };
+
             _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
 
             RoguelikeModeList = new List<CombData>
@@ -116,6 +129,10 @@ namespace MeoAsstGui
                 new CombData { Display = "刷源石锭投资，第一层商店后直接退出", Value = "1" },
                 new CombData { Display = "刷源石锭投资，投资过后退出", Value = "2" }
             };
+
+            ConnectAddressList = new ObservableCollection<string>();
+
+            UpdateAddressByConfig();
         }
 
         private bool _idle = true;
@@ -135,6 +152,8 @@ namespace MeoAsstGui
 
         public List<CombData> UsesOfDronesList { get; set; }
         public List<CombData> RoguelikeModeList { get; set; }
+        public List<CombData> ConnectConfigList { get; set; }
+        public ObservableCollection<string> ConnectAddressList { get; set; }
 
         private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
 
@@ -809,6 +828,39 @@ namespace MeoAsstGui
             }
         }
 
+        public void QueryAdbDevices()
+        {
+            ConnectAddressList.Clear();
+            var adbProcess = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = AdbPath,
+                    Arguments = "devices",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+                },
+                EnableRaisingEvents = true
+            };
+
+            adbProcess.Start();
+            adbProcess.WaitForExit();
+            string output = adbProcess.StandardOutput.ReadToEnd();
+            adbProcess.Close();
+            var addressList = new List<string>(output.Split('\n'));
+            addressList.RemoveAt(0);
+            foreach (var address in addressList)
+            {
+                if (string.IsNullOrWhiteSpace(address))
+                    continue;
+
+                var device = address.Split('\t')[0];
+                ConnectAddressList.Add(device);
+            }
+        }
+
         private string _connectConfig = ViewStatusStorage.Get("Connect.ConnectConfig", "General");
 
         public string ConnectConfig
@@ -818,6 +870,40 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _connectConfig, value);
                 ViewStatusStorage.Set("Connect.ConnectConfig", value);
+                UpdateAddressByConfig();
+            }
+        }
+
+        private readonly Dictionary<string, List<string>> ConfigAddressesMapping = new Dictionary<string, List<string>>
+            {
+                { "General", new List<string> {} },
+                { "BlueStacks", new List<string> {"127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5557" } },
+                { "MuMuEmulator", new List<string>{"127.0.0.1:7555"} },
+                { "LDPlayer", new List<string>{ "127.0.0.1:5555", "emulator-5554" } },
+                { "Nox", new List<string> { "127.0.0.1:62001", "127.0.0.1:59865" } },
+                { "XYAZ", new List<string> {"127.0.0.1:21503" }  },
+                { "WSA", new List<string> { "127.0.0.1:58526" } },
+            };
+
+        public void UpdateAddressByConfig()
+        {
+            var addresses = ConfigAddressesMapping[ConnectConfig];
+            ConnectAddressList.Clear();
+            foreach (var address in addresses)
+            {
+                ConnectAddressList.Add(address);
+            }
+        }
+
+        public void SelectFile()
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+
+            dialog.Filter = "adb程序|*.exe";
+
+            if (dialog.ShowDialog() == true)
+            {
+                AdbPath = dialog.FileName;
             }
         }
 

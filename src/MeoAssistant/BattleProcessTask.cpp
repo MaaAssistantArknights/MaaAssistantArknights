@@ -27,11 +27,14 @@ bool asst::BattleProcessTask::_run()
         return false;
     }
 
-    while (!analyze_opers_preview()) {
+    while (!need_exit() && !analyze_opers_preview()) {
         std::this_thread::yield();
     }
 
     for (const auto& action : m_actions_group.actions) {
+        if (need_exit()) {
+            break;
+        }
         do_action(action);
     }
 
@@ -62,6 +65,13 @@ bool asst::BattleProcessTask::get_stage_info()
 
 bool asst::BattleProcessTask::analyze_opers_preview()
 {
+    {
+        json::value info = basic_info_with_what("BattleAction");
+        auto& details = info["details"];
+        details["description"] = "识别干员";
+        callback(AsstMsg::SubTaskExtraInfo, info);
+    }
+
     BattleImageAnalyzer oper_analyzer;
     oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
 
@@ -79,16 +89,19 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
         cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
     }
-#ifdef WIN32
-    std::string output_filename = utils::utf8_to_gbk(m_stage_name);
-#else
-    std::string output_filename = m_stage_name;
-#endif
-    cv::imwrite(output_filename + ".png", draw);
+
+    cv::imwrite("map.png", draw);
     //#endif
 
     // 干员头像出来之后，还要过 2 秒左右才可以点击，这里要加个延时
     sleep(Task.get("BattleWaitingToLoad")->rear_delay);
+    while (true) {
+        oper_analyzer.set_image(m_ctrler->get_image());
+        if (oper_analyzer.analyze()) {
+            break;
+        }
+        std::this_thread::yield();
+    }
     battle_pause();
 
     auto opers = oper_analyzer.get_opers();
@@ -244,6 +257,26 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
 
 bool asst::BattleProcessTask::do_action(const BattleAction& action)
 {
+    json::value info = basic_info_with_what("BattleAction");
+    auto& details = info["details"];
+    std::string desc;
+    switch (action.type) {
+    case BattleActionType::Deploy:
+        desc = "部署 " + action.group_name;
+        break;
+    case BattleActionType::Retreat:
+        desc = "撤退 " + action.group_name;
+        break;
+    case BattleActionType::UseSkill:
+        desc = "技能 " + action.group_name;
+        break;
+    case BattleActionType::SwitchSpeed:
+        desc = "切换二倍速";
+        break;
+    }
+    details["description"] = desc;
+    callback(AsstMsg::SubTaskExtraInfo, info);
+
     if (!wait_condition(action)) {
         return false;
     }
@@ -436,7 +469,7 @@ bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
             continue;
         }
         m_ctrler->click(info.pos);
-        used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).run();
+        used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_task_delay(0).run();
         if (info.info.skill_usage == BattleSkillUsage::Once) {
             info.info.skill_usage = BattleSkillUsage::OnceUsed;
         }
