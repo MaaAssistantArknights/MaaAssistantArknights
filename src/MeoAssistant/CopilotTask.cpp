@@ -10,11 +10,18 @@ asst::CopilotTask::CopilotTask(AsstCallback callback, void* callback_arg)
     m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, callback_arg, TaskType)),
     m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, callback_arg, TaskType))
 {
+    auto start_1_tp = std::make_shared<ProcessTask>(callback, callback_arg, TaskType);
+    start_1_tp->set_tasks({ "BattleStartPre" })
+        .set_retry_times(0)
+        .set_ignore_error(true);
+    m_subtasks.emplace_back(start_1_tp);
+
     m_subtasks.emplace_back(m_formation_task_ptr)->set_ignore_error(false);
 
-    auto start_task_ptr = std::make_shared<ProcessTask>(callback, callback_arg, TaskType);
-    start_task_ptr->set_tasks({ "BattleStartNormal", "BattleStartRaid", "BattleStartExercise" });
-    m_subtasks.emplace_back(start_task_ptr)->set_ignore_error(false);
+    auto start_2_tp = std::make_shared<ProcessTask>(callback, callback_arg, TaskType);
+    start_2_tp->set_tasks({ "BattleStartNormal", "BattleStartRaid", "BattleStartExercise" })
+        .set_ignore_error(false);
+    m_subtasks.emplace_back(start_2_tp);
 
     m_subtasks.emplace_back(m_battle_task_ptr);
 }

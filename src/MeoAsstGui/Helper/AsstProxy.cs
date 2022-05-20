@@ -371,6 +371,7 @@ namespace MeoAsstGui
             var subTaskDetails = details["details"];
 
             var mainModel = _container.Get<TaskQueueViewModel>();
+            var copilotModel = _container.Get<CopilotViewModel>();
             switch (what)
             {
                 case "StageDrops":
@@ -488,6 +489,18 @@ namespace MeoAsstGui
                             //AsstSetPenguinId(id);
                         }
                     }
+                    break;
+
+                case "BattleFormation":
+                    copilotModel.AddLog("开始编队\n" + JsonConvert.SerializeObject(subTaskDetails["formation"]));
+                    break;
+
+                case "BattleFormationSelected":
+                    copilotModel.AddLog("选择干员：" + subTaskDetails["selected"].ToString());
+                    break;
+
+                case "BattleAction":
+                    copilotModel.AddLog("当然步骤：" + subTaskDetails["description"].ToString());
                     break;
             }
         }
@@ -662,7 +675,16 @@ namespace MeoAsstGui
             task_params["set_time"] = true;
             task_params["expedite"] = false;
             task_params["expedite_times"] = 0;
-            return AsstAppendTaskWithEncoding("Recruit", task_params);
+            return AsstAppendTaskWithEncoding("Recruit", task_params) && AsstStart();
+        }
+
+        public bool AsstStartCopilot(string stage_name, string filename, bool formation)
+        {
+            var task_params = new JObject();
+            task_params["stage_name"] = stage_name;
+            task_params["filename"] = filename;
+            task_params["formation"] = formation;
+            return AsstAppendTaskWithEncoding("Copilot", task_params) && AsstStart();
         }
 
         public bool AsstStart()

@@ -127,7 +127,7 @@ namespace asst
         } m_adb;
 
         std::string m_uuid;
-        std::pair<int, int> m_scale_size;
+        std::pair<int, int> m_scale_size = { WindowWidthDefault, WindowHeightDefault };
         double m_control_scale = 1.0;
         int m_width = 0;
         int m_height = 0;
