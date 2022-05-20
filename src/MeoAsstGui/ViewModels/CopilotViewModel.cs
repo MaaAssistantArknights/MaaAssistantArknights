@@ -45,6 +45,18 @@ namespace MeoAsstGui
             //LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
+        private bool _idel = true;
+
+        public bool Idle
+        {
+            get => _idel;
+            set
+            {
+                _idel = value;
+                NotifyOfPropertyChange(() => Idle);
+            }
+        }
+
         public void ClearLog()
         {
             LogItemViewModels.Clear();
@@ -82,6 +94,7 @@ namespace MeoAsstGui
 
         public async void Start()
         {
+            ClearLog();
             AddLog("正在连接模拟器……");
 
             var asstProxy = _container.Get<AsstProxy>();
@@ -120,6 +133,7 @@ namespace MeoAsstGui
             }
 
             asstProxy.AsstStartCopilot(data["stage_name"].ToString(), Filename, Form);
+            Idle = false;
             AddLog("Star Burst Stream!");
         }
 
@@ -127,6 +141,7 @@ namespace MeoAsstGui
         {
             var asstProxy = _container.Get<AsstProxy>();
             asstProxy.AsstStop();
+            Idle = true;
         }
     }
 }
