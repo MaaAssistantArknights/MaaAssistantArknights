@@ -6568,6 +6568,15 @@
             220
         ]
     },
+    "StageDrops-Difficulty-Normal2": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            0,
+            220,
+            220
+        ]
+    },
     "StageDrops-Stars-3": {
         "templThreshold": 0.8,
         "roi": [
