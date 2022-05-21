@@ -326,34 +326,34 @@ public partial class Build : NukeBuild
         .Triggers(SetMaaChangeLog)
         .Executes(() =>
         {
-            _changeLog = $"对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})\n\n";
             if (File.Exists(Parameters.MaaChangelogFile))
             {
                 Information($"找到 {Parameters.MaaChangelogFile} 文件，读取内容作为更新日志");
                 var text = File.ReadAllText(Parameters.MaaChangelogFile);
-                _changeLog += text;
+                _changeLog = text;
             }
             else
             {
                 Warning($"未发现 {Parameters.MaaChangelogFile} 文件，将使用默认值");
             }
+            _changeLog += $"\n\n对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})";
         });
 
     Target UseMaaResourceChangeLog => _ => _
         .Triggers(SetMaaChangeLog)
         .Executes(() =>
         {
-            _changeLog = $"对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})\n\n";
             if (File.Exists(Parameters.MaaResourceChangeLogFile))
             {
                 Information($"找到 {Parameters.MaaResourceChangeLogFile} 文件，读取内容作为更新日志");
                 var text = File.ReadAllText(Parameters.MaaResourceChangeLogFile);
-                _changeLog += text;
+                _changeLog = text;
             }
             else
             {
                 Warning($"未发现 {Parameters.MaaResourceChangeLogFile} 文件，将使用默认值");
             }
+            _changeLog += $"\n\n对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})";
         });
 
     Target SetMaaChangeLog => _ => _
