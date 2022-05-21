@@ -23,15 +23,13 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
                    Text="连接地址" Margin="10" />
-            <ComboBox Width="250" Margin="0, 5"
-                      IsEditable="True"
-                      ItemsSource="{Binding ConnectAddressList}"
-                      SelectedValue="{Binding ConnectAddress}" />
+            <TextBox Text="{Binding ConnectAddress}" Margin="10"
+                     Width="250" />
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
                    Text="连接配置" Margin="10" />
-            <ComboBox Width="250" Margin="0, 5"
+            <ComboBox Width="250" Margin="10"
                       ItemsSource="{Binding ConnectConfigList}"
                       DisplayMemberPath="Display"
                       SelectedValuePath="Value"

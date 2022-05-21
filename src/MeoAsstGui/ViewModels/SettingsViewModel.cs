@@ -870,13 +870,16 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _connectConfig, value);
                 ViewStatusStorage.Set("Connect.ConnectConfig", value);
-                UpdateAddressByConfig();
+                if (ConnectAddress.Length == 0)
+                {
+                    UpdateAddressByConfig();
+                }
             }
         }
 
         private readonly Dictionary<string, List<string>> ConfigAddressesMapping = new Dictionary<string, List<string>>
             {
-                { "General", new List<string> {} },
+                { "General", new List<string> {""} },
                 { "BlueStacks", new List<string> {"127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5557" } },
                 { "MuMuEmulator", new List<string>{"127.0.0.1:7555"} },
                 { "LDPlayer", new List<string>{ "127.0.0.1:5555", "emulator-5554" } },
@@ -888,11 +891,12 @@ namespace MeoAsstGui
         public void UpdateAddressByConfig()
         {
             var addresses = ConfigAddressesMapping[ConnectConfig];
-            ConnectAddressList.Clear();
-            foreach (var address in addresses)
-            {
-                ConnectAddressList.Add(address);
-            }
+            ConnectAddress = addresses.FirstOrDefault();
+            //ConnectAddressList.Clear();
+            //foreach (var address in addresses)
+            //{
+            //    ConnectAddressList.Add(address);
+            //}
         }
 
         public void SelectFile()
