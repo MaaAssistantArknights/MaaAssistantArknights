@@ -6520,6 +6520,36 @@
             255
         ]
     },
+    "StageDrops-Quantity-OCR": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "ocrReplace": [
+            [
+                "I",
+                "1"
+            ],
+            [
+                "l",
+                "1"
+            ],
+            [
+                "o",
+                "0"
+            ],
+            [
+                "O",
+                "0"
+            ],
+            [
+                "S",
+                "5"
+            ],
+            [
+                "s",
+                "5"
+            ]
+        ]
+    },
     "StageDrops-Difficulty-Tough": {
         "templThreshold": 0.7,
         "roi": [
