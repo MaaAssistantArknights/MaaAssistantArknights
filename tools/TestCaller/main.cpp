@@ -35,7 +35,7 @@ int main(/*int argc, char** argv*/)
 
     /* 详细参数可参考 docs / 集成文档.md */
 
-    //AsstAppendTask(ptr, "StartUp", R"({})");
+    //AsstAppendTask(ptr, "StartUp", nullptr);
 
 //    AsstAppendTask(ptr, "Fight", R"(
 //{
@@ -58,7 +58,7 @@ int main(/*int argc, char** argv*/)
     //}
     //)");
     //
-    //    AsstAppendTask(ptr, "Visit", R"({})");
+    //    AsstAppendTask(ptr, "Visit", nullptr);
     //
     //    AsstAppendTask(ptr, "Mall", R"(
     //{
@@ -72,7 +72,7 @@ int main(/*int argc, char** argv*/)
     //    ]
     //}
     //)");
-    //    AsstAppendTask(ptr, "Award", R"({})");
+    //    AsstAppendTask(ptr, "Award", nullptr);
     //
     //AsstAppendTask(ptr, "Roguelike", R"(
     //{
@@ -92,7 +92,7 @@ int main(/*int argc, char** argv*/)
     //}
     //)");
 
-    AsstAppendTask(ptr, "Debug", R"({})");
+    AsstAppendTask(ptr, "Debug", nullptr);
 
     //    AsstAppendTask(ptr, "Copilot", R"(
     //{
