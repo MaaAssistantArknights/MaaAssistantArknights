@@ -98,6 +98,10 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
 
     StageDropsImageAnalyzer analyzer(m_ctrler->get_image());
     if (!analyzer.analyze()) {
+        auto info = basic_info();
+        info["subtask"] = "RecognizeDrops";
+        info["why"] = "掉落识别错误";
+        callback(AsstMsg::SubTaskError, info);
         return false;
     }
 
