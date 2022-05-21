@@ -4513,6 +4513,7 @@
     },
     "BattleAutoSkillFlag": {
         "template": "BattleSkillReady.png",
+        "cache": false,
         "rectMove": [
             -40,
             -150,
@@ -4533,6 +4534,7 @@
         ],
         "cache": false,
         "action": "ClickSelf",
+        "preDelay": 500,
         "rearDelay": 500,
         "rectMove": [
             0,
