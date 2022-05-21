@@ -83,16 +83,6 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         std::this_thread::yield();
     }
 
-    //#ifdef ASST_DEBUG
-    auto draw = m_ctrler->get_image();
-    for (const auto& [loc, info] : m_normal_tile_info) {
-        std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
-        cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
-    }
-
-    cv::imwrite("map.png", draw);
-    //#endif
-
     // 干员头像出来之后，还要过 2 秒左右才可以点击，这里要加个延时
     sleep(Task.get("BattleWaitingToLoad")->rear_delay);
     while (true) {
@@ -101,6 +91,17 @@ bool asst::BattleProcessTask::analyze_opers_preview()
             break;
         }
         std::this_thread::yield();
+    }
+    {
+        //#ifdef ASST_DEBUG
+        auto draw = m_ctrler->get_image();
+        for (const auto& [loc, info] : m_normal_tile_info) {
+            std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
+            cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
+        }
+
+        cv::imwrite("map.png", draw);
+        //#endif
     }
     battle_pause();
 
@@ -318,6 +319,9 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
 bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 {
     while (m_kills < action.kills) {
+        if (need_exit()) {
+            return false;
+        }
         const auto& image = m_ctrler->get_image();
         BattleImageAnalyzer analyzer(image);
 
@@ -336,8 +340,10 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
     // 部署干员还有额外等待费用够或 CD 转好
     if (action.type == BattleActionType::Deploy) {
         const std::string& name = m_group_to_oper_mapping[action.group_name].name;
-
         while (true) {
+            if (need_exit()) {
+                return false;
+            }
             const auto& image = m_ctrler->get_image();
             update_opers_info(image);
 
