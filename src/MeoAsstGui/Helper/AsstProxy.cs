@@ -320,7 +320,7 @@ namespace MeoAsstGui
                         break;
 
                     case "Roguelike1StageTraderEnter":
-                        mainModel.AddLog("关卡：诡异行商");
+                        mainModel.AddLog("关卡：诡意行商");
                         break;
 
                     case "Roguelike1StageSafeHouseEnter":
