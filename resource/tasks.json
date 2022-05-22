@@ -6407,10 +6407,10 @@
         "action": "DoNothing",
         "text": [],
         "roi": [
-            100,
-            0,
-            450,
-            200
+            140,
+            60,
+            200,
+            55
         ]
     },
     "StageDrops-BaseLine": {
