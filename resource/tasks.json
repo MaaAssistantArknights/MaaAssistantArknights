@@ -4513,6 +4513,7 @@
     },
     "BattleAutoSkillFlag": {
         "template": "BattleSkillReady.png",
+        "cache": false,
         "rectMove": [
             -40,
             -150,
@@ -4533,6 +4534,7 @@
         ],
         "cache": false,
         "action": "ClickSelf",
+        "preDelay": 500,
         "rearDelay": 500,
         "rectMove": [
             0,
@@ -6405,10 +6407,10 @@
         "action": "DoNothing",
         "text": [],
         "roi": [
-            100,
-            0,
-            450,
-            200
+            140,
+            60,
+            200,
+            55
         ]
     },
     "StageDrops-BaseLine": {
@@ -6520,6 +6522,36 @@
             255
         ]
     },
+    "StageDrops-Quantity-OCR": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "ocrReplace": [
+            [
+                "I",
+                "1"
+            ],
+            [
+                "l",
+                "1"
+            ],
+            [
+                "o",
+                "0"
+            ],
+            [
+                "O",
+                "0"
+            ],
+            [
+                "S",
+                "5"
+            ],
+            [
+                "s",
+                "5"
+            ]
+        ]
+    },
     "StageDrops-Difficulty-Tough": {
         "templThreshold": 0.7,
         "roi": [
@@ -6530,6 +6562,15 @@
         ]
     },
     "StageDrops-Difficulty-Normal": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            0,
+            220,
+            220
+        ]
+    },
+    "StageDrops-Difficulty-Normal2": {
         "templThreshold": 0.7,
         "roi": [
             0,
