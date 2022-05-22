@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:s="https://github.com/canton7/Stylet"
+		     xmlns:md="clr-namespace:Neo.Markdig.Xaml;assembly=Neo.Markdig.Xaml"
              mc:Ignorable="d"
              Title="版本已更新" Height="500" Width="600">
     <Grid>
@@ -17,9 +18,20 @@
             <TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="已更新：" TextWrapping="Wrap" FontSize="24" Margin="0, 20" />
             <TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding UpdateTag}" TextWrapping="Wrap" FontSize="24" Margin="0, 20" />
         </StackPanel>
-        <ScrollViewer HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding UpdateInfo}" TextWrapping="Wrap" FontSize="16" Margin="0, 20" />
-        </ScrollViewer>
+
+        <FlowDocumentScrollViewer x:Name="flowDocumentScrollViewer"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Top"
+                                  Grid.Row="1"
+                                  Document="{Binding UpdateInfoDocument}"
+                                  Margin="16, 0"
+                                  VerticalScrollBarVisibility="Auto"
+                                  MaxZoom="200"
+                                  MinZoom="60" >
+            <FlowDocumentScrollViewer.CommandBindings>
+                <CommandBinding Command="{x:Static md:MarkdownXaml.Hyperlink}" Executed="{s:Action OpenHyperlink}" />
+            </FlowDocumentScrollViewer.CommandBindings>
+        </FlowDocumentScrollViewer>
 
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="2">
             <!--<Button Command="{s:Action Download}" Content="前往下载" Margin="20" Width="120" Height="60" />-->
