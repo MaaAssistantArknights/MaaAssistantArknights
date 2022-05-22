@@ -1,0 +1,194 @@
+{
+    "minimum_required": "v4.0",
+    "desc": {
+        "title": "《全自动危机合约 30》",
+        "details": "作业抄自 https://www.bilibili.com/video/BV1mF411L7PF"
+    },
+    "stage_name": "obt/rune/level_rune_11-01",
+    "opers": [
+        {
+            "name": "史尔特尔",
+            "skill": 3
+        },
+        {
+            "name": "银灰",
+            "skill": 3
+        },
+        {
+            "name": "号角",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
+            "name": "风笛",
+            "skill": 3
+        },
+        {
+            "name": "铃兰",
+            "skill": 3
+        },
+        {
+            "name": "傀影",
+            "skill": 3
+        },
+        {
+            "name": "卡夫卡",
+            "skill": 2
+        },
+        {
+            "name": "极境",
+            "skill": 1,
+            "skill_usage": 1
+        },
+        {
+            "name": "阿",
+            "skill": 3
+        },
+        {
+            "name": "温蒂",
+            "skill": 3
+        },
+        {
+            "name": "桃金娘",
+            "skill": 1,
+            "skill_usage": 1
+        },
+        {
+            "name": "卡缇",
+            "skill": 1
+        },
+        {
+            "name": "耀骑士临光",
+            "skill": 2
+        }
+    ],
+    "actions": [
+        {
+            "name": "桃金娘",
+            "location": [
+                5,
+                1
+            ],
+            "direction": "右"
+        },
+        {
+            "name": "风笛",
+            "location": [
+                9,
+                3
+            ],
+            "direction": "上"
+        },
+        {
+            "name": "极境",
+            "location": [
+                6,
+                1
+            ],
+            "direction": "右"
+        },
+        {
+            "pre_delay": 4500,
+            "name": "傀影",
+            "location": [
+                8,
+                1
+            ],
+            "direction": "下"
+        },
+        {
+            "type": "撤退",
+            "name": "傀影"
+        },
+        {
+            "name": "温蒂",
+            "location": [
+                10,
+                4
+            ],
+            "direction": "左"
+        },
+        {
+            "type": "技能",
+            "name": "风笛"
+        },
+        {
+            "kills": 3,
+            "type": "撤退",
+            "name": "风笛"
+        },
+        {
+            "name": "号角",
+            "location": [
+                5,
+                2
+            ],
+            "direction": "左"
+        },
+        {
+            "name": "工程蓄水炮",
+            "location": [
+                9,
+                4
+            ],
+            "direction": "下"
+        },
+        {
+            "pre_delay": 12000,
+            "type": "技能",
+            "name": "温蒂"
+        },
+        {
+            "type": "撤退",
+            "name": "温蒂"
+        },
+        {
+            "name": "史尔特尔",
+            "location": [
+                6,
+                6
+            ],
+            "direction": "右"
+        },
+        {
+            "pre_delay": 6000,
+            "type": "技能",
+            "name": "史尔特尔"
+        },
+        {
+            "kills": 12,
+            "type": "撤退",
+            "name": "史尔特尔"
+        },
+        {
+            "name": "铃兰",
+            "location": [
+                10,
+                5
+            ],
+            "direction": "左"
+        },
+        {
+            "kills": 15,
+            "type": "撤退",
+            "name": "号角"
+        },
+        {
+            "name": "风笛",
+            "location": [
+                8,
+                6
+            ],
+            "direction": "上"
+        },
+        {
+            "pre_delay": 5000,
+            "name": "傀影",
+            "location": [
+                9,
+                3
+            ],
+            "direction": "下"
+        }
+    ]
+}

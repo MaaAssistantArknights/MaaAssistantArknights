@@ -240,12 +240,12 @@ namespace MeoAsstGui
                     mainModel.AddLog("公招识别错误，已返回", "darkred");
                     break;
 
-                //case "StageDropsTask":
-                //    mainModel.AddLog("关卡识别错误", "darkred");
-                //    break;
+                case "RecognizeDrops":
+                    mainModel.AddLog("掉落识别错误", "darkred");
+                    break;
 
                 case "ReportToPenguinStats":
-                    mainModel.AddLog("上传企鹅数据错误", "darkred");
+                    mainModel.AddLog("未知关卡，放弃上传企鹅", "darkred");
                     break;
 
                 case "CheckStageValid":
