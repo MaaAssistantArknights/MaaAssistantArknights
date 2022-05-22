@@ -270,7 +270,7 @@ public partial class Build : NukeBuild
         });
 
     Target UseMaaLegacyBundle => _ => _
-        .DependsOn(UseCleanArtifact, WithCompileCoreCICD, WithCompileCoreRelease, WithCompileWpfRelease)
+        .DependsOn(UseCleanArtifact, WithCompileCoreRelease, WithCompileWpfRelease)
         .Triggers(SetPackageBundled)
         .Executes(() =>
         {
@@ -278,11 +278,6 @@ public partial class Build : NukeBuild
             RemoveDebugSymbols(releaseBuildOutput);
 
             BundlePackage(releaseBuildOutput, MaaLegacyBundlePackageName);
-
-            var cicdBuildOutput = Parameters.BuildOutput / BuildConfiguration.CICD;
-            RemoveDebugSymbols(cicdBuildOutput);
-            
-            BundlePackage(cicdBuildOutput, MaaCorePackageName);
         });
 
     Target UseMaaCore => _ => _
@@ -519,14 +514,18 @@ public partial class Build : NukeBuild
             Name = releaseName,
             Body = _changeLog,
             Draft = true,
-            Prerelease = false
+            Prerelease = Parameters.IsPreRelease
         };
         var repoOwner = repo.Split('/')[0];
         var repoName = repo.Split('/')[1];
 
         var createdRelease = GitHubTasks.GitHubClient.Repository.Release.Create(repoOwner, repoName, release).Result;
         Information($"创建 Release {Parameters.GhTag} 成功");
-
+        if (Parameters.IsPreRelease)
+        {
+            Information("当前为预发布版本");
+        }
+        
         foreach (var asset in assets)
         {
             UploadReleaseAssetToGitHub(createdRelease, asset);
