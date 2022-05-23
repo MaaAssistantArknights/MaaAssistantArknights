@@ -132,7 +132,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         name_analyzer.set_task_info("BattleOperName");
         name_analyzer.set_replace(
             std::dynamic_pointer_cast<OcrTaskInfo>(
-                Task.get("Roguelike1RecruitData"))
+                Task.get("CharsNameOcrReplace"))
             ->replace_map);
 
         std::string oper_name = "Unknown";
@@ -243,7 +243,7 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
             name_analyzer.set_task_info("BattleOperName");
             name_analyzer.set_replace(
                 std::dynamic_pointer_cast<OcrTaskInfo>(
-                    Task.get("Roguelike1RecruitData"))
+                    Task.get("CharsNameOcrReplace"))
                 ->replace_map);
 
             if (name_analyzer.analyze()) {

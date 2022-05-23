@@ -31,7 +31,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     LogTraceFunction;
 
     OcrImageAnalyzer analyzer(m_ctrler->get_image());
-    analyzer.set_task_info("Roguelike1RecruitData");
+    analyzer.set_task_info("Roguelike1RecruitOcr");
+    analyzer.set_replace(
+    std::dynamic_pointer_cast<OcrTaskInfo>(
+        Task.get("CharsNameOcrReplace"))
+    ->replace_map);
 
     // 这里原来用m_opers作参数，但由于新的算法需要取左上角干员，将m_opers移到下面的demand_filter
     // TODO 这里需要考虑出了新干员，但是资源文件没有更新的情况
