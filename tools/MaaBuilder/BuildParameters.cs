@@ -21,7 +21,6 @@ public partial class Build
 {
     #region Nuke 默认全局参数
 
-    [Solution] readonly Solution Solution;
     [CI] readonly GitHubActions GitHubActions;
 
     #endregion
@@ -122,7 +121,6 @@ public partial class Build
             MaaResourceChangeLogFile = RootDirectory / "CHANGELOG_RES.md";
 
             // 项目
-            var mySln = b.Solution;
             var maaSolution = ProjectModelTasks.ParseSolution(RootDirectory / "MeoAssistantArknights.sln");
             Assert.True(maaSolution is not null, "无法载入 MeoAssistantArknights.sln");
             MaaCoreProject = maaSolution.GetProject("MeoAssistant");
