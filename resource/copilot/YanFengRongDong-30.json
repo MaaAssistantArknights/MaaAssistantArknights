@@ -1,8 +1,8 @@
 {
     "minimum_required": "v4.0",
-    "desc": {
+    "doc": {
         "title": "《全自动危机合约 30》",
-        "details": "作业抄自 https://www.bilibili.com/video/BV1mF411L7PF。没写完，摆烂了"
+        "details": "作业抄自 https://www.bilibili.com/video/BV1mF411L7PF。\n没写完，摆烂了，不要用这个"
     },
     "stage_name": "obt/rune/level_rune_11-01",
     "opers": [
@@ -143,15 +143,19 @@
             "name": "温蒂"
         },
         {
+            "doc": "你史尔特尔奶奶来啦！",
+            "doc_color": "red",
             "name": "史尔特尔",
             "location": [
                 6,
                 6
             ],
-            "direction": "右"
+            "direction": "右",
+            "rear_delay": 6000
         },
         {
-            "pre_delay": 6000,
+            "doc": "莱瓦汀！",
+            "doc_color": "red",
             "type": "技能",
             "name": "史尔特尔"
         },
@@ -177,6 +181,7 @@
             "direction": "上"
         },
         {
+            "doc": "蛋可能打不死，没有关系，后面还有补刀",
             "type": "撤退",
             "name": "号角"
         },
