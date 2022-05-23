@@ -72,7 +72,6 @@
               "SetPackageBundled",
               "SetVersion",
               "UseCleanArtifact",
-              "UseCleanCICD",
               "UseCleanRelease",
               "UseCommitVersion",
               "UseMaaChangeLog",
@@ -84,16 +83,11 @@
               "UsePublishArtifact",
               "UsePublishRelease",
               "UseTagVersion",
-              "WithCompileCoreCICD",
               "WithCompileCoreRelease",
               "WithCompileResourceRelease",
               "WithCompileWpfRelease"
             ]
           }
-        },
-        "Solution": {
-          "type": "string",
-          "description": "Path to a solution file that is automatically loaded"
         },
         "Target": {
           "type": "array",
@@ -110,7 +104,6 @@
               "SetPackageBundled",
               "SetVersion",
               "UseCleanArtifact",
-              "UseCleanCICD",
               "UseCleanRelease",
               "UseCommitVersion",
               "UseMaaChangeLog",
@@ -122,7 +115,6 @@
               "UsePublishArtifact",
               "UsePublishRelease",
               "UseTagVersion",
-              "WithCompileCoreCICD",
               "WithCompileCoreRelease",
               "WithCompileResourceRelease",
               "WithCompileWpfRelease"
