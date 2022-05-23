@@ -1,7 +1,7 @@
 using Nuke.Common.Tooling;
 using System.ComponentModel;
 
-namespace MeoAssistantBuilder;
+namespace MaaBuilder;
 
 [TypeConverter(typeof(TypeConverter<ActionConfiguration>))]
 public class ActionConfiguration : Enumeration
