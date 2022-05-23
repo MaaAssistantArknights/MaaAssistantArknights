@@ -27,11 +27,21 @@ bool asst::BattleProcessTask::_run()
         return false;
     }
 
+    {
+        json::value info = basic_info_with_what("BattleActionDoc");
+        auto& details = info["details"];
+        details["title"] = m_copilot_data.title;
+        details["title_color"] = m_copilot_data.title_color;
+        details["details"] = m_copilot_data.details;
+        details["details_color"] = m_copilot_data.details_color;
+        callback(AsstMsg::SubTaskExtraInfo, info);
+    }
+
     while (!need_exit() && !analyze_opers_preview()) {
         std::this_thread::yield();
     }
 
-    for (const auto& action : m_actions_group.actions) {
+    for (const auto& action : m_copilot_data.actions) {
         if (need_exit()) {
             break;
         }
@@ -58,7 +68,7 @@ bool asst::BattleProcessTask::get_stage_info()
         return false;
     }
 
-    m_actions_group = copilot.get_actions(m_stage_name);
+    m_copilot_data = copilot.get_actions(m_stage_name);
 
     return true;
 }
@@ -68,7 +78,9 @@ bool asst::BattleProcessTask::analyze_opers_preview()
     {
         json::value info = basic_info_with_what("BattleAction");
         auto& details = info["details"];
-        details["description"] = "识别干员";
+        details["action"] = "识别干员";
+        details["doc"] = "";
+        details["doc_color"] = "";
         callback(AsstMsg::SubTaskExtraInfo, info);
     }
 
@@ -120,7 +132,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         name_analyzer.set_task_info("BattleOperName");
         name_analyzer.set_replace(
             std::dynamic_pointer_cast<OcrTaskInfo>(
-                Task.get("Roguelike1RecruitData"))
+                Task.get("CharsNameOcrReplace"))
             ->replace_map);
 
         std::string oper_name = "Unknown";
@@ -132,7 +144,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
 
         bool not_found = true;
         // 找出这个干员是哪个组里的，以及他的技能用法等
-        for (const auto& [group_name, deploy_opers] : m_actions_group.groups) {
+        for (const auto& [group_name, deploy_opers] : m_copilot_data.groups) {
             auto iter = std::find_if(deploy_opers.cbegin(), deploy_opers.cend(),
                 [&](const BattleDeployOper& deploy) -> bool {
                     return deploy.name == oper_name;
@@ -231,7 +243,7 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
             name_analyzer.set_task_info("BattleOperName");
             name_analyzer.set_replace(
                 std::dynamic_pointer_cast<OcrTaskInfo>(
-                    Task.get("Roguelike1RecruitData"))
+                    Task.get("CharsNameOcrReplace"))
                 ->replace_map);
 
             if (name_analyzer.analyze()) {
@@ -260,22 +272,24 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
 {
     json::value info = basic_info_with_what("BattleAction");
     auto& details = info["details"];
-    std::string desc;
+    std::string action_desc;
     switch (action.type) {
     case BattleActionType::Deploy:
-        desc = "部署 " + action.group_name;
+        action_desc = "部署 " + action.group_name;
         break;
     case BattleActionType::Retreat:
-        desc = "撤退 " + action.group_name;
+        action_desc = "撤退 " + action.group_name;
         break;
     case BattleActionType::UseSkill:
-        desc = "技能 " + action.group_name;
+        action_desc = "技能 " + action.group_name;
         break;
     case BattleActionType::SwitchSpeed:
-        desc = "切换二倍速";
+        action_desc = "切换二倍速";
         break;
     }
-    details["description"] = desc;
+    details["action"] = action_desc;
+    details["doc"] = action.doc;
+    details["doc_color"] = action.doc_color;
     callback(AsstMsg::SubTaskExtraInfo, info);
 
     if (!wait_condition(action)) {
@@ -318,11 +332,12 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
 
 bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 {
+    cv::Mat image;
     while (m_kills < action.kills) {
         if (need_exit()) {
             return false;
         }
-        const auto& image = m_ctrler->get_image();
+        image = m_ctrler->get_image();
         BattleImageAnalyzer analyzer(image);
 
         analyzer.set_target(BattleImageAnalyzer::Target::Kills);
@@ -344,7 +359,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
             if (need_exit()) {
                 return false;
             }
-            const auto& image = m_ctrler->get_image();
+            image = m_ctrler->get_image();
             update_opers_info(image);
 
             if (auto iter = m_cur_opers_info.find(name);
@@ -355,6 +370,10 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
             try_possible_skill(image);
             std::this_thread::yield();
         };
+    }
+    if (image.empty()) {
+        image = m_ctrler->get_image();
+        try_possible_skill(image);
     }
 
     return true;

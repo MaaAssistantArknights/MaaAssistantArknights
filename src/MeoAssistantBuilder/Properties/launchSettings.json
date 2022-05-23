@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "MeoAssistantBuilder": {
-      "commandName": "Project",
-      "commandLineArgs": "--target DevTest"
-    }
-  }
-}
