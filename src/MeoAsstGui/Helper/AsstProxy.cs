@@ -500,7 +500,7 @@ namespace MeoAsstGui
                     break;
 
                 case "BattleAction":
-                    copilotModel.AddLog("当然步骤：" + subTaskDetails["description"].ToString());
+                    copilotModel.AddLog("当前步骤：" + subTaskDetails["description"].ToString());
                     break;
             }
         }
