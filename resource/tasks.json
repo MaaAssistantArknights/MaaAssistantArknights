@@ -5494,7 +5494,7 @@
         ]
     },
     "Roguelike1StageTrader": {
-        "Doc": "诡异行商（交易所）",
+        "Doc": "诡意行商（交易所）",
         "action": "ClickSelf",
         "cache": false,
         "roi": [
