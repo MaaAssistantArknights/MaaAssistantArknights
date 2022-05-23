@@ -8,8 +8,6 @@
   <title>自动战斗流程JSON生成器</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 <body>
@@ -41,10 +39,9 @@
           </div>
         </div>
         <div class="col-sm-3">
-          <button type="button" id="toJson" class="btn btn-primary" onclick="toJSON();">生成JSON
-          </button>
-          <!-- <input type="file" id="selectedFile" style="display: none;" />
-          <button class="btn btn-primary" onclick="document.getElementById('selectedFile').click();">读取JSON</button> -->
+          <button type="button" id="toJson" class="btn btn-primary" onclick="toJSON()">下载JSON</button>
+          <input type="file" id="selectedFile" style="display: none;" name="files[]" size=1 />
+          <button class="btn btn-primary" onclick="document.getElementById('selectedFile').click();">载入JSON</button>
         </div>
       </div>
     </div>
@@ -125,7 +122,8 @@
                 <th>类别</th>
                 <th>Kill</th>
                 <th>干员</th>
-                <th>坐标</th>
+                <th>x坐标</th>
+                <th>y坐标</th>
                 <th>方向</th>
                 <th>操作前延迟(毫秒)</th>
                 <th>操作后延迟(毫秒)</th>
@@ -165,10 +163,16 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="coordinate">
-                  坐标
+                <label for="xcoordinate">
+                  x坐标
                 </label>
-                <input type="text" class="form-control" id="coordinate" />
+                <input type="number" class="form-control" id="xcoordinate" />
+              </div>
+              <div class="form-group">
+                <label for="ycoordinate">
+                  y坐标
+                </label>
+                <input type="number" class="form-control" id="ycoordinate" />
               </div>
               <div class="form-group">
                 <label for="direction">
@@ -210,6 +214,7 @@
     </div>
   </div>
   <script>
+
     var editRow = null;
     var editRowName = null;
     function load() {
@@ -237,10 +242,11 @@
         $("#type").val($(cols[1]).text())
         $("#kill").val($(cols[2]).text())
         $("#operator").val($(cols[3]).text())
-        $("#coordinate").val($(cols[4]).text())
-        $("#direction").val($(cols[5]).text())
-        $("#pre_delay").val($(cols[6]).text())
-        $("#rear_delay").val($(cols[7]).text())
+        $("#xcoordinate").val($(cols[4]).text())
+        $("#ycoordinate").val($(cols[5]).text())
+        $("#direction").val($(cols[6]).text())
+        $("#pre_delay").val($(cols[7]).text())
+        $("#rear_delay").val($(cols[8]).text())
         $("#updateActionButton").text("Update");
       }
 
@@ -267,13 +273,12 @@
       }
       formClear(type);
     }
-    function addToTable(type) {
+    function addToTable(type, data = null) {
       if (type === 'operator') {
         if ($("#operatorTable tbody").length == 0) {
           $("#operatorTable").append("<tbody></tbody>");
-        }
-        // Append operator to table
-        var result = buildTableRow(type);
+        }        
+        var result = buildTableRow(type, data);
         if (result.html) $("#operatorTable tbody").append(result.html);
         updateOperatorList("add", result.operatorName);
       }
@@ -282,7 +287,7 @@
           $("#actionTable").append("<tbody></tbody>");
         }
         $("#actionTable tbody").append(
-          buildTableRow(type));
+          buildTableRow(type, data));
 
       }
 
@@ -304,23 +309,31 @@
       else if (type == "action") $("#updateActionButton").text("Add");
     }
 
-    function buildTableRow(type) {
+    function buildTableRow(type, data = null) {
+      let datastring = '';
       if (type === 'operator') {
-        if ($("#operatorname").val() && $("#skill").val()) {
+        if (($("#operatorname").val() && $("#skill").val()) || data) {
+          if (data == null) {
+            datastring = "<td>" + $("#operatorname").val() + "</td>" +
+              "<td>" + $("#skill").val() + "</td>" +
+              "<td>" + $("#skill_usage").val() + "</td>";
+          }
+          else {
+            datastring = "<td>" + data.name + "</td>" +
+              "<td>" + data.skill + "</td>" +
+              "<td>" + data.skill_usage + "</td>";
+          }
           var ret =
             "<tr>" +
             "<td>" +
-            "<button type='button' name =\"edit" + $("#operatorname").val() + "\"" +
+            "<button type='button' name =\"edit" + (data && data.name ? data.name : $("#operatorname").val()) + "\"" +
             "onclick='display(this,\"operator\");' " +
             "class='btn btn-default'>" +
             "<span class='ui-icon ui-icon-pencil' />" +
             "</button>" +
-            "</td>" +
-            "<td>" + $("#operatorname").val() + "</td>" +
-            "<td>" + $("#skill").val() + "</td>" +
-            "<td>" + $("#skill_usage").val() + "</td>" +
+            "</td>" + datastring +
             "<td>" +
-            "<button type='button' name =\"" + $("#operatorname").val() + "\"" +
+            "<button type='button' name =\"" + (data && data.name ? data.name : $("#operatorname").val()) + "\"" +
             "onclick='itemDelete(this);' " +
             "class='btn btn-default'>" +
             "<span class='ui-icon ui-icon-closethick' />" +
@@ -332,7 +345,28 @@
         else return;
       }
       else if (type === 'action') {
-        if ($("#type").val() && $("#kill").val() && $("#operator").val() && $("#coordinate").val() && $("#direction").val() && $("#pre_delay").val() && $("#rear_delay").val()) {
+        if (data || ($("#type").val() && $("#kill").val() && $("#operator").val() && $("#ycoordinate").val() && $("#xcoordinate").val() && $("#direction").val() && $("#pre_delay").val() && $("#rear_delay").val())) {
+          if (data) {
+            datastring = "<td>" + data.type + "</td>" +
+              "<td>" + data.kill + "</td>" +
+              "<td>" + data.name + "</td>" +
+              "<td>" + data.location[0] + "</td>" +
+              "<td>" + data.location[1] + "</td>" +
+              "<td>" + data.direction + "</td>" +
+              "<td>" + data.pre_delay + "</td>" +
+              "<td>" + data.rear_delay + "</td>";
+          }
+          else {
+            datastring = "<td>" + $("#type").val() + "</td>" +
+              "<td>" + $("#kill").val() + "</td>" +
+              "<td>" + $("#operator").val() + "</td>" +
+              "<td>" + $("#xcoordinate").val() + "</td>" +
+              "<td>" + $("#ycoordinate").val() + "</td>" +
+              "<td>" + $("#direction").val() + "</td>" +
+              "<td>" + $("#pre_delay").val() + "</td>" +
+              "<td>" + $("#rear_delay").val() + "</td>";
+          }
+
           var ret =
             "<tr>" +
             "<td>" +
@@ -341,14 +375,7 @@
             "class='btn btn-default'>" +
             "<span class='ui-icon ui-icon-pencil' />" +
             "</button>" +
-            "</td>" +
-            "<td>" + $("#type").val() + "</td>" +
-            "<td>" + $("#kill").val() + "</td>" +
-            "<td>" + $("#operator").val() + "</td>" +
-            "<td>" + $("#coordinate").val() + "</td>" +
-            "<td>" + $("#direction").val() + "</td>" +
-            "<td>" + $("#pre_delay").val() + "</td>" +
-            "<td>" + $("#rear_delay").val() + "</td>" +
+            "</td>" + datastring +
             "<td>" +
             "<button type='button' " +
             "onclick='itemDelete(this);' " +
@@ -367,7 +394,13 @@
     }
     function updateOperatorList(action, oldname, newName = "") {
       var selectobject = document.getElementById("operator");
-      if (action == "add" && Array.apply(null, selectobject.options).findIndex(o => o.value == oldname) == -1) {
+      if (action == 'clean') {
+        var i, L = selectobject.options.length - 1;
+        for (i = L; i >= 0; i--) {
+          selectobject.remove(i);
+        }
+      }
+      else if (action == "add" && Array.apply(null, selectobject.options).findIndex(o => o.value == oldname) == -1) {
         $('#operator').append($('<option>', { value: oldname, text: oldname }));
       }
       else {
@@ -389,7 +422,8 @@
         $("#type").val("");
         $("#kill").val("");
         $("#operator").val("");
-        $("#coordinate").val("");
+        $("#xcoordinate").val("");
+        $("#ycoordinate").val("");
         $("#direction").val("");
         $("#pre_delay").val("");
         $("#rear_delay").val("");
@@ -415,14 +449,16 @@
           type = $tds.eq(1).text(),
           kills = $tds.eq(2).text(),
           name = $tds.eq(3).text(),
-          location = $tds.eq(4).text(),
-          direction = $tds.eq(5).text(),
-          pre_delay = $tds.eq(6).text(),
-          rear_delay = $tds.eq(7).text();
-        if (type && kills && name && location && direction && pre_delay && rear_delay) {
+          xcoordinate = $tds.eq(4).text(),
+          ycoordinate = $tds.eq(5).text(),
+          direction = $tds.eq(6).text(),
+          pre_delay = $tds.eq(7).text(),
+          rear_delay = $tds.eq(8).text();
+        if (type && kills && name && xcoordinate && ycoordinate && direction && pre_delay && rear_delay) {
           kills = parseInt(kills)
           pre_delay = parseInt(pre_delay)
           rear_delay = parseInt(rear_delay)
+          let location = [parseInt(xcoordinate), parseInt(ycoordinate)]
           actions.push({ type, kills, name, location, direction, pre_delay, rear_delay });
         }
       });
@@ -431,10 +467,38 @@
       var details = document.getElementById("description").value;
       var desc = { title, details };
       var obj = { stage_name, opers, actions, desc };
-      console.log(obj)
-      navigator.clipboard.writeText(JSON.stringify(obj));
-      alert("已经复制JSON到剪切板")
+      var file = new Blob([JSON.stringify(obj)], { type: 'text/plain' });
+      var fileName = obj.stage_name + '_' + opers.map(o => o.name).join('+') + '.json';
+      const url = window.URL.createObjectURL(file);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
     }
+    function handleFileSelect(evt) {
+      let files = evt.target.files;
+      let f = files[0];
+      let reader = new FileReader();
+      reader.onload = (function (theFile) {
+        return function (e) {
+          let data = JSON.parse(e.target.result);
+          if (!data) alert("读取文件错误")
+          else {
+            document.getElementById("stagename").value = data.stage_name ? data.stage_name : "";
+            document.getElementById("title").value = data.title ? data.title : "";
+            document.getElementById("description").value = data.details ? data.details : "";
+            $("#operatorTable tbody tr").remove();
+            updateOperatorList("clean", "")
+            if (data.opers) data.opers.forEach(x => { addToTable("operator", x); updateOperatorList("add", x.name); });
+            $("#actionTable tbody tr").remove();
+            if (data.actions) data.actions.forEach(x => addToTable("action", x));
+          }
+        };
+      })(f);
+      reader.readAsText(f);
+    }
+    document.getElementById('selectedFile').addEventListener('change', handleFileSelect, false);
   </script>
 </body>
 
