@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeoAssistantBuilder", "src\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ItemMappingCvt", "tools\ItemMappingCvt\ItemMappingCvt.vcxproj", "{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeoAssistantBuilder", "tools\MeoAssistantBuilder\MeoAssistantBuilder.csproj", "{834C1184-5CF8-4FF8-B538-64A09E1EAED5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CICD|x64 = CICD|x64
@@ -38,6 +40,8 @@ Global
 		RelWithDebInfo|x86 = RelWithDebInfo|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{834C1184-5CF8-4FF8-B538-64A09E1EAED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{834C1184-5CF8-4FF8-B538-64A09E1EAED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63B4F1A2-291C-4C85-91E1-A1F6DAE30D64}.CICD|x64.ActiveCfg = RelWithDebInfo|x64
 		{63B4F1A2-291C-4C85-91E1-A1F6DAE30D64}.CICD|x64.Build.0 = RelWithDebInfo|x64
 		{63B4F1A2-291C-4C85-91E1-A1F6DAE30D64}.CICD|x86.ActiveCfg = Release|x64

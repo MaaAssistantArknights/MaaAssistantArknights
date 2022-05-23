@@ -3,6 +3,7 @@ using Nuke.Common;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
+using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.MSBuild;
@@ -15,7 +16,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 
-namespace MeoAssistantBuilder;
+namespace MaaBuilder;
 
 [CheckBuildProjectConfigurations]
 public partial class Build : NukeBuild
@@ -38,7 +39,7 @@ public partial class Build : NukeBuild
         }
         return Execute<Build>(_ => _.Default);
     }
-    
+
     BuildParameters Parameters;
 
     const string MasterBranch = "master";
@@ -92,6 +93,7 @@ public partial class Build : NukeBuild
         Information($"在 GitHub Actions 中运行：{Parameters.IsGitHubActions}");
         Information($"是 Pull Request：{Parameters.IsPullRequest}");
         Information($"是 Workflow Dispatch 触发：{Parameters.IsWorkflowDispatch}");
+        Information($"是 PreRelease 版本：{Parameters.IsPreRelease}");
         Information($"Actions 名称：{Parameters.GhActionName ?? "Null"}");
         Information($"Actions 分支：{Parameters.GhBranch ?? "Null"}");
         Information($"Actions PR：{Parameters.GhPullRequestId ?? "Null"}");
