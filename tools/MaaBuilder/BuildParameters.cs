@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using static Nuke.Common.Tools.VSWhere.VSWhereTasks;
 
-namespace MeoAssistantBuilder;
+namespace MaaBuilder;
 
 public partial class Build
 {
@@ -122,8 +122,11 @@ public partial class Build
             MaaResourceChangeLogFile = RootDirectory / "CHANGELOG_RES.md";
 
             // 项目
-            MaaCoreProject = b.Solution.GetProject("MeoAssistant");
-            MaaWpfProject = b.Solution.GetProject("MeoAsstGui");
+            var mySln = b.Solution;
+            var maaSolution = ProjectModelTasks.ParseSolution(RootDirectory / "MeoAssistantArknights.sln");
+            Assert.True(maaSolution is not null, "无法载入 MeoAssistantArknights.sln");
+            MaaCoreProject = maaSolution.GetProject("MeoAssistant");
+            MaaWpfProject = maaSolution.GetProject("MeoAsstGui");
 
             // 配置
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("zh-Hans-CN");
