@@ -86,7 +86,7 @@
                 <label for="skill_usage">
                   技能用法
                 </label>
-                <select id="skill_usage" class="form-control">                  
+                <select id="skill_usage" class="form-control">
                   <option value=0>不自动使用</option>
                   <option value=1>好了就用，有多少次用多少次</option>
                   <option value=2>好了就用，仅使用一次</option>
@@ -161,7 +161,7 @@
                   <label for="operator">
                     干员
                   </label>
-                  <select id="operator" class="form-control">
+                  <input type="text" id="operator" class="form-control">
                   </select>
                 </div>
                 <div class="form-group col-sm-3">
@@ -177,6 +177,7 @@
                     方向
                   </label>
                   <select id="direction" class="form-control">
+                    <option value=""></option>
                     <option value="上">上</option>
                     <option value="下">下</option>
                     <option value="左">左</option>
@@ -218,7 +219,7 @@
     </div>
   </div>
   <script>
-
+    var operatorList = [];
     var editRow = null;
     var editRowName = null;
     function load() {
@@ -241,6 +242,7 @@
         $("#skill_usage").val($(cols[3]).text());
         $("#updateOperatorButton").text("Update");
         editRowName = $(ctl).context.name.substring(4)
+        document.getElementById("operatorname").scrollIntoView();
       }
       else if (type === 'action') {
         $("#type").val($(cols[1]).text())
@@ -252,6 +254,7 @@
         $("#pre_delay").val($(cols[7]).text())
         $("#rear_delay").val($(cols[8]).text())
         $("#updateActionButton").text("Update");
+        document.getElementById("type").scrollIntoView();
       }
 
     }
@@ -283,18 +286,13 @@
           $("#operatorTable").append("<tbody></tbody>");
         }
         var result = buildTableRow(type, data);
-        if (result.html) $("#operatorTable tbody").append(result.html);
-        updateOperatorList("add", result.operatorName);
+        if (result && result.html) $("#operatorTable tbody").append(result.html);
+        if (result && result.operatorName) updateOperatorList("add", result.operatorName);
       }
       else if (type === 'action') {
-        if ($("#actionTable tbody").length == 0) {
-          $("#actionTable").append("<tbody></tbody>");
-        }
-        $("#actionTable tbody").append(
-          buildTableRow(type, data));
-
+        if ($("#actionTable tbody").length == 0) $("#actionTable").append("<tbody></tbody>");
+        $("#actionTable tbody").append(buildTableRow(type, data))
       }
-
     }
 
     // Update operator in <table>
@@ -317,16 +315,22 @@
       let datastring = '';
       if (type === 'operator') {
         if (($("#operatorname").val() && $("#skill").val()) || data) {
+          let obj = { name: "", skill: "", skill_usage: "" };
           if (data == null) {
-            datastring = "<td>" + $("#operatorname").val() + "</td>" +
-              "<td>" + $("#skill").val() + "</td>" +
-              "<td>" + $("#skill_usage").val() + "</td>";
+            obj.name = $("#operatorname").val();
+            obj.skill = $("#skill").val();
+            obj.skill_usage = $("#skill_usage").val();
           }
           else {
-            datastring = "<td>" + data.name + "</td>" +
-              "<td>" + data.skill + "</td>" +
-              "<td>" + (data.skill_usage ? data.skill_usage : 0) + "</td>";
+            obj.name = data.name;
+            obj.skill = data.skill;
+            obj.skill_usage = (data.skill_usage ? data.skill_usage : 0);
           }
+          //如果重复则忽略
+          if (operatorList.findIndex(x => x.value == obj.name) > -1) return;
+          datastring = "<td>" + obj.name + "</td>" +
+            "<td>" + obj.skill + "</td>" +
+            "<td>" + (obj.skill_usage ? obj.skill_usage : 0) + "</td>";
           var ret =
             "<tr>" +
             "<td>" +
@@ -397,24 +401,37 @@
     function updateOperatorList(action, oldname, newName = "") {
       var selectobject = document.getElementById("operator");
       if (action == 'clean') {
-        var i, L = selectobject.options.length - 1;
-        for (i = L; i >= 0; i--) {
-          selectobject.remove(i);
-        }
+        operatorList = [];
+        operatorList.push({ label: "", value: "" })
       }
-      else if (action == "add" && Array.apply(null, selectobject.options).findIndex(o => o.value == oldname) == -1) {
-        $('#operator').append($('<option>', { value: oldname, text: oldname }));
+      else if (action == "add" && operatorList.findIndex(o => o.value == oldname) == -1) {
+        operatorList.push({ value: oldname, label: oldname });
       }
       else {
-        for (var i = 0; i < selectobject.length; i++) {
-          if (selectobject.options[i].value == oldname) {
-            selectobject.remove(i);
-            if (action == "update") $('#operator').append($('<option>', { value: newName, text: newName }));
+        var index = operatorList.findIndex(x => x.value == oldname);
+        if (index > -1) {
+          operatorList.slice(index);
+          if (action == "update") {
+            operatorList[index].label = operatorList[index].value = newName;
+            // 把现有table干员名字替换
+            var actionTable = $("#actionTable tbody");
+            actionTable.find('tr').each(function (i, el) {
+              var actionData = prepareActionData($(this))
+              if (actionData.name == oldname) {
+                actionData.name = newName;
+                $(this).replaceWith(buildTableRow("action", actionData))
+              }
+            });
+          }
+          else {
+            operatorList.slice(index);
           }
         }
       }
+      $("#operator").autocomplete({
+        source: operatorList
+      });
     }
-
     function formClear(type) {
       if (type == "operator") {
         $("#operatorname").val("");
@@ -431,9 +448,33 @@
         $("#rear_delay").val("");
       }
     }
+    function prepareActionData(tr) {
+      var $tds = tr.find('td'),
+        type = $tds.eq(1).text(),
+        kills = $tds.eq(2).text(),
+        name = $tds.eq(3).text(),
+        xcoordinate = $tds.eq(4).text(),
+        ycoordinate = $tds.eq(5).text(),
+        direction = $tds.eq(6).text(),
+        pre_delay = $tds.eq(7).text(),
+        rear_delay = $tds.eq(8).text();
+      kills = parseInt(kills)
+      pre_delay = parseInt(pre_delay)
+      rear_delay = parseInt(rear_delay)
+      xcoordinate = parseInt(xcoordinate)
+      ycoordinate = parseInt(ycoordinate)
+      let location = [xcoordinate, ycoordinate]
+      var actionData = { type, kills, name, location, direction, pre_delay, rear_delay };
+      if (isNaN(actionData.kills)) delete actionData.kills;
+      if (isNaN(actionData.pre_delay)) delete actionData.pre_delay;
+      if (isNaN(actionData.rear_delay)) delete actionData.rear_delay;
+      if (actionData.direction === "") delete actionData.direction;
+      if (isNaN(actionData.location.xcoordinate) || isNaN(actionData.location.ycoordinate)) delete actionData.location;
+      return actionData;
+    }
     function toJSON() {
-      var operatorTable = $("#operatorTable");
-      var actionTable = $("#actionTable");
+      var operatorTable = $("#operatorTable tbody");
+      var actionTable = $("#actionTable tbody");
       var opers = [];
       var actions = [];
       operatorTable.find('tr').each(function (i, el) {
@@ -447,28 +488,14 @@
         }
       });
       actionTable.find('tr').each(function (i, el) {
-        var $tds = $(this).find('td'),
-          type = $tds.eq(1).text(),
-          kills = $tds.eq(2).text(),
-          name = $tds.eq(3).text(),
-          xcoordinate = $tds.eq(4).text(),
-          ycoordinate = $tds.eq(5).text(),
-          direction = $tds.eq(6).text(),
-          pre_delay = $tds.eq(7).text(),
-          rear_delay = $tds.eq(8).text();
-        if (type && kills && name && xcoordinate && ycoordinate && direction && pre_delay && rear_delay) {
-          kills = parseInt(kills)
-          pre_delay = parseInt(pre_delay)
-          rear_delay = parseInt(rear_delay)
-          let location = [parseInt(xcoordinate), parseInt(ycoordinate)]
-          actions.push({ type, kills, name, location, direction, pre_delay, rear_delay });
-        }
+        var actionData = prepareActionData($(this));
+        actions.push(actionData);
       });
       var stage_name = document.getElementById("stagename").value;
       var title = document.getElementById("title").value;
       var details = document.getElementById("description").value;
       var doc = { title, details };
-      var obj = { stage_name, opers, actions, desc };
+      var obj = { stage_name, opers, actions, doc };
       var file = new Blob([JSON.stringify(obj)], { type: 'text/plain' });
       var fileName = obj.stage_name + '_' + opers.map(o => o.name).join('+') + '.json';
       const url = window.URL.createObjectURL(file);
