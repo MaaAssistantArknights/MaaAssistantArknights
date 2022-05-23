@@ -486,8 +486,8 @@
           if (!data) alert("读取文件错误")
           else {
             document.getElementById("stagename").value = data.stage_name ? data.stage_name : "";
-            document.getElementById("title").value = data.title ? data.title : "";
-            document.getElementById("description").value = data.details ? data.details : "";
+            document.getElementById("title").value = data.desc.title ? data.desc.title : "";
+            document.getElementById("description").value = data.desc.details ? data.desc.details : "";
             $("#operatorTable tbody tr").remove();
             updateOperatorList("clean", "")
             if (data.opers) data.opers.forEach(x => { addToTable("operator", x); updateOperatorList("add", x.name); });
