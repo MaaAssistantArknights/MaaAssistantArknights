@@ -1,0 +1,441 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="../../resource/character_table.json"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <title>自动战斗流程JSON生成器</title>
+  <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans"> -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+  <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
+  <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<body>
+  <div class="row" style="margin: 50 50;">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-sm-2">
+          <div class="form-group">
+            <h2 for="stagename">
+              关卡名字
+            </h2>
+            <input type="text" class="form-control" id="stagename" />
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <h2 for="description">
+              描述
+            </h2>
+            <input type="text" class="form-control" id="description" />
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <h2 for="title">
+              标题
+            </h2>
+            <input type="text" class="form-control" id="title" />
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <button type="button" id="toJson" class="btn btn-primary" onclick="toJSON();">生成JSON
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>选择干员</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <table id="operatorTable" class="table table-bordered table-condensed table-striped">
+            <thead>
+              <tr>
+                <th>修改</th>
+                <th>干员名字</th>
+                <th>技能</th>
+                <th>技能用法</th>
+                <th>删除</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-primary">
+            <div class="panel-body">
+              <div class="form-group">
+                <label for="operatorname">
+                  干员名字
+                </label>
+                <input type="text" class="form-control" id="operatorname" />
+              </div>
+              <div class="form-group">
+                <label for="skill">
+                  技能
+                </label>
+                <input type="number" class="form-control" id="skill" />
+              </div>
+              <div class="form-group">
+                <label for="skill_usage">
+                  技能用法
+                </label>
+                <select id="skill_usage" class="form-control">
+                  <option value=0>不自动使用</option>
+                  <option value=1>好了就用，有多少次用多少次</option>
+                  <option value=2>好了就用，仅使用一次</option>
+                  <!-- <option value=3>自动判断使用时机</option> -->
+                </select>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <div class="row">
+                <div class="col-xs-12">
+                  <button type="button" id="updateOperatorButton" class="btn btn-primary" onclick="update('operator');">
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-8">
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>战斗流程</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-11">
+          <table id="actionTable" class="table table-bordered table-condensed table-striped">
+            <thead>
+              <tr>
+                <th>修改</th>
+                <th>类别</th>
+                <th>Kill</th>
+                <th>干员</th>
+                <th>坐标</th>
+                <th>方向</th>
+                <th>方向</th>
+                <th>操作前延迟(毫秒)</th>
+                <th>操作后延迟(毫秒)</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-11">
+          <div class="panel panel-primary">
+            <div class="panel-body">
+              <div class="form-group">
+                <label for="type">
+                  类别
+                </label>
+                <select id="type" class="form-control">
+                  <option value="部署">部署</option>
+                  <option value="技能">技能</option>
+                  <option value="撤退">撤退</option>
+                  <option value="子弹时间">子弹时间</option>
+                  <option value="技能用法">技能用法</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="kill">
+                  Kill
+                </label>
+                <input type="number" class="form-control" id="kill" />
+              </div>
+              <div class="form-group">
+                <label for="operator">
+                  干员
+                </label>
+                <select id="operator" class="form-control">
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="coordinate">
+                  坐标
+                </label>
+                <input type="text" class="form-control" id="coordinate" />
+              </div>
+              <div class="form-group">
+                <label for="direction">
+                  方向
+                </label>
+                <select id="direction" class="form-control">
+                  <option value="上">上</option>
+                  <option value="下">下</option>
+                  <option value="左">左</option>
+                  <option value="右">右</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="pre_delay">
+                  操作前延迟(毫秒)
+                </label>
+                <input type="number" class="form-control" id="pre_delay" />
+              </div>
+              <div class="form-group">
+                <label for="rear_delay">
+                  操作后延迟（毫秒）
+                </label>
+                <input type="number" class="form-control" id="rear_delay" />
+              </div>
+
+            </div>
+            <div class="panel-footer">
+              <div class="row">
+                <div class="col-xs-12">
+                  <button type="button" id="updateActionButton" class="btn btn-primary" onclick="update('action');">
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var editRow = null;
+    var editRowName = null;
+    function load() {
+      return charName.map(x => ({ "label": x, value: x }));
+    }
+
+    $(function () {
+      var availableTags = load();
+      $("#operatorname").autocomplete({
+        source: availableTags
+      });
+    });
+
+    function display(ctl, type) {
+      editRow = $(ctl).parents("tr");
+      var cols = editRow.children("td");
+      if (type === 'operator') {
+        $("#operatorname").val($(cols[1]).text());
+        $("#skill").val($(cols[2]).text());
+        $("#skill_usage").val($(cols[3]).text());
+        $("#updateOperatorButton").text("Update");
+        editRowName = $(ctl).context.name.substring(4)
+      }
+      else if (type === 'action') {
+        $("#type").val($(cols[1]).text())
+        $("#kill").val($(cols[2]).text())
+        $("#operator").val($(cols[3]).text())
+        $("#coordinate").val($(cols[4]).text())
+        $("#direction").val($(cols[5]).text())
+        $("#pre_delay").val($(cols[6]).text())
+        $("#rear_delay").val($(cols[7]).text())
+        $("#updateActionButton").text("Update");
+      }
+
+    }
+
+    function update(type) {
+      if (type === 'operator') {
+        if ($("#updateOperatorButton").text() == "Update") {
+          updateInTable(type);
+        }
+        else {
+          addToTable(type);
+        }
+        $("#operatorname").focus();
+      }
+      else if (type === 'action') {
+        if ($("#updateActionButton").text() == "Update") {
+          updateInTable(type);
+        }
+        else {
+          addToTable(type);
+        }
+        $("#type").focus();
+      }
+      formClear(type);
+    }
+    function addToTable(type) {
+      if (type === 'operator') {
+        if ($("#operatorTable tbody").length == 0) {
+          $("#operatorTable").append("<tbody></tbody>");
+        }
+        // Append operator to table
+        var result = buildTableRow(type);
+        if (result.html) $("#operatorTable tbody").append(result.html);
+        updateOperatorList("add", result.operatorName);
+      }
+      else if (type === 'action') {
+        if ($("#actionTable tbody").length == 0) {
+          $("#actionTable").append("<tbody></tbody>");
+        }
+        $("#actionTable tbody").append(
+          buildTableRow(type));
+
+      }
+
+    }
+
+    // Update operator in <table>
+    function updateInTable(type) {
+      var result = buildTableRow(type);
+      if (result.operatorName) {
+        updateOperatorList("update", editRowName, result.operatorName)
+        $(editRow).after(result.html);
+      }
+      else {
+        $(editRow).after(result);
+      }
+      $(editRow).remove();
+      formClear(type);
+      if (type == "operator") $("#updateOperatorButton").text("Add");
+      else if (type == "action") $("#updateActionButton").text("Add");
+    }
+
+    function buildTableRow(type) {
+      if (type === 'operator') {
+        if ($("#operatorname").val() && $("#skill").val()) {
+          var ret =
+            "<tr>" +
+            "<td>" +
+            "<button type='button' name =\"edit" + $("#operatorname").val() + "\"" +
+            "onclick='display(this,\"operator\");' " +
+            "class='btn btn-default'>" +
+            "<span class='ui-icon ui-icon-pencil' />" +
+            "</button>" +
+            "</td>" +
+            "<td>" + $("#operatorname").val() + "</td>" +
+            "<td>" + $("#skill").val() + "</td>" +
+            "<td>" + $("#skill_usage").val() + "</td>" +
+            "<td>" +
+            "<button type='button' name =\"" + $("#operatorname").val() + "\"" +
+            "onclick='itemDelete(this);' " +
+            "class='btn btn-default'>" +
+            "<span class='ui-icon ui-icon-closethick' />" +
+            "</button>" +
+            "</td>" +
+            "</tr>"
+          return { html: ret, operatorName: $("#operatorname").val() };
+        }
+        else return;
+      }
+      else if (type === 'action') {
+        if ($("#type").val() && $("#kill").val() && $("#operator").val() && $("#coordinate").val() && $("#direction").val() && $("#pre_delay").val() && $("#rear_delay").val()) {
+          var ret =
+            "<tr>" +
+            "<td>" +
+            "<button type='button' " +
+            "onclick='display(this,\"action\");' " +
+            "class='btn btn-default'>" +
+            "<span class='ui-icon ui-icon-pencil' />" +
+            "</button>" +
+            "</td>" +
+            "<td>" + $("#type").val() + "</td>" +
+            "<td>" + $("#kill").val() + "</td>" +
+            "<td>" + $("#operator").val() + "</td>" +
+            "<td>" + $("#coordinate").val() + "</td>" +
+            "<td>" + $("#direction").val() + "</td>" +
+            "<td>" + $("#pre_delay").val() + "</td>" +
+            "<td>" + $("#rear_delay").val() + "</td>" +
+            "<td>" +
+            "<button type='button' " +
+            "onclick='itemDelete(this);' " +
+            "class='btn btn-default'>" +
+            "<span class='ui-icon ui-icon-closethick' />" +
+            "</button>" +
+            "</td>" +
+            "</tr>"
+          return ret;
+        }
+      }
+    }
+    function itemDelete(ctl) {
+      updateOperatorList("delete", $(ctl).context.name)
+      $(ctl).parents("tr").remove();
+    }
+    function updateOperatorList(action, oldname, newName = "") {
+      var selectobject = document.getElementById("operator");
+      if (action == "add" && Array.apply(null, selectobject.options).findIndex(o => o.value == oldname) == -1) {
+        $('#operator').append($('<option>', { value: oldname, text: oldname }));
+      }
+      else {
+        for (var i = 0; i < selectobject.length; i++) {
+          if (selectobject.options[i].value == oldname) {
+            selectobject.remove(i);
+            if (action == "update") $('#operator').append($('<option>', { value: newName, text: newName }));
+          }
+        }
+      }
+    }
+
+    function formClear(type) {
+      if (type == "operator") {
+        $("#operatorname").val("");
+        $("#skill").val("");
+      }
+      else if (type == "action") {
+        $("#type").val("");
+        $("#kill").val("");
+        $("#operator").val("");
+        $("#coordinate").val("");
+        $("#direction").val("");
+        $("#pre_delay").val("");
+        $("#rear_delay").val("");
+      }
+    }
+    function toJSON() {
+      var operatorTable = $("#operatorTable");
+      var actionTable = $("#actionTable");
+      var opers = [];
+      var actions = [];
+      operatorTable.find('tr').each(function (i, el) {
+        var $tds = $(this).find('td'),
+          name = $tds.eq(1).text(),
+          skill = $tds.eq(2).text(),
+          skill_usage = $tds.eq(3).text();
+        if (name && skill && skill_usage) {
+          skill_usage = parseInt(skill_usage)
+          opers.push({ name, skill, skill_usage });
+        }
+      });
+      actionTable.find('tr').each(function (i, el) {
+        var $tds = $(this).find('td'),
+          type = $tds.eq(1).text(),
+          kills = $tds.eq(2).text(),
+          name = $tds.eq(3).text(),
+          location = $tds.eq(4).text(),
+          direction = $tds.eq(5).text(),
+          pre_delay = $tds.eq(6).text(),
+          rear_delay = $tds.eq(7).text();
+        if (type && kills && name && location && direction && pre_delay && rear_delay) {
+          kills = parseInt(kills)
+          pre_delay = parseInt(pre_delay)
+          rear_delay = parseInt(rear_delay)
+          actions.push({ type, kills, name, location, direction, pre_delay, rear_delay });
+        }
+      });
+      var stage_name = document.getElementById("stagename").value;
+      var title = document.getElementById("title").value;
+      var details = document.getElementById("description").value;
+      var desc = { title, details };
+      var obj = { stage_name, opers, actions, desc };
+      console.log(obj)
+      navigator.clipboard.writeText(JSON.stringify(obj));
+      alert("已经复制JSON到剪切板")
+    }
+  </script>
+</body>
+
+</html>
