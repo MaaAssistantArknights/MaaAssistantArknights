@@ -24,8 +24,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeoAssistantBuilder", "src\MeoAssistantBuilder\MeoAssistantBuilder.csproj", "{8D9036DD-75F1-4BD0-89E2-DFB37B925DA3}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ItemMappingCvt", "tools\ItemMappingCvt\ItemMappingCvt.vcxproj", "{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}"
 EndProject
 Global
@@ -67,10 +65,6 @@ Global
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.RelWithDebInfo|x86.ActiveCfg = RelWithDebInfo|x64
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.RelWithDebInfo|x86.Build.0 = RelWithDebInfo|x64
-		{8D9036DD-75F1-4BD0-89E2-DFB37B925DA3}.Release|x64.ActiveCfg = Release|x64
-		{8D9036DD-75F1-4BD0-89E2-DFB37B925DA3}.Release|x86.ActiveCfg = Release|Any CPU
-		{8D9036DD-75F1-4BD0-89E2-DFB37B925DA3}.RelWithDebInfo|x64.ActiveCfg = Release|x64
-		{8D9036DD-75F1-4BD0-89E2-DFB37B925DA3}.RelWithDebInfo|x86.ActiveCfg = Release|Any CPU
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.Release|x64.ActiveCfg = Release|x64
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.Release|x64.Build.0 = Release|x64
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.Release|x86.ActiveCfg = Release|Win32
@@ -86,7 +80,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{63B4F1A2-291C-4C85-91E1-A1F6DAE30D64} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 		{093A3174-A27E-4D23-B64E-16F9448AD5AC} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
-		{8D9036DD-75F1-4BD0-89E2-DFB37B925DA3} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
