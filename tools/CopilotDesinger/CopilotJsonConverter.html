@@ -6,12 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <title>自动战斗流程JSON生成器</title>
-  <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans"> -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-  <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
-  <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 <body>
@@ -45,6 +41,8 @@
         <div class="col-sm-3">
           <button type="button" id="toJson" class="btn btn-primary" onclick="toJSON();">生成JSON
           </button>
+          <!-- <input type="file" id="selectedFile" style="display: none;" />
+          <button class="btn btn-primary" onclick="document.getElementById('selectedFile').click();">读取JSON</button> -->
         </div>
       </div>
     </div>
@@ -127,9 +125,9 @@
                 <th>干员</th>
                 <th>坐标</th>
                 <th>方向</th>
-                <th>方向</th>
                 <th>操作前延迟(毫秒)</th>
                 <th>操作后延迟(毫秒)</th>
+                <th>删除</th>
               </tr>
             </thead>
           </table>
