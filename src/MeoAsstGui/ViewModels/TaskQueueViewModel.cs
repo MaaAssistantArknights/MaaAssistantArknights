@@ -77,10 +77,10 @@ namespace MeoAsstGui
                 new CombData { Display = "1-7", Value = "1-7" },
 
                 // “愚人号” 活动关卡
-                new CombData { Display = "SN-8", Value = "SN-8" },
-                new CombData { Display = "SN-9", Value = "SN-9" },
-                new CombData { Display = "SN-10", Value = "SN-10" },
-
+                //new CombData { Display = "SN-8", Value = "SN-8" },
+                //new CombData { Display = "SN-9", Value = "SN-9" },
+                //new CombData { Display = "SN-10", Value = "SN-10" },
+                
                 //// “风雪过境” 活动关卡
                 //new CombData { Display = "BI-7", Value = "BI-7" },
                 //new CombData { Display = "BI-8", Value = "BI-8" }
