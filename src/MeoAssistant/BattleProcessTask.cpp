@@ -318,11 +318,12 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
 
 bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 {
+    cv::Mat image;
     while (m_kills < action.kills) {
         if (need_exit()) {
             return false;
         }
-        const auto& image = m_ctrler->get_image();
+        image = m_ctrler->get_image();
         BattleImageAnalyzer analyzer(image);
 
         analyzer.set_target(BattleImageAnalyzer::Target::Kills);
@@ -344,7 +345,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
             if (need_exit()) {
                 return false;
             }
-            const auto& image = m_ctrler->get_image();
+            image = m_ctrler->get_image();
             update_opers_info(image);
 
             if (auto iter = m_cur_opers_info.find(name);
@@ -355,6 +356,10 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
             try_possible_skill(image);
             std::this_thread::yield();
         };
+    }
+    if (image.empty()) {
+        image = m_ctrler->get_image();
+        try_possible_skill(image);
     }
 
     return true;

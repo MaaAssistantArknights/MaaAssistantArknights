@@ -2,7 +2,7 @@
     "minimum_required": "v4.0",
     "desc": {
         "title": "《全自动危机合约 30》",
-        "details": "作业抄自 https://www.bilibili.com/video/BV1mF411L7PF"
+        "details": "作业抄自 https://www.bilibili.com/video/BV1mF411L7PF。没写完，摆烂了"
     },
     "stage_name": "obt/rune/level_rune_11-01",
     "opers": [
@@ -33,7 +33,7 @@
         },
         {
             "name": "卡夫卡",
-            "skill": 2
+            "skill": 1
         },
         {
             "name": "极境",
@@ -169,11 +169,6 @@
             "direction": "左"
         },
         {
-            "kills": 15,
-            "type": "撤退",
-            "name": "号角"
-        },
-        {
             "name": "风笛",
             "location": [
                 8,
@@ -182,13 +177,170 @@
             "direction": "上"
         },
         {
+            "type": "撤退",
+            "name": "号角"
+        },
+        {
             "pre_delay": 5000,
             "name": "傀影",
             "location": [
                 9,
-                3
+                4
+            ],
+            "direction": "左"
+        },
+        {
+            "pre_delay": 4000,
+            "type": "撤退",
+            "name": "傀影"
+        },
+        {
+            "name": "银灰",
+            "location": [
+                7,
+                1
             ],
             "direction": "下"
+        },
+        {
+            "name": "耀骑士临光",
+            "location": [
+                3,
+                5
+            ],
+            "direction": "左"
+        },
+        {
+            "name": "风笛",
+            "type": "技能"
+        },
+        {
+            "pre_delay": 3000,
+            "name": "极境",
+            "type": "撤退"
+        },
+        {
+            "name": "卡夫卡",
+            "location": [
+                4,
+                5
+            ],
+            "direction": "左"
+        },
+        {
+            "name": "耀骑士临光",
+            "type": "撤退"
+        },
+        {
+            "name": "卡夫卡",
+            "type": "撤退"
+        },
+        {
+            "name": "傀影",
+            "location": [
+                4,
+                4
+            ],
+            "direction": "下"
+        },
+        {
+            "name": "温蒂",
+            "location": [
+                10,
+                4
+            ],
+            "direction": "左"
+        },
+        {
+            "kills": 18,
+            "name": "风笛",
+            "type": "撤退"
+        },
+        {
+            "name": "桃金娘",
+            "type": "撤退"
+        },
+        {
+            "name": "傀影",
+            "location": [
+                3,
+                5
+            ],
+            "direction": "左"
+        },
+        {
+            "pre_delay": 1000,
+            "name": "傀影",
+            "type": "撤退"
+        },
+        {
+            "name": "号角",
+            "location": [
+                6,
+                1
+            ],
+            "direction": "下"
+        },
+        {
+            "name": "卡夫卡",
+            "location": [
+                3,
+                5
+            ],
+            "direction": "左"
+        },
+        {
+            "name": "卡夫卡",
+            "type": "撤退"
+        },
+        {
+            "name": "阿",
+            "location": [
+                3,
+                1
+            ],
+            "direction": "右"
+        },
+        {
+            "pre_delay": 18000,
+            "name": "铃兰",
+            "type": "技能"
+        },
+        {
+            "name": "号角",
+            "type": "技能"
+        },
+        {
+            "name": "阿",
+            "type": "技能"
+        },
+        {
+            "name": "阿",
+            "type": "技能"
+        },
+        {
+            "name": "傀影",
+            "location": [
+                8,
+                1
+            ],
+            "direction": "左"
+        },
+        {
+            "name": "工程蓄水炮",
+            "location": [
+                9,
+                4
+            ],
+            "direction": "左"
+        },
+        {
+            "name": "温蒂",
+            "type": "技能"
+        },
+        {
+            "name": "温蒂",
+            "type": "技能"
         }
     ]
 }
