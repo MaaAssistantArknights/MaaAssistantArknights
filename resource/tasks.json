@@ -1784,8 +1784,8 @@
         ]
     },
     "ActivitiesBegin": {
-        "algorithm": "justreturn",
-        "action": "doNothing",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
         "next": [
             "ReturnToActivities",
             "MiningActivities",
@@ -1794,7 +1794,7 @@
     },
     "ReturnToActivities": {
         "template": "Return.png",
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "roi": [
             0,
             0,
@@ -1814,7 +1814,7 @@
             "限时开采",
             "开采"
         ],
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "roi": [
             0,
             20,
@@ -1827,7 +1827,7 @@
         ]
     },
     "MiningActivityDigging": {
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "roi": [
             901,
             469,
@@ -1841,7 +1841,7 @@
         ]
     },
     "MiningActivityDiggingEnd": {
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "roi": [
             559,
             563,
@@ -1854,7 +1854,7 @@
     },
     "MiningActivitiesReturn": {
         "template": "CloseAnno.png",
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "roi": [
             1146,
             0,
@@ -1873,7 +1873,7 @@
             "赠送",
             "次"
         ],
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "roi": [
             1148,
             416,
@@ -1886,7 +1886,7 @@
         ]
     },
     "RecruitingActivitiesConfirm": {
-        "action": "doNothing",
+        "action": "DoNothing",
         "algorithm": "OcrDetect",
         "text": [
             "赠送",
@@ -1906,7 +1906,7 @@
     },
     "RecruitingActivitiesRecruit": {
         "algorithm": "OcrDetect",
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "text": [
             "寻访一次",
             "寻访"
@@ -1922,7 +1922,7 @@
         ]
     },
     "RecruitingActivitiesRecruitNowConfirm": {
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "template": "RecruitNowConfirm.png",
         "roi": [
             586,
@@ -1937,7 +1937,7 @@
         ]
     },
     "RecruitingActivitiesRecruitSkip": {
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "template": "RecruitSkip.png",
         "roi": [
             1100,
@@ -1951,8 +1951,8 @@
         ]
     },
     "RecruitingActivitiesRecruitSkipWithoutButton": {
-        "action": "clickRect",
-        "algorithm": "justReturn",
+        "action": "ClickRect",
+        "algorithm": "JustReturn",
         "specificRect": [
             1180,
             15,
@@ -1967,7 +1967,7 @@
     },
     "RecruitingActivitiesRecruitEnd": {
         "algorithm": "OcrDetect",
-        "action": "doNothing",
+        "action": "DoNothing",
         "text": [
             "寻访一次",
             "寻访"
