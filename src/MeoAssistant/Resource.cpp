@@ -21,7 +21,7 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static const char* ItemCfgFilename = "item_index.json";
     constexpr static const char* InfrastCfgFilename = "infrast.json";
     constexpr static const char* InfrastTempls = "template/infrast";
-    constexpr static const char* CopilotCfgDirname = "copilot";
+    //constexpr static const char* CopilotCfgDirname = "copilot";
     constexpr static const char* RoguelikeCfgDirname = "roguelike";
     constexpr static const char* OcrResourceFilename = "PaddleOCR";
     constexpr static const char* TilesCalcResourceFilename = "Arknights-Tile-Pos";
@@ -81,15 +81,15 @@ bool asst::Resource::load(const std::string& dir)
         overload = true;
     }
 
-    for (const auto& entry : std::filesystem::directory_iterator(dir + CopilotCfgDirname)) {
-        if (entry.path().extension() != ".json") {
-            continue;
-        }
-        if (!m_copilot_cfg_unique_ins.load(entry.path().string())) {
-            m_last_error = entry.path().string() + " Load failed";
-            return false;
-        }
-    }
+    //for (const auto& entry : std::filesystem::directory_iterator(dir + CopilotCfgDirname)) {
+    //    if (entry.path().extension() != ".json") {
+    //        continue;
+    //    }
+    //    if (!m_copilot_cfg_unique_ins.load(entry.path().string())) {
+    //        m_last_error = entry.path().string() + " Load failed";
+    //        return false;
+    //    }
+    //}
 
     for (const auto& entry : std::filesystem::directory_iterator(dir + RoguelikeCfgDirname)) {
         if (entry.path().extension() != ".json") {

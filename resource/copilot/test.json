@@ -1,6 +1,6 @@
 {
     "minimum_required": "v4.0",
-    "desc": {
+    "doc": {
         "title": "Hello World",
         "details": "第一份测试作业",
         "requirements": ""

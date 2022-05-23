@@ -20,6 +20,6 @@ namespace asst
         }
     protected:
         virtual bool parse(const json::value& json) override;
-        std::unordered_map<std::string, BattleActionsGroup> m_battle_actions;
+        std::unordered_map<std::string, BattleCopilotData> m_battle_actions;
     };
 }

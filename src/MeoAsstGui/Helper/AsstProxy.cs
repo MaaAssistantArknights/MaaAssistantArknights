@@ -500,7 +500,24 @@ namespace MeoAsstGui
                     break;
 
                 case "BattleAction":
-                    copilotModel.AddLog("当前步骤：" + subTaskDetails["description"].ToString());
+                    {
+                        string doc = subTaskDetails["doc"].ToString();
+                        if (doc.Length != 0)
+                        {
+                            string color = subTaskDetails["doc_color"].ToString();
+                            copilotModel.AddLog(doc, color.Length == 0 ? "dark" : color);
+                        }
+                        copilotModel.AddLog("当前步骤：" + subTaskDetails["action"].ToString());
+                    }
+                    break;
+
+                case "BattleActionDoc":
+                    {
+                        string title_color = subTaskDetails["title_color"].ToString();
+                        copilotModel.AddLog(subTaskDetails["title"].ToString(), title_color.Length == 0 ? "dark" : title_color);
+                        string details_color = subTaskDetails["details_color"].ToString();
+                        copilotModel.AddLog(subTaskDetails["details"].ToString(), details_color.Length == 0 ? "dark" : details_color);
+                    }
                     break;
             }
         }
