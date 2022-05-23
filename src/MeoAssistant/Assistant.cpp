@@ -274,7 +274,7 @@ void Assistant::msg_proc()
         //LogTraceScope("Assistant::msg_proc Loop");
         std::unique_lock<std::mutex> lock(m_msg_mutex);
         if (!m_msg_queue.empty()) {
-            // 结构化绑定只能是引用，后续的pop会使引用失效，所以需要重新构造一份，这里采用了move的方式
+            // 结构化绑定只能是引用，后续的pop会使引用失效，所以需要重新构造一份，这里采用了move的方式 
             auto&& [temp_msg, temp_detail] = m_msg_queue.front();
             AsstMsg msg = std::move(temp_msg);
             json::value detail = std::move(temp_detail);
