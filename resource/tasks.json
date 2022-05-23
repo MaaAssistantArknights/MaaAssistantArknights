@@ -4534,13 +4534,15 @@
         ],
         "cache": false,
         "action": "ClickSelf",
-        "preDelay": 500,
-        "rearDelay": 500,
         "rectMove": [
             0,
             -110,
             90,
             90
+        ],
+        "next": [
+            "BattleSkillReadyOnClick",
+            "Stop"
         ]
     },
     "BattleUseOper": {
