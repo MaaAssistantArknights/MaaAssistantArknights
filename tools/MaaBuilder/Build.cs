@@ -123,12 +123,6 @@ public partial class Build : NukeBuild
             FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.Release);
         });
     
-    Target UseCleanCICD => _ => _
-        .Executes(() =>
-        {
-            FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.CICD);
-        });
-
     #endregion
 
     #region 设置版本
@@ -199,30 +193,6 @@ public partial class Build : NukeBuild
             );
         });
     
-    Target WithCompileCoreCICD => _ => _
-        .DependsOn(UseCleanCICD)
-        .After(SetVersion)
-        .Executes(() =>
-        {
-            var versionEnv = $"/DMAA_VERSION=\\\"{_version}\\\"";
-            Information($"MaaCore 编译环境变量：ExternalCompilerOptions = {versionEnv}");
-            MSBuild(c => c
-                .SetProcessToolPath(Parameters.MsBuildPath)
-                .SetProjectFile(Parameters.MaaCoreProject)
-                .SetTargets("ReBuild")
-                .SetConfiguration(BuildConfiguration.CICD)
-                .SetTargetPlatform(MSBuildTargetPlatform.x64)
-                .SetProcessEnvironmentVariable("ExternalCompilerOptions", versionEnv)
-            );
-
-            var output = Parameters.BuildOutput / BuildConfiguration.CICD;
-            var dlls = RootDirectory / "3rdparty" / "bin";
-
-            Information($"复制目录：{dlls} -> {output}");
-            FileSystemTasks.CopyDirectoryRecursively(dlls, output,
-                DirectoryExistsPolicy.Merge, FileExistsPolicy.OverwriteIfNewer);
-        });
-
     // TODO 在 MaaElectronUI 发布后移除
     Target WithCompileWpfRelease => _ => _
         .DependsOn(UseCleanRelease)
@@ -283,13 +253,14 @@ public partial class Build : NukeBuild
         });
 
     Target UseMaaCore => _ => _
-        .DependsOn(UseCleanArtifact, WithCompileCoreCICD)
+        .DependsOn(UseCleanArtifact, WithCompileCoreRelease)
         .Triggers(SetPackageBundled)
         .Executes(() =>
         {
-            var buildOutput = Parameters.BuildOutput / BuildConfiguration.CICD;
+            var buildOutput = Parameters.BuildOutput / BuildConfiguration.Release;
             RemoveDebugSymbols(buildOutput);
-            
+            RemoveReleaseResource(buildOutput);
+
             BundlePackage(buildOutput, MaaCorePackageName);
         });
 
@@ -503,6 +474,19 @@ public partial class Build : NukeBuild
         {
             FileSystemTasks.DeleteFile(file);
             Information($"删除文件：{file}");
+        }
+    }
+    private void RemoveReleaseResource(AbsolutePath outputDir)
+    {
+        var resourceDir = outputDir / "resource";
+        if (FileSystemTasks.Exists(resourceDir))
+        {
+            FileSystemTasks.DeleteDirectory(resourceDir);
+            Information("移除了发布中的资源目录");
+        }
+        else
+        {
+            Warning("发布中的资源目录不存在");
         }
     }
 
