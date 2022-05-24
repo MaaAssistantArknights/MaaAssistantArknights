@@ -137,7 +137,8 @@ namespace MeoAsstGui
                     Environment.Exit(0);
                     break;
 
-                case AsstMsg.ConnectionError:
+                case AsstMsg.ConnectionInfo:
+                    procConnectInfo(details);
                     break;
 
                 case AsstMsg.AllTasksCompleted:
@@ -154,6 +155,15 @@ namespace MeoAsstGui
                 case AsstMsg.SubTaskExtraInfo:
                     procSubTaskMsg(msg, details);
                     break;
+            }
+        }
+
+        private void procConnectInfo(JObject details)
+        {
+            if (details["what"].ToString() == "Connected")
+            {
+                var svm = _container.Get<SettingsViewModel>();
+                svm.ConnectAddress = details["details"]["address"].ToString();
             }
         }
 
@@ -240,12 +250,12 @@ namespace MeoAsstGui
                     mainModel.AddLog("公招识别错误，已返回", "darkred");
                     break;
 
-                //case "StageDropsTask":
-                //    mainModel.AddLog("关卡识别错误", "darkred");
-                //    break;
+                case "RecognizeDrops":
+                    mainModel.AddLog("掉落识别错误", "darkred");
+                    break;
 
                 case "ReportToPenguinStats":
-                    mainModel.AddLog("上传企鹅数据错误", "darkred");
+                    mainModel.AddLog("未知关卡，放弃上传企鹅", "darkred");
                     break;
 
                 case "CheckStageValid":
@@ -320,7 +330,7 @@ namespace MeoAsstGui
                         break;
 
                     case "Roguelike1StageTraderEnter":
-                        mainModel.AddLog("关卡：诡异行商");
+                        mainModel.AddLog("关卡：诡意行商");
                         break;
 
                     case "Roguelike1StageSafeHouseEnter":
@@ -500,7 +510,24 @@ namespace MeoAsstGui
                     break;
 
                 case "BattleAction":
-                    copilotModel.AddLog("当然步骤：" + subTaskDetails["description"].ToString());
+                    {
+                        string doc = subTaskDetails["doc"].ToString();
+                        if (doc.Length != 0)
+                        {
+                            string color = subTaskDetails["doc_color"].ToString();
+                            copilotModel.AddLog(doc, color.Length == 0 ? "dark" : color);
+                        }
+                        copilotModel.AddLog("当前步骤：" + subTaskDetails["action"].ToString());
+                    }
+                    break;
+
+                case "BattleActionDoc":
+                    {
+                        string title_color = subTaskDetails["title_color"].ToString();
+                        copilotModel.AddLog(subTaskDetails["title"].ToString(), title_color.Length == 0 ? "dark" : title_color);
+                        string details_color = subTaskDetails["details_color"].ToString();
+                        copilotModel.AddLog(subTaskDetails["details"].ToString(), details_color.Length == 0 ? "dark" : details_color);
+                    }
                     break;
             }
         }
@@ -570,18 +597,23 @@ namespace MeoAsstGui
             }
         }
 
-        public bool AsstConnect()
+        public bool AsstConnect(ref string error)
         {
             var settings = _container.Get<SettingsViewModel>();
             if (settings.AdbPath == String.Empty ||
                 settings.ConnectAddress == String.Empty)
             {
-                return false;
+                if (!settings.RefreshAdbConfig(ref error))
+                {
+                    return false;
+                }
             }
-            else
+            bool ret = AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
+            if (!ret)
             {
-                return AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
+                error = "连接失败\n请检查连接设置";
             }
+            return ret;
         }
 
         private bool AsstAppendTaskWithEncoding(string type, JObject task_params = null)
@@ -703,7 +735,7 @@ namespace MeoAsstGui
         /* Global Info */
         InternalError = 0,          // 内部错误
         InitFailed,                 // 初始化失败
-        ConnectionError,            // 连接相关错误
+        ConnectionInfo,            // 连接相关错误
         AllTasksCompleted,          // 全部任务完成
         /* TaskChain Info */
         TaskChainError = 10000,     // 任务链执行/识别错误

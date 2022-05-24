@@ -255,7 +255,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     oper_name_analyzer.set_task_info("BattleOperName");
     oper_name_analyzer.set_replace(
         std::dynamic_pointer_cast<OcrTaskInfo>(
-            Task.get("Roguelike1RecruitData"))
+            Task.get("CharsNameOcrReplace"))
         ->replace_map);
 
     std::string oper_name = "Unknown";

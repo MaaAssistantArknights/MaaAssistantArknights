@@ -77,9 +77,9 @@ namespace MeoAsstGui
                 new CombData { Display = "1-7", Value = "1-7" },
 
                 // “愚人号” 活动关卡
-                new CombData { Display = "SN-8", Value = "SN-8" },
-                new CombData { Display = "SN-9", Value = "SN-9" },
-                new CombData { Display = "SN-10", Value = "SN-10" },
+                //new CombData { Display = "SN-8", Value = "SN-8" },
+                //new CombData { Display = "SN-9", Value = "SN-9" },
+                //new CombData { Display = "SN-10", Value = "SN-10" },
 
                 //// “风雪过境” 活动关卡
                 //new CombData { Display = "BI-7", Value = "BI-7" },
@@ -139,14 +139,15 @@ namespace MeoAsstGui
             AddLog("正在连接模拟器……");
 
             var asstProxy = _container.Get<AsstProxy>();
+            string errMsg = "";
             var task = Task.Run(() =>
             {
-                return asstProxy.AsstConnect();
+                return asstProxy.AsstConnect(ref errMsg);
             });
             bool catchd = await task;
             if (!catchd)
             {
-                AddLog("连接模拟器失败\n请检查连接设置", "darkred");
+                AddLog(errMsg, "darkred");
                 Idle = true;
                 return;
             }
