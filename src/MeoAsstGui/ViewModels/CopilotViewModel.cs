@@ -98,17 +98,18 @@ namespace MeoAsstGui
             AddLog("正在连接模拟器……");
 
             var asstProxy = _container.Get<AsstProxy>();
+            string errMsg = "";
             if (!_catched)
             {
                 var task = Task.Run(() =>
                 {
-                    return asstProxy.AsstConnect();
+                    return asstProxy.AsstConnect(ref errMsg);
                 });
                 _catched = await task;
             }
             if (!_catched)
             {
-                AddLog("连接模拟器失败\n请检查连接设置", "darkred");
+                AddLog(errMsg, "darkred");
                 return;
             }
             if (Filename.Length == 0 || !File.Exists(Filename))

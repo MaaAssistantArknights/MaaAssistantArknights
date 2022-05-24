@@ -100,6 +100,7 @@
     <Compile Include="Helper\ScrollViewerBinding.cs" />
     <Compile Include="Helper\ViewStatusStorage.cs" />
     <Compile Include="Helper\FlowDocumentPagePadding.cs" />
+    <Compile Include="Helper\WinAdapter.cs" />
     <Compile Include="UserControl\AutoRecruitSettingsUserControl.xaml.cs">
       <DependentUpon>AutoRecruitSettingsUserControl.xaml</DependentUpon>
     </Compile>

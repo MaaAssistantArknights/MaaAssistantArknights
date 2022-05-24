@@ -131,11 +131,6 @@ namespace MeoAsstGui
             };
 
             ConnectAddressList = new ObservableCollection<string>();
-
-            if (ConnectAddress.Length == 0)
-            {
-                UpdateAddressByConfig();
-            }
         }
 
         private bool _idle = true;
@@ -891,7 +886,7 @@ namespace MeoAsstGui
                 { "WSA", new List<string> { "127.0.0.1:58526" } },
             };
 
-        public void UpdateAddressByConfig()
+        private void UpdateAddressByConfig()
         {
             var addresses = ConfigAddressesMapping[ConnectConfig];
             ConnectAddress = addresses.FirstOrDefault();
@@ -900,6 +895,26 @@ namespace MeoAsstGui
             //{
             //    ConnectAddressList.Add(address);
             //}
+        }
+
+        public bool RefreshAdbConfig(ref string error)
+        {
+            var adapter = new WinAdapter();
+            var emulators = adapter.RefreshEmulatorsInfo();
+            if (emulators.Count == 0)
+            {
+                error = "未检测到任何模拟器\n请尝试使用管理员权限打开本软件\n或手动设置连接";
+                return false;
+            }
+            else if (emulators.Count > 1)
+            {
+                error = "检测到多个模拟器\n请关闭不需要的模拟器\n或手动设置连接";
+                return false;
+            }
+            ConnectConfig = emulators.First();
+            AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
+            UpdateAddressByConfig();
+            return true;
         }
 
         public void SelectFile()
