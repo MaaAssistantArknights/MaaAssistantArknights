@@ -137,7 +137,8 @@ namespace MeoAsstGui
                     Environment.Exit(0);
                     break;
 
-                case AsstMsg.ConnectionError:
+                case AsstMsg.ConnectionInfo:
+                    procConnectInfo(details);
                     break;
 
                 case AsstMsg.AllTasksCompleted:
@@ -154,6 +155,15 @@ namespace MeoAsstGui
                 case AsstMsg.SubTaskExtraInfo:
                     procSubTaskMsg(msg, details);
                     break;
+            }
+        }
+
+        private void procConnectInfo(JObject details)
+        {
+            if (details["what"].ToString() == "Connected")
+            {
+                var svm = _container.Get<SettingsViewModel>();
+                svm.ConnectAddress = details["details"]["address"].ToString();
             }
         }
 
@@ -587,18 +597,23 @@ namespace MeoAsstGui
             }
         }
 
-        public bool AsstConnect()
+        public bool AsstConnect(ref string error)
         {
             var settings = _container.Get<SettingsViewModel>();
             if (settings.AdbPath == String.Empty ||
                 settings.ConnectAddress == String.Empty)
             {
-                return false;
+                if (!settings.RefreshAdbConfig(ref error))
+                {
+                    return false;
+                }
             }
-            else
+            bool ret = AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
+            if (!ret)
             {
-                return AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
+                error = "连接失败\n请检查连接设置";
             }
+            return ret;
         }
 
         private bool AsstAppendTaskWithEncoding(string type, JObject task_params = null)
@@ -720,7 +735,7 @@ namespace MeoAsstGui
         /* Global Info */
         InternalError = 0,          // 内部错误
         InitFailed,                 // 初始化失败
-        ConnectionError,            // 连接相关错误
+        ConnectionInfo,            // 连接相关错误
         AllTasksCompleted,          // 全部任务完成
         /* TaskChain Info */
         TaskChainError = 10000,     // 任务链执行/识别错误

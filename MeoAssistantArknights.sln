@@ -70,7 +70,6 @@ Global
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.Release|x86.ActiveCfg = Release|Win32
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.Release|x86.Build.0 = Release|Win32
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.RelWithDebInfo|x64.ActiveCfg = Release|x64
-		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.RelWithDebInfo|x64.Build.0 = Release|x64
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.RelWithDebInfo|x86.ActiveCfg = Release|Win32
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.RelWithDebInfo|x86.Build.0 = Release|Win32
 	EndGlobalSection
