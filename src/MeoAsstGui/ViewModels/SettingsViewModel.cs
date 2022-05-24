@@ -51,6 +51,7 @@ namespace MeoAsstGui
             _listTitle.Add("连接设置");
             _listTitle.Add("通知显示");
             _listTitle.Add("软件更新");
+            _listTitle.Add("关于我们");
             //_listTitle.Add("其他");
 
             InfrastInit();

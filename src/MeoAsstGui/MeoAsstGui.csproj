@@ -126,6 +126,9 @@
     <Compile Include="UserControl\ToastSettingsUserControl.xaml.cs">
       <DependentUpon>ToastSettingsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\AboutUserControl.xaml.cs">
+      <DependentUpon>AboutUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\VersionUpdateSettingsUserControl.xaml.cs">
       <DependentUpon>VersionUpdateSettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -178,6 +181,10 @@
     <Page Include="UserControl\ToastSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\AboutUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControl\VersionUpdateSettingsUserControl.xaml">
       <SubType>Designer</SubType>
