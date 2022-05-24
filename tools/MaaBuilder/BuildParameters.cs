@@ -15,13 +15,12 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using static Nuke.Common.Tools.VSWhere.VSWhereTasks;
 
-namespace MeoAssistantBuilder;
+namespace MaaBuilder;
 
 public partial class Build
 {
     #region Nuke 默认全局参数
 
-    [Solution] readonly Solution Solution;
     [CI] readonly GitHubActions GitHubActions;
 
     #endregion
@@ -86,6 +85,7 @@ public partial class Build
         public bool IsGitHubActions { get; }
         public bool IsPullRequest { get; }
         public bool IsWorkflowDispatch { get; }
+        public bool IsPreRelease { get; }
         public string GitHubPersonalAccessToken { get; } = null;
         public Dictionary<string, string> WorkflowDispatchArguments { get; }
         public ActionConfiguration GhActionName { get; } = null;
@@ -121,8 +121,10 @@ public partial class Build
             MaaResourceChangeLogFile = RootDirectory / "CHANGELOG_RES.md";
 
             // 项目
-            MaaCoreProject = b.Solution.GetProject("MeoAssistant");
-            MaaWpfProject = b.Solution.GetProject("MeoAsstGui");
+            var maaSolution = ProjectModelTasks.ParseSolution(RootDirectory / "MeoAssistantArknights.sln");
+            Assert.True(maaSolution is not null, "无法载入 MeoAssistantArknights.sln");
+            MaaCoreProject = maaSolution.GetProject("MeoAssistant");
+            MaaWpfProject = maaSolution.GetProject("MeoAsstGui");
 
             // 配置
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("zh-Hans-CN");
@@ -152,6 +154,9 @@ public partial class Build
                     if (match.Success)
                     {
                         GhTag = tag;
+                        var preReleasePattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*))(-)";
+                        var preReleaseMatch = Regex.Match(tag, preReleasePattern);
+                        IsPreRelease = preReleaseMatch.Success;
                     }
                     else
                     {

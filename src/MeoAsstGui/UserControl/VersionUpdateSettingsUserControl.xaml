@@ -8,9 +8,6 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="550">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />

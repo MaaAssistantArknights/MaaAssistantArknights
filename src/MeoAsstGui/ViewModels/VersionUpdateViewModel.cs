@@ -18,6 +18,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Documents;
+using Markdig;
+using Neo.Markdig.Xaml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -58,6 +61,8 @@ namespace MeoAsstGui
 
         private string _updateInfo = ViewStatusStorage.Get("VersionUpdate.body", string.Empty);
 
+        private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
+
         public string UpdateInfo
         {
             get
@@ -68,6 +73,14 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _updateInfo, value);
                 ViewStatusStorage.Set("VersionUpdate.body", value);
+            }
+        }
+
+        public FlowDocument UpdateInfoDocument
+        {
+            get
+            {
+                return MarkdownXaml.ToFlowDocument(UpdateInfo, s_markdownPipeline);
             }
         }
 
@@ -734,6 +747,11 @@ namespace MeoAsstGui
             IsFirstBootAfterUpdate = false;
             UpdateTag = string.Empty;
             UpdateInfo = string.Empty;
+        }
+
+        public void OpenHyperlink(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            Process.Start(e.Parameter.ToString());
         }
     }
 }

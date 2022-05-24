@@ -62,10 +62,17 @@ namespace asst
         int pre_delay = 0;
         int rear_delay = 0;
         int time_out = INT_MAX;
+        std::string doc;
+        std::string doc_color;
     };
 
-    struct BattleActionsGroup
+    struct BattleCopilotData
     {
+        std::string minimum_required;
+        std::string title;
+        std::string title_color;
+        std::string details;
+        std::string details_color;
         std::unordered_map<std::string, std::vector<BattleDeployOper>> groups;
         std::vector<BattleAction> actions;
     };

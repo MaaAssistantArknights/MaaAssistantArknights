@@ -1,4 +1,4 @@
 {
   "$schema": "./build.schema.json",
-  "Solution": "MeoAssistantArknights.sln"
+  "Solution": "tools/MaaBuilder.sln"
 }
