@@ -1,38 +1,35 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+val ktor_version = "2.0.1"
+val kotlin_version = "1.6.10"
+val logback_version = "1.2.11"
 
 plugins {
-    id("java")
+    application
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.serialization") version "1.6.10"
-    id("io.spring.dependency-management") version "1.0.10.RELEASE"
-    id("org.springframework.boot") version "2.4.0-SNAPSHOT"
 }
 
-version = "1.0-SNAPSHOT"
+group = "com.iguigui"
+version = "0.0.1"
+application {
+    mainClass.set("com.iguigui.maaj.ApplicationKt")
+    val isDevelopment: Boolean = project.ext.has("development")
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+}
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://repo.spring.io/milestone") }
-    maven { url = uri("https://repo.spring.io/snapshot") }
+    maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
 }
 
 dependencies {
-    //JNA
     implementation("net.java.dev.jna:jna:5.11.0")
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+    implementation("io.ktor:ktor-server-websockets:$ktor_version")
+    implementation("ch.qos.logback:logback-classic:$logback_version")
+    testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
-    implementation( "org.jetbrains.kotlin:kotlin-reflect:1.6.10")
-    implementation(kotlin("stdlib-jdk8"))
-}
-
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
-}
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
-}
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "1.8"
 }
