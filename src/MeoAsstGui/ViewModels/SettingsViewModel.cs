@@ -132,7 +132,10 @@ namespace MeoAsstGui
 
             ConnectAddressList = new ObservableCollection<string>();
 
-            UpdateAddressByConfig();
+            if (ConnectAddress.Length == 0)
+            {
+                UpdateAddressByConfig();
+            }
         }
 
         private bool _idle = true;
