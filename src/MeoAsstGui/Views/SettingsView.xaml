@@ -47,7 +47,7 @@
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[7]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:VersionUpdateSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[7]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[8]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:AboutUserControl Margin="20" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />-->
             </StackPanel>
