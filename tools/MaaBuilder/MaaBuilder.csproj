@@ -8,21 +8,18 @@
     <NukeRootDirectory>..\..</NukeRootDirectory>
     <NukeScriptDirectory>..\..</NukeScriptDirectory>
     <NukeTelemetryVersion>1</NukeTelemetryVersion>
-    <PlatformTarget>x64</PlatformTarget>
-    <Configurations>Release</Configurations>
-    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
-  <ItemGroup>
-      <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-        
   <ItemGroup>
     <PackageReference Include="Nuke.Common" Version="6.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageDownload Include="vswhere" Version="[3.0.2]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>

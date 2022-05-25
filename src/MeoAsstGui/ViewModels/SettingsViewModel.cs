@@ -51,6 +51,7 @@ namespace MeoAsstGui
             _listTitle.Add("连接设置");
             _listTitle.Add("通知显示");
             _listTitle.Add("软件更新");
+            _listTitle.Add("关于我们");
             //_listTitle.Add("其他");
 
             InfrastInit();
@@ -131,8 +132,6 @@ namespace MeoAsstGui
             };
 
             ConnectAddressList = new ObservableCollection<string>();
-
-            UpdateAddressByConfig();
         }
 
         private bool _idle = true;
@@ -870,13 +869,16 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _connectConfig, value);
                 ViewStatusStorage.Set("Connect.ConnectConfig", value);
-                UpdateAddressByConfig();
+                if (ConnectAddress.Length == 0)
+                {
+                    UpdateAddressByConfig();
+                }
             }
         }
 
         private readonly Dictionary<string, List<string>> ConfigAddressesMapping = new Dictionary<string, List<string>>
             {
-                { "General", new List<string> {} },
+                { "General", new List<string> {""} },
                 { "BlueStacks", new List<string> {"127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5557" } },
                 { "MuMuEmulator", new List<string>{"127.0.0.1:7555"} },
                 { "LDPlayer", new List<string>{ "127.0.0.1:5555", "emulator-5554" } },
@@ -885,14 +887,35 @@ namespace MeoAsstGui
                 { "WSA", new List<string> { "127.0.0.1:58526" } },
             };
 
-        public void UpdateAddressByConfig()
+        private void UpdateAddressByConfig()
         {
             var addresses = ConfigAddressesMapping[ConnectConfig];
-            ConnectAddressList.Clear();
-            foreach (var address in addresses)
+            ConnectAddress = addresses.FirstOrDefault();
+            //ConnectAddressList.Clear();
+            //foreach (var address in addresses)
+            //{
+            //    ConnectAddressList.Add(address);
+            //}
+        }
+
+        public bool RefreshAdbConfig(ref string error)
+        {
+            var adapter = new WinAdapter();
+            var emulators = adapter.RefreshEmulatorsInfo();
+            if (emulators.Count == 0)
             {
-                ConnectAddressList.Add(address);
+                error = "未检测到任何模拟器\n请尝试使用管理员权限打开本软件\n或手动设置连接";
+                return false;
             }
+            else if (emulators.Count > 1)
+            {
+                error = "检测到多个模拟器\n请关闭不需要的模拟器\n或手动设置连接";
+                return false;
+            }
+            ConnectConfig = emulators.First();
+            AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
+            UpdateAddressByConfig();
+            return true;
         }
 
         public void SelectFile()

@@ -3,6 +3,7 @@ using Nuke.Common;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
+using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.MSBuild;
@@ -15,7 +16,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 
-namespace MeoAssistantBuilder;
+namespace MaaBuilder;
 
 [CheckBuildProjectConfigurations]
 public partial class Build : NukeBuild
@@ -38,7 +39,7 @@ public partial class Build : NukeBuild
         }
         return Execute<Build>(_ => _.Default);
     }
-    
+
     BuildParameters Parameters;
 
     const string MasterBranch = "master";
@@ -92,6 +93,7 @@ public partial class Build : NukeBuild
         Information($"在 GitHub Actions 中运行：{Parameters.IsGitHubActions}");
         Information($"是 Pull Request：{Parameters.IsPullRequest}");
         Information($"是 Workflow Dispatch 触发：{Parameters.IsWorkflowDispatch}");
+        Information($"是 PreRelease 版本：{Parameters.IsPreRelease}");
         Information($"Actions 名称：{Parameters.GhActionName ?? "Null"}");
         Information($"Actions 分支：{Parameters.GhBranch ?? "Null"}");
         Information($"Actions PR：{Parameters.GhPullRequestId ?? "Null"}");
@@ -121,12 +123,6 @@ public partial class Build : NukeBuild
             FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.Release);
         });
     
-    Target UseCleanCICD => _ => _
-        .Executes(() =>
-        {
-            FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.CICD);
-        });
-
     #endregion
 
     #region 设置版本
@@ -197,30 +193,6 @@ public partial class Build : NukeBuild
             );
         });
     
-    Target WithCompileCoreCICD => _ => _
-        .DependsOn(UseCleanCICD)
-        .After(SetVersion)
-        .Executes(() =>
-        {
-            var versionEnv = $"/DMAA_VERSION=\\\"{_version}\\\"";
-            Information($"MaaCore 编译环境变量：ExternalCompilerOptions = {versionEnv}");
-            MSBuild(c => c
-                .SetProcessToolPath(Parameters.MsBuildPath)
-                .SetProjectFile(Parameters.MaaCoreProject)
-                .SetTargets("ReBuild")
-                .SetConfiguration(BuildConfiguration.CICD)
-                .SetTargetPlatform(MSBuildTargetPlatform.x64)
-                .SetProcessEnvironmentVariable("ExternalCompilerOptions", versionEnv)
-            );
-
-            var output = Parameters.BuildOutput / BuildConfiguration.CICD;
-            var dlls = RootDirectory / "3rdparty" / "bin";
-
-            Information($"复制目录：{dlls} -> {output}");
-            FileSystemTasks.CopyDirectoryRecursively(dlls, output,
-                DirectoryExistsPolicy.Merge, FileExistsPolicy.OverwriteIfNewer);
-        });
-
     // TODO 在 MaaElectronUI 发布后移除
     Target WithCompileWpfRelease => _ => _
         .DependsOn(UseCleanRelease)
@@ -270,7 +242,7 @@ public partial class Build : NukeBuild
         });
 
     Target UseMaaLegacyBundle => _ => _
-        .DependsOn(UseCleanArtifact, WithCompileCoreCICD, WithCompileCoreRelease, WithCompileWpfRelease)
+        .DependsOn(UseCleanArtifact, WithCompileCoreRelease, WithCompileWpfRelease)
         .Triggers(SetPackageBundled)
         .Executes(() =>
         {
@@ -278,21 +250,17 @@ public partial class Build : NukeBuild
             RemoveDebugSymbols(releaseBuildOutput);
 
             BundlePackage(releaseBuildOutput, MaaLegacyBundlePackageName);
-
-            var cicdBuildOutput = Parameters.BuildOutput / BuildConfiguration.CICD;
-            RemoveDebugSymbols(cicdBuildOutput);
-            
-            BundlePackage(cicdBuildOutput, MaaCorePackageName);
         });
 
     Target UseMaaCore => _ => _
-        .DependsOn(UseCleanArtifact, WithCompileCoreCICD)
+        .DependsOn(UseCleanArtifact, WithCompileCoreRelease)
         .Triggers(SetPackageBundled)
         .Executes(() =>
         {
-            var buildOutput = Parameters.BuildOutput / BuildConfiguration.CICD;
+            var buildOutput = Parameters.BuildOutput / BuildConfiguration.Release;
             RemoveDebugSymbols(buildOutput);
-            
+            RemoveReleaseResource(buildOutput);
+
             BundlePackage(buildOutput, MaaCorePackageName);
         });
 
@@ -326,34 +294,34 @@ public partial class Build : NukeBuild
         .Triggers(SetMaaChangeLog)
         .Executes(() =>
         {
-            _changeLog = $"对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})\n\n";
             if (File.Exists(Parameters.MaaChangelogFile))
             {
                 Information($"找到 {Parameters.MaaChangelogFile} 文件，读取内容作为更新日志");
                 var text = File.ReadAllText(Parameters.MaaChangelogFile);
-                _changeLog += text;
+                _changeLog = text;
             }
             else
             {
                 Warning($"未发现 {Parameters.MaaChangelogFile} 文件，将使用默认值");
             }
+            _changeLog += $"\n\n对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})";
         });
 
     Target UseMaaResourceChangeLog => _ => _
         .Triggers(SetMaaChangeLog)
         .Executes(() =>
         {
-            _changeLog = $"对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})\n\n";
             if (File.Exists(Parameters.MaaResourceChangeLogFile))
             {
                 Information($"找到 {Parameters.MaaResourceChangeLogFile} 文件，读取内容作为更新日志");
                 var text = File.ReadAllText(Parameters.MaaResourceChangeLogFile);
-                _changeLog += text;
+                _changeLog = text;
             }
             else
             {
                 Warning($"未发现 {Parameters.MaaResourceChangeLogFile} 文件，将使用默认值");
             }
+            _changeLog += $"\n\n对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})";
         });
 
     Target SetMaaChangeLog => _ => _
@@ -508,6 +476,19 @@ public partial class Build : NukeBuild
             Information($"删除文件：{file}");
         }
     }
+    private void RemoveReleaseResource(AbsolutePath outputDir)
+    {
+        var resourceDir = outputDir / "resource";
+        if (FileSystemTasks.Exists(resourceDir))
+        {
+            FileSystemTasks.DeleteDirectory(resourceDir);
+            Information("移除了发布中的资源目录");
+        }
+        else
+        {
+            Warning("发布中的资源目录不存在");
+        }
+    }
 
     private void CreateGitHubRelease(string repo, string commitish, string releaseName)
     {
@@ -519,14 +500,18 @@ public partial class Build : NukeBuild
             Name = releaseName,
             Body = _changeLog,
             Draft = true,
-            Prerelease = false
+            Prerelease = Parameters.IsPreRelease
         };
         var repoOwner = repo.Split('/')[0];
         var repoName = repo.Split('/')[1];
 
         var createdRelease = GitHubTasks.GitHubClient.Repository.Release.Create(repoOwner, repoName, release).Result;
         Information($"创建 Release {Parameters.GhTag} 成功");
-
+        if (Parameters.IsPreRelease)
+        {
+            Information("当前为预发布版本");
+        }
+        
         foreach (var asset in assets)
         {
             UploadReleaseAssetToGitHub(createdRelease, asset);

@@ -8,7 +8,11 @@ bool asst::CopilotConfiger::parse(const json::value& json)
 {
     std::string stage_name = json.at("stage_name").as_string();
 
-    BattleActionsGroup battle_actions;
+    BattleCopilotData battle_actions;
+    battle_actions.title = json.get("doc", "title", std::string());
+    battle_actions.title_color = json.get("doc", "title_color", std::string());
+    battle_actions.details = json.get("doc", "details", std::string());
+    battle_actions.details_color = json.get("doc", "details_color", std::string());
 
     if (json.contains("groups")) {
         for (const auto& group_info : json.at("groups").as_array()) {
@@ -131,6 +135,8 @@ bool asst::CopilotConfiger::parse(const json::value& json)
         action.pre_delay = action_info.get("pre_delay", 0);
         action.rear_delay = action_info.get("rear_delay", 0);
         action.time_out = action_info.get("timeout", INT_MAX);
+        action.doc = action_info.get("doc", std::string());
+        action.doc_color = action_info.get("doc_color", std::string());
 
         battle_actions.actions.emplace_back(std::move(action));
     }
