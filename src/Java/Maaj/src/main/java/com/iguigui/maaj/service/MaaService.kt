@@ -39,6 +39,12 @@ object MaaService {
         return appendTask ?: 0
     }
 
+
+    fun setTaskParams(host: String, type: String, detailJson: String): Int {
+        val appendTask = instancePool[host]?.setTaskParams(type, detailJson)
+        return appendTask ?: 0
+    }
+
     fun start(host: String) = instancePool[host]?.start()
 
     fun stop(host: String) = instancePool[host]?.stop()
@@ -63,5 +69,6 @@ object MaaService {
 
     fun listInstance(): List<MaaInstanceInfo> =
         instancePool.values.map { e -> MaaInstanceInfo(e.id, e.host, e.id, e.status) }.toList()
+
 
 }
