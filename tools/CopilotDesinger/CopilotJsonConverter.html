@@ -9,6 +9,19 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <style>
+    table {
+      counter-reset: rowNumber;
+    }
+
+    #actionTable tbody tr::before {
+      display: table-cell;
+      counter-increment: rowNumber;
+      content: counter(rowNumber);
+      padding-right: 0.3em;
+      text-align: right;
+    }
+  </style>
 
 <body>
   <div class="row" style="margin: 50 50;">
@@ -27,7 +40,7 @@
             <h2 for="description">
               描述
             </h2>
-            <input type="text" class="form-control" id="description" />
+            <textarea type="text" class="form-control" id="description"></textarea>
           </div>
         </div>
         <div class="col-sm-3">
@@ -35,7 +48,7 @@
             <h2 for="title">
               标题
             </h2>
-            <input type="text" class="form-control" id="title" />
+            <textarea type="text" class="form-control" id="title"></textarea>
           </div>
         </div>
         <div class="col-sm-3">
@@ -118,6 +131,7 @@
           <table id="actionTable" class="table table-bordered table-condensed table-striped">
             <thead>
               <tr>
+                <th>Index</th>
                 <th>修改</th>
                 <th>类别</th>
                 <th>Kills</th>
@@ -125,8 +139,10 @@
                 <th>x坐标</th>
                 <th>y坐标</th>
                 <th>方向</th>
-                <th>操作前延迟(毫秒)</th>
-                <th>操作后延迟(毫秒)</th>
+                <th>前延迟</th>
+                <th>后延迟</th>
+                <th>文本</th>
+                <th>颜色</th>
                 <th>删除</th>
               </tr>
             </thead>
@@ -138,7 +154,7 @@
           <div class="panel panel-primary">
             <div class="panel-body">
               <div class="row">
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-2">
                   <label for="type">
                     类别
                   </label>
@@ -151,7 +167,7 @@
                     <option value="技能用法">技能用法</option>
                   </select>
                 </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-2">
                   <label for="kill">
                     Kill
                   </label>
@@ -164,15 +180,31 @@
                   <input type="text" id="operator" class="form-control">
                   </select>
                 </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-1">
                   <label for="xcoordinate">
                     x坐标
                   </label>
                   <input type="number" class="form-control" id="xcoordinate" />
                 </div>
+                <div class="form-group col-sm-1">
+                  <label for="ycoordinate">
+                    y坐标
+                  </label>
+                  <input type="number" class="form-control" id="ycoordinate" />
+                </div>
+                <div class="form-group col-sm-3">
+                  <label for="doc">
+                    文本
+                  </label>
+                  <input type="text" class="form-control" id="doc" />
+                </div>
               </div>
               <div class="row">
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-2">
+                  <label for="insertindex">插入index</label>
+                  <input type="number" class="form-control" id="insertindex" />
+                </div>
+                <div class="form-group col-sm-1">
                   <label for="direction">
                     方向
                   </label>
@@ -197,10 +229,10 @@
                   <input type="number" class="form-control" id="rear_delay" />
                 </div>
                 <div class="form-group col-sm-3">
-                  <label for="ycoordinate">
-                    y坐标
+                  <label for="doc_color">
+                    颜色
                   </label>
-                  <input type="number" class="form-control" id="ycoordinate" />
+                  <input type="text" class="form-control" id="doc_color" />
                 </div>
               </div>
             </div>
@@ -253,6 +285,8 @@
         $("#direction").val($(cols[6]).text())
         $("#pre_delay").val($(cols[7]).text())
         $("#rear_delay").val($(cols[8]).text())
+        $("#doc").val($(cols[9]).text())
+        $("#doc_color").val($(cols[10]).text())
         $("#updateActionButton").text("Update");
         document.getElementById("type").scrollIntoView();
       }
@@ -291,7 +325,12 @@
       }
       else if (type === 'action') {
         if ($("#actionTable tbody").length == 0) $("#actionTable").append("<tbody></tbody>");
-        $("#actionTable tbody").append(buildTableRow(type, data))
+        let indexVal = parseInt($("#insertindex").val())
+        if (indexVal >= 0 && indexVal <= $("#actionTable tbody tr").length) {
+          var newRow = $(buildTableRow(type, data));
+          newRow.insertBefore($('#actionTable tbody tr:nth(' + indexVal + ')'));
+        }
+        else $("#actionTable tbody").append(buildTableRow(type, data))
       }
     }
 
@@ -325,7 +364,7 @@
             obj.name = data.name;
             obj.skill = data.skill;
             obj.skill_usage = (data.skill_usage ? data.skill_usage : 0);
-          }        
+          }
           datastring = "<td>" + obj.name + "</td>" +
             "<td>" + obj.skill + "</td>" +
             "<td>" + (obj.skill_usage ? obj.skill_usage : 0) + "</td>";
@@ -359,7 +398,9 @@
             "<td>" + (data.location ? data.location[1] : "") + "</td>" +
             "<td>" + (data.direction ? data.direction : "") + "</td>" +
             "<td>" + (data.pre_delay ? data.pre_delay : "") + "</td>" +
-            "<td>" + (data.rear_delay ? data.rear_delay : "") + "</td>";
+            "<td>" + (data.rear_delay ? data.rear_delay : "") + "</td>"+
+            "<td>" + (data.doc ? data.doc : "") + "</td>" +
+            "<td>" + (data.doc_color ? data.doc_color : "") + "</td>";
         }
         else {
           datastring = "<td>" + $("#type").val() + "</td>" +
@@ -369,9 +410,10 @@
             "<td>" + $("#ycoordinate").val() + "</td>" +
             "<td>" + $("#direction").val() + "</td>" +
             "<td>" + $("#pre_delay").val() + "</td>" +
-            "<td>" + $("#rear_delay").val() + "</td>";
+            "<td>" + $("#rear_delay").val() + "</td>"+
+            "<td>" + $("#doc").val() + "</td>" +
+            "<td>" + $("#doc_color").val() + "</td>" ;
         }
-
         var ret =
           "<tr>" +
           "<td>" +
@@ -444,6 +486,8 @@
         $("#direction").val("");
         $("#pre_delay").val("");
         $("#rear_delay").val("");
+        $("#doc").val("");
+        $("#doc_color").val("");
       }
     }
     function prepareActionData(tr) {
@@ -455,14 +499,16 @@
         ycoordinate = $tds.eq(5).text(),
         direction = $tds.eq(6).text(),
         pre_delay = $tds.eq(7).text(),
-        rear_delay = $tds.eq(8).text();
+        rear_delay = $tds.eq(8).text(),
+        doc = $tds.eq(9).text(),
+        doc_color = $tds.eq(10).text();
       kills = parseInt(kills)
       pre_delay = parseInt(pre_delay)
       rear_delay = parseInt(rear_delay)
       xcoordinate = parseInt(xcoordinate)
       ycoordinate = parseInt(ycoordinate)
       let location = [xcoordinate, ycoordinate]
-      var actionData = { type, kills, name, location, direction, pre_delay, rear_delay };
+      var actionData = { type, kills, name, location, direction, pre_delay, rear_delay, doc, doc_color };
       if (isNaN(actionData.kills)) delete actionData.kills;
       if (isNaN(actionData.pre_delay)) delete actionData.pre_delay;
       if (isNaN(actionData.rear_delay)) delete actionData.rear_delay;
@@ -519,8 +565,9 @@
             $("#operatorTable tbody tr").remove();
             updateOperatorList("clean", "")
             if (data.opers) data.opers.forEach(x => { addToTable("operator", x); updateOperatorList("add", x.name); });
+            $("#insertindex").val(-1)
             $("#actionTable tbody tr").remove();
-            if (data.actions) data.actions.forEach(x => addToTable("action", x));
+            if (data.actions) data.actions.forEach(x => { addToTable("action", x) });
           }
         };
       })(f);
