@@ -30,6 +30,11 @@ fun Application.httpRouting() {
                 MaaService.appendTask(appendTask.host, appendTask.type, appendTask.params.toJsonString())
                 call.respond(HttpResponse())
             }
+            post("/setTaskParams") {
+                val appendTask = call.receive<AppendTaskRequest>()
+                MaaService.setTaskParams(appendTask.host, appendTask.type, appendTask.params.toJsonString())
+                call.respond(HttpResponse())
+            }
             post("/start") {
                 val start = call.receive<Start>()
                 MaaService.start(start.host)
