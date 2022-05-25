@@ -40,9 +40,9 @@ object MaaService {
     }
 
 
-    fun setTaskParams(host: String, type: String, detailJson: String): Int {
-        val appendTask = instancePool[host]?.setTaskParams(type, detailJson)
-        return appendTask ?: 0
+    fun setTaskParams(host: String, type: String, taskId: Int, detailJson: String): Boolean {
+        val appendTask = instancePool[host]?.setTaskParams(type, taskId, detailJson)
+        return appendTask ?: false
     }
 
     fun start(host: String) = instancePool[host]?.start()

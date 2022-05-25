@@ -21,6 +21,8 @@ data class AppendTaskRequest(
     val host: String,
     @SerialName("type")
     val type: String,
+    @SerialName("taskId")
+    val taskId: Int,
     @SerialName("params")
     val params: Task
 )

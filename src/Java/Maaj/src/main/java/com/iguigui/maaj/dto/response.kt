@@ -41,14 +41,14 @@ data class GetVersion(
 
 @Serializable
 data class ConnectResponse(
-    @SerialName("version")
+    @SerialName("id")
     val id: String
 ) : BaseData()
 
 
 @Serializable
 data class ListInstance(
-    @SerialName("version")
+    @SerialName("list")
     val list: List<MaaInstanceInfo>
 ) : BaseData()
 
@@ -64,6 +64,11 @@ data class MaaInstanceInfo(
     val status: Int,
 ) : BaseData()
 
+@Serializable
+data class AppendTask(
+    @SerialName("id")
+    val id: Int
+) : BaseData()
 
 object EmptyBaseData : BaseData()
 
