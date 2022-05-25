@@ -33,7 +33,7 @@ class MaaInstance(private val instance: MeoAssistant, val id: String, val adbPat
 
     fun appendTask(type: String, params: String) = instance.AsstAppendTask(pointer, type, params)
 
-    fun setTaskParams(type: String, params: String) = instance.AsstSetTaskParams(pointer, 1, params)
+    fun setTaskParams(type: String,taskId:Int, params: String) = instance.AsstSetTaskParams(pointer, taskId, params)
 
     fun start() = instance.AsstStart(pointer)
 
