@@ -8,9 +8,10 @@ class MaaInstance(private val instance: MeoAssistant, val id: String, val adbPat
 
     constructor(
         instance: MeoAssistant,
-        pointer: Pointer,
-        id: String, adbPath: String,
-        host: String
+        id: String,
+        adbPath: String,
+        host: String,
+        pointer: Pointer
     ) : this(
         instance,
         id,
@@ -21,6 +22,8 @@ class MaaInstance(private val instance: MeoAssistant, val id: String, val adbPat
     }
 
     lateinit var pointer: Pointer
+
+    var status = 0
 
     override fun callback(msg: Int, detail_json: String?, custom_arg: String?) {
         System.out.printf("回调msg : %s , 回调 detail_json : %s ,回调 custom_arg : %s \n", msg, detail_json, custom_arg)
