@@ -1,6 +1,6 @@
 using Nuke.Common.CI.GitHubActions;
 
-namespace MeoAssistantBuilder;
+namespace MaaBuilder;
 
 [GitHubActions(
     name: "release-maa-resource",

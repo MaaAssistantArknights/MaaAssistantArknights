@@ -1,4 +1,71 @@
 {
+    "CharsNameOcrReplace": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
+        "ocrReplace": [
+            [
+                "白面.+",
+                "白面鸮"
+            ],
+            [
+                "蛇居箱",
+                "蛇屠箱"
+            ],
+            [
+                ".+刺",
+                "棘刺"
+            ],
+            [
+                "^E$",
+                "山"
+            ],
+            [
+                "^F$",
+                "山"
+            ],
+            [
+                "^U$",
+                "山"
+            ],
+            [
+                "^1$",
+                "山"
+            ],
+            [
+                "姜哦",
+                "嵯峨"
+            ],
+            [
+                "健影",
+                "傀影"
+            ],
+            [
+                "赤赤黑大",
+                "赫默"
+            ],
+            [
+                ".+刺",
+                "棘刺"
+            ],
+            [
+                "姜哦",
+                "嵯峨"
+            ],
+            [
+                "健影",
+                "傀影"
+            ],
+            [
+                "^灵鲨",
+                "幽灵鲨"
+            ],
+            [
+                "桑甚",
+                "桑葚"
+            ]
+        ]
+    },
     "SN-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -1717,8 +1784,8 @@
         ]
     },
     "ActivitiesBegin": {
-        "algorithm": "justreturn",
-        "action": "doNothing",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
         "next": [
             "ReturnToActivities",
             "MiningActivities",
@@ -1727,7 +1794,7 @@
     },
     "ReturnToActivities": {
         "template": "Return.png",
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "roi": [
             0,
             0,
@@ -1747,7 +1814,7 @@
             "限时开采",
             "开采"
         ],
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "roi": [
             0,
             20,
@@ -1760,7 +1827,7 @@
         ]
     },
     "MiningActivityDigging": {
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "roi": [
             901,
             469,
@@ -1774,7 +1841,7 @@
         ]
     },
     "MiningActivityDiggingEnd": {
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "roi": [
             559,
             563,
@@ -1787,7 +1854,7 @@
     },
     "MiningActivitiesReturn": {
         "template": "CloseAnno.png",
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "roi": [
             1146,
             0,
@@ -1806,7 +1873,7 @@
             "赠送",
             "次"
         ],
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "roi": [
             1148,
             416,
@@ -1819,7 +1886,7 @@
         ]
     },
     "RecruitingActivitiesConfirm": {
-        "action": "doNothing",
+        "action": "DoNothing",
         "algorithm": "OcrDetect",
         "text": [
             "赠送",
@@ -1839,7 +1906,7 @@
     },
     "RecruitingActivitiesRecruit": {
         "algorithm": "OcrDetect",
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "text": [
             "寻访一次",
             "寻访"
@@ -1855,7 +1922,7 @@
         ]
     },
     "RecruitingActivitiesRecruitNowConfirm": {
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "template": "RecruitNowConfirm.png",
         "roi": [
             586,
@@ -1870,7 +1937,7 @@
         ]
     },
     "RecruitingActivitiesRecruitSkip": {
-        "action": "clickSelf",
+        "action": "ClickSelf",
         "template": "RecruitSkip.png",
         "roi": [
             1100,
@@ -1884,8 +1951,8 @@
         ]
     },
     "RecruitingActivitiesRecruitSkipWithoutButton": {
-        "action": "clickRect",
-        "algorithm": "justReturn",
+        "action": "ClickRect",
+        "algorithm": "JustReturn",
         "specificRect": [
             1180,
             15,
@@ -1900,7 +1967,7 @@
     },
     "RecruitingActivitiesRecruitEnd": {
         "algorithm": "OcrDetect",
-        "action": "doNothing",
+        "action": "DoNothing",
         "text": [
             "寻访一次",
             "寻访"
@@ -4513,6 +4580,7 @@
     },
     "BattleAutoSkillFlag": {
         "template": "BattleSkillReady.png",
+        "cache": false,
         "rectMove": [
             -40,
             -150,
@@ -4533,12 +4601,15 @@
         ],
         "cache": false,
         "action": "ClickSelf",
-        "rearDelay": 500,
         "rectMove": [
             0,
             -110,
             90,
             90
+        ],
+        "next": [
+            "BattleSkillReadyOnClick",
+            "Stop"
         ]
     },
     "BattleUseOper": {
@@ -5328,72 +5399,9 @@
             "Roguelike1ChooseOperConfirm"
         ]
     },
-    "Roguelike1RecruitData": {
+    "Roguelike1RecruitOcr": {
         "algorithm": "OcrDetect",
         "text": [],
-        "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务服用",
-        "ocrReplace": [
-            [
-                "白面.+",
-                "白面鸮"
-            ],
-            [
-                "蛇居箱",
-                "蛇屠箱"
-            ],
-            [
-                ".+刺",
-                "棘刺"
-            ],
-            [
-                "^E$",
-                "山"
-            ],
-            [
-                "^F$",
-                "山"
-            ],
-            [
-                "^U$",
-                "山"
-            ],
-            [
-                "^1$",
-                "山"
-            ],
-            [
-                "姜哦",
-                "嵯峨"
-            ],
-            [
-                "健影",
-                "傀影"
-            ],
-            [
-                "赤赤黑大",
-                "赫默"
-            ],
-            [
-                ".+刺",
-                "棘刺"
-            ],
-            [
-                "姜哦",
-                "嵯峨"
-            ],
-            [
-                "健影",
-                "傀影"
-            ],
-            [
-                "^灵鲨",
-                "幽灵鲨"
-            ],
-            [
-                "桑甚",
-                "桑葚"
-            ]
-        ],
         "roi": [
             560,
             69,
@@ -5492,7 +5500,7 @@
         ]
     },
     "Roguelike1StageTrader": {
-        "Doc": "诡异行商（交易所）",
+        "Doc": "诡意行商（交易所）",
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -6405,10 +6413,10 @@
         "action": "DoNothing",
         "text": [],
         "roi": [
-            100,
-            0,
-            450,
-            200
+            140,
+            60,
+            200,
+            55
         ]
     },
     "StageDrops-BaseLine": {
@@ -6520,6 +6528,36 @@
             255
         ]
     },
+    "StageDrops-Quantity-OCR": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "ocrReplace": [
+            [
+                "I",
+                "1"
+            ],
+            [
+                "l",
+                "1"
+            ],
+            [
+                "o",
+                "0"
+            ],
+            [
+                "O",
+                "0"
+            ],
+            [
+                "S",
+                "5"
+            ],
+            [
+                "s",
+                "5"
+            ]
+        ]
+    },
     "StageDrops-Difficulty-Tough": {
         "templThreshold": 0.7,
         "roi": [
@@ -6530,6 +6568,15 @@
         ]
     },
     "StageDrops-Difficulty-Normal": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            0,
+            220,
+            220
+        ]
+    },
+    "StageDrops-Difficulty-Normal2": {
         "templThreshold": 0.7,
         "roi": [
             0,

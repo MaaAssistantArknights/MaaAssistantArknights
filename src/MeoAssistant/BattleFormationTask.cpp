@@ -58,7 +58,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page()
     name_analyzer.set_task_info(formation_task_ptr);
     name_analyzer.set_replace(
         std::dynamic_pointer_cast<OcrTaskInfo>(
-            Task.get("Roguelike1RecruitData"))
+            Task.get("CharsNameOcrReplace"))
         ->replace_map);
     if (!name_analyzer.analyze()) {
         return false;

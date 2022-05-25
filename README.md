@@ -120,10 +120,16 @@ MAA 的意思是 MAA Assistant Arknights
 - [C 接口](include/AsstCaller.h)：[集成示例](tools/TestCaller/main.cpp)
 - [Python 接口](src/Python/asst.py)：[集成示例](src/Python/sample.py)
 - [Golang 接口](src/Golang/maa/)：[集成示例](src/Golang/cli.go)（已停止维护 orz）
-- [集成文档](docs/集成文档.md) 龟速更新中_(:з」∠)_
+- [Dart 接口](src/dart/)
+- [Java 接口](src/Java/Maaj)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
+- [集成文档](docs/集成文档.md)
 - [回调消息协议](docs/回调消息协议.md)
 - [任务流程协议](docs/任务流程协议.md)
-- [自动抄作业协议](docs/战斗流程协议.md) 功能正在开发中 ✿✿ヽ(°▽°)ノ✿
+- [自动抄作业协议](docs/战斗流程协议.md)
+
+### 对连 Git 都不熟悉的超级萌新，请看
+
+[写给萌新的发电全流程](docs/写给萌新的发电全流程.md)
 
 ## 声明
 
@@ -133,7 +139,7 @@ MAA 的意思是 MAA Assistant Arknights
 ## 广告
 
 [B 站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
-[舟无关技术交流群](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！  
+[技术交流 & 吹水群](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！（明日方舟弱相关）  
 [开发者群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
-如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我最大的支持了！
+如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！

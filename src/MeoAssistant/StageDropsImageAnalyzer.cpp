@@ -117,9 +117,10 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
 {
     LogTraceFunction;
 
-    static const std::unordered_map<StageDifficulty, std::string> DifficultyTaskName = {
-        {StageDifficulty::Normal, "StageDrops-Difficulty-Normal"},
-        {StageDifficulty::Tough, "StageDrops-Difficulty-Tough"},
+    static const std::unordered_map<std::string, StageDifficulty> DifficultyTaskName = {
+        {"StageDrops-Difficulty-Normal", StageDifficulty::Normal},
+        {"StageDrops-Difficulty-Normal2", StageDifficulty::Normal},
+        {"StageDrops-Difficulty-Tough", StageDifficulty::Tough},
     };
 
     MatchImageAnalyzer analyzer(m_image);
@@ -131,7 +132,7 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
     Rect matched_rect;
 #endif
 
-    for (const auto& [difficulty, task_name] : DifficultyTaskName) {
+    for (const auto& [task_name, difficulty] : DifficultyTaskName) {
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_name);
 
@@ -464,6 +465,7 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
     }
 
     OcrImageAnalyzer analyzer(m_image);
+    analyzer.set_task_info("StageDrops-Quantity-OCR");
     analyzer.set_use_cache(true);
 
     int quantity = 0;

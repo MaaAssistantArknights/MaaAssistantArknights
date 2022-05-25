@@ -40,7 +40,7 @@ namespace asst
 
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
-        BattleActionsGroup m_actions_group;
+        BattleCopilotData m_copilot_data;
         std::unordered_map<std::string, BattleDeployOper> m_group_to_oper_mapping;
 
         /* 实时更新的数据 */
