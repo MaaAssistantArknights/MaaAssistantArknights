@@ -10,7 +10,7 @@ import kotlinx.serialization.json.jsonObject
 
 @Serializable
 data class HttpResponse(
-    @SerialName("version")
+    @SerialName("data")
     val data: JsonElement = EmptyBaseData.toJsonElement(),
     @SerialName("code")
     val code: Int = 0,
@@ -42,7 +42,9 @@ data class GetVersion(
 @Serializable
 data class ConnectResponse(
     @SerialName("id")
-    val id: String
+    val id: String,
+    @SerialName("result")
+    val result: Boolean
 ) : BaseData()
 
 
@@ -82,8 +84,6 @@ data class CallBackLog(
     @SerialName("details")
     val details: JsonElement,
 ) : BaseData()
-
-
 
 
 object EmptyBaseData : BaseData()

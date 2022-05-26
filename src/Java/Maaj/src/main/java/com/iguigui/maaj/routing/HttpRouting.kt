@@ -18,9 +18,10 @@ fun Application.httpRouting() {
                 call.respond(GetVersion(version).wapperToResponse())
             }
             post("/connect") {
-                val connect = call.receive<ConnectRequest>()
-                val id = MaaService.connect(connect.adbPath, connect.host, "")
-                call.respond(HttpResponse(ConnectResponse(id).toJsonElement()))
+                with(call.receive<ConnectRequest>()) {
+                    val connect = MaaService.connect(adbPath, host, detailJson)
+                    call.respond(HttpResponse(connect.toJsonElement()))
+                }
             }
             post("/appendTask") {
                 with(call.receive<AppendTaskRequest>()) {
