@@ -4,6 +4,7 @@ import com.iguigui.maaj.util.Json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.JsonElement
 
 sealed class WsRequest
 
@@ -21,10 +22,20 @@ data class AppendTaskRequest(
     val host: String,
     @SerialName("type")
     val type: String,
+    @SerialName("params")
+    val params: JsonElement
+)
+
+@Serializable
+data class SetTaskParamsRequest(
+    @SerialName("host")
+    val host: String,
+    @SerialName("type")
+    val type: String,
     @SerialName("taskId")
     val taskId: Int,
     @SerialName("params")
-    val params: Task
+    val params: JsonElement
 )
 
 @Serializable
@@ -148,8 +159,8 @@ data class Stop(
 data class ConnectWs(
     @SerialName("data")
     val `data`: ConnectRequest,
-    @SerialName("type")
-    val type: String
+    @SerialName("command")
+    val command: String
 ) : WsRequest()
 
 
