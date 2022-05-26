@@ -1,5 +1,6 @@
 package com.iguigui.maaj.service
 
+import com.iguigui.maaj.dto.ConnectResponse
 import com.iguigui.maaj.dto.MaaInstanceInfo
 import com.iguigui.maaj.easySample.MeoAssistant
 import com.sun.jna.Native
@@ -23,15 +24,19 @@ object MaaService {
         load
     }
 
-    fun connect(adbPath: String, host: String, detailJson: String): String {
-        if (instancePool.containsKey(host)) {
-            return sha1(host)
+    fun connect(adbPath: String, host: String, detailJson: String): ConnectResponse {
+        val id = sha1(host)
+        if (instancePool.containsKey(id)) {
+            return ConnectResponse(id,true)
         }
-        val maaInstance = MaaInstance(meoAssistant, host, adbPath, host)
+        val maaInstance = MaaInstance(meoAssistant, host, adbPath, host, detailJson)
         maaInstance.pointer = meoAssistant.AsstCreateEx(maaInstance, maaInstance.id)
-        maaInstance.connect()
-        instancePool.putIfAbsent(host, maaInstance)
-        return sha1(host)
+        val connect = maaInstance.connect()
+        if (!connect) {
+            return ConnectResponse("",false)
+        }
+        instancePool.putIfAbsent(id, maaInstance)
+        return ConnectResponse(id,true)
     }
 
     fun appendTask(host: String, type: String, detailJson: String) =

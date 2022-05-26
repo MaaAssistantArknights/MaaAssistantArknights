@@ -11,7 +11,13 @@ import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
-class MaaInstance(private val instance: MeoAssistant, val id: String, val adbPath: String, val host: String) :
+class MaaInstance(
+    private val instance: MeoAssistant,
+    val id: String,
+    val adbPath: String,
+    val host: String,
+    val detailJson: String
+) :
     MeoAssistant.AsstApiCallback {
 
     constructor(
@@ -19,12 +25,14 @@ class MaaInstance(private val instance: MeoAssistant, val id: String, val adbPat
         id: String,
         adbPath: String,
         host: String,
-        pointer: Pointer
+        pointer: Pointer,
+        detailJson: String
     ) : this(
         instance,
         id,
         adbPath,
-        host
+        host,
+        detailJson
     ) {
         this.pointer = pointer
     }
@@ -43,7 +51,7 @@ class MaaInstance(private val instance: MeoAssistant, val id: String, val adbPat
         logQueue.offer(CallBackLog(id, msgId.getAndIncrement(), msg, Json.parseToJsonElement(detail_json)))
     }
 
-    fun connect(): Boolean = instance.AsstConnect(pointer, adbPath, host, "");
+    fun connect(): Boolean = instance.AsstConnect(pointer, adbPath, host, detailJson)
 
     fun appendTask(type: String, params: String) = instance.AsstAppendTask(pointer, type, params)
 

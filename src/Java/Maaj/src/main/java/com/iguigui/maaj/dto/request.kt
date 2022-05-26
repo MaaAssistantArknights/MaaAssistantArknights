@@ -13,7 +13,9 @@ data class ConnectRequest(
     @SerialName("adbPath")
     val adbPath: String,
     @SerialName("host")
-    val host: String
+    val host: String,
+    @SerialName("detailJson")
+    val detailJson: String = ""
 )
 
 @Serializable
