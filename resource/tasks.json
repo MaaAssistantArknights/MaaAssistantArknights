@@ -4682,6 +4682,26 @@
             "Stop"
         ]
     },
+    "BattleSkillStopOnClick": {
+        "roi": [
+            748,
+            414,
+            210,
+            118
+        ],
+        "cache": false,
+        "action": "ClickSelf",
+        "rectMove": [
+            0,
+            -110,
+            90,
+            90
+        ],
+        "next": [
+            "BattleSkillStopOnClick",
+            "Stop"
+        ]
+    },
     "BattleUseOper": {
         "algorithm": "JustReturn",
         "preDelay": 500,

@@ -470,7 +470,7 @@ bool asst::BattleProcessTask::use_skill(const BattleAction& action)
     m_ctrler->click(pos);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
-    return ProcessTask(*this, { "BattleSkillReadyOnClick" })
+    return ProcessTask(*this, { "BattleSkillReadyOnClick", "BattleSkillStopOnClick" })
         .set_task_delay(0)
         .set_retry_times(10000)
         .run();
