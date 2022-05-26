@@ -6,6 +6,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
 
@@ -26,9 +27,9 @@ fun Application.httpRouting() {
             post("/appendTask") {
                 with(call.receive<AppendTaskRequest>()) {
                     MaaService.appendTask(
-                        host,
+                        id,
                         type,
-                        params.jsonPrimitive.content
+                        params.jsonObject.toString()
                     )
                 }
                 call.respond(EmptyBaseData.wapperToResponse())
@@ -36,29 +37,25 @@ fun Application.httpRouting() {
             post("/setTaskParams") {
                 with(call.receive<SetTaskParamsRequest>()) {
                     MaaService.setTaskParams(
-                        host,
+                        id,
                         type,
                         taskId,
-                        params.jsonPrimitive.content
+                        params.jsonObject.toString()
                     )
                 }
                 call.respond(EmptyBaseData.wapperToResponse())
             }
             post("/start") {
                 val start = call.receive<Start>()
-                MaaService.start(start.host)
+                MaaService.start(start.id)
                 call.respond(EmptyBaseData.wapperToResponse())
             }
             post("/stop") {
                 val stop = call.receive<Stop>()
-                MaaService.stop(stop.host)
+                MaaService.stop(stop.id)
                 call.respond(EmptyBaseData.wapperToResponse())
             }
             get("/listInstance") {
-                val list = MaaService.listInstance()
-                call.respond(ListInstance(list).wapperToResponse())
-            }
-            get("/getLog") {
                 val list = MaaService.listInstance()
                 call.respond(ListInstance(list).wapperToResponse())
             }
