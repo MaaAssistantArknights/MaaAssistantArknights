@@ -63,6 +63,66 @@
             [
                 "桑甚",
                 "桑葚"
+            ],
+            [
+                "灰烟",
+                "灰烬"
+            ],
+            [
+                "迷.+香",
+                "迷迭香"
+            ],
+            [
+                "森.+",
+                "森蚺"
+            ],
+            [
+                ".+心斯卡蒂",
+                "浊心斯卡蒂"
+            ],
+            [
+                "^会$",
+                "令"
+            ],
+            [
+                "归漠幽灵鲨",
+                "归溟幽灵鲨"
+            ],
+            [
+                "姜峨",
+                "嵯峨"
+            ],
+            [
+                "鞭便刃",
+                "鞭刃"
+            ],
+            [
+                "险星",
+                "陨星"
+            ],
+            [
+                "赫黑大",
+                "赫默"
+            ],
+            [
+                "雪难",
+                "雪雉"
+            ],
+            [
+                "狮竭",
+                "狮蝎"
+            ],
+            [
+                "第草",
+                "苇草"
+            ],
+            [
+                "漂冬",
+                "凛冬"
+            ],
+            [
+                "韦草",
+                "苇草"
             ]
         ]
     },
@@ -4370,22 +4430,6 @@
             100
         ]
     },
-    "CopilotFormation-OperNameUpperFlag": {
-        "roi": [
-            370,
-            310,
-            910,
-            40
-        ]
-    },
-    "CopilotFormation-OperNameLowerFlag": {
-        "roi": [
-            370,
-            590,
-            910,
-            40
-        ]
-    },
     "BattleQuickFormation": {
         "action": "ClickSelf",
         "roi": [
@@ -4421,14 +4465,24 @@
         ],
         "rearDelay": 1000
     },
+    "BattleQuickFormation-OperNameFlag": {
+        "templThreshold": 0.99,
+        "roi": [
+            370,
+            300,
+            910,
+            330
+        ]
+    },
     "BattleQuickFormationOCR": {
         "algorithm": "OcrDetect",
+        "fullMatch": true,
         "text": [],
         "roi": [
-            300,
-            240,
-            980,
-            470
+            10,
+            -10,
+            117,
+            22
         ],
         "rearDelay": 100
     },

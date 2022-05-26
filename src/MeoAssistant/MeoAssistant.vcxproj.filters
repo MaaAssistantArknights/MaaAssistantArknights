@@ -324,6 +324,12 @@
     <ClInclude Include="StageDropsConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="OcrWithPreprocessImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\General</Filter>
+    </ClInclude>
+    <ClInclude Include="OcrWithFlagTemplImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\General</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -544,6 +550,12 @@
     </ClCompile>
     <ClCompile Include="StageDropsConfiger.cpp">
       <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="OcrWithPreprocessImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\General</Filter>
+    </ClCompile>
+    <ClCompile Include="OcrWithFlagTemplImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\General</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -35,6 +35,8 @@
     <ClInclude Include="FightTask.h" />
     <ClInclude Include="InfrastTask.h" />
     <ClInclude Include="MallTask.h" />
+    <ClInclude Include="OcrWithFlagTemplImageAnalyzer.h" />
+    <ClInclude Include="OcrWithPreprocessImageAnalyzer.h" />
     <ClInclude Include="PackageTask.h" />
     <ClInclude Include="RecruitTask.h" />
     <ClInclude Include="ReplenishOriginiumShardTaskPlugin.h" />
@@ -110,6 +112,8 @@
     <ClCompile Include="FightTask.cpp" />
     <ClCompile Include="InfrastTask.cpp" />
     <ClCompile Include="MallTask.cpp" />
+    <ClCompile Include="OcrWithFlagTemplImageAnalyzer.cpp" />
+    <ClCompile Include="OcrWithPreprocessImageAnalyzer.cpp" />
     <ClCompile Include="PackageTask.cpp" />
     <ClCompile Include="RecruitTask.cpp" />
     <ClCompile Include="ReplenishOriginiumShardTaskPlugin.cpp" />
