@@ -4370,6 +4370,22 @@
             100
         ]
     },
+    "CopilotFormation-OperNameUpperFlag": {
+        "roi": [
+            370,
+            310,
+            910,
+            40
+        ]
+    },
+    "CopilotFormation-OperNameLowerFlag": {
+        "roi": [
+            370,
+            590,
+            910,
+            40
+        ]
+    },
     "BattleQuickFormation": {
         "action": "ClickSelf",
         "roi": [
@@ -4422,7 +4438,7 @@
         "specificRect": [
             15,
             385,
-            320,
+            80,
             100
         ]
     },
@@ -4432,7 +4448,7 @@
         "specificRect": [
             15,
             560,
-            320,
+            80,
             30
         ]
     },
@@ -4442,7 +4458,7 @@
         "specificRect": [
             15,
             690,
-            320,
+            80,
             30
         ]
     },
