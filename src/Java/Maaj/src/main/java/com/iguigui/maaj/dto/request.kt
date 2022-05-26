@@ -20,8 +20,8 @@ data class ConnectRequest(
 
 @Serializable
 data class AppendTaskRequest(
-    @SerialName("host")
-    val host: String,
+    @SerialName("id")
+    val id: String,
     @SerialName("type")
     val type: String,
     @SerialName("params")
@@ -30,8 +30,8 @@ data class AppendTaskRequest(
 
 @Serializable
 data class SetTaskParamsRequest(
-    @SerialName("host")
-    val host: String,
+    @SerialName("id")
+    val id: String,
     @SerialName("type")
     val type: String,
     @SerialName("taskId")
@@ -146,14 +146,14 @@ data class Copilot(
 
 @Serializable
 data class Start(
-    @SerialName("host")
-    val host: String
+    @SerialName("id")
+    val id: String,
 )
 
 @Serializable
 data class Stop(
-    @SerialName("host")
-    val host: String
+    @SerialName("id")
+    val id: String,
 )
 
 @SerialName("connect")

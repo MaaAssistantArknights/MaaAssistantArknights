@@ -86,6 +86,7 @@ data class CallBackLog(
 ) : BaseData()
 
 
+@Serializable
 object EmptyBaseData : BaseData()
 
 fun BaseData.toJsonElement() =
