@@ -70,10 +70,29 @@ data class AppendTask(
     val id: Int
 ) : BaseData()
 
+
+@Serializable
+data class CallBackLog(
+    @SerialName("instanceId")
+    val instanceId: String,
+    @SerialName("logId")
+    val logId: Long,
+    @SerialName("msg")
+    val msg: Int,
+    @SerialName("details")
+    val details: JsonElement,
+) : BaseData()
+
+
+
+
 object EmptyBaseData : BaseData()
 
 fun BaseData.toJsonElement() =
     Json.encodeToJsonElement(Json.encodeToJsonElement(this).jsonObject.filterNot { it.key == "type" })
 
+
+fun BaseData.wapperToResponse() =
+    HttpResponse(Json.encodeToJsonElement(Json.encodeToJsonElement(this).jsonObject.filterNot { it.key == "type" }))
 
 

@@ -34,22 +34,18 @@ object MaaService {
         return sha1(host)
     }
 
-    fun appendTask(host: String, type: String, detailJson: String): Int {
-        val appendTask = instancePool[host]?.appendTask(type, detailJson)
-        return appendTask ?: 0
-    }
+    fun appendTask(host: String, type: String, detailJson: String) =
+        instancePool[host]?.appendTask(type, detailJson) ?: 0
 
 
-    fun setTaskParams(host: String, type: String, taskId: Int, detailJson: String): Boolean {
-        val appendTask = instancePool[host]?.setTaskParams(type, taskId, detailJson)
-        return appendTask ?: false
-    }
+    fun setTaskParams(host: String, type: String, taskId: Int, detailJson: String) =
+        instancePool[host]?.setTaskParams(type, taskId, detailJson) ?: false
 
     fun start(host: String) = instancePool[host]?.start()
 
     fun stop(host: String) = instancePool[host]?.stop()
 
-    fun getVersion() = "3.9.0"
+    fun getVersion(): String = meoAssistant.AsstGetVersion()
 
     private fun sha1(password: String): String {
         val messageDigest = MessageDigest.getInstance("SHA")

@@ -6,6 +6,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.json.jsonPrimitive
 
 
 fun Application.httpRouting() {
@@ -14,11 +15,7 @@ fun Application.httpRouting() {
         route("/v1") {
             get("/getVersion") {
                 val version = MaaService.getVersion()
-                call.respond(HttpResponse(GetVersion(version).toJsonElement()))
-            }
-            get("/listInstance") {
-                val list = MaaService.listInstance()
-                call.respond(HttpResponse(ListInstance(list).toJsonElement()))
+                call.respond(GetVersion(version).wapperToResponse())
             }
             post("/connect") {
                 val connect = call.receive<ConnectRequest>()
@@ -26,24 +23,43 @@ fun Application.httpRouting() {
                 call.respond(HttpResponse(ConnectResponse(id).toJsonElement()))
             }
             post("/appendTask") {
-                val appendTask = call.receive<AppendTaskRequest>()
-                MaaService.appendTask(appendTask.host, appendTask.type, appendTask.params.toJsonString())
-                call.respond(HttpResponse())
+                with(call.receive<AppendTaskRequest>()) {
+                    MaaService.appendTask(
+                        host,
+                        type,
+                        params.jsonPrimitive.content
+                    )
+                }
+                call.respond(EmptyBaseData.wapperToResponse())
             }
             post("/setTaskParams") {
-                val appendTask = call.receive<AppendTaskRequest>()
-                MaaService.setTaskParams(appendTask.host, appendTask.type,appendTask.taskId, appendTask.params.toJsonString())
-                call.respond(HttpResponse())
+                with(call.receive<SetTaskParamsRequest>()) {
+                    MaaService.setTaskParams(
+                        host,
+                        type,
+                        taskId,
+                        params.jsonPrimitive.content
+                    )
+                }
+                call.respond(EmptyBaseData.wapperToResponse())
             }
             post("/start") {
                 val start = call.receive<Start>()
                 MaaService.start(start.host)
-                call.respond(HttpResponse())
+                call.respond(EmptyBaseData.wapperToResponse())
             }
             post("/stop") {
                 val stop = call.receive<Stop>()
                 MaaService.stop(stop.host)
-                call.respond(HttpResponse())
+                call.respond(EmptyBaseData.wapperToResponse())
+            }
+            get("/listInstance") {
+                val list = MaaService.listInstance()
+                call.respond(ListInstance(list).wapperToResponse())
+            }
+            get("/getLog") {
+                val list = MaaService.listInstance()
+                call.respond(ListInstance(list).wapperToResponse())
             }
         }
     }
