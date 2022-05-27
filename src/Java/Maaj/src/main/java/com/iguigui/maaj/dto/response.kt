@@ -34,7 +34,7 @@ data class WsResponse(
 sealed class BaseData
 
 @Serializable
-data class GetVersion(
+data class GetVersionResponse(
     @SerialName("version")
     val version: String
 ) : BaseData()
@@ -49,7 +49,7 @@ data class ConnectResponse(
 
 
 @Serializable
-data class ListInstance(
+data class ListInstanceResponse(
     @SerialName("list")
     val list: List<MaaInstanceInfo>
 ) : BaseData()
@@ -62,21 +62,50 @@ data class MaaInstanceInfo(
     val host: String,
     @SerialName("adbPath")
     val adbPath: String,
+    @SerialName("uuid")
+    val uuid: String,
     @SerialName("status")
     val status: Int,
 ) : BaseData()
 
 @Serializable
-data class AppendTask(
+data class AppendTaskResponse(
     @SerialName("id")
-    val id: Int
+    val id: String,
+    @SerialName("taskId")
+    val taskId: Int
 ) : BaseData()
 
 
 @Serializable
+data class SetTaskParamsResponse(
+    @SerialName("id")
+    val id: String,
+    @SerialName("result")
+    val result: Boolean
+) : BaseData()
+
+
+@Serializable
+data class StartResponse(
+    @SerialName("id")
+    val id: String,
+    @SerialName("result")
+    val result: Boolean
+) : BaseData()
+
+@Serializable
+data class StopResponse(
+    @SerialName("id")
+    val id: String,
+    @SerialName("result")
+    val result: Boolean
+) : BaseData()
+
+@Serializable
 data class CallBackLog(
-    @SerialName("instanceId")
-    val instanceId: String,
+    @SerialName("id")
+    val id: String,
     @SerialName("logId")
     val logId: Long,
     @SerialName("msg")
