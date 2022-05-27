@@ -133,7 +133,9 @@ namespace MeoAsstGui
                 return;
             }
 
-            asstProxy.AsstStartCopilot(data["stage_name"].ToString(), Filename, Form);
+            const string _newfilename = "resource/_temp_copilot.json";
+            File.WriteAllText(_newfilename, data.ToString());
+            asstProxy.AsstStartCopilot(data["stage_name"].ToString(), _newfilename, Form);
             Idle = false;
             AddLog("Star Burst Stream!");
         }
