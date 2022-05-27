@@ -812,6 +812,7 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _connectAddress, value);
                 ViewStatusStorage.Set("Connect.Address", value);
+                UpdateWindowTitle(); /* 每次修改连接地址时更新WIndowTitle */
             }
         }
 
@@ -930,6 +931,20 @@ namespace MeoAsstGui
             }
         }
 
+        /*  标题栏显示模拟器名称和IP端口  */
+        public void UpdateWindowTitle()
+        {
+            var rvm = (RootViewModel)this.Parent;
+            string ConnectConfigName = "";
+            foreach (CombData data in ConnectConfigList)
+            {
+                if (data.Value == ConnectConfig)
+                {
+                    ConnectConfigName = data.Display;
+                }
+            }
+            rvm.WindowTitle = string.Format("MaaAssistantArknights - {0} ({1})", ConnectConfigName, ConnectAddress);
+        }
         //public void TryToSetBlueStacksHyperVAddress()
         //{
         //    if (AdbPath.Length == 0 || !File.Exists(AdbPath))

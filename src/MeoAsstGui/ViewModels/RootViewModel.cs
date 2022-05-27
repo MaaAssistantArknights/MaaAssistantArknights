@@ -58,6 +58,7 @@ namespace MeoAsstGui
             //Items.Add(ivm);
             Items.Add(cvm);
             Items.Add(svm);
+            svm.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(svm)之后执行。
             ActiveItem = tvm;
         }
 
@@ -87,6 +88,12 @@ namespace MeoAsstGui
 
                 await task;
             }
+        }
+        private string _windowTitle;
+        public string WindowTitle
+        {
+            get => _windowTitle;
+            set => SetAndNotify(ref _windowTitle, value);
         }
     }
 }
