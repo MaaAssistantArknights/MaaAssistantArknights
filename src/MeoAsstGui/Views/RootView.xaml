@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:s="https://github.com/canton7/Stylet"
         mc:Ignorable="d"
-        Title="MaaAssistantArknights" Height="595" Width="800">
+        Title="{Binding WindowTitle}" Height="595" Width="800">
     <DockPanel>
         <TabControl Style="{StaticResource StyletConductorTabControl}" Margin="0,10,0,0" />
     </DockPanel>
