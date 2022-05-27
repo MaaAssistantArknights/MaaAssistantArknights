@@ -39,6 +39,8 @@ class MaaInstance(
 
     lateinit var pointer: Pointer
 
+    var uuid = ""
+
     var status = 0
 
     var logQueue: Queue<CallBackLog> = LinkedBlockingQueue(1000)

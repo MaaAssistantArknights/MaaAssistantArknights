@@ -26,17 +26,19 @@ object MaaService {
 
     fun connect(adbPath: String, host: String, detailJson: String): ConnectResponse {
         val id = sha1(host)
-        if (instancePool.containsKey(id)) {
-            return ConnectResponse(id,true)
+        synchronized(id) {
+            if (instancePool.containsKey(id)) {
+                return ConnectResponse(id, true)
+            }
+            val maaInstance = MaaInstance(meoAssistant, host, adbPath, host, detailJson)
+            maaInstance.pointer = meoAssistant.AsstCreateEx(maaInstance, maaInstance.id)
+            val connect = maaInstance.connect()
+            if (!connect) {
+                return ConnectResponse("", false)
+            }
+            instancePool.putIfAbsent(id, maaInstance)
         }
-        val maaInstance = MaaInstance(meoAssistant, host, adbPath, host, detailJson)
-        maaInstance.pointer = meoAssistant.AsstCreateEx(maaInstance, maaInstance.id)
-        val connect = maaInstance.connect()
-        if (!connect) {
-            return ConnectResponse("",false)
-        }
-        instancePool.putIfAbsent(id, maaInstance)
-        return ConnectResponse(id,true)
+        return ConnectResponse(id, true)
     }
 
     fun appendTask(host: String, type: String, detailJson: String) =
@@ -46,9 +48,9 @@ object MaaService {
     fun setTaskParams(host: String, type: String, taskId: Int, detailJson: String) =
         instancePool[host]?.setTaskParams(type, taskId, detailJson) ?: false
 
-    fun start(host: String) = instancePool[host]?.start()
+    fun start(host: String) = instancePool[host]?.start() ?: false
 
-    fun stop(host: String) = instancePool[host]?.stop()
+    fun stop(host: String) = instancePool[host]?.stop() ?: false
 
     fun getVersion(): String = meoAssistant.AsstGetVersion()
 
@@ -69,7 +71,7 @@ object MaaService {
     }
 
     fun listInstance(): List<MaaInstanceInfo> =
-        instancePool.values.map { e -> MaaInstanceInfo(e.id, e.host, e.id, e.status) }.toList()
+        instancePool.values.map { e -> MaaInstanceInfo(e.id, e.host, e.adbPath, e.uuid, e.status) }.toList()
 
 
 }
