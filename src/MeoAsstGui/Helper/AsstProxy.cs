@@ -688,12 +688,6 @@ namespace MeoAsstGui
         {
             var task_params = new JObject();
             task_params["mode"] = mode;
-            task_params["opers"] = new JArray {
-                new JObject { { "name", "山" }, { "skill", 2 }, { "skill_usage", 2 } },
-                new JObject { { "name", "棘刺" }, { "skill", 3 }, { "skill_usage", 1 } },
-                new JObject { { "name", "芙蓉" }, { "skill", 1 }, { "skill_usage", 1 } },
-                new JObject { { "name", "梓兰" }, { "skill", 1 }, { "skill_usage", 1 } },
-            };
             return AsstAppendTaskWithEncoding("Roguelike", task_params);
         }
 

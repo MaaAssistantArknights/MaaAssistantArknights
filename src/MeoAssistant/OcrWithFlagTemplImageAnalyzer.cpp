@@ -71,3 +71,8 @@ void asst::OcrWithFlagTemplImageAnalyzer::set_flag_rect_move(Rect flag_rect_move
 {
     m_flag_rect_move = std::move(flag_rect_move);
 }
+
+std::vector<asst::TextRect>& asst::OcrWithFlagTemplImageAnalyzer::get_result() noexcept
+{
+    return m_all_result;
+}

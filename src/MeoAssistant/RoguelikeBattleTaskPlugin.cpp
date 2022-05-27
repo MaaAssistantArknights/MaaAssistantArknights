@@ -25,11 +25,6 @@ bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& det
     }
 }
 
-void asst::RoguelikeBattleTaskPlugin::set_skill_usage(SkillUsageMap usage_map)
-{
-    m_skill_usage = std::move(usage_map);
-}
-
 void asst::RoguelikeBattleTaskPlugin::set_stage_name(std::string stage)
 {
     m_stage_name = std::move(stage);
@@ -182,31 +177,31 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     //    }
     //}
 
-    for (const Rect& rect : battle_analyzer.get_ready_skills()) {
-        // 找出这个可以使用的技能是哪个干员的（根据之前放干员的位置）
-        std::string name = "NotFound";
-        for (const auto& [loc, oper_name] : m_used_tiles) {
-            auto point = m_normal_tile_info[loc].pos;
-            if (rect.include(point)) {
-                name = oper_name;
-                break;
-            }
-        }
+    //for (const Rect& rect : battle_analyzer.get_ready_skills()) {
+    //    // 找出这个可以使用的技能是哪个干员的（根据之前放干员的位置）
+    //    std::string name = "NotFound";
+    //    for (const auto& [loc, oper_name] : m_used_tiles) {
+    //        auto point = m_normal_tile_info[loc].pos;
+    //        if (rect.include(point)) {
+    //            name = oper_name;
+    //            break;
+    //        }
+    //    }
 
-        auto& usage = m_skill_usage[name];
-        Log.info("Oper", name, ", skill usage", static_cast<int>(usage));
-        switch (usage) {
-        case BattleSkillUsage::Once:
-            use_skill(rect);
-            usage = BattleSkillUsage::OnceUsed;
-            return true;
-            break;
-        case BattleSkillUsage::Possibly:
-            use_skill(rect);
-            return true;
-            break;
-        }
-    }
+    //    auto& usage = m_skill_usage[name];
+    //    Log.info("Oper", name, ", skill usage", static_cast<int>(usage));
+    //    switch (usage) {
+    //    case BattleSkillUsage::Once:
+    //        use_skill(rect);
+    //        usage = BattleSkillUsage::OnceUsed;
+    //        return true;
+    //        break;
+    //    case BattleSkillUsage::Possibly:
+    //        use_skill(rect);
+    //        return true;
+    //        break;
+    //    }
+    //}
 
     const auto& opers = battle_analyzer.get_opers();
     if (opers.empty()) {
@@ -377,11 +372,11 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_side_tile_info.clear();
     m_used_tiles.clear();
 
-    for (auto& [_, usage] : m_skill_usage) {
-        if (usage == BattleSkillUsage::OnceUsed) {
-            usage = BattleSkillUsage::Once;
-        }
-    }
+    //for (auto& [_, usage] : m_skill_usage) {
+    //    if (usage == BattleSkillUsage::OnceUsed) {
+    //        usage = BattleSkillUsage::Once;
+    //    }
+    //}
 }
 
 //asst::Rect asst::RoguelikeBattleTaskPlugin::get_placed_by_cv()

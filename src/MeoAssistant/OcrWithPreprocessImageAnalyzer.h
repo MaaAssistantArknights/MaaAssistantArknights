@@ -15,8 +15,9 @@ namespace asst
         void set_split(bool split);
         void set_expansion(int expansion);
 
-    protected:
         virtual void set_task_info(OcrTaskInfo task_info) noexcept override;
+
+    protected:
 
         int m_threshold_lower = 140;
         int m_threshold_upper = 255;
