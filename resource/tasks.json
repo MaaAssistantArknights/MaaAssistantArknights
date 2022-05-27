@@ -5493,14 +5493,23 @@
             "Roguelike1ChooseOperConfirm"
         ]
     },
+    "Roguelike1RecruitOcrFlag": {
+        "roi": [
+            600,
+            100,
+            500,
+            500
+        ],
+        "templThreshold": 0.99
+    },
     "Roguelike1RecruitOcr": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
-            560,
-            69,
-            666,
-            614
+            13,
+            26,
+            120,
+            23
         ]
     },
     "Roguelike1ChooseOperFlag": {
@@ -6219,12 +6228,11 @@
     "Roguelike1SkillSelectionName": {
         "algorithm": "OcrDetect",
         "text": [],
-        "action": "DoNothing",
-        "rectMove": [
-            150,
-            -50,
-            180,
-            120
+        "roi": [
+            210,
+            10,
+            120,
+            22
         ]
     },
     "Roguelike1SkillSelectionRect": {

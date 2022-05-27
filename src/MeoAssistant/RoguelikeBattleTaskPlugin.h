@@ -12,14 +12,11 @@ namespace asst
     {
         using Loc = asst::TilePack::BuildableType;
     public:
-        using SkillUsageMap = std::unordered_map<std::string, BattleSkillUsage>;
-    public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
         virtual ~RoguelikeBattleTaskPlugin() = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-        void set_skill_usage(SkillUsageMap usage_map);
         void set_stage_name(std::string stage);
 
     protected:
@@ -51,6 +48,5 @@ namespace asst
         std::unordered_map<Point, std::string> m_used_tiles;
 
         std::string m_stage_name;
-        SkillUsageMap m_skill_usage;
     };
 }

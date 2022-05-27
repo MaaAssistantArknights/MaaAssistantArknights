@@ -105,7 +105,7 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     if (!flags_analyzer.analyze()) {
         return false;
     }
-    flags_analyzer.sort_result();
+    flags_analyzer.sort_result_horizontal();
 
     const auto click_move = Task.get("BattleOperClickRange")->rect_move;
     const auto role_move = Task.get("BattleOperRoleRange")->rect_move;

@@ -12,7 +12,7 @@ namespace asst
 
         virtual bool analyze() override;
 
-        void sort_result(); // 按位置排序，左上角的排在前面
+        void sort_result_horizontal(); // 按位置排序，左上角的排在前面
 
         void set_mask_range(int lower, int upper) noexcept;
         void set_mask_range(std::pair<int, int> mask_range) noexcept;

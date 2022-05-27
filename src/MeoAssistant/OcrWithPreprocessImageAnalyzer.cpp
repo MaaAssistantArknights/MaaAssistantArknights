@@ -14,6 +14,9 @@ bool asst::OcrWithPreprocessImageAnalyzer::analyze()
     bounding_rect.y += m_roi.y;
     Rect new_roi = utils::make_rect<Rect>(bounding_rect);
 
+    if (new_roi.empty()) {
+        return false;
+    }
     // todo: split
 
     if (m_expansion) {
@@ -26,7 +29,6 @@ bool asst::OcrWithPreprocessImageAnalyzer::analyze()
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(new_roi), cv::Scalar(0, 0, 255), 1);
 #endif // ASST_DEBUG
-
 
     return OcrImageAnalyzer::analyze();
 }
