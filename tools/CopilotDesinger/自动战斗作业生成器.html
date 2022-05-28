@@ -538,7 +538,7 @@
       var jsonString = JSON.stringify(obj);
       var jsonPretty = JSON.stringify(JSON.parse(jsonString), null, 4);
       var file = new Blob([jsonPretty], { type: 'text/plain' });
-      var fileName = obj.stage_name + '.json';
+      var fileName = obj.stage_name + '_' + opers.map(o => o.name).join('+') + '.json';
       const url = window.URL.createObjectURL(file);
       const link = document.createElement('a');
       link.href = url;
