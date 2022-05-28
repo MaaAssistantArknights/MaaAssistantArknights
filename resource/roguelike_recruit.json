@@ -7,7 +7,8 @@
         "Caster",
         "Special",
         "Medic",
-        "Support"
+        "Support",
+        "Alternate"
     ],
     "Warrior": [
         {
@@ -357,11 +358,6 @@
             "name": "格拉尼",
             "level": 5,
             "skill": 1
-        },
-        {
-            "name": "预备干员-近战",
-            "level": 3,
-            "skill": 0
         }
     ],
     "Tank": [
@@ -1244,6 +1240,28 @@
             "name": "空",
             "level": 5,
             "skill": 1
+        }
+    ],
+    "Alternate": [
+        {
+            "name": "预备干员-近战",
+            "level": 3,
+            "skill": 0
+        },
+        {
+            "name": "预备干员-狙击",
+            "level": 3,
+            "skill": 0
+        },
+        {
+            "name": "预备干员-术师",
+            "level": 3,
+            "skill": 0
+        },
+        {
+            "name": "预备干员-后勤",
+            "level": 3,
+            "skill": 0
         }
     ]
 }

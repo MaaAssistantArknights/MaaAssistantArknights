@@ -518,11 +518,11 @@ asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, BattleRol
     }
     break;
     case BattleRole::Support:
-    case BattleRole::Pioneer:
     case BattleRole::Warrior:
     case BattleRole::Sniper:
     case BattleRole::Special:
     case BattleRole::Tank:
+    case BattleRole::Pioneer:
     case BattleRole::Caster:
     case BattleRole::Drone:
     default:
@@ -537,63 +537,151 @@ asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, BattleRol
     break;
     }
 
-    using TileKey = TilePack::TileKey;
+    // 按朝右算，后面根据方向做转换
+    std::vector<Point> attack_range = { Point(0, 0) };
 
-    // 战斗干员朝向的权重
-    static const std::unordered_map<TileKey, int> TileKeyFightWeights = {
-        { TileKey::Invalid, 0 },
-        { TileKey::Forbidden, 0 },
-        { TileKey::Wall, 500 },
-        { TileKey::Road, 1000 },
-        { TileKey::Home, 1000 },
-        { TileKey::EnemyHome, 1000 },
-        { TileKey::Floor, 1000 },
-        { TileKey::Hole, 0 },
-        { TileKey::Telin, 0 },
-        { TileKey::Telout, 0 }
+    switch (role) {
+    case BattleRole::Support:
+        attack_range = {
+            Point(-1, -1), Point(0, -1),Point(1, -1),Point(2, -1),
+            Point(-1, 0), Point(0, 0), Point(1, 0), Point(2, 0),
+            Point(-1, 1), Point(0, 1), Point(1, 1), Point(2, 1),
+        };
+        break;
+    case BattleRole::Caster:
+        attack_range = {
+            Point(0, -1),Point(1, -1),Point(2, -1),
+            Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0),
+            Point(0, 1), Point(1, 1), Point(2, 1),
+        };
+        break;
+    case BattleRole::Medic:
+    case BattleRole::Sniper:
+        attack_range = {
+            Point(0, -1),Point(1, -1),Point(2, -1),Point(3, -1),
+            Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0),
+            Point(0, 1), Point(1, 1), Point(2, 1), Point(3, 1),
+        };
+        break;
+    case BattleRole::Special:
+    case BattleRole::Warrior:
+    case BattleRole::Tank:
+    case BattleRole::Pioneer:
+        attack_range = {
+            Point(0, 0), Point(1, 0),
+        };
+        break;
+    case BattleRole::Drone:
+        attack_range = {
+            Point(0, 0)
+        };
+        break;
+    }
+
+    static const Point RightDirection(1, 0);
+    static const Point DownDirection(0, 1);
+    static const Point LeftDirection(-1, 0);
+    static const Point UpDirection(0, -1);
+
+    std::unordered_map<Point, std::vector<Point>> DirectionAttackRangeMap = {
+        { RightDirection, std::vector<Point>() },
+        { DownDirection, std::vector<Point>() },
+        { LeftDirection, std::vector<Point>() },
+        { UpDirection, std::vector<Point>() },
     };
 
-    static const std::unordered_map<Point, Point> DirectionStartingPoint = {
-        { Point(1, 0), Point(0, -1) },   // 朝右
-        { Point(0, 1), Point(-1, 0) },   // 朝下
-        { Point(-1, 0), Point(-2, -1) }, // 朝左
-        { Point(0, -1), Point(-1, -2) }, // 朝上
-    };
+    for (auto& [direction, cor_attack_range] : DirectionAttackRangeMap) {
+        if (direction == RightDirection) {
+            cor_attack_range = attack_range;
+        }
+        else if (direction == DownDirection) {
+            for (const Point& attack_point : attack_range) {
+                Point cor_point;
+                cor_point.x = -attack_point.y;
+                cor_point.y = attack_point.x;
+                cor_attack_range.emplace_back(cor_point);
+            }
+        }
+        else if (direction == LeftDirection) {
+            for (const Point& attack_point : attack_range) {
+                Point cor_point;
+                cor_point.x = -attack_point.x;
+                cor_point.y = -attack_point.y;
+                cor_attack_range.emplace_back(cor_point);
+            }
+        }
+        else if (direction == UpDirection) {
+            for (const Point& attack_point : attack_range) {
+                Point cor_point;
+                cor_point.x = attack_point.y;
+                cor_point.y = -attack_point.x;
+                cor_attack_range.emplace_back(cor_point);
+            }
+        }
+    }
 
     int max_score = 0;
     Point opt_direction;
 
     // 计算每个方向上的得分
-    for (const auto& [direction, point_move] : DirectionStartingPoint) {
-        Point start_point = loc;
-        start_point.x += point_move.x;
-        start_point.y += point_move.y;
+    for (const auto& [direction, dirction_attack_range] : DirectionAttackRangeMap) {
         int score = 0;
+        for (const Point& cur_attack : dirction_attack_range) {
+            Point cur_point = loc;
+            cur_point.x += cur_attack.x;
+            cur_point.y += cur_attack.y;
 
-        constexpr int AttackRangeSize = 3;
-        // 这个方向上 3x3 的格子，计算总的得分
-        for (int i = 0; i != AttackRangeSize; ++i) {
-            for (int j = 0; j != AttackRangeSize; ++j) {
-                Point cur_point = start_point;
-                cur_point.x += i;
-                cur_point.y += j;
+            using TileKey = TilePack::TileKey;
+            // 战斗干员朝向的权重
+            static const std::unordered_map<TileKey, int> TileKeyFightWeights = {
+                { TileKey::Invalid, 0 },
+                { TileKey::Forbidden, 0 },
+                { TileKey::Wall, 500 },
+                { TileKey::Road, 1000 },
+                { TileKey::Home, 800 },
+                { TileKey::EnemyHome, 800 },
+                { TileKey::Floor, 1000 },
+                { TileKey::Hole, 0 },
+                { TileKey::Telin, 0 },
+                { TileKey::Telout, 0 }
+            };
+            // 治疗干员朝向的权重
+            static const std::unordered_map<TileKey, int> TileKeyMedicWeights = {
+                { TileKey::Invalid, 0 },
+                { TileKey::Forbidden, 0 },
+                { TileKey::Wall, 1000 },
+                { TileKey::Road, 1000 },
+                { TileKey::Home, 0 },
+                { TileKey::EnemyHome, 0 },
+                { TileKey::Floor, 0 },
+                { TileKey::Hole, 0 },
+                { TileKey::Telin, 0 },
+                { TileKey::Telout, 0 }
+            };
 
-                switch (role) {
-                    // 医疗干员根据哪个方向上人多决定朝向哪
-                case BattleRole::Medic:
-                    if (m_used_tiles.find(cur_point) != m_used_tiles.cend()) {
-                        score += 1000;
-                    }
-                    break;
-                    // 其他干员（战斗干员）根据哪个方向上权重高决定朝向哪
-                default:
-                    if (auto iter = m_side_tile_info.find(cur_point);
-                        iter == m_side_tile_info.cend()) {
-                        continue;
-                    }
-                    else {
-                        score += TileKeyFightWeights.at(iter->second.key);
-                    }
+            switch (role) {
+            case BattleRole::Medic:
+                // 医疗干员根据哪个方向上人多决定朝向哪
+                if (m_used_tiles.find(cur_point) != m_used_tiles.cend()) {
+                    score += 10000;
+                }
+                // 再额外加上没人的格子的权重
+                if (auto iter = m_side_tile_info.find(cur_point);
+                    iter == m_side_tile_info.cend()) {
+                    continue;
+                }
+                else {
+                    score += TileKeyMedicWeights.at(iter->second.key);
+                }
+                break;
+            default:
+                // 其他干员（战斗干员）根据哪个方向上权重高决定朝向哪
+                if (auto iter = m_side_tile_info.find(cur_point);
+                    iter == m_side_tile_info.cend()) {
+                    continue;
+                }
+                else {
+                    score += TileKeyFightWeights.at(iter->second.key);
                 }
             }
         }
