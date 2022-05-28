@@ -469,7 +469,7 @@ asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
         home = m_homes.at(m_cur_home_index);
     }
 
-    for (const auto& [loc, tile] : m_side_tile_info) {
+    for (const auto& [loc, tile] : m_normal_tile_info) {
         if (tile.buildable == buildable_type
             || tile.buildable == Loc::All) {
             if (m_used_tiles.find(loc) != m_used_tiles.cend()) {
