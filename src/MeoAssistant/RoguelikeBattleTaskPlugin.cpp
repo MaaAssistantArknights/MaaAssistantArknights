@@ -196,11 +196,11 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
 
     static const std::array<BattleRole, 9> RoleOrder = {
-        BattleRole::Pioneer,
-        BattleRole::Sniper,
         BattleRole::Warrior,
-        BattleRole::Support,
+        BattleRole::Pioneer,
         BattleRole::Medic,
+        BattleRole::Sniper,
+        BattleRole::Support,
         BattleRole::Caster,
         BattleRole::Special,
         BattleRole::Tank,
@@ -213,6 +213,14 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     BattleRealTimeOper opt_oper;
     bool oper_found = false;
     for (auto role : RoleOrder) {
+        // 一个人都没有的时候，先下个地面单位
+        if (m_used_tiles.empty()) {
+            if (role != BattleRole::Warrior &&
+                role != BattleRole::Pioneer &&
+                role != BattleRole::Tank) {
+                continue;
+            }
+        }
         for (const auto& oper : opers) {
             if (!oper.available) {
                 continue;
@@ -454,6 +462,7 @@ asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
 
     Point nearest;
     int min_dist = INT_MAX;
+    int min_dy = INT_MAX;
 
     Point home(5, 5);   // 默认值，一般是地图的中间
     if (m_cur_home_index < m_homes.size()) {
@@ -469,8 +478,15 @@ asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
             int dx = std::abs(home.x - loc.x);
             int dy = std::abs(home.y - loc.y);
             int dist = dx * dx + dy * dy;
-            if (dist <= min_dist) {
+            if (dist < min_dist) {
                 min_dist = dist;
+                min_dy = dy;
+                nearest = loc;
+            }
+            // 距离一样选择 x 轴上的，因为一般的地图都是横向的长方向
+            else if (dist == min_dist && dy < min_dy) {
+                min_dist = dist;
+                min_dy = dy;
                 nearest = loc;
             }
         }

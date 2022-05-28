@@ -5676,7 +5676,6 @@
     },
     "Roguelike1TraderRandomShopping": {
         "action": "ClickSelf",
-        "templThreshold": 0.9,
         "cache": false,
         "roi": [
             427,
