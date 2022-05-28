@@ -11,7 +11,7 @@
 #include "ProcessTask.h"
 
 #include "MatchImageAnalyzer.h"
-#include "OcrImageAnalyzer.h"
+#include "OcrWithPreprocessImageAnalyzer.h"
 #include "BattleImageAnalyzer.h"
 
 void asst::BattleProcessTask::set_stage_name(std::string name)
@@ -128,7 +128,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
 
         auto image = m_ctrler->get_image();
 
-        OcrImageAnalyzer name_analyzer(image);
+        OcrWithPreprocessImageAnalyzer name_analyzer(image);
         name_analyzer.set_task_info("BattleOperName");
         name_analyzer.set_replace(
             std::dynamic_pointer_cast<OcrTaskInfo>(
@@ -239,7 +239,7 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
             m_ctrler->click(cur_oper.rect);
             sleep(Task.get("BattleUseOper")->pre_delay);
 
-            OcrImageAnalyzer name_analyzer(m_ctrler->get_image());
+            OcrWithPreprocessImageAnalyzer name_analyzer(m_ctrler->get_image());
             name_analyzer.set_task_info("BattleOperName");
             name_analyzer.set_replace(
                 std::dynamic_pointer_cast<OcrTaskInfo>(
@@ -478,10 +478,11 @@ bool asst::BattleProcessTask::use_skill(const BattleAction& action)
 
 bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
 {
-    static const Rect& skill_roi_move = Task.get("BattleAutoSkillFlag")->rect_move;
+    auto task_ptr = Task.get("BattleAutoSkillFlag");
+    const Rect& skill_roi_move = task_ptr->rect_move;
 
     MatchImageAnalyzer analyzer(image);
-    analyzer.set_task_info("BattleAutoSkillFlag");
+    analyzer.set_task_info(task_ptr);
     bool used = false;
     for (auto& [name, info] : m_used_opers) {
         if (info.info.skill_usage != BattleSkillUsage::Possibly
