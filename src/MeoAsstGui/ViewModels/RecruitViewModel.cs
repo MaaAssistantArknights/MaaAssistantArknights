@@ -116,15 +116,12 @@ namespace MeoAsstGui
         {
             var asstProxy = _container.Get<AsstProxy>();
             string errMsg = "";
-            if (!_catched)
+            RecruitInfo = "正在连接模拟器……";
+            var task = Task.Run(() =>
             {
-                RecruitInfo = "正在连接模拟器……";
-                var task = Task.Run(() =>
-                {
-                    return asstProxy.AsstConnect(ref errMsg);
-                });
-                _catched = await task;
-            }
+                return asstProxy.AsstConnect(ref errMsg);
+            });
+            _catched = await task;
             if (!_catched)
             {
                 RecruitInfo = errMsg;
