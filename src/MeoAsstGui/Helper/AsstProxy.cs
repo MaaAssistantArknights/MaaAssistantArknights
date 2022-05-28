@@ -522,12 +522,12 @@ namespace MeoAsstGui
                     break;
 
                 case "BattleActionDoc":
-                    {
-                        string title_color = subTaskDetails["title_color"].ToString();
-                        copilotModel.AddLog(subTaskDetails["title"].ToString(), title_color.Length == 0 ? "dark" : title_color);
-                        string details_color = subTaskDetails["details_color"].ToString();
-                        copilotModel.AddLog(subTaskDetails["details"].ToString(), details_color.Length == 0 ? "dark" : details_color);
-                    }
+                    //{
+                    //    string title_color = subTaskDetails["title_color"].ToString();
+                    //    copilotModel.AddLog(subTaskDetails["title"].ToString(), title_color.Length == 0 ? "dark" : title_color);
+                    //    string details_color = subTaskDetails["details_color"].ToString();
+                    //    copilotModel.AddLog(subTaskDetails["details"].ToString(), details_color.Length == 0 ? "dark" : details_color);
+                    //}
                     break;
             }
         }
