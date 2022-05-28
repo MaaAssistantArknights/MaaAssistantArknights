@@ -196,6 +196,7 @@ class Operator(OperatorOrGroup):
         res = {
             "name": self._name,
             "skill": self._skill,
+            "skill_usage": self._skill_usage,
         }
         if self._skill_usage != SkillUsageType.NotAutoUse:
             res["skill_usage"] = self._skill_usage
