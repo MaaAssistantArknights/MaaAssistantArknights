@@ -5513,6 +5513,39 @@
             23
         ]
     },
+    "Roguelike1RecruitElite0": {
+        "roi": [
+            -170,
+            -60,
+            60,
+            50
+        ]
+    },
+    "Roguelike1RecruitElite1": {
+        "roi": [
+            -170,
+            -60,
+            60,
+            50
+        ]
+    },
+    "Roguelike1RecruitElite2": {
+        "roi": [
+            -170,
+            -60,
+            60,
+            50
+        ]
+    },
+    "Roguelike1RecruitLevel": {
+        "template": "empty.png",
+        "roi": [
+            -171,
+            0,
+            15,
+            11
+        ]
+    },
     "Roguelike1ChooseOperFlag": {
         "template": "Roguelike1ChooseOperConfirm.png",
         "action": "DoNothing",
@@ -6631,7 +6664,7 @@
             255
         ]
     },
-    "StageDrops-Quantity-OCR": {
+    "NumberOcrReplace": {
         "algorithm": "OcrDetect",
         "text": [],
         "ocrReplace": [
