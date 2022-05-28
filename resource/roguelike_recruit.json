@@ -12,15 +12,15 @@
     ],
     "Warrior": [
         {
+            "name": "帕拉斯",
+            "level": 6,
+            "skill": 1
+        },
+        {
             "name": "山",
             "level": 6,
             "skill": 2,
             "skill_usage": 2
-        },
-        {
-            "name": "帕拉斯",
-            "level": 6,
-            "skill": 1
         },
         {
             "name": "棘刺",
