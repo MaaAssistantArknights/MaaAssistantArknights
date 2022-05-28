@@ -67,7 +67,64 @@ namespace MeoAsstGui
         public string Filename
         {
             get => _filename;
-            set => SetAndNotify(ref _filename, value);
+            set
+            {
+                SetAndNotify(ref _filename, value);
+                _updateFileDoc(_filename);
+            }
+        }
+
+        private void _updateFileDoc(string filename)
+        {
+            ClearLog();
+
+            if (File.Exists(filename))
+            {
+                try
+                {
+                    string jsonStr = File.ReadAllText(filename);
+
+                    var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                    if (json == null || !json.ContainsKey("doc"))
+                    {
+                        return;
+                    }
+                    var doc = (JObject)json["doc"];
+
+                    string title = "";
+                    if (doc.ContainsKey("title"))
+                    {
+                        title = doc["title"].ToString();
+                    }
+                    if (title.Length != 0)
+                    {
+                        string title_color = "black";
+                        if (doc.ContainsKey("title_color"))
+                        {
+                            title_color = doc["title_color"].ToString();
+                        }
+                        AddLog(title, title_color);
+                    }
+
+                    string details = "";
+                    if (doc.ContainsKey("details"))
+                    {
+                        details = doc["details"].ToString();
+                    }
+                    if (details.Length != 0)
+                    {
+                        string details_color = "black";
+                        if (doc.ContainsKey("details_color"))
+                        {
+                            details_color = doc["details_color"].ToString();
+                        }
+                        AddLog(details, details_color);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
 
         public void SelectFile()
