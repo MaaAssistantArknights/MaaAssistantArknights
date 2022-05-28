@@ -638,7 +638,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
     if (!mm_analyzer.analyze()) {
         return false;
     }
-    mm_analyzer.sort_result();
+    mm_analyzer.sort_result_horizontal();
     m_facility_list_tabs.reserve(mm_analyzer.get_result().size());
     for (const auto& res : mm_analyzer.get_result()) {
         m_facility_list_tabs.emplace_back(res.rect);

@@ -75,14 +75,14 @@ bool asst::OcrImageAnalyzer::analyze()
 
 void asst::OcrImageAnalyzer::filter(const TextRectProc& filter_func)
 {
-    decltype(m_ocr_result) temp_result;
+    std::vector<asst::TextRect> temp_result;
 
-    for (auto&& tr : m_ocr_result) {
+    for (auto&& tr : get_result()) {
         if (filter_func(tr)) {
             temp_result.emplace_back(std::move(tr));
         }
     }
-    m_ocr_result = std::move(temp_result);
+    get_result() = std::move(temp_result);
 }
 
 void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
@@ -118,6 +118,11 @@ void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
     }
 }
 
+std::vector<asst::TextRect>& asst::OcrImageAnalyzer::get_result() noexcept
+{
+    return m_ocr_result;
+}
+
 void asst::OcrImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
 {
     set_task_info(*std::dynamic_pointer_cast<OcrTaskInfo>(task_ptr));
@@ -147,10 +152,10 @@ const std::vector<asst::TextRect>& asst::OcrImageAnalyzer::get_result() const no
     return m_ocr_result;
 }
 
-void asst::OcrImageAnalyzer::sort_result()
+void asst::OcrImageAnalyzer::sort_result_horizontal()
 {
     // 按位置排个序
-    std::sort(m_ocr_result.begin(), m_ocr_result.end(),
+    std::sort(get_result().begin(), get_result().end(),
         [](const TextRect& lhs, const TextRect& rhs) -> bool {
             if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
                 return lhs.rect.x < rhs.rect.x;
@@ -162,14 +167,14 @@ void asst::OcrImageAnalyzer::sort_result()
     );
 }
 
-void asst::OcrImageAnalyzer::sort_result_x_y()
+void asst::OcrImageAnalyzer::sort_result_vertical()
 {
     // 按位置排个序（顺序如下）
     // +---+
     // |1 3|
     // |2 4|
     // +---+
-    std::sort(m_ocr_result.begin(), m_ocr_result.end(),
+    std::sort(get_result().begin(), get_result().end(),
         [](const TextRect& lhs, const TextRect& rhs) -> bool {
             if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
                 return lhs.rect.y < rhs.rect.y;
@@ -183,7 +188,7 @@ void asst::OcrImageAnalyzer::sort_result_x_y()
 
 void asst::OcrImageAnalyzer::sort_result_by_score()
 {
-    std::sort(m_ocr_result.begin(), m_ocr_result.end(),
+    std::sort(get_result().begin(), get_result().end(),
         [](const TextRect& lhs, const TextRect& rhs) -> bool {
             return lhs.score > rhs.score;
         }
@@ -201,7 +206,7 @@ void asst::OcrImageAnalyzer::sort_result_by_required()
         m_req_cache.emplace(m_required.at(i), i + 1);
     }
 
-    std::sort(m_ocr_result.begin(), m_ocr_result.end(),
+    std::sort(get_result().begin(), get_result().end(),
         [&m_req_cache](const auto& lhs, const auto& rhs) -> bool {
             return m_req_cache[lhs.text] < m_req_cache[rhs.text];
         });

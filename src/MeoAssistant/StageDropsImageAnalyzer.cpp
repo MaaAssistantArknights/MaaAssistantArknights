@@ -465,7 +465,7 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
     }
 
     OcrImageAnalyzer analyzer(m_image);
-    analyzer.set_task_info("StageDrops-Quantity-OCR");
+    analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_use_cache(true);
 
     int quantity = 0;

@@ -67,7 +67,64 @@ namespace MeoAsstGui
         public string Filename
         {
             get => _filename;
-            set => SetAndNotify(ref _filename, value);
+            set
+            {
+                SetAndNotify(ref _filename, value);
+                _updateFileDoc(_filename);
+            }
+        }
+
+        private void _updateFileDoc(string filename)
+        {
+            ClearLog();
+
+            if (File.Exists(filename))
+            {
+                try
+                {
+                    string jsonStr = File.ReadAllText(filename);
+
+                    var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                    if (json == null || !json.ContainsKey("doc"))
+                    {
+                        return;
+                    }
+                    var doc = (JObject)json["doc"];
+
+                    string title = "";
+                    if (doc.ContainsKey("title"))
+                    {
+                        title = doc["title"].ToString();
+                    }
+                    if (title.Length != 0)
+                    {
+                        string title_color = "black";
+                        if (doc.ContainsKey("title_color"))
+                        {
+                            title_color = doc["title_color"].ToString();
+                        }
+                        AddLog(title, title_color);
+                    }
+
+                    string details = "";
+                    if (doc.ContainsKey("details"))
+                    {
+                        details = doc["details"].ToString();
+                    }
+                    if (details.Length != 0)
+                    {
+                        string details_color = "black";
+                        if (doc.ContainsKey("details_color"))
+                        {
+                            details_color = doc["details_color"].ToString();
+                        }
+                        AddLog(details, details_color);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
 
         public void SelectFile()
@@ -99,14 +156,11 @@ namespace MeoAsstGui
 
             var asstProxy = _container.Get<AsstProxy>();
             string errMsg = "";
-            if (!_catched)
+            var task = Task.Run(() =>
             {
-                var task = Task.Run(() =>
-                {
-                    return asstProxy.AsstConnect(ref errMsg);
-                });
-                _catched = await task;
-            }
+                return asstProxy.AsstConnect(ref errMsg);
+            });
+            _catched = await task;
             if (!_catched)
             {
                 AddLog(errMsg, "darkred");
@@ -133,7 +187,9 @@ namespace MeoAsstGui
                 return;
             }
 
-            asstProxy.AsstStartCopilot(data["stage_name"].ToString(), Filename, Form);
+            const string _newfilename = "resource/_temp_copilot.json";
+            File.WriteAllText(_newfilename, data.ToString());
+            asstProxy.AsstStartCopilot(data["stage_name"].ToString(), _newfilename, Form);
             Idle = false;
             AddLog("Star Burst Stream!");
         }

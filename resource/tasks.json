@@ -4578,11 +4578,12 @@
     "BattleOperName": {
         "algorithm": "OcrDetect",
         "text": [],
+        "fullMatch": true,
         "roi": [
             0,
+            182,
             160,
-            180,
-            60
+            30
         ]
     },
     "BattleWaitingToLoad": {
@@ -5493,14 +5494,56 @@
             "Roguelike1ChooseOperConfirm"
         ]
     },
+    "Roguelike1RecruitOcrFlag": {
+        "roi": [
+            600,
+            100,
+            500,
+            500
+        ],
+        "templThreshold": 0.99
+    },
     "Roguelike1RecruitOcr": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
-            560,
-            69,
-            666,
-            614
+            13,
+            26,
+            120,
+            23
+        ]
+    },
+    "Roguelike1RecruitElite0": {
+        "roi": [
+            -170,
+            -60,
+            60,
+            50
+        ]
+    },
+    "Roguelike1RecruitElite1": {
+        "roi": [
+            -170,
+            -60,
+            60,
+            50
+        ]
+    },
+    "Roguelike1RecruitElite2": {
+        "roi": [
+            -170,
+            -60,
+            60,
+            50
+        ]
+    },
+    "Roguelike1RecruitLevel": {
+        "template": "empty.png",
+        "roi": [
+            -171,
+            0,
+            15,
+            11
         ]
     },
     "Roguelike1ChooseOperFlag": {
@@ -5633,7 +5676,6 @@
     },
     "Roguelike1TraderRandomShopping": {
         "action": "ClickSelf",
-        "templThreshold": 0.9,
         "cache": false,
         "roi": [
             427,
@@ -6219,21 +6261,20 @@
     "Roguelike1SkillSelectionName": {
         "algorithm": "OcrDetect",
         "text": [],
-        "action": "DoNothing",
-        "rectMove": [
-            150,
-            -50,
-            180,
-            120
+        "roi": [
+            210,
+            10,
+            120,
+            22
         ]
     },
     "Roguelike1SkillSelectionRect": {
         "template": "empty.png",
         "roi": [
-            171,
+            170,
             2,
             170,
-            3
+            2
         ],
         "rectMove": [
             5,
@@ -6622,7 +6663,7 @@
             255
         ]
     },
-    "StageDrops-Quantity-OCR": {
+    "NumberOcrReplace": {
         "algorithm": "OcrDetect",
         "text": [],
         "ocrReplace": [
@@ -6649,6 +6690,10 @@
             [
                 "s",
                 "5"
+            ],
+            [
+                "方",
+                "万"
             ]
         ]
     },

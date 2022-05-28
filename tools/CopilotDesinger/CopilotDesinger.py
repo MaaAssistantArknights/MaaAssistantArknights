@@ -21,7 +21,7 @@ class ActionType:
 
 
 class SkillUsageType:
-    NotAutoUse = 0  # 0 - 不自动使用
+    NotAutoUse = 0  # 0 - 不自动使用 默认
     UseWhenOk = 1  # 1 - 好了就用，有多少次用多少次（例如干员 棘刺 3 技能、桃金娘 1 技能等）
     UseWhenOkOnce = 2  # 2 - 好了就用，仅使用一次（例如干员 山 2 技能）
     AutoUse = 3  # 3 - 自动判断使用时机（画饼.jpg）
@@ -144,11 +144,18 @@ class OperatorOrGroup:
         self._wait_kills = 0
 
     def to_dict(self) -> dict:
+        # 此处不应该被执行到
         raise Exception("请使用子类方法")
 
 
 class Group(OperatorOrGroup):
     def __init__(self, name: str, battle: Battle, operators: tuple):
+        """
+        请使用 Battle.create_group()
+        :param name:
+        :param battle:
+        :param operators:
+        """
         super().__init__(name, battle)
         self._operators = operators
 
@@ -162,12 +169,27 @@ class Group(OperatorOrGroup):
 class Operator(OperatorOrGroup):
     def __init__(self, name: str, battle: Battle, skill: int, skill_usage: int = SkillUsageType.NotAutoUse,
                  requirements: Requirements = None):
+        """
+        仅当要创建群组时才应该被调用
+        正常使用请用 Battle.create_operator()
+        :param name:
+        :param battle:
+        :param skill:
+        :param skill_usage:
+        :param requirements:
+        """
         super().__init__(name, battle)
         self._requirements = requirements
         self._skill_usage = skill_usage
         self._skill = skill
 
     def skill_usage_change(self, change_to: int):
+        """
+        改变技能使用的类型
+        由于需要兼容群组类型，有时此方法可能无法通过代码提示调用，手动调用即可
+        :param change_to: 需要调整到的 SkillUsageType
+        :return:
+        """
         self._battle.add_action(self._add_conditions(Action(ActionType.SkillUsage, skill_usage=change_to)))
 
     def to_dict(self) -> dict:
@@ -176,6 +198,8 @@ class Operator(OperatorOrGroup):
             "skill": self._skill,
             "skill_usage": self._skill_usage,
         }
+        if self._skill_usage != SkillUsageType.NotAutoUse:
+            res["skill_usage"] = self._skill_usage
         if self._requirements is not None:
             res["requirements"] = self._requirements.to_dict()
         return res
@@ -192,14 +216,29 @@ class Battle:
         self._wait_times = 0
         self._wait_kills = 0
         self._speedup = False
+        self._last_save_file_name = "battle.json"
 
     def create_operator(self, name: str, skill: int, skill_usage: int = SkillUsageType.NotAutoUse,
                         requirements: Requirements = None) -> Operator:
+        """
+        创建并添加一个干员
+        :param name: 干员名称
+        :param skill: 要使用的技能
+        :param skill_usage: 技能使用类型 参见 SkillUsageType
+        :param requirements: 可选
+        :return: 新生成的干员
+        """
         new_operator = Operator(name, self, skill, skill_usage, requirements)
         self._add_operator(new_operator)
         return new_operator
 
     def create_group(self, name: str, *operators: Operator) -> Group:
+        """
+        创建并添加一个群组
+        :param name: 群组名
+        :param operators: 所包含的干员，构造的时候 battle 一项置 None 即可
+        :return: 新创建的群组
+        """
         new_group = Group(name, self, operators)
         self._add_group(new_group)
         return new_group
@@ -214,11 +253,19 @@ class Battle:
         self._actions.append(action)
 
     def speed_up(self):
+        """
+        调整为二倍速
+        :return:
+        """
         if not self._speedup:
             self._speed_change()
             self._speedup = True
 
     def speed_down(self):
+        """
+        调整为一倍速
+        :return:
+        """
         if self._speedup:
             self._speed_change()
             self._speedup = False
@@ -226,7 +273,16 @@ class Battle:
     def _speed_change(self):
         self.add_action(Action(ActionType.SpeedUp))
 
-    def save_as_json(self, file_name: str = "battle.json"):
+    def save_as_json(self, file_name: str = None):
+        """
+        保存为 json 文件，生成在同目录下
+        :param file_name: 要保存的文件名
+        :return:
+        """
+        if file_name is None:
+            file_name = self._last_save_file_name
+        else:
+            self._last_save_file_name = file_name
         with open(file_name, 'w', encoding='utf-8') as f:
             json.dump(self.to_dict(), f, ensure_ascii=False)
 
@@ -242,3 +298,57 @@ class Battle:
             res["doc"] = self._doc.to_dict()
 
         return res
+
+    def test(self, enable_debug_output: bool = True):
+        """
+        自动调用 MeoAssistantArknights 并测试生成自动战斗的文件
+        测试的是上次生成的 json 需先调用 save_as_json()
+        请自行配置 MeoAssistantArknights 所在地址等
+        同时确保能导入 asst.py
+
+        :param enable_debug_output: 是否开启 debug 输出
+        :return:
+        """
+        # MeoAssistantArknights所在的路径
+        mma_path = "D:\\Program Files\\MeoAssistantArknights"
+        # adb的路径
+        adb_path = "D:\\Program Files\\MeoAssistantArknights\\platform-tools\\adb.exe"
+        # adb连接的地址
+        adb_address = "127.0.0.1:8873"
+        try:
+            from asst import Asst, Message
+        except ImportError:
+            import sys 
+            import pathlib
+            sys.path.append(str(pathlib.Path.cwd().parent.parent/"src"/"Python"))
+            try:
+                from asst import Asst, Message
+            except ImportError:
+                print("asst导入失败，请自行解决，或者下载"
+                    " https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst.py "
+                    "到同目录下")
+                return
+
+        @Asst.CallBackType
+        def callback(msg, details, arg):
+            print(Message(msg), json.loads(details.decode('utf-8')), arg)
+
+        if not Asst.load(mma_path):
+            print("加载MeoAssistantArknights失败，请确定路径是否正确")
+
+        asst = Asst(callback) if enable_debug_output else Asst()
+        if asst.connect(adb_path, adb_address):
+            print('连接成功')
+        else:
+            print('连接失败')
+            print('请检查adb地址或者端口是否有误')
+            exit()
+        asst.append_task('Copilot', {
+            'stage_name': self._stage_name,
+            'filename': self._last_save_file_name,
+            'formation': False,
+        })
+        asst.start()
+        while True:
+            if "stop" == str(input('>')):
+                exit()

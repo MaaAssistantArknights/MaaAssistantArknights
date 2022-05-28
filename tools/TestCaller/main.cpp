@@ -74,23 +74,7 @@ int main(/*int argc, char** argv*/)
     //)");
     //    AsstAppendTask(ptr, "Award", nullptr);
     //
-    //AsstAppendTask(ptr, "Roguelike", R"(
-    //{
-    //    "opers": [
-    //        {
-    //            "name": "山",
-    //            "skill": 2,
-    //            "skill_usage": 1
-    //        },
-    //        {
-    //            "name": "梓兰"
-    //        },
-    //        {
-    //            "name": "芙蓉"
-    //        }
-    //    ]
-    //}
-    //)");
+    //  AsstAppendTask(ptr, "Roguelike", nullptr);
 
     AsstAppendTask(ptr, "Debug", nullptr);
 
