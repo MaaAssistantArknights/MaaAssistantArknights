@@ -16,12 +16,12 @@ fun Application.httpRouting() {
         route("/v1") {
             get("/getVersion") {
                 val version = MaaService.getVersion()
-                call.respond(GetVersionResponse(version).wapperToResponse())
+                call.respond(GetVersionResponse(version).wapperToHttpResponse())
             }
             post("/connect") {
                 with(call.receive<ConnectRequest>()) {
                     val connect = MaaService.connect(adbPath, host, detailJson)
-                    call.respond(connect.wapperToResponse())
+                    call.respond(connect.wapperToHttpResponse())
                 }
             }
             post("/appendTask") {
@@ -31,7 +31,7 @@ fun Application.httpRouting() {
                         type,
                         params.jsonObject.toString()
                     )
-                    call.respond(AppendTaskResponse(id, result).wapperToResponse())
+                    call.respond(AppendTaskResponse(id, result).wapperToHttpResponse())
                 }
             }
             post("/setTaskParams") {
@@ -42,22 +42,27 @@ fun Application.httpRouting() {
                         taskId,
                         params.jsonObject.toString()
                     )
-                    call.respond(SetTaskParamsResponse(id, result).wapperToResponse())
+                    call.respond(SetTaskParamsResponse(id, result).wapperToHttpResponse())
                 }
             }
             post("/start") {
-                val start = call.receive<Start>()
-                val result = MaaService.start(start.id)
-                call.respond(StartResponse(start.id, result).wapperToResponse())
+                val startRequest = call.receive<StartRequest>()
+                val result = MaaService.start(startRequest.id)
+                call.respond(StartResponse(startRequest.id, result).wapperToHttpResponse())
             }
             post("/stop") {
-                val stop = call.receive<Stop>()
-                val result = MaaService.stop(stop.id)
-                call.respond(StartResponse(stop.id, result).wapperToResponse())
+                val stopRequest = call.receive<StopRequest>()
+                val result = MaaService.stop(stopRequest.id)
+                call.respond(StartResponse(stopRequest.id, result).wapperToHttpResponse())
+            }
+            post("/destroy") {
+                val destroy = call.receive<DestroyRequest>()
+                MaaService.destroy(destroy.id)
+                call.respond(EmptyBaseData.wapperToHttpResponse())
             }
             get("/listInstance") {
                 val list = MaaService.listInstance()
-                call.respond(ListInstanceResponse(list).wapperToResponse())
+                call.respond(ListInstanceResponse(list).wapperToHttpResponse())
             }
         }
     }

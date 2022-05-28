@@ -1,17 +1,28 @@
 package com.iguigui.maaj.service
 
+import com.iguigui.maaj.dto.CallBackLog
 import com.iguigui.maaj.dto.ConnectResponse
 import com.iguigui.maaj.dto.MaaInstanceInfo
+import com.iguigui.maaj.dto.toJsonElement
 import com.iguigui.maaj.easySample.MeoAssistant
 import com.sun.jna.Native
+import io.ktor.websocket.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.security.MessageDigest
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.collections.LinkedHashSet
 
 
 object MaaService {
 
     private var instancePool: ConcurrentHashMap<String, MaaInstance> = ConcurrentHashMap()
+
+    private val wsConnection = Collections.synchronizedSet<Connection?>(LinkedHashSet())
 
     val meoAssistant: MeoAssistant by lazy {
         val f = File(this.javaClass.getResource("")?.path ?: "")
@@ -26,31 +37,29 @@ object MaaService {
 
     fun connect(adbPath: String, host: String, detailJson: String): ConnectResponse {
         val id = sha1(host)
-        synchronized(id) {
-            if (instancePool.containsKey(id)) {
-                return ConnectResponse(id, true)
-            }
-            val maaInstance = MaaInstance(meoAssistant, host, adbPath, host, detailJson)
-            maaInstance.pointer = meoAssistant.AsstCreateEx(maaInstance, maaInstance.id)
-            val connect = maaInstance.connect()
-            if (!connect) {
-                return ConnectResponse("", false)
-            }
-            instancePool.putIfAbsent(id, maaInstance)
+        if (instancePool.containsKey(id)) {
+            return ConnectResponse(id, true)
         }
+        val maaInstance = MaaInstance(meoAssistant, host, adbPath, host, detailJson, ::callBackLog)
+        maaInstance.pointer = meoAssistant.AsstCreateEx(maaInstance, maaInstance.id)
+        val connect = maaInstance.connect()
+        if (!connect) {
+            return ConnectResponse("", false)
+        }
+        instancePool.putIfAbsent(id, maaInstance)
         return ConnectResponse(id, true)
     }
 
-    fun appendTask(host: String, type: String, detailJson: String) =
-        instancePool[host]?.appendTask(type, detailJson) ?: 0
+    fun appendTask(id: String, type: String, detailJson: String) =
+        instancePool[id]?.appendTask(type, detailJson) ?: 0
 
 
-    fun setTaskParams(host: String, type: String, taskId: Int, detailJson: String) =
-        instancePool[host]?.setTaskParams(type, taskId, detailJson) ?: false
+    fun setTaskParams(id: String, type: String, taskId: Int, detailJson: String) =
+        instancePool[id]?.setTaskParams(type, taskId, detailJson) ?: false
 
-    fun start(host: String) = instancePool[host]?.start() ?: false
+    fun start(id: String) = instancePool[id]?.start() ?: false
 
-    fun stop(host: String) = instancePool[host]?.stop() ?: false
+    fun stop(id: String) = instancePool[id]?.stop() ?: false
 
     fun getVersion(): String = meoAssistant.AsstGetVersion()
 
@@ -73,5 +82,22 @@ object MaaService {
     fun listInstance(): List<MaaInstanceInfo> =
         instancePool.values.map { e -> MaaInstanceInfo(e.id, e.host, e.adbPath, e.uuid, e.status) }.toList()
 
+    fun destroy(id: String) = instancePool[id]?.destroy()
+
+
+    @OptIn(DelicateCoroutinesApi::class)
+    fun callBackLog(message: CallBackLog) {
+        GlobalScope.launch(Dispatchers.IO) {
+            wsConnection.forEach { it.session.send(message.toJsonElement().toString()) }
+        }
+    }
+
+    fun addConnection(connection: Connection) {
+        this.wsConnection += connection
+    }
+
+    fun removeConnection(connection: Connection) {
+        this.wsConnection -= connection
+    }
 
 }
