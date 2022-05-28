@@ -4,6 +4,8 @@
 
 bool asst::OcrWithPreprocessImageAnalyzer::analyze()
 {
+    m_without_det = true;
+
     cv::Mat img_roi = m_image(utils::make_rect<cv::Rect>(m_roi));
     cv::Mat img_roi_gray;
     cv::cvtColor(img_roi, img_roi_gray, cv::COLOR_BGR2GRAY);
@@ -14,6 +16,9 @@ bool asst::OcrWithPreprocessImageAnalyzer::analyze()
     bounding_rect.y += m_roi.y;
     Rect new_roi = utils::make_rect<Rect>(bounding_rect);
 
+    if (new_roi.empty()) {
+        return false;
+    }
     // todo: split
 
     if (m_expansion) {
@@ -26,7 +31,6 @@ bool asst::OcrWithPreprocessImageAnalyzer::analyze()
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(new_roi), cv::Scalar(0, 0, 255), 1);
 #endif // ASST_DEBUG
-
 
     return OcrImageAnalyzer::analyze();
 }
@@ -45,6 +49,16 @@ void asst::OcrWithPreprocessImageAnalyzer::set_split(bool split)
 void asst::OcrWithPreprocessImageAnalyzer::set_expansion(int expansion)
 {
     m_expansion = expansion;
+}
+
+void asst::OcrWithPreprocessImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
+{
+    OcrImageAnalyzer::set_task_info(task_ptr);
+}
+
+void asst::OcrWithPreprocessImageAnalyzer::set_task_info(const std::string& task_name)
+{
+    OcrImageAnalyzer::set_task_info(task_name);
 }
 
 void asst::OcrWithPreprocessImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept

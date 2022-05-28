@@ -312,7 +312,7 @@
     <ClInclude Include="BattleFormationTask.h">
       <Filter>头文件\Task\Sub</Filter>
     </ClInclude>
-    <ClInclude Include="CombatRecruitConfiger.h">
+    <ClInclude Include="RoguelikeRecruitConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="RoguelikeCopilotConfiger.h">
@@ -329,6 +329,9 @@
     </ClInclude>
     <ClInclude Include="OcrWithFlagTemplImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\General</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeRecruitImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Final</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -539,7 +542,7 @@
     <ClCompile Include="BattleFormationTask.cpp">
       <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
-    <ClCompile Include="CombatRecruitConfiger.cpp">
+    <ClCompile Include="RoguelikeRecruitConfiger.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="RoguelikeCopilotConfiger.cpp">
@@ -557,6 +560,9 @@
     <ClCompile Include="OcrWithFlagTemplImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\General</Filter>
     </ClCompile>
+    <ClCompile Include="RoguelikeRecruitImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Final</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -566,6 +572,9 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="..\..\resource\infrast.json">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\resource\roguelike_recruit.json">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

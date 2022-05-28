@@ -61,7 +61,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page()
     if (!name_analyzer.analyze()) {
         return false;
     }
-    name_analyzer.sort_result();
+    name_analyzer.sort_result_horizontal();
 
     static const std::array<Rect, 3> SkillRectArray = {
         Task.get("BattleQuickFormationSkill1")->specific_rect,
