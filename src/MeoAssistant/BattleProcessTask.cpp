@@ -443,16 +443,17 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
 bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
 {
     const std::string& name = m_group_to_oper_mapping[action.group_name].name;
-    auto iter = m_used_opers.find(name);
-    if (iter == m_used_opers.cend()) {
-        Log.error(name, " not used");
-        return false;
+    Point pos;
+    if (auto iter = m_used_opers.find(name);
+        iter != m_used_opers.cend()) {
+        pos = iter->second.pos;
+        m_used_opers.erase(name);
     }
-    Point pos = iter->second.pos;
+    else {
+        pos = m_normal_tile_info.at(action.location).pos;
+    }
     m_ctrler->click(pos);
     sleep(Task.get("BattleUseOper")->pre_delay);
-
-    m_used_opers.erase(name);
 
     return ProcessTask(*this, { "BattleOperRetreat" }).run();
 }
