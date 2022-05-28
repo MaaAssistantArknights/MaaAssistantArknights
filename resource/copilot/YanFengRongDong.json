@@ -34,10 +34,15 @@
     ],
     "actions": [
         {
-            "type": "二倍速"
+            "name": "令",
+            "location": [
+                10,
+                4
+            ],
+            "direction": "左"
         },
         {
-            "name": "棘刺",
+            "name": "“弦惊”",
             "location": [
                 8,
                 6
@@ -45,37 +50,7 @@
             "direction": "上"
         },
         {
-            "name": "克洛丝",
-            "location": [
-                2,
-                4
-            ],
-            "direction": "上"
-        },
-        {
-            "name": "伊芙利特",
-            "location": [
-                10,
-                4
-            ],
-            "direction": "左"
-        },
-        {
-            "name": "蜜莓",
-            "location": [
-                10,
-                5
-            ],
-            "direction": "左"
-        },
-        {
-            "kills": 16,
-            "name": "克洛丝",
-            "type": "撤退"
-        },
-        {
-            "kills": 18,
-            "name": "红",
+            "name": "“弦惊”",
             "location": [
                 3,
                 5
@@ -83,74 +58,26 @@
             "direction": "左"
         },
         {
-            "kills": 21,
-            "name": "史尔特尔",
+            "name": "“弦惊”",
             "location": [
                 2,
                 3
             ],
-            "direction": "下",
-            "rear_delay": 1500
-        },
-        {
-            "name": "史尔特尔",
-            "type": "技能"
-        },
-        {
-            "kills": 23,
-            "name": "史尔特尔",
-            "type": "撤退"
-        },
-        {
-            "kills": 25,
-            "pre_delay": 10000,
-            "name": "红",
-            "location": [
-                3,
-                5
-            ],
-            "direction": "左"
-        },
-        {
-            "name": "红",
-            "type": "撤退"
-        },
-        {
-            "kills": 29,
-            "name": "史尔特尔",
-            "location": [
-                9,
-                4
-            ],
-            "direction": "左",
-            "rear_delay": 1500
-        },
-        {
-            "pre_delay": 1000,
-            "name": "红",
-            "location": [
-                4,
-                4
-            ],
             "direction": "下"
         },
         {
-            "name": "史尔特尔",
-            "type": "技能"
-        },
-        {
-            "kills": 34,
-            "name": "史尔特尔",
-            "type": "撤退"
-        },
-        {
-            "pre_delay": 5000,
-            "name": "红",
             "location": [
                 3,
                 5
             ],
-            "direction": "左"
+            "type": "撤退"
+        },
+        {
+            "location": [
+                2,
+                3
+            ],
+            "type": "撤退"
         }
     ]
 }
