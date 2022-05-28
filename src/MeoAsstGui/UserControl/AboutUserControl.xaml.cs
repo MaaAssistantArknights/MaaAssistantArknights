@@ -9,7 +9,10 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace MeoAsstGui
 {
@@ -21,6 +24,13 @@ namespace MeoAsstGui
         public AboutUserControl()
         {
             InitializeComponent();
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            Hyperlink link = sender as Hyperlink;
+            // 激活的是当前默认的浏览器
+            Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
         }
     }
 }
