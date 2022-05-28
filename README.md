@@ -34,7 +34,8 @@ MAA 的意思是 MAA Assistant Arknights
 - 智能基建换班，自动计算干员效率，单设施内最优解
 - 自动公招，可选使用加急许可，一次全部刷完
 - 访问好友、收取信用及购物、领取日常奖励等。一键全日常自动长草！
-- **新功能！肉鸽全自动刷源石锭和蜡烛**
+- 肉鸽全自动刷源石锭和蜡烛，自动识别干员及练度
+- **新功能！导入作业 JSON 文件，自动抄作业！** [视频演示](https://www.bilibili.com/video/BV14u411673q/)
 
 话不多说，看图！  
 
@@ -68,10 +69,11 @@ MAA 的意思是 MAA Assistant Arknights
 
 请参考 [常见问题](docs/常见问题.md)
 
-## 关联项目
+## 主要关联项目
 
-- 全新 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中）
-- 更新服务器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)（正在开发中）
+- 全新 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
+- 更新服务器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer) （正在开发中，欢迎加入！）
+- 自动战斗作业服务端: [MaaCopilotServer](https://github.com/MaaAssistantArknights/MaaCopilotServer) （正在开发中，欢迎加入！）
 
 ## 致谢
 
@@ -94,7 +96,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 数据源
 
-- 公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)
+- ~~公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)~~
 - 干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)
 - 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
 - 材料数据：[明日方舟bot常用素材](https://github.com/yuanyan3060/Arknights-Bot-Resource)
@@ -109,7 +111,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Windows
 
-直接使用 Visual Studio 2022 ~~或更高版本~~ 打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
+直接使用 Visual Studio 2019 ~~或更高版本~~ 打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
 
 ### Linux | macOS
 
