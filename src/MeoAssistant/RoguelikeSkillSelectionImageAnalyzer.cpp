@@ -38,7 +38,7 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
 {
     OcrWithPreprocessImageAnalyzer analyzer;
     auto name_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("Roguelike1SkillSelectionName"));
-    analyzer.set_task_info(*name_task_ptr);
+    analyzer.set_task_info(name_task_ptr);
     analyzer.set_image(m_image, roi.move(name_task_ptr->roi));
     analyzer.set_required(Resrc.roguelike_recruit().get_oper_order());
     analyzer.set_replace(

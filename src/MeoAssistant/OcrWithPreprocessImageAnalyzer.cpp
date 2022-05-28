@@ -49,6 +49,16 @@ void asst::OcrWithPreprocessImageAnalyzer::set_expansion(int expansion)
     m_expansion = expansion;
 }
 
+void asst::OcrWithPreprocessImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
+{
+    OcrImageAnalyzer::set_task_info(task_ptr);
+}
+
+void asst::OcrWithPreprocessImageAnalyzer::set_task_info(const std::string& task_name)
+{
+    OcrImageAnalyzer::set_task_info(task_name);
+}
+
 void asst::OcrWithPreprocessImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
 {
     m_required = std::move(task_info.text);

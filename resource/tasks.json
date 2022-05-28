@@ -4578,11 +4578,12 @@
     "BattleOperName": {
         "algorithm": "OcrDetect",
         "text": [],
+        "fullMatch": true,
         "roi": [
             0,
+            182,
             160,
-            180,
-            60
+            30
         ]
     },
     "BattleWaitingToLoad": {
@@ -6238,10 +6239,10 @@
     "Roguelike1SkillSelectionRect": {
         "template": "empty.png",
         "roi": [
-            171,
+            170,
             2,
             170,
-            3
+            2
         ],
         "rectMove": [
             5,

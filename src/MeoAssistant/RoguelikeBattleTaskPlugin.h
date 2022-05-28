@@ -29,6 +29,8 @@ namespace asst
         bool use_skill(const Rect& rect);
         bool retreat(const Point& point);
         void clear();
+        bool try_possible_skill(const cv::Mat& image);
+        bool wait_start();
 
         // 通过资源文件离线计算可放置干员的位置，优先使用
         // 返回 可格子的位置
@@ -46,6 +48,7 @@ namespace asst
         std::vector<Point> m_homes;
         size_t m_cur_home_index = 0;
         std::unordered_map<Point, std::string> m_used_tiles;
+        std::unordered_map<std::string, int64_t> m_restore_status;
 
         std::string m_stage_name;
     };

@@ -6,9 +6,11 @@
 #include "Controller.h"
 #include "TaskData.h"
 #include "ProcessTask.h"
-#include "OcrImageAnalyzer.h"
+#include "OcrWithPreprocessImageAnalyzer.h"
 #include "Resource.h"
 #include "Logger.hpp"
+#include "RuntimeStatus.h"
+#include "MatchImageAnalyzer.h"
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -39,6 +41,12 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     if (!getted_info) {
         return true;
     }
+
+    if (!wait_start()) {
+        return false;
+    }
+
+    speed_up();
 
     constexpr static auto time_limit = std::chrono::minutes(10);
 
@@ -153,13 +161,6 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
     using BattleRealTimeOper = asst::BattleRealTimeOper;
 
-    BattleImageAnalyzer battle_analyzer(m_ctrler->get_image());
-    battle_analyzer.set_target(BattleImageAnalyzer::Target::Roguelike);
-
-    if (!battle_analyzer.analyze()) {
-        return false;
-    }
-
     //if (int hp = battle_analyzer.get_hp();
     //    hp != 0) {
     //    bool used_skills = false;
@@ -177,31 +178,17 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     //    }
     //}
 
-    //for (const Rect& rect : battle_analyzer.get_ready_skills()) {
-    //    // 找出这个可以使用的技能是哪个干员的（根据之前放干员的位置）
-    //    std::string name = "NotFound";
-    //    for (const auto& [loc, oper_name] : m_used_tiles) {
-    //        auto point = m_normal_tile_info[loc].pos;
-    //        if (rect.include(point)) {
-    //            name = oper_name;
-    //            break;
-    //        }
-    //    }
+    const cv::Mat& image = m_ctrler->get_image();
+    if (try_possible_skill(image)) {
+        return true;
+    }
 
-    //    auto& usage = m_skill_usage[name];
-    //    Log.info("Oper", name, ", skill usage", static_cast<int>(usage));
-    //    switch (usage) {
-    //    case BattleSkillUsage::Once:
-    //        use_skill(rect);
-    //        usage = BattleSkillUsage::OnceUsed;
-    //        return true;
-    //        break;
-    //    case BattleSkillUsage::Possibly:
-    //        use_skill(rect);
-    //        return true;
-    //        break;
-    //    }
-    //}
+    BattleImageAnalyzer battle_analyzer(image);
+    battle_analyzer.set_target(BattleImageAnalyzer::Target::Roguelike);
+
+    if (!battle_analyzer.analyze()) {
+        return false;
+    }
 
     const auto& opers = battle_analyzer.get_opers();
     if (opers.empty()) {
@@ -246,7 +233,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     m_ctrler->click(opt_oper.rect);
     sleep(use_oper_task_ptr->pre_delay);
 
-    OcrImageAnalyzer oper_name_analyzer(m_ctrler->get_image());
+    OcrWithPreprocessImageAnalyzer oper_name_analyzer(m_ctrler->get_image());
     oper_name_analyzer.set_task_info("BattleOperName");
     oper_name_analyzer.set_replace(
         std::dynamic_pointer_cast<OcrTaskInfo>(
@@ -295,8 +282,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     Point placed_loc = get_placed(loc);
     Point placed_point = m_side_tile_info.at(placed_loc).pos;
 #ifdef ASST_DEBUG
-    auto image = m_ctrler->get_image();
-    cv::circle(image, cv::Point(placed_point.x, placed_point.y), 10, cv::Scalar(0, 0, 255), -1);
+    auto draw_image = m_ctrler->get_image();
+    cv::circle(draw_image, cv::Point(placed_point.x, placed_point.y), 10, cv::Scalar(0, 0, 255), -1);
 #endif
     Rect placed_rect(placed_point.x, placed_point.y, 1, 1);
     m_ctrler->swipe(opt_oper.rect, placed_rect, swipe_oper_task_ptr->pre_delay);
@@ -372,11 +359,66 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_side_tile_info.clear();
     m_used_tiles.clear();
 
-    //for (auto& [_, usage] : m_skill_usage) {
-    //    if (usage == BattleSkillUsage::OnceUsed) {
-    //        usage = BattleSkillUsage::Once;
-    //    }
-    //}
+    for (auto& [key, status] : m_restore_status) {
+        m_status->set_data(key, status);
+    }
+    m_restore_status.clear();
+}
+
+bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
+{
+    auto task_ptr = Task.get("BattleAutoSkillFlag");
+    const Rect& skill_roi_move = task_ptr->rect_move;
+
+    MatchImageAnalyzer analyzer(image);
+    analyzer.set_task_info(task_ptr);
+    bool used = false;
+    for (auto& [loc, name] : m_used_tiles) {
+        std::string status_key = "RoguelikeSkillUsage-" + name;
+        BattleSkillUsage usage = BattleSkillUsage::Possibly;
+        auto usage_opt = m_status->get_data(status_key);
+        if (usage_opt) {
+            usage = static_cast<BattleSkillUsage>(usage_opt.value());
+        }
+
+        if (usage != BattleSkillUsage::Possibly
+            && usage != BattleSkillUsage::Once) {
+            continue;
+        }
+        const Point pos = m_normal_tile_info.at(loc).pos;
+        const Rect pos_rect(pos.x, pos.y, 1, 1);
+        const Rect roi = pos_rect.move(skill_roi_move);
+        analyzer.set_roi(roi);
+        if (!analyzer.analyze()) {
+            continue;
+        }
+        m_ctrler->click(pos_rect);
+        used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_task_delay(0).run();
+        if (usage == BattleSkillUsage::Once) {
+            m_status->set_data(status_key, static_cast<int64_t>(BattleSkillUsage::OnceUsed));
+            m_restore_status[status_key] = static_cast<int64_t>(BattleSkillUsage::Once);
+        }
+    }
+    return used;
+}
+
+bool asst::RoguelikeBattleTaskPlugin::wait_start()
+{
+    BattleImageAnalyzer oper_analyzer;
+    oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+
+    while (!need_exit()) {
+        oper_analyzer.set_image(m_ctrler->get_image());
+        if (oper_analyzer.analyze()) {
+            break;
+        }
+        std::this_thread::yield();
+    }
+
+    // 干员头像出来之后，还要过 2 秒左右才可以点击，这里要加个延时
+    sleep(Task.get("BattleWaitingToLoad")->rear_delay);
+
+    return true;
 }
 
 //asst::Rect asst::RoguelikeBattleTaskPlugin::get_placed_by_cv()
