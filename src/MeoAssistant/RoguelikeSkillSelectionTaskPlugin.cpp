@@ -34,6 +34,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
 
     const auto& rg_src = Resrc.roguelike_recruit();
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
+        Log.info(__FUNCTION__, name, " skill size:", skill_vec.size());
         const auto& oper_info = rg_src.get_oper_info(name);
         int index = 0;
         BattleSkillUsage usage = BattleSkillUsage::Possibly;
@@ -47,6 +48,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         }
 
         if (index) {
+            Log.info(__FUNCTION__, name, " select skill:", index + 1);
             m_ctrler->click(skill_vec.at(index));
         }
         m_status->set_data("RoguelikeSkillUsage-" + name, static_cast<int>(usage));

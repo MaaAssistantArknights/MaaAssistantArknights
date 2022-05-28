@@ -1,6 +1,6 @@
 #include "RoguelikeRecruitTaskPlugin.h"
 
-#include "OcrWithFlagTemplImageAnalyzer.h"
+#include "RoguelikeRecruitImageAnalyzer.h"
 #include "Controller.h"
 #include "TaskData.h"
 #include "Resource.h"
@@ -25,24 +25,47 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    OcrWithFlagTemplImageAnalyzer analyzer(m_ctrler->get_image());
-    analyzer.set_task_info("Roguelike1RecruitOcrFlag", "Roguelike1RecruitOcr");
-    analyzer.set_replace(
-    std::dynamic_pointer_cast<OcrTaskInfo>(
-        Task.get("CharsNameOcrReplace"))
-    ->replace_map);
-
-    analyzer.set_required(Resrc.roguelike_recruit().get_oper_order());
+    RoguelikeRecruitImageAnalyzer analyzer(m_ctrler->get_image());
 
     if (!analyzer.analyze()) {
         return false;
     }
 
-    analyzer.sort_result_by_required();
+    bool recruited = false;
 
-    auto& res = analyzer.get_result().front();
-    Log.info("Choose：", res.text);
-    m_ctrler->click(res.rect);
+    auto recruit_oper = [&](const RoguelikeRecruitImageAnalyzer::RecruitOperInfo& info) {
+        Log.info("Choose：", info.name, info.elite, info.level);
+        m_ctrler->click(info.rect);
+        recruited = true;
+    };
 
-    return true;
+    for (const auto& info : analyzer.get_result()) {
+        if (info.elite == 0 ||
+            (info.elite == 1 && info.level < 50)) {
+            continue;
+        }
+        recruit_oper(info);
+        break;
+    }
+
+    if (!recruited) {
+        Log.info("All are lower");
+        // 随便招个精一的
+        for (const auto& info : analyzer.get_result()) {
+            if (info.elite == 0) {
+                continue;
+            }
+            recruit_oper(info);
+            break;
+        }
+    }
+
+    if (!recruited) {
+        // 随便招个
+        Log.info("All are very lower");
+        auto info = analyzer.get_result().front();
+        recruit_oper(info);
+    }
+
+    return recruited;
 }

@@ -77,6 +77,7 @@
     <ClInclude Include="RoguelikeCopilotConfiger.h" />
     <ClInclude Include="RoguelikeFormationTaskPlugin.h" />
     <ClInclude Include="RoguelikeFormationImageAnalyzer.h" />
+    <ClInclude Include="RoguelikeRecruitImageAnalyzer.h" />
     <ClInclude Include="RoguelikeRecruitTaskPlugin.h" />
     <ClInclude Include="RoguelikeSkillSelectionImageAnalyzer.h" />
     <ClInclude Include="RoguelikeSkillSelectionTaskPlugin.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="RoguelikeCopilotConfiger.cpp" />
     <ClCompile Include="RoguelikeFormationTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp" />
+    <ClCompile Include="RoguelikeRecruitImageAnalyzer.cpp" />
     <ClCompile Include="RoguelikeRecruitTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeSkillSelectionImageAnalyzer.cpp" />
     <ClCompile Include="RoguelikeSkillSelectionTaskPlugin.cpp" />

@@ -330,6 +330,9 @@
     <ClInclude Include="OcrWithFlagTemplImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\General</Filter>
     </ClInclude>
+    <ClInclude Include="RoguelikeRecruitImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Final</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -556,6 +559,9 @@
     </ClCompile>
     <ClCompile Include="OcrWithFlagTemplImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\General</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeRecruitImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Final</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
