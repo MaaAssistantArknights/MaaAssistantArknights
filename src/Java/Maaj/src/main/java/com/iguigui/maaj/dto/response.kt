@@ -22,12 +22,14 @@ data class HttpResponse(
 data class WsResponse(
     @SerialName("version")
     val data: JsonElement,
-    @SerialName("type")
-    val type: String,
+    @SerialName("command")
+    val command: String,
+    @SerialName("msgId")
+    val msgId: Int = 0,
     @SerialName("code")
-    val code: Int,
+    val code: Int = 0,
     @SerialName("message")
-    val message: String
+    val message: String = "success"
 )
 
 @Serializable
@@ -102,6 +104,8 @@ data class StopResponse(
     val result: Boolean
 ) : BaseData()
 
+
+
 @Serializable
 data class CallBackLog(
     @SerialName("id")
@@ -122,7 +126,15 @@ fun BaseData.toJsonElement() =
     Json.encodeToJsonElement(Json.encodeToJsonElement(this).jsonObject.filterNot { it.key == "type" })
 
 
-fun BaseData.wapperToResponse() =
+fun BaseData.wapperToHttpResponse() =
     HttpResponse(Json.encodeToJsonElement(Json.encodeToJsonElement(this).jsonObject.filterNot { it.key == "type" }))
 
+fun BaseData.wapperToWsResponse(command: String, msgId: Int) =
+    WsResponse(
+        Json.encodeToJsonElement(Json.encodeToJsonElement(this).jsonObject.filterNot { it.key == "type" }),
+        command,
+        msgId
+    )
+
+fun WsResponse.toJsonString() = Json.encodeToJsonElement(Json.encodeToJsonElement(this).jsonObject.filterNot { it.key == "type" }).toString()
 

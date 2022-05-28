@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.JsonElement
 
-sealed class WsRequest
 
 @Serializable
 data class ConnectRequest(
@@ -145,25 +144,33 @@ data class Copilot(
 
 
 @Serializable
-data class Start(
+data class StartRequest(
     @SerialName("id")
     val id: String,
 )
 
 @Serializable
-data class Stop(
+data class StopRequest(
+    @SerialName("id")
+    val id: String,
+)
+
+@Serializable
+data class DestroyRequest(
     @SerialName("id")
     val id: String,
 )
 
 @SerialName("connect")
 @Serializable
-data class ConnectWs(
+data class WsRequest(
     @SerialName("data")
-    val `data`: ConnectRequest,
+    val `data`: JsonElement,
     @SerialName("command")
-    val command: String
-) : WsRequest()
+    val command: String,
+    @SerialName("msgId")
+    val msgId: Int = 0
+)
 
 
 fun Task.toJsonString() = Json.encodeToString(this)
