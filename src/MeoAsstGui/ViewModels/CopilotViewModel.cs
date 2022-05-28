@@ -99,14 +99,11 @@ namespace MeoAsstGui
 
             var asstProxy = _container.Get<AsstProxy>();
             string errMsg = "";
-            if (!_catched)
+            var task = Task.Run(() =>
             {
-                var task = Task.Run(() =>
-                {
-                    return asstProxy.AsstConnect(ref errMsg);
-                });
-                _catched = await task;
-            }
+                return asstProxy.AsstConnect(ref errMsg);
+            });
+            _catched = await task;
             if (!_catched)
             {
                 AddLog(errMsg, "darkred");
