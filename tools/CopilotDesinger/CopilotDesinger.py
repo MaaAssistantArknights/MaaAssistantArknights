@@ -317,9 +317,16 @@ class Battle:
         try:
             from asst import Asst, Message
         except ImportError:
-            print("asst导入失败，请确保asst.py在同目录下，或者下载 "
-                  "https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst.py")
-            return
+            import sys 
+            import pathlib
+            sys.path.append(str(pathlib.Path.cwd().parent.parent/"src"/"Python"))
+            try:
+                from asst import Asst, Message
+            except ImportError:
+                print("asst导入失败，请自行解决，或者下载"
+                    " https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst.py "
+                    "到同目录下")
+                return
 
         @Asst.CallBackType
         def callback(msg, details, arg):
