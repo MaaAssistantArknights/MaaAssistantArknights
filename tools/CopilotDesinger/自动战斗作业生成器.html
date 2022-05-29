@@ -37,7 +37,7 @@
         <div class="col-sm-3">
           <div class="form-group">
             <h2 for="description">
-              描述
+              文本
             </h2>
             <textarea type="text" class="form-control" id="description"></textarea>
           </div>
@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <div class="row">
         <div class="col-sm-12">
           <h2>选择干员</h2>
@@ -133,7 +133,8 @@
                 <th>修改</th>
                 <th>类别</th>
                 <th>Kills</th>
-                <th>干员</th>
+                <th>费用变化</th>
+                <th>干员名字</th>
                 <th>x坐标</th>
                 <th>y坐标</th>
                 <th>方向</th>
@@ -165,15 +166,23 @@
                     <option value="技能用法">技能用法</option>
                   </select>
                 </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-2">
                   <label for="kill">
-                    Kill
+                    击杀数
                   </label>
                   <input type="number" class="form-control" id="kill" />
                 </div>
+                <div class="form-group col-sm-2">
+                  <label for="cost_changes">
+                    费用变化
+                  </label>
+                  <input type="number" class="form-control" id="cost_changes" />
+                </div>
+            </div>
+            <div class="row">
                 <div class="form-group col-sm-3">
                   <label for="operator">
-                    干员
+                    干员名字
                   </label>
                   <input type="text" id="operator" class="form-control">
                   </select>
@@ -190,8 +199,7 @@
                   </label>
                   <input type="number" class="form-control" id="ycoordinate" />
                 </div>
-              </div>
-              <div class="row">
+
                 <div class="form-group col-sm-2">
                   <label for="direction">
                     方向
@@ -204,32 +212,35 @@
                     <option value="右">右</option>
                   </select>
                 </div>
-                <div class="form-group col-sm-3">
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-2">
                   <label for="pre_delay">
-                    操作前延迟(毫秒)
+                    前延迟(毫秒)
                   </label>
                   <input type="number" class="form-control" id="pre_delay" />
                 </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-2">
                   <label for="rear_delay">
-                    操作后延迟（毫秒）
+                    后延迟（毫秒）
                   </label>
                   <input type="number" class="form-control" id="rear_delay" />
                 </div>
+                <div class="form-group col-sm-4">
+                    <label for="doc">
+                      文本
+                    </label>
+                    <input type="text" class="form-control" id="doc" />
+                  </div>
                 <div class="form-group col-sm-2">
                   <label for="doc_color">
-                    颜色
+                    文本颜色
                   </label>
                   <input type="text" class="form-control" id="doc_color" />
                 </div>
-                <div class="form-group col-sm-2">
-                  <label for="doc">
-                    文本
-                  </label>
-                  <input type="text" class="form-control" id="doc" />
-                </div>
               </div>
             </div>
+        </div>
             <div class="panel-footer">
               <div class="row">
                 <div class="col-xs-12">
@@ -273,14 +284,15 @@
       else if (type === 'action') {
         $("#type").val($(cols[1]).text())
         $("#kill").val($(cols[2]).text())
-        $("#operator").val($(cols[3]).text())
-        $("#xcoordinate").val($(cols[4]).text())
-        $("#ycoordinate").val($(cols[5]).text())
-        $("#direction").val($(cols[6]).text())
-        $("#pre_delay").val($(cols[7]).text())
-        $("#rear_delay").val($(cols[8]).text())
-        $("#doc").val($(cols[9]).text())
-        $("#doc_color").val($(cols[10]).text())
+        $("#cost_changes").val($(cols[3]).text())
+        $("#operator").val($(cols[4]).text())
+        $("#xcoordinate").val($(cols[5]).text())
+        $("#ycoordinate").val($(cols[6]).text())
+        $("#direction").val($(cols[7]).text())
+        $("#pre_delay").val($(cols[8]).text())
+        $("#rear_delay").val($(cols[9]).text())
+        $("#doc").val($(cols[10]).text())
+        $("#doc_color").val($(cols[11]).text())
         $("#updateActionButton").text("Update");
         document.getElementById("type").scrollIntoView();
       }
@@ -387,6 +399,7 @@
         if (data) {
           datastring = "<td>" + (data.type ? data.type : "") + "</td>" +
             "<td>" + (data.kills ? data.kills : "") + "</td>" +
+            "<td>" + (data.cost_changes ? data.cost_changes : "") + "</td>" +
             "<td>" + (data.name ? data.name : "") + "</td>" +
             "<td>" + (data.location ? data.location[0] : "") + "</td>" +
             "<td>" + (data.location ? data.location[1] : "") + "</td>" +
@@ -399,6 +412,7 @@
         else {
           datastring = "<td>" + $("#type").val() + "</td>" +
             "<td>" + $("#kill").val() + "</td>" +
+            "<td>" + $("#cost_changes").val() + "</td>" +
             "<td>" + $("#operator").val() + "</td>" +
             "<td>" + $("#xcoordinate").val() + "</td>" +
             "<td>" + $("#ycoordinate").val() + "</td>" +
@@ -474,6 +488,7 @@
       else if (type == "action") {
         $("#type").val("");
         $("#kill").val("");
+        $("#cost_changes").val("");
         $("#operator").val("");
         $("#xcoordinate").val("");
         $("#ycoordinate").val("");
@@ -488,21 +503,23 @@
       var $tds = tr.find('td'),
         type = $tds.eq(1).text(),
         kills = $tds.eq(2).text(),
-        name = $tds.eq(3).text(),
-        xcoordinate = $tds.eq(4).text(),
-        ycoordinate = $tds.eq(5).text(),
-        direction = $tds.eq(6).text(),
-        pre_delay = $tds.eq(7).text(),
-        rear_delay = $tds.eq(8).text(),
-        doc = $tds.eq(9).text(),
-        doc_color = $tds.eq(10).text();
+        cost_changes = $tds.eq(3).text(),
+        name = $tds.eq(4).text(),
+        xcoordinate = $tds.eq(5).text(),
+        ycoordinate = $tds.eq(6).text(),
+        direction = $tds.eq(7).text(),
+        pre_delay = $tds.eq(8).text(),
+        rear_delay = $tds.eq(9).text(),
+        doc = $tds.eq(10).text(),
+        doc_color = $tds.eq(11).text();
       kills = parseInt(kills)
+      cost_changes = parseInt(cost_changes)
       pre_delay = parseInt(pre_delay)
       rear_delay = parseInt(rear_delay)
       xcoordinate = parseInt(xcoordinate)
       ycoordinate = parseInt(ycoordinate)
       let location = [xcoordinate, ycoordinate]
-      var actionData = { type, kills, name, location, direction, pre_delay, rear_delay, doc, doc_color };
+      var actionData = { type, kills, cost_changes, name, location, direction, pre_delay, rear_delay, doc, doc_color };
       if (isNaN(actionData.kills)) delete actionData.kills;
       if (isNaN(actionData.pre_delay)) delete actionData.pre_delay;
       if (isNaN(actionData.rear_delay)) delete actionData.rear_delay;
