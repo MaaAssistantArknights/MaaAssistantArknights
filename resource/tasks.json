@@ -4647,10 +4647,10 @@
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
-            1197,
-            492,
+            1196,
+            494,
             83,
-            48
+            44
         ]
     },
     "BattleAutoSkillFlag": {
