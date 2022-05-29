@@ -192,7 +192,7 @@
     "SNToSN-9": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "SN-open.png",
+        "template": "SN-Open.png",
         "next": [
             "SNChapter3ToSN-9",
             "SNToSN-9"
@@ -244,7 +244,7 @@
     "SNToSN-10": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "SN-open.png",
+        "template": "SN-Open.png",
         "next": [
             "SNChapter3ToSN-10",
             "SNToSN-10"
