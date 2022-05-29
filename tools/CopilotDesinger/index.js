@@ -169,9 +169,17 @@ const group = (group_data, delete_func) => {
         loadData();
     })));
 
+    const new_oper_button = $('<button class="btn btn-primary">新增干员</button>')
+        .click(() => {
+            group_data.opers = group_data.opers ?? [];
+            group_data.opers.push({});
+            loadData();
+        });
+
     return $('<div>')
         .append(name_div_row)
-        .append(table);
+        .append(table)
+        .append(new_oper_button);
 };
 
 // 加载数据
