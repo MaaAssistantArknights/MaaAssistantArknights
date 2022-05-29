@@ -40,7 +40,7 @@ const direction = () => {
         '</select>');
 }
 
-const oper = (oper_data) => {
+const oper = (oper_data, delete_func) => {
     const tr = $('<tr>');
     // 干员名字
     const name_input = input_text()
@@ -59,10 +59,7 @@ const oper = (oper_data) => {
         .change(function () { oper_data.skill_usage = Number($(this).val()); });
     tr.append($('<td>').append(skill_usage_input));
     // 删除
-    tr.append($('<td>').append(delete_icon().click(() => {
-        data.opers = data.opers.filter(o => o !== oper_data);
-        loadData();
-    })));
+    tr.append($('<td>').append(delete_icon().click(delete_func)));
     return tr;
 }
 
@@ -137,6 +134,40 @@ const action = (action_data) => {
     return tr;
 };
 
+const group = (group_data, delete_func) => {
+    // 群组名
+    const name_div_row = $('<div class="row">');
+    const name_div_col = $('<div class="col-11">');
+    const name_input = input_text()
+        .val(group_data.name ?? "")
+        .change(function () { group_data.name = $(this).val(); });
+    name_div_col.append(name_input);
+    const delete_col = $('<div class="col-1">');
+    delete_col.append(delete_icon().click(delete_func));
+    name_div_row.append(name_div_col).append(delete_col);
+
+    // 群组干员列表
+    const table = $('<table class="table table-bordered table-condensed table-striped">' +
+        '<thead>' +
+        '<tr>' +
+        '<th>干员名字</th>' +
+        '<th>技能</th>' +
+        '<th>技能用法</th>' +
+        '<th>删除</th>' +
+        '</tr>' +
+        '</thead>' +
+        '<tbody></tbody>' +
+        '</table>');
+    (group_data.opers ?? []).forEach(oper_data => table.find('tbody').append(oper(oper_data, () => {
+        group_data.opers = group_data.opers.filter(o => o !== oper_data);
+        loadData();
+    })));
+
+    return $('<div>')
+        .append(name_div_row)
+        .append(table);
+};
+
 // 加载数据
 const loadData = () => {
     $('#stage_name').text(data.stage_name ?? "");
@@ -145,9 +176,16 @@ const loadData = () => {
     // TODO: requirements
 
     $('#opers tbody').html('');
-    (data.opers ?? []).forEach(oper_data => $('#opers tbody').append(oper(oper_data)));
+    (data.opers ?? []).forEach(oper_data => $('#opers tbody').append(oper(oper_data, () => {
+        data.opers = data.opers.filter(o => o !== oper_data);
+        loadData();
+    })));
 
-    // TODO: groups
+    $('#groups').html('');
+    (data.groups ?? []).forEach(group_data => $('#groups').append(group(group_data, () => {
+        data.groups = data.groups.filter(g => g !== group_data);
+        loadData();
+    })));
 
     $('#actions tbody').html('');
     (data.actions ?? []).forEach(action_data => $('#actions tbody').append(action(action_data)));
@@ -170,6 +208,12 @@ $(document).ready(() => {
         data.actions.push({});
         loadData();
     });
+
+    $('#groups_new').click(() => {
+        data.groups = data.groups ?? [];
+        data.groups.push({});
+        loadData();
+    })
 
     $('#download_json').click(() => {
         const result = JSON.stringify(data, null, 4);
