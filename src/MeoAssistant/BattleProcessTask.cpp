@@ -333,24 +333,8 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
 bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 {
     cv::Mat image;
-    while (m_kills < action.kills) {
-        if (need_exit()) {
-            return false;
-        }
-        image = m_ctrler->get_image();
-        BattleImageAnalyzer analyzer(image);
-        analyzer.set_target(BattleImageAnalyzer::Target::Kills);
-        if (analyzer.analyze()) {
-            m_kills = analyzer.get_kills();
-            if (m_kills >= action.kills) {
-                break;
-            }
-        }
 
-        try_possible_skill(image);
-        std::this_thread::yield();
-    }
-
+    // 因为要算基准cost，所以这个要放在kills前面
     if (action.cost_changes != 0) {
         int cost_base = -1;
 
@@ -372,6 +356,24 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
             try_possible_skill(image);
             std::this_thread::yield();
         }
+    }
+
+    while (m_kills < action.kills) {
+        if (need_exit()) {
+            return false;
+        }
+        image = m_ctrler->get_image();
+        BattleImageAnalyzer analyzer(image);
+        analyzer.set_target(BattleImageAnalyzer::Target::Kills);
+        if (analyzer.analyze()) {
+            m_kills = analyzer.get_kills();
+            if (m_kills >= action.kills) {
+                break;
+            }
+        }
+
+        try_possible_skill(image);
+        std::this_thread::yield();
     }
 
     // 部署干员还有额外等待费用够或 CD 转好
