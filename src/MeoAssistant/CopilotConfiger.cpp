@@ -90,6 +90,7 @@ bool asst::CopilotConfiger::parse(const json::value& json)
             action.type = BattleActionType::Deploy;
         }
         action.kills = action_info.get("kills", 0);
+        action.cost_changes = action_info.get("cost_changes", 0);
         action.group_name = action_info.get("name", std::string());
 
         action.location.x = action_info.get("location", 0, 0);

@@ -339,7 +339,6 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
         }
         image = m_ctrler->get_image();
         BattleImageAnalyzer analyzer(image);
-
         analyzer.set_target(BattleImageAnalyzer::Target::Kills);
         if (analyzer.analyze()) {
             m_kills = analyzer.get_kills();
@@ -350,6 +349,29 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 
         try_possible_skill(image);
         std::this_thread::yield();
+    }
+
+    if (action.cost_changes != 0) {
+        int cost_base = -1;
+
+        while (true) {
+            image = m_ctrler->get_image();
+            BattleImageAnalyzer analyzer(image);
+            analyzer.set_target(BattleImageAnalyzer::Target::Cost);
+            if (analyzer.analyze()) {
+                int cost = analyzer.get_cost();
+                if (cost_base == -1) {
+                    cost_base = cost;
+                    continue;
+                }
+                if (cost >= cost_base + action.cost_changes) {
+                    break;
+                }
+            }
+
+            try_possible_skill(image);
+            std::this_thread::yield();
+        }
     }
 
     // 部署干员还有额外等待费用够或 CD 转好

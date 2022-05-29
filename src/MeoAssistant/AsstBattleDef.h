@@ -54,6 +54,7 @@ namespace asst
     struct BattleAction             // 操作
     {
         int kills = 0;
+        int cost_changes = 0;
         BattleActionType type = BattleActionType::Deploy;
         std::string group_name;     // 目标名，若 type >= SwitchSpeed, group_name 为空
         Point location;
