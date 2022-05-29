@@ -60,6 +60,8 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
     }
     m_stage_code = analyzer.get_result().front().text;
 
+    Log.info(__FUNCTION__, "stage_code", m_stage_code);
+
 #ifdef ASST_DEBUG
     const Rect& text_rect = analyzer.get_result().front().rect;
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(text_rect), cv::Scalar(0, 0, 255), 2);
@@ -103,6 +105,8 @@ bool asst::StageDropsImageAnalyzer::analyze_stars()
         }
     }
     m_stars = matched_stars;
+
+    Log.info(__FUNCTION__, "stars", m_stars);
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
@@ -150,6 +154,7 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
         }
     }
     m_difficulty = matched;
+    Log.info(__FUNCTION__, "difficulty", static_cast<int>(m_difficulty));
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
@@ -284,6 +289,10 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
             Rect baseline{ x_offset + istart, y_offset, width, bounding_rect.height };
             m_baseline.emplace_back(baseline, match_droptype(baseline));
         }
+    }
+    Log.trace(__FUNCTION__, "baseline size", m_baseline.size());
+    for (const auto& baseline : m_baseline) {
+        Log.trace(__FUNCTION__, "baseline", baseline.first.to_string());
     }
 
     return !m_baseline.empty();
