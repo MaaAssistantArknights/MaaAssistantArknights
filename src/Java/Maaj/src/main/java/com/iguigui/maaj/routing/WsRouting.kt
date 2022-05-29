@@ -19,13 +19,13 @@ import kotlin.collections.LinkedHashSet
 
 fun Application.wsRouting() {
     routing {
-        webSocket("/v1") {
+        webSocket("/API/V1") {
             println("Adding user!")
             val connection = Connection(this)
             addConnection(connection)
-            for (frame in incoming) {
-                frame as? Frame.Text ?: continue
-                try {
+            try {
+                for (frame in incoming) {
+                    frame as? Frame.Text ?: continue
                     val receivedText = frame.readText()
                     val wsRequest = Json.decodeFromString(WsRequest.serializer(), receivedText)
                     var response: BaseData? = null
@@ -71,7 +71,7 @@ fun Application.wsRouting() {
                         "destroy" -> {
                             val destroyRequest =
                                 Json.decodeFromJsonElement(DestroyRequest.serializer(), wsRequest.data)
-                            MaaService.stop(destroyRequest.id)
+                            MaaService.destroy(destroyRequest.id)
                             response = EmptyBaseData
                         }
                         "listInstance" -> {
@@ -83,13 +83,14 @@ fun Application.wsRouting() {
                     response?.let {
                         send(it.wapperToWsResponse(wsRequest.command, wsRequest.msgId).toJsonString())
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    println(e.message)
-                } finally {
-                    println("Removing $connection!")
-                    removeConnection(connection)
+
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                println(e.message)
+            } finally {
+                println("Removing $connection!")
+                removeConnection(connection)
             }
         }
     }

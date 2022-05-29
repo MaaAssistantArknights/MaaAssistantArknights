@@ -1,5 +1,6 @@
 package com.iguigui.maaj.dto
 
+import com.iguigui.maaj.util.Json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -20,7 +21,7 @@ data class HttpResponse(
 
 @Serializable
 data class WsResponse(
-    @SerialName("version")
+    @SerialName("data")
     val data: JsonElement,
     @SerialName("command")
     val command: String,

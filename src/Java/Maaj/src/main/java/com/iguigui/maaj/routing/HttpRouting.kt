@@ -13,7 +13,7 @@ import kotlinx.serialization.json.jsonObject
 fun Application.httpRouting() {
 
     routing {
-        route("/v1") {
+        route("/API/V1") {
             get("/getVersion") {
                 val version = MaaService.getVersion()
                 call.respond(GetVersionResponse(version).wapperToHttpResponse())
