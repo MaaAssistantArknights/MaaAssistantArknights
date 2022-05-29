@@ -1,7 +1,7 @@
 #include "StageDropsImageAnalyzer.h"
 
 #include "TaskData.h"
-#include "OcrImageAnalyzer.h"
+#include "OcrWithPreprocessImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"
 #include "Resource.h"
 #include "AsstUtils.hpp"
@@ -60,6 +60,8 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
     }
     m_stage_code = analyzer.get_result().front().text;
 
+    Log.info(__FUNCTION__, "stage_code", m_stage_code);
+
 #ifdef ASST_DEBUG
     const Rect& text_rect = analyzer.get_result().front().rect;
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(text_rect), cv::Scalar(0, 0, 255), 2);
@@ -103,6 +105,8 @@ bool asst::StageDropsImageAnalyzer::analyze_stars()
         }
     }
     m_stars = matched_stars;
+
+    Log.info(__FUNCTION__, "stars", m_stars);
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
@@ -150,6 +154,7 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
         }
     }
     m_difficulty = matched;
+    Log.info(__FUNCTION__, "difficulty", static_cast<int>(m_difficulty));
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
@@ -250,11 +255,17 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     int threshold = task_ptr->mask_range.first;
     uchar pre_value = 0;
     for (int i = 0; i < bounding.cols; ++i) {
-        uchar value = bounding.at<uchar>(0, i);
-        bool is_white = value > threshold && pre_value - value < threshold;
-        pre_value = value;
+        bool has_white = false;
+        for (int j = 0; j < bounding.rows; ++j) {
+            uchar value = bounding.at<uchar>(j, i);
+            pre_value = value;
+            if (value > threshold && pre_value - value < threshold) {
+                has_white = true;
+                break;
+            }
+        }
 
-        if (in && !is_white) {
+        if (in && !has_white) {
             in = false;
             iend = i;
             int width = iend - istart;
@@ -267,7 +278,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
                 m_baseline.emplace_back(baseline, match_droptype(baseline));
             }
         }
-        else if (!in && is_white) {
+        else if (!in && has_white) {
             istart = i;
             in = true;
         }
@@ -284,6 +295,10 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
             Rect baseline{ x_offset + istart, y_offset, width, bounding_rect.height };
             m_baseline.emplace_back(baseline, match_droptype(baseline));
         }
+    }
+    Log.trace(__FUNCTION__, "baseline size", m_baseline.size());
+    for (const auto& baseline : m_baseline) {
+        Log.trace(__FUNCTION__, "baseline", baseline.first.to_string());
     }
 
     return !m_baseline.empty();
@@ -464,64 +479,50 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
         }
     }
 
-    OcrImageAnalyzer analyzer(m_image);
+    // 前面的 split 算法经过了大量的测试集验证，分割效果一切正常
+    // 后来发现不需要 split 了（为了优化识别速度），但是这个算法不太敢动，怕出问题
+    // 所以这里保留前面的 split 算法，直接取两侧端点。（反正前面跑几个循环也费不了多长时间）
+    int far_left = contours.back().start;
+    int far_right = contours.front().end;
+
+    OcrWithPreprocessImageAnalyzer analyzer(m_image);
     analyzer.set_task_info("NumberOcrReplace");
-    analyzer.set_use_cache(true);
+    analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
+    analyzer.set_expansion(1);
+    analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 
-    int quantity = 0;
-    for (auto riter = contours.crbegin(); riter != contours.crend(); ++riter) {
-        auto& range = *riter;
-        cv::Mat range_img = bin(cv::Range::all(), range);
-        cv::Rect rect = cv::boundingRect(range_img);
-        cv::Mat bounding = range_img(rect);
-
-        Rect absolute_rect;
-        absolute_rect.x = quantity_roi.x + rect.x + range.start - 1;
-        absolute_rect.y = quantity_roi.y + rect.y - 1;
-        absolute_rect.width = rect.width + 2;
-        absolute_rect.height = rect.height + 2;
-
-#ifdef ASST_DEBUG
-        cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(absolute_rect), cv::Scalar(0, 255, 0), 1);
-#endif
-
-        analyzer.set_region_of_appeared(absolute_rect);
-        if (!analyzer.analyze()) {
-            return 0;
-        }
-        auto digit_str = analyzer.get_result().front().text;
-#ifdef ASST_DEBUG
-        cv::putText(m_image_draw, digit_str, cv::Point(absolute_rect.x, absolute_rect.y - 5),
-            cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
-#endif
-        int dot = 0;
-        if (digit_str == "万") {
-            quantity *= 10000;
-        }
-        else if (digit_str == "亿") {
-            quantity *= 100000000;
-        }
-        else if (digit_str.size() == 1) {
-            if (char c = digit_str[0]; c >= '0' && c <= '9') {
-                quantity *= 10;
-                quantity += c - '0';
-                if (dot) {
-                    ++dot;
-                }
-            }
-            else if (c == '.') {
-                dot = 1;
-            }
-        }
-        else {
-            Log.error("quantity is not a single digit");
-            return 0;
-        }
-        if (dot > 1) {
-            quantity /= (dot - 1);
-        }
+    if (!analyzer.analyze()) {
+        return 0;
     }
-    Log.info("Quantity:", quantity);
 
+    const auto& result = analyzer.get_result().front();
+
+#ifdef ASST_DEBUG
+    cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));
+    cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 5),
+        cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
+#endif
+
+    std::string digit_str = result.text;
+    int multiple = 1;
+    if (size_t w_pos = digit_str.find("万");
+        w_pos != std::string::npos) {
+        multiple = 10000;
+        digit_str.erase(w_pos, digit_str.size());
+    }
+    //else if (size_t e_pos = digit_str.find("亿");
+    //    e_pos != std::string::npos) {
+    //    multiple = 100000000;
+    //    digit_str.erase(e_pos, digit_str.size());
+    //}
+
+    if (digit_str.empty() ||
+        !std::all_of(digit_str.cbegin(), digit_str.cend(),
+            [](char c) -> bool {return std::isdigit(c) || c == '.';})) {
+        return 0;
+    }
+
+    int quantity = static_cast<int>(std::stod(digit_str) * multiple);
+    Log.info("Quantity:", quantity);
     return quantity;
 }
