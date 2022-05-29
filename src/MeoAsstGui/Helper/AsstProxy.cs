@@ -608,10 +608,15 @@ namespace MeoAsstGui
                     return false;
                 }
             }
+            if (settings.AdbPath.Length == 0)
+            {
+                error = "请选择 adb 路径";
+                return false;
+            }
             bool ret = AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
             if (!ret)
             {
-                error = "连接失败\n请检查连接设置";
+                error = "连接失败\n请检查连接设置\n";
             }
             return ret;
         }

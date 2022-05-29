@@ -34,6 +34,38 @@ namespace MeoAsstGui
             DisplayName = "一键长草";
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             InitializeItems();
+            InitTimer();
+        }
+
+        private System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
+
+        private void InitTimer()
+        {
+            _timer.Enabled = true;
+            _timer.Interval = 1000 * 60;
+            _timer.Tick += new EventHandler(Timer1_Elapsed);
+            _timer.Start();
+        }
+
+        private void Timer1_Elapsed(object sender, EventArgs e)
+        {
+            int intMinute = DateTime.Now.Minute;
+
+            if (intMinute != 0 || Idle == false)
+            {
+                return;
+            }
+            UpdateDatePrompt();
+
+            int intHour = DateTime.Now.Hour;
+            var settings = _container.Get<SettingsViewModel>();
+            if (settings.Timer1 && settings.Timer1Hour == intHour ||
+                settings.Timer2 && settings.Timer2Hour == intHour ||
+                settings.Timer3 && settings.Timer3Hour == intHour ||
+                settings.Timer4 && settings.Timer4Hour == intHour)
+            {
+                LinkStart();
+            }
         }
 
         public void InitializeItems()
@@ -84,8 +116,13 @@ namespace MeoAsstGui
                 //// “风雪过境” 活动关卡
                 //new CombData { Display = "BI-7", Value = "BI-7" },
                 //new CombData { Display = "BI-8", Value = "BI-8" }
-            };
+        };
 
+            UpdateDatePrompt();
+        }
+
+        public void UpdateDatePrompt()
+        {
             var now = DateTime.Now;
             var hour = now.Hour;
             if (hour >= 0 && hour < 4)
