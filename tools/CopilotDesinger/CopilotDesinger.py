@@ -196,6 +196,33 @@ class Operator(OperatorOrGroup):
         self._requirements = requirements
         self._skill_usage = skill_usage
         self._skill = skill
+        self._character_name_list = None
+
+    def check_operator_name(self, auto_complete: bool = True) -> bool:
+        if self._character_name_list is None:
+            import os
+            if os.path.exists('./characters/character_name_list.json'):
+                with open('./characters/character_name_list.json', 'r', encoding='utf-8') as f:
+                    self._character_name_list = json.load(f)
+            else:
+                raise Exception("无法进行名称检查，请检查名称文件是否存在")
+        if self._name in self._character_name_list:
+            return True
+        if auto_complete:
+            possible_character_name = None
+            for character_name in self._character_name_list:
+                if self._name in character_name:
+                    if possible_character_name is None:
+                        possible_character_name = character_name
+                    else:
+                        raise Exception("匹配到多个名字，无法自动补全，请手动补全")
+            if possible_character_name is not None:
+                self._name = possible_character_name
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def skill_usage_change(self, change_to: int):
         """
@@ -233,26 +260,35 @@ class Battle:
         self._last_save_file_name = "battle.json"
 
     def create_operator(self, name: str, skill: int, skill_usage: int = SkillUsageType.NotAutoUse,
-                        requirements: Requirements = None) -> Operator:
+                        requirements: Requirements = None, check_operator_name: bool = True) -> Operator:
         """
         创建并添加一个干员
         :param name: 干员名称
         :param skill: 要使用的技能
         :param skill_usage: 技能使用类型 参见 SkillUsageType
         :param requirements: 可选
+        :param check_operator_name: 是否要检查输入的名字是否正确
         :return: 新生成的干员
         """
         new_operator = Operator(name, self, skill, skill_usage, requirements)
+        if check_operator_name:
+            if not new_operator.check_operator_name():
+                raise Exception("干员名称有误，请更改为正确的名称或关闭名称检查")
         self._add_operator(new_operator)
         return new_operator
 
-    def create_group(self, name: str, *operators: Operator) -> Group:
+    def create_group(self, name: str, check_operator_name: bool = True, *operators: Operator) -> Group:
         """
         创建并添加一个群组
         :param name: 群组名
         :param operators: 所包含的干员，构造的时候 battle 一项置 None 即可
+        :param check_operator_name: 是否要检查输入的名字是否正确
         :return: 新创建的群组
         """
+        if check_operator_name:
+            for operator in operators:
+                if not operator.check_operator_name():
+                    raise Exception("干员名称有误，请更改为正确的名称或关闭名称检查")
         new_group = Group(name, self, operators)
         self._add_group(new_group)
         return new_group
