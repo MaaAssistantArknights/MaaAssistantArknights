@@ -146,7 +146,7 @@ namespace Map
         bool runned = false;
         double x = 0, y = 0, z = 0;
         for (const Map::Level& level : TileCalc::levels) {
-            if (/*level.code == code_or_name || */
+            if (level.code == code_or_name ||
                 level.name == code_or_name) {
                 switch (level.view) {
                 case 0:
