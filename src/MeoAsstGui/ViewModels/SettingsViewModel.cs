@@ -47,6 +47,7 @@ namespace MeoAsstGui
             _listTitle.Add("肉鸽设置");
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
+            _listTitle.Add("定时执行");
             _listTitle.Add("企鹅数据");
             _listTitle.Add("连接设置");
             _listTitle.Add("通知显示");
@@ -376,6 +377,98 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _creditBlackList, value);
                 ViewStatusStorage.Set("Mall.CreditBlackList", value);
+            }
+        }
+
+        /* 定时设置 */
+
+        private bool _timer1 = ViewStatusStorage.Get("Timer.Timer1", bool.FalseString) == bool.TrueString;
+        private bool _timer2 = ViewStatusStorage.Get("Timer.Timer2", bool.FalseString) == bool.TrueString;
+        private bool _timer3 = ViewStatusStorage.Get("Timer.Timer3", bool.FalseString) == bool.TrueString;
+        private bool _timer4 = ViewStatusStorage.Get("Timer.Timer4", bool.FalseString) == bool.TrueString;
+
+        private int _timer1hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer1Hour", "0"));
+        private int _timer2hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer2Hour", "6"));
+        private int _timer3hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer3Hour", "12"));
+        private int _timer4hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer4Hour", "18"));
+
+        public bool Timer1
+        {
+            get { return _timer1; }
+            set
+            {
+                SetAndNotify(ref _timer1, value);
+                ViewStatusStorage.Set("Timer.Timer1", value.ToString());
+            }
+        }
+
+        public bool Timer2
+        {
+            get { return _timer2; }
+            set
+            {
+                SetAndNotify(ref _timer2, value);
+                ViewStatusStorage.Set("Timer.Timer2", value.ToString());
+            }
+        }
+
+        public bool Timer3
+        {
+            get { return _timer3; }
+            set
+            {
+                SetAndNotify(ref _timer3, value);
+                ViewStatusStorage.Set("Timer.Timer3", value.ToString());
+            }
+        }
+
+        public bool Timer4
+        {
+            get { return _timer4; }
+            set
+            {
+                SetAndNotify(ref _timer4, value);
+                ViewStatusStorage.Set("Timer.Timer4", value.ToString());
+            }
+        }
+
+        public int Timer1Hour
+        {
+            get { return _timer1hour; }
+            set
+            {
+                SetAndNotify(ref _timer1hour, value);
+                ViewStatusStorage.Set("Timer.Timer1Hour", value.ToString());
+            }
+        }
+
+        public int Timer2Hour
+        {
+            get { return _timer2hour; }
+            set
+            {
+                SetAndNotify(ref _timer2hour, value);
+                ViewStatusStorage.Set("Timer.Timer2Hour", value.ToString());
+            }
+        }
+
+        public int Timer3Hour
+        {
+            get { return _timer3hour; }
+            set
+            {
+                SetAndNotify(ref _timer3hour, value);
+                ViewStatusStorage.Set("Timer.Timer3Hour", value.ToString());
+            }
+        }
+
+        public int Timer4Hour
+        {
+            get { return _timer4hour; }
+            set
+            {
+                SetAndNotify(ref _timer4hour, value);
+                ViewStatusStorage.Set("Timer.Timer4Hour", value.ToString());
             }
         }
 
@@ -932,6 +1025,7 @@ namespace MeoAsstGui
         }
 
         /*  标题栏显示模拟器名称和IP端口  */
+
         public void UpdateWindowTitle()
         {
             var rvm = (RootViewModel)this.Parent;
@@ -945,6 +1039,7 @@ namespace MeoAsstGui
             }
             rvm.WindowTitle = string.Format("MaaAssistantArknights - {0} ({1})", ConnectConfigName, ConnectAddress);
         }
+
         //public void TryToSetBlueStacksHyperVAddress()
         //{
         //    if (AdbPath.Length == 0 || !File.Exists(AdbPath))
