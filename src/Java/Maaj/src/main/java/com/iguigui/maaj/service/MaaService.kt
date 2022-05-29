@@ -1,9 +1,6 @@
 package com.iguigui.maaj.service
 
-import com.iguigui.maaj.dto.CallBackLog
-import com.iguigui.maaj.dto.ConnectResponse
-import com.iguigui.maaj.dto.MaaInstanceInfo
-import com.iguigui.maaj.dto.toJsonElement
+import com.iguigui.maaj.dto.*
 import com.iguigui.maaj.easySample.MeoAssistant
 import com.sun.jna.Native
 import io.ktor.websocket.*
@@ -37,16 +34,16 @@ object MaaService {
 
     fun connect(adbPath: String, host: String, detailJson: String): ConnectResponse {
         val id = sha1(host)
-        if (instancePool.containsKey(id)) {
-            return ConnectResponse(id, true)
-        }
-        val maaInstance = MaaInstance(meoAssistant, host, adbPath, host, detailJson, ::callBackLog)
+//        if (instancePool.containsKey(id)) {
+//            return ConnectResponse(id, true)
+//        }
+        val maaInstance = MaaInstance(meoAssistant, id, adbPath, host, detailJson, ::callBackLog)
         maaInstance.pointer = meoAssistant.AsstCreateEx(maaInstance, maaInstance.id)
         val connect = maaInstance.connect()
         if (!connect) {
             return ConnectResponse("", false)
         }
-        instancePool.putIfAbsent(id, maaInstance)
+        instancePool[id] = maaInstance
         return ConnectResponse(id, true)
     }
 
@@ -82,13 +79,16 @@ object MaaService {
     fun listInstance(): List<MaaInstanceInfo> =
         instancePool.values.map { e -> MaaInstanceInfo(e.id, e.host, e.adbPath, e.uuid, e.status) }.toList()
 
-    fun destroy(id: String) = instancePool[id]?.destroy()
+    fun destroy(id: String) {
+        instancePool[id]?.destroy()
+        instancePool.remove(id)
+    }
 
 
     @OptIn(DelicateCoroutinesApi::class)
     fun callBackLog(message: CallBackLog) {
         GlobalScope.launch(Dispatchers.IO) {
-            wsConnection.forEach { it.session.send(message.toJsonElement().toString()) }
+            wsConnection.forEach { it.session.send(message.wapperToWsResponse("callBack", 0).toJsonString()) }
         }
     }
 
