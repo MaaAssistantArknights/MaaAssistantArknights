@@ -179,7 +179,8 @@ const group = (group_data, delete_func) => {
     return $('<div>')
         .append(name_div_row)
         .append(table)
-        .append(new_oper_button);
+        .append(new_oper_button)
+        .append('<br><br>');
 };
 
 // 加载数据
