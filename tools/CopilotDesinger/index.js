@@ -70,12 +70,18 @@ const action = (action_data) => {
         .val(action_data.type ?? "")
         .change(function () { action_data.type = $(this).val(); });
     tr.append($('<td>').append(type_input));
-    // Kills
+    // 击杀数
     const kills_input = input_text()
         .attr('type', 'number')
         .val(String(action_data.kills ?? ""))
         .change(function () { action_data.kills = $(this).val !== "" ? Number($(this).val()) : undefined; });
     tr.append($('<td>').append(kills_input));
+    // 费用变化
+    const cost_changes = input_text()
+        .attr('type', 'number')
+        .val(String(action_data.cost_changes ?? ""))
+        .change(function () { action_data.cost_changes = $(this).val !== "" ? Number($(this).val()) : undefined; });
+    tr.append($('<td>').append(cost_changes));
     // 干员
     const name_input = input_text()
         .val(action_data.name ?? "")
