@@ -140,7 +140,7 @@
     "SNToSN-8": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "SN-open.png",
+        "template": "SN-Open.png",
         "next": [
             "SNChapter2ToSN-8",
             "SNToSN-8"
