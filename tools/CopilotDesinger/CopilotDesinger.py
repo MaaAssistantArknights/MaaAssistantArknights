@@ -24,7 +24,7 @@ class SkillUsageType:
     NotAutoUse = 0  # 0 - 不自动使用 默认
     UseWhenOk = 1  # 1 - 好了就用，有多少次用多少次（例如干员 棘刺 3 技能、桃金娘 1 技能等）
     UseWhenOkOnce = 2  # 2 - 好了就用，仅使用一次（例如干员 山 2 技能）
-    AutoUse = 3  # 3 - 自动判断使用时机（画饼.jpg）
+    # AutoUse = 3  # 3 - 自动判断使用时机（画饼.jpg）
 
 
 # ========================= constants end =============================
@@ -65,11 +65,12 @@ class Requirements:
 
 class Action:
     def __init__(self, action_type: str, name: str = None, location: tuple = None, direction: str = "无", kills: int = 0,
-                 skill_usage: int = None, pre_delay: int = 0, rear_delay: int = 0, timeout: int = 999999999,
-                 doc: str = None, doc_color: str = None):
+                 skill_usage: int = None, pre_delay: int = 0, rear_delay: int = 0, cost_changes: int = 0,
+                 timeout: int = 999999999, doc: str = None, doc_color: str = None):
         self._doc_color = doc_color
         self._doc = doc
-        self._timeout = timeout
+        # self._timeout = timeout
+        self._cost_changes = cost_changes
         self._rear_delay = rear_delay
         self._pre_delay = pre_delay
         self._skill_usage = skill_usage
@@ -89,6 +90,11 @@ class Action:
             res["pre_delay"] = self._pre_delay
         if self._rear_delay != 0:
             res["rear_delay"] = self._rear_delay
+        if self._cost_changes != 0:
+            res["cost_changes"] = self._cost_changes
+        # 保留字段，暂未实现。
+        # if self._timeout != 0:
+        #     res["timeout"] = self._timeout
         if self._action_type == ActionType.Deploy or self._action_type == ActionType.Skill \
                 or self._action_type == ActionType.Retreat:
             res["name"] = self._name
@@ -106,6 +112,7 @@ class OperatorOrGroup:
         self._pre_delay = 0
         self._rear_delay = 0
         self._wait_kills = 0
+        self._cost_changes = 0
 
     def pre_delay(self, times: int) -> OperatorOrGroup:
         self._pre_delay = times
@@ -113,6 +120,10 @@ class OperatorOrGroup:
 
     def rear_delay(self, times: int) -> OperatorOrGroup:
         self._rear_delay = times
+        return self
+
+    def cost_changes(self, costs: int) -> OperatorOrGroup:
+        self._cost_changes = costs
         return self
 
     def wait_kills(self, kills: int) -> OperatorOrGroup:
@@ -135,6 +146,8 @@ class OperatorOrGroup:
             action._rear_delay = self._rear_delay
         if self._wait_kills != 0:
             action._kills = self._wait_kills
+        if self._cost_changes != 0:
+            action._cost_changes = self._cost_changes
         self._clear_conditions()
         return action
 
@@ -142,6 +155,7 @@ class OperatorOrGroup:
         self._pre_delay = 0
         self._rear_delay = 0
         self._wait_kills = 0
+        self._cost_changes = 0
 
     def to_dict(self) -> dict:
         # 此处不应该被执行到
@@ -318,15 +332,15 @@ class Battle:
         try:
             from asst import Asst, Message
         except ImportError:
-            import sys 
+            import sys
             import pathlib
-            sys.path.append(str(pathlib.Path.cwd().parent.parent/"src"/"Python"))
+            sys.path.append(str(pathlib.Path.cwd().parent.parent / "src" / "Python"))
             try:
                 from asst import Asst, Message
             except ImportError:
                 print("asst导入失败，请自行解决，或者下载"
-                    " https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst.py "
-                    "到同目录下")
+                      " https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst.py "
+                      "到同目录下")
                 return
 
         @Asst.CallBackType
