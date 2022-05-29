@@ -3,8 +3,10 @@ package com.iguigui.maaj.service
 import com.iguigui.maaj.dto.CallBackLog
 import com.iguigui.maaj.dto.*
 import com.iguigui.maaj.easySample.MeoAssistant
+import com.iguigui.maaj.logger
 import com.iguigui.maaj.util.Json
 import com.sun.jna.Pointer
+import io.ktor.server.application.*
 import java.util.concurrent.atomic.AtomicLong
 import kotlin.reflect.KFunction1
 
@@ -48,9 +50,9 @@ class MaaInstance(
 
 
     override fun callback(msg: Int, detail_json: String, custom_arg: String) {
-        System.out.printf("回调msg : %s , 回调 detail_json : %s ,回调 custom_arg : %s \n", msg, detail_json, custom_arg)
         val callBackLog = CallBackLog(id, msgId.getAndIncrement(), msg, Json.parseToJsonElement(detail_json))
-        callBackAction?.call(callBackLog)
+        logger.info("callBackLog = $callBackLog")
+        callBackAction.call(callBackLog)
         when (msg) {
             INTERNAL_ERROR,
             INIT_FAILED,
