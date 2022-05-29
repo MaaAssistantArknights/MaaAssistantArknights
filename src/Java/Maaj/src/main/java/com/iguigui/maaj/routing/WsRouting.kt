@@ -1,6 +1,7 @@
 package com.iguigui.maaj.routing
 
 import com.iguigui.maaj.dto.*
+import com.iguigui.maaj.logger
 import com.iguigui.maaj.service.Connection
 import com.iguigui.maaj.service.MaaService
 import com.iguigui.maaj.service.MaaService.addConnection
@@ -20,13 +21,14 @@ import kotlin.collections.LinkedHashSet
 fun Application.wsRouting() {
     routing {
         webSocket("/API/V1") {
-            println("Adding user!")
             val connection = Connection(this)
+            logger.info("Ws connection connected ! connection : ${connection.session} ")
             addConnection(connection)
             try {
                 for (frame in incoming) {
                     frame as? Frame.Text ?: continue
                     val receivedText = frame.readText()
+                    logger.info(receivedText)
                     val wsRequest = Json.decodeFromString(WsRequest.serializer(), receivedText)
                     var response: BaseData? = null
                     when (wsRequest.command) {
@@ -86,10 +88,10 @@ fun Application.wsRouting() {
 
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
-                println(e.message)
+                logger.warn("Ws Exception $e.message")
+                logger.warn(e.stackTraceToString())
             } finally {
-                println("Removing $connection!")
+                logger.info("Ws connection disconnected ! connection : $connection ")
                 removeConnection(connection)
             }
         }
