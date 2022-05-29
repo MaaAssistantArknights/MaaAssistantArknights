@@ -24,7 +24,7 @@ class SkillUsageType:
     NotAutoUse = 0  # 0 - 不自动使用 默认
     UseWhenOk = 1  # 1 - 好了就用，有多少次用多少次（例如干员 棘刺 3 技能、桃金娘 1 技能等）
     UseWhenOkOnce = 2  # 2 - 好了就用，仅使用一次（例如干员 山 2 技能）
-    AutoUse = 3  # 3 - 自动判断使用时机（画饼.jpg）
+    # AutoUse = 3  # 3 - 自动判断使用时机（画饼.jpg）
 
 
 # ========================= constants end =============================
@@ -65,11 +65,12 @@ class Requirements:
 
 class Action:
     def __init__(self, action_type: str, name: str = None, location: tuple = None, direction: str = "无", kills: int = 0,
-                 skill_usage: int = None, pre_delay: int = 0, rear_delay: int = 0, timeout: int = 999999999,
-                 doc: str = None, doc_color: str = None):
+                 skill_usage: int = None, pre_delay: int = 0, rear_delay: int = 0, cost_changes: int = 0,
+                 timeout: int = 999999999, doc: str = None, doc_color: str = None):
         self._doc_color = doc_color
         self._doc = doc
-        self._timeout = timeout
+        # self._timeout = timeout
+        self._cost_changes = cost_changes
         self._rear_delay = rear_delay
         self._pre_delay = pre_delay
         self._skill_usage = skill_usage
@@ -89,6 +90,11 @@ class Action:
             res["pre_delay"] = self._pre_delay
         if self._rear_delay != 0:
             res["rear_delay"] = self._rear_delay
+        if self._cost_changes != 0:
+            res["cost_changes"] = self._cost_changes
+        # 保留字段，暂未实现。
+        # if self._timeout != 0:
+        #     res["timeout"] = self._timeout
         if self._action_type == ActionType.Deploy or self._action_type == ActionType.Skill \
                 or self._action_type == ActionType.Retreat:
             res["name"] = self._name
@@ -106,6 +112,7 @@ class OperatorOrGroup:
         self._pre_delay = 0
         self._rear_delay = 0
         self._wait_kills = 0
+        self._cost_changes = 0
 
     def pre_delay(self, times: int) -> OperatorOrGroup:
         self._pre_delay = times
@@ -113,6 +120,10 @@ class OperatorOrGroup:
 
     def rear_delay(self, times: int) -> OperatorOrGroup:
         self._rear_delay = times
+        return self
+
+    def cost_changes(self, costs: int) -> OperatorOrGroup:
+        self._cost_changes = costs
         return self
 
     def wait_kills(self, kills: int) -> OperatorOrGroup:
@@ -135,6 +146,8 @@ class OperatorOrGroup:
             action._rear_delay = self._rear_delay
         if self._wait_kills != 0:
             action._kills = self._wait_kills
+        if self._cost_changes != 0:
+            action._cost_changes = self._cost_changes
         self._clear_conditions()
         return action
 
@@ -142,6 +155,7 @@ class OperatorOrGroup:
         self._pre_delay = 0
         self._rear_delay = 0
         self._wait_kills = 0
+        self._cost_changes = 0
 
     def to_dict(self) -> dict:
         # 此处不应该被执行到
@@ -182,6 +196,33 @@ class Operator(OperatorOrGroup):
         self._requirements = requirements
         self._skill_usage = skill_usage
         self._skill = skill
+        self._character_name_list = None
+
+    def check_operator_name(self, auto_complete: bool = True) -> bool:
+        if self._character_name_list is None:
+            import os
+            if os.path.exists('./characters/character_name_list.json'):
+                with open('./characters/character_name_list.json', 'r', encoding='utf-8') as f:
+                    self._character_name_list = json.load(f)
+            else:
+                raise Exception("无法进行名称检查，请检查名称文件是否存在")
+        if self._name in self._character_name_list:
+            return True
+        if auto_complete:
+            possible_character_name = None
+            for character_name in self._character_name_list:
+                if self._name in character_name:
+                    if possible_character_name is None:
+                        possible_character_name = character_name
+                    else:
+                        raise Exception("匹配到多个名字，无法自动补全，请手动补全")
+            if possible_character_name is not None:
+                self._name = possible_character_name
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def skill_usage_change(self, change_to: int):
         """
@@ -219,26 +260,35 @@ class Battle:
         self._last_save_file_name = "battle.json"
 
     def create_operator(self, name: str, skill: int, skill_usage: int = SkillUsageType.NotAutoUse,
-                        requirements: Requirements = None) -> Operator:
+                        requirements: Requirements = None, check_operator_name: bool = True) -> Operator:
         """
         创建并添加一个干员
         :param name: 干员名称
         :param skill: 要使用的技能
         :param skill_usage: 技能使用类型 参见 SkillUsageType
         :param requirements: 可选
+        :param check_operator_name: 是否要检查输入的名字是否正确
         :return: 新生成的干员
         """
         new_operator = Operator(name, self, skill, skill_usage, requirements)
+        if check_operator_name:
+            if not new_operator.check_operator_name():
+                raise Exception("干员名称有误，请更改为正确的名称或关闭名称检查")
         self._add_operator(new_operator)
         return new_operator
 
-    def create_group(self, name: str, *operators: Operator) -> Group:
+    def create_group(self, name: str, check_operator_name: bool = True, *operators: Operator) -> Group:
         """
         创建并添加一个群组
         :param name: 群组名
         :param operators: 所包含的干员，构造的时候 battle 一项置 None 即可
+        :param check_operator_name: 是否要检查输入的名字是否正确
         :return: 新创建的群组
         """
+        if check_operator_name:
+            for operator in operators:
+                if not operator.check_operator_name():
+                    raise Exception("干员名称有误，请更改为正确的名称或关闭名称检查")
         new_group = Group(name, self, operators)
         self._add_group(new_group)
         return new_group
@@ -318,15 +368,15 @@ class Battle:
         try:
             from asst import Asst, Message
         except ImportError:
-            import sys 
+            import sys
             import pathlib
-            sys.path.append(str(pathlib.Path.cwd().parent.parent/"src"/"Python"))
+            sys.path.append(str(pathlib.Path.cwd().parent.parent / "src" / "Python"))
             try:
                 from asst import Asst, Message
             except ImportError:
                 print("asst导入失败，请自行解决，或者下载"
-                    " https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst.py "
-                    "到同目录下")
+                      " https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst.py "
+                      "到同目录下")
                 return
 
         @Asst.CallBackType
