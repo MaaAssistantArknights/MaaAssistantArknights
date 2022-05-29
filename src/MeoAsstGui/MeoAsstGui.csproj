@@ -403,6 +403,6 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy /e /y /i /c $(ProjectDir)..\..\3rdparty\tools $(TargetDir)
 xcopy /e /y /i /c $(ProjectDir)..\..\tools\CopilotDesinger $(TargetDir)\作业制作器
-xcopy /e /y /i /c $(ProjectDir)..\..\src\Python $(TargetDir)</PostBuildEvent>
+xcopy /e /y /i /c $(ProjectDir)..\..\src\Python $(TargetDir)\Python</PostBuildEvent>
   </PropertyGroup>
 </Project>
