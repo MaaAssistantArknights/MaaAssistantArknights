@@ -34,6 +34,7 @@ namespace asst
         const std::vector<Rect>& get_ready_skills() const noexcept;
         int get_hp() const noexcept;
         int get_kills() const noexcept;
+        int get_cost() const noexcept;
 
         void clear() noexcept;
 

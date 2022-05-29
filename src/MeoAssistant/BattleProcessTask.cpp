@@ -333,13 +333,37 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
 bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 {
     cv::Mat image;
+
+    // 因为要算基准cost，所以这个要放在kills前面
+    if (action.cost_changes != 0) {
+        int cost_base = -1;
+
+        while (true) {
+            image = m_ctrler->get_image();
+            BattleImageAnalyzer analyzer(image);
+            analyzer.set_target(BattleImageAnalyzer::Target::Cost);
+            if (analyzer.analyze()) {
+                int cost = analyzer.get_cost();
+                if (cost_base == -1) {
+                    cost_base = cost;
+                    continue;
+                }
+                if (cost >= cost_base + action.cost_changes) {
+                    break;
+                }
+            }
+
+            try_possible_skill(image);
+            std::this_thread::yield();
+        }
+    }
+
     while (m_kills < action.kills) {
         if (need_exit()) {
             return false;
         }
         image = m_ctrler->get_image();
         BattleImageAnalyzer analyzer(image);
-
         analyzer.set_target(BattleImageAnalyzer::Target::Kills);
         if (analyzer.analyze()) {
             m_kills = analyzer.get_kills();

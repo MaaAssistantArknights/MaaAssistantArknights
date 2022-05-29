@@ -100,6 +100,25 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
 {
     cv::Mat matched;
 
+    Log.trace(__FUNCTION__, "raw_roi", m_roi.to_string());
+
+    if (m_roi.x < 0) {
+        Log.info(__FUNCTION__, "roi is out of range");
+        m_roi.x = 0;
+    }
+    if (m_roi.y < 0) {
+        Log.info(__FUNCTION__, "roi is out of range");
+        m_roi.y = 0;
+    }
+    if (m_roi.x + m_roi.width >= m_image.cols) {
+        Log.info(__FUNCTION__, "roi is out of range");
+        m_roi.width = m_image.cols - m_roi.x;
+    }
+    if (m_roi.y + m_roi.height >= m_image.rows) {
+        Log.info(__FUNCTION__, "roi is out of range");
+        m_roi.height = m_image.rows - m_roi.y;
+    }
+
     cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi));
     if (templ.cols > image_roi.cols || templ.rows > image_roi.rows) {
         Log.error("templ size is too large", m_templ_name,
