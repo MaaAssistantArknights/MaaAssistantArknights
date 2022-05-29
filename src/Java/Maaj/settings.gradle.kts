@@ -12,5 +12,5 @@ pluginManagement {
         }
     }
 }
-rootProject.name = "Maaj"
+rootProject.name = "Maa-HTTP"
 

@@ -36,3 +36,28 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
 }
+
+
+
+tasks.jar {
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes(
+            mapOf(
+                "Main-Class" to "com.iguigui.maaj.ApplicationKt",
+                "Implementation-Title" to "Maa-HTTP",
+                "Manifest-Version" to "1.0.0"
+            )
+        )
+    }
+
+    from(configurations.runtimeClasspath.get().map {
+        if (it.isDirectory) it else zipTree(it)
+    })
+    val sourcesMain = sourceSets.main.get()
+    sourcesMain.allSource.forEach { println("add from sources: ${it.name}") }
+    from(sourcesMain.output)
+
+}
