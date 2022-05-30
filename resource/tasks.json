@@ -4380,12 +4380,12 @@
         "rearDelay": 1000
     },
     "BattleQuickFormation-OperNameFlag": {
-        "templThreshold": 0.99,
+        "templThreshold": 0.95,
         "roi": [
             370,
-            300,
+            250,
             910,
-            330
+            420
         ]
     },
     "BattleQuickFormationOCR": {
