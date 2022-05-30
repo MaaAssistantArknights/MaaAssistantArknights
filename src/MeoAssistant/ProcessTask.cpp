@@ -224,6 +224,13 @@ bool ProcessTask::_run()
             return false;
         }
 
+        for (const std::string& sub : cur_task_ptr->sub) {
+            bool sub_ret = ProcessTask(*this, { sub }).run();
+            if (!sub_ret && !cur_task_ptr->sub_error_ignored) {
+                return false;
+            }
+        }
+
         callback(AsstMsg::SubTaskCompleted, info);
 
         if (cur_task_ptr->next.empty()) {
