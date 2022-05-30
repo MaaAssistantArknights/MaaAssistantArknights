@@ -248,7 +248,7 @@
         ]
     },
     "SwipeLeftToStageSV-7": {
-        "algorithm": "justReturn",
+        "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheLeft",
         "next": [
             "StageSV-7",
