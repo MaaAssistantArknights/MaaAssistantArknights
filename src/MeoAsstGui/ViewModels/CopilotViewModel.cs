@@ -140,12 +140,30 @@ namespace MeoAsstGui
                         }
                     }
 
-                    AddLog(string.Format("\n共{0}名干员", ((JContainer)json["opers"]).Count), "black");
+                    AddLog("", "black");
+                    int count = 0;
                     foreach (JObject oper in json["opers"])
                     {
+                        count++;
                         AddLog(string.Format("{0}, {1}技能", oper["name"], oper["skill"]), "black");
                     }
-                } 
+
+                    if (json.ContainsKey("groups"))
+                    {
+                        foreach (JObject group in json["groups"])
+                        {
+                            count++;
+                            string group_name = group["name"].ToString() + ": ";
+                            var operinfos = new List<string>();
+                            foreach (JObject oper in group["opers"])
+                            {
+                                operinfos.Add(string.Format("{0}{1}", oper["name"], oper["skill"]));
+                            }
+                            AddLog(group_name + string.Join("/", operinfos), "black");
+                        }
+                    }
+                    AddLog(string.Format("共{0}名干员", count), "black");
+                }
                 catch (Exception)
                 {
                 }
