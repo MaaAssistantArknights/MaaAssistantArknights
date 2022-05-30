@@ -31,17 +31,17 @@ class SkillUsageType:
 
 class Document:
     def __init__(self, title: str, details: str, title_color: str = "dark", details_color: str = "dark"):
-        self._details_color = details_color
-        self._details = details
-        self._title_color = title_color
-        self._title = title
+        self.details_color = details_color
+        self.details = details
+        self.title_color = title_color
+        self.title = title
 
     def to_dict(self) -> dict:
         return {
-            "title": self._title,
-            "title_color": self._title_color,
-            "details": self._details,
-            "details_color": self._details_color
+            "title": self.title,
+            "title_color": self.title_color,
+            "details": self.details,
+            "details_color": self.details_color
         }
 
 
@@ -80,6 +80,33 @@ class Action:
         self._location = location
         self._action_type = action_type
 
+    def add_haisi_doc(self):
+        if self._doc is not None:
+            return
+        if self._action_type in [ActionType.SpeedUp, ActionType.BulletTime]:
+            haisi_doc_list = [self._action_type, "执行"]
+        elif self._action_type in [ActionType.Deploy, ActionType.Skill, ActionType.Retreat]:
+            haisi_doc_list = [self._name]
+            if self._kills != 0:
+                haisi_doc_list.append("等待")
+                haisi_doc_list.append(str(self._kills) + "杀")
+            if self._pre_delay != 0:
+                haisi_doc_list.append("等待")
+                haisi_doc_list.append(str(self._pre_delay) + "秒")
+            if self._rear_delay != 0:
+                haisi_doc_list.append("延时")
+                haisi_doc_list.append(str(self._rear_delay) + "秒")
+            if self._cost_changes != 0:
+                haisi_doc_list.append("等待")
+                haisi_doc_list.append("费用")
+                haisi_doc_list.append("变化")
+                haisi_doc_list.append(str(self._cost_changes))
+            haisi_doc_list.append(self._action_type)
+        else:
+            return
+        self._doc = "，".join(list(filter(None, haisi_doc_list)))
+        self._doc_color = "orange"
+
     def to_dict(self) -> dict:
         res = {
             "type": self._action_type,
@@ -102,6 +129,10 @@ class Action:
         if self._action_type == ActionType.Deploy:
             res["location"] = self._location
             res["direction"] = self._direction
+        if self._doc is not None:
+            res["doc"] = self._doc
+        if self._doc_color is not None:
+            res["doc_color"] = self._doc_color
         return res
 
 
@@ -258,6 +289,14 @@ class Battle:
         self._wait_kills = 0
         self._speedup = False
         self._last_save_file_name = "battle.json"
+        # 海嗣语 我，海嗣，回归大群，打钱
+        self._enable_haisi_doc = False
+
+    def enable_haisi_doc(self) -> Battle:
+        self._enable_haisi_doc = True
+        self._doc.details += "\n"
+        self._doc.details += "回归，大群，加入，光荣，进化"
+        return self
 
     def create_operator(self, name: str, skill: int, skill_usage: int = SkillUsageType.NotAutoUse,
                         add_to_battle: bool = True, requirements: Requirements = None,
@@ -309,6 +348,8 @@ class Battle:
         self._groups.append(group)
 
     def add_action(self, action: Action):
+        if self._enable_haisi_doc:
+            action.add_haisi_doc()
         self._actions.append(action)
 
     def speed_up(self):
