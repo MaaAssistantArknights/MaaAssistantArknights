@@ -107,7 +107,11 @@ namespace MeoAsstGui
                 new CombData { Display = "红票-5", Value = "AP-5" },
                 new CombData { Display = "技能-5", Value = "CA-5" },
                 new CombData { Display = "1-7", Value = "1-7" },
-
+                // “覆潮之下” 活动关卡
+                new CombData { Display = "SV-7", Value = "SV-7" },
+                new CombData { Display = "SV-8", Value = "SV-8" },
+                new CombData { Display = "SV-9", Value = "SV-9" },
+                
                 // “愚人号” 活动关卡
                 //new CombData { Display = "SN-8", Value = "SN-8" },
                 //new CombData { Display = "SN-9", Value = "SN-9" },
