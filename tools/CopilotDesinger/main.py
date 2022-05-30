@@ -53,6 +53,6 @@ from CopilotDesinger import *
 
 # print(json.dumps(危机合约十八.to_dict()))
 # 保存为json文件
-危机合约十八.save_as_json("YanFengRongDong.json")
+危机合约十八.save_as_json(stage_name="危机合约18")
 # 直接进行测试 要用的需要点进去配置一下 不然直接注释掉也行（
 # 危机合约十八.test()
