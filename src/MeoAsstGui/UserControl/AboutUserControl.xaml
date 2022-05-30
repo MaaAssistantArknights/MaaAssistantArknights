@@ -14,5 +14,8 @@
         <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
         <Hyperlink NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights" Click="Hyperlink_Click">源码: GitHub</Hyperlink>
         </TextBlock>
+        <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+        <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=4u0uqXep" Click="Hyperlink_Click">自动战斗作业分享 Q 群</Hyperlink>
+        </TextBlock>
     </StackPanel>
 </UserControl>
