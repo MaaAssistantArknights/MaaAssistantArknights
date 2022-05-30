@@ -1,11 +1,13 @@
 val ktor_version = "2.0.2"
 val kotlin_version = "1.6.10"
 val logback_version = "1.2.11"
+val appName = "Maa-HTTP"
 
 plugins {
     application
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.serialization") version "1.6.10"
+    id("edu.sc.seis.launch4j") version "2.5.3"
 }
 
 group = "com.iguigui"
@@ -60,4 +62,27 @@ tasks.jar {
     sourcesMain.allSource.forEach { println("add from sources: ${it.name}") }
     from(sourcesMain.output)
 
+}
+
+launch4j {
+    mainClassName = "com.iguigui.maaj.ApplicationKt"
+    icon = "${projectDir}/icons/myApp.ico"
+}
+
+tasks.withType<edu.sc.seis.launch4j.tasks.DefaultLaunch4jTask> {
+    outfile = "${appName}.exe"
+    mainClassName = "com.iguigui.maaj.ApplicationKt"
+    icon = "$projectDir/icon.ico"
+    productName = "${appName}"
+}
+
+tasks.register<edu.sc.seis.launch4j.tasks.Launch4jLibraryTask>("createFastStart") {
+    outfile = "${appName}.exe"
+    mainClassName = "com.iguigui.maaj.ApplicationKt"
+    icon = "$projectDir/icon.ico"
+    fileDescription = "The lightning fast implementation"
+}
+tasks.register<edu.sc.seis.launch4j.tasks.Launch4jLibraryTask>("MyApp-memory") {
+    fileDescription = "The default implementation with increased heap size"
+    maxHeapPercent = 50
 }
