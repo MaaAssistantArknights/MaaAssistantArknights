@@ -1,555 +1,19 @@
 {
-    "CE-6": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "StageCE",
-            "StageCE6"
-        ]
-    },
-    "LS-6": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "StageLS",
-            "StageLS6"
-        ]
-    },
-    "CA-5": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "StageCA",
-            "StageCA5"
-        ]
-    },
-    "AP-5": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "StageAP",
-            "StageAP5"
-        ]
-    },
-    "StageResource": {
-        "doc": "进入资源关卡",
-        "next": [
-            "StageResourceSwipeToTheLeft"
-        ]
-    },
-    "StageResourceSwipeToTheLeft": {
-        "doc": "向左滑动到资源关最左",
-        "algorithm": "JustReturn",
-        "action": "SwipeToTheLeft"
-    },
-    "StageCE": {
-        "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageCE6"
-        ]
-    },
-    "StageLS": {
-        "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageLS6"
-        ]
-    },
-    "StageCA": {
-        "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageCA5"
-        ]
-    },
-    "StageAP": {
-        "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageAP5"
-        ]
-    },
-    "AbleToAgent": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing"
-    },
-    "UnableToAgent": {
-        "action": "SwipeToTheLeft",
-        "roi": [
-            994,
-            535,
-            286,
-            143
-        ],
-        "next": [
-            "StageCE5",
-            "StageLS5"
-        ]
-    },
-    "StageCE6": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            936,
-            101,
-            243,
-            143
-        ],
-        "next": [
-            "UnableToAgent",
-            "AbleToAgent"
-        ]
-    },
-    "StageLS6": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            936,
-            101,
-            243,
-            143
-        ],
-        "next": [
-            "UnableToAgentLS6",
-            "AbleToAgent"
-        ]
-    },
-    "StageCE5": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "StageLS5": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "StageCA5": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "StageAP5": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "SV-7": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "SV-Open",
-            "SVChapterToSV",
-            "SwipeLeftToSV-7"
-        ]
-    },
-    "SV-8": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "SV-Open",
-            "SVChapterToSV",
-            "StageSV-8"
-        ]
-    },
-    "SV-9": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "SV-Open",
-            "SVChapterToSV",
-            "StageSV-9"
-        ]
-    },
-    "SV-Open": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "覆潮之下"
-        ],
-        "action": "ClickSelf"
-    },
-    "SVChapterToSV": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "荒败盐风"
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "SVChapterToSV",
-            "SwipeRightToSV"
-        ]
-    },
-    "SwipeRightToSV": {
+    "SwipeToTheRight": {
         "algorithm": "JustReturn",
         "action": "SwipeToTheRight",
         "next": [
-            "SwipeRightToSV"
+            "SwipeToTheRight"
         ],
         "maxTimes": 2
     },
-    "SwipeLeftToSV-7": {
-        "algorithm": "OcrDetect",
-        "action": "SlowlySwipeToTheLeft",
-        "text": [
-            "SV"
-        ],
-        "next": [
-            "StageSV-7",
-            "SwipeLeftToSV-7"
-        ]
-    },
-    "StageSV-7": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "SV-7"
-        ]
-    },
-    "StageSV-8": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "SV-8"
-        ]
-    },
-    "StageSV-9": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "SV-9"
-        ]
-    },
-    "CharsNameOcrReplace": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
-        "ocrReplace": [
-            [
-                "白面.+",
-                "白面鸮"
-            ],
-            [
-                "夜营",
-                "夜莺"
-            ],
-            [
-                "蛇居箱",
-                "蛇屠箱"
-            ],
-            [
-                ".+刺",
-                "棘刺"
-            ],
-            [
-                "^E$",
-                "山"
-            ],
-            [
-                "^F$",
-                "山"
-            ],
-            [
-                "^U$",
-                "山"
-            ],
-            [
-                "^1$",
-                "山"
-            ],
-            [
-                "姜哦",
-                "嵯峨"
-            ],
-            [
-                "健影",
-                "傀影"
-            ],
-            [
-                "赤赤黑大",
-                "赫默"
-            ],
-            [
-                ".+刺",
-                "棘刺"
-            ],
-            [
-                "姜哦",
-                "嵯峨"
-            ],
-            [
-                "健影",
-                "傀影"
-            ],
-            [
-                "^灵鲨",
-                "幽灵鲨"
-            ],
-            [
-                "桑甚",
-                "桑葚"
-            ],
-            [
-                "灰烟",
-                "灰烬"
-            ],
-            [
-                "迷.+香",
-                "迷迭香"
-            ],
-            [
-                "森.+",
-                "森蚺"
-            ],
-            [
-                ".+心斯卡蒂",
-                "浊心斯卡蒂"
-            ],
-            [
-                "^会$",
-                "令"
-            ],
-            [
-                "归漠幽灵鲨",
-                "归溟幽灵鲨"
-            ],
-            [
-                "姜峨",
-                "嵯峨"
-            ],
-            [
-                "鞭便刃",
-                "鞭刃"
-            ],
-            [
-                "险星",
-                "陨星"
-            ],
-            [
-                "赫黑大",
-                "赫默"
-            ],
-            [
-                "雪难",
-                "雪雉"
-            ],
-            [
-                "狮竭",
-                "狮蝎"
-            ],
-            [
-                "第草",
-                "苇草"
-            ],
-            [
-                "漂冬",
-                "凛冬"
-            ],
-            [
-                "韦草",
-                "苇草"
-            ],
-            [
-                "斯卡蒂的海刷",
-                "斯卡蒂的海嗣"
-            ]
-        ]
-    },
-    "SN-8": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "SNToSN-8"
-        ]
-    },
-    "SNToSN-8": {
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
-        "template": "SN-Open.png",
-        "next": [
-            "SNChapter2ToSN-8",
-            "SNToSN-8"
-        ]
-    },
-    "SNChapter2ToSN-8": {
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
-        "template": "SN-Chapter2.png",
-        "roi": [
-            163,
-            418,
-            197,
-            125
-        ],
-        "next": [
-            "StageSN-8",
-            "SNChapter2ToSN-8",
-            "SwipeRightToStageSN-8"
-        ]
-    },
-    "SwipeRightToStageSN-8": {
-        "algorithm": "JustReturn",
-        "action": "SwipeToTheRight",
-        "next": [
-            "StageSN-8",
-            "SNChapter2ToSN-8",
-            "SwipeRightToStageSN-8"
-        ]
-    },
-    "StageSN-8": {
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
-        "template": "SN-8.png",
-        "roi": [
-            296,
-            93,
-            171,
-            195
-        ]
-    },
-    "SN-9": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "SNToSN-9"
-        ]
-    },
-    "SNToSN-9": {
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
-        "template": "SN-Open.png",
-        "next": [
-            "SNChapter3ToSN-9",
-            "SNToSN-9"
-        ]
-    },
-    "SNChapter3ToSN-9": {
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
-        "template": "SN-Chapter3.png",
-        "roi": [
-            205,
-            487,
-            254,
-            165
-        ],
-        "next": [
-            "StageSN-9",
-            "SNChapter3ToSN-9",
-            "SwipeLeftToStageSN-9"
-        ]
-    },
-    "SwipeLeftToStageSN-9": {
+    "SwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "SwipeToTheLeft",
         "next": [
-            "StageSN-9",
-            "SNChapter3ToSN-9",
-            "SwipeLeftToStageSN-9"
-        ]
-    },
-    "StageSN-9": {
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
-        "template": "SN-9.png",
-        "roi": [
-            610,
-            328,
-            176,
-            198
-        ]
-    },
-    "SN-10": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "SNToSN-10"
-        ]
-    },
-    "SNToSN-10": {
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
-        "template": "SN-Open.png",
-        "next": [
-            "SNChapter3ToSN-10",
-            "SNToSN-10"
-        ]
-    },
-    "SNChapter3ToSN-10": {
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
-        "template": "SN-Chapter3.png",
-        "roi": [
-            205,
-            487,
-            254,
-            165
+            "SwipeToTheLeft"
         ],
-        "next": [
-            "StageSN-10",
-            "SNChapter3ToSN-10",
-            "SwipeLeftToStageSN-10"
-        ]
-    },
-    "SwipeLeftToStageSN-10": {
-        "algorithm": "JustReturn",
-        "action": "SwipeToTheLeft",
-        "next": [
-            "StageSN-10",
-            "SNChapter3ToSN-10",
-            "SwipeLeftToStageSN-10"
-        ]
-    },
-    "StageSN-10": {
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
-        "template": "SN-10.png",
-        "roi": [
-            678,
-            220,
-            173,
-            200
-        ]
-    },
-    "StartUp": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "GameStart",
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "Terminal",
-            "CloseAnno",
-            "TodaysSupplies",
-            "ReturnToTerminal",
-            "OfflineConfirm",
-            "StageSNFlag"
-        ]
+        "maxTimes": 2
     },
     "1-7": {
         "algorithm": "JustReturn",
@@ -726,34 +190,233 @@
             60
         ]
     },
-    "BI-8": {
+    "SV-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "next": [
-            "StageBreakIceToBI8",
-            "StageBIToBI8",
-            "StageBI8"
+        "sub": [
+            "SV-Open",
+            "SVChapterToSV",
+            "SwipeLeftToStageSV-7"
         ]
     },
-    "StageBreakIceToBI8": {
-        "template": "StageBreakIce.png",
+    "SV-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "SV-Open",
+            "SVChapterToSV",
+            "StageSV-8"
+        ]
+    },
+    "SV-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "SV-Open",
+            "SVChapterToSV",
+            "StageSV-9"
+        ]
+    },
+    "SV-Open": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "覆潮之下"
+        ],
         "roi": [
             0,
             500,
             500,
             150
         ],
-        "maskRange": [
-            1,
-            255
+        "action": "ClickSelf"
+    },
+    "SVChapterToSV": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "荒败盐风"
+        ],
+        "roi": [
+            1003,
+            370,
+            228,
+            157
         ],
         "action": "ClickSelf",
         "next": [
-            "StageBIToBI8"
+            "SVChapterToSV",
+            "SwipeToTheRight"
         ]
     },
-    "StageBIToBI8": {
-        "template": "StageBI.png",
+    "SwipeLeftToStageSV-7": {
+        "algorithm": "justReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageSV-7",
+            "SwipeLeftToStageSV-7"
+        ]
+    },
+    "StageSV-7": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "SV-7"
+        ],
+        "roi": [
+            0,
+            126,
+            1280,
+            508
+        ]
+    },
+    "StageSV-8": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "SV-8"
+        ],
+        "roi": [
+            0,
+            126,
+            1280,
+            508
+        ]
+    },
+    "StageSV-9": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "SV-9"
+        ],
+        "roi": [
+            0,
+            126,
+            1280,
+            508
+        ]
+    },
+    "SN-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "SN-Open",
+            "SN-Chapter2",
+            "StageSN-8"
+        ]
+    },
+    "SN-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "SN-Open",
+            "SN-Chapter3",
+            "StageSN-9"
+        ]
+    },
+    "SN-10": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "SN-Open",
+            "SN-Chapter3",
+            "StageSN-10"
+        ]
+    },
+    "SN-Open": {
+        "action": "ClickSelf"
+    },
+    "SN-Chapter2": {
+        "action": "ClickSelf",
+        "roi": [
+            163,
+            418,
+            197,
+            125
+        ],
+        "next": [
+            "SN-Chapter2",
+            "SwipeToTheRight"
+        ]
+    },
+    "SN-Chapter3": {
+        "action": "ClickSelf",
+        "roi": [
+            205,
+            487,
+            254,
+            165
+        ],
+        "next": [
+            "SN-Chapter3",
+            "SwipeToTheLeft"
+        ]
+    },
+    "StageSN-8": {
+        "action": "ClickSelf",
+        "template": "SN-8.png",
+        "cache": false,
+        "roi": [
+            296,
+            93,
+            171,
+            195
+        ]
+    },
+    "StageSN-9": {
+        "action": "ClickSelf",
+        "template": "SN-9.png",
+        "cache": false,
+        "roi": [
+            610,
+            328,
+            176,
+            198
+        ]
+    },
+    "StageSN-10": {
+        "action": "ClickSelf",
+        "template": "SN-10.png",
+        "cache": false,
+        "roi": [
+            678,
+            220,
+            173,
+            200
+        ]
+    },
+    "BI-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "BI-Open",
+            "StageBI",
+            "StageBI7"
+        ]
+    },
+    "BI-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "BI-Open",
+            "StageBI",
+            "StageBI8"
+        ]
+    },
+    "BI-Open": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "风雪过境"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "StageBI": {
         "action": "ClickSelf",
         "roi": [
             1000,
@@ -761,21 +424,18 @@
             280,
             150
         ],
-        "cache": false,
         "next": [
-            "SwipeToStageBI8"
+            "SwipeToTheRight"
         ]
     },
-    "SwipeToStageBI8": {
-        "algorithm": "JustReturn",
-        "action": "SwipeToTheRight",
-        "maxTimes": 3,
-        "exceededNext": [
-            "StageBI8"
-        ],
-        "next": [
-            "StageBI8",
-            "SwipeToStageBI8"
+    "StageBI7": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            50,
+            250,
+            200,
+            80
         ]
     },
     "StageBI8": {
@@ -788,66 +448,315 @@
             80
         ]
     },
-    "BI-7": {
+    "CE-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "StageCE",
+            "StageCE6"
+        ]
+    },
+    "LS-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "StageLS",
+            "StageLS6"
+        ]
+    },
+    "CA-5": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "StageCA",
+            "StageCA5"
+        ]
+    },
+    "AP-5": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "StageAP",
+            "StageAP5"
+        ]
+    },
+    "StageResource": {
+        "doc": "进入资源关卡",
+        "next": [
+            "StageResourceSwipeToTheLeft"
+        ]
+    },
+    "StageResourceSwipeToTheLeft": {
+        "doc": "向左滑动到资源关最左",
+        "algorithm": "JustReturn",
+        "action": "SwipeToTheLeft"
+    },
+    "StageCE": {
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "StageCE6"
+        ]
+    },
+    "StageLS": {
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "StageLS6"
+        ]
+    },
+    "StageCA": {
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "StageCA5"
+        ]
+    },
+    "StageAP": {
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "StageAP5"
+        ]
+    },
+    "AbleToAgent": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing"
+    },
+    "UnableToAgent": {
+        "action": "SwipeToTheLeft",
+        "roi": [
+            994,
+            535,
+            286,
+            143
+        ],
+        "next": [
+            "StageCE5",
+            "StageLS5"
+        ]
+    },
+    "StageCE6": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            936,
+            101,
+            243,
+            143
+        ],
+        "next": [
+            "UnableToAgent",
+            "AbleToAgent"
+        ]
+    },
+    "StageLS6": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            936,
+            101,
+            243,
+            143
+        ],
+        "next": [
+            "UnableToAgent",
+            "AbleToAgent"
+        ]
+    },
+    "StageCE5": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "StageLS5": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "StageCA5": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "StageAP5": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "CharsNameOcrReplace": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
+        "ocrReplace": [
+            [
+                "白面.+",
+                "白面鸮"
+            ],
+            [
+                "夜营",
+                "夜莺"
+            ],
+            [
+                "蛇居箱",
+                "蛇屠箱"
+            ],
+            [
+                ".+刺",
+                "棘刺"
+            ],
+            [
+                "^E$",
+                "山"
+            ],
+            [
+                "^F$",
+                "山"
+            ],
+            [
+                "^U$",
+                "山"
+            ],
+            [
+                "^1$",
+                "山"
+            ],
+            [
+                "姜哦",
+                "嵯峨"
+            ],
+            [
+                "健影",
+                "傀影"
+            ],
+            [
+                "赤赤黑大",
+                "赫默"
+            ],
+            [
+                ".+刺",
+                "棘刺"
+            ],
+            [
+                "姜哦",
+                "嵯峨"
+            ],
+            [
+                "健影",
+                "傀影"
+            ],
+            [
+                "^灵鲨",
+                "幽灵鲨"
+            ],
+            [
+                "桑甚",
+                "桑葚"
+            ],
+            [
+                "灰烟",
+                "灰烬"
+            ],
+            [
+                "迷.+香",
+                "迷迭香"
+            ],
+            [
+                "森.+",
+                "森蚺"
+            ],
+            [
+                ".+心斯卡蒂",
+                "浊心斯卡蒂"
+            ],
+            [
+                "^会$",
+                "令"
+            ],
+            [
+                "归漠幽灵鲨",
+                "归溟幽灵鲨"
+            ],
+            [
+                "姜峨",
+                "嵯峨"
+            ],
+            [
+                "鞭便刃",
+                "鞭刃"
+            ],
+            [
+                "险星",
+                "陨星"
+            ],
+            [
+                "赫黑大",
+                "赫默"
+            ],
+            [
+                "雪难",
+                "雪雉"
+            ],
+            [
+                "狮竭",
+                "狮蝎"
+            ],
+            [
+                "第草",
+                "苇草"
+            ],
+            [
+                "漂冬",
+                "凛冬"
+            ],
+            [
+                "韦草",
+                "苇草"
+            ],
+            [
+                "斯卡蒂的海刷",
+                "斯卡蒂的海嗣"
+            ]
+        ]
+    },
+    "StartUp": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "StageBreakIceToBI7",
-            "StageBIToBI7",
-            "StageBI7"
-        ]
-    },
-    "StageBreakIceToBI7": {
-        "template": "StageBreakIce.png",
-        "roi": [
-            0,
-            500,
-            500,
-            150
-        ],
-        "maskRange": [
-            1,
-            255
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "StageBIToBI7"
-        ]
-    },
-    "StageBIToBI7": {
-        "template": "StageBI.png",
-        "action": "ClickSelf",
-        "roi": [
-            1000,
-            250,
-            280,
-            150
-        ],
-        "cache": false,
-        "next": [
-            "SwipeToStageBI7"
-        ]
-    },
-    "SwipeToStageBI7": {
-        "algorithm": "JustReturn",
-        "action": "SwipeToTheRight",
-        "maxTimes": 3,
-        "exceededNext": [
-            "StageBI7"
-        ],
-        "next": [
-            "StageBI7",
-            "SwipeToStageBI7"
-        ]
-    },
-    "StageBI7": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            50,
-            250,
-            200,
-            80
+            "GameStart",
+            "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
+            "Terminal",
+            "CloseAnno",
+            "TodaysSupplies",
+            "ReturnToTerminal",
+            "OfflineConfirm",
+            "StageSNFlag"
         ]
     },
     "Annihilation": {
