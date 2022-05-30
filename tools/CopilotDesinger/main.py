@@ -20,7 +20,7 @@ from CopilotDesinger import *
 # 鸡翅技能设定为好了就开
 棘刺 = 危机合约十八.create_operator("棘刺", 3, SkillUsageType.UseWhenOk)
 # 创建一个群组
-对空高速单体狙 = 危机合约十八.create_group("对空高速单体狙", Operator("克洛丝", None, 1), Operator("能天使", None, 3))
+对空高速单体狙 = 危机合约十八.create_group("对空高速单体狙", Operator("克洛丝", 1), Operator("能天使", 3))
 红 = 危机合约十八.create_operator("红", 2)
 蜜莓 = 危机合约十八.create_operator("蜜莓", 1)
 
