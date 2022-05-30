@@ -31,17 +31,17 @@ class SkillUsageType:
 
 class Document:
     def __init__(self, title: str, details: str, title_color: str = "dark", details_color: str = "dark"):
-        self._details_color = details_color
-        self._details = details
-        self._title_color = title_color
-        self._title = title
+        self.details_color = details_color
+        self.details = details
+        self.title_color = title_color
+        self.title = title
 
     def to_dict(self) -> dict:
         return {
-            "title": self._title,
-            "title_color": self._title_color,
-            "details": self._details,
-            "details_color": self._details_color
+            "title": self.title,
+            "title_color": self.title_color,
+            "details": self.details,
+            "details_color": self.details_color
         }
 
 
@@ -80,6 +80,33 @@ class Action:
         self._location = location
         self._action_type = action_type
 
+    def add_haisi_doc(self):
+        if self._doc is not None:
+            return
+        if self._action_type in [ActionType.SpeedUp, ActionType.BulletTime]:
+            haisi_doc_list = [self._action_type, "执行"]
+        elif self._action_type in [ActionType.Deploy, ActionType.Skill, ActionType.Retreat]:
+            haisi_doc_list = [self._name]
+            if self._kills != 0:
+                haisi_doc_list.append("等待")
+                haisi_doc_list.append(str(self._kills) + "杀")
+            if self._pre_delay != 0:
+                haisi_doc_list.append("等待")
+                haisi_doc_list.append(str(self._pre_delay) + "秒")
+            if self._rear_delay != 0:
+                haisi_doc_list.append("延时")
+                haisi_doc_list.append(str(self._rear_delay) + "秒")
+            if self._cost_changes != 0:
+                haisi_doc_list.append("等待")
+                haisi_doc_list.append("费用")
+                haisi_doc_list.append("变化")
+                haisi_doc_list.append(str(self._cost_changes))
+            haisi_doc_list.append(self._action_type)
+        else:
+            return
+        self._doc = "，".join(list(filter(None, haisi_doc_list)))
+        self._doc_color = "orange"
+
     def to_dict(self) -> dict:
         res = {
             "type": self._action_type,
@@ -102,13 +129,17 @@ class Action:
         if self._action_type == ActionType.Deploy:
             res["location"] = self._location
             res["direction"] = self._direction
+        if self._doc is not None:
+            res["doc"] = self._doc
+        if self._doc_color is not None:
+            res["doc_color"] = self._doc_color
         return res
 
 
 class OperatorOrGroup:
     def __init__(self, name: str, battle: Battle):
         self._battle = battle
-        self._name = name
+        self.name = name
         self._pre_delay = 0
         self._rear_delay = 0
         self._wait_kills = 0
@@ -131,13 +162,13 @@ class OperatorOrGroup:
         return self
 
     def deploy(self, location: tuple, direction: str):
-        self._battle.add_action(self._add_conditions(Action(ActionType.Deploy, self._name, location, direction)))
+        self._battle.add_action(self._add_conditions(Action(ActionType.Deploy, self.name, location, direction)))
 
     def use_skill(self):
-        self._battle.add_action(self._add_conditions(Action(ActionType.Skill, self._name)))
+        self._battle.add_action(self._add_conditions(Action(ActionType.Skill, self.name)))
 
     def retreat(self):
-        self._battle.add_action(self._add_conditions(Action(ActionType.Retreat, self._name)))
+        self._battle.add_action(self._add_conditions(Action(ActionType.Retreat, self.name)))
 
     def _add_conditions(self, action: Action) -> Action:
         if self._pre_delay != 0:
@@ -175,13 +206,13 @@ class Group(OperatorOrGroup):
 
     def to_dict(self) -> dict:
         return {
-            "name": self._name,
+            "name": self.name,
             "opers": [operator.to_dict() for operator in self._operators]
         }
 
 
 class Operator(OperatorOrGroup):
-    def __init__(self, name: str, battle: Battle, skill: int, skill_usage: int = SkillUsageType.NotAutoUse,
+    def __init__(self, name: str, skill: int, skill_usage: int = SkillUsageType.NotAutoUse, battle: Battle = None,
                  requirements: Requirements = None):
         """
         仅当要创建群组时才应该被调用
@@ -206,18 +237,18 @@ class Operator(OperatorOrGroup):
                     self._character_name_list = json.load(f)
             else:
                 raise Exception("无法进行名称检查，请检查名称文件是否存在")
-        if self._name in self._character_name_list:
+        if self.name in self._character_name_list:
             return True
         if auto_complete:
             possible_character_name = None
             for character_name in self._character_name_list:
-                if self._name in character_name:
+                if self.name in character_name:
                     if possible_character_name is None:
                         possible_character_name = character_name
                     else:
                         raise Exception("匹配到多个名字，无法自动补全，请手动补全")
             if possible_character_name is not None:
-                self._name = possible_character_name
+                self.name = possible_character_name
                 return True
             else:
                 return False
@@ -235,7 +266,7 @@ class Operator(OperatorOrGroup):
 
     def to_dict(self) -> dict:
         res = {
-            "name": self._name,
+            "name": self.name,
             "skill": self._skill,
             "skill_usage": self._skill_usage,
         }
@@ -257,27 +288,44 @@ class Battle:
         self._wait_times = 0
         self._wait_kills = 0
         self._speedup = False
-        self._last_save_file_name = "battle.json"
+        self._last_file_name = None
+        # 海嗣语 我，海嗣，回归大群，打钱
+        self._enable_haisi_doc = False
+
+    def enable_haisi_doc(self) -> Battle:
+        self._enable_haisi_doc = True
+        self._doc.details += "\n"
+        self._doc.details += "回归，大群，加入，光荣，进化"
+        return self
 
     def create_operator(self, name: str, skill: int, skill_usage: int = SkillUsageType.NotAutoUse,
-                        requirements: Requirements = None, check_operator_name: bool = True) -> Operator:
+                        add_to_battle: bool = True, requirements: Requirements = None,
+                        check_operator_name: bool = True) -> Operator:
         """
         创建并添加一个干员
         :param name: 干员名称
         :param skill: 要使用的技能
         :param skill_usage: 技能使用类型 参见 SkillUsageType
+        :param add_to_battle: 是否要加入自动编队，构造召唤物或关卡道具时等需设为 False
         :param requirements: 可选
         :param check_operator_name: 是否要检查输入的名字是否正确
         :return: 新生成的干员
         """
-        new_operator = Operator(name, self, skill, skill_usage, requirements)
+        new_operator = Operator(name, skill, skill_usage, self, requirements)
         if check_operator_name:
             if not new_operator.check_operator_name():
                 raise Exception("干员名称有误，请更改为正确的名称或关闭名称检查")
-        self._add_operator(new_operator)
+        if add_to_battle:
+            self._add_operator(new_operator)
         return new_operator
 
-    def create_group(self, name: str, check_operator_name: bool = True, *operators: Operator) -> Group:
+    def create_group(self, name: str, *operators: Operator) -> Group:
+        return self._create_group(name, True, *operators)
+
+    def create_group_without_name_check(self, name: str, *operators: Operator) -> Group:
+        return self._create_group(name, False, *operators)
+
+    def _create_group(self, name: str, check_operator_name: bool = True, *operators: Operator) -> Group:
         """
         创建并添加一个群组
         :param name: 群组名
@@ -300,6 +348,8 @@ class Battle:
         self._groups.append(group)
 
     def add_action(self, action: Action):
+        if self._enable_haisi_doc:
+            action.add_haisi_doc()
         self._actions.append(action)
 
     def speed_up(self):
@@ -323,18 +373,27 @@ class Battle:
     def _speed_change(self):
         self.add_action(Action(ActionType.SpeedUp))
 
-    def save_as_json(self, file_name: str = None):
+    def save_as_json(self, file_name: str = None, stage_name: str = None):
         """
         保存为 json 文件，生成在同目录下
         :param file_name: 要保存的文件名
+        :param stage_name: 手动指定关卡名
         :return:
         """
         if file_name is None:
-            file_name = self._last_save_file_name
+            file_name = self._last_file_name = self._generate_file_name(self._stage_name) \
+                if stage_name is None else self._generate_file_name(stage_name)
         else:
-            self._last_save_file_name = file_name
+            self._last_file_name = file_name
         with open(file_name, 'w', encoding='utf-8') as f:
             json.dump(self.to_dict(), f, ensure_ascii=False)
+
+    def _generate_file_name(self, stage_name: str) -> str:
+        res = stage_name
+        res += "-"
+        res += "+".join([operator.name for operator in self._operators])
+        res += ".json"
+        return res.replace("/", "_")  # 防止文件名中含有 / 而使得文件打开失败
 
     def to_dict(self) -> dict:
         res = {
@@ -395,7 +454,7 @@ class Battle:
             exit()
         asst.append_task('Copilot', {
             'stage_name': self._stage_name,
-            'filename': self._last_save_file_name,
+            'filename': self._last_file_name,
             'formation': False,
         })
         asst.start()
