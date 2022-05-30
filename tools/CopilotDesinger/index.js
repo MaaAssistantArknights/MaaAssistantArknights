@@ -222,9 +222,9 @@ const group = (group_data, arr) => {
 
 // 加载数据
 const loadData = () => {
-    $('#stage_name').text(data.stage_name ?? "");
-    $('#details').text(data.details ?? "");
-    $('#title').text(data.title ?? "");
+    $('#stage_name').val(data.stage_name ?? "");
+    $('#details').val((data.doc ?? {}).details ?? "");
+    $('#title').val((data.doc ?? {}).title ?? "");
     // TODO: requirements
 
     $('#opers tbody').html('');
@@ -244,8 +244,14 @@ const loadData = () => {
 $(document).ready(() => {
     // 绑定事件
     $('#stage_name').change(() => data.stage_name = $('#stage_name').val());
-    $('#details').change(() => data.details = $('#details').val());
-    $('#title').change(() => data.title = $('#title').val());
+    $('#details').change(() => {
+        data.doc = data.doc ?? {};
+        data.doc.details = $('#details').val();
+    });
+    $('#title').change(() => {
+        data.doc = data.doc ?? {};
+        data.doc.title = $('#title').val();
+    });
 
     $('#opers_new').click(() => {
         data.opers = data.opers ?? [];
