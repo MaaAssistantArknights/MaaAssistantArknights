@@ -42,9 +42,9 @@ const direction = () => {
         '<option value="左">左</option>' +
         '<option value="右">右</option>' +
         '</select>');
-}
+};
 
-const oper = (oper_data, delete_func) => {
+const oper = (oper_data, arr, delete_callback) => {
     const tr = $('<tr>');
     // 干员名字
     const name_input = input_oper_name()
@@ -63,7 +63,10 @@ const oper = (oper_data, delete_func) => {
         .change(function () { oper_data.skill_usage = Number($(this).val()); });
     tr.append($('<td>').append(skill_usage_input));
     // 删除
-    tr.append($('<td>').append(delete_icon().click(delete_func)));
+    tr.append($('<td>').append(delete_icon().click(() => {
+        arr = arr.filter(o => o !== oper_data);
+        delete_callback(arr);
+    })));
     return tr;
 }
 
@@ -144,7 +147,7 @@ const action = (action_data) => {
     return tr;
 };
 
-const group = (group_data, delete_func) => {
+const group = (group_data, arr, delete_callback) => {
     // 群组名
     const name_div_row = $('<div class="row">');
     const name_div_col = $('<div class="col-11">');
@@ -153,7 +156,10 @@ const group = (group_data, delete_func) => {
         .change(function () { group_data.name = $(this).val(); });
     name_div_col.append(name_input);
     const delete_col = $('<div class="col-1">');
-    delete_col.append(delete_icon().click(delete_func));
+    delete_col.append(delete_icon().click(() => {
+        arr = arr.filter(o => o !== group_data);
+        delete_callback(arr);
+    }));
     name_div_row.append(name_div_col).append(delete_col);
 
     // 群组干员列表
@@ -195,16 +201,20 @@ const loadData = () => {
     // TODO: requirements
 
     $('#opers tbody').html('');
-    (data.opers ?? []).forEach(oper_data => $('#opers tbody').append(oper(oper_data, () => {
-        data.opers = data.opers.filter(o => o !== oper_data);
-        loadData();
-    })));
+    (data.opers ?? []).forEach(oper_data => $('#opers tbody').append(
+        oper(oper_data, data.opers, (new_arr) => {
+            data.opers = new_arr;
+            loadData();
+        })
+    ));
 
     $('#groups').html('');
-    (data.groups ?? []).forEach(group_data => $('#groups').append(group(group_data, () => {
-        data.groups = data.groups.filter(g => g !== group_data);
-        loadData();
-    })));
+    (data.groups ?? []).forEach(group_data => $('#groups').append(
+        group(group_data, data.groups, (new_arr) => {
+            data.groups = new_arr;
+            loadData();
+        })
+    ));
 
     $('#actions tbody').html('');
     (data.actions ?? []).forEach(action_data => $('#actions tbody').append(action(action_data)));
