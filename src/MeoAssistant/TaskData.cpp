@@ -194,14 +194,14 @@ bool asst::TaskData::parse(const json::value& json)
                 task_info_ptr->sub.emplace_back(sub.as_string());
             }
         }
-        task_info_ptr->sub_error_ignored = task_json.get("subErrorIgnored", true);
+        task_info_ptr->sub_error_ignored = task_json.get("subErrorIgnored", false);
 
         if (task_json.contains("next")) {
             for (const json::value& next : task_json.at("next").as_array()) {
                 task_info_ptr->next.emplace_back(next.as_string());
             }
         }
-        
+
         if (task_json.contains("rectMove")) {
             const json::array& move_arr = task_json.at("rectMove").as_array();
             task_info_ptr->rect_move = Rect(
