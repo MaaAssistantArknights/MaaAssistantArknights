@@ -1,4 +1,164 @@
 {
+    "CE-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "StageCE",
+            "StageCE6"
+        ]
+    },
+    "LS-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "StageLS",
+            "StageLS6"
+        ]
+    },
+    "CA-5": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "StageCA",
+            "StageCA5"
+        ]
+    },
+    "AP-5": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "StageAP",
+            "StageAP5"
+        ]
+    },
+    "StageResource": {
+        "doc": "进入资源关卡",
+        "next": [
+            "StageResourceSwipeToTheLeft"
+        ]
+    },
+    "StageResourceSwipeToTheLeft": {
+        "doc": "向左滑动到资源关最左",
+        "algorithm": "JustReturn",
+        "action": "SwipeToTheLeft"
+    },
+    "StageCE": {
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "StageCE6"
+        ]
+    },
+    "StageLS": {
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "StageLS6"
+        ]
+    },
+    "StageCA": {
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "StageCA5"
+        ]
+    },
+    "StageAP": {
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "StageAP5"
+        ]
+    },
+    "AbleToAgent": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing"
+    },
+    "UnableToAgent": {
+        "action": "SwipeToTheLeft",
+        "roi": [
+            994,
+            535,
+            286,
+            143
+        ],
+        "next": [
+            "StageCE5",
+            "StageLS5"
+        ]
+    },
+    "StageCE6": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            936,
+            101,
+            243,
+            143
+        ],
+        "next": [
+            "UnableToAgent",
+            "AbleToAgent"
+        ]
+    },
+    "StageLS6": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            936,
+            101,
+            243,
+            143
+        ],
+        "next": [
+            "UnableToAgentLS6",
+            "AbleToAgent"
+        ]
+    },
+    "StageCE5": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "StageLS5": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "StageCA5": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "StageAP5": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
     "SV-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -566,84 +726,6 @@
             60
         ]
     },
-    "LS-6": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "StageResourceToLS",
-            "StageLSToLS",
-            "StageLS6"
-        ]
-    },
-    "StageResourceToLS": {
-        "template": "StageResource.png",
-        "roi": [
-            640,
-            640,
-            300,
-            60
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "SwipeToStageLS"
-        ]
-    },
-    "SwipeToStageLS": {
-        "algorithm": "JustReturn",
-        "action": "SwipeToTheLeft",
-        "next": [
-            "StageLSToLS"
-        ]
-    },
-    "StageLSToLS": {
-        "template": "StageLS.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageLS6"
-        ]
-    },
-    "StageLS6": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            936,
-            101,
-            243,
-            143
-        ],
-        "next": [
-            "UnableToAgentLS6",
-            "AgentLS6"
-        ]
-    },
-    "AgentLS6": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing"
-    },
-    "UnableToAgentLS6": {
-        "template": "UnableToAgent.png",
-        "action": "SwipeToTheLeft",
-        "roi": [
-            994,
-            535,
-            286,
-            143
-        ],
-        "next": [
-            "StageLS5"
-        ]
-    },
-    "StageLS5": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
     "BI-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -766,176 +848,6 @@
             250,
             200,
             80
-        ]
-    },
-    "CA-5": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "StageResourceToCA5",
-            "StageCA",
-            "StageCA5"
-        ]
-    },
-    "StageResourceToCA5": {
-        "template": "StageResource.png",
-        "roi": [
-            640,
-            640,
-            300,
-            60
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "SwipeToStageCA"
-        ]
-    },
-    "SwipeToStageCA": {
-        "algorithm": "JustReturn",
-        "action": "SwipeToTheLeft",
-        "next": [
-            "StageCA"
-        ]
-    },
-    "StageCA": {
-        "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageCA5"
-        ]
-    },
-    "StageCA5": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "AP-5": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "StageResourceToAP5",
-            "StageAP",
-            "StageAP5"
-        ]
-    },
-    "StageResourceToAP5": {
-        "template": "StageResource.png",
-        "roi": [
-            640,
-            640,
-            300,
-            60
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "SwipeToStageAP"
-        ]
-    },
-    "SwipeToStageAP": {
-        "algorithm": "JustReturn",
-        "action": "SwipeToTheLeft",
-        "next": [
-            "StageAP"
-        ]
-    },
-    "StageAP": {
-        "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageAP5"
-        ]
-    },
-    "StageAP5": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "CE-6": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "StageResourceToCE",
-            "StageCEToCE",
-            "StageCE6"
-        ]
-    },
-    "StageResourceToCE": {
-        "template": "StageResource.png",
-        "roi": [
-            640,
-            640,
-            300,
-            60
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "SwipeToStageCE"
-        ]
-    },
-    "SwipeToStageCE": {
-        "algorithm": "JustReturn",
-        "action": "SwipeToTheLeft",
-        "next": [
-            "StageCEToCE"
-        ]
-    },
-    "StageCEToCE": {
-        "template": "StageCE.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageCE6"
-        ]
-    },
-    "StageCE6": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            936,
-            101,
-            243,
-            143
-        ],
-        "next": [
-            "UnableToAgentCE6",
-            "AgentCE6"
-        ]
-    },
-    "AgentCE6": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing"
-    },
-    "UnableToAgentCE6": {
-        "template": "UnableToAgent.png",
-        "action": "SwipeToTheLeft",
-        "roi": [
-            994,
-            535,
-            286,
-            143
-        ],
-        "next": [
-            "StageCE5"
-        ]
-    },
-    "StageCE5": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            850,
-            140,
-            250,
-            220
         ]
     },
     "Annihilation": {
@@ -5703,7 +5615,6 @@
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageTraderLeave",
             "Roguelike1RecruitWithoutButton"
-
         ]
     },
     "Roguelike1EnterAfterRecruit": {
