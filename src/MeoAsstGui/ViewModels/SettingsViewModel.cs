@@ -114,13 +114,14 @@ namespace MeoAsstGui
 
             ConnectConfigList = new List<CombData>
             {
-                new CombData { Display = "通用", Value = "General" },
+                new CombData { Display = "通用模式", Value = "General" },
                 new CombData { Display = "蓝叠模拟器", Value = "BlueStacks" },
                 new CombData { Display = "MuMu模拟器", Value = "MuMuEmulator" },
                 new CombData { Display = "雷电模拟器", Value = "LDPlayer" },
                 new CombData { Display = "夜神模拟器", Value = "Nox" },
                 new CombData { Display = "逍遥模拟器", Value = "XYAZ" },
-                new CombData { Display = "WSA", Value = "WSA" }
+                new CombData { Display = "WSA 旧版本", Value = "WSA" },
+                new CombData { Display = "兼容模式", Value = "Compatible" },
             };
 
             _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
@@ -1009,6 +1010,8 @@ namespace MeoAsstGui
             ConnectConfig = emulators.First();
             AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
             UpdateAddressByConfig();
+            TryToSetBlueStacksHyperVAddress();
+
             return true;
         }
 
@@ -1040,21 +1043,29 @@ namespace MeoAsstGui
             rvm.WindowTitle = string.Format("MaaAssistantArknights - {0} ({1})", ConnectConfigName, ConnectAddress);
         }
 
-        //public void TryToSetBlueStacksHyperVAddress()
-        //{
-        //    if (AdbPath.Length == 0 || !File.Exists(AdbPath))
-        //    {
-        //        return;
-        //    }
-        //    var all_lines = File.ReadAllLines(AdbPath);
-        //    foreach (var line in all_lines)
-        //    {
-        //        if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))
-        //        {
-        //            var sp = line.Split('"');
-        //            ConnectAddress = "127.0.0.1:" + sp[1];
-        //        }
-        //    }
-        //}
+        private string bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
+
+        public void TryToSetBlueStacksHyperVAddress()
+        {
+            if (bluestacksConfig.Length == 0)
+            {
+                return;
+            }
+            if (!File.Exists(bluestacksConfig))
+            {
+                ViewStatusStorage.Set("Bluestacks.Config.Error", "File not exists");
+                return;
+            }
+
+            var all_lines = File.ReadAllLines(bluestacksConfig);
+            foreach (var line in all_lines)
+            {
+                if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))
+                {
+                    var sp = line.Split('"');
+                    ConnectAddress = "127.0.0.1:" + sp[1];
+                }
+            }
+        }
     }
 }

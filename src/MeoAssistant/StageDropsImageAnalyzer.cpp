@@ -253,19 +253,17 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
 
     // split
     int threshold = task_ptr->mask_range.first;
-    uchar pre_value = 0;
+    int pre_value = 0;
     for (int i = 0; i < bounding.cols; ++i) {
-        bool has_white = false;
+        int value = 0;
         for (int j = 0; j < bounding.rows; ++j) {
-            uchar value = bounding.at<uchar>(j, i);
-            pre_value = value;
-            if (value > threshold && pre_value - value < threshold) {
-                has_white = true;
-                break;
-            }
+            value += bounding.at<uchar>(0, i);
         }
+        value /= bounding.rows;
+        bool is_white = value > threshold && pre_value - value < threshold;
+        pre_value = value;
 
-        if (in && !has_white) {
+        if (in && !is_white) {
             in = false;
             iend = i;
             int width = iend - istart;
@@ -278,7 +276,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
                 m_baseline.emplace_back(baseline, match_droptype(baseline));
             }
         }
-        else if (!in && has_white) {
+        else if (!in && is_white) {
             istart = i;
             in = true;
         }
@@ -477,6 +475,10 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
                 break;
             }
         }
+    }
+
+    if (contours.empty()) {
+        return 0;
     }
 
     // 前面的 split 算法经过了大量的测试集验证，分割效果一切正常
