@@ -43730,13 +43730,19 @@
                 "closeTime": 1639684800000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653584400000,
+                "closeTime": 1654772400000
             }
         },
         "minClearTime": 130000
@@ -43760,13 +43766,19 @@
                 "closeTime": 1639684800000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653584400000,
+                "closeTime": 1654772400000
             }
         },
         "minClearTime": 190000
@@ -43790,13 +43802,19 @@
                 "closeTime": 1639684800000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653584400000,
+                "closeTime": 1654772400000
             }
         },
         "minClearTime": 173000
@@ -43820,13 +43838,19 @@
                 "closeTime": 1639684800000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653584400000,
+                "closeTime": 1654772400000
             }
         },
         "minClearTime": 169000
@@ -43850,13 +43874,19 @@
                 "closeTime": 1639684800000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653584400000,
+                "closeTime": 1654772400000
             }
         },
         "minClearTime": 163000
@@ -43880,13 +43910,19 @@
                 "closeTime": 1639684800000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653584400000,
+                "closeTime": 1654772400000
             }
         },
         "minClearTime": 46500
@@ -43910,13 +43946,19 @@
                 "closeTime": 1639684800000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653584400000,
+                "closeTime": 1654772400000
             }
         },
         "minClearTime": 165000
@@ -43940,13 +43982,19 @@
                 "closeTime": 1639684800000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653548400000,
+                "closeTime": 1654369200000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1653584400000,
+                "closeTime": 1654772400000
             }
         },
         "minClearTime": 229000
@@ -52640,89 +52688,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 108000,
-        "recognitionOnly": [
-            "act17side_token_compass"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30011",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30061",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30031",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30021",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30041",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30051",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 108000
     },
     {
         "stageId": "act17side_02",
@@ -52752,89 +52718,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 131000,
-        "recognitionOnly": [
-            "act17side_token_compass"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30011",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30061",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30031",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30021",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30041",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30051",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 131000
     },
     {
         "stageId": "act17side_03",
@@ -52864,89 +52748,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 183000,
-        "recognitionOnly": [
-            "act17side_token_compass"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30011",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30061",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30031",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30021",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30041",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "30051",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 183000
     },
     {
         "stageId": "act17side_04",
@@ -52976,57 +52778,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 164000,
-        "recognitionOnly": [
-            "act17side_token_compass"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30062",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "itemId": "30032",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 1,
-                    "upper": 2
-                }
-            }
-        ]
+        "minClearTime": 164000
     },
     {
         "stageId": "act17side_05",
@@ -53056,57 +52808,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 98000,
-        "recognitionOnly": [
-            "act17side_token_compass"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30042",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30052",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 98000
     },
     {
         "stageId": "act17side_06",
@@ -53136,57 +52838,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 185000,
-        "recognitionOnly": [
-            "act17side_token_compass"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30012",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 2,
-                    "upper": 2
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "itemId": "30022",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                }
-            }
-        ]
+        "minClearTime": 185000
     },
     {
         "stageId": "act17side_07",
@@ -53216,57 +52868,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 178000,
-        "recognitionOnly": [
-            "act17side_token_compass"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30062",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "30042",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 178000
     },
     {
         "stageId": "act17side_08",
@@ -53296,49 +52898,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 226000,
-        "recognitionOnly": [
-            "act17side_token_compass"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30043",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 226000
     },
     {
         "stageId": "act17side_09",
@@ -53368,49 +52928,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 191500,
-        "recognitionOnly": [
-            "act17side_token_compass"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "30083",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 191500
     },
     {
         "stageId": "act17side_10",
@@ -53440,49 +52958,7 @@
                 "exist": false
             }
         },
-        "minClearTime": 209000,
-        "recognitionOnly": [
-            "act17side_token_compass"
-        ],
-        "dropInfos": [
-            {
-                "itemId": "31053",
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "itemId": "furni",
-                "dropType": "FURNITURE",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "NORMAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                }
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            },
-            {
-                "dropType": "EXTRA_DROP",
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                }
-            }
-        ]
+        "minClearTime": 209000
     },
     {
         "stageId": "wk_melee_6",
@@ -53614,6 +53090,2102 @@
                 "bounds": {
                     "lower": 0,
                     "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act17side_01_perm",
+        "zoneId": "permanent_sub_4_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SN-1",
+        "code_i18n": {
+            "en": "SN-1",
+            "ja": "SN-1",
+            "ko": "SN-1",
+            "zh": "SN-1"
+        },
+        "apCost": 9,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653768000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 108000,
+        "dropInfos": [
+            {
+                "itemId": "30032",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act17side_02_perm",
+        "zoneId": "permanent_sub_4_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SN-2",
+        "code_i18n": {
+            "en": "SN-2",
+            "ja": "SN-2",
+            "ko": "SN-2",
+            "zh": "SN-2"
+        },
+        "apCost": 9,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653768000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 131000,
+        "dropInfos": [
+            {
+                "itemId": "30042",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act17side_03_perm",
+        "zoneId": "permanent_sub_4_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SN-3",
+        "code_i18n": {
+            "en": "SN-3",
+            "ja": "SN-3",
+            "ko": "SN-3",
+            "zh": "SN-3"
+        },
+        "apCost": 9,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653768000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 183000,
+        "dropInfos": [
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act17side_04_perm",
+        "zoneId": "permanent_sub_4_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SN-4",
+        "code_i18n": {
+            "en": "SN-4",
+            "ja": "SN-4",
+            "ko": "SN-4",
+            "zh": "SN-4"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653768000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 164000,
+        "dropInfos": [
+            {
+                "itemId": "30031",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30012",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30062",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30032",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act17side_05_perm",
+        "zoneId": "permanent_sub_4_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SN-5",
+        "code_i18n": {
+            "en": "SN-5",
+            "ja": "SN-5",
+            "ko": "SN-5",
+            "zh": "SN-5"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653768000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 98000,
+        "dropInfos": [
+            {
+                "itemId": "30041",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "2001",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "2002",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30022",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30042",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30052",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act17side_06_perm",
+        "zoneId": "permanent_sub_4_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SN-6",
+        "code_i18n": {
+            "en": "SN-6",
+            "ja": "SN-6",
+            "ko": "SN-6",
+            "zh": "SN-6"
+        },
+        "apCost": 15,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653768000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 185000,
+        "dropInfos": [
+            {
+                "itemId": "30022",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30012",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30062",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30032",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act17side_07_perm",
+        "zoneId": "permanent_sub_4_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SN-7",
+        "code_i18n": {
+            "en": "SN-7",
+            "ja": "SN-7",
+            "ko": "SN-7",
+            "zh": "SN-7"
+        },
+        "apCost": 15,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653768000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 178000,
+        "dropInfos": [
+            {
+                "itemId": "30062",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "2001",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "2002",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30022",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30042",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30052",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act17side_08_perm",
+        "zoneId": "permanent_sub_4_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SN-8",
+        "code_i18n": {
+            "en": "SN-8",
+            "ja": "SN-8",
+            "ko": "SN-8",
+            "zh": "SN-8"
+        },
+        "apCost": 21,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653768000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 226000,
+        "dropInfos": [
+            {
+                "itemId": "30043",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30044",
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "3003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30012",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30013",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30062",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30063",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30073",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "31013",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act17side_09_perm",
+        "zoneId": "permanent_sub_4_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SN-9",
+        "code_i18n": {
+            "en": "SN-9",
+            "ja": "SN-9",
+            "ko": "SN-9",
+            "zh": "SN-9"
+        },
+        "apCost": 21,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653768000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 191500,
+        "dropInfos": [
+            {
+                "itemId": "30083",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30084",
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2001",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "2002",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "2003",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30022",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30023",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30042",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30043",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30083",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "31023",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act17side_10_perm",
+        "zoneId": "permanent_sub_4_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SN-10",
+        "code_i18n": {
+            "en": "SN-10",
+            "ja": "SN-10",
+            "ko": "SN-10",
+            "zh": "SN-10"
+        },
+        "apCost": 21,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653768000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 209000,
+        "dropInfos": [
+            {
+                "itemId": "31053",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "31054",
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30032",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30033",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30052",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30053",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30093",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30103",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "31033",
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d3_01_rep",
+        "zoneId": "act11sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SV-1",
+        "code_i18n": {
+            "en": "SV-1",
+            "ja": "SV-1",
+            "ko": "SV-1",
+            "zh": "SV-1"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653897600000,
+                "closeTime": 1654718400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 137000,
+        "recognitionOnly": [
+            "act18d3_token_record"
+        ],
+        "dropInfos": [
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 6
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d3_02_rep",
+        "zoneId": "act11sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SV-2",
+        "code_i18n": {
+            "en": "SV-2",
+            "ja": "SV-2",
+            "ko": "SV-2",
+            "zh": "SV-2"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653897600000,
+                "closeTime": 1654718400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 172000,
+        "recognitionOnly": [
+            "act18d3_token_record"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "30061",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 6
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d3_03_rep",
+        "zoneId": "act11sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SV-3",
+        "code_i18n": {
+            "en": "SV-3",
+            "ja": "SV-3",
+            "ko": "SV-3",
+            "zh": "SV-3"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653897600000,
+                "closeTime": 1654718400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 204000,
+        "recognitionOnly": [
+            "act18d3_token_record"
+        ],
+        "dropInfos": [
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30011",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "30022",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d3_04_rep",
+        "zoneId": "act11sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SV-4",
+        "code_i18n": {
+            "en": "SV-4",
+            "ja": "SV-4",
+            "ko": "SV-4",
+            "zh": "SV-4"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653897600000,
+                "closeTime": 1654718400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 213000,
+        "recognitionOnly": [
+            "act18d3_token_record"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "30012",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "30052",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 2
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d3_05_rep",
+        "zoneId": "act11sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SV-5",
+        "code_i18n": {
+            "en": "SV-5",
+            "ja": "SV-5",
+            "ko": "SV-5",
+            "zh": "SV-5"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653897600000,
+                "closeTime": 1654718400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 174000,
+        "recognitionOnly": [
+            "act18d3_token_record"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30022",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30032",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 2
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d3_06_rep",
+        "zoneId": "act11sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SV-6",
+        "code_i18n": {
+            "en": "SV-6",
+            "ja": "SV-6",
+            "ko": "SV-6",
+            "zh": "SV-6"
+        },
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653897600000,
+                "closeTime": 1654718400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 181000,
+        "recognitionOnly": [
+            "act18d3_token_record"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "30012",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30042",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 2
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d3_07_rep",
+        "zoneId": "act11sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SV-7",
+        "code_i18n": {
+            "en": "SV-7",
+            "ja": "SV-7",
+            "ko": "SV-7",
+            "zh": "SV-7"
+        },
+        "apCost": 15,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653897600000,
+                "closeTime": 1654718400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 164000,
+        "recognitionOnly": [
+            "act18d3_token_record"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "30013",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d3_08_rep",
+        "zoneId": "act11sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SV-8",
+        "code_i18n": {
+            "en": "SV-8",
+            "ja": "SV-8",
+            "ko": "SV-8",
+            "zh": "SV-8"
+        },
+        "apCost": 18,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653897600000,
+                "closeTime": 1654718400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 188000,
+        "recognitionOnly": [
+            "act18d3_token_record"
+        ],
+        "dropInfos": [
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "31033",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act18d3_09_rep",
+        "zoneId": "act11sre_zone1",
+        "stageType": "ACTIVITY",
+        "code": "SV-9",
+        "code_i18n": {
+            "en": "SV-9",
+            "ja": "SV-9",
+            "ko": "SV-9",
+            "zh": "SV-9"
+        },
+        "apCost": 18,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1653897600000,
+                "closeTime": 1654718400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 165000,
+        "recognitionOnly": [
+            "act18d3_token_record"
+        ],
+        "dropInfos": [
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "30063",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
                 }
             }
         ]
