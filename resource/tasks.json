@@ -859,6 +859,7 @@
     },
     "ReturnToTerminal": {
         "template": "Return.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             0,
@@ -1550,6 +1551,7 @@
     },
     "ReturnToRecruit": {
         "template": "Return.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             0,
@@ -1768,6 +1770,7 @@
     },
     "ReturnToActivities": {
         "template": "Return.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             0,
@@ -2069,6 +2072,7 @@
     },
     "ReturnToAward": {
         "template": "Return.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             0,
@@ -2133,6 +2137,7 @@
     },
     "ReturnToFriends": {
         "template": "Return.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             0,
@@ -2286,6 +2291,7 @@
     },
     "ReturnToMall": {
         "template": "Return.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             0,
@@ -2461,6 +2467,7 @@
     },
     "ReturnToHome": {
         "template": "Return.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             0,
@@ -2722,6 +2729,7 @@
     },
     "ReturnToInfrast": {
         "template": "Return.png",
+        "templThreshold": 0.7,
         "roi": [
             0,
             0,
@@ -2779,6 +2787,7 @@
     "Return": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
+        "templThreshold": 0.7,
         "specificRect": [
             20,
             20,
@@ -4069,6 +4078,7 @@
     },
     "EndOfClueExchangeClose": {
         "template": "Return.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             0,
@@ -4380,12 +4390,12 @@
         "rearDelay": 1000
     },
     "BattleQuickFormation-OperNameFlag": {
-        "templThreshold": 0.99,
+        "templThreshold": 0.95,
         "roi": [
             370,
-            300,
+            250,
             910,
-            330
+            420
         ]
     },
     "BattleQuickFormationOCR": {
@@ -4443,7 +4453,8 @@
     "BattleStartPre": {
         "algorithm": "OcrDetect",
         "text": [
-            "开始行动"
+            "开始行动",
+            "开始突袭"
         ],
         "cache": false,
         "roi": [
@@ -5095,6 +5106,7 @@
     },
     "ReturnToRoguelike1": {
         "template": "Return.png",
+        "templThreshold": 0.7,
         "cache": false,
         "action": "ClickSelf",
         "roi": [
@@ -5593,7 +5605,8 @@
             196
         ],
         "next": [
-            "Roguelike1TraderRandomShoppingConfirm"
+            "Roguelike1TraderRandomShoppingConfirm",
+            "Roguelike1TraderRandomShoppingCancel"
         ],
         "maskRange": [
             1,
@@ -5612,6 +5625,20 @@
         "next": [
             "Roguelike1TraderRandomShopping",
             "Roguelike1ChooseOperFlag",
+            "Roguelike1StageTraderLeave"
+        ]
+    },
+    "Roguelike1TraderRandomShoppingCancel": {
+        "template": "Roguelike1StageTraderInvestCancel.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            350,
+            350,
+            500,
+            250
+        ],
+        "next": [
             "Roguelike1StageTraderLeave"
         ]
     },

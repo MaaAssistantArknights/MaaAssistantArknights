@@ -608,6 +608,7 @@ namespace MeoAsstGui
                     return false;
                 }
             }
+            settings.TryToSetBlueStacksHyperVAddress();
             if (settings.AdbPath.Length == 0)
             {
                 error = "请选择 adb 路径";
