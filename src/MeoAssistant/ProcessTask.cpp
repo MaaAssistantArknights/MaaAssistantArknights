@@ -224,6 +224,15 @@ bool ProcessTask::_run()
             return false;
         }
 
+        for (const std::string& sub : cur_task_ptr->sub) {
+            LogTraceScope("Sub: " + sub);
+            bool sub_ret = ProcessTask(*this, { sub }).run();
+            if (!sub_ret && !cur_task_ptr->sub_error_ignored) {
+                Log.error("Sub error and not ignored", sub);
+                return false;
+            }
+        }
+
         callback(AsstMsg::SubTaskCompleted, info);
 
         if (cur_task_ptr->next.empty()) {
