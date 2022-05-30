@@ -178,12 +178,12 @@ const action = (action_data, arr) => {
 const group = (group_data, arr) => {
     // 群组名
     const name_div_row = $('<div class="row">');
-    const name_div_col = $('<div class="col-11">');
+    const name_div_col = $('<div class="col-10">');
     const name_input = input_text()
         .val(group_data.name ?? "")
         .change(function () { group_data.name = $(this).val(); });
     name_div_col.append(name_input);
-    const move_delete_col = $('<div class="col-1">');
+    const move_delete_col = $('<div class="col-2">');
     move_delete_col.append(move_up_icon(group_data, arr))
         .append(move_down_icon(group_data, arr))
         .append(delete_icon(group_data, arr));
