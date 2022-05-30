@@ -57,7 +57,6 @@ namespace MeoAsstGui
 
             InfrastInit();
             ToastPositionInit();
-            TryToSetBlueStacksHyperVAddress();
         }
 
         private List<string> _listTitle = new List<string>();
@@ -1011,6 +1010,8 @@ namespace MeoAsstGui
             ConnectConfig = emulators.First();
             AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
             UpdateAddressByConfig();
+            TryToSetBlueStacksHyperVAddress();
+
             return true;
         }
 
@@ -1048,7 +1049,6 @@ namespace MeoAsstGui
         {
             if (bluestacksConfig.Length == 0)
             {
-                ViewStatusStorage.Set("Bluestacks.Config.Path", "");
                 return;
             }
             if (!File.Exists(bluestacksConfig))
