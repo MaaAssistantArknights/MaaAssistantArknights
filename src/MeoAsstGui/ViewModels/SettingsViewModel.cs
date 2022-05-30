@@ -57,6 +57,7 @@ namespace MeoAsstGui
 
             InfrastInit();
             ToastPositionInit();
+            TryToSetBlueStacksHyperVAddress();
         }
 
         private List<string> _listTitle = new List<string>();
@@ -1041,21 +1042,30 @@ namespace MeoAsstGui
             rvm.WindowTitle = string.Format("MaaAssistantArknights - {0} ({1})", ConnectConfigName, ConnectAddress);
         }
 
-        //public void TryToSetBlueStacksHyperVAddress()
-        //{
-        //    if (AdbPath.Length == 0 || !File.Exists(AdbPath))
-        //    {
-        //        return;
-        //    }
-        //    var all_lines = File.ReadAllLines(AdbPath);
-        //    foreach (var line in all_lines)
-        //    {
-        //        if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))
-        //        {
-        //            var sp = line.Split('"');
-        //            ConnectAddress = "127.0.0.1:" + sp[1];
-        //        }
-        //    }
-        //}
+        private string bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
+
+        public void TryToSetBlueStacksHyperVAddress()
+        {
+            if (bluestacksConfig.Length == 0)
+            {
+                ViewStatusStorage.Set("Bluestacks.Config.Path", "");
+                return;
+            }
+            if (!File.Exists(bluestacksConfig))
+            {
+                ViewStatusStorage.Set("Bluestacks.Config.Error", "File not exists");
+                return;
+            }
+
+            var all_lines = File.ReadAllLines(bluestacksConfig);
+            foreach (var line in all_lines)
+            {
+                if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))
+                {
+                    var sp = line.Split('"');
+                    ConnectAddress = "127.0.0.1:" + sp[1];
+                }
+            }
+        }
     }
 }
