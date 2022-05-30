@@ -5605,7 +5605,8 @@
             196
         ],
         "next": [
-            "Roguelike1TraderRandomShoppingConfirm"
+            "Roguelike1TraderRandomShoppingConfirm",
+            "Roguelike1TraderRandomShoppingCancel"
         ],
         "maskRange": [
             1,
@@ -5624,6 +5625,20 @@
         "next": [
             "Roguelike1TraderRandomShopping",
             "Roguelike1ChooseOperFlag",
+            "Roguelike1StageTraderLeave"
+        ]
+    },
+    "Roguelike1TraderRandomShoppingCancel": {
+        "template": "Roguelike1StageTraderInvestCancel.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            350,
+            350,
+            500,
+            250
+        ],
+        "next": [
             "Roguelike1StageTraderLeave"
         ]
     },
