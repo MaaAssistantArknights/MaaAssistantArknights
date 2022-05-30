@@ -1,4 +1,89 @@
 {
+    "SV-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "SV-Open",
+            "SVChapterToSV",
+            "SwipeLeftToSV-7"
+        ]
+    },
+    "SV-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "SV-Open",
+            "SVChapterToSV",
+            "StageSV-8"
+        ]
+    },
+    "SV-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "SV-Open",
+            "SVChapterToSV",
+            "StageSV-9"
+        ]
+    },
+    "SV-Open": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "覆潮之下"
+        ],
+        "action": "ClickSelf"
+    },
+    "SVChapterToSV": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "荒败盐风"
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "SVChapterToSV",
+            "SwipeRightToSV"
+        ]
+    },
+    "SwipeRightToSV": {
+        "algorithm": "JustReturn",
+        "action": "SwipeToTheRight",
+        "next": [
+            "SwipeRightToSV"
+        ],
+        "maxTimes": 2
+    },
+    "SwipeLeftToSV-7": {
+        "algorithm": "OcrDetect",
+        "action": "SlowlySwipeToTheLeft",
+        "text": [
+            "SV"
+        ],
+        "next": [
+            "StageSV-7",
+            "SwipeLeftToSV-7"
+        ]
+    },
+    "StageSV-7": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "SV-7"
+        ]
+    },
+    "StageSV-8": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "SV-8"
+        ]
+    },
+    "StageSV-9": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "SV-9"
+        ]
+    },
     "CharsNameOcrReplace": {
         "algorithm": "OcrDetect",
         "text": [],
