@@ -90,8 +90,8 @@ const oper = (oper_data, arr) => {
         .val(String(oper_data.skill_usage ?? 0))
         .change(function () { oper_data.skill_usage = Number($(this).val()); });
     tr.append($('<td>').append(skill_usage_input));
-    // 删除
-    tr.append($('<td>')
+    // 移动删除
+    tr.append($('<td style="white-space:nowrap;">')
         .append(move_up_icon(oper_data, arr))
         .append(move_down_icon(oper_data, arr))
         .append(delete_icon(oper_data, arr)));
@@ -167,8 +167,9 @@ const action = (action_data, arr) => {
         .val(action_data.doc_color ?? "")
         .change(function () { action_data.doc_color = $(this).val(); });
     tr.append($('<td>').append(doc_color_input));
-    // 删除
-    tr.append($('<td>').append(move_up_icon(action_data, arr))
+    // 移动删除
+    tr.append($('<td style="white-space:nowrap;">')
+        .append(move_up_icon(action_data, arr))
         .append(move_down_icon(action_data, arr))
         .append(delete_icon(action_data, arr)));
     return tr;
@@ -182,11 +183,11 @@ const group = (group_data, arr) => {
         .val(group_data.name ?? "")
         .change(function () { group_data.name = $(this).val(); });
     name_div_col.append(name_input);
-    const delete_col = $('<div class="col-1">');
-    delete_col.append(move_up_icon(group_data, arr))
+    const move_delete_col = $('<div class="col-1">');
+    move_delete_col.append(move_up_icon(group_data, arr))
         .append(move_down_icon(group_data, arr))
         .append(delete_icon(group_data, arr));
-    name_div_row.append(name_div_col).append(delete_col);
+    name_div_row.append(name_div_col).append(move_delete_col);
 
     // 群组干员列表
     const table = $('<table class="table table-bordered table-condensed table-striped">' +
@@ -195,7 +196,7 @@ const group = (group_data, arr) => {
         '<th>干员名字</th>' +
         '<th>技能</th>' +
         '<th>技能用法</th>' +
-        '<th>删除</th>' +
+        '<th></th>' +
         '</tr>' +
         '</thead>' +
         '<tbody></tbody>' +
