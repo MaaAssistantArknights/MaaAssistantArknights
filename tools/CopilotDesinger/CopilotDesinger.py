@@ -139,7 +139,7 @@ class Action:
 class OperatorOrGroup:
     def __init__(self, name: str, battle: Battle):
         self._battle = battle
-        self._name = name
+        self.name = name
         self._pre_delay = 0
         self._rear_delay = 0
         self._wait_kills = 0
@@ -162,13 +162,13 @@ class OperatorOrGroup:
         return self
 
     def deploy(self, location: tuple, direction: str):
-        self._battle.add_action(self._add_conditions(Action(ActionType.Deploy, self._name, location, direction)))
+        self._battle.add_action(self._add_conditions(Action(ActionType.Deploy, self.name, location, direction)))
 
     def use_skill(self):
-        self._battle.add_action(self._add_conditions(Action(ActionType.Skill, self._name)))
+        self._battle.add_action(self._add_conditions(Action(ActionType.Skill, self.name)))
 
     def retreat(self):
-        self._battle.add_action(self._add_conditions(Action(ActionType.Retreat, self._name)))
+        self._battle.add_action(self._add_conditions(Action(ActionType.Retreat, self.name)))
 
     def _add_conditions(self, action: Action) -> Action:
         if self._pre_delay != 0:
@@ -206,7 +206,7 @@ class Group(OperatorOrGroup):
 
     def to_dict(self) -> dict:
         return {
-            "name": self._name,
+            "name": self.name,
             "opers": [operator.to_dict() for operator in self._operators]
         }
 
@@ -237,18 +237,18 @@ class Operator(OperatorOrGroup):
                     self._character_name_list = json.load(f)
             else:
                 raise Exception("无法进行名称检查，请检查名称文件是否存在")
-        if self._name in self._character_name_list:
+        if self.name in self._character_name_list:
             return True
         if auto_complete:
             possible_character_name = None
             for character_name in self._character_name_list:
-                if self._name in character_name:
+                if self.name in character_name:
                     if possible_character_name is None:
                         possible_character_name = character_name
                     else:
                         raise Exception("匹配到多个名字，无法自动补全，请手动补全")
             if possible_character_name is not None:
-                self._name = possible_character_name
+                self.name = possible_character_name
                 return True
             else:
                 return False
@@ -266,7 +266,7 @@ class Operator(OperatorOrGroup):
 
     def to_dict(self) -> dict:
         res = {
-            "name": self._name,
+            "name": self.name,
             "skill": self._skill,
             "skill_usage": self._skill_usage,
         }
@@ -288,7 +288,7 @@ class Battle:
         self._wait_times = 0
         self._wait_kills = 0
         self._speedup = False
-        self._last_save_file_name = "battle.json"
+        self._last_file_name = None
         # 海嗣语 我，海嗣，回归大群，打钱
         self._enable_haisi_doc = False
 
@@ -373,18 +373,27 @@ class Battle:
     def _speed_change(self):
         self.add_action(Action(ActionType.SpeedUp))
 
-    def save_as_json(self, file_name: str = None):
+    def save_as_json(self, file_name: str = None, stage_name: str = None):
         """
         保存为 json 文件，生成在同目录下
         :param file_name: 要保存的文件名
+        :param stage_name: 手动指定关卡名
         :return:
         """
         if file_name is None:
-            file_name = self._last_save_file_name
+            file_name = self._last_file_name = self._generate_file_name(self._stage_name) \
+                if stage_name is None else self._generate_file_name(stage_name)
         else:
-            self._last_save_file_name = file_name
+            self._last_file_name = file_name
         with open(file_name, 'w', encoding='utf-8') as f:
             json.dump(self.to_dict(), f, ensure_ascii=False)
+
+    def _generate_file_name(self, stage_name: str) -> str:
+        res = stage_name
+        res += "-"
+        res += "+".join([operator.name for operator in self._operators])
+        res += ".json"
+        return res.replace("/", "_")  # 防止文件名中含有 / 而使得文件打开失败
 
     def to_dict(self) -> dict:
         res = {
@@ -445,7 +454,7 @@ class Battle:
             exit()
         asst.append_task('Copilot', {
             'stage_name': self._stage_name,
-            'filename': self._last_save_file_name,
+            'filename': self._last_file_name,
             'formation': False,
         })
         asst.start()
