@@ -178,12 +178,12 @@ const action = (action_data, arr) => {
 const group = (group_data, arr) => {
     // 群组名
     const name_div_row = $('<div class="row">');
-    const name_div_col = $('<div class="col-11">');
+    const name_div_col = $('<div class="col-10">');
     const name_input = input_text()
         .val(group_data.name ?? "")
         .change(function () { group_data.name = $(this).val(); });
     name_div_col.append(name_input);
-    const move_delete_col = $('<div class="col-1">');
+    const move_delete_col = $('<div class="col-2">');
     move_delete_col.append(move_up_icon(group_data, arr))
         .append(move_down_icon(group_data, arr))
         .append(delete_icon(group_data, arr));
@@ -222,9 +222,9 @@ const group = (group_data, arr) => {
 
 // 加载数据
 const loadData = () => {
-    $('#stage_name').text(data.stage_name ?? "");
-    $('#details').text(data.details ?? "");
-    $('#title').text(data.title ?? "");
+    $('#stage_name').val(data.stage_name ?? "");
+    $('#details').val((data.doc ?? {}).details ?? "");
+    $('#title').val((data.doc ?? {}).title ?? "");
     // TODO: requirements
 
     $('#opers tbody').html('');
@@ -244,8 +244,14 @@ const loadData = () => {
 $(document).ready(() => {
     // 绑定事件
     $('#stage_name').change(() => data.stage_name = $('#stage_name').val());
-    $('#details').change(() => data.details = $('#details').val());
-    $('#title').change(() => data.title = $('#title').val());
+    $('#details').change(() => {
+        data.doc = data.doc ?? {};
+        data.doc.details = $('#details').val();
+    });
+    $('#title').change(() => {
+        data.doc = data.doc ?? {};
+        data.doc.title = $('#title').val();
+    });
 
     $('#opers_new').click(() => {
         data.opers = data.opers ?? [];
