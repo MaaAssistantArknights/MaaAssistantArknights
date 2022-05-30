@@ -181,7 +181,7 @@ class Group(OperatorOrGroup):
 
 
 class Operator(OperatorOrGroup):
-    def __init__(self, name: str, battle: Battle, skill: int, skill_usage: int = SkillUsageType.NotAutoUse,
+    def __init__(self, name: str, skill: int, skill_usage: int = SkillUsageType.NotAutoUse, battle: Battle = None,
                  requirements: Requirements = None):
         """
         仅当要创建群组时才应该被调用
@@ -260,24 +260,33 @@ class Battle:
         self._last_save_file_name = "battle.json"
 
     def create_operator(self, name: str, skill: int, skill_usage: int = SkillUsageType.NotAutoUse,
-                        requirements: Requirements = None, check_operator_name: bool = True) -> Operator:
+                        add_to_battle: bool = True, requirements: Requirements = None,
+                        check_operator_name: bool = True) -> Operator:
         """
         创建并添加一个干员
         :param name: 干员名称
         :param skill: 要使用的技能
         :param skill_usage: 技能使用类型 参见 SkillUsageType
+        :param add_to_battle: 是否要加入自动编队，构造召唤物或关卡道具时等需设为 False
         :param requirements: 可选
         :param check_operator_name: 是否要检查输入的名字是否正确
         :return: 新生成的干员
         """
-        new_operator = Operator(name, self, skill, skill_usage, requirements)
+        new_operator = Operator(name, skill, skill_usage, self, requirements)
         if check_operator_name:
             if not new_operator.check_operator_name():
                 raise Exception("干员名称有误，请更改为正确的名称或关闭名称检查")
-        self._add_operator(new_operator)
+        if add_to_battle:
+            self._add_operator(new_operator)
         return new_operator
 
-    def create_group(self, name: str, check_operator_name: bool = True, *operators: Operator) -> Group:
+    def create_group(self, name: str, *operators: Operator) -> Group:
+        return self._create_group(name, True, *operators)
+
+    def create_group_without_name_check(self, name: str, *operators: Operator) -> Group:
+        return self._create_group(name, False, *operators)
+
+    def _create_group(self, name: str, check_operator_name: bool = True, *operators: Operator) -> Group:
         """
         创建并添加一个群组
         :param name: 群组名
