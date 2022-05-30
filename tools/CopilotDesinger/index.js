@@ -6,6 +6,10 @@ const input_text = () => {
     return $('<input type="text" class="form-control">');
 };
 
+const input_oper_name = () => {
+    return $('<input type="text" class="form-control" placeholder="干员名字" list="oper_names">');
+}
+
 const skill_usage = () => {
     return $('<select id="skill_usage" class="form-control" style="width:auto">' +
         '<option value=0>不自动使用</option>' +
@@ -15,8 +19,36 @@ const skill_usage = () => {
         '</select>');
 };
 
-const delete_icon = () => {
-    return $('<button type="button" class="btn btn-default"><span class="ui-icon ui-icon-closethick"></span></button>')
+const move_up_icon = (data, arr) => {
+    return $('<button type="button" class="btn btn-primary"><span class="ui-icon ui-icon-triangle-1-n"></span></button>')
+        .click(() => {
+            const index = arr.indexOf(data);
+            if (index > 0) {
+                arr.splice(index, 1);
+                arr.splice(index - 1, 0, data);
+                loadData();
+            }
+        });
+}
+
+const move_down_icon = (data, arr) => {
+    return $('<button type="button" class="btn btn-primary"><span class="ui-icon ui-icon-triangle-1-s"></span></button>')
+        .click(() => {
+            const index = arr.indexOf(data);
+            if (index < arr.length - 1) {
+                arr.splice(index, 1);
+                arr.splice(index + 1, 0, data);
+                loadData();
+            }
+        });
+}
+
+const delete_icon = (data, arr) => {
+    return $('<button type="button" class="btn btn-danger"><span class="ui-icon ui-icon-closethick"></span></button>')
+        .click(() => {
+            arr.splice(arr.indexOf(data), 1);
+            loadData();
+        });
 };
 
 const action_type = () => {
@@ -38,12 +70,12 @@ const direction = () => {
         '<option value="左">左</option>' +
         '<option value="右">右</option>' +
         '</select>');
-}
+};
 
-const oper = (oper_data, delete_func) => {
+const oper = (oper_data, arr) => {
     const tr = $('<tr>');
     // 干员名字
-    const name_input = input_text()
+    const name_input = input_oper_name()
         .val(oper_data.name ?? "")
         .change(function () { oper_data.name = $(this).val(); });
     tr.append($('<td>').append(name_input));
@@ -58,12 +90,15 @@ const oper = (oper_data, delete_func) => {
         .val(String(oper_data.skill_usage ?? 0))
         .change(function () { oper_data.skill_usage = Number($(this).val()); });
     tr.append($('<td>').append(skill_usage_input));
-    // 删除
-    tr.append($('<td>').append(delete_icon().click(delete_func)));
+    // 移动删除
+    tr.append($('<td style="white-space:nowrap;">')
+        .append(move_up_icon(oper_data, arr))
+        .append(move_down_icon(oper_data, arr))
+        .append(delete_icon(oper_data, arr)));
     return tr;
 }
 
-const action = (action_data) => {
+const action = (action_data, arr) => {
     const tr = $('<tr>');
     // 类别
     const type_input = action_type()
@@ -83,7 +118,7 @@ const action = (action_data) => {
         .change(function () { action_data.cost_changes = $(this).val !== "" ? Number($(this).val()) : undefined; });
     tr.append($('<td>').append(cost_changes));
     // 干员
-    const name_input = input_text()
+    const name_input = input_oper_name()
         .val(action_data.name ?? "")
         .change(function () { action_data.name = $(this).val(); });
     tr.append($('<td>').append(name_input));
@@ -132,15 +167,15 @@ const action = (action_data) => {
         .val(action_data.doc_color ?? "")
         .change(function () { action_data.doc_color = $(this).val(); });
     tr.append($('<td>').append(doc_color_input));
-    // 删除
-    tr.append($('<td>').append(delete_icon().click(() => {
-        data.actions = data.actions.filter(a => a !== action_data);
-        loadData();
-    })));
+    // 移动删除
+    tr.append($('<td style="white-space:nowrap;">')
+        .append(move_up_icon(action_data, arr))
+        .append(move_down_icon(action_data, arr))
+        .append(delete_icon(action_data, arr)));
     return tr;
 };
 
-const group = (group_data, delete_func) => {
+const group = (group_data, arr) => {
     // 群组名
     const name_div_row = $('<div class="row">');
     const name_div_col = $('<div class="col-11">');
@@ -148,9 +183,11 @@ const group = (group_data, delete_func) => {
         .val(group_data.name ?? "")
         .change(function () { group_data.name = $(this).val(); });
     name_div_col.append(name_input);
-    const delete_col = $('<div class="col-1">');
-    delete_col.append(delete_icon().click(delete_func));
-    name_div_row.append(name_div_col).append(delete_col);
+    const move_delete_col = $('<div class="col-1">');
+    move_delete_col.append(move_up_icon(group_data, arr))
+        .append(move_down_icon(group_data, arr))
+        .append(delete_icon(group_data, arr));
+    name_div_row.append(name_div_col).append(move_delete_col);
 
     // 群组干员列表
     const table = $('<table class="table table-bordered table-condensed table-striped">' +
@@ -159,7 +196,7 @@ const group = (group_data, delete_func) => {
         '<th>干员名字</th>' +
         '<th>技能</th>' +
         '<th>技能用法</th>' +
-        '<th>删除</th>' +
+        '<th></th>' +
         '</tr>' +
         '</thead>' +
         '<tbody></tbody>' +
@@ -191,19 +228,17 @@ const loadData = () => {
     // TODO: requirements
 
     $('#opers tbody').html('');
-    (data.opers ?? []).forEach(oper_data => $('#opers tbody').append(oper(oper_data, () => {
-        data.opers = data.opers.filter(o => o !== oper_data);
-        loadData();
-    })));
+    (data.opers ?? []).forEach(oper_data => $('#opers tbody').append(
+        oper(oper_data, data.opers)
+    ));
 
     $('#groups').html('');
-    (data.groups ?? []).forEach(group_data => $('#groups').append(group(group_data, () => {
-        data.groups = data.groups.filter(g => g !== group_data);
-        loadData();
-    })));
+    (data.groups ?? []).forEach(group_data => $('#groups').append(
+        group(group_data, data.groups)
+    ));
 
     $('#actions tbody').html('');
-    (data.actions ?? []).forEach(action_data => $('#actions tbody').append(action(action_data)));
+    (data.actions ?? []).forEach(action_data => $('#actions tbody').append(action(action_data, data.actions)));
 };
 
 $(document).ready(() => {
@@ -253,6 +288,10 @@ $(document).ready(() => {
         })(f);
         reader.readAsText(f);
     });
+
+    // 干员名字自动填充
+    charName.sort();
+    charName.forEach(c => $('#oper_names').append($('<option>').text(c)));
 
     loadData();
 });
