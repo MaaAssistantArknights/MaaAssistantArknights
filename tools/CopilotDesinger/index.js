@@ -6,6 +6,10 @@ const input_text = () => {
     return $('<input type="text" class="form-control">');
 };
 
+const input_oper_name = () => {
+    return $('<input type="text" class="form-control" placeholder="干员名字" list="oper_names">');
+}
+
 const skill_usage = () => {
     return $('<select id="skill_usage" class="form-control" style="width:auto">' +
         '<option value=0>不自动使用</option>' +
@@ -43,7 +47,7 @@ const direction = () => {
 const oper = (oper_data, delete_func) => {
     const tr = $('<tr>');
     // 干员名字
-    const name_input = input_text()
+    const name_input = input_oper_name()
         .val(oper_data.name ?? "")
         .change(function () { oper_data.name = $(this).val(); });
     tr.append($('<td>').append(name_input));
@@ -83,7 +87,7 @@ const action = (action_data) => {
         .change(function () { action_data.cost_changes = $(this).val !== "" ? Number($(this).val()) : undefined; });
     tr.append($('<td>').append(cost_changes));
     // 干员
-    const name_input = input_text()
+    const name_input = input_oper_name()
         .val(action_data.name ?? "")
         .change(function () { action_data.name = $(this).val(); });
     tr.append($('<td>').append(name_input));
@@ -253,6 +257,10 @@ $(document).ready(() => {
         })(f);
         reader.readAsText(f);
     });
+
+    // 干员名字自动填充
+    charName.sort();
+    charName.forEach(c => $('#oper_names').append($('<option>').text(c)));
 
     loadData();
 });
