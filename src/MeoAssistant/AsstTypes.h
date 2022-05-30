@@ -219,6 +219,8 @@ namespace asst
             AlgorithmType::Invalid;
         ProcessTaskAction action = // 要进行的操作
             ProcessTaskAction::Invalid;
+        std::vector<std::string> sub;                // 子任务（列表）
+        bool sub_error_ignored = true;               // 子任务如果失败了，是否继续执行剩下的任务
         std::vector<std::string> next;               // 下一个可能的任务（列表）
         int max_times = INT_MAX;                     // 任务最多执行多少次
         std::vector<std::string> exceeded_next;      // 达到最多次数了之后，下一个可能的任务（列表）
