@@ -3,7 +3,7 @@
 #include "Resource.h"
 #include "Controller.h"
 #include "ProcessTask.h"
-#include "OcrImageAnalyzer.h"
+#include "OcrWithFlagTemplImageAnalyzer.h"
 
 void asst::BattleFormationTask::set_stage_name(std::string name)
 {
@@ -54,16 +54,14 @@ bool asst::BattleFormationTask::enter_selection_page()
 bool asst::BattleFormationTask::select_opers_in_cur_page()
 {
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
-    OcrImageAnalyzer name_analyzer(m_ctrler->get_image());
-    name_analyzer.set_task_info(formation_task_ptr);
-    name_analyzer.set_replace(
-        std::dynamic_pointer_cast<OcrTaskInfo>(
-            Task.get("CharsNameOcrReplace"))
-        ->replace_map);
+    OcrWithFlagTemplImageAnalyzer name_analyzer(m_ctrler->get_image());
+    auto& ocr_replace = std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("CharsNameOcrReplace"))->replace_map;
+    name_analyzer.set_task_info("BattleQuickFormation-OperNameFlag", "BattleQuickFormationOCR");
+    name_analyzer.set_replace(ocr_replace);
     if (!name_analyzer.analyze()) {
         return false;
     }
-    name_analyzer.sort_result();
+    name_analyzer.sort_result_horizontal();
 
     static const std::array<Rect, 3> SkillRectArray = {
         Task.get("BattleQuickFormationSkill1")->specific_rect,

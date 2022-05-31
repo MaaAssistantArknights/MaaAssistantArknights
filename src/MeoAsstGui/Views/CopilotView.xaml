@@ -22,6 +22,9 @@
             <CheckBox IsChecked="{Binding Form}" HorizontalAlignment="Center" IsHitTestVisible="{Binding Idle}" Content="自动编队" Height="50" Margin="10" />
             <Button Command="{s:Action Start}" IsEnabled="{Binding Idle}" Content="开始" Width="120" Height="50" Margin="10" />
             <Button Command="{s:Action Stop}" Content="停止" Width="120" Height="50" Margin="10" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Margin="10" >
+                <Hyperlink  Command="{s:Action Hyperlink_Click}" CommandParameter="{Binding Url}"><TextBlock Text="{Binding Url}"/></Hyperlink>
+            </TextBlock>
         </StackPanel>
 
         <ScrollViewer Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="10"

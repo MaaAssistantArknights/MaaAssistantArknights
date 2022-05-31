@@ -8,7 +8,6 @@ import 'package:maa_core/typedefs.dart';
 import 'package:path/path.dart' as p;
 
 class MaaCore implements MaaCoreInterface {
-
   // Native Symbols
   // MeoAssistant
   static late AsstLoadResourceFunc _asstLoadResource;
@@ -30,16 +29,16 @@ class MaaCore implements MaaCoreInterface {
 
   static bool _resourceLoaded = false;
   static bool _apiInited = false;
-  static bool _symbolsLoaded = false; 
- 
+  static bool _symbolsLoaded = false;
+
   late ReceivePort? _receivePort;
   late Assistant _asst;
   late StreamSubscription _portSubscription;
   late List<Pointer> _allocated;
-  
+
   ReceivePort? get receivePort => _receivePort;
-  static  List<String> get _deps {
-    if (Platform.isWindows){
+  static List<String> get _deps {
+    if (Platform.isWindows) {
       return [
         'libiomp5md',
         'mklml',
@@ -73,11 +72,16 @@ class MaaCore implements MaaCoreInterface {
   static _loadResource(String dir) {
     print("init resource");
     final dirPtr = dir.toNativeUtf8();
-    _asstLoadResource(dirPtr);
+    final res = _asstLoadResource(dirPtr);
+    if (!res) {
+      malloc.free(dirPtr);
+      throw Exception("Failed to initialize MaaCore");
+    }
     malloc.free(dirPtr);
+
     _resourceLoaded = true;
   }
-  
+
   MaaCore(String libDir, [Function(String)? callback]) {
     init(libDir);
 
@@ -88,7 +92,7 @@ class MaaCore implements MaaCoreInterface {
     _asst = _asstCreateEx(_asstCallback, portPtr.cast<Void>());
     _allocated.add(portPtr);
     portPtr.value = nativePort;
-    
+
     if (callback != null) {
       _portSubscription = _receivePort!.listen(_wrapCallback(callback));
     }
@@ -98,12 +102,12 @@ class MaaCore implements MaaCoreInterface {
     if (!_symbolsLoaded) {
       _loadNativeSymbols(libDir);
     }
-    
+
     if (!_apiInited) {
       _initDartApi(NativeApi.initializeApiDLData);
       _apiInited = true;
     }
-    
+
     if (!_resourceLoaded || reloadResource) {
       _loadResource(libDir);
     }
@@ -117,30 +121,29 @@ class MaaCore implements MaaCoreInterface {
       print("msg from ptr ($ptr): $msg before free");
       _nativeFree(ptr.cast<Void>());
       cb(msg);
-      
     };
   }
 
   static void _loadNativeSymbols(String libDir) {
     _loadMeoAssistant(libDir);
-    _loadCallbackLib(libDir); 
+    _loadCallbackLib(libDir);
     _symbolsLoaded = true;
   }
 
   static void _loadCallbackLib(String libDir) {
     final lib = DynamicLibrary.open(p.join(libDir, callbackLibName));
-    _initDartApi = lib.lookup<InitDartApiNative>('init_dart_api').asFunction(); 
+    _initDartApi = lib.lookup<InitDartApiNative>('init_dart_api').asFunction();
     _nativeFree = lib.lookup<NativeFreeNative>('native_free').asFunction();
-    _asstCallback = lib.lookup<AsstCallbackNative>('callback'); 
+    _asstCallback = lib.lookup<AsstCallbackNative>('callback');
   }
 
   static void _loadMeoAssistant(String libDir) {
     if (Platform.isWindows) {
       for (var dep in _deps) {
         print("load dep: $dep");
-        DynamicLibrary.open(p.join(libDir, dep+'.dll'));
-        print("loaded dep: $dep"); 
-      } 
+        DynamicLibrary.open(p.join(libDir, dep + '.dll'));
+        print("loaded dep: $dep");
+      }
     }
     final lib = DynamicLibrary.open(p.join(libDir, meoAssistantLibName));
     _asstLoadResource =

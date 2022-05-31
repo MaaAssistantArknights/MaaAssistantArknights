@@ -22,7 +22,7 @@ bool asst::InfrastClueImageAnalyzer::clue_detect()
     if (!clue_analyzer.analyze()) {
         return false;
     }
-    clue_analyzer.sort_result();
+    clue_analyzer.sort_result_horizontal();
     for (const auto& res : clue_analyzer.get_result()) {
         m_result.emplace_back(res.rect, std::string());
     }

@@ -12,14 +12,11 @@ namespace asst
     {
         using Loc = asst::TilePack::BuildableType;
     public:
-        using SkillUsageMap = std::unordered_map<std::string, BattleSkillUsage>;
-    public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
         virtual ~RoguelikeBattleTaskPlugin() = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-        void set_skill_usage(SkillUsageMap usage_map);
         void set_stage_name(std::string stage);
 
     protected:
@@ -32,6 +29,8 @@ namespace asst
         bool use_skill(const Rect& rect);
         bool retreat(const Point& point);
         void clear();
+        bool try_possible_skill(const cv::Mat& image);
+        bool wait_start();
 
         // 通过资源文件离线计算可放置干员的位置，优先使用
         // 返回 可格子的位置
@@ -49,8 +48,8 @@ namespace asst
         std::vector<Point> m_homes;
         size_t m_cur_home_index = 0;
         std::unordered_map<Point, std::string> m_used_tiles;
+        std::unordered_map<std::string, int64_t> m_restore_status;
 
         std::string m_stage_name;
-        SkillUsageMap m_skill_usage;
     };
 }

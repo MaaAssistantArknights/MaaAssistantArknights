@@ -101,6 +101,9 @@
     <Compile Include="Helper\ViewStatusStorage.cs" />
     <Compile Include="Helper\FlowDocumentPagePadding.cs" />
     <Compile Include="Helper\WinAdapter.cs" />
+    <Compile Include="UserControl\TimerSettingsUserControl.xaml.cs">
+      <DependentUpon>TimerSettingsUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\AutoRecruitSettingsUserControl.xaml.cs">
       <DependentUpon>AutoRecruitSettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -147,6 +150,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl\TimerSettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -395,6 +402,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /e /y /i /c $(ProjectDir)..\..\3rdparty\tools $(TargetDir)
-xcopy /e /y /i /c $(ProjectDir)..\..\tools\CopilotDesinger $(TargetDir)</PostBuildEvent>
+xcopy /e /y /i /c $(ProjectDir)..\..\tools\CopilotDesinger $(TargetDir)\作业制作器
+xcopy /e /y /i /c $(ProjectDir)..\..\src\Python $(TargetDir)\Python</PostBuildEvent>
   </PropertyGroup>
 </Project>

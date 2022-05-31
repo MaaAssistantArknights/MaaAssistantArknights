@@ -5,6 +5,7 @@
 #include "MultiMatchImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
+#include "OcrWithPreprocessImageAnalyzer.h"
 #include "HashImageAnalyzer.h"
 #include "Logger.hpp"
 #include "TaskData.h"
@@ -86,6 +87,11 @@ int asst::BattleImageAnalyzer::get_kills() const noexcept
     return m_kills;
 }
 
+int asst::BattleImageAnalyzer::get_cost() const noexcept
+{
+    return m_cost;
+}
+
 void asst::BattleImageAnalyzer::clear() noexcept
 {
     m_opers.clear();
@@ -105,7 +111,7 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     if (!flags_analyzer.analyze()) {
         return false;
     }
-    flags_analyzer.sort_result();
+    flags_analyzer.sort_result_horizontal();
 
     const auto click_move = Task.get("BattleOperClickRange")->rect_move;
     const auto role_move = Task.get("BattleOperRoleRange")->rect_move;
@@ -468,14 +474,15 @@ bool asst::BattleImageAnalyzer::kills_analyze()
 
 bool asst::BattleImageAnalyzer::cost_analyze()
 {
-    OcrImageAnalyzer cost_analyzer(m_image);
-    cost_analyzer.set_task_info("BattleKillsFlag");
+    OcrWithPreprocessImageAnalyzer cost_analyzer(m_image);
+    cost_analyzer.set_task_info("BattleCostData");
+    cost_analyzer.set_replace(
+        std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("NumberOcrReplace"))->replace_map);
 
     if (!cost_analyzer.analyze()) {
         return false;
     }
 
-    cost_analyzer.sort_result_by_score();
     std::string cost_str = cost_analyzer.get_result().front().text;
 
     if (cost_str.empty() ||
