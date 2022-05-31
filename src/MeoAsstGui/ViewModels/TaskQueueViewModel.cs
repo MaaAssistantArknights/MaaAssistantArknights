@@ -169,6 +169,26 @@ namespace MeoAsstGui
             LogItemViewModels.Clear();
         }
 
+        public void SelectedAll()
+        {
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.Name == "无限刷肉鸽")
+                    continue;
+                item.IsChecked = true;
+            }
+        }
+
+        public void InverseSelected()
+        {
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.Name == "无限刷肉鸽")
+                    continue;
+                item.IsChecked = !item.IsChecked;
+            }
+        }
+
         public async void LinkStart()
         {
             Idle = false;
