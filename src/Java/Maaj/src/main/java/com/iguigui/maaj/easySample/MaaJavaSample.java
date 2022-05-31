@@ -1,4 +1,4 @@
-package com.iguigui.maaj;
+package com.iguigui.maaj.easySample;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class MaaJavaSample {
 
     /**
-     * Maa的Java调用实例实现，项目需依赖JNA库。
+     * Maa的Java调用实例实现，最简示例仅需依赖第三方JNA库。
      * 仅在Windows下进行过测试，未在Linux下测试过(相信强大的Linux用户自己可以解决问题！
      *
      * --------特别提醒----------
