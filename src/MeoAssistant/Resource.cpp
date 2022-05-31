@@ -16,7 +16,7 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static const char* TemplsFilename = "template";
     constexpr static const char* GeneralCfgFilename = "config.json";
     constexpr static const char* TaskDataFilename = "tasks.json";
-    constexpr static const char* CombatRecruitCfgFilename = "combat_recruit.json";
+    constexpr static const char* RoguelikeRecruitCfgFilename = "roguelike_recruit.json";
     constexpr static const char* RecruitCfgFilename = "recruit.json";
     constexpr static const char* ItemCfgFilename = "item_index.json";
     constexpr static const char* InfrastCfgFilename = "infrast.json";
@@ -61,9 +61,9 @@ bool asst::Resource::load(const std::string& dir)
         overload = true;
     }
 
-    if (!m_combatrecruit_cfg_unique_ins.load(dir + CombatRecruitCfgFilename)) {
+    if (!m_roguelike_recruit_cfg_unique_ins.load(dir + RoguelikeRecruitCfgFilename)) {
         if (!m_loaded) {
-            m_last_error = std::string(CombatRecruitCfgFilename) + ": " + m_combatrecruit_cfg_unique_ins.get_last_error();
+            m_last_error = std::string(RoguelikeRecruitCfgFilename) + ": " + m_roguelike_recruit_cfg_unique_ins.get_last_error();
             return false;
         }
     }

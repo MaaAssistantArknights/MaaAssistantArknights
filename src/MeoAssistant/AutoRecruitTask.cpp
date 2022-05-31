@@ -89,7 +89,7 @@ bool asst::AutoRecruitTask::analyze_start_buttons()
         Log.info("There is no start button");
         return false;
     }
-    start_analyzer.sort_result();
+    start_analyzer.sort_result_horizontal();
     m_start_buttons = start_analyzer.get_result();
     Log.info("Recruit start button size", m_start_buttons.size());
     return true;

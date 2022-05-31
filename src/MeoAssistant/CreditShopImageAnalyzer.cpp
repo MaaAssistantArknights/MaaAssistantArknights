@@ -38,7 +38,7 @@ bool asst::CreditShopImageAnalyzer::commoditys_analyze()
     if (!mm_annlyzer.analyze()) {
         return false;
     }
-    mm_annlyzer.sort_result();
+    mm_annlyzer.sort_result_horizontal();
     auto credit_points_result = mm_annlyzer.get_result();
     if (credit_points_result.empty()) {
         return false;

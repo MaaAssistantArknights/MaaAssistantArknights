@@ -47,6 +47,7 @@ namespace MeoAsstGui
             _listTitle.Add("肉鸽设置");
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
+            _listTitle.Add("定时执行");
             _listTitle.Add("企鹅数据");
             _listTitle.Add("连接设置");
             _listTitle.Add("通知显示");
@@ -113,13 +114,14 @@ namespace MeoAsstGui
 
             ConnectConfigList = new List<CombData>
             {
-                new CombData { Display = "通用", Value = "General" },
+                new CombData { Display = "通用模式", Value = "General" },
                 new CombData { Display = "蓝叠模拟器", Value = "BlueStacks" },
                 new CombData { Display = "MuMu模拟器", Value = "MuMuEmulator" },
                 new CombData { Display = "雷电模拟器", Value = "LDPlayer" },
                 new CombData { Display = "夜神模拟器", Value = "Nox" },
                 new CombData { Display = "逍遥模拟器", Value = "XYAZ" },
-                new CombData { Display = "WSA", Value = "WSA" }
+                new CombData { Display = "WSA 旧版本", Value = "WSA" },
+                new CombData { Display = "兼容模式", Value = "Compatible" },
             };
 
             _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
@@ -376,6 +378,98 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _creditBlackList, value);
                 ViewStatusStorage.Set("Mall.CreditBlackList", value);
+            }
+        }
+
+        /* 定时设置 */
+
+        private bool _timer1 = ViewStatusStorage.Get("Timer.Timer1", bool.FalseString) == bool.TrueString;
+        private bool _timer2 = ViewStatusStorage.Get("Timer.Timer2", bool.FalseString) == bool.TrueString;
+        private bool _timer3 = ViewStatusStorage.Get("Timer.Timer3", bool.FalseString) == bool.TrueString;
+        private bool _timer4 = ViewStatusStorage.Get("Timer.Timer4", bool.FalseString) == bool.TrueString;
+
+        private int _timer1hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer1Hour", "0"));
+        private int _timer2hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer2Hour", "6"));
+        private int _timer3hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer3Hour", "12"));
+        private int _timer4hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer4Hour", "18"));
+
+        public bool Timer1
+        {
+            get { return _timer1; }
+            set
+            {
+                SetAndNotify(ref _timer1, value);
+                ViewStatusStorage.Set("Timer.Timer1", value.ToString());
+            }
+        }
+
+        public bool Timer2
+        {
+            get { return _timer2; }
+            set
+            {
+                SetAndNotify(ref _timer2, value);
+                ViewStatusStorage.Set("Timer.Timer2", value.ToString());
+            }
+        }
+
+        public bool Timer3
+        {
+            get { return _timer3; }
+            set
+            {
+                SetAndNotify(ref _timer3, value);
+                ViewStatusStorage.Set("Timer.Timer3", value.ToString());
+            }
+        }
+
+        public bool Timer4
+        {
+            get { return _timer4; }
+            set
+            {
+                SetAndNotify(ref _timer4, value);
+                ViewStatusStorage.Set("Timer.Timer4", value.ToString());
+            }
+        }
+
+        public int Timer1Hour
+        {
+            get { return _timer1hour; }
+            set
+            {
+                SetAndNotify(ref _timer1hour, value);
+                ViewStatusStorage.Set("Timer.Timer1Hour", value.ToString());
+            }
+        }
+
+        public int Timer2Hour
+        {
+            get { return _timer2hour; }
+            set
+            {
+                SetAndNotify(ref _timer2hour, value);
+                ViewStatusStorage.Set("Timer.Timer2Hour", value.ToString());
+            }
+        }
+
+        public int Timer3Hour
+        {
+            get { return _timer3hour; }
+            set
+            {
+                SetAndNotify(ref _timer3hour, value);
+                ViewStatusStorage.Set("Timer.Timer3Hour", value.ToString());
+            }
+        }
+
+        public int Timer4Hour
+        {
+            get { return _timer4hour; }
+            set
+            {
+                SetAndNotify(ref _timer4hour, value);
+                ViewStatusStorage.Set("Timer.Timer4Hour", value.ToString());
             }
         }
 
@@ -812,6 +906,7 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _connectAddress, value);
                 ViewStatusStorage.Set("Connect.Address", value);
+                UpdateWindowTitle(); /* 每次修改连接地址时更新WIndowTitle */
             }
         }
 
@@ -869,42 +964,36 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _connectConfig, value);
                 ViewStatusStorage.Set("Connect.ConnectConfig", value);
-                if (ConnectAddress.Length == 0)
-                {
-                    UpdateAddressByConfig();
-                }
             }
         }
 
-        private readonly Dictionary<string, List<string>> ConfigAddressesMapping = new Dictionary<string, List<string>>
+        private readonly Dictionary<string, string> DefaultAddress = new Dictionary<string, string>
             {
-                { "General", new List<string> {""} },
-                { "BlueStacks", new List<string> {"127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5557" } },
-                { "MuMuEmulator", new List<string>{"127.0.0.1:7555"} },
-                { "LDPlayer", new List<string>{ "127.0.0.1:5555", "emulator-5554" } },
-                { "Nox", new List<string> { "127.0.0.1:62001", "127.0.0.1:59865" } },
-                { "XYAZ", new List<string> {"127.0.0.1:21503" }  },
-                { "WSA", new List<string> { "127.0.0.1:58526" } },
+                { "General", "" },
+                { "BlueStacks", "127.0.0.1:5555" },
+                { "MuMuEmulator", "127.0.0.1:7555" },
+                { "LDPlayer", "emulator-5554" },
+                { "Nox", "127.0.0.1:62001" },
+                { "XYAZ", "127.0.0.1:21503"  },
+                { "WSA","127.0.0.1:58526" },
             };
-
-        private void UpdateAddressByConfig()
-        {
-            var addresses = ConfigAddressesMapping[ConnectConfig];
-            ConnectAddress = addresses.FirstOrDefault();
-            //ConnectAddressList.Clear();
-            //foreach (var address in addresses)
-            //{
-            //    ConnectAddressList.Add(address);
-            //}
-        }
 
         public bool RefreshAdbConfig(ref string error)
         {
             var adapter = new WinAdapter();
-            var emulators = adapter.RefreshEmulatorsInfo();
+            List<string> emulators;
+            try
+            {
+                emulators = adapter.RefreshEmulatorsInfo();
+            }
+            catch (Exception)
+            {
+                error = "检测模拟器出错\n请使用管理员权限打开本软件\n或手动设置连接";
+                return false;
+            }
             if (emulators.Count == 0)
             {
-                error = "未检测到任何模拟器\n请尝试使用管理员权限打开本软件\n或手动设置连接";
+                error = "未检测到任何模拟器\n请使用管理员权限打开本软件\n或手动设置连接";
                 return false;
             }
             else if (emulators.Count > 1)
@@ -914,7 +1003,33 @@ namespace MeoAsstGui
             }
             ConnectConfig = emulators.First();
             AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
-            UpdateAddressByConfig();
+            if (ConnectAddress.Length == 0)
+            {
+                var addresses = adapter.GetAdbAddresses(AdbPath);
+                // 傻逼雷电已经关掉了用别的 adb 还能检测出来这个端口 device
+                if (addresses.Count == 1 && addresses.First() != "emulator-5554")
+                {
+                    ConnectAddress = addresses.First();
+                }
+                else if (addresses.Count > 1)
+                {
+                    foreach (var address in addresses)
+                    {
+                        if (address == "emulator-5554" && ConnectConfig != "LDPlayer")
+                        {
+                            continue;
+                        }
+                        ConnectAddress = address;
+                        break;
+                    }
+                }
+
+                if (ConnectAddress.Length == 0)
+                {
+                    ConnectAddress = DefaultAddress[ConnectConfig];
+                }
+            }
+
             return true;
         }
 
@@ -930,21 +1045,45 @@ namespace MeoAsstGui
             }
         }
 
-        //public void TryToSetBlueStacksHyperVAddress()
-        //{
-        //    if (AdbPath.Length == 0 || !File.Exists(AdbPath))
-        //    {
-        //        return;
-        //    }
-        //    var all_lines = File.ReadAllLines(AdbPath);
-        //    foreach (var line in all_lines)
-        //    {
-        //        if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))
-        //        {
-        //            var sp = line.Split('"');
-        //            ConnectAddress = "127.0.0.1:" + sp[1];
-        //        }
-        //    }
-        //}
+        /*  标题栏显示模拟器名称和IP端口  */
+
+        public void UpdateWindowTitle()
+        {
+            var rvm = (RootViewModel)this.Parent;
+            string ConnectConfigName = "";
+            foreach (CombData data in ConnectConfigList)
+            {
+                if (data.Value == ConnectConfig)
+                {
+                    ConnectConfigName = data.Display;
+                }
+            }
+            rvm.WindowTitle = string.Format("MaaAssistantArknights - {0} ({1})", ConnectConfigName, ConnectAddress);
+        }
+
+        private string bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
+
+        public void TryToSetBlueStacksHyperVAddress()
+        {
+            if (bluestacksConfig.Length == 0)
+            {
+                return;
+            }
+            if (!File.Exists(bluestacksConfig))
+            {
+                ViewStatusStorage.Set("Bluestacks.Config.Error", "File not exists");
+                return;
+            }
+
+            var all_lines = File.ReadAllLines(bluestacksConfig);
+            foreach (var line in all_lines)
+            {
+                if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))
+                {
+                    var sp = line.Split('"');
+                    ConnectAddress = "127.0.0.1:" + sp[1];
+                }
+            }
+        }
     }
 }

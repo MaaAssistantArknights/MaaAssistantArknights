@@ -211,7 +211,10 @@ bool ProcessTask::_run()
         // 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
         // 所以要给蓝色开始行动的次数减一
         for (const std::string& reduce : cur_task_ptr->reduce_other_times) {
-            --m_exec_times[reduce];
+            auto& v = m_exec_times[reduce];
+            if (v > 0) {
+                --v;
+            }
         }
 
         // 后置固定延时
@@ -222,6 +225,15 @@ bool ProcessTask::_run()
         }
         if (!sleep(rear_delay)) {
             return false;
+        }
+
+        for (const std::string& sub : cur_task_ptr->sub) {
+            LogTraceScope("Sub: " + sub);
+            bool sub_ret = ProcessTask(*this, { sub }).run();
+            if (!sub_ret && !cur_task_ptr->sub_error_ignored) {
+                Log.error("Sub error and not ignored", sub);
+                return false;
+            }
         }
 
         callback(AsstMsg::SubTaskCompleted, info);

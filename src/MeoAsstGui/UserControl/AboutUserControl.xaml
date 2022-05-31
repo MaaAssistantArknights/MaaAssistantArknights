@@ -8,6 +8,14 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="550">
     <StackPanel VerticalAlignment="Center" Margin="10">
-        <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="在这里放上 MAA 官网的超链接（我们真的有官网么" Margin="10" />
+        <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+        <Hyperlink NavigateUri="https://www.maa.plus" Click="Hyperlink_Click">官网: https://www.maa.plus</Hyperlink>
+        </TextBlock>
+        <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+        <Hyperlink NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights" Click="Hyperlink_Click">源码: GitHub</Hyperlink>
+        </TextBlock>
+        <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+        <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=4u0uqXep" Click="Hyperlink_Click">自动战斗作业分享 Q 群</Hyperlink>
+        </TextBlock>
     </StackPanel>
 </UserControl>

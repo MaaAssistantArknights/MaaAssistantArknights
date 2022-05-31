@@ -160,10 +160,18 @@ namespace MeoAsstGui
 
         private void procConnectInfo(JObject details)
         {
-            if (details["what"].ToString() == "Connected")
+            var what = details["what"].ToString();
+            switch (what)
             {
-                var svm = _container.Get<SettingsViewModel>();
-                svm.ConnectAddress = details["details"]["address"].ToString();
+                case "Connected":
+                    var svm = _container.Get<SettingsViewModel>();
+                    svm.ConnectAddress = details["details"]["address"].ToString();
+                    break;
+
+                case "UnsupportedResolution":
+                    var mainModel = _container.Get<TaskQueueViewModel>();
+                    mainModel.AddLog("分辨率过低\n请设置为 720p 或更高", "darkred");
+                    break;
             }
         }
 
@@ -522,12 +530,12 @@ namespace MeoAsstGui
                     break;
 
                 case "BattleActionDoc":
-                    {
-                        string title_color = subTaskDetails["title_color"].ToString();
-                        copilotModel.AddLog(subTaskDetails["title"].ToString(), title_color.Length == 0 ? "dark" : title_color);
-                        string details_color = subTaskDetails["details_color"].ToString();
-                        copilotModel.AddLog(subTaskDetails["details"].ToString(), details_color.Length == 0 ? "dark" : details_color);
-                    }
+                    //{
+                    //    string title_color = subTaskDetails["title_color"].ToString();
+                    //    copilotModel.AddLog(subTaskDetails["title"].ToString(), title_color.Length == 0 ? "dark" : title_color);
+                    //    string details_color = subTaskDetails["details_color"].ToString();
+                    //    copilotModel.AddLog(subTaskDetails["details"].ToString(), details_color.Length == 0 ? "dark" : details_color);
+                    //}
                     break;
             }
         }
@@ -608,10 +616,12 @@ namespace MeoAsstGui
                     return false;
                 }
             }
+            settings.TryToSetBlueStacksHyperVAddress();
+
             bool ret = AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
             if (!ret)
             {
-                error = "连接失败\n请检查连接设置";
+                error = "连接失败\n请检查连接设置\n";
             }
             return ret;
         }
@@ -688,12 +698,6 @@ namespace MeoAsstGui
         {
             var task_params = new JObject();
             task_params["mode"] = mode;
-            task_params["opers"] = new JArray {
-                new JObject { { "name", "山" }, { "skill", 2 }, { "skill_usage", 2 } },
-                new JObject { { "name", "棘刺" }, { "skill", 3 }, { "skill_usage", 1 } },
-                new JObject { { "name", "芙蓉" }, { "skill", 1 }, { "skill_usage", 1 } },
-                new JObject { { "name", "梓兰" }, { "skill", 1 }, { "skill_usage", 1 } },
-            };
             return AsstAppendTaskWithEncoding("Roguelike", task_params);
         }
 

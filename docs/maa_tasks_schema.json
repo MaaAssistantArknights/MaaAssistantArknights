@@ -48,6 +48,15 @@
                     "default": "DoNothing",
                     "description": "可选项，表示识别到后的动作\n不填写时默认为 DoNothing"
                 },
+                "sub": {
+                    "$ref": "#/definitions/TaskNameList",
+                    "description": "可选项，子任务。会在执行完当前任务后，依次执行每一个子任务\n可以套娃，子任务再套子任务。但要注意不要写出了死循环"
+                },
+                "subErrorIgnored": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "可选项，是否忽略子任务的错误。默认为 false\n为 false 时，若某个子任务出错，则不继续执行后续任务（相当于本任务出错了）\n为 true 时，子任务是否出错没有影响"
+                },
                 "next": {
                     "$ref": "#/definitions/TaskNameList",
                     "description": "可选项，表示执行完当前任务后，下一个要执行的任务\n会从前往后依次去识别，去执行第一个匹配上的\n不填写默认执行完当前任务直接停止"
