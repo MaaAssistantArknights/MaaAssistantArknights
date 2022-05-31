@@ -6321,7 +6321,8 @@
             "Roguelike1StageEncounterUnknown",
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
-            "Roguelike1EnterAfterRecruit"
+            "Roguelike1EnterAfterRecruit",
+            "Roguelike1StageTraderLeave"
         ]
     },
     "Roguelike1GetDrop1": {
