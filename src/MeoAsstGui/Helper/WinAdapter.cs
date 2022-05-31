@@ -23,10 +23,10 @@ namespace MeoAsstGui
     {
         private static readonly Dictionary<string, string> emulatorIdDict = new Dictionary<string, string> {
             { "HD-Player",  "BlueStacks"},
-            { "LdVBoxHeadless", "LDPlayer"},
-            { "NoxVMHandle", "Nox"},
-            { "NemuHeadless", "MuMuEmulator"},
-            { "MEmuHeadless", "XYAZ"}
+            { "dnplayer", "LDPlayer"},
+            { "Nox", "Nox"},
+            { "NemuPlayer", "MuMuEmulator"},
+            { "MEmu", "XYAZ"}
         };
 
         private static readonly Dictionary<string, List<string>> adbRelativePathDict = new Dictionary<string, List<string>> {
