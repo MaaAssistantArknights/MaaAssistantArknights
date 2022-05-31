@@ -89,7 +89,7 @@
             "devices": "[Adb] devices",
             "addressRegex": "(.+)\tdevice",
             "connect": "[Adb] connect [Address]",
-            "uuid": "[Adb] -s [Address] shell \"settings get secure android_id  | awk 'NR == 1 {p = $0} NR > 1 {print p; p = $0} END{printf p}' \"",
+            "uuid": "[Adb] -s [Address] shell settings get secure android_id",
             "click": "[Adb] -s [Address] shell input tap [x] [y]",
             "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
             "display": "[Adb] -s [Address] shell dumpsys window displays | grep init=",
@@ -110,6 +110,19 @@
             "displayFormat": "Physical size:%dx%d",
             "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap -d [DisplayId] | gzip -1\"",
             "screencapEncode": "[Adb] -s [Address] shell screencap -d [DisplayId] -p",
+            "release": "[Adb] kill-server"
+        },
+        "Compatible": {
+            "devices": "[Adb] devices",
+            "addressRegex": "(.+)\tdevice",
+            "connect": "[Adb] connect [Address]",
+            "uuid": "[Adb] -s [Address] shell settings get secure android_id",
+            "click": "[Adb] -s [Address] shell input tap [x] [y]",
+            "swipe": "[Adb] -s [Address] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+            "display": "[Adb] -s [Address] shell dumpsys window displays | grep init=",
+            "displayFormat": "    init=%dx%d",
+            "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
+            "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
             "release": "[Adb] kill-server"
         }
     }
