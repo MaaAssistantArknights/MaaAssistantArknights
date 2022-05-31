@@ -51,7 +51,6 @@ fun Application.wsRouting() {
                             with(Json.decodeFromJsonElement(SetTaskParamsRequest.serializer(), wsRequest.data)) {
                                 val result = MaaService.setTaskParams(
                                     id,
-                                    type,
                                     taskId,
                                     params.jsonObject.toString()
                                 )

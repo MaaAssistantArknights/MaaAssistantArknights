@@ -2,17 +2,14 @@ package com.iguigui.maaj.service
 
 import com.iguigui.maaj.dto.*
 import com.iguigui.maaj.easySample.MeoAssistant
+import com.iguigui.maaj.logger
 import com.sun.jna.Native
 import io.ktor.websocket.*
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.security.MessageDigest
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.collections.LinkedHashSet
 
 
 object MaaService {
@@ -22,10 +19,9 @@ object MaaService {
     private val wsConnection = Collections.synchronizedSet<Connection?>(LinkedHashSet())
 
     val meoAssistant: MeoAssistant by lazy {
-        val f = File(this.javaClass.getResource("")?.path ?: "")
-        var maaPath = f.path
-        println(maaPath)
-        maaPath = "C:\\Users\\atmzx\\Desktop\\MeoAssistantArknights3"
+        var maaPath = File(File("").absolutePath).parent
+        logger.info("maaPath $maaPath")
+//        maaPath = "C:\\Users\\atmzx\\Desktop\\MeoAssistantArknights3"
         System.setProperty("jna.library.path", maaPath)
         val load = Native.load("MeoAssistant", MeoAssistant::class.java)
         load.AsstLoadResource(maaPath)
@@ -51,8 +47,8 @@ object MaaService {
         instancePool[id]?.appendTask(type, detailJson) ?: 0
 
 
-    fun setTaskParams(id: String, type: String, taskId: Int, detailJson: String) =
-        instancePool[id]?.setTaskParams(type, taskId, detailJson) ?: false
+    fun setTaskParams(id: String, taskId: Int, detailJson: String) =
+        instancePool[id]?.setTaskParams(taskId, detailJson) ?: false
 
     fun start(id: String) = instancePool[id]?.start() ?: false
 
@@ -85,9 +81,8 @@ object MaaService {
     }
 
 
-    @OptIn(DelicateCoroutinesApi::class)
     fun callBackLog(message: CallBackLog) {
-        GlobalScope.launch(Dispatchers.IO) {
+        runBlocking {
             wsConnection.forEach { it.session.send(message.wapperToWsResponse("callBack", 0).toJsonString()) }
         }
     }
