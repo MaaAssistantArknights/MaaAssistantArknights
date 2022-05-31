@@ -609,11 +609,6 @@ namespace MeoAsstGui
                 }
             }
             settings.TryToSetBlueStacksHyperVAddress();
-            if (settings.AdbPath.Length == 0)
-            {
-                error = "请选择 adb 路径";
-                return false;
-            }
             bool ret = AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
             if (!ret)
             {

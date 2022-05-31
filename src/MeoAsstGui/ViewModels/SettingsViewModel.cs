@@ -996,10 +996,19 @@ namespace MeoAsstGui
         public bool RefreshAdbConfig(ref string error)
         {
             var adapter = new WinAdapter();
-            var emulators = adapter.RefreshEmulatorsInfo();
+            List<string> emulators;
+            try
+            {
+                emulators = adapter.RefreshEmulatorsInfo();
+            }
+            catch (Exception)
+            {
+                error = "检测模拟器出错\n请使用管理员权限打开本软件\n或手动设置连接";
+                return false;
+            }
             if (emulators.Count == 0)
             {
-                error = "未检测到任何模拟器\n请尝试使用管理员权限打开本软件\n或手动设置连接";
+                error = "未检测到任何模拟器\n请使用管理员权限打开本软件\n或手动设置连接";
                 return false;
             }
             else if (emulators.Count > 1)
