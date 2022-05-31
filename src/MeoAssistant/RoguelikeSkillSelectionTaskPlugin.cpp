@@ -25,6 +25,8 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::verify(AsstMsg msg, const json::va
 
 bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
 {
+    LogTraceFunction;
+
     auto image = m_ctrler->get_image();
     RoguelikeSkillSelectionImageAnalyzer analyzer(image);
 
@@ -35,6 +37,9 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     const auto& rg_src = Resrc.roguelike_recruit();
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
         Log.info(__FUNCTION__, name, " skill size:", skill_vec.size());
+        if (name.empty()) {
+            continue;
+        }
         const auto& oper_info = rg_src.get_oper_info(name);
         int index = 0;
         BattleSkillUsage usage = BattleSkillUsage::Possibly;
@@ -47,7 +52,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
             usage = oper_info.alternate_skill_usage;
         }
 
-        if (index) {
+        if (index >= 0) {
             Log.info(__FUNCTION__, name, " select skill:", index + 1);
             m_ctrler->click(skill_vec.at(index));
         }
