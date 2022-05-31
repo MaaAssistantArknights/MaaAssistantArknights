@@ -77,5 +77,34 @@ namespace MeoAsstGui
             }
             return null;
         }
+
+        public List<string> GetAdbAddresses(string adbPath)
+        {
+            var addresses = new List<string>();
+            using (Process process = new System.Diagnostics.Process())
+            {
+                process.StartInfo.FileName = adbPath;
+                process.StartInfo.Arguments = "devices";
+                // 禁用操作系统外壳程序
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.Start();
+                var output = process.StandardOutput.ReadToEnd();
+                var outLines = output.Split(new[] { '\r', '\n' });
+                foreach (var line in outLines)
+                {
+                    if (line.StartsWith("List of devices attached") ||
+                        line.Length == 0 ||
+                        !line.Contains("device"))
+                    {
+                        continue;
+                    }
+                    var address = line.Split('\t')[0];
+                    addresses.Add(address);
+                }
+            }
+            return addresses;
+        }
     }
 }
