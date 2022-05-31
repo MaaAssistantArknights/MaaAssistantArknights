@@ -160,10 +160,18 @@ namespace MeoAsstGui
 
         private void procConnectInfo(JObject details)
         {
-            if (details["what"].ToString() == "Connected")
+            var what = details["what"].ToString();
+            switch (what)
             {
-                var svm = _container.Get<SettingsViewModel>();
-                svm.ConnectAddress = details["details"]["address"].ToString();
+                case "Connected":
+                    var svm = _container.Get<SettingsViewModel>();
+                    svm.ConnectAddress = details["details"]["address"].ToString();
+                    break;
+
+                case "UnsupportedResolution":
+                    var mainModel = _container.Get<TaskQueueViewModel>();
+                    mainModel.AddLog("分辨率过低\n请设置为 720p 或更高", "darkred");
+                    break;
             }
         }
 
@@ -609,11 +617,7 @@ namespace MeoAsstGui
                 }
             }
             settings.TryToSetBlueStacksHyperVAddress();
-            if (settings.AdbPath.Length == 0)
-            {
-                error = "请选择 adb 路径";
-                return false;
-            }
+
             bool ret = AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
             if (!ret)
             {
