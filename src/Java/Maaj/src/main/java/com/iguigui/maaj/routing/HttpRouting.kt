@@ -38,7 +38,6 @@ fun Application.httpRouting() {
                 with(call.receive<SetTaskParamsRequest>()) {
                     val result = MaaService.setTaskParams(
                         id,
-                        type,
                         taskId,
                         params.jsonObject.toString()
                     )

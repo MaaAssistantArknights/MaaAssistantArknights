@@ -13,15 +13,15 @@ import kotlin.test.Test
 class HttpRoutingKtTest {
 
 
-    @Test
-    fun testGetApiV1Getversion() = testApplication {
-        application {
-            httpRouting()
-        }
-        client.get("/API/V1/getVersion").apply {
-            Assert.assertEquals(status,OK)
-        }
-    }
+//    @Test
+//    fun testGetApiV1Getversion() = testApplication {
+//        application {
+//            httpRouting()
+//        }
+//        client.get("/API/V1/getVersion").apply {
+//            Assert.assertEquals(status,OK)
+//        }
+//    }
 //
 //    @Test
 //    fun testPostApiV1Connect() = testApplication {

@@ -25,7 +25,6 @@ fun Application.module() {
     configure()
     httpRouting()
     wsRouting()
-    log.info("Maa HTTP Server 启动成功 ! ")
 }
 
 

@@ -72,7 +72,7 @@ class MaaInstance(
 
     fun appendTask(type: String, params: String) = instance.AsstAppendTask(pointer, type, params)
 
-    fun setTaskParams(type: String, taskId: Int, params: String) = instance.AsstSetTaskParams(pointer, taskId, params)
+    fun setTaskParams(taskId: Int, params: String) = instance.AsstSetTaskParams(pointer, taskId, params)
 
     fun start(): Boolean {
         msgId.set(0)
@@ -81,10 +81,5 @@ class MaaInstance(
 
     fun stop() = instance.AsstStop(pointer)
     fun destroy() = instance.AsstDestroy(pointer)
-
-    //todo
-    private fun addLog(callBackLog: CallBackLog) {
-
-    }
 
 }
