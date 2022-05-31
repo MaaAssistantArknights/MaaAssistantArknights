@@ -34,7 +34,8 @@ MAA 的意思是 MAA Assistant Arknights
 - 智能基建换班，自动计算干员效率，单设施内最优解
 - 自动公招，可选使用加急许可，一次全部刷完
 - 访问好友、收取信用及购物、领取日常奖励等。一键全日常自动长草！
-- **新功能！肉鸽全自动刷源石锭和蜡烛**
+- 肉鸽全自动刷源石锭和蜡烛，自动识别干员及练度
+- **新功能！导入作业 JSON 文件，自动抄作业！** [视频演示](https://www.bilibili.com/video/BV14u411673q/)
 
 话不多说，看图！  
 
@@ -52,8 +53,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 1. 请根据 [模拟器支持情况](docs/模拟器支持.md)，进行对应的操作。
 2. 解压压缩包，到 **没有中文或特殊符号** 的文件夹路径。
-3. 第一次运行软件，**请使用管理员权限** 打开 `MeoAsstGui.exe`。运行过一次后，后续不再需要管理员权限。
-4. 开始运行后，除 `自动关机` 外，所有设置均不可再修改。
+3. 开始运行后，除 `自动关机` 外，所有设置均不可再修改。
 
 目前仅对 `16:9` 分辨率支持较好，最低支持 `1280 * 720`，更高不限。非 `16:9` 分辨率可能会有奇奇怪怪的问题，正在进一步适配中_(:з」∠)_
 
@@ -62,16 +62,17 @@ MAA 的意思是 MAA Assistant Arknights
 ## 常见问题
 
 - 软件一打开就闪退
-- 连接错误/捕获模拟器窗口错误
+- 连接错误、不知道 adb 路径怎么填写
 - 识别错误/任务开始后一直不动、没有反应
 - 如何连接自定义端口
 
 请参考 [常见问题](docs/常见问题.md)
 
-## 关联项目
+## 主要关联项目
 
-- 全新 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中）
-- 更新服务器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)（正在开发中）
+- 全新 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
+- 更新服务器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer) （正在开发中，欢迎加入！）
+- 自动战斗作业服务器: [MaaCopilotServer](https://github.com/MaaAssistantArknights/MaaCopilotServer) （正在开发中，欢迎加入！）
 
 ## 致谢
 
@@ -94,7 +95,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 数据源
 
-- 公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)
+- ~~公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)~~
 - 干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)
 - 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
 - 材料数据：[明日方舟bot常用素材](https://github.com/yuanyan3060/Arknights-Bot-Resource)
@@ -109,7 +110,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Windows
 
-直接使用 Visual Studio 2022 ~~或更高版本~~ 打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
+直接使用 Visual Studio 2019 ~~或更高版本~~ 打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
 
 ### Linux | macOS
 
@@ -140,6 +141,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 [B 站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
 [技术交流 & 吹水群](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！（明日方舟弱相关）  
+[自动战斗 JSON 作业分享群](https://jq.qq.com/?_wv=1027&k=1giyMpPb)  
 [开发者群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！

@@ -44,7 +44,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
             if (!task_analyze(task_name + task_name_suffix.at(cor_suffix_index))) {
                 continue;
             }
-            mm_analyzer.sort_result();
+            mm_analyzer.sort_result_horizontal();
             cur_facility_result = mm_analyzer.get_result();
         }
         else {
@@ -65,7 +65,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
                 }
                 if (double cur_score = cur_max_iter->score;
                     max_score < cur_score) {
-                    mm_analyzer.sort_result();
+                    mm_analyzer.sort_result_horizontal();
                     max_score = cur_score;
                     cur_facility_result = cur_res;
                     cor_suffix_index = static_cast<int>(i);

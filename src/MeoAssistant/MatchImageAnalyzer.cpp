@@ -100,6 +100,23 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
 {
     cv::Mat matched;
 
+    if (m_roi.x < 0) {
+        Log.info("roi is out of range", m_roi.to_string());
+        m_roi.x = 0;
+    }
+    if (m_roi.y < 0) {
+        Log.info("roi is out of range", m_roi.to_string());
+        m_roi.y = 0;
+    }
+    if (m_roi.x + m_roi.width > m_image.cols) {
+        Log.info("roi is out of range", m_roi.to_string());
+        m_roi.width = m_image.cols - m_roi.x;
+    }
+    if (m_roi.y + m_roi.height > m_image.rows) {
+        Log.info("roi is out of range", m_roi.to_string());
+        m_roi.height = m_image.rows - m_roi.y;
+    }
+
     cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi));
     if (templ.cols > image_roi.cols || templ.rows > image_roi.rows) {
         Log.error("templ size is too large", m_templ_name,
@@ -125,6 +142,9 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
     cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
     Rect rect(max_loc.x + m_roi.x, max_loc.y + m_roi.y, templ.cols, templ.rows);
+    if (max_val > 2.0) {
+        max_val = 0;
+    }
     if (max_val > m_templ_thres * 0.7) { // 得分太低的肯定不对，没必要打印
         Log.trace("match_templ |", m_templ_name, "score:", max_val, "rect:", rect.to_string(), "roi:", m_roi.to_string());
     }

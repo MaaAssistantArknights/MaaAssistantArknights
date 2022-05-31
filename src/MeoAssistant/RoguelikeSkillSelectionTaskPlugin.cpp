@@ -3,6 +3,8 @@
 #include "RoguelikeSkillSelectionImageAnalyzer.h"
 #include "Controller.h"
 #include "TaskData.h"
+#include "Resource.h"
+#include "RuntimeStatus.h"
 
 #include "Logger.hpp"
 
@@ -21,22 +23,10 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::verify(AsstMsg msg, const json::va
     }
 }
 
-void asst::RoguelikeSkillSelectionTaskPlugin::set_skill_map(SkillMap skill_mapping)
-{
-    m_skill_mapping = std::move(skill_mapping);
-}
-
 bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
 {
-    //#ifdef ASST_DEBUG
-    //    m_skill_mapping.clear();
-    //    m_skill_mapping.reserve(4);
-    //    m_skill_mapping.emplace("山", 2);
-    //    m_skill_mapping.emplace("芙蓉", 1);
-    //    m_skill_mapping.emplace("梓兰", 1);
-    //    m_skill_mapping.emplace("阿米娅", 3);
-    //    m_skill_mapping.emplace("Unknown", 3);
-    //#endif
+    LogTraceFunction;
+
     auto image = m_ctrler->get_image();
     RoguelikeSkillSelectionImageAnalyzer analyzer(image);
 
@@ -44,24 +34,29 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         return false;
     }
 
+    const auto& rg_src = Resrc.roguelike_recruit();
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
-        int cor_req_skill = 3;
-        for (const auto& [req_name, req_skill] : m_skill_mapping) {
-            if (name.find(req_name) != std::string::npos) {
-                cor_req_skill = req_skill;
-                break;
-            }
+        Log.info(__FUNCTION__, name, " skill size:", skill_vec.size());
+        if (name.empty()) {
+            continue;
         }
-        size_t index = 0;
-        if (skill_vec.size() < cor_req_skill) {
-            index = skill_vec.size() - 1;
-            Log.info("skill", cor_req_skill, "not exists, use skill", index);
+        const auto& oper_info = rg_src.get_oper_info(name);
+        int index = 0;
+        BattleSkillUsage usage = BattleSkillUsage::Possibly;
+        if (skill_vec.size() >= oper_info.skill) {
+            index = oper_info.skill - 1;
+            usage = oper_info.skill_usage;
         }
-        else {
-            index = cor_req_skill - 1;
+        else if (skill_vec.size() >= oper_info.alternate_skill) {
+            index = oper_info.alternate_skill - 1;
+            usage = oper_info.alternate_skill_usage;
         }
-        Rect target = skill_vec.at(index);
-        m_ctrler->click(target);
+
+        if (index >= 0) {
+            Log.info(__FUNCTION__, name, " select skill:", index + 1);
+            m_ctrler->click(skill_vec.at(index));
+        }
+        m_status->set_data("RoguelikeSkillUsage-" + name, static_cast<int>(usage));
     }
 
     return true;

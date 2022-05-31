@@ -147,6 +147,10 @@ namespace MeoAsstGui
             // 解压
             try
             {
+                if (Directory.Exists(extractDir))
+                {
+                    Directory.Delete(extractDir, true);
+                }
                 System.IO.Compression.ZipFile.ExtractToDirectory(UpdatePackageName, extractDir);
             }
             catch (InvalidDataException)
@@ -728,6 +732,8 @@ namespace MeoAsstGui
 
         private static void CopyFilesRecursively(string sourcePath, string targetPath)
         {
+            Directory.CreateDirectory(targetPath);
+
             //Now Create all of the directories
             foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
             {

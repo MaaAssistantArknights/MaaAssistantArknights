@@ -26,7 +26,7 @@ bool asst::MultiMatchImageAnalyzer::analyze()
     return multi_match_templ(templ);
 }
 
-void asst::MultiMatchImageAnalyzer::sort_result()
+void asst::MultiMatchImageAnalyzer::sort_result_horizontal()
 {
     // 按位置排个序
     std::sort(m_result.begin(), m_result.end(),

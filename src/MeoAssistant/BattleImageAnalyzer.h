@@ -19,7 +19,7 @@ namespace asst
             Cost = 32,       // 费用
             Vacancies = 64,  // 剩余可部署干员数
             // 肉鸽模式需要用到的识别
-            Roguelike = Home | HP | Oper | Skill
+            Roguelike = Home | Oper
         };
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
@@ -34,6 +34,7 @@ namespace asst
         const std::vector<Rect>& get_ready_skills() const noexcept;
         int get_hp() const noexcept;
         int get_kills() const noexcept;
+        int get_cost() const noexcept;
 
         void clear() noexcept;
 

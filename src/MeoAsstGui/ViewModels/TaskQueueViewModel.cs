@@ -34,6 +34,38 @@ namespace MeoAsstGui
             DisplayName = "一键长草";
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             InitializeItems();
+            InitTimer();
+        }
+
+        private System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
+
+        private void InitTimer()
+        {
+            _timer.Enabled = true;
+            _timer.Interval = 1000 * 60;
+            _timer.Tick += new EventHandler(Timer1_Elapsed);
+            _timer.Start();
+        }
+
+        private void Timer1_Elapsed(object sender, EventArgs e)
+        {
+            int intMinute = DateTime.Now.Minute;
+
+            if (intMinute != 0 || Idle == false)
+            {
+                return;
+            }
+            UpdateDatePrompt();
+
+            int intHour = DateTime.Now.Hour;
+            var settings = _container.Get<SettingsViewModel>();
+            if (settings.Timer1 && settings.Timer1Hour == intHour ||
+                settings.Timer2 && settings.Timer2Hour == intHour ||
+                settings.Timer3 && settings.Timer3Hour == intHour ||
+                settings.Timer4 && settings.Timer4Hour == intHour)
+            {
+                LinkStart();
+            }
         }
 
         public void InitializeItems()
@@ -75,7 +107,11 @@ namespace MeoAsstGui
                 new CombData { Display = "红票-5", Value = "AP-5" },
                 new CombData { Display = "技能-5", Value = "CA-5" },
                 new CombData { Display = "1-7", Value = "1-7" },
-
+                // “覆潮之下” 活动关卡 //复刻活动，结束后直接删除
+                new CombData { Display = "SV-7", Value = "SV-7" },
+                new CombData { Display = "SV-8", Value = "SV-8" },
+                new CombData { Display = "SV-9", Value = "SV-9" },
+                
                 // “愚人号” 活动关卡
                 //new CombData { Display = "SN-8", Value = "SN-8" },
                 //new CombData { Display = "SN-9", Value = "SN-9" },
@@ -84,8 +120,13 @@ namespace MeoAsstGui
                 //// “风雪过境” 活动关卡
                 //new CombData { Display = "BI-7", Value = "BI-7" },
                 //new CombData { Display = "BI-8", Value = "BI-8" }
-            };
+        };
 
+            UpdateDatePrompt();
+        }
+
+        public void UpdateDatePrompt()
+        {
             var now = DateTime.Now;
             var hour = now.Hour;
             if (hour >= 0 && hour < 4)
@@ -126,6 +167,26 @@ namespace MeoAsstGui
         public void ClearLog()
         {
             LogItemViewModels.Clear();
+        }
+
+        public void SelectedAll()
+        {
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.Name == "无限刷肉鸽")
+                    continue;
+                item.IsChecked = true;
+            }
+        }
+
+        public void InverseSelected()
+        {
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.Name == "无限刷肉鸽")
+                    continue;
+                item.IsChecked = !item.IsChecked;
+            }
         }
 
         public async void LinkStart()
