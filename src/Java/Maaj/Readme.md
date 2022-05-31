@@ -40,7 +40,7 @@ MeoAssistantArknights_v3.9.0-beta.8
 ```
 
 2. 双击Maa-HTTP-Server-startup.bat启动.
-3. 默认端口号8848钛金端口.
+3. 默认端口号8848钛金端口,如需修改,请修改 Maa-HTTP-Server-startup.bat 中的-port=8848 .
 4. 当你看到如下内容则启动成功.
 
 ```
@@ -420,7 +420,7 @@ MeoAssistantArknights_v3.9.0-beta.8
 
 ### WebSocket部分
 
-请求地址
+请求地址(没错跟HTTP同样是8848钛金端口
 
 > ws://127.0.0.1:8848/API/V1
 
