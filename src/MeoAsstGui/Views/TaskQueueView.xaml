@@ -23,7 +23,7 @@
                 <RowDefinition Height="60" />
                 <RowDefinition Height="60" />
             </Grid.RowDefinitions>
-            <ListBox x:Name="TaskList" Grid.Row="0" Width="200" Margin="10" HorizontalAlignment="Center"
+            <ListBox x:Name="TaskList" Grid.Row="0" Width="200" Margin="0,10,0,0" HorizontalAlignment="Center"
                  dd:DragDrop.IsDragSource="{Binding Idle}" dd:DragDrop.IsDropTarget="{Binding Idle}"
                   ItemsSource="{Binding Path=TaskItemViewModels}">
                 <ListBox.ItemTemplate>
@@ -36,7 +36,9 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <CheckBox Grid.Row="1" IsChecked="{Binding Shutdown}" Content="自动关机" HorizontalAlignment="Center" Margin="5" />
+            <Button Grid.Row="1" Command="{s:Action SelectedAll}" Content="全选" HorizontalAlignment="Center" Width="100" Height="30" Margin="-100,0,0,0" VerticalAlignment="Top" />
+            <Button Grid.Row="1" Command="{s:Action InverseSelected}" Content="反选" HorizontalAlignment="Center" Width="100" Height="30" Margin="100,0,0,0" VerticalAlignment="Top" />
+            <CheckBox Grid.Row="1" IsChecked="{Binding Shutdown}" Content="自动关机" HorizontalAlignment="Center" Margin="0,34,0,0" />
             <Button Grid.Row="2" Command="{s:Action LinkStart}" IsEnabled="{Binding Idle}" Content="LinkStart !" HorizontalAlignment="Center" Width="120" Height="50" Margin="5" />
             <Button Grid.Row="3" Command="{s:Action Stop}" Content="停止" HorizontalAlignment="Center" Width="120" Height="50" Margin="5" />
         </Grid>
