@@ -32,6 +32,9 @@ fun Application.wsRouting() {
                     val wsRequest = Json.decodeFromString(WsRequest.serializer(), receivedText)
                     var response: BaseData? = null
                     when (wsRequest.command) {
+                        "getVersion" -> {
+                            response = GetVersionResponse(MaaService.getVersion())
+                        }
                         "connect" -> {
                             with(Json.decodeFromJsonElement(ConnectRequest.serializer(), wsRequest.data)) {
                                 response = MaaService.connect(adbPath, host, detailJson)
