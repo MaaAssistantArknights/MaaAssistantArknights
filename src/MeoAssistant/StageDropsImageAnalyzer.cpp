@@ -253,13 +253,12 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
 
     // split
     int threshold = task_ptr->mask_range.first;
-    int pre_value = 0;
+    uchar pre_value = 0;
     for (int i = 0; i < bounding.cols; ++i) {
-        int value = 0;
+        uchar value = 0;
         for (int j = 0; j < bounding.rows; ++j) {
-            value += bounding.at<uchar>(0, i);
+            value = std::max(value, bounding.at<uchar>(j, i));
         }
-        value /= bounding.rows;
         bool is_white = value > threshold && pre_value - value < threshold;
         pre_value = value;
 
