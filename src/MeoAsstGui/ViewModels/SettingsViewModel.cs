@@ -964,34 +964,19 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _connectConfig, value);
                 ViewStatusStorage.Set("Connect.ConnectConfig", value);
-                if (ConnectAddress.Length == 0)
-                {
-                    UpdateAddressByConfig();
-                }
             }
         }
 
-        private readonly Dictionary<string, List<string>> ConfigAddressesMapping = new Dictionary<string, List<string>>
+        private readonly Dictionary<string, string> DefaultAddress = new Dictionary<string, string>
             {
-                { "General", new List<string> {""} },
-                { "BlueStacks", new List<string> {"127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5557" } },
-                { "MuMuEmulator", new List<string>{"127.0.0.1:7555"} },
-                { "LDPlayer", new List<string>{ "127.0.0.1:5555", "emulator-5554" } },
-                { "Nox", new List<string> { "127.0.0.1:62001", "127.0.0.1:59865" } },
-                { "XYAZ", new List<string> {"127.0.0.1:21503" }  },
-                { "WSA", new List<string> { "127.0.0.1:58526" } },
+                { "General", "" },
+                { "BlueStacks", "127.0.0.1:5555" },
+                { "MuMuEmulator", "127.0.0.1:7555" },
+                { "LDPlayer", "emulator-5554" },
+                { "Nox", "127.0.0.1:62001" },
+                { "XYAZ", "127.0.0.1:21503"  },
+                { "WSA","127.0.0.1:58526" },
             };
-
-        private void UpdateAddressByConfig()
-        {
-            var addresses = ConfigAddressesMapping[ConnectConfig];
-            ConnectAddress = addresses.FirstOrDefault();
-            //ConnectAddressList.Clear();
-            //foreach (var address in addresses)
-            //{
-            //    ConnectAddressList.Add(address);
-            //}
-        }
 
         public bool RefreshAdbConfig(ref string error)
         {
@@ -1018,8 +1003,32 @@ namespace MeoAsstGui
             }
             ConnectConfig = emulators.First();
             AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
-            UpdateAddressByConfig();
-            TryToSetBlueStacksHyperVAddress();
+            if (ConnectAddress.Length == 0)
+            {
+                var addresses = adapter.GetAdbAddresses(AdbPath);
+                // 傻逼雷电已经关掉了用别的 adb 还能检测出来这个端口 device
+                if (addresses.Count == 1 && addresses.First() != "emulator-5554")
+                {
+                    ConnectAddress = addresses.First();
+                }
+                else if (addresses.Count > 1)
+                {
+                    foreach (var address in addresses)
+                    {
+                        if (address == "emulator-5554" && ConnectConfig != "LDPlayer")
+                        {
+                            continue;
+                        }
+                        ConnectAddress = address;
+                        break;
+                    }
+                }
+
+                if (ConnectAddress.Length == 0)
+                {
+                    ConnectAddress = DefaultAddress[ConnectConfig];
+                }
+            }
 
             return true;
         }

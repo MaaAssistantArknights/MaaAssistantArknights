@@ -609,6 +609,7 @@ namespace MeoAsstGui
                 }
             }
             settings.TryToSetBlueStacksHyperVAddress();
+
             bool ret = AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
             if (!ret)
             {
