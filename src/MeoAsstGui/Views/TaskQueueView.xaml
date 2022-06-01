@@ -19,26 +19,43 @@
         <Grid Grid.Column="0" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="60" />
+                <RowDefinition Height="40" />
                 <RowDefinition Height="60" />
                 <RowDefinition Height="60" />
             </Grid.RowDefinitions>
-            <ListBox x:Name="TaskList" Grid.Row="0" Width="200" Margin="0,10,0,0" HorizontalAlignment="Center"
+            <Border BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}" CornerRadius="4" MaxWidth="260">
+                <Grid Grid.Row="0" Margin="0" Width="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="TaskList" Grid.Row="0" Grid.ColumnSpan="2" Width="200" Margin="0,10,0,0" HorizontalAlignment="Center"
                  dd:DragDrop.IsDragSource="{Binding Idle}" dd:DragDrop.IsDropTarget="{Binding Idle}"
-                  ItemsSource="{Binding Path=TaskItemViewModels}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <!--<TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ID}" />
+                  ItemsSource="{Binding Path=TaskItemViewModels}" BorderThickness="0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <!--<TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ID}" />
                             <TextBlock Style="{StaticResource TextBlockDefault}" Text=". " />-->
-                            <CheckBox IsChecked="{Binding IsChecked}" IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" Content="{Binding Name}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <Button Grid.Row="1" Command="{s:Action SelectedAll}" IsEnabled="{Binding Idle}" Content="全选" HorizontalAlignment="Center" Width="100" Height="30" Margin="-100,0,0,0" VerticalAlignment="Top" />
-            <Button Grid.Row="1" Command="{s:Action InverseSelected}" IsEnabled="{Binding Idle}" Content="反选" HorizontalAlignment="Center" Width="100" Height="30" Margin="100,0,0,0" VerticalAlignment="Top" />
-            <CheckBox Grid.Row="1" IsChecked="{Binding Shutdown}" Content="自动关机" HorizontalAlignment="Center" Margin="0,34,0,0" />
+                                    <CheckBox IsChecked="{Binding IsChecked}" IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" Content="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Grid.Row="1" Grid.Column="0" Command="{s:Action SelectedAll}" IsEnabled="{Binding Idle}" Content="全选" Width="90" Height="30" VerticalAlignment="Top"  />
+                    <Button Grid.Row="1" Grid.Column="1"  Command="{s:Action InverseSelected}" IsEnabled="{Binding Idle}" Content="反选"  Width="90" Height="30"  VerticalAlignment="Top" />
+                </Grid>
+            </Border>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center">
+                <CheckBox IsChecked="{Binding Shutdown}" Content="自动关机" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <CheckBox IsChecked="{Binding Hibernate}" Content="休眠" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <CheckBox IsChecked="{Binding Suspend}" Content="待机" Visibility="Collapsed"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+
             <Button Grid.Row="2" Command="{s:Action LinkStart}" IsEnabled="{Binding Idle}" Content="LinkStart !" HorizontalAlignment="Center" Width="120" Height="50" Margin="5" />
             <Button Grid.Row="3" Command="{s:Action Stop}" Content="停止" HorizontalAlignment="Center" Width="120" Height="50" Margin="5" />
         </Grid>
