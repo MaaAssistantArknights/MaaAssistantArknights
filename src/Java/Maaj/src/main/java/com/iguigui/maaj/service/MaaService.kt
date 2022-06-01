@@ -95,4 +95,8 @@ object MaaService {
         this.wsConnection -= connection
     }
 
+    fun getImage(id: String) : ByteArray? {
+        return instancePool[id]?.getImage()
+    }
+
 }

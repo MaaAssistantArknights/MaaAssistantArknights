@@ -7,6 +7,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.utils.io.*
 import kotlinx.serialization.json.jsonObject
 
 
@@ -60,6 +61,19 @@ fun Application.httpRouting() {
                 call.respond(EmptyBaseData.wapperToHttpResponse())
             }
             get("/listInstance") {
+                val list = MaaService.listInstance()
+                call.respond(ListInstanceResponse(list).wapperToHttpResponse())
+            }
+            get("/getImage") {
+                val id = call.request.queryParameters["id"]
+                id?.let {
+
+                    MaaService.getImage(it)
+                }
+                call.response.headers
+                //todo
+            }
+            post("/listInstance") {
                 val list = MaaService.listInstance()
                 call.respond(ListInstanceResponse(list).wapperToHttpResponse())
             }
