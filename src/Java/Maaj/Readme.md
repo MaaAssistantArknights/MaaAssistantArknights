@@ -1,6 +1,6 @@
 # Maa-HTTP接口实现
 
-本项目为通过JNA(Java-Native-Access)调用Maa核心实现的HTTP+WebSocket接口实现.
+基于JNA(Java-Native-Access)调用Maa核心的HTTP+WebSocket接口实现.
 
 ## 接口实现情况
 
