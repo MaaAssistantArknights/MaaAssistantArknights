@@ -18,6 +18,8 @@
 </div>
 <br>
 
+[README in English](README-en.md)
+
 MAA 的意思是 MAA Assistant Arknights
 
 一款明日方舟游戏小助手
