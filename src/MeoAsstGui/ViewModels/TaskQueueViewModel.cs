@@ -37,6 +37,22 @@ namespace MeoAsstGui
             InitTimer();
         }
 
+        public void ShowButton()
+        {
+            Visible = Visibility.Visible;
+            Hibernate = true;
+        }
+
+        private Visibility _visible = Visibility.Collapsed;
+        public Visibility Visible
+        {
+            get { return _visible; }
+            set
+            {
+                SetAndNotify(ref _visible, value);
+            }
+        }
+
         private System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
 
         private void InitTimer()
