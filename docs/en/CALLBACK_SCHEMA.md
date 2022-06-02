@@ -171,29 +171,29 @@ Todo
 - `InfrastDormDoubleConfirmButton`  
     Double confirmation at infrastructure, only happens when there is a conflict with other operators.
 - `Roguelike1Start`  
-    Roguelike starting.
+    Integrated Strategy: starting.
 - `Roguelike1StageTraderInvestConfirm`  
-    Roguelike trading confirmation.
+    Integrated Strategy: trading items with Originium Ingot.
 - `Roguelike1StageTraderInvestSystemFull`  
-    Roguelike trading system full.
+    Integrated Strategy: trading system full.
 - `Roguelike1ExitThenAbandon`  
-    Roguelike exit confirmation.
+    Integrated Strategy: exit confirmation.
 - `Roguelike1MissionCompletedFlag`  
-    Roguelike mission completed.
+    Integrated Strategy: mission completed.
 - `Roguelike1MissionFailedFlag`  
-    Roguelike mission failed.
+    Integrated Strategy: mission failed.
 - `Roguelike1StageSafeHouseEnter`  
-    Roguelike stage: 诡异行商
+    Integrated Strategy: Cunning Merchant
 - `Roguelike1StageSafeHouseEnter`  
-    Roguelike stage: 安全的角落
+    Integrated Strategy: Safehouse
 - `Roguelike1StageEncounterEnter`  
-    Roguelike stage: 不期而遇/古堡馈赠
+    Integrated Strategy: Chance Meeting
 - `Roguelike1StageCambatDpsEnter`  
-    Roguelike stage: 普通作战
+    Integrated Strategy: Operation
 - `Roguelike1StageEmergencyDps`  
-    Roguelike stage: 紧急作战
+    Integrated Strategy: Emergency Operation
 - `Roguelike1StageDreadfulFoe`  
-    Roguelike stage: 险路恶敌
+    Integrated Strategy: Dreadful Foe
 - Todo Other
 
 #### SubTaskExtraInfo

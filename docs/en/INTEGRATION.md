@@ -119,14 +119,14 @@ Appends a task.
     Settings are not supported.
 
 - `Roguelike`  
-    无限刷肉鸽
+    Integrated Strategies
 
 ```jsonc
 {
-    "mode": int,            // 模式，可选项。默认 0
-                            // 0 - 尽可能一直往后打
-                            // 1 - 第一层投资完源石锭就退出
-                            // 2 - 投资过后再退出，没有投资就继续往后打
+    "mode": int,            // Mode, optional, by default 0
+                            // 0 - Plays as much as you can
+                            // 1 - Exits after first level
+                            // 2 - Plays until trading
 }
 ```
 

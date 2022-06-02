@@ -1,4 +1,4 @@
-# Roguelike Schema
+# Integrated Strategy (I.S.) Schema
 
 Usage of `resource/roguelike/*.json` and description of each field
 
