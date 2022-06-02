@@ -70,19 +70,19 @@ bool asst::OcrImageAnalyzer::analyze()
     }
     if (need_local) {
         if (m_roi.x < 0) {
-            Log.info("roi is out of range", m_roi.to_string());
+            Log.warn("roi is out of range", m_roi.to_string());
             m_roi.x = 0;
         }
         if (m_roi.y < 0) {
-            Log.info("roi is out of range", m_roi.to_string());
+            Log.warn("roi is out of range", m_roi.to_string());
             m_roi.y = 0;
         }
         if (m_roi.x + m_roi.width > m_image.cols) {
-            Log.info("roi is out of range", m_roi.to_string());
+            Log.warn("roi is out of range", m_roi.to_string());
             m_roi.width = m_image.cols - m_roi.x;
         }
         if (m_roi.y + m_roi.height > m_image.rows) {
-            Log.info("roi is out of range", m_roi.to_string());
+            Log.warn("roi is out of range", m_roi.to_string());
             m_roi.height = m_image.rows - m_roi.y;
         }
 
