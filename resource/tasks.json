@@ -2552,7 +2552,7 @@
             150
         ],
         "preDelay": 500,
-        "rearDelay": 500
+        "rearDelay": 1500
     },
     "CreditShop-NoMoney": {
         "algorithm": "OcrDetect",
