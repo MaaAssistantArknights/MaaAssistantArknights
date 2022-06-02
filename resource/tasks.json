@@ -2998,8 +2998,10 @@
             165,
             149
         ],
+        "rearDelay": 1000,
         "next": [
-            "ReplenishToMaxConfirm"
+            "ReplenishToMaxConfirm",
+            "Stop"
         ]
     },
     "ReplenishToMaxConfirm": {
