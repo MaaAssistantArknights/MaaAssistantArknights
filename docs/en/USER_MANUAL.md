@@ -42,17 +42,17 @@ Recognize the percentage of the Morale progress bar. When Morale decreases beyon
 - Auto-recruitment supports using `Expedited Plan` to make it fully automated! Please set it in the settings.
 - Pop-up window when 5★, 6★ operators are recruited.
 
-### 自动肉鸽功能
+### Integrated Strategy (I.S.) Support
 
-- 设置中的三个选项
+- Three options in the settings
 
-  - 尽可能往后打：用于刷蜡烛
-  - 刷源石锭投资，第一层商店后直接退出：刷源石锭最高效的模式，建议手动选择 `古堡观光` （简单）模式
-  - 刷源石锭投资，投资后退出：兼顾刷蜡烛和刷源石锭投资的模式
+  - Plays as much as you can: for getting candles.
+  - Exits after first level: the most efficient mode for getting Originium Ingots. Easy mode is recommended.
+  - Plays until trading: for getting both items.
 
-- 肉鸽已支持自动识别干员及练度，并自动选择较优干员及技能
-- 支持掉线重连、支持凌晨 4 点更新后继续回去刷
-- 如果软件出现 bug 卡住了，会自动放弃当次探索并重试。但如果经常在某个地方卡住然后放弃、严重影响效率的，欢迎提个 issue 反馈一下~
+- I.S. now supports recognition of operators and levels, and can choose an optimal solution of operators and skills.
+- Supports auto-reconnecting after disconnection, and replaying after 4 AM.
+- The program will abandon the operation and retry if it is stuck by some bug. If it is stuck frequently at some place and has severe impact on efficiency, please submit an issue to us.
 
 ### Share Your Tasks
 
