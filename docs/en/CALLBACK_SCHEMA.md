@@ -33,7 +33,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
     ```
 
 - `const char* details`  
-    Message details, JSON. See also: [Field Description](#Field Description)
+    Message details, JSON. See also: [Field Description](#field-description)
 - `void* custom_arg`  
     Custom arguments of the caller, will pass the `custom_arg` argument of `AsstCreateEx` interface. C-like languages can pass the `this` pointer with it.
 
