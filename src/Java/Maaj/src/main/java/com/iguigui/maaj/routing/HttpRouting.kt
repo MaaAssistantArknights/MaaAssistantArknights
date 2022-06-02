@@ -3,6 +3,7 @@ package com.iguigui.maaj.routing
 import com.iguigui.maaj.dto.*
 import com.iguigui.maaj.service.MaaService
 import com.iguigui.maaj.service.MaaService.appendTask
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -67,11 +68,10 @@ fun Application.httpRouting() {
             get("/getImage") {
                 val id = call.request.queryParameters["id"]
                 id?.let {
-
-                    MaaService.getImage(it)
+                    MaaService.getImage(it)?.run {
+                        call.respondBytes(this, ContentType("image", "png"))
+                    }
                 }
-                call.response.headers
-                //todo
             }
             post("/listInstance") {
                 val list = MaaService.listInstance()
