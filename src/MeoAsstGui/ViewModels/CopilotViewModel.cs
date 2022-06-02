@@ -70,7 +70,7 @@ namespace MeoAsstGui
             LogItemViewModels.Clear();
         }
 
-        private string _filename;
+        private string _filename = "";
 
         public string Filename
         {
