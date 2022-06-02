@@ -9,6 +9,8 @@
 
 bool asst::OcrImageAnalyzer::analyze()
 {
+    LogTraceFunction;
+
     m_ocr_result.clear();
 
     std::vector<TextRectProc> preds_vec;
@@ -67,6 +69,23 @@ bool asst::OcrImageAnalyzer::analyze()
         }
     }
     if (need_local) {
+        if (m_roi.x < 0) {
+            Log.info("roi is out of range", m_roi.to_string());
+            m_roi.x = 0;
+        }
+        if (m_roi.y < 0) {
+            Log.info("roi is out of range", m_roi.to_string());
+            m_roi.y = 0;
+        }
+        if (m_roi.x + m_roi.width > m_image.cols) {
+            Log.info("roi is out of range", m_roi.to_string());
+            m_roi.width = m_image.cols - m_roi.x;
+        }
+        if (m_roi.y + m_roi.height > m_image.rows) {
+            Log.info("roi is out of range", m_roi.to_string());
+            m_roi.height = m_image.rows - m_roi.y;
+        }
+
         m_ocr_result = Resrc.ocr().recognize(m_image, m_roi, all_pred, m_without_det);
     }
     //log.trace("ocr result", m_ocr_result);
