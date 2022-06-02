@@ -1493,7 +1493,7 @@
             "TodaysSupplies",
             "Stop"
         ],
-        "rearDelay": 1000
+        "rearDelay": 3000
     },
     "TodaysSupplies": {
         "algorithm": "OcrDetect",
