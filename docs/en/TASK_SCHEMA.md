@@ -68,7 +68,7 @@ Usage of `resource/tasks.json` and description of each field
         
         "reduceOtherTimes": [ "OtherTaskName1", "OtherTaskName2" ],
                                             // Reducing execution counter of other tasks after execution, optional
-                                            // E.g. That sanity is added means clicking the blue start button did not take effect so the counter of the starting task should be reduced by 1.
+                                            // E.g. Using sanity potion means clicking the blue start button did not take effect so the counter of the starting task should be reduced by 1.
 
         "specificRect": [ 100, 100, 50, 50],
                                             // Available only when `action` is `ClickRect`, indicating the position to click (random position within the region), required. Auto-scaling based on 1280 * 720 resolution.
