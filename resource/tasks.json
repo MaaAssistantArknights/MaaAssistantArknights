@@ -4446,9 +4446,9 @@
         "action": "ClickRect",
         "specificRect": [
             15,
-            690,
+            710,
             80,
-            30
+            10
         ]
     },
     "BattleQuickFormationConfirm": {
