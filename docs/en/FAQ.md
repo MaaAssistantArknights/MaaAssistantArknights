@@ -15,7 +15,7 @@
 Tips: please refer to the [Usage](../README-en.md#Usage) section to ensure that you are using your simulator correctly.
 
 - Approach 1: find the installation path of your simulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., EXE files with `adb`). Simply choose the file in the connection settings of MAA!
-- Approach 2: please refer to the [Custom Connection](#Custom Connection) section.
+- Approach 2: please refer to the [Custom Connection](#custom-connection) section.
 - Approach 3: change another simulator, such as [Bluestacks international version](https://www.bluestacks.com/download.html) Nougat 64 bit
 - Approach 4: change the code related. You can find the code [here](../src/MeoAsstGui/Helper/WinAdapter.cs) written in C# which is related to the hook on the simulator process and getting ADB path. Feel free to submit PR to us!
 
