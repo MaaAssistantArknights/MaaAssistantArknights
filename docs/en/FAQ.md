@@ -1,6 +1,6 @@
 ## Frequently Asked Questions
 
-### The program crashes immediately when I try to run it.
+### The program crashes immediately when I try to run it
 
 - Possible solution 1: you are missing some runtime libraries.
   Please try installing [Visual C++ Redistributable](https://docs.microsoft.com/en/cpp/windows/latest-supported-vc-redist?view=msvc-160#visual-studio-2015-2017-2019-and-2022), [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) and restart the program.
