@@ -157,15 +157,15 @@ Todo
 - `StartButton2`  
     Starting.
 - `MedicineConfirm`  
-    Confirmation of adding sanity.
+    Confirmation of using Sanity Potion.
 - `StoneConfirm`  
-    Confirmation of using originium.
+    Confirmation of using Originite Prime.
 - `RecruitRefreshConfirm`  
     Confirmation of refreshing recruitment list.
 - `RecruitConfirm`  
-    Confirmation of recruiting.
+    Confirmation of recruitment.
 - `RecruitNowConfirm`  
-    Confirmation of recruiting now.
+    Confirmation of expedited recruitment.
 - `ReportToPenguinStats`  
     Reporting to Penguin Stats.
 - `InfrastDormDoubleConfirmButton`  
