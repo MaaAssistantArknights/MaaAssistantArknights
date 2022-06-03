@@ -174,8 +174,8 @@ namespace MeoAsstGui
                     using (var toast = new ToastNotification("更新文件不正确！"))
                     {
                         toast.AppendContentText("文件名: " + UpdatePackageName)
-                        .AppendContentText("已将其删除！")
-                        .ShowUpdateVersion();
+                            .AppendContentText("已将其删除！")
+                            .ShowUpdateVersion();
                     }
                 });
                 return false;
