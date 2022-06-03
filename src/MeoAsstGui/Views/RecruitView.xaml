@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:s="https://github.com/canton7/Stylet"
              mc:Ignorable="d"
+             xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
+             d:DataContext="{d:DesignInstance {x:Type vm:RecruitViewModel}}"
              d:DesignHeight="495" d:DesignWidth="800">
     <Grid Margin="20">
         <Grid.RowDefinitions>
