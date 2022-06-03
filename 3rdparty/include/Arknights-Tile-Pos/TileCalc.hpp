@@ -151,7 +151,10 @@ namespace Map
     inline bool TileCalc::run(const std::string& code_or_name, bool side, std::vector<std::vector<cv::Point2d>>& out_pos, std::vector<std::vector<Tile>>& out_tiles) const
     {
         for (const Map::Level& level : TileCalc::levels) {
-            if (level.code != code_or_name && level.name != code_or_name) {
+            if (level.code != code_or_name &&
+                level.name != code_or_name &&
+                level.levelId != code_or_name &&
+                level.stageId != code_or_name) {
                 continue;
             }
             auto [x, y, z] = level.view[side ? 1 : 0];
