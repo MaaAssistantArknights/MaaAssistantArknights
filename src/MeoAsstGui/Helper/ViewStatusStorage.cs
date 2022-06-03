@@ -20,6 +20,7 @@ namespace MeoAsstGui
     public class ViewStatusStorage
     {
         private static readonly string _configFilename = System.Environment.CurrentDirectory + "\\gui.json";
+        private static readonly string _configBakFilename = System.Environment.CurrentDirectory + "\\gui.json.bak";
         private static JObject _viewStatus = new JObject();
 
         public static string Get(string key, string defalut_value)
@@ -40,7 +41,7 @@ namespace MeoAsstGui
             Save();
         }
 
-        public static bool Load()
+        public static bool Load(bool withRestore = true)
         {
             if (File.Exists(_configFilename))
             {
@@ -48,13 +49,27 @@ namespace MeoAsstGui
                 {
                     string jsonStr = File.ReadAllText(_configFilename);
 
+                    if (jsonStr.Length <= 2 && File.Exists(_configBakFilename))
+                    {
+                        File.Copy(_configBakFilename, _configFilename, true);
+                        jsonStr = File.ReadAllText(_configFilename);
+                    }
+
                     // 文件存在但为空，会读出来一个null，感觉c#这库有bug，如果是null 就赋值一个空JObject
                     _viewStatus = (JObject)JsonConvert.DeserializeObject(jsonStr) ?? new JObject();
                 }
                 catch (Exception)
                 {
-                    _viewStatus = new JObject();
-                    return false;
+                    if (withRestore && File.Exists(_configBakFilename))
+                    {
+                        File.Copy(_configBakFilename, _configFilename, true);
+                        return Load(false);
+                    }
+                    else
+                    {
+                        _viewStatus = new JObject();
+                        return false;
+                    }
                 }
             }
             else
@@ -69,9 +84,17 @@ namespace MeoAsstGui
         {
             try
             {
-                using (StreamWriter sw = new StreamWriter(_configFilename))
+                var jsonStr = _viewStatus.ToString();
+                if (jsonStr.Length > 2)
                 {
-                    sw.Write(_viewStatus.ToString());
+                    using (StreamWriter sw = new StreamWriter(_configFilename))
+                    {
+                        sw.Write(jsonStr);
+                    }
+                    if (new System.IO.FileInfo(_configFilename).Length > 2)
+                    {
+                        File.Copy(_configFilename, _configBakFilename, true);
+                    }
                 }
             }
             catch (Exception)

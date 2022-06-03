@@ -37,6 +37,7 @@ bool asst::DronesForShamareTaskPlugin::_run()
     }
 
     ProcessTask drone_task(*this, { "DroneAssistTrade" });
+    drone_task.set_retry_times(5);
     bool drone_ret = drone_task.run();
     if (drone_ret) {
         m_cast_ptr->set_uses_of_drone("_Used");

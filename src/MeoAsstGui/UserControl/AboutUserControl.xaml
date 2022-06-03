@@ -6,6 +6,8 @@
              xmlns:s="https://github.com/canton7/Stylet"
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d"
+             xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
+             d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
              d:DesignHeight="300" d:DesignWidth="550">
     <StackPanel VerticalAlignment="Center" Margin="10">
         <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
