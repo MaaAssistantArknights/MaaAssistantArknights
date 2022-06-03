@@ -18,6 +18,13 @@ bool asst::RoguelikeSkillSelectionImageAnalyzer::analyze()
 
     const auto& flags = flag_analyzer.get_result();
 
+    if (flags.size() > 13) {
+        // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/669
+        // 不知道为什么会匹配出来一堆结果，得分完全相同，坐标间隔还特别有规律。这种情况直接报错然后重试
+        Log.error("Too many flags");
+        return false;
+    }
+
     int unknow_index = 0;
     for (const auto& flag : flags) {
         std::string name = name_analyze(flag.rect);
