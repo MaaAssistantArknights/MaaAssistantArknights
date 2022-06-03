@@ -559,6 +559,16 @@ namespace MeoAsstGui
         /* 通知显示设置 */
 
         #region 通知显示
+        private bool _toastUsingSystem = Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
+        public bool ToastUsingSystem
+        {
+            get { return _toastUsingSystem; }
+            set
+            {
+                SetAndNotify(ref _toastUsingSystem, value);
+                ViewStatusStorage.Set("Toast.UsingSystem", value.ToString());
+            }
+        }
 
         // 左上
         private bool _toastPositionTopLeft = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.TopLeft.ToString();

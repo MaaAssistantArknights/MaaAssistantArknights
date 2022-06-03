@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MeoAsstGui
 {
@@ -25,6 +26,10 @@ namespace MeoAsstGui
 
     public class AsstProxy
     {
+        public bool CheckToastSystem()
+        {
+            return Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
+        }
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
         private delegate void ProcCallbckMsg(AsstMsg msg, JObject details);
@@ -210,10 +215,11 @@ namespace MeoAsstGui
                     mainModel.Idle = true;
                     mainModel.AddLog("任务已全部完成");
                     mainModel.UseStone = false;
-                    using (var toast = new ToastNotification("任务已全部完成！"))
-                    {
-                        toast.Show();
-                    }
+                    if (CheckToastSystem()) new ToastContentBuilder().AddText("任务已全部完成！").Show();
+                    else using (var toast = new ToastNotification("任务已全部完成！"))
+                        {
+                            toast.Show();
+                        }
                     mainModel.CheckAndShutdown();
                     break;
             }
@@ -439,10 +445,11 @@ namespace MeoAsstGui
                 case "RecruitSpecialTag":
                     {
                         string special = subTaskDetails["tag"].ToString();
-                        using (var toast = new ToastNotification("公招提示"))
-                        {
-                            toast.AppendContentText(special).ShowRecruit();
-                        }
+                        if (CheckToastSystem()) new ToastContentBuilder().AddText("公招提示").Show();
+                        else using (var toast = new ToastNotification("公招提示"))
+                            {
+                                toast.AppendContentText(special).ShowRecruit();
+                            }
                     }
                     break;
 
@@ -451,10 +458,11 @@ namespace MeoAsstGui
                         int level = (int)subTaskDetails["level"];
                         if (level >= 5)
                         {
-                            using (var toast = new ToastNotification($"公招出 {level} 星了哦！"))
-                            {
-                                toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
-                            }
+                            if (CheckToastSystem()) new ToastContentBuilder().AddText("公招提示").AddText($"公招出{level}星了哦！").Show();
+                            else using (var toast = new ToastNotification($"公招出 {level} 星了哦！"))
+                                {
+                                    toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
+                                }
                             mainModel.AddLog(level + " 星 Tags", "darkorange", "Bold");
                         }
                         else
@@ -565,10 +573,11 @@ namespace MeoAsstGui
                 case "RecruitSpecialTag":
                     {
                         string special = subTaskDetails["tag"].ToString();
-                        using (var toast = new ToastNotification("公招提示"))
-                        {
-                            toast.AppendContentText(special).ShowRecruit();
-                        }
+                        if (CheckToastSystem()) new ToastContentBuilder().AddText("公招提示").Show();
+                        else using (var toast = new ToastNotification("公招提示"))
+                            {
+                                toast.AppendContentText(special).ShowRecruit();
+                            }
                     }
                     break;
 
@@ -595,10 +604,11 @@ namespace MeoAsstGui
                         recruitModel.RecruitResult = resultContent;
                         if (level >= 5)
                         {
-                            using (var toast = new ToastNotification($"公招出 {level} 星了哦！"))
-                            {
-                                toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
-                            }
+                            if (CheckToastSystem()) new ToastContentBuilder().AddText("公招提示").AddText($"公招出 {level} 星了哦！").Show();
+                            else using (var toast = new ToastNotification($"公招出 {level} 星了哦！"))
+                                {
+                                    toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
+                                }
                         }
                     }
                     break;

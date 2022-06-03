@@ -299,12 +299,6 @@ namespace MeoAsstGui
             NotificationSounds sound = NotificationSounds.Notification,
             NotificationContent notificationContent = null)
         {
-            // Requires Microsoft.Toolkit.Uwp.Notifications NuGet package version 7.0 or greater
-            new ToastContentBuilder()
-                .AddText(_notificationTitle, hintMaxLines: 1)
-               .AddText("Conf Room 2001 / Building 135")
-               .AddText("10:00 AM - 10:30 AM")
-               .Show(); 
             if (!string.IsNullOrWhiteSpace(ViewStatusStorage.Get("Toast.Position", NotificationPosition.BottomRight.ToString())))
             {
                 notificationContent = notificationContent ?? BaseContent();

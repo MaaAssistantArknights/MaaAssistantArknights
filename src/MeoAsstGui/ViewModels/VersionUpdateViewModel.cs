@@ -25,6 +25,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MeoAsstGui
 {
@@ -123,7 +124,10 @@ namespace MeoAsstGui
         /// 检查是否有已下载的更新包，如果有立即更新并重启进程
         /// </summary>
         /// <returns>操作成功返回 true，反之则返回 false</returns>
-
+        public bool CheckToastSystem()
+        {
+            return Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
+        }
         public bool CheckAndUpdateNow()
         {
             if (UpdateTag == string.Empty
@@ -135,12 +139,18 @@ namespace MeoAsstGui
 
             Execute.OnUIThread(() =>
             {
-                using (var toast = new ToastNotification("检测到新版本包"))
-                {
-                    toast.AppendContentText("正在解压，请稍等……")
-                        .AppendContentText(UpdateTag)
-                        .ShowUpdateVersion(row: 2);
-                }
+                if (CheckToastSystem())
+                    new ToastContentBuilder()
+                        .AddText("检测到新版本包")
+                        .AddText("正在解压，请稍等……")
+                        .Show();
+                else
+                    using (var toast = new ToastNotification("检测到新版本包"))
+                    {
+                        toast.AppendContentText("正在解压，请稍等……")
+                            .AppendContentText(UpdateTag)
+                            .ShowUpdateVersion(row: 2);
+                    }
             });
 
             string extractDir = Directory.GetCurrentDirectory() + "\\NewVersionExtract";
@@ -158,12 +168,19 @@ namespace MeoAsstGui
                 File.Delete(UpdatePackageName);
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification("更新文件不正确！"))
-                    {
-                        toast.AppendContentText("文件名: " + UpdatePackageName)
+                    if (CheckToastSystem())
+                        new ToastContentBuilder()
+                        .AddText("更新文件不正确！")
+                        .AddText("文件名: " + UpdatePackageName)
+                        .AddText("已将其删除！")
+                        .Show();
+                    else
+                        using (var toast = new ToastNotification("更新文件不正确！"))
+                        {
+                            toast.AppendContentText("文件名: " + UpdatePackageName)
                             .AppendContentText("已将其删除！")
                             .ShowUpdateVersion();
-                    }
+                        }
                 });
                 return false;
             }
@@ -249,27 +266,48 @@ namespace MeoAsstGui
             {
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification("检测到新版本"))
-                    {
-                        toast.AppendContentText("正在后台下载……")
-                            .AppendContentText("新版本: " + UpdateTag)
-                            .AppendContentText("更新信息: " + UpdateInfo)
-                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                            .ShowUpdateVersion();
-                    }
+                    Uri up_uri = new Uri(_lastestJson["html_url"].ToString());
+                    if (CheckToastSystem())
+                        new ToastContentBuilder()
+                        .AddText("检测到新版本")
+                        .AddText("正在后台下载……")
+                        .AddText("新版本: " + UpdateTag)
+                        .AddButton(new ToastButton()
+                            .SetContent(openUrlToastButton.text)
+                            .SetProtocolActivation(up_uri)
+                            )
+                        .Show();
+                    else
+                        using (var toast = new ToastNotification("检测到新版本"))
+                        {
+                            toast.AppendContentText("正在后台下载……")
+                                .AppendContentText("新版本: " + UpdateTag)
+                                .AppendContentText("更新信息: " + UpdateInfo)
+                                .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                                .ShowUpdateVersion();
+                        }
                 });
             }
             else
             {
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification("检测到新版本"))
-                    {
-                        toast.AppendContentText("新版本: " + UpdateTag)
-                            .AppendContentText("更新信息: " + UpdateInfo)
-                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                            .ShowUpdateVersion();
-                    }
+                    if (CheckToastSystem())
+                        new ToastContentBuilder()
+                        .AddText("检测到新版本", hintMaxLines: 1)
+                        .AddText("新版本: " + UpdateTag)
+                        .AddButton(new ToastButton()
+                            .SetContent(openUrlToastButton.text)
+                            .AddArgument("action", openUrlToastButton.action.ToString()))
+                        .Show();
+                    else
+                        using (var toast = new ToastNotification("检测到新版本"))
+                        {
+                            toast.AppendContentText("新版本: " + UpdateTag)
+                                .AppendContentText("更新信息: " + UpdateInfo)
+                                .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                                .ShowUpdateVersion();
+                        }
                 });
                 return false;
             }
@@ -291,27 +329,44 @@ namespace MeoAsstGui
 
             if (!downloaded)
             {
-                Execute.OnUIThread(() =>
-                {
-                    using (var toast = new ToastNotification("新版本下载失败"))
+                if (CheckToastSystem())
+                    new ToastContentBuilder()
+                    .AddText("新版本下载失败", hintMaxLines: 1)
+                    .AddAttributionText("请尝试手动下载后，将压缩包放到目录下_(:з」∠)_")
+                    .AddButton(new ToastButton()
+                                .SetContent(openUrlToastButton.text)
+                                .AddArgument("action", openUrlToastButton.action.ToString()))
+                    .Show();
+                else
+                    Execute.OnUIThread(() =>
                     {
-                        toast.AppendContentText("请尝试手动下载后，将压缩包放到目录下_(:з」∠)_")
-                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                            .Show();
-                    }
-                });
+                        using (var toast = new ToastNotification("新版本下载失败"))
+                        {
+                            toast.AppendContentText("请尝试手动下载后，将压缩包放到目录下_(:з」∠)_")
+                                .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                                .Show();
+                        }
+                    });
                 return false;
             }
 
             // 把相关信息存下来，更新完之后启动的时候显示
             Execute.OnUIThread(() =>
             {
-                using (var toast = new ToastNotification("新版本下载完成"))
-                {
-                    toast.AppendContentText("软件将在下次启动时自动更新！")
-                        .AppendContentText("✿✿ヽ(°▽°)ノ✿")
-                        .ShowUpdateVersion(row: 2);
-                }
+                if (CheckToastSystem())
+                    new ToastContentBuilder()
+                    .AddText("新版本下载完成", hintMaxLines: 1)
+                    .AddText("软件将在下次启动时自动更新！")
+                    .AddText("✿✿ヽ(°▽°)ノ✿")
+                    .Show();
+                else
+                    using (var toast = new ToastNotification("新版本下载完成"))
+                    {
+
+                        toast.AppendContentText("软件将在下次启动时自动更新！")
+                            .AppendContentText("✿✿ヽ(°▽°)ノ✿")
+                            .ShowUpdateVersion(row: 2);
+                    }
             });
 
             return true;
@@ -719,12 +774,18 @@ namespace MeoAsstGui
 
             Execute.OnUIThread(() =>
             {
-                using (var toast = new ToastNotification("资源已更新"))
-                {
-                    toast.AppendContentText("重启软件生效！")
-                        .AppendContentText(message)
-                        .ShowUpdateVersion();
-                }
+                if (CheckToastSystem())
+                    new ToastContentBuilder()
+                    .AddText("资源已更新")
+                    .AddText("重启软件生效！")
+                    .Show();
+                else
+                    using (var toast = new ToastNotification("资源已更新"))
+                    {
+                        toast.AppendContentText("重启软件生效！")
+                            .AppendContentText(message)
+                            .ShowUpdateVersion();
+                    }
             });
 
             return true;
