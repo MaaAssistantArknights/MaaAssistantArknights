@@ -26,6 +26,10 @@ namespace asst
         {
             return m_maybe_level;
         }
+        bool get_has_robot_tag() const noexcept
+        {
+            return m_has_robot_tag;
+        }
 
     protected:
         virtual bool _run() override;
@@ -37,6 +41,7 @@ namespace asst
         /* 内部处理用参数*/
         int m_maybe_level = 0;
         bool m_has_special_tag = false;
+        bool m_has_robot_tag = false;
         bool m_has_refresh = false;
     };
 }
