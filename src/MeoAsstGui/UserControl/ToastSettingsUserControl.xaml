@@ -97,7 +97,9 @@
             <CheckBox 
                 x:Name="usesystemnote" Content="使用Windows系统推送通知（支持Win10/Win11）" HorizontalAlignment="Left" 
                 Margin="10,0,0,0" VerticalAlignment="Center"
-                IsChecked="{Binding ToastUsingSystem}" Height="20" Width="450"/>
+                IsChecked="{Binding ToastUsingSystem}" 
+                IsEnabled="{Binding ToastOS}"
+                Height="20" Width="450"/>
         </Grid>
 
         <Button

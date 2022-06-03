@@ -563,7 +563,30 @@ namespace MeoAsstGui
         //是否使用系统通知
         private bool _toastUsingSystem = Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
         private bool _toastControl = Convert.ToBoolean(bool.TrueString);
-
+        private bool _toastOS = Convert.ToBoolean(bool.TrueString);
+        public bool toastOScheck()
+        {
+            var os = Environment.OSVersion.Version;
+            if (os.ToString().CompareTo("10.0.0.10240") > 0)
+            { 
+                return true;
+            }
+            else
+            {
+                ViewStatusStorage.Set("Toast.UsingSystem", bool.FalseString);
+                ToastUsingSystem = false;
+                ToastControl = true;
+                return false;
+            }
+        }
+        public bool ToastOS
+        {
+            get { return toastOScheck(); }
+            set
+            {
+                SetAndNotify(ref _toastOS, value);
+            }
+        }
         public bool ToastControl
         {
             get { return !_toastUsingSystem; }
