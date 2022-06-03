@@ -1,5 +1,8 @@
 // 全局JSON数据
-const data = {};
+// 必填字段可以放在这里，预设空值
+const data = {
+    actions: [],
+};
 
 // 模板
 const input_text = () => {

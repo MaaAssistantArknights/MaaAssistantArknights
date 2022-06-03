@@ -1,4 +1,4 @@
-package com.iguigui.maaj;
+package com.iguigui.maaj.easySample;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.win32.StdCallLibrary;

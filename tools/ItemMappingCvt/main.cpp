@@ -42,7 +42,7 @@ int main()
     auto& input_json = parse_ret.value();
     json::value output_json;
     for (auto&& [item_id, item_info] : input_json["items"].as_object()) {
-        static const std::vector<std::string> BlackList = {
+        static const std::vector<std::string> BlackListPrefix = {
             "LIMITED_TKT_GACHA_10", // 限定十连
             "p_char_",              // 角色信物（潜能）
             "tier",                 // 职业潜能
@@ -58,10 +58,19 @@ int main()
             "2024recruitment10",
             "2025recruitment10",
         };
+        static const std::vector<std::string> BlackListSuffix = {
+            "_rep_1"                // 复刻活动的活动代币
+        };
 
         bool is_blacklist = false;
-        for (const auto& black : BlackList) {
+        for (const auto& black : BlackListPrefix) {
             if (item_id.find(black) == 0) {
+                is_blacklist = true;
+                break;
+            }
+        }
+        for (const auto& black : BlackListSuffix) {
+            if (std::equal(black.rbegin(), black.rend(), item_id.rbegin())) {
                 is_blacklist = true;
                 break;
             }
@@ -90,6 +99,10 @@ int main()
     auto output_json_path = solution_dir / "resource" / "item_index.json";
     std::ofstream ofs(output_json_path, std::ios::out);
     ofs << output_json.format();
+
+    std::cout << "copy levels.json" << std::endl;;
+    auto third_resource_dir = solution_dir / "3rdparty" / "resource";
+    std::filesystem::copy_file(input_dir / "levels.json", third_resource_dir / "Arknights-Tile-Pos" / "levels.json", std::filesystem::copy_options::overwrite_existing);
 
     return 0;
 }
