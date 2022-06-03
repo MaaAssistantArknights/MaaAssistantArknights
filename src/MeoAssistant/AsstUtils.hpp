@@ -84,10 +84,10 @@ namespace asst
             return buff;
         }
 
-        inline std::string gbk_2_utf8(const std::string& gbk_str)
+        inline std::string ansi_to_utf8(const std::string& ansi_str)
         {
 #ifdef _WIN32
-            const char* src_str = gbk_str.c_str();
+            const char* src_str = ansi_str.c_str();
             int len = MultiByteToWideChar(CP_ACP, 0, src_str, -1, nullptr, 0);
             wchar_t* wstr = new wchar_t[len + 1U];
             memset(wstr, 0, len + 1U);
@@ -111,26 +111,26 @@ namespace asst
 #endif
         }
 
-        inline std::string utf8_to_gbk(const std::string& utf8_str)
+        inline std::string utf8_to_ansi(const std::string& utf8_str)
         {
 #ifdef _WIN32
             const char* src_str = utf8_str.c_str();
             int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, nullptr, 0);
-            wchar_t* wszGBK = new wchar_t[len + 1];
-            memset(wszGBK, 0, len * 2LLU + 2LLU);
-            MultiByteToWideChar(CP_UTF8, 0, src_str, -1, wszGBK, len);
-            len = WideCharToMultiByte(CP_ACP, 0, wszGBK, -1, nullptr, 0, nullptr, nullptr);
-            char* szGBK = new char[len + 1];
-            memset(szGBK, 0, len + 1LLU);
-            WideCharToMultiByte(CP_ACP, 0, wszGBK, -1, szGBK, len, nullptr, nullptr);
-            std::string strTemp(szGBK);
-            if (wszGBK) {
-                delete[] wszGBK;
-                wszGBK = nullptr;
+            wchar_t* wsz_ansi = new wchar_t[len + 1];
+            memset(wsz_ansi, 0, len * 2LLU + 2LLU);
+            MultiByteToWideChar(CP_UTF8, 0, src_str, -1, wsz_ansi, len);
+            len = WideCharToMultiByte(CP_ACP, 0, wsz_ansi, -1, nullptr, 0, nullptr, nullptr);
+            char* sz_ansi = new char[len + 1];
+            memset(sz_ansi, 0, len + 1LLU);
+            WideCharToMultiByte(CP_ACP, 0, wsz_ansi, -1, sz_ansi, len, nullptr, nullptr);
+            std::string strTemp(sz_ansi);
+            if (wsz_ansi) {
+                delete[] wsz_ansi;
+                wsz_ansi = nullptr;
             }
-            if (szGBK) {
-                delete[] szGBK;
-                szGBK = nullptr;
+            if (sz_ansi) {
+                delete[] sz_ansi;
+                sz_ansi = nullptr;
             }
             return strTemp;
 #else   // Don't fucking use gbk in linux!
@@ -267,7 +267,7 @@ namespace asst
             return pipe_str;
         }
 
-        //template<typename T,
+        // template<typename T,
         //	typename = typename std::enable_if<std::is_constructible<T, std::string>::value>::type>
         //	std::string VectorToString(const std::vector<T>& vector, bool to_gbk = false) {
         //	if (vector.empty()) {
@@ -277,7 +277,7 @@ namespace asst
         //	std::string str;
         //	for (const T& ele : vector) {
         //		if (to_gbk) {
-        //			str += utils::utf8_to_gbk(ele) + inter;
+        //			str += utils::utf8_to_ansi(ele) + inter;
         //		}
         //		else {
         //			str += ele + inter;
