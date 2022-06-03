@@ -25,7 +25,7 @@ namespace Map
         int get_width() const { return width; }
         int get_height() const { return height; }
         Tile get_item(int y, int x) const { return tiles[y][x]; }
-        int view = 0;
+        std::vector<cv::Point3d> view;
         std::string stageId;
         std::string	code;
         std::string	levelId;
@@ -66,7 +66,14 @@ namespace Map
         Level::name = data.get("name", "null");
         Level::height = data.at("height").as_integer();
         Level::width = data.at("width").as_integer();
-        Level::view = data.at("view").as_integer();
+        for (const json::value& point_data : data.at("view").as_array()) {
+            cv::Point3d tmp;
+            auto point_array = point_data.as_array();
+            tmp.x = point_array[0].as_double();
+            tmp.y = point_array[1].as_double();
+            tmp.z = point_array[2].as_double();
+            Level::view.emplace_back(std::move(tmp));
+        }
         for (const json::value& row : data.at("tiles").as_array()) {
             std::vector<Tile> tmp;
             tmp.reserve(Level::width);
@@ -143,94 +150,50 @@ namespace Map
 
     inline bool TileCalc::run(const std::string& code_or_name, bool side, std::vector<std::vector<cv::Point2d>>& out_pos, std::vector<std::vector<Tile>>& out_tiles) const
     {
-        bool runned = false;
-        double x = 0, y = 0, z = 0;
         for (const Map::Level& level : TileCalc::levels) {
-            if (level.code == code_or_name ||
-                level.name == code_or_name) {
-                switch (level.view) {
-                case 0:
-                    x = 0;
-                    y = -4.81;
-                    z = -7.76;
-                    if (side) {
-                        x += 0.5975104570388794;
-                        y -= 0.5;
-                        z -= 0.882108688354492;
-                    }
-                    break;
-                case 1:
-                    x = 0;
-                    y = -5.60;
-                    z = -8.92;
-                    if (side) {
-                        x += 0.7989424467086792;
-                        y -= 0.5;
-                        z -= 0.86448486328125;
-                    }
-                    break;
-                case 2:
-                    x = 0;
-                    y = -5.08;
-                    z = -8.04;
-                    if (side) {
-                        x += 0.6461319923400879;
-                        y -= 0.5;
-                        z -= 0.877854309082031;
-                    }
-                    break;
-                default:
-                    x = 0;
-                    y = -6.1;
-                    z = -9.78;
-                    if (side) {
-                        x += 0.948279857635498;
-                        y -= 0.5;
-                        z -= 0.85141918182373;
-                    }
-                    break;
-                }
-                double adapter_y = 0, adapter_z = 0;
-                TileCalc::adapter(adapter_y, adapter_z);
-                double matrix[4][4]{
-                    { 1, 0, 0, -x},
-                    { 0, 1, 0, -y - adapter_y},
-                    { 0, 0, 1, -z - adapter_z},
-                    { 0, 0, 0, 1}
-                };
-                auto raw = cv::Mat(cv::Size(4, 4), CV_64F);
-                auto Finall_Matrix = cv::Mat(cv::Size(4, 4), CV_64F);
-                InitMat4x4(raw, matrix);
-                if (side) {
-                    Finall_Matrix = TileCalc::MatrixP * TileCalc::MatrixX * TileCalc::MatrixY * raw;
-                }
-                else {
-                    Finall_Matrix = TileCalc::MatrixP * TileCalc::MatrixX * raw;
-                }
-                int h = level.get_height();
-                int w = level.get_width();
-                auto map_point = cv::Mat(cv::Size(1, 4), CV_64F);
-                map_point.at<double>(3, 0) = 1;
-                auto tmp_pos = std::vector<cv::Point2d>(w);
-                auto tmp_tiles = std::vector<Tile>(w);
-                for (int i = 0; i < h; i++) {
-                    for (int j = 0; j < w; j++) {
-                        tmp_tiles[j] = level.get_item(i, j);
-                        map_point.at<double>(0, 0) = j - (w - 1) / 2.0;
-                        map_point.at<double>(1, 0) = (h - 1) / 2.0 - i;
-                        map_point.at<double>(2, 0) = tmp_tiles[j].heightType * -0.4;
-                        cv::Mat view_point = Finall_Matrix * map_point;
-                        view_point = view_point / view_point.at<double>(3, 0);
-                        view_point = (view_point + 1) / 2;
-                        tmp_pos[j] = cv::Point2d(view_point.at<double>(0, 0) * TileCalc::width, (1 - view_point.at<double>(1, 0)) * TileCalc::height);
-                    }
-                    out_pos.emplace_back(tmp_pos);
-                    out_tiles.emplace_back(tmp_tiles);
-                }
-                runned = true;
-                break;
+            if (level.code != code_or_name && level.name != code_or_name) {
+                continue;
             }
+            auto [x, y, z] = level.view[side ? 1 : 0];
+            double adapter_y = 0, adapter_z = 0;
+            TileCalc::adapter(adapter_y, adapter_z);
+            double matrix[4][4]{
+                { 1, 0, 0, -x},
+                { 0, 1, 0, -y - adapter_y},
+                { 0, 0, 1, -z - adapter_z},
+                { 0, 0, 0, 1}
+            };
+            auto raw = cv::Mat(cv::Size(4, 4), CV_64F);
+            auto Finall_Matrix = cv::Mat(cv::Size(4, 4), CV_64F);
+            InitMat4x4(raw, matrix);
+            if (side) {
+                Finall_Matrix = TileCalc::MatrixP * TileCalc::MatrixX * TileCalc::MatrixY * raw;
+            }
+            else {
+                Finall_Matrix = TileCalc::MatrixP * TileCalc::MatrixX * raw;
+            }
+            int h = level.get_height();
+            int w = level.get_width();
+            auto map_point = cv::Mat(cv::Size(1, 4), CV_64F);
+            map_point.at<double>(3, 0) = 1;
+            auto tmp_pos = std::vector<cv::Point2d>(w);
+            auto tmp_tiles = std::vector<Tile>(w);
+            for (int i = 0; i < h; i++) {
+                for (int j = 0; j < w; j++) {
+                    tmp_tiles[j] = level.get_item(i, j);
+                    map_point.at<double>(0, 0) = j - (w - 1) / 2.0;
+                    map_point.at<double>(1, 0) = (h - 1) / 2.0 - i;
+                    map_point.at<double>(2, 0) = tmp_tiles[j].heightType * -0.4;
+                    cv::Mat view_point = Finall_Matrix * map_point;
+                    view_point = view_point / view_point.at<double>(3, 0);
+                    view_point = (view_point + 1) / 2;
+                    tmp_pos[j] = cv::Point2d(view_point.at<double>(0, 0) * TileCalc::width, (1 - view_point.at<double>(1, 0)) * TileCalc::height);
+                }
+                out_pos.emplace_back(tmp_pos);
+                out_tiles.emplace_back(tmp_tiles);
+            }
+            return true;
         }
-        return runned;
+        return false;
     }
 }
