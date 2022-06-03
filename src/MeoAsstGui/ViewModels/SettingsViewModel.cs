@@ -132,8 +132,6 @@ namespace MeoAsstGui
                 new CombData { Display = "刷源石锭投资，第一层商店后直接退出", Value = "1" },
                 new CombData { Display = "刷源石锭投资，投资过后退出", Value = "2" }
             };
-
-            ConnectAddressList = new ObservableCollection<string>();
         }
 
         private bool _idle = true;
@@ -154,7 +152,6 @@ namespace MeoAsstGui
         public List<CombData> UsesOfDronesList { get; set; }
         public List<CombData> RoguelikeModeList { get; set; }
         public List<CombData> ConnectConfigList { get; set; }
-        public ObservableCollection<string> ConnectAddressList { get; set; }
 
         private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
 
@@ -969,39 +966,6 @@ namespace MeoAsstGui
             }
         }
 
-        public void QueryAdbDevices()
-        {
-            ConnectAddressList.Clear();
-            var adbProcess = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = AdbPath,
-                    Arguments = "devices",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true,
-                },
-                EnableRaisingEvents = true
-            };
-
-            adbProcess.Start();
-            adbProcess.WaitForExit();
-            string output = adbProcess.StandardOutput.ReadToEnd();
-            adbProcess.Close();
-            var addressList = new List<string>(output.Split('\n'));
-            addressList.RemoveAt(0);
-            foreach (var address in addressList)
-            {
-                if (string.IsNullOrWhiteSpace(address))
-                    continue;
-
-                var device = address.Split('\t')[0];
-                ConnectAddressList.Add(device);
-            }
-        }
-
         private string _connectConfig = ViewStatusStorage.Get("Connect.ConnectConfig", "General");
 
         public string ConnectConfig
@@ -1014,15 +978,15 @@ namespace MeoAsstGui
             }
         }
 
-        private readonly Dictionary<string, string> DefaultAddress = new Dictionary<string, string>
+        public readonly Dictionary<string, List<string>> DefaultAddress = new Dictionary<string, List<string>>
             {
-                { "General", "" },
-                { "BlueStacks", "127.0.0.1:5555" },
-                { "MuMuEmulator", "127.0.0.1:7555" },
-                { "LDPlayer", "emulator-5554" },
-                { "Nox", "127.0.0.1:62001" },
-                { "XYAZ", "127.0.0.1:21503"  },
-                { "WSA","127.0.0.1:58526" },
+                { "General", new List<string>{ "" } },
+                { "BlueStacks", new List<string>{ "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5557", "127.0.0.1:5554" } },
+                { "MuMuEmulator", new List<string>{ "127.0.0.1:7555", "127.0.0.1:7556" } },
+                { "LDPlayer", new List<string>{ "emulator-5554", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
+                { "Nox", new List<string>{ "127.0.0.1:62001", "127.0.0.1:59865" } },
+                { "XYAZ", new List<string>{ "127.0.0.1:21503"  } },
+                { "WSA", new List<string>{ "127.0.0.1:58526" } },
             };
 
         public bool RefreshAdbConfig(ref string error)
@@ -1053,7 +1017,7 @@ namespace MeoAsstGui
             if (ConnectAddress.Length == 0)
             {
                 var addresses = adapter.GetAdbAddresses(AdbPath);
-                // 傻逼雷电已经关掉了用别的 adb 还能检测出来这个端口 device
+                // 傻逼雷电已经关掉了，用别的 adb 还能检测出来这个端口 device
                 if (addresses.Count == 1 && addresses.First() != "emulator-5554")
                 {
                     ConnectAddress = addresses.First();
@@ -1073,7 +1037,7 @@ namespace MeoAsstGui
 
                 if (ConnectAddress.Length == 0)
                 {
-                    ConnectAddress = DefaultAddress[ConnectConfig];
+                    ConnectAddress = DefaultAddress[ConnectConfig][0];
                 }
             }
 

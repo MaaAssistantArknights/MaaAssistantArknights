@@ -6,7 +6,8 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              mc:Ignorable="d"
-             xmlns:local="clr-namespace:MeoAsstGui"
+             xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
+             d:DataContext="{d:DesignInstance {x:Type vm:TaskQueueViewModel}}"
              d:DesignHeight="200" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>

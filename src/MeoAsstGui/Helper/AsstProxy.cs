@@ -619,9 +619,19 @@ namespace MeoAsstGui
             settings.TryToSetBlueStacksHyperVAddress();
 
             bool ret = AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
+
+            // 尝试默认的备选端口
             if (!ret)
             {
-                error = "连接失败\n请检查连接设置\n";
+                foreach (var address in settings.DefaultAddress[settings.ConnectConfig])
+                {
+                    ret = AsstConnect(_handle, settings.AdbPath, address, settings.ConnectConfig);
+                    if (ret)
+                    {
+                        settings.ConnectAddress = address;
+                        break;
+                    }
+                }
             }
             return ret;
         }
