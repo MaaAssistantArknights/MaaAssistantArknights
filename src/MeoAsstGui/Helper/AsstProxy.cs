@@ -680,7 +680,7 @@ namespace MeoAsstGui
             return AsstAppendTaskWithEncoding("Mall", task_params);
         }
 
-        public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited)
+        public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited, bool skip_robot)
         {
             var task_params = new JObject();
             task_params["refresh"] = need_refresh;
@@ -690,6 +690,7 @@ namespace MeoAsstGui
             task_params["set_time"] = true;
             task_params["expedite"] = use_expedited;
             task_params["expedite_times"] = max_times;
+            task_params["skip_robot"] = skip_robot;
             return AsstAppendTaskWithEncoding("Recruit", task_params);
         }
 

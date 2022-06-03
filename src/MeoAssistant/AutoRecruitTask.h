@@ -16,6 +16,7 @@ namespace asst
         AutoRecruitTask& set_need_refresh(bool need_refresh) noexcept;
         AutoRecruitTask& set_max_times(int max_times) noexcept;
         AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
+        AutoRecruitTask& set_skip_robot(bool skip_robot) noexcept;
 
     protected:
         virtual bool _run() override;
@@ -34,6 +35,7 @@ namespace asst
         bool m_need_refresh = false;
         bool m_use_expedited = false;
         int m_max_times = 0;
+        bool m_skip_robot = true;
 
         std::vector<TextRect> m_start_buttons;
         int m_cur_times = 0;
