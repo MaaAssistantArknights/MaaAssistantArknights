@@ -89,14 +89,18 @@ namespace asst
 #ifdef _WIN32
             const char* src_str = ansi_str.c_str();
             int len = MultiByteToWideChar(CP_ACP, 0, src_str, -1, nullptr, 0);
-            wchar_t* wstr = new wchar_t[len + 1U];
-            memset(wstr, 0, len + 1U);
+            const std::size_t wstr_length = static_cast<std::size_t>(len) + 1U;
+            wchar_t *wstr = new wchar_t[wstr_length];
+            memset(wstr, 0, sizeof(wstr[0]) * wstr_length);
             MultiByteToWideChar(CP_ACP, 0, src_str, -1, wstr, len);
+
             len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, nullptr, 0, nullptr, nullptr);
-            char* str = new char[len + 1];
-            memset(str, 0, len + 1);
+            const std::size_t str_length = static_cast<std::size_t>(len) + 1;
+            char *str = new char[str_length];
+            memset(str, 0, sizeof(str[0]) * str_length);
             WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, nullptr, nullptr);
             std::string strTemp = str;
+
             if (wstr) {
                 delete[] wstr;
                 wstr = nullptr;
@@ -116,14 +120,18 @@ namespace asst
 #ifdef _WIN32
             const char* src_str = utf8_str.c_str();
             int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, nullptr, 0);
-            wchar_t* wsz_ansi = new wchar_t[len + 1];
-            memset(wsz_ansi, 0, len * 2LLU + 2LLU);
+            const std::size_t wsz_ansi_length = static_cast<std::size_t>(len) + 1;
+            wchar_t *wsz_ansi = new wchar_t[wsz_ansi_length];
+            memset(wsz_ansi, 0, sizeof(wsz_ansi[0]) * wsz_ansi_length);
             MultiByteToWideChar(CP_UTF8, 0, src_str, -1, wsz_ansi, len);
+
             len = WideCharToMultiByte(CP_ACP, 0, wsz_ansi, -1, nullptr, 0, nullptr, nullptr);
-            char* sz_ansi = new char[len + 1];
-            memset(sz_ansi, 0, len + 1LLU);
+            const std::size_t sz_ansi_length = static_cast<std::size_t>(len) + 1;
+            char *sz_ansi = new char[sz_ansi_length];
+            memset(sz_ansi, 0, sizeof(sz_ansi[0]) * sz_ansi_length);
             WideCharToMultiByte(CP_ACP, 0, wsz_ansi, -1, sz_ansi, len, nullptr, nullptr);
             std::string strTemp(sz_ansi);
+
             if (wsz_ansi) {
                 delete[] wsz_ansi;
                 wsz_ansi = nullptr;
