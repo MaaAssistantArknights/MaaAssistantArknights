@@ -47,7 +47,7 @@ namespace MeoAsstGui
             //LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
-        public void AddLogWithUrl(string content,string url, string color = "Gray", string weight = "Regular")
+        public void AddLogWithUrl(string content, string url, string color = "Gray", string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
             //LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
@@ -70,7 +70,7 @@ namespace MeoAsstGui
             LogItemViewModels.Clear();
         }
 
-        private string _filename;
+        private string _filename = "";
 
         public string Filename
         {
@@ -232,9 +232,16 @@ namespace MeoAsstGui
 
             const string _newfilename = "resource/_temp_copilot.json";
             File.WriteAllText(_newfilename, data.ToString());
-            asstProxy.AsstStartCopilot(data["stage_name"].ToString(), _newfilename, Form);
-            Idle = false;
-            AddLog("Star Burst Stream!");
+            bool ret = asstProxy.AsstStartCopilot(data["stage_name"].ToString(), _newfilename, Form);
+            if (ret)
+            {
+                Idle = false;
+                AddLog("Star Burst Stream!");
+            }
+            else
+            {
+                AddLog("读取 JSON 作业文件出错\n请检查文件内容", "darkred");
+            }
         }
 
         public void Stop()

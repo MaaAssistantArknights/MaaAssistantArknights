@@ -1493,7 +1493,7 @@
             "TodaysSupplies",
             "Stop"
         ],
-        "rearDelay": 1000
+        "rearDelay": 3000
     },
     "TodaysSupplies": {
         "algorithm": "OcrDetect",
@@ -2552,7 +2552,7 @@
             150
         ],
         "preDelay": 500,
-        "rearDelay": 500
+        "rearDelay": 1500
     },
     "CreditShop-NoMoney": {
         "algorithm": "OcrDetect",
@@ -2998,8 +2998,10 @@
             165,
             149
         ],
+        "rearDelay": 1000,
         "next": [
-            "ReplenishToMaxConfirm"
+            "ReplenishToMaxConfirm",
+            "Stop"
         ]
     },
     "ReplenishToMaxConfirm": {
@@ -3966,6 +3968,7 @@
         ],
         "next": [
             "InfrastClueFriendNew",
+            "InfrastClueSelfFull",
             "CloseCluePage",
             "ReceptionFlag"
         ]
@@ -4443,9 +4446,9 @@
         "action": "ClickRect",
         "specificRect": [
             15,
-            690,
+            710,
             80,
-            30
+            10
         ]
     },
     "BattleQuickFormationConfirm": {

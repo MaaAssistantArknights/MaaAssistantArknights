@@ -58,7 +58,7 @@ namespace MeoAsstGui
             //Items.Add(ivm);
             Items.Add(cvm);
             Items.Add(svm);
-            svm.UpdateWindowTitle(); // ÔÚ±êÌâÀ¸ÉÏÏÔÊ¾Ä£ÄâÆ÷ºÍIP¶Ë¿Ú ±ØÐëÔÚ Items.Add(svm)Ö®ºóÖ´ÐÐ¡£
+            svm.UpdateWindowTitle(); // åœ¨æ ‡é¢˜æ ä¸Šæ˜¾ç¤ºæ¨¡æ‹Ÿå™¨å’ŒIPç«¯å£ å¿…é¡»åœ¨ Items.Add(svm)ä¹‹åŽæ‰§è¡Œã€‚
             ActiveItem = tvm;
         }
 
@@ -89,7 +89,7 @@ namespace MeoAsstGui
                 await task;
             }
         }
-        private string _windowTitle;
+        private string _windowTitle = "MaaAssistantArknights";
         public string WindowTitle
         {
             get => _windowTitle;
