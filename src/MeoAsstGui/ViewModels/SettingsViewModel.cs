@@ -566,9 +566,9 @@ namespace MeoAsstGui
         private bool _toastOS = Convert.ToBoolean(bool.TrueString);
         public bool toastOScheck()
         {
-            var os = Environment.OSVersion.Version;
-            if (os.ToString().CompareTo("10.0.0.10240") > 0)
-            { 
+            var os = RuntimeInformation.OSDescription.ToString();
+            if (os.ToString().CompareTo("Microsoft Windows 10.0.22000") > 0)
+            {
                 return true;
             }
             else
