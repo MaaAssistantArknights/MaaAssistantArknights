@@ -37,6 +37,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_use_expedited(bool use_or_not)
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_skip_robot(bool skip_robot) noexcept
+{
+    m_skip_robot = skip_robot;
+    return *this;
+}
+
 bool asst::AutoRecruitTask::_run()
 {
     if (!check_recruit_home_page()) {
@@ -152,7 +158,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
         return false;
     }
 
-    if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
+    if (!(m_skip_robot && recruit_task.get_has_robot_tag()) && std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
         if (!confirm()) {
             return false;
         }
