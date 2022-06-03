@@ -209,6 +209,11 @@ namespace MeoAsstGui
                 AddLog(errMsg, "darkred");
                 return;
             }
+            if (errMsg.Length != 0)
+            {
+                AddLog(errMsg, "darkred");
+            }
+
             if (Filename.Length == 0 || !File.Exists(Filename))
             {
                 AddLog("作业文件不存在", "darkred");
