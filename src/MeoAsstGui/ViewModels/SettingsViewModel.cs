@@ -559,6 +559,8 @@ namespace MeoAsstGui
         /* 通知显示设置 */
 
         #region 通知显示
+
+        //是否使用系统通知
         private bool _toastUsingSystem = Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
         public bool ToastUsingSystem
         {
@@ -570,6 +572,7 @@ namespace MeoAsstGui
             }
         }
 
+        //不使用系统通知时的设置
         // 左上
         private bool _toastPositionTopLeft = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.TopLeft.ToString();
 
