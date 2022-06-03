@@ -1559,7 +1559,7 @@
                 "desc": "进驻人力办公室时，人脉资源的联络速度+45%，心情每小时消耗+2",
                 "template": "Bskill_hire_skgoat.png",
                 "efficient": {
-                    "all": 44.9
+                    "all": 39.9
                 }
             },
             {

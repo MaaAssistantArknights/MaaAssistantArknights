@@ -24,7 +24,7 @@ asst::RoguelikeTask::RoguelikeTask(AsstCallback callback, void* callback_arg)
     m_recruit_task_ptr->set_retry_times(2);
 
     m_skill_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeSkillSelectionTaskPlugin>();
-    m_skill_task_ptr->set_retry_times(0);
+    m_skill_task_ptr->set_retry_times(3);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
     for (int i = 0; i != 10000; ++i) {

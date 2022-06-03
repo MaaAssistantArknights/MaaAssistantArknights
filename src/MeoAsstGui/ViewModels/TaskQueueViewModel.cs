@@ -37,6 +37,22 @@ namespace MeoAsstGui
             InitTimer();
         }
 
+        public void ShowButton()
+        {
+            Visible = Visibility.Visible;
+            Hibernate = true;
+        }
+
+        private Visibility _visible = Visibility.Collapsed;
+        public Visibility Visible
+        {
+            get { return _visible; }
+            set
+            {
+                SetAndNotify(ref _visible, value);
+            }
+        }
+
         private System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
 
         private void InitTimer()
@@ -421,6 +437,14 @@ namespace MeoAsstGui
                     System.Diagnostics.Process.Start("shutdown.exe", "-a");
                 }
             }
+            if (Hibernate)
+            {
+                System.Diagnostics.Process.Start("shutdown.exe", "-h");
+            }
+            if (Suspend)
+            {
+                System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+            }
         }
 
         private bool _idle = false;
@@ -444,6 +468,46 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _shutdown, value);
+
+                if (value)
+                {
+                    Hibernate = false;
+                    Suspend = false;
+                }
+            }
+        }
+
+        private bool _hibernate = false;  // 休眠
+
+        public bool Hibernate
+        {
+            get { return _hibernate; }
+            set
+            {
+                SetAndNotify(ref _hibernate, value);
+
+                if (value)
+                {
+                    Shutdown = false;
+                    Suspend = false;
+                }
+            }
+        }
+
+        private bool _suspend = false;  // 待机
+
+        public bool Suspend
+        {
+            get { return _suspend; }
+            set
+            {
+                SetAndNotify(ref _suspend, value);
+
+                if (value)
+                {
+                    Shutdown = false;
+                    Hibernate = false;
+                }
             }
         }
 
