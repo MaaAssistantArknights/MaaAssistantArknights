@@ -17,7 +17,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
-using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MeoAsstGui
 {
@@ -26,10 +25,6 @@ namespace MeoAsstGui
 
     public class AsstProxy
     {
-        //public bool CheckToastSystem()
-        //{
-        //    return Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
-        //}
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
         private delegate void ProcCallbckMsg(AsstMsg msg, JObject details);

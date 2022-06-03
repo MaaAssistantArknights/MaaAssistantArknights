@@ -25,7 +25,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
-using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MeoAsstGui
 {
@@ -138,10 +137,6 @@ namespace MeoAsstGui
         /// 检查是否有已下载的更新包，如果有立即更新并重启进程
         /// </summary>
         /// <returns>操作成功返回 true，反之则返回 false</returns>
-        //public bool CheckToastSystem()
-        //{
-        //    return Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
-        //}
         public bool CheckAndUpdateNow()
         {
             if (UpdateTag == string.Empty

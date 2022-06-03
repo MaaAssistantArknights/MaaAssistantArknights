@@ -562,12 +562,23 @@ namespace MeoAsstGui
 
         //是否使用系统通知
         private bool _toastUsingSystem = Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
+        private bool _toastControl = Convert.ToBoolean(bool.TrueString);
+
+        public bool ToastControl
+        {
+            get { return !_toastUsingSystem; }
+            set
+            {
+                SetAndNotify(ref _toastControl, value);
+            }
+        }
         public bool ToastUsingSystem
         {
             get { return _toastUsingSystem; }
             set
             {
                 SetAndNotify(ref _toastUsingSystem, value);
+                ToastControl = !Convert.ToBoolean(value);
                 ViewStatusStorage.Set("Toast.UsingSystem", value.ToString());
             }
         }
@@ -830,7 +841,7 @@ namespace MeoAsstGui
                 using (var toast = new ToastNotification("通知显示位置测试"))
                 {
                     toast.AppendContentText("如果选择了新的位置")
-                        .AppendContentText("请先点掉这个通知再测试").Show(lifeTime: 5, row: 2);
+                        .AppendContentText("请先点掉这个通知再测试").Show(lifeTime: 5, row: 3);
                 }
             });
         }
