@@ -44,6 +44,7 @@ namespace MeoAsstGui
         }
 
         private Visibility _visible = Visibility.Collapsed;
+
         public Visibility Visible
         {
             get { return _visible; }
@@ -127,7 +128,7 @@ namespace MeoAsstGui
                 new CombData { Display = "SV-7", Value = "SV-7" },
                 new CombData { Display = "SV-8", Value = "SV-8" },
                 new CombData { Display = "SV-9", Value = "SV-9" },
-                
+
                 // “愚人号” 活动关卡
                 //new CombData { Display = "SN-8", Value = "SN-8" },
                 //new CombData { Display = "SN-9", Value = "SN-9" },
@@ -227,6 +228,10 @@ namespace MeoAsstGui
                 AddLog(errMsg, "darkred");
                 Idle = true;
                 return;
+            }
+            if (errMsg.Length != 0)
+            {
+                AddLog(errMsg, "darkred");
             }
 
             bool ret = true;
