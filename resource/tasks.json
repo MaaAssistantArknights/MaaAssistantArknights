@@ -4485,7 +4485,7 @@
             232,
             374
         ],
-        "rearDelay": 3000
+        "rearDelay": 2000
     },
     "BattleStartRaid": {
         "action": "ClickSelf",
@@ -4495,7 +4495,7 @@
             232,
             374
         ],
-        "rearDelay": 3000
+        "rearDelay": 2000
     },
     "BattleStartExercise": {
         "action": "ClickSelf",
@@ -4505,7 +4505,17 @@
             232,
             374
         ],
-        "rearDelay": 3000
+        "rearDelay": 2000
+    },
+    "BattleStartSimulation": {
+        "action": "ClickSelf",
+        "roi": [
+            417,
+            567,
+            444,
+            153
+        ],
+        "rearDelay": 2000
     },
     "BattleOperName": {
         "algorithm": "OcrDetect",
