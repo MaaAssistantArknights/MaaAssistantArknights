@@ -7,6 +7,8 @@
              xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              xmlns:local="clr-namespace:MeoAsstGui"
              mc:Ignorable="d"
+             xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
+             d:DataContext="{d:DesignInstance {x:Type vm:CopilotViewModel}}"
              d:DesignHeight="495" d:DesignWidth="800">
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
