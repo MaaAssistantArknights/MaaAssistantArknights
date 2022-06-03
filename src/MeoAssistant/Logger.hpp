@@ -117,7 +117,7 @@ namespace asst
             trace("Version", asst::Version);
             trace("Build DataTime", __DATE__, __TIME__);
 #ifdef _WIN32 // 输出到日志的时候统一编码utf8
-            trace("Working Path", asst::utils::gbk_2_utf8(m_dirname));
+            trace("Working Path", asst::utils::ansi_to_utf8(m_dirname));
 #else
             trace("Working Path", m_dirname);
 #endif
@@ -188,7 +188,7 @@ namespace asst
             inline void operator()(std::ostream& os, T&& first)
             {
 #ifdef _WIN32
-                os << utils::utf8_to_gbk(first) << " ";
+                os << utils::utf8_to_ansi(first) << " ";
 #else
                 os << first << " "; // Don't fucking use gbk in linux
 #endif
