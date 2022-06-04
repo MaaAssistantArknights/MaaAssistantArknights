@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Stylet;
 using StyletIoC;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MeoAsstGui
 {
@@ -37,6 +38,8 @@ namespace MeoAsstGui
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
+            //关闭程序时清理操作中心中的通知
+            ToastNotificationManagerCompat.History.Clear();
             ViewStatusStorage.Save();
         }
 

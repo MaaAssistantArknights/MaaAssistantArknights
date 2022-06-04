@@ -161,6 +161,13 @@ data class DestroyRequest(
     val id: String,
 )
 
+
+@Serializable
+data class GetImage(
+    @SerialName("id")
+    val id: String,
+)
+
 @SerialName("connect")
 @Serializable
 data class WsRequest(

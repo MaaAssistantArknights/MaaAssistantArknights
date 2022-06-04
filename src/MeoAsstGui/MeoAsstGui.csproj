@@ -260,6 +260,9 @@
     <PackageReference Include="Microsoft.NETCore.Platforms">
       <Version>6.0.3</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
+      <Version>7.1.2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Win32.Primitives">
       <Version>4.3.0</Version>
     </PackageReference>
