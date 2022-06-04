@@ -582,6 +582,10 @@ namespace MeoAsstGui
                 }
                 else
                 {
+                    if (ToastUsingSystem)
+                    {
+                        ToastUsingSystem = false;
+                    }
                     return false;
                 }
             }
@@ -592,14 +596,13 @@ namespace MeoAsstGui
             get { return _toastUsingSystem; }
             set
             {
-                SetAndNotify(ref _toastUsingSystem, value && ToastOS);
-                ViewStatusStorage.Set("Toast.UsingSystem", (value && ToastOS).ToString());
+                SetAndNotify(ref _toastUsingSystem, value);
+                ViewStatusStorage.Set("Toast.UsingSystem", value.ToString());
             }
         }
 
         //不使用系统通知时的设置
         // 左上
-        private bool _toastPositionTopLeft = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.TopLeft.ToString();
 
         public bool ToastPositionTopLeft
         {
