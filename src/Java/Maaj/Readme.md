@@ -1,6 +1,7 @@
 # Maa-HTTP接口实现
 
 基于JNA(Java-Native-Access)调用Maa核心的HTTP+WebSocket接口实现.
+仅在Windows下进行过测试，未在Linux下测试过(相信强大的Linux用户自己可以解决问题！
 
 ## 接口实现情况
 
@@ -28,7 +29,7 @@
 
 ## 使用方法
 
-1. 把他丢进Maa文件夹下,形成如下文件结构.
+1. 把他丢进Maa文件夹下,形成如下文件结构.备注: 启动脚本[Maa-HTTP-Server-startup.bat](Maa-HTTP-Server-startup.bat).
 
 ```
 MeoAssistantArknights_v3.9.0-beta.8
