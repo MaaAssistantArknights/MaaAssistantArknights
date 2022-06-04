@@ -363,6 +363,23 @@ namespace MeoAsstGui
         }
 
         /// <summary>
+        /// 显示公招小车标签通知
+        /// </summary>
+        /// <param name="row">内容显示行数，比如第 2 行用来放星星</param>
+        public void ShowRecruitRobot(uint row = 1)
+        {
+            var content = BaseContent();
+
+            // 给通知染上小车相似的颜色
+            content.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#DCDCDC04");
+            content.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#B0B0B000");
+
+            Show(row: row,
+                sound: NotificationSounds.Notification,
+                notificationContent: content);
+        }
+        
+        /// <summary>
         /// 显示更新版本的通知
         /// </summary>
         /// <param name="row">内容行数</param>

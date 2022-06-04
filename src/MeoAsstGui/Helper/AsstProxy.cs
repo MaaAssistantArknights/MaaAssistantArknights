@@ -445,6 +445,16 @@ namespace MeoAsstGui
                         }
                     }
                     break;
+                
+                case "RecruitRobotTag":
+                    {
+                        string special = subTaskDetails["tag"].ToString();
+                        using (var toast = new ToastNotification("公招提示"))
+                        {
+                            toast.AppendContentText(special).ShowRecruitRobot();
+                        }
+                    }
+                    break;
 
                 case "RecruitResult":
                     {
@@ -460,6 +470,16 @@ namespace MeoAsstGui
                         else
                         {
                             mainModel.AddLog(level + " 星 Tags", "darkcyan");
+                        }
+
+                        bool robot = (bool)subTaskDetails["robot"];
+                        if (robot)
+                        {
+                            using (var toast = new ToastNotification($"公招出小车了哦！"))
+                            {
+                                toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
+                            }
+                            mainModel.AddLog(1 + " 星 Tag", "gainsboro", "Bold");
                         }
                     }
                     break;

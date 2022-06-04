@@ -122,7 +122,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
 {
     LogTraceFunction;
     RecruitCalcTask recruit_task(m_callback, m_callback_arg, m_task_chain);
-    recruit_task.set_param(m_select_level, true)
+    recruit_task.set_param(m_select_level, true, m_skip_robot)
         .set_retry_times(m_retry_times)
         .set_exit_flag(m_exit_flag)
         .set_ctrler(m_ctrler)
