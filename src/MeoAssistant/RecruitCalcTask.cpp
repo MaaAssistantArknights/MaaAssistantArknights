@@ -63,17 +63,22 @@ bool RecruitCalcTask::_run()
         m_has_special_tag = true;
     }
 
+    static const std::string Robot = "支援机械";
+    auto robot_iter = all_tags_name.find(Robot);
+    if (robot_iter != all_tags_name.end()) {
+        m_has_robot_tag = true;
+    }
+
     // 识别到的5个Tags，全组合排列
     std::vector<std::vector<std::string>> all_combs;
     size_t len = all_tags.size();
-    int count = static_cast<int>(std::pow(2, len));
+    int count = 1 << len;
     for (int i = 0; i < count; ++i) {
         std::vector<std::string> temp;
-        for (int j = 0, mask = 1; j < len; ++j) {
-            if ((i & mask) != 0) { // What the fuck???
+        for (int j = 0; j < len; ++j) {
+            if (i & 1 << j) { // i第j位为1
                 temp.emplace_back(all_tags.at(j).text);
             }
-            mask = mask * 2;
         }
         // 游戏里最多选择3个tag
         if (!temp.empty() && temp.size() <= 3) {
