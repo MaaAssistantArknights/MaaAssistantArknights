@@ -603,6 +603,7 @@ namespace MeoAsstGui
 
         //不使用系统通知时的设置
         // 左上
+        private bool _toastPositionTopLeft = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.TopLeft.ToString();
 
         public bool ToastPositionTopLeft
         {
