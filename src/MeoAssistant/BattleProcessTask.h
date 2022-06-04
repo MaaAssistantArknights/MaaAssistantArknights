@@ -22,7 +22,6 @@ namespace asst
         virtual bool get_stage_info();
         bool battle_pause();
         bool battle_speedup();
-        bool cancel_selection();  // 取消选择干员
         bool analyze_opers_preview();
         bool update_opers_info(const cv::Mat& image);
 

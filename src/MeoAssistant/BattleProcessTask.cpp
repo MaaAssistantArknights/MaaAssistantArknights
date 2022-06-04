@@ -124,7 +124,6 @@ bool asst::BattleProcessTask::analyze_opers_preview()
     }
 
     auto draw_future = std::async(std::launch::async, [&]() {
-        //#ifdef ASST_DEBUG
         auto draw = image.clone();
         for (const auto& [loc, info] : m_normal_tile_info) {
             std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
@@ -136,12 +135,14 @@ bool asst::BattleProcessTask::analyze_opers_preview()
 
     auto opers = oper_analyzer.get_opers();
 
+    Rect cur_rect;
+    int click_delay = Task.get("BattleUseOper")->pre_delay;
     for (size_t i = 0; i != opers.size(); ++i) {
         const auto& cur_oper = oper_analyzer.get_opers();
         size_t offset = opers.size() > cur_oper.size() ? opers.size() - cur_oper.size() : 0;
-        m_ctrler->click(cur_oper.at(i - offset).rect);
-
-        sleep(Task.get("BattleUseOper")->pre_delay);
+        cur_rect = cur_oper.at(i - offset).rect;
+        m_ctrler->click(cur_rect);
+        sleep(click_delay);
 
         image = m_ctrler->get_image();
 
@@ -185,8 +186,10 @@ bool asst::BattleProcessTask::analyze_opers_preview()
     }
 
     draw_future.wait();
+
+    m_ctrler->click(cur_rect);
+    sleep(click_delay);
     battle_pause();
-    cancel_selection();
 
     return true;
 }
@@ -270,8 +273,9 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
                 oper_name = name_analyzer.get_result().front().text;
             }
             m_group_to_oper_mapping[oper_name] = BattleDeployOper{ oper_name };
+            m_ctrler->click(cur_oper.rect);
+            sleep(Task.get("BattleUseOper")->pre_delay);
             battle_pause();
-            cancel_selection();
         }
         else {
             oper_name = matched_iter->first;
@@ -381,7 +385,9 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
         if (need_exit()) {
             return false;
         }
-        image = m_ctrler->get_image();
+        if (image.empty()) {
+            image = m_ctrler->get_image();
+        }
         BattleImageAnalyzer analyzer(image);
         analyzer.set_target(BattleImageAnalyzer::Target::Kills);
         if (analyzer.analyze()) {
@@ -393,6 +399,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 
         try_possible_skill(image);
         std::this_thread::yield();
+        image = m_ctrler->get_image();
     }
 
     // 部署干员还有额外等待费用够或 CD 转好
@@ -402,7 +409,9 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
             if (need_exit()) {
                 return false;
             }
-            image = m_ctrler->get_image();
+            if (image.empty()) {
+                image = m_ctrler->get_image();
+            }
             update_opers_info(image);
 
             if (auto iter = m_cur_opers_info.find(name);
@@ -412,6 +421,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 
             try_possible_skill(image);
             std::this_thread::yield();
+            image = m_ctrler->get_image();
         };
     }
     if (image.empty()) {
@@ -440,7 +450,12 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     Point placed_point = m_side_tile_info[action.location].pos;
 
     Rect placed_rect{ placed_point.x ,placed_point.y, 1, 1 };
-    m_ctrler->swipe(oper_rect, placed_rect, swipe_oper_task_ptr->pre_delay);
+    int dist = static_cast<int>(
+        std::sqrt(
+            (std::abs(placed_point.x - oper_rect.x) << 1)
+            + (std::abs(placed_point.y - oper_rect.y) << 1)));
+    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist); // 随便取的一个系数
+    m_ctrler->swipe(oper_rect, placed_rect, duration, true, 0);
 
     sleep(use_oper_task_ptr->rear_delay);
 
@@ -468,7 +483,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
         end_point.y = std::max(0, end_point.y);
         end_point.y = std::min(end_point.y, WindowHeightDefault);
 
-        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
+        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay, true, 100);
     }
 
     m_used_opers[iter->first] = BattleDeployInfo{
@@ -577,9 +592,4 @@ bool asst::BattleProcessTask::battle_pause()
 bool asst::BattleProcessTask::battle_speedup()
 {
     return ProcessTask(*this, { "BattleSpeedUp" }).run();
-}
-
-bool asst::BattleProcessTask::cancel_selection()
-{
-    return ProcessTask(*this, { "BattleCancelSelection" }).run();
 }
