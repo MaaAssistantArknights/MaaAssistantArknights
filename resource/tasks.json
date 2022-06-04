@@ -4540,9 +4540,18 @@
             30
         ]
     },
-    "BattleWaitingToLoad": {
-        "algorithm": "JustReturn",
-        "rearDelay": 3000
+    "BattleOfficiallyBegin": {
+        "action": "DoNothing",
+        "roi": [
+            1165,
+            20,
+            65,
+            65
+        ],
+        "maskRange": [
+            100,
+            255
+        ]
     },
     "BattleSpeedUp": {
         "algorithm": "JustReturn",
