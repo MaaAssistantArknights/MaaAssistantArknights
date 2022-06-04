@@ -76,6 +76,18 @@ namespace MeoAsstGui
             }
         }
 
+        private string _updateUrl;
+        public string UpdateUrl
+        {
+            get
+            {
+                return _updateUrl;
+            }
+            set
+            {
+                SetAndNotify(ref _updateUrl, value);
+            }
+        }
         public FlowDocument UpdateInfoDocument
         {
             get
@@ -123,7 +135,6 @@ namespace MeoAsstGui
         /// 检查是否有已下载的更新包，如果有立即更新并重启进程
         /// </summary>
         /// <returns>操作成功返回 true，反之则返回 false</returns>
-
         public bool CheckAndUpdateNow()
         {
             if (UpdateTag == string.Empty
@@ -233,6 +244,8 @@ namespace MeoAsstGui
             UpdatePackageName = _assetsObject["name"].ToString();
             UpdateTag = _lastestJson["name"].ToString();
             UpdateInfo = _lastestJson["body"].ToString();
+            UpdateUrl = _lastestJson["html_url"].ToString();
+            //ToastNotification.get= _lastestJson["html_url"].ToString();
 
             var openUrlToastButton = (
                 text: "前往页面查看",
@@ -251,6 +264,7 @@ namespace MeoAsstGui
                 {
                     using (var toast = new ToastNotification("检测到新版本"))
                     {
+                        toast.ButtonSystemUrl = UpdateUrl;
                         toast.AppendContentText("正在后台下载……")
                             .AppendContentText("新版本: " + UpdateTag)
                             .AppendContentText("更新信息: " + UpdateInfo)
@@ -265,6 +279,7 @@ namespace MeoAsstGui
                 {
                     using (var toast = new ToastNotification("检测到新版本"))
                     {
+                        toast.ButtonSystemUrl = UpdateUrl;
                         toast.AppendContentText("新版本: " + UpdateTag)
                             .AppendContentText("更新信息: " + UpdateInfo)
                             .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
@@ -295,6 +310,7 @@ namespace MeoAsstGui
                 {
                     using (var toast = new ToastNotification("新版本下载失败"))
                     {
+                        toast.ButtonSystemUrl = UpdateUrl;
                         toast.AppendContentText("请尝试手动下载后，将压缩包放到目录下_(:з」∠)_")
                             .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
                             .Show();
@@ -310,7 +326,7 @@ namespace MeoAsstGui
                 {
                     toast.AppendContentText("软件将在下次启动时自动更新！")
                         .AppendContentText("✿✿ヽ(°▽°)ノ✿")
-                        .ShowUpdateVersion(row: 2);
+                        .ShowUpdateVersion(row: 3);
                 }
             });
 
@@ -324,7 +340,7 @@ namespace MeoAsstGui
 
         public bool CheckUpdate()
         {
-            // 开发版不检查更新
+            //开发版不检查更新
             if (!isStableVersion())
             {
                 return false;
