@@ -43,6 +43,7 @@ namespace MeoAsstGui
             _windowManager = windowManager;
             DisplayName = "设置";
 
+            _listTitle.Add("唤醒设置");
             _listTitle.Add("基建设置");
             _listTitle.Add("肉鸽设置");
             _listTitle.Add("自动公招");
@@ -132,6 +133,12 @@ namespace MeoAsstGui
                 new CombData { Display = "刷源石锭投资，第一层商店后直接退出", Value = "1" },
                 new CombData { Display = "刷源石锭投资，投资过后退出", Value = "2" }
             };
+            
+            ServerTypeList = new List<CombData>
+            {
+                new CombData { Display = "官服", Value = "0" },
+                new CombData { Display = "Bilibili服", Value = "1" }
+            };
         }
 
         private bool _idle = true;
@@ -145,12 +152,27 @@ namespace MeoAsstGui
             }
         }
 
+        /* 唤醒设置 */
+
+        private string _serverType = ViewStatusStorage.Get("Start.ServerType", "0");
+
+        public string ServerType
+        {
+            get { return _serverType; }
+            set
+            {
+                SetAndNotify(ref _serverType, value);
+                ViewStatusStorage.Set("Start.ServerType", value);
+            }
+        }
+        
         /* 基建设置 */
         public Dictionary<string, string> FacilityKey = new Dictionary<string, string>();
         public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; }
 
         public List<CombData> UsesOfDronesList { get; set; }
         public List<CombData> RoguelikeModeList { get; set; }
+        public List<CombData> ServerTypeList { get; set; }
         public List<CombData> ConnectConfigList { get; set; }
 
         private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
