@@ -821,6 +821,7 @@
             255
         ],
         "next": [
+            "GameStart",
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
