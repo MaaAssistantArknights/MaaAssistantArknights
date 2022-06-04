@@ -14,6 +14,7 @@
 #include <regex>
 #include <utility>
 #include <vector>
+#include <memory>
 
 #include <opencv2/opencv.hpp>
 
@@ -25,6 +26,33 @@
 #include "AsstTypes.h"
 #include "Logger.hpp"
 #include "Resource.h"
+
+#ifdef _WIN32
+// for Windows socket
+class WsaHelper
+{
+public:
+    ~WsaHelper()
+    {
+        WSACleanup();
+    }
+    static WsaHelper& get_instance()
+    {
+        static WsaHelper instance;
+        return instance;
+    }
+    bool operator()() const noexcept { return m_supports; }
+private:
+    WsaHelper()
+    {
+        m_supports =
+            WSAStartup(MAKEWORD(2, 2), &m_wsa_data) == 0 &&
+            m_wsa_data.wVersion == MAKEWORD(2, 2);
+    }
+    WSADATA m_wsa_data = { 0 };
+    bool m_supports = false;
+};
+#endif
 
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     : m_callback(callback),
@@ -55,6 +83,20 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     m_child_startup_info.hStdInput = m_pipe_child_read;
     m_child_startup_info.hStdOutput = m_pipe_child_write;
     m_child_startup_info.hStdError = m_pipe_child_write;
+
+    m_support_netcat = false;
+    do {
+        if (!WsaHelper::get_instance()()) {
+            Log.error("WSA not supports");
+            break;
+        }
+        m_server_sock = ::socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+        if (m_server_sock == INVALID_SOCKET) {
+            break;
+        }
+        m_support_netcat = true;
+    } while (0);
+
 #else
     int pipe_in_ret = pipe(m_pipe_in);
     int pipe_out_ret = pipe(m_pipe_out);
@@ -64,10 +106,18 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
         throw "controller pipe created failed";
     }
 
+    // todo
+    m_support_netcat = false;
 #endif
     m_pipe_buffer = std::make_unique<uchar[]>(PipeBuffSize);
     if (!m_pipe_buffer) {
         throw "controller pipe buffer allocated failed";
+    }
+    if (m_support_netcat) {
+        m_socket_buffer = std::make_unique<char[]>(SocketBuffSize);
+        if (!m_socket_buffer) {
+            throw "controller socket buffer allocated failed";
+        }
     }
 
     m_cmd_thread = std::thread(&Controller::pipe_working_proc, this);
@@ -86,20 +136,27 @@ asst::Controller::~Controller()
         m_cmd_thread.join();
     }
 
-    disconnect();
+    if (--m_instance_count) {
+        release();
+    }
 
 #ifdef _WIN32
     ::CloseHandle(m_pipe_read);
     ::CloseHandle(m_pipe_write);
     ::CloseHandle(m_pipe_child_read);
     ::CloseHandle(m_pipe_child_write);
+
+    if (m_server_sock) {
+        ::closesocket(m_server_sock);
+        m_server_sock = 0U;
+    }
 #else
     close(m_pipe_in[PIPE_READ]);
     close(m_pipe_in[PIPE_WRITE]);
     close(m_pipe_out[PIPE_READ]);
     close(m_pipe_out[PIPE_WRITE]);
 #endif
-}
+    }
 
 //asst::Rect asst::Controller::shaped_correct(const Rect & rect) const
 //{
@@ -199,8 +256,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
 
     std::vector<uchar> pipe_data;
 
-    static std::mutex pipe_mutex;
-    std::unique_lock<std::mutex> pipe_lock(pipe_mutex);
+    std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
 
     auto start_time = std::chrono::steady_clock::now();
     auto check_timeout = [&]() -> bool {
@@ -269,7 +325,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     else {
         // failed to create child process
         return std::nullopt;
-    }
+}
 #endif
 
     Log.trace("Call `", cmd, "` ret", exit_ret, ", output size:", pipe_data.size());
@@ -284,6 +340,57 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
         return std::nullopt;
     }
 }
+
+std::optional<std::vector<unsigned char>> asst::Controller::recv_data_by_socket(int64_t timeout)
+{
+    LogTraceFunction;
+
+    if (!m_support_netcat) {
+        return std::nullopt;
+    }
+
+    std::vector<uchar> socket_data;
+
+    std::unique_lock<std::mutex> nc_lock(m_socket_mutex);
+
+    auto start_time = std::chrono::steady_clock::now();
+    auto check_timeout = [&]() -> bool {
+        return timeout &&
+            timeout < std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - start_time)
+            .count();
+    };
+
+#ifdef _WIN32
+    SOCKADDR client_addr = { 0 };
+    int size = sizeof(SOCKADDR);
+
+    std::unique_ptr<SOCKET, std::function<void(SOCKET*)>> client_sock_ptr(
+            new SOCKET(::accept(m_server_sock, (SOCKADDR*)&client_addr, &size)),
+            [](SOCKET* socket) { if (*socket) { ::closesocket(*socket); *socket = 0U; }});
+
+    while (!check_timeout()) {
+        int recv_size = ::recv(*client_sock_ptr, m_socket_buffer.get(), SocketBuffSize, NULL);
+        if (recv_size < 0) {
+            Log.error("recv error", recv_size);
+            return std::nullopt;
+        }
+        if (recv_size == 0) {
+            break;
+        }
+        socket_data.insert(socket_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + recv_size);
+    }
+#else
+    // todo
+#endif // _WIN32
+
+    Log.trace("socket data size:", socket_data.size());
+
+    if (socket_data.empty()) {
+        return std::nullopt;
+    }
+    return socket_data;
+    }
 
 void asst::Controller::convert_lf(std::vector<unsigned char>& data)
 {
@@ -369,6 +476,7 @@ void asst::Controller::clear_info() noexcept
     m_height = 0;
     m_control_scale = 1.0;
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
+    --m_instance_count;
 }
 
 int asst::Controller::push_cmd(const std::string& cmd)
@@ -442,18 +550,31 @@ bool asst::Controller::screencap()
     switch (m_adb.screencap_method) {
     case AdbProperty::ScreencapMethod::UnknownYet:
     {
-        if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
+        if (m_support_netcat &&
+            screencap(m_adb.screencap_raw_with_gzip_and_nc, decode_raw_with_gzip, true)) {
+            m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzipAndNc;
+            Log.info("screencap by RawWithGzipAndNc");
+            return true;
+        }
+        else if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
             m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
+            Log.info("screencap by RawWithGzip");
             return true;
         }
         else if (screencap(m_adb.screencap_encode, decode_encode)) {
             m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
+            Log.info("screencap by Encode");
             return true;
         }
         else {
             return false;
         }
     }
+    case AdbProperty::ScreencapMethod::RawWithGzipAndNc:
+    {
+        return screencap(m_adb.screencap_raw_with_gzip_and_nc, decode_raw_with_gzip, true);
+    }
+    break;
     case AdbProperty::ScreencapMethod::RawWithGzip:
     {
         return screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip);
@@ -469,9 +590,17 @@ bool asst::Controller::screencap()
     return false;
 }
 
-bool asst::Controller::screencap(const std::string& cmd, DecodeFunc decode_func)
+bool asst::Controller::screencap(const std::string& cmd, DecodeFunc decode_func, bool by_socket)
 {
+    if (!m_support_netcat && by_socket) {
+        return false;
+    }
+
     auto ret = call_command(cmd);
+
+    if (by_socket && ret) {
+        ret = recv_data_by_socket();
+    }
 
     if (!ret || ret.value().empty()) {
         Log.error("data is empty!");
@@ -485,6 +614,7 @@ bool asst::Controller::screencap(const std::string& cmd, DecodeFunc decode_func)
 
     if (decode_func(data)) {
         if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+            Log.info("screencap_end_of_line is LF");
             m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
         }
         return true;
@@ -498,6 +628,7 @@ bool asst::Controller::screencap(const std::string& cmd, DecodeFunc decode_func)
 
             if (decode_func(data)) {
                 m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
+                Log.info("screencap_end_of_line is CRLF");
                 return true;
             }
             else {
@@ -665,12 +796,16 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     const auto adb_cfg = std::move(adb_ret.value());
     std::string display_id;
+    std::string nc_address;
+    u_short nc_port = 0;
 
     auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
         const std::unordered_map<std::string, std::string> replacements = {
             { "[Adb]", adb_path },
-            { "[Address]", address },
-            { "[DisplayId]", display_id }
+            { "[AdbSerial]", address },
+            { "[DisplayId]", display_id },
+            { "[NcPort]", std::to_string(nc_port) },
+            { "[NcAddress]", nc_address },
         };
         std::string formatted = cfg_cmd;
         for (const auto& [key, value] : replacements) {
@@ -823,16 +958,60 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
     }
 
+    if (size_t pos = address.rfind(':');
+        pos != std::string::npos) {
+        nc_address = address.substr(0, pos);
+    }
+    else {
+        nc_address = "127.0.0.1";
+    }
+
     m_adb.click = cmd_replace(adb_cfg.click);
     m_adb.swipe = cmd_replace(adb_cfg.swipe);
     m_adb.screencap_raw_with_gzip = cmd_replace(adb_cfg.screencap_raw_with_gzip);
     m_adb.screencap_encode = cmd_replace(adb_cfg.screencap_encode);
     m_adb.release = cmd_replace(adb_cfg.release);
 
+    if (m_support_netcat) {
+#ifdef _WIN32
+        m_server_addr.sin_family = PF_INET;
+        m_server_addr.sin_addr.s_addr = inet_addr(nc_address.c_str());
+#else
+        // todo
+#endif
+        bool server_start = false;
+        u_short max_port = adb_cfg.nc_port + 100;
+        for (nc_port = adb_cfg.nc_port; nc_port < max_port; ++nc_port) {
+            Log.trace("try nc port", nc_port);
+#ifdef _WIN32
+
+            m_server_addr.sin_port = htons(nc_port);
+            int bind_ret = ::bind(m_server_sock, (SOCKADDR*)&m_server_addr, sizeof(SOCKADDR));
+            int listen_ret = ::listen(m_server_sock, 20);
+            server_start = bind_ret == 0 && listen_ret == 0;
+#else
+            // todo
+#endif
+            if (server_start) {
+                break;
+            }
+        }
+        if (server_start && call_command(cmd_replace(adb_cfg.nc_port_reverse))) {
+            Log.info("supports netcat");
+            m_support_netcat = true;
+        }
+        else {
+            Log.info("not supports netcat");
+            m_support_netcat = false;
+        }
+        m_adb.screencap_raw_with_gzip_and_nc = cmd_replace(adb_cfg.screencap_raw_with_gzip_and_nc);
+    }
+
+    ++m_instance_count;
     return true;
 }
 
-bool asst::Controller::disconnect()
+bool asst::Controller::release()
 {
 #ifndef _WIN32
     if (m_child)

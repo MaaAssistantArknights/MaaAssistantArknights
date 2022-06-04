@@ -31,7 +31,7 @@ namespace asst
         ~Controller();
 
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
-        bool disconnect();
+        bool release();
 
         const std::string& get_uuid() const;
         cv::Mat get_image(bool raw = false);
@@ -61,11 +61,12 @@ namespace asst
     private:
         void pipe_working_proc();
         std::optional<std::vector<unsigned char>> call_command(const std::string& cmd, int64_t timeout = 20000);
+        std::optional<std::vector<unsigned char>> recv_data_by_socket(int64_t timeout = 20000);
         int push_cmd(const std::string& cmd);
 
         using DecodeFunc = std::function<bool(const std::vector<uchar>&)>;
         bool screencap();
-        bool screencap(const std::string& cmd, DecodeFunc decode_func);
+        bool screencap(const std::string& cmd, DecodeFunc decode_func, bool by_nc = false);
         cv::Mat get_resized_image() const;
 
         Point rand_point_in_rect(const Rect& rect);
@@ -82,7 +83,11 @@ namespace asst
         std::minstd_rand m_rand_engine;
 
         constexpr static int PipeBuffSize = 4 * 1024 * 1024; // 管道缓冲区大小
+        constexpr static int SocketBuffSize = 4 * 1024 * 1024;   // socket 缓冲区大小
         std::unique_ptr<uchar[]> m_pipe_buffer = nullptr;
+        std::mutex m_pipe_mutex;
+        std::unique_ptr<char[]> m_socket_buffer = nullptr;
+        std::mutex m_socket_mutex;
 #ifdef _WIN32
         HANDLE m_pipe_read = nullptr;                // 读管道句柄
         HANDLE m_pipe_write = nullptr;               // 写管道句柄
@@ -90,6 +95,10 @@ namespace asst
         HANDLE m_pipe_child_write = nullptr;         // 子进程的写管道句柄
         SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 }; // 管道安全描述符
         STARTUPINFOA m_child_startup_info = { 0 };   // 子进程启动信息
+
+        WSADATA m_wsa_data = { 0 };
+        SOCKET m_server_sock = 0ULL;
+        sockaddr_in m_server_addr = { 0 };
 #else
         constexpr static int PIPE_READ = 0;
         constexpr static int PIPE_WRITE = 1;
@@ -104,6 +113,7 @@ namespace asst
             std::string click;
             std::string swipe;
 
+            std::string screencap_raw_with_gzip_and_nc;
             std::string screencap_raw_with_gzip;
             std::string screencap_encode;
             std::string release;
@@ -121,6 +131,7 @@ namespace asst
             {
                 UnknownYet,
                 Default,
+                RawWithGzipAndNc,
                 RawWithGzip,
                 Encode
             } screencap_method = ScreencapMethod::UnknownYet;
@@ -131,6 +142,9 @@ namespace asst
         double m_control_scale = 1.0;
         int m_width = 0;
         int m_height = 0;
+        bool m_support_netcat = false;
+
+        inline static int m_instance_count = 0;
 
         mutable std::shared_mutex m_image_mutex;
         cv::Mat m_cache_image;
