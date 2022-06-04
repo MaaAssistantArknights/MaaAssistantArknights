@@ -60,11 +60,17 @@ namespace asst
 
     private:
         void pipe_working_proc();
-        std::optional<std::vector<unsigned char>> call_command(const std::string& cmd, int64_t timeout = 20000);
-        std::optional<std::vector<unsigned char>> recv_data_by_socket(int64_t timeout = 20000);
+        std::optional<std::vector<unsigned char>> call_command(const std::string& cmd, int64_t timeout = 20000, bool recv_by_socket = false);
         int push_cmd(const std::string& cmd);
 
-        using DecodeFunc = std::function<bool(const std::vector<uchar>&)>;
+        struct SocketInfo
+        {
+            std::string remote_address;
+            unsigned short remote_port = 0U;
+        };
+        std::optional<SocketInfo> try_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times = 10U);
+
+        using DecodeFunc = std::function<bool(std::vector<uchar>&)>;
         bool screencap();
         bool screencap(const std::string& cmd, DecodeFunc decode_func, bool by_nc = false);
         cv::Mat get_resized_image() const;
@@ -113,7 +119,7 @@ namespace asst
             std::string click;
             std::string swipe;
 
-            std::string screencap_raw_with_gzip_and_nc;
+            std::string screencap_raw_by_nc;
             std::string screencap_raw_with_gzip;
             std::string screencap_encode;
             std::string release;
@@ -131,7 +137,7 @@ namespace asst
             {
                 UnknownYet,
                 Default,
-                RawWithGzipAndNc,
+                RawByNc,
                 RawWithGzip,
                 Encode
             } screencap_method = ScreencapMethod::UnknownYet;
@@ -142,7 +148,8 @@ namespace asst
         double m_control_scale = 1.0;
         int m_width = 0;
         int m_height = 0;
-        bool m_support_netcat = false;
+        bool m_support_socket = false;
+        bool m_server_started = false;
 
         inline static int m_instance_count = 0;
 
