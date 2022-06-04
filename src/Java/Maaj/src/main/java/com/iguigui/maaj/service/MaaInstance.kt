@@ -82,4 +82,16 @@ class MaaInstance(
     fun stop() = instance.AsstStop(pointer)
     fun destroy() = instance.AsstDestroy(pointer)
 
+    fun getImage(): ByteArray? {
+        val size = 1024 * 1024 * 6
+        val byteArray = ByteArray(size)
+        val length = instance.AsstGetImage(pointer, byteArray, size.toLong())
+        if (length == 0L) {
+            return null
+        }
+        val target = ByteArray(length.toInt())
+        System.arraycopy(byteArray,0,target,0,length.toInt())
+        return target
+    }
+
 }

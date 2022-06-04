@@ -569,6 +569,53 @@ namespace MeoAsstGui
 
         #region 通知显示
 
+        //是否使用系统通知
+        private bool _toastUsingSystem = Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
+        private bool _toastControl = Convert.ToBoolean(bool.TrueString);
+        private bool _toastOS = Convert.ToBoolean(bool.TrueString);
+        public bool toastOScheck()
+        {
+            var os = RuntimeInformation.OSDescription.ToString();
+            if (os.ToString().CompareTo("Microsoft Windows 10.0.10240") >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                ViewStatusStorage.Set("Toast.UsingSystem", bool.FalseString);
+                ToastUsingSystem = false;
+                ToastControl = true;
+                return false;
+            }
+        }
+        public bool ToastOS
+        {
+            get { return toastOScheck(); }
+            set
+            {
+                SetAndNotify(ref _toastOS, value);
+            }
+        }
+        public bool ToastControl
+        {
+            get { return !_toastUsingSystem; }
+            set
+            {
+                SetAndNotify(ref _toastControl, value);
+            }
+        }
+        public bool ToastUsingSystem
+        {
+            get { return _toastUsingSystem; }
+            set
+            {
+                SetAndNotify(ref _toastUsingSystem, value);
+                ToastControl = !Convert.ToBoolean(value);
+                ViewStatusStorage.Set("Toast.UsingSystem", value.ToString());
+            }
+        }
+
+        //不使用系统通知时的设置
         // 左上
         private bool _toastPositionTopLeft = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.TopLeft.ToString();
 
@@ -826,7 +873,7 @@ namespace MeoAsstGui
                 using (var toast = new ToastNotification("通知显示位置测试"))
                 {
                     toast.AppendContentText("如果选择了新的位置")
-                        .AppendContentText("请先点掉这个通知再测试").Show(lifeTime: 5, row: 2);
+                        .AppendContentText("请先点掉这个通知再测试").Show(lifeTime: 5, row: 3);
                 }
             });
         }
