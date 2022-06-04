@@ -38,7 +38,10 @@
             <ComboBox x:Name="ComboBoxCtr" Width="120" Margin="10"
                       IsHitTestVisible ="{Binding Path=Idle}"
                       IsEditable="True"
+                      IsTextSearchEnabled ="False"
                       Height="20" 
+                      DisplayMemberPath="Display"
+                      SelectedValuePath="Value"
                       TextBoxBase.TextChanged="ComboBoxCtr_TextChanged"
                       />
 

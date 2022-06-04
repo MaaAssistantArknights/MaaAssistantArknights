@@ -10,6 +10,7 @@
 // but WITHOUT ANY WARRANTY
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
@@ -23,57 +24,44 @@ namespace MeoAsstGui
         public FightSettingsUserControl()
         {
             InitializeComponent();
-            BindingEnumData();
-            ComboBoxCtr.ItemsSource = DropsList;
+            InitDrops();
+            ComboBoxCtr.ItemsSource = Drops;
         }
 
-        public ObservableCollection<Drops> DropsList { get; set; } = new ObservableCollection<Drops>();
+        public ObservableCollection<CombData> Drops { get; set; } = new ObservableCollection<CombData>();
 
-        private void BindingEnumData()
+        private void InitDrops()
         {
-            foreach (Drops drop in Enum.GetValues(typeof(Drops)))
+            for (int i = 0; i < 100; i++)
             {
-                DropsList.Add(drop);
+                Drops.Add(new CombData { Display = i.ToString(), Value = (i * 2).ToString() });
             }
         }
 
-        public enum Drops
-        {
-            固源岩 = 0,
-            晶体元件 = 1,
-            全新装置 = 2,
-            固源岩组 = 3
-        }
+        public ObservableCollection<CombData> DropsList { get; set; } = new ObservableCollection<CombData>();
 
         private void ComboBoxCtr_TextChanged(object sender, TextChangedEventArgs e)
         {
+            string str = ComboBoxCtr.Text.ToString();
+            DropsList.Clear();
+
+            if (string.IsNullOrEmpty(str))
             {
-                string str = ComboBoxCtr.Text.ToString();
-                ComboBoxCtr.IsDropDownOpen = false;
-                DropsList.Clear();
+                ComboBoxCtr.ItemsSource = Drops;
+                return;
+            }
 
-                if (string.IsNullOrEmpty(str))
-                {
-                    BindingEnumData();
-                    return;
-                }
+            foreach (CombData drop in Drops)
+            {
+                var enumStr = drop.Display;
+                if (enumStr.Contains(str))
+                    DropsList.Add(drop);
+            }
 
-                foreach (Drops drop in Enum.GetValues(typeof(Drops)))
-                {
-                    var enumStr = drop.ToString();
-                    if (enumStr.Contains(str))
-                        DropsList.Add(drop);
-                }
-
-                if (DropsList.Count > 0)
-                {
-                    ComboBoxCtr.ItemsSource = DropsList;
-                    ComboBoxCtr.IsDropDownOpen = true;
-                }
-                else
-                {
-                    BindingEnumData();
-                }
+            if (DropsList.Count > 0)
+            {
+                ComboBoxCtr.ItemsSource = DropsList;
+                ComboBoxCtr.IsDropDownOpen = true;
             }
         }
     }
