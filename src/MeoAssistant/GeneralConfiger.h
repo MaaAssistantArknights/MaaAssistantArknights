@@ -51,9 +51,8 @@ namespace asst
         std::string swipe;
         std::string display;
         std::string screencap_raw_with_gzip;
-        std::string screencap_raw_with_gzip_and_nc;
+        std::string screencap_raw_by_nc;
         unsigned short nc_port = 0U;
-        std::string nc_port_reverse;
         std::string screencap_encode;
         std::string release;
     };
