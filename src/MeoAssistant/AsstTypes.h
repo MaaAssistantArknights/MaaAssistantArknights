@@ -161,7 +161,7 @@ namespace asst
 
     enum class ServerType
     {
-        Official,
+        Official = 0,
         Bilibili
     };
 }
