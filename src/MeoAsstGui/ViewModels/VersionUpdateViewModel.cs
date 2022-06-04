@@ -76,17 +76,14 @@ namespace MeoAsstGui
             }
         }
 
-        private string _updateUrl = ViewStatusStorage.Get("VersionUpdate.url", string.Empty);
-
         public string UpdateUrl
         {
             get
             {
-                return _updateUrl;
+                return ViewStatusStorage.Get("VersionUpdate.url", string.Empty);
             }
             set
             {
-                SetAndNotify(ref _updateUrl, value);
                 ViewStatusStorage.Set("VersionUpdate.url", value);
             }
         }
@@ -322,7 +319,6 @@ namespace MeoAsstGui
             {
                 using (var toast = new ToastNotification("新版本下载完成"))
                 {
-
                     toast.AppendContentText("软件将在下次启动时自动更新！")
                         .AppendContentText("✿✿ヽ(°▽°)ノ✿")
                         .ShowUpdateVersion(row: 2);
