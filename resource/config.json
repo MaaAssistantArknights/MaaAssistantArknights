@@ -30,7 +30,9 @@
             "displayFormat": "    init=%dx%d",
             "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "openOfficial": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights/com.u8.sdk.U8UnityContext",
+            "openBilibili": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights.bilibili/com.u8.sdk.U8UnityContext"
         },
         "BlueStacks": {
             "devices": "[Adb] devices",
@@ -43,7 +45,9 @@
             "displayFormat": "cur=%dx%d",
             "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "openOfficial": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights/com.u8.sdk.U8UnityContext",
+            "openBilibili": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights.bilibili/com.u8.sdk.U8UnityContext"
         },
         "MuMuEmulator": {
             "devices": "[Adb] devices",
@@ -56,7 +60,9 @@
             "displayFormat": "cur=%dx%d",
             "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "openOfficial": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights/com.u8.sdk.U8UnityContext",
+            "openBilibili": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights.bilibili/com.u8.sdk.U8UnityContext"
         },
         "LDPlayer": {
             "devices": "[Adb] devices",
@@ -69,7 +75,9 @@
             "displayFormat": "cur=%dx%d",
             "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [Address] shell screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "openOfficial": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights/com.u8.sdk.U8UnityContext",
+            "openBilibili": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights.bilibili/com.u8.sdk.U8UnityContext"
         },
         "Nox": {
             "devices": "[Adb] devices",
@@ -82,7 +90,9 @@
             "displayFormat": "cur=%dx%d",
             "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "openOfficial": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights/com.u8.sdk.U8UnityContext",
+            "openBilibili": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights.bilibili/com.u8.sdk.U8UnityContext"
         },
         "XYAZ": {
             "devices": "[Adb] devices",
@@ -95,7 +105,9 @@
             "displayFormat": "    init=%dx%d",
             "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [Address] shell screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "openOfficial": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights/com.u8.sdk.U8UnityContext",
+            "openBilibili": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights.bilibili/com.u8.sdk.U8UnityContext"
         },
         "WSA": {
             "devices": "[Adb] devices",
@@ -109,7 +121,9 @@
             "displayFormat": "Physical size:%dx%d",
             "screencapRawWithGzip": "[Adb] -s [Address] shell \"screencap -d [DisplayId] | gzip -1\"",
             "screencapEncode": "[Adb] -s [Address] shell screencap -d [DisplayId] -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "openOfficial": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights/com.u8.sdk.U8UnityContext",
+            "openBilibili": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights.bilibili/com.u8.sdk.U8UnityContext"
         },
         "Compatible": {
             "devices": "[Adb] devices",
@@ -122,7 +136,9 @@
             "displayFormat": "    init=%dx%d",
             "screencapRawWithGzip": "[Adb] -s [Address] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [Address] exec-out screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "openOfficial": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights/com.u8.sdk.U8UnityContext",
+            "openBilibili": "[Adb] -s [Address] shell am start -n com.hypergryph.arknights.bilibili/com.u8.sdk.U8UnityContext"
         }
     }
 }
