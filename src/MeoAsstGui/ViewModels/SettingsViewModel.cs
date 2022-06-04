@@ -592,8 +592,8 @@ namespace MeoAsstGui
             get { return _toastUsingSystem; }
             set
             {
-                SetAndNotify(ref _toastUsingSystem, value);
-                ViewStatusStorage.Set("Toast.UsingSystem", value.ToString());
+                SetAndNotify(ref _toastUsingSystem, value && ToastOS);
+                ViewStatusStorage.Set("Toast.UsingSystem", (value && ToastOS).ToString());
             }
         }
 
