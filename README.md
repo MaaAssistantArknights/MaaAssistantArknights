@@ -114,7 +114,6 @@ MAA 的意思是 MAA Assistant Arknights
 
 直接使用 Visual Studio 2019 ~~或更高版本~~ 打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
 
-Visual Studio 2022请务必安装VS2019的VC++生成工具，VS 2022 在 debug opencv cv::Mat 的时候有很大概率崩溃，微软也一直没修。所以暂时无法使用
 
 ### Linux | macOS
 
