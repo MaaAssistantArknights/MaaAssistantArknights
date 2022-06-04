@@ -63,7 +63,7 @@ bool RecruitCalcTask::_run()
         m_has_special_tag = true;
     }
 
-    static const std::string Robot = "近战位";
+    static const std::string Robot = "支援机械";
     auto robot_iter = all_tags_name.find(Robot);
     if (robot_iter != all_tags_name.end()) {
         if (m_skip_robot)
