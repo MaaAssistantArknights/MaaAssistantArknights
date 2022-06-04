@@ -412,7 +412,7 @@ namespace MeoAsstGui
 
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRecruit(
-                max_times, reqList.ToArray(), reqList.Count, cfmList.ToArray(), cfmList.Count, need_refresh, use_expedited);
+                max_times, reqList.ToArray(), reqList.Count, cfmList.ToArray(), cfmList.Count, need_refresh, use_expedited, settings.NotChooseLevel1);
         }
 
         private bool appendRoguelike()
