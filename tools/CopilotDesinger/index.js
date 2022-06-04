@@ -112,13 +112,13 @@ const action = (action_data, arr) => {
     const kills_input = input_text()
         .attr('type', 'number')
         .val(String(action_data.kills ?? ""))
-        .change(function () { action_data.kills = $(this).val !== "" ? Number($(this).val()) : undefined; });
+        .change(function () { action_data.kills = $(this).val() !== "" ? Number($(this).val()) : undefined; });
     tr.append($('<td>').append(kills_input));
     // 费用变化
     const cost_changes = input_text()
         .attr('type', 'number')
         .val(String(action_data.cost_changes ?? ""))
-        .change(function () { action_data.cost_changes = $(this).val !== "" ? Number($(this).val()) : undefined; });
+        .change(function () { action_data.cost_changes = $(this).val() !== "" ? Number($(this).val()) : undefined; });
     tr.append($('<td>').append(cost_changes));
     // 干员
     const name_input = input_oper_name()
