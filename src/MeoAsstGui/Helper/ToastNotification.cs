@@ -322,55 +322,54 @@ namespace MeoAsstGui
             NotificationContent notificationContent = null)
         {
             if (CheckToastSystem())
-                if (CheckToastSystem())
+            {
+                if (_buttonSystemEnabled)
                 {
-                    if (_buttonSystemEnabled)
-                    {
-                        Uri _burl = new Uri(_buttonSystemUrl);
-                        new ToastContentBuilder()
-                       .AddText(_notificationTitle)
-                       .AddText(_contentCollection.ToString())
-                       .AddButton(new ToastButton()
-                           .SetContent(_buttonSystemText)
-                           .SetProtocolActivation(_burl))
-                       .Show();
-                    }
-                    else
-                    {
-                        new ToastContentBuilder()
-                            .AddText(_notificationTitle)
-                            .AddText(_contentCollection.ToString())
-                            .Show();
-                    }
+                    Uri _burl = new Uri(_buttonSystemUrl);
+                    new ToastContentBuilder()
+                    .AddText(_notificationTitle)
+                    .AddText(_contentCollection.ToString())
+                    .AddButton(new ToastButton()
+                        .SetContent(_buttonSystemText)
+                        .SetProtocolActivation(_burl))
+                    .Show();
                 }
                 else
                 {
-                    if (!string.IsNullOrWhiteSpace(ViewStatusStorage.Get("Toast.Position", NotificationPosition.BottomRight.ToString())))
-                    {
-                        notificationContent = notificationContent ?? BaseContent();
-
-                        notificationContent.RowsCount = row;
-
-                        // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
-                        lifeTime = lifeTime < 3d ? 3d : lifeTime;
-
-                        var timeSpan = _buttonLeftAction == null && _buttonRightAction == null
-                            ? TimeSpan.FromSeconds(lifeTime)
-                            : TimeSpan.MaxValue;
-
-                        // 显示通知
-                        _notificationManager.Show(
-                            notificationContent,
-                            expirationTime: timeSpan,
-                            ShowXbtn: false);
-                    }
-
-                    // 播放通知提示音
-                    PlayNotificationSoundAsync(sound).Wait();
-
-                    // 任务栏闪烁
-                    FlashWindowEx();
+                    new ToastContentBuilder()
+                        .AddText(_notificationTitle)
+                        .AddText(_contentCollection.ToString())
+                        .Show();
                 }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(ViewStatusStorage.Get("Toast.Position", NotificationPosition.BottomRight.ToString())))
+                {
+                    notificationContent = notificationContent ?? BaseContent();
+
+                    notificationContent.RowsCount = row;
+
+                    // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
+                    lifeTime = lifeTime < 3d ? 3d : lifeTime;
+
+                    var timeSpan = _buttonLeftAction == null && _buttonRightAction == null
+                        ? TimeSpan.FromSeconds(lifeTime)
+                        : TimeSpan.MaxValue;
+
+                    // 显示通知
+                    _notificationManager.Show(
+                        notificationContent,
+                        expirationTime: timeSpan,
+                        ShowXbtn: false);
+                }
+
+                // 播放通知提示音
+                PlayNotificationSoundAsync(sound).Wait();
+
+                // 任务栏闪烁
+                FlashWindowEx();
+            }
         }
 
         /// <summary>
