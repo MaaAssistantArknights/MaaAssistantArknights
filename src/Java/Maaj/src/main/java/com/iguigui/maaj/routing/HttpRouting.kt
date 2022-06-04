@@ -3,10 +3,12 @@ package com.iguigui.maaj.routing
 import com.iguigui.maaj.dto.*
 import com.iguigui.maaj.service.MaaService
 import com.iguigui.maaj.service.MaaService.appendTask
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.utils.io.*
 import kotlinx.serialization.json.jsonObject
 
 
@@ -60,6 +62,18 @@ fun Application.httpRouting() {
                 call.respond(EmptyBaseData.wapperToHttpResponse())
             }
             get("/listInstance") {
+                val list = MaaService.listInstance()
+                call.respond(ListInstanceResponse(list).wapperToHttpResponse())
+            }
+            get("/getImage") {
+                val id = call.request.queryParameters["id"]
+                id?.let {
+                    MaaService.getImage(it)?.run {
+                        call.respondBytes(this, ContentType("image", "png"))
+                    }
+                }
+            }
+            post("/listInstance") {
                 val list = MaaService.listInstance()
                 call.respond(ListInstanceResponse(list).wapperToHttpResponse())
             }
