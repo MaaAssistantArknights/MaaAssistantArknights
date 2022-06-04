@@ -9,10 +9,11 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
-using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MeoAsstGui
 {
@@ -21,21 +22,31 @@ namespace MeoAsstGui
     /// </summary>
     public partial class FightSettingsUserControl : UserControl
     {
+        private static readonly string _DropsFilename = System.Environment.CurrentDirectory + "\\resource\\item_index.json";
+
         public FightSettingsUserControl()
         {
             InitializeComponent();
+
             InitDrops();
             ComboBoxCtr.ItemsSource = Drops;
         }
 
         public ObservableCollection<CombData> Drops { get; set; } = new ObservableCollection<CombData>();
 
+
         private void InitDrops()
         {
-            for (int i = 0; i < 100; i++)
+            string jsonStr = File.ReadAllText(_DropsFilename);
+            var reader = (JObject)JsonConvert.DeserializeObject(jsonStr);
+            foreach (var item in reader)
             {
-                Drops.Add(new CombData { Display = i.ToString(), Value = (i * 2).ToString() });
+                var val = item.Key;
+                var dis = item.Value["name"].ToString();
+                Drops.Add(new CombData { Display = dis, Value = val });
             }
+
+
         }
 
         public ObservableCollection<CombData> DropsList { get; set; } = new ObservableCollection<CombData>();
