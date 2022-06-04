@@ -576,7 +576,7 @@ namespace MeoAsstGui
         public bool toastOScheck()
         {
             var os = RuntimeInformation.OSDescription.ToString();
-            if (os.ToString().CompareTo("Microsoft Windows 10.0.22000") > 0)
+            if (os.ToString().CompareTo("Microsoft Windows 10.0.10240") >= 0)
             {
                 return true;
             }
