@@ -371,8 +371,8 @@ namespace MeoAsstGui
             var content = BaseContent();
 
             // 给通知染上小车相似的颜色
-            content.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#DCDCDC04");
-            content.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#B0B0B000");
+            content.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFFFF4");
+            content.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF111111");
 
             Show(row: row,
                 sound: NotificationSounds.Notification,

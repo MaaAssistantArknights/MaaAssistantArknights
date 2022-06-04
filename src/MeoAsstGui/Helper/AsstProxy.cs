@@ -479,7 +479,7 @@ namespace MeoAsstGui
                             {
                                 toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
                             }
-                            mainModel.AddLog(1 + " 星 Tag", "gainsboro", "Bold");
+                            mainModel.AddLog(1 + " 星 Tag", "darkgray", "Bold");
                         }
                     }
                     break;
