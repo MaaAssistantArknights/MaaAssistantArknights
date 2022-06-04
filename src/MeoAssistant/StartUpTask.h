@@ -11,6 +11,8 @@ namespace asst
         StartUpTask(AsstCallback callback, void* callback_arg);
         virtual ~StartUpTask() = default;
 
+        bool set_params(const json::value& params) override;
+
         static constexpr const char* TaskType = "StartUp";
     private:
 
