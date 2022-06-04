@@ -206,7 +206,12 @@ namespace MeoAsstGui
         //系统按钮
         protected string _buttonSystemText = null;
 
-        protected string _buttonSystemUrl = ViewStatusStorage.Get("VersionUpdate.url", string.Empty);
+        protected string _buttonSystemUrl;
+        public string ButtonSystemUrl
+        {
+            get { return _buttonSystemUrl; }
+            set { _buttonSystemUrl = value; }
+        }
 
         protected bool _buttonSystemEnabled = Convert.ToBoolean(bool.FalseString);
         #endregion 通知按钮变量
@@ -317,38 +322,55 @@ namespace MeoAsstGui
             NotificationContent notificationContent = null)
         {
             if (CheckToastSystem())
-                new ToastContentBuilder()
-                    .AddText(_notificationTitle)
-                    .AddText(_contentCollection.ToString())
-                    .Show();
-            else
-            {
-                if (!string.IsNullOrWhiteSpace(ViewStatusStorage.Get("Toast.Position", NotificationPosition.BottomRight.ToString())))
+                if (CheckToastSystem())
                 {
-                    notificationContent = notificationContent ?? BaseContent();
-
-                    notificationContent.RowsCount = row;
-
-                    // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
-                    lifeTime = lifeTime < 3d ? 3d : lifeTime;
-
-                    var timeSpan = _buttonLeftAction == null && _buttonRightAction == null
-                        ? TimeSpan.FromSeconds(lifeTime)
-                        : TimeSpan.MaxValue;
-
-                    // 显示通知
-                    _notificationManager.Show(
-                        notificationContent,
-                        expirationTime: timeSpan,
-                        ShowXbtn: false);
+                    if (_buttonSystemEnabled)
+                    {
+                        Uri _burl = new Uri(_buttonSystemUrl);
+                        new ToastContentBuilder()
+                       .AddText(_notificationTitle)
+                       .AddText(_contentCollection.ToString())
+                       .AddButton(new ToastButton()
+                           .SetContent(_buttonSystemText)
+                           .SetProtocolActivation(_burl))
+                       .Show();
+                    }
+                    else
+                    {
+                        new ToastContentBuilder()
+                            .AddText(_notificationTitle)
+                            .AddText(_contentCollection.ToString())
+                            .Show();
+                    }
                 }
+                else
+                {
+                    if (!string.IsNullOrWhiteSpace(ViewStatusStorage.Get("Toast.Position", NotificationPosition.BottomRight.ToString())))
+                    {
+                        notificationContent = notificationContent ?? BaseContent();
 
-                // 播放通知提示音
-                PlayNotificationSoundAsync(sound).Wait();
+                        notificationContent.RowsCount = row;
 
-                // 任务栏闪烁
-                FlashWindowEx();
-            }
+                        // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
+                        lifeTime = lifeTime < 3d ? 3d : lifeTime;
+
+                        var timeSpan = _buttonLeftAction == null && _buttonRightAction == null
+                            ? TimeSpan.FromSeconds(lifeTime)
+                            : TimeSpan.MaxValue;
+
+                        // 显示通知
+                        _notificationManager.Show(
+                            notificationContent,
+                            expirationTime: timeSpan,
+                            ShowXbtn: false);
+                    }
+
+                    // 播放通知提示音
+                    PlayNotificationSoundAsync(sound).Wait();
+
+                    // 任务栏闪烁
+                    FlashWindowEx();
+                }
         }
 
         /// <summary>
@@ -394,37 +416,13 @@ namespace MeoAsstGui
         /// <param name="row">内容行数</param>
         public void ShowUpdateVersion(uint row = 3)
         {
-            Uri _burl = new Uri(_buttonSystemUrl);
-            if (CheckToastSystem())
-            {
-                if (_buttonSystemEnabled)
-                {
-                    new ToastContentBuilder()
-                   .AddText(_notificationTitle)
-                   .AddText(_contentCollection.ToString())
-                   .AddButton(new ToastButton()
-                       .SetContent(_buttonSystemText)
-                       .SetProtocolActivation(_burl))
-                   .Show();
-                }
-                else
-                {
-                    new ToastContentBuilder()
-                        .AddText(_notificationTitle)
-                        .AddText(_contentCollection.ToString())
-                        .Show();
-                }
-            }
-            else
-            {
-                var content = BaseContent();
+            var content = BaseContent();
 
-                content.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF007280");
+            content.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF007280");
 
-                ShowMore(row: row,
-                     sound: NotificationSounds.Notification,
-                     notificationContent: content);
-            }
+            ShowMore(row: row,
+                    sound: NotificationSounds.Notification,
+                    notificationContent: content);
         }
         #endregion 显示通知方法
 
