@@ -25,11 +25,18 @@ using Notification.Wpf;
 using Notification.Wpf.Base;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MeoAsstGui
 {
     public class ToastNotification : IDisposable
     {
+
+        public bool CheckToastSystem()
+        {
+            return Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
+        }
+
         private NotificationManager _notificationManager = new NotificationManager();
 
         /// <summary>
@@ -196,6 +203,17 @@ namespace MeoAsstGui
 
         protected Action _buttonRightAction = null;
 
+        //系统按钮
+        protected string _buttonSystemText = null;
+
+        protected string _buttonSystemUrl;
+        public string ButtonSystemUrl
+        {
+            get { return _buttonSystemUrl; }
+            set { _buttonSystemUrl = value; }
+        }
+
+        protected bool _buttonSystemEnabled = Convert.ToBoolean(bool.FalseString);
         #endregion 通知按钮变量
 
         /// <summary>
@@ -208,6 +226,8 @@ namespace MeoAsstGui
         {
             _buttonLeftText = text;
             _buttonLeftAction = action;
+            _buttonSystemText = text;
+            _buttonSystemEnabled = Convert.ToBoolean(bool.TrueString);
             return this;
         }
 
@@ -221,6 +241,8 @@ namespace MeoAsstGui
         {
             _buttonRightText = text;
             _buttonRightAction = action;
+            _buttonSystemText = text;
+            _buttonSystemEnabled = Convert.ToBoolean(bool.TrueString);
             return this;
         }
 
@@ -294,35 +316,60 @@ namespace MeoAsstGui
         /// <param name="row">内容显示行数，如果内容太多建议使用 ShowMore()</param>
         /// <param name="sound">播放提示音</param>
         /// <param name="notificationContent">通知内容</param>
+        /// 
         public void Show(double lifeTime = 10d, uint row = 1,
             NotificationSounds sound = NotificationSounds.Notification,
             NotificationContent notificationContent = null)
         {
-            if (!string.IsNullOrWhiteSpace(ViewStatusStorage.Get("Toast.Position", NotificationPosition.BottomRight.ToString())))
+            if (CheckToastSystem())
             {
-                notificationContent = notificationContent ?? BaseContent();
-
-                notificationContent.RowsCount = row;
-
-                // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
-                lifeTime = lifeTime < 3d ? 3d : lifeTime;
-
-                var timeSpan = _buttonLeftAction == null && _buttonRightAction == null
-                    ? TimeSpan.FromSeconds(lifeTime)
-                    : TimeSpan.MaxValue;
-
-                // 显示通知
-                _notificationManager.Show(
-                    notificationContent,
-                    expirationTime: timeSpan,
-                    ShowXbtn: false);
+                if (_buttonSystemEnabled)
+                {
+                    Uri _burl = new Uri(_buttonSystemUrl);
+                    new ToastContentBuilder()
+                    .AddText(_notificationTitle)
+                    .AddText(_contentCollection.ToString())
+                    .AddButton(new ToastButton()
+                        .SetContent(_buttonSystemText)
+                        .SetProtocolActivation(_burl))
+                    .Show();
+                }
+                else
+                {
+                    new ToastContentBuilder()
+                        .AddText(_notificationTitle)
+                        .AddText(_contentCollection.ToString())
+                        .Show();
+                }
             }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(ViewStatusStorage.Get("Toast.Position", NotificationPosition.BottomRight.ToString())))
+                {
+                    notificationContent = notificationContent ?? BaseContent();
 
-            // 播放通知提示音
-            PlayNotificationSoundAsync(sound).Wait();
+                    notificationContent.RowsCount = row;
 
-            // 任务栏闪烁
-            FlashWindowEx();
+                    // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
+                    lifeTime = lifeTime < 3d ? 3d : lifeTime;
+
+                    var timeSpan = _buttonLeftAction == null && _buttonRightAction == null
+                        ? TimeSpan.FromSeconds(lifeTime)
+                        : TimeSpan.MaxValue;
+
+                    // 显示通知
+                    _notificationManager.Show(
+                        notificationContent,
+                        expirationTime: timeSpan,
+                        ShowXbtn: false);
+                }
+
+                // 播放通知提示音
+                PlayNotificationSoundAsync(sound).Wait();
+
+                // 任务栏闪烁
+                FlashWindowEx();
+            }
         }
 
         /// <summary>
@@ -363,6 +410,23 @@ namespace MeoAsstGui
         }
 
         /// <summary>
+        /// 显示公招小车标签通知
+        /// </summary>
+        /// <param name="row">内容显示行数，比如第 2 行用来放星星</param>
+        public void ShowRecruitRobot(uint row = 1)
+        {
+            var content = BaseContent();
+
+            // 给通知染上小车相似的颜色
+            content.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFFFF4");
+            content.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF111111");
+
+            Show(row: row,
+                sound: NotificationSounds.Notification,
+                notificationContent: content);
+        }
+        
+        /// <summary>
         /// 显示更新版本的通知
         /// </summary>
         /// <param name="row">内容行数</param>
@@ -373,10 +437,9 @@ namespace MeoAsstGui
             content.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF007280");
 
             ShowMore(row: row,
-                 sound: NotificationSounds.Notification,
-                 notificationContent: content);
+                    sound: NotificationSounds.Notification,
+                    notificationContent: content);
         }
-
         #endregion 显示通知方法
 
         #endregion 通知显示
