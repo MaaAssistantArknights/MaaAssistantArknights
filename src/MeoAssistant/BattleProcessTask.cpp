@@ -2,6 +2,7 @@
 
 #include <thread>
 #include <chrono>
+#include <future>
 
 #include "Controller.h"
 #include "Resource.h"
@@ -53,6 +54,8 @@ bool asst::BattleProcessTask::_run()
 
 bool asst::BattleProcessTask::get_stage_info()
 {
+    LogTraceFunction;
+
     const auto& tile = Resrc.tile();
 
     m_normal_tile_info = tile.calc(m_stage_name, false);
@@ -84,38 +87,52 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         callback(AsstMsg::SubTaskExtraInfo, info);
     }
 
+    MatchImageAnalyzer officially_begin_analyzer;
+    officially_begin_analyzer.set_task_info("BattleOfficiallyBegin");
+    cv::Mat image;
+    while (!need_exit()) {
+        image = m_ctrler->get_image();
+        officially_begin_analyzer.set_image(image);
+        if (officially_begin_analyzer.analyze()) {
+            break;
+        }
+        std::this_thread::yield();
+    }
+
     BattleImageAnalyzer oper_analyzer;
     oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
-
-    while (true) {
-        oper_analyzer.set_image(m_ctrler->get_image());
+    while (!need_exit()) {
+        image = m_ctrler->get_image();
+        oper_analyzer.set_image(image);
         if (oper_analyzer.analyze()) {
             break;
         }
         std::this_thread::yield();
     }
 
-    // 干员头像出来之后，还要过 2 秒左右才可以点击，这里要加个延时
-    sleep(Task.get("BattleWaitingToLoad")->rear_delay);
-    while (true) {
-        oper_analyzer.set_image(m_ctrler->get_image());
-        if (oper_analyzer.analyze()) {
+    // 暂停游戏准备识别干员
+    // 在刚进入游戏的时候（画面刚刚完全亮起来的时候），点暂停是没反应的
+    // 所以这里一直点，直到真的点上了为止
+    while (!need_exit()) {
+        battle_pause();
+        image = m_ctrler->get_image();
+        officially_begin_analyzer.set_image(image);
+        if (!officially_begin_analyzer.analyze()) {
             break;
         }
         std::this_thread::yield();
     }
-    {
+
+    auto draw_future = std::async(std::launch::async, [&]() {
         //#ifdef ASST_DEBUG
-        auto draw = m_ctrler->get_image();
+        auto draw = image.clone();
         for (const auto& [loc, info] : m_normal_tile_info) {
             std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
             cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
         }
 
         cv::imwrite("map.png", draw);
-        //#endif
-    }
-    battle_pause();
+    });
 
     auto opers = oper_analyzer.get_opers();
 
@@ -126,7 +143,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
 
         sleep(Task.get("BattleUseOper")->pre_delay);
 
-        auto image = m_ctrler->get_image();
+        image = m_ctrler->get_image();
 
         OcrWithPreprocessImageAnalyzer name_analyzer(image);
         name_analyzer.set_task_info("BattleOperName");
@@ -166,6 +183,8 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         oper_analyzer.set_image(image);
         oper_analyzer.analyze();
     }
+
+    draw_future.wait();
     battle_pause();
     cancel_selection();
 
