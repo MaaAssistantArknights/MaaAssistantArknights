@@ -277,7 +277,7 @@ $(document).ready(() => {
     $('#download_json').click(() => {
         const result = JSON.stringify(data, null, 4);
         const file = new Blob([result], { type: 'application/json' });
-        const fileName = data.stage_name + '_' + data.opers.map(o => o.name).join('+') + '.json';
+        const fileName = data.stage_name + '_' + (data.opers?.map(o => o.name).join('+') ?? '') + '.json';
         const url = window.URL.createObjectURL(file);
         const link = document.createElement('a');
         link.href = url;
