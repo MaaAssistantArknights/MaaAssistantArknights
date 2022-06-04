@@ -517,6 +517,18 @@ namespace MeoAsstGui
             set { SetAndNotify(ref _useExpedited, value); }
         }
 
+        private bool _notChooseLevel1 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.NotChooseLevel1", bool.TrueString));
+
+        public bool NotChooseLevel1
+        {
+            get { return _notChooseLevel1; }
+            set
+            {
+                SetAndNotify(ref _notChooseLevel1, value);
+                ViewStatusStorage.Set("AutoRecruit.NotChooseLevel1", value.ToString());
+            }
+        }
+
         private bool _chooseLevel3 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.ChooseLevel3", bool.TrueString));
 
         public bool ChooseLevel3
