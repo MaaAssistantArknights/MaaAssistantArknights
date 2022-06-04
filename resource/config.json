@@ -18,6 +18,10 @@
             "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i"
         }
     },
+    "intent": {
+        "Official": "com.hypergryph.arknights/com.u8.sdk.U8UnityContext",
+        "Bilibili": "com.hypergryph.arknights.bilibili/com.u8.sdk.U8UnityContext"
+    },
     "connection": {
         "General": {
             "devices": "[Adb] devices",

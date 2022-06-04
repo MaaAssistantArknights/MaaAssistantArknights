@@ -37,7 +37,9 @@ namespace asst
         cv::Mat get_image(bool raw = false);
         std::vector<uchar> get_image_encode() const;
 
-        // 点击和滑动都是异步执行，返回该任务的id
+        // 开启/置顶游戏、点击和滑动都是异步执行，返回该任务的id
+        int start_game(const ServerType& server_type = asst::ServerType::Official, bool block = true);
+        
         int click(const Point& p, bool block = true);
         int click(const Rect& rect, bool block = true);
         int click_without_scale(const Point& p, bool block = true);
@@ -107,6 +109,8 @@ namespace asst
             std::string screencap_raw_with_gzip;
             std::string screencap_encode;
             std::string release;
+
+            std::string start;
 
             /* propertities */
             enum class ScreencapEndOfLine
