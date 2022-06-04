@@ -63,9 +63,17 @@ bool RecruitCalcTask::_run()
         m_has_special_tag = true;
     }
 
-    static const std::string Robot = "支援机械";
+    static const std::string Robot = "狙击干员";
     auto robot_iter = all_tags_name.find(Robot);
     if (robot_iter != all_tags_name.end()) {
+        if (m_skip_robot)
+        {
+            info["what"] = "RecruitRobotTag";
+            info["details"] = json::object{
+                { "tag", Robot }
+            };
+            callback(AsstMsg::SubTaskExtraInfo, info);
+        }
         m_has_robot_tag = true;
     }
 
@@ -169,6 +177,7 @@ bool RecruitCalcTask::_run()
     json::value results_json;
     results_json["result"] = json::array();
     results_json["level"] = m_maybe_level;
+    results_json["robot"] = m_skip_robot && m_has_robot_tag;
 
     std::vector<json::value> result_json_vector;
     for (const auto& comb : result_vec) {
@@ -218,9 +227,10 @@ bool RecruitCalcTask::_run()
     return true;
 }
 
-RecruitCalcTask& RecruitCalcTask::set_param(std::vector<int> select_level, bool set_time) noexcept
+RecruitCalcTask& RecruitCalcTask::set_param(std::vector<int> select_level, bool set_time, bool skip_robot) noexcept
 {
     m_select_level = std::move(select_level);
     m_set_time = set_time;
+    m_skip_robot = skip_robot;
     return *this;
 }
