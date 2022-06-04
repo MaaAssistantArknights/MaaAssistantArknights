@@ -143,7 +143,8 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     // 尝试刷新
     if (m_need_refresh && maybe_level == 3
         && !recruit_task.get_has_special_tag()
-        && recruit_task.get_has_refresh()) {
+        && recruit_task.get_has_refresh()
+        && !(m_skip_robot && recruit_task.get_has_robot_tag())) {
         if (refresh()) {
             return calc_and_recruit();
         }
