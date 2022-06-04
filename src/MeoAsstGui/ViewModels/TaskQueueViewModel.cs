@@ -250,7 +250,7 @@ namespace MeoAsstGui
                 }
                 else if (item.Name == "开始唤醒")
                 {
-                    ret &= asstProxy.AsstAppendStartUp();
+                    ret &= appendStart();
                 }
                 else if (item.Name == "刷理智")
                 {
@@ -327,6 +327,14 @@ namespace MeoAsstGui
             ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
         }
 
+        private bool appendStart()
+        {
+            var settings = _container.Get<SettingsViewModel>();
+            var asstProxy = _container.Get<AsstProxy>();
+            int.TryParse(settings.ServerType, out var mode);
+            return asstProxy.AsstAppendStartUp(mode);
+        }
+        
         private bool appendFight()
         {
             int medicine = 0;
