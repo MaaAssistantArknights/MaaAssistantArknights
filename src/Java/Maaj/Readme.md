@@ -1,6 +1,7 @@
 # Maa-HTTP接口实现
 
-本项目为通过JNA(Java-Native-Access)调用Maa核心实现的HTTP+WebSocket接口实现.
+基于JNA(Java-Native-Access)调用Maa核心的HTTP+WebSocket接口实现.
+仅在Windows下进行过测试，未在Linux下测试过(相信强大的Linux用户自己可以解决问题！
 
 ## 接口实现情况
 
@@ -13,8 +14,9 @@
 | 开始执行   | start         | Yes    | Yes |
 | 停止执行   | stop          | Yes    | Yes |
 | 销毁实例   | destroy       | Yes    | Yes |
-| 列出实例连接   | listInstance  | Yes    | Yes |
+| 列出实例连接 | listInstance  | Yes    | Yes |
 | 消息回调通知 | callBack  | No     | Yes |
+| 获取截图   | getImage  | Yes     | No |
 
 ## 环境依赖
 
@@ -27,7 +29,7 @@
 
 ## 使用方法
 
-1. 把他丢进Maa文件夹下,形成如下文件结构.
+1. 把他丢进Maa文件夹下,形成如下文件结构.备注: 启动脚本[Maa-HTTP-Server-startup.bat](Maa-HTTP-Server-startup.bat).
 
 ```
 MeoAssistantArknights_v3.9.0-beta.8
@@ -66,6 +68,7 @@ MeoAssistantArknights_v3.9.0-beta.8
 | 停止执行   | stop          |
 | 销毁实例   | destroy       |
 | 列出连接   | listInstance  |
+| 获取截图   | getImage  |
 
 ---
 
@@ -417,6 +420,29 @@ MeoAssistantArknights_v3.9.0-beta.8
 | adbPath    | 使用的Adb地址    | String | - |
 | uuid    | 设备备ID，保留    | String | - |
 | status    | 0待机中,1任务执行中 | Int    | - |
+
+
+
+---
+
+##### 接口名称 获取截图
+
+###### 1) 请求地址
+
+> http://127.0.0.1:8848/API/V1/getImage
+
+###### 2) 调用方式：HTTP get
+
+###### 3) 请求参数:
+
+###### Get参数:
+
+|  字段名称   | 字段说明                                                                                                                       | 类型     | 必填 | 备注  |
+|  ----  |--------|--------|----  |-----|
+| id  | 创建连接返回的实例ID   | String | Y | -   |
+
+###### 4) 请求返回结果: 图片内容,PNG格式
+
 
 ### WebSocket部分
 
