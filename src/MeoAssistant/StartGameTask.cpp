@@ -6,11 +6,14 @@ using namespace asst;
 
 bool StartGameTask::_run()
 {
-    m_ctrler->start_game(m_server_type);
-    return true;
+    if(m_ctrler->start_game(m_server_type))
+    {
+        return true;
+    }
+    return false;
 }
 
-StartGameTask& StartGameTask::set_param(ServerType server_type) noexcept
+StartGameTask& StartGameTask::set_param(std::string server_type) noexcept
 {
     m_server_type = server_type;
     return *this;

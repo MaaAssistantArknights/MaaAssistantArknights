@@ -38,7 +38,7 @@ namespace asst
         std::vector<uchar> get_image_encode() const;
 
         // 开启/置顶游戏、点击和滑动都是异步执行，返回该任务的id
-        int start_game(const ServerType& server_type = asst::ServerType::Official, bool block = true);
+        std::optional<int> start_game(const std::string& server_type = "", bool block = true);
         
         int click(const Point& p, bool block = true);
         int click(const Rect& rect, bool block = true);

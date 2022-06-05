@@ -11,12 +11,12 @@ namespace asst
         using AbstractTask::AbstractTask;
         ~StartGameTask() override = default;
 
-        StartGameTask& set_param(ServerType server_type = ServerType::Official) noexcept;
+        StartGameTask& set_param(std::string server_type = "") noexcept;
         StartGameTask& set_enable(bool enable = false) noexcept override;
 
     protected:
         bool _run() override;
 
-        ServerType m_server_type = ServerType::Official;
+        std::string m_server_type = "";
     };
 }
