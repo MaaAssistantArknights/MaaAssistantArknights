@@ -141,7 +141,7 @@ Please refer to [Linux Tutorial](docs/en/LINUX_TUTORIAL.md)
 
 ## Advertisement
 
-[Bilibili Live](https://live.bilibili.com/2808861): live coding on this program 
+[Bilibili Live](https://live.bilibili.com/2808861): live coding on this program  
 [Technical Discussion & Talk](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：QQ Group  
 [Copilot JSON Sharing](https://jq.qq.com/?_wv=1027&k=1giyMpPb)  
 [Dev Group](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
