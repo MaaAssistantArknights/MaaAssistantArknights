@@ -7,13 +7,13 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <StageName :stageName="data.stage_name" />
+        <StageName :value="data.stage_name" @update="updateStageName" />
       </div>
       <div class="col-12">
-        <StageTitle />
+        <StageTitle :value="data.doc?.title" @update="updateStageTitle" />
       </div>
       <div class="col-12">
-        <StageDetails />
+        <StageDetails :value="data.doc?.details" @update="updateStageDetails" />
       </div>
       <div class="col-12">
         <GroupComponent />
@@ -40,7 +40,6 @@ import BattleProgress from "./BattleProgress.vue";
 import { createEmptyCopilotData } from "@/interfaces/CopilotData";
 
 export default defineComponent({
-  name: "MainContainer",
   components: {
     JsonComponent,
     StageName,
@@ -50,10 +49,29 @@ export default defineComponent({
     OperatorComponent,
     BattleProgress,
   },
-  props: {
-    data: {
-      type: Object,
-      default: () => createEmptyCopilotData(),
+  data() {
+    return {
+      data: createEmptyCopilotData(),
+    };
+  },
+  methods: {
+    updateStageName(v: string) {
+      this.data.stage_name = v;
+    },
+    updateStageTitle(v: string) {
+      this.data.doc = {
+        ...this.data.doc,
+        title: v,
+      };
+    },
+    updateStageDetails(v: string) {
+      this.data.doc = {
+        // `title` is required
+        // will be replaced by spread operator below if it exists
+        title: "",
+        ...this.data.doc,
+        details: v,
+      };
     },
   },
 });

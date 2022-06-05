@@ -4,6 +4,7 @@
     class="form-control"
     id="details"
     placeholder="作业作者、参考的视频、危机合约要选哪些tag等等"
+    v-model="modelValue"
   ></textarea>
 </template>
 
@@ -11,7 +12,18 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "StageDetails",
-  components: {},
+  props: {
+    value: String,
+  },
+  computed: {
+    modelValue: {
+      get() {
+        return this.value ?? "";
+      },
+      set(value: string) {
+        this.$emit("update", value);
+      },
+    },
+  },
 });
 </script>
