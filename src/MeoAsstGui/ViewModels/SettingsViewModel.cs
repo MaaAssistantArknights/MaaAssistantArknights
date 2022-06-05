@@ -133,7 +133,7 @@ namespace MeoAsstGui
                 new CombData { Display = "刷源石锭投资，第一层商店后直接退出", Value = "1" },
                 new CombData { Display = "刷源石锭投资，投资过后退出", Value = "2" }
             };
-            
+
             ServerTypeList = new List<CombData>
             {
                 new CombData { Display = "官服", Value = "Official" },
@@ -165,7 +165,7 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("Start.StartGameEnable", value.ToString());
             }
         }
-        
+
         private string _serverType = ViewStatusStorage.Get("Start.ServerType", "Official");
 
         public string ServerType
@@ -177,7 +177,7 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("Start.ServerType", value);
             }
         }
-        
+
         /* 基建设置 */
         public Dictionary<string, string> FacilityKey = new Dictionary<string, string>();
         public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; }
@@ -605,6 +605,7 @@ namespace MeoAsstGui
 
         //是否使用系统通知
         private bool _toastUsingSystem = Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
+
         public bool ToastOS
         {
             get
@@ -1013,8 +1014,8 @@ namespace MeoAsstGui
         public readonly Dictionary<string, List<string>> DefaultAddress = new Dictionary<string, List<string>>
             {
                 { "General", new List<string>{ "" } },
-                { "BlueStacks", new List<string>{ "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5557", "127.0.0.1:5554" } },
-                { "MuMuEmulator", new List<string>{ "127.0.0.1:7555", "127.0.0.1:7556" } },
+                { "BlueStacks", new List<string>{ "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5554" } },
+                { "MuMuEmulator", new List<string>{ "127.0.0.1:7555" } },
                 { "LDPlayer", new List<string>{ "emulator-5554", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
                 { "Nox", new List<string>{ "127.0.0.1:62001", "127.0.0.1:59865" } },
                 { "XYAZ", new List<string>{ "127.0.0.1:21503"  } },
