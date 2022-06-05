@@ -20,7 +20,7 @@
     },
     "intent": {
         "Official": "com.hypergryph.arknights/com.u8.sdk.U8UnityContext",
-        "Bilibili": "com.hypergryph.arknights.bilibili/com.u8.sdk.U8UnityContext"
+        "Bilibili": "com.hypergryph.arknights.bilibili/com.u8.sdk.SplashActivity"
     },
     "connection": {
         "General": {
