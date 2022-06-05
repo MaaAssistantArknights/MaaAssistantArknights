@@ -17,6 +17,6 @@ namespace asst
     protected:
         bool _run() override;
 
-        std::string m_server_type = "";
+        std::string m_client_type = "";
     };
 }
