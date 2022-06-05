@@ -5007,10 +5007,10 @@
         "rearDelay": 100,
         "action": "ClickRect",
         "specificRect": [
-            820,
-            380,
-            90,
-            90
+            850,
+            390,
+            50,
+            40
         ]
     },
     "BattleOperRetreat": {
@@ -5018,10 +5018,10 @@
         "rearDelay": 100,
         "action": "ClickRect",
         "specificRect": [
-            563,
+            580,
             190,
-            80,
-            60
+            40,
+            30
         ]
     },
     "StartToWakeUpToRoguelike1": {
