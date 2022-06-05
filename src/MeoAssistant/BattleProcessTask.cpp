@@ -503,6 +503,7 @@ bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
     const std::string& name = m_group_to_oper_mapping[action.group_name].name;
     Point pos;
     if (auto iter = m_used_opers.find(name);
+        action.location.x != 0 && action.location.y != 0 &&
         iter != m_used_opers.cend()) {
         pos = iter->second.pos;
         m_used_opers.erase(name);
@@ -513,19 +514,23 @@ bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
     m_ctrler->click(pos);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
-    return ProcessTask(*this, { "BattleOperRetreat" }).run();
+    return ProcessTask(*this, { "BattleOperRetreat" }).set_task_delay(0).run();
 }
 
 bool asst::BattleProcessTask::use_skill(const BattleAction& action)
 {
     const std::string& name = m_group_to_oper_mapping[action.group_name].name;
-    auto iter = m_used_opers.find(name);
-    if (iter == m_used_opers.cend()) {
-        Log.error(name, " not used");
-        return false;
+    Point pos;
+    if (auto iter = m_used_opers.find(name);
+        action.location.x != 0 && action.location.y != 0 &&
+        iter != m_used_opers.cend()) {
+        pos = iter->second.pos;
+        m_used_opers.erase(name);
+    }
+    else {
+        pos = m_normal_tile_info.at(action.location).pos;
     }
 
-    Point pos = iter->second.pos;
     m_ctrler->click(pos);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
