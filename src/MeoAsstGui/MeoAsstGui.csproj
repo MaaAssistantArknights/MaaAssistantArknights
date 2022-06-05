@@ -101,6 +101,9 @@
     <Compile Include="Helper\ViewStatusStorage.cs" />
     <Compile Include="Helper\FlowDocumentPagePadding.cs" />
     <Compile Include="Helper\WinAdapter.cs" />
+    <Compile Include="UserControl\StartSettingsUserControl.xaml.cs">
+      <DependentUpon>StartSettingsUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\TimerSettingsUserControl.xaml.cs">
       <DependentUpon>TimerSettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -153,6 +156,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControl\StartSettingsUserControl.xaml" />
     <Page Include="UserControl\TimerSettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
