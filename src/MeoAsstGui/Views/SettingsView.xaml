@@ -26,22 +26,22 @@
             <StackPanel IsEnabled="{Binding Idle}">
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[0]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                <local:StartSettingsUserControl Margin="20" />
-                <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[1]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:InfrastSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[2]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[1]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:RoguelikeSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[3]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[2]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:AutoRecruitSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[4]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[3]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:MallSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[5]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[4]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:TimerSettingsUserControl Margin="20" />
+                <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[5]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <local:StartSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[6]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:PenguinReportSettingsUserControl Margin="20" />
