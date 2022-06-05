@@ -688,8 +688,8 @@ namespace MeoAsstGui
         public bool AsstAppendStartUp(string server_type, bool enable)
         {
             var task_params = new JObject();
-            task_params["server_type"] = server_type;
-            task_params["enable"] = enable;
+            task_params["client_type"] = server_type;
+            task_params["start_game_enable"] = enable;
             return AsstAppendTaskWithEncoding("StartUp", task_params);
         }
 
