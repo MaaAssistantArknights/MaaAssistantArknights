@@ -254,6 +254,10 @@ namespace MeoAsstGui
 
             switch (subTask)
             {
+                case "StartGameTask":
+                    mainModel.AddLog("打开客户端失败，请\n检查配置文件", "darkred");
+                    break;
+                
                 case "AutoRecruitTask":
                     mainModel.AddLog("公招识别错误，已返回", "darkred");
                     break;
@@ -687,9 +691,12 @@ namespace MeoAsstGui
             return AsstAppendTaskWithEncoding("Award");
         }
 
-        public bool AsstAppendStartUp()
+        public bool AsstAppendStartUp(string server_type, bool enable)
         {
-            return AsstAppendTaskWithEncoding("StartUp");
+            var task_params = new JObject();
+            task_params["client_type"] = server_type;
+            task_params["start_game_enable"] = enable;
+            return AsstAppendTaskWithEncoding("StartUp", task_params);
         }
 
         public bool AsstAppendVisit()
