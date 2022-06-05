@@ -9,6 +9,11 @@ namespace asst
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~StageDropsImageAnalyzer() = default;
+        StageDropsImageAnalyzer(const cv::Mat image, const std::string server)
+            : StageDropsImageAnalyzer(image)
+        {
+            m_server = server;
+        }
 
         virtual bool analyze() override;
 
@@ -33,6 +38,7 @@ namespace asst
         std::string match_item(const Rect& roi, StageDropType type, int index, int size);
 
         std::string m_stage_code;
+        std::string m_server = "CN";
         StageDifficulty m_difficulty = StageDifficulty::Normal;
         int m_stars = 0;
         std::vector<std::pair<Rect, StageDropType>> m_baseline;

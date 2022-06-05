@@ -1,5 +1,6 @@
 #include "StageDropsConfiger.h"
 
+#include <limits>
 #include <meojson/json.hpp>
 
 bool asst::StageDropsConfiger::parse(const json::value& json)
@@ -32,8 +33,16 @@ bool asst::StageDropsConfiger::parse(const json::value& json)
 			m_all_item_id.emplace(item_id);
 		}
 
+		for(const auto& [server_name, server_json] : stage_json.at("existence").as_object()) {
+			if(!server_json.at("exist").as_boolean()) {
+				continue;
+			}
+			info.openTime = (unsigned long)server_json.get("openTime",(time_t)0);
+			info.closeTime = (unsigned long)server_json.get("closeTime", (std::numeric_limits<time_t>::max()));
+			StageKey server_key = {key.code + server_name, key.difficulty};
+			m_stage_info.insert_or_assign(std::move(server_key), info);
+		}
 		m_all_stage_code.emplace(code);
-		m_stage_info.emplace(std::move(key), std::move(info));
 	}
 	return true;
 }

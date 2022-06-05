@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <ctime>
 
 namespace asst
 {
@@ -45,6 +46,7 @@ namespace asst
     {
         std::string stage_id;
         int ap_cost = 0;
+        unsigned long openTime = 0, closeTime = 0;
         std::unordered_map<StageDropType, std::vector<std::string>> drops;
     };
     struct StageDropInfo
@@ -64,9 +66,12 @@ namespace asst
 
         const auto& get_stage_info(const std::string& code, StageDifficulty difficulty) const
         {
+            unsigned long current = (unsigned long)time(0)*1000;
             StageKey key{ code, difficulty };
             if (auto find_iter = m_stage_info.find(key);
-                find_iter != m_stage_info.end()) {
+                find_iter != m_stage_info.end() &&
+                current >= find_iter->second.openTime &&
+                current < find_iter->second.closeTime) {
                 return find_iter->second;
             }
             else {

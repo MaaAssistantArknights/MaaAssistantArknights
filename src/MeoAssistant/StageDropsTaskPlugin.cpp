@@ -96,7 +96,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
         return false;
     }
 
-    StageDropsImageAnalyzer analyzer(m_ctrler->get_image());
+    StageDropsImageAnalyzer analyzer(m_ctrler->get_image(), m_server);
     if (!analyzer.analyze()) {
         auto info = basic_info();
         info["subtask"] = "RecognizeDrops";
@@ -158,7 +158,7 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
     json::value& stage = details["stage"];
     stage["stageCode"] = m_stage_code;
     if (!m_stage_code.empty()) {
-        stage["stageId"] = Resrc.drops().get_stage_info(m_stage_code, m_stage_difficulty).stage_id;
+        stage["stageId"] = Resrc.drops().get_stage_info(m_stage_code + m_server, m_stage_difficulty).stage_id;
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);

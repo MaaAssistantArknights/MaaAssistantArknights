@@ -410,7 +410,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
 
     std::string result;
     if (!m_stage_code.empty()) {
-        auto& drops = Resrc.drops().get_stage_info(m_stage_code, m_difficulty).drops;
+        auto& drops = Resrc.drops().get_stage_info(m_stage_code + m_server, m_difficulty).drops;
         if (auto find_iter = drops.find(type); find_iter != drops.end()) {
             result = match_item_with_templs(find_iter->second);
         }
