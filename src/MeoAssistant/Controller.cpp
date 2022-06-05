@@ -522,6 +522,21 @@ cv::Mat asst::Controller::get_resized_image() const
     return resized_mat;
 }
 
+std::optional<int> asst::Controller::start_game(const std::string& server_type, bool block)
+{
+    if (auto intent_name = Resrc.cfg().get_intent_name(server_type))
+    {
+        std::string cur_cmd = utils::string_replace_all(m_adb.start, "[Intent]", intent_name.value());
+        int id = push_cmd(cur_cmd);
+        if (block)
+        {
+            wait(id);
+        }
+        return id;
+    }
+    return std::nullopt;
+}
+
 int asst::Controller::click(const Point& p, bool block)
 {
     int x = static_cast<int>(p.x * m_control_scale);
@@ -828,6 +843,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     m_adb.screencap_raw_with_gzip = cmd_replace(adb_cfg.screencap_raw_with_gzip);
     m_adb.screencap_encode = cmd_replace(adb_cfg.screencap_encode);
     m_adb.release = cmd_replace(adb_cfg.release);
+    m_adb.start = cmd_replace(adb_cfg.start);
 
     return true;
 }

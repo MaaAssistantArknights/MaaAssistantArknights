@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet" d:DesignHeight="300"
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
     d:DesignWidth="550" mc:Ignorable="d">
     <Grid>
@@ -14,18 +15,28 @@
             <ColumnDefinition Width="100" />
         </Grid.ColumnDefinitions>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25*" />
-                <RowDefinition Height="44*" />
-                <RowDefinition Height="231*" />
-            </Grid.RowDefinitions>
-            <TextBlock
-                Margin="0,5,0,5" HorizontalAlignment="Center" Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap"
-                Text="通知显示的位置，默认显示在屏幕的右下角，全不勾选则只有通知声音&#13;使用系统推送通知时此设置无效" Grid.Row="1" Width="372" />
+        <StackPanel>
+            <CheckBox 
+                x:Name="usesystemnote" Content="使用Windows系统推送通知（支持Win10/Win11）" HorizontalAlignment="Left" 
+                Margin="10,0,0,0" VerticalAlignment="Center"
+                IsChecked="{Binding ToastUsingSystem}" 
+                Visibility="{c:Binding ToastOS, FalseToVisibility=Collapsed}"
+                Height="20" Width="450"/>
 
-            <Grid Grid.Row="2">
+            <StackPanel Margin="0,5,0,5">
+                <TextBlock
+                HorizontalAlignment="Center" Block.TextAlignment="Center"
+                Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap"
+                Text="通知显示的位置，默认显示在屏幕的右下角，全不勾选则只有通知声音"  Width="372" />
+                <TextBlock
+                HorizontalAlignment="Center" Block.TextAlignment="Center"
+                Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap"
+                Text="使用系统推送通知时此设置无效"
+                Visibility="{c:Binding ToastOS, FalseToVisibility=Collapsed}" />
+            </StackPanel>
+            
+            <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="4" MaxWidth="400">
+                <Grid IsEnabled="{c:Binding !(ToastOS and ToastUsingSystem)}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -36,74 +47,41 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Border
-                    Grid.Row="0" Grid.Column="0" BorderBrush="#E0E0E0" BorderThickness="1,1,0,0" />
-                <Border
-                    Grid.Row="1" Grid.Column="0" BorderBrush="#E0E0E0" BorderThickness="1,0,0,0" />
-                <Border
-                    Grid.Row="2" Grid.Column="0" BorderBrush="#E0E0E0" BorderThickness="1,0,0,1" />
-                <Border
-                    Grid.Row="0" Grid.Column="1" BorderBrush="#E0E0E0" BorderThickness="0,1,0,0" />
-                <Border
-                    Grid.Row="2" Grid.Column="1" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" />
-                <Border
-                    Grid.Row="0" Grid.Column="2" BorderBrush="#E0E0E0" BorderThickness="0,1,1,0" />
-                <Border
-                    Grid.Row="1" Grid.Column="2" BorderBrush="#E0E0E0" BorderThickness="0,0,1,0" />
-                <Border
-                    Grid.Row="2" Grid.Column="2" BorderBrush="#E0E0E0" BorderThickness="0,0,1,1" />
-
                 <CheckBox
                     Grid.Row="0" Grid.Column="0" Margin="16" HorizontalAlignment="Left"
                     VerticalAlignment="Top" Content="↖ 左上"
-                    IsChecked="{Binding ToastPositionTopLeft}" 
-                    IsEnabled="{Binding ToastControl}"/>
+                    IsChecked="{Binding ToastPositionTopLeft}"/>
                 <CheckBox
                     Grid.Row="1" Grid.Column="0" Margin="16" HorizontalAlignment="Left"
                     VerticalAlignment="Center" Content="← 左边"
-                    IsChecked="{Binding ToastPositionCenterLeft}" 
-                    IsEnabled="{Binding ToastControl}"/>
+                    IsChecked="{Binding ToastPositionCenterLeft}"/>
                 <CheckBox
                     Grid.Row="2" Grid.Column="0" Margin="16" HorizontalAlignment="Left"
                     VerticalAlignment="Bottom" Content="↙ 左下"
-                    IsChecked="{Binding ToastPositionBottomLeft}"
-                    IsEnabled="{Binding ToastControl}"/>
-
+                    IsChecked="{Binding ToastPositionBottomLeft}"/>
                 <CheckBox
                     Grid.Row="0" Grid.Column="1" Margin="16" HorizontalAlignment="Center"
                     VerticalAlignment="Top" Content="↑ 上边"
-                    IsChecked="{Binding ToastPositionTopCenter}" 
-                    IsEnabled="{Binding ToastControl}"/>
+                    IsChecked="{Binding ToastPositionTopCenter}"/>
                 <CheckBox
                     Grid.Row="2" Grid.Column="1" Margin="16" HorizontalAlignment="Center"
                     VerticalAlignment="Bottom" Content="↓ 下边"
-                    IsChecked="{Binding ToastPositionBottomCenter}" 
-                    IsEnabled="{Binding ToastControl}"/>
-
+                    IsChecked="{Binding ToastPositionBottomCenter}"/>
                 <CheckBox
                     Grid.Row="0" Grid.Column="2" Margin="16" HorizontalAlignment="Right"
                     VerticalAlignment="Top" Content="↗ 右上"
-                    IsChecked="{Binding ToastPositionTopRight}" 
-                    IsEnabled="{Binding ToastControl}"/>
+                    IsChecked="{Binding ToastPositionTopRight}"/>
                 <CheckBox
                     Grid.Row="1" Grid.Column="2" Margin="16" HorizontalAlignment="Right"
                     VerticalAlignment="Center" Content="→ 右边"
-                    IsChecked="{Binding ToastPositionCenterRight}" 
-                    IsEnabled="{Binding ToastControl}"/>
+                    IsChecked="{Binding ToastPositionCenterRight}"/>
                 <CheckBox
                     Grid.Row="2" Grid.Column="2" Margin="16" HorizontalAlignment="Right"
                     VerticalAlignment="Bottom" Content="↘ 右下"
-                    IsChecked="{Binding ToastPositionBottomRight}" 
-                    IsEnabled="{Binding ToastControl}"/>
+                    IsChecked="{Binding ToastPositionBottomRight}"/>
             </Grid>
-            <CheckBox 
-                x:Name="usesystemnote" Content="使用Windows系统推送通知（支持Win10/Win11）" HorizontalAlignment="Left" 
-                Margin="10,0,0,0" VerticalAlignment="Center"
-                IsChecked="{Binding ToastUsingSystem}" 
-                IsEnabled="{Binding ToastOS}"
-                Height="20" Width="450"/>
-        </Grid>
-
+            </Border>
+        </StackPanel>
         <Button
             Grid.Column="1" Height="36" MaxWidth="200" Margin="6"
             VerticalAlignment="Bottom"
