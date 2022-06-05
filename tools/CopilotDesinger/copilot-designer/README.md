@@ -1,4 +1,4 @@
-# copilot-designer
+# 自动战斗作业生成器
 
 ## Project setup
 ```
