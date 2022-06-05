@@ -9,10 +9,9 @@ import MainContainer from "./components/MainContainer.vue";
 export default defineComponent({
   name: "App",
   components: {
-    MainContainer
+    MainContainer,
   },
 });
 </script>
 
-<style>
-</style>
+<style></style>
