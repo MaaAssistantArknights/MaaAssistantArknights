@@ -689,14 +689,15 @@ cv::Mat asst::Controller::get_resized_image() const
     return resized_mat;
 }
 
-std::optional<int> asst::Controller::start_game(const std::string& server_type, bool block)
+std::optional<int> asst::Controller::start_game(const std::string& client_type, bool block)
 {
-    if (auto intent_name = Resrc.cfg().get_intent_name(server_type))
-    {
+    if (client_type.empty()) {
+        return std::nullopt;
+    }
+    if (auto intent_name = Resrc.cfg().get_intent_name(client_type)) {
         std::string cur_cmd = utils::string_replace_all(m_adb.start, "[Intent]", intent_name.value());
         int id = push_cmd(cur_cmd);
-        if (block)
-        {
+        if (block) {
             wait(id);
         }
         return id;

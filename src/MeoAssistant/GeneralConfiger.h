@@ -86,11 +86,10 @@ namespace asst
             }
         }
 
-        [[nodiscard]] std::optional<std::string> get_intent_name(const std::string& server_type) const
+        [[nodiscard]] std::optional<std::string> get_intent_name(const std::string& client_type) const
         {
-            if (auto iter = m_intent_name.find(server_type);
-                iter != m_intent_name.cend())
-            {
+            if (auto iter = m_intent_name.find(client_type);
+                iter != m_intent_name.cend()) {
                 return iter->second;
             }
             return std::nullopt;

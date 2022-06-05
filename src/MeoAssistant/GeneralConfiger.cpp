@@ -28,12 +28,10 @@ bool asst::GeneralConfiger::parse(const json::value& json)
             m_options.aip_ocr.client_id = aip_ocr.get("clientId", std::string());
             m_options.aip_ocr.client_secret = aip_ocr.get("clientSerect", std::string());
         }
-        
     }
-    
-    for (const auto& [server_type, intent_name] : json.at("intent").as_object())
-    {
-        m_intent_name[server_type]=intent_name.as_string();
+
+    for (const auto& [client_type, intent_name] : json.at("intent").as_object()) {
+        m_intent_name[client_type] = intent_name.as_string();
     }
 
     for (const auto& [name, cfg_json] : json.at("connection").as_object()) {

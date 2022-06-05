@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "AbstractTask.h"
 #include "AsstTypes.h"
@@ -11,7 +11,7 @@ namespace asst
         using AbstractTask::AbstractTask;
         ~StartGameTask() override = default;
 
-        StartGameTask& set_param(std::string server_type = "") noexcept;
+        StartGameTask& set_param(std::string client_type = "") noexcept;
         StartGameTask& set_enable(bool enable = false) noexcept override;
 
     protected:
