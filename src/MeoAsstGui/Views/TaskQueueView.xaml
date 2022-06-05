@@ -76,9 +76,9 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Time}" Foreground="Gray"
-                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="5, 5" Width="100"/>
+                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="0, 5" Width="100"/>
                             <TextBlock Text="{Binding Content}" Foreground="{Binding Color}" FontWeight="{Binding Weight}"
-                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="5, 5" Width="130"/>
+                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="0, 5" Width="135"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
