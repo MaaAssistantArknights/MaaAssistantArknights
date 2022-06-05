@@ -121,8 +121,8 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 
     if (calced) {
 #ifdef ASST_DEBUG
-        auto normal_tiles = tile.calc(m_stage_name, false);
-        cv::Mat draw = m_ctrler->get_image();
+        auto normal_tiles = tile.calc(m_stage_name, true);
+        cv::Mat draw = cv::imread("j.png");
         for (const auto& [point, info] : normal_tiles) {
             using TileKey = TilePack::TileKey;
             static const std::unordered_map<TileKey, std::string> TileKeyMapping = {
