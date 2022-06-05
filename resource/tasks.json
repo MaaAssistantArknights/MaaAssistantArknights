@@ -485,15 +485,18 @@
         ]
     },
     "StageResource": {
+        "action": "ClickSelf",
         "doc": "进入资源关卡",
+        "roi": [
+            455,
+            562,
+            544,
+            158
+        ],
         "next": [
-            "StageResourceSwipeToTheLeft"
+            "StageResource",
+            "SwipeToTheLeft"
         ]
-    },
-    "StageResourceSwipeToTheLeft": {
-        "doc": "向左滑动到资源关最左",
-        "algorithm": "JustReturn",
-        "action": "SwipeToTheLeft"
     },
     "StageCE": {
         "action": "ClickSelf",
@@ -650,6 +653,10 @@
                 "山"
             ],
             [
+                "^上$",
+                "山"
+            ],
+            [
                 "姜哦",
                 "嵯峨"
             ],
@@ -659,6 +666,10 @@
             ],
             [
                 "赤赤黑大",
+                "赫默"
+            ],
+            [
+                "赤赤黑犬",
                 "赫默"
             ],
             [
@@ -702,6 +713,10 @@
                 "令"
             ],
             [
+                "^心$",
+                "令"
+            ],
+            [
                 "归漠幽灵鲨",
                 "归溟幽灵鲨"
             ],
@@ -742,12 +757,24 @@
                 "苇草"
             ],
             [
+                "笔草",
+                "苇草"
+            ],
+            [
                 "斯卡蒂的海刷",
                 "斯卡蒂的海嗣"
             ],
             [
                 "领习",
                 "翎羽"
+            ],
+            [
+                "燃石",
+                "燧石"
+            ],
+            [
+                "卡湿利安",
+                "卡涅利安"
             ]
         ]
     },
@@ -821,6 +848,7 @@
             255
         ],
         "next": [
+            "GameStart",
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
@@ -4528,9 +4556,18 @@
             30
         ]
     },
-    "BattleWaitingToLoad": {
-        "algorithm": "JustReturn",
-        "rearDelay": 3000
+    "BattleOfficiallyBegin": {
+        "action": "DoNothing",
+        "roi": [
+            1165,
+            20,
+            65,
+            65
+        ],
+        "maskRange": [
+            100,
+            255
+        ]
     },
     "BattleSpeedUp": {
         "algorithm": "JustReturn",
@@ -4574,15 +4611,20 @@
             600,
             60
         ],
-        "rectMove": [
-            50,
-            0,
-            150,
-            60
-        ],
         "maskRange": [
             1,
             255
+        ]
+    },
+    "BattleKills": {
+        "algorithm": "OcrDetect",
+        "text": [
+        ],
+        "roi": [
+            50,
+            0,
+            100,
+            40
         ]
     },
     "BattleCostData": {
@@ -4623,10 +4665,6 @@
             -110,
             90,
             90
-        ],
-        "next": [
-            "BattleSkillReadyOnClick",
-            "Stop"
         ]
     },
     "BattleSkillStopOnClick": {
@@ -4643,23 +4681,19 @@
             -110,
             90,
             90
-        ],
-        "next": [
-            "BattleSkillStopOnClick",
-            "Stop"
         ]
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
-        "preDelay": 500,
+        "preDelay": 200,
         "rearDelay": 0,
         "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；rear 是干员上场，到设置朝向之间等待的时间"
     },
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
-        "preDelay": 1000,
-        "rearDelay": 300,
-        "Doc": "pre 是将干员滑动到场上的 duration；rear 是设置干员朝向滑动的 duration"
+        "preDelay": 12000,
+        "rearDelay": 100,
+        "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration"
     },
     "BattleOpersFlag": {
         "templThreshold": 0.85,
@@ -4968,58 +5002,26 @@
             40
         ]
     },
-    "BattleUseSkillBegin": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "rearDelay": 1000,
-        "next": [
-            "BattleUseSkill"
-        ]
-    },
     "BattleUseSkill": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "角色"
-        ],
-        "roi": [
-            900,
-            500,
-            380,
-            150
-        ],
+        "algorithm": "JustReturn",
+        "rearDelay": 100,
         "action": "ClickRect",
         "specificRect": [
-            820,
-            380,
-            90,
-            90
-        ]
-    },
-    "BattleOperRetreatBegin": {
-        "algorithm": "JustReturn",
-        "rearDelay": 500,
-        "next": [
-            "BattleOperRetreat"
+            850,
+            390,
+            50,
+            40
         ]
     },
     "BattleOperRetreat": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "角色"
-        ],
-        "roi": [
-            900,
-            500,
-            380,
-            150
-        ],
-        "rearDelay": 500,
+        "algorithm": "JustReturn",
+        "rearDelay": 100,
         "action": "ClickRect",
         "specificRect": [
-            563,
+            580,
             190,
-            80,
-            60
+            40,
+            30
         ]
     },
     "StartToWakeUpToRoguelike1": {
@@ -5228,7 +5230,7 @@
         ]
     },
     "Roguelike1InitalDrop": {
-        "Doc": "古堡观光（简单模式）初始会有一个免费道具，点确认",
+        "Doc": "古堡观光（简单模式）初始会有一个免费道具，点确认。月底小队也有，再多几次",
         "action": "ClickSelf",
         "roi": [
             569,
@@ -5237,7 +5239,41 @@
             137
         ],
         "next": [
-            "Roguelike1Recruit1"
+            "Roguelike1Recruit1",
+            "Roguelike1InitalDrop"
+        ]
+    },
+    "Roguelike1DialogSkip": {
+        "Doc": "月底小队，跳过对话",
+        "action": "ClickSelf",
+        "roi": [
+            1106,
+            0,
+            174,
+            139
+        ],
+        "next": [
+            "Roguelike1DialogSkip",
+            "Roguelike1DialogSkipConfirm"
+        ]
+    },
+    "Roguelike1DialogSkipConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            725,
+            409,
+            249,
+            169
+        ],
+        "next": [
+            "Roguelike1DialogSkip",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ]
     },
     "Roguelike1LastReward": {
@@ -5339,8 +5375,13 @@
             "Roguelike1LastReward3",
             "Roguelike1LastRewardRand",
             "Roguelike1Team3",
-            "Roguelike1CloseCollection"
+            "Roguelike1CloseCollection",
+            "Roguelike1DialogSkip"
         ]
+    },
+    "BattleWaitingToLoad": {
+        "algorithm": "JustReturn",
+        "rearDelay": 200
     },
     "Roguelike1CloseCollection": {
         "action": "ClickSelf",
@@ -5444,7 +5485,7 @@
             500,
             500
         ],
-        "templThreshold": 0.99
+        "templThreshold": 0.95
     },
     "Roguelike1RecruitOcr": {
         "algorithm": "OcrDetect",
@@ -6343,7 +6384,8 @@
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1EnterAfterRecruit",
-            "Roguelike1StageTraderLeave"
+            "Roguelike1StageTraderLeave",
+            "Roguelike1DialogSkip"
         ]
     },
     "Roguelike1GetDrop1": {

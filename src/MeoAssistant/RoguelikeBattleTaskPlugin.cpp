@@ -36,8 +36,6 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 {
     bool getted_info = get_stage_info();
 
-    //speed_up();
-
     if (!getted_info) {
         return true;
     }
@@ -121,8 +119,8 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 
     if (calced) {
 #ifdef ASST_DEBUG
-        auto normal_tiles = tile.calc(m_stage_name, false);
-        cv::Mat draw = m_ctrler->get_image();
+        auto normal_tiles = tile.calc(m_stage_name, true);
+        cv::Mat draw = cv::imread("j.png");
         for (const auto& [point, info] : normal_tiles) {
             using TileKey = TilePack::TileKey;
             static const std::unordered_map<TileKey, std::string> TileKeyMapping = {
@@ -294,7 +292,12 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     cv::circle(draw_image, cv::Point(placed_point.x, placed_point.y), 10, cv::Scalar(0, 0, 255), -1);
 #endif
     Rect placed_rect(placed_point.x, placed_point.y, 1, 1);
-    m_ctrler->swipe(opt_oper.rect, placed_rect, swipe_oper_task_ptr->pre_delay);
+    int dist = static_cast<int>(
+    std::sqrt(
+        (std::abs(placed_point.x - opt_oper.rect.x) << 1)
+        + (std::abs(placed_point.y - opt_oper.rect.y) << 1)));
+    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist); // 随便取的一个系数
+    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
     sleep(use_oper_task_ptr->rear_delay);
 
     // 计算往哪边拖动（干员朝向）
@@ -311,7 +314,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     end_point.y = std::max(0, end_point.y);
     end_point.y = std::min(end_point.y, WindowHeightDefault);
 
-    m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay);
+    m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay, true, 100);
 
     m_used_tiles.emplace(placed_loc, oper_name);
     m_opers_used = true;
@@ -329,8 +332,9 @@ bool asst::RoguelikeBattleTaskPlugin::speed_up()
 bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
 {
     m_ctrler->click(rect);
+    sleep(Task.get("BattleUseOper")->pre_delay);
 
-    ProcessTask task(*this, { "BattleUseSkillBegin" });
+    ProcessTask task(*this, { "BattleUseSkill" });
     task.set_retry_times(0);
     return task.run();
 }
@@ -338,8 +342,9 @@ bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
 bool asst::RoguelikeBattleTaskPlugin::retreat(const Point& point)
 {
     m_ctrler->click(point);
+    sleep(Task.get("BattleUseOper")->pre_delay);
 
-    ProcessTask task(*this, { "BattleOperRetreatBegin" });
+    ProcessTask task(*this, { "BattleOperRetreat" });
     task.set_retry_times(0);
     return task.run();
 }
@@ -412,18 +417,36 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
 
 bool asst::RoguelikeBattleTaskPlugin::wait_start()
 {
+    auto start_time = std::chrono::system_clock::now();
+    auto check_time = [&]() -> bool {
+        auto now = std::chrono::system_clock::now();
+        auto diff = now - start_time;
+        return diff.count() > std::chrono::seconds(60).count();
+    };
+
+    MatchImageAnalyzer officially_begin_analyzer;
+    officially_begin_analyzer.set_task_info("BattleOfficiallyBegin");
+    cv::Mat image;
+    while (!need_exit() && !check_time()) {
+        image = m_ctrler->get_image();
+        officially_begin_analyzer.set_image(image);
+        if (officially_begin_analyzer.analyze()) {
+            break;
+        }
+        std::this_thread::yield();
+    }
+
     BattleImageAnalyzer oper_analyzer;
     oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
-
-    while (!need_exit()) {
-        oper_analyzer.set_image(m_ctrler->get_image());
+    while (!need_exit() && !check_time()) {
+        image = m_ctrler->get_image();
+        oper_analyzer.set_image(image);
         if (oper_analyzer.analyze()) {
             break;
         }
         std::this_thread::yield();
     }
 
-    // 干员头像出来之后，还要过 2 秒左右才可以点击，这里要加个延时
     sleep(Task.get("BattleWaitingToLoad")->rear_delay);
 
     return true;

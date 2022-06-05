@@ -63,17 +63,30 @@ bool RecruitCalcTask::_run()
         m_has_special_tag = true;
     }
 
+    static const std::string Robot = "支援机械";
+    auto robot_iter = all_tags_name.find(Robot);
+    if (robot_iter != all_tags_name.end()) {
+        if (m_skip_robot)
+        {
+            info["what"] = "RecruitRobotTag";
+            info["details"] = json::object{
+                { "tag", Robot }
+            };
+            callback(AsstMsg::SubTaskExtraInfo, info);
+        }
+        m_has_robot_tag = true;
+    }
+
     // 识别到的5个Tags，全组合排列
     std::vector<std::vector<std::string>> all_combs;
     size_t len = all_tags.size();
-    int count = static_cast<int>(std::pow(2, len));
+    int count = 1 << len;
     for (int i = 0; i < count; ++i) {
         std::vector<std::string> temp;
-        for (int j = 0, mask = 1; j < len; ++j) {
-            if ((i & mask) != 0) { // What the fuck???
+        for (int j = 0; j < len; ++j) {
+            if (i & 1 << j) { // i第j位为1
                 temp.emplace_back(all_tags.at(j).text);
             }
-            mask = mask * 2;
         }
         // 游戏里最多选择3个tag
         if (!temp.empty() && temp.size() <= 3) {
@@ -164,6 +177,7 @@ bool RecruitCalcTask::_run()
     json::value results_json;
     results_json["result"] = json::array();
     results_json["level"] = m_maybe_level;
+    results_json["robot"] = m_skip_robot && m_has_robot_tag;
 
     std::vector<json::value> result_json_vector;
     for (const auto& comb : result_vec) {
@@ -213,9 +227,10 @@ bool RecruitCalcTask::_run()
     return true;
 }
 
-RecruitCalcTask& RecruitCalcTask::set_param(std::vector<int> select_level, bool set_time) noexcept
+RecruitCalcTask& RecruitCalcTask::set_param(std::vector<int> select_level, bool set_time, bool skip_robot) noexcept
 {
     m_select_level = std::move(select_level);
     m_set_time = set_time;
+    m_skip_robot = skip_robot;
     return *this;
 }

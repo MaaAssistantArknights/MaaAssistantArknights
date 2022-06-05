@@ -10,7 +10,7 @@ bool asst::AbstractConfiger::load(const std::string& filename)
     LogTraceFunction;
 
 #ifdef _WIN32
-    Log.info("Load:", utils::gbk_2_utf8(filename));
+    Log.info("Load:", utils::ansi_to_utf8(filename));
 #else
     Log.info("Load:", filename);
 #endif

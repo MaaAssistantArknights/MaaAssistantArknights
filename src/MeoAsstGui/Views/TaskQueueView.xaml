@@ -69,16 +69,16 @@
         <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding StagesOfToday}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Margin="10" />
         <!--<GridSplitter Grid.Column="2" Width="5" HorizontalAlignment="Stretch" />-->
         <!--<Rectangle Grid.Column="2" VerticalAlignment="Stretch" Fill="LightGray" Width="4" />-->
-        <ScrollViewer Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="10"
-                      local:AutoScroll.AutoScroll="True">
-            <ItemsControl ItemsSource="{Binding Path=LogItemViewModels}">
+        <ScrollViewer Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center"
+                      local:AutoScroll.AutoScroll="True" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding Path=LogItemViewModels}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Time}" Foreground="Gray"
-                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="5, 5" />
+                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="0, 5" Width="100"/>
                             <TextBlock Text="{Binding Content}" Foreground="{Binding Color}" FontWeight="{Binding Weight}"
-                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="5, 5" />
+                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="0, 5" Width="135"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

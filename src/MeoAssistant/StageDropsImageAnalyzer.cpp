@@ -27,6 +27,10 @@ bool asst::StageDropsImageAnalyzer::analyze()
     cv::imwrite("debug/" + stem + "_draw.png", m_image_draw);
 #endif
 
+    if (!ret) {
+        save_img();
+    }
+
     return ret;
 }
 
