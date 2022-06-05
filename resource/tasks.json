@@ -5230,7 +5230,7 @@
         ]
     },
     "Roguelike1InitalDrop": {
-        "Doc": "古堡观光（简单模式）初始会有一个免费道具，点确认",
+        "Doc": "古堡观光（简单模式）初始会有一个免费道具，点确认。月底小队也有，再多几次",
         "action": "ClickSelf",
         "roi": [
             569,
@@ -5239,7 +5239,41 @@
             137
         ],
         "next": [
-            "Roguelike1Recruit1"
+            "Roguelike1Recruit1",
+            "Roguelike1InitalDrop"
+        ]
+    },
+    "Roguelike1DialogSkip": {
+        "Doc": "月底小队，跳过对话",
+        "action": "ClickSelf",
+        "roi": [
+            1106,
+            0,
+            174,
+            139
+        ],
+        "next": [
+            "Roguelike1DialogSkip",
+            "Roguelike1DialogSkipConfirm"
+        ]
+    },
+    "Roguelike1DialogSkipConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            725,
+            409,
+            249,
+            169
+        ],
+        "next": [
+            "Roguelike1DialogSkip",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ]
     },
     "Roguelike1LastReward": {
@@ -5341,8 +5375,13 @@
             "Roguelike1LastReward3",
             "Roguelike1LastRewardRand",
             "Roguelike1Team3",
-            "Roguelike1CloseCollection"
+            "Roguelike1CloseCollection",
+            "Roguelike1DialogSkip"
         ]
+    },
+    "BattleWaitingToLoad": {
+        "algorithm": "JustReturn",
+        "rearDelay": 200
     },
     "Roguelike1CloseCollection": {
         "action": "ClickSelf",
@@ -6345,7 +6384,8 @@
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1EnterAfterRecruit",
-            "Roguelike1StageTraderLeave"
+            "Roguelike1StageTraderLeave",
+            "Roguelike1DialogSkip"
         ]
     },
     "Roguelike1GetDrop1": {
