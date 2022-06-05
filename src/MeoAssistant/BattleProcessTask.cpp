@@ -454,7 +454,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
         std::sqrt(
             (std::abs(placed_point.x - oper_rect.x) << 1)
             + (std::abs(placed_point.y - oper_rect.y) << 1)));
-    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist); // 随便取的一个系数
+    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 500.0 * dist); // 随便取的一个系数
     m_ctrler->swipe(oper_rect, placed_rect, duration, true, 0);
 
     sleep(use_oper_task_ptr->rear_delay);
