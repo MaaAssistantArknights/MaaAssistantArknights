@@ -44,6 +44,7 @@ namespace MeoAsstGui
         }
 
         private Visibility _visible = Visibility.Collapsed;
+
         public Visibility Visible
         {
             get { return _visible; }
@@ -229,6 +230,10 @@ namespace MeoAsstGui
                 AddLog(errMsg, "darkred");
                 Idle = true;
                 return;
+            }
+            if (errMsg.Length != 0)
+            {
+                AddLog(errMsg, "darkred");
             }
 
             bool ret = true;
