@@ -182,7 +182,7 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _form = true;
+        private bool _form = false;
 
         public bool Form
         {
