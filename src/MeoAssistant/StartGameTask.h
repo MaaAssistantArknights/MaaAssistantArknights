@@ -12,6 +12,7 @@ namespace asst
         ~StartGameTask() override = default;
 
         StartGameTask& set_param(ServerType server_type = ServerType::Official) noexcept;
+        StartGameTask& set_enable(bool enable = false) noexcept override;
 
     protected:
         bool _run() override;
