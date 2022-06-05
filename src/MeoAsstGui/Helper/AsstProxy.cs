@@ -161,16 +161,20 @@ namespace MeoAsstGui
         private void procConnectInfo(JObject details)
         {
             var what = details["what"].ToString();
+            var svm = _container.Get<SettingsViewModel>();
+            var mainModel = _container.Get<TaskQueueViewModel>();
             switch (what)
             {
                 case "Connected":
-                    var svm = _container.Get<SettingsViewModel>();
                     svm.ConnectAddress = details["details"]["address"].ToString();
                     break;
 
                 case "UnsupportedResolution":
-                    var mainModel = _container.Get<TaskQueueViewModel>();
                     mainModel.AddLog("分辨率过低\n请设置为 720p 或更高", "darkred");
+                    break;
+
+                case "ResolutionError":
+                    mainModel.AddLog("分辨率获取失败\n建议重启电脑\n或更换模拟器后再试", "darkred");
                     break;
             }
         }
@@ -254,6 +258,10 @@ namespace MeoAsstGui
 
             switch (subTask)
             {
+                case "StartGameTask":
+                    mainModel.AddLog("打开客户端失败，请\n检查配置文件", "darkred");
+                    break;
+
                 case "AutoRecruitTask":
                     mainModel.AddLog("公招识别错误，已返回", "darkred");
                     break;
@@ -446,6 +454,16 @@ namespace MeoAsstGui
                     }
                     break;
 
+                case "RecruitRobotTag":
+                    {
+                        string special = subTaskDetails["tag"].ToString();
+                        using (var toast = new ToastNotification("公招提示"))
+                        {
+                            toast.AppendContentText(special).ShowRecruitRobot();
+                        }
+                    }
+                    break;
+
                 case "RecruitResult":
                     {
                         int level = (int)subTaskDetails["level"];
@@ -460,6 +478,16 @@ namespace MeoAsstGui
                         else
                         {
                             mainModel.AddLog(level + " 星 Tags", "darkcyan");
+                        }
+
+                        bool robot = (bool)subTaskDetails["robot"];
+                        if (robot)
+                        {
+                            using (var toast = new ToastNotification($"公招出小车了哦！"))
+                            {
+                                toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
+                            }
+                            mainModel.AddLog(1 + " 星 Tag", "darkgray", "Bold");
                         }
                     }
                     break;
@@ -661,9 +689,12 @@ namespace MeoAsstGui
             return AsstAppendTaskWithEncoding("Award");
         }
 
-        public bool AsstAppendStartUp()
+        public bool AsstAppendStartUp(string client_type, bool enable)
         {
-            return AsstAppendTaskWithEncoding("StartUp");
+            var task_params = new JObject();
+            task_params["client_type"] = client_type;
+            task_params["start_game_enable"] = enable;
+            return AsstAppendTaskWithEncoding("StartUp", task_params);
         }
 
         public bool AsstAppendVisit()
@@ -680,7 +711,7 @@ namespace MeoAsstGui
             return AsstAppendTaskWithEncoding("Mall", task_params);
         }
 
-        public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited)
+        public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited, bool skip_robot)
         {
             var task_params = new JObject();
             task_params["refresh"] = need_refresh;
@@ -690,6 +721,7 @@ namespace MeoAsstGui
             task_params["set_time"] = true;
             task_params["expedite"] = use_expedited;
             task_params["expedite_times"] = max_times;
+            task_params["skip_robot"] = skip_robot;
             return AsstAppendTaskWithEncoding("Recruit", task_params);
         }
 

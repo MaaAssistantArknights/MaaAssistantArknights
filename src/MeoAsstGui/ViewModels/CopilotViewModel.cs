@@ -182,7 +182,7 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _form = true;
+        private bool _form = false;
 
         public bool Form
         {
@@ -209,6 +209,11 @@ namespace MeoAsstGui
                 AddLog(errMsg, "darkred");
                 return;
             }
+            if (errMsg.Length != 0)
+            {
+                AddLog(errMsg, "darkred");
+            }
+
             if (Filename.Length == 0 || !File.Exists(Filename))
             {
                 AddLog("作业文件不存在", "darkred");
@@ -255,17 +260,17 @@ namespace MeoAsstGui
 
         public string Url
         {
-            get => _url;
+            get => _url.Length > 0 ? "视频链接" : "";
             set => SetAndNotify(ref _url, value);
         }
 
-        public void Hyperlink_Click(string url)
+        public void Hyperlink_Click()
         {
             try
             {
-                if (!string.IsNullOrEmpty(url))
+                if (!string.IsNullOrEmpty(_url))
                 {
-                    Process.Start(new ProcessStartInfo(url));
+                    Process.Start(new ProcessStartInfo(_url));
                 }
             }
             catch (Exception)

@@ -41,8 +41,11 @@ MAA 的意思是 MAA Assistant Arknights
 
 话不多说，看图！  
 
-![image](https://user-images.githubusercontent.com/18511905/148376809-a80537b7-5e97-4978-959e-afada28c03c3.png)  
-![image](https://user-images.githubusercontent.com/18511905/152695664-382dc0cd-de6c-4012-890f-456f697e8724.png)  
+![image](https://user-images.githubusercontent.com/99072975/172044929-3aae01a1-6c6d-4a9a-a7a8-ae753679b9ce.png)
+![image](https://user-images.githubusercontent.com/99072975/172045492-698ab7fd-0413-4b08-aad7-0176f9480c05.png)
+![image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)
+
+
 
 ## 下载地址
 
@@ -130,7 +133,8 @@ MAA 的意思是 MAA Assistant Arknights
 - [Python 接口](src/Python/asst.py)：[集成示例](src/Python/sample.py)
 - [Golang 接口](src/Golang/maa/)：[集成示例](src/Golang/cli.go)（已停止维护 orz）
 - [Dart 接口](src/dart/)
-- [Java 接口](src/Java/Maaj)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
+- [Java 接口](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [HTTP接口](src/Java/Maaj/Readme.md)
 - [集成文档](docs/集成文档.md)
 - [回调消息协议](docs/回调消息协议.md)
 - [任务流程协议](docs/任务流程协议.md)

@@ -4,8 +4,7 @@
 
 #include "MultiMatchImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"
-#include "OcrImageAnalyzer.h"
-#include "OcrWithPreprocessImageAnalyzer.h"
+#include "OcrWithFlagTemplImageAnalyzer.h"
 #include "HashImageAnalyzer.h"
 #include "Logger.hpp"
 #include "TaskData.h"
@@ -430,20 +429,14 @@ bool asst::BattleImageAnalyzer::hp_analyze()
 
 bool asst::BattleImageAnalyzer::kills_analyze()
 {
-    const auto task_ptr = Task.get("BattleKillsFlag");
-    MatchImageAnalyzer flag_analzyer(m_image);
-    flag_analzyer.set_task_info(task_ptr);
-    if (!flag_analzyer.analyze()) {
-        return false;
-    }
+    OcrWithFlagTemplImageAnalyzer kills_analyzer(m_image);
+    kills_analyzer.set_task_info("BattleKillsFlag", "BattleKills");
+    kills_analyzer.set_replace(
+        std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("NumberOcrReplace"))->replace_map);
 
-    auto kills_roi = flag_analzyer.get_result().rect.move(task_ptr->rect_move);
-    OcrImageAnalyzer kills_analyzer(m_image);
-    kills_analyzer.set_roi(kills_roi);
     if (!kills_analyzer.analyze()) {
         return false;
     }
-    kills_analyzer.sort_result_by_score();
 
     std::string kills_text;
     size_t pos = std::string::npos;

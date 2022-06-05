@@ -44,6 +44,7 @@ namespace MeoAsstGui
         }
 
         private Visibility _visible = Visibility.Collapsed;
+
         public Visibility Visible
         {
             get { return _visible; }
@@ -117,17 +118,19 @@ namespace MeoAsstGui
             {
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
-                new CombData { Display = "剿灭作战", Value = "Annihilation" },
+ 
+                // “覆潮之下” 活动关卡 //复刻活动，结束后直接删除
+                new CombData { Display = "SV-9", Value = "SV-9" },
+                new CombData { Display = "SV-8", Value = "SV-8" },
+                new CombData { Display = "SV-7", Value = "SV-7" },
+
+                new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = "龙门币-6/5", Value = "CE-6" },
                 new CombData { Display = "经验-6/5", Value = "LS-6" },
                 new CombData { Display = "红票-5", Value = "AP-5" },
                 new CombData { Display = "技能-5", Value = "CA-5" },
-                new CombData { Display = "1-7", Value = "1-7" },
-                // “覆潮之下” 活动关卡 //复刻活动，结束后直接删除
-                new CombData { Display = "SV-7", Value = "SV-7" },
-                new CombData { Display = "SV-8", Value = "SV-8" },
-                new CombData { Display = "SV-9", Value = "SV-9" },
-                
+                new CombData { Display = "剿灭作战", Value = "Annihilation" },
+
                 // “愚人号” 活动关卡
                 //new CombData { Display = "SN-8", Value = "SN-8" },
                 //new CombData { Display = "SN-9", Value = "SN-9" },
@@ -228,6 +231,10 @@ namespace MeoAsstGui
                 Idle = true;
                 return;
             }
+            if (errMsg.Length != 0)
+            {
+                AddLog(errMsg, "darkred");
+            }
 
             bool ret = true;
             // 直接遍历TaskItemViewModels里面的内容，是排序后的
@@ -250,7 +257,7 @@ namespace MeoAsstGui
                 }
                 else if (item.Name == "开始唤醒")
                 {
-                    ret &= asstProxy.AsstAppendStartUp();
+                    ret &= appendStart();
                 }
                 else if (item.Name == "刷理智")
                 {
@@ -327,6 +334,15 @@ namespace MeoAsstGui
             ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
         }
 
+        private bool appendStart()
+        {
+            var settings = _container.Get<SettingsViewModel>();
+            var asstProxy = _container.Get<AsstProxy>();
+            var mode = settings.ServerType;
+            var enable = settings.StartGameEnable;
+            return asstProxy.AsstAppendStartUp(mode, enable);
+        }
+        
         private bool appendFight()
         {
             int medicine = 0;
@@ -412,7 +428,7 @@ namespace MeoAsstGui
 
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRecruit(
-                max_times, reqList.ToArray(), reqList.Count, cfmList.ToArray(), cfmList.Count, need_refresh, use_expedited);
+                max_times, reqList.ToArray(), reqList.Count, cfmList.ToArray(), cfmList.Count, need_refresh, use_expedited, settings.NotChooseLevel1);
         }
 
         private bool appendRoguelike()

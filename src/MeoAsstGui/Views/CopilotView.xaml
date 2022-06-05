@@ -29,14 +29,14 @@
             </TextBlock>
         </StackPanel>
 
-        <ScrollViewer Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="10"
-                      local:AutoScroll.AutoScroll="True" Width="300">
+        <ScrollViewer Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"
+                      local:AutoScroll.AutoScroll="True" HorizontalScrollBarVisibility="Disabled" Width="360" Height="455">
             <ItemsControl ItemsSource="{Binding Path=LogItemViewModels}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Content}" Foreground="{Binding Color}" FontWeight="{Binding Weight}"
-                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="5, 5" />
+                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Width="360" Margin="5, 5" />
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

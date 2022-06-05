@@ -30,6 +30,10 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         }
     }
 
+    for (const auto& [client_type, intent_name] : json.at("intent").as_object()) {
+        m_intent_name[client_type] = intent_name.as_string();
+    }
+
     for (const auto& [name, cfg_json] : json.at("connection").as_object()) {
         AdbCfg adb;
 
@@ -43,8 +47,11 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         adb.display = cfg_json.at("display").as_string();
         adb.display_format = cfg_json.at("displayFormat").as_string();
         adb.screencap_raw_with_gzip = cfg_json.at("screencapRawWithGzip").as_string();
+        adb.screencap_raw_by_nc = cfg_json.at("screencapRawByNC").as_string();
+        adb.nc_port = static_cast<unsigned short>(cfg_json.at("ncPort").as_integer());
         adb.screencap_encode = cfg_json.at("screencapEncode").as_string();
         adb.release = cfg_json.at("release").as_string();
+        adb.start = cfg_json.at("start").as_string();
         //adb.pullscreen = cfg_json.at("pullscreen").as_string();
 
         m_adb_cfg[name] = std::move(adb);
