@@ -240,6 +240,9 @@
     <ClInclude Include="RecruitCalcTask.h">
       <Filter>头文件\Task\Sub</Filter>
     </ClInclude>
+    <ClInclude Include="StartGameTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
     <ClInclude Include="BattleImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Final</Filter>
     </ClInclude>
@@ -471,6 +474,9 @@
       <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
     <ClCompile Include="ProcessTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="StartGameTask.cpp">
       <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
     <ClCompile Include="BattleImageAnalyzer.cpp">
