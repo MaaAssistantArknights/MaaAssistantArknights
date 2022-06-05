@@ -485,15 +485,18 @@
         ]
     },
     "StageResource": {
+        "action": "ClickSelf",
         "doc": "进入资源关卡",
+        "roi": [
+            455,
+            562,
+            544,
+            158
+        ],
         "next": [
-            "StageResourceSwipeToTheLeft"
+            "StageResource",
+            "SwipeToTheLeft"
         ]
-    },
-    "StageResourceSwipeToTheLeft": {
-        "doc": "向左滑动到资源关最左",
-        "algorithm": "JustReturn",
-        "action": "SwipeToTheLeft"
     },
     "StageCE": {
         "action": "ClickSelf",
@@ -650,6 +653,10 @@
                 "山"
             ],
             [
+                "^上$",
+                "山"
+            ],
+            [
                 "姜哦",
                 "嵯峨"
             ],
@@ -702,6 +709,10 @@
                 "令"
             ],
             [
+                "^心$",
+                "令"
+            ],
+            [
                 "归漠幽灵鲨",
                 "归溟幽灵鲨"
             ],
@@ -739,6 +750,10 @@
             ],
             [
                 "韦草",
+                "苇草"
+            ],
+            [
+                "笔草",
                 "苇草"
             ],
             [
