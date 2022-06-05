@@ -48,6 +48,7 @@ namespace MeoAsstGui
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
             _listTitle.Add("定时执行");
+            _listTitle.Add("唤醒设置");
             _listTitle.Add("企鹅数据");
             _listTitle.Add("连接设置");
             _listTitle.Add("通知显示");
@@ -132,6 +133,12 @@ namespace MeoAsstGui
                 new CombData { Display = "刷源石锭投资，第一层商店后直接退出", Value = "1" },
                 new CombData { Display = "刷源石锭投资，投资过后退出", Value = "2" }
             };
+            
+            ServerTypeList = new List<CombData>
+            {
+                new CombData { Display = "官服", Value = "Official" },
+                new CombData { Display = "Bilibili服", Value = "Bilibili" }
+            };
         }
 
         private bool _idle = true;
@@ -145,12 +152,39 @@ namespace MeoAsstGui
             }
         }
 
+        /* 唤醒设置 */
+
+        private bool _startGameEnable = Convert.ToBoolean(ViewStatusStorage.Get("Start.StartGameEnable", bool.FalseString));
+
+        public bool StartGameEnable
+        {
+            get { return _startGameEnable; }
+            set
+            {
+                SetAndNotify(ref _startGameEnable, value);
+                ViewStatusStorage.Set("Start.StartGameEnable", value.ToString());
+            }
+        }
+        
+        private string _serverType = ViewStatusStorage.Get("Start.ServerType", "Official");
+
+        public string ServerType
+        {
+            get { return _serverType; }
+            set
+            {
+                SetAndNotify(ref _serverType, value);
+                ViewStatusStorage.Set("Start.ServerType", value);
+            }
+        }
+        
         /* 基建设置 */
         public Dictionary<string, string> FacilityKey = new Dictionary<string, string>();
         public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; }
 
         public List<CombData> UsesOfDronesList { get; set; }
         public List<CombData> RoguelikeModeList { get; set; }
+        public List<CombData> ServerTypeList { get; set; }
         public List<CombData> ConnectConfigList { get; set; }
 
         private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
@@ -571,46 +605,32 @@ namespace MeoAsstGui
 
         //是否使用系统通知
         private bool _toastUsingSystem = Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
-        private bool _toastControl = Convert.ToBoolean(bool.TrueString);
-        private bool _toastOS = Convert.ToBoolean(bool.TrueString);
-        public bool toastOScheck()
-        {
-            var os = RuntimeInformation.OSDescription.ToString();
-            if (os.ToString().CompareTo("Microsoft Windows 10.0.10240") >= 0)
-            {
-                return true;
-            }
-            else
-            {
-                ViewStatusStorage.Set("Toast.UsingSystem", bool.FalseString);
-                ToastUsingSystem = false;
-                ToastControl = true;
-                return false;
-            }
-        }
         public bool ToastOS
         {
-            get { return toastOScheck(); }
-            set
+            get
             {
-                SetAndNotify(ref _toastOS, value);
+                var os = RuntimeInformation.OSDescription.ToString();
+                if (os.ToString().CompareTo("Microsoft Windows 10.0.10240") >= 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    if (ToastUsingSystem)
+                    {
+                        ToastUsingSystem = false;
+                    }
+                    return false;
+                }
             }
         }
-        public bool ToastControl
-        {
-            get { return !_toastUsingSystem; }
-            set
-            {
-                SetAndNotify(ref _toastControl, value);
-            }
-        }
+
         public bool ToastUsingSystem
         {
             get { return _toastUsingSystem; }
             set
             {
                 SetAndNotify(ref _toastUsingSystem, value);
-                ToastControl = !Convert.ToBoolean(value);
                 ViewStatusStorage.Set("Toast.UsingSystem", value.ToString());
             }
         }

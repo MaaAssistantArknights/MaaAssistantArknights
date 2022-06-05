@@ -28,6 +28,12 @@ bool asst::GeneralConfiger::parse(const json::value& json)
             m_options.aip_ocr.client_id = aip_ocr.get("clientId", std::string());
             m_options.aip_ocr.client_secret = aip_ocr.get("clientSerect", std::string());
         }
+        
+    }
+    
+    for (const auto& [server_type, intent_name] : json.at("intent").as_object())
+    {
+        m_intent_name[server_type]=intent_name.as_string();
     }
 
     for (const auto& [name, cfg_json] : json.at("connection").as_object()) {
@@ -47,6 +53,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         adb.nc_port = static_cast<unsigned short>(cfg_json.at("ncPort").as_integer());
         adb.screencap_encode = cfg_json.at("screencapEncode").as_string();
         adb.release = cfg_json.at("release").as_string();
+        adb.start = cfg_json.at("start").as_string();
         //adb.pullscreen = cfg_json.at("pullscreen").as_string();
 
         m_adb_cfg[name] = std::move(adb);
