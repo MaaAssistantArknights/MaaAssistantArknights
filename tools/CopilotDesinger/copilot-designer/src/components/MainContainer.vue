@@ -1,18 +1,16 @@
 <template>
-  <MainContainer />
+  <div class="container-fluid"></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import MainContainer from "./components/MainContainer.vue";
 
 export default defineComponent({
-  name: "App",
+  name: "MainContainer",
   components: {
-    MainContainer
   },
 });
 </script>
 
-<style>
+<style scoped>
 </style>
