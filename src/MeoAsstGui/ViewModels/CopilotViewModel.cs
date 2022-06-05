@@ -260,17 +260,17 @@ namespace MeoAsstGui
 
         public string Url
         {
-            get => _url;
+            get => _url.Length > 0 ? "视频链接" : "";
             set => SetAndNotify(ref _url, value);
         }
 
-        public void Hyperlink_Click(string url)
+        public void Hyperlink_Click()
         {
             try
             {
-                if (!string.IsNullOrEmpty(url))
+                if (!string.IsNullOrEmpty(_url))
                 {
-                    Process.Start(new ProcessStartInfo(url));
+                    Process.Start(new ProcessStartInfo(_url));
                 }
             }
             catch (Exception)
