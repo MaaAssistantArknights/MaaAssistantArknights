@@ -453,7 +453,7 @@ int asst::Controller::push_cmd(const std::string& cmd)
     return ++m_push_id;
 }
 
-std::optional<asst::Controller::SocketInfo> asst::Controller::try_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times)
+std::optional<asst::Controller::SocketInfo> asst::Controller::try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times)
 {
     LogTraceFunction;
 
@@ -473,7 +473,7 @@ std::optional<asst::Controller::SocketInfo> asst::Controller::try_init_socket(co
 
     u_short max_port = try_port + try_times;
     for (u_short port = try_port; port < max_port; ++port) {
-        Log.trace("try bind port", port);
+        Log.trace("try to bind port", port);
 
 #ifdef _WIN32
         m_server_addr.sin_port = htons(port);
@@ -1033,7 +1033,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             bind_address = "127.0.0.1";
         }
 
-        auto socket_opt = try_init_socket(bind_address, adb_cfg.nc_port);
+        auto socket_opt = try_to_init_socket(bind_address, adb_cfg.nc_port);
         if (socket_opt) {
             auto& socket_info = socket_opt.value();
             nc_address = socket_info.remote_address;

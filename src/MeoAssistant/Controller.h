@@ -71,7 +71,7 @@ namespace asst
             std::string remote_address;
             unsigned short remote_port = 0U;
         };
-        std::optional<SocketInfo> try_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times = 10U);
+        std::optional<SocketInfo> try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times = 10U);
 
         using DecodeFunc = std::function<bool(std::vector<uchar>&)>;
         bool screencap();
