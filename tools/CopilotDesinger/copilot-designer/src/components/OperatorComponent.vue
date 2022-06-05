@@ -9,16 +9,42 @@
         <th></th>
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody>
+      <tr v-for="(operator, id) in operators" :key="id">
+        <td><OperatorName :value="operator.name" /></td>
+        <td>
+          <input
+            type="number"
+            class="form-control"
+            :value="String(operator.skill ?? 0)"
+          />
+        </td>
+        <td>
+          <input
+            type="number"
+            class="form-control"
+            :value="String(operator.skill_usage ?? 0)"
+          />
+        </td>
+        <td></td>
+      </tr>
+    </tbody>
   </table>
   <button id="opers_new" class="btn btn-primary">新增</button>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { Operator } from "@/interfaces/CopilotData";
+import { defineComponent, PropType } from "vue";
+import OperatorName from "./OperatorName.vue";
 
 export default defineComponent({
-  name: "OperatorComponent",
-  components: {},
+  props: {
+    operators: {
+      type: Array as PropType<Operator[]>,
+      required: true,
+    },
+  },
+  components: { OperatorName },
 });
 </script>

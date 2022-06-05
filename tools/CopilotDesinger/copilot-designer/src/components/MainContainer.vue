@@ -16,16 +16,17 @@
         <StageDetails :value="data.doc?.details" @update="updateStageDetails" />
       </div>
       <div class="col-12">
-        <GroupComponent />
+        <GroupComponent :groups="data.groups" />
       </div>
       <div class="col-12">
-        <OperatorComponent />
+        <OperatorComponent :operators="data.opers" />
       </div>
       <div class="col-12">
         <BattleProgress />
       </div>
     </div>
   </div>
+  <datalist ref="operatorNames"></datalist>
 </template>
 
 <script lang="ts">
