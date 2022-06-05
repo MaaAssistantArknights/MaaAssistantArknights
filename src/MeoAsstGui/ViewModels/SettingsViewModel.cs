@@ -136,8 +136,8 @@ namespace MeoAsstGui
             
             ServerTypeList = new List<CombData>
             {
-                new CombData { Display = "官服", Value = "0" },
-                new CombData { Display = "Bilibili服", Value = "1" }
+                new CombData { Display = "官服", Value = "Official" },
+                new CombData { Display = "Bilibili服", Value = "Bilibili" }
             };
         }
 
@@ -166,7 +166,7 @@ namespace MeoAsstGui
             }
         }
         
-        private string _serverType = ViewStatusStorage.Get("Start.ServerType", "0");
+        private string _serverType = ViewStatusStorage.Get("Start.ServerType", "Official");
 
         public string ServerType
         {
