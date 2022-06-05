@@ -522,7 +522,7 @@ cv::Mat asst::Controller::get_resized_image() const
     return resized_mat;
 }
 
-int asst::Controller::start_game(const ServerType& server_type, bool block)
+std::optional<int> asst::Controller::start_game(const std::string& server_type, bool block)
 {
     if (auto intent_name = Resrc.cfg().get_intent_name(server_type))
     {
@@ -534,7 +534,7 @@ int asst::Controller::start_game(const ServerType& server_type, bool block)
         }
         return id;
     }
-    return -1;
+    return std::nullopt;
 }
 
 int asst::Controller::click(const Point& p, bool block)

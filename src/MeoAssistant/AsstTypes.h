@@ -158,12 +158,7 @@ namespace asst
         double score = 0.0;
         Rect rect;
     };
-
-    enum class ServerType
-    {
-        Official = 0,
-        Bilibili
-    };
+    
 }
 
 namespace std

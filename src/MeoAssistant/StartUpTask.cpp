@@ -16,7 +16,7 @@ asst::StartUpTask::StartUpTask(AsstCallback callback, void* callback_arg)
 
 bool asst::StartUpTask::set_params(const json::value& params)
 {
-    m_start_game_task_ptr->set_param(static_cast<ServerType>(params.get("server_type", 0)))
+    m_start_game_task_ptr->set_param(params.get("server_type", ""))
                          .set_enable(params.get("enable",false));
     return true;
 }
