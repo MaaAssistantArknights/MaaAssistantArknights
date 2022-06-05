@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <JsonComponent />
+        <JsonComponent :data="data" @loadData="loadData" />
       </div>
     </div>
     <div class="row">
@@ -37,7 +37,7 @@ import StageDetails from "./StageDetails.vue";
 import GroupComponent from "./GroupComponent.vue";
 import OperatorComponent from "./OperatorComponent.vue";
 import BattleProgress from "./BattleProgress.vue";
-import { createEmptyCopilotData } from "@/interfaces/CopilotData";
+import CopilotData, { createEmptyCopilotData } from "@/interfaces/CopilotData";
 
 export default defineComponent({
   components: {
@@ -55,6 +55,9 @@ export default defineComponent({
     };
   },
   methods: {
+    loadData(data: CopilotData) {
+      this.data = data;
+    },
     updateStageName(v: string) {
       this.data.stage_name = v;
     },

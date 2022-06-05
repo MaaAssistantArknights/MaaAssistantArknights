@@ -25,5 +25,6 @@ export default defineComponent({
       },
     },
   },
+  emits: ["update"],
 });
 </script>

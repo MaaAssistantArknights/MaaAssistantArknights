@@ -5,7 +5,8 @@
     id="title"
     class="form-control"
     placeholder="标题"
-    :input="modelValue"
+    :value="value"
+    @input="update"
   />
 </template>
 
@@ -16,15 +17,11 @@ export default defineComponent({
   props: {
     value: String,
   },
-  computed: {
-    modelValue: {
-      get() {
-        return this.value ?? "";
-      },
-      set(value: string) {
-        this.$emit("update", value);
-      },
+  methods: {
+    update(e: Event) {
+      this.$emit("update", (e.target as HTMLInputElement).value);
     },
   },
+  emits: ["update"],
 });
 </script>

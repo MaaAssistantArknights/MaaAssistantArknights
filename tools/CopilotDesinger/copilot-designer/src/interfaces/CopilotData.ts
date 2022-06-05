@@ -119,6 +119,6 @@ export function createEmptyCopilotData(): CopilotData {
     opers: [],
     groups: [],
     actions: [],
-    minimum_required: "",
+    minimum_required: "v4.0",
   };
 }

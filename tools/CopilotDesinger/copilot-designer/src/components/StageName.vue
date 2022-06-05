@@ -8,7 +8,8 @@
     id="stage_name"
     class="form-control"
     placeholder="关卡名，中英文均可"
-    :value="modelValue"
+    :value="value"
+    @input="update"
   />
 </template>
 
@@ -22,15 +23,11 @@ export default defineComponent({
       required: true,
     },
   },
-  computed: {
-    modelValue: {
-      get() {
-        return this.value;
-      },
-      set(value: string) {
-        this.$emit("update", value);
-      },
+  methods: {
+    update(e: Event) {
+      this.$emit("update", (e.target as HTMLInputElement).value);
     },
   },
+  emits: ["update"],
 });
 </script>
