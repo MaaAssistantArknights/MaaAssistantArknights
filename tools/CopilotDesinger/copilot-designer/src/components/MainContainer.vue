@@ -7,7 +7,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <StageName />
+        <StageName :stageName="data.stage_name" />
       </div>
       <div class="col-12">
         <StageTitle />
@@ -37,6 +37,7 @@ import StageDetails from "./StageDetails.vue";
 import GroupComponent from "./GroupComponent.vue";
 import OperatorComponent from "./OperatorComponent.vue";
 import BattleProgress from "./BattleProgress.vue";
+import { createEmptyCopilotData } from "@/interfaces/CopilotData";
 
 export default defineComponent({
   name: "MainContainer",
@@ -48,6 +49,12 @@ export default defineComponent({
     GroupComponent,
     OperatorComponent,
     BattleProgress,
+  },
+  props: {
+    data: {
+      type: Object,
+      default: () => createEmptyCopilotData(),
+    },
   },
 });
 </script>

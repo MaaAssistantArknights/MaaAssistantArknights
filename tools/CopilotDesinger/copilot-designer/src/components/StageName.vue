@@ -8,6 +8,7 @@
     id="stage_name"
     class="form-control"
     placeholder="关卡名，中英文均可"
+    :value="stageName"
   />
 </template>
 
@@ -17,5 +18,11 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "StageName",
   components: {},
+  props: {
+    stageName: {
+      type: String,
+      required: true,
+    },
+  },
 });
 </script>

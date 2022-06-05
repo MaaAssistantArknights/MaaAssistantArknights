@@ -112,3 +112,13 @@ export interface Documentation {
   details?: string;
   details_color?: string;
 }
+
+export function createEmptyCopilotData(): CopilotData {
+  return {
+    stage_name: "",
+    opers: [],
+    groups: [],
+    actions: [],
+    minimum_required: "",
+  };
+}
