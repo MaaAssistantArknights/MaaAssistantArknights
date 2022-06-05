@@ -18,6 +18,10 @@
             "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i"
         }
     },
+    "intent": {
+        "Official": "com.hypergryph.arknights/com.u8.sdk.U8UnityContext",
+        "Bilibili": "com.hypergryph.arknights.bilibili/com.u8.sdk.U8UnityContext"
+    },
     "connection": {
         "General": {
             "devices": "[Adb] devices",
@@ -30,10 +34,10 @@
             "displayFormat": "    init=%dx%d",
             "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
             "ncPort": 6723,
-            "ncPortReverse": "[Adb] -s [AdbSerial] reverse tcp:[NcPort] tcp:[NcPort]",
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
         },
         "BlueStacks": {
             "devices": "[Adb] devices",
@@ -46,10 +50,10 @@
             "displayFormat": "cur=%dx%d",
             "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
             "ncPort": 6723,
-            "ncPortReverse": "[Adb] -s [AdbSerial] reverse tcp:[NcPort] tcp:[NcPort]",
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
         },
         "MuMuEmulator": {
             "devices": "[Adb] devices",
@@ -62,10 +66,10 @@
             "displayFormat": "cur=%dx%d",
             "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
             "ncPort": 6723,
-            "ncPortReverse": "[Adb] -s [AdbSerial] reverse tcp:[NcPort] tcp:[NcPort]",
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
         },
         "LDPlayer": {
             "devices": "[Adb] devices",
@@ -78,10 +82,10 @@
             "displayFormat": "cur=%dx%d",
             "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
             "ncPort": 6723,
-            "ncPortReverse": "[Adb] -s [AdbSerial] reverse tcp:[NcPort] tcp:[NcPort]",
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
         },
         "Nox": {
             "devices": "[Adb] devices",
@@ -94,10 +98,10 @@
             "displayFormat": "cur=%dx%d",
             "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
             "ncPort": 6723,
-            "ncPortReverse": "[Adb] -s [AdbSerial] reverse tcp:[NcPort] tcp:[NcPort]",
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
         },
         "XYAZ": {
             "devices": "[Adb] devices",
@@ -110,10 +114,10 @@
             "displayFormat": "    init=%dx%d",
             "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
             "ncPort": 6723,
-            "ncPortReverse": "[Adb] -s [AdbSerial] reverse tcp:[NcPort] tcp:[NcPort]",
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
         },
         "WSA": {
             "devices": "[Adb] devices",
@@ -127,10 +131,10 @@
             "displayFormat": "Physical size:%dx%d",
             "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
             "ncPort": 6723,
-            "ncPortReverse": "[Adb] -s [AdbSerial] reverse tcp:[NcPort] tcp:[NcPort]",
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap -d [DisplayId] | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -d [DisplayId] -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
         },
         "Compatible": {
             "devices": "[Adb] devices",
@@ -143,10 +147,10 @@
             "displayFormat": "    init=%dx%d",
             "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
             "ncPort": 6723,
-            "ncPortReverse": "[Adb] -s [AdbSerial] reverse tcp:[NcPort] tcp:[NcPort]",
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
-            "release": "[Adb] kill-server"
+            "release": "[Adb] kill-server",
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
         }
     }
 }
