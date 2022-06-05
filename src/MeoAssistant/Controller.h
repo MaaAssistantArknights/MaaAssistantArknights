@@ -37,9 +37,10 @@ namespace asst
         cv::Mat get_image(bool raw = false);
         std::vector<uchar> get_image_encode() const;
 
-        // 开启/置顶游戏、点击和滑动都是异步执行，返回该任务的id
-        std::optional<int> start_game(const std::string& server_type = "", bool block = true);
-        
+        /* 开启游戏、点击和滑动都是异步执行，返回该任务的id */
+
+        std::optional<int> start_game(const std::string& client_type, bool block = true);
+
         int click(const Point& p, bool block = true);
         int click(const Rect& rect, bool block = true);
         int click_without_scale(const Point& p, bool block = true);
