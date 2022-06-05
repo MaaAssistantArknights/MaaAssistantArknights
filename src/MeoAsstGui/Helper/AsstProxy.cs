@@ -161,16 +161,20 @@ namespace MeoAsstGui
         private void procConnectInfo(JObject details)
         {
             var what = details["what"].ToString();
+            var svm = _container.Get<SettingsViewModel>();
+            var mainModel = _container.Get<TaskQueueViewModel>();
             switch (what)
             {
                 case "Connected":
-                    var svm = _container.Get<SettingsViewModel>();
                     svm.ConnectAddress = details["details"]["address"].ToString();
                     break;
 
                 case "UnsupportedResolution":
-                    var mainModel = _container.Get<TaskQueueViewModel>();
                     mainModel.AddLog("分辨率过低\n请设置为 720p 或更高", "darkred");
+                    break;
+
+                case "ResolutionError":
+                    mainModel.AddLog("分辨率获取失败\n建议重启电脑\n或更换模拟器后再试", "darkred");
                     break;
             }
         }
@@ -631,7 +635,6 @@ namespace MeoAsstGui
 
         public bool AsstConnect(ref string error)
         {
-            error = "";
             var settings = _container.Get<SettingsViewModel>();
             if (settings.AdbPath == String.Empty ||
                 settings.ConnectAddress == String.Empty)
@@ -642,11 +645,6 @@ namespace MeoAsstGui
                 }
             }
             settings.TryToSetBlueStacksHyperVAddress();
-
-            if (settings.ConnectConfig == "LDPlayer")
-            {
-                error = "检测到您正在使用雷电模拟器\n由于雷电模拟器过于离谱\nMAA 不推荐使用\n若您遇到任何问题\n建议更换模拟器并再次尝试";
-            }
 
             bool ret = AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
 

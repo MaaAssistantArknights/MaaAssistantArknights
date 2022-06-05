@@ -974,7 +974,13 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
 
-        if (m_width < WindowWidthDefault || m_height < WindowHeightDefault) {
+        if (m_width == 0 || m_height == 0) {
+            info["what"] = "ResolutionError";
+            info["why"] = "Get resolution failed";
+            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            return false;
+        }
+        else if (m_width < WindowWidthDefault || m_height < WindowHeightDefault) {
             info["what"] = "UnsupportedResolution";
             info["why"] = "Low screen resolution";
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
@@ -1062,7 +1068,7 @@ bool asst::Controller::release()
     {
         return call_command(m_adb.release).has_value();
     }
-    }
+}
 
 const std::string& asst::Controller::get_uuid() const
 {
