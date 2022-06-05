@@ -86,6 +86,7 @@
     <ClInclude Include="StageDropsConfiger.h" />
     <ClInclude Include="StageDropsImageAnalyzer.h" />
     <ClInclude Include="StageDropsTaskPlugin.h" />
+    <ClInclude Include="StartGameTask.h" />
     <ClInclude Include="StartUpTask.h" />
     <ClInclude Include="TaskData.h" />
     <ClInclude Include="MatchImageAnalyzer.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="StageDropsConfiger.cpp" />
     <ClCompile Include="StageDropsImageAnalyzer.cpp" />
     <ClCompile Include="StageDropsTaskPlugin.cpp" />
+    <ClCompile Include="StartGameTask.cpp" />
     <ClCompile Include="StartUpTask.cpp" />
     <ClCompile Include="TaskData.cpp" />
     <ClCompile Include="MatchImageAnalyzer.cpp" />
