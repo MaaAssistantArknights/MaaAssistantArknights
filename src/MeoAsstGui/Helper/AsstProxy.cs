@@ -681,10 +681,11 @@ namespace MeoAsstGui
             return AsstAppendTaskWithEncoding("Award");
         }
 
-        public bool AsstAppendStartUp(int server_type)
+        public bool AsstAppendStartUp(int server_type, bool enable)
         {
             var task_params = new JObject();
             task_params["server_type"] = server_type;
+            task_params["enable"] = enable;
             return AsstAppendTaskWithEncoding("StartUp", task_params);
         }
 

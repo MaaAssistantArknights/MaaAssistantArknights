@@ -154,6 +154,18 @@ namespace MeoAsstGui
 
         /* 唤醒设置 */
 
+        private bool _startGameEnable = Convert.ToBoolean(ViewStatusStorage.Get("Start.StartGameEnable", bool.FalseString));
+
+        public bool StartGameEnable
+        {
+            get { return _startGameEnable; }
+            set
+            {
+                SetAndNotify(ref _startGameEnable, value);
+                ViewStatusStorage.Set("Start.StartGameEnable", value.ToString());
+            }
+        }
+        
         private string _serverType = ViewStatusStorage.Get("Start.ServerType", "0");
 
         public string ServerType

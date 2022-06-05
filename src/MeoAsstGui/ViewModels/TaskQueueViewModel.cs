@@ -332,7 +332,8 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
             int.TryParse(settings.ServerType, out var mode);
-            return asstProxy.AsstAppendStartUp(mode);
+            var enable = settings.StartGameEnable;
+            return asstProxy.AsstAppendStartUp(mode, enable);
         }
         
         private bool appendFight()

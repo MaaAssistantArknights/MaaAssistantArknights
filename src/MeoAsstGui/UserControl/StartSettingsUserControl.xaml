@@ -14,12 +14,18 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Style="{StaticResource TextBlockDefault}" Text="自动启动客户端设置" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" />
-        <ComboBox Grid.Row="1" Width="200" Margin="10"
-                  IsHitTestVisible ="{Binding Path=Idle}"
-                  ItemsSource="{Binding ServerTypeList}"
-                  DisplayMemberPath="Display"
-                  SelectedValuePath="Value"
-                  SelectedValue="{Binding ServerType}" />
+        <CheckBox Grid.Row="0" IsChecked="{Binding StartGameEnable}"  Block.TextAlignment="Center" Margin="10"
+                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                  Content="开始唤醒时自动启动游戏客户端" />
+        <StackPanel Grid.Row="1" IsEnabled="{Binding StartGameEnable}" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
+                       Text="客户端版本" Margin="10" />
+            <ComboBox Width="200" Margin="10"
+                      IsHitTestVisible ="{Binding Path=Idle}"
+                      ItemsSource="{Binding ServerTypeList}"
+                      DisplayMemberPath="Display"
+                      SelectedValuePath="Value"
+                      SelectedValue="{Binding ServerType}" />
+        </StackPanel>
     </Grid>
 </UserControl>
