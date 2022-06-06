@@ -14,7 +14,7 @@ bool asst::TilePack::load(const std::string& dir)
         return false;
     }
 
-    constexpr static const char* filename = "/levels.json";
+    constexpr static auto filename = "/levels.json";
 
     try {
         m_tile_calculator = std::make_unique<Map::TileCalc>(
@@ -62,7 +62,7 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(
             const auto& cv_p = pos[y][x];
             const auto& tile = tiles[y][x];
 
-            TileKey key = TileKey::Invalid;
+            auto key = TileKey::Invalid;
             if (auto iter = TileKeyMapping.find(tile.tileKey);
                 iter != TileKeyMapping.cend()) {
                 key = iter->second;

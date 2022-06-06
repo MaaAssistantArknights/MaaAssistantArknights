@@ -34,10 +34,10 @@ bool asst::OcrPack::load(const std::string& dir)
         return false;
     }
 
-    constexpr static const char* DetName = "/det";
+    constexpr static auto DetName = "/det";
     //constexpr static const char* ClsName = "/cls";
-    constexpr static const char* RecName = "/rec";
-    constexpr static const char* KeysName = "/ppocr_keys_v1.txt";
+    constexpr static auto RecName = "/rec";
+    constexpr static auto KeysName = "/ppocr_keys_v1.txt";
 
     const std::string dst_filename = dir + DetName;
     //const std::string cls_filename = dir + ClsName;

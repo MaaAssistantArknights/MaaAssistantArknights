@@ -90,7 +90,7 @@ bool asst::AipOcr::request_ocr_and_parse(std::string_view cmd_fmt, const cv::Mat
     std::string encoded = base64_encode(enc_msg, buf.size());
 
     size_t cmd_len = encoded.size() + cmd_fmt.size() + m_access_token.size();
-    char* cmd = new char[cmd_len];
+    auto cmd = new char[cmd_len];
     memset(cmd, 0, cmd_len);
 #ifdef _MSC_VER
     sprintf_s(cmd, cmd_len, cmd_fmt.data(), m_access_token.c_str(), encoded.c_str());

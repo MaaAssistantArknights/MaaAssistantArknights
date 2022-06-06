@@ -31,7 +31,7 @@ namespace asst
 
         // each box has 8 value ( 4 points, x and y )
         int m_boxes_buffer[MaxBoxSize * 8] = { 0 };
-        char* m_strs_buffer[MaxBoxSize] = { 0 };
+        char* m_strs_buffer[MaxBoxSize] = { nullptr };
         float m_scores_buffer[MaxBoxSize] = { 0 };
     };
 }

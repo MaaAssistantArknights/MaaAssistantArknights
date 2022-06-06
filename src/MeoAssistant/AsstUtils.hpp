@@ -90,13 +90,13 @@ namespace asst
             const char* src_str = ansi_str.c_str();
             int len = MultiByteToWideChar(CP_ACP, 0, src_str, -1, nullptr, 0);
             const std::size_t wstr_length = static_cast<std::size_t>(len) + 1U;
-            wchar_t *wstr = new wchar_t[wstr_length];
+            auto wstr = new wchar_t[wstr_length];
             memset(wstr, 0, sizeof(wstr[0]) * wstr_length);
             MultiByteToWideChar(CP_ACP, 0, src_str, -1, wstr, len);
 
             len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, nullptr, 0, nullptr, nullptr);
             const std::size_t str_length = static_cast<std::size_t>(len) + 1;
-            char *str = new char[str_length];
+            auto str = new char[str_length];
             memset(str, 0, sizeof(str[0]) * str_length);
             WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, nullptr, nullptr);
             std::string strTemp = str;
@@ -121,13 +121,13 @@ namespace asst
             const char* src_str = utf8_str.c_str();
             int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, nullptr, 0);
             const std::size_t wsz_ansi_length = static_cast<std::size_t>(len) + 1;
-            wchar_t *wsz_ansi = new wchar_t[wsz_ansi_length];
+            auto wsz_ansi = new wchar_t[wsz_ansi_length];
             memset(wsz_ansi, 0, sizeof(wsz_ansi[0]) * wsz_ansi_length);
             MultiByteToWideChar(CP_UTF8, 0, src_str, -1, wsz_ansi, len);
 
             len = WideCharToMultiByte(CP_ACP, 0, wsz_ansi, -1, nullptr, 0, nullptr, nullptr);
             const std::size_t sz_ansi_length = static_cast<std::size_t>(len) + 1;
-            char *sz_ansi = new char[sz_ansi_length];
+            auto sz_ansi = new char[sz_ansi_length];
             memset(sz_ansi, 0, sizeof(sz_ansi[0]) * sz_ansi_length);
             WideCharToMultiByte(CP_ACP, 0, wsz_ansi, -1, sz_ansi, len, nullptr, nullptr);
             std::string strTemp(sz_ansi);
@@ -197,7 +197,7 @@ namespace asst
             si.hStdOutput = pipe_child_write;
             si.hStdError = pipe_child_write;
 
-            PROCESS_INFORMATION pi = { 0 };
+            PROCESS_INFORMATION pi = { nullptr };
 
             BOOL p_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmdline.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi);
             if (p_ret) {
