@@ -53,6 +53,14 @@ bool asst::FightTask::set_params(const json::value& params)
     std::string penguin_id = params.get("penguin_id", "");
     std::string server = params.get("server", "CN");
 
+    if (params.contains("quantity")) {
+        std::unordered_map<std::string, int> specify_quantity;
+        for (const auto& [item_id, quantity] : params.at("drops").as_object()) {
+            specify_quantity.insert_or_assign(item_id, quantity.as_integer());
+        }
+        m_stage_drops_plugin_ptr->set_specify_quantity(specify_quantity);
+    }
+
     if (!m_runned) {
         if (stage.empty()) {
             m_start_up_task_ptr->set_enable(false);
