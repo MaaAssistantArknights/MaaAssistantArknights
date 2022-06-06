@@ -20,6 +20,9 @@
         <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=4u0uqXep" Click="Hyperlink_Click">自动战斗作业分享 Q 群</Hyperlink>
         </TextBlock>
         <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+        <Hyperlink NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.md" Click="Hyperlink_Click">常见问题</Hyperlink>
+        </TextBlock>
+        <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
         <Hyperlink NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues" Click="Hyperlink_Click">问题反馈</Hyperlink>
         </TextBlock>
     </StackPanel>
