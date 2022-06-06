@@ -477,7 +477,7 @@ std::optional<asst::Controller::SocketInfo> asst::Controller::try_to_init_socket
 
 #ifdef _WIN32
         m_server_addr.sin_port = htons(port);
-        int bind_ret = ::bind(m_server_sock, (SOCKADDR*)&m_server_addr, sizeof(SOCKADDR));
+        int bind_ret = ::bind(m_server_sock, reinterpret_cast<SOCKADDR*>(&m_server_addr), sizeof(SOCKADDR));
         int listen_ret = ::listen(m_server_sock, 3);
         server_start = bind_ret == 0 && listen_ret == 0;
 #else
