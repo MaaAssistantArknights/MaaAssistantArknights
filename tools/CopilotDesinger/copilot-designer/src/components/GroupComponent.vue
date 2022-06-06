@@ -6,6 +6,11 @@
         <input type="text" class="form-control" :value="group.name" />
         <OperatorComponent :operators="group.opers" />
       </div>
+      <div class="col-2">
+        <MoveUpButton />
+        <MoveDownButton />
+        <DeleteButton />
+      </div>
     </div>
   </div>
   <button class="btn btn-primary">添加群组</button>
@@ -15,6 +20,9 @@
 import { Group } from "@/interfaces/CopilotData";
 import { defineComponent, PropType } from "vue";
 import OperatorComponent from "./OperatorComponent.vue";
+import MoveUpButton from "@/controls/MoveUpButton.vue";
+import MoveDownButton from "@/controls/MoveDownButton.vue";
+import DeleteButton from "@/controls/DeleteButton.vue";
 
 export default defineComponent({
   props: {
@@ -23,6 +31,6 @@ export default defineComponent({
       required: true,
     },
   },
-  components: { OperatorComponent },
+  components: { OperatorComponent, MoveUpButton, MoveDownButton, DeleteButton },
 });
 </script>
