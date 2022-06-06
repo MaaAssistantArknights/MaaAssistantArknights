@@ -33,6 +33,8 @@ namespace asst
     protected:
         static Rect empty_rect_to_full(const Rect& rect, const cv::Mat image) noexcept;
 
+        bool save_img();
+
         cv::Mat m_image;
         Rect m_roi;
 
