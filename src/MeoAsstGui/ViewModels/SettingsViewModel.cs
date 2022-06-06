@@ -152,7 +152,7 @@ namespace MeoAsstGui
             }
         }
 
-        /* 唤醒设置 */
+        /* 启动设置 */
         private bool _startAppEnable = StartAppModel.CheckStart();
         public bool StartAppEnable
         {
