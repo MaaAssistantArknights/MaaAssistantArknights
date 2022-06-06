@@ -8,7 +8,7 @@
 #include <sys/wait.h>
 #endif
 
-#include <stdint.h>
+#include <cstdint>
 #include <algorithm>
 #include <chrono>
 #include <regex>
