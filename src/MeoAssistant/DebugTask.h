@@ -6,7 +6,7 @@ namespace asst
     class DebugTask : public PackageTask
     {
     public:
-        DebugTask(AsstCallback callback, void* callback_arg);
+        DebugTask(const AsstCallback& callback, void* callback_arg);
         virtual ~DebugTask() = default;
 
         static constexpr const char* TaskType = "Debug";

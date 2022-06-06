@@ -1,6 +1,7 @@
 #include "ProcessTaskImageAnalyzer.h"
 
 #include <regex>
+#include <utility>
 
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
@@ -9,7 +10,7 @@
 #include "Resource.h"
 #include "RuntimeStatus.h"
 
-asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat image, std::vector<std::string> tasks_name)
+asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name)
     : AbstractImageAnalyzer(image),
     m_tasks_name(std::move(tasks_name))
 {
@@ -18,7 +19,7 @@ asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat image, st
 
 asst::ProcessTaskImageAnalyzer::~ProcessTaskImageAnalyzer() = default;
 
-bool asst::ProcessTaskImageAnalyzer::match_analyze(std::shared_ptr<TaskInfo> task_ptr)
+bool asst::ProcessTaskImageAnalyzer::match_analyze(const std::shared_ptr<TaskInfo>& task_ptr)
 {
     if (!m_match_analyzer) {
         m_match_analyzer = std::make_unique<MatchImageAnalyzer>(m_image);
@@ -40,7 +41,7 @@ bool asst::ProcessTaskImageAnalyzer::match_analyze(std::shared_ptr<TaskInfo> tas
     return false;
 }
 
-bool asst::ProcessTaskImageAnalyzer::ocr_analyze(std::shared_ptr<TaskInfo> task_ptr)
+bool asst::ProcessTaskImageAnalyzer::ocr_analyze(const std::shared_ptr<TaskInfo>& task_ptr)
 {
     std::shared_ptr<OcrTaskInfo> ocr_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(task_ptr);
 
@@ -149,5 +150,5 @@ void asst::ProcessTaskImageAnalyzer::set_tasks(std::vector<std::string> tasks_na
 
 void asst::ProcessTaskImageAnalyzer::set_status(std::shared_ptr<RuntimeStatus> status) noexcept
 {
-    m_status = status;
+    m_status = std::move(status);
 }

@@ -55,7 +55,7 @@ private:
 #endif
 
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)
-    : m_callback(callback),
+    : m_callback(std::move(callback)),
     m_callback_arg(callback_arg),
     m_rand_engine(static_cast<unsigned int>(time(nullptr)))
 {
@@ -630,7 +630,7 @@ bool asst::Controller::screencap()
     return false;
 }
 
-bool asst::Controller::screencap(const std::string& cmd, DecodeFunc decode_func, bool by_socket)
+bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket)
 {
     if ((!m_support_socket || !m_server_started) && by_socket) {
         return false;

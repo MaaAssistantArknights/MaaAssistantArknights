@@ -11,7 +11,7 @@ namespace asst
     class RoguelikeTask : public PackageTask
     {
     public:
-        RoguelikeTask(AsstCallback callback, void* callback_arg);
+        RoguelikeTask(const AsstCallback& callback, void* callback_arg);
         virtual ~RoguelikeTask() = default;
 
         virtual bool set_params(const json::value& params) override;

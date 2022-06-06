@@ -391,7 +391,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         return "4003";          // 合成玉
     }
 
-    auto match_item_with_templs = [&](std::vector<std::string> templs_list) -> std::string {
+    auto match_item_with_templs = [&](const std::vector<std::string>& templs_list) -> std::string {
         MatchImageAnalyzer analyzer(m_image);
         analyzer.set_task_info("StageDrops-Item");
         analyzer.set_mask_with_close(true);

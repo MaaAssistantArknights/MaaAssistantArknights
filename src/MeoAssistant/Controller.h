@@ -75,7 +75,7 @@ namespace asst
 
         using DecodeFunc = std::function<bool(std::vector<uchar>&)>;
         bool screencap();
-        bool screencap(const std::string& cmd, DecodeFunc decode_func, bool by_nc = false);
+        bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_nc = false);
         cv::Mat get_resized_image() const;
 
         Point rand_point_in_rect(const Rect& rect);

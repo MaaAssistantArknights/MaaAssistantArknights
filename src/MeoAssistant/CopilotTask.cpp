@@ -5,7 +5,7 @@
 #include "BattleProcessTask.h"
 #include "BattleFormationTask.h"
 
-asst::CopilotTask::CopilotTask(AsstCallback callback, void* callback_arg)
+asst::CopilotTask::CopilotTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
     m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, callback_arg, TaskType)),
     m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, callback_arg, TaskType))

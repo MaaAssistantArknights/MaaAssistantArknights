@@ -12,7 +12,7 @@ namespace asst
     class CopilotTask final : public PackageTask
     {
     public:
-        CopilotTask(AsstCallback callback, void* callback_arg);
+        CopilotTask(const AsstCallback& callback, void* callback_arg);
         virtual ~CopilotTask() = default;
 
         virtual bool set_params(const json::value& params) override;
