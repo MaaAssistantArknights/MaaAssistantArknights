@@ -281,7 +281,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     else {
         fd_set fdset = { 0 };
         FD_SET(m_server_sock, &fdset);
-        timeval select_timeout = { 1, 0 };
+        timeval select_timeout = { 3, 0 };
         select(static_cast<int>(m_server_sock) + 1, &fdset, NULL, NULL, &select_timeout);
         if (FD_ISSET(m_server_sock, &fdset)) {
             SOCKET client_sock = ::accept(m_server_sock, NULL, NULL);
