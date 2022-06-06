@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { Operator } from "@/interfaces/CopilotData";
+import { Operator, Skill } from "@/interfaces/CopilotData";
 import { defineComponent, PropType } from "vue";
 import OperatorName from "../controls/OperatorName.vue";
 import MoveUpButton from "@/controls/MoveUpButton.vue";
@@ -77,7 +77,7 @@ export default defineComponent({
       }
 
       const newOperators = [...this.operators];
-      newOperators[id].skill = numValue as 0 | 1 | 2 | 3 | undefined;
+      newOperators[id].skill = numValue as Skill | undefined;
       this.$emit("update", newOperators);
     },
     changeOperatorSkillUsage(value: string, id: number) {

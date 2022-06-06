@@ -22,7 +22,7 @@
         <OperatorComponent :operators="data.opers" @update="updateOperators" />
       </div>
       <div class="col-12">
-        <BattleProgress />
+        <ActionList :actions="data.actions" @update="updateActions" />
       </div>
     </div>
   </div>
@@ -41,8 +41,9 @@ import StageTitle from "./StageTitle.vue";
 import StageDetails from "./StageDetails.vue";
 import GroupComponent from "./GroupComponent.vue";
 import OperatorComponent from "./OperatorComponent.vue";
-import BattleProgress from "./BattleProgress.vue";
+import ActionList from "./ActionList.vue";
 import CopilotData, {
+  Action,
   createEmptyCopilotData,
   Group,
   Operator,
@@ -57,7 +58,7 @@ export default defineComponent({
     StageDetails,
     GroupComponent,
     OperatorComponent,
-    BattleProgress,
+    ActionList,
   },
   data() {
     return {
@@ -92,6 +93,9 @@ export default defineComponent({
     },
     updateOperators(operators: Operator[]) {
       this.data.opers = operators;
+    },
+    updateActions(actions: Action[]) {
+      this.data.actions = actions;
     },
   },
 });

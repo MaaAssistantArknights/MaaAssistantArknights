@@ -1,3 +1,36 @@
+// 技能
+export type Skill = 0 | 1 | 2 | 3;
+// 精英化等级
+export type EliteLevel = 0 | 1 | 2;
+// 潜能等级
+export type PotentialLevel = 0 | 1 | 2 | 3;
+// 操作类型
+export type ActionType =
+  | "Deploy"
+  | "Skill"
+  | "Retreat"
+  | "SpeedUp"
+  | "BulletTime"
+  | "SkillUsage"
+  | "部署"
+  | "技能"
+  | "撤退"
+  | "二倍速"
+  | "子弹时间"
+  | "技能用法";
+// 方向
+export type Direction =
+  | "Left"
+  | "Right"
+  | "Up"
+  | "Down"
+  | "None"
+  | "左"
+  | "右"
+  | "上"
+  | "下"
+  | "无";
+
 // 自动战斗数据
 export default interface CopilotData {
   // 关卡名，必选。除危机合约外，均为关卡中文名
@@ -19,7 +52,7 @@ export interface Operator {
   // 干员名
   name: string;
   // 技能序号。可选，默认 1，取值范围 [1, 3]
-  skill?: 0 | 1 | 2 | 3;
+  skill?: Skill;
   // 技能用法。可选，默认 0
   // 0 - 不自动使用（依赖 "actions" 字段）
   // 1 - 好了就用，有多少次用多少次（例如干员 棘刺 3 技能、桃金娘 1 技能等）
@@ -34,7 +67,7 @@ export interface Operator {
 // 练度
 export interface Requirement {
   // 精英化等级。可选，默认为 0, 不要求精英化等级
-  elite?: 0 | 1 | 2;
+  elite?: EliteLevel;
   // 干员等级。可选，默认为 0
   level?: number;
   // 技能等级。可选，默认为 0
@@ -42,7 +75,7 @@ export interface Requirement {
   // 模组编号。可选，默认为 0
   module?: number;
   // 潜能要求。可选，默认为 0
-  potentiality?: 0 | 1 | 2 | 3;
+  potentiality?: PotentialLevel;
 }
 
 // 群组
@@ -56,19 +89,7 @@ export interface Group {
 // 操作
 export interface Action {
   // 操作类型，可选，默认 "Deploy"
-  type?:
-    | "Deploy"
-    | "Skill"
-    | "Retreat"
-    | "SpeedUp"
-    | "BulletTime"
-    | "SkillUsage"
-    | "部署"
-    | "技能"
-    | "撤退"
-    | "二倍速"
-    | "子弹时间"
-    | "技能用法";
+  type?: ActionType;
   // 击杀数条件，如果没达到就一直等待。可选，默认为 0，直接执行
   kills?: number;
   // 费用变化量，如果没达到就一直等待。可选，默认为 0，直接执行
@@ -82,17 +103,7 @@ export interface Action {
   // 正常部署的干员请使用 name 进行撤退
   location?: [number, number];
   // 部署干员的干员朝向。 type 为 "部署" 时必选
-  direction?:
-    | "Left"
-    | "Right"
-    | "Up"
-    | "Down"
-    | "None"
-    | "左"
-    | "右"
-    | "上"
-    | "下"
-    | "无";
+  direction?: Direction;
   // 修改技能用法。当 type 为 "技能用法" 时必选
   skill_usage?: number;
   // 前置延时。可选，默认 0, 单位毫秒
