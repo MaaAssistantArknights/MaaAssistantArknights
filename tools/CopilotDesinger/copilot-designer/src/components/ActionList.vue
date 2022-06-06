@@ -37,7 +37,7 @@
           <input
             type="number"
             class="form-control"
-            :value="String(action.kills ?? 0)"
+            :value="String(action.cost_changes ?? 0)"
             @input="(e) => changeCostChanges((e.target as HTMLInputElement).value, id)"
           />
         </td>
