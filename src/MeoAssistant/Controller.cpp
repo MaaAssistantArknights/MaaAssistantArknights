@@ -244,7 +244,7 @@ void asst::Controller::pipe_working_proc()
 
 std::optional<std::vector<unsigned char>> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket)
 {
-    LogTraceFunction;
+    LogTraceScope(std::string(__FUNCTION__) + " | Call `" + cmd + "`");
 
     std::vector<uchar> pipe_data;
 
@@ -457,7 +457,7 @@ int asst::Controller::push_cmd(const std::string& cmd)
     return ++m_push_id;
 }
 
-std::optional<asst::Controller::SocketInfo> asst::Controller::try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times)
+std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times)
 {
     LogTraceFunction;
 
@@ -498,11 +498,8 @@ std::optional<asst::Controller::SocketInfo> asst::Controller::try_to_init_socket
         return std::nullopt;
     }
 
-    // Todo: detect remote address, and check remote port
-    // reference from https://github.com/ArknightsAutoHelper/ArknightsAutoHelper/blob/master/automator/connector/ADBConnector.py#L436
-    std::string remote_address = "10.0.2.2";
-    Log.info("server_start", remote_address, port_result);
-    return SocketInfo{ remote_address, port_result };
+    Log.info("server_start", local_address, port_result);
+    return port_result;
 }
 
 void asst::Controller::wait(unsigned id) const noexcept
@@ -852,7 +849,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     const auto adb_cfg = std::move(adb_ret.value());
     std::string display_id;
-    std::string nc_address;
+    std::string nc_address = "10.0.2.2";
     u_short nc_port = 0;
 
     auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
@@ -1037,11 +1034,23 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             bind_address = "127.0.0.1";
         }
 
+        // Todo: detect remote address, and check remote port
+        // reference from https://github.com/ArknightsAutoHelper/ArknightsAutoHelper/blob/master/automator/connector/ADBConnector.py#L436
+        auto nc_address_ret = call_command(cmd_replace(adb_cfg.nc_address));
+        if (nc_address_ret) {
+            auto& nc_result = nc_address_ret.value();
+            std::string nc_result_str(
+                std::make_move_iterator(nc_result.begin()),
+                std::make_move_iterator(nc_result.end()));
+            if (auto pos = nc_result_str.find(' ');
+                pos != std::string::npos) {
+                nc_address = nc_result_str.substr(0, pos);
+            }
+        }
+
         auto socket_opt = try_to_init_socket(bind_address, adb_cfg.nc_port);
         if (socket_opt) {
-            auto& socket_info = socket_opt.value();
-            nc_address = socket_info.remote_address;
-            nc_port = socket_info.remote_port;
+            nc_port = socket_opt.value();
             m_adb.screencap_raw_by_nc = cmd_replace(adb_cfg.screencap_raw_by_nc);
             m_server_started = true;
         }
