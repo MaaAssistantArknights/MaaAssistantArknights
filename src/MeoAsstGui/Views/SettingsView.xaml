@@ -56,6 +56,9 @@
                 <local:VersionUpdateSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[10]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <local:ToastSettingsUserControl Margin="20" />
+                <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[11]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:AboutUserControl Margin="20" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />-->
             </StackPanel>
