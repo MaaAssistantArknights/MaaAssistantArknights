@@ -64,12 +64,12 @@ void asst::OcrWithFlagTemplImageAnalyzer::set_task_info(std::string templ_task_n
     auto ocr_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(Task.get(ocr_task_name));
     OcrWithPreprocessImageAnalyzer::set_task_info(*ocr_task_ptr);
     m_flag_rect_move = ocr_task_ptr->roi;
-    m_multi_match_image_analyzer.set_task_info(std::move(templ_task_name));
+    m_multi_match_image_analyzer.set_task_info(templ_task_name);
 }
 
 void asst::OcrWithFlagTemplImageAnalyzer::set_flag_rect_move(Rect flag_rect_move)
 {
-    m_flag_rect_move = std::move(flag_rect_move);
+    m_flag_rect_move = flag_rect_move;
 }
 
 std::vector<asst::TextRect>& asst::OcrWithFlagTemplImageAnalyzer::get_result() noexcept

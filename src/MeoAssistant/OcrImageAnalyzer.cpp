@@ -154,7 +154,7 @@ void asst::OcrImageAnalyzer::set_task_info(const std::string& task_name)
 
 void asst::OcrImageAnalyzer::set_region_of_appeared(Rect region) noexcept
 {
-    m_region_of_appeared = std::move(region);
+    m_region_of_appeared = region;
     if (m_use_cache && !m_region_of_appeared.empty()) {
         m_roi = m_region_of_appeared;
         m_without_det = true;
