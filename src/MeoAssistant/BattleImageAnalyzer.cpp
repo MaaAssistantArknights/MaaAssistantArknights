@@ -414,7 +414,7 @@ bool asst::BattleImageAnalyzer::hp_analyze()
     for (const std::string& num_name : hash_analyzer.get_min_dist_name()) {
         if (num_name.empty()) {
             Log.error("hash result is empty");
-            return 0;
+            return false;
         }
         hp *= 10;
         hp += num_name.at(0) - '0';

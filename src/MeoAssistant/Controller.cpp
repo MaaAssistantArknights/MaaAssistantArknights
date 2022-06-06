@@ -91,7 +91,7 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
             break;
         }
         m_support_socket = true;
-    } while (0);
+    } while (false);
 
 #else
     int pipe_in_ret = pipe(m_pipe_in);
