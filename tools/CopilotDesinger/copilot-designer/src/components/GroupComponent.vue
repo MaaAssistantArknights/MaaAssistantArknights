@@ -1,6 +1,6 @@
 <template>
   <h2>群组</h2>
-  <div v-for="(group, id) in groups" :key="id">
+  <div v-for="(group, id) in groups" :key="id" class="group-item">
     <div class="row">
       <div class="col-10">
         <input
@@ -15,9 +15,9 @@
         />
       </div>
       <div class="col-2">
-        <MoveUpButton />
-        <MoveDownButton />
-        <DeleteButton />
+        <MoveUpButton @click="() => moveUp(id)" />
+        <MoveDownButton @click="() => moveDown(id)" />
+        <DeleteButton @click="() => deleteItem(id)" />
       </div>
     </div>
   </div>
@@ -49,6 +49,25 @@ export default defineComponent({
     updateOperators(operators: Operator[], id: number) {
       const newGroups = [...this.groups];
       newGroups[id].opers = operators;
+      this.$emit("update", newGroups);
+    },
+    moveUp(id: number) {
+      if (id > 0) {
+        const newGroups = [...this.groups];
+        [newGroups[id - 1], newGroups[id]] = [newGroups[id], newGroups[id - 1]];
+        this.$emit("update", newGroups);
+      }
+    },
+    moveDown(id: number) {
+      if (id < this.groups.length - 1) {
+        const newGroups = [...this.groups];
+        [newGroups[id + 1], newGroups[id]] = [newGroups[id], newGroups[id + 1]];
+        this.$emit("update", newGroups);
+      }
+    },
+    deleteItem(id: number) {
+      const newGroups = [...this.groups];
+      newGroups.splice(id, 1);
       this.$emit("update", newGroups);
     },
     newItem() {
