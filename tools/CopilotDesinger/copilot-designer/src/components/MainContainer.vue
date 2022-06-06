@@ -16,7 +16,7 @@
         <StageDetails :value="data.doc?.details" @update="updateStageDetails" />
       </div>
       <div class="col-12">
-        <GroupComponent :groups="data.groups" />
+        <GroupComponent :groups="data.groups" @update="updateGroups" />
       </div>
       <div class="col-12">
         <OperatorComponent :operators="data.opers" @update="updateOperators" />
@@ -44,6 +44,7 @@ import OperatorComponent from "./OperatorComponent.vue";
 import BattleProgress from "./BattleProgress.vue";
 import CopilotData, {
   createEmptyCopilotData,
+  Group,
   Operator,
 } from "@/interfaces/CopilotData";
 import { CharacterList } from "@/misc/Characters";
@@ -85,6 +86,9 @@ export default defineComponent({
         ...this.data.doc,
         details: v,
       };
+    },
+    updateGroups(groups: Group[]) {
+      this.data.groups = groups;
     },
     updateOperators(operators: Operator[]) {
       this.data.opers = operators;
