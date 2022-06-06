@@ -60,5 +60,6 @@ export default defineComponent({
       this.$emit("update", newGroups);
     },
   },
+  emits: ["update"],
 });
 </script>

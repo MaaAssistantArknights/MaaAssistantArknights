@@ -99,7 +99,7 @@
           <input
             type="color"
             class="form-control"
-            :value="action.doc_color"
+            :value="action.doc_color ?? '#000000'"
             @input="(e) => changeDocColor((e.target as HTMLInputElement).value, id)"
           />
         </td>
