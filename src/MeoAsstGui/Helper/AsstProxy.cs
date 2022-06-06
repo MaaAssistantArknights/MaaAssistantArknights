@@ -642,7 +642,7 @@ namespace MeoAsstGui
             return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(task_params)) != 0;
         }
 
-        public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times)
+        public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
         {
             var task_params = new JObject();
             task_params["stage"] = stage;
@@ -650,6 +650,11 @@ namespace MeoAsstGui
             task_params["stone"] = max_stone;
             task_params["times"] = max_times;
             task_params["report_to_penguin"] = true;
+            if (drops_item_quantity != 0)
+            {
+                task_params["drops"] = new JObject();
+                task_params["drops"][drops_item_id] = drops_item_quantity;
+            }
             var settings = _container.Get<SettingsViewModel>();
             task_params["penguin_id"] = settings.PenguinId;
             task_params["server"] = "CN";
