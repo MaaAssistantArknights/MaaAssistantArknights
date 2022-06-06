@@ -122,7 +122,7 @@ TaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
 bool AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params)
 {
     if (!inited || handle == nullptr) {
-        return 0;
+        return false;
     }
 
     return handle->set_task_params(id, params ? params : "");
