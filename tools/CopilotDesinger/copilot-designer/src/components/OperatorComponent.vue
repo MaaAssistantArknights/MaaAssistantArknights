@@ -14,8 +14,7 @@
         <td>
           <OperatorName
             :value="operator.name"
-            :key="id"
-            @input="changeOperatorName"
+            @input="(e) => changeOperatorName(e.target.value, id)"
           />
         </td>
         <td>
@@ -23,27 +22,26 @@
             type="number"
             class="form-control"
             :value="String(operator.skill ?? 0)"
-            :key="id"
-            @input="changeOperatorSkill"
+            @input="(e) => changeOperatorSkill((e.target as HTMLInputElement).value, id)"
           />
         </td>
         <td>
           <input
             type="number"
             class="form-control"
-            :key="id"
             :value="String(operator.skill_usage ?? 0)"
+            @input="(e) => changeOperatorSkillUsage((e.target as HTMLInputElement).value, id)"
           />
         </td>
         <td>
-          <MoveUpButton :key="id" @click="moveUp" />
-          <MoveDownButton :key="id" @click="moveDown" />
-          <DeleteButton :key="id" @click="deleteItem" />
+          <MoveUpButton @click="() => moveUp(id)" />
+          <MoveDownButton @click="() => moveDown(id)" />
+          <DeleteButton @click="() => deleteItem(id)" />
         </td>
       </tr>
     </tbody>
   </table>
-  <button id="opers_new" class="btn btn-primary">新增</button>
+  <button class="btn btn-primary" @click="newItem">新增</button>
 </template>
 
 <script lang="ts">
@@ -63,35 +61,64 @@ export default defineComponent({
   },
   components: { OperatorName, MoveUpButton, MoveDownButton, DeleteButton },
   methods: {
-    changeOperatorName(e: Event) {
-      const input = e.target as HTMLInputElement;
-      this.$emit("update:operator-name", this.$.vnode.key, input.value);
+    changeOperatorName(value: string, id: number) {
+      const newOperators = [...this.operators];
+      newOperators[id].name = value;
+      this.$emit("update", newOperators);
     },
-    changeOperatorSkill(e: Event) {
-      const input = e.target as HTMLInputElement;
-      this.$emit("update:operator-skill", this.$.vnode.key, input.value);
+    changeOperatorSkill(value: string, id: number) {
+      let numValue = value !== "" ? Number(value) : undefined;
+      if (numValue !== undefined) {
+        if (numValue < 0) {
+          numValue = 0;
+        } else if (numValue > 3) {
+          numValue = 3;
+        }
+      }
+
+      const newOperators = [...this.operators];
+      newOperators[id].skill = numValue as 0 | 1 | 2 | 3 | undefined;
+      this.$emit("update", newOperators);
     },
-    changeOperatorSkillUsage(e: Event) {
-      const input = e.target as HTMLInputElement;
-      this.$emit("update:operator-skill-usage", this.$.vnode.key, input.value);
+    changeOperatorSkillUsage(value: string, id: number) {
+      const numValue = value !== "" ? Number(value) : undefined;
+      const newOperators = [...this.operators];
+      newOperators[id].skill_usage = numValue;
+      this.$emit("update", newOperators);
     },
-    moveUp() {
-      this.$emit("move-up", this.$.vnode.key);
+    moveUp(id: number) {
+      if (id > 0) {
+        const newOperators = [...this.operators];
+        [newOperators[id - 1], newOperators[id]] = [
+          newOperators[id],
+          newOperators[id - 1],
+        ];
+        this.$emit("update", newOperators);
+      }
     },
-    moveDown() {
-      this.$emit("move-down", this.$.vnode.key);
+    moveDown(id: number) {
+      if (id < this.operators.length - 1) {
+        const newOperators = [...this.operators];
+        [newOperators[id + 1], newOperators[id]] = [
+          newOperators[id],
+          newOperators[id + 1],
+        ];
+        this.$emit("update", newOperators);
+      }
     },
-    deleteItem() {
-      this.$emit("delete-item", this.$.vnode.key);
+    deleteItem(id: number) {
+      const newOperators = [...this.operators];
+      newOperators.splice(id, 1);
+      this.$emit("update", newOperators);
+    },
+    newItem() {
+      const newOperators = [...this.operators];
+      newOperators.push({
+        name: "",
+      });
+      this.$emit("update", newOperators);
     },
   },
-  emits: [
-    "update:operator-name",
-    "update:operator-skill",
-    "update:operator-skill-usage",
-    "move-up",
-    "move-down",
-    "delete-item",
-  ],
+  emits: ["update"],
 });
 </script>

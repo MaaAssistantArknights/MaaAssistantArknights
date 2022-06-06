@@ -149,7 +149,6 @@ export const CharacterList: string[] = [
   "火神",
   "石棉",
   "暮落",
-  "暮落",
   "闪击",
   "暴雨",
   "灰毫",
