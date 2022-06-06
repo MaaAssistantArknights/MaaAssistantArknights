@@ -2,7 +2,6 @@
   <h2>标题</h2>
   <input
     type="text"
-    id="title"
     class="form-control"
     placeholder="标题"
     :value="value"

@@ -5,7 +5,6 @@
   >
   <input
     type="text"
-    id="stage_name"
     class="form-control"
     placeholder="关卡名，中英文均可"
     :value="value"

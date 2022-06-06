@@ -1,6 +1,6 @@
 <template>
   <h2>干员</h2>
-  <table id="opers" class="table table-bordered table-condensed table-striped">
+  <table class="table table-bordered table-condensed table-striped">
     <thead>
       <tr>
         <th>干员名字</th>
@@ -36,7 +36,7 @@
 <script lang="ts">
 import { Operator } from "@/interfaces/CopilotData";
 import { defineComponent, PropType } from "vue";
-import OperatorName from "./OperatorName.vue";
+import OperatorName from "../controls/OperatorName.vue";
 
 export default defineComponent({
   props: {
