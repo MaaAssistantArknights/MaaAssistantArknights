@@ -1,6 +1,6 @@
 #include "Assistant.h"
 
-#include <time.h>
+#include <ctime>
 
 #include <meojson/json.hpp>
 #include <opencv2/opencv.hpp>
