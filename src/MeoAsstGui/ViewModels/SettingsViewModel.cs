@@ -48,6 +48,7 @@ namespace MeoAsstGui
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
             _listTitle.Add("定时执行");
+            _listTitle.Add("自动启动");
             _listTitle.Add("唤醒设置");
             _listTitle.Add("企鹅数据");
             _listTitle.Add("连接设置");
