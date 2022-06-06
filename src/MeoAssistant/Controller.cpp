@@ -259,7 +259,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     };
 
 #ifdef _WIN32
-    PROCESS_INFORMATION process_info = { 0 }; // 进程信息结构体
+    PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
     BOOL create_ret = ::CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
     if (!create_ret) {
         Log.error("Call `", cmd, "` create error, ret", create_ret);

@@ -293,7 +293,7 @@ void Assistant::msg_proc()
 
 void Assistant::task_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
 {
-    Assistant* p_this = static_cast<Assistant*>(custom_arg);
+    auto p_this = static_cast<Assistant*>(custom_arg);
     json::value more_detail = detail;
     more_detail["uuid"] = p_this->m_uuid;
 
