@@ -407,7 +407,7 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
         y = y_rand + rect.y;
     }
 
-    return Point(x, y);
+    return {x, y};
 }
 
 void asst::Controller::random_delay() const
@@ -682,7 +682,7 @@ cv::Mat asst::Controller::get_resized_image() const
     std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
     if (m_cache_image.empty()) {
         Log.error("image is empty");
-        return cv::Mat(dsize, CV_8UC3);
+        return {dsize, CV_8UC3};
     }
     cv::Mat resized_mat;
     cv::resize(m_cache_image, resized_mat, dsize, 0.0, 0.0, cv::INTER_AREA);

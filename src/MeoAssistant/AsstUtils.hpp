@@ -156,7 +156,7 @@ namespace asst
         {
             std::ifstream ifs(filename, std::ios::in);
             if (!ifs.is_open()) {
-                return std::string();
+                return {};
             }
             std::stringstream iss;
             iss << ifs.rdbuf();
