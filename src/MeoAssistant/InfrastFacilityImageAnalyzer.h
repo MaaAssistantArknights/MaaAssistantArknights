@@ -31,11 +31,11 @@ namespace asst
         {
             if (auto iter = m_result.find(name);
                 iter == m_result.cend()) {
-                return Rect();
+                return {};
             }
             else {
                 if (index < 0 || index >= iter->second.size()) {
-                    return Rect();
+                    return {};
                 }
                 else {
                     return iter->second.at(index).rect;

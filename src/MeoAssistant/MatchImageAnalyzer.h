@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        MatchImageAnalyzer(const cv::Mat image, const Rect& roi, std::string templ_name, double templ_thres = 0.0);
+        MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name, double templ_thres = 0.0);
         virtual ~MatchImageAnalyzer() = default;
 
         virtual bool analyze() override;
@@ -18,7 +18,7 @@ namespace asst
         void set_templ_name(std::string templ_name) noexcept;
         void set_templ(cv::Mat templ) noexcept;
         void set_threshold(double templ_thres) noexcept;
-        void set_task_info(std::shared_ptr<TaskInfo> task_ptr);
+        void set_task_info(const std::shared_ptr<TaskInfo>& task_ptr);
         void set_task_info(const std::string& task_name);
         void set_region_of_appeared(Rect region) noexcept;
         void set_mask_with_close(int with_close) noexcept;

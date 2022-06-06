@@ -34,7 +34,7 @@ std::optional<asst::Rect> asst::RuntimeStatus::get_region(const std::string& key
 
 void asst::RuntimeStatus::set_region(std::string key, Rect rect)
 {
-    m_region_of_appeared[std::move(key)] = std::move(rect);
+    m_region_of_appeared[std::move(key)] = rect;
 }
 
 void asst::RuntimeStatus::clear_region() noexcept

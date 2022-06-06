@@ -9,7 +9,7 @@ namespace asst
     class MallTask final : public PackageTask
     {
     public:
-        MallTask(AsstCallback callback, void* callback_arg);
+        MallTask(const AsstCallback& callback, void* callback_arg);
         virtual ~MallTask() = default;
 
         virtual bool set_params(const json::value& params) override;

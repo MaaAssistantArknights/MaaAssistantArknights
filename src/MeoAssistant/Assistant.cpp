@@ -1,6 +1,6 @@
 #include "Assistant.h"
 
-#include <time.h>
+#include <ctime>
 
 #include <meojson/json.hpp>
 #include <opencv2/opencv.hpp>
@@ -33,7 +33,7 @@ Assistant::Assistant(AsstApiCallback callback, void* callback_arg)
     LogTraceFunction;
 
     m_status = std::make_shared<RuntimeStatus>();
-    m_ctrler = std::make_shared<Controller>(task_callback, (void*)this);
+    m_ctrler = std::make_shared<Controller>(task_callback, static_cast<void*>(this));
 
     m_working_thread = std::thread(&Assistant::working_proc, this);
     m_msg_thread = std::thread(&Assistant::msg_proc, this);
@@ -85,31 +85,31 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     std::shared_ptr<PackageTask> ptr = nullptr;
 
     if (type == FightTask::TaskType) {
-        ptr = std::make_shared<FightTask>(task_callback, (void*)this);
+        ptr = std::make_shared<FightTask>(task_callback, static_cast<void*>(this));
     }
     else if (type == StartUpTask::TaskType) {
-        ptr = std::make_shared<StartUpTask>(task_callback, (void*)this);
+        ptr = std::make_shared<StartUpTask>(task_callback, static_cast<void*>(this));
     }
     else if (type == AwardTask::TaskType) {
-        ptr = std::make_shared<AwardTask>(task_callback, (void*)this);
+        ptr = std::make_shared<AwardTask>(task_callback, static_cast<void*>(this));
     }
     else if (type == VisitTask::TaskType) {
-        ptr = std::make_shared<VisitTask>(task_callback, (void*)this);
+        ptr = std::make_shared<VisitTask>(task_callback, static_cast<void*>(this));
     }
     else if (type == MallTask::TaskType) {
-        ptr = std::make_shared<MallTask>(task_callback, (void*)this);
+        ptr = std::make_shared<MallTask>(task_callback, static_cast<void*>(this));
     }
     else if (type == InfrastTask::TaskType) {
-        ptr = std::make_shared<InfrastTask>(task_callback, (void*)this);
+        ptr = std::make_shared<InfrastTask>(task_callback, static_cast<void*>(this));
     }
     else if (type == RecruitTask::TaskType) {
-        ptr = std::make_shared<RecruitTask>(task_callback, (void*)this);
+        ptr = std::make_shared<RecruitTask>(task_callback, static_cast<void*>(this));
     }
     else if (type == RoguelikeTask::TaskType) {
-        ptr = std::make_shared<RoguelikeTask>(task_callback, (void*)this);
+        ptr = std::make_shared<RoguelikeTask>(task_callback, static_cast<void*>(this));
     }
     else if (type == CopilotTask::TaskType) {
-        ptr = std::make_shared<CopilotTask>(task_callback, (void*)this);
+        ptr = std::make_shared<CopilotTask>(task_callback, static_cast<void*>(this));
     }
 #ifdef ASST_DEBUG
     else if (type == DebugTask::TaskType) {
@@ -162,7 +162,7 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
 std::vector<uchar> asst::Assistant::get_image() const
 {
     if (!m_inited) {
-        return std::vector<uchar>();
+        return {};
     }
     return m_ctrler->get_image_encode();
 }
@@ -276,7 +276,7 @@ void Assistant::msg_proc()
         if (!m_msg_queue.empty()) {
             // 结构化绑定只能是引用，后续的pop会使引用失效，所以需要重新构造一份，这里采用了move的方式
             auto&& [temp_msg, temp_detail] = m_msg_queue.front();
-            AsstMsg msg = std::move(temp_msg);
+            AsstMsg msg = temp_msg;
             json::value detail = std::move(temp_detail);
             m_msg_queue.pop();
             lock.unlock();
@@ -293,7 +293,7 @@ void Assistant::msg_proc()
 
 void Assistant::task_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
 {
-    Assistant* p_this = (Assistant*)custom_arg;
+    auto p_this = static_cast<Assistant*>(custom_arg);
     json::value more_detail = detail;
     more_detail["uuid"] = p_this->m_uuid;
 

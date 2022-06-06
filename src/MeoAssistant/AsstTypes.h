@@ -98,7 +98,7 @@ namespace asst
         }
         Rect move(Rect move) const
         {
-            return Rect(x + move.x, y + move.y, move.width, move.height);
+            return {x + move.x, y + move.y, move.width, move.height};
         }
 
         int x = 0;

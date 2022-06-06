@@ -29,7 +29,7 @@ bool asst::RoguelikeFormationImageAnalyzer::analyze()
         }
 #endif
 
-        m_result.emplace_back(std::move(oper));
+        m_result.emplace_back(oper);
     }
 
     return !m_result.empty();

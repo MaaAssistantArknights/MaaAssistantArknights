@@ -8,7 +8,7 @@
 #include <sys/wait.h>
 #endif
 
-#include <stdint.h>
+#include <cstdint>
 #include <algorithm>
 #include <chrono>
 #include <regex>
@@ -55,7 +55,7 @@ private:
 #endif
 
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)
-    : m_callback(callback),
+    : m_callback(std::move(callback)),
     m_callback_arg(callback_arg),
     m_rand_engine(static_cast<unsigned int>(time(nullptr)))
 {
@@ -91,7 +91,7 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
             break;
         }
         m_support_socket = true;
-    } while (0);
+    } while (false);
 
 #else
     int pipe_in_ret = pipe(m_pipe_in);
@@ -259,7 +259,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     };
 
 #ifdef _WIN32
-    PROCESS_INFORMATION process_info = { 0 }; // 进程信息结构体
+    PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
     BOOL create_ret = ::CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
     if (!create_ret) {
         Log.error("Call `", cmd, "` create error, ret", create_ret);
@@ -378,11 +378,11 @@ void asst::Controller::convert_lf(std::vector<unsigned char>& data)
     Iter next_iter = first_iter;
     while (++first_iter != end_r1_iter) {
         if (!pred(first_iter)) {
-            *next_iter = std::move(*first_iter);
+            *next_iter = *first_iter;
             ++next_iter;
         }
     }
-    *next_iter = std::move(*end_r1_iter);
+    *next_iter = *end_r1_iter;
     ++next_iter;
     data.erase(next_iter, data.end());
 }
@@ -407,7 +407,7 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
         y = y_rand + rect.y;
     }
 
-    return Point(x, y);
+    return {x, y};
 }
 
 void asst::Controller::random_delay() const
@@ -477,7 +477,7 @@ std::optional<asst::Controller::SocketInfo> asst::Controller::try_to_init_socket
 
 #ifdef _WIN32
         m_server_addr.sin_port = htons(port);
-        int bind_ret = ::bind(m_server_sock, (SOCKADDR*)&m_server_addr, sizeof(SOCKADDR));
+        int bind_ret = ::bind(m_server_sock, reinterpret_cast<SOCKADDR*>(&m_server_addr), sizeof(SOCKADDR));
         int listen_ret = ::listen(m_server_sock, 3);
         server_start = bind_ret == 0 && listen_ret == 0;
 #else
@@ -630,7 +630,7 @@ bool asst::Controller::screencap()
     return false;
 }
 
-bool asst::Controller::screencap(const std::string& cmd, DecodeFunc decode_func, bool by_socket)
+bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket)
 {
     if ((!m_support_socket || !m_server_started) && by_socket) {
         return false;
@@ -682,7 +682,7 @@ cv::Mat asst::Controller::get_resized_image() const
     std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
     if (m_cache_image.empty()) {
         Log.error("image is empty");
-        return cv::Mat(dsize, CV_8UC3);
+        return {dsize, CV_8UC3};
     }
     cv::Mat resized_mat;
     cv::resize(m_cache_image, resized_mat, dsize, 0.0, 0.0, cv::INTER_AREA);
@@ -781,7 +781,7 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
         extra_cmd = utils::string_replace_all(extra_cmd, "[y1]", std::to_string(p2.y));
         int end_x = 0, end_y = 0;
         if (p2.x != p1.x) {
-            double k = (double)(p2.y - p1.y) / (p2.x - p1.x);
+            double k = static_cast<double>(p2.y - p1.y) / (p2.x - p1.x);
             double temp = extra_swipe_dist / std::sqrt(1 + k * k);
             end_x = p2.x + static_cast<int>((p2.x > p1.x ? -1.0 : 1.0) * temp);
             end_y = p2.y + static_cast<int>((p2.y > p1.y ? -1.0 : 1.0) * std::fabs(k) * temp);
