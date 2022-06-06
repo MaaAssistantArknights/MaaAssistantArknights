@@ -170,7 +170,7 @@ void asst::StageDropsTaskPlugin::set_startbutton_delay()
     LogTraceFunction;
 
     if (!m_startbutton_delay_setted) {
-        auto last_time_opt = m_status->get_data("LastStartButton2");;
+        auto last_time_opt = m_status->get_data("LastStartButton2");
         int64_t pre_start_time = last_time_opt ? last_time_opt.value() : 0;
 
         if (pre_start_time > 0) {

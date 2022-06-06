@@ -54,7 +54,7 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
         ->replace_map);
 
     if (!analyzer.analyze()) {
-        return std::string();
+        return {};
     }
     return analyzer.get_result().front().text;
 }

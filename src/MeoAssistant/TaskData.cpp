@@ -40,7 +40,7 @@ bool asst::TaskData::parse(const json::value& json)
     for (const auto& [name, task_json] : json.as_object()) {
         std::string algorithm_str = task_json.get("algorithm", "matchtemplate");
         std::transform(algorithm_str.begin(), algorithm_str.end(), algorithm_str.begin(), to_lower);
-        AlgorithmType algorithm = AlgorithmType::Invalid;
+        auto algorithm = AlgorithmType::Invalid;
         if (algorithm_str == "matchtemplate") {
             algorithm = AlgorithmType::MatchTemplate;
         }

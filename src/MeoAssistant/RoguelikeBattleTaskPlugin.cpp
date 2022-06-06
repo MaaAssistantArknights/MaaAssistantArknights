@@ -253,7 +253,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
 
     // 将干员拖动到场上
-    Loc loc = Loc::All;
+    auto loc = Loc::All;
     switch (opt_oper.role) {
     case BattleRole::Medic:
     case BattleRole::Support:
@@ -388,7 +388,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
     bool used = false;
     for (auto& [loc, name] : m_used_tiles) {
         std::string status_key = "RoguelikeSkillUsage-" + name;
-        BattleSkillUsage usage = BattleSkillUsage::Possibly;
+        auto usage = BattleSkillUsage::Possibly;
         auto usage_opt = m_status->get_data(status_key);
         if (usage_opt) {
             usage = static_cast<BattleSkillUsage>(usage_opt.value());
