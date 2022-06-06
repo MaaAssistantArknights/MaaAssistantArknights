@@ -22,58 +22,9 @@ namespace MeoAsstGui
     /// </summary>
     public partial class FightSettingsUserControl : UserControl
     {
-        private static readonly string _DropsFilename = System.Environment.CurrentDirectory + "\\resource\\item_index.json";
-
         public FightSettingsUserControl()
         {
             InitializeComponent();
-
-            InitDrops();
-            ComboBoxCtr.ItemsSource = Drops;
-        }
-
-        public ObservableCollection<CombData> Drops { get; set; } = new ObservableCollection<CombData>();
-
-
-        private void InitDrops()
-        {
-            string jsonStr = File.ReadAllText(_DropsFilename);
-            var reader = (JObject)JsonConvert.DeserializeObject(jsonStr);
-            foreach (var item in reader)
-            {
-                var val = item.Key;
-                var dis = item.Value["name"].ToString();
-                Drops.Add(new CombData { Display = dis, Value = val });
-            }
-
-
-        }
-
-        public ObservableCollection<CombData> DropsList { get; set; } = new ObservableCollection<CombData>();
-
-        private void ComboBoxCtr_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string str = ComboBoxCtr.Text.ToString();
-            DropsList.Clear();
-
-            if (string.IsNullOrEmpty(str))
-            {
-                ComboBoxCtr.ItemsSource = Drops;
-                return;
-            }
-
-            foreach (CombData drop in Drops)
-            {
-                var enumStr = drop.Display;
-                if (enumStr.Contains(str))
-                    DropsList.Add(drop);
-            }
-
-            if (DropsList.Count > 0)
-            {
-                ComboBoxCtr.ItemsSource = DropsList;
-                ComboBoxCtr.IsDropDownOpen = true;
-            }
         }
     }
 }
