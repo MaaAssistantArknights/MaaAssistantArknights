@@ -296,7 +296,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     std::sqrt(
         (std::abs(placed_point.x - opt_oper.rect.x) << 1)
         + (std::abs(placed_point.y - opt_oper.rect.y) << 1)));
-    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist); // 随便取的一个系数
+    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist); // 随便取的一个系数
     m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
     sleep(use_oper_task_ptr->rear_delay);
 
