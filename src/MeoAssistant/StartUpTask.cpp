@@ -1,9 +1,11 @@
 #include "StartUpTask.h"
 
+#include <utility>
+
 #include "ProcessTask.h"
 
 asst::StartUpTask::StartUpTask(AsstCallback callback, void* callback_arg)
-    : PackageTask(callback, callback_arg, TaskType),
+    : PackageTask(std::move(callback), callback_arg, TaskType),
     m_start_game_task_ptr(std::make_shared<StartGameTask>(m_callback, m_callback_arg, TaskType)),
     m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType))
 {

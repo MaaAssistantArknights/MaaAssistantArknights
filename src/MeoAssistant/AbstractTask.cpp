@@ -6,6 +6,7 @@
 #include <regex>
 
 #include <opencv2/opencv.hpp>
+#include <utility>
 
 #include "AsstUtils.hpp"
 #include "Controller.h"
@@ -16,11 +17,10 @@
 using namespace asst;
 
 AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain)
-    : m_callback(callback),
+    : m_callback(std::move(callback)),
     m_callback_arg(callback_arg),
     m_task_chain(std::move(task_chain))
 {
-    ;
 }
 
 bool asst::AbstractTask::run()
@@ -64,13 +64,13 @@ AbstractTask& asst::AbstractTask::set_retry_times(int times) noexcept
 
 AbstractTask& asst::AbstractTask::set_ctrler(std::shared_ptr<Controller> ctrler) noexcept
 {
-    m_ctrler = ctrler;
+    m_ctrler = std::move(ctrler);
     return *this;
 }
 
 AbstractTask& asst::AbstractTask::set_status(std::shared_ptr<RuntimeStatus> status) noexcept
 {
-    m_status = status;
+    m_status = std::move(status);
     return *this;
 }
 
@@ -158,7 +158,7 @@ bool AbstractTask::sleep(unsigned millisecond)
     return !need_exit();
 }
 
-bool AbstractTask::save_image(const cv::Mat image, const std::string& dir)
+bool AbstractTask::save_image(const cv::Mat& image, const std::string& dir)
 {
     std::filesystem::create_directory(dir);
     const std::string time_str = utils::string_replace_all(utils::string_replace_all(utils::get_format_time(), " ", "_"), ":", "-");
