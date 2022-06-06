@@ -380,7 +380,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         }
         else {
             Log.error("StageDropType::ExpAndLMB, size", size);
-            return std::string();
+            return {};
         }
         break;
     case StageDropType::Furniture:

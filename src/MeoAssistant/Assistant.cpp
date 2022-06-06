@@ -162,7 +162,7 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
 std::vector<uchar> asst::Assistant::get_image() const
 {
     if (!m_inited) {
-        return std::vector<uchar>();
+        return {};
     }
     return m_ctrler->get_image_encode();
 }

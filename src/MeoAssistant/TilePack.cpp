@@ -40,7 +40,7 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(
     Log.trace("After tiles cacl run");
     if (!ret) {
         Log.info("Tiles calc error!");
-        return std::unordered_map<asst::Point, asst::TilePack::TileInfo>();
+        return {};
     }
 
     std::unordered_map<asst::Point, asst::TilePack::TileInfo> dst;

@@ -48,7 +48,7 @@ asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, con
         return rect;
     }
     if (rect.empty()) {
-        return Rect(0, 0, image.cols, image.rows);
+        return {0, 0, image.cols, image.rows};
     }
 
     Rect res = rect;
