@@ -26,7 +26,11 @@
       </div>
     </div>
   </div>
-  <datalist ref="operatorNames"></datalist>
+  <datalist id="operatorNames">
+    <option v-for="operatorName in characterList" :key="operatorName">
+      {{ operatorName }}
+    </option>
+  </datalist>
 </template>
 
 <script lang="ts">
@@ -39,6 +43,7 @@ import GroupComponent from "./GroupComponent.vue";
 import OperatorComponent from "./OperatorComponent.vue";
 import BattleProgress from "./BattleProgress.vue";
 import CopilotData, { createEmptyCopilotData } from "@/interfaces/CopilotData";
+import { CharacterList } from "@/misc/Characters";
 
 export default defineComponent({
   components: {
@@ -53,6 +58,7 @@ export default defineComponent({
   data() {
     return {
       data: createEmptyCopilotData(),
+      characterList: CharacterList.sort(),
     };
   },
   methods: {

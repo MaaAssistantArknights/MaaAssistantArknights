@@ -3,8 +3,9 @@
     type="text"
     class="form-control"
     placeholder="干员名字"
-    list="oper_names"
+    list="operatorNames"
     :value="value"
+    @input="input"
   />
 </template>
 
@@ -18,5 +19,11 @@ export default defineComponent({
       required: true,
     },
   },
+  methods: {
+    input(e: Event) {
+      this.$emit("input", e);
+    },
+  },
+  emits: ["input"],
 });
 </script>

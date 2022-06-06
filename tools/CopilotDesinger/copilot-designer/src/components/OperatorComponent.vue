@@ -11,22 +11,35 @@
     </thead>
     <tbody>
       <tr v-for="(operator, id) in operators" :key="id">
-        <td><OperatorName :value="operator.name" /></td>
+        <td>
+          <OperatorName
+            :value="operator.name"
+            :key="id"
+            @input="changeOperatorName"
+          />
+        </td>
         <td>
           <input
             type="number"
             class="form-control"
             :value="String(operator.skill ?? 0)"
+            :key="id"
+            @input="changeOperatorSkill"
           />
         </td>
         <td>
           <input
             type="number"
             class="form-control"
+            :key="id"
             :value="String(operator.skill_usage ?? 0)"
           />
         </td>
-        <td></td>
+        <td>
+          <MoveUpButton :key="id" @click="moveUp" />
+          <MoveDownButton :key="id" @click="moveDown" />
+          <DeleteButton :key="id" @click="deleteItem" />
+        </td>
       </tr>
     </tbody>
   </table>
@@ -37,6 +50,9 @@
 import { Operator } from "@/interfaces/CopilotData";
 import { defineComponent, PropType } from "vue";
 import OperatorName from "../controls/OperatorName.vue";
+import MoveUpButton from "@/controls/MoveUpButton.vue";
+import MoveDownButton from "@/controls/MoveDownButton.vue";
+import DeleteButton from "@/controls/DeleteButton.vue";
 
 export default defineComponent({
   props: {
@@ -45,6 +61,37 @@ export default defineComponent({
       required: true,
     },
   },
-  components: { OperatorName },
+  components: { OperatorName, MoveUpButton, MoveDownButton, DeleteButton },
+  methods: {
+    changeOperatorName(e: Event) {
+      const input = e.target as HTMLInputElement;
+      this.$emit("update:operator-name", this.$.vnode.key, input.value);
+    },
+    changeOperatorSkill(e: Event) {
+      const input = e.target as HTMLInputElement;
+      this.$emit("update:operator-skill", this.$.vnode.key, input.value);
+    },
+    changeOperatorSkillUsage(e: Event) {
+      const input = e.target as HTMLInputElement;
+      this.$emit("update:operator-skill-usage", this.$.vnode.key, input.value);
+    },
+    moveUp() {
+      this.$emit("move-up", this.$.vnode.key);
+    },
+    moveDown() {
+      this.$emit("move-down", this.$.vnode.key);
+    },
+    deleteItem() {
+      this.$emit("delete-item", this.$.vnode.key);
+    },
+  },
+  emits: [
+    "update:operator-name",
+    "update:operator-skill",
+    "update:operator-skill-usage",
+    "move-up",
+    "move-down",
+    "delete-item",
+  ],
 });
 </script>
