@@ -422,7 +422,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
             try_possible_skill(image);
             std::this_thread::yield();
             image = m_ctrler->get_image();
-        };
+        }
     }
     if (image.empty()) {
         image = m_ctrler->get_image();

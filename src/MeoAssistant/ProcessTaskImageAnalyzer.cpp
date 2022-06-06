@@ -14,7 +14,6 @@ asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, s
     : AbstractImageAnalyzer(image),
     m_tasks_name(std::move(tasks_name))
 {
-    ;
 }
 
 asst::ProcessTaskImageAnalyzer::~ProcessTaskImageAnalyzer() = default;
