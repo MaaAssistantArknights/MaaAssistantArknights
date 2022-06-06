@@ -378,11 +378,11 @@ void asst::Controller::convert_lf(std::vector<unsigned char>& data)
     Iter next_iter = first_iter;
     while (++first_iter != end_r1_iter) {
         if (!pred(first_iter)) {
-            *next_iter = std::move(*first_iter);
+            *next_iter = *first_iter;
             ++next_iter;
         }
     }
-    *next_iter = std::move(*end_r1_iter);
+    *next_iter = *end_r1_iter;
     ++next_iter;
     data.erase(next_iter, data.end());
 }
