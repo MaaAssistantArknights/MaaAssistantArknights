@@ -89,10 +89,10 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat image, const 
             int* box = m_boxes_buffer + i * 8;
             int x_collect[4] = { *(box + 0), *(box + 2), *(box + 4), *(box + 6) };
             int y_collect[4] = { *(box + 1), *(box + 3), *(box + 5), *(box + 7) };
-            int left = int(*std::min_element(x_collect, x_collect + 4));
-            int right = int(*std::max_element(x_collect, x_collect + 4));
-            int top = int(*std::min_element(y_collect, y_collect + 4));
-            int bottom = int(*std::max_element(y_collect, y_collect + 4));
+            int left = static_cast<int>(*std::min_element(x_collect, x_collect + 4));
+            int right = static_cast<int>(*std::max_element(x_collect, x_collect + 4));
+            int top = static_cast<int>(*std::min_element(y_collect, y_collect + 4));
+            int bottom = static_cast<int>(*std::max_element(y_collect, y_collect + 4));
             rect = Rect(left, top, right - left, bottom - top);
         }
         std::string text(*(m_strs_buffer + i));

@@ -781,7 +781,7 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
         extra_cmd = utils::string_replace_all(extra_cmd, "[y1]", std::to_string(p2.y));
         int end_x = 0, end_y = 0;
         if (p2.x != p1.x) {
-            double k = (double)(p2.y - p1.y) / (p2.x - p1.x);
+            double k = static_cast<double>(p2.y - p1.y) / (p2.x - p1.x);
             double temp = extra_swipe_dist / std::sqrt(1 + k * k);
             end_x = p2.x + static_cast<int>((p2.x > p1.x ? -1.0 : 1.0) * temp);
             end_y = p2.y + static_cast<int>((p2.y > p1.y ? -1.0 : 1.0) * std::fabs(k) * temp);
