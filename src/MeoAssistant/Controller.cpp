@@ -279,20 +279,24 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
         } while (::WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT && !check_timeout());
     }
     else {
-        SOCKADDR client_addr = { 0 };
-        int size = sizeof(SOCKADDR);
-        SOCKET client_sock = ::accept(m_server_sock, (SOCKADDR*)&client_addr, &size);
-        int recv_size = 0;
-        do {
-            recv_size = ::recv(client_sock, (char*)m_socket_buffer.get(), SocketBuffSize, NULL);
-            if (recv_size < 0) {
-                Log.error("recv error", recv_size);
-                break;
-            }
-            pipe_data.insert(pipe_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + recv_size);
-        } while (recv_size > 0 && !check_timeout());
-        ::closesocket(client_sock);
-        ::WaitForSingleObject(process_info.hProcess, static_cast<DWORD>(timeout));
+        fd_set fdset = { 0 };
+        FD_SET(m_server_sock, &fdset);
+        timeval select_timeout = { 1, 0 };
+        select(static_cast<int>(m_server_sock) + 1, &fdset, NULL, NULL, &select_timeout);
+        if (FD_ISSET(m_server_sock, &fdset)) {
+            SOCKET client_sock = ::accept(m_server_sock, NULL, NULL);
+            int recv_size = 0;
+            do {
+                recv_size = ::recv(client_sock, (char*)m_socket_buffer.get(), SocketBuffSize, NULL);
+                if (recv_size < 0) {
+                    Log.error("recv error", recv_size);
+                    break;
+                }
+                pipe_data.insert(pipe_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + recv_size);
+            } while (recv_size > 0 && !check_timeout());
+            ::closesocket(client_sock);
+        }
+        ::WaitForSingleObject(process_info.hProcess, 3000);
     }
     DWORD exit_ret = 0;
     ::GetExitCodeProcess(process_info.hProcess, &exit_ret);
@@ -407,7 +411,7 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
         y = y_rand + rect.y;
     }
 
-    return {x, y};
+    return { x, y };
 }
 
 void asst::Controller::random_delay() const
@@ -682,7 +686,7 @@ cv::Mat asst::Controller::get_resized_image() const
     std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
     if (m_cache_image.empty()) {
         Log.error("image is empty");
-        return {dsize, CV_8UC3};
+        return { dsize, CV_8UC3 };
     }
     cv::Mat resized_mat;
     cv::resize(m_cache_image, resized_mat, dsize, 0.0, 0.0, cv::INTER_AREA);
