@@ -4,7 +4,7 @@
 #include "Logger.hpp"
 #include "Resource.h"
 
-asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat image, const Rect& roi, std::string templ_name, double templ_thres)
+asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name, double templ_thres)
     : AbstractImageAnalyzer(image, roi),
     m_templ_name(std::move(templ_name)),
     m_templ_thres(templ_thres)
@@ -54,7 +54,7 @@ void asst::MatchImageAnalyzer::set_threshold(double templ_thres) noexcept
     m_templ_thres = templ_thres;
 }
 
-void asst::MatchImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
+void asst::MatchImageAnalyzer::set_task_info(const std::shared_ptr<TaskInfo>& task_ptr)
 {
     set_task_info(*std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr));
 }

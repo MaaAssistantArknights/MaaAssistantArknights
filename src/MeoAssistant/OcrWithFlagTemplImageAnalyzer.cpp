@@ -2,12 +2,12 @@
 
 #include "TaskData.h"
 
-asst::OcrWithFlagTemplImageAnalyzer::OcrWithFlagTemplImageAnalyzer(const cv::Mat image)
+asst::OcrWithFlagTemplImageAnalyzer::OcrWithFlagTemplImageAnalyzer(const cv::Mat& image)
     : OcrWithPreprocessImageAnalyzer(image),
     m_multi_match_image_analyzer(image)
 {}
 
-asst::OcrWithFlagTemplImageAnalyzer::OcrWithFlagTemplImageAnalyzer(const cv::Mat image, const Rect& roi)
+asst::OcrWithFlagTemplImageAnalyzer::OcrWithFlagTemplImageAnalyzer(const cv::Mat& image, const Rect& roi)
     : OcrWithPreprocessImageAnalyzer(image, roi),
     m_multi_match_image_analyzer(image, roi)
 {}
@@ -59,7 +59,8 @@ const std::vector<asst::TextRect>& asst::OcrWithFlagTemplImageAnalyzer::get_resu
     return m_all_result;
 }
 
-void asst::OcrWithFlagTemplImageAnalyzer::set_task_info(std::string templ_task_name, std::string ocr_task_name)
+void asst::OcrWithFlagTemplImageAnalyzer::set_task_info(const std::string& templ_task_name, const std::string&
+                                                        ocr_task_name)
 {
     auto ocr_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(Task.get(ocr_task_name));
     OcrWithPreprocessImageAnalyzer::set_task_info(*ocr_task_ptr);

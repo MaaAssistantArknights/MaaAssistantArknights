@@ -8,8 +8,8 @@ namespace asst
     {
     public:
         OcrWithFlagTemplImageAnalyzer() = default;
-        OcrWithFlagTemplImageAnalyzer(const cv::Mat image);
-        OcrWithFlagTemplImageAnalyzer(const cv::Mat image, const Rect& roi);
+        OcrWithFlagTemplImageAnalyzer(const cv::Mat& image);
+        OcrWithFlagTemplImageAnalyzer(const cv::Mat& image, const Rect& roi);
         virtual ~OcrWithFlagTemplImageAnalyzer() = default;
 
         virtual void set_image(const cv::Mat image);
@@ -21,7 +21,7 @@ namespace asst
         virtual const std::vector<TextRect>& get_result() const noexcept override;
         virtual std::vector<TextRect>& get_result() noexcept override;
 
-        void set_task_info(std::string templ_task_name, std::string ocr_task_name);
+        void set_task_info(const std::string& templ_task_name, const std::string& ocr_task_name);
         void set_flag_rect_move(Rect flag_rect_move);
 
     protected:

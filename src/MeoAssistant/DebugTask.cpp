@@ -4,7 +4,7 @@
 
 #include "StageDropsTaskPlugin.h"
 
-asst::DebugTask::DebugTask(AsstCallback callback, void* callback_arg)
+asst::DebugTask::DebugTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType)
 {
     //auto task_ptr = std::make_shared<RoguelikeSkillSelectionTaskPlugin>(callback, callback_arg, TaskType);

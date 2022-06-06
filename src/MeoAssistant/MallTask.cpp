@@ -3,7 +3,7 @@
 #include "ProcessTask.h"
 #include "CreditShoppingTask.h"
 
-asst::MallTask::MallTask(AsstCallback callback, void* callback_arg)
+asst::MallTask::MallTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
     m_mall_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
     m_shopping_first_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType)),
