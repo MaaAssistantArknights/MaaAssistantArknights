@@ -51,7 +51,7 @@ bool asst::CreditShopImageAnalyzer::commoditys_analyze()
         commodity.y = mr.rect.y + commodity_task_ptr->rect_move.y;
         commodity.width = commodity_task_ptr->rect_move.width;
         commodity.height = commodity_task_ptr->rect_move.height;
-        m_commoditys.emplace_back(std::move(commodity));
+        m_commoditys.emplace_back(commodity);
     }
 
     return true;

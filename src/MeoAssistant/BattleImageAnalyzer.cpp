@@ -172,7 +172,7 @@ asst::BattleRole asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
 
     MatchImageAnalyzer role_analyzer(m_image);
 
-    BattleRole result = BattleRole::Unknown;
+    auto result = BattleRole::Unknown;
     double max_score = 0;
     for (auto&& [role, role_name] : RolesName) {
         role_analyzer.set_task_info("BattleOperRole" + role_name);
@@ -414,7 +414,7 @@ bool asst::BattleImageAnalyzer::hp_analyze()
     for (const std::string& num_name : hash_analyzer.get_min_dist_name()) {
         if (num_name.empty()) {
             Log.error("hash result is empty");
-            return 0;
+            return false;
         }
         hp *= 10;
         hp += num_name.at(0) - '0';

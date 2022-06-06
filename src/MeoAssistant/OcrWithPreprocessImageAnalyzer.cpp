@@ -14,7 +14,7 @@ bool asst::OcrWithPreprocessImageAnalyzer::analyze()
     cv::Rect bounding_rect = cv::boundingRect(bin);
     bounding_rect.x += m_roi.x;
     bounding_rect.y += m_roi.y;
-    Rect new_roi = utils::make_rect<Rect>(bounding_rect);
+    auto new_roi = utils::make_rect<Rect>(bounding_rect);
 
     if (new_roi.empty()) {
         return false;

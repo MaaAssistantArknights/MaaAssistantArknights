@@ -42,7 +42,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         }
         const auto& oper_info = rg_src.get_oper_info(name);
         int index = 0;
-        BattleSkillUsage usage = BattleSkillUsage::Possibly;
+        auto usage = BattleSkillUsage::Possibly;
         if (skill_vec.size() >= oper_info.skill) {
             index = oper_info.skill - 1;
             usage = oper_info.skill_usage;

@@ -14,7 +14,7 @@
 #include "DronesForShamareTaskPlugin.h"
 #include "ReplenishOriginiumShardTaskPlugin.h"
 
-asst::InfrastTask::InfrastTask(AsstCallback callback, void* callback_arg)
+asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
     m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
     m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, callback_arg, TaskType)),

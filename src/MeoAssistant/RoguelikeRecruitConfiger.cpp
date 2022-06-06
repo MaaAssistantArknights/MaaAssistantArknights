@@ -26,7 +26,7 @@ bool asst::RoguelikeRecruitConfiger::parse(const json::value& json)
     for (const auto& role_name : json.at("roles").as_array()) {
         std::string str_role = role_name.as_string();
         for (const auto& oper_info : json.at(str_role).as_array()) {
-            std::string name = oper_info.at("name").as_string();;
+            std::string name = oper_info.at("name").as_string();
             RoguelikeOperInfo info;
             info.name = name;
             info.level = oper_info.at("level").as_integer();
