@@ -244,11 +244,9 @@ void asst::Controller::pipe_working_proc()
 
 std::optional<std::vector<unsigned char>> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket)
 {
-    LogTraceScope(std::string(__FUNCTION__) + " | Call `" + cmd + "`");
+    LogTraceScope(std::string(__FUNCTION__) + " | `" + cmd + "`");
 
     std::vector<uchar> pipe_data;
-
-    std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
 
     auto start_time = std::chrono::steady_clock::now();
     auto check_timeout = [&]() -> bool {
@@ -262,12 +260,13 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
     BOOL create_ret = ::CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
     if (!create_ret) {
-        Log.error("Call `", cmd, "` create error, ret", create_ret);
+        Log.error("Call `", cmd, "` create process failed, ret", create_ret);
         return std::nullopt;
     }
     if (!recv_by_socket) {
         DWORD peek_num = 0;
         DWORD read_num = 0;
+        std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
         do {
             //DWORD write_num = 0;
             //WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, nullptr);
@@ -279,6 +278,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
         } while (::WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT && !check_timeout());
     }
     else {
+        std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
         fd_set fdset = { 0 };
         FD_SET(m_server_sock, &fdset);
         timeval select_timeout = { 3, 0 };
@@ -327,6 +327,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     else if (m_child > 0) {
         // parent process
         // LogTraceScope("Parent process: " + cmd);
+        std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
         do {
             ssize_t read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
 
@@ -350,9 +351,48 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     if (!exit_ret) {
         return pipe_data;
     }
-    else {
-        return std::nullopt;
+    else if (m_inited) {
+        // 之前可以运行，突然运行不了了，这种情况多半是 adb 炸了。所以重新连接一下
+        m_inited = false;
+        auto reconnect_ret = call_command(m_adb.connect, 60 * 1000);
+        bool is_reconnect_success = false;
+        if (reconnect_ret) {
+            auto& reconnect_val = reconnect_ret.value();
+            std::string reconnect_str(
+                std::make_move_iterator(reconnect_val.begin()),
+                std::make_move_iterator(reconnect_val.end()));
+            is_reconnect_success = reconnect_str.find("error") == std::string::npos;
+        }
+        if (is_reconnect_success) {
+            auto recall_ret = call_command(cmd, timeout, recv_by_socket);
+            if (recall_ret) {
+                m_inited = true;
+                return recall_ret;
+            }
+            else {
+                json::value info = json::object{
+                    { "uuid", m_uuid},
+                    { "what", "CommandExecFailed" },
+                    { "why", "I dont fucking know, go look at the log!" },
+                    { "details", json::object {
+                        { "cmd", cmd },
+                        { "recv_by_socket", recv_by_socket}
+                    }} };
+                m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            }
+        }
+        else {
+            json::value info = json::object{
+                    { "uuid", m_uuid},
+                    { "what", "Disconnect" },
+                    { "why", "Reconnect failed" },
+                    { "details", json::object {
+                        { "cmd", m_adb.connect }
+                    }} };
+            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        }
     }
+    return std::nullopt;
 }
 
 void asst::Controller::convert_lf(std::vector<unsigned char>& data)
@@ -433,6 +473,7 @@ void asst::Controller::random_delay() const
 
 void asst::Controller::clear_info() noexcept
 {
+    m_inited = false;
     m_adb = decltype(m_adb)();
     m_uuid.clear();
     m_width = 0;
@@ -529,8 +570,6 @@ bool asst::Controller::screencap()
             return false;
         }
         size_t header_size = data.size() - std_size;
-        Log.trace("header size:", header_size);
-
         bool is_all_zero = std::all_of(data.data() + header_size, data.data() + std_size,
             [](uchar uch) -> bool {
                 return uch == 0;
@@ -550,7 +589,6 @@ bool asst::Controller::screencap()
 
     DecodeFunc decode_raw_with_gzip = [&](std::vector<uchar>& data) -> bool {
         auto unzip_data = gzip::decompress(data.data(), data.size());
-        Log.trace("unzip data size:", unzip_data.size());
         if (unzip_data.empty()) {
             return false;
         }
@@ -559,8 +597,6 @@ bool asst::Controller::screencap()
             return false;
         }
         size_t header_size = unzip_data.size() - std_size;
-        Log.trace("header size:", header_size);
-
         bool is_all_zero = std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size,
             [](uchar uch) -> bool {
                 return uch == 0;
@@ -595,16 +631,19 @@ bool asst::Controller::screencap()
             screencap(m_adb.screencap_raw_by_nc, decode_raw, true)) {
             m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
             Log.info("screencap by RawByNc");
+            m_inited = true;
             return true;
         }
         else if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
             m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
             Log.info("screencap by RawWithGzip");
+            m_inited = true;
             return true;
         }
         else if (screencap(m_adb.screencap_encode, decode_encode)) {
             m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
             Log.info("screencap by Encode");
+            m_inited = true;
             return true;
         }
         else {
@@ -869,9 +908,18 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     /* connect */
     {
-        auto connect_ret = call_command(cmd_replace(adb_cfg.connect), 60 * 1000);
+        m_adb.connect = cmd_replace(adb_cfg.connect);
+        auto connect_ret = call_command(m_adb.connect, 60 * 1000);
         // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
-        if (!connect_ret) {
+        bool is_connect_success = false;
+        if (connect_ret) {
+            auto& connect_val = connect_ret.value();
+            std::string connect_str(
+                std::make_move_iterator(connect_val.begin()),
+                std::make_move_iterator(connect_val.end()));
+            is_connect_success = connect_str.find("error") == std::string::npos;
+        }
+        if (!is_connect_success) {
             json::value info = get_info_json() |
                 json::object{
                     { "what", "ConnectFailed" },
@@ -1090,9 +1138,14 @@ const std::string& asst::Controller::get_uuid() const
 
 cv::Mat asst::Controller::get_image(bool raw)
 {
+    bool inited = m_inited;
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
     for (int i = 0; i != 20; ++i) {
         if (screencap()) {
+            break;
+        }
+        // 截图之前正常，截图之后不正常了，说明截图过程中发现 adb 炸了
+        if (inited && !m_inited) {
             break;
         }
     }

@@ -56,7 +56,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
             Log.info(__FUNCTION__, name, " select skill:", index + 1);
             m_ctrler->click(skill_vec.at(index));
         }
-        m_status->set_data("RoguelikeSkillUsage-" + name, static_cast<int>(usage));
+        m_status->set_number("RoguelikeSkillUsage-" + name, static_cast<int>(usage));
     }
 
     return true;

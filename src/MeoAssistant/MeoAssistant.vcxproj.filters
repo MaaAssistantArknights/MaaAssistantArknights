@@ -240,9 +240,6 @@
     <ClInclude Include="RecruitCalcTask.h">
       <Filter>头文件\Task\Sub</Filter>
     </ClInclude>
-    <ClInclude Include="StartGameTask.h">
-      <Filter>头文件\Task\Sub</Filter>
-    </ClInclude>
     <ClInclude Include="BattleImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Final</Filter>
     </ClInclude>
@@ -335,6 +332,12 @@
     </ClInclude>
     <ClInclude Include="RoguelikeRecruitImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Final</Filter>
+    </ClInclude>
+    <ClInclude Include="StartGameTaskPlugin.h">
+      <Filter>头文件\Task\Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCrashRestartTaskPlugin.h">
+      <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -476,9 +479,6 @@
     <ClCompile Include="ProcessTask.cpp">
       <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
-    <ClCompile Include="StartGameTask.cpp">
-      <Filter>源文件\Task\Sub</Filter>
-    </ClCompile>
     <ClCompile Include="BattleImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\Final</Filter>
     </ClCompile>
@@ -568,6 +568,12 @@
     </ClCompile>
     <ClCompile Include="RoguelikeRecruitImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\Final</Filter>
+    </ClCompile>
+    <ClCompile Include="StartGameTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCrashRestartTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

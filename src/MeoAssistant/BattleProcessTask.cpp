@@ -110,6 +110,15 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         std::this_thread::yield();
     }
 
+    // 识别一帧总击杀数
+    BattleImageAnalyzer kills_analyzer(image);
+    kills_analyzer.set_target(BattleImageAnalyzer::Target::Kills);
+    if (kills_analyzer.analyze()) {
+        m_kills = kills_analyzer.get_kills();
+        m_total_kills = kills_analyzer.get_total_kills();
+    }
+    auto draw = image.clone();
+
     // 暂停游戏准备识别干员
     // 在刚进入游戏的时候（画面刚刚完全亮起来的时候），点暂停是没反应的
     // 所以这里一直点，直到真的点上了为止
@@ -124,7 +133,6 @@ bool asst::BattleProcessTask::analyze_opers_preview()
     }
 
     auto draw_future = std::async(std::launch::async, [&]() {
-        auto draw = image.clone();
         for (const auto& [loc, info] : m_normal_tile_info) {
             std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
             cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
@@ -389,9 +397,13 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
             image = m_ctrler->get_image();
         }
         BattleImageAnalyzer analyzer(image);
+        if (m_total_kills) {
+            analyzer.set_pre_total_kills(m_total_kills);
+        }
         analyzer.set_target(BattleImageAnalyzer::Target::Kills);
         if (analyzer.analyze()) {
             m_kills = analyzer.get_kills();
+            m_total_kills = analyzer.get_total_kills();
             if (m_kills >= action.kills) {
                 break;
             }
