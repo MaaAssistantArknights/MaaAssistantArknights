@@ -244,7 +244,7 @@ void asst::Controller::pipe_working_proc()
 
 std::optional<std::vector<unsigned char>> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket)
 {
-    LogTraceScope(std::string(__FUNCTION__) + " | Call `" + cmd + "`");
+    LogTraceScope(std::string(__FUNCTION__) + " | `" + cmd + "`");
 
     std::vector<uchar> pipe_data;
 
@@ -262,7 +262,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
     BOOL create_ret = ::CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
     if (!create_ret) {
-        Log.error("Call `", cmd, "` create error, ret", create_ret);
+        Log.error("Call `", cmd, "` create process failed, ret", create_ret);
         return std::nullopt;
     }
     if (!recv_by_socket) {
