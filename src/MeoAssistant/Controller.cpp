@@ -529,8 +529,6 @@ bool asst::Controller::screencap()
             return false;
         }
         size_t header_size = data.size() - std_size;
-        Log.trace("header size:", header_size);
-
         bool is_all_zero = std::all_of(data.data() + header_size, data.data() + std_size,
             [](uchar uch) -> bool {
                 return uch == 0;
@@ -550,7 +548,6 @@ bool asst::Controller::screencap()
 
     DecodeFunc decode_raw_with_gzip = [&](std::vector<uchar>& data) -> bool {
         auto unzip_data = gzip::decompress(data.data(), data.size());
-        Log.trace("unzip data size:", unzip_data.size());
         if (unzip_data.empty()) {
             return false;
         }
@@ -559,8 +556,6 @@ bool asst::Controller::screencap()
             return false;
         }
         size_t header_size = unzip_data.size() - std_size;
-        Log.trace("header size:", header_size);
-
         bool is_all_zero = std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size,
             [](uchar uch) -> bool {
                 return uch == 0;
