@@ -815,6 +815,7 @@
             "UsePrts",
             "UsePrts-StageSN",
             "StartButton1",
+            "PRTS3",
             "PRTS",
             "PRTS2",
             "EndOfAction"
@@ -1149,6 +1150,7 @@
             340
         ],
         "next": [
+            "PRTS3",
             "PRTS",
             "PRTS2",
             "EndOfAction",
@@ -1173,6 +1175,7 @@
         "rearDelay": 5000,
         "next": [
             "PRTS",
+            "PRTS3",
             "PRTS2",
             "EndOfAction",
             "PrtsErrorConfirm",
@@ -1194,8 +1197,33 @@
         "action": "DoNothing",
         "rearDelay": 5000,
         "next": [
+            "PRTS3",
             "PRTS2",
             "PRTS",
+            "EndOfAction",
+            "PrtsErrorConfirm",
+            "OfflineConfirm",
+            "WaitAfterPRTS"
+        ]
+    },
+    "PRTS3": {
+        "action": "DoNothing",
+        "template": "BattleOfficiallyBegin.png",
+        "roi": [
+            1165,
+            20,
+            65,
+            65
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "rearDelay": 5000,
+        "next": [
+            "PRTS3",
+            "PRTS",
+            "PRTS2",
             "EndOfAction",
             "PrtsErrorConfirm",
             "OfflineConfirm",
@@ -1206,22 +1234,24 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
+            "PRTS3",
             "PRTS",
             "PRTS2",
             "EndOfAction",
-            "ClickCornerAfterPRTS"
+            "ClickCornerAfterPRTS1"
         ]
     },
-    "ClickCornerAfterPRTS": {
+    "ClickCornerAfterPRTS1": {
         "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
             1000,
-            10,
+            120,
             270,
-            120
+            10
         ],
+        "rearDelay": 3000,
         "next": [
             "EndOfAction",
             "StartButton1",
@@ -1229,7 +1259,27 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "ClickCornerAfterPRTS"
+            "ClickCornerAfterPRTS2"
+        ]
+    },
+    "ClickCornerAfterPRTS2": {
+        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            120,
+            270,
+            10
+        ],
+        "rearDelay": 3000,
+        "next": [
+            "EndOfAction",
+            "StartButton1",
+            "StartButton2",
+            "UseMedicine",
+            "UseStone",
+            "NoStone"
         ]
     },
     "EndOfAction": {
@@ -1255,9 +1305,9 @@
         "action": "ClickRect",
         "specificRect": [
             1000,
-            10,
+            120,
             270,
-            120
+            10
         ],
         "next": [
             "StartButton1",
@@ -1426,6 +1476,7 @@
             160
         ],
         "next": [
+            "PRTS3",
             "PRTS",
             "PRTS2",
             "PrtsErrorConfirm",
