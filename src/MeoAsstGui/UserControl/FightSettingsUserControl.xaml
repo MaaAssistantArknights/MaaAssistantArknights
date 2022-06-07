@@ -41,8 +41,9 @@
                       IsTextSearchEnabled ="True"
                       DisplayMemberPath="Display"
                       SelectedValuePath="Value"
+                      IsSynchronizedWithCurrentItem="True"
                       ItemsSource="{Binding DropsList}"
-                      SelectedValue="{Binding DropsItemId}" />
+                      SelectedValue="{Binding DropsItemId}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center">
             <!--<TextBlock Style="{StaticResource TextBlockDefault}" Margin="35,10,0,10" Text="掉落数 " />-->
