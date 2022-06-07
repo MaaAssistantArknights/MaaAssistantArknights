@@ -17,20 +17,25 @@ namespace asst
         RuntimeStatus(RuntimeStatus&& rhs) noexcept = delete;
         ~RuntimeStatus() = default;
 
-        std::optional<int64_t> get_data(const std::string& key) const noexcept;
-        void set_data(std::string key, int64_t value);
-        void clear_data() noexcept;
+        std::optional<int64_t> get_number(const std::string& key) const noexcept;
+        void set_number(std::string key, int64_t value);
+        void clear_number() noexcept;
 
-        std::optional<Rect> get_region(const std::string& key) const noexcept;
-        void set_region(std::string key, Rect rect);
-        void clear_region() noexcept;
+        std::optional<Rect> get_rect(const std::string& key) const noexcept;
+        void set_rect(std::string key, Rect rect);
+        void clear_rect() noexcept;
+
+        std::optional<std::string> get_str(const std::string& key) const noexcept;
+        void set_str(std::string key, std::string value);
+        void clear_str() noexcept;
 
         RuntimeStatus& operator=(const RuntimeStatus& rhs) = delete;
         RuntimeStatus& operator=(RuntimeStatus&& rhs) noexcept = delete;
 
     private:
 
-        std::unordered_map<std::string, int64_t> m_data;
-        std::unordered_map<std::string, Rect> m_region_of_appeared;
+        std::unordered_map<std::string, int64_t> m_number;
+        std::unordered_map<std::string, Rect> m_rect;
+        std::unordered_map<std::string, std::string> m_string;
     };
 }

@@ -836,6 +836,10 @@
             1,
             255
         ],
+        "reduceOtherTimes": [
+            "StartButton1",
+            "StartButton2"
+        ],
         "next": [
             "GameStart",
             "StartToWakeUp",
@@ -1238,10 +1242,10 @@
             "PRTS",
             "PRTS2",
             "EndOfAction",
-            "ClickCornerAfterPRTS1"
+            "ClickCornerAfterPRTS_1"
         ]
     },
-    "ClickCornerAfterPRTS1": {
+    "ClickCornerAfterPRTS_1": {
         "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -1259,10 +1263,10 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "ClickCornerAfterPRTS2"
+            "ClickCornerAfterPRTS_2"
         ]
     },
-    "ClickCornerAfterPRTS2": {
+    "ClickCornerAfterPRTS_2": {
         "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -1279,7 +1283,39 @@
             "StartButton2",
             "UseMedicine",
             "UseStone",
-            "NoStone"
+            "NoStone",
+            "MaybeCrashAndRestartGame"
+        ]
+    },
+    "MaybeCrashAndRestartGame": {
+        "ClickCorner_Doc": "一般能点这么多下还不行的，多半是游戏崩了，所以重启游戏试试",
+        "Doc": "本任务注册了插件 GameCrashRestartTaskPlugin",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            120,
+            270,
+            10
+        ],
+        "rearDelay": 3000,
+        "next": [
+            "EndOfAction",
+            "StartButton1",
+            "StartButton2",
+            "UseMedicine",
+            "UseStone",
+            "NoStone",
+            "GameStart",
+            "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
+            "Terminal",
+            "CloseAnno",
+            "TodaysSupplies",
+            "ReturnToTerminal",
+            "OfflineConfirm",
+            "StageSNFlag"
         ]
     },
     "EndOfAction": {

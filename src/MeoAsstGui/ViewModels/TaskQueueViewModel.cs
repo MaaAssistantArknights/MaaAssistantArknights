@@ -122,7 +122,7 @@ namespace MeoAsstGui
             {
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
- 
+
                 // “覆潮之下” 活动关卡 //复刻活动，结束后直接删除
                 new CombData { Display = "SV-9", Value = "SV-9" },
                 new CombData { Display = "SV-8", Value = "SV-8" },
@@ -350,11 +350,11 @@ namespace MeoAsstGui
         {
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
-            var mode = settings.ServerType;
+            var mode = settings.ClientType;
             var enable = settings.StartGameEnable;
             return asstProxy.AsstAppendStartUp(mode, enable);
         }
-        
+
         private bool appendFight()
         {
             int medicine = 0;
@@ -373,14 +373,14 @@ namespace MeoAsstGui
                     stone = 0;
                 }
             }
-            int times = int.MaxValue;
-            if (IsSpecifiedDrops)
-            {
-                if (!int.TryParse(DropsQuantity, out times))
-                {
-                    times = 0;
-                }
-            }
+            //int times = int.MaxValue;
+            //if (IsSpecifiedDrops)
+            //{
+            //    if (!int.TryParse(DropsQuantity, out times))
+            //    {
+            //        times = 0;
+            //    }
+            //}
             int drops_quantity = 0;
             if (IsSpecifiedDrops)
             {
@@ -391,7 +391,7 @@ namespace MeoAsstGui
             }
 
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+            return asstProxy.AsstAppendFight(Stage, medicine, stone, int.MaxValue, DropsItemId, drops_quantity);
         }
 
         private bool appendInfrast()
