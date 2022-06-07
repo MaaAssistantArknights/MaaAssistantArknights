@@ -321,6 +321,6 @@ void asst::Assistant::append_callback(AsstMsg msg, json::value detail)
 
 void Assistant::clear_cache()
 {
-    m_status->clear_data();
+    m_status->clear_number();
     //Task.clear_cache();
 }

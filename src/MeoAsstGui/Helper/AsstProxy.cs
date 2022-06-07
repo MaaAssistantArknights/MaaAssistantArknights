@@ -264,8 +264,8 @@ namespace MeoAsstGui
 
             switch (subTask)
             {
-                case "StartGameTask":
-                    mainModel.AddLog("打开客户端失败，请\n检查配置文件", "darkred");
+                case "StartGameTaskPlugin":
+                    mainModel.AddLog("打开客户端失败，请检查配置文件", "darkred");
                     break;
 
                 case "AutoRecruitTask":
@@ -381,6 +381,14 @@ namespace MeoAsstGui
 
                     case "Roguelike1StageTraderInvestSystemFull":
                         mainModel.AddLog("投资达到上限", "darkcyan");
+                        break;
+
+                    case "MaybeCrashAndRestartGame":
+                        mainModel.AddLog("游戏崩溃，重新启动");
+                        break;
+
+                    case "OfflineConfirm":
+                        mainModel.AddLog("游戏掉线，重新连接");
                         break;
                 }
             }
@@ -690,6 +698,7 @@ namespace MeoAsstGui
                 task_params["drops"][drops_item_id] = drops_item_quantity;
             }
             var settings = _container.Get<SettingsViewModel>();
+            task_params["client_type"] = settings.ClientType;
             task_params["penguin_id"] = settings.PenguinId;
             task_params["server"] = "CN";
             return AsstAppendTaskWithEncoding("Fight", task_params);
