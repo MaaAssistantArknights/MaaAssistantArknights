@@ -114,6 +114,7 @@ namespace asst
         struct AdbProperty
         {
             /* command */
+            std::string connect;
             std::string click;
             std::string swipe;
 
@@ -150,6 +151,7 @@ namespace asst
         int m_height = 0;
         bool m_support_socket = false;
         bool m_server_started = false;
+        bool m_inited = false;
 
         inline static int m_instance_count = 0;
 

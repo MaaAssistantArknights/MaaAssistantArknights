@@ -373,7 +373,7 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_used_tiles.clear();
 
     for (auto& [key, status] : m_restore_status) {
-        m_status->set_data(key, status);
+        m_status->set_number(key, status);
     }
     m_restore_status.clear();
 }
@@ -389,7 +389,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
     for (auto& [loc, name] : m_used_tiles) {
         std::string status_key = "RoguelikeSkillUsage-" + name;
         auto usage = BattleSkillUsage::Possibly;
-        auto usage_opt = m_status->get_data(status_key);
+        auto usage_opt = m_status->get_number(status_key);
         if (usage_opt) {
             usage = static_cast<BattleSkillUsage>(usage_opt.value());
         }
@@ -408,7 +408,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
         m_ctrler->click(pos_rect);
         used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_task_delay(0).run();
         if (usage == BattleSkillUsage::Once) {
-            m_status->set_data(status_key, static_cast<int64_t>(BattleSkillUsage::OnceUsed));
+            m_status->set_number(status_key, static_cast<int64_t>(BattleSkillUsage::OnceUsed));
             m_restore_status[status_key] = static_cast<int64_t>(BattleSkillUsage::Once);
         }
     }

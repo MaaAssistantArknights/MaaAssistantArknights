@@ -170,11 +170,17 @@ namespace MeoAsstGui
                     break;
 
                 case "UnsupportedResolution":
-                    mainModel.AddLog("分辨率过低\n请设置为 720p 或更高", "darkred");
+                    mainModel.AddLog("分辨率过低，请设置为 720p 或更高", "darkred");
                     break;
 
                 case "ResolutionError":
-                    mainModel.AddLog("分辨率获取失败\n建议重启电脑\n或更换模拟器后再试", "darkred");
+                    mainModel.AddLog("分辨率获取失败，建议重启电脑，或更换模拟器后再试", "darkred");
+                    break;
+
+                case "Disconnect":
+                case "CommandExecFailed":
+                    mainModel.AddLog("错误！连接断开！", "darkred");
+                    AsstStop();
                     break;
             }
         }
@@ -258,8 +264,8 @@ namespace MeoAsstGui
 
             switch (subTask)
             {
-                case "StartGameTask":
-                    mainModel.AddLog("打开客户端失败，请\n检查配置文件", "darkred");
+                case "StartGameTaskPlugin":
+                    mainModel.AddLog("打开客户端失败，请检查配置文件", "darkred");
                     break;
 
                 case "AutoRecruitTask":
@@ -375,6 +381,14 @@ namespace MeoAsstGui
 
                     case "Roguelike1StageTraderInvestSystemFull":
                         mainModel.AddLog("投资达到上限", "darkcyan");
+                        break;
+
+                    case "MaybeCrashAndRestartGame":
+                        mainModel.AddLog("游戏崩溃，重新启动");
+                        break;
+
+                    case "OfflineConfirm":
+                        mainModel.AddLog("游戏掉线，重新连接");
                         break;
                 }
             }
@@ -684,6 +698,7 @@ namespace MeoAsstGui
                 task_params["drops"][drops_item_id] = drops_item_quantity;
             }
             var settings = _container.Get<SettingsViewModel>();
+            task_params["client_type"] = settings.ClientType;
             task_params["penguin_id"] = settings.PenguinId;
             task_params["server"] = "CN";
             return AsstAppendTaskWithEncoding("Fight", task_params);

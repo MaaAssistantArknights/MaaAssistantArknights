@@ -500,31 +500,19 @@
     },
     "StageCE": {
         "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageCE6"
-        ]
+        "cache": false
     },
     "StageLS": {
         "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageLS6"
-        ]
+        "cache": false
     },
     "StageCA": {
         "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageCA5"
-        ]
+        "cache": false
     },
     "StageAP": {
         "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageAP5"
-        ]
+        "cache": false
     },
     "AbleToAgent": {
         "algorithm": "JustReturn",
@@ -827,6 +815,7 @@
             "UsePrts",
             "UsePrts-StageSN",
             "StartButton1",
+            "PRTS3",
             "PRTS",
             "PRTS2",
             "EndOfAction"
@@ -846,6 +835,10 @@
         "maskRange": [
             1,
             255
+        ],
+        "reduceOtherTimes": [
+            "StartButton1",
+            "StartButton2"
         ],
         "next": [
             "GameStart",
@@ -1161,6 +1154,7 @@
             340
         ],
         "next": [
+            "PRTS3",
             "PRTS",
             "PRTS2",
             "EndOfAction",
@@ -1185,6 +1179,7 @@
         "rearDelay": 5000,
         "next": [
             "PRTS",
+            "PRTS3",
             "PRTS2",
             "EndOfAction",
             "PrtsErrorConfirm",
@@ -1206,8 +1201,33 @@
         "action": "DoNothing",
         "rearDelay": 5000,
         "next": [
+            "PRTS3",
             "PRTS2",
             "PRTS",
+            "EndOfAction",
+            "PrtsErrorConfirm",
+            "OfflineConfirm",
+            "WaitAfterPRTS"
+        ]
+    },
+    "PRTS3": {
+        "action": "DoNothing",
+        "template": "BattleOfficiallyBegin.png",
+        "roi": [
+            1165,
+            20,
+            65,
+            65
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "rearDelay": 5000,
+        "next": [
+            "PRTS3",
+            "PRTS",
+            "PRTS2",
             "EndOfAction",
             "PrtsErrorConfirm",
             "OfflineConfirm",
@@ -1218,22 +1238,24 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
+            "PRTS3",
             "PRTS",
             "PRTS2",
             "EndOfAction",
-            "ClickCornerAfterPRTS"
+            "ClickCornerAfterPRTS_1"
         ]
     },
-    "ClickCornerAfterPRTS": {
+    "ClickCornerAfterPRTS_1": {
         "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
             1000,
-            10,
+            120,
             270,
-            120
+            10
         ],
+        "rearDelay": 3000,
         "next": [
             "EndOfAction",
             "StartButton1",
@@ -1241,7 +1263,59 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "ClickCornerAfterPRTS"
+            "ClickCornerAfterPRTS_2"
+        ]
+    },
+    "ClickCornerAfterPRTS_2": {
+        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            120,
+            270,
+            10
+        ],
+        "rearDelay": 3000,
+        "next": [
+            "EndOfAction",
+            "StartButton1",
+            "StartButton2",
+            "UseMedicine",
+            "UseStone",
+            "NoStone",
+            "MaybeCrashAndRestartGame"
+        ]
+    },
+    "MaybeCrashAndRestartGame": {
+        "ClickCorner_Doc": "一般能点这么多下还不行的，多半是游戏崩了，所以重启游戏试试",
+        "Doc": "本任务注册了插件 GameCrashRestartTaskPlugin",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            120,
+            270,
+            10
+        ],
+        "rearDelay": 3000,
+        "next": [
+            "EndOfAction",
+            "StartButton1",
+            "StartButton2",
+            "UseMedicine",
+            "UseStone",
+            "NoStone",
+            "GameStart",
+            "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
+            "Terminal",
+            "CloseAnno",
+            "TodaysSupplies",
+            "ReturnToTerminal",
+            "OfflineConfirm",
+            "StageSNFlag"
         ]
     },
     "EndOfAction": {
@@ -1267,9 +1341,9 @@
         "action": "ClickRect",
         "specificRect": [
             1000,
-            10,
+            120,
             270,
-            120
+            10
         ],
         "next": [
             "StartButton1",
@@ -1438,6 +1512,7 @@
             160
         ],
         "next": [
+            "PRTS3",
             "PRTS",
             "PRTS2",
             "PrtsErrorConfirm",
@@ -4691,7 +4766,7 @@
     },
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
-        "preDelay": 10000,
+        "preDelay": 12000,
         "rearDelay": 100,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration"
     },
@@ -6562,7 +6637,7 @@
             1280,
             2
         ],
-        "templThreshold": 25,
+        "templThreshold": 17,
         "templThreshold_Doc": "这里用来作为基线间距阈值",
         "specialThreshold": 100,
         "specialThreshold_Doc": "基建长度阈值（不小于120）",
