@@ -6562,7 +6562,7 @@
             1280,
             2
         ],
-        "templThreshold": 25,
+        "templThreshold": 17,
         "templThreshold_Doc": "这里用来作为基线间距阈值",
         "specialThreshold": 100,
         "specialThreshold_Doc": "基建长度阈值（不小于120）",
