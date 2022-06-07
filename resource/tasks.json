@@ -4691,7 +4691,7 @@
     },
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
-        "preDelay": 10000,
+        "preDelay": 12000,
         "rearDelay": 100,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration"
     },
