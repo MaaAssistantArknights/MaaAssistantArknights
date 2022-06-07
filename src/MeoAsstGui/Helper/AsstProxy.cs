@@ -170,11 +170,17 @@ namespace MeoAsstGui
                     break;
 
                 case "UnsupportedResolution":
-                    mainModel.AddLog("分辨率过低\n请设置为 720p 或更高", "darkred");
+                    mainModel.AddLog("分辨率过低，请设置为 720p 或更高", "darkred");
                     break;
 
                 case "ResolutionError":
-                    mainModel.AddLog("分辨率获取失败\n建议重启电脑\n或更换模拟器后再试", "darkred");
+                    mainModel.AddLog("分辨率获取失败，建议重启电脑，或更换模拟器后再试", "darkred");
+                    break;
+
+                case "Disconnect":
+                case "CommandExecFailed":
+                    mainModel.AddLog("错误！连接断开！", "darkred");
+                    AsstStop();
                     break;
             }
         }
