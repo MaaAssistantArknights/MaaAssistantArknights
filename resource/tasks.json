@@ -500,31 +500,19 @@
     },
     "StageCE": {
         "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageCE6"
-        ]
+        "cache": false
     },
     "StageLS": {
         "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageLS6"
-        ]
+        "cache": false
     },
     "StageCA": {
         "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageCA5"
-        ]
+        "cache": false
     },
     "StageAP": {
         "action": "ClickSelf",
-        "cache": false,
-        "next": [
-            "StageAP5"
-        ]
+        "cache": false
     },
     "AbleToAgent": {
         "algorithm": "JustReturn",
