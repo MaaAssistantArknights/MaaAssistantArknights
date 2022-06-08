@@ -18,12 +18,15 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
 using Stylet;
 using StyletIoC;
+using DragEventArgs = System.Windows.DragEventArgs;
+using Screen = Stylet.Screen;
 
 namespace MeoAsstGui
 {
@@ -179,6 +182,29 @@ namespace MeoAsstGui
             if (dialog.ShowDialog() == true)
             {
                 Filename = dialog.FileName;
+            }
+        }
+
+        public void DropFile(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                return;
+            }
+            var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0).ToString();
+            if (filename == null)
+            {
+                return;
+            }
+            if (filename.EndsWith(".json"))
+            {
+                Filename = filename;
+            }
+            else
+            {
+                Filename = "";
+                ClearLog();
+                AddLog("此文件非json文件","darkred");
             }
         }
 

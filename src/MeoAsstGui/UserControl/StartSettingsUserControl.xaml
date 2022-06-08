@@ -8,31 +8,39 @@
              mc:Ignorable="d"
              xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
              d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
-             d:DesignHeight="90" d:DesignWidth="400">
+             d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <CheckBox IsChecked="{Binding StartAppEnable}"  Block.TextAlignment="Center"
-                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                  Content="开机自启" Height="25" Width="74"/>
-        <CheckBox Grid.Row="1" IsChecked="{Binding StartGameEnable}"  Block.TextAlignment="Center"
-                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                  Content="启动游戏" Height="25" Width="74"/>
-        <TextBlock  Grid.Row="0" Grid.Column="1" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="游戏服务器"/>
-        <ComboBox Grid.Row="1" 
-                      Grid.Column="1" 
-                      IsEnabled="{Binding StartGameEnable}"
-                      IsHitTestVisible ="{Binding Idle}"
+        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding StartSelf}"  Block.TextAlignment="Center"
+                  HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10"
+                  Content="开机自动启动             " />
+            <CheckBox IsChecked="{Binding RunDirectly}"  Block.TextAlignment="Center"
+                  HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10"
+                  Content="启动后直接运行          " />
+            <CheckBox IsChecked="{Binding StartEmulator}"  Block.TextAlignment="Center"
+                  HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10"
+                  Content="启动后自动开启模拟器" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+                <TextBlock Margin="3" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="等待模拟器&#xA;启动时间（秒）" />
+                <TextBox Margin="3" Text="{Binding EmulatorWaitSeconds}" IsEnabled="{Binding StartEmulator}" InputMethod.IsInputMethodEnabled="False"  Width="50" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="模拟器路径" />
+                <Button Command="{s:Action SelectEmulatorExec}" Content="选择" Margin="10" />
+            </StackPanel>
+            <TextBox Text="{Binding EmulatorPath}" Margin="10" />
+            <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="客户端版本" />
+            <ComboBox IsHitTestVisible ="{Binding Idle}" Margin="10"
                       ItemsSource="{Binding ClientTypeList}"
                       DisplayMemberPath="Display"
                       SelectedValuePath="Value"
-                      SelectedValue="{Binding ClientType}" Width="100"/>
+                      SelectedValue="{Binding ClientType}" />
+        </StackPanel>
     </Grid>
 </UserControl>

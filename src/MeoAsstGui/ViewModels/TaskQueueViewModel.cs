@@ -346,7 +346,7 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
             var mode = settings.ClientType;
-            var enable = settings.StartGameEnable;
+            var enable = mode.Length != 0;
             return asstProxy.AsstAppendStartUp(mode, enable);
         }
 

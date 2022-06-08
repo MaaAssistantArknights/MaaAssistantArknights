@@ -38,22 +38,22 @@
                 <local:MallSettingsUserControl IsEnabled="{Binding Idle}" Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[4]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                <local:TimerSettingsUserControl IsEnabled="{Binding Idle}" Margin="20" />
-                <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[5]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                <local:StartSettingsUserControl IsEnabled="{Binding Idle}" Margin="20" />
-                <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[6]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:PenguinReportSettingsUserControl IsEnabled="{Binding Idle}" Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[7]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[5]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:ConnectSettingsUserControl IsEnabled="{Binding Idle}" Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[6]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <local:StartSettingsUserControl Margin="20" />
+                <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[7]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <local:TimerSettingsUserControl Margin="20" />
+                <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[8]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                <local:ToastSettingsUserControl IsEnabled="{Binding Idle}" Margin="20" />
+                <local:ToastSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[9]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                <local:VersionUpdateSettingsUserControl IsEnabled="{Binding Idle}" Margin="20" />
+                <local:VersionUpdateSettingsUserControl Margin="20" />
                 <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ListTitle[10]}" Foreground="Gray" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <local:AboutUserControl Margin="20" />
