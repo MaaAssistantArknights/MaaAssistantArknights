@@ -24,11 +24,13 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+        virtual bool on_run_fails() override;
 
         void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);
         void exec_slowly_swipe_task(ProcessTaskAction action);
 
+        std::shared_ptr<TaskInfo> m_cur_task_ptr = nullptr;
         std::vector<std::string> m_raw_tasks_name;
         std::vector<std::string> m_cur_tasks_name;
         std::unordered_map<std::string, int> m_rear_delay;

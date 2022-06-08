@@ -383,7 +383,7 @@ namespace MeoAsstGui
                         mainModel.AddLog("投资达到上限", "darkcyan");
                         break;
 
-                    case "MaybeCrashAndRestartGame":
+                    case "RestartGameAndContinueFighting":
                         mainModel.AddLog("游戏崩溃，重新启动", "darkgoldenrod");
                         break;
 
