@@ -384,11 +384,11 @@ namespace MeoAsstGui
                         break;
 
                     case "MaybeCrashAndRestartGame":
-                        mainModel.AddLog("游戏崩溃，重新启动");
+                        mainModel.AddLog("游戏崩溃，重新启动", "darkred");
                         break;
 
                     case "OfflineConfirm":
-                        mainModel.AddLog("游戏掉线，重新连接");
+                        mainModel.AddLog("游戏掉线，重新连接", "darkred");
                         break;
                 }
             }
