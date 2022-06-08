@@ -14,16 +14,16 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <CheckBox Grid.Row="0" IsChecked="{Binding StartAppEnable}"  Block.TextAlignment="Center" Margin="0,10,0,0"
+        <CheckBox Grid.Row="0" IsChecked="{Binding StartAppEnable}"  Block.TextAlignment="Center" Margin="-90,10,0,0"
                   HorizontalAlignment="Center" VerticalAlignment="Top"
                   Content="开机时自动启动MAA" />
-        <CheckBox Grid.Row="0" IsChecked="{Binding StartGameEnable}"  Block.TextAlignment="Center" Margin="0,30,0,0"
+        <CheckBox Grid.Row="0" IsChecked="{Binding StartGameEnable}"  Block.TextAlignment="Center" Margin="-35,30,0,0"
                   HorizontalAlignment="Center" VerticalAlignment="Top"
                   Content="开始唤醒时自动启动游戏客户端" />
         <StackPanel Grid.Row="1" IsEnabled="{Binding StartGameEnable}" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
                        Text="客户端版本" Margin="10" />
-            <ComboBox Width="200" Margin="10"
+            <ComboBox Width="100" Margin="10"
                       IsHitTestVisible ="{Binding Path=Idle}"
                       ItemsSource="{Binding ClientTypeList}"
                       DisplayMemberPath="Display"
