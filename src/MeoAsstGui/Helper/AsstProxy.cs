@@ -264,7 +264,7 @@ namespace MeoAsstGui
 
             switch (subTask)
             {
-                case "StartGameTaskPlugin":
+                case "StartGameTask":
                     mainModel.AddLog("打开客户端失败，请检查配置文件", "darkred");
                     break;
 
