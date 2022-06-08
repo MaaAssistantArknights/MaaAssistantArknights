@@ -480,11 +480,11 @@ void asst::Controller::clear_info() noexcept
     m_height = 0;
     m_control_scale = 1.0;
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
-    m_server_started = false;
-    if (m_support_socket && m_server_started && m_server_sock) {
+    if (m_server_sock) {
         ::closesocket(m_server_sock);
         m_server_sock = 0U;
     }
+    m_server_started = false;
     --m_instance_count;
 }
 
