@@ -22,10 +22,10 @@
                        Text="客户端版本" Margin="10" />
             <ComboBox Width="200" Margin="10"
                       IsHitTestVisible ="{Binding Path=Idle}"
-                      ItemsSource="{Binding ServerTypeList}"
+                      ItemsSource="{Binding ClientTypeList}"
                       DisplayMemberPath="Display"
                       SelectedValuePath="Value"
-                      SelectedValue="{Binding ServerType}" />
+                      SelectedValue="{Binding ClientType}" />
         </StackPanel>
     </Grid>
 </UserControl>
