@@ -50,8 +50,8 @@ namespace MeoAsstGui
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
             _listTitle.Add("企鹅数据");
-            _listTitle.Add("启动设置");
             _listTitle.Add("连接设置");
+            _listTitle.Add("启动设置");
             _listTitle.Add("定时执行");
             _listTitle.Add("通知显示");
             _listTitle.Add("软件更新");
@@ -1198,21 +1198,21 @@ namespace MeoAsstGui
             rvm.WindowTitle = string.Format("MaaAssistantArknights - {0} ({1})", ConnectConfigName, ConnectAddress);
         }
 
-        private string bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
+        private string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
 
         public void TryToSetBlueStacksHyperVAddress()
         {
-            if (bluestacksConfig.Length == 0)
+            if (_bluestacksConfig.Length == 0)
             {
                 return;
             }
-            if (!File.Exists(bluestacksConfig))
+            if (!File.Exists(_bluestacksConfig))
             {
                 ViewStatusStorage.Set("Bluestacks.Config.Error", "File not exists");
                 return;
             }
 
-            var all_lines = File.ReadAllLines(bluestacksConfig);
+            var all_lines = File.ReadAllLines(_bluestacksConfig);
             foreach (var line in all_lines)
             {
                 if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))

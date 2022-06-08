@@ -26,7 +26,7 @@
                   Content="启动后自动开启模拟器" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
                 <TextBlock Margin="3" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="等待模拟器&#xA;启动时间（秒）" />
-                <TextBox Margin="3" Text="{Binding EmulatorWaitSeconds}"  Width="50" />
+                <TextBox Margin="3" Text="{Binding EmulatorWaitSeconds}" IsEnabled="{Binding StartEmulator}" InputMethod.IsInputMethodEnabled="False"  Width="50" />
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
