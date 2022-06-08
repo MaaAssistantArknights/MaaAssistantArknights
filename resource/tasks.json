@@ -1283,39 +1283,10 @@
             "StartButton2",
             "UseMedicine",
             "UseStone",
-            "NoStone",
-            "MaybeCrashAndRestartGame"
-        ]
-    },
-    "MaybeCrashAndRestartGame": {
-        "ClickCorner_Doc": "一般能点这么多下还不行的，多半是游戏崩了，所以重启游戏试试",
-        "Doc": "本任务注册了插件 GameCrashRestartTaskPlugin",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            120,
-            270,
-            10
+            "NoStone"
         ],
-        "rearDelay": 3000,
-        "next": [
-            "EndOfAction",
-            "StartButton1",
-            "StartButton2",
-            "UseMedicine",
-            "UseStone",
-            "NoStone",
-            "GameStart",
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "Terminal",
-            "CloseAnno",
-            "TodaysSupplies",
-            "ReturnToTerminal",
-            "OfflineConfirm",
-            "StageSNFlag"
+        "onErrorNext": [
+            "RestartGameAndContinueFighting"
         ]
     },
     "EndOfAction": {
@@ -1352,6 +1323,24 @@
             "UseStone",
             "NoStone",
             "EndOfAction"
+        ],
+        "onErrorNext": [
+            "RestartGameAndContinueFighting"
+        ]
+    },
+    "RestartGameAndContinueFighting": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "rearDelay": 5000,
+        "next": [
+            "GameStart",
+            "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
+            "Terminal",
+            "CloseAnno",
+            "TodaysSupplies",
+            "OfflineConfirm"
         ]
     },
     "UseMedicine": {
