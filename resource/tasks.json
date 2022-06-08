@@ -190,37 +190,37 @@
             60
         ]
     },
-    "SV-7": {
+    "XX-6": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "SV-Open",
-            "SVChapterToSV",
-            "SwipeLeftToStageSV-7"
+            "XX-Open",
+            "XXChapterToXX",
+            "SwipeLeftToStageXX-6"
         ]
     },
-    "SV-8": {
+    "XX-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "SV-Open",
-            "SVChapterToSV",
-            "StageSV-8"
+            "XX-Open",
+            "XXChapterToXX",
+            "StageXX-7"
         ]
     },
-    "SV-9": {
+    "XX-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "SV-Open",
-            "SVChapterToSV",
-            "StageSV-9"
+            "XX-Open",
+            "XXChapterToXX",
+            "StageXX-8"
         ]
     },
-    "SV-Open": {
+    "XX-Open": {
         "algorithm": "OcrDetect",
         "text": [
-            "覆潮之下"
+            "尘影余音"
         ],
         "roi": [
             0,
@@ -230,71 +230,71 @@
         ],
         "action": "ClickSelf"
     },
-    "SVChapterToSV": {
+    "XXChapterToXX": {
         "algorithm": "OcrDetect",
         "text": [
-            "荒败盐风"
+            "我不知道"
         ],
         "roi": [
-            1003,
-            370,
-            228,
-            157
+            123,
+            123,
+            123,
+            123
         ],
         "action": "ClickSelf",
         "next": [
-            "SVChapterToSV",
+            "XXChapterToXX",
             "SwipeToTheRight"
         ]
     },
-    "SwipeLeftToStageSV-7": {
+    "SwipeLeftToStageXX-6": {
         "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheLeft",
         "next": [
-            "StageSV-7",
-            "SwipeLeftToStageSV-7"
+            "StageXX-6",
+            "SwipeLeftToStageXX-6"
         ]
     },
-    "StageSV-7": {
+    "StageXX-6": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "SV-7"
+            "XX-6"
         ],
         "roi": [
-            0,
-            126,
-            1280,
-            508
+            66,
+            66,
+            66,
+            66
         ]
     },
-    "StageSV-8": {
+    "StageXX-7": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "SV-8"
+            "XX-7"
         ],
         "roi": [
-            0,
-            126,
-            1280,
-            508
+            77,
+            77,
+            77,
+            77
         ]
     },
-    "StageSV-9": {
+    "StageXX-8": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "SV-9"
+            "XX-8"
         ],
         "roi": [
-            0,
-            126,
-            1280,
-            508
+            88,
+            88,
+            88,
+            88
         ]
     },
     "SN-8": {
