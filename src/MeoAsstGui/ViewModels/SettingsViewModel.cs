@@ -48,7 +48,7 @@ namespace MeoAsstGui
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
             _listTitle.Add("定时执行");
-            _listTitle.Add("唤醒设置");
+            _listTitle.Add("启动设置");
             _listTitle.Add("企鹅数据");
             _listTitle.Add("连接设置");
             _listTitle.Add("通知显示");
@@ -152,7 +152,18 @@ namespace MeoAsstGui
             }
         }
 
-        /* 唤醒设置 */
+        /* 启动设置 */
+        private bool _startAppEnable = StartAppModel.CheckStart();
+        public bool StartAppEnable
+        {
+            get { return _startAppEnable; }
+            set
+            {
+                SetAndNotify(ref _startAppEnable, value);
+                StartAppModel.SetStart(value);
+
+            }
+        }
 
         private bool _startGameEnable = Convert.ToBoolean(ViewStatusStorage.Get("Start.StartGameEnable", bool.FalseString));
 
