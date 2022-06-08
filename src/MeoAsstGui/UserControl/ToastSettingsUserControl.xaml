@@ -17,24 +17,19 @@
 
         <StackPanel>
             <CheckBox 
-                x:Name="usesystemnote" Content="使用Windows系统推送通知（支持Win10/Win11）" HorizontalAlignment="Left" 
-                Margin="50,0,0,0" VerticalAlignment="Center"
+                Content="使用Windows系统推送通知（Win10/Win11）"
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center"
                 IsChecked="{Binding ToastUsingSystem}" 
                 Visibility="{c:Binding ToastOS, FalseToVisibility=Collapsed}"
-                Height="20" Width="450"/>
-
-            <StackPanel Margin="0,5,0,5">
-                <TextBlock
+                />
+            <TextBlock
                 HorizontalAlignment="Center" Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap"
-                Text="通知显示的位置，默认显示在屏幕的右下角，全不勾选则只有通知声音"  Width="372" />
-                <TextBlock
-                HorizontalAlignment="Center" Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap"
-                Text="使用系统推送通知时此设置无效"
-                Visibility="{c:Binding ToastOS, FalseToVisibility=Collapsed}" />
-            </StackPanel>
-
+                Style="{StaticResource TextBlockDefault}"
+                TextWrapping="Wrap"
+                Text="默认通知显示位置设置，系统通知无效，若无勾选则只有通知提示音"
+                Margin="0,10,0,0"
+             />
             <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="4" MaxWidth="400">
                 <Grid IsEnabled="{c:Binding !(ToastOS and ToastUsingSystem)}">
                     <Grid.ColumnDefinitions>
