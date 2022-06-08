@@ -161,12 +161,6 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _startAppEnable, value);
                 StartAppModel.SetStart(value);
-                var toast = new ToastNotification("更改已保存");
-                if (value)
-                {
-                    toast.AppendContentText("下次开机助手将自动启动！").ShowMore();
-                }
-                else toast.AppendContentText("下次开机助手将不再自动启动！").ShowMore();
 
             }
         }

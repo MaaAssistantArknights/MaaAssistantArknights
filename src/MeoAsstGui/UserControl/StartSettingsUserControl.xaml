@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <CheckBox Grid.Row="0" IsChecked="{Binding StartAppEnable}"  Block.TextAlignment="Center" Margin="0,10,0,0"
                   HorizontalAlignment="Center" VerticalAlignment="Top"
-                  Content="开机时自动启动助手" />
+                  Content="开机时自动启动MAA" />
         <CheckBox Grid.Row="0" IsChecked="{Binding StartGameEnable}"  Block.TextAlignment="Center" Margin="0,30,0,0"
                   HorizontalAlignment="Center" VerticalAlignment="Top"
                   Content="开始唤醒时自动启动游戏客户端" />
