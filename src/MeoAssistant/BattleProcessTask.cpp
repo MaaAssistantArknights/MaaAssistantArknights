@@ -518,7 +518,7 @@ bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
         action.location.x == 0 && action.location.y == 0 &&
         iter != m_used_opers.cend()) {
         pos = iter->second.pos;
-        m_used_opers.erase(name);
+        m_used_opers.erase(iter);
     }
     else {
         pos = m_normal_tile_info.at(action.location).pos;
@@ -537,7 +537,6 @@ bool asst::BattleProcessTask::use_skill(const BattleAction& action)
         action.location.x == 0 && action.location.y == 0 &&
         iter != m_used_opers.cend()) {
         pos = iter->second.pos;
-        m_used_opers.erase(name);
     }
     else {
         pos = m_normal_tile_info.at(action.location).pos;
@@ -571,6 +570,7 @@ bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
             continue;
         }
         m_ctrler->click(info.pos);
+        sleep(Task.get("BattleUseOper")->pre_delay);
         used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_task_delay(0).run();
         if (info.info.skill_usage == BattleSkillUsage::Once) {
             info.info.skill_usage = BattleSkillUsage::OnceUsed;
