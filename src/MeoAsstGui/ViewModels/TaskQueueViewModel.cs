@@ -622,7 +622,7 @@ namespace MeoAsstGui
                 if (dis.EndsWith("双芯片") || dis.EndsWith("寻访凭证") || dis.EndsWith("加固建材")
                     || dis.EndsWith("许可") || dis == "资质凭证" || dis == "高级凭证" || dis == "演习券"
                     || dis.Contains("源石") || dis == "D32钢" || dis == "双极纳米片" || dis == "聚合剂"
-                    || dis == "晶体电子单元" || dis == "龙骨" || dis == "声望" || dis == "芯片助剂")
+                    || dis == "晶体电子单元" || dis == "龙骨" || dis == "芯片助剂")
                 {
                     continue;
                 }
