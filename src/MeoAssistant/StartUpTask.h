@@ -1,6 +1,6 @@
 #pragma once
 #include "PackageTask.h"
-#include "StartGameTask.h"
+#include "StartGameTaskPlugin.h"
 
 namespace asst
 {
@@ -16,7 +16,7 @@ namespace asst
 
         static constexpr const char* TaskType = "StartUp";
     private:
-        std::shared_ptr<StartGameTask> m_start_game_task_ptr = nullptr;
+        std::shared_ptr<StartGameTaskPlugin> m_start_game_task_ptr = nullptr;
         std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;
     };
 }

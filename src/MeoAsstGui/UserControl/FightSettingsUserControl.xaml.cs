@@ -9,7 +9,11 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
+using System.IO;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MeoAsstGui
 {

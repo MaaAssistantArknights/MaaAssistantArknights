@@ -24,6 +24,7 @@ namespace asst
         bool set_enable_penguid(bool enable);
         bool set_penguin_id(std::string id);
         bool set_server(std::string server);
+        bool set_specify_quantity(std::unordered_map<std::string, int> quantity);
     private:
         virtual bool _run() override;
 
@@ -31,6 +32,8 @@ namespace asst
         void drop_info_callback();
         void set_startbutton_delay();
         bool check_stage_valid();
+        bool check_specify_quantity() const;
+        void stop_task();
         void upload_to_penguin();
 
         static constexpr int64_t RecognizationTimeOffset = 20;
@@ -48,5 +51,6 @@ namespace asst
         bool m_enable_penguid = false;
         std::string m_penguin_id;
         std::string m_server = "CN";
+        std::unordered_map<std::string, int> m_specify_quantity;
     };
 }

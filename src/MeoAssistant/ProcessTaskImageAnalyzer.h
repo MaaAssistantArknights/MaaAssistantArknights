@@ -18,7 +18,7 @@ namespace asst
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         ProcessTaskImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
-        ProcessTaskImageAnalyzer(const cv::Mat image, std::vector<std::string> tasks_name);
+        ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name);
         virtual ~ProcessTaskImageAnalyzer();
 
         virtual bool analyze() override;
@@ -49,8 +49,8 @@ namespace asst
         {
             AbstractImageAnalyzer::set_image(image, roi);
         }
-        bool match_analyze(std::shared_ptr<TaskInfo> task_ptr);
-        bool ocr_analyze(std::shared_ptr<TaskInfo> task_ptr);
+        bool match_analyze(const std::shared_ptr<TaskInfo>& task_ptr);
+        bool ocr_analyze(const std::shared_ptr<TaskInfo>& task_ptr);
         void reset() noexcept;
 
         std::unique_ptr<OcrImageAnalyzer> m_ocr_analyzer;

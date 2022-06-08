@@ -12,8 +12,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
 
@@ -118,7 +122,7 @@ namespace MeoAsstGui
             {
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
- 
+
                 // “覆潮之下” 活动关卡 //复刻活动，结束后直接删除
                 new CombData { Display = "SV-9", Value = "SV-9" },
                 new CombData { Display = "SV-8", Value = "SV-8" },
@@ -129,7 +133,6 @@ namespace MeoAsstGui
                 new CombData { Display = "经验-6/5", Value = "LS-6" },
                 new CombData { Display = "红票-5", Value = "AP-5" },
                 new CombData { Display = "技能-5", Value = "CA-5" },
-                new CombData { Display = "剿灭作战", Value = "Annihilation" },
 
                 // “愚人号” 活动关卡
                 //new CombData { Display = "SN-8", Value = "SN-8" },
@@ -139,7 +142,9 @@ namespace MeoAsstGui
                 //// “风雪过境” 活动关卡
                 //new CombData { Display = "BI-7", Value = "BI-7" },
                 //new CombData { Display = "BI-8", Value = "BI-8" }
-        };
+            };
+
+            InitDrops();
 
             UpdateDatePrompt();
         }
@@ -330,19 +335,21 @@ namespace MeoAsstGui
             ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
             // 吃石头颗数
             ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
-            // 指定刷关次数
-            ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
+            // 指定掉落材料
+            ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
+            // 指定掉落材料数量
+            ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
         }
 
         private bool appendStart()
         {
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
-            var mode = settings.ServerType;
+            var mode = settings.ClientType;
             var enable = settings.StartGameEnable;
             return asstProxy.AsstAppendStartUp(mode, enable);
         }
-        
+
         private bool appendFight()
         {
             int medicine = 0;
@@ -361,17 +368,25 @@ namespace MeoAsstGui
                     stone = 0;
                 }
             }
-            int times = int.MaxValue;
-            if (HasTimesLimited)
+            //int times = int.MaxValue;
+            //if (IsSpecifiedDrops)
+            //{
+            //    if (!int.TryParse(DropsQuantity, out times))
+            //    {
+            //        times = 0;
+            //    }
+            //}
+            int drops_quantity = 0;
+            if (IsSpecifiedDrops)
             {
-                if (!int.TryParse(MaxTimes, out times))
+                if (!int.TryParse(DropsQuantity, out drops_quantity))
                 {
-                    times = 0;
+                    drops_quantity = 0;
                 }
             }
 
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendFight(Stage, medicine, stone, times);
+            return asstProxy.AsstAppendFight(Stage, medicine, stone, int.MaxValue, DropsItemId, drops_quantity);
         }
 
         private bool appendInfrast()
@@ -590,25 +605,71 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _hasTimesLimited;
+        private bool _isSpecifiedDrops = System.Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.Drops.Enable", bool.FalseString));
 
-        public bool HasTimesLimited
+        public bool IsSpecifiedDrops
         {
-            get { return _hasTimesLimited; }
+            get { return _isSpecifiedDrops; }
             set
             {
-                SetAndNotify(ref _hasTimesLimited, value);
+                SetAndNotify(ref _isSpecifiedDrops, value);
+                ViewStatusStorage.Set("MainFunction.Drops.Enable", value.ToString());
             }
         }
 
-        private string _maxTimes = ViewStatusStorage.Get("MainFunction.TimesLimited.Quantity", "5");
+        private static readonly string _DropsFilename = System.Environment.CurrentDirectory + "\\resource\\item_index.json";
 
-        public string MaxTimes
+        public List<CombData> AllDrops { get; set; } = new List<CombData>();
+
+        private void InitDrops()
         {
-            get { return _maxTimes; }
+            string jsonStr = File.ReadAllText(_DropsFilename);
+            var reader = (JObject)JsonConvert.DeserializeObject(jsonStr);
+            foreach (var item in reader)
+            {
+                var val = item.Key;
+                if (!int.TryParse(val, out _))  // 不是数字的东西都是正常关卡不会掉的（大概吧）
+                {
+                    continue;
+                }
+                var dis = item.Value["name"].ToString();
+                if (dis.EndsWith("双芯片") || dis.EndsWith("寻访凭证") || dis.EndsWith("加固建材")
+                    || dis.EndsWith("许可") || dis == "资质凭证" || dis == "高级凭证" || dis == "演习券"
+                    || dis.Contains("源石") || dis == "D32钢" || dis == "双极纳米片" || dis == "聚合剂" || dis == "晶体电子单元")
+                {
+                    continue;
+                }
+
+                AllDrops.Add(new CombData { Display = dis, Value = val });
+            }
+            AllDrops.Sort((a, b) =>
+            {
+                return a.Value.CompareTo(b.Value);
+            });
+            DropsList = new ObservableCollection<CombData>(AllDrops);
+        }
+
+        public ObservableCollection<CombData> DropsList { get; set; }
+
+        private string _dropsItemId = ViewStatusStorage.Get("MainFunction.Drops.ItemId", "0");
+
+        public string DropsItemId
+        {
+            get { return _dropsItemId; }
             set
             {
-                SetAndNotify(ref _maxTimes, value);
+                SetAndNotify(ref _dropsItemId, value);
+            }
+        }
+
+        private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");
+
+        public string DropsQuantity
+        {
+            get { return _dropsQuantity; }
+            set
+            {
+                SetAndNotify(ref _dropsQuantity, value);
             }
         }
     }

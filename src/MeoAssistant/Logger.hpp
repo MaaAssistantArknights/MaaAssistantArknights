@@ -107,7 +107,6 @@ namespace asst
                 }
             }
             catch (...) {
-                ;
             }
         }
         void log_init_info()

@@ -1,10 +1,13 @@
 #include "FightTask.h"
 
+#include <utility>
+
 #include "ProcessTask.h"
 #include "StageDropsTaskPlugin.h"
+#include "GameCrashRestartTaskPlugin.h"
 
 asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
-    : PackageTask(callback, callback_arg, TaskType),
+    : PackageTask(std::move(callback), callback_arg, TaskType),
     m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType)),
     m_stage_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType)),
     m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType))
@@ -37,6 +40,8 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
         .set_times_limit("StartButton2", INT_MAX);
     m_stage_drops_plugin_ptr = m_fight_task_ptr->regiseter_plugin<StageDropsTaskPlugin>();
     m_stage_drops_plugin_ptr->set_retry_times(0);
+    m_game_restart_plugin_ptr = m_fight_task_ptr->regiseter_plugin<GameCrashRestartTaskPlugin>();
+    m_game_restart_plugin_ptr->set_retry_times(0);
 
     m_subtasks.emplace_back(m_start_up_task_ptr);
     m_subtasks.emplace_back(m_stage_task_ptr);
@@ -52,6 +57,15 @@ bool asst::FightTask::set_params(const json::value& params)
     bool enable_penguid = params.get("report_to_penguin", false);
     std::string penguin_id = params.get("penguin_id", "");
     std::string server = params.get("server", "CN");
+    std::string client_type = params.get("client_type", std::string());
+
+    if (params.contains("drops")) {
+        std::unordered_map<std::string, int> drops;
+        for (const auto& [item_id, quantity] : params.at("drops").as_object()) {
+            drops.insert_or_assign(item_id, quantity.as_integer());
+        }
+        m_stage_drops_plugin_ptr->set_specify_quantity(drops);
+    }
 
     if (!m_runned) {
         if (stage.empty()) {
@@ -71,6 +85,9 @@ bool asst::FightTask::set_params(const json::value& params)
         .set_times_limit("StartButton2", times);
     m_stage_drops_plugin_ptr->set_enable_penguid(enable_penguid);
     m_stage_drops_plugin_ptr->set_penguin_id(std::move(penguin_id));
+    if (!client_type.empty()) {
+        m_game_restart_plugin_ptr->set_client_type(client_type);
+    }
 
     return true;
 }

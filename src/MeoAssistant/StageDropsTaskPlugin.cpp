@@ -22,9 +22,9 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
     }
 
     if (details.at("details").at("task").as_string() == "EndOfAction") {
-        auto pre_time_opt = m_status->get_data("LastStartButton2");
+        auto pre_time_opt = m_status->get_number("LastStartButton2");
         int64_t pre_start_time = pre_time_opt ? pre_time_opt.value() : 0;
-        auto pre_reg_time_opt = m_status->get_data("LastRecognizeDrops");
+        auto pre_reg_time_opt = m_status->get_number("LastRecognizeDrops");
         int64_t pre_recognize_time = pre_reg_time_opt ? pre_reg_time_opt.value() : 0;
         if (pre_start_time + RecognizationTimeOffset == pre_recognize_time) {
             Log.info("Recognization time too close, pass", pre_start_time, pre_recognize_time);
@@ -61,6 +61,12 @@ bool asst::StageDropsTaskPlugin::set_server(std::string server)
     return true;
 }
 
+bool asst::StageDropsTaskPlugin::set_specify_quantity(std::unordered_map<std::string, int> quantity)
+{
+    m_specify_quantity = std::move(quantity);
+    return true;
+}
+
 bool asst::StageDropsTaskPlugin::_run()
 {
     LogTraceFunction;
@@ -75,7 +81,9 @@ bool asst::StageDropsTaskPlugin::_run()
     }
     drop_info_callback();
 
-    check_stage_valid();
+    if (!check_stage_valid() || check_specify_quantity()) {
+        stop_task();
+    }
 
     if (m_enable_penguid) {
         auto upload_future = std::async(
@@ -111,9 +119,9 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     m_stars = analyzer.get_stars();
     m_cur_drops = analyzer.get_drops();
 
-    auto last_time_opt = m_status->get_data("LastStartButton2");
+    auto last_time_opt = m_status->get_number("LastStartButton2");
     auto last_time = last_time_opt ? last_time_opt.value() : 0;
-    m_status->set_data("LastRecognizeDrops", last_time + RecognizationTimeOffset);
+    m_status->set_number("LastRecognizeDrops", last_time + RecognizationTimeOffset);
 
     return true;
 }
@@ -170,7 +178,7 @@ void asst::StageDropsTaskPlugin::set_startbutton_delay()
     LogTraceFunction;
 
     if (!m_startbutton_delay_setted) {
-        auto last_time_opt = m_status->get_data("LastStartButton2");;
+        auto last_time_opt = m_status->get_number("LastStartButton2");
         int64_t pre_start_time = last_time_opt ? last_time_opt.value() : 0;
 
         if (pre_start_time > 0) {
@@ -257,12 +265,26 @@ bool asst::StageDropsTaskPlugin::check_stage_valid()
         info["why"] = "EX关卡";
         callback(AsstMsg::SubTaskError, info);
 
-        m_cast_ptr->set_times_limit("StartButton1", 0)
-            .set_times_limit("StartButton2", 0)
-            .set_times_limit("MedicineConfirm", 0)
-            .set_times_limit("StoneConfirm", 0);
-
-        return true;
+        return false;
     }
     return true;
+}
+
+bool asst::StageDropsTaskPlugin::check_specify_quantity() const
+{
+    for (const auto& [id, quantity] : m_specify_quantity) {
+        if (auto find_iter = m_drop_stats.find(id);
+            find_iter != m_drop_stats.end() && find_iter->second >= quantity) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void asst::StageDropsTaskPlugin::stop_task()
+{
+    m_cast_ptr->set_times_limit("StartButton1", 0)
+        .set_times_limit("StartButton2", 0)
+        .set_times_limit("MedicineConfirm", 0)
+        .set_times_limit("StoneConfirm", 0);
 }

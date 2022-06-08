@@ -13,20 +13,20 @@ bool asst::Resource::load(const std::string& dir)
 {
     LogTraceFunction;
 
-    constexpr static const char* TemplsFilename = "template";
-    constexpr static const char* GeneralCfgFilename = "config.json";
-    constexpr static const char* TaskDataFilename = "tasks.json";
-    constexpr static const char* RoguelikeRecruitCfgFilename = "roguelike_recruit.json";
-    constexpr static const char* RecruitCfgFilename = "recruit.json";
-    constexpr static const char* ItemCfgFilename = "item_index.json";
-    constexpr static const char* InfrastCfgFilename = "infrast.json";
-    constexpr static const char* InfrastTempls = "template/infrast";
+    constexpr static auto TemplsFilename = "template";
+    constexpr static auto GeneralCfgFilename = "config.json";
+    constexpr static auto TaskDataFilename = "tasks.json";
+    constexpr static auto RoguelikeRecruitCfgFilename = "roguelike_recruit.json";
+    constexpr static auto RecruitCfgFilename = "recruit.json";
+    constexpr static auto ItemCfgFilename = "item_index.json";
+    constexpr static auto InfrastCfgFilename = "infrast.json";
+    constexpr static auto InfrastTempls = "template/infrast";
     //constexpr static const char* CopilotCfgDirname = "copilot";
-    constexpr static const char* RoguelikeCfgDirname = "roguelike";
-    constexpr static const char* OcrResourceFilename = "PaddleOCR";
-    constexpr static const char* TilesCalcResourceFilename = "Arknights-Tile-Pos";
-    constexpr static const char* StageDropsCfgFilename = "stages.json";
-    constexpr static const char* StageDropsTempls = "template/items";
+    constexpr static auto RoguelikeCfgDirname = "roguelike";
+    constexpr static auto OcrResourceFilename = "PaddleOCR";
+    constexpr static auto TilesCalcResourceFilename = "Arknights-Tile-Pos";
+    constexpr static auto StageDropsCfgFilename = "stages.json";
+    constexpr static auto StageDropsTempls = "template/items";
 
     bool overload = false;
 

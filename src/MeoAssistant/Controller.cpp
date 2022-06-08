@@ -8,7 +8,7 @@
 #include <sys/wait.h>
 #endif
 
-#include <stdint.h>
+#include <cstdint>
 #include <algorithm>
 #include <chrono>
 #include <regex>
@@ -55,7 +55,7 @@ private:
 #endif
 
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)
-    : m_callback(callback),
+    : m_callback(std::move(callback)),
     m_callback_arg(callback_arg),
     m_rand_engine(static_cast<unsigned int>(time(nullptr)))
 {
@@ -91,7 +91,7 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
             break;
         }
         m_support_socket = true;
-    } while (0);
+    } while (false);
 
 #else
     int pipe_in_ret = pipe(m_pipe_in);
@@ -244,11 +244,9 @@ void asst::Controller::pipe_working_proc()
 
 std::optional<std::vector<unsigned char>> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket)
 {
-    LogTraceFunction;
+    LogTraceScope(std::string(__FUNCTION__) + " | `" + cmd + "`");
 
     std::vector<uchar> pipe_data;
-
-    std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
 
     auto start_time = std::chrono::steady_clock::now();
     auto check_timeout = [&]() -> bool {
@@ -259,15 +257,16 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     };
 
 #ifdef _WIN32
-    PROCESS_INFORMATION process_info = { 0 }; // 进程信息结构体
+    PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
     BOOL create_ret = ::CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
     if (!create_ret) {
-        Log.error("Call `", cmd, "` create error, ret", create_ret);
+        Log.error("Call `", cmd, "` create process failed, ret", create_ret);
         return std::nullopt;
     }
     if (!recv_by_socket) {
         DWORD peek_num = 0;
         DWORD read_num = 0;
+        std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
         do {
             //DWORD write_num = 0;
             //WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, nullptr);
@@ -279,20 +278,25 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
         } while (::WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT && !check_timeout());
     }
     else {
-        SOCKADDR client_addr = { 0 };
-        int size = sizeof(SOCKADDR);
-        SOCKET client_sock = ::accept(m_server_sock, (SOCKADDR*)&client_addr, &size);
-        int recv_size = 0;
-        do {
-            recv_size = ::recv(client_sock, (char*)m_socket_buffer.get(), SocketBuffSize, NULL);
-            if (recv_size < 0) {
-                Log.error("recv error", recv_size);
-                break;
-            }
-            pipe_data.insert(pipe_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + recv_size);
-        } while (recv_size > 0 && !check_timeout());
-        ::closesocket(client_sock);
-        ::WaitForSingleObject(process_info.hProcess, static_cast<DWORD>(timeout));
+        std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
+        fd_set fdset = { 0 };
+        FD_SET(m_server_sock, &fdset);
+        timeval select_timeout = { 3, 0 };
+        select(static_cast<int>(m_server_sock) + 1, &fdset, NULL, NULL, &select_timeout);
+        if (FD_ISSET(m_server_sock, &fdset)) {
+            SOCKET client_sock = ::accept(m_server_sock, NULL, NULL);
+            int recv_size = 0;
+            do {
+                recv_size = ::recv(client_sock, (char*)m_socket_buffer.get(), SocketBuffSize, NULL);
+                if (recv_size < 0) {
+                    Log.error("recv error", recv_size);
+                    break;
+                }
+                pipe_data.insert(pipe_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + recv_size);
+            } while (recv_size > 0 && !check_timeout());
+            ::closesocket(client_sock);
+        }
+        ::WaitForSingleObject(process_info.hProcess, 3000);
     }
     DWORD exit_ret = 0;
     ::GetExitCodeProcess(process_info.hProcess, &exit_ret);
@@ -323,6 +327,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     else if (m_child > 0) {
         // parent process
         // LogTraceScope("Parent process: " + cmd);
+        std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
         do {
             ssize_t read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
 
@@ -346,9 +351,48 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     if (!exit_ret) {
         return pipe_data;
     }
-    else {
-        return std::nullopt;
+    else if (m_inited) {
+        // 之前可以运行，突然运行不了了，这种情况多半是 adb 炸了。所以重新连接一下
+        m_inited = false;
+        auto reconnect_ret = call_command(m_adb.connect, 60 * 1000);
+        bool is_reconnect_success = false;
+        if (reconnect_ret) {
+            auto& reconnect_val = reconnect_ret.value();
+            std::string reconnect_str(
+                std::make_move_iterator(reconnect_val.begin()),
+                std::make_move_iterator(reconnect_val.end()));
+            is_reconnect_success = reconnect_str.find("error") == std::string::npos;
+        }
+        if (is_reconnect_success) {
+            auto recall_ret = call_command(cmd, timeout, recv_by_socket);
+            if (recall_ret) {
+                m_inited = true;
+                return recall_ret;
+            }
+            else {
+                json::value info = json::object{
+                    { "uuid", m_uuid},
+                    { "what", "CommandExecFailed" },
+                    { "why", "I dont fucking know, go look at the log!" },
+                    { "details", json::object {
+                        { "cmd", cmd },
+                        { "recv_by_socket", recv_by_socket}
+                    }} };
+                m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            }
+        }
+        else {
+            json::value info = json::object{
+                    { "uuid", m_uuid},
+                    { "what", "Disconnect" },
+                    { "why", "Reconnect failed" },
+                    { "details", json::object {
+                        { "cmd", m_adb.connect }
+                    }} };
+            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        }
     }
+    return std::nullopt;
 }
 
 void asst::Controller::convert_lf(std::vector<unsigned char>& data)
@@ -378,11 +422,11 @@ void asst::Controller::convert_lf(std::vector<unsigned char>& data)
     Iter next_iter = first_iter;
     while (++first_iter != end_r1_iter) {
         if (!pred(first_iter)) {
-            *next_iter = std::move(*first_iter);
+            *next_iter = *first_iter;
             ++next_iter;
         }
     }
-    *next_iter = std::move(*end_r1_iter);
+    *next_iter = *end_r1_iter;
     ++next_iter;
     data.erase(next_iter, data.end());
 }
@@ -407,7 +451,7 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
         y = y_rand + rect.y;
     }
 
-    return Point(x, y);
+    return { x, y };
 }
 
 void asst::Controller::random_delay() const
@@ -429,6 +473,7 @@ void asst::Controller::random_delay() const
 
 void asst::Controller::clear_info() noexcept
 {
+    m_inited = false;
     m_adb = decltype(m_adb)();
     m_uuid.clear();
     m_width = 0;
@@ -453,7 +498,7 @@ int asst::Controller::push_cmd(const std::string& cmd)
     return ++m_push_id;
 }
 
-std::optional<asst::Controller::SocketInfo> asst::Controller::try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times)
+std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times)
 {
     LogTraceFunction;
 
@@ -477,7 +522,7 @@ std::optional<asst::Controller::SocketInfo> asst::Controller::try_to_init_socket
 
 #ifdef _WIN32
         m_server_addr.sin_port = htons(port);
-        int bind_ret = ::bind(m_server_sock, (SOCKADDR*)&m_server_addr, sizeof(SOCKADDR));
+        int bind_ret = ::bind(m_server_sock, reinterpret_cast<SOCKADDR*>(&m_server_addr), sizeof(SOCKADDR));
         int listen_ret = ::listen(m_server_sock, 3);
         server_start = bind_ret == 0 && listen_ret == 0;
 #else
@@ -494,11 +539,8 @@ std::optional<asst::Controller::SocketInfo> asst::Controller::try_to_init_socket
         return std::nullopt;
     }
 
-    // Todo: detect remote address, and check remote port
-    // reference from https://github.com/ArknightsAutoHelper/ArknightsAutoHelper/blob/master/automator/connector/ADBConnector.py#L436
-    std::string remote_address = "10.0.2.2";
-    Log.info("server_start", remote_address, port_result);
-    return SocketInfo{ remote_address, port_result };
+    Log.info("server_start", local_address, port_result);
+    return port_result;
 }
 
 void asst::Controller::wait(unsigned id) const noexcept
@@ -528,8 +570,6 @@ bool asst::Controller::screencap()
             return false;
         }
         size_t header_size = data.size() - std_size;
-        Log.trace("header size:", header_size);
-
         bool is_all_zero = std::all_of(data.data() + header_size, data.data() + std_size,
             [](uchar uch) -> bool {
                 return uch == 0;
@@ -549,7 +589,6 @@ bool asst::Controller::screencap()
 
     DecodeFunc decode_raw_with_gzip = [&](std::vector<uchar>& data) -> bool {
         auto unzip_data = gzip::decompress(data.data(), data.size());
-        Log.trace("unzip data size:", unzip_data.size());
         if (unzip_data.empty()) {
             return false;
         }
@@ -558,8 +597,6 @@ bool asst::Controller::screencap()
             return false;
         }
         size_t header_size = unzip_data.size() - std_size;
-        Log.trace("header size:", header_size);
-
         bool is_all_zero = std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size,
             [](uchar uch) -> bool {
                 return uch == 0;
@@ -594,16 +631,19 @@ bool asst::Controller::screencap()
             screencap(m_adb.screencap_raw_by_nc, decode_raw, true)) {
             m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
             Log.info("screencap by RawByNc");
+            m_inited = true;
             return true;
         }
         else if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
             m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
             Log.info("screencap by RawWithGzip");
+            m_inited = true;
             return true;
         }
         else if (screencap(m_adb.screencap_encode, decode_encode)) {
             m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
             Log.info("screencap by Encode");
+            m_inited = true;
             return true;
         }
         else {
@@ -630,7 +670,7 @@ bool asst::Controller::screencap()
     return false;
 }
 
-bool asst::Controller::screencap(const std::string& cmd, DecodeFunc decode_func, bool by_socket)
+bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket)
 {
     if ((!m_support_socket || !m_server_started) && by_socket) {
         return false;
@@ -682,7 +722,7 @@ cv::Mat asst::Controller::get_resized_image() const
     std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
     if (m_cache_image.empty()) {
         Log.error("image is empty");
-        return cv::Mat(dsize, CV_8UC3);
+        return { dsize, CV_8UC3 };
     }
     cv::Mat resized_mat;
     cv::resize(m_cache_image, resized_mat, dsize, 0.0, 0.0, cv::INTER_AREA);
@@ -781,7 +821,7 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
         extra_cmd = utils::string_replace_all(extra_cmd, "[y1]", std::to_string(p2.y));
         int end_x = 0, end_y = 0;
         if (p2.x != p1.x) {
-            double k = (double)(p2.y - p1.y) / (p2.x - p1.x);
+            double k = static_cast<double>(p2.y - p1.y) / (p2.x - p1.x);
             double temp = extra_swipe_dist / std::sqrt(1 + k * k);
             end_x = p2.x + static_cast<int>((p2.x > p1.x ? -1.0 : 1.0) * temp);
             end_y = p2.y + static_cast<int>((p2.y > p1.y ? -1.0 : 1.0) * std::fabs(k) * temp);
@@ -848,7 +888,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     const auto adb_cfg = std::move(adb_ret.value());
     std::string display_id;
-    std::string nc_address;
+    std::string nc_address = "10.0.2.2";
     u_short nc_port = 0;
 
     auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
@@ -868,9 +908,18 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     /* connect */
     {
-        auto connect_ret = call_command(cmd_replace(adb_cfg.connect), 60 * 1000);
+        m_adb.connect = cmd_replace(adb_cfg.connect);
+        auto connect_ret = call_command(m_adb.connect, 60 * 1000);
         // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
-        if (!connect_ret) {
+        bool is_connect_success = false;
+        if (connect_ret) {
+            auto& connect_val = connect_ret.value();
+            std::string connect_str(
+                std::make_move_iterator(connect_val.begin()),
+                std::make_move_iterator(connect_val.end()));
+            is_connect_success = connect_str.find("error") == std::string::npos;
+        }
+        if (!is_connect_success) {
             json::value info = get_info_json() |
                 json::object{
                     { "what", "ConnectFailed" },
@@ -1033,11 +1082,23 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             bind_address = "127.0.0.1";
         }
 
+        // Todo: detect remote address, and check remote port
+        // reference from https://github.com/ArknightsAutoHelper/ArknightsAutoHelper/blob/master/automator/connector/ADBConnector.py#L436
+        auto nc_address_ret = call_command(cmd_replace(adb_cfg.nc_address));
+        if (nc_address_ret) {
+            auto& nc_result = nc_address_ret.value();
+            std::string nc_result_str(
+                std::make_move_iterator(nc_result.begin()),
+                std::make_move_iterator(nc_result.end()));
+            if (auto pos = nc_result_str.find(' ');
+                pos != std::string::npos) {
+                nc_address = nc_result_str.substr(0, pos);
+            }
+        }
+
         auto socket_opt = try_to_init_socket(bind_address, adb_cfg.nc_port);
         if (socket_opt) {
-            auto& socket_info = socket_opt.value();
-            nc_address = socket_info.remote_address;
-            nc_port = socket_info.remote_port;
+            nc_port = socket_opt.value();
             m_adb.screencap_raw_by_nc = cmd_replace(adb_cfg.screencap_raw_by_nc);
             m_server_started = true;
         }
@@ -1077,9 +1138,14 @@ const std::string& asst::Controller::get_uuid() const
 
 cv::Mat asst::Controller::get_image(bool raw)
 {
+    bool inited = m_inited;
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
     for (int i = 0; i != 20; ++i) {
         if (screencap()) {
+            break;
+        }
+        // 截图之前正常，截图之后不正常了，说明截图过程中发现 adb 炸了
+        if (inited && !m_inited) {
             break;
         }
     }

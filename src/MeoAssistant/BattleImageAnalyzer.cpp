@@ -15,6 +15,11 @@ bool asst::BattleImageAnalyzer::set_target(int target)
     return true;
 }
 
+void asst::BattleImageAnalyzer::set_pre_total_kills(int pre_total_kills)
+{
+    m_pre_total_kills = pre_total_kills;
+}
+
 bool asst::BattleImageAnalyzer::analyze()
 {
     clear();
@@ -84,6 +89,11 @@ int asst::BattleImageAnalyzer::get_hp() const noexcept
 int asst::BattleImageAnalyzer::get_kills() const noexcept
 {
     return m_kills;
+}
+
+int asst::BattleImageAnalyzer::get_total_kills() const noexcept
+{
+    return m_total_kills;
 }
 
 int asst::BattleImageAnalyzer::get_cost() const noexcept
@@ -172,7 +182,7 @@ asst::BattleRole asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
 
     MatchImageAnalyzer role_analyzer(m_image);
 
-    BattleRole result = BattleRole::Unknown;
+    auto result = BattleRole::Unknown;
     double max_score = 0;
     for (auto&& [role, role_name] : RolesName) {
         role_analyzer.set_task_info("BattleOperRole" + role_name);
@@ -414,7 +424,7 @@ bool asst::BattleImageAnalyzer::hp_analyze()
     for (const std::string& num_name : hash_analyzer.get_min_dist_name()) {
         if (num_name.empty()) {
             Log.error("hash result is empty");
-            return 0;
+            return false;
         }
         hp *= 10;
         hp += num_name.at(0) - '0';
@@ -438,18 +448,35 @@ bool asst::BattleImageAnalyzer::kills_analyze()
         return false;
     }
 
-    std::string kills_text;
-    size_t pos = std::string::npos;
-    for (auto& res : kills_analyzer.get_result()) {
-        // 这里的结果应该是 "击杀数/总的敌人数"，例如 "0/41"
-        pos = res.text.find('/');
-        if (pos != std::string::npos) {
-            kills_text = res.text;
-            break;
-        }
-    }
-    if (pos == std::string::npos) {
+    std::string kills_text = kills_analyzer.get_result().front().text;
+    if (kills_text.empty()) {
         return false;
+    }
+
+    size_t pos = kills_text.find('/');
+    if (pos == std::string::npos) {
+        Log.warn("cannot found flag /");
+        // 这种时候绝大多数是把 "0/41" 中的 '/' 识别成了别的什么东西（其中又有绝大部分情况是识别成了 '1'）
+        // 所以这里依赖 m_pre_total_kills 转一下
+        if (m_pre_total_kills == 0) {
+            // 第一次识别就识别错了，识别成了 "0141"
+            if (kills_text.at(0) == '0') {
+                pos = 1;
+            }
+            else {
+                Log.error("m_pre_total_kills is zero");
+                return false;
+            }
+        }
+        else {
+            size_t pre_pos = kills_text.find(std::to_string(m_pre_total_kills));
+            if (pre_pos == std::string::npos || pre_pos == 0) {
+                Log.error("can't get pre_pos");
+                return false;
+            }
+            Log.trace("pre total kills pos:", pre_pos);
+            pos = pre_pos - 1;
+        }
     }
 
     // 例子中的"0"
@@ -461,7 +488,22 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     }
     int cur_kills = std::stoi(kills_count);
     m_kills = std::max(m_kills, cur_kills);
-    Log.trace("Kills:", m_kills, cur_kills);
+
+    // 例子中的"41"
+    std::string total_kills = kills_text.substr(pos + 1, std::string::npos);
+    int cur_total_kills = 0;
+    if (total_kills.empty() ||
+        !std::all_of(total_kills.cbegin(), total_kills.cend(),
+            [](char c) -> bool {return std::isdigit(c);})) {
+        Log.warn("total kills recognition failed, set to", m_pre_total_kills);
+        cur_total_kills = m_pre_total_kills;
+    }
+    else {
+        cur_total_kills = std::stoi(total_kills);
+    }
+    m_total_kills = std::max(cur_total_kills, m_pre_total_kills);
+
+    Log.trace("Kills:", m_kills, "/", m_total_kills);
     return true;
 }
 

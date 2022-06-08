@@ -66,16 +66,11 @@ namespace asst
         std::optional<std::vector<unsigned char>> call_command(const std::string& cmd, int64_t timeout = 20000, bool recv_by_socket = false);
         int push_cmd(const std::string& cmd);
 
-        struct SocketInfo
-        {
-            std::string remote_address;
-            unsigned short remote_port = 0U;
-        };
-        std::optional<SocketInfo> try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times = 10U);
+        std::optional<unsigned short> try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times = 10U);
 
         using DecodeFunc = std::function<bool(std::vector<uchar>&)>;
         bool screencap();
-        bool screencap(const std::string& cmd, DecodeFunc decode_func, bool by_nc = false);
+        bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_nc = false);
         cv::Mat get_resized_image() const;
 
         Point rand_point_in_rect(const Rect& rect);
@@ -119,6 +114,7 @@ namespace asst
         struct AdbProperty
         {
             /* command */
+            std::string connect;
             std::string click;
             std::string swipe;
 
@@ -155,6 +151,7 @@ namespace asst
         int m_height = 0;
         bool m_support_socket = false;
         bool m_server_started = false;
+        bool m_inited = false;
 
         inline static int m_instance_count = 0;
 

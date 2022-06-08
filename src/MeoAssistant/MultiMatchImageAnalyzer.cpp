@@ -1,15 +1,16 @@
 #include "MultiMatchImageAnalyzer.h"
 
+#include <utility>
+
 #include "Logger.hpp"
 #include "Resource.h"
 #include "TaskData.h"
 
-asst::MultiMatchImageAnalyzer::MultiMatchImageAnalyzer(const cv::Mat image, const Rect& roi, std::string templ_name, double templ_thres)
+asst::MultiMatchImageAnalyzer::MultiMatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name, double templ_thres)
     : AbstractImageAnalyzer(image, roi),
-    m_templ_name(templ_name),
+    m_templ_name(std::move(templ_name)),
     m_templ_thres(templ_thres)
 {
-    ;
 }
 
 bool asst::MultiMatchImageAnalyzer::analyze()
@@ -68,7 +69,7 @@ void asst::MultiMatchImageAnalyzer::set_task_info(MatchTaskInfo task_info) noexc
     set_roi(task_info.roi);
 }
 
-void asst::MultiMatchImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
+void asst::MultiMatchImageAnalyzer::set_task_info(const std::shared_ptr<TaskInfo>& task_ptr)
 {
     set_task_info(*std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr));
 }

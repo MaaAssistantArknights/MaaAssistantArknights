@@ -132,7 +132,7 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
     };
 
     MatchImageAnalyzer analyzer(m_image);
-    StageDifficulty matched = StageDifficulty::Normal;
+    auto matched = StageDifficulty::Normal;
     double max_score = 0.0;
 
 #ifdef ASST_DEBUG
@@ -188,7 +188,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
         for (int i = 1; i <= size; ++i) {
             // 因为第一个黄色的 baseline 是渐变的，圈出来的一般左边会少一段，所以这里直接从右边开始往左推
             int x = baseline.x + baseline.width - i * roi.width;
-            Rect item_roi = Rect(x, baseline.y + roi.y, roi.width, roi.height);
+            auto item_roi = Rect(x, baseline.y + roi.y, roi.width, roi.height);
 
             std::string item = match_item(item_roi, droptype, size - i, size);
             int quantity = match_quantity(item_roi);
@@ -322,7 +322,7 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
     };
 
     MatchImageAnalyzer analyzer(m_image);
-    StageDropType matched = StageDropType::Unknown;
+    auto matched = StageDropType::Unknown;
     double max_score = 0.0;
 
 #ifdef ASST_DEBUG
@@ -380,7 +380,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         }
         else {
             Log.error("StageDropType::ExpAndLMB, size", size);
-            return std::string();
+            return {};
         }
         break;
     case StageDropType::Furniture:
@@ -391,7 +391,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         return "4003";          // 合成玉
     }
 
-    auto match_item_with_templs = [&](std::vector<std::string> templs_list) -> std::string {
+    auto match_item_with_templs = [&](const std::vector<std::string>& templs_list) -> std::string {
         MatchImageAnalyzer analyzer(m_image);
         analyzer.set_task_info("StageDrops-Item");
         analyzer.set_mask_with_close(true);

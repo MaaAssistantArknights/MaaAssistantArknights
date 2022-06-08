@@ -134,7 +134,7 @@ namespace MeoAsstGui
                 new CombData { Display = "刷源石锭投资，投资过后退出", Value = "2" }
             };
 
-            ServerTypeList = new List<CombData>
+            ClientTypeList = new List<CombData>
             {
                 new CombData { Display = "官服", Value = "Official" },
                 new CombData { Display = "Bilibili服", Value = "Bilibili" }
@@ -177,15 +177,15 @@ namespace MeoAsstGui
             }
         }
 
-        private string _serverType = ViewStatusStorage.Get("Start.ServerType", "Official");
+        private string _clientType = ViewStatusStorage.Get("Start.ClientType", "Official");
 
-        public string ServerType
+        public string ClientType
         {
-            get { return _serverType; }
+            get { return _clientType; }
             set
             {
-                SetAndNotify(ref _serverType, value);
-                ViewStatusStorage.Set("Start.ServerType", value);
+                SetAndNotify(ref _clientType, value);
+                ViewStatusStorage.Set("Start.ClientType", value);
             }
         }
 
@@ -195,7 +195,7 @@ namespace MeoAsstGui
 
         public List<CombData> UsesOfDronesList { get; set; }
         public List<CombData> RoguelikeModeList { get; set; }
-        public List<CombData> ServerTypeList { get; set; }
+        public List<CombData> ClientTypeList { get; set; }
         public List<CombData> ConnectConfigList { get; set; }
 
         private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
