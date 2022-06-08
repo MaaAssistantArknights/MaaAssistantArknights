@@ -90,17 +90,18 @@ namespace MeoAsstGui
             var mainModel = _container.Get<TaskQueueViewModel>();
             mainModel.Idle = true;
             var settingsModel = _container.Get<SettingsViewModel>();
-            if (settingsModel.RunDirectly)
+
+            Execute.OnUIThread(() =>
             {
-                Execute.OnUIThread(() =>
+                Task.Run(() =>
                 {
-                    Task.Run(() =>
-                    {
-                        settingsModel.TryToStartEmulator();
-                    });
-                    mainModel.LinkStart();
+                    settingsModel.TryToStartEmulator();
                 });
-            }
+                if (settingsModel.RunDirectly)
+                {
+                    mainModel.LinkStart();
+                }
+            });
         }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true)]
