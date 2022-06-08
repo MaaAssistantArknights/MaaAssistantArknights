@@ -604,16 +604,6 @@ namespace MeoAsstGui
                     }
                     break;
 
-                case "RecruitSpecialTag":
-                    {
-                        string special = subTaskDetails["tag"].ToString();
-                        using (var toast = new ToastNotification("公招提示"))
-                        {
-                            toast.AppendContentText(special).ShowRecruit();
-                        }
-                    }
-                    break;
-
                 case "RecruitResult":
                     {
                         string resultContent = string.Empty;
@@ -635,13 +625,6 @@ namespace MeoAsstGui
                             resultContent += "\n\n";
                         }
                         recruitModel.RecruitResult = resultContent;
-                        if (level >= 5)
-                        {
-                            using (var toast = new ToastNotification($"公招出 {level} 星了哦！"))
-                            {
-                                toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
-                            }
-                        }
                     }
                     break;
             }
