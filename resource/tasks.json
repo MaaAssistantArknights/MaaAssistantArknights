@@ -1263,6 +1263,10 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
+            "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
+            "OfflineConfirm",
             "ClickCornerAfterPRTS_2"
         ]
     },
@@ -1283,7 +1287,12 @@
             "StartButton2",
             "UseMedicine",
             "UseStone",
-            "NoStone"
+            "NoStone",
+            "GameStart",
+            "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
+            "OfflineConfirm"
         ],
         "onErrorNext": [
             "RestartGameAndContinueFighting"
@@ -1489,6 +1498,9 @@
             "StartLoginBServer",
             "OfflineConfirm",
             "StartButton1"
+        ],
+        "onErrorNext": [
+            "ClickCornerAfterPRTS_1"
         ]
     },
     "OfflineConfirmAfterBattle": {
