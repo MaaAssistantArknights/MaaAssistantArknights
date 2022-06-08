@@ -1625,21 +1625,22 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "StartButton1",
-            "GoLastBattle"
+            "GoLastBattle",
+            "StartButton1"
         ]
     },
     "GoLastBattle": {
         "algorithm": "OcrDetect",
         "text": [
+            "前往上一次作战",
             "前往",
             "作战"
         ],
         "roi": [
-            900,
-            500,
-            280,
-            100
+            916,
+            479,
+            249,
+            127
         ],
         "action": "ClickSelf",
         "next": [
