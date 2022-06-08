@@ -16,7 +16,7 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="3">
-            <CheckBox IsChecked="{Binding UpdateCheck}" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="10" Content="检查更新" />
+            <CheckBox IsChecked="{Binding UpdateCheck}" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="10" Content="自动检查更新" />
             <CheckBox IsChecked="{Binding AutoDownloadUpdatePackage}" IsEnabled="{Binding UpdateCheck}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="10" Content="自动下载更新包" />
             <CheckBox IsChecked="{Binding UpdateBeta}" IsEnabled="{Binding UpdateCheck}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="10" Content="检查测试版本更新" />
             <CheckBox IsChecked="{Binding UseAria2}" IsEnabled="{Binding UpdateCheck}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="10" Content="使用 aria2 进行下载" />
@@ -27,11 +27,13 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Style="{StaticResource TextBlockDefault}" VerticalAlignment="Center" Text="Http Proxy" Margin="1" />
                 <TextBox Grid.Row="1" Text="{Binding Proxy}" Margin="10" Width="150" VerticalAlignment="Center" InputMethod.IsInputMethodEnabled="False" />
                 <TextBlock Grid.Row="2" Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding VersionInfo, Mode=OneWay}" Margin="10" />
+                <Button Grid.Row="3" Command="{s:Action ManualUpdate}" Content="检查更新" Margin="10" />
             </Grid>
         </StackPanel>
     </Grid>

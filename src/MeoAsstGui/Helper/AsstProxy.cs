@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -86,8 +87,20 @@ namespace MeoAsstGui
                     Environment.Exit(0);
                 });
             }
-            var tvm = _container.Get<TaskQueueViewModel>();
-            tvm.Idle = true;
+            var mainModel = _container.Get<TaskQueueViewModel>();
+            mainModel.Idle = true;
+            var settingsModel = _container.Get<SettingsViewModel>();
+            if (settingsModel.RunDirectly)
+            {
+                Execute.OnUIThread(() =>
+                {
+                    Task.Run(() =>
+                    {
+                        settingsModel.TryToStartEmulator();
+                    });
+                    mainModel.LinkStart();
+                });
+            }
         }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true)]

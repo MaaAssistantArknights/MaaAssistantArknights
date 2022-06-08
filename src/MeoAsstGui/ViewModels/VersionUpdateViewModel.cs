@@ -77,6 +77,7 @@ namespace MeoAsstGui
         }
 
         private string _updateUrl;
+
         public string UpdateUrl
         {
             get
@@ -88,6 +89,7 @@ namespace MeoAsstGui
                 SetAndNotify(ref _updateUrl, value);
             }
         }
+
         public FlowDocument UpdateInfoDocument
         {
             get
@@ -233,10 +235,10 @@ namespace MeoAsstGui
         /// </summary>
         /// <returns>操作成功返回 true，反之则返回 false</returns>
 
-        public bool CheckAndDownloadUpdate()
+        public bool CheckAndDownloadUpdate(bool force = false)
         {
             // 检查更新
-            if (!CheckUpdate())
+            if (!CheckUpdate(force))
             {
                 return false;
             }
@@ -338,10 +340,10 @@ namespace MeoAsstGui
         /// </summary>
         /// <returns>操作成功返回 true，反之则返回 false</returns>
 
-        public bool CheckUpdate()
+        public bool CheckUpdate(bool force = false)
         {
             //开发版不检查更新
-            if (!isStableVersion())
+            if (!force && !isStableVersion())
             {
                 return false;
             }
