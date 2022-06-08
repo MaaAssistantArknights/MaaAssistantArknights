@@ -1,9 +1,9 @@
 #include "RuntimeStatus.h"
 
-std::optional<int64_t> asst::RuntimeStatus::get_data(const std::string& key) const noexcept
+std::optional<int64_t> asst::RuntimeStatus::get_number(const std::string& key) const noexcept
 {
-    if (auto iter = m_data.find(key);
-        iter != m_data.cend()) {
+    if (auto iter = m_number.find(key);
+        iter != m_number.cend()) {
         return iter->second;
     }
     else {
@@ -11,20 +11,20 @@ std::optional<int64_t> asst::RuntimeStatus::get_data(const std::string& key) con
     }
 }
 
-void asst::RuntimeStatus::set_data(std::string key, int64_t value)
+void asst::RuntimeStatus::set_number(std::string key, int64_t value)
 {
-    m_data[std::move(key)] = value;
+    m_number.insert_or_assign(std::move(key), value);
 }
 
-void asst::RuntimeStatus::clear_data() noexcept
+void asst::RuntimeStatus::clear_number() noexcept
 {
-    m_data.clear();
+    m_number.clear();
 }
 
-std::optional<asst::Rect> asst::RuntimeStatus::get_region(const std::string& key) const noexcept
+std::optional<asst::Rect> asst::RuntimeStatus::get_rect(const std::string& key) const noexcept
 {
-    if (auto iter = m_region_of_appeared.find(key);
-        iter != m_region_of_appeared.cend()) {
+    if (auto iter = m_rect.find(key);
+        iter != m_rect.cend()) {
         return iter->second;
     }
     else {
@@ -32,12 +32,33 @@ std::optional<asst::Rect> asst::RuntimeStatus::get_region(const std::string& key
     }
 }
 
-void asst::RuntimeStatus::set_region(std::string key, Rect rect)
+void asst::RuntimeStatus::set_rect(std::string key, Rect rect)
 {
-    m_region_of_appeared[std::move(key)] = std::move(rect);
+    m_rect.insert_or_assign(std::move(key), rect);
 }
 
-void asst::RuntimeStatus::clear_region() noexcept
+void asst::RuntimeStatus::clear_rect() noexcept
 {
-    m_region_of_appeared.clear();
+    m_rect.clear();
+}
+
+std::optional<std::string> asst::RuntimeStatus::get_str(const std::string& key) const noexcept
+{
+    if (auto iter = m_string.find(key);
+        iter != m_string.cend()) {
+        return iter->second;
+    }
+    else {
+        return std::nullopt;
+    }
+}
+
+void asst::RuntimeStatus::set_str(std::string key, std::string value)
+{
+    m_string.insert_or_assign(std::move(key), std::move(value));
+}
+
+void asst::RuntimeStatus::clear_str() noexcept
+{
+    m_string.clear();
 }

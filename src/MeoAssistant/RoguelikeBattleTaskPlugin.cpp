@@ -253,7 +253,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
 
     // 将干员拖动到场上
-    Loc loc = Loc::All;
+    auto loc = Loc::All;
     switch (opt_oper.role) {
     case BattleRole::Medic:
     case BattleRole::Support:
@@ -296,7 +296,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     std::sqrt(
         (std::abs(placed_point.x - opt_oper.rect.x) << 1)
         + (std::abs(placed_point.y - opt_oper.rect.y) << 1)));
-    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist); // 随便取的一个系数
+    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist); // 随便取的一个系数
     m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
     sleep(use_oper_task_ptr->rear_delay);
 
@@ -373,7 +373,7 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_used_tiles.clear();
 
     for (auto& [key, status] : m_restore_status) {
-        m_status->set_data(key, status);
+        m_status->set_number(key, status);
     }
     m_restore_status.clear();
 }
@@ -388,8 +388,8 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
     bool used = false;
     for (auto& [loc, name] : m_used_tiles) {
         std::string status_key = "RoguelikeSkillUsage-" + name;
-        BattleSkillUsage usage = BattleSkillUsage::Possibly;
-        auto usage_opt = m_status->get_data(status_key);
+        auto usage = BattleSkillUsage::Possibly;
+        auto usage_opt = m_status->get_number(status_key);
         if (usage_opt) {
             usage = static_cast<BattleSkillUsage>(usage_opt.value());
         }
@@ -408,7 +408,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
         m_ctrler->click(pos_rect);
         used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_task_delay(0).run();
         if (usage == BattleSkillUsage::Once) {
-            m_status->set_data(status_key, static_cast<int64_t>(BattleSkillUsage::OnceUsed));
+            m_status->set_number(status_key, static_cast<int64_t>(BattleSkillUsage::OnceUsed));
             m_restore_status[status_key] = static_cast<int64_t>(BattleSkillUsage::Once);
         }
     }

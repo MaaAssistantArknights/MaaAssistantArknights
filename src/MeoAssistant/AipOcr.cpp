@@ -47,7 +47,7 @@ bool asst::AipOcr::request_access_token(const std::string& client_id, const std:
     return true;
 }
 
-bool asst::AipOcr::request_ocr_general(const cv::Mat image, std::vector<TextRect>& out_result, const TextRectProc& pred)
+bool asst::AipOcr::request_ocr_general(const cv::Mat& image, std::vector<TextRect>& out_result, const TextRectProc& pred)
 {
     LogTraceFunction;
 
@@ -62,7 +62,7 @@ bool asst::AipOcr::request_ocr_general(const cv::Mat image, std::vector<TextRect
     return request_ocr_and_parse(cmd_fmt, image, out_result, pred);
 }
 
-bool asst::AipOcr::request_ocr_accurate(const cv::Mat image, std::vector<TextRect>& out_result, const TextRectProc& pred)
+bool asst::AipOcr::request_ocr_accurate(const cv::Mat& image, std::vector<TextRect>& out_result, const TextRectProc& pred)
 {
     LogTraceFunction;
 
@@ -77,7 +77,7 @@ bool asst::AipOcr::request_ocr_accurate(const cv::Mat image, std::vector<TextRec
     return request_ocr_and_parse(cmd_fmt, image, out_result, pred);
 }
 
-bool asst::AipOcr::request_ocr_and_parse(std::string_view cmd_fmt, const cv::Mat image, std::vector<TextRect>& out_result, const TextRectProc& pred)
+bool asst::AipOcr::request_ocr_and_parse(std::string_view cmd_fmt, const cv::Mat& image, std::vector<TextRect>& out_result, const TextRectProc& pred)
 {
     if (m_access_token.empty()) {
         return false;
@@ -90,7 +90,7 @@ bool asst::AipOcr::request_ocr_and_parse(std::string_view cmd_fmt, const cv::Mat
     std::string encoded = base64_encode(enc_msg, buf.size());
 
     size_t cmd_len = encoded.size() + cmd_fmt.size() + m_access_token.size();
-    char* cmd = new char[cmd_len];
+    auto cmd = new char[cmd_len];
     memset(cmd, 0, cmd_len);
 #ifdef _MSC_VER
     sprintf_s(cmd, cmd_len, cmd_fmt.data(), m_access_token.c_str(), encoded.c_str());

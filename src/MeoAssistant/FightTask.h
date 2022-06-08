@@ -7,6 +7,7 @@ namespace asst
 {
     class ProcessTask;
     class StageDropsTaskPlugin;
+    class GameCrashRestartTaskPlugin;
 
     class FightTask final : public PackageTask
     {
@@ -23,5 +24,6 @@ namespace asst
         std::shared_ptr<ProcessTask> m_stage_task_ptr = nullptr;
         std::shared_ptr<ProcessTask> m_fight_task_ptr = nullptr;
         std::shared_ptr<StageDropsTaskPlugin> m_stage_drops_plugin_ptr = nullptr;
+        std::shared_ptr<GameCrashRestartTaskPlugin> m_game_restart_plugin_ptr = nullptr;
     };
 }

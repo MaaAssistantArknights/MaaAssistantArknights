@@ -1,6 +1,7 @@
 #include "InfrastAbstractTask.h"
 
 #include <regex>
+#include <utility>
 
 #include "AsstMsg.h"
 #include "Controller.h"
@@ -12,7 +13,7 @@
 #include "ProcessTask.h"
 
 asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain)
-    : AbstractTask(callback, callback_arg, task_chain)
+    : AbstractTask(std::move(callback), callback_arg, std::move(task_chain))
 {
     m_retry_times = TaskRetryTimes;
 }

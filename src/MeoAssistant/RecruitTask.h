@@ -10,7 +10,7 @@ namespace asst
     class RecruitTask final : public PackageTask
     {
     public:
-        RecruitTask(AsstCallback callback, void* callback_arg);
+        RecruitTask(const AsstCallback& callback, void* callback_arg);
         virtual ~RecruitTask() = default;
 
         virtual bool set_params(const json::value& params) override;
