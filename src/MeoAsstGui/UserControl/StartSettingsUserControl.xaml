@@ -8,27 +8,31 @@
              mc:Ignorable="d"
              xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
              d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
-             d:DesignHeight="300" d:DesignWidth="550">
+             d:DesignHeight="90" d:DesignWidth="400">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <CheckBox Grid.Row="0" IsChecked="{Binding StartAppEnable}"  Block.TextAlignment="Center" Margin="-90,10,0,0"
-                  HorizontalAlignment="Center" VerticalAlignment="Top"
-                  Content="开机时自动启动MAA" />
-        <CheckBox Grid.Row="0" IsChecked="{Binding StartGameEnable}"  Block.TextAlignment="Center" Margin="-35,30,0,0"
-                  HorizontalAlignment="Center" VerticalAlignment="Top"
-                  Content="开始唤醒时自动启动游戏客户端" />
-        <StackPanel Grid.Row="1" IsEnabled="{Binding StartGameEnable}" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                       Text="客户端版本" Margin="10" />
-            <ComboBox Width="100" Margin="10"
-                      IsHitTestVisible ="{Binding Path=Idle}"
+        <CheckBox IsChecked="{Binding StartAppEnable}"  Block.TextAlignment="Center"
+                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                  Content="开机自启" Height="25" Width="74"/>
+        <CheckBox Grid.Row="1" IsChecked="{Binding StartGameEnable}"  Block.TextAlignment="Center"
+                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                  Content="启动游戏" Height="25" Width="74"/>
+        <TextBlock  Grid.Row="0" Grid.Column="1" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="游戏服务器"/>
+        <ComboBox Grid.Row="1" 
+                      Grid.Column="1" 
+                      IsEnabled="{Binding StartGameEnable}"
+                      IsHitTestVisible ="{Binding Idle}"
                       ItemsSource="{Binding ClientTypeList}"
                       DisplayMemberPath="Display"
                       SelectedValuePath="Value"
-                      SelectedValue="{Binding ClientType}" />
-        </StackPanel>
+                      SelectedValue="{Binding ClientType}" Width="100"/>
     </Grid>
 </UserControl>
