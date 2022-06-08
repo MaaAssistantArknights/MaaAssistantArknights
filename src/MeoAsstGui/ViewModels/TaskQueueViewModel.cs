@@ -123,10 +123,6 @@ namespace MeoAsstGui
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
 
-                // “覆潮之下” 活动关卡 //复刻活动，结束后直接删除
-                new CombData { Display = "SV-9", Value = "SV-9" },
-                new CombData { Display = "SV-8", Value = "SV-8" },
-                new CombData { Display = "SV-7", Value = "SV-7" },
 
                 new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = "龙门币-6/5", Value = "CE-6" },
