@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -86,8 +87,21 @@ namespace MeoAsstGui
                     Environment.Exit(0);
                 });
             }
-            var tvm = _container.Get<TaskQueueViewModel>();
-            tvm.Idle = true;
+            var mainModel = _container.Get<TaskQueueViewModel>();
+            mainModel.Idle = true;
+            var settingsModel = _container.Get<SettingsViewModel>();
+
+            Execute.OnUIThread(() =>
+            {
+                Task.Run(() =>
+                {
+                    settingsModel.TryToStartEmulator();
+                });
+                if (settingsModel.RunDirectly)
+                {
+                    mainModel.LinkStart();
+                }
+            });
         }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true)]
@@ -383,7 +397,7 @@ namespace MeoAsstGui
                         mainModel.AddLog("投资达到上限", "darkcyan");
                         break;
 
-                    case "MaybeCrashAndRestartGame":
+                    case "RestartGameAndContinueFighting":
                         mainModel.AddLog("游戏崩溃，重新启动", "darkgoldenrod");
                         break;
 
@@ -604,16 +618,6 @@ namespace MeoAsstGui
                     }
                     break;
 
-                case "RecruitSpecialTag":
-                    {
-                        string special = subTaskDetails["tag"].ToString();
-                        using (var toast = new ToastNotification("公招提示"))
-                        {
-                            toast.AppendContentText(special).ShowRecruit();
-                        }
-                    }
-                    break;
-
                 case "RecruitResult":
                     {
                         string resultContent = string.Empty;
@@ -635,13 +639,6 @@ namespace MeoAsstGui
                             resultContent += "\n\n";
                         }
                         recruitModel.RecruitResult = resultContent;
-                        if (level >= 5)
-                        {
-                            using (var toast = new ToastNotification($"公招出 {level} 星了哦！"))
-                            {
-                                toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
-                            }
-                        }
                     }
                     break;
             }

@@ -14,16 +14,18 @@ using Microsoft.Win32;
 
 namespace MeoAsstGui
 {
-    public class StartAppModel
+    public class StartSelfModel
     {
         private static RegistryKey _key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
         private static string fileValue = Process.GetCurrentProcess().MainModule.FileName;
+
         public static bool CheckStart()
         {
             if (_key.GetValue("MeoAsst") == null)
                 return false;
             else return true;
         }
+
         public static bool SetStart(bool set)
         {
             if (set)
@@ -36,7 +38,6 @@ namespace MeoAsstGui
                 _key.DeleteValue("MeoAsst");
                 return !CheckStart();
             }
-
         }
     }
 }
