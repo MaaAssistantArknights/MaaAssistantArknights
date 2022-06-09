@@ -123,10 +123,10 @@ namespace MeoAsstGui
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
 
-                //// SideStory「尘影余音」活动
-                //new CombData { Display = "XX-8", Value = "XX-8" },
-                //new CombData { Display = "XX-7", Value = "XX-7" },
-                //new CombData { Display = "XX-6", Value = "XX-9" },
+                // SideStory「尘影余音」活动
+                new CombData { Display = "LE-7", Value = "LE-7" },
+                new CombData { Display = "LE-6", Value = "LE-6" },
+                new CombData { Display = "LE-5", Value = "LE-5" },
 
                 new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = "龙门币-6/5", Value = "CE-6" },
@@ -647,11 +647,9 @@ namespace MeoAsstGui
             {
                 return a.Value.CompareTo(b.Value);
             });
-            AllDropsList = new ObservableCollection<CombData>(AllDrops);
-            DropsList = AllDropsList;
+            DropsList = new ObservableCollection<CombData>(AllDrops);
         }
 
-        public ObservableCollection<CombData> AllDropsList { get; set; }
         public ObservableCollection<CombData> DropsList { get; set; }
 
         private string _dropsItemId = ViewStatusStorage.Get("MainFunction.Drops.ItemId", "0");
@@ -665,15 +663,31 @@ namespace MeoAsstGui
             }
         }
 
-        //这里可以选择从gui.json里取上一次的选择(?)
         private string _dropsItem = "";
+        private bool _isFirstLoadDropItem = true;
+        private long _preSetDropsItemTicks = 0;
 
         public string DropsItem
         {
             get { return _dropsItem; }
             set
             {
-                IsDropDown = "True";
+                if (_isFirstLoadDropItem)
+                {
+                    _isFirstLoadDropItem = false;
+                }
+                else
+                {
+                    IsDropDown = true;
+                }
+
+                // 这里有个很严重的死循环性能问题，不知道怎么解决，简单做个消抖好了_(:з」∠)_
+                if (DateTime.Now.Ticks - _preSetDropsItemTicks < 50)
+                {
+                    return;
+                }
+                _preSetDropsItemTicks = DateTime.Now.Ticks;
+
                 DropsList.Clear();
                 foreach (CombData drop in AllDrops)
                 {
@@ -687,9 +701,9 @@ namespace MeoAsstGui
             }
         }
 
-        private string _isDropDown = "False";
+        private bool _isDropDown = false;
 
-        public string IsDropDown
+        public bool IsDropDown
         {
             get { return _isDropDown; }
             set

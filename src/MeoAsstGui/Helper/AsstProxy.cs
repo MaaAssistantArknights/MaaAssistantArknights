@@ -91,12 +91,13 @@ namespace MeoAsstGui
             mainModel.Idle = true;
             var settingsModel = _container.Get<SettingsViewModel>();
 
-            Execute.OnUIThread(() =>
+            Execute.OnUIThread(async () =>
             {
-                Task.Run(() =>
+                var task = Task.Run(() =>
                 {
                     settingsModel.TryToStartEmulator();
                 });
+                await task;
                 if (settingsModel.RunDirectly)
                 {
                     mainModel.LinkStart();
@@ -291,7 +292,8 @@ namespace MeoAsstGui
                     break;
 
                 case "ReportToPenguinStats":
-                    mainModel.AddLog("未知关卡，放弃上传企鹅", "darkred");
+                    var why = details["why"].ToString();
+                    mainModel.AddLog(why + "，放弃上传企鹅", "darkred");
                     break;
 
                 case "CheckStageValid":

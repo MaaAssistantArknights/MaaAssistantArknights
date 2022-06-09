@@ -1050,12 +1050,13 @@ namespace MeoAsstGui
             }
         }
 
-        public void ManualUpdate()
+        public async void ManualUpdate()
         {
             var updateModle = _container.Get<VersionUpdateViewModel>();
-            Task.Run(() =>
+            var task = Task.Run(() =>
             {
-                if (!updateModle.CheckAndDownloadUpdate(true))
+                if (!updateModle.CheckAndDownloadUpdate(true)
+                    && !updateModle.ResourceOTA(true))
                 {
                     using (var toast = new ToastNotification("已是最新版本~"))
                     {
@@ -1063,6 +1064,7 @@ namespace MeoAsstGui
                     }
                 }
             });
+            await task;
         }
 
         /* 连接设置 */

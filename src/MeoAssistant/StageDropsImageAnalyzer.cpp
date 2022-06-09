@@ -23,15 +23,17 @@ bool asst::StageDropsImageAnalyzer::analyze()
     analyze_stars();
     bool ret = analyze_drops();
 
-#ifdef ASST_DEBUG
-    cv::imwrite("debug/" + stem + "_draw.png", m_image_draw);
-#endif
-
     if (!ret) {
         save_img();
     }
 
-    return ret;
+#ifdef ASST_DEBUG
+    cv::imwrite("debug/" + stem + "_draw.png", m_image_draw);
+#endif
+
+    return std::all_of(m_drops.cbegin(), m_drops.cend(), [](const auto& item_info) -> bool {
+        return item_info.quantity > 0;
+    });
 }
 
 asst::StageKey asst::StageDropsImageAnalyzer::get_stage_key() const
@@ -198,10 +200,14 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             cv::putText(m_image_draw, item, cv::Point(item_roi.x, item_roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
             cv::putText(m_image_draw, std::to_string(quantity), cv::Point(item_roi.x, item_roi.y + 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
 #endif
-            if (item.empty() || quantity <= 0) {
+            if (quantity <= 0) {
                 has_error = true;
-                Log.error(__FUNCTION__, "error");
+                Log.error(__FUNCTION__, "quantity error", quantity);
                 continue;
+            }
+            if (item.empty()) {
+                has_error = true;
+                Log.warn(__FUNCTION__, "item id is empty");
             }
             StageDropInfo info;
             info.droptype = droptype;
