@@ -14,6 +14,10 @@ namespace asst
 
         const std::string& get_item_name(const std::string& id) const noexcept
         {
+            if (id.empty()) {
+                static const std::string unknown = "Unknown";
+                return unknown;
+            }
             if (auto iter = m_item_name.find(id);
                 iter != m_item_name.cend()) {
                 return iter->second;

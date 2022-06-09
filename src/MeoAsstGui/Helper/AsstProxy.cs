@@ -291,7 +291,8 @@ namespace MeoAsstGui
                     break;
 
                 case "ReportToPenguinStats":
-                    mainModel.AddLog("未知关卡，放弃上传企鹅", "darkred");
+                    var why = details["why"].ToString();
+                    mainModel.AddLog(why + "，放弃上传企鹅", "darkred");
                     break;
 
                 case "CheckStageValid":
