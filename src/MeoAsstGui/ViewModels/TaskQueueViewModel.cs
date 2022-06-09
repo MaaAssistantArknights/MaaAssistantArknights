@@ -123,10 +123,10 @@ namespace MeoAsstGui
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
 
-                // “覆潮之下” 活动关卡 //复刻活动，结束后直接删除
-                new CombData { Display = "SV-9", Value = "SV-9" },
-                new CombData { Display = "SV-8", Value = "SV-8" },
-                new CombData { Display = "SV-7", Value = "SV-7" },
+                //// SideStory「尘影余音」活动
+                //new CombData { Display = "XX-8", Value = "XX-8" },
+                //new CombData { Display = "XX-7", Value = "XX-7" },
+                //new CombData { Display = "XX-6", Value = "XX-9" },
 
                 new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = "龙门币-6/5", Value = "CE-6" },
@@ -346,7 +346,7 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
             var mode = settings.ClientType;
-            var enable = settings.StartGameEnable;
+            var enable = mode.Length != 0;
             return asstProxy.AsstAppendStartUp(mode, enable);
         }
 
@@ -635,7 +635,8 @@ namespace MeoAsstGui
                 var dis = item.Value["name"].ToString();
                 if (dis.EndsWith("双芯片") || dis.EndsWith("寻访凭证") || dis.EndsWith("加固建材")
                     || dis.EndsWith("许可") || dis == "资质凭证" || dis == "高级凭证" || dis == "演习券"
-                    || dis.Contains("源石") || dis == "D32钢" || dis == "双极纳米片" || dis == "聚合剂" || dis == "晶体电子单元")
+                    || dis.Contains("源石") || dis == "D32钢" || dis == "双极纳米片" || dis == "聚合剂"
+                    || dis == "晶体电子单元" || dis == "龙骨" || dis == "芯片助剂")
                 {
                     continue;
                 }
@@ -646,9 +647,11 @@ namespace MeoAsstGui
             {
                 return a.Value.CompareTo(b.Value);
             });
-            DropsList = new ObservableCollection<CombData>(AllDrops);
+            AllDropsList = new ObservableCollection<CombData>(AllDrops);
+            DropsList = AllDropsList;
         }
 
+        public ObservableCollection<CombData> AllDropsList { get; set; }
         public ObservableCollection<CombData> DropsList { get; set; }
 
         private string _dropsItemId = ViewStatusStorage.Get("MainFunction.Drops.ItemId", "0");
@@ -659,6 +662,39 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _dropsItemId, value);
+            }
+        }
+
+        //这里可以选择从gui.json里取上一次的选择(?)
+        private string _dropsItem = "";
+
+        public string DropsItem
+        {
+            get { return _dropsItem; }
+            set
+            {
+                IsDropDown = "True";
+                DropsList.Clear();
+                foreach (CombData drop in AllDrops)
+                {
+                    var enumStr = drop.Display;
+                    if (enumStr.Contains(value))
+                    {
+                        DropsList.Add(drop);
+                    }
+                }
+                SetAndNotify(ref _dropsItem, value);
+            }
+        }
+
+        private string _isDropDown = "False";
+
+        public string IsDropDown
+        {
+            get { return _isDropDown; }
+            set
+            {
+                SetAndNotify(ref _isDropDown, value);
             }
         }
 

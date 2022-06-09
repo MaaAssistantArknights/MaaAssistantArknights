@@ -11,12 +11,12 @@ namespace asst
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~StartGameTaskPlugin() noexcept = default;
+        virtual ~StartGameTaskPlugin() noexcept override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override
         {
             std::ignore = msg; std::ignore = details; return true;
-        };
+        }
 
         StartGameTaskPlugin& set_client_type(std::string client_type) noexcept;
 
