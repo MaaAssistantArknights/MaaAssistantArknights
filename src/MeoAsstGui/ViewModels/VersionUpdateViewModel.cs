@@ -621,10 +621,10 @@ namespace MeoAsstGui
             return true;
         }
 
-        public bool ResourceOTA()
+        public bool ResourceOTA(bool force = false)
         {
             // 开发版不检查更新
-            if (!isStableVersion())
+            if (!force && !isStableVersion())
             {
                 return false;
             }
@@ -650,7 +650,9 @@ namespace MeoAsstGui
             var update_dict = new Dictionary<string, string>()
             {
                 { "resource/stages.json" , "resource/stages.json"},
-                { "resource/recruit.json", "resource/recruit.json" }
+                { "resource/recruit.json", "resource/recruit.json" },
+                { "3rdparty/resource/Arknights-Tile-Pos/levels.json" , "resource/Arknights-Tile-Pos/levels.json"},
+                { "resource/item_index.json", "resource/item_index.json" }
             };
 
             bool updated = false;
