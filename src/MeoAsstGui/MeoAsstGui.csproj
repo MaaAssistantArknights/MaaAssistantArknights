@@ -138,6 +138,7 @@
     <Compile Include="UserControl\VersionUpdateSettingsUserControl.xaml.cs">
       <DependentUpon>VersionUpdateSettingsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\StartSelfModel.cs" />
     <Compile Include="ViewModels\RecruitViewModel.cs" />
     <Compile Include="ViewModels\RootViewModel.cs" />
     <Compile Include="ViewModels\CopilotViewModel.cs" />

@@ -16,6 +16,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
 using Stylet;
@@ -47,14 +49,13 @@ namespace MeoAsstGui
             _listTitle.Add("肉鸽设置");
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
-            _listTitle.Add("定时执行");
-            _listTitle.Add("唤醒设置");
             _listTitle.Add("企鹅数据");
             _listTitle.Add("连接设置");
+            _listTitle.Add("启动设置");
+            _listTitle.Add("定时执行");
             _listTitle.Add("通知显示");
             _listTitle.Add("软件更新");
             _listTitle.Add("关于我们");
-            //_listTitle.Add("其他");
 
             InfrastInit();
             ToastPositionInit();
@@ -136,6 +137,7 @@ namespace MeoAsstGui
 
             ClientTypeList = new List<CombData>
             {
+                new CombData { Display = "不选择", Value = "" },
                 new CombData { Display = "官服", Value = "Official" },
                 new CombData { Display = "Bilibili服", Value = "Bilibili" }
             };
@@ -152,21 +154,97 @@ namespace MeoAsstGui
             }
         }
 
-        /* 唤醒设置 */
+        /* 启动设置 */
+        private bool _startSelf = StartSelfModel.CheckStart();
 
-        private bool _startGameEnable = Convert.ToBoolean(ViewStatusStorage.Get("Start.StartGameEnable", bool.FalseString));
-
-        public bool StartGameEnable
+        public bool StartSelf
         {
-            get { return _startGameEnable; }
+            get { return _startSelf; }
             set
             {
-                SetAndNotify(ref _startGameEnable, value);
-                ViewStatusStorage.Set("Start.StartGameEnable", value.ToString());
+                SetAndNotify(ref _startSelf, value);
+                StartSelfModel.SetStart(value);
             }
         }
 
-        private string _clientType = ViewStatusStorage.Get("Start.ClientType", "Official");
+        private bool _runDirectly = Convert.ToBoolean(ViewStatusStorage.Get("Start.RunDirectly", bool.FalseString));
+
+        public bool RunDirectly
+        {
+            get { return _runDirectly; }
+            set
+            {
+                SetAndNotify(ref _runDirectly, value);
+                ViewStatusStorage.Set("Start.RunDirectly", value.ToString());
+            }
+        }
+
+        private bool _startEmulator = Convert.ToBoolean(ViewStatusStorage.Get("Start.StartEmulator", bool.FalseString));
+
+        public bool StartEmulator
+        {
+            get { return _startEmulator; }
+            set
+            {
+                SetAndNotify(ref _startEmulator, value);
+                ViewStatusStorage.Set("Start.StartEmulator", value.ToString());
+            }
+        }
+
+        private string _emulatorPath = ViewStatusStorage.Get("Start.EmulatorPath", string.Empty);
+
+        public string EmulatorPath
+        {
+            get { return _emulatorPath; }
+            set
+            {
+                SetAndNotify(ref _emulatorPath, value);
+                ViewStatusStorage.Set("Start.EmulatorPath", value);
+            }
+        }
+
+        private string _emulatorWaitSeconds = ViewStatusStorage.Get("Start.EmulatorWaitSeconds", "60");
+
+        public string EmulatorWaitSeconds
+        {
+            get { return _emulatorWaitSeconds; }
+            set
+            {
+                SetAndNotify(ref _emulatorWaitSeconds, value);
+                ViewStatusStorage.Set("Start.EmulatorWaitSeconds", value);
+            }
+        }
+
+        public void TryToStartEmulator()
+        {
+            if (!StartEmulator
+                || EmulatorPath.Length == 0
+                || !File.Exists(EmulatorPath))
+            {
+                return;
+            }
+            System.Diagnostics.Process.Start(EmulatorPath);
+            int delay = 0;
+            if (!int.TryParse(EmulatorWaitSeconds, out delay))
+            {
+                delay = 60;
+            }
+            Thread.Sleep(delay * 1000);
+        }
+
+        public void SelectEmulatorExec()
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+
+            dialog.Filter = "模拟器程序|*.exe";
+
+            if (dialog.ShowDialog() == true)
+            {
+                EmulatorPath = dialog.FileName;
+            }
+        }
+
+        private string _clientType = ViewStatusStorage.Get("Start.ClientType", "");
 
         public string ClientType
         {
@@ -972,7 +1050,22 @@ namespace MeoAsstGui
             }
         }
 
-        /* 调试设置 */
+        public void ManualUpdate()
+        {
+            var updateModle = _container.Get<VersionUpdateViewModel>();
+            Task.Run(() =>
+            {
+                if (!updateModle.CheckAndDownloadUpdate(true))
+                {
+                    using (var toast = new ToastNotification("已是最新版本~"))
+                    {
+                        toast.Show();
+                    }
+                }
+            });
+        }
+
+        /* 连接设置 */
 
         private string _connectAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
 
@@ -1105,21 +1198,21 @@ namespace MeoAsstGui
             rvm.WindowTitle = string.Format("MaaAssistantArknights - {0} ({1})", ConnectConfigName, ConnectAddress);
         }
 
-        private string bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
+        private string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
 
         public void TryToSetBlueStacksHyperVAddress()
         {
-            if (bluestacksConfig.Length == 0)
+            if (_bluestacksConfig.Length == 0)
             {
                 return;
             }
-            if (!File.Exists(bluestacksConfig))
+            if (!File.Exists(_bluestacksConfig))
             {
                 ViewStatusStorage.Set("Bluestacks.Config.Error", "File not exists");
                 return;
             }
 
-            var all_lines = File.ReadAllLines(bluestacksConfig);
+            var all_lines = File.ReadAllLines(_bluestacksConfig);
             foreach (var line in all_lines)
             {
                 if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))
