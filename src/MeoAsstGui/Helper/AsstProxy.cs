@@ -213,11 +213,18 @@ namespace MeoAsstGui
                 }
             }
             var mainModel = _container.Get<TaskQueueViewModel>();
+            var copilotModel = _container.Get<CopilotViewModel>();
 
             switch (msg)
             {
                 case AsstMsg.TaskChainError:
                     mainModel.AddLog("任务出错：" + taskChain, "darkred");
+                    if (taskChain == "Copilot")
+                    {
+                        copilotModel.Idle = true;
+                        copilotModel.AddLog("战斗出错！", "darkred");
+                    }
+                    break;
                     break;
 
                 case AsstMsg.TaskChainStart:
@@ -226,6 +233,11 @@ namespace MeoAsstGui
 
                 case AsstMsg.TaskChainCompleted:
                     mainModel.AddLog("完成任务：" + taskChain);
+                    if (taskChain == "Copilot")
+                    {
+                        copilotModel.Idle = true;
+                        copilotModel.AddLog("完成战斗", "darkcyan");
+                    }
                     break;
 
                 case AsstMsg.TaskChainExtraInfo:
