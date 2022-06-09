@@ -1055,7 +1055,8 @@ namespace MeoAsstGui
             var updateModle = _container.Get<VersionUpdateViewModel>();
             Task.Run(() =>
             {
-                if (!updateModle.CheckAndDownloadUpdate(true))
+                if (!updateModle.CheckAndDownloadUpdate(true)
+                    && !updateModle.ResourceOTA(true))
                 {
                     using (var toast = new ToastNotification("已是最新版本~"))
                     {
