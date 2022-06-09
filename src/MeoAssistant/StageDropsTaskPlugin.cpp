@@ -222,6 +222,11 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
         if (std::find(filter.cbegin(), filter.cend(), droptype) == filter.cend()) {
             continue;
         }
+        if (drop.at("itemId").as_string().empty()) {
+            info["why"] = "存在未知掉落";
+            callback(AsstMsg::SubTaskError, info);
+            return;
+        }
         json::value format_drop = drop;
         format_drop.as_object().erase("itemName");
         all_drops.array_emplace(std::move(format_drop));
