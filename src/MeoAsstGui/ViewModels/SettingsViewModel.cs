@@ -1050,10 +1050,10 @@ namespace MeoAsstGui
             }
         }
 
-        public void ManualUpdate()
+        public async void ManualUpdate()
         {
             var updateModle = _container.Get<VersionUpdateViewModel>();
-            Task.Run(() =>
+            var task = Task.Run(() =>
             {
                 if (!updateModle.CheckAndDownloadUpdate(true)
                     && !updateModle.ResourceOTA(true))
@@ -1064,6 +1064,7 @@ namespace MeoAsstGui
                     }
                 }
             });
+            await task;
         }
 
         /* 连接设置 */
