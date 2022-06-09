@@ -91,12 +91,13 @@ namespace MeoAsstGui
             mainModel.Idle = true;
             var settingsModel = _container.Get<SettingsViewModel>();
 
-            Execute.OnUIThread(() =>
+            Execute.OnUIThread(async () =>
             {
-                Task.Run(() =>
+                var task = Task.Run(() =>
                 {
                     settingsModel.TryToStartEmulator();
                 });
+                await task;
                 if (settingsModel.RunDirectly)
                 {
                     mainModel.LinkStart();
