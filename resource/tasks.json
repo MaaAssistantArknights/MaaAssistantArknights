@@ -1,4 +1,12 @@
 {
+    "SlowlySwipeToTheLeft": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft"
+    },
+    "SlowlySwipeToTheRight": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheRight"
+    },
     "SwipeToTheRight": {
         "algorithm": "JustReturn",
         "action": "SwipeToTheRight",
@@ -190,34 +198,34 @@
             60
         ]
     },
-    "XX-6": {
+    "LE-5": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "XX-Open",
-            "XXChapterToXX",
-            "SwipeLeftToStageXX-6"
+            "LE-Open",
+            "LEChapterToLE",
+            "StageLE-5"
         ]
     },
-    "XX-7": {
+    "LE-6": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "XX-Open",
-            "XXChapterToXX",
-            "StageXX-7"
+            "LE-Open",
+            "LEChapterToLE",
+            "StageLE-6"
         ]
     },
-    "XX-8": {
+    "LE-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "XX-Open",
-            "XXChapterToXX",
-            "StageXX-8"
+            "LE-Open",
+            "LEChapterToLE",
+            "StageLE-7"
         ]
     },
-    "XX-Open": {
+    "LE-Open": {
         "algorithm": "OcrDetect",
         "text": [
             "尘影余音"
@@ -230,71 +238,64 @@
         ],
         "action": "ClickSelf"
     },
-    "XXChapterToXX": {
+    "LEChapterToLE": {
         "algorithm": "OcrDetect",
         "text": [
-            "我不知道"
+            "夕照大厅",
+            "大厅"
         ],
         "roi": [
-            123,
-            123,
-            123,
-            123
+            1011,
+            495,
+            217,
+            139
         ],
         "action": "ClickSelf",
-        "next": [
-            "XXChapterToXX",
-            "SwipeToTheRight"
+        "sub": [
+            "SwipeToTheRight",
+            "SlowlySwipeToTheLeft"
         ]
     },
-    "SwipeLeftToStageXX-6": {
-        "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
-        "next": [
-            "StageXX-6",
-            "SwipeLeftToStageXX-6"
-        ]
-    },
-    "StageXX-6": {
+    "StageLE-5": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "XX-6"
+            "LE-5"
         ],
         "roi": [
-            66,
-            66,
-            66,
-            66
+            0,
+            145,
+            1280,
+            332
         ]
     },
-    "StageXX-7": {
+    "StageLE-6": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "XX-7"
+            "LE-6"
         ],
         "roi": [
-            77,
-            77,
-            77,
-            77
+            0,
+            145,
+            1280,
+            332
         ]
     },
-    "StageXX-8": {
+    "StageLE-7": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "XX-8"
+            "LE-7"
         ],
         "roi": [
-            88,
-            88,
-            88,
-            88
+            0,
+            145,
+            1280,
+            332
         ]
     },
     "SN-8": {
