@@ -317,6 +317,12 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     case BattleActionType::SwitchSpeed:
         action_desc = "切换二倍速";
         break;
+    case BattleActionType::SkillDaemon:
+        action_desc = "摆完挂机";
+        break;
+    case BattleActionType::BulletTime:
+        action_desc = "子弹时间";
+        break;
     }
     details["action"] = action_desc;
     details["doc"] = action.doc;
@@ -347,14 +353,21 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
         ret = battle_speedup();
         break;
     case BattleActionType::BulletTime:
+        // TODO
         break;
     case BattleActionType::SkillUsage:
     {
         auto& oper_info = m_group_to_oper_mapping[action.group_name];
         oper_info.skill_usage = action.modify_usage;
         m_used_opers[oper_info.name].info.skill_usage = action.modify_usage;
-        return true;
+        ret = true;
     } break;
+    case BattleActionType::Output:
+        // DoNothing
+        break;
+    case BattleActionType::SkillDaemon:
+        ret = wait_to_end(action);
+        break;
     }
     sleep_with_possible_skill(action.rear_delay);
 
@@ -549,6 +562,25 @@ bool asst::BattleProcessTask::use_skill(const BattleAction& action)
         .set_task_delay(0)
         .set_retry_times(10000)
         .run();
+}
+
+bool asst::BattleProcessTask::wait_to_end(const BattleAction& action)
+{
+    std::ignore = action;
+
+    MatchImageAnalyzer officially_begin_analyzer;
+    officially_begin_analyzer.set_task_info("BattleOfficiallyBegin");
+    cv::Mat image;
+    while (!need_exit()) {
+        image = m_ctrler->get_image();
+        officially_begin_analyzer.set_image(image);
+        if (!officially_begin_analyzer.analyze()) {
+            break;
+        }
+        try_possible_skill(image);
+        std::this_thread::yield();
+    }
+    return true;
 }
 
 bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)

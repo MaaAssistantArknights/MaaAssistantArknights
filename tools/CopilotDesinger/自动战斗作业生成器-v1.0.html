@@ -165,6 +165,8 @@
                     <option value="撤退">撤退</option>
                     <option value="子弹时间">子弹时间</option>
                     <option value="技能用法">技能用法</option>
+                    <option value="摆完挂机">摆完挂机</option>
+                    <option value="打印">打印</option>
                   </select>
                 </div>
                 <div class="form-group col-sm-2">
@@ -522,9 +524,12 @@
       let location = [xcoordinate, ycoordinate]
       var actionData = { type, kills, cost_changes, name, location, direction, pre_delay, rear_delay, doc, doc_color };
       if (isNaN(actionData.kills)) delete actionData.kills;
+      if (isNaN(actionData.cost_changes)) delete actionData.cost_changes;
       if (isNaN(actionData.pre_delay)) delete actionData.pre_delay;
       if (isNaN(actionData.rear_delay)) delete actionData.rear_delay;
       if (actionData.direction === "") delete actionData.direction;
+      if (actionData.doc === "") delete actionData.doc;
+      if (actionData.doc_color === "") delete actionData.doc_color;
       if (isNaN(actionData.location[0]) || isNaN(actionData.location[1])) delete actionData.location;
       return actionData;
     }

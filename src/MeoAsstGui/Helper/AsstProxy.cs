@@ -250,6 +250,7 @@ namespace MeoAsstGui
                     {
                         toast.Show();
                     }
+                    copilotModel.Idle = true;
                     mainModel.CheckAndShutdown();
                     break;
             }
@@ -594,7 +595,11 @@ namespace MeoAsstGui
                             string color = subTaskDetails["doc_color"].ToString();
                             copilotModel.AddLog(doc, color.Length == 0 ? "dark" : color);
                         }
-                        copilotModel.AddLog("当前步骤：" + subTaskDetails["action"].ToString());
+                        var action = subTaskDetails["action"].ToString();
+                        if (action.Length != 0)
+                        {
+                            copilotModel.AddLog("当前步骤：" + action);
+                        }
                     }
                     break;
 
