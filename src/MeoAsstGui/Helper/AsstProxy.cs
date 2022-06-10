@@ -213,11 +213,17 @@ namespace MeoAsstGui
                 }
             }
             var mainModel = _container.Get<TaskQueueViewModel>();
+            var copilotModel = _container.Get<CopilotViewModel>();
 
             switch (msg)
             {
                 case AsstMsg.TaskChainError:
                     mainModel.AddLog("任务出错：" + taskChain, "darkred");
+                    if (taskChain == "Copilot")
+                    {
+                        copilotModel.Idle = true;
+                        copilotModel.AddLog("战斗出错！", "darkred");
+                    }
                     break;
 
                 case AsstMsg.TaskChainStart:
@@ -226,6 +232,11 @@ namespace MeoAsstGui
 
                 case AsstMsg.TaskChainCompleted:
                     mainModel.AddLog("完成任务：" + taskChain);
+                    if (taskChain == "Copilot")
+                    {
+                        copilotModel.Idle = true;
+                        copilotModel.AddLog("完成战斗", "darkcyan");
+                    }
                     break;
 
                 case AsstMsg.TaskChainExtraInfo:
@@ -239,6 +250,7 @@ namespace MeoAsstGui
                     {
                         toast.Show();
                     }
+                    copilotModel.Idle = true;
                     mainModel.CheckAndShutdown();
                     break;
             }
@@ -583,7 +595,11 @@ namespace MeoAsstGui
                             string color = subTaskDetails["doc_color"].ToString();
                             copilotModel.AddLog(doc, color.Length == 0 ? "dark" : color);
                         }
-                        copilotModel.AddLog("当前步骤：" + subTaskDetails["action"].ToString());
+                        var action = subTaskDetails["action"].ToString();
+                        if (action.Length != 0)
+                        {
+                            copilotModel.AddLog("当前步骤：" + action);
+                        }
                     }
                     break;
 

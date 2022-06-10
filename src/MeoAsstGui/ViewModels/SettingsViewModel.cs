@@ -188,6 +188,10 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _startEmulator, value);
                 ViewStatusStorage.Set("Start.StartEmulator", value.ToString());
+                if (ClientType == "" && Idle)
+                {
+                    ClientType = "Official";
+                }
             }
         }
 
