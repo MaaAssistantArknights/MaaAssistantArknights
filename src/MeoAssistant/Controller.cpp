@@ -285,6 +285,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
         select(static_cast<int>(m_server_sock) + 1, &fdset, NULL, NULL, &select_timeout);
         if (FD_ISSET(m_server_sock, &fdset)) {
             SOCKET client_sock = ::accept(m_server_sock, NULL, NULL);
+            setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, (char*)&select_timeout, sizeof(int));
             int recv_size = 0;
             do {
                 recv_size = ::recv(client_sock, (char*)m_socket_buffer.get(), SocketBuffSize, NULL);
@@ -340,7 +341,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     else {
         // failed to create child process
         return std::nullopt;
-    }
+}
 #endif
 
     Log.trace("Call `", cmd, "` ret", exit_ret, ", output size:", pipe_data.size());
