@@ -225,7 +225,6 @@ namespace MeoAsstGui
                         copilotModel.AddLog("战斗出错！", "darkred");
                     }
                     break;
-                    break;
 
                 case AsstMsg.TaskChainStart:
                     mainModel.AddLog("开始任务：" + taskChain);
