@@ -335,6 +335,8 @@ namespace MeoAsstGui
             ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
             // 吃石头颗数
             ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
+            // 指定刷关次数
+            ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
             // 指定掉落材料
             ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
             // 指定掉落材料数量
@@ -368,14 +370,14 @@ namespace MeoAsstGui
                     stone = 0;
                 }
             }
-            //int times = int.MaxValue;
-            //if (IsSpecifiedDrops)
-            //{
-            //    if (!int.TryParse(DropsQuantity, out times))
-            //    {
-            //        times = 0;
-            //    }
-            //}
+            int times = int.MaxValue;
+            if (HasTimesLimited)
+            {
+                if (!int.TryParse(MaxTimes, out times))
+                {
+                    times = 0;
+                }
+            }
             int drops_quantity = 0;
             if (IsSpecifiedDrops)
             {
@@ -386,7 +388,7 @@ namespace MeoAsstGui
             }
 
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendFight(Stage, medicine, stone, int.MaxValue, DropsItemId, drops_quantity);
+            return asstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
         }
 
         private bool appendInfrast()
@@ -602,6 +604,28 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _stoneNumber, value);
+            }
+        }
+
+        private bool _hasTimesLimited;
+
+        public bool HasTimesLimited
+        {
+            get { return _hasTimesLimited; }
+            set
+            {
+                SetAndNotify(ref _hasTimesLimited, value);
+            }
+        }
+
+        private string _maxTimes = ViewStatusStorage.Get("MainFunction.TimesLimited.Quantity", "5");
+
+        public string MaxTimes
+        {
+            get { return _maxTimes; }
+            set
+            {
+                SetAndNotify(ref _maxTimes, value);
             }
         }
 
