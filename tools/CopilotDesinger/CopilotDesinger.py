@@ -18,6 +18,8 @@ class ActionType:
     SpeedUp = "二倍速"
     BulletTime = "子弹时间"
     SkillUsage = "技能用法"
+    SkillDaemon = "摆完挂机"
+    Output = "打印"
 
 
 class SkillUsageType:
@@ -83,7 +85,7 @@ class Action:
     def add_haisi_doc(self):
         if self._doc is not None:
             return
-        if self._action_type in [ActionType.SpeedUp, ActionType.BulletTime]:
+        if self._action_type in [ActionType.SpeedUp, ActionType.BulletTime, ActionType.SkillDaemon, ActionType.Output]:
             haisi_doc_list = [self._action_type, "执行"]
         elif self._action_type in [ActionType.Deploy, ActionType.Skill, ActionType.Retreat]:
             haisi_doc_list = [self._name]
@@ -162,13 +164,16 @@ class OperatorOrGroup:
         return self
 
     def deploy(self, location: tuple, direction: str):
-        self._battle.add_action(self._add_conditions(Action(ActionType.Deploy, self.name, location, direction)))
+        self._battle.add_action(self._add_conditions(
+            Action(ActionType.Deploy, self.name, location, direction)))
 
     def use_skill(self):
-        self._battle.add_action(self._add_conditions(Action(ActionType.Skill, self.name)))
+        self._battle.add_action(self._add_conditions(
+            Action(ActionType.Skill, self.name)))
 
     def retreat(self):
-        self._battle.add_action(self._add_conditions(Action(ActionType.Retreat, self.name)))
+        self._battle.add_action(self._add_conditions(
+            Action(ActionType.Retreat, self.name)))
 
     def _add_conditions(self, action: Action) -> Action:
         if self._pre_delay != 0:
@@ -262,7 +267,8 @@ class Operator(OperatorOrGroup):
         :param change_to: 需要调整到的 SkillUsageType
         :return:
         """
-        self._battle.add_action(self._add_conditions(Action(ActionType.SkillUsage, skill_usage=change_to)))
+        self._battle.add_action(self._add_conditions(
+            Action(ActionType.SkillUsage, skill_usage=change_to)))
 
     def to_dict(self) -> dict:
         res = {
@@ -429,7 +435,8 @@ class Battle:
         except ImportError:
             import sys
             import pathlib
-            sys.path.append(str(pathlib.Path.cwd().parent.parent / "src" / "Python"))
+            sys.path.append(
+                str(pathlib.Path.cwd().parent.parent / "src" / "Python"))
             try:
                 from asst import Asst, Message
             except ImportError:

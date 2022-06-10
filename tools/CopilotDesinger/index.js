@@ -62,6 +62,8 @@ const action_type = () => {
         '<option value="撤退">撤退</option>' +
         '<option value="子弹时间">子弹时间</option>' +
         '<option value="技能用法">技能用法</option>' +
+        '<option value="摆完挂机">摆完挂机</option>' +
+        '<option value="打印">打印</option>' +
         '</select>');
 };
 

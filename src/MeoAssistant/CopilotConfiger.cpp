@@ -67,17 +67,31 @@ bool asst::CopilotConfiger::parse(const json::value& json)
             { "speedup", BattleActionType::SwitchSpeed },
             { "二倍速", BattleActionType::SwitchSpeed },
 
-            { "BulletTime", BattleActionType::SwitchSpeed },
-            { "BULLETTIME", BattleActionType::SwitchSpeed },
-            { "Bullettime", BattleActionType::SwitchSpeed },
-            { "bullettime", BattleActionType::SwitchSpeed },
-            { "子弹时间", BattleActionType::SwitchSpeed },
+            { "BulletTime", BattleActionType::BulletTime },
+            { "BULLETTIME", BattleActionType::BulletTime },
+            { "Bullettime", BattleActionType::BulletTime },
+            { "bullettime", BattleActionType::BulletTime },
+            { "子弹时间", BattleActionType::BulletTime },
 
             { "SkillUsage", BattleActionType::SkillUsage },
             { "SKILLUSAGE", BattleActionType::SkillUsage },
             { "Skillusage", BattleActionType::SkillUsage },
             { "skillusage", BattleActionType::SkillUsage },
             { "技能用法", BattleActionType::SkillUsage },
+
+            { "Output", BattleActionType::Output },
+            { "OUTPUT", BattleActionType::Output },
+            { "output", BattleActionType::Output },
+            { "输出", BattleActionType::Output },
+            { "打印", BattleActionType::Output },
+
+            { "SkillDaemon", BattleActionType::SkillDaemon },
+            { "skilldaemon", BattleActionType::SkillDaemon },
+            { "SKILLDAEMON", BattleActionType::SkillDaemon },
+            { "Skilldaemon", BattleActionType::SkillDaemon },
+            { "DoNothing", BattleActionType::SkillDaemon },
+            { "摆完挂机", BattleActionType::SkillDaemon },
+            { "开摆", BattleActionType::SkillDaemon },
         };
 
         std::string type_str = action_info.get("type", "Deploy");
