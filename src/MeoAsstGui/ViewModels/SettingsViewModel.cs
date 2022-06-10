@@ -218,16 +218,12 @@ namespace MeoAsstGui
         public void TryToStartEmulator()
         {
             if (!StartEmulator
-                || EmulatorPath.Length == 0)
+                || EmulatorPath.Length == 0
+                || !File.Exists(EmulatorPath))
             {
                 return;
             }
-            Process emuProcess = new Process();
-            emuProcess.StartInfo.FileName = "cmd.exe";
-            emuProcess.StartInfo.RedirectStandardInput = true;
-            emuProcess.StartInfo.UseShellExecute = false;
-            emuProcess.Start();
-            emuProcess.StandardInput.WriteLine(EmulatorPath);
+            System.Diagnostics.Process.Start(EmulatorPath);
             int delay = 0;
             if (!int.TryParse(EmulatorWaitSeconds, out delay))
             {
