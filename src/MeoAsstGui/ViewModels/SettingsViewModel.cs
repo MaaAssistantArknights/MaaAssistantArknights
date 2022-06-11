@@ -229,7 +229,6 @@ namespace MeoAsstGui
             emuProcess.Start();
             emuProcess.StandardInput.WriteLine(EmulatorPath);
             emuProcess.StandardInput.WriteLine("exit");
-            emuProcess.Close();
             int delay = 0;
             if (!int.TryParse(EmulatorWaitSeconds, out delay))
             {
