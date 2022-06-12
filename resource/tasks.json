@@ -4745,7 +4745,8 @@
             -110,
             90,
             90
-        ]
+        ],
+        "rearDelay": 200
     },
     "BattleSkillStopOnClick": {
         "roi": [
@@ -4761,7 +4762,8 @@
             -110,
             90,
             90
-        ]
+        ],
+        "rearDelay": 200
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
