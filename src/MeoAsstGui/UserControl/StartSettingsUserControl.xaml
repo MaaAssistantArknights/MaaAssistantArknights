@@ -35,6 +35,10 @@
                 <Button Command="{s:Action SelectEmulatorExec}" Content="选择" Margin="10" />
             </StackPanel>
             <TextBox Text="{Binding EmulatorPath}" Margin="10" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="附加命令" />
+            </StackPanel>
+            <TextBox Text="{Binding EmulatorAddCommand}" Margin="10" />
             <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="客户端版本" />
             <ComboBox IsHitTestVisible ="{Binding Idle}" Margin="10"
                       ItemsSource="{Binding ClientTypeList}"

@@ -203,6 +203,19 @@ namespace MeoAsstGui
             }
         }
 
+        private string _emulatorAddCommand = ViewStatusStorage.Get("Start.EmulatorAddCommand", string.Empty);
+
+        public string EmulatorAddCommand
+        {
+            get { return _emulatorAddCommand; }
+            set
+            {
+                SetAndNotify(ref _emulatorAddCommand, value);
+                ViewStatusStorage.Set("Start.EmulatorAddCommand", value);
+            }
+        }
+
+
         private string _emulatorWaitSeconds = ViewStatusStorage.Get("Start.EmulatorWaitSeconds", "60");
 
         public string EmulatorWaitSeconds
@@ -222,13 +235,25 @@ namespace MeoAsstGui
             {
                 return;
             }
-            Process emuProcess = new Process();
-            emuProcess.StartInfo.FileName = "cmd.exe";
-            emuProcess.StartInfo.RedirectStandardInput = true;
-            emuProcess.StartInfo.UseShellExecute = false;
-            emuProcess.Start();
-            emuProcess.StandardInput.WriteLine(EmulatorPath);
-            emuProcess.StandardInput.WriteLine("exit");
+            if (EmulatorAddCommand.Length != 0)
+            {
+                string StartCommand = "";
+                if (EmulatorPath.StartsWith("\""))
+                {
+                    StartCommand += EmulatorPath.ToString();
+                }
+                else StartCommand = "\"" + EmulatorPath.ToString() + "\"";
+                StartCommand += " ";
+                StartCommand += EmulatorAddCommand.ToString();
+                Process emuProcess = new Process();
+                emuProcess.StartInfo.FileName = "cmd.exe";
+                emuProcess.StartInfo.RedirectStandardInput = true;
+                emuProcess.StartInfo.UseShellExecute = false;
+                emuProcess.Start();
+                emuProcess.StandardInput.WriteLine(StartCommand);
+                emuProcess.StandardInput.WriteLine("exit");
+            }
+            else Process.Start(EmulatorPath);
             int delay = 0;
             if (!int.TryParse(EmulatorWaitSeconds, out delay))
             {
