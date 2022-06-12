@@ -6,17 +6,22 @@
         ],
         "preDelay": 500,
         "roi": [
-            800,
-            400,
-            480,
-            320
+            1000,
+            600,
+            280,
+            120
+        ],
+        "exceededNext": [
+            "StageSNReturnFlag",
+            "Stop"
         ],
         "action": "ClickSelf",
         "next": [
             "StartButton2",
             "UseMedicine",
             "UseStone",
-            "NoStone"
+            "NoStone",
+            "OfflineConfirm"
         ]
     },
     "PRTS": {
@@ -33,8 +38,8 @@
         "action": "DoNothing",
         "rearDelay": 5000,
         "next": [
-            "PRTS2",
             "PRTS",
+            "PRTS3",
             "EndOfAction",
             "PrtsErrorConfirm",
             "OfflineConfirm",
@@ -43,15 +48,11 @@
     },
     "EndOfAction": {
         "Doc": "本任务注册了插件 StageDropsTaskPlugin",
-        "algorithm": "OcrDetect",
-        "text": [
-            "Results"
-        ],
         "roi": [
-            0,
-            440,
-            440,
-            280
+            750,
+            400,
+            250,
+            150
         ],
         "action": "DoNothing",
         "next": [
@@ -96,6 +97,7 @@
         "action": "ClickSelf",
         "next": [
             "UsePrts",
+            "UsePrts-StageSN",
             "StartButton1"
         ]
     },

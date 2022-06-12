@@ -139,7 +139,8 @@ namespace MeoAsstGui
             {
                 new CombData { Display = "不选择", Value = "" },
                 new CombData { Display = "官服", Value = "Official" },
-                new CombData { Display = "Bilibili服", Value = "Bilibili" }
+                new CombData { Display = "Bilibili服", Value = "Bilibili" },
+                new CombData { Display = "悠星美服 (YoStarEN)", Value = "YoStarEN" }
             };
         }
 
