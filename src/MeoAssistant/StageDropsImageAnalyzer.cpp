@@ -31,9 +31,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
     cv::imwrite("debug/" + stem + "_draw.png", m_image_draw);
 #endif
 
-    return std::all_of(m_drops.cbegin(), m_drops.cend(), [](const auto& item_info) -> bool {
-        return item_info.quantity > 0;
-    });
+    return ret;
 }
 
 asst::StageKey asst::StageDropsImageAnalyzer::get_stage_key() const
@@ -203,10 +201,8 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             if (quantity <= 0) {
                 has_error = true;
                 Log.error(__FUNCTION__, "quantity error", quantity);
-                continue;
             }
             if (item.empty()) {
-                has_error = true;
                 Log.warn(__FUNCTION__, "item id is empty");
             }
             StageDropInfo info;

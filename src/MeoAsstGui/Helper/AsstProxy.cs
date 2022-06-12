@@ -74,9 +74,45 @@ namespace MeoAsstGui
             _callback = CallbackFunction;
         }
 
+        ~AsstProxy()
+        {
+            if (_handle != IntPtr.Zero)
+            {
+                AsstDestroy();
+            }
+        }
+
+        private string _curResource = "";
+
+        public bool LoadGlobalResource()
+        {
+            bool loaded = true;
+            var settingsModel = _container.Get<SettingsViewModel>();
+            if (_curResource.Length == 0
+                && settingsModel.ClientType == "YoStarEN"
+                && _curResource != settingsModel.ClientType)
+            {
+                loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory() + "\\resource\\global\\YoStarEN");
+                _curResource = "YoStarEN";
+            }
+            // 这种是手贱看到美服点了一下，又点回官服的
+            else if (_curResource.Length != 0
+                && (settingsModel.ClientType == "Official" || settingsModel.ClientType == "Bilibili" || settingsModel.ClientType == String.Empty))
+            {
+                loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory());
+                _curResource = "";
+            }
+            return loaded;
+        }
+
         public void Init()
         {
+            // basic resource for CN client
             bool loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory());
+            _curResource = "";
+
+            loaded = LoadGlobalResource();
+
             _handle = AsstCreateEx(_callback, IntPtr.Zero);
 
             if (loaded == false || _handle == IntPtr.Zero)
@@ -664,6 +700,12 @@ namespace MeoAsstGui
 
         public bool AsstConnect(ref string error)
         {
+            if (!LoadGlobalResource())
+            {
+                error = "Load Global Resource Failed";
+                return false;
+            }
+
             var settings = _container.Get<SettingsViewModel>();
             if (settings.AdbPath == String.Empty ||
                 settings.ConnectAddress == String.Empty)
@@ -689,6 +731,10 @@ namespace MeoAsstGui
                         break;
                     }
                 }
+            }
+            if (!ret)
+            {
+                error = "连接失败\n请检查连接设置";
             }
             return ret;
         }
@@ -808,6 +854,11 @@ namespace MeoAsstGui
         public bool AsstStop()
         {
             return AsstStop(_handle);
+        }
+
+        public void AsstDestroy()
+        {
+            AsstDestroy(_handle);
         }
     }
 

@@ -1,6 +1,8 @@
-# US
+# YoStarEN server
 
-## 美服资源文件
+## 美服
+
+请进入 `设置` - `启动设置` - `客户端版本` 选择 `悠星美服`
 
 目前支持：  
 
@@ -8,11 +10,11 @@
 - 使用理智药恢复理智
 - 使用源石恢复理智
 - 指定次数
-- 掉落材料识别
-- 上传 [企鹅物流数据统计](https://penguin-stats.cn/) 及设置用户 ID
 - 公招计算
 
-## US server resource file
+## YoStarEN
+
+Please go to `Settings` - `Startup Settings` - `Client Version` and select `YoStarEN`
 
 Now supports:  
 
@@ -20,6 +22,4 @@ Now supports:
 - Restore with potion
 - Restore with Originite
 - Set the max number of auto battles
-- Identify loot
-- Upload results to [Penguin Statistics](https://penguin-stats.io/) with your own id
 - Recruitment calculate

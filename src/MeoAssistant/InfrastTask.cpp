@@ -46,6 +46,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
         m_subtasks.clear();
         append_infrast_begin();
+        m_subtasks.emplace_back(m_info_task_ptr);
 
         for (const auto& facility_json : params.at("facility").as_array()) {
             if (!facility_json.is_string()) {

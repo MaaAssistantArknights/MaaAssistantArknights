@@ -70,11 +70,19 @@ See also: [User Manual](docs/en/USER_MANUAL.md)
 
 Please refer to: [FAQ](docs/en/FAQ.md)
 
+## Supports for overseas servers
+
+- YoStarEN Server  
+  Supports basic features like Combat, Recruiting, etc. See also [README](resource/global/YoStarEN/readme.md)
+- Other servers  
+  TODO
+
 ## Associated Projects
 
 - New GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) (Development in progress, welcome to join us!)
 - Update server: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer) (Development in progress, welcome to join us!)
 - Co-pilot (auto-battle) server: [MaaCopilotServer](https://github.com/MaaAssistantArknights/MaaCopilotServer) (Development in progress, welcome to join us!)
+- [Website](https://www.maa.plus): [maa-website](https://github.com/MaaAssistantArknights/maa-website) (Development in progress, welcome to join us!)
 
 ## Acknowledgements
 

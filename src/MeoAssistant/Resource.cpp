@@ -91,13 +91,15 @@ bool asst::Resource::load(const std::string& dir)
     //    }
     //}
 
-    for (const auto& entry : std::filesystem::directory_iterator(dir + RoguelikeCfgDirname)) {
-        if (entry.path().extension() != ".json") {
-            continue;
-        }
-        if (!m_roguelike_cfg_unique_ins.load(entry.path().string())) {
-            m_last_error = entry.path().string() + " Load failed";
-            return false;
+    if (std::filesystem::exists(dir + RoguelikeCfgDirname)) {
+        for (const auto& entry : std::filesystem::directory_iterator(dir + RoguelikeCfgDirname)) {
+            if (entry.path().extension() != ".json") {
+                continue;
+            }
+            if (!m_roguelike_cfg_unique_ins.load(entry.path().string())) {
+                m_last_error = entry.path().string() + " Load failed";
+                return false;
+            }
         }
     }
 

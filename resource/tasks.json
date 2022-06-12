@@ -764,6 +764,10 @@
             [
                 "卡湿利安",
                 "卡涅利安"
+            ],
+            [
+                "研",
+                "砾"
             ]
         ]
     },
@@ -3276,7 +3280,7 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
-            1080,
+            780,
             200,
             100,
             300
@@ -3289,7 +3293,7 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
-            200,
+            300,
             200,
             100,
             300
@@ -4492,6 +4496,7 @@
             286,
             115
         ],
+        "rearDelay": 500,
         "next": [
             "BattleQuickFormationCollapseRole",
             "Stop"
@@ -4505,7 +4510,7 @@
             117,
             133
         ],
-        "rearDelay": 1000
+        "rearDelay": 500
     },
     "BattleQuickFormation-OperNameFlag": {
         "templThreshold": 0.95,
@@ -4744,7 +4749,8 @@
             -110,
             90,
             90
-        ]
+        ],
+        "rearDelay": 200
     },
     "BattleSkillStopOnClick": {
         "roi": [
@@ -4760,17 +4766,18 @@
             -110,
             90,
             90
-        ]
+        ],
+        "rearDelay": 200
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
         "preDelay": 200,
-        "rearDelay": 0,
+        "rearDelay": 100,
         "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；rear 是干员上场，到设置朝向之间等待的时间"
     },
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
-        "preDelay": 18000,
+        "preDelay": 15000,
         "rearDelay": 100,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration"
     },
@@ -6752,6 +6759,10 @@
             ],
             [
                 "l",
+                "1"
+            ],
+            [
+                "工",
                 "1"
             ],
             [
