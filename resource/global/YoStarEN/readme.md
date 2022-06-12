@@ -1,4 +1,4 @@
-# US
+# YoStarEN server
 
 ## 美服资源文件
 
@@ -10,7 +10,7 @@
 - 指定次数
 - 公招计算
 
-## US server resource file
+## YoStarEN server resource file
 
 Now supports:  
 
