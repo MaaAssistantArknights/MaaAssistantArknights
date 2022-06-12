@@ -3276,7 +3276,7 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
-            1080,
+            780,
             200,
             100,
             300
@@ -3289,7 +3289,7 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
-            200,
+            300,
             200,
             100,
             300
