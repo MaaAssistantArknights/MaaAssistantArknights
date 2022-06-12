@@ -281,7 +281,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
         std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
         fd_set fdset = { 0 };
         FD_SET(m_server_sock, &fdset);
-        constexpr int TimeoutMilliseconds = 3000;
+        constexpr int TimeoutMilliseconds = 10000;
         timeval select_timeout = { 0, TimeoutMilliseconds };
         select(static_cast<int>(m_server_sock) + 1, &fdset, NULL, NULL, &select_timeout);
         if (FD_ISSET(m_server_sock, &fdset)) {
