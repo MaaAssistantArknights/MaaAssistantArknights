@@ -4492,6 +4492,7 @@
             286,
             115
         ],
+        "rearDelay": 500,
         "next": [
             "BattleQuickFormationCollapseRole",
             "Stop"
@@ -4505,7 +4506,7 @@
             117,
             133
         ],
-        "rearDelay": 1000
+        "rearDelay": 500
     },
     "BattleQuickFormation-OperNameFlag": {
         "templThreshold": 0.95,
