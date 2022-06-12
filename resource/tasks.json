@@ -4765,12 +4765,12 @@
     "BattleUseOper": {
         "algorithm": "JustReturn",
         "preDelay": 200,
-        "rearDelay": 0,
+        "rearDelay": 100,
         "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；rear 是干员上场，到设置朝向之间等待的时间"
     },
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
-        "preDelay": 18000,
+        "preDelay": 15000,
         "rearDelay": 100,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration"
     },
