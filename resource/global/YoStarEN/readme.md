@@ -1,6 +1,8 @@
 # YoStarEN server
 
-## 美服资源文件
+## 美服
+
+请进入 `设置` - `启动设置` - `客户端版本` 选择 `悠星美服`
 
 目前支持：  
 
@@ -10,7 +12,9 @@
 - 指定次数
 - 公招计算
 
-## YoStarEN server resource file
+## YoStarEN
+
+Please go to `Settings` - `Startup Settings` - `Client Version` and select `YoStarEN`
 
 Now supports:  
 
