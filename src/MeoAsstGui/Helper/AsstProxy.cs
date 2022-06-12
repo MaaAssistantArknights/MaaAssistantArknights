@@ -74,6 +74,14 @@ namespace MeoAsstGui
             _callback = CallbackFunction;
         }
 
+        ~AsstProxy()
+        {
+            if (_handle != IntPtr.Zero)
+            {
+                AsstDestroy();
+            }
+        }
+
         public void Init()
         {
             bool loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory());
@@ -225,7 +233,6 @@ namespace MeoAsstGui
                         copilotModel.AddLog("战斗出错！", "darkred");
                     }
                     break;
-                    break;
 
                 case AsstMsg.TaskChainStart:
                     mainModel.AddLog("开始任务：" + taskChain);
@@ -251,6 +258,7 @@ namespace MeoAsstGui
                     {
                         toast.Show();
                     }
+                    copilotModel.Idle = true;
                     mainModel.CheckAndShutdown();
                     break;
             }
@@ -595,7 +603,11 @@ namespace MeoAsstGui
                             string color = subTaskDetails["doc_color"].ToString();
                             copilotModel.AddLog(doc, color.Length == 0 ? "dark" : color);
                         }
-                        copilotModel.AddLog("当前步骤：" + subTaskDetails["action"].ToString());
+                        var action = subTaskDetails["action"].ToString();
+                        if (action.Length != 0)
+                        {
+                            copilotModel.AddLog("当前步骤：" + action);
+                        }
                     }
                     break;
 
@@ -804,6 +816,11 @@ namespace MeoAsstGui
         public bool AsstStop()
         {
             return AsstStop(_handle);
+        }
+
+        public void AsstDestroy()
+        {
+            AsstDestroy(_handle);
         }
     }
 

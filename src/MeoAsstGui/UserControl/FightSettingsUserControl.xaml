@@ -16,6 +16,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center">
             <CheckBox IsChecked="{Binding UseMedicine}" IsHitTestVisible="{Binding Idle}" Content="吃理智药" Margin="10" />
@@ -32,8 +33,13 @@
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="颗" />
             <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding StoneInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
         </StackPanel>
-
         <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding HasTimesLimited}" IsHitTestVisible="{Binding Idle}" Content="指定次数" Margin="10" />
+            <TextBox Text="{Binding MaxTimes}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="次" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center">
             <CheckBox IsChecked="{Binding IsSpecifiedDrops}"  IsHitTestVisible="{Binding Idle}" Content="指定材料" Margin="10" />
             <ComboBox Width="120" Margin="10"
                       IsHitTestVisible ="{Binding Path=Idle}"
@@ -44,15 +50,15 @@
                       Text="{Binding DropsItem}"
                       IsDropDownOpen="{Binding IsDropDown}"
                       ItemsSource="{Binding DropsList}"
-                      SelectedValue="{Binding DropsItemId}"/>
+                      SelectedValue="{Binding DropsItemId}" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="4" VerticalAlignment="Center">
             <!--<TextBlock Style="{StaticResource TextBlockDefault}" Margin="35,10,0,10" Text="掉落数 " />-->
             <TextBox Text="{Binding DropsQuantity}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap"
                      Width="95" Margin="98,10,10,10" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="个" />
         </StackPanel>
-        <StackPanel Grid.Row="4"  Orientation="Horizontal">
+        <StackPanel Grid.Row="5"  Orientation="Horizontal">
             <TextBlock Style="{StaticResource TextBlockDefault}" Margin="10,10,0,10" VerticalAlignment="Center"
                    Text="关卡选择" FontSize="14" />
             <ComboBox Width="120" Margin="31,10,10,10"
