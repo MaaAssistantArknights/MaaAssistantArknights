@@ -74,6 +74,14 @@ namespace MeoAsstGui
             _callback = CallbackFunction;
         }
 
+        ~AsstProxy()
+        {
+            if (_handle != IntPtr.Zero)
+            {
+                AsstDestroy();
+            }
+        }
+
         public void Init()
         {
             bool loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory());
@@ -808,6 +816,11 @@ namespace MeoAsstGui
         public bool AsstStop()
         {
             return AsstStop(_handle);
+        }
+
+        public void AsstDestroy()
+        {
+            AsstDestroy(_handle);
         }
     }
 
