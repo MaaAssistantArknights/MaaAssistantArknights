@@ -698,6 +698,10 @@ namespace MeoAsstGui
                     }
                 }
             }
+            if (!ret)
+            {
+                error = "连接失败\n请检查连接设置";
+            }
             return ret;
         }
 
