@@ -236,10 +236,6 @@ namespace MeoAsstGui
                 Idle = true;
                 return;
             }
-            if (errMsg.Length != 0)
-            {
-                AddLog(errMsg, "darkred");
-            }
 
             bool ret = true;
             // 直接遍历TaskItemViewModels里面的内容，是排序后的
