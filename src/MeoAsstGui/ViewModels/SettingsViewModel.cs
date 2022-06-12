@@ -188,6 +188,10 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _startEmulator, value);
                 ViewStatusStorage.Set("Start.StartEmulator", value.ToString());
+                if (ClientType == "" && Idle)
+                {
+                    ClientType = "Official";
+                }
             }
         }
 
@@ -231,7 +235,8 @@ namespace MeoAsstGui
         public void TryToStartEmulator()
         {
             if (!StartEmulator
-                || EmulatorPath.Length == 0)
+                || EmulatorPath.Length == 0
+                || !File.Exists(EmulatorPath))
             {
                 return;
             }

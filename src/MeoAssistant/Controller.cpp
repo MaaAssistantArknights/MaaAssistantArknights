@@ -281,10 +281,12 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
         std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
         fd_set fdset = { 0 };
         FD_SET(m_server_sock, &fdset);
-        timeval select_timeout = { 3, 0 };
+        constexpr int TimeoutMilliseconds = 10000;
+        timeval select_timeout = { 0, TimeoutMilliseconds };
         select(static_cast<int>(m_server_sock) + 1, &fdset, NULL, NULL, &select_timeout);
         if (FD_ISSET(m_server_sock, &fdset)) {
             SOCKET client_sock = ::accept(m_server_sock, NULL, NULL);
+            setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, (char*)&TimeoutMilliseconds, sizeof(int));
             int recv_size = 0;
             do {
                 recv_size = ::recv(client_sock, (char*)m_socket_buffer.get(), SocketBuffSize, NULL);
@@ -296,7 +298,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
             } while (recv_size > 0 && !check_timeout());
             ::closesocket(client_sock);
         }
-        ::WaitForSingleObject(process_info.hProcess, 3000);
+        ::WaitForSingleObject(process_info.hProcess, TimeoutMilliseconds);
     }
     DWORD exit_ret = 0;
     ::GetExitCodeProcess(process_info.hProcess, &exit_ret);
@@ -546,7 +548,7 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
 void asst::Controller::wait(unsigned id) const noexcept
 {
     while (id > m_completed_id) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
         std::this_thread::yield();
     }
 }
