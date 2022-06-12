@@ -387,10 +387,25 @@ namespace MeoAsstGui
                 }
 
                 _latestVersion = _lastestJson["tag_name"].ToString();
-                if ((string.Compare(_latestVersion, _curVersion) <= 0) || (ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _latestVersion))
+                if (ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _latestVersion)
                 {
                     return false;
                 }
+
+                Semver.SemVersion curVersionObj;
+                bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out curVersionObj);
+                Semver.SemVersion lastestVersionObj;
+                bool lastestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out lastestVersionObj);
+                if (curParsed && lastestPared
+                    && curVersionObj >= lastestVersionObj)
+                {
+                    return false;
+                }
+                else if ((string.Compare(_curVersion, _latestVersion) >= 0))
+                {
+                    return false;
+                }
+
                 _assetsObject = _lastestJson["assets"][0] as JObject;
             }
             catch (Exception)
