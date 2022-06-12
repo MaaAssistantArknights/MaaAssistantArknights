@@ -80,11 +80,19 @@ MAA 的意思是 MAA Assistant Arknights
 
 请参考 [常见问题](docs/常见问题.md)
 
+## 外服支持
+
+- 美服  
+  支持基本的刷理智、公招识别功能，请参考 [说明](resource/global/YoStarEN/readme.md)
+- 其他服  
+  计划适配中……
+
 ## 主要关联项目
 
 - 全新 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
 - 更新服务器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer) （正在开发中，欢迎加入！）
 - 自动战斗作业服务器: [MaaCopilotServer](https://github.com/MaaAssistantArknights/MaaCopilotServer) （正在开发中，欢迎加入！）
+- [MAA 官网!](https://www.maa.plus): [maa-website](https://github.com/MaaAssistantArknights/maa-website) （正在开发中，欢迎加入！）
 
 ## 致谢
 
