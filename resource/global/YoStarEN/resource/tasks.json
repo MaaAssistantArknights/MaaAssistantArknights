@@ -49,10 +49,10 @@
     "EndOfAction": {
         "Doc": "本任务注册了插件 StageDropsTaskPlugin",
         "roi": [
-            750,
-            400,
-            250,
-            150
+            791,
+            410,
+            296,
+            145
         ],
         "action": "DoNothing",
         "next": [
