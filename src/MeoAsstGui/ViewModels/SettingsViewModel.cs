@@ -241,7 +241,7 @@ namespace MeoAsstGui
         {
             var dialog = new Microsoft.Win32.OpenFileDialog();
 
-            dialog.Filter = "模拟器程序|*.exe";
+            dialog.Filter = "可执行文件|*.exe;*.bat;*.lnk";
 
             if (dialog.ShowDialog() == true)
             {
