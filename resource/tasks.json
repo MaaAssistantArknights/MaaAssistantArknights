@@ -6831,5 +6831,44 @@
             250,
             100
         ]
+    },
+    "DeoptMatchData": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "roi": [
+            0,
+            0,
+            1060,
+            596
+        ],
+        "roi_Doc": "作为截图的缩放尺寸使用",
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "DeoptBaseRect": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            90,
+            260,
+            150
+        ]
+    },
+    "DeoptQuantity": {
+        "template": "empty.png",
+        "templThreshold": 3,
+        "templThreshold_Doc": "这里用来作为字间距阈值",
+        "roi": [
+            51,
+            84,
+            47,
+            20
+        ],
+        "maskRange": [
+            150,
+            255
+        ]
     }
 }
