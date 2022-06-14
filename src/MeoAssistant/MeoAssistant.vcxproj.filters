@@ -339,6 +339,9 @@
     <ClInclude Include="GameCrashRestartTaskPlugin.h">
       <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
+    <ClInclude Include="DepotImageAnalyzer.h">
+      <Filter>头文件\ImageAnalyzer\Final</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -574,6 +577,9 @@
     </ClCompile>
     <ClCompile Include="GameCrashRestartTaskPlugin.cpp">
       <Filter>源文件\Task\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="DepotImageAnalyzer.cpp">
+      <Filter>源文件\ImageAnalyzer\Final</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
