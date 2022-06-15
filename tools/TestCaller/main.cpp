@@ -24,7 +24,7 @@ int main(/*int argc, char** argv*/)
         return -1;
     }
 
-    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", "DEBUG");
+    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", nullptr);
     if (!connected) {
         std::cerr << "connect failed" << std::endl;
         AsstDestroy(ptr);
@@ -76,7 +76,7 @@ int main(/*int argc, char** argv*/)
     //
     //  AsstAppendTask(ptr, "Roguelike", nullptr);
 
-    AsstAppendTask(ptr, "Debug", nullptr);
+    AsstAppendTask(ptr, "Depot", nullptr);
 
     //    AsstAppendTask(ptr, "Copilot", R"(
     //{
