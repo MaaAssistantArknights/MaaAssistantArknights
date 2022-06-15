@@ -15,7 +15,7 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, void* callback_arg)
 
 bool asst::DebugTask::run()
 {
-    cv::Mat image = cv::imread("depot.png");
+    cv::Mat image = cv::imread("depot2.png");
     DepotImageAnalyzer analyzer(image);
     return analyzer.analyze();
 }

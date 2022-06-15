@@ -30,6 +30,7 @@
     <ClInclude Include="BattleImageAnalyzer.h" />
     <ClInclude Include="BattleProcessTask.h" />
     <ClInclude Include="DepotImageAnalyzer.h" />
+    <ClInclude Include="DepotTask.h" />
     <ClInclude Include="GameCrashRestartTaskPlugin.h" />
     <ClInclude Include="RoguelikeRecruitConfiger.h" />
     <ClInclude Include="CopilotTask.h" />
@@ -111,6 +112,7 @@
     <ClCompile Include="BattleImageAnalyzer.cpp" />
     <ClCompile Include="BattleProcessTask.cpp" />
     <ClCompile Include="DepotImageAnalyzer.cpp" />
+    <ClCompile Include="DepotTask.cpp" />
     <ClCompile Include="GameCrashRestartTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeRecruitConfiger.cpp" />
     <ClCompile Include="CopilotTask.cpp" />
