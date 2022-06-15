@@ -560,12 +560,12 @@ bool asst::Controller::screencap()
 {
     LogTraceFunction;
 
-    if (true) {
-        m_inited = true;
-        std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
-        m_cache_image = cv::imread("err/1.png");
-        return true;
-    }
+    //if (true) {
+    //    m_inited = true;
+    //    std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+    //    m_cache_image = cv::imread("err/1.png");
+    //    return true;
+    //}
 
     DecodeFunc decode_raw = [&](std::vector<uchar>& data) -> bool {
         if (data.empty()) {
