@@ -60,7 +60,6 @@ bool asst::Assistant::connect(const std::string& adb_path, const std::string& ad
 {
     LogTraceFunction;
 
-    m_inited = false;
     std::unique_lock<std::mutex> lock(m_mutex);
 
     stop(false);
@@ -69,7 +68,6 @@ bool asst::Assistant::connect(const std::string& adb_path, const std::string& ad
     if (ret) {
         m_uuid = m_ctrler->get_uuid();
     }
-    m_inited = ret;
     return ret;
 }
 
@@ -161,7 +159,7 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
 
 std::vector<uchar> asst::Assistant::get_image() const
 {
-    if (!m_inited) {
+    if (!inited()) {
         return {};
     }
     return m_ctrler->get_image_encode();
@@ -169,7 +167,7 @@ std::vector<uchar> asst::Assistant::get_image() const
 
 bool asst::Assistant::ctrler_click(int x, int y, bool block)
 {
-    if (!m_inited) {
+    if (!inited()) {
         return false;
     }
     m_ctrler->click(Point(x, y), block);
@@ -181,7 +179,7 @@ bool asst::Assistant::start(bool block)
     LogTraceFunction;
     Log.trace("Start |", block ? "block" : "non block");
 
-    if (!m_thread_idle || !m_inited) {
+    if (!m_thread_idle || !inited()) {
         return false;
     }
     std::unique_lock<std::mutex> lock;
@@ -324,4 +322,9 @@ void Assistant::clear_cache()
     m_status->clear_number();
     m_status->clear_rect();
     m_status->clear_str();
+}
+
+bool asst::Assistant::inited() const noexcept
+{
+    return m_ctrler && m_ctrler->inited();
 }

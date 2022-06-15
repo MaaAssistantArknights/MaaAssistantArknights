@@ -32,6 +32,7 @@ namespace asst
 
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool release();
+        bool inited() const noexcept;
 
         const std::string& get_uuid() const;
         cv::Mat get_image(bool raw = false);
@@ -71,6 +72,7 @@ namespace asst
         using DecodeFunc = std::function<bool(std::vector<uchar>&)>;
         bool screencap();
         bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_nc = false);
+        void clear_lf_info();
         cv::Mat get_resized_image() const;
 
         Point rand_point_in_rect(const Rect& rect);
@@ -137,7 +139,7 @@ namespace asst
             enum class ScreencapMethod
             {
                 UnknownYet,
-                Default,
+                //Default,
                 RawByNc,
                 RawWithGzip,
                 Encode

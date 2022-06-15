@@ -203,8 +203,11 @@
         "action": "DoNothing",
         "sub": [
             "LE-Open",
-            "LEChapterToLE",
-            "StageLE-5"
+            "LEChapterToLE"
+        ],
+        "next": [
+            "StageLE-5",
+            "SwapToStageLE-5"
         ]
     },
     "LE-6": {
@@ -212,8 +215,11 @@
         "action": "DoNothing",
         "sub": [
             "LE-Open",
-            "LEChapterToLE",
-            "StageLE-6"
+            "LEChapterToLE"
+        ],
+        "next": [
+            "StageLE-6",
+            "SwapToStageLE-6"
         ]
     },
     "LE-7": {
@@ -221,8 +227,11 @@
         "action": "DoNothing",
         "sub": [
             "LE-Open",
-            "LEChapterToLE",
-            "StageLE-7"
+            "LEChapterToLE"
+        ],
+        "next": [
+            "StageLE-7",
+            "SwapToStageLE-7"
         ]
     },
     "LE-Open": {
@@ -252,8 +261,31 @@
         ],
         "action": "ClickSelf",
         "sub": [
-            "SwipeToTheRight",
-            "SlowlySwipeToTheLeft"
+            "SwipeToTheRight"
+        ]
+    },
+    "SwapToStageLE-5": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageLE-5",
+            "SwapToStageLE-5"
+        ]
+    },
+    "SwapToStageLE-6": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageLE-6",
+            "SwapToStageLE-6"
+        ]
+    },
+    "SwapToStageLE-7": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageLE-7",
+            "SwapToStageLE-7"
         ]
     },
     "StageLE-5": {
@@ -643,6 +675,10 @@
             ],
             [
                 "^上$",
+                "山"
+            ],
+            [
+                "^云$",
                 "山"
             ],
             [
@@ -6740,9 +6776,9 @@
         "templThreshold_Doc": "这里用来作为字间距阈值",
         "roi": [
             62,
-            89,
+            90,
             43,
-            23
+            22
         ],
         "maskRange": [
             150,
