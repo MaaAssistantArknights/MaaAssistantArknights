@@ -20,6 +20,7 @@
 #include "RecruitTask.h"
 #include "RoguelikeTask.h"
 #include "CopilotTask.h"
+#include "DepotTask.h"
 #ifdef ASST_DEBUG
 #include "DebugTask.h"
 #endif
@@ -110,6 +111,9 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     }
     else if (type == CopilotTask::TaskType) {
         ptr = std::make_shared<CopilotTask>(task_callback, static_cast<void*>(this));
+    }
+    else if (type == DepotTask::TaskType) {
+        ptr = std::make_shared<DepotTask>(task_callback, static_cast<void*>(this), DepotTask::TaskType);
     }
 #ifdef ASST_DEBUG
     else if (type == DebugTask::TaskType) {

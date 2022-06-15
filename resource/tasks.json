@@ -6852,7 +6852,7 @@
         "roi": [
             0,
             90,
-            260,
+            219,
             150
         ]
     },
@@ -6861,14 +6861,37 @@
         "templThreshold": 3,
         "templThreshold_Doc": "这里用来作为字间距阈值",
         "roi": [
-            51,
-            84,
+            36,
+            69,
             47,
             20
         ],
         "maskRange": [
             150,
             255
+        ]
+    },
+    "DepotTaskSlowlySwipeRightRect": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            780,
+            200,
+            100,
+            300
+        ],
+        "preDelay": 1500,
+        "rearDelay": 300,
+        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
+    },
+    "DepotTaskSlowlySwipeLeftRect": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            300,
+            200,
+            100,
+            300
         ]
     }
 }
