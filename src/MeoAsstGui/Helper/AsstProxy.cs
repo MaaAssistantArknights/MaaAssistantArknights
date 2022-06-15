@@ -209,6 +209,8 @@ namespace MeoAsstGui
             }
         }
 
+        private bool connected = false;
+
         private void procConnectInfo(JObject details)
         {
             var what = details["what"].ToString();
@@ -217,19 +219,23 @@ namespace MeoAsstGui
             switch (what)
             {
                 case "Connected":
+                    connected = true;
                     svm.ConnectAddress = details["details"]["address"].ToString();
                     break;
 
                 case "UnsupportedResolution":
+                    connected = false;
                     mainModel.AddLog("分辨率过低，请设置为 720p 或更高", "darkred");
                     break;
 
                 case "ResolutionError":
+                    connected = false;
                     mainModel.AddLog("分辨率获取失败，建议重启电脑，或更换模拟器后再试", "darkred");
                     break;
 
                 case "Disconnect":
                 case "CommandExecFailed":
+                    connected = false;
                     mainModel.AddLog("错误！连接断开！", "darkred");
                     AsstStop();
                     break;
@@ -704,6 +710,11 @@ namespace MeoAsstGui
             {
                 error = "Load Global Resource Failed";
                 return false;
+            }
+
+            if (connected)
+            {
+                return true;
             }
 
             var settings = _container.Get<SettingsViewModel>();

@@ -52,6 +52,7 @@ namespace asst
 
         void append_callback(AsstMsg msg, json::value detail);
         void clear_cache();
+        bool inited() const noexcept;
 
         bool m_inited = false;
         std::string m_uuid;
