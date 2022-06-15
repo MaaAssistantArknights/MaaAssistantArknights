@@ -281,8 +281,8 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
         std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
         fd_set fdset = { 0 };
         FD_SET(m_server_sock, &fdset);
-        constexpr int TimeoutMilliseconds = 10000;
-        timeval select_timeout = { TimeoutMilliseconds / 1000, (TimeoutMilliseconds % 1000) * 1000};
+        constexpr int TimeoutMilliseconds = 5000;
+        timeval select_timeout = { TimeoutMilliseconds / 1000, (TimeoutMilliseconds % 1000) * 1000 };
         select(static_cast<int>(m_server_sock) + 1, &fdset, NULL, NULL, &select_timeout);
         if (FD_ISSET(m_server_sock, &fdset)) {
             SOCKET client_sock = ::accept(m_server_sock, NULL, NULL);
@@ -356,6 +356,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     else if (m_inited) {
         // 之前可以运行，突然运行不了了，这种情况多半是 adb 炸了。所以重新连接一下
         m_inited = false;
+        std::this_thread::sleep_for(std::chrono::seconds(10));
         auto reconnect_ret = call_command(m_adb.connect, 60 * 1000);
         bool is_reconnect_success = false;
         if (reconnect_ret) {
@@ -380,6 +381,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
                         { "cmd", cmd },
                         { "recv_by_socket", recv_by_socket}
                     }} };
+                m_inited = false;
                 m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
             }
         }
@@ -391,6 +393,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
                     { "details", json::object {
                         { "cmd", m_adb.connect }
                     }} };
+            m_inited = false;
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
         }
     }
@@ -567,7 +570,7 @@ bool asst::Controller::screencap()
         if (data.empty()) {
             return false;
         }
-        size_t std_size = m_width * m_height * 4;
+        size_t std_size = 4ULL * m_width * m_height;
         if (data.size() < std_size) {
             return false;
         }
@@ -594,7 +597,7 @@ bool asst::Controller::screencap()
         if (unzip_data.empty()) {
             return false;
         }
-        size_t std_size = m_width * m_height * 4;
+        size_t std_size = 4ULL * m_width * m_height;
         if (unzip_data.size() < std_size) {
             return false;
         }
@@ -629,29 +632,60 @@ bool asst::Controller::screencap()
     switch (m_adb.screencap_method) {
     case AdbProperty::ScreencapMethod::UnknownYet:
     {
+        Log.info("Try to find the fastest way to screencap");
+        m_inited = false;
+        auto min_cost = std::chrono::nanoseconds(MAXLONGLONG);
+
+        auto start_time = std::chrono::high_resolution_clock::now();
         if (m_support_socket && m_server_started &&
             screencap(m_adb.screencap_raw_by_nc, decode_raw, true)) {
-            m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
-            Log.info("screencap by RawByNc");
-            m_inited = true;
-            return true;
-        }
-        else if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
-            m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
-            Log.info("screencap by RawWithGzip");
-            m_inited = true;
-            return true;
-        }
-        else if (screencap(m_adb.screencap_encode, decode_encode)) {
-            m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
-            Log.info("screencap by Encode");
-            m_inited = true;
-            return true;
+            auto duration = std::chrono::high_resolution_clock::now() - start_time;
+            if (duration < min_cost) {
+                m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
+                m_inited = true;
+                min_cost = duration;
+                clear_lf_info();
+            }
+            Log.info("RawByNc cost", duration.count(), "ns");
         }
         else {
-            return false;
+            Log.info("RawByNc is not supported");
         }
+
+        start_time = std::chrono::high_resolution_clock::now();
+        if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
+            auto duration = std::chrono::high_resolution_clock::now() - start_time;
+            if (duration < min_cost) {
+                m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
+                m_inited = true;
+                min_cost = duration;
+                clear_lf_info();
+            }
+            Log.info("RawWithGzip cost", duration.count(), "ns");
+        }
+        else {
+            Log.info("RawWithGzip is not supported");
+        }
+
+        start_time = std::chrono::high_resolution_clock::now();
+        if (screencap(m_adb.screencap_encode, decode_encode)) {
+            auto duration = std::chrono::high_resolution_clock::now() - start_time;
+            if (duration < min_cost) {
+                m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
+                m_inited = true;
+                min_cost = duration;
+                clear_lf_info();
+            }
+            Log.info("Encode cost", duration.count(), "ns");
+        }
+        else {
+            Log.info("Encode is not supported");
+        }
+
+        Log.info("The fastest way is", static_cast<int>(m_adb.screencap_method), ", cost:", min_cost.count(), "ns");
+        return m_inited;
     }
+    break;
     case AdbProperty::ScreencapMethod::RawByNc:
     {
         return screencap(m_adb.screencap_raw_by_nc, decode_raw, true);
@@ -715,6 +749,11 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
         }
         return false;
     }
+}
+
+void asst::Controller::clear_lf_info()
+{
+    m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::UnknownYet;
 }
 
 cv::Mat asst::Controller::get_resized_image() const
@@ -1109,6 +1148,9 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         }
     }
 
+    // try to find the fastest way
+    screencap();
+
     ++m_instance_count;
     return true;
 }
@@ -1133,6 +1175,11 @@ bool asst::Controller::release()
     }
 }
 
+bool asst::Controller::inited() const noexcept
+{
+    return m_inited;
+}
+
 const std::string& asst::Controller::get_uuid() const
 {
     return m_uuid;
@@ -1148,6 +1195,8 @@ cv::Mat asst::Controller::get_image(bool raw)
         }
         // 截图之前正常，截图之后不正常了，说明截图过程中发现 adb 炸了
         if (inited && !m_inited) {
+            const static cv::Size dsize(m_scale_size.first, m_scale_size.second);
+            m_cache_image = cv::Mat(dsize, CV_8UC3);
             break;
         }
     }
