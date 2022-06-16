@@ -235,17 +235,13 @@
         ]
     },
     "LE-Open": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "尘影余音"
-        ],
+        "action": "ClickSelf",
         "roi": [
+            471,
             0,
-            500,
-            500,
-            150
-        ],
-        "action": "ClickSelf"
+            530,
+            711
+        ]
     },
     "LEChapterToLE": {
         "algorithm": "OcrDetect",
