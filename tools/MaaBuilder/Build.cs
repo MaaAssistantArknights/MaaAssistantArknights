@@ -352,7 +352,7 @@ public partial class Build : NukeBuild
             }
             else
             {
-                _changeLog += $"\n\n**Full Changelog**: [{Parameters.MainRepo}@{_latestTag} -> {Parameters.MainRepo}@{Parameters.GhTag}]https://github.com/{Parameters.MainRepo}/compare/{_latestTag}...{Parameters.GhTag}";
+                _changeLog += $"\n\n**Full Changelog**: [{Parameters.MainRepo}@{_latestTag} -> {Parameters.MainRepo}@{Parameters.GhTag}](https://github.com/{Parameters.MainRepo}/compare/{_latestTag}...{Parameters.GhTag})";
             }
         });
 
