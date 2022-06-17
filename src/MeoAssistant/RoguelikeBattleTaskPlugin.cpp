@@ -445,8 +445,6 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
         std::this_thread::yield();
     }
 
-    sleep(Task.get("BattleWaitingToLoad")->rear_delay);
-
     return true;
 }
 

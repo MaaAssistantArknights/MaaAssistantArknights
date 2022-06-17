@@ -5093,7 +5093,8 @@
             20,
             60,
             60
-        ]
+        ],
+        "preDelay": 2000
     },
     "BattleSkillReady": {
         "roi": [
@@ -5489,10 +5490,6 @@
             "Roguelike1CloseCollection",
             "Roguelike1DialogSkip"
         ]
-    },
-    "BattleWaitingToLoad": {
-        "algorithm": "JustReturn",
-        "rearDelay": 1000
     },
     "Roguelike1CloseCollection": {
         "action": "ClickSelf",
