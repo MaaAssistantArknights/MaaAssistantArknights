@@ -220,7 +220,6 @@ namespace MeoAsstGui
             }
         }
 
-
         private string _emulatorWaitSeconds = ViewStatusStorage.Get("Start.EmulatorWaitSeconds", "60");
 
         public string EmulatorWaitSeconds
@@ -1091,8 +1090,7 @@ namespace MeoAsstGui
             var updateModle = _container.Get<VersionUpdateViewModel>();
             var task = Task.Run(() =>
             {
-                if (!updateModle.CheckAndDownloadUpdate(true)
-                    && !updateModle.ResourceOTA(true))
+                if (!updateModle.CheckAndDownloadUpdate(true))
                 {
                     using (var toast = new ToastNotification("已是最新版本~"))
                     {
