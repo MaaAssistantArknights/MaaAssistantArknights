@@ -352,7 +352,7 @@ public partial class Build : NukeBuild
             }
             else
             {
-                _changeLog += $"\n\n**Full Changelog**: [{Parameters.MainRepo}@{_latestTag} -> {Parameters.MainRepo}@{Parameters.GhTag}]https://github.com/{Parameters.MainRepo}/compare/{_latestTag}...{Parameters.GhTag}";
+                _changeLog += $"\n\n**Full Changelog**: [{Parameters.MainRepo}@{_latestTag} -> {Parameters.MainRepo}@{Parameters.GhTag}](https://github.com/{Parameters.MainRepo}/compare/{_latestTag}...{Parameters.GhTag})";
             }
         });
 
@@ -400,6 +400,14 @@ public partial class Build : NukeBuild
             {
                 Information($"DevBuild 跳过发布 Release");
                 return;
+            }
+
+            if (GitHubTasks.GitHubClient is null)
+            {
+                GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
+                {
+                    Credentials = new Credentials(Parameters.GitHubPersonalAccessToken)
+                };
             }
 
             if (Parameters.GhActionName == ActionConfiguration.ReleaseMaa)
