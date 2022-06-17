@@ -4,4 +4,5 @@ mklml.dll
 opencv_world453.dll
 paddle_inference.dll
 ppocr.dll
+aria2c.exe
 resource/PaddleOCR/**
