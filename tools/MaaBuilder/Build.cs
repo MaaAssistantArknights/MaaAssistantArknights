@@ -178,12 +178,8 @@ public partial class Build : NukeBuild
                     Credentials = new Credentials(Parameters.GitHubPersonalAccessToken)
                 };
 
-                var latestRelease = GitHubTasks.GitHubClient.Repository.Release
-                    .GetLatest(Parameters.MainRepo.Split('/')[0], Parameters.MainRepo.Split('/')[1])
-                    .GetAwaiter().GetResult();
-                Assert.True(latestRelease is not null, "获取最新发布版本失败");
-                Assert.True(latestRelease.TagName is not null, "获取最新发布版本 TagName 失败");
-                _latestTag = latestRelease.TagName;
+                _latestTag = Parameters.IsPreRelease ? GetLatestTag() : GetLatestReleaseTag();
+                
                 _version = Parameters.GhTag;
             }
         });
@@ -624,6 +620,30 @@ public partial class Build : NukeBuild
         }
 
         Information($"上传文件 {asset} 到 GitHub 成功");
+    }
+    
+    private string GetLatestTag()
+    {
+        var latestRelease = GitHubTasks.GitHubClient.Repository.Release
+                    .GetLatest(Parameters.MainRepo.Split('/')[0], Parameters.MainRepo.Split('/')[1])
+                    .GetAwaiter().GetResult();
+        Assert.True(latestRelease is not null, "获取最新发布版本失败");
+        Assert.True(latestRelease.TagName is not null, "获取最新发布版本 TagName 失败");
+        return latestRelease.TagName;
+    }
+
+    private string GetLatestReleaseTag()
+    {
+        var releases = GitHubTasks.GitHubClient.Repository.Release
+            .GetAll(Parameters.MainRepo.Split('/')[0], Parameters.MainRepo.Split('/')[1], new ApiOptions { PageCount = 5 })
+            .GetAwaiter().GetResult();
+
+        var latestRelease = releases
+            .FirstOrDefault(x => x.Prerelease is false && x.Draft is false);
+        
+        Assert.True(latestRelease is not null, "获取最新发布版本失败");
+        Assert.True(latestRelease.TagName is not null, "获取最新发布版本 TagName 失败");        
+        return latestRelease.TagName;
     }
 
     #endregion
