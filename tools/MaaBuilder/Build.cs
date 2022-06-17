@@ -402,6 +402,14 @@ public partial class Build : NukeBuild
                 return;
             }
 
+            if (GitHubTasks.GitHubClient is null)
+            {
+                GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
+                {
+                    Credentials = new Credentials(Parameters.GitHubPersonalAccessToken)
+                };
+            }
+
             if (Parameters.GhActionName == ActionConfiguration.ReleaseMaa)
             {
                 Information($"运行 ReleaseMaa 将在 {Parameters.MainRepo} 创建 Release {Parameters.GhTag}");
