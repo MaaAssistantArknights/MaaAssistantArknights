@@ -117,27 +117,27 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
     }
 
     if (calced) {
-#ifdef ASST_DEBUG
-        auto normal_tiles = tile.calc(m_stage_name, true);
-        cv::Mat draw = cv::imread("j.png");
-        for (const auto& [point, info] : normal_tiles) {
-            using TileKey = TilePack::TileKey;
-            static const std::unordered_map<TileKey, std::string> TileKeyMapping = {
-                { TileKey::Invalid, "invalid" },
-                { TileKey::Forbidden, "forbidden" },
-                { TileKey::Wall, "wall" },
-                { TileKey::Road, "road" },
-                { TileKey::Home, "end" },
-                { TileKey::EnemyHome, "start" },
-                { TileKey::Floor, "floor" },
-                { TileKey::Hole, "hole" },
-                { TileKey::Telin, "telin" },
-                { TileKey::Telout, "telout" }
-            };
-
-            cv::putText(draw, TileKeyMapping.at(info.key), cv::Point(info.pos.x, info.pos.y), 1, 1, cv::Scalar(0, 0, 255));
-        }
-#endif
+        //#ifdef ASST_DEBUG
+        //        auto normal_tiles = tile.calc(m_stage_name, true);
+        //        cv::Mat draw = cv::imread("j.png");
+        //        for (const auto& [point, info] : normal_tiles) {
+        //            using TileKey = TilePack::TileKey;
+        //            static const std::unordered_map<TileKey, std::string> TileKeyMapping = {
+        //                { TileKey::Invalid, "invalid" },
+        //                { TileKey::Forbidden, "forbidden" },
+        //                { TileKey::Wall, "wall" },
+        //                { TileKey::Road, "road" },
+        //                { TileKey::Home, "end" },
+        //                { TileKey::EnemyHome, "start" },
+        //                { TileKey::Floor, "floor" },
+        //                { TileKey::Hole, "hole" },
+        //                { TileKey::Telin, "telin" },
+        //                { TileKey::Telout, "telout" }
+        //            };
+        //
+        //            cv::putText(draw, TileKeyMapping.at(info.key), cv::Point(info.pos.x, info.pos.y), 1, 1, cv::Scalar(0, 0, 255));
+        //        }
+        //#endif
 
         auto cb_info = basic_info_with_what("StageInfo");
         auto& details = cb_info["details"];
@@ -679,8 +679,10 @@ asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, BattleRol
                 { TileKey::EnemyHome, 800 },
                 { TileKey::Floor, 1000 },
                 { TileKey::Hole, 0 },
-                { TileKey::Telin, 0 },
-                { TileKey::Telout, 0 }
+                { TileKey::Telin, 700 },
+                { TileKey::Telout, 700 },
+                { TileKey::Volcano, 1000 },
+                { TileKey::Healing, 1000 },
             };
             // 治疗干员朝向的权重
             static const std::unordered_map<TileKey, int> TileKeyMedicWeights = {
@@ -693,7 +695,9 @@ asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, BattleRol
                 { TileKey::Floor, 0 },
                 { TileKey::Hole, 0 },
                 { TileKey::Telin, 0 },
-                { TileKey::Telout, 0 }
+                { TileKey::Telout, 0 },
+                { TileKey::Volcano, 1000 },
+                { TileKey::Healing, 1000 },
             };
 
             switch (role) {
