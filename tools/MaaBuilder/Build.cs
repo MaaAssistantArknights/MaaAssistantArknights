@@ -62,6 +62,8 @@ public partial class Build : NukeBuild
     private string MaaCorePackageName => MaaCorePackageNameTemplate.Replace("{VERSION}", _version);
     private string MaaResourcePackageName => MaaResourcePackageNameTemplate.Replace("{VERSION}", _version);
 
+    private string _latestTag = null;
+
     protected override void OnBuildInitialized()
     {
         Parameters = new BuildParameters(this);
@@ -171,6 +173,17 @@ public partial class Build : NukeBuild
 
                 Assert.True(Parameters.GhTag is not null, "在 GitHub Actions 中运行，但是不存在 Tag");
 
+                GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
+                {
+                    Credentials = new Credentials(Parameters.GitHubPersonalAccessToken)
+                };
+
+                var latestRelease = GitHubTasks.GitHubClient.Repository.Release
+                    .GetLatest(Parameters.MainRepo.Split('/')[0], Parameters.MainRepo.Split('/')[1])
+                    .GetAwaiter().GetResult();
+                Assert.True(latestRelease is not null, "获取最新发布版本失败");
+                Assert.True(latestRelease.TagName is not null, "获取最新发布版本 TagName 失败");
+                _latestTag = latestRelease.TagName;
                 _version = Parameters.GhTag;
             }
         });
@@ -323,6 +336,7 @@ public partial class Build : NukeBuild
 
     Target UseMaaChangeLog => _ => _
         .Triggers(SetMaaChangeLog)
+        .After(UseTagVersion)
         .Executes(() =>
         {
             if (File.Exists(Parameters.MaaChangelogFile))
@@ -335,7 +349,15 @@ public partial class Build : NukeBuild
             {
                 Warning($"未发现 {Parameters.MaaChangelogFile} 文件，将使用默认值");
             }
-            _changeLog += $"\n\n对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})";
+            
+            if (_latestTag is null)
+            {
+                _changeLog += $"\n\n对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})";
+            }
+            else
+            {
+                _changeLog += $"\n\n**Full Changelog**: [{Parameters.MainRepo}@{_latestTag} -> {Parameters.MainRepo}@{Parameters.GhTag}]https://github.com/{Parameters.MainRepo}/compare/{_latestTag}...{Parameters.GhTag}";
+            }
         });
 
     Target UseMaaResourceChangeLog => _ => _
@@ -383,11 +405,6 @@ public partial class Build : NukeBuild
                 Information($"DevBuild 跳过发布 Release");
                 return;
             }
-
-            GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
-            {
-                Credentials = new Credentials(Parameters.GitHubPersonalAccessToken)
-            };
 
             if (Parameters.GhActionName == ActionConfiguration.ReleaseMaa)
             {
