@@ -1,0 +1,7 @@
+libiomp5md.dll
+mkldnn.dll
+mklml.dll
+opencv_world453.dll
+paddle_inference.dll
+ppocr.dll
+resource/PaddleOCR/**

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.FileSystemGlobbing;
 using Nuke.Common;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
@@ -10,6 +11,7 @@ using Nuke.Common.Tools.MSBuild;
 using Octokit;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -47,6 +49,7 @@ public partial class Build : NukeBuild
 
     const string MaaDevBundlePackageNameTemplate = "MaaBundle-Dev-{VERSION}";
     const string MaaLegacyBundlePackageNameTemplate = "MeoAssistantArknights_{VERSION}";
+    const string MaaLegacyBundleOtaPackageNameTemplate = "MeoAssistantArknights_OTA_{VERSION}";
     const string MaaCorePackageNameTemplate = "MaaCore-{VERSION}";
     const string MaaResourcePackageNameTemplate = "MaaResource-{VERSION}";
 
@@ -55,6 +58,7 @@ public partial class Build : NukeBuild
 
     private string MaaDevBundlePackageName => MaaDevBundlePackageNameTemplate.Replace("{VERSION}", _version);
     private string MaaLegacyBundlePackageName => MaaLegacyBundlePackageNameTemplate.Replace("{VERSION}", _version);
+    private string MaaLegacyBundleOtaPackageName => MaaLegacyBundleOtaPackageNameTemplate.Replace("{VERSION}", _version);
     private string MaaCorePackageName => MaaCorePackageNameTemplate.Replace("{VERSION}", _version);
     private string MaaResourcePackageName => MaaResourcePackageNameTemplate.Replace("{VERSION}", _version);
 
@@ -69,7 +73,6 @@ public partial class Build : NukeBuild
         Information($"MSBuild 路径：{Parameters.MsBuildPath ?? "Null"}");
 
         Information("2. 仓库");
-        Information($"Fork：{Parameters.IsFork}");
         Information($"主仓库：{Parameters.MainRepo ?? "Null"}");
         Information($"MaaResource 发布仓库：{Parameters.MaaResourceReleaseRepo ?? "Null"}");
         Information($"主分支：{Parameters.MasterBranchRef ?? "Null"}");
@@ -121,6 +124,12 @@ public partial class Build : NukeBuild
         .Executes(() =>
         {
             FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.Release);
+        });
+
+    Target UseCleanReleaseOta => _ => _
+        .Executes(() =>
+        {
+            FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / $"{BuildConfiguration.Release}_OTA");
         });
     
     #endregion
@@ -252,6 +261,27 @@ public partial class Build : NukeBuild
             BundlePackage(releaseBuildOutput, MaaLegacyBundlePackageName);
         });
 
+    Target UseMaaLegacyBundleOta => _ => _
+        .After(UseMaaLegacyBundle)
+        .DependsOn(UseCleanArtifact, WithCompileCoreRelease, WithCompileWpfRelease, UseCleanReleaseOta)
+        .Triggers(SetPackageBundled)
+        .Executes(() =>
+        {
+            var releaseBuildOutput = Parameters.BuildOutput / BuildConfiguration.Release;
+            var otaPackageOutput = Parameters.BuildOutput / $"{BuildConfiguration.Release}_OTA";
+
+            FileSystemTasks.CopyDirectoryRecursively(releaseBuildOutput, otaPackageOutput,
+                DirectoryExistsPolicy.Merge, FileExistsPolicy.Overwrite);
+
+            var ignoreFile = RootDirectory / ".maabundlerignore";
+            if (ignoreFile.FileExists())
+            {
+                RemoveIgnoreFiles(otaPackageOutput, ignoreFile);
+            }
+
+            BundlePackage(otaPackageOutput, MaaLegacyBundleOtaPackageName);
+        });
+
     Target UseMaaCore => _ => _
         .DependsOn(UseCleanArtifact, WithCompileCoreRelease)
         .Triggers(SetPackageBundled)
@@ -276,6 +306,7 @@ public partial class Build : NukeBuild
         });
 
     Target SetPackageBundled => _ => _
+        .After(UseMaaDevBundle, UseMaaLegacyBundle, UseMaaLegacyBundleOta, UseMaaCore, UseMaaResource)
         .Executes(() =>
         {
             Information("已完成打包");
@@ -405,6 +436,7 @@ public partial class Build : NukeBuild
     Target ReleaseMaa => _ => _
         .DependsOn(UseTagVersion)
         .DependsOn(UseMaaLegacyBundle)
+        .DependsOn(UseMaaLegacyBundleOta)
         .DependsOn(UseMaaChangeLog)
         .DependsOn(UsePublishArtifact)
         .DependsOn(UsePublishRelease);
@@ -448,6 +480,38 @@ public partial class Build : NukeBuild
 
     #region Utilities
 
+    private void RemoveIgnoreFiles(AbsolutePath baseDirectory, AbsolutePath ignoreFile)
+    {
+        var ignoreFileLines = File.ReadAllLines(ignoreFile);
+        var ignorePattern = new List<string>();
+        var keepPattern = new List<string>();
+        foreach (var line in ignoreFileLines)
+        {
+            if (line.StartsWith("#"))
+            {
+                continue;
+            }
+            if (line.StartsWith("!"))
+            {
+                keepPattern.Add(line.Substring(1));
+            }
+            else
+            {
+                ignorePattern.Add(line);
+            }
+        }
+
+        var match = new Matcher();
+        // 这里反过来可以获取到需要排除的文件列表，而不是需要保留的文件列表
+        match.AddExcludePatterns(keepPattern);
+        match.AddIncludePatterns(ignorePattern);
+        var ignoredFiles = match.GetResultsInFullPath(baseDirectory);
+        foreach (var f in ignoredFiles)
+        {
+            FileSystemTasks.DeleteFile(f);
+        }
+    }
+    
     private void BundlePackage(AbsolutePath input, string bundleName)
     {
         var packName = bundleName;
@@ -473,7 +537,6 @@ public partial class Build : NukeBuild
         foreach (var file in files)
         {
             FileSystemTasks.DeleteFile(file);
-            Information($"删除文件：{file}");
         }
     }
     private void RemoveReleaseResource(AbsolutePath outputDir)
