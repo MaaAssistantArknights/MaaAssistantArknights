@@ -46,8 +46,6 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 
     speed_up();
 
-    constexpr static auto time_limit = std::chrono::minutes(10);
-
     bool timeout = false;
     auto start_time = std::chrono::steady_clock::now();
     while (!need_exit()) {
@@ -55,7 +53,8 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
         if (!auto_battle() && m_opers_used) {
             break;
         }
-        if (std::chrono::steady_clock::now() - start_time > time_limit) {
+        using namespace std::chrono_literals;
+        if (std::chrono::steady_clock::now() - start_time > 10min) {
             timeout = true;
             break;
         }
@@ -85,7 +84,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         constexpr int StageNameRetryTimes = 50;
         for (int i = 0; i != StageNameRetryTimes; ++i) {
             cv::Mat image = m_ctrler->get_image();
-            OcrImageAnalyzer name_analyzer(image);
+            OcrWithPreprocessImageAnalyzer name_analyzer(image);
 
             name_analyzer.set_task_info(stage_name_task_ptr);
             if (!name_analyzer.analyze()) {
@@ -293,11 +292,11 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 #endif
     Rect placed_rect(placed_point.x, placed_point.y, 1, 1);
     int dist = static_cast<int>(
-    std::sqrt(
-        (std::abs(placed_point.x - opt_oper.rect.x) << 1)
-        + (std::abs(placed_point.y - opt_oper.rect.y) << 1)));
-    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist); // 随便取的一个系数
-    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
+        std::sqrt(
+            (std::pow(std::abs(placed_point.x - opt_oper.rect.x), 2))
+            + (std::pow(std::abs(placed_point.y - opt_oper.rect.y), 2))));
+    // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
+    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist * log10(dist));    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
     sleep(use_oper_task_ptr->rear_delay);
 
     // 计算往哪边拖动（干员朝向）
@@ -325,8 +324,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
 bool asst::RoguelikeBattleTaskPlugin::speed_up()
 {
-    ProcessTask task(*this, { "Roguelike1BattleSpeedUp" });
-    return task.run();
+    return ProcessTask(*this, { "Roguelike1BattleSpeedUp" }).run();
 }
 
 bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
@@ -406,7 +404,8 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
             continue;
         }
         m_ctrler->click(pos_rect);
-        used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_task_delay(0).run();
+        sleep(Task.get("BattleUseOper")->pre_delay);
+        used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).run();
         if (usage == BattleSkillUsage::Once) {
             m_status->set_number(status_key, static_cast<int64_t>(BattleSkillUsage::OnceUsed));
             m_restore_status[status_key] = static_cast<int64_t>(BattleSkillUsage::Once);
@@ -419,9 +418,8 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
 {
     auto start_time = std::chrono::system_clock::now();
     auto check_time = [&]() -> bool {
-        auto now = std::chrono::system_clock::now();
-        auto diff = now - start_time;
-        return diff.count() > std::chrono::seconds(60).count();
+        using namespace std::chrono_literals;
+        return std::chrono::system_clock::now() - start_time > 1min;
     };
 
     MatchImageAnalyzer officially_begin_analyzer;
