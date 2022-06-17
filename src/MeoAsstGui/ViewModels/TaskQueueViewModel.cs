@@ -215,6 +215,10 @@ namespace MeoAsstGui
 
         public async void LinkStart()
         {
+            if (Idle == false)
+            {
+                return;
+            }
             Idle = false;
 
             ClearLog();

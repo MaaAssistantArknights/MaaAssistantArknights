@@ -140,7 +140,7 @@ namespace MeoAsstGui
                 new CombData { Display = "不选择", Value = "" },
                 new CombData { Display = "官服", Value = "Official" },
                 new CombData { Display = "Bilibili服", Value = "Bilibili" },
-                new CombData { Display = "悠星美服 (YoStarEN)", Value = "YoStarEN" }
+                new CombData { Display = "悠星国际服 (YoStarEN)", Value = "YoStarEN" }
             };
         }
 
@@ -219,7 +219,6 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("Start.EmulatorAddCommand", value);
             }
         }
-
 
         private string _emulatorWaitSeconds = ViewStatusStorage.Get("Start.EmulatorWaitSeconds", "60");
 
@@ -1091,8 +1090,7 @@ namespace MeoAsstGui
             var updateModle = _container.Get<VersionUpdateViewModel>();
             var task = Task.Run(() =>
             {
-                if (!updateModle.CheckAndDownloadUpdate(true)
-                    && !updateModle.ResourceOTA(true))
+                if (!updateModle.CheckAndDownloadUpdate(true))
                 {
                     using (var toast = new ToastNotification("已是最新版本~"))
                     {

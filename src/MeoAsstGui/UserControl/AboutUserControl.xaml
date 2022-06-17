@@ -11,13 +11,16 @@
              d:DesignHeight="300" d:DesignWidth="550">
     <StackPanel VerticalAlignment="Center" Margin="10">
         <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-        <Hyperlink NavigateUri="https://www.maa.plus" Click="Hyperlink_Click" TextDecorations="None">MAA官网</Hyperlink>
+        <Hyperlink NavigateUri="https://www.maa.plus" Click="Hyperlink_Click" TextDecorations="None">MAA 官网</Hyperlink>
         </TextBlock>
         <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
         <Hyperlink NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights" Click="Hyperlink_Click" TextDecorations="None">源码: GitHub</Hyperlink>
         </TextBlock>
         <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
         <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=4u0uqXep" Click="Hyperlink_Click" TextDecorations="None">自动战斗作业分享 Q 群</Hyperlink>
+        </TextBlock>
+        <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
+        <Hyperlink NavigateUri="https://www.prts.plus" Click="Hyperlink_Click" TextDecorations="None">自动战斗作业分享网站</Hyperlink>
         </TextBlock>
         <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
         <Hyperlink NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.md" Click="Hyperlink_Click" TextDecorations="None">常见问题</Hyperlink>

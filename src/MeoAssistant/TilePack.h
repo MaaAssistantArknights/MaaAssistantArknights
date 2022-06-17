@@ -39,8 +39,10 @@ namespace asst
             EnemyHome,  // 红门（可能还有其他的情况）
             Floor,      // 不能放干员，但敌人可以走
             Hole,       // 空降兵掉下去的地方（
-            Telin,      // 不知道是啥
-            Telout      // 不知道是啥
+            Telin,      // 传送门入口
+            Telout,     // 传送门出口
+            Volcano,    // 岩浆地块，可以放干员，敌人也可以走，但是会持续掉血
+            Healing     // 治疗地块，可以放干员，敌人也可以走，会给干员回血
         };
 
         struct TileInfo
