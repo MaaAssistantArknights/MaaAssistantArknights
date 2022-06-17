@@ -766,19 +766,15 @@
                 "狮蝎"
             ],
             [
-                "第草",
-                "苇草"
+                "扬师虫",
+                "狮蝎"
             ],
             [
                 "漂冬",
                 "凛冬"
             ],
             [
-                "韦草",
-                "苇草"
-            ],
-            [
-                "笔草",
+                ".+草",
                 "苇草"
             ],
             [
@@ -800,6 +796,10 @@
             [
                 "研",
                 "砾"
+            ],
+            [
+                "紫雨",
+                "絮语"
             ]
         ]
     },
@@ -4493,18 +4493,14 @@
                 "落魄骑士"
             ],
             [
-                ".+爵的戏.+",
-                "鸭爵的戏剧"
-            ],
-            [
                 "邪异因笼",
                 "邪异囚笼"
             ]
         ],
         "roi": [
-            420,
-            430,
-            440,
+            250,
+            435,
+            800,
             100
         ]
     },
@@ -4703,7 +4699,8 @@
             20,
             60,
             60
-        ]
+        ],
+        "rearDelay": 100
     },
     "BattleCancelSelection": {
         "algorithm": "JustReturn",
@@ -4774,6 +4771,7 @@
             210,
             118
         ],
+        "templThreshold": 0.7,
         "cache": false,
         "action": "ClickSelf",
         "rectMove": [
@@ -4809,7 +4807,7 @@
     },
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
-        "preDelay": 15000,
+        "preDelay": 500,
         "rearDelay": 100,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration"
     },
@@ -5088,19 +5086,14 @@
         ]
     },
     "Roguelike1BattleSpeedUp": {
-        "template": "BattleSpeedUp.png",
-        "action": "ClickSelf",
-        "roi": [
-            1025,
-            0,
-            149,
-            153
-        ],
-        "maskRange": [
-            100,
-            255
-        ],
-        "templThreshold": 0.95
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1070,
+            20,
+            60,
+            60
+        ]
     },
     "BattleSkillReady": {
         "roi": [
@@ -5499,7 +5492,7 @@
     },
     "BattleWaitingToLoad": {
         "algorithm": "JustReturn",
-        "rearDelay": 200
+        "rearDelay": 1000
     },
     "Roguelike1CloseCollection": {
         "action": "ClickSelf",
@@ -6418,15 +6411,16 @@
         ]
     },
     "Roguelike1InBattleFlag": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "角色"
-        ],
+        "template": "BattleOfficiallyBegin.png",
         "roi": [
-            900,
-            500,
-            380,
-            150
+            1165,
+            20,
+            65,
+            65
+        ],
+        "maskRange": [
+            100,
+            255
         ],
         "action": "DoNothing",
         "rearDelay": 5000,
