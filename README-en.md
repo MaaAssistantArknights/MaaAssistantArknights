@@ -20,7 +20,7 @@
 
 [中文版本README](README.md)
 
-MAA stands for MAA Assistant Arknights
+MAA means MAA Assistant Arknights
 
 An Arknights assistant
 
