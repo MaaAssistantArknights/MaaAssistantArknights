@@ -42,7 +42,7 @@ namespace MeoAsstGui
             _windowManager = windowManager;
             DisplayName = "自动战斗 Beta";
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
-            AddLog("小提示：请手动打开游戏有“开始行动”按钮的界面再使用本功能；\n\n如果想借好友助战可以关闭“自动编队”，手动选择好干员后再开始；\n\n模拟悖论则需要关闭“自动编队”，并自己选好技能处于“开始模拟”按钮的界面再开始", "dark");
+            AddLog("小提示：请手动打开游戏有“开始行动”按钮的界面再使用本功能；\n\n如果想借好友助战可以关闭“自动编队”，手动选择好干员后再开始；\n\n模拟悖论则需要关闭“自动编队”，并自己选好技能处于“开始模拟”按钮的界面再开始\n\n“特别关注”的干员暂时无法被识别，请取消特别关注或手动编队", "dark");
         }
 
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
