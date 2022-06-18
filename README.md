@@ -149,7 +149,7 @@ MAA 的意思是 MAA Assistant Arknights
 - [任务流程协议](docs/任务流程协议.md)
 - [自动抄作业协议](docs/战斗流程协议.md)
 
-### 对连 Git 都不熟悉的超级萌新，请看
+### Github PR 流程简述
 
 [写给萌新的发电全流程](docs/写给萌新的发电全流程.md)
 
