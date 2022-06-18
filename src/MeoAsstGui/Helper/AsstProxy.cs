@@ -95,7 +95,7 @@ namespace MeoAsstGui
                 loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory() + "\\resource\\global\\YoStarEN");
                 _curResource = "YoStarEN";
             }
-            // 这种是手贱看到美服点了一下，又点回官服的
+            // 这种是手贱看国际服点了一下，又点回官服的
             else if (_curResource.Length != 0
                 && (settingsModel.ClientType == "Official" || settingsModel.ClientType == "Bilibili" || settingsModel.ClientType == String.Empty))
             {

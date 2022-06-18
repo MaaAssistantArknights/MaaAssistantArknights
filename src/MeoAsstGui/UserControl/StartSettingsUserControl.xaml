@@ -21,6 +21,14 @@
             <CheckBox IsChecked="{Binding RunDirectly}"  Block.TextAlignment="Center"
                   HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10"
                   Content="启动后直接运行          " />
+            <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="客户端版本" />
+            <ComboBox IsHitTestVisible ="{Binding Idle}" Margin="10"
+                      ItemsSource="{Binding ClientTypeList}"
+                      DisplayMemberPath="Display"
+                      SelectedValuePath="Value"
+                      SelectedValue="{Binding ClientType}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
             <CheckBox IsChecked="{Binding StartEmulator}"  Block.TextAlignment="Center"
                   HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10"
                   Content="启动后自动开启模拟器" />
@@ -28,23 +36,15 @@
                 <TextBlock Margin="3" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="等待模拟器&#xA;启动时间（秒）" />
                 <TextBox Margin="3" Text="{Binding EmulatorWaitSeconds}" IsEnabled="{Binding StartEmulator}" InputMethod.IsInputMethodEnabled="False"  Width="50" />
             </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Column="1" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="模拟器路径" />
-                <Button Command="{s:Action SelectEmulatorExec}" Content="选择" Margin="10" />
+                <Button Command="{s:Action SelectEmulatorExec}" IsEnabled="{Binding StartEmulator}" Content="选择" Margin="10" />
             </StackPanel>
-            <TextBox Text="{Binding EmulatorPath}" Margin="10" />
+            <TextBox Text="{Binding EmulatorPath}" IsEnabled="{Binding StartEmulator}" Margin="10" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="附加命令" />
             </StackPanel>
-            <TextBox Text="{Binding EmulatorAddCommand}" Margin="10" />
-            <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="客户端版本" />
-            <ComboBox IsHitTestVisible ="{Binding Idle}" Margin="10"
-                      ItemsSource="{Binding ClientTypeList}"
-                      DisplayMemberPath="Display"
-                      SelectedValuePath="Value"
-                      SelectedValue="{Binding ClientType}" />
+            <TextBox Text="{Binding EmulatorAddCommand}" IsEnabled="{Binding StartEmulator}" Margin="10" />
         </StackPanel>
     </Grid>
 </UserControl>

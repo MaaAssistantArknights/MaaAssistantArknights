@@ -286,7 +286,7 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
         select(static_cast<int>(m_server_sock) + 1, &fdset, NULL, NULL, &select_timeout);
         if (FD_ISSET(m_server_sock, &fdset)) {
             SOCKET client_sock = ::accept(m_server_sock, NULL, NULL);
-            setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, (char*)&TimeoutMilliseconds, sizeof(int));
+            setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&TimeoutMilliseconds, sizeof(int));
             int recv_size = 0;
             do {
                 recv_size = ::recv(client_sock, (char*)m_socket_buffer.get(), SocketBuffSize, NULL);
@@ -645,13 +645,13 @@ bool asst::Controller::screencap()
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
                 m_inited = true;
                 min_cost = duration;
-                clear_lf_info();
             }
             Log.info("RawByNc cost", duration.count(), "ns");
         }
         else {
             Log.info("RawByNc is not supported");
         }
+        clear_lf_info();
 
         start_time = std::chrono::high_resolution_clock::now();
         if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
@@ -660,13 +660,13 @@ bool asst::Controller::screencap()
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
                 m_inited = true;
                 min_cost = duration;
-                clear_lf_info();
             }
             Log.info("RawWithGzip cost", duration.count(), "ns");
         }
         else {
             Log.info("RawWithGzip is not supported");
         }
+        clear_lf_info();
 
         start_time = std::chrono::high_resolution_clock::now();
         if (screencap(m_adb.screencap_encode, decode_encode)) {
@@ -675,15 +675,14 @@ bool asst::Controller::screencap()
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
                 m_inited = true;
                 min_cost = duration;
-                clear_lf_info();
             }
             Log.info("Encode cost", duration.count(), "ns");
         }
         else {
             Log.info("Encode is not supported");
         }
-
         Log.info("The fastest way is", static_cast<int>(m_adb.screencap_method), ", cost:", min_cost.count(), "ns");
+        clear_lf_info();
         return m_inited;
     }
     break;

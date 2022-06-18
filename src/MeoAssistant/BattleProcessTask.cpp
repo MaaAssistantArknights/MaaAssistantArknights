@@ -474,12 +474,13 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     // 拖动到场上
     Point placed_point = m_side_tile_info[action.location].pos;
 
-    Rect placed_rect{ placed_point.x ,placed_point.y, 1, 1 };
+    Rect placed_rect{ placed_point.x ,placed_point.y, 0, 0 };
     int dist = static_cast<int>(
         std::sqrt(
-            (std::abs(placed_point.x - oper_rect.x) << 1)
-            + (std::abs(placed_point.y - oper_rect.y) << 1)));
-    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000 * dist); // 随便取的一个系数
+            (std::pow(std::abs(placed_point.x - oper_rect.x), 2))
+            + (std::pow(std::abs(placed_point.y - oper_rect.y), 2))));
+    // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
+    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist * log10(dist));
     m_ctrler->swipe(oper_rect, placed_rect, duration, true, 0);
 
     sleep(use_oper_task_ptr->rear_delay);
