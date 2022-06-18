@@ -251,45 +251,11 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         oper_name = oper_name_analyzer.get_result().front().text;
     }
 
-    // 将干员拖动到场上
-    auto loc = Loc::All;
-    switch (opt_oper.role) {
-    case BattleRole::Medic:
-    case BattleRole::Support:
-    case BattleRole::Sniper:
-    case BattleRole::Caster:
-        loc = Loc::Ranged;
-        break;
-    case BattleRole::Pioneer:
-    case BattleRole::Warrior:
-    case BattleRole::Tank:
-        loc = Loc::Melee;
-        break;
-    case BattleRole::Special:
-    case BattleRole::Drone:
-    default:
-        // 特种和无人机，有的只能放地面，有的又只能放高台，不好判断
-        // 笨办法，都试试，总有一次能成的
-    //{
-    //    static Loc static_loc = Loc::Melee;
-    //    loc = static_loc;
-    //    if (static_loc == Loc::Melee) {
-    //        static_loc = Loc::Ranged;
-    //    }
-    //    else {
-    //        static_loc = Loc::Melee;
-    //    }
-    //}
-        loc = Loc::Melee;
-        break;
-    }
+    // 计算最优部署位置及方向
+    const auto& [placed_loc, direction] = calc_best_plan(opt_oper.role);
 
-    Point placed_loc = get_placed(loc);
+    // 将干员拖动到场上
     Point placed_point = m_side_tile_info.at(placed_loc).pos;
-#ifdef ASST_DEBUG
-    auto draw_image = m_ctrler->get_image();
-    cv::circle(draw_image, cv::Point(placed_point.x, placed_point.y), 10, cv::Scalar(0, 0, 255), -1);
-#endif
     Rect placed_rect(placed_point.x, placed_point.y, 1, 1);
     int dist = static_cast<int>(
         std::sqrt(
@@ -298,9 +264,6 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist * log10(dist));    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
     sleep(use_oper_task_ptr->rear_delay);
-
-    // 计算往哪边拖动（干员朝向）
-    Point direction = calc_direction(placed_loc, opt_oper.role);
 
     // 将方向转换为实际的 swipe end 坐标点
     Point end_point = placed_point;
@@ -461,9 +424,40 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
 //    return placed_rect;
 //}
 
-asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
+asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::calc_best_plan(BattleRole role)
 {
-    LogTraceFunction;
+    auto buildable_type = Loc::All;
+    switch (role) {
+    case BattleRole::Medic:
+    case BattleRole::Support:
+    case BattleRole::Sniper:
+    case BattleRole::Caster:
+        buildable_type = Loc::Ranged;
+        break;
+    case BattleRole::Pioneer:
+    case BattleRole::Warrior:
+    case BattleRole::Tank:
+        buildable_type = Loc::Melee;
+        break;
+    case BattleRole::Special:
+    case BattleRole::Drone:
+    default:
+        //// 特种和无人机，有的只能放地面，有的又只能放高台，不好判断
+        //// 笨办法，都试试，总有一次能成的
+    //{
+    //    static Loc static_loc = Loc::Melee;
+    //    loc = static_loc;
+    //    if (static_loc == Loc::Melee) {
+    //        static_loc = Loc::Ranged;
+    //    }
+    //    else {
+    //        static_loc = Loc::Melee;
+    //    }
+    //}
+        // 大部分无人机都是可以摆在地上的，摆烂了
+        buildable_type = Loc::Melee;
+        break;
+    }
 
     if (m_homes.empty()) {
         for (const auto& [loc, side] : m_side_tile_info) {
@@ -479,43 +473,70 @@ asst::Point asst::RoguelikeBattleTaskPlugin::get_placed(Loc buildable_type)
         m_cur_home_index = 0;
     }
 
-    Point nearest;
-    int min_dist = INT_MAX;
-    int min_dy = INT_MAX;
-
-    Point home(5, 5);   // 默认值，一般是地图的中间
+    Point home(5, 5);   // 实在找不到家门了，随便取个点当家门用算了，一般是地图的中间
     if (m_cur_home_index < m_homes.size()) {
         home = m_homes.at(m_cur_home_index);
     }
 
+    auto comp_dist = [&](const Point& lhs, const Point& rhs) -> bool {
+        int lhs_y_dist = std::abs(lhs.y - home.y);
+        int lhs_dist = std::abs(lhs.x - home.x) + lhs_y_dist;
+        int rhs_y_dist = std::abs(rhs.y - home.y);
+        int rhs_dist = std::abs(rhs.x - home.x) + rhs_y_dist;
+        // 距离一样选择 x 轴上的，因为一般的地图都是横向的长方向
+        return lhs_dist == rhs_dist ? lhs_y_dist < rhs_y_dist : lhs_dist < rhs_dist;
+    };
+
+    // 把所有可用的点按距离排个序
+    std::vector<Point> available_locations;
     for (const auto& [loc, tile] : m_normal_tile_info) {
-        if (tile.buildable == buildable_type
-            || tile.buildable == Loc::All) {
-            if (m_used_tiles.find(loc) != m_used_tiles.cend()) {
-                continue;
-            }
-            int dx = std::abs(home.x - loc.x);
-            int dy = std::abs(home.y - loc.y);
-            int dist = dx * dx + dy * dy;
-            if (dist < min_dist) {
-                min_dist = dist;
-                min_dy = dy;
-                nearest = loc;
-            }
-            // 距离一样选择 x 轴上的，因为一般的地图都是横向的长方向
-            else if (dist == min_dist && dy < min_dy) {
-                min_dist = dist;
-                min_dy = dy;
-                nearest = loc;
-            }
+        if ((tile.buildable == buildable_type || tile.buildable == Loc::All)
+            && m_used_tiles.find(loc) == m_used_tiles.cend()) {
+            available_locations.emplace_back(loc);
         }
     }
-    Log.info(__FUNCTION__, nearest.to_string());
+    if (available_locations.empty()) {
+        Log.error("No available locations");
+        if (m_used_tiles.empty()) {
+            Log.error("No used tiles");
+            return DeployInfo();
+        }
+        m_used_tiles.clear();
+        return calc_best_plan(role);
+    }
 
-    return nearest;
+    std::sort(available_locations.begin(), available_locations.end(), comp_dist);
+
+    // 取距离最近的N个点，计算分数。然后使用得分最高的点
+    constexpr int CalcPointCount = 4;
+    if (available_locations.size() > CalcPointCount) {
+        available_locations.erase(available_locations.begin() + CalcPointCount, available_locations.end());
+    }
+
+    Point best_location;
+    Point best_direction;
+    int max_score = INT_MIN;
+
+    const auto& near_loc = available_locations.at(0);
+    int min_dsit = std::abs(near_loc.x - home.x) + std::abs(near_loc.y - home.y);
+
+    for (const auto& loc : available_locations) {
+        auto cur_result = calc_best_direction_and_score(loc, role);
+        // 离得远的要扣分
+        constexpr int DistWeights = -1000;
+        int extra_dist = std::abs(loc.x - home.x) + std::abs(loc.y - home.y) - min_dsit;
+        int extra_dist_score = DistWeights * extra_dist;
+
+        if (cur_result.second + extra_dist_score > max_score) {
+            max_score = cur_result.second;
+            best_location = loc;
+            best_direction = cur_result.first;
+        }
+    }
+    return { best_location, best_direction };
 }
 
-asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, BattleRole role)
+std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction_and_score(Point loc, BattleRole role)
 {
     LogTraceFunction;
 
@@ -735,5 +756,5 @@ asst::Point asst::RoguelikeBattleTaskPlugin::calc_direction(Point loc, BattleRol
         }
     }
 
-    return opt_direction;
+    return std::make_pair(opt_direction, max_score);
 }
