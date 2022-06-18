@@ -40,12 +40,24 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     };
 
     for (const auto& info : analyzer.get_result()) {
-        if (info.elite == 0 ||
-            (info.elite == 1 && info.level < 50)) {
+        // 先看看有没有精二的
+        if (info.elite != 2) {
             continue;
         }
         recruit_oper(info);
         break;
+    }
+
+    if (!recruited) {
+        for (const auto& info : analyzer.get_result()) {
+            // 拿个精一 50 以上的
+            if (info.elite == 0 ||
+                (info.elite == 1 && info.level < 50)) {
+                continue;
+            }
+            recruit_oper(info);
+            break;
+        }
     }
 
     if (!recruited) {

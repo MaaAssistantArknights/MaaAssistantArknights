@@ -1,0 +1,20 @@
+[
+    {
+        "stage_name": "驯兽小屋",
+        "replacement_home": [
+            [
+                8,
+                3
+            ]
+        ]
+    },
+    {
+        "stage_name": "巡逻队",
+        "replacement_home": [
+            [
+                8,
+                3
+            ]
+        ]
+    }
+]

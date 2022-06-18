@@ -30,6 +30,7 @@ namespace asst
         bool retreat(const Point& point);
         void clear();
         bool try_possible_skill(const cv::Mat& image);
+        bool check_key_kills(const cv::Mat& image);
         bool wait_start();
 
         struct DeployInfo
@@ -46,10 +47,13 @@ namespace asst
 
         bool m_opers_used = false;
         int m_pre_hp = 0;
+        int m_kills = 0;
+        int m_total_kills = 0;
 
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         std::vector<Point> m_homes;
+        std::queue<int> m_key_kills;
         size_t m_cur_home_index = 0;
         std::unordered_map<Point, std::string> m_used_tiles;
         std::unordered_map<std::string, int64_t> m_restore_status;

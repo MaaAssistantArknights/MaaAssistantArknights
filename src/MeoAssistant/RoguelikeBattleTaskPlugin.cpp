@@ -117,6 +117,40 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         calced = true;
     }
 
+    auto opt = Resrc.roguelike().get_stage_data(m_stage_name);
+    if (opt && !opt->replacement_home.empty()) {
+        m_homes = opt->replacement_home;
+        std::string log_str = "[ ";
+        for (auto& home : m_homes) {
+            if (m_normal_tile_info.find(home) == m_normal_tile_info.end()) {
+                Log.error("No replacement home point", home.x, home.y);
+            }
+            log_str += "( " + std::to_string(home.x) + ", " + std::to_string(home.y) + " ), ";
+        }
+        log_str += "]";
+        Log.info("replacement home:", log_str);
+    }
+    else {
+        for (const auto& [loc, side] : m_normal_tile_info) {
+            if (side.key == TilePack::TileKey::Home) {
+                m_homes.emplace_back(loc);
+            }
+        }
+    }
+    if (opt && !opt->key_kills.empty()) {
+        std::string log_str = "[ ";
+        for (const auto& kills : opt->key_kills) {
+            m_key_kills.emplace(kills);
+            log_str += std::to_string(kills) + ", ";
+        }
+        log_str += "]";
+        Log.info("key kills:", log_str);
+    }
+
+    if (m_homes.empty()) {
+        Log.error("Unknown home pos");
+    }
+
     if (calced) {
         auto cb_info = basic_info_with_what("StageInfo");
         auto& details = cb_info["details"];
@@ -307,10 +341,14 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_opers_used = false;
     m_pre_hp = 0;
     m_homes.clear();
+    decltype(m_key_kills) empty;
+    m_key_kills.swap(empty);
     m_cur_home_index = 0;
     m_stage_name.clear();
     m_side_tile_info.clear();
     m_used_tiles.clear();
+    m_kills = 0;
+    m_total_kills = 0;
 
     for (auto& [key, status] : m_restore_status) {
         m_status->set_number(key, status);
@@ -320,6 +358,10 @@ void asst::RoguelikeBattleTaskPlugin::clear()
 
 bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
 {
+    if (!check_key_kills(image)) {
+        return false;
+    }
+
     auto task_ptr = Task.get("BattleAutoSkillFlag");
     const Rect& skill_roi_move = task_ptr->rect_move;
 
@@ -354,6 +396,29 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
         }
     }
     return used;
+}
+
+bool asst::RoguelikeBattleTaskPlugin::check_key_kills(const cv::Mat& image)
+{
+    if (m_key_kills.empty()) {
+        return true;
+    }
+    int need_kills = m_key_kills.front();
+
+    BattleImageAnalyzer analyzer(image);
+    if (m_total_kills) {
+        analyzer.set_pre_total_kills(m_total_kills);
+    }
+    analyzer.set_target(BattleImageAnalyzer::Target::Kills);
+    if (analyzer.analyze()) {
+        m_kills = analyzer.get_kills();
+        m_total_kills = analyzer.get_total_kills();
+        if (m_kills >= need_kills) {
+            m_key_kills.pop();
+            return true;
+        }
+    }
+    return false;
 }
 
 bool asst::RoguelikeBattleTaskPlugin::wait_start()
@@ -392,6 +457,15 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
         std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
         cv::putText(image, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
     }
+
+    // 识别一帧总击杀数
+    BattleImageAnalyzer kills_analyzer(image);
+    kills_analyzer.set_target(BattleImageAnalyzer::Target::Kills);
+    if (kills_analyzer.analyze()) {
+        m_kills = kills_analyzer.get_kills();
+        m_total_kills = kills_analyzer.get_total_kills();
+    }
+
 #ifdef WIN32
     cv::imwrite("map/" + utils::utf8_to_ansi(m_stage_name) + ".png", image);
 #else
@@ -449,16 +523,6 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
         break;
     }
 
-    if (m_homes.empty()) {
-        for (const auto& [loc, side] : m_side_tile_info) {
-            if (side.key == TilePack::TileKey::Home) {
-                m_homes.emplace_back(loc);
-            }
-        }
-        if (m_homes.empty()) {
-            Log.error("Unknown home pos");
-        }
-    }
     if (m_cur_home_index >= m_homes.size()) {
         m_cur_home_index = 0;
     }
