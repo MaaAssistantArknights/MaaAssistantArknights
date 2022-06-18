@@ -20,7 +20,7 @@
 
 [中文版本README](README.md)
 
-MAA stands for MAA Assistant Arknights
+MAA means MAA Assistant Arknights
 
 An Arknights assistant
 
@@ -54,7 +54,7 @@ Talk is cheap. Show me the pictures!
 
 ### Basic Settings
 
-1. Follow the [Simulator Support](docs/en/SIMULATOR_SUPPORT.md) to configure your simulator.
+1. Follow the [Emulator Support](docs/en/EMULATOR_SUPPORTS.md) to configure your emulator.
 2. Unzip the archive file to an **ASCII-only** directory
 3. All settings are not changeable after running except `Auto shutdown`.
 
