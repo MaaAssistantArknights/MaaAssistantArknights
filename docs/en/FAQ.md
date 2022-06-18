@@ -2,9 +2,9 @@
 
 ### The program crashes immediately when I try to run it
 
-- Possible solution 0: Compressed package is incomplete
-  - If you are using this software for the first time, please do not download the compressed package with the word `OTA` in the file name, this is for incremental update and cannot be used alone
-  - If you can't use it after an automatic update, there may be some bugs in the automatic update function, you can try to manually download the complete package and use it again
+- Possible solution 0: The downloaded archive is incomplete.
+  - If you are the first time using this software, please do not download the compressed package with the word `OTA` in the file name, this is for incremental update and cannot be used alone.
+  - If you can't use it after an automatic update, there may be some bugs in the automatic update function, you can try to manually download the complete package and use it again.
 - Possible solution 1: you are missing some runtime libraries.
   Please try installing [Visual C++ Redistributable](https://docs.microsoft.com/en/cpp/windows/latest-supported-vc-redist?view=msvc-160#visual-studio-2015-2017-2019-and-2022), [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) and restart the program.
 - Possible solution 2: your CPU instruction set is incompatible.
@@ -21,8 +21,8 @@ Tips: please refer to the [Usage](../README-en.md#Usage) section to ensure that 
 
 1. Make sure that MAA `Settings` - `Connection Settings` - `adb path` is automatically filled in, if it has been filled in, please ignore this step. If not filled in:
 
-    - Method 1: Find the installation path of your simulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., EXE files with `adb`). Simply choose the file in the connection settings of MAA!
-    - Method 2: Download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it, select the `adb.exe`
+    - Option 1: Find the installation path of your simulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., EXE files with `adb`). Simply choose the file in the connection settings of MAA!
+    - Option 2: Download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it, select the `adb.exe`
 
 2. Confirm that your connection address is filled in correctly, you can Google what the adb address of the emulator you are using is generally in a format like `127.0.0.1:5555`
 
