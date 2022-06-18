@@ -1,6 +1,7 @@
 #include "RoguelikeBattleTaskPlugin.h"
 
 #include <chrono>
+#include <future>
 
 #include "BattleImageAnalyzer.h"
 #include "Controller.h"
@@ -117,28 +118,6 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
     }
 
     if (calced) {
-        //#ifdef ASST_DEBUG
-        //        auto normal_tiles = tile.calc(m_stage_name, true);
-        //        cv::Mat draw = cv::imread("j.png");
-        //        for (const auto& [point, info] : normal_tiles) {
-        //            using TileKey = TilePack::TileKey;
-        //            static const std::unordered_map<TileKey, std::string> TileKeyMapping = {
-        //                { TileKey::Invalid, "invalid" },
-        //                { TileKey::Forbidden, "forbidden" },
-        //                { TileKey::Wall, "wall" },
-        //                { TileKey::Road, "road" },
-        //                { TileKey::Home, "end" },
-        //                { TileKey::EnemyHome, "start" },
-        //                { TileKey::Floor, "floor" },
-        //                { TileKey::Hole, "hole" },
-        //                { TileKey::Telin, "telin" },
-        //                { TileKey::Telout, "telout" }
-        //            };
-        //
-        //            cv::putText(draw, TileKeyMapping.at(info.key), cv::Point(info.pos.x, info.pos.y), 1, 1, cv::Scalar(0, 0, 255));
-        //        }
-        //#endif
-
         auto cb_info = basic_info_with_what("StageInfo");
         auto& details = cb_info["details"];
         details["name"] = m_stage_name;
@@ -407,6 +386,17 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
         }
         std::this_thread::yield();
     }
+
+    std::filesystem::create_directory("map");
+    for (const auto& [loc, info] : m_normal_tile_info) {
+        std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
+        cv::putText(image, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
+    }
+#ifdef WIN32
+    cv::imwrite("map/" + utils::utf8_to_ansi(m_stage_name) + ".png", image);
+#else
+    cv::imwrite("map/" + m_stage_name + ".png", image);
+#endif
 
     return true;
 }
