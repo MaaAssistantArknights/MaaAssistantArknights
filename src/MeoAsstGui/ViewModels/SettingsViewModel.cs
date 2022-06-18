@@ -1092,10 +1092,13 @@ namespace MeoAsstGui
             {
                 if (!updateModle.CheckAndDownloadUpdate(true))
                 {
-                    using (var toast = new ToastNotification("已是最新版本~"))
+                    Execute.OnUIThread(() =>
                     {
-                        toast.Show();
-                    }
+                        using (var toast = new ToastNotification("已是最新版本~"))
+                        {
+                            toast.Show();
+                        }
+                    });
                 }
             });
             await task;
