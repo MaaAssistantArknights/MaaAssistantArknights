@@ -352,7 +352,7 @@ public partial class Build : NukeBuild
             }
             else
             {
-                _changeLog += $"\n\n**Full Changelog**: [{Parameters.MainRepo}@{_latestTag} -> {Parameters.MainRepo}@{Parameters.GhTag}](https://github.com/{Parameters.MainRepo}/compare/{_latestTag}...{Parameters.GhTag})";
+                _changeLog += $"\n\n**Full Changelog**: [{_latestTag} -> {Parameters.GhTag}](https://github.com/{Parameters.MainRepo}/compare/{_latestTag}...{Parameters.GhTag})";
             }
         });
 
@@ -632,9 +632,16 @@ public partial class Build : NukeBuild
     
     private string GetLatestTag()
     {
-        var latestRelease = GitHubTasks.GitHubClient.Repository.Release
-                    .GetLatest(Parameters.MainRepo.Split('/')[0], Parameters.MainRepo.Split('/')[1])
-                    .GetAwaiter().GetResult();
+        var releases = GitHubTasks.GitHubClient.Repository.Release
+            .GetAll(Parameters.MainRepo.Split('/')[0], 
+                    Parameters.MainRepo.Split('/')[1],
+                    new ApiOptions { PageCount = 5 })
+            .GetAwaiter().GetResult();
+
+        Assert.True(releases.Count > 0, "获取最新发布版本失败");
+
+        var latestRelease = releases[0];
+
         Assert.True(latestRelease is not null, "获取最新发布版本失败");
         Assert.True(latestRelease.TagName is not null, "获取最新发布版本 TagName 失败");
         return latestRelease.TagName;
@@ -642,15 +649,11 @@ public partial class Build : NukeBuild
 
     private string GetLatestReleaseTag()
     {
-        var releases = GitHubTasks.GitHubClient.Repository.Release
-            .GetAll(Parameters.MainRepo.Split('/')[0], Parameters.MainRepo.Split('/')[1], new ApiOptions { PageCount = 5 })
+        var latestRelease = GitHubTasks.GitHubClient.Repository.Release
+            .GetLatest(Parameters.MainRepo.Split('/')[0], Parameters.MainRepo.Split('/')[1])
             .GetAwaiter().GetResult();
-
-        var latestRelease = releases
-            .FirstOrDefault(x => x.Prerelease is false && x.Draft is false);
-        
         Assert.True(latestRelease is not null, "获取最新发布版本失败");
-        Assert.True(latestRelease.TagName is not null, "获取最新发布版本 TagName 失败");        
+        Assert.True(latestRelease.TagName is not null, "获取最新发布版本 TagName 失败");
         return latestRelease.TagName;
     }
 
