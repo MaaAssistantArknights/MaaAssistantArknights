@@ -2,6 +2,9 @@
 
 ### The program crashes immediately when I try to run it
 
+- Possible solution 0: Compressed package is incomplete
+  - If you are using this software for the first time, please do not download the compressed package with the word `OTA` in the file name, this is for incremental update and cannot be used alone
+  - If you can't use it after an automatic update, there may be some bugs in the automatic update function, you can try to manually download the complete package and use it again
 - Possible solution 1: you are missing some runtime libraries.
   Please try installing [Visual C++ Redistributable](https://docs.microsoft.com/en/cpp/windows/latest-supported-vc-redist?view=msvc-160#visual-studio-2015-2017-2019-and-2022), [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) and restart the program.
 - Possible solution 2: your CPU instruction set is incompatible.
@@ -14,10 +17,22 @@
 
 Tips: please refer to the [Usage](../README-en.md#Usage) section to ensure that you are using your simulator correctly.
 
-- Approach 1: find the installation path of your simulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., EXE files with `adb`). Simply choose the file in the connection settings of MAA!
-- Approach 2: please refer to the [Custom Connection](#custom-connection) section.
-- Approach 3: change another simulator, such as [Bluestacks international version](https://www.bluestacks.com/download.html) Nougat 64 bit
-- Approach 4: change the code related. You can find the code [here](../src/MeoAsstGui/Helper/WinAdapter.cs) written in C# which is related to the hook on the simulator process and getting ADB path. Feel free to submit PR to us!
+#### Approach 1
+
+1. Make sure that MAA `Settings` - `Connection Settings` - `adb path` is automatically filled in, if it has been filled in, please ignore this step. If not filled in:
+
+    - Method 1: Find the installation path of your simulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., EXE files with `adb`). Simply choose the file in the connection settings of MAA!
+    - Method 2: Download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it, select the `adb.exe`
+
+2. Confirm that your connection address is filled in correctly, you can Google what the adb address of the emulator you are using is generally in a format like `127.0.0.1:5555`
+
+#### Approach 2
+
+Change another simulator, such as [Bluestacks international version](https://www.bluestacks.com/download.html) Nougat 64 bit
+
+#### Approach 3
+
+Try restarting your computer
 
 ### Wrong Recognition/Program freezes after starting
 
@@ -34,7 +49,3 @@ Tip 2: Follow the steps below until the problem is solved.
 
 - Download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it.
 - Go to `Settings` - `Connection Settings`, and select the location of `adb.exe`, fill in the address of ADB (with the format of IP+port, e.g. `127.0.0.1:5555`), and choose the type of your simulator.
-
-### ADB already exists in the environment variable. Do I stil need to download it?
-
-You need not do so! Go to `Settings` - `Connection Settings`, and set  `ADB path` to `adb.exe`, or other relative path.
