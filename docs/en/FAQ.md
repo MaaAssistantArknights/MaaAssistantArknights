@@ -15,20 +15,20 @@
 
 ### Connection error/not knowing how to fill in ADB path
 
-Tips: please refer to the [Usage](../README-en.md#Usage) section to ensure that you are using your simulator correctly.
+Tips: please refer to the [Usage](../README-en.md#Usage) section to ensure that you are using your emulator correctly.
 
 #### Approach 1
 
 1. Make sure that MAA `Settings` - `Connection Settings` - `adb path` is automatically filled in, if it has been filled in, please ignore this step. If not filled in:
 
-    - Option 1: Find the installation path of your simulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., EXE files with `adb`). Simply choose the file in the connection settings of MAA!
+    - Option 1: Find the installation path of your emulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., EXE files with `adb`). Simply choose the file in the connection settings of MAA!
     - Option 2: Download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it, select the `adb.exe`
 
 2. Confirm that your connection address is filled in correctly, you can Google what the adb address of the emulator you are using is generally in a format like `127.0.0.1:5555`
 
 #### Approach 2
 
-Change another simulator, such as [Bluestacks international version](https://www.bluestacks.com/download.html) Nougat 64 bit
+Change another emulator, such as [Bluestacks international version](https://www.bluestacks.com/download.html) Nougat 64 bit
 
 #### Approach 3
 
@@ -39,13 +39,13 @@ Try restarting your computer
 Tip 1: The `Current Stage` of auto battle that costs Sanity requires you to go to the screen with the start button. Please confirm they are not related.
 Tip 2: Follow the steps below until the problem is solved.
 
-1. Confirm that your simulator is supported in the [List of the Supported Simulators](List of the Supported Simulators.md).
+1. Confirm that your emulator is supported in the [List of the Supported Emulators](EMULATOR_SUPPORTS.md).
 2. Change the DPI to `320 dpi`.
 3. Change the resolution to landscape, `1280 * 720`.
-4. Try with another simulator, such as [Bluestacks international version](https://www.bluestacks.com/download.html) Nougat 64 bit. (Please note that you are required to switch on ADB in Bluestack simulator.)
+4. Try with another emulator, such as [Bluestacks international version](https://www.bluestacks.com/download.html) Nougat 64 bit. (Please note that you are required to switch on ADB in Bluestack emulator.)
 5. Submit an issue to us if the problem still exists.
 
 ### Custom Connection
 
 - Download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it.
-- Go to `Settings` - `Connection Settings`, and select the location of `adb.exe`, fill in the address of ADB (with the format of IP+port, e.g. `127.0.0.1:5555`), and choose the type of your simulator.
+- Go to `Settings` - `Connection Settings`, and select the location of `adb.exe`, fill in the address of ADB (with the format of IP+port, e.g. `127.0.0.1:5555`), and choose the type of your emulator.
