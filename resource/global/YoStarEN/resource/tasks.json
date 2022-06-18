@@ -137,6 +137,22 @@
             "ReturnToHome"
         ]
     },
+    "NoFriends": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "No friends"
+        ],
+        "roi": [
+            650,
+            100,
+            300,
+            150
+        ],
+        "action": "DoNothing",
+        "next": [
+            "ReturnToHome"
+        ]
+    },
     "MallLoading": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
