@@ -5094,7 +5094,7 @@
             60,
             60
         ],
-        "preDelay": 2000
+        "preDelay": 3000
     },
     "BattleSkillReady": {
         "roi": [

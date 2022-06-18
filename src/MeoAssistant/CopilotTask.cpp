@@ -16,14 +16,14 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, void* callback_arg)
         .set_ignore_error(true);
     m_subtasks.emplace_back(start_1_tp);
 
-    m_subtasks.emplace_back(m_formation_task_ptr)->set_ignore_error(false);
+    m_subtasks.emplace_back(m_formation_task_ptr)->set_ignore_error(false).set_retry_times(0);
 
     auto start_2_tp = std::make_shared<ProcessTask>(callback, callback_arg, TaskType);
     start_2_tp->set_tasks({ "BattleStartNormal", "BattleStartRaid", "BattleStartExercise", "BattleStartSimulation" })
         .set_ignore_error(false);
     m_subtasks.emplace_back(start_2_tp);
 
-    m_subtasks.emplace_back(m_battle_task_ptr);
+    m_subtasks.emplace_back(m_battle_task_ptr)->set_retry_times(0);
 }
 
 bool asst::CopilotTask::set_params(const json::value& params)

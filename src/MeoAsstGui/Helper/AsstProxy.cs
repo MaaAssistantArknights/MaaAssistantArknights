@@ -653,6 +653,10 @@ namespace MeoAsstGui
                     //    copilotModel.AddLog(subTaskDetails["details"].ToString(), details_color.Length == 0 ? "dark" : details_color);
                     //}
                     break;
+
+                case "UnsupportedLevel":
+                    copilotModel.AddLog("不支持的关卡\n请更新 MAA 软件版本，或检查作业文件", "darkred");
+                    break;
             }
         }
 
