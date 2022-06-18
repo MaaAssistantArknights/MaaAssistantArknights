@@ -2179,7 +2179,7 @@
             "AwardFinished",
             "CloseTaskAwardDouble"
         ],
-        "max_times": 10
+        "maxTimes": 10
     },
     "AwardFinished": {
         "action": "Stop",
