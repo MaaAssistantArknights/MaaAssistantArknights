@@ -7,7 +7,7 @@
 #ifdef _WIN32
 #include <Windows.h>
 #else
-#include <time.h>
+#include <ctime>
 #include <sys/time.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -74,7 +74,7 @@ namespace asst
                       curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds);
 
 #else   // ! _WIN32
-            struct timeval tv = { 0 };
+            struct timeval tv{};
             gettimeofday(&tv, nullptr);
             time_t nowtime = tv.tv_sec;
             struct tm* tm_info = localtime(&nowtime);
@@ -101,17 +101,14 @@ namespace asst
             WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, nullptr, nullptr);
             std::string strTemp = str;
 
-            if (wstr) {
-                delete[] wstr;
-                wstr = nullptr;
-            }
-            if (str) {
-                delete[] str;
-                str = nullptr;
-            }
+            delete[] wstr;
+            wstr = nullptr;
+            delete[] str;
+            str = nullptr;
+
             return strTemp;
 #else   // Don't fucking use gbk in linux!
-            return gbk_str;
+            return ansi_str;
 #endif
         }
 
@@ -132,14 +129,11 @@ namespace asst
             WideCharToMultiByte(CP_ACP, 0, wsz_ansi, -1, sz_ansi, len, nullptr, nullptr);
             std::string strTemp(sz_ansi);
 
-            if (wsz_ansi) {
-                delete[] wsz_ansi;
-                wsz_ansi = nullptr;
-            }
-            if (sz_ansi) {
-                delete[] sz_ansi;
-                sz_ansi = nullptr;
-            }
+            delete[] wsz_ansi;
+            wsz_ansi = nullptr;
+            delete[] sz_ansi;
+            sz_ansi = nullptr;
+
             return strTemp;
 #else   // Don't fucking use gbk in linux!
             return utf8_str;
