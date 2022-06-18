@@ -13,7 +13,7 @@
     1. Download and install `Visual Studio 2022 Community`. Select `Desktop development with C++` and `.NET Desktop Development`.
 
 5. Double-click to open the file `MeoAssistantArknights.sln`. Visual Studio will load the project automatically.
-6. Run a build to test whether the development environment has been configured correctly. Chosse `Release` & `x64`, right-click `MeoAsstGui` to set it as the startup project, and run it. If the build is successful, the `MeoAsstGui` window will appear. You can connect to the simulator in order to confirm again that the development environment has been configured correctly.
+6. Run a build to test whether the development environment has been configured correctly. Chosse `Release` & `x64`, right-click `MeoAsstGui` to set it as the startup project, and run it. If the build is successful, the `MeoAsstGui` window will appear. You can connect to the emulator in order to confirm again that the development environment has been configured correctly.
 7. Now you are free to contribute to MAA.
 8. Remember to commit once you have proper number of changes. Don't forget to write a commit message.
 9. After development, push your local changes to the remote (of your repository).

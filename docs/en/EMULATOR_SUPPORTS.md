@@ -1,4 +1,4 @@
-## Simulator Support
+## Emulator Supports
 
 ### Bluestack
 
@@ -14,7 +14,7 @@ Compatible.
 
 - Turn on `Settings` - `Advanced` - `Android Debug Bridge`.
 - Bluestack Hyper-V port changes frequently. Here is a simple hack:
-  1. Find `bluestacks.conf` in the installation location of the simulator.
+  1. Find `bluestacks.conf` in the installation location of the emulator.
   2. Launch MAA, which generates `gui.json`.  Open it.
   3. Add a new field `Bluestacks.Config.Path`, with the value of the full path of `bluestacks.conf` (backslash should be escaped like `\\`).
   4. LinkStart!
@@ -33,7 +33,7 @@ Compatible but:
 
 - Requires MAA to "Run as Administrator" to get ADB path and address (since MuMu runs as admin).
 - You can also fill in the ADB path and address if you do not wish to run as admin.
-- It has a chance that MAA may stuck at the main screen and prompt mission failed, which is probably related to the rendering method of MuMu. Recommend to change other simulator.
+- It has a chance that MAA may stuck at the main screen and prompt mission failed, which is probably related to the rendering method of MuMu. Recommend to change other emulator.
 
 ### MuMu Mobile Game Assistant  
 
