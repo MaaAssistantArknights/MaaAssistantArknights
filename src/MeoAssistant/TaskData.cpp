@@ -9,7 +9,7 @@
 #include "TemplResource.h"
 #include "Logger.hpp"
 
-const std::shared_ptr<asst::TaskInfo> asst::TaskData::get(const std::string& name) const noexcept
+std::shared_ptr<const asst::TaskInfo> asst::TaskData::get(const std::string& name) const noexcept
 {
     if (auto iter = m_all_tasks_info.find(name);
         iter != m_all_tasks_info.cend()) {
@@ -35,7 +35,7 @@ bool asst::TaskData::parse(const json::value& json)
     LogTraceFunction;
 
     auto to_lower = [](char c) -> char {
-        return (c >= 'A' && c <= 'Z') ? (c - 'A' + 'a') : c;
+        return char(std::tolower(c));
     };
     for (const auto& [name, task_json] : json.as_object()) {
         std::string algorithm_str = task_json.get("algorithm", "matchtemplate");
