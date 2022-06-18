@@ -143,7 +143,7 @@ namespace asst
 #else   // ! _WIN32
             sprintf(buff, "[%s][%s][Px%x][Tx%x]",
                       asst::utils::get_format_time().c_str(),
-                      level.data(), getpid(), std::this_thread::get_id()
+                      level.data(), getpid(), unsigned (std::hash<std::thread::id>{}(std::this_thread::get_id()))
             );
 #endif  // END _WIN32
 
