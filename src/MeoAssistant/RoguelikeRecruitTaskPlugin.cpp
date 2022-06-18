@@ -39,7 +39,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         recruited = true;
     };
 
-    for (const auto& info : analyzer.get_result()) {
+    const auto& oper_list = analyzer.get_result();
+    for (const auto& info : oper_list) {
         // 先看看有没有精二的
         if (info.elite != 2) {
             continue;
@@ -49,7 +50,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     }
 
     if (!recruited) {
-        for (const auto& info : analyzer.get_result()) {
+        for (const auto& info : oper_list) {
             // 拿个精一 50 以上的
             if (info.elite == 0 ||
                 (info.elite == 1 && info.level < 50)) {
@@ -63,7 +64,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     if (!recruited) {
         Log.info("All are lower");
         // 随便招个精一的
-        for (const auto& info : analyzer.get_result()) {
+        for (const auto& info : oper_list) {
             if (info.elite == 0) {
                 continue;
             }
@@ -75,7 +76,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     if (!recruited) {
         // 随便招个
         Log.info("All are very lower");
-        auto info = analyzer.get_result().front();
+        auto info = oper_list.front();
         recruit_oper(info);
     }
 

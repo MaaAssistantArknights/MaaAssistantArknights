@@ -5488,7 +5488,14 @@
             "Roguelike1LastRewardRand",
             "Roguelike1Team3",
             "Roguelike1CloseCollection",
-            "Roguelike1DialogSkip"
+            "Roguelike1DialogSkip",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ]
     },
     "Roguelike1CloseCollection": {
