@@ -25,6 +25,10 @@ bool asst::BattleProcessTask::_run()
     bool ret = get_stage_info();
 
     if (!ret) {
+        json::value info = basic_info_with_what("UnsupportedLevel");
+        auto& details = info["details"];
+        details["level"] = m_stage_name;
+        callback(AsstMsg::SubTaskExtraInfo, info);
         return false;
     }
 
