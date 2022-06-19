@@ -2178,7 +2178,8 @@
             "WeeklyTask",
             "AwardFinished",
             "CloseTaskAwardDouble"
-        ]
+        ],
+        "maxTimes": 10
     },
     "AwardFinished": {
         "action": "Stop",
