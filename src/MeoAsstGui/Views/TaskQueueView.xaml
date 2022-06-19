@@ -48,23 +48,23 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Button Grid.Row="1" Grid.Column="0" Command="{s:Action SelectedAll}" IsEnabled="{Binding Idle}" Content="全选" Width="90" Height="30" VerticalAlignment="Top"  />
+                    <Button Grid.Row="1" Grid.Column="0" Command="{s:Action SelectedAll}" IsEnabled="{Binding Idle}" Content="全选" Width="90" Height="30" VerticalAlignment="Top" />
                     <Button Grid.Row="1" Grid.Column="1"  Command="{s:Action InverseSelected}" IsEnabled="{Binding Idle}" Content="反选"  Width="90" Height="30"  VerticalAlignment="Top" />
                 </Grid>
             </Border>
-            <ComboBox Grid.Row="1" ItemsSource="{Binding AfterCompleteList}"  VerticalAlignment="Center" 
+            <ComboBox Grid.Row="1" ItemsSource="{Binding AfterCompleteList}"  VerticalAlignment="Center"
                       DisplayMemberPath="Display"
                       SelectedValuePath="Value"
                       SelectedValue="{Binding AfterCompleteType}"></ComboBox>
 
-            <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center" >-->                
+            <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center" >-->
                 <!--<CheckBox IsChecked="{Binding Shutdown}" Content="自动关机" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <CheckBox.InputBindings>
-                        <KeyBinding Key="H" Command="{s:Action ShowButton}"/>
+                        <KeyBinding Key="H" Command="{s:Action ShowButton}" />
                     </CheckBox.InputBindings>
                 </CheckBox>
-                <CheckBox IsChecked="{Binding Hibernate}" Content="休眠" Visibility="{Binding Visible}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <CheckBox IsChecked="{Binding Suspend}" Content="待机" Visibility="{Binding Visible}"  HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                <CheckBox IsChecked="{Binding Hibernate}" Content="休眠" Visibility="{Binding Visible}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <CheckBox IsChecked="{Binding Suspend}" Content="待机" Visibility="{Binding Visible}"  HorizontalAlignment="Center" VerticalAlignment="Center" />-->
             <!--</StackPanel>-->
 
             <Button Grid.Row="2" Command="{s:Action LinkStart}" IsEnabled="{Binding Idle}" Content="LinkStart !" HorizontalAlignment="Center" Width="120" Height="50" Margin="5" />
@@ -81,9 +81,9 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Time}" Foreground="Gray"
-                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="0, 5" Width="100"/>
+                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="0, 5" Width="100" />
                             <TextBlock Text="{Binding Content}" Foreground="{Binding Color}" FontWeight="{Binding Weight}"
-                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="0, 5" Width="135"/>
+                                       Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap" Margin="0, 5" Width="135" />
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

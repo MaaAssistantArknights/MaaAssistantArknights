@@ -20,8 +20,7 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg, std::strin
     : m_callback(std::move(callback)),
     m_callback_arg(callback_arg),
     m_task_chain(std::move(task_chain))
-{
-}
+{}
 
 bool asst::AbstractTask::run()
 {

@@ -1,4 +1,4 @@
-﻿// MeoAsstGui - A part of the MeoAssistantArknights project
+// MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
@@ -18,6 +18,7 @@ namespace MeoAsstGui
     public static class AutoScroll
     {
         private static bool _autoScroll;
+
         public static bool GetAutoScroll(DependencyObject obj)
         {
             return (bool)obj.GetValue(AutoScrollProperty);
