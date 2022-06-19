@@ -178,6 +178,7 @@
   <ItemGroup>
     <None Include="..\..\resource\config.json" />
     <None Include="..\..\resource\infrast.json" />
+    <None Include="..\..\resource\roguelike_copilot.json" />
     <None Include="..\..\resource\roguelike_recruit.json" />
     <None Include="..\..\resource\tasks.json" />
   </ItemGroup>
