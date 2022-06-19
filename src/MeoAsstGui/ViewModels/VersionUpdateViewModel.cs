@@ -403,10 +403,12 @@ namespace MeoAsstGui
                 bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out curVersionObj);
                 Semver.SemVersion lastestVersionObj;
                 bool lastestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out lastestVersionObj);
-                if (curParsed && lastestPared
-                    && curVersionObj >= lastestVersionObj)
+                if (curParsed && lastestPared)
                 {
-                    return false;
+                    if (curVersionObj.CompareSortOrderTo(lastestVersionObj) >= 0)
+                    {
+                        return false;
+                    }
                 }
                 else if ((string.Compare(_curVersion, _latestVersion) >= 0))
                 {
