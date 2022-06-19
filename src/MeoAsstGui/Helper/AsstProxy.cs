@@ -431,7 +431,7 @@ namespace MeoAsstGui
                         break;
 
                     case "Roguelike1StageEncounterEnter":
-                        mainModel.AddLog("关卡：不期而遇/古堡馈赠");
+                        mainModel.AddLog("关卡：不期而遇");
                         break;
 
                     //case "Roguelike1StageBoonsEnter":
