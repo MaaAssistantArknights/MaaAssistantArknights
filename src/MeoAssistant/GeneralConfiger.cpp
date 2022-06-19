@@ -20,14 +20,6 @@ bool asst::GeneralConfiger::parse(const json::value& json)
 
         auto& penguin_report = options_json.at("penguinReport");
         m_options.penguin_report.cmd_format = penguin_report.get("cmdFormat", std::string());
-
-        if (options_json.contains("aipOcr")) {
-            auto& aip_ocr = options_json.at("aipOcr");
-            m_options.aip_ocr.enable = aip_ocr.get("enable", false);
-            m_options.aip_ocr.accurate = aip_ocr.get("accurate", false);
-            m_options.aip_ocr.client_id = aip_ocr.get("clientId", std::string());
-            m_options.aip_ocr.client_secret = aip_ocr.get("clientSerect", std::string());
-        }
     }
 
     for (const auto& [client_type, intent_name] : json.at("intent").as_object()) {
