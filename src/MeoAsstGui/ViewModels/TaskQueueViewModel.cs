@@ -15,11 +15,11 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MeoAsstGui
 {
@@ -31,6 +31,14 @@ namespace MeoAsstGui
         public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; set; }
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
+        private string _afterCompleteType = "";
+        public List<CombData> AfterCompleteList { get; set; }
+        public string AfterCompleteType
+        {
+            get { return _afterCompleteType; }
+            set { _afterCompleteType = value; }
+
+        }
         public TaskQueueViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -41,22 +49,22 @@ namespace MeoAsstGui
             InitTimer();
         }
 
-        public void ShowButton()
-        {
-            Visible = Visibility.Visible;
-            Hibernate = true;
-        }
+        //public void ShowButton()
+        //{
+        //    Visible = Visibility.Visible;
+        //    Hibernate = true;
+        //}
 
-        private Visibility _visible = Visibility.Collapsed;
+        //private Visibility _visible = Visibility.Collapsed;
 
-        public Visibility Visible
-        {
-            get { return _visible; }
-            set
-            {
-                SetAndNotify(ref _visible, value);
-            }
-        }
+        //public Visibility Visible
+        //{
+        //    get { return _visible; }
+        //    set
+        //    {
+        //        SetAndNotify(ref _visible, value);
+        //    }
+        //}
 
         private System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
 
@@ -92,7 +100,14 @@ namespace MeoAsstGui
         public void InitializeItems()
         {
             string[] task_list = new string[] { "开始唤醒", "刷理智", "自动公招", "基建换班", "访问好友", "收取信用及购物", "领取日常奖励", "无限刷肉鸽" };
-
+            AfterCompleteList = new List<CombData>
+            {
+                new CombData{ Display="无动作",Value="" },
+                new CombData{ Display="关闭程序",Value="exit" },
+                new CombData{ Display="关机",Value="shutdown" },
+                new CombData{ Display="待机",Value="suspend" },
+                new CombData{ Display="休眠",Value="hibernate" }
+            };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             int order_offset = 0;
             for (int i = 0; i != task_list.Length; ++i)
@@ -457,28 +472,57 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRoguelike(mode);
         }
-
-        public void CheckAndShutdown()
+        public void CheckAfterComplete()
         {
-            if (Shutdown)
+            switch (AfterCompleteType)
             {
-                System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
-
-                var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
-                if (result == MessageBoxResult.OK)
-                {
-                    System.Diagnostics.Process.Start("shutdown.exe", "-a");
-                }
-            }
-            if (Hibernate)
-            {
-                System.Diagnostics.Process.Start("shutdown.exe", "-h");
-            }
-            if (Suspend)
-            {
-                System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+                case "exit":
+                    if (!new ToastNotification().CheckToastSystem())
+                    {
+                        Environment.Exit(0); //不使用系统通知的情况下exit会关闭通知窗口
+                    }
+                    else ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
+                    Environment.Exit(0);
+                    break;
+                case "shutdown":
+                    System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
+                    var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.OK)
+                    {
+                        System.Diagnostics.Process.Start("shutdown.exe", "-a");
+                    }
+                    break;
+                case "suspend":
+                    System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+                    break;
+                case "hibernate":
+                    System.Diagnostics.Process.Start("shutdown.exe", "-h");
+                    break;
+                default:
+                    break;
             }
         }
+        //public void CheckAndShutdown()
+        //{
+        //    if (Shutdown)
+        //    {
+        //        System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
+
+        //        var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
+        //        if (result == MessageBoxResult.OK)
+        //        {
+        //            System.Diagnostics.Process.Start("shutdown.exe", "-a");
+        //        }
+        //    }
+        //    if (Hibernate)
+        //    {
+        //        System.Diagnostics.Process.Start("shutdown.exe", "-h");
+        //    }
+        //    if (Suspend)
+        //    {
+        //        System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+        //    }
+        //}
 
         private bool _idle = false;
 
@@ -493,56 +537,56 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _shutdown = false;
+        //private bool _shutdown = false;
 
-        public bool Shutdown
-        {
-            get { return _shutdown; }
-            set
-            {
-                SetAndNotify(ref _shutdown, value);
+        //public bool Shutdown
+        //{
+        //    get { return _shutdown; }
+        //    set
+        //    {
+        //        SetAndNotify(ref _shutdown, value);
 
-                if (value)
-                {
-                    Hibernate = false;
-                    Suspend = false;
-                }
-            }
-        }
+        //        if (value)
+        //        {
+        //            Hibernate = false;
+        //            Suspend = false;
+        //        }
+        //    }
+        //}
 
-        private bool _hibernate = false;  // 休眠
+        //private bool _hibernate = false;  // 休眠
 
-        public bool Hibernate
-        {
-            get { return _hibernate; }
-            set
-            {
-                SetAndNotify(ref _hibernate, value);
+        //public bool Hibernate
+        //{
+        //    get { return _hibernate; }
+        //    set
+        //    {
+        //        SetAndNotify(ref _hibernate, value);
 
-                if (value)
-                {
-                    Shutdown = false;
-                    Suspend = false;
-                }
-            }
-        }
+        //        if (value)
+        //        {
+        //            Shutdown = false;
+        //            Suspend = false;
+        //        }
+        //    }
+        //}
 
-        private bool _suspend = false;  // 待机
+        //private bool _suspend = false;  // 待机
 
-        public bool Suspend
-        {
-            get { return _suspend; }
-            set
-            {
-                SetAndNotify(ref _suspend, value);
+        //public bool Suspend
+        //{
+        //    get { return _suspend; }
+        //    set
+        //    {
+        //        SetAndNotify(ref _suspend, value);
 
-                if (value)
-                {
-                    Shutdown = false;
-                    Hibernate = false;
-                }
-            }
-        }
+        //        if (value)
+        //        {
+        //            Shutdown = false;
+        //            Hibernate = false;
+        //        }
+        //    }
+        //}
 
         public List<CombData> StageList { get; set; }
 
