@@ -9,12 +9,12 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Stylet;
 using StyletIoC;
-using Microsoft.Toolkit.Uwp.Notifications;
-using System.Runtime.InteropServices;
 
 namespace MeoAsstGui
 {

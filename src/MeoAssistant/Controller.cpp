@@ -902,6 +902,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
 #ifdef ASST_DEBUG
     if (config == "DEBUG") {
+        m_inited = true;
         return true;
     }
 #endif

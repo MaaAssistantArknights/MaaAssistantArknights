@@ -96,7 +96,7 @@ Please refer to: [FAQ](docs/en/FAQ.md)
 - Map tile recognition: [Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON library: [meojson](https://github.com/MistEO/meojson.git)
 - C++ operator parser: [calculator](https://github.com/kimwalisch/calculator)
-- C++ Base64 encoding/decoding[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)
+- ~~C++ Base64 encoding/decoding[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ ZIP library: [zlib](https://github.com/madler/zlib)
 - C++ Gzip library: [gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - WPF MVVW framework: [Stylet](https://github.com/canton7/Stylet)

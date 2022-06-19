@@ -137,12 +137,16 @@ bool asst::BattleProcessTask::analyze_opers_preview()
     }
 
     auto draw_future = std::async(std::launch::async, [&]() {
+        std::filesystem::create_directory("map");
         for (const auto& [loc, info] : m_normal_tile_info) {
             std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
             cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
         }
-
-        cv::imwrite("map.png", draw);
+#ifdef WIN32
+        cv::imwrite("map/" + utils::utf8_to_ansi(m_stage_name) + ".png", image);
+#else
+        cv::imwrite("map/" + m_stage_name + ".png", image);
+#endif
     });
 
     auto opers = oper_analyzer.get_opers();

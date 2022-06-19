@@ -46,12 +46,6 @@
     <Filter Include="头文件\ImageAnalyzer\General">
       <UniqueIdentifier>{c600668a-0d70-4694-b1e5-6a78cffd0b1a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\Requester">
-      <UniqueIdentifier>{a5c43813-70af-4b0e-94ac-9ddecc2e4a3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\Requester">
-      <UniqueIdentifier>{6cd85910-b561-4cf3-85a2-20be3cd1dd76}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\Task\Sub">
       <UniqueIdentifier>{de865908-2cef-4993-b3ab-1e20290d97b9}</UniqueIdentifier>
     </Filter>
@@ -200,9 +194,6 @@
     </ClInclude>
     <ClInclude Include="InfrastControlTask.h">
       <Filter>头文件\Task\Sub\Infrast</Filter>
-    </ClInclude>
-    <ClInclude Include="AipOcr.h">
-      <Filter>头文件\Requester</Filter>
     </ClInclude>
     <ClInclude Include="AbstractTaskPlugin.h">
       <Filter>头文件\Task\Plugin</Filter>
@@ -440,9 +431,6 @@
     <ClCompile Include="InfrastControlTask.cpp">
       <Filter>源文件\Task\Sub\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="AipOcr.cpp">
-      <Filter>源文件\Requester</Filter>
-    </ClCompile>
     <ClCompile Include="AbstractTaskPlugin.cpp">
       <Filter>源文件\Task\Plugin</Filter>
     </ClCompile>
@@ -587,6 +575,9 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="..\..\resource\roguelike_recruit.json">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\resource\roguelike_copilot.json">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

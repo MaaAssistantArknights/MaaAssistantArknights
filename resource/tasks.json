@@ -2178,7 +2178,8 @@
             "WeeklyTask",
             "AwardFinished",
             "CloseTaskAwardDouble"
-        ]
+        ],
+        "maxTimes": 10
     },
     "AwardFinished": {
         "action": "Stop",
@@ -4780,7 +4781,7 @@
             90,
             90
         ],
-        "rearDelay": 200
+        "rearDelay": 300
     },
     "BattleSkillStopOnClick": {
         "roi": [
@@ -4797,7 +4798,7 @@
             90,
             90
         ],
-        "rearDelay": 200
+        "rearDelay": 300
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
@@ -5488,7 +5489,14 @@
             "Roguelike1LastRewardRand",
             "Roguelike1Team3",
             "Roguelike1CloseCollection",
-            "Roguelike1DialogSkip"
+            "Roguelike1DialogSkip",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ]
     },
     "Roguelike1CloseCollection": {
@@ -5545,7 +5553,7 @@
             154
         ],
         "next": [
-            "Roguelike1ChooseOper",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1RecruitCloseGuide"
         ],
         "rearDelay": 1000
@@ -5561,7 +5569,7 @@
             154
         ],
         "next": [
-            "Roguelike1ChooseOper",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1RecruitCloseGuide"
         ],
         "rearDelay": 1000
@@ -5575,7 +5583,7 @@
             134
         ],
         "next": [
-            "Roguelike1ChooseOper"
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike1ChooseOper": {
@@ -6334,7 +6342,8 @@
         "maskRange": [
             1,
             255
-        ]
+        ],
+        "templThreshold": 0.7
     },
     "Roguelike1FormationOperSelected": {
         "template": "empty.png",
@@ -6478,6 +6487,7 @@
             "Roguelike1GetDrop1",
             "Roguelike1GetDrop2",
             "Roguelike1GetDrop3",
+            "Roguelike1GetDropSelect",
             "Roguelike1GetDropRecruit",
             "Roguelike1GetDropLeave",
             "Roguelike1StageTrader",
@@ -6556,8 +6566,53 @@
         "templThreshold": 0.85,
         "rearDelay": 1000,
         "next": [
+            "Roguelike1ChooseOperFlag"
+        ]
+    },
+    "Roguelike1GetDropSelect": {
+        "Doc": "“选择”按钮，有可能是招募二选一，也有收藏品二选一",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            471,
+            1280,
+            157
+        ],
+        "rearDelay": 2000,
+        "next": [
+            "Roguelike1GetDropSelectRecruit",
+            "Roguelike1GetDropSelectReward"
+        ]
+    },
+    "Roguelike1GetDropSelectRecruit": {
+        "template": "Roguelike1GetDropRecruit.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            420,
+            1280,
+            175
+        ],
+        "templThreshold": 0.85,
+        "next": [
             "Roguelike1ChooseOperFlag",
-            "Roguelike1ChooseOper"
+            "Roguelike1GetDropSelectRecruit"
+        ]
+    },
+    "Roguelike1GetDropSelectReward": {
+        "cache": false,
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            420,
+            1280,
+            175
+        ],
+        "next": [
+            "Roguelike1ClickToDrops",
+            "Roguelike1GetDropSelectReward"
         ]
     },
     "Roguelike1GetDropCompleted": {
