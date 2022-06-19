@@ -19,8 +19,7 @@ asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const R
     ,
     m_image_draw(image.clone())
 #endif
-{
-}
+{}
 
 void asst::AbstractImageAnalyzer::set_image(const cv::Mat image)
 {
@@ -47,7 +46,7 @@ asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, con
         return rect;
     }
     if (rect.empty()) {
-        return {0, 0, image.cols, image.rows};
+        return { 0, 0, image.cols, image.rows };
     }
 
     Rect res = rect;

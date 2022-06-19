@@ -8,8 +8,7 @@ asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& r
     : AbstractImageAnalyzer(image, roi),
     m_templ_name(std::move(templ_name)),
     m_templ_thres(templ_thres)
-{
-}
+{}
 
 bool asst::MatchImageAnalyzer::analyze()
 {

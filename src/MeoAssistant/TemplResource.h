@@ -9,24 +9,24 @@
 
 namespace asst
 {
-	class TemplResource : public AbstractResource
-	{
-	public:
+    class TemplResource : public AbstractResource
+    {
+    public:
 
-		virtual ~TemplResource() = default;
+        virtual ~TemplResource() = default;
 
-		void set_load_required(std::unordered_set<std::string> required) noexcept;
-		virtual bool load(const std::string& dir) override;
+        void set_load_required(std::unordered_set<std::string> required) noexcept;
+        virtual bool load(const std::string& dir) override;
 
-		bool exist_templ(const std::string& key) const noexcept;
-		const cv::Mat get_templ(const std::string& key) const noexcept;
+        bool exist_templ(const std::string& key) const noexcept;
+        const cv::Mat get_templ(const std::string& key) const noexcept;
 
-		void emplace_templ(std::string key, cv::Mat templ);
+        void emplace_templ(std::string key, cv::Mat templ);
 
-	private:
-		std::unordered_set<std::string> m_templs_filename;
-		std::unordered_map<std::string, cv::Mat> m_templs;
+    private:
+        std::unordered_set<std::string> m_templs_filename;
+        std::unordered_map<std::string, cv::Mat> m_templs;
 
-		bool m_loaded = false;
-	};
+        bool m_loaded = false;
+    };
 }

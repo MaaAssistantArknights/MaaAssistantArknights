@@ -12,10 +12,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -31,6 +33,15 @@ namespace MeoAsstGui
         public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; set; }
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
+        private string _afterCompleteType = "";
+        public List<CombData> AfterCompleteList { get; set; }
+
+        public string AfterCompleteType
+        {
+            get { return _afterCompleteType; }
+            set { _afterCompleteType = value; }
+        }
+
         public TaskQueueViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -41,22 +52,22 @@ namespace MeoAsstGui
             InitTimer();
         }
 
-        public void ShowButton()
-        {
-            Visible = Visibility.Visible;
-            Hibernate = true;
-        }
+        //public void ShowButton()
+        //{
+        //    Visible = Visibility.Visible;
+        //    Hibernate = true;
+        //}
 
-        private Visibility _visible = Visibility.Collapsed;
+        //private Visibility _visible = Visibility.Collapsed;
 
-        public Visibility Visible
-        {
-            get { return _visible; }
-            set
-            {
-                SetAndNotify(ref _visible, value);
-            }
-        }
+        //public Visibility Visible
+        //{
+        //    get { return _visible; }
+        //    set
+        //    {
+        //        SetAndNotify(ref _visible, value);
+        //    }
+        //}
 
         private System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
 
@@ -92,7 +103,16 @@ namespace MeoAsstGui
         public void InitializeItems()
         {
             string[] task_list = new string[] { "开始唤醒", "刷理智", "自动公招", "基建换班", "访问好友", "收取信用及购物", "领取日常奖励", "无限刷肉鸽" };
-
+            AfterCompleteList = new List<CombData>
+            {
+                new CombData{ Display="无动作",Value="" },
+                new CombData{ Display="退出",Value="exit" },
+                new CombData { Display = "关闭模拟器", Value = "killemulator" },
+                new CombData { Display = "退出并关闭模拟器", Value = "exitwithkillemulator" },
+                new CombData{ Display="关机",Value="shutdown" },
+                new CombData { Display = "待机", Value = "suspend" },
+                new CombData { Display = "休眠", Value = "hibernate" }
+            };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             int order_offset = 0;
             for (int i = 0; i != task_list.Length; ++i)
@@ -458,27 +478,152 @@ namespace MeoAsstGui
             return asstProxy.AsstAppendRoguelike(mode);
         }
 
-        public void CheckAndShutdown()
+        public bool killemulator()
         {
-            if (Shutdown)
+            int pid = 0;
+            string port;
+            string address = ViewStatusStorage.Get("Connect.Address", "");
+            if (address.StartsWith("127"))
+                port = address.Substring(10);
+            else port = "5555";
+            string portcmd = "netstat -ano|findstr \"" + port + "\"";
+            Process checkcmd = new Process();
+            checkcmd.StartInfo.FileName = "cmd.exe";
+            checkcmd.StartInfo.UseShellExecute = false;
+            checkcmd.StartInfo.RedirectStandardInput = true;
+            checkcmd.StartInfo.RedirectStandardOutput = true;
+            checkcmd.StartInfo.RedirectStandardError = true;
+            checkcmd.StartInfo.CreateNoWindow = true;
+            checkcmd.Start();
+            checkcmd.StandardInput.WriteLine(portcmd);
+            checkcmd.StandardInput.WriteLine("exit");
+            Regex reg = new Regex("\\s+", RegexOptions.Compiled);
+            string line;
+            while (true)
             {
-                System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
-
-                var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
-                if (result == MessageBoxResult.OK)
+                line = checkcmd.StandardOutput.ReadLine();
+                try
                 {
-                    System.Diagnostics.Process.Start("shutdown.exe", "-a");
+                    line = line.Trim();
+                }
+                catch
+                {
+                    break;
+                }
+                if (line.StartsWith("TCP", StringComparison.OrdinalIgnoreCase))
+                {
+                    line = reg.Replace(line, ",");
+                    string[] arr = line.Split(',');
+                    if (!Convert.ToBoolean(arr[1].CompareTo(address)) || !Convert.ToBoolean(arr[1].CompareTo("[::]:" + port)) || !Convert.ToBoolean(arr[1].CompareTo("0.0.0.0:" + port)))
+                    {
+                        pid = Int32.Parse(arr[4]);
+                        break;
+                    }
                 }
             }
-            if (Hibernate)
+            if (pid == 0)
+                return false;
+            Process emulator = Process.GetProcessById(pid);
+            try
             {
-                System.Diagnostics.Process.Start("shutdown.exe", "-h");
+                emulator.Kill();
             }
-            if (Suspend)
+            catch
             {
-                System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+                return false;
+            }
+            return true;
+        }
+
+        public void CheckAfterComplete()
+        {
+            switch (AfterCompleteType)
+            {
+                case "killemulator":
+                    if (!killemulator())
+                        Execute.OnUIThread(() =>
+                        {
+                            using (var toast = new ToastNotification("模拟器关闭失败"))
+                            {
+                                toast.AppendContentText("请手动关闭模拟器")
+                                     .Show(lifeTime: 5, row: 2);
+                            }
+                        });
+                    break;
+
+                case "exitwithkillemulator":
+                    if (!killemulator())
+                    {
+                        Execute.OnUIThread(() =>
+                        {
+                            using (var toast = new ToastNotification("模拟器关闭失败"))
+                            {
+                                toast.AppendContentText("请手动关闭模拟器及关闭助手")
+                                     .Show(lifeTime: 5, row: 2);
+                            }
+                        });
+                        break;
+                    }
+                    if (!new ToastNotification().CheckToastSystem())
+                    {
+                        Environment.Exit(0); //不使用系统通知的情况下exit会关闭通知窗口
+                    }
+                    else ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
+                    Environment.Exit(0);
+                    break;
+
+                case "exit":
+                    if (!new ToastNotification().CheckToastSystem())
+                    {
+                        Environment.Exit(0); //不使用系统通知的情况下exit会关闭通知窗口
+                    }
+                    else ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
+                    Environment.Exit(0);
+                    break;
+
+                case "shutdown":
+                    System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
+                    var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.OK)
+                    {
+                        System.Diagnostics.Process.Start("shutdown.exe", "-a");
+                    }
+                    break;
+
+                case "suspend":
+                    System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+                    break;
+
+                case "hibernate":
+                    System.Diagnostics.Process.Start("shutdown.exe", "-h");
+                    break;
+
+                default:
+                    break;
             }
         }
+
+        //public void CheckAndShutdown()
+        //{
+        //    if (Shutdown)
+        //    {
+        //        System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
+
+        //        var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
+        //        if (result == MessageBoxResult.OK)
+        //        {
+        //            System.Diagnostics.Process.Start("shutdown.exe", "-a");
+        //        }
+        //    }
+        //    if (Hibernate)
+        //    {
+        //        System.Diagnostics.Process.Start("shutdown.exe", "-h");
+        //    }
+        //    if (Suspend)
+        //    {
+        //        System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+        //    }
+        //}
 
         private bool _idle = false;
 
@@ -493,56 +638,56 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _shutdown = false;
+        //private bool _shutdown = false;
 
-        public bool Shutdown
-        {
-            get { return _shutdown; }
-            set
-            {
-                SetAndNotify(ref _shutdown, value);
+        //public bool Shutdown
+        //{
+        //    get { return _shutdown; }
+        //    set
+        //    {
+        //        SetAndNotify(ref _shutdown, value);
 
-                if (value)
-                {
-                    Hibernate = false;
-                    Suspend = false;
-                }
-            }
-        }
+        //        if (value)
+        //        {
+        //            Hibernate = false;
+        //            Suspend = false;
+        //        }
+        //    }
+        //}
 
-        private bool _hibernate = false;  // 休眠
+        //private bool _hibernate = false;  // 休眠
 
-        public bool Hibernate
-        {
-            get { return _hibernate; }
-            set
-            {
-                SetAndNotify(ref _hibernate, value);
+        //public bool Hibernate
+        //{
+        //    get { return _hibernate; }
+        //    set
+        //    {
+        //        SetAndNotify(ref _hibernate, value);
 
-                if (value)
-                {
-                    Shutdown = false;
-                    Suspend = false;
-                }
-            }
-        }
+        //        if (value)
+        //        {
+        //            Shutdown = false;
+        //            Suspend = false;
+        //        }
+        //    }
+        //}
 
-        private bool _suspend = false;  // 待机
+        //private bool _suspend = false;  // 待机
 
-        public bool Suspend
-        {
-            get { return _suspend; }
-            set
-            {
-                SetAndNotify(ref _suspend, value);
+        //public bool Suspend
+        //{
+        //    get { return _suspend; }
+        //    set
+        //    {
+        //        SetAndNotify(ref _suspend, value);
 
-                if (value)
-                {
-                    Shutdown = false;
-                    Hibernate = false;
-                }
-            }
-        }
+        //        if (value)
+        //        {
+        //            Shutdown = false;
+        //            Hibernate = false;
+        //        }
+        //    }
+        //}
 
         public List<CombData> StageList { get; set; }
 
