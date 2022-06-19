@@ -12,14 +12,17 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
-using Microsoft.Toolkit.Uwp.Notifications;
+
 
 namespace MeoAsstGui
 {
@@ -103,7 +106,9 @@ namespace MeoAsstGui
             AfterCompleteList = new List<CombData>
             {
                 new CombData{ Display="无动作",Value="" },
-                new CombData{ Display="关闭程序",Value="exit" },
+                new CombData{ Display="退出",Value="exit" },
+                new CombData { Display = "关闭模拟器", Value = "killemulator" },
+                new CombData { Display = "退出并关闭模拟器", Value = "exitwithkillemulator" },
                 new CombData{ Display="关机",Value="shutdown" },
                 new CombData { Display = "待机", Value = "suspend" },
                 new CombData { Display = "休眠", Value = "hibernate" }
@@ -472,10 +477,98 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRoguelike(mode);
         }
+        public bool killemulator()
+        {
+            int pid = 0;
+            string port;
+            string address = ViewStatusStorage.Get("Connect.Address", "");
+            if (address.StartsWith("127"))
+                port = address.Substring(10);
+            else port = "5555";
+            string portcmd = "netstat -ano|findstr \"" + port + "\"";
+            Process checkcmd = new Process();
+            checkcmd.StartInfo.FileName = "cmd.exe";
+            checkcmd.StartInfo.UseShellExecute = false;
+            checkcmd.StartInfo.RedirectStandardInput = true;
+            checkcmd.StartInfo.RedirectStandardOutput = true;
+            checkcmd.StartInfo.RedirectStandardError = true;
+            checkcmd.StartInfo.CreateNoWindow = true;
+            checkcmd.Start();
+            checkcmd.StandardInput.WriteLine(portcmd);
+            checkcmd.StandardInput.WriteLine("exit");
+            Regex reg = new Regex("\\s+", RegexOptions.Compiled);
+            string line;
+            while (true)
+            {
+                line = checkcmd.StandardOutput.ReadLine();
+                try
+                {
+                    line = line.Trim();
+                }
+                catch
+                {
+                    break;
+                }
+                if (line.StartsWith("TCP", StringComparison.OrdinalIgnoreCase))
+                {
+                    line = reg.Replace(line, ",");
+                    string[] arr = line.Split(',');
+                    if (!Convert.ToBoolean(arr[1].CompareTo(address)) || !Convert.ToBoolean(arr[1].CompareTo("[::]:" + port)) || !Convert.ToBoolean(arr[1].CompareTo("0.0.0.0:" + port)))
+                    {
+                        pid = Int32.Parse(arr[4]);
+                        break;
+                    }
+                }
+            }
+            if (pid == 0)
+                return false;
+            Process emulator = Process.GetProcessById(pid);
+            try
+            {
+                emulator.Kill();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
         public void CheckAfterComplete()
         {
             switch (AfterCompleteType)
             {
+                case "killemulator":
+                    if (!killemulator())
+                        Execute.OnUIThread(() =>
+                        {
+                            using (var toast = new ToastNotification("模拟器关闭失败"))
+                            {
+                                toast.AppendContentText("请手动关闭模拟器")
+                                     .Show(lifeTime: 5, row: 2);
+                            }
+                        });
+                    break;
+                case "exitwithkillemulator":
+                    if (!killemulator())
+                    {
+                        Execute.OnUIThread(() =>
+                        {
+                            using (var toast = new ToastNotification("模拟器关闭失败"))
+                            {
+                                toast.AppendContentText("请手动关闭模拟器及关闭助手")
+                                     .Show(lifeTime: 5, row: 2);
+                            }
+                        });
+                        break;
+                    }
+                    if (!new ToastNotification().CheckToastSystem())
+                    {
+                        Environment.Exit(0); //不使用系统通知的情况下exit会关闭通知窗口
+                    }
+                    else ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
+                    Environment.Exit(0);
+                    break;
                 case "exit":
                     if (!new ToastNotification().CheckToastSystem())
                     {
