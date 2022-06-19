@@ -105,8 +105,8 @@ namespace MeoAsstGui
                 new CombData{ Display="无动作",Value="" },
                 new CombData{ Display="关闭程序",Value="exit" },
                 new CombData{ Display="关机",Value="shutdown" },
-                new CombData{ Display="待机",Value="suspend" },
-                new CombData{ Display="休眠",Value="hibernate" }
+                new CombData { Display = "待机", Value = "suspend" },
+                new CombData { Display = "休眠", Value = "hibernate" }
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             int order_offset = 0;
