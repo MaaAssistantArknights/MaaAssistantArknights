@@ -293,7 +293,8 @@ namespace MeoAsstGui
                         toast.Show();
                     }
                     copilotModel.Idle = true;
-                    mainModel.CheckAndShutdown();
+                    //mainModel.CheckAndShutdown();
+                    mainModel.CheckAfterComplete();
                     break;
             }
         }
