@@ -55,7 +55,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
             break;
         }
         using namespace std::chrono_literals;
-        if (std::chrono::steady_clock::now() - start_time > 10min) {
+        if (std::chrono::steady_clock::now() - start_time > 5min) {
             timeout = true;
             break;
         }
@@ -106,8 +106,6 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
             if (calced) {
                 break;
             }
-            // 有些性能非常好的电脑，加载画面很快；但如果使用了不兼容 gzip 的方式截图的模拟器，截图反而非常慢
-            // 这种时候一共可供识别的也没几帧，还要考虑识别错的情况。所以这里不能 sleep
             std::this_thread::yield();
         }
     }
@@ -169,8 +167,6 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 {
     LogTraceFunction;
 
-    using BattleRealTimeOper = asst::BattleRealTimeOper;
-
     //if (int hp = battle_analyzer.get_hp();
     //    hp != 0) {
     //    bool used_skills = false;
@@ -222,15 +218,42 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     // 点击当前最合适的干员
     BattleRealTimeOper opt_oper;
     bool oper_found = false;
+
+    // 一个人都没有的时候，先下个地面单位（如果有的话）
+    // 第二个人下奶（如果有的话）
+    bool wait_melee = false;
+    bool wait_medic = false;
+    if (m_used_tiles.empty() || m_used_tiles.size() == 1) {
+        for (const auto& op : opers) {
+            if (m_used_tiles.empty()) {
+                if (op.role == BattleRole::Warrior ||
+                    op.role == BattleRole::Pioneer ||
+                    op.role == BattleRole::Tank) {
+                    wait_melee = true;
+                }
+            }
+            else if (m_used_tiles.size() == 1) {
+                if (op.role == BattleRole::Medic) {
+                    wait_medic = true;
+                }
+            }
+        }
+    }
+
     for (auto role : RoleOrder) {
-        // 一个人都没有的时候，先下个地面单位
-        if (m_used_tiles.empty()) {
+        if (wait_melee) {
             if (role != BattleRole::Warrior &&
                 role != BattleRole::Pioneer &&
                 role != BattleRole::Tank) {
                 continue;
             }
         }
+        else if (wait_medic) {
+            if (role != BattleRole::Medic) {
+                continue;
+            }
+        }
+
         for (const auto& oper : opers) {
             if (!oper.available) {
                 continue;
@@ -275,7 +298,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             (std::pow(std::abs(placed_point.x - opt_oper.rect.x), 2))
             + (std::pow(std::abs(placed_point.y - opt_oper.rect.y), 2))));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
-    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist * log10(dist));    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
+    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist * log10(dist));    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
     sleep(use_oper_task_ptr->rear_delay);
 
     // 将方向转换为实际的 swipe end 坐标点
@@ -572,13 +595,13 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     int max_score = INT_MIN;
 
     const auto& near_loc = available_locations.at(0);
-    int min_dsit = std::abs(near_loc.x - home.x) + std::abs(near_loc.y - home.y);
+    int min_dist = std::abs(near_loc.x - home.x) + std::abs(near_loc.y - home.y);
 
     for (const auto& loc : available_locations) {
         auto cur_result = calc_best_direction_and_score(loc, role);
         // 离得远的要扣分
-        constexpr int DistWeights = -1000;
-        int extra_dist = std::abs(loc.x - home.x) + std::abs(loc.y - home.y) - min_dsit;
+        constexpr int DistWeights = -1050;
+        int extra_dist = std::abs(loc.x - home.x) + std::abs(loc.y - home.y) - min_dist;
         int extra_dist_score = DistWeights * extra_dist;
 
         if (cur_result.second + extra_dist_score > max_score) {
@@ -673,17 +696,17 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
             Point(0, 1), Point(1, 1), Point(2, 1), Point(3, 1),
         };
         break;
-    case BattleRole::Special:
     case BattleRole::Warrior:
-    case BattleRole::Tank:
-    case BattleRole::Pioneer:
         attack_range = {
-            Point(0, 0), Point(1, 0),
+            Point(0, 0), Point(1, 0), Point(2, 0)
         };
         break;
+    case BattleRole::Special:
+    case BattleRole::Tank:
+    case BattleRole::Pioneer:
     case BattleRole::Drone:
         attack_range = {
-            Point(0, 0)
+            Point(0, 0), Point(1, 0)
         };
         break;
     }
@@ -694,10 +717,10 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     static const Point UpDirection(0, -1);
 
     std::unordered_map<Point, std::vector<Point>> DirectionAttackRangeMap = {
-        { RightDirection, std::vector<Point>() },
-        { DownDirection, std::vector<Point>() },
-        { LeftDirection, std::vector<Point>() },
         { UpDirection, std::vector<Point>() },
+        { RightDirection, std::vector<Point>() },
+        { LeftDirection, std::vector<Point>() },
+        { DownDirection, std::vector<Point>() },
     };
 
     for (auto& [direction, cor_attack_range] : DirectionAttackRangeMap) {
@@ -748,12 +771,12 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
                 { TileKey::Forbidden, 0 },
                 { TileKey::Wall, 500 },
                 { TileKey::Road, 1000 },
-                { TileKey::Home, 800 },
-                { TileKey::EnemyHome, 800 },
+                { TileKey::Home, 500 },
+                { TileKey::EnemyHome, 900 },
                 { TileKey::Floor, 1000 },
                 { TileKey::Hole, 0 },
                 { TileKey::Telin, 700 },
-                { TileKey::Telout, 700 },
+                { TileKey::Telout, 800 },
                 { TileKey::Volcano, 1000 },
                 { TileKey::Healing, 1000 },
             };

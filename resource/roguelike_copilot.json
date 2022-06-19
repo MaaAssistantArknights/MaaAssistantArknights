@@ -22,7 +22,181 @@
         "replacement_home": [
             [
                 2,
+                2
+            ]
+        ]
+    },
+    {
+        "stage_name": "似曾相识",
+        "replacement_home": [
+            [
+                4,
+                4
+            ],
+            [
+                5,
+                4
+            ]
+        ]
+    },
+    {
+        "stage_name": "阴云笼罩",
+        "replacement_home": [
+            [
+                7,
+                0
+            ],
+            [
+                6,
+                0
+            ]
+        ]
+    },
+    {
+        "stage_name": "从众效应",
+        "replacement_home": [
+            [
+                2,
+                4
+            ],
+            [
+                6,
+                4
+            ],
+            [
+                3,
+                4
+            ],
+            [
+                5,
+                4
+            ]
+        ]
+    },
+    {
+        "stage_name": "恐怖传说",
+        "replacement_home": [
+            [
+                0,
+                4
+            ]
+        ]
+    },
+    {
+        "stage_name": "恐怖传说",
+        "replacement_home": [
+            [
+                0,
+                4
+            ]
+        ]
+    },
+    {
+        "stage_name": "寒渊惜别",
+        "replacement_home": [
+            [
+                10,
+                5
+            ],
+            [
+                0,
+                1
+            ]
+        ]
+    },
+    {
+        "stage_name": "正义",
+        "replacement_home": [
+            [
+                6,
+                2
+            ],
+            [
+                6,
                 3
+            ]
+        ]
+    },
+    {
+        "stage_name": "仪式之夜",
+        "replacement_home": [
+            [
+                10,
+                2
+            ],
+            [
+                0,
+                5
+            ]
+        ]
+    },
+    {
+        "stage_name": "烟花秀",
+        "replacement_home": [
+            [
+                10,
+                4
+            ],
+            [
+                10,
+                2
+            ]
+        ]
+    },
+    {
+        "stage_name": "步步紧逼",
+        "replacement_home": [
+            [
+                0,
+                2
+            ],
+            [
+                0,
+                3
+            ]
+        ]
+    },
+    {
+        "stage_name": "隔岸观火",
+        "replacement_home": [
+            [
+                11,
+                2
+            ],
+            [
+                2,
+                5
+            ]
+        ]
+    },
+    {
+        "stage_name": "斗兽笼",
+        "replacement_home": [
+            [
+                5,
+                3
+            ]
+        ]
+    },
+    {
+        "stage_name": "荒唐把戏",
+        "replacement_home": [
+            [
+                5,
+                2
+            ]
+        ]
+    },
+    {
+        "stage_name": "彻骨冰寒",
+        "replacement_home": [
+            [
+                7,
+                4
+            ],
+            [
+                7,
+                2
             ]
         ]
     }

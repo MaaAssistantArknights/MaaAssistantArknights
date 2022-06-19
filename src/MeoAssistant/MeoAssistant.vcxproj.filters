@@ -577,5 +577,8 @@
     <None Include="..\..\resource\roguelike_recruit.json">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="..\..\resource\roguelike_copilot.json">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>
