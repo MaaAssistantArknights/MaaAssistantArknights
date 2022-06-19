@@ -29,7 +29,7 @@
                                   Margin="16, 0"
                                   VerticalScrollBarVisibility="Auto"
                                   MaxZoom="200"
-                                  MinZoom="60" >
+                                  MinZoom="60">
             <FlowDocumentScrollViewer.CommandBindings>
                 <CommandBinding Command="{x:Static md:MarkdownXaml.Hyperlink}" Executed="{s:Action OpenHyperlink}" />
             </FlowDocumentScrollViewer.CommandBindings>

@@ -66,8 +66,7 @@ bool RecruitCalcTask::_run()
     static const std::string Robot = "支援机械";
     auto robot_iter = all_tags_name.find(Robot);
     if (robot_iter != all_tags_name.end()) {
-        if (m_skip_robot)
-        {
+        if (m_skip_robot) {
             info["what"] = "RecruitRobotTag";
             info["details"] = json::object{
                 { "tag", Robot }

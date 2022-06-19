@@ -137,6 +137,22 @@
             "ReturnToHome"
         ]
     },
+    "NoFriends": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "No friends"
+        ],
+        "roi": [
+            650,
+            100,
+            300,
+            150
+        ],
+        "action": "DoNothing",
+        "next": [
+            "ReturnToHome"
+        ]
+    },
     "MallLoading": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
@@ -353,5 +369,62 @@
             650
         ],
         "rearDelay": 1000
+    },
+    "Award": {
+        "template": "Task.png",
+        "action": "ClickSelf",
+        "roi": [
+            650,
+            500,
+            250,
+            170
+        ],
+        "next": [
+            "ReceiveAward",
+            "DailyTask",
+            "WeeklyTask",
+            "Award"
+        ]
+    },
+    "AwardFinished": {
+        "action": "Stop",
+        "roi": [
+            400,
+            0,
+            880,
+            150
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "DailyTask": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            400,
+            0,
+            880,
+            150
+        ],
+        "next": [
+            "ReceiveAward",
+            "WeeklyTask"
+        ]
+    },
+    "WeeklyTask": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            400,
+            0,
+            880,
+            150
+        ],
+        "next": [
+            "ReceiveAward",
+            "Stop"
+        ]
     }
 }

@@ -22,7 +22,7 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static auto InfrastCfgFilename = "infrast.json";
     constexpr static auto InfrastTempls = "template/infrast";
     //constexpr static const char* CopilotCfgDirname = "copilot";
-    constexpr static auto RoguelikeCfgDirname = "roguelike";
+    constexpr static auto RoguelikeCfgDirname = "roguelike_copilot.json";
     constexpr static auto OcrResourceFilename = "PaddleOCR";
     constexpr static auto TilesCalcResourceFilename = "Arknights-Tile-Pos";
     constexpr static auto StageDropsCfgFilename = "stages.json";
@@ -91,16 +91,14 @@ bool asst::Resource::load(const std::string& dir)
     //    }
     //}
 
-    if (std::filesystem::exists(dir + RoguelikeCfgDirname)) {
-        for (const auto& entry : std::filesystem::directory_iterator(dir + RoguelikeCfgDirname)) {
-            if (entry.path().extension() != ".json") {
-                continue;
-            }
-            if (!m_roguelike_cfg_unique_ins.load(entry.path().string())) {
-                m_last_error = entry.path().string() + " Load failed";
-                return false;
-            }
+    if (!m_roguelike_cfg_unique_ins.load(dir + RoguelikeCfgDirname)) {
+        if (!m_loaded) {
+            m_last_error = std::string(RoguelikeCfgDirname) + ": " + m_roguelike_cfg_unique_ins.get_last_error();
+            return false;
         }
+    }
+    else {
+        overload = true;
     }
 
     if (!m_infrast_cfg_unique_ins.load(dir + InfrastCfgFilename)) {

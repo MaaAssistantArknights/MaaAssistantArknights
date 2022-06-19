@@ -149,7 +149,7 @@ namespace asst
 
             if (!m_ofs.is_open()) {
                 m_ofs = std::ofstream(m_log_filename, std::ios::out | std::ios::app);
-        }
+            }
 #ifdef ASST_DEBUG
             stream_args(m_ofs, buff, args...);
 #else
@@ -159,7 +159,7 @@ namespace asst
 #ifdef ASST_DEBUG
             stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
 #endif
-    }
+        }
 
         template <bool ToGbk = false, typename T, typename... Args>
         inline void stream_args(std::ostream& os, T&& first, Args&&... rest)
@@ -192,7 +192,7 @@ namespace asst
                 os << first << " "; // Don't fucking use gbk in linux
 #endif
             }
-};
+        };
 
         inline static std::string m_dirname;
         std::mutex m_trace_mutex;
