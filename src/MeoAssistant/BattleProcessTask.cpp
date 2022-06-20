@@ -655,17 +655,24 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
         std::vector<int> col, row;
 
         void remove(const int &c) {
-            int i, j;
-            L[R[c]] = L[c], R[L[c]] = R[c];
-            for (i = D[c]; i != c; i = D[i])
-                for (j = R[i]; j != i; j = R[j])
-                    U[D[j]] = U[j], D[U[j]] = D[j], --siz[col[j]];
+            L[R[c]] = L[c];
+            R[L[c]] = R[c];
+            for (int i = D[c]; i != c; i = D[i]) {
+                for (int j = R[i]; j != i; j = R[j]) {
+                    U[D[j]] = U[j];
+                    D[U[j]] = D[j];
+                    --siz[col[j]];
+                }
+            }
         }
 
         void recover(const int &c) {
-            int i, j;
-            for (i = U[c]; i != c; i = U[i])
-                for (j = L[i]; j != i; j = L[j]) U[D[j]] = D[U[j]] = j, ++siz[col[j]];
+            for (int i = U[c]; i != c; i = U[i]) {
+                for (int j = L[i]; j != i; j = L[j]) {
+                    U[D[j]] = D[U[j]] = j;
+                    ++siz[col[j]];
+                }
+            }
             L[R[c]] = R[L[c]] = c;
         }
 
@@ -674,36 +681,46 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
         int ans{};
         std::vector<int> stk;
 
-        DlxModel(const int &node_num, const int &ans_size) :
-                first(node_num),
-                siz(node_num),
-                L(node_num),
-                R(node_num),
-                U(node_num),
-                D(node_num),
-                col(node_num),
-                row(node_num),
-                stk(ans_size) {
+        DlxModel(const int &max_node_num, const int &max_ans_size) :
+                first(max_node_num),
+                siz(max_node_num),
+                L(max_node_num),
+                R(max_node_num),
+                U(max_node_num),
+                D(max_node_num),
+                col(max_node_num),
+                row(max_node_num),
+                stk(max_ans_size) {
         }
 
         void build(const int &c) {
-            for (int i = 0; i <= c; ++i) {
-                L[i] = i - 1, R[i] = i + 1;
+            for (int i = 0; i <= c; i++) {
+                L[i] = i - 1;
+                R[i] = i + 1;
                 U[i] = D[i] = i;
             }
-            L[0] = c, R[c] = 0, tot = c;
+            L[0] = c;
+            R[c] = 0;
+            tot = c;
             first.clear();
             siz.clear();
         }
 
         void insert(const int &r, const int &c) {
-            col[++tot] = c, row[tot] = r, ++siz[c];
-            D[tot] = D[c], U[D[c]] = tot, U[tot] = c, D[c] = tot;
-            if (!first[r])
+            col[++tot] = c;
+            row[tot] = r;
+            ++siz[c];
+            D[tot] = D[c];
+            U[D[c]] = tot;
+            U[tot] = c;
+            D[c] = tot;
+            if (!first[r]) {
                 first[r] = L[tot] = R[tot] = tot;
-            else {
-                R[tot] = R[first[r]], L[R[first[r]]] = tot;
-                L[tot] = first[r], R[first[r]] = tot;
+            } else {
+                R[tot] = R[first[r]];
+                L[R[first[r]]] = tot;
+                L[tot] = first[r];
+                R[first[r]] = tot;
             }
         }
 
@@ -712,15 +729,24 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
                 ans = dep;
                 return true;
             }
-            int i, j, c = R[0];
-            for (i = R[0]; i != 0; i = R[i])
-                if (siz[i] < siz[c]) c = i;
+            int c = R[0];
+            for (int i = R[0]; i != 0; i = R[i]) {
+                if (siz[i] < siz[c]) {
+                    c = i;
+                }
+            }
             remove(c);
-            for (i = D[c]; i != c; i = D[i]) {
+            for (int i = D[c]; i != c; i = D[i]) {
                 stk[dep] = row[i];
-                for (j = R[i]; j != i; j = R[j]) remove(col[j]);
-                if (dance(dep + 1)) return true;
-                for (j = L[i]; j != i; j = L[j]) recover(col[j]);
+                for (int j = R[i]; j != i; j = R[j]) {
+                    remove(col[j]);
+                }
+                if (dance(dep + 1)) {
+                    return true;
+                }
+                for (int j = L[i]; j != i; j = L[j]) {
+                    recover(col[j]);
+                }
             }
             recover(c);
             return false;
