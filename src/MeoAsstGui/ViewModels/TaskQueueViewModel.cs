@@ -110,7 +110,7 @@ namespace MeoAsstGui
                 new CombData { Display = "关闭模拟器", Value = "killemulator" },
                 new CombData { Display = "退出并关闭模拟器", Value = "exitwithkillemulator" },
                 new CombData{ Display="关机",Value="shutdown" },
-                new CombData { Display = "待机", Value = "suspend" },
+                //new CombData { Display = "待机", Value = "suspend" },
                 new CombData { Display = "休眠", Value = "hibernate" }
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
@@ -591,7 +591,9 @@ namespace MeoAsstGui
                     break;
 
                 case "suspend":
+                    System.Diagnostics.Process.Start("powercfg", "-h off");
                     System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+                    System.Diagnostics.Process.Start("powercfg", "-h on");
                     break;
 
                 case "hibernate":
