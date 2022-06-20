@@ -674,16 +674,16 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
         int ans{};
         std::vector<int> stk;
 
-        DlxModel(const int &node_num, const int &ans_size) {
-            first.resize(node_num);
-            siz.resize(node_num);
-            L.resize(node_num);
-            R.resize(node_num);
-            U.resize(node_num);
-            D.resize(node_num);
-            col.resize(node_num);
-            row.resize(node_num);
-            stk.resize(ans_size);
+        DlxModel(const int &node_num, const int &ans_size) :
+                first(node_num),
+                siz(node_num),
+                L(node_num),
+                R(node_num),
+                U(node_num),
+                D(node_num),
+                col(node_num),
+                row(node_num),
+                stk(ans_size) {
         }
 
         void build(const int &c) {
