@@ -412,7 +412,11 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
         }
         m_ctrler->click(pos_rect);
         sleep(Task.get("BattleUseOper")->pre_delay);
-        used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).run();
+        bool ret = ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_retry_times(2).run();
+        if (!ret) {
+            ProcessTask(*this, { "BattleCancelSelection" }).set_retry_times(0).run();
+        }
+        used |= ret;
         if (usage == BattleSkillUsage::Once) {
             m_status->set_number(status_key, static_cast<int64_t>(BattleSkillUsage::OnceUsed));
             m_restore_status[status_key] = static_cast<int64_t>(BattleSkillUsage::Once);
@@ -496,7 +500,7 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
 #endif
 
     return true;
-}
+    }
 
 //asst::Rect asst::RoguelikeBattleTaskPlugin::get_placed_by_cv()
 //{
