@@ -37,7 +37,7 @@ namespace asst
         void sleep_with_possible_skill(unsigned millisecond);
 
         static std::unordered_map<std::string, std::string> get_char_allocation_for_each_group(
-            std::unordered_map<std::string, std::vector<std::string>>& group_list, std::vector<std::string>& char_list);
+            const std::unordered_map<std::string, std::vector<std::string>>& group_list, const std::vector<std::string>& char_list);
 
         std::string m_stage_name;
 

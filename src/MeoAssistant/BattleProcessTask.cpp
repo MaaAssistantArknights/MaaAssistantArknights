@@ -643,9 +643,137 @@ void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
 }
 
 std::unordered_map<std::string, std::string> asst::BattleProcessTask::get_char_allocation_for_each_group(
-    std::unordered_map<std::string, std::vector<std::string>>& group_list, std::vector<std::string>& char_list)
+    const std::unordered_map<std::string, std::vector<std::string>>& group_list, const std::vector<std::string>& char_list)
 {
-    return {};
+    class DlxModel
+    {
+    private:
+
+        int tot{};
+        std::vector<int> first, siz;
+        std::vector<int> L, R, U, D;
+        std::vector<int> col, row;
+
+        void remove(const int &c) {
+            int i, j;
+            L[R[c]] = L[c], R[L[c]] = R[c];
+            for (i = D[c]; i != c; i = D[i])
+                for (j = R[i]; j != i; j = R[j])
+                    U[D[j]] = U[j], D[U[j]] = D[j], --siz[col[j]];
+        }
+
+        void recover(const int &c) {
+            int i, j;
+            for (i = U[c]; i != c; i = U[i])
+                for (j = L[i]; j != i; j = L[j]) U[D[j]] = D[U[j]] = j, ++siz[col[j]];
+            L[R[c]] = R[L[c]] = c;
+        }
+
+    public:
+
+        int ans{};
+        std::vector<int> stk;
+
+        DlxModel(const int &node_num, const int &ans_size) {
+            first.resize(node_num);
+            siz.resize(node_num);
+            L.resize(node_num);
+            R.resize(node_num);
+            U.resize(node_num);
+            D.resize(node_num);
+            col.resize(node_num);
+            row.resize(node_num);
+            stk.resize(ans_size);
+        }
+
+        void build(const int &c) {
+            for (int i = 0; i <= c; ++i) {
+                L[i] = i - 1, R[i] = i + 1;
+                U[i] = D[i] = i;
+            }
+            L[0] = c, R[c] = 0, tot = c;
+            first.clear();
+            siz.clear();
+        }
+
+        void insert(const int &r, const int &c) {
+            col[++tot] = c, row[tot] = r, ++siz[c];
+            D[tot] = D[c], U[D[c]] = tot, U[tot] = c, D[c] = tot;
+            if (!first[r])
+                first[r] = L[tot] = R[tot] = tot;
+            else {
+                R[tot] = R[first[r]], L[R[first[r]]] = tot;
+                L[tot] = first[r], R[first[r]] = tot;
+            }
+        }
+
+        bool dance(const int &dep) {
+            if (!R[0]) {
+                ans = dep;
+                return true;
+            }
+            int i, j, c = R[0];
+            for (i = R[0]; i != 0; i = R[i])
+                if (siz[i] < siz[c]) c = i;
+            remove(c);
+            for (i = D[c]; i != c; i = D[i]) {
+                stk[dep] = row[i];
+                for (j = R[i]; j != i; j = R[j]) remove(col[j]);
+                if (dance(dep + 1)) return true;
+                for (j = L[i]; j != i; j = L[j]) recover(col[j]);
+            }
+            recover(c);
+            return false;
+        }
+    };
+
+    std::vector<std::pair<std::string, std::string>> node_id_mapping;
+    std::vector<std::string> group_id_mapping;
+    std::vector<std::string> char_id_mapping;
+    std::unordered_map<std::string, int> group_name_mapping;
+    std::unordered_map<std::string, int> char_name_mapping;
+    std::set<std::string> char_set(char_list.begin(), char_list.end());
+
+    for (auto &i: group_list) {
+        group_name_mapping[i.first] = static_cast<int>(group_id_mapping.size());
+        group_id_mapping.emplace_back(i.first);
+        for (auto &j: i.second) {
+            if (char_set.find(j) != char_set.end()) {
+                node_id_mapping.emplace_back(i.first, j);
+                if (char_name_mapping.find(j) == char_name_mapping.end()) {
+                    char_name_mapping[j] = static_cast<int>(char_id_mapping.size());
+                    char_id_mapping.emplace_back(j);
+                }
+            }
+        }
+    }
+
+    int node_num = static_cast<int>(node_id_mapping.size());
+    int group_num = static_cast<int>(group_id_mapping.size());
+    int char_num = static_cast<int>(char_id_mapping.size());
+
+    DlxModel dlx_model(2 * node_num + group_num + 2 * char_num + 1, group_num + char_num);
+
+    dlx_model.build(group_num + char_num);
+
+    for (int i = 0; i < node_num; i++) {
+        dlx_model.insert(i + 1, group_name_mapping[node_id_mapping[i].first] + 1);
+        dlx_model.insert(i + 1, group_num + char_name_mapping[node_id_mapping[i].second] + 1);
+    }
+
+    for (int i = 0; i < char_num; i++) {
+        dlx_model.insert(i + node_num + 1, i + group_num + 1);
+    }
+
+    dlx_model.dance(0);
+
+    std::unordered_map<std::string, std::string> return_value;
+
+    for (int i = 0; i < dlx_model.ans; i++) {
+        if (dlx_model.stk[i] > node_num) break;
+        return_value.insert(node_id_mapping[dlx_model.stk[i] - 1]);
+    }
+    return return_value;
 }
 
 bool asst::BattleProcessTask::battle_pause()
