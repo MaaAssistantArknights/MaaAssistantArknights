@@ -645,7 +645,7 @@ void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
 std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessTask::get_char_allocation_for_each_group(
     const std::unordered_map<std::string, std::vector<std::string>>& group_list, const std::vector<std::string>& char_list)
 {
-    class DlxModel
+    class DancingLinksModel
     {
     private:
 
@@ -681,7 +681,7 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
         int answer_stack_size{};
         std::vector<int> answer_stack;
 
-        DlxModel(const int &max_node_num, const int &max_ans_size) :
+        DancingLinksModel(const int &max_node_num, const int &max_ans_size) :
                 first(max_node_num),
                 size(max_node_num),
                 left(max_node_num),
@@ -778,26 +778,26 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
     int group_num = static_cast<int>(group_id_mapping.size());
     int char_num = static_cast<int>(char_id_mapping.size());
 
-    DlxModel dlx_model(2 * node_num + group_num + 2 * char_num + 1, group_num + char_num);
+    DancingLinksModel dancing_links_model(2 * node_num + group_num + 2 * char_num + 1, group_num + char_num);
 
-    dlx_model.build(group_num + char_num);
+    dancing_links_model.build(group_num + char_num);
 
     for (int i = 0; i < node_num; i++) {
-        dlx_model.insert(i + 1, group_name_mapping[node_id_mapping[i].first] + 1);
-        dlx_model.insert(i + 1, group_num + char_name_mapping[node_id_mapping[i].second] + 1);
+        dancing_links_model.insert(i + 1, group_name_mapping[node_id_mapping[i].first] + 1);
+        dancing_links_model.insert(i + 1, group_num + char_name_mapping[node_id_mapping[i].second] + 1);
     }
 
     for (int i = 0; i < char_num; i++) {
-        dlx_model.insert(i + node_num + 1, i + group_num + 1);
+        dancing_links_model.insert(i + node_num + 1, i + group_num + 1);
     }
 
-    dlx_model.dance(0);
+    dancing_links_model.dance(0);
 
     std::unordered_map<std::string, std::string> return_value;
 
-    for (int i = 0; i < dlx_model.answer_stack_size; i++) {
-        if (dlx_model.answer_stack[i] > node_num) break;
-        return_value.insert(node_id_mapping[dlx_model.answer_stack[i] - 1]);
+    for (int i = 0; i < dancing_links_model.answer_stack_size; i++) {
+        if (dancing_links_model.answer_stack[i] > node_num) break;
+        return_value.insert(node_id_mapping[dancing_links_model.answer_stack[i] - 1]);
     }
 
     if (return_value.empty()) return std::nullopt;
