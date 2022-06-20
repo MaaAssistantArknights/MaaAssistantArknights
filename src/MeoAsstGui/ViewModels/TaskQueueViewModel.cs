@@ -106,7 +106,7 @@ namespace MeoAsstGui
             AfterCompleteList = new List<CombData>
             {
                 new CombData{ Display="无动作",Value="" },
-                new CombData{ Display="退出",Value="exit" },
+                new CombData{ Display="退出MAA",Value="exit" },
                 new CombData { Display = "关闭模拟器", Value = "killemulator" },
                 new CombData { Display = "退出并关闭模拟器", Value = "exitwithkillemulator" },
                 new CombData{ Display="关机",Value="shutdown" },

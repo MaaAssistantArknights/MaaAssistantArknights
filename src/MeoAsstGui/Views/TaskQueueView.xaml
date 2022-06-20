@@ -52,13 +52,15 @@
                     <Button Grid.Row="1" Grid.Column="1"  Command="{s:Action InverseSelected}" IsEnabled="{Binding Idle}" Content="反选"  Width="90" Height="30"  VerticalAlignment="Top" />
                 </Grid>
             </Border>
+            <TextBlock Grid.Row="1" Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Left" VerticalAlignment="Center"
+                       TextWrapping="Wrap" Text="完成后" Margin="17,0,0,0"/>
             <ComboBox Grid.Row="1" ItemsSource="{Binding AfterCompleteList}"  VerticalAlignment="Center"
                       DisplayMemberPath="Display"
                       SelectedValuePath="Value"
-                      SelectedValue="{Binding AfterCompleteType}"></ComboBox>
+                      SelectedValue="{Binding AfterCompleteType}" Margin="63,0,10,0"/>
 
             <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center" >-->
-                <!--<CheckBox IsChecked="{Binding Shutdown}" Content="自动关机" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <!--<CheckBox IsChecked="{Binding Shutdown}" Content="自动关机" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <CheckBox.InputBindings>
                         <KeyBinding Key="H" Command="{s:Action ShowButton}" />
                     </CheckBox.InputBindings>
