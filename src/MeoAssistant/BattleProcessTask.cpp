@@ -642,6 +642,12 @@ void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
     Log.trace("end of sleep_with_possible_skill", millisecond);
 }
 
+std::unordered_map<std::string, std::string> asst::BattleProcessTask::get_char_allocation_for_each_group(
+    std::unordered_map<std::string, std::vector<std::string>>& group_list, std::vector<std::string>& char_list)
+{
+    return {};
+}
+
 bool asst::BattleProcessTask::battle_pause()
 {
     return ProcessTask(*this, { "BattlePause" }).run();
