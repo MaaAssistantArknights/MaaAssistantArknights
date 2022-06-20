@@ -6,7 +6,7 @@
 bool asst::PackageTask::run()
 {
     if (!m_enable) {
-        Log.info("task is disable, pass", basic_info().to_string());
+        Log.info("task disabled, pass", basic_info().to_string());
         return true;
     }
     m_runned = true;

@@ -25,7 +25,7 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg, std::strin
 bool asst::AbstractTask::run()
 {
     if (!m_enable) {
-        Log.info("task is disable, pass", basic_info().to_string());
+        Log.info("task disabled, pass", basic_info().to_string());
         return true;
     }
     callback(AsstMsg::SubTaskStart, basic_info());
