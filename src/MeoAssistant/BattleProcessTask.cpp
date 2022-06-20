@@ -143,9 +143,9 @@ bool asst::BattleProcessTask::analyze_opers_preview()
             cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
         }
 #ifdef WIN32
-        cv::imwrite("map/" + utils::utf8_to_ansi(m_stage_name) + ".png", image);
+        cv::imwrite("map/" + utils::utf8_to_ansi(m_stage_name) + ".png", draw);
 #else
-        cv::imwrite("map/" + m_stage_name + ".png", image);
+        cv::imwrite("map/" + m_stage_name + ".png", draw);
 #endif
     });
 
