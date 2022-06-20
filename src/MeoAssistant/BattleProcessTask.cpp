@@ -645,6 +645,9 @@ void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
 std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessTask::get_char_allocation_for_each_group(
     const std::unordered_map<std::string, std::vector<std::string>>& group_list, const std::vector<std::string>& char_list)
 {
+    /* 算法简介
+     * https://oi-wiki.org/search/dlx/
+     */
     class DancingLinksModel
     {
     private:
