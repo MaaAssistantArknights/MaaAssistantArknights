@@ -652,16 +652,16 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
     {
     private:
 
-        int index{};
-        std::vector<int> first, size;
-        std::vector<int> left, right, up, down;
-        std::vector<int> column, row;
+        size_t index{};
+        std::vector<size_t> first, size;
+        std::vector<size_t> left, right, up, down;
+        std::vector<size_t> column, row;
 
-        void remove(const int &column_id) {
+        void remove(const size_t &column_id) {
             left[right[column_id]] = left[column_id];
             right[left[column_id]] = right[column_id];
-            for (int i = down[column_id]; i != column_id; i = down[i]) {
-                for (int j = right[i]; j != i; j = right[j]) {
+            for (size_t i = down[column_id]; i != column_id; i = down[i]) {
+                for (size_t j = right[i]; j != i; j = right[j]) {
                     up[down[j]] = up[j];
                     down[up[j]] = down[j];
                     --size[column[j]];
@@ -669,9 +669,9 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
             }
         }
 
-        void recover(const int &column_id) {
-            for (int i = up[column_id]; i != column_id; i = up[i]) {
-                for (int j = left[i]; j != i; j = left[j]) {
+        void recover(const size_t &column_id) {
+            for (size_t i = up[column_id]; i != column_id; i = up[i]) {
+                for (size_t j = left[i]; j != i; j = left[j]) {
                     up[down[j]] = down[up[j]] = j;
                     ++size[column[j]];
                 }
@@ -681,10 +681,10 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
 
     public:
 
-        int answer_stack_size{};
-        std::vector<int> answer_stack;
+        size_t answer_stack_size{};
+        std::vector<size_t> answer_stack;
 
-        DancingLinksModel(const int &max_node_num, const int &max_ans_size) :
+        DancingLinksModel(const size_t &max_node_num, const size_t &max_ans_size) :
                 first(max_node_num),
                 size(max_node_num),
                 left(max_node_num),
@@ -696,8 +696,8 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
                 answer_stack(max_ans_size) {
         }
 
-        void build(const int &column_id) {
-            for (int i = 0; i <= column_id; i++) {
+        void build(const size_t &column_id) {
+            for (size_t i = 0; i <= column_id; i++) {
                 left[i] = i - 1;
                 right[i] = i + 1;
                 up[i] = down[i] = i;
@@ -709,7 +709,7 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
             size.clear();
         }
 
-        void insert(const int &row_id, const int &column_id) {
+        void insert(const size_t &row_id, const size_t &column_id) {
             column[++index] = column_id;
             row[index] = row_id;
             ++size[column_id];
@@ -727,27 +727,27 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
             }
         }
 
-        bool dance(const int &depth) {
+        bool dance(const size_t &depth) {
             if (!right[0]) {
                 answer_stack_size = depth;
                 return true;
             }
-            int column_id = right[0];
-            for (int i = right[0]; i != 0; i = right[i]) {
+            size_t column_id = right[0];
+            for (size_t i = right[0]; i != 0; i = right[i]) {
                 if (size[i] < size[column_id]) {
                     column_id = i;
                 }
             }
             remove(column_id);
-            for (int i = down[column_id]; i != column_id; i = down[i]) {
+            for (size_t i = down[column_id]; i != column_id; i = down[i]) {
                 answer_stack[depth] = row[i];
-                for (int j = right[i]; j != i; j = right[j]) {
+                for (size_t j = right[i]; j != i; j = right[j]) {
                     remove(column[j]);
                 }
                 if (dance(depth + 1)) {
                     return true;
                 }
-                for (int j = left[i]; j != i; j = left[j]) {
+                for (size_t j = left[i]; j != i; j = left[j]) {
                     recover(column[j]);
                 }
             }
@@ -759,38 +759,38 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
     std::vector<std::pair<std::string, std::string>> node_id_mapping;
     std::vector<std::string> group_id_mapping;
     std::vector<std::string> char_id_mapping;
-    std::unordered_map<std::string, int> group_name_mapping;
-    std::unordered_map<std::string, int> char_name_mapping;
+    std::unordered_map<std::string, size_t> group_name_mapping;
+    std::unordered_map<std::string, size_t> char_name_mapping;
     std::set<std::string> char_set(char_list.begin(), char_list.end());
 
     for (auto &i: group_list) {
-        group_name_mapping[i.first] = static_cast<int>(group_id_mapping.size());
+        group_name_mapping[i.first] = group_id_mapping.size();
         group_id_mapping.emplace_back(i.first);
         for (auto &j: i.second) {
             if (char_set.find(j) != char_set.end()) {
                 node_id_mapping.emplace_back(i.first, j);
                 if (char_name_mapping.find(j) == char_name_mapping.end()) {
-                    char_name_mapping[j] = static_cast<int>(char_id_mapping.size());
+                    char_name_mapping[j] = char_id_mapping.size();
                     char_id_mapping.emplace_back(j);
                 }
             }
         }
     }
 
-    int node_num = static_cast<int>(node_id_mapping.size());
-    int group_num = static_cast<int>(group_id_mapping.size());
-    int char_num = static_cast<int>(char_id_mapping.size());
+    size_t node_num = node_id_mapping.size();
+    size_t group_num = group_id_mapping.size();
+    size_t char_num = char_id_mapping.size();
 
     DancingLinksModel dancing_links_model(2 * node_num + group_num + 2 * char_num + 1, group_num + char_num);
 
     dancing_links_model.build(group_num + char_num);
 
-    for (int i = 0; i < node_num; i++) {
+    for (size_t i = 0; i < node_num; i++) {
         dancing_links_model.insert(i + 1, group_name_mapping[node_id_mapping[i].first] + 1);
         dancing_links_model.insert(i + 1, group_num + char_name_mapping[node_id_mapping[i].second] + 1);
     }
 
-    for (int i = 0; i < char_num; i++) {
+    for (size_t i = 0; i < char_num; i++) {
         dancing_links_model.insert(i + node_num + 1, i + group_num + 1);
     }
 
@@ -798,7 +798,7 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
 
     std::unordered_map<std::string, std::string> return_value;
 
-    for (int i = 0; i < dancing_links_model.answer_stack_size; i++) {
+    for (size_t i = 0; i < dancing_links_model.answer_stack_size; i++) {
         if (dancing_links_model.answer_stack[i] > node_num) break;
         return_value.insert(node_id_mapping[dancing_links_model.answer_stack[i] - 1]);
     }
