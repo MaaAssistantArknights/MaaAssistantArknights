@@ -649,106 +649,106 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
     {
     private:
 
-        int tot{};
-        std::vector<int> first, siz;
-        std::vector<int> L, R, U, D;
-        std::vector<int> col, row;
+        int index{};
+        std::vector<int> first, size;
+        std::vector<int> left, right, up, down;
+        std::vector<int> column, row;
 
-        void remove(const int &c) {
-            L[R[c]] = L[c];
-            R[L[c]] = R[c];
-            for (int i = D[c]; i != c; i = D[i]) {
-                for (int j = R[i]; j != i; j = R[j]) {
-                    U[D[j]] = U[j];
-                    D[U[j]] = D[j];
-                    --siz[col[j]];
+        void remove(const int &column_id) {
+            left[right[column_id]] = left[column_id];
+            right[left[column_id]] = right[column_id];
+            for (int i = down[column_id]; i != column_id; i = down[i]) {
+                for (int j = right[i]; j != i; j = right[j]) {
+                    up[down[j]] = up[j];
+                    down[up[j]] = down[j];
+                    --size[column[j]];
                 }
             }
         }
 
-        void recover(const int &c) {
-            for (int i = U[c]; i != c; i = U[i]) {
-                for (int j = L[i]; j != i; j = L[j]) {
-                    U[D[j]] = D[U[j]] = j;
-                    ++siz[col[j]];
+        void recover(const int &column_id) {
+            for (int i = up[column_id]; i != column_id; i = up[i]) {
+                for (int j = left[i]; j != i; j = left[j]) {
+                    up[down[j]] = down[up[j]] = j;
+                    ++size[column[j]];
                 }
             }
-            L[R[c]] = R[L[c]] = c;
+            left[right[column_id]] = right[left[column_id]] = column_id;
         }
 
     public:
 
-        int ans{};
-        std::vector<int> stk;
+        int answer_stack_size{};
+        std::vector<int> answer_stack;
 
         DlxModel(const int &max_node_num, const int &max_ans_size) :
                 first(max_node_num),
-                siz(max_node_num),
-                L(max_node_num),
-                R(max_node_num),
-                U(max_node_num),
-                D(max_node_num),
-                col(max_node_num),
+                size(max_node_num),
+                left(max_node_num),
+                right(max_node_num),
+                up(max_node_num),
+                down(max_node_num),
+                column(max_node_num),
                 row(max_node_num),
-                stk(max_ans_size) {
+                answer_stack(max_ans_size) {
         }
 
-        void build(const int &c) {
-            for (int i = 0; i <= c; i++) {
-                L[i] = i - 1;
-                R[i] = i + 1;
-                U[i] = D[i] = i;
+        void build(const int &column_id) {
+            for (int i = 0; i <= column_id; i++) {
+                left[i] = i - 1;
+                right[i] = i + 1;
+                up[i] = down[i] = i;
             }
-            L[0] = c;
-            R[c] = 0;
-            tot = c;
+            left[0] = column_id;
+            right[column_id] = 0;
+            index = column_id;
             first.clear();
-            siz.clear();
+            size.clear();
         }
 
-        void insert(const int &r, const int &c) {
-            col[++tot] = c;
-            row[tot] = r;
-            ++siz[c];
-            D[tot] = D[c];
-            U[D[c]] = tot;
-            U[tot] = c;
-            D[c] = tot;
-            if (!first[r]) {
-                first[r] = L[tot] = R[tot] = tot;
+        void insert(const int &row_id, const int &column_id) {
+            column[++index] = column_id;
+            row[index] = row_id;
+            ++size[column_id];
+            down[index] = down[column_id];
+            up[down[column_id]] = index;
+            up[index] = column_id;
+            down[column_id] = index;
+            if (!first[row_id]) {
+                first[row_id] = left[index] = right[index] = index;
             } else {
-                R[tot] = R[first[r]];
-                L[R[first[r]]] = tot;
-                L[tot] = first[r];
-                R[first[r]] = tot;
+                right[index] = right[first[row_id]];
+                left[right[first[row_id]]] = index;
+                left[index] = first[row_id];
+                right[first[row_id]] = index;
             }
         }
 
-        bool dance(const int &dep) {
-            if (!R[0]) {
-                ans = dep;
+        bool dance(const int &depth) {
+            if (!right[0]) {
+                answer_stack_size = depth;
                 return true;
             }
-            int c = R[0];
-            for (int i = R[0]; i != 0; i = R[i]) {
-                if (siz[i] < siz[c]) {
-                    c = i;
+            int column_id = right[0];
+            for (int i = right[0]; i != 0; i = right[i]) {
+                if (size[i] < size[column_id]) {
+                    column_id = i;
                 }
             }
-            remove(c);
-            for (int i = D[c]; i != c; i = D[i]) {
-                stk[dep] = row[i];
-                for (int j = R[i]; j != i; j = R[j]) {
-                    remove(col[j]);
+            remove(column_id);
+            for (int i = down[column_id]; i != column_id; i = down[i]) {
+                answer_stack[depth] = row[i];
+                for (int j = right[i]; j != i; j = right[j]) {
+                    remove(column[j]);
                 }
-                if (dance(dep + 1)) {
+                if (dance(depth + 1)) {
                     return true;
                 }
-                for (int j = L[i]; j != i; j = L[j]) {
-                    recover(col[j]);
+                for (int j = left[i]; j != i; j = left[j]) {
+                    recover(column[j]);
                 }
             }
-            recover(c);
+            recover(column_id);
             return false;
         }
     };
@@ -795,9 +795,9 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
 
     std::unordered_map<std::string, std::string> return_value;
 
-    for (int i = 0; i < dlx_model.ans; i++) {
-        if (dlx_model.stk[i] > node_num) break;
-        return_value.insert(node_id_mapping[dlx_model.stk[i] - 1]);
+    for (int i = 0; i < dlx_model.answer_stack_size; i++) {
+        if (dlx_model.answer_stack[i] > node_num) break;
+        return_value.insert(node_id_mapping[dlx_model.answer_stack[i] - 1]);
     }
 
     if (return_value.empty()) return std::nullopt;
