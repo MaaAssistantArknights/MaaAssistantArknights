@@ -645,9 +645,82 @@ void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
 std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessTask::get_char_allocation_for_each_group(
     const std::unordered_map<std::string, std::vector<std::string>>& group_list, const std::vector<std::string>& char_list)
 {
-    /* 算法简介
+    /*
+     * * dlx 算法简介
+     * 
      * https://oi-wiki.org/search/dlx/
+     *
+     * 
+     * * dlx 算法作用
+     * 
+     * 在形如:
+     * a: 10010
+     * b: 01110
+     * c: 01001
+     * d: 00100
+     * e: 11010
+     * 这样的数据里,
+     * dlx 可以找到 {a, c, d} 这样每列恰好出现且仅出现一次 1 的数据,
+     * 也即对全集的一个精确覆盖:
+     * a: 10010
+     * c: 01001
+     * d: 00100
+     *    11111
+     *
+     *
+     * * dlx 算法建模
+     * 
+     * dlx 的列分为 [组号] [干员号] 两部分
+     * dlx 的行分为 [可能的选择对] [不选择该干员] 两部分
+     * 
+     * [可能的选择对]:
+     * 每行对应一种可能的选择,
+     * 将组号，干员号对应位置的列设为1
+     * 
+     * [不选择该干员]:
+     * 每行对应不选择某干员的情况,
+     * 将干员号对应位置的列设为1
+     *
+     *
+     * * dlx 建模示例
+     * 
+     * 有以下分组:
+     * a: {1, 3, 4}
+     * b: {2, 3, 5}
+     * c: {1, 2, 3}
+     * 拥有的干员:
+     * {1, 2, 4, 5, 6}
+     * 
+     * 先处理出所有可能的情况:
+     * a: {1, 4}
+     * b: {2, 5}
+     * c: {1, 2}
+     * 
+     * 构造表:
+     *   abc 1245
+     * 1 100 1000 <a, 1>
+     * 2 100 0010 <a, 4>
+     * 3 010 0100 <b, 2>
+     * 4 010 0001 <b, 5>
+     * 5 001 1000 <c, 1>
+     * 6 001 0100 <c, 2>
+     * 7 000 1000 ~1
+     * 9 000 0100 ~2
+     * 9 000 0010 ~4
+     * A 000 0001 ~5
+     * 
+     * 使用dlx求得一组解:
+     * 一个可能的结果是:
+     * 行号 {2, 3, 5, A}
+     * 即 {<a, 4>, <b, 2>, <c, 1>, ~5}
+     * 
+     * 输出分组结果:
+     * a: 4
+     * b: 2
+     * c: 1
+     * 
      */
+    
     class DancingLinksModel
     {
     private:
