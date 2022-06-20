@@ -642,7 +642,7 @@ void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
     Log.trace("end of sleep_with_possible_skill", millisecond);
 }
 
-std::unordered_map<std::string, std::string> asst::BattleProcessTask::get_char_allocation_for_each_group(
+std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessTask::get_char_allocation_for_each_group(
     const std::unordered_map<std::string, std::vector<std::string>>& group_list, const std::vector<std::string>& char_list)
 {
     class DlxModel
@@ -773,6 +773,8 @@ std::unordered_map<std::string, std::string> asst::BattleProcessTask::get_char_a
         if (dlx_model.stk[i] > node_num) break;
         return_value.insert(node_id_mapping[dlx_model.stk[i] - 1]);
     }
+
+    if (return_value.empty()) return std::nullopt;
     return return_value;
 }
 

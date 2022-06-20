@@ -36,7 +36,7 @@ namespace asst
         bool try_possible_skill(const cv::Mat& image);
         void sleep_with_possible_skill(unsigned millisecond);
 
-        static std::unordered_map<std::string, std::string> get_char_allocation_for_each_group(
+        static std::optional<std::unordered_map<std::string, std::string>> get_char_allocation_for_each_group(
             const std::unordered_map<std::string, std::vector<std::string>>& group_list, const std::vector<std::string>& char_list);
 
         std::string m_stage_name;
