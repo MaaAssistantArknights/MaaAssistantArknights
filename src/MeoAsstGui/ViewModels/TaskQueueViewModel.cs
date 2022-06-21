@@ -251,14 +251,29 @@ namespace MeoAsstGui
             string errMsg = "";
             var task = Task.Run(() =>
             {
-                return asstProxy.AsstConnect(ref errMsg);
+                return asstProxy.AsstConnect(ref errMsg, true);
             });
             bool catchd = await task;
             if (!catchd)
             {
                 AddLog(errMsg, "darkred");
-                Idle = true;
-                return;
+                var settingsModel = _container.Get<SettingsViewModel>();
+                var subtask = Task.Run(() =>
+                {
+                    settingsModel.TryToStartEmulator(true);
+                });
+                await subtask;
+                task = Task.Run(() =>
+                {
+                    return asstProxy.AsstConnect(ref errMsg);
+                });
+                catchd = await task;
+                if (!catchd)
+                {
+                    AddLog(errMsg, "darkred");
+                    Idle = true;
+                    return;
+                }
             }
 
             bool ret = true;
