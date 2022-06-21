@@ -23,7 +23,6 @@ using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
 
-
 namespace MeoAsstGui
 {
     public class TaskQueueViewModel : Screen
@@ -36,12 +35,13 @@ namespace MeoAsstGui
 
         private string _afterCompleteType = "";
         public List<CombData> AfterCompleteList { get; set; }
+
         public string AfterCompleteType
         {
             get { return _afterCompleteType; }
             set { _afterCompleteType = value; }
-
         }
+
         public TaskQueueViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -492,6 +492,7 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRoguelike(mode);
         }
+
         public bool killemulator()
         {
             int pid = 0;
@@ -564,6 +565,7 @@ namespace MeoAsstGui
                             }
                         });
                     break;
+
                 case "exitwithkillemulator":
                     if (!killemulator())
                     {
@@ -584,6 +586,7 @@ namespace MeoAsstGui
                     else ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
                     Environment.Exit(0);
                     break;
+
                 case "exit":
                     if (!new ToastNotification().CheckToastSystem())
                     {
@@ -592,6 +595,7 @@ namespace MeoAsstGui
                     else ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
                     Environment.Exit(0);
                     break;
+
                 case "shutdown":
                     System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
                     var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
@@ -600,18 +604,22 @@ namespace MeoAsstGui
                         System.Diagnostics.Process.Start("shutdown.exe", "-a");
                     }
                     break;
+
                 case "suspend":
                     System.Diagnostics.Process.Start("powercfg", "-h off");
                     System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
                     System.Diagnostics.Process.Start("powercfg", "-h on");
                     break;
+
                 case "hibernate":
                     System.Diagnostics.Process.Start("shutdown.exe", "-h");
                     break;
+
                 default:
                     break;
             }
         }
+
         //public void CheckAndShutdown()
         //{
         //    if (Shutdown)
