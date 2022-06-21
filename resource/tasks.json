@@ -2731,16 +2731,6 @@
         "algorithm": "JustReturn",
         "action": "Stop"
     },
-    "RecruitTime": {
-        "template": "RecruitCheckTimeUnreduced.png",
-        "action": "DoNothing",
-        "roi": [
-            350,
-            150,
-            200,
-            150
-        ]
-    },
     "RecruitTimeReduce": {
         "action": "ClickSelf",
         "Doc": "检查到01，调整时间",
