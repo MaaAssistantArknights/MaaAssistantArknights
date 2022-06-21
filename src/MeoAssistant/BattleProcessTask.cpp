@@ -720,7 +720,8 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
      * c: 1
      * 
      */
-    
+
+    // dlx 算法模板类
     class DancingLinksModel
     {
     private:
@@ -829,6 +830,7 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
         }
     };
 
+    // 建立结点、组、干员与各自 id 的映射关系
     std::vector<std::pair<std::string, std::string>> node_id_mapping;
     std::vector<std::string> group_id_mapping;
     std::vector<std::string> char_id_mapping;
@@ -850,6 +852,7 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
         }
     }
 
+    // 建 01 矩阵
     size_t node_num = node_id_mapping.size();
     size_t group_num = group_id_mapping.size();
     size_t char_num = char_id_mapping.size();
@@ -867,8 +870,10 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
         dancing_links_model.insert(i + node_num + 1, i + group_num + 1);
     }
 
+    // dance!!
     dancing_links_model.dance(0);
 
+    // 判定结果
     std::unordered_map<std::string, std::string> return_value;
 
     for (size_t i = 0; i < dancing_links_model.answer_stack_size; i++) {
