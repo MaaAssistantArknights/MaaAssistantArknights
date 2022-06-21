@@ -18,14 +18,14 @@ namespace asst
 
         virtual ~TaskData() = default;
 
-        static TaskData& get_instance()
+        static TaskData& get_instance() noexcept
         {
             static TaskData unique_instance;
             return unique_instance;
         }
         const std::unordered_set<std::string>& get_templ_required() const noexcept;
 
-        const std::shared_ptr<TaskInfo> get(const std::string& name) const noexcept;
+        std::shared_ptr<const TaskInfo> get(const std::string& name) const noexcept;
         std::shared_ptr<TaskInfo> get(const std::string& name);
 
     protected:

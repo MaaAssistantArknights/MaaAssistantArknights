@@ -61,7 +61,6 @@ bool asst::Assistant::connect(const std::string& adb_path, const std::string& ad
 {
     LogTraceFunction;
 
-    m_inited = false;
     std::unique_lock<std::mutex> lock(m_mutex);
 
     stop(false);
@@ -70,7 +69,6 @@ bool asst::Assistant::connect(const std::string& adb_path, const std::string& ad
     if (ret) {
         m_uuid = m_ctrler->get_uuid();
     }
-    m_inited = ret;
     return ret;
 }
 
@@ -85,45 +83,29 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     std::shared_ptr<PackageTask> ptr = nullptr;
 
-    if (type == FightTask::TaskType) {
-        ptr = std::make_shared<FightTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == StartUpTask::TaskType) {
-        ptr = std::make_shared<StartUpTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == AwardTask::TaskType) {
-        ptr = std::make_shared<AwardTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == VisitTask::TaskType) {
-        ptr = std::make_shared<VisitTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == MallTask::TaskType) {
-        ptr = std::make_shared<MallTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == InfrastTask::TaskType) {
-        ptr = std::make_shared<InfrastTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == RecruitTask::TaskType) {
-        ptr = std::make_shared<RecruitTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == RoguelikeTask::TaskType) {
-        ptr = std::make_shared<RoguelikeTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == CopilotTask::TaskType) {
-        ptr = std::make_shared<CopilotTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == DepotTask::TaskType) {
-        ptr = std::make_shared<DepotTask>(task_callback, static_cast<void*>(this));
-    }
+#define ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(TASK) \
+else if (type == TASK::TaskType) { ptr = std::make_shared<TASK>(task_callback, static_cast<void*>(this)); }
+
+    if (false) {}
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(FightTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(StartUpTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VisitTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(MallTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(InfrastTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RecruitTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoguelikeTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
 #ifdef ASST_DEBUG
-    else if (type == DebugTask::TaskType) {
-        ptr = std::make_shared<DebugTask>(task_callback, (void*)this);
-    }
+    ASST_ASSISTANT_APPEND_TASK_FROM_TYPE_IF_BRANCH(DebugTask)
 #endif
     else {
         Log.error(__FUNCTION__, "| invalid type:", type);
         return 0;
     }
+
+#undef ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH
 
     bool params_ret = ptr->set_params(ret.value());
     if (!params_ret) {
@@ -165,7 +147,7 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
 
 std::vector<uchar> asst::Assistant::get_image() const
 {
-    if (!m_inited) {
+    if (!inited()) {
         return {};
     }
     return m_ctrler->get_image_encode();
@@ -173,7 +155,7 @@ std::vector<uchar> asst::Assistant::get_image() const
 
 bool asst::Assistant::ctrler_click(int x, int y, bool block)
 {
-    if (!m_inited) {
+    if (!inited()) {
         return false;
     }
     m_ctrler->click(Point(x, y), block);
@@ -185,7 +167,7 @@ bool asst::Assistant::start(bool block)
     LogTraceFunction;
     Log.trace("Start |", block ? "block" : "non block");
 
-    if (!m_thread_idle || !m_inited) {
+    if (!m_thread_idle || !inited()) {
         return false;
     }
     std::unique_lock<std::mutex> lock;
@@ -328,4 +310,9 @@ void Assistant::clear_cache()
     m_status->clear_number();
     m_status->clear_rect();
     m_status->clear_str();
+}
+
+bool asst::Assistant::inited() const noexcept
+{
+    return m_ctrler && m_ctrler->inited();
 }

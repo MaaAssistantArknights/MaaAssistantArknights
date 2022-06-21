@@ -5,6 +5,7 @@
 #include <iostream>
 #include <mutex>
 #include <type_traits>
+#include <utility>
 #include <vector>
 #include <thread>
 
@@ -143,13 +144,13 @@ namespace asst
 #else   // ! _WIN32
             sprintf(buff, "[%s][%s][Px%x][Tx%x]",
                       asst::utils::get_format_time().c_str(),
-                      level.data(), getpid(), std::this_thread::get_id()
+                      level.data(), getpid(), unsigned (std::hash<std::thread::id>{}(std::this_thread::get_id()))
             );
 #endif  // END _WIN32
 
             if (!m_ofs.is_open()) {
                 m_ofs = std::ofstream(m_log_filename, std::ios::out | std::ios::app);
-        }
+            }
 #ifdef ASST_DEBUG
             stream_args(m_ofs, buff, args...);
 #else
@@ -159,7 +160,7 @@ namespace asst
 #ifdef ASST_DEBUG
             stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
 #endif
-    }
+        }
 
         template <bool ToGbk = false, typename T, typename... Args>
         inline void stream_args(std::ostream& os, T&& first, Args&&... rest)
@@ -192,7 +193,7 @@ namespace asst
                 os << first << " "; // Don't fucking use gbk in linux
 #endif
             }
-};
+        };
 
         inline static std::string m_dirname;
         std::mutex m_trace_mutex;
@@ -202,8 +203,8 @@ namespace asst
     class LoggerAux
     {
     public:
-        LoggerAux(const std::string& func_name)
-            : m_func_name(func_name),
+        LoggerAux(std::string func_name)
+            : m_func_name(std::move(func_name)),
             m_start_time(std::chrono::steady_clock::now())
         {
             Logger::get_instance().trace(m_func_name, " | enter");

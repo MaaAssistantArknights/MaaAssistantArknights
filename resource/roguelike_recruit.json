@@ -38,9 +38,30 @@
             "skill": 1
         },
         {
+            "name": "陈",
+            "level": 6,
+            "skill": 2
+        },
+        {
+            "name": "拉普兰德",
+            "level": 5,
+            "skill": 2
+        },
+        {
+            "name": "阿米娅",
+            "level": 5,
+            "skill": 1
+        },
+        {
             "name": "史尔特尔",
             "level": 6,
             "skill": 2
+        },
+        {
+            "name": "银灰",
+            "level": 6,
+            "skill": 3,
+            "alternate_skill": 1
         },
         {
             "name": "赫拉格",
@@ -53,7 +74,7 @@
             "skill": 1
         },
         {
-            "name": "拉普兰德",
+            "name": "幽灵鲨",
             "level": 5,
             "skill": 2
         },
@@ -63,25 +84,9 @@
             "skill": 1
         },
         {
-            "name": "陈",
-            "level": 6,
-            "skill": 2
-        },
-        {
             "name": "斯卡蒂",
             "level": 6,
             "skill": 1
-        },
-        {
-            "name": "阿米娅",
-            "level": 5,
-            "skill": 1
-        },
-        {
-            "name": "银灰",
-            "level": 6,
-            "skill": 3,
-            "alternate_skill": 1
         },
         {
             "name": "Sharp",
@@ -94,7 +99,7 @@
             "skill": 1
         },
         {
-            "name": "幽灵鲨",
+            "name": "星极",
             "level": 5,
             "skill": 2
         },
@@ -105,9 +110,9 @@
             "alternate_skill": 2
         },
         {
-            "name": "断罪者",
-            "level": 4,
-            "skill": 1
+            "name": "柏喙",
+            "level": 5,
+            "skill": 2
         },
         {
             "name": "芳汀",
@@ -115,9 +120,9 @@
             "skill": 2
         },
         {
-            "name": "星极",
-            "level": 5,
-            "skill": 2
+            "name": "断罪者",
+            "level": 4,
+            "skill": 1
         },
         {
             "name": "战车",
@@ -205,11 +210,6 @@
             "skill": 2
         },
         {
-            "name": "柏喙",
-            "level": 5,
-            "skill": 2
-        },
-        {
             "name": "布洛卡",
             "level": 5,
             "skill": 2
@@ -247,11 +247,6 @@
     ],
     "Pioneer": [
         {
-            "name": "芬",
-            "level": 3,
-            "skill": 1
-        },
-        {
             "name": "风笛",
             "level": 6,
             "skill": 2
@@ -288,6 +283,11 @@
             "skill": 2
         },
         {
+            "name": "芬",
+            "level": 3,
+            "skill": 1
+        },
+        {
             "name": "清道夫",
             "level": 4,
             "skill": 1
@@ -305,6 +305,21 @@
         {
             "name": "豆苗",
             "level": 4,
+            "skill": 1
+        },
+        {
+            "name": "红豆",
+            "level": 4,
+            "skill": 2
+        },
+        {
+            "name": "苇草",
+            "level": 5,
+            "skill": 1
+        },
+        {
+            "name": "格拉尼",
+            "level": 5,
             "skill": 1
         },
         {
@@ -341,21 +356,6 @@
             "name": "翎羽",
             "level": 3,
             "skill": 1
-        },
-        {
-            "name": "红豆",
-            "level": 4,
-            "skill": 2
-        },
-        {
-            "name": "苇草",
-            "level": 5,
-            "skill": 1
-        },
-        {
-            "name": "格拉尼",
-            "level": 5,
-            "skill": 1
         }
     ],
     "Tank": [
@@ -367,8 +367,17 @@
         {
             "name": "塞雷娅",
             "level": 6,
-            "skill": 2,
-            "alternate_skill": 1
+            "skill": 2
+        },
+        {
+            "name": "暮落",
+            "level": 5,
+            "skill": 2
+        },
+        {
+            "name": "星熊",
+            "level": 6,
+            "skill": 2
         },
         {
             "name": "斑点",
@@ -400,11 +409,6 @@
             "name": "临光",
             "level": 5,
             "skill": 1
-        },
-        {
-            "name": "星熊",
-            "level": 6,
-            "skill": 2
         },
         {
             "name": "雷蛇",
@@ -459,11 +463,6 @@
         {
             "name": "拜松",
             "level": 4,
-            "skill": 2
-        },
-        {
-            "name": "暮落",
-            "level": 5,
             "skill": 2
         },
         {
@@ -714,11 +713,6 @@
             "skill": 3
         },
         {
-            "name": "伊芙利特",
-            "level": 6,
-            "skill": 2
-        },
-        {
             "name": "阿米娅",
             "level": 5,
             "skill": 1
@@ -732,6 +726,11 @@
             "name": "夕",
             "level": 6,
             "skill": 1
+        },
+        {
+            "name": "伊芙利特",
+            "level": 6,
+            "skill": 2
         },
         {
             "name": "天火",
@@ -999,11 +998,6 @@
     ],
     "Medic": [
         {
-            "name": "安赛尔",
-            "level": 3,
-            "skill": 1
-        },
-        {
             "name": "凯尔希",
             "level": 6,
             "skill": 3,
@@ -1091,6 +1085,11 @@
             "skill": 1
         },
         {
+            "name": "安赛尔",
+            "level": 3,
+            "skill": 1
+        },
+        {
             "name": "闪灵",
             "level": 6,
             "skill": 2
@@ -1123,20 +1122,10 @@
     ],
     "Support": [
         {
-            "name": "浊心斯卡蒂",
-            "level": 6,
-            "skill": 2
-        },
-        {
             "name": "令",
             "level": 6,
             "skill": 3,
             "alternate_skill": 2
-        },
-        {
-            "name": "梓兰",
-            "level": 3,
-            "skill": 1
         },
         {
             "name": "波登可",
@@ -1149,14 +1138,15 @@
             "skill": 1
         },
         {
-            "name": "安洁莉娜",
-            "level": 6,
-            "skill": 1
-        },
-        {
             "name": "铃兰",
             "level": 6,
             "skill": 2
+        },
+        {
+            "name": "安洁莉娜",
+            "level": 6,
+            "skill": 3,
+            "alternate_skill": 2
         },
         {
             "name": "巫恋",
@@ -1177,6 +1167,16 @@
             "name": "格劳克斯",
             "level": 5,
             "skill": 1
+        },
+        {
+            "name": "梓兰",
+            "level": 3,
+            "skill": 1
+        },
+        {
+            "name": "浊心斯卡蒂",
+            "level": 6,
+            "skill": 2
         },
         {
             "name": "月禾",

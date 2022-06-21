@@ -82,6 +82,6 @@ int asst::RoguelikeRecruitImageAnalyzer::match_level(const Rect& raw_roi)
         return 0;
     }
 
-    std::string level = analyzer.get_result().front().text; 
+    std::string level = analyzer.get_result().front().text;
     return std::stoi(level);
 }

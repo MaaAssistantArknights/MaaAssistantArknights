@@ -20,7 +20,7 @@
 
 [中文版本README](README.md)
 
-MAA stands for MAA Assistant Arknights
+MAA means MAA Assistant Arknights
 
 An Arknights assistant
 
@@ -54,7 +54,7 @@ Talk is cheap. Show me the pictures!
 
 ### Basic Settings
 
-1. Follow the [Simulator Support](docs/en/SIMULATOR_SUPPORT.md) to configure your simulator.
+1. Follow the [Emulator Support](docs/en/EMULATOR_SUPPORTS.md) to configure your emulator.
 2. Unzip the archive file to an **ASCII-only** directory
 3. All settings are not changeable after running except `Auto shutdown`.
 
@@ -96,7 +96,7 @@ Please refer to: [FAQ](docs/en/FAQ.md)
 - Map tile recognition: [Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON library: [meojson](https://github.com/MistEO/meojson.git)
 - C++ operator parser: [calculator](https://github.com/kimwalisch/calculator)
-- C++ Base64 encoding/decoding[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)
+- ~~C++ Base64 encoding/decoding[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ ZIP library: [zlib](https://github.com/madler/zlib)
 - C++ Gzip library: [gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - WPF MVVW framework: [Stylet](https://github.com/canton7/Stylet)

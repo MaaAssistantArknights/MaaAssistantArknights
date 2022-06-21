@@ -203,8 +203,11 @@
         "action": "DoNothing",
         "sub": [
             "LE-Open",
-            "LEChapterToLE",
-            "StageLE-5"
+            "LEChapterToLE"
+        ],
+        "next": [
+            "StageLE-5",
+            "SwapToStageLE-5"
         ]
     },
     "LE-6": {
@@ -212,8 +215,11 @@
         "action": "DoNothing",
         "sub": [
             "LE-Open",
-            "LEChapterToLE",
-            "StageLE-6"
+            "LEChapterToLE"
+        ],
+        "next": [
+            "StageLE-6",
+            "SwapToStageLE-6"
         ]
     },
     "LE-7": {
@@ -221,22 +227,21 @@
         "action": "DoNothing",
         "sub": [
             "LE-Open",
-            "LEChapterToLE",
-            "StageLE-7"
+            "LEChapterToLE"
+        ],
+        "next": [
+            "StageLE-7",
+            "SwapToStageLE-7"
         ]
     },
     "LE-Open": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "尘影余音"
-        ],
+        "action": "ClickSelf",
         "roi": [
+            471,
             0,
-            500,
-            500,
-            150
-        ],
-        "action": "ClickSelf"
+            530,
+            711
+        ]
     },
     "LEChapterToLE": {
         "algorithm": "OcrDetect",
@@ -252,8 +257,31 @@
         ],
         "action": "ClickSelf",
         "sub": [
-            "SwipeToTheRight",
-            "SlowlySwipeToTheLeft"
+            "SwipeToTheRight"
+        ]
+    },
+    "SwapToStageLE-5": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageLE-5",
+            "SwapToStageLE-5"
+        ]
+    },
+    "SwapToStageLE-6": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageLE-6",
+            "SwapToStageLE-6"
+        ]
+    },
+    "SwapToStageLE-7": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageLE-7",
+            "SwapToStageLE-7"
         ]
     },
     "StageLE-5": {
@@ -646,6 +674,10 @@
                 "山"
             ],
             [
+                "^云$",
+                "山"
+            ],
+            [
                 "姜哦",
                 "嵯峨"
             ],
@@ -734,19 +766,15 @@
                 "狮蝎"
             ],
             [
-                "第草",
-                "苇草"
+                "扬师虫",
+                "狮蝎"
             ],
             [
                 "漂冬",
                 "凛冬"
             ],
             [
-                "韦草",
-                "苇草"
-            ],
-            [
-                "笔草",
+                ".+草",
                 "苇草"
             ],
             [
@@ -768,6 +796,10 @@
             [
                 "研",
                 "砾"
+            ],
+            [
+                "紫雨",
+                "絮语"
             ]
         ]
     },
@@ -2146,7 +2178,8 @@
             "WeeklyTask",
             "AwardFinished",
             "CloseTaskAwardDouble"
-        ]
+        ],
+        "maxTimes": 10
     },
     "AwardFinished": {
         "action": "Stop",
@@ -4461,18 +4494,18 @@
                 "落魄骑士"
             ],
             [
-                ".+爵的戏.+",
-                "鸭爵的戏剧"
-            ],
-            [
                 "邪异因笼",
                 "邪异囚笼"
+            ],
+            [
+                "寒洲惜别",
+                "寒渊惜别"
             ]
         ],
         "roi": [
-            420,
-            430,
-            440,
+            250,
+            435,
+            800,
             100
         ]
     },
@@ -4671,7 +4704,8 @@
             20,
             60,
             60
-        ]
+        ],
+        "rearDelay": 100
     },
     "BattleCancelSelection": {
         "algorithm": "JustReturn",
@@ -4742,6 +4776,7 @@
             210,
             118
         ],
+        "templThreshold": 0.7,
         "cache": false,
         "action": "ClickSelf",
         "rectMove": [
@@ -4750,7 +4785,7 @@
             90,
             90
         ],
-        "rearDelay": 200
+        "rearDelay": 300
     },
     "BattleSkillStopOnClick": {
         "roi": [
@@ -4767,7 +4802,7 @@
             90,
             90
         ],
-        "rearDelay": 200
+        "rearDelay": 300
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
@@ -4777,7 +4812,7 @@
     },
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
-        "preDelay": 15000,
+        "preDelay": 500,
         "rearDelay": 100,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration"
     },
@@ -5056,19 +5091,15 @@
         ]
     },
     "Roguelike1BattleSpeedUp": {
-        "template": "BattleSpeedUp.png",
-        "action": "ClickSelf",
-        "roi": [
-            1025,
-            0,
-            149,
-            153
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1070,
+            20,
+            60,
+            60
         ],
-        "maskRange": [
-            100,
-            255
-        ],
-        "templThreshold": 0.95
+        "preDelay": 3000
     },
     "BattleSkillReady": {
         "roi": [
@@ -5462,12 +5493,15 @@
             "Roguelike1LastRewardRand",
             "Roguelike1Team3",
             "Roguelike1CloseCollection",
-            "Roguelike1DialogSkip"
+            "Roguelike1DialogSkip",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe"
         ]
-    },
-    "BattleWaitingToLoad": {
-        "algorithm": "JustReturn",
-        "rearDelay": 200
     },
     "Roguelike1CloseCollection": {
         "action": "ClickSelf",
@@ -5523,7 +5557,7 @@
             154
         ],
         "next": [
-            "Roguelike1ChooseOper",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1RecruitCloseGuide"
         ],
         "rearDelay": 1000
@@ -5539,7 +5573,7 @@
             154
         ],
         "next": [
-            "Roguelike1ChooseOper",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1RecruitCloseGuide"
         ],
         "rearDelay": 1000
@@ -5553,7 +5587,7 @@
             134
         ],
         "next": [
-            "Roguelike1ChooseOper"
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike1ChooseOper": {
@@ -6312,7 +6346,8 @@
         "maskRange": [
             1,
             255
-        ]
+        ],
+        "templThreshold": 0.7
     },
     "Roguelike1FormationOperSelected": {
         "template": "empty.png",
@@ -6386,15 +6421,16 @@
         ]
     },
     "Roguelike1InBattleFlag": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "角色"
-        ],
+        "template": "BattleOfficiallyBegin.png",
         "roi": [
-            900,
-            500,
-            380,
-            150
+            1165,
+            20,
+            65,
+            65
+        ],
+        "maskRange": [
+            100,
+            255
         ],
         "action": "DoNothing",
         "rearDelay": 5000,
@@ -6455,6 +6491,7 @@
             "Roguelike1GetDrop1",
             "Roguelike1GetDrop2",
             "Roguelike1GetDrop3",
+            "Roguelike1GetDropSelect",
             "Roguelike1GetDropRecruit",
             "Roguelike1GetDropLeave",
             "Roguelike1StageTrader",
@@ -6533,8 +6570,53 @@
         "templThreshold": 0.85,
         "rearDelay": 1000,
         "next": [
+            "Roguelike1ChooseOperFlag"
+        ]
+    },
+    "Roguelike1GetDropSelect": {
+        "Doc": "“选择”按钮，有可能是招募二选一，也有收藏品二选一",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            471,
+            1280,
+            157
+        ],
+        "rearDelay": 2000,
+        "next": [
+            "Roguelike1GetDropSelectRecruit",
+            "Roguelike1GetDropSelectReward"
+        ]
+    },
+    "Roguelike1GetDropSelectRecruit": {
+        "template": "Roguelike1GetDropRecruit.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            420,
+            1280,
+            175
+        ],
+        "templThreshold": 0.85,
+        "next": [
             "Roguelike1ChooseOperFlag",
-            "Roguelike1ChooseOper"
+            "Roguelike1GetDropSelectRecruit"
+        ]
+    },
+    "Roguelike1GetDropSelectReward": {
+        "cache": false,
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            420,
+            1280,
+            175
+        ],
+        "next": [
+            "Roguelike1ClickToDrops",
+            "Roguelike1GetDropSelectReward"
         ]
     },
     "Roguelike1GetDropCompleted": {
@@ -6740,9 +6822,9 @@
         "templThreshold_Doc": "这里用来作为字间距阈值",
         "roi": [
             62,
-            89,
+            90,
             43,
-            23
+            22
         ],
         "maskRange": [
             150,

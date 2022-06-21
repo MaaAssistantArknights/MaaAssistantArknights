@@ -20,18 +20,17 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using Notification.Wpf;
 using Notification.Wpf.Base;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
-using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MeoAsstGui
 {
     public class ToastNotification : IDisposable
     {
-
         public bool CheckToastSystem()
         {
             return Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
@@ -207,6 +206,7 @@ namespace MeoAsstGui
         protected string _buttonSystemText = null;
 
         protected string _buttonSystemUrl;
+
         public string ButtonSystemUrl
         {
             get { return _buttonSystemUrl; }
@@ -214,6 +214,7 @@ namespace MeoAsstGui
         }
 
         protected bool _buttonSystemEnabled = Convert.ToBoolean(bool.FalseString);
+
         #endregion 通知按钮变量
 
         /// <summary>
@@ -316,7 +317,7 @@ namespace MeoAsstGui
         /// <param name="row">内容显示行数，如果内容太多建议使用 ShowMore()</param>
         /// <param name="sound">播放提示音</param>
         /// <param name="notificationContent">通知内容</param>
-        /// 
+        ///
         public void Show(double lifeTime = 10d, uint row = 1,
             NotificationSounds sound = NotificationSounds.Notification,
             NotificationContent notificationContent = null)
@@ -425,7 +426,7 @@ namespace MeoAsstGui
                 sound: NotificationSounds.Notification,
                 notificationContent: content);
         }
-        
+
         /// <summary>
         /// 显示更新版本的通知
         /// </summary>
@@ -440,6 +441,7 @@ namespace MeoAsstGui
                     sound: NotificationSounds.Notification,
                     notificationContent: content);
         }
+
         #endregion 显示通知方法
 
         #endregion 通知显示
