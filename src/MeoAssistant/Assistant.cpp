@@ -96,7 +96,7 @@ else if (type == TASK::TaskType) { ptr = std::make_shared<TASK>(task_callback, s
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoguelikeTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)
 #ifdef ASST_DEBUG
-    ASST_ASSISTANT_APPEND_TASK_FROM_TYPE_IF_BRANCH(DebugTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DebugTask)
 #endif
     else {
         Log.error(__FUNCTION__, "| invalid type:", type);
