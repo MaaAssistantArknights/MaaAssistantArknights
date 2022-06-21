@@ -14,8 +14,18 @@ bool asst::DepotTask::run()
 {
     LogTraceFunction;
 
-    size_t pos = 0ULL;
-    std::unordered_map<std::string, ItemInfo> all_items;
+    bool ret = swipe_and_analyze();
+    callback_analyze_result();
+
+    return ret;
+}
+
+bool asst::DepotTask::swipe_and_analyze()
+{
+    LogTraceFunction;
+    m_all_items.clear();
+
+    size_t pre_pos = 0ULL;
     while (true) {
         DepotImageAnalyzer analyzer(m_ctrler->get_image());
 
@@ -23,20 +33,33 @@ bool asst::DepotTask::run()
             this->swipe();
         });
 
-        analyzer.set_match_begin_pos(pos);
+        // 因为滑动不是完整的一页，有可能上一次识别过的物品，这次仍然在页面中
+        // 所以这个 begin pos 不能设置
+        //analyzer.set_match_begin_pos(pre_pos);
         if (!analyzer.analyze()) {
             break;
         }
         size_t cur_pos = analyzer.get_match_begin_pos();
-        if (cur_pos == pos || cur_pos == DepotImageAnalyzer::NPos) {
+        if (cur_pos == pre_pos || cur_pos == DepotImageAnalyzer::NPos) {
             break;
         }
-        pos = cur_pos;
         auto cur_result = analyzer.get_result();
-        all_items.merge(std::move(cur_result));
+        m_all_items.merge(std::move(cur_result));
 
         future.wait();
+
+        // 一页最少有 21 个材料（去掉左右两边不完整的）
+        if (cur_pos - pre_pos < 21) {
+            break;
+        }
+        pre_pos = cur_pos;
     }
+    return m_all_items.empty();
+}
+
+void asst::DepotTask::callback_analyze_result()
+{
+    LogTraceFunction;
 
     auto& templ = Resrc.cfg().get_options().depot_export_template;
     json::value info = basic_info_with_what("DepotInfo");
@@ -49,7 +72,7 @@ bool asst::DepotTask::run()
         arkplanner_obj = arkplanner_template_opt.value();
         auto& arkplanner_data_items = arkplanner_obj["items"];
 
-        for (const auto& [item_id, item_info] : all_items) {
+        for (const auto& [item_id, item_info] : m_all_items) {
             arkplanner_data_items.array_emplace(
                 json::object({
                     { "id", item_id },
@@ -61,8 +84,6 @@ bool asst::DepotTask::run()
         arkplanner["data"] = arkplanner_obj.to_string();
     }
     callback(AsstMsg::SubTaskExtraInfo, info);
-
-    return all_items.empty();
 }
 
 void asst::DepotTask::swipe()
