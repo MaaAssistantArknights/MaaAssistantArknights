@@ -36,6 +36,11 @@ namespace asst
         bool try_possible_skill(const cv::Mat& image);
         void sleep_with_possible_skill(unsigned millisecond);
 
+        template <typename GroupNameType = std::string, typename CharNameType = std::string>
+        static std::optional<std::unordered_map<GroupNameType, CharNameType>> get_char_allocation_for_each_group(
+            const std::unordered_map<GroupNameType, std::vector<CharNameType>>& group_list,
+            const std::vector<CharNameType>& char_list);
+
         std::string m_stage_name;
 
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
