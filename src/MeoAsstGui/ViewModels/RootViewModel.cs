@@ -74,22 +74,22 @@ namespace MeoAsstGui
 
             if (vuvm.IsFirstBootAfterUpdate)
             {
+                vuvm.IsFirstBootAfterUpdate = false;
                 _windowManager.ShowWindow(vuvm);
             }
             else
             {
                 var task = Task.Run(() =>
                 {
-                    if (!vuvm.CheckAndDownloadUpdate())
-                    {
-                        vuvm.ResourceOTA();
-                    }
+                    vuvm.CheckAndDownloadUpdate();
                 });
 
                 await task;
             }
         }
+
         private string _windowTitle = "MaaAssistantArknights";
+
         public string WindowTitle
         {
             get => _windowTitle;

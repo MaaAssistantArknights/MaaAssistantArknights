@@ -104,22 +104,12 @@ namespace asst
         std::string name;
         size_t index;
         bool cooling = false;
-        bool operator==(const std::string& oper_name) const noexcept
-        {
-            return name == oper_name;
-        }
     };
 
-    struct RoguelikeBattleAction
+    struct RoguelikeBattleData
     {
-        int kills = 0;
-        BattleActionType type = BattleActionType::Deploy;
-        std::vector<BattleRole> roles;
-        bool waiting_cost = false;
-        Point location;
-        BattleDeployDirection direction = BattleDeployDirection::Right;
-        int pre_delay = 0;
-        int rear_delay = 0;
-        int time_out = INT_MAX;
+        std::string stage_name;
+        std::vector<Point> replacement_home;
+        std::vector<int> key_kills;
     };
 }

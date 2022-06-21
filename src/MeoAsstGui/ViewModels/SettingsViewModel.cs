@@ -140,7 +140,7 @@ namespace MeoAsstGui
                 new CombData { Display = "不选择", Value = "" },
                 new CombData { Display = "官服", Value = "Official" },
                 new CombData { Display = "Bilibili服", Value = "Bilibili" },
-                new CombData { Display = "悠星美服 (YoStarEN)", Value = "YoStarEN" }
+                new CombData { Display = "悠星国际服 (YoStarEN)", Value = "YoStarEN" }
             };
         }
 
@@ -208,6 +208,18 @@ namespace MeoAsstGui
             }
         }
 
+        private string _emulatorAddCommand = ViewStatusStorage.Get("Start.EmulatorAddCommand", string.Empty);
+
+        public string EmulatorAddCommand
+        {
+            get { return _emulatorAddCommand; }
+            set
+            {
+                SetAndNotify(ref _emulatorAddCommand, value);
+                ViewStatusStorage.Set("Start.EmulatorAddCommand", value);
+            }
+        }
+
         private string _emulatorWaitSeconds = ViewStatusStorage.Get("Start.EmulatorWaitSeconds", "60");
 
         public string EmulatorWaitSeconds
@@ -220,15 +232,34 @@ namespace MeoAsstGui
             }
         }
 
-        public void TryToStartEmulator()
+        public void TryToStartEmulator(bool manual = false)
         {
-            if (!StartEmulator
-                || EmulatorPath.Length == 0
+            if ((EmulatorPath.Length == 0
                 || !File.Exists(EmulatorPath))
+                || !(StartEmulator
+                || manual))
             {
                 return;
             }
-            System.Diagnostics.Process.Start(EmulatorPath);
+            if (EmulatorAddCommand.Length != 0)
+            {
+                string StartCommand = "";
+                if (EmulatorPath.StartsWith("\""))
+                {
+                    StartCommand += EmulatorPath.ToString();
+                }
+                else StartCommand = "\"" + EmulatorPath.ToString() + "\"";
+                StartCommand += " ";
+                StartCommand += EmulatorAddCommand.ToString();
+                Process emuProcess = new Process();
+                emuProcess.StartInfo.FileName = "cmd.exe";
+                emuProcess.StartInfo.RedirectStandardInput = true;
+                emuProcess.StartInfo.UseShellExecute = false;
+                emuProcess.Start();
+                emuProcess.StandardInput.WriteLine(StartCommand);
+                emuProcess.StandardInput.WriteLine("exit");
+            }
+            else Process.Start(EmulatorPath);
             int delay = 0;
             if (!int.TryParse(EmulatorWaitSeconds, out delay))
             {
@@ -1060,13 +1091,15 @@ namespace MeoAsstGui
             var updateModle = _container.Get<VersionUpdateViewModel>();
             var task = Task.Run(() =>
             {
-                if (!updateModle.CheckAndDownloadUpdate(true)
-                    && !updateModle.ResourceOTA(true))
+                if (!updateModle.CheckAndDownloadUpdate(true))
                 {
-                    using (var toast = new ToastNotification("已是最新版本~"))
+                    Execute.OnUIThread(() =>
                     {
-                        toast.Show();
-                    }
+                        using (var toast = new ToastNotification("已是最新版本~"))
+                        {
+                            toast.Show();
+                        }
+                    });
                 }
             });
             await task;

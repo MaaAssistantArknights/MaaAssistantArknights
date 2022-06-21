@@ -95,7 +95,7 @@ namespace MeoAsstGui
                 loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory() + "\\resource\\global\\YoStarEN");
                 _curResource = "YoStarEN";
             }
-            // 这种是手贱看到美服点了一下，又点回官服的
+            // 这种是手贱看国际服点了一下，又点回官服的
             else if (_curResource.Length != 0
                 && (settingsModel.ClientType == "Official" || settingsModel.ClientType == "Bilibili" || settingsModel.ClientType == String.Empty))
             {
@@ -126,7 +126,6 @@ namespace MeoAsstGui
             var mainModel = _container.Get<TaskQueueViewModel>();
             mainModel.Idle = true;
             var settingsModel = _container.Get<SettingsViewModel>();
-
             Execute.OnUIThread(async () =>
             {
                 var task = Task.Run(() =>
@@ -209,6 +208,8 @@ namespace MeoAsstGui
             }
         }
 
+        private bool connected = false;
+
         private void procConnectInfo(JObject details)
         {
             var what = details["what"].ToString();
@@ -217,19 +218,23 @@ namespace MeoAsstGui
             switch (what)
             {
                 case "Connected":
+                    connected = true;
                     svm.ConnectAddress = details["details"]["address"].ToString();
                     break;
 
                 case "UnsupportedResolution":
+                    connected = false;
                     mainModel.AddLog("分辨率过低，请设置为 720p 或更高", "darkred");
                     break;
 
                 case "ResolutionError":
+                    connected = false;
                     mainModel.AddLog("分辨率获取失败，建议重启电脑，或更换模拟器后再试", "darkred");
                     break;
 
                 case "Disconnect":
                 case "CommandExecFailed":
+                    connected = false;
                     mainModel.AddLog("错误！连接断开！", "darkred");
                     AsstStop();
                     break;
@@ -287,7 +292,8 @@ namespace MeoAsstGui
                         toast.Show();
                     }
                     copilotModel.Idle = true;
-                    mainModel.CheckAndShutdown();
+                    //mainModel.CheckAndShutdown();
+                    mainModel.CheckAfterComplete();
                     break;
             }
         }
@@ -424,7 +430,7 @@ namespace MeoAsstGui
                         break;
 
                     case "Roguelike1StageEncounterEnter":
-                        mainModel.AddLog("关卡：不期而遇/古堡馈赠");
+                        mainModel.AddLog("关卡：不期而遇");
                         break;
 
                     //case "Roguelike1StageBoonsEnter":
@@ -647,6 +653,10 @@ namespace MeoAsstGui
                     //    copilotModel.AddLog(subTaskDetails["details"].ToString(), details_color.Length == 0 ? "dark" : details_color);
                     //}
                     break;
+
+                case "UnsupportedLevel":
+                    copilotModel.AddLog("不支持的关卡\n请更新 MAA 软件版本，或检查作业文件", "darkred");
+                    break;
             }
         }
 
@@ -698,12 +708,17 @@ namespace MeoAsstGui
             }
         }
 
-        public bool AsstConnect(ref string error)
+        public bool AsstConnect(ref string error, bool firsttry = false)
         {
             if (!LoadGlobalResource())
             {
                 error = "Load Global Resource Failed";
                 return false;
+            }
+
+            if (connected)
+            {
+                return true;
             }
 
             var settings = _container.Get<SettingsViewModel>();
@@ -734,7 +749,9 @@ namespace MeoAsstGui
             }
             if (!ret)
             {
-                error = "连接失败\n请检查连接设置";
+                if (firsttry)
+                    error = "连接失败\n正在尝试启动模拟器";
+                else error = "连接失败\n请检查连接设置";
             }
             return ret;
         }

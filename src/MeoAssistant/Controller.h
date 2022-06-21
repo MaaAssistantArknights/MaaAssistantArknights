@@ -32,6 +32,7 @@ namespace asst
 
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool release();
+        bool inited() const noexcept;
 
         const std::string& get_uuid() const;
         cv::Mat get_image(bool raw = false);
@@ -63,7 +64,7 @@ namespace asst
 
     private:
         void pipe_working_proc();
-        std::optional<std::vector<unsigned char>> call_command(const std::string& cmd, int64_t timeout = 20000, bool recv_by_socket = false);
+        std::optional<std::vector<uchar>> call_command(const std::string& cmd, int64_t timeout = 20000, bool recv_by_socket = false);
         int push_cmd(const std::string& cmd);
 
         std::optional<unsigned short> try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times = 10U);
@@ -71,6 +72,7 @@ namespace asst
         using DecodeFunc = std::function<bool(std::vector<uchar>&)>;
         bool screencap();
         bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_nc = false);
+        void clear_lf_info();
         cv::Mat get_resized_image() const;
 
         Point rand_point_in_rect(const Rect& rect);
@@ -79,7 +81,7 @@ namespace asst
         void clear_info() noexcept;
 
         // 转换data中所有的crlf为lf：有些模拟器自带的adb，exec-out输出的\n，会被替换成\r\n，导致解码错误，所以这里转一下回来（点名批评mumu）
-        static void convert_lf(std::vector<unsigned char>& data);
+        static void convert_lf(std::vector<uchar>& data);
 
         AsstCallback m_callback;
         void* m_callback_arg = nullptr;
@@ -137,7 +139,7 @@ namespace asst
             enum class ScreencapMethod
             {
                 UnknownYet,
-                Default,
+                //Default,
                 RawByNc,
                 RawWithGzip,
                 Encode

@@ -59,7 +59,6 @@ public partial class Build
         public AbsolutePath VisualStudioPath { get; }
 
         // 仓库
-        public bool IsFork { get; }
         public string MainRepo { get; }
         public string MasterBranchRef { get; }
         public string DevBranchRef { get; }
@@ -104,7 +103,6 @@ public partial class Build
             MsBuildPath = (AbsolutePath)msbuild;
 
             // 仓库
-            IsFork = false;
             MainRepo = "MaaAssistantArknights/MaaAssistantArknights";
             MaaResourceReleaseRepo = "MaaAssistantArknights/MaaResourceRelease";
 
@@ -197,7 +195,6 @@ public partial class Build
                     MainRepo = b.GitHubActions.Repository;
                     var repoOwner = MainRepo.Split("/")[0];
                     MaaResourceReleaseRepo = $"{repoOwner}/MaaResourceRelease";
-                    IsFork = true;
                 }
 
                 // 若是 DevBuild，Branch 必须不为 Master，或者是 PR 至 Dev，又或者是手动触发

@@ -94,7 +94,14 @@ namespace MeoAsstGui
         {
             get
             {
-                return MarkdownXaml.ToFlowDocument(UpdateInfo, s_markdownPipeline);
+                try
+                {
+                    return MarkdownXaml.ToFlowDocument(UpdateInfo, s_markdownPipeline);
+                }
+                catch (Exception)
+                {
+                    return new FlowDocument();
+                }
             }
         }
 
@@ -294,7 +301,7 @@ namespace MeoAsstGui
             // 下载压缩包
             const int DownloadRetryMaxTimes = 3;
             var downloaded = false;
-            for (int i = 1; i <= DownloadRetryMaxTimes; i++)
+            for (int i = 0; i < DownloadRetryMaxTimes; i++)
             {
                 var mirroredAssets = (JObject)_assetsObject.DeepClone();
                 mirroredAssets.Property("browser_download_url").Remove();
@@ -396,17 +403,34 @@ namespace MeoAsstGui
                 bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out curVersionObj);
                 Semver.SemVersion lastestVersionObj;
                 bool lastestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out lastestVersionObj);
-                if (curParsed && lastestPared
-                    && curVersionObj >= lastestVersionObj)
+                if (curParsed && lastestPared)
                 {
-                    return false;
+                    if (curVersionObj.CompareSortOrderTo(lastestVersionObj) >= 0)
+                    {
+                        return false;
+                    }
                 }
                 else if ((string.Compare(_curVersion, _latestVersion) >= 0))
                 {
                     return false;
                 }
 
+                if (!_lastestJson.ContainsKey("assets")
+                    || (_lastestJson["assets"] as JArray).Count == 0)
+                {
+                    return false;
+                }
+
                 _assetsObject = _lastestJson["assets"][0] as JObject;
+                foreach (var curAssets in _lastestJson["assets"] as JArray)
+                {
+                    var name = curAssets["name"].ToString();
+                    if (name.ToLower().Contains("ota"))
+                    {
+                        _assetsObject = curAssets as JObject;
+                        break;
+                    }
+                }
             }
             catch (Exception)
             {
@@ -526,7 +550,8 @@ namespace MeoAsstGui
             if (returned)
             {
                 // 重命名文件
-                File.Move(fullFilePathWithTemp, fullFilePath);
+                File.Copy(fullFilePathWithTemp, fullFilePath, true);
+                File.Delete(fullFilePathWithTemp);
                 return true;
             }
             else
@@ -636,134 +661,136 @@ namespace MeoAsstGui
             return true;
         }
 
-        public bool ResourceOTA(bool force = false)
-        {
-            // 开发版不检查更新
-            if (!force && !isStableVersion())
-            {
-                return false;
-            }
+        // 这个资源文件单独 OTA 功能带来了很多问题，暂时弃用了
+        // 改用打 OTA 包的形式来实现增量升级
+        //public bool ResourceOTA(bool force = false)
+        //{
+        //    // 开发版不检查更新
+        //    if (!force && !isStableVersion())
+        //    {
+        //        return false;
+        //    }
 
-            const string req_base_url = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits?path=";
-            const string repositorie_base = "MaaAssistantArknights/MaaAssistantArknights";
-            const string branche_base = "master";
+        //    const string req_base_url = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits?path=";
+        //    const string repositorie_base = "MaaAssistantArknights/MaaAssistantArknights";
+        //    const string branche_base = "master";
 
-            // cdn接口地址组
-            // new string[]
-            // {
-            //      下载域名地址,
-            //      连接地址的参数格式: {0}是文件路径, {1}是 sha 值
-            // }
-            var down_base_url = new List<string[]>() {
-                 new string[]{$"https://cdn.jsdelivr.net/gh/{repositorie_base}@" , "{1}/{0}" },
-                 new string[]{$"https://pd.zwc365.com/seturl/https://raw.githubusercontent.com/{repositorie_base}/{branche_base}/" , "{0}?{1}" },
-                 new string[]{$"https://cdn.staticaly.com/gh/{repositorie_base}/{branche_base}/" , "{0}?{1}" },
-                 new string[]{$"https://ghproxy.fsou.cc/https://github.com/{repositorie_base}/blob/{branche_base}/" , "{0}?{1}" },
-            };
+        //    // cdn接口地址组
+        //    // new string[]
+        //    // {
+        //    //      下载域名地址,
+        //    //      连接地址的参数格式: {0}是文件路径, {1}是 sha 值
+        //    // }
+        //    var down_base_url = new List<string[]>() {
+        //         new string[]{$"https://cdn.jsdelivr.net/gh/{repositorie_base}@" , "{1}/{0}" },
+        //         new string[]{$"https://pd.zwc365.com/seturl/https://raw.githubusercontent.com/{repositorie_base}/{branche_base}/" , "{0}?{1}" },
+        //         new string[]{$"https://cdn.staticaly.com/gh/{repositorie_base}/{branche_base}/" , "{0}?{1}" },
+        //         new string[]{$"https://ghproxy.fsou.cc/https://github.com/{repositorie_base}/blob/{branche_base}/" , "{0}?{1}" },
+        //    };
 
-            // 资源文件在仓库中的路径，与实际打包后的路径并不相同，需要使用dict
-            var update_dict = new Dictionary<string, string>()
-            {
-                { "resource/stages.json" , "resource/stages.json"},
-                { "resource/recruit.json", "resource/recruit.json" },
-                { "3rdparty/resource/Arknights-Tile-Pos/levels.json" , "resource/Arknights-Tile-Pos/levels.json"},
-                { "resource/item_index.json", "resource/item_index.json" }
-            };
+        //    // 资源文件在仓库中的路径，与实际打包后的路径并不相同，需要使用dict
+        //    var update_dict = new Dictionary<string, string>()
+        //    {
+        //        { "resource/stages.json" , "resource/stages.json"},
+        //        { "resource/recruit.json", "resource/recruit.json" },
+        //        { "3rdparty/resource/Arknights-Tile-Pos/levels.json" , "resource/Arknights-Tile-Pos/levels.json"},
+        //        { "resource/item_index.json", "resource/item_index.json" }
+        //    };
 
-            bool updated = false;
-            string message = string.Empty;
+        //    bool updated = false;
+        //    string message = string.Empty;
 
-            foreach (var item in update_dict)
-            {
-                string url = item.Key;
-                string filename = item.Value;
+        //    foreach (var item in update_dict)
+        //    {
+        //        string url = item.Key;
+        //        string filename = item.Value;
 
-                string cur_sha = ViewStatusStorage.Get(filename, string.Empty);
+        //        string cur_sha = ViewStatusStorage.Get(filename, string.Empty);
 
-                string response = RequestApi(req_base_url + url);
-                if (string.IsNullOrWhiteSpace(response))
-                {
-                    continue;
-                }
-                string cloud_sha;
-                string cur_message = string.Empty;
-                try
-                {
-                    JArray arr = (JArray)JsonConvert.DeserializeObject(response);
-                    JObject commit_info = (JObject)arr[0];
-                    cloud_sha = commit_info["sha"].ToString();
-                    cur_message = commit_info["commit"]["message"].ToString();
-                }
-                catch (Exception)
-                {
-                    continue;
-                }
+        //        string response = RequestApi(req_base_url + url);
+        //        if (string.IsNullOrWhiteSpace(response))
+        //        {
+        //            continue;
+        //        }
+        //        string cloud_sha;
+        //        string cur_message = string.Empty;
+        //        try
+        //        {
+        //            JArray arr = (JArray)JsonConvert.DeserializeObject(response);
+        //            JObject commit_info = (JObject)arr[0];
+        //            cloud_sha = commit_info["sha"].ToString();
+        //            cur_message = commit_info["commit"]["message"].ToString();
+        //        }
+        //        catch (Exception)
+        //        {
+        //            continue;
+        //        }
 
-                if (cur_sha == cloud_sha)
-                {
-                    continue;
-                }
+        //        if (cur_sha == cloud_sha)
+        //        {
+        //            continue;
+        //        }
 
-                bool downloaded = false;
-                string tempname = filename + ".tmp";
-                foreach (var down_item in down_base_url)
-                {
-                    var download_url = down_item[0];
-                    var download_args_format = down_item[1];
+        //        bool downloaded = false;
+        //        string tempname = filename + ".tmp";
+        //        foreach (var down_item in down_base_url)
+        //        {
+        //            var download_url = down_item[0];
+        //            var download_args_format = down_item[1];
 
-                    download_url += string.Format(download_args_format, url, cloud_sha);
-                    if (DownloadFile(download_url, tempname, downloader: "NATIVE"))
-                    {
-                        downloaded = true;
-                        break;
-                    }
-                }
+        //            download_url += string.Format(download_args_format, url, cloud_sha);
+        //            if (DownloadFile(download_url, tempname, downloader: "NATIVE"))
+        //            {
+        //                downloaded = true;
+        //                break;
+        //            }
+        //        }
 
-                if (!downloaded)
-                {
-                    continue;
-                }
+        //        if (!downloaded)
+        //        {
+        //            continue;
+        //        }
 
-                string tmp = File.ReadAllText(tempname).Replace("\r\n", "\n");
+        //        string tmp = File.ReadAllText(tempname).Replace("\r\n", "\n");
 
-                try
-                {
-                    JsonConvert.DeserializeObject(tmp);
-                }
-                catch (Exception)
-                {
-                    continue;
-                }
+        //        try
+        //        {
+        //            JsonConvert.DeserializeObject(tmp);
+        //        }
+        //        catch (Exception)
+        //        {
+        //            continue;
+        //        }
 
-                string src = File.ReadAllText(filename).Replace("\r\n", "\n");
-                if (src.Length != tmp.Length)
-                {
-                    File.Copy(tempname, filename, true);
-                    updated = true;
-                    message += cur_message + "\n";
-                }
-                // 保存最新的 sha 到配置文件
-                ViewStatusStorage.Set(filename, cloud_sha);
-                File.Delete(tempname);
-            }
+        //        string src = File.ReadAllText(filename).Replace("\r\n", "\n");
+        //        if (src.Length != tmp.Length)
+        //        {
+        //            File.Copy(tempname, filename, true);
+        //            updated = true;
+        //            message += cur_message + "\n";
+        //        }
+        //        // 保存最新的 sha 到配置文件
+        //        ViewStatusStorage.Set(filename, cloud_sha);
+        //        File.Delete(tempname);
+        //    }
 
-            if (!updated)
-            {
-                return false;
-            }
+        //    if (!updated)
+        //    {
+        //        return false;
+        //    }
 
-            Execute.OnUIThread(() =>
-            {
-                using (var toast = new ToastNotification("资源已更新"))
-                {
-                    toast.AppendContentText("重启软件生效！")
-                        .AppendContentText(message)
-                        .ShowUpdateVersion();
-                }
-            });
+        //    Execute.OnUIThread(() =>
+        //    {
+        //        using (var toast = new ToastNotification("资源已更新"))
+        //        {
+        //            toast.AppendContentText("重启软件生效！")
+        //                .AppendContentText(message)
+        //                .ShowUpdateVersion();
+        //        }
+        //    });
 
-            return true;
-        }
+        //    return true;
+        //}
 
         private static void CopyFilesRecursively(string sourcePath, string targetPath)
         {

@@ -82,7 +82,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 外服支持
 
-- 美服  
+- 国际服（美服）  
   支持基本的刷理智、公招识别功能，请参考 [说明](resource/global/YoStarEN/readme.md)
 - 其他服  
   计划适配中……
@@ -105,7 +105,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 地图格子识别：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
 - C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)
-- C++ base64编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)
+- ~~C++ base64编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ 解压压缩库：[zlib](https://github.com/madler/zlib)
 - C++ Gzip封装：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
@@ -149,7 +149,7 @@ MAA 的意思是 MAA Assistant Arknights
 - [任务流程协议](docs/任务流程协议.md)
 - [自动抄作业协议](docs/战斗流程协议.md)
 
-### 对连 Git 都不熟悉的超级萌新，请看
+### Github PR 流程简述
 
 [写给萌新的发电全流程](docs/写给萌新的发电全流程.md)
 

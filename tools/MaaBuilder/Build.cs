@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.FileSystemGlobbing;
 using Nuke.Common;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
@@ -10,6 +11,7 @@ using Nuke.Common.Tools.MSBuild;
 using Octokit;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -47,6 +49,7 @@ public partial class Build : NukeBuild
 
     const string MaaDevBundlePackageNameTemplate = "MaaBundle-Dev-{VERSION}";
     const string MaaLegacyBundlePackageNameTemplate = "MeoAssistantArknights_{VERSION}";
+    const string MaaLegacyBundleOtaPackageNameTemplate = "MeoAssistantArknights_OTA_{VERSION}";
     const string MaaCorePackageNameTemplate = "MaaCore-{VERSION}";
     const string MaaResourcePackageNameTemplate = "MaaResource-{VERSION}";
 
@@ -55,8 +58,11 @@ public partial class Build : NukeBuild
 
     private string MaaDevBundlePackageName => MaaDevBundlePackageNameTemplate.Replace("{VERSION}", _version);
     private string MaaLegacyBundlePackageName => MaaLegacyBundlePackageNameTemplate.Replace("{VERSION}", _version);
+    private string MaaLegacyBundleOtaPackageName => MaaLegacyBundleOtaPackageNameTemplate.Replace("{VERSION}", _version);
     private string MaaCorePackageName => MaaCorePackageNameTemplate.Replace("{VERSION}", _version);
     private string MaaResourcePackageName => MaaResourcePackageNameTemplate.Replace("{VERSION}", _version);
+
+    private string _latestTag = null;
 
     protected override void OnBuildInitialized()
     {
@@ -69,7 +75,6 @@ public partial class Build : NukeBuild
         Information($"MSBuild 路径：{Parameters.MsBuildPath ?? "Null"}");
 
         Information("2. 仓库");
-        Information($"Fork：{Parameters.IsFork}");
         Information($"主仓库：{Parameters.MainRepo ?? "Null"}");
         Information($"MaaResource 发布仓库：{Parameters.MaaResourceReleaseRepo ?? "Null"}");
         Information($"主分支：{Parameters.MasterBranchRef ?? "Null"}");
@@ -122,6 +127,12 @@ public partial class Build : NukeBuild
         {
             FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.Release);
         });
+
+    Target UseCleanReleaseOta => _ => _
+        .Executes(() =>
+        {
+            FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / $"{BuildConfiguration.Release}_OTA");
+        });
     
     #endregion
 
@@ -162,6 +173,13 @@ public partial class Build : NukeBuild
 
                 Assert.True(Parameters.GhTag is not null, "在 GitHub Actions 中运行，但是不存在 Tag");
 
+                GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
+                {
+                    Credentials = new Credentials(Parameters.GitHubPersonalAccessToken)
+                };
+
+                _latestTag = Parameters.IsPreRelease ? GetLatestTag() : GetLatestReleaseTag();
+                
                 _version = Parameters.GhTag;
             }
         });
@@ -252,6 +270,27 @@ public partial class Build : NukeBuild
             BundlePackage(releaseBuildOutput, MaaLegacyBundlePackageName);
         });
 
+    Target UseMaaLegacyBundleOta => _ => _
+        .After(UseMaaLegacyBundle)
+        .DependsOn(UseCleanArtifact, WithCompileCoreRelease, WithCompileWpfRelease, UseCleanReleaseOta)
+        .Triggers(SetPackageBundled)
+        .Executes(() =>
+        {
+            var releaseBuildOutput = Parameters.BuildOutput / BuildConfiguration.Release;
+            var otaPackageOutput = Parameters.BuildOutput / $"{BuildConfiguration.Release}_OTA";
+
+            FileSystemTasks.CopyDirectoryRecursively(releaseBuildOutput, otaPackageOutput,
+                DirectoryExistsPolicy.Merge, FileExistsPolicy.Overwrite);
+
+            var ignoreFile = RootDirectory / ".maabundlerignore";
+            if (ignoreFile.FileExists())
+            {
+                RemoveIgnoreFiles(otaPackageOutput, ignoreFile);
+            }
+
+            BundlePackage(otaPackageOutput, MaaLegacyBundleOtaPackageName);
+        });
+
     Target UseMaaCore => _ => _
         .DependsOn(UseCleanArtifact, WithCompileCoreRelease)
         .Triggers(SetPackageBundled)
@@ -276,6 +315,7 @@ public partial class Build : NukeBuild
         });
 
     Target SetPackageBundled => _ => _
+        .After(UseMaaDevBundle, UseMaaLegacyBundle, UseMaaLegacyBundleOta, UseMaaCore, UseMaaResource)
         .Executes(() =>
         {
             Information("已完成打包");
@@ -292,6 +332,7 @@ public partial class Build : NukeBuild
 
     Target UseMaaChangeLog => _ => _
         .Triggers(SetMaaChangeLog)
+        .After(UseTagVersion)
         .Executes(() =>
         {
             if (File.Exists(Parameters.MaaChangelogFile))
@@ -304,7 +345,15 @@ public partial class Build : NukeBuild
             {
                 Warning($"未发现 {Parameters.MaaChangelogFile} 文件，将使用默认值");
             }
-            _changeLog += $"\n\n对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})";
+            
+            if (_latestTag is null)
+            {
+                _changeLog += $"\n\n对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})";
+            }
+            else
+            {
+                _changeLog += $"\n\n**Full Changelog**: [{_latestTag} -> {Parameters.GhTag}](https://github.com/{Parameters.MainRepo}/compare/{_latestTag}...{Parameters.GhTag})";
+            }
         });
 
     Target UseMaaResourceChangeLog => _ => _
@@ -353,10 +402,13 @@ public partial class Build : NukeBuild
                 return;
             }
 
-            GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
+            if (GitHubTasks.GitHubClient is null)
             {
-                Credentials = new Credentials(Parameters.GitHubPersonalAccessToken)
-            };
+                GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
+                {
+                    Credentials = new Credentials(Parameters.GitHubPersonalAccessToken)
+                };
+            }
 
             if (Parameters.GhActionName == ActionConfiguration.ReleaseMaa)
             {
@@ -405,6 +457,7 @@ public partial class Build : NukeBuild
     Target ReleaseMaa => _ => _
         .DependsOn(UseTagVersion)
         .DependsOn(UseMaaLegacyBundle)
+        .DependsOn(UseMaaLegacyBundleOta)
         .DependsOn(UseMaaChangeLog)
         .DependsOn(UsePublishArtifact)
         .DependsOn(UsePublishRelease);
@@ -448,6 +501,38 @@ public partial class Build : NukeBuild
 
     #region Utilities
 
+    private void RemoveIgnoreFiles(AbsolutePath baseDirectory, AbsolutePath ignoreFile)
+    {
+        var ignoreFileLines = File.ReadAllLines(ignoreFile);
+        var ignorePattern = new List<string>();
+        var keepPattern = new List<string>();
+        foreach (var line in ignoreFileLines)
+        {
+            if (line.StartsWith("#"))
+            {
+                continue;
+            }
+            if (line.StartsWith("!"))
+            {
+                keepPattern.Add(line.Substring(1));
+            }
+            else
+            {
+                ignorePattern.Add(line);
+            }
+        }
+
+        var match = new Matcher();
+        // 这里反过来可以获取到需要排除的文件列表，而不是需要保留的文件列表
+        match.AddExcludePatterns(keepPattern);
+        match.AddIncludePatterns(ignorePattern);
+        var ignoredFiles = match.GetResultsInFullPath(baseDirectory);
+        foreach (var f in ignoredFiles)
+        {
+            FileSystemTasks.DeleteFile(f);
+        }
+    }
+    
     private void BundlePackage(AbsolutePath input, string bundleName)
     {
         var packName = bundleName;
@@ -473,7 +558,6 @@ public partial class Build : NukeBuild
         foreach (var file in files)
         {
             FileSystemTasks.DeleteFile(file);
-            Information($"删除文件：{file}");
         }
     }
     private void RemoveReleaseResource(AbsolutePath outputDir)
@@ -544,6 +628,33 @@ public partial class Build : NukeBuild
         }
 
         Information($"上传文件 {asset} 到 GitHub 成功");
+    }
+    
+    private string GetLatestTag()
+    {
+        var releases = GitHubTasks.GitHubClient.Repository.Release
+            .GetAll(Parameters.MainRepo.Split('/')[0], 
+                    Parameters.MainRepo.Split('/')[1],
+                    new ApiOptions { PageCount = 5 })
+            .GetAwaiter().GetResult();
+
+        Assert.True(releases.Count > 0, "获取最新发布版本失败");
+
+        var latestRelease = releases[0];
+
+        Assert.True(latestRelease is not null, "获取最新发布版本失败");
+        Assert.True(latestRelease.TagName is not null, "获取最新发布版本 TagName 失败");
+        return latestRelease.TagName;
+    }
+
+    private string GetLatestReleaseTag()
+    {
+        var latestRelease = GitHubTasks.GitHubClient.Repository.Release
+            .GetLatest(Parameters.MainRepo.Split('/')[0], Parameters.MainRepo.Split('/')[1])
+            .GetAwaiter().GetResult();
+        Assert.True(latestRelease is not null, "获取最新发布版本失败");
+        Assert.True(latestRelease.TagName is not null, "获取最新发布版本 TagName 失败");
+        return latestRelease.TagName;
     }
 
     #endregion

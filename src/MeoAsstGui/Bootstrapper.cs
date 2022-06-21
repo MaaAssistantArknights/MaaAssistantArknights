@@ -9,11 +9,12 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Stylet;
 using StyletIoC;
-using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MeoAsstGui
 {
@@ -38,8 +39,14 @@ namespace MeoAsstGui
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
+
             //关闭程序时清理操作中心中的通知
-            ToastNotificationManagerCompat.History.Clear();
+            var os = RuntimeInformation.OSDescription.ToString();
+            if (os.ToString().CompareTo("Microsoft Windows 10.0.10240") >= 0)
+            {
+                ToastNotificationManagerCompat.History.Clear();
+            }
+
             ViewStatusStorage.Save();
         }
 
