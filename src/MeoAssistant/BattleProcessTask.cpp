@@ -874,9 +874,11 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
     }
 
     // dance!!
-    dancing_links_model.dance(0);
+    bool has_solution = dancing_links_model.dance(0);
 
     // 判定结果
+    if (!has_solution) return std::nullopt;
+    
     std::unordered_map<GroupNameType, CharNameType> return_value;
 
     for (size_t i = 0; i < dancing_links_model.answer_stack_size; i++) {
@@ -884,7 +886,6 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
         return_value.insert(node_id_mapping[dancing_links_model.answer_stack[i] - 1]);
     }
 
-    if (return_value.empty()) return std::nullopt;
     return return_value;
 }
 
