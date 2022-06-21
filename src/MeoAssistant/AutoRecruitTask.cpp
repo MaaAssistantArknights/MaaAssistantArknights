@@ -158,7 +158,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
         }
         // 如果时间没调整过，那 tag 十有八九也没选，重新试一次
         // 造成时间没调的原因可见： https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
-        if (check_time_unreduced()) {
+        if (!check_time_reduced()) {
             Log.trace("unreduced recruit check time detected, rerunning recruit task");
             continue;
         }
@@ -180,10 +180,18 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     }
     return true;
 }
+
 bool asst::AutoRecruitTask::check_time_unreduced()
 {
     ProcessTask task(*this, { "RecruitCheckTimeUnreduced" });
     task.set_retry_times(1);
+    return task.run();
+}
+
+bool asst::AutoRecruitTask::check_time_reduced()
+{
+    ProcessTask task(*this, { "RecruitCheckTimeReduced" });
+    task.set_retry_times(2);
     return task.run();
 }
 

@@ -26,6 +26,7 @@ namespace asst
         bool calc_and_recruit();
         bool check_recruit_home_page();
         bool check_time_unreduced();
+        bool check_time_reduced();
         bool recruit_now();
         bool confirm();
         bool refresh();
