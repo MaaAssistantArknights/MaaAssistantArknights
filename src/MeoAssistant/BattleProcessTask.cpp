@@ -878,7 +878,7 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
 
     // 判定结果
     if (!has_solution) return std::nullopt;
-    
+
     std::unordered_map<GroupNameType, CharNameType> return_value;
 
     for (size_t i = 0; i < dancing_links_model.answer_stack_size; i++) {
