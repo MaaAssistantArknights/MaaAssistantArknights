@@ -126,7 +126,6 @@ namespace MeoAsstGui
             var mainModel = _container.Get<TaskQueueViewModel>();
             mainModel.Idle = true;
             var settingsModel = _container.Get<SettingsViewModel>();
-
             Execute.OnUIThread(async () =>
             {
                 var task = Task.Run(() =>
@@ -709,7 +708,7 @@ namespace MeoAsstGui
             }
         }
 
-        public bool AsstConnect(ref string error)
+        public bool AsstConnect(ref string error, bool firsttry = false)
         {
             if (!LoadGlobalResource())
             {
@@ -750,7 +749,9 @@ namespace MeoAsstGui
             }
             if (!ret)
             {
-                error = "连接失败\n请检查连接设置";
+                if (firsttry)
+                    error = "连接失败\n正在尝试启动模拟器";
+                else error = "连接失败\n请检查连接设置";
             }
             return ret;
         }
