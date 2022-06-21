@@ -25,7 +25,7 @@ AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg, std::strin
 bool asst::AbstractTask::run()
 {
     if (!m_enable) {
-        Log.info("task is disable, pass", basic_info().to_string());
+        Log.info("task disabled, pass", basic_info().to_string());
         return true;
     }
     callback(AsstMsg::SubTaskStart, basic_info());
@@ -170,12 +170,12 @@ bool AbstractTask::save_image(const cv::Mat& image, const std::string& dir)
 
 bool asst::AbstractTask::need_exit() const
 {
-    return m_exit_flag != nullptr && *m_exit_flag == true;
+    return m_exit_flag != nullptr && *m_exit_flag;
 }
 
 void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
 {
-    for (TaskPluginPtr plugin : m_plugins) {
+    for (const TaskPluginPtr& plugin : m_plugins) {
         plugin->set_exit_flag(m_exit_flag);
         plugin->set_ctrler(m_ctrler);
         plugin->set_task_id(m_task_id);

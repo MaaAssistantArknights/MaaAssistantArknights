@@ -40,5 +40,4 @@ bool asst::AbstractConfiger::load(const std::string& filename)
         m_last_error = std::string("json field error ") + e.what();
         return false;
     }
-    return true;
 }

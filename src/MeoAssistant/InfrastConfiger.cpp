@@ -10,7 +10,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
 
     for (const json::value& facility : json.at("facility").as_array()) {
         std::string facility_name = facility.as_string();
-        json::value facility_json = json.at(facility_name);
+        const json::value& facility_json = json.at(facility_name);
 
         std::vector<std::string> products;
         for (const json::value& product_json : facility_json.at("products").as_array()) {
