@@ -5,6 +5,7 @@
 #include <iostream>
 #include <mutex>
 #include <type_traits>
+#include <utility>
 #include <vector>
 #include <thread>
 
@@ -143,7 +144,7 @@ namespace asst
 #else   // ! _WIN32
             sprintf(buff, "[%s][%s][Px%x][Tx%x]",
                       asst::utils::get_format_time().c_str(),
-                      level.data(), getpid(), std::this_thread::get_id()
+                      level.data(), getpid(), unsigned (std::hash<std::thread::id>{}(std::this_thread::get_id()))
             );
 #endif  // END _WIN32
 
@@ -202,8 +203,8 @@ namespace asst
     class LoggerAux
     {
     public:
-        LoggerAux(const std::string& func_name)
-            : m_func_name(func_name),
+        LoggerAux(std::string func_name)
+            : m_func_name(std::move(func_name)),
             m_start_time(std::chrono::steady_clock::now())
         {
             Logger::get_instance().trace(m_func_name, " | enter");

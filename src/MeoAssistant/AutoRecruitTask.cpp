@@ -121,45 +121,56 @@ bool asst::AutoRecruitTask::recruit_index(size_t index)
 bool asst::AutoRecruitTask::calc_and_recruit()
 {
     LogTraceFunction;
-    RecruitCalcTask recruit_task(m_callback, m_callback_arg, m_task_chain);
-    recruit_task.set_param(m_select_level, true, m_skip_robot)
-        .set_retry_times(m_retry_times)
-        .set_exit_flag(m_exit_flag)
-        .set_ctrler(m_ctrler)
-        .set_status(m_status)
-        .set_task_id(m_task_id);
 
-    // 识别错误，放弃这个公招位，直接返回
-    if (!recruit_task.run()) {
-        callback(AsstMsg::SubTaskError, basic_info());
-        click_return_button();
-        return true;
-    }
+    int maybe_level;
+    bool has_robot_tag;
 
-    int maybe_level = recruit_task.get_maybe_level();
-    if (need_exit()) {
-        return false;
-    }
-    // 尝试刷新
-    if (m_need_refresh && maybe_level == 3
-        && !recruit_task.get_has_special_tag()
-        && recruit_task.get_has_refresh()
-        && !(m_skip_robot && recruit_task.get_has_robot_tag())) {
-        if (refresh()) {
-            return calc_and_recruit();
+    while (true) {
+        RecruitCalcTask recruit_task(m_callback, m_callback_arg, m_task_chain);
+        recruit_task.set_param(m_select_level, true, m_skip_robot)
+                .set_retry_times(m_retry_times)
+                .set_exit_flag(m_exit_flag)
+                .set_ctrler(m_ctrler)
+                .set_status(m_status)
+                .set_task_id(m_task_id);
+
+        // 识别错误，放弃这个公招位，直接返回
+        if (!recruit_task.run()) {
+            callback(AsstMsg::SubTaskError, basic_info());
+            click_return_button();
+            return true;
         }
-    }
-    // 如果时间没调整过，那 tag 十有八九也没选，重新试一次
-    // 造成时间没调的原因可见： https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
-    if (check_time_unreduced()) {
-        return calc_and_recruit();
+
+        has_robot_tag = recruit_task.get_has_robot_tag();
+        maybe_level = recruit_task.get_maybe_level();
+        if (need_exit()) {
+            return false;
+        }
+        // 尝试刷新
+        if (m_need_refresh && maybe_level == 3
+            && !recruit_task.get_has_special_tag()
+            && recruit_task.get_has_refresh()
+            && !(m_skip_robot && has_robot_tag)) {
+            if (refresh()) {
+                Log.trace("recruit tags refreshed, rerunning recruit task");
+                continue;
+            }
+        }
+        // 如果时间没调整过，那 tag 十有八九也没选，重新试一次
+        // 造成时间没调的原因可见： https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
+        if (check_time_unreduced()) {
+            Log.trace("unreduced recruit check time detected, rerunning recruit task");
+            continue;
+        }
+
+        break;
     }
 
     if (need_exit()) {
         return false;
     }
 
-    if (!(m_skip_robot && recruit_task.get_has_robot_tag()) && std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
+    if (!(m_skip_robot && has_robot_tag) && std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
         if (!confirm()) {
             return false;
         }
