@@ -232,11 +232,12 @@ namespace MeoAsstGui
             }
         }
 
-        public void TryToStartEmulator()
+        public void TryToStartEmulator(bool manual = false)
         {
-            if (!StartEmulator
-                || EmulatorPath.Length == 0
+            if ((EmulatorPath.Length == 0
                 || !File.Exists(EmulatorPath))
+                || !(StartEmulator
+                || manual))
             {
                 return;
             }
