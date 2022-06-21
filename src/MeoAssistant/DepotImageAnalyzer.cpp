@@ -117,7 +117,7 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
         ItemInfo info;
         size_t cur_pos = match_item(roi, info, m_match_begin_pos);
         if (cur_pos == NPos) {
-            return false;
+            break;
         }
 
         m_match_begin_pos = cur_pos + 1;
@@ -125,7 +125,7 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
         info.item_name = res_item.get_item_name(info.item_id);
 #ifdef ASST_DEBUG
         cv::putText(m_image_draw_resized, info.item_id, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
-        cv::putText(m_image_draw_resized, std::to_string(info.quantity), cv::Point(roi.x, roi.y + 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
+        cv::putText(m_image_draw_resized, std::to_string(info.quantity), cv::Point(roi.x, roi.y + 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
 #endif
         if (info.item_id.empty() || info.quantity == 0) {
             Log.error(__FUNCTION__, info.item_id, info.item_name, " quantity is zero");
