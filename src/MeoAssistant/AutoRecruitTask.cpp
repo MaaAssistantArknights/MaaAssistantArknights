@@ -125,7 +125,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     int maybe_level;
     bool has_robot_tag;
 
-    while (true) {
+    for (int refresh_count = 0; refresh_count <= 3; ) {
         RecruitCalcTask recruit_task(m_callback, m_callback_arg, m_task_chain);
         recruit_task.set_param(m_select_level, true, m_skip_robot)
                 .set_retry_times(m_retry_times)
@@ -152,14 +152,15 @@ bool asst::AutoRecruitTask::calc_and_recruit()
             && recruit_task.get_has_refresh()
             && !(m_skip_robot && has_robot_tag)) {
             if (refresh()) {
-                Log.trace("recruit tags refreshed, rerunning recruit task");
+                // TODO: Add callback
+                Log.trace("recruit tags refreshed for the " + std::to_string(++refresh_count) + "-th time, rerunning recruit task");
                 continue;
             }
         }
         // 如果时间没调整过，那 tag 十有八九也没选，重新试一次
         // 造成时间没调的原因可见： https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
         if (!check_time_reduced()) {
-            Log.trace("unreduced recruit check time detected, rerunning recruit task");
+            Log.warn("unreduced recruit check time detected, rerunning recruit task");
             continue;
         }
 
