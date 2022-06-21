@@ -125,7 +125,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     int maybe_level;
     bool has_robot_tag;
 
-    for (int refresh_count = 0; refresh_count <= 3; ) {
+    for (int refresh_count = 0; ; ) {
         RecruitCalcTask recruit_task(m_callback, m_callback_arg, m_task_chain);
         recruit_task.set_param(m_select_level, true, m_skip_robot)
                 .set_retry_times(m_retry_times)
@@ -153,8 +153,17 @@ bool asst::AutoRecruitTask::calc_and_recruit()
             && !(m_skip_robot && has_robot_tag)) {
             if (refresh()) {
                 // TODO: Add callback
-                Log.trace("recruit tags refreshed for the " + std::to_string(++refresh_count) + "-th time, rerunning recruit task");
-                continue;
+                if(++refresh_count > 3) {
+                    // 按理来说不会到这里，因为超过三次刷新的时候上面的 recruit_task.get_has_refresh() 应该是 false
+                    // 报个错，返回
+                    callback(AsstMsg::SubTaskError, basic_info());
+                    click_return_button();
+                    return true;
+                }
+                else {
+                    Log.trace("recruit tags refreshed for the " + std::to_string(refresh_count) + "-th time, rerunning recruit task");
+                    continue;
+                }
             }
         }
         // 如果时间没调整过，那 tag 十有八九也没选，重新试一次
