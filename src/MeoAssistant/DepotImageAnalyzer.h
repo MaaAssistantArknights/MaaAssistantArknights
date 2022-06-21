@@ -35,6 +35,7 @@ namespace asst
         bool check_roi_empty(const Rect& roi);
         size_t match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index = 0ULL, bool with_enlarge = true);
         int match_quantity(const Rect& roi);
+        Rect resize_rect_to_raw_size(const Rect& rect);
 
         size_t m_match_begin_pos = 0ULL;
         Rect m_resized_rect;
