@@ -642,8 +642,11 @@ void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
     Log.trace("end of sleep_with_possible_skill", millisecond);
 }
 
-std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessTask::get_char_allocation_for_each_group(
-    const std::unordered_map<std::string, std::vector<std::string>>& group_list, const std::vector<std::string>& char_list)
+template <typename GroupNameType, typename CharNameType>
+std::optional<std::unordered_map<GroupNameType, CharNameType>>
+asst::BattleProcessTask::get_char_allocation_for_each_group(
+    const std::unordered_map<GroupNameType, std::vector<CharNameType>>& group_list,
+    const std::vector<CharNameType>& char_list)
 {
     /*
      * * dlx 算法简介
@@ -831,20 +834,20 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
     };
 
     // 建立结点、组、干员与各自 id 的映射关系
-    std::vector<std::pair<std::string, std::string>> node_id_mapping;
-    std::vector<std::string> group_id_mapping;
-    std::vector<std::string> char_id_mapping;
-    std::unordered_map<std::string, size_t> group_name_mapping;
-    std::unordered_map<std::string, size_t> char_name_mapping;
-    std::set<std::string> char_set(char_list.begin(), char_list.end());
+    std::vector<std::pair<GroupNameType, CharNameType>> node_id_mapping;
+    std::vector<GroupNameType> group_id_mapping;
+    std::vector<CharNameType> char_id_mapping;
+    std::unordered_map<GroupNameType, size_t> group_name_mapping;
+    std::unordered_map<CharNameType, size_t> char_name_mapping;
+    std::set<CharNameType> char_set(char_list.begin(), char_list.end());
 
     for (auto &i: group_list) {
         group_name_mapping[i.first] = group_id_mapping.size();
         group_id_mapping.emplace_back(i.first);
         for (auto &j: i.second) {
-            if (char_set.find(j) != char_set.end()) {
+            if (char_set.contains(j)) {
                 node_id_mapping.emplace_back(i.first, j);
-                if (char_name_mapping.find(j) == char_name_mapping.end()) {
+                if (!char_name_mapping.contains(j)) {
                     char_name_mapping[j] = char_id_mapping.size();
                     char_id_mapping.emplace_back(j);
                 }
@@ -853,9 +856,9 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
     }
 
     // 建 01 矩阵
-    size_t node_num = node_id_mapping.size();
-    size_t group_num = group_id_mapping.size();
-    size_t char_num = char_id_mapping.size();
+    const size_t node_num = node_id_mapping.size();
+    const size_t group_num = group_id_mapping.size();
+    const size_t char_num = char_id_mapping.size();
 
     DancingLinksModel dancing_links_model(2 * node_num + group_num + 2 * char_num + 1, group_num + char_num);
 
@@ -874,7 +877,7 @@ std::optional<std::unordered_map<std::string, std::string>> asst::BattleProcessT
     dancing_links_model.dance(0);
 
     // 判定结果
-    std::unordered_map<std::string, std::string> return_value;
+    std::unordered_map<GroupNameType, CharNameType> return_value;
 
     for (size_t i = 0; i < dancing_links_model.answer_stack_size; i++) {
         if (dancing_links_model.answer_stack[i] > node_num) break;
