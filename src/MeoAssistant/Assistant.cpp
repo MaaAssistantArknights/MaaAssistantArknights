@@ -113,7 +113,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
         ptr = std::make_shared<CopilotTask>(task_callback, static_cast<void*>(this));
     }
     else if (type == DepotTask::TaskType) {
-        ptr = std::make_shared<DepotTask>(task_callback, static_cast<void*>(this), DepotTask::TaskType);
+        ptr = std::make_shared<DepotTask>(task_callback, static_cast<void*>(this));
     }
 #ifdef ASST_DEBUG
     else if (type == DebugTask::TaskType) {

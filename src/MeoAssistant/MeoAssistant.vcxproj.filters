@@ -342,6 +342,9 @@
     <ClInclude Include="DepotImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Final</Filter>
     </ClInclude>
+    <ClInclude Include="DepotRecognitionTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
     <ClInclude Include="DepotTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
@@ -583,6 +586,9 @@
     </ClCompile>
     <ClCompile Include="DepotImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\Final</Filter>
+    </ClCompile>
+    <ClCompile Include="DepotRecognitionTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
     <ClCompile Include="DepotTask.cpp">
       <Filter>源文件\Task</Filter>
