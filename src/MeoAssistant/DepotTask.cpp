@@ -8,6 +8,7 @@
 #include "Controller.h"
 #include "TaskData.h"
 #include "DepotImageAnalyzer.h"
+#include "Resource.h"
 
 bool asst::DepotTask::run()
 {
@@ -37,27 +38,27 @@ bool asst::DepotTask::run()
         future.wait();
     }
 
+    auto& templ = Resrc.cfg().get_options().depot_export_template;
     json::value info = basic_info_with_what("DepotInfo");
+    auto& details = info["details"];
 
-    // TODO: move it to config file
-    auto arkplanner_template_opt = json::parse(R"(
-{
-    "@type": "@penguin-statistics/depot",
-    "items": []
-}
-)");
-    auto& arkplanner_data = info["details"]["data"]["arkplanner"];
-    arkplanner_data = arkplanner_template_opt.value_or(json::value());
-    auto& arkplanner_data_imtes = arkplanner_data["items"];
+    auto arkplanner_template_opt = json::parse(templ.ark_planner);
+    if (arkplanner_template_opt) {
+        auto& arkplanner = details["arkplanner"];
+        auto& arkplanner_obj = arkplanner["object"];
+        arkplanner_obj = arkplanner_template_opt.value();
+        auto& arkplanner_data_items = arkplanner_obj["items"];
 
-    for (const auto& [item_id, item_info] : all_items) {
-        arkplanner_data_imtes.array_emplace(
-            json::object({
-                { "id", item_id },
-                { "have", item_info.quantity },
-                { "name", item_info.item_name }
-                })
-        );
+        for (const auto& [item_id, item_info] : all_items) {
+            arkplanner_data_items.array_emplace(
+                json::object({
+                    { "id", item_id },
+                    { "have", item_info.quantity },
+                    { "name", item_info.item_name }
+                    })
+            );
+        }
+        arkplanner["data"] = arkplanner_obj.to_string();
     }
     callback(AsstMsg::SubTaskExtraInfo, info);
 
