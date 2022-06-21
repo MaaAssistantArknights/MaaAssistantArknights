@@ -14,6 +14,7 @@ bool asst::DepotImageAnalyzer::analyze()
     m_all_items_roi.clear();
     m_result.clear();
 
+    // 因为模板素材的尺寸与实际截图中素材尺寸不符，所以这里先对原图进行一下缩放
     resize();
     bool ret = analyze_base_rect();
     if (!ret) {
@@ -119,19 +120,21 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
         if (cur_pos == NPos) {
             break;
         }
+        std::string item_id = info.item_id;
 
         m_match_begin_pos = cur_pos + 1;
         info.quantity = match_quantity(info.rect);
-        info.item_name = res_item.get_item_name(info.item_id);
+        info.item_name = res_item.get_item_name(item_id);
 #ifdef ASST_DEBUG
-        cv::putText(m_image_draw_resized, info.item_id, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+        cv::putText(m_image_draw_resized, item_id, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
         cv::putText(m_image_draw_resized, std::to_string(info.quantity), cv::Point(roi.x, roi.y + 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
 #endif
-        if (info.item_id.empty() || info.quantity == 0) {
-            Log.error(__FUNCTION__, info.item_id, info.item_name, " quantity is zero");
+        if (item_id.empty() || info.quantity == 0) {
+            Log.error(__FUNCTION__, item_id, info.item_name, " quantity is zero");
             continue;
         }
-        m_result.emplace(info.item_id, info);
+        info.rect = resize_rect_to_raw_size(info.rect);
+        m_result.emplace(std::move(item_id), std::move(info));
     }
     return !m_result.empty();
 }
@@ -285,4 +288,22 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
     int quantity = static_cast<int>(std::stod(digit_str) * multiple);
     Log.info("Quantity:", quantity);
     return quantity;
+}
+
+asst::Rect asst::DepotImageAnalyzer::resize_rect_to_raw_size(const asst::Rect& rect)
+{
+    LogTraceFunction;
+
+    m_resized_rect = Task.get("DeoptMatchData")->roi;
+
+    double kx = static_cast<double>(m_image.cols) / m_resized_rect.width;
+    double ky = static_cast<double>(m_image.rows) / m_resized_rect.height;
+
+    Rect raw_rect;
+    raw_rect.x = static_cast<int>(kx * rect.x);
+    raw_rect.y = static_cast<int>(ky * rect.y);
+    raw_rect.width = static_cast<int>(kx * rect.width);
+    raw_rect.height = static_cast<int>(ky * rect.height);
+
+    return raw_rect;
 }
