@@ -1,98 +1,16 @@
 #include "DepotTask.h"
 
-#include <future>
+#include "ProcessTask.h"
+#include "DepotRecognitionTask.h"
 
-#include <meojson/json.hpp>
-
-#include "Logger.hpp"
-#include "Controller.h"
-#include "TaskData.h"
-#include "DepotImageAnalyzer.h"
-#include "Resource.h"
-
-bool asst::DepotTask::run()
+asst::DepotTask::DepotTask(AsstCallback callback, void* callback_arg)
+    : PackageTask(std::move(callback), callback_arg, TaskType)
 {
-    LogTraceFunction;
+    auto enter_task = std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType);
+    enter_task->set_tasks({ "DepotBegin" });
+    m_subtasks.emplace_back(enter_task);
 
-    bool ret = swipe_and_analyze();
-    callback_analyze_result();
-
-    return ret;
-}
-
-bool asst::DepotTask::swipe_and_analyze()
-{
-    LogTraceFunction;
-    m_all_items.clear();
-
-    size_t pre_pos = 0ULL;
-    while (true) {
-        DepotImageAnalyzer analyzer(m_ctrler->get_image());
-
-        auto future = std::async(std::launch::async, [&]() {
-            this->swipe();
-        });
-
-        // 因为滑动不是完整的一页，有可能上一次识别过的物品，这次仍然在页面中
-        // 所以这个 begin pos 不能设置
-        //analyzer.set_match_begin_pos(pre_pos);
-        if (!analyzer.analyze()) {
-            break;
-        }
-        size_t cur_pos = analyzer.get_match_begin_pos();
-        if (cur_pos == pre_pos || cur_pos == DepotImageAnalyzer::NPos) {
-            break;
-        }
-        auto cur_result = analyzer.get_result();
-        m_all_items.merge(std::move(cur_result));
-
-        future.wait();
-
-        // 一页最少有 21 个材料（去掉左右两边不完整的）
-        if (cur_pos - pre_pos < 21) {
-            break;
-        }
-        pre_pos = cur_pos;
-    }
-    return m_all_items.empty();
-}
-
-void asst::DepotTask::callback_analyze_result()
-{
-    LogTraceFunction;
-
-    auto& templ = Resrc.cfg().get_options().depot_export_template;
-    json::value info = basic_info_with_what("DepotInfo");
-    auto& details = info["details"];
-
-    auto arkplanner_template_opt = json::parse(templ.ark_planner);
-    if (arkplanner_template_opt) {
-        auto& arkplanner = details["arkplanner"];
-        auto& arkplanner_obj = arkplanner["object"];
-        arkplanner_obj = arkplanner_template_opt.value();
-        auto& arkplanner_data_items = arkplanner_obj["items"];
-
-        for (const auto& [item_id, item_info] : m_all_items) {
-            arkplanner_data_items.array_emplace(
-                json::object({
-                    { "id", item_id },
-                    { "have", item_info.quantity },
-                    { "name", item_info.item_name }
-                    })
-            );
-        }
-        arkplanner["data"] = arkplanner_obj.to_string();
-    }
-    callback(AsstMsg::SubTaskExtraInfo, info);
-}
-
-void asst::DepotTask::swipe()
-{
-    LogTraceFunction;
-    static Rect right_rect = Task.get("DepotTaskSlowlySwipeRightRect")->specific_rect;
-    static Rect left_rect = Task.get("DepotTaskSlowlySwipeLeftRect")->specific_rect;
-    static int duration = Task.get("DepotTaskSlowlySwipeRightRect")->pre_delay;
-    static int extra_delay = Task.get("DepotTaskSlowlySwipeRightRect")->rear_delay;
-
-    m_ctrler->swipe(right_rect, left_rect, duration, true, extra_delay, true);
+    auto recognition_task = std::make_shared<DepotRecognitionTask>(m_callback, m_callback_arg, TaskType);
+    recognition_task->set_retry_times(0);
+    m_subtasks.emplace_back(recognition_task);
 }

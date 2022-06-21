@@ -6893,5 +6893,47 @@
             100,
             300
         ]
+    },
+    "DepotBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "DepotEnter",
+            "DepotMaterialTab",
+            "DepotMaterialTabClicked"
+        ]
+    },
+    "DepotEnter": {
+        "action": "ClickSelf",
+        "roi": [
+            1109,
+            560,
+            171,
+            160
+        ],
+        "next": [
+            "DepotMaterialTab"
+        ]
+    },
+    "DepotMaterialTab": {
+        "action": "ClickSelf",
+        "roi": [
+            1026,
+            0,
+            254,
+            138
+        ],
+        "next": [
+            "DepotMaterialTabClicked"
+        ]
+    },
+    "DepotMaterialTabClicked": {
+        "action": "DoNothing",
+        "roi": [
+            1026,
+            0,
+            254,
+            138
+        ]
     }
 }
