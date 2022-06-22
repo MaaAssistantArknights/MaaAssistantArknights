@@ -358,7 +358,7 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             asstProxy.AsstStop();
             AddLog("已停止");
-            Idle = true;
+            // Idle = true;
         }
 
         /// <summary>
