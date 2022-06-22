@@ -794,6 +794,14 @@ namespace MeoAsstGui
             return AsstAppendTaskWithEncoding("StartUp", task_params);
         }
 
+        public bool AsstAppendCloseDown(string client_type, bool enable)
+        {
+            var task_params = new JObject();
+            task_params["client_type"] = client_type;
+            task_params["stop_game_enable"] = enable;
+            return AsstAppendTaskWithEncoding("CloseDown", task_params);
+        }
+
         public bool AsstAppendVisit()
         {
             return AsstAppendTaskWithEncoding("Visit");

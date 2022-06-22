@@ -330,6 +330,12 @@
     <ClInclude Include="GameCrashRestartTaskPlugin.h">
       <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
+    <ClInclude Include="CloseDownTask.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StopGameTaskPlugin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -562,6 +568,12 @@
     </ClCompile>
     <ClCompile Include="GameCrashRestartTaskPlugin.cpp">
       <Filter>源文件\Task\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="CloseDownTask.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StopGameTaskPlugin.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

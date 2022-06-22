@@ -106,6 +106,7 @@ namespace MeoAsstGui
             AfterCompleteList = new List<CombData>
             {
                 new CombData{ Display="无动作",Value="" },
+                new CombData{ Display="关闭游戏",Value="stopgame" },
                 new CombData{ Display="退出",Value="exit" },
                 new CombData { Display = "关闭模拟器", Value = "killemulator" },
                 new CombData { Display = "退出并关闭模拟器", Value = "exitwithkillemulator" },
@@ -326,6 +327,11 @@ namespace MeoAsstGui
                 return;
             }
 
+            if (AfterCompleteType == "stopgame")
+            {
+                ret &= appendCloseDown();
+            }
+
             ret &= asstProxy.AsstStart();
 
             if (ret)
@@ -370,6 +376,15 @@ namespace MeoAsstGui
             var mode = settings.ClientType;
             var enable = mode.Length != 0;
             return asstProxy.AsstAppendStartUp(mode, enable);
+        }
+
+        private bool appendCloseDown()
+        {
+            var settings = _container.Get<SettingsViewModel>();
+            var asstProxy = _container.Get<AsstProxy>();
+            var mode = settings.ClientType;
+            var enable = mode.Length != 0;
+            return asstProxy.AsstAppendCloseDown(mode, enable);
         }
 
         private bool appendFight()

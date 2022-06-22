@@ -48,6 +48,7 @@ namespace asst
         std::string screencap_encode;
         std::string release;
         std::string start;
+        std::string stop;
     };
 
     class GeneralConfiger : public AbstractConfiger
@@ -87,6 +88,15 @@ namespace asst
             return std::nullopt;
         }
 
+        [[nodiscard]] std::optional<std::string> get_package_name(const std::string& client_type) const
+        {
+            if (auto iter = m_package_name.find(client_type);
+                iter != m_package_name.cend()) {
+                return iter->second;
+            }
+            return std::nullopt;
+        }
+
         void set_options(Options opt) noexcept
         {
             m_options = std::move(opt);
@@ -99,5 +109,6 @@ namespace asst
         Options m_options;
         std::unordered_map<std::string, AdbCfg> m_adb_cfg;
         std::unordered_map<std::string, std::string> m_intent_name;
+        std::unordered_map<std::string, std::string> m_package_name;
     };
 }

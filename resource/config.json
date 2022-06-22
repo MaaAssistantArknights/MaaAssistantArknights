@@ -23,6 +23,11 @@
         "Bilibili": "com.hypergryph.arknights.bilibili/com.u8.sdk.SplashActivity",
         "YoStarEN": "com.YoStarEN.Arknights/com.u8.sdk.U8UnityContext"
     },
+    "packageName": {
+        "Official": "com.hypergryph.arknights",
+        "Bilibili": "com.hypergryph.arknights.bilibili",
+        "YoStarEN": "com.YoStarEN.Arknights"
+    },
     "connection": {
         "General": {
             "devices": "[Adb] devices",
@@ -39,7 +44,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]"
         },
         "BlueStacks": {
             "devices": "[Adb] devices",
@@ -56,7 +62,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]"
         },
         "MuMuEmulator": {
             "devices": "[Adb] devices",
@@ -73,7 +80,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]"
         },
         "LDPlayer": {
             "devices": "[Adb] devices",
@@ -90,7 +98,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]"
         },
         "Nox": {
             "devices": "[Adb] devices",
@@ -107,7 +116,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]"
         },
         "XYAZ": {
             "devices": "[Adb] devices",
@@ -124,7 +134,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]"
         },
         "WSA": {
             "devices": "[Adb] devices",
@@ -142,7 +153,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap -d [DisplayId] | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -d [DisplayId] -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]"
         },
         "Compatible": {
             "devices": "[Adb] devices",
@@ -159,7 +171,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]"
         }
     }
 }

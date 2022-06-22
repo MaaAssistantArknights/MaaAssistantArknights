@@ -13,6 +13,7 @@
 
 #include "FightTask.h"
 #include "StartUpTask.h"
+#include "CloseDownTask.h"
 #include "AwardTask.h"
 #include "VisitTask.h"
 #include "MallTask.h"
@@ -87,6 +88,9 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     }
     else if (type == StartUpTask::TaskType) {
         ptr = std::make_shared<StartUpTask>(task_callback, static_cast<void*>(this));
+    }
+    else if (type == CloseDownTask::TaskType) {
+        ptr = std::make_shared<CloseDownTask>(task_callback, static_cast<void*>(this));
     }
     else if (type == AwardTask::TaskType) {
         ptr = std::make_shared<AwardTask>(task_callback, static_cast<void*>(this));

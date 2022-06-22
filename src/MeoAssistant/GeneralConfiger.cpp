@@ -26,6 +26,10 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         m_intent_name[client_type] = intent_name.as_string();
     }
 
+    for (const auto& [client_type, package_name] : json.at("packageName").as_object()) {
+        m_package_name[client_type] = package_name.as_string();
+    }
+
     for (const auto& [name, cfg_json] : json.at("connection").as_object()) {
         AdbCfg adb;
 
@@ -45,6 +49,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         adb.screencap_encode = cfg_json.at("screencapEncode").as_string();
         adb.release = cfg_json.at("release").as_string();
         adb.start = cfg_json.at("start").as_string();
+        adb.stop = cfg_json.at("stop").as_string();
         //adb.pullscreen = cfg_json.at("pullscreen").as_string();
 
         m_adb_cfg[name] = std::move(adb);

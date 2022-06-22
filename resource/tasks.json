@@ -820,6 +820,10 @@
             "StageSNFlag"
         ]
     },
+    "CloseDown": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing"
+    },
     "Annihilation": {
         "doc": "剿灭作战，一般本周的满了也不会有人再刷的，所以只识别右上角ToDoList里的剿灭就可以了",
         "template": "StageAnnihilation.png",
