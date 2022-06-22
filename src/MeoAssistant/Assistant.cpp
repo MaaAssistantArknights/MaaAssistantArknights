@@ -201,6 +201,7 @@ void Assistant::working_proc()
 {
     LogTraceFunction;
 
+    std::vector<TaskId> runned_tasks;
     while (!m_thread_exit) {
         //LogTraceScope("Assistant::working_proc Loop");
 
@@ -211,7 +212,7 @@ void Assistant::working_proc()
 
             json::value callback_json = json::object{
                 { "taskchain", task_ptr->get_task_chain() },
-                { "taskid", task_ptr->get_task_id() }
+                { "taskid", id }
             };
             task_callback(AsstMsg::TaskChainStart, callback_json, this);
 
@@ -220,6 +221,7 @@ void Assistant::working_proc()
                 .set_status(m_status);
 
             bool ret = task_ptr->run();
+            runned_tasks.emplace_back(id);
 
             lock.lock();
             if (!m_tasks_list.empty()) {
@@ -235,6 +237,7 @@ void Assistant::working_proc()
 
             if (!m_thread_idle && m_tasks_list.empty()) {
                 task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
+                runned_tasks.clear();
             }
 
             auto delay = Resrc.cfg().get_options().task_delay;
@@ -244,6 +247,7 @@ void Assistant::working_proc()
         }
         else {
             m_thread_idle = true;
+            runned_tasks.clear();
             Log.flush();
             m_condvar.wait(lock);
         }
