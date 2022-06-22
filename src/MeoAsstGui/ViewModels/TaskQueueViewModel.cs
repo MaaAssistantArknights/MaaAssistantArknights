@@ -107,11 +107,11 @@ namespace MeoAsstGui
             {
                 new CombData{ Display="无动作",Value="" },
                 new CombData{ Display="关闭游戏",Value="stopgame" },
-                new CombData{ Display="退出",Value="exit" },
+                new CombData{ Display="退出MAA",Value="exit" },
                 new CombData { Display = "关闭模拟器", Value = "killemulator" },
-                new CombData { Display = "退出并关闭模拟器", Value = "exitwithkillemulator" },
+                new CombData { Display = "退出MAA并关闭模拟器", Value = "exitwithkillemulator" },
                 new CombData{ Display="关机",Value="shutdown" },
-                new CombData { Display = "待机", Value = "suspend" },
+                //new CombData { Display = "待机", Value = "suspend" },
                 new CombData { Display = "休眠", Value = "hibernate" }
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
@@ -252,14 +252,29 @@ namespace MeoAsstGui
             string errMsg = "";
             var task = Task.Run(() =>
             {
-                return asstProxy.AsstConnect(ref errMsg);
+                return asstProxy.AsstConnect(ref errMsg, true);
             });
             bool catchd = await task;
             if (!catchd)
             {
                 AddLog(errMsg, "darkred");
-                Idle = true;
-                return;
+                var settingsModel = _container.Get<SettingsViewModel>();
+                var subtask = Task.Run(() =>
+                {
+                    settingsModel.TryToStartEmulator(true);
+                });
+                await subtask;
+                task = Task.Run(() =>
+                {
+                    return asstProxy.AsstConnect(ref errMsg);
+                });
+                catchd = await task;
+                if (!catchd)
+                {
+                    AddLog(errMsg, "darkred");
+                    Idle = true;
+                    return;
+                }
             }
 
             bool ret = true;
@@ -606,7 +621,9 @@ namespace MeoAsstGui
                     break;
 
                 case "suspend":
+                    System.Diagnostics.Process.Start("powercfg", "-h off");
                     System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+                    System.Diagnostics.Process.Start("powercfg", "-h on");
                     break;
 
                 case "hibernate":

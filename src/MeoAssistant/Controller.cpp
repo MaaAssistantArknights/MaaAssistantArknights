@@ -57,7 +57,7 @@ private:
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     : m_callback(std::move(callback)),
     m_callback_arg(callback_arg),
-    m_rand_engine(static_cast<unsigned int>(time(nullptr)))
+    m_rand_engine(std::random_device{}())
 {
     LogTraceFunction;
 
@@ -242,7 +242,7 @@ void asst::Controller::pipe_working_proc()
     }
 }
 
-std::optional<std::vector<unsigned char>> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket)
+std::optional<std::vector<uchar>> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket)
 {
     LogTraceScope(std::string(__FUNCTION__) + " | `" + cmd + "`");
 
@@ -400,20 +400,19 @@ std::optional<std::vector<unsigned char>> asst::Controller::call_command(const s
     return std::nullopt;
 }
 
-void asst::Controller::convert_lf(std::vector<unsigned char>& data)
+void asst::Controller::convert_lf(std::vector<uchar>& data)
 {
     LogTraceFunction;
 
     if (data.empty() || data.size() < 2) {
         return;
     }
-    using Iter = std::vector<unsigned char>::iterator;
-    auto pred = [](const Iter& cur) -> bool {
+    auto pred = [](const std::vector<uchar>::iterator& cur) -> bool {
         return *cur == '\r' && *(cur + 1) == '\n';
     };
     // find the first of "\r\n"
-    Iter first_iter = data.end();
-    for (Iter iter = data.begin(); iter != data.end() - 1; ++iter) {
+    auto first_iter = data.end();
+    for (auto iter = data.begin(); iter != data.end() - 1; ++iter) {
         if (pred(iter)) {
             first_iter = iter;
             break;
@@ -423,8 +422,8 @@ void asst::Controller::convert_lf(std::vector<unsigned char>& data)
         return;
     }
     // move forward all non-crlf elements
-    Iter end_r1_iter = data.end() - 1;
-    Iter next_iter = first_iter;
+    auto end_r1_iter = data.end() - 1;
+    auto next_iter = first_iter;
     while (++first_iter != end_r1_iter) {
         if (!pred(first_iter)) {
             *next_iter = *first_iter;
@@ -464,7 +463,7 @@ void asst::Controller::random_delay() const
     auto& opt = Resrc.cfg().get_options();
     if (opt.control_delay_upper != 0) {
         LogTraceFunction;
-        static std::default_random_engine rand_engine(static_cast<unsigned int>(time(nullptr)));
+        static std::default_random_engine rand_engine(std::random_device{}());
         static std::uniform_int_distribution<unsigned> rand_uni(
             opt.control_delay_lower,
             opt.control_delay_upper);
@@ -500,7 +499,7 @@ int asst::Controller::push_cmd(const std::string& cmd)
     std::unique_lock<std::mutex> lock(m_cmd_queue_mutex);
     m_cmd_queue.emplace(cmd);
     m_cmd_condvar.notify_one();
-    return ++m_push_id;
+    return int(++m_push_id);
 }
 
 std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times)
@@ -635,7 +634,7 @@ bool asst::Controller::screencap()
     {
         Log.info("Try to find the fastest way to screencap");
         m_inited = false;
-        auto min_cost = std::chrono::nanoseconds(MAXLONGLONG);
+        auto min_cost = std::chrono::nanoseconds(LLONG_MAX);
 
         auto start_time = std::chrono::high_resolution_clock::now();
         if (m_support_socket && m_server_started &&
@@ -1185,8 +1184,6 @@ bool asst::Controller::release()
 
 #ifndef _WIN32
     if (m_child)
-#else
-    if (true)
 #endif
     {
         return call_command(m_adb.release).has_value();
