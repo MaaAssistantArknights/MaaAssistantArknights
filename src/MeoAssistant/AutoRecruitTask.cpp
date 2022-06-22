@@ -123,6 +123,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     LogTraceFunction;
 
     int refresh_count = 0;
+    const int refresh_limit = 3;
     int maybe_level;
     bool has_robot_tag;
 
@@ -137,7 +138,10 @@ bool asst::AutoRecruitTask::calc_and_recruit()
 
         // 识别错误，放弃这个公招位，直接返回
         if (!recruit_task.run()) {
-            callback(AsstMsg::SubTaskError, basic_info());
+            json::value info = basic_info();
+            info["what"] = "RecruitError";
+            info["why"] = "当前公招槽位识别错误";
+            callback(AsstMsg::SubTaskError, info);
             click_return_button();
             return true;
         }
@@ -153,15 +157,27 @@ bool asst::AutoRecruitTask::calc_and_recruit()
             && recruit_task.get_has_refresh()
             && !(m_skip_robot && has_robot_tag)) {
             if (refresh()) {
-                // TODO: Add callback
-                if (++refresh_count > 3) {
+                if (++refresh_count > refresh_limit) {
                     // 按理来说不会到这里，因为超过三次刷新的时候上面的 recruit_task.get_has_refresh() 应该是 false
                     // 报个错，返回
-                    callback(AsstMsg::SubTaskError, basic_info());
+                    json::value info = basic_info();
+                    info["what"] = "RecruitError";
+                    info["why"] = "当前公招槽位刷新次数达到上限";
+                    info["details"] = json::object{
+                        { "refresh_limit", refresh_limit }
+                    };
+                    callback(AsstMsg::SubTaskError, info);
                     click_return_button();
                     return true;
                 }
                 else {
+                    json::value info = basic_info();
+                    info["what"] = "RecruitTagsRefreshed";
+                    info["details"] = json::object{
+                        { "count", refresh_count },
+                        { "refresh_limit", refresh_limit }
+                    };
+                    callback(AsstMsg::SubTaskExtraInfo, info);
                     Log.trace("recruit tags refreshed for the " + std::to_string(refresh_count) + "-th time, rerunning recruit task");
                     continue;
                 }
@@ -169,6 +185,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
         }
         // 如果时间没调整过，那 tag 十有八九也没选，重新试一次
         // 造成时间没调的原因可见： https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
+        // 这里如果时间没调整过，但是 tag 点上了，再来一次是不是会又把 tag 点掉？
         if (!check_time_reduced()) {
             Log.warn("unreduced recruit check time detected, rerunning recruit task");
             continue;
@@ -189,6 +206,10 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     else {
         click_return_button();
     }
+    // 一个公招槽位结束了 callback 一下，避免有的用户觉得自己的 Tags 被刷新了
+    json::value info = basic_info();
+    info["what"] = "RecruitSlotCompleted";
+    callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
 }
 
