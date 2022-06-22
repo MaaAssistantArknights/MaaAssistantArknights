@@ -338,17 +338,22 @@ namespace MeoAsstGui
                     break;
 
                 case "AutoRecruitTask":
-                    mainModel.AddLog("公招识别错误，已返回", "darkred");
-                    break;
+                    {
+                        var why = details["why"].ToString();
+                        mainModel.AddLog(why + "，已返回", "darkred");
+                        break;
+                    }
 
                 case "RecognizeDrops":
                     mainModel.AddLog("掉落识别错误", "darkred");
                     break;
 
                 case "ReportToPenguinStats":
-                    var why = details["why"].ToString();
-                    mainModel.AddLog(why + "，放弃上传企鹅", "darkred");
-                    break;
+                    {
+                        var why = details["why"].ToString();
+                        mainModel.AddLog(why + "，放弃上传企鹅", "darkred");
+                        break;
+                    }
 
                 case "CheckStageValid":
                     mainModel.AddLog("EX 关卡，已停止", "darkred");
@@ -576,6 +581,12 @@ namespace MeoAsstGui
                     }
                     break;
 
+                case "RecruitSlotCompleted":
+                    {
+                        mainModel.AddLog("当前公招槽位任务已完成");
+                        break;
+                    }
+
                 case "RecruitTagsSelected":
                     {
                         JArray selected = (JArray)subTaskDetails["tags"];
@@ -589,6 +600,13 @@ namespace MeoAsstGui
                         mainModel.AddLog("选择 Tags：\n" + selected_log);
                     }
                     break;
+
+                case "RecruitTagsRefreshed":
+                    {
+                        int refresh_count = (int)subTaskDetails["count"];
+                        mainModel.AddLog("当前公招槽位已刷新 " + refresh_count + " 次");
+                        break;
+                    }
 
                 case "NotEnoughStaff":
                     {
