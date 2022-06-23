@@ -855,7 +855,7 @@ namespace MeoAsstGui
         {
             var task_params = new JObject();
             task_params["client_type"] = client_type;
-            task_params["start_game_enable"] = enable;
+            task_params["start_game_enabled"] = enable;
             TaskId id = AsstAppendTaskWithEncoding("StartUp", task_params);
             _latestTaskId[TaskType.StartUp] = id;
             return id != 0;

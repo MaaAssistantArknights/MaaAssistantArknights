@@ -107,7 +107,10 @@ else if (type == TASK::TaskType) { ptr = std::make_shared<TASK>(task_callback, s
 
 #undef ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH
 
-    bool params_ret = ptr->set_params(ret.value());
+    auto& json = ret.value();
+    bool enable = json.get("enable", true);
+    ptr->set_enable(enable);
+    bool params_ret = ptr->set_params(json);
     if (!params_ret) {
         return 0;
     }
@@ -132,14 +135,18 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
     if (!ret) {
         return false;
     }
+    auto& json = ret.value();
 
     bool setted = false;
     std::unique_lock<std::mutex> lock(m_mutex);
     for (auto&& [id, ptr] : m_tasks_list) {
-        if (id == task_id) {
-            setted = ptr->set_params(ret.value());
-            break;
+        if (id != task_id) {
+            continue;
         }
+        bool enable = json.get("enable", true);
+        ptr->set_enable(enable);
+        setted = ptr->set_params(json);
+        break;
     }
 
     return setted;
