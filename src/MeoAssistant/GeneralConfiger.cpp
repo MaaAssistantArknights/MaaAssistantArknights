@@ -17,9 +17,8 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         //m_options.print_window = options_json.at("printWindow").as_boolean();
         m_options.adb_extra_swipe_dist = options_json.get("adbExtraSwipeDist", 100);
         m_options.adb_extra_swipe_duration = options_json.get("adbExtraSwipeDuration", -1);
-
-        auto& penguin_report = options_json.at("penguinReport");
-        m_options.penguin_report.cmd_format = penguin_report.get("cmdFormat", std::string());
+        m_options.penguin_report.cmd_format = options_json.get("penguinReport", "cmdFormat", std::string());
+        m_options.depot_export_template.ark_planner = options_json.get("depotExportTemplate", "arkPlanner", std::string());
     }
 
     for (const auto& [client_type, intent_name] : json.at("intent").as_object()) {
