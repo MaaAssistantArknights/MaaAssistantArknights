@@ -431,6 +431,45 @@ namespace MeoAsstGui
             return asstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
         }
 
+        public void SetParams()
+        {
+            int medicine = 0;
+            if (UseMedicine)
+            {
+                if (!int.TryParse(MedicineNumber, out medicine))
+                {
+                    medicine = 0;
+                }
+            }
+            int stone = 0;
+            if (UseStone)
+            {
+                if (!int.TryParse(StoneNumber, out stone))
+                {
+                    stone = 0;
+                }
+            }
+            int times = int.MaxValue;
+            if (HasTimesLimited)
+            {
+                if (!int.TryParse(MaxTimes, out times))
+                {
+                    times = 0;
+                }
+            }
+            int drops_quantity = 0;
+            if (IsSpecifiedDrops)
+            {
+                if (!int.TryParse(DropsQuantity, out drops_quantity))
+                {
+                    drops_quantity = 0;
+                }
+            }
+
+            var asstProxy = _container.Get<AsstProxy>();
+            asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+        }
+
         private bool appendInfrast()
         {
             var settings = _container.Get<SettingsViewModel>();
