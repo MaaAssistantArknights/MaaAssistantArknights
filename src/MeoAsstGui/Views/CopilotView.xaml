@@ -18,6 +18,9 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Margin="10">
+                <Hyperlink  Command="{s:Action Hyperlink_Click}" CommandParameter="https://www.prts.plus"><TextBlock Text="自动战斗作业分享网站" /></Hyperlink>
+            </TextBlock>
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
                    Text="作业路径/神秘代码" Margin="10" />
             <TextBox Text="{Binding Filename}" Margin="10" IsReadOnly="{c:Binding Path=!Idle}"
