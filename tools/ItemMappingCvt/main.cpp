@@ -57,9 +57,10 @@ int main()
             "2023recruitment10",
             "2024recruitment10",
             "2025recruitment10",
+            "uni_set_"              // 家具组合包
         };
         static const std::vector<std::string> BlackListSuffix = {
-            "_rep_1"                // 复刻活动的活动代币
+            "_rep_1",               // 复刻活动的活动代币
         };
 
         bool is_blacklist = false;
@@ -69,6 +70,10 @@ int main()
                 break;
             }
         }
+        if (is_blacklist) {
+            continue;
+        }
+
         for (const auto& black : BlackListSuffix) {
             if (std::equal(black.rbegin(), black.rend(), item_id.rbegin())) {
                 is_blacklist = true;
@@ -91,6 +96,8 @@ int main()
         output["icon"] = output_filename;
         output["usage"] = item_info["usage"];
         output["description"] = item_info["description"];
+        output["sortId"] = item_info["sortId"];
+        output["classifyType"] = item_info["classifyType"];
 
         static const auto output_icon_path = solution_dir / "resource" / "template" / "items";
 
@@ -138,6 +145,8 @@ bool trans_and_save_icon(const std::filesystem::path& input, const std::filesyst
     cv::resize(dst, dst_resized, cv::Size(), 720.0 / 1080.0, 720.0 / 1080.0, cv::INTER_LINEAR_EXACT);
     cv::Rect quantity_roi(dst_resized.cols - 80, dst_resized.rows - 50, 80, 50);
     dst_resized(quantity_roi).setTo(0);
+
+    dst_resized = dst_resized(cv::Rect(15, 15, 92, 92));
 
     cv::imwrite(output.string(), dst_resized);
     return true;
