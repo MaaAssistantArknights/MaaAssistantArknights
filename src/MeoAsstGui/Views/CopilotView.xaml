@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="作业路径" Margin="10" />
+                   Text="作业路径/神秘代码" Margin="10" />
             <TextBox Text="{Binding Filename}" Margin="10" IsReadOnly="{c:Binding Path=!Idle}"
                      Width="300" Height="30" />
             <Button Command="{s:Action SelectFile}" IsEnabled="{Binding Idle}" Content="选择作业" Width="120" Height="50" Margin="10" />
