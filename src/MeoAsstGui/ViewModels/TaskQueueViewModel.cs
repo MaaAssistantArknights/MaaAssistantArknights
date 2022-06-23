@@ -148,12 +148,12 @@ namespace MeoAsstGui
                 new CombData { Display = "经验-6/5", Value = "LS-6" },
                 new CombData { Display = "红票-5", Value = "AP-5" },
                 new CombData { Display = "技能-5", Value = "CA-5" },
-                
+
                 // SideStory「尘影余音」活动
                 // new CombData { Display = "LE-7", Value = "LE-7" },
                 // new CombData { Display = "LE-6", Value = "LE-6" },
                 // new CombData { Display = "LE-5", Value = "LE-5" },
-                
+
                 // “愚人号” 活动关卡
                 //new CombData { Display = "SN-8", Value = "SN-8" },
                 //new CombData { Display = "SN-9", Value = "SN-9" },
@@ -274,6 +274,11 @@ namespace MeoAsstGui
                     Idle = true;
                     return;
                 }
+            }
+
+            if (Idle)   // 一般是点了“停止”按钮了
+            {
+                return;
             }
 
             bool ret = true;
