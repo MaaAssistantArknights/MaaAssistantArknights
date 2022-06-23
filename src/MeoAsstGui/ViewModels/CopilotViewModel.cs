@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -38,7 +39,7 @@ namespace MeoAsstGui
             _windowManager = windowManager;
             DisplayName = "自动战斗 Beta";
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
-            AddLog("小提示：请手动打开游戏有“开始行动”按钮的界面再使用本功能；\n\n如果想借好友助战可以关闭“自动编队”，手动选择好干员后再开始；\n\n模拟悖论则需要关闭“自动编队”，并自己选好技能处于“开始模拟”按钮的界面再开始\n\n“特别关注”的干员暂时无法被识别，请取消特别关注或手动编队", "dark");
+            AddLog("小提示：请手动打开游戏有“开始行动”按钮的界面再使用本功能；\n\n如果想借好友助战可以关闭“自动编队”，手动选择好干员后再开始；\n\n模拟悖论则需要关闭“自动编队”，并自己选好技能处于“开始模拟”按钮的界面再开始\n\n“特别关注”的干员暂时无法被识别，请取消特别关注或手动编队 \n\n 神秘代码需要从网站复制并点击选择作业载入数据（需要联网）", "dark");
         }
 
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
@@ -81,105 +82,148 @@ namespace MeoAsstGui
                 _updateFileDoc(_filename);
             }
         }
+        private string _fromServer = "";
+
+        public string FromServer
+        {
+            get => _fromServer;
+            set
+            {
+                _fromServer = value;
+            }
+        }
 
         private void _updateFileDoc(string filename)
         {
             ClearLog();
-
-            if (File.Exists(filename))
+            string jsonStr = "";
+            try
             {
-                try
+                if (File.Exists(filename))
                 {
-                    string jsonStr = File.ReadAllText(filename);
-
-                    var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
-                    if (json == null || !json.ContainsKey("doc"))
+                    jsonStr = File.ReadAllText(filename);
+                    FromServer = "";
+                }
+                else
+                {
+                    //测试是否键入的为神秘代码
+                    int copilotID = 0;
+                    if (string.IsNullOrEmpty(filename))
                     {
+                        // 重置数据
+                        FromServer = "";
                         return;
                     }
-                    var doc = (JObject)json["doc"];
-
-                    string title = "";
-                    if (doc.ContainsKey("title"))
+                    Int32.TryParse(filename, out copilotID);
+                    if (copilotID == 0) throw new Exception("神秘代码非法");
+                    // 创建 Http 请求
+                    var httpWebRequest = WebRequest.Create($@"https://api.prts.plus/copilot/get/{copilotID}") as HttpWebRequest;
+                    httpWebRequest.Method = "GET";
+                    httpWebRequest.ContentType = "application/json";
+                    var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
+                    // 获取输入输出流
+                    using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
                     {
-                        title = doc["title"].ToString();
-                    }
-                    if (title.Length != 0)
-                    {
-                        string title_color = "black";
-                        if (doc.ContainsKey("title_color"))
+                        var text = sr.ReadToEnd();
+                        var responseObject = (JObject)JsonConvert.DeserializeObject(text);
+                        if (responseObject != null && responseObject.ContainsKey("status_code") && responseObject["status_code"].ToString() == "200")
                         {
-                            title_color = doc["title_color"].ToString();
+                            jsonStr = responseObject["data"]["content"].ToString();
+                            FromServer = jsonStr;
                         }
-                        AddLog(title, title_color);
+                        else throw new Exception("未找到对应作业");
                     }
+                }
+                var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                if (json == null || !json.ContainsKey("doc"))
+                {
+                    return;
+                }
+                var doc = (JObject)json["doc"];
 
-                    string details = "";
-                    if (doc.ContainsKey("details"))
+                string title = "";
+                if (doc.ContainsKey("title"))
+                {
+                    title = doc["title"].ToString();
+                }
+                if (title.Length != 0)
+                {
+                    string title_color = "black";
+                    if (doc.ContainsKey("title_color"))
                     {
-                        details = doc["details"].ToString();
+                        title_color = doc["title_color"].ToString();
                     }
-                    if (details.Length != 0)
+                    AddLog(title, title_color);
+                }
+
+                string details = "";
+                if (doc.ContainsKey("details"))
+                {
+                    details = doc["details"].ToString();
+                }
+                if (details.Length != 0)
+                {
+                    string details_color = "black";
+                    if (doc.ContainsKey("details_color"))
                     {
-                        string details_color = "black";
-                        if (doc.ContainsKey("details_color"))
-                        {
-                            details_color = doc["details_color"].ToString();
-                        }
-                        AddLog(details, details_color);
+                        details_color = doc["details_color"].ToString();
+                    }
+                    AddLog(details, details_color);
+                    {
+                        Url = "";
+                        var linkParser = new Regex(@"(?:https?://)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+                        foreach (Match m in linkParser.Matches(details))
                         {
-                            Url = "";
-                            var linkParser = new Regex(@"(?:https?://)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-                            foreach (Match m in linkParser.Matches(details))
-                            {
-                                Url = m.Value;
-                                break;
-                            }
+                            Url = m.Value;
+                            break;
                         }
                     }
+                }
 
-                    AddLog("", "black");
-                    int count = 0;
-                    foreach (JObject oper in json["opers"])
+                AddLog("", "black");
+                int count = 0;
+                foreach (JObject oper in json["opers"])
+                {
+                    count++;
+                    AddLog(string.Format("{0}, {1}技能", oper["name"], oper["skill"]), "black");
+                }
+
+                if (json.ContainsKey("groups"))
+                {
+                    foreach (JObject group in json["groups"])
                     {
                         count++;
-                        AddLog(string.Format("{0}, {1}技能", oper["name"], oper["skill"]), "black");
-                    }
-
-                    if (json.ContainsKey("groups"))
-                    {
-                        foreach (JObject group in json["groups"])
+                        string group_name = group["name"].ToString() + ": ";
+                        var operinfos = new List<string>();
+                        foreach (JObject oper in group["opers"])
                         {
-                            count++;
-                            string group_name = group["name"].ToString() + ": ";
-                            var operinfos = new List<string>();
-                            foreach (JObject oper in group["opers"])
-                            {
-                                operinfos.Add(string.Format("{0}{1}", oper["name"], oper["skill"]));
-                            }
-                            AddLog(group_name + string.Join("/", operinfos), "black");
+                            operinfos.Add(string.Format("{0}{1}", oper["name"], oper["skill"]));
                         }
+                        AddLog(group_name + string.Join("/", operinfos), "black");
                     }
-                    AddLog(string.Format("共{0}名干员", count), "black");
                 }
-                catch (Exception)
-                {
-                }
+                AddLog(string.Format("共{0}名干员", count), "black");
+            }
+            catch (Exception)
+            {
             }
         }
 
         public void SelectFile()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog();
-
-            dialog.Filter = "作业文件|*.json";
-
-            if (dialog.ShowDialog() == true)
+            if (String.IsNullOrEmpty(FromServer))
             {
-                Filename = dialog.FileName;
+                var dialog = new Microsoft.Win32.OpenFileDialog();
+
+                dialog.Filter = "作业文件|*.json";
+
+                if (dialog.ShowDialog() == true)
+                {
+                    Filename = dialog.FileName;
+                }
             }
+            // 什么都不做如果从server拿
         }
 
         public void DropFile(object sender, DragEventArgs e)
@@ -237,7 +281,7 @@ namespace MeoAsstGui
                 AddLog(errMsg, "darkred");
             }
 
-            if (Filename.Length == 0 || !File.Exists(Filename))
+            if ((Filename.Length == 0 || !File.Exists(Filename)) && String.IsNullOrEmpty(FromServer))
             {
                 AddLog("作业文件不存在", "darkred");
                 return;
@@ -247,7 +291,15 @@ namespace MeoAsstGui
 
             try
             {
-                string jsonStr = File.ReadAllText(Filename);
+                string jsonStr = "";
+                if (string.IsNullOrEmpty(FromServer))
+                {
+                    jsonStr = File.ReadAllText(Filename);
+                }
+                else
+                {
+                    jsonStr = FromServer;
+                }
 
                 // 文件存在但为空，会读出来一个null，感觉c#这库有bug，如果是null 就赋值一个空JObject
                 data = (JObject)JsonConvert.DeserializeObject(jsonStr) ?? new JObject();
@@ -287,10 +339,15 @@ namespace MeoAsstGui
             set => SetAndNotify(ref _url, value);
         }
 
-        public void Hyperlink_Click()
+        public void Hyperlink_Click(string url)
         {
             try
             {
+                if (!string.IsNullOrEmpty(url) && url != "视频链接")
+                {
+                    Process.Start(new ProcessStartInfo(url));
+                    return;
+                }
                 if (!string.IsNullOrEmpty(_url))
                 {
                     Process.Start(new ProcessStartInfo(_url));

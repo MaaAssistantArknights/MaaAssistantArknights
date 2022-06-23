@@ -284,16 +284,31 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.AllTasksCompleted:
-                    mainModel.Idle = true;
-                    mainModel.AddLog("任务已全部完成");
-                    mainModel.UseStone = false;
-                    using (var toast = new ToastNotification("任务已全部完成！"))
+                    bool isMainTaskQueueAllCompleted = true;
+                    var runned_tasks = details["runned_tasks"] as JArray;
+                    if (runned_tasks.Count == 1)
                     {
-                        toast.Show();
+                        var unique_runned_task = (TaskId)runned_tasks[0];
+                        if (unique_runned_task == _latestCopilotTaskId
+                            || unique_runned_task == _latestRecruitCalcTaskId)
+                        {
+                            isMainTaskQueueAllCompleted = false;
+                        }
                     }
+                    mainModel.Idle = true;
+                    mainModel.UseStone = false;
                     copilotModel.Idle = true;
-                    //mainModel.CheckAndShutdown();
-                    mainModel.CheckAfterComplete();
+
+                    if (isMainTaskQueueAllCompleted)
+                    {
+                        mainModel.AddLog("任务已全部完成");
+                        using (var toast = new ToastNotification("任务已全部完成！"))
+                        {
+                            toast.Show();
+                        }
+                        //mainModel.CheckAndShutdown();
+                        mainModel.CheckAfterComplete();
+                    }
                     break;
             }
         }
@@ -756,11 +771,13 @@ namespace MeoAsstGui
             return ret;
         }
 
-        private bool AsstAppendTaskWithEncoding(string type, JObject task_params = null)
+        private TaskId AsstAppendTaskWithEncoding(string type, JObject task_params = null)
         {
             task_params = task_params ?? new JObject();
-            return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(task_params)) != 0;
+            return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(task_params));
         }
+
+        private TaskId _latestFightTaskId = 0;
 
         public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
         {
@@ -779,34 +796,49 @@ namespace MeoAsstGui
             task_params["client_type"] = settings.ClientType;
             task_params["penguin_id"] = settings.PenguinId;
             task_params["server"] = "CN";
-            return AsstAppendTaskWithEncoding("Fight", task_params);
+            _latestFightTaskId = AsstAppendTaskWithEncoding("Fight", task_params);
+            return _latestFightTaskId != 0;
         }
+
+        private TaskId _latestAwardTaskId = 0;
 
         public bool AsstAppendAward()
         {
-            return AsstAppendTaskWithEncoding("Award");
+            _latestAwardTaskId = AsstAppendTaskWithEncoding("Award");
+            return _latestAwardTaskId != 0;
         }
+
+        private TaskId _latestStartupTaskId = 0;
 
         public bool AsstAppendStartUp(string client_type, bool enable)
         {
             var task_params = new JObject();
             task_params["client_type"] = client_type;
             task_params["start_game_enable"] = enable;
-            return AsstAppendTaskWithEncoding("StartUp", task_params);
+            _latestStartupTaskId = AsstAppendTaskWithEncoding("StartUp", task_params);
+            return _latestStartupTaskId != 0;
         }
+      
+        private TaskId _latestClosedownTaskId = 0;
 
         public bool AsstAppendCloseDown(string client_type, bool enable)
         {
             var task_params = new JObject();
             task_params["client_type"] = client_type;
             task_params["stop_game_enable"] = enable;
-            return AsstAppendTaskWithEncoding("CloseDown", task_params);
+            _latestClosedownTaskId = AsstAppendTaskWithEncoding("CloseDown", task_params);
+            return _latestClosedownTaskId != 0;
         }
+
+        private TaskId _latestVisitTaskId = 0;
 
         public bool AsstAppendVisit()
         {
-            return AsstAppendTaskWithEncoding("Visit");
+            _latestVisitTaskId = AsstAppendTaskWithEncoding("Visit");
+            return _latestVisitTaskId != 0;
         }
+
+        private TaskId _latestMallTaskId = 0;
 
         public bool AsstAppendMall(bool with_shopping, string[] firstlist, string[] blacklist)
         {
@@ -814,8 +846,11 @@ namespace MeoAsstGui
             task_params["shopping"] = with_shopping;
             task_params["buy_first"] = new JArray { firstlist };
             task_params["blacklist"] = new JArray { blacklist };
-            return AsstAppendTaskWithEncoding("Mall", task_params);
+            _latestMallTaskId = AsstAppendTaskWithEncoding("Mall", task_params);
+            return _latestMallTaskId != 0;
         }
+
+        private TaskId _latestRecruitTaskId = 0;
 
         public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited, bool skip_robot)
         {
@@ -828,8 +863,11 @@ namespace MeoAsstGui
             task_params["expedite"] = use_expedited;
             task_params["expedite_times"] = max_times;
             task_params["skip_robot"] = skip_robot;
-            return AsstAppendTaskWithEncoding("Recruit", task_params);
+            _latestRecruitTaskId = AsstAppendTaskWithEncoding("Recruit", task_params);
+            return _latestRecruitTaskId != 0;
         }
+
+        private TaskId _latestInfrastTaskId = 0;
 
         public bool AsstAppendInfrast(int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold)
         {
@@ -839,15 +877,21 @@ namespace MeoAsstGui
             task_params["drones"] = uses_of_drones;
             task_params["threshold"] = dorm_threshold;
             task_params["replenish"] = true;
-            return AsstAppendTaskWithEncoding("Infrast", task_params);
+            _latestInfrastTaskId = AsstAppendTaskWithEncoding("Infrast", task_params);
+            return _latestInfrastTaskId != 0;
         }
+
+        private TaskId _latestRoguelikeTaskId = 0;
 
         public bool AsstAppendRoguelike(int mode)
         {
             var task_params = new JObject();
             task_params["mode"] = mode;
-            return AsstAppendTaskWithEncoding("Roguelike", task_params);
+            _latestRoguelikeTaskId = AsstAppendTaskWithEncoding("Roguelike", task_params);
+            return _latestRoguelikeTaskId != 0;
         }
+
+        private TaskId _latestRecruitCalcTaskId = 0;
 
         public bool AsstStartRecruitCalc(int[] select_level, int required_len, bool set_time)
         {
@@ -859,8 +903,11 @@ namespace MeoAsstGui
             task_params["set_time"] = true;
             task_params["expedite"] = false;
             task_params["expedite_times"] = 0;
-            return AsstAppendTaskWithEncoding("Recruit", task_params) && AsstStart();
+            _latestRecruitCalcTaskId = AsstAppendTaskWithEncoding("Recruit", task_params);
+            return _latestRecruitCalcTaskId != 0 && AsstStart();
         }
+
+        private TaskId _latestCopilotTaskId = 0;
 
         public bool AsstStartCopilot(string stage_name, string filename, bool formation)
         {
@@ -868,7 +915,8 @@ namespace MeoAsstGui
             task_params["stage_name"] = stage_name;
             task_params["filename"] = filename;
             task_params["formation"] = formation;
-            return AsstAppendTaskWithEncoding("Copilot", task_params) && AsstStart();
+            _latestCopilotTaskId = AsstAppendTaskWithEncoding("Copilot", task_params);
+            return _latestCopilotTaskId != 0 && AsstStart();
         }
 
         public bool AsstStart()
