@@ -31,6 +31,10 @@ namespace asst
         {
             return m_all_item_id;
         }
+        const auto& get_ordered_material_item_id() const noexcept
+        {
+            return m_ordered_material_item_id;
+        }
 
     protected:
         virtual bool parse(const json::value& json) override;
@@ -38,5 +42,6 @@ namespace asst
         // key：材料编号Id，value：材料名（zh，utf8）
         std::unordered_map<std::string, std::string> m_item_name;
         std::unordered_set<std::string> m_all_item_id;
+        std::vector<std::string> m_ordered_material_item_id;
     };
 }
