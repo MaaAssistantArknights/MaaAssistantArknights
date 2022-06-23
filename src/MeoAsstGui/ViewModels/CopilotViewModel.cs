@@ -155,12 +155,14 @@ namespace MeoAsstGui
         }
 
         private string _curStageName = "";
+        private string _curCopilotData = "";
         private const string _tempCopilotFile = "resource/_temp_copilot.json";
 
         private void _parseJsonAndShowInfo(string jsonStr)
         {
             try
             {
+                _curCopilotData = "";
                 var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
                 if (json == null || !json.ContainsKey("doc"))
                 {
@@ -235,7 +237,7 @@ namespace MeoAsstGui
                 AddLog(string.Format("共 {0} 名干员", count), "black");
 
                 _curStageName = json["stage_name"].ToString();
-                File.WriteAllText(_tempCopilotFile, json.ToString());
+                _curCopilotData = json.ToString();
             }
             catch (Exception)
             {
@@ -310,11 +312,8 @@ namespace MeoAsstGui
                 AddLog(errMsg, "darkred");
             }
 
-            if (!File.Exists(_tempCopilotFile))
-            {
-                AddLog("作业文件不存在", "darkred");
-                return;
-            }
+            File.Delete(_tempCopilotFile);
+            File.WriteAllText(_tempCopilotFile, _curCopilotData);
 
             bool ret = asstProxy.AsstStartCopilot(_curStageName, _tempCopilotFile, Form);
             if (ret)
