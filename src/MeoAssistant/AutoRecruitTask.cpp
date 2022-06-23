@@ -196,6 +196,15 @@ bool asst::AutoRecruitTask::calc_and_recruit()
             return false;
         }
 
+        if (!(m_skip_robot && has_robot_tag) && std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
+            if (!confirm()) {
+                return false;
+            }
+        }
+        else {
+            click_return_button();
+        }
+
         break;
     }
 
@@ -209,21 +218,14 @@ bool asst::AutoRecruitTask::calc_and_recruit()
         };
         callback(AsstMsg::SubTaskError, info);
         click_return_button();
-        return true;
+    }
+    // 正常结束了 callback 一下，避免有的用户觉得自己的 Tags 被刷新了
+    else {
+        json::value info = basic_info();
+        info["what"] = "RecruitSlotCompleted";
+        callback(AsstMsg::SubTaskExtraInfo, info);
     }
 
-    if (!(m_skip_robot && has_robot_tag) && std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), maybe_level) != m_confirm_level.cend()) {
-        if (!confirm()) {
-            return false;
-        }
-    }
-    else {
-        click_return_button();
-    }
-    // 一个公招槽位结束了 callback 一下，避免有的用户觉得自己的 Tags 被刷新了
-    json::value info = basic_info();
-    info["what"] = "RecruitSlotCompleted";
-    callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
 }
 
