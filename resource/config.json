@@ -16,6 +16,11 @@
             "Doc": "企鹅数据汇报: https://penguin-stats.cn/",
             "cmdFormat": "curl -H \"Content-Type: application/json\" -s -i -d \"[body]\" \"https://penguin-stats.cn/PenguinStats/api/v2/report\" [extra]",
             "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i"
+        },
+        "depotExportTemplate": {
+            "Doc": "仓库识别导出结果模板",
+            "arkPlanner": "{\"@type\": \"@penguin-statistics/depot\",\"items\": []}",
+            "arkPlanner_Doc": "https://penguin-stats.cn/planner"
         }
     },
     "intent": {

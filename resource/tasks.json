@@ -6913,5 +6913,109 @@
             250,
             100
         ]
+    },
+    "DeoptMatchData": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "roi": [
+            0,
+            0,
+            1060,
+            596
+        ],
+        "roi_Doc": "作为截图的缩放尺寸使用",
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "DeoptBaseRect": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            90,
+            219,
+            150
+        ]
+    },
+    "DeoptQuantity": {
+        "template": "empty.png",
+        "templThreshold": 3,
+        "templThreshold_Doc": "这里用来作为字间距阈值",
+        "roi": [
+            36,
+            69,
+            47,
+            20
+        ],
+        "maskRange": [
+            150,
+            255
+        ]
+    },
+    "DepotTaskSlowlySwipeRightRect": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            780,
+            200,
+            100,
+            300
+        ],
+        "preDelay": 1500,
+        "rearDelay": 300,
+        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
+    },
+    "DepotTaskSlowlySwipeLeftRect": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            300,
+            200,
+            100,
+            300
+        ]
+    },
+    "DepotBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "DepotEnter",
+            "DepotMaterialTab",
+            "DepotMaterialTabClicked"
+        ]
+    },
+    "DepotEnter": {
+        "action": "ClickSelf",
+        "roi": [
+            1109,
+            560,
+            171,
+            160
+        ],
+        "next": [
+            "DepotMaterialTab"
+        ]
+    },
+    "DepotMaterialTab": {
+        "action": "ClickSelf",
+        "roi": [
+            1026,
+            0,
+            254,
+            138
+        ],
+        "next": [
+            "DepotMaterialTabClicked"
+        ]
+    },
+    "DepotMaterialTabClicked": {
+        "action": "DoNothing",
+        "roi": [
+            1026,
+            0,
+            254,
+            138
+        ]
     }
 }

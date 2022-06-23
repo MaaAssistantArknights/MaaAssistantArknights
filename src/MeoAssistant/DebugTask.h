@@ -9,6 +9,8 @@ namespace asst
         DebugTask(const AsstCallback& callback, void* callback_arg);
         virtual ~DebugTask() = default;
 
+        virtual bool run() override;
+
         static constexpr const char* TaskType = "Debug";
     };
 }
