@@ -123,12 +123,12 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     LogTraceFunction;
 
     int refresh_count = 0;
-    int cur_refresh_times = 0;
+    int cur_retry_times = 0;
     const int refresh_limit = 3;
     int maybe_level;
     bool has_robot_tag;
 
-    for (; cur_refresh_times < m_retry_times; ++cur_refresh_times) {
+    for (; cur_retry_times < m_retry_times; ++cur_retry_times) {
         RecruitCalcTask recruit_task(m_callback, m_callback_arg, m_task_chain);
         recruit_task.set_param(m_select_level, true, m_skip_robot)
                 .set_retry_times(m_retry_times)
@@ -209,7 +209,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     }
 
     // 重试次数达到上限时报错并返回
-    if (cur_refresh_times == m_retry_times) {
+    if (cur_retry_times == m_retry_times) {
         json::value info = basic_info();
         info["what"] = "RecruitError";
         info["why"] = "当前公招槽位重试次数达到上限";
