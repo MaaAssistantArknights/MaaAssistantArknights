@@ -127,7 +127,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     int maybe_level;
     bool has_robot_tag;
 
-    while(true) {
+    for (int cur_refresh_times = 0; cur_refresh_times < m_retry_times; ++cur_refresh_times) {
         RecruitCalcTask recruit_task(m_callback, m_callback_arg, m_task_chain);
         recruit_task.set_param(m_select_level, true, m_skip_robot)
                 .set_retry_times(m_retry_times)
