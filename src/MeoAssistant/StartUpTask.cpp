@@ -20,6 +20,6 @@ asst::StartUpTask::StartUpTask(AsstCallback callback, void* callback_arg)
 bool asst::StartUpTask::set_params(const json::value& params)
 {
     m_start_game_task_ptr->set_client_type(params.get("client_type", ""))
-        .set_enable(params.get("start_game_enable", false));
+        .set_enable(params.get("start_game_enabled", false));
     return true;
 }

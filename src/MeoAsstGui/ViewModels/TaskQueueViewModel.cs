@@ -467,7 +467,15 @@ namespace MeoAsstGui
             }
 
             var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+            bool setted = asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+            if (setted)
+            {
+                AddLog("设置成功", "Black");
+            }
+            else
+            {
+                AddLog("设置失败", "Black");
+            }
         }
 
         private bool appendInfrast()
