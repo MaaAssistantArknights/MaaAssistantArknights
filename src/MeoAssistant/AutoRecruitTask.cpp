@@ -122,9 +122,9 @@ bool asst::AutoRecruitTask::calc_and_recruit()
 {
     LogTraceFunction;
 
-    int refresh_count = 0;
-    int cur_retry_times = 0;
-    const int refresh_limit = 3;
+    int refresh_count = 0;       // 点击刷新按钮的次数
+    int cur_retry_times = 0;     // 重新识别的次数，参考下面的两个 continue
+    const int refresh_limit = 3; // 点击刷新按钮的次数上限
     int maybe_level;
     bool has_robot_tag;
 
