@@ -229,7 +229,7 @@ namespace MeoAsstGui
             {
                 if (item.Name == "无限刷肉鸽")
                     continue;
-                item.IsChecked = !item.IsChecked;
+                item.IsChecked = false;
             }
         }
 
