@@ -13,6 +13,7 @@
 #include "Logger.hpp"
 #include "Resource.h"
 #include "AbstractTaskPlugin.h"
+#include "ProcessTask.h"
 
 using namespace asst;
 
@@ -197,11 +198,5 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
 
 void asst::AbstractTask::click_return_button()
 {
-    LogTraceFunction;
-    const auto return_task_ptr = Task.get("Return");
-
-    Rect ReturnButtonRect = return_task_ptr->specific_rect;
-
-    m_ctrler->click(ReturnButtonRect);
-    sleep(return_task_ptr->rear_delay);
+    ProcessTask(*this, { "Return" }).run();
 }

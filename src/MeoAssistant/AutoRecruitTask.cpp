@@ -84,6 +84,14 @@ bool asst::AutoRecruitTask::_run()
     return true;
 }
 
+void asst::AutoRecruitTask::callback(AsstMsg msg, const json::value& detail)
+{
+    if (msg == AsstMsg::SubTaskError) {
+        click_return_button();
+    }
+    AbstractTask::callback(msg, detail);
+}
+
 bool asst::AutoRecruitTask::analyze_start_buttons()
 {
     OcrImageAnalyzer start_analyzer;
@@ -131,11 +139,11 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     for (; cur_retry_times < m_retry_times; ++cur_retry_times) {
         RecruitCalcTask recruit_task(m_callback, m_callback_arg, m_task_chain);
         recruit_task.set_param(m_select_level, true, m_skip_robot)
-                .set_retry_times(m_retry_times)
-                .set_exit_flag(m_exit_flag)
-                .set_ctrler(m_ctrler)
-                .set_status(m_status)
-                .set_task_id(m_task_id);
+            .set_retry_times(m_retry_times)
+            .set_exit_flag(m_exit_flag)
+            .set_ctrler(m_ctrler)
+            .set_status(m_status)
+            .set_task_id(m_task_id);
 
         // 识别错误，放弃这个公招位，直接返回
         if (!recruit_task.run()) {
@@ -143,7 +151,6 @@ bool asst::AutoRecruitTask::calc_and_recruit()
             info["what"] = "RecruitError";
             info["why"] = "当前公招槽位识别错误";
             callback(AsstMsg::SubTaskError, info);
-            click_return_button();
             return true;
         }
 
@@ -168,7 +175,6 @@ bool asst::AutoRecruitTask::calc_and_recruit()
                         { "refresh_limit", refresh_limit }
                     };
                     callback(AsstMsg::SubTaskError, info);
-                    click_return_button();
                     return true;
                 }
                 else {
@@ -217,7 +223,6 @@ bool asst::AutoRecruitTask::calc_and_recruit()
             { "m_retry_times", m_retry_times }
         };
         callback(AsstMsg::SubTaskError, info);
-        click_return_button();
     }
     // 正常结束了 callback 一下，避免有的用户觉得自己的 Tags 被刷新了
     else {
