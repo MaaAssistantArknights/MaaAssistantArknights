@@ -361,8 +361,8 @@ namespace MeoAsstGui
 
                 case "AutoRecruitTask":
                     {
-                        var why = details["why"].ToString();
-                        mainModel.AddLog(why + "，已返回", "darkred");
+                        var why_str = details.TryGetValue("why", out var why) ? why.ToString() : "出现错误";
+                        mainModel.AddLog(why_str + "，已返回", "darkred");
                         break;
                     }
 

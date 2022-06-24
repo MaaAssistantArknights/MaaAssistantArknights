@@ -2940,15 +2940,8 @@
         ]
     },
     "Return": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
+        "action": "ClickSelf",
         "templThreshold": 0.7,
-        "specificRect": [
-            20,
-            20,
-            135,
-            35
-        ],
         "rearDelay": 2000
     },
     "EnterInfrast": {
