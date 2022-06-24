@@ -33,13 +33,16 @@ namespace MeoAsstGui
         public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; set; }
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
-        private string _afterCompleteType = "";
-        public List<CombData> AfterCompleteList { get; set; }
+        private ActionType _actionAfterComplated = ActionType.DoNothing;
+        public List<GenericCombData<ActionType>> ActionAfterCompletedList { get; set; }
 
-        public string AfterCompleteType
+        public ActionType ActionAfterCompleted
         {
-            get { return _afterCompleteType; }
-            set { _afterCompleteType = value; }
+            get { return _actionAfterComplated; }
+            set
+            {
+                SetAndNotify(ref _actionAfterComplated, value);
+            }
         }
 
         public TaskQueueViewModel(IContainer container, IWindowManager windowManager)
@@ -103,15 +106,15 @@ namespace MeoAsstGui
         public void InitializeItems()
         {
             string[] task_list = new string[] { "开始唤醒", "刷理智", "自动公招", "基建换班", "访问好友", "收取信用及购物", "领取日常奖励", "无限刷肉鸽" };
-            AfterCompleteList = new List<CombData>
+            ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
-                new CombData{ Display="无动作",Value="" },
-                new CombData{ Display="退出MAA",Value="exit" },
-                new CombData { Display = "关闭模拟器", Value = "killemulator" },
-                new CombData { Display = "退出并关闭模拟器", Value = "exitwithkillemulator" },
-                new CombData{ Display="关机",Value="shutdown" },
-                //new CombData { Display = "待机", Value = "suspend" },
-                new CombData { Display = "休眠", Value = "hibernate" }
+                new GenericCombData<ActionType>{ Display="无动作",Value=ActionType.DoNothing },
+                new GenericCombData<ActionType>{ Display="退出 MAA",Value=ActionType.ExitSelf },
+                new GenericCombData<ActionType>{ Display="关闭模拟器",Value=ActionType.ExitEmulator },
+                new GenericCombData<ActionType>{ Display="退出并关闭模拟器",Value=ActionType.ExitEmulatorAndSelf },
+                //new GenericCombData<ActionTypeAfterCompleted>{ Display="待机",Value=ActionTypeAfterCompleted.Suspend },
+                new GenericCombData<ActionType>{ Display="休眠",Value=ActionType.Hibernate },
+                new GenericCombData<ActionType>{ Display="关机",Value=ActionType.Shutdown },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             int order_offset = 0;
@@ -602,11 +605,34 @@ namespace MeoAsstGui
             return true;
         }
 
-        public void CheckAfterComplete()
+        public enum ActionType
         {
-            switch (AfterCompleteType)
+            DoNothing,
+            ExitSelf,
+            ExitEmulator,
+            ExitEmulatorAndSelf,
+            Suspend,
+            Hibernate,
+            Shutdown
+        }
+
+        public void CheckAfterCompleted()
+        {
+            switch (ActionAfterCompleted)
             {
-                case "killemulator":
+                case ActionType.DoNothing:
+                    break;
+
+                case ActionType.ExitSelf:
+                    if (!new ToastNotification().CheckToastSystem())
+                    {
+                        Environment.Exit(0); //不使用系统通知的情况下exit会关闭通知窗口
+                    }
+                    else ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
+                    Environment.Exit(0);
+                    break;
+
+                case ActionType.ExitEmulator:
                     if (!killemulator())
                         Execute.OnUIThread(() =>
                         {
@@ -618,7 +644,7 @@ namespace MeoAsstGui
                         });
                     break;
 
-                case "exitwithkillemulator":
+                case ActionType.ExitEmulatorAndSelf:
                     if (!killemulator())
                     {
                         Execute.OnUIThread(() =>
@@ -639,16 +665,7 @@ namespace MeoAsstGui
                     Environment.Exit(0);
                     break;
 
-                case "exit":
-                    if (!new ToastNotification().CheckToastSystem())
-                    {
-                        Environment.Exit(0); //不使用系统通知的情况下exit会关闭通知窗口
-                    }
-                    else ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
-                    Environment.Exit(0);
-                    break;
-
-                case "shutdown":
+                case ActionType.Shutdown:
                     System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
                     var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
                     if (result == MessageBoxResult.OK)
@@ -657,13 +674,13 @@ namespace MeoAsstGui
                     }
                     break;
 
-                case "suspend":
+                case ActionType.Suspend:
                     System.Diagnostics.Process.Start("powercfg", "-h off");
                     System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
                     System.Diagnostics.Process.Start("powercfg", "-h on");
                     break;
 
-                case "hibernate":
+                case ActionType.Hibernate:
                     System.Diagnostics.Process.Start("shutdown.exe", "-h");
                     break;
 
