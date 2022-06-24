@@ -313,7 +313,7 @@ namespace MeoAsstGui
                             toast.Show();
                         }
                         //mainModel.CheckAndShutdown();
-                        mainModel.CheckAfterComplete();
+                        mainModel.CheckAfterCompleted();
                     }
                     _latestTaskId.Clear();
                     break;
