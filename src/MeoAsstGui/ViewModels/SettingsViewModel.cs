@@ -54,6 +54,7 @@ namespace MeoAsstGui
             _listTitle.Add("启动设置");
             _listTitle.Add("定时执行");
             _listTitle.Add("通知显示");
+            _listTitle.Add("托盘设置");
             _listTitle.Add("软件更新");
             _listTitle.Add("关于我们");
 
@@ -1260,6 +1261,33 @@ namespace MeoAsstGui
                     var sp = line.Split('"');
                     ConnectAddress = "127.0.0.1:" + sp[1];
                 }
+            }
+        }
+        /* 托盘设置 */
+        private bool _usetray = Convert.ToBoolean(ViewStatusStorage.Get("UseTray", bool.TrueString));
+        public bool UseTray
+        {
+            get { return _usetray; }
+            set
+            {
+                SetAndNotify(ref _usetray, value);
+                ViewStatusStorage.Set("UseTray", value.ToString());
+                if (!Convert.ToBoolean(value))
+                {
+                    ViewStatusStorage.Set("MinimizeToTray", bool.FalseString);
+                    MinimizeToTray = false;
+                }
+            }
+        }
+
+        private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("MinimizeToTray", bool.FalseString));
+        public bool MinimizeToTray
+        {
+            get { return _minimizeToTray; }
+            set
+            {
+                SetAndNotify(ref _minimizeToTray, value);
+                ViewStatusStorage.Set("MinimizeToTray", value.ToString());
             }
         }
     }
