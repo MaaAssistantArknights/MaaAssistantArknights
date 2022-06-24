@@ -2731,20 +2731,14 @@
         "algorithm": "JustReturn",
         "action": "Stop"
     },
-    "RecruitTime": {
-        "template": "RecruitTimeReduce.png",
+    "RecruitTimeReduce": {
         "action": "ClickSelf",
+        "Doc": "检查到01，调整时间",
         "roi": [
             350,
-            150,
+            250,
             200,
-            150
-        ],
-        "rectMove": [
-            7,
-            94,
-            129,
-            44
+            100
         ]
     },
     "RecruitTags": {
@@ -2826,9 +2820,18 @@
         "rearDelay": 2000
     },
     "RecruitCheckTimeUnreduced": {
-        "action": "Stop",
-        "template": "RecruitTimeReduce.png",
+        "action": "DoNothing",
         "Doc": "检查时间是不是没有调整过",
+        "roi": [
+            350,
+            150,
+            200,
+            150
+        ]
+    },
+    "RecruitCheckTimeReduced": {
+        "action": "DoNothing",
+        "Doc": "检查时间是不是调整过",
         "roi": [
             350,
             150,
