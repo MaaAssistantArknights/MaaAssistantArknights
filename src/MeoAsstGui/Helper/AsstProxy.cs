@@ -815,6 +815,7 @@ namespace MeoAsstGui
         private enum TaskType
         {
             StartUp,
+            CloseDown,
             Fight,
             Recruit,
             Infrast,
@@ -877,6 +878,13 @@ namespace MeoAsstGui
             TaskId id = AsstAppendTaskWithEncoding("StartUp", task_params);
             _latestTaskId[TaskType.StartUp] = id;
             return id != 0;
+        }
+
+        public bool AsstStartCloseDown()
+        {
+            TaskId id = AsstAppendTaskWithEncoding("CloseDown");
+            _latestTaskId[TaskType.CloseDown] = id;
+            return id != 0 && AsstStart();
         }
 
         public bool AsstAppendVisit()
