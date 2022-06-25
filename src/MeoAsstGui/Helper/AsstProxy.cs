@@ -947,7 +947,7 @@ namespace MeoAsstGui
             task_params["expedite_times"] = 0;
             TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
             _latestTaskId[TaskType.RecruitCalc] = id;
-            return id != 0;
+            return id != 0 && AsstStart();
         }
 
         public bool AsstStartCopilot(string stage_name, string filename, bool formation)
@@ -958,7 +958,7 @@ namespace MeoAsstGui
             task_params["formation"] = formation;
             TaskId id = AsstAppendTaskWithEncoding("Copilot", task_params);
             _latestTaskId[TaskType.Copilot] = id;
-            return id != 0;
+            return id != 0 && AsstStart();
         }
 
         public bool AsstStart()
