@@ -32,8 +32,7 @@ namespace MeoAsstGui
         private void Icon()
         {
             this.notifyIcon = new NotifyIcon();
-            //this.notifyIcon.BalloonTipText = "Hello, 文件监视器"; //设置程序启动时显示的文本
-            this.notifyIcon.Text = "MaaAssistantArknights";//最小化到托盘时，鼠标点击时显示的文本
+            this.notifyIcon.Text = "MaaAssistantArknights";
             this.notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
             this.notifyIcon.Visible = true;
             notifyIcon.MouseClick += NotifyIcon_MouseClick;
