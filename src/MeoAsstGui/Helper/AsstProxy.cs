@@ -612,12 +612,6 @@ namespace MeoAsstGui
                     }
                     break;
 
-                case "RecruitSlotCompleted":
-                    {
-                        mainModel.AddLog("当前公招槽位任务已完成");
-                        break;
-                    }
-
                 case "RecruitTagsSelected":
                     {
                         JArray selected = (JArray)subTaskDetails["tags"];
@@ -635,7 +629,7 @@ namespace MeoAsstGui
                 case "RecruitTagsRefreshed":
                     {
                         int refresh_count = (int)subTaskDetails["count"];
-                        mainModel.AddLog("当前公招槽位已刷新 " + refresh_count + " 次");
+                        mainModel.AddLog("当前槽位已刷新 " + refresh_count + " 次");
                         break;
                     }
 
