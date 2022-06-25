@@ -149,7 +149,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
         if (!recruit_task.run()) {
             json::value info = basic_info();
             info["what"] = "RecruitError";
-            info["why"] = "当前公招槽位识别错误";
+            info["why"] = "识别错误";
             callback(AsstMsg::SubTaskError, info);
             return true;
         }
@@ -170,7 +170,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
                     // 报个错，返回
                     json::value info = basic_info();
                     info["what"] = "RecruitError";
-                    info["why"] = "当前公招槽位刷新次数达到上限";
+                    info["why"] = "刷新次数达到上限";
                     info["details"] = json::object{
                         { "refresh_limit", refresh_limit }
                     };
@@ -218,17 +218,12 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     if (cur_retry_times == m_retry_times) {
         json::value info = basic_info();
         info["what"] = "RecruitError";
-        info["why"] = "当前公招槽位重试次数达到上限";
+        info["why"] = "重试次数达到上限";
         info["details"] = json::object{
             { "m_retry_times", m_retry_times }
         };
         callback(AsstMsg::SubTaskError, info);
-    }
-    // 正常结束了 callback 一下，避免有的用户觉得自己的 Tags 被刷新了
-    else {
-        json::value info = basic_info();
-        info["what"] = "RecruitSlotCompleted";
-        callback(AsstMsg::SubTaskExtraInfo, info);
+        return false;
     }
 
     return true;
