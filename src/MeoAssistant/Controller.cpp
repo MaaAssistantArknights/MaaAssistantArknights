@@ -785,6 +785,16 @@ std::optional<int> asst::Controller::start_game(const std::string& client_type, 
     return std::nullopt;
 }
 
+std::optional<int> asst::Controller::stop_game(bool block)
+{
+    std::string cur_cmd = m_adb.stop;
+    int id = push_cmd(cur_cmd);
+    if (block) {
+        wait(id);
+    }
+    return id;
+}
+
 int asst::Controller::click(const Point& p, bool block)
 {
     int x = static_cast<int>(p.x * m_control_scale);
@@ -1112,6 +1122,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     m_adb.screencap_encode = cmd_replace(adb_cfg.screencap_encode);
     m_adb.release = cmd_replace(adb_cfg.release);
     m_adb.start = cmd_replace(adb_cfg.start);
+    m_adb.stop = cmd_replace(adb_cfg.stop);
 
     if (m_support_socket && !m_server_started) {
         std::string bind_address;

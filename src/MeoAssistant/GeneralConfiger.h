@@ -54,6 +54,7 @@ namespace asst
         std::string screencap_encode;
         std::string release;
         std::string start;
+        std::string stop;
     };
 
     class GeneralConfiger : public AbstractConfiger

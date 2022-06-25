@@ -109,6 +109,7 @@ namespace MeoAsstGui
             ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
                 new GenericCombData<ActionType>{ Display="无动作",Value=ActionType.DoNothing },
+                new GenericCombData<ActionType>{ Display="退出 明日方舟",Value=ActionType.StopGame },
                 new GenericCombData<ActionType>{ Display="退出 MAA",Value=ActionType.ExitSelf },
                 new GenericCombData<ActionType>{ Display="关闭模拟器",Value=ActionType.ExitEmulator },
                 new GenericCombData<ActionType>{ Display="退出并关闭模拟器",Value=ActionType.ExitEmulatorAndSelf },
@@ -347,6 +348,11 @@ namespace MeoAsstGui
             if (Idle)   // 一般是点了“停止”按钮了
             {
                 return;
+            }
+
+            if (ActionAfterCompleted == ActionType.StopGame)
+            {
+                ret &= asstProxy.AsstStartCloseDown();
             }
 
             ret &= asstProxy.AsstStart();
@@ -608,6 +614,7 @@ namespace MeoAsstGui
         public enum ActionType
         {
             DoNothing,
+            StopGame,
             ExitSelf,
             ExitEmulator,
             ExitEmulatorAndSelf,

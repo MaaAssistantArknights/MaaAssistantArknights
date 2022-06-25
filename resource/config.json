@@ -44,7 +44,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
         },
         "BlueStacks": {
             "devices": "[Adb] devices",
@@ -61,7 +62,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
         },
         "MuMuEmulator": {
             "devices": "[Adb] devices",
@@ -78,7 +80,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
         },
         "LDPlayer": {
             "devices": "[Adb] devices",
@@ -95,7 +98,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
         },
         "Nox": {
             "devices": "[Adb] devices",
@@ -112,7 +116,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
         },
         "XYAZ": {
             "devices": "[Adb] devices",
@@ -129,7 +134,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
         },
         "WSA": {
             "devices": "[Adb] devices",
@@ -147,7 +153,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap -d [DisplayId] | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -d [DisplayId] -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
         },
         "Compatible": {
             "devices": "[Adb] devices",
@@ -164,7 +171,8 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]"
+            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
         }
     }
 }
