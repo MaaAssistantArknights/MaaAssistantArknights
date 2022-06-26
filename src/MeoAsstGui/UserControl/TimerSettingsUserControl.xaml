@@ -42,5 +42,29 @@
             <TextBox Text="{Binding Timer4Hour}" TextWrapping="Wrap" Margin="10"
                      Width="50" InputMethod.IsInputMethodEnabled="False" />
         </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding Timer5}" Content="定时 5" Margin="10" />
+            <TextBox Text="{Binding Timer5Hour}" TextWrapping="Wrap" Margin="10"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding Timer6}" Content="定时 6" Margin="10" />
+            <TextBox Text="{Binding Timer6Hour}" TextWrapping="Wrap" Margin="10"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding Timer7}" Content="定时 7" Margin="10" />
+            <TextBox Text="{Binding Timer7Hour}" TextWrapping="Wrap" Margin="10"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding Timer8}" Content="定时 8" Margin="10" />
+            <TextBox Text="{Binding Timer8Hour}" TextWrapping="Wrap" Margin="10"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+        </StackPanel>
     </Grid>
 </UserControl>
