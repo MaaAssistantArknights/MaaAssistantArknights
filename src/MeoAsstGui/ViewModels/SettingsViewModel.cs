@@ -537,11 +537,19 @@ namespace MeoAsstGui
         private bool _timer2 = ViewStatusStorage.Get("Timer.Timer2", bool.FalseString) == bool.TrueString;
         private bool _timer3 = ViewStatusStorage.Get("Timer.Timer3", bool.FalseString) == bool.TrueString;
         private bool _timer4 = ViewStatusStorage.Get("Timer.Timer4", bool.FalseString) == bool.TrueString;
+        private bool _timer5 = ViewStatusStorage.Get("Timer.Timer5", bool.FalseString) == bool.TrueString;
+        private bool _timer6 = ViewStatusStorage.Get("Timer.Timer6", bool.FalseString) == bool.TrueString;
+        private bool _timer7 = ViewStatusStorage.Get("Timer.Timer7", bool.FalseString) == bool.TrueString;
+        private bool _timer8 = ViewStatusStorage.Get("Timer.Timer8", bool.FalseString) == bool.TrueString;
 
         private int _timer1hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer1Hour", "0"));
         private int _timer2hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer2Hour", "6"));
         private int _timer3hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer3Hour", "12"));
         private int _timer4hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer4Hour", "18"));
+        private int _timer5hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer5Hour", "3"));
+        private int _timer6hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer6Hour", "9"));
+        private int _timer7hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer7Hour", "15"));
+        private int _timer8hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer8Hour", "21"));
 
         public bool Timer1
         {
@@ -583,6 +591,43 @@ namespace MeoAsstGui
             }
         }
 
+        public bool Timer5
+        {
+            get { return _timer5; }
+            set
+            {
+                SetAndNotify(ref _timer5, value);
+                ViewStatusStorage.Set("Timer.Timer5", value.ToString());
+            }
+        }
+        public bool Timer6
+        {
+            get { return _timer6; }
+            set
+            {
+                SetAndNotify(ref _timer6, value);
+                ViewStatusStorage.Set("Timer.Timer6", value.ToString());
+            }
+        }
+        public bool Timer7
+        {
+            get { return _timer7; }
+            set
+            {
+                SetAndNotify(ref _timer7, value);
+                ViewStatusStorage.Set("Timer.Timer7", value.ToString());
+            }
+        }
+        public bool Timer8
+        {
+            get { return _timer8; }
+            set
+            {
+                SetAndNotify(ref _timer8, value);
+                ViewStatusStorage.Set("Timer.Timer8", value.ToString());
+            }
+        }
+
         public int Timer1Hour
         {
             get { return _timer1hour; }
@@ -620,6 +665,46 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _timer4hour, value);
                 ViewStatusStorage.Set("Timer.Timer4Hour", value.ToString());
+            }
+        }
+
+        public int Timer5Hour
+        {
+            get { return _timer5hour; }
+            set
+            {
+                SetAndNotify(ref _timer5hour, value);
+                ViewStatusStorage.Set("Timer.Timer5Hour", value.ToString());
+            }
+        }
+
+        public int Timer6Hour
+        {
+            get { return _timer6hour; }
+            set
+            {
+                SetAndNotify(ref _timer6hour, value);
+                ViewStatusStorage.Set("Timer.Timer6Hour", value.ToString());
+            }
+        }
+
+        public int Timer7Hour
+        {
+            get { return _timer7hour; }
+            set
+            {
+                SetAndNotify(ref _timer7hour, value);
+                ViewStatusStorage.Set("Timer.Timer7Hour", value.ToString());
+            }
+        }
+
+        public int Timer8Hour
+        {
+            get { return _timer8hour; }
+            set
+            {
+                SetAndNotify(ref _timer8hour, value);
+                ViewStatusStorage.Set("Timer.Timer8Hour", value.ToString());
             }
         }
 
