@@ -44,6 +44,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         adb.screencap_encode = cfg_json.at("screencapEncode").as_string();
         adb.release = cfg_json.at("release").as_string();
         adb.start = cfg_json.at("start").as_string();
+        adb.stop = cfg_json.at("stop").as_string();
         //adb.pullscreen = cfg_json.at("pullscreen").as_string();
 
         m_adb_cfg[name] = std::move(adb);

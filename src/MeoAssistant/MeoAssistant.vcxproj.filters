@@ -339,6 +339,12 @@
     <ClInclude Include="DepotTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
+    <ClInclude Include="StopGameTaskPlugin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CloseDownTask.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -580,6 +586,12 @@
     </ClCompile>
     <ClCompile Include="DepotTask.cpp">
       <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="StopGameTaskPlugin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CloseDownTask.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -109,6 +109,7 @@ namespace MeoAsstGui
             ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
                 new GenericCombData<ActionType>{ Display="无动作",Value=ActionType.DoNothing },
+                new GenericCombData<ActionType>{ Display="退出 明日方舟",Value=ActionType.StopGame },
                 new GenericCombData<ActionType>{ Display="退出 MAA",Value=ActionType.ExitSelf },
                 new GenericCombData<ActionType>{ Display="关闭模拟器",Value=ActionType.ExitEmulator },
                 new GenericCombData<ActionType>{ Display="退出并关闭模拟器",Value=ActionType.ExitEmulatorAndSelf },
@@ -608,6 +609,7 @@ namespace MeoAsstGui
         public enum ActionType
         {
             DoNothing,
+            StopGame,
             ExitSelf,
             ExitEmulator,
             ExitEmulatorAndSelf,
@@ -621,6 +623,21 @@ namespace MeoAsstGui
             switch (ActionAfterCompleted)
             {
                 case ActionType.DoNothing:
+                    break;
+
+                case ActionType.StopGame:
+                    var asstProxy = _container.Get<AsstProxy>();
+                    if (!asstProxy.AsstStartCloseDown())
+                    {
+                        Execute.OnUIThread(() =>
+                        {
+                            using (var toast = new ToastNotification("游戏关闭失败"))
+                            {
+                                toast.AppendContentText("请手动关闭游戏")
+                                     .Show(lifeTime: 5, row: 2);
+                            }
+                        });
+                    }
                     break;
 
                 case ActionType.ExitSelf:
