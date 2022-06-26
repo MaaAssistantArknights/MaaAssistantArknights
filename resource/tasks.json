@@ -5339,7 +5339,24 @@
         "rearDelay": 500,
         "next": [
             "Roguelike1Recruit1",
-            "Roguelike1InitalDrop"
+            "Roguelike1InitalDrop",
+            "Roguelike1TryStartAgain"
+        ]
+    },
+    "Roguelike1TryStartAgain": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            600,
+            600,
+            50,
+            50
+        ],
+        "rearDelay": 1000,
+        "maxTimes": 5,
+        "next": [
+            "Roguelike1Start",
+            "Roguelike1TryStartAgain"
         ]
     },
     "Roguelike1InitalDrop": {
@@ -6695,6 +6712,7 @@
             50,
             50
         ],
+        "rearDelay": 1000,
         "next": [
             "Roguelike1Start",
             "Roguelike1StageTrader",
