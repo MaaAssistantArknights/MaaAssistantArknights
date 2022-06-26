@@ -13,6 +13,7 @@
 
 #include "FightTask.h"
 #include "StartUpTask.h"
+#include "CloseDownTask.h"
 #include "AwardTask.h"
 #include "VisitTask.h"
 #include "MallTask.h"
@@ -89,6 +90,7 @@ else if (type == TASK::TaskType) { ptr = std::make_shared<TASK>(task_callback, s
     if (false) {}
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(FightTask)
         ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(StartUpTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CloseDownTask)
         ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)
         ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VisitTask)
         ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(MallTask)

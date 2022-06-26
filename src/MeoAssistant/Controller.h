@@ -41,6 +41,7 @@ namespace asst
         /* 开启游戏、点击和滑动都是异步执行，返回该任务的id */
 
         std::optional<int> start_game(const std::string& client_type, bool block = true);
+        std::optional<int> stop_game(bool block = true);
 
         int click(const Point& p, bool block = true);
         int click(const Rect& rect, bool block = true);
@@ -126,6 +127,7 @@ namespace asst
             std::string release;
 
             std::string start;
+            std::string stop;
 
             /* propertities */
             enum class ScreencapEndOfLine

@@ -300,6 +300,11 @@ namespace MeoAsstGui
                         {
                             isMainTaskQueueAllCompleted = false;
                         }
+                        if (unique_runned_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
+                        {
+                            isMainTaskQueueAllCompleted = false;
+                            _latestTaskId.Clear();
+                        }
                     }
                     mainModel.Idle = true;
                     mainModel.UseStone = false;
@@ -315,7 +320,11 @@ namespace MeoAsstGui
                         //mainModel.CheckAndShutdown();
                         mainModel.CheckAfterCompleted();
                     }
-                    _latestTaskId.Clear();
+
+                    if (!_latestTaskId.TryGetValue(TaskType.CloseDown, out _))
+                    {
+                        _latestTaskId.Clear();
+                    }
                     break;
             }
         }
@@ -815,6 +824,7 @@ namespace MeoAsstGui
         private enum TaskType
         {
             StartUp,
+            CloseDown,
             Fight,
             Recruit,
             Infrast,
@@ -877,6 +887,13 @@ namespace MeoAsstGui
             TaskId id = AsstAppendTaskWithEncoding("StartUp", task_params);
             _latestTaskId[TaskType.StartUp] = id;
             return id != 0;
+        }
+
+        public bool AsstStartCloseDown()
+        {
+            TaskId id = AsstAppendTaskWithEncoding("CloseDown");
+            _latestTaskId[TaskType.CloseDown] = id;
+            return id != 0 && !AsstStart();
         }
 
         public bool AsstAppendVisit()
