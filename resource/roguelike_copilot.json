@@ -182,7 +182,7 @@
         "stage_name": "荒唐把戏",
         "replacement_home": [
             [
-                5,
+                4,
                 2
             ]
         ]
@@ -197,6 +197,28 @@
             [
                 7,
                 2
+            ]
+        ]
+    },
+    {
+        "stage_name": "开门请当心",
+        "replacement_home": [
+            [
+                10,
+                4
+            ],
+            [
+                10,
+                6
+            ]
+        ]
+    },
+    {
+        "stage_name": "覆水难收",
+        "replacement_home": [
+            [
+                3,
+                4
             ]
         ]
     }
