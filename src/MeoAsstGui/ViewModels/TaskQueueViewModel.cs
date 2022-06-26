@@ -33,13 +33,16 @@ namespace MeoAsstGui
         public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; set; }
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
-        private string _afterCompleteType = "";
-        public List<CombData> AfterCompleteList { get; set; }
+        private ActionType _actionAfterComplated = ActionType.DoNothing;
+        public List<GenericCombData<ActionType>> ActionAfterCompletedList { get; set; }
 
-        public string AfterCompleteType
+        public ActionType ActionAfterCompleted
         {
-            get { return _afterCompleteType; }
-            set { _afterCompleteType = value; }
+            get { return _actionAfterComplated; }
+            set
+            {
+                SetAndNotify(ref _actionAfterComplated, value);
+            }
         }
 
         public TaskQueueViewModel(IContainer container, IWindowManager windowManager)
@@ -103,15 +106,16 @@ namespace MeoAsstGui
         public void InitializeItems()
         {
             string[] task_list = new string[] { "开始唤醒", "刷理智", "自动公招", "基建换班", "访问好友", "收取信用及购物", "领取日常奖励", "无限刷肉鸽" };
-            AfterCompleteList = new List<CombData>
+            ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
-                new CombData{ Display="无动作",Value="" },
-                new CombData{ Display="退出",Value="exit" },
-                new CombData { Display = "关闭模拟器", Value = "killemulator" },
-                new CombData { Display = "退出并关闭模拟器", Value = "exitwithkillemulator" },
-                new CombData{ Display="关机",Value="shutdown" },
-                new CombData { Display = "待机", Value = "suspend" },
-                new CombData { Display = "休眠", Value = "hibernate" }
+                new GenericCombData<ActionType>{ Display="无动作",Value=ActionType.DoNothing },
+                new GenericCombData<ActionType>{ Display="退出 明日方舟",Value=ActionType.StopGame },
+                new GenericCombData<ActionType>{ Display="退出 MAA",Value=ActionType.ExitSelf },
+                new GenericCombData<ActionType>{ Display="关闭模拟器",Value=ActionType.ExitEmulator },
+                new GenericCombData<ActionType>{ Display="退出并关闭模拟器",Value=ActionType.ExitEmulatorAndSelf },
+                //new GenericCombData<ActionTypeAfterCompleted>{ Display="待机",Value=ActionTypeAfterCompleted.Suspend },
+                new GenericCombData<ActionType>{ Display="休眠",Value=ActionType.Hibernate },
+                new GenericCombData<ActionType>{ Display="关机",Value=ActionType.Shutdown },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             int order_offset = 0;
@@ -143,16 +147,16 @@ namespace MeoAsstGui
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
 
-                // SideStory「尘影余音」活动
-                new CombData { Display = "LE-7", Value = "LE-7" },
-                new CombData { Display = "LE-6", Value = "LE-6" },
-                new CombData { Display = "LE-5", Value = "LE-5" },
-
                 new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = "龙门币-6/5", Value = "CE-6" },
                 new CombData { Display = "经验-6/5", Value = "LS-6" },
                 new CombData { Display = "红票-5", Value = "AP-5" },
                 new CombData { Display = "技能-5", Value = "CA-5" },
+
+                // SideStory「尘影余音」活动
+                // new CombData { Display = "LE-7", Value = "LE-7" },
+                // new CombData { Display = "LE-6", Value = "LE-6" },
+                // new CombData { Display = "LE-5", Value = "LE-5" },
 
                 // “愚人号” 活动关卡
                 //new CombData { Display = "SN-8", Value = "SN-8" },
@@ -229,7 +233,7 @@ namespace MeoAsstGui
             {
                 if (item.Name == "无限刷肉鸽")
                     continue;
-                item.IsChecked = !item.IsChecked;
+                item.IsChecked = false;
             }
         }
 
@@ -251,13 +255,33 @@ namespace MeoAsstGui
             string errMsg = "";
             var task = Task.Run(() =>
             {
-                return asstProxy.AsstConnect(ref errMsg);
+                return asstProxy.AsstConnect(ref errMsg, true);
             });
             bool catchd = await task;
             if (!catchd)
             {
                 AddLog(errMsg, "darkred");
-                Idle = true;
+                var settingsModel = _container.Get<SettingsViewModel>();
+                var subtask = Task.Run(() =>
+                {
+                    settingsModel.TryToStartEmulator(true);
+                });
+                await subtask;
+                task = Task.Run(() =>
+                {
+                    return asstProxy.AsstConnect(ref errMsg);
+                });
+                catchd = await task;
+                if (!catchd)
+                {
+                    AddLog(errMsg, "darkred");
+                    Idle = true;
+                    return;
+                }
+            }
+
+            if (Idle)   // 一般是点了“停止”按钮了
+            {
                 return;
             }
 
@@ -411,6 +435,53 @@ namespace MeoAsstGui
             return asstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
         }
 
+        public void SetParams()
+        {
+            int medicine = 0;
+            if (UseMedicine)
+            {
+                if (!int.TryParse(MedicineNumber, out medicine))
+                {
+                    medicine = 0;
+                }
+            }
+            int stone = 0;
+            if (UseStone)
+            {
+                if (!int.TryParse(StoneNumber, out stone))
+                {
+                    stone = 0;
+                }
+            }
+            int times = int.MaxValue;
+            if (HasTimesLimited)
+            {
+                if (!int.TryParse(MaxTimes, out times))
+                {
+                    times = 0;
+                }
+            }
+            int drops_quantity = 0;
+            if (IsSpecifiedDrops)
+            {
+                if (!int.TryParse(DropsQuantity, out drops_quantity))
+                {
+                    drops_quantity = 0;
+                }
+            }
+
+            var asstProxy = _container.Get<AsstProxy>();
+            bool setted = asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+            if (setted)
+            {
+                AddLog("设置成功", "Black");
+            }
+            else
+            {
+                AddLog("设置失败", "Black");
+            }
+        }
+
         private bool appendInfrast()
         {
             var settings = _container.Get<SettingsViewModel>();
@@ -535,11 +606,50 @@ namespace MeoAsstGui
             return true;
         }
 
-        public void CheckAfterComplete()
+        public enum ActionType
         {
-            switch (AfterCompleteType)
+            DoNothing,
+            StopGame,
+            ExitSelf,
+            ExitEmulator,
+            ExitEmulatorAndSelf,
+            Suspend,
+            Hibernate,
+            Shutdown
+        }
+
+        public void CheckAfterCompleted()
+        {
+            switch (ActionAfterCompleted)
             {
-                case "killemulator":
+                case ActionType.DoNothing:
+                    break;
+
+                case ActionType.StopGame:
+                    var asstProxy = _container.Get<AsstProxy>();
+                    if (!asstProxy.AsstStartCloseDown())
+                    {
+                        Execute.OnUIThread(() =>
+                        {
+                            using (var toast = new ToastNotification("游戏关闭失败"))
+                            {
+                                toast.AppendContentText("请手动关闭游戏")
+                                     .Show(lifeTime: 5, row: 2);
+                            }
+                        });
+                    }
+                    break;
+
+                case ActionType.ExitSelf:
+                    if (!new ToastNotification().CheckToastSystem())
+                    {
+                        Environment.Exit(0); //不使用系统通知的情况下exit会关闭通知窗口
+                    }
+                    else ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
+                    Environment.Exit(0);
+                    break;
+
+                case ActionType.ExitEmulator:
                     if (!killemulator())
                         Execute.OnUIThread(() =>
                         {
@@ -551,7 +661,7 @@ namespace MeoAsstGui
                         });
                     break;
 
-                case "exitwithkillemulator":
+                case ActionType.ExitEmulatorAndSelf:
                     if (!killemulator())
                     {
                         Execute.OnUIThread(() =>
@@ -572,16 +682,7 @@ namespace MeoAsstGui
                     Environment.Exit(0);
                     break;
 
-                case "exit":
-                    if (!new ToastNotification().CheckToastSystem())
-                    {
-                        Environment.Exit(0); //不使用系统通知的情况下exit会关闭通知窗口
-                    }
-                    else ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
-                    Environment.Exit(0);
-                    break;
-
-                case "shutdown":
+                case ActionType.Shutdown:
                     System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
                     var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
                     if (result == MessageBoxResult.OK)
@@ -590,11 +691,13 @@ namespace MeoAsstGui
                     }
                     break;
 
-                case "suspend":
+                case ActionType.Suspend:
+                    System.Diagnostics.Process.Start("powercfg", "-h off");
                     System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+                    System.Diagnostics.Process.Start("powercfg", "-h on");
                     break;
 
-                case "hibernate":
+                case ActionType.Hibernate:
                     System.Diagnostics.Process.Start("shutdown.exe", "-h");
                     break;
 

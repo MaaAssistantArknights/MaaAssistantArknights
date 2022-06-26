@@ -10,6 +10,7 @@
 // but WITHOUT ANY WARRANTY
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,11 +60,21 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstSetTaskParams(AsstHandle handle, TaskId id, byte[] task_params);
 
+        private static bool AsstSetTaskParams(AsstHandle handle, TaskId id, string task_params)
+        {
+            return AsstSetTaskParams(handle, id, Encoding.UTF8.GetBytes(task_params));
+        }
+
         [DllImport("MeoAssistant.dll")] private static extern bool AsstStart(AsstHandle handle);
 
         [DllImport("MeoAssistant.dll")] private static extern bool AsstStop(AsstHandle handle);
 
         [DllImport("MeoAssistant.dll")] private static extern void AsstLog(byte[] level, byte[] message);
+
+        public static void AsstLog(string message)
+        {
+            AsstLog(Encoding.UTF8.GetBytes("GUI"), Encoding.UTF8.GetBytes(message));
+        }
 
         private readonly CallbackDelegate _callback;
 
@@ -126,7 +137,6 @@ namespace MeoAsstGui
             var mainModel = _container.Get<TaskQueueViewModel>();
             mainModel.Idle = true;
             var settingsModel = _container.Get<SettingsViewModel>();
-
             Execute.OnUIThread(async () =>
             {
                 var task = Task.Run(() =>
@@ -210,6 +220,8 @@ namespace MeoAsstGui
         }
 
         private bool connected = false;
+        private string connected_adb;
+        private string connected_address;
 
         private void procConnectInfo(JObject details)
         {
@@ -220,12 +232,14 @@ namespace MeoAsstGui
             {
                 case "Connected":
                     connected = true;
-                    svm.ConnectAddress = details["details"]["address"].ToString();
+                    connected_adb = details["details"]["adb"].ToString();
+                    connected_address = details["details"]["address"].ToString();
+                    svm.ConnectAddress = connected_address;
                     break;
 
                 case "UnsupportedResolution":
                     connected = false;
-                    mainModel.AddLog("分辨率过低，请设置为 720p 或更高", "darkred");
+                    mainModel.AddLog("分辨率不支持，请设置为 720p 或更高，且为 16:9 比例", "darkred");
                     break;
 
                 case "ResolutionError":
@@ -245,6 +259,11 @@ namespace MeoAsstGui
         private void procTaskChainMsg(AsstMsg msg, JObject details)
         {
             string taskChain = details["taskchain"].ToString();
+
+            if (taskChain == "CloseDown")
+            {
+                return;
+            }
 
             if (taskChain == "Recruit")
             {
@@ -285,16 +304,34 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.AllTasksCompleted:
-                    mainModel.Idle = true;
-                    mainModel.AddLog("任务已全部完成");
-                    mainModel.UseStone = false;
-                    using (var toast = new ToastNotification("任务已全部完成！"))
+                    bool isMainTaskQueueAllCompleted = true;
+                    var runned_tasks = details["runned_tasks"] as JArray;
+                    if (runned_tasks.Count == 1)
                     {
-                        toast.Show();
+                        var unique_runned_task = (TaskId)runned_tasks[0];
+                        if (unique_runned_task == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
+                            || unique_runned_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
+                            || unique_runned_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
+                        {
+                            isMainTaskQueueAllCompleted = false;
+                        }
                     }
+                    _latestTaskId.Clear();
+
+                    mainModel.Idle = true;
+                    mainModel.UseStone = false;
                     copilotModel.Idle = true;
-                    //mainModel.CheckAndShutdown();
-                    mainModel.CheckAfterComplete();
+
+                    if (isMainTaskQueueAllCompleted)
+                    {
+                        mainModel.AddLog("任务已全部完成");
+                        using (var toast = new ToastNotification("任务已全部完成！"))
+                        {
+                            toast.Show();
+                        }
+                        //mainModel.CheckAndShutdown();
+                        mainModel.CheckAfterCompleted();
+                    }
                     break;
             }
         }
@@ -339,17 +376,22 @@ namespace MeoAsstGui
                     break;
 
                 case "AutoRecruitTask":
-                    mainModel.AddLog("公招识别错误，已返回", "darkred");
-                    break;
+                    {
+                        var why_str = details.TryGetValue("why", out var why) ? why.ToString() : "出现错误";
+                        mainModel.AddLog(why_str + "，已返回", "darkred");
+                        break;
+                    }
 
                 case "RecognizeDrops":
                     mainModel.AddLog("掉落识别错误", "darkred");
                     break;
 
                 case "ReportToPenguinStats":
-                    var why = details["why"].ToString();
-                    mainModel.AddLog(why + "，放弃上传企鹅", "darkred");
-                    break;
+                    {
+                        var why = details["why"].ToString();
+                        mainModel.AddLog(why + "，放弃上传企鹅", "darkred");
+                        break;
+                    }
 
                 case "CheckStageValid":
                     mainModel.AddLog("EX 关卡，已停止", "darkred");
@@ -591,6 +633,13 @@ namespace MeoAsstGui
                     }
                     break;
 
+                case "RecruitTagsRefreshed":
+                    {
+                        int refresh_count = (int)subTaskDetails["count"];
+                        mainModel.AddLog("当前槽位已刷新 " + refresh_count + " 次");
+                        break;
+                    }
+
                 case "NotEnoughStaff":
                     {
                         mainModel.AddLog("可用干员不足", "darkred");
@@ -709,7 +758,7 @@ namespace MeoAsstGui
             }
         }
 
-        public bool AsstConnect(ref string error)
+        public bool AsstConnect(ref string error, bool firsttry = false)
         {
             if (!LoadGlobalResource())
             {
@@ -717,12 +766,14 @@ namespace MeoAsstGui
                 return false;
             }
 
-            if (connected)
+            var settings = _container.Get<SettingsViewModel>();
+            if (connected
+                && connected_adb == settings.AdbPath
+                && connected_address == settings.ConnectAddress)
             {
                 return true;
             }
 
-            var settings = _container.Get<SettingsViewModel>();
             if (settings.AdbPath == String.Empty ||
                 settings.ConnectAddress == String.Empty)
             {
@@ -750,18 +801,47 @@ namespace MeoAsstGui
             }
             if (!ret)
             {
-                error = "连接失败\n请检查连接设置";
+                if (firsttry)
+                    error = "连接失败\n正在尝试启动模拟器";
+                else error = "连接失败\n请检查连接设置";
             }
             return ret;
         }
 
-        private bool AsstAppendTaskWithEncoding(string type, JObject task_params = null)
+        private TaskId AsstAppendTaskWithEncoding(string type, JObject task_params = null)
         {
             task_params = task_params ?? new JObject();
-            return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(task_params)) != 0;
+            return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(task_params));
         }
 
-        public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
+        private bool AsstSetTaskParamsWithEncoding(TaskId id, JObject task_params = null)
+        {
+            if (id == 0)
+            {
+                return false;
+            }
+            task_params = task_params ?? new JObject();
+            return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(task_params));
+        }
+
+        private enum TaskType
+        {
+            StartUp,
+            CloseDown,
+            Fight,
+            Recruit,
+            Infrast,
+            Visit,
+            Mall,
+            Award,
+            Roguelike,
+            RecruitCalc,
+            Copilot
+        };
+
+        private Dictionary<TaskType, TaskId> _latestTaskId = new Dictionary<TaskType, TaskId>();
+
+        private JObject serializeFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
         {
             var task_params = new JObject();
             task_params["stage"] = stage;
@@ -778,25 +858,53 @@ namespace MeoAsstGui
             task_params["client_type"] = settings.ClientType;
             task_params["penguin_id"] = settings.PenguinId;
             task_params["server"] = "CN";
-            return AsstAppendTaskWithEncoding("Fight", task_params);
+            return task_params;
+        }
+
+        public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
+        {
+            var task_params = serializeFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
+            TaskId id = AsstAppendTaskWithEncoding("Fight", task_params);
+            _latestTaskId[TaskType.Fight] = id;
+            return id != 0;
+        }
+
+        public bool AsstSetFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
+        {
+            var task_params = serializeFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
+            return AsstSetTaskParamsWithEncoding(_latestTaskId.TryGetValue(TaskType.Fight, out var task_id) ? task_id : 0, task_params);
         }
 
         public bool AsstAppendAward()
         {
-            return AsstAppendTaskWithEncoding("Award");
+            TaskId id = AsstAppendTaskWithEncoding("Award");
+            _latestTaskId[TaskType.Award] = id;
+            return id != 0;
         }
 
         public bool AsstAppendStartUp(string client_type, bool enable)
         {
             var task_params = new JObject();
             task_params["client_type"] = client_type;
-            task_params["start_game_enable"] = enable;
-            return AsstAppendTaskWithEncoding("StartUp", task_params);
+            task_params["start_game_enabled"] = enable;
+            TaskId id = AsstAppendTaskWithEncoding("StartUp", task_params);
+            _latestTaskId[TaskType.StartUp] = id;
+            return id != 0;
+        }
+
+        public bool AsstStartCloseDown()
+        {
+            AsstStop();
+            TaskId id = AsstAppendTaskWithEncoding("CloseDown");
+            _latestTaskId[TaskType.CloseDown] = id;
+            return id != 0 && AsstStart();
         }
 
         public bool AsstAppendVisit()
         {
-            return AsstAppendTaskWithEncoding("Visit");
+            TaskId id = AsstAppendTaskWithEncoding("Visit");
+            _latestTaskId[TaskType.Visit] = id;
+            return id != 0;
         }
 
         public bool AsstAppendMall(bool with_shopping, string[] firstlist, string[] blacklist)
@@ -805,7 +913,9 @@ namespace MeoAsstGui
             task_params["shopping"] = with_shopping;
             task_params["buy_first"] = new JArray { firstlist };
             task_params["blacklist"] = new JArray { blacklist };
-            return AsstAppendTaskWithEncoding("Mall", task_params);
+            TaskId id = AsstAppendTaskWithEncoding("Mall", task_params);
+            _latestTaskId[TaskType.Mall] = id;
+            return id != 0;
         }
 
         public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited, bool skip_robot)
@@ -819,7 +929,9 @@ namespace MeoAsstGui
             task_params["expedite"] = use_expedited;
             task_params["expedite_times"] = max_times;
             task_params["skip_robot"] = skip_robot;
-            return AsstAppendTaskWithEncoding("Recruit", task_params);
+            TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
+            _latestTaskId[TaskType.Recruit] = id;
+            return id != 0;
         }
 
         public bool AsstAppendInfrast(int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold)
@@ -830,14 +942,18 @@ namespace MeoAsstGui
             task_params["drones"] = uses_of_drones;
             task_params["threshold"] = dorm_threshold;
             task_params["replenish"] = true;
-            return AsstAppendTaskWithEncoding("Infrast", task_params);
+            TaskId id = AsstAppendTaskWithEncoding("Infrast", task_params);
+            _latestTaskId[TaskType.Infrast] = id;
+            return id != 0;
         }
 
         public bool AsstAppendRoguelike(int mode)
         {
             var task_params = new JObject();
             task_params["mode"] = mode;
-            return AsstAppendTaskWithEncoding("Roguelike", task_params);
+            TaskId id = AsstAppendTaskWithEncoding("Roguelike", task_params);
+            _latestTaskId[TaskType.Roguelike] = id;
+            return id != 0;
         }
 
         public bool AsstStartRecruitCalc(int[] select_level, int required_len, bool set_time)
@@ -850,7 +966,9 @@ namespace MeoAsstGui
             task_params["set_time"] = true;
             task_params["expedite"] = false;
             task_params["expedite_times"] = 0;
-            return AsstAppendTaskWithEncoding("Recruit", task_params) && AsstStart();
+            TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
+            _latestTaskId[TaskType.RecruitCalc] = id;
+            return id != 0 && AsstStart();
         }
 
         public bool AsstStartCopilot(string stage_name, string filename, bool formation)
@@ -859,7 +977,9 @@ namespace MeoAsstGui
             task_params["stage_name"] = stage_name;
             task_params["filename"] = filename;
             task_params["formation"] = formation;
-            return AsstAppendTaskWithEncoding("Copilot", task_params) && AsstStart();
+            TaskId id = AsstAppendTaskWithEncoding("Copilot", task_params);
+            _latestTaskId[TaskType.Copilot] = id;
+            return id != 0 && AsstStart();
         }
 
         public bool AsstStart()
@@ -869,7 +989,9 @@ namespace MeoAsstGui
 
         public bool AsstStop()
         {
-            return AsstStop(_handle);
+            bool ret = AsstStop(_handle);
+            _latestTaskId.Clear();
+            return ret;
         }
 
         public void AsstDestroy()

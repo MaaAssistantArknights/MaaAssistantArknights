@@ -33,6 +33,7 @@ namespace MeoAsstGui
             builder.Bind<SettingsViewModel>().ToSelf().InSingletonScope();
             builder.Bind<CopilotViewModel>().ToSelf().InSingletonScope();
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
+            builder.Bind<TrayIcon>().ToSelf().InSingletonScope();
         }
 
         // 退出时执行啥自己加

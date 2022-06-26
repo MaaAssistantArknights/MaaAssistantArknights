@@ -11,9 +11,13 @@
 
 namespace MeoAsstGui
 {
-    public class CombData
+    public class GenericCombData<ValueType>
     {
         public string Display { get; set; }
-        public string Value { get; set; }
+        public ValueType Value { get; set; }
+    }
+
+    public class CombData : GenericCombData<string>
+    {
     }
 }

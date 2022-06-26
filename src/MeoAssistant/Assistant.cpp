@@ -13,6 +13,7 @@
 
 #include "FightTask.h"
 #include "StartUpTask.h"
+#include "CloseDownTask.h"
 #include "AwardTask.h"
 #include "VisitTask.h"
 #include "MallTask.h"
@@ -20,6 +21,7 @@
 #include "RecruitTask.h"
 #include "RoguelikeTask.h"
 #include "CopilotTask.h"
+#include "DepotTask.h"
 #ifdef ASST_DEBUG
 #include "DebugTask.h"
 #endif
@@ -82,44 +84,35 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     std::shared_ptr<PackageTask> ptr = nullptr;
 
-    if (type == FightTask::TaskType) {
-        ptr = std::make_shared<FightTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == StartUpTask::TaskType) {
-        ptr = std::make_shared<StartUpTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == AwardTask::TaskType) {
-        ptr = std::make_shared<AwardTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == VisitTask::TaskType) {
-        ptr = std::make_shared<VisitTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == MallTask::TaskType) {
-        ptr = std::make_shared<MallTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == InfrastTask::TaskType) {
-        ptr = std::make_shared<InfrastTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == RecruitTask::TaskType) {
-        ptr = std::make_shared<RecruitTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == RoguelikeTask::TaskType) {
-        ptr = std::make_shared<RoguelikeTask>(task_callback, static_cast<void*>(this));
-    }
-    else if (type == CopilotTask::TaskType) {
-        ptr = std::make_shared<CopilotTask>(task_callback, static_cast<void*>(this));
-    }
+#define ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(TASK) \
+else if (type == TASK::TaskType) { ptr = std::make_shared<TASK>(task_callback, static_cast<void*>(this)); }
+
+    if (false) {}
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(FightTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(StartUpTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CloseDownTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VisitTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(MallTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(InfrastTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RecruitTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoguelikeTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
 #ifdef ASST_DEBUG
-    else if (type == DebugTask::TaskType) {
-        ptr = std::make_shared<DebugTask>(task_callback, (void*)this);
-    }
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DebugTask)
 #endif
     else {
         Log.error(__FUNCTION__, "| invalid type:", type);
         return 0;
     }
 
-    bool params_ret = ptr->set_params(ret.value());
+#undef ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH
+
+    auto& json = ret.value();
+    bool enable = json.get("enable", true);
+    ptr->set_enable(enable);
+    bool params_ret = ptr->set_params(json);
     if (!params_ret) {
         return 0;
     }
@@ -144,14 +137,18 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
     if (!ret) {
         return false;
     }
+    auto& json = ret.value();
 
     bool setted = false;
     std::unique_lock<std::mutex> lock(m_mutex);
     for (auto&& [id, ptr] : m_tasks_list) {
-        if (id == task_id) {
-            setted = ptr->set_params(ret.value());
-            break;
+        if (id != task_id) {
+            continue;
         }
+        bool enable = json.get("enable", true);
+        ptr->set_enable(enable);
+        setted = ptr->set_params(json);
+        break;
     }
 
     return setted;
@@ -215,6 +212,7 @@ void Assistant::working_proc()
 {
     LogTraceFunction;
 
+    std::vector<TaskId> runned_tasks;
     while (!m_thread_exit) {
         //LogTraceScope("Assistant::working_proc Loop");
 
@@ -225,7 +223,7 @@ void Assistant::working_proc()
 
             json::value callback_json = json::object{
                 { "taskchain", task_ptr->get_task_chain() },
-                { "taskid", task_ptr->get_task_id() }
+                { "taskid", id }
             };
             task_callback(AsstMsg::TaskChainStart, callback_json, this);
 
@@ -234,6 +232,7 @@ void Assistant::working_proc()
                 .set_status(m_status);
 
             bool ret = task_ptr->run();
+            runned_tasks.emplace_back(id);
 
             lock.lock();
             if (!m_tasks_list.empty()) {
@@ -247,8 +246,10 @@ void Assistant::working_proc()
             }
             task_callback(run_msg, callback_json, this);
 
-            if (m_tasks_list.empty()) {
+            if (!m_thread_idle && m_tasks_list.empty()) {
+                callback_json["runned_tasks"] = json::array(runned_tasks);
                 task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
+                runned_tasks.clear();
             }
 
             auto delay = Resrc.cfg().get_options().task_delay;
@@ -258,6 +259,7 @@ void Assistant::working_proc()
         }
         else {
             m_thread_idle = true;
+            runned_tasks.clear();
             Log.flush();
             m_condvar.wait(lock);
         }

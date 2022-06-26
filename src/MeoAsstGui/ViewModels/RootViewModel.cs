@@ -9,6 +9,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
+using System;
 using System.Threading.Tasks;
 using Stylet;
 using StyletIoC;
@@ -17,6 +18,7 @@ namespace MeoAsstGui
 {
     public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
+        private TrayIcon _trayIcon;
         private readonly IContainer _container;
         private readonly IWindowManager _windowManager;
 
@@ -28,6 +30,7 @@ namespace MeoAsstGui
 
         protected override void OnViewLoaded()
         {
+            _trayIcon = new TrayIcon();
             CheckAndUpdateNow();
             InitProxy();
             InitViewModels();
@@ -94,6 +97,11 @@ namespace MeoAsstGui
         {
             get => _windowTitle;
             set => SetAndNotify(ref _windowTitle, value);
+        }
+
+        protected override void OnClose()
+        {
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }

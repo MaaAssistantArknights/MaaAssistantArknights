@@ -33,7 +33,7 @@ asst::ProcessTask::ProcessTask(AbstractTask&& abs, std::vector<std::string> task
 bool asst::ProcessTask::run()
 {
     if (!m_enable) {
-        Log.info("task is disable, pass", basic_info().to_string());
+        Log.info("task disabled, pass", basic_info().to_string());
         return true;
     }
     if (m_task_delay == TaskDelayUnsetted) {

@@ -20,12 +20,14 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+        virtual void callback(AsstMsg msg, const json::value& detail) override;
 
         bool analyze_start_buttons();
         bool recruit_index(size_t index);
         bool calc_and_recruit();
         bool check_recruit_home_page();
         bool check_time_unreduced();
+        bool check_time_reduced();
         bool recruit_now();
         bool confirm();
         bool refresh();

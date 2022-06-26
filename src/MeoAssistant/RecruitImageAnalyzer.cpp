@@ -53,20 +53,22 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
 
 bool asst::RecruitImageAnalyzer::time_analyze()
 {
-    const auto time_task_ptr = Task.get("RecruitTime");
+    const auto time_task_ptr = Task.get("RecruitCheckTimeUnreduced");
 
     MatchImageAnalyzer time_analyzer(m_image);
     time_analyzer.set_task_info(time_task_ptr);
+    // 这里检查时间是否没有调整过
+    if (!time_analyzer.analyze()) {
+        return false;
+    }
 
-    if (time_analyzer.analyze()) {
-        Rect rect = time_analyzer.get_result().rect;
-        const auto& res_move = time_task_ptr->rect_move;
-        if (!res_move.empty()) {
-            rect.x += res_move.x;
-            rect.y += res_move.y;
-            rect.width = res_move.width;
-            rect.height = res_move.height;
-        }
+    const auto set_time_task_ptr = Task.get("RecruitTimeReduce");
+
+    MatchImageAnalyzer set_time_analyzer(m_image);
+    set_time_analyzer.set_task_info(set_time_task_ptr);
+
+    if (set_time_analyzer.analyze()) {
+        Rect rect = set_time_analyzer.get_result().rect;
         m_set_time_rect.emplace_back(rect);
         return true;
     }

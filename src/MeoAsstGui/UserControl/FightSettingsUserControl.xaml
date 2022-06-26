@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:hc="https://handyorg.github.io/handycontrol"
-             xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              mc:Ignorable="d"
+             xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
+             xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:local="clr-namespace:MeoAsstGui"
              d:DataContext="{d:DesignInstance {x:Type vm:TaskQueueViewModel}}"
-             d:DesignHeight="200" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -17,32 +19,32 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding UseMedicine}" IsHitTestVisible="{Binding Idle}" Content="吃理智药" Margin="10" />
-            <TextBox Text="{Binding MedicineNumber}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
+            <CheckBox IsChecked="{Binding UseMedicine}" Content="吃理智药" Margin="10" />
+            <TextBox Text="{Binding MedicineNumber}" TextWrapping="Wrap" Margin="10"
                      Width="50" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="个" />
             <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding MedicineInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding UseStone}" IsHitTestVisible="{Binding Idle}" Content="吃石头　" Margin="10" />
-            <TextBox Text="{Binding StoneNumber}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
+            <CheckBox IsChecked="{Binding UseStone}" Content="吃石头　" Margin="10" />
+            <TextBox Text="{Binding StoneNumber}" TextWrapping="Wrap" Margin="10"
                      Width="50" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="颗" />
             <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding StoneInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding HasTimesLimited}" IsHitTestVisible="{Binding Idle}" Content="指定次数" Margin="10" />
-            <TextBox Text="{Binding MaxTimes}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap" Margin="10"
+            <CheckBox IsChecked="{Binding HasTimesLimited}" Content="指定次数" Margin="10" />
+            <TextBox Text="{Binding MaxTimes}" TextWrapping="Wrap" Margin="10"
                      Width="50" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="次" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding IsSpecifiedDrops}"  IsHitTestVisible="{Binding Idle}" Content="指定材料" Margin="10" />
+            <CheckBox IsChecked="{Binding IsSpecifiedDrops}" Content="指定材料" Margin="10" />
             <ComboBox Width="120" Margin="10"
-                      IsHitTestVisible ="{Binding Path=Idle}"
                       IsEditable="True"
                       IsTextSearchEnabled ="True"
                       DisplayMemberPath="Display"
@@ -54,7 +56,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="4" VerticalAlignment="Center">
             <!--<TextBlock Style="{StaticResource TextBlockDefault}" Margin="35,10,0,10" Text="掉落数 " />-->
-            <TextBox Text="{Binding DropsQuantity}" IsReadOnly="{c:Binding Path=!Idle}" TextWrapping="Wrap"
+            <TextBox Text="{Binding DropsQuantity}" TextWrapping="Wrap"
                      Width="95" Margin="98,10,10,10" InputMethod.IsInputMethodEnabled="False" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="个" />
         </StackPanel>
@@ -68,5 +70,6 @@
                       SelectedValuePath="Value"
                       SelectedValue="{Binding Stage}" />
         </StackPanel>
+        <Button Grid.Row="6" Command="{s:Action SetParams}" Visibility="{c:Binding !Idle}" HorizontalAlignment="Left" Content="修改" Width="50" Height="30" Margin="10" />
     </Grid>
 </UserControl>

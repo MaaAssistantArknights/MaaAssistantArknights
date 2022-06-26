@@ -25,10 +25,14 @@
     <ClInclude Include="AsstMsg.h" />
     <ClInclude Include="AutoRecruitTask.h" />
     <ClInclude Include="AwardTask.h" />
+    <ClInclude Include="CloseDownTask.h" />
     <ClInclude Include="CopilotConfiger.h" />
     <ClInclude Include="BattleFormationTask.h" />
     <ClInclude Include="BattleImageAnalyzer.h" />
     <ClInclude Include="BattleProcessTask.h" />
+    <ClInclude Include="DepotImageAnalyzer.h" />
+    <ClInclude Include="DepotRecognitionTask.h" />
+    <ClInclude Include="DepotTask.h" />
     <ClInclude Include="GameCrashRestartTaskPlugin.h" />
     <ClInclude Include="RoguelikeRecruitConfiger.h" />
     <ClInclude Include="CopilotTask.h" />
@@ -88,6 +92,7 @@
     <ClInclude Include="StageDropsTaskPlugin.h" />
     <ClInclude Include="StartGameTaskPlugin.h" />
     <ClInclude Include="StartUpTask.h" />
+    <ClInclude Include="StopGameTaskPlugin.h" />
     <ClInclude Include="TaskData.h" />
     <ClInclude Include="MatchImageAnalyzer.h" />
     <ClInclude Include="TemplResource.h" />
@@ -104,10 +109,14 @@
     <ClCompile Include="AbstractTaskPlugin.cpp" />
     <ClCompile Include="AutoRecruitTask.cpp" />
     <ClCompile Include="AwardTask.cpp" />
+    <ClCompile Include="CloseDownTask.cpp" />
     <ClCompile Include="CopilotConfiger.cpp" />
     <ClCompile Include="BattleFormationTask.cpp" />
     <ClCompile Include="BattleImageAnalyzer.cpp" />
     <ClCompile Include="BattleProcessTask.cpp" />
+    <ClCompile Include="DepotImageAnalyzer.cpp" />
+    <ClCompile Include="DepotRecognitionTask.cpp" />
+    <ClCompile Include="DepotTask.cpp" />
     <ClCompile Include="GameCrashRestartTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeRecruitConfiger.cpp" />
     <ClCompile Include="CopilotTask.cpp" />
@@ -168,6 +177,7 @@
     <ClCompile Include="StageDropsTaskPlugin.cpp" />
     <ClCompile Include="StartGameTaskPlugin.cpp" />
     <ClCompile Include="StartUpTask.cpp" />
+    <ClCompile Include="StopGameTaskPlugin.cpp" />
     <ClCompile Include="TaskData.cpp" />
     <ClCompile Include="MatchImageAnalyzer.cpp" />
     <ClCompile Include="TemplResource.cpp" />
