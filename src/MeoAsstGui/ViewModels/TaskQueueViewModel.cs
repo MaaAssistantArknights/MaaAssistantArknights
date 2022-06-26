@@ -97,7 +97,11 @@ namespace MeoAsstGui
             if (settings.Timer1 && settings.Timer1Hour == intHour ||
                 settings.Timer2 && settings.Timer2Hour == intHour ||
                 settings.Timer3 && settings.Timer3Hour == intHour ||
-                settings.Timer4 && settings.Timer4Hour == intHour)
+                settings.Timer4 && settings.Timer4Hour == intHour ||
+                settings.Timer5 && settings.Timer5Hour == intHour ||
+                settings.Timer6 && settings.Timer6Hour == intHour ||
+                settings.Timer7 && settings.Timer7Hour == intHour ||
+                settings.Timer8 && settings.Timer8Hour == intHour)
             {
                 LinkStart();
             }
