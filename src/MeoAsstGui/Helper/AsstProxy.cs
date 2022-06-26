@@ -251,6 +251,11 @@ namespace MeoAsstGui
         {
             string taskChain = details["taskchain"].ToString();
 
+            if (taskChain == "CloseDown")
+            {
+                return;
+            }
+
             if (taskChain == "Recruit")
             {
                 if (msg == AsstMsg.TaskChainError)
@@ -296,16 +301,14 @@ namespace MeoAsstGui
                     {
                         var unique_runned_task = (TaskId)runned_tasks[0];
                         if (unique_runned_task == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
-                            || unique_runned_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0))
+                            || unique_runned_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
+                            || unique_runned_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
                         {
                             isMainTaskQueueAllCompleted = false;
-                        }
-                        if (unique_runned_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
-                        {
-                            isMainTaskQueueAllCompleted = false;
-                            _latestTaskId.Clear();
                         }
                     }
+                    _latestTaskId.Clear();
+
                     mainModel.Idle = true;
                     mainModel.UseStone = false;
                     copilotModel.Idle = true;
@@ -319,11 +322,6 @@ namespace MeoAsstGui
                         }
                         //mainModel.CheckAndShutdown();
                         mainModel.CheckAfterCompleted();
-                    }
-
-                    if (!_latestTaskId.TryGetValue(TaskType.CloseDown, out _))
-                    {
-                        _latestTaskId.Clear();
                     }
                     break;
             }
@@ -885,9 +883,10 @@ namespace MeoAsstGui
 
         public bool AsstStartCloseDown()
         {
+            AsstStop();
             TaskId id = AsstAppendTaskWithEncoding("CloseDown");
             _latestTaskId[TaskType.CloseDown] = id;
-            return id != 0 && !AsstStart();
+            return id != 0 && AsstStart();
         }
 
         public bool AsstAppendVisit()
