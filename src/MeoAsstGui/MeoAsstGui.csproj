@@ -104,7 +104,7 @@
       <DependentUpon>TraySettingsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\WinAdapter.cs" />
-    <Compile Include="TrayIcon.cs" />
+    <Compile Include="Helper\TrayIcon.cs" />
     <Compile Include="UserControl\StartSettingsUserControl.xaml.cs">
       <DependentUpon>StartSettingsUserControl.xaml</DependentUpon>
     </Compile>

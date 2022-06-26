@@ -30,11 +30,7 @@ namespace MeoAsstGui
 
         protected override void OnViewLoaded()
         {
-            if (Convert.ToBoolean(ViewStatusStorage.Get("UseTray", bool.TrueString)))
-            {
-                _trayIcon = new TrayIcon();
-            }
-
+            _trayIcon = new TrayIcon();
             CheckAndUpdateNow();
             InitProxy();
             InitViewModels();
@@ -102,14 +98,10 @@ namespace MeoAsstGui
             get => _windowTitle;
             set => SetAndNotify(ref _windowTitle, value);
         }
+
         protected override void OnClose()
         {
-            base.OnClose();
-            if (Convert.ToBoolean(ViewStatusStorage.Get("UseTray", bool.TrueString)))
-            {
-                _trayIcon.Close();
-                _trayIcon = null;
-            }
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }

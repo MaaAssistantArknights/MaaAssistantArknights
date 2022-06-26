@@ -21,25 +21,24 @@ namespace MeoAsstGui
 {
     public partial class TrayIcon : Window
     {
+        private NotifyIcon notifyIcon = new NotifyIcon();
+        private WindowState ws; //记录窗体状态
+        private bool _isMinimizeToTaskbar = false;
 
-        NotifyIcon notifyIcon = null;
-        WindowState ws; //记录窗体状态
-        private bool _isMinimizeToTaskbar = Convert.ToBoolean(ViewStatusStorage.Get("MinimizeToTray", bool.FalseString));
         public TrayIcon()
         {
-            Icon();
+            InitIcon();
         }
-        private void Icon()
+
+        private void InitIcon()
         {
-            this.notifyIcon = new NotifyIcon();
             this.notifyIcon.Text = "MaaAssistantArknights";
             this.notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
-            this.notifyIcon.Visible = true;
             notifyIcon.MouseClick += NotifyIcon_MouseClick;
             notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
             App.Current.MainWindow.StateChanged += MainWindow_StateChanged;
 
-            MenuItem menu1 = new System.Windows.Forms.MenuItem("打开助手");
+            MenuItem menu1 = new System.Windows.Forms.MenuItem("打开 MAA");
             menu1.Click += App_show;
             MenuItem menu2 = new System.Windows.Forms.MenuItem("退出");
             menu2.Click += App_exit;
@@ -54,8 +53,10 @@ namespace MeoAsstGui
             {
                 SetShowInTaskbar(false);
             }
-            else SetShowInTaskbar(true);
-
+            else
+            {
+                SetShowInTaskbar(true);
+            }
         }
 
         private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
@@ -73,12 +74,12 @@ namespace MeoAsstGui
             }
         }
 
-        void App_exit(object sender, EventArgs e)
+        private void App_exit(object sender, EventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
         }
 
-        void App_show(object sender, EventArgs e)
+        private void App_show(object sender, EventArgs e)
         {
             SetShowInTaskbar(true);
             ws = App.Current.MainWindow.WindowState = WindowState.Normal;
@@ -101,7 +102,16 @@ namespace MeoAsstGui
             {
                 App.Current.MainWindow.ShowInTaskbar = state;
             }
-            else return;
+        }
+
+        public void SetVisible(bool visible)
+        {
+            notifyIcon.Visible = visible;
+        }
+
+        public void SetMinimizeToTaskbar(bool enable)
+        {
+            _isMinimizeToTaskbar = enable;
         }
     }
 }

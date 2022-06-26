@@ -60,6 +60,10 @@ namespace MeoAsstGui
 
             InfrastInit();
             ToastPositionInit();
+
+            var trayObj = _container.Get<TrayIcon>();
+            trayObj.SetVisible(UseTray);
+            trayObj.SetMinimizeToTaskbar(MinimizeToTray);
         }
 
         private List<string> _listTitle = new List<string>();
@@ -1263,8 +1267,10 @@ namespace MeoAsstGui
                 }
             }
         }
+
         /* 托盘设置 */
-        private bool _usetray = Convert.ToBoolean(ViewStatusStorage.Get("UseTray", bool.TrueString));
+        private bool _usetray = Convert.ToBoolean(ViewStatusStorage.Get("Tray.UseTray", bool.TrueString));
+
         public bool UseTray
         {
             get { return _usetray; }
@@ -1272,15 +1278,18 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _usetray, value);
                 ViewStatusStorage.Set("UseTray", value.ToString());
+                var trayObj = _container.Get<TrayIcon>();
+                trayObj.SetVisible(value);
+
                 if (!Convert.ToBoolean(value))
                 {
-                    ViewStatusStorage.Set("MinimizeToTray", bool.FalseString);
                     MinimizeToTray = false;
                 }
             }
         }
 
-        private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("MinimizeToTray", bool.FalseString));
+        private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("Tray.MinimizeToTray", bool.FalseString));
+
         public bool MinimizeToTray
         {
             get { return _minimizeToTray; }
@@ -1288,6 +1297,8 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _minimizeToTray, value);
                 ViewStatusStorage.Set("MinimizeToTray", value.ToString());
+                var trayObj = _container.Get<TrayIcon>();
+                trayObj.SetMinimizeToTaskbar(value);
             }
         }
     }
