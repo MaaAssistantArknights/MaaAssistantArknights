@@ -239,7 +239,7 @@ namespace MeoAsstGui
 
                 case "UnsupportedResolution":
                     connected = false;
-                    mainModel.AddLog("分辨率过低，请设置为 720p 或更高", "darkred");
+                    mainModel.AddLog("分辨率不支持，请设置为 720p 或更高，且为 16:9 比例", "darkred");
                     break;
 
                 case "ResolutionError":

@@ -1086,6 +1086,13 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
             return false;
         }
+        else if (std::fabs(static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault)
+            - static_cast<double>(m_width) / static_cast<double>(m_height)) > 0.1) {
+            info["what"] = "UnsupportedResolution";
+            info["why"] = "Not 16:9";
+            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            return false;
+        }
     }
 
     /* calc ratio */
@@ -1182,7 +1189,7 @@ bool asst::Controller::release()
     {
         return call_command(m_adb.release).has_value();
     }
-}
+    }
 
 bool asst::Controller::inited() const noexcept
 {
