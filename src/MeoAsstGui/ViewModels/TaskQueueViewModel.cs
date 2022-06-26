@@ -350,11 +350,6 @@ namespace MeoAsstGui
                 return;
             }
 
-            if (ActionAfterCompleted == ActionType.StopGame)
-            {
-                ret &= asstProxy.AsstStartCloseDown();
-            }
-
             ret &= asstProxy.AsstStart();
 
             if (ret)
@@ -628,6 +623,21 @@ namespace MeoAsstGui
             switch (ActionAfterCompleted)
             {
                 case ActionType.DoNothing:
+                    break;
+
+                case ActionType.StopGame:
+                    var asstProxy = _container.Get<AsstProxy>();
+                    if (!asstProxy.AsstStartCloseDown())
+                    {
+                        Execute.OnUIThread(() =>
+                        {
+                            using (var toast = new ToastNotification("游戏关闭失败"))
+                            {
+                                toast.AppendContentText("请手动关闭游戏")
+                                     .Show(lifeTime: 5, row: 2);
+                            }
+                        });
+                    }
                     break;
 
                 case ActionType.ExitSelf:
