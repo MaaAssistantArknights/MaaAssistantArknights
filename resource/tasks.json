@@ -6583,7 +6583,14 @@
         "templThreshold": 0.85,
         "rearDelay": 1000,
         "next": [
-            "Roguelike1ChooseOperFlag"
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1GetDropCompleted",
+            "Roguelike1GetDrop1",
+            "Roguelike1GetDrop2",
+            "Roguelike1GetDrop3",
+            "Roguelike1GetDropSelect",
+            "Roguelike1GetDropRecruit",
+            "Roguelike1GetDropLeave"
         ]
     },
     "Roguelike1GetDropSelect": {
