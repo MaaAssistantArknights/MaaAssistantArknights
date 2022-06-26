@@ -9,14 +9,8 @@
              xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
              d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
              d:DesignHeight="80" d:DesignWidth="550">
-    <StackPanel VerticalAlignment="Center" Margin="10">
-        <TextBlock HorizontalAlignment="Center" Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}"
-                TextWrapping="Wrap"
-                Text="以下设置重启助手后生效"
-                Margin="10" />
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
         <CheckBox IsChecked="{Binding UseTray}" Content="使用托盘" Margin="10" />
-        <CheckBox IsChecked="{Binding MinimizeToTray}" IsEnabled="{Binding UseTray}" Content="单击最小化时隐藏至托盘" Margin="10" />
+        <CheckBox IsChecked="{Binding MinimizeToTray}" IsEnabled="{Binding UseTray}" Content="最小化时隐藏至托盘" Margin="10" />
     </StackPanel>
 </UserControl>
-    
