@@ -251,7 +251,8 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     std::smatch penguinid_sm;
     if (std::regex_search(response, penguinid_sm, penguinid_regex)) {
         json::value id_info = basic_info_with_what("PenguinId");
-        id_info["details"]["id"] = std::string(penguinid_sm[1]);
+        m_penguin_id = penguinid_sm[1];
+        id_info["details"]["id"] = m_penguin_id;
         callback(AsstMsg::SubTaskExtraInfo, id_info);
     }
 
