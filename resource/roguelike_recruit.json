@@ -298,12 +298,12 @@
             "skill": 1
         },
         {
-            "name": "夜半",
+            "name": "夜半_N",
             "level": 5,
             "skill": 1
         },
         {
-            "name": "豆苗",
+            "name": "豆苗_N",
             "level": 4,
             "skill": 1
         },
@@ -971,12 +971,12 @@
             "skill": 1
         },
         {
-            "name": "霜华",
+            "name": "霜华_N",
             "level": 5,
             "skill": 1
         },
         {
-            "name": "罗宾",
+            "name": "罗宾_N",
             "level": 5,
             "skill": 1
         },
@@ -986,7 +986,7 @@
             "skill": 1
         },
         {
-            "name": "阿",
+            "name": "阿_N",
             "level": 6,
             "skill": 2
         },
@@ -1200,7 +1200,7 @@
             "skill_usage": 2
         },
         {
-            "name": "掠风",
+            "name": "掠风_N",
             "level": 5,
             "skill": 1
         },
@@ -1220,7 +1220,7 @@
             "skill": 1
         },
         {
-            "name": "罗比菈塔",
+            "name": "罗比菈塔_N",
             "level": 4,
             "skill": 1
         },

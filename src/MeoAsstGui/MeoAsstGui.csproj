@@ -100,7 +100,11 @@
     <Compile Include="Helper\ScrollViewerBinding.cs" />
     <Compile Include="Helper\ViewStatusStorage.cs" />
     <Compile Include="Helper\FlowDocumentPagePadding.cs" />
+    <Compile Include="UserControl\TraySettingsUserControl.xaml.cs">
+      <DependentUpon>TraySettingsUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helper\WinAdapter.cs" />
+    <Compile Include="Helper\TrayIcon.cs" />
     <Compile Include="UserControl\StartSettingsUserControl.xaml.cs">
       <DependentUpon>StartSettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -197,6 +201,9 @@
     <Page Include="UserControl\AboutUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl\TraySettingsUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\VersionUpdateSettingsUserControl.xaml">
       <SubType>Designer</SubType>

@@ -15,8 +15,8 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="10">
-            <CheckBox IsChecked="{Binding RefreshLevel3}" Content="自动刷新3星Tags" VerticalAlignment="Center" Margin="10" />
-            <CheckBox IsChecked="{Binding UseExpedited}" Content="自动使用加急许可" VerticalAlignment="Center" Margin="10" />
+            <CheckBox IsChecked="{Binding RefreshLevel3}" Content="自动刷新3星Tags" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" />
+            <CheckBox IsChecked="{Binding UseExpedited}" Content="自动使用加急许可" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 10">
                 <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
                    Text="每次执行时&#xA;最大招募次数" Margin="5" VerticalAlignment="Center" />

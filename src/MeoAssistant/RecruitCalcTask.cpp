@@ -26,7 +26,7 @@ bool RecruitCalcTask::_run()
 
     if (m_set_time) {
         for (const auto& rect : analyzer.get_set_time_rect()) {
-            m_ctrler->click(rect, false);
+            m_ctrler->click(rect);
         }
     }
     const std::vector<TextRect>& all_tags = analyzer.get_tags_result();
@@ -211,7 +211,7 @@ bool RecruitCalcTask::_run()
 
             for (const TextRect& text_area : all_tags) {
                 if (std::find(final_tags_name.cbegin(), final_tags_name.cend(), text_area.text) != final_tags_name.cend()) {
-                    m_ctrler->click(text_area.rect, true);
+                    m_ctrler->click(text_area.rect);
                 }
             }
 

@@ -2731,20 +2731,14 @@
         "algorithm": "JustReturn",
         "action": "Stop"
     },
-    "RecruitTime": {
-        "template": "RecruitTimeReduce.png",
+    "RecruitTimeReduce": {
         "action": "ClickSelf",
+        "Doc": "检查到01，调整时间",
         "roi": [
             350,
-            150,
+            250,
             200,
-            150
-        ],
-        "rectMove": [
-            7,
-            94,
-            129,
-            44
+            100
         ]
     },
     "RecruitTags": {
@@ -2826,9 +2820,18 @@
         "rearDelay": 2000
     },
     "RecruitCheckTimeUnreduced": {
-        "action": "Stop",
-        "template": "RecruitTimeReduce.png",
+        "action": "DoNothing",
         "Doc": "检查时间是不是没有调整过",
+        "roi": [
+            350,
+            150,
+            200,
+            150
+        ]
+    },
+    "RecruitCheckTimeReduced": {
+        "action": "DoNothing",
+        "Doc": "检查时间是不是调整过",
         "roi": [
             350,
             150,
@@ -2937,15 +2940,8 @@
         ]
     },
     "Return": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
+        "action": "ClickSelf",
         "templThreshold": 0.7,
-        "specificRect": [
-            20,
-            20,
-            135,
-            35
-        ],
         "rearDelay": 2000
     },
     "EnterInfrast": {
@@ -5343,7 +5339,24 @@
         "rearDelay": 500,
         "next": [
             "Roguelike1Recruit1",
-            "Roguelike1InitalDrop"
+            "Roguelike1InitalDrop",
+            "Roguelike1TryStartAgain"
+        ]
+    },
+    "Roguelike1TryStartAgain": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            600,
+            600,
+            50,
+            50
+        ],
+        "rearDelay": 1000,
+        "maxTimes": 5,
+        "next": [
+            "Roguelike1Start",
+            "Roguelike1TryStartAgain"
         ]
     },
     "Roguelike1InitalDrop": {
@@ -6570,7 +6583,14 @@
         "templThreshold": 0.85,
         "rearDelay": 1000,
         "next": [
-            "Roguelike1ChooseOperFlag"
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1GetDropCompleted",
+            "Roguelike1GetDrop1",
+            "Roguelike1GetDrop2",
+            "Roguelike1GetDrop3",
+            "Roguelike1GetDropSelect",
+            "Roguelike1GetDropRecruit",
+            "Roguelike1GetDropLeave"
         ]
     },
     "Roguelike1GetDropSelect": {
@@ -6699,6 +6719,7 @@
             50,
             50
         ],
+        "rearDelay": 1000,
         "next": [
             "Roguelike1Start",
             "Roguelike1StageTrader",
@@ -6912,6 +6933,110 @@
             270,
             250,
             100
+        ]
+    },
+    "DeoptMatchData": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "roi": [
+            0,
+            0,
+            1060,
+            596
+        ],
+        "roi_Doc": "作为截图的缩放尺寸使用",
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "DeoptBaseRect": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            90,
+            219,
+            150
+        ]
+    },
+    "DeoptQuantity": {
+        "template": "empty.png",
+        "templThreshold": 3,
+        "templThreshold_Doc": "这里用来作为字间距阈值",
+        "roi": [
+            36,
+            69,
+            47,
+            20
+        ],
+        "maskRange": [
+            150,
+            255
+        ]
+    },
+    "DepotTaskSlowlySwipeRightRect": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            780,
+            200,
+            100,
+            300
+        ],
+        "preDelay": 1500,
+        "rearDelay": 300,
+        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
+    },
+    "DepotTaskSlowlySwipeLeftRect": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            300,
+            200,
+            100,
+            300
+        ]
+    },
+    "DepotBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "DepotEnter",
+            "DepotMaterialTab",
+            "DepotMaterialTabClicked"
+        ]
+    },
+    "DepotEnter": {
+        "action": "ClickSelf",
+        "roi": [
+            1109,
+            560,
+            171,
+            160
+        ],
+        "next": [
+            "DepotMaterialTab"
+        ]
+    },
+    "DepotMaterialTab": {
+        "action": "ClickSelf",
+        "roi": [
+            1026,
+            0,
+            254,
+            138
+        ],
+        "next": [
+            "DepotMaterialTabClicked"
+        ]
+    },
+    "DepotMaterialTabClicked": {
+        "action": "DoNothing",
+        "roi": [
+            1026,
+            0,
+            254,
+            138
         ]
     }
 }
