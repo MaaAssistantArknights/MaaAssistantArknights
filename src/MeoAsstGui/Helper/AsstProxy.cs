@@ -71,6 +71,11 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistant.dll")] private static extern void AsstLog(byte[] level, byte[] message);
 
+        public static void AsstLog(string message)
+        {
+            AsstLog(Encoding.UTF8.GetBytes("GUI"), Encoding.UTF8.GetBytes(message));
+        }
+
         private readonly CallbackDelegate _callback;
 
         public AsstProxy(IContainer container, IWindowManager windowManager)
@@ -215,6 +220,8 @@ namespace MeoAsstGui
         }
 
         private bool connected = false;
+        private string connected_adb;
+        private string connected_address;
 
         private void procConnectInfo(JObject details)
         {
@@ -225,7 +232,9 @@ namespace MeoAsstGui
             {
                 case "Connected":
                     connected = true;
-                    svm.ConnectAddress = details["details"]["address"].ToString();
+                    connected_adb = details["details"]["adb"].ToString();
+                    connected_address = details["details"]["address"].ToString();
+                    svm.ConnectAddress = connected_address;
                     break;
 
                 case "UnsupportedResolution":
@@ -757,12 +766,14 @@ namespace MeoAsstGui
                 return false;
             }
 
-            if (connected)
+            var settings = _container.Get<SettingsViewModel>();
+            if (connected
+                && connected_adb == settings.AdbPath
+                && connected_address == settings.ConnectAddress)
             {
                 return true;
             }
 
-            var settings = _container.Get<SettingsViewModel>();
             if (settings.AdbPath == String.Empty ||
                 settings.ConnectAddress == String.Empty)
             {
