@@ -136,7 +136,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
     int maybe_level;
     bool has_robot_tag;
 
-    for (; cur_retry_times < m_retry_times; ++cur_retry_times) {
+    while (cur_retry_times < m_retry_times) {
         RecruitCalcTask recruit_task(m_callback, m_callback_arg, m_task_chain);
         recruit_task.set_param(m_select_level, true, m_skip_robot)
             .set_retry_times(m_retry_times)
@@ -194,6 +194,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
         // 造成时间没调的原因可见： https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
         // 这里如果时间没调整过，但是 tag 点上了，再来一次是不是会又把 tag 点掉？
         if (!check_time_reduced()) {
+            ++cur_retry_times;
             Log.warn("unreduced recruit check time detected, rerunning recruit task");
             continue;
         }
@@ -211,22 +212,18 @@ bool asst::AutoRecruitTask::calc_and_recruit()
             click_return_button();
         }
 
-        break;
+        return true;
     }
 
     // 重试次数达到上限时报错并返回
-    if (cur_retry_times == m_retry_times) {
-        json::value info = basic_info();
-        info["what"] = "RecruitError";
-        info["why"] = "重试次数达到上限";
-        info["details"] = json::object{
-            { "m_retry_times", m_retry_times }
-        };
-        callback(AsstMsg::SubTaskError, info);
-        return false;
-    }
-
-    return true;
+    json::value info = basic_info();
+    info["what"] = "RecruitError";
+    info["why"] = "重试次数达到上限";
+    info["details"] = json::object{
+        { "m_retry_times", m_retry_times }
+    };
+    callback(AsstMsg::SubTaskError, info);
+    return false;
 }
 
 bool asst::AutoRecruitTask::check_time_unreduced()
