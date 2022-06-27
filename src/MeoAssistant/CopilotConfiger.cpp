@@ -14,8 +14,8 @@ bool asst::CopilotConfiger::parse(const json::value& json)
     battle_actions.details = json.get("doc", "details", std::string());
     battle_actions.details_color = json.get("doc", "details_color", std::string());
 
-    if (json.contains("groups")) {
-        for (const auto& group_info : json.at("groups").as_array()) {
+    if (auto opt = json.find<json::array>("groups")) {
+        for (const auto& group_info : opt.value()) {
             std::string group_name = group_info.at("name").as_string();
             std::vector<BattleDeployOper> oper_vec;
             for (const auto& oper_info : group_info.at("opers").as_array()) {
@@ -29,8 +29,8 @@ bool asst::CopilotConfiger::parse(const json::value& json)
         }
     }
 
-    if (json.contains("opers")) {
-        for (const auto& oper_info : json.at("opers").as_array()) {
+    if (auto opt = json.find<json::array>("opers")) {
+        for (const auto& oper_info : opt.value()) {
             BattleDeployOper oper;
             oper.name = oper_info.at("name").as_string();
             oper.skill = oper_info.get("skill", 1);

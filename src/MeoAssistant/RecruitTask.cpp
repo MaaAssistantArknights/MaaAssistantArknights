@@ -20,13 +20,14 @@ asst::RecruitTask::RecruitTask(const AsstCallback& callback, void* callback_arg)
 
 bool asst::RecruitTask::set_params(const json::value& params)
 {
-    if (!params.contains("select") || !params.at("select").is_array()
-        || !params.contains("confirm") || !params.at("confirm").is_array()) {
+    auto select_opt = params.find<json::array>("select");
+    auto confirm_opt = params.find<json::array>("confirm");
+    if (!select_opt || !confirm_opt) {
         return false;
     }
 
     std::vector<int> select;
-    for (const auto& select_num_json : params.at("select").as_array()) {
+    for (const auto& select_num_json : select_opt.value()) {
         if (!select_num_json.is_number()) {
             return false;
         }
@@ -34,7 +35,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
     }
 
     std::vector<int> confirm;
-    for (const auto& confirm_num_json : params.at("confirm").as_array()) {
+    for (const auto& confirm_num_json : confirm_opt.value()) {
         if (!confirm_num_json.is_number()) {
             return false;
         }

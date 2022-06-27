@@ -19,16 +19,14 @@ bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
         std::string stage_name = stage_info.at("stage_name").as_string();
         RoguelikeBattleData data;
         data.stage_name = stage_name;
-        if (stage_info.contains("replacement_home")) {
-            for (const auto& points : stage_info.at("replacement_home").as_array()) {
-                const auto& points_array = points.as_array();
-                Point point(points_array.at(0).as_integer(), points_array.at(1).as_integer());
-                data.replacement_home.push_back(point);
+        if (auto opt = stage_info.find<json::array>("replacement_home")) {
+            for (auto& point : opt.value()) {
+                data.replacement_home.emplace_back((int)point[0], (int)point[1]);
             }
         }
-        if (stage_info.contains("key_kills")) {
-            for (const auto& key_kill : stage_info.at("key_kills").as_array()) {
-                data.key_kills.emplace_back(key_kill.as_integer());
+        if (auto opt = stage_info.find<json::array>("key_kills")) {
+            for (const auto& key_kill : opt.value()) {
+                data.key_kills.emplace_back((int)key_kill);
             }
         }
         m_stage_data.emplace(std::move(stage_name), std::move(data));

@@ -72,10 +72,9 @@ bool asst::TaskData::parse(const json::value& json)
                 "templThreshold", TemplThresholdDefault);
             match_task_info_ptr->special_threshold = task_json.get(
                 "specialThreshold", 0);
-            if (task_json.contains("maskRange")) {
-                match_task_info_ptr->mask_range = std::make_pair(
-                    task_json.at("maskRange")[0].as_integer(),
-                    task_json.at("maskRange")[1].as_integer());
+            if (auto opt = task_json.find<json::array>("maskRange")) {
+                auto& mask_range = *opt;
+                match_task_info_ptr->mask_range = std::make_pair((int)mask_range[0], (int)mask_range[1]);
             }
 
             task_info_ptr = match_task_info_ptr;
@@ -86,9 +85,9 @@ bool asst::TaskData::parse(const json::value& json)
                 ocr_task_info_ptr->text.emplace_back(text.as_string());
             }
             ocr_task_info_ptr->full_match = task_json.get("fullMatch", false);
-            if (task_json.contains("ocrReplace")) {
-                for (const json::value& rep : task_json.at("ocrReplace").as_array()) {
-                    ocr_task_info_ptr->replace_map.emplace(rep.as_array()[0].as_string(), rep.as_array()[1].as_string());
+            if (auto opt = task_json.find<json::array>("ocrReplace")) {
+                for (const json::value& rep : opt.value()) {
+                    ocr_task_info_ptr->replace_map.emplace(rep[0].as_string(), rep[1].as_string());
                 }
             }
             task_info_ptr = ocr_task_info_ptr;
@@ -100,10 +99,10 @@ bool asst::TaskData::parse(const json::value& json)
                 hash_task_info_ptr->hashs.emplace_back(hash.as_string());
             }
             hash_task_info_ptr->dist_threshold = task_json.get("threshold", 0);
-            if (task_json.contains("maskRange")) {
-                hash_task_info_ptr->mask_range = std::make_pair(
-                    task_json.at("maskRange")[0].as_integer(),
-                    task_json.at("maskRange")[1].as_integer());
+
+            if (auto opt = task_json.find<json::array>("maskRange")) {
+                auto& mask_range = *opt;
+                hash_task_info_ptr->mask_range = std::make_pair((int)mask_range[0], (int)mask_range[1]);
             }
             hash_task_info_ptr->bound = task_json.get("bound", true);
 
@@ -154,32 +153,29 @@ bool asst::TaskData::parse(const json::value& json)
         }
 
         task_info_ptr->max_times = task_json.get("maxTimes", INT_MAX);
-        if (task_json.contains("exceededNext")) {
-            const json::array& excceed_next_arr = task_json.at("exceededNext").as_array();
-            for (const json::value& excceed_next : excceed_next_arr) {
+        if (auto opt = task_json.find<json::array>("exceededNext")) {
+            for (const json::value& excceed_next : opt.value()) {
                 task_info_ptr->exceeded_next.emplace_back(excceed_next.as_string());
             }
         }
-        if (task_json.contains("onErrorNext")) {
-            const json::array& on_error_next_arr = task_json.at("onErrorNext").as_array();
-            for (const json::value& on_error_next : on_error_next_arr) {
+        if (auto opt = task_json.find<json::array>("onErrorNext")) {
+            for (const json::value& on_error_next : opt.value()) {
                 task_info_ptr->on_error_next.emplace_back(on_error_next.as_string());
             }
         }
         task_info_ptr->pre_delay = task_json.get("preDelay", 0);
         task_info_ptr->rear_delay = task_json.get("rearDelay", 0);
-        if (task_json.contains("reduceOtherTimes")) {
-            const json::array& reduce_arr = task_json.at("reduceOtherTimes").as_array();
-            for (const json::value& reduce : reduce_arr) {
+        if (auto opt = task_json.find<json::array>("reduceOtherTimes")) {
+            for (const json::value& reduce : opt.value()) {
                 task_info_ptr->reduce_other_times.emplace_back(reduce.as_string());
             }
         }
-        if (task_json.contains("roi")) {
-            const json::array& area_arr = task_json.at("roi").as_array();
-            int x = area_arr[0].as_integer();
-            int y = area_arr[1].as_integer();
-            int width = area_arr[2].as_integer();
-            int height = area_arr[3].as_integer();
+        if (auto opt = task_json.find<json::array>("roi")) {
+            auto& roi_arr = *opt;
+            int x = (int)roi_arr[0];
+            int y = (int)roi_arr[1];
+            int width = (int)roi_arr[2];
+            int height = (int)roi_arr[3];
 #ifdef ASST_DEBUG
             if (x + width > WindowWidthDefault || y + height > WindowHeightDefault) {
                 m_last_error = name + " roi is out of bounds";
@@ -192,21 +188,21 @@ bool asst::TaskData::parse(const json::value& json)
             task_info_ptr->roi = Rect();
         }
 
-        if (task_json.contains("sub")) {
-            for (const json::value& sub : task_json.at("sub").as_array()) {
+        if (auto opt = task_json.find<json::array>("sub")) {
+            for (const json::value& sub : opt.value()) {
                 task_info_ptr->sub.emplace_back(sub.as_string());
             }
         }
         task_info_ptr->sub_error_ignored = task_json.get("subErrorIgnored", false);
 
-        if (task_json.contains("next")) {
-            for (const json::value& next : task_json.at("next").as_array()) {
+        if (auto opt = task_json.find<json::array>("next")) {
+            for (const json::value& next : opt.value()) {
                 task_info_ptr->next.emplace_back(next.as_string());
             }
         }
 
-        if (task_json.contains("rectMove")) {
-            const json::array& move_arr = task_json.at("rectMove").as_array();
+        if (auto opt = task_json.find<json::array>("rectMove")) {
+            auto& move_arr = opt.value();
             task_info_ptr->rect_move = Rect(
                 move_arr[0].as_integer(),
                 move_arr[1].as_integer(),
