@@ -14,7 +14,7 @@ asst::RecruitTask::RecruitTask(const AsstCallback& callback, void* callback_arg)
     m_recruit_only_calc_task_ptr->set_enable(false);
 
     m_subtasks.emplace_back(m_recruit_begin_task_ptr);
-    m_subtasks.emplace_back(m_auto_recruit_task_ptr)->set_retry_times(1);
+    m_subtasks.emplace_back(m_auto_recruit_task_ptr)->set_retry_times(5);
     m_subtasks.emplace_back(m_recruit_only_calc_task_ptr);
 }
 
