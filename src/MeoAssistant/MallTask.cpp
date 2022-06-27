@@ -23,9 +23,9 @@ bool asst::MallTask::set_params(const json::value& params)
     bool shopping = params.get("shopping", true);
 
     if (shopping) {
-        if (params.contains("buy_first") && params.at("buy_first").is_array()) {
+        if (auto buy_first_opt = params.find<json::array>("buy_first")) {
             std::vector<std::string> buy_first;
-            for (auto& name : params.at("buy_first").as_array()) {
+            for (auto& name : buy_first_opt.value()) {
                 if (std::string name_str = name.as_string();
                     !name_str.empty()) {
                     buy_first.emplace_back(name_str);
@@ -43,9 +43,9 @@ bool asst::MallTask::set_params(const json::value& params)
             m_shopping_first_task_ptr->set_enable(false);
         }
 
-        if (params.contains("blacklist") && params.at("blacklist").is_array()) {
+        if (auto blacklist_opt = params.find<json::array>("blacklist")) {
             std::vector<std::string> shopping_list;
-            for (auto& name : params.at("blacklist").as_array()) {
+            for (auto& name : blacklist_opt.value()) {
                 if (std::string name_str = name.as_string();
                     !name_str.empty()) {
                     shopping_list.emplace_back(name.as_string());
