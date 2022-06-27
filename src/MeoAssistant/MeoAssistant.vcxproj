@@ -271,8 +271,8 @@
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
-        xcopy /e /y /i /c $(ProjectDir)..\..\resource $(TargetDir)resource
-        xcopy /e /y /i /c $(ProjectDir)..\..\3rdparty\resource $(TargetDir)resource
+        xcopy /e /y /i /c "$(ProjectDir)..\..\resource" "$(TargetDir)resource"
+        xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\resource" "$(TargetDir)resource"
       </Command>
     </PostBuildEvent>
     <PostBuildEvent>
@@ -280,7 +280,7 @@
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>
-        xcopy /e /y /i /c $(ProjectDir)..\..\3rdparty\bin $(TargetDir)
+        xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\bin" "$(TargetDir)"
       </Command>
     </PreLinkEvent>
     <PreLinkEvent>
@@ -323,8 +323,8 @@
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
-        xcopy /e /y /i /c $(ProjectDir)..\..\resource $(TargetDir)resource
-        xcopy /e /y /i /c $(ProjectDir)..\..\3rdparty\resource $(TargetDir)resource
+        xcopy /e /y /i /c "$(ProjectDir)..\..\resource" "$(TargetDir)resource"
+        xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\resource" "$(TargetDir)resource"
       </Command>
     </PostBuildEvent>
     <PostBuildEvent>
@@ -332,7 +332,7 @@
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>
-        xcopy /e /y /i /c $(ProjectDir)..\..\3rdparty\bin $(TargetDir)
+        xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\bin" "$(TargetDir)"
       </Command>
     </PreLinkEvent>
     <PreLinkEvent>
