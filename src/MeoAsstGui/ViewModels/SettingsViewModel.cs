@@ -600,6 +600,7 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("Timer.Timer5", value.ToString());
             }
         }
+
         public bool Timer6
         {
             get { return _timer6; }
@@ -609,6 +610,7 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("Timer.Timer6", value.ToString());
             }
         }
+
         public bool Timer7
         {
             get { return _timer7; }
@@ -618,6 +620,7 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("Timer.Timer7", value.ToString());
             }
         }
+
         public bool Timer8
         {
             get { return _timer8; }
@@ -1362,7 +1365,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _usetray, value);
-                ViewStatusStorage.Set("UseTray", value.ToString());
+                ViewStatusStorage.Set("Tray.UseTray", value.ToString());
                 var trayObj = _container.Get<TrayIcon>();
                 trayObj.SetVisible(value);
 
@@ -1381,7 +1384,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _minimizeToTray, value);
-                ViewStatusStorage.Set("MinimizeToTray", value.ToString());
+                ViewStatusStorage.Set("Tray.MinimizeToTray", value.ToString());
                 var trayObj = _container.Get<TrayIcon>();
                 trayObj.SetMinimizeToTaskbar(value);
             }
