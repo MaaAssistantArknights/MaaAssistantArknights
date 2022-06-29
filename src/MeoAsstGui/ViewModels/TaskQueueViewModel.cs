@@ -738,6 +738,21 @@ namespace MeoAsstGui
                 SetAndNotify(ref _idle, value);
                 var settings = _container.Get<SettingsViewModel>();
                 settings.Idle = value;
+                if (value)
+                {
+                    FightTaskRunning = false;
+                }
+            }
+        }
+
+        private bool _fightTaskRunning = false;
+
+        public bool FightTaskRunning
+        {
+            get { return _fightTaskRunning; }
+            set
+            {
+                SetAndNotify(ref _fightTaskRunning, value);
             }
         }
 
