@@ -32,11 +32,12 @@ bool asst::CopilotTask::set_params(const json::value& params)
         return false;
     }
 
-    if (!params.contains("stage_name") || !params.at("stage_name").is_string()) {
+    auto stage_name_opt = params.find<std::string>("stage_name");
+    if (!stage_name_opt) {
         return false;
     }
-    std::string stage_name = params.at("stage_name").as_string();
 
+    const std::string& stage_name = *stage_name_opt;
     m_battle_task_ptr->set_stage_name(stage_name);
     m_formation_task_ptr->set_stage_name(stage_name);
 

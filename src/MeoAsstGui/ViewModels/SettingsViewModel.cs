@@ -53,13 +53,11 @@ namespace MeoAsstGui
             _listTitle.Add("连接设置");
             _listTitle.Add("启动设置");
             _listTitle.Add("定时执行");
-            _listTitle.Add("通知显示");
-            _listTitle.Add("托盘设置");
+            _listTitle.Add("界面设置");
             _listTitle.Add("软件更新");
             _listTitle.Add("关于我们");
 
             InfrastInit();
-            ToastPositionInit();
 
             var trayObj = _container.Get<TrayIcon>();
             trayObj.SetVisible(UseTray);
@@ -537,11 +535,19 @@ namespace MeoAsstGui
         private bool _timer2 = ViewStatusStorage.Get("Timer.Timer2", bool.FalseString) == bool.TrueString;
         private bool _timer3 = ViewStatusStorage.Get("Timer.Timer3", bool.FalseString) == bool.TrueString;
         private bool _timer4 = ViewStatusStorage.Get("Timer.Timer4", bool.FalseString) == bool.TrueString;
+        private bool _timer5 = ViewStatusStorage.Get("Timer.Timer5", bool.FalseString) == bool.TrueString;
+        private bool _timer6 = ViewStatusStorage.Get("Timer.Timer6", bool.FalseString) == bool.TrueString;
+        private bool _timer7 = ViewStatusStorage.Get("Timer.Timer7", bool.FalseString) == bool.TrueString;
+        private bool _timer8 = ViewStatusStorage.Get("Timer.Timer8", bool.FalseString) == bool.TrueString;
 
         private int _timer1hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer1Hour", "0"));
         private int _timer2hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer2Hour", "6"));
         private int _timer3hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer3Hour", "12"));
         private int _timer4hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer4Hour", "18"));
+        private int _timer5hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer5Hour", "3"));
+        private int _timer6hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer6Hour", "9"));
+        private int _timer7hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer7Hour", "15"));
+        private int _timer8hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer8Hour", "21"));
 
         public bool Timer1
         {
@@ -583,6 +589,46 @@ namespace MeoAsstGui
             }
         }
 
+        public bool Timer5
+        {
+            get { return _timer5; }
+            set
+            {
+                SetAndNotify(ref _timer5, value);
+                ViewStatusStorage.Set("Timer.Timer5", value.ToString());
+            }
+        }
+
+        public bool Timer6
+        {
+            get { return _timer6; }
+            set
+            {
+                SetAndNotify(ref _timer6, value);
+                ViewStatusStorage.Set("Timer.Timer6", value.ToString());
+            }
+        }
+
+        public bool Timer7
+        {
+            get { return _timer7; }
+            set
+            {
+                SetAndNotify(ref _timer7, value);
+                ViewStatusStorage.Set("Timer.Timer7", value.ToString());
+            }
+        }
+
+        public bool Timer8
+        {
+            get { return _timer8; }
+            set
+            {
+                SetAndNotify(ref _timer8, value);
+                ViewStatusStorage.Set("Timer.Timer8", value.ToString());
+            }
+        }
+
         public int Timer1Hour
         {
             get { return _timer1hour; }
@@ -620,6 +666,46 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _timer4hour, value);
                 ViewStatusStorage.Set("Timer.Timer4Hour", value.ToString());
+            }
+        }
+
+        public int Timer5Hour
+        {
+            get { return _timer5hour; }
+            set
+            {
+                SetAndNotify(ref _timer5hour, value);
+                ViewStatusStorage.Set("Timer.Timer5Hour", value.ToString());
+            }
+        }
+
+        public int Timer6Hour
+        {
+            get { return _timer6hour; }
+            set
+            {
+                SetAndNotify(ref _timer6hour, value);
+                ViewStatusStorage.Set("Timer.Timer6Hour", value.ToString());
+            }
+        }
+
+        public int Timer7Hour
+        {
+            get { return _timer7hour; }
+            set
+            {
+                SetAndNotify(ref _timer7hour, value);
+                ViewStatusStorage.Set("Timer.Timer7Hour", value.ToString());
+            }
+        }
+
+        public int Timer8Hour
+        {
+            get { return _timer8hour; }
+            set
+            {
+                SetAndNotify(ref _timer8hour, value);
+                ViewStatusStorage.Set("Timer.Timer8Hour", value.ToString());
             }
         }
 
@@ -717,318 +803,6 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("AutoRecruit.ChooseLevel5", value.ToString());
             }
         }
-
-        /* 通知显示设置 */
-
-        #region 通知显示
-
-        //是否使用系统通知
-        private bool _toastUsingSystem = Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
-
-        public bool ToastOS
-        {
-            get
-            {
-                var os = RuntimeInformation.OSDescription.ToString();
-                if (os.ToString().CompareTo("Microsoft Windows 10.0.10240") >= 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    if (ToastUsingSystem)
-                    {
-                        ToastUsingSystem = false;
-                    }
-                    return false;
-                }
-            }
-        }
-
-        public bool ToastUsingSystem
-        {
-            get { return _toastUsingSystem; }
-            set
-            {
-                SetAndNotify(ref _toastUsingSystem, value);
-                ViewStatusStorage.Set("Toast.UsingSystem", value.ToString());
-            }
-        }
-
-        //不使用系统通知时的设置
-        // 左上
-        private bool _toastPositionTopLeft = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.TopLeft.ToString();
-
-        public bool ToastPositionTopLeft
-        {
-            get { return _toastPositionTopLeft; }
-            set
-            {
-                SetAndNotify(ref _toastPositionTopLeft, value);
-
-                if (value)
-                {
-                    ToastPositionTopCenter =
-                    ToastPositionTopRight =
-                    ToastPositionCenterLeft =
-                    ToastPositionCenterRight =
-                    ToastPositionBottomLeft =
-                    ToastPositionBottomCenter =
-                    ToastPositionBottomRight = false;
-                    NotificationConstants.MessagePosition = NotificationPosition.TopLeft;
-                    ViewStatusStorage.Set("Toast.Position", NotificationPosition.TopLeft.ToString());
-                }
-                else
-                {
-                    ToastPositionOnlySound();
-                }
-            }
-        }
-
-        // 上
-        private bool _toastPositionTopCenter = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.TopCenter.ToString();
-
-        public bool ToastPositionTopCenter
-        {
-            get { return _toastPositionTopCenter; }
-            set
-            {
-                SetAndNotify(ref _toastPositionTopCenter, value);
-
-                if (value)
-                {
-                    ToastPositionTopLeft =
-                    ToastPositionTopRight =
-                    ToastPositionCenterLeft =
-                    ToastPositionCenterRight =
-                    ToastPositionBottomLeft =
-                    ToastPositionBottomCenter =
-                    ToastPositionBottomRight = false;
-                    NotificationConstants.MessagePosition = NotificationPosition.TopCenter;
-                    ViewStatusStorage.Set("Toast.Position", NotificationPosition.TopCenter.ToString());
-                }
-                else
-                {
-                    ToastPositionOnlySound();
-                }
-            }
-        }
-
-        // 右上
-        private bool _toastPositionTopRight = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.TopRight.ToString();
-
-        public bool ToastPositionTopRight
-        {
-            get { return _toastPositionTopRight; }
-            set
-            {
-                SetAndNotify(ref _toastPositionTopRight, value);
-
-                if (value)
-                {
-                    ToastPositionTopLeft =
-                    ToastPositionTopCenter =
-                    ToastPositionCenterLeft =
-                    ToastPositionCenterRight =
-                    ToastPositionBottomLeft =
-                    ToastPositionBottomCenter =
-                    ToastPositionBottomRight = false;
-                    NotificationConstants.MessagePosition = NotificationPosition.TopRight;
-                    ViewStatusStorage.Set("Toast.Position", NotificationPosition.TopRight.ToString());
-                }
-                else
-                {
-                    ToastPositionOnlySound();
-                }
-            }
-        }
-
-        // 左
-        private bool _toastPositionCenterLeft = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.CenterLeft.ToString();
-
-        public bool ToastPositionCenterLeft
-        {
-            get { return _toastPositionCenterLeft; }
-            set
-            {
-                SetAndNotify(ref _toastPositionCenterLeft, value);
-
-                if (value)
-                {
-                    ToastPositionTopLeft =
-                    ToastPositionTopCenter =
-                    ToastPositionTopRight =
-                    ToastPositionCenterRight =
-                    ToastPositionBottomLeft =
-                    ToastPositionBottomCenter =
-                    ToastPositionBottomRight = false;
-                    NotificationConstants.MessagePosition = NotificationPosition.CenterLeft;
-                    ViewStatusStorage.Set("Toast.Position", NotificationPosition.CenterLeft.ToString());
-                }
-                else
-                {
-                    ToastPositionOnlySound();
-                }
-            }
-        }
-
-        // 右
-        private bool _toastPositionCenterRight = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.CenterRight.ToString();
-
-        public bool ToastPositionCenterRight
-        {
-            get { return _toastPositionCenterRight; }
-            set
-            {
-                SetAndNotify(ref _toastPositionCenterRight, value);
-
-                if (value)
-                {
-                    ToastPositionTopLeft =
-                    ToastPositionTopCenter =
-                    ToastPositionTopRight =
-                    ToastPositionCenterLeft =
-                    ToastPositionBottomLeft =
-                    ToastPositionBottomCenter =
-                    ToastPositionBottomRight = false;
-                    NotificationConstants.MessagePosition = NotificationPosition.CenterRight;
-                    ViewStatusStorage.Set("Toast.Position", NotificationPosition.CenterRight.ToString());
-                }
-                else
-                {
-                    ToastPositionOnlySound();
-                }
-            }
-        }
-
-        // 左下
-        private bool _toastPositionBottomLeft = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.BottomLeft.ToString();
-
-        public bool ToastPositionBottomLeft
-        {
-            get { return _toastPositionBottomLeft; }
-            set
-            {
-                SetAndNotify(ref _toastPositionBottomLeft, value);
-
-                if (value)
-                {
-                    ToastPositionTopLeft =
-                    ToastPositionTopCenter =
-                    ToastPositionTopRight =
-                    ToastPositionCenterLeft =
-                    ToastPositionCenterRight =
-                    ToastPositionBottomCenter =
-                    ToastPositionBottomRight = false;
-                    NotificationConstants.MessagePosition = NotificationPosition.BottomLeft;
-                    ViewStatusStorage.Set("Toast.Position", NotificationPosition.BottomLeft.ToString());
-                }
-                else
-                {
-                    ToastPositionOnlySound();
-                }
-            }
-        }
-
-        // 下
-        private bool _toastPositionBottomCenter = ViewStatusStorage.Get("Toast.Position", string.Empty) == NotificationPosition.BottomCenter.ToString();
-
-        public bool ToastPositionBottomCenter
-        {
-            get { return _toastPositionBottomCenter; }
-            set
-            {
-                SetAndNotify(ref _toastPositionBottomCenter, value);
-
-                if (value)
-                {
-                    ToastPositionTopLeft =
-                    ToastPositionTopCenter =
-                    ToastPositionTopRight =
-                    ToastPositionCenterLeft =
-                    ToastPositionCenterRight =
-                    ToastPositionBottomLeft =
-                    ToastPositionBottomRight = false;
-                    NotificationConstants.MessagePosition = NotificationPosition.BottomCenter;
-                    ViewStatusStorage.Set("Toast.Position", NotificationPosition.BottomCenter.ToString());
-                }
-                else
-                {
-                    ToastPositionOnlySound();
-                }
-            }
-        }
-
-        // 右下
-        private bool _toastPositionBottomRight =
-            ViewStatusStorage.Get("Toast.Position", NotificationPosition.BottomRight.ToString()) == NotificationPosition.BottomRight.ToString();
-
-        public bool ToastPositionBottomRight
-        {
-            get { return _toastPositionBottomRight; }
-            set
-            {
-                SetAndNotify(ref _toastPositionBottomRight, value);
-
-                if (value)
-                {
-                    ToastPositionTopLeft =
-                    ToastPositionTopCenter =
-                    ToastPositionTopRight =
-                    ToastPositionCenterLeft =
-                    ToastPositionCenterRight =
-                    ToastPositionBottomLeft =
-                    ToastPositionBottomCenter = false;
-                    NotificationConstants.MessagePosition = NotificationPosition.BottomRight;
-                    ViewStatusStorage.Set("Toast.Position", NotificationPosition.BottomRight.ToString());
-                }
-                else
-                {
-                    ToastPositionOnlySound();
-                }
-            }
-        }
-
-        // 设置通知只有通知声音
-        private void ToastPositionOnlySound()
-        {
-            if (!ToastPositionTopLeft
-                && !ToastPositionTopCenter
-                && !ToastPositionTopRight
-                && !ToastPositionCenterLeft
-                && !ToastPositionCenterRight
-                && !ToastPositionBottomLeft
-                && !ToastPositionBottomCenter
-                && !ToastPositionBottomRight)
-            {
-                ViewStatusStorage.Set("Toast.Position", string.Empty);
-            }
-        }
-
-        // 通知测试
-        public void ToastPositionTest()
-        {
-            Execute.OnUIThread(() =>
-            {
-                using (var toast = new ToastNotification("通知显示位置测试"))
-                {
-                    toast.AppendContentText("如果选择了新的位置")
-                        .AppendContentText("请先点掉这个通知再测试").Show(lifeTime: 5, row: 3);
-                }
-            });
-        }
-
-        // 通知位置初始化
-        private void ToastPositionInit()
-        {
-            var position = ViewStatusStorage.Get("Toast.Position", NotificationPosition.BottomRight.ToString());
-            if (string.IsNullOrWhiteSpace(position))
-                return;
-
-            NotificationConstants.MessagePosition = (NotificationPosition)Enum.Parse(typeof(NotificationPosition), position);
-        }
-
-        #endregion 通知显示
 
         /* 软件更新设置 */
         private bool _updateBeta = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateBeta", bool.FalseString));
@@ -1268,27 +1042,29 @@ namespace MeoAsstGui
             }
         }
 
-        /* 托盘设置 */
-        private bool _usetray = Convert.ToBoolean(ViewStatusStorage.Get("Tray.UseTray", bool.TrueString));
+        /* 界面设置 */
+        public bool UseTray = true;
 
-        public bool UseTray
-        {
-            get { return _usetray; }
-            set
-            {
-                SetAndNotify(ref _usetray, value);
-                ViewStatusStorage.Set("UseTray", value.ToString());
-                var trayObj = _container.Get<TrayIcon>();
-                trayObj.SetVisible(value);
+        //private bool _usetray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
 
-                if (!Convert.ToBoolean(value))
-                {
-                    MinimizeToTray = false;
-                }
-            }
-        }
+        //public bool UseTray
+        //{
+        //    get { return _usetray; }
+        //    set
+        //    {
+        //        SetAndNotify(ref _usetray, value);
+        //        ViewStatusStorage.Set("GUI.UseTray", value.ToString());
+        //        var trayObj = _container.Get<TrayIcon>();
+        //        trayObj.SetVisible(value);
 
-        private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("Tray.MinimizeToTray", bool.FalseString));
+        //        if (!Convert.ToBoolean(value))
+        //        {
+        //            MinimizeToTray = false;
+        //        }
+        //    }
+        //}
+
+        private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.MinimizeToTray", bool.FalseString));
 
         public bool MinimizeToTray
         {
@@ -1296,9 +1072,21 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _minimizeToTray, value);
-                ViewStatusStorage.Set("MinimizeToTray", value.ToString());
+                ViewStatusStorage.Set("GUI.MinimizeToTray", value.ToString());
                 var trayObj = _container.Get<TrayIcon>();
                 trayObj.SetMinimizeToTaskbar(value);
+            }
+        }
+
+        private bool _useNotify = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseNotify", bool.TrueString));
+
+        public bool UseNotify
+        {
+            get { return _useNotify; }
+            set
+            {
+                SetAndNotify(ref _useNotify, value);
+                ViewStatusStorage.Set("GUI.UseNotify", value.ToString());
             }
         }
     }

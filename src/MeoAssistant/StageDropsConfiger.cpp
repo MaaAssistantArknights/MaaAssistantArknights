@@ -5,7 +5,8 @@
 bool asst::StageDropsConfiger::parse(const json::value& json)
 {
     for (const json::value& stage_json : json.as_array()) {
-        if (!stage_json.contains("dropInfos")) { // 这种一般是以前的活动关，现在已经关闭了的
+        auto drop_infos_opt = stage_json.find<json::array>("dropInfos");
+        if (!drop_infos_opt) { // 这种一般是以前的活动关，现在已经关闭了的
             continue;
         }
         std::string code = stage_json.at("code").as_string();           // 关卡名，举例 1-7，可能重复（例如磨难和普通是同一个关卡名）
@@ -16,7 +17,7 @@ bool asst::StageDropsConfiger::parse(const json::value& json)
         StageInfo info;
         info.stage_id = stage_id;
         info.ap_cost = stage_json.get("apCost", 0);
-        for (const json::value& drops_json : stage_json.at("dropInfos").as_array()) {
+        for (const json::value& drops_json : drop_infos_opt.value()) {
             static const std::unordered_map<std::string, StageDropType> TypeMapping = {
                 { "NORMAL_DROP", StageDropType::Normal },
                 { "EXTRA_DROP", StageDropType::Extra },

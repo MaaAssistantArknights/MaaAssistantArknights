@@ -36,7 +36,8 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
 bool asst::InfrastTask::set_params(const json::value& params)
 {
     if (!m_runned) {
-        if (!params.contains("facility") || !params.at("facility").is_array()) {
+        auto facility_opt = params.find<json::array>("facility");
+        if (!facility_opt) {
             return false;
         }
 
@@ -48,7 +49,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
         append_infrast_begin();
         m_subtasks.emplace_back(m_info_task_ptr);
 
-        for (const auto& facility_json : params.at("facility").as_array()) {
+        for (const auto& facility_json : facility_opt.value()) {
             if (!facility_json.is_string()) {
                 m_subtasks.clear();
                 append_infrast_begin();

@@ -354,49 +354,55 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
         return pipe_data;
     }
     else if (m_inited) {
-        // 之前可以运行，突然运行不了了，这种情况多半是 adb 炸了。所以重新连接一下
+        // 这里用 m_inited 限制了仅递归一层，修改需要注意下
         m_inited = false;
-        std::this_thread::sleep_for(std::chrono::seconds(10));
-        auto reconnect_ret = call_command(m_adb.connect, 60 * 1000);
-        bool is_reconnect_success = false;
-        if (reconnect_ret) {
-            auto& reconnect_val = reconnect_ret.value();
-            std::string reconnect_str(
-                std::make_move_iterator(reconnect_val.begin()),
-                std::make_move_iterator(reconnect_val.end()));
-            is_reconnect_success = reconnect_str.find("error") == std::string::npos;
-        }
-        if (is_reconnect_success) {
-            auto recall_ret = call_command(cmd, timeout, recv_by_socket);
-            if (recall_ret) {
-                m_inited = true;
-                return recall_ret;
+
+        // 之前可以运行，突然运行不了了，这种情况多半是 adb 炸了。所以重新连接一下
+        json::value reconnect_info = json::object{
+            { "uuid", m_uuid},
+            { "what", "Reconnecting" },
+            { "why", "" },
+            { "details", json::object {
+                { "reconnect", m_adb.connect },
+                { "cmd", cmd }
+        }} };
+        for (int i = 0; i < 20; ++i) {
+            reconnect_info["details"]["times"] = i;
+            m_callback(AsstMsg::ConnectionInfo, reconnect_info, m_callback_arg);
+
+            std::this_thread::sleep_for(std::chrono::seconds(10));
+            auto reconnect_ret = call_command(m_adb.connect, 60 * 1000);
+            bool is_reconnect_success = false;
+            if (reconnect_ret) {
+                auto& reconnect_val = reconnect_ret.value();
+                std::string reconnect_str(
+                    std::make_move_iterator(reconnect_val.begin()),
+                    std::make_move_iterator(reconnect_val.end()));
+                is_reconnect_success = reconnect_str.find("error") == std::string::npos;
             }
-            else {
-                json::value info = json::object{
-                    { "uuid", m_uuid},
-                    { "what", "CommandExecFailed" },
-                    { "why", "I dont fucking know, go look at the log!" },
-                    { "details", json::object {
-                        { "cmd", cmd },
-                        { "recv_by_socket", recv_by_socket}
-                    }} };
-                m_inited = false;
-                m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            if (is_reconnect_success) {
+                auto recall_ret = call_command(cmd, timeout, recv_by_socket);
+                if (recall_ret) {
+                    // 重连并成功执行了
+                    m_inited = true;
+                    reconnect_info["what"] = "Reconnected";
+                    m_callback(AsstMsg::ConnectionInfo, reconnect_info, m_callback_arg);
+
+                    return recall_ret;
+                }
             }
         }
-        else {
-            json::value info = json::object{
-                    { "uuid", m_uuid},
-                    { "what", "Disconnect" },
-                    { "why", "Reconnect failed" },
-                    { "details", json::object {
-                        { "cmd", m_adb.connect }
-                    }} };
-            m_inited = false;
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
-        }
+        json::value info = json::object{
+                { "uuid", m_uuid},
+                { "what", "Disconnect" },
+                { "why", "Reconnect failed" },
+                { "details", json::object {
+                    { "cmd", m_adb.connect }
+                }} };
+        m_inited = false;
+        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
     }
+
     return std::nullopt;
 }
 
@@ -1189,7 +1195,7 @@ bool asst::Controller::release()
     {
         return call_command(m_adb.release).has_value();
     }
-    }
+}
 
 bool asst::Controller::inited() const noexcept
 {
@@ -1205,16 +1211,11 @@ cv::Mat asst::Controller::get_image(bool raw)
 {
     bool inited = m_inited;
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
-    for (int i = 0; i != 20; ++i) {
-        if (screencap()) {
-            break;
-        }
-        // 截图之前正常，截图之后不正常了，说明截图过程中发现 adb 炸了
-        if (inited && !m_inited) {
-            const static cv::Size dsize(m_scale_size.first, m_scale_size.second);
-            m_cache_image = cv::Mat(dsize, CV_8UC3);
-            break;
-        }
+    screencap();
+    // 截图之前正常，截图之后不正常了，说明截图过程中发现 adb 炸了
+    if (inited && !m_inited) {
+        const static cv::Size dsize(m_scale_size.first, m_scale_size.second);
+        m_cache_image = cv::Mat(dsize, CV_8UC3);
     }
 
     if (raw) {

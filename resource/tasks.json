@@ -654,6 +654,10 @@
                 "山"
             ],
             [
+                "^口$",
+                "山"
+            ],
+            [
                 "^F$",
                 "山"
             ],
@@ -4809,7 +4813,7 @@
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
         "preDelay": 500,
-        "rearDelay": 100,
+        "rearDelay": 200,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration"
     },
     "BattleOpersFlag": {
@@ -5340,23 +5344,7 @@
         "next": [
             "Roguelike1Recruit1",
             "Roguelike1InitalDrop",
-            "Roguelike1TryStartAgain"
-        ]
-    },
-    "Roguelike1TryStartAgain": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            600,
-            600,
-            50,
-            50
-        ],
-        "rearDelay": 1000,
-        "maxTimes": 5,
-        "next": [
-            "Roguelike1Start",
-            "Roguelike1TryStartAgain"
+            "Roguelike1Start"
         ]
     },
     "Roguelike1InitalDrop": {
