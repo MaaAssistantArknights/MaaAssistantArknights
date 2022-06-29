@@ -4809,7 +4809,7 @@
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
         "preDelay": 500,
-        "rearDelay": 100,
+        "rearDelay": 200,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration"
     },
     "BattleOpersFlag": {
