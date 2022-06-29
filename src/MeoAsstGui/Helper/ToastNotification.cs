@@ -222,7 +222,7 @@ namespace MeoAsstGui
             set { _buttonSystemUrl = value; }
         }
 
-        protected bool _buttonSystemEnabled = Convert.ToBoolean(bool.FalseString);
+        protected bool _buttonSystemEnabled = false;
 
         #endregion 通知按钮变量
 
@@ -237,7 +237,7 @@ namespace MeoAsstGui
             _buttonLeftText = text;
             _buttonLeftAction = action;
             _buttonSystemText = text;
-            _buttonSystemEnabled = Convert.ToBoolean(bool.TrueString);
+            _buttonSystemEnabled = true;
             return this;
         }
 
@@ -252,7 +252,7 @@ namespace MeoAsstGui
             _buttonRightText = text;
             _buttonRightAction = action;
             _buttonSystemText = text;
-            _buttonSystemEnabled = Convert.ToBoolean(bool.TrueString);
+            _buttonSystemEnabled = true;
             return this;
         }
 
