@@ -67,7 +67,9 @@
                 "desc": "进驻制造站时，当前制造站内其他干员提供的每5%生产力（不包含根据设施数量提供加成的生产力），额外提供5%生产力，最多提供40%生产力",
                 "template": "Bskill_man_spd_variable21.png",
                 "efficient": {
-                    "all": 40
+                    "Doc": "refer to https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1005",
+                    "CombatRecord": 40,
+                    "PureGold": 39.8
                 }
             },
             {
