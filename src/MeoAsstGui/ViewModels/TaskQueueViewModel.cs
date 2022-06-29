@@ -33,15 +33,28 @@ namespace MeoAsstGui
         public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; set; }
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
-        private ActionType _actionAfterComplated = ActionType.DoNothing;
+        private string _actionAfterComplated = ViewStatusStorage.Get("MainFunction.ActionAfterComplated", ActionType.DoNothing.ToString());
         public List<GenericCombData<ActionType>> ActionAfterCompletedList { get; set; }
 
         public ActionType ActionAfterCompleted
         {
-            get { return _actionAfterComplated; }
+            get
+            {
+                if (ActionType.TryParse(_actionAfterComplated, out ActionType action))
+                {
+                    return action;
+                }
+                return ActionType.DoNothing;
+            }
             set
             {
-                SetAndNotify(ref _actionAfterComplated, value);
+                SetAndNotify(ref _actionAfterComplated, value.ToString());
+                string storeValue = ActionType.DoNothing.ToString();
+                if (value != ActionType.Shutdown && value != ActionType.Hibernate)
+                {
+                    storeValue = value.ToString();
+                }
+                ViewStatusStorage.Set("MainFunction.ActionAfterComplated", storeValue);
             }
         }
 
@@ -97,7 +110,11 @@ namespace MeoAsstGui
             if (settings.Timer1 && settings.Timer1Hour == intHour ||
                 settings.Timer2 && settings.Timer2Hour == intHour ||
                 settings.Timer3 && settings.Timer3Hour == intHour ||
-                settings.Timer4 && settings.Timer4Hour == intHour)
+                settings.Timer4 && settings.Timer4Hour == intHour ||
+                settings.Timer5 && settings.Timer5Hour == intHour ||
+                settings.Timer6 && settings.Timer6Hour == intHour ||
+                settings.Timer7 && settings.Timer7Hour == intHour ||
+                settings.Timer8 && settings.Timer8Hour == intHour)
             {
                 LinkStart();
             }
@@ -629,63 +646,41 @@ namespace MeoAsstGui
                     var asstProxy = _container.Get<AsstProxy>();
                     if (!asstProxy.AsstStartCloseDown())
                     {
-                        Execute.OnUIThread(() =>
-                        {
-                            using (var toast = new ToastNotification("游戏关闭失败"))
-                            {
-                                toast.AppendContentText("请手动关闭游戏")
-                                     .Show(lifeTime: 5, row: 2);
-                            }
-                        });
+                        AddLog("关闭游戏失败", "DarkRed");
                     }
                     break;
 
                 case ActionType.ExitSelf:
-                    if (!new ToastNotification().CheckToastSystem())
+                    if (new ToastNotification().CheckToastSystem())
                     {
-                        Environment.Exit(0); //不使用系统通知的情况下exit会关闭通知窗口
+                        ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
                     }
-                    else ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
                     Environment.Exit(0);
                     break;
 
                 case ActionType.ExitEmulator:
                     if (!killemulator())
-                        Execute.OnUIThread(() =>
-                        {
-                            using (var toast = new ToastNotification("模拟器关闭失败"))
-                            {
-                                toast.AppendContentText("请手动关闭模拟器")
-                                     .Show(lifeTime: 5, row: 2);
-                            }
-                        });
+                    {
+                        AddLog("模拟器关闭失败", "DarkRed");
+                    }
                     break;
 
                 case ActionType.ExitEmulatorAndSelf:
                     if (!killemulator())
                     {
-                        Execute.OnUIThread(() =>
-                        {
-                            using (var toast = new ToastNotification("模拟器关闭失败"))
-                            {
-                                toast.AppendContentText("请手动关闭模拟器及关闭助手")
-                                     .Show(lifeTime: 5, row: 2);
-                            }
-                        });
-                        break;
+                        AddLog("模拟器关闭失败", "DarkRed");
                     }
-                    if (!new ToastNotification().CheckToastSystem())
+                    if (new ToastNotification().CheckToastSystem())
                     {
-                        Environment.Exit(0); //不使用系统通知的情况下exit会关闭通知窗口
+                        ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
                     }
-                    else ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
                     Environment.Exit(0);
                     break;
 
                 case ActionType.Shutdown:
                     System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
-                    var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.OK)
+                    var shutdownResult = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
+                    if (shutdownResult == MessageBoxResult.OK)
                     {
                         System.Diagnostics.Process.Start("shutdown.exe", "-a");
                     }
@@ -698,7 +693,12 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.Hibernate:
-                    System.Diagnostics.Process.Start("shutdown.exe", "-h");
+                    System.Diagnostics.Process.Start("shutdown.exe", "-h -t 60");
+                    var hibernateResult = _windowManager.ShowMessageBox("已刷完，即将休眠，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
+                    if (hibernateResult == MessageBoxResult.OK)
+                    {
+                        System.Diagnostics.Process.Start("shutdown.exe", "-a");
+                    }
                     break;
 
                 default:
@@ -738,6 +738,21 @@ namespace MeoAsstGui
                 SetAndNotify(ref _idle, value);
                 var settings = _container.Get<SettingsViewModel>();
                 settings.Idle = value;
+                if (value)
+                {
+                    FightTaskRunning = false;
+                }
+            }
+        }
+
+        private bool _fightTaskRunning = false;
+
+        public bool FightTaskRunning
+        {
+            get { return _fightTaskRunning; }
+            set
+            {
+                SetAndNotify(ref _fightTaskRunning, value);
             }
         }
 

@@ -61,9 +61,9 @@ bool asst::FightTask::set_params(const json::value& params)
     std::string server = params.get("server", "CN");
     std::string client_type = params.get("client_type", std::string());
 
-    if (params.contains("drops")) {
+    if (auto opt = params.find<json::object>("drops")) {
         std::unordered_map<std::string, int> drops;
-        for (const auto& [item_id, quantity] : params.at("drops").as_object()) {
+        for (const auto& [item_id, quantity] : opt.value()) {
             drops.insert_or_assign(item_id, quantity.as_integer());
         }
         m_stage_drops_plugin_ptr->set_specify_quantity(drops);

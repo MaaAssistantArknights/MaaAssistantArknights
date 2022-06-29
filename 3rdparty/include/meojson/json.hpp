@@ -86,6 +86,8 @@ namespace json
         bool is_object() const noexcept { return _type == value_type::Object; }
         bool contains(const std::string& key) const;
         bool contains(size_t pos) const;
+        bool exists(const std::string& key) const { return contains(key); }
+        bool exists(size_t pos) const { return contains(pos); }
         value_type type() const noexcept { return _type; }
         const value& at(size_t pos) const;
         const value& at(const std::string& key) const;
@@ -93,6 +95,17 @@ namespace json
         // usage: get(key, key_child, ..., default_value);
         template <typename... KeysThenDefaultValue>
         decltype(auto) get(KeysThenDefaultValue &&... keys_then_default_value) const;
+
+        template <typename Type = value>
+        std::optional<Type> find(size_t pos) const
+        {
+            return is_array() ? as_array().find<Type>(pos) : std::nullopt;
+        }
+        template <typename Type = value>
+        std::optional<Type> find(const std::string& key) const
+        {
+            return is_object() ? as_object().find<Type>(key) : std::nullopt;
+        }
 
         bool as_boolean() const;
         int as_integer() const;
@@ -206,7 +219,8 @@ namespace json
         array(const raw_array& arr);
         array(raw_array&& arr) noexcept;
         array(std::initializer_list<raw_array::value_type> init_list);
-
+        explicit array(const value& val);
+        explicit array(value&& val);
         template<typename ArrayType> array(ArrayType arr);
 
         ~array() noexcept = default;
@@ -214,6 +228,7 @@ namespace json
         bool empty() const noexcept { return _array_data.empty(); }
         size_t size() const noexcept { return _array_data.size(); }
         bool contains(size_t pos) const { return pos < _array_data.size(); }
+        bool exists(size_t pos) const { return contains(pos); }
         const value& at(size_t pos) const;
         const std::string to_string() const;
         const std::string format(std::string shift_str = "    ",
@@ -232,6 +247,9 @@ namespace json
         const std::string get(size_t pos, std::string default_value) const;
         const std::string get(size_t pos, const char* default_value) const;
         const value& get(size_t pos) const;
+
+        template <typename Type = value>
+        std::optional<Type> find(size_t pos) const;
 
         template <typename... Args> decltype(auto) emplace_back(Args &&...args);
 
@@ -292,6 +310,8 @@ namespace json
         object(const raw_object& raw_obj);
         object(raw_object&& raw_obj);
         object(std::initializer_list<raw_object::value_type> init_list);
+        explicit object(const value& val);
+        explicit object(value&& val);
         template <typename MapType> object(MapType map);
 
         ~object() = default;
@@ -299,6 +319,7 @@ namespace json
         bool empty() const noexcept { return _object_data.empty(); }
         size_t size() const noexcept { return _object_data.size(); }
         bool contains(const std::string& key) const { return _object_data.find(key) != _object_data.cend(); }
+        bool exists(const std::string& key) const { return contains(key); }
         const value& at(const std::string& key) const;
         const std::string to_string() const;
         const std::string format(std::string shift_str = "    ",
@@ -320,6 +341,9 @@ namespace json
         const std::string get(const std::string& key,
                               const char* default_value) const;
         const value& get(const std::string& key) const;
+
+        template <typename Type = value>
+        std::optional<Type> find(const std::string& key) const;
 
         template <typename... Args> decltype(auto) emplace(Args &&...args);
         template <typename... Args> decltype(auto) insert(Args &&...args);
@@ -766,7 +790,7 @@ namespace json
 
     MEOJSON_INLINE void value::clear() noexcept
     {
-        *this = json::value();
+        *this = value();
     }
 
     MEOJSON_INLINE const std::string value::to_string() const
@@ -1016,12 +1040,24 @@ namespace json
         ;
     }
 
+    MEOJSON_INLINE array::array(const value& val)
+        : array(val.as_array())
+    {
+        ;
+    }
+
+    MEOJSON_INLINE array::array(value&& val)
+        : array(std::move(val.as_array()))
+    {
+        ;
+    }
+
     template<typename ArrayType>
     MEOJSON_INLINE array::array(ArrayType arr)
     {
         static_assert(
-            std::is_constructible<json::value, typename ArrayType::value_type>::value,
-            "Parameter can't be used to construct a json::value");
+            std::is_constructible<value, typename ArrayType::value_type>::value,
+            "Parameter can't be used to construct a value");
         _array_data.assign(
             std::make_move_iterator(arr.begin()),
             std::make_move_iterator(arr.end()));
@@ -1264,6 +1300,16 @@ namespace json
         }
     }
 
+    template <typename Type>
+    MEOJSON_INLINE std::optional<Type> array::find(size_t pos) const
+    {
+        static_assert(std::is_constructible<Type, value>::value, "Type can NOT be constructed by value");
+        if (!contains(pos)) {
+            return std::nullopt;
+        }
+        return static_cast<Type>(_array_data.at(pos));
+    }
+
     MEOJSON_INLINE array::iterator array::begin() noexcept
     {
         return _array_data.begin();
@@ -1423,6 +1469,18 @@ namespace json
         for (const auto& [key, val] : init_list) {
             emplace(key, val);
         }
+    }
+
+    MEOJSON_INLINE object::object(const value& val)
+        : object(val.as_object())
+    {
+        ;
+    }
+
+    MEOJSON_INLINE object::object(value&& val)
+        : object(std::move(val.as_object()))
+    {
+        ;
     }
 
     MEOJSON_INLINE const value& object::at(const std::string& key) const
@@ -1671,6 +1729,17 @@ namespace json
             static value null;
             return null;
         }
+    }
+
+    template <typename Type>
+    MEOJSON_INLINE std::optional<Type> object::find(const std::string& key) const
+    {
+        static_assert(std::is_constructible<Type, value>::value, "Type can NOT be constructed by value");
+        auto iter = _object_data.find(key);
+        if (iter == _object_data.end()) {
+            return std::nullopt;
+        }
+        return static_cast<Type>(iter->second);
     }
 
     MEOJSON_INLINE object::iterator object::begin() noexcept

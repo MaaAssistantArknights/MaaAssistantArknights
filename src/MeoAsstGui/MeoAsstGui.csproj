@@ -100,8 +100,8 @@
     <Compile Include="Helper\ScrollViewerBinding.cs" />
     <Compile Include="Helper\ViewStatusStorage.cs" />
     <Compile Include="Helper\FlowDocumentPagePadding.cs" />
-    <Compile Include="UserControl\TraySettingsUserControl.xaml.cs">
-      <DependentUpon>TraySettingsUserControl.xaml</DependentUpon>
+    <Compile Include="UserControl\GUISettingsUserControl.xaml.cs">
+      <DependentUpon>GUISettingsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\WinAdapter.cs" />
     <Compile Include="Helper\TrayIcon.cs" />
@@ -202,8 +202,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\TraySettingsUserControl.xaml">
+    <Page Include="UserControl\GUISettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControl\VersionUpdateSettingsUserControl.xaml">
       <SubType>Designer</SubType>
@@ -419,8 +420,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /e /y /i /c $(ProjectDir)..\..\3rdparty\tools $(TargetDir)
-xcopy /e /y /i /c $(ProjectDir)..\..\tools\CopilotDesinger $(TargetDir)\作业制作器
-xcopy /e /y /i /c $(ProjectDir)..\..\src\Python $(TargetDir)\Python</PostBuildEvent>
+    <PostBuildEvent>xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\tools" "$(TargetDir)"
+xcopy /e /y /i /c "$(ProjectDir)..\..\tools\CopilotDesinger" "$(TargetDir)\作业制作器"
+xcopy /e /y /i /c "$(ProjectDir)..\..\src\Python" "$(TargetDir)\Python"</PostBuildEvent>
   </PropertyGroup>
 </Project>
