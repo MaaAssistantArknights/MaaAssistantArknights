@@ -31,9 +31,18 @@ namespace MeoAsstGui
 {
     public class ToastNotification : IDisposable
     {
+        private ToastNotification()
+        {
+            if (!CheckToastSystem())
+            {
+                NotificationConstants.MessagePosition = NotificationPosition.BottomRight;
+            }
+        }
+
         public bool CheckToastSystem()
         {
-            return Convert.ToBoolean(ViewStatusStorage.Get("Toast.UsingSystem", bool.FalseString));
+            var os = RuntimeInformation.OSDescription.ToString();
+            return os.ToString().CompareTo("Microsoft Windows 10.0.10240") >= 0;
         }
 
         private NotificationManager _notificationManager = new NotificationManager();
@@ -322,6 +331,11 @@ namespace MeoAsstGui
             NotificationSounds sound = NotificationSounds.Notification,
             NotificationContent notificationContent = null)
         {
+            if (!Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseNotify", bool.TrueString)))
+            {
+                return;
+            }
+
             if (CheckToastSystem())
             {
                 if (_buttonSystemEnabled)
@@ -345,25 +359,22 @@ namespace MeoAsstGui
             }
             else
             {
-                if (!string.IsNullOrWhiteSpace(ViewStatusStorage.Get("Toast.Position", NotificationPosition.BottomRight.ToString())))
-                {
-                    notificationContent = notificationContent ?? BaseContent();
+                notificationContent = notificationContent ?? BaseContent();
 
-                    notificationContent.RowsCount = row;
+                notificationContent.RowsCount = row;
 
-                    // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
-                    lifeTime = lifeTime < 3d ? 3d : lifeTime;
+                // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
+                lifeTime = lifeTime < 3d ? 3d : lifeTime;
 
-                    var timeSpan = _buttonLeftAction == null && _buttonRightAction == null
-                        ? TimeSpan.FromSeconds(lifeTime)
-                        : TimeSpan.MaxValue;
+                var timeSpan = _buttonLeftAction == null && _buttonRightAction == null
+                    ? TimeSpan.FromSeconds(lifeTime)
+                    : TimeSpan.MaxValue;
 
-                    // 显示通知
-                    _notificationManager.Show(
-                        notificationContent,
-                        expirationTime: timeSpan,
-                        ShowXbtn: false);
-                }
+                // 显示通知
+                _notificationManager.Show(
+                    notificationContent,
+                    expirationTime: timeSpan,
+                    ShowXbtn: false);
 
                 // 播放通知提示音
                 PlayNotificationSoundAsync(sound).Wait();

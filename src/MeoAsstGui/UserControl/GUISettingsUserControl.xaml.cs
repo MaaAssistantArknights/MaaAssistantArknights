@@ -16,9 +16,9 @@ namespace MeoAsstGui
     /// <summary>
     /// TraySettingsUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class TraySettingsUserControl : UserControl
+    public partial class GUISettingsUserControl : UserControl
     {
-        public TraySettingsUserControl()
+        public GUISettingsUserControl()
         {
             InitializeComponent();
         }
