@@ -64,12 +64,12 @@
             <TextBlock Style="{StaticResource TextBlockDefault}" Margin="10,10,0,10" VerticalAlignment="Center"
                    Text="关卡选择" FontSize="14" />
             <ComboBox Width="120" Margin="31,10,10,10"
-                      IsHitTestVisible ="{Binding Path=Idle}"
+                      IsHitTestVisible ="{c:Binding !FightTaskRunning}"
                       ItemsSource="{Binding StageList}"
                       DisplayMemberPath="Display"
                       SelectedValuePath="Value"
                       SelectedValue="{Binding Stage}" />
         </StackPanel>
-        <Button Grid.Row="6" Command="{s:Action SetParams}" Visibility="{c:Binding !Idle}" HorizontalAlignment="Left" Content="修改" Width="50" Height="30" Margin="10" />
+        <Button Grid.Row="6" Command="{s:Action SetParams}" Visibility="{c:Binding !Idle}" HorizontalAlignment="Left" Content="修改" Width="50" Height="30" Margin="166,10,10,10" />
     </Grid>
 </UserControl>

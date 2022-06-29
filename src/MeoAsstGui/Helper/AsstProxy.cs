@@ -295,6 +295,10 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.TaskChainStart:
+                    if (taskChain == "Fight")
+                    {
+                        mainModel.FightTaskRunning = true;
+                    }
                     mainModel.AddLog("开始任务：" + taskChain);
                     break;
 
