@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MeoAsstGui.TraySettingsUserControl"
+﻿<UserControl x:Class="MeoAsstGui.GUISettingsUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,7 +10,7 @@
              d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
              d:DesignHeight="80" d:DesignWidth="550">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-        <CheckBox IsChecked="{Binding UseTray}" Content="使用托盘" Margin="10" />
-        <CheckBox IsChecked="{Binding MinimizeToTray}" IsEnabled="{Binding UseTray}" Content="最小化时隐藏至托盘" Margin="10" />
+        <CheckBox IsChecked="{Binding MinimizeToTray}" Content="最小化时隐藏至托盘" Margin="10" />
+        <CheckBox IsChecked="{Binding UseNotify}" Content="弹出系统通知" Margin="10" />
     </StackPanel>
 </UserControl>
