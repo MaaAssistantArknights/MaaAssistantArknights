@@ -239,16 +239,23 @@ namespace MeoAsstGui
 
                 case "UnsupportedResolution":
                     connected = false;
-                    mainModel.AddLog("分辨率不支持，请设置为 720p 或更高，且为 16:9 比例", "darkred");
+                    mainModel.AddLog("模拟器分辨率不支持，请设置为 720p 或更高，且为 16:9 比例", "darkred");
                     break;
 
                 case "ResolutionError":
                     connected = false;
-                    mainModel.AddLog("分辨率获取失败，建议重启电脑，或更换模拟器后再试", "darkred");
+                    mainModel.AddLog("模拟器分辨率获取失败，建议重启电脑，或更换模拟器后再试", "darkred");
+                    break;
+
+                case "Reconnecting":
+                    mainModel.AddLog("模拟器断开，正在重试", "darkred");
+                    break;
+
+                case "Reconnected":
+                    mainModel.AddLog("重连成功，继续任务");
                     break;
 
                 case "Disconnect":
-                case "CommandExecFailed":
                     connected = false;
                     mainModel.AddLog("错误！连接断开！", "darkred");
                     AsstStop();
@@ -802,8 +809,13 @@ namespace MeoAsstGui
             if (!ret)
             {
                 if (firsttry)
+                {
                     error = "连接失败\n正在尝试启动模拟器";
-                else error = "连接失败\n请检查连接设置";
+                }
+                else
+                {
+                    error = "连接失败\n请检查连接设置\n或尝试重启电脑";
+                }
             }
             return ret;
         }
