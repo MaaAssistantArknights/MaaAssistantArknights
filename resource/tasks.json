@@ -5227,7 +5227,7 @@
             "TerminalToRoguelike1",
             "CloseAnnoToRoguelike1",
             "Roguelike1TodoEnter",
-            "IntergratedStrategies"
+            "IntegratedStrategies"
         ],
         "rearDelay": 1000
     },
@@ -5245,7 +5245,7 @@
             "Roguelike1Begin"
         ]
     },
-    "IntergratedStrategies": {
+    "IntegratedStrategies": {
         "action": "ClickSelf",
         "roi": [
             963,
@@ -5254,11 +5254,11 @@
             121
         ],
         "next": [
-            "IntergratedStrategies",
-            "IntergratedStrategiesToRoguelike1"
+            "IntegratedStrategies",
+            "IntegratedStrategiesToRoguelike1"
         ]
     },
-    "IntergratedStrategiesToRoguelike1": {
+    "IntegratedStrategiesToRoguelike1": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -5271,7 +5271,7 @@
             157
         ],
         "next": [
-            "IntergratedStrategiesToRoguelike1",
+            "IntegratedStrategiesToRoguelike1",
             "Roguelike1Begin"
         ]
     },
