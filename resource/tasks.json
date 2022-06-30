@@ -5226,7 +5226,8 @@
         "next": [
             "TerminalToRoguelike1",
             "CloseAnnoToRoguelike1",
-            "Roguelike1TodoEnter"
+            "Roguelike1TodoEnter",
+            "IntergratedStrategies"
         ],
         "rearDelay": 1000
     },
@@ -5241,6 +5242,36 @@
         ],
         "next": [
             "Roguelike1TodoEnter",
+            "Roguelike1Begin"
+        ]
+    },
+    "IntergratedStrategies": {
+        "action": "ClickSelf",
+        "roi": [
+            963,
+            599,
+            148,
+            121
+        ],
+        "next": [
+            "IntergratedStrategies",
+            "IntergratedStrategiesToRoguelike1"
+        ]
+    },
+    "IntergratedStrategiesToRoguelike1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入主题"
+        ],
+        "roi": [
+            1006,
+            445,
+            246,
+            157
+        ],
+        "next": [
+            "IntergratedStrategiesToRoguelike1",
             "Roguelike1Begin"
         ]
     },
