@@ -341,9 +341,7 @@ bool asst::RoguelikeBattleTaskPlugin::retreat(const Point& point)
     m_ctrler->click(point);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
-    ProcessTask task(*this, { "BattleOperRetreat" });
-    task.set_retry_times(0);
-    return task.run();
+    return ProcessTask(*this, { "BattleOperRetreat" }).run();
 }
 
 void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
@@ -353,7 +351,7 @@ void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
         auto& type = tile_info.buildable;
         if (type == Loc::Melee || type == Loc::All) {
             if (!retreat(tile_info.pos)) {
-                return;
+                continue;
             }
         }
     }
