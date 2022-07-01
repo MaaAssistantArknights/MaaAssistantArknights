@@ -366,7 +366,8 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
                 { "reconnect", m_adb.connect },
                 { "cmd", cmd }
         }} };
-        for (int i = 0; i < 20; ++i) {
+        constexpr static int ReconnectTimes = 20;
+        for (int i = 0; i < ReconnectTimes; ++i) {
             reconnect_info["details"]["times"] = i;
             m_callback(AsstMsg::ConnectionInfo, reconnect_info, m_callback_arg);
 
@@ -1209,11 +1210,21 @@ const std::string& asst::Controller::get_uuid() const
 
 cv::Mat asst::Controller::get_image(bool raw)
 {
-    bool inited = m_inited;
+    if (m_scale_size.first == 0 || m_scale_size.second == 0) {
+        Log.error("Unknown image size");
+        return cv::Mat();
+    }
+
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
-    screencap();
-    // 截图之前正常，截图之后不正常了，说明截图过程中发现 adb 炸了
-    if (inited && !m_inited) {
+    constexpr static int MaxTryCount = 20;
+    bool success = false;
+    for (int i = 0; i < MaxTryCount && m_inited; ++i) {
+        if (screencap()) {
+            success = true;
+            break;
+        }
+    }
+    if (!success) {
         const static cv::Size dsize(m_scale_size.first, m_scale_size.second);
         m_cache_image = cv::Mat(dsize, CV_8UC3);
     }
