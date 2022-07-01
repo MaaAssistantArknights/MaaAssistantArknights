@@ -890,7 +890,6 @@ namespace MeoAsstGui
         //}
 
         public List<CombData> AllStageList { get; set; }
-        private Dictionary<System.DayOfWeek, List<string>> _stageAvailabled;
 
         private ObservableCollection<CombData> _stageList = new ObservableCollection<CombData>();
 
