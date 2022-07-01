@@ -482,6 +482,7 @@
         "action": "DoNothing",
         "sub": [
             "StageResource",
+            "SwipeToTheLeft",
             "StageCE",
             "StageCE6"
         ]
@@ -491,6 +492,7 @@
         "action": "DoNothing",
         "sub": [
             "StageResource",
+            "SwipeToTheLeft",
             "StageLS",
             "StageLS6"
         ]
@@ -500,6 +502,7 @@
         "action": "DoNothing",
         "sub": [
             "StageResource",
+            "SwipeToTheLeft",
             "StageCA",
             "StageCA5"
         ]
@@ -509,8 +512,93 @@
         "action": "DoNothing",
         "sub": [
             "StageResource",
+            "SwipeToTheLeft",
             "StageAP",
             "StageAP5"
+        ]
+    },
+    "PR-A-1": {
+        "algorithm": "JustReturn",
+        "doc": "医疗/重装",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "SwipeToTheRight",
+            "StagePR-A",
+            "StagePR-A-1"
+        ]
+    },
+    "PR-A-2": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "SwipeToTheRight",
+            "StagePR-A",
+            "StagePR-A-2"
+        ]
+    },
+    "PR-B-1": {
+        "algorithm": "JustReturn",
+        "doc": "术士/狙击",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "SwipeToTheRight",
+            "StagePR-B",
+            "StagePR-B-1"
+        ]
+    },
+    "PR-B-2": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "SwipeToTheRight",
+            "StagePR-B",
+            "StagePR-B-2"
+        ]
+    },
+    "PR-C-1": {
+        "algorithm": "JustReturn",
+        "doc": "先锋/辅助",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "SwipeToTheRight",
+            "StagePR-C",
+            "StagePR-C-1"
+        ]
+    },
+    "PR-C-2": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "SwipeToTheRight",
+            "StagePR-C",
+            "StagePR-C-2"
+        ]
+    },
+    "PR-D-1": {
+        "algorithm": "JustReturn",
+        "doc": "近卫/特种",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "SwipeToTheRight",
+            "StagePR-D",
+            "StagePR-D-1"
+        ]
+    },
+    "PR-D-2": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "SwipeToTheRight",
+            "StagePR-D",
+            "StagePR-D-2"
         ]
     },
     "StageResource": {
@@ -521,10 +609,6 @@
             562,
             544,
             158
-        ],
-        "next": [
-            "StageResource",
-            "SwipeToTheLeft"
         ]
     },
     "StageCE": {
@@ -540,6 +624,22 @@
         "cache": false
     },
     "StageAP": {
+        "action": "ClickSelf",
+        "cache": false
+    },
+    "StagePR-A": {
+        "action": "ClickSelf",
+        "cache": false
+    },
+    "StagePR-B": {
+        "action": "ClickSelf",
+        "cache": false
+    },
+    "StagePR-C": {
+        "action": "ClickSelf",
+        "cache": false
+    },
+    "StagePR-D": {
         "action": "ClickSelf",
         "cache": false
     },
@@ -626,6 +726,110 @@
             140,
             250,
             220
+        ]
+    },
+    "StagePR-A-1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "PR-A-1"
+        ],
+        "roi": [
+            27,
+            260,
+            742,
+            400
+        ]
+    },
+    "StagePR-A-2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "PR-A-2"
+        ],
+        "roi": [
+            472,
+            0,
+            793,
+            502
+        ]
+    },
+    "StagePR-B-1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "PR-B-1"
+        ],
+        "roi": [
+            27,
+            260,
+            742,
+            400
+        ]
+    },
+    "StagePR-B-2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "PR-B-2"
+        ],
+        "roi": [
+            472,
+            0,
+            793,
+            502
+        ]
+    },
+    "StagePR-C-1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "PR-C-1"
+        ],
+        "roi": [
+            27,
+            260,
+            742,
+            400
+        ]
+    },
+    "StagePR-C-2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "PR-D-2"
+        ],
+        "roi": [
+            472,
+            0,
+            793,
+            502
+        ]
+    },
+    "StagePR-D-1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "PR-A-1"
+        ],
+        "roi": [
+            27,
+            260,
+            742,
+            400
+        ]
+    },
+    "StagePR-D-2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "PR-A-2"
+        ],
+        "roi": [
+            472,
+            0,
+            793,
+            502
         ]
     },
     "CharsNameOcrReplace": {
