@@ -1087,6 +1087,30 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _useNotify, value);
                 ViewStatusStorage.Set("GUI.UseNotify", value.ToString());
+                if (value)
+                {
+                    Execute.OnUIThread(() =>
+                    {
+                        using (var toast = new ToastNotification("通知演示"))
+                        {
+                            toast.Show();
+                        }
+                    });
+                }
+            }
+        }
+
+        private bool _hideUnavailableStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.HideUnavailableStage", bool.TrueString));
+
+        public bool HideUnavailableStage
+        {
+            get { return _hideUnavailableStage; }
+            set
+            {
+                SetAndNotify(ref _hideUnavailableStage, value);
+                ViewStatusStorage.Set("GUI.HideUnavailableStage", value.ToString());
+                var mainModel = _container.Get<TaskQueueViewModel>();
+                mainModel.UpdateStageList();
             }
         }
     }
