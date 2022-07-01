@@ -6759,7 +6759,8 @@
         ],
         "templThreshold": 0.85,
         "next": [
-            "Roguelike1DropsFlag"
+            "Roguelike1DropsFlag",
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike1GetDrop2": {
@@ -6775,6 +6776,7 @@
         "templThreshold": 0.85,
         "next": [
             "Roguelike1DropsFlag",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1ClickToDrops"
         ]
     },
@@ -6790,6 +6792,7 @@
         ],
         "templThreshold": 0.85,
         "next": [
+            "Roguelike1ChooseOperFlag",
             "Roguelike1ClickToDrops"
         ]
     },
@@ -6829,7 +6832,8 @@
         "rearDelay": 2000,
         "next": [
             "Roguelike1GetDropSelectRecruit",
-            "Roguelike1GetDropSelectReward"
+            "Roguelike1GetDropSelectReward",
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike1GetDropSelectRecruit": {
@@ -6859,7 +6863,8 @@
         ],
         "next": [
             "Roguelike1ClickToDrops",
-            "Roguelike1GetDropSelectReward"
+            "Roguelike1GetDropSelectReward",
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike1GetDropCompleted": {
@@ -6872,6 +6877,7 @@
         ],
         "rearDelay": 3000,
         "next": [
+            "Roguelike1ChooseOperFlag",
             "Roguelike1ClickToDrops"
         ]
     },
@@ -6887,7 +6893,8 @@
         ],
         "next": [
             "Roguelike1GetDropLeaveConfirm",
-            "Roguelike1DropsFlag"
+            "Roguelike1DropsFlag",
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike1GetDropLeaveConfirm": {
