@@ -5336,7 +5336,7 @@
     },
     "BattleOperRetreat": {
         "algorithm": "JustReturn",
-        "rearDelay": 100,
+        "rearDelay": 200,
         "action": "ClickRect",
         "specificRect": [
             580,
