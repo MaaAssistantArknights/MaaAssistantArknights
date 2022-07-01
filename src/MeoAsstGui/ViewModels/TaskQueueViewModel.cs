@@ -97,13 +97,14 @@ namespace MeoAsstGui
 
         private void Timer1_Elapsed(object sender, EventArgs e)
         {
+            UpdateDatePrompt();
+
             int intMinute = DateTime.Now.Minute;
 
             if (intMinute != 0 || Idle == false)
             {
                 return;
             }
-            UpdateDatePrompt();
 
             int intHour = DateTime.Now.Hour;
             var settings = _container.Get<SettingsViewModel>();
@@ -195,7 +196,6 @@ namespace MeoAsstGui
             };
 
             InitDrops();
-
             UpdateDatePrompt();
         }
 
@@ -219,18 +219,28 @@ namespace MeoAsstGui
                 { "周日了，记得打剿灭哦~", new List<DayOfWeek> { DayOfWeek.Sunday } }
             };
 
-            StagesOfToday = "今日关卡小提示：\n";
+            var prompt = "今日关卡小提示：\n";
 
             foreach (var item in stage_dict)
             {
                 if (item.Value.Contains(now.DayOfWeek))
                 {
-                    StagesOfToday += item.Key + "\n";
+                    prompt += item.Key + "\n";
                 }
+            }
+            if (StagesOfToday != prompt)
+            {
+                StagesOfToday = prompt;
             }
         }
 
-        public string StagesOfToday { get; set; }
+        private string _stagesOfToday = "";
+
+        public string StagesOfToday
+        {
+            get { return _stagesOfToday; }
+            set { SetAndNotify(ref _stagesOfToday, value); }
+        }
 
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
         {
