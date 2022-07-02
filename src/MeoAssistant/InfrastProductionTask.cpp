@@ -216,6 +216,9 @@ size_t asst::InfrastProductionTask::opers_detect()
         auto find_iter = std::find_if(
             m_all_available_opers.cbegin(), m_all_available_opers.cend(),
             [&](const infrast::BattleRealTimeOper& oper) -> bool {
+                if (oper.skills != cur_oper.skills) {
+                    return false;
+                }
                 // 有可能是同一个干员，比一下hash
                 int dist = HashImageAnalyzer::hamming(cur_oper.face_hash, oper.face_hash);
                 Log.debug("opers_detect hash dist |", dist);
