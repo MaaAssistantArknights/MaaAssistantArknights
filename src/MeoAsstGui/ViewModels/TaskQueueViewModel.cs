@@ -90,14 +90,18 @@ namespace MeoAsstGui
         private void InitTimer()
         {
             _timer.Enabled = true;
-            _timer.Interval = 1000 * 60;
+            _timer.Interval = 1000 * 50;
             _timer.Tick += new EventHandler(Timer1_Elapsed);
             _timer.Start();
         }
 
         private void Timer1_Elapsed(object sender, EventArgs e)
         {
-            UpdateDatePrompt();
+            if (CheckAndUpdateDayOfWeek())
+            {
+                UpdateDatePrompt();
+                UpdateStageList();
+            }
 
             int intMinute = DateTime.Now.Minute;
 
@@ -218,29 +222,27 @@ namespace MeoAsstGui
             };
 
             InitDrops();
+            CheckAndUpdateDayOfWeek();
             UpdateDatePrompt();
             UpdateStageList();
         }
 
+        private Dictionary<string, Tuple<List<DayOfWeek>, string>> _stageAvailableInfo;
+        private DayOfWeek _curDayOfWeek;
+
         public void UpdateStageList()
         {
-            var now = DateTime.Now;
-            var hour = now.Hour;
-            if (hour >= 0 && hour < 4)
-            {
-                now = now.AddDays(-1);
-            }
-
+            ObservableCollection<CombData> newList;
             var settingsModel = _container.Get<SettingsViewModel>();
             if (settingsModel.HideUnavailableStage)
             {
-                var newList = new ObservableCollection<CombData> { };
+                newList = new ObservableCollection<CombData> { };
                 foreach (var item in AllStageList)
                 {
                     if (_stageAvailableInfo.ContainsKey(item.Value))
                     {
                         var info = _stageAvailableInfo[item.Value];
-                        if (info.Item1.Contains(now.DayOfWeek))
+                        if (info.Item1.Contains(_curDayOfWeek))
                         {
                             newList.Add(item);
                         }
@@ -250,12 +252,18 @@ namespace MeoAsstGui
                         newList.Add(item);
                     }
                 }
-                StageList = newList;
             }
             else
             {
-                StageList = new ObservableCollection<CombData>(AllStageList);
+                newList = new ObservableCollection<CombData>(AllStageList);
             }
+            if (StageList == newList)
+            {
+                return;
+            }
+
+            StageList = newList;
+
             bool hasSavedValue = false;
             foreach (var item in StageList)
             {
@@ -271,9 +279,7 @@ namespace MeoAsstGui
             }
         }
 
-        private Dictionary<string, Tuple<List<DayOfWeek>, string>> _stageAvailableInfo;
-
-        public void UpdateDatePrompt()
+        private bool CheckAndUpdateDayOfWeek()
         {
             var now = DateTime.Now;
             var hour = now.Hour;
@@ -282,19 +288,33 @@ namespace MeoAsstGui
                 now = now.AddDays(-1);
             }
 
+            if (_curDayOfWeek == now.DayOfWeek)
+            {
+                return false;
+            }
+            else
+            {
+                _curDayOfWeek = now.DayOfWeek;
+                return true;
+            }
+        }
+
+        public void UpdateDatePrompt()
+        {
             var prompt = "今日关卡小提示：\n";
 
             foreach (var item in _stageAvailableInfo)
             {
-                if (item.Value.Item1.Contains(now.DayOfWeek) && item.Value.Item2 != String.Empty)
+                if (item.Value.Item1.Contains(_curDayOfWeek) && item.Value.Item2 != String.Empty)
                 {
                     prompt += item.Value.Item2 + "\n";
                 }
             }
-            if (StagesOfToday != prompt)
+            if (StagesOfToday == prompt)
             {
-                StagesOfToday = prompt;
+                return;
             }
+            StagesOfToday = prompt;
         }
 
         private string _stagesOfToday = "";
