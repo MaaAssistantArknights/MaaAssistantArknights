@@ -57,8 +57,6 @@ MAA 的意思是 MAA Assistant Arknights
 [fastgit 镜像稳定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [fastgit 镜像测试版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
 
-
-
 ## 使用说明
 
 ### 基本说明
@@ -143,7 +141,7 @@ MAA 的意思是 MAA Assistant Arknights
 - [Golang 接口](src/Golang/maa/)：[集成示例](src/Golang/cli.go)（已停止维护 orz）
 - [Dart 接口](src/dart/)
 - [Java 接口](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
-- [HTTP接口](src/Java/Maaj/Readme.md)
+- [HTTP 接口](src/Java/Maaj/Readme.md)
 - [集成文档](docs/集成文档.md)
 - [回调消息协议](docs/回调消息协议.md)
 - [任务流程协议](docs/任务流程协议.md)
