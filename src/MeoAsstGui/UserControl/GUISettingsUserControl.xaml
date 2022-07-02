@@ -8,9 +8,10 @@
              mc:Ignorable="d"
              xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
              d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
-             d:DesignHeight="80" d:DesignWidth="550">
+             d:DesignHeight="300" d:DesignWidth="550">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
         <CheckBox IsChecked="{Binding MinimizeToTray}" Content="最小化时隐藏至托盘" Margin="10" />
-        <CheckBox IsChecked="{Binding UseNotify}" Content="弹出系统通知" Margin="10" />
+        <CheckBox IsChecked="{Binding UseNotify}" Content="重要信息弹出系统通知" Margin="10" />
+        <CheckBox IsChecked="{Binding HideUnavailableStage}" Content="隐藏当日不开放关卡" Margin="10" />
     </StackPanel>
 </UserControl>

@@ -90,20 +90,25 @@ namespace MeoAsstGui
         private void InitTimer()
         {
             _timer.Enabled = true;
-            _timer.Interval = 1000 * 60;
+            _timer.Interval = 1000 * 50;
             _timer.Tick += new EventHandler(Timer1_Elapsed);
             _timer.Start();
         }
 
         private void Timer1_Elapsed(object sender, EventArgs e)
         {
+            if (CheckAndUpdateDayOfWeek())
+            {
+                UpdateDatePrompt();
+                UpdateStageList();
+            }
+
             int intMinute = DateTime.Now.Minute;
 
             if (intMinute != 0 || Idle == false)
             {
                 return;
             }
-            UpdateDatePrompt();
 
             int intHour = DateTime.Now.Hour;
             var settings = _container.Get<SettingsViewModel>();
@@ -159,16 +164,25 @@ namespace MeoAsstGui
             }
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            StageList = new List<CombData>
+            AllStageList = new List<CombData>
             {
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
 
                 new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = "龙门币-6/5", Value = "CE-6" },
-                new CombData { Display = "经验-6/5", Value = "LS-6" },
                 new CombData { Display = "红票-5", Value = "AP-5" },
                 new CombData { Display = "技能-5", Value = "CA-5" },
+                new CombData { Display = "经验-6/5", Value = "LS-6" },
+
+                new CombData { Display = "奶/盾芯片", Value = "PR-A-1" },
+                new CombData { Display = "奶/盾芯片组", Value = "PR-A-2" },
+                new CombData { Display = "术/狙芯片", Value = "PR-B-1" },
+                new CombData { Display = "术/狙芯片组", Value = "PR-B-2" },
+                new CombData { Display = "先/辅芯片", Value = "PR-C-1" },
+                new CombData { Display = "先/辅芯片组", Value = "PR-C-2" },
+                new CombData { Display = "近/特芯片", Value = "PR-D-1" },
+                new CombData { Display = "近/特芯片组", Value = "PR-D-2" },
 
                 // SideStory「尘影余音」活动
                 // new CombData { Display = "LE-7", Value = "LE-7" },
@@ -185,12 +199,88 @@ namespace MeoAsstGui
                 //new CombData { Display = "BI-8", Value = "BI-8" }
             };
 
-            InitDrops();
+            _stageAvailableInfo = new Dictionary<string, Tuple<List<DayOfWeek>, string>>
+            {
+                { "CE-6", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "货物运送（龙门币）") },
+                { "AP-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "粉碎防御（红票）") },
+                { "CA-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday }, "空中威胁（技能）") },
+                { "LS-6", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "战术演习（经验）") },
+                // 碳本没做导航
+                { "SK-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday }, "资源保障（碳）") },
 
+                { "PR-A-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, "奶/盾芯片") },
+                { "PR-A-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, "") },
+                { "PR-B-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday }, "术/狙芯片") },
+                { "PR-B-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday }, "") },
+                { "PR-C-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "先/辅芯片") },
+                { "PR-C-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "") },
+                { "PR-D-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "近/特芯片") },
+                { "PR-D-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "") },
+
+                // 下面的不支持导航
+                { "Pormpt1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday }, "周一了，可以打剿灭了~") },
+                { "Pormpt2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Sunday }, "周日了，记得打剿灭哦~") }
+            };
+
+            InitDrops();
+            CheckAndUpdateDayOfWeek();
             UpdateDatePrompt();
+            UpdateStageList();
         }
 
-        public void UpdateDatePrompt()
+        private Dictionary<string, Tuple<List<DayOfWeek>, string>> _stageAvailableInfo;
+        private DayOfWeek _curDayOfWeek;
+
+        public void UpdateStageList()
+        {
+            ObservableCollection<CombData> newList;
+            var settingsModel = _container.Get<SettingsViewModel>();
+            if (settingsModel.HideUnavailableStage)
+            {
+                newList = new ObservableCollection<CombData> { };
+                foreach (var item in AllStageList)
+                {
+                    if (_stageAvailableInfo.ContainsKey(item.Value))
+                    {
+                        var info = _stageAvailableInfo[item.Value];
+                        if (info.Item1.Contains(_curDayOfWeek))
+                        {
+                            newList.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        newList.Add(item);
+                    }
+                }
+            }
+            else
+            {
+                newList = new ObservableCollection<CombData>(AllStageList);
+            }
+            if (StageList == newList)
+            {
+                return;
+            }
+
+            StageList = newList;
+
+            bool hasSavedValue = false;
+            foreach (var item in StageList)
+            {
+                if (item.Value == Stage)
+                {
+                    hasSavedValue = true;
+                    break;
+                }
+            }
+            if (!hasSavedValue)
+            {
+                Stage = "LastBattle";
+            }
+        }
+
+        private bool CheckAndUpdateDayOfWeek()
         {
             var now = DateTime.Now;
             var hour = now.Hour;
@@ -199,29 +289,42 @@ namespace MeoAsstGui
                 now = now.AddDays(-1);
             }
 
-            var stage_dict = new Dictionary<string, List<DayOfWeek>>
+            if (_curDayOfWeek == now.DayOfWeek)
             {
-                { "货物运送（龙门币）", new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday } },
-                { "粉碎防御（红票）", new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday } },
-                { "空中威胁（技能）", new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday } },
-                { "资源保障（碳）", new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday } },
-                { "战术演习（经验）", new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday } },
-                { "周一了，可以打剿灭了~", new List<DayOfWeek> { DayOfWeek.Monday } },
-                { "周日了，记得打剿灭哦~", new List<DayOfWeek> { DayOfWeek.Sunday } }
-            };
-
-            StagesOfToday = "今日关卡小提示：\n";
-
-            foreach (var item in stage_dict)
+                return false;
+            }
+            else
             {
-                if (item.Value.Contains(now.DayOfWeek))
-                {
-                    StagesOfToday += item.Key + "\n";
-                }
+                _curDayOfWeek = now.DayOfWeek;
+                return true;
             }
         }
 
-        public string StagesOfToday { get; set; }
+        public void UpdateDatePrompt()
+        {
+            var prompt = "今日关卡小提示：\n";
+
+            foreach (var item in _stageAvailableInfo)
+            {
+                if (item.Value.Item1.Contains(_curDayOfWeek) && item.Value.Item2 != String.Empty)
+                {
+                    prompt += item.Value.Item2 + "\n";
+                }
+            }
+            if (StagesOfToday == prompt)
+            {
+                return;
+            }
+            StagesOfToday = prompt;
+        }
+
+        private string _stagesOfToday = "";
+
+        public string StagesOfToday
+        {
+            get { return _stagesOfToday; }
+            set { SetAndNotify(ref _stagesOfToday, value); }
+        }
 
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
         {
@@ -807,7 +910,15 @@ namespace MeoAsstGui
         //    }
         //}
 
-        public List<CombData> StageList { get; set; }
+        public List<CombData> AllStageList { get; set; }
+
+        private ObservableCollection<CombData> _stageList = new ObservableCollection<CombData>();
+
+        public ObservableCollection<CombData> StageList
+        {
+            get { return _stageList; }
+            set { SetAndNotify(ref _stageList, value); }
+        }
 
         private string _stage = ViewStatusStorage.Get("MainFunction.Stage", "LastBattle");
 

@@ -341,9 +341,7 @@ bool asst::RoguelikeBattleTaskPlugin::retreat(const Point& point)
     m_ctrler->click(point);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
-    ProcessTask task(*this, { "BattleOperRetreat" });
-    task.set_retry_times(0);
-    return task.run();
+    return ProcessTask(*this, { "BattleOperRetreat" }).run();
 }
 
 void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
@@ -353,7 +351,7 @@ void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
         auto& type = tile_info.buildable;
         if (type == Loc::Melee || type == Loc::All) {
             if (!retreat(tile_info.pos)) {
-                return;
+                continue;
             }
         }
     }
@@ -500,7 +498,7 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
 #endif
 
     return true;
-    }
+}
 
 //asst::Rect asst::RoguelikeBattleTaskPlugin::get_placed_by_cv()
 //{
@@ -607,6 +605,9 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
         constexpr int DistWeights = -1050;
         int extra_dist = std::abs(loc.x - home.x) + std::abs(loc.y - home.y) - min_dist;
         int extra_dist_score = DistWeights * extra_dist;
+        if (role == BattleRole::Medic) {    // 医疗干员离得远无所谓
+            extra_dist_score = 0;
+        }
 
         if (cur_result.second + extra_dist_score > max_score) {
             max_score = cur_result.second;
@@ -720,7 +721,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     static const Point LeftDirection(-1, 0);
     static const Point UpDirection(0, -1);
 
-    std::unordered_map<Point, std::vector<Point>> DirectionAttackRangeMap = {
+    std::vector<std::pair<Point, std::vector<Point>>> DirectionAttackRangeMap = {
         { UpDirection, std::vector<Point>() },
         { RightDirection, std::vector<Point>() },
         { LeftDirection, std::vector<Point>() },
