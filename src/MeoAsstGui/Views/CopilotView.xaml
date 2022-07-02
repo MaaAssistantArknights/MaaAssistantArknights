@@ -12,7 +12,7 @@
              d:DesignHeight="495" d:DesignWidth="800"
              AllowDrop="True"
              Drop="{s:Action DropFile}">
-    <Grid Margin="20">
+    <Grid Background="White" Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
