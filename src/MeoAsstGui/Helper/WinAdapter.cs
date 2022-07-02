@@ -89,7 +89,7 @@ namespace MeoAsstGui
                 process.StartInfo.RedirectStandardOutput = true;
                 process.Start();
                 var output = process.StandardOutput.ReadToEnd();
-                AsstProxy.AsstLog(adbPath + "devices | output:\n" + output);
+                AsstProxy.AsstLog(adbPath + " devices | output:\n" + output);
                 var outLines = output.Split(new[] { '\r', '\n' });
                 foreach (var line in outLines)
                 {
