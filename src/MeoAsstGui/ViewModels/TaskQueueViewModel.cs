@@ -171,9 +171,9 @@ namespace MeoAsstGui
 
                 new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = "龙门币-6/5", Value = "CE-6" },
-                new CombData { Display = "经验-6/5", Value = "LS-6" },
                 new CombData { Display = "红票-5", Value = "AP-5" },
                 new CombData { Display = "技能-5", Value = "CA-5" },
+                new CombData { Display = "经验-6/5", Value = "LS-6" },
 
                 new CombData { Display = "奶/盾芯片", Value = "PR-A-1" },
                 new CombData { Display = "奶/盾芯片组", Value = "PR-A-2" },
