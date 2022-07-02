@@ -797,7 +797,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "PR-D-2"
+            "PR-C-2"
         ],
         "roi": [
             472,
@@ -810,7 +810,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "PR-A-1"
+            "PR-D-1"
         ],
         "roi": [
             27,
@@ -823,7 +823,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "PR-A-2"
+            "PR-D-2"
         ],
         "roi": [
             472,

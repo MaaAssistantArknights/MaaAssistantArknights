@@ -175,10 +175,10 @@ namespace MeoAsstGui
                 new CombData { Display = "奶/盾芯片组", Value = "PR-A-2" },
                 new CombData { Display = "术/狙芯片", Value = "PR-B-1" },
                 new CombData { Display = "术/狙芯片组", Value = "PR-B-2" },
-                //new CombData { Display = "先/辅芯片", Value = "PR-C-1" },
-                //new CombData { Display = "先/辅芯片组", Value = "PR-C-2" },
-                //new CombData { Display = "近/特芯片", Value = "PR-D-1" },
-                //new CombData { Display = "近/特芯片组", Value = "PR-D-2" },
+                new CombData { Display = "先/辅芯片", Value = "PR-C-1" },
+                new CombData { Display = "先/辅芯片组", Value = "PR-C-2" },
+                new CombData { Display = "近/特芯片", Value = "PR-D-1" },
+                new CombData { Display = "近/特芯片组", Value = "PR-D-2" },
 
                 // SideStory「尘影余音」活动
                 // new CombData { Display = "LE-7", Value = "LE-7" },
