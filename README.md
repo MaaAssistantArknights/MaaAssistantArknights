@@ -160,9 +160,10 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 广告
 
-[B 站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
-[技术交流 & 吹水群](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！（明日方舟弱相关）  
-[自动战斗 JSON 作业分享群](https://jq.qq.com/?_wv=1027&k=1giyMpPb)  
-[开发者群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
+[Bilibili 直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
+[MAA 交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
+[自动战斗 JSON 作业分享群（QQ 群）](https://jq.qq.com/?_wv=1027&k=1giyMpPb)  
+[舟无关技术交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！  
+[开发者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！
