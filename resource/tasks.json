@@ -198,6 +198,131 @@
             60
         ]
     },
+    "DV-5": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DV-Open"
+        ],
+        "next": [
+            "StageDV-5",
+            "SwapToStageDV-5"
+        ]
+    },
+    "DV-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DV-Open"
+        ],
+        "next": [
+            "StageDV-6",
+            "SwapToStageDV-6"
+        ]
+    },
+    "DV-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DV-Open"
+        ],
+        "next": [
+            "StageDV-7",
+            "SwapToStageDV-7"
+        ]
+    },
+    "DV-Open": {
+        "action": "ClickSelf",
+        "roi": [
+            471,
+            0,
+            530,
+            711
+        ],
+        "sub": [
+            "DVChapterToDV",
+            "SwipeToTheRight"
+        ]
+    },
+    "DVChapterToDV": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "我不知道"
+        ],
+        "roi": [
+            1011,
+            495,
+            217,
+            139
+        ]
+    },
+    "SwapToStageDV-5": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageDV-5",
+            "SwapToStageDV-5"
+        ]
+    },
+    "SwapToStageDV-6": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageDV-6",
+            "SwapToStageDV-6"
+        ]
+    },
+    "SwapToStageDV-7": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageDV-7",
+            "SwapToStageDV-7"
+        ]
+    },
+    "StageDV-5": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "DV-5"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
+    "StageDV-6": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "DV-6"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
+    "StageDV-7": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "DV-7"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
     "LE-5": {
         "algorithm": "JustReturn",
         "action": "DoNothing",

@@ -169,6 +169,11 @@ namespace MeoAsstGui
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
 
+                // SideStory「绿野幻梦」活动
+                // new CombData { Display = "DV-7", Value = "DV-7" },
+                // new CombData { Display = "DV-6", Value = "DV-6" },
+                // new CombData { Display = "DV-5", Value = "DV-5" },
+
                 new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = "龙门币-6/5", Value = "CE-6" },
                 new CombData { Display = "红票-5", Value = "AP-5" },
