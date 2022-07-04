@@ -59,48 +59,6 @@
             "ClickCorner"
         ]
     },
-    "TodaysSupplies": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "Resource Today"
-        ],
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            1,
-            270,
-            340
-        ],
-        "roi": [
-            500,
-            50,
-            300,
-            150
-        ],
-        "next": [
-            "CloseAnno",
-            "Terminal"
-        ]
-    },
-    "GoLastBattle": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "recent",
-            "stage"
-        ],
-        "roi": [
-            900,
-            500,
-            280,
-            100
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "UsePrts",
-            "UsePrts-StageSN",
-            "StartButton1"
-        ]
-    },
     "VisitNextOcr": {
         "algorithm": "OcrDetect",
         "text": [
@@ -151,24 +109,6 @@
         "action": "DoNothing",
         "next": [
             "ReturnToHome"
-        ]
-    },
-    "MallLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "Submitting",
-            "feedback"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
-        "next": [
-            "MallLoading",
-            "CreditStoreOcr"
         ]
     },
     "RecruitTags": {
@@ -294,81 +234,6 @@
                 "支援机械"
             ]
         ]
-    },
-    "RecruitLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "Submitting",
-            "feedback"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
-        "next": [
-            "RecruitLoading",
-            "Stop"
-        ]
-    },
-    "InfrastReward": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "Collectable",
-            "Orders",
-            "Acquired",
-            "Trust"
-        ],
-        "action": "ClickSelf",
-        "roi": [
-            0,
-            600,
-            800,
-            118
-        ],
-        "cache": false,
-        "next": [
-            "InfrastReward",
-            "InfrastExitReward"
-        ]
-    },
-    "InfrastStationedInfo": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "text": [
-            "Operator"
-        ],
-        "roi": [
-            0,
-            0,
-            150,
-            720
-        ],
-        "rearDelay": 1000,
-        "next": [
-            "InfrastEnterOperList"
-        ]
-    },
-    "InfrastEnterOperList": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "action": "ClickSelf",
-        "text": [
-            "Morale",
-            "Resting",
-            "Working",
-            "Assign"
-        ],
-        "roi": [
-            800,
-            0,
-            480,
-            650
-        ],
-        "rearDelay": 1000
     },
     "Award": {
         "template": "Task.png",

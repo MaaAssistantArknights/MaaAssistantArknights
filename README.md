@@ -81,8 +81,10 @@ MAA 的意思是 MAA Assistant Arknights
 ## 外服支持
 
 - 国际服（美服）  
-  支持基本的刷理智、公招识别功能，请参考 [说明](resource/global/YoStarEN/readme.md)
-- 其他服  
+  支持基本的刷理智、公招识别、访问好友、领取奖励功能，请参考 [说明](resource/global/YoStarEN/readme.md)
+- 日服  
+  支持基本的刷理智功能，请参考 [说明](resource/global/YoStarJP/readme.md)
+- 其他服
   计划适配中……
 
 ## 主要关联项目
