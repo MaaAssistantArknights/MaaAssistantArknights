@@ -1,0 +1,59 @@
+[
+    {
+        "name_template": "MaaBundle-{VERSION}",
+        "type": "MaaBundle",
+        "configuration": { }
+    },
+    {
+        "name_template": "MaaBundle-OTA-{VERSION}",
+        "type": "MaaBundleOta",
+        "configuration": {
+            "exclude": [
+                "libiomp5md.dll",
+                "mkldnn.dll",
+                "mklml.dll",
+                "opencv_world453.dll",
+                "paddle_inference.dll",
+                "ppocr.dll",
+                "aria2c.exe",
+                "resource/PaddleOCR/**"
+            ]
+        }
+    },
+    {
+        "name_template": "MaaCore-{VERSION}",
+        "type": "MaaCore",
+        "configuration": {
+            "include": [
+                "MeoAssistant.dll"
+            ]
+        }
+    },
+    {
+        "name_template": "MaaDependency-{VERSION}",
+        "type": "MaaDependency",
+        "configuration": {
+            "include": [
+                "libiomp5md.dll",
+                "mkldnn.dll",
+                "mklml.dll",
+                "opencv_world453.dll",
+                "paddle_inference.dll",
+                "ppocr.dll"
+            ]
+        }
+    },
+    {
+        "name_template": "MaaDependency-NoAvx-{VERSION}",
+        "type": "MaaDependencyNoAvx",
+        "configuration": {
+            "include": [
+                "libiomp5md.dll",
+                "mkldnn.dll",
+                "mklml.dll",
+                "opencv_world453.dll"
+            ],
+            "no_avx_bundle": "3rdparty/ppocr_noavx.zip"
+        }
+    }
+]

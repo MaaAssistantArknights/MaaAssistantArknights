@@ -12,7 +12,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Text.RegularExpressions;
+using MaaBuilder.Models;
 using static Nuke.Common.Tools.VSWhere.VSWhereTasks;
 
 namespace MaaBuilder;
@@ -29,7 +31,7 @@ public partial class Build
     {
         #region 方法
 
-        private static readonly Lazy<string> GetVsPath = new(() =>
+        static readonly Lazy<string> GetVsPath = new(() =>
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) is false)
             {
@@ -41,7 +43,7 @@ public partial class Build
             return string.IsNullOrWhiteSpace(vsDirectory) ? null : vsDirectory;
         });
 
-        private readonly Func<string, string> GetMsBuildPath = (string vsPath) =>
+        readonly Func<string, string> GetMsBuildPath = vsPath =>
         {
             var msBuildExe = Path.Combine(vsPath, @"MSBuild\Current\Bin\MSBuild.exe");
             if (File.Exists(msBuildExe) is false)
@@ -79,18 +81,19 @@ public partial class Build
         public string BuildTime { get; }
         public string CommitHash { get; }
         public string CommitHashFull { get; }
+        public List<Package> Packages { get; } = null;
 
         // CI
         public bool IsGitHubActions { get; }
         public bool IsPullRequest { get; }
         public bool IsWorkflowDispatch { get; }
         public bool IsPreRelease { get; }
-        public string GitHubPersonalAccessToken { get; } = null;
+        public string GitHubPersonalAccessToken { get; }
         public Dictionary<string, string> WorkflowDispatchArguments { get; }
-        public ActionConfiguration GhActionName { get; } = null;
-        public string GhBranch { get; } = null;
-        public string GhPullRequestId { get; } = null;
-        public string GhTag { get; } = null;
+        public ActionConfiguration GhActionName { get; }
+        public string GhBranch { get; }
+        public string GhPullRequestId { get; }
+        public string GhTag { get; }
 
         public BuildParameters(Build b)
         {
@@ -109,7 +112,6 @@ public partial class Build
             MasterBranchRef = "refs/heads/master";
             DevBranchRef = "refs/heads/dev";
             ReleaseTagRefPrefix = "refs/tags/v";
-            
 
             // 路径
             BuildOutput = RootDirectory / "x64";
@@ -133,107 +135,107 @@ public partial class Build
             CommitHashFull = CommitHash;
             CommitHash = CommitHash[..7];
 
+            var packageDefinitionFile = RootDirectory / "package-definition.json";
+            var stream = File.OpenRead(packageDefinitionFile);
+            var model = JsonSerializer.Deserialize<List<Package>>(stream);
+            stream.Close();
+            Packages = model;
+
             // CI
             IsGitHubActions = b.GitHubActions is not null;
-            if (IsGitHubActions)
+            if (IsGitHubActions is false)
             {
-                GhActionName = (ActionConfiguration)b.GitHubActions.Workflow;
-                Assert.True(GhActionName is not null, $"GitHub Actions Workflow 名 {b.GitHubActions.Workflow} 无法转换为 ActionConfiguration");
+                return;
+            }
+            GhActionName = (ActionConfiguration)b.GitHubActions!.Workflow;
+            Assert.True(GhActionName is not null, $"GitHub Actions Workflow 名 {b.GitHubActions.Workflow} 无法转换为 ActionConfiguration");
                 
-                Assert.False(string.IsNullOrEmpty(b.GitHubActions.Ref), "Ref 为 Null");
+            Assert.False(string.IsNullOrEmpty(b.GitHubActions.Ref), "Ref 为 Null");
 
-                GitHubPersonalAccessToken = Environment.GetEnvironmentVariable("PUBLISH_GH_PAT");
+            GitHubPersonalAccessToken = Environment.GetEnvironmentVariable("PUBLISH_GH_PAT");
 
-                if (b.GitHubActions.Ref.StartsWith(ReleaseTagRefPrefix))
+            if (b.GitHubActions.Ref.StartsWith(ReleaseTagRefPrefix))
+            {
+                var tag = $"v{b.GitHubActions.Ref.Replace(ReleaseTagRefPrefix, "")}";
+                var pattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
+                var match = Regex.Match(tag, pattern);
+                if (match.Success)
                 {
-                    var tag = $"v{b.GitHubActions.Ref.Replace(ReleaseTagRefPrefix, "")}";
-                    var pattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
-                    var match = Regex.Match(tag, pattern);
-                    if (match.Success)
-                    {
-                        GhTag = tag;
-                        var preReleasePattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*))(-)";
-                        var preReleaseMatch = Regex.Match(tag, preReleasePattern);
-                        IsPreRelease = preReleaseMatch.Success;
-                    }
-                    else
-                    {
-                        Assert.Fail("Tag 与 SemVer 不匹配");
-                    }
-                }
-                else if (b.GitHubActions.Ref.StartsWith("refs/heads/"))
-                {
-                    GhBranch = b.GitHubActions.Ref.Replace("refs/heads/", "");
-                }
-                else if (b.GitHubActions.IsPullRequest)
-                {
-                    IsPullRequest = true;
-                    GhPullRequestId = b.GitHubActions.Ref;
+                    GhTag = tag;
+                    var preReleasePattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*))(-)";
+                    var preReleaseMatch = Regex.Match(tag, preReleasePattern);
+                    IsPreRelease = preReleaseMatch.Success;
                 }
                 else
                 {
-                    Log.Warning("未知的 Ref：{Ref}", b.GitHubActions.Ref ?? "Null");
+                    Assert.Fail("Tag 与 SemVer 不匹配");
                 }
+            }
+            else if (b.GitHubActions.Ref.StartsWith("refs/heads/"))
+            {
+                GhBranch = b.GitHubActions.Ref.Replace("refs/heads/", "");
+            }
+            else if (b.GitHubActions.IsPullRequest)
+            {
+                IsPullRequest = true;
+                GhPullRequestId = b.GitHubActions.Ref;
+            }
+            else
+            {
+                Log.Warning("未知的 Ref：{Ref}", b.GitHubActions.Ref ?? "Null");
+            }
 
-                var ghEvent = b.GitHubActions.GitHubEvent;
+            var ghEvent = b.GitHubActions.GitHubEvent;
 
-                if (ghEvent.ContainsKey("inputs"))
+            if (ghEvent.ContainsKey("inputs"))
+            {
+                IsWorkflowDispatch = true;
+                WorkflowDispatchArguments = new();
+
+                var inputs = (JObject)ghEvent["inputs"];
+                foreach (var (k, v) in inputs)
                 {
-                    IsWorkflowDispatch = true;
-                    WorkflowDispatchArguments = new();
-
-                    var inputs = (JObject)ghEvent["inputs"];
-                    foreach (var (k, v) in inputs)
-                    {
-                        WorkflowDispatchArguments.Add(k, v.ToString());
-                    }
+                    WorkflowDispatchArguments.Add(k, v.ToString());
                 }
+            }
 
-                if (b.GitHubActions.BaseRef is not null)
+            if (b.GitHubActions.BaseRef is not null)
+            {
+                // Fork
+                MainRepo = b.GitHubActions.Repository;
+                var repoOwner = MainRepo.Split("/")[0];
+                MaaResourceReleaseRepo = $"{repoOwner}/MaaResourceRelease";
+            }
+
+            // 若是 DevBuild，Branch 必须不为 Master，或者是 PR 至 Dev，又或者是手动触发
+            if (GhActionName == ActionConfiguration.DevBuild)
+            {
+                if (IsWorkflowDispatch)
                 {
-                    // Fork
-                    MainRepo = b.GitHubActions.Repository;
-                    var repoOwner = MainRepo.Split("/")[0];
-                    MaaResourceReleaseRepo = $"{repoOwner}/MaaResourceRelease";
+                    Assert.True(GhBranch is not null, "DevBuild -> Workflow Dispatch，Branch 为 Null");
                 }
-
-                // 若是 DevBuild，Branch 必须不为 Master，或者是 PR 至 Dev，又或者是手动触发
-                if (GhActionName == ActionConfiguration.DevBuild)
+                else if (IsPullRequest)
                 {
-                    if (IsWorkflowDispatch)
-                    {
-                        Assert.True(GhBranch is not null, "DevBuild -> Workflow Dispatch，Branch 为 Null");
-                    }
-                    else if (IsPullRequest)
-                    {
-                        Assert.True(GhPullRequestId is not null, "DevBuild -> Pull Request，Pull Request Id 为 Null");
-                    }
-                    else
-                    {
-                        Assert.True(GhBranch != MasterBranch, "DevBuild -> Auto Triggered，Branch 为 master");
-                    }
+                    Assert.True(GhPullRequestId is not null, "DevBuild -> Pull Request，Pull Request Id 为 Null");
                 }
-
-                // 若是 ReleaseMaa，Tag 必须存在，PAT 必须存在
-                if (GhActionName == ActionConfiguration.ReleaseMaa)
+                else
                 {
-                    Assert.True(GhTag is not null, "ReleaseMaa -> Auto Triggered，Tag 为 Null");
-                    Assert.True(GitHubPersonalAccessToken is not null, "ReleaseMaa -> Auto Triggered，PAT 为 Null");
+                    Assert.True(GhBranch != MasterBranch, "DevBuild -> Auto Triggered，Branch 为 master");
                 }
+            }
 
-                // 若是 ReleaseMaaCore，Tag 必须存在，PAT 必须存在
-                if (GhActionName == ActionConfiguration.ReleaseMaaCore)
-                {
-                    Assert.True(GhTag is not null, "ReleaseMaaCore -> Auto Triggered，Tag 为 Null");
-                    Assert.True(GitHubPersonalAccessToken is not null, "ReleaseMaaCore -> Auto Triggered，PAT 为 Null");
-                }
+            // 若是 ReleaseMaa，Tag 必须存在，PAT 必须存在
+            if (GhActionName == ActionConfiguration.ReleaseMaa)
+            {
+                Assert.True(GhTag is not null, "ReleaseMaa -> Auto Triggered，Tag 为 Null");
+                Assert.True(GitHubPersonalAccessToken is not null, "ReleaseMaa -> Auto Triggered，PAT 为 Null");
+            }
 
-                // 若是 ReleaseMaaResource，Branch 必须为 Master，PAT 必须存在
-                if (GhActionName == ActionConfiguration.ReleaseMaaResource)
-                {
-                    Assert.True(GhBranch == MasterBranch, "ReleaseMaaResource -> Auto Triggered，Branch 不为 master");
-                    Assert.True(GitHubPersonalAccessToken is not null, "ReleaseMaaResource -> Auto Triggered，PAT 为 Null");
-                }
+            // 若是 ReleaseMaaResource，Branch 必须为 Master，PAT 必须存在
+            if (GhActionName == ActionConfiguration.ReleaseMaaResource)
+            {
+                Assert.True(GhBranch == MasterBranch, "ReleaseMaaResource -> Auto Triggered，Branch 不为 master");
+                Assert.True(GitHubPersonalAccessToken is not null, "ReleaseMaaResource -> Auto Triggered，PAT 为 Null");
             }
         }
     }
