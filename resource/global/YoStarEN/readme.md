@@ -1,8 +1,8 @@
-# YoStarEN server
+# YoStarEN client
 
 ## 国际服（美服）
 
-请进入 `设置` - `启动设置` - `客户端版本` 选择 `悠星国际服`
+请进入 `设置` - `启动设置` - `客户端版本` 选择 `国际服`
 
 目前支持：  
 
@@ -11,8 +11,10 @@
 - 使用源石恢复理智
 - 指定次数
 - 公招计算
+- 访问好友
+- 领取日常奖励
 
-## YoStarEN
+## Global (EN)
 
 Please go to `Settings` - `Startup Settings` - `Client Version` and select `YoStarEN`
 
@@ -23,3 +25,5 @@ Now supports:
 - Restore with Originite
 - Set the max number of auto battles
 - Recruitment calculate
+- Friends visit
+- Award collect

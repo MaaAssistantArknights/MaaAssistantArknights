@@ -73,8 +73,10 @@ Please refer to: [FAQ](docs/en/FAQ.md)
 
 ## Supports for overseas servers
 
-- YoStarEN Server  
-  Supports basic features like Combat, Recruiting, etc. See also [README](resource/global/YoStarEN/readme.md)
+- EN Server  
+  Supports basic features like Combat, Recruiting, Visiting, Collocting, etc. See also [README](resource/global/YoStarEN/readme.md)
+- JP Server  
+  Supports basic features like Combat, etc.  See also [README](resource/global/YoStarJP/readme.md)
 - Other servers  
   TODO
 
