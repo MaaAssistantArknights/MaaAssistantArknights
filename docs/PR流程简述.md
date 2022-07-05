@@ -1,4 +1,4 @@
-# 写给萌新的发电全流程
+# Github Pull Request 流程简述
 
 1. 如果很久以前 fork 过，先在自己仓库的 `Settings` 里，翻到最下面，删除
 2. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)，点击 `Fork`，继续点击 `Create fork`
@@ -15,7 +15,7 @@
 5. 双击打开 `MeoAssistantArknights.sln` 文件。Visual Studio 会自动加载整个项目。
 6. 测试一下是否成功搭建编程环境，选择参数 `Release`, `x64`, 右键 `MeoAsstGui` 设为启动项目；点击启动，选择继续调试。如果成功打开了 GUI，就说明成功搭建了环境。如果求稳，可以继续连接模拟器跑一下 MAA
 7. 到这里，你就可以愉快地 ~~瞎 JB 改~~ 发电了
-8. 开发过程中，每一定数量，记得提交一个 commit，别忘了写上 message
+8. 开发过程中，每一定数量，记得提交一个 commit, 别忘了写上 message
 9. 完成开发后，推送本地分支到远程（自己）
 
     ```bash
