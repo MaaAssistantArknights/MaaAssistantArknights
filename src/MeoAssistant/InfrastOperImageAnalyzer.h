@@ -14,7 +14,7 @@ namespace asst
             Smiley = 1,
             Mood = 2,
             FaceHash = 4,
-            NameHash = 8,
+            //NameHash = 8,
             Selected = 16,
             Doing = 32,
             Skill = 64,
@@ -30,7 +30,7 @@ namespace asst
         void sort_by_loc();
         void sort_by_mood();
 
-        auto get_result() const noexcept -> const std::vector<infrast::BattleRealTimeOper>&
+        auto get_result() const noexcept -> const std::vector<infrast::Oper>&
         {
             return m_result;
         }
@@ -63,13 +63,12 @@ namespace asst
         void oper_detect();
         void mood_analyze();
         void face_hash_analyze();
-        void name_hash_analyze();
         void skill_analyze();
         void selected_analyze();
         void doing_analyze();
 
         std::string m_facility;
-        std::vector<infrast::BattleRealTimeOper> m_result;
+        std::vector<infrast::Oper> m_result;
         int m_to_be_calced = All;
         int m_num_of_opers_with_skills = 0;
     };

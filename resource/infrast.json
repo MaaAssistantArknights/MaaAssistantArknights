@@ -217,6 +217,13 @@
             },
             {
                 "name": [
+                    "源石技艺理论应用"
+                ],
+                "desc": "进驻制造站时，当前制造站内每个<$cc.sk.manu2><@cc.kw>莱茵科技类技能</></>为自身<@cc.vup>+5%</>的生产力",
+                "template": "Bskill_man_skill_spd2.png"
+            },
+            {
+                "name": [
                     "源石工艺·β",
                     "地质学·β",
                     "火山学家",
@@ -368,13 +375,13 @@
                         "efficient": {
                             "all": 30
                         },
-                        "hash": {
-                            "史都华德": "000203620f37ef2ae7ab8ea38e31e23bef080f0f0bf24ff34b054b04be061a02",
-                            "杰西卡": "200427c4fbc6f986218463c471df719fa884a8c422c6000680058bc48bc48804",
-                            "调香师": "00c8bbcf0b1a181a1bdf899f889b3a5b0a5b1bdb2a4b6a437bc34a42cbd24a42",
-                            "香草": "00001c34787f0024ff3eff3e3c22263e4302ff3e220826083e7f02083e080208",
-                            "罗比菈塔": "0000e860c8f78860c90ae80a4ef06af568178800e9c369834d094d298bf38081"
-                        }
+                        "filter": [
+                            "史都华德",
+                            "杰西卡",
+                            "调香师",
+                            "香草",
+                            "罗比菈塔"
+                        ]
                     },
                     {
                         "desc": "标准化·α",
@@ -384,10 +391,99 @@
                         "efficient": {
                             "all": 20
                         },
-                        "hash": {
-                            "夜刀": "00001000ff7ffe7f28114e115e115a11d611f6114c114c314c214e6153464006",
-                            "流星": "883ec87e7f421a7e10429242fe7e7800187e187e58c8583e583ea908abff227f"
+                        "filter": [
+                            "夜刀",
+                            "流星"
+                        ]
+                    }
+                ]
+            },
+            {
+                "desc": "多萝西-2组",
+                "necessary": [
+                    {
+                        "desc": "多萝西-2",
+                        "skills": [
+                            "Bskill_man_skill_spd2",
+                            "Bskill_man_spd2"
+                        ],
+                        "efficient": {
+                            "all": 30
                         }
+                    }
+                ],
+                "optional": [
+                    {
+                        "desc": "莱茵科技·β",
+                        "skills": [
+                            "Bskill_man_spd2"
+                        ],
+                        "efficient": {
+                            "all": 30
+                        },
+                        "filter": [
+                            "星源",
+                            "白面鸮",
+                            "赫默"
+                        ]
+                    },
+                    {
+                        "desc": "莱茵科技·α",
+                        "skills": [
+                            "Bskill_man_spd1"
+                        ],
+                        "efficient": {
+                            "all": 20
+                        },
+                        "filter": [
+                            "星源",
+                            "白面鸮",
+                            "赫默"
+                        ]
+                    }
+                ]
+            },
+            {
+                "desc": "多萝西-1组",
+                "necessary": [
+                    {
+                        "desc": "多萝西-1",
+                        "skills": [
+                            "Bskill_man_skill_spd2"
+                        ],
+                        "efficient": {
+                            "all": 0
+                        }
+                    }
+                ],
+                "optional": [
+                    {
+                        "desc": "莱茵科技·β",
+                        "skills": [
+                            "Bskill_man_spd2"
+                        ],
+                        "efficient": {
+                            "all": 30
+                        },
+                        "filter": [
+                            "星源",
+                            "白面鸮",
+                            "赫默"
+                        ]
+                    },
+                    {
+                        "desc": "莱茵科技·α",
+                        "skills": [
+                            "Bskill_man_spd1"
+                        ],
+                        "efficient": {
+                            "all": 20
+                        },
+                        "filter": [
+                            "星源",
+                            "白面鸮",
+                            "赫默"
+                        ]
                     }
                 ]
             },
@@ -855,6 +951,41 @@
         ],
         "maxNumOfOpers": 3,
         "skills": [
+            {
+                "name": [
+                    "乐感"
+                ],
+                "desc": "进驻贸易站时，宿舍内每有<@cc.kw>1</>名干员则<$cc.bd_a1><@cc.rem>感知信息</></><@cc.vup>+1</>，同时每<@cc.vup>1</>点<$cc.bd_a1><@cc.rem>感知信息</></>转化为<@cc.vup>1</>点<$cc.bd_B><@cc.rem>无声共鸣</></>",
+                "template": "Bskill_tra_bd_n1.png"
+            },
+            {
+                "name": [
+                    "徘徊旋律"
+                ],
+                "desc": "进驻贸易站时，每<@cc.vup>4</>点<$cc.bd_B><@cc.rem>无声共鸣</></><@cc.vup>+1%</>订单效率\"",
+                "template": "Bskill_tra_spd_bd1.png"
+            },
+            {
+                "name": [
+                    "物流规划·β"
+                ],
+                "desc": "进驻贸易站时，订单获取效率<@cc.vup>+5%</>，制造站每有<@cc.kw>2</>条<$cc.t.flow_gold><@cc.kw>赤金生产线</></>，则为当前贸易站订单获取效率额外<@cc.vup>+15%</>",
+                "template": "Bskill_tra_flow_gs2.png",
+                "efficient": {
+                    "Money": 20,
+                    "all": 5
+                }
+            },
+            {
+                "name": [
+                    "物流规划·α"
+                ],
+                "desc": "进驻贸易站时，订单获取效率<@cc.vup>+5%</>，制造站每有<@cc.kw>4</>条<$cc.t.flow_gold><@cc.kw>赤金生产线</></>，则为当前贸易站订单获取效率额外<@cc.vup>+15%</>",
+                "template": "Bskill_tra_flow_gs2.png",
+                "efficient": {
+                    "all": 5
+                }
+            },
             {
                 "name": [
                     "“愿者上钩”"
@@ -1497,6 +1628,27 @@
         "skills": [
             {
                 "name": [
+                    "巡线框架"
+                ],
+                "desc": "进驻发电站时，每<@cc.vup>10</>架无人机上限<@cc.vup>+1%</>无人机充能速度",
+                "template": "Bskill_pow_drone.png",
+                "efficient": {
+                    "Doc": "这货是异格格雷伊，会和原干员冲突",
+                    "all": 0
+                }
+            },
+            {
+                "name": [
+                    "晨曦"
+                ],
+                "desc": "进驻发电站时，如果其他<@cc.kw>发电站</>内没有进驻<$cc.tag.op><@cc.kw>作业平台</></>，则<@cc.kw>发电站</>额外<@cc.vup>+1</>(仅影响设施数量)",
+                "template": "Bskill_pow_count.png",
+                "efficient": {
+                    "all": 0.1
+                }
+            },
+            {
+                "name": [
                     "“滴滴，启动！”"
                 ],
                 "desc": "进驻发电站时，野鬃所在的制造站生产力+5%",
@@ -1771,6 +1923,16 @@
             },
             {
                 "name": [
+                    "情报整理"
+                ],
+                "desc": "进驻会客室时，线索搜集速度提升10%，且更容易获得格拉斯哥帮线索（工作时长影响概率）",
+                "template": "Bskill_meet_flag_glasgow.png",
+                "efficient": {
+                    "No5": 15
+                }
+            },
+            {
+                "name": [
                     "军师"
                 ],
                 "desc": "进驻会客室时，线索搜集速度提升10%，且更容易获得乌萨斯学生自治团线索（工作时长影响概率）",
@@ -1881,6 +2043,23 @@
                 "template": "Bskill_meet_spd1.png",
                 "efficient": {
                     "all": 10
+                }
+            },
+            {
+                "name": [
+                    "得心应手"
+                ],
+                "desc": "进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升<@cc.vup>35%</>",
+                "template": "Bskill_meet_condChar.png"
+            },
+            {
+                "name": [
+                    "逻辑推理"
+                ],
+                "desc": "进驻会客室时，线索搜集速度提升<@cc.vup>35%</>，心情每小时消耗<@cc.vdown>+2</>",
+                "template": "Bskill_meet_spd&cost.png",
+                "efficient": {
+                    "all": 34.8
                 }
             }
         ],
@@ -2169,6 +2348,20 @@
                 ],
                 "desc": "进驻控制中枢时，每个进驻在贸易站的喀兰贸易干员，订单获取效率-15%，订单上限+6",
                 "template": "Bskill_ctrl_t_limit&spd.png"
+            },
+            {
+                "name": [
+                    "“一千封信”"
+                ],
+                "desc": "进驻控制中枢时，会客室更容易获得<@cc.kw>格拉斯哥帮</>线索（工作时长影响概率）",
+                "template": "Bskill_ctrl_c_victoria.png"
+            },
+            {
+                "name": [
+                    "坚毅随和"
+                ],
+                "desc": "进驻控制中枢时，控制中枢内每个<$cc.g.lda><@cc.kw>鲤氏侦探事务所</></>干员可使控制中枢内所有干员的心情每小时恢复<@cc.vup>+0.05</>，同时该派系干员的心情每小时恢复额外<@cc.vup>+0.2</>",
+                "template": "Bskill_ctrl_lda_add.png"
             }
         ],
         "skillsGroup": []

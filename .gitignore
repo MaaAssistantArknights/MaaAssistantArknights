@@ -434,10 +434,12 @@ FodyWeavers.xsd
 screen.png
 adb_screen.png
 tools/**/*.png
-resource/infrast
 .vscode
 !3rdparty/tools/*
 
 # Nuke
 .nuke/temp/*
-/tools/ItemMappingCvt/Arknights-Bot-Resource
+
+# temp file of resource updater
+tools/ItemMappingCvt/Arknights-Bot-Resource
+tools/ItemMappingCvt/stages.json

@@ -31,7 +31,7 @@
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding UseStone}" Content="吃石头　" Margin="10" />
+            <CheckBox IsChecked="{Binding UseStone}" IsEnabled="{Binding UseMedicine}" Content="吃石头　" Margin="10" />
             <hc:TextBox Text="{Binding StoneNumber}" TextWrapping="Wrap" Margin="10"
                         Width="50" InputMethod.IsInputMethodEnabled="False" 
                         TextType="Int"/>
