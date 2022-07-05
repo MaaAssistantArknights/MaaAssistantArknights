@@ -138,10 +138,9 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                         comb.efficient.emplace(pd, 0);
                     }
                 }
-                if (necessary_json.contains("hash")) {
-                    comb.hash_filter = true;
-                    for (const auto& [key, value] : necessary_json.at("hash").as_object()) {
-                        comb.possible_hashs.emplace(key, value.as_string());
+                if (auto filter_opt = necessary_json.find<json::array>("filter")) {
+                    for (const auto& filter : filter_opt.value()) {
+                        comb.name_filter.emplace_back(filter.as_string());
                     }
                 }
                 group.necessary.emplace_back(std::move(comb));
@@ -193,10 +192,10 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                         comb.efficient.emplace(pd, 0);
                     }
                 }
-                if (opt_json.contains("hash")) {
-                    comb.hash_filter = true;
-                    for (const auto& [key, value] : opt_json.at("hash").as_object()) {
-                        comb.possible_hashs.emplace(key, value.as_string());
+
+                if (auto filter_opt = opt_json.find<json::array>("filter")) {
+                    for (const auto& filter : filter_opt.value()) {
+                        comb.name_filter.emplace_back(filter.as_string());
                     }
                 }
                 group.optional.emplace_back(std::move(comb));
