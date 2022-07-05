@@ -252,6 +252,7 @@
     "DVChapterToDV": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "cache": false,
         "text": [
             "实验基地"
         ],
@@ -261,6 +262,7 @@
             241,
             180
         ],
+        "rearDelay": 2000,
         "next": [
             "DVChapterToDV",
             "SwipeToTheRight"
