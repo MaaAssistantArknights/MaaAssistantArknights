@@ -1062,6 +1062,10 @@ namespace MeoAsstGui
             get { return _dropsItemId; }
             set
             {
+                if (value == null)
+                {
+                    return;
+                }
                 SetAndNotify(ref _dropsItemId, value);
             }
         }
