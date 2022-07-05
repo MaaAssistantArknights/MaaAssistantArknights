@@ -245,9 +245,8 @@
             500,
             150
         ],
-        "sub": [
-            "DVChapterToDV",
-            "SwipeToTheRight"
+        "next": [
+            "DVChapterToDV"
         ]
     },
     "DVChapterToDV": {
@@ -261,6 +260,10 @@
             176,
             241,
             180
+        ],
+        "next": [
+            "DVChapterToDV",
+            "SwipeToTheRight"
         ]
     },
     "SwapToStageDV-8": {
