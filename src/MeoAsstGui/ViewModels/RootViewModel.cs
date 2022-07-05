@@ -32,8 +32,8 @@ namespace MeoAsstGui
         {
             _trayIcon = new TrayIcon();
             CheckAndUpdateNow();
-            InitProxy();
             InitViewModels();
+            InitProxy();
             ShowUpdateOrDownload();
         }
 
