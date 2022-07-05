@@ -62,10 +62,9 @@ MAA 的意思是 MAA Assistant Arknights
 ### 基本说明
 
 1. 请根据 [模拟器支持情况](docs/模拟器支持.md)，进行对应的操作。
-2. 解压压缩包，到 **没有中文或特殊符号** 的文件夹路径。
-3. 开始运行后，除 `自动关机` 外，所有设置均不可再修改。
-
-目前仅对 `16:9` 分辨率支持较好，最低支持 `1280 * 720`，更高不限。非 `16:9` 分辨率可能会有奇奇怪怪的问题，~~正在进一步适配中~~ 咕了_(:з」∠)_
+2. 修改模拟器分辨率为 `16:9` 比例，最低 `1280 * 720`, 更高不限。
+3. 解压压缩包，到没有中文或特殊符号的文件夹路径。
+4. Enjoy it!
 
 更多使用说明请参考 [详细介绍](docs/详细介绍.md)
 
@@ -88,9 +87,9 @@ MAA 的意思是 MAA Assistant Arknights
 ## 主要关联项目
 
 - 全新 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
-- 更新服务器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer) （正在开发中，欢迎加入！）
-- 自动战斗作业服务器: [MaaCopilotServer](https://github.com/MaaAssistantArknights/MaaCopilotServer) （正在开发中，欢迎加入！）
-- [MAA 官网!](https://www.maa.plus): [maa-website](https://github.com/MaaAssistantArknights/maa-website) （正在开发中，欢迎加入！）
+- 更新服务器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
+- 官网 <https://www.maa.plus>: [maa-website](https://github.com/MaaAssistantArknights/maa-website)
+- 作业分享站 <https://www.prts.plus>: [前端](https://github.com/MaaAssistantArknights/MaaCopilotDesigner) , [后端](https://github.com/MaaAssistantArknights/MaaCopilotServer)
 
 ## 致谢
 
@@ -147,9 +146,9 @@ MAA 的意思是 MAA Assistant Arknights
 - [任务流程协议](docs/任务流程协议.md)
 - [自动抄作业协议](docs/战斗流程协议.md)
 
-### Github PR 流程简述
+### 想要参与开发，但我不太会用 Github?
 
-[写给萌新的发电全流程](docs/写给萌新的发电全流程.md)
+[Github Pull Request 流程简述](docs/写给萌新的发电全流程.md)
 
 ## 声明
 
@@ -158,9 +157,10 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 广告
 
-[B 站直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
-[技术交流 & 吹水群](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！（明日方舟弱相关）  
-[自动战斗 JSON 作业分享群](https://jq.qq.com/?_wv=1027&k=1giyMpPb)  
-[开发者群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
+[用户交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
+自动战斗 JSON 作业分享: <https://www.prts.plus> , [QQ 群](https://jq.qq.com/?_wv=1027&k=1giyMpPb)  
+[Bilibili 直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
+[舟无关技术交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！  
+[开发者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！
