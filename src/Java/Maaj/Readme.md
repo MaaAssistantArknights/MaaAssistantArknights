@@ -1,7 +1,7 @@
-# Maa-HTTP接口实现
+# Maa-HTTP 接口实现
 
-基于JNA(Java-Native-Access)调用Maa核心的HTTP+WebSocket接口实现.
-仅在Windows下进行过测试，未在Linux下测试过(相信强大的Linux用户自己可以解决问题！
+基于 JNA (Java-Native-Access) 调用 Maa 核心的 HTTP + WebSocket 接口实现.
+仅在 Windows 下进行过测试，未在 Linux 下测试过（相信强大的 Linux 用户自己可以解决问题！
 
 ## 接口实现情况
 
@@ -29,23 +29,23 @@
 
 ## 使用方法
 
-1. 把他丢进Maa文件夹下,形成如下文件结构.备注: 启动脚本[Maa-HTTP-Server-startup.bat](Maa-HTTP-Server-startup.bat).
+1. 把他丢进 Maa 文件夹下,形成如下文件结构.备注: 启动脚本[Maa-HTTP-Server-startup.bat](Maa-HTTP-Server-startup.bat).
 
-```
-MeoAssistantArknights_v3.9.0-beta.8
-│   MeoAsstGui.exe
-│   MeoAssistant.dll  
-│   ...
-└───Java-HTTP
-    │   Maa-HTTP-0.0.1.jar
-    │   Maa-HTTP-Server-startup.bat
-```
+    ```text
+    MeoAssistantArknights_v3.9.0-beta.8
+    │   MeoAsstGui.exe
+    │   MeoAssistant.dll  
+    │   ...
+    └───Java-HTTP
+        │   Maa-HTTP-0.0.1.jar
+        │   Maa-HTTP-Server-startup.bat
+    ```
 
 2. 双击Maa-HTTP-Server-startup.bat启动.
 3. 默认端口号8848钛金端口,如需修改,请修改 Maa-HTTP-Server-startup.bat 中的-port=8848 .
 4. 当你看到如下内容则启动成功.
 
-```
+```log
 2022-05-31 22:20:03.000 [main] INFO  Application - Autoreload is disabled because the development mode is off.
 2022-05-31 22:20:03.407 [main] INFO  Application - Application started in 0.458 seconds.
 2022-05-31 22:20:03.407 [main] INFO  Application - Application started: io.ktor.server.application.Application@fac80
@@ -54,7 +54,7 @@ MeoAssistantArknights_v3.9.0-beta.8
 
 ## 接口文档
 
-### HTTP部分
+### HTTP 部分
 
 提供了如下功能
 
@@ -76,13 +76,13 @@ MeoAssistantArknights_v3.9.0-beta.8
 
 ###### 1) 请求地址
 
-> http://127.0.0.1:8848/API/V1/getVersion
+> <http://127.0.0.1:8848/API/V1/getVersion>
 
-###### 2) 调用方式：HTTP get
+###### 2) 调用方式: HTTP get
 
 ###### 3) 请求参数: 无
 
-###### 4) 返回结果示例:
+###### 4) 返回结果示例
 
 ```json
 {
@@ -100,11 +100,11 @@ MeoAssistantArknights_v3.9.0-beta.8
 
 ###### 1) 请求地址
 
-> http://127.0.0.1:8848/API/V1/connect
+> <http://127.0.0.1:8848/API/V1/connect>
 
-###### 2) 调用方式：HTTP post
+###### 2) 调用方式: HTTP post
 
-###### 3) 请求参数:
+###### 3) 请求参数
 
 ```json
 {
@@ -114,15 +114,15 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### Post参数:
+###### Post 参数
 
 |  字段名称   | 字段说明            | 类型     | 必填  | 备注  |
 |  ----  |-----------------|--------|-----|-----|
-| adbPath  | ADB地址           | String | Y   | -   | 
+| adbPath  | ADB地址           | String | Y   | -   |
 | host  | 实例地址            | String   | Y   | -   |
 | detailJson  | 有什么用我也不知道，反正就是有 | String   | N   | -   |
 
-###### 4) 请求返回结果:
+###### 4) 请求返回结果
 
 ```json
 {
@@ -135,11 +135,11 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### 5) 请求返回结果参数说明:
+###### 5) 请求返回结果参数说明
 
 | 字段名称 | 字段说明        | 类型      | 备注 |
 |------|-------------|---------|----  |
-| id   | 给连接实例创建的ID | String  | - | 
+| id   | 给连接实例创建的ID | String  | - |
 | result    | 是否成功        | Boolean | - |
 
 ---
@@ -147,15 +147,15 @@ MeoAssistantArknights_v3.9.0-beta.8
 
 ---
 
-##### 接口名称 c
+##### 接口名称 添加任务
 
 ###### 1) 请求地址
 
-> http://127.0.0.1:8848/API/V1/appendTask
+> <http://127.0.0.1:8848/API/V1/appendTask>
 
-###### 2) 调用方式：HTTP post
+###### 2) 调用方式: HTTP post
 
-###### 3) 请求参数:
+###### 3) 请求参数
 
 ```json
 {
@@ -167,15 +167,15 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### Post参数:
+###### Post 参数
 
 |  字段名称   | 字段说明                                                                                                                          | 类型     | 必填 | 备注  |
 |  ----  |-------------------------------------------------------------------------------------------------------------------------------|--------|----  |-----|
-| id  | 创建连接返回的实例ID                                                                                                                   | String | Y | -   | 
+| id  | 创建连接返回的实例ID                                                                                                                   | String | Y | -   |
 | type  | 任务类型,此次示例为刷理智战斗,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md) | String | Y | -   |
 | params  | 任务参数                                                                                                                          | Json   | Y | -   |
 
-###### 4) 请求返回结果:
+###### 4) 请求返回结果
 
 ```json
 {
@@ -188,11 +188,11 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### 5) 请求返回结果参数说明:
+###### 5) 请求返回结果参数说明
 
 | 字段名称 | 字段说明       | 类型     | 备注 |
 |------|------------|--------|----  |
-| id   | 实例ID       | String | - | 
+| id   | 实例ID       | String | - |
 | taskId    | 任务ID,为0则失败 | Int    | - |
 
 ---
@@ -201,11 +201,11 @@ MeoAssistantArknights_v3.9.0-beta.8
 
 ###### 1) 请求地址
 
-> http://127.0.0.1:8848/API/V1/setTaskParams
+> <http://127.0.0.1:8848/API/V1/setTaskParams>
 
-###### 2) 调用方式：HTTP post
+###### 2) 调用方式: HTTP post
 
-###### 3) 请求参数:
+###### 3) 请求参数
 
 ```json
 {
@@ -218,16 +218,16 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### Post参数:
+###### Post 参数
 
 |  字段名称   | 字段说明                                                                                                                          | 类型     | 必填 | 备注  |
 |  ----  |-------------------------------------------------------------------------------------------------------------------------------|--------|----  |-----|
-| id  | 创建连接返回的实例ID                                                                                                                   | String | Y | -   | 
-| taskId  | 任务ID                                                                                                                   | Int    | Y | -   | 
+| id  | 创建连接返回的实例ID                                                                                                                   | String | Y | -   |
+| taskId  | 任务ID                                                                                                                   | Int    | Y | -   |
 | type  | 任务类型,此次示例为刷理智战斗,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md) | String | Y | -   |
 | params  | 任务参数                                                                                                                          | Json   | Y | -   |
 
-###### 4) 请求返回结果:
+###### 4) 请求返回结果
 
 ```json
 {
@@ -240,11 +240,11 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### 5) 请求返回结果参数说明:
+###### 5) 请求返回结果参数说明
 
 | 字段名称 | 字段说明        | 类型      | 备注 |
 |------|-------------|---------|----  |
-| id   | 给连接实例创建的ID | String  | - | 
+| id   | 给连接实例创建的ID | String  | - |
 | result    | 是否成功        | Boolean | - |
 
 ---
@@ -253,11 +253,11 @@ MeoAssistantArknights_v3.9.0-beta.8
 
 ###### 1) 请求地址
 
-> http://127.0.0.1:8848/API/V1/start
+> <http://127.0.0.1:8848/API/V1/start>
 
-###### 2) 调用方式：HTTP post
+###### 2) 调用方式: HTTP post
 
-###### 3) 请求参数:
+###### 3) 请求参数
 
 ```json
 {
@@ -265,13 +265,13 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### Post参数:
+###### Post 参数
 
 |  字段名称   | 字段说明                                                                                                                       | 类型     | 必填 | 备注  |
 |  ----  |--------|--------|----  |-----|
 | id  | 创建连接返回的实例ID   | String | Y | -   |
 
-###### 4) 请求返回结果:
+###### 4) 请求返回结果
 
 ```json
 {
@@ -284,24 +284,24 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### 5) 请求返回结果参数说明:
+###### 5) 请求返回结果参数说明
 
 | 字段名称 | 字段说明        | 类型      | 备注 |
 |------|-------------|---------|----  |
-| id   | 给连接实例创建的ID | String  | - | 
+| id   | 给连接实例创建的ID | String  | - |
 | result    | 是否成功        | Boolean | - |
 
 ---
 
-##### 接口名称 停止执行,清空任务链
+##### 接口名称 停止执行，清空任务链
 
 ###### 1) 请求地址
 
-> http://127.0.0.1:8848/API/V1/stop
+> <http://127.0.0.1:8848/API/V1/stop>
 
-###### 2) 调用方式：HTTP post
+###### 2) 调用方式: HTTP post
 
-###### 3) 请求参数:
+###### 3) 请求参数
 
 ```json
 {
@@ -309,13 +309,13 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### Post参数:
+###### Post 参数
 
 |  字段名称   | 字段说明                                                                                                                       | 类型     | 必填 | 备注  |
 |  ----  |--------|--------|----  |-----|
 | id  | 创建连接返回的实例ID   | String | Y | -   |
 
-###### 4) 请求返回结果:
+###### 4) 请求返回结果
 
 ```json
 {
@@ -328,11 +328,11 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### 5) 请求返回结果参数说明:
+###### 5) 请求返回结果参数说明
 
 | 字段名称 | 字段说明        | 类型      | 备注 |
 |------|-------------|---------|----  |
-| id   | 给连接实例创建的ID | String  | - | 
+| id   | 给连接实例创建的ID | String  | - |
 | result    | 是否成功        | Boolean | - |
 
 ---
@@ -341,11 +341,11 @@ MeoAssistantArknights_v3.9.0-beta.8
 
 ###### 1) 请求地址
 
-> http://127.0.0.1:8848/API/V1/destroy
+> <http://127.0.0.1:8848/API/V1/destroy>
 
-###### 2) 调用方式：HTTP post
+###### 2) 调用方式: HTTP post
 
-###### 3) 请求参数:
+###### 3) 请求参数
 
 ```json
 {
@@ -353,13 +353,13 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### Post参数:
+###### Post 参数
 
 |  字段名称   | 字段说明                                                                                                                       | 类型     | 必填 | 备注  |
 |  ----  |--------|--------|----  |-----|
 | id  | 创建连接返回的实例ID   | String | Y | -   |
 
-###### 4) 请求返回结果:
+###### 4) 请求返回结果
 
 ```json
 {
@@ -372,11 +372,11 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### 5) 请求返回结果参数说明:
+###### 5) 请求返回结果参数说明
 
 | 字段名称 | 字段说明        | 类型      | 备注 |
 |------|-------------|---------|----  |
-| id   | 给连接实例创建的ID | String  | - | 
+| id   | 给连接实例创建的ID | String  | - |
 | result    | 是否成功        | Boolean | - |
 
 ---
@@ -385,13 +385,13 @@ MeoAssistantArknights_v3.9.0-beta.8
 
 ###### 1) 请求地址
 
-> http://127.0.0.1:8848/API/V1/listInstance
+> <http://127.0.0.1:8848/API/V1/listInstance>
 
-###### 2) 调用方式：HTTP get
+###### 2) 调用方式: HTTP get
 
 ###### 3) 请求参数: 无
 
-###### 4) 请求返回结果:
+###### 4) 请求返回结果
 
 ```json
 {
@@ -411,17 +411,15 @@ MeoAssistantArknights_v3.9.0-beta.8
 }
 ```
 
-###### 5) 请求返回结果参数说明:
+###### 5) 请求返回结果参数说明
 
 | 字段名称 | 字段说明        | 类型     | 备注 |
 |------|-------------|--------|----  |
-| id   | 实例ID        | String | - | 
+| id   | 实例ID        | String | - |
 | host    | 连接的Host     | String | - |
 | adbPath    | 使用的Adb地址    | String | - |
 | uuid    | 设备备ID，保留    | String | - |
 | status    | 0待机中,1任务执行中 | Int    | - |
-
-
 
 ---
 
@@ -429,26 +427,26 @@ MeoAssistantArknights_v3.9.0-beta.8
 
 ###### 1) 请求地址
 
-> http://127.0.0.1:8848/API/V1/getImage
+> <http://127.0.0.1:8848/API/V1/getImage>
 
-###### 2) 调用方式：HTTP get
+###### 2) 调用方式: HTTP get
 
-###### 3) 请求参数:
+###### 3) 请求参数
 
-###### Get参数:
+###### Get参数
 
 |  字段名称   | 字段说明                                                                                                                       | 类型     | 必填 | 备注  |
 |  ----  |--------|--------|----  |-----|
 | id  | 创建连接返回的实例ID   | String | Y | -   |
 
-###### 4) 请求返回结果: 图片内容,PNG格式
+###### 4) 请求返回结果: 图片内容, PNG 格式
 
 
-### WebSocket部分
+### WebSocket 部分
 
 请求地址(没错跟HTTP同样是8848钛金端口
 
-> ws://127.0.0.1:8848/API/V1
+> <ws://127.0.0.1:8848/API/V1>
 
 提供了如下功能
 
@@ -484,7 +482,7 @@ MeoAssistantArknights_v3.9.0-beta.8
 | msgId  | 消息ID，服务端收到此次请求，会用同一个ID答复，便于请求响应关联 | Int    | Y | -   |
 | data  | 请求参数，请参考同名接口的HTTP接口文档，与HTTP接口完全一致 | Json   | Y | -   |
 
-###### 请求返回结果:
+###### 请求返回结果
 
 ```json
 {
@@ -500,7 +498,7 @@ MeoAssistantArknights_v3.9.0-beta.8
 
 | 字段名称 | 字段说明                              | 类型     | 备注 |
 |------|-----------------------------------|--------|----  |
-| command   | 操作命令,与请求一致                        | String | - | 
+| command   | 操作命令,与请求一致                        | String | - |
 | msgId    | 消息ID，此次请求的消息ID为114514则响应也是114514  | Int    | - |
 | data    | 响应内容,请参考同名接口的HTTP接口文档，与HTTP接口完全一致 | Json   | - |
 
@@ -525,7 +523,7 @@ MeoAssistantArknights_v3.9.0-beta.8
 | msgId  | 消息ID，服务端收到此次请求，会用同一个ID答复，便于请求响应关联 | Int    | Y | -   |
 | data  | 请求参数，请参考同名接口的HTTP文档，与HTTP接口完全一致 | Json   | Y | -   |
 
-###### 请求返回结果:
+###### 请求返回结果
 
 ```json
 {
@@ -542,18 +540,17 @@ MeoAssistantArknights_v3.9.0-beta.8
 
 | 字段名称 | 字段说明                              | 类型     | 备注 |
 |------|-----------------------------------|--------|----  |
-| command   | 操作命令,与请求一致                        | String | - | 
+| command   | 操作命令,与请求一致                        | String | - |
 | msgId    | 消息ID，此次请求的消息ID为114514则响应也是114514  | Int    | - |
 | data    | 响应内容,请参考同名接口的HTTP接口文档，与HTTP接口完全一致 | Json   | - |
 
 appendTask setTaskParams start stop等接口不再描述，均可遵循以上规则，参考HTTP接口文档实现。
 
-
 ---
 
 ##### 接口名称 回调消息
 
-###### 返回结果示例:
+###### 返回结果示例
 
 ```json
 {
@@ -583,6 +580,6 @@ appendTask setTaskParams start stop等接口不再描述，均可遵循以上规
 
 | 字段名称 | 字段说明                              | 类型     | 备注 |
 |------|-----------------------------------|--------|----  |
-| command   | 操作命令,callBack类型                        | String | - | 
+| command   | 操作命令,callBack类型                        | String | - |
 | msgId    | 消息ID，callBack 一律为0 | Int    | - |
 | data    | 响应内容,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md)   | Json   | - |
