@@ -36,7 +36,7 @@ bool asst::InfrastPowerTask::_run()
 
             auto find_iter = std::find_if(
                 m_all_available_opers.begin(), m_all_available_opers.end(),
-                [&](const infrast::BattleRealTimeOper& info) -> bool {
+                [&](const infrast::Oper& info) -> bool {
                     return info.selected;
                 });
             bool need_shift = true;

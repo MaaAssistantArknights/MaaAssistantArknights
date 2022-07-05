@@ -14,8 +14,8 @@
 
 ### PaddleOCR
 
-1. 使用我魔改了接口的版本：https://github.com/MistEO/PaddleOCR
-2. 参考 [这个教程](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.3/deploy/cpp_infer#readme)
+1. 使用我魔改了接口的版本：<https://github.com/MaaAssistantArknights/PaddleOCR>
+2. 参考 [这个教程](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/deploy/cpp_infer/readme_ch.md)
 3. 额外依赖的 `PaddlePaddle` 直接 [下载](https://paddleinference.paddlepaddle.org.cn/master/user_guides/download_lib.html) 即可。其中 `avx` 和 `mkl` 两者都可以提高计算效率，建议选择。但如果 CPU 不支持，则只能选择 `noavx` 和 `openblas` 的兼容性版本（一般稍微新一点的 CPU 都支持两者了，AMD 的也没关系）。 `cuda` 和 `cudnn` 是 GPU 加速库，在 `PaddleOCR` 上可能比较麻烦，我没折腾过，有兴趣可以尝试下
 4. 若 `cmake` 找不到 `Opencv` ，可尝试修改 [Opencv 的查找路径](https://github.com/MistEO/PaddleOCR/blob/release/2.3/deploy/cpp_infer/CMakeLists.txt#L49)
 5. 若您使用 `MKL` 版本，可修改 [MKL 宏定义](https://github.com/MistEO/PaddleOCR/blob/release/2.3/deploy/cpp_infer/include/ocr_defines.h#L9) 为 `true` 以提高性能
@@ -45,12 +45,12 @@ sudo ldconfig
 3. 安装 `adb`, 并修改 `resource/config.json` 中 `Custom`.`adb`.`path` 的值为 `"adb"`
 4. 复制资源文件到 `libMeoAssitant.so` 同一目录下  
 
-```sh
-cd tools
-sh ./update_resource.sh <YourBuildDir>
-```
+    ```sh
+    cd tools
+    sh ./update_resource.sh <YourBuildDir>
+    ```
 
-5. 通过 [Python 接口](../src/Python/interface.py) 或 [C 接口](../include/AsstCaller.h) 进行调用，需要自行编写少量的代码
+5. 通过 [Python 接口](../src/Python/asst.py) 或 [C 接口](../include/AsstCaller.h) 进行调用，需要自行编写少量的代码
 6. `cmake` 可通过添加 `-DBUILD_TEST=ON` 选项来编译一个测试小 demo
 
 ## 集成文档
