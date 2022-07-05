@@ -33927,7 +33927,7 @@
                 "dropType": "EXTRA_DROP",
                 "bounds": {
                     "lower": 1,
-                    "upper": 1
+                    "upper": 2
                 }
             }
         ]

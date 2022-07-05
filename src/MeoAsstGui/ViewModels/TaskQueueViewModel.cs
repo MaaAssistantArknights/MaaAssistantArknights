@@ -945,6 +945,10 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _useMedicine, value);
+                if (!value)
+                {
+                    UseStone = false;
+                }
                 ViewStatusStorage.Set("MainFunction.UseMedicine", value.ToString());
             }
         }
@@ -1062,6 +1066,10 @@ namespace MeoAsstGui
             get { return _dropsItemId; }
             set
             {
+                if (value == null)
+                {
+                    return;
+                }
                 SetAndNotify(ref _dropsItemId, value);
             }
         }
