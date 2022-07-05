@@ -945,6 +945,10 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _useMedicine, value);
+                if (!value)
+                {
+                    UseStone = false;
+                }
                 ViewStatusStorage.Set("MainFunction.UseMedicine", value.ToString());
             }
         }
