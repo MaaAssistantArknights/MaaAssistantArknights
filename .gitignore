@@ -440,4 +440,7 @@ resource/infrast
 
 # Nuke
 .nuke/temp/*
-/tools/ItemMappingCvt/Arknights-Bot-Resource
+
+# temp file of resource updater
+tools/ItemMappingCvt/Arknights-Bot-Resource
+tools/ItemMappingCvt/stages.json

@@ -5,6 +5,7 @@
 #include <meojson/json.hpp>
 
 bool trans_and_save_icon(const std::filesystem::path& input, const std::filesystem::path& output);
+bool update_stages_data(const std::filesystem::path& output);
 
 int main()
 {
@@ -111,6 +112,12 @@ int main()
     auto third_resource_dir = solution_dir / "3rdparty" / "resource";
     std::filesystem::copy_file(input_dir / "levels.json", third_resource_dir / "Arknights-Tile-Pos" / "levels.json", std::filesystem::copy_options::overwrite_existing);
 
+
+    /* Update stage.json from Penguin Stats*/
+    if (!update_stages_data(solution_dir / "resource" / "stages.json")) {
+        return -1;
+    }
+
     return 0;
 }
 
@@ -149,5 +156,38 @@ bool trans_and_save_icon(const std::filesystem::path& input, const std::filesyst
     dst_resized = dst_resized(cv::Rect(15, 15, 92, 92));
 
     cv::imwrite(output.string(), dst_resized);
+    return true;
+}
+
+bool update_stages_data(const std::filesystem::path& output)
+{
+    // 国内访问可以改成 .cn 的域名
+    const std::string PenguinAPI = R"(https://penguin-stats.io/PenguinStats/api/v2/stages)";
+    const std::string TempFilename = "stages.json";
+    int stage_request_ret = system(("curl -o " + TempFilename + " " + PenguinAPI).c_str());
+    if (stage_request_ret != 0) {
+        std::cerr << "Request Penguin Stats failed" << std::endl;
+        return false;
+    }
+    std::ifstream ifs(TempFilename, std::ios::in);
+    if (!ifs.is_open()) {
+        std::cout << "open stages.json failed" << std::endl;
+        return false;
+    }
+    std::stringstream iss;
+    iss << ifs.rdbuf();
+    ifs.close();
+    auto parse_ret = json::parse(iss.str());
+    if (!parse_ret) {
+        std::cout << "parse stages.json failed" << std::endl;
+        return false;
+    }
+
+    auto& stage_json = parse_ret.value();
+    
+    std::ofstream ofs(output, std::ios::out);
+    ofs << stage_json.format();
+    ofs.close();
+
     return true;
 }

@@ -139,7 +139,7 @@ Please refer to [Linux Tutorial](docs/en/LINUX_TUTORIAL.md)
 - [Task Schema](docs/en/TASK_SCHEMA.md)
 - [Copilot Schema](docs/en/COPILOT_SCHEMA.md)
 
-### For Novice Users of Git
+### For Novice Users of Github
 
 [Contributing](docs/en/CONTRIBUTING.md)
 

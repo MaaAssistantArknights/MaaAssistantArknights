@@ -41,8 +41,8 @@ MAA 的意思是 MAA Assistant Arknights
 
 话不多说，看图！  
 
-![image](https://user-images.githubusercontent.com/99072975/172044929-3aae01a1-6c6d-4a9a-a7a8-ae753679b9ce.png)
-![image](https://user-images.githubusercontent.com/99072975/172045492-698ab7fd-0413-4b08-aad7-0176f9480c05.png)
+![image](https://user-images.githubusercontent.com/99072975/177110402-513b8267-380f-47b2-aeb3-04d8d1e1c850.png)
+![image](https://user-images.githubusercontent.com/99072975/177110410-ad4f84f5-e94f-49aa-954b-25d49aa7f6f9.png)
 ![image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)
 
 
@@ -56,8 +56,6 @@ MAA 的意思是 MAA Assistant Arknights
 
 [fastgit 镜像稳定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [fastgit 镜像测试版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
-
-
 
 ## 使用说明
 
@@ -142,15 +140,15 @@ MAA 的意思是 MAA Assistant Arknights
 - [Golang 接口](src/Golang/maa/)：[集成示例](src/Golang/cli.go)（已停止维护 orz）
 - [Dart 接口](src/dart/)
 - [Java 接口](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
-- [HTTP接口](src/Java/Maaj/Readme.md)
+- [HTTP 接口](src/Java/Maaj/Readme.md)
 - [集成文档](docs/集成文档.md)
 - [回调消息协议](docs/回调消息协议.md)
 - [任务流程协议](docs/任务流程协议.md)
 - [自动抄作业协议](docs/战斗流程协议.md)
 
-### 想要参与开发，但我不太会用 Github?
+### 想参与开发，但不太会用 Github?
 
-[Github Pull Request 流程简述](docs/写给萌新的发电全流程.md)
+[Github Pull Request 流程简述](docs/PR流程简述.md)
 
 ## 声明
 
