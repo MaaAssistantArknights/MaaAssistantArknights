@@ -156,14 +156,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
         size_t num = opers_detect();
         Log.trace("opers_detect return", num);
 
-        // 无论如何也不会没有干员的，除非前面的操作哪里出错了，没进到干员选择的页面。那也就没必要继续下去了
         if (num == 0) {
-            return false;
-        }
-
-        // 这里本来是判断不相等就可以退出循环。
-        // 但是有时候滑动会把一个干员挡住一半，一个页面完整的干员真的只有10个，所以加个2的差值
-        if (max_num_of_opers_per_page - num > 2) {
             break;
         }
 
@@ -194,10 +187,9 @@ size_t asst::InfrastProductionTask::opers_detect()
 
     const int face_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
         Task.get("InfrastOperFaceHash"))->dist_threshold;
-    int cur_available_num = static_cast<int>(cur_all_opers.size());
+    const size_t pre_size = m_all_available_opers.size();
     for (const auto& cur_oper : cur_all_opers) {
         if (cur_oper.skills.empty()) {
-            --cur_available_num;
             continue;
         }
         {
@@ -230,7 +222,7 @@ size_t asst::InfrastProductionTask::opers_detect()
         }
         m_all_available_opers.emplace_back(cur_oper);
     }
-    return cur_available_num;
+    return m_all_available_opers.size() - pre_size;
 }
 
 bool asst::InfrastProductionTask::optimal_calc()
