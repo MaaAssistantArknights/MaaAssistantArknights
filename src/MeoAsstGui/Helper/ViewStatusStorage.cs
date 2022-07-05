@@ -23,7 +23,7 @@ namespace MeoAsstGui
         private static readonly string _configBakFilename = System.Environment.CurrentDirectory + "\\gui.json.bak";
         private static JObject _viewStatus = new JObject();
 
-        public static string Get(string key, string defalut_value)
+        public static string Get(string key, string default_value)
         {
             if (_viewStatus.ContainsKey(key))
             {
@@ -31,7 +31,7 @@ namespace MeoAsstGui
             }
             else
             {
-                return defalut_value;
+                return default_value;
             }
         }
 
