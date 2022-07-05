@@ -55166,5 +55166,685 @@
                 "exist": false
             }
         }
+    },
+    {
+        "stageId": "act19side_01",
+        "zoneId": "act19side_zone1",
+        "code_i18n": {
+            "en": "DV-1",
+            "ja": "DV-1",
+            "zh": "DV-1",
+            "ko": "DV-1"
+        },
+        "stageType": "ACTIVITY",
+        "code": "DV-1",
+        "minClearTime": 130500,
+        "apCost": 9,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1657008000000,
+                "closeTime": 1658174400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "recognitionOnly": [
+            "act19side_token_reagents"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "30011",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act19side_02",
+        "zoneId": "act19side_zone1",
+        "code_i18n": {
+            "en": "DV-2",
+            "ja": "DV-2",
+            "zh": "DV-2",
+            "ko": "DV-2"
+        },
+        "stageType": "ACTIVITY",
+        "code": "DV-2",
+        "minClearTime": 170000,
+        "apCost": 9,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1657008000000,
+                "closeTime": 1658174400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "recognitionOnly": [
+            "act19side_token_reagents"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "30011",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30061",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30031",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30021",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30041",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "30051",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act19side_03",
+        "zoneId": "act19side_zone1",
+        "code_i18n": {
+            "en": "DV-3",
+            "ja": "DV-3",
+            "zh": "DV-3",
+            "ko": "DV-3"
+        },
+        "stageType": "ACTIVITY",
+        "code": "DV-3",
+        "minClearTime": 160000,
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1657008000000,
+                "closeTime": 1658174400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "recognitionOnly": [
+            "act19side_token_reagents"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "30062",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30032",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act19side_04",
+        "zoneId": "act19side_zone1",
+        "code_i18n": {
+            "en": "DV-4",
+            "ja": "DV-4",
+            "zh": "DV-4",
+            "ko": "DV-4"
+        },
+        "stageType": "ACTIVITY",
+        "code": "DV-4",
+        "minClearTime": 175000,
+        "apCost": 12,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1657008000000,
+                "closeTime": 1658174400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "recognitionOnly": [
+            "act19side_token_reagents"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "30022",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30042",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 2
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act19side_05",
+        "zoneId": "act19side_zone1",
+        "code_i18n": {
+            "en": "DV-5",
+            "ja": "DV-5",
+            "zh": "DV-5",
+            "ko": "DV-5"
+        },
+        "stageType": "ACTIVITY",
+        "code": "DV-5",
+        "minClearTime": 163000,
+        "apCost": 15,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1657008000000,
+                "closeTime": 1658174400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "recognitionOnly": [
+            "act19side_token_reagents"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "30062",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "30052",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 3
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 1,
+                    "upper": 2
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act19side_06",
+        "zoneId": "act19side_zone1",
+        "code_i18n": {
+            "en": "DV-6",
+            "ja": "DV-6",
+            "zh": "DV-6",
+            "ko": "DV-6"
+        },
+        "stageType": "ACTIVITY",
+        "code": "DV-6",
+        "minClearTime": 194000,
+        "apCost": 21,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1657008000000,
+                "closeTime": 1658174400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "recognitionOnly": [
+            "act19side_token_reagents"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "30033",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act19side_07",
+        "zoneId": "act19side_zone1",
+        "code_i18n": {
+            "en": "DV-7",
+            "ja": "DV-7",
+            "zh": "DV-7",
+            "ko": "DV-7"
+        },
+        "stageType": "ACTIVITY",
+        "code": "DV-7",
+        "minClearTime": 182000,
+        "apCost": 21,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1657008000000,
+                "closeTime": 1658174400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "recognitionOnly": [
+            "act19side_token_reagents"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "30073",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
+    },
+    {
+        "stageId": "act19side_08",
+        "zoneId": "act19side_zone1",
+        "code_i18n": {
+            "en": "DV-8",
+            "ja": "DV-8",
+            "zh": "DV-8",
+            "ko": "DV-8"
+        },
+        "stageType": "ACTIVITY",
+        "code": "DV-8",
+        "minClearTime": 247000,
+        "apCost": 21,
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1657008000000,
+                "closeTime": 1658174400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "recognitionOnly": [
+            "act19side_token_reagents"
+        ],
+        "dropInfos": [
+            {
+                "itemId": "31023",
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "itemId": "furni",
+                "dropType": "FURNITURE",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                }
+            },
+            {
+                "dropType": "SPECIAL_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            },
+            {
+                "dropType": "EXTRA_DROP",
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                }
+            }
+        ]
     }
 ]
