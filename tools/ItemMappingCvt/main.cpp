@@ -238,9 +238,9 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
 
         const std::vector<std::string> BlackList = {
             "[style]",
-            "bskill_dorm_",
-            "bskill_train_",
-            "bskill_ws_"
+            "bskill_dorm",
+            "bskill_train",
+            "bskill_ws"
         };
 
         bool is_blacklist = false;
@@ -265,7 +265,12 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
                 }
             }
         }
-        std::string out_file = (output_dir / entry.path().filename()).string();
+        std::string filename = entry.path().filename().string();
+        // 历史遗留问题，以前的图片是从wiki上爬的，都是大写开头
+        // Windows下不区分大小写，现在新的小写文件名图片没法覆盖
+        // 所以干脆全用大写开头算了
+        filename[0] -= 32;
+        std::string out_file = (output_dir / filename).string();
 
         if (!std::filesystem::exists(out_file)) {
             std::cout << "New infrast templ: " << out_file << std::endl;
