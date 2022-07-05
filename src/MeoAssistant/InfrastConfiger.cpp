@@ -25,8 +25,8 @@ bool asst::InfrastConfiger::parse(const json::value& json)
             skill.templ_name = templ_name;
             m_templ_required.emplace(skill.templ_name);
             // 默认id就是模板名（去掉格式）
-            std::string defalut_id = templ_name.substr(0, templ_name.find_last_of('.'));
-            std::string id = skill_json.get("id", defalut_id);
+            std::string default_id = templ_name.substr(0, templ_name.find_last_of('.'));
+            std::string id = skill_json.get("id", default_id);
             skill.id = id;
             if (skill_json.contains("name")) {
                 for (const json::value& skill_names : skill_json.at("name").as_array()) {
