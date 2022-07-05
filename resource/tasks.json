@@ -198,15 +198,15 @@
             60
         ]
     },
-    "DV-5": {
+    "DV-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
             "DV-Open"
         ],
         "next": [
-            "StageDV-5",
-            "SwapToStageDV-5"
+            "StageDV-8",
+            "SwapToStageDV-8"
         ]
     },
     "DV-6": {
@@ -233,11 +233,17 @@
     },
     "DV-Open": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "绿野幻梦",
+            "活动",
+            "开放"
+        ],
         "roi": [
-            471,
             0,
-            530,
-            711
+            500,
+            500,
+            150
         ],
         "sub": [
             "DVChapterToDV",
@@ -248,21 +254,21 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "我不知道"
+            "实验基地"
         ],
         "roi": [
-            1011,
-            495,
-            217,
-            139
+            1025,
+            176,
+            241,
+            180
         ]
     },
-    "SwapToStageDV-5": {
+    "SwapToStageDV-8": {
         "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheLeft",
         "next": [
-            "StageDV-5",
-            "SwapToStageDV-5"
+            "StageDV-8",
+            "SwapToStageDV-8"
         ]
     },
     "SwapToStageDV-6": {
@@ -281,12 +287,12 @@
             "SwapToStageDV-7"
         ]
     },
-    "StageDV-5": {
+    "StageDV-8": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "DV-5"
+            "DV-8"
         ],
         "roi": [
             0,
