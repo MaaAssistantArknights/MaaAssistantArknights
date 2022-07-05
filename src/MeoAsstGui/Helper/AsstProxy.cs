@@ -979,7 +979,7 @@ namespace MeoAsstGui
             task_params["select"] = new JArray(select_level);
             task_params["confirm"] = new JArray();
             task_params["times"] = 0;
-            task_params["set_time"] = true;
+            task_params["set_time"] = set_time;
             task_params["expedite"] = false;
             task_params["expedite_times"] = 0;
             TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);

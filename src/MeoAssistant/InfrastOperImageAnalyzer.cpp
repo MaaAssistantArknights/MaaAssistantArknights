@@ -21,9 +21,6 @@ bool asst::InfrastOperImageAnalyzer::analyze()
     if (m_to_be_calced & Mood) {
         mood_analyze();
     }
-    if (m_to_be_calced & NameHash) {
-        name_hash_analyze();
-    }
     if (m_to_be_calced & FaceHash) {
         face_hash_analyze();
     }
@@ -46,7 +43,7 @@ void asst::InfrastOperImageAnalyzer::sort_by_loc()
 
     std::sort(
         m_result.begin(), m_result.end(),
-        [](const infrast::BattleRealTimeOper& lhs, const infrast::BattleRealTimeOper& rhs) -> bool {
+        [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
             if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
                 return lhs.rect.y < rhs.rect.y;
             }
@@ -62,7 +59,7 @@ void asst::InfrastOperImageAnalyzer::sort_by_mood()
 
     std::sort(
         m_result.begin(), m_result.end(),
-        [](const infrast::BattleRealTimeOper& lhs, const infrast::BattleRealTimeOper& rhs) -> bool {
+        [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
             // 先按心情排序，心情低的放前面
             if (std::fabs(lhs.mood_ratio - rhs.mood_ratio) > DoubleDiff) {
                 return lhs.mood_ratio < rhs.mood_ratio;
@@ -86,9 +83,9 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
     const std::vector<Rect> all_roi = { upper_roi, lower_roi };
 
     const Rect skill_rect_move = Task.get("InfrastSkills")->rect_move;
-    const Rect hash_rect_move = Task.get("InfrastOperNameHash")->rect_move;
+    const Rect name_rect_move = Task.get("InfrastOperNameOcr")->rect_move;
     const Rect prg_rect_move = Task.get("InfrastOperMoodProgressBar")->roi;
-    const std::vector<Rect> all_rect_move = { skill_rect_move, hash_rect_move, prg_rect_move };
+    const std::vector<Rect> all_rect_move = { skill_rect_move, name_rect_move, prg_rect_move };
 
     InfrastSmileyImageAnalyzer smiley_analyzer(m_image);
 
@@ -119,8 +116,9 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
             cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(smiley_rect), cv::Scalar(0, 0, 255), 2);
 #endif // ASST_DEBUG
 
-            infrast::BattleRealTimeOper oper;
+            infrast::Oper oper;
             oper.smiley = smiley;
+            oper.name_img = m_image(utils::make_rect<cv::Rect>(smiley_rect.move(name_rect_move)));
             m_result.emplace_back(std::move(oper));
         }
     }
@@ -216,25 +214,6 @@ void asst::InfrastOperImageAnalyzer::face_hash_analyze()
         hash_analyzer.set_roi(roi);
         hash_analyzer.analyze();
         oper.face_hash = hash_analyzer.get_hash().front();
-    }
-}
-
-void asst::InfrastOperImageAnalyzer::name_hash_analyze()
-{
-    LogTraceFunction;
-
-    const auto task_ptr = std::dynamic_pointer_cast<HashTaskInfo>(
-        Task.get("InfrastOperNameHash"));
-
-    HashImageAnalyzer hash_analyzer(m_image);
-
-    hash_analyzer.set_mask_range(task_ptr->mask_range);
-    hash_analyzer.set_need_bound(true);
-    for (auto&& oper : m_result) {
-        Rect roi = oper.smiley.rect.move(task_ptr->rect_move);
-        hash_analyzer.set_roi(roi);
-        hash_analyzer.analyze();
-        oper.name_hash = hash_analyzer.get_hash().front();
     }
 }
 

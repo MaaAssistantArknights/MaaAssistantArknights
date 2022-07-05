@@ -245,9 +245,8 @@
             500,
             150
         ],
-        "sub": [
-            "DVChapterToDV",
-            "SwipeToTheRight"
+        "next": [
+            "DVChapterToDV"
         ]
     },
     "DVChapterToDV": {
@@ -261,6 +260,10 @@
             176,
             241,
             180
+        ],
+        "next": [
+            "DVChapterToDV",
+            "SwipeToTheRight"
         ]
     },
     "SwapToStageDV-8": {
@@ -969,7 +972,7 @@
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
         "ocrReplace": [
             [
-                "白面.+",
+                "白面.*",
                 "白面鸮"
             ],
             [
@@ -1113,7 +1116,7 @@
                 "凛冬"
             ],
             [
-                ".+草",
+                "笔草",
                 "苇草"
             ],
             [
@@ -1139,6 +1142,10 @@
             [
                 "紫雨",
                 "絮语"
+            ],
+            [
+                "罗比拉塔",
+                "罗比菈塔"
             ]
         ]
     },
@@ -3552,20 +3559,15 @@
             80
         ]
     },
-    "InfrastOperNameHash": {
-        "algorithm": "Hash",
-        "hash": [],
-        "threshold": 65,
+    "InfrastOperNameOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             0,
             20,
             113,
             22
-        ],
-        "maskRange": [
-            100,
-            255
         ]
     },
     "InfrastOperFaceHash": {
