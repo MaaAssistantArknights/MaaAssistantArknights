@@ -1,0 +1,63 @@
+{
+    "StartButton1": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "작전개시"
+        ],
+        "preDelay": 500,
+        "roi": [
+            1000,
+            600,
+            280,
+            120
+        ],
+        "exceededNext": [
+            "StageSNReturnFlag",
+            "Stop"
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "StartButton2",
+            "UseMedicine",
+            "UseStone",
+            "NoStone",
+            "OfflineConfirm"
+        ]
+    },
+    "PRTS": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "배치가능",
+            "인원"
+        ],
+        "roi": [
+            0,
+            500,
+            1280,
+            220
+        ],
+        "action": "DoNothing",
+        "rearDelay": 5000,
+        "next": [
+            "PRTS",
+            "PRTS3",
+            "EndOfAction",
+            "PrtsErrorConfirm",
+            "OfflineConfirm",
+            "WaitAfterPRTS"
+        ]
+    },
+    "EndOfAction": {
+        "Doc": "This task registered the StageDropsTaskPlugin",
+        "roi": [
+            791,
+            410,
+            296,
+            145
+        ],
+        "action": "DoNothing",
+        "next": [
+            "ClickCorner"
+        ]
+    }
+}
