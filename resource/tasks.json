@@ -4569,6 +4569,7 @@
     },
     "EndOfClueExchange": {
         "cache": false,
+        "templThreshold": 0.7,
         "roi": [
             0,
             0,
