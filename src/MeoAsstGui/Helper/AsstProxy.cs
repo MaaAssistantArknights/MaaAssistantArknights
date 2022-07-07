@@ -93,36 +93,58 @@ namespace MeoAsstGui
             }
         }
 
-        private string _curResource = "";
+        private string _curResource = "_Unloaded";
 
         public bool LoadGlobalResource()
         {
-            bool loaded = true;
             var settingsModel = _container.Get<SettingsViewModel>();
-            if (_curResource.Length == 0
-                && settingsModel.ClientType == "YoStarEN"
-                && _curResource != settingsModel.ClientType)
+            if (settingsModel.ClientType == _curResource)
             {
-                loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory() + "\\resource\\global\\YoStarEN");
-                _curResource = "YoStarEN";
+                return true;
             }
-            // 这种是手贱看国际服点了一下，又点回官服的
-            else if (_curResource.Length != 0
-                && (settingsModel.ClientType == "Official" || settingsModel.ClientType == "Bilibili" || settingsModel.ClientType == String.Empty))
+
+            bool loaded = true;
+            if (settingsModel.ClientType == String.Empty
+                || settingsModel.ClientType == "Official" || settingsModel.ClientType == "Bilibili")
             {
+                // The resources of Official and Bilibili are the same
+                if (_curResource == "Official" || _curResource == "Bilibili")
+                {
+                    return true;
+                }
                 loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory());
-                _curResource = "";
+            }
+            else if (_curResource == "Official" || _curResource == "Bilibili")
+            {
+                // Load basic resources for CN client first
+                // Then load global incremental resources
+                loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory() + "\\resource\\global\\" + settingsModel.ClientType);
+            }
+            else
+            {
+                // Load basic resources for CN client first
+                // Then load global incremental resources
+                loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory())
+                    && AsstLoadResource(System.IO.Directory.GetCurrentDirectory() + "\\resource\\global\\" + settingsModel.ClientType);
+            }
+
+            if (loaded)
+            {
+                if (settingsModel.ClientType == String.Empty)
+                {
+                    _curResource = "Official";
+                }
+                else
+                {
+                    _curResource = settingsModel.ClientType;
+                }
             }
             return loaded;
         }
 
         public void Init()
         {
-            // basic resource for CN client
-            bool loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory());
-            _curResource = "";
-
-            loaded = LoadGlobalResource();
+            bool loaded = LoadGlobalResource();
 
             _handle = AsstCreateEx(_callback, IntPtr.Zero);
 
