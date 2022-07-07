@@ -4558,6 +4558,15 @@
             100
         ]
     },
+    "EndOfClueExchangeBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "rearDelay": 1000,
+        "next": [
+            "EndOfClueExchange",
+            "ReceptionFlag"
+        ]
+    },
     "EndOfClueExchange": {
         "cache": false,
         "roi": [
