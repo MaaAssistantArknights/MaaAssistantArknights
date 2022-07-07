@@ -84,8 +84,12 @@ MAA 的意思是 MAA Assistant Arknights
   支持基本的刷理智、公招识别、访问好友、领取奖励功能，请参考 [说明](resource/global/YoStarEN/readme.md)
 - 日服  
   支持基本的刷理智功能，请参考 [说明](resource/global/YoStarJP/readme.md)
-- 其他服
-  计划适配中……
+- 韩服  
+  支持基本的刷理智功能，请参考 [说明](resource/global/YoStarKR/readme.md)
+- 繁中服  
+  支持基本的刷理智功能，请参考 [说明](resource/global/txwy/readme.md)
+
+由于外服用户较少及项目人手不足的问题，外服目前都仅适配了基本的功能。若您有强需求，欢迎在 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，~~或加入我们一起建设 MAA~~
 
 ## 主要关联项目
 
