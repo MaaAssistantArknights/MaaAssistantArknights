@@ -71,12 +71,18 @@ See also: [User Manual](docs/en/USER_MANUAL.md)
 
 Please refer to: [FAQ](docs/en/FAQ.md)
 
-## Supports for overseas servers
+## Supports for overseas clients
 
-- YoStarEN Server  
-  Supports basic features like Combat, Recruiting, etc. See also [README](resource/global/YoStarEN/readme.md)
-- Other servers  
-  TODO
+- EN Client  
+  Supports basic features like Combat, Recruiting, Visiting, Collocting, etc. See also [README](resource/global/YoStarEN/readme.md)
+- JP Client  
+  Supports basic features like Combat, etc.  See also [README](resource/global/YoStarJP/readme.md)
+- KR Client  
+  Supports basic features like Combat, etc.  See also [README](resource/global/YoStarKR/readme.md)
+- ZH_TW Client  
+  Supports basic features like Combat, etc.  See also [README](resource/global/txwy/readme.md)
+
+Due to the small number of overseas clients users and the lack of project manpower, the overseas clients is currently only adapted to basic functions. If you have strong needs, welcome to ask the progress in the [discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions), or join us to make MAA better!
 
 ## Associated Projects
 
