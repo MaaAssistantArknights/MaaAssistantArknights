@@ -79,5 +79,4 @@ Compatible.
 1. Download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip.
 2. Go to `Settings` - `Connection Settings`, and fill in ADB path and address (IP+port is required, e.g. `127.0.0.1:5555`)  
 
-**Note:** Some features on mobile phone with non-`16:9` resolution is not stable, especially the Infrastructure. We are working in progress to make it compatible. `16:9` is the most recommended resolution since it is tested stable in most of the time.
-You can set resolution with `adb shell wm size` on your phone and change it back later.
+**Note:** If your device is non-`16:9` resolution like mobile phone or Android pad, You can set resolution with `adb shell wm size` on your phone and change it back later.
