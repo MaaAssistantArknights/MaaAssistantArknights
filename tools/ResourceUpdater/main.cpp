@@ -1,5 +1,6 @@
 #include <filesystem>
 #include <fstream>
+#include <unordered_set>
 
 #include <opencv2/opencv.hpp>
 #include <meojson/json.hpp>
@@ -7,11 +8,12 @@
 bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool cvt_single_item_template(const std::filesystem::path& input, const std::filesystem::path& output);
 
+bool update_infrast_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 
 bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 
-int main(int argc, char** argv)
+int main([[maybe_unused]] int argc, char** argv)
 {
     const char* str_exec_path = argv[0];
     const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
@@ -48,6 +50,13 @@ int main(int argc, char** argv)
         third_resource_dir / "Arknights-Tile-Pos" / "levels.json",
         std::filesystem::copy_options::overwrite_existing)) {
         std::cerr << "update levels.json failed" << std::endl;
+        return -1;
+    }
+
+    /* Update infrast data from Arknights-Bot-Resource*/
+    std::cout << "------------Update infrast data------------" << std::endl;
+    if (!update_infrast_data(input_dir, resource_dir)) {
+        std::cerr << "Update infrast data failed" << std::endl;
         return -1;
     }
 
@@ -194,6 +203,154 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
     dst_resized = dst_resized(cv::Rect(15, 15, 92, 92));
 
     cv::imwrite(output.string(), dst_resized);
+    return true;
+}
+
+void remove_xml(std::string& text)
+{
+    if (text.empty() || text.size() < 2) {
+        return;
+    }
+    // find the first of '<'
+    auto first_iter = text.end();
+    for (auto it = text.begin(); it != text.end(); ++it) {
+        if (*it == '<') {
+            first_iter = it;
+            break;
+        }
+    }
+    if (first_iter == text.end()) {
+        return;
+    }
+    bool in_xml = true;
+
+    // move forward all non-xml elements
+    auto end_r1_iter = text.end() - 1;
+    auto next_iter = first_iter;
+    while (++first_iter != end_r1_iter) {
+        auto move_it = [&]() {
+            *next_iter = *first_iter;
+            ++next_iter;
+        };
+
+        if (*first_iter != '>' && in_xml) {
+            ;
+        }
+        else if (*first_iter == '>' && in_xml) {
+            in_xml = false;
+        }
+        else if (*first_iter == '<' && !in_xml) {
+            in_xml = true;
+        }
+        else {
+            move_it();
+        }
+    }
+    *next_iter = *end_r1_iter;
+    if (*next_iter != '>') {
+        ++next_iter;
+    }
+    text.erase(next_iter, text.end());
+}
+
+bool update_infrast_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+{
+    const auto input_file = input_dir / "gamedata" / "excel" / "building_data.json";
+    const auto output_file = output_dir / "infrast.json";
+
+    json::value input_json;
+    {
+        std::ifstream ifs(input_file, std::ios::in);
+        if (!ifs.is_open()) {
+            std::cout << input_file << " not exist" << std::endl;
+            return false;
+        }
+        std::stringstream iss;
+        iss << ifs.rdbuf();
+        ifs.close();
+
+        auto opt = json::parse(iss.str());
+        if (!opt) {
+            std::cout << input_file << " parse error" << std::endl;
+            return false;
+        }
+        input_json = std::move(opt.value());
+    }
+
+    json::value old_json;
+    {
+        std::ifstream ifs(output_file, std::ios::in);
+        if (!ifs.is_open()) {
+            std::cout << output_file << " not exist" << std::endl;
+            return false;
+        }
+        std::stringstream iss;
+        iss << ifs.rdbuf();
+        ifs.close();
+
+        auto opt = json::parse(iss.str());
+        if (!opt) {
+            std::cout << output_file << " parse error" << std::endl;
+            return false;
+        }
+        old_json = std::move(opt.value());
+    }
+
+    auto buffs_opt = input_json.find<json::object>("buffs");
+    if (!buffs_opt) {
+        return false;
+    }
+    auto& buffs = buffs_opt.value();
+
+    // 这里面有些是手动修改的，要保留
+    json::value& root = old_json;
+    std::unordered_set<std::string> rooms;
+    for (auto& [_, buff_obj] : buffs) {
+        std::string raw_room_type = (std::string)buff_obj["roomType"];
+
+        // 为了兼容老版本的字段 orz
+        static const std::unordered_map<std::string, std::string> RoomTypeMapping = {
+            {       "POWER",        "Power"     },
+            {       "CONTROL",      "Control"   },
+            {       "DORMITORY",    "Dorm"      },
+            {       "WORKSHOP",     ""          },
+            {       "MANUFACTURE",  "Mfg"       },
+            {       "TRADING",      "Trade"     },
+            {       "MEETING",      "Reception" },
+            {       "HIRE",         "Office"    },
+            {       "TRAINING",     ""          },
+        };
+
+        std::string room_type = RoomTypeMapping.at(raw_room_type);
+        if (room_type.empty()) {
+            continue;
+        }
+
+        rooms.emplace(room_type);
+
+        std::string key = (std::string)buff_obj["skillIcon"];
+        std::string name = (std::string)buff_obj["buffName"];
+        // 这玩意里面有类似 xml 的东西，全删一下
+        std::string desc = (std::string)buff_obj["description"];
+        remove_xml(desc);
+
+        auto& skill = root[room_type]["skills"][key];
+        skill["name"].array_emplace(name);
+        skill["desc"].array_emplace(desc);
+
+        // 历史遗留问题，以前的图片是从wiki上爬的，都是大写开头
+        // Windows下不区分大小写，现在新的小写文件名图片没法覆盖
+        // 所以干脆全用大写开头算了
+        std::string filename = key + ".png";
+        filename[0] -= 32;
+        skill["template"] = std::move(filename);
+    }
+    root["roomType"] = json::array(rooms);
+
+    std::ofstream ofs(output_file, std::ios::out);
+    ofs << root.format();
+    ofs.close();
+
     return true;
 }
 
