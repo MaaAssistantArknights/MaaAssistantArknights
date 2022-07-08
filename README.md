@@ -95,7 +95,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 全新 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
 - 更新服务器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
 - 官网 <https://www.maa.plus>: [maa-website](https://github.com/MaaAssistantArknights/maa-website)
-- 作业分享站 <https://www.prts.plus>: [前端](https://github.com/MaaAssistantArknights/MaaCopilotDesigner) , [后端](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+- 作业分享站 <https://www.prts.plus>: [前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend) , [后端](https://github.com/MaaAssistantArknights/MaaCopilotServer)
 
 ## 致谢
 
