@@ -249,23 +249,12 @@ namespace MeoAsstGui
             }
             if (EmulatorAddCommand.Length != 0)
             {
-                string StartCommand = "";
-                if (EmulatorPath.StartsWith("\""))
-                {
-                    StartCommand += EmulatorPath.ToString();
-                }
-                else StartCommand = "\"" + EmulatorPath.ToString() + "\"";
-                StartCommand += " ";
-                StartCommand += EmulatorAddCommand.ToString();
-                Process emuProcess = new Process();
-                emuProcess.StartInfo.FileName = "cmd.exe";
-                emuProcess.StartInfo.RedirectStandardInput = true;
-                emuProcess.StartInfo.UseShellExecute = false;
-                emuProcess.Start();
-                emuProcess.StandardInput.WriteLine(StartCommand);
-                emuProcess.StandardInput.WriteLine("exit");
+                Process.Start(EmulatorPath, EmulatorAddCommand);
             }
-            else Process.Start(EmulatorPath);
+            else
+            {
+                Process.Start(EmulatorPath);
+            }
             int delay = 0;
             if (!int.TryParse(EmulatorWaitSeconds, out delay))
             {
