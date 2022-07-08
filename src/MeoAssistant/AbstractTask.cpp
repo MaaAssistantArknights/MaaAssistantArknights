@@ -143,15 +143,15 @@ bool AbstractTask::sleep(unsigned millisecond)
         return true;
     }
     auto start = std::chrono::steady_clock::now();
-    long long duration = 0;
-
     Log.trace("ready to sleep", millisecond);
+    auto millisecond_ms = std::chrono::milliseconds(millisecond);
+    auto interval = millisecond_ms / 5;
 
-    while (!need_exit() && duration < millisecond) {
-        duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - start).count();
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        std::this_thread::yield();
+    while (!need_exit()) {
+        std::this_thread::sleep_for(interval);
+        if (std::chrono::steady_clock::now() - start > millisecond_ms) {
+            break;
+        }
     }
     Log.trace("end of sleep", millisecond);
 
