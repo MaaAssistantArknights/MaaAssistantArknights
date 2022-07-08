@@ -88,7 +88,7 @@ Due to the small number of overseas clients users and the lack of project manpow
 - New GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) (Development in progress, welcome to join us!)
 - Update server: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
 - [Website](https://www.maa.plus): [maa-website](https://github.com/MaaAssistantArknights/maa-website)
-- [Co-pilot (auto-battle) site](https://www.prts.plus): [frontend](https://github.com/MaaAssistantArknights/MaaCopilotDesigner), [backend](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+- [Co-pilot (auto-battle) site](https://www.prts.plus): [frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend), [backend](https://github.com/MaaAssistantArknights/MaaCopilotServer)
  
 ## Acknowledgements
 
