@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string>
 
-int main(int argc, char** argv)
+int main([[maybe_unused]] int argc, char** argv)
 {
     // 这里默认读取的是可执行文件同目录下 resource 文件夹里的资源
     const char* str_exec_path = argv[0];
