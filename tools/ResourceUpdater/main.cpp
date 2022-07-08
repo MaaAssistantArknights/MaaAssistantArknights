@@ -7,18 +7,20 @@
 bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool cvt_single_item_template(const std::filesystem::path& input, const std::filesystem::path& output);
 
-bool update_stages_data(const std::filesystem::path& output);
+bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 
 bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 
-int main()
+int main(int argc, char** argv)
 {
-    const std::filesystem::path input_dir("Arknights-Bot-Resource");
+    const char* str_exec_path = argv[0];
+    const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
+    const std::filesystem::path input_dir = cur_path / "Arknights-Bot-Resource";
 
     std::cout << "------------Update Arknights-Bot-Resource------------" << std::endl;
     int git_ret = 0;
     if (!std::filesystem::exists(input_dir)) {
-        git_ret = system("git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1");
+        git_ret = system(("git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1 " + input_dir.string()).c_str());
     }
     else {
         git_ret = system(("git -C " + input_dir.string() + " pull").c_str());
@@ -58,7 +60,7 @@ int main()
 
     /* Update stage.json from Penguin Stats*/
     std::cout << "------------Update stage.json------------" << std::endl;
-    if (!update_stages_data(solution_dir / "resource" / "stages.json")) {
+    if (!update_stages_data(cur_path, solution_dir / "resource")) {
         std::cerr << "Update stages data failed" << std::endl;
         return -1;
     }
@@ -195,17 +197,17 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
     return true;
 }
 
-bool update_stages_data(const std::filesystem::path& output_dir)
+bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
 {
     // 国内访问可以改成 .cn 的域名
     const std::string PenguinAPI = R"(https://penguin-stats.io/PenguinStats/api/v2/stages)";
-    const std::string TempFilename = "stages.json";
-    int stage_request_ret = system(("curl -o " + TempFilename + " " + PenguinAPI).c_str());
+    const std::filesystem::path TempFile = input_dir / "stages.json";
+    int stage_request_ret = system(("curl -o " + TempFile.string() + " " + PenguinAPI).c_str());
     if (stage_request_ret != 0) {
         std::cerr << "Request Penguin Stats failed" << std::endl;
         return false;
     }
-    std::ifstream ifs(TempFilename, std::ios::in);
+    std::ifstream ifs(TempFile, std::ios::in);
     if (!ifs.is_open()) {
         std::cout << "open stages.json failed" << std::endl;
         return false;
@@ -221,7 +223,7 @@ bool update_stages_data(const std::filesystem::path& output_dir)
 
     auto& stage_json = parse_ret.value();
 
-    std::ofstream ofs(output_dir, std::ios::out);
+    std::ofstream ofs(output_dir / "stages.json", std::ios::out);
     ofs << stage_json.format();
     ofs.close();
 

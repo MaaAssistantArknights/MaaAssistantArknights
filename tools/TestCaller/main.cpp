@@ -5,18 +5,22 @@
 #include <stdio.h>
 #include <string>
 
-std::string get_cur_dir()
+int main(int argc, char** argv)
 {
-    return std::filesystem::current_path().u8string();
-}
+    // 这里默认读取的是可执行文件同目录下 resource 文件夹里的资源
+    const char* str_exec_path = argv[0];
+    const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
 
-int main(/*int argc, char** argv*/)
-{
-    // 若使用 VS，请先设置 TestCaller 属性-调试-工作目录为 $(TargetDir)
-    AsstLoadResource(get_cur_dir().c_str());
+    bool loaded = AsstLoadResource(cur_path.string().c_str());
 
     // 增量更新国际服的资源
-    //AsstLoadResource((get_cur_dir() + R"(/resource/international/US)").c_str());
+    //const auto en_path = cur_path / "resource" / "global" / "YoStarEN";
+    //loaded &= AsstLoadResource(en_path.string().c_str());
+
+    if (!loaded) {
+        std::cout << "load resource failed" << std::endl;
+        return -1;
+    }
 
     auto ptr = AsstCreate();
     if (ptr == nullptr) {
