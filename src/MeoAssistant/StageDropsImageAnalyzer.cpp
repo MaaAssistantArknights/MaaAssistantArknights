@@ -299,6 +299,13 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
             m_baseline.emplace_back(baseline, match_droptype(baseline));
         }
     }
+    if (m_baseline.size() >= 1) {
+        if (m_baseline.back().second == StageDropType::Unknown) {
+            Log.warn(__FUNCTION__, "The last baseline is unknown type, remove it");
+            m_baseline.pop_back();
+        }
+    }
+
     Log.trace(__FUNCTION__, "baseline size", m_baseline.size());
     for (const auto& baseline : m_baseline) {
         Log.trace(__FUNCTION__, "baseline", baseline.first.to_string());
