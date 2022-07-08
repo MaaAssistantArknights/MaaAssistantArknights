@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[中文版本README](README.md)
+[中文版本 README](README.md)
 
 MAA means MAA Assistant Arknights
 
@@ -55,10 +55,9 @@ Talk is cheap. Show me the pictures!
 ### Basic Settings
 
 1. Follow the [Emulator Support](docs/en/EMULATOR_SUPPORTS.md) to configure your emulator.
-2. Unzip the archive file to an **ASCII-only** directory
-3. All settings are not changeable after running except `Auto shutdown`.
-
-The program supports `16:9` resolution the best, with resolution larger than or equal to `1280 * 720`. Non-`16:9` resolution may cause some unknown issues and will be supported in future.
+2. Change your emulator resolution to `1280 * 720` or higher with `16:9` aspect ratio.
+3. Unzip the archive file to an ASCII-only directory
+4. Enjoy it!
 
 See also: [User Manual](docs/en/USER_MANUAL.md)
 
@@ -87,10 +86,10 @@ Due to the small number of overseas clients users and the lack of project manpow
 ## Associated Projects
 
 - New GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) (Development in progress, welcome to join us!)
-- Update server: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer) (Development in progress, welcome to join us!)
-- Co-pilot (auto-battle) server: [MaaCopilotServer](https://github.com/MaaAssistantArknights/MaaCopilotServer) (Development in progress, welcome to join us!)
-- [Website](https://www.maa.plus): [maa-website](https://github.com/MaaAssistantArknights/maa-website) (Development in progress, welcome to join us!)
-
+- Update server: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
+- [Website](https://www.maa.plus): [maa-website](https://github.com/MaaAssistantArknights/maa-website)
+- [Co-pilot (auto-battle) site](https://www.prts.plus): [frontend](https://github.com/MaaAssistantArknights/MaaCopilotDesigner), [backend](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+ 
 ## Acknowledgements
 
 ### Open-source Libraries
@@ -156,9 +155,10 @@ Please refer to [Linux Tutorial](docs/en/LINUX_TUTORIAL.md)
 
 ## Advertisement
 
+[User Group (Telegram)](https://t.me/+Mgc2Zngr-hs3ZjU1)  
+Copilot JSON Sharing: <https://www.prts.plus/>, [QQ Group](https://jq.qq.com/?_wv=1027&k=1giyMpPb)  
 [Bilibili Live](https://live.bilibili.com/2808861): live coding on this program  
 [Technical Discussion & Talk](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：QQ Group  
-[Copilot JSON Sharing](https://jq.qq.com/?_wv=1027&k=1giyMpPb)  
 [Dev Group](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 Please click "Star" if you consider it helpful! Thank you for your support!
