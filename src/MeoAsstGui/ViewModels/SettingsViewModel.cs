@@ -18,6 +18,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
 using Stylet;
@@ -147,6 +148,13 @@ namespace MeoAsstGui
                 new CombData { Display = "日服 (YoStarJP)", Value = "YoStarJP" },
                 new CombData { Display = "韩服 (YoStarKR)", Value = "YoStarKR" },
                 new CombData { Display = "繁中服 (txwy)", Value = "txwy" }
+            };
+
+            InverseClearModeList = new List<CombData>
+            {
+                new CombData { Display = "清空", Value = "Clear" },
+                new CombData { Display = "反选", Value = "Inverse" },
+                new CombData { Display = "可切换", Value = "ClearInverse" }
             };
         }
 
@@ -295,6 +303,7 @@ namespace MeoAsstGui
         public List<CombData> RoguelikeModeList { get; set; }
         public List<CombData> ClientTypeList { get; set; }
         public List<CombData> ConnectConfigList { get; set; }
+        public List<CombData> InverseClearModeList { get; set; }
 
         private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
 
@@ -1103,6 +1112,38 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("GUI.HideUnavailableStage", value.ToString());
                 var mainModel = _container.Get<TaskQueueViewModel>();
                 mainModel.UpdateStageList();
+            }
+        }
+
+        private string _inverseClearMode = ViewStatusStorage.Get("GUI.InverseClearMode", "Clear");
+
+        public string InverseClearMode
+        {
+            get { return _inverseClearMode; }
+            set
+            {
+                SetAndNotify(ref _inverseClearMode, value);
+                switch (value)
+                {
+                    case "Clear":
+                        _container.Get<TaskQueueViewModel>().InverseMode = false;
+                        _container.Get<TaskQueueViewModel>().InverseShowVisibility = Visibility.Collapsed;
+                        _container.Get<TaskQueueViewModel>().NotInverseShowVisibility = Visibility.Visible;
+                        _container.Get<TaskQueueViewModel>().SelectedAllWidth = 90;
+                        break;
+                    case "Inverse":
+                        _container.Get<TaskQueueViewModel>().InverseMode = true;
+                        _container.Get<TaskQueueViewModel>().InverseShowVisibility = Visibility.Collapsed;
+                        _container.Get<TaskQueueViewModel>().NotInverseShowVisibility = Visibility.Visible;
+                        _container.Get<TaskQueueViewModel>().SelectedAllWidth = 90;
+                        break;
+                    case "ClearInverse":
+                        _container.Get<TaskQueueViewModel>().InverseShowVisibility = Visibility.Visible;
+                        _container.Get<TaskQueueViewModel>().NotInverseShowVisibility = Visibility.Collapsed;
+                        _container.Get<TaskQueueViewModel>().SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
+                        break;
+                }
+                ViewStatusStorage.Set("GUI.InverseClearMode", value);
             }
         }
     }
