@@ -56,7 +56,7 @@
                                     Visibility="{Binding InverseShowVisibility}"
                                     VerticalAlignment="Top">
                         <hc:SplitButton.DropDownContent>
-                            <MenuItem Header="{Binding InverseMenuText}" Command="{s:Action ChangeInverseMode}" Width="90"/>
+                            <MenuItem Header="{Binding InverseMenuText}" Command="{s:Action ChangeInverseMode}" Width="{Binding InverseSelectedWidth}"/>
                         </hc:SplitButton.DropDownContent>
                     </hc:SplitButton>
                     <Button Grid.Row="1" Grid.Column="1" Command="{s:Action InverseSelected}" IsEnabled="{Binding Idle}" Content="{Binding InverseShowText}" Width="90" Height="30" VerticalAlignment="Top" 
