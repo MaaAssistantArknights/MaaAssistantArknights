@@ -133,9 +133,6 @@
     <Compile Include="UserControl\PenguinReportSettingsUserControl.xaml.cs">
       <DependentUpon>PenguinReportSettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\ToastSettingsUserControl.xaml.cs">
-      <DependentUpon>ToastSettingsUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControl\AboutUserControl.xaml.cs">
       <DependentUpon>AboutUserControl.xaml</DependentUpon>
     </Compile>
@@ -153,14 +150,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Resources\Icon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UserControl\StartSettingsUserControl.xaml" />
     <Page Include="UserControl\TimerSettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -191,10 +180,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\PenguinReportSettingsUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControl\ToastSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -420,6 +405,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="newlogo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
