@@ -49,7 +49,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Button Grid.Row="1" Grid.Column="0" Command="{s:Action SelectedAll}" IsEnabled="{Binding Idle}" Content="全选" Width="90" Height="30" VerticalAlignment="Top" />
+                    <Button Grid.Row="1" Grid.Column="0" Command="{s:Action SelectedAll}" IsEnabled="{Binding Idle}" Content="全选" Width="80" Height="30" VerticalAlignment="Top" />
                     <hc:SplitButton Grid.Row="1" Grid.Column="1" Command="{s:Action InverseSelected}"
                                     IsEnabled="{Binding Idle}" Content="{Binding InverseShowText}" Width="90" Height="30"
                                     VerticalAlignment="Top">
