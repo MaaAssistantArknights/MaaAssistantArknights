@@ -1,5 +1,6 @@
 #include <filesystem>
 #include <fstream>
+#include <unordered_set>
 
 #include <opencv2/opencv.hpp>
 #include <meojson/json.hpp>
@@ -7,18 +8,21 @@
 bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool cvt_single_item_template(const std::filesystem::path& input, const std::filesystem::path& output);
 
-bool update_stages_data(const std::filesystem::path& output);
+bool update_infrast_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 
 bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 
-int main()
+int main([[maybe_unused]] int argc, char** argv)
 {
-    const std::filesystem::path input_dir("Arknights-Bot-Resource");
+    const char* str_exec_path = argv[0];
+    const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
+    const std::filesystem::path input_dir = cur_path / "Arknights-Bot-Resource";
 
     std::cout << "------------Update Arknights-Bot-Resource------------" << std::endl;
     int git_ret = 0;
     if (!std::filesystem::exists(input_dir)) {
-        git_ret = system("git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1");
+        git_ret = system(("git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1 " + input_dir.string()).c_str());
     }
     else {
         git_ret = system(("git -C " + input_dir.string() + " pull").c_str());
@@ -49,6 +53,13 @@ int main()
         return -1;
     }
 
+    /* Update infrast data from Arknights-Bot-Resource*/
+    std::cout << "------------Update infrast data------------" << std::endl;
+    if (!update_infrast_data(input_dir, resource_dir)) {
+        std::cerr << "Update infrast data failed" << std::endl;
+        return -1;
+    }
+
     /* Update infrast templates from Arknights-Bot-Resource*/
     std::cout << "------------Update infrast templates------------" << std::endl;
     if (!update_infrast_templates(input_dir / "building_skill", resource_dir / "template" / "infrast")) {
@@ -58,7 +69,7 @@ int main()
 
     /* Update stage.json from Penguin Stats*/
     std::cout << "------------Update stage.json------------" << std::endl;
-    if (!update_stages_data(solution_dir / "resource" / "stages.json")) {
+    if (!update_stages_data(cur_path, solution_dir / "resource")) {
         std::cerr << "Update stages data failed" << std::endl;
         return -1;
     }
@@ -195,17 +206,165 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
     return true;
 }
 
-bool update_stages_data(const std::filesystem::path& output_dir)
+void remove_xml(std::string& text)
+{
+    if (text.empty() || text.size() < 2) {
+        return;
+    }
+    // find the first of '<'
+    auto first_iter = text.end();
+    for (auto it = text.begin(); it != text.end(); ++it) {
+        if (*it == '<') {
+            first_iter = it;
+            break;
+        }
+    }
+    if (first_iter == text.end()) {
+        return;
+    }
+    bool in_xml = true;
+
+    // move forward all non-xml elements
+    auto end_r1_iter = text.end() - 1;
+    auto next_iter = first_iter;
+    while (++first_iter != end_r1_iter) {
+        auto move_it = [&]() {
+            *next_iter = *first_iter;
+            ++next_iter;
+        };
+
+        if (*first_iter != '>' && in_xml) {
+            ;
+        }
+        else if (*first_iter == '>' && in_xml) {
+            in_xml = false;
+        }
+        else if (*first_iter == '<' && !in_xml) {
+            in_xml = true;
+        }
+        else {
+            move_it();
+        }
+    }
+    *next_iter = *end_r1_iter;
+    if (*next_iter != '>') {
+        ++next_iter;
+    }
+    text.erase(next_iter, text.end());
+}
+
+bool update_infrast_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+{
+    const auto input_file = input_dir / "gamedata" / "excel" / "building_data.json";
+    const auto output_file = output_dir / "infrast.json";
+
+    json::value input_json;
+    {
+        std::ifstream ifs(input_file, std::ios::in);
+        if (!ifs.is_open()) {
+            std::cout << input_file << " not exist" << std::endl;
+            return false;
+        }
+        std::stringstream iss;
+        iss << ifs.rdbuf();
+        ifs.close();
+
+        auto opt = json::parse(iss.str());
+        if (!opt) {
+            std::cout << input_file << " parse error" << std::endl;
+            return false;
+        }
+        input_json = std::move(opt.value());
+    }
+
+    json::value old_json;
+    {
+        std::ifstream ifs(output_file, std::ios::in);
+        if (!ifs.is_open()) {
+            std::cout << output_file << " not exist" << std::endl;
+            return false;
+        }
+        std::stringstream iss;
+        iss << ifs.rdbuf();
+        ifs.close();
+
+        auto opt = json::parse(iss.str());
+        if (!opt) {
+            std::cout << output_file << " parse error" << std::endl;
+            return false;
+        }
+        old_json = std::move(opt.value());
+    }
+
+    auto buffs_opt = input_json.find<json::object>("buffs");
+    if (!buffs_opt) {
+        return false;
+    }
+    auto& buffs = buffs_opt.value();
+
+    // 这里面有些是手动修改的，要保留
+    json::value& root = old_json;
+    std::unordered_set<std::string> rooms;
+    for (auto& [_, buff_obj] : buffs) {
+        std::string raw_room_type = (std::string)buff_obj["roomType"];
+
+        // 为了兼容老版本的字段 orz
+        static const std::unordered_map<std::string, std::string> RoomTypeMapping = {
+            {       "POWER",        "Power"     },
+            {       "CONTROL",      "Control"   },
+            {       "DORMITORY",    "Dorm"      },
+            {       "WORKSHOP",     ""          },
+            {       "MANUFACTURE",  "Mfg"       },
+            {       "TRADING",      "Trade"     },
+            {       "MEETING",      "Reception" },
+            {       "HIRE",         "Office"    },
+            {       "TRAINING",     ""          },
+        };
+
+        std::string room_type = RoomTypeMapping.at(raw_room_type);
+        if (room_type.empty()) {
+            continue;
+        }
+
+        rooms.emplace(room_type);
+
+        std::string key = (std::string)buff_obj["skillIcon"];
+        std::string name = (std::string)buff_obj["buffName"];
+        // 这玩意里面有类似 xml 的东西，全删一下
+        std::string desc = (std::string)buff_obj["description"];
+        remove_xml(desc);
+
+        auto& skill = root[room_type]["skills"][key];
+        skill["name"].array_emplace(name);
+        skill["desc"].array_emplace(desc);
+
+        // 历史遗留问题，以前的图片是从wiki上爬的，都是大写开头
+        // Windows下不区分大小写，现在新的小写文件名图片没法覆盖
+        // 所以干脆全用大写开头算了
+        std::string filename = key + ".png";
+        filename[0] -= 32;
+        skill["template"] = std::move(filename);
+    }
+    root["roomType"] = json::array(rooms);
+
+    std::ofstream ofs(output_file, std::ios::out);
+    ofs << root.format();
+    ofs.close();
+
+    return true;
+}
+
+bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
 {
     // 国内访问可以改成 .cn 的域名
     const std::string PenguinAPI = R"(https://penguin-stats.io/PenguinStats/api/v2/stages)";
-    const std::string TempFilename = "stages.json";
-    int stage_request_ret = system(("curl -o " + TempFilename + " " + PenguinAPI).c_str());
+    const std::filesystem::path TempFile = input_dir / "stages.json";
+    int stage_request_ret = system(("curl -o " + TempFile.string() + " " + PenguinAPI).c_str());
     if (stage_request_ret != 0) {
         std::cerr << "Request Penguin Stats failed" << std::endl;
         return false;
     }
-    std::ifstream ifs(TempFilename, std::ios::in);
+    std::ifstream ifs(TempFile, std::ios::in);
     if (!ifs.is_open()) {
         std::cout << "open stages.json failed" << std::endl;
         return false;
@@ -221,7 +380,7 @@ bool update_stages_data(const std::filesystem::path& output_dir)
 
     auto& stage_json = parse_ret.value();
 
-    std::ofstream ofs(output_dir, std::ios::out);
+    std::ofstream ofs(output_dir / "stages.json", std::ios::out);
     ofs << stage_json.format();
     ofs.close();
 
