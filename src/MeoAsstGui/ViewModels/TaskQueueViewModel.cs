@@ -352,13 +352,71 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _inverseMode = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString));
+
+        public bool InverseMode
+        {
+            get { return _inverseMode; }
+            set
+            {
+                SetAndNotify(ref _inverseMode, value);
+                InverseShowText = value ? "反选" : "清空";
+                InverseMenuText = value ? "清空" : "反选";
+                ViewStatusStorage.Set("MainFunction.InverseMode", value.ToString());
+            }
+        }
+        
+        private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString))? "反选" : "清空";
+
+        public string InverseShowText
+        {
+            get
+            {
+                return _inverseShowText;
+            }
+            set
+            {
+                SetAndNotify(ref _inverseShowText, value);
+            }
+        }
+        
+        private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString))? "清空" : "反选";
+        public string InverseMenuText
+        {
+            get
+            {
+                return _inverseMenuText;
+            }
+            set
+            {
+                SetAndNotify(ref _inverseMenuText, value);
+            }
+        }
+        
+        public void ChangeInverseMode()
+        {
+            InverseMode = !InverseMode;
+        }
+        
         public void InverseSelected()
         {
-            foreach (var item in TaskItemViewModels)
+            if (_inverseMode)
             {
-                if (item.Name == "无限刷肉鸽")
-                    continue;
-                item.IsChecked = false;
+                foreach (var item in TaskItemViewModels)
+                {
+                    if (item.Name == "无限刷肉鸽")
+                        continue;
+                    item.IsChecked = !item.IsChecked;
+                }
+            }
+            else
+            {
+                foreach (var item in TaskItemViewModels)
+                {
+                    if (item.Name == "无限刷肉鸽")
+                        continue;
+                    item.IsChecked = false;
+                }
             }
         }
 
