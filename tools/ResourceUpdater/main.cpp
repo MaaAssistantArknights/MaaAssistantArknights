@@ -335,8 +335,18 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
         remove_xml(desc);
 
         auto& skill = root[room_type]["skills"][key];
-        skill["name"].array_emplace(name);
-        skill["desc"].array_emplace(desc);
+        auto& name_arr = skill["name"].as_array();
+        bool new_name = true;
+        for (auto& name_obj : name_arr) {
+            if (name_obj.as_string() == name) {
+                new_name = false;
+                break;
+            }
+        }
+        if (new_name) {
+            skill["name"].array_emplace(name);
+            skill["desc"].array_emplace(desc);
+        }
 
         // 历史遗留问题，以前的图片是从wiki上爬的，都是大写开头
         // Windows下不区分大小写，现在新的小写文件名图片没法覆盖
