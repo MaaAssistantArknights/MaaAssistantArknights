@@ -365,8 +365,8 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("MainFunction.InverseMode", value.ToString());
             }
         }
-        
-        private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString))? "反选" : "清空";
+
+        private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? "反选" : "清空";
 
         public string InverseShowText
         {
@@ -379,8 +379,8 @@ namespace MeoAsstGui
                 SetAndNotify(ref _inverseShowText, value);
             }
         }
-        
-        private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString))? "清空" : "反选";
+
+        private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? "清空" : "反选";
         public string InverseMenuText
         {
             get
@@ -392,12 +392,12 @@ namespace MeoAsstGui
                 SetAndNotify(ref _inverseMenuText, value);
             }
         }
-        
+
         public void ChangeInverseMode()
         {
             InverseMode = !InverseMode;
         }
-        
+
         public void InverseSelected()
         {
             if (_inverseMode)
