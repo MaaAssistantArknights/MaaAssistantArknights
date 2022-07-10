@@ -179,6 +179,8 @@ namespace asst
             {
 #ifdef _WIN32
                 s << utils::utf8_to_ansi(std::forward<T>(value));
+#else
+                s << std::forward<T>(value);
 #endif
                 return s;
             }
