@@ -115,7 +115,7 @@ namespace asst
             trace("-----------------------------");
             trace("MeoAssistant Process Start");
             trace("Version", asst::Version);
-            trace("Build DataTime", __DATE__, __TIME__);
+            trace("Built at", __DATE__, __TIME__);
 #ifdef _WIN32 // 输出到日志的时候统一编码utf8
             trace("Working Path", asst::utils::ansi_to_utf8(m_dirname));
 #else
