@@ -162,29 +162,59 @@ namespace asst
 #endif
         }
 
-        template <bool ToAnsi, typename Stream, typename T, typename Enable = void>
-        struct stream_put_converted_impl
-        {
-            static constexpr Stream& apply(Stream& s, T&& value)
-            {
-                s << std::forward<T>(value);
-                return s;
-            }
-        };
+        template <typename Stream, typename T, typename Enable = void>
+        struct has_stream_insertion_operator : std::false_type {};
 
         template <typename Stream, typename T>
-        struct stream_put_converted_impl<true, Stream, T, std::enable_if_t<std::is_constructible_v<std::string, T>>>
+        struct has_stream_insertion_operator<
+                Stream, T,
+                std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
+                : std::true_type
         {
-            static constexpr Stream& apply(Stream& s, T&& value)
-            {
-#ifdef _WIN32
-                s << utils::utf8_to_ansi(std::forward<T>(value));
-#else
-                s << std::forward<T>(value);
-#endif
-                return s;
-            }
         };
+
+        template <typename T, typename Enable = void>
+        struct is_range_expression : std::false_type {};
+
+        template <typename T>
+        struct is_range_expression<T, std::enable_if_t<
+                std::is_convertible_v<
+                        typename std::iterator_traits<decltype(begin(std::declval<T>()))>::iterator_category,
+                        std::forward_iterator_tag
+                >
+        >> : std::true_type
+        {
+        };
+
+        template <bool ToAnsi, typename Stream, typename T>
+        static Stream& stream_put(Stream& s, T&& v)
+        {
+            if constexpr(std::is_constructible_v<std::string, T>) {
+                if constexpr (ToAnsi) s << utils::utf8_to_ansi(std::forward<T>(v));
+                else s << std::string(std::forward<T>(v));
+                return s;
+            } else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
+                s << std::forward<T>(v);
+                return s;
+            } else if constexpr (is_range_expression<T>::value) {
+                s << "[";
+                std::string_view comma{};
+                for (const auto& elem : std::forward<T>(v)) {
+                    s << comma;
+                    stream_put<ToAnsi>(s, elem);
+                    comma = ",";
+                }
+                s << "]";
+                return s;
+            } else {
+                ASST_STATIC_ASSERT_FALSE(
+                        "\nunsupported type, one of following required \n"
+                        "\t1. those can be converted to string;\n"
+                        "\t2. those can be inserted to stream with operator<< directly;\n"
+                        "\t3. container or nested container containing one of 1. 2. or 3. and iterable with range-based for",
+                        Stream, T);
+            }
+        }
 
         template <bool ToAnsi, typename Stream, typename... Args>
         struct stream_put_line_impl;
@@ -202,7 +232,7 @@ namespace asst
         {
             static constexpr Stream& apply(Stream& s, Only&& only)
             {
-                stream_put_converted_impl<false, Stream, Only>::apply(s, std::forward<Only>(only));
+                stream_put<ToAnsi>(s, std::forward<Only>(only));
                 s << std::endl;
                 return s;
             }
@@ -213,7 +243,7 @@ namespace asst
         {
             static constexpr Stream& apply(Stream& s, First f, Rest... rs)
             {
-                stream_put_converted_impl<ToAnsi, Stream, First>::apply(s, std::forward<First>(f));
+                stream_put<ToAnsi>(s, std::forward<First>(f));
                 s << " ";
                 stream_put_line_impl<ToAnsi, Stream, Rest...>::apply(s, std::forward<Rest>(rs)...);
                 return s;
