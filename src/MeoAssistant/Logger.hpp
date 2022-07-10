@@ -152,48 +152,77 @@ namespace asst
                 m_ofs = std::ofstream(m_log_filename, std::ios::out | std::ios::app);
             }
 #ifdef ASST_DEBUG
-            stream_args(m_ofs, buff, args...);
+            stream_put_line(m_ofs, buff, args...);
 #else
-            stream_args(m_ofs, buff, std::forward<Args>(args)...);
+            stream_put_line<false>(m_ofs, buff, std::forward<Args>(args)...);
 #endif
 
 #ifdef ASST_DEBUG
-            stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
+            stream_put_line<true>(std::cout, buff, std::forward<Args>(args)...);
 #endif
         }
 
-        template <bool ToGbk = false, typename T, typename... Args>
-        inline void stream_args(std::ostream& os, T&& first, Args&&... rest)
+        template <bool ToAnsi, typename Stream, typename T, typename Enable = void>
+        struct stream_put_converted_impl
         {
-            stream<ToGbk, T>()(os, std::forward<T>(first));
-            stream_args<ToGbk>(os, std::forward<Args>(rest)...);
-        }
-        template <bool>
-        inline void stream_args(std::ostream& os)
-        {
-            os << std::endl;
-        }
-
-        template <bool ToGbk, typename T, typename = void>
-        struct stream
-        {
-            inline void operator()(std::ostream& os, T&& first)
+            static constexpr Stream& apply(Stream& s, T&& value)
             {
-                os << first << " ";
+                s << std::forward<T>(value);
+                return s;
             }
         };
-        template <typename T>
-        struct stream<true, T, typename std::enable_if<std::is_constructible<std::string, T>::value>::type>
+
+        template <typename Stream, typename T>
+        struct stream_put_converted_impl<true, Stream, T, std::enable_if_t<std::is_constructible_v<std::string, T>>>
         {
-            inline void operator()(std::ostream& os, T&& first)
+            static constexpr Stream& apply(Stream& s, T&& value)
             {
 #ifdef _WIN32
-                os << utils::utf8_to_ansi(first) << " ";
-#else
-                os << first << " "; // Don't fucking use gbk in linux
+                s << utils::utf8_to_ansi(std::forward<T>(value));
 #endif
+                return s;
             }
         };
+
+        template <bool ToAnsi, typename Stream, typename... Args>
+        struct stream_put_line_impl;
+
+        template <bool ToAnsi, typename Stream>
+        struct stream_put_line_impl <ToAnsi, Stream>{
+            static constexpr Stream& apply(Stream& s) {
+                s << std::endl;
+                return s;
+            }
+        };
+
+        template <bool ToAnsi, typename Stream, typename Only>
+        struct stream_put_line_impl<ToAnsi, Stream, Only>
+        {
+            static constexpr Stream& apply(Stream& s, Only&& only)
+            {
+                stream_put_converted_impl<false, Stream, Only>::apply(s, std::forward<Only>(only));
+                s << std::endl;
+                return s;
+            }
+        };
+
+        template <bool ToAnsi, typename Stream, typename First, typename... Rest>
+        struct stream_put_line_impl<ToAnsi, Stream, First, Rest...>
+        {
+            static constexpr Stream& apply(Stream& s, First f, Rest... rs)
+            {
+                stream_put_converted_impl<ToAnsi, Stream, First>::apply(s, std::forward<First>(f));
+                s << " ";
+                stream_put_line_impl<ToAnsi, Stream, Rest...>::apply(s, std::forward<Rest>(rs)...);
+                return s;
+            }
+        };
+
+        template <bool ToAnsi = false, typename Stream, typename... Args>
+        Stream& stream_put_line(Stream& s, Args... args)
+        {
+            return stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, std::forward<Args>(args)...);
+        }
 
         inline static std::string m_dirname;
         std::mutex m_trace_mutex;
