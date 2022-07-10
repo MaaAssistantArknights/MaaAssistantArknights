@@ -208,10 +208,10 @@ namespace asst
                 return s;
             } else {
                 ASST_STATIC_ASSERT_FALSE(
-                        "\nunsupported type, one of following required \n"
+                        "\nunsupported type, one of the following expected\n"
                         "\t1. those can be converted to string;\n"
                         "\t2. those can be inserted to stream with operator<< directly;\n"
-                        "\t3. container or nested container containing one of 1. 2. or 3. and iterable with range-based for",
+                        "\t3. container or nested container containing 1. 2. or 3. and iterable with range-based for",
                         Stream, T);
             }
         }
