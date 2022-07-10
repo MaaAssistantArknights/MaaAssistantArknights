@@ -556,9 +556,9 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
 
 void asst::Controller::wait(unsigned id) const noexcept
 {
+    static const auto delay = std::chrono::milliseconds(10);
     while (id > m_completed_id) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        std::this_thread::yield();
+        std::this_thread::sleep_for(delay);
     }
 }
 
@@ -821,8 +821,10 @@ int asst::Controller::click_without_scale(const Point& p, bool block)
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
         Log.error("click point out of range");
     }
-    std::string cur_cmd = utils::string_replace_all(m_adb.click, "[x]", std::to_string(p.x));
-    cur_cmd = utils::string_replace_all(cur_cmd, "[y]", std::to_string(p.y));
+    std::string cur_cmd = utils::string_replace_all_batch(m_adb.click, {
+        { "[x]", std::to_string(p.x) },
+        { "[y]", std::to_string(p.y) }
+    });
     int id = push_cmd(cur_cmd);
     if (block) {
         wait(id);
@@ -853,44 +855,37 @@ int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool b
 
 int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
 {
-    if (p1.x < 0 || p1.x >= m_width || p1.y < 0 || p1.y >= m_height || p2.x < 0 || p2.x >= m_width || p2.y < 0 || p2.y >= m_height) {
-        Log.error("swipe point out of range");
+    int x1 = p1.x;
+    int y1 = p1.y;
+    int x2 = p2.x;
+    int y2 = p2.y;
+
+    // 起点不能在屏幕外，但是终点可以
+    if (x1 < 0 || x1 >= m_width || y1 < 0 || y1 >= m_height) {
+        Log.warn("swipe point1 is out of range", x1, y1);
+        x1 = std::clamp(x1, 0, m_width - 1);
+        y1 = std::clamp(y1, 0, m_height - 1);
     }
-    std::string cur_cmd = utils::string_replace_all(m_adb.swipe, "[x1]", std::to_string(p1.x));
-    cur_cmd = utils::string_replace_all(cur_cmd, "[y1]", std::to_string(p1.y));
-    cur_cmd = utils::string_replace_all(cur_cmd, "[x2]", std::to_string(p2.x));
-    cur_cmd = utils::string_replace_all(cur_cmd, "[y2]", std::to_string(p2.y));
-    if (duration <= 0) {
-        cur_cmd = utils::string_replace_all(cur_cmd, "[duration]", "");
-    }
-    else {
-        cur_cmd = utils::string_replace_all(cur_cmd, "[duration]", std::to_string(duration));
-    }
+
+    std::string cur_cmd = utils::string_replace_all_batch(m_adb.swipe, {
+        { "[x1]", std::to_string(x1) },
+        { "[y1]", std::to_string(y1) },
+        { "[x2]", std::to_string(x2) },
+        { "[y2]", std::to_string(y2) },
+        { "[duration]", duration <= 0 ? "" : std::to_string(duration) }
+    });
 
     int id = 0;
-
-    int extra_swipe_dist = Resrc.cfg().get_options().adb_extra_swipe_dist /* * m_control_scale*/;
-    int extra_swipe_duration = Resrc.cfg().get_options().adb_extra_swipe_duration;
-
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
-    if (extra_swipe && extra_swipe_duration >= 0) {
-        std::string extra_cmd = utils::string_replace_all(m_adb.swipe, "[x1]", std::to_string(p2.x));
-        extra_cmd = utils::string_replace_all(extra_cmd, "[y1]", std::to_string(p2.y));
-        int end_x = 0, end_y = 0;
-        if (p2.x != p1.x) {
-            double k = static_cast<double>(p2.y - p1.y) / (p2.x - p1.x);
-            double temp = extra_swipe_dist / std::sqrt(1 + k * k);
-            end_x = p2.x + static_cast<int>((p2.x > p1.x ? -1.0 : 1.0) * temp);
-            end_y = p2.y + static_cast<int>((p2.y > p1.y ? -1.0 : 1.0) * std::fabs(k) * temp);
-        }
-        else {
-            end_x = p2.x;
-            end_y = p2.y + (p2.y > p1.y ? -1 : 1) * extra_swipe_dist;
-        }
-        extra_cmd = utils::string_replace_all(extra_cmd, "[x2]", std::to_string(end_x));
-        extra_cmd = utils::string_replace_all(extra_cmd, "[y2]", std::to_string(end_y));
-        extra_cmd = utils::string_replace_all(extra_cmd, "[duration]", std::to_string(extra_swipe_duration));
-
+    const auto& opt = Resrc.cfg().get_options();
+    if (extra_swipe && opt.adb_extra_swipe_duration > 0) {
+        std::string extra_cmd = utils::string_replace_all_batch(m_adb.swipe, {
+            { "[x1]", std::to_string(x2)},
+            { "[y1]", std::to_string(y2) },
+            { "[x2]", std::to_string(x2) },
+            { "[y2]", std::to_string(y2 - opt.adb_extra_swipe_dist /* * m_control_scale*/) },
+            { "[duration]", std::to_string(opt.adb_extra_swipe_duration) },
+        });
         push_cmd(cur_cmd);
         id = push_cmd(extra_cmd);
     }
@@ -949,19 +944,15 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     std::string nc_address = "10.0.2.2";
     u_short nc_port = 0;
 
+    // 里面的值每次执行命令后可能更新，所以要用 lambda 拿最新的
     auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
-        const std::unordered_map<std::string, std::string> replacements = {
+        return utils::string_replace_all_batch(cfg_cmd, {
             { "[Adb]", adb_path },
             { "[AdbSerial]", address },
             { "[DisplayId]", display_id },
             { "[NcPort]", std::to_string(nc_port) },
             { "[NcAddress]", nc_address },
-        };
-        std::string formatted = cfg_cmd;
-        for (const auto& [key, value] : replacements) {
-            formatted = utils::string_replace_all(formatted, key, value);
-        }
-        return formatted;
+        });
     };
 
     /* connect */
