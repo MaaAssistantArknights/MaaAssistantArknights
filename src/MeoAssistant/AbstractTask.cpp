@@ -158,17 +158,6 @@ bool AbstractTask::sleep(unsigned millisecond)
     return !need_exit();
 }
 
-bool AbstractTask::save_image(const cv::Mat& image, const std::string& dir)
-{
-    std::filesystem::create_directory(dir);
-    const std::string time_str = utils::string_replace_all(utils::string_replace_all(utils::get_format_time(), " ", "_"), ":", "-");
-    const std::string filename = dir + time_str + ".png";
-
-    bool ret = cv::imwrite(filename, image);
-
-    return ret;
-}
-
 bool asst::AbstractTask::need_exit() const
 {
     return m_exit_flag != nullptr && *m_exit_flag;

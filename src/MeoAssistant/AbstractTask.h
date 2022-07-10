@@ -67,7 +67,6 @@ namespace asst
         json::value basic_info_with_what(std::string what) const;
         bool sleep(unsigned millisecond);
         bool need_exit() const;
-        static bool save_image(const cv::Mat& image, const std::string& dir);
 
         bool m_enable = true;
         bool m_ignore_error = true;
