@@ -148,7 +148,7 @@ namespace asst
             );
 #endif  // END _WIN32
 
-            if (!m_ofs.is_open()) {
+            if (!m_ofs || !m_ofs.is_open()) {
                 m_ofs = std::ofstream(m_log_filename, std::ios::out | std::ios::app);
             }
 #ifdef ASST_DEBUG
@@ -236,12 +236,12 @@ namespace asst
             : m_func_name(std::move(func_name)),
             m_start_time(std::chrono::steady_clock::now())
         {
-            Logger::get_instance().trace(m_func_name, " | enter");
+            Logger::get_instance().trace(m_func_name, "| enter");
         }
         ~LoggerAux()
         {
             auto duration = std::chrono::steady_clock::now() - m_start_time;
-            Logger::get_instance().trace(m_func_name, " | leave,",
+            Logger::get_instance().trace(m_func_name, "| leave,",
                                          std::chrono::duration_cast<std::chrono::milliseconds>(duration).count(), "ms");
         }
 
