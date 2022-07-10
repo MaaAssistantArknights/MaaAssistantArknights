@@ -137,14 +137,14 @@ namespace asst
 #else   // ! _MSC_VER
             sprintf(buff,
 #endif  // END _MSC_VER
-            "[%s][%s][Px%x][Tx%x]",
+            "[%s][%s][Px%x][Tx%lx]",
                       asst::utils::get_format_time().c_str(),
                       level.data(), _getpid(), ::GetCurrentThreadId()
             );
 #else   // ! _WIN32
-            sprintf(buff, "[%s][%s][Px%x][Tx%x]",
+            sprintf(buff, "[%s][%s][Px%x][Tx%lx]",
                       asst::utils::get_format_time().c_str(),
-                      level.data(), getpid(), unsigned (std::hash<std::thread::id>{}(std::this_thread::get_id()))
+                      level.data(), getpid(), (unsigned long)(std::hash<std::thread::id>{}(std::this_thread::get_id()))
             );
 #endif  // END _WIN32
 
