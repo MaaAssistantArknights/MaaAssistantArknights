@@ -1,5 +1,7 @@
 #pragma once
 
+#include <opencv2/core/mat.hpp>
+
 #include "AsstTypes.h"
 
 namespace asst::infrast
@@ -63,16 +65,17 @@ namespace std
 
 namespace asst::infrast
 {
-    struct BattleRealTimeOper
+    struct Oper
     {
-        ::std::string face_hash;             // 有些干员的技能是完全一样的，做个hash区分一下不同干员
-        ::std::string name_hash;             // 预留
+        ::std::string face_hash;        // 有些干员的技能是完全一样的，做个hash区分一下不同干员
         Smiley smiley;
         double mood_ratio = 0;          // 心情进度条的百分比
         Doing doing = Doing::Invalid;
         bool selected = false;          // 干员是否已被选择（蓝色的选择框）
         ::std::unordered_set<Skill> skills;
         Rect rect;
+        // 因为OCR识别名字比较费时间，所以仅在name_filter不为空（有识别名字需求）的时候才识别，否则仅保存图片但不识别
+        ::cv::Mat name_img;
     };
 
     struct SkillsComb
@@ -100,9 +103,9 @@ namespace asst::infrast
         ::std::unordered_map<std::string, double> efficient;
         ::std::unordered_map<std::string, ::std::string> efficient_regex;
 
-        ::std::string name_hash;
-        bool hash_filter = false;
-        ::std::unordered_map<std::string, ::std::string> possible_hashs; // 限定只允许某些hash匹配的某些干员。若hash不相同，即使技能匹配了也不可用。hashs若为空，则不生效
+        ::std::vector<std::string> name_filter;
+        // 因为OCR识别名字比较费时间，所以仅在name_filter不为空（有识别名字需求）的时候才识别，否则仅保存图片但不识别
+        ::cv::Mat name_img;
     };
     // 基建技能组
     struct SkillsGroup

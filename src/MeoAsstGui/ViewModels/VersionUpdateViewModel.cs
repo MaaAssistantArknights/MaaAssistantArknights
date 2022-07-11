@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Documents;
 using Markdig;
 using Neo.Markdig.Xaml;
+using MdXaml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -100,7 +101,16 @@ namespace MeoAsstGui
                 }
                 catch (Exception)
                 {
-                    return new FlowDocument();
+                    // 不知道为什么有一部分用户的电脑上，用 MarkdownXaml 解析直接就会 crash
+                    // 换另一个库再试一遍
+                    try
+                    {
+                        return new MdXaml.Markdown().Transform(UpdateInfo);
+                    }
+                    catch (Exception)
+                    {
+                        return new FlowDocument();
+                    }
                 }
             }
         }

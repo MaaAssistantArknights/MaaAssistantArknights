@@ -198,6 +198,142 @@
             60
         ]
     },
+    "DV-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DV-Open"
+        ],
+        "next": [
+            "StageDV-8",
+            "SwapToStageDV-8"
+        ]
+    },
+    "DV-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DV-Open"
+        ],
+        "next": [
+            "StageDV-6",
+            "SwapToStageDV-6"
+        ]
+    },
+    "DV-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DV-Open"
+        ],
+        "next": [
+            "StageDV-7",
+            "SwapToStageDV-7"
+        ]
+    },
+    "DV-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "绿野幻梦",
+            "活动",
+            "开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "DVChapterToDV"
+        ]
+    },
+    "DVChapterToDV": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "实验基地"
+        ],
+        "roi": [
+            1025,
+            176,
+            241,
+            180
+        ],
+        "rearDelay": 2000,
+        "next": [
+            "DVChapterToDV",
+            "SwipeToTheRight"
+        ]
+    },
+    "SwapToStageDV-8": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageDV-8",
+            "SwapToStageDV-8"
+        ]
+    },
+    "SwapToStageDV-6": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageDV-6",
+            "SwapToStageDV-6"
+        ]
+    },
+    "SwapToStageDV-7": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageDV-7",
+            "SwapToStageDV-7"
+        ]
+    },
+    "StageDV-8": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "DV-8"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
+    "StageDV-6": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "DV-6"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
+    "StageDV-7": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "DV-7"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
     "LE-5": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -838,7 +974,7 @@
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
         "ocrReplace": [
             [
-                "白面.+",
+                "白面.*",
                 "白面鸮"
             ],
             [
@@ -982,7 +1118,7 @@
                 "凛冬"
             ],
             [
-                ".+草",
+                "笔草",
                 "苇草"
             ],
             [
@@ -1008,6 +1144,10 @@
             [
                 "紫雨",
                 "絮语"
+            ],
+            [
+                "罗比拉塔",
+                "罗比菈塔"
             ]
         ]
     },
@@ -3421,20 +3561,15 @@
             80
         ]
     },
-    "InfrastOperNameHash": {
-        "algorithm": "Hash",
-        "hash": [],
-        "threshold": 65,
+    "InfrastOperNameOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             0,
             20,
             113,
             22
-        ],
-        "maskRange": [
-            100,
-            255
         ]
     },
     "InfrastOperFaceHash": {
@@ -4423,8 +4558,18 @@
             100
         ]
     },
+    "EndOfClueExchangeBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "rearDelay": 1000,
+        "next": [
+            "EndOfClueExchange",
+            "ReceptionFlag"
+        ]
+    },
     "EndOfClueExchange": {
         "cache": false,
+        "templThreshold": 0.7,
         "roi": [
             0,
             0,
@@ -4698,7 +4843,7 @@
                 "落魄骑士"
             ],
             [
-                "邪异因笼",
+                "邪异.+笼",
                 "邪异囚笼"
             ],
             [

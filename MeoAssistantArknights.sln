@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32510.428
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{6C4B8D52-51D1-45F8-AAEC-808035443FD6}"
 EndProject
@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeoAsstGui", "src\MeoAsstGu
 		{362D1E30-F5AE-4279-9985-65C27B3BA300} = {362D1E30-F5AE-4279-9985-65C27B3BA300}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransparentImageCvt", "tools\TransparentImageCvt\TransparentImageCvt.vcxproj", "{093A3174-A27E-4D23-B64E-16F9448AD5AC}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MeoAssistant", "src\MeoAssistant\MeoAssistant.vcxproj", "{362D1E30-F5AE-4279-9985-65C27B3BA300}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11F02235-5785-408B-9651-8A4B41FF36F4}"
@@ -24,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ItemMappingCvt", "tools\ItemMappingCvt\ItemMappingCvt.vcxproj", "{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourceUpdater", "tools\ResourceUpdater\ResourceUpdater.vcxproj", "{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,14 +48,6 @@ Global
 		{FFDC8F49-8EAF-45BE-B0A8-7EF0DB9875A2}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
 		{FFDC8F49-8EAF-45BE-B0A8-7EF0DB9875A2}.RelWithDebInfo|x86.ActiveCfg = RelWithDebInfo|x64
 		{FFDC8F49-8EAF-45BE-B0A8-7EF0DB9875A2}.RelWithDebInfo|x86.Build.0 = RelWithDebInfo|x64
-		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.Release|x64.ActiveCfg = Release|x64
-		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.Release|x64.Build.0 = Release|x64
-		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.Release|x86.ActiveCfg = Release|Win32
-		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.Release|x86.Build.0 = Release|Win32
-		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.RelWithDebInfo|x64.ActiveCfg = Release|x64
-		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.RelWithDebInfo|x64.Build.0 = Release|x64
-		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.RelWithDebInfo|x86.ActiveCfg = Release|Win32
-		{093A3174-A27E-4D23-B64E-16F9448AD5AC}.RelWithDebInfo|x86.Build.0 = Release|Win32
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.Release|x64.ActiveCfg = Release|x64
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.Release|x64.Build.0 = Release|x64
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.Release|x86.ActiveCfg = Release|x64
@@ -68,19 +58,16 @@ Global
 		{362D1E30-F5AE-4279-9985-65C27B3BA300}.RelWithDebInfo|x86.Build.0 = RelWithDebInfo|x64
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.Release|x64.ActiveCfg = Release|x64
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.Release|x64.Build.0 = Release|x64
-		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.Release|x86.ActiveCfg = Release|Win32
-		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.Release|x86.Build.0 = Release|Win32
+		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.Release|x86.ActiveCfg = Release|x64
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.RelWithDebInfo|x64.ActiveCfg = Release|x64
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.RelWithDebInfo|x64.Build.0 = Release|x64
-		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.RelWithDebInfo|x86.ActiveCfg = Release|Win32
-		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.RelWithDebInfo|x86.Build.0 = Release|Win32
+		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB}.RelWithDebInfo|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{63B4F1A2-291C-4C85-91E1-A1F6DAE30D64} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
-		{093A3174-A27E-4D23-B64E-16F9448AD5AC} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 		{C9EA2837-0A4B-488F-A289-643B9D0BFCEB} = {6C4B8D52-51D1-45F8-AAEC-808035443FD6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

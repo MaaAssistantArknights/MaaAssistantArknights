@@ -10,6 +10,7 @@
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "MultiMatchImageAnalyzer.h"
+#include "OcrWithPreprocessImageAnalyzer.h"
 #include "Resource.h"
 #include "RuntimeStatus.h"
 #include "ProcessTask.h"
@@ -156,14 +157,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
         size_t num = opers_detect();
         Log.trace("opers_detect return", num);
 
-        // 无论如何也不会没有干员的，除非前面的操作哪里出错了，没进到干员选择的页面。那也就没必要继续下去了
         if (num == 0) {
-            return false;
-        }
-
-        // 这里本来是判断不相等就可以退出循环。
-        // 但是有时候滑动会把一个干员挡住一半，一个页面完整的干员真的只有10个，所以加个2的差值
-        if (max_num_of_opers_per_page - num > 2) {
             break;
         }
 
@@ -194,10 +188,9 @@ size_t asst::InfrastProductionTask::opers_detect()
 
     const int face_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
         Task.get("InfrastOperFaceHash"))->dist_threshold;
-    int cur_available_num = static_cast<int>(cur_all_opers.size());
+    const size_t pre_size = m_all_available_opers.size();
     for (const auto& cur_oper : cur_all_opers) {
         if (cur_oper.skills.empty()) {
-            --cur_available_num;
             continue;
         }
         {
@@ -215,7 +208,7 @@ size_t asst::InfrastProductionTask::opers_detect()
         }
         auto find_iter = std::find_if(
             m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-            [&](const infrast::BattleRealTimeOper& oper) -> bool {
+            [&](const infrast::Oper& oper) -> bool {
                 if (oper.skills != cur_oper.skills) {
                     return false;
                 }
@@ -230,7 +223,7 @@ size_t asst::InfrastProductionTask::opers_detect()
         }
         m_all_available_opers.emplace_back(cur_oper);
     }
-    return cur_available_num;
+    return m_all_available_opers.size() - pre_size;
 }
 
 bool asst::InfrastProductionTask::optimal_calc()
@@ -243,7 +236,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     all_avaliable_combs.reserve(m_all_available_opers.size());
     for (auto&& oper : m_all_available_opers) {
         auto comb = efficient_regex_calc(oper.skills);
-        comb.name_hash = oper.name_hash;
+        comb.name_img = oper.name_img;
         all_avaliable_combs.emplace_back(std::move(comb));
     }
 
@@ -306,9 +299,6 @@ bool asst::InfrastProductionTask::optimal_calc()
         m_optimal_combs = std::move(optimal_combs);
         return true;
     }
-
-    const int name_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
-        Task.get("InfrastOperNameHash"))->dist_threshold;
 
     // 遍历所有组合，找到效率最高的
     auto& all_group = Resrc.infrast().get_skills_group(facility_name());
@@ -386,20 +376,24 @@ bool asst::InfrastProductionTask::optimal_calc()
                         return arg == opt;
                     });
                 if (find_iter != cur_available_opers.cend()) {
-                    // 要求技能匹配的同时，hash也要匹配
                     bool hash_matched = false;
-                    if (!opt.possible_hashs.empty()) {
-                        for (const auto& [key, hash] : opt.possible_hashs) {
-                            int dist = HashImageAnalyzer::hamming(find_iter->name_hash, hash);
-                            Log.debug("optimal_calc | name hash dist", dist, hash, find_iter->name_hash);
-                            if (dist < name_hash_thres) {
-                                hash_matched = true;
-                                break;
-                            }
-                        }
+                    if (opt.name_filter.empty()) {
+                        hash_matched = true;
                     }
                     else {
-                        hash_matched = true;
+                        OcrWithPreprocessImageAnalyzer name_analyzer(find_iter->name_img);
+                        name_analyzer.set_replace(
+                            std::dynamic_pointer_cast<OcrTaskInfo>(
+                                Task.get("CharsNameOcrReplace"))
+                            ->replace_map);
+                        Log.trace("Analyze name filter");
+                        if (!name_analyzer.analyze()) {
+                            continue;
+                        }
+                        std::string name = name_analyzer.get_result().front().text;
+                        hash_matched = std::find(
+                            opt.name_filter.cbegin(), opt.name_filter.cend(), name)
+                            != opt.name_filter.cend();
                     }
                     if (!hash_matched) {
                         ++find_iter;
@@ -468,8 +462,6 @@ bool asst::InfrastProductionTask::opers_choose()
     auto& facility_info = Resrc.infrast().get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
 
-    const int name_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
-        Task.get("InfrastOperNameHash"))->dist_threshold;
     const int face_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
         Task.get("InfrastOperFaceHash"))->dist_threshold;
 
@@ -507,7 +499,7 @@ bool asst::InfrastProductionTask::opers_choose()
         Log.trace("before mood filter, opers size:", cur_all_opers.size());
         // 小于心情阈值的干员则不可用
         auto remove_iter = std::remove_if(cur_all_opers.begin(), cur_all_opers.end(),
-            [&](const infrast::BattleRealTimeOper& rhs) -> bool {
+            [&](const infrast::Oper& rhs) -> bool {
                 return rhs.mood_ratio < m_mood_threshold;
             });
         cur_all_opers.erase(remove_iter, cur_all_opers.end());
@@ -516,24 +508,27 @@ bool asst::InfrastProductionTask::opers_choose()
             Log.trace("to find", opt_iter->skills.begin()->names.front());
             auto find_iter = std::find_if(
                 cur_all_opers.cbegin(), cur_all_opers.cend(),
-                [&](const infrast::BattleRealTimeOper& lhs) -> bool {
+                [&](const infrast::Oper& lhs) -> bool {
                     if (lhs.skills != opt_iter->skills) {
                         return false;
                     }
-                    if (!opt_iter->hash_filter) {
+                    if (opt_iter->name_filter.empty()) {
                         return true;
                     }
                     else {
-                        Log.trace("to comp hash");
-                        // 既要技能相同，也要hash相同，双重校验
-                        for (const auto& [_, hash] : opt_iter->possible_hashs) {
-                            int dist = HashImageAnalyzer::hamming(lhs.name_hash, hash);
-                            Log.debug("opers_choose | name hash dist", dist);
-                            if (dist < name_hash_thres) {
-                                return true;
-                            }
+                        OcrWithPreprocessImageAnalyzer name_analyzer(lhs.name_img);
+                        name_analyzer.set_replace(
+                            std::dynamic_pointer_cast<OcrTaskInfo>(
+                                Task.get("CharsNameOcrReplace"))
+                            ->replace_map);
+                        Log.trace("Analyze name filter");
+                        if (!name_analyzer.analyze()) {
+                            return false;
                         }
-                        return false;
+                        std::string name = name_analyzer.get_result().front().text;
+                        return std::find(
+                            opt_iter->name_filter.cbegin(), opt_iter->name_filter.cend(), name)
+                            != opt_iter->name_filter.cend();
                     }
                 });
 
@@ -558,7 +553,7 @@ bool asst::InfrastProductionTask::opers_choose()
             {
                 auto avlb_iter = std::find_if(
                     m_all_available_opers.cbegin(), m_all_available_opers.cend(),
-                    [&](const infrast::BattleRealTimeOper& lhs) -> bool {
+                    [&](const infrast::Oper& lhs) -> bool {
                         int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
                         Log.debug("opers_choose | face hash dist", dist);
                         return dist < face_hash_thres;
