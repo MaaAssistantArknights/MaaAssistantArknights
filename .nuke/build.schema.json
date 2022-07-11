@@ -66,7 +66,6 @@
               "Default",
               "DevBuild",
               "ReleaseMaa",
-              "ReleaseMaaResource",
               "SetMaaChangeLog",
               "SetPackageBundled",
               "SetVersion",
@@ -75,13 +74,10 @@
               "UseMaaChangeLog",
               "UseMaaDevBundle",
               "UseMaaRelease",
-              "UseMaaResource",
-              "UseMaaResourceChangeLog",
               "UsePublishArtifact",
               "UsePublishRelease",
               "UseTagVersion",
               "WithCompileCoreRelease",
-              "WithCompileResourceRelease",
               "WithCompileWpfRelease"
             ]
           }
@@ -95,7 +91,6 @@
               "Default",
               "DevBuild",
               "ReleaseMaa",
-              "ReleaseMaaResource",
               "SetMaaChangeLog",
               "SetPackageBundled",
               "SetVersion",
@@ -104,13 +99,10 @@
               "UseMaaChangeLog",
               "UseMaaDevBundle",
               "UseMaaRelease",
-              "UseMaaResource",
-              "UseMaaResourceChangeLog",
               "UsePublishArtifact",
               "UsePublishRelease",
               "UseTagVersion",
               "WithCompileCoreRelease",
-              "WithCompileResourceRelease",
               "WithCompileWpfRelease"
             ]
           }

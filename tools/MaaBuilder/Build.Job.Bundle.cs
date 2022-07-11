@@ -29,45 +29,14 @@ public partial class Build
 
             foreach (var package in Parameters.Packages)
             {
-                var type = package.PackageType;
                 var name = package.NameTemplate.Replace("{VERSION}", Version);
-
-                switch (type)
-                {
-                    case PackageTypes.MaaBundle:
-                        BundleMaaBundle(releaseBuildOutput, name);
-                        break;
-                    case PackageTypes.MaaBundleOta:
-                        BundleMaaBundleOta(releaseBuildOutput, name, package);
-                        break;
-                    case PackageTypes.MaaCore:
-                        BundleMaaCore(releaseBuildOutput, name, package);
-                        break;
-                    case PackageTypes.MaaDependency:
-                        BundleMaaDependency(releaseBuildOutput, name, package);
-                        break;
-                    case PackageTypes.MaaDependencyNoAvx:
-                        BundleMaaDependencyNoAvx(releaseBuildOutput, name, package);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                    
+                BundleMaaBundle(releaseBuildOutput, name, package);
             }
         });
 
-    Target UseMaaResource => _ => _
-        .DependsOn(WithCompileResourceRelease)
-        .Triggers(SetPackageBundled)
-        .Executes(() =>
-        {
-            var buildOutput = Parameters.BuildOutput / BuildConfiguration.Release;
-            RemoveDebugSymbols(buildOutput);
-
-            BundlePackage(buildOutput, MaaResourcePackageName);
-        });
-
     Target SetPackageBundled => _ => _
-        .After(UseMaaDevBundle, UseMaaResource)
+        .After(UseMaaDevBundle)
         .Executes(() =>
         {
             Information("已完成打包");

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Text.Json;
+using System.Linq;
 using MaaBuilder.Models;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Nuke.Common;
@@ -29,30 +29,23 @@ public partial class Build
         ZipFile.CreateFromDirectory(input, bundle, CompressionLevel.SmallestSize, false);
     }
     
-    static void RemoveIgnoredFiles(AbsolutePath baseDirectory, IEnumerable<string> ignorePattern)
+    static void MoveGlobFiles(AbsolutePath source, AbsolutePath target, IEnumerable<string> include, IEnumerable<string> exclude)
     {
-        var match = new Matcher();
+        var iMatch = new Matcher();
+        var eMatch = new Matcher();
         
-        // 这里反过来可以获取到需要排除的文件列表，而不是需要保留的文件列表
-        match.AddIncludePatterns(ignorePattern);
+        iMatch.AddIncludePatterns(include);
+        eMatch.AddIncludePatterns(exclude);
+
+        var includeFiles = iMatch.GetResultsInFullPath(source).ToList();
+        var excludeFiles = eMatch.GetResultsInFullPath(source).ToList();
+
+        includeFiles.RemoveAll(x => excludeFiles.Contains(x));
         
-        var ignoredFiles = match.GetResultsInFullPath(baseDirectory);
-        foreach (var f in ignoredFiles)
-        {
-            FileSystemTasks.DeleteFile(f);
-        }
-    }
-
-    static void CopyIncludeFiles(AbsolutePath originalDirectory, AbsolutePath targetDirectory, IEnumerable<string> includePattern)
-    {
-        var match = new Matcher();
-        match.AddIncludePatterns(includePattern);
-        var includeFiles = match.GetResultsInFullPath(originalDirectory);
-
         foreach (var file in includeFiles)
         {
-            var relative = file.Replace(originalDirectory, string.Empty);
-            var targetPath = targetDirectory / relative;
+            var relative = file.Replace(source, string.Empty);
+            var targetPath = target / relative;
             
             FileSystemTasks.CopyFile(file, targetPath, FileExistsPolicy.Overwrite);
         }
@@ -68,63 +61,23 @@ public partial class Build
         }
     }
 
-    static T GetPackageBundlerConfiguration<T>(Package package) where T : class, IPackageConfiguration
+    void BundleMaaBundle(AbsolutePath buildOutput, string bundleName, Package package)
     {
-        var configString = package.Configuration["configuration"].ToString().NotNull();
-        var config = JsonSerializer.Deserialize<T>(configString).NotNull();
-        return config;
-    }
-
-    void BundleMaaBundle(AbsolutePath buildOutput, string bundleName)
-    {
-        BundlePackage(buildOutput, bundleName);
-    }
-
-    void BundleMaaBundleOta(AbsolutePath buildOutput, string bundleName, Package package)
-    {
-        var context = Parameters.BuildOutput / package.PackageType.ToString();
-        FileSystemTasks.CopyDirectoryRecursively(buildOutput, context, DirectoryExistsPolicy.Merge);
-
-        var config = GetPackageBundlerConfiguration<PackageMaaBundleOta>(package);
-
-        RemoveIgnoredFiles(context, config.Exclude);
-        BundlePackage(context, bundleName);
-    }
-
-    void BundleMaaCore(AbsolutePath buildOutput, string bundleName, Package package)
-    {
-        var context = Parameters.BuildOutput / package.PackageType.ToString();
-        FileSystemTasks.EnsureExistingDirectory(context);
+        var tempDir = buildOutput.Parent / package.PackageType.ToString();
+        FileSystemTasks.EnsureExistingDirectory(tempDir);
         
-        var config = GetPackageBundlerConfiguration<PackageMaaCore>(package);
+        var include = package.Configuration.Include;
+        var exclude = package.Configuration.Exclude;
+        var noAvxBundle = package.Configuration.NoAvxBundle;
         
-        CopyIncludeFiles(buildOutput, context, config.Include);
-        BundlePackage(context, bundleName);
-    }
+        MoveGlobFiles(buildOutput, tempDir, include, exclude);
 
-    void BundleMaaDependency(AbsolutePath buildOutput, string bundleName, Package package)
-    {
-        var context = Parameters.BuildOutput / package.PackageType.ToString();
-        FileSystemTasks.EnsureExistingDirectory(context);
+        if (string.IsNullOrEmpty(noAvxBundle) is false)
+        {
+            var file = RootDirectory / noAvxBundle;
+            ZipFile.ExtractToDirectory(file, tempDir, true);
+        }
         
-        var config = GetPackageBundlerConfiguration<PackageMaaDependency>(package);
-        
-        CopyIncludeFiles(buildOutput, context, config.Include);
-        BundlePackage(context, bundleName);
-    }
-    
-    void BundleMaaDependencyNoAvx(AbsolutePath buildOutput, string bundleName, Package package)
-    {
-        var context = Parameters.BuildOutput / package.PackageType.ToString();
-        FileSystemTasks.EnsureExistingDirectory(context);
-        
-        var config = GetPackageBundlerConfiguration<PackageMaaDependencyNoAvx>(package);
-        
-        CopyIncludeFiles(buildOutput, context, config.Include);
-
-        var noAvxBundle = RootDirectory / config.NoAvxBundle;
-        ZipFile.ExtractToDirectory(noAvxBundle, context, overwriteFiles: true);
-        
-        BundlePackage(context, bundleName);
+        BundlePackage(tempDir, bundleName);
     }
 }
