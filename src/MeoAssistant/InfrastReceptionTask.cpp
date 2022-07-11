@@ -38,7 +38,7 @@ bool asst::InfrastReceptionTask::_run()
 
 bool asst::InfrastReceptionTask::close_end_of_clue_exchange()
 {
-    ProcessTask task_temp(*this, { "ReceptionFlag", "EndOfClueExchange" });
+    ProcessTask task_temp(*this, { "EndOfClueExchangeBegin" });
     return task_temp.run();
 }
 

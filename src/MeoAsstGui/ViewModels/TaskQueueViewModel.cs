@@ -169,6 +169,11 @@ namespace MeoAsstGui
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
 
+                // SideStory「绿野幻梦」活动
+                new CombData { Display = "DV-6", Value = "DV-6" },
+                new CombData { Display = "DV-7", Value = "DV-7" },
+                new CombData { Display = "DV-8", Value = "DV-8" },
+
                 new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = "龙门币-6/5", Value = "CE-6" },
                 new CombData { Display = "红票-5", Value = "AP-5" },
@@ -347,13 +352,136 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _inverseMode = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString));
+
+        public bool InverseMode
+        {
+            get
+            {
+                return _inverseMode;
+            }
+            set
+            {
+                SetAndNotify(ref _inverseMode, value);
+                InverseShowText = value ? "反选" : "清空";
+                InverseMenuText = value ? "清空" : "反选";
+                ViewStatusStorage.Set("MainFunction.InverseMode", value.ToString());
+            }
+        }
+
+        private int _selectedAllWidth =
+            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 90;
+
+        public int SelectedAllWidth
+        {
+            get
+            {
+                return _selectedAllWidth;
+            }
+            set
+            {
+                SetAndNotify(ref _selectedAllWidth, value);
+            }
+        }
+
+        public const int SelectedAllWidthWhenBoth = 85;
+
+        private int _inverseSelectedWidth = 95;
+
+
+        public int InverseSelectedWidth
+        {
+            get
+            {
+                return _inverseSelectedWidth;
+            }
+            set
+            {
+                SetAndNotify(ref _inverseSelectedWidth, value);
+            }
+        }
+
+        private Visibility _inverseShowVisibility =
+            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility InverseShowVisibility
+        {
+            get
+            {
+                return _inverseShowVisibility;
+            }
+            set
+            {
+                SetAndNotify(ref _inverseShowVisibility, value);
+            }
+        }
+
+        private Visibility _notInverseShowVisibility =
+            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? Visibility.Collapsed : Visibility.Visible;
+
+        public Visibility NotInverseShowVisibility
+        {
+            get
+            {
+                return _notInverseShowVisibility;
+            }
+            set
+            {
+                SetAndNotify(ref _notInverseShowVisibility, value);
+            }
+        }
+
+        private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? "反选" : "清空";
+
+        public string InverseShowText
+        {
+            get
+            {
+                return _inverseShowText;
+            }
+            set
+            {
+                SetAndNotify(ref _inverseShowText, value);
+            }
+        }
+
+        private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? "清空" : "反选";
+        public string InverseMenuText
+        {
+            get
+            {
+                return _inverseMenuText;
+            }
+            set
+            {
+                SetAndNotify(ref _inverseMenuText, value);
+            }
+        }
+
+        public void ChangeInverseMode()
+        {
+            InverseMode = !InverseMode;
+        }
+
         public void InverseSelected()
         {
-            foreach (var item in TaskItemViewModels)
+            if (_inverseMode)
             {
-                if (item.Name == "无限刷肉鸽")
-                    continue;
-                item.IsChecked = false;
+                foreach (var item in TaskItemViewModels)
+                {
+                    if (item.Name == "无限刷肉鸽")
+                        continue;
+                    item.IsChecked = !item.IsChecked;
+                }
+            }
+            else
+            {
+                foreach (var item in TaskItemViewModels)
+                {
+                    if (item.Name == "无限刷肉鸽")
+                        continue;
+                    item.IsChecked = false;
+                }
             }
         }
 
@@ -940,6 +1068,10 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _useMedicine, value);
+                if (!value)
+                {
+                    UseStone = false;
+                }
                 ViewStatusStorage.Set("MainFunction.UseMedicine", value.ToString());
             }
         }
@@ -1057,6 +1189,10 @@ namespace MeoAsstGui
             get { return _dropsItemId; }
             set
             {
+                if (value == null)
+                {
+                    return;
+                }
                 SetAndNotify(ref _dropsItemId, value);
             }
         }

@@ -15,6 +15,7 @@ using System.Drawing;
 using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
@@ -39,10 +40,32 @@ namespace MeoAsstGui
             }
         }
 
+        private static bool _systemToastChecked = false;
+        private static bool _systemToastCheckInited = false;
+
         public bool CheckToastSystem()
         {
-            var os = RuntimeInformation.OSDescription.ToString();
-            return os.ToString().CompareTo("Microsoft Windows 10.0.10240") >= 0;
+            if (!_systemToastCheckInited)
+            {
+                _systemToastCheckInited = true;
+
+                // like "Microsoft Windows 10.0.10240 "
+                var osDesc = RuntimeInformation.OSDescription;
+                Regex versionRegex = new Regex(@"\d+\.\d+\.\d+");
+                var matched = versionRegex.Match(osDesc);
+                if (!matched.Success)
+                {
+                    _systemToastChecked = false;
+                    return _systemToastChecked;
+                }
+                var osVersion = matched.Groups[0].Value;
+                Semver.SemVersion curVersionObj;
+                bool verParsed = Semver.SemVersion.TryParse(osVersion, Semver.SemVersionStyles.Strict, out curVersionObj);
+
+                var minimumVersionObj = new Semver.SemVersion(10, 0, 10240);
+                _systemToastChecked = verParsed && curVersionObj.CompareSortOrderTo(minimumVersionObj) >= 0;
+            }
+            return _systemToastChecked;
         }
 
         private NotificationManager _notificationManager = new NotificationManager();

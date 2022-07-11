@@ -14,11 +14,11 @@
 
 ### PaddleOCR
 
-1. 使用我魔改了接口的版本：https://github.com/MistEO/PaddleOCR
-2. 参考 [这个教程](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.3/deploy/cpp_infer#readme)
-3. 额外依赖的 `PaddlePaddle` 直接 [下载](https://paddleinference.paddlepaddle.org.cn/master/user_guides/download_lib.html) 即可。其中 `avx` 和 `mkl` 两者都可以提高计算效率，建议选择。但如果 CPU 不支持，则只能选择 `noavx` 和 `openblas` 的兼容性版本（一般稍微新一点的 CPU 都支持两者了，AMD 的也没关系）。 `cuda` 和 `cudnn` 是 GPU 加速库，在 `PaddleOCR` 上可能比较麻烦，我没折腾过，有兴趣可以尝试下
-4. 若 `cmake` 找不到 `Opencv` ，可尝试修改 [Opencv 的查找路径](https://github.com/MistEO/PaddleOCR/blob/release/2.3/deploy/cpp_infer/CMakeLists.txt#L49)
-5. 若您使用 `MKL` 版本，可修改 [MKL 宏定义](https://github.com/MistEO/PaddleOCR/blob/release/2.3/deploy/cpp_infer/include/ocr_defines.h#L9) 为 `true` 以提高性能
+1. 使用我魔改了接口的版本：<https://github.com/MaaAssistantArknights/PaddleOCR>
+2. 参考 [这个教程](https://github.com/MaaAssistantArknights/PaddleOCR/blob/release/2.5/deploy/cpp_infer/readme_ch.md)
+3. 额外依赖的 `paddle_inference` 直接 [下载](https://paddleinference.paddlepaddle.org.cn/master/user_guides/download_lib.html) 即可。其中 `avx` 和 `mkl` 两者都可以提高计算效率，建议选择。但如果 CPU 不支持，则只能选择 `noavx` 和 `openblas` 的兼容性版本（一般稍微新一点的 CPU 都支持两者了，AMD 的也没关系）。 `cuda` 和 `cudnn` 是 GPU 加速库，在 `PaddleOCR` 上可能比较麻烦，我没折腾过，有兴趣可以尝试下
+4. 若 `cmake` 找不到 `Opencv` ，可尝试修改 [Opencv 的查找路径](https://github.com/MaaAssistantArknights/PaddleOCR/blob/release/2.5/deploy/cpp_infer/CMakeLists.txt#L49)
+5. 若您使用**非** `MKL` 版本，需要关闭 [MKL 宏定义](https://github.com/MaaAssistantArknights/PaddleOCR/blob/release/2.5/deploy/cpp_infer/src/args.cpp#L24) （改为 `false`）
 
 编译选项参考
 
@@ -42,15 +42,15 @@ sudo ldconfig
 
 1. 直接拷贝上面编译的第三方库到 `3rdparty/lib` 或者 手动修改 `CMakeLists.txt` 指定第三方库路径
 2. `3rdparty/include/opencv` 中的头文件是 `4.5.3` 版本的，若是使用其他版本，请注意头文件冲突问题（直接将你的 `opencv` 头文件覆盖过去就好）
-3. 安装 `adb`, 并修改 `resource/config.json` 中 `Custom`.`adb`.`path` 的值为 `"adb"`
+3. 安装 `adb`
 4. 复制资源文件到 `libMeoAssitant.so` 同一目录下  
 
-```sh
-cd tools
-sh ./update_resource.sh <YourBuildDir>
-```
+    ```sh
+    cd tools
+    sh ./update_resource.sh <YourBuildDir>
+    ```
 
-5. 通过 [Python 接口](../src/Python/interface.py) 或 [C 接口](../include/AsstCaller.h) 进行调用，需要自行编写少量的代码
+5. 通过 [Python 接口](../src/Python/asst.py) 或 [C 接口](../include/AsstCaller.h) 进行调用，需要自行编写少量的代码
 6. `cmake` 可通过添加 `-DBUILD_TEST=ON` 选项来编译一个测试小 demo
 
 ## 集成文档

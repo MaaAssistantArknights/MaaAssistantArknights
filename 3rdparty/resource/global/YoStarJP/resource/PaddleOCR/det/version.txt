@@ -1,0 +1,1 @@
+Multilingual_PP-OCRv3_det_infer

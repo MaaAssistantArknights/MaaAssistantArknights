@@ -143,30 +143,19 @@ bool AbstractTask::sleep(unsigned millisecond)
         return true;
     }
     auto start = std::chrono::steady_clock::now();
-    long long duration = 0;
-
     Log.trace("ready to sleep", millisecond);
+    auto millisecond_ms = std::chrono::milliseconds(millisecond);
+    auto interval = millisecond_ms / 5;
 
-    while (!need_exit() && duration < millisecond) {
-        duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - start).count();
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        std::this_thread::yield();
+    while (!need_exit()) {
+        std::this_thread::sleep_for(interval);
+        if (std::chrono::steady_clock::now() - start > millisecond_ms) {
+            break;
+        }
     }
     Log.trace("end of sleep", millisecond);
 
     return !need_exit();
-}
-
-bool AbstractTask::save_image(const cv::Mat& image, const std::string& dir)
-{
-    std::filesystem::create_directory(dir);
-    const std::string time_str = utils::string_replace_all(utils::string_replace_all(utils::get_format_time(), " ", "_"), ":", "-");
-    const std::string filename = dir + time_str + ".png";
-
-    bool ret = cv::imwrite(filename, image);
-
-    return ret;
 }
 
 bool asst::AbstractTask::need_exit() const
