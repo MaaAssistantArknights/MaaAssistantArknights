@@ -307,4 +307,11 @@ namespace asst::utils
     //	}
     //	return str;
     //}
+
+    template <typename T, T Val, typename... Unused>
+    struct integral_constant_at_template_instantiation : std::integral_constant<T, Val> {};
 }
+
+//  delete instantiation of template with message, when static_assert(false, Message) does not work
+#define ASST_STATIC_ASSERT_FALSE(Message, ...) \
+static_assert(::asst::utils::integral_constant_at_template_instantiation<bool, false, __VA_ARGS__>::value, Message)
