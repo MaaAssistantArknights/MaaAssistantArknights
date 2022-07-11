@@ -20,7 +20,7 @@ public partial class Build
         }
         var bundle = Parameters.ArtifactOutput / packName;
 
-        Information($"编译输出：{input}");
+        Information($"输出目录：{input}");
         Information($"打包输出：{bundle}");
 
         Assert.True(Directory.Exists(input), $"输出目录 {input} 不存在");
@@ -63,7 +63,7 @@ public partial class Build
 
     void BundleMaaBundle(AbsolutePath buildOutput, string bundleName, Package package)
     {
-        var tempDir = buildOutput.Parent / package.PackageType.ToString();
+        var tempDir = buildOutput.Parent / package.PackageType;
         FileSystemTasks.EnsureExistingDirectory(tempDir);
         
         var include = package.Configuration.Include;

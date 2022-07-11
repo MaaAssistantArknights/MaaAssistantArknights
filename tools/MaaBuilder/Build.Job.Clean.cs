@@ -13,7 +13,7 @@ public partial class Build
 
             foreach (var package in Parameters.Packages)
             {
-                FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / package.PackageType.ToString());
+                FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / package.PackageType);
             }
         });
 }

@@ -8,8 +8,7 @@ public record Package
     public string NameTemplate { get; init; }
 
     [JsonPropertyName("type")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public PackageTypes PackageType { get; init; }
+    public string PackageType { get; init; }
 
     [JsonPropertyName("configuration")]
     public PackageConfiguration Configuration { get; init; }
