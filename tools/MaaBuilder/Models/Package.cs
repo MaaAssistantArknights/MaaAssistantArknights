@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace MaaBuilder.Models;
@@ -12,6 +11,6 @@ public record Package
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public PackageTypes PackageType { get; init; }
 
-    [JsonExtensionData]
-    public Dictionary<string, object> Configuration { get; init; }
+    [JsonPropertyName("configuration")]
+    public PackageConfiguration Configuration { get; init; }
 }

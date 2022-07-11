@@ -1,5 +1,4 @@
 ﻿using Nuke.Common;
-using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.MSBuild;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
@@ -39,22 +38,5 @@ public partial class Build
                 .SetTargetPlatform(MSBuildTargetPlatform.x64)
                 .EnableRestore()
             );
-        });
-
-    Target WithCompileResourceRelease => _ => _
-        .DependsOn(UseClean)
-        .After(SetVersion)
-        .Executes(() =>
-        {
-            var output = Parameters.BuildOutput / BuildConfiguration.Release;
-            var resourceFile = RootDirectory / "resource";
-            var resourceFileThirdParty = RootDirectory / "3rdparty" / "resource";
-
-            Information($"复制目录：{resourceFile} -> {output}");
-            FileSystemTasks.CopyDirectoryRecursively(resourceFile, output,
-                DirectoryExistsPolicy.Merge, FileExistsPolicy.OverwriteIfNewer);
-            Information($"复制目录：{resourceFileThirdParty} -> {output}");
-            FileSystemTasks.CopyDirectoryRecursively(resourceFileThirdParty, output,
-                DirectoryExistsPolicy.Merge, FileExistsPolicy.OverwriteIfNewer);
         });
 }

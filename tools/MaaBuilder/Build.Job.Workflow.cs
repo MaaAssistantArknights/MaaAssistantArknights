@@ -22,14 +22,4 @@ public partial class Build
         .DependsOn(UseMaaChangeLog)
         .DependsOn(UsePublishArtifact)
         .DependsOn(UsePublishRelease);
-
-    /// <summary>
-    /// 见 <see cref="ActionConfiguration.ReleaseMaaResource"/>
-    /// </summary>
-    Target ReleaseMaaResource => _ => _
-        .DependsOn(UseCommitVersion)
-        .DependsOn(UseMaaResource)
-        .DependsOn(UseMaaResourceChangeLog)
-        .DependsOn(UsePublishArtifact)
-        .DependsOn(UsePublishRelease);    
 }

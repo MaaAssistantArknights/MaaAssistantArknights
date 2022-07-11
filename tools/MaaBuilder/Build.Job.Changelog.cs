@@ -31,23 +31,6 @@ public partial class Build
             }
         });
 
-    Target UseMaaResourceChangeLog => _ => _
-        .Triggers(SetMaaChangeLog)
-        .Executes(() =>
-        {
-            if (File.Exists(Parameters.MaaResourceChangeLogFile))
-            {
-                Information($"找到 {Parameters.MaaResourceChangeLogFile} 文件，读取内容作为更新日志");
-                var text = File.ReadAllText(Parameters.MaaResourceChangeLogFile);
-                ChangeLog = text;
-            }
-            else
-            {
-                Warning($"未发现 {Parameters.MaaResourceChangeLogFile} 文件，将使用默认值");
-            }
-            ChangeLog += $"\n\n对应 Commit：[{Parameters.MainRepo}@{Parameters.CommitHash}](https://github.com/{Parameters.MainRepo}/commit/{Parameters.CommitHashFull})";
-        });
-
     Target SetMaaChangeLog => _ => _
         .Executes(() =>
         {

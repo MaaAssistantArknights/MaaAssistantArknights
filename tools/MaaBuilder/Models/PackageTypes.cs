@@ -6,5 +6,6 @@ public enum PackageTypes
     MaaBundleOta,
     MaaCore,
     MaaDependency,
-    MaaDependencyNoAvx
+    MaaDependencyNoAvx,
+    MaaResource
 }
