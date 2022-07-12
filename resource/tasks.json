@@ -4866,6 +4866,7 @@
             404,
             149
         ],
+        "rearDelay": 1000,
         "next": [
             "BattleQuickFormationClear"
         ]
