@@ -115,7 +115,7 @@ namespace asst
             trace("-----------------------------");
             trace("MeoAssistant Process Start");
             trace("Version", asst::Version);
-            trace("Build DataTime", __DATE__, __TIME__);
+            trace("Built at", __DATE__, __TIME__);
 #ifdef _WIN32 // 输出到日志的时候统一编码utf8
             trace("Working Path", asst::utils::ansi_to_utf8(m_dirname));
 #else
@@ -137,63 +137,124 @@ namespace asst
 #else   // ! _MSC_VER
             sprintf(buff,
 #endif  // END _MSC_VER
-            "[%s][%s][Px%x][Tx%x]",
+            "[%s][%s][Px%x][Tx%lx]",
                       asst::utils::get_format_time().c_str(),
                       level.data(), _getpid(), ::GetCurrentThreadId()
             );
 #else   // ! _WIN32
-            sprintf(buff, "[%s][%s][Px%x][Tx%x]",
+            sprintf(buff, "[%s][%s][Px%x][Tx%lx]",
                       asst::utils::get_format_time().c_str(),
-                      level.data(), getpid(), unsigned (std::hash<std::thread::id>{}(std::this_thread::get_id()))
+                      level.data(), getpid(), (unsigned long)(std::hash<std::thread::id>{}(std::this_thread::get_id()))
             );
 #endif  // END _WIN32
 
-            if (!m_ofs.is_open()) {
+            if (!m_ofs || !m_ofs.is_open()) {
                 m_ofs = std::ofstream(m_log_filename, std::ios::out | std::ios::app);
             }
 #ifdef ASST_DEBUG
-            stream_args(m_ofs, buff, args...);
+            stream_put_line(m_ofs, buff, args...);
 #else
-            stream_args(m_ofs, buff, std::forward<Args>(args)...);
+            stream_put_line<false>(m_ofs, buff, std::forward<Args>(args)...);
 #endif
 
 #ifdef ASST_DEBUG
-            stream_args<true>(std::cout, buff, std::forward<Args>(args)...);
+            stream_put_line<true>(std::cout, buff, std::forward<Args>(args)...);
 #endif
         }
 
-        template <bool ToGbk = false, typename T, typename... Args>
-        inline void stream_args(std::ostream& os, T&& first, Args&&... rest)
-        {
-            stream<ToGbk, T>()(os, std::forward<T>(first));
-            stream_args<ToGbk>(os, std::forward<Args>(rest)...);
-        }
-        template <bool>
-        inline void stream_args(std::ostream& os)
-        {
-            os << std::endl;
-        }
+        template <typename Stream, typename T, typename Enable = void>
+        struct has_stream_insertion_operator : std::false_type {};
 
-        template <bool ToGbk, typename T, typename = void>
-        struct stream
+        template <typename Stream, typename T>
+        struct has_stream_insertion_operator<
+                Stream, T,
+                std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
+                : std::true_type
         {
-            inline void operator()(std::ostream& os, T&& first)
-            {
-                os << first << " ";
-            }
         };
+
+        template <typename T, typename Enable = void>
+        struct is_range_expression : std::false_type {};
+
         template <typename T>
-        struct stream<true, T, typename std::enable_if<std::is_constructible<std::string, T>::value>::type>
+        struct is_range_expression<T, std::enable_if_t<
+                std::is_convertible_v<
+                        typename std::iterator_traits<decltype(begin(std::declval<T>()))>::iterator_category,
+                        std::forward_iterator_tag
+                >
+        >> : std::true_type
         {
-            inline void operator()(std::ostream& os, T&& first)
-            {
-#ifdef _WIN32
-                os << utils::utf8_to_ansi(first) << " ";
-#else
-                os << first << " "; // Don't fucking use gbk in linux
-#endif
+        };
+
+        template <bool ToAnsi, typename Stream, typename T>
+        static Stream& stream_put(Stream& s, T&& v)
+        {
+            if constexpr(std::is_constructible_v<std::string, T>) {
+                if constexpr (ToAnsi) s << utils::utf8_to_ansi(std::forward<T>(v));
+                else s << std::string(std::forward<T>(v));
+                return s;
+            } else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
+                s << std::forward<T>(v);
+                return s;
+            } else if constexpr (is_range_expression<T>::value) {
+                s << "[";
+                std::string_view comma{};
+                for (const auto& elem : std::forward<T>(v)) {
+                    s << comma;
+                    stream_put<ToAnsi>(s, elem);
+                    comma = ",";
+                }
+                s << "]";
+                return s;
+            } else {
+                ASST_STATIC_ASSERT_FALSE(
+                        "\nunsupported type, one of the following expected\n"
+                        "\t1. those can be converted to string;\n"
+                        "\t2. those can be inserted to stream with operator<< directly;\n"
+                        "\t3. container or nested container containing 1. 2. or 3. and iterable with range-based for",
+                        Stream, T);
+            }
+        }
+
+        template <bool ToAnsi, typename Stream, typename... Args>
+        struct stream_put_line_impl;
+
+        template <bool ToAnsi, typename Stream>
+        struct stream_put_line_impl <ToAnsi, Stream>{
+            static constexpr Stream& apply(Stream& s) {
+                s << std::endl;
+                return s;
             }
         };
+
+        template <bool ToAnsi, typename Stream, typename Only>
+        struct stream_put_line_impl<ToAnsi, Stream, Only>
+        {
+            static constexpr Stream& apply(Stream& s, Only&& only)
+            {
+                stream_put<ToAnsi>(s, std::forward<Only>(only));
+                s << std::endl;
+                return s;
+            }
+        };
+
+        template <bool ToAnsi, typename Stream, typename First, typename... Rest>
+        struct stream_put_line_impl<ToAnsi, Stream, First, Rest...>
+        {
+            static constexpr Stream& apply(Stream& s, First f, Rest... rs)
+            {
+                stream_put<ToAnsi>(s, std::forward<First>(f));
+                s << " ";
+                stream_put_line_impl<ToAnsi, Stream, Rest...>::apply(s, std::forward<Rest>(rs)...);
+                return s;
+            }
+        };
+
+        template <bool ToAnsi = false, typename Stream, typename... Args>
+        Stream& stream_put_line(Stream& s, Args... args)
+        {
+            return stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, std::forward<Args>(args)...);
+        }
 
         inline static std::string m_dirname;
         std::mutex m_trace_mutex;
@@ -207,12 +268,12 @@ namespace asst
             : m_func_name(std::move(func_name)),
             m_start_time(std::chrono::steady_clock::now())
         {
-            Logger::get_instance().trace(m_func_name, " | enter");
+            Logger::get_instance().trace(m_func_name, "| enter");
         }
         ~LoggerAux()
         {
             auto duration = std::chrono::steady_clock::now() - m_start_time;
-            Logger::get_instance().trace(m_func_name, " | leave,",
+            Logger::get_instance().trace(m_func_name, "| leave,",
                                          std::chrono::duration_cast<std::chrono::milliseconds>(duration).count(), "ms");
         }
 
