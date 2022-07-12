@@ -1,11 +1,6 @@
-- 新增支持日服、韩服、繁中服的刷理智功能，请参考 [外服支持](https://github.com/MaaAssistantArknights/MaaAssistantArknights#%E5%A4%96%E6%9C%8D%E6%94%AF%E6%8C%81)
-- 新增支持基建 `多萝西` 组换班
-- 更新飞桨 OCR 引擎及模型，识别速度更快，准确率更高  
-  _NoAVX 用户需要重新下载新版本的 [ppocr_noavx.zip](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/3rdparty/ppocr_noavx.zip) 进行替换_
-- 再次修复基建 `龙舌兰` 不能正确使用的问题
-- 修复基建 `水月组` 识别不准确的问题
-- 临时降低基建 `承曦格雷伊` 权重，避免异格冲突
-- 修复公招计算取消设置时间不生效的问题
-- 修复 `绿野幻梦` 关卡导航偶现卡住的问题
-- 修复刷理智选择材料时的崩溃问题
-- 修复一些其他的小问题
+- 更新 `绿野幻梦` EX 关卡地图数据
+- 修复部分设备上分辨率获取错误的问题
+- 修复了一个偶现的掉落识别错误
+- 修复部分系统不弹通知的问题
+- 优化滑动方式
+- 优化部分界面元素
