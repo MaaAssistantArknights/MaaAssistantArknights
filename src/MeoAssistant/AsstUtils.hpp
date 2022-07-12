@@ -17,7 +17,48 @@
 
 namespace asst::utils
 {
+    /// 前缀函数
+    inline std::vector<size_t> prefix_function(const std::string& s)
+    {
+        const auto n = s.length();
+        std::vector<size_t> pi(n);
+        for (size_t i = 1; i < n; ++i) {
+            size_t j = pi[i - 1];
+            while (j > 0 && s[i] != s[j]) j = pi[j - 1];
+            if (s[i] == s[j]) ++j;
+            pi[i] = j;
+        }
+        return pi;
+    }
+
+    /// KMP
     inline std::string string_replace_all(const std::string& src, const std::string& old_value, const std::string& new_value)
+    {
+        const auto pi = prefix_function(old_value + '\0' + src);
+        std::string str;
+        const auto n = old_value.length();
+        size_t last_pos = 0;
+        for (size_t i = n + 1; i < pi.size(); ++i) {
+            if (pi[i] == n) {
+                str += src.substr(last_pos, i - 2 * n - last_pos) + new_value;
+                last_pos = i - n;
+                i += old_value.length() - 1;
+            }
+        }
+        str += src.substr(last_pos);
+        return str;
+    }
+
+    inline std::string string_replace_all_batch(const std::string& src, const std::unordered_map<std::string, std::string>& replace_pairs)
+    {
+        std::string str = src;
+        for (const auto& [old_value, new_value] : replace_pairs) {
+            str = string_replace_all(str, old_value, new_value);
+        }
+        return str;
+    }
+
+    inline std::string string_replace_all_in_place(const std::string& src, const std::string& old_value, const std::string& new_value)
     {
         std::string str = src;
         for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length()) {
@@ -29,11 +70,11 @@ namespace asst::utils
         return str;
     }
 
-    inline std::string string_replace_all_batch(const std::string& src, const std::unordered_map<std::string, std::string>& replace_pairs)
+    inline std::string string_replace_all_batch_in_place(const std::string& src, const std::unordered_map<std::string, std::string>& replace_pairs)
     {
         std::string str = src;
         for (const auto& [old_value, new_value] : replace_pairs) {
-            str = string_replace_all(str, old_value, new_value);
+            str = string_replace_all_in_place(str, old_value, new_value);
         }
         return str;
     }
