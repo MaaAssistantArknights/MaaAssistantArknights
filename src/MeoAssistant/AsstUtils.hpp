@@ -17,23 +17,21 @@
 
 namespace asst::utils
 {
-    /// 前缀函数
-    inline std::vector<size_t> prefix_function(const std::string& s)
-    {
-        const auto n = s.length();
-        std::vector<size_t> pi(n);
-        for (size_t i = 1; i < n; ++i) {
-            size_t j = pi[i - 1];
-            while (j > 0 && s[i] != s[j]) j = pi[j - 1];
-            if (s[i] == s[j]) ++j;
-            pi[i] = j;
-        }
-        return pi;
-    }
-
     /// KMP
     inline std::string string_replace_all(const std::string& src, const std::string& old_value, const std::string& new_value)
     {
+        /// 前缀函数
+        static const auto prefix_function = [](const std::string& s)->std::vector<size_t> {
+            const auto n = s.length();
+            std::vector<size_t> pi(n);
+            for (size_t i = 1; i < n; ++i) {
+                size_t j = pi[i - 1];
+                while (j > 0 && s[i] != s[j]) j = pi[j - 1];
+                if (s[i] == s[j]) ++j;
+                pi[i] = j;
+            }
+            return pi;
+        };
         const auto pi = prefix_function(old_value + '\0' + src);
         std::string str;
         const auto n = old_value.length();
