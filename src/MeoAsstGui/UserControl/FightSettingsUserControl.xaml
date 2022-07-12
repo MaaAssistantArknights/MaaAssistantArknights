@@ -60,14 +60,14 @@
         <StackPanel Orientation="Horizontal" Grid.Row="4" VerticalAlignment="Center">
             <!--<TextBlock Style="{StaticResource TextBlockDefault}" Margin="35,10,0,10" Text="掉落数 " />-->
             <hc:TextBox Text="{Binding DropsQuantity}" TextWrapping="Wrap"
-                        Width="95" Margin="98,10,10,10" InputMethod.IsInputMethodEnabled="False" 
+                        Width="95" Margin="100,10,10,10" InputMethod.IsInputMethodEnabled="False" 
                         TextType="Int"/>
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="个" />
         </StackPanel>
         <StackPanel Grid.Row="5"  Orientation="Horizontal">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Margin="10,10,0,10" VerticalAlignment="Center"
+            <TextBlock Style="{StaticResource TextBlockDefault}" Margin="20,10,0,10" VerticalAlignment="Center"
                    Text="关卡选择" FontSize="14" />
-            <ComboBox Width="120" Margin="31,10,10,10"
+            <ComboBox Width="120" Margin="24,10,10,10"
                       IsHitTestVisible ="{c:Binding !FightTaskRunning}"
                       ItemsSource="{Binding StageList}"
                       DisplayMemberPath="Display"

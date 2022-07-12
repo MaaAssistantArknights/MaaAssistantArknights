@@ -29,10 +29,10 @@ namespace asst::utils
         return str;
     }
 
-    inline std::string string_replace_all_batch(const std::string& src, const std::vector<std::pair<std::string, std::string>>& replace_pairs)
+    inline std::string string_replace_all_batch(const std::string& src, const std::unordered_map<std::string, std::string>& replace_pairs)
     {
         std::string str = src;
-        for (auto& [old_value, new_value] : replace_pairs) {
+        for (const auto& [old_value, new_value] : replace_pairs) {
             str = string_replace_all(str, old_value, new_value);
         }
         return str;
@@ -72,7 +72,7 @@ namespace asst::utils
                   curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds);
 
 #else   // ! _WIN32
-        struct timeval tv{};
+        struct timeval tv {};
         gettimeofday(&tv, nullptr);
         time_t nowtime = tv.tv_sec;
         struct tm* tm_info = localtime(&nowtime);
@@ -307,4 +307,11 @@ namespace asst::utils
     //	}
     //	return str;
     //}
+
+    template <typename T, T Val, typename... Unused>
+    struct integral_constant_at_template_instantiation : std::integral_constant<T, Val> {};
 }
+
+//  delete instantiation of template with message, when static_assert(false, Message) does not work
+#define ASST_STATIC_ASSERT_FALSE(Message, ...) \
+static_assert(::asst::utils::integral_constant_at_template_instantiation<bool, false, __VA_ARGS__>::value, Message)

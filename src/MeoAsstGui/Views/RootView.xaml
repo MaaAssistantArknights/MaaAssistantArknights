@@ -9,6 +9,14 @@
         d:DataContext="{d:DesignInstance {x:Type vm:RootViewModel}}"
         Title="{Binding WindowTitle}" Height="595" Width="800">
     <DockPanel>
-        <TabControl Style="{StaticResource StyletConductorTabControl}" Margin="0,10,0,0" />
+        <TabControl ItemsSource="{Binding Items}" SelectedItem="{s:RethrowingBinding ActiveItem}"
+                    DisplayMemberPath="DisplayName" Margin="0,10,0,0" Style="{StaticResource TabControlInLine}">
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl s:View.Model="{Binding}" VerticalContentAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch" IsTabStop="False" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
     </DockPanel>
 </Window>
