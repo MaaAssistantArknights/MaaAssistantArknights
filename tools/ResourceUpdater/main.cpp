@@ -22,10 +22,10 @@ int main([[maybe_unused]] int argc, char** argv)
     std::cout << "------------Update Arknights-Bot-Resource------------" << std::endl;
     int git_ret = 0;
     if (!std::filesystem::exists(input_dir)) {
-        git_ret = system(("git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1 " + input_dir.string()).c_str());
+        git_ret = system(("git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1 \"" + input_dir.string() + "\"").c_str());
     }
     else {
-        git_ret = system(("git -C " + input_dir.string() + " pull").c_str());
+        git_ret = system(("git -C \"" + input_dir.string() + "\" pull").c_str());
     }
     if (git_ret != 0) {
         std::cout << "git cmd failed" << std::endl;
@@ -369,7 +369,7 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
     // 国内访问可以改成 .cn 的域名
     const std::string PenguinAPI = R"(https://penguin-stats.io/PenguinStats/api/v2/stages)";
     const std::filesystem::path TempFile = input_dir / "stages.json";
-    int stage_request_ret = system(("curl -o " + TempFile.string() + " " + PenguinAPI).c_str());
+    int stage_request_ret = system(("curl -o \"" + TempFile.string() + "\" " + PenguinAPI).c_str());
     if (stage_request_ret != 0) {
         std::cerr << "Request Penguin Stats failed" << std::endl;
         return false;
