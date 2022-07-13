@@ -17,6 +17,211 @@
 
 namespace asst::utils
 {
+    class MultiReplacer
+    {
+        class Node
+        {
+            std::map<char, Node*> _sn; //不知道为啥这个地方用 map 比用 unordered_map 快一些
+
+        public:
+            typedef decltype(_sn)::iterator iterator;
+            typedef decltype(_sn)::const_iterator const_iterator;
+            Node* fail;
+            int replace_len = 0;
+            std::string replace_key;
+
+            template<typename... _Args>
+            auto emplace(_Args&&... __args)
+            {
+                return _sn.emplace(std::forward<_Args>(__args)...);
+            }
+
+            template<typename... _Args>
+            auto insert(_Args&&... __args)
+            {
+                return _sn.insert(std::forward<_Args>(__args)...);
+            }
+
+            Node* const at(const int& x) const
+            {
+                return _sn.at(x);
+            }
+
+            bool exists(const char& c) const
+            {
+                return _sn.count(c) != 0;
+            }
+
+            iterator begin() { return _sn.begin(); }
+            iterator end() { return _sn.end(); }
+            const_iterator begin() const { return _sn.cbegin(); }
+            const_iterator end() const { return _sn.cend(); }
+        };
+
+        std::vector<Node*> _allocated;
+        Node* _root = _allocated.emplace_back(new Node());
+        std::unordered_map<std::string, std::string> _replace_map;
+        bool _failgetted = false;
+
+        void _getfail()
+        {
+            std::queue<Node*> q;
+            _root->fail = _root;
+            for (auto c : *_root) {
+                c.second->fail = _root;
+                q.push(c.second);
+            }
+            while (!q.empty()) {
+                auto x = q.front(); q.pop();
+                for (auto c : *x->fail) {
+                    if (x->exists(c.first)) {
+                        x->at(c.first)->fail = c.second;
+                        q.push(x->at(c.first));
+                    }
+                    else {
+                        x->insert(c);
+                    }
+                }
+            }
+        }
+
+        // 根据建立的自动机，将 str 替换后的结果存入 res
+        const void _replace(const std::string& str, std::string& res) const
+        {
+            Node* p = _root;
+            for (char c : str) {
+                if (p->exists(c)) {
+                    p = p->at(c);
+                }
+                else if (_root->exists(c)) {
+                    p = _root->at(c);
+                }
+                else {
+                    p = _root;
+                }
+                if (p->replace_len) {
+                    res.erase(res.length() + 1 - p->replace_len);
+                    res.append(_replace_map.at(p->replace_key));
+                    p = _root; // different from ac_automation (short first)
+                }
+                else {
+                    res += c;
+                }
+            }
+        }
+
+        // 根据建立的自动机，将 str 替换后的结果存入 res
+        template<typename map_t>
+        const void _replace(const std::string& str, std::string& res, const map_t& replace_map) const
+        {
+            Node* p = _root;
+            for (char c : str) {
+                if (p->exists(c)) {
+                    p = p->at(c);
+                }
+                else if (_root->exists(c)) {
+                    p = _root->at(c);
+                }
+                else {
+                    p = _root;
+                }
+                if (p->replace_len && replace_map.count(p->replace_key)) {
+                    res.erase(res.length() + 1 - p->replace_len);
+                    res.append(replace_map.at(p->replace_key));
+                    p = _root; // different from ac_automation (short first)
+                }
+                else {
+                    res += c;
+                }
+            }
+        }
+
+    public:
+        MultiReplacer() {}
+        ~MultiReplacer()
+        {
+            for (auto x : _allocated) {
+                delete(x);
+            }
+        }
+
+        // 所有 insert 操作必须在 replace 操作之前，且尽量不要插入子串
+        auto& insert(const std::string& str, const std::string& rep)
+        {
+            assert(!_failgetted);
+            Node* p = _root;
+            for (const char& c : str) {
+                if (!p->exists(c)) {
+                    p->emplace(c, _allocated.emplace_back(new Node()));
+                    // p->emplace(c, new Node());
+                    // 内存不回收快好多欸，要不别回收了吧（
+                }
+                p = p->at(c);
+            }
+            // if(p->replace_len) {
+            // 	// Warning: replace again.
+            // }
+            p->replace_len = str.length();
+            p->replace_key = str;
+            _replace_map[str] = rep;
+            return *this;
+        }
+
+        // 在插入过 str 的情况下，更改其对应的替换字符串
+        auto& change(const std::string& str, const std::string& rep)
+        {
+            assert(_replace_map.count(str) != 0);
+            _replace_map[str] = rep;
+            return *this;
+        }
+
+        // 根据建立的自动机，将 str 替换后的字符串输出
+        std::string replace(const std::string& str)
+        {
+            if (!_failgetted) {
+                _getfail();
+                _failgetted = true;
+            }
+            std::string res = std::string();
+            _replace(str, res);
+            return res;
+        }
+        template<typename map_t>
+        std::string replace(const std::string& str, const map_t& replace_map)
+        {
+            if (!_failgetted) {
+                _getfail();
+                _failgetted = true;
+            }
+            std::string res = std::string();
+            _replace(str, res, replace_map);
+            return res;
+        }
+    };
+    MultiReplacer multireplacer;
+    inline void string_replace_init()
+    {
+        static bool multireplacer_inited = false;
+        if (multireplacer_inited) return;
+        multireplacer_inited = true;
+        // 想个办法把这里的硬编码改改
+        multireplacer.insert("[Adb]", "[Adb]")
+            .insert("[AdbSerial]", "[AdbSerial]")
+            .insert("[x1]", "[x1]")
+            .insert("[y1]", "[y1]")
+            .insert("[x2]", "[x2]")
+            .insert("[y2]", "[y2]")
+            .insert("[x]", "[x]")
+            .insert("[y]", "[y]")
+            .insert(":", ":")
+            .insert(" ", " ")
+            .insert("[duration]", "[duration]")
+            .insert("[DisplayId]", "[DisplayId]")
+            .insert("[NcPort]", "[NcPort]")
+            .insert("[NcAddress]", "[NcAddress]");
+    }
+
+    // 我不知道一个替换能不能更快，先暂时不改了
     inline std::string string_replace_all(const std::string& src, const std::string& old_value, const std::string& new_value)
     {
         std::string str = src;
@@ -31,11 +236,8 @@ namespace asst::utils
 
     inline std::string string_replace_all_batch(const std::string& src, const std::unordered_map<std::string, std::string>& replace_pairs)
     {
-        std::string str = src;
-        for (const auto& [old_value, new_value] : replace_pairs) {
-            str = string_replace_all(str, old_value, new_value);
-        }
-        return str;
+        string_replace_init();
+        return multireplacer.replace(src, replace_pairs);
     }
 
     inline std::vector<std::string> string_split(const std::string& str, const std::string& delimiter)
