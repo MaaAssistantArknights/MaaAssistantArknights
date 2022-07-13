@@ -5512,10 +5512,10 @@
         "template": "StartUpConnectingFlag.png",
         "action": "DoNothing",
         "roi": [
-            520,
-            460,
-            240,
-            100
+            0,
+            635,
+            450,
+            85
         ],
         "next": [
             "StartToWakeUpToRoguelike1",
