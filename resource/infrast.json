@@ -428,6 +428,9 @@
                 "desc": [
                     "进驻控制中枢时，控制中枢内每个鲤氏侦探事务所干员可使控制中枢内所有干员的心情每小时恢复+0.05，同时该派系干员的心情每小时恢复额外+0.2"
                 ],
+                "efficient": {
+                    "all": 0.05
+                },
                 "template": "Bskill_ctrl_lda_add.png"
             },
             "bskill_ctrl_karlan": {
@@ -581,9 +584,6 @@
                 "desc": [
                     "当与阿进驻控制中枢一起工作时，控制中枢内所有干员心情每小时恢复+0.25"
                 ],
-                "efficient": {
-                    "all": 0.05
-                },
                 "template": "Bskill_ctrl_lda.png"
             },
             "bskill_ctrl_cost_bd1": {
