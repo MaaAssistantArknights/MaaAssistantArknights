@@ -47,6 +47,8 @@ Talk is cheap. Show me the pictures!
 
 ## Download
 
+***First time use? Please download `MaaBundle-vX.Y.Z.zip`***
+
 [Stable](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [Development](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
