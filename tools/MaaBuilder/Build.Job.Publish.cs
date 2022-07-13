@@ -30,6 +30,7 @@ public partial class Build
                 Credentials = new Credentials(Parameters.GitHubPersonalAccessToken)
             };
 
+            // ReSharper disable once InvertIf
             if (Parameters.GhActionName == ActionConfiguration.ReleaseMaa)
             {
                 Information($"运行 ReleaseMaa 将在 {Parameters.MainRepo} 创建 Release {Parameters.GhTag}");
@@ -37,14 +38,6 @@ public partial class Build
                 CreateGitHubRelease(Parameters.MainRepo, Parameters.CommitHashFull, Version);
 
                 return;
-            }
-
-            // ReSharper disable once InvertIf
-            if (Parameters.GhActionName == ActionConfiguration.ReleaseMaaResource)
-            {
-                Information($"运行 ReleaseMaaResource 将在 {Parameters.MaaResourceReleaseRepo} 创建 Release {Version}");
-
-                CreateGitHubRelease(Parameters.MaaResourceReleaseRepo, "main", Version);
             }
         });
 }
