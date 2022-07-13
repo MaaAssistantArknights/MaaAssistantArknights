@@ -725,7 +725,7 @@ namespace MeoAsstGui
         }
 
         /* 自动公招设置 */
-        private string _recruitMaxTimes = ViewStatusStorage.Get("AutoRecruit.MaxTimes", "3");
+        private string _recruitMaxTimes = ViewStatusStorage.Get("AutoRecruit.MaxTimes", "4");
 
         public string RecruitMaxTimes
         {
