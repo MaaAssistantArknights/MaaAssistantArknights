@@ -73,7 +73,7 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
         ocr_analyzer.set_required(m_shopping_list);
         if (ocr_analyzer.analyze()) {
             // 黑名单模式，有识别结果说明这个商品不买，直接跳过
-            if (!m_is_white_list) {
+            if (!m_is_white_list && !m_shopping_list.empty()) {
                 continue;
             }
         }
