@@ -71,7 +71,6 @@ public partial class Build
         public AbsolutePath BuildOutput { get; }
         public AbsolutePath ArtifactOutput { get; }
         public AbsolutePath MaaChangelogFile { get; }
-        public AbsolutePath MaaResourceChangeLogFile { get; }
 
         // 项目
         public Project MaaCoreProject { get; }
@@ -117,8 +116,7 @@ public partial class Build
             BuildOutput = RootDirectory / "x64";
             ArtifactOutput = RootDirectory / "artifacts";
             
-            MaaChangelogFile = RootDirectory / "CHANGELOG_MAA.md";
-            MaaResourceChangeLogFile = RootDirectory / "CHANGELOG_RES.md";
+            MaaChangelogFile = RootDirectory / "CHANGELOG.md";
 
             // 项目
             var maaSolution = ProjectModelTasks.ParseSolution(RootDirectory / "MeoAssistantArknights.sln");
