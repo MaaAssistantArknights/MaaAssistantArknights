@@ -1,0 +1,72 @@
+[
+    {
+        "name_template": "MaaBundle-{VERSION}",
+        "type": "MaaBundle",
+        "configuration": {
+            "include": [
+                "**"
+            ]
+        }
+    },
+    {
+        "name_template": "MaaBundle-OTA-{VERSION}",
+        "type": "MaaBundleOta",
+        "configuration": {
+            "include": [
+                "resource/**",
+                "MeoAssistant.dll",
+                "MeoAsstGui.exe"
+            ],
+            "exclude": [
+                "**/PaddleOCR/**"
+            ]
+        }
+    },
+    {
+        "name_template": "MaaCore-{VERSION}",
+        "type": "MaaCore",
+        "configuration": {
+            "include": [
+                "MeoAssistant.dll"
+            ]
+        }
+    },
+    {
+        "name_template": "MaaDependency-{VERSION}",
+        "type": "MaaDependency",
+        "configuration": {
+            "include": [
+                "libiomp5md.dll",
+                "mkldnn.dll",
+                "mklml.dll",
+                "paddle_inference.dll",
+                "ppocr.dll",
+                "opencv_world453.dll",
+                "**/PaddleOCR/**"
+            ]
+        }
+    },
+    {
+        "name_template": "MaaDependency-NoAvx-{VERSION}",
+        "type": "MaaDependencyNoAvx",
+        "configuration": {
+            "include": [
+                "opencv_world453.dll",
+                "**/PaddleOCR/**"
+            ],
+            "no_avx_bundle": "3rdparty/ppocr_noavx.zip"
+        }
+    },
+    {
+        "name_template": "MaaResource-{VERSION}",
+        "type": "MaaResource",
+        "configuration": {
+            "include": [
+                "resource/**"
+            ],
+            "exclude": [
+                "**/PaddleOCR/**"
+            ]
+        }
+    }
+]
