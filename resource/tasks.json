@@ -1191,7 +1191,8 @@
             "ReturnToTerminal",
             "Terminal",
             "CloseAnno",
-            "StageSNReturnToTerminal"
+            "StageSNReturnToTerminal",
+            "TodaysSupplies"
         ]
     },
     "FightBegin": {
@@ -2045,7 +2046,31 @@
             "Recruit",
             "ReturnToRecruit",
             "ReturnToRecruitCloseAnno",
-            "StageSNReturnToRecruit"
+            "StageSNReturnToRecruit",
+            "TodaysSuppliesToRecruit"
+        ]
+    },
+    "TodaysSuppliesToRecruit": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配给"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "ReturnToRecruitCloseAnno",
+            "Recruit"
         ]
     },
     "ReturnToRecruit": {
@@ -2063,7 +2088,8 @@
             "ReturnToRecruit",
             "ReturnToRecruitConfirm",
             "ReturnToRecruitCloseAnno",
-            "StageSNReturnToRecruit"
+            "StageSNReturnToRecruit",
+            "TodaysSuppliesToRecruit"
         ]
     },
     "ReturnToRecruitConfirm": {
@@ -2079,7 +2105,8 @@
             "Recruit",
             "ReturnToRecruit",
             "ReturnToRecruitCloseAnno",
-            "StageSNReturnToRecruit"
+            "StageSNReturnToRecruit",
+            "TodaysSuppliesToRecruit"
         ]
     },
     "ReturnToRecruitCloseAnno": {
@@ -2096,7 +2123,8 @@
             "Recruit",
             "ReturnToRecruitCloseAnno",
             "ReturnToRecruit",
-            "StageSNReturnToRecruit"
+            "StageSNReturnToRecruit",
+            "TodaysSuppliesToRecruit"
         ]
     },
     "Recruit": {
@@ -2467,8 +2495,32 @@
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
-            "ReturnToRecruitCloseAnno",
-            "StageSNReturnToAward"
+            "ReturnToAwardCloseAnno",
+            "StageSNReturnToAward",
+            "TodaysSuppliesToAward"
+        ]
+    },
+    "TodaysSuppliesToAward": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配给"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "ReturnToAwardCloseAnno",
+            "Award"
         ]
     },
     "Award": {
@@ -2484,7 +2536,9 @@
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
-            "Award"
+            "Award",
+            "ReturnToAwardCloseAnno",
+            "TodaysSuppliesToAward"
         ]
     },
     "ReceiveAward": {
@@ -2584,8 +2638,9 @@
             "Award",
             "ReturnToAward",
             "ReturnToAwardConfirm",
-            "ReturnToRecruitCloseAnno",
-            "StageSNReturnToAward"
+            "ReturnToAwardCloseAnno",
+            "StageSNReturnToAward",
+            "TodaysSuppliesToAward"
         ]
     },
     "ReturnToAwardConfirm": {
@@ -2600,8 +2655,9 @@
         "next": [
             "Award",
             "ReturnToAward",
-            "ReturnToRecruitCloseAnno",
-            "StageSNReturnToAward"
+            "ReturnToAwardCloseAnno",
+            "StageSNReturnToAward",
+            "TodaysSuppliesToAward"
         ]
     },
     "ReturnToAwardCloseAnno": {
@@ -2616,9 +2672,10 @@
         ],
         "next": [
             "Award",
-            "ReturnToRecruitCloseAnno",
+            "ReturnToAwardCloseAnno",
             "ReturnToAward",
-            "StageSNReturnToAward"
+            "StageSNReturnToAward",
+            "TodaysSuppliesToAward"
         ]
     },
     "VisitBegin": {
@@ -2632,7 +2689,31 @@
             "VisitNextBlack",
             "ReturnToFriends",
             "ReturnToFriendsCloseAnno",
-            "StageSNReturnToFriends"
+            "StageSNReturnToFriends",
+            "TodaysSuppliesToVisit"
+        ]
+    },
+    "TodaysSuppliesToVisit": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配给"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "ReturnToFriendsCloseAnno",
+            "Friends"
         ]
     },
     "ReturnToFriends": {
@@ -2650,7 +2731,8 @@
             "ReturnToFriends",
             "ReturnToFriendsConfirm",
             "ReturnToFriendsCloseAnno",
-            "StageSNReturnToFriends"
+            "StageSNReturnToFriends",
+            "TodaysSuppliesToVisit"
         ]
     },
     "ReturnToFriendsConfirm": {
@@ -2666,7 +2748,8 @@
             "Friends",
             "ReturnToFriends",
             "ReturnToFriendsCloseAnno",
-            "StageSNReturnToFriends"
+            "StageSNReturnToFriends",
+            "TodaysSuppliesToVisit"
         ]
     },
     "ReturnToFriendsCloseAnno": {
@@ -2683,7 +2766,8 @@
             "Friends",
             "ReturnToFriends",
             "ReturnToFriendsCloseAnno",
-            "StageSNReturnToFriends"
+            "StageSNReturnToFriends",
+            "TodaysSuppliesToVisit"
         ]
     },
     "Friends": {
@@ -2697,7 +2781,9 @@
         ],
         "next": [
             "FriendsList",
-            "Friends"
+            "Friends",
+            "ReturnToFriendsCloseAnno",
+            "TodaysSuppliesToVisit"
         ]
     },
     "FriendsList": {
@@ -2786,7 +2872,31 @@
             "ReturnToMall",
             "Mall",
             "ReturnToMallCloseAnno",
-            "StageSNReturnToMall"
+            "StageSNReturnToMall",
+            "TodaysSuppliesToMall"
+        ]
+    },
+    "TodaysSuppliesToMall": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配给"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "ReturnToMallCloseAnno",
+            "Mall"
         ]
     },
     "ReturnToMall": {
@@ -2804,7 +2914,8 @@
             "ReturnToMallConfirm",
             "ReturnToMall",
             "ReturnToMallCloseAnno",
-            "StageSNReturnToMall"
+            "StageSNReturnToMall",
+            "TodaysSuppliesToMall"
         ]
     },
     "ReturnToMallConfirm": {
@@ -2820,7 +2931,8 @@
             "ReturnToMall",
             "Mall",
             "ReturnToMallCloseAnno",
-            "StageSNReturnToMall"
+            "StageSNReturnToMall",
+            "TodaysSuppliesToMall"
         ]
     },
     "ReturnToMallCloseAnno": {
@@ -2837,7 +2949,8 @@
             "Mall",
             "ReturnToMallCloseAnno",
             "ReturnToMall",
-            "StageSNReturnToMall"
+            "StageSNReturnToMall",
+            "TodaysSuppliesToMall"
         ]
     },
     "Mall": {
@@ -2855,7 +2968,9 @@
         "next": [
             "MallLoading",
             "CreditStoreOcr",
-            "Mall"
+            "Mall",
+            "ReturnToMallCloseAnno",
+            "TodaysSuppliesToMall"
         ]
     },
     "MallLoading": {
@@ -3227,7 +3342,31 @@
             "InfrastNotification",
             "ReturnToInfrast",
             "ReturnToInfrastCloseAnno",
-            "StageSNReturnToInfrast"
+            "StageSNReturnToInfrast",
+            "TodaysSuppliesToInfrast"
+        ]
+    },
+    "TodaysSuppliesToInfrast": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配给"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "ReturnToInfrast",
+            "EnterInfrast"
         ]
     },
     "ReturnToInfrast": {
@@ -3247,7 +3386,8 @@
             "ReturnToInfrast",
             "ReturnToInfrastConfirm",
             "ReturnToInfrastCloseAnno",
-            "StageSNReturnToInfrast"
+            "StageSNReturnToInfrast",
+            "TodaysSuppliesToInfrast"
         ]
     },
     "ReturnToInfrastConfirm": {
@@ -3265,7 +3405,8 @@
             "InfrastEnteredFlag",
             "ReturnToInfrast",
             "ReturnToInfrastCloseAnno",
-            "StageSNReturnToInfrast"
+            "StageSNReturnToInfrast",
+            "TodaysSuppliesToInfrast"
         ]
     },
     "ReturnToInfrastCloseAnno": {
@@ -3284,7 +3425,8 @@
             "InfrastEnteredFlag",
             "ReturnToInfrast",
             "ReturnToInfrastCloseAnno",
-            "StageSNReturnToInfrast"
+            "StageSNReturnToInfrast",
+            "TodaysSuppliesToInfrast"
         ]
     },
     "Return": {
@@ -3302,7 +3444,9 @@
         "action": "ClickSelf",
         "next": [
             "InfrastEnteredFlag",
-            "EnterInfrast"
+            "EnterInfrast",
+            "ReturnToInfrastCloseAnno",
+            "TodaysSuppliesToInfrast"
         ],
         "rearDelay": 5000
     },
