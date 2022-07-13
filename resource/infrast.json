@@ -335,7 +335,8 @@
                 "efficient": {
                     "all": 2
                 },
-                "template": "Bskill_ctrl_p_spd.png"
+                "template": "Bskill_ctrl_p_spd.png",
+                "maxNum": 1
             },
             "bskill_ctrl_p_bot": {
                 "name": [
@@ -361,7 +362,8 @@
                 "efficient": {
                     "all": 7
                 },
-                "template": "Bskill_ctrl_t_spd.png"
+                "template": "Bskill_ctrl_t_spd.png",
+                "maxNum": 1
             },
             "bskill_ctrl_token_p_spd": {
                 "name": [
