@@ -65,7 +65,6 @@ public partial class Build
         public string MasterBranchRef { get; }
         public string DevBranchRef { get; }
         public string ReleaseTagRefPrefix { get; }
-        public string MaaResourceReleaseRepo { get; }
 
         // 路径
         public AbsolutePath BuildOutput { get; }
@@ -106,7 +105,6 @@ public partial class Build
 
             // 仓库
             MainRepo = "MaaAssistantArknights/MaaAssistantArknights";
-            MaaResourceReleaseRepo = "MaaAssistantArknights/MaaResourceRelease";
 
             MasterBranchRef = "refs/heads/master";
             DevBranchRef = "refs/heads/dev";
@@ -201,8 +199,6 @@ public partial class Build
             {
                 // Fork
                 MainRepo = b.GitHubActions.Repository;
-                var repoOwner = MainRepo.Split("/")[0];
-                MaaResourceReleaseRepo = $"{repoOwner}/MaaResourceRelease";
             }
 
             // 若是 DevBuild，Branch 必须不为 Master，或者是 PR 至 Dev，又或者是手动触发

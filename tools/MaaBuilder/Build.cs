@@ -62,7 +62,6 @@ public partial class Build : NukeBuild
 
         Information("2. 仓库");
         Information($"主仓库：{Parameters.MainRepo ?? "Null"}");
-        Information($"MaaResource 发布仓库：{Parameters.MaaResourceReleaseRepo ?? "Null"}");
         Information($"主分支：{Parameters.MasterBranchRef ?? "Null"}");
         Information($"开发分支：{Parameters.DevBranchRef ?? "Null"}");
         Information($"发布 Tag 前缀：{Parameters.ReleaseTagRefPrefix ?? "Null"}");
