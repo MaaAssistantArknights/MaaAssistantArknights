@@ -17,23 +17,29 @@
 
 namespace asst::utils
 {
-    inline std::string string_replace_all(const std::string& src, const std::string& old_value, const std::string& new_value)
+    inline void _string_replace_all(std::string& str, const std::string_view& old_value, const std::string_view& new_value)
     {
-        std::string str = src;
         for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length()) {
             if ((pos = str.find(old_value, pos)) != std::string::npos)
                 str.replace(pos, old_value.length(), new_value);
             else
                 break;
         }
+    }
+
+    inline std::string string_replace_all(const std::string& src, const std::string_view& old_value, const std::string_view& new_value)
+    {
+        std::string str = src;
+        _string_replace_all(str, old_value, new_value);
         return str;
     }
 
-    inline std::string string_replace_all_batch(const std::string& src, const std::unordered_map<std::string, std::string>& replace_pairs)
+    // 此处的 replace_pairs 尽量不要传入构造过的 map 而是采用 initializer list, 否则 string_view 可能引用失效内存
+    inline std::string string_replace_all_batch(const std::string& src, const std::unordered_map<std::string_view, std::string_view>& replace_pairs)
     {
         std::string str = src;
         for (const auto& [old_value, new_value] : replace_pairs) {
-            str = string_replace_all(str, old_value, new_value);
+            _string_replace_all(str, old_value, new_value);
         }
         return str;
     }
