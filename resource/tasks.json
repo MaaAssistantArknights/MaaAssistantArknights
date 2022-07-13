@@ -5680,6 +5680,7 @@
             80
         ],
         "next": [
+            "Roguelike1ChooseDifficulty",
             "Roguelike1Start",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
@@ -5725,6 +5726,7 @@
     "Roguelike1Begin": {
         "algorithm": "JustReturn",
         "next": [
+            "Roguelike1ChooseDifficulty",
             "Roguelike1Start",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
@@ -5753,6 +5755,18 @@
         "next": [
             "Roguelike1MissionFailedFlag2",
             "Roguelike1ExitThenAbandon"
+        ]
+    },
+    "Roguelike1ChooseDifficulty": {
+        "action": "ClickSelf",
+        "roi": [
+            1061,
+            373,
+            208,
+            71
+        ],
+        "next": [
+            "Roguelike1Start"
         ]
     },
     "Roguelike1Start": {
