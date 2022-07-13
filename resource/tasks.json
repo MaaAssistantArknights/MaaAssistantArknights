@@ -6388,7 +6388,8 @@
             179
         ],
         "next": [
-            "Roguelike1AbandonConfirm"
+            "Roguelike1AbandonConfirm",
+            "Roguelike1Abandon"
         ]
     },
     "Roguelike1AbandonConfirm": {
