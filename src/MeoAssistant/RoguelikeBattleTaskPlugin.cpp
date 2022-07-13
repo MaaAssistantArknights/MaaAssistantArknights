@@ -35,12 +35,12 @@ void asst::RoguelikeBattleTaskPlugin::set_stage_name(std::string stage)
 
 bool asst::RoguelikeBattleTaskPlugin::_run()
 {
-    bool getted_info = get_stage_info();
+    using namespace std::chrono_literals;
 
+    bool getted_info = get_stage_info();
     if (!getted_info) {
         return true;
     }
-
     if (!wait_start()) {
         return false;
     }
@@ -54,7 +54,6 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
         if (!auto_battle() && m_opers_used) {
             break;
         }
-        using namespace std::chrono_literals;
         if (std::chrono::steady_clock::now() - start_time > 5min) {
             timeout = true;
             break;
@@ -64,6 +63,18 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     if (timeout) {
         Log.info("Timeout, retreat!");
         all_melee_retreat();
+
+        start_time = std::chrono::steady_clock::now();
+        while (!need_exit()) {
+            if (!auto_battle()) {
+                break;
+            }
+            if (std::chrono::steady_clock::now() - start_time > 1min) {
+                Log.info("Timeout again, abandon!");
+                abandon();
+                break;
+            }
+        }
     }
 
     clear();
@@ -342,6 +353,11 @@ bool asst::RoguelikeBattleTaskPlugin::retreat(const Point& point)
     sleep(Task.get("BattleUseOper")->pre_delay);
 
     return ProcessTask(*this, { "BattleOperRetreat" }).run();
+}
+
+bool asst::RoguelikeBattleTaskPlugin::abandon()
+{
+    return ProcessTask(*this, { "Roguelike1BattleExitBegin" }).run();
 }
 
 void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()

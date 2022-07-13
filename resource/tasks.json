@@ -5440,6 +5440,49 @@
             "07e01e78700e6006e007e007e0076006700e1ffe011800700060008001800700"
         ]
     },
+    "Roguelike1BattleExitBegin": {
+        "action": "ClickSelf",
+        "roi": [
+            3,
+            0,
+            153,
+            154
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "next": [
+            "Roguelike1BattleAbandon",
+            "Roguelike1BattleExitBegin"
+        ]
+    },
+    "Roguelike1BattleAbandon": {
+        "action": "ClickSelf",
+        "roi": [
+            648,
+            229,
+            220,
+            246
+        ],
+        "next": [
+            "Roguelike1BattleAbandonConfirm",
+            "Roguelike1BattleAbandon"
+        ]
+    },
+    "Roguelike1BattleAbandonConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            716,
+            416,
+            259,
+            153
+        ],
+        "next": [
+            "Roguelike1BattleAbandonConfirm",
+            "Stop"
+        ]
+    },
     "Roguelike1BattleSpeedUp": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
