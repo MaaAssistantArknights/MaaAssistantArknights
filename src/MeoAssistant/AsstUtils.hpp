@@ -3,7 +3,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-
+#include <queue>
+#include <unordered_map>
 #ifdef _WIN32
 #include <Windows.h>
 #else
@@ -21,13 +22,13 @@ namespace asst::utils
     {
         class Node
         {
-            std::map<char, Node*> _sn; //不知道为啥这个地方用 map 比用 unordered_map 快一些
+            std::unordered_map<char, Node*> _sn; //不知道为啥这个地方用 map 比用 unordered_map 快一些，不过问题不大
 
         public:
             typedef decltype(_sn)::iterator iterator;
             typedef decltype(_sn)::const_iterator const_iterator;
             Node* fail;
-            int replace_len = 0;
+            size_t replace_len = 0;
             std::string replace_key;
 
             template<typename... _Args>
@@ -42,9 +43,10 @@ namespace asst::utils
                 return _sn.insert(std::forward<_Args>(__args)...);
             }
 
-            Node* const at(const int& x) const
+            template<typename... _Args>
+            auto at(_Args&&... __args)
             {
-                return _sn.at(x);
+                return _sn.at(std::forward<_Args>(__args)...);
             }
 
             bool exists(const char& c) const
@@ -148,7 +150,7 @@ namespace asst::utils
         // 所有 insert 操作必须在 replace 操作之前，且尽量不要插入子串
         auto& insert(const std::string& str, const std::string& rep)
         {
-            assert(!_failgetted);
+            // assert(!_failgetted);
             Node* p = _root;
             for (const char& c : str) {
                 if (!p->exists(c)) {
@@ -170,7 +172,7 @@ namespace asst::utils
         // 在插入过 str 的情况下，更改其对应的替换字符串
         auto& change(const std::string& str, const std::string& rep)
         {
-            assert(_replace_map.count(str) != 0);
+            // assert(_replace_map.count(str) != 0);
             _replace_map[str] = rep;
             return *this;
         }
@@ -198,14 +200,14 @@ namespace asst::utils
             return res;
         }
     };
-    MultiReplacer multireplacer;
-    inline void string_replace_init()
+    inline MultiReplacer& multireplacer()
     {
+        static MultiReplacer multireplacer;
         static bool multireplacer_inited = false;
-        if (multireplacer_inited) return;
+        if (multireplacer_inited) return multireplacer;
         multireplacer_inited = true;
         // 想个办法把这里的硬编码改改
-        multireplacer.insert("[Adb]", "[Adb]")
+        return multireplacer.insert("[Adb]", "[Adb]")
             .insert("[AdbSerial]", "[AdbSerial]")
             .insert("[x1]", "[x1]")
             .insert("[y1]", "[y1]")
@@ -236,8 +238,7 @@ namespace asst::utils
 
     inline std::string string_replace_all_batch(const std::string& src, const std::unordered_map<std::string, std::string>& replace_pairs)
     {
-        string_replace_init();
-        return multireplacer.replace(src, replace_pairs);
+        return multireplacer().replace(src, replace_pairs);
     }
 
     inline std::vector<std::string> string_split(const std::string& str, const std::string& delimiter)
