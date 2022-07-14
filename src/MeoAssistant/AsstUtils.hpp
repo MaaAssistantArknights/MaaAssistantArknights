@@ -34,8 +34,7 @@ namespace asst::utils
         return str;
     }
 
-    // 此处的 replace_pairs 尽量不要传入构造过的 map 而是采用 initializer list, 否则 string_view 可能引用失效内存
-    inline std::string string_replace_all_batch(const std::string& src, const std::unordered_map<std::string_view, std::string_view>& replace_pairs)
+    inline std::string string_replace_all_batch(const std::string& src, std::initializer_list<std::pair<std::string_view, std::string_view>>&& replace_pairs)
     {
         std::string str = src;
         for (const auto& [old_value, new_value] : replace_pairs) {
