@@ -17,23 +17,50 @@
 
 namespace asst::utils
 {
-    inline std::string string_replace_all(const std::string& src, const std::string& old_value, const std::string& new_value)
+    inline void _string_replace_all(std::string& str, const std::string_view& old_value, const std::string_view& new_value)
     {
-        std::string str = src;
         for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length()) {
             if ((pos = str.find(old_value, pos)) != std::string::npos)
                 str.replace(pos, old_value.length(), new_value);
             else
                 break;
         }
+    }
+
+    inline std::string string_replace_all(const std::string& src, const std::string_view& old_value, const std::string_view& new_value)
+    {
+        std::string str = src;
+        _string_replace_all(str, old_value, new_value);
         return str;
     }
 
-    inline std::string string_replace_all_batch(const std::string& src, const std::unordered_map<std::string, std::string>& replace_pairs)
+    inline std::string string_replace_all_batch(const std::string& src, std::initializer_list<std::pair<std::string_view, std::string_view>>&& replace_pairs)
     {
         std::string str = src;
         for (const auto& [old_value, new_value] : replace_pairs) {
-            str = string_replace_all(str, old_value, new_value);
+            _string_replace_all(str, old_value, new_value);
+        }
+        return str;
+    }
+
+    template<typename map_t>
+    inline std::string string_replace_all_batch(const std::string& src, const map_t& replace_pairs)
+    {
+        // 以下两个 static_assert 保证了 map_t 的实际类型，它可以是:
+        //     initializer_list<pair<string, string>>
+        //     vector<pair<string, string>>
+        //     unordered_map<string, string>
+        //     map<string, string>
+        // 但不能是
+        //     initializer_list<pair<string_view, string_view>>
+        // 等其它类型
+        static_assert(std::is_base_of<typename map_t::value_type::first_type, std::string>::value,
+            "type `map_t::value_type::first_type` is not allowed.");
+        static_assert(std::is_base_of<typename map_t::value_type::second_type, std::string>::value,
+            "type `map_t::value_type::second_type` is not allowed.");
+        std::string str = src;
+        for (const auto& [old_value, new_value] : replace_pairs) {
+            _string_replace_all(str, old_value, new_value);
         }
         return str;
     }
