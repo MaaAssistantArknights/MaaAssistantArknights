@@ -20,6 +20,23 @@ namespace MeoAsstGui
 {
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
+        private static TrayIcon _trayIconInSettingsViewModel;
+        private static bool _isTrayIconInSettingsViewModelSet = false;
+        public static void SetTrayIconInSettingsViewModel(TrayIcon trayIcon)
+        {
+            if (!_isTrayIconInSettingsViewModelSet)
+            {
+                _trayIconInSettingsViewModel = trayIcon;
+                _isTrayIconInSettingsViewModelSet = true;
+            }
+            else
+            {
+                // 什么，SettingsViewModel会重复初始化。我相信后人的智慧。
+                throw new System.InvalidOperationException(
+                    "不可重复对源自SettingsViewModel的trayIcon引用赋值，它会在SettingsViewModel初始化时被初始化。");
+            }
+        }
+
         // 初始化些啥自己加
         protected override void OnStart()
         {
@@ -47,7 +64,8 @@ namespace MeoAsstGui
             {
                 ToastNotificationManagerCompat.History.Clear();
             }
-
+            //注销任务栏图标
+            _trayIconInSettingsViewModel.Close();
             ViewStatusStorage.Save();
         }
 

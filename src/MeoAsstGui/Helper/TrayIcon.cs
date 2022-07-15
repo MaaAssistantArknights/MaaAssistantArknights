@@ -19,7 +19,7 @@ using System.Windows.Forms;
 
 namespace MeoAsstGui
 {
-    public partial class TrayIcon : Window
+    public partial class TrayIcon
     {
         private NotifyIcon notifyIcon = new NotifyIcon();
         private WindowState ws; //记录窗体状态
@@ -131,6 +131,13 @@ namespace MeoAsstGui
         public void SetMinimizeToTaskbar(bool enable)
         {
             _isMinimizeToTaskbar = enable;
+        }
+
+        public void Close()
+        {
+            notifyIcon.Icon = null;
+            notifyIcon.Visible = false;
+            notifyIcon.Dispose();
         }
     }
 }

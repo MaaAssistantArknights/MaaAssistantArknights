@@ -18,7 +18,6 @@ namespace MeoAsstGui
 {
     public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
-        private TrayIcon _trayIcon;
         private readonly IContainer _container;
         private readonly IWindowManager _windowManager;
 
@@ -30,7 +29,6 @@ namespace MeoAsstGui
 
         protected override void OnViewLoaded()
         {
-            _trayIcon = new TrayIcon();
             CheckAndUpdateNow();
             InitViewModels();
             InitProxy();
