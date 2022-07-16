@@ -66,6 +66,8 @@ namespace MeoAsstGui
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             InitializeItems();
             InitTimer();
+            var trayIcon = _container.Get<TrayIcon>();
+            trayIcon.SetTaskQueueViewModel(this);
         }
 
         //public void ShowButton()

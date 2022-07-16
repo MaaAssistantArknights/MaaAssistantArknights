@@ -63,7 +63,7 @@ namespace MeoAsstGui
             var trayObj = _container.Get<TrayIcon>();
             trayObj.SetVisible(UseTray);
             trayObj.SetMinimizeToTaskbar(MinimizeToTray);
-            Bootstrapper.SetTrayIconInSettingsViewModel(trayObj);
+            Bootstrapper.SetTrayIconInSettingsViewModel(this);
         }
 
         private List<string> _listTitle = new List<string>();
