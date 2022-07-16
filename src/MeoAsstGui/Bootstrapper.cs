@@ -9,6 +9,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
@@ -21,20 +22,22 @@ namespace MeoAsstGui
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         private static TrayIcon _trayIconInSettingsViewModel;
-        private static bool _isTrayIconInSettingsViewModelSet = false;
-        public static void SetTrayIconInSettingsViewModel(TrayIcon trayIcon)
+
+        private static readonly FieldInfo _settingsViewModelIContainerFiled =
+            typeof(SettingsViewModel).GetField("_container", BindingFlags.NonPublic | BindingFlags.Instance);
+        /// <summary>
+        /// 应当只能是SettingsViewModel在构造时调用这个函数。用反射拿_container只是为了不额外修改SettingsViewModel的定义，
+        /// 并顺便检查传入的SettingsViewModel中的_container不为空（即不是随便new出来的一个SettingsViewModel）
+        /// </summary>
+        /// <param name="settingsViewModel">SettingsViewModel的this</param>
+        internal static void SetTrayIconInSettingsViewModel(SettingsViewModel settingsViewModel)
         {
-            if (!_isTrayIconInSettingsViewModelSet)
+            var container = (IContainer)_settingsViewModelIContainerFiled.GetValue(settingsViewModel);
+            if (container != null)
             {
-                _trayIconInSettingsViewModel = trayIcon;
-                _isTrayIconInSettingsViewModelSet = true;
+                _trayIconInSettingsViewModel = container.Get<TrayIcon>();
             }
-            else
-            {
-                // 什么，SettingsViewModel会重复初始化。我相信后人的智慧。
-                throw new System.InvalidOperationException(
-                    "不可重复对源自SettingsViewModel的trayIcon引用赋值，它会在SettingsViewModel初始化时被初始化。");
-            }
+            //TODO:出现不符合要求的settingsViewModel应当Log一下，等一个有缘人
         }
 
         // 初始化些啥自己加
