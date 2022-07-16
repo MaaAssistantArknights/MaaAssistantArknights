@@ -3006,7 +3006,7 @@
         "next": [
             "CollectCredit",
             "MallLoading",
-            "Stop"
+            "CreditStoreOcr"
         ]
     },
     "CollectCredit": {
