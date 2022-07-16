@@ -39,16 +39,13 @@ namespace MeoAsstGui
             notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
             App.Current.MainWindow.StateChanged += MainWindow_StateChanged;
 
-            MenuItem showMenu = new System.Windows.Forms.MenuItem("打开 MAA");
-            showMenu.Click += App_show;
-            // 不知道怎么调用 TaskQueue.LinkStart, 等一个有缘的大佬来写（
             MenuItem startMenu = new System.Windows.Forms.MenuItem("开始长草");
             startMenu.Click += StartTask;
             MenuItem stopMenu = new System.Windows.Forms.MenuItem("全部停止");
             stopMenu.Click += StopTask;
             MenuItem exitMenu = new System.Windows.Forms.MenuItem("退出");
             exitMenu.Click += App_exit;
-            System.Windows.Forms.MenuItem[] menuItems = new MenuItem[] { showMenu, startMenu, stopMenu, exitMenu };
+            System.Windows.Forms.MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, exitMenu };
             this.notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(menuItems);
         }
         /// <summary>
