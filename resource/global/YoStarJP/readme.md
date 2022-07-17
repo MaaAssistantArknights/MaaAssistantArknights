@@ -21,6 +21,9 @@ Now supports:
 - Restore with potion
 - Restore with Originite
 - Set the max number of auto battles
+- Recruitment calculate
+- Friends visit
+- Award collect
 
 ## 日本
 
@@ -32,3 +35,6 @@ Now supports:
 - ポーションで復元
 - Originiteで復元
 - 自動戦闘の最大数を設定します
+- 採用計算
+- 友達が訪問
+- アワードコレクト
