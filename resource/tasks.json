@@ -2970,29 +2970,10 @@
             360
         ],
         "next": [
-            "MallLoading",
             "CreditStoreOcr",
             "Mall",
             "ReturnToMallCloseAnno",
             "TodaysSuppliesToMall"
-        ]
-    },
-    "MallLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反馈至神经"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
-        "next": [
-            "MallLoading",
-            "CreditStoreOcr"
         ]
     },
     "CreditStoreOcr": {
@@ -3009,8 +2990,20 @@
         "action": "ClickSelf",
         "next": [
             "CollectCredit",
-            "MallLoading",
+            "CreditStoreFailed",
             "Stop"
+        ]
+    },
+    "CreditStoreFailed": {
+        "action": "DoNothing",
+        "roi": [
+            76,
+            44,
+            144,
+            127
+        ],
+        "next": [
+            "CreditStoreOcr"
         ]
     },
     "CollectCredit": {
