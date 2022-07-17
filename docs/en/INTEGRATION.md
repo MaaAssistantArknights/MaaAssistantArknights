@@ -33,7 +33,16 @@ Appends a task.
 
 - `StartUp`  
     Start-up
-    No parameters required
+
+```jsonc
+// Corresponding task parameters
+{
+    "enable": bool,             // Whether to enable this task, optional, true by default
+    "client_type": string,      // Client version, optional, empty by default
+                                // Options: "Official" | "Bilibili"
+    "start_game_enabled": bool   // Whether to launch client automatically, optional, false by default
+}
+```
 
 - `Fight`  
     Operation
@@ -41,14 +50,23 @@ Appends a task.
 ```jsonc
 // Corresponding task parameters
 {
+    "enable": bool,             // Whether to enable this task, optional, true by default
     "stage": string,            // Stage name, optional, by default "当前关卡". Editing in run-time is not supported.
     "medicine": int,            // Maximum number Sanity Potion used, optional, by default 0
     "stone": int,               // Maximum number of Originite Prime used, optional, by default 0
     "times": int,               // Maximum times, optional, by default infinite
+    "drops": {                  // Specifying the number of drops, optional, no specification by default
+        "30011": int,           // Key: item ID; value: number of items. Key refers to resource/item_index.json
+        "30062": int            // OR combination
+    },
+    /* Items are combined with OR operators, i.e. the task stops when any condition meets. */
+
     "report_to_penguin": bool,  // Whether to upload data to Pengiun Stats, optional, by default false
     "penguin_id": string,       // Penguin Stats ID, optional, by default empty. Available only when `report_to_penguin` is `true`.
-    "server": string            // Server, optional, by default "CN", will affect the drop recognition and upload
+    "server": string,           // Server, optional, by default "CN", will affect the drop recognition and upload
                                 // Options："CN" | "US" | "JP" | "KR"
+    "client_type": string       // Client versino, optional, empty by default. Used to reconnect after the game crashed. Empty means to disable this feature
+                                // Options: "Official" | "Bilibili"
 }
 ```
 
@@ -58,6 +76,7 @@ Appends a task.
 ```jsonc
 // Corresponding task parameters
 {
+    "enable": bool,             // Whether to enable this task, optional, by default true
     "refresh": bool,            // Whether to refresh 3★ tags, optional, by default false
     "select": [                 // Tag level to click, required
         int,
@@ -72,6 +91,7 @@ Appends a task.
     "expedite": bool,           // Whether to use expedited plans, optional, by default false
     "expedite_times": int,      // The times of using expedited plans, available only when `expedite` is `true`
                                 // Optional, by default infinity until `times` reaches its limitation.
+    "skip_robot": bool          // Whether to skip when robot tag is recognized, optional, skip by default
 }
 ```
 
@@ -80,6 +100,7 @@ Appends a task.
 
 ```jsonc
 {
+    "enable": bool,             // Whether to enable this task, optional, by default true
     "mode": int,            // Shift mode, reserved, optional. Editing in run-time is not supported.
     "facility": [           // Facilities for shifting, required. Editing in run-time is not supported.
         string,             // Facility name: "Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm"
@@ -93,8 +114,14 @@ Appends a task.
 ```
 
 - `Visit`  
-    Visiting reception room of friends  
-    Settings are not supported.
+    Visiting reception room of friends
+
+```jsonc
+// Corresponding task parameters
+{
+    "enable": bool          // Whether to enable this task, optional, by default true
+}
+```
 
 - `Mall`  
     Collecting Credits and auto-purchasing
@@ -103,9 +130,11 @@ Appends a task.
 ```jsonc
 // Corresponding task parameters
 {
+    "enable": bool,         // Whether to enable this task, optional, by default true
     "shopping": bool,       // Whether to buy items from the store, optional, by default false. Editing in run-time is not supported.
     "buy_first": [          // Items to be purchased with priority, optional. Editing in run-time is not supported.
         string,             // Item name, e.g. "招聘许可" (Recruitment Permit), "龙门币" (LMD), etc.
+        ...
     ],
     "blacklist": [          // Blacklist, optional. Editing in run-time is not supported.
         string,             // Item name, e.g. "加急许可" (Expedited Plan), "家具零件" (Furniture Part), etc.
@@ -116,14 +145,21 @@ Appends a task.
 
 - `Award`  
     Collecting daily awards.  
-    Settings are not supported.
+
+```jsonc
+// Corresponding task parameters
+{
+    "enable": bool          // Whether to enable this task, optional, by default true
+}
+```
 
 - `Roguelike`  
     Integrated Strategies
 
 ```jsonc
 {
-    "mode": int,            // Mode, optional, by default 0
+    "enable": bool,         // Whether to enable this task, optional, by default true
+    "mode": int             // Mode, optional, by default 0
                             // 0 - Plays as much as you can
                             // 1 - Exits after first level
                             // 2 - Plays until trading
@@ -135,6 +171,7 @@ Appends a task.
 
 ```jsonc
 {
+    "enable": bool,             // Whether to enable this task, optional, by default true
     "stage_name": string,       // Stage name, same as the `stage_name` field in JSON. Editing in run-time is not supported.
     "filename": string,         // Filename and path of the task JSON, supporting absolute/relative paths. Editing in run-time is not supported.
     "formation": bool           // Whether to "quick build", optional, by default false. Editing in run-time is not supported.
@@ -142,6 +179,16 @@ Appends a task.
 ```
 
 For more details about task JSON, please refer to [Task Schema](TASK_SCHEMA.md)
+
+- `Depot`
+    Depot recognition
+
+```jsonc
+// Corresponding task parameters
+{
+    "enable": bool          // Whether to enable this task, optional, by default true
+}
+```
 
 ### `AsstSetTaskParams`
 
