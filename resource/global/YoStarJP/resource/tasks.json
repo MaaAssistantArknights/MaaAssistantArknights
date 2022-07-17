@@ -58,5 +58,238 @@
         "next": [
             "ClickCorner"
         ]
+    },
+    "VisitNextOcr": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "次を訪問"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            1080,
+            570,
+            195,
+            130
+        ],
+        "next": [
+            "VisitLimited",
+            "VisitNext",
+            "VisitNextBlack",
+            "VisitNextOcr"
+        ]
+    },
+    "VisitLimited": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "上限",
+            "達しました"
+        ],
+        "action": "DoNothing",
+        "roi": [
+            900,
+            50,
+            375,
+            140
+        ],
+        "next": [
+            "ReturnToHome"
+        ]
+    },
+    "NoFriends": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "No friends"
+        ],
+        "roi": [
+            650,
+            100,
+            300,
+            150
+        ],
+        "action": "DoNothing",
+        "next": [
+            "ReturnToHome"
+        ]
+    },
+    "RecruitTags": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            375,
+            360,
+            480,
+            120
+        ],
+        "ocrReplace": [
+            [
+                "初期",
+                "新手"
+            ],
+            [
+                "エリート",
+                "资深干员"
+            ],
+            [
+                "上級エリート",
+                "高级资深干员"
+            ],
+            [
+                "近距離",
+                "近战位"
+            ],
+            [
+                "遠距離",
+                "远程位"
+            ],
+            [
+                "前衛タイプ",
+                "近卫干员"
+            ],
+            [
+                "医療タイプ",
+                "医疗干员"
+            ],
+            [
+                "先鋒タイプ",
+                "先锋干员"
+            ],
+            [
+                "術師タイプ",
+                "术师干员"
+            ],
+            [
+                "狙撃タイプ",
+                "狙击干员"
+            ],
+            [
+                "重装タイプ",
+                "重装干员"
+            ],
+            [
+                "補助タイプ",
+                "辅助干员"
+            ],
+            [
+                "特殊タイプ",
+                "特种干员"
+            ],
+            [
+                "治療",
+                "治疗"
+            ],
+            [
+                "支援",
+                "支援"
+            ],
+            [
+                "火力",
+                "输出"
+            ],
+            [
+                "範囲攻撃",
+                "群攻"
+            ],
+            [
+                "減速",
+                "减速"
+            ],
+            [
+                "生存",
+                "生存"
+            ],
+            [
+                "防御",
+                "防护"
+            ],
+            [
+                "弱化",
+                "削弱"
+            ],
+            [
+                "強制移動",
+                "位移"
+            ],
+            [
+                "牽制",
+                "控场"
+            ],
+            [
+                "爆発力",
+                "爆发"
+            ],
+            [
+                "召喚",
+                "召唤"
+            ],
+            [
+                "高速再配置",
+                "快速复活"
+            ],
+            [
+                "COST回復",
+                "费用回复"
+            ],
+            [
+                "ロボット",
+                "支援机械"
+            ]
+        ]
+    },
+    "Award": {
+        "template": "Task.png",
+        "action": "ClickSelf",
+        "roi": [
+            650,
+            500,
+            250,
+            170
+        ],
+        "next": [
+            "ReceiveAward",
+            "DailyTask",
+            "WeeklyTask",
+            "Award"
+        ]
+    },
+    "AwardFinished": {
+        "action": "Stop",
+        "roi": [
+            400,
+            0,
+            880,
+            150
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "DailyTask": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            400,
+            0,
+            880,
+            150
+        ],
+        "next": [
+            "ReceiveAward",
+            "WeeklyTask"
+        ]
+    },
+    "WeeklyTask": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            400,
+            0,
+            880,
+            150
+        ],
+        "next": [
+            "ReceiveAward",
+            "Stop"
+        ]
     }
 }
