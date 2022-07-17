@@ -6986,6 +6986,7 @@
         "Doc": "这里的阈值作为平均灰度值（亮度）阈值使用"
     },
     "Roguelike1StartAction": {
+        "template": "Roguelike1StartAction.png",
         "Doc": "本任务注册了插件 RoguelikeSkillSelectionTaskPlugin、RoguelikeBattleTaskPlugin",
         "action": "ClickSelf",
         "roi": [
@@ -6999,6 +7000,20 @@
             "Roguelike1MissionCompletedFlag",
             "Roguelike1MissionFailedFlag",
             "Roguelike1MissionFailedFlag2"
+        ]
+    },
+    "Roguelike1WaitBattleStart": {
+        "Doc": "点了开始行动之后，可能会网络不好一直loading，用这个任务等一会",
+        "template": "Roguelike1QuickFormation.png",
+        "action": "DoNothing",
+        "roi": [
+            817,
+            0,
+            402,
+            146
+        ],
+        "next": [
+            "Roguelike1WaitBattleStart"
         ]
     },
     "Roguelike1InBattleFlag": {
