@@ -82,9 +82,16 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     return true;
 }
 
+void asst::RoguelikeBattleTaskPlugin::wait_for_start()
+{
+    ProcessTask(*this, { "Roguelike1WaitBattleStart" }).set_task_delay(0).set_retry_times(0).run();
+}
+
 bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 {
     LogTraceFunction;
+
+    wait_for_start();
 
     const auto& tile = Resrc.tile();
     bool calced = false;

@@ -22,6 +22,7 @@ namespace asst
     protected:
         virtual bool _run() override;
 
+        void wait_for_start();
         bool get_stage_info();
         bool auto_battle();
         void all_melee_retreat();
