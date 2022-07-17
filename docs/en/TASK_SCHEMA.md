@@ -29,6 +29,8 @@ Usage of `resource/tasks.json` and description of each field
                                             //      - ClickRect:        Clicking in the specified rectangle. See the specificRect field, not recommended
                                             //      - SwipeToTheLeft:   Swiping to the left
                                             //      - SwipeToTheRight:  Swiping to the right
+                                            //      - SlowlySwipeToTheLeft:   Slowly swiping to the left
+                                            //      - SlowlySwipeToTheRight:  Slowly swiping to the right
 
         "sub": [ "SubTaskName1", "SubTaskName2" ],
                                             // Subtasks, optional. Will be executed in the order of the list after execution of the current task.
@@ -51,6 +53,8 @@ Usage of `resource/tasks.json` and description of each field
         "exceededNext": [ "OtherTaskName1", "OtherTaskName2" ],
                                             // Tasks to be executed after reaching `maxTimes`, optional
                                             // Stops the task if empty; otherwise, proceeds with the tasks here in the list instead of `next`.
+        "onErrorNext": [ "OtherTaskName1", "OtherTaskName2" ],
+                                            // Proceeding tasks when there are errors, optional
 
         "preDelay": 1000,                   // Pre-delay of action in ms after recognition, optional; 0 by default
         "rearDelay": 1000,                  // Post-delay of action in ms after recognition, optional; 0 by default
@@ -64,21 +68,24 @@ Usage of `resource/tasks.json` and description of each field
                                             // Only for targets that do not change position. Please set it to `false` for targets with changing position.
 
         "rectMove": [0, 0, 0, 0],           // Target movements after recognition, optional, not recommended. Auto-scaling based on 1280 * 720 resolution.
-                                            // E.g. Icon A is recognized but the target is some position beside A. You can set it to click the place beside it. It is suggested that it should recognize the target to click instead of using this field.
+                                            // E.g. Icon A is recognized but the target is some position beside A. You can set it to click the place beside it.
+                                            // It is suggested that it should recognize the target to click instead of using this field.
         
         "reduceOtherTimes": [ "OtherTaskName1", "OtherTaskName2" ],
                                             // Reducing execution counter of other tasks after execution, optional
                                             // E.g. Using sanity potion means clicking the blue start button did not take effect so the counter of the starting task should be reduced by 1.
 
         "specificRect": [ 100, 100, 50, 50],
-                                            // Available only when `action` is `ClickRect`, indicating the position to click (random position within the region), required. Auto-scaling based on 1280 * 720 resolution.
+                                            // Available only when `action` is `ClickRect`, indicating the position to click (random position within the region), required.
+                                            // Auto-scaled based on 1280 * 720 resolution.
         
         /* Available only when `algorithm` is `MatchTemplate` */
 
         "templThreshold": 0.8,              // Threshold of image recognition, optional. Image is matched only when the similarity is greater than the threshold.
                                             // 0.8 by default. You can check it in the logs.
 
-        "maskRange": [ 1, 255 ],            // Grayscale mask range, optional. E.g. fill in the region that does not require recognition with black colour, and set it to [ 1, 255 ] so that the black region is ignored.
+        "maskRange": [ 1, 255 ],            // Grayscale mask range, optional. E.g. fill in the region that does not require recognition with black colour,
+                                            // and set it to [ 1, 255 ] so that the black region is ignored.
 
 
         /* Available only when `algorithm` is `OcrDetect` */
