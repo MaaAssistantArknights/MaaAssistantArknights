@@ -182,6 +182,7 @@ void asst::StageDropsTaskPlugin::set_startbutton_delay()
         int64_t pre_start_time = last_time_opt ? last_time_opt.value() : 0;
 
         if (pre_start_time > 0) {
+            m_startbutton_delay_setted = true;
             int64_t duration = time(nullptr) - pre_start_time;
             int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->rear_delay;
             int64_t delay = duration * 1000 - elapsed;
