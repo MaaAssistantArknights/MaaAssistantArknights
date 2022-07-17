@@ -47,6 +47,8 @@ Talk is cheap. Show me the pictures!
 
 ## Download
 
+***First time use? Please download `MaaBundle-vX.Y.Z.zip`***
+
 [Stable](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [Development](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
@@ -75,7 +77,7 @@ Please refer to: [FAQ](docs/en/FAQ.md)
 - Global(EN) Client  
   Supports basic features like Combat, Recruiting, Visiting, Collocting, etc. See also [README](resource/global/YoStarEN/readme.md)
 - JP Client  
-  Supports basic features like Combat, etc.  See also [README](resource/global/YoStarJP/readme.md)
+  Supports basic features like Combat, Recruiting, Visiting, Collocting, etc. See also [README](resource/global/YoStarJP/readme.md)
 - KR Client  
   Supports basic features like Combat, etc.  See also [README](resource/global/YoStarKR/readme.md)
 - ZH_CHT Client  

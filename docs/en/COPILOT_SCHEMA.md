@@ -51,13 +51,15 @@ Usage of `resource/copilot/*.json` and field description.
     "actions": [                    // Actions in order, required. Will be executed sequentially
         {
             "type": "部署",         // Action type, optional, "Deploy" by default
-                                    // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage"
-                                    // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"
+                                    // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Ouput" | "SkillDaemon"
+                                    // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机"
                                     // Both English and Chinese are supported
                                     // "Deploy" will wait until the cost is enough (unless timeout)
                                     // "Skill" will wait until the skill is ready (unless timeout)
                                     // "SpeedUp" is switchable, i.e. after using it will become 2x speed, and using it again will make it back to normal speed
                                     // "BulletTime" is the 1/5 speed after clicking any operator. Proceeding with any other action will make it back to normal speed
+                                    // "Ouput" (Output) will print out the content of the doc (for subtities, etc.)
+                                    // "SkillDaemon" will cast skills when they are ready, and do nothing else until the end
 
             "kills": 0,             // Waiting until the number of kills required is reached, optional, 0 by default
 

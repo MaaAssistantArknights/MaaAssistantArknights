@@ -986,7 +986,7 @@
                 "蛇屠箱"
             ],
             [
-                ".+刺",
+                ".*刺",
                 "棘刺"
             ],
             [
@@ -1026,7 +1026,11 @@
                 "嵯峨"
             ],
             [
-                "健影",
+                "姜峨",
+                "嵯峨"
+            ],
+            [
+                ".*影",
                 "傀影"
             ],
             [
@@ -1038,16 +1042,8 @@
                 "赫默"
             ],
             [
-                ".+刺",
-                "棘刺"
-            ],
-            [
-                "姜哦",
-                "嵯峨"
-            ],
-            [
-                "健影",
-                "傀影"
+                "赫黑大",
+                "赫默"
             ],
             [
                 "^灵鲨",
@@ -1062,16 +1058,20 @@
                 "灰烬"
             ],
             [
-                "迷.+香",
+                "迷.*香",
                 "迷迭香"
             ],
             [
-                "森.+",
+                "森.*",
                 "森蚺"
             ],
             [
-                ".+心斯卡蒂",
+                ".*心斯卡蒂",
                 "浊心斯卡蒂"
+            ],
+            [
+                "斯卡蒂的海刷",
+                "斯卡蒂的海嗣"
             ],
             [
                 "^会$",
@@ -1086,20 +1086,12 @@
                 "归溟幽灵鲨"
             ],
             [
-                "姜峨",
-                "嵯峨"
-            ],
-            [
                 "鞭便刃",
                 "鞭刃"
             ],
             [
                 "险星",
                 "陨星"
-            ],
-            [
-                "赫黑大",
-                "赫默"
             ],
             [
                 "雪难",
@@ -1122,10 +1114,6 @@
                 "苇草"
             ],
             [
-                "斯卡蒂的海刷",
-                "斯卡蒂的海嗣"
-            ],
-            [
                 "领习",
                 "翎羽"
             ],
@@ -1143,11 +1131,27 @@
             ],
             [
                 "紫雨",
-                "絮语"
+                "絮雨"
             ],
             [
                 "罗比拉塔",
                 "罗比菈塔"
+            ],
+            [
+                "叶",
+                "吽"
+            ],
+            [
+                "慢砂",
+                "摄砂"
+            ],
+            [
+                "灌尘芙蓉",
+                "濯尘芙蓉"
+            ],
+            [
+                "子",
+                "孑"
             ]
         ]
     },
@@ -1191,7 +1195,8 @@
             "ReturnToTerminal",
             "Terminal",
             "CloseAnno",
-            "StageSNReturnToTerminal"
+            "StageSNReturnToTerminal",
+            "TodaysSupplies"
         ]
     },
     "FightBegin": {
@@ -2045,7 +2050,31 @@
             "Recruit",
             "ReturnToRecruit",
             "ReturnToRecruitCloseAnno",
-            "StageSNReturnToRecruit"
+            "StageSNReturnToRecruit",
+            "TodaysSuppliesToRecruit"
+        ]
+    },
+    "TodaysSuppliesToRecruit": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配给"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "ReturnToRecruitCloseAnno",
+            "Recruit"
         ]
     },
     "ReturnToRecruit": {
@@ -2063,7 +2092,8 @@
             "ReturnToRecruit",
             "ReturnToRecruitConfirm",
             "ReturnToRecruitCloseAnno",
-            "StageSNReturnToRecruit"
+            "StageSNReturnToRecruit",
+            "TodaysSuppliesToRecruit"
         ]
     },
     "ReturnToRecruitConfirm": {
@@ -2079,7 +2109,8 @@
             "Recruit",
             "ReturnToRecruit",
             "ReturnToRecruitCloseAnno",
-            "StageSNReturnToRecruit"
+            "StageSNReturnToRecruit",
+            "TodaysSuppliesToRecruit"
         ]
     },
     "ReturnToRecruitCloseAnno": {
@@ -2096,7 +2127,8 @@
             "Recruit",
             "ReturnToRecruitCloseAnno",
             "ReturnToRecruit",
-            "StageSNReturnToRecruit"
+            "StageSNReturnToRecruit",
+            "TodaysSuppliesToRecruit"
         ]
     },
     "Recruit": {
@@ -2467,8 +2499,32 @@
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
-            "ReturnToRecruitCloseAnno",
-            "StageSNReturnToAward"
+            "ReturnToAwardCloseAnno",
+            "StageSNReturnToAward",
+            "TodaysSuppliesToAward"
+        ]
+    },
+    "TodaysSuppliesToAward": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配给"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "ReturnToAwardCloseAnno",
+            "Award"
         ]
     },
     "Award": {
@@ -2484,7 +2540,9 @@
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
-            "Award"
+            "Award",
+            "ReturnToAwardCloseAnno",
+            "TodaysSuppliesToAward"
         ]
     },
     "ReceiveAward": {
@@ -2584,8 +2642,9 @@
             "Award",
             "ReturnToAward",
             "ReturnToAwardConfirm",
-            "ReturnToRecruitCloseAnno",
-            "StageSNReturnToAward"
+            "ReturnToAwardCloseAnno",
+            "StageSNReturnToAward",
+            "TodaysSuppliesToAward"
         ]
     },
     "ReturnToAwardConfirm": {
@@ -2600,8 +2659,9 @@
         "next": [
             "Award",
             "ReturnToAward",
-            "ReturnToRecruitCloseAnno",
-            "StageSNReturnToAward"
+            "ReturnToAwardCloseAnno",
+            "StageSNReturnToAward",
+            "TodaysSuppliesToAward"
         ]
     },
     "ReturnToAwardCloseAnno": {
@@ -2616,9 +2676,10 @@
         ],
         "next": [
             "Award",
-            "ReturnToRecruitCloseAnno",
+            "ReturnToAwardCloseAnno",
             "ReturnToAward",
-            "StageSNReturnToAward"
+            "StageSNReturnToAward",
+            "TodaysSuppliesToAward"
         ]
     },
     "VisitBegin": {
@@ -2632,7 +2693,31 @@
             "VisitNextBlack",
             "ReturnToFriends",
             "ReturnToFriendsCloseAnno",
-            "StageSNReturnToFriends"
+            "StageSNReturnToFriends",
+            "TodaysSuppliesToVisit"
+        ]
+    },
+    "TodaysSuppliesToVisit": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配给"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "ReturnToFriendsCloseAnno",
+            "Friends"
         ]
     },
     "ReturnToFriends": {
@@ -2650,7 +2735,8 @@
             "ReturnToFriends",
             "ReturnToFriendsConfirm",
             "ReturnToFriendsCloseAnno",
-            "StageSNReturnToFriends"
+            "StageSNReturnToFriends",
+            "TodaysSuppliesToVisit"
         ]
     },
     "ReturnToFriendsConfirm": {
@@ -2666,7 +2752,8 @@
             "Friends",
             "ReturnToFriends",
             "ReturnToFriendsCloseAnno",
-            "StageSNReturnToFriends"
+            "StageSNReturnToFriends",
+            "TodaysSuppliesToVisit"
         ]
     },
     "ReturnToFriendsCloseAnno": {
@@ -2683,7 +2770,8 @@
             "Friends",
             "ReturnToFriends",
             "ReturnToFriendsCloseAnno",
-            "StageSNReturnToFriends"
+            "StageSNReturnToFriends",
+            "TodaysSuppliesToVisit"
         ]
     },
     "Friends": {
@@ -2697,7 +2785,9 @@
         ],
         "next": [
             "FriendsList",
-            "Friends"
+            "Friends",
+            "ReturnToFriendsCloseAnno",
+            "TodaysSuppliesToVisit"
         ]
     },
     "FriendsList": {
@@ -2786,7 +2876,31 @@
             "ReturnToMall",
             "Mall",
             "ReturnToMallCloseAnno",
-            "StageSNReturnToMall"
+            "StageSNReturnToMall",
+            "TodaysSuppliesToMall"
+        ]
+    },
+    "TodaysSuppliesToMall": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配给"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "ReturnToMallCloseAnno",
+            "Mall"
         ]
     },
     "ReturnToMall": {
@@ -2804,7 +2918,8 @@
             "ReturnToMallConfirm",
             "ReturnToMall",
             "ReturnToMallCloseAnno",
-            "StageSNReturnToMall"
+            "StageSNReturnToMall",
+            "TodaysSuppliesToMall"
         ]
     },
     "ReturnToMallConfirm": {
@@ -2820,7 +2935,8 @@
             "ReturnToMall",
             "Mall",
             "ReturnToMallCloseAnno",
-            "StageSNReturnToMall"
+            "StageSNReturnToMall",
+            "TodaysSuppliesToMall"
         ]
     },
     "ReturnToMallCloseAnno": {
@@ -2837,7 +2953,8 @@
             "Mall",
             "ReturnToMallCloseAnno",
             "ReturnToMall",
-            "StageSNReturnToMall"
+            "StageSNReturnToMall",
+            "TodaysSuppliesToMall"
         ]
     },
     "Mall": {
@@ -2853,27 +2970,10 @@
             360
         ],
         "next": [
-            "MallLoading",
             "CreditStoreOcr",
-            "Mall"
-        ]
-    },
-    "MallLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反馈至神经"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
-        "next": [
-            "MallLoading",
-            "CreditStoreOcr"
+            "Mall",
+            "ReturnToMallCloseAnno",
+            "TodaysSuppliesToMall"
         ]
     },
     "CreditStoreOcr": {
@@ -2890,8 +2990,20 @@
         "action": "ClickSelf",
         "next": [
             "CollectCredit",
-            "MallLoading",
+            "CreditStoreFailed",
             "Stop"
+        ]
+    },
+    "CreditStoreFailed": {
+        "action": "DoNothing",
+        "roi": [
+            76,
+            44,
+            144,
+            127
+        ],
+        "next": [
+            "CreditStoreOcr"
         ]
     },
     "CollectCredit": {
@@ -3064,7 +3176,7 @@
         "text": [],
         "ocrReplace": [
             [
-                "龙门.+",
+                "龙门.*",
                 "龙门币"
             ]
         ],
@@ -3104,7 +3216,7 @@
                 "干员"
             ],
             [
-                ".+击干员",
+                ".*击干员",
                 "狙击干员"
             ]
         ]
@@ -3227,7 +3339,31 @@
             "InfrastNotification",
             "ReturnToInfrast",
             "ReturnToInfrastCloseAnno",
-            "StageSNReturnToInfrast"
+            "StageSNReturnToInfrast",
+            "TodaysSuppliesToInfrast"
+        ]
+    },
+    "TodaysSuppliesToInfrast": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配给"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "ReturnToInfrast",
+            "EnterInfrast"
         ]
     },
     "ReturnToInfrast": {
@@ -3247,7 +3383,8 @@
             "ReturnToInfrast",
             "ReturnToInfrastConfirm",
             "ReturnToInfrastCloseAnno",
-            "StageSNReturnToInfrast"
+            "StageSNReturnToInfrast",
+            "TodaysSuppliesToInfrast"
         ]
     },
     "ReturnToInfrastConfirm": {
@@ -3265,7 +3402,8 @@
             "InfrastEnteredFlag",
             "ReturnToInfrast",
             "ReturnToInfrastCloseAnno",
-            "StageSNReturnToInfrast"
+            "StageSNReturnToInfrast",
+            "TodaysSuppliesToInfrast"
         ]
     },
     "ReturnToInfrastCloseAnno": {
@@ -3284,7 +3422,8 @@
             "InfrastEnteredFlag",
             "ReturnToInfrast",
             "ReturnToInfrastCloseAnno",
-            "StageSNReturnToInfrast"
+            "StageSNReturnToInfrast",
+            "TodaysSuppliesToInfrast"
         ]
     },
     "Return": {
@@ -3302,7 +3441,9 @@
         "action": "ClickSelf",
         "next": [
             "InfrastEnteredFlag",
-            "EnterInfrast"
+            "EnterInfrast",
+            "ReturnToInfrastCloseAnno",
+            "TodaysSuppliesToInfrast"
         ],
         "rearDelay": 5000
     },
@@ -4831,19 +4972,19 @@
         "text": [],
         "ocrReplace": [
             [
-                ".+兽小屋",
+                ".*兽小屋",
                 "驯兽小屋"
             ],
             [
-                "分.+不均",
+                "分.*不均",
                 "分赃不均"
             ],
             [
-                "落.+骑士",
+                "落.*骑士",
                 "落魄骑士"
             ],
             [
-                "邪异.+笼",
+                "邪异.*笼",
                 "邪异囚笼"
             ],
             [
@@ -4866,6 +5007,7 @@
             404,
             149
         ],
+        "rearDelay": 1000,
         "next": [
             "BattleQuickFormationClear"
         ]
@@ -5439,6 +5581,49 @@
             "07e01e78700e6006e007e007e0076006700e1ffe011800700060008001800700"
         ]
     },
+    "Roguelike1BattleExitBegin": {
+        "action": "ClickSelf",
+        "roi": [
+            3,
+            0,
+            153,
+            154
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "next": [
+            "Roguelike1BattleAbandon",
+            "Roguelike1BattleExitBegin"
+        ]
+    },
+    "Roguelike1BattleAbandon": {
+        "action": "ClickSelf",
+        "roi": [
+            648,
+            229,
+            220,
+            246
+        ],
+        "next": [
+            "Roguelike1BattleAbandonConfirm",
+            "Roguelike1BattleAbandon"
+        ]
+    },
+    "Roguelike1BattleAbandonConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            716,
+            416,
+            259,
+            153
+        ],
+        "next": [
+            "Roguelike1BattleAbandonConfirm",
+            "Stop"
+        ]
+    },
     "Roguelike1BattleSpeedUp": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -5511,10 +5696,10 @@
         "template": "StartUpConnectingFlag.png",
         "action": "DoNothing",
         "roi": [
-            520,
-            460,
-            240,
-            100
+            0,
+            635,
+            450,
+            85
         ],
         "next": [
             "StartToWakeUpToRoguelike1",
@@ -5636,6 +5821,7 @@
             80
         ],
         "next": [
+            "Roguelike1ChooseDifficulty",
             "Roguelike1Start",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
@@ -5681,6 +5867,7 @@
     "Roguelike1Begin": {
         "algorithm": "JustReturn",
         "next": [
+            "Roguelike1ChooseDifficulty",
             "Roguelike1Start",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
@@ -5709,6 +5896,18 @@
         "next": [
             "Roguelike1MissionFailedFlag2",
             "Roguelike1ExitThenAbandon"
+        ]
+    },
+    "Roguelike1ChooseDifficulty": {
+        "action": "ClickSelf",
+        "roi": [
+            1061,
+            373,
+            208,
+            71
+        ],
+        "next": [
+            "Roguelike1Start"
         ]
     },
     "Roguelike1Start": {
@@ -6387,7 +6586,8 @@
             179
         ],
         "next": [
-            "Roguelike1AbandonConfirm"
+            "Roguelike1AbandonConfirm",
+            "Roguelike1Abandon"
         ]
     },
     "Roguelike1AbandonConfirm": {
@@ -6786,6 +6986,7 @@
         "Doc": "这里的阈值作为平均灰度值（亮度）阈值使用"
     },
     "Roguelike1StartAction": {
+        "template": "Roguelike1StartAction.png",
         "Doc": "本任务注册了插件 RoguelikeSkillSelectionTaskPlugin、RoguelikeBattleTaskPlugin",
         "action": "ClickSelf",
         "roi": [
@@ -6799,6 +7000,20 @@
             "Roguelike1MissionCompletedFlag",
             "Roguelike1MissionFailedFlag",
             "Roguelike1MissionFailedFlag2"
+        ]
+    },
+    "Roguelike1WaitBattleStart": {
+        "Doc": "点了开始行动之后，可能会网络不好一直loading，用这个任务等一会",
+        "template": "Roguelike1QuickFormation.png",
+        "action": "DoNothing",
+        "roi": [
+            817,
+            0,
+            402,
+            146
+        ],
+        "next": [
+            "Roguelike1WaitBattleStart"
         ]
     },
     "Roguelike1InBattleFlag": {

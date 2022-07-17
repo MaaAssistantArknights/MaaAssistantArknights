@@ -14,15 +14,16 @@
         <CheckBox IsChecked="{Binding MinimizeToTray}" Content="最小化时隐藏至托盘" Margin="10" />
         <CheckBox IsChecked="{Binding UseNotify}" Content="重要信息弹出系统通知" Margin="10" />
         <CheckBox IsChecked="{Binding HideUnavailableStage}" Content="隐藏当日不开放关卡" Margin="10" />
-        <hc:ComboBox Margin="10"
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
+                   Text="主界面清空/反选显示样式" Margin="10" />
+            <ComboBox Margin="10"
                      IsHitTestVisible ="{Binding Idle}"
                      ItemsSource="{Binding InverseClearModeList}"
                      DisplayMemberPath="Display"
                      SelectedValuePath="Value"
                      SelectedValue="{Binding InverseClearMode}"
-                     Width="250"
-                     hc:TitleElement.Title="主界面清空/反选显示样式"
-                     hc:TitleElement.TitlePlacement="Left"
-                     hc:TitleElement.TitleWidth="160"/>
+                     Width="80" />
+        </StackPanel>
     </StackPanel>
 </UserControl>
