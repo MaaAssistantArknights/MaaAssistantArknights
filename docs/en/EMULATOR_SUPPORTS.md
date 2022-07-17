@@ -50,9 +50,9 @@ Incompatible. ADB port is not open.
 
 Incompatible. ADB screenshot is black.
 
-### ⚠️ Leidian
+### 🚫 Leidian
 
-Compatible. But the emulator may not be able to get the resolution. Please change to other emulators if it prompts warning like too low resolution.
+Compatible but not recommended. There is a small chance that the game will be displayed upside down or blackscreen, causing the application to click the button to use Originium by mistake (reported by users).
 
 ### ⚠️ MEmu
 
