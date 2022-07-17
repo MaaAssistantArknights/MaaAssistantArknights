@@ -22,12 +22,14 @@ namespace asst
     protected:
         virtual bool _run() override;
 
+        void wait_for_start();
         bool get_stage_info();
         bool auto_battle();
         void all_melee_retreat();
         bool speed_up();
         bool use_skill(const Rect& rect);
         bool retreat(const Point& point);
+        bool abandon();
         void clear();
         bool try_possible_skill(const cv::Mat& image);
         bool check_key_kills(const cv::Mat& image);

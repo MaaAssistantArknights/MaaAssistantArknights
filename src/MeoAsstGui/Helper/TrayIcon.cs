@@ -19,9 +19,10 @@ using System.Windows.Forms;
 
 namespace MeoAsstGui
 {
-    public partial class TrayIcon : Window
+    public partial class TrayIcon
     {
         private NotifyIcon notifyIcon = new NotifyIcon();
+        private TaskQueueViewModel taskQueueViewModel;
         private WindowState ws; //记录窗体状态
         private bool _isMinimizeToTaskbar = false;
 
@@ -38,17 +39,22 @@ namespace MeoAsstGui
             notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
             App.Current.MainWindow.StateChanged += MainWindow_StateChanged;
 
-            MenuItem showMenu = new System.Windows.Forms.MenuItem("打开 MAA");
-            showMenu.Click += App_show;
-            // 不知道怎么调用 TaskQueue.LinkStart, 等一个有缘的大佬来写（
-            //MenuItem startMenu = new System.Windows.Forms.MenuItem("开始长草");
-            //startMenu.Click += StartTask;
-            //MenuItem stopMenu = new System.Windows.Forms.MenuItem("全部停止");
-            //stopMenu.Click += StopTask;
+            MenuItem startMenu = new System.Windows.Forms.MenuItem("开始长草");
+            startMenu.Click += StartTask;
+            MenuItem stopMenu = new System.Windows.Forms.MenuItem("全部停止");
+            stopMenu.Click += StopTask;
             MenuItem exitMenu = new System.Windows.Forms.MenuItem("退出");
             exitMenu.Click += App_exit;
-            System.Windows.Forms.MenuItem[] menuItems = new MenuItem[] { showMenu, exitMenu };
+            System.Windows.Forms.MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, exitMenu };
             this.notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(menuItems);
+        }
+        /// <summary>
+        /// 只应该在TaskQueueViewModel的构造函数中调用这个函数，不要传入一个随便new出来的TaskQueueViewModel
+        /// </summary>
+        /// <param name="taskQueueViewModel">一个 不是 随便new出来的TaskQueueViewModel</param>
+        public void SetTaskQueueViewModel(TaskQueueViewModel taskQueueViewModel)
+        {
+            this.taskQueueViewModel = taskQueueViewModel;
         }
 
         private void MainWindow_StateChanged(object sender, EventArgs e)
@@ -83,15 +89,16 @@ namespace MeoAsstGui
             }
         }
 
-        //private void StartTask(object sender, EventArgs e)
-        //{
-        // 不知道怎么调用 TaskQueue.LinkStart, 等一个有缘的大佬来写（
-        //}
+        private void StartTask(object sender, EventArgs e)
+        {
+            //taskQueueViewModel意外为null了是不是也可以考虑Log一下
+            taskQueueViewModel?.LinkStart();
+        }
 
-        //private void StopTask(object sender, EventArgs e)
-        //{
-        // 不知道怎么调用 TaskQueue.Stop, 等一个有缘的大佬来写（
-        //}
+        private void StopTask(object sender, EventArgs e)
+        {
+            taskQueueViewModel?.Stop();
+        }
 
         private void App_exit(object sender, EventArgs e)
         {
@@ -131,6 +138,13 @@ namespace MeoAsstGui
         public void SetMinimizeToTaskbar(bool enable)
         {
             _isMinimizeToTaskbar = enable;
+        }
+
+        public void Close()
+        {
+            notifyIcon.Icon = null;
+            notifyIcon.Visible = false;
+            notifyIcon.Dispose();
         }
     }
 }

@@ -79,6 +79,14 @@ Todo
     UUID has been retrieved.
 - `UnsupportedResolution`  
     The resolution is not supported.
+- `ResolutionError`
+    Cannot get the resolution.
+- `Reconnecting`
+    Disconnected (adb/emulator crashed), and reconnecting
+- `Reconnected`
+    Disconnected (adb/emulator crashed), and reconnected successfully
+- `Disconnect`
+    Disconnected (adb/emulator crashed), and failed to reconnect
 
 #### AllTasksCompleted
 
@@ -86,6 +94,10 @@ Todo
 {
     "taskchain": string,            // Last task chain
     "uuid": string                  // UUID
+    "runned_tasks": [               // ID of the last task run
+        int,
+        ...
+    ]
 }
 ```
 
@@ -194,6 +206,8 @@ Todo
     Integrated Strategy: Emergency Operation
 - `Roguelike1StageDreadfulFoe`  
     Integrated Strategy: Dreadful Foe
+- `StartGameTask`
+    Failed to launch client (incompatible config file with client_type)
 - Todo Other
 
 #### SubTaskExtraInfo
@@ -284,6 +298,16 @@ Todo
     }
     ```
 
+- `RecruitRobotTag`
+    Recruitment tag recognized as robot and skip (i.e. user needs it)
+
+    ```jsonc
+    // Example of corresponding details field
+    {
+        "tag": "支援机械" // Support robot
+    }
+    ```
+
 - `RecruitResult`  
     Recruitment result
 
@@ -350,7 +374,19 @@ Todo
                     }
                 ]
             }
-        ]
+        ],
+        "robot": True               // Recruitment tag recognized and skip (i.e. user needs it)
+    }
+    ```
+
+- `RecruitTagsRefreshed`  
+    Recruitment tags refreshed
+
+    ```jsonc
+    // Example of corresponding details field
+    {
+        "count": 1,               // Number of times that the slot has been refreshed
+        "refresh_limit": 3        // Limits of the number of times of refreshing
     }
     ```
 
@@ -366,6 +402,12 @@ Todo
         ]
     }
     ```
+
+- `RecruitSlotCompleted`  
+    Recruitment slot completed
+
+- `RecruitError`  
+    Error when recognizing recruitment
 
 - `EnterFacility`  
     Entering the facility
@@ -423,3 +465,37 @@ Todo
         "id": string
     }
     ```
+
+- `DepotInfo`  
+    Recognition result of depot
+
+    ```jsonc
+    // Example of corresponding details field
+    // Supports ArkPlanner format only. More formats may be supported in future.
+    "arkplanner": {
+        "object": {
+            "items": [
+                {
+                    "id": "2004",
+                    "have": 4,
+                    "name": "高级作战记录" // Strategic Battle Record
+                },
+                {
+                    "id": "mod_unlock_token",
+                    "have": 25,
+                    "name": "模组数据块" // Module Data Block
+                },
+                {
+                    "id": "2003",
+                    "have": 20,
+                    "name": "中级作战记录" // Tactical Battle Record
+                }
+            ],
+            "@type": "@penguin-statistics/depot"
+        },
+        "data": "{\"@type\":\"@penguin-statistics/depot\",\"items\":[{\"id\":\"2004\",\"have\":4,\"name\":\"高级作战记录\"},{\"id\":\"mod_unlock_token\",\"have\":25,\"name\":\"模组数据块\"},{\"id\":\"2003\",\"have\":20,\"name\":\"中级作战记录\"}]}"
+    }
+    ```
+
+- `UnsupportedLevel`  
+    Unsupported level name

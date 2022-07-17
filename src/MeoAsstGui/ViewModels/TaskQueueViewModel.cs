@@ -66,6 +66,8 @@ namespace MeoAsstGui
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             InitializeItems();
             InitTimer();
+            var trayIcon = _container.Get<TrayIcon>();
+            trayIcon.SetTaskQueueViewModel(this);
         }
 
         //public void ShowButton()
@@ -388,7 +390,6 @@ namespace MeoAsstGui
 
         private int _inverseSelectedWidth = 95;
 
-
         public int InverseSelectedWidth
         {
             get
@@ -446,6 +447,7 @@ namespace MeoAsstGui
         }
 
         private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? "清空" : "反选";
+
         public string InverseMenuText
         {
             get
@@ -924,12 +926,9 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.Hibernate:
-                    System.Diagnostics.Process.Start("shutdown.exe", "-h -t 60");
-                    var hibernateResult = _windowManager.ShowMessageBox("已刷完，即将休眠，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
-                    if (hibernateResult == MessageBoxResult.OK)
-                    {
-                        System.Diagnostics.Process.Start("shutdown.exe", "-a");
-                    }
+                    AddLog("已刷完，即将休眠", "DarkRed");
+                    // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
+                    System.Diagnostics.Process.Start("shutdown.exe", "-h");
                     break;
 
                 default:
