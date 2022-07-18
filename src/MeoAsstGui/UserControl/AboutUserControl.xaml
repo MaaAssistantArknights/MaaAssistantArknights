@@ -17,7 +17,8 @@
         <Hyperlink NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights" Click="Hyperlink_Click" TextDecorations="None">源码: GitHub</Hyperlink>
         </TextBlock>
         <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-        <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=4u0uqXep" Click="Hyperlink_Click" TextDecorations="None">自动战斗作业分享 Q 群</Hyperlink>
+        <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=4u0uqXep" Click="Hyperlink_Click" TextDecorations="None">作业一群（已满）</Hyperlink>
+        <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=u9i2n7Sb" Click="Hyperlink_Click" TextDecorations="None">作业二群</Hyperlink>
         </TextBlock>
         <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
         <Hyperlink NavigateUri="https://www.prts.plus" Click="Hyperlink_Click" TextDecorations="None">自动战斗作业分享网站</Hyperlink>
