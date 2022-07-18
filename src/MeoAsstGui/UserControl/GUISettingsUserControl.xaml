@@ -13,17 +13,17 @@
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
         <CheckBox IsChecked="{Binding MinimizeToTray}" Content="最小化时隐藏至托盘" Margin="10" />
         <CheckBox IsChecked="{Binding UseNotify}" Content="重要信息弹出系统通知" Margin="10" />
-        <CheckBox IsChecked="{Binding HideUnavailableStage}" Content="隐藏当日不开放关卡" Margin="10" />
+        <CheckBox IsChecked="{Binding HideUnavailableStage}" Content="关卡选择隐藏当日不开放关卡" Margin="10" />
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="主界面清空/反选显示样式" Margin="10" />
+                   Text="主界面可选择按钮功能" Margin="10" />
             <ComboBox Margin="10"
                      IsHitTestVisible ="{Binding Idle}"
                      ItemsSource="{Binding InverseClearModeList}"
                      DisplayMemberPath="Display"
                      SelectedValuePath="Value"
                      SelectedValue="{Binding InverseClearMode}"
-                     Width="80" />
+                     Width="85" />
         </StackPanel>
     </StackPanel>
 </UserControl>
