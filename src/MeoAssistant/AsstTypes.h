@@ -38,6 +38,10 @@ namespace asst
         {
             return "[ " + std::to_string(x) + ", " + std::to_string(y) + " ]";
         }
+        static constexpr Point RightDirection() { return Point(1, 0); }
+        static constexpr Point DownDirection() { return Point(0, 1); }
+        static constexpr Point LeftDirection() { return Point(-1, 0); }
+        static constexpr Point UpDirection() { return Point(0, -1); }
         int x = 0;
         int y = 0;
     };
