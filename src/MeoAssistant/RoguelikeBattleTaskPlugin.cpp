@@ -654,44 +654,22 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
         home_loc = m_homes.at(m_cur_home_index);
     }
 
-    int dx = 0;
-    if (loc.x > home_loc.x) dx = 1;
-    else if (loc.x < home_loc.x) dx = -1;
-
-    int dy = 0;
-    if (loc.y > home_loc.y) dy = 1;
-    else if (loc.y < home_loc.y) dy = -1;
+    static constexpr auto sgn = [](const int &x) -> int {
+        if (x > 0) return 1;
+        if (x < 0) return -1;
+        return 0;
+    };
 
     Point base_direction(0, 0);
-    switch (role) {
-    case BattleRole::Medic:
-    {
-        if (std::abs(dx) < std::abs(dy)) {
-            base_direction.y = -dy;
-        }
-        else {
-            base_direction.x = -dx;
-        }
+    if (loc.x == home_loc.x) {
+        base_direction.y = sgn(loc.y - home_loc.y);
     }
-    break;
-    case BattleRole::Support:
-    case BattleRole::Warrior:
-    case BattleRole::Sniper:
-    case BattleRole::Special:
-    case BattleRole::Tank:
-    case BattleRole::Pioneer:
-    case BattleRole::Caster:
-    case BattleRole::Drone:
-    default:
-    {
-        if (std::abs(dx) < std::abs(dy)) {
-            base_direction.y = dy;
-        }
-        else {
-            base_direction.x = dx;
-        }
+    else {
+        base_direction.x = sgn(loc.x - home_loc.x);
     }
-    break;
+    // 医疗反着算
+    if (role == BattleRole::Medic) {
+        base_direction = -base_direction;
     }
 
     // 按朝右算，后面根据方向做转换
