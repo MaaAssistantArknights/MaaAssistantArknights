@@ -633,7 +633,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
         }
 
         if (cur_result.second + extra_dist_score > max_score) {
-            max_score = cur_result.second;
+            max_score = cur_result.second + extra_dist_score;
             best_location = loc;
             best_direction = cur_result.first;
         }
