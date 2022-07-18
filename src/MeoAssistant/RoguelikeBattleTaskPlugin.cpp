@@ -657,12 +657,10 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     int dx = 0;
     if (loc.x > home_loc.x) dx = 1;
     else if (loc.x < home_loc.x) dx = -1;
-    else dx = 0;
 
     int dy = 0;
     if (loc.y > home_loc.y) dy = 1;
     else if (loc.y < home_loc.y) dy = -1;
-    else dy = 0;
 
     Point base_direction(0, 0);
     switch (role) {
