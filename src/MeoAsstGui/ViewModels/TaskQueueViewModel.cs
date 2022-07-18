@@ -171,11 +171,6 @@ namespace MeoAsstGui
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
 
-                // SideStory「绿野幻梦」活动
-                new CombData { Display = "DV-6", Value = "DV-6" },
-                new CombData { Display = "DV-7", Value = "DV-7" },
-                new CombData { Display = "DV-8", Value = "DV-8" },
-
                 new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = "龙门币-6/5", Value = "CE-6" },
                 new CombData { Display = "红票-5", Value = "AP-5" },
@@ -191,17 +186,22 @@ namespace MeoAsstGui
                 new CombData { Display = "近/特芯片", Value = "PR-D-1" },
                 new CombData { Display = "近/特芯片组", Value = "PR-D-2" },
 
+                // SideStory「绿野幻梦」活动
+                // new CombData { Display = "DV-6", Value = "DV-6" },
+                // new CombData { Display = "DV-7", Value = "DV-7" },
+                // new CombData { Display = "DV-8", Value = "DV-8" },
+
                 // SideStory「尘影余音」活动
                 // new CombData { Display = "LE-7", Value = "LE-7" },
                 // new CombData { Display = "LE-6", Value = "LE-6" },
                 // new CombData { Display = "LE-5", Value = "LE-5" },
 
-                // “愚人号” 活动关卡
+                // SideStory「愚人号」活动关卡
                 //new CombData { Display = "SN-8", Value = "SN-8" },
                 //new CombData { Display = "SN-9", Value = "SN-9" },
                 //new CombData { Display = "SN-10", Value = "SN-10" },
 
-                //// “风雪过境” 活动关卡
+                // SideStory「风雪过境」活动关卡
                 //new CombData { Display = "BI-7", Value = "BI-7" },
                 //new CombData { Display = "BI-8", Value = "BI-8" }
             };
