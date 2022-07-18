@@ -654,7 +654,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
         home_loc = m_homes.at(m_cur_home_index);
     }
 
-    static constexpr auto sgn = [](const int &x) -> int {
+    auto sgn = [](const int &x) -> int {
         if (x > 0) return 1;
         if (x < 0) return -1;
         return 0;
@@ -732,12 +732,12 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     static const constexpr Point DownDirection(0, 1);
     static const constexpr Point LeftDirection(-1, 0);
     static const constexpr Point UpDirection(0, -1);
-    std::vector<std::pair<Point, std::vector<Point>>> DirectionAttackRangeMap;
+    std::vector<std::pair<const Point&, std::vector<Point>>> DirectionAttackRangeMap;
     DirectionAttackRangeMap.reserve(4);
-    DirectionAttackRangeMap.emplace_back(std::move(RightDirection), std::move(right_attack_range));
-    DirectionAttackRangeMap.emplace_back(std::move(DownDirection), std::move(down_attack_range));
-    DirectionAttackRangeMap.emplace_back(std::move(LeftDirection), std::move(left_attack_range));
-    DirectionAttackRangeMap.emplace_back(std::move(UpDirection), std::move(up_attack_range));
+    DirectionAttackRangeMap.emplace_back(RightDirection, std::move(right_attack_range));
+    DirectionAttackRangeMap.emplace_back(DownDirection, std::move(down_attack_range));
+    DirectionAttackRangeMap.emplace_back(LeftDirection, std::move(left_attack_range));
+    DirectionAttackRangeMap.emplace_back(UpDirection, std::move(up_attack_range));
 
     int max_score = 0;
     Point opt_direction;
