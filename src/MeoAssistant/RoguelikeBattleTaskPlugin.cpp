@@ -653,8 +653,6 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     if (m_cur_home_index < m_homes.size()) {
         home_loc = m_homes.at(m_cur_home_index);
     }
-    Point home_point = m_side_tile_info.at(home_loc).pos;
-    Rect home_rect(home_point.x, home_point.y, 1, 1);
 
     int dx = 0;
     if (loc.x > home_loc.x) dx = 1;
