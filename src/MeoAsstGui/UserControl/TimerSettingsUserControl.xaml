@@ -21,7 +21,7 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource TextBlockDefault}" Text="仅填写小时数，将在整点时执行&#xA;注意*不要*选择'当前关卡'哦~" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" />
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource TextBlockDefault}" Text="仅填写小时数，将在整点时执行&#xA;注意:关卡选择不能为 '当前关卡'" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" />
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center">
             <CheckBox IsChecked="{Binding Timer1}" Content="定时 1" Margin="10" />
