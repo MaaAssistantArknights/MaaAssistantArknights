@@ -29,7 +29,7 @@ namespace asst
         Point() = default;
         Point(const Point&) noexcept = default;
         Point(Point&&) noexcept = default;
-        Point(int x, int y) : x(x), y(y) {}
+        constexpr Point(int x, int y) : x(x), y(y) {}
         Point& operator=(const Point&) noexcept = default;
         Point& operator=(Point&&) noexcept = default;
         bool operator==(const Point& rhs) const noexcept { return x == rhs.x && y == rhs.y; }
