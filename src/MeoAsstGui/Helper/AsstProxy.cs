@@ -153,7 +153,7 @@ namespace MeoAsstGui
                 Execute.OnUIThread(() =>
                 {
                     _windowManager.ShowMessageBox("出现未知异常", "错误", icon: MessageBoxImage.Error);
-                    Environment.Exit(0);
+                    App.Current.Shutdown();
                 });
             }
             var mainModel = _container.Get<TaskQueueViewModel>();
@@ -217,7 +217,7 @@ namespace MeoAsstGui
 
                 case AsstMsg.InitFailed:
                     _windowManager.ShowMessageBox("初始化错误！请检查是否使用了中文路径", "错误", icon: MessageBoxImage.Error);
-                    Environment.Exit(0);
+                    App.Current.Shutdown();
                     break;
 
                 case AsstMsg.ConnectionInfo:

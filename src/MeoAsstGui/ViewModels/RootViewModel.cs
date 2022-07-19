@@ -99,7 +99,7 @@ namespace MeoAsstGui
 
         protected override void OnClose()
         {
-            System.Windows.Application.Current.Shutdown();
+            App.Current.Shutdown();
         }
     }
 }

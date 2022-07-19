@@ -242,7 +242,7 @@ namespace MeoAsstGui
             newProcess.StartInfo.FileName = AppDomain.CurrentDomain.FriendlyName;
             newProcess.StartInfo.WorkingDirectory = Directory.GetCurrentDirectory();
             newProcess.Start();
-            Application.Current.Shutdown();
+            App.Current.Shutdown();
 
             return true;
         }
