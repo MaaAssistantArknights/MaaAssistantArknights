@@ -553,7 +553,7 @@ namespace MeoAsstGui
         {
             var fInfo = new FLASHWINFO();
             fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
-            fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(Application.Current.MainWindow).Handle;
+            fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(App.Current.MainWindow).Handle;
             fInfo.dwFlags = (uint)type;
             fInfo.uCount = count;
             fInfo.dwTimeout = 0;

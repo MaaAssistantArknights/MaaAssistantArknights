@@ -102,7 +102,7 @@ namespace MeoAsstGui
 
         private void App_exit(object sender, EventArgs e)
         {
-            System.Windows.Application.Current.Shutdown();
+            App.Current.Shutdown();
         }
 
         private void App_show(object sender, EventArgs e)
