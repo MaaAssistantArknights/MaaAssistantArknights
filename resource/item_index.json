@@ -1614,5 +1614,13 @@
         "description": "对神经活动十分敏感，可替代传统施术单元的部分功能。在莱茵生命防卫科的实验用品管理手册上，该试剂危险等级与保密等级均为最高。",
         "sortId": -10000,
         "classifyType": "NONE"
+    },
+    "act11mini_token_card": {
+        "name": "借阅证",
+        "usage": "私人图书室独立发行的借阅证，可用于图书室书籍的借阅。不可将书籍带出图书室。",
+        "icon": "act11mini_token_card.png",
+        "description": "拥有这一张借阅证，便可以自由阅览那些你在意的故事。不论后续如何，时光都会记录。",
+        "sortId": -10000,
+        "classifyType": "NONE"
     }
 }

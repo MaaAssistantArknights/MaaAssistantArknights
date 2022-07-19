@@ -29,14 +29,19 @@ namespace asst
         Point() = default;
         Point(const Point&) noexcept = default;
         Point(Point&&) noexcept = default;
-        Point(int x, int y) : x(x), y(y) {}
+        constexpr Point(int x, int y) : x(x), y(y) {}
         Point& operator=(const Point&) noexcept = default;
         Point& operator=(Point&&) noexcept = default;
+        Point operator-() const noexcept { return Point(-x, -y); }
         bool operator==(const Point& rhs) const noexcept { return x == rhs.x && y == rhs.y; }
         std::string to_string() const
         {
             return "[ " + std::to_string(x) + ", " + std::to_string(y) + " ]";
         }
+        static constexpr Point right() { return Point(1, 0); }
+        static constexpr Point down() { return Point(0, 1); }
+        static constexpr Point left() { return Point(-1, 0); }
+        static constexpr Point up() { return Point(0, -1); }
         int x = 0;
         int y = 0;
     };
