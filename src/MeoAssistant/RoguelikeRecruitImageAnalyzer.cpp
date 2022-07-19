@@ -8,6 +8,8 @@
 
 bool asst::RoguelikeRecruitImageAnalyzer::analyze()
 {
+    LogTraceFunction;
+
     OcrWithFlagTemplImageAnalyzer analyzer(m_image);
     analyzer.set_task_info("Roguelike1RecruitOcrFlag", "Roguelike1RecruitOcr");
     analyzer.set_replace(
@@ -42,6 +44,8 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
 
 int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
 {
+    LogTraceFunction;
+
     static const std::unordered_map<std::string, int> EliteTaskName = {
         { "Roguelike1RecruitElite0", 0 },
         { "Roguelike1RecruitElite1", 1 },
@@ -72,6 +76,8 @@ int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
 
 int asst::RoguelikeRecruitImageAnalyzer::match_level(const Rect& raw_roi)
 {
+    LogTraceFunction;
+
     auto task_ptr = Task.get("Roguelike1RecruitLevel");
     OcrWithPreprocessImageAnalyzer analyzer(m_image, raw_roi.move(task_ptr->roi));
     auto& replace = std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("NumberOcrReplace"))->replace_map;
@@ -83,5 +89,9 @@ int asst::RoguelikeRecruitImageAnalyzer::match_level(const Rect& raw_roi)
     }
 
     std::string level = analyzer.get_result().front().text;
+    if (!std::all_of(level.cbegin(), level.cend(),
+        [](char c) -> bool {return std::isdigit(c);})) {
+        return 0;
+    }
     return std::stoi(level);
 }
