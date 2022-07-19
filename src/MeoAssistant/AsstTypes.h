@@ -32,7 +32,7 @@ namespace asst
         constexpr Point(int x, int y) : x(x), y(y) {}
         Point& operator=(const Point&) noexcept = default;
         Point& operator=(Point&&) noexcept = default;
-        Point operator-() noexcept { return Point(-x, -y); }
+        Point operator-() const noexcept { return Point(-x, -y); }
         bool operator==(const Point& rhs) const noexcept { return x == rhs.x && y == rhs.y; }
         std::string to_string() const
         {
