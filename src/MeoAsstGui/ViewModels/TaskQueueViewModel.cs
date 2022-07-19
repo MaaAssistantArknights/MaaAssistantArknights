@@ -885,7 +885,7 @@ namespace MeoAsstGui
 
                 case ActionType.ExitSelf:
                     // Shutdown 会调用 OnExit 但 Exit 不会
-                    Application.Current.Shutdown();
+                    App.Current.Shutdown();
                     // Enviroment.Exit(0);
                     break;
 
@@ -902,7 +902,7 @@ namespace MeoAsstGui
                         AddLog("模拟器关闭失败", "DarkRed");
                     }
                     // Shutdown 会调用 OnExit 但 Exit 不会
-                    Application.Current.Shutdown();
+                    App.Current.Shutdown();
                     // Enviroment.Exit(0);
                     break;
 
