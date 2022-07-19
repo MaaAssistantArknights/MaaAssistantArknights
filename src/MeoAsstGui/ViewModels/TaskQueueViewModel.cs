@@ -138,8 +138,8 @@ namespace MeoAsstGui
                 new GenericCombData<ActionType>{ Display="关闭模拟器",Value=ActionType.ExitEmulator },
                 new GenericCombData<ActionType>{ Display="退出并关闭模拟器",Value=ActionType.ExitEmulatorAndSelf },
                 //new GenericCombData<ActionTypeAfterCompleted>{ Display="待机",Value=ActionTypeAfterCompleted.Suspend },
-                new GenericCombData<ActionType>{ Display="休眠",Value=ActionType.Hibernate },
-                new GenericCombData<ActionType>{ Display="关机",Value=ActionType.Shutdown },
+                new GenericCombData<ActionType>{ Display="休眠*",Value=ActionType.Hibernate },
+                new GenericCombData<ActionType>{ Display="关机*",Value=ActionType.Shutdown },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             int order_offset = 0;
