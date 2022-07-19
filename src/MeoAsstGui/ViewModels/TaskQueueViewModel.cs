@@ -884,11 +884,9 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.ExitSelf:
-                    if (new ToastNotification().CheckToastSystem())
-                    {
-                        ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
-                    }
-                    Environment.Exit(0);
+                    // Shutdown 会调用 OnExit 但 Exit 不会
+                    App.Current.Shutdown();
+                    // Enviroment.Exit(0);
                     break;
 
                 case ActionType.ExitEmulator:
@@ -903,11 +901,9 @@ namespace MeoAsstGui
                     {
                         AddLog("模拟器关闭失败", "DarkRed");
                     }
-                    if (new ToastNotification().CheckToastSystem())
-                    {
-                        ToastNotificationManagerCompat.History.Clear(); //exit似乎不会走bootstapper，单独清一下通知
-                    }
-                    Environment.Exit(0);
+                    // Shutdown 会调用 OnExit 但 Exit 不会
+                    App.Current.Shutdown();
+                    // Enviroment.Exit(0);
                     break;
 
                 case ActionType.Shutdown:
