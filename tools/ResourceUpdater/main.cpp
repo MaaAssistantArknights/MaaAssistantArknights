@@ -20,13 +20,14 @@ int main([[maybe_unused]] int argc, char** argv)
     const std::filesystem::path input_dir = cur_path / "Arknights-Bot-Resource";
 
     std::cout << "------------Update Arknights-Bot-Resource------------" << std::endl;
-    int git_ret = 0;
+    std::string git_cmd;
     if (!std::filesystem::exists(input_dir)) {
-        git_ret = system(("git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1 \"" + input_dir.string() + "\"").c_str());
+        git_cmd = "git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1 \"" + input_dir.string() + "\"";
     }
     else {
-        git_ret = system(("git -C \"" + input_dir.string() + "\" pull").c_str());
+        git_cmd = "git -C \"" + input_dir.string() + "\" pull";
     }
+    int git_ret = system(git_cmd.c_str());
     if (git_ret != 0) {
         std::cout << "git cmd failed" << std::endl;
         return -1;
@@ -82,15 +83,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
 {
     const auto input_json_path = input_dir / "gamedata" / "excel" / "item_table.json";
 
-    std::ifstream ifs(input_json_path, std::ios::in);
-    if (!ifs.is_open()) {
-        std::cout << "open json failed" << std::endl;
-        return false;
-    }
-    std::stringstream iss;
-    iss << ifs.rdbuf();
-    ifs.close();
-    auto parse_ret = json::parse(iss.str());
+    auto parse_ret = json::open(input_json_path);
     if (!parse_ret) {
         std::cout << "parse json failed" << std::endl;
         return false;
@@ -162,7 +155,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
     }
     auto output_json_path = output_dir / "item_index.json";
     std::ofstream ofs(output_json_path, std::ios::out);
-    ofs << output_json.format();
+    ofs << output_json.format(true);
     ofs.close();
 
     return true;
@@ -260,16 +253,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
 
     json::value input_json;
     {
-        std::ifstream ifs(input_file, std::ios::in);
-        if (!ifs.is_open()) {
-            std::cout << input_file << " not exist" << std::endl;
-            return false;
-        }
-        std::stringstream iss;
-        iss << ifs.rdbuf();
-        ifs.close();
-
-        auto opt = json::parse(iss.str());
+        auto opt = json::open(input_file);
         if (!opt) {
             std::cout << input_file << " parse error" << std::endl;
             return false;
@@ -279,16 +263,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
 
     json::value old_json;
     {
-        std::ifstream ifs(output_file, std::ios::in);
-        if (!ifs.is_open()) {
-            std::cout << output_file << " not exist" << std::endl;
-            return false;
-        }
-        std::stringstream iss;
-        iss << ifs.rdbuf();
-        ifs.close();
-
-        auto opt = json::parse(iss.str());
+        auto opt = json::open(output_file);
         if (!opt) {
             std::cout << output_file << " parse error" << std::endl;
             return false;
@@ -358,7 +333,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
     root["roomType"] = json::array(rooms);
 
     std::ofstream ofs(output_file, std::ios::out);
-    ofs << root.format();
+    ofs << root.format(true);
     ofs.close();
 
     return true;
@@ -374,15 +349,8 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
         std::cerr << "Request Penguin Stats failed" << std::endl;
         return false;
     }
-    std::ifstream ifs(TempFile, std::ios::in);
-    if (!ifs.is_open()) {
-        std::cout << "open stages.json failed" << std::endl;
-        return false;
-    }
-    std::stringstream iss;
-    iss << ifs.rdbuf();
-    ifs.close();
-    auto parse_ret = json::parse(iss.str());
+
+    auto parse_ret = json::open(TempFile);
     if (!parse_ret) {
         std::cout << "parse stages.json failed" << std::endl;
         return false;
@@ -391,7 +359,7 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
     auto& stage_json = parse_ret.value();
 
     std::ofstream ofs(output_dir / "stages.json", std::ios::out);
-    ofs << stage_json.format();
+    ofs << stage_json.format(true);
     ofs.close();
 
     return true;
