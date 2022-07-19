@@ -19,11 +19,11 @@ bool asst::AbstractConfiger::load(const std::string& filename)
         return false;
     }
 
-    std::string content = utils::load_file_without_bom(filename);
+    //std::string content = utils::load_file_without_bom(filename);
 
-    auto&& ret = json::parser::parse(content);
+    auto&& ret = json::open(filename, true);
     if (!ret) {
-        m_last_error = "json pasing error, content:" + content;
+        m_last_error = "json pasing error, filename: " + filename;
         return false;
     }
 
