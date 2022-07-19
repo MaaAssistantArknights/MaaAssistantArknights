@@ -10,6 +10,8 @@ bool asst::RecruitConfiger::parse(const json::value& json)
 {
     LogTraceFunction;
 
+    clear();
+
     for (const json::value& oper : json.as_array()) {
         RecruitOperInfo oper_temp;
         oper_temp.name = oper.at("name").as_string();
@@ -38,4 +40,13 @@ bool asst::RecruitConfiger::parse(const json::value& json)
         });
 
     return true;
+}
+
+void asst::RecruitConfiger::clear()
+{
+    LogTraceFunction;
+
+    m_all_opers.clear();
+    m_all_tags.clear();
+    m_all_types.clear();
 }
