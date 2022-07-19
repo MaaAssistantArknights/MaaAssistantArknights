@@ -729,10 +729,10 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     }
     std::vector<std::pair<const Point&, std::vector<Point>>> DirectionAttackRangeMap;
     DirectionAttackRangeMap.reserve(4);
-    DirectionAttackRangeMap.emplace_back(Point::RightDirection(), std::move(right_attack_range));
-    DirectionAttackRangeMap.emplace_back(Point::DownDirection(), std::move(down_attack_range));
-    DirectionAttackRangeMap.emplace_back(Point::LeftDirection(), std::move(left_attack_range));
-    DirectionAttackRangeMap.emplace_back(Point::UpDirection(), std::move(up_attack_range));
+    DirectionAttackRangeMap.emplace_back(Point::right(), std::move(right_attack_range));
+    DirectionAttackRangeMap.emplace_back(Point::down(), std::move(down_attack_range));
+    DirectionAttackRangeMap.emplace_back(Point::left(), std::move(left_attack_range));
+    DirectionAttackRangeMap.emplace_back(Point::up(), std::move(up_attack_range));
 
     int max_score = 0;
     Point opt_direction;
