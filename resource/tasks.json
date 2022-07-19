@@ -6721,9 +6721,9 @@
         "cache": false,
         "roi": [
             950,
-            0,
+            60,
             320,
-            700
+            660
         ],
         "templThreshold": 0.9,
         "preDelay": 1500,
