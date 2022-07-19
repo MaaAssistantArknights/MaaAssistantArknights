@@ -74,6 +74,7 @@ Welcome to QQ Group: 912322156
 ### Miscellaneous
 
 - Tasks order can be changed on the UI. So can the shifting order in the infrastructure.
+- Almost all configuration changes will be saved automatically, except for options containing an *.
 - All clicking event is randomized within a region, following Poisson distribution (higher probability at the center, lower probability around).
 - Developed in C++, the core algorithm supports multi-level cache, in order to reduce CPU and memory usage as much as possible.
 - Our software supports auto-update ✿✿ヽ(°▽°)ノ✿ Beta-testers can try beta versions, which updates faster and less buggy (maybe).
