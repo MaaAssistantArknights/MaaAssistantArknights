@@ -20,8 +20,9 @@
             自动战斗作业分享 Q 群
         </TextBlock>
         <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-            <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=4u0uqXep" Click="Hyperlink_Click" TextDecorations="None">一群（已满）</Hyperlink>
+            <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=4u0uqXep" Click="Hyperlink_Click" TextDecorations="None">一群</Hyperlink>（已满）
             <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=u9i2n7Sb" Click="Hyperlink_Click" TextDecorations="None">二群</Hyperlink>
+            <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=mKdOnhWV" Click="Hyperlink_Click" TextDecorations="None">三群</Hyperlink>
         </TextBlock>
         <TextBlock Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
             <Hyperlink NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.md" Click="Hyperlink_Click" TextDecorations="None">常见问题</Hyperlink>
