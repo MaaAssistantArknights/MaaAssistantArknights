@@ -633,7 +633,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
         }
 
         if (cur_result.second + extra_dist_score > max_score) {
-            max_score = cur_result.second;
+            max_score = cur_result.second + extra_dist_score;
             best_location = loc;
             best_direction = cur_result.first;
         }
@@ -653,64 +653,38 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     if (m_cur_home_index < m_homes.size()) {
         home_loc = m_homes.at(m_cur_home_index);
     }
-    Point home_point = m_side_tile_info.at(home_loc).pos;
-    Rect home_rect(home_point.x, home_point.y, 1, 1);
 
-    int dx = 0;
-    if (loc.x > home_loc.x) dx = 1;
-    else if (loc.x < home_loc.x) dx = -1;
-    else dx = 0;
-
-    int dy = 0;
-    if (loc.y > home_loc.y) dy = 1;
-    else if (loc.y < home_loc.y) dy = -1;
-    else dy = 0;
+    auto sgn = [](const int &x) -> int {
+        if (x > 0) return 1;
+        if (x < 0) return -1;
+        return 0;
+    };
 
     Point base_direction(0, 0);
-    switch (role) {
-    case BattleRole::Medic:
-    {
-        if (std::abs(dx) < std::abs(dy)) {
-            base_direction.y = -dy;
-        }
-        else {
-            base_direction.x = -dx;
-        }
+    if (loc.x == home_loc.x) {
+        base_direction.y = sgn(loc.y - home_loc.y);
     }
-    break;
-    case BattleRole::Support:
-    case BattleRole::Warrior:
-    case BattleRole::Sniper:
-    case BattleRole::Special:
-    case BattleRole::Tank:
-    case BattleRole::Pioneer:
-    case BattleRole::Caster:
-    case BattleRole::Drone:
-    default:
-    {
-        if (std::abs(dx) < std::abs(dy)) {
-            base_direction.y = dy;
-        }
-        else {
-            base_direction.x = dx;
-        }
+    else {
+        base_direction.x = sgn(loc.x - home_loc.x);
     }
-    break;
+    // 医疗反着算
+    if (role == BattleRole::Medic) {
+        base_direction = -base_direction;
     }
 
     // 按朝右算，后面根据方向做转换
-    std::vector<Point> attack_range = { Point(0, 0) };
+    std::vector<Point> right_attack_range = { Point(0, 0) };
 
     switch (role) {
     case BattleRole::Support:
-        attack_range = {
-            Point(-1, -1), Point(0, -1),Point(1, -1),Point(2, -1),
+        right_attack_range = {
+            Point(-1, -1),Point(0, -1),Point(1, -1),Point(2, -1),
             Point(-1, 0), Point(0, 0), Point(1, 0), Point(2, 0),
             Point(-1, 1), Point(0, 1), Point(1, 1), Point(2, 1),
         };
         break;
     case BattleRole::Caster:
-        attack_range = {
+        right_attack_range = {
             Point(0, -1),Point(1, -1),Point(2, -1),
             Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0),
             Point(0, 1), Point(1, 1), Point(2, 1),
@@ -718,14 +692,14 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
         break;
     case BattleRole::Medic:
     case BattleRole::Sniper:
-        attack_range = {
+        right_attack_range = {
             Point(0, -1),Point(1, -1),Point(2, -1),Point(3, -1),
             Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0),
             Point(0, 1), Point(1, 1), Point(2, 1), Point(3, 1),
         };
         break;
     case BattleRole::Warrior:
-        attack_range = {
+        right_attack_range = {
             Point(0, 0), Point(1, 0), Point(2, 0)
         };
         break;
@@ -733,53 +707,32 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     case BattleRole::Tank:
     case BattleRole::Pioneer:
     case BattleRole::Drone:
-        attack_range = {
+        right_attack_range = {
             Point(0, 0), Point(1, 0)
         };
         break;
     }
 
-    static const Point RightDirection(1, 0);
-    static const Point DownDirection(0, 1);
-    static const Point LeftDirection(-1, 0);
-    static const Point UpDirection(0, -1);
+    // 对余下三个方向分别计算攻击范围
+    std::vector<Point> down_attack_range;
+    std::vector<Point> left_attack_range;
+    std::vector<Point> up_attack_range;
 
-    std::vector<std::pair<Point, std::vector<Point>>> DirectionAttackRangeMap = {
-        { UpDirection, std::vector<Point>() },
-        { RightDirection, std::vector<Point>() },
-        { LeftDirection, std::vector<Point>() },
-        { DownDirection, std::vector<Point>() },
-    };
+    down_attack_range.reserve(right_attack_range.size());
+    left_attack_range.reserve(right_attack_range.size());
+    up_attack_range.reserve(right_attack_range.size());
 
-    for (auto& [direction, cor_attack_range] : DirectionAttackRangeMap) {
-        if (direction == RightDirection) {
-            cor_attack_range = attack_range;
-        }
-        else if (direction == DownDirection) {
-            for (const Point& attack_point : attack_range) {
-                Point cor_point;
-                cor_point.x = -attack_point.y;
-                cor_point.y = attack_point.x;
-                cor_attack_range.emplace_back(cor_point);
-            }
-        }
-        else if (direction == LeftDirection) {
-            for (const Point& attack_point : attack_range) {
-                Point cor_point;
-                cor_point.x = -attack_point.x;
-                cor_point.y = -attack_point.y;
-                cor_attack_range.emplace_back(cor_point);
-            }
-        }
-        else if (direction == UpDirection) {
-            for (const Point& attack_point : attack_range) {
-                Point cor_point;
-                cor_point.x = attack_point.y;
-                cor_point.y = -attack_point.x;
-                cor_attack_range.emplace_back(cor_point);
-            }
-        }
+    for (const auto& [x, y] : right_attack_range) {
+        down_attack_range.emplace_back(-y, x);
+        left_attack_range.emplace_back(-x, -y);
+        up_attack_range.emplace_back(y, -x);
     }
+    std::vector<std::pair<const Point&, std::vector<Point>>> DirectionAttackRangeMap;
+    DirectionAttackRangeMap.reserve(4);
+    DirectionAttackRangeMap.emplace_back(Point::right(), std::move(right_attack_range));
+    DirectionAttackRangeMap.emplace_back(Point::down(), std::move(down_attack_range));
+    DirectionAttackRangeMap.emplace_back(Point::left(), std::move(left_attack_range));
+    DirectionAttackRangeMap.emplace_back(Point::up(), std::move(up_attack_range));
 
     int max_score = 0;
     Point opt_direction;
