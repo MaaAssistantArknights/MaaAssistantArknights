@@ -39,7 +39,7 @@ namespace MeoAsstGui
             _windowManager = windowManager;
             DisplayName = "自动战斗 Beta";
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
-            AddLog("小提示：\n\n请将模拟器及游戏设置到 60 帧或更高\n\n手动打开游戏有“开始行动”按钮的界面再使用本功能；\n\n如果想借好友助战可以关闭“自动编队”，手动选择好干员后再开始；\n\n模拟悖论则需要关闭“自动编队”，并自己选好技能处于“开始模拟”按钮的界面再开始\n\n“特别关注”的干员暂时无法被识别，请取消特别关注或手动编队", "dark");
+            AddLog("小提示：\n\n请将模拟器及游戏帧率设置到 60 帧或更高\n\n请在有“开始行动”按钮的界面再使用本功能；\n\n使用好友助战可以关闭“自动编队”，手动选择干员后开始；\n\n模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始\n\n自动编队暂时无法识别“特别关注”的干员，如有需求请取消特别关注或手动编队", "dark");
         }
 
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
@@ -293,6 +293,10 @@ namespace MeoAsstGui
         public async void Start()
         {
             ClearLog();
+            if (_form)
+            {
+                AddLog("自动编队暂时无法识别“特别关注”的干员，如有需求请取消特别关注或手动编队", "dark");
+            }
             AddLog("正在连接模拟器……");
 
             var asstProxy = _container.Get<AsstProxy>();
