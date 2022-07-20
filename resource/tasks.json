@@ -3027,6 +3027,7 @@
             100
         ],
         "next": [
+            "CollectCredit",
             "CloseCollectCredit"
         ],
         "rearDelay": 2000
