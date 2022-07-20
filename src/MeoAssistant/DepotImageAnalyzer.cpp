@@ -193,8 +193,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
 
 int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
 {
-    auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("DeoptQuantity"));
+    auto task_ptr = Task.get<MatchTaskInfo>("DeoptQuantity");
 
     Rect quantity_roi = roi.move(task_ptr->roi);
     cv::Mat quantity_img = m_image_resized(utils::make_rect<cv::Rect>(quantity_roi));

@@ -44,7 +44,7 @@ bool asst::RoguelikeSkillSelectionImageAnalyzer::analyze()
 std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect& roi)
 {
     OcrWithPreprocessImageAnalyzer analyzer;
-    auto name_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("Roguelike1SkillSelectionName"));
+    auto name_task_ptr = Task.get<OcrTaskInfo>("Roguelike1SkillSelectionName");
     analyzer.set_task_info(name_task_ptr);
     analyzer.set_image(m_image, roi.move(name_task_ptr->roi));
     analyzer.set_required(Resrc.roguelike_recruit().get_oper_order());
@@ -61,7 +61,7 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
 
 std::vector<asst::Rect> asst::RoguelikeSkillSelectionImageAnalyzer::skill_analyze(const Rect& roi)
 {
-    const auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(Task.get("Roguelike1SkillSelectionRect"));
+    const auto task_ptr = Task.get<MatchTaskInfo>("Roguelike1SkillSelectionRect");
     Rect cor_roi = roi.move(task_ptr->roi);
     cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(cor_roi));
 

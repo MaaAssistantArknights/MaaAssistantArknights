@@ -22,8 +22,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     static bool analyzer_inited = false;
     static OcrImageAnalyzer tags_analyzer;
     if (!analyzer_inited) {
-        const auto tags_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-            Task.get("RecruitTags"));
+        const auto tags_task_ptr = Task.get<OcrTaskInfo>("RecruitTags");
         tags_analyzer.set_roi(tags_task_ptr->roi);
         auto& all_tags_set = Resrc.recruit().get_all_tags();
         std::vector<std::string> all_tags_vec;

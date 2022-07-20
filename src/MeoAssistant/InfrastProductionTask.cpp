@@ -383,9 +383,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                     else {
                         OcrWithPreprocessImageAnalyzer name_analyzer(find_iter->name_img);
                         name_analyzer.set_replace(
-                            std::dynamic_pointer_cast<OcrTaskInfo>(
-                                Task.get("CharsNameOcrReplace"))
-                            ->replace_map);
+                            Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
                         Log.trace("Analyze name filter");
                         if (!name_analyzer.analyze()) {
                             continue;
@@ -518,9 +516,7 @@ bool asst::InfrastProductionTask::opers_choose()
                     else {
                         OcrWithPreprocessImageAnalyzer name_analyzer(lhs.name_img);
                         name_analyzer.set_replace(
-                            std::dynamic_pointer_cast<OcrTaskInfo>(
-                                Task.get("CharsNameOcrReplace"))
-                            ->replace_map);
+                            Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
                         Log.trace("Analyze name filter");
                         if (!name_analyzer.analyze()) {
                             return false;

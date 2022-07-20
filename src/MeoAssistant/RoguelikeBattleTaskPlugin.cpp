@@ -295,9 +295,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     OcrWithPreprocessImageAnalyzer oper_name_analyzer(m_ctrler->get_image());
     oper_name_analyzer.set_task_info("BattleOperName");
     oper_name_analyzer.set_replace(
-        std::dynamic_pointer_cast<OcrTaskInfo>(
-            Task.get("CharsNameOcrReplace"))
-        ->replace_map);
+        Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
 
     std::string oper_name = "Unknown";
     if (oper_name_analyzer.analyze()) {

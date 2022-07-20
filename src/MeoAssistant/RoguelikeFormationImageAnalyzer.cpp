@@ -46,8 +46,7 @@ bool asst::RoguelikeFormationImageAnalyzer::selected_analyze(const Rect& roi)
     cv::Mat img_roi = m_image(utils::make_rect<cv::Rect>(roi));
     cv::Mat hsv;
 
-    const auto selected_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("Roguelike1FormationOperSelected"));
+    const auto selected_task_ptr = Task.get<MatchTaskInfo>("Roguelike1FormationOperSelected");
     cv::cvtColor(img_roi, hsv, cv::COLOR_BGR2HSV);
     std::vector<cv::Mat> channels;
     cv::split(hsv, channels);

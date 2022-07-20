@@ -59,8 +59,7 @@ bool asst::CreditShopImageAnalyzer::commoditys_analyze()
 
 bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 {
-    const auto product_name_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(
-        Task.get("CreditShop-ProductName"));
+    const auto product_name_task_ptr = Task.get<OcrTaskInfo>("CreditShop-ProductName");
 
     for (const Rect& commodity : m_commoditys) {
         // 商品名的区域
