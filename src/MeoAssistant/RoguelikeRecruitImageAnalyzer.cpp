@@ -88,8 +88,8 @@ int asst::RoguelikeRecruitImageAnalyzer::match_level(const Rect& raw_roi)
         return 0;
     }
 
-    std::string level = analyzer.get_result().front().text;
-    if (!std::all_of(level.cbegin(), level.cend(),
+    const std::string& level = analyzer.get_result().front().text;
+    if (level.empty() || !std::all_of(level.cbegin(), level.cend(),
         [](char c) -> bool {return std::isdigit(c);})) {
         return 0;
     }
