@@ -26,7 +26,7 @@ namespace asst
         const std::unordered_set<std::string>& get_templ_required() const noexcept;
 
         template<typename TargetTaskInfoType = TaskInfo>
-        constexpr std::shared_ptr<TargetTaskInfoType> get(const std::string& name)
+        std::shared_ptr<TargetTaskInfoType> get(const std::string& name)
         {
             auto it = m_all_tasks_info.find(name);
             if (it == m_all_tasks_info.cend()) {
