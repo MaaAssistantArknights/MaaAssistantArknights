@@ -652,7 +652,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
         home_loc = m_homes.at(m_cur_home_index);
     }
 
-    auto sgn = [](const int &x) -> int {
+    auto sgn = [](const int& x) -> int {
         if (x > 0) return 1;
         if (x < 0) return -1;
         return 0;
@@ -716,29 +716,32 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     std::vector<Point> left_attack_range;
     std::vector<Point> up_attack_range;
 
-    down_attack_range.reserve(right_attack_range.size());
-    left_attack_range.reserve(right_attack_range.size());
-    up_attack_range.reserve(right_attack_range.size());
+    const size_t size = right_attack_range.size();
+    down_attack_range.reserve(size);
+    left_attack_range.reserve(size);
+    up_attack_range.reserve(size);
 
     for (const auto& [x, y] : right_attack_range) {
         down_attack_range.emplace_back(-y, x);
         left_attack_range.emplace_back(-x, -y);
         up_attack_range.emplace_back(y, -x);
     }
-    std::vector<std::pair<const Point&, std::vector<Point>>> DirectionAttackRangeMap;
-    DirectionAttackRangeMap.reserve(4);
-    DirectionAttackRangeMap.emplace_back(Point::right(), std::move(right_attack_range));
-    DirectionAttackRangeMap.emplace_back(Point::down(), std::move(down_attack_range));
-    DirectionAttackRangeMap.emplace_back(Point::left(), std::move(left_attack_range));
-    DirectionAttackRangeMap.emplace_back(Point::up(), std::move(up_attack_range));
+
+    // It's ordered.
+    const std::vector<std::pair<Point, std::vector<Point>>> DirectionAttackRangeMap{
+        { Point::up(), std::move(up_attack_range) },
+        { Point::right(), std::move(right_attack_range) },
+        { Point::left(), std::move(left_attack_range) },
+        { Point::down(), std::move(down_attack_range) },
+    };
 
     int max_score = 0;
     Point opt_direction;
 
     // 计算每个方向上的得分
-    for (const auto& [direction, dirction_attack_range] : DirectionAttackRangeMap) {
+    for (const auto& [direction, direction_attack_range] : DirectionAttackRangeMap) {
         int score = 0;
-        for (const Point& cur_attack : dirction_attack_range) {
+        for (const Point& cur_attack : direction_attack_range) {
             Point cur_point = loc;
             cur_point.x += cur_attack.x;
             cur_point.y += cur_attack.y;
