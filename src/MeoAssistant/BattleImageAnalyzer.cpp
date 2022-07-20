@@ -154,9 +154,9 @@ bool asst::BattleImageAnalyzer::opers_analyze()
 
         Rect role_rect = flag_mrect.rect.move(role_move);
         oper.role = oper_role_analyze(role_rect);
-        Rect cost_rect = flag_mrect.rect.move(cost_move);
 
         // 费用识别的不太准，暂时也没用上，先注释掉，TODO：优化费用识别
+        //Rect cost_rect = flag_mrect.rect.move(cost_move);
         //oper.cost = oper_cost_analyze(cost_rect);
         oper.index = index++;
 
@@ -190,10 +190,10 @@ asst::BattleRole asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
         if (!role_analyzer.analyze()) {
             continue;
         }
-        if (double cur_socre = role_analyzer.get_result().score;
-            max_score < cur_socre) {
+        if (double cur_score = role_analyzer.get_result().score;
+            max_score < cur_score) {
             result = role;
-            max_score = cur_socre;
+            max_score = cur_score;
         }
     }
 
