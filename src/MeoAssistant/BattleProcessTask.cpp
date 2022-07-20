@@ -165,9 +165,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         OcrWithPreprocessImageAnalyzer name_analyzer(image);
         name_analyzer.set_task_info("BattleOperName");
         name_analyzer.set_replace(
-            std::dynamic_pointer_cast<OcrTaskInfo>(
-                Task.get("CharsNameOcrReplace"))
-            ->replace_map);
+            Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
 
         std::string oper_name = "Unknown";
         if (name_analyzer.analyze()) {
@@ -280,9 +278,7 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
             OcrWithPreprocessImageAnalyzer name_analyzer(m_ctrler->get_image());
             name_analyzer.set_task_info("BattleOperName");
             name_analyzer.set_replace(
-                std::dynamic_pointer_cast<OcrTaskInfo>(
-                    Task.get("CharsNameOcrReplace"))
-                ->replace_map);
+                Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
 
             if (name_analyzer.analyze()) {
                 name_analyzer.sort_result_by_score();

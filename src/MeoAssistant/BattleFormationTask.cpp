@@ -55,7 +55,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page()
 {
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
     OcrWithFlagTemplImageAnalyzer name_analyzer(m_ctrler->get_image());
-    auto& ocr_replace = std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("CharsNameOcrReplace"))->replace_map;
+    auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
     name_analyzer.set_task_info("BattleQuickFormation-OperNameFlag", "BattleQuickFormationOCR");
     name_analyzer.set_replace(ocr_replace);
     if (!name_analyzer.analyze()) {

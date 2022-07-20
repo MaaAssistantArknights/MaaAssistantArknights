@@ -9,25 +9,10 @@
 #include "TemplResource.h"
 #include "Logger.hpp"
 
-std::shared_ptr<const asst::TaskInfo> asst::TaskData::get(const std::string& name) const noexcept
-{
-    if (auto iter = m_all_tasks_info.find(name);
-        iter != m_all_tasks_info.cend()) {
-        return iter->second;
-    }
-    else {
-        return nullptr;
-    }
-}
 
 const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
 {
     return m_templ_required;
-}
-
-std::shared_ptr<asst::TaskInfo> asst::TaskData::get(const std::string& name)
-{
-    return m_all_tasks_info[name];
 }
 
 bool asst::TaskData::parse(const json::value& json)

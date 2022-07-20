@@ -214,8 +214,7 @@ asst::BattleRole asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
 
 bool asst::BattleImageAnalyzer::oper_cooling_analyze(const Rect& roi)
 {
-    const auto cooling_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("BattleOperCooling"));
+    const auto cooling_task_ptr = Task.get<MatchTaskInfo>("BattleOperCooling");
 
     cv::Mat hsv;
     cv::cvtColor(m_image(utils::make_rect<cv::Rect>(roi)), hsv, cv::COLOR_BGR2HSV);
@@ -301,8 +300,8 @@ bool asst::BattleImageAnalyzer::oper_available_analyze(const Rect& roi)
     cv::Scalar avg = cv::mean(hsv);
     Log.trace("oper available, mean", avg[2]);
 
-    static int thres = static_cast<int>(std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("BattleOperAvailable"))->special_threshold);
+    static int thres = static_cast<int>(
+        Task.get<MatchTaskInfo>("BattleOperAvailable")->special_threshold);
     if (avg[2] < thres) {
         return false;
     }
@@ -442,7 +441,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     OcrWithFlagTemplImageAnalyzer kills_analyzer(m_image);
     kills_analyzer.set_task_info("BattleKillsFlag", "BattleKills");
     kills_analyzer.set_replace(
-        std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("NumberOcrReplace"))->replace_map);
+        Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
 
     if (!kills_analyzer.analyze()) {
         return false;
@@ -512,7 +511,7 @@ bool asst::BattleImageAnalyzer::cost_analyze()
     OcrWithPreprocessImageAnalyzer cost_analyzer(m_image);
     cost_analyzer.set_task_info("BattleCostData");
     cost_analyzer.set_replace(
-        std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("NumberOcrReplace"))->replace_map);
+        Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
 
     if (!cost_analyzer.analyze()) {
         return false;
