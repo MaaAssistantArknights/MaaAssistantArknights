@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="源文件">
@@ -339,11 +339,11 @@
     <ClInclude Include="DepotTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
-    <ClInclude Include="StopGameTaskPlugin.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="CloseDownTask.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="StopGameTaskPlugin.h">
+      <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -591,7 +591,10 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CloseDownTask.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="StopGameTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
