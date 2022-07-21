@@ -1,5 +1,7 @@
 - 新增支持国际服 (EN) 肉鸽 @cookie223 @MistEO
 - 新增支持肉鸽从选择关卡后 `Enter` 界面继续任务 @MistEO
+- 新增支持日服关卡导航功能 @natt3
+- 新增支持日服自动公招功能 @natt3
 - 优化肉鸽编队策略，会清空并重新选等级最高的 @MistEO
 - 修复 B 服登陆时卡住的问题 @zzyyyl
 - 修复部分界面问题 @lhhxxxxx @ABA2396 @LeoQ7
