@@ -309,24 +309,16 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     // 将干员拖动到场上
     Point placed_point = m_side_tile_info.at(placed_loc).pos;
     Rect placed_rect(placed_point.x, placed_point.y, 1, 1);
-    int dist = static_cast<int>(
-        std::sqrt(
-            (std::pow(std::abs(placed_point.x - opt_oper.rect.x), 2))
-            + (std::pow(std::abs(placed_point.y - opt_oper.rect.y), 2))));
+    int dist = static_cast<int>(Point::distance(
+            placed_point, {opt_oper.rect.x + opt_oper.rect.width / 2, opt_oper.rect.y + opt_oper.rect.height / 2}));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
-    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist * log10(dist));    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
+    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist * log10(dist));
+    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
     sleep(use_oper_task_ptr->rear_delay);
 
     // 将方向转换为实际的 swipe end 坐标点
-    Point end_point = placed_point;
     constexpr int coeff = 500;
-    end_point.x += direction.x * coeff;
-    end_point.y += direction.y * coeff;
-
-    end_point.x = std::max(0, end_point.x);
-    end_point.x = std::min(end_point.x, WindowWidthDefault);
-    end_point.y = std::max(0, end_point.y);
-    end_point.y = std::min(end_point.y, WindowHeightDefault);
+    Point end_point = placed_point + (direction * coeff);
 
     m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay, true, 100);
 
