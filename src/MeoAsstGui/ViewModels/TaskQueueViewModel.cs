@@ -289,7 +289,7 @@ namespace MeoAsstGui
 
         private bool CheckAndUpdateDayOfWeek()
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow.AddHours(8);
             var hour = now.Hour;
             if (hour >= 0 && hour < 4)
             {
