@@ -40,7 +40,7 @@
             <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding StoneInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding HasTimesLimited}" Content="指定次数*" Margin="10 10 4.5 10" 
+            <CheckBox IsChecked="{Binding HasTimesLimited}" Content="指定次数*" Margin="10 10 4.5 10"
                       ToolTip="该选项设置重启后不保存"/>
             <hc:TextBox Text="{Binding MaxTimes}" TextWrapping="Wrap" Margin="10"
                         Width="50" InputMethod.IsInputMethodEnabled="False" 
@@ -48,7 +48,8 @@
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="次" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding IsSpecifiedDrops}" Content="指定材料" Margin="10" />
+            <CheckBox IsChecked="{Binding IsSpecifiedDrops}" Content="指定材料" Margin="10"
+                      ToolTip="该选项不会自动导航至对应关卡"/>
             <ComboBox Width="120" Margin="10"
                       IsEditable="True"
                       IsTextSearchEnabled ="True"

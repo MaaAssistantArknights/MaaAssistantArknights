@@ -131,7 +131,7 @@ namespace MeoAsstGui
                 new CombData { Display = "兼容模式", Value = "Compatible" },
             };
 
-            _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
+            _dormThresholdLabel = "基建工作心情阈值：" + _dormThreshold + "%";
 
             RoguelikeModeList = new List<CombData>
             {
@@ -313,7 +313,7 @@ namespace MeoAsstGui
             get { return _dormThreshold; }
             set
             {
-                DormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
+                DormThresholdLabel = "基建工作心情阈值：" + _dormThreshold + "%";
                 SetAndNotify(ref _dormThreshold, value);
                 ViewStatusStorage.Set("Infrast.DormThreshold", value.ToString());
             }
