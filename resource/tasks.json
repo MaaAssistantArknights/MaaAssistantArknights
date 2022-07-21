@@ -5915,6 +5915,12 @@
         "next": [
             "Roguelike1ChooseDifficulty",
             "Roguelike1Start",
+            "Roguelike1StageCambatDpsEnter",
+            "Roguelike1StageEmergencyDpsEnter",
+            "Roguelike1StageEncounterEnter",
+            "Roguelike1StageTraderEnter",
+            "Roguelike1StageDreadfulFoeEnter",
+            "Roguelike1StageSafeHouseEnter",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
             "TodaysSuppliesToRoguelike1",
