@@ -299,20 +299,252 @@
 		"Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "ocrReplace": [
             [
+                "A Date With Slugs",
+                "与虫为伴"
+            ],
+            [
                 "Beast Taming",
                 "驯兽小屋"
+            ],
+            [
+                "Gun Salute",
+                "礼炮小队"
             ],
             [
                 "Accident",
                 "意外"
             ],
             [
+                "The Grand Finale",
+                "压轴登场"
+            ],
+            [
+                "Patrol Squad",
+                "巡逻队"
+            ],
+            [
+                "Destitute Knights",
+                "落魄骑士"
+            ],
+            [
+                "Unequal Split",
+                "分赃不均"
+            ],
+            [
+                "Justice",
+                "正义"
+            ],
+            [
+                "A Familiar Face",
+                "似曾相识"
+            ],
+            [
+                "Vintage Transport",
+                "酒商运输队"
+            ],
+            [
+                "With The Crowd",
+                "从众效应"
+            ],
+            [
+                "Beast Fighting",
+                "斗兽笼"
+            ],
+            [
+                "Premiere",
+                "首演"
+            ],
+            [
+                "Reform",
+                "感化"
+            ],
+            [
+                "Pressing Ahead",
+                "步步紧逼"
+            ],
+            [
+                "Shrouded in Clouds",
+                "阴云笼罩"
+            ],
+            [
+                "Fireworks Show",
+                "烟花秀"
+            ],
+            [
+                "Unending",
+                "永无尽头"
+            ],
+            [
+                "Traveler From Afar",
+                "远方来客"
+            ],
+            [
+                "A Dance Together",
+                "共舞"
+            ],
+            [
+                "Bob's Beers",
+                "鲍勃酒品"
+            ],
+            [
+                "Drone Landing Zone",
+                "无人机起降库"
+            ],
+            [
+                "The Red Mist",
+                "红雾弥漫"
+            ],
+            [
+                "The Night of Ritual",
+                "仪式之夜"
+            ],
+            [
+                "The Biting Cold",
+                "彻骨冰寒"
+            ],
+            [
+                "Dangers Abound",
+                "危机四伏"
+            ],
+            [
+                "Surprise Factory",
+                "惊喜工厂"
+            ],
+            [
+                "Absurd Trickeries",
+                "荒唐把戏"
+            ],
+            [
+                "Sarkaz Desire",
+                "萨卡兹的渴求"
+            ],
+            [
+                "Ursus Desire",
+                "乌萨斯的渴求"
+            ],
+            [
                 "A Date With Slugs",
                 "与虫为伴"
             ],
             [
+                "Beast Taming",
+                "驯兽小屋"
+            ],
+            [
                 "Gun Salute",
                 "礼炮小队"
+            ],
+            [
+                "Accident",
+                "意外"
+            ],
+            [
+                "The Grand Finale",
+                "压轴登场"
+            ],
+            [
+                "Patrol Squad",
+                "巡逻队"
+            ],
+            [
+                "Destitute Knights",
+                "落魄骑士"
+            ],
+            [
+                "Unequal Split",
+                "分赃不均"
+            ],
+            [
+                "Justice",
+                "正义"
+            ],
+            [
+                "A Familiar Face",
+                "似曾相识"
+            ],
+            [
+                "Vintage Transport",
+                "酒商运输队"
+            ],
+            [
+                "With The Crowd",
+                "从众效应"
+            ],
+            [
+                "Beast Fighting",
+                "斗兽笼"
+            ],
+            [
+                "Premiere",
+                "首演"
+            ],
+            [
+                "Reform",
+                "感化"
+            ],
+            [
+                "Pressing Ahead",
+                "步步紧逼"
+            ],
+            [
+                "Shrouded in Clouds",
+                "阴云笼罩"
+            ],
+            [
+                "Fireworks Show",
+                "烟花秀"
+            ],
+            [
+                "Unending",
+                "永无尽头"
+            ],
+            [
+                "Traveler From Afar",
+                "远方来客"
+            ],
+            [
+                "A Dance Together",
+                "共舞"
+            ],
+            [
+                "Bob's Beers",
+                "鲍勃酒品"
+            ],
+            [
+                "Drone Landing Zone",
+                "无人机起降库"
+            ],
+            [
+                "The Red Mist",
+                "红雾弥漫"
+            ],
+            [
+                "The Night of Ritual",
+                "仪式之夜"
+            ],
+            [
+                "The Biting Cold",
+                "彻骨冰寒"
+            ],
+            [
+                "Dangers Abound",
+                "危机四伏"
+            ],
+            [
+                "Surprise Factory",
+                "惊喜工厂"
+            ],
+            [
+                "Absurd Trickeries",
+                "荒唐把戏"
+            ],
+            [
+                "Sarkaz Desire",
+                "萨卡兹的渴求"
+            ],
+            [
+                "Ursus Desire",
+                "乌萨斯的渴求"
             ]
         ],
         "roi": [

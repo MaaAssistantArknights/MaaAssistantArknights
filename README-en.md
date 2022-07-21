@@ -41,8 +41,8 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 Talk is cheap. Show me the pictures!  
 
-![image](https://user-images.githubusercontent.com/99072975/172044929-3aae01a1-6c6d-4a9a-a7a8-ae753679b9ce.png)
-![image](https://user-images.githubusercontent.com/99072975/172045492-698ab7fd-0413-4b08-aad7-0176f9480c05.png)
+![image](https://user-images.githubusercontent.com/99072975/177110402-513b8267-380f-47b2-aeb3-04d8d1e1c850.png)
+![image](https://user-images.githubusercontent.com/99072975/177110410-ad4f84f5-e94f-49aa-954b-25d49aa7f6f9.png)
 ![image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)
 
 ## Download
@@ -75,9 +75,9 @@ Please refer to: [FAQ](docs/en/FAQ.md)
 ## Supports for overseas clients
 
 - Global(EN) Client  
-  Supports basic features like Combat, Recruiting, Visiting, Collocting, Auto Roguelike(beta), etc. See also [README](resource/global/YoStarEN/readme.md)
+  Supports basic features like Combat, Recruitment calculate, Visiting, Collocting, Auto Roguelike(beta), etc. See also [README](resource/global/YoStarEN/readme.md)
 - JP Client  
-  Supports basic features like Combat, Recruiting, Visiting, Collocting, Auto Roguelike(beta), etc. See also [README](resource/global/YoStarJP/readme.md)
+  Supports basic features like Combat, Recruitment calculate, Visiting, Collocting, Auto Recruiting, Auto Roguelike(beta), etc. See also [README](resource/global/YoStarJP/readme.md)
 - KR Client  
   Supports basic features like Combat, etc.  See also [README](resource/global/YoStarKR/readme.md)
 - ZH_CHT Client  
