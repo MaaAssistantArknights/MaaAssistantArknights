@@ -6962,6 +6962,50 @@
         ],
         "rearDelay": 2000
     },
+    "Roguelike1QuickFormationDelay": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "rearDelay": 100
+    },
+    "Roguelike1QuickFormationClearAndReselect": {
+        "action": "ClickSelf",
+        "roi": [
+            821,
+            608,
+            139,
+            112
+        ],
+        "next": [
+            "Roguelike1QuickFormationClearAndReselect-Confirm"
+        ]
+    },
+    "Roguelike1QuickFormationClearAndReselect-Confirm": {
+        "template": "Roguelike1FormationConfirm.png",
+        "roi": [
+            1015,
+            601,
+            265,
+            119
+        ],
+        "next": [
+            "Roguelike1QuickFormationClearAndReselect-Formation"
+        ]
+    },
+    "Roguelike1QuickFormationClearAndReselect-Formation": {
+        "template": "Roguelike1QuickFormation.png",
+        "action": "ClickSelf",
+        "roi": [
+            817,
+            0,
+            402,
+            146
+        ],
+        "next": [
+            "Roguelike1QuickFormationClearAndReselect-Formation",
+            "Stop"
+        ],
+        "rearDelay": 2000
+    },
     "Roguelike1FormationOper": {
         "cache": false,
         "roi": [
