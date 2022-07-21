@@ -82,7 +82,9 @@
         "algorithm": "OcrDetect",
         "text": [
             "上限",
-            "達しました"
+            "達しました",
+            "Fpは入手できません",
+            "再訪問の場合"
         ],
         "action": "DoNothing",
         "roi": [
@@ -1450,6 +1452,289 @@
                 "3"
             ]
         ]
+    },
+    "GoLastBattle": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "前回の参加作戦"
+        ],
+        "roi": [
+            916,
+            479,
+            249,
+            127
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "UsePrts",
+            "UsePrts-StageSN",
+            "StartButton1"
+        ]
+    },
+    "StageThemeChapter3ToChapter2To1-7": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "幻滅"
+        ],
+        "roi": [
+            200,
+            120,
+            80,
+            32
+        ],
+        "cache": false,
+        "next": [
+            "StageThemeChapter2ToChapter1To1-7"
+        ]
+    },
+    "StageThemeChapter2ToChapter1To1-7": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "覚醒"
+        ],
+        "roi": [
+            200,
+            120,
+            80,
+            32
+        ],
+        "cache": false,
+        "next": [
+            "StageThemeEpisode3ToEpisode1To1-7",
+            "StageThemeEpisode2ToEpisode1To1-7",
+            "StageThemeEpisode1To1-7"
+        ]
+    },
+    "StagePR-A-1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "Pr-A-1",
+            "PR-A-1"
+        ],
+        "roi": [
+            27,
+            260,
+            742,
+            400
+        ]
+    },
+    "StagePR-A-2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "Pr-A-2",
+            "PR-A-2"
+        ],
+        "roi": [
+            472,
+            0,
+            793,
+            502
+        ]
+    },
+    "StagePR-B-1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "Pr-B-1",
+            "PR-B-1"
+        ],
+        "roi": [
+            27,
+            260,
+            742,
+            400
+        ]
+    },
+    "StagePR-B-2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "Pr-B-2",
+            "PR-B-2"
+        ],
+        "roi": [
+            472,
+            0,
+            793,
+            502
+        ]
+    },
+    "StagePR-C-1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "Pr-C-1",
+            "PR-C-1"
+        ],
+        "roi": [
+            27,
+            260,
+            742,
+            400
+        ]
+    },
+    "StagePR-C-2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "Pr-C-2",
+            "PR-C-2"
+        ],
+        "roi": [
+            472,
+            0,
+            793,
+            502
+        ]
+    },
+    "StagePR-D-1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "Pr-D-1",
+            "PR-D-1"
+        ],
+        "roi": [
+            27,
+            260,
+            742,
+            400
+        ]
+    },
+    "StagePR-D-2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "Pr-D-2",
+            "PR-D-2"
+        ],
+        "roi": [
+            472,
+            0,
+            793,
+            502
+        ]
+    },
+    "StageCE5": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "CE-5"
+        ],
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "StageLS5": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "LS-5",
+            "L$-5"
+        ],
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "StageCA5": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "CA-5"
+        ],
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "StageAP5": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "AP-5"
+        ],
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "CE-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "SwipeToTheLeft",
+            "StageCE",
+            "StageCE5"
+        ]
+    },
+    "LS-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageResource",
+            "SwipeToTheLeft",
+            "StageLS",
+            "StageLS5"
+        ]
+    },
+    "StartRecruit": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "rearDelay": 500,
+        "text": [
+            "求人開始"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            420
+        ]
+    },
+    "RecruitFlag": {	
+        "algorithm": "OcrDetect",
+        "text": [
+            "公開求人"
+        ],
+        "roi": [
+            50,
+            100,
+            230,
+            100
+        ],
+        "action": "Stop"
+    },
+    "RecruitNow": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "rearDelay": 500,
+        "cache": false,
+        "text": [
+            "緊急招集"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            420
+        ],
+        "next": [
+            "RecruitNowConfirm"
+        ]
     }
 }
-
