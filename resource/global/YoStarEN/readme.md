@@ -13,6 +13,7 @@
 - 公招计算
 - 访问好友
 - 领取日常奖励
+- 无限刷肉鸽（测试功能）
 
 ## Global (EN)
 
@@ -27,3 +28,4 @@ Now supports:
 - Recruitment calculate
 - Friends visit
 - Award collect
+- Auto Roguelike (beta)
