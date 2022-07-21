@@ -12,6 +12,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
 bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 
 bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file, const std::filesystem::path& en_file);
 
 int main([[maybe_unused]] int argc, char** argv)
 {
@@ -53,6 +54,9 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cerr << "update levels.json failed" << std::endl;
         return -1;
     }
+
+    // 这个 en_levels.json 是自己手动生成放进去的
+    generate_english_roguelike_stage_name_replacement(input_dir / "levels.json", cur_path / "en_levels.json");
 
     /* Update infrast data from Arknights-Bot-Resource*/
     std::cout << "------------Update infrast data------------" << std::endl;
@@ -414,5 +418,49 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
         }
         cv::imwrite(out_file, cvt);
     }
+    return true;
+}
+
+bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file, const std::filesystem::path& en_file)
+{
+    auto ch_opt = json::open(ch_file);
+    auto en_opt = json::open(en_file);
+
+    if (!ch_opt || !en_opt) {
+        return false;
+    }
+
+    auto& ch_json = ch_opt.value();
+    auto& en_json = en_opt.value();
+
+    std::unordered_map<std::string, std::string> ch_levelid_name;
+    for (auto& stage_obj : ch_json.as_array()) {
+        // 肉鸽关卡全叫这个
+        if (stage_obj["code"].as_string() != "ISW-NO") {
+            continue;
+        }
+        ch_levelid_name[stage_obj["levelId"].as_string()] = stage_obj["name"].as_string();
+    }
+
+    json::array en_to_ch_vec;
+    for (auto& stage_obj : en_json.as_array()) {
+        // 肉鸽关卡全叫这个
+        if (stage_obj["code"].as_string() != "ISW-NO") {
+            continue;
+        }
+        std::string level_id = stage_obj["levelId"].as_string();
+        auto it = ch_levelid_name.find(level_id);
+        if (it == ch_levelid_name.cend()) {
+            std::cerr << "Unknown en stage id: " << level_id << std::endl;
+        }
+        json::array arr;
+        arr.emplace_back(stage_obj["name"].as_string());
+        arr.emplace_back(it->second);
+        en_to_ch_vec.emplace_back(std::move(arr));
+    }
+    std::ofstream ofs(en_file.parent_path() / "en_replace.json", std::ios::out);
+    ofs << en_to_ch_vec.format();
+    ofs.close();
+
     return true;
 }
