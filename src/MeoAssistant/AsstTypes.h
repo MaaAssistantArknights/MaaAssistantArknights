@@ -32,28 +32,37 @@ namespace asst
         constexpr Point(int x, int y) : x(x), y(y) {}
         Point& operator=(const Point&) noexcept = default;
         Point& operator=(Point&&) noexcept = default;
-        Point operator-() const noexcept { return Point(-x, -y); }
+        Point operator-() const noexcept { return {-x, -y}; }
         bool operator==(const Point& rhs) const noexcept { return x == rhs.x && y == rhs.y; }
         std::string to_string() const
         {
             return "[ " + std::to_string(x) + ", " + std::to_string(y) + " ]";
         }
-        static constexpr Point right() { return Point(1, 0); }
-        static constexpr Point down() { return Point(0, 1); }
-        static constexpr Point left() { return Point(-1, 0); }
-        static constexpr Point up() { return Point(0, -1); }
+        static constexpr Point right() { return {1, 0}; }
+        static constexpr Point down() { return {0, 1}; }
+        static constexpr Point left() { return {-1, 0}; }
+        static constexpr Point up() { return {0, -1}; }
         int x = 0;
         int y = 0;
 
 #define DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(Op) \
-friend Point operator Op (const Point& lhs, const Point& rhs) { return {lhs.x Op rhs.x, lhs.y Op rhs.y}; } \
-friend Point& operator Op##= (Point& val, const Point& opd) { val.x Op##= opd.x; val.y Op##= opd.y; return val; }
+friend Point operator Op (const Point& lhs, const Point& rhs) noexcept { return {lhs.x Op rhs.x, lhs.y Op rhs.y}; } \
+friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op##= opd.x; val.y Op##= opd.y; return val; }
 
         DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(+)
         DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(-)
         DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(*)
 
 #undef DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN
+
+        friend Point operator*(int scalar, const Point& value) noexcept { return {value.x * scalar, value.y * scalar}; }
+        friend Point operator*(const Point& value, int scalar) noexcept { return {value.x * scalar, value.y * scalar}; }
+        static int dot(const Point& lhs, const Point& rhs) noexcept { return (lhs.x * rhs.x) + (lhs.y * rhs.y); }
+        static double distance(const Point& lhs, const Point& rhs) noexcept
+        {
+            return std::sqrt(double(std::pow(rhs.x - lhs.x, 2) + std::pow(rhs.y - lhs.y, 2)));
+        }
+        double length() const noexcept { return std::sqrt(double(dot(*this, *this))); }
     };
 
     struct Rect
