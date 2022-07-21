@@ -44,6 +44,16 @@ namespace asst
         static constexpr Point up() { return Point(0, -1); }
         int x = 0;
         int y = 0;
+
+#define DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(Op) \
+friend Point operator Op (const Point& lhs, const Point& rhs) { return {lhs.x Op rhs.x, lhs.y Op rhs.y}; } \
+friend Point& operator Op##= (Point& val, const Point& opd) { val.x Op##= opd.x; val.y Op##= opd.y; return val; }
+
+        DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(+)
+        DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(-)
+        DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(*)
+
+#undef DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN
     };
 
     struct Rect
