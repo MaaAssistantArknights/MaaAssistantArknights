@@ -1299,10 +1299,10 @@
     "StartLoginBServer": {
         "action": "ClickSelf",
         "roi": [
-            440,
-            370,
             400,
-            80
+            350,
+            500,
+            150
         ],
         "next": [
             "StartUpConnectingFlag",
