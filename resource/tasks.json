@@ -1175,6 +1175,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "Terminal",
             "CloseAnno",
             "TodaysSupplies",
@@ -1182,6 +1183,27 @@
             "OfflineConfirm",
             "EndOfAction",
             "StageSNFlag"
+        ]
+    },
+    "BServerPrivacyPolicy": {
+        "Doc": "B服有时候会在GameStart之前有个隐私协议的确认需要点击一下",
+        "action": "ClickSelf",
+        "roi": [
+            700,
+            560,
+            120,
+            100
+        ],
+        "next": [
+            "GameStart",
+            "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
+            "BServerPrivacyPolicy",
+            "Terminal",
+            "CloseAnno",
+            "OfflineConfirm",
+            "TodaysSupplies"
         ]
     },
     "Annihilation": {
@@ -1248,6 +1270,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
@@ -1265,6 +1288,7 @@
         "next": [
             "StartToWakeUp",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "StartUpConnectingFlag",
             "Terminal",
             "CloseAnno",
@@ -1283,6 +1307,7 @@
         "next": [
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
@@ -1669,6 +1694,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "OfflineConfirm",
             "ClickCornerAfterPRTS_2"
         ]
@@ -1695,6 +1721,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "OfflineConfirm"
         ],
         "onErrorNext": [
@@ -1749,6 +1776,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "Terminal",
             "CloseAnno",
             "TodaysSupplies",
@@ -1878,6 +1906,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "OfflineConfirm",
             "StartButton1"
         ]
@@ -1899,6 +1928,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "OfflineConfirm",
             "StartButton1"
         ],
@@ -1923,7 +1953,8 @@
             "OfflineConfirm",
             "StartToWakeUp",
             "StartUpConnectingFlag",
-            "StartLoginBServer"
+            "StartLoginBServer",
+            "BServerPrivacyPolicy"
         ]
     },
     "OfflineConfirm": {
@@ -1943,6 +1974,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "OfflineConfirm",
             "TodaysSupplies"
         ]
@@ -1959,6 +1991,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
