@@ -58,7 +58,8 @@
         "next": [
             "ClickCorner"
         ]
-    },	"RecruitBegin": {
+    },	
+	"RecruitBegin": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
