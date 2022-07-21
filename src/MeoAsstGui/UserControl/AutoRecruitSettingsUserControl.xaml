@@ -26,7 +26,7 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10">
-            <CheckBox IsChecked="{Binding NotChooseLevel1}" Content="手动确认1星" Margin="5" />
+            <CheckBox IsChecked="{Binding NotChooseLevel1}" Content="手动确认1星" Margin="5" ToolTip="勾选时识别到1星词条时跳过该次招募，未勾选时将忽略1星词条"/>
             <CheckBox IsChecked="{Binding ChooseLevel3}" Content="自动确认3星" Margin="5" />
             <CheckBox IsChecked="{Binding ChooseLevel4}" Content="自动确认4星" Margin="5" />
             <CheckBox IsChecked="{Binding ChooseLevel5}" Content="自动确认5星" Margin="5" />
