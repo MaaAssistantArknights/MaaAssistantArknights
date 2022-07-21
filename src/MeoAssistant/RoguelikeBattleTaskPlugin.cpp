@@ -309,24 +309,16 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     // 将干员拖动到场上
     Point placed_point = m_side_tile_info.at(placed_loc).pos;
     Rect placed_rect(placed_point.x, placed_point.y, 1, 1);
-    int dist = static_cast<int>(
-        std::sqrt(
-            (std::pow(std::abs(placed_point.x - opt_oper.rect.x), 2))
-            + (std::pow(std::abs(placed_point.y - opt_oper.rect.y), 2))));
+    int dist = static_cast<int>(Point::distance(
+            placed_point, {opt_oper.rect.x + opt_oper.rect.width / 2, opt_oper.rect.y + opt_oper.rect.height / 2}));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
-    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist * log10(dist));    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
+    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist * log10(dist));
+    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
     sleep(use_oper_task_ptr->rear_delay);
 
     // 将方向转换为实际的 swipe end 坐标点
-    Point end_point = placed_point;
     constexpr int coeff = 500;
-    end_point.x += direction.x * coeff;
-    end_point.y += direction.y * coeff;
-
-    end_point.x = std::max(0, end_point.x);
-    end_point.x = std::min(end_point.x, WindowWidthDefault);
-    end_point.y = std::max(0, end_point.y);
-    end_point.y = std::min(end_point.y, WindowHeightDefault);
+    Point end_point = placed_point + (direction * coeff);
 
     m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay, true, 100);
 
@@ -709,110 +701,75 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
             Point(0, 0), Point(1, 0)
         };
         break;
+    default:
+        break;
     }
-
-    // 对余下三个方向分别计算攻击范围
-    std::vector<Point> down_attack_range;
-    std::vector<Point> left_attack_range;
-    std::vector<Point> up_attack_range;
-
-    const size_t size = right_attack_range.size();
-    down_attack_range.reserve(size);
-    left_attack_range.reserve(size);
-    up_attack_range.reserve(size);
-
-    for (const auto& [x, y] : right_attack_range) {
-        down_attack_range.emplace_back(-y, x);
-        left_attack_range.emplace_back(-x, -y);
-        up_attack_range.emplace_back(y, -x);
-    }
-
-    // It's ordered.
-    const std::vector<std::pair<Point, std::vector<Point>>> DirectionAttackRangeMap{
-        { Point::up(), std::move(up_attack_range) },
-        { Point::right(), std::move(right_attack_range) },
-        { Point::left(), std::move(left_attack_range) },
-        { Point::down(), std::move(down_attack_range) },
-    };
 
     int max_score = 0;
     Point opt_direction;
 
-    // 计算每个方向上的得分
-    for (const auto& [direction, direction_attack_range] : DirectionAttackRangeMap) {
+    for (const Point& direction : {Point::right(), Point::up(), Point::left(), Point::down()}) {
         int score = 0;
-        for (const Point& cur_attack : direction_attack_range) {
-            Point cur_point = loc;
-            cur_point.x += cur_attack.x;
-            cur_point.y += cur_attack.y;
+        for (const Point& relative_pos : right_attack_range) {
+            Point absolute_pos = loc + relative_pos;
 
             using TileKey = TilePack::TileKey;
             // 战斗干员朝向的权重
             static const std::unordered_map<TileKey, int> TileKeyFightWeights = {
-                { TileKey::Invalid, 0 },
-                { TileKey::Forbidden, 0 },
-                { TileKey::Wall, 500 },
-                { TileKey::Road, 1000 },
-                { TileKey::Home, 500 },
-                { TileKey::EnemyHome, 900 },
-                { TileKey::Floor, 1000 },
-                { TileKey::Hole, 0 },
-                { TileKey::Telin, 700 },
-                { TileKey::Telout, 800 },
-                { TileKey::Volcano, 1000 },
-                { TileKey::Healing, 1000 },
+                    { TileKey::Invalid, 0 },
+                    { TileKey::Forbidden, 0 },
+                    { TileKey::Wall, 500 },
+                    { TileKey::Road, 1000 },
+                    { TileKey::Home, 500 },
+                    { TileKey::EnemyHome, 900 },
+                    { TileKey::Floor, 1000 },
+                    { TileKey::Hole, 0 },
+                    { TileKey::Telin, 700 },
+                    { TileKey::Telout, 800 },
+                    { TileKey::Volcano, 1000 },
+                    { TileKey::Healing, 1000 },
             };
             // 治疗干员朝向的权重
             static const std::unordered_map<TileKey, int> TileKeyMedicWeights = {
-                { TileKey::Invalid, 0 },
-                { TileKey::Forbidden, 0 },
-                { TileKey::Wall, 1000 },
-                { TileKey::Road, 1000 },
-                { TileKey::Home, 0 },
-                { TileKey::EnemyHome, 0 },
-                { TileKey::Floor, 0 },
-                { TileKey::Hole, 0 },
-                { TileKey::Telin, 0 },
-                { TileKey::Telout, 0 },
-                { TileKey::Volcano, 1000 },
-                { TileKey::Healing, 1000 },
+                    { TileKey::Invalid, 0 },
+                    { TileKey::Forbidden, 0 },
+                    { TileKey::Wall, 1000 },
+                    { TileKey::Road, 1000 },
+                    { TileKey::Home, 0 },
+                    { TileKey::EnemyHome, 0 },
+                    { TileKey::Floor, 0 },
+                    { TileKey::Hole, 0 },
+                    { TileKey::Telin, 0 },
+                    { TileKey::Telout, 0 },
+                    { TileKey::Volcano, 1000 },
+                    { TileKey::Healing, 1000 },
             };
 
             switch (role) {
-            case BattleRole::Medic:
-                // 医疗干员根据哪个方向上人多决定朝向哪
-                if (m_used_tiles.find(cur_point) != m_used_tiles.cend()) {
-                    score += 10000;
-                }
-                // 再额外加上没人的格子的权重
-                if (auto iter = m_side_tile_info.find(cur_point);
-                    iter == m_side_tile_info.cend()) {
-                    continue;
-                }
-                else {
-                    score += TileKeyMedicWeights.at(iter->second.key);
-                }
-                break;
-            default:
-                // 其他干员（战斗干员）根据哪个方向上权重高决定朝向哪
-                if (auto iter = m_side_tile_info.find(cur_point);
-                    iter == m_side_tile_info.cend()) {
-                    continue;
-                }
-                else {
-                    score += TileKeyFightWeights.at(iter->second.key);
-                }
+                case BattleRole::Medic:
+                    if (m_used_tiles.find(absolute_pos) != m_used_tiles.end()) // 根据哪个方向上人多决定朝向哪
+                        score += 10000;
+                    if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end())
+                        score += TileKeyMedicWeights.at(iter->second.key);
+                    break;
+                default:
+                    if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end())
+                        score += TileKeyFightWeights.at(iter->second.key);
+                    break;
             }
         }
 
-        if (direction == base_direction) {
+        if (direction == base_direction)
             score += 50;
-        }
 
         if (score > max_score) {
             max_score = score;
             opt_direction = direction;
         }
+
+        // rotate relative attack range counterclockwise
+        for (Point& point : right_attack_range)
+            point = {point.y, -point.x};
     }
 
     return std::make_pair(opt_direction, max_score);
