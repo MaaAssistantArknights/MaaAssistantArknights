@@ -32,7 +32,7 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
             <CheckBox IsChecked="{Binding UseStone}" Content="吃源石*" Margin="10 10 16.5 10" 
-                      ToolTip="该项不会保存选中情况"/>
+                      ToolTip="该选项设置重启后不保存"/>
             <hc:TextBox Text="{Binding StoneNumber}" TextWrapping="Wrap" Margin="10"
                         Width="50" InputMethod.IsInputMethodEnabled="False" 
                         TextType="Int"/>
@@ -41,7 +41,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Center">
             <CheckBox IsChecked="{Binding HasTimesLimited}" Content="指定次数*" Margin="10 10 4.5 10" 
-                      ToolTip="该项不会保存选中情况"/>
+                      ToolTip="该选项设置重启后不保存"/>
             <hc:TextBox Text="{Binding MaxTimes}" TextWrapping="Wrap" Margin="10"
                         Width="50" InputMethod.IsInputMethodEnabled="False" 
                         TextType="Int"/>
