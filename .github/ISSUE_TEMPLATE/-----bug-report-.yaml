@@ -13,8 +13,8 @@ body:
         required: true
       - label: 我已经阅读了文档中的常见问题、详细使用说明等，认为这大概率是一个 bug 而非设计如此
         required: true
-      - label: 我正在使用最新版的 MAA
-        required: false
+      - label: 我已查看最新测试版本的更新内容，并未提及该 bug 已被修复的情况
+        required: true
   - type: textarea
     id: describe
     attributes:
@@ -25,8 +25,10 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: 请附上 MAA 同目录下 `asst.log` 日志文件，并提供问题出现的大致时间点
-      description: 直接将完整的文件拖动进来，而非自己裁切的片段；若文件体积过大可压缩后再上传
+      label: 日志文件
+      description: |
+        上传软件目录下的 `asst.log` 日志文件，并说明问题出现的大致时间点
+        请直接将完整的文件拖拽进来，而非自己裁切的片段；若文件体积过大可压缩后再上传
     validations:
       required: true
   - type: textarea
