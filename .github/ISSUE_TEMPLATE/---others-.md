@@ -1,5 +1,5 @@
 ---
-name: 其他（Others)
+name: 其他（Others）
 about: 其他议题
 title: ''
 labels: ''
