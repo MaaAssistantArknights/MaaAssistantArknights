@@ -75,7 +75,7 @@ Todo
     Connection failed.
 - `Connected`  
     Connected. Note that the `uuid` field is empty now (and will be retrieved in the next step)
-- `UuidGetted`  
+- `UuidGot`  
     UUID has been retrieved.
 - `UnsupportedResolution`  
     The resolution is not supported.
