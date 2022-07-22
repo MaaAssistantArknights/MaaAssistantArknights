@@ -22,7 +22,7 @@
                    Text="作业路径/神秘代码" Margin="10" />
             <TextBox Text="{Binding Filename}" Margin="10" IsReadOnly="{c:Binding Path=!Idle}"
                      Width="300" Height="30" />
-            <Button Command="{s:Action SelectFile}" IsEnabled="{Binding Idle}" Content="选择作业" Width="120" Height="50" Margin="10" />
+            <Button Command="{s:Action SelectFile}" IsEnabled="{Binding Idle}" Content="选择作业" Width="120" Height="50" Margin="10" ToolTip="支持作业直接拖入窗口"/>
             <CheckBox IsChecked="{Binding Form}" HorizontalAlignment="Center" IsHitTestVisible="{Binding Idle}" Content="自动编队" Height="50" Margin="10"
                       ToolTip="自动编队暂时无法识别'特别关注'的干员"/>
             <Button Command="{s:Action Start}" IsEnabled="{Binding Idle}" Content="开始" Width="120" Height="50" Margin="10" />
