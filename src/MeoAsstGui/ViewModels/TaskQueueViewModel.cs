@@ -129,7 +129,7 @@ namespace MeoAsstGui
 
         public void InitializeItems()
         {
-            string[] task_list = new string[] { "开始唤醒", "刷理智", "自动公招", "基建换班", "访问好友", "收取信用及购物", "领取日常奖励", "无限刷肉鸽" };
+            string[] task_list = new string[] { "开始唤醒", "刷理智", "自动公招", "基建换班", "访问好友", "收取信用及购物", "领取日常奖励", "自动肉鸽" };
             ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
                 new GenericCombData<ActionType>{ Display="无动作",Value=ActionType.DoNothing },
@@ -150,7 +150,7 @@ namespace MeoAsstGui
                 bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out order);
 
                 var vm = new DragItemViewModel(task, "TaskQueue.");
-                if (task == "无限刷肉鸽")
+                if (task == "自动肉鸽")
                 {
                     vm.IsChecked = false;
                 }
@@ -289,7 +289,7 @@ namespace MeoAsstGui
 
         private bool CheckAndUpdateDayOfWeek()
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow.AddHours(8);
             var hour = now.Hour;
             if (hour >= 0 && hour < 4)
             {
@@ -348,7 +348,7 @@ namespace MeoAsstGui
         {
             foreach (var item in TaskItemViewModels)
             {
-                if (item.Name == "无限刷肉鸽")
+                if (item.Name == "自动肉鸽")
                     continue;
                 item.IsChecked = true;
             }
@@ -471,7 +471,7 @@ namespace MeoAsstGui
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    if (item.Name == "无限刷肉鸽")
+                    if (item.Name == "自动肉鸽")
                         continue;
                     item.IsChecked = !item.IsChecked;
                 }
@@ -480,7 +480,7 @@ namespace MeoAsstGui
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    if (item.Name == "无限刷肉鸽")
+                    if (item.Name == "自动肉鸽")
                         continue;
                     item.IsChecked = false;
                 }
@@ -578,7 +578,7 @@ namespace MeoAsstGui
                 {
                     ret &= asstProxy.AsstAppendAward();
                 }
-                else if (item.Name == "无限刷肉鸽")
+                else if (item.Name == "自动肉鸽")
                 {
                     ret &= appendRoguelike();
                 }
@@ -796,7 +796,7 @@ namespace MeoAsstGui
             int.TryParse(settings.RoguelikeMode, out mode);
 
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendRoguelike(mode);
+            return asstProxy.AsstAppendRoguelike(mode, settings.RoguelikeStartsCount, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull);
         }
 
         public bool killemulator()

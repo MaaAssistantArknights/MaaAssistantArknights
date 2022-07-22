@@ -75,7 +75,6 @@ namespace MeoAsstGui
 
             if (vuvm.IsFirstBootAfterUpdate)
             {
-                vuvm.IsFirstBootAfterUpdate = false;
                 _windowManager.ShowWindow(vuvm);
             }
             else

@@ -16,7 +16,7 @@
         </Grid.ColumnDefinitions>
         <ListBox Width="200" Grid.Column="0" Margin="10"
                   dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True"
-                  ItemsSource="{Binding Path=InfrastItemViewModels}">
+                  ItemsSource="{Binding Path=InfrastItemViewModels}" ToolTip="标签顺序可拖动">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

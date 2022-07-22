@@ -141,12 +141,14 @@ bool ProcessTask::_run()
         }
 
         if (exec_times >= max_times) {
+            info["what"] = "ExceededLimit";
             info["details"] = json::object{
                 { "task", cur_name },
                 { "exec_times", exec_times },
                 { "max_times", max_times }
             };
             Log.info("exec times exceeded the limit", info.to_string());
+            callback(AsstMsg::SubTaskExtraInfo, info);
             m_cur_tasks_name = m_cur_task_ptr->exceeded_next;
             sleep(m_task_delay);
             continue;
@@ -258,6 +260,13 @@ bool asst::ProcessTask::on_run_fails()
 
     set_tasks(m_cur_task_ptr->on_error_next);
     return run();
+}
+
+json::value asst::ProcessTask::basic_info() const
+{
+    return AbstractTask::basic_info() | json::object{
+        { "first", json::array(m_raw_tasks_name) }
+    };
 }
 
 void ProcessTask::exec_click_task(const Rect& matched_rect)

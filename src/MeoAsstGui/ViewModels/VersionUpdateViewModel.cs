@@ -115,19 +115,9 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _isFirstBootAfterUpdate = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.firstboot", Boolean.FalseString));
-
         public bool IsFirstBootAfterUpdate
         {
-            get
-            {
-                return _isFirstBootAfterUpdate;
-            }
-            set
-            {
-                SetAndNotify(ref _isFirstBootAfterUpdate, value);
-                ViewStatusStorage.Set("VersionUpdate.firstboot", value.ToString());
-            }
+            get { return UpdateTag != String.Empty && UpdateTag == _curVersion; }
         }
 
         private string _updatePackageName = ViewStatusStorage.Get("VersionUpdate.package", string.Empty);
@@ -233,7 +223,6 @@ namespace MeoAsstGui
             Directory.Delete(extractDir, true);
             File.Delete(UpdatePackageName);
             // 保存更新信息，下次启动后会弹出已更新完成的提示
-            IsFirstBootAfterUpdate = true;
             UpdatePackageName = string.Empty;
             ViewStatusStorage.Save();
 
@@ -822,7 +811,6 @@ namespace MeoAsstGui
         public void Close()
         {
             RequestClose();
-            IsFirstBootAfterUpdate = false;
             UpdateTag = string.Empty;
             UpdateInfo = string.Empty;
         }

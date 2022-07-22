@@ -1130,7 +1130,7 @@
                 "卡涅利安"
             ],
             [
-                "研",
+                "^研$",
                 "砾"
             ],
             [
@@ -1142,7 +1142,7 @@
                 "罗比菈塔"
             ],
             [
-                "叶",
+                "^叶$",
                 "吽"
             ],
             [
@@ -1154,8 +1154,16 @@
                 "濯尘芙蓉"
             ],
             [
-                "子",
+                "^子$",
                 "孑"
+            ],
+            [
+                "凤笛",
+                "风笛"
+            ],
+            [
+                "岚笛",
+                "风笛"
             ]
         ]
     },
@@ -1167,6 +1175,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "Terminal",
             "CloseAnno",
             "TodaysSupplies",
@@ -1174,6 +1183,27 @@
             "OfflineConfirm",
             "EndOfAction",
             "StageSNFlag"
+        ]
+    },
+    "BServerPrivacyPolicy": {
+        "Doc": "B服有时候会在GameStart之前有个隐私协议的确认需要点击一下",
+        "action": "ClickSelf",
+        "roi": [
+            700,
+            560,
+            120,
+            100
+        ],
+        "next": [
+            "GameStart",
+            "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
+            "BServerPrivacyPolicy",
+            "Terminal",
+            "CloseAnno",
+            "OfflineConfirm",
+            "TodaysSupplies"
         ]
     },
     "Annihilation": {
@@ -1240,6 +1270,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
@@ -1257,6 +1288,7 @@
         "next": [
             "StartToWakeUp",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "StartUpConnectingFlag",
             "Terminal",
             "CloseAnno",
@@ -1267,14 +1299,15 @@
     "StartLoginBServer": {
         "action": "ClickSelf",
         "roi": [
-            440,
-            370,
             400,
-            80
+            350,
+            500,
+            150
         ],
         "next": [
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
@@ -1661,6 +1694,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "OfflineConfirm",
             "ClickCornerAfterPRTS_2"
         ]
@@ -1687,6 +1721,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "OfflineConfirm"
         ],
         "onErrorNext": [
@@ -1741,6 +1776,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "Terminal",
             "CloseAnno",
             "TodaysSupplies",
@@ -1870,6 +1906,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "OfflineConfirm",
             "StartButton1"
         ]
@@ -1891,6 +1928,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "OfflineConfirm",
             "StartButton1"
         ],
@@ -1915,7 +1953,8 @@
             "OfflineConfirm",
             "StartToWakeUp",
             "StartUpConnectingFlag",
-            "StartLoginBServer"
+            "StartLoginBServer",
+            "BServerPrivacyPolicy"
         ]
     },
     "OfflineConfirm": {
@@ -1935,6 +1974,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "OfflineConfirm",
             "TodaysSupplies"
         ]
@@ -1951,6 +1991,7 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
+            "BServerPrivacyPolicy",
             "Terminal",
             "CloseAnno",
             "OfflineConfirm",
@@ -3019,6 +3060,7 @@
             100
         ],
         "next": [
+            "CollectCredit",
             "CloseCollectCredit"
         ],
         "rearDelay": 2000
@@ -5873,6 +5915,12 @@
         "next": [
             "Roguelike1ChooseDifficulty",
             "Roguelike1Start",
+            "Roguelike1StageCambatDpsEnter",
+            "Roguelike1StageEmergencyDpsEnter",
+            "Roguelike1StageEncounterEnter",
+            "Roguelike1StageTraderEnter",
+            "Roguelike1StageDreadfulFoeEnter",
+            "Roguelike1StageSafeHouseEnter",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
             "TodaysSuppliesToRoguelike1",
@@ -6721,9 +6769,9 @@
         "cache": false,
         "roi": [
             950,
-            0,
+            50,
             320,
-            700
+            580
         ],
         "templThreshold": 0.9,
         "preDelay": 1500,
@@ -6920,6 +6968,50 @@
         ],
         "rearDelay": 2000
     },
+    "Roguelike1QuickFormationDelay": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "rearDelay": 100
+    },
+    "Roguelike1QuickFormationClearAndReselect": {
+        "action": "ClickSelf",
+        "roi": [
+            821,
+            608,
+            139,
+            112
+        ],
+        "next": [
+            "Roguelike1QuickFormationClearAndReselect-Confirm"
+        ]
+    },
+    "Roguelike1QuickFormationClearAndReselect-Confirm": {
+        "template": "Roguelike1FormationConfirm.png",
+        "roi": [
+            1015,
+            601,
+            265,
+            119
+        ],
+        "next": [
+            "Roguelike1QuickFormationClearAndReselect-Formation"
+        ]
+    },
+    "Roguelike1QuickFormationClearAndReselect-Formation": {
+        "template": "Roguelike1QuickFormation.png",
+        "action": "ClickSelf",
+        "roi": [
+            817,
+            0,
+            402,
+            146
+        ],
+        "next": [
+            "Roguelike1QuickFormationClearAndReselect-Formation",
+            "Stop"
+        ],
+        "rearDelay": 2000
+    },
     "Roguelike1FormationOper": {
         "cache": false,
         "roi": [
@@ -7073,7 +7165,6 @@
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1TraderRandomShopping",
-            "Roguelike1ChooseOperFlag",
             "Roguelike1StageTraderLeave",
             "Roguelike1DropsFlag",
             "Roguelike1ClickToDrops"
@@ -7451,6 +7542,14 @@
         "text": [],
         "ocrReplace": [
             [
+                "o",
+                "0"
+            ],
+            [
+                "O",
+                "0"
+            ],
+            [
                 "I",
                 "1"
             ],
@@ -7461,22 +7560,6 @@
             [
                 "工",
                 "1"
-            ],
-            [
-                "o",
-                "0"
-            ],
-            [
-                "O",
-                "0"
-            ],
-            [
-                "S",
-                "5"
-            ],
-            [
-                "s",
-                "5"
             ],
             [
                 "方",

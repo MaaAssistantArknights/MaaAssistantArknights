@@ -7,6 +7,9 @@ namespace asst
     class RoguelikeFormationTaskPlugin : public AbstractTaskPlugin
     {
     public:
+        static constexpr size_t MaxNumOfOperPerPage = 8;
+
+    public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
         virtual ~RoguelikeFormationTaskPlugin() = default;
 
@@ -14,5 +17,8 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+
+        void clear_and_reselect();
+        size_t analyze_and_select();
     };
 }

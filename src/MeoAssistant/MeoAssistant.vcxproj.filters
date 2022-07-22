@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="源文件">
@@ -75,6 +75,12 @@
     </Filter>
     <Filter Include="源文件\ImageAnalyzer\Final\Infrast">
       <UniqueIdentifier>{a37e0b23-e8f8-499c-adf5-9990277e9ffe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Task\Plugin\Roguelike">
+      <UniqueIdentifier>{82f533ab-3647-46ea-b9e1-0af634b3545c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Task\Plugin\Roguelike">
+      <UniqueIdentifier>{67b117db-cce6-459f-bd26-bf897c02fbd7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -207,12 +213,6 @@
     <ClInclude Include="HashImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\General</Filter>
     </ClInclude>
-    <ClInclude Include="RoguelikeBattleTaskPlugin.h">
-      <Filter>头文件\Task\Plugin</Filter>
-    </ClInclude>
-    <ClInclude Include="RoguelikeFormationTaskPlugin.h">
-      <Filter>头文件\Task\Plugin</Filter>
-    </ClInclude>
     <ClInclude Include="TilePack.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
@@ -276,12 +276,6 @@
     <ClInclude Include="RoguelikeTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
-    <ClInclude Include="RoguelikeRecruitTaskPlugin.h">
-      <Filter>头文件\Task\Plugin</Filter>
-    </ClInclude>
-    <ClInclude Include="RoguelikeSkillSelectionTaskPlugin.h">
-      <Filter>头文件\Task\Plugin</Filter>
-    </ClInclude>
     <ClInclude Include="DebugTask.h">
       <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
@@ -339,11 +333,26 @@
     <ClInclude Include="DepotTask.h">
       <Filter>头文件\Task</Filter>
     </ClInclude>
-    <ClInclude Include="StopGameTaskPlugin.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="CloseDownTask.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="StopGameTaskPlugin.h">
+      <Filter>头文件\Task\Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeBattleTaskPlugin.h">
+      <Filter>头文件\Task\Plugin\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeFormationTaskPlugin.h">
+      <Filter>头文件\Task\Plugin\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeRecruitTaskPlugin.h">
+      <Filter>头文件\Task\Plugin\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeSkillSelectionTaskPlugin.h">
+      <Filter>头文件\Task\Plugin\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeControlTaskPlugin.h">
+      <Filter>头文件\Task\Plugin\Roguelike</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -458,12 +467,6 @@
     <ClCompile Include="HashImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer\General</Filter>
     </ClCompile>
-    <ClCompile Include="RoguelikeBattleTaskPlugin.cpp">
-      <Filter>源文件\Task\Plugin</Filter>
-    </ClCompile>
-    <ClCompile Include="RoguelikeFormationTaskPlugin.cpp">
-      <Filter>源文件\Task\Plugin</Filter>
-    </ClCompile>
     <ClCompile Include="TilePack.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
@@ -523,12 +526,6 @@
     </ClCompile>
     <ClCompile Include="RoguelikeTask.cpp">
       <Filter>源文件\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="RoguelikeRecruitTaskPlugin.cpp">
-      <Filter>源文件\Task\Plugin</Filter>
-    </ClCompile>
-    <ClCompile Include="RoguelikeSkillSelectionTaskPlugin.cpp">
-      <Filter>源文件\Task\Plugin</Filter>
     </ClCompile>
     <ClCompile Include="DebugTask.cpp">
       <Filter>源文件\Task</Filter>
@@ -591,7 +588,25 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CloseDownTask.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="StopGameTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeBattleTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeFormationTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeRecruitTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeSkillSelectionTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeControlTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

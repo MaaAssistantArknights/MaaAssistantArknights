@@ -1,2 +1,14 @@
-- 更新 `未尽篇章` 活动关卡掉落数据、地图资源
-- 其他的一些小优化和修复
+- 新增支持 国际服 (EN) 肉鸽 @cookie223 @MistEO
+- 新增支持 日服肉鸽 @natt3
+- 新增支持 肉鸽 设置开始次数、投资次数、投资完结束任务 @MistEO
+- 新增支持 肉鸽 从选择关卡后 `Enter` 界面继续任务 @MistEO
+- 新增支持 日服自动公招 @natt3
+- 优化 肉鸽 编队策略，会清空并重新选等级最高的 @MistEO
+- 优化 肉鸽 部分代码及识别错误 @horror-proton @zzyyyl @MistEO
+- 修复 肉鸽 一直朝右的问题 @horror-proton @MistEO
+- 修复 自动战斗 部分干员识别错误 @ABA2396
+- 修复 刷理智 偶现掉落识别错误 @MistEO
+- 修复 信用购物 偶现信用收取失败问题 @horror-proton @MistEO
+- 修复 日服访问好友 的错误 @natt3
+- 修复 B 服登陆时卡住的问题 @zzyyyl
+- 优化并修复 部分界面问题 @lhhxxxxx @ABA2396 @LeoQ7 @zzyyyl

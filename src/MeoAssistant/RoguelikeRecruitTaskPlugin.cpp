@@ -73,12 +73,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         }
     }
 
-    if (!recruited) {
-        // 随便招个
-        Log.info("All are very lower");
-        auto info = oper_list.front();
-        recruit_oper(info);
-    }
+    // 这玩意选了也没啥用，不如省点理智
+    //if (!recruited) {
+    //    // 随便招个
+    //    Log.info("All are very lower");
+    //    auto info = oper_list.front();
+    //    recruit_oper(info);
+    //}
 
     return recruited;
 }
