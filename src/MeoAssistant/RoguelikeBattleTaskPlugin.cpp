@@ -310,7 +310,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     Point placed_point = m_side_tile_info.at(placed_loc).pos;
     Rect placed_rect(placed_point.x, placed_point.y, 1, 1);
     int dist = static_cast<int>(Point::distance(
-            placed_point, {opt_oper.rect.x + opt_oper.rect.width / 2, opt_oper.rect.y + opt_oper.rect.height / 2}));
+        placed_point, { opt_oper.rect.x + opt_oper.rect.width / 2, opt_oper.rect.y + opt_oper.rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist * log10(dist));
     m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
@@ -708,7 +708,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     int max_score = 0;
     Point opt_direction;
 
-    for (const Point& direction : {Point::right(), Point::up(), Point::left(), Point::down()}) {
+    for (const Point& direction : { Point::right(), Point::up(), Point::left(), Point::down() }) {
         int score = 0;
         for (const Point& relative_pos : right_attack_range) {
             Point absolute_pos = loc + relative_pos;
@@ -746,16 +746,16 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
             };
 
             switch (role) {
-                case BattleRole::Medic:
-                    if (m_used_tiles.find(absolute_pos) != m_used_tiles.end()) // 根据哪个方向上人多决定朝向哪
-                        score += 10000;
-                    if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end())
-                        score += TileKeyMedicWeights.at(iter->second.key);
-                    break;
-                default:
-                    if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end())
-                        score += TileKeyFightWeights.at(iter->second.key);
-                    break;
+            case BattleRole::Medic:
+                if (m_used_tiles.find(absolute_pos) != m_used_tiles.end()) // 根据哪个方向上人多决定朝向哪
+                    score += 10000;
+                if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end())
+                    score += TileKeyMedicWeights.at(iter->second.key);
+                break;
+            default:
+                if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end())
+                    score += TileKeyFightWeights.at(iter->second.key);
+                break;
             }
         }
 
@@ -769,7 +769,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
 
         // rotate relative attack range counterclockwise
         for (Point& point : right_attack_range)
-            point = {point.y, -point.x};
+            point = { point.y, -point.x };
     }
 
     return std::make_pair(opt_direction, max_score);

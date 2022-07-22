@@ -34,6 +34,7 @@
     <ClInclude Include="DepotRecognitionTask.h" />
     <ClInclude Include="DepotTask.h" />
     <ClInclude Include="GameCrashRestartTaskPlugin.h" />
+    <ClInclude Include="RoguelikeControlTaskPlugin.h" />
     <ClInclude Include="RoguelikeRecruitConfiger.h" />
     <ClInclude Include="CopilotTask.h" />
     <ClInclude Include="DebugTask.h" />
@@ -118,6 +119,7 @@
     <ClCompile Include="DepotRecognitionTask.cpp" />
     <ClCompile Include="DepotTask.cpp" />
     <ClCompile Include="GameCrashRestartTaskPlugin.cpp" />
+    <ClCompile Include="RoguelikeControlTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeRecruitConfiger.cpp" />
     <ClCompile Include="CopilotTask.cpp" />
     <ClCompile Include="DebugTask.cpp" />
