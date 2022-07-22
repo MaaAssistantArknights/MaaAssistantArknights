@@ -181,7 +181,7 @@
         },
         {
             "name": "Castle-3",
-            "level": 2,
+            "level": 1,
             "skill": 0
         },
         {
@@ -391,7 +391,7 @@
         },
         {
             "name": "黑角",
-            "level": 3,
+            "level": 2,
             "skill": 0
         },
         {
@@ -462,7 +462,7 @@
         },
         {
             "name": "拜松",
-            "level": 4,
+            "level": 5,
             "skill": 2
         },
         {
@@ -497,6 +497,11 @@
         },
         {
             "name": "吽",
+            "level": 5,
+            "skill": 2
+        },
+        {
+            "name": "车尔尼",
             "level": 5,
             "skill": 2
         }
@@ -689,6 +694,16 @@
             "name": "正义骑士号",
             "level": 1,
             "skill": 0
+        },
+        {
+            "name": "承曦格雷伊",
+            "level": 5,
+            "skill": 2
+        },
+        {
+            "name": "迷迭香",
+            "level": 6,
+            "skill": 2
         }
     ],
     "Caster": [
@@ -856,6 +871,16 @@
             "name": "特米米",
             "level": 5,
             "skill": 2
+        },
+        {
+            "name": "星源",
+            "level": 5,
+            "skill": 2
+        },
+        {
+            "name": "黑键",
+            "level": 6,
+            "skill": 2
         }
     ],
     "Special": [
@@ -992,8 +1017,13 @@
         },
         {
             "name": "THRM-EX",
-            "level": 2,
+            "level": 1,
             "skill": 0
+        },
+        {
+            "name": "多萝西_N",
+            "level": 6,
+            "skill": 2
         }
     ],
     "Medic": [
@@ -1116,8 +1146,13 @@
         },
         {
             "name": "Lancet-2",
-            "level": 2,
+            "level": 1,
             "skill": 0
+        },
+        {
+            "name": "濯尘芙蓉",
+            "level": 5,
+            "skill": 2
         }
     ],
     "Support": [
