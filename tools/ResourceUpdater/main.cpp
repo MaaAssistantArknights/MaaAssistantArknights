@@ -4,7 +4,6 @@
 
 #include <opencv2/opencv.hpp>
 #include <meojson/json.hpp>
-#include <AsstUtils.hpp>
 
 bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool cvt_single_item_template(const std::filesystem::path& input, const std::filesystem::path& output);
@@ -436,150 +435,11 @@ bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std:
     const auto solution_dir = std::filesystem::current_path().parent_path().parent_path();
     std::filesystem::path python_file = solution_dir / "tools" / "RoguelikeResourceUpdater" / "generate_roguelike_recruit.py";
     python_cmd = "python " + python_file.string() + " --input=\"" + input_dir.string() + "\" --output=\"" + output_dir.string() + "\"";
-    std::cout << python_cmd << std::endl;
     int python_ret = system(python_cmd.c_str());
     if (python_ret != 0) {
         return false;
     }
     return true;
-/*
-    const auto input_file = input_dir / "gamedata" / "excel" / "character_table.json";
-    const auto output_file = output_dir / "roguelike_recruit.json";
-
-    json::value input_json;
-    {
-        auto opt = json::open(input_file);
-        if (!opt) {
-            std::cout << input_file << " parse error" << std::endl;
-            return false;
-        }
-        input_json = std::move(opt.value());
-    }
-
-    json::value old_json;
-    {
-        auto opt = json::open(output_file);
-        if (!opt) {
-            std::cout << output_file << " parse error" << std::endl;
-            return false;
-        }
-        old_json = std::move(opt.value());
-    }
-    for (auto& [x, y] : old_json.as_object()) {
-        std::cout << x << std::endl;
-    }
-    std::unordered_map<std::string, std::string> name_replace_map = {};
-    const std::unordered_map<std::string, std::string> default_position = {
-        { "Warrior", "MELEE" },
-        { "Pioneer", "MELEE" },
-        { "Caster", "RANGED" },
-        { "Sniper", "RANGED" },
-        { "Medic", "RANGED" },
-        { "Special", "MELEE" },
-        { "Tank", "MELEE" },
-        { "Support", "RANGED" }
-    };
-    json::value old_employee_data;
-
-    for (const std::string& profession :
-        { "Warrior", "Pioneer", "Caster", "Sniper", "Medic", "Special", "Tank", "Support" }) {
-        for (auto& item : old_json[profession].as_array()) {
-            auto name = item["name"].as_string();
-            if (name.find("_N") != std::string::npos) {
-                name_replace_map[name] = asst::utils::string_replace_all(name, "_N", "");
-                old_employee_data[profession][name_replace_map[name]] = item;
-            }
-            else {
-                old_employee_data[profession][name] = item;
-            }
-        }
-    }
-
-    json::value new_json = old_json;
-    for (auto& [x, y] : input_json.as_object()) {
-        static auto profession_filter = [](const std::string& profession) -> bool {
-            for (auto& x : { "WARRIOR", "PIONEER", "CASTER", "SNIPER",
-                "MEDIC", "SPECIAL", "TANK", "SUPPORT" }) {
-                if (profession == x) return true;
-            }
-            return false;
-        };
-        static auto title = [](const std::string& str) -> std::string {
-            std::string s = str;
-            std::for_each(s.begin(), s.end(), [](char& c) { c = char(std::tolower(c)); });
-            if (!s.empty()) {
-                s[0] = char(std::toupper(s[0]));
-            }
-            return s;
-        };
-        if (!profession_filter(y["profession"].as_string())) {
-            continue;
-        }
-        if (y["name"].as_string().find("预备干员") != std::string::npos) {
-            continue;
-        }
-        auto profession = title(y["profession"].as_string());
-        json::value employee_info;
-        employee_info["name"] = y["name"];
-        employee_info["level"] = y["rarity"].as_integer() + 1;
-
-        // 和默认位置不同，直接禁用
-        if (auto iter = default_position.find(profession);
-            iter != default_position.end() &&
-            iter->second != y["position"].as_string()) {
-            employee_info["name"] = employee_info["name"].as_string() + "_N";
-        }
-
-        // 四星以上的干员设二技能
-        if (employee_info["level"].as_integer() >= 4) {
-            employee_info["skill"] = 2;
-        }
-        // 三星的干员设一技能
-        else if (employee_info["level"].as_integer() == 3) {
-            employee_info["skill"] = 1;
-        }
-        // 二星以下的干员不设技能
-        else {
-            employee_info["skill"] = 0;
-        }
-
-        if (old_employee_data[profession].as_object().contains(y["name"].as_string())) {
-            auto old_employee_info = old_employee_data[profession][y["name"].as_string()];
-            employee_info["skill"] =
-                old_employee_info.get("skill", employee_info["skill"].as_integer());
-            if (employee_info.contains("alternate_skill"))
-                employee_info["alternate_skill"] = old_employee_info.get("alternate_skill", 0);
-            if (employee_info.contains("skill_usage"))
-                employee_info["skill_usage"] = old_employee_info.get("skill_usage", 0);
-            for (auto& employee : new_json[profession].as_array()) {
-                if (employee["name"].as_string() == y["name"].as_string()) {
-                    for (auto& [key, val] : employee_info.as_object()) {
-                        employee[key] = val;
-                    }
-                    break;
-                }
-                else if (auto iter = name_replace_map.find(employee["name"].as_string());
-                    iter != name_replace_map.end() &&
-                    iter->second == y["name"].as_string()) {
-                    employee_info["name"] = employee["name"];
-                    for (auto& [key, val] : employee_info.as_object()) {
-                        employee[key] = val;
-                    }
-                    break;
-                }
-            }
-        }
-        else {
-            new_json[profession].array_emplace(employee_info);
-        }
-    }
-
-    std::ofstream ofs(output_file, std::ios::out);
-    ofs << new_json.format();
-    ofs.close();
-
-    return true;
-*/
 }
 
 bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file, const std::filesystem::path& en_file)
