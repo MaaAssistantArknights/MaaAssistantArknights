@@ -18,7 +18,7 @@ body:
   - type: textarea
     id: describe
     attributes:
-      label: 描述你的问题
+      label: 问题描述
       description: 尽可能详细描述你的问题
     validations:
       required: true
@@ -46,6 +46,6 @@ body:
       label: 还有别的吗？
       description: |
         使用的模拟器？操作系统？相关的配置？链接？参考资料？
-        任何能让我们对你所遇到的问题有更多了解的东西。
+        任何能让我们对你所遇到的问题有更多了解的东西
     validations:
       required: false
