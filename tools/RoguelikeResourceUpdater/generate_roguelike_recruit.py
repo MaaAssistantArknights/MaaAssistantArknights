@@ -2,15 +2,12 @@ import json
 import requests
 
 url = "https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/zh_CN/gamedata/excel/character_table.json"
+# 记得改下面的 proxies！！！
 res = requests.get(url, proxies = {"https": "http://127.0.0.1:1080"})
 raw_employee_infos = json.loads(res.text)
-# print(raw_employee_infos)
 
-# ArknightsGameData\zh_CN\gamedata\excel
-# with open("~$character_table.json", "r", encoding="utf8") as f:
-#     raw_employee_infos = json.load(f)
-
-with open("resource/roguelike_recruit.json", "r", encoding="utf8") as f:
+# 记得改下面的路径！！！
+with open("../../resource/roguelike_recruit.json", "r", encoding="utf8") as f:
     old_res = json.load(f)
 
 old_dic = {
@@ -29,59 +26,23 @@ name_replace_map = {}
 for profession in ["Warrior", "Pioneer", "Caster", "Sniper", "Medic", "Special", "Tank", "Support"]:
     for item in old_res[profession]:
         if "_N" in item["name"]:
-            print(item["name"])
             name_replace_map[item["name"]] = item["name"].replace("_N", "")
             old_dic[profession][name_replace_map[item["name"]]] = item
         else:
             old_dic[profession][item["name"]] = item
 
-# res = {
-#     "roles": [
-#         "Warrior",
-#         "Pioneer",
-#         "Tank",
-#         "Sniper",
-#         "Caster",
-#         "Special",
-#         "Medic",
-#         "Support",
-#         "Alternate"
-#     ],
-#     "Warrior": [],
-#     "Pioneer": [],
-#     "Caster": [],
-#     "Sniper": [],
-#     "Medic": [],
-#     "Special": [],
-#     "Tank": [],
-#     "Support": [],
-#     "Alternate": [
-#         {
-#             "name": "预备干员-近战",
-#             "level": 3,
-#             "skill": 0
-#         },
-#         {
-#             "name": "预备干员-狙击",
-#             "level": 3,
-#             "skill": 0
-#         },
-#         {
-#             "name": "预备干员-术师",
-#             "level": 3,
-#             "skill": 0
-#         },
-#         {
-#             "name": "预备干员-后勤",
-#             "level": 3,
-#             "skill": 0
-#         }
-#     ]
-# }
-
 res = old_res
 
-# dic = {}
+default_position = {
+    "Warrior": "MELEE",
+    "Pioneer": "MELEE",
+    "Caster": "RANGED",
+    "Sniper": "RANGED",
+    "Medic": "RANGED",
+    "Special": "MELEE",
+    "Tank": "MELEE",
+    "Support": "RANGED"
+}
 
 for x, y in raw_employee_infos.items():
     if y["profession"] not in [
@@ -99,6 +60,19 @@ for x, y in raw_employee_infos.items():
         "level": y["rarity"] + 1,
         # "position": y["position"]
     }
+    # 和默认位置不同，直接禁用
+    if default_position[profession] != y["position"]:
+        employee_info["name"] += "_N"
+
+    # 四星以上的干员设二技能
+    if y["rarity"] + 1 >= 4:
+        employee_info["skill"] = 2
+    # 三星的干员设一技能
+    elif y["rarity"] + 1 == 3:
+        employee_info["skill"] = 1
+    # 二星以下的干员不设技能
+    else:
+        employee_info["skill"] = 0
 
     if y["name"] in old_dic[profession]:
         old_employee_info = old_dic[profession][y["name"]]
@@ -116,30 +90,18 @@ for x, y in raw_employee_infos.items():
                 employee.update(employee_info)
             else: continue
             break
-        # res[profession] = employee_info
     else:
         res[profession].append(employee_info)
-    # dic[y["name"]] = {
-    #     "level": y["rarity"] + 1,
-    #     "profession": y["profession"],
-    #     "subProfession": y["subProfessionId"],
-    #     "position": y["position"]
-    # }
-
-
-# dic["预备干员"] = {
-#     "Doc": "事实上没有叫这个名字的干员，但为了避免肉鸽中，requires设置了但找不到的问题，增设这个干员。",
-#     "level": 3
-# }
 
 
 ## FUCKING CRLF
+## 处理 CRLF 和 LF 大概有更好的办法，但是我不知道.jpg
 
 # with open("resource/roguelike_recruit.json", "w", encoding="utf8") as f:
 #     # json.dump(dic, f, ensure_ascii=False, indent=4)
 #     json.dump(res, f, ensure_ascii=False, indent=4)
 
 dump_cache = json.dumps(res, ensure_ascii=False, indent=4).encode("utf8").replace(b"\r\n", b"\n")
-with open("resource/roguelike_recruit.json", "wb") as f:
+# 记得改下面的路径！！！
+with open("../../resource/roguelike_recruit.json", "wb") as f:
     f.write(dump_cache)
-
