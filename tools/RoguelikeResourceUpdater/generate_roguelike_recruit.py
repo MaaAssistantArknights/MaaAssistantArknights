@@ -1,13 +1,24 @@
+from argparse import ArgumentParser
 import json
 import requests
+import os
 
-url = "https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/zh_CN/gamedata/excel/character_table.json"
-# 记得改下面的 proxies！！！
-res = requests.get(url, proxies = {"https": "http://127.0.0.1:1080"})
-raw_employee_infos = json.loads(res.text)
+def ArgParser():
+    parser = ArgumentParser()
+    parser.add_argument("--input", help="input dir", metavar="I", dest="src", required=True)
+    parser.add_argument("--output", help="output dir", metavar="O", dest="det", required=True)
+    return parser
 
-# 记得改下面的路径！！！
-with open("../../resource/roguelike_recruit.json", "r", encoding="utf8") as f:
+args = ArgParser().parse_args()
+
+input_dir = args.src
+output_dir = args.det
+input_file = os.path.join(input_dir, "gamedata/excel/character_table.json")
+output_file = os.path.join(output_dir, "roguelike_recruit.json")
+
+with open(input_file, "r", encoding="utf8") as f:
+    raw_employee_infos = json.load(f)
+with open(output_file, "r", encoding="utf8") as f:
     old_res = json.load(f)
 
 old_dic = {
@@ -103,5 +114,5 @@ for x, y in raw_employee_infos.items():
 
 dump_cache = json.dumps(res, ensure_ascii=False, indent=4).encode("utf8").replace(b"\r\n", b"\n")
 # 记得改下面的路径！！！
-with open("../../resource/roguelike_recruit.json", "wb") as f:
+with open(output_file, "wb") as f:
     f.write(dump_cache)
