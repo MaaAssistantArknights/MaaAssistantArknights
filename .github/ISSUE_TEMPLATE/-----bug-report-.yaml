@@ -1,0 +1,51 @@
+name: 问题反馈（Bug report）
+description: 识别错误、操作异常、连接错误等
+labels: ['bug']
+body:
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 在提问之前...
+      options:
+      - label: 我理解 Issue 是用于反馈和解决问题的，而非吐槽评论区，且会尽可能提供更多信息帮助问题解决
+        required: true
+      - label: 我在提问题之前至少花费了 5 分钟来思考和准备
+        required: true
+      - label: 我已经阅读了文档中的常见问题、详细使用说明等，认为这大概率是一个 bug 而非设计如此
+        required: true
+      - label: 我已查看最新测试版本的更新内容，并未提及该 bug 已被修复的情况
+        required: true
+  - type: textarea
+    id: describe
+    attributes:
+      label: 问题描述
+      description: 尽可能详细描述你的问题
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志文件
+      description: |
+        上传软件目录下的 `asst.log` 日志文件，并说明问题出现的大致时间点
+        请直接将完整的文件拖拽进来，而非自己裁切的片段；若文件体积过大可压缩后再上传
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图
+      description: |
+        如果有，添加屏幕截图以帮助解释你的问题，包括但不限于 MAA 软件截图、游戏画面截图
+        若是识别相关问题，请帮忙提供模拟器自带的截图工具截取的原图（或通过 adb 截取原图）
+    validations:
+      required: false
+  - type: textarea
+    id: others
+    attributes:
+      label: 还有别的吗？
+      description: |
+        使用的模拟器？操作系统？相关的配置？链接？参考资料？
+        任何能让我们对你所遇到的问题有更多了解的东西
+    validations:
+      required: false
