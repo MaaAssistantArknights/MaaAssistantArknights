@@ -796,7 +796,7 @@ namespace MeoAsstGui
             int.TryParse(settings.RoguelikeMode, out mode);
 
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendRoguelike(mode);
+            return asstProxy.AsstAppendRoguelike(mode, settings.RoguelikeStartsCount, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull);
         }
 
         public bool killemulator()

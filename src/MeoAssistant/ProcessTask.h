@@ -25,6 +25,7 @@ namespace asst
     protected:
         virtual bool _run() override;
         virtual bool on_run_fails() override;
+        virtual json::value basic_info() const override;
 
         void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);
