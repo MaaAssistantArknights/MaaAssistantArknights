@@ -10,6 +10,7 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
 
 bool update_infrast_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir, const std::filesystem::path& solution_dir);
 
 bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file, const std::filesystem::path& en_file);
@@ -69,6 +70,13 @@ int main([[maybe_unused]] int argc, char** argv)
     std::cout << "------------Update infrast templates------------" << std::endl;
     if (!update_infrast_templates(input_dir / "building_skill", resource_dir / "template" / "infrast")) {
         std::cerr << "Update infrast templates failed" << std::endl;
+        return -1;
+    }
+
+    /* Update roguelike recruit data from Arknights-Bot-Resource*/
+    std::cout << "------------Update roguelike recruit data------------" << std::endl;
+    if (!update_roguelike_recruit(input_dir, resource_dir, solution_dir)) {
+        std::cerr << "Update roguelike recruit data failed" << std::endl;
         return -1;
     }
 
@@ -417,6 +425,18 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
             std::cout << "New infrast templ: " << out_file << std::endl;
         }
         cv::imwrite(out_file, cvt);
+    }
+    return true;
+}
+
+bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir, const std::filesystem::path& solution_dir)
+{
+    std::string python_cmd;
+    std::filesystem::path python_file = solution_dir / "tools" / "RoguelikeResourceUpdater" / "generate_roguelike_recruit.py";
+    python_cmd = "python " + python_file.string() + " --input=\"" + input_dir.string() + "\" --output=\"" + output_dir.string() + "\"";
+    int python_ret = system(python_cmd.c_str());
+    if (python_ret != 0) {
+        return false;
     }
     return true;
 }
