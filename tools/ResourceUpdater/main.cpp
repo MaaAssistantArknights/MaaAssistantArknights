@@ -10,8 +10,10 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
 
 bool update_infrast_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir, const std::filesystem::path& solution_dir);
 
 bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file, const std::filesystem::path& en_file);
 
 int main([[maybe_unused]] int argc, char** argv)
 {
@@ -20,13 +22,14 @@ int main([[maybe_unused]] int argc, char** argv)
     const std::filesystem::path input_dir = cur_path / "Arknights-Bot-Resource";
 
     std::cout << "------------Update Arknights-Bot-Resource------------" << std::endl;
-    int git_ret = 0;
+    std::string git_cmd;
     if (!std::filesystem::exists(input_dir)) {
-        git_ret = system(("git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1 \"" + input_dir.string() + "\"").c_str());
+        git_cmd = "git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1 \"" + input_dir.string() + "\"";
     }
     else {
-        git_ret = system(("git -C \"" + input_dir.string() + "\" pull").c_str());
+        git_cmd = "git -C \"" + input_dir.string() + "\" pull";
     }
+    int git_ret = system(git_cmd.c_str());
     if (git_ret != 0) {
         std::cout << "git cmd failed" << std::endl;
         return -1;
@@ -53,6 +56,9 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
+    // 这个 en_levels.json 是自己手动生成放进去的
+    generate_english_roguelike_stage_name_replacement(input_dir / "levels.json", cur_path / "en_levels.json");
+
     /* Update infrast data from Arknights-Bot-Resource*/
     std::cout << "------------Update infrast data------------" << std::endl;
     if (!update_infrast_data(input_dir, resource_dir)) {
@@ -64,6 +70,13 @@ int main([[maybe_unused]] int argc, char** argv)
     std::cout << "------------Update infrast templates------------" << std::endl;
     if (!update_infrast_templates(input_dir / "building_skill", resource_dir / "template" / "infrast")) {
         std::cerr << "Update infrast templates failed" << std::endl;
+        return -1;
+    }
+
+    /* Update roguelike recruit data from Arknights-Bot-Resource*/
+    std::cout << "------------Update roguelike recruit data------------" << std::endl;
+    if (!update_roguelike_recruit(input_dir, resource_dir, solution_dir)) {
+        std::cerr << "Update roguelike recruit data failed" << std::endl;
         return -1;
     }
 
@@ -82,15 +95,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
 {
     const auto input_json_path = input_dir / "gamedata" / "excel" / "item_table.json";
 
-    std::ifstream ifs(input_json_path, std::ios::in);
-    if (!ifs.is_open()) {
-        std::cout << "open json failed" << std::endl;
-        return false;
-    }
-    std::stringstream iss;
-    iss << ifs.rdbuf();
-    ifs.close();
-    auto parse_ret = json::parse(iss.str());
+    auto parse_ret = json::open(input_json_path);
     if (!parse_ret) {
         std::cout << "parse json failed" << std::endl;
         return false;
@@ -162,7 +167,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
     }
     auto output_json_path = output_dir / "item_index.json";
     std::ofstream ofs(output_json_path, std::ios::out);
-    ofs << output_json.format();
+    ofs << output_json.format(true);
     ofs.close();
 
     return true;
@@ -260,16 +265,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
 
     json::value input_json;
     {
-        std::ifstream ifs(input_file, std::ios::in);
-        if (!ifs.is_open()) {
-            std::cout << input_file << " not exist" << std::endl;
-            return false;
-        }
-        std::stringstream iss;
-        iss << ifs.rdbuf();
-        ifs.close();
-
-        auto opt = json::parse(iss.str());
+        auto opt = json::open(input_file);
         if (!opt) {
             std::cout << input_file << " parse error" << std::endl;
             return false;
@@ -279,16 +275,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
 
     json::value old_json;
     {
-        std::ifstream ifs(output_file, std::ios::in);
-        if (!ifs.is_open()) {
-            std::cout << output_file << " not exist" << std::endl;
-            return false;
-        }
-        std::stringstream iss;
-        iss << ifs.rdbuf();
-        ifs.close();
-
-        auto opt = json::parse(iss.str());
+        auto opt = json::open(output_file);
         if (!opt) {
             std::cout << output_file << " parse error" << std::endl;
             return false;
@@ -358,7 +345,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
     root["roomType"] = json::array(rooms);
 
     std::ofstream ofs(output_file, std::ios::out);
-    ofs << root.format();
+    ofs << root.format(true);
     ofs.close();
 
     return true;
@@ -374,15 +361,8 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
         std::cerr << "Request Penguin Stats failed" << std::endl;
         return false;
     }
-    std::ifstream ifs(TempFile, std::ios::in);
-    if (!ifs.is_open()) {
-        std::cout << "open stages.json failed" << std::endl;
-        return false;
-    }
-    std::stringstream iss;
-    iss << ifs.rdbuf();
-    ifs.close();
-    auto parse_ret = json::parse(iss.str());
+
+    auto parse_ret = json::open(TempFile);
     if (!parse_ret) {
         std::cout << "parse stages.json failed" << std::endl;
         return false;
@@ -391,7 +371,7 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
     auto& stage_json = parse_ret.value();
 
     std::ofstream ofs(output_dir / "stages.json", std::ios::out);
-    ofs << stage_json.format();
+    ofs << stage_json.format(true);
     ofs.close();
 
     return true;
@@ -446,5 +426,61 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
         }
         cv::imwrite(out_file, cvt);
     }
+    return true;
+}
+
+bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir, const std::filesystem::path& solution_dir)
+{
+    std::string python_cmd;
+    std::filesystem::path python_file = solution_dir / "tools" / "RoguelikeResourceUpdater" / "generate_roguelike_recruit.py";
+    python_cmd = "python " + python_file.string() + " --input=\"" + input_dir.string() + "\" --output=\"" + output_dir.string() + "\"";
+    int python_ret = system(python_cmd.c_str());
+    if (python_ret != 0) {
+        return false;
+    }
+    return true;
+}
+
+bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file, const std::filesystem::path& en_file)
+{
+    auto ch_opt = json::open(ch_file);
+    auto en_opt = json::open(en_file);
+
+    if (!ch_opt || !en_opt) {
+        return false;
+    }
+
+    auto& ch_json = ch_opt.value();
+    auto& en_json = en_opt.value();
+
+    std::unordered_map<std::string, std::string> ch_levelid_name;
+    for (auto& stage_obj : ch_json.as_array()) {
+        // 肉鸽关卡全叫这个
+        if (stage_obj["code"].as_string() != "ISW-NO") {
+            continue;
+        }
+        ch_levelid_name[stage_obj["levelId"].as_string()] = stage_obj["name"].as_string();
+    }
+
+    json::array en_to_ch_vec;
+    for (auto& stage_obj : en_json.as_array()) {
+        // 肉鸽关卡全叫这个
+        if (stage_obj["code"].as_string() != "ISW-NO") {
+            continue;
+        }
+        std::string level_id = stage_obj["levelId"].as_string();
+        auto it = ch_levelid_name.find(level_id);
+        if (it == ch_levelid_name.cend()) {
+            std::cerr << "Unknown en stage id: " << level_id << std::endl;
+        }
+        json::array arr;
+        arr.emplace_back(stage_obj["name"].as_string());
+        arr.emplace_back(it->second);
+        en_to_ch_vec.emplace_back(std::move(arr));
+    }
+    std::ofstream ofs(en_file.parent_path() / "en_replace.json", std::ios::out);
+    ofs << en_to_ch_vec.format();
+    ofs.close();
+
     return true;
 }

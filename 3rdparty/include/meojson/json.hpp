@@ -10,6 +10,9 @@
 #include <tuple>
 #include <variant>
 #include <string_view>
+#include <algorithm>
+#include <fstream>
+#include <sstream>
 
 #define MEOJSON_INLINE inline
 
@@ -130,8 +133,8 @@ namespace json
 
         // return raw string
         const std::string to_string() const;
-        const std::string format(std::string shift_str = "    ",
-                                 size_t basic_shift_count = 0) const;
+        const std::string format(bool ordered = false,
+            std::string shift_str = "    ", size_t basic_shift_count = 0) const;
 
         value& operator=(const value& rhs);
         value& operator=(value&&) noexcept;
@@ -231,8 +234,8 @@ namespace json
         bool exists(size_t pos) const { return contains(pos); }
         const value& at(size_t pos) const;
         const std::string to_string() const;
-        const std::string format(std::string shift_str = "    ",
-                                 size_t basic_shift_count = 0) const;
+        const std::string format(bool ordered = false,
+            std::string shift_str = "    ", size_t basic_shift_count = 0) const;
 
         bool get(size_t pos, bool default_value) const;
         int get(size_t pos, int default_value) const;
@@ -322,8 +325,8 @@ namespace json
         bool exists(const std::string& key) const { return contains(key); }
         const value& at(const std::string& key) const;
         const std::string to_string() const;
-        const std::string format(std::string shift_str = "    ",
-                                 size_t basic_shift_count = 0) const;
+        const std::string format(bool ordered = false,
+            std::string shift_str = "    ", size_t basic_shift_count = 0) const;
 
         bool get(const std::string& key, bool default_value) const;
         int get(const std::string& key, int default_value) const;
@@ -812,8 +815,8 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE const std::string value::format(std::string shift_str,
-                                                   size_t basic_shift_count) const
+    MEOJSON_INLINE const std::string value::format(bool ordered,
+        std::string shift_str, size_t basic_shift_count) const
     {
         switch (_type) {
         case value_type::Null:
@@ -824,9 +827,9 @@ namespace json
         case value_type::String:
             return '"' + as_basic_type_str() + '"';
         case value_type::Array:
-            return as_array().format(shift_str, basic_shift_count);
+            return as_array().format(ordered, shift_str, basic_shift_count);
         case value_type::Object:
-            return as_object().format(shift_str, basic_shift_count);
+            return as_object().format(ordered, shift_str, basic_shift_count);
         default:
             throw exception("Unknown Value Type");
         }
@@ -997,24 +1000,6 @@ namespace json
         return dst;
     }
 
-    MEOJSON_INLINE const value invalid_value()
-    {
-        return value(value::value_type::Invalid, value::var_t());
-    }
-
-    MEOJSON_INLINE std::ostream& operator<<(std::ostream& out, const value& val)
-    {
-        // TODO: format output
-
-        out << val.to_string();
-        return out;
-    }
-
-    // std::istream &operator>>(std::istream &in, value &val)
-    // {
-    //     return in;
-    // }
-
     // *************************
     // *       array impl      *
     // *************************
@@ -1083,8 +1068,8 @@ namespace json
         return str;
     }
 
-    MEOJSON_INLINE const std::string array::format(std::string shift_str,
-                                                   size_t basic_shift_count) const
+    MEOJSON_INLINE const std::string array::format(bool ordered,
+        std::string shift_str, size_t basic_shift_count) const
     {
         std::string shift;
         for (size_t i = 0; i != basic_shift_count + 1; ++i) {
@@ -1093,7 +1078,7 @@ namespace json
 
         std::string str = "[";
         for (const value& val : _array_data) {
-            str += "\n" + shift + val.format(shift_str, basic_shift_count + 1) + ",";
+            str += "\n" + shift + val.format(ordered, shift_str, basic_shift_count + 1) + ",";
         }
         if (str.back() == ',') {
             str.pop_back(); // pop last ','
@@ -1509,7 +1494,8 @@ namespace json
     }
 
     MEOJSON_INLINE const std::string
-        object::format(std::string shift_str, size_t basic_shift_count) const
+        object::format(bool ordered,
+        std::string shift_str, size_t basic_shift_count) const
     {
         std::string shift;
         for (size_t i = 0; i != basic_shift_count + 1; ++i) {
@@ -1517,9 +1503,28 @@ namespace json
         }
 
         std::string str = "{";
-        for (const auto& [key, val] : _object_data) {
+        auto append_kv = [&](const std::string& key, const value& val) {
             str += "\n" + shift + "\"" + unescape_string(key) +
-                "\": " + val.format(shift_str, basic_shift_count + 1) + ",";
+                "\": " + val.format(ordered, shift_str, basic_shift_count + 1) + ",";
+        };
+
+        if (ordered) {
+            std::vector<raw_object::const_iterator> ordered_data;
+            for (auto it = _object_data.cbegin(); it != _object_data.cend(); ++it) {
+                ordered_data.emplace_back(it);
+            }
+            std::sort(ordered_data.begin(), ordered_data.end(),
+                [](const auto& lhs, const auto& rhs) {
+                    return lhs->first < rhs->first;
+                });
+            for (const auto& it : ordered_data) {
+                append_kv(it->first, it->second);
+            }
+        }
+        else {
+            for (const auto& [key, val] : _object_data) {
+                append_kv(key, val);
+            }
         }
         if (str.back() == ',') {
             str.pop_back(); // pop last ','
@@ -1922,7 +1927,9 @@ namespace json
         parser(const std::string::const_iterator& cbegin,
                const std::string::const_iterator& cend) noexcept
             : _cur(cbegin), _end(cend)
-        {}
+        {
+            ;
+        }
 
         std::optional<value> parse();
         value parse_value();
@@ -1946,11 +1953,76 @@ namespace json
         std::string::const_iterator _end;
     };
 
-    std::optional<value> parse(const std::string& content);
+    // *************************
+    // *      utils impl       *
+    // *************************
+
+    MEOJSON_INLINE const value invalid_value()
+    {
+        return value(value::value_type::Invalid, value::var_t());
+    }
+
+    MEOJSON_INLINE std::optional<value> parse(const std::string& content)
+    {
+        return parser::parse(content);
+    }
+
+    MEOJSON_INLINE std::ostream& operator<<(std::ostream& out, const value& val)
+    {
+        // TODO: format output
+
+        out << val.to_string();
+        return out;
+    }
+
+    // TODO
+    //std::istream &operator>>(std::istream &in, value &val)
+    //{
+    //    return in;
+    //}
+
+    MEOJSON_INLINE std::optional<value> open(const std::ifstream& ifs, bool check_bom = false)
+    {
+        if (!ifs.is_open()) {
+            return std::nullopt;
+        }
+        std::stringstream iss;
+        iss << ifs.rdbuf();
+        std::string str = iss.str();
+
+        if (check_bom) {
+            using uchar = unsigned char;
+            static constexpr uchar Bom_0 = 0xEF;
+            static constexpr uchar Bom_1 = 0xBB;
+            static constexpr uchar Bom_2 = 0xBF;
+
+            if (str.size() >= 3 &&
+                static_cast<uchar>(str.at(0)) == Bom_0 &&
+                static_cast<uchar>(str.at(1)) == Bom_1 &&
+                static_cast<uchar>(str.at(2)) == Bom_2) {
+                str.assign(str.begin() + 3, str.end());
+            }
+        }
+
+        return parse(str);
+    }
+
+    template<typename InputFilename>
+    MEOJSON_INLINE std::optional<value> open(const InputFilename& filepath, bool check_bom = false)
+    {
+        static_assert(std::is_constructible<std::ifstream, InputFilename>::value,
+            "InputFilename can't be used to construct a std::ifstream");
+
+        std::ifstream ifs(filepath, std::ios::in);
+        auto opt = open(ifs, check_bom);
+        ifs.close();
+        return opt;
+    }
 
     // *************************
     // *      parser impl      *
     // *************************
+
     MEOJSON_INLINE std::optional<value> parser::parse(const std::string& content)
     {
         return parser(content.cbegin(), content.cend()).parse();
@@ -2324,11 +2396,6 @@ namespace json
         else {
             return false;
         }
-    }
-
-    MEOJSON_INLINE std::optional<value> parse(const std::string& content)
-    {
-        return parser::parse(content);
     }
 
     // *************************

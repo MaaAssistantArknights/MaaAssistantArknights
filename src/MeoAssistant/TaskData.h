@@ -25,8 +25,24 @@ namespace asst
         }
         const std::unordered_set<std::string>& get_templ_required() const noexcept;
 
-        std::shared_ptr<const TaskInfo> get(const std::string& name) const noexcept;
-        std::shared_ptr<TaskInfo> get(const std::string& name);
+        template<typename TargetTaskInfoType = TaskInfo>
+        std::shared_ptr<TargetTaskInfoType> get(const std::string& name)
+        {
+            auto it = m_all_tasks_info.find(name);
+            if (it == m_all_tasks_info.cend()) {
+                return nullptr;
+            }
+
+            if constexpr (std::is_same_v<TaskInfo, TargetTaskInfoType>) {
+                return it->second;
+            }
+            else if constexpr (std::is_base_of_v<TaskInfo, TargetTaskInfoType>) {
+                return std::dynamic_pointer_cast<TargetTaskInfoType>(it->second);
+            }
+            else {
+                static_assert(!sizeof(TargetTaskInfoType), "Parameter must be a TaskInfo");
+            }
+        }
 
     protected:
         TaskData() = default;

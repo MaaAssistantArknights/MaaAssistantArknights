@@ -131,13 +131,14 @@ namespace MeoAsstGui
                 new CombData { Display = "兼容模式", Value = "Compatible" },
             };
 
-            _dormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
+            _dormThresholdLabel = "基建工作心情阈值：" + _dormThreshold + "%";
 
             RoguelikeModeList = new List<CombData>
             {
-                new CombData { Display = "尽可能往后打", Value = "0" },
-                new CombData { Display = "刷源石锭投资，第一层商店后直接退出", Value = "1" },
-                new CombData { Display = "刷源石锭投资，投资过后退出", Value = "2" }
+                new CombData { Display = "刷蜡烛，尽可能稳定的打更多层数", Value = "0" },
+                new CombData { Display = "刷源石锭，第一层商店后直接退出", Value = "1" },
+                //new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
+                //new CombData { Display = "尝试通关，贪B策略", Value = "3" },  // 开发中
             };
 
             ClientTypeList = new List<CombData>
@@ -313,7 +314,7 @@ namespace MeoAsstGui
             get { return _dormThreshold; }
             set
             {
-                DormThresholdLabel = "宿舍入驻心情阈值：" + _dormThreshold + "%";
+                DormThresholdLabel = "基建工作心情阈值：" + _dormThreshold + "%";
                 SetAndNotify(ref _dormThreshold, value);
                 ViewStatusStorage.Set("Infrast.DormThreshold", value.ToString());
             }
@@ -490,6 +491,42 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _roguelikeMode, value);
                 ViewStatusStorage.Set("Roguelike.Mode", value);
+            }
+        }
+
+        private string _roguelikeStartsCount = ViewStatusStorage.Get("Roguelike.StartsCount", "9999999");
+
+        public int RoguelikeStartsCount
+        {
+            get { return int.Parse(_roguelikeStartsCount); }
+            set
+            {
+                SetAndNotify(ref _roguelikeStartsCount, value.ToString());
+                ViewStatusStorage.Set("Roguelike.StartsCount", value.ToString());
+            }
+        }
+
+        private string _roguelikeInvestsCount = ViewStatusStorage.Get("Roguelike.InvestsCount", "9999999");
+
+        public int RoguelikeInvestsCount
+        {
+            get { return int.Parse(_roguelikeInvestsCount); }
+            set
+            {
+                SetAndNotify(ref _roguelikeInvestsCount, value.ToString());
+                ViewStatusStorage.Set("Roguelike.InvestsCount", value.ToString());
+            }
+        }
+
+        private string _roguelikeStopWhenInvestmentFull = ViewStatusStorage.Get("Roguelike.StopWhenInvestmentFull", false.ToString());
+
+        public bool RoguelikeStopWhenInvestmentFull
+        {
+            get { return bool.Parse(_roguelikeStopWhenInvestmentFull); }
+            set
+            {
+                SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value.ToString());
+                ViewStatusStorage.Set("Roguelike.StopWhenInvestmentFull", value.ToString());
             }
         }
 

@@ -985,10 +985,13 @@ namespace MeoAsstGui
             return id != 0;
         }
 
-        public bool AsstAppendRoguelike(int mode)
+        public bool AsstAppendRoguelike(int mode, int starts, int invests, bool stop_when_full)
         {
             var task_params = new JObject();
             task_params["mode"] = mode;
+            task_params["starts_count"] = starts;
+            task_params["investments_count"] = invests;
+            task_params["stop_when_investment_full"] = stop_when_full;
             TaskId id = AsstAppendTaskWithEncoding("Roguelike", task_params);
             _latestTaskId[TaskType.Roguelike] = id;
             return id != 0;

@@ -235,8 +235,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
 {
     LogTraceFunction;
 
-    auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("StageDrops-BaseLine"));
+    auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-BaseLine");
 
     cv::Mat roi = m_image(utils::make_rect<cv::Rect>(task_ptr->roi));
     cv::Mat gray;
@@ -265,7 +264,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
         for (int j = 0; j < bounding.rows; ++j) {
             value = std::max(value, bounding.at<uchar>(j, i));
         }
-        bool is_white = value > threshold && pre_value - value < threshold;
+        bool is_white = value > threshold && pre_value - value < 15;
         pre_value = value;
 
         if (in && !is_white) {
@@ -444,8 +443,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
 
 int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
 {
-    auto task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(
-        Task.get("StageDrops-Quantity"));
+    auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
 
     Rect quantity_roi = roi.move(task_ptr->roi);
     cv::Mat quantity_img = m_image(utils::make_rect<cv::Rect>(quantity_roi));

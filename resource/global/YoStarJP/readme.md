@@ -10,6 +10,11 @@
 - 使用理智药恢复理智
 - 使用源石恢复理智
 - 指定次数
+- 公招计算
+- 访问好友
+- 领取日常奖励
+- 自动公招
+- 无限刷肉鸽（测试功能）
 
 ## Japanese
 
@@ -24,6 +29,8 @@ Now supports:
 - Recruitment calculate
 - Friends visit
 - Award collect
+- Auto Recruiting
+- Auto Roguelike (beta)
 
 ## 日本
 
@@ -38,3 +45,5 @@ Now supports:
 - 採用計算
 - 友達が訪問
 - アワードコレクト
+- 自動採用
+- 自動ローグライク（ベータ版）

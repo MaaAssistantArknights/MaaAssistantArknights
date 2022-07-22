@@ -567,7 +567,7 @@ appendTask setTaskParams start stop等接口不再描述，均可遵循以上规
         "width": 1280,
         "height": 720
       },
-      "what": "ResolutionGetted",
+      "what": "ResolutionGot",
       "why": ""
     }
   },
