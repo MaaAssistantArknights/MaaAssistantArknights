@@ -1001,7 +1001,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
         json::value info = get_info_json() |
             json::object{
-                { "what", "UuidGetted" },
+                { "what", "UuidGot" },
                 { "why", "" }
         };
         info["details"]["uuid"] = m_uuid;
@@ -1061,7 +1061,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
         json::value info = get_info_json() |
             json::object{
-            { "what", "ResolutionGetted" },
+            { "what", "ResolutionGot" },
             { "why", "" }
         };
 

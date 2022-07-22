@@ -295,7 +295,9 @@ void Assistant::task_callback(AsstMsg msg, const json::value& detail, void* cust
 {
     auto p_this = static_cast<Assistant*>(custom_arg);
     json::value more_detail = detail;
-    more_detail["uuid"] = p_this->m_uuid;
+    if (!more_detail.contains("uuid")) {
+        more_detail["uuid"] = p_this->m_uuid;
+    }
 
     switch (msg) {
     case AsstMsg::InternalError:
