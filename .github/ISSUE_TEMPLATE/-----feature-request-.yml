@@ -11,7 +11,7 @@ body:
   - type: textarea
     id: solution
     attributes:
-      label: 有什么好的想法么？
+      label: 有什么好的想法？
     validations:
       required: false
   - type: textarea
