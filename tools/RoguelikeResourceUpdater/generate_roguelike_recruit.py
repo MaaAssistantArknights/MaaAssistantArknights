@@ -108,11 +108,10 @@ for x, y in raw_employee_infos.items():
 ## FUCKING CRLF
 ## 处理 CRLF 和 LF 大概有更好的办法，但是我不知道.jpg
 
-# with open("resource/roguelike_recruit.json", "w", encoding="utf8") as f:
+# with open(output_file, "w", encoding="utf8") as f:
 #     # json.dump(dic, f, ensure_ascii=False, indent=4)
 #     json.dump(res, f, ensure_ascii=False, indent=4)
 
 dump_cache = json.dumps(res, ensure_ascii=False, indent=4).encode("utf8").replace(b"\r\n", b"\n")
-# 记得改下面的路径！！！
 with open(output_file, "wb") as f:
     f.write(dump_cache)
