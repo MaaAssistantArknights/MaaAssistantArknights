@@ -6989,6 +6989,7 @@
     },
     "Roguelike1QuickFormationClearAndReselect-Confirm": {
         "template": "Roguelike1FormationConfirm.png",
+        "action": "ClickSelf",
         "roi": [
             1015,
             601,
@@ -6996,7 +6997,8 @@
             119
         ],
         "next": [
-            "Roguelike1QuickFormationClearAndReselect-Formation"
+            "Roguelike1QuickFormationClearAndReselect-Formation",
+            "Roguelike1QuickFormationClearAndReselect-Confirm"
         ]
     },
     "Roguelike1QuickFormationClearAndReselect-Formation": {
