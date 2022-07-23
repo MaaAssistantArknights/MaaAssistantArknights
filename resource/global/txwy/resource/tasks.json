@@ -58,5 +58,293 @@
         "next": [
             "ClickCorner"
         ]
+    },
+    "RecruitFlag": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "公開招募"
+        ],
+        "roi": [
+            50,
+            100,
+            230,
+            100
+        ],
+        "action": "Stop"
+    },
+	"TodaysSuppliesToRecruit": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配給"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "ReturnToRecruitCloseAnno",
+            "Recruit"
+        ]
+    },
+    "RecruitBeginLoading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "正在提交",
+            "反饋至神經"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "RecruitBeginLoading",
+            "Recruit",
+            "RecruitBegin"
+        ]
+    },
+    "RecruitFinishLoading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "正在提交",
+            "反饋至神經"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "RecruitFinishLoading",
+            "RecruitFinish",
+            "RecruitSkip",
+            "RecruitSkipWithoutButton"
+        ]
+    },
+    "StartRecruit": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "rearDelay": 500,
+        "text": [
+            "開始招.*",
+			"開始招募"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            420
+        ]
+    },
+    "RecruitNow": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "rearDelay": 500,
+        "cache": false,
+        "text": [
+            "立即招.*"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            420
+        ],
+        "next": [
+            "RecruitNowConfirm"
+        ]
+    },
+    "RecruitLoading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "正在提交",
+            "反饋至神經"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "RecruitLoading",
+            "SleepThenStop"
+        ]
+    },
+    "RecruitConfirmLoading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "正在提交",
+            "反饋至神經"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "RecruitConfirmLoading",
+            "RecruitFlag"
+        ]
+    },
+	"RecruitTags": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            375,
+            360,
+            480,
+            120
+        ],
+        "ocrReplace": [
+            [
+                "初期",
+                "新手"
+            ],
+			[
+                "乾員",
+                "干员"
+            ],
+			[
+                "幹員",
+                "干员"
+            ],
+            [
+                "資深",
+                "资深"
+            ],
+            [
+                "高級資深",
+                "高级资深"
+            ],
+            [
+                "近戰位",
+                "近战位"
+            ],
+            [
+                "遠程位",
+                "远程位"
+            ],
+            [
+                "近衛",
+                "近卫"
+            ],
+            [
+                "醫療",
+                "医疗"
+            ],
+            [
+                "先鋒",
+                "先锋"
+            ],
+            [
+                "術師",
+                "术师"
+            ],
+			[
+                "衛師",
+                "术师"
+            ],
+            [
+                "狙撃",
+                "狙击"
+            ],
+			[
+                "狙擊",
+                "狙击"
+            ],
+            [
+                "重裝",
+                "重装"
+            ],
+            [
+                "輔助",
+                "辅助"
+            ],
+            [
+                "特種",
+                "特种"
+            ],
+            [
+                "治療",
+                "治疗"
+            ],
+            [
+                "支援",
+                "支援"
+            ],
+            [
+                "輸出",
+                "输出"
+            ],
+            [
+                "群攻",
+                "群攻"
+            ],
+            [
+                "減速",
+                "减速"
+            ],
+            [
+                "生存",
+                "生存"
+            ],
+            [
+                "防護",
+                "防护"
+            ],
+            [
+                "削弱",
+                "削弱"
+            ],
+            [
+                "位移",
+                "位移"
+            ],
+            [
+                "控場",
+                "控场"
+            ],
+            [
+                "爆發",
+                "爆发"
+            ],
+            [
+                "召喚",
+                "召唤"
+            ],
+            [
+                "快速復活",
+                "快速复活"
+            ],
+			[
+                "回復",
+                "回复"
+            ],
+            [
+                "費用回.+",
+                "费用回复"
+            ],
+            [
+                "支援機械",
+                "支援机械"
+            ]
+        ]
     }
 }
