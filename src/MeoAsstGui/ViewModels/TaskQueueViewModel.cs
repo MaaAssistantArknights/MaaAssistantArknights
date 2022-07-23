@@ -142,7 +142,7 @@ namespace MeoAsstGui
                 new GenericCombData<ActionType>{ Display="关机*",Value=ActionType.Shutdown },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
-            var non_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
+            var non_order_list = new List<DragItemViewModel>();
             for (int i = 0; i != task_list.Length; ++i)
             {
                 var task = task_list[i];
