@@ -264,7 +264,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
         for (int j = 0; j < bounding.rows; ++j) {
             value = std::max(value, bounding.at<uchar>(j, i));
         }
-        bool is_white = value > threshold && pre_value - value < 15;
+        bool is_white = value > threshold && pre_value - value < 17;
         pre_value = value;
 
         if (in && !is_white) {
