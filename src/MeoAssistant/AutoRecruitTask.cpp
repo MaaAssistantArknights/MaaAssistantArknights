@@ -7,6 +7,73 @@
 #include "RecruitCalcTask.h"
 #include "Logger.hpp"
 
+namespace asst::recruit_calc
+{
+    // all combinations and their operator list, excluding empty set and 6-star operators while there is no senior tag
+    auto get_all_combs(const std::vector<std::string>& tags, const std::vector<RecruitOperInfo>& all_ops = Resrc.recruit().get_all_opers())
+    {
+        std::vector<RecruitCombs> rcs_with_single_tag;
+
+        {
+            rcs_with_single_tag.reserve(tags.size());
+            std::transform(tags.cbegin(), tags.cend(), std::back_inserter(rcs_with_single_tag), [](const std::string& t)
+            {
+                RecruitCombs result;
+                result.tags = { t };
+                result.min_level = 3;
+                result.max_level = 3;
+                result.avg_level = 3;
+                return result;
+            });
+
+            static constexpr std::string_view SeniorOper = "高级资深干员";
+
+            for (const auto& op : all_ops) {
+                for (auto& rc : rcs_with_single_tag) {
+                    if (!op.has_tag(rc.tags.front())) continue;
+                    if (op.level == 6 && rc.tags.front() != SeniorOper) continue;
+                    rc.opers.push_back(op);
+                    rc.min_level = (std::min)(rc.min_level, op.level);
+                    rc.max_level = (std::min)(rc.max_level, op.level);
+                }
+            }
+
+            for (auto& rc : rcs_with_single_tag) {
+                // intersection and union are based on sorted container
+                std::sort(rc.tags.begin(), rc.tags.end());
+                std::sort(rc.opers.begin(), rc.opers.end());
+
+                rc.recompute_average_level();
+            }
+        }
+
+        std::vector<RecruitCombs> result;
+
+        // select one tag first
+        for (size_t i = 0; i < tags.size(); ++i) {
+            RecruitCombs temp1 = rcs_with_single_tag[i];
+            if (temp1.opers.empty()) continue; // this is not possible
+            result.push_back(temp1); // that is it
+
+            // but what if another tag is also selected
+            for (size_t j = i + 1; j < tags.size(); ++j) {
+                RecruitCombs temp2 = temp1 * rcs_with_single_tag[j];
+                if (temp2.opers.empty()) continue;
+                if (!temp2.opers.empty()) result.push_back(temp2); // two tags only
+
+                // select a third one
+                for (size_t k = j + 1; k < tags.size(); ++k) {
+                    RecruitCombs temp3 = temp2 * rcs_with_single_tag[k];
+                    if (temp3.opers.empty()) continue;
+                    result.push_back(temp2 * rcs_with_single_tag[k]);
+                }
+            }
+        }
+
+        return result;
+    }
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_level(std::vector<int> select_level) noexcept
 {
     m_select_level = std::move(select_level);
