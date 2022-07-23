@@ -15,7 +15,7 @@ bool asst::RoguelikeFormationImageAnalyzer::analyze()
     if (!opers_analyzer.analyze()) {
         return false;
     }
-    opers_analyzer.sort_result_horizontal();
+    opers_analyzer.sort_result_vertical();
     const auto& all_opers = opers_analyzer.get_result();
     for (const MatchRect& oper_mr : all_opers) {
         FormationOper oper;
