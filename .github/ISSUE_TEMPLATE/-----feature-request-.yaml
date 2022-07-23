@@ -1,6 +1,6 @@
 name: 需求建议（Feature request）
 description: 新功能、建议等
-labels: ['feature']
+labels: ['enhancement']
 body:
   - type: textarea
     id: describe
