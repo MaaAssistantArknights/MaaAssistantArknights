@@ -6181,6 +6181,7 @@
     "Roguelike1RecruitMain": {
         "action": "ClickSelf",
         "template": "Roguelike1Recruit.png",
+        "templThreshold": 0.6,
         "cache": false,
         "roi": [
             190,
@@ -6197,6 +6198,7 @@
     "Roguelike1RecruitOther": {
         "action": "ClickSelf",
         "template": "Roguelike1Recruit.png",
+        "templThreshold": 0.6,
         "cache": false,
         "roi": [
             190,
