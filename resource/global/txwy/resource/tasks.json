@@ -58,19 +58,6 @@
         "next": [
             "ClickCorner"
         ]
-    },	
-	"RecruitBegin": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "RecruitFinish",
-            "RecruitFlag",
-            "Recruit",
-            "ReturnToRecruit",
-            "ReturnToRecruitCloseAnno",
-            "StageSNReturnToRecruit",
-            "TodaysSuppliesToRecruit"
-        ]
     },
     "RecruitFlag": {
         "algorithm": "OcrDetect",
