@@ -180,6 +180,11 @@ unsigned long long ASSTAPI AsstGetTasksList(AsstHandle handle, TaskId* buff, uns
     return data_size;
 }
 
+unsigned long long ASSTAPI AsstGetNullSize()
+{
+    return NullSize;
+}
+
 const char* AsstGetVersion()
 {
     return asst::Version;
