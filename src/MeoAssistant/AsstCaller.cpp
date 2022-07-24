@@ -11,7 +11,7 @@
 #include "Logger.hpp"
 #include "Resource.h"
 
-static constexpr unsigned long long NullSize = -1ULL;
+static constexpr unsigned long long NullSize = static_cast<unsigned long long>(-1);
 
 #if 0
 #if _MSC_VER
