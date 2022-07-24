@@ -152,7 +152,7 @@ unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long lon
     return data_size;
 }
 
-unsigned long long ASSTAPI AsstGetUUID(AsstHandle handle, char* buff, unsigned long long buff_size)
+unsigned long long AsstGetUUID(AsstHandle handle, char* buff, unsigned long long buff_size)
 {
     if (!inited || handle == nullptr || buff == nullptr) {
         return NullSize;
@@ -166,7 +166,7 @@ unsigned long long ASSTAPI AsstGetUUID(AsstHandle handle, char* buff, unsigned l
     return data_size;
 }
 
-unsigned long long ASSTAPI AsstGetTasksList(AsstHandle handle, TaskId* buff, unsigned long long buff_size)
+unsigned long long AsstGetTasksList(AsstHandle handle, TaskId* buff, unsigned long long buff_size)
 {
     if (!inited || handle == nullptr || buff == nullptr) {
         return NullSize;
@@ -180,7 +180,7 @@ unsigned long long ASSTAPI AsstGetTasksList(AsstHandle handle, TaskId* buff, uns
     return data_size;
 }
 
-unsigned long long ASSTAPI AsstGetNullSize()
+unsigned long long AsstGetNullSize()
 {
     return NullSize;
 }
