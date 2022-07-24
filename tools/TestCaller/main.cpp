@@ -28,7 +28,7 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", nullptr);
+    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", "DEBUG");
     if (!connected) {
         std::cerr << "connect failed" << std::endl;
         AsstDestroy(ptr);
@@ -39,13 +39,13 @@ int main([[maybe_unused]] int argc, char** argv)
 
     /* 详细参数可参考 docs / 集成文档.md */
 
-    AsstAppendTask(ptr, "StartUp", nullptr);
+    //AsstAppendTask(ptr, "StartUp", nullptr);
 
-    AsstAppendTask(ptr, "Fight", R"(
-    {
-        "stage": "1-7"
-    }
-    )");
+    //AsstAppendTask(ptr, "Fight", R"(
+    //{
+    //    "stage": "1-7"
+    //}
+    //)");
 
     //AsstAppendTask(ptr, "Recruit", R"(
     //{
@@ -88,7 +88,7 @@ int main([[maybe_unused]] int argc, char** argv)
     //}
     //)");
 
-    //AsstAppendTask(ptr, "Debug", nullptr);
+    AsstAppendTask(ptr, "Debug", nullptr);
 
     AsstStart(ptr);
 
