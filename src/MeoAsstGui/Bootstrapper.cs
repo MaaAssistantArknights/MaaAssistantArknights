@@ -9,8 +9,11 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 
+using System;
+using System.Globalization;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -43,7 +46,9 @@ namespace MeoAsstGui
         // 初始化些啥自己加
         protected override void OnStart()
         {
+            base.OnStart();
             ViewStatusStorage.Load();
+            Localization.Load();
         }
 
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
