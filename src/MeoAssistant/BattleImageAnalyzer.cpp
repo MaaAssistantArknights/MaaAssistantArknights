@@ -25,7 +25,7 @@ bool asst::BattleImageAnalyzer::analyze()
     clear();
 
     // HP 作为 flag，无论如何都识别。表明当前画面是在战斗场景的
-    bool ret = hp_analyze();
+    bool ret = hp_analyze() || flag_analyze();
 
     if (m_target & Target::Home) {
         ret |= home_analyze();
@@ -132,6 +132,9 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     for (const MatchRect& flag_mrect : flags_analyzer.get_result()) {
         BattleRealTimeOper oper;
         oper.rect = flag_mrect.rect.move(click_move);
+        if (oper.rect.x + oper.rect.width >= m_image.cols) {
+            oper.rect.width = m_image.cols - oper.rect.x;
+        }
         oper.avatar = m_image(utils::make_rect<cv::Rect>(oper.rect));
 
         Rect available_rect = flag_mrect.rect.move(avlb_move);
@@ -147,6 +150,9 @@ bool asst::BattleImageAnalyzer::opers_analyze()
 #endif
 
         Rect cooling_rect = flag_mrect.rect.move(cooling_move);
+        if (cooling_rect.x + cooling_rect.width >= m_image.cols) {
+            cooling_rect.width = m_image.cols - cooling_rect.x;
+        }
         oper.cooling = oper_cooling_analyze(cooling_rect);
         if (oper.cooling && oper.available) {
             Log.error("oper is available, but with cooling");
@@ -532,4 +538,11 @@ bool asst::BattleImageAnalyzer::cost_analyze()
 bool asst::BattleImageAnalyzer::vacancies_analyze()
 {
     return false;
+}
+
+bool asst::BattleImageAnalyzer::flag_analyze()
+{
+    MatchImageAnalyzer flag_analyzer(m_image);
+    flag_analyzer.set_task_info("BattleOfficiallyBegin");
+    return flag_analyzer.analyze();
 }

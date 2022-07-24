@@ -5925,6 +5925,7 @@
             "Roguelike1Abandon",
             "TodaysSuppliesToRoguelike1",
             "TerminalToRoguelike1",
+            "CloseAnnoToRoguelike1",
             "Roguelike1TodoEnter",
             "Roguelike1Continue",
             "ReturnToRoguelike1",
@@ -6181,6 +6182,7 @@
     "Roguelike1RecruitMain": {
         "action": "ClickSelf",
         "template": "Roguelike1Recruit.png",
+        "templThreshold": 0.6,
         "cache": false,
         "roi": [
             190,
@@ -6197,6 +6199,7 @@
     "Roguelike1RecruitOther": {
         "action": "ClickSelf",
         "template": "Roguelike1Recruit.png",
+        "templThreshold": 0.6,
         "cache": false,
         "roi": [
             190,
@@ -6987,6 +6990,7 @@
     },
     "Roguelike1QuickFormationClearAndReselect-Confirm": {
         "template": "Roguelike1FormationConfirm.png",
+        "action": "ClickSelf",
         "roi": [
             1015,
             601,
@@ -6994,7 +6998,8 @@
             119
         ],
         "next": [
-            "Roguelike1QuickFormationClearAndReselect-Formation"
+            "Roguelike1QuickFormationClearAndReselect-Formation",
+            "Roguelike1QuickFormationClearAndReselect-Confirm"
         ]
     },
     "Roguelike1QuickFormationClearAndReselect-Formation": {
@@ -7024,7 +7029,7 @@
             1,
             255
         ],
-        "templThreshold": 0.7
+        "templThreshold": 0.9
     },
     "Roguelike1FormationOperSelected": {
         "template": "empty.png",
@@ -7167,6 +7172,12 @@
             "Roguelike1TraderRandomShopping",
             "Roguelike1StageTraderLeave",
             "Roguelike1DropsFlag",
+            "TodaysSuppliesToRoguelike1",
+            "TerminalToRoguelike1",
+            "CloseAnnoToRoguelike1",
+            "OfflineConfirmToRoguelike1",
+            "StartToWakeUpToRoguelike1",
+            "StartUpConnectingToRoguelike1",
             "Roguelike1ClickToDrops"
         ]
     },
@@ -7178,12 +7189,12 @@
             119
         ],
         "next": [
-            "Roguelike1GetDropCompleted",
             "Roguelike1GetDrop1",
             "Roguelike1GetDrop2",
             "Roguelike1GetDrop3",
             "Roguelike1GetDropSelect",
             "Roguelike1GetDropRecruit",
+            "Roguelike1GetDropCompleted",
             "Roguelike1GetDropLeave",
             "Roguelike1StageTrader",
             "Roguelike1StageSafeHouse",
@@ -7265,12 +7276,12 @@
         "rearDelay": 1000,
         "next": [
             "Roguelike1ChooseOperFlag",
-            "Roguelike1GetDropCompleted",
             "Roguelike1GetDrop1",
             "Roguelike1GetDrop2",
             "Roguelike1GetDrop3",
             "Roguelike1GetDropSelect",
             "Roguelike1GetDropRecruit",
+            "Roguelike1GetDropCompleted",
             "Roguelike1GetDropLeave"
         ]
     },
@@ -7332,6 +7343,11 @@
         ],
         "rearDelay": 3000,
         "next": [
+            "Roguelike1GetDrop1",
+            "Roguelike1GetDrop2",
+            "Roguelike1GetDrop3",
+            "Roguelike1GetDropSelect",
+            "Roguelike1GetDropRecruit",
             "Roguelike1ChooseOperFlag",
             "Roguelike1ClickToDrops"
         ]
@@ -7414,6 +7430,16 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "TodaysSuppliesToRoguelike1",
+            "TerminalToRoguelike1",
+            "CloseAnnoToRoguelike1",
+            "Roguelike1TodoEnter",
+            "Roguelike1Continue",
+            "ReturnToRoguelike1",
+            "ReturnToRoguelike1Confirm",
+            "OfflineConfirmToRoguelike1",
+            "StartToWakeUpToRoguelike1",
+            "StartUpConnectingToRoguelike1",
             "Roguelike1ClickToStartPoint"
         ]
     },

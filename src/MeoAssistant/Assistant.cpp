@@ -171,6 +171,21 @@ bool asst::Assistant::ctrler_click(int x, int y, bool block)
     return true;
 }
 
+std::string asst::Assistant::get_uuid() const
+{
+    return m_uuid;
+}
+
+std::vector<Assistant::TaskId> asst::Assistant::get_tasks_list() const
+{
+    std::vector<TaskId> result;
+    std::unique_lock<std::mutex> lock(m_mutex);
+    for (const auto& [id, _] : m_tasks_list) {
+        result.emplace_back(id);
+    }
+    return result;
+}
+
 bool asst::Assistant::start(bool block)
 {
     LogTraceFunction;

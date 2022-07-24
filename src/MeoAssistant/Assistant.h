@@ -44,6 +44,8 @@ namespace asst
 
         std::vector<uchar> get_image() const;
         bool ctrler_click(int x, int y, bool block = true);
+        std::string get_uuid() const;
+        std::vector<TaskId> get_tasks_list() const;
 
     private:
         void working_proc();
@@ -67,7 +69,7 @@ namespace asst
         void* m_callback_arg = nullptr;
 
         bool m_thread_idle = true;
-        std::mutex m_mutex;
+        mutable std::mutex m_mutex;
         std::condition_variable m_condvar;
 
         std::queue<std::pair<AsstMsg, json::value>> m_msg_queue;
