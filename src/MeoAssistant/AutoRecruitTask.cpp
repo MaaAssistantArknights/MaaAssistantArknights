@@ -4,6 +4,7 @@
 #include "OcrImageAnalyzer.h"
 #include "Controller.h"
 #include "ProcessTask.h"
+#include "RecruitImageAnalyzer.h"
 #include "RecruitCalcTask.h"
 #include "Logger.hpp"
 
@@ -110,8 +111,22 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_skip_robot(bool skip_robot) no
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_set_time(bool set_time) noexcept
+{
+    m_set_time = set_time;
+    return *this;
+}
+
 bool asst::AutoRecruitTask::_run()
 {
+    if (is_calc_only_task()) {
+        int tags_selected = 0;
+        bool force_skip = false;
+        return recruit_calc_task(force_skip, tags_selected);
+    }
+
+    if (!recruit_begin()) return false;
+
     if (!check_recruit_home_page()) {
         return false;
     }
@@ -149,14 +164,6 @@ bool asst::AutoRecruitTask::_run()
     }
 
     return true;
-}
-
-void asst::AutoRecruitTask::callback(AsstMsg msg, const json::value& detail)
-{
-    if (msg == AsstMsg::SubTaskError) {
-        click_return_button();
-    }
-    AbstractTask::callback(msg, detail);
 }
 
 bool asst::AutoRecruitTask::analyze_start_buttons()
@@ -218,6 +225,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
             info["what"] = "RecruitError";
             info["why"] = "识别错误";
             callback(AsstMsg::SubTaskError, info);
+            click_return_button();
             return true;
         }
 
@@ -242,6 +250,7 @@ bool asst::AutoRecruitTask::calc_and_recruit()
                         { "refresh_limit", refresh_limit }
                     };
                     callback(AsstMsg::SubTaskError, info);
+                    click_return_button();
                     return true;
                 }
                 else {
@@ -290,7 +299,196 @@ bool asst::AutoRecruitTask::calc_and_recruit()
         { "m_retry_times", m_retry_times }
     };
     callback(AsstMsg::SubTaskError, info);
+    click_return_button();
     return false;
+}
+
+bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_selected)
+{
+    LogTraceFunction;
+
+    static constexpr size_t refresh_limit = 3;
+    static constexpr size_t analyze_limit = 5;
+
+    size_t refresh_times = 0;
+    for (size_t image_analyzer_retry = 0; image_analyzer_retry < analyze_limit;) {
+        ++image_analyzer_retry;
+
+        RecruitImageAnalyzer image_analyzer(m_ctrler->get_image());
+        if (!image_analyzer.analyze()) continue;
+        if (image_analyzer.get_tags_result().size() != RecruitConfiger::CorrectNumberOfTags) continue;
+
+        const std::vector<TextRect> &tags = image_analyzer.get_tags_result();
+        bool has_refresh = !image_analyzer.get_refresh_rect().empty();
+
+        std::vector<std::string> tag_names;
+        std::transform(tags.begin(), tags.end(), std::back_inserter(tag_names), std::mem_fn(&TextRect::text));
+
+        bool has_special_tag = false;
+        bool has_robot_tag = false;
+
+        // tags result
+        {
+            json::value info = basic_info();
+            std::vector<json::value> tag_json_vector;
+            std::transform(tags.begin(), tags.end(), std::back_inserter(tag_json_vector), std::mem_fn(&TextRect::text));
+
+            info["what"] = "RecruitTagsDetected";
+            info["details"] = json::object{{ "tags", json::array(tag_json_vector) }};
+            callback(AsstMsg::SubTaskExtraInfo, info);
+        }
+
+        // special tags
+        const std::vector<std::string> SpecialTags = { "高级资深干员", "资深干员" };
+        auto special_iter = std::find_first_of(SpecialTags.cbegin(), SpecialTags.cend(), tag_names.cbegin(), tag_names.cend());
+        if (special_iter != SpecialTags.cend()) {
+            json::value info = basic_info();
+            info["what"] = "RecruitSpecialTag";
+            info["details"] = json::object{{ "tag", *special_iter }};
+            callback(AsstMsg::SubTaskExtraInfo, info);
+            has_special_tag = true;
+        }
+
+        // robot tags
+        const std::vector<std::string> RobotTags = { "支援机械" };
+        auto robot_iter = std::find_first_of(RobotTags.cbegin(), RobotTags.cend(), tag_names.cbegin(), tag_names.cend());
+        if (robot_iter != RobotTags.cend()) {
+            json::value info = basic_info();
+            info["what"] = "RecruitSpecialTag";
+            info["details"] = json::object{{ "tag", *robot_iter }};
+            callback(AsstMsg::SubTaskExtraInfo, info);
+            has_robot_tag = true;
+        }
+
+
+        std::vector<RecruitCombs> result_vec = recruit_calc::get_all_combs(tag_names);
+
+        // assuming timer would be set to 09:00:00
+        for (RecruitCombs& rc: result_vec) {
+            rc.min_level = (std::max)(rc.min_level, 3);
+        }
+
+        std::sort(
+                result_vec.begin(), result_vec.end(),
+                [](const RecruitCombs& lhs, const RecruitCombs& rhs) -> bool
+                {
+                    if (lhs.min_level != rhs.min_level)
+                        return lhs.min_level > rhs.min_level; // 最小等级大的，排前面
+                    else if (lhs.max_level != rhs.max_level)
+                        return lhs.max_level > rhs.max_level; // 最大等级大的，排前面
+                    else if (std::fabs(lhs.avg_level - rhs.avg_level) > DoubleDiff)
+                        return lhs.avg_level > rhs.avg_level; // 平均等级高的，排前面
+                    else
+                        return lhs.tags.size() < rhs.tags.size(); // Tag数量少的，排前面
+                });
+
+
+        if (result_vec.empty()) continue;
+
+        const auto& final_combination = result_vec.front();
+
+        {
+            json::value info = basic_info();
+
+            json::value results_json;
+            results_json["result"] = json::array();
+            results_json["level"] = final_combination.min_level;
+            results_json["robot"] = m_skip_robot && has_robot_tag;
+            std::vector<json::value> result_json_vector;
+            for (const auto& comb : result_vec) {
+                json::value comb_json;
+
+                std::vector<json::value> tags_json_vector;
+                for (const std::string& tag : comb.tags) {
+                    tags_json_vector.emplace_back(tag);
+                }
+                comb_json["tags"] = json::array(std::move(tags_json_vector));
+
+                std::vector<json::value> opers_json_vector;
+                for (const RecruitOperInfo& oper_info : comb.opers) {
+                    json::value oper_json;
+                    oper_json["name"] = oper_info.name;
+                    oper_json["level"] = oper_info.level;
+                    opers_json_vector.emplace_back(std::move(oper_json));
+                }
+                comb_json["opers"] = json::array(std::move(opers_json_vector));
+                comb_json["level"] = comb.min_level;
+                results_json["result"].as_array().emplace_back(std::move(comb_json));
+            }
+            info["what"] = "RecruitResult";
+            info["details"] = results_json;
+            callback(AsstMsg::SubTaskExtraInfo, info);
+        }
+
+        if (need_exit()) return false;
+
+        // refresh
+        if (m_need_refresh && has_refresh
+            && !has_special_tag
+            && final_combination.min_level == 3
+            && !(m_skip_robot && has_robot_tag)
+                ) {
+
+            if (refresh_times > refresh_limit) { // unlikely
+                json::value info = basic_info();
+                info["what"] = "RecruitError";
+                info["why"] = "刷新次数达到上限";
+                info["details"] = json::object{
+                        { "refresh_limit", refresh_limit }
+                };
+                callback(AsstMsg::SubTaskError, info);
+                return false;
+            }
+
+            Log.error(__FILE__, __LINE__, "REFRESH NOT IMPLEMENTED"); // TODO: Refresh
+
+            ++refresh_times;
+            // desired retry, not an error
+            --image_analyzer_retry;
+            continue;
+        }
+
+        if (std::find(m_select_level.cbegin(), m_select_level.cend(), final_combination.min_level) == m_select_level.cend()) {
+            // nothing to select
+            out_force_skip = false;
+            out_selected = 0;
+            return true;
+        }
+
+        if (need_exit()) return false;
+
+        if (m_set_time){
+            Log.error(__FILE__, __LINE__, "SET TIME NOT IMPLEMENTED"); // TODO: set time
+        }
+
+        for (const std::string& final_tag_name : final_combination.tags) {
+            auto tag_rect_iter =
+                    std::find_if(tags.cbegin(), tags.cend(), [&](const TextRect& r) { return r.text == final_tag_name; });
+            if (tag_rect_iter != tags.cend()) {
+                m_ctrler->click(tag_rect_iter->rect);
+            }
+        }
+
+        {
+            json::value info = basic_info();
+            info["what"] = "RecruitTagsSelected";
+            info["details"] = json::object{
+                    { "tags", json::array(final_combination.tags) }
+            };
+            callback(AsstMsg::SubTaskExtraInfo, info);
+        }
+
+        out_selected = int(final_combination.tags.size());
+        out_force_skip = false;
+        return true;
+    }
+    return false;
+}
+
+bool asst::AutoRecruitTask::recruit_begin()
+{
+    ProcessTask task(*this, { "RecruitBegin" });
+    return task.run();
 }
 
 bool asst::AutoRecruitTask::check_time_unreduced()
