@@ -28,8 +28,10 @@ extern "C" {
     bool ASSTAPI AsstStart(AsstHandle handle);
     bool ASSTAPI AsstStop(AsstHandle handle);
 
-    unsigned long long ASSTAPI AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size);
     bool ASSTAPI AsstCtrlerClick(AsstHandle handle, int x, int y, bool block);
+    unsigned long long ASSTAPI AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size);
+    unsigned long long ASSTAPI AsstGetUUID(AsstHandle handle, char* buff, unsigned long long buff_size);
+    unsigned long long ASSTAPI AsstGetTasksList(AsstHandle handle, TaskId* buff, unsigned long long buff_size);
 
     ASSTAPI_PORT const char* ASST_CALL AsstGetVersion();
     void ASSTAPI AsstLog(const char* level, const char* message);
