@@ -79,6 +79,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _filename, value);
+                ClearLog();
                 _updateFileDoc(_filename);
             }
         }
@@ -87,8 +88,6 @@ namespace MeoAsstGui
 
         private void _updateFileDoc(string filename)
         {
-            ClearLog();
-
             string jsonStr = "";
             if (File.Exists(filename))
             {
@@ -317,6 +316,7 @@ namespace MeoAsstGui
                 AddLog(errMsg, "darkred");
             }
 
+            _updateFileDoc(Filename);
             File.Delete(_tempCopilotFile);
             File.WriteAllText(_tempCopilotFile, _curCopilotData);
 
