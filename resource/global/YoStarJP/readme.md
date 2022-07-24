@@ -9,11 +9,11 @@
 - 刷理智（仅支持选择`当前关卡`）
 - 使用理智药恢复理智
 - 使用源石恢复理智
-- 指定次数
-- 公招计算
+- 刷理智指定次数
+- 自动公招
 - 访问好友
 - 领取日常奖励
-- 自动公招
+- 公招计算
 - 无限刷肉鸽（测试功能）
 
 ## Japanese
@@ -26,10 +26,10 @@ Now supports:
 - Restore with potion
 - Restore with Originite
 - Set the max number of auto battles
-- Recruitment calculate
+- Auto Recruiting
 - Friends visit
 - Award collect
-- Auto Recruiting
+- Recruitment calculate
 - Auto Roguelike (beta)
 
 ## 日本
@@ -42,8 +42,8 @@ Now supports:
 - ポーションで復元
 - Originiteで復元
 - 自動戦闘の最大数を設定します
-- 採用計算
+- 自動採用
 - 友達が訪問
 - アワードコレクト
-- 自動採用
+- 採用計算
 - 自動ローグライク（ベータ版）
