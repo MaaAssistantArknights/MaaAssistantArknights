@@ -2,8 +2,7 @@
 
 //#include "RoguelikeSkillSelectionTaskPlugin.h"
 
-#include "StageDropsTaskPlugin.h"
-#include "RoguelikeFormationImageAnalyzer.h"
+#include "StageDropsImageAnalyzer.h"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType)
@@ -15,9 +14,9 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, void* callback_arg)
 
 bool asst::DebugTask::run()
 {
-    cv::Mat image = cv::imread("err/2.png");
+    cv::Mat image = cv::imread("err/1.png");
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
-    RoguelikeFormationImageAnalyzer analyzer(resized);
+    StageDropsImageAnalyzer analyzer(resized);
     return analyzer.analyze();
 }
