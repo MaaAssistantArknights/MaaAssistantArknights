@@ -18,8 +18,15 @@ public partial class Build
             if (File.Exists(Parameters.MaaChangelogFile))
             {
                 Information($"找到 {Parameters.MaaChangelogFile} 文件，读取内容作为更新日志");
-                var text = AddContributorLink(File.ReadAllText(Parameters.MaaChangelogFile));
-                ChangeLog = text;
+                var text = File.ReadAllText(Parameters.MaaChangelogFile);
+                try
+                {
+                    ChangeLog = AddContributorLink(text);
+                }
+                catch
+                {
+                    ChangeLog = text;
+                }
             }
             else
             {
