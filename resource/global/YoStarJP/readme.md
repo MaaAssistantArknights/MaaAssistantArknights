@@ -16,34 +16,34 @@
 - 自动公招
 - 无限刷肉鸽（测试功能）
 
-## Japanese
+## JP Server
 
 Please go to `Settings` - `Startup Settings` - `Client Version` and select `YoStarJP`
 
-Now supports:  
+Supported features:  
 
 - Auto battle (only supports selecting `current stage`)
-- Restore with potion
-- Restore with Originite
+- Auto-use sanity potion
+- Auto-use Originite Prime
 - Set the max number of auto battles
 - Recruitment calculate
-- Friends visit
-- Award collect
-- Auto Recruiting
-- Auto Roguelike (beta)
+- Visiting friend's infrastructure
+- Collecting daily quest awards
+- Auto recruiting
+- Integrated Strategies (beta)
 
-## 日本
+## 日本サーバー
 
 「設定」-「スタートアップ設定」-「クライアントバージョン」に移動し、「YoStarJP」を選択してください
 
-現在サポートされています：
+現在サポートされている機能：
 
-- オートバトラー（「現在のステージ」の選択のみをサポート）
-- ポーションで復元
-- Originiteで復元
-- 自動戦闘の最大数を設定します
-- 採用計算
-- 友達が訪問
-- アワードコレクト
-- 自動採用
-- 自動ローグライク（ベータ版）
+- 自動戦闘（「現在のステージ」の選択だけ）
+- 理性回復アイテムを使う
+- 純正源石を使う
+- 自動戦闘の最大回数を指定する
+- 公開求人の計算
+- 戦友訪問
+- デイリーリクエストのアワードを収集する
+- 自動公開求人
+- 自動統合戦略（ベータ版）
