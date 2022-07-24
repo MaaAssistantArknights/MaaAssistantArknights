@@ -40,6 +40,20 @@ void asst::MultiMatchImageAnalyzer::sort_result_horizontal()
         });
 }
 
+void asst::MultiMatchImageAnalyzer::sort_result_vertical()
+{
+    // 按位置排个序
+    std::sort(m_result.begin(), m_result.end(),
+        [](const MatchRect& lhs, const MatchRect& rhs) -> bool {
+            if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
+                return lhs.rect.y < rhs.rect.y;
+            }
+            else {
+                return lhs.rect.x < rhs.rect.x;
+            }
+        });
+}
+
 void asst::MultiMatchImageAnalyzer::set_mask_range(int lower, int upper) noexcept
 {
     m_mask_range = std::make_pair(lower, upper);

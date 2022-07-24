@@ -142,11 +142,11 @@ namespace MeoAsstGui
                 new GenericCombData<ActionType>{ Display="关机*",Value=ActionType.Shutdown },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
-            int order_offset = 0;
+            var non_order_list = new List<DragItemViewModel>();
             for (int i = 0; i != task_list.Length; ++i)
             {
                 var task = task_list[i];
-                int order = -1;
+                int order;
                 bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out order);
 
                 var vm = new DragItemViewModel(task, "TaskQueue.");
@@ -156,14 +156,23 @@ namespace MeoAsstGui
                 }
                 if (!parsed || order < 0)
                 {
-                    temp_order_list[i] = vm;
-                    ++order_offset;
+                    non_order_list.Add(vm);
                 }
                 else
                 {
-                    temp_order_list[order + order_offset] = vm;
+                    temp_order_list[order] = vm;
                 }
             }
+            foreach (var new_vm in non_order_list)
+            {
+                int i = 0;
+                while (temp_order_list[i] != null)
+                {
+                    ++i;
+                }
+                temp_order_list[i] = new_vm;
+            }
+
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
             AllStageList = new List<CombData>

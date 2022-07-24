@@ -1,14 +1,11 @@
-- 新增支持 国际服 (EN) 肉鸽 @cookie223 @MistEO
-- 新增支持 日服肉鸽 @natt3
-- 新增支持 肉鸽 设置开始次数、投资次数、投资完结束任务 @MistEO
-- 新增支持 肉鸽 从选择关卡后 `Enter` 界面继续任务 @MistEO
-- 新增支持 日服自动公招 @natt3
-- 优化 肉鸽 编队策略，会清空并重新选等级最高的 @MistEO
-- 优化 肉鸽 部分代码及识别错误 @horror-proton @zzyyyl @MistEO
-- 修复 肉鸽 一直朝右的问题 @horror-proton @MistEO
-- 修复 自动战斗 部分干员识别错误 @ABA2396
-- 修复 刷理智 偶现掉落识别错误 @MistEO
-- 修复 信用购物 偶现信用收取失败问题 @horror-proton @MistEO
-- 修复 日服访问好友 的错误 @natt3
-- 修复 B 服登陆时卡住的问题 @zzyyyl
-- 优化并修复 部分界面问题 @lhhxxxxx @ABA2396 @LeoQ7 @zzyyyl
+- 新增支持 繁中服 自动公招、公招识别 @rockerhank
+- 修复 肉鸽 编队人数过多时出现的一些问题 @MistEO
+- 修复 肉鸽 偶现掉线后、凌晨 4 点更新后无法继续的问题 @MistEO
+- 修复 肉鸽 在部分模拟器上战斗画面识别错误问题 @MistEO
+- 修复 EN 服 肉鸽 招募干员、进入安全屋、领取关卡奖励时卡住的问题 @MistEO
+- 修复 刷理智 偶现掉落识别问题 @MistEO
+- 修复 自动战斗 选择了 `删除编队` 时任务报错的问题 @MistEO
+- 修复 自动战斗 存在 14 个及以上干员时的崩溃问题 @MistEO
+- 修复 界面 崩溃问题 @MistEO
+- 新增 core `AsstGetUUID`, `AsstGetTasksList` 接口 @MistEO
+- 更新 各种文档 @LYZhelloworld @zzyyyl @ABA2396

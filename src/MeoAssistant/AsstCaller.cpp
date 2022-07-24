@@ -128,6 +128,14 @@ bool AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params)
     return handle->set_task_params(id, params ? params : "");
 }
 
+bool AsstCtrlerClick(AsstHandle handle, int x, int y, bool block)
+{
+    if (!inited || handle == nullptr) {
+        return false;
+    }
+    return handle->ctrler_click(x, y, block);
+}
+
 unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size)
 {
     if (!inited || handle == nullptr || buff == nullptr) {
@@ -142,22 +150,33 @@ unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long lon
     return data_size;
 }
 
-bool AsstCtrlerClick(AsstHandle handle, int x, int y, bool block)
+unsigned long long ASSTAPI AsstGetUUID(AsstHandle handle, char* buff, unsigned long long buff_size)
 {
-    if (!inited || handle == nullptr) {
-        return false;
+    if (!inited || handle == nullptr || buff == nullptr) {
+        return 0;
     }
-    return handle->ctrler_click(x, y, block);
+    auto uuid = handle->get_uuid();
+    size_t data_size = uuid.size();
+    if (buff_size < data_size) {
+        return 0;
+    }
+    memcpy(buff, uuid.data(), data_size);
+    return data_size;
 }
 
-//bool AsstSetParam(AsstHandle handle, const char* type, const char* param, const char* value)
-//{
-//    if (handle == nullptr) {
-//        return false;
-//    }
-//
-//    return handle->set_param(type, param, value);
-//}
+unsigned long long ASSTAPI AsstGetTasksList(AsstHandle handle, TaskId* buff, unsigned long long buff_size)
+{
+    if (!inited || handle == nullptr || buff == nullptr) {
+        return 0;
+    }
+    auto tasks = handle->get_tasks_list();
+    size_t data_size = tasks.size();
+    if (buff_size < data_size) {
+        return 0;
+    }
+    memcpy(buff, tasks.data(), data_size);
+    return data_size;
+}
 
 const char* AsstGetVersion()
 {
