@@ -148,7 +148,7 @@ unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long lon
     if (buff_size < data_size) {
         return NullSize;
     }
-    memcpy(buff, img_data.data(), data_size);
+    memcpy(buff, img_data.data(), data_size * sizeof(decltype(img_data)::value_type));
     return data_size;
 }
 
@@ -162,7 +162,7 @@ unsigned long long AsstGetUUID(AsstHandle handle, char* buff, unsigned long long
     if (buff_size < data_size) {
         return NullSize;
     }
-    memcpy(buff, uuid.data(), data_size);
+    memcpy(buff, uuid.data(), data_size * sizeof(decltype(uuid)::value_type));
     return data_size;
 }
 
@@ -176,7 +176,7 @@ unsigned long long AsstGetTasksList(AsstHandle handle, TaskId* buff, unsigned lo
     if (buff_size < data_size) {
         return NullSize;
     }
-    memcpy(buff, tasks.data(), data_size);
+    memcpy(buff, tasks.data(), data_size * sizeof(decltype(tasks)::value_type));
     return data_size;
 }
 
