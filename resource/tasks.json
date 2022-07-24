@@ -7469,7 +7469,14 @@
         "maskRange": [
             35,
             255
-        ]
+        ],
+        "rectMove": [
+            181,
+            60,
+            30,
+            0
+        ],
+        "rectMove_Doc": "作为hsv阈值使用"
     },
     "StageDrops-Item": {
         "template": "empty.png",
