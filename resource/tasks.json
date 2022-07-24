@@ -7029,7 +7029,7 @@
             1,
             255
         ],
-        "templThreshold": 0.7
+        "templThreshold": 0.9
     },
     "Roguelike1FormationOperSelected": {
         "template": "empty.png",
