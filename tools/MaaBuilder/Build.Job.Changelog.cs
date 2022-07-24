@@ -1,10 +1,15 @@
-﻿using System.IO;
+using System.IO;
 using Nuke.Common;
+using System.Text.RegularExpressions;
 
 namespace MaaBuilder;
 
 public partial class Build
 {
+    static string AddContributorLink(string text)
+    {
+        return Regex.Replace(text, @"@(\w*)", "[@$1](https://github.com/$1)");
+    }
     Target UseMaaChangeLog => _ => _
         .Triggers(SetMaaChangeLog)
         .After(UseTagVersion)
@@ -13,7 +18,7 @@ public partial class Build
             if (File.Exists(Parameters.MaaChangelogFile))
             {
                 Information($"找到 {Parameters.MaaChangelogFile} 文件，读取内容作为更新日志");
-                var text = File.ReadAllText(Parameters.MaaChangelogFile);
+                var text = AddContributorLink(File.ReadAllText(Parameters.MaaChangelogFile));
                 ChangeLog = text;
             }
             else
