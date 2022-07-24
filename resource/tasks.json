@@ -7430,6 +7430,16 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "TodaysSuppliesToRoguelike1",
+            "TerminalToRoguelike1",
+            "CloseAnnoToRoguelike1",
+            "Roguelike1TodoEnter",
+            "Roguelike1Continue",
+            "ReturnToRoguelike1",
+            "ReturnToRoguelike1Confirm",
+            "OfflineConfirmToRoguelike1",
+            "StartToWakeUpToRoguelike1",
+            "StartUpConnectingToRoguelike1",
             "Roguelike1ClickToStartPoint"
         ]
     },
