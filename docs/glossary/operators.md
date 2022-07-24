@@ -83,21 +83,17 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 酸糖|Aciddrop|アシッドドロップ|애시드드롭
 泡泡|Bubble|バブル|버블
 清流|Purestream|セイリュウ|퓨어스트림
-布丁|Pudding|プリン|푸딩
-褐果|||
 松果|Pinecone|パインコーン|파인콘
 豆苗|Beanstalk|ビーンストーク|빈스토크
 深靛|Indigo|インディゴ|인디고
 罗比菈塔|Roberta|ロベルタ|로베르타
+布丁|Pudding|プリン|푸딩
+褐果|||
 
 中文|English|日本語|한국어
 ---|---|---|---
 阿米娅|Amiya|アーミヤ|아미야
-炎狱炎熔|Lava the Purgatory|炎獄ラヴァ|라바 더 퍼거토리
 空|Sora|ソラ|소라
-寒芒克洛丝|||
-濯尘芙蓉|||
-承曦格雷伊|||
 德克萨斯|Texas|テキサス|텍사스
 芙兰卡|Franka|フランカ|프란카
 雷蛇|Liskarm|リスカム|리스캄
@@ -165,17 +161,8 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 慑砂|Sesa|シェーシャ|세사
 雪雉|Snowsant|スノーズント|스노우상트
 薄绿|Mint|ミント|민트
-耶拉|Kjera|イェラ|쉐라
-风丸|||
-九色鹿|Nine-Colored Deer|九色鹿|나인컬러드 디어
 极境|Elysium|エリジウム|엘리시움
-暮落|Shalem|シャレム|샬렘
 图耶|Tuye|トゥイエ|투예
-见行者|||
-洛洛|||
-埃拉托|||
-海蒂|||
-车尔尼|||
 苦艾|Absinthe|アブサント|압생트
 特米米|Tomimi|トミミ|토미미
 燧石|Flint|フリント|플린트
@@ -203,16 +190,25 @@ Pith|Pith|Pith|Pith
 Touch|Touch|Touch|Touch
 Stormeye|Stormeye|Stormeye|Stormeye
 暮落|Shalem|シャレム|샬렘
+炎狱炎熔|Lava the Purgatory|炎獄ラヴァ|라바 더 퍼거토리
+寒芒克洛丝|||
+濯尘芙蓉|||
+承曦格雷伊|||
+耶拉|Kjera|イェラ|쉐라
+风丸|||
+九色鹿|Nine-Colored Deer|九色鹿|나인컬러드 디어
+暮落|Shalem|シャレム|샬렘
+见行者|||
+洛洛|||
+埃拉托|||
+海蒂|||
+车尔尼|||
 
 中文|English|日本語|한국어
 ---|---|---|---
 凯尔希|Kal'tsit|ケルシー|켈시
 陈|Ch'en|チェン|첸
 煌|Blaze|ブレイズ|블레이즈
-浊心斯卡蒂|Skadi the Corrupting Heart|濁心スカジ|스카디 더 커럽팅 하트
-假日威龙陈|Ch'en the Holungday|遊龍チェン|첸 더 홀룽데이
-耀骑士临光|Nearl the Radiant Knight|耀騎士ニアール|니어 더 래디언트 나이트
-归溟幽灵鲨|||
 能天使|Exusiai|エクシア|엑시아
 推进之王|Siege|シージ|시즈
 W|W|W|W
@@ -224,10 +220,6 @@ W|W|W|W
 艾雅法拉|Eyjafjalla|エイヤフィヤトラ|에이야퍄들라
 赫拉格|Hellagur|ヘラグ|헬라그
 早露|Rosa|ロサ|로사
-刻俄柏|Ceobe|ケオベ|케오베
-年|Nian|ニェン|니엔
-夕|Dusk|シー|시
-令|||
 塞雷娅|Saria|サリア|사리아
 灵知|Gnosis|ノーシス|노시스
 莫斯提马|Mostima|モスティマ|모스티마
@@ -249,12 +241,7 @@ W|W|W|W
 嵯峨|Saga|サガ|사가
 澄闪|||
 迷迭香|Rosmontis|ロスモンティス|로즈몬티스
-艾丽妮|||
 温蒂|Weedy|ウィーディ|위디
-号角|||
-流明|||
-黑键|||
-多萝西|||
 森蚺|Eunectes|ユーネクテス|유넥티스
 焰尾|Flametail|フレイムテイル|플레임테일
 瑕光|Blemishine|ブレミシャイン|블레미샤인
@@ -266,3 +253,17 @@ W|W|W|W
 歌蕾蒂娅|Gladiia|グレイディーア|글래디아
 琴柳|Saileach|サイラッハ|사일라흐
 帕拉斯|Pallas|パラス|팔라스
+浊心斯卡蒂|Skadi the Corrupting Heart|濁心スカジ|스카디 더 커럽팅 하트
+假日威龙陈|Ch'en the Holungday|遊龍チェン|첸 더 홀룽데이
+耀骑士临光|Nearl the Radiant Knight|耀騎士ニアール|니어 더 래디언트 나이트
+归溟幽灵鲨|||
+刻俄柏|Ceobe|ケオベ|케오베
+年|Nian|ニェン|니엔
+夕|Dusk|シー|시
+令|||
+艾丽妮|||
+号角|||
+流明|||
+黑键|||
+多萝西|||
+
