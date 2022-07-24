@@ -49,7 +49,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
     bool skip_robot = params.get("skip_robot", true);
 
-    if (times <= 0 || confirm.empty()) {   // 仅识别的情况
+    if (false) {   // 仅识别的情况
         m_recruit_begin_task_ptr->set_enable(false);
         m_recruit_only_calc_task_ptr->set_enable(true);
         m_auto_recruit_task_ptr->set_enable(false);
@@ -57,7 +57,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
         m_recruit_only_calc_task_ptr->set_param(std::move(select), set_time);
     }
     else {
-        m_recruit_begin_task_ptr->set_enable(true);
+        m_recruit_begin_task_ptr->set_enable(false);
         m_recruit_only_calc_task_ptr->set_enable(false);
         m_auto_recruit_task_ptr->set_enable(true);
 
@@ -66,7 +66,8 @@ bool asst::RecruitTask::set_params(const json::value& params)
             .set_use_expedited(expedite)
             .set_select_level(std::move(select))
             .set_confirm_level(std::move(confirm))
-            .set_skip_robot(skip_robot);
+            .set_skip_robot(skip_robot)
+            .set_set_time(set_time);
     }
 
     return true;
