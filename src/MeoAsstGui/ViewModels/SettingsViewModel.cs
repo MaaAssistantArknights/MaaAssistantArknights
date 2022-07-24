@@ -44,9 +44,9 @@ namespace MeoAsstGui
         {
             _container = container;
             _windowManager = windowManager;
-            DisplayName = "设置";
+            DisplayName = Localization.GetString("Settings");
 
-            _listTitle.Add("基建设置");
+            _listTitle.Add(Localization.GetString("AboutUs"));
             _listTitle.Add("肉鸽设置");
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
@@ -157,6 +157,12 @@ namespace MeoAsstGui
                 new CombData { Display = "清空", Value = "Clear" },
                 new CombData { Display = "反选", Value = "Inverse" },
                 new CombData { Display = "可切换", Value = "ClearInverse" }
+            };
+
+            LanguageList = new List<CombData>
+            {
+                new CombData {Display="简体中文", Value="zh-cn"},
+                new CombData {Display="English", Value="en-us"}
             };
         }
 
@@ -306,6 +312,7 @@ namespace MeoAsstGui
         public List<CombData> ClientTypeList { get; set; }
         public List<CombData> ConnectConfigList { get; set; }
         public List<CombData> InverseClearModeList { get; set; }
+        public List<CombData> LanguageList { get; set; }
 
         private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
 
@@ -1200,6 +1207,36 @@ namespace MeoAsstGui
                         taskQueueModel.NotInverseShowVisibility = Visibility.Collapsed;
                         taskQueueModel.SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
                         break;
+                }
+            }
+        }
+
+        private string _language = ViewStatusStorage.Get("GUI.Localization", "en-us");
+
+        public string Language
+        {
+            get { return _language; }
+            set
+            {
+                var backup = _language;
+                ViewStatusStorage.Set("GUI.Localization", value);
+                var result = _windowManager.ShowMessageBox(
+                    Localization.GetString("LanguageChangedTip"),
+                    Localization.GetString("Tip"),
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question,
+                    MessageBoxResult.None,
+                    MessageBoxResult.None,
+                    new Dictionary<MessageBoxResult, string>{
+                        {MessageBoxResult.Yes, Localization.GetString("Ok") },
+                        {MessageBoxResult.No, Localization.GetString("ManualRestart") },
+                    }
+                );
+                SetAndNotify(ref _language, value);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Application.Current.Shutdown();
+                    System.Windows.Forms.Application.Restart();
                 }
             }
         }
