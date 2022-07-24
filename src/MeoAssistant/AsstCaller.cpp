@@ -11,6 +11,8 @@
 #include "Logger.hpp"
 #include "Resource.h"
 
+static constexpr unsigned long long NullSize = -1ULL;
+
 #if 0
 #if _MSC_VER
 // Win32平台下Dll的入口
@@ -139,12 +141,12 @@ bool AsstCtrlerClick(AsstHandle handle, int x, int y, bool block)
 unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size)
 {
     if (!inited || handle == nullptr || buff == nullptr) {
-        return 0;
+        return NullSize;
     }
     auto img_data = handle->get_image();
     size_t data_size = img_data.size();
     if (buff_size < data_size) {
-        return 0;
+        return NullSize;
     }
     memcpy(buff, img_data.data(), data_size);
     return data_size;
@@ -153,12 +155,12 @@ unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long lon
 unsigned long long ASSTAPI AsstGetUUID(AsstHandle handle, char* buff, unsigned long long buff_size)
 {
     if (!inited || handle == nullptr || buff == nullptr) {
-        return 0;
+        return NullSize;
     }
     auto uuid = handle->get_uuid();
     size_t data_size = uuid.size();
     if (buff_size < data_size) {
-        return 0;
+        return NullSize;
     }
     memcpy(buff, uuid.data(), data_size);
     return data_size;
@@ -167,12 +169,12 @@ unsigned long long ASSTAPI AsstGetUUID(AsstHandle handle, char* buff, unsigned l
 unsigned long long ASSTAPI AsstGetTasksList(AsstHandle handle, TaskId* buff, unsigned long long buff_size)
 {
     if (!inited || handle == nullptr || buff == nullptr) {
-        return 0;
+        return NullSize;
     }
     auto tasks = handle->get_tasks_list();
     size_t data_size = tasks.size();
     if (buff_size < data_size) {
-        return 0;
+        return NullSize;
     }
     memcpy(buff, tasks.data(), data_size);
     return data_size;
