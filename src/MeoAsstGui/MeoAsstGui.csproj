@@ -95,6 +95,7 @@
     <Compile Include="Helper\AsstProxy.cs" />
     <Compile Include="Helper\AutoScroll.cs" />
     <Compile Include="Helper\CombData.cs" />
+    <Compile Include="Helper\Localization.cs" />
     <Compile Include="Helper\LogItemViewModel.cs" />
     <Compile Include="Helper\ToastNotification.cs" />
     <Compile Include="Helper\ScrollViewerBinding.cs" />
@@ -150,6 +151,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\Localizations\en-us.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Localizations\zh-cn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControl\StartSettingsUserControl.xaml" />
     <Page Include="UserControl\TimerSettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
