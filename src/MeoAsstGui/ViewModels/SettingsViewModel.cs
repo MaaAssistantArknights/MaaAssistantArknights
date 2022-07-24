@@ -46,7 +46,7 @@ namespace MeoAsstGui
             _windowManager = windowManager;
             DisplayName = Localization.GetString("Settings");
 
-            _listTitle.Add(Localization.GetString("AboutUs"));
+            _listTitle.Add("基建设置");
             _listTitle.Add("肉鸽设置");
             _listTitle.Add("自动公招");
             _listTitle.Add("信用商店");
@@ -56,7 +56,7 @@ namespace MeoAsstGui
             _listTitle.Add("定时执行");
             _listTitle.Add("界面设置");
             _listTitle.Add("软件更新");
-            _listTitle.Add("关于我们");
+            _listTitle.Add(Localization.GetString("AboutUs"));
 
             InfrastInit();
 
@@ -1211,7 +1211,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _language = ViewStatusStorage.Get("GUI.Localization", "en-us");
+        private string _language = ViewStatusStorage.Get("GUI.Localization", "zh-cn");
 
         public string Language
         {
