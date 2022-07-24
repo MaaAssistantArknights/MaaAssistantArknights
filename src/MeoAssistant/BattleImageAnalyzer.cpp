@@ -25,7 +25,7 @@ bool asst::BattleImageAnalyzer::analyze()
     clear();
 
     // HP 作为 flag，无论如何都识别。表明当前画面是在战斗场景的
-    bool ret = hp_analyze();
+    bool ret = hp_analyze() || flag_analyze();
 
     if (m_target & Target::Home) {
         ret |= home_analyze();
@@ -532,4 +532,11 @@ bool asst::BattleImageAnalyzer::cost_analyze()
 bool asst::BattleImageAnalyzer::vacancies_analyze()
 {
     return false;
+}
+
+bool asst::BattleImageAnalyzer::flag_analyze()
+{
+    MatchImageAnalyzer flag_analyzer(m_image);
+    flag_analyzer.set_task_info("BattleOfficiallyBegin");
+    return flag_analyzer.analyze();
 }
