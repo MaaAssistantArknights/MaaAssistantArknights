@@ -39,13 +39,13 @@ int main([[maybe_unused]] int argc, char** argv)
 
     /* 详细参数可参考 docs / 集成文档.md */
 
-    //AsstAppendTask(ptr, "StartUp", nullptr);
+    AsstAppendTask(ptr, "StartUp", nullptr);
 
-    //AsstAppendTask(ptr, "Fight", R"(
-    //{
-    //    "stage": "1-7"
-    //}
-    //)");
+    AsstAppendTask(ptr, "Fight", R"(
+    {
+        "stage": "1-7"
+    }
+    )");
 
     //AsstAppendTask(ptr, "Recruit", R"(
     //{
@@ -88,7 +88,7 @@ int main([[maybe_unused]] int argc, char** argv)
     //}
     //)");
 
-    AsstAppendTask(ptr, "Debug", nullptr);
+    //AsstAppendTask(ptr, "Debug", nullptr);
 
     AsstStart(ptr);
 
