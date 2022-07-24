@@ -58,8 +58,7 @@ Talk is cheap. Show me the pictures!
 
 1. Follow the [Emulator Support](docs/en/EMULATOR_SUPPORTS.md) to configure your emulator.
 2. Change your emulator resolution to `1280 * 720` or higher with `16:9` aspect ratio.
-3. Unzip the archive file to an ASCII-only directory
-4. Enjoy it!
+3. Enjoy it!
 
 See also: [User Manual](docs/en/USER_MANUAL.md)
 
