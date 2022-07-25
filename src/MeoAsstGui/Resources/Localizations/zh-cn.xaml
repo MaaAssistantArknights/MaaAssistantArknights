@@ -10,7 +10,11 @@
     <system:String x:Key="ManualRestart">稍后</system:String>
     <system:String x:Key="Tip">提示</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
+
+    <system:String x:Key="LabelSequenceTip">标签顺序可拖动</system:String>
     <!--设置-->
+
+    <!--一键长草-->
     <system:String x:Key="Farming">一键长草</system:String>
 
     <system:String x:Key="WakeUp">开始唤醒</system:String>
@@ -37,4 +41,15 @@
 
     <system:String x:Key="LinkStart">开始长草！</system:String>
     <system:String x:Key="Stop">停止</system:String>
+
+    <!--战斗设置-->
+    <system:String x:Key="UseSanityPotion">吃理智药</system:String>
+    <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
+    <system:String x:Key="PerformBattles">指定次数*</system:String>
+    <system:String x:Key="AssignedMaterial">指定材料</system:String>
+    <system:String x:Key="Quantity">掉落数量</system:String>
+    <system:String x:Key="StageSelect">关卡选择</system:String>
+    <system:String x:Key="Amend">修改</system:String>
+    <!--战斗设置-->
+    <!--一键长草-->
 </ResourceDictionary>
