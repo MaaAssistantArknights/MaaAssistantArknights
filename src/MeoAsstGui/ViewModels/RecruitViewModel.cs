@@ -116,7 +116,7 @@ namespace MeoAsstGui
         {
             var asstProxy = _container.Get<AsstProxy>();
             string errMsg = "";
-            RecruitInfo = "正在连接模拟器……";
+            RecruitInfo = Localization.GetString("ConnectingToEmulator");
             var task = Task.Run(() =>
             {
                 return asstProxy.AsstConnect(ref errMsg);
@@ -127,7 +127,7 @@ namespace MeoAsstGui
                 RecruitInfo = errMsg;
                 return;
             }
-            RecruitInfo = "正在识别……";
+            RecruitInfo = Localization.GetString("Identifying");
             RecruitResult = "";
 
             var levelList = new List<int>();
