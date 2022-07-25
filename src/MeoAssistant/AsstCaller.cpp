@@ -174,7 +174,7 @@ unsigned long long ASSTAPI AsstGetTasksList(AsstHandle handle, TaskId* buff, uns
     if (buff_size < data_size) {
         return 0;
     }
-    memcpy(buff, tasks.data(), data_size);
+    memcpy(buff, tasks.data(), data_size * sizeof(TaskId));
     return data_size;
 }
 
