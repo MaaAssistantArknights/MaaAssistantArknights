@@ -136,9 +136,8 @@ bool asst::AutoRecruitTask::_run()
     static constexpr size_t slot_retry_limit = 3;
 
     size_t slot_fail = 0;
-    size_t recruit_times = 0;
-    while ((m_use_expedited || !m_pending_recruit_slot.empty()) && recruit_times < m_max_times) {
-        ++recruit_times;
+    size_t recruit_times = 0; // how many times has the confirm button been pressed, NOT expedited plan used
+    while ((m_use_expedited || !m_pending_recruit_slot.empty()) && recruit_times != m_max_times) {
         if (slot_fail >= slot_retry_limit) { return false; }
         if (m_use_expedited) {
             Log.info("ready to use expedited");
@@ -148,10 +147,10 @@ bool asst::AutoRecruitTask::_run()
             analyze_start_buttons();
         }
         if (need_exit()) return false;
-        if (!recruit_one()) {
+        if (!recruit_one())
             ++slot_fail;
-            --recruit_times;
-        }
+        else
+            ++recruit_times;
     }
     return true;
 }
@@ -237,6 +236,8 @@ bool asst::AutoRecruitTask::recruit_one()
         return false;
     }
 
+    // TODO: count blue pixels and compare with number of selected tags desired
+
     if (need_exit()) return false;
 
     if (!confirm()) {
@@ -249,6 +250,7 @@ bool asst::AutoRecruitTask::recruit_one()
     return true;
 }
 
+// set recruit timer and tags only
 bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_selected)
 {
     LogTraceFunction;
@@ -407,20 +409,21 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
 
         if (need_exit()) return false;
 
-        // not allowed to confirm, force skip
+        // do not confirm, force skip
         if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), final_combination.min_level) == m_confirm_level.cend()) {
             out_force_skip = true;
             out_selected = 0;
             return true;
         }
 
-        // not allowed to confirm, force skip
+        // do not confirm, force skip
         if (m_skip_robot && has_robot_tag) {
             out_force_skip = true;
             out_selected = 0;
             return true;
         }
 
+        // try to set the timer to 09:00:00
         if (m_set_time) {
             for (const Rect& rect : image_analyzer.get_set_time_rect()) {
                 m_ctrler->click(rect);
@@ -434,6 +437,7 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
             return true;
         }
 
+        // select tags
         for (const std::string& final_tag_name : final_combination.tags) {
             auto tag_rect_iter =
                     std::find_if(tags.cbegin(), tags.cend(), [&](const TextRect& r) { return r.text == final_tag_name; });
