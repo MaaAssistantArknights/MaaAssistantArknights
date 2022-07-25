@@ -159,11 +159,11 @@ namespace MeoAsstGui
                 new CombData { Display = "可切换", Value = "ClearInverse" }
             };
 
-            LanguageList = new List<CombData>
+            LanguageList = new List<CombData>();
+            foreach (var pair in Localization.SupportedLanguages)
             {
-                new CombData {Display="简体中文", Value="zh-cn"},
-                new CombData {Display="English", Value="en-us"}
-            };
+                LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
+            }
         }
 
         private bool _idle = true;
@@ -1211,7 +1211,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _language = ViewStatusStorage.Get("GUI.Localization", "zh-cn");
+        private string _language = Localization.DefaultLanguage;
 
         public string Language
         {
