@@ -4,7 +4,6 @@
 namespace asst
 {
     class ProcessTask;
-    class RecruitCalcTask;
     class AutoRecruitTask;
 
     class RecruitTask final : public PackageTask
