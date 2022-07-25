@@ -12,6 +12,8 @@
     <system:String x:Key="AboutUs">About us</system:String>
 
     <system:String x:Key="LabelSequenceTip">The label sequence can be dragged</system:String>
+    <system:String x:Key="CheckBoxesNotSaved">This option is not saved after restart</system:String>
+    <system:String x:Key="NoAutoNavigation">The feature does not automatically navigate to the stage</system:String>
     <!--Settings-->
 
     <!--Farming-->

@@ -31,7 +31,7 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
             <CheckBox IsChecked="{Binding UseStone}" Content="{DynamicResource UseOriginitePrime}" Margin="10 10 16.5 10" 
-                      ToolTip="该选项设置重启后不保存"/>
+                      ToolTip="{DynamicResource CheckBoxesNotSaved}"/>
             <hc:TextBox Text="{Binding StoneNumber}" TextWrapping="Wrap" Margin="10"
                         Width="50" InputMethod.IsInputMethodEnabled="False" 
                         TextType="Int"/>
@@ -39,14 +39,14 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Center">
             <CheckBox IsChecked="{Binding HasTimesLimited}" Content="{DynamicResource PerformBattles}" Margin="10 10 4.5 10"
-                      ToolTip="该选项设置重启后不保存"/>
+                      ToolTip="{DynamicResource CheckBoxesNotSaved}"/>
             <hc:TextBox Text="{Binding MaxTimes}" TextWrapping="Wrap" Margin="10"
                         Width="50" InputMethod.IsInputMethodEnabled="False" 
                         TextType="Int"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center">
             <CheckBox IsChecked="{Binding IsSpecifiedDrops}" Content="{DynamicResource AssignedMaterial}" Margin="10"
-                      ToolTip="该选项不会自动导航至对应关卡"/>
+                      ToolTip="{DynamicResource NoAutoNavigation}"/>
             <ComboBox Width="120" Margin="10"
                       IsEditable="True"
                       IsTextSearchEnabled ="True"

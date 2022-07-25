@@ -12,6 +12,8 @@
     <system:String x:Key="AboutUs">关于我们</system:String>
 
     <system:String x:Key="LabelSequenceTip">标签顺序可拖动</system:String>
+    <system:String x:Key="CheckBoxesNotSaved">该选项设置重启后不保存</system:String>
+    <system:String x:Key="NoAutoNavigation">该选项不会自动导航至对应关卡</system:String>
     <!--设置-->
 
     <!--一键长草-->
