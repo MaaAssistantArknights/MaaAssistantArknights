@@ -41,9 +41,15 @@ namespace asst
         int min_level = 0;
         double avg_level = 0;
 
-        void recompute_average_level() {
+        void update_attributes() {
             double sum = 0;
-            for (const auto& op : opers) sum += op.level;
+            min_level = 6;
+            max_level = 0;
+            for (const auto& op : opers) {
+                sum += op.level;
+                min_level = (std::min)(min_level, op.level);
+                max_level = (std::max)(max_level, op.level);
+            }
             avg_level = sum / double(opers.size());
         }
 
@@ -67,10 +73,7 @@ namespace asst
                     rhs.opers.cbegin(), rhs.opers.cend(),
                     std::back_inserter(result.opers));
 
-            result.min_level = (std::max)(lhs.min_level, rhs.min_level); // maximum of min_level
-            result.max_level = (std::min)(lhs.max_level, rhs.max_level); // minimum of max_level
-
-            result.recompute_average_level();
+            result.update_attributes();
 
             return result;
         }
