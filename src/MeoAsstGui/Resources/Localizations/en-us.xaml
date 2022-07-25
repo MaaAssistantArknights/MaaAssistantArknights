@@ -98,7 +98,6 @@
     <system:String x:Key="AboutToShutdown">The task is completed and will be shut down. Do you want to cancel?</system:String>
     <system:String x:Key="ShutdownPrompt">Tip</system:String>
     <system:String x:Key="HibernatePrompt">Task completed, about to hibernate</system:String>
-
     <!--Logs-->
     <!--Farming-->
 
@@ -111,6 +110,10 @@
     <system:String x:Key="AutoSelectLevel5Tags">Auto Select Level 5 Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">Auto Select Level 6 Tags</system:String>
     <system:String x:Key="BeganToRecruit">Began To Recruit</system:String>
+
+    <!--Logs-->
+    <system:String x:Key="Identifying">Identifying...</system:String>
+    <!--Logs-->
     <!--Recognition-->
 
     <!--Copilot-->
