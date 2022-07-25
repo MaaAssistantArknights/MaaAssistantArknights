@@ -63,6 +63,7 @@ namespace MeoAsstGui
             var trayObj = _container.Get<TrayIcon>();
             trayObj.SetVisible(UseTray);
             trayObj.SetMinimizeToTaskbar(MinimizeToTray);
+            trayObj.SetSettingsViewModel(this);
             Bootstrapper.SetTrayIconInSettingsViewModel(this);
         }
 
@@ -1218,6 +1219,10 @@ namespace MeoAsstGui
             get { return _language; }
             set
             {
+                if (value == _language)
+                {
+                    return;
+                }
                 var backup = _language;
                 ViewStatusStorage.Set("GUI.Localization", value);
                 var result = _windowManager.ShowMessageBox(
