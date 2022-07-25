@@ -50,6 +50,23 @@
     <system:String x:Key="Quantity">掉落数量</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="Amend">修改</system:String>
+
+    <system:String x:Key="CurrentStage">当前关卡</system:String>
+    <system:String x:Key="LastBattle">上次作战</system:String>
+    <system:String x:Key="1-7">1-7</system:String>
+    <system:String x:Key="CE-6">龙门币-6/5</system:String>
+    <system:String x:Key="AP-5">红票-5</system:String>
+    <system:String x:Key="CA-5">技能-5</system:String>
+    <system:String x:Key="LS-6">经验-6/5</system:String>
+
+    <system:String x:Key="PR-A-1">奶/盾芯片</system:String>
+    <system:String x:Key="PR-A-2">奶/盾芯片组</system:String>
+    <system:String x:Key="PR-B-1">术/狙芯片</system:String>
+    <system:String x:Key="PR-B-2">术/狙芯片组</system:String>
+    <system:String x:Key="PR-C-1">先/辅芯片</system:String>
+    <system:String x:Key="PR-C-2">先/辅芯片组</system:String>
+    <system:String x:Key="PR-D-1">近/特芯片</system:String>
+    <system:String x:Key="PR-D-2">近/特芯片组</system:String>
     <!--战斗设置-->
     <!--一键长草-->
 
