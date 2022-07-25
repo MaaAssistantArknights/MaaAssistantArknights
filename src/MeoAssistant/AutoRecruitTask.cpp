@@ -131,38 +131,29 @@ bool asst::AutoRecruitTask::_run()
         return false;
     }
 
-    analyze_start_buttons();
+    if (!m_use_expedited)
+        analyze_start_buttons(); // analyze once only
 
-    // 不使用加急许可的正常公招
-    for (; m_cur_times < m_max_times && m_cur_times < m_start_buttons.size(); ++m_cur_times) {
-        if (need_exit()) {
-            return false;
-        }
-        if (!recruit_index(m_cur_times)) {
-            return false;
-        }
-    }
-    if (!m_use_expedited) {
-        return true;
-    }
-    Log.info("ready to use expedited");
-    // 使用加急许可
-    for (; m_cur_times < m_max_times; ++m_cur_times) {
-        if (need_exit()) {
-            return false;
-        }
-        if (!recruit_now()) {
-            return true;
-        }
-        if (need_exit()) {
-            return false;
-        }
-        analyze_start_buttons();
-        if (!recruit_index(0)) {
-            return false;
-        }
-    }
+    static constexpr size_t slot_retry_limit = 3;
 
+    size_t slot_fail = 0;
+    size_t recruit_times = 0;
+    while ((m_use_expedited || !m_pending_recruit_slot.empty()) && recruit_times < m_max_times) {
+        ++recruit_times;
+        if (slot_fail >= slot_retry_limit) { return false; }
+        if (m_use_expedited) {
+            Log.info("ready to use expedited");
+            if (need_exit()) return false;
+            recruit_now();
+            if (!check_recruit_home_page()) return false;
+            analyze_start_buttons();
+        }
+        if (need_exit()) return false;
+        if (!recruit_one()) {
+            ++slot_fail;
+            --recruit_times;
+        }
+    }
     return true;
 }
 
@@ -173,23 +164,36 @@ bool asst::AutoRecruitTask::analyze_start_buttons()
 
     auto image = m_ctrler->get_image();
     start_analyzer.set_image(image);
+    m_pending_recruit_slot.clear();
     if (!start_analyzer.analyze()) {
         Log.info("There is no start button");
         return false;
     }
     start_analyzer.sort_result_horizontal();
     m_start_buttons = start_analyzer.get_result();
+    for (size_t i = 0; i < m_start_buttons.size(); ++i) {
+        m_pending_recruit_slot.emplace_back(i);
+    }
     Log.info("Recruit start button size", m_start_buttons.size());
     return true;
 }
 
-bool asst::AutoRecruitTask::recruit_index(size_t index)
+/// open a pending recruit slot, set timer and tags then confirm, or leave the slot doing nothing
+/// return false if:
+/// - recognition failed
+/// - timer or tags corrupted
+/// - failed to confirm
+bool asst::AutoRecruitTask::recruit_one()
 {
     LogTraceFunction;
 
     int delay = Resrc.cfg().get_options().task_delay;
 
-    if (m_start_buttons.size() <= index) {
+    if (m_pending_recruit_slot.empty()) return false;
+    size_t index = m_pending_recruit_slot.front();
+    if (index > m_start_buttons.size()) {
+        Log.info("index", index, "out of range.");
+        m_pending_recruit_slot.pop_front();
         return false;
     }
     Log.info("recruit_index", index);
@@ -197,7 +201,53 @@ bool asst::AutoRecruitTask::recruit_index(size_t index)
     m_ctrler->click(button);
     sleep(delay);
 
-    return calc_and_recruit();
+    bool force_skip = true;
+    int selected = 0;
+    bool calc_recognized = recruit_calc_task(force_skip, selected);
+    sleep(delay);
+
+    m_pending_recruit_slot.pop_front();
+
+    if (!calc_recognized) {
+        // recognition failed, perhaps open the slot again would not help
+        {
+            json::value info = basic_info();
+            info["what"] = "RecruitError";
+            info["why"] = "识别错误";
+            callback(AsstMsg::SubTaskError, info);
+        }
+        click_return_button();
+        return false;
+    }
+
+    if (force_skip) {
+        // mark the slot as completed and return
+        click_return_button();
+        return true;
+    }
+
+    if (need_exit()) return false;
+
+    if (!check_time_reduced()) {
+        // timer was not set to 09:00:00 properly, likely the tag selection was also corrupted
+        // see https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
+        // return and try later
+        Log.info("Timer of this slot has not been reduced as expected, will retry later.");
+        m_pending_recruit_slot.push_back(index);
+        click_return_button();
+        return false;
+    }
+
+    if (need_exit()) return false;
+
+    if (!confirm()) {
+        Log.info("Failed to confirm current recruit config.");
+        m_pending_recruit_slot.push_back(index);
+        click_return_button();
+        return false;
+    }
+
+    return true;
 }
 
 bool asst::AutoRecruitTask::calc_and_recruit()
@@ -310,7 +360,7 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
     static constexpr size_t refresh_limit = 3;
     static constexpr size_t analyze_limit = 5;
 
-    size_t refresh_times = 0;
+    size_t refresh_count = 0;
     for (size_t image_analyzer_retry = 0; image_analyzer_retry < analyze_limit;) {
         ++image_analyzer_retry;
 
@@ -429,7 +479,7 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
             && !(m_skip_robot && has_robot_tag)
                 ) {
 
-            if (refresh_times > refresh_limit) { // unlikely
+            if (refresh_count > refresh_limit) { // unlikely
                 json::value info = basic_info();
                 info["what"] = "RecruitError";
                 info["why"] = "刷新次数达到上限";
@@ -440,9 +490,20 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
                 return false;
             }
 
-            Log.error(__FILE__, __LINE__, "REFRESH NOT IMPLEMENTED"); // TODO: Refresh
+            refresh();
 
-            ++refresh_times;
+            {
+                json::value info = basic_info();
+                info["what"] = "RecruitTagsRefreshed";
+                info["details"] = json::object{
+                        { "count", refresh_count },
+                        { "refresh_limit", refresh_limit }
+                };
+                callback(AsstMsg::SubTaskExtraInfo, info);
+                Log.trace("recruit tags refreshed", std::to_string(refresh_count), " times, rerunning recruit task");
+            }
+
+            ++refresh_count;
             // desired retry, not an error
             --image_analyzer_retry;
             continue;
@@ -450,14 +511,28 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
 
         if (need_exit()) return false;
 
+        // not allowed to confirm, force skip
+        if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), final_combination.min_level) == m_confirm_level.cend()) {
+            out_force_skip = true;
+            out_selected = 0;
+            return true;
+        }
+
+        // not allowed to confirm, force skip
+        if (m_skip_robot && has_robot_tag) {
+            out_force_skip = true;
+            out_selected = 0;
+            return true;
+        }
+
         if (m_set_time) {
             for (const Rect& rect : image_analyzer.get_set_time_rect()) {
                 m_ctrler->click(rect);
             }
         }
 
+        // nothing to select, leave the selection empty
         if (std::find(m_select_level.cbegin(), m_select_level.cend(), final_combination.min_level) == m_select_level.cend()) {
-            // nothing to select
             out_force_skip = false;
             out_selected = 0;
             return true;
@@ -522,6 +597,7 @@ bool asst::AutoRecruitTask::recruit_now()
 
 bool asst::AutoRecruitTask::confirm()
 {
+    // TODO: https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/902
     ProcessTask confirm_task(*this, { "RecruitConfirm" });
     return confirm_task.set_retry_times(5).run();
 }

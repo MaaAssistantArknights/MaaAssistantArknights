@@ -28,6 +28,7 @@ namespace asst
 
         friend bool operator<(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
         {
+            if (lhs.level != rhs.level) return lhs.level > rhs.level;
             return lhs.name < rhs.name;
         }
     };
