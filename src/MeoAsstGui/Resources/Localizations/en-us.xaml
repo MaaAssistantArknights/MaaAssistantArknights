@@ -59,14 +59,14 @@
     <system:String x:Key="CA-5">CA-5</system:String>
     <system:String x:Key="LS-6">LS-6</system:String>
 
-    <system:String x:Key="PR-A-1">Med/Def Chip</system:String>
-    <system:String x:Key="PR-A-2">Med/Def ChipPack</system:String>
-    <system:String x:Key="PR-B-1">Cas/Sni Chip</system:String>
-    <system:String x:Key="PR-B-2">Cas/Sni ChipPack</system:String>
-    <system:String x:Key="PR-C-1">Van/Sup Chip</system:String>
-    <system:String x:Key="PR-C-2">Van/Sup ChipPack</system:String>
-    <system:String x:Key="PR-D-1">Gua/Spe Chip</system:String>
-    <system:String x:Key="PR-D-2">Gua/Spe ChipPack</system:String>
+    <system:String x:Key="PR-A-1">Med/Def Ⅰ</system:String>
+    <system:String x:Key="PR-A-2">Med/Def Ⅱ</system:String>
+    <system:String x:Key="PR-B-1">Cst/Sni Ⅰ</system:String>
+    <system:String x:Key="PR-B-2">Cst/Sni Ⅱ</system:String>
+    <system:String x:Key="PR-C-1">Pio/Sup Ⅰ</system:String>
+    <system:String x:Key="PR-C-2">Pio/Sup Ⅱ</system:String>
+    <system:String x:Key="PR-D-1">Grd/Spc Ⅰ</system:String>
+    <system:String x:Key="PR-D-2">Grd/Spc Ⅱ</system:String>
     <!--FightSettings-->
     <!--Farming-->
 
