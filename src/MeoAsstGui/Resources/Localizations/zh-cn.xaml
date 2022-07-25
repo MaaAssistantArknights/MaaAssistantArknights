@@ -52,4 +52,15 @@
     <system:String x:Key="Amend">修改</system:String>
     <!--战斗设置-->
     <!--一键长草-->
+
+    <!--公招识别-->
+    <system:String x:Key="Recognition">公招识别</system:String>
+    <system:String x:Key="RecognitionTip">小提示：和主界面的自动公招是两个独立的功能，请手动打开游戏公招Tags界面后使用~</system:String>
+    <system:String x:Key="AutoSettingTime">自动设置时间</system:String>
+    <system:String x:Key="AutoSelectLevel3Tags">自动选择3星Tags</system:String>
+    <system:String x:Key="AutoSelectLevel4Tags">自动选择4星Tags</system:String>
+    <system:String x:Key="AutoSelectLevel5Tags">自动选择5星Tags</system:String>
+    <system:String x:Key="AutoSelectLevel6Tags">自动选择6星Tags</system:String>
+    <system:String x:Key="BeganToRecruit">开始识别</system:String>
+    <!--公招识别-->
 </ResourceDictionary>

@@ -23,7 +23,7 @@
     <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Visiting">Visiting</system:String>
     <system:String x:Key="Mall">Mall</system:String>
-    <system:String x:Key="Mission">Mission</system:String>
+    <system:String x:Key="Mission">Daily &amp; Weekly</system:String>
     <system:String x:Key="AutoRoguelike">Auto Roguelike</system:String>
 
     <system:String x:Key="SelectAll">Select All</system:String>
@@ -52,4 +52,15 @@
     <system:String x:Key="Amend">Amend</system:String>
     <!--FightSettings-->
     <!--Farming-->
+
+    <!--Recognition-->
+    <system:String x:Key="Recognition">Recognition</system:String>
+    <system:String x:Key="RecognitionTip">Tip: Recognition and the main interface are two independent functions, please manually open the game public recruitment Tags then using ~</system:String>
+    <system:String x:Key="AutoSettingTime">Auto setting time</system:String>
+    <system:String x:Key="AutoSelectLevel3Tags">Auto Select Level 3 Tags</system:String>
+    <system:String x:Key="AutoSelectLevel4Tags">Auto Select Level 4 Tags</system:String>
+    <system:String x:Key="AutoSelectLevel5Tags">Auto Select Level 5 Tags</system:String>
+    <system:String x:Key="AutoSelectLevel6Tags">Auto Select Level 6 Tags</system:String>
+    <system:String x:Key="BeganToRecruit">Began To Recruit</system:String>
+    <!--Recognition-->
 </ResourceDictionary>
