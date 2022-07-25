@@ -62,7 +62,7 @@ namespace MeoAsstGui
         {
             _container = container;
             _windowManager = windowManager;
-            DisplayName = "一键长草";
+            DisplayName = Localization.GetString("Farming");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             InitializeItems();
             InitTimer();
@@ -129,17 +129,26 @@ namespace MeoAsstGui
 
         public void InitializeItems()
         {
-            string[] task_list = new string[] { "开始唤醒", "刷理智", "自动公招", "基建换班", "访问好友", "收取信用及购物", "领取日常奖励", "自动肉鸽" };
+            string[] task_list = new string[] {
+                Localization.GetString("WakeUp"),
+                Localization.GetString("Recruiting"),
+                Localization.GetString("Base"),
+                Localization.GetString("Combat"),
+                Localization.GetString("Visiting"),
+                Localization.GetString("Mall"),
+                Localization.GetString("Mission"),
+                Localization.GetString("AutoRoguelike"),
+            };
             ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
-                new GenericCombData<ActionType>{ Display="无动作",Value=ActionType.DoNothing },
-                new GenericCombData<ActionType>{ Display="退出 明日方舟",Value=ActionType.StopGame },
-                new GenericCombData<ActionType>{ Display="退出 MAA",Value=ActionType.ExitSelf },
-                new GenericCombData<ActionType>{ Display="关闭模拟器",Value=ActionType.ExitEmulator },
-                new GenericCombData<ActionType>{ Display="退出并关闭模拟器",Value=ActionType.ExitEmulatorAndSelf },
+                new GenericCombData<ActionType>{ Display=Localization.GetString("DoNothing"),Value=ActionType.DoNothing },
+                new GenericCombData<ActionType>{ Display=Localization.GetString("ExitArknights"),Value=ActionType.StopGame },
+                new GenericCombData<ActionType>{ Display=Localization.GetString("ExitMAA"),Value=ActionType.ExitSelf },
+                new GenericCombData<ActionType>{ Display=Localization.GetString("CloseEmulator"),Value=ActionType.ExitEmulator },
+                new GenericCombData<ActionType>{ Display=Localization.GetString("ExitMAAAndCloseEmulator"),Value=ActionType.ExitEmulatorAndSelf },
                 //new GenericCombData<ActionTypeAfterCompleted>{ Display="待机",Value=ActionTypeAfterCompleted.Suspend },
-                new GenericCombData<ActionType>{ Display="休眠*",Value=ActionType.Hibernate },
-                new GenericCombData<ActionType>{ Display="关机*",Value=ActionType.Shutdown },
+                new GenericCombData<ActionType>{ Display=Localization.GetString("Hibernate"),Value=ActionType.Hibernate },
+                new GenericCombData<ActionType>{ Display=Localization.GetString("Shutdown"),Value=ActionType.Shutdown },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             var non_order_list = new List<DragItemViewModel>();
@@ -150,7 +159,7 @@ namespace MeoAsstGui
                 bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out order);
 
                 var vm = new DragItemViewModel(task, "TaskQueue.");
-                if (task == "自动肉鸽")
+                if (task == Localization.GetString("AutoRoguelike"))
                 {
                     vm.IsChecked = false;
                 }
@@ -357,7 +366,7 @@ namespace MeoAsstGui
         {
             foreach (var item in TaskItemViewModels)
             {
-                if (item.Name == "自动肉鸽")
+                if (item.Name == Localization.GetString("AutoRoguelike"))
                     continue;
                 item.IsChecked = true;
             }
@@ -374,8 +383,8 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _inverseMode, value);
-                InverseShowText = value ? "反选" : "清空";
-                InverseMenuText = value ? "清空" : "反选";
+                InverseShowText = value ? Localization.GetString("Inverse") : Localization.GetString("Clear");
+                InverseMenuText = value ? Localization.GetString("Clear") : Localization.GetString("Inverse");
                 ViewStatusStorage.Set("MainFunction.InverseMode", value.ToString());
             }
         }
@@ -441,7 +450,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? "反选" : "清空";
+        private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Inverse") : Localization.GetString("Clear");
 
         public string InverseShowText
         {
@@ -455,7 +464,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? "清空" : "反选";
+        private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Clear") : Localization.GetString("Inverse");
 
         public string InverseMenuText
         {
@@ -480,7 +489,7 @@ namespace MeoAsstGui
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    if (item.Name == "自动肉鸽")
+                    if (item.Name == Localization.GetString("AutoRoguelike"))
                         continue;
                     item.IsChecked = !item.IsChecked;
                 }
@@ -489,7 +498,7 @@ namespace MeoAsstGui
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    if (item.Name == "自动肉鸽")
+                    if (item.Name == Localization.GetString("AutoRoguelike"))
                         continue;
                     item.IsChecked = false;
                 }
@@ -559,35 +568,35 @@ namespace MeoAsstGui
                 }
 
                 ++count;
-                if (item.Name == "基建换班")
+                if (item.Name == Localization.GetString("Base"))
                 {
                     ret &= appendInfrast();
                 }
-                else if (item.Name == "开始唤醒")
+                else if (item.Name == Localization.GetString("WakeUp"))
                 {
                     ret &= appendStart();
                 }
-                else if (item.Name == "刷理智")
+                else if (item.Name == Localization.GetString("Combat"))
                 {
                     ret &= appendFight();
                 }
-                else if (item.Name == "自动公招")
+                else if (item.Name == Localization.GetString("Recruiting"))
                 {
                     ret &= appendRecruit();
                 }
-                else if (item.Name == "访问好友")
+                else if (item.Name == Localization.GetString("Visiting"))
                 {
                     ret &= asstProxy.AsstAppendVisit();
                 }
-                else if (item.Name == "收取信用及购物")
+                else if (item.Name == Localization.GetString("Mall"))
                 {
                     ret &= appendMall();
                 }
-                else if (item.Name == "领取日常奖励")
+                else if (item.Name == Localization.GetString("Mission"))
                 {
                     ret &= asstProxy.AsstAppendAward();
                 }
-                else if (item.Name == "自动肉鸽")
+                else if (item.Name == Localization.GetString("AutoRoguelike"))
                 {
                     ret &= appendRoguelike();
                 }

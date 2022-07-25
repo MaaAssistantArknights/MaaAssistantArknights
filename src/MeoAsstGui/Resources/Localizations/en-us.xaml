@@ -2,13 +2,39 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespaces:MeoAsstGui">
+    <!--Settings-->
     <system:String x:Key="Language">Language</system:String>
     <system:String x:Key="Settings">Settings</system:String>
-    <system:String x:Key="LanguageChangedTip">
-        The language setting has been changed, do you want to restart the application immediately to apply the language setting?
-    </system:String>
+    <system:String x:Key="LanguageChangedTip">The language setting has been changed, do you want to restart the application immediately to apply the language setting?</system:String>
     <system:String x:Key="Ok">OK</system:String>
     <system:String x:Key="ManualRestart">Later</system:String>
     <system:String x:Key="Tip">Tip</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
+    <!--Settings-->
+    <system:String x:Key="Farming">Farming</system:String>
+
+    <system:String x:Key="WakeUp">Wake Up</system:String>
+    <system:String x:Key="Recruiting">Recruiting</system:String>
+    <system:String x:Key="Base">Base</system:String>
+    <system:String x:Key="Combat">Combat</system:String>
+    <system:String x:Key="Visiting">Visiting</system:String>
+    <system:String x:Key="Mall">Mall</system:String>
+    <system:String x:Key="Mission">Mission</system:String>
+    <system:String x:Key="AutoRoguelike">Auto Roguelike</system:String>
+
+    <system:String x:Key="SelectAll">Select All</system:String>
+    <system:String x:Key="Inverse">Inverse</system:String>
+    <system:String x:Key="Clear">Clear</system:String>
+
+    <system:String x:Key="Then">Then</system:String>
+    <system:String x:Key="DoNothing">Do Nothing</system:String>
+    <system:String x:Key="ExitArknights">Exit Arknights</system:String>
+    <system:String x:Key="ExitMAA">Exit MAA</system:String>
+    <system:String x:Key="CloseEmulator">Close Emulator</system:String>
+    <system:String x:Key="ExitMAAAndCloseEmulator">Exit and Close Emulator</system:String>
+    <system:String x:Key="Hibernate">Hibernate*</system:String>
+    <system:String x:Key="Shutdown">Shutdown*</system:String>
+
+    <system:String x:Key="LinkStart">Link Start!</system:String>
+    <system:String x:Key="Stop">Stop</system:String>
 </ResourceDictionary>
