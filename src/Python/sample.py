@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
     asst.append_task('StartUp')
     asst.append_task('Fight', {
-        'stage': 'LastBattle',
+        'stage': '',
         'report_to_penguin': True,
         # 'penguin_id': '1234567'
     })
