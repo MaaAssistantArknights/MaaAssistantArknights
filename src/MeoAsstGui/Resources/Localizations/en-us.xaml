@@ -122,11 +122,27 @@
     <system:String x:Key="SelectTheFile">Select the file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be directly dragged in with the mouse(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">Auto squad</system:String>
-    <system:String x:Key="AutoSquadTip">The agent of 'special concern' cannot be identified at this time</system:String>
+    <system:String x:Key="AutoSquadTip">The agent of "special focus" cannot be identified at this time</system:String>
 
     <system:String x:Key="Start">Start</system:String>
 
     <system:String x:Key="CopilotJSONSharing">Copilot JSON Sharing</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
+
+    <!--Logs-->
+    <system:String x:Key="CopilotTip">Tips：</system:String>
+    <system:String x:Key="CopilotTip1">1.Please set the emulator and game frame rate to 60 frames or higher.</system:String>
+    <system:String x:Key="CopilotTip2">2.Please use this function only in the interface with "Start" button.</system:String>
+    <system:String x:Key="CopilotTip3">3.You can turn off the "Auto squad" when using friends to help you, and manually select an agent to start.</system:String>
+    <system:String x:Key="CopilotTip4">4.To Paradox Simulation, you need to turn off "Auto squad" and select a skill before starting on the interface of "Start" button.</system:String>
+    <system:String x:Key="CopilotTip5">5."Auto squad" can not identify the "special focus" crew members temporarily, please cancel the special attention or manual formation if necessary.</system:String>
+
+    <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
+    <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
+    <system:String x:Key="NetworkServiceError">Network service error!</system:String>
+    <system:String x:Key="CopilotJsonError">Copilot Json Error!</system:String>
+    <system:String x:Key="NotCopilotJson">Not Copilot Json</system:String>
+    <system:String x:Key="CheckTheFile">Please check the file contents!</system:String>
+    <!--Logs-->
     <!--Copilot-->
 </ResourceDictionary>

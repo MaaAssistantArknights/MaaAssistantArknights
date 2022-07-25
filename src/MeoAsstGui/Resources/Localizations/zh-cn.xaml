@@ -122,11 +122,27 @@
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
-    <system:String x:Key="AutoSquadTip">自动编队暂时无法识别'特别关注'的干员</system:String>
+    <system:String x:Key="AutoSquadTip">自动编队暂时无法识别“特别关注”的干员</system:String>
 
     <system:String x:Key="Start">开始</system:String>
 
     <system:String x:Key="CopilotJSONSharing">作业分享站</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
+
+    <!--日志-->
+    <system:String x:Key="CopilotTip">小提示：</system:String>
+    <system:String x:Key="CopilotTip1">1.请将模拟器及游戏帧率设置到 60 帧或更高；</system:String>
+    <system:String x:Key="CopilotTip2">2.请在有“开始行动”按钮的界面再使用本功能；</system:String>
+    <system:String x:Key="CopilotTip3">3.使用好友助战可以关闭“自动编队”，手动选择干员后开始；</system:String>
+    <system:String x:Key="CopilotTip4">4.模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；</system:String>
+    <system:String x:Key="CopilotTip5">5.“自动编队”暂时无法识别“特别关注”的干员，如有需求请取消特别关注或手动编队；</system:String>
+
+    <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>
+    <system:String x:Key="CopilotNoFound">未找到对应作业！</system:String>
+    <system:String x:Key="NetworkServiceError">请求网络服务错误！</system:String>
+    <system:String x:Key="CopilotJsonError">解析作业文件错误！</system:String>
+    <system:String x:Key="NotCopilotJson">非作业文件</system:String>
+    <system:String x:Key="CheckTheFile">请检查文件内容！</system:String>
+    <!--日志-->
     <!--自动战斗-->
 </ResourceDictionary>
