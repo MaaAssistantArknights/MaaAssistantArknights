@@ -5,6 +5,7 @@
 #include "Controller.h"
 #include "ProcessTask.h"
 #include "RecruitImageAnalyzer.h"
+#include "RecruitConfiger.h"
 #include "Logger.hpp"
 
 namespace asst::recruit_calc
@@ -22,7 +23,7 @@ namespace asst::recruit_calc
                 result.tags = { t };
                 result.min_level = 6;
                 result.max_level = 0;
-                result.avg_level = 3;
+                result.avg_level = 0;
                 return result;
             });
 
@@ -35,15 +36,15 @@ namespace asst::recruit_calc
                     rc.opers.push_back(op);
                     rc.min_level = (std::min)(rc.min_level, op.level);
                     rc.max_level = (std::max)(rc.max_level, op.level);
+                    rc.avg_level += op.level;
                 }
             }
 
             for (auto& rc : rcs_with_single_tag) {
+                rc.avg_level /= double(rc.opers.size());
                 // intersection and union are based on sorted container
                 std::sort(rc.tags.begin(), rc.tags.end());
                 std::sort(rc.opers.begin(), rc.opers.end());
-
-                rc.update_attributes();
             }
         }
 
@@ -409,18 +410,19 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
 
         if (need_exit()) return false;
 
-        // do not confirm, force skip
-        if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), final_combination.min_level) == m_confirm_level.cend()) {
-            out_force_skip = true;
-            out_selected = 0;
-            return true;
-        }
+        if (!is_calc_only_task()) {
+            // do not confirm, force skip
+            if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), final_combination.min_level) == m_confirm_level.cend()) {
+                out_force_skip = true;
+                out_selected = 0;
+                return true;
+            }
 
-        // do not confirm, force skip
-        if (m_skip_robot && has_robot_tag) {
-            out_force_skip = true;
-            out_selected = 0;
-            return true;
+            if (m_skip_robot && has_robot_tag) {
+                out_force_skip = true;
+                out_selected = 0;
+                return true;
+            }
         }
 
         // try to set the timer to 09:00:00
