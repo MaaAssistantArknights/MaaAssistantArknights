@@ -39,7 +39,7 @@
     <system:String x:Key="Hibernate">休眠*</system:String>
     <system:String x:Key="Shutdown">关机*</system:String>
 
-    <system:String x:Key="LinkStart">开始长草！</system:String>
+    <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
 
     <!--战斗设置-->
