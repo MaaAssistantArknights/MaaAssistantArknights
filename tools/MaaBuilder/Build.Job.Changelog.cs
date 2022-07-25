@@ -8,7 +8,11 @@ public partial class Build
 {
     static string AddContributorLink(string text)
     {
-        return Regex.Replace(text, @"@(\w+)", "[@$1](https://github.com/$1)");
+        //        "@ " -> "@ "
+        //       "`@`" -> "`@`"
+        //   "@MistEO" -> "[@MistEO](https://github.com/MistEO)"
+        // "[@MistEO]" -> "[@MistEO]"
+        return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
     }
     Target UseMaaChangeLog => _ => _
         .Triggers(SetMaaChangeLog)
