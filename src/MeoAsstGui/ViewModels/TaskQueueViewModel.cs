@@ -302,7 +302,7 @@ namespace MeoAsstGui
             }
             if (!hasSavedValue)
             {
-                Stage = "DefaultStage";
+                Stage = String.Empty;
             }
         }
 
@@ -1064,7 +1064,7 @@ namespace MeoAsstGui
             set { SetAndNotify(ref _stageList, value); }
         }
 
-        private string _stage = ViewStatusStorage.Get("MainFunction.Stage", "LastBattle");
+        private string _stage = ViewStatusStorage.Get("MainFunction.Stage", String.Empty);
 
         public string Stage
         {
