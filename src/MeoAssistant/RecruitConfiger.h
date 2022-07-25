@@ -22,7 +22,7 @@ namespace asst
         bool hidden = false;
         std::string name_en;
 
-        bool has_tag(const std::string &tag) const {
+        [[nodiscard]] bool has_tag(const std::string &tag) const {
             return tags.find(tag) != tags.cend();
         }
 
@@ -45,14 +45,14 @@ namespace asst
 
         void update_attributes() {
             double sum = 0;
-            min_level = 6;
+            min_level = 7;
             max_level = 0;
             for (const auto& op : opers) {
                 sum += op.level;
                 min_level = (std::min)(min_level, op.level);
                 max_level = (std::max)(max_level, op.level);
             }
-            avg_level = sum / double(opers.size());
+            avg_level = sum / static_cast<double>(opers.size());
         }
 
         // intersection of two recruit combs
