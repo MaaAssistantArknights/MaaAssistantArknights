@@ -1,7 +1,6 @@
 #include "RecruitTask.h"
 
 #include "AutoRecruitTask.h"
-#include "RecruitCalcTask.h"
 #include "ProcessTask.h"
 
 asst::RecruitTask::RecruitTask(const AsstCallback& callback, void* callback_arg)
