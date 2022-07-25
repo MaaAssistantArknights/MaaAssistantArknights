@@ -16,7 +16,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <!-- 默认语言文件，这个资源会被动态修改，所以需要放在第一位 -->
                 <!-- Reference: Helper/Localization.cs -->
-                <ResourceDictionary Source="/MeoAsstGui;component/Resources/Localizations/en-us.xaml"/>
+                <ResourceDictionary Source="/MeoAsstGui;component/Resources/Localizations/zh-cn.xaml" />
                 <s:ApplicationLoader>
                     <s:ApplicationLoader.Bootstrapper>
                         <local:Bootstrapper />

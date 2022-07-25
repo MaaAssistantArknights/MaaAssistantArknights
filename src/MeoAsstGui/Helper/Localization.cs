@@ -18,9 +18,10 @@ namespace MeoAsstGui
 {
     public class Localization
     {
+        private static string culture = ViewStatusStorage.Get("GUI.Localization", "zh-cn");
+
         public static void Load()
         {
-            var culture = ViewStatusStorage.Get("GUI.Localization", "en-us");
             var cultureInfo = new CultureInfo(culture);
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
             Thread.CurrentThread.CurrentCulture = cultureInfo;
@@ -34,7 +35,6 @@ namespace MeoAsstGui
 
         public static string GetString(string key)
         {
-            var culture = ViewStatusStorage.Get("GUI.Localization", "en-us");
             var dictionary = new ResourceDictionary
             {
                 Source = new Uri($@"Resources\Localizations\{culture}.xaml", UriKind.Relative)
