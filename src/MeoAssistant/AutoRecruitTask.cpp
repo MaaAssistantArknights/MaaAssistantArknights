@@ -21,8 +21,8 @@ namespace asst::recruit_calc
             {
                 RecruitCombs result;
                 result.tags = { t };
-                result.min_level = 3;
-                result.max_level = 3;
+                result.min_level = 6;
+                result.max_level = 0;
                 result.avg_level = 3;
                 return result;
             });
@@ -35,7 +35,7 @@ namespace asst::recruit_calc
                     if (op.level == 6 && rc.tags.front() != SeniorOper) continue;
                     rc.opers.push_back(op);
                     rc.min_level = (std::min)(rc.min_level, op.level);
-                    rc.max_level = (std::min)(rc.max_level, op.level);
+                    rc.max_level = (std::max)(rc.max_level, op.level);
                 }
             }
 
@@ -44,7 +44,7 @@ namespace asst::recruit_calc
                 std::sort(rc.tags.begin(), rc.tags.end());
                 std::sort(rc.opers.begin(), rc.opers.end());
 
-                rc.recompute_average_level();
+                rc.update_attributes();
             }
         }
 
@@ -448,17 +448,19 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
             continue;
         }
 
+        if (need_exit()) return false;
+
+        if (m_set_time) {
+            for (const Rect& rect : image_analyzer.get_set_time_rect()) {
+                m_ctrler->click(rect);
+            }
+        }
+
         if (std::find(m_select_level.cbegin(), m_select_level.cend(), final_combination.min_level) == m_select_level.cend()) {
             // nothing to select
             out_force_skip = false;
             out_selected = 0;
             return true;
-        }
-
-        if (need_exit()) return false;
-
-        if (m_set_time){
-            Log.error(__FILE__, __LINE__, "SET TIME NOT IMPLEMENTED"); // TODO: set time
         }
 
         for (const std::string& final_tag_name : final_combination.tags) {
