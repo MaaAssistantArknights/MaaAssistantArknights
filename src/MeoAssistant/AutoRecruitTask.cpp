@@ -41,7 +41,7 @@ namespace asst::recruit_calc
             }
 
             for (auto& rc : rcs_with_single_tag) {
-                rc.avg_level /= double(rc.opers.size());
+                rc.avg_level /= static_cast<double>(rc.opers.size());
                 // intersection and union are based on sorted container
                 std::sort(rc.tags.begin(), rc.tags.end());
                 std::sort(rc.opers.begin(), rc.opers.end());
@@ -66,7 +66,7 @@ namespace asst::recruit_calc
                 for (size_t k = j + 1; k < tags.size(); ++k) {
                     RecruitCombs temp3 = temp2 * rcs_with_single_tag[k];
                     if (temp3.opers.empty()) continue;
-                    result.push_back(temp2 * rcs_with_single_tag[k]);
+                    result.push_back(temp3);
                 }
             }
         }
@@ -138,7 +138,7 @@ bool asst::AutoRecruitTask::_run()
 
     size_t slot_fail = 0;
     size_t recruit_times = 0; // how many times has the confirm button been pressed, NOT expedited plan used
-    while ((m_use_expedited || !m_pending_recruit_slot.empty()) && recruit_times != m_max_times) {
+    while ((m_use_expedited || !m_pending_recruit_slot.empty()) && static_cast<int>(recruit_times) != m_max_times) {
         if (slot_fail >= slot_retry_limit) { return false; }
         if (m_use_expedited) {
             Log.info("ready to use expedited");
@@ -303,7 +303,7 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
         auto robot_iter = std::find_first_of(RobotTags.cbegin(), RobotTags.cend(), tag_names.cbegin(), tag_names.cend());
         if (robot_iter != RobotTags.cend()) {
             json::value info = basic_info();
-            info["what"] = "RecruitSpecialTag";
+            info["what"] = "RecruitRobotTag";
             info["details"] = json::object{{ "tag", *robot_iter }};
             callback(AsstMsg::SubTaskExtraInfo, info);
             has_robot_tag = true;
@@ -457,7 +457,7 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
             callback(AsstMsg::SubTaskExtraInfo, info);
         }
 
-        out_selected = int(final_combination.tags.size());
+        out_selected = static_cast<int>(final_combination.tags.size());
         out_force_skip = false;
         return true;
     }
