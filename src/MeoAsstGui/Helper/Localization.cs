@@ -13,12 +13,39 @@ using System;
 using System.Windows;
 using System.Threading;
 using System.Globalization;
+using System.Collections.Generic;
 
 namespace MeoAsstGui
 {
     public class Localization
     {
-        private static string culture = ViewStatusStorage.Get("GUI.Localization", "zh-cn");
+        public static readonly Dictionary<string, string> SupportedLanguages = new Dictionary<string, string> {
+            { "zh-cn", "简体中文" },
+            { "en-us", "English" }
+        };
+
+        public static string DefaultLanguage
+        {
+            get
+            {
+                var local = CultureInfo.CurrentCulture.Name.ToLower();
+                if (SupportedLanguages.ContainsKey(local))
+                {
+                    return local;
+                }
+
+                if (local.StartsWith("zh"))
+                {
+                    return "zh-cn";
+                }
+                else
+                {
+                    return "en-us";
+                }
+            }
+        }
+
+        private static readonly string culture = ViewStatusStorage.Get("GUI.Localization", DefaultLanguage);
 
         public static void Load()
         {
