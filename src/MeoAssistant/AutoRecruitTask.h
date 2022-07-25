@@ -24,7 +24,7 @@ namespace asst
 
         bool is_calc_only_task() { return m_max_times <= 0 || m_confirm_level.empty(); }
         bool analyze_start_buttons();
-        bool recruit_index(size_t index);
+        bool recruit_one();
         bool calc_and_recruit();
         bool check_recruit_home_page();
         bool recruit_begin();
@@ -44,6 +44,7 @@ namespace asst
         bool m_set_time = true;
 
         std::vector<TextRect> m_start_buttons;
+        std::list<size_t> m_pending_recruit_slot;
         int m_cur_times = 0;
     };
 }
