@@ -6097,6 +6097,52 @@
             "Roguelike1CloseCollection"
         ]
     },
+    "Roguelike1Custom-HijackSquad": {
+        "algorithm": "OcrDetect",
+        "text": [
+
+        ],
+        "roi": [
+            0,
+            383,
+            1280,
+            142
+        ],
+        "ocrReplace": [
+
+        ]
+    },
+    "Roguelike1Custom-HijackRoles": {
+        "algorithm": "OcrDetect",
+        "text": [
+
+        ],
+        "roi": [
+            54,
+            356,
+            1172,
+            183
+        ],
+        "ocrReplace": [
+
+        ]
+    },
+    "Roguelike1Custom-HijackCoChar": {
+        "algorithm": "OcrDetect",
+        "text": [
+
+        ],
+        "roi": [
+            186,
+            298,
+            913,
+            200
+        ],
+        "ocrReplace": [
+
+        ],
+        "preDelay": 1000
+    },
     "Roguelike1Recruit1": {
         "action": "ClickSelf",
         "cache": false,
