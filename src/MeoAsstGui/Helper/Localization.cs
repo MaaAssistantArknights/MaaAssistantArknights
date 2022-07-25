@@ -33,15 +33,15 @@ namespace MeoAsstGui
                 {
                     return local;
                 }
-
-                if (local.StartsWith("zh"))
+                foreach (var lang in SupportedLanguages)
                 {
-                    return "zh-cn";
+                    var key = lang.Key.Contains("-") ? lang.Key.Split('-')[0] : lang.Key;
+                    if (local.StartsWith(key) || key.StartsWith(local))
+                    {
+                        return lang.Key;
+                    }
                 }
-                else
-                {
-                    return "en-us";
-                }
+                return "en-us";
             }
         }
 
