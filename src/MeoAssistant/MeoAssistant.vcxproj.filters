@@ -354,6 +354,9 @@
     <ClInclude Include="RoguelikeControlTaskPlugin.h">
       <Filter>头文件\Task\Plugin\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="RoguelikeCustomStartTaskPlugin.h">
+      <Filter>头文件\Task\Plugin\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -606,6 +609,9 @@
       <Filter>源文件\Task\Plugin\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="RoguelikeControlTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeCustomStartTaskPlugin.cpp">
       <Filter>源文件\Task\Plugin\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
