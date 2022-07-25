@@ -3,6 +3,7 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespaces:MeoAsstGui">
     <!--Settings-->
+    <system:String x:Key="SwitchLanguage">Switch Language</system:String>
     <system:String x:Key="Language">Language</system:String>
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="LanguageChangedTip">The language setting has been changed, do you want to restart the application immediately to apply the language setting?</system:String>

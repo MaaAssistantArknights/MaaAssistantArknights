@@ -23,6 +23,7 @@ namespace MeoAsstGui
     {
         private NotifyIcon notifyIcon = new NotifyIcon();
         private TaskQueueViewModel taskQueueViewModel;
+        private SettingsViewModel settingsViewModel;
         private WindowState ws; //记录窗体状态
         private bool _isMinimizeToTaskbar = false;
 
@@ -43,11 +44,25 @@ namespace MeoAsstGui
             startMenu.Click += StartTask;
             MenuItem stopMenu = new System.Windows.Forms.MenuItem("全部停止");
             stopMenu.Click += StopTask;
+
+            MenuItem switchLangMenu = new System.Windows.Forms.MenuItem(Localization.GetString("SwitchLanguage"));
+
+            foreach (var lang in Localization.SupportedLanguages)
+            {
+                var langMenu = new MenuItem(lang.Value);
+                langMenu.Click += delegate (object sender, EventArgs e)
+                {
+                    settingsViewModel.Language = lang.Key;
+                };
+                switchLangMenu.MenuItems.Add(langMenu);
+            }
+
             MenuItem exitMenu = new System.Windows.Forms.MenuItem("退出");
             exitMenu.Click += App_exit;
-            System.Windows.Forms.MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, exitMenu };
+            System.Windows.Forms.MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, exitMenu };
             this.notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(menuItems);
         }
+
         /// <summary>
         /// 只应该在TaskQueueViewModel的构造函数中调用这个函数，不要传入一个随便new出来的TaskQueueViewModel
         /// </summary>
@@ -55,6 +70,11 @@ namespace MeoAsstGui
         public void SetTaskQueueViewModel(TaskQueueViewModel taskQueueViewModel)
         {
             this.taskQueueViewModel = taskQueueViewModel;
+        }
+
+        public void SetSettingsViewModel(SettingsViewModel settingsViewModel)
+        {
+            this.settingsViewModel = settingsViewModel;
         }
 
         private void MainWindow_StateChanged(object sender, EventArgs e)

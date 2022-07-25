@@ -6,7 +6,7 @@
 编队|Squads|編成|편성
 干员|Operator|人事|오퍼레이터
 采购中心|Store|購買部|구매센터
-招募|Recruitment||모집
+招募|Recruitment|SCOUT|모집
 公开招募|Recruit|公開求人|공개모집
 干员寻访|Headhunt|人材発掘|헤드헌팅
 任务|Mission|任務|임무
