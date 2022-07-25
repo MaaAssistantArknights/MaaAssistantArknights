@@ -186,23 +186,23 @@ namespace MeoAsstGui
 
             AllStageList = new List<CombData>
             {
-                new CombData { Display = "当前关卡", Value = string.Empty },
-                new CombData { Display = "上次作战", Value = "LastBattle" },
+                new CombData { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
+                new CombData { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
 
-                new CombData { Display = "1-7", Value = "1-7" },
-                new CombData { Display = "龙门币-6/5", Value = "CE-6" },
-                new CombData { Display = "红票-5", Value = "AP-5" },
-                new CombData { Display = "技能-5", Value = "CA-5" },
-                new CombData { Display = "经验-6/5", Value = "LS-6" },
+                new CombData { Display = Localization.GetString("1-7"), Value = "1-7" },
+                new CombData { Display = Localization.GetString("CE-6"), Value = "CE-6" },
+                new CombData { Display = Localization.GetString("AP-5"), Value = "AP-5" },
+                new CombData { Display = Localization.GetString("CA-5"), Value = "CA-5" },
+                new CombData { Display = Localization.GetString("LS-6"), Value = "LS-6" },
 
-                new CombData { Display = "奶/盾芯片", Value = "PR-A-1" },
-                new CombData { Display = "奶/盾芯片组", Value = "PR-A-2" },
-                new CombData { Display = "术/狙芯片", Value = "PR-B-1" },
-                new CombData { Display = "术/狙芯片组", Value = "PR-B-2" },
-                new CombData { Display = "先/辅芯片", Value = "PR-C-1" },
-                new CombData { Display = "先/辅芯片组", Value = "PR-C-2" },
-                new CombData { Display = "近/特芯片", Value = "PR-D-1" },
-                new CombData { Display = "近/特芯片组", Value = "PR-D-2" },
+                new CombData { Display = Localization.GetString("PR-A-1"), Value = "PR-A-1" },
+                new CombData { Display = Localization.GetString("PR-A-2"), Value = "PR-A-2" },
+                new CombData { Display = Localization.GetString("PR-B-1"), Value = "PR-B-1" },
+                new CombData { Display = Localization.GetString("PR-B-2"), Value = "PR-B-2" },
+                new CombData { Display = Localization.GetString("PR-C-1"), Value = "PR-C-1" },
+                new CombData { Display = Localization.GetString("PR-C-2"), Value = "PR-C-2" },
+                new CombData { Display = Localization.GetString("PR-D-1"), Value = "PR-D-1" },
+                new CombData { Display = Localization.GetString("PR-D-2"), Value = "PR-D-2" },
 
                 // SideStory「绿野幻梦」活动
                 // new CombData { Display = "DV-6", Value = "DV-6" },

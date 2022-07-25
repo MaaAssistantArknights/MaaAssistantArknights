@@ -67,7 +67,7 @@
         <StackPanel Grid.Row="5"  Orientation="Horizontal">
             <TextBlock Style="{StaticResource TextBlockDefault}" Margin="20,10,0,10" VerticalAlignment="Center"
                    Text="{DynamicResource StageSelect}" TextWrapping="Wrap" FontSize="14" />
-            <ComboBox Width="120" Margin="24,10,10,10"
+            <ComboBox Width="128" Margin="24,10,10,10"
                       IsHitTestVisible ="{c:Binding !FightTaskRunning}"
                       ItemsSource="{Binding StageList}"
                       DisplayMemberPath="Display"
