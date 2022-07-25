@@ -38,7 +38,7 @@
                     </Grid.ColumnDefinitions>
                     <ListBox x:Name="TaskList" Grid.Row="0" Grid.ColumnSpan="2" Width="200" Margin="0,10,0,0" HorizontalAlignment="Center"
                  dd:DragDrop.IsDragSource="{Binding Idle}" dd:DragDrop.IsDropTarget="{Binding Idle}"
-                  ItemsSource="{Binding Path=TaskItemViewModels}" BorderThickness="0" ToolTip="标签顺序可拖动">
+                  ItemsSource="{Binding Path=TaskItemViewModels}" BorderThickness="0" ToolTip="{DynamicResource LabelSequenceTip}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

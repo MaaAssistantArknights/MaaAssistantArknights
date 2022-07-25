@@ -10,7 +10,11 @@
     <system:String x:Key="ManualRestart">Later</system:String>
     <system:String x:Key="Tip">Tip</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
+
+    <system:String x:Key="LabelSequenceTip">The label sequence can be dragged</system:String>
     <!--Settings-->
+
+    <!--Farming-->
     <system:String x:Key="Farming">Farming</system:String>
 
     <system:String x:Key="WakeUp">Wake Up</system:String>
@@ -37,4 +41,15 @@
 
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
+
+    <!--FightSettings-->
+    <system:String x:Key="UseSanityPotion">Use Sanity Potion</system:String>
+    <system:String x:Key="UseOriginitePrime">Use Originite Prime*</system:String>
+    <system:String x:Key="PerformBattles">Perform Battles*</system:String>
+    <system:String x:Key="AssignedMaterial">Material</system:String>
+    <system:String x:Key="Quantity">quantity</system:String>
+    <system:String x:Key="StageSelect">Stage</system:String>
+    <system:String x:Key="Amend">Amend</system:String>
+    <!--FightSettings-->
+    <!--Farming-->
 </ResourceDictionary>
