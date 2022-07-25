@@ -51,8 +51,9 @@
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="Amend">修改</system:String>
 
-    <system:String x:Key="CurrentStage">当前关卡</system:String>
-    <system:String x:Key="LastBattle">上次作战</system:String>
+    <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
+    <system:String x:Key="LastBattle">上次作战</system:String>-->
+    <system:String x:Key="DefaultStage">当前/上次</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>
     <system:String x:Key="AP-5">红票-5</system:String>

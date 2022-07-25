@@ -31,7 +31,7 @@ def job():
     # asst.append_task('StartUp')
     asst.append_task('Fight', {
         'report_to_penguin': True,
-        'stage': 'LastBattle',
+        'stage': '',
         # 'penguin_id': '1234567'
     })
     asst.append_task('Recruit', {

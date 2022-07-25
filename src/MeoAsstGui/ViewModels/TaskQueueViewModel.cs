@@ -186,8 +186,9 @@ namespace MeoAsstGui
 
             AllStageList = new List<CombData>
             {
-                new CombData { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
-                new CombData { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
+                new CombData { Display = Localization.GetString("DefaultStage"), Value = string.Empty },
+                //new CombData { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
+                //new CombData { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
 
                 new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = Localization.GetString("CE-6"), Value = "CE-6" },
@@ -301,7 +302,7 @@ namespace MeoAsstGui
             }
             if (!hasSavedValue)
             {
-                Stage = "LastBattle";
+                Stage = "DefaultStage";
             }
         }
 
