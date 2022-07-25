@@ -67,7 +67,36 @@
     <system:String x:Key="PR-C-2">Pio/Sup Ⅱ</system:String>
     <system:String x:Key="PR-D-1">Grd/Spc Ⅰ</system:String>
     <system:String x:Key="PR-D-2">Grd/Spc Ⅱ</system:String>
+
+    <system:String x:Key="TodaysStageTip">Today's Stage tips:</system:String>
+    <system:String x:Key="CETip">CE(LMB)</system:String>
+    <system:String x:Key="APTip">AP(Shop Voucher)</system:String>
+    <system:String x:Key="CATip">CA(Skill Summary)</system:String>
+    <system:String x:Key="LSTip">LS(Battle Record)</system:String>
+    <system:String x:Key="SKTip">SK(Carbon)</system:String>
+    <system:String x:Key="PR-ATip">Med/Def Chip</system:String>
+    <system:String x:Key="PR-BTip">Cst/Sni Chip</system:String>
+    <system:String x:Key="PR-CTip">Pio/Sup Chip</system:String>
+    <system:String x:Key="PR-DTip">Grd/Spc Chip</system:String>
+    <system:String x:Key="Pormpt1">It's time to complete Annihilation</system:String>
+    <system:String x:Key="Pormpt2">Don't forget Annihilation</system:String>
     <!--FightSettings-->
+
+    <!--Logs-->
+    <system:String x:Key="ConnectingToEmulator">Connecting to emulator...</system:String>
+    <system:String x:Key="UnselectedTask">Unselected task</system:String>
+    <system:String x:Key="Running">Running...</system:String>
+    <system:String x:Key="Stopped">Has stopped</system:String>
+    <system:String x:Key="UnknownErrorOccurs">Unknown error occurs</system:String>
+    <system:String x:Key="SetSuccessfully">Set successfully</system:String>
+    <system:String x:Key="SetFailed">Set failed</system:String>
+    <system:String x:Key="CloseArknightsFailed">Close Arknights failed</system:String>
+    <system:String x:Key="CloseEmulatorFailed">Close emulator failed</system:String>
+    <system:String x:Key="AboutToShutdown">The task is completed and will be shut down. Do you want to cancel?</system:String>
+    <system:String x:Key="ShutdownPrompt">Tip</system:String>
+    <system:String x:Key="HibernatePrompt">Task completed, about to hibernate</system:String>
+
+    <!--Logs-->
     <!--Farming-->
 
     <!--Recognition-->

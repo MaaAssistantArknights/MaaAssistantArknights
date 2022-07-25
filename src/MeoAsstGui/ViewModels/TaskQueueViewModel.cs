@@ -189,7 +189,7 @@ namespace MeoAsstGui
                 new CombData { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
                 new CombData { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
 
-                new CombData { Display = Localization.GetString("1-7"), Value = "1-7" },
+                new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = Localization.GetString("CE-6"), Value = "CE-6" },
                 new CombData { Display = Localization.GetString("AP-5"), Value = "AP-5" },
                 new CombData { Display = Localization.GetString("CA-5"), Value = "CA-5" },
@@ -226,25 +226,25 @@ namespace MeoAsstGui
 
             _stageAvailableInfo = new Dictionary<string, Tuple<List<DayOfWeek>, string>>
             {
-                { "CE-6", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "货物运送（龙门币）") },
-                { "AP-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "粉碎防御（红票）") },
-                { "CA-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday }, "空中威胁（技能）") },
-                { "LS-6", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "战术演习（经验）") },
+                { "CE-6", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("CETip")) },
+                { "AP-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("APTip")) },
+                { "CA-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday }, Localization.GetString("CATip")) },
+                { "LS-6", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("LSTip")) },
                 // 碳本没做导航
-                { "SK-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday }, "资源保障（碳）") },
+                { "SK-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday }, Localization.GetString("SKTip")) },
 
-                { "PR-A-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, "奶/盾芯片") },
+                { "PR-A-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, Localization.GetString("PR-ATip")) },
                 { "PR-A-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, "") },
-                { "PR-B-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday }, "术/狙芯片") },
+                { "PR-B-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday }, Localization.GetString("PR-BTip")) },
                 { "PR-B-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday }, "") },
-                { "PR-C-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "先/辅芯片") },
+                { "PR-C-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("PR-CTip")) },
                 { "PR-C-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "") },
-                { "PR-D-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "近/特芯片") },
+                { "PR-D-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("PR-DTip")) },
                 { "PR-D-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "") },
 
                 // 下面的不支持导航
-                { "Pormpt1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday }, "周一了，可以打剿灭了~") },
-                { "Pormpt2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Sunday }, "周日了，记得打剿灭哦~") }
+                { "Pormpt1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday }, Localization.GetString("Pormpt1")) },
+                { "Pormpt2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Sunday }, Localization.GetString("Pormpt1")) }
             };
 
             InitDrops();
@@ -327,7 +327,7 @@ namespace MeoAsstGui
 
         public void UpdateDatePrompt()
         {
-            var prompt = "今日关卡小提示：\n";
+            var prompt = Localization.GetString("TodaysStageTip") + "\n";
 
             foreach (var item in _stageAvailableInfo)
             {
@@ -517,7 +517,7 @@ namespace MeoAsstGui
 
             SaveSettingValue();
 
-            AddLog("正在连接模拟器……");
+            AddLog(Localization.GetString("ConnectingToEmulator"));
 
             var asstProxy = _container.Get<AsstProxy>();
             string errMsg = "";
@@ -608,7 +608,7 @@ namespace MeoAsstGui
             }
             if (count == 0)
             {
-                AddLog("未选择任务");
+                AddLog(Localization.GetString("UnselectedTask"));
                 Idle = true;
                 return;
             }
@@ -622,11 +622,11 @@ namespace MeoAsstGui
 
             if (ret)
             {
-                AddLog("正在运行中……");
+                AddLog(Localization.GetString("Running"));
             }
             else
             {
-                AddLog("出现未知错误");
+                AddLog(Localization.GetString("UnknownErrorOccurs"));
             }
         }
 
@@ -634,7 +634,7 @@ namespace MeoAsstGui
         {
             var asstProxy = _container.Get<AsstProxy>();
             asstProxy.AsstStop();
-            AddLog("已停止");
+            AddLog(Localization.GetString("Stopped"));
             Idle = true;
         }
 
@@ -742,11 +742,11 @@ namespace MeoAsstGui
             bool setted = asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
             if (setted)
             {
-                AddLog("设置成功", "Black");
+                AddLog(Localization.GetString("SetSuccessfully"), "Black");
             }
             else
             {
-                AddLog("设置失败", "Black");
+                AddLog(Localization.GetString("SetFailed"), "Red");
             }
         }
 
@@ -897,7 +897,7 @@ namespace MeoAsstGui
                     var asstProxy = _container.Get<AsstProxy>();
                     if (!asstProxy.AsstStartCloseDown())
                     {
-                        AddLog("关闭游戏失败", "DarkRed");
+                        AddLog(Localization.GetString("CloseArknightsFailed"), "DarkRed");
                     }
                     break;
 
@@ -910,14 +910,14 @@ namespace MeoAsstGui
                 case ActionType.ExitEmulator:
                     if (!killemulator())
                     {
-                        AddLog("模拟器关闭失败", "DarkRed");
+                        AddLog(Localization.GetString("CloseEmulatorFailed"), "DarkRed");
                     }
                     break;
 
                 case ActionType.ExitEmulatorAndSelf:
                     if (!killemulator())
                     {
-                        AddLog("模拟器关闭失败", "DarkRed");
+                        AddLog(Localization.GetString("CloseEmulatorFailed"), "DarkRed");
                     }
                     // Shutdown 会调用 OnExit 但 Exit 不会
                     App.Current.Shutdown();
@@ -926,7 +926,8 @@ namespace MeoAsstGui
 
                 case ActionType.Shutdown:
                     System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
-                    var shutdownResult = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
+                    // 关机询问
+                    var shutdownResult = _windowManager.ShowMessageBox(Localization.GetString("AboutToShutdown"), Localization.GetString("ShutdownPrompt"), MessageBoxButton.OK, MessageBoxImage.Question);
                     if (shutdownResult == MessageBoxResult.OK)
                     {
                         System.Diagnostics.Process.Start("shutdown.exe", "-a");
@@ -940,7 +941,8 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.Hibernate:
-                    AddLog("已刷完，即将休眠", "DarkRed");
+                    // 休眠提示
+                    AddLog(Localization.GetString("HibernatePrompt"), "DarkRed");
                     // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
                     System.Diagnostics.Process.Start("shutdown.exe", "-h");
                     break;
