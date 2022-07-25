@@ -37,7 +37,7 @@ namespace MeoAsstGui
         {
             _container = container;
             _windowManager = windowManager;
-            DisplayName = "自动战斗 Beta";
+            DisplayName = Localization.GetString("Copilot");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             AddLog("小提示：\n\n请将模拟器及游戏帧率设置到 60 帧或更高；\n\n请在有“开始行动”按钮的界面再使用本功能；\n\n使用好友助战可以关闭“自动编队”，手动选择干员后开始；\n\n模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；\n\n自动编队暂时无法识别“特别关注”的干员，如有需求请取消特别关注或手动编队；", "dark");
         }
@@ -295,7 +295,7 @@ namespace MeoAsstGui
             ClearLog();
             if (_form)
             {
-                AddLog("自动编队暂时无法识别“特别关注”的干员，如有需求请取消特别关注或手动编队", "dark");
+                AddLog(Localization.GetString("AutoSquadTip"), "dark");
             }
             AddLog("正在连接模拟器……");
 
@@ -344,7 +344,7 @@ namespace MeoAsstGui
 
         public string Url
         {
-            get => _url == CopilotUiUrl ? "作业分享站" : "视频链接";
+            get => _url == CopilotUiUrl ? Localization.GetString("CopilotJSONSharing") : Localization.GetString("VideoLink");
             set => SetAndNotify(ref _url, value);
         }
 

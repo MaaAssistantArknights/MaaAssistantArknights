@@ -54,7 +54,7 @@
     <!--Farming-->
 
     <!--Recognition-->
-    <system:String x:Key="Recognition">Recognition</system:String>
+    <system:String x:Key="Recognition">Recruit tools</system:String>
     <system:String x:Key="RecognitionTip">Tip: Recognition and the main interface are two independent functions, please manually open the game public recruitment Tags then using ~</system:String>
     <system:String x:Key="AutoSettingTime">Auto setting time</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto Select Level 3 Tags</system:String>
@@ -63,4 +63,18 @@
     <system:String x:Key="AutoSelectLevel6Tags">Auto Select Level 6 Tags</system:String>
     <system:String x:Key="BeganToRecruit">Began To Recruit</system:String>
     <!--Recognition-->
+
+    <!--Copilot-->
+    <system:String x:Key="Copilot">Copilot Beta</system:String>
+    <system:String x:Key="CopilotLocation">Task file / url</system:String>
+    <system:String x:Key="SelectTheFile">Select the file</system:String>
+    <system:String x:Key="SelectTheFileTip">Task files can be directly dragged in with the mouse(oﾟvﾟ)ノ</system:String>
+    <system:String x:Key="AutoSquad">Auto squad</system:String>
+    <system:String x:Key="AutoSquadTip">The agent of 'special concern' cannot be identified at this time</system:String>
+
+    <system:String x:Key="Start">Start</system:String>
+
+    <system:String x:Key="CopilotJSONSharing">Copilot JSON Sharing</system:String>
+    <system:String x:Key="VideoLink">Video Link</system:String>
+    <!--Copilot-->
 </ResourceDictionary>

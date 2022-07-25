@@ -63,4 +63,18 @@
     <system:String x:Key="AutoSelectLevel6Tags">自动选择6星Tags</system:String>
     <system:String x:Key="BeganToRecruit">开始识别</system:String>
     <!--公招识别-->
+
+    <!--自动战斗-->
+    <system:String x:Key="Copilot">自动战斗 Beta</system:String>
+    <system:String x:Key="CopilotLocation">作业路径/神秘代码</system:String>
+    <system:String x:Key="SelectTheFile">选择作业</system:String>
+    <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦(oﾟvﾟ)ノ</system:String>
+    <system:String x:Key="AutoSquad">自动编队</system:String>
+    <system:String x:Key="AutoSquadTip">自动编队暂时无法识别'特别关注'的干员</system:String>
+
+    <system:String x:Key="Start">开始</system:String>
+
+    <system:String x:Key="CopilotJSONSharing">作业分享站</system:String>
+    <system:String x:Key="VideoLink">视频链接</system:String>
+    <!--自动战斗-->
 </ResourceDictionary>
