@@ -25,10 +25,10 @@ namespace MeoAsstGui
         {
             _container = container;
             _windowManager = windowManager;
-            DisplayName = "公招识别";
+            DisplayName = Localization.GetString("Recognition");
         }
 
-        private string _recruitInfo = "小提示：和主界面的自动公招是两个独立的功能，请手动打开游戏公招Tags界面后使用~";
+        private string _recruitInfo = Localization.GetString("RecognitionTip");
 
         public string RecruitInfo
         {
