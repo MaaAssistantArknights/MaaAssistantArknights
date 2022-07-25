@@ -19,14 +19,14 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="作业路径/神秘代码" Margin="10" />
+                   Text="{DynamicResource CopilotLocation}" Margin="10" />
             <TextBox Text="{Binding Filename}" Margin="10" IsReadOnly="{c:Binding Path=!Idle}"
                      Width="300" Height="30" />
-            <Button Command="{s:Action SelectFile}" IsEnabled="{Binding Idle}" Content="选择作业" Width="120" Height="50" Margin="10" ToolTip="作业文件可以直接用鼠标拖进来哦(oﾟvﾟ)ノ"/>
-            <CheckBox IsChecked="{Binding Form}" HorizontalAlignment="Center" IsHitTestVisible="{Binding Idle}" Content="自动编队" Height="50" Margin="10"
-                      ToolTip="自动编队暂时无法识别'特别关注'的干员"/>
-            <Button Command="{s:Action Start}" IsEnabled="{Binding Idle}" Content="开始" Width="120" Height="50" Margin="10" />
-            <Button Command="{s:Action Stop}" Content="停止" Width="120" Height="50" Margin="10" />
+            <Button Command="{s:Action SelectFile}" IsEnabled="{Binding Idle}" Content="{DynamicResource SelectTheFile}" Width="120" Height="50" Margin="10" ToolTip="{DynamicResource SelectTheFileTip}"/>
+            <CheckBox IsChecked="{Binding Form}" HorizontalAlignment="Center" IsHitTestVisible="{Binding Idle}" Content="{DynamicResource AutoSquad}" Height="50" Margin="10"
+                      ToolTip="{DynamicResource AutoSquadTip}"/>
+            <Button Command="{s:Action Start}" IsEnabled="{Binding Idle}" Content="{DynamicResource Start}" Width="120" Height="50" Margin="10" />
+            <Button Command="{s:Action Stop}" Content="{DynamicResource Stop}" Width="120" Height="50" Margin="10" />
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Margin="10">
                 <Hyperlink  Command="{s:Action Hyperlink_Click}" CommandParameter="{Binding Url}"><TextBlock Text="{Binding Url}" /></Hyperlink>
             </TextBlock>
