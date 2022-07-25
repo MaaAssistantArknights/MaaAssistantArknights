@@ -49,7 +49,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Button Grid.Row="1" Grid.Column="0" Command="{s:Action SelectedAll}" IsEnabled="{Binding Idle}" Content="全选" Width="{Binding SelectedAllWidth}" Height="30" VerticalAlignment="Top" />
+                    <Button Grid.Row="1" Grid.Column="0" Command="{s:Action SelectedAll}" IsEnabled="{Binding Idle}" Content="{DynamicResource SelectAll}" Width="{Binding SelectedAllWidth}" Height="30" VerticalAlignment="Top" />
                     <hc:SplitButton Grid.Row="1" Grid.Column="1" Command="{s:Action InverseSelected}"
                                     IsEnabled="{Binding Idle}" Content="{Binding InverseShowText}" 
                                     Width="{Binding InverseSelectedWidth}" Height="30"
@@ -64,7 +64,7 @@
                 </Grid>
             </Border>
             <TextBlock Grid.Row="1" Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Left" VerticalAlignment="Center"
-                       TextWrapping="Wrap" Text="完成后" Margin="17,0,0,0" />
+                       TextWrapping="Wrap" Text="{DynamicResource Then}" Margin="17,0,0,0" />
             <ComboBox Grid.Row="1" ItemsSource="{Binding ActionAfterCompletedList}"  VerticalAlignment="Center"
                       DisplayMemberPath="Display"
                       SelectedValuePath="Value"
@@ -80,8 +80,8 @@
                 <CheckBox IsChecked="{Binding Suspend}" Content="待机" Visibility="{Binding Visible}"  HorizontalAlignment="Center" VerticalAlignment="Center" />-->
             <!--</StackPanel>-->
 
-            <Button Grid.Row="2" Command="{s:Action LinkStart}" IsEnabled="{Binding Idle}" Content="LinkStart !" HorizontalAlignment="Center" Width="120" Height="50" Margin="5" />
-            <Button Grid.Row="3" Command="{s:Action Stop}" Content="停止" HorizontalAlignment="Center" Width="120" Height="50" Margin="5" />
+            <Button Grid.Row="2" Command="{s:Action LinkStart}" IsEnabled="{Binding Idle}" Content="{DynamicResource LinkStart}" HorizontalAlignment="Center" Width="120" Height="50" Margin="5" />
+            <Button Grid.Row="3" Command="{s:Action Stop}" Content="{DynamicResource Stop}" HorizontalAlignment="Center" Width="120" Height="50" Margin="5" />
         </Grid>
         <local:FightSettingsUserControl Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"  Margin="10" />
         <TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding StagesOfToday}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Margin="10" />

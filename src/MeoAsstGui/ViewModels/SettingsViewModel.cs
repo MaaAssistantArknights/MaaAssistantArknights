@@ -154,8 +154,8 @@ namespace MeoAsstGui
 
             InverseClearModeList = new List<CombData>
             {
-                new CombData { Display = "清空", Value = "Clear" },
-                new CombData { Display = "反选", Value = "Inverse" },
+                new CombData { Display = Localization.GetString("Clear"), Value = "Clear" },
+                new CombData { Display = Localization.GetString("Inverse"), Value = "Inverse" },
                 new CombData { Display = "可切换", Value = "ClearInverse" }
             };
 
