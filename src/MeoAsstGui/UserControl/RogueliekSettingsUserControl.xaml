@@ -18,7 +18,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="策略" VerticalAlignment="Center" Margin="10" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="{DynamicResource Strategy}" VerticalAlignment="Center" Margin="10" />
             <ComboBox Width="300" Margin="10"
                       IsHitTestVisible ="{Binding Path=Idle}"
                       ItemsSource="{Binding RoguelikeModeList}"
@@ -27,16 +27,16 @@
                       SelectedValue="{Binding RoguelikeMode}" />
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="开始次数限制" VerticalAlignment="Center" Margin="10" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="{DynamicResource StartTimesLimit}" VerticalAlignment="Center" Margin="10" />
             <hc:TextBox Text="{Binding RoguelikeStartsCount}" TextWrapping="Wrap" Margin="10"
                         Width="80" InputMethod.IsInputMethodEnabled="False" TextType="Int" />
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="投资次数限制" VerticalAlignment="Center" Margin="10" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="{DynamicResource GoldTimesLimit}" VerticalAlignment="Center" Margin="10" />
             <hc:TextBox Text="{Binding RoguelikeInvestsCount}" TextWrapping="Wrap" Margin="10"
                         Width="80" InputMethod.IsInputMethodEnabled="False" TextType="Int" />
         </StackPanel>
         <CheckBox Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"
-                      IsChecked="{Binding RoguelikeStopWhenInvestmentFull}" Content="源石锭达到上限停止任务" Margin="10" />
+                      IsChecked="{Binding RoguelikeStopWhenInvestmentFull}" Content="{DynamicResource StopOnGoldLimit}" Margin="10" />
     </Grid>
 </UserControl>

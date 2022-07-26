@@ -35,7 +35,7 @@
             <StackPanel Grid.Row="0"  Orientation="Vertical" Margin="0, 20">
                 <TextBlock Style="{StaticResource TextBlockDefault}" Margin="0, 5"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Text="无人机用途" />
+                   Text="{DynamicResource DroneUsage}" />
                 <ComboBox Width="150" Margin="0, 5"
                       ItemsSource="{Binding UsesOfDronesList}"
                       DisplayMemberPath="Display"

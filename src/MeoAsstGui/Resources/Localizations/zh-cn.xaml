@@ -74,6 +74,46 @@
     <system:String x:Key="LabelSequenceTip">标签顺序可拖动</system:String>
     <system:String x:Key="CheckBoxesNotSaved">该选项设置重启后不保存</system:String>
     <system:String x:Key="NoAutoNavigation">该选项不会自动导航至对应关卡</system:String>
+
+    <system:String x:Key="UpdateAutoCheck">自动检查更新</system:String>
+    <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
+    <system:String x:Key="UpdateCheckBeta">检查测试版本更新</system:String>
+    <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
+    <system:String x:Key="UpdateCheckNow">检查更新</system:String>
+    
+    <system:String x:Key="TimerTip">仅填写小时数，将在整点时执行</system:String>
+    <system:String x:Key="Timer">定时</system:String>
+
+    <system:String x:Key="LaunchOnSystemStartup">开机自动启动</system:String>
+    <system:String x:Key="RunTaskAfterLaunch">启动后直接运行</system:String>
+    <system:String x:Key="ClientVersion">客户端版本</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">启动后自动开启模拟器</system:String>
+    <system:String x:Key="WaitForEmulator">等待模拟器&#xA;启动时间（秒）</system:String>
+    <system:String x:Key="EmulatorPath">模拟器路径</system:String>
+    <system:String x:Key="Select">选择</system:String>
+    <system:String x:Key="AdditionCommand">附加命令</system:String>
+
+    <system:String x:Key="Strategy">策略</system:String>
+    <system:String x:Key="StartTimesLimit">开始次数限制</system:String>
+    <system:String x:Key="GoldTimesLimit">投资次数限制</system:String>
+    <system:String x:Key="StopOnGoldLimit">源石锭达到上限停止任务</system:String>
+
+    <system:String x:Key="PenguinID">企鹅数据汇报ID&#13;（仅数字部分）</system:String>
+
+    <system:String x:Key="SocialPtShop">信用购物</system:String>
+    <system:String x:Key="HighPriority">优先购买&#xA;子串即可，空格分隔</system:String>
+    <system:String x:Key="Blacklist">黑名单&#xA;子串即可，空格分隔</system:String>
+
+    <system:String x:Key="DroneUsage">无人机用途</system:String>
+
+    <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
+    <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
+    <system:String x:Key="HideUnavailableStage">关卡选择隐藏当日不开放关卡</system:String>
+    <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
+
+    <system:String x:Key="ADBPath">adb 路径&#xA;（相对/绝对均可）</system:String>
+    <system:String x:Key="ConnectionAddress">连接地址</system:String>
+    <system:String x:Key="ConnectionPreset">连接配置</system:String>
     <!--设置-->
 
     <!--一键长草-->

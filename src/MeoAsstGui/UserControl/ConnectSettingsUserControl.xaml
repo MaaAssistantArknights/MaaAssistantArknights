@@ -17,20 +17,20 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="adb 路径&#xA;（相对/绝对均可）" Margin="10" />
+                   Text="{DynamicResource ADBPath}" Margin="10" />
             <TextBox Text="{Binding AdbPath}" Margin="10"
                      Width="250" />
-            <Button Command="{s:Action SelectFile}" Content="选择" Margin="10" />
+            <Button Command="{s:Action SelectFile}" Content="{DynamicResource Select}" Margin="10" />
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="连接地址" Margin="10" />
+                   Text="{DynamicResource ConnectionAddress}" Margin="10" />
             <TextBox Text="{Binding ConnectAddress}" Margin="10"
                      Width="250" />
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="连接配置" Margin="10" />
+                   Text="{DynamicResource ConnectionPreset}" Margin="10" />
             <ComboBox Width="250" Margin="10"
                       ItemsSource="{Binding ConnectConfigList}"
                       DisplayMemberPath="Display"

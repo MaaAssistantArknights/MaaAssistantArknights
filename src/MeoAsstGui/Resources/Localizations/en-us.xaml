@@ -74,6 +74,46 @@
     <system:String x:Key="LabelSequenceTip">The label sequence can be dragged</system:String>
     <system:String x:Key="CheckBoxesNotSaved">This option is not saved after restart</system:String>
     <system:String x:Key="NoAutoNavigation">The feature does not automatically navigate to the stage</system:String>
+
+    <system:String x:Key="UpdateAutoCheck">Auto check update</system:String>
+    <system:String x:Key="UpdateAutoDownload">Auto download update</system:String>
+    <system:String x:Key="UpdateCheckBeta">Beta release</system:String>
+    <system:String x:Key="DownloadWithAria2">Download via aria2</system:String>
+    <system:String x:Key="UpdateCheckNow">Check update</system:String>
+    
+    <system:String x:Key="TimerTip">Hours only(15 means start tasks at 3 p.m.)</system:String>
+    <system:String x:Key="Timer">Timer</system:String>
+
+    <system:String x:Key="LaunchOnSystemStartup">Launch app when system startup</system:String>
+    <system:String x:Key="RunTaskAfterLaunch">Run task after launched</system:String>
+    <system:String x:Key="ClientVersion">Client version</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
+    <system:String x:Key="WaitForEmulator">Wait for emulator&#xA;Startup timeout (s)</system:String>
+    <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
+    <system:String x:Key="Select">Select</system:String>
+    <system:String x:Key="AdditionCommand">Addition Command</system:String>
+
+    <system:String x:Key="Strategy">Strategy</system:String>
+    <system:String x:Key="StartTimesLimit">Limit of times</system:String>
+    <system:String x:Key="GoldTimesLimit">Limit of deposit coins</system:String>
+    <system:String x:Key="StopOnGoldLimit">Stop when deposited coins reached limit</system:String>
+
+    <system:String x:Key="PenguinID">Penguin Report ID&#13;(Number part only)</system:String>
+
+    <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
+    <system:String x:Key="HighPriority">High priority&#xA;eg: "carbon" means all kind of carbon, multi-types could be splited by space</system:String>
+    <system:String x:Key="Blacklist">Blacklist&#xA;eg: "carbon" means all kind of carbon, multi-types could be splited by space</system:String>
+
+    <system:String x:Key="DroneUsage">Drone Usage</system:String>
+
+    <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
+    <system:String x:Key="SystemNotification">System Notification</system:String>
+    <system:String x:Key="HideUnavailableStage">Hide today not open level</system:String>
+    <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
+
+    <system:String x:Key="ADBPath">ADB path&#xA;(both relative/absolute)</system:String>
+    <system:String x:Key="ConnectionAddress">Connection address</system:String>
+    <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <!--Settings-->
 
     <!--Farming-->
