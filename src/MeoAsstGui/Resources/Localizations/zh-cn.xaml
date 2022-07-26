@@ -272,4 +272,8 @@
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>
     <system:String x:Key="CheckSettings">请检查连接设置或尝试重启电脑</system:String>
     <!--AsstProxy-->
+
+    <!--TrayIcon-->
+    <system:String x:Key="Exit">退出</system:String>
+    <!--TrayIcon-->
 </ResourceDictionary>

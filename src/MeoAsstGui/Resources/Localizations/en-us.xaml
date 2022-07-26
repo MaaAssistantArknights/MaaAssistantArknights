@@ -213,4 +213,8 @@
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
     <system:String x:Key="CheckSettings">Please check the connection Settings or try to restart the computer</system:String>
     <!--AsstProxy-->
+
+    <!--TrayIcon-->
+    <system:String x:Key="Exit">Exit</system:String>
+    <!--TrayIcon-->
 </ResourceDictionary>
