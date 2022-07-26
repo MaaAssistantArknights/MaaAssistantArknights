@@ -137,8 +137,8 @@ bool asst::AutoRecruitTask::_run()
     static constexpr size_t slot_retry_limit = 3;
 
     size_t slot_fail = 0;
-    size_t recruit_times = 0; // how many times has the confirm button been pressed, NOT expedited plan used
-    while ((m_use_expedited || !m_pending_recruit_slot.empty()) && static_cast<int>(recruit_times) != m_max_times) {
+    // m_cur_times means how many times has the confirm button been pressed, NOT expedited plan used
+    while ((m_use_expedited || !m_pending_recruit_slot.empty()) && m_cur_times != m_max_times) {
         if (slot_fail >= slot_retry_limit) { return false; }
         if (m_use_expedited) {
             Log.info("ready to use expedited");
@@ -151,7 +151,7 @@ bool asst::AutoRecruitTask::_run()
         if (!recruit_one())
             ++slot_fail;
         else
-            ++recruit_times;
+            ++m_cur_times;
     }
     return true;
 }

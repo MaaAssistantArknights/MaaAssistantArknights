@@ -50,7 +50,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
             .set_select_level(std::move(select))
             .set_confirm_level(std::move(confirm))
             .set_skip_robot(skip_robot)
-            .set_set_time(set_time).set_retry_times(0);
+            .set_set_time(set_time).set_retry_times(3);
 
     return true;
 }
