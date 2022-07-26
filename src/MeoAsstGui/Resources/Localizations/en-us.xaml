@@ -73,11 +73,11 @@
     <system:String x:Key="PR-D-2">Grd/Spc Ⅱ</system:String>
 
     <system:String x:Key="TodaysStageTip">Today's Stage tips:</system:String>
-    <system:String x:Key="CETip">CE(LMB)</system:String>
-    <system:String x:Key="APTip">AP(Shop Voucher)</system:String>
-    <system:String x:Key="CATip">CA(Skill Summary)</system:String>
-    <system:String x:Key="LSTip">LS(Battle Record)</system:String>
-    <system:String x:Key="SKTip">SK(Carbon)</system:String>
+    <system:String x:Key="CETip">CE (LMB)</system:String>
+    <system:String x:Key="APTip">AP (Shop Voucher)</system:String>
+    <system:String x:Key="CATip">CA (Skill Summary)</system:String>
+    <system:String x:Key="LSTip">LS (Battle Record)</system:String>
+    <system:String x:Key="SKTip">SK (Carbon)</system:String>
     <system:String x:Key="PR-ATip">Med/Def Chip</system:String>
     <system:String x:Key="PR-BTip">Cst/Sni Chip</system:String>
     <system:String x:Key="PR-CTip">Pio/Sup Chip</system:String>
