@@ -5,7 +5,7 @@
     <system:String x:Key="RougelikeSettings">Rougelike</system:String>
     <system:String x:Key="RecruitingSettings">Recruiting</system:String>
     <system:String x:Key="MallSettings">Mall</system:String>
-    <system:String x:Key="PenguinDataSettings">Penguin Data</system:String>
+    <system:String x:Key="PenguinSettings">Penguin Statistics</system:String>
     <system:String x:Key="ConnectionSettings">Connection</system:String>
     <system:String x:Key="StartupSettings">Startup</system:String>
     <system:String x:Key="ScheduleSettings">Schedule</system:String>
@@ -24,7 +24,7 @@
     <system:String x:Key="Control">Control Center</system:String>
 
     <system:String x:Key="DronesNotUse">Do not use drones</system:String>
-    <system:String x:Key="Money">Dragon Coin</system:String>
+    <system:String x:Key="Money">LMB</system:String>
     <system:String x:Key="SyntheticJade">Synthetic Jade</system:String>
     <system:String x:Key="CombatRecord">Combat Records</system:String>
     <system:String x:Key="PureGold">Pure Gold</system:String>
@@ -101,8 +101,8 @@
     <system:String x:Key="PenguinID">Penguin Report ID&#13;(Number part only)</system:String>
 
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
-    <system:String x:Key="HighPriority">High priority&#xA;eg: "carbon" means all kind of carbon, multi-types could be splited by space</system:String>
-    <system:String x:Key="Blacklist">Blacklist&#xA;eg: "carbon" means all kind of carbon, multi-types could be splited by space</system:String>
+    <system:String x:Key="HighPriority">Whitelist(items could be splited by space)</system:String>
+    <system:String x:Key="Blacklist">Blacklist(items could be splited by space)</system:String>
 
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
 
@@ -111,7 +111,7 @@
     <system:String x:Key="HideUnavailableStage">Hide today not open level</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
 
-    <system:String x:Key="ADBPath">ADB path&#xA;(both relative/absolute)</system:String>
+    <system:String x:Key="ADBPath">ADB path&#xA;(relative/absolute)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <!--Settings-->
