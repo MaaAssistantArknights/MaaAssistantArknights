@@ -491,11 +491,13 @@ void asst::Controller::clear_info() noexcept
     m_height = 0;
     m_control_scale = 1.0;
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
+#ifdef _WIN32
     if (m_server_sock) {
         ::closesocket(m_server_sock);
         m_server_sock = 0U;
     }
     m_server_started = false;
+#endif
     --m_instance_count;
 }
 
