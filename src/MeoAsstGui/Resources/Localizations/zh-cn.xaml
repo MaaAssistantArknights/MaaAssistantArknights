@@ -316,4 +316,27 @@
     <!--TrayIcon-->
     <system:String x:Key="Exit">退出</system:String>
     <!--TrayIcon-->
+
+    <!--About-->
+    <system:String x:Key="Website">MAA 官网</system:String>
+    <system:String x:Key="Github">源码：GitHub</system:String>
+    <system:String x:Key="QQgroup">自动战斗作业分享 Q 群</system:String>
+    <system:String x:Key="QQgroup1">一群（已满）</system:String>
+    <system:String x:Key="QQgroup2">二群</system:String>
+    <system:String x:Key="QQgroup3">三群</system:String>
+    <system:String x:Key="Help">常见问题</system:String>
+    <system:String x:Key="Issue">问题反馈</system:String>
+    <!--About-->
+
+    <!--AutoRecruitSettings-->
+    <system:String x:Key="AutoRefresh">自动刷新3星Tags</system:String>
+    <system:String x:Key="AutoUseExpedited">自动使用加急许可*</system:String>
+    <system:String x:Key="RecruitMaxTimes">每次执行时最大招募次数</system:String>
+    <system:String x:Key="ManuallySelectLevel1">手动确认1星</system:String>
+    <system:String x:Key="AutoSelectLevel3">自动确认3星</system:String>
+    <system:String x:Key="AutoSelectLevel4">自动确认4星</system:String>
+    <system:String x:Key="AutoSelectLevel5">自动确认5星</system:String>
+    <system:String x:Key="AutoSelectLevel6">自动确认6星</system:String>
+    <system:String x:Key="Level1Tip">勾选时识别到1星词条时跳过该次招募，未勾选时将忽略1星词条</system:String>
+    <!--AutoRecruitSettings-->
 </ResourceDictionary>
