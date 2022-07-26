@@ -5332,7 +5332,8 @@
         "maskRange": [
             1,
             255
-        ]
+        ],
+        "templThreshold": 0.6
     },
     "BattleKills": {
         "algorithm": "OcrDetect",
