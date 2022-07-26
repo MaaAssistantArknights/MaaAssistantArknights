@@ -205,4 +205,75 @@
     <system:String x:Key="CheckTheFile">请检查文件内容！</system:String>
     <!--日志-->
     <!--自动战斗-->
+
+    <!--AsstProxy-->
+    <system:String x:Key="UnknownAbnormal">出现未知异常</system:String>
+    <system:String x:Key="Error">错误</system:String>
+    <system:String x:Key="InitializationError">初始化错误！</system:String>
+    <system:String x:Key="ResolutionNotSupported">模拟器分辨率不支持，请设置为 720p 或更高，且为 16:9 比例</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">模拟器分辨率获取失败，建议重启电脑，或更换模拟器后再次尝试</system:String>
+    <system:String x:Key="TryToReconnect">模拟器断开，正在尝试重连</system:String>
+    <system:String x:Key="ReconnectSuccess">重连成功，继续任务</system:String>
+    <system:String x:Key="ReconnectFailed">重连失败，连接断开！</system:String>
+    <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
+    <system:String x:Key="TaskError">任务出错：</system:String>
+    <system:String x:Key="CombatError">战斗出错：</system:String>
+    <system:String x:Key="StartTask">开始任务：</system:String>
+    <system:String x:Key="CompleteTask">完成任务：</system:String>
+    <system:String x:Key="StartCombat">开始战斗：</system:String>
+    <system:String x:Key="CompleteCombat">完成战斗：</system:String>
+    <system:String x:Key="AllTasksComplete">任务已全部完成！</system:String>
+    <system:String x:Key="FailedToOpenClient">打开客户端失败，请检查配置文件</system:String>
+    <system:String x:Key="ErrorOccurred">出现错误</system:String>
+    <system:String x:Key="HasReturned">已返回</system:String>
+    <system:String x:Key="DropRecognitionError">掉落识别错误</system:String>
+    <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
+    <system:String x:Key="TheEX">EX 关卡，已停止</system:String>
+    <system:String x:Key="OnTheMove">已开始行动</system:String>
+    <system:String x:Key="UnitTime">次</system:String>
+    <system:String x:Key="MedicineUsed">已使用理智药</system:String>
+    <system:String x:Key="StoneUsed">已使用源石</system:String>
+    <system:String x:Key="ActingCommandError">代理指挥失误</system:String>
+    <system:String x:Key="LabelsRefreshed">已刷新标签</system:String>
+    <system:String x:Key="RecruitConfirm">已确认招募</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">干员冲突</system:String>
+    <system:String x:Key="BegunToExplore">已开始探索</system:String>
+    <system:String x:Key="HasInvested">已投资</system:String>
+    <system:String x:Key="ExplorationAbandoned">已放弃本次探索</system:String>
+    <system:String x:Key="FightCompleted">战斗完成</system:String>
+    <system:String x:Key="FightFailed">战斗失败</system:String>
+    <system:String x:Key="UpperLimit">投资达到上限</system:String>
+    <system:String x:Key="GameCrash">游戏崩溃，重新启动</system:String>
+    <system:String x:Key="GameDrop">游戏掉线，重新连接</system:String>
+    <system:String x:Key="Trader">关卡：诡意行商</system:String>
+    <system:String x:Key="SafeHouse">关卡：安全的角落</system:String>
+    <system:String x:Key="Encounter">关卡：不期而遇</system:String>
+    <system:String x:Key="CambatDps">关卡：普通作战</system:String>
+    <system:String x:Key="EmergencyDps">关卡：紧急作战</system:String>
+    <system:String x:Key="DreadfulFoe">关卡：险路恶敌</system:String>
+    <system:String x:Key="NoDrop">无</system:String>
+    <system:String x:Key="Drop">本次掉落：</system:String>
+    <system:String x:Key="TotalDrop">掉落统计：</system:String>
+    <system:String x:Key="ThisFacility">当前设施：</system:String>
+    <system:String x:Key="RecruitingResults">公招识别结果：</system:String>
+    <system:String x:Key="RecruitingTips">公招提示</system:String>
+    <system:String x:Key="RecruitmentOfStar">公招出{0}星了哦！</system:String>
+    <system:String x:Key="RecruitmentOfBot">公招出小车了哦！</system:String>
+    <system:String x:Key="Choose">选择</system:String>
+    <system:String x:Key="Refreshed">当前槽位已刷新</system:String>
+    <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
+    <system:String x:Key="StageInfoError">关卡识别错误</system:String>
+    <system:String x:Key="BattleFormation">开始编队</system:String>
+    <system:String x:Key="BattleFormationSelected">选择干员：</system:String>
+    <system:String x:Key="CurrentSteps">当前步骤：</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的关卡，请更新 MAA 软件版本，或检查作业文件</system:String>
+    <system:String x:Key="RecruitTagsDetected">识别结果：</system:String>
+    <system:String x:Key="ConnectFailed">连接失败</system:String>
+    <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>
+    <system:String x:Key="CheckSettings">请检查连接设置或尝试重启电脑</system:String>
+    <!--AsstProxy-->
+
+    <!--TrayIcon-->
+    <system:String x:Key="Exit">退出</system:String>
+    <!--TrayIcon-->
 </ResourceDictionary>

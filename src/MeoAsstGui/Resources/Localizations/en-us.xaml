@@ -205,4 +205,75 @@
     <system:String x:Key="CheckTheFile">Please check the file contents!</system:String>
     <!--Logs-->
     <!--Copilot-->
+
+    <!--AsstProxy-->
+    <system:String x:Key="UnknownAbnormal">Unknown exception occurs</system:String>
+    <system:String x:Key="Error">Error</system:String>
+    <system:String x:Key="InitializationError">Initialization error!</system:String>
+    <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set to 720P or higher and 16:9 ratio</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">The resolution of the emulator fails to be obtained. You are advised to restart the computer or try again after replacing the emulator</system:String>
+    <system:String x:Key="TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
+    <system:String x:Key="ReconnectSuccess">Reconnection succeeded. Continue the task</system:String>
+    <system:String x:Key="ReconnectFailed">Reconnection failed. The connection is down!</system:String>
+    <system:String x:Key="IdentifyTheMistakes">Identify the mistakes</system:String>
+    <system:String x:Key="TaskError">Task error:</system:String>
+    <system:String x:Key="CombatError">Combat error:</system:String>
+    <system:String x:Key="StartTask">Start task:</system:String>
+    <system:String x:Key="CompleteTask">Complete task:</system:String>
+    <system:String x:Key="StartCombat">Start combat:</system:String>
+    <system:String x:Key="CompleteCombat">Complete combat:</system:String>
+    <system:String x:Key="AllTasksComplete">The task has all been completed!</system:String>
+    <system:String x:Key="FailedToOpenClient">Failed to open the client. Please check the configuration file</system:String>
+    <system:String x:Key="ErrorOccurred">Error occurred</system:String>
+    <system:String x:Key="HasReturned">Has returned</system:String>
+    <system:String x:Key="DropRecognitionError">Drop recognition error</system:String>
+    <system:String x:Key="GiveUpUploadingPenguins">Give up uploading Penguins</system:String>
+    <system:String x:Key="TheEX">EX stage, stopped</system:String>
+    <system:String x:Key="OnTheMove">On the move</system:String>
+    <system:String x:Key="UnitTime">times</system:String>
+    <system:String x:Key="MedicineUsed">Medicine used</system:String>
+    <system:String x:Key="StoneUsed">Stone used</system:String>
+    <system:String x:Key="ActingCommandError">Acting command error</system:String>
+    <system:String x:Key="LabelsRefreshed">Labels refreshed</system:String>
+    <system:String x:Key="RecruitConfirm">Recruit confirm</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">Agent conflict</system:String>
+    <system:String x:Key="BegunToExplore">Have begun to explore</system:String>
+    <system:String x:Key="HasInvested">Has invested</system:String>
+    <system:String x:Key="ExplorationAbandoned">The exploration has been abandoned</system:String>
+    <system:String x:Key="FightCompleted">Fight completed</system:String>
+    <system:String x:Key="FightFailed">Fight failed</system:String>
+    <system:String x:Key="UpperLimit">Investment reaches the ceiling</system:String>
+    <system:String x:Key="GameCrash">The game crashes and restarts</system:String>
+    <system:String x:Key="GameDrop">Game dropped, reconnect</system:String>
+    <system:String x:Key="Trader">Stage: Trader</system:String>
+    <system:String x:Key="SafeHouse">Stage: SafeHouse</system:String>
+    <system:String x:Key="Encounter">Stage: Encounter</system:String>
+    <system:String x:Key="CambatDps">Stage: CambatDps</system:String>
+    <system:String x:Key="EmergencyDps">Stage: EmergencyDps</system:String>
+    <system:String x:Key="DreadfulFoe">Stage: DreadfulFoe</system:String>
+    <system:String x:Key="NoDrop">Nothing</system:String>
+    <system:String x:Key="Drop">Drop:</system:String>
+    <system:String x:Key="TotalDrop">Total Drop:</system:String>
+    <system:String x:Key="ThisFacility">Current Facilities:</system:String>
+    <system:String x:Key="RecruitingResults">Recruitment Results:</system:String>
+    <system:String x:Key="RecruitingTips">Recruiting Tips</system:String>
+    <system:String x:Key="RecruitmentOfStar">{0} star has been recruited</system:String>
+    <system:String x:Key="RecruitmentOfBot">The bot have been recruited</system:String>
+    <system:String x:Key="Choose">Choose</system:String>
+    <system:String x:Key="Refreshed">Refreshed</system:String>
+    <system:String x:Key="NotEnoughStaff">Not Enough Staff</system:String>
+    <system:String x:Key="StageInfoError">Stage recognition error</system:String>
+    <system:String x:Key="BattleFormation">Start formation</system:String>
+    <system:String x:Key="BattleFormationSelected">Selection of staff:</system:String>
+    <system:String x:Key="CurrentSteps">Current step:</system:String>
+    <system:String x:Key="UnsupportedLevel">For unsupported levels, please update the MAA version, or check the file</system:String>
+    <system:String x:Key="RecruitTagsDetected">Identify the results:</system:String>
+    <system:String x:Key="ConnectFailed">Connect Failed</system:String>
+    <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
+    <system:String x:Key="CheckSettings">Please check the connection Settings or try to restart the computer</system:String>
+    <!--AsstProxy-->
+
+    <!--TrayIcon-->
+    <system:String x:Key="Exit">Exit</system:String>
+    <!--TrayIcon-->
 </ResourceDictionary>

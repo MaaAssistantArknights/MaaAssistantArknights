@@ -152,7 +152,7 @@ namespace MeoAsstGui
             {
                 Execute.OnUIThread(() =>
                 {
-                    _windowManager.ShowMessageBox("出现未知异常", "错误", icon: MessageBoxImage.Error);
+                    _windowManager.ShowMessageBox(Localization.GetString("UnknownAbnormal"), Localization.GetString("Error"), icon: MessageBoxImage.Error);
                     App.Current.Shutdown();
                 });
             }
@@ -216,7 +216,7 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.InitFailed:
-                    _windowManager.ShowMessageBox("初始化错误！请检查是否使用了中文路径", "错误", icon: MessageBoxImage.Error);
+                    _windowManager.ShowMessageBox(Localization.GetString("InitializationError"), Localization.GetString("Error"), icon: MessageBoxImage.Error);
                     App.Current.Shutdown();
                     break;
 
@@ -261,25 +261,25 @@ namespace MeoAsstGui
 
                 case "UnsupportedResolution":
                     connected = false;
-                    mainModel.AddLog("模拟器分辨率不支持，请设置为 720p 或更高，且为 16:9 比例", "darkred");
+                    mainModel.AddLog(Localization.GetString("ResolutionNotSupported"), "darkred");
                     break;
 
                 case "ResolutionError":
                     connected = false;
-                    mainModel.AddLog("模拟器分辨率获取失败，建议重启电脑，或更换模拟器后再试", "darkred");
+                    mainModel.AddLog(Localization.GetString("ResolutionAcquisitionFailure"), "darkred");
                     break;
 
                 case "Reconnecting":
-                    mainModel.AddLog("模拟器断开，正在重试", "darkred");
+                    mainModel.AddLog(Localization.GetString("TryToReconnect"), "darkred");
                     break;
 
                 case "Reconnected":
-                    mainModel.AddLog("重连成功，继续任务");
+                    mainModel.AddLog(Localization.GetString("ReconnectSuccess"));
                     break;
 
                 case "Disconnect":
                     connected = false;
-                    mainModel.AddLog("错误！连接断开！", "darkred");
+                    mainModel.AddLog(Localization.GetString("ReconnectFailed"), "darkred");
                     AsstStop();
                     break;
             }
@@ -299,7 +299,7 @@ namespace MeoAsstGui
                 if (msg == AsstMsg.TaskChainError)
                 {
                     var recruitModel = _container.Get<RecruitViewModel>();
-                    recruitModel.RecruitInfo = "识别错误！";
+                    recruitModel.RecruitInfo = Localization.GetString("IdentifyTheMistakes");
                 }
             }
             var mainModel = _container.Get<TaskQueueViewModel>();
@@ -308,11 +308,11 @@ namespace MeoAsstGui
             switch (msg)
             {
                 case AsstMsg.TaskChainError:
-                    mainModel.AddLog("任务出错：" + taskChain, "darkred");
+                    mainModel.AddLog(Localization.GetString("TaskError") + taskChain, "darkred");
                     if (taskChain == "Copilot")
                     {
                         copilotModel.Idle = true;
-                        copilotModel.AddLog("战斗出错！", "darkred");
+                        copilotModel.AddLog(Localization.GetString("CombatError"), "darkred");
                     }
                     break;
 
@@ -321,15 +321,15 @@ namespace MeoAsstGui
                     {
                         mainModel.FightTaskRunning = true;
                     }
-                    mainModel.AddLog("开始任务：" + taskChain);
+                    mainModel.AddLog(Localization.GetString("StartTask") + taskChain);
                     break;
 
                 case AsstMsg.TaskChainCompleted:
-                    mainModel.AddLog("完成任务：" + taskChain);
+                    mainModel.AddLog(Localization.GetString("CompleteTask") + taskChain);
                     if (taskChain == "Copilot")
                     {
                         copilotModel.Idle = true;
-                        copilotModel.AddLog("完成战斗", "darkcyan");
+                        copilotModel.AddLog(Localization.GetString("CompleteCombat"), "darkcyan");
                     }
                     break;
 
@@ -357,8 +357,8 @@ namespace MeoAsstGui
 
                     if (isMainTaskQueueAllCompleted)
                     {
-                        mainModel.AddLog("任务已全部完成");
-                        using (var toast = new ToastNotification("任务已全部完成！"))
+                        mainModel.AddLog(Localization.GetString("AllTasksComplete"));
+                        using (var toast = new ToastNotification(Localization.GetString("AllTasksComplete")))
                         {
                             toast.Show();
                         }
@@ -405,29 +405,29 @@ namespace MeoAsstGui
             switch (subTask)
             {
                 case "StartGameTask":
-                    mainModel.AddLog("打开客户端失败，请检查配置文件", "darkred");
+                    mainModel.AddLog(Localization.GetString("FailedToOpenClient"), "darkred");
                     break;
 
                 case "AutoRecruitTask":
                     {
-                        var why_str = details.TryGetValue("why", out var why) ? why.ToString() : "出现错误";
-                        mainModel.AddLog(why_str + "，已返回", "darkred");
+                        var why_str = details.TryGetValue("why", out var why) ? why.ToString() : Localization.GetString("出现错误");
+                        mainModel.AddLog(why_str + "，" + Localization.GetString("HasReturned"), "darkred");
                         break;
                     }
 
                 case "RecognizeDrops":
-                    mainModel.AddLog("掉落识别错误", "darkred");
+                    mainModel.AddLog(Localization.GetString("DropRecognitionError"), "darkred");
                     break;
 
                 case "ReportToPenguinStats":
                     {
                         var why = details["why"].ToString();
-                        mainModel.AddLog(why + "，放弃上传企鹅", "darkred");
+                        mainModel.AddLog(why + "，" + Localization.GetString("GiveUpUploadingPenguins"), "darkred");
                         break;
                     }
 
                 case "CheckStageValid":
-                    mainModel.AddLog("EX 关卡，已停止", "darkred");
+                    mainModel.AddLog(Localization.GetString("TheEX"), "darkred");
                     break;
             }
         }
@@ -445,44 +445,44 @@ namespace MeoAsstGui
                 switch (taskName)
                 {
                     case "StartButton2":
-                        mainModel.AddLog("已开始行动 " + execTimes + " 次", "darkcyan");
+                        mainModel.AddLog(Localization.GetString("OnTheMove") + execTimes + Localization.GetString("UnitTime"), "darkcyan");
                         break;
 
                     case "MedicineConfirm":
-                        mainModel.AddLog("已吃药 " + execTimes + " 个", "darkcyan");
+                        mainModel.AddLog(Localization.GetString("MedicineUsed") + execTimes + Localization.GetString("UnitTime"), "darkcyan");
                         break;
 
                     case "StoneConfirm":
-                        mainModel.AddLog("已碎石 " + execTimes + " 颗", "darkcyan");
+                        mainModel.AddLog(Localization.GetString("StoneUsed") + execTimes + Localization.GetString("UnitTime"), "darkcyan");
                         break;
 
                     case "AbandonAction":
-                        mainModel.AddLog("代理指挥失误", "darkred");
+                        mainModel.AddLog(Localization.GetString("ActingCommandError"), "darkred");
                         break;
 
                     case "RecruitRefreshConfirm":
-                        mainModel.AddLog("已刷新标签", "darkcyan");
+                        mainModel.AddLog(Localization.GetString("LabelsRefreshed"), "darkcyan");
                         break;
 
                     case "RecruitConfirm":
-                        mainModel.AddLog("已确认招募", "darkcyan");
+                        mainModel.AddLog(Localization.GetString("RecruitConfirmed"), "darkcyan");
                         break;
 
                     case "InfrastDormDoubleConfirmButton":
-                        mainModel.AddLog("干员冲突", "darkred");
+                        mainModel.AddLog(Localization.GetString("InfrastDormDoubleConfirmed"), "darkred");
                         break;
 
                     /* 肉鸽相关 */
                     case "Roguelike1Start":
-                        mainModel.AddLog("已开始探索 " + execTimes + " 次", "darkcyan");
+                        mainModel.AddLog(Localization.GetString("BegunToExplore") + execTimes + Localization.GetString("UnitTime"), "darkcyan");
                         break;
 
                     case "Roguelike1StageTraderInvestConfirm":
-                        mainModel.AddLog("已投资 " + execTimes + " 个源石锭", "darkcyan");
+                        mainModel.AddLog(Localization.GetString("HasInvested") + execTimes + Localization.GetString("UnitTime"), "darkcyan");
                         break;
 
                     case "Roguelike1ExitThenAbandon":
-                        mainModel.AddLog("已放弃本次探索");
+                        mainModel.AddLog(Localization.GetString("ExplorationAbandoned"));
                         break;
 
                     //case "Roguelike1StartAction":
@@ -490,23 +490,23 @@ namespace MeoAsstGui
                     //    break;
 
                     case "Roguelike1MissionCompletedFlag":
-                        mainModel.AddLog("战斗完成");
+                        mainModel.AddLog(Localization.GetString("FightCompleted"));
                         break;
 
                     case "Roguelike1MissionFailedFlag":
-                        mainModel.AddLog("战斗失败");
+                        mainModel.AddLog(Localization.GetString("FightFailed"));
                         break;
 
                     case "Roguelike1StageTraderEnter":
-                        mainModel.AddLog("关卡：诡意行商");
+                        mainModel.AddLog(Localization.GetString("Trader"));
                         break;
 
                     case "Roguelike1StageSafeHouseEnter":
-                        mainModel.AddLog("关卡：安全的角落");
+                        mainModel.AddLog(Localization.GetString("SafeHouse"));
                         break;
 
                     case "Roguelike1StageEncounterEnter":
-                        mainModel.AddLog("关卡：不期而遇");
+                        mainModel.AddLog(Localization.GetString("Encounter"));
                         break;
 
                     //case "Roguelike1StageBoonsEnter":
@@ -514,27 +514,27 @@ namespace MeoAsstGui
                     //    break;
 
                     case "Roguelike1StageCambatDpsEnter":
-                        mainModel.AddLog("关卡：普通作战");
+                        mainModel.AddLog(Localization.GetString("CambatDpsEnter"));
                         break;
 
                     case "Roguelike1StageEmergencyDps":
-                        mainModel.AddLog("关卡：紧急作战");
+                        mainModel.AddLog(Localization.GetString("EmergencyDps"));
                         break;
 
                     case "Roguelike1StageDreadfulFoe":
-                        mainModel.AddLog("关卡：险路恶敌");
+                        mainModel.AddLog(Localization.GetString("DreadfulFoe"));
                         break;
 
                     case "Roguelike1StageTraderInvestSystemFull":
-                        mainModel.AddLog("投资达到上限", "darkcyan");
+                        mainModel.AddLog(Localization.GetString("UpperLimit"), "darkcyan");
                         break;
 
                     case "RestartGameAndContinueFighting":
-                        mainModel.AddLog("游戏崩溃，重新启动", "darkgoldenrod");
+                        mainModel.AddLog(Localization.GetString("GameCrash"), "darkgoldenrod");
                         break;
 
                     case "OfflineConfirm":
-                        mainModel.AddLog("游戏掉线，重新连接", "darkgoldenrod");
+                        mainModel.AddLog(Localization.GetString("GameDrop"), "darkgoldenrod");
                         break;
                 }
             }
@@ -570,8 +570,8 @@ namespace MeoAsstGui
                             int count = (int)item["quantity"];
                             cur_drops += $"{itemName} : {count}\n";
                         }
-                        cur_drops = cur_drops.EndsWith("\n") ? cur_drops.TrimEnd('\n') : "无";
-                        mainModel.AddLog("当次掉落：\n" + cur_drops);
+                        cur_drops = cur_drops.EndsWith("\n") ? cur_drops.TrimEnd('\n') : Localization.GetString("NoDrop");
+                        mainModel.AddLog(Localization.GetString("Drop") + "\n" + cur_drops);
 
                         string all_drops = string.Empty;
                         JArray statistics = (JArray)subTaskDetails["stats"];
@@ -581,13 +581,13 @@ namespace MeoAsstGui
                             int count = (int)item["quantity"];
                             all_drops += $"{itemName} : {count}\n";
                         }
-                        all_drops = all_drops.EndsWith("\n") ? all_drops.TrimEnd('\n') : "无";
-                        mainModel.AddLog("掉落统计：\n" + all_drops);
+                        all_drops = all_drops.EndsWith("\n") ? all_drops.TrimEnd('\n') : Localization.GetString("NoDrop");
+                        mainModel.AddLog(Localization.GetString("TotalDrop") + "\n" + all_drops);
                     }
                     break;
 
                 case "EnterFacility":
-                    mainModel.AddLog("当前设施：" + subTaskDetails["facility"] + " " + (int)subTaskDetails["index"]);
+                    mainModel.AddLog(Localization.GetString("ThisFacility") + subTaskDetails["facility"] + " " + (int)subTaskDetails["index"]);
                     break;
 
                 case "RecruitTagsDetected":
@@ -599,15 +599,15 @@ namespace MeoAsstGui
                             string tag_str = tag_name.ToString();
                             log_content += tag_str + "\n";
                         }
-                        log_content = log_content.EndsWith("\n") ? log_content.TrimEnd('\n') : "错误";
-                        mainModel.AddLog("公招识别结果：\n" + log_content);
+                        log_content = log_content.EndsWith("\n") ? log_content.TrimEnd('\n') : Localization.GetString("Error");
+                        mainModel.AddLog(Localization.GetString("RecruitingResults") + "\n" + log_content);
                     }
                     break;
 
                 case "RecruitSpecialTag":
                     {
                         string special = subTaskDetails["tag"].ToString();
-                        using (var toast = new ToastNotification("公招提示"))
+                        using (var toast = new ToastNotification(Localization.GetString("RecruitingTips")))
                         {
                             toast.AppendContentText(special).ShowRecruit();
                         }
@@ -617,7 +617,7 @@ namespace MeoAsstGui
                 case "RecruitRobotTag":
                     {
                         string special = subTaskDetails["tag"].ToString();
-                        using (var toast = new ToastNotification("公招提示"))
+                        using (var toast = new ToastNotification(Localization.GetString("RecruitingTips")))
                         {
                             toast.AppendContentText(special).ShowRecruitRobot();
                         }
@@ -629,25 +629,25 @@ namespace MeoAsstGui
                         int level = (int)subTaskDetails["level"];
                         if (level >= 5)
                         {
-                            using (var toast = new ToastNotification($"公招出 {level} 星了哦！"))
+                            using (var toast = new ToastNotification(String.Format(Localization.GetString("RecruitmentOfStar"), level)))
                             {
                                 toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                             }
-                            mainModel.AddLog(level + " 星 Tags", "darkorange", "Bold");
+                            mainModel.AddLog(level + " ★ Tags", "darkorange", "Bold");
                         }
                         else
                         {
-                            mainModel.AddLog(level + " 星 Tags", "darkcyan");
+                            mainModel.AddLog(level + " ★ Tags", "darkcyan");
                         }
 
                         bool robot = (bool)subTaskDetails["robot"];
                         if (robot)
                         {
-                            using (var toast = new ToastNotification($"公招出小车了哦！"))
+                            using (var toast = new ToastNotification(Localization.GetString("RecruitmentOfBot")))
                             {
                                 toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
                             }
-                            mainModel.AddLog(1 + " 星 Tag", "darkgray", "Bold");
+                            mainModel.AddLog(1 + " ★ Tag", "darkgray", "Bold");
                         }
                     }
                     break;
@@ -660,35 +660,35 @@ namespace MeoAsstGui
                         {
                             selected_log += tag.ToString() + "\n";
                         }
-                        selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : "无";
+                        selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : Localization.GetString("NoDrop");
 
-                        mainModel.AddLog("选择 Tags：\n" + selected_log);
+                        mainModel.AddLog(Localization.GetString("Choose") + " Tags：\n" + selected_log);
                     }
                     break;
 
                 case "RecruitTagsRefreshed":
                     {
                         int refresh_count = (int)subTaskDetails["count"];
-                        mainModel.AddLog("当前槽位已刷新 " + refresh_count + " 次");
+                        mainModel.AddLog(Localization.GetString("Refreshed") + refresh_count + Localization.GetString("UnitTime"));
                         break;
                     }
 
                 case "NotEnoughStaff":
                     {
-                        mainModel.AddLog("可用干员不足", "darkred");
+                        mainModel.AddLog(Localization.GetString("NotEnoughStaff"), "darkred");
                     }
                     break;
 
                 /* Roguelike */
                 case "StageInfo":
                     {
-                        mainModel.AddLog("开始战斗：" + subTaskDetails["name"]);
+                        mainModel.AddLog(Localization.GetString("StartCombat") + subTaskDetails["name"]);
                     }
                     break;
 
                 case "StageInfoError":
                     {
-                        mainModel.AddLog("关卡识别错误", "darkred");
+                        mainModel.AddLog(Localization.GetString("StageInfoError"), "darkred");
                     }
                     break;
 
@@ -705,11 +705,11 @@ namespace MeoAsstGui
                     break;
 
                 case "BattleFormation":
-                    copilotModel.AddLog("开始编队\n" + JsonConvert.SerializeObject(subTaskDetails["formation"]));
+                    copilotModel.AddLog(Localization.GetString("BattleFormation") + "\n" + JsonConvert.SerializeObject(subTaskDetails["formation"]));
                     break;
 
                 case "BattleFormationSelected":
-                    copilotModel.AddLog("选择干员：" + subTaskDetails["selected"].ToString());
+                    copilotModel.AddLog(Localization.GetString("BattleFormationSelected") + subTaskDetails["selected"].ToString());
                     break;
 
                 case "BattleAction":
@@ -723,7 +723,7 @@ namespace MeoAsstGui
                         var action = subTaskDetails["action"].ToString();
                         if (action.Length != 0)
                         {
-                            copilotModel.AddLog("当前步骤：" + action);
+                            copilotModel.AddLog(Localization.GetString("CurrentSteps") + action);
                         }
                     }
                     break;
@@ -738,7 +738,7 @@ namespace MeoAsstGui
                     break;
 
                 case "UnsupportedLevel":
-                    copilotModel.AddLog("不支持的关卡\n请更新 MAA 软件版本，或检查作业文件", "darkred");
+                    mainModel.AddLog(Localization.GetString("UnsupportedLevel"), "darkred");
                     break;
             }
         }
@@ -755,7 +755,7 @@ namespace MeoAsstGui
                 case "RecruitTagsDetected":
                     {
                         JArray tags = (JArray)subTaskDetails["tags"];
-                        string info_content = "识别结果:    ";
+                        string info_content = Localization.GetString("RecruitTagsDetected");
                         foreach (var tag_name in tags)
                         {
                             string tag_str = tag_name.ToString();
@@ -773,7 +773,7 @@ namespace MeoAsstGui
                         foreach (var combs in result_array)
                         {
                             int tag_level = (int)combs["level"];
-                            resultContent += tag_level + "星Tags:  ";
+                            resultContent += tag_level + "★Tags:  ";
                             foreach (var tag in (JArray)combs["tags"])
                             {
                                 resultContent += tag.ToString() + "    ";
@@ -836,11 +836,11 @@ namespace MeoAsstGui
             {
                 if (firsttry)
                 {
-                    error = "连接失败\n正在尝试启动模拟器";
+                    error = Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator");
                 }
                 else
                 {
-                    error = "连接失败\n请检查连接设置\n或尝试重启电脑";
+                    error = Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("CheckSettings");
                 }
             }
             return ret;
