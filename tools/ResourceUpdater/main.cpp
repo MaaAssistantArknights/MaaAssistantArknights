@@ -77,7 +77,7 @@ int main([[maybe_unused]] int argc, char** argv)
     std::cout << "------------Update roguelike recruit data------------" << std::endl;
     if (!update_roguelike_recruit(input_dir, resource_dir, solution_dir)) {
         std::cerr << "Update roguelike recruit data failed" << std::endl;
-        return -1;
+        //return -1;
     }
 
     /* Update stage.json from Penguin Stats*/
