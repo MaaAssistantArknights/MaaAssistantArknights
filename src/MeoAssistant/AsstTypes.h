@@ -7,7 +7,7 @@
 #include <unordered_set>
 #include <vector>
 #include <climits>
-
+#include <cmath>
 #define NOMINMAX
 
 namespace json
