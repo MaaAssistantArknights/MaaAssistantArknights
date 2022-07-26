@@ -17,7 +17,7 @@ if (WIN32)
 endif ()
 
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/W4;/WX>")
-add_compile_options("$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall;-Wextra;-Wpedantic;-Werror>")
+add_compile_options("$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall;-Wextra;-Wpedantic>")
 
 add_definitions(-DASST_DLL_EXPORTS)
 
