@@ -25,7 +25,6 @@ namespace asst
         bool is_calc_only_task() { return m_max_times <= 0 || m_confirm_level.empty(); }
         bool analyze_start_buttons();
         bool recruit_one();
-        bool calc_and_recruit();
         bool check_recruit_home_page();
         bool recruit_begin();
         bool check_time_unreduced();
