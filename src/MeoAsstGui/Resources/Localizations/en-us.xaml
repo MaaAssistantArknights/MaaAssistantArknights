@@ -1,16 +1,75 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib"
-                    xmlns:local="clr-namespaces:MeoAsstGui">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespaces:MeoAsstGui">
     <!--Settings-->
+    <system:String x:Key="Settings">Settings</system:String>
+    <system:String x:Key="BaseSettings">Base</system:String>
+    <system:String x:Key="RougelikeSettings">Rougelike</system:String>
+    <system:String x:Key="RecruitingSettings">Recruiting</system:String>
+    <system:String x:Key="MallSettings">Mall</system:String>
+    <system:String x:Key="PenguinDataSettings">Penguin Data</system:String>
+    <system:String x:Key="ConnectionSettings">Connection</system:String>
+    <system:String x:Key="StartupSettings">Startup</system:String>
+    <system:String x:Key="ScheduleSettings">Schedule</system:String>
+    <system:String x:Key="UISettings">GUI</system:String>
+    <system:String x:Key="UpdateSettings">Update</system:String>
+    <system:String x:Key="AboutUs">About us</system:String>
+
+    <system:String x:Key="Version">Version</system:String>
+
+    <system:String x:Key="Dorm">Dorm</system:String>
+    <system:String x:Key="Mfg">Manufacturing Station</system:String>
+    <system:String x:Key="Trade">Trade Post</system:String>
+    <system:String x:Key="Power">Power Station</system:String>
+    <system:String x:Key="Reception">Reception Room</system:String>
+    <system:String x:Key="Office">Office</system:String>
+    <system:String x:Key="Control">Control Center</system:String>
+
+    <system:String x:Key="DronesNotUse">Do not use drones</system:String>
+    <system:String x:Key="Money">Dragon Coin</system:String>
+    <system:String x:Key="SyntheticJade">Synthetic Jade</system:String>
+    <system:String x:Key="CombatRecord">Combat Records</system:String>
+    <system:String x:Key="PureGold">Pure Gold</system:String>
+    <system:String x:Key="OriginStone">Originium Shards</system:String>
+    <system:String x:Key="Chip">Chips</system:String>
+
+    <system:String x:Key="General">General Mode</system:String>
+    <system:String x:Key="BlueStacks">BlueStacks</system:String>
+    <system:String x:Key="MuMuEmulator">MuMu Emulator</system:String>
+    <system:String x:Key="LDPlayer">LD Player</system:String>
+    <system:String x:Key="Nox">Nox</system:String>
+    <system:String x:Key="XYAZ">XYAZ</system:String>
+    <system:String x:Key="WSA">Old version of WSA</system:String>
+    <system:String x:Key="Compatible">Compatible Mode</system:String>
+
+    <system:String x:Key="DormThreshold">Morale Threshold</system:String>
+
+    <system:String x:Key="RougelikeStrategyCandle">Get candles, pass levels as more as possible</system:String>
+    <system:String x:Key="RougelikeStrategyGold">Deposit coins, exit after shop in the first level</system:String>
+
+    <system:String x:Key="NotSelected">Not selected</system:String>
+    <system:String x:Key="Official">Official (CN)</system:String>
+    <system:String x:Key="Bilibili">Bilibili</system:String>
+    <system:String x:Key="YoStarEN">YoStarEN</system:String>
+    <system:String x:Key="YoStarJP">YoStarJP</system:String>
+    <system:String x:Key="YoStarKR">YoStarKR</system:String>
+    <system:String x:Key="txwy">txwy</system:String>
+
+    <system:String x:Key="Switchable">Switchable</system:String>
+
+    <system:String x:Key="Executable">Executable</system:String>
+    <system:String x:Key="ADBProgram">ADB Program</system:String>
+
+    <system:String x:Key="EmulatorException">Error in detect emulators&#x0a;Please use administrator privileges to open this software&#x0a;or set connection manually</system:String>
+    <system:String x:Key="EmulatorNotFound">No emulator detected&#x0a;Please use administrator privileges to open this software&#x0a;or set connection manually</system:String>
+    <system:String x:Key="EmulatorTooMany">Too many emulators detected&#x0a;Please shutdown emulators not needed&#x0a;or set connection manually</system:String>
+
+    <system:String x:Key="AlreadyLatest">The latest version already installed~</system:String>
+
     <system:String x:Key="SwitchLanguage">Switch Language</system:String>
     <system:String x:Key="Language">Language</system:String>
-    <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="LanguageChangedTip">The language setting has been changed, do you want to restart the application immediately to apply the language setting?</system:String>
     <system:String x:Key="Ok">OK</system:String>
     <system:String x:Key="ManualRestart">Later</system:String>
     <system:String x:Key="Tip">Tip</system:String>
-    <system:String x:Key="AboutUs">About us</system:String>
 
     <system:String x:Key="LabelSequenceTip">The label sequence can be dragged</system:String>
     <system:String x:Key="CheckBoxesNotSaved">This option is not saved after restart</system:String>
