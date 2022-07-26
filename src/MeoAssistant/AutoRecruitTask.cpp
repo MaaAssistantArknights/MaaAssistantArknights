@@ -391,6 +391,8 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
 
             refresh();
 
+            ++refresh_count;
+
             {
                 json::value info = basic_info();
                 info["what"] = "RecruitTagsRefreshed";
@@ -402,7 +404,6 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
                 Log.trace("recruit tags refreshed", std::to_string(refresh_count), " times, rerunning recruit task");
             }
 
-            ++refresh_count;
             // desired retry, not an error
             --image_analyzer_retry;
             continue;
