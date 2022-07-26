@@ -101,10 +101,9 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     if (pipe_in_ret < 0 || pipe_out_ret < 0) {
         throw "controller pipe created failed";
     }
-
-    // todo
-    m_support_netcat = false;
+    m_support_socket = false;
 #endif
+
     m_pipe_buffer = std::make_unique<uchar[]>(PipeBuffSize);
     if (!m_pipe_buffer) {
         throw "controller pipe buffer allocated failed";
