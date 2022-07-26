@@ -276,4 +276,15 @@
     <!--TrayIcon-->
     <system:String x:Key="Exit">Exit</system:String>
     <!--TrayIcon-->
+
+    <!--AboutUser-->
+    <system:String x:Key="Website">MAA Website</system:String>
+    <system:String x:Key="Github">Source: GitHub</system:String>
+    <system:String x:Key="QQgroup">Copilot Json sharing QQgroup</system:String>
+    <system:String x:Key="QQgroup1">QQgroup1(Full)</system:String>
+    <system:String x:Key="QQgroup2">QQgroup2</system:String>
+    <system:String x:Key="QQgroup3">QQgroup3</system:String>
+    <system:String x:Key="Help">Q&amp;A</system:String>
+    <system:String x:Key="Issue">Issue</system:String>
+    <!--AboutUser-->
 </ResourceDictionary>
