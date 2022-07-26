@@ -1,0 +1,5523 @@
+{
+    "chars": {
+        "char_002_amiya": {
+            "name": "阿米娅",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_003_kalts": {
+            "name": "凯尔希",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-3",
+                "3-8",
+                "3-10"
+            ]
+        },
+        "char_009_12fce": {
+            "name": "12F",
+            "profession": "CASTER",
+            "rangeId": [
+                "2-3",
+                "2-3",
+                "2-3"
+            ]
+        },
+        "char_010_chen": {
+            "name": "陈",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_017_huang": {
+            "name": "煌",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_1011_lava2": {
+            "name": "炎狱炎熔",
+            "profession": "CASTER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "char_1012_skadi2": {
+            "name": "浊心斯卡蒂",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "x-4",
+                "x-1",
+                "x-1"
+            ]
+        },
+        "char_1013_chen2": {
+            "name": "假日威龙陈",
+            "profession": "SNIPER",
+            "rangeId": [
+                "2-4",
+                "2-5",
+                "2-5"
+            ]
+        },
+        "char_1014_nearl2": {
+            "name": "耀骑士临光",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_101_sora": {
+            "name": "空",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "x-4",
+                "x-1",
+                "x-1"
+            ]
+        },
+        "char_1021_kroos2": {
+            "name": "寒芒克洛丝",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_1023_ghost2": {
+            "name": "归溟幽灵鲨",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_1024_hbisc2": {
+            "name": "濯尘芙蓉",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_1027_greyy2": {
+            "name": "承曦格雷伊",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-9",
+                "3-9"
+            ]
+        },
+        "char_102_texas": {
+            "name": "德克萨斯",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_103_angel": {
+            "name": "能天使",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_106_franka": {
+            "name": "芙兰卡",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_107_liskam": {
+            "name": "雷蛇",
+            "profession": "TANK",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ]
+        },
+        "char_108_silent": {
+            "name": "赫默",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_109_fmout": {
+            "name": "远山",
+            "profession": "CASTER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "char_110_deepcl": {
+            "name": "深海色",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_112_siege": {
+            "name": "推进之王",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_113_cqbw": {
+            "name": "W",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-8",
+                "3-10"
+            ]
+        },
+        "char_115_headbr": {
+            "name": "凛冬",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_117_myrrh": {
+            "name": "末药",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_118_yuki": {
+            "name": "白雪",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-8",
+                "3-10"
+            ]
+        },
+        "char_120_hibisc": {
+            "name": "芙蓉",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-1"
+            ]
+        },
+        "char_121_lava": {
+            "name": "炎熔",
+            "profession": "CASTER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "2-3"
+            ]
+        },
+        "char_122_beagle": {
+            "name": "米格鲁",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_123_fang": {
+            "name": "芬",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_124_kroos": {
+            "name": "克洛丝",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-1"
+            ]
+        },
+        "char_126_shotst": {
+            "name": "流星",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_127_estell": {
+            "name": "艾丝黛尔",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_128_plosis": {
+            "name": "白面鸮",
+            "profession": "MEDIC",
+            "rangeId": [
+                "y-1",
+                "y-2",
+                "y-2"
+            ]
+        },
+        "char_129_bluep": {
+            "name": "蓝毒",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_130_doberm": {
+            "name": "杜宾",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ]
+        },
+        "char_131_flameb": {
+            "name": "炎客",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_133_mm": {
+            "name": "梅",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_134_ifrit": {
+            "name": "伊芙利特",
+            "profession": "CASTER",
+            "rangeId": [
+                "4-1",
+                "5-1",
+                "5-1"
+            ]
+        },
+        "char_135_halo": {
+            "name": "星源",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_136_hsguma": {
+            "name": "星熊",
+            "profession": "TANK",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_137_brownb": {
+            "name": "猎蜂",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_140_whitew": {
+            "name": "拉普兰德",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-3",
+                "3-12",
+                "3-12"
+            ]
+        },
+        "char_141_nights": {
+            "name": "夜烟",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_143_ghost": {
+            "name": "幽灵鲨",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_144_red": {
+            "name": "红",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_145_prove": {
+            "name": "普罗旺斯",
+            "profession": "SNIPER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "char_147_shining": {
+            "name": "闪灵",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_148_nearl": {
+            "name": "临光",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_149_scave": {
+            "name": "清道夫",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_150_snakek": {
+            "name": "蛇屠箱",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_151_myrtle": {
+            "name": "桃金娘",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_155_tiger": {
+            "name": "因陀罗",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_158_milu": {
+            "name": "守林人",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-9",
+                "3-9"
+            ]
+        },
+        "char_159_peacok": {
+            "name": "断罪者",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_163_hpsts": {
+            "name": "火神",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_164_nightm": {
+            "name": "夜魔",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_166_skfire": {
+            "name": "天火",
+            "profession": "CASTER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "char_171_bldsk": {
+            "name": "华法琳",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_172_svrash": {
+            "name": "银灰",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-3",
+                "3-12",
+                "3-12"
+            ]
+        },
+        "char_173_slchan": {
+            "name": "崖心",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "2-2",
+                "3-2",
+                "3-2"
+            ]
+        },
+        "char_174_slbell": {
+            "name": "初雪",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-6",
+                "y-6"
+            ]
+        },
+        "char_179_cgbird": {
+            "name": "夜莺",
+            "profession": "MEDIC",
+            "rangeId": [
+                "y-1",
+                "y-2",
+                "y-2"
+            ]
+        },
+        "char_180_amgoat": {
+            "name": "艾雅法拉",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_181_flower": {
+            "name": "调香师",
+            "profession": "MEDIC",
+            "rangeId": [
+                "y-1",
+                "y-2",
+                "y-2"
+            ]
+        },
+        "char_183_skgoat": {
+            "name": "地灵",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-2",
+                "y-2"
+            ]
+        },
+        "char_185_frncat": {
+            "name": "慕斯",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_187_ccheal": {
+            "name": "嘉维尔",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_188_helage": {
+            "name": "赫拉格",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_190_clour": {
+            "name": "红云",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_192_falco": {
+            "name": "翎羽",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_193_frostl": {
+            "name": "霜叶",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-3",
+                "3-12",
+                "3-12"
+            ]
+        },
+        "char_195_glassb": {
+            "name": "真理",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-2",
+                "y-2"
+            ]
+        },
+        "char_196_sunbr": {
+            "name": "古米",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_197_poca": {
+            "name": "早露",
+            "profession": "SNIPER",
+            "rangeId": [
+                "4-4",
+                "4-3",
+                "4-3"
+            ]
+        },
+        "char_198_blackd": {
+            "name": "讯使",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_199_yak": {
+            "name": "角峰",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_2013_cerber": {
+            "name": "刻俄柏",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_2014_nian": {
+            "name": "年",
+            "profession": "TANK",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_2015_dusk": {
+            "name": "夕",
+            "profession": "CASTER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "char_201_moeshd": {
+            "name": "可颂",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_2023_ling": {
+            "name": "令",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_202_demkni": {
+            "name": "塞雷娅",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_204_platnm": {
+            "name": "白金",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_206_gnosis": {
+            "name": "灵知",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-6",
+                "y-6"
+            ]
+        },
+        "char_208_melan": {
+            "name": "玫兰莎",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_209_ardign": {
+            "name": "卡缇",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_210_stward": {
+            "name": "史都华德",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-6"
+            ]
+        },
+        "char_211_adnach": {
+            "name": "安德切尔",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-1"
+            ]
+        },
+        "char_212_ansel": {
+            "name": "安赛尔",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-1"
+            ]
+        },
+        "char_213_mostma": {
+            "name": "莫斯提马",
+            "profession": "CASTER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "char_214_kafka": {
+            "name": "卡夫卡",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_215_mantic": {
+            "name": "狮蝎",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "y-1",
+                "y-1",
+                "y-1"
+            ]
+        },
+        "char_218_cuttle": {
+            "name": "安哲拉",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-9",
+                "3-9"
+            ]
+        },
+        "char_219_meteo": {
+            "name": "陨星",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-8",
+                "3-10"
+            ]
+        },
+        "char_220_grani": {
+            "name": "格拉尼",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_222_bpipe": {
+            "name": "风笛",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_225_haak": {
+            "name": "阿",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_226_hmau": {
+            "name": "吽",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_230_savage": {
+            "name": "暴行",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_235_jesica": {
+            "name": "杰西卡",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_236_rope": {
+            "name": "暗索",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "2-2",
+                "3-2",
+                "3-2"
+            ]
+        },
+        "char_237_gravel": {
+            "name": "砾",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_240_wyvern": {
+            "name": "香草",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_241_panda": {
+            "name": "食铁兽",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_242_otter": {
+            "name": "梅尔",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_243_waaifu": {
+            "name": "槐琥",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_248_mgllan": {
+            "name": "麦哲伦",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_250_phatom": {
+            "name": "傀影",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_252_bibeak": {
+            "name": "柏喙",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_253_greyy": {
+            "name": "格雷伊",
+            "profession": "CASTER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "char_254_vodfox": {
+            "name": "巫恋",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-6",
+                "y-6"
+            ]
+        },
+        "char_258_podego": {
+            "name": "波登可",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-2",
+                "y-2"
+            ]
+        },
+        "char_260_durnar": {
+            "name": "坚雷",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_261_sddrag": {
+            "name": "苇草",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_263_skadi": {
+            "name": "斯卡蒂",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_264_f12yin": {
+            "name": "山",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_265_sophia": {
+            "name": "鞭刃",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ]
+        },
+        "char_271_spikes": {
+            "name": "芳汀",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-3",
+                "3-12",
+                "3-12"
+            ]
+        },
+        "char_272_strong": {
+            "name": "孑",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_274_astesi": {
+            "name": "星极",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_275_breeze": {
+            "name": "微风",
+            "profession": "MEDIC",
+            "rangeId": [
+                "y-1",
+                "y-2",
+                "y-2"
+            ]
+        },
+        "char_277_sqrrel": {
+            "name": "阿消",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_278_orchid": {
+            "name": "梓兰",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-2",
+                "y-2"
+            ]
+        },
+        "char_279_excu": {
+            "name": "送葬人",
+            "profession": "SNIPER",
+            "rangeId": [
+                "2-4",
+                "2-5",
+                "2-5"
+            ]
+        },
+        "char_281_popka": {
+            "name": "泡普卡",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_282_catap": {
+            "name": "空爆",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-8",
+                "3-3"
+            ]
+        },
+        "char_283_midn": {
+            "name": "月见夜",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-3",
+                "3-12",
+                "2-3"
+            ]
+        },
+        "char_284_spot": {
+            "name": "斑点",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_285_medic2": {
+            "name": "Lancet-2",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_286_cast3": {
+            "name": "Castle-3",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_289_gyuki": {
+            "name": "缠丸",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_290_vigna": {
+            "name": "红豆",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_291_aglina": {
+            "name": "安洁莉娜",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-2",
+                "y-2"
+            ]
+        },
+        "char_293_thorns": {
+            "name": "棘刺",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-3",
+                "3-12",
+                "3-12"
+            ]
+        },
+        "char_294_ayer": {
+            "name": "断崖",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-3",
+                "3-12",
+                "3-12"
+            ]
+        },
+        "char_298_susuro": {
+            "name": "苏苏洛",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_300_phenxi": {
+            "name": "菲亚梅塔",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-8",
+                "3-10"
+            ]
+        },
+        "char_301_cutter": {
+            "name": "刻刀",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_302_glaze": {
+            "name": "安比尔",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-9",
+                "3-9"
+            ]
+        },
+        "char_304_zebra": {
+            "name": "暴雨",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_306_leizi": {
+            "name": "惊蛰",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_308_swire": {
+            "name": "诗怀雅",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ]
+        },
+        "char_311_mudrok": {
+            "name": "泥岩",
+            "profession": "TANK",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_322_lmlee": {
+            "name": "老鲤",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_325_bison": {
+            "name": "拜松",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_326_glacus": {
+            "name": "格劳克斯",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-2",
+                "y-2"
+            ]
+        },
+        "char_328_cammou": {
+            "name": "卡达",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_332_archet": {
+            "name": "空弦",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_333_sidero": {
+            "name": "铸铁",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_336_folivo": {
+            "name": "稀音",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_337_utage": {
+            "name": "宴",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_338_iris": {
+            "name": "爱丽丝",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-13",
+                "3-14",
+                "3-14"
+            ]
+        },
+        "char_340_shwaz": {
+            "name": "黑",
+            "profession": "SNIPER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "char_343_tknogi": {
+            "name": "月禾",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-6",
+                "y-6"
+            ]
+        },
+        "char_344_beewax": {
+            "name": "蜜蜡",
+            "profession": "CASTER",
+            "rangeId": [
+                "x-4",
+                "x-1",
+                "x-1"
+            ]
+        },
+        "char_345_folnic": {
+            "name": "亚叶",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_346_aosta": {
+            "name": "奥斯塔",
+            "profession": "SNIPER",
+            "rangeId": [
+                "2-4",
+                "2-5",
+                "2-5"
+            ]
+        },
+        "char_347_jaksel": {
+            "name": "杰克",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_348_ceylon": {
+            "name": "锡兰",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-3",
+                "3-4",
+                "3-4"
+            ]
+        },
+        "char_349_chiave": {
+            "name": "贾维",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_350_surtr": {
+            "name": "史尔特尔",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_355_ethan": {
+            "name": "伊桑",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "y-1",
+                "y-1",
+                "y-1"
+            ]
+        },
+        "char_356_broca": {
+            "name": "布洛卡",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_358_lisa": {
+            "name": "铃兰",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-2",
+                "y-2"
+            ]
+        },
+        "char_362_saga": {
+            "name": "嵯峨",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_363_toddi": {
+            "name": "熔泉",
+            "profession": "SNIPER",
+            "rangeId": [
+                "4-4",
+                "4-3",
+                "4-3"
+            ]
+        },
+        "char_365_aprl": {
+            "name": "四月",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_366_acdrop": {
+            "name": "酸糖",
+            "profession": "SNIPER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "char_367_swllow": {
+            "name": "灰喉",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_369_bena": {
+            "name": "贝娜",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_373_lionhd": {
+            "name": "莱恩哈特",
+            "profession": "CASTER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "char_376_therex": {
+            "name": "THRM-EX",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ]
+        },
+        "char_377_gdglow": {
+            "name": "澄闪",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_378_asbest": {
+            "name": "石棉",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_379_sesa": {
+            "name": "慑砂",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-8",
+                "3-10"
+            ]
+        },
+        "char_381_bubble": {
+            "name": "泡泡",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_383_snsant": {
+            "name": "雪雉",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "2-2",
+                "3-2",
+                "3-2"
+            ]
+        },
+        "char_385_finlpp": {
+            "name": "清流",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-3",
+                "3-4",
+                "3-4"
+            ]
+        },
+        "char_388_mint": {
+            "name": "薄绿",
+            "profession": "CASTER",
+            "rangeId": [
+                "x-4",
+                "x-1",
+                "x-1"
+            ]
+        },
+        "char_391_rosmon": {
+            "name": "迷迭香",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-9",
+                "3-9"
+            ]
+        },
+        "char_4000_jnight": {
+            "name": "正义骑士号",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_4004_pudd": {
+            "name": "布丁",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_4009_irene": {
+            "name": "艾丽妮",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_400_weedy": {
+            "name": "温蒂",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_4013_kjera": {
+            "name": "耶拉",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_4016_kazema": {
+            "name": "风丸",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_4019_ncdeer": {
+            "name": "九色鹿",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-6",
+                "y-6"
+            ]
+        },
+        "char_401_elysm": {
+            "name": "极境",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_4025_aprot2": {
+            "name": "暮落",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_402_tuye": {
+            "name": "图耶",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_4036_forcer": {
+            "name": "见行者",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_4039_horn": {
+            "name": "号角",
+            "profession": "TANK",
+            "rangeId": [
+                "4-5",
+                "4-5",
+                "4-6"
+            ]
+        },
+        "char_4040_rockr": {
+            "name": "洛洛",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_4041_chnut": {
+            "name": "褐果",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-3",
+                "3-17",
+                "3-17"
+            ]
+        },
+        "char_4042_lumen": {
+            "name": "流明",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-3",
+                "3-4",
+                "3-4"
+            ]
+        },
+        "char_4043_erato": {
+            "name": "埃拉托",
+            "profession": "SNIPER",
+            "rangeId": [
+                "4-4",
+                "4-3",
+                "4-3"
+            ]
+        },
+        "char_4045_heidi": {
+            "name": "海蒂",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "x-4",
+                "x-1",
+                "x-1"
+            ]
+        },
+        "char_4046_ebnhlz": {
+            "name": "黑键",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-13",
+                "3-14",
+                "3-14"
+            ]
+        },
+        "char_4047_pianst": {
+            "name": "车尔尼",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_4048_doroth": {
+            "name": "多萝西",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_405_absin": {
+            "name": "苦艾",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_411_tomimi": {
+            "name": "特米米",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_415_flint": {
+            "name": "燧石",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_416_zumama": {
+            "name": "森蚺",
+            "profession": "TANK",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_420_flamtl": {
+            "name": "焰尾",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_421_crow": {
+            "name": "羽毛笔",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-3",
+                "1-3",
+                "1-3"
+            ]
+        },
+        "char_422_aurora": {
+            "name": "极光",
+            "profession": "TANK",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_423_blemsh": {
+            "name": "瑕光",
+            "profession": "TANK",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_426_billro": {
+            "name": "卡涅利安",
+            "profession": "CASTER",
+            "rangeId": [
+                "x-4",
+                "x-1",
+                "x-1"
+            ]
+        },
+        "char_430_fartth": {
+            "name": "远牙",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-9",
+                "3-9"
+            ]
+        },
+        "char_431_ashlok": {
+            "name": "灰毫",
+            "profession": "TANK",
+            "rangeId": [
+                "4-5",
+                "4-5",
+                "4-6"
+            ]
+        },
+        "char_433_windft": {
+            "name": "掠风",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_436_whispr": {
+            "name": "絮雨",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-3",
+                "3-4",
+                "3-4"
+            ]
+        },
+        "char_437_mizuki": {
+            "name": "水月",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "y-1",
+                "y-1",
+                "y-1"
+            ]
+        },
+        "char_440_pinecn": {
+            "name": "松果",
+            "profession": "SNIPER",
+            "rangeId": [
+                "2-4",
+                "2-5",
+                "2-5"
+            ]
+        },
+        "char_449_glider": {
+            "name": "蜜莓",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-3",
+                "3-17",
+                "3-17"
+            ]
+        },
+        "char_451_robin": {
+            "name": "罗宾",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_452_bstalk": {
+            "name": "豆苗",
+            "profession": "PIONEER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_455_nothin": {
+            "name": "乌有",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_456_ash": {
+            "name": "灰烬",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_457_blitz": {
+            "name": "闪击",
+            "profession": "TANK",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ]
+        },
+        "char_458_rfrost": {
+            "name": "霜华",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_459_tachak": {
+            "name": "战车",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_469_indigo": {
+            "name": "深靛",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-13",
+                "3-14",
+                "3-14"
+            ]
+        },
+        "char_472_pasngr": {
+            "name": "异客",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_473_mberry": {
+            "name": "桑葚",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-3",
+                "3-17",
+                "3-17"
+            ]
+        },
+        "char_474_glady": {
+            "name": "歌蕾蒂娅",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "2-2",
+                "3-2",
+                "3-2"
+            ]
+        },
+        "char_475_akafyu": {
+            "name": "赤冬",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_476_blkngt": {
+            "name": "夜半",
+            "profession": "PIONEER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_478_kirara": {
+            "name": "绮良",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "y-1",
+                "y-1",
+                "y-1"
+            ]
+        },
+        "char_479_sleach": {
+            "name": "琴柳",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_484_robrta": {
+            "name": "罗比菈塔",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_485_pallas": {
+            "name": "帕拉斯",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ]
+        },
+        "char_486_takila": {
+            "name": "龙舌兰",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-2",
+                "1-2",
+                "1-2"
+            ]
+        },
+        "char_489_serum": {
+            "name": "蚀清",
+            "profession": "CASTER",
+            "rangeId": [
+                "4-1",
+                "5-1",
+                "5-1"
+            ]
+        },
+        "char_492_quercu": {
+            "name": "夏栎",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-6",
+                "y-6"
+            ]
+        },
+        "char_496_wildmn": {
+            "name": "野鬃",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_500_noirc": {
+            "name": "黑角",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "char_501_durin": {
+            "name": "杜林",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "char_502_nblade": {
+            "name": "夜刀",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_503_rang": {
+            "name": "巡林者",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "char_504_rguard": {
+            "name": "预备干员-近战",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_505_rcast": {
+            "name": "预备干员-术师",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-6"
+            ]
+        },
+        "char_506_rmedic": {
+            "name": "预备干员-后勤",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-1"
+            ]
+        },
+        "char_507_rsnipe": {
+            "name": "预备干员-狙击",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-1"
+            ]
+        },
+        "char_508_aguard": {
+            "name": "Sharp",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "char_509_acast": {
+            "name": "Pith",
+            "profession": "CASTER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "char_510_amedic": {
+            "name": "Touch",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_511_asnipe": {
+            "name": "Stormeye",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ]
+        },
+        "char_512_aprot": {
+            "name": "暮落",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10000_silent_healrb": {
+            "name": "医疗探机",
+            "profession": "TOKEN",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ]
+        },
+        "token_10001_deepcl_tentac": {
+            "name": "触手",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10002_kalts_mon3tr": {
+            "name": "Mon3tr",
+            "profession": "TOKEN",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "token_10003_cgbird_bird": {
+            "name": "幻影",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10004_otter_motter": {
+            "name": "机械水獭",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10005_mgllan_drone1": {
+            "name": "龙腾.F",
+            "profession": "TOKEN",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ]
+        },
+        "token_10005_mgllan_drone2": {
+            "name": "龙腾.L",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10005_mgllan_drone3": {
+            "name": "龙腾.A",
+            "profession": "TOKEN",
+            "rangeId": [
+                "3-6",
+                "3-6",
+                "3-6"
+            ]
+        },
+        "token_10006_vodfox_doll": {
+            "name": "诅咒娃娃",
+            "profession": "TOKEN",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ]
+        },
+        "token_10007_phatom_twin": {
+            "name": "镜中虚影",
+            "profession": "TOKEN",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "token_10008_cqbw_box": {
+            "name": "此面向敌",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10009_weedy_cannon": {
+            "name": "工程蓄水炮",
+            "profession": "TOKEN",
+            "rangeId": [
+                "3-2",
+                "3-2",
+                "3-2"
+            ]
+        },
+        "token_10010_folivo_car": {
+            "name": "移动摄影器",
+            "profession": "TOKEN",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "token_10011_beewax_oblisk": {
+            "name": "沙之碑",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10012_rosmon_shield": {
+            "name": "迷迭香的战术装备",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10013_robin_mine": {
+            "name": "\"夹子\"",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10014_bstalk_crab": {
+            "name": "磐蟹护卫队",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10015_dusk_drgn": {
+            "name": "\"小自在\"",
+            "profession": "TOKEN",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ]
+        },
+        "token_10016_rfrost_mine": {
+            "name": "迎宾踏垫",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10017_skadi2_dedant": {
+            "name": "斯卡蒂的海嗣",
+            "profession": "TOKEN",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ]
+        },
+        "token_10018_robrta_mach": {
+            "name": "全自动造型仪",
+            "profession": "TOKEN",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "token_10019_nearl2_sword": {
+            "name": "“耀阳”",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10020_ling_soul1": {
+            "name": "“清平”",
+            "profession": "TOKEN",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "token_10020_ling_soul2": {
+            "name": "“逍遥”",
+            "profession": "TOKEN",
+            "rangeId": [
+                "3-1",
+                "3-1",
+                "3-1"
+            ]
+        },
+        "token_10020_ling_soul3": {
+            "name": "“弦惊”",
+            "profession": "TOKEN",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "token_10021_blkngt_hypnos": {
+            "name": "眠兽",
+            "profession": "TOKEN",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ]
+        },
+        "token_10022_kazema_shadow": {
+            "name": "纸偶",
+            "profession": "TOKEN",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ]
+        },
+        "token_10023_windft_wrench": {
+            "name": "可靠电池",
+            "profession": "TOKEN",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "token_10024_ebnhlz_rcube": {
+            "name": "旧日残影",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "token_10025_doroth_recttp": {
+            "name": "共振装置",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_001_crate": {
+            "name": "障碍物",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_002_emp": {
+            "name": "震撼装置",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_003_gate": {
+            "name": "闸门",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_005_sensor": {
+            "name": "侦测器",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_006_antidr": {
+            "name": "干扰装置",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-3",
+                "x-3",
+                "x-3"
+            ]
+        },
+        "trap_007_ballis": {
+            "name": "弩炮",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_008_farm": {
+            "name": "指挥终端",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_009_battery": {
+            "name": "便携式补给站",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "trap_010_frosts": {
+            "name": "源石冰晶",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ]
+        },
+        "trap_011_ore": {
+            "name": "源石祭坛",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ]
+        },
+        "trap_012_mine": {
+            "name": "干扰地雷",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_013_blower": {
+            "name": "源石流发生装置",
+            "profession": "TRAP",
+            "rangeId": [
+                "3-2",
+                "3-2",
+                "3-2"
+            ]
+        },
+        "trap_014_tower": {
+            "name": "L-44\"留声机\"",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-2",
+                "x-2",
+                "x-2"
+            ]
+        },
+        "trap_015_tree": {
+            "name": "巨蕈",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ]
+        },
+        "trap_016_peon": {
+            "name": "罗德岛临时雇员",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "trap_018_bomb": {
+            "name": "轰隆隆先生",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ]
+        },
+        "trap_019_electric": {
+            "name": "梅什科线圈",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-2",
+                "x-2",
+                "x-2"
+            ]
+        },
+        "trap_020_roadblock": {
+            "name": "道路障碍物",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_021_flame": {
+            "name": "能量聚合体",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_022_frosts_friend": {
+            "name": "霜星的源石冰晶",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ]
+        },
+        "trap_023_ore_friend": {
+            "name": "爱国者的源石祭坛",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ]
+        },
+        "trap_024_npcsld": {
+            "name": "盾卫",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_025_prison": {
+            "name": "禁锢装置",
+            "profession": "TRAP",
+            "rangeId": [
+                "3-15",
+                "3-15",
+                "3-15"
+            ]
+        },
+        "trap_026_inverter": {
+            "name": "改良型二踢脚",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ]
+        },
+        "trap_027_stone": {
+            "name": "碎石",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_028_cannon": {
+            "name": "脉冲防御模组",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-3",
+                "x-3",
+                "x-3"
+            ]
+        },
+        "trap_029_poison": {
+            "name": "催泪瓦斯控制阀",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_030_factory": {
+            "name": "无人机工厂",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_031_sleep": {
+            "name": "雪雉的安全起重机",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "trap_032_mound": {
+            "name": "土石结构",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_033_sbomb": {
+            "name": "高能源石炸弹",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-6",
+                "x-6",
+                "x-6"
+            ]
+        },
+        "trap_034_machst": {
+            "name": "加固装置",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "trap_035_emperor": {
+            "name": "大帝",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_036_storm": {
+            "name": "沙尘暴",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_037_airsup": {
+            "name": "可移动战术机库",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_038_dsbell": {
+            "name": "应急救治设施",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-2",
+                "x-2",
+                "x-2"
+            ]
+        },
+        "trap_039_dstnta": {
+            "name": "子代",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_040_canoe": {
+            "name": "特制水上平台",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_041_fcanon": {
+            "name": "风筝",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_042_tidectrl": {
+            "name": "涨潮控制",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_043_dupilr": {
+            "name": "破碎支柱",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_044_duruin": {
+            "name": "战场废墟",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_045_dublst": {
+            "name": "爆破装置",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "trap_046_oxygen": {
+            "name": "防水蚀镀膜装置",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "trap_048_neonlamp": {
+            "name": "城市霓虹",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ]
+        },
+        "trap_049_candle": {
+            "name": "骑士之徽",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_050_blizzard": {
+            "name": "暴风雪",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_051_vultres": {
+            "name": "无主的财富",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_052_slowfd": {
+            "name": "失修舞台雾机",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_053_airbomb": {
+            "name": "便携气罐",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ]
+        },
+        "trap_054_dancdol": {
+            "name": "“报幕助手”",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ]
+        },
+        "trap_055_tileblock": {
+            "name": "封印的地面",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_056_sfsuifire": {
+            "name": "丹田",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_057_wpnsts": {
+            "name": "“冰淇淋机”",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ]
+        },
+        "trap_058_gunctrl": {
+            "name": "伦蒂尼姆城防副炮",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_059_peacokfool": {
+            "name": "断罪者",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_060_bouncy": {
+            "name": "圣徒之手",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_061_creep": {
+            "name": "溟痕",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_062_magicstart": {
+            "name": "“低音号”",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_063_magicturn": {
+            "name": "L-7 “回音壁”",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_064_magiccircle": {
+            "name": "“谐振器”",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_069_buffcard": {
+            "name": "战备激活阀",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "trap_070_supplycard": {
+            "name": "预备区发讯器",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_071_recyclecard": {
+            "name": "紧急召回情报箱",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ]
+        },
+        "trap_072_revivecard": {
+            "name": "休整区发讯器",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_073_btauntcard": {
+            "name": "污染晶石",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-6",
+                "x-6",
+                "x-6"
+            ]
+        },
+        "trap_074_bbombcard": {
+            "name": "聚热晶簇",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_075_bgarmn": {
+            "name": "R-31重型动力装甲",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_076_bgarms": {
+            "name": "R-31a重型动力装甲",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_077_rmtarmn": {
+            "name": "R-11突击动力装甲",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_078_rmtarms": {
+            "name": "R-11a突击动力装甲",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        },
+        "trap_082_salecard": {
+            "name": "改派发讯器",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ]
+        }
+    },
+    "range": {
+        "0-1": [
+            [
+                0,
+                0
+            ]
+        ],
+        "1-1": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ]
+        ],
+        "1-2": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                0,
+                -1
+            ]
+        ],
+        "1-3": [
+            [
+                1,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                1,
+                -1
+            ]
+        ],
+        "2-1": [
+            [
+                0,
+                2
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                0,
+                -2
+            ]
+        ],
+        "2-2": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ]
+        ],
+        "2-3": [
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ]
+        ],
+        "2-4": [
+            [
+                1,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                1,
+                -1
+            ]
+        ],
+        "2-5": [
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ]
+        ],
+        "2-6": [
+            [
+                2,
+                2
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                2,
+                -2
+            ]
+        ],
+        "3-1": [
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ]
+        ],
+        "3-10": [
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                4,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ],
+            [
+                4,
+                -1
+            ]
+        ],
+        "3-11": [
+            [
+                0,
+                2
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                0,
+                -2
+            ]
+        ],
+        "3-12": [
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ]
+        ],
+        "3-13": [
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ]
+        ],
+        "3-14": [
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ]
+        ],
+        "3-15": [
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                2,
+                2
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ],
+            [
+                0,
+                -2
+            ],
+            [
+                1,
+                -2
+            ],
+            [
+                2,
+                -2
+            ]
+        ],
+        "3-16": [
+            [
+                3,
+                0
+            ]
+        ],
+        "3-17": [
+            [
+                1,
+                2
+            ],
+            [
+                2,
+                2
+            ],
+            [
+                3,
+                2
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ],
+            [
+                1,
+                -2
+            ],
+            [
+                2,
+                -2
+            ],
+            [
+                3,
+                -2
+            ]
+        ],
+        "3-18": [
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                0,
+                -2
+            ],
+            [
+                1,
+                -2
+            ]
+        ],
+        "3-2": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ]
+        ],
+        "3-3": [
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ]
+        ],
+        "3-4": [
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                2,
+                2
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ],
+            [
+                0,
+                -2
+            ],
+            [
+                1,
+                -2
+            ],
+            [
+                2,
+                -2
+            ]
+        ],
+        "3-5": [
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                0,
+                -2
+            ],
+            [
+                1,
+                -2
+            ]
+        ],
+        "3-6": [
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ]
+        ],
+        "3-7": [
+            [
+                0,
+                3
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                0,
+                -2
+            ],
+            [
+                1,
+                -2
+            ],
+            [
+                0,
+                -3
+            ]
+        ],
+        "3-8": [
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ]
+        ],
+        "3-9": [
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                2,
+                2
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ],
+            [
+                0,
+                -2
+            ],
+            [
+                1,
+                -2
+            ],
+            [
+                2,
+                -2
+            ]
+        ],
+        "4-1": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ]
+        ],
+        "4-2": [
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ]
+        ],
+        "4-3": [
+            [
+                2,
+                2
+            ],
+            [
+                3,
+                2
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                4,
+                1
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ],
+            [
+                4,
+                -1
+            ],
+            [
+                2,
+                -2
+            ],
+            [
+                3,
+                -2
+            ]
+        ],
+        "4-4": [
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                4,
+                1
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ],
+            [
+                4,
+                -1
+            ]
+        ],
+        "4-5": [
+            [
+                3,
+                1
+            ],
+            [
+                4,
+                1
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                3,
+                -1
+            ],
+            [
+                4,
+                -1
+            ]
+        ],
+        "4-6": [
+            [
+                3,
+                1
+            ],
+            [
+                4,
+                1
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                5,
+                0
+            ],
+            [
+                3,
+                -1
+            ],
+            [
+                4,
+                -1
+            ]
+        ],
+        "4-7": [
+            [
+                3,
+                1
+            ],
+            [
+                4,
+                1
+            ],
+            [
+                5,
+                1
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                5,
+                0
+            ],
+            [
+                3,
+                -1
+            ],
+            [
+                4,
+                -1
+            ],
+            [
+                5,
+                -1
+            ]
+        ],
+        "5-1": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                5,
+                0
+            ]
+        ],
+        "5-2": [
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                4,
+                1
+            ],
+            [
+                5,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                5,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ],
+            [
+                4,
+                -1
+            ],
+            [
+                5,
+                -1
+            ]
+        ],
+        "b-1": [
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ]
+        ],
+        "x-1": [
+            [
+                0,
+                2
+            ],
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                -2,
+                0
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                0,
+                -2
+            ]
+        ],
+        "x-2": [
+            [
+                -1,
+                2
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                -2,
+                1
+            ],
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                -2,
+                0
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                -2,
+                -1
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                -1,
+                -2
+            ],
+            [
+                0,
+                -2
+            ],
+            [
+                1,
+                -2
+            ]
+        ],
+        "x-3": [
+            [
+                0,
+                3
+            ],
+            [
+                -1,
+                2
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                -2,
+                1
+            ],
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                -3,
+                0
+            ],
+            [
+                -2,
+                0
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                -2,
+                -1
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                -1,
+                -2
+            ],
+            [
+                0,
+                -2
+            ],
+            [
+                1,
+                -2
+            ],
+            [
+                0,
+                -3
+            ]
+        ],
+        "x-4": [
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ]
+        ],
+        "x-5": [
+            [
+                0,
+                1
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                0,
+                -1
+            ]
+        ],
+        "x-6": [
+            [
+                0,
+                2
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                -2,
+                0
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                0,
+                -2
+            ]
+        ],
+        "y-1": [
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ]
+        ],
+        "y-2": [
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ]
+        ],
+        "y-3": [
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ]
+        ],
+        "y-4": [
+            [
+                -1,
+                2
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                -1,
+                -2
+            ],
+            [
+                0,
+                -2
+            ],
+            [
+                1,
+                -2
+            ]
+        ],
+        "y-5": [
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ]
+        ],
+        "y-6": [
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                0,
+                -2
+            ],
+            [
+                1,
+                -2
+            ]
+        ],
+        "y-7": [
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ]
+        ],
+        "y-8": [
+            [
+                -1,
+                2
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                2,
+                2
+            ],
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                3,
+                -1
+            ],
+            [
+                -1,
+                -2
+            ],
+            [
+                0,
+                -2
+            ],
+            [
+                1,
+                -2
+            ],
+            [
+                2,
+                -2
+            ]
+        ]
+    }
+}
