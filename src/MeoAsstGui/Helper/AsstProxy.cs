@@ -445,15 +445,15 @@ namespace MeoAsstGui
                 switch (taskName)
                 {
                     case "StartButton2":
-                        mainModel.AddLog(Localization.GetString("OnTheMove") + execTimes + Localization.GetString("UnitTime"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("OnTheMove") + $" {execTimes} " + Localization.GetString("UnitTime"), "darkcyan");
                         break;
 
                     case "MedicineConfirm":
-                        mainModel.AddLog(Localization.GetString("MedicineUsed") + execTimes + Localization.GetString("UnitTime"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("MedicineUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), "darkcyan");
                         break;
 
                     case "StoneConfirm":
-                        mainModel.AddLog(Localization.GetString("StoneUsed") + execTimes + Localization.GetString("UnitTime"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("StoneUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), "darkcyan");
                         break;
 
                     case "AbandonAction":
@@ -465,7 +465,7 @@ namespace MeoAsstGui
                         break;
 
                     case "RecruitConfirm":
-                        mainModel.AddLog(Localization.GetString("RecruitConfirmed"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("RecruitConfirm"), "darkcyan");
                         break;
 
                     case "InfrastDormDoubleConfirmButton":
@@ -474,11 +474,11 @@ namespace MeoAsstGui
 
                     /* 肉鸽相关 */
                     case "Roguelike1Start":
-                        mainModel.AddLog(Localization.GetString("BegunToExplore") + execTimes + Localization.GetString("UnitTime"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("BegunToExplore") + $" {execTimes} " + Localization.GetString("UnitTime"), "darkcyan");
                         break;
 
                     case "Roguelike1StageTraderInvestConfirm":
-                        mainModel.AddLog(Localization.GetString("HasInvested") + execTimes + Localization.GetString("UnitTime"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("HasInvested") + $" {execTimes} " + Localization.GetString("UnitTime"), "darkcyan");
                         break;
 
                     case "Roguelike1ExitThenAbandon":

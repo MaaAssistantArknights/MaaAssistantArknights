@@ -50,7 +50,7 @@ namespace MeoAsstGui
             _listTitle.Add(Localization.GetString("RougelikeSettings"));
             _listTitle.Add(Localization.GetString("RecruitingSettings"));
             _listTitle.Add(Localization.GetString("MallSettings"));
-            _listTitle.Add(Localization.GetString("PenguinDataSettings"));
+            _listTitle.Add(Localization.GetString("PenguinSettings"));
             _listTitle.Add(Localization.GetString("ConnectionSettings"));
             _listTitle.Add(Localization.GetString("StartupSettings"));
             _listTitle.Add(Localization.GetString("ScheduleSettings"));
