@@ -287,4 +287,16 @@
     <system:String x:Key="Help">Q&amp;A</system:String>
     <system:String x:Key="Issue">Issue</system:String>
     <!--AboutUser-->
+
+    <!--AutoRecruitSettings-->
+    <system:String x:Key="AutoRefresh">Auto refresh Lv3 Tags</system:String>
+    <system:String x:Key="AutoUseExpedited">Auto use Expedited*</system:String>
+    <system:String x:Key="RecruitMaxTimes">Recruit max times</system:String>
+    <system:String x:Key="ManuallySelectLevel1">Manually select 1★</system:String>
+    <system:String x:Key="AutoSelectLevel3">Auto select 3★</system:String>
+    <system:String x:Key="AutoSelectLevel4">Auto select 4★</system:String>
+    <system:String x:Key="AutoSelectLevel5">Auto select 5★</system:String>
+    <system:String x:Key="AutoSelectLevel6">Auto select 6★</system:String>
+    <system:String x:Key="Level1Tip">If checked, the recruitment will be skipped when the entry with 1★ is identified. If not checked, the entry with 1★ will be ignored</system:String>
+    <!--AutoRecruitSettings-->
 </ResourceDictionary>
