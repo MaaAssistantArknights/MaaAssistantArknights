@@ -7536,7 +7536,7 @@
     },
     "StageDrops-Item": {
         "template": "empty.png",
-        "templThreshold": 0.6,
+        "templThreshold": 0.61,
         "roi": [
             0,
             -130,
