@@ -2,6 +2,7 @@
 #include "OcrImageAnalyzer.h"
 #include "TaskData.h"
 #include "Controller.h"
+#include "ProcessTask.h"
 
 bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -61,18 +62,24 @@ bool asst::RoguelikeCustomStartTaskPlugin::_run()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
 {
-    auto image = m_ctrler->get_image();
-    OcrImageAnalyzer analyzer(image);
-    analyzer.set_task_info("Roguelike1Custom-HijackSquad");
-    analyzer.set_required({ m_customs[RoguelikeCustomType::Squad] });
+    constexpr size_t SwipeTimes = 5;
+    for (size_t i = 0; i != SwipeTimes; ++i) {
+        auto image = m_ctrler->get_image();
+        OcrImageAnalyzer analyzer(image);
+        analyzer.set_task_info("Roguelike1Custom-HijackSquad");
+        analyzer.set_required({ m_customs[RoguelikeCustomType::Squad] });
 
-    if (!analyzer.analyze()) {
-        // TODO: swipe page
-        return false;
+        if (!analyzer.analyze()) {
+            ProcessTask(*this, { "SlowlySwipeToTheRight" }).run();
+            sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
+            continue;
+        }
+        const auto& rect = analyzer.get_result().front().rect;
+        m_ctrler->click(rect);
+        return true;
     }
-    const auto& rect = analyzer.get_result().front().rect;
-    m_ctrler->click(rect);
-    return true;
+    ProcessTask(*this, { "SwipeToTheLeft" }).run();
+    return false;
 }
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
