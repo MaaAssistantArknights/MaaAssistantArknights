@@ -40,9 +40,9 @@ namespace MeoAsstGui
             notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
             App.Current.MainWindow.StateChanged += MainWindow_StateChanged;
 
-            MenuItem startMenu = new System.Windows.Forms.MenuItem("开始长草");
+            MenuItem startMenu = new System.Windows.Forms.MenuItem(Localization.GetString("Farming"));
             startMenu.Click += StartTask;
-            MenuItem stopMenu = new System.Windows.Forms.MenuItem("全部停止");
+            MenuItem stopMenu = new System.Windows.Forms.MenuItem(Localization.GetString("Stop"));
             stopMenu.Click += StopTask;
 
             MenuItem switchLangMenu = new System.Windows.Forms.MenuItem(Localization.GetString("SwitchLanguage"));
@@ -57,7 +57,7 @@ namespace MeoAsstGui
                 switchLangMenu.MenuItems.Add(langMenu);
             }
 
-            MenuItem exitMenu = new System.Windows.Forms.MenuItem("退出");
+            MenuItem exitMenu = new System.Windows.Forms.MenuItem(Localization.GetString("Exit"));
             exitMenu.Click += App_exit;
             System.Windows.Forms.MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, exitMenu };
             this.notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(menuItems);
