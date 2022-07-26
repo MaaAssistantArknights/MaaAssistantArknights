@@ -180,6 +180,9 @@ namespace MeoAsstGui
                 new CombData { Display = "当前关卡", Value = string.Empty },
                 new CombData { Display = "上次作战", Value = "LastBattle" },
 
+                // SideStory「多索雷斯假日」复刻活动关卡
+                new CombData { Display = "DH-9", Value = "DH-9" },
+
                 new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = "龙门币-6/5", Value = "CE-6" },
                 new CombData { Display = "红票-5", Value = "AP-5" },
