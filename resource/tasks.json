@@ -198,6 +198,69 @@
             60
         ]
     },
+    "DH-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DH-Open"
+        ],
+        "next": [
+            "StageDH-9"
+        ]
+    },
+    "DH-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "假日",
+            "复刻",
+            "活动",
+            "开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "DHChapterToDH"
+        ]
+    },
+    "DHChapterToDH": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "极限",
+            "铁人",
+            "大奖"
+        ],
+        "roi": [
+            934,
+            280,
+            234,
+            124
+        ],
+        "rearDelay": 2000,
+        "next": [
+            "DHChapterToDH",
+            "SwipeToTheRight"
+        ]
+    },
+    "StageDH-9": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "DH-9"
+        ],
+        "roi": [
+            518,
+            133,
+            176,
+            134
+        ]
+    },
     "DV-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
