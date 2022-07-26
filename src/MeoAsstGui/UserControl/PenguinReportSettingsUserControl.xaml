@@ -12,7 +12,7 @@
     <Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="企鹅数据汇报ID&#13;（仅数字部分）" Margin="10" />
+                   Text="{DynamicResource PenguinID}" Margin="10" />
             <TextBox Text="{Binding PenguinId}" Margin="10"
                      Width="150" InputMethod.IsInputMethodEnabled="False" />
         </StackPanel>

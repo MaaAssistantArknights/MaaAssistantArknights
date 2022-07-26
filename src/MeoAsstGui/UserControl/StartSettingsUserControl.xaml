@@ -15,13 +15,14 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" VerticalAlignment="Center">
+            <!-- TODO: fix margin on this -->
             <CheckBox IsChecked="{Binding StartSelf}"  Block.TextAlignment="Center"
                   HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10"
-                  Content="开机自动启动             " />
+                  Content="{DynamicResource LaunchOnSystemStartup}" />
             <CheckBox IsChecked="{Binding RunDirectly}"  Block.TextAlignment="Center"
                   HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10"
-                  Content="启动后直接运行          " />
-            <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="客户端版本" />
+                  Content="{DynamicResource RunTaskAfterLaunch}" />
+            <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="{DynamicResource ClientVersion}" />
             <ComboBox IsHitTestVisible ="{Binding Idle}" Margin="10"
                       ItemsSource="{Binding ClientTypeList}"
                       DisplayMemberPath="Display"
@@ -31,18 +32,18 @@
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
             <CheckBox IsChecked="{Binding StartEmulator}"  Block.TextAlignment="Center"
                   HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10"
-                  Content="启动后自动开启模拟器" />
+                  Content="{DynamicResource OpenEmulatorAfterLaunch}" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-                <TextBlock Margin="3" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="等待模拟器&#xA;启动时间（秒）" />
+                <TextBlock Margin="3" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="{DynamicResource WaitForEmulator}" />
                 <TextBox Margin="3" Text="{Binding EmulatorWaitSeconds}" InputMethod.IsInputMethodEnabled="False"  Width="50" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="模拟器路径" />
-                <Button Command="{s:Action SelectEmulatorExec}"  Content="选择" Margin="10" />
+                <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="{DynamicResource EmulatorPath}" />
+                <Button Command="{s:Action SelectEmulatorExec}"  Content="{DynamicResource Select}" Margin="10" />
             </StackPanel>
             <TextBox Text="{Binding EmulatorPath}"  Margin="10" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="附加命令" />
+                <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="{DynamicResource AdditionCommand}" />
             </StackPanel>
             <TextBox Text="{Binding EmulatorAddCommand}"  Margin="10" />
         </StackPanel>
