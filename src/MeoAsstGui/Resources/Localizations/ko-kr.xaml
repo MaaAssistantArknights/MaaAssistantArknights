@@ -137,84 +137,84 @@
     <system:String x:Key="ExitArknights">명일방주를 종료</system:String>
     <system:String x:Key="ExitMAA">MAA를 종료</system:String>
     <system:String x:Key="CloseEmulator">에뮬레이터를 종료</system:String>
-    <system:String x:Key="ExitMAAAndCloseEmulator">MAA과 에뮬레이터를 종료</system:String>
+    <system:String x:Key="ExitMAAAndCloseEmulator">MAA와 에뮬레이터를 종료</system:String>
     <system:String x:Key="Hibernate">하이버네이션*</system:String>
     <system:String x:Key="Shutdown">컴퓨터를 종료*</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">중지</system:String>
 
-    <!--전투 설정-->
-    <system:String x:Key="UseSanityPotion">이성약 복용</system:String>
-    <system:String x:Key="UseOriginitePrime">식원석 *</system:String>
-    <system:String x:Key="PerformBattles">횟수 *</system:String>
-    <system:String x:Key="AssignedMaterial">지정자료</system:String>
-    <system:String x:Key="Quantity">드롭수</system:String>
-    <system:String x:Key="StageSelect">레벨 선택</system:String>
+    <!--작전 설정-->
+    <system:String x:Key="UseSanityPotion">이성 회복제를 사용</system:String>
+    <system:String x:Key="UseOriginitePrime">오리지늄을 사용*</system:String>
+    <system:String x:Key="PerformBattles">횟수 제한*</system:String>
+    <system:String x:Key="AssignedMaterial">드롭 제한</system:String>
+    <system:String x:Key="Quantity">드롭 수</system:String>
+    <system:String x:Key="StageSelect">스테이지 선택</system:String>
     <system:String x:Key="Amend">수정</system:String>
 
-    <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
-    <system:String x:Key="LastBattle">上次作战</system:String>-->
+    <!--<system:String x:Key="CurrentStage">현재 수테이지</system:String>
+    <system:String x:Key="LastBattle">이전 작전</system:String>-->
     <system:String x:Key="DefaultStage">현재/이전</system:String>
     <system:String x:Key="1-7">1-7</system:String>
-    <system:String x:Key="CE-6">CE-6</system:String>
-    <system:String x:Key="AP-5">AP-5</system:String>
-    <system:String x:Key="CA-5">CA-5</system:String>
-    <system:String x:Key="LS-6">LS-6</system:String>
+    <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>
+    <system:String x:Key="AP-5">AP-5 (구매증명서)</system:String>
+    <system:String x:Key="CA-5">CA-5 (스킬개론)</system:String>
+    <system:String x:Key="LS-6">LS-6 (EXP)</system:String>
 
-    <system:String x:Key="PR-A-1">PR-A-1</system:String>
-    <system:String x:Key="PR-A-2">PR-A-2</system:String>
-    <system:String x:Key="PR-B-1">PR-B-1</system:String>
-    <system:String x:Key="PR-B-2">PR-B-2</system:String>
-    <system:String x:Key="PR-C-1">PR-C-1</system:String>
-    <system:String x:Key="PR-C-2">PR-C-2</system:String>
-    <system:String x:Key="PR-D-1">PR-D-1</system:String>
-    <system:String x:Key="PR-D-2">PR-D-2</system:String>
+    <system:String x:Key="PR-A-1">PR-A-1 (메딕/디펜더)</system:String>
+    <system:String x:Key="PR-A-2">PR-A-2 (메딕/디펜더)</system:String>
+    <system:String x:Key="PR-B-1">PR-B-1 (캐스터/스나이퍼)</system:String>
+    <system:String x:Key="PR-B-2">PR-B-2 (캐스터/스나이퍼)</system:String>
+    <system:String x:Key="PR-C-1">PR-C-1 (뱅가드/서포터)</system:String>
+    <system:String x:Key="PR-C-2">PR-C-2 (뱅가드/서포터)</system:String>
+    <system:String x:Key="PR-D-1">PR-D-1 (가드/스페셜리스트)</system:String>
+    <system:String x:Key="PR-D-2">PR-D-2 (가드/스페셜리스트)</system:String>
 
-    <system:String x:Key="TodaysStageTip">오늘의 레벨 팁:</system:String>
+    <system:String x:Key="TodaysStageTip">오늘의 수테이지 팁:</system:String>
     <system:String x:Key="CETip">CE (용문폐)</system:String>
     <system:String x:Key="APTip">AP (구매증명서)</system:String>
     <system:String x:Key="CATip">CA (스킬개론)</system:String>
-    <system:String x:Key="LSTip">LS (작전 기록)</system:String>
-    <system:String x:Key="SKTip">SK (탄소 막대)</system:String>
-    <system:String x:Key="PR-ATip">PR-A 칩</system:String>
-    <system:String x:Key="PR-BTip">PR-B 칩</system:String>
-    <system:String x:Key="PR-CTip">PR-C 칩</system:String>
-    <system:String x:Key="PR-DTip">PR-D 칩</system:String>
-    <system:String x:Key="Pormpt1">It's time to complete Annihilation</system:String>
-    <system:String x:Key="Pormpt2">Don't forget Annihilation</system:String>
-    <!--전투 설정-->
+    <system:String x:Key="LSTip">LS (작전기록)</system:String>
+    <system:String x:Key="SKTip">SK (탄소)</system:String>
+    <system:String x:Key="PR-ATip">PR-A 메딕/디펜더 칩</system:String>
+    <system:String x:Key="PR-BTip">PR-B 캐스터/스나이퍼 칩</system:String>
+    <system:String x:Key="PR-CTip">PR-C 뱅가드/서포터 칩</system:String>
+    <system:String x:Key="PR-DTip">PR-D 가드/스페셜리스트 칩</system:String>
+    <system:String x:Key="Pormpt1">월요일입니다. 섬멸 의뢰를 잊지 마십시오~</system:String>
+    <system:String x:Key="Pormpt2">일요일입니다. 섬멸 의뢰를 잊지 마십시오~</system:String>
+    <!--작전 설정-->
 
     <!--로그-->
-    <system:String x:Key="ConnectingToEmulator">에뮬레이터를 연결하는 중...</system:String>
-    <system:String x:Key="UnselectedTask">선택되지 않은 작업</system:String>
-    <system:String x:Key="Running">실행 중...</system:String>
+    <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결중...</system:String>
+    <system:String x:Key="UnselectedTask">선택된 작업이 없다</system:String>
+    <system:String x:Key="Running">실행중...</system:String>
     <system:String x:Key="Stopped">정지됐다</system:String>
-    <system:String x:Key="UnknownErrorOccurs">알 수 없는 오류가 발생했습니다</system:String>
-    <system:String x:Key="SetSuccessfully">성공적으로 설정했습니다</system:String>
+    <system:String x:Key="UnknownErrorOccurs">예상치 못한 오류가 발생했습니다</system:String>
+    <system:String x:Key="SetSuccessfully">설정 성공</system:String>
     <system:String x:Key="SetFailed">설정 실패</system:String>
-    <system:String x:Key="CloseArknightsFailed">게임을 끄는데 실패했습니다</system:String>
+    <system:String x:Key="CloseArknightsFailed">게임 종료 실패</system:String>
     <system:String x:Key="CloseEmulatorFailed">에뮬레이터 종료 실패</system:String>
-    <system:String x:Key="AboutToShutdown">이미 화면이 끝났습니다. 꺼지려고 합니다. 취소하시겠습니까?</system:String>
-    <system:String x:Key="ShutdownPrompt">힌트</system:String>
-    <system:String x:Key="HibernatePrompt">이미 호출이 완료되어 절전 모드로 들어갈 것입니다</system:String>
+    <system:String x:Key="AboutToShutdown">작업 완료했습니다, 운영 체제가 곧 중료됩니다. 취소하시겠습니까?</system:String>
+    <system:String x:Key="ShutdownPrompt">공지</system:String>
+    <system:String x:Key="HibernatePrompt">작업 완료했습니다, 곧 하이버네이션됩니다.</system:String>
     <!--로그-->
-    <!--한버튼 잔디밭-->
+    <!--메인 화면-->
 
-    <!--공개모집 식별-->
-    <system:String x:Key="Recognition">공개모집 식별</system:String>
-    <system:String x:Key="RecognitionTip">팁:자동 팁과 메인 인터페이스는 서로 다른 것입니다.~</system:String>
-    <system:String x:Key="AutoSettingTime">시간 설정</system:String>
-    <system:String x:Key="AutoSelectLevel3Tags">자동 선택 3★</system:String>
-    <system:String x:Key="AutoSelectLevel4Tags">자동 선택 4★</system:String>
-    <system:String x:Key="AutoSelectLevel5Tags">자동 선택 5★</system:String>
-    <system:String x:Key="AutoSelectLevel6Tags">자동 선택 6★</system:String>
-    <system:String x:Key="BeganToRecruit">인식하기 시작한다</system:String>
+    <!--공개모집 인식-->
+    <system:String x:Key="Recognition">공개모집 인식</system:String>
+    <system:String x:Key="RecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립 기능입니다. 게임 공개모집 꼬리표 화면에서 사용하세요~</system:String>
+    <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
+    <system:String x:Key="AutoSelectLevel3Tags">★3 꼬리표를 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel4Tags">★4 꼬리표를 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel5Tags">★5 꼬리표를 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel6Tags">★6 꼬리표를 자동 선택</system:String>
+    <system:String x:Key="BeganToRecruit">인식 시작</system:String>
 
     <!--로그-->
-    <system:String x:Key="Identifying">식별하는 중...</system:String>
+    <system:String x:Key="Identifying">인식중...</system:String>
     <!--로그-->
-    <!--공개모집 식별-->
+    <!--공개모집 인식-->
 
     <!--자동 전투-->
     <system:String x:Key="Copilot">자동 전투 베타</system:String>
