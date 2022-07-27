@@ -145,12 +145,12 @@
     <system:String x:Key="Stop">Stop</system:String>
 
     <!--FightSettings-->
-    <system:String x:Key="UseSanityPotion" xml:space="preserve">Use Sanity Potion      </system:String>
+    <system:String x:Key="UseSanityPotion">Use Sanity Potion</system:String>
     <system:String x:Key="UseOriginitePrime">Use Originite Prime*</system:String>
-    <system:String x:Key="PerformBattles" xml:space="preserve">Perform Battles*          </system:String>
-    <system:String x:Key="AssignedMaterial" xml:space="preserve">  Material</system:String>
-    <system:String x:Key="Quantity" xml:space="preserve">  Quantity</system:String>
-    <system:String x:Key="StageSelect" xml:space="preserve">    Stage</system:String>
+    <system:String x:Key="PerformBattles">Perform Battles*</system:String>
+    <system:String x:Key="AssignedMaterial">Material</system:String>
+    <system:String x:Key="Quantity">Quantity</system:String>
+    <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="Amend">Amend</system:String>
 
     <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
