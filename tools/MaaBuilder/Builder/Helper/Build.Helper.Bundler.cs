@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using MaaBuilder.Models;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Nuke.Common;
@@ -11,7 +14,7 @@ namespace MaaBuilder;
 
 public partial class Build
 {
-    void BundlePackage(AbsolutePath input, string bundleName)
+    void BundlePackage(AbsolutePath input, string bundleName, string packageType)
     {
         var packName = bundleName;
         if (packName.EndsWith(".zip") is false)
@@ -27,6 +30,27 @@ public partial class Build
 
         Information($"创建压缩文件：{bundle}");
         ZipFile.CreateFromDirectory(input, bundle, CompressionLevel.SmallestSize, false);
+
+        var sourceDirectory = new DirectoryInfo(input);
+        var allFiles = sourceDirectory.GetFiles("*.*", SearchOption.AllDirectories);
+        var allHashes = allFiles.Select(x => FileSystemTasks.GetFileHash(x.FullName)).OrderBy(x => x);
+        var hashCombinedBuilder = new StringBuilder();
+        foreach (var h in allHashes)
+        {
+            hashCombinedBuilder.Append(h);
+        }
+        var combinedHashString = hashCombinedBuilder.ToString();
+        var hash = GetStringMd5(combinedHashString);
+
+        var bundleHash = FileSystemTasks.GetFileHash(bundle);
+        
+        ArtifactChecksums.Add(new Checksum
+        {
+            FileHash = bundleHash,
+            FileIdentity = hash,
+            FileName = packName,
+            PackageType = packageType
+        });
     }
     
     static void MoveGlobFiles(AbsolutePath source, AbsolutePath target, IEnumerable<string> include, IEnumerable<string> exclude)
@@ -78,6 +102,14 @@ public partial class Build
             ZipFile.ExtractToDirectory(file, tempDir, true);
         }
         
-        BundlePackage(tempDir, bundleName);
+        BundlePackage(tempDir, bundleName, package.PackageType);
+    }
+    
+    static string GetStringMd5(string input)
+    {
+        using var md5 = MD5.Create();
+        var inputBytes = Encoding.ASCII.GetBytes(input);
+        var hashBytes = md5.ComputeHash(inputBytes);
+        return Convert.ToHexString(hashBytes);
     }
 }
