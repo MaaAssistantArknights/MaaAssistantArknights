@@ -1146,7 +1146,7 @@ namespace MeoAsstGui
                 {
                     Execute.OnUIThread(() =>
                     {
-                        using (var toast = new ToastNotification("通知演示"))
+                        using (var toast = new ToastNotification("Test test"))
                         {
                             toast.Show();
                         }
