@@ -27,6 +27,7 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static auto TilesCalcResourceFilename = "Arknights-Tile-Pos";
     constexpr static auto StageDropsCfgFilename = "stages.json";
     constexpr static auto StageDropsTempls = "template/items";
+    constexpr static auto BattleDataCfgFilename = "battle_data.json";
 
     bool overload = false;
 
@@ -149,6 +150,17 @@ bool asst::Resource::load(const std::string& dir)
     if (!m_templ_resource_unique_ins.load(dir + StageDropsTempls)) {
         if (!m_loaded) {
             m_last_error = std::string(StageDropsTempls) + ": " + m_templ_resource_unique_ins.get_last_error();
+            return false;
+        }
+    }
+    else {
+        overload = true;
+    }
+
+    // 加载战斗中需要的数据
+    if (!m_battle_data_cfg_unique_ins.load(dir + BattleDataCfgFilename)) {
+        if (!m_loaded) {
+            m_last_error = std::string(BattleDataCfgFilename) + ": " + m_battle_data_cfg_unique_ins.get_last_error();
             return false;
         }
     }

@@ -29,6 +29,7 @@
     <ClInclude Include="AsstMsg.h" />
     <ClInclude Include="AutoRecruitTask.h" />
     <ClInclude Include="AwardTask.h" />
+    <ClInclude Include="BattleDataConfiger.h" />
     <ClInclude Include="CloseDownTask.h" />
     <ClInclude Include="CopilotConfiger.h" />
     <ClInclude Include="BattleFormationTask.h" />
@@ -115,6 +116,7 @@
     <ClCompile Include="AbstractTaskPlugin.cpp" />
     <ClCompile Include="AutoRecruitTask.cpp" />
     <ClCompile Include="AwardTask.cpp" />
+    <ClCompile Include="BattleDataConfiger.cpp" />
     <ClCompile Include="CloseDownTask.cpp" />
     <ClCompile Include="CopilotConfiger.cpp" />
     <ClCompile Include="BattleFormationTask.cpp" />

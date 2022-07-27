@@ -112,4 +112,11 @@ namespace asst
         std::vector<Point> replacement_home;
         std::vector<int> key_kills;
     };
+
+    struct BattleCharData
+    {
+        std::string name;
+        BattleRole role;
+        std::array<std::string, 3> ranges;
+    };
 }
