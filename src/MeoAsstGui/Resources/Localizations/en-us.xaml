@@ -231,7 +231,7 @@
 
     <!--Logs-->
     <system:String x:Key="CopilotTip">Tips：</system:String>
-    <system:String x:Key="CopilotTip1">1. Please set the emulator and game frame rate to 60 frames or higher.</system:String>
+    <system:String x:Key="CopilotTip1">1. Please set the emulator and game to 60 FPS or higher.</system:String>
     <system:String x:Key="CopilotTip2">2. Please use this function only in the interface with "Start" button.</system:String>
     <system:String x:Key="CopilotTip3">3. You can turn off the "Auto squad" when using friends to help you, and manually select an agent to start.</system:String>
     <system:String x:Key="CopilotTip4">4. To Paradox Simulation, you need to turn off "Auto squad" and select a skill before starting on the interface of "Start" button.</system:String>
