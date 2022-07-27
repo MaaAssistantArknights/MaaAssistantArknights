@@ -298,7 +298,7 @@
     <system:String x:Key="RecruitingResults">Recruitment Results:</system:String>
     <system:String x:Key="RecruitingTips">Recruiting Tips</system:String>
     <system:String x:Key="RecruitmentOfStar">{0} star has been recruited</system:String>
-    <system:String x:Key="RecruitmentOfBot">Robot! robot! more robot! </system:String>
+    <system:String x:Key="RecruitmentOfBot">Robot! robot! more robot!</system:String>
     <system:String x:Key="Choose">Choose</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
     <system:String x:Key="NotEnoughStaff">Insufficient operators (wait what you understaff?)</system:String>
