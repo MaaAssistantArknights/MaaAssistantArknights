@@ -11,9 +11,11 @@
              d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
              d:DesignHeight="300" d:DesignWidth="550">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-        <CheckBox IsChecked="{Binding MinimizeToTray}" Content="{DynamicResource MinimizeToTray}" Margin="10" />
-        <CheckBox IsChecked="{Binding UseNotify}" Content="{DynamicResource SystemNotification}" Margin="10" />
-        <CheckBox IsChecked="{Binding HideUnavailableStage}" Content="{DynamicResource HideUnavailableStage}" Margin="10" />
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+            <CheckBox IsChecked="{Binding MinimizeToTray}" Content="{DynamicResource MinimizeToTray}" Margin="10" HorizontalAlignment="Left"/>
+            <CheckBox IsChecked="{Binding UseNotify}" Content="{DynamicResource SystemNotification}" Margin="10" HorizontalAlignment="Left"/>
+            <CheckBox IsChecked="{Binding HideUnavailableStage}" Content="{DynamicResource HideUnavailableStage}" Margin="10" HorizontalAlignment="Left"/>
+        </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
                    Text="{DynamicResource MainViewButtonFeature}" Margin="10" />

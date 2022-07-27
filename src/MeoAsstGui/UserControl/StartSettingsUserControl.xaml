@@ -31,7 +31,7 @@
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
             <CheckBox IsChecked="{Binding StartEmulator}"  Block.TextAlignment="Center"
-                  HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10"
+                  HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="20,10,10,10"
                   Content="{DynamicResource OpenEmulatorAfterLaunch}" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
                 <TextBlock Margin="3" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="{DynamicResource WaitForEmulator}" />
