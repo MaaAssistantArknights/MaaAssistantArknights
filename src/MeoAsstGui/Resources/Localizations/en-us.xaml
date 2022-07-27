@@ -84,7 +84,7 @@
     <system:String x:Key="TimerTip">Hours only(15 means start tasks at 3 p.m.)</system:String>
     <system:String x:Key="Timer">Timer</system:String>
 
-    <system:String x:Key="LaunchOnSystemStartup" xml:space="preserve">Auto start with PC                  </system:String>
+    <system:String x:Key="LaunchOnSystemStartup">Auto start with PC</system:String>
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
     <system:String x:Key="ClientVersion">Client version</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>

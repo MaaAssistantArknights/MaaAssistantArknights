@@ -84,10 +84,10 @@
     <system:String x:Key="TimerTip">時間数のみを記入し、正時に実行されます</system:String>
     <system:String x:Key="Timer">タイミング</system:String>
 
-    <system:String x:Key="LaunchOnSystemStartup" xml:space="preserve">スタートアップ                              </system:String>
+    <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
     <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行する</system:String>
     <system:String x:Key="ClientVersion">クライアントバージョン</system:String>
-    <system:String x:Key="OpenEmulatorAfterLaunch" xml:space="preserve">起動時にエミュレータ自動起動              </system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
     <system:String x:Key="Select">選択</system:String>

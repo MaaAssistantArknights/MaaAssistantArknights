@@ -16,11 +16,11 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" VerticalAlignment="Center">
             <!-- TODO: fix margin on this -->
-            <CheckBox IsChecked="{Binding StartSelf}"  Block.TextAlignment="Center"
-                  HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10"
+            <CheckBox IsChecked="{Binding StartSelf}" Block.TextAlignment="Center"
+                  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,10,10,10"
                   Content="{DynamicResource LaunchOnSystemStartup}" />
-            <CheckBox IsChecked="{Binding RunDirectly}"  Block.TextAlignment="Center"
-                  HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10"
+            <CheckBox IsChecked="{Binding RunDirectly}" Block.TextAlignment="Center"
+                  HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="20,10,10,10"
                   Content="{DynamicResource RunTaskAfterLaunch}" />
             <TextBlock Margin="10" Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center" Text="{DynamicResource ClientVersion}" />
             <ComboBox IsHitTestVisible ="{Binding Idle}" Margin="10"

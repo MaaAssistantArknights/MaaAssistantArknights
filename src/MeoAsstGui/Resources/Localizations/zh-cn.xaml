@@ -84,10 +84,10 @@
     <system:String x:Key="TimerTip">仅填写小时数，将在整点时执行</system:String>
     <system:String x:Key="Timer">定时</system:String>
 
-    <system:String x:Key="LaunchOnSystemStartup" xml:space="preserve">开机自动启动             </system:String>
-    <system:String x:Key="RunTaskAfterLaunch" xml:space="preserve">启动后直接运行          </system:String>
+    <system:String x:Key="LaunchOnSystemStartup">开机自动启动</system:String>
+    <system:String x:Key="RunTaskAfterLaunch">启动后直接运行</system:String>
     <system:String x:Key="ClientVersion">客户端版本</system:String>
-    <system:String x:Key="OpenEmulatorAfterLaunch" xml:space="preserve">启动后自动开启模拟器                  </system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">启动后自动开启模拟器</system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
     <system:String x:Key="Select">选择</system:String>
