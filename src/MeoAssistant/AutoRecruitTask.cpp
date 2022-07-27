@@ -318,8 +318,24 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         std::sort(
                 result_vec.begin(), result_vec.end(),
-                [](const RecruitCombs& lhs, const RecruitCombs& rhs) -> bool
+                [&](const RecruitCombs& lhs, const RecruitCombs& rhs) -> bool
                 {
+                    // prefer the one with special tag
+                    // workaround for https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1336
+                    if (has_special_tag) {
+                        bool l_has =
+                                std::find_first_of(
+                                        lhs.tags.cbegin(), lhs.tags.cend(),
+                                        SpecialTags.cbegin(), SpecialTags.cend()
+                                ) != lhs.tags.cend();
+                        bool r_has =
+                                std::find_first_of(
+                                        rhs.tags.cbegin(), rhs.tags.cend(),
+                                        SpecialTags.cbegin(), SpecialTags.cend()
+                                ) != rhs.tags.cend();
+                        if (l_has != r_has) return l_has > r_has;
+                    }
+
                     if (lhs.min_level != rhs.min_level)
                         return lhs.min_level > rhs.min_level; // 最小等级大的，排前面
                     else if (lhs.max_level != rhs.max_level)
@@ -328,7 +344,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                         return lhs.avg_level > rhs.avg_level; // 平均等级高的，排前面
                     else
                         return lhs.tags.size() < rhs.tags.size(); // Tag数量少的，排前面
-                });
+                }
+        );
 
 
         if (result_vec.empty()) continue;
@@ -505,7 +522,6 @@ bool asst::AutoRecruitTask::recruit_now()
 
 bool asst::AutoRecruitTask::confirm()
 {
-    // TODO: https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/902
     ProcessTask confirm_task(*this, { "RecruitConfirm" });
     return confirm_task.set_retry_times(5).run();
 }
