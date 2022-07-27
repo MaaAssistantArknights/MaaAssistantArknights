@@ -147,8 +147,8 @@
     <!--戦闘設定-->
     <system:String x:Key="UseSanityPotion">回復剤使う</system:String>
     <system:String x:Key="UseOriginitePrime">源石使う*</system:String>
-    <system:String x:Key="PerformBattles" xml:space="preserve">回数限定*   </system:String>
-    <system:String x:Key="AssignedMaterial" xml:space="preserve">素材限定   </system:String>
+    <system:String x:Key="PerformBattles">回数限定*</system:String>
+    <system:String x:Key="AssignedMaterial">素材限定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="Amend">改定</system:String>
