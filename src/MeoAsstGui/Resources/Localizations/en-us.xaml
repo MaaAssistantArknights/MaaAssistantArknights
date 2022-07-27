@@ -113,7 +113,7 @@
 
     <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
-    <system:String x:Key="ConnectionPreset" xml:space="preserve"> Connection Preset </system:String>
+    <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <!--Settings-->
 
     <!--Farming-->

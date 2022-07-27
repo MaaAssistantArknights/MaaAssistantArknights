@@ -111,9 +111,9 @@
     <system:String x:Key="HideUnavailableStage">当日は開放されないステージを隠します</system:String>
     <system:String x:Key="MainViewButtonFeature">メイン画面左側のボタン</system:String>
 
-    <system:String x:Key="ADBPath" xml:space="preserve">         adbパス (相対/絶対)</system:String>
+    <system:String x:Key="ADBPath">adbパス (相対/絶対)</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
-    <system:String x:Key="ConnectionPreset" xml:space="preserve">          接続構成</system:String>
+    <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <!--設定-->
 
     <!--メイン-->
