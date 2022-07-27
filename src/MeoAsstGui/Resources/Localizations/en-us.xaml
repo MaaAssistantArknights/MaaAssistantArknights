@@ -220,7 +220,7 @@
     <system:String x:Key="Copilot">Copilot Beta</system:String>
     <system:String x:Key="CopilotLocation">Task file / url</system:String>
     <system:String x:Key="SelectTheFile">Select the file</system:String>
-    <system:String x:Key="SelectTheFileTip">Task files can be directly dragged in with the mouse(oﾟvﾟ)ノ</system:String>
+    <system:String x:Key="SelectTheFileTip">Task files can be directly dragged in with the mouse (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">Auto squad</system:String>
     <system:String x:Key="AutoSquadTip">The agent of "special focus" cannot be identified at this time</system:String>
 
