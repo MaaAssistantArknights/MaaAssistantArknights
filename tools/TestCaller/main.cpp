@@ -81,8 +81,9 @@ int main([[maybe_unused]] int argc, char** argv)
 
     AsstAppendTask(ptr, "Roguelike", R"(
 {
-    "squad": "矛头分队",
-    "roles": "随心所欲"
+    "squad": "",
+    "roles": "先手必胜",
+    "core_char": "空弦"
 }
 )");
 

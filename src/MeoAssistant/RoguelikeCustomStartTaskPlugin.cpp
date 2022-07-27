@@ -3,25 +3,30 @@
 #include "TaskData.h"
 #include "Controller.h"
 #include "ProcessTask.h"
+#include "Resource.h"
+#include "Logger.hpp"
+#include "RuntimeStatus.h"
 
 bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskCompleted
-        || details.get("subtask", std::string()) != "ProcessTask") {
+    if (details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
-    static const std::unordered_map<std::string, RoguelikeCustomType> TaskMap = {
-        { "Roguelike1Recruit1", RoguelikeCustomType::Squad },
-        { "Roguelike1Team3", RoguelikeCustomType::Roles },
-        { "Roguelike1RecruitMain", RoguelikeCustomType::CoreChar },
+    static const std::unordered_map<std::string, std::pair<AsstMsg, RoguelikeCustomType>> TaskMap = {
+        { "Roguelike1Recruit1", { AsstMsg::SubTaskCompleted, RoguelikeCustomType::Squad } },
+        { "Roguelike1Team3",  { AsstMsg::SubTaskCompleted, RoguelikeCustomType::Roles } },
+        { "Roguelike1RecruitMain", { AsstMsg::SubTaskStart, RoguelikeCustomType::CoreChar} },
     };
-    const std::string& task = details.at("details").at("task").as_string();
+    const std::string& task = details.get("details", "task", "");
     auto it = TaskMap.find(task);
     if (it == TaskMap.cend()) {
         return false;
     }
-    auto type = it->second;
+    if (msg != it->second.first) {
+        return false;
+    }
+    auto type = it->second.second;
     if (auto custom_it = m_customs.find(type);
         custom_it == m_customs.cend() || custom_it->second.empty()) {
         return false;
@@ -97,22 +102,33 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
     return true;
 }
 
-// not work yet
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 {
-    const auto& value = m_customs[RoguelikeCustomType::CoreChar];
-    size_t pos = value.find(':');
-    if (pos == std::string::npos) {
+    const std::string& char_name = m_customs[RoguelikeCustomType::CoreChar];
+
+    static const std::unordered_map<BattleRole, std::string> RoleOcrNameMap = {
+        { BattleRole::Caster, "术士" },
+        { BattleRole::Medic, "医疗" },
+        { BattleRole::Pioneer, "先锋" },
+        { BattleRole::Sniper, "狙击" },
+        { BattleRole::Special, "特种" },
+        { BattleRole::Support, "辅助" },
+        { BattleRole::Tank, "坦克" },
+        { BattleRole::Warrior, "近卫" }
+    };
+    const auto& role = Resrc.battle_data().get_role(char_name);
+    auto role_iter = RoleOcrNameMap.find(role);
+    if (role_iter == RoleOcrNameMap.cend()) {
+        Log.error("Unknow role", char_name, static_cast<int>(role));
         return false;
     }
-    const auto& role = value.substr(0, pos);
-    const auto& char_name = value.substr(pos + 1);
-
     // select role
+    const std::string& role_ocr_name = role_iter->second;
+    Log.info("role", role_ocr_name);
     auto image = m_ctrler->get_image();
     OcrImageAnalyzer analyzer(image);
     analyzer.set_task_info("Roguelike1Custom-HijackCoChar");
-    analyzer.set_required({ role });
+    analyzer.set_required({ role_ocr_name });
     if (!analyzer.analyze()) {
         return false;
     }
@@ -121,16 +137,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 
     sleep(Task.get("Roguelike1Custom-HijackCoChar")->pre_delay);
 
-    // select core char
-    image = m_ctrler->get_image();
-    analyzer.set_image(image);
-    analyzer.set_required({ char_name });
-    if (!analyzer.analyze()) {
-        // Todo: swipe page
-        return false;
-    }
-    const auto& char_rect = analyzer.get_result().front().rect;
-    m_ctrler->click(char_rect);
-
+    m_status->set_str("RoguelikeCoreChar", char_name);
     return true;
 }

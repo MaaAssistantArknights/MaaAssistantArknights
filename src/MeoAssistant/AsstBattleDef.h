@@ -119,4 +119,14 @@ namespace asst
         BattleRole role;
         std::array<std::string, 3> ranges;
     };
+
+    struct BattleRecruitOperInfo
+    {
+        std::string name;
+        Rect rect;
+        int elite = 0;
+        int level = 0;
+    };
+
+    using BattleAttackRange = std::vector<Point>;
 }
