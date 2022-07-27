@@ -111,9 +111,9 @@
     <system:String x:Key="HideUnavailableStage">关卡选择隐藏当日不开放关卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
 
-    <system:String x:Key="ADBPath" xml:space="preserve">    adb 路径 (相对/绝对)</system:String>
-    <system:String x:Key="ConnectionAddress" xml:space="preserve">    连接地址</system:String>
-    <system:String x:Key="ConnectionPreset" xml:space="preserve">    连接配置</system:String>
+    <system:String x:Key="ADBPath">adb 路径 (相对/绝对)</system:String>
+    <system:String x:Key="ConnectionAddress">连接地址</system:String>
+    <system:String x:Key="ConnectionPreset">连接配置</system:String>
     <!--设置-->
 
     <!--一键长草-->
