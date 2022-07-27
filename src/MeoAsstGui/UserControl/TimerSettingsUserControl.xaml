@@ -29,7 +29,7 @@
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}1">
+                            <MultiBinding StringFormat="{}{0} 1">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
                         </TextBlock.Text>
@@ -44,7 +44,7 @@
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}2">
+                            <MultiBinding StringFormat="{}{0} 2">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
                         </TextBlock.Text>
@@ -59,7 +59,7 @@
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}3">
+                            <MultiBinding StringFormat="{}{0} 3">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
                         </TextBlock.Text>
@@ -74,7 +74,7 @@
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}4">
+                            <MultiBinding StringFormat="{}{0} 4">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
                         </TextBlock.Text>
@@ -89,7 +89,7 @@
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}5">
+                            <MultiBinding StringFormat="{}{0} 5">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
                         </TextBlock.Text>
@@ -104,7 +104,7 @@
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}6">
+                            <MultiBinding StringFormat="{}{0} 6">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
                         </TextBlock.Text>
@@ -119,7 +119,7 @@
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}7">
+                            <MultiBinding StringFormat="{}{0} 7">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
                         </TextBlock.Text>
@@ -134,7 +134,7 @@
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}8">
+                            <MultiBinding StringFormat="{}{0} 8">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
                         </TextBlock.Text>
