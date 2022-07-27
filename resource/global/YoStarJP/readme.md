@@ -16,7 +16,7 @@
 - 公招计算
 - 无限刷肉鸽（测试功能）
 
-## JP Server
+## JP Client
 
 Please go to `Settings` - `Startup Settings` - `Client Version` and select `YoStarJP`
 
