@@ -84,10 +84,10 @@
     <system:String x:Key="TimerTip">時間数のみを記入し、正時に実行されます</system:String>
     <system:String x:Key="Timer">タイミング</system:String>
 
-    <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
+    <system:String x:Key="LaunchOnSystemStartup" xml:space="preserve">スタートアップ                              </system:String>
     <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行する</system:String>
     <system:String x:Key="ClientVersion">クライアントバージョン</system:String>
-    <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch" xml:space="preserve">起動時にエミュレータ自動起動              </system:String>
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
     <system:String x:Key="Select">選択</system:String>
@@ -101,7 +101,7 @@
     <system:String x:Key="PenguinID">Penguin StatisticsレポートID（デジタル部分のみ）</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
-    <system:String x:Key="HighPriority">優先購入　スペースで区切</system:String>
+    <system:String x:Key="HighPriority" xml:space="preserve">     優先購入　スペースで区切     </system:String>
     <system:String x:Key="Blacklist">ブラックリスト　スペースで区切</system:String>
 
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
@@ -111,9 +111,9 @@
     <system:String x:Key="HideUnavailableStage">当日は開放されないステージを隠します</system:String>
     <system:String x:Key="MainViewButtonFeature">メイン画面左側のボタン</system:String>
 
-    <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
+    <system:String x:Key="ADBPath" xml:space="preserve">         adbパス (相対/絶対)</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
-    <system:String x:Key="ConnectionPreset">接続構成</system:String>
+    <system:String x:Key="ConnectionPreset" xml:space="preserve">          接続構成</system:String>
     <!--設定-->
 
     <!--メイン-->
@@ -147,10 +147,10 @@
     <!--戦闘設定-->
     <system:String x:Key="UseSanityPotion">回復剤使う</system:String>
     <system:String x:Key="UseOriginitePrime">源石使う*</system:String>
-    <system:String x:Key="PerformBattles">回数限定*</system:String>
-    <system:String x:Key="AssignedMaterial">素材限定</system:String>
+    <system:String x:Key="PerformBattles" xml:space="preserve">回数限定*   </system:String>
+    <system:String x:Key="AssignedMaterial" xml:space="preserve">素材限定   </system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
-    <system:String x:Key="StageSelect">ステージ選択</system:String>
+    <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="Amend">改定</system:String>
 
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
@@ -329,7 +329,7 @@
     <!--About-->
 
     <!--AutoRecruitSettings-->
-    <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
+    <system:String x:Key="AutoRefresh" xml:space="preserve">星3タグを自動的に更新する      </system:String>
     <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用する*</system:String>
     <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
     <system:String x:Key="ManuallySelectLevel1">星1を手動的に確認する</system:String>

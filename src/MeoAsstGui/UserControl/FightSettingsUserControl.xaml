@@ -60,7 +60,7 @@
         <StackPanel Orientation="Horizontal" Grid.Row="4" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Margin="32,10,0,10" Text="{DynamicResource Quantity}" />
             <hc:TextBox Text="{Binding DropsQuantity}" TextWrapping="Wrap"
-                        Width="95" Margin="20,10,0,10" 
+                        Width="120" Margin="20,10,0,10" 
                         InputMethod.IsInputMethodEnabled="False" 
                         TextType="Int"/>
         </StackPanel>
