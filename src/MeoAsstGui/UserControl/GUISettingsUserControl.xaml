@@ -28,13 +28,13 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
                    Text="{DynamicResource Language}" Margin="10" />
-            <ComboBox x:Name="LanguageSelector" 
+            <ComboBox x:Name="LanguageSelector"
                       Margin="10"
                       DisplayMemberPath="Display"
                       ItemsSource="{Binding LanguageList}"
                       SelectedValue="{Binding Language}"
                       SelectedValuePath="Value"
-                      Width="200" />
+                      Width="300" />
         </StackPanel>
     </StackPanel>
 </UserControl>
