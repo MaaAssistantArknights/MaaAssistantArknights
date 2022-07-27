@@ -25,11 +25,11 @@
 
     <system:String x:Key="DronesNotUse">Do not use drones</system:String>
     <system:String x:Key="Money">LMD</system:String>
-    <system:String x:Key="SyntheticJade">Synthetic Jade</system:String>
-    <system:String x:Key="CombatRecord">Combat Records</system:String>
+    <system:String x:Key="SyntheticJade">Orundums</system:String>
+    <system:String x:Key="CombatRecord">Battle Records</system:String>
     <system:String x:Key="PureGold">Pure Gold</system:String>
     <system:String x:Key="OriginStone">Originium Shards</system:String>
-    <system:String x:Key="Chip">Chips</system:String>
+    <system:String x:Key="Chip">Chip Packs</system:String>
 
     <system:String x:Key="General">General Mode</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
@@ -80,7 +80,7 @@
     <system:String x:Key="UpdateCheckBeta">Beta release</system:String>
     <system:String x:Key="DownloadWithAria2">Download via aria2</system:String>
     <system:String x:Key="UpdateCheckNow">Check update</system:String>
-    
+
     <system:String x:Key="TimerTip">Hours only(15 means start tasks at 3 p.m.)</system:String>
     <system:String x:Key="Timer">Timer</system:String>
 
