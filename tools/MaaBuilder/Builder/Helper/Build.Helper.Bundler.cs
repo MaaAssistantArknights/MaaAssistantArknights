@@ -33,7 +33,9 @@ public partial class Build
 
         var sourceDirectory = new DirectoryInfo(input);
         var allFiles = sourceDirectory.GetFiles("*.*", SearchOption.AllDirectories);
-        var allHashes = allFiles.Select(x => FileSystemTasks.GetFileHash(x.FullName)).OrderBy(x => x);
+        var allHashes = allFiles
+            .Select(x => FileSystemTasks.GetFileHash(x.FullName).ToUpperInvariant())
+            .OrderBy(x => x);
         var hashCombinedBuilder = new StringBuilder();
         foreach (var h in allHashes)
         {
@@ -42,7 +44,7 @@ public partial class Build
         var combinedHashString = hashCombinedBuilder.ToString();
         var hash = GetStringMd5(combinedHashString);
 
-        var bundleHash = FileSystemTasks.GetFileHash(bundle);
+        var bundleHash = FileSystemTasks.GetFileHash(bundle).ToUpperInvariant();
         
         ArtifactChecksums.Add(new Checksum
         {
