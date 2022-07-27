@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespaces:MeoAsstGui">
     <!--Settings-->
-    <system:String x:Key="Settings">Settings</system:String>
+    <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="BaseSettings">Base</system:String>
     <system:String x:Key="RougelikeSettings">Rougelike</system:String>
     <system:String x:Key="RecruitingSettings">Recruiting</system:String>
@@ -11,7 +11,7 @@
     <system:String x:Key="ScheduleSettings">Schedule</system:String>
     <system:String x:Key="UISettings">GUI</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
-    <system:String x:Key="AboutUs">About us</system:String>
+    <system:String x:Key="AboutUs">私たちに関しては</system:String>
 
     <system:String x:Key="Version">Version</system:String>
 
@@ -64,8 +64,8 @@
 
     <system:String x:Key="AlreadyLatest">The latest version already installed~</system:String>
 
-    <system:String x:Key="SwitchLanguage">Switch Language</system:String>
-    <system:String x:Key="Language">Language</system:String>
+    <system:String x:Key="SwitchLanguage">言語を切り替える</system:String>
+    <system:String x:Key="Language">言語</system:String>
     <system:String x:Key="LanguageChangedTip">The language setting has been changed, do you want to restart the application immediately to apply the language setting?</system:String>
     <system:String x:Key="Ok">OK</system:String>
     <system:String x:Key="ManualRestart">Later</system:String>
@@ -231,7 +231,7 @@
 
     <!--Logs-->
     <system:String x:Key="CopilotTip">Tips：</system:String>
-    <system:String x:Key="CopilotTip1">1. Please set the emulator and game to 60 FPS at least.</system:String>
+    <system:String x:Key="CopilotTip1">1. Please set the emulator and game to 60 FPS or higher.</system:String>
     <system:String x:Key="CopilotTip2">2. Please use this function only in the interface with "Start" button.</system:String>
     <system:String x:Key="CopilotTip3">3. You can turn off the "Auto squad" when using friends to help you, and manually select an agent to start.</system:String>
     <system:String x:Key="CopilotTip4">4. To Paradox Simulation, you need to turn off "Auto squad" and select a skill before starting on the interface of "Start" button.</system:String>
