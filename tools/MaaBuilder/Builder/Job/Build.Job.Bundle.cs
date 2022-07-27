@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Text;
-using MaaBuilder.Models;
+using System.Text.Json;
 using Nuke.Common;
-using Nuke.Common.IO;
 
 namespace MaaBuilder;
 
@@ -16,7 +13,7 @@ public partial class Build
         .Executes(() =>
         {
             var buildOutput = Parameters.BuildOutput / BuildConfiguration.Release;
-            BundlePackage(buildOutput, MaaDevBundlePackageName);
+            BundlePackage(buildOutput, MaaDevBundlePackageName, "DevBundle");
         });
 
     Target UseMaaRelease => _ => _
@@ -40,18 +37,14 @@ public partial class Build
         .Executes(() =>
         {
             Information("已完成打包");
-            var checksumFile = Parameters.ArtifactOutput / "checksum.txt";
-            var checksum = new List<string>();
+            var checksumFile = Parameters.ArtifactOutput / "checksum.json";
 
-            foreach (var file in Parameters.ArtifactOutput.GlobFiles("*.zip"))
+            foreach (var chs in ArtifactChecksums)
             {
-                var size = (new FileInfo(file).Length / 1024.0 / 1024.0).ToString("F3");
-                var hash = FileSystemTasks.GetFileHash(file);
-                Information($"找到 Artifact ({hash})：{file} ({size} MB)");
-
-                checksum.Add($"{file.Name}:{hash}");
+                Information($"Artifact：{chs}");
             }
-            
-            File.WriteAllLines(checksumFile, checksum, Encoding.UTF8);
+
+            var str = JsonSerializer.Serialize(ArtifactChecksums);
+            File.WriteAllText(checksumFile, str, Encoding.UTF8);
         });
 }
