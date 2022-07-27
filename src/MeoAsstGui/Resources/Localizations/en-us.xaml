@@ -88,7 +88,7 @@
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
     <system:String x:Key="ClientVersion">Client version</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
-    <system:String x:Key="WaitForEmulator">delay time</system:String>
+    <system:String x:Key="WaitForEmulator">Delay time</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
@@ -203,12 +203,12 @@
 
     <!--Recognition-->
     <system:String x:Key="Recognition">Recruit tools</system:String>
-    <system:String x:Key="RecognitionTip">Tip: this Recognition is independent from main tab(Farming); need open up in game `recruit` tag selection screen then begin ~</system:String>
+    <system:String x:Key="RecognitionTip">Tip: this Recognition is independent from main tab(Farming); need open up in game recruit tag selection screen then begin ~</system:String>
     <system:String x:Key="AutoSettingTime">Auto setting time</system:String>
-    <system:String x:Key="AutoSelectLevel3Tags">Auto Select Level 3 Tags</system:String>
-    <system:String x:Key="AutoSelectLevel4Tags">Auto Select Level 4 Tags</system:String>
-    <system:String x:Key="AutoSelectLevel5Tags">Auto Select Level 5 Tags</system:String>
-    <system:String x:Key="AutoSelectLevel6Tags">Auto Select Level 6 Tags</system:String>
+    <system:String x:Key="AutoSelectLevel3Tags">Auto select 3 ★ Tags</system:String>
+    <system:String x:Key="AutoSelectLevel4Tags">Auto select 4 ★ Tags</system:String>
+    <system:String x:Key="AutoSelectLevel5Tags">Auto select 5 ★ Tags</system:String>
+    <system:String x:Key="AutoSelectLevel6Tags">Auto select 6 ★ Tags</system:String>
     <system:String x:Key="BeganToRecruit">Begin To Recruit</system:String>
 
     <!--Logs-->
@@ -332,11 +332,11 @@
     <system:String x:Key="AutoRefresh">Auto refresh 3 ★ Tags</system:String>
     <system:String x:Key="AutoUseExpedited">Auto use Expedited*</system:String>
     <system:String x:Key="RecruitMaxTimes">Recruit max times</system:String>
-    <system:String x:Key="ManuallySelectLevel1">Manually select 1 ★</system:String>
-    <system:String x:Key="AutoSelectLevel3">Auto select 3 ★</system:String>
-    <system:String x:Key="AutoSelectLevel4">Auto select 4 ★</system:String>
-    <system:String x:Key="AutoSelectLevel5">Auto select 5 ★</system:String>
-    <system:String x:Key="AutoSelectLevel6">Auto select 6 ★</system:String>
-    <system:String x:Key="Level1Tip">If checked,  will be skip Recruit with 1 ★ . If not checked, the entry with 1 ★ will be ignored</system:String>
+    <system:String x:Key="ManuallySelectLevel1">Manually confirm 1 ★</system:String>
+    <system:String x:Key="AutoSelectLevel3">Auto confirm 3 ★</system:String>
+    <system:String x:Key="AutoSelectLevel4">Auto confirm 4 ★</system:String>
+    <system:String x:Key="AutoSelectLevel5">Auto confirm 5 ★</system:String>
+    <system:String x:Key="AutoSelectLevel6">Auto confirm 6 ★</system:String>
+    <system:String x:Key="Level1Tip">If checked, will be skip Recruit with 1 ★. If not checked, the entry with 1 ★ will be ignored</system:String>
     <!--AutoRecruitSettings-->
 </ResourceDictionary>
