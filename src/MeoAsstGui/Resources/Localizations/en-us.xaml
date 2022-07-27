@@ -102,7 +102,7 @@
 
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
     <system:String x:Key="HighPriority">Whitelist(splited by space)</system:String>
-    <system:String x:Key="Blacklist" xml:space="preserve"> Blacklist(splited by space) </system:String>
+    <system:String x:Key="Blacklist">Blacklist(splited by space)</system:String>
 
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
 

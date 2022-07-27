@@ -18,15 +18,15 @@
         <CheckBox Grid.Row="0" IsChecked="{Binding CreditShopping}"  Block.TextAlignment="Center" Margin="10"
                   HorizontalAlignment="Center" VerticalAlignment="Center"
                   Content="{DynamicResource SocialPtShop}" />
-        <StackPanel Grid.Row="1" IsEnabled="{Binding CreditShopping}" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Row="1" IsEnabled="{Binding CreditShopping}" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,40,10">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="{DynamicResource HighPriority}" Margin="10" />
-            <TextBox Text="{Binding CreditFirstList}" Margin="10" Width="250" />
+                   Text="{DynamicResource HighPriority}" Margin="10" Width="155" TextWrapping="Wrap"/>
+            <TextBox Text="{Binding CreditFirstList}" Margin="10" Width="250" Height="30"/>
         </StackPanel>
-        <StackPanel Grid.Row="2" IsEnabled="{Binding CreditShopping}" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Row="2" IsEnabled="{Binding CreditShopping}" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,40,10">
             <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="{DynamicResource Blacklist}" Margin="10" />
-            <TextBox Text="{Binding CreditBlackList}" Margin="10" Width="250" />
+                   Text="{DynamicResource Blacklist}" Margin="10" Width="155" TextWrapping="Wrap"/>
+            <TextBox Text="{Binding CreditBlackList}" Margin="10" Width="250" Height="30"/>
         </StackPanel>
     </Grid>
 </UserControl>
