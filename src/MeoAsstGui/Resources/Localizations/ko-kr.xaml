@@ -1,77 +1,77 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespaces:MeoAsstGui">
     <!--설정-->
     <system:String x:Key="Settings">설정</system:String>
-    <system:String x:Key="BaseSettings">기본 설정</system:String>
-    <system:String x:Key="RougelikeSettings">비둘기 설정</system:String>
-    <system:String x:Key="RecruitingSettings">자동 공개</system:String>
-    <system:String x:Key="MallSettings">크레디트 숍</system:String>
-    <system:String x:Key="PenguinSettings">펭귄 데이터</system:String>
+    <system:String x:Key="BaseSettings">기반시설 설정</system:String>
+    <system:String x:Key="RougelikeSettings">통합전략 설정</system:String>
+    <system:String x:Key="RecruitingSettings">자동 모집</system:String>
+    <system:String x:Key="MallSettings">크레딧 상점</system:String>
+    <system:String x:Key="PenguinSettings">Penguin Stats</system:String>
     <system:String x:Key="ConnectionSettings">연결 설정</system:String>
-    <system:String x:Key="StartupSettings">부팅 설정</system:String>
-    <system:String x:Key="ScheduleSettings">시간에 맞춰 실행</system:String>
-    <system:String x:Key="UISettings">인터페이스 설정</system:String>
+    <system:String x:Key="StartupSettings">스타트업 설정</system:String>
+    <system:String x:Key="ScheduleSettings">예정된 작업 설정</system:String>
+    <system:String x:Key="UISettings">UI 설정</system:String>
     <system:String x:Key="UpdateSettings">소프트웨어 업데이트</system:String>
-    <system:String x:Key="AboutUs">우리에 관한 것</system:String>
+    <system:String x:Key="AboutUs">소개</system:String>
 
-    <system:String x:Key="Version">버전 번호</system:String>
+    <system:String x:Key="Version">버전</system:String>
 
-    <system:String x:Key="Dorm">기숙사</system:String>
+    <system:String x:Key="Dorm">숙소</system:String>
     <system:String x:Key="Mfg">제조소</system:String>
-    <system:String x:Key="Trade">무역실</system:String>
+    <system:String x:Key="Trade">무역소</system:String>
     <system:String x:Key="Power">발전소</system:String>
     <system:String x:Key="Reception">응접실</system:String>
     <system:String x:Key="Office">사무실</system:String>
-    <system:String x:Key="Control">컨트롤 센터</system:String>
+    <system:String x:Key="Control">제어 센터</system:String>
 
-    <system:String x:Key="DronesNotUse">무인기를 사용하지 않기</system:String>
-    <system:String x:Key="Money">용문폐</system:String>
-    <system:String x:Key="SyntheticJade">합성옥</system:String>
-    <system:String x:Key="CombatRecord">작전 기록</system:String>
-    <system:String x:Key="PureGold">순금</system:String>
-    <system:String x:Key="OriginStone">오리지늄 조각</system:String>
-    <system:String x:Key="Chip">듀얼칩</system:String>
+    <system:String x:Key="DronesNotUse">드론을 사용하지 않기</system:String>
+    <system:String x:Key="Money">무역소-용문폐</system:String>
+    <system:String x:Key="SyntheticJade">무역소-합성옥</system:String>
+    <system:String x:Key="CombatRecord">제조소-작전기록</system:String>
+    <system:String x:Key="PureGold">제조소-순금</system:String>
+    <system:String x:Key="OriginStone">제조소-오리지늄 조각</system:String>
+    <system:String x:Key="Chip">제조소-칩</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
-    <system:String x:Key="BlueStacks">BlueStacks</system:String>
-    <system:String x:Key="MuMuEmulator">MuMuEmulator</system:String>
-    <system:String x:Key="LDPlayer">LDPlayer</system:String>
+    <system:String x:Key="BlueStacks">블루스택</system:String>
+    <system:String x:Key="MuMuEmulator">MuMu 에뮬레이터</system:String>
+    <system:String x:Key="LDPlayer">뇌전 에뮬레이터</system:String>
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">XYAZ</system:String>
-    <system:String x:Key="WSA">WSA 이전 버전</system:String>
-    <system:String x:Key="Compatible">호환성 모드</system:String>
+    <system:String x:Key="WSA">WSA 레거시 버전</system:String>
+    <system:String x:Key="Compatible">호환 모드</system:String>
 
-    <system:String x:Key="DormThreshold">마음의 역치</system:String>
+    <system:String x:Key="DormThreshold">오퍼레이터 컨디션 한계점</system:String>
 
-    <system:String x:Key="RougelikeStrategyCandle">양초를 브러시하고 가능한 한 안정적으로 여러 번 켜는 방법</system:String>
-    <system:String x:Key="RougelikeStrategyGold">원석을 털고 1 층 상점에서 바로 종료</system:String>
+    <system:String x:Key="RougelikeStrategyCandle">통합전략: 촛불 우선</system:String>
+    <system:String x:Key="RougelikeStrategyGold">통합전략: 오리지늄 주괴 우선</system:String>
 
-    <system:String x:Key="NotSelected">선택되지 않음</system:String>
-    <system:String x:Key="Official">정부 서버</system:String>
-    <system:String x:Key="Bilibili">bilibili</system:String>
-    <system:String x:Key="YoStarEN">en</system:String>
-    <system:String x:Key="YoStarJP">jp</system:String>
-    <system:String x:Key="YoStarKR">kr</system:String>
-    <system:String x:Key="txwy">txwy</system:String>
+    <system:String x:Key="NotSelected">선택하지 않기</system:String>
+    <system:String x:Key="Official">공식 서버</system:String>
+    <system:String x:Key="Bilibili">빌리빌리</system:String>
+    <system:String x:Key="YoStarEN">요스타 EN</system:String>
+    <system:String x:Key="YoStarJP">요스타 JP</system:String>
+    <system:String x:Key="YoStarKR">요스타 KR</system:String>
+    <system:String x:Key="txwy">TXWY (TW)</system:String>
 
     <system:String x:Key="Switchable">전환 가능</system:String>
 
     <system:String x:Key="Executable">실행 파일</system:String>
     <system:String x:Key="ADBProgram">adb 프로그램</system:String>
 
-    <system:String x:Key="EmulatorException">에뮬레이터 오류 탐지 &#x0a;관리자 권한으로 소프트웨어를 여십시오.또는 연결을 설정하는 방법</system:String>
-    <system:String x:Key="EmulatorNotFound">에뮬레이터가 발견되지 않았습니다. 관리자 권한으로 소프트웨어를 열거나 수동으로 연결을 설정하십시오</system:String>
-    <system:String x:Key="EmulatorTooMany">다수의 에뮬레이터가 탐지되었습니다 &#x0a;불필요한 에뮬레이터를 닫으십시오 &#x0a;또는 연결을 설정하는 방법</system:String>
+    <system:String x:Key="EmulatorException">에뮬레이터를 검색하는 중에 오류가 발생했습니다.&#x0a;이 소프트웨어를 관리자로 실행하거나&#x0a;수동으로 연결을 설정하십시오.</system:String>
+    <system:String x:Key="EmulatorNotFound">에뮬레이터를 찾을 수 없습니다.&#x0a;이 소프트웨어를 관리자로 실행하거나&#x0a;수동으로 연결을 설정하십시오.</system:String>
+    <system:String x:Key="EmulatorTooMany">여러 에뮬레이터가 실행 중입니다.&#x0a;사용하지 않는 에뮬레이터를 종료하거나&#x0a;수동으로 연결을 설정하십시오.</system:String>
 
-    <system:String x:Key="AlreadyLatest">최신 버전~</system:String>
+    <system:String x:Key="AlreadyLatest">이미 최신 버전입니다~</system:String>
 
     <system:String x:Key="SwitchLanguage">언어 전환</system:String>
     <system:String x:Key="Language">언어</system:String>
-    <system:String x:Key="LanguageChangedTip">언어 설정이 변경되었습니다. 언어 설정을 적용하기 위해 maa를 다시 시작하시겠습니까?</system:String>
-    <system:String x:Key="Ok">좋아</system:String>
-    <system:String x:Key="ManualRestart">나중에</system:String>
+    <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 MAA를 재부팅하여 새 설정을 적용하시겠습니까?</system:String>
+    <system:String x:Key="Ok">OK</system:String>
+    <system:String x:Key="ManualRestart">나중에 재부팅</system:String>
     <system:String x:Key="Tip">힌트</system:String>
 
-    <system:String x:Key="LabelSequenceTip">태그 순서</system:String>
+    <system:String x:Key="LabelSequenceTip">레이블의 순서는 드래그하여 변경할 수 있습니다</system:String>
     <system:String x:Key="CheckBoxesNotSaved">이 설정을 다시 시작하면</system:String>
     <system:String x:Key="NoAutoNavigation">이 옵션은 자동으로 해당 레벨로 이동하지 않습니다</system:String>
 
