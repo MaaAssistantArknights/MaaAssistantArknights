@@ -1,11 +1,11 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespaces:MeoAsstGui">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespaces:MeoAsstGui">
     <!--設定-->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="BaseSettings">基地設定</system:String>
     <system:String x:Key="RougelikeSettings">ローグ設定</system:String>
     <system:String x:Key="RecruitingSettings">公開求人設定</system:String>
     <system:String x:Key="MallSettings">FP交換所設定</system:String>
-    <system:String x:Key="PenguinDataSettings">Penguin Statistics設定</system:String>
+    <system:String x:Key="PenguinSettings">Penguin Statistics設定</system:String>
     <system:String x:Key="ConnectionSettings">接続設定</system:String>
     <system:String x:Key="StartupSettings">起動設定</system:String>
     <system:String x:Key="ScheduleSettings">スケジュール実行設定</system:String>
@@ -23,7 +23,7 @@
     <system:String x:Key="Office">事務所</system:String>
     <system:String x:Key="Control">制御中枢</system:String>
 
-    <system:String x:Key="DronesNotUse">ドローンを使わない</system:String>
+    <system:String x:Key="DronesNotUse">ドローン使わない</system:String>
     <system:String x:Key="Money">貿易所-龍門幣</system:String>
     <system:String x:Key="SyntheticJade">貿易所-合成玉</system:String>
     <system:String x:Key="CombatRecord">製造所-作戦記録</system:String>
@@ -42,7 +42,7 @@
 
     <system:String x:Key="DormThreshold">基地で働く体力のしきい値</system:String>
 
-    <system:String x:Key="RougelikeStrategyCandle">キャンドルを集める、できるだけ多くのステージをクリアする</system:String>
+    <system:String x:Key="RougelikeStrategyCandle">キャンドルを集める、多くのステージをクリアする</system:String>
     <system:String x:Key="RougelikeStrategyGold">源石錐を集める、1階旅商人のすぐ後に終了する</system:String>
 
     <system:String x:Key="NotSelected">選ばない</system:String>
@@ -75,10 +75,10 @@
     <system:String x:Key="CheckBoxesNotSaved">このオプション設定は再起動後に保存されません</system:String>
     <system:String x:Key="NoAutoNavigation">このオプションは、対応するステージに自動的に移動するものではありません</system:String>
 
-    <system:String x:Key="UpdateAutoCheck">アップデートを自動チェックする</system:String>
-    <system:String x:Key="UpdateAutoDownload">アップデート用パッケージを自動ダウンロードする</system:String>
-    <system:String x:Key="UpdateCheckBeta">ベータ版のアップデートを確認する</system:String>
-    <system:String x:Key="DownloadWithAria2">aria2を使ってダウンロードする</system:String>
+    <system:String x:Key="UpdateAutoCheck">アップデートチェック</system:String>
+    <system:String x:Key="UpdateAutoDownload">自動アップデート</system:String>
+    <system:String x:Key="UpdateCheckBeta">ベータ版を使う</system:String>
+    <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
     
     <system:String x:Key="TimerTip">時間数のみを記入し、正時に実行されます</system:String>
@@ -87,8 +87,8 @@
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
     <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行する</system:String>
     <system:String x:Key="ClientVersion">クライアントバージョン</system:String>
-    <system:String x:Key="OpenEmulatorAfterLaunch">アプリの起動時にエミュレータを自動的に起動する</system:String>
-    <system:String x:Key="WaitForEmulator">エミュレータを待つ&#xA;起動時間（秒）</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
+    <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
@@ -101,8 +101,8 @@
     <system:String x:Key="PenguinID">Penguin StatisticsレポートID&#13;（デジタル部分のみ）</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
-    <system:String x:Key="HighPriority">優先購入&#xA;部分文字列でもいい。スペースで区切ってください。</system:String>
-    <system:String x:Key="Blacklist">ブラックリスト&#xA;部分文字列でもいい。スペースで区切ってください。</system:String>
+    <system:String x:Key="HighPriority">優先購入　スペースで区切</system:String>
+    <system:String x:Key="Blacklist">ブラックリスト　スペースで区切</system:String>
 
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
 
@@ -111,7 +111,7 @@
     <system:String x:Key="HideUnavailableStage">当日は開放されないステージを隠します</system:String>
     <system:String x:Key="MainViewButtonFeature">メイン画面左側のボタン</system:String>
 
-    <system:String x:Key="ADBPath">adbパス&#xA;（相対/絶対いずれでもいい）</system:String>
+    <system:String x:Key="ADBPath">adbパス&#xA;（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <!--設定-->
@@ -119,7 +119,7 @@
     <!--メイン-->
     <system:String x:Key="Farming">メイン</system:String>
 
-    <system:String x:Key="WakeUp"></system:String>
+    <system:String x:Key="WakeUp">ウェイクアップ</system:String>
     <system:String x:Key="Recruiting">公開求人</system:String>
     <system:String x:Key="Base">基地仕事</system:String>
     <system:String x:Key="Combat">作戦</system:String>
