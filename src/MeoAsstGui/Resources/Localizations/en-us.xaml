@@ -88,7 +88,7 @@
     <system:String x:Key="RunTaskAfterLaunch">Run task after launched</system:String>
     <system:String x:Key="ClientVersion">Client version</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
-    <system:String x:Key="WaitForEmulator">Wait for emulator&#xA;Startup timeout (s)</system:String>
+    <system:String x:Key="WaitForEmulator">Latency time</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="AdditionCommand">Addition Command</system:String>
@@ -101,8 +101,8 @@
     <system:String x:Key="PenguinID">Penguin Report ID&#13;(Number part only)</system:String>
 
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
-    <system:String x:Key="HighPriority">Whitelist(items could be splited by space)</system:String>
-    <system:String x:Key="Blacklist">Blacklist(items could be splited by space)</system:String>
+    <system:String x:Key="HighPriority">Whitelist(splited by space)</system:String>
+    <system:String x:Key="Blacklist">Blacklist(by space)</system:String>
 
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
 
@@ -111,7 +111,7 @@
     <system:String x:Key="HideUnavailableStage">Hide today not open level</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
 
-    <system:String x:Key="ADBPath">ADB path&#xA;(relative/absolute)</system:String>
+    <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <!--Settings-->
