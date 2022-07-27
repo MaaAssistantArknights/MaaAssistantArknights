@@ -150,7 +150,7 @@
     <system:String x:Key="PerformBattles" xml:space="preserve">Perform Battles*          </system:String>
     <system:String x:Key="AssignedMaterial" xml:space="preserve">  Material</system:String>
     <system:String x:Key="Quantity" xml:space="preserve">  Quantity</system:String>
-    <system:String x:Key="StageSelect">Stage</system:String>
+    <system:String x:Key="StageSelect" xml:space="preserve">    Stage</system:String>
     <system:String x:Key="Amend">Amend</system:String>
 
     <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
