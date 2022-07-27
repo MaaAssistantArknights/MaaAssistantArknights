@@ -412,7 +412,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         if (!is_calc_only_task()) {
             // do not confirm, force skip
-            if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), final_combination.min_level) == m_confirm_level.cend()) {
+            if (std::none_of(m_confirm_level.cbegin(), m_confirm_level.cend(), [&](const auto& i) { return i == final_combination.min_level; })) {
                 calc_task_result_type result;
                 result.success = true;
                 result.force_skip = true;
@@ -435,7 +435,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         // nothing to select, leave the selection empty
-        if (std::find(m_select_level.cbegin(), m_select_level.cend(), final_combination.min_level) == m_select_level.cend()) {
+        if (std::none_of(m_select_level.cbegin(), m_select_level.cend(), [&](const auto& i) { return i == final_combination.min_level; })) {
             calc_task_result_type result;
             result.success = true;
             result.force_skip = false;
@@ -505,7 +505,6 @@ bool asst::AutoRecruitTask::recruit_now()
 
 bool asst::AutoRecruitTask::confirm()
 {
-    // TODO: use RecruitImageAnalyzer::m_confirm_rect or remove it
     // TODO: https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/902
     ProcessTask confirm_task(*this, { "RecruitConfirm" });
     return confirm_task.set_retry_times(5).run();
