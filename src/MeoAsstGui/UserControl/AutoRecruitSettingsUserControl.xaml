@@ -10,22 +10,33 @@
              d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
              d:DesignHeight="150" d:DesignWidth="300">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="10">
-            <CheckBox IsChecked="{Binding RefreshLevel3}" Content="{DynamicResource AutoRefresh}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" />
-            <CheckBox IsChecked="{Binding UseExpedited}" Content="{DynamicResource AutoUseExpedited}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" 
-                      ToolTip="{DynamicResource CheckBoxesNotSaved}"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 10">
-                <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="{DynamicResource RecruitMaxTimes}" Margin="5" VerticalAlignment="Center" TextWrapping="Wrap" Width="72"/>
-                <TextBox Text="{Binding RecruitMaxTimes}" Margin="5"
-                     Width="50" InputMethod.IsInputMethodEnabled="False" />
-            </StackPanel>
+        <StackPanel Grid.Row="0" Margin="20,10,10,10" >
+            <CheckBox IsChecked="{Binding RefreshLevel3}"
+                      Content="{DynamicResource AutoRefresh}"
+                      HorizontalAlignment="Left"
+                      Margin="10"/>
+            <CheckBox IsChecked="{Binding UseExpedited}"
+                      Content="{DynamicResource AutoUseExpedited}"
+                      ToolTip="{DynamicResource CheckBoxesNotSaved}"
+                      HorizontalAlignment="Left"
+                      Margin="10"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" >
+            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
+                   Text="{DynamicResource RecruitMaxTimes}" Margin="5" VerticalAlignment="Center" TextWrapping="Wrap" Width="72"/>
+            <TextBox Text="{Binding RecruitMaxTimes}" Margin="5"
+                     Width="50" InputMethod.IsInputMethodEnabled="False" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,12,10,0" Grid.RowSpan="2" Height="125">
             <CheckBox IsChecked="{Binding NotChooseLevel1}" Content="{DynamicResource ManuallySelectLevel1}" Margin="5" ToolTip="{DynamicResource Level1Tip}"/>
             <CheckBox IsChecked="{Binding ChooseLevel3}" Content="{DynamicResource AutoSelectLevel3}" Margin="5" />
             <CheckBox IsChecked="{Binding ChooseLevel4}" Content="{DynamicResource AutoSelectLevel4}" Margin="5" />

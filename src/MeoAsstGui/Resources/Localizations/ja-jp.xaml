@@ -329,7 +329,7 @@
     <!--About-->
 
     <!--AutoRecruitSettings-->
-    <system:String x:Key="AutoRefresh" xml:space="preserve">星3タグを自動的に更新する      </system:String>
+    <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
     <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用する*</system:String>
     <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
     <system:String x:Key="ManuallySelectLevel1">星1を手動的に確認する</system:String>

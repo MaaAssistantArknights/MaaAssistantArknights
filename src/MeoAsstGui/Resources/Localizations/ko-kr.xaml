@@ -333,7 +333,7 @@
     <system:String x:Key="AutoUseExpedited">긴급 라이선스 자동 사용 *</system:String>
     <system:String x:Key="RecruitMaxTimes">실행시 최대 모집횟수</system:String>
     <system:String x:Key="ManuallySelectLevel1">수동으로 별 1개 확인</system:String>
-    <system:String x:Key="AutoSelectLevel3">별 세 개 자동 확인</system:String>
+    <system:String x:Key="AutoSelectLevel3">자동으로 별 3개 확인</system:String>
     <system:String x:Key="AutoSelectLevel4">자동으로 별 4개 확인</system:String>
     <system:String x:Key="AutoSelectLevel5">자동으로 별 5개 확인</system:String>
     <system:String x:Key="AutoSelectLevel6">자동으로 별 6개 확인</system:String>
