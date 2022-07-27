@@ -119,10 +119,10 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_set_time(bool set_time) noexce
 
 bool asst::AutoRecruitTask::_run()
 {
+    if (m_force_discard_flag) return false;
+
     if (is_calc_only_task()) {
-        int tags_selected = 0;
-        bool force_skip = false;
-        return recruit_calc_task(force_skip, tags_selected);
+        return recruit_calc_task().success;
     }
 
     if (!recruit_begin()) return false;
@@ -131,25 +131,27 @@ bool asst::AutoRecruitTask::_run()
         return false;
     }
 
-    if (!m_use_expedited)
-        analyze_start_buttons(); // analyze once only
+    if (!m_use_expedited) { // analyze once only
+        if (!analyze_start_buttons()) return false;
+    }
 
     static constexpr size_t slot_retry_limit = 3;
 
-    size_t slot_fail = 0;
     // m_cur_times means how many times has the confirm button been pressed, NOT expedited plan used
     while ((m_use_expedited || !m_pending_recruit_slot.empty()) && m_cur_times != m_max_times) {
-        if (slot_fail >= slot_retry_limit) { return false; }
+        if (m_slot_fail >= slot_retry_limit) { return false; }
         if (m_use_expedited) {
             Log.info("ready to use expedited");
             if (need_exit()) return false;
-            recruit_now();
-            if (!check_recruit_home_page()) return false;
+            if (!recruit_now()) {
+                m_force_discard_flag = true;
+                return false;
+            }
             analyze_start_buttons();
         }
         if (need_exit()) return false;
         if (!recruit_one())
-            ++slot_fail;
+            ++m_slot_fail;
         else
             ++m_cur_times;
     }
@@ -200,14 +202,12 @@ bool asst::AutoRecruitTask::recruit_one()
     m_ctrler->click(button);
     sleep(delay);
 
-    bool force_skip = true;
-    int selected = 0;
-    bool calc_recognized = recruit_calc_task(force_skip, selected);
+    auto calc_result = recruit_calc_task();
     sleep(delay);
 
     m_pending_recruit_slot.pop_front();
 
-    if (!calc_recognized) {
+    if (!calc_result.success) {
         // recognition failed, perhaps open the slot again would not help
         {
             json::value info = basic_info();
@@ -219,7 +219,7 @@ bool asst::AutoRecruitTask::recruit_one()
         return false;
     }
 
-    if (force_skip) {
+    if (calc_result.force_skip) {
         // mark the slot as completed and return
         click_return_button();
         return true;
@@ -227,7 +227,7 @@ bool asst::AutoRecruitTask::recruit_one()
 
     if (need_exit()) return false;
 
-    if (!check_time_reduced()) {
+    if (m_set_time && !check_time_reduced()) {
         // timer was not set to 09:00:00 properly, likely the tag selection was also corrupted
         // see https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
         // return and try later
@@ -241,10 +241,9 @@ bool asst::AutoRecruitTask::recruit_one()
 
     if (need_exit()) return false;
 
-    if (!confirm()) {
+    if (!confirm()) { // ran out of recruit permit?
         Log.info("Failed to confirm current recruit config.");
-        m_pending_recruit_slot.push_back(index);
-        click_return_button();
+        m_force_discard_flag = true;
         return false;
     }
 
@@ -252,7 +251,7 @@ bool asst::AutoRecruitTask::recruit_one()
 }
 
 // set recruit timer and tags only
-bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_selected)
+asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc_task()
 {
     LogTraceFunction;
 
@@ -267,7 +266,7 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
         if (!image_analyzer.analyze()) continue;
         if (image_analyzer.get_tags_result().size() != RecruitConfiger::CorrectNumberOfTags) continue;
 
-        const std::vector<TextRect> &tags = image_analyzer.get_tags_result();
+        const std::vector<TextRect>& tags = image_analyzer.get_tags_result();
         bool has_refresh = !image_analyzer.get_refresh_rect().empty();
 
         std::vector<std::string> tag_names;
@@ -313,7 +312,7 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
         std::vector<RecruitCombs> result_vec = recruit_calc::get_all_combs(tag_names);
 
         // assuming timer would be set to 09:00:00
-        for (RecruitCombs& rc: result_vec) {
+        for (RecruitCombs& rc : result_vec) {
             rc.min_level = (std::max)(rc.min_level, 3);
         }
 
@@ -369,7 +368,7 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
             callback(AsstMsg::SubTaskExtraInfo, info);
         }
 
-        if (need_exit()) return false;
+        if (need_exit()) return {};
 
         // refresh
         if (m_need_refresh && has_refresh
@@ -386,7 +385,7 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
                         { "refresh_limit", refresh_limit }
                 };
                 callback(AsstMsg::SubTaskError, info);
-                return false;
+                return {};
             }
 
             refresh();
@@ -397,7 +396,7 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
                 json::value info = basic_info();
                 info["what"] = "RecruitTagsRefreshed";
                 info["details"] = json::object{
-                        { "count", refresh_count },
+                        { "count",         refresh_count },
                         { "refresh_limit", refresh_limit }
                 };
                 callback(AsstMsg::SubTaskExtraInfo, info);
@@ -409,20 +408,22 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
             continue;
         }
 
-        if (need_exit()) return false;
+        if (need_exit()) return {};
 
         if (!is_calc_only_task()) {
             // do not confirm, force skip
             if (std::find(m_confirm_level.cbegin(), m_confirm_level.cend(), final_combination.min_level) == m_confirm_level.cend()) {
-                out_force_skip = true;
-                out_selected = 0;
-                return true;
+                calc_task_result_type result;
+                result.success = true;
+                result.force_skip = true;
+                return result;
             }
 
             if (m_skip_robot && has_robot_tag) {
-                out_force_skip = true;
-                out_selected = 0;
-                return true;
+                calc_task_result_type result;
+                result.success = true;
+                result.force_skip = true;
+                return result;
             }
         }
 
@@ -435,9 +436,11 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
 
         // nothing to select, leave the selection empty
         if (std::find(m_select_level.cbegin(), m_select_level.cend(), final_combination.min_level) == m_select_level.cend()) {
-            out_force_skip = false;
-            out_selected = 0;
-            return true;
+            calc_task_result_type result;
+            result.success = true;
+            result.force_skip = false;
+            result.tags_selected = 0;
+            return result;
         }
 
         // select tags
@@ -458,11 +461,13 @@ bool asst::AutoRecruitTask::recruit_calc_task(bool& out_force_skip, int& out_sel
             callback(AsstMsg::SubTaskExtraInfo, info);
         }
 
-        out_selected = static_cast<int>(final_combination.tags.size());
-        out_force_skip = false;
-        return true;
+        calc_task_result_type result;
+        result.success = true;
+        result.force_skip = false;
+        result.tags_selected = static_cast<int>(final_combination.tags.size());
+        return result;
     }
-    return false;
+    return {};
 }
 
 bool asst::AutoRecruitTask::recruit_begin()
