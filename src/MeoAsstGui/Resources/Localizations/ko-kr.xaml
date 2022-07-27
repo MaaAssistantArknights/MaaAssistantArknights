@@ -1,17 +1,17 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespaces:MeoAsstGui">
     <!--설정-->
     <system:String x:Key="Settings">설정</system:String>
-    <system:String x:Key="Basesettings">기본 설정</system:String>
-    <system:String x:Key="Rougelikesettings">비둘기 설정</system:String>
-    <system:String x:Key="recruitingsettings">자동 공개</system:String>
-    <system:String x:Key="Mallsettings">크레디트 숍</system:String>
-    <system:String x:Key="Penguinsettings">펭귄 데이터</system:String>
-    <system:String x:Key="Connectionsettings">연결 설정</system:String>
-    <system:String x:Key="Startupsettings">부팅 설정</system:String>
-    <system:String x:Key="Schedulesettings">시간에 맞춰 실행</system:String>
-    <system:String x:Key="Uisettings">인터페이스 설정</system:String>
-    <system:String x:Key="Updatesettings">소프트웨어 업데이트</system:String>
-    <system:String x:Key="aboutus">우리에 관한 것</system:String>
+    <system:String x:Key="BaseSettings">기본 설정</system:String>
+    <system:String x:Key="RougelikeSettings">비둘기 설정</system:String>
+    <system:String x:Key="RecruitingSettings">자동 공개</system:String>
+    <system:String x:Key="MallSettings">크레디트 숍</system:String>
+    <system:String x:Key="PenguinSettings">펭귄 데이터</system:String>
+    <system:String x:Key="ConnectionSettings">연결 설정</system:String>
+    <system:String x:Key="StartupSettings">부팅 설정</system:String>
+    <system:String x:Key="ScheduleSettings">시간에 맞춰 실행</system:String>
+    <system:String x:Key="UISettings">인터페이스 설정</system:String>
+    <system:String x:Key="UpdateSettings">소프트웨어 업데이트</system:String>
+    <system:String x:Key="AboutUs">우리에 관한 것</system:String>
 
     <system:String x:Key="Version">버전 번호</system:String>
 
@@ -21,141 +21,141 @@
     <system:String x:Key="power">발전소</system:String>
     <system:String x:Key="Reception">응접실</system:String>
     <system:String x:Key="Office">사무실</system:String>
-    <system:String x:Key="control">컨트롤 센터</system:String>
+    <system:String x:Key="Control">컨트롤 센터</system:String>
 
-    <system:String x:Key="Dronesnotuse">무인기를 사용하지 않기</system:String>
-    <system:String x:Key="money"></system:String>
-    <system:String x:Key="syntheticjade"></system:String>
-    <system:String x:Key="combatrecord">제조소</system:String>
-    <system:String x:Key="puregold">순금</system:String>
-    <system:String x:Key="originstone">제작 사이트</system:String>
+    <system:String x:Key="DronesNotUse">무인기를 사용하지 않기</system:String>
+    <system:String x:Key="Money"></system:String>
+    <system:String x:Key="SyntheticJade"></system:String>
+    <system:String x:Key="CombatRecord">제조소</system:String>
+    <system:String x:Key="PureGold">순금</system:String>
+    <system:String x:Key="OriginStone">제작 사이트</system:String>
     <system:String x:Key="Chip">제조스테이션-칩셋</system:String>
 
-    <system:String x:Key="general">일반 모드</system:String>
-    <system:String x:Key="Bluestacks">청색 에뮬레이터</system:String>
-    <system:String x:Key="Mumuemulator">mumu 에뮬레이터</system:String>
-    <system:String x:Key="Ldplayer">번개 에뮬레이터</system:String>
+    <system:String x:Key="General">일반 모드</system:String>
+    <system:String x:Key="BlueStacks">청색 에뮬레이터</system:String>
+    <system:String x:Key="MuMuEmulator">mumu 에뮬레이터</system:String>
+    <system:String x:Key="LDPlayer">번개 에뮬레이터</system:String>
     <system:String x:Key="Nox"></system:String>
-    <system:String x:Key="Xyaz">캐치메이션 에뮬레이터</system:String>
-    <system:String x:Key="Wsa">wsa 이전 버전</system:String>
-    <system:String x:Key="compatible">호환성 모드</system:String>
+    <system:String x:Key="XYAZ">캐치메이션 에뮬레이터</system:String>
+    <system:String x:Key="WSA">wsa 이전 버전</system:String>
+    <system:String x:Key="Compatible">호환성 모드</system:String>
 
-    <system:String x:Key="Dormthreshold">인프라 threshold</system:String>
+    <system:String x:Key="DormThreshold">마음의 역치</system:String>
 
-    <system:String x:Key="Rougelikestrategycandle">양초를 브러시하고 가능한 한 안정적으로 여러 번 켜는 방법</system:String>
-    <system:String x:Key="Rougelikestrategygold">원석을 털고 1 층 상점에서 바로 종료</system:String>
+    <system:String x:Key="RougelikeStrategyCandle">양초를 브러시하고 가능한 한 안정적으로 여러 번 켜는 방법</system:String>
+    <system:String x:Key="RougelikeStrategyGold">원석을 털고 1 층 상점에서 바로 종료</system:String>
 
-    <system:String x:Key="Notselected">선택되지 않음</system:String>
-    <system:String x:Key="official">정부 서버</system:String>
+    <system:String x:Key="NotSelected">선택되지 않음</system:String>
+    <system:String x:Key="Official">정부 서버</system:String>
     <system:String x:Key="Bilibili">bilibili</system:String>
-    <system:String x:Key="yostaren">en</system:String>
-    <system:String x:Key="yostarjp">jp</system:String>
-    <system:String x:Key="yostarkr">kr</system:String>
+    <system:String x:Key="YoStarEN">en</system:String>
+    <system:String x:Key="YoStarJP">jp</system:String>
+    <system:String x:Key="YoStarKR">kr</system:String>
     <system:String x:Key="txwy">txwy</system:String>
 
     <system:String x:Key="Switchable">전환 가능</system:String>
 
     <system:String x:Key="Executable">실행 파일</system:String>
-    <system:String x:Key="adbprogram">adb 프로그램</system:String>
+    <system:String x:Key="ADBProgram">adb 프로그램</system:String>
 
-    <system:String x:Key="Emulatorexception">에뮬레이터 오류 탐지 &#x0a;관리자 권한으로 소프트웨어를 여십시오.또는 연결을 설정하는 방법</system:String>
-    <system:String x:Key="Emulatornotfound">&#x0a 에뮬레이터가 탐지되지 않았습니다;관리자 권한으로 소프트웨어를 여십시오.또는 연결을 설정하는 방법</system:String>
-    <system:String x:Key="Emulatortoomany">다수의 에뮬레이터가 탐지되었습니다 &#x0a;불필요한 에뮬레이터를 닫으십시오 &#x0a;또는 연결을 설정하는 방법</system:String>
+    <system:String x:Key="EmulatorException">에뮬레이터 오류 탐지 &#x0a;관리자 권한으로 소프트웨어를 여십시오.또는 연결을 설정하는 방법</system:String>
+    <system:String x:Key="EmulatorNotFound">&#x0a 에뮬레이터가 탐지되지 않았습니다;관리자 권한으로 소프트웨어를 여십시오.또는 연결을 설정하는 방법</system:String>
+    <system:String x:Key="EmulatorTooMany">다수의 에뮬레이터가 탐지되었습니다 &#x0a;불필요한 에뮬레이터를 닫으십시오 &#x0a;또는 연결을 설정하는 방법</system:String>
 
-    <system:String x:Key="Alreadylatest">최신 버전~</system:String>
+    <system:String x:Key="AlreadyLatest">최신 버전~</system:String>
 
-    <system:String x:Key="Switchlanguage">언어 전환</system:String>
+    <system:String x:Key="SwitchLanguage">언어 전환</system:String>
     <system:String x:Key="Language">언어</system:String>
-    <system:String x:Key="Languagechangedtip">언어 설정이 변경되었습니다. 언어 설정을 적용하기 위해 maa를 다시 시작하시겠습니까?</system:String>
+    <system:String x:Key="LanguageChangedTip">언어 설정이 변경되었습니다. 언어 설정을 적용하기 위해 maa를 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="Ok">좋아</system:String>
-    <system:String x:Key="Manualrestart">나중에</system:String>
+    <system:String x:Key="ManualRestart">나중에</system:String>
     <system:String x:Key="Tip">힌트</system:String>
 
-    <system:String x:Key="Labelsequencetip">태그 순서</system:String>
-    <system:String x:Key="Checkboxesnotsaved">이 설정을 다시 시작하면</system:String>
-    <system:String x:Key="noautonavigation">이 옵션은 자동으로 해당 레벨로 이동하지 않습니다</system:String>
+    <system:String x:Key="LabelSequenceTip">태그 순서</system:String>
+    <system:String x:Key="CheckBoxesNotSaved">이 설정을 다시 시작하면</system:String>
+    <system:String x:Key="NoAutoNavigation">이 옵션은 자동으로 해당 레벨로 이동하지 않습니다</system:String>
 
-    <system:String x:Key="Updateautocheck">자동으로 업데이트 확인</system:String>
-    <system:String x:Key="Updateautodownload">업데이트 패키지 자동 다운로드</system:String>
-    <system:String x:Key="Updatecheckbeta">테스트 버전 업데이트 확인</system:String>
-    <system:String x:Key="Downloadwitharia2">aria2를 사용하여 다운로드</system:String>
-    <system:String x:Key="Updatechecknow">업데이트 확인</system:String>
+    <system:String x:Key="UpdateAutoCheck">자동으로 업데이트 확인</system:String>
+    <system:String x:Key="UpdateAutoDownload">업데이트 패키지 자동 다운로드</system:String>
+    <system:String x:Key="UpdateCheckBeta">테스트 버전 업데이트 확인</system:String>
+    <system:String x:Key="DownloadWithAria2">aria2를 사용하여 다운로드</system:String>
+    <system:String x:Key="UpdateCheckNow">업데이트 확인</system:String>
 
-    <system:String x:Key="Timertip">시간만 입력하면 정시에</system:String>
+    <system:String x:Key="TimerTip">시간만 입력하면 정시에</system:String>
     <system:String x:Key="Timer">시계</system:String>
 
-    <system:String x:Key="Launchonsystemstartup">시동 자동 부팅</system:String>
-    <system:String x:Key="Runtaskafterlaunch">시작 후 바로 실행</system:String>
-    <system:String x:Key="Clientversion">클라이언트 버전</system:String>
-    <system:String x:Key="Openemulatorafterlaunch">시동 후 에뮬레이터를 자동으로 시작</system:String>
-    <system:String x:Key="Waitforemulator">에뮬레이터를 기다립니다 &# xa;부트 시간 (초)</system:String>
-    <system:String x:Key="Emulatorpath">에뮬레이터 경로</system:String>
-    <system:String x:Key="select">선택</system:String>
-    <system:String x:Key="Additioncommand">추가 명령</system:String>
+    <system:String x:Key="LaunchOnSystemStartup">시동 자동 부팅</system:String>
+    <system:String x:Key="RunTaskAfterLaunch">시작 후 바로 실행</system:String>
+    <system:String x:Key="ClientVersion">클라이언트 버전</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">시동 후 에뮬레이터를 자동으로 시작</system:String>
+    <system:String x:Key="WaitForEmulator">에뮬레이터를 기다립니다 &# xa;부트 시간 (초)</system:String>
+    <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
+    <system:String x:Key="Select">선택</system:String>
+    <system:String x:Key="AdditionCommand">추가 명령</system:String>
 
-    <system:String x:Key="strategy">정책</system:String>
-    <system:String x:Key="Starttimeslimit">시작 횟수 제한</system:String>
-    <system:String x:Key="goldtimeslimit">투자 제한</system:String>
-    <system:String x:Key="Stopongoldlimit">소스풀 최대 정지</system:String>
+    <system:String x:Key="Strategy">정책</system:String>
+    <system:String x:Key="StartTimesLimit">시작 횟수 제한</system:String>
+    <system:String x:Key="GoldTimesLimit">투자 제한</system:String>
+    <system:String x:Key="StopOnGoldLimit">소스풀 최대 정지</system:String>
 
-    <system:String x:Key="Penguinid">펭귄 보고서 id &#13;(부분만)</system:String>
+    <system:String x:Key="PenguinID">펭귄 보고서 id &#13;(부분만)</system:String>
 
-    <system:String x:Key="Socialptshop">신용 구매</system:String>
-    <system:String x:Key="Highpriority">화이트리스트 공백 나누기</system:String>
+    <system:String x:Key="SocialPtShop">신용 구매</system:String>
+    <system:String x:Key="HighPriority">화이트리스트 공백 나누기</system:String>
     <system:String x:Key="Blacklist">블랙리스트 공백 분할하기</system:String>
 
-    <system:String x:Key="Droneusage">무인기 용도</system:String>
+    <system:String x:Key="DroneUsage">무인기 용도</system:String>
 
-    <system:String x:Key="Minimizetotray">최소화시 트레이로 숨기기</system:String>
-    <system:String x:Key="Systemnotification">중요 정보 팝업</system:String>
-    <system:String x:Key="Hideunavailablestage">선택한 레벨은 그 날 열리지 않는 레벨을 숨깁니다</system:String>
-    <system:String x:Key="Mainviewbuttonfeature">기본 인터페이스 선택 단추 기능</system:String>
+    <system:String x:Key="MinimizeToTray">최소화시 트레이로 숨기기</system:String>
+    <system:String x:Key="SystemNotification">중요 정보 팝업</system:String>
+    <system:String x:Key="HideUnavailableStage">선택한 레벨은 그 날 열리지 않는 레벨을 숨깁니다</system:String>
+    <system:String x:Key="MainViewButtonFeature">기본 인터페이스 선택 단추 기능</system:String>
 
-    <system:String x:Key="Adbpath">adb 경로 (상대/절대)</system:String>
-    <system:String x:Key="Connectionaddress">연결 주소</system:String>
-    <system:String x:Key="Connectionpreset">연결 설정</system:String>
+    <system:String x:Key="ADBPath">adb 경로 (상대/절대)</system:String>
+    <system:String x:Key="ConnectionAddress">연결 주소</system:String>
+    <system:String x:Key="ConnectionPreset">연결 설정</system:String>
     <!--설정-->
 
     <!--한버튼 잔디밭-->
     <system:String x:Key="Farming">주 인터페이스</system:String>
 
-    <system:String x:Key="Wakeup">깨 워</system:String>
-    <system:String x:Key="recruiting">모집</system:String>
-    <system:String x:Key="base">기본 건설</system:String>
-    <system:String x:Key="combat">전투</system:String>
+    <system:String x:Key="WakeUp">깨 워</system:String>
+    <system:String x:Key="Recruiting">모집</system:String>
+    <system:String x:Key="Base">기본 건설</system:String>
+    <system:String x:Key="Combat">전투</system:String>
     <system:String x:Key="Visiting">친한 친구</system:String>
-    <system:String x:Key="mall">쇼핑</system:String>
-    <system:String x:Key="mission">일상적인 보상</system:String>
-    <system:String x:Key="Autoroguelike">통합 전략</system:String>
+    <system:String x:Key="Mall">쇼핑</system:String>
+    <system:String x:Key="Mission">일상적인 보상</system:String>
+    <system:String x:Key="AutoRoguelike">통합 전략</system:String>
 
-    <system:String x:Key="Selectall">모두 선택</system:String>
+    <system:String x:Key="SelectAll">모두 선택</system:String>
     <system:String x:Key="Inverse">역선택</system:String>
     <system:String x:Key="Clear">비우기</system:String>
 
     <system:String x:Key="Then">완료 후</system:String>
-    <system:String x:Key="Donothing">동작 없음</system:String>
-    <system:String x:Key="exitarknights">내일의 방주에서 종료</system:String>
-    <system:String x:Key="Exitmaa">maa 종료</system:String>
-    <system:String x:Key="closeemulator">에뮬레이터를 닫다</system:String>
-    <system:String x:Key="Exitmaaandcloseemulator">에뮬레이터를 종료하고 닫기</system:String>
-    <system:String x:Key="hibernate">최대 절전 모드 *</system:String>
-    <system:String x:Key="Shutdown">종료 *</system:String>
+    <system:String x:Key="DoNothing">동작 없음</system:String>
+    <system:String x:Key="ExitArknights">게임 끝내기</system:String>
+    <system:String x:Key="ExitMAA">maa 종료</system:String>
+    <system:String x:Key="CloseEmulator">에뮬레이터를 닫다</system:String>
+    <system:String x:Key="ExitMAAAndCloseEmulator">에뮬레이터를 종료하고 닫기</system:String>
+    <system:String x:Key="Hibernate">최대 절전 모드*</system:String>
+    <system:String x:Key="Shutdown">종료*</system:String>
 
-    <system:String x:Key="linkstart">link start!</system:String>
+    <system:String x:Key="LinkStart">link start!</system:String>
     <system:String x:Key="Stop">stop</system:String>
 
     <!--전투 설정-->
-    <system:String x:Key="Usesanitypotion">이성약 복용</system:String>
-    <system:String x:Key="Useoriginiteprime">식원석 *</system:String>
-    <system:String x:Key="performbattles">횟수 *</system:String>
-    <system:String x:Key="Assignedmaterial">지정자료</system:String>
-    <system:String x:Key="quantity">드롭수</system:String>
-    <system:String x:Key="Stageselect">레벨 선택</system:String>
+    <system:String x:Key="UseSanityPotion">이성약 복용</system:String>
+    <system:String x:Key="UseOriginitePrime">식원석 *</system:String>
+    <system:String x:Key="PerformBattles">횟수 *</system:String>
+    <system:String x:Key="AssignedMaterial">지정자료</system:String>
+    <system:String x:Key="Quantity">드롭수</system:String>
+    <system:String x:Key="StageSelect">레벨 선택</system:String>
     <system:String x:Key="Amend">수정</system:String>
 
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
     <system:String x:Key="LastBattle">上次作战</system:String>-->
-    <system:String x:Key="Defaultstage">현재/이전</system:String>
+    <system:String x:Key="DefaultStage">현재/이전</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>
     <system:String x:Key="AP-5">AP-5</system:String>
@@ -186,18 +186,18 @@
     <!--전투 설정-->
 
     <!--로그-->
-    <system:String x:Key="Connectingtoemulator">에뮬레이터를 연결하는 중...</system:String>
-    <system:String x:Key="Unselectedtask">선택되지 않은 작업</system:String>
+    <system:String x:Key="ConnectingToEmulator">에뮬레이터를 연결하는 중...</system:String>
+    <system:String x:Key="UnselectedTask">선택되지 않은 작업</system:String>
     <system:String x:Key="Running">실행 중...</system:String>
     <system:String x:Key="Stopped">정지됐다</system:String>
-    <system:String x:Key="Unknownerroroccurs">알 수 없는 오류가 발생했습니다</system:String>
-    <system:String x:Key="Setsuccessfully">성공적으로 설정했습니다</system:String>
-    <system:String x:Key="Setfailed">설정 실패</system:String>
-    <system:String x:Key="closearknightsfailed">게임을 끄는데 실패했습니다</system:String>
-    <system:String x:Key="closeemulatorfailed">에뮬레이터 종료 실패</system:String>
-    <system:String x:Key="Abouttoshutdown">이미 화면이 끝났습니다. 꺼지려고 합니다. 취소하시겠습니까?</system:String>
-    <system:String x:Key="Shutdownprompt">힌트</system:String>
-    <system:String x:Key="Hibernateprompt">이미 호출이 완료되어 절전 모드로 들어갈 것입니다</system:String>
+    <system:String x:Key="UnknownErrorOccurs">알 수 없는 오류가 발생했습니다</system:String>
+    <system:String x:Key="SetSuccessfully">성공적으로 설정했습니다</system:String>
+    <system:String x:Key="SetFailed">설정 실패</system:String>
+    <system:String x:Key="CloseArknightsFailed">게임을 끄는데 실패했습니다</system:String>
+    <system:String x:Key="CloseEmulatorFailed">에뮬레이터 종료 실패</system:String>
+    <system:String x:Key="AboutToShutdown">이미 화면이 끝났습니다. 꺼지려고 합니다. 취소하시겠습니까?</system:String>
+    <system:String x:Key="ShutdownPrompt">힌트</system:String>
+    <system:String x:Key="HibernatePrompt">이미 호출이 완료되어 절전 모드로 들어갈 것입니다</system:String>
     <!--로그-->
     <!--한버튼 잔디밭-->
 
@@ -218,99 +218,99 @@
 
     <!--자동 전투-->
     <system:String x:Key="Copilot">자동 전투 베타</system:String>
-    <system:String x:Key="Copilotlocation">작업 경로/코드</system:String>
-    <system:String x:Key="Selectthefile">작업 선택</system:String>
-    <system:String x:Key="selectthefiletip">작업 파일을 직접 마우스로 끌어 당기어 (oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="autosquad">자동 편성</system:String>
-    <system:String x:Key="Autosquadtip">자동 편성은 일시적으로 특별한 주의를 주는 관리자를 식별할 수 없습니다</system:String>
+    <system:String x:Key="CopilotLocation">작업 경로/코드</system:String>
+    <system:String x:Key="SelectTheFile">작업 선택</system:String>
+    <system:String x:Key="SelectTheFileTip">작업 파일을 직접 마우스로 끌어 당기어 (oﾟvﾟ)ノ</system:String>
+    <system:String x:Key="AutoSquad">자동 편성</system:String>
+    <system:String x:Key="AutoSquadTip">자동 편성은 일시적으로 특별한 주의를 주는 관리자를 식별할 수 없습니다</system:String>
 
     <system:String x:Key="Start">시작</system:String>
 
-    <system:String x:Key="Copilotjsonsharing">작업 공유 사이트</system:String>
-    <system:String x:Key="Videolink">비디오 링크</system:String>
+    <system:String x:Key="CopilotJSONSharing">작업 공유 사이트</system:String>
+    <system:String x:Key="VideoLink">비디오 링크</system:String>
 
     <!--로그-->
-    <system:String x:Key="Copilottip">팁:</system:String>
-    <system:String x:Key="copilottip1 」">1.시뮬레이터와 게임의 프레임 레이트를 60 프레임 이상으로 설정하십시오.</system:String>
-    <system:String x:Key="copilottip2 」">2.실행 시작 단추가 있는 화면에서이 기능을 다시 사용하십시오.</system:String>
-    <system:String x:Key="copilottip3 」">3.친구의 도움말을 사용하면'자동 편대'를 끌 수 있습니다. 수동으로 하원을 선택한 후 시작할 수 있습니다.</system:String>
-    <system:String x:Key="copilottip4 」">4다.시뮬레이션 역설은"자동 편대"를 끄고, 스킬 선택 후"시뮬레이션 시작"단추의 인터페이스에서 다시 시작해야 한다.</system:String>
-    <system:String x:Key="Copilottip5">5. 5. 자동 편대에서는 특별 주의사항 관리자를 식별할 수 없습니다. 필요할 경우 특별 주의사항 또는 수동 편대를 취소하십시오.</system:String>
+    <system:String x:Key="CopilotTip">팁:</system:String>
+    <system:String x:Key="CopilotTip1">1. 시뮬레이터와 게임의 프레임 레이트를 60 프레임 이상으로 설정하십시오.</system:String>
+    <system:String x:Key="CopilotTip2">2. 실행 시작 단추가 있는 화면에서이 기능을 다시 사용하십시오.</system:String>
+    <system:String x:Key="CopilotTip3">3. 친구의 도움말을 사용하면'자동 편대'를 끌 수 있습니다. 수동으로 하원을 선택한 후 시작할 수 있습니다.</system:String>
+    <system:String x:Key="CopilotTip4">4. 시뮬레이션 역설은"자동 편대"를 끄고, 스킬 선택 후"시뮬레이션 시작"단추의 인터페이스에서 다시 시작해야 한다.</system:String>
+    <system:String x:Key="CopilotTip5">5. 자동 편대에서는 특별 주의사항 관리자를 식별할 수 없습니다. 필요할 경우 특별 주의사항 또는 수동 편대를 취소하십시오.</system:String>
 
-    <system:String x:Key="Copilotfilereaderror">파일을 읽는 데 실패했습니다!</system:String>
-    <system:String x:Key="Copilotnofound">일치하는 작업을 찾을 수 없습니다!</system:String>
-    <system:String x:Key="Networkserviceerror">네트워크 서비스 오류 요청!</system:String>
-    <system:String x:Key="Copilotjsonerror">작업 파일 파싱 오류!</system:String>
-    <system:String x:Key="Notcopilotjson">비작업 파일</system:String>
-    <system:String x:Key="Checkthefile">파일 내용을 확인해 주세요!</system:String>
+    <system:String x:Key="CopilotFileReadError">파일을 읽는 데 실패했습니다!</system:String>
+    <system:String x:Key="CopilotNoFound">일치하는 작업을 찾을 수 없습니다!</system:String>
+    <system:String x:Key="NetworkServiceError">네트워크 서비스 오류 요청!</system:String>
+    <system:String x:Key="CopilotJsonError">작업 파일 파싱 오류!</system:String>
+    <system:String x:Key="NotCopilotJson">비작업 파일</system:String>
+    <system:String x:Key="CheckTheFile">파일 내용을 확인해 주세요!</system:String>
     <!--로그-->
     <!--자동 전투-->
 
     <!--asstproxy-->
-    <system:String x:Key="Unknownabnormal">알 수 없는 예외 발생</system:String>
+    <system:String x:Key="UnknownAbnormal">알 수 없는 예외 발생</system:String>
     <system:String x:Key="Error">오류</system:String>
-    <system:String x:Key="Initializationerror">초기화 오류!</system:String>
-    <system:String x:Key="Resolutionnotsupported">에뮬레이터 해상도를 720p 이상으로, 16:9 비율로 설정해 주십시오.</system:String>
-    <system:String x:Key="resolutionacquisitionfailure">시뮬레이터 해상도 실패를 재개 할 것을 건의. 컴퓨터, 또는 교체 시뮬레이터 후 다시 시도</system:String>
-    <system:String x:Key="Trytoreconnect">에뮬레이터가 연결되지 않아 재연결이 시도됩니다</system:String>
-    <system:String x:Key="Reconnectsuccess">다시 연결되었습니다. 작업을 계속합니다</system:String>
-    <system:String x:Key="Reconnectfailed">재연결 실패, 연결 해제!</system:String>
-    <system:String x:Key="Identifythemistakes">오류 식별</system:String>
-    <system:String x:Key="Taskerror">작업 오류:</system:String>
-    <system:String x:Key="combaterror">전투 오류:</system:String>
-    <system:String x:Key="Starttask">작업 시작:</system:String>
-    <system:String x:Key="completetask">작업 완료:</system:String>
-    <system:String x:Key="Startcombat">전투를 시작:</system:String>
-    <system:String x:Key="completecombat">전투 완료:</system:String>
-    <system:String x:Key="Alltaskscomplete">모든 작업이 완료되었다!</system:String>
-    <system:String x:Key="Failedtoopenclient">클라이언트를 여는 데 실패했습니다.</system:String>
-    <system:String x:Key="Erroroccurred">오류가 발생했습니다</system:String>
-    <system:String x:Key="Hasreturned">return</system:String>
-    <system:String x:Key="Droprecognitionerror">드롭아웃 오류</system:String>
-    <system:String x:Key="Giveupuploadingpenguins">업로드 포기</system:String>
-    <system:String x:Key="Theex">ex level이 정지되었다</system:String>
-    <system:String x:Key="Onthemove">행동이 시작되었다</system:String>
-    <system:String x:Key="Unittime">다음</system:String>
-    <system:String x:Key="medicineused">이성약 사용</system:String>
-    <system:String x:Key="Stoneused">소스 스톤</system:String> 사용
-    <system:String x:Key="Actingcommanderror">프록시 오류</system:String>
-    <system:String x:Key="Labelsrefreshed">새로 고친 태그</system:String>
-    <system:String x:Key="Recruitconfirm">모집이 확인됨</system:String>
-    <system:String x:Key="infrastdormdoubleconfirmed 」">일 원 충돌</system:String>
-    <system:String x:Key="Beguntoexplore">이미 탐색하기 시작</system:String>
-    <system:String x:Key="Hasinvested">투자됨</system:String>
-    <system:String x:Key="Explorationabandoned">이 탐사가 포기되었다</system:String>
-    <system:String x:Key="Fightcompleted">전투 완료</system:String>
-    <system:String x:Key="fightfailed">전투 실패</system:String>
-    <system:String x:Key="upperlimit">투자 상한선 달성</system:String>
-    <system:String x:Key="Gamecrash">게임이 충돌하면 다시 시작</system:String>
-    <system:String x:Key="gamedrop">게임을 종료하고 다시 연결</system:String>
+    <system:String x:Key="InitializationError">초기화 오류!</system:String>
+    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도를 720p 이상으로, 16:9 비율로 설정해 주십시오.</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">시뮬레이터 해상도 실패를 재개 할 것을 건의. 컴퓨터, 또는 교체 시뮬레이터 후 다시 시도</system:String>
+    <system:String x:Key="TryToReconnect">에뮬레이터가 연결되지 않아 재연결이 시도됩니다</system:String>
+    <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다</system:String>
+    <system:String x:Key="ReconnectFailed">재연결 실패, 연결 해제!</system:String>
+    <system:String x:Key="IdentifyTheMistakes">오류 식별</system:String>
+    <system:String x:Key="TaskError">작업 오류:</system:String>
+    <system:String x:Key="CombatError">전투 오류:</system:String>
+    <system:String x:Key="StartTask">작업 시작:</system:String>
+    <system:String x:Key="CompleteTask">작업 완료:</system:String>
+    <system:String x:Key="StartCombat">전투를 시작:</system:String>
+    <system:String x:Key="CompleteCombat">전투 완료:</system:String>
+    <system:String x:Key="AllTasksComplete">모든 작업이 완료되었다!</system:String>
+    <system:String x:Key="FailedToOpenClient">클라이언트를 여는 데 실패했습니다.</system:String>
+    <system:String x:Key="ErrorOccurred">오류가 발생했습니다</system:String>
+    <system:String x:Key="HasReturned">return</system:String>
+    <system:String x:Key="DropRecognitionError">드롭아웃 오류</system:String>
+    <system:String x:Key="GiveUpUploadingPenguins">업로드 포기</system:String>
+    <system:String x:Key="TheEX">ex level이 정지되었다</system:String>
+    <system:String x:Key="OnTheMove">행동이 시작되었다</system:String>
+    <system:String x:Key="UnitTime">다음</system:String>
+    <system:String x:Key="MedicineUsed">이성약 사용</system:String>
+    <system:String x:Key="StoneUsed">소스 스톤</system:String> 사용
+    <system:String x:Key="ActingcommanActingCommandErrorderror">프록시 오류</system:String>
+    <system:String x:Key="LabelsRefreshed">새로 고친 태그</system:String>
+    <system:String x:Key="RecruitConfirm">모집이 확인됨</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed 」">일 원 충돌</system:String>
+    <system:String x:Key="BegunToExplore">이미 탐색하기 시작</system:String>
+    <system:String x:Key="HasInvested">투자됨</system:String>
+    <system:String x:Key="ExplorationAbandoned">이 탐사가 포기되었다</system:String>
+    <system:String x:Key="FightCompleted">전투 완료</system:String>
+    <system:String x:Key="FightFailed">전투 실패</system:String>
+    <system:String x:Key="UpperLimit">투자 상한선 달성</system:String>
+    <system:String x:Key="GameCrash">게임이 충돌하면 다시 시작</system:String>
+    <system:String x:Key="GameDrop">게임을 종료하고 다시 연결</system:String>
     <system:String x:Key="Trader">레벨:속임수 행상</system:String>
-    <system:String x:Key="Safehouse">레벨:안전한 모서리</system:String>
-    <system:String x:Key="encounter">레벨:우연</system:String>
-    <system:String x:Key="Cambatdps">레벨:일반 전투</system:String>
-    <system:String x:Key="emergencydps">레벨:string></system:String>
-    <system:String x:Key="Dreadfulfoe">레벨:string</system:String>
-    <system:String x:Key="Nodrop">없음</system:String>
-    <system:String x:Key="Drop"></system:String>
-    <system:String x:Key="Totaldrop">드롭통계:</system:String>
-    <system:String x:Key="Thisfacility">현재 스킬:</system:String>
-    <system:String x:Key="Recruitingresults">채용 결과:</system:String>
-    <system:String x:Key="recruitingtips">팁</system:String>
-    <system:String x:Key="recruitmentofstar">{0} 별 생성!</system:String>
-    <system:String x:Key="recruitmentofbot">승용차가 나갔다</system:String>
+    <system:String x:Key="SafeHouse">레벨:안전한 모서리</system:String>
+    <system:String x:Key="Encounter">레벨:우연</system:String>
+    <system:String x:Key="CambatDps">레벨:일반 전투</system:String>
+    <system:String x:Key="EmergencyDps">레벨:string></system:String>
+    <system:String x:Key="DreadfulFoe">레벨:string</system:String>
+    <system:String x:Key="NoDrop">없음</system:String>
+    <system:String x:Key="Drop">드롭통계:</system:String>
+    <system:String x:Key="TotalDrop">드롭통계:</system:String>
+    <system:String x:Key="ThisFacility">현재 스킬:</system:String>
+    <system:String x:Key="RecruitingResults">채용 결과:</system:String>
+    <system:String x:Key="RecruitingTips">팁</system:String>
+    <system:String x:Key="RecruitmentOfStar">{0} 별 생성!</system:String>
+    <system:String x:Key="RecruitmentOfBot">승용차가 나갔다</system:String>
     <system:String x:Key="Choose">선택</system:String>
     <system:String x:Key="Refreshed">현재 슬롯은 새로 고쳐졌습니다</system:String>
-    <system:String x:Key="Notenoughstaff">사용 가능한 인력 부족</system:String>
-    <system:String x:Key="Stageinfoerror">레벨 인식 오류</system:String>
-    <system:String x:Key="battleformation">편대 시작</system:String>
-    <system:String x:Key="Battleformationselected">작업자 선택:</system:String>
-    <system:String x:Key="Currentsteps">현재 단계:</system:String>
-    <system:String x:Key="Unsupportedlevel">지원하지 않는 레벨은 maa 소프트웨어 버전을 업데이트하거나, 작업 파일</system:String> 을 확인하십시오.
-    <system:String x:Key="Recruittagsdetected">결과:</system:String>
-    <system:String x:Key="Connectfailed">연결 실패</system:String>
-    <system:String x:Key="Trytostartemulator">시동 에뮬레이터</system:String>
-    <system:String x:Key="Checksettings">연결 설정을 확인하거나 컴퓨터를 다시 시도해 보세요</system:String>
+    <system:String x:Key="NotEnoughStaff">사용 가능한 인력 부족</system:String>
+    <system:String x:Key="StageInfoError">레벨 인식 오류</system:String>
+    <system:String x:Key="BattleFormation">편대 시작</system:String>
+    <system:String x:Key="BattleFormationSelected">작업자 선택:</system:String>
+    <system:String x:Key="CurrentSteps">현재 단계:</system:String>
+    <system:String x:Key="UnsupportedLevel">지원하지 않는 레벨은 maa 소프트웨어 버전을 업데이트하거나, 작업 파일</system:String> 을 확인하십시오.
+    <system:String x:Key="RecruitTagsDetected">결과:</system:String>
+    <system:String x:Key="ConnectFailed">연결 실패</system:String>
+    <system:String x:Key="TryToStartEmulator">시동 에뮬레이터</system:String>
+    <system:String x:Key="CheckSettings">연결 설정을 확인하거나 컴퓨터를 다시 시도해 보세요</system:String>
     <!--asstproxy-->
 
     <!--trayicon-->
@@ -318,25 +318,25 @@
     <!--trayicon-->
 
     <!--about-->
-    <system:String x:Key="website">maa website</system:String>
-    <system:String x:Key="github">소스 코드:github</system:String>
-    <system:String x:Key="Qqgroup">q 그룹 공유</system:String>
-    <system:String x:Key="Qqgroup1">QQ1(만원)</system:String>
-    <system:String x:Key="Qqgroup2">QQ2</system:String>
-    <system:String x:Key="Qqgroup3">QQ3</system:String>
+    <system:String x:Key="Website">maa website</system:String>
+    <system:String x:Key="Github">소스 코드:github</system:String>
+    <system:String x:Key="QQgroup">작업군</system:String>
+    <system:String x:Key="QQgroup1">QQ1(만원)</system:String>
+    <system:String x:Key="QQgroup2">QQ2</system:String>
+    <system:String x:Key="QQgroup3">QQ3</system:String>
     <system:String x:Key="Help">도움</system:String>
     <system:String x:Key="Issue">피드백</system:String>
     <!--about-->
 
     <!--autorecruitsettings-->
-    <system:String x:Key="Autorefresh">자동으로 3개의 별을 새로고치기</system:String>
-    <system:String x:Key="Autouseexpedited">긴급 라이선스 자동 사용 *</system:String>
-    <system:String x:Key="Recruitmaxtimes">실행시 최대 모집횟수</system:String>
-    <system:String x:Key="Manuallyselectlevel1">수동으로 별 1개 확인</system:String>
-    <system:String x:Key="Autoselectlevel3">별 세 개 자동 확인</system:String>
-    <system:String x:Key="Autoselectlevel4">자동으로 별 4개 확인</system:String>
-    <system:String x:Key="Autoselectlevel5">자동으로 별 5개 확인</system:String>
-    <system:String x:Key="Autoselectlevel6">자동으로 별 6개 확인</system:String>
-    <system:String x:Key="Level1tip">체크할 때 별점 1개를 건너뛰고, 체크하지 않을 때 별점 1개를 무시합니다</system:String>
+    <system:String x:Key="AutoRefresh">자동으로 3개의 별을 새로고치기</system:String>
+    <system:String x:Key="AutoUseExpedited">긴급 라이선스 자동 사용 *</system:String>
+    <system:String x:Key="RecruitMaxTimes">실행시 최대 모집횟수</system:String>
+    <system:String x:Key="ManuallySelectLevel1">수동으로 별 1개 확인</system:String>
+    <system:String x:Key="AutoSelectLevel3">별 세 개 자동 확인</system:String>
+    <system:String x:Key="AutoSelectLevel4">자동으로 별 4개 확인</system:String>
+    <system:String x:Key="AutoSelectLevel5">자동으로 별 5개 확인</system:String>
+    <system:String x:Key="AutoSelectLevel6">자동으로 별 6개 확인</system:String>
+    <system:String x:Key="Level1Tip">체크할 때 별점 1개를 건너뛰고, 체크하지 않을 때 별점 1개를 무시합니다</system:String>
     <!--autorecruitsettings-->
 </ResourceDictionary>
