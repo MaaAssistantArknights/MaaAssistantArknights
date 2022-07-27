@@ -507,7 +507,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
     auto& range_json = range_opt.value();
 
     json::value result;
-    auto& range = result["range"].as_object();
+    auto& range = result["ranges"].as_object();
     for (auto& [id, range_data] : range_json.as_object()) {
         if (int direction = range_data["direction"].as_integer();
             direction != 1) {
@@ -526,15 +526,28 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
     auto& chars = result["chars"].as_object();
     for (auto& [id, char_data] : chars_json.as_object()) {
         json::value char_new_data;
-        char_new_data["name"] = char_data["name"];
-        char_new_data["profession"] = char_data["profession"];
+        std::string name = char_data["name"].as_string();
 
-        const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
-        char_new_data["rangeId"] = json::array{
-            default_range,
-            char_data.get("phases", 1, "rangeId", default_range),
-            char_data.get("phases", 2, "rangeId", default_range),
-        };
+        char_new_data["name"] = name;
+        if (name == "阿米娅") {
+            char_new_data["profession"] = "WARRIOR";
+            char_new_data["rangeId"] = json::array{
+                "1-1",
+                "1-1",
+                "1-1"
+            };
+        }
+        else {
+            char_new_data["profession"] = char_data["profession"];
+
+            const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
+            char_new_data["rangeId"] = json::array{
+                default_range,
+                char_data.get("phases", 1, "rangeId", default_range),
+                char_data.get("phases", 2, "rangeId", default_range),
+            };
+        }
+
         chars.emplace(id, std::move(char_new_data));
     }
 

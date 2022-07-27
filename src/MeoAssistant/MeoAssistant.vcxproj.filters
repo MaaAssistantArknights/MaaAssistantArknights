@@ -357,6 +357,9 @@
     <ClInclude Include="RoguelikeCustomStartTaskPlugin.h">
       <Filter>头文件\Task\Plugin\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="BattleDataConfiger.h">
+      <Filter>头文件\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -613,6 +616,9 @@
     </ClCompile>
     <ClCompile Include="RoguelikeCustomStartTaskPlugin.cpp">
       <Filter>源文件\Task\Plugin\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleDataConfiger.cpp">
+      <Filter>源文件\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

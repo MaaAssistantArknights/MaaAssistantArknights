@@ -17,6 +17,7 @@
 #include "CopilotConfiger.h"
 #include "RoguelikeCopilotConfiger.h"
 #include "StageDropsConfiger.h"
+#include "BattleDataConfiger.h"
 
 namespace asst
 {
@@ -77,6 +78,10 @@ namespace asst
         {
             return m_stage_drops_cfg_unique_ins;
         }
+        BattleDataConfiger& battle_data() noexcept
+        {
+            return m_battle_data_cfg_unique_ins;
+        }
 
         const TemplResource& templ() const noexcept
         {
@@ -122,6 +127,10 @@ namespace asst
         {
             return m_stage_drops_cfg_unique_ins;
         }
+        const BattleDataConfiger& battle_data() const noexcept
+        {
+            return m_battle_data_cfg_unique_ins;
+        }
 
         Resource& operator=(const Resource&) = delete;
         Resource& operator=(Resource&&) noexcept = delete;
@@ -140,6 +149,7 @@ namespace asst
         OcrPack m_ocr_pack_unique_ins;
         TilePack m_tile_pack_unique_ins;
         StageDropsConfiger m_stage_drops_cfg_unique_ins;
+        BattleDataConfiger m_battle_data_cfg_unique_ins;
 
         bool m_loaded = false;
     };

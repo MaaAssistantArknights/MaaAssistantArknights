@@ -2,11 +2,11 @@
     "chars": {
         "char_002_amiya": {
             "name": "阿米娅",
-            "profession": "CASTER",
+            "profession": "WARRIOR",
             "rangeId": [
-                "3-6",
-                "3-1",
-                "3-1"
+                "1-1",
+                "1-1",
+                "1-1"
             ]
         },
         "char_003_kalts": {
@@ -3178,7 +3178,7 @@
             ]
         }
     },
-    "range": {
+    "ranges": {
         "0-1": [
             [
                 0,
