@@ -3,6 +3,9 @@
 
 #include "AsstTypes.h"
 
+#include <vector>
+#include <list>
+
 namespace asst
 {
     class AutoRecruitTask final : public AbstractTask
@@ -32,7 +35,16 @@ namespace asst
         bool recruit_now();
         bool confirm();
         bool refresh();
-        bool recruit_calc_task(bool&, int&);
+
+        struct calc_task_result_type {
+            bool success = false;
+            bool force_skip = false;
+            [[maybe_unused]] int tags_selected = 0;
+        };
+
+        calc_task_result_type recruit_calc_task();
+
+        bool m_force_discard_flag = false;
 
         std::vector<int> m_select_level;
         std::vector<int> m_confirm_level;
@@ -44,6 +56,7 @@ namespace asst
 
         std::vector<TextRect> m_start_buttons;
         std::list<size_t> m_pending_recruit_slot;
+        int m_slot_fail = 0;
         int m_cur_times = 0;
     };
 }
