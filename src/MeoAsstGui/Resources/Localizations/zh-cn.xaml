@@ -5,7 +5,7 @@
     <system:String x:Key="RougelikeSettings">肉鸽设置</system:String>
     <system:String x:Key="RecruitingSettings">自动公招</system:String>
     <system:String x:Key="MallSettings">信用商店</system:String>
-    <system:String x:Key="PenguinSettings">企鹅数据</system:String>
+    <system:String x:Key="PenguinSettings">企鹅物流</system:String>
     <system:String x:Key="ConnectionSettings">连接设置</system:String>
     <system:String x:Key="StartupSettings">启动设置</system:String>
     <system:String x:Key="ScheduleSettings">定时执行</system:String>
@@ -88,7 +88,7 @@
     <system:String x:Key="RunTaskAfterLaunch">启动后直接运行</system:String>
     <system:String x:Key="ClientVersion">客户端版本</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">启动后自动开启模拟器</system:String>
-    <system:String x:Key="WaitForEmulator">等待模拟器&#xA;启动时间（秒）</system:String>
+    <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
     <system:String x:Key="Select">选择</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
@@ -98,7 +98,7 @@
     <system:String x:Key="GoldTimesLimit">投资次数限制</system:String>
     <system:String x:Key="StopOnGoldLimit">源石锭达到上限停止任务</system:String>
 
-    <system:String x:Key="PenguinID">企鹅数据汇报ID&#13;（仅数字部分）</system:String>
+    <system:String x:Key="PenguinID">企鹅物流汇报ID（仅数字部分）</system:String>
 
     <system:String x:Key="SocialPtShop">信用购物</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 空格分隔</system:String>

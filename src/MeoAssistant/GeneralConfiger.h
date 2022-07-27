@@ -29,7 +29,7 @@ namespace asst
         //bool print_window = false;           // 截图功能：开启后每次结算界面会截图到screenshot目录下
         int adb_extra_swipe_dist = 0;        // 额外的滑动距离：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
         int adb_extra_swipe_duration = -1;   // 额外的滑动持续时间：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来。若小于0，则关闭额外滑动功能
-        PenguinReportCfg penguin_report;     // 企鹅数据汇报：每次到结算界面，汇报掉落数据至企鹅数据 https://penguin-stats.cn/
+        PenguinReportCfg penguin_report;     // 企鹅物流汇报：每次到结算界面，汇报掉落数据至企鹅物流 https://penguin-stats.cn/
         DepotExportTemplate depot_export_template;  // 仓库识别结果导出模板
     };
 

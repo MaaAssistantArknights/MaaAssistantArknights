@@ -764,7 +764,7 @@ namespace MeoAsstGui
             }
         }
 
-        /* 企鹅数据设置 */
+        /* 企鹅物流设置 */
 
         private string _penguinId = ViewStatusStorage.Get("Penguin.Id", string.Empty);
 

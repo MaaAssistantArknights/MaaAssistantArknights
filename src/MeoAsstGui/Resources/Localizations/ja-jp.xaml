@@ -80,7 +80,7 @@
     <system:String x:Key="UpdateCheckBeta">ベータ版を使う</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
-    
+
     <system:String x:Key="TimerTip">時間数のみを記入し、正時に実行されます</system:String>
     <system:String x:Key="Timer">タイミング</system:String>
 
@@ -98,7 +98,7 @@
     <system:String x:Key="GoldTimesLimit">投資回数の制限</system:String>
     <system:String x:Key="StopOnGoldLimit">源石錐が上限に達してミッションを停止する</system:String>
 
-    <system:String x:Key="PenguinID">Penguin StatisticsレポートID&#13;（デジタル部分のみ）</system:String>
+    <system:String x:Key="PenguinID">Penguin StatisticsレポートID（デジタル部分のみ）</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
     <system:String x:Key="HighPriority">優先購入　スペースで区切</system:String>
@@ -111,7 +111,7 @@
     <system:String x:Key="HideUnavailableStage">当日は開放されないステージを隠します</system:String>
     <system:String x:Key="MainViewButtonFeature">メイン画面左側のボタン</system:String>
 
-    <system:String x:Key="ADBPath">adbパス&#xA;（相対/絶対）</system:String>
+    <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <!--設定-->
