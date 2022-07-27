@@ -94,7 +94,7 @@
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
     <system:String x:Key="Strategy">Strategy</system:String>
-    <system:String x:Key="StartTimesLimit" xml:space="preserve">      Limit of times      </system:String>
+    <system:String x:Key="StartTimesLimit">Limit of times</system:String>
     <system:String x:Key="GoldTimesLimit">Limit of deposit coins</system:String>
     <system:String x:Key="StopOnGoldLimit">Stop when deposited coins reached limit</system:String>
 
