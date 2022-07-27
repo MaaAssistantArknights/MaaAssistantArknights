@@ -80,7 +80,7 @@
     <system:String x:Key="UpdateCheckBeta">检查测试版本更新</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">检查更新</system:String>
-    
+
     <system:String x:Key="TimerTip">仅填写小时数，将在整点时执行</system:String>
     <system:String x:Key="Timer">定时</system:String>
 
@@ -101,8 +101,8 @@
     <system:String x:Key="PenguinID">企鹅数据汇报ID&#13;（仅数字部分）</system:String>
 
     <system:String x:Key="SocialPtShop">信用购物</system:String>
-    <system:String x:Key="HighPriority">优先购买&#xA;子串即可，空格分隔</system:String>
-    <system:String x:Key="Blacklist">黑名单&#xA;子串即可，空格分隔</system:String>
+    <system:String x:Key="HighPriority">优先购买 子串即可 空格分隔</system:String>
+    <system:String x:Key="Blacklist">黑名单 子串即可 空格分隔</system:String>
 
     <system:String x:Key="DroneUsage">无人机用途</system:String>
 
@@ -111,7 +111,7 @@
     <system:String x:Key="HideUnavailableStage">关卡选择隐藏当日不开放关卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
 
-    <system:String x:Key="ADBPath">adb 路径&#xA;（相对/绝对均可）</system:String>
+    <system:String x:Key="ADBPath">adb 路径（相对/绝对）</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
     <system:String x:Key="ConnectionPreset">连接配置</system:String>
     <!--设置-->
