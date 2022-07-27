@@ -224,13 +224,6 @@ public partial class Build
                 Assert.True(GhTag is not null, "ReleaseMaa -> Auto Triggered，Tag 为 Null");
                 Assert.True(GitHubPersonalAccessToken is not null, "ReleaseMaa -> Auto Triggered，PAT 为 Null");
             }
-
-            // 若是 ReleaseMaaResource，Branch 必须为 Master，PAT 必须存在
-            if (GhActionName == ActionConfiguration.ReleaseMaaResource)
-            {
-                Assert.True(GhBranch == MasterBranch, "ReleaseMaaResource -> Auto Triggered，Branch 不为 master");
-                Assert.True(GitHubPersonalAccessToken is not null, "ReleaseMaaResource -> Auto Triggered，PAT 为 Null");
-            }
         }
     }
 }
