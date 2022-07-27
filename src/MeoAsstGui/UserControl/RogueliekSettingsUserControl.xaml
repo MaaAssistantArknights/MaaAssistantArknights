@@ -11,32 +11,53 @@
              d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
              d:DesignHeight="300" d:DesignWidth="550">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="125"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="125"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="4">
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="{DynamicResource Strategy}" VerticalAlignment="Center" Margin="10" />
-            <ComboBox Width="300" Margin="10"
+            <ComboBox Width="300" Height="30" Margin="10"
                       IsHitTestVisible ="{Binding Path=Idle}"
                       ItemsSource="{Binding RoguelikeModeList}"
                       DisplayMemberPath="Display"
                       SelectedValuePath="Value"
                       SelectedValue="{Binding RoguelikeMode}" />
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="{DynamicResource StartTimesLimit}" VerticalAlignment="Center" Margin="10" />
-            <hc:TextBox Text="{Binding RoguelikeStartsCount}" TextWrapping="Wrap" Margin="10"
-                        Width="80" InputMethod.IsInputMethodEnabled="False" TextType="Int" />
-        </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="{DynamicResource GoldTimesLimit}" VerticalAlignment="Center" Margin="10" />
-            <hc:TextBox Text="{Binding RoguelikeInvestsCount}" TextWrapping="Wrap" Margin="10"
-                        Width="80" InputMethod.IsInputMethodEnabled="False" TextType="Int" />
-        </StackPanel>
-        <CheckBox Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"
-                      IsChecked="{Binding RoguelikeStopWhenInvestmentFull}" Content="{DynamicResource StopOnGoldLimit}" Margin="10" />
+
+        <TextBlock Style="{StaticResource TextBlockDefault}"
+                       Text="{DynamicResource StartTimesLimit}"
+                   TextWrapping="Wrap"
+                       Margin="10" Grid.Row="1" Grid.Column="1"/>
+        <hc:TextBox Text="{Binding RoguelikeStartsCount}"
+                        TextWrapping="Wrap"
+                        InputMethod.IsInputMethodEnabled="False" TextType="Int"
+                        Height="30"
+                        Margin="10" Grid.Row="1" Grid.Column="2"/>
+
+
+        <TextBlock Style="{StaticResource TextBlockDefault}"
+                       Text="{DynamicResource GoldTimesLimit}"
+                   TextWrapping="Wrap"
+                       Margin="10" Grid.Row="2" Grid.Column="1"/>
+        <hc:TextBox Text="{Binding RoguelikeInvestsCount}"
+                        TextWrapping="Wrap"
+                        InputMethod.IsInputMethodEnabled="False" TextType="Int"
+                        Height="30"
+                        Margin="10" Grid.Row="2" Grid.Column="2"/>
+
+
+        <CheckBox IsChecked="{Binding RoguelikeStopWhenInvestmentFull}"
+                  Content="{DynamicResource StopOnGoldLimit}"
+                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                  Margin="10" Grid.Row="3" Grid.ColumnSpan="4" />
     </Grid>
 </UserControl>

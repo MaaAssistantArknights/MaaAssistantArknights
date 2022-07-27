@@ -96,7 +96,7 @@
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始次數限制</system:String>
     <system:String x:Key="GoldTimesLimit">投資次數限制</system:String>
-    <system:String x:Key="StopOnGoldLimit" xml:space="preserve">源石錠達到上限停止任務         </system:String>
+    <system:String x:Key="StopOnGoldLimit">源石錠達到上限停止任務</system:String>
 
     <system:String x:Key="PenguinID">企鵝物流彙報ID（僅數字部分）</system:String>
 
