@@ -1220,7 +1220,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _language = Localization.DefaultLanguage;
+        private string _language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
 
         public string Language
         {
