@@ -17,8 +17,8 @@
 
     <system:String x:Key="Dorm">기숙사</system:String>
     <system:String x:Key="Mfg">제조소</system:String>
-    <system:String x:Key="trade">무역실</system:String>
-    <system:String x:Key="power">발전소</system:String>
+    <system:String x:Key="Trade">무역실</system:String>
+    <system:String x:Key="Power">발전소</system:String>
     <system:String x:Key="Reception">응접실</system:String>
     <system:String x:Key="Office">사무실</system:String>
     <system:String x:Key="Control">컨트롤 센터</system:String>
@@ -142,7 +142,7 @@
     <system:String x:Key="Shutdown">종료*</system:String>
 
     <system:String x:Key="LinkStart">link start!</system:String>
-    <system:String x:Key="Stop">stop</system:String>
+    <system:String x:Key="Stop">중지</system:String>
 
     <!--전투 설정-->
     <system:String x:Key="UseSanityPotion">이성약 복용</system:String>
@@ -205,10 +205,10 @@
     <system:String x:Key="Recognition">공개모집 식별</system:String>
     <system:String x:Key="RecognitionTip">팁:자동 팁과 메인 인터페이스는 서로 다른 것입니다.~</system:String>
     <system:String x:Key="AutoSettingTime">시간 설정</system:String>
-    <system:String x:Key="AutoSelectLevel3Tags">자동으로 3개의 별을 선택</system:String>
-    <system:String x:Key="AutoSelectLevel4Tags">자동으로 별 4개 선택</system:String>
-    <system:String x:Key="AutoSelectLevel5Tags">자동으로 5개의 별을 선택</system:String>
-    <system:String x:Key="AutoSelectLevel6Tags">자동으로 6개의 별을 선택</system:String>
+    <system:String x:Key="AutoSelectLevel3Tags">자동 선택 3★</system:String>
+    <system:String x:Key="AutoSelectLevel4Tags">자동 선택 4★</system:String>
+    <system:String x:Key="AutoSelectLevel5Tags">자동 선택 5★</system:String>
+    <system:String x:Key="AutoSelectLevel6Tags">자동 선택 6★</system:String>
     <system:String x:Key="BeganToRecruit">인식하기 시작한다</system:String>
 
     <!--로그-->
