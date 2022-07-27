@@ -5,6 +5,8 @@
 #include "TaskData.h"
 #include "Resource.h"
 #include "Logger.hpp"
+#include "RuntimeStatus.h"
+#include "ProcessTask.h"
 
 bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -25,6 +27,10 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 {
     LogTraceFunction;
 
+    if (check_core_char()) {
+        return true;
+    }
+
     RoguelikeRecruitImageAnalyzer analyzer(m_ctrler->get_image());
 
     if (!analyzer.analyze()) {
@@ -33,9 +39,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     bool recruited = false;
 
-    auto recruit_oper = [&](const RoguelikeRecruitImageAnalyzer::RecruitOperInfo& info) {
+    auto recruit_oper = [&](const BattleRecruitOperInfo& info) {
         Log.info("Choose：", info.name, info.elite, info.level);
-        m_ctrler->click(info.rect);
+        select_oper(info);
         recruited = true;
     };
 
@@ -82,4 +88,42 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     //}
 
     return recruited;
+}
+
+bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
+{
+    auto core_opt = m_status->get_str("RoguelikeCoreChar");
+    if (!core_opt || core_opt->empty()) {
+        return false;
+    }
+    constexpr size_t SwipeTimes = 2;
+    for (size_t i = 0; i != SwipeTimes; ++i) {
+        auto image = m_ctrler->get_image();
+        RoguelikeRecruitImageAnalyzer analyzer(m_ctrler->get_image());
+        if (!analyzer.analyze()) {
+            return false;
+        }
+        const auto& chars = analyzer.get_result();
+        auto it = std::find_if(chars.cbegin(), chars.cend(),
+            [&](const BattleRecruitOperInfo& oper) -> bool {
+                return oper.name == core_opt.value();
+            });
+
+        if (it == chars.cend()) {
+            ProcessTask(*this, { "SlowlySwipeToTheRight" }).run();
+            sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
+            continue;
+        }
+        select_oper(*it);
+        m_status->set_str("RoguelikeCoreChar", "");
+        return true;
+    }
+    ProcessTask(*this, { "SwipeToTheLeft" }).run();
+    return false;
+}
+
+void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& oper)
+{
+    m_ctrler->click(oper.rect);
+    m_status->set_number("Roguelike-" + oper.name, oper.elite);
 }

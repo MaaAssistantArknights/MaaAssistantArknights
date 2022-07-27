@@ -27,7 +27,7 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         int elite = match_elite(rect);
         int level = match_level(rect);
 
-        RecruitOperInfo info;
+        BattleRecruitOperInfo info;
         info.rect = rect;
         info.name = name;
         info.elite = elite;

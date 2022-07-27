@@ -34,7 +34,7 @@ bool asst::BattleDataConfiger::parse(const json::value& json)
         m_chars.emplace(std::move(name), std::move(data));
     }
     for (const auto& [id, points_json] : json.at("ranges").as_object()) {
-        std::vector<Point> points;
+        BattleAttackRange points;
         for (const auto& point : points_json.as_array()) {
             points.emplace_back(point[0].as_integer(), point[1].as_integer());
         }
