@@ -1,0 +1,342 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespaces:MeoAsstGui">
+    <!--设置-->
+    <system:String x:Key="Settings">🍸🍷</system:String>
+    <system:String x:Key="BaseSettings">🍸💃🍷</system:String>
+    <system:String x:Key="RougelikeSettings">🍷🍺🍸</system:String>
+    <system:String x:Key="RecruitingSettings">🍸🍺🍸</system:String>
+    <system:String x:Key="MallSettings">🍺🍷🍻</system:String>
+    <system:String x:Key="PenguinSettings">💃🍷🍷</system:String>
+    <system:String x:Key="ConnectionSettings">🍺🕺💃</system:String>
+    <system:String x:Key="StartupSettings">🍻🕺🍺</system:String>
+    <system:String x:Key="ScheduleSettings">🍸🍸💃</system:String>
+    <system:String x:Key="UISettings">🍸🍺🍻</system:String>
+    <system:String x:Key="UpdateSettings">🍷🍸🍸</system:String>
+    <system:String x:Key="AboutUs">🍸🍷🍺</system:String>
+
+    <system:String x:Key="Version">💃🍻</system:String>
+
+    <system:String x:Key="Dorm">🍻💃</system:String>
+    <system:String x:Key="Mfg">🕺🍺</system:String>
+    <system:String x:Key="Trade">🍺🍺</system:String>
+    <system:String x:Key="Power">🍺🍸</system:String>
+    <system:String x:Key="Reception">🍺🍻</system:String>
+    <system:String x:Key="Office">🕺🍸</system:String>
+    <system:String x:Key="Control">🍻🍸🍻</system:String>
+
+    <system:String x:Key="DronesNotUse">🍻🍻🍸🍷</system:String>
+    <system:String x:Key="Money">🍻🍺🍸💃</system:String>
+    <system:String x:Key="SyntheticJade">🍻🍺🍻🍺</system:String>
+    <system:String x:Key="CombatRecord">🍸🍸🍷💃</system:String>
+    <system:String x:Key="PureGold">🍸🍸🍻🍷</system:String>
+    <system:String x:Key="OriginStone">🍸🍻🍻🍻🍻</system:String>
+    <system:String x:Key="Chip">🍺🍻🍷🍷</system:String>
+
+    <system:String x:Key="General">🍻🍸🕺</system:String>
+    <system:String x:Key="BlueStacks">🍺🕺🍻</system:String>
+    <system:String x:Key="MuMuEmulator">🍷🍺🍸💃</system:String>
+    <system:String x:Key="LDPlayer">🍻💃🍺</system:String>
+    <system:String x:Key="Nox">🍷🍸🍺</system:String>
+    <system:String x:Key="XYAZ">🍸💃💃</system:String>
+    <system:String x:Key="WSA">🍻🍺🍺🍻</system:String>
+    <system:String x:Key="Compatible">🍻🍷🍺</system:String>
+
+    <system:String x:Key="DormThreshold">🍸🍻🍷🍻💃</system:String>
+
+    <system:String x:Key="RougelikeStrategyCandle">🕺🍺🕺🕺🍺🍷🍻🍺</system:String>
+    <system:String x:Key="RougelikeStrategyGold">🍺🍻🍻🍷🍺🍸🕺🍺</system:String>
+
+    <system:String x:Key="NotSelected">💃🍺</system:String>
+    <system:String x:Key="Official">🕺🍺</system:String>
+    <system:String x:Key="Bilibili">🍷🍸🍷🍷🍸</system:String>
+    <system:String x:Key="YoStarEN">💃🍸🍺🍷🍻🍺🍻🍸</system:String>
+    <system:String x:Key="YoStarJP">🍸🕺🍸🍺🍸🍸🍷</system:String>
+    <system:String x:Key="YoStarKR">🍷💃🍸🍸🍸🍺🍻</system:String>
+    <system:String x:Key="txwy">🕺🍺💃🍸🍷🍻</system:String>
+
+    <system:String x:Key="Switchable">🍷💃</system:String>
+
+    <system:String x:Key="Executable">🍺💃🍷</system:String>
+    <system:String x:Key="ADBProgram">💃💃🍺</system:String>
+
+    <system:String x:Key="EmulatorException">🍷🕺🕺🍻🍸🍻🍻🍷🍻🍸🍷🍻💃🍷🍸🍷🍷🍻🍺💃</system:String>
+    <system:String x:Key="EmulatorNotFound">🍻🍷🍸🍻🍺🍻🍺🍺🍺🍺🍸🍷🕺🍻🍻🕺🍷💃🍷💃🍻</system:String>
+    <system:String x:Key="EmulatorTooMany">🍻🍺🍻🍻🕺🍻🍺🍸🍸🍻🍸🍺🍻🍷🕺🍷🍻🍻🍷</system:String>
+
+    <system:String x:Key="AlreadyLatest">🍺🍸🍻💃</system:String>
+
+    <system:String x:Key="SwitchLanguage">🍻🍺🕺</system:String>
+    <system:String x:Key="Language">🕺🍺</system:String>
+    <system:String x:Key="LanguageChangedTip">🍺🍸💃🕺🍻🍸💃🍻🕺💃🍷🍸🕺🍷</system:String>
+    <system:String x:Key="Ok">🕺🍺</system:String>
+    <system:String x:Key="ManualRestart">🍷🍻</system:String>
+    <system:String x:Key="Tip">💃🍷</system:String>
+
+    <system:String x:Key="LabelSequenceTip">🍷🍺🍸🕺</system:String>
+    <system:String x:Key="CheckBoxesNotSaved">🍺🍺🍺🍺🍸💃</system:String>
+    <system:String x:Key="NoAutoNavigation">🍻🍻🕺🍻🍸🍻🍸🍻</system:String>
+
+    <system:String x:Key="UpdateAutoCheck">🍸🍺🍸🍺</system:String>
+    <system:String x:Key="UpdateAutoDownload">🍷🕺🕺🍷</system:String>
+    <system:String x:Key="UpdateCheckBeta">🍺🕺🕺💃🕺</system:String>
+    <system:String x:Key="DownloadWithAria2">🍻🍷🍸🍷🍺🍷🍺</system:String>
+    <system:String x:Key="UpdateCheckNow">🍻🍷🕺</system:String>
+
+    <system:String x:Key="TimerTip">🍸🕺🍸🍻🍸🍸🍷🍷</system:String>
+    <system:String x:Key="Timer">🍸💃</system:String>
+
+    <system:String x:Key="LaunchOnSystemStartup">🍸🍷🍸🍸</system:String>
+    <system:String x:Key="RunTaskAfterLaunch">🍷🍸🕺🍻</system:String>
+    <system:String x:Key="ClientVersion">🍻🍺🕺</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">🍷🍷🍻🍷🍻💃</system:String>
+    <system:String x:Key="WaitForEmulator">🍷🍸💃🍻🍻🕺🍻</system:String>
+    <system:String x:Key="EmulatorPath">🍺🍸💃</system:String>
+    <system:String x:Key="Select">🍸🍸</system:String>
+    <system:String x:Key="AdditionCommand">🕺🍺💃</system:String>
+
+    <system:String x:Key="Strategy">🍷🍻</system:String>
+    <system:String x:Key="StartTimesLimit">🍻🍷🍸🍷</system:String>
+    <system:String x:Key="GoldTimesLimit">🍺🍻🍺🍺</system:String>
+    <system:String x:Key="StopOnGoldLimit">🍸🍸🍻🍸🍷🍺</system:String>
+
+    <system:String x:Key="PenguinID">🍻🕺🍷🍻🕺🍸🍻🍻</system:String>
+
+    <system:String x:Key="SocialPtShop">🍺🍷🕺</system:String>
+    <system:String x:Key="HighPriority">🍸🕺💃🍺🕺🕺🍻🍺</system:String>
+    <system:String x:Key="Blacklist">🍸🍺🕺🍻🍺🍸🍷</system:String>
+
+    <system:String x:Key="DroneUsage">🍷🍷🍷</system:String>
+
+    <system:String x:Key="MinimizeToTray">🍷🕺🍻🍷🕺</system:String>
+    <system:String x:Key="SystemNotification">🍻💃🍻🍸🍷🍸</system:String>
+    <system:String x:Key="HideUnavailableStage">🍻🍸🍷🍺🍺🍸🍸</system:String>
+    <system:String x:Key="MainViewButtonFeature">🍷🍺🍻🍺🍸🍺</system:String>
+
+    <system:String x:Key="ADBPath">🕺💃🍸🍷🍸💃🍸</system:String>
+    <system:String x:Key="ConnectionAddress">🍻🕺🍻</system:String>
+    <system:String x:Key="ConnectionPreset">🍸🍷🍻</system:String>
+    <!--设置-->
+
+    <!--一键长草-->
+    <system:String x:Key="Farming">🍺🍻💃</system:String>
+
+    <system:String x:Key="WakeUp">🍸💃💃</system:String>
+    <system:String x:Key="Recruiting">🍸🍺🍻</system:String>
+    <system:String x:Key="Base">🍺🍸🍺</system:String>
+    <system:String x:Key="Combat">🍸🍷</system:String>
+    <system:String x:Key="Visiting">🍺🍸🍷</system:String>
+    <system:String x:Key="Mall">🍻🍺🍸🍻</system:String>
+    <system:String x:Key="Mission">🍺🍸🕺🍸</system:String>
+    <system:String x:Key="AutoRoguelike">🍺🍸🍸</system:String>
+
+    <system:String x:Key="SelectAll">🍻💃</system:String>
+    <system:String x:Key="Inverse">🍸🍻</system:String>
+    <system:String x:Key="Clear">💃🍸</system:String>
+
+    <system:String x:Key="Then">💃🕺</system:String>
+    <system:String x:Key="DoNothing">🍻💃</system:String>
+    <system:String x:Key="ExitArknights">🍸🍺🍸🍸</system:String>
+    <system:String x:Key="ExitMAA">🍷🍻🕺🍷</system:String>
+    <system:String x:Key="CloseEmulator">💃💃🍸</system:String>
+    <system:String x:Key="ExitMAAAndCloseEmulator">🍺🍷🍸🍸🍷</system:String>
+    <system:String x:Key="Hibernate">💃🍷</system:String>
+    <system:String x:Key="Shutdown">🍷🍷</system:String>
+
+    <system:String x:Key="LinkStart">🍻🍻🍻🍺🍸💃</system:String>
+    <system:String x:Key="Stop">🍺🍻</system:String>
+
+    <!--战斗设置-->
+    <system:String x:Key="UseSanityPotion">🕺🍺🍷</system:String>
+    <system:String x:Key="UseOriginitePrime">🍻🍷💃</system:String>
+    <system:String x:Key="PerformBattles">🍺🍻💃</system:String>
+    <system:String x:Key="AssignedMaterial">💃🍷🍺</system:String>
+    <system:String x:Key="Quantity">🕺🕺🍸</system:String>
+    <system:String x:Key="StageSelect">🍷🍻🍷</system:String>
+    <system:String x:Key="Amend">🍺🍺</system:String>
+
+    <!--<system:String x:Key="CurrentStage">🕺🍺🍻</system:String>
+    <system:String x:Key="LastBattle">🍻🕺🕺</system:String>-->
+    <system:String x:Key="DefaultStage">🕺🍷🍷</system:String>
+    <system:String x:Key="1-7">🍷💃</system:String>
+    <system:String x:Key="CE-6">💃💃🕺🍻</system:String>
+    <system:String x:Key="AP-5">🍺🍸🍺</system:String>
+    <system:String x:Key="CA-5">🍻🍸🍻</system:String>
+    <system:String x:Key="LS-6">🍸🍷🍷🍸</system:String>
+
+    <system:String x:Key="PR-A-1">🕺🍸🍻</system:String>
+    <system:String x:Key="PR-A-2">🍺🍻🍺🍺</system:String>
+    <system:String x:Key="PR-B-1">🍸🍻🍷</system:String>
+    <system:String x:Key="PR-B-2">🍺💃🍷🍸</system:String>
+    <system:String x:Key="PR-C-1">🍻🕺🕺</system:String>
+    <system:String x:Key="PR-C-2">🕺🍷🍺🍻</system:String>
+    <system:String x:Key="PR-D-1">🍷🍸🍷</system:String>
+    <system:String x:Key="PR-D-2">💃🕺💃🍸</system:String>
+
+    <system:String x:Key="TodaysStageTip">🍷🍸🍺🍸🍷</system:String>
+    <system:String x:Key="CETip">🍻🕺💃🍻🍺</system:String>
+    <system:String x:Key="APTip">💃🍷🍷🍷🍺</system:String>
+    <system:String x:Key="CATip">🍻🍻🍻🍸🍺</system:String>
+    <system:String x:Key="LSTip">🍸🍺🍻💃🍺</system:String>
+    <system:String x:Key="SKTip">🍸🕺🍷🍸</system:String>
+    <system:String x:Key="PR-ATip">🍸🕺🍻</system:String>
+    <system:String x:Key="PR-BTip">🍻🍻🕺</system:String>
+    <system:String x:Key="PR-CTip">💃🍷💃</system:String>
+    <system:String x:Key="PR-DTip">🍸🍷🕺</system:String>
+    <system:String x:Key="Pormpt1">💃🍸🍷🍷🍺🍻</system:String>
+    <system:String x:Key="Pormpt2">🍺🍺🍸🍸🍺🍸</system:String>
+    <!--战斗设置-->
+
+    <!--日志-->
+    <system:String x:Key="ConnectingToEmulator">🍸🕺🍻💃🕺</system:String>
+    <system:String x:Key="UnselectedTask">🍺🍸🍻</system:String>
+    <system:String x:Key="Running">🍷🍻🍷🍺</system:String>
+    <system:String x:Key="Stopped">💃🍺</system:String>
+    <system:String x:Key="UnknownErrorOccurs">🕺🍸🍻🍷</system:String>
+    <system:String x:Key="SetSuccessfully">🍸🍸🍺</system:String>
+    <system:String x:Key="SetFailed">🍺🍷🕺</system:String>
+    <system:String x:Key="CloseArknightsFailed">🍻🍷🍺🍻</system:String>
+    <system:String x:Key="CloseEmulatorFailed">🍷🍻🕺🍷</system:String>
+    <system:String x:Key="AboutToShutdown">🍸🍻🍻🍸🍷🍺🍸🍸</system:String>
+    <system:String x:Key="ShutdownPrompt">🍷🍻</system:String>
+    <system:String x:Key="HibernatePrompt">🍺💃🍺🍻🍻</system:String>
+    <!--日志-->
+    <!--一键长草-->
+
+    <!--公招识别-->
+    <system:String x:Key="Recognition">💃🍸🍺</system:String>
+    <system:String x:Key="RecognitionTip">🕺💃💃🕺🍺💃🕺🍻🍷🍸🕺🕺🍺🍸🍻🍺🍻🕺🍷🍺🍸</system:String>
+    <system:String x:Key="AutoSettingTime">🕺🍸🍸🍻</system:String>
+    <system:String x:Key="AutoSelectLevel3Tags">🍻🍺🍺🍻🍷🍷</system:String>
+    <system:String x:Key="AutoSelectLevel4Tags">🍺🍺🍸🍻🍻🍻</system:String>
+    <system:String x:Key="AutoSelectLevel5Tags">🍸🍻🕺🍻💃🍺</system:String>
+    <system:String x:Key="AutoSelectLevel6Tags">🍸🕺🍷🍷🍸🕺</system:String>
+    <system:String x:Key="BeganToRecruit">🍻🍻🍻</system:String>
+
+    <!--日志-->
+    <system:String x:Key="Identifying">💃🍸🍷🍸</system:String>
+    <!--日志-->
+    <!--公招识别-->
+
+    <!--自动战斗-->
+    <system:String x:Key="Copilot">🍻🍷🍻🍷🍻</system:String>
+    <system:String x:Key="CopilotLocation">🍺🕺🍸🍸💃</system:String>
+    <system:String x:Key="SelectTheFile">🍻🍺🍺</system:String>
+    <system:String x:Key="SelectTheFileTip">🍷🍺🍷🍷🍸🍷🍻💃🍻🍺🍻🍻</system:String>
+    <system:String x:Key="AutoSquad">🍸🍸🕺</system:String>
+    <system:String x:Key="AutoSquadTip">🕺🍷💃🍻💃🍺🍷🍸🕺🍷</system:String>
+
+    <system:String x:Key="Start">🕺🍷</system:String>
+
+    <system:String x:Key="CopilotJSONSharing">🍻🍸💃</system:String>
+    <system:String x:Key="VideoLink">🍻🍷🕺</system:String>
+
+    <!--日志-->
+    <system:String x:Key="CopilotTip">🍻🍸🍷</system:String>
+    <system:String x:Key="CopilotTip1">🍺🕺🍸🕺🍻🍷🍻🍷🍷💃🍷💃🍺</system:String>
+    <system:String x:Key="CopilotTip2">💃🍺🍺🍺🍺💃💃🍻🍸💃🍻🍻🍻</system:String>
+    <system:String x:Key="CopilotTip3">🍷💃🍸🍷🍷🍺🍻🍻🍺🍻🍷🍸🍻🍻🍺🍺</system:String>
+    <system:String x:Key="CopilotTip4">💃🕺🍺🍺🕺🕺🍸🍻🍻🍺🍺🍷🕺🍷🍸🍻🍻🍺🍺🍷🍸</system:String>
+    <system:String x:Key="CopilotTip5">🕺🍺💃🍸🍻🍺🍺🕺🕺💃🍸🍷🍻🍸🍷🕺🍷🍺🍺🕺🍺🕺</system:String>
+
+    <system:String x:Key="CopilotFileReadError">🍸🍸🍻🍷</system:String>
+    <system:String x:Key="CopilotNoFound">🍻🍻🍸🍻🍺</system:String>
+    <system:String x:Key="NetworkServiceError">🍷💃🍷🍷🍺</system:String>
+    <system:String x:Key="CopilotJsonError">🍻🍻🍻🕺🕺</system:String>
+    <system:String x:Key="NotCopilotJson">💃🍺🍺</system:String>
+    <system:String x:Key="CheckTheFile">🍺🍷🍸🕺🍺</system:String>
+    <!--日志-->
+    <!--自动战斗-->
+
+    <!--AsstProxy-->
+    <system:String x:Key="UnknownAbnormal">🍸💃🍺🕺</system:String>
+    <system:String x:Key="Error">🍻🕺</system:String>
+    <system:String x:Key="InitializationError">🍺🍺🍸🍸</system:String>
+    <system:String x:Key="ResolutionNotSupported">🍺🍺🍸🕺🍺🍻💃🍻🍺🍸🍸🕺🍻🍷🍻🍺🍷🍻</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">🍷🍷🕺🍺🍻🍸🕺🍺🍷🍸💃🍻💃🍺🍷</system:String>
+    <system:String x:Key="TryToReconnect">🕺🍷🍷🍻🍺🍻🍻</system:String>
+    <system:String x:Key="ReconnectSuccess">🍻💃🍸🍷🍷</system:String>
+    <system:String x:Key="ReconnectFailed">🍻🍸🍻🍺🍸🕺</system:String>
+    <system:String x:Key="IdentifyTheMistakes">🍺🍺🍷</system:String>
+    <system:String x:Key="TaskError">🍷🕺🍺</system:String>
+    <system:String x:Key="CombatError">🕺🍻💃</system:String>
+    <system:String x:Key="StartTask">🍷🍻🍸</system:String>
+    <system:String x:Key="CompleteTask">🍸🍸🕺</system:String>
+    <system:String x:Key="StartCombat">🍸🍺🍻</system:String>
+    <system:String x:Key="CompleteCombat">🍸🍸🍸</system:String>
+    <system:String x:Key="AllTasksComplete">🍸🍸💃🍸🍺</system:String>
+    <system:String x:Key="FailedToOpenClient">🍻🍸🍻🍸🍸🍺🍸🍸</system:String>
+    <system:String x:Key="ErrorOccurred">🍸🍺💃</system:String>
+    <system:String x:Key="HasReturned">🍷🍻</system:String>
+    <system:String x:Key="DropRecognitionError">🍷💃🍺🍷</system:String>
+    <system:String x:Key="GiveUpUploadingPenguins">🍻🍺🍺🍺💃</system:String>
+    <system:String x:Key="TheEX">🍻🍸🍻🍷🍷</system:String>
+    <system:String x:Key="OnTheMove">🕺🍷🍺</system:String>
+    <system:String x:Key="UnitTime">🍷</system:String>
+    <system:String x:Key="MedicineUsed">🕺🍸🍻🍷</system:String>
+    <system:String x:Key="StoneUsed">🍻🍻💃</system:String>
+    <system:String x:Key="ActingCommandError">🍷🍷🕺🕺</system:String>
+    <system:String x:Key="LabelsRefreshed">🍻💃🍻</system:String>
+    <system:String x:Key="RecruitConfirm">🍷🍺🍸</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">🍺🍸🍷</system:String>
+    <system:String x:Key="BegunToExplore">🍷🍺🕺</system:String>
+    <system:String x:Key="HasInvested">🕺🕺</system:String>
+    <system:String x:Key="ExplorationAbandoned">🕺🍻💃💃</system:String>
+    <system:String x:Key="FightCompleted">🍺💃🍷</system:String>
+    <system:String x:Key="FightFailed">🍷🍸🍸</system:String>
+    <system:String x:Key="UpperLimit">🕺🍷🍺🍷</system:String>
+    <system:String x:Key="GameCrash">🍷🍻🍺🍺🍻</system:String>
+    <system:String x:Key="GameDrop">🍻🍷🍻🍻🍷</system:String>
+    <system:String x:Key="Trader">🍻🍻🍷🍻</system:String>
+    <system:String x:Key="SafeHouse">🍸🍷🍷🍺🍻</system:String>
+    <system:String x:Key="Encounter">🍸🍸🍷🍻</system:String>
+    <system:String x:Key="CambatDps">🍻🍸🍸💃</system:String>
+    <system:String x:Key="EmergencyDps">🕺🍺🍸🍻</system:String>
+    <system:String x:Key="DreadfulFoe">🍸🕺🍺🍻</system:String>
+    <system:String x:Key="NoDrop">🍻</system:String>
+    <system:String x:Key="Drop">💃🍺🍻</system:String>
+    <system:String x:Key="TotalDrop">🍷💃🍷</system:String>
+    <system:String x:Key="ThisFacility">🍻🍻🍺</system:String>
+    <system:String x:Key="RecruitingResults">🍻🍷🍸🍻</system:String>
+    <system:String x:Key="RecruitingTips">🍷🍺🍺</system:String>
+    <system:String x:Key="RecruitmentOfStar">🍻🍻💃🍻🍺🍻💃</system:String>
+    <system:String x:Key="RecruitmentOfBot">🍸🍷🕺🕺🍷</system:String>
+    <system:String x:Key="Choose">🍷🍸</system:String>
+    <system:String x:Key="Refreshed">🍻🕺🍺🍺</system:String>
+    <system:String x:Key="NotEnoughStaff">🍸🍺🍺🍸</system:String>
+    <system:String x:Key="StageInfoError">🍻🍷🍸🍺</system:String>
+    <system:String x:Key="BattleFormation">🍷💃🕺</system:String>
+    <system:String x:Key="BattleFormationSelected">🍸🕺🍷</system:String>
+    <system:String x:Key="CurrentSteps">💃🍷🍺</system:String>
+    <system:String x:Key="UnsupportedLevel">🕺🍺🍺🍻🍺🍺🍷🍷🍻🍷🍸🍸🍺🍸</system:String>
+    <system:String x:Key="RecruitTagsDetected">🍺🍻🍺</system:String>
+    <system:String x:Key="ConnectFailed">🕺🍸🍻</system:String>
+    <system:String x:Key="TryToStartEmulator">🍸🍺🍺💃💃</system:String>
+    <system:String x:Key="CheckSettings">🍷🍷🍻🍷🍷🍷🍸🍺</system:String>
+    <!--AsstProxy-->
+
+    <!--TrayIcon-->
+    <system:String x:Key="Exit">🍺🍺</system:String>
+    <!--TrayIcon-->
+
+    <!--About-->
+    <system:String x:Key="Website">🍸🍷🍺🍺</system:String>
+    <system:String x:Key="Github">💃🍺💃🍻💃</system:String>
+    <system:String x:Key="QQgroup">🕺🍷🍸🍺🍷🕺🍺</system:String>
+    <system:String x:Key="QQgroup1">🍻🍺🍻🍷</system:String>
+    <system:String x:Key="QQgroup2">🍷💃</system:String>
+    <system:String x:Key="QQgroup3">🍺🍻</system:String>
+    <system:String x:Key="Help">🍷💃🕺</system:String>
+    <system:String x:Key="Issue">🍺💃🕺</system:String>
+    <!--About-->
+
+    <!--AutoRecruitSettings-->
+    <system:String x:Key="AutoRefresh">🕺🍸🍺🍻🍸🍺💃</system:String>
+    <system:String x:Key="AutoUseExpedited">🍸🍷🍸🍻🍻</system:String>
+    <system:String x:Key="RecruitMaxTimes">🍸🍺💃🍸🕺🍺</system:String>
+    <system:String x:Key="ManuallySelectLevel1">🍺🍸🍷🍺💃</system:String>
+    <system:String x:Key="AutoSelectLevel3">🍸🍸🍻🍸🍻</system:String>
+    <system:String x:Key="AutoSelectLevel4">🍷🍺🍷🍷💃</system:String>
+    <system:String x:Key="AutoSelectLevel5">🍺🍺🍸🍻🍷</system:String>
+    <system:String x:Key="AutoSelectLevel6">🕺💃🍺🍸🍻</system:String>
+    <system:String x:Key="Level1Tip">🍸🍻💃🍸🍻💃🍻🍸🍻🕺🍺💃🍺🍷💃🕺🍸</system:String>
+    <!--AutoRecruitSettings-->
+</ResourceDictionary>
