@@ -84,10 +84,10 @@
     <system:String x:Key="TimerTip">仅填写小时数，将在整点时执行</system:String>
     <system:String x:Key="Timer">定时</system:String>
 
-    <system:String x:Key="LaunchOnSystemStartup">开机自动启动</system:String>
-    <system:String x:Key="RunTaskAfterLaunch">启动后直接运行</system:String>
+    <system:String x:Key="LaunchOnSystemStartup" xml:space="preserve">开机自动启动             </system:String>
+    <system:String x:Key="RunTaskAfterLaunch" xml:space="preserve">启动后直接运行          </system:String>
     <system:String x:Key="ClientVersion">客户端版本</system:String>
-    <system:String x:Key="OpenEmulatorAfterLaunch">启动后自动开启模拟器</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch" xml:space="preserve">启动后自动开启模拟器                  </system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
     <system:String x:Key="Select">选择</system:String>
@@ -96,13 +96,13 @@
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">开始次数限制</system:String>
     <system:String x:Key="GoldTimesLimit">投资次数限制</system:String>
-    <system:String x:Key="StopOnGoldLimit">源石锭达到上限停止任务</system:String>
+    <system:String x:Key="StopOnGoldLimit" xml:space="preserve">源石锭达到上限停止              </system:String>
 
     <system:String x:Key="PenguinID">企鹅物流汇报ID（仅数字部分）</system:String>
 
     <system:String x:Key="SocialPtShop">信用购物</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 空格分隔</system:String>
-    <system:String x:Key="Blacklist">黑名单 子串即可 空格分隔</system:String>
+    <system:String x:Key="Blacklist" xml:space="preserve">  黑名单 子串即可 空格分隔  </system:String>
 
     <system:String x:Key="DroneUsage">无人机用途</system:String>
 
@@ -111,9 +111,9 @@
     <system:String x:Key="HideUnavailableStage">关卡选择隐藏当日不开放关卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
 
-    <system:String x:Key="ADBPath">adb 路径（相对/绝对）</system:String>
-    <system:String x:Key="ConnectionAddress">连接地址</system:String>
-    <system:String x:Key="ConnectionPreset">连接配置</system:String>
+    <system:String x:Key="ADBPath" xml:space="preserve">    adb 路径 (相对/绝对)</system:String>
+    <system:String x:Key="ConnectionAddress" xml:space="preserve">    连接地址</system:String>
+    <system:String x:Key="ConnectionPreset" xml:space="preserve">    连接配置</system:String>
     <!--设置-->
 
     <!--一键长草-->
