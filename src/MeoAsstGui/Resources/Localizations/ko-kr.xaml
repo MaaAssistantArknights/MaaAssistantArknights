@@ -66,82 +66,82 @@
 
     <system:String x:Key="SwitchLanguage">언어 전환</system:String>
     <system:String x:Key="Language">언어</system:String>
-    <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 MAA를 재부팅하여 새 설정을 적용하시겠습니까?</system:String>
+    <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 MAA를 재시행하여 새 설정을 적용하시겠습니까?</system:String>
     <system:String x:Key="Ok">OK</system:String>
     <system:String x:Key="ManualRestart">나중에 재부팅</system:String>
     <system:String x:Key="Tip">힌트</system:String>
 
     <system:String x:Key="LabelSequenceTip">레이블의 순서는 드래그하여 변경할 수 있습니다</system:String>
-    <system:String x:Key="CheckBoxesNotSaved">이 설정을 다시 시작하면</system:String>
-    <system:String x:Key="NoAutoNavigation">이 옵션은 자동으로 해당 레벨로 이동하지 않습니다</system:String>
+    <system:String x:Key="CheckBoxesNotSaved">재시작 후 변경 사항이 저장되지 않습니다</system:String>
+    <system:String x:Key="NoAutoNavigation">해당 스테이지로 자동 이동하지 않습니다</system:String>
 
-    <system:String x:Key="UpdateAutoCheck">자동으로 업데이트 확인</system:String>
-    <system:String x:Key="UpdateAutoDownload">업데이트 패키지 자동 다운로드</system:String>
-    <system:String x:Key="UpdateCheckBeta">테스트 버전 업데이트 확인</system:String>
-    <system:String x:Key="DownloadWithAria2">aria2를 사용하여 다운로드</system:String>
-    <system:String x:Key="UpdateCheckNow">업데이트 확인</system:String>
+    <system:String x:Key="UpdateAutoCheck">자동 업데이트</system:String>
+    <system:String x:Key="UpdateAutoDownload">업데이트 파일을 자동 업데이트</system:String>
+    <system:String x:Key="UpdateCheckBeta">베타 버전을 자동 업데이트</system:String>
+    <system:String x:Key="DownloadWithAria2">aria2로 다운로드</system:String>
+    <system:String x:Key="UpdateCheckNow">지금 업데이트</system:String>
 
-    <system:String x:Key="TimerTip">시간만 입력하면 정시에</system:String>
-    <system:String x:Key="Timer">시계</system:String>
+    <system:String x:Key="TimerTip">시간만 기입하십시오. 정각에 실행할 것입니다</system:String>
+    <system:String x:Key="Timer">정시</system:String>
 
-    <system:String x:Key="LaunchOnSystemStartup">시동 자동 부팅</system:String>
-    <system:String x:Key="RunTaskAfterLaunch">시작 후 바로 실행</system:String>
+    <system:String x:Key="LaunchOnSystemStartup">시스템 부팅될 때 실행</system:String>
+    <system:String x:Key="RunTaskAfterLaunch">실행 후 작업 시작</system:String>
     <system:String x:Key="ClientVersion">클라이언트 버전</system:String>
-    <system:String x:Key="OpenEmulatorAfterLaunch">시동 후 에뮬레이터를 자동으로 시작</system:String>
-    <system:String x:Key="WaitForEmulator">에뮬레이터를 기다립니다 부트 시간 (초)</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">시행 후 에뮬레이터를 시행</system:String>
+    <system:String x:Key="WaitForEmulator">에뮬레이터를 기다린다 (초)</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
     <system:String x:Key="Select">선택</system:String>
     <system:String x:Key="AdditionCommand">추가 명령</system:String>
 
-    <system:String x:Key="Strategy">정책</system:String>
+    <system:String x:Key="Strategy">전략</system:String>
     <system:String x:Key="StartTimesLimit">시작 횟수 제한</system:String>
-    <system:String x:Key="GoldTimesLimit">투자 제한</system:String>
-    <system:String x:Key="StopOnGoldLimit">소스풀 최대 정지</system:String>
+    <system:String x:Key="GoldTimesLimit">투자 횟수 제한</system:String>
+    <system:String x:Key="StopOnGoldLimit">오리지늄 주괴가 한계에 도달하면 중지한다</system:String>
 
-    <system:String x:Key="PenguinID">펭귄 보고서 id (부분만)</system:String>
+    <system:String x:Key="PenguinID">PenguinStats 보고 ID (숫자만)</system:String>
 
-    <system:String x:Key="SocialPtShop">신용 구매</system:String>
-    <system:String x:Key="HighPriority">화이트리스트 공백 나누기</system:String>
-    <system:String x:Key="Blacklist">블랙리스트 공백 분할하기</system:String>
+    <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
+    <system:String x:Key="HighPriority">구매 우선 항목 (공백으로 구분)</system:String>
+    <system:String x:Key="Blacklist">무시 항목 (공백으로 구분)</system:String>
 
-    <system:String x:Key="DroneUsage">무인기 용도</system:String>
+    <system:String x:Key="DroneUsage">드런 용법</system:String>
 
-    <system:String x:Key="MinimizeToTray">최소화시 트레이로 숨기기</system:String>
-    <system:String x:Key="SystemNotification">중요 정보 팝업</system:String>
-    <system:String x:Key="HideUnavailableStage">선택한 레벨은 그 날 열리지 않는 레벨을 숨깁니다</system:String>
-    <system:String x:Key="MainViewButtonFeature">기본 인터페이스 선택 단추 기능</system:String>
+    <system:String x:Key="MinimizeToTray">트레이로 최소화</system:String>
+    <system:String x:Key="SystemNotification">중요 알림을 팝업</system:String>
+    <system:String x:Key="HideUnavailableStage">당일 스테이지만 표시</system:String>
+    <system:String x:Key="MainViewButtonFeature">메인 화면 왼쪽의 버튼</system:String>
 
     <system:String x:Key="ADBPath">adb 경로 (상대/절대)</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
-    <system:String x:Key="ConnectionPreset">연결 설정</system:String>
+    <system:String x:Key="ConnectionPreset">연결 사전 설정</system:String>
     <!--설정-->
 
-    <!--한버튼 잔디밭-->
-    <system:String x:Key="Farming">주 인터페이스</system:String>
+    <!--메인 화면-->
+    <system:String x:Key="Farming">메인 화면</system:String>
 
-    <system:String x:Key="WakeUp">깨 워</system:String>
-    <system:String x:Key="Recruiting">모집</system:String>
-    <system:String x:Key="Base">기본 건설</system:String>
-    <system:String x:Key="Combat">전투</system:String>
-    <system:String x:Key="Visiting">친한 친구</system:String>
-    <system:String x:Key="Mall">쇼핑</system:String>
-    <system:String x:Key="Mission">일상적인 보상</system:String>
-    <system:String x:Key="AutoRoguelike">통합 전략</system:String>
+    <system:String x:Key="WakeUp">웨이크업</system:String>
+    <system:String x:Key="Recruiting">공개모집</system:String>
+    <system:String x:Key="Base">기반시설 교대</system:String>
+    <system:String x:Key="Combat">작전</system:String>
+    <system:String x:Key="Visiting">친구 방문</system:String>
+    <system:String x:Key="Mall">상점</system:String>
+    <system:String x:Key="Mission">일일 퀘스트 보상을 수집</system:String>
+    <system:String x:Key="AutoRoguelike">통합전략</system:String>
 
     <system:String x:Key="SelectAll">모두 선택</system:String>
-    <system:String x:Key="Inverse">역선택</system:String>
-    <system:String x:Key="Clear">비우기</system:String>
+    <system:String x:Key="Inverse">역을 선택</system:String>
+    <system:String x:Key="Clear">선택 취소</system:String>
 
     <system:String x:Key="Then">완료 후</system:String>
-    <system:String x:Key="DoNothing">동작 없음</system:String>
-    <system:String x:Key="ExitArknights">게임 끝내기</system:String>
-    <system:String x:Key="ExitMAA">maa 종료</system:String>
-    <system:String x:Key="CloseEmulator">에뮬레이터를 닫다</system:String>
-    <system:String x:Key="ExitMAAAndCloseEmulator">에뮬레이터를 종료하고 닫기</system:String>
-    <system:String x:Key="Hibernate">최대 절전 모드*</system:String>
-    <system:String x:Key="Shutdown">종료*</system:String>
+    <system:String x:Key="DoNothing">아무것도 하지 않는다</system:String>
+    <system:String x:Key="ExitArknights">명일방주를 종료</system:String>
+    <system:String x:Key="ExitMAA">MAA를 종료</system:String>
+    <system:String x:Key="CloseEmulator">에뮬레이터를 종료</system:String>
+    <system:String x:Key="ExitMAAAndCloseEmulator">MAA과 에뮬레이터를 종료</system:String>
+    <system:String x:Key="Hibernate">하이버네이션*</system:String>
+    <system:String x:Key="Shutdown">컴퓨터를 종료*</system:String>
 
-    <system:String x:Key="LinkStart">link start!</system:String>
+    <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">중지</system:String>
 
     <!--전투 설정-->
