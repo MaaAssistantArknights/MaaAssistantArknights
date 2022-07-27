@@ -98,7 +98,7 @@
     <system:String x:Key="GoldTimesLimit">투자 제한</system:String>
     <system:String x:Key="StopOnGoldLimit">소스풀 최대 정지</system:String>
 
-    <system:String x:Key="PenguinID">펭귄 보고서 id &#13;(부분만)</system:String>
+    <system:String x:Key="PenguinID">펭귄 보고서 id (부분만)</system:String>
 
     <system:String x:Key="SocialPtShop">신용 구매</system:String>
     <system:String x:Key="HighPriority">화이트리스트 공백 나누기</system:String>

@@ -1,15 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespaces:MeoAsstGui">
-    <!--設置-->
-    <system:String x:Key="Settings">設置</system:String>
-    <system:String x:Key="BaseSettings">基建設置</system:String>
-    <system:String x:Key="RougelikeSettings">肉鴿設置</system:String>
+    <!--設定-->
+    <system:String x:Key="Settings">設定</system:String>
+    <system:String x:Key="BaseSettings">基建設定</system:String>
+    <system:String x:Key="RougelikeSettings">肉鴿設定</system:String>
     <system:String x:Key="RecruitingSettings">自動公招</system:String>
     <system:String x:Key="MallSettings">信用商店</system:String>
-    <system:String x:Key="PenguinSettings">企鵝數據</system:String>
-    <system:String x:Key="ConnectionSettings">連接設置</system:String>
-    <system:String x:Key="StartupSettings">啟動設置</system:String>
+    <system:String x:Key="PenguinSettings">企鵝物流</system:String>
+    <system:String x:Key="ConnectionSettings">連接設定</system:String>
+    <system:String x:Key="StartupSettings">啟動設定</system:String>
     <system:String x:Key="ScheduleSettings">定時執行</system:String>
-    <system:String x:Key="UISettings">介面設置</system:String>
+    <system:String x:Key="UISettings">介面設定</system:String>
     <system:String x:Key="UpdateSettings">軟體更新</system:String>
     <system:String x:Key="AboutUs">關於我們</system:String>
 
@@ -58,21 +58,21 @@
     <system:String x:Key="Executable">可執行檔</system:String>
     <system:String x:Key="ADBProgram">adb程式</system:String>
 
-    <system:String x:Key="EmulatorException">檢測模擬器出錯&#x0a;請使用管理員許可權打開本軟體&#x0a;或手動設置連接</system:String>
-    <system:String x:Key="EmulatorNotFound">未檢測到任何模擬器&#x0a;請使用管理員許可權打開本軟體&#x0a;或手動設置連接</system:String>
-    <system:String x:Key="EmulatorTooMany">檢測到多個模擬器&#x0a;請關閉不需要的模擬器&#x0a;或手動設置連接</system:String>
+    <system:String x:Key="EmulatorException">檢測模擬器出錯&#x0a;請使用管理員許可權打開本軟體&#x0a;或手動設定連接</system:String>
+    <system:String x:Key="EmulatorNotFound">未檢測到任何模擬器&#x0a;請使用管理員許可權打開本軟體&#x0a;或手動設定連接</system:String>
+    <system:String x:Key="EmulatorTooMany">檢測到多個模擬器&#x0a;請關閉不需要的模擬器&#x0a;或手動設定連接</system:String>
 
     <system:String x:Key="AlreadyLatest">已是最新版本~</system:String>
 
     <system:String x:Key="SwitchLanguage">切換語言</system:String>
     <system:String x:Key="Language">語言</system:String>
-    <system:String x:Key="LanguageChangedTip">語言設置已更改，是否現在重啟 MAA 以應用語言設置？</system:String>
+    <system:String x:Key="LanguageChangedTip">語言設定已更改，是否現在重啟 MAA 以應用語言設定？</system:String>
     <system:String x:Key="Ok">好的</system:String>
     <system:String x:Key="ManualRestart">稍後</system:String>
     <system:String x:Key="Tip">提示</system:String>
 
     <system:String x:Key="LabelSequenceTip">標籤順序可拖動</system:String>
-    <system:String x:Key="CheckBoxesNotSaved">該選項設置重啟後不保存</system:String>
+    <system:String x:Key="CheckBoxesNotSaved">該選項設定重啟後不保存</system:String>
     <system:String x:Key="NoAutoNavigation">該選項不會自動導航至對應關卡</system:String>
 
     <system:String x:Key="UpdateAutoCheck">自動檢查更新</system:String>
@@ -88,7 +88,7 @@
     <system:String x:Key="RunTaskAfterLaunch">啟動後直接運行</system:String>
     <system:String x:Key="ClientVersion">客戶端版本</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動後自動開啟模擬器</system:String>
-    <system:String x:Key="WaitForEmulator">等待模擬器&#xA;啟動時間（秒）</system:String>
+    <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
     <system:String x:Key="Select">選擇</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
@@ -98,7 +98,7 @@
     <system:String x:Key="GoldTimesLimit">投資次數限制</system:String>
     <system:String x:Key="StopOnGoldLimit">源石錠達到上限停止任務</system:String>
 
-    <system:String x:Key="PenguinID">企鵝數據彙報ID&#13;（僅數字部分）</system:String>
+    <system:String x:Key="PenguinID">企鵝物流彙報ID（僅數字部分）</system:String>
 
     <system:String x:Key="SocialPtShop">信用購物</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 空格分隔</system:String>
@@ -114,7 +114,7 @@
     <system:String x:Key="ADBPath">adb 路徑（相對/絕對）</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
-    <!--設置-->
+    <!--設定-->
 
     <!--一鍵長草-->
     <system:String x:Key="Farming">一鍵長草</system:String>
@@ -144,7 +144,7 @@
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
 
-    <!--戰鬥設置-->
+    <!--戰鬥設定-->
     <system:String x:Key="UseSanityPotion">吃理智藥</system:String>
     <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
     <system:String x:Key="PerformBattles">指定次數*</system:String>
@@ -182,8 +182,8 @@
     <system:String x:Key="PR-CTip">先/輔晶片</system:String>
     <system:String x:Key="PR-DTip">近/特晶片</system:String>
     <system:String x:Key="Pormpt1">週一了，可以打剿滅了~</system:String>
-    <system:String x:Key="Pormpt2">周日了，記得打剿滅哦~</system:String>
-    <!--戰鬥設置-->
+    <system:String x:Key="Pormpt2">周日了，記得打剿滅喔~</system:String>
+    <!--戰鬥設定-->
 
     <!--日誌-->
     <system:String x:Key="ConnectingToEmulator">正在連接模擬器……</system:String>
@@ -191,8 +191,8 @@
     <system:String x:Key="Running">正在運行中……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">出現未知錯誤</system:String>
-    <system:String x:Key="SetSuccessfully">設置成功</system:String>
-    <system:String x:Key="SetFailed">設置失敗</system:String>
+    <system:String x:Key="SetSuccessfully">設定成功</system:String>
+    <system:String x:Key="SetFailed">設定失敗</system:String>
     <system:String x:Key="CloseArknightsFailed">關閉遊戲失敗</system:String>
     <system:String x:Key="CloseEmulatorFailed">模擬器關閉失敗</system:String>
     <system:String x:Key="AboutToShutdown">已刷完，即將關機，是否取消？</system:String>
@@ -204,7 +204,7 @@
     <!--公招識別-->
     <system:String x:Key="Recognition">公招識別</system:String>
     <system:String x:Key="RecognitionTip">小提示：和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招Tags介面後使用~</system:String>
-    <system:String x:Key="AutoSettingTime">自動設置時間</system:String>
+    <system:String x:Key="AutoSettingTime">自動設定時間</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">自動選擇3星Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">自動選擇4星Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">自動選擇5星Tags</system:String>
@@ -220,7 +220,7 @@
     <system:String x:Key="Copilot">自動戰鬥 Beta</system:String>
     <system:String x:Key="CopilotLocation">作業路徑/神秘代碼</system:String>
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
-    <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來哦 (oﾟvﾟ)ノ</system:String>
+    <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">自動編隊</system:String>
     <system:String x:Key="AutoSquadTip">自動編隊暫時無法識別“特別關注”的幹員</system:String>
 
@@ -231,7 +231,7 @@
 
     <!--日誌-->
     <system:String x:Key="CopilotTip">小提示：</system:String>
-    <system:String x:Key="CopilotTip1">1. 請將模擬器及遊戲幀率設置到 60 幀或更高；</system:String>
+    <system:String x:Key="CopilotTip1">1. 請將模擬器及遊戲幀率設定為 60 幀或更高；</system:String>
     <system:String x:Key="CopilotTip2">2. 請在有“開始行動”按鈕的介面再使用本功能；</system:String>
     <system:String x:Key="CopilotTip3">3. 使用好友助戰可以關閉“自動編隊”，手動選擇幹員後開始；</system:String>
     <system:String x:Key="CopilotTip4">4. 模擬悖論需要關閉“自動編隊”，並選好技能後處於“開始模擬”按鈕的介面再開始；</system:String>
@@ -250,7 +250,7 @@
     <system:String x:Key="UnknownAbnormal">出現未知異常</system:String>
     <system:String x:Key="Error">錯誤</system:String>
     <system:String x:Key="InitializationError">初始化錯誤！</system:String>
-    <system:String x:Key="ResolutionNotSupported">模擬器解析度不支持，請設置為 720p 或更高，且為 16:9 比例</system:String>
+    <system:String x:Key="ResolutionNotSupported">模擬器解析度不支持，請設定為 720p 或更高，且為 16:9 比例</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模擬器解析度獲取失敗，建議重啟電腦，或更換模擬器後再次嘗試</system:String>
     <system:String x:Key="TryToReconnect">模擬器斷開，正在嘗試重連</system:String>
     <system:String x:Key="ReconnectSuccess">重連成功，繼續任務</system:String>
@@ -297,8 +297,8 @@
     <system:String x:Key="ThisFacility">當前設施：</system:String>
     <system:String x:Key="RecruitingResults">公招識別結果：</system:String>
     <system:String x:Key="RecruitingTips">公招提示</system:String>
-    <system:String x:Key="RecruitmentOfStar">公招出 {0} 星了哦！</system:String>
-    <system:String x:Key="RecruitmentOfBot">公招出小車了哦！</system:String>
+    <system:String x:Key="RecruitmentOfStar">公招出 {0} 星了喔！</system:String>
+    <system:String x:Key="RecruitmentOfBot">公招出小車了喔！</system:String>
     <system:String x:Key="Choose">選擇</system:String>
     <system:String x:Key="Refreshed">當前槽位已刷新</system:String>
     <system:String x:Key="NotEnoughStaff">可用幹員不足</system:String>
@@ -310,7 +310,7 @@
     <system:String x:Key="RecruitTagsDetected">識別結果：</system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>
-    <system:String x:Key="CheckSettings">請檢查連接設置或嘗試重啟電腦</system:String>
+    <system:String x:Key="CheckSettings">請檢查連接設定或嘗試重啟電腦</system:String>
     <!--AsstProxy-->
 
     <!--TrayIcon-->

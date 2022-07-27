@@ -98,7 +98,7 @@
     <system:String x:Key="GoldTimesLimit">Limit of deposit coins</system:String>
     <system:String x:Key="StopOnGoldLimit">Stop when deposited coins reached limit</system:String>
 
-    <system:String x:Key="PenguinID">Penguin Report ID&#13;(Number part only)</system:String>
+    <system:String x:Key="PenguinID">Penguin Report ID(Number part only)</system:String>
 
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
     <system:String x:Key="HighPriority">Whitelist(splited by space)</system:String>
