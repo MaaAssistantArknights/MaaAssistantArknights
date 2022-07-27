@@ -24,20 +24,20 @@
     <system:String x:Key="Control">컨트롤 센터</system:String>
 
     <system:String x:Key="DronesNotUse">무인기를 사용하지 않기</system:String>
-    <system:String x:Key="Money"></system:String>
-    <system:String x:Key="SyntheticJade"></system:String>
-    <system:String x:Key="CombatRecord">제조소</system:String>
+    <system:String x:Key="Money">용문폐</system:String>
+    <system:String x:Key="SyntheticJade">합성옥</system:String>
+    <system:String x:Key="CombatRecord">작전 기록</system:String>
     <system:String x:Key="PureGold">순금</system:String>
-    <system:String x:Key="OriginStone">제작 사이트</system:String>
-    <system:String x:Key="Chip">제조스테이션-칩셋</system:String>
+    <system:String x:Key="OriginStone">오리지늄 조각</system:String>
+    <system:String x:Key="Chip">듀얼칩</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
-    <system:String x:Key="BlueStacks">청색 에뮬레이터</system:String>
-    <system:String x:Key="MuMuEmulator">mumu 에뮬레이터</system:String>
-    <system:String x:Key="LDPlayer">번개 에뮬레이터</system:String>
-    <system:String x:Key="Nox"></system:String>
-    <system:String x:Key="XYAZ">캐치메이션 에뮬레이터</system:String>
-    <system:String x:Key="WSA">wsa 이전 버전</system:String>
+    <system:String x:Key="BlueStacks">BlueStacks</system:String>
+    <system:String x:Key="MuMuEmulator">MuMuEmulator</system:String>
+    <system:String x:Key="LDPlayer">LDPlayer</system:String>
+    <system:String x:Key="Nox">Nox</system:String>
+    <system:String x:Key="XYAZ">XYAZ</system:String>
+    <system:String x:Key="WSA">WSA 이전 버전</system:String>
     <system:String x:Key="Compatible">호환성 모드</system:String>
 
     <system:String x:Key="DormThreshold">마음의 역치</system:String>
@@ -59,7 +59,7 @@
     <system:String x:Key="ADBProgram">adb 프로그램</system:String>
 
     <system:String x:Key="EmulatorException">에뮬레이터 오류 탐지 &#x0a;관리자 권한으로 소프트웨어를 여십시오.또는 연결을 설정하는 방법</system:String>
-    <system:String x:Key="EmulatorNotFound">&#x0a 에뮬레이터가 탐지되지 않았습니다;관리자 권한으로 소프트웨어를 여십시오.또는 연결을 설정하는 방법</system:String>
+    <system:String x:Key="EmulatorNotFound">에뮬레이터가 발견되지 않았습니다. 관리자 권한으로 소프트웨어를 열거나 수동으로 연결을 설정하십시오</system:String>
     <system:String x:Key="EmulatorTooMany">다수의 에뮬레이터가 탐지되었습니다 &#x0a;불필요한 에뮬레이터를 닫으십시오 &#x0a;또는 연결을 설정하는 방법</system:String>
 
     <system:String x:Key="AlreadyLatest">최신 버전~</system:String>
@@ -88,7 +88,7 @@
     <system:String x:Key="RunTaskAfterLaunch">시작 후 바로 실행</system:String>
     <system:String x:Key="ClientVersion">클라이언트 버전</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">시동 후 에뮬레이터를 자동으로 시작</system:String>
-    <system:String x:Key="WaitForEmulator">에뮬레이터를 기다립니다 &# xa;부트 시간 (초)</system:String>
+    <system:String x:Key="WaitForEmulator">에뮬레이터를 기다립니다 부트 시간 (초)</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
     <system:String x:Key="Select">선택</system:String>
     <system:String x:Key="AdditionCommand">추가 명령</system:String>
@@ -272,7 +272,7 @@
     <system:String x:Key="OnTheMove">행동이 시작되었다</system:String>
     <system:String x:Key="UnitTime">다음</system:String>
     <system:String x:Key="MedicineUsed">이성약 사용</system:String>
-    <system:String x:Key="StoneUsed">소스 스톤</system:String> 사용
+    <system:String x:Key="StoneUsed">소스 스톤</system:String>
     <system:String x:Key="ActingcommanActingCommandErrorderror">프록시 오류</system:String>
     <system:String x:Key="LabelsRefreshed">새로 고친 태그</system:String>
     <system:String x:Key="RecruitConfirm">모집이 확인됨</system:String>
@@ -306,7 +306,7 @@
     <system:String x:Key="BattleFormation">편대 시작</system:String>
     <system:String x:Key="BattleFormationSelected">작업자 선택:</system:String>
     <system:String x:Key="CurrentSteps">현재 단계:</system:String>
-    <system:String x:Key="UnsupportedLevel">지원하지 않는 레벨은 maa 소프트웨어 버전을 업데이트하거나, 작업 파일</system:String> 을 확인하십시오.
+    <system:String x:Key="UnsupportedLevel">지원하지 않는 레벨은 maa 소프트웨어 버전을 업데이트하거나, 작업 파일</system:String>
     <system:String x:Key="RecruitTagsDetected">결과:</system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToStartEmulator">시동 에뮬레이터</system:String>
