@@ -21,7 +21,9 @@ namespace MeoAsstGui
     {
         public static readonly Dictionary<string, string> SupportedLanguages = new Dictionary<string, string> {
             { "zh-cn", "简体中文" },
-            { "en-us", "English" }
+            { "en-us", "English" },
+            { "ja-jp", "日本 (incomplete)" },
+            { "ko-kr", "한국인 (incomplete)" }
         };
 
         public static string DefaultLanguage

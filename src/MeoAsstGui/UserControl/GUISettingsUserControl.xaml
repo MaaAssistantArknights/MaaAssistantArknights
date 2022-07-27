@@ -34,7 +34,7 @@
                       ItemsSource="{Binding LanguageList}"
                       SelectedValue="{Binding Language}"
                       SelectedValuePath="Value"
-                      Width="125" />
+                      Width="200" />
         </StackPanel>
     </StackPanel>
 </UserControl>
