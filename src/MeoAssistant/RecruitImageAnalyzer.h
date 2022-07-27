@@ -43,7 +43,6 @@ namespace asst
         }
         bool tags_analyze();
         bool time_analyze();
-        bool confirm_analyze();
         bool refresh_analyze();
 
         std::vector<TextRect> m_tags_result;
