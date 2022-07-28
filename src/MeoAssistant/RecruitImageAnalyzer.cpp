@@ -12,7 +12,6 @@ bool asst::RecruitImageAnalyzer::analyze()
     time_analyze();
     refresh_analyze();
     bool ret = tags_analyze();
-    ret &= confirm_analyze();
 
     return ret;
 }
@@ -71,19 +70,6 @@ bool asst::RecruitImageAnalyzer::time_analyze()
         m_set_time_rect.emplace_back(rect);
         return true;
     }
-    return false;
-}
-
-bool asst::RecruitImageAnalyzer::confirm_analyze()
-{
-    MatchImageAnalyzer confirm_analyzer(m_image);
-    confirm_analyzer.set_task_info("RecruitConfirm");
-
-    if (confirm_analyzer.analyze()) {
-        m_confirm_rect = confirm_analyzer.get_result().rect;
-        return true;
-    }
-
     return false;
 }
 
