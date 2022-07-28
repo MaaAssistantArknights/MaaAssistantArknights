@@ -1,15 +1,13 @@
 #pragma once
 #include "AbstractTaskPlugin.h"
 
-#include "AsstBattleDef.h"
-
 namespace asst
 {
-    class RoguelikeRecruitTaskPlugin : public AbstractTaskPlugin
+    class RoguelikeShoppingTaskPlugin : public AbstractTaskPlugin
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~RoguelikeRecruitTaskPlugin() = default;
+        virtual ~RoguelikeShoppingTaskPlugin() = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
@@ -17,7 +15,5 @@ namespace asst
         virtual bool _run() override;
 
     private:
-        bool check_core_char();
-        void select_oper(const BattleRecruitOperInfo& oper);
     };
 }

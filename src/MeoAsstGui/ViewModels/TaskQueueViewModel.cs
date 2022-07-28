@@ -502,8 +502,6 @@ namespace MeoAsstGui
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    if (item.Name == Localization.GetString("AutoRoguelike"))
-                        continue;
                     item.IsChecked = false;
                 }
             }
@@ -818,7 +816,9 @@ namespace MeoAsstGui
             int.TryParse(settings.RoguelikeMode, out mode);
 
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendRoguelike(mode, settings.RoguelikeStartsCount, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull);
+            return asstProxy.AsstAppendRoguelike(
+                mode, settings.RoguelikeStartsCount, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull,
+                settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar);
         }
 
         public bool killemulator()

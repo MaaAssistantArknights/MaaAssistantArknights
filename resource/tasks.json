@@ -6404,6 +6404,52 @@
             "Roguelike1CloseCollection"
         ]
     },
+    "Roguelike1Custom-HijackSquad": {
+        "algorithm": "OcrDetect",
+        "text": [
+
+        ],
+        "roi": [
+            0,
+            383,
+            1280,
+            142
+        ],
+        "ocrReplace": [
+
+        ]
+    },
+    "Roguelike1Custom-HijackRoles": {
+        "algorithm": "OcrDetect",
+        "text": [
+
+        ],
+        "roi": [
+            54,
+            356,
+            1172,
+            183
+        ],
+        "ocrReplace": [
+
+        ]
+    },
+    "Roguelike1Custom-HijackCoChar": {
+        "algorithm": "OcrDetect",
+        "text": [
+
+        ],
+        "roi": [
+            186,
+            298,
+            913,
+            200
+        ],
+        "ocrReplace": [
+
+        ],
+        "preDelay": 1000
+    },
     "Roguelike1Recruit1": {
         "action": "ClickSelf",
         "cache": false,
@@ -6721,12 +6767,13 @@
     },
     "Roguelike1TraderRandomShopping": {
         "action": "ClickSelf",
+        "templThreshold": 0.7,
         "cache": false,
         "roi": [
-            427,
-            374,
-            661,
-            196
+            480,
+            240,
+            750,
+            280
         ],
         "next": [
             "Roguelike1TraderRandomShoppingConfirm",
@@ -6735,6 +6782,56 @@
         "maskRange": [
             1,
             255
+        ]
+    },
+    "Roguelike1TraderShopping": {
+        "template": "Roguelike1TraderRandomShopping.png",
+        "templThreshold": 0.7,
+        "roi": [
+            480,
+            240,
+            750,
+            280
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "Roguelike1TraderShoppingOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            -120,
+            -160,
+            190,
+            35
+        ],
+        "ocrReplace": [
+
+        ]
+    },
+    "Roguelike1TraderShoppingConfirm": {
+        "template": "Roguelike1TraderRandomShoppingConfirm.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            872,
+            425,
+            221,
+            136
+        ],
+        "rearDelay": 1000
+    },
+    "Roguelike1TraderShoppingCancel": {
+        "template": "Roguelike1StageTraderInvestCancel.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            350,
+            350,
+            500,
+            250
         ]
     },
     "Roguelike1TraderRandomShoppingConfirm": {
