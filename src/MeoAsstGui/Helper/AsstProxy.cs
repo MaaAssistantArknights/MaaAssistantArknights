@@ -514,7 +514,7 @@ namespace MeoAsstGui
                     //    break;
 
                     case "Roguelike1StageCambatDpsEnter":
-                        mainModel.AddLog(Localization.GetString("CambatDpsEnter"));
+                        mainModel.AddLog(Localization.GetString("CambatDps"));
                         break;
 
                     case "Roguelike1StageEmergencyDps":
