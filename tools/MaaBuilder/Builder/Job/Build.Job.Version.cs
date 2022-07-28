@@ -8,6 +8,17 @@ namespace MaaBuilder;
 
 public partial class Build
 {
+    Target UseRsVersion => _ => _
+        .Triggers(SetVersion)
+        .Executes(() =>
+        {
+            Information($"Release Simulation: {Parameters.GhActionWdRsTagName}");
+            
+            Version = Parameters.GhActionWdRsTagName;
+
+            GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)));
+        });
+    
     Target UseCommitVersion => _ => _
         .Triggers(SetVersion)
         .Executes(() =>
