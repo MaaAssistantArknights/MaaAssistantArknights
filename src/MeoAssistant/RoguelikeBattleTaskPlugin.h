@@ -41,11 +41,11 @@ namespace asst
             Point direction;
         };
 
-        DeployInfo calc_best_plan(BattleRole role);
+        DeployInfo calc_best_plan(const BattleRealTimeOper& oper);
 
         // 计算摆放干员的朝向
         // 返回滑动的方向、得分
-        std::pair<Point, int> calc_best_direction_and_score(Point loc, BattleRole role);
+        std::pair<Point, int> calc_best_direction_and_score(Point loc, const BattleRealTimeOper& oper);
 
         bool m_opers_used = false;
         int m_pre_hp = 0;

@@ -29,6 +29,7 @@
     <ClInclude Include="AsstMsg.h" />
     <ClInclude Include="AutoRecruitTask.h" />
     <ClInclude Include="AwardTask.h" />
+    <ClInclude Include="BattleDataConfiger.h" />
     <ClInclude Include="CloseDownTask.h" />
     <ClInclude Include="CopilotConfiger.h" />
     <ClInclude Include="BattleFormationTask.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="DepotTask.h" />
     <ClInclude Include="GameCrashRestartTaskPlugin.h" />
     <ClInclude Include="RoguelikeControlTaskPlugin.h" />
+    <ClInclude Include="RoguelikeCustomStartTaskPlugin.h" />
     <ClInclude Include="RoguelikeRecruitConfiger.h" />
     <ClInclude Include="CopilotTask.h" />
     <ClInclude Include="DebugTask.h" />
@@ -87,6 +89,8 @@
     <ClInclude Include="RoguelikeFormationImageAnalyzer.h" />
     <ClInclude Include="RoguelikeRecruitImageAnalyzer.h" />
     <ClInclude Include="RoguelikeRecruitTaskPlugin.h" />
+    <ClInclude Include="RoguelikeShoppingConfiger.h" />
+    <ClInclude Include="RoguelikeShoppingTaskPlugin.h" />
     <ClInclude Include="RoguelikeSkillSelectionImageAnalyzer.h" />
     <ClInclude Include="RoguelikeSkillSelectionTaskPlugin.h" />
     <ClInclude Include="RoguelikeTask.h" />
@@ -113,6 +117,7 @@
     <ClCompile Include="AbstractTaskPlugin.cpp" />
     <ClCompile Include="AutoRecruitTask.cpp" />
     <ClCompile Include="AwardTask.cpp" />
+    <ClCompile Include="BattleDataConfiger.cpp" />
     <ClCompile Include="CloseDownTask.cpp" />
     <ClCompile Include="CopilotConfiger.cpp" />
     <ClCompile Include="BattleFormationTask.cpp" />
@@ -123,6 +128,7 @@
     <ClCompile Include="DepotTask.cpp" />
     <ClCompile Include="GameCrashRestartTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeControlTaskPlugin.cpp" />
+    <ClCompile Include="RoguelikeCustomStartTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeRecruitConfiger.cpp" />
     <ClCompile Include="CopilotTask.cpp" />
     <ClCompile Include="DebugTask.cpp" />
@@ -172,6 +178,8 @@
     <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp" />
     <ClCompile Include="RoguelikeRecruitImageAnalyzer.cpp" />
     <ClCompile Include="RoguelikeRecruitTaskPlugin.cpp" />
+    <ClCompile Include="RoguelikeShoppingConfiger.cpp" />
+    <ClCompile Include="RoguelikeShoppingTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeSkillSelectionImageAnalyzer.cpp" />
     <ClCompile Include="RoguelikeSkillSelectionTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeTask.cpp" />
@@ -194,6 +202,7 @@
     <None Include="..\..\resource\infrast.json" />
     <None Include="..\..\resource\roguelike_copilot.json" />
     <None Include="..\..\resource\roguelike_recruit.json" />
+    <None Include="..\..\resource\roguelike_shopping.json" />
     <None Include="..\..\resource\tasks.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

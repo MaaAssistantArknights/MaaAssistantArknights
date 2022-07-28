@@ -112,4 +112,21 @@ namespace asst
         std::vector<Point> replacement_home;
         std::vector<int> key_kills;
     };
+
+    struct BattleCharData
+    {
+        std::string name;
+        BattleRole role;
+        std::array<std::string, 3> ranges;
+    };
+
+    struct BattleRecruitOperInfo
+    {
+        std::string name;
+        Rect rect;
+        int elite = 0;
+        int level = 0;
+    };
+
+    using BattleAttackRange = std::vector<Point>;
 }
