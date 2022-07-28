@@ -24,6 +24,8 @@ public partial class Build
     #region Nuke 默认全局参数
 
     [CI] readonly GitHubActions GitHubActions;
+    
+    public static bool IsReleaseSimulation { get; set; }
 
     #endregion
 
@@ -87,7 +89,8 @@ public partial class Build
         public bool IsWorkflowDispatch { get; }
         public bool IsPreRelease { get; }
         public string GitHubPersonalAccessToken { get; }
-        public Dictionary<string, string> WorkflowDispatchArguments { get; }
+        public string GhActionWdReason { get; }
+        public string GhActionWdRsTagName { get; }
         public ActionConfiguration GhActionName { get; }
         public string GhBranch { get; }
         public string GhPullRequestId { get; }
@@ -186,12 +189,27 @@ public partial class Build
             if (ghEvent.ContainsKey("inputs"))
             {
                 IsWorkflowDispatch = true;
-                WorkflowDispatchArguments = new();
 
                 var inputs = (JObject)ghEvent["inputs"];
                 foreach (var (k, v) in inputs)
                 {
-                    WorkflowDispatchArguments.Add(k, v.ToString());
+                    switch (k)
+                    {
+                        case "Reason":
+                            GhActionWdReason = v.ToString();
+                            break;
+                        case "ReleaseSimulation":
+                            var tn = v.ToString();
+                            if (string.IsNullOrEmpty(tn) || tn == "none")
+                            {
+                                break;
+                            }
+
+                            IsReleaseSimulation = true;
+                            GhActionWdRsTagName = tn;
+                            
+                            break;
+                    }
                 }
             }
 
