@@ -1,17 +1,11 @@
 using Nuke.Common;
-using Nuke.Common.Execution;
-using Nuke.Common.Git;
-using Nuke.Common.IO;
-using Nuke.Common.Tools.GitHub;
-using Octokit;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
-
+using MaaBuilder.Models;
 
 namespace MaaBuilder;
 
-[CheckBuildProjectConfigurations]
 public partial class Build : NukeBuild
 {
     public static int Main()
@@ -40,15 +34,15 @@ public partial class Build : NukeBuild
     const string DevBranch = "dev";
 
     const string MaaDevBundlePackageNameTemplate = "MaaBundle-Dev-{VERSION}";
-    const string MaaResourcePackageNameTemplate = "MaaResource-{VERSION}";
 
     string Version = "";
     string ChangeLog = "";
 
     string MaaDevBundlePackageName => MaaDevBundlePackageNameTemplate.Replace("{VERSION}", Version);
-    string MaaResourcePackageName => MaaResourcePackageNameTemplate.Replace("{VERSION}", Version);
 
     string LatestTag;
+
+    List<Checksum> ArtifactChecksums = new();
 
     protected override void OnBuildInitialized()
     {

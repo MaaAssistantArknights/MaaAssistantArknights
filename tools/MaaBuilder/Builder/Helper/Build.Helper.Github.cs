@@ -12,7 +12,7 @@ public partial class Build
     
     void CreateGitHubRelease(string repo, string commitish, string releaseName)
     {
-        var assets = Parameters.ArtifactOutput.GlobFiles("*.zip", "checksum.txt");
+        var assets = Parameters.ArtifactOutput.GlobFiles("*.zip", "checksum.json");
         
         var release = new NewRelease(Version)
         {
