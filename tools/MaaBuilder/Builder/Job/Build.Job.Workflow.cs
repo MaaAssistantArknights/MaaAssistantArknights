@@ -4,14 +4,27 @@ namespace MaaBuilder;
 
 public partial class Build
 {
+    Target DevBuildDefault => _ => _
+        .OnlyWhenStatic(() => IsReleaseSimulation == false)
+        .WhenSkipped(DependencyBehavior.Skip)
+        .DependsOn(UseCommitVersion)
+        .DependsOn(UseMaaDevBundle)
+        .DependsOn(UsePublishArtifact);
+
+    Target DevBuildReleaseSimulation => _ => _
+        .OnlyWhenStatic(() => IsReleaseSimulation == true)
+        .WhenSkipped(DependencyBehavior.Skip)
+        .DependsOn(UseMaaRelease)
+        .DependsOn(UseMaaChangeLog)
+        .DependsOn(UsePublishArtifact);
+
     /// <summary>
     /// 见 <see cref="ActionConfiguration.DevBuild"/>
     /// </summary>
     Target DevBuild => _ => _
-        .DependsOn(UseCommitVersion)
-        .DependsOn(UseMaaDevBundle)
-        .DependsOn(UsePublishArtifact);
-        
+        .DependsOn(DevBuildDefault)
+        .DependsOn(DevBuildReleaseSimulation);
+
 
     /// <summary>
     /// 见 <see cref="ActionConfiguration.ReleaseMaa"/>
