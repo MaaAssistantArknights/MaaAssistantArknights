@@ -190,6 +190,9 @@ namespace MeoAsstGui
                 //new CombData { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
                 //new CombData { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
 
+                // SideStory「多索雷斯假日」复刻活动关卡
+                new CombData { Display = "DH-9", Value = "DH-9" },
+
                 new CombData { Display = "1-7", Value = "1-7" },
                 new CombData { Display = Localization.GetString("CE-6"), Value = "CE-6" },
                 new CombData { Display = Localization.GetString("AP-5"), Value = "AP-5" },

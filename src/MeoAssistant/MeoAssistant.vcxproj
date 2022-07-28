@@ -81,7 +81,6 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ItemConfiger.h" />
     <ClInclude Include="Logger.hpp" />
-    <ClInclude Include="RecruitCalcTask.h" />
     <ClInclude Include="ProcessTask.h" />
     <ClInclude Include="ProcessTaskImageAnalyzer.h" />
     <ClInclude Include="RecruitConfiger.h" />
@@ -171,7 +170,6 @@
     <ClCompile Include="AsstCaller.cpp" />
     <ClCompile Include="GeneralConfiger.cpp" />
     <ClCompile Include="ItemConfiger.cpp" />
-    <ClCompile Include="RecruitCalcTask.cpp" />
     <ClCompile Include="ProcessTask.cpp" />
     <ClCompile Include="ProcessTaskImageAnalyzer.cpp" />
     <ClCompile Include="RecruitConfiger.cpp" />

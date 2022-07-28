@@ -23,18 +23,135 @@
         ],
         "maxTimes": 2
     },
+    "DoNothing": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing"
+    },
     "1-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "next": [
-            "StageThemeTo1-7",
-            "StageThemeEpisode3ToEpisode1To1-7",
-            "StageThemeEpisode2ToEpisode1To1-7",
-            "StageThemeEpisode1To1-7",
-            "Stage1-7"
+        "sub": [
+            "Episode1",
+            "SwipeLeftToStage1-7"
         ]
     },
-    "StageThemeTo1-7": {
+    "Episode10": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageTheme",
+            "SwipeToTheRight",
+            "StageThemeChapter3ToEpisode10"
+        ]
+    },
+    "Episode9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageTheme",
+            "SwipeToTheRight",
+            "StageThemeChapter3ToEpisode10",
+            "StageThemeEpisode10ToEpisode9"
+        ]
+    },
+    "Episode8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageTheme",
+            "StageThemeChapter3ToChapter2",
+            "SwipeToTheRight",
+            "StageThemeChapter2ToEpisode8"
+        ]
+    },
+    "Episode7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageTheme",
+            "StageThemeChapter3ToChapter2",
+            "SwipeToTheRight",
+            "StageThemeChapter2ToEpisode8",
+            "StageThemeEpisode8ToEpisode7"
+        ]
+    },
+    "Episode6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageTheme",
+            "StageThemeChapter3ToChapter2",
+            "SwipeToTheRight",
+            "StageThemeChapter2ToEpisode8",
+            "StageThemeEpisode8ToEpisode6"
+        ]
+    },
+    "Episode5": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageTheme",
+            "StageThemeChapter3ToChapter2",
+            "SwipeToTheRight",
+            "StageThemeChapter2ToEpisode8",
+            "StageThemeEpisode8ToEpisode5"
+        ]
+    },
+    "Episode4": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageTheme",
+            "StageThemeChapter3ToChapter2",
+            "SwipeToTheRight",
+            "StageThemeChapter2ToEpisode8",
+            "StageThemeEpisode8ToEpisode4"
+        ]
+    },
+    "Episode3": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageTheme",
+            "StageThemeChapter3ToChapter2",
+            "StageThemeChapter2ToChapter1",
+            "StageThemeChapter1ToEpisode3"
+        ]
+    },
+    "Episode2": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageTheme",
+            "StageThemeChapter3ToChapter2",
+            "StageThemeChapter2ToChapter1",
+            "StageThemeChapter1ToEpisode3",
+            "StageThemeEpisode3ToEpisode2"
+        ]
+    },
+    "Episode1": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageTheme",
+            "StageThemeChapter3ToChapter2",
+            "StageThemeChapter2ToChapter1",
+            "StageThemeChapter1ToEpisode3",
+            "StageThemeEpisode3ToEpisode1"
+        ]
+    },
+    "Episode0": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageTheme",
+            "StageThemeChapter3ToChapter2",
+            "StageThemeChapter2ToChapter1",
+            "StageThemeChapter1ToEpisode3",
+            "StageThemeEpisode3ToEpisode0"
+        ]
+    },
+    "StageTheme": {
         "template": "StageTheme.png",
         "roi": [
             200,
@@ -42,16 +159,23 @@
             300,
             60
         ],
+        "action": "ClickSelf"
+    },
+    "StageThemeChapter4ToChapter3": {
+        "doc": "还没用上",
+        "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "next": [
-            "StageThemeChapter3ToChapter2To1-7",
-            "StageThemeChapter2ToChapter1To1-7",
-            "StageThemeEpisode3ToEpisode1To1-7",
-            "StageThemeEpisode2ToEpisode1To1-7",
-            "StageThemeEpisode1To1-7"
+        "text": [
+            "残阳"
+        ],
+        "roi": [
+            200,
+            120,
+            80,
+            32
         ]
     },
-    "StageThemeChapter3ToChapter2To1-7": {
+    "StageThemeChapter3ToChapter2": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -62,13 +186,9 @@
             120,
             80,
             32
-        ],
-        "cache": false,
-        "next": [
-            "StageThemeChapter2ToChapter1To1-7"
         ]
     },
-    "StageThemeChapter2ToChapter1To1-7": {
+    "StageThemeChapter2ToChapter1": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -80,56 +200,180 @@
             80,
             32
         ],
-        "cache": false,
         "next": [
-            "StageThemeEpisode3ToEpisode1To1-7",
-            "StageThemeEpisode2ToEpisode1To1-7",
-            "StageThemeEpisode1To1-7"
+            "SwipeToTheRight"
         ]
     },
-    "StageThemeEpisode3ToEpisode1To1-7": {
+    "StageThemeChapter3ToEpisode10": {
         "action": "ClickSelf",
         "roi": [
-            250,
-            320,
-            155,
-            200
-        ],
-        "cache": false,
-        "next": [
-            "Stage1-7",
-            "SwipeLeftToStage1-7",
-            "SwipeRightToStage1-7"
+            771,
+            133,
+            369,
+            276
         ]
     },
-    "StageThemeEpisode2ToEpisode1To1-7": {
+    "StageThemeEpisode10ToEpisode9": {
+        "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "roi": [
-            480,
-            230,
-            280,
-            300
+        "text": [
+            "9"
         ],
-        "cache": false,
+        "roi": [
+            902,
+            618,
+            161,
+            102
+        ],
         "next": [
-            "Stage1-7",
-            "SwipeLeftToStage1-7",
-            "SwipeRightToStage1-7"
+            "StageThemeEpisode10ToEpisode9",
+            "DoNothing"
         ]
     },
-    "StageThemeEpisode1To1-7": {
+    "StageThemeChapter2ToEpisode8": {
         "action": "ClickSelf",
         "roi": [
-            750,
-            160,
-            400,
-            400
+            777,
+            135,
+            339,
+            289
+        ]
+    },
+    "StageThemeEpisode8ToEpisode7": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "7"
         ],
-        "cache": false,
+        "roi": [
+            902,
+            618,
+            161,
+            102
+        ],
         "next": [
-            "Stage1-7",
-            "SwipeLeftToStage1-7",
-            "SwipeRightToStage1-7"
+            "StageThemeEpisode8ToEpisode7",
+            "DoNothing"
+        ]
+    },
+    "StageThemeEpisode8ToEpisode6": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "7",
+            "6"
+        ],
+        "roi": [
+            902,
+            618,
+            161,
+            102
+        ],
+        "next": [
+            "StageThemeEpisode8ToEpisode6",
+            "DoNothing"
+        ]
+    },
+    "StageThemeEpisode8ToEpisode5": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "7",
+            "6",
+            "5"
+        ],
+        "roi": [
+            902,
+            618,
+            161,
+            102
+        ],
+        "next": [
+            "StageThemeEpisode8ToEpisode5",
+            "DoNothing"
+        ]
+    },
+    "StageThemeEpisode8ToEpisode4": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "7",
+            "6",
+            "5",
+            "4"
+        ],
+        "roi": [
+            902,
+            618,
+            161,
+            102
+        ],
+        "next": [
+            "StageThemeEpisode8ToEpisode4",
+            "DoNothing"
+        ]
+    },
+    "StageThemeChapter1ToEpisode3": {
+        "action": "ClickSelf",
+        "roi": [
+            781,
+            136,
+            332,
+            333
+        ]
+    },
+    "StageThemeEpisode3ToEpisode2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "2"
+        ],
+        "roi": [
+            902,
+            618,
+            161,
+            102
+        ],
+        "next": [
+            "StageThemeEpisode3ToEpisode2",
+            "DoNothing"
+        ]
+    },
+    "StageThemeEpisode3ToEpisode1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "2",
+            "1"
+        ],
+        "roi": [
+            902,
+            618,
+            161,
+            102
+        ],
+        "next": [
+            "StageThemeEpisode3ToEpisode1",
+            "DoNothing"
+        ]
+    },
+    "StageThemeEpisode3ToEpisode0": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "0",
+            "o",
+            "O"
+        ],
+        "roi": [
+            902,
+            618,
+            161,
+            102
+        ],
+        "next": [
+            "StageThemeEpisode3ToEpisode0",
+            "DoNothing"
         ]
     },
     "SwipeLeftToStage1-7": {
@@ -198,6 +442,69 @@
             60
         ]
     },
+    "DH-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DH-Open"
+        ],
+        "next": [
+            "StageDH-9"
+        ]
+    },
+    "DH-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "假日",
+            "复刻",
+            "活动",
+            "开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "DHChapterToDH"
+        ]
+    },
+    "DHChapterToDH": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "极限",
+            "铁人",
+            "大奖"
+        ],
+        "roi": [
+            934,
+            280,
+            234,
+            124
+        ],
+        "rearDelay": 2000,
+        "next": [
+            "DHChapterToDH",
+            "SwipeToTheRight"
+        ]
+    },
+    "StageDH-9": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "DH-9"
+        ],
+        "roi": [
+            518,
+            133,
+            176,
+            134
+        ]
+    },
     "DV-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -206,7 +513,7 @@
         ],
         "next": [
             "StageDV-8",
-            "SwapToStageDV-8"
+            "SwipeToStageDV-8"
         ]
     },
     "DV-6": {
@@ -217,7 +524,7 @@
         ],
         "next": [
             "StageDV-6",
-            "SwapToStageDV-6"
+            "SwipeToStageDV-6"
         ]
     },
     "DV-7": {
@@ -228,7 +535,7 @@
         ],
         "next": [
             "StageDV-7",
-            "SwapToStageDV-7"
+            "SwipeToStageDV-7"
         ]
     },
     "DV-Open": {
@@ -268,28 +575,28 @@
             "SwipeToTheRight"
         ]
     },
-    "SwapToStageDV-8": {
+    "SwipeToStageDV-8": {
         "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheLeft",
         "next": [
             "StageDV-8",
-            "SwapToStageDV-8"
+            "SwipeToStageDV-8"
         ]
     },
-    "SwapToStageDV-6": {
+    "SwipeToStageDV-6": {
         "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheLeft",
         "next": [
             "StageDV-6",
-            "SwapToStageDV-6"
+            "SwipeToStageDV-6"
         ]
     },
-    "SwapToStageDV-7": {
+    "SwipeToStageDV-7": {
         "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheLeft",
         "next": [
             "StageDV-7",
-            "SwapToStageDV-7"
+            "SwipeToStageDV-7"
         ]
     },
     "StageDV-8": {
@@ -343,7 +650,7 @@
         ],
         "next": [
             "StageLE-5",
-            "SwapToStageLE-5"
+            "SwipeToStageLE-5"
         ]
     },
     "LE-6": {
@@ -355,7 +662,7 @@
         ],
         "next": [
             "StageLE-6",
-            "SwapToStageLE-6"
+            "SwipeToStageLE-6"
         ]
     },
     "LE-7": {
@@ -367,7 +674,7 @@
         ],
         "next": [
             "StageLE-7",
-            "SwapToStageLE-7"
+            "SwipeToStageLE-7"
         ]
     },
     "LE-Open": {
@@ -396,28 +703,28 @@
             "SwipeToTheRight"
         ]
     },
-    "SwapToStageLE-5": {
+    "SwipeToStageLE-5": {
         "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheLeft",
         "next": [
             "StageLE-5",
-            "SwapToStageLE-5"
+            "SwipeToStageLE-5"
         ]
     },
-    "SwapToStageLE-6": {
+    "SwipeToStageLE-6": {
         "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheLeft",
         "next": [
             "StageLE-6",
-            "SwapToStageLE-6"
+            "SwipeToStageLE-6"
         ]
     },
-    "SwapToStageLE-7": {
+    "SwipeToStageLE-7": {
         "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheLeft",
         "next": [
             "StageLE-7",
-            "SwapToStageLE-7"
+            "SwipeToStageLE-7"
         ]
     },
     "StageLE-5": {
@@ -5269,12 +5576,12 @@
         "maskRange": [
             1,
             255
-        ]
+        ],
+        "templThreshold": 0.6
     },
     "BattleKills": {
         "algorithm": "OcrDetect",
-        "text": [
-        ],
+        "text": [],
         "roi": [
             50,
             0,
@@ -7577,7 +7884,7 @@
     },
     "StageDrops-Item": {
         "template": "empty.png",
-        "templThreshold": 0.6,
+        "templThreshold": 0.65,
         "roi": [
             0,
             -130,

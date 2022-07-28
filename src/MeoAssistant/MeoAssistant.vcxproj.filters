@@ -228,9 +228,6 @@
     <ClInclude Include="CreditShoppingTask.h">
       <Filter>头文件\Task\Sub</Filter>
     </ClInclude>
-    <ClInclude Include="RecruitCalcTask.h">
-      <Filter>头文件\Task\Sub</Filter>
-    </ClInclude>
     <ClInclude Include="BattleImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Final</Filter>
     </ClInclude>
@@ -489,9 +486,6 @@
       <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
     <ClCompile Include="CreditShoppingTask.cpp">
-      <Filter>源文件\Task\Sub</Filter>
-    </ClCompile>
-    <ClCompile Include="RecruitCalcTask.cpp">
       <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
     <ClCompile Include="ProcessTask.cpp">

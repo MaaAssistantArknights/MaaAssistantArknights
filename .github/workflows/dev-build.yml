@@ -44,13 +44,16 @@ on:
       Reason:
         description: "Reason"
         required: true
+      ReleaseSimulation:
+        description: "Release Simulation"
+        required: true
 
 jobs:
   windows-latest:
     name: windows-latest
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v2
         with:
@@ -62,6 +65,7 @@ jobs:
         run: ./build.cmd DevBuild
         env:
           Reason: ${{ github.event.inputs.Reason }}
+          ReleaseSimulation: ${{ github.event.inputs.ReleaseSimulation }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v1
         with:
