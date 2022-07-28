@@ -8,7 +8,7 @@ public partial class Build
 {
     Target UsePublishArtifact => _ => _
         .After(SetPackageBundled, SetMaaChangeLog)
-        .Produces(RootDirectory / "artifacts" / "*.zip")
+        .Produces(RootDirectory / "artifacts" / "*.*")
         .OnlyWhenStatic(() => GitHubActions != null);
 
     Target UsePublishRelease => _ => _
@@ -21,7 +21,7 @@ public partial class Build
 
             if (Parameters.GhActionName == ActionConfiguration.DevBuild)
             {
-                Information($"DevBuild 跳过发布 Release");
+                Information("DevBuild 跳过发布 Release");
                 return;
             }
 
@@ -36,8 +36,6 @@ public partial class Build
                 Information($"运行 ReleaseMaa 将在 {Parameters.MainRepo} 创建 Release {Parameters.GhTag}");
 
                 CreateGitHubRelease(Parameters.MainRepo, Parameters.CommitHashFull, Version);
-
-                return;
             }
         });
 }
