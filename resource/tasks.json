@@ -40,6 +40,7 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
+            "SwipeToTheRight",
             "StageThemeChapter3ToEpisode10"
         ]
     },
@@ -48,6 +49,7 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
+            "SwipeToTheRight",
             "StageThemeChapter3ToEpisode10",
             "StageThemeEpisode10ToEpisode9"
         ]
@@ -58,6 +60,7 @@
         "sub": [
             "StageTheme",
             "StageThemeChapter3ToChapter2",
+            "SwipeToTheRight",
             "StageThemeChapter2ToEpisode8"
         ]
     },
@@ -67,6 +70,7 @@
         "sub": [
             "StageTheme",
             "StageThemeChapter3ToChapter2",
+            "SwipeToTheRight",
             "StageThemeChapter2ToEpisode8",
             "StageThemeEpisode8ToEpisode7"
         ]
@@ -77,6 +81,7 @@
         "sub": [
             "StageTheme",
             "StageThemeChapter3ToChapter2",
+            "SwipeToTheRight",
             "StageThemeChapter2ToEpisode8",
             "StageThemeEpisode8ToEpisode6"
         ]
@@ -87,6 +92,7 @@
         "sub": [
             "StageTheme",
             "StageThemeChapter3ToChapter2",
+            "SwipeToTheRight",
             "StageThemeChapter2ToEpisode8",
             "StageThemeEpisode8ToEpisode5"
         ]
@@ -97,6 +103,7 @@
         "sub": [
             "StageTheme",
             "StageThemeChapter3ToChapter2",
+            "SwipeToTheRight",
             "StageThemeChapter2ToEpisode8",
             "StageThemeEpisode8ToEpisode4"
         ]
@@ -166,9 +173,6 @@
             120,
             80,
             32
-        ],
-        "next": [
-            "SwipeToTheRight"
         ]
     },
     "StageThemeChapter3ToChapter2": {
@@ -182,9 +186,6 @@
             120,
             80,
             32
-        ],
-        "next": [
-            "SwipeToTheRight"
         ]
     },
     "StageThemeChapter2ToChapter1": {
