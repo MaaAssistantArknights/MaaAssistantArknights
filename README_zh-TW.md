@@ -154,7 +154,7 @@ MAA 的意思是 MAA Assistant Arknights
 - [Rust 介面](src/Rust/src/maa_sys/)：[HTTP 介面](src/Rust)
 - [HTTP 介面](src/Java/Maaj/Readme.md)
 - [整合文件](docs/集成文档.md)
-- [回呼消息協定](docs/回调消息协议.md)
+- [回呼訊息協定](docs/回调消息协议.md)
 - [任務流程協定](docs/任务流程协议.md)
 - [自動抄作業協定](docs/战斗流程协议.md)
 
