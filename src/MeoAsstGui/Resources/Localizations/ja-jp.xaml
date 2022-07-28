@@ -1,5 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespaces:MeoAsstGui">
-    <!--設定-->
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespaces:MeoAsstGui"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="BaseSettings">基地設定</system:String>
     <system:String x:Key="RougelikeSettings">ローグ設定</system:String>
@@ -114,9 +118,9 @@
     <system:String x:Key="ADBPath">adbパス (相対/絶対)</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
-    <!--設定-->
+    <!--  設定  -->
 
-    <!--メイン-->
+    <!--  メイン  -->
     <system:String x:Key="Farming">メイン</system:String>
 
     <system:String x:Key="WakeUp">ウェイクアップ</system:String>
@@ -144,7 +148,7 @@
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">終了</system:String>
 
-    <!--戦闘設定-->
+    <!--  戦闘設定  -->
     <system:String x:Key="UseSanityPotion">回復剤使う</system:String>
     <system:String x:Key="UseOriginitePrime">源石使う*</system:String>
     <system:String x:Key="PerformBattles">回数限定*</system:String>
@@ -183,9 +187,9 @@
     <system:String x:Key="PR-DTip">前衛/特殊SoC</system:String>
     <system:String x:Key="Pormpt1">月曜で，殲滅作戦がリセットされました～</system:String>
     <system:String x:Key="Pormpt2">日曜で，殲滅作戦を忘れないでください～</system:String>
-    <!--戦闘設定-->
+    <!--  戦闘設定  -->
 
-    <!--ログ-->
+    <!--  ログ  -->
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
@@ -198,10 +202,10 @@
     <system:String x:Key="AboutToShutdown">完了しました。シャットダウンしようとしています。キャンセルしますか？</system:String>
     <system:String x:Key="ShutdownPrompt">ヒント</system:String>
     <system:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています。</system:String>
-    <!--ログ-->
-    <!--メイン-->
+    <!--  ログ  -->
+    <!--  メイン  -->
 
-    <!--公開求人認識-->
+    <!--  公開求人認識  -->
     <system:String x:Key="Recognition">公開求人認識</system:String>
     <system:String x:Key="RecognitionTip">ヒント：これとメインの公開求人は、2つの別々の機能です。使用する前にゲームの公開求人を手動で開いてください～</system:String>
     <system:String x:Key="AutoSettingTime">時刻を自動的に設定する</system:String>
@@ -211,12 +215,12 @@
     <system:String x:Key="AutoSelectLevel6Tags">星6タグを自動的に選択する</system:String>
     <system:String x:Key="BeganToRecruit">認識開始</system:String>
 
-    <!--ログ-->
+    <!--  ログ  -->
     <system:String x:Key="Identifying">認識中……</system:String>
-    <!--ログ-->
-    <!--公開求人認識-->
+    <!--  ログ  -->
+    <!--  公開求人認識  -->
 
-    <!--自動戦闘-->
+    <!--  自動戦闘  -->
     <system:String x:Key="Copilot">自動戦闘 Beta</system:String>
     <system:String x:Key="CopilotLocation">攻略ファイルパス/ミステリーコード</system:String>
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
@@ -229,7 +233,7 @@
     <system:String x:Key="CopilotJSONSharing">攻略ファイル・シェアステーション</system:String>
     <system:String x:Key="VideoLink">ビデオハイパーリンク</system:String>
 
-    <!--ログ-->
+    <!--  ログ  -->
     <system:String x:Key="CopilotTip">ヒント：</system:String>
     <system:String x:Key="CopilotTip1">1.エミュレータとゲームのフレームレートを60fps以上に設定してください；</system:String>
     <system:String x:Key="CopilotTip2">2.「行動開始」ボタンのあるインターフェースでこの機能を使用してください；</system:String>
@@ -243,10 +247,10 @@
     <system:String x:Key="CopilotJsonError">攻略ファイルの解析中にエラーが発生しました！</system:String>
     <system:String x:Key="NotCopilotJson">攻略ファイルではありません</system:String>
     <system:String x:Key="CheckTheFile">ファイルの内容を確認してください！</system:String>
-    <!--ログ-->
-    <!--自動戦闘-->
+    <!--  ログ  -->
+    <!--  自動戦闘  -->
 
-    <!--AsstProxy-->
+    <!--  AsstProxy  -->
     <system:String x:Key="UnknownAbnormal">不明な例外が発生しました</system:String>
     <system:String x:Key="Error">エラー</system:String>
     <system:String x:Key="InitializationError">初期化エラー！</system:String>
@@ -311,13 +315,13 @@
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
     <system:String x:Key="CheckSettings">接続設定を確認するか、コンピュータを再起動してみてください</system:String>
-    <!--AsstProxy-->
+    <!--  AsstProxy  -->
 
-    <!--TrayIcon-->
+    <!--  TrayIcon  -->
     <system:String x:Key="Exit">終了</system:String>
-    <!--TrayIcon-->
+    <!--  TrayIcon  -->
 
-    <!--About-->
+    <!--  About  -->
     <system:String x:Key="Website">MAA公式サイト</system:String>
     <system:String x:Key="Github">ソースコード：GitHub</system:String>
     <system:String x:Key="QQgroup">自動攻略ファイルシェアQQグループ</system:String>
@@ -326,9 +330,9 @@
     <system:String x:Key="QQgroup3">グループ3</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
     <system:String x:Key="Issue">フィードバック</system:String>
-    <!--About-->
+    <!--  About  -->
 
-    <!--AutoRecruitSettings-->
+    <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
     <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用する*</system:String>
     <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
@@ -338,5 +342,5 @@
     <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel6">星6を自動的に確認する</system:String>
     <system:String x:Key="Level1Tip">チェックの際に星1タグが特定された場合、募集はスキップされ、チェックされていない場合、星1タグは無視されます。</system:String>
-    <!--AutoRecruitSettings-->
+    <!--  AutoRecruitSettings  -->
 </ResourceDictionary>
