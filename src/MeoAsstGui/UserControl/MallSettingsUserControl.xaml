@@ -43,7 +43,9 @@
                 Width="250"
                 Height="30"
                 Margin="10"
-                Text="{Binding CreditFirstList}" />
+                Text="{Binding CreditFirstList}"
+                ToolTip="{DynamicResource Drink}"
+                />
         </StackPanel>
         <StackPanel
             Grid.Row="2"

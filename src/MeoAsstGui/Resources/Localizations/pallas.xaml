@@ -107,6 +107,7 @@
     <system:String x:Key="SocialPtShop">🍺🍷🕺</system:String>
     <system:String x:Key="HighPriority">🍸🕺💃🍺🕺🕺🍻🍺</system:String>
     <system:String x:Key="Blacklist">🍸🍺🕺🍻🍺🍸🍷</system:String>
+    <system:String x:Key="Drink">🥴😵🥱😪zzZ</system:String>
 
     <system:String x:Key="DroneUsage">🍷🍷🍷</system:String>
 

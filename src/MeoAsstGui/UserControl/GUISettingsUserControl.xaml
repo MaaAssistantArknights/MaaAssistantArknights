@@ -62,7 +62,7 @@
                 Text="{DynamicResource Language}" />
             <ComboBox
                 x:Name="LanguageSelector"
-                Width="300"
+                Width="340"
                 Margin="10"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding LanguageList}"
