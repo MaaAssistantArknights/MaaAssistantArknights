@@ -39,13 +39,13 @@ int main([[maybe_unused]] int argc, char** argv)
 
     /* 详细参数可参考 docs / 集成文档.md */
 
-    AsstAppendTask(ptr, "StartUp", nullptr);
+    //AsstAppendTask(ptr, "StartUp", nullptr);
 
-    AsstAppendTask(ptr, "Fight", R"(
-    {
-        "stage": "1-7"
-    }
-    )");
+    //AsstAppendTask(ptr, "Fight", R"(
+    //{
+    //    "stage": "1-7"
+    //}
+    //)");
 
     //AsstAppendTask(ptr, "Recruit", R"(
     //{
@@ -79,7 +79,13 @@ int main([[maybe_unused]] int argc, char** argv)
 
     //AsstAppendTask(ptr, "Award", nullptr);
 
-    //AsstAppendTask(ptr, "Roguelike", nullptr);
+    AsstAppendTask(ptr, "Roguelike", R"(
+{
+    "squad": "突击战术分队",
+    "roles": "近卫",
+    "core_char": "棘刺"
+}
+)");
 
     //AsstAppendTask(ptr, "Copilot", R"(
     //{

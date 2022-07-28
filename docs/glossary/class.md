@@ -1,0 +1,10 @@
+中文|English|日本語|한국어
+---|---|---|---
+先锋|Vanguard|先鋒|뱅가드
+近卫|Guard|前衛|가드
+重装|Defender|重装|디펜더
+狙击|Sniper|狙撃|스나이퍼
+术士|Caster|術師|캐스터
+辅助|Supporter|補助|서포터
+医疗|Medic|医療|메딕
+特种|Specialist|特殊|스페셜리스트

@@ -15,10 +15,10 @@ namespace MeoAsstGui
 {
     public class DragItemViewModel : PropertyChangedBase
     {
-        public DragItemViewModel(string name, string stroageKey)
+        public DragItemViewModel(string name, string storageKey)
         {
             this.Name = name;
-            this._isCheckedStorageKey = stroageKey + name + ".IsChecked";
+            this._isCheckedStorageKey = storageKey + name + ".IsChecked";
             this.IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
         }
 

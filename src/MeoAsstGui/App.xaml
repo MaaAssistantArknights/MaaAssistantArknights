@@ -1,8 +1,9 @@
-﻿<Application x:Class="MeoAsstGui.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MeoAsstGui"
-             xmlns:s="https://github.com/canton7/Stylet">
+﻿<Application
+    x:Class="MeoAsstGui.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MeoAsstGui"
+    xmlns:s="https://github.com/canton7/Stylet">
     <Application.Resources>
         <!--<ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,6 +15,9 @@
         </ResourceDictionary>-->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!--  默认语言文件，这个资源会被动态修改，所以需要放在第一位  -->
+                <!--  Reference: Helper/Localization.cs  -->
+                <ResourceDictionary Source="/MeoAsstGui;component/Resources/Localizations/zh-cn.xaml" />
                 <s:ApplicationLoader>
                     <s:ApplicationLoader.Bootstrapper>
                         <local:Bootstrapper />

@@ -1,8 +1,11 @@
 #include "DebugTask.h"
 
+#include <filesystem>
+
 //#include "RoguelikeSkillSelectionTaskPlugin.h"
 
 #include "StageDropsImageAnalyzer.h"
+#include "Logger.hpp"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType)
@@ -14,9 +17,19 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, void* callback_arg)
 
 bool asst::DebugTask::run()
 {
-    cv::Mat image = cv::imread("err/1.png");
-    cv::Mat resized;
-    cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
-    StageDropsImageAnalyzer analyzer(resized);
-    return analyzer.analyze();
+    size_t total = 0;
+    size_t success = 0;
+    for (const auto& entry : std::filesystem::directory_iterator("err")) {
+        cv::Mat image = cv::imread(entry.path().string());
+        if (image.empty()) {
+            continue;
+        }
+        total += 1;
+        cv::Mat resized;
+        cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
+        StageDropsImageAnalyzer analyzer(resized);
+        success += analyzer.analyze();
+    }
+    Log.info(__FUNCTION__, success, "/", total);
+    return true;
 }

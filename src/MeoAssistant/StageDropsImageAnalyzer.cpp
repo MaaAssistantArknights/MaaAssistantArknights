@@ -183,12 +183,22 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
     auto& ResrcItem = Resrc.item();
     bool has_error = false;
     const auto& roi = task_ptr->roi;
-    for (const auto& [baseline, droptype] : m_baseline) {
+    for (auto it = m_baseline.cbegin(); it != m_baseline.cend(); ++it) {
+        const auto& [baseline, droptype] = *it;
+        bool is_first_droptype = it == m_baseline.cbegin();
         int size = baseline.width / (roi.width + 10) + 1;   // + 10 为了带点容差
         for (int i = 1; i <= size; ++i) {
-            // 因为第一个黄色的 baseline 是渐变的，圈出来的一般左边会少一段，所以这里直接从右边开始往左推
-            int x = baseline.x + baseline.width - i * roi.width;
-            auto item_roi = Rect(x, baseline.y + roi.y, roi.width, roi.height);
+            Rect item_roi;
+            if (is_first_droptype) {
+                // 因为第一个黄色的 baseline 是渐变的，圈出来的一般左边会少一段，所以这里直接从右边开始往左推
+                int x = baseline.x + baseline.width - i * roi.width;
+                item_roi = Rect(x, baseline.y + roi.y, roi.width, roi.height);
+            }
+            else {
+                // 其他的从左推
+                int x = baseline.x + (i - 1) * roi.width;
+                item_roi = Rect(x, baseline.y + roi.y, roi.width, roi.height);
+            }
 
             std::string item = match_item(item_roi, droptype, size - i, size);
             int quantity = match_quantity(item_roi);
@@ -245,6 +255,9 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
 
     cv::Rect bounding_rect = cv::boundingRect(bin);
     cv::Mat bounding = gray(bounding_rect);
+    cv::Mat bgr_bounding = roi(bounding_rect);
+    cv::Mat hsv_bounding;
+    cv::cvtColor(bgr_bounding, hsv_bounding, cv::COLOR_BGR2HSV);
 
     int x_offset = task_ptr->roi.x + bounding_rect.x;
     int y_offset = task_ptr->roi.y + bounding_rect.y;
@@ -258,14 +271,27 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
 
     // split
     int threshold = task_ptr->mask_range.first;
-    uchar pre_value = 0;
+    cv::Vec3i pre_hsv;
     for (int i = 0; i < bounding.cols; ++i) {
         uchar value = 0;
         for (int j = 0; j < bounding.rows; ++j) {
             value = std::max(value, bounding.at<uchar>(j, i));
         }
-        bool is_white = value > threshold && pre_value - value < 17;
-        pre_value = value;
+        cv::Vec3i hsv = hsv_bounding.at<cv::Vec3b>(0, i);
+
+        static const int h_threshold = task_ptr->rect_move.x;
+        static const int s_threshold = task_ptr->rect_move.y;
+        static const int v_threshold = task_ptr->rect_move.width;
+
+        bool is_white = value >= threshold;
+        if (pre_hsv != pre_hsv.zeros()) {
+            is_white &=
+                abs(pre_hsv[0] - hsv[0]) < h_threshold &&
+                abs(pre_hsv[1] - hsv[1]) < s_threshold &&
+                abs(pre_hsv[2] - hsv[2]) < v_threshold;
+        }
+
+        pre_hsv = hsv;
 
         if (in && !is_white) {
             in = false;

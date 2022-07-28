@@ -51,7 +51,7 @@ Appends a task.
 // Corresponding task parameters
 {
     "enable": bool,             // Whether to enable this task, optional, true by default
-    "stage": string,            // Stage name, optional, by default "当前关卡". Editing in run-time is not supported.
+    "stage": string,            // Stage name, optional, by default crrent / last stage. Editing in run-time is not supported.
     "medicine": int,            // Maximum number Sanity Potion used, optional, by default 0
     "stone": int,               // Maximum number of Originite Prime used, optional, by default 0
     "times": int,               // Maximum times, optional, by default infinite

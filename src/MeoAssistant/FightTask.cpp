@@ -13,14 +13,13 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
     m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType))
 {
     // 进入选关界面（主界面的“终端”点进去）
-    m_start_up_task_ptr->set_tasks({ "StageBegin" })
-        .set_times_limit("GoLastBattle", 0)
+    m_start_up_task_ptr->
+         set_times_limit("GoLastBattle", 0)
         .set_times_limit("StartButton1", 0)
         .set_times_limit("StartButton2", 0)
         .set_times_limit("MedicineConfirm", 0)
         .set_times_limit("StoneConfirm", 0)
         .set_times_limit("StageSNReturnFlag", 0)
-        .set_enable(false)
         .set_ignore_error(false);
 
     // 进入对应的关卡
@@ -29,7 +28,6 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
         .set_times_limit("MedicineConfirm", 0)
         .set_times_limit("StoneConfirm", 0)
         .set_times_limit("StageSNReturnFlag", 0)
-        .set_enable(false)
         .set_ignore_error(false);
 
     // 开始战斗任务
@@ -71,14 +69,13 @@ bool asst::FightTask::set_params(const json::value& params)
 
     if (!m_runned) {
         if (stage.empty()) {
-            m_start_up_task_ptr->set_enable(false);
-            m_stage_task_ptr->set_enable(false);
+            m_start_up_task_ptr->set_tasks({ "UsePrts", "UsePrts-StageSN", "StartButton1", "StageBegin" });
+            m_stage_task_ptr->set_tasks({ "UsePrts", "UsePrts-StageSN", "StartButton1", "LastBattle" });
         }
         else {
-            m_start_up_task_ptr->set_enable(true);
-            m_stage_task_ptr->set_enable(true);
+            m_start_up_task_ptr->set_tasks({ "StageBegin" });
+            m_stage_task_ptr->set_tasks({ stage });
         }
-        m_stage_task_ptr->set_tasks({ stage });
     }
 
     m_fight_task_ptr->set_times_limit("MedicineConfirm", medicine)
