@@ -33,7 +33,7 @@ namespace MeoAsstGui
 
         [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstGetVersion();
 
-        private readonly string _versionInfo = "版本号：" + Marshal.PtrToStringAnsi(AsstGetVersion());
+        private readonly string _versionInfo = Localization.GetString("Version") + ": " + Marshal.PtrToStringAnsi(AsstGetVersion());
 
         public string VersionInfo
         {
@@ -46,16 +46,16 @@ namespace MeoAsstGui
             _windowManager = windowManager;
             DisplayName = Localization.GetString("Settings");
 
-            _listTitle.Add("基建设置");
-            _listTitle.Add("肉鸽设置");
-            _listTitle.Add("自动公招");
-            _listTitle.Add("信用商店");
-            _listTitle.Add("企鹅数据");
-            _listTitle.Add("连接设置");
-            _listTitle.Add("启动设置");
-            _listTitle.Add("定时执行");
-            _listTitle.Add("界面设置");
-            _listTitle.Add("软件更新");
+            _listTitle.Add(Localization.GetString("BaseSettings"));
+            _listTitle.Add(Localization.GetString("RougelikeSettings"));
+            _listTitle.Add(Localization.GetString("RecruitingSettings"));
+            _listTitle.Add(Localization.GetString("MallSettings"));
+            _listTitle.Add(Localization.GetString("PenguinSettings"));
+            _listTitle.Add(Localization.GetString("ConnectionSettings"));
+            _listTitle.Add(Localization.GetString("StartupSettings"));
+            _listTitle.Add(Localization.GetString("ScheduleSettings"));
+            _listTitle.Add(Localization.GetString("UISettings"));
+            _listTitle.Add(Localization.GetString("UpdateSettings"));
             _listTitle.Add(Localization.GetString("AboutUs"));
 
             InfrastInit();
@@ -81,7 +81,15 @@ namespace MeoAsstGui
         private void InfrastInit()
         {
             /* 基建设置 */
-            string[] facility_list = new string[] { "制造站", "贸易站", "控制中枢", "发电站", "会客室", "办公室", "宿舍" };
+            string[] facility_list = new string[] {
+                Localization.GetString("Mfg"),
+                Localization.GetString("Trade"),
+                Localization.GetString("Control"),
+                Localization.GetString("Power"),
+                Localization.GetString("Reception"),
+                Localization.GetString("Office"),
+                Localization.GetString("Dorm"),
+            };
 
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[facility_list.Length]);
             for (int i = 0; i != facility_list.Length; ++i)
@@ -101,45 +109,45 @@ namespace MeoAsstGui
             }
             InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            FacilityKey.Add("宿舍", "Dorm");
-            FacilityKey.Add("制造站", "Mfg");
-            FacilityKey.Add("贸易站", "Trade");
-            FacilityKey.Add("发电站", "Power");
-            FacilityKey.Add("会客室", "Reception");
-            FacilityKey.Add("办公室", "Office");
-            FacilityKey.Add("控制中枢", "Control");
+            FacilityKey.Add(Localization.GetString("Dorm"), "Dorm");
+            FacilityKey.Add(Localization.GetString("Mfg"), "Mfg");
+            FacilityKey.Add(Localization.GetString("Trade"), "Trade");
+            FacilityKey.Add(Localization.GetString("Power"), "Power");
+            FacilityKey.Add(Localization.GetString("Reception"), "Reception");
+            FacilityKey.Add(Localization.GetString("Office"), "Office");
+            FacilityKey.Add(Localization.GetString("Control"), "Control");
 
             UsesOfDronesList = new List<CombData>
             {
-                new CombData { Display = "不使用无人机", Value = "_NotUse" },
-                new CombData { Display = "贸易站-龙门币", Value = "Money" },
-                new CombData { Display = "贸易站-合成玉", Value = "SyntheticJade" },
-                new CombData { Display = "制造站-经验书", Value = "CombatRecord" },
-                new CombData { Display = "制造站-赤金", Value = "PureGold" },
-                new CombData { Display = "制造站-源石碎片", Value = "OriginStone" },
-                new CombData { Display = "制造站-芯片组", Value = "Chip" }
+                new CombData { Display = Localization.GetString("DronesNotUse"), Value = "_NotUse" },
+                new CombData { Display = Localization.GetString("Money"), Value = "Money" },
+                new CombData { Display = Localization.GetString("SyntheticJade"), Value = "SyntheticJade" },
+                new CombData { Display = Localization.GetString("CombatRecord"), Value = "CombatRecord" },
+                new CombData { Display = Localization.GetString("PureGold"), Value = "PureGold" },
+                new CombData { Display = Localization.GetString("OriginStone"), Value = "OriginStone" },
+                new CombData { Display = Localization.GetString("Chip"), Value = "Chip" },
             };
 
             ConnectConfigList = new List<CombData>
             {
-                new CombData { Display = "通用模式", Value = "General" },
-                new CombData { Display = "蓝叠模拟器", Value = "BlueStacks" },
-                new CombData { Display = "MuMu模拟器", Value = "MuMuEmulator" },
-                new CombData { Display = "雷电模拟器", Value = "LDPlayer" },
-                new CombData { Display = "夜神模拟器", Value = "Nox" },
-                new CombData { Display = "逍遥模拟器", Value = "XYAZ" },
-                new CombData { Display = "WSA 旧版本", Value = "WSA" },
-                new CombData { Display = "兼容模式", Value = "Compatible" },
+                new CombData { Display = Localization.GetString("General"), Value = "General" },
+                new CombData { Display = Localization.GetString("BlueStacks"), Value = "BlueStacks" },
+                new CombData { Display = Localization.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
+                new CombData { Display = Localization.GetString("LDPlayer"), Value = "LDPlayer" },
+                new CombData { Display = Localization.GetString("Nox"), Value = "Nox" },
+                new CombData { Display = Localization.GetString("XYAZ"), Value = "XYAZ" },
+                new CombData { Display = Localization.GetString("WSA"), Value = "WSA" },
+                new CombData { Display = Localization.GetString("Compatible"), Value = "Compatible" },
             };
 
-            _dormThresholdLabel = "基建工作心情阈值：" + _dormThreshold + "%";
+            _dormThresholdLabel = Localization.GetString("DormThreshold") + ": " + _dormThreshold + "%";
 
             RoguelikeModeList = new List<CombData>
             {
-                new CombData { Display = "刷蜡烛，尽可能稳定的打更多层数", Value = "0" },
-                new CombData { Display = "刷源石锭，第一层商店后直接退出", Value = "1" },
+                new CombData { Display = Localization.GetString("RougelikeStrategyCandle"), Value = "0" },
+                new CombData { Display = Localization.GetString("RougelikeStrategyGold"), Value = "1" },
                 //new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
-                //new CombData { Display = "尝试通关，贪B策略", Value = "3" },  // 开发中
+                //new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
             };
 
             RoguelikeSquadList = new List<CombData>
@@ -167,26 +175,29 @@ namespace MeoAsstGui
 
             ClientTypeList = new List<CombData>
             {
-                new CombData { Display = "不选择", Value = "" },
-                new CombData { Display = "官服", Value = "Official" },
-                new CombData { Display = "Bilibili服", Value = "Bilibili" },
-                new CombData { Display = "国际服 (YoStarEN)", Value = "YoStarEN" },
-                new CombData { Display = "日服 (YoStarJP)", Value = "YoStarJP" },
-                new CombData { Display = "韩服 (YoStarKR)", Value = "YoStarKR" },
-                new CombData { Display = "繁中服 (txwy)", Value = "txwy" }
+                new CombData { Display = Localization.GetString("NotSelected"), Value = "" },
+                new CombData { Display = Localization.GetString("Official"), Value = "Official" },
+                new CombData { Display = Localization.GetString("Bilibili"), Value = "Bilibili" },
+                new CombData { Display = Localization.GetString("YoStarEN"), Value = "YoStarEN" },
+                new CombData { Display = Localization.GetString("YoStarJP"), Value = "YoStarJP" },
+                new CombData { Display = Localization.GetString("YoStarKR"), Value = "YoStarKR" },
+                new CombData { Display = Localization.GetString("txwy"), Value = "txwy" },
             };
 
             InverseClearModeList = new List<CombData>
             {
                 new CombData { Display = Localization.GetString("Clear"), Value = "Clear" },
                 new CombData { Display = Localization.GetString("Inverse"), Value = "Inverse" },
-                new CombData { Display = "可切换", Value = "ClearInverse" }
+                new CombData { Display = Localization.GetString("Switchable"), Value = "ClearInverse" }
             };
 
             LanguageList = new List<CombData>();
             foreach (var pair in Localization.SupportedLanguages)
             {
-                LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
+                if ((pair.Key != "pallas") || ("pallas" == ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage)))
+                {
+                    LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
+                }
             }
         }
 
@@ -307,7 +318,7 @@ namespace MeoAsstGui
         {
             var dialog = new Microsoft.Win32.OpenFileDialog();
 
-            dialog.Filter = "可执行文件|*.exe;*.bat;*.lnk";
+            dialog.Filter = Localization.GetString("Executable") + "|*.exe;*.bat;*.lnk";
 
             if (dialog.ShowDialog() == true)
             {
@@ -350,7 +361,7 @@ namespace MeoAsstGui
             get { return _dormThreshold; }
             set
             {
-                DormThresholdLabel = "基建工作心情阈值：" + _dormThreshold + "%";
+                DormThresholdLabel = Localization.GetString("DormThreshold") + ": " + _dormThreshold + "%";
                 SetAndNotify(ref _dormThreshold, value);
                 ViewStatusStorage.Set("Infrast.DormThreshold", value.ToString());
             }
@@ -624,6 +635,15 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _creditFirstList, value);
+                if (_creditFirstList.Contains("酒") || _creditFirstList.Contains("drink") || _creditFirstList.Contains("술"))
+                {
+                    if ("pallas" != ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage))
+                    {
+                        ViewStatusStorage.Set("GUI.Localization", "pallas");
+                        App.Current.Shutdown();
+                        System.Windows.Forms.Application.Restart();
+                    }
+                }
                 ViewStatusStorage.Set("Mall.CreditFirstList", value);
             }
         }
@@ -820,7 +840,7 @@ namespace MeoAsstGui
             }
         }
 
-        /* 企鹅数据设置 */
+        /* 企鹅物流设置 */
 
         private string _penguinId = ViewStatusStorage.Get("Penguin.Id", string.Empty);
 
@@ -985,7 +1005,7 @@ namespace MeoAsstGui
                 {
                     Execute.OnUIThread(() =>
                     {
-                        using (var toast = new ToastNotification("已是最新版本~"))
+                        using (var toast = new ToastNotification(Localization.GetString("AlreadyLatest")))
                         {
                             toast.Show();
                         }
@@ -1055,17 +1075,17 @@ namespace MeoAsstGui
             }
             catch (Exception)
             {
-                error = "检测模拟器出错\n请使用管理员权限打开本软件\n或手动设置连接";
+                error = Localization.GetString("EmulatorException");
                 return false;
             }
             if (emulators.Count == 0)
             {
-                error = "未检测到任何模拟器\n请使用管理员权限打开本软件\n或手动设置连接";
+                error = Localization.GetString("EmulatorNotFound");
                 return false;
             }
             else if (emulators.Count > 1)
             {
-                error = "检测到多个模拟器\n请关闭不需要的模拟器\n或手动设置连接";
+                error = Localization.GetString("EmulatorTooMany");
                 return false;
             }
             ConnectConfig = emulators.First();
@@ -1104,7 +1124,7 @@ namespace MeoAsstGui
         {
             var dialog = new Microsoft.Win32.OpenFileDialog();
 
-            dialog.Filter = "adb程序|*.exe";
+            dialog.Filter = Localization.GetString("ADBProgram") + "|*.exe";
 
             if (dialog.ShowDialog() == true)
             {
@@ -1202,7 +1222,7 @@ namespace MeoAsstGui
                 {
                     Execute.OnUIThread(() =>
                     {
-                        using (var toast = new ToastNotification("通知演示"))
+                        using (var toast = new ToastNotification("Test test"))
                         {
                             toast.Show();
                         }
@@ -1276,7 +1296,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _language = Localization.DefaultLanguage;
+        private string _language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
 
         public string Language
         {

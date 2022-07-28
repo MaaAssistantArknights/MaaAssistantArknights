@@ -1,21 +1,127 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib"
-                    xmlns:local="clr-namespaces:MeoAsstGui">
-    <!--设置-->
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespaces:MeoAsstGui"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!--  设置  -->
+    <system:String x:Key="Settings">设置</system:String>
+    <system:String x:Key="BaseSettings">基建设置</system:String>
+    <system:String x:Key="RougelikeSettings">肉鸽设置</system:String>
+    <system:String x:Key="RecruitingSettings">自动公招</system:String>
+    <system:String x:Key="MallSettings">信用商店</system:String>
+    <system:String x:Key="PenguinSettings">企鹅物流</system:String>
+    <system:String x:Key="ConnectionSettings">连接设置</system:String>
+    <system:String x:Key="StartupSettings">启动设置</system:String>
+    <system:String x:Key="ScheduleSettings">定时执行</system:String>
+    <system:String x:Key="UISettings">界面设置</system:String>
+    <system:String x:Key="UpdateSettings">软件更新</system:String>
+    <system:String x:Key="AboutUs">关于我们</system:String>
+
+    <system:String x:Key="Version">版本号</system:String>
+
+    <system:String x:Key="Dorm">宿舍</system:String>
+    <system:String x:Key="Mfg">制造站</system:String>
+    <system:String x:Key="Trade">贸易站</system:String>
+    <system:String x:Key="Power">发电站</system:String>
+    <system:String x:Key="Reception">会客室</system:String>
+    <system:String x:Key="Office">办公室</system:String>
+    <system:String x:Key="Control">控制中枢</system:String>
+
+    <system:String x:Key="DronesNotUse">不使用无人机</system:String>
+    <system:String x:Key="Money">贸易站-龙门币</system:String>
+    <system:String x:Key="SyntheticJade">贸易站-合成玉</system:String>
+    <system:String x:Key="CombatRecord">制造站-经验书</system:String>
+    <system:String x:Key="PureGold">制造站-赤金</system:String>
+    <system:String x:Key="OriginStone">制造站-源石碎片</system:String>
+    <system:String x:Key="Chip">制造站-芯片组</system:String>
+
+    <system:String x:Key="General">通用模式</system:String>
+    <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
+    <system:String x:Key="MuMuEmulator">MuMu模拟器</system:String>
+    <system:String x:Key="LDPlayer">雷电模拟器</system:String>
+    <system:String x:Key="Nox">夜神模拟器</system:String>
+    <system:String x:Key="XYAZ">逍遥模拟器</system:String>
+    <system:String x:Key="WSA">WSA 旧版本</system:String>
+    <system:String x:Key="Compatible">兼容模式</system:String>
+
+    <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
+
+    <system:String x:Key="RougelikeStrategyCandle">刷蜡烛，尽可能稳定的打更多层数</system:String>
+    <system:String x:Key="RougelikeStrategyGold">刷源石锭，第一层商店后直接退出</system:String>
+
+    <system:String x:Key="NotSelected">不选择</system:String>
+    <system:String x:Key="Official">官服</system:String>
+    <system:String x:Key="Bilibili">Bilibili服</system:String>
+    <system:String x:Key="YoStarEN">国际服 (YoStarEN)</system:String>
+    <system:String x:Key="YoStarJP">日服 (YoStarJP)</system:String>
+    <system:String x:Key="YoStarKR">韩服 (YoStarKR)</system:String>
+    <system:String x:Key="txwy">繁中服 (txwy)</system:String>
+
+    <system:String x:Key="Switchable">可切换</system:String>
+
+    <system:String x:Key="Executable">可执行文件</system:String>
+    <system:String x:Key="ADBProgram">adb程序</system:String>
+
+    <system:String x:Key="EmulatorException">检测模拟器出错&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
+    <system:String x:Key="EmulatorNotFound">未检测到任何模拟器&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
+    <system:String x:Key="EmulatorTooMany">检测到多个模拟器&#x0a;请关闭不需要的模拟器&#x0a;或手动设置连接</system:String>
+
+    <system:String x:Key="AlreadyLatest">已是最新版本~</system:String>
+
     <system:String x:Key="SwitchLanguage">切换语言</system:String>
     <system:String x:Key="Language">语言</system:String>
-    <system:String x:Key="Settings">设置</system:String>
-    <system:String x:Key="LanguageChangedTip">语言设置已更改，是否现在重启App以应用语言设置？</system:String>
+    <system:String x:Key="LanguageChangedTip">语言设置已更改，是否现在重启 MAA 以应用语言设置？</system:String>
     <system:String x:Key="Ok">好的</system:String>
     <system:String x:Key="ManualRestart">稍后</system:String>
     <system:String x:Key="Tip">提示</system:String>
-    <system:String x:Key="AboutUs">关于我们</system:String>
 
     <system:String x:Key="LabelSequenceTip">标签顺序可拖动</system:String>
-    <!--设置-->
+    <system:String x:Key="CheckBoxesNotSaved">该选项设置重启后不保存</system:String>
+    <system:String x:Key="NoAutoNavigation">该选项不会自动导航至对应关卡</system:String>
 
-    <!--一键长草-->
+    <system:String x:Key="UpdateAutoCheck">自动检查更新</system:String>
+    <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
+    <system:String x:Key="UpdateCheckBeta">检查测试版本更新</system:String>
+    <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
+    <system:String x:Key="UpdateCheckNow">检查更新</system:String>
+
+    <system:String x:Key="TimerTip">仅填写小时数，将在整点时执行</system:String>
+    <system:String x:Key="Timer">定时</system:String>
+
+    <system:String x:Key="LaunchOnSystemStartup">开机自动启动</system:String>
+    <system:String x:Key="RunTaskAfterLaunch">启动后直接运行</system:String>
+    <system:String x:Key="ClientVersion">客户端版本</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">启动后自动开启模拟器</system:String>
+    <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
+    <system:String x:Key="EmulatorPath">模拟器路径</system:String>
+    <system:String x:Key="Select">选择</system:String>
+    <system:String x:Key="AdditionCommand">附加命令</system:String>
+
+    <system:String x:Key="Strategy">策略</system:String>
+    <system:String x:Key="StartTimesLimit">开始次数限制</system:String>
+    <system:String x:Key="GoldTimesLimit">投资次数限制</system:String>
+    <system:String x:Key="StopOnGoldLimit">源石锭达到上限停止</system:String>
+
+    <system:String x:Key="PenguinID">企鹅物流汇报ID（仅数字部分）</system:String>
+
+    <system:String x:Key="SocialPtShop">信用购物</system:String>
+    <system:String x:Key="HighPriority">优先购买 子串即可 空格分隔</system:String>
+    <system:String x:Key="Blacklist">黑名单 子串即可 空格分隔</system:String>
+    <system:String x:Key="Drink">要来一杯美酒吗🍷？</system:String>
+
+    <system:String x:Key="DroneUsage">无人机用途</system:String>
+
+    <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
+    <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
+    <system:String x:Key="HideUnavailableStage">关卡选择隐藏当日不开放关卡</system:String>
+    <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
+
+    <system:String x:Key="ADBPath">adb 路径 (相对/绝对)</system:String>
+    <system:String x:Key="ConnectionAddress">连接地址</system:String>
+    <system:String x:Key="ConnectionPreset">连接配置</system:String>
+    <!--  设置  -->
+
+    <!--  一键长草  -->
     <system:String x:Key="Farming">一键长草</system:String>
 
     <system:String x:Key="WakeUp">开始唤醒</system:String>
@@ -33,7 +139,7 @@
 
     <system:String x:Key="Then">完成后</system:String>
     <system:String x:Key="DoNothing">无动作</system:String>
-    <system:String x:Key="ExitArknights">退出 明日方舟</system:String>
+    <system:String x:Key="ExitArknights">退出明日方舟</system:String>
     <system:String x:Key="ExitMAA">退出 MAA</system:String>
     <system:String x:Key="CloseEmulator">关闭模拟器</system:String>
     <system:String x:Key="ExitMAAAndCloseEmulator">退出并关闭模拟器</system:String>
@@ -43,7 +149,7 @@
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
 
-    <!--战斗设置-->
+    <!--  战斗设置  -->
     <system:String x:Key="UseSanityPotion">吃理智药</system:String>
     <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
     <system:String x:Key="PerformBattles">指定次数*</system:String>
@@ -82,9 +188,9 @@
     <system:String x:Key="PR-DTip">近/特芯片</system:String>
     <system:String x:Key="Pormpt1">周一了，可以打剿灭了~</system:String>
     <system:String x:Key="Pormpt2">周日了，记得打剿灭哦~</system:String>
-    <!--战斗设置-->
+    <!--  战斗设置  -->
 
-    <!--日志-->
+    <!--  日志  -->
     <system:String x:Key="ConnectingToEmulator">正在连接模拟器……</system:String>
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
     <system:String x:Key="Running">正在运行中……</system:String>
@@ -97,11 +203,10 @@
     <system:String x:Key="AboutToShutdown">已刷完，即将关机，是否取消？</system:String>
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即将休眠</system:String>
+    <!--  日志  -->
+    <!--  一键长草  -->
 
-    <!--日志-->
-    <!--一键长草-->
-
-    <!--公招识别-->
+    <!--  公招识别  -->
     <system:String x:Key="Recognition">公招识别</system:String>
     <system:String x:Key="RecognitionTip">小提示：和主界面的自动公招是两个独立的功能，请手动打开游戏公招Tags界面后使用~</system:String>
     <system:String x:Key="AutoSettingTime">自动设置时间</system:String>
@@ -110,19 +215,133 @@
     <system:String x:Key="AutoSelectLevel5Tags">自动选择5星Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">自动选择6星Tags</system:String>
     <system:String x:Key="BeganToRecruit">开始识别</system:String>
-    <!--公招识别-->
 
-    <!--自动战斗-->
+    <!--  日志  -->
+    <system:String x:Key="Identifying">正在识别……</system:String>
+    <!--  日志  -->
+    <!--  公招识别  -->
+
+    <!--  自动战斗  -->
     <system:String x:Key="Copilot">自动战斗 Beta</system:String>
     <system:String x:Key="CopilotLocation">作业路径/神秘代码</system:String>
     <system:String x:Key="SelectTheFile">选择作业</system:String>
-    <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦(oﾟvﾟ)ノ</system:String>
+    <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
-    <system:String x:Key="AutoSquadTip">自动编队暂时无法识别'特别关注'的干员</system:String>
+    <system:String x:Key="AutoSquadTip">自动编队暂时无法识别“特别关注”的干员</system:String>
 
     <system:String x:Key="Start">开始</system:String>
 
     <system:String x:Key="CopilotJSONSharing">作业分享站</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
-    <!--自动战斗-->
+
+    <!--  日志  -->
+    <system:String x:Key="CopilotTip">小提示：</system:String>
+    <system:String x:Key="CopilotTip1">1. 请将模拟器及游戏帧率设置到 60 帧或更高；</system:String>
+    <system:String x:Key="CopilotTip2">2. 请在有“开始行动”按钮的界面再使用本功能；</system:String>
+    <system:String x:Key="CopilotTip3">3. 使用好友助战可以关闭“自动编队”，手动选择干员后开始；</system:String>
+    <system:String x:Key="CopilotTip4">4. 模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；</system:String>
+    <system:String x:Key="CopilotTip5">5. “自动编队”暂时无法识别“特别关注”的干员，如有需求请取消特别关注或手动编队；</system:String>
+
+    <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>
+    <system:String x:Key="CopilotNoFound">未找到对应作业！</system:String>
+    <system:String x:Key="NetworkServiceError">请求网络服务错误！</system:String>
+    <system:String x:Key="CopilotJsonError">解析作业文件错误！</system:String>
+    <system:String x:Key="NotCopilotJson">非作业文件</system:String>
+    <system:String x:Key="CheckTheFile">请检查文件内容！</system:String>
+    <!--  日志  -->
+    <!--  自动战斗  -->
+
+    <!--  AsstProxy  -->
+    <system:String x:Key="UnknownAbnormal">出现未知异常</system:String>
+    <system:String x:Key="Error">错误</system:String>
+    <system:String x:Key="InitializationError">初始化错误！</system:String>
+    <system:String x:Key="ResolutionNotSupported">模拟器分辨率不支持，请设置为 720p 或更高，且为 16:9 比例</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">模拟器分辨率获取失败，建议重启电脑，或更换模拟器后再次尝试</system:String>
+    <system:String x:Key="TryToReconnect">模拟器断开，正在尝试重连</system:String>
+    <system:String x:Key="ReconnectSuccess">重连成功，继续任务</system:String>
+    <system:String x:Key="ReconnectFailed">重连失败，连接断开！</system:String>
+    <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
+    <system:String x:Key="TaskError">任务出错：</system:String>
+    <system:String x:Key="CombatError">战斗出错：</system:String>
+    <system:String x:Key="StartTask">开始任务：</system:String>
+    <system:String x:Key="CompleteTask">完成任务：</system:String>
+    <system:String x:Key="StartCombat">开始战斗：</system:String>
+    <system:String x:Key="CompleteCombat">完成战斗：</system:String>
+    <system:String x:Key="AllTasksComplete">任务已全部完成！</system:String>
+    <system:String x:Key="FailedToOpenClient">打开客户端失败，请检查配置文件</system:String>
+    <system:String x:Key="ErrorOccurred">出现错误</system:String>
+    <system:String x:Key="HasReturned">已返回</system:String>
+    <system:String x:Key="DropRecognitionError">掉落识别错误</system:String>
+    <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
+    <system:String x:Key="TheEX">EX 关卡，已停止</system:String>
+    <system:String x:Key="OnTheMove">已开始行动</system:String>
+    <system:String x:Key="UnitTime">次</system:String>
+    <system:String x:Key="MedicineUsed">已使用理智药</system:String>
+    <system:String x:Key="StoneUsed">已使用源石</system:String>
+    <system:String x:Key="ActingCommandError">代理指挥失误</system:String>
+    <system:String x:Key="LabelsRefreshed">已刷新标签</system:String>
+    <system:String x:Key="RecruitConfirm">已确认招募</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">干员冲突</system:String>
+    <system:String x:Key="BegunToExplore">已开始探索</system:String>
+    <system:String x:Key="HasInvested">已投资</system:String>
+    <system:String x:Key="ExplorationAbandoned">已放弃本次探索</system:String>
+    <system:String x:Key="FightCompleted">战斗完成</system:String>
+    <system:String x:Key="FightFailed">战斗失败</system:String>
+    <system:String x:Key="UpperLimit">投资达到上限</system:String>
+    <system:String x:Key="GameCrash">游戏崩溃，重新启动</system:String>
+    <system:String x:Key="GameDrop">游戏掉线，重新连接</system:String>
+    <system:String x:Key="Trader">关卡：诡意行商</system:String>
+    <system:String x:Key="SafeHouse">关卡：安全的角落</system:String>
+    <system:String x:Key="Encounter">关卡：不期而遇</system:String>
+    <system:String x:Key="CambatDps">关卡：普通作战</system:String>
+    <system:String x:Key="EmergencyDps">关卡：紧急作战</system:String>
+    <system:String x:Key="DreadfulFoe">关卡：险路恶敌</system:String>
+    <system:String x:Key="NoDrop">无</system:String>
+    <system:String x:Key="Drop">本次掉落：</system:String>
+    <system:String x:Key="TotalDrop">掉落统计：</system:String>
+    <system:String x:Key="ThisFacility">当前设施：</system:String>
+    <system:String x:Key="RecruitingResults">公招识别结果：</system:String>
+    <system:String x:Key="RecruitingTips">公招提示</system:String>
+    <system:String x:Key="RecruitmentOfStar">公招出 {0} 星了哦！</system:String>
+    <system:String x:Key="RecruitmentOfBot">公招出小车了哦！</system:String>
+    <system:String x:Key="Choose">选择</system:String>
+    <system:String x:Key="Refreshed">当前槽位已刷新</system:String>
+    <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
+    <system:String x:Key="StageInfoError">关卡识别错误</system:String>
+    <system:String x:Key="BattleFormation">开始编队</system:String>
+    <system:String x:Key="BattleFormationSelected">选择干员：</system:String>
+    <system:String x:Key="CurrentSteps">当前步骤：</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的关卡，请更新 MAA 软件版本，或检查作业文件</system:String>
+    <system:String x:Key="RecruitTagsDetected">识别结果：</system:String>
+    <system:String x:Key="ConnectFailed">连接失败</system:String>
+    <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>
+    <system:String x:Key="CheckSettings">请检查连接设置或尝试重启电脑</system:String>
+    <!--  AsstProxy  -->
+
+    <!--  TrayIcon  -->
+    <system:String x:Key="Exit">退出</system:String>
+    <!--  TrayIcon  -->
+
+    <!--  About  -->
+    <system:String x:Key="Website">MAA 官网</system:String>
+    <system:String x:Key="Github">源码：GitHub</system:String>
+    <system:String x:Key="QQgroup">自动战斗作业分享 Q 群</system:String>
+    <system:String x:Key="QQgroup1">一群（已满）</system:String>
+    <system:String x:Key="QQgroup2">二群</system:String>
+    <system:String x:Key="QQgroup3">三群</system:String>
+    <system:String x:Key="Help">常见问题</system:String>
+    <system:String x:Key="Issue">问题反馈</system:String>
+    <!--  About  -->
+
+    <!--  AutoRecruitSettings  -->
+    <system:String x:Key="AutoRefresh">自动刷新 3 星 Tags</system:String>
+    <system:String x:Key="AutoUseExpedited">自动使用加急许可*</system:String>
+    <system:String x:Key="RecruitMaxTimes">每次执行时最大招募次数</system:String>
+    <system:String x:Key="ManuallySelectLevel1">手动确认 1 星</system:String>
+    <system:String x:Key="AutoSelectLevel3">自动确认 3 星</system:String>
+    <system:String x:Key="AutoSelectLevel4">自动确认 4 星</system:String>
+    <system:String x:Key="AutoSelectLevel5">自动确认 5 星</system:String>
+    <system:String x:Key="AutoSelectLevel6">自动确认 6 星</system:String>
+    <system:String x:Key="Level1Tip">勾选时识别到 1 星词条时跳过该次招募，未勾选时将忽略 1 星词条</system:String>
+    <!--  AutoRecruitSettings  -->
 </ResourceDictionary>
