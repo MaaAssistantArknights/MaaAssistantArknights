@@ -250,7 +250,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
                     wait_melee = true;
                 }
             }
-            else if (m_used_tiles.size() == 1) {
+            else if (m_used_tiles.size() == 1 && m_homes.size() == 1) {
                 if (op.role == BattleRole::Medic) {
                     wait_medic = true;
                 }
@@ -301,10 +301,11 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (oper_name_analyzer.analyze()) {
         oper_name_analyzer.sort_result_by_score();
         oper_name = oper_name_analyzer.get_result().front().text;
+        opt_oper.name = oper_name;
     }
 
     // 计算最优部署位置及方向
-    const auto& [placed_loc, direction] = calc_best_plan(opt_oper.role);
+    const auto& [placed_loc, direction] = calc_best_plan(opt_oper);
 
     // 将干员拖动到场上
     Point placed_point = m_side_tile_info.at(placed_loc).pos;
@@ -526,10 +527,10 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
 //    return placed_rect;
 //}
 
-asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::calc_best_plan(BattleRole role)
+asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::calc_best_plan(const BattleRealTimeOper& oper)
 {
     auto buildable_type = Loc::All;
-    switch (role) {
+    switch (oper.role) {
     case BattleRole::Medic:
     case BattleRole::Support:
     case BattleRole::Sniper:
@@ -594,7 +595,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
             return DeployInfo();
         }
         m_used_tiles.clear();
-        return calc_best_plan(role);
+        return calc_best_plan(oper);
     }
 
     std::sort(available_locations.begin(), available_locations.end(), comp_dist);
@@ -613,12 +614,12 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     int min_dist = std::abs(near_loc.x - home.x) + std::abs(near_loc.y - home.y);
 
     for (const auto& loc : available_locations) {
-        auto cur_result = calc_best_direction_and_score(loc, role);
+        auto cur_result = calc_best_direction_and_score(loc, oper);
         // 离得远的要扣分
         constexpr int DistWeights = -1050;
         int extra_dist = std::abs(loc.x - home.x) + std::abs(loc.y - home.y) - min_dist;
         int extra_dist_score = DistWeights * extra_dist;
-        if (role == BattleRole::Medic) {    // 医疗干员离得远无所谓
+        if (oper.role == BattleRole::Medic) {    // 医疗干员离得远无所谓
             extra_dist_score = 0;
         }
 
@@ -631,7 +632,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     return { best_location, best_direction };
 }
 
-std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction_and_score(Point loc, BattleRole role)
+std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction_and_score(Point loc, const BattleRealTimeOper& oper)
 {
     LogTraceFunction;
 
@@ -658,51 +659,54 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
         base_direction.x = sgn(loc.x - home_loc.x);
     }
     // 医疗反着算
-    if (role == BattleRole::Medic) {
+    if (oper.role == BattleRole::Medic) {
         base_direction = -base_direction;
     }
 
+    int64_t elite = m_status->get_number("Roguelike-" + oper.name).value_or(0);
     // 按朝右算，后面根据方向做转换
-    std::vector<Point> right_attack_range = { Point(0, 0) };
+    BattleAttackRange right_attack_range = Resrc.battle_data().get_range(oper.name, elite);
 
-    switch (role) {
-    case BattleRole::Support:
-        right_attack_range = {
-            Point(-1, -1),Point(0, -1),Point(1, -1),Point(2, -1),
-            Point(-1, 0), Point(0, 0), Point(1, 0), Point(2, 0),
-            Point(-1, 1), Point(0, 1), Point(1, 1), Point(2, 1),
-        };
-        break;
-    case BattleRole::Caster:
-        right_attack_range = {
-            Point(0, -1),Point(1, -1),Point(2, -1),
-            Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0),
-            Point(0, 1), Point(1, 1), Point(2, 1),
-        };
-        break;
-    case BattleRole::Medic:
-    case BattleRole::Sniper:
-        right_attack_range = {
-            Point(0, -1),Point(1, -1),Point(2, -1),Point(3, -1),
-            Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0),
-            Point(0, 1), Point(1, 1), Point(2, 1), Point(3, 1),
-        };
-        break;
-    case BattleRole::Warrior:
-        right_attack_range = {
-            Point(0, 0), Point(1, 0), Point(2, 0)
-        };
-        break;
-    case BattleRole::Special:
-    case BattleRole::Tank:
-    case BattleRole::Pioneer:
-    case BattleRole::Drone:
-        right_attack_range = {
-            Point(0, 0), Point(1, 0)
-        };
-        break;
-    default:
-        break;
+    if (right_attack_range == BattleDataConfiger::EmptyRange) {
+        switch (oper.role) {
+        case BattleRole::Support:
+            right_attack_range = {
+                Point(-1, -1),Point(0, -1),Point(1, -1),Point(2, -1),
+                Point(-1, 0), Point(0, 0), Point(1, 0), Point(2, 0),
+                Point(-1, 1), Point(0, 1), Point(1, 1), Point(2, 1),
+            };
+            break;
+        case BattleRole::Caster:
+            right_attack_range = {
+                Point(0, -1),Point(1, -1),Point(2, -1),
+                Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0),
+                Point(0, 1), Point(1, 1), Point(2, 1),
+            };
+            break;
+        case BattleRole::Medic:
+        case BattleRole::Sniper:
+            right_attack_range = {
+                Point(0, -1),Point(1, -1),Point(2, -1),Point(3, -1),
+                Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0),
+                Point(0, 1), Point(1, 1), Point(2, 1), Point(3, 1),
+            };
+            break;
+        case BattleRole::Warrior:
+            right_attack_range = {
+                Point(0, 0), Point(1, 0), Point(2, 0)
+            };
+            break;
+        case BattleRole::Special:
+        case BattleRole::Tank:
+        case BattleRole::Pioneer:
+        case BattleRole::Drone:
+            right_attack_range = {
+                Point(0, 0), Point(1, 0)
+            };
+            break;
+        default:
+            break;
+        }
     }
 
     int max_score = 0;
@@ -721,7 +725,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
                     { TileKey::Wall, 500 },
                     { TileKey::Road, 1000 },
                     { TileKey::Home, 500 },
-                    { TileKey::EnemyHome, 900 },
+                    { TileKey::EnemyHome, 1200 },
                     { TileKey::Floor, 1000 },
                     { TileKey::Hole, 0 },
                     { TileKey::Telin, 700 },
@@ -745,7 +749,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
                     { TileKey::Healing, 1000 },
             };
 
-            switch (role) {
+            switch (oper.role) {
             case BattleRole::Medic:
                 if (m_used_tiles.find(absolute_pos) != m_used_tiles.end()) // 根据哪个方向上人多决定朝向哪
                     score += 10000;
