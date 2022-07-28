@@ -66,6 +66,8 @@
             "enum": [
               "Default",
               "DevBuild",
+              "DevBuildDefault",
+              "DevBuildReleaseSimulation",
               "ReleaseMaa",
               "SetMaaChangeLog",
               "SetPackageBundled",
@@ -77,6 +79,7 @@
               "UseMaaRelease",
               "UsePublishArtifact",
               "UsePublishRelease",
+              "UseRsVersion",
               "UseTagVersion",
               "WithCompileCoreRelease",
               "WithCompileWpfRelease"
@@ -91,6 +94,8 @@
             "enum": [
               "Default",
               "DevBuild",
+              "DevBuildDefault",
+              "DevBuildReleaseSimulation",
               "ReleaseMaa",
               "SetMaaChangeLog",
               "SetPackageBundled",
@@ -102,6 +107,7 @@
               "UseMaaRelease",
               "UsePublishArtifact",
               "UsePublishRelease",
+              "UseRsVersion",
               "UseTagVersion",
               "WithCompileCoreRelease",
               "WithCompileWpfRelease"
