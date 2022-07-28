@@ -107,7 +107,7 @@
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (공백으로 구분)</system:String>
     <system:String x:Key="Blacklist">무시 항목 (공백으로 구분)</system:String>
-    <system:String x:Key="Drink">좋은 술 한잔 하실래요🍷?</system:String>
+    <system:String x:Key="Drink">음료를 원하십니까？🍷</system:String>
 
     <system:String x:Key="DroneUsage">드런 용법</system:String>
 
