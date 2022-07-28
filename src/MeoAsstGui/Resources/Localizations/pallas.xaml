@@ -1,5 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespaces:MeoAsstGui">
-    <!--设置-->
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespaces:MeoAsstGui"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!--  设置  -->
     <system:String x:Key="Settings">🍸🍷</system:String>
     <system:String x:Key="BaseSettings">🍸💃🍷</system:String>
     <system:String x:Key="RougelikeSettings">🍷🍺🍸</system:String>
@@ -114,9 +118,9 @@
     <system:String x:Key="ADBPath">🕺💃🍸🍷🍸💃🍸</system:String>
     <system:String x:Key="ConnectionAddress">🍻🕺🍻</system:String>
     <system:String x:Key="ConnectionPreset">🍸🍷🍻</system:String>
-    <!--设置-->
+    <!--  设置  -->
 
-    <!--一键长草-->
+    <!--  一键长草  -->
     <system:String x:Key="Farming">🍺🍻💃</system:String>
 
     <system:String x:Key="WakeUp">🍸💃💃</system:String>
@@ -144,7 +148,7 @@
     <system:String x:Key="LinkStart">🍻🍻🍻🍺🍸💃</system:String>
     <system:String x:Key="Stop">🍺🍻</system:String>
 
-    <!--战斗设置-->
+    <!--  战斗设置  -->
     <system:String x:Key="UseSanityPotion">🕺🍺🍷</system:String>
     <system:String x:Key="UseOriginitePrime">🍻🍷💃</system:String>
     <system:String x:Key="PerformBattles">🍺🍻💃</system:String>
@@ -183,9 +187,9 @@
     <system:String x:Key="PR-DTip">🍸🍷🕺</system:String>
     <system:String x:Key="Pormpt1">💃🍸🍷🍷🍺🍻</system:String>
     <system:String x:Key="Pormpt2">🍺🍺🍸🍸🍺🍸</system:String>
-    <!--战斗设置-->
+    <!--  战斗设置  -->
 
-    <!--日志-->
+    <!--  日志  -->
     <system:String x:Key="ConnectingToEmulator">🍸🕺🍻💃🕺</system:String>
     <system:String x:Key="UnselectedTask">🍺🍸🍻</system:String>
     <system:String x:Key="Running">🍷🍻🍷🍺</system:String>
@@ -198,10 +202,10 @@
     <system:String x:Key="AboutToShutdown">🍸🍻🍻🍸🍷🍺🍸🍸</system:String>
     <system:String x:Key="ShutdownPrompt">🍷🍻</system:String>
     <system:String x:Key="HibernatePrompt">🍺💃🍺🍻🍻</system:String>
-    <!--日志-->
-    <!--一键长草-->
+    <!--  日志  -->
+    <!--  一键长草  -->
 
-    <!--公招识别-->
+    <!--  公招识别  -->
     <system:String x:Key="Recognition">💃🍸🍺</system:String>
     <system:String x:Key="RecognitionTip">🕺💃💃🕺🍺💃🕺🍻🍷🍸🕺🕺🍺🍸🍻🍺🍻🕺🍷🍺🍸</system:String>
     <system:String x:Key="AutoSettingTime">🕺🍸🍸🍻</system:String>
@@ -211,12 +215,12 @@
     <system:String x:Key="AutoSelectLevel6Tags">🍸🕺🍷🍷🍸🕺</system:String>
     <system:String x:Key="BeganToRecruit">🍻🍻🍻</system:String>
 
-    <!--日志-->
+    <!--  日志  -->
     <system:String x:Key="Identifying">💃🍸🍷🍸</system:String>
-    <!--日志-->
-    <!--公招识别-->
+    <!--  日志  -->
+    <!--  公招识别  -->
 
-    <!--自动战斗-->
+    <!--  自动战斗  -->
     <system:String x:Key="Copilot">🍻🍷🍻🍷🍻</system:String>
     <system:String x:Key="CopilotLocation">🍺🕺🍸🍸💃</system:String>
     <system:String x:Key="SelectTheFile">🍻🍺🍺</system:String>
@@ -229,7 +233,7 @@
     <system:String x:Key="CopilotJSONSharing">🍻🍸💃</system:String>
     <system:String x:Key="VideoLink">🍻🍷🕺</system:String>
 
-    <!--日志-->
+    <!--  日志  -->
     <system:String x:Key="CopilotTip">🍻🍸🍷</system:String>
     <system:String x:Key="CopilotTip1">🍺🕺🍸🕺🍻🍷🍻🍷🍷💃🍷💃🍺</system:String>
     <system:String x:Key="CopilotTip2">💃🍺🍺🍺🍺💃💃🍻🍸💃🍻🍻🍻</system:String>
@@ -243,10 +247,10 @@
     <system:String x:Key="CopilotJsonError">🍻🍻🍻🕺🕺</system:String>
     <system:String x:Key="NotCopilotJson">💃🍺🍺</system:String>
     <system:String x:Key="CheckTheFile">🍺🍷🍸🕺🍺</system:String>
-    <!--日志-->
-    <!--自动战斗-->
+    <!--  日志  -->
+    <!--  自动战斗  -->
 
-    <!--AsstProxy-->
+    <!--  AsstProxy  -->
     <system:String x:Key="UnknownAbnormal">🍸💃🍺🕺</system:String>
     <system:String x:Key="Error">🍻🕺</system:String>
     <system:String x:Key="InitializationError">🍺🍺🍸🍸</system:String>
@@ -311,13 +315,13 @@
     <system:String x:Key="ConnectFailed">🕺🍸🍻</system:String>
     <system:String x:Key="TryToStartEmulator">🍸🍺🍺💃💃</system:String>
     <system:String x:Key="CheckSettings">🍷🍷🍻🍷🍷🍷🍸🍺</system:String>
-    <!--AsstProxy-->
+    <!--  AsstProxy  -->
 
-    <!--TrayIcon-->
+    <!--  TrayIcon  -->
     <system:String x:Key="Exit">🍺🍺</system:String>
-    <!--TrayIcon-->
+    <!--  TrayIcon  -->
 
-    <!--About-->
+    <!--  About  -->
     <system:String x:Key="Website">🍸🍷🍺🍺</system:String>
     <system:String x:Key="Github">💃🍺💃🍻💃</system:String>
     <system:String x:Key="QQgroup">🕺🍷🍸🍺🍷🕺🍺</system:String>
@@ -326,9 +330,9 @@
     <system:String x:Key="QQgroup3">🍺🍻</system:String>
     <system:String x:Key="Help">🍷💃🕺</system:String>
     <system:String x:Key="Issue">🍺💃🕺</system:String>
-    <!--About-->
+    <!--  About  -->
 
-    <!--AutoRecruitSettings-->
+    <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">🕺🍸🍺🍻🍸🍺💃</system:String>
     <system:String x:Key="AutoUseExpedited">🍸🍷🍸🍻🍻</system:String>
     <system:String x:Key="RecruitMaxTimes">🍸🍺💃🍸🕺🍺</system:String>
@@ -338,5 +342,5 @@
     <system:String x:Key="AutoSelectLevel5">🍺🍺🍸🍻🍷</system:String>
     <system:String x:Key="AutoSelectLevel6">🕺💃🍺🍸🍻</system:String>
     <system:String x:Key="Level1Tip">🍸🍻💃🍸🍻💃🍻🍸🍻🕺🍺💃🍺🍷💃🕺🍸</system:String>
-    <!--AutoRecruitSettings-->
+    <!--  AutoRecruitSettings  -->
 </ResourceDictionary>

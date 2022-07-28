@@ -1,5 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespaces:MeoAsstGui">
-    <!--설정-->
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespaces:MeoAsstGui"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="BaseSettings">기반시설 설정</system:String>
     <system:String x:Key="RougelikeSettings">통합전략 설정</system:String>
@@ -114,9 +118,9 @@
     <system:String x:Key="ADBPath">adb 경로 (상대/절대)</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionPreset">연결 사전 설정</system:String>
-    <!--설정-->
+    <!--  설정  -->
 
-    <!--메인 화면-->
+    <!--  메인 화면  -->
     <system:String x:Key="Farming">메인 화면</system:String>
 
     <system:String x:Key="WakeUp">웨이크업</system:String>
@@ -144,7 +148,7 @@
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">중지</system:String>
 
-    <!--작전 설정-->
+    <!--  작전 설정  -->
     <system:String x:Key="UseSanityPotion">이성 회복제를 사용</system:String>
     <system:String x:Key="UseOriginitePrime">오리지늄을 사용*</system:String>
     <system:String x:Key="PerformBattles">횟수 제한*</system:String>
@@ -183,9 +187,9 @@
     <system:String x:Key="PR-DTip">PR-D 가드/스페셜리스트 칩</system:String>
     <system:String x:Key="Pormpt1">월요일입니다. 섬멸 의뢰를 잊지 마십시오~</system:String>
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 의뢰를 잊지 마십시오~</system:String>
-    <!--작전 설정-->
+    <!--  작전 설정  -->
 
-    <!--로그-->
+    <!--  로그  -->
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결중...</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없다</system:String>
     <system:String x:Key="Running">실행중...</system:String>
@@ -198,10 +202,10 @@
     <system:String x:Key="AboutToShutdown">작업 완료했습니다, 운영 체제가 곧 중료됩니다. 취소하시겠습니까?</system:String>
     <system:String x:Key="ShutdownPrompt">공지</system:String>
     <system:String x:Key="HibernatePrompt">작업 완료했습니다, 곧 하이버네이션됩니다.</system:String>
-    <!--로그-->
-    <!--메인 화면-->
+    <!--  로그  -->
+    <!--  메인 화면  -->
 
-    <!--공개모집 인식-->
+    <!--  공개모집 인식  -->
     <system:String x:Key="Recognition">공개모집 인식</system:String>
     <system:String x:Key="RecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립 기능입니다. 게임 공개모집 꼬리표 화면에서 사용하세요~</system:String>
     <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
@@ -211,12 +215,12 @@
     <system:String x:Key="AutoSelectLevel6Tags">★6 꼬리표를 자동 선택</system:String>
     <system:String x:Key="BeganToRecruit">인식 시작</system:String>
 
-    <!--로그-->
+    <!--  로그  -->
     <system:String x:Key="Identifying">인식중...</system:String>
-    <!--로그-->
-    <!--공개모집 인식-->
+    <!--  로그  -->
+    <!--  공개모집 인식  -->
 
-    <!--자동 작전-->
+    <!--  자동 작전  -->
     <system:String x:Key="Copilot">자동 작전 베타</system:String>
     <system:String x:Key="CopilotLocation">작업 경로/코드</system:String>
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
@@ -229,7 +233,7 @@
     <system:String x:Key="CopilotJSONSharing">작업 공유 사이트</system:String>
     <system:String x:Key="VideoLink">비디오 링크</system:String>
 
-    <!--로그-->
+    <!--  로그  -->
     <system:String x:Key="CopilotTip">팁:</system:String>
     <system:String x:Key="CopilotTip1">1. 에뮬레이터와 게임의 프레임 레이트를 60 이상으로 설정하십시오.</system:String>
     <system:String x:Key="CopilotTip2">2. '작전 시작' 버튼이 있는 화면에 이 기능을 사용하십시오.</system:String>
@@ -243,10 +247,10 @@
     <system:String x:Key="CopilotJsonError">작업 파일 분석 오류!</system:String>
     <system:String x:Key="NotCopilotJson">작업지 아닙니다</system:String>
     <system:String x:Key="CheckTheFile">파일 내용을 확인해주세요!</system:String>
-    <!--로그-->
-    <!--자동 작전-->
+    <!--  로그  -->
+    <!--  자동 작전  -->
 
-    <!--AsstProxy-->
+    <!--  AsstProxy  -->
     <system:String x:Key="UnknownAbnormal">알 수 없는 예외 발생</system:String>
     <system:String x:Key="Error">오류</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
@@ -289,7 +293,7 @@
     <system:String x:Key="SafeHouse">레벨:안전한 모서리</system:String>
     <system:String x:Key="Encounter">레벨:우연</system:String>
     <system:String x:Key="CambatDps">레벨:일반 전투</system:String>
-    <system:String x:Key="EmergencyDps">레벨:string></system:String>
+    <system:String x:Key="EmergencyDps">레벨:string&gt;</system:String>
     <system:String x:Key="DreadfulFoe">레벨:string</system:String>
     <system:String x:Key="NoDrop">없음</system:String>
     <system:String x:Key="Drop">드롭통계:</system:String>
@@ -311,13 +315,13 @@
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToStartEmulator">시동 에뮬레이터</system:String>
     <system:String x:Key="CheckSettings">연결 설정을 확인하거나 컴퓨터를 다시 시도해 보세요</system:String>
-    <!--asstproxy-->
+    <!--  asstproxy  -->
 
-    <!--trayicon-->
+    <!--  trayicon  -->
     <system:String x:Key="Exit">종료</system:String>
-    <!--trayicon-->
+    <!--  trayicon  -->
 
-    <!--about-->
+    <!--  about  -->
     <system:String x:Key="Website">maa website</system:String>
     <system:String x:Key="Github">소스 코드:github</system:String>
     <system:String x:Key="QQgroup">작업군</system:String>
@@ -326,9 +330,9 @@
     <system:String x:Key="QQgroup3">QQ3</system:String>
     <system:String x:Key="Help">도움</system:String>
     <system:String x:Key="Issue">피드백</system:String>
-    <!--about-->
+    <!--  about  -->
 
-    <!--autorecruitsettings-->
+    <!--  autorecruitsettings  -->
     <system:String x:Key="AutoRefresh">자동으로 3개의 별을 새로고치기</system:String>
     <system:String x:Key="AutoUseExpedited">긴급 라이선스 자동 사용 *</system:String>
     <system:String x:Key="RecruitMaxTimes">실행시 최대 모집횟수</system:String>
@@ -338,5 +342,5 @@
     <system:String x:Key="AutoSelectLevel5">자동으로 별 5개 확인</system:String>
     <system:String x:Key="AutoSelectLevel6">자동으로 별 6개 확인</system:String>
     <system:String x:Key="Level1Tip">체크할 때 별점 1개를 건너뛰고, 체크하지 않을 때 별점 1개를 무시합니다</system:String>
-    <!--autorecruitsettings-->
+    <!--  autorecruitsettings  -->
 </ResourceDictionary>

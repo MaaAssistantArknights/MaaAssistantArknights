@@ -1,5 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespaces:MeoAsstGui">
-    <!--設定-->
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespaces:MeoAsstGui"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="BaseSettings">基建設定</system:String>
     <system:String x:Key="RougelikeSettings">肉鴿設定</system:String>
@@ -114,9 +118,9 @@
     <system:String x:Key="ADBPath">adb 路徑 (相對/絕對)</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
-    <!--設定-->
+    <!--  設定  -->
 
-    <!--一鍵長草-->
+    <!--  一鍵長草  -->
     <system:String x:Key="Farming">一鍵長草</system:String>
 
     <system:String x:Key="WakeUp">開始喚醒</system:String>
@@ -144,7 +148,7 @@
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
 
-    <!--戰鬥設定-->
+    <!--  戰鬥設定  -->
     <system:String x:Key="UseSanityPotion">吃理智藥</system:String>
     <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
     <system:String x:Key="PerformBattles">指定次數*</system:String>
@@ -183,9 +187,9 @@
     <system:String x:Key="PR-DTip">近/特晶片</system:String>
     <system:String x:Key="Pormpt1">週一了，可以打剿滅了~</system:String>
     <system:String x:Key="Pormpt2">周日了，記得打剿滅喔~</system:String>
-    <!--戰鬥設定-->
+    <!--  戰鬥設定  -->
 
-    <!--日誌-->
+    <!--  日誌  -->
     <system:String x:Key="ConnectingToEmulator">正在連接模擬器……</system:String>
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="Running">正在運行中……</system:String>
@@ -198,10 +202,10 @@
     <system:String x:Key="AboutToShutdown">已刷完，即將關機，是否取消？</system:String>
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即將休眠</system:String>
-    <!--日誌-->
-    <!--一鍵長草-->
+    <!--  日誌  -->
+    <!--  一鍵長草  -->
 
-    <!--公招識別-->
+    <!--  公招識別  -->
     <system:String x:Key="Recognition">公招識別</system:String>
     <system:String x:Key="RecognitionTip">小提示：和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招Tags介面後使用~</system:String>
     <system:String x:Key="AutoSettingTime">自動設定時間</system:String>
@@ -211,12 +215,12 @@
     <system:String x:Key="AutoSelectLevel6Tags">自動選擇6星Tags</system:String>
     <system:String x:Key="BeganToRecruit">開始識別</system:String>
 
-    <!--日誌-->
+    <!--  日誌  -->
     <system:String x:Key="Identifying">正在識別……</system:String>
-    <!--日誌-->
-    <!--公招識別-->
+    <!--  日誌  -->
+    <!--  公招識別  -->
 
-    <!--自動戰鬥-->
+    <!--  自動戰鬥  -->
     <system:String x:Key="Copilot">自動戰鬥 Beta</system:String>
     <system:String x:Key="CopilotLocation">作業路徑/神秘代碼</system:String>
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
@@ -229,7 +233,7 @@
     <system:String x:Key="CopilotJSONSharing">作業分享站</system:String>
     <system:String x:Key="VideoLink">視頻鏈接</system:String>
 
-    <!--日誌-->
+    <!--  日誌  -->
     <system:String x:Key="CopilotTip">小提示：</system:String>
     <system:String x:Key="CopilotTip1">1. 請將模擬器及遊戲幀率設定為 60 幀或更高；</system:String>
     <system:String x:Key="CopilotTip2">2. 請在有“開始行動”按鈕的介面再使用本功能；</system:String>
@@ -243,10 +247,10 @@
     <system:String x:Key="CopilotJsonError">解析作業檔錯誤！</system:String>
     <system:String x:Key="NotCopilotJson">非作業檔</system:String>
     <system:String x:Key="CheckTheFile">請檢查檔內容！</system:String>
-    <!--日誌-->
-    <!--自動戰鬥-->
+    <!--  日誌  -->
+    <!--  自動戰鬥  -->
 
-    <!--AsstProxy-->
+    <!--  AsstProxy  -->
     <system:String x:Key="UnknownAbnormal">出現未知異常</system:String>
     <system:String x:Key="Error">錯誤</system:String>
     <system:String x:Key="InitializationError">初始化錯誤！</system:String>
@@ -311,13 +315,13 @@
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>
     <system:String x:Key="CheckSettings">請檢查連接設定或嘗試重啟電腦</system:String>
-    <!--AsstProxy-->
+    <!--  AsstProxy  -->
 
-    <!--TrayIcon-->
+    <!--  TrayIcon  -->
     <system:String x:Key="Exit">退出</system:String>
-    <!--TrayIcon-->
+    <!--  TrayIcon  -->
 
-    <!--About-->
+    <!--  About  -->
     <system:String x:Key="Website">MAA 官網</system:String>
     <system:String x:Key="Github">源碼：GitHub</system:String>
     <system:String x:Key="QQgroup">自動戰鬥作業分享 Q 群</system:String>
@@ -326,9 +330,9 @@
     <system:String x:Key="QQgroup3">三群</system:String>
     <system:String x:Key="Help">常見問題</system:String>
     <system:String x:Key="Issue">問題回饋</system:String>
-    <!--About-->
+    <!--  About  -->
 
-    <!--AutoRecruitSettings-->
+    <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自動刷新 3 星 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">自動使用加急許可*</system:String>
     <system:String x:Key="RecruitMaxTimes">每次執行時最大招募次數</system:String>
@@ -338,5 +342,5 @@
     <system:String x:Key="AutoSelectLevel5">自動確認 5 星</system:String>
     <system:String x:Key="AutoSelectLevel6">自動確認 6 星</system:String>
     <system:String x:Key="Level1Tip">勾選時識別到 1 星詞條時跳過該次招募，未勾選時將忽略 1 星詞條</system:String>
-    <!--AutoRecruitSettings-->
+    <!--  AutoRecruitSettings  -->
 </ResourceDictionary>
