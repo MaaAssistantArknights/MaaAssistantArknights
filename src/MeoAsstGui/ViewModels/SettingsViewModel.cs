@@ -171,12 +171,10 @@ namespace MeoAsstGui
             LanguageList = new List<CombData>();
             foreach (var pair in Localization.SupportedLanguages)
             {
-                if (pair.Key == "pallas")
-                    if ("pallas" == ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage))
-                        LanguageList.Add(new CombData { Display = pair.Key, Value = pair.Value });
-                    else
-                        continue;
-                LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
+                if ((pair.Key != "pallas") || ("pallas" == ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage)))
+                {
+                    LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
+                }
             }
         }
 
