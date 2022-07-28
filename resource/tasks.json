@@ -6598,6 +6598,7 @@
     "Roguelike1RecruitOcr": {
         "algorithm": "OcrDetect",
         "text": [],
+        "fullMatch": true,
         "roi": [
             13,
             26,

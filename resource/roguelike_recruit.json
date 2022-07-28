@@ -232,6 +232,11 @@
     ],
     "Special": [
         {
+            "name": "归溟幽灵鲨",
+            "level": 6,
+            "skill": 2
+        },
+        {
             "name": "孑",
             "level": 4,
             "skill": 2
