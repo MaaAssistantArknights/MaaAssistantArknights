@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[中文（简体）](README.md) [English](README_en-US.md)
+[中文（简体）](README.md) [中文（繁體）](README_zh-TW.md) [English](README_en-US.md)
 
 MAA 的意思是 MAA Assistant Arknights
 
