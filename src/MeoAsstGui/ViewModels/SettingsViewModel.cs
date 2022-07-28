@@ -171,6 +171,11 @@ namespace MeoAsstGui
             LanguageList = new List<CombData>();
             foreach (var pair in Localization.SupportedLanguages)
             {
+                if (pair.Key == "pallas")
+                    if ("pallas" == ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage))
+                        LanguageList.Add(new CombData { Display = pair.Key, Value = pair.Value });
+                    else
+                        continue;
                 LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
             }
         }
@@ -568,6 +573,15 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _creditFirstList, value);
+                if (_creditFirstList.Contains("酒") || _creditFirstList.Contains("wine") || _creditFirstList.Contains("술"))
+                {
+                    if ("pallas" != ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage))
+                    {
+                        ViewStatusStorage.Set("GUI.Localization", "pallas");
+                        App.Current.Shutdown();
+                        System.Windows.Forms.Application.Restart();
+                    }
+                }
                 ViewStatusStorage.Set("Mall.CreditFirstList", value);
             }
         }
