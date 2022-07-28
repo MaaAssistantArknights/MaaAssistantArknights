@@ -107,7 +107,7 @@
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (공백으로 구분)</system:String>
     <system:String x:Key="Blacklist">무시 항목 (공백으로 구분)</system:String>
-    <system:String x:Key="Drink">음료를 원하십니까？🍷</system:String>
+    <system:String x:Key="Drink">술 한잔은 어떻습니까? 🍷</system:String>
 
     <system:String x:Key="DroneUsage">드런 용법</system:String>
 
@@ -208,12 +208,12 @@
 
     <!--  공개모집 인식  -->
     <system:String x:Key="Recognition">공개모집 인식</system:String>
-    <system:String x:Key="RecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립 기능입니다. 게임 공개모집 꼬리표 화면에서 사용하세요~</system:String>
+    <system:String x:Key="RecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립 기능입니다. 게임 공개모집 태그 화면에서 사용하세요~</system:String>
     <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
-    <system:String x:Key="AutoSelectLevel3Tags">★3 꼬리표를 자동 선택</system:String>
-    <system:String x:Key="AutoSelectLevel4Tags">★4 꼬리표를 자동 선택</system:String>
-    <system:String x:Key="AutoSelectLevel5Tags">★5 꼬리표를 자동 선택</system:String>
-    <system:String x:Key="AutoSelectLevel6Tags">★6 꼬리표를 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel3Tags">★3 태그를 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel4Tags">★4 태그를 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel5Tags">★5 태그를 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel6Tags">★6 태그를 자동 선택</system:String>
     <system:String x:Key="BeganToRecruit">인식 시작</system:String>
 
     <!--  로그  -->
@@ -252,96 +252,96 @@
     <!--  자동 작전  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">알 수 없는 예외 발생</system:String>
+    <system:String x:Key="UnknownAbnormal">알 수 없는 오류가 발생했습니다.</system:String>
     <system:String x:Key="Error">오류</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
-    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도를 720p 이상으로, 16:9 비율로 설정해 주십시오.</system:String>
-    <system:String x:Key="ResolutionAcquisitionFailure">시뮬레이터 해상도 실패를 재개 할 것을 건의. 컴퓨터, 또는 교체 시뮬레이터 후 다시 시도</system:String>
-    <system:String x:Key="TryToReconnect">에뮬레이터가 연결되지 않아 재연결이 시도됩니다</system:String>
-    <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다</system:String>
-    <system:String x:Key="ReconnectFailed">재연결 실패, 연결 해제!</system:String>
-    <system:String x:Key="IdentifyTheMistakes">오류 식별</system:String>
+    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 해상도를 720p 이상, 16:9 으로 설정해주세요.</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">에뮬레이터 해상도를 가져오지 못했습니다. 컴퓨터를 다시 시작하거나 에뮬레이터를 변경한 후 다시 시도하는 것이 좋습니다.</system:String>
+    <system:String x:Key="TryToReconnect">에뮬레이터가 연결 해제되었습니다. 다시 연결하려고 합니다.</system:String>
+    <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다.</system:String>
+    <system:String x:Key="ReconnectFailed">다시 연결하지 못했습니다. 연결 해제되었습니다!</system:String>
+    <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError">작업 오류:</system:String>
-    <system:String x:Key="CombatError">전투 오류:</system:String>
+    <system:String x:Key="CombatError">작전 오류:</system:String>
     <system:String x:Key="StartTask">작업 시작:</system:String>
     <system:String x:Key="CompleteTask">작업 완료:</system:String>
-    <system:String x:Key="StartCombat">전투를 시작:</system:String>
-    <system:String x:Key="CompleteCombat">전투 완료:</system:String>
-    <system:String x:Key="AllTasksComplete">모든 작업이 완료되었다!</system:String>
-    <system:String x:Key="FailedToOpenClient">클라이언트를 여는 데 실패했습니다.</system:String>
+    <system:String x:Key="StartCombat">작전 시작:</system:String>
+    <system:String x:Key="CompleteCombat">작전 완료:</system:String>
+    <system:String x:Key="AllTasksComplete">모든 작업이 완료되었습니다!</system:String>
+    <system:String x:Key="FailedToOpenClient">클라이언트를 시작하지 못했습니다. 구성 파일을 확인하십시오.</system:String>
     <system:String x:Key="ErrorOccurred">오류가 발생했습니다</system:String>
-    <system:String x:Key="HasReturned">return</system:String>
-    <system:String x:Key="DropRecognitionError">드롭아웃 오류</system:String>
-    <system:String x:Key="GiveUpUploadingPenguins">업로드 포기</system:String>
-    <system:String x:Key="TheEX">ex level이 정지되었다</system:String>
-    <system:String x:Key="OnTheMove">행동이 시작되었다</system:String>
-    <system:String x:Key="UnitTime">다음</system:String>
-    <system:String x:Key="MedicineUsed">이성약 사용</system:String>
-    <system:String x:Key="StoneUsed">소스 스톤</system:String>
-    <system:String x:Key="ActingcommanActingCommandErrorderror">프록시 오류</system:String>
-    <system:String x:Key="LabelsRefreshed">새로 고친 태그</system:String>
+    <system:String x:Key="HasReturned">반환했습니다</system:String>
+    <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
+    <system:String x:Key="GiveUpUploadingPenguins">PenguinStats에 업로드 중단</system:String>
+    <system:String x:Key="TheEX">EX 스테이지가 중단되었습니다</system:String>
+    <system:String x:Key="OnTheMove">행동이 시작되었습니다</system:String>
+    <system:String x:Key="UnitTime">번</system:String>
+    <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
+    <system:String x:Key="StoneUsed">오리지늄을 사용했습니다</system:String>
+    <system:String x:Key="ActingcommanActingCommandErrorderror">PRTS 실수</system:String>
+    <system:String x:Key="LabelsRefreshed">태그가 새로 고쳐졌습니다.</system:String>
     <system:String x:Key="RecruitConfirm">모집이 확인됨</system:String>
-    <system:String x:Key="InfrastDormDoubleConfirmed 」">일 원 충돌</system:String>
-    <system:String x:Key="BegunToExplore">이미 탐색하기 시작</system:String>
-    <system:String x:Key="HasInvested">투자됨</system:String>
-    <system:String x:Key="ExplorationAbandoned">이 탐사가 포기되었다</system:String>
-    <system:String x:Key="FightCompleted">전투 완료</system:String>
-    <system:String x:Key="FightFailed">전투 실패</system:String>
-    <system:String x:Key="UpperLimit">투자 상한선 달성</system:String>
-    <system:String x:Key="GameCrash">게임이 충돌하면 다시 시작</system:String>
-    <system:String x:Key="GameDrop">게임을 종료하고 다시 연결</system:String>
-    <system:String x:Key="Trader">레벨:속임수 행상</system:String>
-    <system:String x:Key="SafeHouse">레벨:안전한 모서리</system:String>
-    <system:String x:Key="Encounter">레벨:우연</system:String>
-    <system:String x:Key="CambatDps">레벨:일반 전투</system:String>
-    <system:String x:Key="EmergencyDps">레벨:string&gt;</system:String>
-    <system:String x:Key="DreadfulFoe">레벨:string</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed 」">모집이 확정되었습니다</system:String>
+    <system:String x:Key="BegunToExplore">탐색이 시작했습니다</system:String>
+    <system:String x:Key="HasInvested">투자했습니다</system:String>
+    <system:String x:Key="ExplorationAbandoned">탐사가 중단되었습니다</system:String>
+    <system:String x:Key="FightCompleted">작전 완료</system:String>
+    <system:String x:Key="FightFailed">작전 실패</system:String>
+    <system:String x:Key="UpperLimit">투자가 한계에 도달했습니다</system:String>
+    <system:String x:Key="GameCrash">게임이 다운되었습니다. 다시 시작해야 합니다.</system:String>
+    <system:String x:Key="GameDrop">연결이 끊어졌습니다. 다시 연결 중입니다.</system:String>
+    <system:String x:Key="Trader">레벨: 교활한 상인</system:String>
+    <system:String x:Key="SafeHouse">레벨: 안전가옥</system:String>
+    <system:String x:Key="Encounter">레벨: 우연한 만남</system:String>
+    <system:String x:Key="CambatDps">레벨: 작전</system:String>
+    <system:String x:Key="EmergencyDps">레벨: 긴급 작전</system:String>
+    <system:String x:Key="DreadfulFoe">레벨: 험난한 길</system:String>
     <system:String x:Key="NoDrop">없음</system:String>
-    <system:String x:Key="Drop">드롭통계:</system:String>
-    <system:String x:Key="TotalDrop">드롭통계:</system:String>
-    <system:String x:Key="ThisFacility">현재 스킬:</system:String>
-    <system:String x:Key="RecruitingResults">채용 결과:</system:String>
-    <system:String x:Key="RecruitingTips">팁</system:String>
-    <system:String x:Key="RecruitmentOfStar">{0} 별 생성!</system:String>
-    <system:String x:Key="RecruitmentOfBot">승용차가 나갔다</system:String>
+    <system:String x:Key="Drop">드롭:</system:String>
+    <system:String x:Key="TotalDrop">드롭 통계:</system:String>
+    <system:String x:Key="ThisFacility">이 시설:</system:String>
+    <system:String x:Key="RecruitingResults">공개모집 인식 결과:</system:String>
+    <system:String x:Key="RecruitingTips">공개모집 팁</system:String>
+    <system:String x:Key="RecruitmentOfStar">★{0} 모집했습니다!</system:String>
+    <system:String x:Key="RecruitmentOfBot">로봇을 모집했습니다!</system:String>
     <system:String x:Key="Choose">선택</system:String>
-    <system:String x:Key="Refreshed">현재 슬롯은 새로 고쳐졌습니다</system:String>
-    <system:String x:Key="NotEnoughStaff">사용 가능한 인력 부족</system:String>
-    <system:String x:Key="StageInfoError">레벨 인식 오류</system:String>
-    <system:String x:Key="BattleFormation">편대 시작</system:String>
-    <system:String x:Key="BattleFormationSelected">작업자 선택:</system:String>
+    <system:String x:Key="Refreshed">현재 슬롯이 새로 고쳐졌습니다</system:String>
+    <system:String x:Key="NotEnoughStaff">오퍼레이터 부족</system:String>
+    <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
+    <system:String x:Key="BattleFormation">편성 시작</system:String>
+    <system:String x:Key="BattleFormationSelected">오퍼레이터를 선택:</system:String>
     <system:String x:Key="CurrentSteps">현재 단계:</system:String>
-    <system:String x:Key="UnsupportedLevel">지원하지 않는 레벨은 maa 소프트웨어 버전을 업데이트하거나, 작업 파일</system:String>
-    <system:String x:Key="RecruitTagsDetected">결과:</system:String>
+    <system:String x:Key="UnsupportedLevel">지원하지 않는 스테이지입니다. MAA를 업데이트하거나, 작업 파일을 확인하십시오.</system:String>
+    <system:String x:Key="RecruitTagsDetected">인식 결과:</system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
-    <system:String x:Key="TryToStartEmulator">시동 에뮬레이터</system:String>
-    <system:String x:Key="CheckSettings">연결 설정을 확인하거나 컴퓨터를 다시 시도해 보세요</system:String>
-    <!--  asstproxy  -->
+    <system:String x:Key="TryToStartEmulator">에뮬레이터를 다시 시작중입니다</system:String>
+    <system:String x:Key="CheckSettings">연결 설정을 확인하거나 컴퓨터를 재부팅해보세요</system:String>
+    <!--  AsstProxy  -->
 
-    <!--  trayicon  -->
+    <!--  TrayIcon  -->
     <system:String x:Key="Exit">종료</system:String>
-    <!--  trayicon  -->
+    <!--  TrayIcon  -->
 
-    <!--  about  -->
-    <system:String x:Key="Website">maa website</system:String>
-    <system:String x:Key="Github">소스 코드:github</system:String>
-    <system:String x:Key="QQgroup">작업군</system:String>
-    <system:String x:Key="QQgroup1">QQ1(만원)</system:String>
-    <system:String x:Key="QQgroup2">QQ2</system:String>
-    <system:String x:Key="QQgroup3">QQ3</system:String>
-    <system:String x:Key="Help">도움</system:String>
-    <system:String x:Key="Issue">피드백</system:String>
-    <!--  about  -->
+    <!--  About  -->
+    <system:String x:Key="Website">MAA 공식 웹사이트</system:String>
+    <system:String x:Key="Github">소스 코드: GitHub</system:String>
+    <system:String x:Key="QQgroup">자동 작전 작업 공유 QQ그룹</system:String>
+    <system:String x:Key="QQgroup1">QQ그룹1 (만원)</system:String>
+    <system:String x:Key="QQgroup2">QQ그룹2</system:String>
+    <system:String x:Key="QQgroup3">QQ그룹3</system:String>
+    <system:String x:Key="Help">자주 묻는 질문</system:String>
+    <system:String x:Key="Issue">문제 피드백</system:String>
+    <!--  About  -->
 
-    <!--  autorecruitsettings  -->
-    <system:String x:Key="AutoRefresh">자동으로 3개의 별을 새로고치기</system:String>
-    <system:String x:Key="AutoUseExpedited">긴급 라이선스 자동 사용 *</system:String>
-    <system:String x:Key="RecruitMaxTimes">실행시 최대 모집횟수</system:String>
-    <system:String x:Key="ManuallySelectLevel1">수동으로 별 1개 확인</system:String>
-    <system:String x:Key="AutoSelectLevel3">자동으로 별 3개 확인</system:String>
-    <system:String x:Key="AutoSelectLevel4">자동으로 별 4개 확인</system:String>
-    <system:String x:Key="AutoSelectLevel5">자동으로 별 5개 확인</system:String>
-    <system:String x:Key="AutoSelectLevel6">자동으로 별 6개 확인</system:String>
-    <system:String x:Key="Level1Tip">체크할 때 별점 1개를 건너뛰고, 체크하지 않을 때 별점 1개를 무시합니다</system:String>
-    <!--  autorecruitsettings  -->
+    <!--  AutoRecruitSettings  -->
+    <system:String x:Key="AutoRefresh">★3 태그를 자동 새로고치기</system:String>
+    <system:String x:Key="AutoUseExpedited">즉시 완료 허가증을 자동 사용*</system:String>
+    <system:String x:Key="RecruitMaxTimes">실행할 때 최대 모집횟수</system:String>
+    <system:String x:Key="ManuallySelectLevel1">★1 수동 확인</system:String>
+    <system:String x:Key="AutoSelectLevel3">★3 자동 확인</system:String>
+    <system:String x:Key="AutoSelectLevel4">★4 자동 확인</system:String>
+    <system:String x:Key="AutoSelectLevel5">★5 자동 확인</system:String>
+    <system:String x:Key="AutoSelectLevel6">★6 자동 확인</system:String>
+    <system:String x:Key="Level1Tip">체크되면, ★1 태그를 인식할 때 이번 모집을 건너뜁니다. 체크되지 않면, ★1 태그를 무시합니다</system:String>
+    <!--  AutoRecruitSettings  -->
 </ResourceDictionary>
