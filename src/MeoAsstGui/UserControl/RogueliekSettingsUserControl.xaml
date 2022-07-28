@@ -16,9 +16,12 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="策略" VerticalAlignment="Center" Margin="10" />
+            <TextBlock Style="{StaticResource TextBlockDefault}" Text="执行策略" VerticalAlignment="Center" Margin="10" />
             <ComboBox Width="300" Margin="10"
                       IsHitTestVisible ="{Binding Path=Idle}"
                       ItemsSource="{Binding RoguelikeModeList}"
@@ -26,17 +29,45 @@
                       SelectedValuePath="Value"
                       SelectedValue="{Binding RoguelikeMode}" />
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
+                   Text="开局分队" Margin="10" />
+            <ComboBox Margin="10"
+                     IsHitTestVisible ="{Binding Idle}"
+                     ItemsSource="{Binding RoguelikeSquadList}"
+                     DisplayMemberPath="Display"
+                     SelectedValuePath="Value"
+                     SelectedValue="{Binding RoguelikeSquad}"
+                     Width="300" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
+                   Text="开局职业组" Margin="10" />
+            <ComboBox Margin="10"
+                     IsHitTestVisible ="{Binding Idle}"
+                     ItemsSource="{Binding RoguelikeRolesList}"
+                     DisplayMemberPath="Display"
+                     SelectedValuePath="Value"
+                     SelectedValue="{Binding RoguelikeRoles}"
+                     Width="300" />
+        </StackPanel>
+        <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
+                   Text="开局干员" Margin="10" />
+            <hc:TextBox Text="{Binding RoguelikeCoreChar}" TextWrapping="Wrap" Margin="10"
+                         Width="300" />
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="开始次数限制" VerticalAlignment="Center" Margin="10" />
             <hc:TextBox Text="{Binding RoguelikeStartsCount}" TextWrapping="Wrap" Margin="10"
                         Width="80" InputMethod.IsInputMethodEnabled="False" TextType="Int" />
         </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockDefault}" Text="投资次数限制" VerticalAlignment="Center" Margin="10" />
             <hc:TextBox Text="{Binding RoguelikeInvestsCount}" TextWrapping="Wrap" Margin="10"
                         Width="80" InputMethod.IsInputMethodEnabled="False" TextType="Int" />
         </StackPanel>
-        <CheckBox Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+        <CheckBox Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center"
                       IsChecked="{Binding RoguelikeStopWhenInvestmentFull}" Content="源石锭达到上限停止任务" Margin="10" />
     </Grid>
 </UserControl>

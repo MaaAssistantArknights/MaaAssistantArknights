@@ -142,6 +142,29 @@ namespace MeoAsstGui
                 //new CombData { Display = "尝试通关，贪B策略", Value = "3" },  // 开发中
             };
 
+            RoguelikeSquadList = new List<CombData>
+            {
+                new CombData { Display = "默认分队", Value = String.Empty },
+                new CombData { Display = "指挥分队", Value = "指挥分队" },
+                new CombData { Display = "集群分队", Value = "集群分队" },
+                new CombData { Display = "后勤分队", Value = "后勤分队" },
+                new CombData { Display = "矛头分队", Value = "矛头分队" },
+                new CombData { Display = "突击战术分队", Value = "突击战术分队" },
+                new CombData { Display = "堡垒战术分队", Value = "远程战术分队" },
+                new CombData { Display = "破坏战术分队", Value = "破坏战术分队" },
+                new CombData { Display = "研究分队", Value = "研究分队" },
+                new CombData { Display = "高规格分队", Value = "高规格分队" }
+            };
+
+            RoguelikeRolesList = new List<CombData>
+            {
+                new CombData { Display = "默认职业组", Value = String.Empty },
+                new CombData { Display = "先手必胜（先锋、狙击、特种）", Value = "先手必胜" },
+                new CombData { Display = "稳扎稳打（重装、术士、狙击）", Value = "稳扎稳打" },
+                new CombData { Display = "取长补短（近卫、辅助、医疗）", Value = "取长补短" },
+                new CombData { Display = "随心所欲（三张随机）", Value = "随心所欲" },
+            };
+
             ClientTypeList = new List<CombData>
             {
                 new CombData { Display = "不选择", Value = "" },
@@ -310,7 +333,12 @@ namespace MeoAsstGui
 
         public List<CombData> UsesOfDronesList { get; set; }
         public List<CombData> RoguelikeModeList { get; set; }
+        public List<CombData> RoguelikeSquadList { get; set; }
+        public List<CombData> RoguelikeRolesList { get; set; }
+
+        //public List<CombData> RoguelikeCoreCharList { get; set; }
         public List<CombData> ClientTypeList { get; set; }
+
         public List<CombData> ConnectConfigList { get; set; }
         public List<CombData> InverseClearModeList { get; set; }
         public List<CombData> LanguageList { get; set; }
@@ -499,6 +527,42 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _roguelikeMode, value);
                 ViewStatusStorage.Set("Roguelike.Mode", value);
+            }
+        }
+
+        private string _roguelikeSquad = ViewStatusStorage.Get("Roguelike.Squad", String.Empty);
+
+        public string RoguelikeSquad
+        {
+            get { return _roguelikeSquad; }
+            set
+            {
+                SetAndNotify(ref _roguelikeSquad, value);
+                ViewStatusStorage.Set("Roguelike.Squad", value);
+            }
+        }
+
+        private string _roguelikeRoles = ViewStatusStorage.Get("Roguelike.Roles", String.Empty);
+
+        public string RoguelikeRoles
+        {
+            get { return _roguelikeRoles; }
+            set
+            {
+                SetAndNotify(ref _roguelikeRoles, value);
+                ViewStatusStorage.Set("Roguelike.Roles", value);
+            }
+        }
+
+        private string _roguelikeCoreChar = ViewStatusStorage.Get("Roguelike.CoreChar", String.Empty);
+
+        public string RoguelikeCoreChar
+        {
+            get { return _roguelikeCoreChar; }
+            set
+            {
+                SetAndNotify(ref _roguelikeCoreChar, value);
+                ViewStatusStorage.Set("Roguelike.CoreChar", value);
             }
         }
 
