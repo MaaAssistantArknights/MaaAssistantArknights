@@ -360,6 +360,12 @@
     <ClInclude Include="BattleDataConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="RoguelikeShoppingConfiger.h">
+      <Filter>头文件\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeShoppingTaskPlugin.h">
+      <Filter>头文件\Task\Plugin\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -620,6 +626,12 @@
     <ClCompile Include="BattleDataConfiger.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
+    <ClCompile Include="RoguelikeShoppingConfiger.cpp">
+      <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeShoppingTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin\Roguelike</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -635,6 +647,9 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="..\..\resource\roguelike_copilot.json">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\resource\roguelike_shopping.json">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

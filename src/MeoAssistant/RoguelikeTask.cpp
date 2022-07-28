@@ -8,6 +8,7 @@
 #include "RoguelikeBattleTaskPlugin.h"
 #include "RoguelikeControlTaskPlugin.h"
 #include "RoguelikeCustomStartTaskPlugin.h"
+#include "RoguelikeShoppingTaskPlugin.h"
 
 #include "Logger.hpp"
 
@@ -20,6 +21,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_
 
     m_roguelike_task_ptr->regiseter_plugin<RoguelikeFormationTaskPlugin>();
     m_roguelike_task_ptr->regiseter_plugin<RoguelikeControlTaskPlugin>();
+    m_roguelike_task_ptr->regiseter_plugin<RoguelikeShoppingTaskPlugin>();
     m_custom_start_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeCustomStartTaskPlugin>();
 
     m_battle_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeBattleTaskPlugin>();

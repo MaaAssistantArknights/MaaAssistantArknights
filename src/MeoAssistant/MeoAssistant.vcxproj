@@ -90,6 +90,8 @@
     <ClInclude Include="RoguelikeFormationImageAnalyzer.h" />
     <ClInclude Include="RoguelikeRecruitImageAnalyzer.h" />
     <ClInclude Include="RoguelikeRecruitTaskPlugin.h" />
+    <ClInclude Include="RoguelikeShoppingConfiger.h" />
+    <ClInclude Include="RoguelikeShoppingTaskPlugin.h" />
     <ClInclude Include="RoguelikeSkillSelectionImageAnalyzer.h" />
     <ClInclude Include="RoguelikeSkillSelectionTaskPlugin.h" />
     <ClInclude Include="RoguelikeTask.h" />
@@ -178,6 +180,8 @@
     <ClCompile Include="RoguelikeFormationImageAnalyzer.cpp" />
     <ClCompile Include="RoguelikeRecruitImageAnalyzer.cpp" />
     <ClCompile Include="RoguelikeRecruitTaskPlugin.cpp" />
+    <ClCompile Include="RoguelikeShoppingConfiger.cpp" />
+    <ClCompile Include="RoguelikeShoppingTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeSkillSelectionImageAnalyzer.cpp" />
     <ClCompile Include="RoguelikeSkillSelectionTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeTask.cpp" />
@@ -200,6 +204,7 @@
     <None Include="..\..\resource\infrast.json" />
     <None Include="..\..\resource\roguelike_copilot.json" />
     <None Include="..\..\resource\roguelike_recruit.json" />
+    <None Include="..\..\resource\roguelike_shopping.json" />
     <None Include="..\..\resource\tasks.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
