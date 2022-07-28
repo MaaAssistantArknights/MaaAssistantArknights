@@ -102,12 +102,12 @@ namespace json
         template <typename Type = value>
         std::optional<Type> find(size_t pos) const
         {
-            return is_array() ? as_array().find<Type>(pos) : std::nullopt;
+            return is_array() ? as_array().template find<Type>(pos) : std::nullopt;
         }
         template <typename Type = value>
         std::optional<Type> find(const std::string& key) const
         {
-            return is_object() ? as_object().find<Type>(key) : std::nullopt;
+            return is_object() ? as_object().template find<Type>(key) : std::nullopt;
         }
 
         bool as_boolean() const;

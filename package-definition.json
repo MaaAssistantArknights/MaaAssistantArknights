@@ -47,7 +47,7 @@
         }
     },
     {
-        "name_template": "MaaDependency-NoAvx-{VERSION}",
+        "name_template": "MaaDependencyNoAvx-{VERSION}",
         "type": "MaaDependencyNoAvx",
         "configuration": {
             "include": [

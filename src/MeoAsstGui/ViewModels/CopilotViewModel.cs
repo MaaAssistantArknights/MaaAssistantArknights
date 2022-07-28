@@ -37,9 +37,16 @@ namespace MeoAsstGui
         {
             _container = container;
             _windowManager = windowManager;
-            DisplayName = "自动战斗 Beta";
+            DisplayName = Localization.GetString("Copilot");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
-            AddLog("小提示：\n\n请将模拟器及游戏帧率设置到 60 帧或更高；\n\n请在有“开始行动”按钮的界面再使用本功能；\n\n使用好友助战可以关闭“自动编队”，手动选择干员后开始；\n\n模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；\n\n自动编队暂时无法识别“特别关注”的干员，如有需求请取消特别关注或手动编队；", "dark");
+            AddLog(
+                Localization.GetString("CopilotTip") + "\n\n" +
+                Localization.GetString("CopilotTip1") + "\n\n" +
+                Localization.GetString("CopilotTip2") + "\n\n" +
+                Localization.GetString("CopilotTip3") + "\n\n" +
+                Localization.GetString("CopilotTip4") + "\n\n" +
+                Localization.GetString("CopilotTip5")
+                , "dark");
         }
 
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
@@ -79,6 +86,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _filename, value);
+                ClearLog();
                 _updateFileDoc(_filename);
             }
         }
@@ -87,8 +95,6 @@ namespace MeoAsstGui
 
         private void _updateFileDoc(string filename)
         {
-            ClearLog();
-
             string jsonStr = "";
             if (File.Exists(filename))
             {
@@ -98,7 +104,7 @@ namespace MeoAsstGui
                 }
                 catch (Exception)
                 {
-                    AddLog("读取文件失败！", "DarkRed");
+                    AddLog(Localization.GetString("CopilotFileReadError"), "DarkRed");
                     return;
                 }
             }
@@ -142,14 +148,14 @@ namespace MeoAsstGui
                     }
                     else
                     {
-                        AddLog("未找到对应作业！", "DarkRed");
+                        AddLog(Localization.GetString("CopilotNoFound"), "DarkRed");
                         return String.Empty;
                     }
                 }
             }
             catch (Exception)
             {
-                AddLog("请求网络服务错误！", "DarkRed");
+                AddLog(Localization.GetString("NetworkServiceError"), "DarkRed");
                 return String.Empty;
             }
         }
@@ -166,7 +172,7 @@ namespace MeoAsstGui
                 var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
                 if (json == null || !json.ContainsKey("doc"))
                 {
-                    AddLog("解析作业文件错误！", "DarkRed");
+                    AddLog(Localization.GetString("CopilotJsonError"), "DarkRed");
                     return;
                 }
                 var doc = (JObject)json["doc"];
@@ -238,11 +244,19 @@ namespace MeoAsstGui
 
                 _curStageName = json["stage_name"].ToString();
                 _curCopilotData = json.ToString();
-                AddLog("\n\n小提示：\n请将模拟器及游戏帧率设置到 60 帧或更高；\n\n请在有“开始行动”按钮的界面再使用本功能；\n\n使用好友助战可以关闭“自动编队”，手动选择干员后开始；\n\n模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；\n\n自动编队暂时无法识别“特别关注”的干员，如有需求请取消特别关注或手动编队；");
+                AddLog(
+                    "\n\n" +
+                    Localization.GetString("CopilotTip") + "\n\n" +
+                    Localization.GetString("CopilotTip1") + "\n\n" +
+                    Localization.GetString("CopilotTip2") + "\n\n" +
+                    Localization.GetString("CopilotTip3") + "\n\n" +
+                    Localization.GetString("CopilotTip4") + "\n\n" +
+                    Localization.GetString("CopilotTip5")
+                    );
             }
             catch (Exception)
             {
-                AddLog("解析作业文件错误！", "DarkRed");
+                AddLog(Localization.GetString("CopilotJsonError"), "DarkRed");
             }
         }
 
@@ -250,7 +264,7 @@ namespace MeoAsstGui
         {
             var dialog = new Microsoft.Win32.OpenFileDialog();
 
-            dialog.Filter = "作业文件|*.json";
+            dialog.Filter = "JSON|*.json";
 
             if (dialog.ShowDialog() == true)
             {
@@ -277,7 +291,7 @@ namespace MeoAsstGui
             {
                 Filename = "";
                 ClearLog();
-                AddLog("非作业文件", "darkred");
+                AddLog(Localization.GetString("NotCopilotJson"), "DarkRed");
             }
         }
 
@@ -296,9 +310,9 @@ namespace MeoAsstGui
             ClearLog();
             if (_form)
             {
-                AddLog("自动编队暂时无法识别“特别关注”的干员，如有需求请取消特别关注或手动编队", "dark");
+                AddLog(Localization.GetString("AutoSquadTip"), "dark");
             }
-            AddLog("正在连接模拟器……");
+            AddLog(Localization.GetString("ConnectingToEmulator"));
 
             var asstProxy = _container.Get<AsstProxy>();
             string errMsg = "";
@@ -309,14 +323,15 @@ namespace MeoAsstGui
             _catched = await task;
             if (!_catched)
             {
-                AddLog(errMsg, "darkred");
+                AddLog(errMsg, "DarkRed");
                 return;
             }
             if (errMsg.Length != 0)
             {
-                AddLog(errMsg, "darkred");
+                AddLog(errMsg, "DarkRed");
             }
 
+            _updateFileDoc(Filename);
             File.Delete(_tempCopilotFile);
             File.WriteAllText(_tempCopilotFile, _curCopilotData);
 
@@ -328,7 +343,7 @@ namespace MeoAsstGui
             }
             else
             {
-                AddLog("读取 JSON 作业文件出错\n请检查文件内容", "darkred");
+                AddLog(Localization.GetString("CopilotFileReadError") + "\n" + Localization.GetString("CheckTheFile"), "DarkRed");
             }
         }
 
@@ -344,7 +359,7 @@ namespace MeoAsstGui
 
         public string Url
         {
-            get => _url == CopilotUiUrl ? "作业分享站" : "视频链接";
+            get => _url == CopilotUiUrl ? Localization.GetString("CopilotJSONSharing") : Localization.GetString("VideoLink");
             set => SetAndNotify(ref _url, value);
         }
 

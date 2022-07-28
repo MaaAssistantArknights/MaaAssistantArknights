@@ -1,82 +1,153 @@
-﻿<UserControl x:Class="MeoAsstGui.FightSettingsUserControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:hc="https://handyorg.github.io/handycontrol"
-             mc:Ignorable="d"
-             xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
-             xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
-             xmlns:s="https://github.com/canton7/Stylet"
-             xmlns:local="clr-namespace:MeoAsstGui"
-             d:DataContext="{d:DesignInstance {x:Type vm:TaskQueueViewModel}}"
-             d:DesignHeight="500" d:DesignWidth="300">
+﻿<UserControl
+    x:Class="MeoAsstGui.FightSettingsUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:MeoAsstGui"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
+    d:DataContext="{d:DesignInstance {x:Type vm:TaskQueueViewModel}}"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="70" />
+            <ColumnDefinition Width="70" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="150" />
+            <RowDefinition Height="150" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding UseMedicine}" Content="吃理智药" Margin="10" />
-            <hc:TextBox Text="{Binding MedicineNumber}" TextWrapping="Wrap" Margin="10"
-                     Width="50" InputMethod.IsInputMethodEnabled="False" 
-                     TextType="Int"/>
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="个" />
-            <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding MedicineInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
+
+
+        <StackPanel
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Left"
+            Orientation="Horizontal">
+            <StackPanel Orientation="Vertical">
+                <CheckBox
+                    Height="30"
+                    Margin="10"
+                    Content="{DynamicResource UseSanityPotion}"
+                    IsChecked="{Binding UseMedicine}" />
+                <CheckBox
+                    Height="30"
+                    Margin="10"
+                    Content="{DynamicResource UseOriginitePrime}"
+                    IsChecked="{Binding UseStone}"
+                    ToolTip="{DynamicResource CheckBoxesNotSaved}" />
+                <CheckBox
+                    Height="30"
+                    Margin="10"
+                    Content="{DynamicResource PerformBattles}"
+                    IsChecked="{Binding HasTimesLimited}"
+                    ToolTip="{DynamicResource CheckBoxesNotSaved}" />
+            </StackPanel>
+            <StackPanel Width="70" Orientation="Vertical">
+                <hc:TextBox
+                    Width="50"
+                    Height="30"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    Text="{Binding MedicineNumber}"
+                    TextType="Int"
+                    TextWrapping="Wrap" />
+                <hc:TextBox
+                    Width="50"
+                    Height="30"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    Text="{Binding StoneNumber}"
+                    TextType="Int"
+                    TextWrapping="Wrap" />
+                <hc:TextBox
+                    Width="50"
+                    Height="30"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    Text="{Binding MaxTimes}"
+                    TextType="Int"
+                    TextWrapping="Wrap" />
+            </StackPanel>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding UseStone}" Content="吃源石*" Margin="10 10 16.5 10" 
-                      ToolTip="该选项设置重启后不保存"/>
-            <hc:TextBox Text="{Binding StoneNumber}" TextWrapping="Wrap" Margin="10"
-                        Width="50" InputMethod.IsInputMethodEnabled="False" 
-                        TextType="Int"/>
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="颗" />
-            <!--<TextBlock Style="{StaticResource TextBlockDefaultBold}" Text="{Binding StoneInfo}" Margin="30, 0, 0, 0" VerticalAlignment="Center" />-->
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <CheckBox
+                Height="30"
+                Margin="10"
+                Content="{DynamicResource AssignedMaterial}"
+                IsChecked="{Binding IsSpecifiedDrops}"
+                ToolTip="{DynamicResource NoAutoNavigation}" />
+            <Grid Height="50">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="{DynamicResource Quantity}"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid Height="50">
+                <TextBlock
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="{DynamicResource StageSelect}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </Grid>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding HasTimesLimited}" Content="指定次数*" Margin="10 10 4.5 10"
-                      ToolTip="该选项设置重启后不保存"/>
-            <hc:TextBox Text="{Binding MaxTimes}" TextWrapping="Wrap" Margin="10"
-                        Width="50" InputMethod.IsInputMethodEnabled="False" 
-                        TextType="Int"/>
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="次" />
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Orientation="Vertical">
+            <ComboBox
+                Width="120"
+                Height="30"
+                Margin="10"
+                DisplayMemberPath="Display"
+                IsDropDownOpen="{Binding IsDropDown}"
+                IsEditable="True"
+                IsTextSearchEnabled="True"
+                ItemsSource="{Binding DropsList}"
+                SelectedValue="{Binding DropsItemId}"
+                SelectedValuePath="Value"
+                Text="{Binding DropsItem}" />
+
+            <hc:TextBox
+                Width="120"
+                Height="30"
+                Margin="10"
+                InputMethod.IsInputMethodEnabled="False"
+                Text="{Binding DropsQuantity}"
+                TextType="Int"
+                TextWrapping="Wrap" />
+
+            <ComboBox
+                Width="120"
+                Height="30"
+                Margin="10"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                ItemsSource="{Binding StageList}"
+                SelectedValue="{Binding Stage}"
+                SelectedValuePath="Value" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center">
-            <CheckBox IsChecked="{Binding IsSpecifiedDrops}" Content="指定材料" Margin="10"
-                      ToolTip="该选项不会自动导航至对应关卡"/>
-            <ComboBox Width="120" Margin="10"
-                      IsEditable="True"
-                      IsTextSearchEnabled ="True"
-                      DisplayMemberPath="Display"
-                      SelectedValuePath="Value"
-                      Text="{Binding DropsItem}"
-                      IsDropDownOpen="{Binding IsDropDown}"
-                      ItemsSource="{Binding DropsList}"
-                      SelectedValue="{Binding DropsItemId}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="4" VerticalAlignment="Center">
-            <!--<TextBlock Style="{StaticResource TextBlockDefault}" Margin="35,10,0,10" Text="掉落数 " />-->
-            <hc:TextBox Text="{Binding DropsQuantity}" TextWrapping="Wrap"
-                        Width="95" Margin="100,10,10,10" InputMethod.IsInputMethodEnabled="False" 
-                        TextType="Int"/>
-            <TextBlock Style="{StaticResource TextBlockDefault}" Text="个" />
-        </StackPanel>
-        <StackPanel Grid.Row="5"  Orientation="Horizontal">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Margin="20,10,0,10" VerticalAlignment="Center"
-                   Text="关卡选择" FontSize="14" />
-            <ComboBox Width="120" Margin="24,10,10,10"
-                      IsHitTestVisible ="{c:Binding !FightTaskRunning}"
-                      ItemsSource="{Binding StageList}"
-                      DisplayMemberPath="Display"
-                      SelectedValuePath="Value"
-                      SelectedValue="{Binding Stage}" />
-        </StackPanel>
-        <Button Grid.Row="6" Command="{s:Action SetParams}" Visibility="{c:Binding !Idle}" HorizontalAlignment="Left" Content="修改" Width="50" Height="30" Margin="166,10,10,10" />
+        <Button
+            Grid.Row="2"
+            Grid.Column="2"
+            Width="60"
+            Height="30"
+            Margin="0,0,10,0"
+            Command="{s:Action SetParams}"
+            Content="{DynamicResource Amend}"
+            FontSize="10"
+            Visibility="{c:Binding !Idle}" />
     </Grid>
 </UserControl>

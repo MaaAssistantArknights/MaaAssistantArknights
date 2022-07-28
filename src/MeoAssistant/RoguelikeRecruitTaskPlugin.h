@@ -1,6 +1,8 @@
 #pragma once
 #include "AbstractTaskPlugin.h"
 
+#include "AsstBattleDef.h"
+
 namespace asst
 {
     class RoguelikeRecruitTaskPlugin : public AbstractTaskPlugin
@@ -13,5 +15,9 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+
+    private:
+        bool check_core_char();
+        void select_oper(const BattleRecruitOperInfo& oper);
     };
 }

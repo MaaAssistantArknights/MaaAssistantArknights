@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[README in English](README-en.md)
+[中文（简体）](README.md) [中文（繁體）](README_zh-TW.md) [English](README_en-US.md)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -41,8 +41,8 @@ MAA 的意思是 MAA Assistant Arknights
 
 话不多说，看图！  
 
-![image](https://user-images.githubusercontent.com/99072975/177110402-513b8267-380f-47b2-aeb3-04d8d1e1c850.png)
-![image](https://user-images.githubusercontent.com/99072975/177110410-ad4f84f5-e94f-49aa-954b-25d49aa7f6f9.png)
+![image](https://user-images.githubusercontent.com/99072975/181418126-54d3d50e-f405-4edd-a426-a27e9a465286.png)
+![image](https://user-images.githubusercontent.com/99072975/181418131-f4eefa07-6623-470e-ba4a-0ad15cb8aa91.png)
 ![image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)
 
 
@@ -151,6 +151,7 @@ MAA 的意思是 MAA Assistant Arknights
 - [Golang 接口](src/Golang/maa/)：[集成示例](src/Golang/cli.go)（已停止维护 orz）
 - [Dart 接口](src/dart/)
 - [Java 接口](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Rust 接口](src/Rust/src/maa_sys/)：[HTTP 接口](src/Rust)
 - [HTTP 接口](src/Java/Maaj/Readme.md)
 - [集成文档](docs/集成文档.md)
 - [回调消息协议](docs/回调消息协议.md)

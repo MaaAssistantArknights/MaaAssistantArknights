@@ -14,6 +14,7 @@ bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std:
 
 bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file, const std::filesystem::path& en_file);
+bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 
 int main([[maybe_unused]] int argc, char** argv)
 {
@@ -73,17 +74,24 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    /* Update roguelike recruit data from Arknights-Bot-Resource*/
-    std::cout << "------------Update roguelike recruit data------------" << std::endl;
-    if (!update_roguelike_recruit(input_dir, resource_dir, solution_dir)) {
-        std::cerr << "Update roguelike recruit data failed" << std::endl;
-        //return -1;
-    }
+    ///* Update roguelike recruit data from Arknights-Bot-Resource*/
+    //std::cout << "------------Update roguelike recruit data------------" << std::endl;
+    //if (!update_roguelike_recruit(input_dir, resource_dir, solution_dir)) {
+    //    std::cerr << "Update roguelike recruit data failed" << std::endl;
+    //    return -1;
+    //}
 
     /* Update stage.json from Penguin Stats*/
     std::cout << "------------Update stage.json------------" << std::endl;
     if (!update_stages_data(cur_path, solution_dir / "resource")) {
         std::cerr << "Update stages data failed" << std::endl;
+        return -1;
+    }
+
+    /* Update battle chars info from Arknights-Bot-Resource*/
+    std::cout << "------------Update battle chars info------------" << std::endl;
+    if (!update_battle_chars_info(input_dir, solution_dir / "resource")) {
+        std::cerr << "Update battle chars info failed" << std::endl;
         return -1;
     }
 
@@ -481,6 +489,71 @@ bool generate_english_roguelike_stage_name_replacement(const std::filesystem::pa
     std::ofstream ofs(en_file.parent_path() / "en_replace.json", std::ios::out);
     ofs << en_to_ch_vec.format();
     ofs.close();
+
+    return true;
+}
+
+bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+{
+    const auto& input_chars_file = input_dir / "gamedata" / "excel" / "character_table.json";
+    const auto& input_range_file = input_dir / "gamedata" / "excel" / "range_table.json";
+
+    auto chars_opt = json::open(input_chars_file);
+    auto range_opt = json::open(input_range_file);
+    if (!chars_opt || !range_opt) {
+        return false;
+    }
+    auto& chars_json = chars_opt.value();
+    auto& range_json = range_opt.value();
+
+    json::value result;
+    auto& range = result["ranges"].as_object();
+    for (auto& [id, range_data] : range_json.as_object()) {
+        if (int direction = range_data["direction"].as_integer();
+            direction != 1) {
+            // 现在都是 1，朝右的，以后不知道会不会改，加个warning，真遇到再说
+            std::cout << "!!!Warning!!! range_id: " << id << " 's direction is " << std::to_string(direction) << std::endl;
+        }
+        json::array points;
+        for (auto& grids : range_data["grids"].as_array()) {
+            int x = grids["col"].as_integer();
+            int y = grids["row"].as_integer();
+            points.emplace_back(json::array{ x, y });
+        }
+        range.emplace(id, std::move(points));
+    }
+
+    auto& chars = result["chars"].as_object();
+    for (auto& [id, char_data] : chars_json.as_object()) {
+        json::value char_new_data;
+        std::string name = char_data["name"].as_string();
+
+        char_new_data["name"] = name;
+        if (name == "阿米娅") {
+            char_new_data["profession"] = "WARRIOR";
+            char_new_data["rangeId"] = json::array{
+                "1-1",
+                "1-1",
+                "1-1"
+            };
+        }
+        else {
+            char_new_data["profession"] = char_data["profession"];
+
+            const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
+            char_new_data["rangeId"] = json::array{
+                default_range,
+                char_data.get("phases", 1, "rangeId", default_range),
+                char_data.get("phases", 2, "rangeId", default_range),
+            };
+        }
+
+        chars.emplace(id, std::move(char_new_data));
+    }
+
+    const auto& out_file = output_dir / "battle_data.json";
+    std::ofstream ofs(out_file, std::ios::out);
+    ofs << result.format(true) << std::endl;
 
     return true;
 }

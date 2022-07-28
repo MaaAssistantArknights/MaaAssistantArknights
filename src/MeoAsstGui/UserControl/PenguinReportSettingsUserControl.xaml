@@ -1,20 +1,31 @@
-﻿<UserControl x:Class="MeoAsstGui.PenguinReportSettingsUserControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:s="https://github.com/canton7/Stylet"
-             xmlns:dd="urn:gong-wpf-dragdrop"
-             mc:Ignorable="d"
-             xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
-             d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
-             d:DesignHeight="300" d:DesignWidth="550">
+﻿<UserControl
+    x:Class="MeoAsstGui.PenguinReportSettingsUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
+    d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
+    d:DesignHeight="300"
+    d:DesignWidth="550"
+    mc:Ignorable="d">
     <Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="企鹅数据汇报ID&#13;（仅数字部分）" Margin="10" />
-            <TextBox Text="{Binding PenguinId}" Margin="10"
-                     Width="150" InputMethod.IsInputMethodEnabled="False" />
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="10"
+                Block.TextAlignment="Center"
+                Style="{StaticResource TextBlockDefault}"
+                Text="{DynamicResource PenguinID}" />
+            <TextBox
+                Width="150"
+                Margin="10"
+                InputMethod.IsInputMethodEnabled="False"
+                Text="{Binding PenguinId}" />
         </StackPanel>
     </Grid>
 </UserControl>

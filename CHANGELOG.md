@@ -1,6 +1,12 @@
-- 新增支持 `多索雷斯假日` 活动关卡导航 @ABA2396
-- 更新 `多索雷斯假日` 活动关卡地图数据 @yuanyan3060 @MistEO
-- 修复 `多索雷斯假日` 部分关卡自动战斗击杀数识别错误 @MistEO
-- 修复 `多索雷斯假日` 误报 `电子晶体元件` 的问题 @MistEO
-
-~~这个活动掉落是代币，不是材料，要单独整理资源比较麻烦，于是摆烂了~~
+- New support for interface English, 日本語, 한국어, 繁體中文 and 牛牛喝酒 translation. It was a difficult task, thanks to all collaborators: @ABA2396 @ChingCdesu @LYZhelloworld @Tastror @cloakWatcher @lsequeiraa @MistEO
+- 新增支持 肉鸽 开局自定义分队、自定义职业组、自定义干员 @MistEO @ABA2396
+- 新增支持 Rust http 接口 @yuanyan3060
+- 优化 肉鸽 干员部署及朝向、商店购买逻辑、干员招募逻辑 @MistEO
+- 重构并优化 公招 功能 @horror-proton
+- 优化 刷理智 `上次作战/当前作战` 功能，合并为一个选项 @MistEO
+- 优化 界面布局 @ABA2396
+- 优化项目 CI/CD 工程 @LiamSho @zzyyyl
+- 修复 美服肉鸽 一处卡住的问题 @AkarinVS
+- 修复 刷理智 偶现掉落识别错误 @MistEO @ABA2396
+- 修复 基建 会客室送线索时卡住问题 @MistEO
+- 修复 Linux 编译错误 @zhangchi0104

@@ -7,6 +7,8 @@
 #include "RoguelikeSkillSelectionTaskPlugin.h"
 #include "RoguelikeBattleTaskPlugin.h"
 #include "RoguelikeControlTaskPlugin.h"
+#include "RoguelikeCustomStartTaskPlugin.h"
+#include "RoguelikeShoppingTaskPlugin.h"
 
 #include "Logger.hpp"
 
@@ -19,6 +21,8 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_
 
     m_roguelike_task_ptr->regiseter_plugin<RoguelikeFormationTaskPlugin>();
     m_roguelike_task_ptr->regiseter_plugin<RoguelikeControlTaskPlugin>();
+    m_roguelike_task_ptr->regiseter_plugin<RoguelikeShoppingTaskPlugin>();
+    m_custom_start_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeCustomStartTaskPlugin>();
 
     m_battle_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeBattleTaskPlugin>();
 
@@ -67,6 +71,16 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestSystemFull", 0);
         constexpr int InvestLimit = 999;
         m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestConfirm", InvestLimit);
+    }
+
+    if (auto squad_opt = params.find<std::string>("squad")) {
+        m_custom_start_task_ptr->set_custom(RoguelikeCustomType::Squad, *squad_opt);
+    }
+    if (auto roles_opt = params.find<std::string>("roles")) {
+        m_custom_start_task_ptr->set_custom(RoguelikeCustomType::Roles, *roles_opt);
+    }
+    if (auto core_char_opt = params.find<std::string>("core_char")) {
+        m_custom_start_task_ptr->set_custom(RoguelikeCustomType::CoreChar, *core_char_opt);
     }
 
     return true;

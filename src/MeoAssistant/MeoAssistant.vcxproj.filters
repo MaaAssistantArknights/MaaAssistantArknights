@@ -228,9 +228,6 @@
     <ClInclude Include="CreditShoppingTask.h">
       <Filter>头文件\Task\Sub</Filter>
     </ClInclude>
-    <ClInclude Include="RecruitCalcTask.h">
-      <Filter>头文件\Task\Sub</Filter>
-    </ClInclude>
     <ClInclude Include="BattleImageAnalyzer.h">
       <Filter>头文件\ImageAnalyzer\Final</Filter>
     </ClInclude>
@@ -352,6 +349,18 @@
       <Filter>头文件\Task\Plugin\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="RoguelikeControlTaskPlugin.h">
+      <Filter>头文件\Task\Plugin\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeCustomStartTaskPlugin.h">
+      <Filter>头文件\Task\Plugin\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleDataConfiger.h">
+      <Filter>头文件\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeShoppingConfiger.h">
+      <Filter>头文件\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="RoguelikeShoppingTaskPlugin.h">
       <Filter>头文件\Task\Plugin\Roguelike</Filter>
     </ClInclude>
   </ItemGroup>
@@ -477,9 +486,6 @@
       <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
     <ClCompile Include="CreditShoppingTask.cpp">
-      <Filter>源文件\Task\Sub</Filter>
-    </ClCompile>
-    <ClCompile Include="RecruitCalcTask.cpp">
       <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
     <ClCompile Include="ProcessTask.cpp">
@@ -608,6 +614,18 @@
     <ClCompile Include="RoguelikeControlTaskPlugin.cpp">
       <Filter>源文件\Task\Plugin\Roguelike</Filter>
     </ClCompile>
+    <ClCompile Include="RoguelikeCustomStartTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleDataConfiger.cpp">
+      <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeShoppingConfiger.cpp">
+      <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeShoppingTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin\Roguelike</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -623,6 +641,9 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="..\..\resource\roguelike_copilot.json">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\resource\roguelike_shopping.json">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

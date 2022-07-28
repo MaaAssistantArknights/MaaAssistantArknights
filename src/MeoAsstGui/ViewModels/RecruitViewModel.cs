@@ -25,10 +25,10 @@ namespace MeoAsstGui
         {
             _container = container;
             _windowManager = windowManager;
-            DisplayName = "公招识别";
+            DisplayName = Localization.GetString("Recognition");
         }
 
-        private string _recruitInfo = "小提示：和主界面的自动公招是两个独立的功能，请手动打开游戏公招Tags界面后使用~";
+        private string _recruitInfo = Localization.GetString("RecognitionTip");
 
         public string RecruitInfo
         {
@@ -116,7 +116,7 @@ namespace MeoAsstGui
         {
             var asstProxy = _container.Get<AsstProxy>();
             string errMsg = "";
-            RecruitInfo = "正在连接模拟器……";
+            RecruitInfo = Localization.GetString("ConnectingToEmulator");
             var task = Task.Run(() =>
             {
                 return asstProxy.AsstConnect(ref errMsg);
@@ -127,7 +127,7 @@ namespace MeoAsstGui
                 RecruitInfo = errMsg;
                 return;
             }
-            RecruitInfo = "正在识别……";
+            RecruitInfo = Localization.GetString("Identifying");
             RecruitResult = "";
 
             var levelList = new List<int>();

@@ -101,10 +101,9 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     if (pipe_in_ret < 0 || pipe_out_ret < 0) {
         throw "controller pipe created failed";
     }
-
-    // todo
-    m_support_netcat = false;
+    m_support_socket = false;
 #endif
+
     m_pipe_buffer = std::make_unique<uchar[]>(PipeBuffSize);
     if (!m_pipe_buffer) {
         throw "controller pipe buffer allocated failed";
@@ -491,11 +490,13 @@ void asst::Controller::clear_info() noexcept
     m_height = 0;
     m_control_scale = 1.0;
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
+#ifdef _WIN32
     if (m_server_sock) {
         ::closesocket(m_server_sock);
         m_server_sock = 0U;
     }
     m_server_started = false;
+#endif
     --m_instance_count;
 }
 

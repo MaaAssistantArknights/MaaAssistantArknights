@@ -49,7 +49,7 @@ Try restarting your computer.
 
 ## Wrong recognition/program freezes after starting
 
-Tip 1: The `Current Stage` of auto battle that costs Sanity requires you to go to the screen with the `Start` button. Please confirm they are not related.
+Tip 1: The auto battle requires you to go to the screen with the `Start` button. Please confirm they are not related.
 Tip 2: Follow the steps below until the problem is solved.
 
 1. Confirm that your emulator is supported in the [List of the Supported Emulators](EMULATOR_SUPPORTS.md).
