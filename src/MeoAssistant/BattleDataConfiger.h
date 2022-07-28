@@ -22,22 +22,26 @@ namespace asst
             return iter->second.role;
         }
 
+        static inline const BattleAttackRange& EmptyRange{ {0, 0} };
+
         const BattleAttackRange& get_range(const std::string& name, size_t index) const
         {
-            static const BattleAttackRange empty = { {0, 0} };
             auto char_iter = m_chars.find(name);
             if (char_iter == m_chars.cend()) {
-                return empty;
+                return EmptyRange;
             }
             const auto& ranges = char_iter->second.ranges;
             if (index < 0 || index >= ranges.size()) {
-                return empty;
+                if (ranges.empty()) {
+                    return EmptyRange;
+                }
+                index = 0;
             }
 
             const std::string& range_name = ranges.at(index);
             auto range_iter = m_ranges.find(range_name);
             if (range_iter == m_ranges.cend()) {
-                return empty;
+                return EmptyRange;
             }
             return range_iter->second;
         }
