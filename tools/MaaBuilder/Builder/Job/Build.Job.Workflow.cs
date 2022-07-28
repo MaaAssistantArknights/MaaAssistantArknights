@@ -14,6 +14,7 @@ public partial class Build
     Target DevBuildReleaseSimulation => _ => _
         .OnlyWhenStatic(() => IsReleaseSimulation == true)
         .WhenSkipped(DependencyBehavior.Skip)
+        .DependsOn(UseRsVersion)
         .DependsOn(UseMaaRelease)
         .DependsOn(UseMaaChangeLog)
         .DependsOn(UsePublishArtifact);
