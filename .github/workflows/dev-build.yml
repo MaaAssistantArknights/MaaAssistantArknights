@@ -44,6 +44,9 @@ on:
       Reason:
         description: "Reason"
         required: true
+      ReleaseSimulation:
+        description: "Release Simulation"
+        required: true
 
 jobs:
   windows-latest:
@@ -62,6 +65,7 @@ jobs:
         run: ./build.cmd DevBuild
         env:
           Reason: ${{ github.event.inputs.Reason }}
+          ReleaseSimulation: ${{ github.event.inputs.ReleaseSimulation }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v1
         with:
