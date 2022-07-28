@@ -571,7 +571,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _creditFirstList, value);
-                if (_creditFirstList.Contains("酒") || _creditFirstList.Contains("wine") || _creditFirstList.Contains("술"))
+                if (_creditFirstList.Contains("酒") || _creditFirstList.Contains("drink") || _creditFirstList.Contains("술"))
                 {
                     if ("pallas" != ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage))
                     {
