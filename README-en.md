@@ -41,9 +41,10 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 Talk is cheap. Show me the pictures!  
 
-![image](https://user-images.githubusercontent.com/99072975/177110402-513b8267-380f-47b2-aeb3-04d8d1e1c850.png)
-![image](https://user-images.githubusercontent.com/99072975/177110410-ad4f84f5-e94f-49aa-954b-25d49aa7f6f9.png)
-![image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)
+![image](https://user-images.githubusercontent.com/99072975/181417856-0fb1ac8b-c0f6-4c67-904c-1c3ea2c309a8.png)
+![image](https://user-images.githubusercontent.com/99072975/181417869-bb312d7e-f867-45c6-84b9-d18c583232d5.png)
+![image](https://user-images.githubusercontent.com/99072975/181417872-563afc09-e610-45f5-8762-dbf69018a329.png)
+
 
 ## Download
 
