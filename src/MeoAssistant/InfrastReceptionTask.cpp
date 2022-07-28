@@ -45,7 +45,7 @@ bool asst::InfrastReceptionTask::close_end_of_clue_exchange()
 bool asst::InfrastReceptionTask::get_clue()
 {
     ProcessTask task_temp(*this, { "InfrastClueSelfNew", "InfrastClueFriendNew", "InfrastClueSelfMaybeFull", "ReceptionFlag" });
-    return task_temp.run();
+    return task_temp.set_retry_times(ProcessTask::RetryTimesDefault).run();
 }
 
 bool asst::InfrastReceptionTask::use_clue()
