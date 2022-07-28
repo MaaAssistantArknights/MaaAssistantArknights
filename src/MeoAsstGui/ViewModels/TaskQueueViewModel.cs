@@ -502,8 +502,6 @@ namespace MeoAsstGui
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    if (item.Name == Localization.GetString("AutoRoguelike"))
-                        continue;
                     item.IsChecked = false;
                 }
             }
