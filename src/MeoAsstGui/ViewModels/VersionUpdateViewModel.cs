@@ -45,6 +45,15 @@ namespace MeoAsstGui
         [DllImport("MeoAssistant.dll")]
         private static extern IntPtr AsstGetVersion();
 
+        private static string AddContributorLink(string text)
+        {
+            //        "@ " -> "@ "
+            //       "`@`" -> "`@`"
+            //   "@MistEO" -> "[@MistEO](https://github.com/MistEO)"
+            // "[@MistEO]" -> "[@MistEO]"
+            return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[`@$2`](https://github.com/$2)");
+        }
+
         private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
         private string _latestVersion;
 
@@ -72,7 +81,14 @@ namespace MeoAsstGui
         {
             get
             {
-                return _updateInfo;
+                try
+                {
+                    return AddContributorLink(_updateInfo);
+                }
+                catch
+                {
+                    return _updateInfo;
+                }
             }
 
             set
