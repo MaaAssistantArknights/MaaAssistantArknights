@@ -1,4 +1,4 @@
-<div align="center">
+<div style="text-align:center">
 
 <img alt="LOGO" src="https://user-images.githubusercontent.com/18511905/148931479-23aef436-2fc1-4c1e-84c9-bae17be710a5.png" width=360 height=270/>
 
@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[中文（简体）](README.md) [中文（繁體）](README_zh-TW.md) [English](README_en-US.md) [日本語](README_ja-JP.md)
+[中文（简体）](README.md) | [中文（繁體）](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md)
 
 MAAは、MAA Assistant Arknightsです。
 
@@ -169,7 +169,7 @@ Visual Studio 2019 ~~または以上のバージョン~~で`MeoAssistantArknight
 
 ## 広告
 
-[ユーザー研究グループ（Telegram ）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
+[ユーザー研究グループ（Telegram）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自動作戦JSON作業シェア: <https://www.prts.plus> , QQグループ１（満員），[QQグループ２](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQグループ３](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)    
 [ビリビリ生放送](https://live.bilibili.com/2808861)：毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングすることばかりです～  
 [アークナイツ無関係技術研究 & チャットグループ（QQ）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：インボリューション・ヘル！  
