@@ -37,6 +37,18 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         Log.info(__FUNCTION__, name, elite, level, rect.to_string());
         m_result.emplace_back(std::move(info));
     }
+    
+    auto first_un_req = std::find_if(m_result.begin(), m_result.end(),
+        [&](const auto& info) -> bool {
+            return info.required == false;
+        });
+    std::sort(first_un_req, m_result.end(),
+        [&](const auto& lhs, const auto& rhs) -> bool {
+            if (lhs.elite == rhs.elite) {
+                return lhs.level > rhs.level;
+            }
+            return lhs.elite > rhs.elite;
+        });
 
     return !m_result.empty();
 }
