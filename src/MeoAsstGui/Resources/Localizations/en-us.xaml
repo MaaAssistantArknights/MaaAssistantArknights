@@ -107,7 +107,7 @@
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
     <system:String x:Key="HighPriority">Whitelist(splited by space)</system:String>
     <system:String x:Key="Blacklist">Blacklist(splited by space)</system:String>
-    <system:String x:Key="Drink">Would you like a drink?🍷</system:String>
+    <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
 
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
 
@@ -346,6 +346,6 @@
     <!--  AutoRecruitSettings  -->
 
     <system:String x:Key="Burping">Ugh... Ehem</system:String>
-    <system:String x:Key="DrunkAndStaggering">Ah, Dr. Why do you sway, so much in your movement today?</system:String>
+    <system:String x:Key="DrunkAndStaggering">Ah, doctor. Why do you sway, so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I must not drink, drink so much next time...</system:String>
 </ResourceDictionary>
