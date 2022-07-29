@@ -78,15 +78,6 @@
         ]
     },
     {
-        "stage_name": "恐怖传说",
-        "replacement_home": [
-            [
-                0,
-                4
-            ]
-        ]
-    },
-    {
         "stage_name": "寒渊惜别",
         "replacement_home": [
             [
@@ -214,6 +205,15 @@
             [
                 3,
                 4
+            ]
+        ]
+    },
+    {
+        "stage_name": "悦耳杀机",
+        "replacement_home": [
+            [
+                6,
+                6
             ]
         ]
     }
