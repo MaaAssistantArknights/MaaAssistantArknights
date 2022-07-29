@@ -13,7 +13,7 @@ namespace asst
 
         virtual bool analyze() override;
 
-        [[nodiscard]] auto get_result() const noexcept -> const std::vector<infrast::Smiley>&
+        auto get_result() const noexcept -> const std::vector<infrast::Smiley>&
         {
             return m_result;
         }

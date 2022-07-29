@@ -13,7 +13,7 @@ namespace asst
 
         bool analyze() override;
 
-        [[nodiscard]] const auto& get_result() const noexcept
+        const auto& get_result() const noexcept
         {
             return m_result;
         }

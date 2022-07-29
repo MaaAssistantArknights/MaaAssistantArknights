@@ -59,7 +59,7 @@ namespace asst
 
         virtual bool load(const std::string& dir) override;
 
-        [[nodiscard]] std::unordered_map<Point, TileInfo> calc(const std::string& stage_code, bool side) const;
+        std::unordered_map<Point, TileInfo> calc(const std::string& stage_code, bool side) const;
 
     private:
         std::shared_ptr<Map::TileCalc> m_tile_calculator = nullptr;

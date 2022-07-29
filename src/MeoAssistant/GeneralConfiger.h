@@ -62,11 +62,11 @@ namespace asst
     public:
         virtual ~GeneralConfiger() override = default;
 
-        [[nodiscard]] const std::string& get_version() const noexcept
+        const std::string& get_version() const noexcept
         {
             return m_version;
         }
-        [[nodiscard]] const Options& get_options() const noexcept
+        const Options& get_options() const noexcept
         {
             return m_options;
         }
@@ -74,7 +74,7 @@ namespace asst
         {
             return m_options;
         }
-        [[nodiscard]] std::optional<AdbCfg> get_adb_cfg(const std::string& name) const
+        std::optional<AdbCfg> get_adb_cfg(const std::string& name) const
         {
             if (auto iter = m_adb_cfg.find(name);
                 iter != m_adb_cfg.cend()) {
@@ -85,7 +85,7 @@ namespace asst
             }
         }
 
-        [[nodiscard]] std::optional<std::string> get_intent_name(const std::string& client_type) const
+        std::optional<std::string> get_intent_name(const std::string& client_type) const
         {
             if (auto iter = m_intent_name.find(client_type);
                 iter != m_intent_name.cend()) {

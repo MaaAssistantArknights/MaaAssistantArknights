@@ -34,7 +34,7 @@ namespace asst
         Point& operator=(Point&&) noexcept = default;
         Point operator-() const noexcept { return {-x, -y}; }
         bool operator==(const Point& rhs) const noexcept { return x == rhs.x && y == rhs.y; }
-        [[nodiscard]] std::string to_string() const
+        std::string to_string() const
         {
             return "[ " + std::to_string(x) + ", " + std::to_string(y) + " ]";
         }
@@ -62,7 +62,7 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         {
             return std::sqrt(double(std::pow(rhs.x - lhs.x, 2) + std::pow(rhs.y - lhs.y, 2)));
         }
-        [[nodiscard]] double length() const noexcept { return std::sqrt(double(dot(*this, *this))); }
+        double length() const noexcept { return std::sqrt(double(dot(*this, *this))); }
     };
 
     struct Rect
@@ -77,11 +77,11 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         {
             return { x, y, static_cast<int>(width * rhs), static_cast<int>(height * rhs) };
         }
-        [[nodiscard]] int area() const noexcept
+        int area() const noexcept
         {
             return width * height;
         }
-        [[nodiscard]] Rect center_zoom(double scale, int max_width = INT_MAX, int max_height = INT_MAX) const
+        Rect center_zoom(double scale, int max_width = INT_MAX, int max_height = INT_MAX) const
         {
             int half_width_scale = static_cast<int>(width * (1 - scale) / 2);
             int half_hight_scale = static_cast<int>(height * (1 - scale) / 2);
@@ -103,24 +103,24 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         }
         Rect& operator=(const Rect&) noexcept = default;
         Rect& operator=(Rect&&) noexcept = default;
-        [[nodiscard]] bool empty() const noexcept { return width == 0 || height == 0; }
+        bool empty() const noexcept { return width == 0 || height == 0; }
         bool operator==(const Rect& rhs) const noexcept
         {
             return x == rhs.x && y == rhs.y && width == rhs.width && height == rhs.height;
         }
-        [[nodiscard]] bool include(const Rect& rhs) const noexcept
+        bool include(const Rect& rhs) const noexcept
         {
             return x <= rhs.x && y <= rhs.y && (x + width) >= (rhs.x + rhs.width) && (y + height) >= (rhs.y + rhs.height);
         }
-        [[nodiscard]] bool include(const Point& rhs) const noexcept
+        bool include(const Point& rhs) const noexcept
         {
             return x <= rhs.x && y <= rhs.y && (x + width) >= rhs.x && (y + height) >= rhs.y;
         }
-        [[nodiscard]] std::string to_string() const
+        std::string to_string() const
         {
             return "[ " + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(width) + ", " + std::to_string(height) + " ]";
         }
-        [[nodiscard]] Rect move(Rect move) const
+        Rect move(Rect move) const
         {
             return { x + move.x, y + move.y, move.width, move.height };
         }
@@ -139,7 +139,7 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
 
         explicit operator std::string() const noexcept { return text; }
         explicit operator Rect() const noexcept { return rect; }
-        [[nodiscard]] std::string to_string() const
+        std::string to_string() const
         {
             return text + " : " + rect.to_string() + ", score: " + std::to_string(score);
         }

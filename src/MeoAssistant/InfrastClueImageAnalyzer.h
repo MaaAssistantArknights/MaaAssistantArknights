@@ -11,7 +11,7 @@ namespace asst
 
         virtual bool analyze() override;
 
-        [[nodiscard]] const std::vector<std::pair<Rect, std::string>>& get_result() const noexcept
+        const std::vector<std::pair<Rect, std::string>>& get_result() const noexcept
         {
             return m_result;
         }

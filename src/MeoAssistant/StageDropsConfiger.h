@@ -62,7 +62,7 @@ namespace asst
         using AbstractConfiger::AbstractConfiger;
         virtual ~StageDropsConfiger() override = default;
 
-        [[nodiscard]] const auto& get_stage_info(const std::string& code, StageDifficulty difficulty) const
+        const auto& get_stage_info(const std::string& code, StageDifficulty difficulty) const
         {
             StageKey key{ code, difficulty };
             if (auto find_iter = m_stage_info.find(key);
@@ -74,11 +74,11 @@ namespace asst
                 return empty_info;
             }
         }
-        [[nodiscard]] const auto& get_all_stage_code() const
+        const auto& get_all_stage_code() const
         {
             return m_all_stage_code;
         }
-        [[nodiscard]] const auto& get_all_item_id() const
+        const auto& get_all_item_id() const
         {
             return m_all_item_id;
         }

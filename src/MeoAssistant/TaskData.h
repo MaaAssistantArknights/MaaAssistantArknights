@@ -23,7 +23,7 @@ namespace asst
             static TaskData unique_instance;
             return unique_instance;
         }
-        [[nodiscard]] const std::unordered_set<std::string>& get_templ_required() const noexcept;
+        const std::unordered_set<std::string>& get_templ_required() const noexcept;
 
         template<typename TargetTaskInfoType = TaskInfo>
         std::shared_ptr<TargetTaskInfoType> get(const std::string& name)

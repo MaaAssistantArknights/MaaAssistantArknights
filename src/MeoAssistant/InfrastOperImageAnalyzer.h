@@ -30,11 +30,11 @@ namespace asst
         void sort_by_loc();
         void sort_by_mood();
 
-        [[nodiscard]] auto get_result() const noexcept -> const std::vector<infrast::Oper>&
+        auto get_result() const noexcept -> const std::vector<infrast::Oper>&
         {
             return m_result;
         }
-        [[nodiscard]] int get_num_of_opers_with_skills() const noexcept
+        int get_num_of_opers_with_skills() const noexcept
         {
             return m_num_of_opers_with_skills;
         }

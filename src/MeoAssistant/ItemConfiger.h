@@ -12,7 +12,7 @@ namespace asst
     public:
         virtual ~ItemConfiger() override = default;
 
-        [[nodiscard]] const std::string& get_item_name(const std::string& id) const noexcept
+        const std::string& get_item_name(const std::string& id) const noexcept
         {
             if (id.empty()) {
                 static const std::string unknown = "Unknown";
@@ -27,11 +27,11 @@ namespace asst
                 return empty;
             }
         }
-        [[nodiscard]] const auto& get_all_item_id() const noexcept
+        const auto& get_all_item_id() const noexcept
         {
             return m_all_item_id;
         }
-        [[nodiscard]] const auto& get_ordered_material_item_id() const noexcept
+        const auto& get_ordered_material_item_id() const noexcept
         {
             return m_ordered_material_item_id;
         }

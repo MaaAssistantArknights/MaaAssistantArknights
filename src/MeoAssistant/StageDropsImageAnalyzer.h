@@ -12,11 +12,11 @@ namespace asst
 
         virtual bool analyze() override;
 
-        [[nodiscard]] StageKey get_stage_key() const;
-        [[nodiscard]] int get_stars() const noexcept;
+        StageKey get_stage_key() const;
+        int get_stars() const noexcept;
 
         // <droptype, <item_id, quantity>>
-        [[nodiscard]] const auto& get_drops() const noexcept
+        const auto& get_drops() const noexcept
         {
             return m_drops;
         }

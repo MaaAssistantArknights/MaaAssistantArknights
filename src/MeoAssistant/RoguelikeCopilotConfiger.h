@@ -12,7 +12,7 @@ namespace asst
     public:
         virtual ~RoguelikeCopilotConfiger() override = default;
 
-        [[nodiscard]] std::optional<RoguelikeBattleData> get_stage_data(const std::string& stage_name) const;
+        std::optional<RoguelikeBattleData> get_stage_data(const std::string& stage_name) const;
 
     protected:
         virtual bool parse(const json::value& json) override;

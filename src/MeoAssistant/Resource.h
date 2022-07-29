@@ -88,55 +88,55 @@ namespace asst
             return m_roguelike_shopping_cfg_unique_ins;
         }
 
-        [[nodiscard]] const TemplResource& templ() const noexcept
+        const TemplResource& templ() const noexcept
         {
             return m_templ_resource_unique_ins;
         }
-        [[nodiscard]] const GeneralConfiger& cfg() const noexcept
+        const GeneralConfiger& cfg() const noexcept
         {
             return m_general_cfg_unique_ins;
         }
-        [[nodiscard]] const RecruitConfiger& recruit() const noexcept
+        const RecruitConfiger& recruit() const noexcept
         {
             return m_recruit_cfg_unique_ins;
         }
-        [[nodiscard]] const RoguelikeRecruitConfiger& roguelike_recruit() const noexcept
+        const RoguelikeRecruitConfiger& roguelike_recruit() const noexcept
         {
             return m_roguelike_recruit_cfg_unique_ins;
         }
-        [[nodiscard]] const ItemConfiger& item() const noexcept
+        const ItemConfiger& item() const noexcept
         {
             return m_item_cfg_unique_ins;
         }
-        [[nodiscard]] const InfrastConfiger& infrast() const noexcept
+        const InfrastConfiger& infrast() const noexcept
         {
             return m_infrast_cfg_unique_ins;
         }
-        [[nodiscard]] const CopilotConfiger& copilot() const noexcept
+        const CopilotConfiger& copilot() const noexcept
         {
             return m_copilot_cfg_unique_ins;
         }
-        [[nodiscard]] const RoguelikeCopilotConfiger& roguelike() const noexcept
+        const RoguelikeCopilotConfiger& roguelike() const noexcept
         {
             return m_roguelike_cfg_unique_ins;
         }
-        [[nodiscard]] const OcrPack& ocr() const noexcept
+        const OcrPack& ocr() const noexcept
         {
             return m_ocr_pack_unique_ins;
         }
-        [[nodiscard]] const TilePack& tile() const noexcept
+        const TilePack& tile() const noexcept
         {
             return m_tile_pack_unique_ins;
         }
-        [[nodiscard]] const StageDropsConfiger& drops() const noexcept
+        const StageDropsConfiger& drops() const noexcept
         {
             return m_stage_drops_cfg_unique_ins;
         }
-        [[nodiscard]] const BattleDataConfiger& battle_data() const noexcept
+        const BattleDataConfiger& battle_data() const noexcept
         {
             return m_battle_data_cfg_unique_ins;
         }
-        [[nodiscard]] const RoguelikeShoppingConfiger& roguelike_shopping() const noexcept
+        const RoguelikeShoppingConfiger& roguelike_shopping() const noexcept
         {
             return m_roguelike_shopping_cfg_unique_ins;
         }

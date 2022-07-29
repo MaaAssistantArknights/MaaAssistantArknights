@@ -23,7 +23,7 @@ namespace asst
         void set_region_of_appeared(Rect region) noexcept;
         void set_mask_with_close(int with_close) noexcept;
 
-        [[nodiscard]] const MatchRect& get_result() const noexcept;
+        const MatchRect& get_result() const noexcept;
 
     protected:
         virtual bool match_templ(const cv::Mat templ);

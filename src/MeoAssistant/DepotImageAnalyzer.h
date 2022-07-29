@@ -21,8 +21,8 @@ namespace asst
         virtual bool analyze() override;
 
         void set_match_begin_pos(size_t pos) noexcept;
-        [[nodiscard]] size_t get_match_begin_pos() const noexcept;
-        [[nodiscard]] const auto& get_result() const noexcept
+        size_t get_match_begin_pos() const noexcept;
+        const auto& get_result() const noexcept
         {
             return m_result;
         }

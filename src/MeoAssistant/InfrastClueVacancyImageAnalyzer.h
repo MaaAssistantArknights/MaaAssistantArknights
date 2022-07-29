@@ -18,7 +18,7 @@ namespace asst
             m_to_be_analyzed = std::move(to_be_analyzed);
         }
 
-        [[nodiscard]] const std::unordered_map<std::string, Rect>& get_vacancy() const noexcept
+        const std::unordered_map<std::string, Rect>& get_vacancy() const noexcept
         {
             return m_clue_vacancy;
         }

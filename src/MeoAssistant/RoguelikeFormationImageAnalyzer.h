@@ -18,7 +18,7 @@ namespace asst
 
         virtual bool analyze() override;
 
-        [[nodiscard]] const std::vector<FormationOper>& get_result() const noexcept;
+        const std::vector<FormationOper>& get_result() const noexcept;
     protected:
         // 该分析器不支持外部设置ROI
         virtual void set_roi(const Rect& roi) noexcept override
