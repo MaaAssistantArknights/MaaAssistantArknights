@@ -1,4 +1,4 @@
-<div align="center">
+<div style="text-align:center">
 
 <img alt="LOGO" src="https://user-images.githubusercontent.com/18511905/148931479-23aef436-2fc1-4c1e-84c9-bae17be710a5.png" width=360 height=270/>
 
@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[中文（简体）](README.md) [中文（繁體）](README_zh-TW.md) [English](README_en-US.md) [日本語](README_ja-JP.md)
+[中文（简体）](README.md) | [中文（繁體）](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md)
 
 MAA means MAA Assistant Arknights
 
