@@ -19,7 +19,7 @@ namespace MeoAsstGui
     public class StartSelfModel
     {
         private static readonly RegistryKey _key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-        private static readonly string fileValue = Process.GetCurrentProcess().MainModule.FileName;
+        private static readonly string fileValue = Process.GetCurrentProcess().MainModule?.FileName;
 
         public static bool CheckStart()
         {
