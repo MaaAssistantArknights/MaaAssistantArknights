@@ -30,7 +30,7 @@ namespace asst
         void set_task_info(const std::shared_ptr<TaskInfo>& task_ptr);
         void set_task_info(const std::string& task_name);
 
-        [[nodiscard]] const std::vector<MatchRect>& get_result() const noexcept;
+        const std::vector<MatchRect>& get_result() const noexcept;
 
     protected:
         virtual bool multi_match_templ(const cv::Mat templ);

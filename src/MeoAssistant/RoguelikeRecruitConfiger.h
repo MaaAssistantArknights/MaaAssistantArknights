@@ -26,8 +26,8 @@ namespace asst
     public:
         virtual ~RoguelikeRecruitConfiger() override = default;
 
-        [[nodiscard]] const RoguelikeOperInfo& get_oper_info(const std::string& name) const noexcept;
-        [[nodiscard]] const auto& get_oper_order() const noexcept { return m_ordered_all_opers_name; }
+        const RoguelikeOperInfo& get_oper_info(const std::string& name) const noexcept;
+        const auto& get_oper_order() const noexcept { return m_ordered_all_opers_name; }
 
     protected:
         virtual bool parse(const json::value& json) override;

@@ -19,8 +19,8 @@ namespace asst
         void set_need_split(bool need_split) noexcept;
         void set_need_bound(bool need_bound) noexcept;
 
-        [[nodiscard]] const std::vector<std::string>& get_min_dist_name() const noexcept;
-        [[nodiscard]] const std::vector<std::string>& get_hash() const noexcept;
+        const std::vector<std::string>& get_min_dist_name() const noexcept;
+        const std::vector<std::string>& get_hash() const noexcept;
 
         static std::string shash(const cv::Mat& img);
         static int hamming(std::string hash1, std::string hash2);

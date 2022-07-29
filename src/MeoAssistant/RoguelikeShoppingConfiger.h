@@ -19,7 +19,7 @@ namespace asst
     public:
         virtual ~RoguelikeShoppingConfiger() override = default;
 
-        [[nodiscard]] const auto& get_goods() const noexcept
+        const auto& get_goods() const noexcept
         {
             return m_goods;
         }

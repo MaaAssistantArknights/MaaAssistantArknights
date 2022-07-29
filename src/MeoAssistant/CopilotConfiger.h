@@ -9,12 +9,12 @@ namespace asst
     public:
         virtual ~CopilotConfiger() override = default;
 
-        [[nodiscard]] bool contains_actions(const std::string& stage_name) const noexcept
+        bool contains_actions(const std::string& stage_name) const noexcept
         {
             return m_battle_actions.find(stage_name) != m_battle_actions.cend();
         }
 
-        [[nodiscard]] auto get_actions(const std::string& stage_name) const noexcept
+        auto get_actions(const std::string& stage_name) const noexcept
         {
             return m_battle_actions.at(stage_name);
         }

@@ -14,7 +14,7 @@ namespace asst
         void set_black_list(std::vector<std::string> black_list);
         void set_white_list(std::vector<std::string> white_list);
 
-        [[nodiscard]] const std::vector<Rect>& get_result() const noexcept
+        const std::vector<Rect>& get_result() const noexcept
         {
             return m_result;
         }

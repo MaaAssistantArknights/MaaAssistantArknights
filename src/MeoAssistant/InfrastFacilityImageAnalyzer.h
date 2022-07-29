@@ -17,7 +17,7 @@ namespace asst
             m_to_be_analyzed = std::move(facilities);
         }
 
-        [[nodiscard]] size_t get_quantity(const std::string& name) const
+        size_t get_quantity(const std::string& name) const
         {
             if (auto iter = m_result.find(name);
                 iter == m_result.cend()) {
@@ -27,7 +27,7 @@ namespace asst
                 return iter->second.size();
             }
         }
-        [[nodiscard]] Rect get_rect(const std::string& name, int index) const
+        Rect get_rect(const std::string& name, int index) const
         {
             if (auto iter = m_result.find(name);
                 iter == m_result.cend()) {
@@ -42,7 +42,7 @@ namespace asst
                 }
             }
         }
-        [[nodiscard]] const std::unordered_map<std::string, std::vector<MatchRect>>& get_result() const noexcept
+        const std::unordered_map<std::string, std::vector<MatchRect>>& get_result() const noexcept
         {
             return m_result;
         }

@@ -34,7 +34,7 @@ namespace asst
         virtual void set_region_of_appeared(Rect region) noexcept;
 
         void set_pred(const TextRectProc& pred);
-        [[nodiscard]] virtual const std::vector<TextRect>& get_result() const noexcept;
+        virtual const std::vector<TextRect>& get_result() const noexcept;
         virtual std::vector<TextRect>& get_result() noexcept;
 
     protected:

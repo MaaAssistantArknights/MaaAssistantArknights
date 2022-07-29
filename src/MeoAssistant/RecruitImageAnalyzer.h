@@ -14,19 +14,19 @@ namespace asst
 
         virtual bool analyze() override;
 
-        [[nodiscard]] const std::vector<TextRect>& get_tags_result() const noexcept
+        const std::vector<TextRect>& get_tags_result() const noexcept
         {
             return m_tags_result;
         }
-        [[nodiscard]] const std::vector<Rect>& get_set_time_rect() const noexcept
+        const std::vector<Rect>& get_set_time_rect() const noexcept
         {
             return m_set_time_rect;
         }
-        [[nodiscard]] Rect get_confirm_rect() const noexcept
+        Rect get_confirm_rect() const noexcept
         {
             return m_confirm_rect;
         }
-        [[nodiscard]] Rect get_refresh_rect() const noexcept
+        Rect get_refresh_rect() const noexcept
         {
             return m_refresh_rect;
         }

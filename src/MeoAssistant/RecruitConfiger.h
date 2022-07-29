@@ -22,7 +22,7 @@ namespace asst
         bool hidden = false;
         std::string name_en;
 
-        [[nodiscard]] bool has_tag(const std::string &tag) const {
+        bool has_tag(const std::string &tag) const {
             return tags.find(tag) != tags.cend();
         }
 
@@ -87,11 +87,11 @@ namespace asst
         virtual ~RecruitConfiger() override = default;
         constexpr static int CorrectNumberOfTags = 5;
 
-        [[nodiscard]] const std::unordered_set<std::string>& get_all_tags() const noexcept
+        const std::unordered_set<std::string>& get_all_tags() const noexcept
         {
             return m_all_tags;
         }
-        [[nodiscard]] const std::vector<RecruitOperInfo>& get_all_opers() const noexcept
+        const std::vector<RecruitOperInfo>& get_all_opers() const noexcept
         {
             return m_all_opers;
         }

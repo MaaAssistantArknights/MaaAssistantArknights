@@ -27,11 +27,11 @@ namespace asst
         void set_tasks(std::vector<std::string> tasks_name);
         void set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
 
-        [[nodiscard]] std::shared_ptr<TaskInfo> get_result() const noexcept
+        std::shared_ptr<TaskInfo> get_result() const noexcept
         {
             return m_result;
         }
-        [[nodiscard]] const Rect& get_rect() const noexcept
+        const Rect& get_rect() const noexcept
         {
             return m_result_rect;
         }
