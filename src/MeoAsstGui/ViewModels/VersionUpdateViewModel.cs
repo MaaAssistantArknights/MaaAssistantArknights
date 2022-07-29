@@ -387,7 +387,7 @@ namespace MeoAsstGui
 
             const int requestRetryMaxTimes = 5;
             var response = RequestApi(RequestUrl);
-            for (int i = 0; response.Length == 0 && i >= requestRetryMaxTimes; i++)
+            for (int i = 0; response.Length == 0 && i < requestRetryMaxTimes; i++)
             {
                 response = RequestApi(RequestUrl);
             }
