@@ -4,6 +4,7 @@
 #include "Resource.h"
 #include "Controller.h"
 #include "ProcessTask.h"
+#include "Logger.hpp"
 
 bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -44,6 +45,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         if (find_it == result.cend()) {
             continue;
         }
+        Log.info("Ready to buy", goods.name);
         m_ctrler->click(find_it->rect);
         bool confirmed = ProcessTask(*this, { "Roguelike1TraderShoppingConfirm" })
             .set_retry_times(5)
