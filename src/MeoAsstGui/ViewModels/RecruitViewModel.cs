@@ -1,3 +1,4 @@
+// <copyright file="RecruitViewModel.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -8,6 +9,7 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -33,10 +35,7 @@ namespace MeoAsstGui
         public string RecruitInfo
         {
             get { return _recruitInfo; }
-            set
-            {
-                SetAndNotify(ref _recruitInfo, value);
-            }
+            set { SetAndNotify(ref _recruitInfo, value); }
         }
 
         private string _recruitResult;
@@ -44,17 +43,18 @@ namespace MeoAsstGui
         public string RecruitResult
         {
             get { return _recruitResult; }
-            set
-            {
-                SetAndNotify(ref _recruitResult, value);
-            }
+            set { SetAndNotify(ref _recruitResult, value); }
         }
 
         private bool _chooseLevel3 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel3", bool.FalseString));
 
         public bool ChooseLevel3
         {
-            get { return _chooseLevel3; }
+            get
+            {
+                return _chooseLevel3;
+            }
+
             set
             {
                 SetAndNotify(ref _chooseLevel3, value);
@@ -66,7 +66,11 @@ namespace MeoAsstGui
 
         public bool ChooseLevel4
         {
-            get { return _chooseLevel4; }
+            get
+            {
+                return _chooseLevel4;
+            }
+
             set
             {
                 SetAndNotify(ref _chooseLevel4, value);
@@ -78,7 +82,11 @@ namespace MeoAsstGui
 
         public bool ChooseLevel5
         {
-            get { return _chooseLevel5; }
+            get
+            {
+                return _chooseLevel5;
+            }
+
             set
             {
                 SetAndNotify(ref _chooseLevel5, value);
@@ -90,7 +98,11 @@ namespace MeoAsstGui
 
         public bool ChooseLevel6
         {
-            get { return _chooseLevel6; }
+            get
+            {
+                return _chooseLevel6;
+            }
+
             set
             {
                 SetAndNotify(ref _chooseLevel6, value);
@@ -102,7 +114,11 @@ namespace MeoAsstGui
 
         public bool AutoSetTime
         {
-            get { return _autoSetTime; }
+            get
+            {
+                return _autoSetTime;
+            }
+
             set
             {
                 SetAndNotify(ref _autoSetTime, value);
@@ -115,7 +131,7 @@ namespace MeoAsstGui
         public async void StartCalc()
         {
             var asstProxy = _container.Get<AsstProxy>();
-            string errMsg = "";
+            string errMsg = string.Empty;
             RecruitInfo = Localization.GetString("ConnectingToEmulator");
             var task = Task.Run(() =>
             {
@@ -127,8 +143,9 @@ namespace MeoAsstGui
                 RecruitInfo = errMsg;
                 return;
             }
+
             RecruitInfo = Localization.GetString("Identifying");
-            RecruitResult = "";
+            RecruitResult = string.Empty;
 
             var levelList = new List<int>();
 
@@ -136,14 +153,17 @@ namespace MeoAsstGui
             {
                 levelList.Add(3);
             }
+
             if (ChooseLevel4)
             {
                 levelList.Add(4);
             }
+
             if (ChooseLevel5)
             {
                 levelList.Add(5);
             }
+
             if (ChooseLevel6)
             {
                 levelList.Add(6);

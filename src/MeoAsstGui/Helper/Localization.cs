@@ -1,3 +1,4 @@
+// <copyright file="Localization.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -8,24 +9,26 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using System;
-using System.Windows;
-using System.Threading;
-using System.Globalization;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
+using System.Windows;
 
 namespace MeoAsstGui
 {
     public class Localization
     {
-        public static readonly Dictionary<string, string> SupportedLanguages = new Dictionary<string, string> {
+        public static readonly Dictionary<string, string> SupportedLanguages = new Dictionary<string, string>
+        {
             { "zh-cn", "简体中文" },
             { "zh-tw", "繁體中文" },
             { "en-us", "English" },
             { "ja-jp", "日本語" },
             { "ko-kr", "한국어" },
-            { "pallas", "🍻🍻🍻🍻" }
+            { "pallas", "🍻🍻🍻🍻" },
         };
 
         public static string DefaultLanguage
@@ -37,6 +40,7 @@ namespace MeoAsstGui
                 {
                     return local;
                 }
+
                 foreach (var lang in SupportedLanguages)
                 {
                     var key = lang.Key.Contains("-") ? lang.Key.Split('-')[0] : lang.Key;
@@ -45,6 +49,7 @@ namespace MeoAsstGui
                         return lang.Key;
                     }
                 }
+
                 return "en-us";
             }
         }
@@ -53,13 +58,12 @@ namespace MeoAsstGui
 
         public static void Load()
         {
-            //var cultureInfo = new CultureInfo(culture);
-            //Thread.CurrentThread.CurrentUICulture = cultureInfo;
-            //Thread.CurrentThread.CurrentCulture = cultureInfo;
-
+            // var cultureInfo = new CultureInfo(culture);
+            // Thread.CurrentThread.CurrentUICulture = cultureInfo;
+            // Thread.CurrentThread.CurrentCulture = cultureInfo;
             var dictionary = new ResourceDictionary
             {
-                Source = new Uri($@"Resources\Localizations\{culture}.xaml", UriKind.Relative)
+                Source = new Uri($@"Resources\Localizations\{culture}.xaml", UriKind.Relative),
             };
             Application.Current.Resources.MergedDictionaries[0] = dictionary;
         }
@@ -68,7 +72,7 @@ namespace MeoAsstGui
         {
             var dictionary = new ResourceDictionary
             {
-                Source = new Uri($@"Resources\Localizations\{culture}.xaml", UriKind.Relative)
+                Source = new Uri($@"Resources\Localizations\{culture}.xaml", UriKind.Relative),
             };
             if (dictionary.Contains(key))
             {

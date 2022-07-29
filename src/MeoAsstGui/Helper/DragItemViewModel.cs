@@ -1,3 +1,4 @@
+// <copyright file="DragItemViewModel.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -8,6 +9,7 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using Stylet;
 
@@ -27,10 +29,7 @@ namespace MeoAsstGui
         public string Name
         {
             get { return _name; }
-            set
-            {
-                SetAndNotify(ref _name, value);
-            }
+            set { SetAndNotify(ref _name, value); }
         }
 
         private readonly string _isCheckedStorageKey;
@@ -38,7 +37,10 @@ namespace MeoAsstGui
 
         public bool IsChecked
         {
-            get { return _isChecked; }
+            get
+            {
+                return _isChecked;
+            }
 
             set
             {
@@ -53,10 +55,7 @@ namespace MeoAsstGui
         public string IconPath
         {
             get { return _iconPath; }
-            set
-            {
-                SetAndNotify(ref _iconPath, value);
-            }
+            set { SetAndNotify(ref _iconPath, value); }
         }
 
         private string _token;
@@ -64,10 +63,7 @@ namespace MeoAsstGui
         public string Token
         {
             get { return _token; }
-            set
-            {
-                SetAndNotify(ref _token, value);
-            }
+            set { SetAndNotify(ref _token, value); }
         }
 
         private string _runStatus;
@@ -75,10 +71,7 @@ namespace MeoAsstGui
         public string RunStatus
         {
             get { return _runStatus; }
-            set
-            {
-                SetAndNotify(ref _runStatus, value);
-            }
+            set { SetAndNotify(ref _runStatus, value); }
         }
     }
 }

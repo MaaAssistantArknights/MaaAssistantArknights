@@ -1,3 +1,4 @@
+// <copyright file="Bootstrapper.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -8,6 +9,7 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using System;
 using System.Globalization;
@@ -28,6 +30,7 @@ namespace MeoAsstGui
 
         private static readonly FieldInfo _settingsViewModelIContainerFiled =
             typeof(SettingsViewModel).GetField("_container", BindingFlags.NonPublic | BindingFlags.Instance);
+
         /// <summary>
         /// 应当只能是SettingsViewModel在构造时调用这个函数。用反射拿_container只是为了不额外修改SettingsViewModel的定义，
         /// 并顺便检查传入的SettingsViewModel中的_container不为空（即不是随便new出来的一个SettingsViewModel）
@@ -40,7 +43,8 @@ namespace MeoAsstGui
             {
                 _trayIconInSettingsViewModel = container.Get<TrayIcon>();
             }
-            //TODO:出现不符合要求的settingsViewModel应当Log一下，等一个有缘人
+
+            // TODO:出现不符合要求的settingsViewModel应当Log一下，等一个有缘人
         }
 
         // 初始化些啥自己加
@@ -66,13 +70,14 @@ namespace MeoAsstGui
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
 
-            //关闭程序时清理操作中心中的通知
+            // 关闭程序时清理操作中心中的通知
             var os = RuntimeInformation.OSDescription.ToString();
             if (os.ToString().CompareTo("Microsoft Windows 10.0.10240") >= 0)
             {
                 ToastNotificationManagerCompat.History.Clear();
             }
-            //注销任务栏图标
+
+            // 注销任务栏图标
             _trayIconInSettingsViewModel.Close();
             ViewStatusStorage.Save();
         }
