@@ -1,3 +1,4 @@
+// <copyright file="AutoScroll.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -8,6 +9,7 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using System;
 using System.Windows;
@@ -44,17 +46,34 @@ namespace MeoAsstGui
                     scrollViewer.ScrollToEnd();
                     scrollViewer.ScrollChanged += ScrollChanged;
                 }
-                else { scrollViewer.ScrollChanged -= ScrollChanged; }
+                else
+                {
+                    scrollViewer.ScrollChanged -= ScrollChanged;
+                }
             }
-            else { throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances."); }
+            else
+            {
+                throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances.");
+            }
         }
 
         private static void ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             ScrollViewer scroll = sender as ScrollViewer;
-            if (scroll == null) { throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances."); }
-            if (e.ExtentHeightChange == 0) { _autoScroll = scroll.VerticalOffset == scroll.ScrollableHeight; }
-            if (_autoScroll && e.ExtentHeightChange != 0) { scroll.ScrollToVerticalOffset(scroll.ExtentHeight); }
+            if (scroll == null)
+            {
+                throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances.");
+            }
+
+            if (e.ExtentHeightChange == 0)
+            {
+                _autoScroll = scroll.VerticalOffset == scroll.ScrollableHeight;
+            }
+
+            if (_autoScroll && e.ExtentHeightChange != 0)
+            {
+                scroll.ScrollToVerticalOffset(scroll.ExtentHeight);
+            }
         }
     }
 }

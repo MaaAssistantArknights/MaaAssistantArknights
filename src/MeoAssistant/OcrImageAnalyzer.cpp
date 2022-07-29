@@ -208,13 +208,23 @@ void asst::OcrImageAnalyzer::sort_result_by_required()
         return;
     }
 
-    std::unordered_map<std::string, size_t> m_req_cache;
+    std::unordered_map<std::string, size_t> req_cache;
     for (size_t i = 0; i != m_required.size(); ++i) {
-        m_req_cache.emplace(m_required.at(i), i + 1);
+        req_cache.emplace(m_required.at(i), i + 1);
     }
 
-    std::sort(get_result().begin(), get_result().end(),
-        [&m_req_cache](const auto& lhs, const auto& rhs) -> bool {
-            return m_req_cache[lhs.text] < m_req_cache[rhs.text];
+    auto& result = get_result();
+    // 不在 m_required 中的将被排在最后
+    std::sort(result.begin(), result.end(),
+        [&req_cache](const auto& lhs, const auto& rhs) -> bool {
+            size_t lvalue = req_cache[lhs.text];
+            size_t rvalue = req_cache[rhs.text];
+            if (lvalue == 0) {
+                return false;
+            }
+            else if (rvalue == 0) {
+                return true;
+            }
+            return lvalue < rvalue;
         });
 }

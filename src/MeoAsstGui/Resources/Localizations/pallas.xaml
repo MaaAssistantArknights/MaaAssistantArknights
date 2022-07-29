@@ -116,6 +116,7 @@
     <system:String x:Key="HideUnavailableStage">🍻🍸🍷🍺🍺🍸🍸</system:String>
     <system:String x:Key="MainViewButtonFeature">🍷🍺🍻🍺🍸🍺</system:String>
 
+    <system:String x:Key="ADBTip">🍸🍻🍻🍸🍸🍻💃🍻🍸🍷🍸🍷🍷💃🍸🍻💃🍷🍺🍺🍸🍷🕺🍷🍷🍷🕺🍻🍷🍸💃🕺🍸🍷🍺</system:String>
     <system:String x:Key="ADBPath">🕺💃🍸🍷🍸💃🍸</system:String>
     <system:String x:Key="ConnectionAddress">🍻🕺🍻</system:String>
     <system:String x:Key="ConnectionPreset">🍸🍷🍻</system:String>
@@ -344,4 +345,8 @@
     <system:String x:Key="AutoSelectLevel6">🕺💃🍺🍸🍻</system:String>
     <system:String x:Key="Level1Tip">🍸🍻💃🍸🍻💃🍻🍸🍻🕺🍺💃🍺🍷💃🕺🍸</system:String>
     <!--  AutoRecruitSettings  -->
+
+    <system:String x:Key="Burping">🕺💃</system:String>
+    <system:String x:Key="DrunkAndStaggering">🍻🍻🍻🍻🍻🍻🍻🍻🍻🍻</system:String>
+    <system:String x:Key="Hangover">🍻🍻🍻🍻🍻🍻🍻🍻🍻🍻</system:String>
 </ResourceDictionary>

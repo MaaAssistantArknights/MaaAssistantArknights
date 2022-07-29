@@ -1,3 +1,4 @@
+// <copyright file="AsstProxy.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -8,6 +9,7 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using System;
 using System.Collections.Generic;
@@ -22,54 +24,67 @@ using StyletIoC;
 
 namespace MeoAsstGui
 {
+#pragma warning disable SA1135 // Using directives should be qualified
     using AsstHandle = IntPtr;
     using TaskId = Int32;
+#pragma warning restore SA1135 // Using directives should be qualified
 
+#pragma warning disable SA1121 // Use built-in type alias
     public class AsstProxy
     {
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
         private delegate void ProcCallbckMsg(AsstMsg msg, JObject details);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstLoadResource(byte[] dirname);
+        [DllImport("MeoAssistant.dll")]
+        private static extern bool AsstLoadResource(byte[] dirname);
 
         private static bool AsstLoadResource(string dirname)
         {
             return AsstLoadResource(Encoding.UTF8.GetBytes(dirname));
         }
 
-        [DllImport("MeoAssistant.dll")] private static extern AsstHandle AsstCreate();
+        [DllImport("MeoAssistant.dll")]
+        private static extern AsstHandle AsstCreate();
 
-        [DllImport("MeoAssistant.dll")] private static extern AsstHandle AsstCreateEx(CallbackDelegate callback, IntPtr custom_arg);
+        [DllImport("MeoAssistant.dll")]
+        private static extern AsstHandle AsstCreateEx(CallbackDelegate callback, IntPtr custom_arg);
 
-        [DllImport("MeoAssistant.dll")] private static extern void AsstDestroy(AsstHandle handle);
+        [DllImport("MeoAssistant.dll")]
+        private static extern void AsstDestroy(AsstHandle handle);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstConnect(AsstHandle handle, byte[] adb_path, byte[] address, byte[] config);
+        [DllImport("MeoAssistant.dll")]
+        private static extern bool AsstConnect(AsstHandle handle, byte[] adb_path, byte[] address, byte[] config);
 
         private static bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
         {
             return AsstConnect(handle, Encoding.UTF8.GetBytes(adb_path), Encoding.UTF8.GetBytes(address), Encoding.UTF8.GetBytes(config));
         }
 
-        [DllImport("MeoAssistant.dll")] private static extern TaskId AsstAppendTask(AsstHandle handle, byte[] type, byte[] task_params);
+        [DllImport("MeoAssistant.dll")]
+        private static extern TaskId AsstAppendTask(AsstHandle handle, byte[] type, byte[] task_params);
 
         private static TaskId AsstAppendTask(AsstHandle handle, string type, string task_params)
         {
             return AsstAppendTask(handle, Encoding.UTF8.GetBytes(type), Encoding.UTF8.GetBytes(task_params));
         }
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstSetTaskParams(AsstHandle handle, TaskId id, byte[] task_params);
+        [DllImport("MeoAssistant.dll")]
+        private static extern bool AsstSetTaskParams(AsstHandle handle, TaskId id, byte[] task_params);
 
         private static bool AsstSetTaskParams(AsstHandle handle, TaskId id, string task_params)
         {
             return AsstSetTaskParams(handle, id, Encoding.UTF8.GetBytes(task_params));
         }
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstStart(AsstHandle handle);
+        [DllImport("MeoAssistant.dll")]
+        private static extern bool AsstStart(AsstHandle handle);
 
-        [DllImport("MeoAssistant.dll")] private static extern bool AsstStop(AsstHandle handle);
+        [DllImport("MeoAssistant.dll")]
+        private static extern bool AsstStop(AsstHandle handle);
 
-        [DllImport("MeoAssistant.dll")] private static extern void AsstLog(byte[] level, byte[] message);
+        [DllImport("MeoAssistant.dll")]
+        private static extern void AsstLog(byte[] level, byte[] message);
 
         public static void AsstLog(string message)
         {
@@ -112,6 +127,7 @@ namespace MeoAsstGui
                 {
                     return true;
                 }
+
                 loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory());
             }
             else if (_curResource == "Official" || _curResource == "Bilibili")
@@ -139,6 +155,7 @@ namespace MeoAsstGui
                     _curResource = settingsModel.ClientType;
                 }
             }
+
             return loaded;
         }
 
@@ -153,9 +170,10 @@ namespace MeoAsstGui
                 Execute.OnUIThread(() =>
                 {
                     _windowManager.ShowMessageBox(Localization.GetString("UnknownAbnormal"), Localization.GetString("Error"), icon: MessageBoxImage.Error);
-                    App.Current.Shutdown();
+                    Application.Current.Shutdown();
                 });
             }
+
             var mainModel = _container.Get<TaskQueueViewModel>();
             mainModel.Idle = true;
             var settingsModel = _container.Get<SettingsViewModel>();
@@ -174,18 +192,22 @@ namespace MeoAsstGui
         }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true)]
+#pragma warning disable SA1300 // Element should begin with upper-case letter
         internal static extern int lstrlenA(IntPtr ptr);
+#pragma warning restore SA1300 // Element should begin with upper-case letter
 
-        private static string PtrToStringCustom(IntPtr ptr, System.Text.Encoding enc)
+        private static string PtrToStringCustom(IntPtr ptr, Encoding enc)
         {
-            if (IntPtr.Zero == ptr)
+            if (ptr == IntPtr.Zero)
             {
                 return null;
             }
+
             if (lstrlenA(ptr) == 0)
             {
                 return string.Empty;
             }
+
             int len = lstrlenA(ptr);
             Byte[] bytes = new Byte[len + 1];
             Marshal.Copy(ptr, bytes, 0, len + 1);
@@ -194,10 +216,11 @@ namespace MeoAsstGui
 
         private void CallbackFunction(int msg, IntPtr json_buffer, IntPtr custom_arg)
         {
-            string json_str = PtrToStringCustom(json_buffer, System.Text.Encoding.UTF8);
-            //Console.WriteLine(json_str);
+            string json_str = PtrToStringCustom(json_buffer, Encoding.UTF8);
+
+            // Console.WriteLine(json_str);
             JObject json = (JObject)JsonConvert.DeserializeObject(json_str);
-            ProcCallbckMsg dlg = new ProcCallbckMsg(procMsg);
+            ProcCallbckMsg dlg = new ProcCallbckMsg(ProcMsg);
             Execute.OnUIThread(() =>
             {
                 dlg((AsstMsg)msg, json);
@@ -208,7 +231,7 @@ namespace MeoAsstGui
         private readonly IContainer _container;
         private IntPtr _handle;
 
-        private void procMsg(AsstMsg msg, JObject details)
+        private void ProcMsg(AsstMsg msg, JObject details)
         {
             switch (msg)
             {
@@ -217,11 +240,11 @@ namespace MeoAsstGui
 
                 case AsstMsg.InitFailed:
                     _windowManager.ShowMessageBox(Localization.GetString("InitializationError"), Localization.GetString("Error"), icon: MessageBoxImage.Error);
-                    App.Current.Shutdown();
+                    Application.Current.Shutdown();
                     break;
 
                 case AsstMsg.ConnectionInfo:
-                    procConnectInfo(details);
+                    ProcConnectInfo(details);
                     break;
 
                 case AsstMsg.AllTasksCompleted:
@@ -229,23 +252,23 @@ namespace MeoAsstGui
                 case AsstMsg.TaskChainStart:
                 case AsstMsg.TaskChainCompleted:
                 case AsstMsg.TaskChainExtraInfo:
-                    procTaskChainMsg(msg, details);
+                    ProcTaskChainMsg(msg, details);
                     break;
 
                 case AsstMsg.SubTaskError:
                 case AsstMsg.SubTaskStart:
                 case AsstMsg.SubTaskCompleted:
                 case AsstMsg.SubTaskExtraInfo:
-                    procSubTaskMsg(msg, details);
+                    ProcSubTaskMsg(msg, details);
                     break;
             }
         }
 
         private bool connected = false;
-        private string connected_adb;
-        private string connected_address;
+        private string connectedAdb;
+        private string connectedAddress;
 
-        private void procConnectInfo(JObject details)
+        private void ProcConnectInfo(JObject details)
         {
             var what = details["what"].ToString();
             var svm = _container.Get<SettingsViewModel>();
@@ -254,9 +277,9 @@ namespace MeoAsstGui
             {
                 case "Connected":
                     connected = true;
-                    connected_adb = details["details"]["adb"].ToString();
-                    connected_address = details["details"]["address"].ToString();
-                    svm.ConnectAddress = connected_address;
+                    connectedAdb = details["details"]["adb"].ToString();
+                    connectedAddress = details["details"]["address"].ToString();
+                    svm.ConnectAddress = connectedAddress;
                     break;
 
                 case "UnsupportedResolution":
@@ -285,7 +308,7 @@ namespace MeoAsstGui
             }
         }
 
-        private void procTaskChainMsg(AsstMsg msg, JObject details)
+        private void ProcTaskChainMsg(AsstMsg msg, JObject details)
         {
             string taskChain = details["taskchain"].ToString();
 
@@ -302,7 +325,9 @@ namespace MeoAsstGui
                     recruitModel.RecruitInfo = Localization.GetString("IdentifyTheMistakes");
                 }
             }
+
             var mainModel = _container.Get<TaskQueueViewModel>();
+            var settingsModel = _container.Get<SettingsViewModel>();
             var copilotModel = _container.Get<CopilotViewModel>();
 
             switch (msg)
@@ -314,6 +339,7 @@ namespace MeoAsstGui
                         copilotModel.Idle = true;
                         copilotModel.AddLog(Localization.GetString("CombatError"), "darkred");
                     }
+
                     break;
 
                 case AsstMsg.TaskChainStart:
@@ -321,6 +347,7 @@ namespace MeoAsstGui
                     {
                         mainModel.FightTaskRunning = true;
                     }
+
                     mainModel.AddLog(Localization.GetString("StartTask") + taskChain);
                     break;
 
@@ -331,6 +358,7 @@ namespace MeoAsstGui
                         copilotModel.Idle = true;
                         copilotModel.AddLog(Localization.GetString("CompleteCombat"), "darkcyan");
                     }
+
                     break;
 
                 case AsstMsg.TaskChainExtraInfo:
@@ -349,6 +377,13 @@ namespace MeoAsstGui
                             isMainTaskQueueAllCompleted = false;
                         }
                     }
+
+                    bool buy_wine = false;
+                    if (_latestTaskId.ContainsKey(TaskType.Mall) && settingsModel.DidYouBuyWine())
+                    {
+                        buy_wine = true;
+                    }
+
                     _latestTaskId.Clear();
 
                     mainModel.Idle = true;
@@ -362,41 +397,48 @@ namespace MeoAsstGui
                         {
                             toast.Show();
                         }
-                        //mainModel.CheckAndShutdown();
+
+                        // mainModel.CheckAndShutdown();
                         mainModel.CheckAfterCompleted();
                     }
+
+                    if (buy_wine)
+                    {
+                        settingsModel.Cheers = true;
+                    }
+
                     break;
             }
         }
 
-        private void procSubTaskMsg(AsstMsg msg, JObject details)
+        private void ProcSubTaskMsg(AsstMsg msg, JObject details)
         {
             // 下面几行注释暂时没用到，先注释起来...
-            //string taskChain = details["taskchain"].ToString();
-            //string classType = details["class"].ToString();
+            // string taskChain = details["taskchain"].ToString();
+            // string classType = details["class"].ToString();
 
-            //var mainModel = _container.Get<TaskQueueViewModel>();
+            // var mainModel = _container.Get<TaskQueueViewModel>();
             switch (msg)
             {
                 case AsstMsg.SubTaskError:
-                    procSubTaskError(details);
+                    ProcSubTaskError(details);
                     break;
 
                 case AsstMsg.SubTaskStart:
-                    procSubTaskStart(details);
+                    ProcSubTaskStart(details);
                     break;
 
                 case AsstMsg.SubTaskCompleted:
-                    procSubTaskCompleted(details);
+                    ProcSubTaskCompleted(details);
                     break;
 
                 case AsstMsg.SubTaskExtraInfo:
-                    procSubTaskExtraInfo(details);
+                    ProcSubTaskExtraInfo(details);
                     break;
             }
         }
 
-        private void procSubTaskError(JObject details)
+        private void ProcSubTaskError(JObject details)
         {
             string subTask = details["subtask"].ToString();
 
@@ -432,7 +474,7 @@ namespace MeoAsstGui
             }
         }
 
-        private void procSubTaskStart(JObject details)
+        private void ProcSubTaskStart(JObject details)
         {
             string subTask = details["subtask"].ToString();
 
@@ -485,10 +527,9 @@ namespace MeoAsstGui
                         mainModel.AddLog(Localization.GetString("ExplorationAbandoned"));
                         break;
 
-                    //case "Roguelike1StartAction":
+                    // case "Roguelike1StartAction":
                     //    mainModel.AddLog("开始战斗");
                     //    break;
-
                     case "Roguelike1MissionCompletedFlag":
                         mainModel.AddLog(Localization.GetString("FightCompleted"));
                         break;
@@ -509,10 +550,9 @@ namespace MeoAsstGui
                         mainModel.AddLog(Localization.GetString("Encounter"));
                         break;
 
-                    //case "Roguelike1StageBoonsEnter":
+                    // case "Roguelike1StageBoonsEnter":
                     //    mainModel.AddLog("古堡馈赠");
                     //    break;
-
                     case "Roguelike1StageCambatDpsEnter":
                         mainModel.AddLog(Localization.GetString("CambatDps"));
                         break;
@@ -540,17 +580,17 @@ namespace MeoAsstGui
             }
         }
 
-        private void procSubTaskCompleted(JObject details)
+        private void ProcSubTaskCompleted(JObject details)
         {
         }
 
-        private void procSubTaskExtraInfo(JObject details)
+        private void ProcSubTaskExtraInfo(JObject details)
         {
             string taskChain = details["taskchain"].ToString();
 
             if (taskChain == "Recruit")
             {
-                procRecruitCalcMsg(details);
+                ProcRecruitCalcMsg(details);
             }
 
             string what = details["what"].ToString();
@@ -570,6 +610,7 @@ namespace MeoAsstGui
                             int count = (int)item["quantity"];
                             cur_drops += $"{itemName} : {count}\n";
                         }
+
                         cur_drops = cur_drops.EndsWith("\n") ? cur_drops.TrimEnd('\n') : Localization.GetString("NoDrop");
                         mainModel.AddLog(Localization.GetString("Drop") + "\n" + cur_drops);
 
@@ -581,9 +622,11 @@ namespace MeoAsstGui
                             int count = (int)item["quantity"];
                             all_drops += $"{itemName} : {count}\n";
                         }
+
                         all_drops = all_drops.EndsWith("\n") ? all_drops.TrimEnd('\n') : Localization.GetString("NoDrop");
                         mainModel.AddLog(Localization.GetString("TotalDrop") + "\n" + all_drops);
                     }
+
                     break;
 
                 case "EnterFacility":
@@ -599,9 +642,11 @@ namespace MeoAsstGui
                             string tag_str = tag_name.ToString();
                             log_content += tag_str + "\n";
                         }
+
                         log_content = log_content.EndsWith("\n") ? log_content.TrimEnd('\n') : Localization.GetString("Error");
                         mainModel.AddLog(Localization.GetString("RecruitingResults") + "\n" + log_content);
                     }
+
                     break;
 
                 case "RecruitSpecialTag":
@@ -612,6 +657,7 @@ namespace MeoAsstGui
                             toast.AppendContentText(special).ShowRecruit();
                         }
                     }
+
                     break;
 
                 case "RecruitRobotTag":
@@ -622,6 +668,7 @@ namespace MeoAsstGui
                             toast.AppendContentText(special).ShowRecruitRobot();
                         }
                     }
+
                     break;
 
                 case "RecruitResult":
@@ -633,6 +680,7 @@ namespace MeoAsstGui
                             {
                                 toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                             }
+
                             mainModel.AddLog(level + " ★ Tags", "darkorange", "Bold");
                         }
                         else
@@ -647,9 +695,11 @@ namespace MeoAsstGui
                             {
                                 toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
                             }
+
                             mainModel.AddLog(1 + " ★ Tag", "darkgray", "Bold");
                         }
                     }
+
                     break;
 
                 case "RecruitTagsSelected":
@@ -660,10 +710,12 @@ namespace MeoAsstGui
                         {
                             selected_log += tag.ToString() + "\n";
                         }
+
                         selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : Localization.GetString("NoDrop");
 
                         mainModel.AddLog(Localization.GetString("Choose") + " Tags：\n" + selected_log);
                     }
+
                     break;
 
                 case "RecruitTagsRefreshed":
@@ -677,6 +729,7 @@ namespace MeoAsstGui
                     {
                         mainModel.AddLog(Localization.GetString("NotEnoughStaff"), "darkred");
                     }
+
                     break;
 
                 /* Roguelike */
@@ -684,12 +737,14 @@ namespace MeoAsstGui
                     {
                         mainModel.AddLog(Localization.GetString("StartCombat") + subTaskDetails["name"]);
                     }
+
                     break;
 
                 case "StageInfoError":
                     {
                         mainModel.AddLog(Localization.GetString("StageInfoError"), "darkred");
                     }
+
                     break;
 
                 case "PenguinId":
@@ -699,9 +754,11 @@ namespace MeoAsstGui
                         {
                             string id = subTaskDetails["id"].ToString();
                             settings.PenguinId = id;
-                            //AsstSetPenguinId(id);
+
+                            // AsstSetPenguinId(id);
                         }
                     }
+
                     break;
 
                 case "BattleFormation":
@@ -720,21 +777,23 @@ namespace MeoAsstGui
                             string color = subTaskDetails["doc_color"].ToString();
                             copilotModel.AddLog(doc, color.Length == 0 ? "dark" : color);
                         }
+
                         var action = subTaskDetails["action"].ToString();
                         if (action.Length != 0)
                         {
                             copilotModel.AddLog(Localization.GetString("CurrentSteps") + action);
                         }
                     }
+
                     break;
 
                 case "BattleActionDoc":
-                    //{
+                    // {
                     //    string title_color = subTaskDetails["title_color"].ToString();
                     //    copilotModel.AddLog(subTaskDetails["title"].ToString(), title_color.Length == 0 ? "dark" : title_color);
                     //    string details_color = subTaskDetails["details_color"].ToString();
                     //    copilotModel.AddLog(subTaskDetails["details"].ToString(), details_color.Length == 0 ? "dark" : details_color);
-                    //}
+                    // }
                     break;
 
                 case "UnsupportedLevel":
@@ -743,7 +802,7 @@ namespace MeoAsstGui
             }
         }
 
-        private void procRecruitCalcMsg(JObject details)
+        private void ProcRecruitCalcMsg(JObject details)
         {
             string what = details["what"].ToString();
             var subTaskDetails = details["details"];
@@ -761,8 +820,10 @@ namespace MeoAsstGui
                             string tag_str = tag_name.ToString();
                             info_content += tag_str + "    ";
                         }
+
                         recruitModel.RecruitInfo = info_content;
                     }
+
                     break;
 
                 case "RecruitResult":
@@ -778,15 +839,19 @@ namespace MeoAsstGui
                             {
                                 resultContent += tag.ToString() + "    ";
                             }
+
                             resultContent += "\n\t";
                             foreach (var oper in (JArray)combs["opers"])
                             {
                                 resultContent += oper["level"].ToString() + " - " + oper["name"].ToString() + "    ";
                             }
+
                             resultContent += "\n\n";
                         }
+
                         recruitModel.RecruitResult = resultContent;
                     }
+
                     break;
             }
         }
@@ -801,8 +866,8 @@ namespace MeoAsstGui
 
             var settings = _container.Get<SettingsViewModel>();
             if (connected
-                && connected_adb == settings.AdbPath
-                && connected_address == settings.ConnectAddress)
+                && connectedAdb == settings.AdbPath
+                && connectedAddress == settings.ConnectAddress)
             {
                 return true;
             }
@@ -815,6 +880,7 @@ namespace MeoAsstGui
                     return false;
                 }
             }
+
             settings.TryToSetBlueStacksHyperVAddress();
 
             bool ret = AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
@@ -832,6 +898,7 @@ namespace MeoAsstGui
                     }
                 }
             }
+
             if (!ret)
             {
                 if (firsttry)
@@ -843,6 +910,7 @@ namespace MeoAsstGui
                     error = Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("CheckSettings");
                 }
             }
+
             return ret;
         }
 
@@ -858,6 +926,7 @@ namespace MeoAsstGui
             {
                 return false;
             }
+
             task_params = task_params ?? new JObject();
             return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(task_params));
         }
@@ -874,12 +943,12 @@ namespace MeoAsstGui
             Award,
             Roguelike,
             RecruitCalc,
-            Copilot
-        };
+            Copilot,
+        }
 
-        private Dictionary<TaskType, TaskId> _latestTaskId = new Dictionary<TaskType, TaskId>();
+        private readonly Dictionary<TaskType, TaskId> _latestTaskId = new Dictionary<TaskType, TaskId>();
 
-        private JObject serializeFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
+        private JObject SerializeFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
         {
             var task_params = new JObject();
             task_params["stage"] = stage;
@@ -892,6 +961,7 @@ namespace MeoAsstGui
                 task_params["drops"] = new JObject();
                 task_params["drops"][drops_item_id] = drops_item_quantity;
             }
+
             var settings = _container.Get<SettingsViewModel>();
             task_params["client_type"] = settings.ClientType;
             task_params["penguin_id"] = settings.PenguinId;
@@ -901,7 +971,7 @@ namespace MeoAsstGui
 
         public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
         {
-            var task_params = serializeFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
+            var task_params = SerializeFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
             TaskId id = AsstAppendTaskWithEncoding("Fight", task_params);
             _latestTaskId[TaskType.Fight] = id;
             return id != 0;
@@ -909,7 +979,7 @@ namespace MeoAsstGui
 
         public bool AsstSetFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
         {
-            var task_params = serializeFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
+            var task_params = SerializeFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
             return AsstSetTaskParamsWithEncoding(_latestTaskId.TryGetValue(TaskType.Fight, out var task_id) ? task_id : 0, task_params);
         }
 
@@ -975,7 +1045,8 @@ namespace MeoAsstGui
         public bool AsstAppendInfrast(int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold)
         {
             var task_params = new JObject();
-            //task_params["mode"] = 0;
+
+            // task_params["mode"] = 0;
             task_params["facility"] = new JArray(order);
             task_params["drones"] = uses_of_drones;
             task_params["threshold"] = dorm_threshold;
@@ -997,14 +1068,17 @@ namespace MeoAsstGui
             {
                 task_params["squad"] = squad;
             }
+
             if (roles.Length > 0)
             {
                 task_params["roles"] = roles;
             }
+
             if (core_char.Length > 0)
             {
                 task_params["core_char"] = core_char;
             }
+
             TaskId id = AsstAppendTaskWithEncoding("Roguelike", task_params);
             _latestTaskId[TaskType.Roguelike] = id;
             return id != 0;
@@ -1070,6 +1144,7 @@ namespace MeoAsstGui
         SubTaskError = 20000,       // 原子任务执行/识别错误
         SubTaskStart,               // 原子任务开始
         SubTaskCompleted,           // 原子任务完成
-        SubTaskExtraInfo            // 原子任务额外信息
-    };
+        SubTaskExtraInfo,           // 原子任务额外信息
+    }
 }
+#pragma warning restore SA1121 // Use built-in type alias

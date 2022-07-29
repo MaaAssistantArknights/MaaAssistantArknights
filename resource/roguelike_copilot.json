@@ -16,8 +16,8 @@
         "stage_name": "压轴登场",
         "replacement_home": [
             [
-                2,
-                2
+                3,
+                3
             ]
         ]
     },
@@ -64,15 +64,6 @@
             ],
             [
                 5,
-                4
-            ]
-        ]
-    },
-    {
-        "stage_name": "恐怖传说",
-        "replacement_home": [
-            [
-                0,
                 4
             ]
         ]
@@ -214,6 +205,15 @@
             [
                 3,
                 4
+            ]
+        ]
+    },
+    {
+        "stage_name": "悦耳杀机",
+        "replacement_home": [
+            [
+                6,
+                6
             ]
         ]
     }

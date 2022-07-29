@@ -214,9 +214,29 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         return false;
     }
 
+    battle_analyzer.sort_opers_by_cost();
     const auto& opers = battle_analyzer.get_opers();
     if (opers.empty()) {
         return true;
+    }
+    // 如果已经放了一些人了，就不要再有费就下了
+    if (m_used_tiles.size() >= std::max(m_homes.size(), 2ULL)) {
+        size_t available_count = 0;
+        size_t not_cooling_count = 0;
+        for (const auto& oper : opers) {
+            if (oper.available) {
+                available_count += 1;
+            }
+            if (!oper.cooling) {
+                not_cooling_count += 1;
+            }
+        }
+        // 超过一半的人费用都没好，那就不下人
+        if (available_count <= not_cooling_count / 2) {
+            Log.trace("already used", m_used_tiles.size(), ", now_total", opers.size(),
+                ", avaliable", available_count, ", not_cooling", not_cooling_count);
+            return true;
+        }
     }
 
     static const std::array<BattleRole, 9> RoleOrder = {
@@ -725,7 +745,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
                     { TileKey::Wall, 500 },
                     { TileKey::Road, 1000 },
                     { TileKey::Home, 500 },
-                    { TileKey::EnemyHome, 1200 },
+                    { TileKey::EnemyHome, 1000 },
                     { TileKey::Floor, 1000 },
                     { TileKey::Hole, 0 },
                     { TileKey::Telin, 700 },

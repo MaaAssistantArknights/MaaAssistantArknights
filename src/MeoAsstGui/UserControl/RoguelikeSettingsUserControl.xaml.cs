@@ -1,4 +1,4 @@
-// <copyright file="StartSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="RoguelikeSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -16,11 +16,11 @@ using System.Windows.Controls;
 namespace MeoAsstGui
 {
     /// <summary>
-    /// StartSettingsUserControl.xaml 的交互逻辑
+    /// InfrastSettingsUserContril.xaml 的交互逻辑
     /// </summary>
-    public partial class StartSettingsUserControl : UserControl
+    public partial class RoguelikeSettingsUserControl : UserControl
     {
-        public StartSettingsUserControl()
+        public RoguelikeSettingsUserControl()
         {
             InitializeComponent();
         }
