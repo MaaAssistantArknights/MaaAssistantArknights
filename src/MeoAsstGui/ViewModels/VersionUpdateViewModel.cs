@@ -20,10 +20,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Documents;
-using Markdig;
-using MdXaml;
-using Neo.Markdig.Xaml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -51,7 +47,7 @@ namespace MeoAsstGui
             //       "`@`" -> "`@`"
             //   "@MistEO" -> "[@MistEO](https://github.com/MistEO)"
             // "[@MistEO]" -> "[@MistEO]"
-            return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[`@$2`](https://github.com/$2)");
+            return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
         }
 
         private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
@@ -75,7 +71,7 @@ namespace MeoAsstGui
 
         private string _updateInfo = ViewStatusStorage.Get("VersionUpdate.body", string.Empty);
 
-        private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
+        // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
 
         public string UpdateInfo
         {
@@ -113,29 +109,29 @@ namespace MeoAsstGui
             }
         }
 
-        public FlowDocument UpdateInfoDocument
-        {
-            get
-            {
-                try
-                {
-                    return MarkdownXaml.ToFlowDocument(UpdateInfo, s_markdownPipeline);
-                }
-                catch (Exception)
-                {
-                    // 不知道为什么有一部分用户的电脑上，用 MarkdownXaml 解析直接就会 crash
-                    // 换另一个库再试一遍
-                    try
-                    {
-                        return new MdXaml.Markdown().Transform(UpdateInfo);
-                    }
-                    catch (Exception)
-                    {
-                        return new FlowDocument();
-                    }
-                }
-            }
-        }
+        // public FlowDocument UpdateInfoDocument
+        // {
+        //     get
+        //     {
+        //         try
+        //         {
+        //             return MarkdownXaml.ToFlowDocument(UpdateInfo, s_markdownPipeline);
+        //         }
+        //         catch (Exception)
+        //         {
+        //             // 不知道为什么有一部分用户的电脑上，用 MarkdownXaml 解析直接就会 crash
+        //             // 换另一个库再试一遍
+        //             try
+        //             {
+        //                 return new MdXaml.Markdown().Transform(UpdateInfo);
+        //             }
+        //             catch (Exception)
+        //             {
+        //                 return new FlowDocument();
+        //             }
+        //         }
+        //     }
+        // }
 
         public bool IsFirstBootAfterUpdate
         {
