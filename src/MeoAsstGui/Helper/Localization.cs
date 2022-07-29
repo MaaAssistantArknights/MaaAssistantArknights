@@ -1,4 +1,4 @@
-// <copyright file="Localization.cs" company="MistEO">
+// <copyright file="Localization.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //

@@ -1,4 +1,4 @@
-// <copyright file="Bootstrapper.cs" company="MistEO">
+// <copyright file="Bootstrapper.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //

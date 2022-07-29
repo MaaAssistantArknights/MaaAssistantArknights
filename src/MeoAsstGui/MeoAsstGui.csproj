@@ -101,9 +101,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helper\AsstProxy.cs" />
     <Compile Include="Helper\AutoScroll.cs" />
     <Compile Include="Helper\CombData.cs" />
+    <Compile Include="Helper\GenericCombData{TValueType}.cs" />
     <Compile Include="Helper\Localization.cs" />
     <Compile Include="Helper\LogItemViewModel.cs" />
     <Compile Include="Helper\ToastNotification.cs" />

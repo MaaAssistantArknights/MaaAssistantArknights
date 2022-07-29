@@ -1,4 +1,4 @@
-// <copyright file="RogueliekSettingsUserControl.xaml.cs" company="MistEO">
+// <copyright file="RogueliekSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
