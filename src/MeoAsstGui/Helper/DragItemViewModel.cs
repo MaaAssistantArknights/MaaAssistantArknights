@@ -29,10 +29,7 @@ namespace MeoAsstGui
         public string Name
         {
             get { return _name; }
-            set
-            {
-                SetAndNotify(ref _name, value);
-            }
+            set { SetAndNotify(ref _name, value); }
         }
 
         private readonly string _isCheckedStorageKey;
@@ -40,7 +37,10 @@ namespace MeoAsstGui
 
         public bool IsChecked
         {
-            get { return _isChecked; }
+            get
+            {
+                return _isChecked;
+            }
 
             set
             {
@@ -55,10 +55,7 @@ namespace MeoAsstGui
         public string IconPath
         {
             get { return _iconPath; }
-            set
-            {
-                SetAndNotify(ref _iconPath, value);
-            }
+            set { SetAndNotify(ref _iconPath, value); }
         }
 
         private string _token;
@@ -66,10 +63,7 @@ namespace MeoAsstGui
         public string Token
         {
             get { return _token; }
-            set
-            {
-                SetAndNotify(ref _token, value);
-            }
+            set { SetAndNotify(ref _token, value); }
         }
 
         private string _runStatus;
@@ -77,10 +71,7 @@ namespace MeoAsstGui
         public string RunStatus
         {
             get { return _runStatus; }
-            set
-            {
-                SetAndNotify(ref _runStatus, value);
-            }
+            set { SetAndNotify(ref _runStatus, value); }
         }
     }
 }

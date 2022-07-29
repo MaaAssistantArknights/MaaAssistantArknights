@@ -254,6 +254,12 @@ dotnet_diagnostic.SA1600.severity = suggestion
 # SA1601: Partial elements should be documented
 dotnet_diagnostic.SA1601.severity = suggestion
 
+# SA1642: Constructor summary documentation should begin with standard text
+dotnet_diagnostic.SA1642.severity = suggestion
+
+# SA1623: Property summary documentation should match accessors
+dotnet_diagnostic.SA1623.severity = suggestion
+
 [src/CodeStyle/**.{cs,vb}]
 # warning RS0005: Do not use generic CodeAction.Create to create CodeAction
 dotnet_diagnostic.RS0005.severity = none

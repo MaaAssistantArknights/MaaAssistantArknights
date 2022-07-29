@@ -34,7 +34,11 @@ namespace MeoAsstGui
             DependencyProperty.RegisterAttached("PagePadding", typeof(Thickness), typeof(FlowDocumentPagePadding), new UIPropertyMetadata(new Thickness(double.NegativeInfinity), (o, args) =>
             {
                 var fd = o as FlowDocument;
-                if (fd == null) return;
+                if (fd == null)
+                {
+                    return;
+                }
+
                 var dpd = DependencyPropertyDescriptor.FromProperty(FlowDocument.PagePaddingProperty, typeof(FlowDocument));
                 dpd.RemoveValueChanged(fd, PaddingChanged);
                 fd.PagePadding = (Thickness)args.NewValue;

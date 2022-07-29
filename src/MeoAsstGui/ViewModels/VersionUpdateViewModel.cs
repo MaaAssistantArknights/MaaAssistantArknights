@@ -22,8 +22,8 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Documents;
 using Markdig;
-using Neo.Markdig.Xaml;
 using MdXaml;
+using Neo.Markdig.Xaml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -42,7 +42,8 @@ namespace MeoAsstGui
             _windowManager = windowManager;
         }
 
-        [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstGetVersion();
+        [DllImport("MeoAssistant.dll")]
+        private static extern IntPtr AsstGetVersion();
 
         private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
         private string _latestVersion;
@@ -55,6 +56,7 @@ namespace MeoAsstGui
             {
                 return _updateTag;
             }
+
             set
             {
                 SetAndNotify(ref _updateTag, value);
@@ -72,6 +74,7 @@ namespace MeoAsstGui
             {
                 return _updateInfo;
             }
+
             set
             {
                 SetAndNotify(ref _updateInfo, value);
@@ -87,6 +90,7 @@ namespace MeoAsstGui
             {
                 return _updateUrl;
             }
+
             set
             {
                 SetAndNotify(ref _updateUrl, value);
@@ -119,7 +123,7 @@ namespace MeoAsstGui
 
         public bool IsFirstBootAfterUpdate
         {
-            get { return UpdateTag != String.Empty && UpdateTag == _curVersion; }
+            get { return UpdateTag != string.Empty && UpdateTag == _curVersion; }
         }
 
         private string _updatePackageName = ViewStatusStorage.Get("VersionUpdate.package", string.Empty);
@@ -130,6 +134,7 @@ namespace MeoAsstGui
             {
                 return _updatePackageName;
             }
+
             set
             {
                 SetAndNotify(ref _updatePackageName, value);
@@ -247,8 +252,8 @@ namespace MeoAsstGui
         /// <summary>
         /// 检查更新，并下载更新包
         /// </summary>
+        /// <param name="force">是否强制检查</param>
         /// <returns>操作成功返回 true，反之则返回 false</returns>
-
         public bool CheckAndDownloadUpdate(bool force = false)
         {
             // 检查更新
@@ -272,8 +277,7 @@ namespace MeoAsstGui
                     {
                         Process.Start(_lastestJson["html_url"].ToString());
                     }
-                })
-            );
+                }));
 
             if (_container.Get<SettingsViewModel>().AutoDownloadUpdatePackage)
             {
@@ -353,8 +357,8 @@ namespace MeoAsstGui
         /// <summary>
         /// 检查更新
         /// </summary>
+        /// <param name="force">是否强制检查</param>
         /// <returns>操作成功返回 true，反之则返回 false</returns>
-
         public bool CheckUpdate(bool force = false)
         {
             // 开发版不检查更新
@@ -419,7 +423,7 @@ namespace MeoAsstGui
                         return false;
                     }
                 }
-                else if ((string.Compare(_curVersion, _latestVersion) >= 0))
+                else if (string.Compare(_curVersion, _latestVersion) >= 0)
                 {
                     return false;
                 }
@@ -454,7 +458,6 @@ namespace MeoAsstGui
         /// </summary>
         /// <param name="url">API 地址</param>
         /// <returns>返回 API 的返回值，如出现错误则返回空字符串</returns>
-
         private string RequestApi(string url)
         {
             try
@@ -490,7 +493,6 @@ namespace MeoAsstGui
         /// <param name="downloader">下载方式，如为空则使用 CSharp 原生方式下载</param>
         /// <param name="saveTo">保存至的文件夹，如为空则使用当前位置</param>
         /// <returns>操作成功返回 true，反之则返回 false</returns>
-
         public bool DownloadGithubAssets(JObject assetsObject, string downloader = null, string saveTo = null)
         {
             return DownloadFile(
@@ -498,8 +500,7 @@ namespace MeoAsstGui
                 fileName: assetsObject["name"].ToString(), contentType:
                 assetsObject["content_type"].ToString(),
                 downloader: downloader,
-                saveTo: saveTo
-                );
+                saveTo: saveTo);
         }
 
         /// <summary>
@@ -511,7 +512,6 @@ namespace MeoAsstGui
         /// <param name="downloader">下载方式，如为空则使用 CSharp 原生方式下载</param>
         /// <param name="saveTo">保存至的文件夹，如为空则使用当前位置</param>
         /// <returns>操作成功返回 true，反之则返回 false</returns>
-
         public bool DownloadFile(string url, string fileName, string contentType = null, string downloader = null, string saveTo = null)
         {
             string usedDownloader;
@@ -546,8 +546,9 @@ namespace MeoAsstGui
                 {
                     returned = DownloadFileForAria2(url: url, filePath: filePath, fileName: fileNameWithTemp);
                 }
-                else // 如对应下载器不存在则默认使用 Native 方式下载
+                else
                 {
+                    // 如对应下载器不存在则默认使用 Native 方式下载
                     returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType);
                 }
             }
@@ -594,7 +595,7 @@ namespace MeoAsstGui
                     RedirectStandardError = true,
                     CreateNoWindow = true,
                 },
-                EnableRaisingEvents = true
+                EnableRaisingEvents = true,
             };
 
             aria2Process.Start();

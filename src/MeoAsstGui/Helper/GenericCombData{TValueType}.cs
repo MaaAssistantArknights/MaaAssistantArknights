@@ -1,4 +1,4 @@
-// <copyright file="CombData.cs" company="MistEO">
+// <copyright file="GenericCombData{TValueType}.cs" company="MistEO">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -13,7 +13,10 @@
 
 namespace MeoAsstGui
 {
-    public class CombData : GenericCombData<string>
+    public class GenericCombData<TValueType>
     {
+        public string Display { get; set; }
+
+        public TValueType Value { get; set; }
     }
 }

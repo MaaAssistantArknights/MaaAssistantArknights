@@ -33,6 +33,7 @@ namespace MeoAsstGui
     {
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
+
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
         public CopilotViewModel(IContainer container, IWindowManager windowManager)
@@ -47,8 +48,8 @@ namespace MeoAsstGui
                 Localization.GetString("CopilotTip2") + "\n\n" +
                 Localization.GetString("CopilotTip3") + "\n\n" +
                 Localization.GetString("CopilotTip4") + "\n\n" +
-                Localization.GetString("CopilotTip5")
-                , "dark");
+                Localization.GetString("CopilotTip5"),
+                "dark");
         }
 
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
@@ -82,7 +83,7 @@ namespace MeoAsstGui
             LogItemViewModels.Clear();
         }
 
-        private string _filename = "";
+        private string _filename = string.Empty;
 
         public string Filename
         {
@@ -91,15 +92,15 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _filename, value);
                 ClearLog();
-                _updateFileDoc(_filename);
+                UpdateFileDoc(_filename);
             }
         }
 
         private readonly string CopilotIdPrefix = "maa://";
 
-        private void _updateFileDoc(string filename)
+        private void UpdateFileDoc(string filename)
         {
-            string jsonStr = "";
+            string jsonStr = string.Empty;
             if (File.Exists(filename))
             {
                 try
@@ -112,27 +113,27 @@ namespace MeoAsstGui
                     return;
                 }
             }
-            else if (Int32.TryParse(filename, out _))
+            else if (int.TryParse(filename, out _))
             {
                 int copilotID = 0;
-                Int32.TryParse(filename, out copilotID);
-                jsonStr = _requestCopilotServer(copilotID);
+                int.TryParse(filename, out copilotID);
+                jsonStr = RequestCopilotServer(copilotID);
             }
             else if (filename.ToLower().StartsWith(CopilotIdPrefix))
             {
                 var copilotIdStr = filename.ToLower().Remove(0, CopilotIdPrefix.Length);
                 int copilotID = 0;
-                Int32.TryParse(copilotIdStr, out copilotID);
-                jsonStr = _requestCopilotServer(copilotID);
+                int.TryParse(copilotIdStr, out copilotID);
+                jsonStr = RequestCopilotServer(copilotID);
             }
 
-            if (jsonStr != String.Empty)
+            if (jsonStr != string.Empty)
             {
-                _parseJsonAndShowInfo(jsonStr);
+                ParseJsonAndShowInfo(jsonStr);
             }
         }
 
-        private string _requestCopilotServer(int copilotID)
+        private string RequestCopilotServer(int copilotID)
         {
             try
             {
@@ -154,26 +155,26 @@ namespace MeoAsstGui
                     else
                     {
                         AddLog(Localization.GetString("CopilotNoFound"), "DarkRed");
-                        return String.Empty;
+                        return string.Empty;
                     }
                 }
             }
             catch (Exception)
             {
                 AddLog(Localization.GetString("NetworkServiceError"), "DarkRed");
-                return String.Empty;
+                return string.Empty;
             }
         }
 
-        private string _curStageName = "";
-        private string _curCopilotData = "";
+        private string _curStageName = string.Empty;
+        private string _curCopilotData = string.Empty;
         private const string _tempCopilotFile = "resource/_temp_copilot.json";
 
-        private void _parseJsonAndShowInfo(string jsonStr)
+        private void ParseJsonAndShowInfo(string jsonStr)
         {
             try
             {
-                _curCopilotData = "";
+                _curCopilotData = string.Empty;
                 var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
                 if (json == null || !json.ContainsKey("doc"))
                 {
@@ -183,7 +184,7 @@ namespace MeoAsstGui
 
                 var doc = (JObject)json["doc"];
 
-                string title = "";
+                string title = string.Empty;
                 if (doc.ContainsKey("title"))
                 {
                     title = doc["title"].ToString();
@@ -200,7 +201,7 @@ namespace MeoAsstGui
                     AddLog(title, title_color);
                 }
 
-                string details = "";
+                string details = string.Empty;
                 if (doc.ContainsKey("details"))
                 {
                     details = doc["details"].ToString();
@@ -215,9 +216,8 @@ namespace MeoAsstGui
                     }
 
                     AddLog(details, details_color);
-
                     {
-                        Url = "";
+                        Url = string.Empty;
                         var linkParser = new Regex(@"(?:https?://)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
                         foreach (Match m in linkParser.Matches(details))
@@ -228,7 +228,7 @@ namespace MeoAsstGui
                     }
                 }
 
-                AddLog("", "black");
+                AddLog(string.Empty, "black");
                 int count = 0;
                 foreach (JObject oper in json["opers"])
                 {
@@ -263,8 +263,7 @@ namespace MeoAsstGui
                     Localization.GetString("CopilotTip2") + "\n\n" +
                     Localization.GetString("CopilotTip3") + "\n\n" +
                     Localization.GetString("CopilotTip4") + "\n\n" +
-                    Localization.GetString("CopilotTip5")
-                    );
+                    Localization.GetString("CopilotTip5"));
             }
             catch (Exception)
             {
@@ -303,7 +302,7 @@ namespace MeoAsstGui
             }
             else
             {
-                Filename = "";
+                Filename = string.Empty;
                 ClearLog();
                 AddLog(Localization.GetString("NotCopilotJson"), "DarkRed");
             }
@@ -330,7 +329,7 @@ namespace MeoAsstGui
             AddLog(Localization.GetString("ConnectingToEmulator"));
 
             var asstProxy = _container.Get<AsstProxy>();
-            string errMsg = "";
+            string errMsg = string.Empty;
             var task = Task.Run(() =>
             {
                 return asstProxy.AsstConnect(ref errMsg);
@@ -347,7 +346,7 @@ namespace MeoAsstGui
                 AddLog(errMsg, "DarkRed");
             }
 
-            _updateFileDoc(Filename);
+            UpdateFileDoc(Filename);
             File.Delete(_tempCopilotFile);
             File.WriteAllText(_tempCopilotFile, _curCopilotData);
 

@@ -116,8 +116,6 @@ namespace MeoAsstGui
             // 初始化通知标题
             _notificationTitle = title ?? _notificationTitle;
 
-            #region 初始化 Notification.Wpf 默认静态配置
-
             // 同时显示最大数量
             NotificationConstants.NotificationsOverlayWindowMaxCount = 5;
 
@@ -129,8 +127,6 @@ namespace MeoAsstGui
 
             // 最大显示宽度
             NotificationConstants.MaxWidth = 460d;
-
-            #endregion 初始化 Notification.Wpf 默认静态配置
         }
 
         /// <summary>
@@ -169,7 +165,7 @@ namespace MeoAsstGui
             Notification,
 
             [Description("无声")]
-            None
+            None,
         }
 
         #endregion 通知提示音列表枚举
@@ -179,6 +175,7 @@ namespace MeoAsstGui
         /// 如果要播放音频文件，参考微软文档 SoundPlayer 类
         /// </summary>
         /// <param name="sounds">提示音类型</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         protected async Task PlayNotificationSoundAsync(NotificationSounds sounds = NotificationSounds.None)
         {
             try
@@ -230,19 +227,19 @@ namespace MeoAsstGui
         #region 通知按钮变量
 
         // 左边按钮
-        protected string _buttonLeftText = null;
+        private string _buttonLeftText = null;
 
-        protected Action _buttonLeftAction = null;
+        private Action _buttonLeftAction = null;
 
         // 右边按钮
-        protected string _buttonRightText = null;
+        private string _buttonRightText = null;
 
-        protected Action _buttonRightAction = null;
+        private Action _buttonRightAction = null;
 
         // 系统按钮
-        protected string _buttonSystemText = null;
+        private string _buttonSystemText = null;
 
-        protected string _buttonSystemUrl;
+        private string _buttonSystemUrl;
 
         public string ButtonSystemUrl
         {
@@ -250,7 +247,7 @@ namespace MeoAsstGui
             set { _buttonSystemUrl = value; }
         }
 
-        protected bool _buttonSystemEnabled = false;
+        private bool _buttonSystemEnabled = false;
 
         #endregion 通知按钮变量
 
@@ -302,12 +299,13 @@ namespace MeoAsstGui
             TextAlignment = TextAlignment.Left,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalTextAlignment = VerticalAlignment.Stretch,
-            Opacity = 1d
+            Opacity = 1d,
         };
 
         /// <summary>
         /// 创建一个基本通知内容模板
         /// </summary>
+        /// <returns>The notification content.</returns>
         public NotificationContent BaseContent()
         {
             var content = new NotificationContent()
@@ -368,13 +366,13 @@ namespace MeoAsstGui
             {
                 if (_buttonSystemEnabled)
                 {
-                    Uri _burl = new Uri(_buttonSystemUrl);
+                    Uri burl = new Uri(_buttonSystemUrl);
                     new ToastContentBuilder()
                     .AddText(_notificationTitle)
                     .AddText(_contentCollection.ToString())
                     .AddButton(new ToastButton()
                         .SetContent(_buttonSystemText)
-                        .SetProtocolActivation(_burl))
+                        .SetProtocolActivation(burl))
                     .Show();
                 }
                 else
@@ -487,6 +485,7 @@ namespace MeoAsstGui
 
         #region 任务栏闪烁
 
+#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
         /// <summary>
         /// 闪烁信息
         /// </summary>
@@ -517,6 +516,7 @@ namespace MeoAsstGui
             /// </summary>
             public uint dwTimeout;
         }
+#pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
 
         /// <summary>
         /// 闪烁类型
@@ -542,10 +542,11 @@ namespace MeoAsstGui
             FLASHW_TIMER = FLASHW_TRAY | FLASHW_PARAM1,
 
             [Description("未激活时闪烁直到窗口被激活或收到停止")]
-            FLASHW_TIMERNOFG = FLASHW_TRAY | FLASHW_PARAM2
+            FLASHW_TIMERNOFG = FLASHW_TRAY | FLASHW_PARAM2,
         }
 
-        [DllImport("user32.dll")] private static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
+        [DllImport("user32.dll")]
+        private static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
 
         /// <summary>
         /// 闪烁窗口任务栏
@@ -553,10 +554,10 @@ namespace MeoAsstGui
         /// <param name="hWnd">窗口句柄</param>
         /// <param name="type">闪烁类型</param>
         /// <param name="count">闪烁次数</param>
-        /// <returns></returns>
+        /// <returns>是否成功</returns>
         public static bool FlashWindowEx(IntPtr hWnd = default, FlashType type = FlashType.FLASHW_TIMERNOFG, uint count = 5)
         {
-            var fInfo = new FLASHWINFO();
+            var fInfo = default(FLASHWINFO);
             fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
             fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(Application.Current.MainWindow).Handle;
             fInfo.dwFlags = (uint)type;

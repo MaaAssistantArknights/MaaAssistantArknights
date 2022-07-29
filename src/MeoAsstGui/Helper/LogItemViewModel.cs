@@ -31,10 +31,7 @@ namespace MeoAsstGui
         public string Time
         {
             get { return _time; }
-            set
-            {
-                SetAndNotify(ref _time, value);
-            }
+            set { SetAndNotify(ref _time, value); }
         }
 
         private string _content;
@@ -42,10 +39,7 @@ namespace MeoAsstGui
         public string Content
         {
             get { return _content; }
-            set
-            {
-                SetAndNotify(ref _content, value);
-            }
+            set { SetAndNotify(ref _content, value); }
         }
 
         private string _color;
@@ -53,10 +47,7 @@ namespace MeoAsstGui
         public string Color
         {
             get { return _color; }
-            set
-            {
-                SetAndNotify(ref _color, value);
-            }
+            set { SetAndNotify(ref _color, value); }
         }
 
         private string _weight;
@@ -64,10 +55,7 @@ namespace MeoAsstGui
         public string Weight
         {
             get { return _weight; }
-            set
-            {
-                SetAndNotify(ref _weight, value);
-            }
+            set { SetAndNotify(ref _weight, value); }
         }
     }
 }

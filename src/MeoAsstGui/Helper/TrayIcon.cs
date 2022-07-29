@@ -23,7 +23,7 @@ namespace MeoAsstGui
 {
     public partial class TrayIcon
     {
-        private NotifyIcon notifyIcon = new NotifyIcon();
+        private readonly NotifyIcon notifyIcon = new NotifyIcon();
         private TaskQueueViewModel taskQueueViewModel;
         private SettingsViewModel settingsViewModel;
         private WindowState ws; // 记录窗体状态
@@ -57,7 +57,7 @@ namespace MeoAsstGui
                 }
 
                 var langMenu = new MenuItem(lang.Value);
-                langMenu.Click += delegate (object sender, EventArgs e)
+                langMenu.Click += (sender, e) =>
                 {
                     settingsViewModel.Language = lang.Key;
                 };
