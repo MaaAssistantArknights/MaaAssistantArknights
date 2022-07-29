@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:md="clr-namespace:Neo.Markdig.Xaml;assembly=Neo.Markdig.Xaml"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
     Title="版本已更新"
     Width="600"
@@ -37,20 +37,16 @@
                 TextWrapping="Wrap" />
         </StackPanel>
 
-        <FlowDocumentScrollViewer
-            x:Name="flowDocumentScrollViewer"
+
+        <mdxam:MarkdownScrollViewer
+            x:Name="UpdateInfoMarkdownDocument"
             Grid.Row="1"
             Margin="16,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Document="{Binding UpdateInfoDocument}"
-            MaxZoom="100"
-            MinZoom="100"
-            VerticalScrollBarVisibility="Auto">
-            <FlowDocumentScrollViewer.CommandBindings>
-                <CommandBinding Command="{x:Static md:MarkdownXaml.Hyperlink}" Executed="{s:Action OpenHyperlink}" />
-            </FlowDocumentScrollViewer.CommandBindings>
-        </FlowDocumentScrollViewer>
+            ClickAction="DisplayWithRelativePath"
+            Markdown="{Binding UpdateInfo}"
+            MarkdownStyleName="GithubLike">
+        </mdxam:MarkdownScrollViewer>
+
 
         <StackPanel
             Grid.Row="2"

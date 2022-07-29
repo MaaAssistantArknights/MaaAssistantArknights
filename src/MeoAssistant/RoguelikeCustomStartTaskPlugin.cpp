@@ -107,13 +107,13 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     const std::string& char_name = m_customs[RoguelikeCustomType::CoreChar];
 
     static const std::unordered_map<BattleRole, std::string> RoleOcrNameMap = {
-        { BattleRole::Caster, "术士" },
+        { BattleRole::Caster, "术师" },
         { BattleRole::Medic, "医疗" },
         { BattleRole::Pioneer, "先锋" },
         { BattleRole::Sniper, "狙击" },
         { BattleRole::Special, "特种" },
         { BattleRole::Support, "辅助" },
-        { BattleRole::Tank, "坦克" },
+        { BattleRole::Tank, "重装" },
         { BattleRole::Warrior, "近卫" }
     };
     const auto& role = Resrc.battle_data().get_role(char_name);

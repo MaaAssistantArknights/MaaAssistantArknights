@@ -6932,7 +6932,9 @@
             216
         ],
         "next": [
-            "Roguelike1StageTraderInvestSystemEnter"
+            "Roguelike1StageTraderInvestSystemEnter",
+            "Roguelike1TraderRandomShopping",
+            "Roguelike1StageTraderLeave"
         ]
     },
     "Roguelike1StageTraderInvestSystemEnter": {
