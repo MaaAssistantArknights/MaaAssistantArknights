@@ -82,7 +82,7 @@
             "name": "棘刺",
             "level": 6,
             "skill": 3,
-            "alternate_skill": 2
+            "alternate_skill": 1
         },
         {
             "name": "柏喙",
@@ -232,6 +232,11 @@
     ],
     "Special": [
         {
+            "name": "归溟幽灵鲨",
+            "level": 6,
+            "skill": 2
+        },
+        {
             "name": "孑",
             "level": 4,
             "skill": 2
@@ -280,12 +285,12 @@
             "skill": 1
         },
         {
-            "name": "芙蓉",
+            "name": "安赛尔",
             "level": 3,
             "skill": 1
         },
         {
-            "name": "安赛尔",
+            "name": "芙蓉",
             "level": 3,
             "skill": 1
         }

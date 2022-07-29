@@ -92,33 +92,67 @@
             Content="{DynamicResource StopOnGoldLimit}"
             IsChecked="{Binding RoguelikeStopWhenInvestmentFull}" />
 
-        <StackPanel Grid.ColumnSpan="4" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="开局分队" Margin="10" />
-            <ComboBox Margin="10"
-                     IsHitTestVisible ="{Binding Idle}"
-                     ItemsSource="{Binding RoguelikeSquadList}"
-                     DisplayMemberPath="Display"
-                     SelectedValuePath="Value"
-                     SelectedValue="{Binding RoguelikeSquad}"
-                     Width="300" />
-        </StackPanel>
-        <StackPanel Grid.ColumnSpan="4" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="开局职业组" Margin="10" />
-            <ComboBox Margin="10"
-                     IsHitTestVisible ="{Binding Idle}"
-                     ItemsSource="{Binding RoguelikeRolesList}"
-                     DisplayMemberPath="Display"
-                     SelectedValuePath="Value"
-                     SelectedValue="{Binding RoguelikeRoles}"
-                     Width="300" />
-        </StackPanel>
-        <StackPanel Grid.ColumnSpan="4" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-            <TextBlock Style="{StaticResource TextBlockDefault}" Block.TextAlignment="Center"
-                   Text="开局干员" Margin="10" />
-            <hc:TextBox Text="{Binding RoguelikeCoreChar}" TextWrapping="Wrap" Margin="10"
-                         Width="300" ToolTip="不填写则默认选择" />
-        </StackPanel>
+        <Grid
+            Grid.Row="4"
+            Grid.RowSpan="3"
+            Grid.ColumnSpan="4"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <StackPanel
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="开局分队" />
+                <ComboBox
+                    Width="300"
+                    Margin="10"
+                    DisplayMemberPath="Display"
+                    IsHitTestVisible="{Binding Idle}"
+                    ItemsSource="{Binding RoguelikeSquadList}"
+                    SelectedValue="{Binding RoguelikeSquad}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
+            <StackPanel
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="开局职业组" />
+                <ComboBox
+                    Width="300"
+                    Margin="10"
+                    DisplayMemberPath="Display"
+                    IsHitTestVisible="{Binding Idle}"
+                    ItemsSource="{Binding RoguelikeRolesList}"
+                    SelectedValue="{Binding RoguelikeRoles}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
+            <StackPanel
+                Margin="0,85,0,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="开局干员" />
+                <hc:TextBox
+                    Width="300"
+                    Margin="10"
+                    HorizontalAlignment="Right"
+                    Text="{Binding RoguelikeCoreChar}"
+                    TextWrapping="Wrap"
+                    ToolTip="不填写则默认选择" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

@@ -111,6 +111,12 @@ void asst::BattleImageAnalyzer::clear() noexcept
     m_cost = 0;
 }
 
+void asst::BattleImageAnalyzer::sort_opers_by_cost()
+{
+    // 本来游戏就是按费用排的，这里倒序一下就行了
+    std::reverse(m_opers.begin(), m_opers.end());
+}
+
 bool asst::BattleImageAnalyzer::opers_analyze()
 {
     LogTraceFunction;

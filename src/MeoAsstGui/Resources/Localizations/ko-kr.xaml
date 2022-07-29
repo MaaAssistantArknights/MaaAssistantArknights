@@ -107,7 +107,7 @@
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (공백으로 구분)</system:String>
     <system:String x:Key="Blacklist">무시 항목 (공백으로 구분)</system:String>
-    <system:String x:Key="Drink">술 한잔은 어떻습니까? 🍷</system:String>
+    <system:String x:Key="Drink">술 한잔은 어떻습니까🍷? 박사님</system:String>
 
     <system:String x:Key="DroneUsage">드런 용법</system:String>
 
@@ -116,6 +116,7 @@
     <system:String x:Key="HideUnavailableStage">당일 스테이지만 표시</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 왼쪽의 버튼</system:String>
 
+    <system:String x:Key="ADBTip">팁: 여기에서 자동으로 감지됩니다. 오류가 있는 경우 다시 수정을 시도할 수 있습니다. 그렇지 않으면 직접 입력할 필요가 없습니다.</system:String>
     <system:String x:Key="ADBPath">adb 경로 (상대/절대)</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionPreset">연결 사전 설정</system:String>
@@ -344,4 +345,8 @@
     <system:String x:Key="AutoSelectLevel6">★6 자동 확인</system:String>
     <system:String x:Key="Level1Tip">체크되면, ★1 태그를 인식할 때 이번 모집을 건너뜁니다. 체크되지 않면, ★1 태그를 무시합니다</system:String>
     <!--  AutoRecruitSettings  -->
+
+    <system:String x:Key="Burping">으…… 우웁……</system:String>
+    <system:String x:Key="DrunkAndStaggering">어머, 박사님. 왜 그렇게 비틀비틀 걷고 계시나요?</system:String>
+    <system:String x:Key="Hangover">다, 다음엔 적당히 마셔야지……</system:String>
 </ResourceDictionary>

@@ -6598,6 +6598,7 @@
     "Roguelike1RecruitOcr": {
         "algorithm": "OcrDetect",
         "text": [],
+        "fullMatch": true,
         "roi": [
             13,
             26,
@@ -6777,7 +6778,8 @@
         ],
         "next": [
             "Roguelike1TraderRandomShoppingConfirm",
-            "Roguelike1TraderRandomShoppingCancel"
+            "Roguelike1TraderRandomShoppingCancel",
+            "Roguelike1TraderRandomShopping"
         ],
         "maskRange": [
             1,
@@ -6821,7 +6823,22 @@
             221,
             136
         ],
-        "rearDelay": 1000
+        "rearDelay": 2000,
+        "Doc": "当网络卡的时候才会发生点了确认，但是还可以点取消的情况",
+        "next": [
+            "Roguelike1TraderShoppingConfirmedFlag"
+        ]
+    },
+    "Roguelike1TraderShoppingConfirmedFlag": {
+        "template": "Roguelike1StageTraderLeave.png",
+        "action": "DoNothing",
+        "cache": false,
+        "roi": [
+            1046,
+            443,
+            234,
+            204
+        ]
     },
     "Roguelike1TraderShoppingCancel": {
         "template": "Roguelike1StageTraderInvestCancel.png",
@@ -6832,6 +6849,10 @@
             350,
             500,
             250
+        ],
+        "rearDelay": 2000,
+        "next": [
+            "Roguelike1TraderShoppingConfirmedFlag"
         ]
     },
     "Roguelike1TraderRandomShoppingConfirm": {
@@ -6911,7 +6932,9 @@
             216
         ],
         "next": [
-            "Roguelike1StageTraderInvestSystemEnter"
+            "Roguelike1StageTraderInvestSystemEnter",
+            "Roguelike1TraderRandomShopping",
+            "Roguelike1StageTraderLeave"
         ]
     },
     "Roguelike1StageTraderInvestSystemEnter": {

@@ -107,7 +107,7 @@
     <system:String x:Key="SocialPtShop">信用购物</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 空格分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 空格分隔</system:String>
-    <system:String x:Key="Drink">要来一杯美酒吗🍷？</system:String>
+    <system:String x:Key="Drink">要来一杯美酒吗🍷？博士</system:String>
 
     <system:String x:Key="DroneUsage">无人机用途</system:String>
 
@@ -116,6 +116,7 @@
     <system:String x:Key="HideUnavailableStage">关卡选择隐藏当日不开放关卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
 
+    <system:String x:Key="ADBTip">小提示：这里会自动检测的，若出现问题可再尝试修改，否则不需要自行填写</system:String>
     <system:String x:Key="ADBPath">adb 路径 (相对/绝对)</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
     <system:String x:Key="ConnectionPreset">连接配置</system:String>
@@ -344,4 +345,8 @@
     <system:String x:Key="AutoSelectLevel6">自动确认 6 星</system:String>
     <system:String x:Key="Level1Tip">勾选时识别到 1 星词条时跳过该次招募，未勾选时将忽略 1 星词条</system:String>
     <!--  AutoRecruitSettings  -->
+
+    <system:String x:Key="Burping">呃......咳嗯</system:String>
+    <system:String x:Key="DrunkAndStaggering">呀，博士。你今天走起路来，怎么看着摇摇晃晃的？</system:String>
+    <system:String x:Key="Hangover">下次不能喝、喝这么多了......</system:String>
 </ResourceDictionary>

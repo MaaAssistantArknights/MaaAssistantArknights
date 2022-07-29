@@ -1,3 +1,4 @@
+// <copyright file="SettingsViewModel.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -8,6 +9,7 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using System;
 using System.Collections.Generic;
@@ -31,7 +33,8 @@ namespace MeoAsstGui
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
 
-        [DllImport("MeoAssistant.dll")] private static extern IntPtr AsstGetVersion();
+        [DllImport("MeoAssistant.dll")]
+        private static extern IntPtr AsstGetVersion();
 
         private readonly string _versionInfo = Localization.GetString("Version") + ": " + Marshal.PtrToStringAnsi(AsstGetVersion());
 
@@ -39,6 +42,8 @@ namespace MeoAsstGui
         {
             get { return _versionInfo; }
         }
+
+        public static readonly string PallasLangKey = "pallas";
 
         public SettingsViewModel(IContainer container, IWindowManager windowManager)
         {
@@ -65,6 +70,15 @@ namespace MeoAsstGui
             trayObj.SetMinimizeToTaskbar(MinimizeToTray);
             trayObj.SetSettingsViewModel(this);
             Bootstrapper.SetTrayIconInSettingsViewModel(this);
+
+            if (Hangover)
+            {
+                _windowManager.ShowMessageBox(
+                    Localization.GetString("Hangover"),
+                    Localization.GetString("Burping"),
+                    MessageBoxButton.OK, MessageBoxImage.Hand);
+                Hangover = false;
+            }
         }
 
         private List<string> _listTitle = new List<string>();
@@ -72,16 +86,14 @@ namespace MeoAsstGui
         public List<string> ListTitle
         {
             get { return _listTitle; }
-            set
-            {
-                SetAndNotify(ref _listTitle, value);
-            }
+            set { SetAndNotify(ref _listTitle, value); }
         }
 
         private void InfrastInit()
         {
             /* 基建设置 */
-            string[] facility_list = new string[] {
+            string[] facility_list = new string[]
+            {
                 Localization.GetString("Mfg"),
                 Localization.GetString("Trade"),
                 Localization.GetString("Control"),
@@ -107,15 +119,16 @@ namespace MeoAsstGui
                     temp_order_list[order] = new DragItemViewModel(facility, "Infrast.");
                 }
             }
+
             InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            FacilityKey.Add(Localization.GetString("Dorm"), "Dorm");
-            FacilityKey.Add(Localization.GetString("Mfg"), "Mfg");
-            FacilityKey.Add(Localization.GetString("Trade"), "Trade");
-            FacilityKey.Add(Localization.GetString("Power"), "Power");
-            FacilityKey.Add(Localization.GetString("Reception"), "Reception");
-            FacilityKey.Add(Localization.GetString("Office"), "Office");
-            FacilityKey.Add(Localization.GetString("Control"), "Control");
+            _facilityKey.Add(Localization.GetString("Dorm"), "Dorm");
+            _facilityKey.Add(Localization.GetString("Mfg"), "Mfg");
+            _facilityKey.Add(Localization.GetString("Trade"), "Trade");
+            _facilityKey.Add(Localization.GetString("Power"), "Power");
+            _facilityKey.Add(Localization.GetString("Reception"), "Reception");
+            _facilityKey.Add(Localization.GetString("Office"), "Office");
+            _facilityKey.Add(Localization.GetString("Control"), "Control");
 
             UsesOfDronesList = new List<CombData>
             {
@@ -146,13 +159,14 @@ namespace MeoAsstGui
             {
                 new CombData { Display = Localization.GetString("RougelikeStrategyCandle"), Value = "0" },
                 new CombData { Display = Localization.GetString("RougelikeStrategyGold"), Value = "1" },
-                //new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
-                //new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
+
+                // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
+                // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
             };
 
             RoguelikeSquadList = new List<CombData>
             {
-                new CombData { Display = "默认分队", Value = String.Empty },
+                new CombData { Display = "默认分队", Value = string.Empty },
                 new CombData { Display = "指挥分队", Value = "指挥分队" },
                 new CombData { Display = "集群分队", Value = "集群分队" },
                 new CombData { Display = "后勤分队", Value = "后勤分队" },
@@ -161,12 +175,12 @@ namespace MeoAsstGui
                 new CombData { Display = "堡垒战术分队", Value = "远程战术分队" },
                 new CombData { Display = "破坏战术分队", Value = "破坏战术分队" },
                 new CombData { Display = "研究分队", Value = "研究分队" },
-                new CombData { Display = "高规格分队", Value = "高规格分队" }
+                new CombData { Display = "高规格分队", Value = "高规格分队" },
             };
 
             RoguelikeRolesList = new List<CombData>
             {
-                new CombData { Display = "默认职业组", Value = String.Empty },
+                new CombData { Display = "默认职业组", Value = string.Empty },
                 new CombData { Display = "先手必胜（先锋、狙击、特种）", Value = "先手必胜" },
                 new CombData { Display = "稳扎稳打（重装、术士、狙击）", Value = "稳扎稳打" },
                 new CombData { Display = "取长补短（近卫、辅助、医疗）", Value = "取长补短" },
@@ -175,7 +189,7 @@ namespace MeoAsstGui
 
             ClientTypeList = new List<CombData>
             {
-                new CombData { Display = Localization.GetString("NotSelected"), Value = "" },
+                new CombData { Display = Localization.GetString("NotSelected"), Value = string.Empty },
                 new CombData { Display = Localization.GetString("Official"), Value = "Official" },
                 new CombData { Display = Localization.GetString("Bilibili"), Value = "Bilibili" },
                 new CombData { Display = Localization.GetString("YoStarEN"), Value = "YoStarEN" },
@@ -188,16 +202,18 @@ namespace MeoAsstGui
             {
                 new CombData { Display = Localization.GetString("Clear"), Value = "Clear" },
                 new CombData { Display = Localization.GetString("Inverse"), Value = "Inverse" },
-                new CombData { Display = Localization.GetString("Switchable"), Value = "ClearInverse" }
+                new CombData { Display = Localization.GetString("Switchable"), Value = "ClearInverse" },
             };
 
             LanguageList = new List<CombData>();
             foreach (var pair in Localization.SupportedLanguages)
             {
-                if ((pair.Key != "pallas") || ("pallas" == ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage)))
+                if (pair.Key == PallasLangKey && !Cheers)
                 {
-                    LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
+                    continue;
                 }
+
+                LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
             }
         }
 
@@ -206,10 +222,7 @@ namespace MeoAsstGui
         public bool Idle
         {
             get { return _idle; }
-            set
-            {
-                SetAndNotify(ref _idle, value);
-            }
+            set { SetAndNotify(ref _idle, value); }
         }
 
         /* 启动设置 */
@@ -217,7 +230,11 @@ namespace MeoAsstGui
 
         public bool StartSelf
         {
-            get { return _startSelf; }
+            get
+            {
+                return _startSelf;
+            }
+
             set
             {
                 SetAndNotify(ref _startSelf, value);
@@ -229,7 +246,11 @@ namespace MeoAsstGui
 
         public bool RunDirectly
         {
-            get { return _runDirectly; }
+            get
+            {
+                return _runDirectly;
+            }
+
             set
             {
                 SetAndNotify(ref _runDirectly, value);
@@ -241,12 +262,16 @@ namespace MeoAsstGui
 
         public bool StartEmulator
         {
-            get { return _startEmulator; }
+            get
+            {
+                return _startEmulator;
+            }
+
             set
             {
                 SetAndNotify(ref _startEmulator, value);
                 ViewStatusStorage.Set("Start.StartEmulator", value.ToString());
-                if (ClientType == "" && Idle)
+                if (ClientType == string.Empty && Idle)
                 {
                     ClientType = "Official";
                 }
@@ -257,7 +282,11 @@ namespace MeoAsstGui
 
         public string EmulatorPath
         {
-            get { return _emulatorPath; }
+            get
+            {
+                return _emulatorPath;
+            }
+
             set
             {
                 SetAndNotify(ref _emulatorPath, value);
@@ -269,7 +298,11 @@ namespace MeoAsstGui
 
         public string EmulatorAddCommand
         {
-            get { return _emulatorAddCommand; }
+            get
+            {
+                return _emulatorAddCommand;
+            }
+
             set
             {
                 SetAndNotify(ref _emulatorAddCommand, value);
@@ -281,7 +314,11 @@ namespace MeoAsstGui
 
         public string EmulatorWaitSeconds
         {
-            get { return _emulatorWaitSeconds; }
+            get
+            {
+                return _emulatorWaitSeconds;
+            }
+
             set
             {
                 SetAndNotify(ref _emulatorWaitSeconds, value);
@@ -298,6 +335,7 @@ namespace MeoAsstGui
             {
                 return;
             }
+
             if (EmulatorAddCommand.Length != 0)
             {
                 Process.Start(EmulatorPath, EmulatorAddCommand);
@@ -306,11 +344,13 @@ namespace MeoAsstGui
             {
                 Process.Start(EmulatorPath);
             }
+
             int delay = 0;
             if (!int.TryParse(EmulatorWaitSeconds, out delay))
             {
                 delay = 60;
             }
+
             Thread.Sleep(delay * 1000);
         }
 
@@ -326,11 +366,15 @@ namespace MeoAsstGui
             }
         }
 
-        private string _clientType = ViewStatusStorage.Get("Start.ClientType", "");
+        private string _clientType = ViewStatusStorage.Get("Start.ClientType", string.Empty);
 
         public string ClientType
         {
-            get { return _clientType; }
+            get
+            {
+                return _clientType;
+            }
+
             set
             {
                 SetAndNotify(ref _clientType, value);
@@ -339,26 +383,36 @@ namespace MeoAsstGui
         }
 
         /* 基建设置 */
-        public Dictionary<string, string> FacilityKey = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _facilityKey = new Dictionary<string, string>();
+
         public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; }
 
         public List<CombData> UsesOfDronesList { get; set; }
+
         public List<CombData> RoguelikeModeList { get; set; }
+
         public List<CombData> RoguelikeSquadList { get; set; }
+
         public List<CombData> RoguelikeRolesList { get; set; }
 
-        //public List<CombData> RoguelikeCoreCharList { get; set; }
+        // public List<CombData> RoguelikeCoreCharList { get; set; }
         public List<CombData> ClientTypeList { get; set; }
 
         public List<CombData> ConnectConfigList { get; set; }
+
         public List<CombData> InverseClearModeList { get; set; }
+
         public List<CombData> LanguageList { get; set; }
 
         private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
 
         public int DormThreshold
         {
-            get { return _dormThreshold; }
+            get
+            {
+                return _dormThreshold;
+            }
+
             set
             {
                 DormThresholdLabel = Localization.GetString("DormThreshold") + ": " + _dormThreshold + "%";
@@ -372,10 +426,7 @@ namespace MeoAsstGui
         public string DormThresholdLabel
         {
             get { return _dormThresholdLabel; }
-            set
-            {
-                SetAndNotify(ref _dormThresholdLabel, value);
-            }
+            set { SetAndNotify(ref _dormThresholdLabel, value); }
         }
 
         public List<string> GetInfrastOrderList()
@@ -388,8 +439,9 @@ namespace MeoAsstGui
                     continue;
                 }
 
-                orderList.Add(FacilityKey[item.Name]);
+                orderList.Add(_facilityKey[item.Name]);
             }
+
             return orderList;
         }
 
@@ -405,7 +457,11 @@ namespace MeoAsstGui
 
         public string UsesOfDrones
         {
-            get { return _usesOfDrones; }
+            get
+            {
+                return _usesOfDrones;
+            }
+
             set
             {
                 SetAndNotify(ref _usesOfDrones, value);
@@ -419,7 +475,7 @@ namespace MeoAsstGui
         {
             None,
             SelectedIndex,
-            ScrollOffset
+            ScrollOffset,
         }
 
         private NotifyType _notifySource = NotifyType.None;
@@ -433,8 +489,9 @@ namespace MeoAsstGui
                 _resetNotifyTimer.Stop();
                 _resetNotifyTimer.Close();
             }
+
             _resetNotifyTimer = new System.Timers.Timer(20);
-            _resetNotifyTimer.Elapsed += new System.Timers.ElapsedEventHandler(delegate (object source, System.Timers.ElapsedEventArgs e)
+            _resetNotifyTimer.Elapsed += new System.Timers.ElapsedEventHandler((source, e) =>
             {
                 _notifySource = NotifyType.None;
             });
@@ -453,7 +510,11 @@ namespace MeoAsstGui
 
         public int SelectedIndex
         {
-            get { return _selectedIndex; }
+            get
+            {
+                return _selectedIndex;
+            }
+
             set
             {
                 switch (_notifySource)
@@ -467,7 +528,9 @@ namespace MeoAsstGui
                             && value < RectangleVerticalOffsetList.Count;
 
                         if (isInRange)
+                        {
                             ScrollOffset = RectangleVerticalOffsetList[value];
+                        }
 
                         ResetNotifySource();
                         break;
@@ -483,7 +546,11 @@ namespace MeoAsstGui
 
         public double ScrollOffset
         {
-            get { return _scrollOffset; }
+            get
+            {
+                return _scrollOffset;
+            }
+
             set
             {
                 switch (_notifySource)
@@ -508,8 +575,7 @@ namespace MeoAsstGui
                             // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Rectangle 索引
                             var rectangleSelect = RectangleVerticalOffsetList.Select((n, i) => (
                             rectangleAppeared: value >= n,
-                            index: i
-                            ));
+                            index: i));
 
                             var index = rectangleSelect.LastOrDefault(n => n.rectangleAppeared).index;
                             SelectedIndex = index;
@@ -533,7 +599,11 @@ namespace MeoAsstGui
 
         public string RoguelikeMode
         {
-            get { return _roguelikeMode; }
+            get
+            {
+                return _roguelikeMode;
+            }
+
             set
             {
                 SetAndNotify(ref _roguelikeMode, value);
@@ -541,11 +611,15 @@ namespace MeoAsstGui
             }
         }
 
-        private string _roguelikeSquad = ViewStatusStorage.Get("Roguelike.Squad", String.Empty);
+        private string _roguelikeSquad = ViewStatusStorage.Get("Roguelike.Squad", string.Empty);
 
         public string RoguelikeSquad
         {
-            get { return _roguelikeSquad; }
+            get
+            {
+                return _roguelikeSquad;
+            }
+
             set
             {
                 SetAndNotify(ref _roguelikeSquad, value);
@@ -553,11 +627,15 @@ namespace MeoAsstGui
             }
         }
 
-        private string _roguelikeRoles = ViewStatusStorage.Get("Roguelike.Roles", String.Empty);
+        private string _roguelikeRoles = ViewStatusStorage.Get("Roguelike.Roles", string.Empty);
 
         public string RoguelikeRoles
         {
-            get { return _roguelikeRoles; }
+            get
+            {
+                return _roguelikeRoles;
+            }
+
             set
             {
                 SetAndNotify(ref _roguelikeRoles, value);
@@ -565,11 +643,15 @@ namespace MeoAsstGui
             }
         }
 
-        private string _roguelikeCoreChar = ViewStatusStorage.Get("Roguelike.CoreChar", String.Empty);
+        private string _roguelikeCoreChar = ViewStatusStorage.Get("Roguelike.CoreChar", string.Empty);
 
         public string RoguelikeCoreChar
         {
-            get { return _roguelikeCoreChar; }
+            get
+            {
+                return _roguelikeCoreChar;
+            }
+
             set
             {
                 SetAndNotify(ref _roguelikeCoreChar, value);
@@ -581,7 +663,11 @@ namespace MeoAsstGui
 
         public int RoguelikeStartsCount
         {
-            get { return int.Parse(_roguelikeStartsCount); }
+            get
+            {
+                return int.Parse(_roguelikeStartsCount);
+            }
+
             set
             {
                 SetAndNotify(ref _roguelikeStartsCount, value.ToString());
@@ -593,7 +679,11 @@ namespace MeoAsstGui
 
         public int RoguelikeInvestsCount
         {
-            get { return int.Parse(_roguelikeInvestsCount); }
+            get
+            {
+                return int.Parse(_roguelikeInvestsCount);
+            }
+
             set
             {
                 SetAndNotify(ref _roguelikeInvestsCount, value.ToString());
@@ -605,7 +695,11 @@ namespace MeoAsstGui
 
         public bool RoguelikeStopWhenInvestmentFull
         {
-            get { return bool.Parse(_roguelikeStopWhenInvestmentFull); }
+            get
+            {
+                return bool.Parse(_roguelikeStopWhenInvestmentFull);
+            }
+
             set
             {
                 SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value.ToString());
@@ -619,7 +713,11 @@ namespace MeoAsstGui
 
         public bool CreditShopping
         {
-            get { return _creditShopping; }
+            get
+            {
+                return _creditShopping;
+            }
+
             set
             {
                 SetAndNotify(ref _creditShopping, value);
@@ -631,19 +729,14 @@ namespace MeoAsstGui
 
         public string CreditFirstList
         {
-            get { return _creditFirstList; }
+            get
+            {
+                return _creditFirstList;
+            }
+
             set
             {
                 SetAndNotify(ref _creditFirstList, value);
-                if (_creditFirstList.Contains("酒") || _creditFirstList.Contains("drink") || _creditFirstList.Contains("술"))
-                {
-                    if ("pallas" != ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage))
-                    {
-                        ViewStatusStorage.Set("GUI.Localization", "pallas");
-                        App.Current.Shutdown();
-                        System.Windows.Forms.Application.Restart();
-                    }
-                }
                 ViewStatusStorage.Set("Mall.CreditFirstList", value);
             }
         }
@@ -652,7 +745,11 @@ namespace MeoAsstGui
 
         public string CreditBlackList
         {
-            get { return _creditBlackList; }
+            get
+            {
+                return _creditBlackList;
+            }
+
             set
             {
                 SetAndNotify(ref _creditBlackList, value);
@@ -671,18 +768,22 @@ namespace MeoAsstGui
         private bool _timer7 = ViewStatusStorage.Get("Timer.Timer7", bool.FalseString) == bool.TrueString;
         private bool _timer8 = ViewStatusStorage.Get("Timer.Timer8", bool.FalseString) == bool.TrueString;
 
-        private int _timer1hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer1Hour", "0"));
-        private int _timer2hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer2Hour", "6"));
-        private int _timer3hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer3Hour", "12"));
-        private int _timer4hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer4Hour", "18"));
-        private int _timer5hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer5Hour", "3"));
-        private int _timer6hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer6Hour", "9"));
-        private int _timer7hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer7Hour", "15"));
-        private int _timer8hour = Int32.Parse(ViewStatusStorage.Get("Timer.Timer8Hour", "21"));
+        private int _timer1hour = int.Parse(ViewStatusStorage.Get("Timer.Timer1Hour", "0"));
+        private int _timer2hour = int.Parse(ViewStatusStorage.Get("Timer.Timer2Hour", "6"));
+        private int _timer3hour = int.Parse(ViewStatusStorage.Get("Timer.Timer3Hour", "12"));
+        private int _timer4hour = int.Parse(ViewStatusStorage.Get("Timer.Timer4Hour", "18"));
+        private int _timer5hour = int.Parse(ViewStatusStorage.Get("Timer.Timer5Hour", "3"));
+        private int _timer6hour = int.Parse(ViewStatusStorage.Get("Timer.Timer6Hour", "9"));
+        private int _timer7hour = int.Parse(ViewStatusStorage.Get("Timer.Timer7Hour", "15"));
+        private int _timer8hour = int.Parse(ViewStatusStorage.Get("Timer.Timer8Hour", "21"));
 
         public bool Timer1
         {
-            get { return _timer1; }
+            get
+            {
+                return _timer1;
+            }
+
             set
             {
                 SetAndNotify(ref _timer1, value);
@@ -692,7 +793,11 @@ namespace MeoAsstGui
 
         public bool Timer2
         {
-            get { return _timer2; }
+            get
+            {
+                return _timer2;
+            }
+
             set
             {
                 SetAndNotify(ref _timer2, value);
@@ -702,7 +807,11 @@ namespace MeoAsstGui
 
         public bool Timer3
         {
-            get { return _timer3; }
+            get
+            {
+                return _timer3;
+            }
+
             set
             {
                 SetAndNotify(ref _timer3, value);
@@ -712,7 +821,11 @@ namespace MeoAsstGui
 
         public bool Timer4
         {
-            get { return _timer4; }
+            get
+            {
+                return _timer4;
+            }
+
             set
             {
                 SetAndNotify(ref _timer4, value);
@@ -722,7 +835,11 @@ namespace MeoAsstGui
 
         public bool Timer5
         {
-            get { return _timer5; }
+            get
+            {
+                return _timer5;
+            }
+
             set
             {
                 SetAndNotify(ref _timer5, value);
@@ -732,7 +849,11 @@ namespace MeoAsstGui
 
         public bool Timer6
         {
-            get { return _timer6; }
+            get
+            {
+                return _timer6;
+            }
+
             set
             {
                 SetAndNotify(ref _timer6, value);
@@ -742,7 +863,11 @@ namespace MeoAsstGui
 
         public bool Timer7
         {
-            get { return _timer7; }
+            get
+            {
+                return _timer7;
+            }
+
             set
             {
                 SetAndNotify(ref _timer7, value);
@@ -752,7 +877,11 @@ namespace MeoAsstGui
 
         public bool Timer8
         {
-            get { return _timer8; }
+            get
+            {
+                return _timer8;
+            }
+
             set
             {
                 SetAndNotify(ref _timer8, value);
@@ -762,7 +891,11 @@ namespace MeoAsstGui
 
         public int Timer1Hour
         {
-            get { return _timer1hour; }
+            get
+            {
+                return _timer1hour;
+            }
+
             set
             {
                 SetAndNotify(ref _timer1hour, value);
@@ -772,7 +905,11 @@ namespace MeoAsstGui
 
         public int Timer2Hour
         {
-            get { return _timer2hour; }
+            get
+            {
+                return _timer2hour;
+            }
+
             set
             {
                 SetAndNotify(ref _timer2hour, value);
@@ -782,7 +919,11 @@ namespace MeoAsstGui
 
         public int Timer3Hour
         {
-            get { return _timer3hour; }
+            get
+            {
+                return _timer3hour;
+            }
+
             set
             {
                 SetAndNotify(ref _timer3hour, value);
@@ -792,7 +933,11 @@ namespace MeoAsstGui
 
         public int Timer4Hour
         {
-            get { return _timer4hour; }
+            get
+            {
+                return _timer4hour;
+            }
+
             set
             {
                 SetAndNotify(ref _timer4hour, value);
@@ -802,7 +947,11 @@ namespace MeoAsstGui
 
         public int Timer5Hour
         {
-            get { return _timer5hour; }
+            get
+            {
+                return _timer5hour;
+            }
+
             set
             {
                 SetAndNotify(ref _timer5hour, value);
@@ -812,7 +961,11 @@ namespace MeoAsstGui
 
         public int Timer6Hour
         {
-            get { return _timer6hour; }
+            get
+            {
+                return _timer6hour;
+            }
+
             set
             {
                 SetAndNotify(ref _timer6hour, value);
@@ -822,7 +975,11 @@ namespace MeoAsstGui
 
         public int Timer7Hour
         {
-            get { return _timer7hour; }
+            get
+            {
+                return _timer7hour;
+            }
+
             set
             {
                 SetAndNotify(ref _timer7hour, value);
@@ -832,7 +989,11 @@ namespace MeoAsstGui
 
         public int Timer8Hour
         {
-            get { return _timer8hour; }
+            get
+            {
+                return _timer8hour;
+            }
+
             set
             {
                 SetAndNotify(ref _timer8hour, value);
@@ -846,7 +1007,11 @@ namespace MeoAsstGui
 
         public string PenguinId
         {
-            get { return _penguinId; }
+            get
+            {
+                return _penguinId;
+            }
+
             set
             {
                 SetAndNotify(ref _penguinId, value);
@@ -859,7 +1024,11 @@ namespace MeoAsstGui
 
         public string RecruitMaxTimes
         {
-            get { return _recruitMaxTimes; }
+            get
+            {
+                return _recruitMaxTimes;
+            }
+
             set
             {
                 SetAndNotify(ref _recruitMaxTimes, value);
@@ -871,7 +1040,11 @@ namespace MeoAsstGui
 
         public bool RefreshLevel3
         {
-            get { return _refreshLevel3; }
+            get
+            {
+                return _refreshLevel3;
+            }
+
             set
             {
                 SetAndNotify(ref _refreshLevel3, value);
@@ -891,7 +1064,11 @@ namespace MeoAsstGui
 
         public bool NotChooseLevel1
         {
-            get { return _notChooseLevel1; }
+            get
+            {
+                return _notChooseLevel1;
+            }
+
             set
             {
                 SetAndNotify(ref _notChooseLevel1, value);
@@ -903,7 +1080,11 @@ namespace MeoAsstGui
 
         public bool ChooseLevel3
         {
-            get { return _chooseLevel3; }
+            get
+            {
+                return _chooseLevel3;
+            }
+
             set
             {
                 SetAndNotify(ref _chooseLevel3, value);
@@ -915,7 +1096,11 @@ namespace MeoAsstGui
 
         public bool ChooseLevel4
         {
-            get { return _chooseLevel4; }
+            get
+            {
+                return _chooseLevel4;
+            }
+
             set
             {
                 SetAndNotify(ref _chooseLevel4, value);
@@ -927,7 +1112,11 @@ namespace MeoAsstGui
 
         public bool ChooseLevel5
         {
-            get { return _chooseLevel5; }
+            get
+            {
+                return _chooseLevel5;
+            }
+
             set
             {
                 SetAndNotify(ref _chooseLevel5, value);
@@ -940,7 +1129,11 @@ namespace MeoAsstGui
 
         public bool UpdateBeta
         {
-            get { return _updateBeta; }
+            get
+            {
+                return _updateBeta;
+            }
+
             set
             {
                 SetAndNotify(ref _updateBeta, value);
@@ -952,7 +1145,11 @@ namespace MeoAsstGui
 
         public bool UpdateCheck
         {
-            get { return _updateCheck; }
+            get
+            {
+                return _updateCheck;
+            }
+
             set
             {
                 SetAndNotify(ref _updateCheck, value);
@@ -964,7 +1161,11 @@ namespace MeoAsstGui
 
         public string Proxy
         {
-            get { return _proxy; }
+            get
+            {
+                return _proxy;
+            }
+
             set
             {
                 SetAndNotify(ref _proxy, value);
@@ -976,7 +1177,11 @@ namespace MeoAsstGui
 
         public bool UseAria2
         {
-            get { return _useAria2; }
+            get
+            {
+                return _useAria2;
+            }
+
             set
             {
                 SetAndNotify(ref _useAria2, value);
@@ -988,7 +1193,11 @@ namespace MeoAsstGui
 
         public bool AutoDownloadUpdatePackage
         {
-            get { return _autoDownloadUpdatePackage; }
+            get
+            {
+                return _autoDownloadUpdatePackage;
+            }
+
             set
             {
                 SetAndNotify(ref _autoDownloadUpdatePackage, value);
@@ -1021,7 +1230,11 @@ namespace MeoAsstGui
 
         public string ConnectAddress
         {
-            get { return _connectAddress; }
+            get
+            {
+                return _connectAddress;
+            }
+
             set
             {
                 SetAndNotify(ref _connectAddress, value);
@@ -1034,7 +1247,11 @@ namespace MeoAsstGui
 
         public string AdbPath
         {
-            get { return _adbPath; }
+            get
+            {
+                return _adbPath;
+            }
+
             set
             {
                 SetAndNotify(ref _adbPath, value);
@@ -1046,7 +1263,11 @@ namespace MeoAsstGui
 
         public string ConnectConfig
         {
-            get { return _connectConfig; }
+            get
+            {
+                return _connectConfig;
+            }
+
             set
             {
                 SetAndNotify(ref _connectConfig, value);
@@ -1054,16 +1275,18 @@ namespace MeoAsstGui
             }
         }
 
-        public readonly Dictionary<string, List<string>> DefaultAddress = new Dictionary<string, List<string>>
-            {
-                { "General", new List<string>{ "" } },
-                { "BlueStacks", new List<string>{ "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5554" } },
-                { "MuMuEmulator", new List<string>{ "127.0.0.1:7555" } },
-                { "LDPlayer", new List<string>{ "emulator-5554", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
-                { "Nox", new List<string>{ "127.0.0.1:62001", "127.0.0.1:59865" } },
-                { "XYAZ", new List<string>{ "127.0.0.1:21503"  } },
-                { "WSA", new List<string>{ "127.0.0.1:58526" } },
-            };
+        private readonly Dictionary<string, List<string>> _defaultAddress = new Dictionary<string, List<string>>
+        {
+            { "General", new List<string> { string.Empty } },
+            { "BlueStacks", new List<string> { "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5554" } },
+            { "MuMuEmulator", new List<string> { "127.0.0.1:7555" } },
+            { "LDPlayer", new List<string> { "emulator-5554", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
+            { "Nox", new List<string> { "127.0.0.1:62001", "127.0.0.1:59865" } },
+            { "XYAZ", new List<string> { "127.0.0.1:21503" } },
+            { "WSA", new List<string> { "127.0.0.1:58526" } },
+        };
+
+        public Dictionary<string, List<string>> DefaultAddress => _defaultAddress;
 
         public bool RefreshAdbConfig(ref string error)
         {
@@ -1078,6 +1301,7 @@ namespace MeoAsstGui
                 error = Localization.GetString("EmulatorException");
                 return false;
             }
+
             if (emulators.Count == 0)
             {
                 error = Localization.GetString("EmulatorNotFound");
@@ -1088,11 +1312,13 @@ namespace MeoAsstGui
                 error = Localization.GetString("EmulatorTooMany");
                 return false;
             }
+
             ConnectConfig = emulators.First();
             AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
             if (ConnectAddress.Length == 0)
             {
                 var addresses = adapter.GetAdbAddresses(AdbPath);
+
                 // 傻逼雷电已经关掉了，用别的 adb 还能检测出来这个端口 device
                 if (addresses.Count == 1 && addresses.First() != "emulator-5554")
                 {
@@ -1106,6 +1332,7 @@ namespace MeoAsstGui
                         {
                             continue;
                         }
+
                         ConnectAddress = address;
                         break;
                     }
@@ -1137,18 +1364,19 @@ namespace MeoAsstGui
         public void UpdateWindowTitle()
         {
             var rvm = (RootViewModel)this.Parent;
-            string ConnectConfigName = "";
+            string connectConfigName = string.Empty;
             foreach (CombData data in ConnectConfigList)
             {
                 if (data.Value == ConnectConfig)
                 {
-                    ConnectConfigName = data.Display;
+                    connectConfigName = data.Display;
                 }
             }
-            rvm.WindowTitle = string.Format("MaaAssistantArknights - {0} ({1})", ConnectConfigName, ConnectAddress);
+
+            rvm.WindowTitle = string.Format("MaaAssistantArknights - {0} ({1})", connectConfigName, ConnectAddress);
         }
 
-        private string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
+        private readonly string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
 
         public void TryToSetBlueStacksHyperVAddress()
         {
@@ -1156,6 +1384,7 @@ namespace MeoAsstGui
             {
                 return;
             }
+
             if (!File.Exists(_bluestacksConfig))
             {
                 ViewStatusStorage.Set("Bluestacks.Config.Error", "File not exists");
@@ -1174,12 +1403,14 @@ namespace MeoAsstGui
         }
 
         /* 界面设置 */
+#pragma warning disable SA1401 // Fields should be private
         public bool UseTray = true;
+#pragma warning restore SA1401 // Fields should be private
 
-        //private bool _usetray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
+        // private bool _usetray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
 
-        //public bool UseTray
-        //{
+        // public bool UseTray
+        // {
         //    get { return _usetray; }
         //    set
         //    {
@@ -1188,18 +1419,21 @@ namespace MeoAsstGui
         //        var trayObj = _container.Get<TrayIcon>();
         //        trayObj.SetVisible(value);
 
-        //        if (!Convert.ToBoolean(value))
+        // if (!Convert.ToBoolean(value))
         //        {
         //            MinimizeToTray = false;
         //        }
         //    }
-        //}
-
+        // }
         private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.MinimizeToTray", bool.FalseString));
 
         public bool MinimizeToTray
         {
-            get { return _minimizeToTray; }
+            get
+            {
+                return _minimizeToTray;
+            }
+
             set
             {
                 SetAndNotify(ref _minimizeToTray, value);
@@ -1213,7 +1447,11 @@ namespace MeoAsstGui
 
         public bool UseNotify
         {
-            get { return _useNotify; }
+            get
+            {
+                return _useNotify;
+            }
+
             set
             {
                 SetAndNotify(ref _useNotify, value);
@@ -1235,7 +1473,11 @@ namespace MeoAsstGui
 
         public bool HideUnavailableStage
         {
-            get { return _hideUnavailableStage; }
+            get
+            {
+                return _hideUnavailableStage;
+            }
+
             set
             {
                 SetAndNotify(ref _hideUnavailableStage, value);
@@ -1249,27 +1491,31 @@ namespace MeoAsstGui
         {
             Clear,
             Inverse,
-            ClearInverse
-        };
+            ClearInverse,
+        }
 
         private InverseClearType _inverseClearMode =
-            InverseClearType.TryParse(ViewStatusStorage.Get("GUI.InverseClearMode", InverseClearType.Clear.ToString()),
+            Enum.TryParse(ViewStatusStorage.Get("GUI.InverseClearMode", InverseClearType.Clear.ToString()),
                 out InverseClearType temp)
             ? temp : InverseClearType.Clear;
 
         public string InverseClearMode
         {
-            get { return _inverseClearMode.ToString(); }
+            get
+            {
+                return _inverseClearMode.ToString();
+            }
+
             set
             {
-                bool parsed = InverseClearType.TryParse(value, out InverseClearType tempEnumValue);
+                bool parsed = Enum.TryParse(value, out InverseClearType tempEnumValue);
                 if (!parsed)
                 {
                     return;
                 }
+
                 SetAndNotify(ref _inverseClearMode, tempEnumValue);
                 ViewStatusStorage.Set("GUI.InverseClearMode", value);
-
                 var taskQueueModel = _container.Get<TaskQueueViewModel>();
                 switch (tempEnumValue)
                 {
@@ -1300,13 +1546,24 @@ namespace MeoAsstGui
 
         public string Language
         {
-            get { return _language; }
+            get
+            {
+                return _language;
+            }
+
             set
             {
                 if (value == _language)
                 {
                     return;
                 }
+
+                if (_language == PallasLangKey)
+                {
+                    Hangover = true;
+                    Cheers = false;
+                }
+
                 var backup = _language;
                 ViewStatusStorage.Set("GUI.Localization", value);
                 var result = _windowManager.ShowMessageBox(
@@ -1316,11 +1573,11 @@ namespace MeoAsstGui
                     MessageBoxImage.Question,
                     MessageBoxResult.None,
                     MessageBoxResult.None,
-                    new Dictionary<MessageBoxResult, string>{
-                        {MessageBoxResult.Yes, Localization.GetString("Ok") },
-                        {MessageBoxResult.No, Localization.GetString("ManualRestart") },
-                    }
-                );
+                    new Dictionary<MessageBoxResult, string>
+                    {
+                        { MessageBoxResult.Yes, Localization.GetString("Ok") },
+                        { MessageBoxResult.No, Localization.GetString("ManualRestart") },
+                    });
                 SetAndNotify(ref _language, value);
                 if (result == MessageBoxResult.Yes)
                 {
@@ -1328,6 +1585,75 @@ namespace MeoAsstGui
                     System.Windows.Forms.Application.Restart();
                 }
             }
+        }
+
+        private bool _cheers = bool.Parse(ViewStatusStorage.Get("GUI.Cheers", bool.FalseString));
+
+        public bool Cheers
+        {
+            get
+            {
+                return _cheers;
+            }
+
+            set
+            {
+                if (_cheers == value)
+                {
+                    return;
+                }
+
+                SetAndNotify(ref _cheers, value);
+                ViewStatusStorage.Set("GUI.Cheers", value.ToString());
+                if (_cheers)
+                {
+                    setPallasLanguage();
+                }
+            }
+        }
+
+        private bool _hangover = bool.Parse(ViewStatusStorage.Get("GUI.Hangover", bool.FalseString));
+
+        public bool Hangover
+        {
+            get
+            {
+                return _hangover;
+            }
+
+            set
+            {
+                SetAndNotify(ref _hangover, value);
+                ViewStatusStorage.Set("GUI.Hangover", value.ToString());
+            }
+        }
+
+        private void setPallasLanguage()
+        {
+            ViewStatusStorage.Set("GUI.Localization", PallasLangKey);
+            var result = _windowManager.ShowMessageBox(
+                Localization.GetString("DrunkAndStaggering"),
+                Localization.GetString("Burping"),
+                MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            if (result == MessageBoxResult.OK)
+            {
+                Application.Current.Shutdown();
+                System.Windows.Forms.Application.Restart();
+            }
+        }
+
+        public bool DidYouBuyWine()
+        {
+            var wine_list = new string[] { "酒", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
+            foreach (var wine in wine_list)
+            {
+                if (CreditFirstList.Contains(wine))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

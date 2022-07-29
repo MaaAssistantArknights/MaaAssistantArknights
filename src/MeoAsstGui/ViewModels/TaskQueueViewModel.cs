@@ -1,3 +1,4 @@
+// <copyright file="TaskQueueViewModel.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -8,6 +9,7 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using System;
 using System.Collections.Generic;
@@ -31,21 +33,25 @@ namespace MeoAsstGui
         private readonly IContainer _container;
 
         public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; set; }
+
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
         private string _actionAfterComplated = ViewStatusStorage.Get("MainFunction.ActionAfterComplated", ActionType.DoNothing.ToString());
+
         public List<GenericCombData<ActionType>> ActionAfterCompletedList { get; set; }
 
         public ActionType ActionAfterCompleted
         {
             get
             {
-                if (ActionType.TryParse(_actionAfterComplated, out ActionType action))
+                if (Enum.TryParse(_actionAfterComplated, out ActionType action))
                 {
                     return action;
                 }
+
                 return ActionType.DoNothing;
             }
+
             set
             {
                 SetAndNotify(ref _actionAfterComplated, value.ToString());
@@ -54,6 +60,7 @@ namespace MeoAsstGui
                 {
                     storeValue = value.ToString();
                 }
+
                 ViewStatusStorage.Set("MainFunction.ActionAfterComplated", storeValue);
             }
         }
@@ -70,24 +77,23 @@ namespace MeoAsstGui
             trayIcon.SetTaskQueueViewModel(this);
         }
 
-        //public void ShowButton()
-        //{
+        // public void ShowButton()
+        // {
         //    Visible = Visibility.Visible;
         //    Hibernate = true;
-        //}
+        // }
 
-        //private Visibility _visible = Visibility.Collapsed;
+        // private Visibility _visible = Visibility.Collapsed;
 
-        //public Visibility Visible
-        //{
+        // public Visibility Visible
+        // {
         //    get { return _visible; }
         //    set
         //    {
         //        SetAndNotify(ref _visible, value);
         //    }
-        //}
-
-        private System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
+        // }
+        private readonly System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
 
         private void InitTimer()
         {
@@ -114,14 +120,14 @@ namespace MeoAsstGui
 
             int intHour = DateTime.Now.Hour;
             var settings = _container.Get<SettingsViewModel>();
-            if (settings.Timer1 && settings.Timer1Hour == intHour ||
-                settings.Timer2 && settings.Timer2Hour == intHour ||
-                settings.Timer3 && settings.Timer3Hour == intHour ||
-                settings.Timer4 && settings.Timer4Hour == intHour ||
-                settings.Timer5 && settings.Timer5Hour == intHour ||
-                settings.Timer6 && settings.Timer6Hour == intHour ||
-                settings.Timer7 && settings.Timer7Hour == intHour ||
-                settings.Timer8 && settings.Timer8Hour == intHour)
+            if ((settings.Timer1 && settings.Timer1Hour == intHour) ||
+                (settings.Timer2 && settings.Timer2Hour == intHour) ||
+                (settings.Timer3 && settings.Timer3Hour == intHour) ||
+                (settings.Timer4 && settings.Timer4Hour == intHour) ||
+                (settings.Timer5 && settings.Timer5Hour == intHour) ||
+                (settings.Timer6 && settings.Timer6Hour == intHour) ||
+                (settings.Timer7 && settings.Timer7Hour == intHour) ||
+                (settings.Timer8 && settings.Timer8Hour == intHour))
             {
                 LinkStart();
             }
@@ -129,7 +135,8 @@ namespace MeoAsstGui
 
         public void InitializeItems()
         {
-            string[] task_list = new string[] {
+            string[] task_list = new string[]
+            {
                 Localization.GetString("WakeUp"),
                 Localization.GetString("Recruiting"),
                 Localization.GetString("Base"),
@@ -141,14 +148,15 @@ namespace MeoAsstGui
             };
             ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
-                new GenericCombData<ActionType>{ Display=Localization.GetString("DoNothing"),Value=ActionType.DoNothing },
-                new GenericCombData<ActionType>{ Display=Localization.GetString("ExitArknights"),Value=ActionType.StopGame },
-                new GenericCombData<ActionType>{ Display=Localization.GetString("ExitMAA"),Value=ActionType.ExitSelf },
-                new GenericCombData<ActionType>{ Display=Localization.GetString("CloseEmulator"),Value=ActionType.ExitEmulator },
-                new GenericCombData<ActionType>{ Display=Localization.GetString("ExitMAAAndCloseEmulator"),Value=ActionType.ExitEmulatorAndSelf },
-                //new GenericCombData<ActionTypeAfterCompleted>{ Display="待机",Value=ActionTypeAfterCompleted.Suspend },
-                new GenericCombData<ActionType>{ Display=Localization.GetString("Hibernate"),Value=ActionType.Hibernate },
-                new GenericCombData<ActionType>{ Display=Localization.GetString("Shutdown"),Value=ActionType.Shutdown },
+                new GenericCombData<ActionType> { Display = Localization.GetString("DoNothing"), Value = ActionType.DoNothing },
+                new GenericCombData<ActionType> { Display = Localization.GetString("ExitArknights"), Value = ActionType.StopGame },
+                new GenericCombData<ActionType> { Display = Localization.GetString("ExitMAA"), Value = ActionType.ExitSelf },
+                new GenericCombData<ActionType> { Display = Localization.GetString("CloseEmulator"), Value = ActionType.ExitEmulator },
+                new GenericCombData<ActionType> { Display = Localization.GetString("ExitMAAAndCloseEmulator"), Value = ActionType.ExitEmulatorAndSelf },
+
+                // new GenericCombData<ActionTypeAfterCompleted>{ Display="待机",Value=ActionTypeAfterCompleted.Suspend },
+                new GenericCombData<ActionType> { Display = Localization.GetString("Hibernate"), Value = ActionType.Hibernate },
+                new GenericCombData<ActionType> { Display = Localization.GetString("Shutdown"), Value = ActionType.Shutdown },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             var non_order_list = new List<DragItemViewModel>();
@@ -163,6 +171,7 @@ namespace MeoAsstGui
                 {
                     vm.IsChecked = false;
                 }
+
                 if (!parsed || order < 0)
                 {
                     non_order_list.Add(vm);
@@ -172,6 +181,7 @@ namespace MeoAsstGui
                     temp_order_list[order] = vm;
                 }
             }
+
             foreach (var new_vm in non_order_list)
             {
                 int i = 0;
@@ -179,6 +189,7 @@ namespace MeoAsstGui
                 {
                     ++i;
                 }
+
                 temp_order_list[i] = new_vm;
             }
 
@@ -187,8 +198,9 @@ namespace MeoAsstGui
             AllStageList = new List<CombData>
             {
                 new CombData { Display = Localization.GetString("DefaultStage"), Value = string.Empty },
-                //new CombData { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
-                //new CombData { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
+
+                // new CombData { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
+                // new CombData { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
 
                 // SideStory「多索雷斯假日」复刻活动关卡
                 new CombData { Display = "DH-9", Value = "DH-9" },
@@ -219,13 +231,13 @@ namespace MeoAsstGui
                 // new CombData { Display = "LE-5", Value = "LE-5" },
 
                 // SideStory「愚人号」活动关卡
-                //new CombData { Display = "SN-8", Value = "SN-8" },
-                //new CombData { Display = "SN-9", Value = "SN-9" },
-                //new CombData { Display = "SN-10", Value = "SN-10" },
+                // new CombData { Display = "SN-8", Value = "SN-8" },
+                // new CombData { Display = "SN-9", Value = "SN-9" },
+                // new CombData { Display = "SN-10", Value = "SN-10" },
 
                 // SideStory「风雪过境」活动关卡
-                //new CombData { Display = "BI-7", Value = "BI-7" },
-                //new CombData { Display = "BI-8", Value = "BI-8" }
+                // new CombData { Display = "BI-7", Value = "BI-7" },
+                // new CombData { Display = "BI-8", Value = "BI-8" }
             };
 
             _stageAvailableInfo = new Dictionary<string, Tuple<List<DayOfWeek>, string>>
@@ -234,21 +246,21 @@ namespace MeoAsstGui
                 { "AP-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("APTip")) },
                 { "CA-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday }, Localization.GetString("CATip")) },
                 { "LS-6", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("LSTip")) },
+
                 // 碳本没做导航
                 { "SK-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday }, Localization.GetString("SKTip")) },
-
                 { "PR-A-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, Localization.GetString("PR-ATip")) },
-                { "PR-A-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, "") },
+                { "PR-A-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, string.Empty) },
                 { "PR-B-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday }, Localization.GetString("PR-BTip")) },
-                { "PR-B-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday }, "") },
+                { "PR-B-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday }, string.Empty) },
                 { "PR-C-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("PR-CTip")) },
-                { "PR-C-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "") },
+                { "PR-C-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, string.Empty) },
                 { "PR-D-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("PR-DTip")) },
-                { "PR-D-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, "") },
+                { "PR-D-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, string.Empty) },
 
                 // 下面的不支持导航
                 { "Pormpt1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday }, Localization.GetString("Pormpt1")) },
-                { "Pormpt2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Sunday }, Localization.GetString("Pormpt1")) }
+                { "Pormpt2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Sunday }, Localization.GetString("Pormpt1")) },
             };
 
             InitDrops();
@@ -287,6 +299,7 @@ namespace MeoAsstGui
             {
                 newList = new ObservableCollection<CombData>(AllStageList);
             }
+
             if (StageList == newList)
             {
                 return;
@@ -303,9 +316,10 @@ namespace MeoAsstGui
                     break;
                 }
             }
+
             if (!hasSavedValue)
             {
-                Stage = String.Empty;
+                Stage = string.Empty;
             }
         }
 
@@ -335,19 +349,21 @@ namespace MeoAsstGui
 
             foreach (var item in _stageAvailableInfo)
             {
-                if (item.Value.Item1.Contains(_curDayOfWeek) && item.Value.Item2 != String.Empty)
+                if (item.Value.Item1.Contains(_curDayOfWeek) && item.Value.Item2 != string.Empty)
                 {
                     prompt += item.Value.Item2 + "\n";
                 }
             }
+
             if (StagesOfToday == prompt)
             {
                 return;
             }
+
             StagesOfToday = prompt;
         }
 
-        private string _stagesOfToday = "";
+        private string _stagesOfToday = string.Empty;
 
         public string StagesOfToday
         {
@@ -358,7 +374,8 @@ namespace MeoAsstGui
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
-            //LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
+
+            // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
         public void ClearLog()
@@ -371,7 +388,10 @@ namespace MeoAsstGui
             foreach (var item in TaskItemViewModels)
             {
                 if (item.Name == Localization.GetString("AutoRoguelike"))
+                {
                     continue;
+                }
+
                 item.IsChecked = true;
             }
         }
@@ -384,6 +404,7 @@ namespace MeoAsstGui
             {
                 return _inverseMode;
             }
+
             set
             {
                 SetAndNotify(ref _inverseMode, value);
@@ -402,6 +423,7 @@ namespace MeoAsstGui
             {
                 return _selectedAllWidth;
             }
+
             set
             {
                 SetAndNotify(ref _selectedAllWidth, value);
@@ -418,6 +440,7 @@ namespace MeoAsstGui
             {
                 return _inverseSelectedWidth;
             }
+
             set
             {
                 SetAndNotify(ref _inverseSelectedWidth, value);
@@ -433,6 +456,7 @@ namespace MeoAsstGui
             {
                 return _inverseShowVisibility;
             }
+
             set
             {
                 SetAndNotify(ref _inverseShowVisibility, value);
@@ -448,6 +472,7 @@ namespace MeoAsstGui
             {
                 return _notInverseShowVisibility;
             }
+
             set
             {
                 SetAndNotify(ref _notInverseShowVisibility, value);
@@ -462,6 +487,7 @@ namespace MeoAsstGui
             {
                 return _inverseShowText;
             }
+
             set
             {
                 SetAndNotify(ref _inverseShowText, value);
@@ -476,6 +502,7 @@ namespace MeoAsstGui
             {
                 return _inverseMenuText;
             }
+
             set
             {
                 SetAndNotify(ref _inverseMenuText, value);
@@ -494,7 +521,10 @@ namespace MeoAsstGui
                 foreach (var item in TaskItemViewModels)
                 {
                     if (item.Name == Localization.GetString("AutoRoguelike"))
+                    {
                         continue;
+                    }
+
                     item.IsChecked = !item.IsChecked;
                 }
             }
@@ -513,6 +543,7 @@ namespace MeoAsstGui
             {
                 return;
             }
+
             Idle = false;
 
             ClearLog();
@@ -522,7 +553,7 @@ namespace MeoAsstGui
             AddLog(Localization.GetString("ConnectingToEmulator"));
 
             var asstProxy = _container.Get<AsstProxy>();
-            string errMsg = "";
+            string errMsg = string.Empty;
             var task = Task.Run(() =>
             {
                 return asstProxy.AsstConnect(ref errMsg, true);
@@ -550,12 +581,14 @@ namespace MeoAsstGui
                 }
             }
 
-            if (Idle)   // 一般是点了“停止”按钮了
+            // 一般是点了“停止”按钮了
+            if (Idle)
             {
                 return;
             }
 
             bool ret = true;
+
             // 直接遍历TaskItemViewModels里面的内容，是排序后的
             int count = 0;
             int index = 0;
@@ -605,9 +638,11 @@ namespace MeoAsstGui
                 else
                 {
                     --count;
+
                     // TODO 报错
                 }
             }
+
             if (count == 0)
             {
                 AddLog(Localization.GetString("UnselectedTask"));
@@ -615,7 +650,8 @@ namespace MeoAsstGui
                 return;
             }
 
-            if (Idle)   // 一般是点了“停止”按钮了
+            // 一般是点了“停止”按钮了
+            if (Idle)
             {
                 return;
             }
@@ -647,12 +683,16 @@ namespace MeoAsstGui
         {
             // 吃理智药个数
             ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
+
             // 吃石头颗数
             ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
+
             // 指定刷关次数
             ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
+
             // 指定掉落材料
             ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
+
             // 指定掉落材料数量
             ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
         }
@@ -676,6 +716,7 @@ namespace MeoAsstGui
                     medicine = 0;
                 }
             }
+
             int stone = 0;
             if (UseStone)
             {
@@ -684,6 +725,7 @@ namespace MeoAsstGui
                     stone = 0;
                 }
             }
+
             int times = int.MaxValue;
             if (HasTimesLimited)
             {
@@ -692,6 +734,7 @@ namespace MeoAsstGui
                     times = 0;
                 }
             }
+
             int drops_quantity = 0;
             if (IsSpecifiedDrops)
             {
@@ -715,6 +758,7 @@ namespace MeoAsstGui
                     medicine = 0;
                 }
             }
+
             int stone = 0;
             if (UseStone)
             {
@@ -723,6 +767,7 @@ namespace MeoAsstGui
                     stone = 0;
                 }
             }
+
             int times = int.MaxValue;
             if (HasTimesLimited)
             {
@@ -731,6 +776,7 @@ namespace MeoAsstGui
                     times = 0;
                 }
             }
+
             int drops_quantity = 0;
             if (IsSpecifiedDrops)
             {
@@ -767,8 +813,8 @@ namespace MeoAsstGui
         {
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
-            var buy_first = settings.CreditFirstList.Split(' ');
-            var black_list = settings.CreditBlackList.Split(' ');
+            var buy_first = settings.CreditFirstList.Split(new char[] { ' ', ',', '，', ';', '；', '|' });
+            var black_list = settings.CreditBlackList.Split(new char[] { ' ', ',', '，', ';', '；', '|' });
             return asstProxy.AsstAppendMall(settings.CreditShopping, buy_first, black_list);
         }
 
@@ -790,11 +836,13 @@ namespace MeoAsstGui
             {
                 cfmList.Add(3);
             }
+
             if (settings.ChooseLevel4)
             {
                 reqList.Add(4);
                 cfmList.Add(4);
             }
+
             if (settings.ChooseLevel5)
             {
                 reqList.Add(5);
@@ -825,10 +873,16 @@ namespace MeoAsstGui
         {
             int pid = 0;
             string port;
-            string address = ViewStatusStorage.Get("Connect.Address", "");
+            string address = ViewStatusStorage.Get("Connect.Address", string.Empty);
             if (address.StartsWith("127"))
+            {
                 port = address.Substring(10);
-            else port = "5555";
+            }
+            else
+            {
+                port = "5555";
+            }
+
             string portcmd = "netstat -ano|findstr \"" + port + "\"";
             Process checkcmd = new Process();
             checkcmd.StartInfo.FileName = "cmd.exe";
@@ -853,19 +907,24 @@ namespace MeoAsstGui
                 {
                     break;
                 }
+
                 if (line.StartsWith("TCP", StringComparison.OrdinalIgnoreCase))
                 {
                     line = reg.Replace(line, ",");
                     string[] arr = line.Split(',');
                     if (!Convert.ToBoolean(arr[1].CompareTo(address)) || !Convert.ToBoolean(arr[1].CompareTo("[::]:" + port)) || !Convert.ToBoolean(arr[1].CompareTo("0.0.0.0:" + port)))
                     {
-                        pid = Int32.Parse(arr[4]);
+                        pid = int.Parse(arr[4]);
                         break;
                     }
                 }
             }
+
             if (pid == 0)
+            {
                 return false;
+            }
+
             Process emulator = Process.GetProcessById(pid);
             try
             {
@@ -875,6 +934,7 @@ namespace MeoAsstGui
             {
                 return false;
             }
+
             return true;
         }
 
@@ -887,7 +947,7 @@ namespace MeoAsstGui
             ExitEmulatorAndSelf,
             Suspend,
             Hibernate,
-            Shutdown
+            Shutdown,
         }
 
         public void CheckAfterCompleted()
@@ -903,11 +963,13 @@ namespace MeoAsstGui
                     {
                         AddLog(Localization.GetString("CloseArknightsFailed"), "DarkRed");
                     }
+
                     break;
 
                 case ActionType.ExitSelf:
                     // Shutdown 会调用 OnExit 但 Exit 不会
-                    App.Current.Shutdown();
+                    Application.Current.Shutdown();
+
                     // Enviroment.Exit(0);
                     break;
 
@@ -916,6 +978,7 @@ namespace MeoAsstGui
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), "DarkRed");
                     }
+
                     break;
 
                 case ActionType.ExitEmulatorAndSelf:
@@ -923,32 +986,37 @@ namespace MeoAsstGui
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), "DarkRed");
                     }
+
                     // Shutdown 会调用 OnExit 但 Exit 不会
-                    App.Current.Shutdown();
+                    Application.Current.Shutdown();
+
                     // Enviroment.Exit(0);
                     break;
 
                 case ActionType.Shutdown:
-                    System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
+                    Process.Start("shutdown.exe", "-s -t 60");
+
                     // 关机询问
                     var shutdownResult = _windowManager.ShowMessageBox(Localization.GetString("AboutToShutdown"), Localization.GetString("ShutdownPrompt"), MessageBoxButton.OK, MessageBoxImage.Question);
                     if (shutdownResult == MessageBoxResult.OK)
                     {
-                        System.Diagnostics.Process.Start("shutdown.exe", "-a");
+                        Process.Start("shutdown.exe", "-a");
                     }
+
                     break;
 
                 case ActionType.Suspend:
-                    System.Diagnostics.Process.Start("powercfg", "-h off");
-                    System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
-                    System.Diagnostics.Process.Start("powercfg", "-h on");
+                    Process.Start("powercfg", "-h off");
+                    Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+                    Process.Start("powercfg", "-h on");
                     break;
 
                 case ActionType.Hibernate:
                     // 休眠提示
                     AddLog(Localization.GetString("HibernatePrompt"), "DarkRed");
+
                     // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
-                    System.Diagnostics.Process.Start("shutdown.exe", "-h");
+                    Process.Start("shutdown.exe", "-h");
                     break;
 
                 default:
@@ -956,13 +1024,13 @@ namespace MeoAsstGui
             }
         }
 
-        //public void CheckAndShutdown()
-        //{
+        // public void CheckAndShutdown()
+        // {
         //    if (Shutdown)
         //    {
         //        System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
 
-        //        var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
+        // var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
         //        if (result == MessageBoxResult.OK)
         //        {
         //            System.Diagnostics.Process.Start("shutdown.exe", "-a");
@@ -976,13 +1044,16 @@ namespace MeoAsstGui
         //    {
         //        System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
         //    }
-        //}
-
+        // }
         private bool _idle = false;
 
         public bool Idle
         {
-            get { return _idle; }
+            get
+            {
+                return _idle;
+            }
+
             set
             {
                 SetAndNotify(ref _idle, value);
@@ -999,79 +1070,93 @@ namespace MeoAsstGui
 
         public bool FightTaskRunning
         {
-            get { return _fightTaskRunning; }
+            get
+            {
+                return _fightTaskRunning;
+            }
+
             set
             {
                 SetAndNotify(ref _fightTaskRunning, value);
             }
         }
 
-        //private bool _shutdown = false;
+        // private bool _shutdown = false;
 
-        //public bool Shutdown
-        //{
+        // public bool Shutdown
+        // {
         //    get { return _shutdown; }
         //    set
         //    {
         //        SetAndNotify(ref _shutdown, value);
 
-        //        if (value)
+        // if (value)
         //        {
         //            Hibernate = false;
         //            Suspend = false;
         //        }
         //    }
-        //}
+        // }
 
-        //private bool _hibernate = false;  // 休眠
+        // private bool _hibernate = false;  // 休眠
 
-        //public bool Hibernate
-        //{
+        // public bool Hibernate
+        // {
         //    get { return _hibernate; }
         //    set
         //    {
         //        SetAndNotify(ref _hibernate, value);
 
-        //        if (value)
+        // if (value)
         //        {
         //            Shutdown = false;
         //            Suspend = false;
         //        }
         //    }
-        //}
+        // }
 
-        //private bool _suspend = false;  // 待机
+        // private bool _suspend = false;  // 待机
 
-        //public bool Suspend
-        //{
+        // public bool Suspend
+        // {
         //    get { return _suspend; }
         //    set
         //    {
         //        SetAndNotify(ref _suspend, value);
 
-        //        if (value)
+        // if (value)
         //        {
         //            Shutdown = false;
         //            Hibernate = false;
         //        }
         //    }
-        //}
-
+        // }
         public List<CombData> AllStageList { get; set; }
 
         private ObservableCollection<CombData> _stageList = new ObservableCollection<CombData>();
 
         public ObservableCollection<CombData> StageList
         {
-            get { return _stageList; }
-            set { SetAndNotify(ref _stageList, value); }
+            get
+            {
+                return _stageList;
+            }
+
+            set
+            {
+                SetAndNotify(ref _stageList, value);
+            }
         }
 
-        private string _stage = ViewStatusStorage.Get("MainFunction.Stage", String.Empty);
+        private string _stage = ViewStatusStorage.Get("MainFunction.Stage", string.Empty);
 
         public string Stage
         {
-            get { return _stage; }
+            get
+            {
+                return _stage;
+            }
+
             set
             {
                 SetAndNotify(ref _stage, value);
@@ -1079,11 +1164,15 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _useMedicine = System.Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));
+        private bool _useMedicine = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));
 
         public bool UseMedicine
         {
-            get { return _useMedicine; }
+            get
+            {
+                return _useMedicine;
+            }
+
             set
             {
                 SetAndNotify(ref _useMedicine, value);
@@ -1091,6 +1180,7 @@ namespace MeoAsstGui
                 {
                     UseStone = false;
                 }
+
                 ViewStatusStorage.Set("MainFunction.UseMedicine", value.ToString());
             }
         }
@@ -1099,7 +1189,11 @@ namespace MeoAsstGui
 
         public string MedicineNumber
         {
-            get { return _medicineNumber; }
+            get
+            {
+                return _medicineNumber;
+            }
+
             set
             {
                 SetAndNotify(ref _medicineNumber, value);
@@ -1110,7 +1204,11 @@ namespace MeoAsstGui
 
         public bool UseStone
         {
-            get { return _useStone; }
+            get
+            {
+                return _useStone;
+            }
+
             set
             {
                 SetAndNotify(ref _useStone, value);
@@ -1125,7 +1223,11 @@ namespace MeoAsstGui
 
         public string StoneNumber
         {
-            get { return _stoneNumber; }
+            get
+            {
+                return _stoneNumber;
+            }
+
             set
             {
                 SetAndNotify(ref _stoneNumber, value);
@@ -1136,7 +1238,11 @@ namespace MeoAsstGui
 
         public bool HasTimesLimited
         {
-            get { return _hasTimesLimited; }
+            get
+            {
+                return _hasTimesLimited;
+            }
+
             set
             {
                 SetAndNotify(ref _hasTimesLimited, value);
@@ -1147,18 +1253,26 @@ namespace MeoAsstGui
 
         public string MaxTimes
         {
-            get { return _maxTimes; }
+            get
+            {
+                return _maxTimes;
+            }
+
             set
             {
                 SetAndNotify(ref _maxTimes, value);
             }
         }
 
-        private bool _isSpecifiedDrops = System.Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.Drops.Enable", bool.FalseString));
+        private bool _isSpecifiedDrops = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.Drops.Enable", bool.FalseString));
 
         public bool IsSpecifiedDrops
         {
-            get { return _isSpecifiedDrops; }
+            get
+            {
+                return _isSpecifiedDrops;
+            }
+
             set
             {
                 SetAndNotify(ref _isSpecifiedDrops, value);
@@ -1166,7 +1280,7 @@ namespace MeoAsstGui
             }
         }
 
-        private static readonly string _DropsFilename = System.Environment.CurrentDirectory + "\\resource\\item_index.json";
+        private static readonly string _DropsFilename = Environment.CurrentDirectory + "\\resource\\item_index.json";
 
         public List<CombData> AllDrops { get; set; } = new List<CombData>();
 
@@ -1177,10 +1291,13 @@ namespace MeoAsstGui
             foreach (var item in reader)
             {
                 var val = item.Key;
-                if (!int.TryParse(val, out _))  // 不是数字的东西都是正常关卡不会掉的（大概吧）
+
+                // 不是数字的东西都是正常关卡不会掉的（大概吧）
+                if (!int.TryParse(val, out _))
                 {
                     continue;
                 }
+
                 var dis = item.Value["name"].ToString();
                 if (dis.EndsWith("双芯片") || dis.EndsWith("寻访凭证") || dis.EndsWith("加固建材")
                     || dis.EndsWith("许可") || dis == "资质凭证" || dis == "高级凭证" || dis == "演习券"
@@ -1192,6 +1309,7 @@ namespace MeoAsstGui
 
                 AllDrops.Add(new CombData { Display = dis, Value = val });
             }
+
             AllDrops.Sort((a, b) =>
             {
                 return a.Value.CompareTo(b.Value);
@@ -1205,24 +1323,33 @@ namespace MeoAsstGui
 
         public string DropsItemId
         {
-            get { return _dropsItemId; }
+            get
+            {
+                return _dropsItemId;
+            }
+
             set
             {
                 if (value == null)
                 {
                     return;
                 }
+
                 SetAndNotify(ref _dropsItemId, value);
             }
         }
 
-        private string _dropsItem = "";
+        private string _dropsItem = string.Empty;
         private bool _isFirstLoadDropItem = true;
         private long _preSetDropsItemTicks = 0;
 
         public string DropsItem
         {
-            get { return _dropsItem; }
+            get
+            {
+                return _dropsItem;
+            }
+
             set
             {
                 if (_isFirstLoadDropItem)
@@ -1234,13 +1361,12 @@ namespace MeoAsstGui
                     IsDropDown = true;
                 }
 
-                // 这里有个很严重的死循环性能问题，不知道怎么解决，简单做个消抖好了_(:з」∠)_
                 if (DateTime.Now.Ticks - _preSetDropsItemTicks < 50)
                 {
                     return;
                 }
-                _preSetDropsItemTicks = DateTime.Now.Ticks;
 
+                _preSetDropsItemTicks = DateTime.Now.Ticks;
                 DropsList.Clear();
                 foreach (CombData drop in AllDrops)
                 {
@@ -1250,6 +1376,7 @@ namespace MeoAsstGui
                         DropsList.Add(drop);
                     }
                 }
+
                 SetAndNotify(ref _dropsItem, value);
             }
         }
@@ -1258,7 +1385,11 @@ namespace MeoAsstGui
 
         public bool IsDropDown
         {
-            get { return _isDropDown; }
+            get
+            {
+                return _isDropDown;
+            }
+
             set
             {
                 SetAndNotify(ref _isDropDown, value);
@@ -1269,7 +1400,11 @@ namespace MeoAsstGui
 
         public string DropsQuantity
         {
-            get { return _dropsQuantity; }
+            get
+            {
+                return _dropsQuantity;
+            }
+
             set
             {
                 SetAndNotify(ref _dropsQuantity, value);

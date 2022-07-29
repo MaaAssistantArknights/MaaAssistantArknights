@@ -1,3 +1,4 @@
+// <copyright file="ViewStatusStorage.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -8,6 +9,7 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using System;
 using System.IO;
@@ -19,8 +21,8 @@ namespace MeoAsstGui
     // 界面设置存储（读写json文件）
     public class ViewStatusStorage
     {
-        private static readonly string _configFilename = System.Environment.CurrentDirectory + "\\gui.json";
-        private static readonly string _configBakFilename = System.Environment.CurrentDirectory + "\\gui.json.bak";
+        private static readonly string _configFilename = Environment.CurrentDirectory + "\\gui.json";
+        private static readonly string _configBakFilename = Environment.CurrentDirectory + "\\gui.json.bak";
         private static JObject _viewStatus = new JObject();
 
         public static string Get(string key, string default_value)
@@ -77,6 +79,7 @@ namespace MeoAsstGui
                 _viewStatus = new JObject();
                 return false;
             }
+
             return true;
         }
 
@@ -91,6 +94,7 @@ namespace MeoAsstGui
                     {
                         sw.Write(jsonStr);
                     }
+
                     if (new System.IO.FileInfo(_configFilename).Length > 2)
                     {
                         File.Copy(_configFilename, _configBakFilename, true);
@@ -101,6 +105,7 @@ namespace MeoAsstGui
             {
                 return false;
             }
+
             return true;
         }
     }

@@ -21,7 +21,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_
 
     m_roguelike_task_ptr->regiseter_plugin<RoguelikeFormationTaskPlugin>();
     m_roguelike_task_ptr->regiseter_plugin<RoguelikeControlTaskPlugin>();
-    m_roguelike_task_ptr->regiseter_plugin<RoguelikeShoppingTaskPlugin>();
+    m_roguelike_task_ptr->regiseter_plugin<RoguelikeShoppingTaskPlugin>()->set_retry_times(0);
     m_custom_start_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeCustomStartTaskPlugin>();
 
     m_battle_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeBattleTaskPlugin>();

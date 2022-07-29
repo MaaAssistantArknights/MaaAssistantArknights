@@ -1,3 +1,4 @@
+// <copyright file="WinAdapter.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -8,6 +9,7 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using System;
 using System.Collections.Generic;
@@ -19,29 +21,37 @@ namespace MeoAsstGui
 {
     public class WinAdapter
     {
-        private static readonly Dictionary<string, string> emulatorIdDict = new Dictionary<string, string> {
-            { "HD-Player",  "BlueStacks"},
-            { "dnplayer", "LDPlayer"},
-            { "Nox", "Nox"},
-            { "NemuPlayer", "MuMuEmulator"},
-            { "MEmu", "XYAZ"}
+        private static readonly Dictionary<string, string> emulatorIdDict = new Dictionary<string, string>
+        {
+            { "HD-Player",  "BlueStacks" },
+            { "dnplayer", "LDPlayer" },
+            { "Nox", "Nox" },
+            { "NemuPlayer", "MuMuEmulator" },
+            { "MEmu", "XYAZ" },
         };
 
-        private static readonly Dictionary<string, List<string>> adbRelativePathDict = new Dictionary<string, List<string>> {
-            { "BlueStacks", new List<string> {
-                ".\\HD-Adb.exe",
-                ".\\Engine\\ProgramFiles\\HD-Adb.exe"
-            } },
+        private static readonly Dictionary<string, List<string>> adbRelativePathDict = new Dictionary<string, List<string>>
+        {
+            {
+                "BlueStacks", new List<string>
+                {
+                    ".\\HD-Adb.exe",
+                    ".\\Engine\\ProgramFiles\\HD-Adb.exe",
+                }
+            },
             { "LDPlayer",  new List<string> { ".\\adb.exe" } },
             { "Nox",  new List<string> { ".\\nox_adb.exe" } },
-            { "MuMuEmulator",  new List<string> {
-                "..\\vmonitor\\bin\\adb_server.exe",
-                "..\\..\\MuMu\\emulator\\nemu\\vmonitor\\bin\\adb_server.exe"
-            } },
-            { "XYAZ",  new List<string> { ".\\adb.exe"} }
+            {
+                "MuMuEmulator",  new List<string>
+                {
+                    "..\\vmonitor\\bin\\adb_server.exe",
+                    "..\\..\\MuMu\\emulator\\nemu\\vmonitor\\bin\\adb_server.exe",
+                }
+            },
+            { "XYAZ",  new List<string> { ".\\adb.exe" } },
         };
 
-        private Dictionary<string, string> adbAbsoultePathDict = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> adbAbsoultePathDict = new Dictionary<string, string>();
 
         public List<string> RefreshEmulatorsInfo()
         {
@@ -64,6 +74,7 @@ namespace MeoAsstGui
                     }
                 }
             }
+
             return emulators;
         }
 
@@ -73,6 +84,7 @@ namespace MeoAsstGui
             {
                 return adbAbsoultePathDict[emulatorName];
             }
+
             return null;
         }
 
@@ -83,6 +95,7 @@ namespace MeoAsstGui
             {
                 process.StartInfo.FileName = adbPath;
                 process.StartInfo.Arguments = "devices";
+
                 // 禁用操作系统外壳程序
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.CreateNoWindow = true;
@@ -99,10 +112,12 @@ namespace MeoAsstGui
                     {
                         continue;
                     }
+
                     var address = line.Split('\t')[0];
                     addresses.Add(address);
                 }
             }
+
             return addresses;
         }
     }
