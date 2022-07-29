@@ -11,25 +11,25 @@ namespace asst
     class InfrastConfiger : public AbstractConfiger
     {
     public:
-        virtual ~InfrastConfiger() = default;
+        virtual ~InfrastConfiger() override = default;
 
-        auto get_templ_required() const noexcept -> const std::unordered_set<std::string>&
+        [[nodiscard]] auto get_templ_required() const noexcept -> const std::unordered_set<std::string>&
         {
             return m_templ_required;
         }
-        auto get_skills(const std::string& facility_name) const -> const std::unordered_map<std::string, infrast::Skill>&
+        [[nodiscard]] auto get_skills(const std::string& facility_name) const -> const std::unordered_map<std::string, infrast::Skill>&
         {
             return m_skills.at(facility_name);
         }
-        auto get_skills_group(const std::string& facility) const -> const std::vector<infrast::SkillsGroup>&
+        [[nodiscard]] auto get_skills_group(const std::string& facility) const -> const std::vector<infrast::SkillsGroup>&
         {
             return m_skills_groups.at(facility);
         }
-        auto get_facility_info(const std::string& facility) const -> const infrast::Facility&
+        [[nodiscard]] auto get_facility_info(const std::string& facility) const -> const infrast::Facility&
         {
             return m_facilities_info.at(facility);
         }
-        auto get_facility_info() const noexcept -> const std::unordered_map<std::string, infrast::Facility>&
+        [[nodiscard]] auto get_facility_info() const noexcept -> const std::unordered_map<std::string, infrast::Facility>&
         {
             return m_facilities_info;
         }

@@ -13,7 +13,7 @@ namespace asst
         using Loc = asst::TilePack::BuildableType;
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~RoguelikeBattleTaskPlugin() = default;
+        virtual ~RoguelikeBattleTaskPlugin() override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 

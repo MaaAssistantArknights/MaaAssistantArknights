@@ -8,7 +8,7 @@ namespace asst
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name, double templ_thres = 0.0);
-        virtual ~MatchImageAnalyzer() = default;
+        virtual ~MatchImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 
@@ -23,7 +23,7 @@ namespace asst
         void set_region_of_appeared(Rect region) noexcept;
         void set_mask_with_close(int with_close) noexcept;
 
-        const MatchRect& get_result() const noexcept;
+        [[nodiscard]] const MatchRect& get_result() const noexcept;
 
     protected:
         virtual bool match_templ(const cv::Mat templ);

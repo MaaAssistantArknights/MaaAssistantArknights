@@ -10,9 +10,9 @@ namespace asst
     class RoguelikeCopilotConfiger : public AbstractConfiger
     {
     public:
-        virtual ~RoguelikeCopilotConfiger() = default;
+        virtual ~RoguelikeCopilotConfiger() override = default;
 
-        std::optional<RoguelikeBattleData> get_stage_data(const std::string& stage_name) const;
+        [[nodiscard]] std::optional<RoguelikeBattleData> get_stage_data(const std::string& stage_name) const;
 
     protected:
         virtual bool parse(const json::value& json) override;

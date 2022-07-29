@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using InfrastAbstractTask::InfrastAbstractTask;
-        virtual ~InfrastInfoTask() = default;
+        virtual ~InfrastInfoTask() override = default;
 
     protected:
         virtual bool _run() override;

@@ -13,7 +13,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~OcrImageAnalyzer() = default;
+        virtual ~OcrImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 
@@ -34,7 +34,7 @@ namespace asst
         virtual void set_region_of_appeared(Rect region) noexcept;
 
         void set_pred(const TextRectProc& pred);
-        virtual const std::vector<TextRect>& get_result() const noexcept;
+        [[nodiscard]] virtual const std::vector<TextRect>& get_result() const noexcept;
         virtual std::vector<TextRect>& get_result() noexcept;
 
     protected:

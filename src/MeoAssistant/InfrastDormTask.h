@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using InfrastAbstractTask::InfrastAbstractTask;
-        virtual ~InfrastDormTask() = default;
+        virtual ~InfrastDormTask() override = default;
 
         virtual size_t max_num_of_opers() const noexcept override { return 5ULL; }
 

@@ -10,9 +10,9 @@ namespace asst
     class ItemConfiger : public AbstractConfiger
     {
     public:
-        virtual ~ItemConfiger() = default;
+        virtual ~ItemConfiger() override = default;
 
-        const std::string& get_item_name(const std::string& id) const noexcept
+        [[nodiscard]] const std::string& get_item_name(const std::string& id) const noexcept
         {
             if (id.empty()) {
                 static const std::string unknown = "Unknown";
@@ -27,11 +27,11 @@ namespace asst
                 return empty;
             }
         }
-        const auto& get_all_item_id() const noexcept
+        [[nodiscard]] const auto& get_all_item_id() const noexcept
         {
             return m_all_item_id;
         }
-        const auto& get_ordered_material_item_id() const noexcept
+        [[nodiscard]] const auto& get_ordered_material_item_id() const noexcept
         {
             return m_ordered_material_item_id;
         }

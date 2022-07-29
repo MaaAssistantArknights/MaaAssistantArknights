@@ -23,20 +23,20 @@ namespace asst
         };
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~BattleImageAnalyzer() = default;
+        virtual ~BattleImageAnalyzer() override = default;
 
         bool set_target(int target);
         void set_pre_total_kills(int pre_total_kills);
         virtual bool analyze() override;
 
-        virtual const std::vector<BattleRealTimeOper>& get_opers() const noexcept;
-        virtual const std::vector<Rect>& get_homes() const noexcept;
+        [[nodiscard]] virtual const std::vector<BattleRealTimeOper>& get_opers() const noexcept;
+        [[nodiscard]] virtual const std::vector<Rect>& get_homes() const noexcept;
 
-        const std::vector<Rect>& get_ready_skills() const noexcept;
-        int get_hp() const noexcept;
-        int get_kills() const noexcept;
-        int get_total_kills() const noexcept;
-        int get_cost() const noexcept;
+        [[nodiscard]] const std::vector<Rect>& get_ready_skills() const noexcept;
+        [[nodiscard]] int get_hp() const noexcept;
+        [[nodiscard]] int get_kills() const noexcept;
+        [[nodiscard]] int get_total_kills() const noexcept;
+        [[nodiscard]] int get_cost() const noexcept;
 
         void clear() noexcept;
 

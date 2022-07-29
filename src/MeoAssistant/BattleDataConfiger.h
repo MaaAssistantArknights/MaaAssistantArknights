@@ -11,9 +11,9 @@ namespace asst
     class BattleDataConfiger : public AbstractConfiger
     {
     public:
-        virtual ~BattleDataConfiger() = default;
+        virtual ~BattleDataConfiger() override = default;
 
-        BattleRole get_role(const std::string& name) const
+        [[nodiscard]] BattleRole get_role(const std::string& name) const
         {
             auto iter = m_chars.find(name);
             if (iter == m_chars.cend()) {
@@ -24,7 +24,7 @@ namespace asst
 
         static inline const BattleAttackRange& EmptyRange{ {0, 0} };
 
-        const BattleAttackRange& get_range(const std::string& name, size_t index) const
+        [[nodiscard]] const BattleAttackRange& get_range(const std::string& name, size_t index) const
         {
             auto char_iter = m_chars.find(name);
             if (char_iter == m_chars.cend()) {

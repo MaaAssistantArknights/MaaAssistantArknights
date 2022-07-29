@@ -55,11 +55,11 @@ namespace asst
         };
     public:
         using AbstractResource::AbstractResource;
-        virtual ~TilePack();
+        virtual ~TilePack() override;
 
         virtual bool load(const std::string& dir) override;
 
-        std::unordered_map<Point, TileInfo> calc(const std::string& stage_code, bool side) const;
+        [[nodiscard]] std::unordered_map<Point, TileInfo> calc(const std::string& stage_code, bool side) const;
 
     private:
         std::shared_ptr<Map::TileCalc> m_tile_calculator = nullptr;

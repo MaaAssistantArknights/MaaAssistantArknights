@@ -16,7 +16,7 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
-        virtual ~PackageTask() = default;
+        virtual ~PackageTask() override = default;
 
         virtual bool run() override;
 

@@ -53,7 +53,7 @@ bool asst::OcrPack::load(const std::string& dir)
     return m_ocr != nullptr;
 }
 
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::TextRectProc& pred, bool without_det)
+std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const TextRectProc& pred, bool without_det)
 {
     LogTraceFunction;
 
@@ -118,7 +118,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     return result;
 }
 
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::Rect& roi, const asst::TextRectProc& pred, bool without_det)
+std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const Rect& roi, const TextRectProc& pred, bool without_det)
 {
     auto rect_cor = [&roi, &pred, &without_det](TextRect& tr) -> bool {
         if (without_det) {

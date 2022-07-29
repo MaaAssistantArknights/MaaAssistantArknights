@@ -13,13 +13,13 @@ namespace asst
     {
     public:
 
-        virtual ~TemplResource() = default;
+        virtual ~TemplResource() override = default;
 
         void set_load_required(std::unordered_set<std::string> required) noexcept;
         virtual bool load(const std::string& dir) override;
 
-        bool exist_templ(const std::string& key) const noexcept;
-        const cv::Mat get_templ(const std::string& key) const noexcept;
+        [[nodiscard]] bool exist_templ(const std::string& key) const noexcept;
+        [[nodiscard]] const cv::Mat get_templ(const std::string& key) const noexcept;
 
         void emplace_templ(std::string key, cv::Mat templ);
 

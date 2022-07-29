@@ -10,7 +10,7 @@ namespace asst
     public:
         InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain);
 
-        virtual ~InfrastAbstractTask() = default;
+        virtual ~InfrastAbstractTask() override = default;
         InfrastAbstractTask& set_work_mode(infrast::WorkMode work_mode) noexcept;
         InfrastAbstractTask& set_mood_threshold(double mood_thres) noexcept;
 

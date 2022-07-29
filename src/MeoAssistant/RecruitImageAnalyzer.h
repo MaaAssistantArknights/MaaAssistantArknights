@@ -10,23 +10,23 @@ namespace asst
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         RecruitImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
-        virtual ~RecruitImageAnalyzer() = default;
+        virtual ~RecruitImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 
-        const std::vector<TextRect>& get_tags_result() const noexcept
+        [[nodiscard]] const std::vector<TextRect>& get_tags_result() const noexcept
         {
             return m_tags_result;
         }
-        const std::vector<Rect>& get_set_time_rect() const noexcept
+        [[nodiscard]] const std::vector<Rect>& get_set_time_rect() const noexcept
         {
             return m_set_time_rect;
         }
-        Rect get_confirm_rect() const noexcept
+        [[nodiscard]] Rect get_confirm_rect() const noexcept
         {
             return m_confirm_rect;
         }
-        Rect get_refresh_rect() const noexcept
+        [[nodiscard]] Rect get_refresh_rect() const noexcept
         {
             return m_refresh_rect;
         }

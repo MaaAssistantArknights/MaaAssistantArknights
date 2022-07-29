@@ -68,9 +68,9 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     m_pipe_sec_attr.bInheritHandle = TRUE;
 
     // 创建管道，本进程读-子进程写
-    BOOL pipe_read_ret = ::CreatePipe(&m_pipe_read, &m_pipe_child_write, &m_pipe_sec_attr, PipeBuffSize);
+    BOOL pipe_read_ret = CreatePipe(&m_pipe_read, &m_pipe_child_write, &m_pipe_sec_attr, PipeBuffSize);
     // 创建管道，本进程写-子进程读
-    BOOL pipe_write_ret = ::CreatePipe(&m_pipe_write, &m_pipe_child_read, &m_pipe_sec_attr, PipeBuffSize);
+    BOOL pipe_write_ret = CreatePipe(&m_pipe_write, &m_pipe_child_read, &m_pipe_sec_attr, PipeBuffSize);
 
     if (!pipe_read_ret || !pipe_write_ret) {
         throw "controller pipe created failed";
@@ -136,10 +136,10 @@ asst::Controller::~Controller()
     }
 
 #ifdef _WIN32
-    ::CloseHandle(m_pipe_read);
-    ::CloseHandle(m_pipe_write);
-    ::CloseHandle(m_pipe_child_read);
-    ::CloseHandle(m_pipe_child_write);
+    CloseHandle(m_pipe_read);
+    CloseHandle(m_pipe_write);
+    CloseHandle(m_pipe_child_read);
+    CloseHandle(m_pipe_child_write);
 
 #else
     close(m_pipe_in[PIPE_READ]);
@@ -257,7 +257,7 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
 
 #ifdef _WIN32
     PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
-    BOOL create_ret = ::CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
+    BOOL create_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
     if (!create_ret) {
         Log.error("Call `", cmd, "` create process failed, ret", create_ret);
         return std::nullopt;
@@ -269,12 +269,12 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
         do {
             //DWORD write_num = 0;
             //WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, nullptr);
-            while (::PeekNamedPipe(m_pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
-                if (::ReadFile(m_pipe_read, m_pipe_buffer.get(), PipeBuffSize, &read_num, nullptr)) {
+            while (PeekNamedPipe(m_pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
+                if (ReadFile(m_pipe_read, m_pipe_buffer.get(), PipeBuffSize, &read_num, nullptr)) {
                     pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + read_num);
                 }
             }
-        } while (::WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT && !check_timeout());
+        } while (WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT && !check_timeout());
     }
     else {
         std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
@@ -297,12 +297,12 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
             } while (recv_size > 0 && !check_timeout());
             ::closesocket(client_sock);
         }
-        ::WaitForSingleObject(process_info.hProcess, TimeoutMilliseconds);
+        WaitForSingleObject(process_info.hProcess, TimeoutMilliseconds);
     }
     DWORD exit_ret = 0;
-    ::GetExitCodeProcess(process_info.hProcess, &exit_ret);
-    ::CloseHandle(process_info.hProcess);
-    ::CloseHandle(process_info.hThread);
+    GetExitCodeProcess(process_info.hProcess, &exit_ret);
+    CloseHandle(process_info.hProcess);
+    CloseHandle(process_info.hThread);
 
 #else
     int exit_ret = 0;

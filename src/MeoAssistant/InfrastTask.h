@@ -19,7 +19,7 @@ namespace asst
     public:
     public:
         InfrastTask(const AsstCallback& callback, void* callback_arg);
-        virtual ~InfrastTask() = default;
+        virtual ~InfrastTask() override = default;
 
         virtual bool set_params(const json::value& params) override;
 

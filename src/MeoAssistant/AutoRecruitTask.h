@@ -12,7 +12,7 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
-        virtual ~AutoRecruitTask() = default;
+        virtual ~AutoRecruitTask() override = default;
 
         AutoRecruitTask& set_select_level(std::vector<int> select_level) noexcept;
         AutoRecruitTask& set_confirm_level(std::vector<int> confirm_level) noexcept;

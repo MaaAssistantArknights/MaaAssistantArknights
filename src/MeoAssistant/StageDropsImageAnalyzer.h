@@ -8,15 +8,15 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~StageDropsImageAnalyzer() = default;
+        virtual ~StageDropsImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 
-        StageKey get_stage_key() const;
-        int get_stars() const noexcept;
+        [[nodiscard]] StageKey get_stage_key() const;
+        [[nodiscard]] int get_stars() const noexcept;
 
         // <droptype, <item_id, quantity>>
-        const auto& get_drops() const noexcept
+        [[nodiscard]] const auto& get_drops() const noexcept
         {
             return m_drops;
         }

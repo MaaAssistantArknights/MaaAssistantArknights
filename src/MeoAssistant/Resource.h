@@ -25,7 +25,7 @@ namespace asst
     class Resource : public AbstractResource
     {
     public:
-        virtual ~Resource() = default;
+        virtual ~Resource() override = default;
 
         static Resource& get_instance()
         {
@@ -88,55 +88,55 @@ namespace asst
             return m_roguelike_shopping_cfg_unique_ins;
         }
 
-        const TemplResource& templ() const noexcept
+        [[nodiscard]] const TemplResource& templ() const noexcept
         {
             return m_templ_resource_unique_ins;
         }
-        const GeneralConfiger& cfg() const noexcept
+        [[nodiscard]] const GeneralConfiger& cfg() const noexcept
         {
             return m_general_cfg_unique_ins;
         }
-        const RecruitConfiger& recruit() const noexcept
+        [[nodiscard]] const RecruitConfiger& recruit() const noexcept
         {
             return m_recruit_cfg_unique_ins;
         }
-        const RoguelikeRecruitConfiger& roguelike_recruit() const noexcept
+        [[nodiscard]] const RoguelikeRecruitConfiger& roguelike_recruit() const noexcept
         {
             return m_roguelike_recruit_cfg_unique_ins;
         }
-        const ItemConfiger& item() const noexcept
+        [[nodiscard]] const ItemConfiger& item() const noexcept
         {
             return m_item_cfg_unique_ins;
         }
-        const InfrastConfiger& infrast() const noexcept
+        [[nodiscard]] const InfrastConfiger& infrast() const noexcept
         {
             return m_infrast_cfg_unique_ins;
         }
-        const CopilotConfiger& copilot() const noexcept
+        [[nodiscard]] const CopilotConfiger& copilot() const noexcept
         {
             return m_copilot_cfg_unique_ins;
         }
-        const RoguelikeCopilotConfiger& roguelike() const noexcept
+        [[nodiscard]] const RoguelikeCopilotConfiger& roguelike() const noexcept
         {
             return m_roguelike_cfg_unique_ins;
         }
-        const OcrPack& ocr() const noexcept
+        [[nodiscard]] const OcrPack& ocr() const noexcept
         {
             return m_ocr_pack_unique_ins;
         }
-        const TilePack& tile() const noexcept
+        [[nodiscard]] const TilePack& tile() const noexcept
         {
             return m_tile_pack_unique_ins;
         }
-        const StageDropsConfiger& drops() const noexcept
+        [[nodiscard]] const StageDropsConfiger& drops() const noexcept
         {
             return m_stage_drops_cfg_unique_ins;
         }
-        const BattleDataConfiger& battle_data() const noexcept
+        [[nodiscard]] const BattleDataConfiger& battle_data() const noexcept
         {
             return m_battle_data_cfg_unique_ins;
         }
-        const RoguelikeShoppingConfiger& roguelike_shopping() const noexcept
+        [[nodiscard]] const RoguelikeShoppingConfiger& roguelike_shopping() const noexcept
         {
             return m_roguelike_shopping_cfg_unique_ins;
         }

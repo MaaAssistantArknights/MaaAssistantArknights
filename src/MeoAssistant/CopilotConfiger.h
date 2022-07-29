@@ -7,14 +7,14 @@ namespace asst
     class CopilotConfiger : public AbstractConfiger
     {
     public:
-        virtual ~CopilotConfiger() = default;
+        virtual ~CopilotConfiger() override = default;
 
-        bool contains_actions(const std::string& stage_name) const noexcept
+        [[nodiscard]] bool contains_actions(const std::string& stage_name) const noexcept
         {
             return m_battle_actions.find(stage_name) != m_battle_actions.cend();
         }
 
-        auto get_actions(const std::string& stage_name) const noexcept
+        [[nodiscard]] auto get_actions(const std::string& stage_name) const noexcept
         {
             return m_battle_actions.at(stage_name);
         }

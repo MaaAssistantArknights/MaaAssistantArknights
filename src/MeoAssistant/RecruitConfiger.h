@@ -84,14 +84,14 @@ namespace asst
     class RecruitConfiger : public AbstractConfiger
     {
     public:
-        virtual ~RecruitConfiger() = default;
+        virtual ~RecruitConfiger() override = default;
         constexpr static int CorrectNumberOfTags = 5;
 
-        const std::unordered_set<std::string>& get_all_tags() const noexcept
+        [[nodiscard]] const std::unordered_set<std::string>& get_all_tags() const noexcept
         {
             return m_all_tags;
         }
-        const std::vector<RecruitOperInfo>& get_all_opers() const noexcept
+        [[nodiscard]] const std::vector<RecruitOperInfo>& get_all_opers() const noexcept
         {
             return m_all_opers;
         }

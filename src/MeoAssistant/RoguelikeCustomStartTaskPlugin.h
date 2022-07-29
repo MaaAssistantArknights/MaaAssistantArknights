@@ -16,7 +16,7 @@ namespace asst
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~RoguelikeCustomStartTaskPlugin() = default;
+        virtual ~RoguelikeCustomStartTaskPlugin() override = default;
 
     public:
         virtual bool verify(AsstMsg msg, const json::value& details) const override;

@@ -7,14 +7,14 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~CreditShopImageAnalyzer() = default;
+        virtual ~CreditShopImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 
         void set_black_list(std::vector<std::string> black_list);
         void set_white_list(std::vector<std::string> white_list);
 
-        const std::vector<Rect>& get_result() const noexcept
+        [[nodiscard]] const std::vector<Rect>& get_result() const noexcept
         {
             return m_result;
         }

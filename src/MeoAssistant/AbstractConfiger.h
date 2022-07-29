@@ -14,7 +14,7 @@ namespace asst
     class AbstractConfiger : public AbstractResource
     {
     public:
-        virtual ~AbstractConfiger() = default;
+        virtual ~AbstractConfiger() override = default;
         virtual bool load(const std::string& filename) override;
 
     protected:

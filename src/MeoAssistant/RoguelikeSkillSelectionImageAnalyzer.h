@@ -9,11 +9,11 @@ namespace asst
         static constexpr size_t MaxNumOfSkills = 3;
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~RoguelikeSkillSelectionImageAnalyzer() = default;
+        virtual ~RoguelikeSkillSelectionImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 
-        const auto& get_result() const noexcept
+        [[nodiscard]] const auto& get_result() const noexcept
         {
             return m_result;
         }

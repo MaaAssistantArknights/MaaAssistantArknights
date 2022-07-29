@@ -11,7 +11,7 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
-        virtual ~DepotRecognitionTask() noexcept = default;
+        virtual ~DepotRecognitionTask() noexcept override = default;
 
     protected:
         virtual bool _run() override;

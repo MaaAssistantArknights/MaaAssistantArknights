@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~InfrastFacilityImageAnalyzer() = default;
+        virtual ~InfrastFacilityImageAnalyzer() override = default;
         InfrastFacilityImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
 
         virtual bool analyze() override;
@@ -17,7 +17,7 @@ namespace asst
             m_to_be_analyzed = std::move(facilities);
         }
 
-        size_t get_quantity(const std::string& name) const
+        [[nodiscard]] size_t get_quantity(const std::string& name) const
         {
             if (auto iter = m_result.find(name);
                 iter == m_result.cend()) {
@@ -27,7 +27,7 @@ namespace asst
                 return iter->second.size();
             }
         }
-        Rect get_rect(const std::string& name, int index) const
+        [[nodiscard]] Rect get_rect(const std::string& name, int index) const
         {
             if (auto iter = m_result.find(name);
                 iter == m_result.cend()) {
@@ -42,7 +42,7 @@ namespace asst
                 }
             }
         }
-        const std::unordered_map<std::string, std::vector<MatchRect>>& get_result() const noexcept
+        [[nodiscard]] const std::unordered_map<std::string, std::vector<MatchRect>>& get_result() const noexcept
         {
             return m_result;
         }

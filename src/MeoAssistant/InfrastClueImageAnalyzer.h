@@ -7,11 +7,11 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~InfrastClueImageAnalyzer() = default;
+        virtual ~InfrastClueImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 
-        const std::vector<std::pair<Rect, std::string>>& get_result() const noexcept
+        [[nodiscard]] const std::vector<std::pair<Rect, std::string>>& get_result() const noexcept
         {
             return m_result;
         }
