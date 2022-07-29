@@ -115,14 +115,14 @@ namespace MeoAsstGui
             }
             else if (int.TryParse(filename, out _))
             {
-                int copilotID = 0;
+                int copilotID;
                 int.TryParse(filename, out copilotID);
                 jsonStr = RequestCopilotServer(copilotID);
             }
             else if (filename.ToLower().StartsWith(CopilotIdPrefix))
             {
                 var copilotIdStr = filename.ToLower().Remove(0, CopilotIdPrefix.Length);
-                int copilotID = 0;
+                int copilotID;
                 int.TryParse(copilotIdStr, out copilotID);
                 jsonStr = RequestCopilotServer(copilotID);
             }
@@ -241,7 +241,7 @@ namespace MeoAsstGui
                     foreach (JObject group in json["groups"])
                     {
                         count++;
-                        string group_name = group["name"].ToString() + ": ";
+                        string group_name = group["name"] + ": ";
                         var operinfos = new List<string>();
                         foreach (JObject oper in group["opers"])
                         {

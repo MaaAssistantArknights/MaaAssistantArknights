@@ -220,7 +220,7 @@ namespace MeoAsstGui
 
             // Console.WriteLine(json_str);
             JObject json = (JObject)JsonConvert.DeserializeObject(json_str);
-            ProcCallbckMsg dlg = new ProcCallbckMsg(ProcMsg);
+            ProcCallbckMsg dlg = ProcMsg;
             Execute.OnUIThread(() =>
             {
                 dlg((AsstMsg)msg, json);
@@ -708,7 +708,7 @@ namespace MeoAsstGui
                         string selected_log = string.Empty;
                         foreach (var tag in selected)
                         {
-                            selected_log += tag.ToString() + "\n";
+                            selected_log += tag + "\n";
                         }
 
                         selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : Localization.GetString("NoDrop");
@@ -766,7 +766,7 @@ namespace MeoAsstGui
                     break;
 
                 case "BattleFormationSelected":
-                    copilotModel.AddLog(Localization.GetString("BattleFormationSelected") + subTaskDetails["selected"].ToString());
+                    copilotModel.AddLog(Localization.GetString("BattleFormationSelected") + subTaskDetails["selected"]);
                     break;
 
                 case "BattleAction":
@@ -837,13 +837,13 @@ namespace MeoAsstGui
                             resultContent += tag_level + "★Tags:  ";
                             foreach (var tag in (JArray)combs["tags"])
                             {
-                                resultContent += tag.ToString() + "    ";
+                                resultContent += tag + "    ";
                             }
 
                             resultContent += "\n\t";
                             foreach (var oper in (JArray)combs["opers"])
                             {
-                                resultContent += oper["level"].ToString() + " - " + oper["name"].ToString() + "    ";
+                                resultContent += oper["level"] + " - " + oper["name"] + "    ";
                             }
 
                             resultContent += "\n\n";

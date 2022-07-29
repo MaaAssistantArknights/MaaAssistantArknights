@@ -323,10 +323,10 @@ namespace MeoAsstGui
                 Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF1F3550"),
 
                 LeftButtonContent = _buttonLeftText ?? NotificationConstants.DefaultLeftButtonContent,
-                LeftButtonAction = _buttonLeftAction ?? null,
+                LeftButtonAction = _buttonLeftAction,
 
                 RightButtonContent = _buttonRightText ?? NotificationConstants.DefaultRightButtonContent,
-                RightButtonAction = _buttonRightAction ?? null,
+                RightButtonAction = _buttonRightAction,
             };
 
             // 默认的标题文本样式

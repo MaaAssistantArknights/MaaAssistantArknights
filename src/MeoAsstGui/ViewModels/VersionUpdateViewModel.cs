@@ -22,7 +22,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Documents;
 using Markdig;
-using MdXaml;
 using Neo.Markdig.Xaml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -138,13 +137,13 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _updatePackageName, value);
-                ViewStatusStorage.Set("VersionUpdate.package", value.ToString());
+                ViewStatusStorage.Set("VersionUpdate.package", value);
             }
         }
 
         private const string RequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases";
         private const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
-        private JObject _lastestJson;
+        private JObject _latestJson;
         private JObject _assetsObject;
 
         /// <summary>
@@ -263,19 +262,19 @@ namespace MeoAsstGui
             }
 
             // 保存新版本的信息
-            UpdatePackageName = _assetsObject["name"].ToString();
-            UpdateTag = _lastestJson["name"].ToString();
-            UpdateInfo = _lastestJson["body"].ToString();
-            UpdateUrl = _lastestJson["html_url"].ToString();
+            UpdatePackageName = _assetsObject["name"]?.ToString();
+            UpdateTag = _latestJson["name"]?.ToString();
+            UpdateInfo = _latestJson["body"]?.ToString();
+            UpdateUrl = _latestJson["html_url"]?.ToString();
 
-            // ToastNotification.get= _lastestJson["html_url"].ToString();
+            // ToastNotification.get= _latestJson["html_url"].ToString();
             var openUrlToastButton = (
                 text: "前往页面查看",
                 action: new Action(() =>
                 {
-                    if (!string.IsNullOrWhiteSpace(_lastestJson["html_url"].ToString()))
+                    if (!string.IsNullOrWhiteSpace(_latestJson["html_url"]?.ToString()))
                     {
-                        Process.Start(_lastestJson["html_url"].ToString());
+                        Process.Start(_latestJson["html_url"].ToString());
                     }
                 }));
 
@@ -316,8 +315,8 @@ namespace MeoAsstGui
             for (int i = 0; i < DownloadRetryMaxTimes; i++)
             {
                 var mirroredAssets = (JObject)_assetsObject.DeepClone();
-                mirroredAssets.Property("browser_download_url").Remove();
-                mirroredAssets.Add("browser_download_url", _assetsObject["browser_download_url"].ToString().Replace("github.com", "download.fastgit.org"));
+                mirroredAssets.Property("browser_download_url")?.Remove();
+                mirroredAssets.Add("browser_download_url", _assetsObject["browser_download_url"]?.ToString().Replace("github.com", "download.fastgit.org"));
                 if (DownloadGithubAssets(mirroredAssets) || DownloadGithubAssets(_assetsObject))
                 {
                     downloaded = true;
@@ -373,9 +372,9 @@ namespace MeoAsstGui
                 return false;
             }
 
-            const int requestRetryMaxTimes = 5;
+            const int RequestRetryMaxTimes = 5;
             var response = RequestApi(RequestUrl);
-            for (int i = 0; response.Length == 0 && i >= requestRetryMaxTimes; i++)
+            for (int i = 0; response.Length == 0 && i < RequestRetryMaxTimes; i++)
             {
                 response = RequestApi(RequestUrl);
             }
@@ -389,24 +388,24 @@ namespace MeoAsstGui
             {
                 var releaseArray = JsonConvert.DeserializeObject(response) as JArray;
 
-                for (int i = 0; i < releaseArray.Count; i++)
+                foreach (var item in releaseArray)
                 {
-                    if ((bool)releaseArray[i]["prerelease"])
+                    if ((bool)item["prerelease"])
                     {
                         if (settings.UpdateBeta)
                         {
-                            _lastestJson = releaseArray[i] as JObject;
+                            _latestJson = item as JObject;
                             break;
                         }
                     }
                     else
                     {
-                        _lastestJson = releaseArray[i] as JObject;
+                        _latestJson = item as JObject;
                         break;
                     }
                 }
 
-                _latestVersion = _lastestJson["tag_name"].ToString();
+                _latestVersion = _latestJson["tag_name"].ToString();
                 if (ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _latestVersion)
                 {
                     return false;
@@ -423,19 +422,19 @@ namespace MeoAsstGui
                         return false;
                     }
                 }
-                else if (string.Compare(_curVersion, _latestVersion) >= 0)
+                else if (string.CompareOrdinal(_curVersion, _latestVersion) >= 0)
                 {
                     return false;
                 }
 
-                if (!_lastestJson.ContainsKey("assets")
-                    || (_lastestJson["assets"] as JArray).Count == 0)
+                if (!_latestJson.ContainsKey("assets")
+                    || (_latestJson["assets"] as JArray).Count == 0)
                 {
                     return false;
                 }
 
-                _assetsObject = _lastestJson["assets"][0] as JObject;
-                foreach (var curAssets in _lastestJson["assets"] as JArray)
+                _assetsObject = _latestJson["assets"][0] as JObject;
+                foreach (var curAssets in _latestJson["assets"] as JArray)
                 {
                     var name = curAssets["name"].ToString();
                     if (name.ToLower().Contains("ota"))

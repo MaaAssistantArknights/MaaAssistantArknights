@@ -67,7 +67,7 @@ namespace MeoAsstGui
 
             if (e.ExtentHeightChange == 0)
             {
-                _autoScroll = scroll.VerticalOffset == scroll.ScrollableHeight;
+                _autoScroll = Math.Abs(scroll.VerticalOffset - scroll.ScrollableHeight) < 1e-6;
             }
 
             if (_autoScroll && e.ExtentHeightChange != 0)

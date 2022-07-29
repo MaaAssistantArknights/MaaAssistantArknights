@@ -11,7 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -91,7 +90,7 @@ namespace MeoAsstGui
         public List<string> GetAdbAddresses(string adbPath)
         {
             var addresses = new List<string>();
-            using (Process process = new System.Diagnostics.Process())
+            using (Process process = new Process())
             {
                 process.StartInfo.FileName = adbPath;
                 process.StartInfo.Arguments = "devices";
