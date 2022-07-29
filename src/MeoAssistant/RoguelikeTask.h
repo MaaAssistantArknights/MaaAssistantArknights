@@ -13,7 +13,7 @@ namespace asst
     {
     public:
         RoguelikeTask(const AsstCallback& callback, void* callback_arg);
-        virtual ~RoguelikeTask() = default;
+        virtual ~RoguelikeTask() override = default;
 
         virtual bool set_params(const json::value& params) override;
 

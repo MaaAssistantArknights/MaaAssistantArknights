@@ -34,7 +34,7 @@ namespace asst
         Point& operator=(Point&&) noexcept = default;
         Point operator-() const noexcept { return {-x, -y}; }
         bool operator==(const Point& rhs) const noexcept { return x == rhs.x && y == rhs.y; }
-        std::string to_string() const
+        [[nodiscard]] std::string to_string() const
         {
             return "[ " + std::to_string(x) + ", " + std::to_string(y) + " ]";
         }
@@ -62,7 +62,7 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         {
             return std::sqrt(double(std::pow(rhs.x - lhs.x, 2) + std::pow(rhs.y - lhs.y, 2)));
         }
-        double length() const noexcept { return std::sqrt(double(dot(*this, *this))); }
+        [[nodiscard]] double length() const noexcept { return std::sqrt(double(dot(*this, *this))); }
     };
 
     struct Rect
@@ -77,11 +77,11 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         {
             return { x, y, static_cast<int>(width * rhs), static_cast<int>(height * rhs) };
         }
-        int area() const noexcept
+        [[nodiscard]] int area() const noexcept
         {
             return width * height;
         }
-        Rect center_zoom(double scale, int max_width = INT_MAX, int max_height = INT_MAX) const
+        [[nodiscard]] Rect center_zoom(double scale, int max_width = INT_MAX, int max_height = INT_MAX) const
         {
             int half_width_scale = static_cast<int>(width * (1 - scale) / 2);
             int half_hight_scale = static_cast<int>(height * (1 - scale) / 2);
@@ -103,24 +103,24 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         }
         Rect& operator=(const Rect&) noexcept = default;
         Rect& operator=(Rect&&) noexcept = default;
-        bool empty() const noexcept { return width == 0 || height == 0; }
+        [[nodiscard]] bool empty() const noexcept { return width == 0 || height == 0; }
         bool operator==(const Rect& rhs) const noexcept
         {
             return x == rhs.x && y == rhs.y && width == rhs.width && height == rhs.height;
         }
-        bool include(const Rect& rhs) const noexcept
+        [[nodiscard]] bool include(const Rect& rhs) const noexcept
         {
             return x <= rhs.x && y <= rhs.y && (x + width) >= (rhs.x + rhs.width) && (y + height) >= (rhs.y + rhs.height);
         }
-        bool include(const Point& rhs) const noexcept
+        [[nodiscard]] bool include(const Point& rhs) const noexcept
         {
             return x <= rhs.x && y <= rhs.y && (x + width) >= rhs.x && (y + height) >= rhs.y;
         }
-        std::string to_string() const
+        [[nodiscard]] std::string to_string() const
         {
             return "[ " + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(width) + ", " + std::to_string(height) + " ]";
         }
-        Rect move(Rect move) const
+        [[nodiscard]] Rect move(Rect move) const
         {
             return { x + move.x, y + move.y, move.width, move.height };
         }
@@ -139,7 +139,7 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
 
         explicit operator std::string() const noexcept { return text; }
         explicit operator Rect() const noexcept { return rect; }
-        std::string to_string() const
+        [[nodiscard]] std::string to_string() const
         {
             return text + " : " + rect.to_string() + ", score: " + std::to_string(score);
         }
@@ -250,7 +250,7 @@ namespace asst
         std::vector<std::string> exceeded_next;      // 达到最多次数了之后，下一个可能的任务（列表）
         std::vector<std::string> on_error_next;      // 任务出错之后要去执行什么
         std::vector<std::string> reduce_other_times; // 执行了该任务后，需要减少别的任务的执行次数。例如执行了吃理智药，则说明上一次点击蓝色开始行动按钮没生效，所以蓝色开始行动要-1
-        asst::Rect specific_rect;                    // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
+        Rect specific_rect;                    // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
         int pre_delay = 0;                           // 执行该任务前的延时
         int rear_delay = 0;                          // 执行该任务后的延时
         int retry_times = INT_MAX;                   // 未找到图像时的重试次数
@@ -262,7 +262,7 @@ namespace asst
     // 文字识别任务的信息
     struct OcrTaskInfo : public TaskInfo
     {
-        virtual ~OcrTaskInfo() = default;
+        virtual ~OcrTaskInfo() override = default;
         std::vector<std::string> text; // 文字的容器，匹配到这里面任一个，就算匹配上了
         bool full_match = false;  // 是否需要全匹配，否则搜索到子串就算匹配上了
         std::unordered_map<std::string, std::string>
@@ -272,7 +272,7 @@ namespace asst
     // 图片匹配任务的信息
     struct MatchTaskInfo : public TaskInfo
     {
-        virtual ~MatchTaskInfo() = default;
+        virtual ~MatchTaskInfo() override = default;
         std::string templ_name;         // 匹配模板图片文件名
         double templ_threshold = 0;     // 模板匹配阈值
         double special_threshold = 0;   // 某些任务使用的特殊的阈值
@@ -282,7 +282,7 @@ namespace asst
     // hash 计算任务的信息
     struct HashTaskInfo : public TaskInfo
     {
-        virtual ~HashTaskInfo() = default;
+        virtual ~HashTaskInfo() override = default;
         std::vector<std::string> hashs;     // 需要多个哈希值
         int dist_threshold = 0;             // 汉明距离阈值
         std::pair<int, int> mask_range;     // 掩码的二值化范围

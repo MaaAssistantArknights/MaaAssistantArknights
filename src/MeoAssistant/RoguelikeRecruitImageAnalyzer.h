@@ -9,11 +9,11 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~RoguelikeRecruitImageAnalyzer() noexcept = default;
+        virtual ~RoguelikeRecruitImageAnalyzer() noexcept override = default;
 
         bool analyze() override;
 
-        const auto& get_result() const noexcept
+        [[nodiscard]] const auto& get_result() const noexcept
         {
             return m_result;
         }

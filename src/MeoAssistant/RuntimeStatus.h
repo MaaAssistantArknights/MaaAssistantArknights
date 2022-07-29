@@ -17,15 +17,15 @@ namespace asst
         RuntimeStatus(RuntimeStatus&& rhs) noexcept = delete;
         ~RuntimeStatus() = default;
 
-        std::optional<int64_t> get_number(const std::string& key) const noexcept;
+        [[nodiscard]] std::optional<int64_t> get_number(const std::string& key) const noexcept;
         void set_number(std::string key, int64_t value);
         void clear_number() noexcept;
 
-        std::optional<Rect> get_rect(const std::string& key) const noexcept;
+        [[nodiscard]] std::optional<Rect> get_rect(const std::string& key) const noexcept;
         void set_rect(std::string key, Rect rect);
         void clear_rect() noexcept;
 
-        std::optional<std::string> get_str(const std::string& key) const noexcept;
+        [[nodiscard]] std::optional<std::string> get_str(const std::string& key) const noexcept;
         void set_str(std::string key, std::string value);
         void clear_str() noexcept;
 

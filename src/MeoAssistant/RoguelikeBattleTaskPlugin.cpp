@@ -335,7 +335,7 @@ bool asst::RoguelikeBattleTaskPlugin::speed_up()
     return ProcessTask(*this, { "Roguelike1BattleSpeedUp" }).run();
 }
 
-bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
+bool asst::RoguelikeBattleTaskPlugin::use_skill(const Rect& rect)
 {
     m_ctrler->click(rect);
     sleep(Task.get("BattleUseOper")->pre_delay);

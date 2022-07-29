@@ -60,13 +60,13 @@ namespace asst
     class GeneralConfiger : public AbstractConfiger
     {
     public:
-        virtual ~GeneralConfiger() = default;
+        virtual ~GeneralConfiger() override = default;
 
-        const std::string& get_version() const noexcept
+        [[nodiscard]] const std::string& get_version() const noexcept
         {
             return m_version;
         }
-        const Options& get_options() const noexcept
+        [[nodiscard]] const Options& get_options() const noexcept
         {
             return m_options;
         }
@@ -74,7 +74,7 @@ namespace asst
         {
             return m_options;
         }
-        std::optional<AdbCfg> get_adb_cfg(const std::string& name) const
+        [[nodiscard]] std::optional<AdbCfg> get_adb_cfg(const std::string& name) const
         {
             if (auto iter = m_adb_cfg.find(name);
                 iter != m_adb_cfg.cend()) {

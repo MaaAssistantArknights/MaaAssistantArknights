@@ -9,7 +9,7 @@ namespace asst
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~RoguelikeRecruitTaskPlugin() = default;
+        virtual ~RoguelikeRecruitTaskPlugin() override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 

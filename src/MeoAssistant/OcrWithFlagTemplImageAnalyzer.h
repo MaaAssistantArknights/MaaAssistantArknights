@@ -10,7 +10,7 @@ namespace asst
         OcrWithFlagTemplImageAnalyzer() = default;
         OcrWithFlagTemplImageAnalyzer(const cv::Mat& image);
         OcrWithFlagTemplImageAnalyzer(const cv::Mat& image, const Rect& roi);
-        virtual ~OcrWithFlagTemplImageAnalyzer() = default;
+        virtual ~OcrWithFlagTemplImageAnalyzer() override = default;
 
         virtual void set_image(const cv::Mat image);
         virtual void set_image(const cv::Mat image, const Rect& roi);
@@ -18,7 +18,7 @@ namespace asst
 
         virtual bool analyze() override;
 
-        virtual const std::vector<TextRect>& get_result() const noexcept override;
+        [[nodiscard]] virtual const std::vector<TextRect>& get_result() const noexcept override;
         virtual std::vector<TextRect>& get_result() noexcept override;
 
         void set_task_info(const std::string& templ_task_name, const std::string& ocr_task_name); // FIXME: hiding virtual function

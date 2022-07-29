@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~InfrastClueVacancyImageAnalyzer() = default;
+        virtual ~InfrastClueVacancyImageAnalyzer() override = default;
         InfrastClueVacancyImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
 
         virtual bool analyze() override;
@@ -18,7 +18,7 @@ namespace asst
             m_to_be_analyzed = std::move(to_be_analyzed);
         }
 
-        const std::unordered_map<std::string, Rect>& get_vacancy() const noexcept
+        [[nodiscard]] const std::unordered_map<std::string, Rect>& get_vacancy() const noexcept
         {
             return m_clue_vacancy;
         }

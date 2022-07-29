@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using StartGameTaskPlugin::StartGameTaskPlugin;
-        virtual ~GameCrashRestartTaskPlugin() noexcept = default;
+        virtual ~GameCrashRestartTaskPlugin() noexcept override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
     };

@@ -9,11 +9,11 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~InfrastSmileyImageAnalyzer() = default;
+        virtual ~InfrastSmileyImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 
-        auto get_result() const noexcept -> const std::vector<infrast::Smiley>&
+        [[nodiscard]] auto get_result() const noexcept -> const std::vector<infrast::Smiley>&
         {
             return m_result;
         }

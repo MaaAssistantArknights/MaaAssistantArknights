@@ -22,7 +22,7 @@ namespace asst
         };
 
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~InfrastOperImageAnalyzer() = default;
+        virtual ~InfrastOperImageAnalyzer() override = default;
         InfrastOperImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
 
         virtual bool analyze() override;
@@ -30,11 +30,11 @@ namespace asst
         void sort_by_loc();
         void sort_by_mood();
 
-        auto get_result() const noexcept -> const std::vector<infrast::Oper>&
+        [[nodiscard]] auto get_result() const noexcept -> const std::vector<infrast::Oper>&
         {
             return m_result;
         }
-        int get_num_of_opers_with_skills() const noexcept
+        [[nodiscard]] int get_num_of_opers_with_skills() const noexcept
         {
             return m_num_of_opers_with_skills;
         }

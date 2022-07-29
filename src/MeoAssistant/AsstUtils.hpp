@@ -223,21 +223,21 @@ namespace asst::utils
             DWORD peek_num = 0;
             DWORD read_num = 0;
             do {
-                while (::PeekNamedPipe(pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
-                    if (::ReadFile(pipe_read, pipe_buffer.get(), peek_num, &read_num, nullptr)) {
+                while (PeekNamedPipe(pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
+                    if (ReadFile(pipe_read, pipe_buffer.get(), peek_num, &read_num, nullptr)) {
                         pipe_str.append(pipe_buffer.get(), pipe_buffer.get() + read_num);
                     }
                 }
-            } while (::WaitForSingleObject(pi.hProcess, 0) == WAIT_TIMEOUT);
+            } while (WaitForSingleObject(pi.hProcess, 0) == WAIT_TIMEOUT);
 
             DWORD exit_ret = 255;
-            ::GetExitCodeProcess(pi.hProcess, &exit_ret);
+            GetExitCodeProcess(pi.hProcess, &exit_ret);
             CloseHandle(pi.hProcess);
             CloseHandle(pi.hThread);
         }
 
-        ::CloseHandle(pipe_read);
-        ::CloseHandle(pipe_child_write);
+        CloseHandle(pipe_read);
+        CloseHandle(pipe_child_write);
 
 #else
         constexpr static int PIPE_READ = 0;

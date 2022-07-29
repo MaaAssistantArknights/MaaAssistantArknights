@@ -9,7 +9,7 @@ namespace asst
     {
     public:
         AwardTask(AsstCallback callback, void* callback_arg);
-        virtual ~AwardTask() = default;
+        virtual ~AwardTask() override = default;
 
         static constexpr const char* TaskType = "Award";
     private:

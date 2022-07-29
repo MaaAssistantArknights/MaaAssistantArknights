@@ -16,14 +16,14 @@ namespace asst
         TaskData(const TaskData&) = delete;
         TaskData(TaskData&&) = delete;
 
-        virtual ~TaskData() = default;
+        virtual ~TaskData() override = default;
 
         static TaskData& get_instance() noexcept
         {
             static TaskData unique_instance;
             return unique_instance;
         }
-        const std::unordered_set<std::string>& get_templ_required() const noexcept;
+        [[nodiscard]] const std::unordered_set<std::string>& get_templ_required() const noexcept;
 
         template<typename TargetTaskInfoType = TaskInfo>
         std::shared_ptr<TargetTaskInfoType> get(const std::string& name)

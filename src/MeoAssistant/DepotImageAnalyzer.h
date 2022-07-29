@@ -16,13 +16,13 @@ namespace asst
         constexpr static size_t NPos = ~0ULL;
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~DepotImageAnalyzer() = default;
+        virtual ~DepotImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 
         void set_match_begin_pos(size_t pos) noexcept;
-        size_t get_match_begin_pos() const noexcept;
-        const auto& get_result() const noexcept
+        [[nodiscard]] size_t get_match_begin_pos() const noexcept;
+        [[nodiscard]] const auto& get_result() const noexcept
         {
             return m_result;
         }
