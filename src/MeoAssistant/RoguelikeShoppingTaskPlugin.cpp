@@ -23,6 +23,8 @@ bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& d
 
 bool asst::RoguelikeShoppingTaskPlugin::_run()
 {
+    LogTraceFunction;
+
     OcrWithFlagTemplImageAnalyzer analyzer;
     analyzer.set_task_info("Roguelike1TraderShopping", "Roguelike1TraderShoppingOcr");
 
@@ -34,6 +36,10 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     const auto& order_goods_list = Resrc.roguelike_shopping().get_goods();
 
     for (const auto& goods : order_goods_list) {
+        if (need_exit()) {
+            return false;
+        }
+
         if (goods.restriction != BattleRole::Unknown) {
             // TODO
             continue;
@@ -47,7 +53,10 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
         Log.info("Ready to buy", goods.name);
         m_ctrler->click(find_it->rect);
-        bool confirmed = ProcessTask(*this, { "Roguelike1TraderShoppingConfirm" })
+        bool confirmed = ProcessTask(*this, { "Roguelike1TraderShoppingConfirm", "Roguelike1ChooseOperFlag" })
+            .set_times_limit("Roguelike1TraderRandomShopping", 0)
+            .set_times_limit("Roguelike1StageTraderLeave", 0)
+            .set_times_limit("Roguelike1ExitThenAbandon", 0)
             .set_retry_times(5)
             .run();
 
