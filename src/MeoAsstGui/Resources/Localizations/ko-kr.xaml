@@ -344,4 +344,8 @@
     <system:String x:Key="AutoSelectLevel6">★6 자동 확인</system:String>
     <system:String x:Key="Level1Tip">체크되면, ★1 태그를 인식할 때 이번 모집을 건너뜁니다. 체크되지 않면, ★1 태그를 무시합니다</system:String>
     <!--  AutoRecruitSettings  -->
+
+    <system:String x:Key="Burping">으…… 우웁……</system:String>
+    <system:String x:Key="DrunkAndStaggering">어머, 博士 박사님. 왜 그렇게 비틀비틀 걷고 계시나요?</system:String>
+    <system:String x:Key="Hangover">다, 다음엔 적당히 마셔야지……</system:String>
 </ResourceDictionary>

@@ -49,6 +49,10 @@ namespace MeoAsstGui
 
             foreach (var lang in Localization.SupportedLanguages)
             {
+                if (lang.Key == SettingsViewModel.PallasLangKey)
+                {
+                    continue;
+                }
                 var langMenu = new MenuItem(lang.Value);
                 langMenu.Click += delegate (object sender, EventArgs e)
                 {

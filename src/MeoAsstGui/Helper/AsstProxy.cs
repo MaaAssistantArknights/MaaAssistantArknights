@@ -303,6 +303,7 @@ namespace MeoAsstGui
                 }
             }
             var mainModel = _container.Get<TaskQueueViewModel>();
+            var settingsModel = _container.Get<SettingsViewModel>();
             var copilotModel = _container.Get<CopilotViewModel>();
 
             switch (msg)
@@ -349,6 +350,12 @@ namespace MeoAsstGui
                             isMainTaskQueueAllCompleted = false;
                         }
                     }
+                    bool buy_wine = false;
+                    if (_latestTaskId.ContainsKey(TaskType.Mall) && settingsModel.DidYouBuyWine())
+                    {
+                        buy_wine = true;
+                    }
+
                     _latestTaskId.Clear();
 
                     mainModel.Idle = true;
@@ -365,6 +372,11 @@ namespace MeoAsstGui
                         //mainModel.CheckAndShutdown();
                         mainModel.CheckAfterCompleted();
                     }
+                    if (buy_wine)
+                    {
+                        settingsModel.Cheers = true;
+                    }
+
                     break;
             }
         }

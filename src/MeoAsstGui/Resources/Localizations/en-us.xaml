@@ -344,4 +344,8 @@
     <system:String x:Key="AutoSelectLevel6">Auto confirm 6 ★</system:String>
     <system:String x:Key="Level1Tip">If checked, will be skip Recruit with 1 ★. If not checked, the entry with 1 ★ will be ignored</system:String>
     <!--  AutoRecruitSettings  -->
+
+    <system:String x:Key="Burping">Ugh... Ehem</system:String>
+    <system:String x:Key="DrunkAndStaggering">Ah, Dr. Why do you sway, so much in your movement today?</system:String>
+    <system:String x:Key="Hangover">I must not drink, drink so much next time...</system:String>
 </ResourceDictionary>
