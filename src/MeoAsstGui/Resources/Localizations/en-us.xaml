@@ -116,6 +116,7 @@
     <system:String x:Key="HideUnavailableStage">Hide today not open level</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
 
+    <system:String x:Key="ADBTip">Tip: It will be automatically detected here. If there is an error, you can try to modify it again, otherwise you do not need to fill in it yourself</system:String>
     <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
