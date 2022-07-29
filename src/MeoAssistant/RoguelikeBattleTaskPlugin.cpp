@@ -725,7 +725,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
                     { TileKey::Wall, 500 },
                     { TileKey::Road, 1000 },
                     { TileKey::Home, 500 },
-                    { TileKey::EnemyHome, 1200 },
+                    { TileKey::EnemyHome, 1000 },
                     { TileKey::Floor, 1000 },
                     { TileKey::Hole, 0 },
                     { TileKey::Telin, 700 },
