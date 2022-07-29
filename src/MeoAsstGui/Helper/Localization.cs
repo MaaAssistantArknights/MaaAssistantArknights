@@ -24,8 +24,8 @@ namespace MeoAsstGui
             { "zh-tw", "繁體中文" },
             { "en-us", "English" },
             { "ja-jp", "日本語" },
-            { "ko-kr", "한국어 (help us!)" },
-            { "pallas", "呀，博士。你今天走起路来，怎么看着摇摇晃晃的？🍻" }
+            { "ko-kr", "한국어" },
+            { "pallas", "🍻🍻🍻🍻" }
         };
 
         public static string DefaultLanguage
