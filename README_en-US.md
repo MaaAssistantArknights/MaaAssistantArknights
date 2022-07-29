@@ -1,4 +1,4 @@
-<div style="text-align:center">
+<div align="center">
 
 <img alt="LOGO" src="https://user-images.githubusercontent.com/18511905/148931479-23aef436-2fc1-4c1e-84c9-bae17be710a5.png" width=360 height=270/>
 
