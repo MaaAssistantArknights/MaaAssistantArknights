@@ -26,7 +26,7 @@ namespace MeoAsstGui
         private NotifyIcon notifyIcon = new NotifyIcon();
         private TaskQueueViewModel taskQueueViewModel;
         private SettingsViewModel settingsViewModel;
-        private WindowState ws; //记录窗体状态
+        private WindowState ws; // 记录窗体状态
         private bool _isMinimizeToTaskbar = false;
 
         public TrayIcon()
@@ -40,7 +40,7 @@ namespace MeoAsstGui
             this.notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
             notifyIcon.MouseClick += NotifyIcon_MouseClick;
             notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
-            App.Current.MainWindow.StateChanged += MainWindow_StateChanged;
+            System.Windows.Application.Current.MainWindow.StateChanged += MainWindow_StateChanged;
 
             MenuItem startMenu = new System.Windows.Forms.MenuItem(Localization.GetString("Farming"));
             startMenu.Click += StartTask;
@@ -55,6 +55,7 @@ namespace MeoAsstGui
                 {
                     continue;
                 }
+
                 var langMenu = new MenuItem(lang.Value);
                 langMenu.Click += delegate (object sender, EventArgs e)
                 {
@@ -85,7 +86,7 @@ namespace MeoAsstGui
 
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
-            ws = App.Current.MainWindow.WindowState;
+            ws = System.Windows.Application.Current.MainWindow.WindowState;
             if (ws == WindowState.Minimized)
             {
                 SetShowInTaskbar(false);
@@ -102,22 +103,23 @@ namespace MeoAsstGui
             {
                 return;
             }
+
             if (ws == WindowState.Minimized)
             {
-                ws = App.Current.MainWindow.WindowState = WindowState.Normal;
-                App.Current.MainWindow.Activate();
+                ws = System.Windows.Application.Current.MainWindow.WindowState = WindowState.Normal;
+                System.Windows.Application.Current.MainWindow.Activate();
                 SetShowInTaskbar(true);
             }
             else
             {
-                ws = App.Current.MainWindow.WindowState = WindowState.Minimized;
+                ws = System.Windows.Application.Current.MainWindow.WindowState = WindowState.Minimized;
                 SetShowInTaskbar(false);
             }
         }
 
         private void StartTask(object sender, EventArgs e)
         {
-            //taskQueueViewModel意外为null了是不是也可以考虑Log一下
+            // taskQueueViewModel意外为null了是不是也可以考虑Log一下
             taskQueueViewModel?.LinkStart();
         }
 
@@ -128,14 +130,14 @@ namespace MeoAsstGui
 
         private void App_exit(object sender, EventArgs e)
         {
-            App.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
 
         private void App_show(object sender, EventArgs e)
         {
             SetShowInTaskbar(true);
-            ws = App.Current.MainWindow.WindowState = WindowState.Normal;
-            App.Current.MainWindow.Activate();
+            ws = System.Windows.Application.Current.MainWindow.WindowState = WindowState.Normal;
+            System.Windows.Application.Current.MainWindow.Activate();
         }
 
         private void OnNotifyIconDoubleClick(object sender, EventArgs e)
@@ -143,8 +145,8 @@ namespace MeoAsstGui
             if (ws == WindowState.Minimized)
             {
                 SetShowInTaskbar(true);
-                ws = App.Current.MainWindow.WindowState = WindowState.Normal;
-                App.Current.MainWindow.Activate();
+                ws = System.Windows.Application.Current.MainWindow.WindowState = WindowState.Normal;
+                System.Windows.Application.Current.MainWindow.Activate();
             }
         }
 
@@ -152,7 +154,7 @@ namespace MeoAsstGui
         {
             if (_isMinimizeToTaskbar)
             {
-                App.Current.MainWindow.ShowInTaskbar = state;
+                System.Windows.Application.Current.MainWindow.ShowInTaskbar = state;
             }
         }
 

@@ -60,6 +60,7 @@ namespace MeoAsstGui
                     _systemToastChecked = false;
                     return _systemToastChecked;
                 }
+
                 var osVersion = matched.Groups[0].Value;
                 Semver.SemVersion curVersionObj;
                 bool verParsed = Semver.SemVersion.TryParse(osVersion, Semver.SemVersionStyles.Strict, out curVersionObj);
@@ -67,6 +68,7 @@ namespace MeoAsstGui
                 var minimumVersionObj = new Semver.SemVersion(10, 0, 10240);
                 _systemToastChecked = verParsed && curVersionObj.CompareSortOrderTo(minimumVersionObj) >= 0;
             }
+
             return _systemToastChecked;
         }
 
@@ -208,6 +210,7 @@ namespace MeoAsstGui
                                 await PlayNotificationSoundAsync(NotificationSounds.Asterisk);
                             }
                         }
+
                         break;
 
                     case NotificationSounds.None:
@@ -236,7 +239,7 @@ namespace MeoAsstGui
 
         protected Action _buttonRightAction = null;
 
-        //系统按钮
+        // 系统按钮
         protected string _buttonSystemText = null;
 
         protected string _buttonSystemUrl;
@@ -555,7 +558,7 @@ namespace MeoAsstGui
         {
             var fInfo = new FLASHWINFO();
             fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
-            fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(App.Current.MainWindow).Handle;
+            fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(Application.Current.MainWindow).Handle;
             fInfo.dwFlags = (uint)type;
             fInfo.uCount = count;
             fInfo.dwTimeout = 0;

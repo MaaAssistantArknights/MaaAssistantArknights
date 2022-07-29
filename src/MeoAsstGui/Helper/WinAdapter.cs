@@ -66,6 +66,7 @@ namespace MeoAsstGui
                     }
                 }
             }
+
             return emulators;
         }
 
@@ -75,6 +76,7 @@ namespace MeoAsstGui
             {
                 return adbAbsoultePathDict[emulatorName];
             }
+
             return null;
         }
 
@@ -85,6 +87,7 @@ namespace MeoAsstGui
             {
                 process.StartInfo.FileName = adbPath;
                 process.StartInfo.Arguments = "devices";
+
                 // 禁用操作系统外壳程序
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.CreateNoWindow = true;
@@ -101,10 +104,12 @@ namespace MeoAsstGui
                     {
                         continue;
                     }
+
                     var address = line.Split('\t')[0];
                     addresses.Add(address);
                 }
             }
+
             return addresses;
         }
     }

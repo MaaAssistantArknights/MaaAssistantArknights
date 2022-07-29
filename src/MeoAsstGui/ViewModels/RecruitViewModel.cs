@@ -129,6 +129,7 @@ namespace MeoAsstGui
                 RecruitInfo = errMsg;
                 return;
             }
+
             RecruitInfo = Localization.GetString("Identifying");
             RecruitResult = "";
 
@@ -138,14 +139,17 @@ namespace MeoAsstGui
             {
                 levelList.Add(3);
             }
+
             if (ChooseLevel4)
             {
                 levelList.Add(4);
             }
+
             if (ChooseLevel5)
             {
                 levelList.Add(5);
             }
+
             if (ChooseLevel6)
             {
                 levelList.Add(6);

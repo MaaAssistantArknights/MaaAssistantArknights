@@ -166,6 +166,7 @@ namespace MeoAsstGui
             });
 
             string extractDir = Directory.GetCurrentDirectory() + "\\NewVersionExtract";
+
             // 解压
             try
             {
@@ -173,6 +174,7 @@ namespace MeoAsstGui
                 {
                     Directory.Delete(extractDir, true);
                 }
+
                 System.IO.Compression.ZipFile.ExtractToDirectory(UpdatePackageName, extractDir);
             }
             catch (InvalidDataException)
@@ -191,6 +193,7 @@ namespace MeoAsstGui
             }
 
             var uncopiedList = new List<string>();
+
             // 复制新版本的所有文件到当前路径下
             foreach (var file in Directory.GetFiles(extractDir))
             {
@@ -203,6 +206,7 @@ namespace MeoAsstGui
                     uncopiedList.Add(file);
                 }
             }
+
             foreach (var directory in Directory.GetDirectories(extractDir))
             {
                 CopyFilesRecursively(directory, Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(directory)));
@@ -214,6 +218,7 @@ namespace MeoAsstGui
             {
                 File.Delete(oldfile);
             }
+
             foreach (var file in uncopiedList)
             {
                 string curFileName = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(file));
@@ -224,6 +229,7 @@ namespace MeoAsstGui
             // 操作完了，把解压的文件删了
             Directory.Delete(extractDir, true);
             File.Delete(UpdatePackageName);
+
             // 保存更新信息，下次启动后会弹出已更新完成的提示
             UpdatePackageName = string.Empty;
             ViewStatusStorage.Save();
@@ -233,7 +239,7 @@ namespace MeoAsstGui
             newProcess.StartInfo.FileName = AppDomain.CurrentDomain.FriendlyName;
             newProcess.StartInfo.WorkingDirectory = Directory.GetCurrentDirectory();
             newProcess.Start();
-            App.Current.Shutdown();
+            Application.Current.Shutdown();
 
             return true;
         }
@@ -250,13 +256,14 @@ namespace MeoAsstGui
             {
                 return false;
             }
+
             // 保存新版本的信息
             UpdatePackageName = _assetsObject["name"].ToString();
             UpdateTag = _lastestJson["name"].ToString();
             UpdateInfo = _lastestJson["body"].ToString();
             UpdateUrl = _lastestJson["html_url"].ToString();
-            //ToastNotification.get= _lastestJson["html_url"].ToString();
 
+            // ToastNotification.get= _lastestJson["html_url"].ToString();
             var openUrlToastButton = (
                 text: "前往页面查看",
                 action: new Action(() =>
@@ -350,7 +357,7 @@ namespace MeoAsstGui
 
         public bool CheckUpdate(bool force = false)
         {
-            //开发版不检查更新
+            // 开发版不检查更新
             if (!force && !isStableVersion())
             {
                 return false;
@@ -368,6 +375,7 @@ namespace MeoAsstGui
             {
                 response = RequestApi(RequestUrl);
             }
+
             if (response.Length == 0)
             {
                 return false;
@@ -437,6 +445,7 @@ namespace MeoAsstGui
             {
                 return false;
             }
+
             return true;
         }
 
@@ -450,7 +459,7 @@ namespace MeoAsstGui
         {
             try
             {
-                HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
+                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                 httpWebRequest.Method = "GET";
                 httpWebRequest.UserAgent = RequestUserAgent;
                 httpWebRequest.Accept = "application/vnd.github.v3+json";
@@ -599,6 +608,7 @@ namespace MeoAsstGui
         {
             // 创建 Http 请求
             var httpWebRequest = WebRequest.Create(url) as HttpWebRequest;
+
             // 设定相关属性
             var settings = _container.Get<SettingsViewModel>();
             httpWebRequest.Method = "GET";
@@ -607,6 +617,7 @@ namespace MeoAsstGui
             {
                 httpWebRequest.Accept = contentType;
             }
+
             if (settings.Proxy.Length > 0)
             {
                 httpWebRequest.Proxy = new WebProxy(settings.Proxy);
@@ -614,9 +625,11 @@ namespace MeoAsstGui
 
             // 转换为 HttpWebResponse
             var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
+
             // 获取输入输出流
             var responseStream = httpWebResponse.GetResponseStream();
             var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+
             // 获取并写入流
             var byteArray = new byte[1024];
             var byteArraySize = responseStream.Read(byteArray, 0, byteArray.Length);
@@ -625,6 +638,7 @@ namespace MeoAsstGui
                 fileStream.Write(byteArray, 0, byteArraySize);
                 byteArraySize = responseStream.Read(byteArray, 0, byteArray.Length);
             }
+
             // 关闭流
             responseStream.Close();
             fileStream.Close();
@@ -645,38 +659,42 @@ namespace MeoAsstGui
             {
                 return false;
             }
+
             if (_curVersion.StartsWith("c"))
             {
                 return false;
             }
+
             if (_curVersion.Contains("Local"))
             {
                 return false;
             }
+
             var pattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
             var match = Regex.Match(_curVersion, pattern);
             if (match.Success is false)
             {
                 return false;
             }
+
             return true;
         }
 
         // 这个资源文件单独 OTA 功能带来了很多问题，暂时弃用了
         // 改用打 OTA 包的形式来实现增量升级
-        //public bool ResourceOTA(bool force = false)
-        //{
+        // public bool ResourceOTA(bool force = false)
+        // {
         //    // 开发版不检查更新
         //    if (!force && !isStableVersion())
         //    {
         //        return false;
         //    }
 
-        //    const string req_base_url = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits?path=";
+        // const string req_base_url = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits?path=";
         //    const string repositorie_base = "MaaAssistantArknights/MaaAssistantArknights";
         //    const string branche_base = "master";
 
-        //    // cdn接口地址组
+        // // cdn接口地址组
         //    // new string[]
         //    // {
         //    //      下载域名地址,
@@ -689,7 +707,7 @@ namespace MeoAsstGui
         //         new string[]{$"https://ghproxy.fsou.cc/https://github.com/{repositorie_base}/blob/{branche_base}/" , "{0}?{1}" },
         //    };
 
-        //    // 资源文件在仓库中的路径，与实际打包后的路径并不相同，需要使用dict
+        // // 资源文件在仓库中的路径，与实际打包后的路径并不相同，需要使用dict
         //    var update_dict = new Dictionary<string, string>()
         //    {
         //        { "resource/stages.json" , "resource/stages.json"},
@@ -698,17 +716,17 @@ namespace MeoAsstGui
         //        { "resource/item_index.json", "resource/item_index.json" }
         //    };
 
-        //    bool updated = false;
+        // bool updated = false;
         //    string message = string.Empty;
 
-        //    foreach (var item in update_dict)
+        // foreach (var item in update_dict)
         //    {
         //        string url = item.Key;
         //        string filename = item.Value;
 
-        //        string cur_sha = ViewStatusStorage.Get(filename, string.Empty);
+        // string cur_sha = ViewStatusStorage.Get(filename, string.Empty);
 
-        //        string response = RequestApi(req_base_url + url);
+        // string response = RequestApi(req_base_url + url);
         //        if (string.IsNullOrWhiteSpace(response))
         //        {
         //            continue;
@@ -727,19 +745,19 @@ namespace MeoAsstGui
         //            continue;
         //        }
 
-        //        if (cur_sha == cloud_sha)
+        // if (cur_sha == cloud_sha)
         //        {
         //            continue;
         //        }
 
-        //        bool downloaded = false;
+        // bool downloaded = false;
         //        string tempname = filename + ".tmp";
         //        foreach (var down_item in down_base_url)
         //        {
         //            var download_url = down_item[0];
         //            var download_args_format = down_item[1];
 
-        //            download_url += string.Format(download_args_format, url, cloud_sha);
+        // download_url += string.Format(download_args_format, url, cloud_sha);
         //            if (DownloadFile(download_url, tempname, downloader: "NATIVE"))
         //            {
         //                downloaded = true;
@@ -747,14 +765,14 @@ namespace MeoAsstGui
         //            }
         //        }
 
-        //        if (!downloaded)
+        // if (!downloaded)
         //        {
         //            continue;
         //        }
 
-        //        string tmp = File.ReadAllText(tempname).Replace("\r\n", "\n");
+        // string tmp = File.ReadAllText(tempname).Replace("\r\n", "\n");
 
-        //        try
+        // try
         //        {
         //            JsonConvert.DeserializeObject(tmp);
         //        }
@@ -763,7 +781,7 @@ namespace MeoAsstGui
         //            continue;
         //        }
 
-        //        string src = File.ReadAllText(filename).Replace("\r\n", "\n");
+        // string src = File.ReadAllText(filename).Replace("\r\n", "\n");
         //        if (src.Length != tmp.Length)
         //        {
         //            File.Copy(tempname, filename, true);
@@ -775,12 +793,12 @@ namespace MeoAsstGui
         //        File.Delete(tempname);
         //    }
 
-        //    if (!updated)
+        // if (!updated)
         //    {
         //        return false;
         //    }
 
-        //    Execute.OnUIThread(() =>
+        // Execute.OnUIThread(() =>
         //    {
         //        using (var toast = new ToastNotification("资源已更新"))
         //        {
@@ -790,20 +808,19 @@ namespace MeoAsstGui
         //        }
         //    });
 
-        //    return true;
-        //}
-
+        // return true;
+        // }
         private static void CopyFilesRecursively(string sourcePath, string targetPath)
         {
             Directory.CreateDirectory(targetPath);
 
-            //Now Create all of the directories
+            // Now Create all of the directories
             foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
             {
                 Directory.CreateDirectory(dirPath.Replace(sourcePath, targetPath));
             }
 
-            //Copy all the files & Replaces any files with the same name
+            // Copy all the files & Replaces any files with the same name
             foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
             {
                 File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);

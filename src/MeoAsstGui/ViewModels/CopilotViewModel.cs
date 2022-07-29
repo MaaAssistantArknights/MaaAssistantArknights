@@ -54,13 +54,15 @@ namespace MeoAsstGui
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
-            //LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
+
+            // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
         public void AddLogWithUrl(string content, string url, string color = "Gray", string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
-            //LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
+
+            // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
         private bool _idel = true;
@@ -139,6 +141,7 @@ namespace MeoAsstGui
                 httpWebRequest.Method = "GET";
                 httpWebRequest.ContentType = "application/json";
                 var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
+
                 // 获取输入输出流
                 using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
                 {
@@ -177,6 +180,7 @@ namespace MeoAsstGui
                     AddLog(Localization.GetString("CopilotJsonError"), "DarkRed");
                     return;
                 }
+
                 var doc = (JObject)json["doc"];
 
                 string title = "";
@@ -184,6 +188,7 @@ namespace MeoAsstGui
                 {
                     title = doc["title"].ToString();
                 }
+
                 if (title.Length != 0)
                 {
                     string title_color = "black";
@@ -191,6 +196,7 @@ namespace MeoAsstGui
                     {
                         title_color = doc["title_color"].ToString();
                     }
+
                     AddLog(title, title_color);
                 }
 
@@ -199,6 +205,7 @@ namespace MeoAsstGui
                 {
                     details = doc["details"].ToString();
                 }
+
                 if (details.Length != 0)
                 {
                     string details_color = "black";
@@ -206,6 +213,7 @@ namespace MeoAsstGui
                     {
                         details_color = doc["details_color"].ToString();
                     }
+
                     AddLog(details, details_color);
 
                     {
@@ -239,9 +247,11 @@ namespace MeoAsstGui
                         {
                             operinfos.Add(string.Format("{0} {1}", oper["name"], oper["skill"]));
                         }
+
                         AddLog(group_name + string.Join(" / ", operinfos), "black");
                     }
                 }
+
                 AddLog(string.Format("共 {0} 名干员", count), "black");
 
                 _curStageName = json["stage_name"].ToString();
@@ -280,11 +290,13 @@ namespace MeoAsstGui
             {
                 return;
             }
+
             var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0).ToString();
             if (filename == null)
             {
                 return;
             }
+
             if (filename.EndsWith(".json"))
             {
                 Filename = filename;
@@ -314,6 +326,7 @@ namespace MeoAsstGui
             {
                 AddLog(Localization.GetString("AutoSquadTip"), "dark");
             }
+
             AddLog(Localization.GetString("ConnectingToEmulator"));
 
             var asstProxy = _container.Get<AsstProxy>();
@@ -328,6 +341,7 @@ namespace MeoAsstGui
                 AddLog(errMsg, "DarkRed");
                 return;
             }
+
             if (errMsg.Length != 0)
             {
                 AddLog(errMsg, "DarkRed");

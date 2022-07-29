@@ -39,6 +39,7 @@ namespace MeoAsstGui
                 {
                     return local;
                 }
+
                 foreach (var lang in SupportedLanguages)
                 {
                     var key = lang.Key.Contains("-") ? lang.Key.Split('-')[0] : lang.Key;
@@ -47,6 +48,7 @@ namespace MeoAsstGui
                         return lang.Key;
                     }
                 }
+
                 return "en-us";
             }
         }
@@ -55,10 +57,9 @@ namespace MeoAsstGui
 
         public static void Load()
         {
-            //var cultureInfo = new CultureInfo(culture);
-            //Thread.CurrentThread.CurrentUICulture = cultureInfo;
-            //Thread.CurrentThread.CurrentCulture = cultureInfo;
-
+            // var cultureInfo = new CultureInfo(culture);
+            // Thread.CurrentThread.CurrentUICulture = cultureInfo;
+            // Thread.CurrentThread.CurrentCulture = cultureInfo;
             var dictionary = new ResourceDictionary
             {
                 Source = new Uri($@"Resources\Localizations\{culture}.xaml", UriKind.Relative)

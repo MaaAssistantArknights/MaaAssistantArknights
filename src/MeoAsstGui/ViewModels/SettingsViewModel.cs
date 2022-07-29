@@ -120,6 +120,7 @@ namespace MeoAsstGui
                     temp_order_list[order] = new DragItemViewModel(facility, "Infrast.");
                 }
             }
+
             InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
             FacilityKey.Add(Localization.GetString("Dorm"), "Dorm");
@@ -159,8 +160,9 @@ namespace MeoAsstGui
             {
                 new CombData { Display = Localization.GetString("RougelikeStrategyCandle"), Value = "0" },
                 new CombData { Display = Localization.GetString("RougelikeStrategyGold"), Value = "1" },
-                //new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
-                //new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
+
+                // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
+                // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
             };
 
             RoguelikeSquadList = new List<CombData>
@@ -211,6 +213,7 @@ namespace MeoAsstGui
                 {
                     continue;
                 }
+
                 LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
             }
         }
@@ -312,6 +315,7 @@ namespace MeoAsstGui
             {
                 return;
             }
+
             if (EmulatorAddCommand.Length != 0)
             {
                 Process.Start(EmulatorPath, EmulatorAddCommand);
@@ -320,11 +324,13 @@ namespace MeoAsstGui
             {
                 Process.Start(EmulatorPath);
             }
+
             int delay = 0;
             if (!int.TryParse(EmulatorWaitSeconds, out delay))
             {
                 delay = 60;
             }
+
             Thread.Sleep(delay * 1000);
         }
 
@@ -361,7 +367,7 @@ namespace MeoAsstGui
         public List<CombData> RoguelikeSquadList { get; set; }
         public List<CombData> RoguelikeRolesList { get; set; }
 
-        //public List<CombData> RoguelikeCoreCharList { get; set; }
+        // public List<CombData> RoguelikeCoreCharList { get; set; }
         public List<CombData> ClientTypeList { get; set; }
 
         public List<CombData> ConnectConfigList { get; set; }
@@ -404,6 +410,7 @@ namespace MeoAsstGui
 
                 orderList.Add(FacilityKey[item.Name]);
             }
+
             return orderList;
         }
 
@@ -447,6 +454,7 @@ namespace MeoAsstGui
                 _resetNotifyTimer.Stop();
                 _resetNotifyTimer.Close();
             }
+
             _resetNotifyTimer = new System.Timers.Timer(20);
             _resetNotifyTimer.Elapsed += new System.Timers.ElapsedEventHandler(delegate (object source, System.Timers.ElapsedEventArgs e)
             {
@@ -1083,6 +1091,7 @@ namespace MeoAsstGui
                 error = Localization.GetString("EmulatorException");
                 return false;
             }
+
             if (emulators.Count == 0)
             {
                 error = Localization.GetString("EmulatorNotFound");
@@ -1093,11 +1102,13 @@ namespace MeoAsstGui
                 error = Localization.GetString("EmulatorTooMany");
                 return false;
             }
+
             ConnectConfig = emulators.First();
             AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
             if (ConnectAddress.Length == 0)
             {
                 var addresses = adapter.GetAdbAddresses(AdbPath);
+
                 // 傻逼雷电已经关掉了，用别的 adb 还能检测出来这个端口 device
                 if (addresses.Count == 1 && addresses.First() != "emulator-5554")
                 {
@@ -1111,6 +1122,7 @@ namespace MeoAsstGui
                         {
                             continue;
                         }
+
                         ConnectAddress = address;
                         break;
                     }
@@ -1150,6 +1162,7 @@ namespace MeoAsstGui
                     ConnectConfigName = data.Display;
                 }
             }
+
             rvm.WindowTitle = string.Format("MaaAssistantArknights - {0} ({1})", ConnectConfigName, ConnectAddress);
         }
 
@@ -1161,6 +1174,7 @@ namespace MeoAsstGui
             {
                 return;
             }
+
             if (!File.Exists(_bluestacksConfig))
             {
                 ViewStatusStorage.Set("Bluestacks.Config.Error", "File not exists");
@@ -1181,10 +1195,10 @@ namespace MeoAsstGui
         /* 界面设置 */
         public bool UseTray = true;
 
-        //private bool _usetray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
+        // private bool _usetray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
 
-        //public bool UseTray
-        //{
+        // public bool UseTray
+        // {
         //    get { return _usetray; }
         //    set
         //    {
@@ -1193,13 +1207,12 @@ namespace MeoAsstGui
         //        var trayObj = _container.Get<TrayIcon>();
         //        trayObj.SetVisible(value);
 
-        //        if (!Convert.ToBoolean(value))
+        // if (!Convert.ToBoolean(value))
         //        {
         //            MinimizeToTray = false;
         //        }
         //    }
-        //}
-
+        // }
         private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.MinimizeToTray", bool.FalseString));
 
         public bool MinimizeToTray
@@ -1255,10 +1268,11 @@ namespace MeoAsstGui
             Clear,
             Inverse,
             ClearInverse
-        };
+        }
+;
 
         private InverseClearType _inverseClearMode =
-            InverseClearType.TryParse(ViewStatusStorage.Get("GUI.InverseClearMode", InverseClearType.Clear.ToString()),
+            Enum.TryParse(ViewStatusStorage.Get("GUI.InverseClearMode", InverseClearType.Clear.ToString()),
                 out InverseClearType temp)
             ? temp : InverseClearType.Clear;
 
@@ -1267,11 +1281,12 @@ namespace MeoAsstGui
             get { return _inverseClearMode.ToString(); }
             set
             {
-                bool parsed = InverseClearType.TryParse(value, out InverseClearType tempEnumValue);
+                bool parsed = Enum.TryParse(value, out InverseClearType tempEnumValue);
                 if (!parsed)
                 {
                     return;
                 }
+
                 SetAndNotify(ref _inverseClearMode, tempEnumValue);
                 ViewStatusStorage.Set("GUI.InverseClearMode", value);
 
@@ -1312,11 +1327,13 @@ namespace MeoAsstGui
                 {
                     return;
                 }
+
                 if (_language == PallasLangKey)
                 {
                     Hangover = true;
                     Cheers = false;
                 }
+
                 var backup = _language;
                 ViewStatusStorage.Set("GUI.Localization", value);
                 var result = _windowManager.ShowMessageBox(
@@ -1353,6 +1370,7 @@ namespace MeoAsstGui
                 {
                     return;
                 }
+
                 SetAndNotify(ref _cheers, value);
                 ViewStatusStorage.Set("GUI.Cheers", value.ToString());
                 if (_cheers)
@@ -1400,6 +1418,7 @@ namespace MeoAsstGui
                     return true;
                 }
             }
+
             return false;
         }
     }
