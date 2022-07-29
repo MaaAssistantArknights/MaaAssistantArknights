@@ -213,8 +213,14 @@ void asst::OcrImageAnalyzer::sort_result_by_required()
         m_req_cache.emplace(m_required.at(i), i + 1);
     }
 
+    // 不在 m_required 中的将被排在最后
     std::sort(get_result().begin(), get_result().end(),
         [&m_req_cache](const auto& lhs, const auto& rhs) -> bool {
-            return m_req_cache[lhs.text] < m_req_cache[rhs.text];
+            size_t lvalue = m_req_cache[lhs.text];
+            size_t rvalue = m_req_cache[rhs.text];
+            if (lvalue == 0) {
+                return false;
+            }
+            return lvalue < rvalue;
         });
 }

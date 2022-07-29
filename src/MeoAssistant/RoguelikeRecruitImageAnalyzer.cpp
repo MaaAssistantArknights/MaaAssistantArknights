@@ -15,12 +15,12 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
     analyzer.set_replace(
         Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
 
-    analyzer.set_required(Resrc.roguelike_recruit().get_oper_order());
-
     if (!analyzer.analyze()) {
         return false;
     }
 
+    const auto& order = Resrc.roguelike_recruit().get_oper_order();
+    analyzer.set_required(order);
     analyzer.sort_result_by_required();
 
     for (const auto& [_, rect, name] : analyzer.get_result()) {
@@ -32,6 +32,7 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         info.name = name;
         info.elite = elite;
         info.level = level;
+        info.required = std::find(order.cbegin(), order.cend(), name) != order.cend();
 
         Log.info(__FUNCTION__, name, elite, level, rect.to_string());
         m_result.emplace_back(std::move(info));
