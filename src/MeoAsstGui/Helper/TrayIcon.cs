@@ -49,12 +49,15 @@ namespace MeoAsstGui
 
             foreach (var lang in Localization.SupportedLanguages)
             {
-                var langMenu = new MenuItem(lang.Value);
-                langMenu.Click += delegate (object sender, EventArgs e)
+                if ((lang.Key != "pallas") || ("pallas" == ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage)))
                 {
-                    settingsViewModel.Language = lang.Key;
-                };
-                switchLangMenu.MenuItems.Add(langMenu);
+                    var langMenu = new MenuItem(lang.Value);
+                    langMenu.Click += delegate (object sender, EventArgs e)
+                    {
+                        settingsViewModel.Language = lang.Key;
+                    };
+                    switchLangMenu.MenuItems.Add(langMenu);
+                }
             }
 
             MenuItem exitMenu = new System.Windows.Forms.MenuItem(Localization.GetString("Exit"));
