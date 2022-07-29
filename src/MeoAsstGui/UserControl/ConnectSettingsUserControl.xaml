@@ -21,9 +21,18 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock
             Grid.Row="0"
+            Grid.ColumnSpan="3"
+            Margin="10"
+            Block.TextAlignment="Center"
+            Style="{StaticResource TextBlockDefault}"
+            Text="{DynamicResource ADBTip}"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Grid.Row="1"
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
@@ -31,14 +40,14 @@
             Text="{DynamicResource ADBPath}"
             TextWrapping="Wrap" />
         <TextBox
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.Column="1"
             Width="250"
             Height="30"
             Margin="10"
             Text="{Binding AdbPath}" />
         <Button
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.Column="3"
             Height="30"
             Margin="10"
@@ -46,7 +55,7 @@
             Content="{DynamicResource Select}" />
 
         <TextBlock
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
@@ -54,7 +63,7 @@
             Text="{DynamicResource ConnectionAddress}"
             TextWrapping="Wrap" />
         <TextBox
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="1"
             Width="250"
             Height="30"
@@ -62,7 +71,7 @@
             Text="{Binding ConnectAddress}" />
 
         <TextBlock
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
@@ -70,7 +79,7 @@
             Text="{DynamicResource ConnectionPreset}"
             TextWrapping="Wrap" />
         <ComboBox
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="1"
             Width="250"
             Height="30"

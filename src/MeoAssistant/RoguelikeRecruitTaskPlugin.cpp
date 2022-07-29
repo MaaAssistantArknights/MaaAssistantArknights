@@ -57,6 +57,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     if (!recruited) {
         for (const auto& info : oper_list) {
+            if (!info.required) {
+                continue;
+            }
             // 拿个精一 50 以上的
             if (info.elite == 0 ||
                 (info.elite == 1 && info.level < 50)) {
@@ -71,6 +74,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         Log.info("All are lower");
         // 随便招个精一的
         for (const auto& info : oper_list) {
+            if (!info.required) {
+                continue;
+            }
             if (info.elite == 0) {
                 continue;
             }
