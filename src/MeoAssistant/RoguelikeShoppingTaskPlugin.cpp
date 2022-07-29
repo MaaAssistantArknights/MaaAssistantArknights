@@ -46,7 +46,8 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
         auto find_it = std::find_if(result.cbegin(), result.cend(),
             [&](const TextRect& tr) -> bool {
-                return tr.text == goods.name;
+                return tr.text.find(goods.name) != std::string::npos ||
+                    goods.name.find(tr.text) != std::string::npos;
             });
         if (find_it == result.cend()) {
             continue;
