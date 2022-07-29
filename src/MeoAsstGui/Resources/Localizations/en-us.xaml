@@ -124,12 +124,12 @@
     <!--  Farming  -->
     <system:String x:Key="Farming">Farming</system:String>
 
-    <system:String x:Key="WakeUp">Wake Up</system:String>
-    <system:String x:Key="Recruiting">Recruiting</system:String>
+    <system:String x:Key="WakeUp">Login</system:String>
+    <system:String x:Key="Recruiting">Recruit</system:String>
     <system:String x:Key="Base">Base</system:String>
-    <system:String x:Key="Combat">Combat</system:String>
-    <system:String x:Key="Visiting">Visiting</system:String>
-    <system:String x:Key="Mall">Mall</system:String>
+    <system:String x:Key="Combat">Terminal</system:String>
+    <system:String x:Key="Visiting">Visit Friends</system:String>
+    <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect mission rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto Roguelike</system:String>
 
@@ -151,7 +151,7 @@
 
     <!--  FightSettings  -->
     <system:String x:Key="UseSanityPotion">Use Sanity Potion</system:String>
-    <system:String x:Key="UseOriginitePrime">Use Originite Prime*</system:String>
+    <system:String x:Key="UseOriginitePrime">Use Originium*</system:String>
     <system:String x:Key="PerformBattles">Perform Battles*</system:String>
     <system:String x:Key="AssignedMaterial">Material</system:String>
     <system:String x:Key="Quantity">Quantity</system:String>
