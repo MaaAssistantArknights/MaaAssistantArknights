@@ -1,3 +1,4 @@
+// <copyright file="RootViewModel.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -8,6 +9,7 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using System;
 using System.Threading.Tasks;
@@ -50,13 +52,15 @@ namespace MeoAsstGui
         {
             var tvm = _container.Get<TaskQueueViewModel>();
             var rvm = _container.Get<RecruitViewModel>();
-            //var ivm = _container.Get<InfrastViewModel>();
+
+            // var ivm = _container.Get<InfrastViewModel>();
             var svm = _container.Get<SettingsViewModel>();
             var cvm = _container.Get<CopilotViewModel>();
 
             Items.Add(tvm);
             Items.Add(rvm);
-            //Items.Add(ivm);
+
+            // Items.Add(ivm);
             Items.Add(cvm);
             Items.Add(svm);
             svm.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(svm)之后执行。
@@ -98,7 +102,7 @@ namespace MeoAsstGui
 
         protected override void OnClose()
         {
-            App.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }

@@ -1,4 +1,4 @@
-// <copyright file="RogueliekSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="GenericCombData{TValueType}.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -11,18 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Windows.Controls;
-
 namespace MeoAsstGui
 {
-    /// <summary>
-    /// InfrastSettingsUserContril.xaml 的交互逻辑
-    /// </summary>
-    public partial class RoguelikeSettingsUserControl : UserControl
+    public class GenericCombData<TValueType>
     {
-        public RoguelikeSettingsUserControl()
-        {
-            InitializeComponent();
-        }
+        public string Display { get; set; }
+
+        public TValueType Value { get; set; }
     }
 }

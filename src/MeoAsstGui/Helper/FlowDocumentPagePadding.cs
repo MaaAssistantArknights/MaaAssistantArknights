@@ -1,3 +1,4 @@
+// <copyright file="FlowDocumentPagePadding.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -8,6 +9,7 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using System;
 using System.ComponentModel;
@@ -32,7 +34,11 @@ namespace MeoAsstGui
             DependencyProperty.RegisterAttached("PagePadding", typeof(Thickness), typeof(FlowDocumentPagePadding), new UIPropertyMetadata(new Thickness(double.NegativeInfinity), (o, args) =>
             {
                 var fd = o as FlowDocument;
-                if (fd == null) return;
+                if (fd == null)
+                {
+                    return;
+                }
+
                 var dpd = DependencyPropertyDescriptor.FromProperty(FlowDocument.PagePaddingProperty, typeof(FlowDocument));
                 dpd.RemoveValueChanged(fd, PaddingChanged);
                 fd.PagePadding = (Thickness)args.NewValue;
