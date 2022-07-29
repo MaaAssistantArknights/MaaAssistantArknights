@@ -767,8 +767,8 @@ namespace MeoAsstGui
         {
             var settings = _container.Get<SettingsViewModel>();
             var asstProxy = _container.Get<AsstProxy>();
-            var buy_first = settings.CreditFirstList.Split(' ');
-            var black_list = settings.CreditBlackList.Split(' ');
+            var buy_first = settings.CreditFirstList.Split((new char[] { ' ', ',', '，', ';', '；', '|' }));
+            var black_list = settings.CreditBlackList.Split((new char[] { ' ', ',', '，', ';', '；', '|' }));
             return asstProxy.AsstAppendMall(settings.CreditShopping, buy_first, black_list);
         }
 
