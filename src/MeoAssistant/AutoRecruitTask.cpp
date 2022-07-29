@@ -313,7 +313,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // assuming timer would be set to 09:00:00
         for (RecruitCombs& rc : result_vec) {
-            rc.min_level = (std::max)(rc.min_level, 3);
+            if (rc.min_level < 3) {
+                // find another min level backwards (assuming operator list reversely sorted by level)
+                auto sec = std::find_if(
+                        rc.opers.crbegin(), rc.opers.crend(),
+                        [](const RecruitOperInfo& op) -> bool { return op.level >= 3; });
+                if (sec != rc.opers.crend()) { rc.min_level = sec->level; }
+            }
         }
 
         std::sort(
