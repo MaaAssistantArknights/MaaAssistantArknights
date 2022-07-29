@@ -107,7 +107,7 @@
     <system:String x:Key="SocialPtShop">信用購物</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 空格分隔</system:String>
     <system:String x:Key="Blacklist">黑名單 子串即可 空格分隔</system:String>
-    <system:String x:Key="Drink">要來一杯美酒嗎？🍷</system:String>
+    <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>
 
     <system:String x:Key="DroneUsage">無人機用途</system:String>
 
@@ -344,4 +344,8 @@
     <system:String x:Key="AutoSelectLevel6">自動確認 6 星</system:String>
     <system:String x:Key="Level1Tip">勾選時識別到 1 星詞條時跳過該次招募，未勾選時將忽略 1 星詞條</system:String>
     <!--  AutoRecruitSettings  -->
+
+    <system:String x:Key="Burping">呃......咳嗯</system:String>
+    <system:String x:Key="DrunkAndStaggering">呀，博士。你今天走起路來，怎麼看著搖搖晃晃的？</system:String>
+    <system:String x:Key="Hangover">下次不能喝、喝這麼多了......</system:String>
 </ResourceDictionary>

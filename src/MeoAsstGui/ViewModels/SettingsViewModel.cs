@@ -40,6 +40,8 @@ namespace MeoAsstGui
             get { return _versionInfo; }
         }
 
+        public static readonly string PallasLangKey = "pallas";
+
         public SettingsViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -65,6 +67,15 @@ namespace MeoAsstGui
             trayObj.SetMinimizeToTaskbar(MinimizeToTray);
             trayObj.SetSettingsViewModel(this);
             Bootstrapper.SetTrayIconInSettingsViewModel(this);
+
+            if (Hangover)
+            {
+                _windowManager.ShowMessageBox(
+                    Localization.GetString("Hangover"),
+                    Localization.GetString("Burping"),
+                    MessageBoxButton.OK, MessageBoxImage.Hand);
+                Hangover = false;
+            }
         }
 
         private List<string> _listTitle = new List<string>();
@@ -194,10 +205,11 @@ namespace MeoAsstGui
             LanguageList = new List<CombData>();
             foreach (var pair in Localization.SupportedLanguages)
             {
-                if ((pair.Key != "pallas") || ("pallas" == ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage)))
+                if (pair.Key == PallasLangKey && !Cheers)
                 {
-                    LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
+                    continue;
                 }
+                LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
             }
         }
 
@@ -635,15 +647,6 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _creditFirstList, value);
-                if (_creditFirstList.Contains("酒") || _creditFirstList.Contains("drink") || _creditFirstList.Contains("술"))
-                {
-                    if ("pallas" != ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage))
-                    {
-                        ViewStatusStorage.Set("GUI.Localization", "pallas");
-                        App.Current.Shutdown();
-                        System.Windows.Forms.Application.Restart();
-                    }
-                }
                 ViewStatusStorage.Set("Mall.CreditFirstList", value);
             }
         }
@@ -1307,6 +1310,11 @@ namespace MeoAsstGui
                 {
                     return;
                 }
+                if (_language == PallasLangKey)
+                {
+                    Hangover = true;
+                    Cheers = false;
+                }
                 var backup = _language;
                 ViewStatusStorage.Set("GUI.Localization", value);
                 var result = _windowManager.ShowMessageBox(
@@ -1328,6 +1336,69 @@ namespace MeoAsstGui
                     System.Windows.Forms.Application.Restart();
                 }
             }
+        }
+
+        private bool _cheers = bool.Parse(ViewStatusStorage.Get("GUI.Cheers", bool.FalseString));
+        public bool Cheers
+        {
+            get
+            {
+                return _cheers;
+            }
+            set
+            {
+                if (_cheers == value)
+                {
+                    return;
+                }
+                SetAndNotify(ref _cheers, value);
+                ViewStatusStorage.Set("GUI.Cheers", value.ToString());
+                if (_cheers)
+                {
+                    setPallasLanguage();
+                }
+            }
+        }
+
+        private bool _hangover = bool.Parse(ViewStatusStorage.Get("GUI.Hangover", bool.FalseString));
+        public bool Hangover
+        {
+            get
+            {
+                return _hangover;
+            }
+            set
+            {
+                SetAndNotify(ref _hangover, value);
+                ViewStatusStorage.Set("GUI.Hangover", value.ToString());
+            }
+        }
+
+        private void setPallasLanguage()
+        {
+            ViewStatusStorage.Set("GUI.Localization", PallasLangKey);
+            var result = _windowManager.ShowMessageBox(
+                Localization.GetString("DrunkAndStaggering"),
+                Localization.GetString("Burping"),
+                MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            if (result == MessageBoxResult.OK)
+            {
+                Application.Current.Shutdown();
+                System.Windows.Forms.Application.Restart();
+            }
+        }
+
+        public bool DidYouBuyWine()
+        {
+            var wine_list = new string[] { "酒", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
+            foreach (var wine in wine_list)
+            {
+                if (CreditFirstList.Contains(wine))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
