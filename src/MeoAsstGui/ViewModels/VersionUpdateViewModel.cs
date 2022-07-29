@@ -1,4 +1,5 @@
-// MeoAsstGui - A part of the MaaAssistantArknights project
+// <copyright file="VersionUpdateViewModel.cs" company="MistEO">
+// MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
@@ -8,6 +9,7 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+// </copyright>
 
 using System;
 using System.Collections.Generic;

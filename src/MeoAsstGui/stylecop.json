@@ -3,12 +3,11 @@
     "settings": {
         "documentationRules": {
             "companyName": "MistEO",
-            "copyrightText": "{projectName} - A part of the {solutionName} project\nCopyright (C) 2021 {companyName} and Contributors\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the {licenseName} as published by\nthe Free Software Foundation, either version 3 of the License, or\nany later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n{licenseName} for more details.\n\nYou should have received a copy of the {licenseName}\nalong with this program.  If not, see {licenseLink}.",
+            "copyrightText": "{projectName} - A part of the {solutionName} project\nCopyright (C) 2021 {companyName} and Contributors\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the {licenseName} as published by\nthe Free Software Foundation, either version 3 of the License, or\nany later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY",
             "variables": {
                 "projectName": "MeoAsstGui",
                 "solutionName": "MeoAssistantArknights",
-                "licenseName": "GNU General Public License",
-                "licenseLink": "http://www.gnu.org/licenses/"
+                "licenseName": "GNU General Public License"
             }
         }
     }
