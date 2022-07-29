@@ -182,7 +182,7 @@ namespace MeoAsstGui
             {
                 new CombData { Display = "默认职业组", Value = string.Empty },
                 new CombData { Display = "先手必胜（先锋、狙击、特种）", Value = "先手必胜" },
-                new CombData { Display = "稳扎稳打（重装、术士、狙击）", Value = "稳扎稳打" },
+                new CombData { Display = "稳扎稳打（重装、术师、狙击）", Value = "稳扎稳打" },
                 new CombData { Display = "取长补短（近卫、辅助、医疗）", Value = "取长补短" },
                 new CombData { Display = "随心所欲（三张随机）", Value = "随心所欲" },
             };
