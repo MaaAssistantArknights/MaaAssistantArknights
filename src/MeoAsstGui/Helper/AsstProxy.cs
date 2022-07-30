@@ -452,7 +452,7 @@ namespace MeoAsstGui
 
                 case "AutoRecruitTask":
                     {
-                        var why_str = details.TryGetValue("why", out var why) ? why.ToString() : Localization.GetString("出现错误");
+                        var why_str = details.TryGetValue("why", out var why) ? why.ToString() : Localization.GetString("ErrorOccurred");
                         mainModel.AddLog(why_str + "，" + Localization.GetString("HasReturned"), "darkred");
                         break;
                     }
