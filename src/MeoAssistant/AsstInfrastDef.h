@@ -53,10 +53,9 @@ namespace asst::infrast
 namespace std
 {
     template <>
-    class hash<asst::infrast::Skill>
+    struct hash<asst::infrast::Skill>
     {
-    public:
-        size_t operator()(const asst::infrast::Skill& skill) const
+        size_t operator()(const asst::infrast::Skill& skill) const noexcept
         {
             return ::std::hash<std::string>()(skill.id);
         }
