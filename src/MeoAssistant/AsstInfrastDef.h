@@ -82,7 +82,7 @@ namespace asst::infrast
         SkillsComb() = default;
         SkillsComb(std::unordered_set<Skill> skill_vec)
         {
-            skills = move(skill_vec);
+            skills = std::move(skill_vec);
             for (const auto& s : skills) {
                 for (const auto& [key, value] : s.efficient) {
                     efficient[key] += value;
