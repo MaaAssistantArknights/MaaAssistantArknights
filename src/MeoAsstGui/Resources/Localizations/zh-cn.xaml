@@ -327,9 +327,10 @@
     <system:String x:Key="Website">MAA 官网</system:String>
     <system:String x:Key="Github">源码：GitHub</system:String>
     <system:String x:Key="QQgroup">自动战斗作业分享 Q 群</system:String>
-    <system:String x:Key="QQgroup1">一群（已满）</system:String>
+    <system:String x:Key="QQgroup1">一群</system:String>
     <system:String x:Key="QQgroup2">二群</system:String>
     <system:String x:Key="QQgroup3">三群</system:String>
+    <system:String x:Key="QQgroupfull">(已满)</system:String>
     <system:String x:Key="Help">常见问题</system:String>
     <system:String x:Key="Issue">问题反馈</system:String>
     <!--  About  -->
