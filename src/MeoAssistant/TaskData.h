@@ -47,7 +47,7 @@ namespace asst
     protected:
         TaskData() = default;
 
-        virtual bool parse(const json::value& json);
+        virtual bool parse(const json::value& json) override;
 
         std::unordered_map<std::string, std::shared_ptr<TaskInfo>> m_all_tasks_info;
         std::unordered_set<std::string> m_templ_required;

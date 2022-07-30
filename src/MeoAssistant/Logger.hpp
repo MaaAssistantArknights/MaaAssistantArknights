@@ -24,6 +24,8 @@ namespace asst
 
         Logger(const Logger&) = delete;
         Logger(Logger&&) = delete;
+        Logger& operator=(const Logger&) = delete;
+        Logger& operator=(Logger&&) = delete;
 
         static Logger& get_instance()
         {
@@ -96,12 +98,12 @@ namespace asst
             log_init_info();
         }
 
-        void check_filesize_and_remove()
+        void check_filesize_and_remove() const
         {
-            constexpr uintmax_t MaxLogSize = 4 * 1024 * 1024;
+            constexpr uintmax_t MaxLogSize = 4ULL * 1024 * 1024;
             try {
                 if (std::filesystem::exists(m_log_filename)) {
-                    uintmax_t log_size = std::filesystem::file_size(m_log_filename);
+                    const uintmax_t log_size = std::filesystem::file_size(m_log_filename);
                     if (log_size >= MaxLogSize) {
                         std::filesystem::rename(m_log_filename, m_log_bak_filename);
                     }
@@ -264,7 +266,7 @@ namespace asst
     class LoggerAux
     {
     public:
-        LoggerAux(std::string func_name)
+        explicit LoggerAux(std::string func_name)
             : m_func_name(std::move(func_name)),
             m_start_time(std::chrono::steady_clock::now())
         {
@@ -272,11 +274,14 @@ namespace asst
         }
         ~LoggerAux()
         {
-            auto duration = std::chrono::steady_clock::now() - m_start_time;
+            const auto duration = std::chrono::steady_clock::now() - m_start_time;
             Logger::get_instance().trace(m_func_name, "| leave,",
                                          std::chrono::duration_cast<std::chrono::milliseconds>(duration).count(), "ms");
         }
-
+        LoggerAux(const LoggerAux&) = default;
+        LoggerAux(LoggerAux&&) = default;
+        LoggerAux& operator=(const LoggerAux&) = default;
+        LoggerAux& operator=(LoggerAux&&) = default;
     private:
         std::string m_func_name;
         std::chrono::time_point<std::chrono::steady_clock> m_start_time;
