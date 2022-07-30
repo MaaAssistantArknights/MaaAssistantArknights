@@ -5,6 +5,7 @@
 #include "Controller.h"
 #include "ProcessTask.h"
 #include "Logger.hpp"
+#include "RuntimeStatus.h"
 
 bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -32,19 +33,55 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     if (!analyzer.analyze()) {
         return false;
     }
+
+    bool no_longer_buy =
+        m_status->get_number(RuntimeStatus::RoguelikeTraderNoLongerBuy).value_or(0)
+        ? true : false;
+
+    std::string str_chars_info =
+        m_status->get_str(RuntimeStatus::RoguelikeCharOverview)
+        .value_or(json::value().to_string());
+    json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
+
+    std::unordered_map<BattleRole, size_t> map_roles_count;
+    for (auto& [name, json_info] : json_chars_info.as_object()) {
+        int elite = static_cast<int>(json_info.get("elite", 0));
+        int level = static_cast<int>(json_info.get("level", 0));
+        Log.info(name, elite, level);
+
+        // 等级太低的干员没必要为他专门买收藏品什么的
+        if (elite * 1000 + level < 1070) {
+            continue;
+        }
+
+        if (name == "阿米娅") {
+            map_roles_count[BattleRole::Caster] += 1;
+            map_roles_count[BattleRole::Warrior] += 1;
+        }
+        else {
+            BattleRole role = BattleRole::Unknown;
+            auto int_role = json_info.get("role", 0);
+            if (int_role) {
+                role = static_cast<BattleRole>(int_role);
+            }
+            else {
+                role = Resrc.battle_data().get_role(name);
+            }
+            map_roles_count[role] += 1;
+        }
+    }
+
     const auto& result = analyzer.get_result();
     const auto& order_goods_list = Resrc.roguelike_shopping().get_goods();
-
     bool bought = false;
     for (const auto& goods : order_goods_list) {
         if (need_exit()) {
             return false;
         }
-
-        if (goods.restriction != BattleRole::Unknown) {
-            // TODO
+        if (no_longer_buy && !goods.ignore_no_longer_buy) {
             continue;
         }
+
         auto find_it = std::find_if(result.cbegin(), result.cend(),
             [&](const TextRect& tr) -> bool {
                 return tr.text.find(goods.name) != std::string::npos ||
@@ -53,12 +90,23 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         if (find_it == result.cend()) {
             continue;
         }
+
+        if (goods.role_restriction != BattleRole::Unknown
+            && map_roles_count[goods.role_restriction] == 0) {
+            Log.trace("Ready to buy", goods.name, static_cast<int>(goods.role_restriction),
+                ", but there is no such professional operator, skip");
+            continue;
+        }
+
         // 这里仅点一下收藏品，原本的 ProcessTask 还会再点一下，但它是由 rect_move 的，保证不会点出去
         // 即 ProcessTask 多点的那一下会点到不影响的地方
         // 然后继续走 next 里确认 or 取消等等的逻辑
         Log.info("Ready to buy", goods.name);
         m_ctrler->click(find_it->rect);
         bought = true;
+        if (goods.no_longer_buy) {
+            m_status->set_number(RuntimeStatus::RoguelikeTraderNoLongerBuy, 1);
+        }
         break;
     }
 

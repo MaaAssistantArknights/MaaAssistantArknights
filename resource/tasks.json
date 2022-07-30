@@ -6785,6 +6785,12 @@
             750,
             280
         ],
+        "rectMove": [
+            -40,
+            -100,
+            20,
+            60
+        ],
         "next": [
             "Roguelike1TraderRandomShoppingConfirm",
             "Roguelike1TraderRandomShoppingCancel",
@@ -6821,40 +6827,6 @@
         ],
         "ocrReplace": [
 
-        ]
-    },
-    "Roguelike1TraderShoppingConfirm": {
-        "template": "Roguelike1TraderRandomShoppingConfirm.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            872,
-            425,
-            221,
-            136
-        ],
-        "rectMove": [
-            -40,
-            -100,
-            20,
-            60
-        ],
-        "rearDelay": 2000,
-        "Doc": "当网络卡的时候才会发生点了确认，但是还可以点取消的情况",
-        "next": [
-            "Roguelike1TraderShoppingConfirmedFlag",
-            "Roguelike1ChooseOperFlag"
-        ]
-    },
-    "Roguelike1TraderShoppingConfirmedFlag": {
-        "template": "Roguelike1StageTraderLeave.png",
-        "action": "DoNothing",
-        "cache": false,
-        "roi": [
-            1046,
-            443,
-            234,
-            204
         ]
     },
     "Roguelike1TraderShoppingOver": {

@@ -363,6 +363,9 @@
     <ClInclude Include="RoguelikeShoppingTaskPlugin.h">
       <Filter>头文件\Task\Plugin\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="RoguelikeResetTaskPlugin.h">
+      <Filter>头文件\Task\Plugin\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -624,6 +627,9 @@
       <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="RoguelikeShoppingTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeResetTaskPlugin.cpp">
       <Filter>源文件\Task\Plugin\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>

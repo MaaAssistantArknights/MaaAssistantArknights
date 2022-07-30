@@ -4,8 +4,8 @@
 
 bool asst::RoguelikeShoppingConfiger::parse(const json::value& json)
 {
-    for (const auto& commodity_json : json.as_array()) {
-        std::string name = commodity_json.at("name").as_string();
+    for (const auto& goods_json : json.as_array()) {
+        std::string name = goods_json.at("name").as_string();
         static const std::unordered_map<std::string, BattleRole> RoleMap = {
             { "CASTER", BattleRole::Caster },
             { "MEDIC", BattleRole::Medic },
@@ -17,11 +17,18 @@ bool asst::RoguelikeShoppingConfiger::parse(const json::value& json)
             { "WARRIOR", BattleRole::Warrior},
         };
         BattleRole role = BattleRole::Unknown;
-        std::string str_role = commodity_json.get("role", "");
+        std::string str_role = goods_json.get("role", "");
         if (!str_role.empty()) {
             role = RoleMap.at(str_role);
         }
-        m_goods.emplace_back(RoguelikeGoods{ name, role });
+        RoguelikeGoods goods;
+        goods.name = std::move(name);
+        goods.role_restriction = role;
+        goods.promotion = goods_json.get("promotion", 0);
+        goods.no_longer_buy = goods_json.get("no_longer_buy", false);
+        goods.ignore_no_longer_buy = goods_json.get("ignore_no_longer_buy", false);
+
+        m_goods.emplace_back(std::move(goods));
     }
     return true;
 }
