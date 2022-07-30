@@ -5695,7 +5695,7 @@
     },
     "BattleOperCooling": {
         "template": "empty.png",
-        "specialThreshold": 6000,
+        "specialThreshold": 1000,
         "specialThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [
             -45,
@@ -5703,9 +5703,17 @@
             75,
             120
         ],
+        "maskRange_Doc": "拿来做H通道的范围",
         "maskRange": [
             0,
             10
+        ],
+        "specificRect_Doc": "拿来做S、V通道的范围",
+        "specificRect": [
+            200,
+            255,
+            0,
+            255
         ]
     },
     "BattleOperRoleRange": {
