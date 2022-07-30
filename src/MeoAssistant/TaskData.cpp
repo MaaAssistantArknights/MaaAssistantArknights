@@ -9,7 +9,6 @@
 #include "TemplResource.h"
 #include "Logger.hpp"
 
-
 const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
 {
     return m_templ_required;
@@ -113,12 +112,6 @@ bool asst::TaskData::parse(const json::value& json)
         }
         else if (action == "clickrect") {
             task_info_ptr->action = ProcessTaskAction::ClickRect;
-            const json::value& rect_json = task_json.at("specificRect");
-            task_info_ptr->specific_rect = Rect(
-                rect_json[0].as_integer(),
-                rect_json[1].as_integer(),
-                rect_json[2].as_integer(),
-                rect_json[3].as_integer());
         }
         else if (action == "swipetotheleft") {
             task_info_ptr->action = ProcessTaskAction::SwipeToTheLeft;
@@ -196,6 +189,18 @@ bool asst::TaskData::parse(const json::value& json)
         }
         else {
             task_info_ptr->rect_move = Rect();
+        }
+
+        if (auto opt = task_json.find<json::array>("specificRect")) {
+            auto& rect_arr = opt.value();
+            task_info_ptr->specific_rect = Rect(
+                rect_arr[0].as_integer(),
+                rect_arr[1].as_integer(),
+                rect_arr[2].as_integer(),
+                rect_arr[3].as_integer());
+        }
+        else {
+            task_info_ptr->specific_rect = Rect();
         }
 
         m_all_tasks_info[name] = task_info_ptr;

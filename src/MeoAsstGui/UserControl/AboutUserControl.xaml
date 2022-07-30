@@ -48,13 +48,20 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Style="{StaticResource TextBlockDefault}">
-            <TextBlock Text="{DynamicResource QQgroup1}" />
+            <Hyperlink
+                Click="Hyperlink_Click"
+                NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=xRh6gqQZ"
+                TextDecorations="None">
+                <TextBlock Text="{DynamicResource QQgroup1}" />
+            </Hyperlink>
+            <TextBlock Text="{DynamicResource QQgroupfull}" />
             <Hyperlink
                 Click="Hyperlink_Click"
                 NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=u9i2n7Sb"
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource QQgroup2}" />
             </Hyperlink>
+            <TextBlock Text="{DynamicResource QQgroupfull}" />
             <Hyperlink
                 Click="Hyperlink_Click"
                 Cursor="Hand"

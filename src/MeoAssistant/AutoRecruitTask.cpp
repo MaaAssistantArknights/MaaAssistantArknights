@@ -132,14 +132,16 @@ bool asst::AutoRecruitTask::_run()
     }
 
     if (!m_use_expedited) { // analyze once only
-        if (!analyze_start_buttons()) return false;
+        if (!analyze_start_buttons()) return true;
     }
 
     static constexpr size_t slot_retry_limit = 3;
 
     // m_cur_times means how many times has the confirm button been pressed, NOT expedited plan used
     while ((m_use_expedited || !m_pending_recruit_slot.empty()) && m_cur_times != m_max_times) {
+        if (m_force_discard_flag) { return false; }
         if (m_slot_fail >= slot_retry_limit) { return false; }
+        if (!check_recruit_home_page()) { return false; }
         if (m_use_expedited) {
             Log.info("ready to use expedited");
             if (need_exit()) return false;
@@ -244,6 +246,7 @@ bool asst::AutoRecruitTask::recruit_one()
     if (!confirm()) { // ran out of recruit permit?
         Log.info("Failed to confirm current recruit config.");
         m_force_discard_flag = true;
+        click_return_button();
         return false;
     }
 
