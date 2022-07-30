@@ -126,10 +126,7 @@ bool ProcessTask::_run()
 
         const auto& res_move = m_cur_task_ptr->rect_move;
         if (!res_move.empty()) {
-            rect.x += res_move.x;
-            rect.y += res_move.y;
-            rect.width = res_move.width;
-            rect.height = res_move.height;
+            rect = rect.move(res_move);
         }
 
         int& exec_times = m_exec_times[cur_name];
