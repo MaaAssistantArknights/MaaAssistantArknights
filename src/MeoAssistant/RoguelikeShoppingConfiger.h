@@ -11,7 +11,10 @@ namespace asst
     struct RoguelikeGoods
     {
         std::string name;
-        BattleRole restriction = BattleRole::Unknown;
+        BattleRole role_restriction = BattleRole::Unknown;
+        int promotion = 0;  // 晋升 N 个干员
+        bool no_longer_buy = false;
+        bool ignore_no_longer_buy = false;
     };
 
     class RoguelikeShoppingConfiger : public AbstractConfiger

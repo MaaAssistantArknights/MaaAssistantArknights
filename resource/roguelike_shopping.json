@@ -1,22 +1,30 @@
 [
     {
-        "name": "金酒之杯"
+        "name": "金酒之杯",
+        "no_longer_buy": true,
+        "ignore_no_longer_buy": true
     },
     {
-        "name": "投币玩具"
+        "name": "投币玩具",
+        "no_longer_buy": true,
+        "ignore_no_longer_buy": true
     },
     {
-        "name": "骑士戒律·新编"
+        "name": "骑士戒律·新编",
+        "no_longer_buy": true,
+        "ignore_no_longer_buy": true
     },
     {
         "name": "人事部密信"
     },
     {
-        "name": "Miss.Christine摸摸券"
+        "name": "Miss.Christine摸摸券",
+        "promotion": 2
     },
     {
         "name": "残弩-典训",
-        "role": "SNIPER"
+        "role": "SNIPER",
+        "promotion": 1
     },
     {
         "name": "绿叶菜罐头"
@@ -45,7 +53,8 @@
         "name": "锈蚀的铁锤"
     },
     {
-        "name": "尖笑鬼牌"
+        "name": "尖笑鬼牌",
+        "promotion": 1
     },
     {
         "name": "赤金的远征"
@@ -70,7 +79,8 @@
     },
     {
         "name": "折戟-典训",
-        "role": "WARRIOR"
+        "role": "WARRIOR",
+        "promotion": 1
     },
     {
         "name": "全局作战文件"
@@ -87,7 +97,8 @@
     },
     {
         "name": "钝爪-典训",
-        "role": "PIONEER"
+        "role": "PIONEER",
+        "promotion": 1
     },
     {
         "name": "皇家利口酒"
@@ -104,7 +115,8 @@
     },
     {
         "name": "断杖-典训",
-        "role": "CASTER"
+        "role": "CASTER",
+        "promotion": 1
     },
     {
         "name": "高卢小圆饼"
@@ -207,7 +219,8 @@
     },
     {
         "name": "支柱-典训",
-        "role": "SUPPORT"
+        "role": "SUPPORT",
+        "promotion": 1
     },
     {
         "name": "皇帝的收藏"
@@ -219,7 +232,8 @@
         "name": "香草沙士汽水"
     },
     {
-        "name": "幸运硬币"
+        "name": "幸运硬币",
+        "ignore_no_longer_buy": true
     },
     {
         "name": "镶金骨骰"
@@ -238,7 +252,8 @@
         "role": "PIONEER"
     },
     {
-        "name": "至宝指环"
+        "name": "至宝指环",
+        "ignore_no_longer_buy": true
     },
     {
         "name": "残弩-战场依存",
@@ -396,7 +411,8 @@
         "name": "凯旋号角"
     },
     {
-        "name": "假面舞会面具"
+        "name": "假面舞会面具",
+        "ignore_no_longer_buy": true
     },
     {
         "name": "奇渊面具"
