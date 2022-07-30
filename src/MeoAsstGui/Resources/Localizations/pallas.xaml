@@ -119,6 +119,7 @@
     <system:String x:Key="ADBTip">🍸🍻🍻🍸🍸🍻💃🍻🍸🍷🍸🍷🍷💃🍸🍻💃🍷🍺🍺🍸🍷🕺🍷🍷🍷🕺🍻🍷🍸💃🕺🍸🍷🍺</system:String>
     <system:String x:Key="ADBPath">🕺💃🍸🍷🍸💃🍸</system:String>
     <system:String x:Key="ConnectionAddress">🍻🕺🍻</system:String>
+    <system:String x:Key="ConnectionAddressTip">🍷🍷🍷🍺🍺🍻💃🍻🍺🍺🍷🍻🕺🍻🕺💃🕺🍸💃🍸🍷🍷🍺🕺🍸</system:String>
     <system:String x:Key="ConnectionPreset">🍸🍷🍻</system:String>
     <!--  设置  -->
 

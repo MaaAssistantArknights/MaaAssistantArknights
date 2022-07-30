@@ -119,6 +119,7 @@
     <system:String x:Key="ADBTip">小提示：这里会自动检测的，若出现问题可再尝试修改，否则不需要自行填写</system:String>
     <system:String x:Key="ADBPath">adb 路径 (相对/绝对)</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
+    <system:String x:Key="ConnectionAddressTip">第一次使用会自动填写，若遇到问题可尝试手动修改</system:String>
     <system:String x:Key="ConnectionPreset">连接配置</system:String>
     <!--  设置  -->
 
