@@ -132,7 +132,7 @@ bool asst::AutoRecruitTask::_run()
     }
 
     if (!m_use_expedited) { // analyze once only
-        if (!analyze_start_buttons()) return false;
+        if (!analyze_start_buttons()) return true;
     }
 
     static constexpr size_t slot_retry_limit = 3;
