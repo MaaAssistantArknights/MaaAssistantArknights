@@ -24,8 +24,7 @@
         {
             "name": "山",
             "level": 6,
-            "skill": 2,
-            "skill_usage": 2
+            "skill": 2
         },
         {
             "name": "煌",
@@ -202,7 +201,8 @@
         {
             "name": "澄闪",
             "level": 6,
-            "skill": 2
+            "skill": 3,
+            "alternate_skill": 2
         },
         {
             "name": "Pith",
@@ -215,13 +215,13 @@
             "skill": 2
         },
         {
-            "name": "史都华德",
-            "level": 3,
+            "name": "阿米娅",
+            "level": 5,
             "skill": 1
         },
         {
-            "name": "阿米娅",
-            "level": 5,
+            "name": "史都华德",
+            "level": 3,
             "skill": 1
         },
         {
@@ -305,12 +305,14 @@
         {
             "name": "灵知",
             "level": 6,
-            "skill": 1
+            "skill": 3,
+            "alternate_skill": 1
         },
         {
             "name": "铃兰",
             "level": 6,
-            "skill": 2
+            "skill": 3,
+            "alternate_skill": 2
         },
         {
             "name": "安洁莉娜",
