@@ -5695,7 +5695,7 @@
     },
     "BattleOperCooling": {
         "template": "empty.png",
-        "specialThreshold": 6000,
+        "specialThreshold": 1000,
         "specialThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [
             -45,
@@ -5703,9 +5703,17 @@
             75,
             120
         ],
+        "maskRange_Doc": "拿来做H通道的范围",
         "maskRange": [
             0,
             10
+        ],
+        "specificRect_Doc": "拿来做S、V通道的范围",
+        "specificRect": [
+            200,
+            255,
+            0,
+            255
         ]
     },
     "BattleOperRoleRange": {
@@ -6767,6 +6775,7 @@
         ]
     },
     "Roguelike1TraderRandomShopping": {
+        "Doc": "该任务注册了 RoguelikeShoppingTaskPlugin，若是点完了仍在当前界面，说明没啥要买的，直接离开商店（next 里的 Roguelike1StageTraderLeave）",
         "action": "ClickSelf",
         "templThreshold": 0.7,
         "cache": false,
@@ -6776,10 +6785,17 @@
             750,
             280
         ],
+        "rectMove": [
+            -40,
+            -100,
+            20,
+            60
+        ],
         "next": [
             "Roguelike1TraderRandomShoppingConfirm",
             "Roguelike1TraderRandomShoppingCancel",
-            "Roguelike1TraderRandomShopping"
+            "Roguelike1StageTraderLeave",
+            "Roguelike1StageTraderLeaveConfirm"
         ],
         "maskRange": [
             1,
@@ -6813,46 +6829,15 @@
 
         ]
     },
-    "Roguelike1TraderShoppingConfirm": {
-        "template": "Roguelike1TraderRandomShoppingConfirm.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            872,
-            425,
-            221,
-            136
-        ],
-        "rearDelay": 2000,
-        "Doc": "当网络卡的时候才会发生点了确认，但是还可以点取消的情况",
-        "next": [
-            "Roguelike1TraderShoppingConfirmedFlag"
-        ]
-    },
-    "Roguelike1TraderShoppingConfirmedFlag": {
+    "Roguelike1TraderShoppingOver": {
         "template": "Roguelike1StageTraderLeave.png",
-        "action": "DoNothing",
+        "action": "ClickSelf",
         "cache": false,
         "roi": [
             1046,
             443,
             234,
             204
-        ]
-    },
-    "Roguelike1TraderShoppingCancel": {
-        "template": "Roguelike1StageTraderInvestCancel.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            350,
-            350,
-            500,
-            250
-        ],
-        "rearDelay": 2000,
-        "next": [
-            "Roguelike1TraderShoppingConfirmedFlag"
         ]
     },
     "Roguelike1TraderRandomShoppingConfirm": {

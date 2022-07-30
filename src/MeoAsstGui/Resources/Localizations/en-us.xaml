@@ -119,6 +119,7 @@
     <system:String x:Key="ADBTip">Tip: It will be automatically detected here. If there is an error, you can try to modify it again, otherwise you do not need to fill in it yourself</system:String>
     <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
+    <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <!--  Settings  -->
 
@@ -327,9 +328,10 @@
     <system:String x:Key="Website">MAA Website</system:String>
     <system:String x:Key="Github">Source: GitHub</system:String>
     <system:String x:Key="QQgroup">Copilot Json sharing QQ group</system:String>
-    <system:String x:Key="QQgroup1">QQ group1(Full)</system:String>
+    <system:String x:Key="QQgroup1">QQ group1</system:String>
     <system:String x:Key="QQgroup2">QQ group2</system:String>
     <system:String x:Key="QQgroup3">QQ group3</system:String>
+    <system:String x:Key="QQgroupfull">(Full)</system:String>
     <system:String x:Key="Help">Q&amp;A</system:String>
     <system:String x:Key="Issue">Issue</system:String>
     <!--  AboutUser  -->

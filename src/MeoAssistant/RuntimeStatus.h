@@ -32,6 +32,13 @@ namespace asst
         RuntimeStatus& operator=(const RuntimeStatus& rhs) = delete;
         RuntimeStatus& operator=(RuntimeStatus&& rhs) noexcept = delete;
 
+    public:
+        static inline const std::string RoguelikeCharElitePrefix = "RoguelikeElite-";
+        static inline const std::string RoguelikeCharLevelPrefix = "RoguelikeLevel-";
+        static inline const std::string RoguelikeCharRarityPrefix = "RoguelikeRarity-";
+        static inline const std::string RoguelikeCharOverview = "RoguelikeOverview";
+        static inline const std::string RoguelikeTraderNoLongerBuy = "RoguelikeNoLongerBuy";
+
     private:
 
         std::unordered_map<std::string, int64_t> m_number;

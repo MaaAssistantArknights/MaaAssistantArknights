@@ -1,5 +1,6 @@
-- 优化 肉鸽 干员部署策略、招募策略、商店购物策略 @MistEO @ABA2396
-- 修复 肉鸽 商店卡住的问题、自定义干员不选的问题 @MistEO
-- 修复公招的一些小问题 @horror-proton
-- 修复一些界面 bug 和布局问题 @ABA2396 @zzyyyl @lhhxxxxx
-- 新增 日文 文档翻译 @LYZhelloworld
+- 新增支持 肉鸽 商店 根据已有干员决定购买哪些物品 @MistEO
+- 新增支持 肉鸽 商店 购买 `金酒之杯` 类商品后，不再额外购买其他商品 @MistEO
+- 优化 肉鸽 干员技能、部署位置等 @MistEO
+- 修复 公招 的一些报错问题 @horror-proton
+- 修复 自动战斗 `安洁莉娜` 不部署的问题 @MistEO
+- 修复 界面 一些小问题 @ABA2396 @zzyyyl @MistEO

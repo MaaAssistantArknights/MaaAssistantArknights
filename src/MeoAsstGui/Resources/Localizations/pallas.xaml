@@ -119,6 +119,7 @@
     <system:String x:Key="ADBTip">🍸🍻🍻🍸🍸🍻💃🍻🍸🍷🍸🍷🍷💃🍸🍻💃🍷🍺🍺🍸🍷🕺🍷🍷🍷🕺🍻🍷🍸💃🕺🍸🍷🍺</system:String>
     <system:String x:Key="ADBPath">🕺💃🍸🍷🍸💃🍸</system:String>
     <system:String x:Key="ConnectionAddress">🍻🕺🍻</system:String>
+    <system:String x:Key="ConnectionAddressTip">🍷🍷🍷🍺🍺🍻💃🍻🍺🍺🍷🍻🕺🍻🕺💃🕺🍸💃🍸🍷🍷🍺🕺🍸</system:String>
     <system:String x:Key="ConnectionPreset">🍸🍷🍻</system:String>
     <!--  设置  -->
 
@@ -327,9 +328,10 @@
     <system:String x:Key="Website">🍸🍷🍺🍺</system:String>
     <system:String x:Key="Github">💃🍺💃🍻💃</system:String>
     <system:String x:Key="QQgroup">🕺🍷🍸🍺🍷🕺🍺</system:String>
-    <system:String x:Key="QQgroup1">🍻🍺🍻🍷</system:String>
+    <system:String x:Key="QQgroup1">🍻🍺</system:String>
     <system:String x:Key="QQgroup2">🍷💃</system:String>
     <system:String x:Key="QQgroup3">🍺🍻</system:String>
+    <system:String x:Key="QQgroupfull">🍻🍷</system:String>
     <system:String x:Key="Help">🍷💃🕺</system:String>
     <system:String x:Key="Issue">🍺💃🕺</system:String>
     <!--  About  -->

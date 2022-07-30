@@ -102,7 +102,7 @@ namespace asst
         Rect rect;
         cv::Mat avatar;
         std::string name;
-        size_t index;
+        size_t index = 0;
         bool cooling = false;
     };
 

@@ -68,6 +68,7 @@
             Width="250"
             Height="30"
             Margin="10"
+            ToolTip="{DynamicResource ConnectionAddressTip}"
             Text="{Binding ConnectAddress}" />
 
         <TextBlock

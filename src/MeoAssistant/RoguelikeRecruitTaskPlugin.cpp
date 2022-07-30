@@ -131,5 +131,15 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
 void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& oper)
 {
     m_ctrler->click(oper.rect);
-    m_status->set_number("Roguelike-" + oper.name, oper.elite);
+
+    m_status->set_number(RuntimeStatus::RoguelikeCharElitePrefix + oper.name, oper.elite);
+    m_status->set_number(RuntimeStatus::RoguelikeCharLevelPrefix + oper.name, oper.level);
+
+    std::string overview_str = m_status->get_str(RuntimeStatus::RoguelikeCharOverview).value_or(json::value().to_string());
+    json::value overview = json::parse(overview_str).value_or(json::value());
+    overview[oper.name] = json::object{
+        { "elite", oper.elite },
+        { "level", oper.level },
+    };
+    m_status->set_str(RuntimeStatus::RoguelikeCharOverview, overview.to_string());
 }

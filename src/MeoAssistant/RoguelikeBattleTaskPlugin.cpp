@@ -683,7 +683,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
         base_direction = -base_direction;
     }
 
-    int64_t elite = m_status->get_number("Roguelike-" + oper.name).value_or(0);
+    int64_t elite = m_status->get_number(RuntimeStatus::RoguelikeCharElitePrefix + oper.name).value_or(0);
     // 按朝右算，后面根据方向做转换
     BattleAttackRange right_attack_range = Resrc.battle_data().get_range(oper.name, elite);
 

@@ -189,3 +189,11 @@ void asst::AbstractTask::click_return_button()
 {
     ProcessTask(*this, { "Return" }).run();
 }
+
+void asst::AbstractTask::save_image()
+{
+    std::string stem = utils::get_format_time();
+    stem = utils::string_replace_all_batch(stem, { {":", "-"}, {" ", "_"} });
+    std::filesystem::create_directory("debug");
+    cv::imwrite("debug/" + stem + "_raw.png", m_ctrler->get_image());
+}
