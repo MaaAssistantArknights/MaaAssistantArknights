@@ -21,8 +21,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using Notification.Wpf.Constants;
-using Notification.Wpf.Controls;
 using Stylet;
 using StyletIoC;
 
@@ -107,7 +105,7 @@ namespace MeoAsstGui
             for (int i = 0; i != facility_list.Length; ++i)
             {
                 var facility = facility_list[i];
-                int order = -1;
+                int order;
                 bool parsed = int.TryParse(ViewStatusStorage.Get("Infrast.Order." + facility, "-1"), out order);
 
                 if (!parsed || order < 0)
@@ -345,7 +343,7 @@ namespace MeoAsstGui
                 Process.Start(EmulatorPath);
             }
 
-            int delay = 0;
+            int delay;
             if (!int.TryParse(EmulatorWaitSeconds, out delay))
             {
                 delay = 60;
@@ -491,10 +489,10 @@ namespace MeoAsstGui
             }
 
             _resetNotifyTimer = new System.Timers.Timer(20);
-            _resetNotifyTimer.Elapsed += new System.Timers.ElapsedEventHandler((source, e) =>
+            _resetNotifyTimer.Elapsed += (source, e) =>
             {
                 _notifySource = NotifyType.None;
-            });
+            };
             _resetNotifyTimer.AutoReset = false;
             _resetNotifyTimer.Enabled = true;
             _resetNotifyTimer.Start();
@@ -1644,7 +1642,7 @@ namespace MeoAsstGui
 
         public bool DidYouBuyWine()
         {
-            var wine_list = new string[] { "酒", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
+            var wine_list = new[] { "酒", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
             foreach (var wine in wine_list)
             {
                 if (CreditFirstList.Contains(wine))

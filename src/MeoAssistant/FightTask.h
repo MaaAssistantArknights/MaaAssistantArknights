@@ -13,7 +13,7 @@ namespace asst
     {
     public:
         FightTask(AsstCallback callback, void* callback_arg);
-        virtual ~FightTask() = default;
+        virtual ~FightTask() override = default;
 
         virtual bool set_params(const json::value& params) override;
 

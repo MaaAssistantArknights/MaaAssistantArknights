@@ -20,7 +20,7 @@ namespace asst
     class RoguelikeShoppingConfiger : public AbstractConfiger
     {
     public:
-        virtual ~RoguelikeShoppingConfiger() = default;
+        virtual ~RoguelikeShoppingConfiger() override = default;
 
         const auto& get_goods() const noexcept
         {

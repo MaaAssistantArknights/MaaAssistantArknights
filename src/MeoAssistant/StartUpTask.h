@@ -10,7 +10,7 @@ namespace asst
     {
     public:
         StartUpTask(AsstCallback callback, void* callback_arg);
-        virtual ~StartUpTask() = default;
+        virtual ~StartUpTask() override = default;
 
         bool set_params(const json::value& params) override;
 

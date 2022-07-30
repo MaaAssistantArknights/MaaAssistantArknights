@@ -16,7 +16,7 @@ namespace asst
         constexpr static size_t NPos = ~0ULL;
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~DepotImageAnalyzer() = default;
+        virtual ~DepotImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 

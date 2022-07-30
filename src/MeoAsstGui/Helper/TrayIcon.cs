@@ -12,10 +12,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -42,12 +38,12 @@ namespace MeoAsstGui
             notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
             System.Windows.Application.Current.MainWindow.StateChanged += MainWindow_StateChanged;
 
-            MenuItem startMenu = new System.Windows.Forms.MenuItem(Localization.GetString("Farming"));
+            MenuItem startMenu = new MenuItem(Localization.GetString("Farming"));
             startMenu.Click += StartTask;
-            MenuItem stopMenu = new System.Windows.Forms.MenuItem(Localization.GetString("Stop"));
+            MenuItem stopMenu = new MenuItem(Localization.GetString("Stop"));
             stopMenu.Click += StopTask;
 
-            MenuItem switchLangMenu = new System.Windows.Forms.MenuItem(Localization.GetString("SwitchLanguage"));
+            MenuItem switchLangMenu = new MenuItem(Localization.GetString("SwitchLanguage"));
 
             foreach (var lang in Localization.SupportedLanguages)
             {
@@ -64,10 +60,10 @@ namespace MeoAsstGui
                 switchLangMenu.MenuItems.Add(langMenu);
             }
 
-            MenuItem exitMenu = new System.Windows.Forms.MenuItem(Localization.GetString("Exit"));
+            MenuItem exitMenu = new MenuItem(Localization.GetString("Exit"));
             exitMenu.Click += App_exit;
-            System.Windows.Forms.MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, exitMenu };
-            this.notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(menuItems);
+            MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, exitMenu };
+            this.notifyIcon.ContextMenu = new ContextMenu(menuItems);
         }
 
         /// <summary>

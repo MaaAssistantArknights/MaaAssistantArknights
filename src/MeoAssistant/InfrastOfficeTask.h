@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using InfrastProductionTask::InfrastProductionTask;
-        virtual ~InfrastOfficeTask() = default;
+        virtual ~InfrastOfficeTask() override = default;
 
     protected:
         virtual bool _run() override;

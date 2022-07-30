@@ -11,7 +11,7 @@ namespace asst
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~DronesForShamareTaskPlugin() = default;
+        virtual ~DronesForShamareTaskPlugin() override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
         virtual void set_task_ptr(AbstractTask* ptr) override;

@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using OcrImageAnalyzer::OcrImageAnalyzer;
-        virtual ~OcrWithPreprocessImageAnalyzer() noexcept = default;
+        virtual ~OcrWithPreprocessImageAnalyzer() noexcept override = default;
 
         virtual bool analyze() override;
 

@@ -10,7 +10,7 @@ namespace asst
     {
     public:
         RecruitTask(const AsstCallback& callback, void* callback_arg);
-        virtual ~RecruitTask() = default;
+        virtual ~RecruitTask() override = default;
 
         virtual bool set_params(const json::value& params) override;
 

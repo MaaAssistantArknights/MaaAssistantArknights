@@ -68,9 +68,9 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     m_pipe_sec_attr.bInheritHandle = TRUE;
 
     // 创建管道，本进程读-子进程写
-    BOOL pipe_read_ret = ::CreatePipe(&m_pipe_read, &m_pipe_child_write, &m_pipe_sec_attr, PipeBuffSize);
+    BOOL pipe_read_ret = CreatePipe(&m_pipe_read, &m_pipe_child_write, &m_pipe_sec_attr, PipeBuffSize);
     // 创建管道，本进程写-子进程读
-    BOOL pipe_write_ret = ::CreatePipe(&m_pipe_write, &m_pipe_child_read, &m_pipe_sec_attr, PipeBuffSize);
+    BOOL pipe_write_ret = CreatePipe(&m_pipe_write, &m_pipe_child_read, &m_pipe_sec_attr, PipeBuffSize);
 
     if (!pipe_read_ret || !pipe_write_ret) {
         throw "controller pipe created failed";
@@ -136,10 +136,10 @@ asst::Controller::~Controller()
     }
 
 #ifdef _WIN32
-    ::CloseHandle(m_pipe_read);
-    ::CloseHandle(m_pipe_write);
-    ::CloseHandle(m_pipe_child_read);
-    ::CloseHandle(m_pipe_child_write);
+    CloseHandle(m_pipe_read);
+    CloseHandle(m_pipe_write);
+    CloseHandle(m_pipe_child_read);
+    CloseHandle(m_pipe_child_write);
 
 #else
     close(m_pipe_in[PIPE_READ]);
@@ -257,7 +257,7 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
 
 #ifdef _WIN32
     PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
-    BOOL create_ret = ::CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
+    BOOL create_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
     if (!create_ret) {
         Log.error("Call `", cmd, "` create process failed, ret", create_ret);
         return std::nullopt;
@@ -269,12 +269,12 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
         do {
             //DWORD write_num = 0;
             //WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, nullptr);
-            while (::PeekNamedPipe(m_pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
-                if (::ReadFile(m_pipe_read, m_pipe_buffer.get(), PipeBuffSize, &read_num, nullptr)) {
+            while (PeekNamedPipe(m_pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
+                if (ReadFile(m_pipe_read, m_pipe_buffer.get(), PipeBuffSize, &read_num, nullptr)) {
                     pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + read_num);
                 }
             }
-        } while (::WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT && !check_timeout());
+        } while (WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT && !check_timeout());
     }
     else {
         std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
@@ -282,10 +282,10 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
         FD_SET(m_server_sock, &fdset);
         constexpr int TimeoutMilliseconds = 5000;
         timeval select_timeout = { TimeoutMilliseconds / 1000, (TimeoutMilliseconds % 1000) * 1000 };
-        select(static_cast<int>(m_server_sock) + 1, &fdset, NULL, NULL, &select_timeout);
+        select(static_cast<int>(m_server_sock) + 1, &fdset, nullptr, nullptr, &select_timeout);
         if (FD_ISSET(m_server_sock, &fdset)) {
-            SOCKET client_sock = ::accept(m_server_sock, NULL, NULL);
-            setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&TimeoutMilliseconds, sizeof(int));
+            SOCKET client_sock = ::accept(m_server_sock, nullptr, nullptr);
+            setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<const char*>(&TimeoutMilliseconds), sizeof(int));
             int recv_size = 0;
             do {
                 recv_size = ::recv(client_sock, (char*)m_socket_buffer.get(), SocketBuffSize, NULL);
@@ -297,12 +297,12 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
             } while (recv_size > 0 && !check_timeout());
             ::closesocket(client_sock);
         }
-        ::WaitForSingleObject(process_info.hProcess, TimeoutMilliseconds);
+        WaitForSingleObject(process_info.hProcess, TimeoutMilliseconds);
     }
     DWORD exit_ret = 0;
-    ::GetExitCodeProcess(process_info.hProcess, &exit_ret);
-    ::CloseHandle(process_info.hProcess);
-    ::CloseHandle(process_info.hThread);
+    GetExitCodeProcess(process_info.hProcess, &exit_ret);
+    CloseHandle(process_info.hProcess);
+    CloseHandle(process_info.hThread);
 
 #else
     int exit_ret = 0;
@@ -371,7 +371,7 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
             m_callback(AsstMsg::ConnectionInfo, reconnect_info, m_callback_arg);
 
             std::this_thread::sleep_for(std::chrono::seconds(10));
-            auto reconnect_ret = call_command(m_adb.connect, 60 * 1000);
+            auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000);
             bool is_reconnect_success = false;
             if (reconnect_ret) {
                 auto& reconnect_val = reconnect_ret.value();
@@ -448,7 +448,7 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
         x = rect.x;
     }
     else {
-        int x_rand = std::poisson_distribution<int>(rect.width / 2)(m_rand_engine);
+        int x_rand = std::poisson_distribution<int>(rect.width / 2.)(m_rand_engine);
 
         x = x_rand + rect.x;
     }
@@ -457,7 +457,7 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
         y = rect.y;
     }
     else {
-        int y_rand = std::poisson_distribution<int>(rect.height / 2)(m_rand_engine);
+        int y_rand = std::poisson_distribution<int>(rect.height / 2.)(m_rand_engine);
         y = y_rand + rect.y;
     }
 
@@ -507,7 +507,7 @@ int asst::Controller::push_cmd(const std::string& cmd)
     std::unique_lock<std::mutex> lock(m_cmd_queue_mutex);
     m_cmd_queue.emplace(cmd);
     m_cmd_condvar.notify_one();
-    return int(++m_push_id);
+    return static_cast<int>(++m_push_id);
 }
 
 std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times)
@@ -751,7 +751,7 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
                 return true;
             }
             else {
-                Log.error("convert lf and retry decode falied!");
+                Log.error("convert lf and retry decode failed!");
             }
         }
         return false;
@@ -959,7 +959,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     /* connect */
     {
         m_adb.connect = cmd_replace(adb_cfg.connect);
-        auto connect_ret = call_command(m_adb.connect, 60 * 1000);
+        auto connect_ret = call_command(m_adb.connect, 60LL * 1000);
         // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
         bool is_connect_success = false;
         if (connect_ret) {
@@ -1204,7 +1204,7 @@ cv::Mat asst::Controller::get_image(bool raw)
 {
     if (m_scale_size.first == 0 || m_scale_size.second == 0) {
         Log.error("Unknown image size");
-        return cv::Mat();
+        return {};
     }
 
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次

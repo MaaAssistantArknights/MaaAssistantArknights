@@ -19,7 +19,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -99,7 +98,7 @@ namespace MeoAsstGui
         {
             _timer.Enabled = true;
             _timer.Interval = 1000 * 50;
-            _timer.Tick += new EventHandler(Timer1_Elapsed);
+            _timer.Tick += Timer1_Elapsed;
             _timer.Start();
         }
 
@@ -278,7 +277,7 @@ namespace MeoAsstGui
             var settingsModel = _container.Get<SettingsViewModel>();
             if (settingsModel.HideUnavailableStage)
             {
-                newList = new ObservableCollection<CombData> { };
+                newList = new ObservableCollection<CombData>();
                 foreach (var item in AllStageList)
                 {
                     if (_stageAvailableInfo.ContainsKey(item.Value))
@@ -823,7 +822,7 @@ namespace MeoAsstGui
             // for debug
             var settings = _container.Get<SettingsViewModel>();
 
-            int max_times = 0;
+            int max_times;
             if (!int.TryParse(settings.RecruitMaxTimes, out max_times))
             {
                 max_times = 0;
@@ -860,7 +859,7 @@ namespace MeoAsstGui
         private bool appendRoguelike()
         {
             var settings = _container.Get<SettingsViewModel>();
-            int mode = 0;
+            int mode;
             int.TryParse(settings.RoguelikeMode, out mode);
 
             var asstProxy = _container.Get<AsstProxy>();
@@ -912,7 +911,7 @@ namespace MeoAsstGui
                 {
                     line = reg.Replace(line, ",");
                     string[] arr = line.Split(',');
-                    if (!Convert.ToBoolean(arr[1].CompareTo(address)) || !Convert.ToBoolean(arr[1].CompareTo("[::]:" + port)) || !Convert.ToBoolean(arr[1].CompareTo("0.0.0.0:" + port)))
+                    if (!Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal)) || !Convert.ToBoolean(string.Compare(arr[1], "[::]:" + port, StringComparison.Ordinal)) || !Convert.ToBoolean(string.Compare(arr[1], "0.0.0.0:" + port, StringComparison.Ordinal)))
                     {
                         pid = int.Parse(arr[4]);
                         break;
@@ -1312,7 +1311,7 @@ namespace MeoAsstGui
 
             AllDrops.Sort((a, b) =>
             {
-                return a.Value.CompareTo(b.Value);
+                return string.Compare(a.Value, b.Value, StringComparison.Ordinal);
             });
             DropsList = new ObservableCollection<CombData>(AllDrops);
         }

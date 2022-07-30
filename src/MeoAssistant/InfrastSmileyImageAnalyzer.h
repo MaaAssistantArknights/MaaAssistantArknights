@@ -9,7 +9,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~InfrastSmileyImageAnalyzer() = default;
+        virtual ~InfrastSmileyImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 

@@ -25,7 +25,7 @@ namespace asst
     class Resource : public AbstractResource
     {
     public:
-        virtual ~Resource() = default;
+        virtual ~Resource() override = default;
 
         static Resource& get_instance()
         {

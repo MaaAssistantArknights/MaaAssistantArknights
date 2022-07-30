@@ -11,7 +11,7 @@ namespace asst
     class BattleDataConfiger : public AbstractConfiger
     {
     public:
-        virtual ~BattleDataConfiger() = default;
+        virtual ~BattleDataConfiger() override = default;
 
         BattleRole get_role(const std::string& name) const
         {
