@@ -6775,6 +6775,7 @@
         ]
     },
     "Roguelike1TraderRandomShopping": {
+        "Doc": "该任务注册了 RoguelikeShoppingTaskPlugin，若是点完了仍在当前界面，说明没啥要买的，直接离开商店（next 里的 Roguelike1StageTraderLeave）",
         "action": "ClickSelf",
         "templThreshold": 0.7,
         "cache": false,
@@ -6787,7 +6788,8 @@
         "next": [
             "Roguelike1TraderRandomShoppingConfirm",
             "Roguelike1TraderRandomShoppingCancel",
-            "Roguelike1TraderRandomShopping"
+            "Roguelike1StageTraderLeave",
+            "Roguelike1StageTraderLeaveConfirm"
         ],
         "maskRange": [
             1,
@@ -6831,10 +6833,17 @@
             221,
             136
         ],
+        "rectMove": [
+            -40,
+            -100,
+            20,
+            60
+        ],
         "rearDelay": 2000,
         "Doc": "当网络卡的时候才会发生点了确认，但是还可以点取消的情况",
         "next": [
-            "Roguelike1TraderShoppingConfirmedFlag"
+            "Roguelike1TraderShoppingConfirmedFlag",
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike1TraderShoppingConfirmedFlag": {
@@ -6848,19 +6857,15 @@
             204
         ]
     },
-    "Roguelike1TraderShoppingCancel": {
-        "template": "Roguelike1StageTraderInvestCancel.png",
+    "Roguelike1TraderShoppingOver": {
+        "template": "Roguelike1StageTraderLeave.png",
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            350,
-            350,
-            500,
-            250
-        ],
-        "rearDelay": 2000,
-        "next": [
-            "Roguelike1TraderShoppingConfirmedFlag"
+            1046,
+            443,
+            234,
+            204
         ]
     },
     "Roguelike1TraderRandomShoppingConfirm": {
