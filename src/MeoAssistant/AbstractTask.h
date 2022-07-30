@@ -63,6 +63,7 @@ namespace asst
         virtual bool on_run_fails() { return true; }
         virtual void callback(AsstMsg msg, const json::value& detail);
         virtual void click_return_button();
+        void save_image();
 
         json::value basic_info_with_what(std::string what) const;
         bool sleep(unsigned millisecond);

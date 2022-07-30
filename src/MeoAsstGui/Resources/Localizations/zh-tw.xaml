@@ -119,6 +119,7 @@
     <system:String x:Key="ADBTip">小提示：這裡會自動檢測的，若出現問題可再嘗試修改，否則不需要自行填寫</system:String>
     <system:String x:Key="ADBPath">adb 路徑 (相對/絕對)</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
+    <system:String x:Key="ConnectionAddressTip">第一次使用會自動填寫，若遇到問題可嘗試手動修改</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
     <!--  設定  -->
 
@@ -327,9 +328,10 @@
     <system:String x:Key="Website">MAA 官網</system:String>
     <system:String x:Key="Github">源碼：GitHub</system:String>
     <system:String x:Key="QQgroup">自動戰鬥作業分享 Q 群</system:String>
-    <system:String x:Key="QQgroup1">一群（已滿）</system:String>
+    <system:String x:Key="QQgroup1">一群</system:String>
     <system:String x:Key="QQgroup2">二群</system:String>
     <system:String x:Key="QQgroup3">三群</system:String>
+    <system:String x:Key="QQgroupfull">(已滿)</system:String>
     <system:String x:Key="Help">常見問題</system:String>
     <system:String x:Key="Issue">問題回饋</system:String>
     <!--  About  -->

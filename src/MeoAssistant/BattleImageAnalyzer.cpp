@@ -228,19 +228,24 @@ bool asst::BattleImageAnalyzer::oper_cooling_analyze(const Rect& roi)
 {
     const auto cooling_task_ptr = Task.get<MatchTaskInfo>("BattleOperCooling");
 
+    auto img_roi = m_image(utils::make_rect<cv::Rect>(roi));
     cv::Mat hsv;
-    cv::cvtColor(m_image(utils::make_rect<cv::Rect>(roi)), hsv, cv::COLOR_BGR2HSV);
-    std::vector<cv::Mat> channels;
-    cv::split(hsv, channels);
-    int mask_lowb = cooling_task_ptr->mask_range.first;
-    int mask_uppb = cooling_task_ptr->mask_range.second;
+    cv::cvtColor(img_roi, hsv, cv::COLOR_BGR2HSV);
+    int h_low = cooling_task_ptr->mask_range.first;
+    int h_up = cooling_task_ptr->mask_range.second;
+    int s_low = cooling_task_ptr->specific_rect.x;
+    int s_up = cooling_task_ptr->specific_rect.y;
+    int v_low = cooling_task_ptr->specific_rect.width;
+    int v_up = cooling_task_ptr->specific_rect.height;
+
+    cv::Mat bin;
+    cv::inRange(hsv, cv::Scalar(h_low, s_low, v_low), cv::Scalar(h_up, s_up, v_up), bin);
 
     int count = 0;
-    auto& h_channel = channels.at(0);
-    for (int i = 0; i != h_channel.rows; ++i) {
-        for (int j = 0; j != h_channel.cols; ++j) {
-            cv::uint8_t value = h_channel.at<cv::uint8_t>(i, j);
-            if (mask_lowb < value && value < mask_uppb) {
+    for (int i = 0; i != bin.rows; ++i) {
+        for (int j = 0; j != bin.cols; ++j) {
+            cv::uint8_t value = bin.at<cv::uint8_t>(i, j);
+            if (value) {
                 ++count;
             }
         }
