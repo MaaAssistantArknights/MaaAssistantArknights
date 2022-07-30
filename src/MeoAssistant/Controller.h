@@ -129,7 +129,7 @@ namespace asst
             std::string start;
             std::string stop;
 
-            /* propertities */
+            /* properties */
             enum class ScreencapEndOfLine
             {
                 UnknownYet,

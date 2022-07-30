@@ -12,7 +12,7 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
-        virtual ~CreditShoppingTask() = default;
+        virtual ~CreditShoppingTask() override = default;
 
         void set_black_list(std::vector<std::string> black_list);
         void set_white_list(std::vector<std::string> white_list);

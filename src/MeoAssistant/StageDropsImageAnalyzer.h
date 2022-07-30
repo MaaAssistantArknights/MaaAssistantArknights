@@ -8,7 +8,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~StageDropsImageAnalyzer() = default;
+        virtual ~StageDropsImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 

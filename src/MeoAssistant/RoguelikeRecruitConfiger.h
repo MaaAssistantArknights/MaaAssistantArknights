@@ -24,7 +24,7 @@ namespace asst
     class RoguelikeRecruitConfiger : public AbstractConfiger
     {
     public:
-        virtual ~RoguelikeRecruitConfiger() = default;
+        virtual ~RoguelikeRecruitConfiger() override = default;
 
         const RoguelikeOperInfo& get_oper_info(const std::string& name) const noexcept;
         const auto& get_oper_order() const noexcept { return m_ordered_all_opers_name; }

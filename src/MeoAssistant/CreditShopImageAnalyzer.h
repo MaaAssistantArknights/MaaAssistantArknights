@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~CreditShopImageAnalyzer() = default;
+        virtual ~CreditShopImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 

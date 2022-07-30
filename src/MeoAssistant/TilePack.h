@@ -55,7 +55,7 @@ namespace asst
         };
     public:
         using AbstractResource::AbstractResource;
-        virtual ~TilePack();
+        virtual ~TilePack() override;
 
         virtual bool load(const std::string& dir) override;
 

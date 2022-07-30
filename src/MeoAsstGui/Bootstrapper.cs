@@ -12,10 +12,8 @@
 // </copyright>
 
 using System;
-using System.Globalization;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -71,8 +69,8 @@ namespace MeoAsstGui
             // MessageBox.Show("O(∩_∩)O 拜拜");
 
             // 关闭程序时清理操作中心中的通知
-            var os = RuntimeInformation.OSDescription.ToString();
-            if (os.ToString().CompareTo("Microsoft Windows 10.0.10240") >= 0)
+            var os = RuntimeInformation.OSDescription;
+            if (string.Compare(os, "Microsoft Windows 10.0.10240", StringComparison.Ordinal) >= 0)
             {
                 ToastNotificationManagerCompat.History.Clear();
             }

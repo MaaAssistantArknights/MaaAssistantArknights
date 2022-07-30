@@ -11,7 +11,7 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
-        virtual ~AbstractTaskPlugin() = default;
+        virtual ~AbstractTaskPlugin() override = default;
 
         int priority() const;
         bool block() const;

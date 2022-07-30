@@ -8,7 +8,7 @@ namespace asst
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name, double templ_thres = 0.0);
-        virtual ~MatchImageAnalyzer() = default;
+        virtual ~MatchImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 

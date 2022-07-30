@@ -80,7 +80,7 @@ bool asst::TaskData::parse(const json::value& json)
         {
             auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
             for (const json::value& hash : task_json.at("hash").as_array()) {
-                hash_task_info_ptr->hashs.emplace_back(hash.as_string());
+                hash_task_info_ptr->hashes.emplace_back(hash.as_string());
             }
             hash_task_info_ptr->dist_threshold = task_json.get("threshold", 0);
 

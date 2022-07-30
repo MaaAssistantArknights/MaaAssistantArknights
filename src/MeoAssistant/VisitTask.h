@@ -9,7 +9,7 @@ namespace asst
     {
     public:
         VisitTask(AsstCallback callback, void* callback_arg);
-        virtual ~VisitTask() = default;
+        virtual ~VisitTask() override = default;
 
         static constexpr const char* TaskType = "Visit";
     private:

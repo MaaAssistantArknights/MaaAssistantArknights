@@ -60,7 +60,7 @@ namespace asst
     class GeneralConfiger : public AbstractConfiger
     {
     public:
-        virtual ~GeneralConfiger() = default;
+        virtual ~GeneralConfiger() override = default;
 
         const std::string& get_version() const noexcept
         {
@@ -85,7 +85,7 @@ namespace asst
             }
         }
 
-        [[nodiscard]] std::optional<std::string> get_intent_name(const std::string& client_type) const
+        std::optional<std::string> get_intent_name(const std::string& client_type) const
         {
             if (auto iter = m_intent_name.find(client_type);
                 iter != m_intent_name.cend()) {

@@ -275,7 +275,7 @@ int asst::BattleImageAnalyzer::oper_cost_analyze(const Rect& roi)
         std::unordered_map<std::string, std::string> num_hashs;
         for (auto&& num : NumName) {
             auto hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(
-                Task.get("BattleOperCost" + num))->hashs;
+                Task.get("BattleOperCost" + num))->hashes;
             for (size_t i = 0; i != hashs_vec.size(); ++i) {
                 num_hashs.emplace(num + "_" + std::to_string(i), hashs_vec.at(i));
             }
@@ -418,7 +418,7 @@ bool asst::BattleImageAnalyzer::hp_analyze()
         std::unordered_map<std::string, std::string> num_hashs;
         for (auto&& num : NumName) {
             const auto& hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(
-                Task.get("BattleHp" + num))->hashs;
+                Task.get("BattleHp" + num))->hashes;
             for (size_t i = 0; i != hashs_vec.size(); ++i) {
                 num_hashs.emplace(num + "_" + std::to_string(i), hashs_vec.at(i));
             }

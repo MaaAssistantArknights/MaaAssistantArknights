@@ -19,7 +19,7 @@ namespace asst
     public:
         using AbstractResource::AbstractResource;
         OcrPack();
-        virtual ~OcrPack();
+        virtual ~OcrPack() override;
 
         virtual bool load(const std::string& dir) override;
 

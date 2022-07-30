@@ -95,7 +95,7 @@ namespace MeoAsstGui
                         sw.Write(jsonStr);
                     }
 
-                    if (new System.IO.FileInfo(_configFilename).Length > 2)
+                    if (new FileInfo(_configFilename).Length > 2)
                     {
                         File.Copy(_configFilename, _configBakFilename, true);
                     }
