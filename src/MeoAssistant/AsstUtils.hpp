@@ -201,7 +201,10 @@ namespace asst::utils
         auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
 
 #ifdef _WIN32
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
         SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
+#pragma GCC diagnostic pop
         pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
         pipe_sec_attr.lpSecurityDescriptor = nullptr;
         pipe_sec_attr.bInheritHandle = TRUE;
@@ -209,14 +212,20 @@ namespace asst::utils
         HANDLE pipe_child_write = nullptr;
         CreatePipe(&pipe_read, &pipe_child_write, &pipe_sec_attr, PipeBuffSize);
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
         STARTUPINFOA si = { 0 };
+#pragma GCC diagnostic pop
         si.cb = sizeof(STARTUPINFO);
         si.dwFlags = STARTF_USESTDHANDLES;
         si.wShowWindow = SW_HIDE;
         si.hStdOutput = pipe_child_write;
         si.hStdError = pipe_child_write;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
         PROCESS_INFORMATION pi = { nullptr };
+#pragma GCC diagnostic pop
 
         BOOL p_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmdline.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi);
         if (p_ret) {
