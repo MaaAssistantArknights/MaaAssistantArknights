@@ -1257,6 +1257,9 @@ namespace MeoAsstGui
 
         private bool _notChooseLevel1 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.NotChooseLevel1", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether not to choose level 1.
+        /// </summary>
         public bool NotChooseLevel1
         {
             get
