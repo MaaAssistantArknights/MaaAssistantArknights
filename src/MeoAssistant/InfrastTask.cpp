@@ -27,8 +27,8 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
     m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, callback_arg, TaskType))
 {
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" });
-    m_trade_task_ptr->regiseter_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
-    m_replenish_task_ptr = m_mfg_task_ptr->regiseter_plugin<ReplenishOriginiumShardTaskPlugin>();
+    m_trade_task_ptr->register_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
+    m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
 
     m_subtasks.emplace_back(m_infrast_begin_task_ptr);
 }
