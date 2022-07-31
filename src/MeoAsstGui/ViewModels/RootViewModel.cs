@@ -17,17 +17,26 @@ using StyletIoC;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The root view model.
+    /// </summary>
     public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
         private readonly IContainer _container;
         private readonly IWindowManager _windowManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RootViewModel"/> class.
+        /// </summary>
+        /// <param name="container">The IoC container.</param>
+        /// <param name="windowManager">The window manager.</param>
         public RootViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
             _windowManager = windowManager;
         }
 
+        /// <inheritdoc/>
         protected override void OnViewLoaded()
         {
             CheckAndUpdateNow();
@@ -93,12 +102,16 @@ namespace MeoAsstGui
 
         private string _windowTitle = "MaaAssistantArknights";
 
+        /// <summary>
+        /// Gets or sets the window title.
+        /// </summary>
         public string WindowTitle
         {
             get => _windowTitle;
             set => SetAndNotify(ref _windowTitle, value);
         }
 
+        /// <inheritdoc/>
         protected override void OnClose()
         {
             System.Windows.Application.Current.Shutdown();

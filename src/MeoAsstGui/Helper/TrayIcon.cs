@@ -17,6 +17,9 @@ using System.Windows.Forms;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// 托盘图标。
+    /// </summary>
     public partial class TrayIcon
     {
         private readonly NotifyIcon notifyIcon = new NotifyIcon();
@@ -25,6 +28,9 @@ namespace MeoAsstGui
         private WindowState ws; // 记录窗体状态
         private bool _isMinimizeToTaskbar = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TrayIcon"/> class.
+        /// </summary>
         public TrayIcon()
         {
             InitIcon();
@@ -67,14 +73,21 @@ namespace MeoAsstGui
         }
 
         /// <summary>
-        /// 只应该在TaskQueueViewModel的构造函数中调用这个函数，不要传入一个随便new出来的TaskQueueViewModel
+        /// Sets task queue view model.
         /// </summary>
-        /// <param name="taskQueueViewModel">一个 不是 随便new出来的TaskQueueViewModel</param>
+        /// <param name="taskQueueViewModel">一个<b>不是随便 <see langword="new"/> 出来的</b> <see cref="TaskQueueViewModel"/></param>
+        /// <remarks>
+        /// 只应该在 <see cref="TaskQueueViewModel"/> 的构造函数中调用这个函数，不要传入一个随便 <see langword="new"/> 出来的 <see cref="TaskQueueViewModel"/>。
+        /// </remarks>
         public void SetTaskQueueViewModel(TaskQueueViewModel taskQueueViewModel)
         {
             this.taskQueueViewModel = taskQueueViewModel;
         }
 
+        /// <summary>
+        /// Sets settings view model.
+        /// </summary>
+        /// <param name="settingsViewModel">The settings view model.</param>
         public void SetSettingsViewModel(SettingsViewModel settingsViewModel)
         {
             this.settingsViewModel = settingsViewModel;
@@ -154,16 +167,27 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Sets visiblility.
+        /// </summary>
+        /// <param name="visible">Whether it is visible.</param>
         public void SetVisible(bool visible)
         {
             notifyIcon.Visible = visible;
         }
 
+        /// <summary>
+        /// Sets whether to minimize to taskbar.
+        /// </summary>
+        /// <param name="enable">Whether to minimize to taskbar.</param>
         public void SetMinimizeToTaskbar(bool enable)
         {
             _isMinimizeToTaskbar = enable;
         }
 
+        /// <summary>
+        /// Closes this instance.
+        /// </summary>
         public void Close()
         {
             notifyIcon.Icon = null;

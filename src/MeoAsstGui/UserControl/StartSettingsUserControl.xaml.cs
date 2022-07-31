@@ -20,6 +20,9 @@ namespace MeoAsstGui
     /// </summary>
     public partial class StartSettingsUserControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StartSettingsUserControl"/> class.
+        /// </summary>
         public StartSettingsUserControl()
         {
             InitializeComponent();
