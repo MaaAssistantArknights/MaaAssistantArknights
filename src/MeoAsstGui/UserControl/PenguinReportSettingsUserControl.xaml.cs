@@ -20,6 +20,9 @@ namespace MeoAsstGui
     /// </summary>
     public partial class PenguinReportSettingsUserControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PenguinReportSettingsUserControl"/> class.
+        /// </summary>
         public PenguinReportSettingsUserControl()
         {
             InitializeComponent();

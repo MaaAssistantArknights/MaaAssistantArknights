@@ -20,6 +20,9 @@ namespace MeoAsstGui
     /// </summary>
     public partial class AutoRecruitSettingsUserControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoRecruitSettingsUserControl"/> class.
+        /// </summary>
         public AutoRecruitSettingsUserControl()
         {
             InitializeComponent();

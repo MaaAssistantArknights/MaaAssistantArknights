@@ -20,6 +20,9 @@ namespace MeoAsstGui
     /// </summary>
     public partial class VersionUpdateSettingsUserControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VersionUpdateSettingsUserControl"/> class.
+        /// </summary>
         public VersionUpdateSettingsUserControl()
         {
             InitializeComponent();

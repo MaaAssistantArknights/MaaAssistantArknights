@@ -20,6 +20,9 @@ namespace MeoAsstGui
     /// </summary>
     public partial class TimerSettingsUserControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TimerSettingsUserControl"/> class.
+        /// </summary>
         public TimerSettingsUserControl()
         {
             InitializeComponent();
