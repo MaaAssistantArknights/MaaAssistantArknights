@@ -44,6 +44,8 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
 
     std::unordered_map<BattleRole, size_t> map_roles_count;
+    std::unordered_map<BattleRole, size_t> map_wait_promotion;
+    size_t total_wait_promotion = 0;
     std::unordered_set<std::string> chars_list;
     for (auto& [name, json_info] : json_chars_info.as_object()) {
         int elite = static_cast<int>(json_info.get("elite", 0));
@@ -51,7 +53,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         Log.info(name, elite, level);
 
         // 等级太低的干员没必要为他专门买收藏品什么的
-        if (elite * 1000 + level < 1070) {
+        if (level < 70) {
             continue;
         }
 
@@ -60,10 +62,20 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         if (name == "阿米娅") {
             map_roles_count[BattleRole::Caster] += 1;
             map_roles_count[BattleRole::Warrior] += 1;
+            if (elite == 1 && level == 70) {
+                total_wait_promotion += 1;
+                map_wait_promotion[BattleRole::Caster] += 1;
+                map_wait_promotion[BattleRole::Warrior] += 1;
+            }
         }
         else {
             BattleRole role = Resrc.battle_data().get_role(name);
             map_roles_count[role] += 1;
+            // TODO 这里应该判断一下星级，4星是60级，5星是70，6星是80，先偷个懒，有空再弄
+            if (elite == 1 && level >= 60) {
+                total_wait_promotion += 1;
+                map_wait_promotion[role] += 1;
+            }
         }
     }
 
@@ -99,6 +111,27 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
                 Log.trace("Ready to buy", goods.name,
                     ", but there is no such professional operator, skip");
                 continue;
+            }
+        }
+        if (goods.promotion != 0) {
+            if (total_wait_promotion == 0) {
+                Log.trace("Ready to buy", goods.name,
+                    ", but there is no one waiting for promotion, skip");
+                continue;
+            }
+            if (!goods.roles.empty()) {
+                bool role_mathced = false;
+                for (const auto& role : goods.roles) {
+                    if (map_wait_promotion[role] != 0) {
+                        role_mathced = true;
+                        break;
+                    }
+                }
+                if (!role_mathced) {
+                    Log.trace("Ready to buy", goods.name,
+                        ", but there is no one waiting for promotion, skip");
+                    continue;
+                }
             }
         }
 
