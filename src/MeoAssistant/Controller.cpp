@@ -256,7 +256,16 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
     };
 
 #ifdef _WIN32
+
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+#endif
     PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+
     BOOL create_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
     if (!create_ret) {
         Log.error("Call `", cmd, "` create process failed, ret", create_ret);
