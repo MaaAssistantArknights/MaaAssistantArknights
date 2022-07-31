@@ -22,6 +22,15 @@ namespace asst
             return iter->second.role;
         }
 
+        int get_rarity(const std::string& name) const
+        {
+            auto iter = m_chars.find(name);
+            if (iter == m_chars.cend()) {
+                return 0;
+            }
+            return iter->second.rarity;
+        }
+
         static inline const BattleAttackRange& EmptyRange{ {0, 0} };
 
         const BattleAttackRange& get_range(const std::string& name, size_t index) const
