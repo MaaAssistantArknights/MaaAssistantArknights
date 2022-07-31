@@ -31,12 +31,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         return true;
     }
 
-    RoguelikeRecruitImageAnalyzer analyzer(m_ctrler->get_image());
-
-    if (!analyzer.analyze()) {
-        return false;
-    }
-
     bool recruited = false;
 
     auto recruit_oper = [&](const BattleRecruitOperInfo& info) {
@@ -45,55 +39,75 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         recruited = true;
     };
 
-    const auto& oper_list = analyzer.get_result();
-    for (const auto& info : oper_list) {
-        // 先看看有没有精二的
-        if (info.elite != 2) {
+    constexpr size_t SwipeTimes = 3;
+    for (size_t i = 0; i != SwipeTimes; ++i) {
+        auto image = m_ctrler->get_image();
+        RoguelikeRecruitImageAnalyzer analyzer(image);
+        if (!analyzer.analyze()) {
+            return false;
+        }
+
+        const auto& oper_list = analyzer.get_result();
+        for (const auto& info : oper_list) {
+            // 先看看有没有精二的
+            if (info.elite != 2) {
+                continue;
+            }
+            recruit_oper(info);
+            break;
+        }
+
+        if (!recruited) {
+            for (const auto& info : oper_list) {
+                if (!info.required) {
+                    continue;
+                }
+                // 拿个精一 50 以上的
+                if (info.elite == 0 ||
+                    (info.elite == 1 && info.level < 50)) {
+                    continue;
+                }
+                recruit_oper(info);
+                break;
+            }
+        }
+
+        if (!recruited) {
+            Log.info("All are lower");
+            // 随便招个精一的
+            for (const auto& info : oper_list) {
+                if (!info.required) {
+                    continue;
+                }
+                if (info.elite == 0) {
+                    continue;
+                }
+                recruit_oper(info);
+                break;
+            }
+        }
+
+        // 这玩意选了也没啥用，不如省点理智
+        //if (!recruited) {
+        //    // 随便招个
+        //    Log.info("All are very lower");
+        //    auto info = oper_list.front();
+        //    recruit_oper(info);
+        //}
+
+        // 没有合适的干员，尝试向右翻页
+        if (!recruited) {
+            ProcessTask(*this, { "SlowlySwipeToTheRight" }).run();
+            sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
             continue;
         }
-        recruit_oper(info);
-        break;
+
+        // 已经招募到合适的干员
+        return true;
     }
 
-    if (!recruited) {
-        for (const auto& info : oper_list) {
-            if (!info.required) {
-                continue;
-            }
-            // 拿个精一 50 以上的
-            if (info.elite == 0 ||
-                (info.elite == 1 && info.level < 50)) {
-                continue;
-            }
-            recruit_oper(info);
-            break;
-        }
-    }
-
-    if (!recruited) {
-        Log.info("All are lower");
-        // 随便招个精一的
-        for (const auto& info : oper_list) {
-            if (!info.required) {
-                continue;
-            }
-            if (info.elite == 0) {
-                continue;
-            }
-            recruit_oper(info);
-            break;
-        }
-    }
-
-    // 这玩意选了也没啥用，不如省点理智
-    //if (!recruited) {
-    //    // 随便招个
-    //    Log.info("All are very lower");
-    //    auto info = oper_list.front();
-    //    recruit_oper(info);
-    //}
-
-    return recruited;
+    ProcessTask(*this, { "SwipeToTheLeft" }).run();
+    return false;
 }
 
 bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
@@ -105,7 +119,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
     constexpr size_t SwipeTimes = 2;
     for (size_t i = 0; i != SwipeTimes; ++i) {
         auto image = m_ctrler->get_image();
-        RoguelikeRecruitImageAnalyzer analyzer(m_ctrler->get_image());
+        RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
             return false;
         }
