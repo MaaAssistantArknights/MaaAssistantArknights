@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <list>
+#include <optional>
 
 namespace asst
 {
@@ -26,8 +27,8 @@ namespace asst
         virtual bool _run() override;
 
         bool is_calc_only_task() { return m_max_times <= 0 || m_confirm_level.empty(); }
-        bool analyze_start_buttons();
-        bool recruit_one();
+        static std::optional<Rect> try_get_start_button(const cv::Mat&);
+        bool recruit_one(const Rect&);
         bool check_recruit_home_page();
         bool recruit_begin();
         bool check_time_unreduced();
@@ -54,8 +55,6 @@ namespace asst
         bool m_skip_robot = true;
         bool m_set_time = true;
 
-        std::vector<TextRect> m_start_buttons;
-        std::list<size_t> m_pending_recruit_slot;
         int m_slot_fail = 0;
         int m_cur_times = 0;
     };
