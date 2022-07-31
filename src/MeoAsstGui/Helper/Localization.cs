@@ -18,8 +18,14 @@ using System.Windows;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The localization class.
+    /// </summary>
     public class Localization
     {
+        /// <summary>
+        /// The supported languages.
+        /// </summary>
         public static readonly Dictionary<string, string> SupportedLanguages = new Dictionary<string, string>
         {
             { "zh-cn", "简体中文" },
@@ -30,6 +36,9 @@ namespace MeoAsstGui
             { "pallas", "🍻🍻🍻🍻" },
         };
 
+        /// <summary>
+        /// Gets the default language.
+        /// </summary>
         public static string DefaultLanguage
         {
             get
@@ -55,6 +64,9 @@ namespace MeoAsstGui
 
         private static readonly string culture = ViewStatusStorage.Get("GUI.Localization", DefaultLanguage);
 
+        /// <summary>
+        /// Loads localizations.
+        /// </summary>
         public static void Load()
         {
             // var cultureInfo = new CultureInfo(culture);
@@ -67,6 +79,11 @@ namespace MeoAsstGui
             Application.Current.Resources.MergedDictionaries[0] = dictionary;
         }
 
+        /// <summary>
+        /// Gets a localized string.
+        /// </summary>
+        /// <param name="key">The key of the string.</param>
+        /// <returns>The string.</returns>
         public static string GetString(string key)
         {
             var dictionary = new ResourceDictionary

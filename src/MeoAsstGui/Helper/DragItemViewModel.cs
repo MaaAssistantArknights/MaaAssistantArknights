@@ -15,8 +15,16 @@ using Stylet;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The view model of drag item.
+    /// </summary>
     public class DragItemViewModel : PropertyChangedBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DragItemViewModel"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="storageKey">The storage key.</param>
         public DragItemViewModel(string name, string storageKey)
         {
             this.Name = name;
@@ -26,6 +34,9 @@ namespace MeoAsstGui
 
         private string _name;
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
         public string Name
         {
             get { return _name; }
@@ -35,6 +46,9 @@ namespace MeoAsstGui
         private readonly string _isCheckedStorageKey;
         private bool _isChecked;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets whether the key is checked.
+        /// </summary>
         public bool IsChecked
         {
             get
@@ -52,6 +66,9 @@ namespace MeoAsstGui
         // 换成图标的话要这个，暂时没用
         private string _iconPath;
 
+        /// <summary>
+        /// Gets or sets the icon path.
+        /// </summary>
         public string IconPath
         {
             get { return _iconPath; }
@@ -60,6 +77,9 @@ namespace MeoAsstGui
 
         private string _token;
 
+        /// <summary>
+        /// Gets or sets the token.
+        /// </summary>
         public string Token
         {
             get { return _token; }
@@ -68,6 +88,9 @@ namespace MeoAsstGui
 
         private string _runStatus;
 
+        /// <summary>
+        /// Gets or sets the running status.
+        /// </summary>
         public string RunStatus
         {
             get { return _runStatus; }

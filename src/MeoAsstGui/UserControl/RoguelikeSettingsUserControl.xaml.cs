@@ -20,6 +20,9 @@ namespace MeoAsstGui
     /// </summary>
     public partial class RoguelikeSettingsUserControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RoguelikeSettingsUserControl"/> class.
+        /// </summary>
         public RoguelikeSettingsUserControl()
         {
             InitializeComponent();
