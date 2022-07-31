@@ -40,7 +40,7 @@ namespace asst
                 return EmptyRange;
             }
             const auto& ranges = char_iter->second.ranges;
-            if (index < 0 || index >= ranges.size()) {
+            if (index >= ranges.size()) {
                 if (ranges.empty()) {
                     return EmptyRange;
                 }

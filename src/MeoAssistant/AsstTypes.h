@@ -8,7 +8,10 @@
 #include <vector>
 #include <climits>
 #include <cmath>
+
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif
 
 namespace json
 {
