@@ -18,6 +18,9 @@ using System.Linq;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The emulator adapter.
+    /// </summary>
     public class WinAdapter
     {
         private static readonly Dictionary<string, string> emulatorIdDict = new Dictionary<string, string>
@@ -52,6 +55,10 @@ namespace MeoAsstGui
 
         private readonly Dictionary<string, string> adbAbsoultePathDict = new Dictionary<string, string>();
 
+        /// <summary>
+        /// Refreshes emulator information.
+        /// </summary>
+        /// <returns>The list of emulators.</returns>
         public List<string> RefreshEmulatorsInfo()
         {
             var allProcess = Process.GetProcesses();
@@ -77,6 +84,11 @@ namespace MeoAsstGui
             return emulators;
         }
 
+        /// <summary>
+        /// Gets ADB path by emulator name.
+        /// </summary>
+        /// <param name="emulatorName">The name of the emulator.</param>
+        /// <returns>The ADB path of the emulator.</returns>
         public string GetAdbPathByEmulatorName(string emulatorName)
         {
             if (adbAbsoultePathDict.Keys.Contains(emulatorName))
@@ -87,6 +99,11 @@ namespace MeoAsstGui
             return null;
         }
 
+        /// <summary>
+        /// Gets ADB addresses by an ADB path.
+        /// </summary>
+        /// <param name="adbPath">The ADB path.</param>
+        /// <returns>The list of ADB addresses.</returns>
         public List<string> GetAdbAddresses(string adbPath)
         {
             var addresses = new List<string>();

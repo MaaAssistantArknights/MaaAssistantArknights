@@ -18,18 +18,34 @@ using System.Windows.Documents;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The flow document page padding property.
+    /// </summary>
     public static class FlowDocumentPagePadding
     {
+        /// <summary>
+        /// Gets flow document page padding property.
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> instance.</param>
+        /// <returns>The property value.</returns>
         public static Thickness GetPagePadding(DependencyObject obj)
         {
             return (Thickness)obj.GetValue(PagePaddingProperty);
         }
 
+        /// <summary>
+        /// Sets flow document page padding property.
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> instance.</param>
+        /// <param name="value">The new property value.</param>
         public static void SetPagePadding(DependencyObject obj, Thickness value)
         {
             obj.SetValue(PagePaddingProperty, value);
         }
 
+        /// <summary>
+        /// The flow document page padding property.
+        /// </summary>
         public static readonly DependencyProperty PagePaddingProperty =
             DependencyProperty.RegisterAttached("PagePadding", typeof(Thickness), typeof(FlowDocumentPagePadding), new UIPropertyMetadata(new Thickness(double.NegativeInfinity), (o, args) =>
             {
@@ -45,6 +61,11 @@ namespace MeoAsstGui
                 dpd.AddValueChanged(fd, PaddingChanged);
             }));
 
+        /// <summary>
+        /// The event handler of the event when the padding is changed.
+        /// </summary>
+        /// <param name="s">The sender.</param>
+        /// <param name="e">The event arguments.</param>
         public static void PaddingChanged(object s, EventArgs e)
         {
             ((FlowDocument)s).PagePadding = GetPagePadding((DependencyObject)s);

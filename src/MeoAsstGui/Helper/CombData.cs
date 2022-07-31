@@ -13,6 +13,9 @@
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The <see cref="GenericCombData{TValueType}"/> with <see cref="string"/> as the value type.
+    /// </summary>
     public class CombData : GenericCombData<string>
     {
     }
