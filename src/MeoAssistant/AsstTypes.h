@@ -139,6 +139,9 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         ~TextRect() = default;
         TextRect(const TextRect&) = default;
         TextRect(TextRect&&) noexcept = default;
+        explicit TextRect(double score, const Rect& rect, const std::string& text)
+            : score(score), rect(rect), text(text)
+        {}
 
         explicit operator std::string() const noexcept { return text; }
         explicit operator Rect() const noexcept { return rect; }
@@ -178,6 +181,9 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         ~MatchRect() = default;
         MatchRect(const MatchRect&) = default;
         MatchRect(MatchRect&&) noexcept = default;
+        explicit MatchRect(double score, const Rect& rect)
+            : score(score), rect(rect)
+        {}
 
         explicit operator Rect() const noexcept { return rect; }
         MatchRect& operator=(const MatchRect&) = default;
