@@ -29,7 +29,6 @@ bool asst::RoguelikeRecruitConfiger::parse(const json::value& json)
             std::string name = oper_info.at("name").as_string();
             RoguelikeOperInfo info;
             info.name = name;
-            info.level = oper_info.at("level").as_integer();
             info.skill = oper_info.at("skill").as_integer();
             info.alternate_skill = oper_info.get("alternate_skill", 0);
             info.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 1));
