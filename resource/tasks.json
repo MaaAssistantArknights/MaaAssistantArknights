@@ -6690,10 +6690,10 @@
         "next": [
             "Roguelike1RecruitSkip",
             "Roguelike1RecruitOther",
-            "Roguelike1DropsFlag",
             "Roguelike1TraderRandomShopping",
-            "Roguelike1ChooseOperFlag",
             "Roguelike1StageTraderLeave",
+            "Roguelike1DropsFlag",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1RecruitWithoutButton"
         ]
     },
@@ -6710,10 +6710,10 @@
         "next": [
             "Roguelike1RecruitOther",
             "Roguelike1EnterAfterRecruit",
-            "Roguelike1DropsFlag",
             "Roguelike1TraderRandomShopping",
-            "Roguelike1ChooseOperFlag",
             "Roguelike1StageTraderLeave",
+            "Roguelike1DropsFlag",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1RecruitWithoutButton"
         ]
     },
