@@ -41,10 +41,8 @@ namespace asst
 
         template<typename PluginType>
         std::shared_ptr<PluginType> register_plugin()
+        requires(std::is_base_of_v<AbstractTaskPlugin, PluginType>) // Plugin must inherit AbstractTaskPlugin
         {
-            static_assert(std::is_base_of_v<AbstractTaskPlugin, PluginType>,
-                "Plugin must inherit AbstractTaskPlugin");
-
             auto plugin = std::make_shared<PluginType>(m_callback, m_callback_arg, m_task_chain);
             m_plugins.emplace(plugin);
             return plugin;

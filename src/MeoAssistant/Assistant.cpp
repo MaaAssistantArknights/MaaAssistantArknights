@@ -232,7 +232,7 @@ void Assistant::working_proc()
 
         std::unique_lock<std::mutex> lock(m_mutex);
         if (!m_thread_idle && !m_tasks_list.empty()) {
-            const auto [id, task_ptr] = m_tasks_list.front();
+            const auto& [id, task_ptr] = m_tasks_list.front();
             lock.unlock();
 
             json::value callback_json = json::object{
