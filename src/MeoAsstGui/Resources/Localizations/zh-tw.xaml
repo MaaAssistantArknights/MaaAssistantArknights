@@ -90,7 +90,7 @@
 
     <system:String x:Key="LaunchOnSystemStartup">開機自動啟動</system:String>
     <system:String x:Key="RunTaskAfterLaunch">啟動後直接運行</system:String>
-    <system:String x:Key="ClientVersion">客戶端版本</system:String>
+    <system:String x:Key="ClientVersion">用戶端版本</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動後自動開啟模擬器</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
@@ -100,9 +100,9 @@
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始次數限制</system:String>
     <system:String x:Key="GoldTimesLimit">投資次數限制</system:String>
-    <system:String x:Key="StopOnGoldLimit">源石錠達到上限停止任務</system:String>
+    <system:String x:Key="StopOnGoldLimit">源石錠達到上限停止</system:String>
 
-    <system:String x:Key="PenguinID">企鵝物流彙報ID（僅數字部分）</system:String>
+    <system:String x:Key="PenguinID">企鵝物流匯報ID（僅數字部分）</system:String>
 
     <system:String x:Key="SocialPtShop">信用購物</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 空格分隔</system:String>
@@ -111,8 +111,8 @@
 
     <system:String x:Key="DroneUsage">無人機用途</system:String>
 
-    <system:String x:Key="MinimizeToTray">最小化時隱藏至託盤</system:String>
-    <system:String x:Key="SystemNotification">重要資訊彈出系統通知</system:String>
+    <system:String x:Key="MinimizeToTray">最小化時隱藏至托盤</system:String>
+    <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
     <system:String x:Key="HideUnavailableStage">關卡選擇隱藏當日不開放關卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
 
@@ -189,7 +189,7 @@
     <system:String x:Key="PR-CTip">先/輔晶片</system:String>
     <system:String x:Key="PR-DTip">近/特晶片</system:String>
     <system:String x:Key="Pormpt1">週一了，可以打剿滅了~</system:String>
-    <system:String x:Key="Pormpt2">周日了，記得打剿滅喔~</system:String>
+    <system:String x:Key="Pormpt2">週日了，記得打剿滅喔~</system:String>
     <!--  戰鬥設定  -->
 
     <!--  日誌  -->
@@ -234,7 +234,7 @@
     <system:String x:Key="Start">開始</system:String>
 
     <system:String x:Key="CopilotJSONSharing">作業分享站</system:String>
-    <system:String x:Key="VideoLink">視頻鏈接</system:String>
+    <system:String x:Key="VideoLink">影片連結</system:String>
 
     <!--  日誌  -->
     <system:String x:Key="CopilotTip">小提示：</system:String>
@@ -270,7 +270,7 @@
     <system:String x:Key="StartCombat">開始戰鬥：</system:String>
     <system:String x:Key="CompleteCombat">完成戰鬥：</system:String>
     <system:String x:Key="AllTasksComplete">任務已全部完成！</system:String>
-    <system:String x:Key="FailedToOpenClient">打開客戶端失敗，請檢查配置檔</system:String>
+    <system:String x:Key="FailedToOpenClient">打開用戶端失敗，請檢查配置檔</system:String>
     <system:String x:Key="ErrorOccurred">出現錯誤</system:String>
     <system:String x:Key="HasReturned">已返回</system:String>
     <system:String x:Key="DropRecognitionError">掉落識別錯誤</system:String>
@@ -326,7 +326,7 @@
 
     <!--  About  -->
     <system:String x:Key="Website">MAA 官網</system:String>
-    <system:String x:Key="Github">源碼：GitHub</system:String>
+    <system:String x:Key="Github">原始碼：GitHub</system:String>
     <system:String x:Key="QQgroup">自動戰鬥作業分享 Q 群</system:String>
     <system:String x:Key="QQgroup1">一群</system:String>
     <system:String x:Key="QQgroup2">二群</system:String>

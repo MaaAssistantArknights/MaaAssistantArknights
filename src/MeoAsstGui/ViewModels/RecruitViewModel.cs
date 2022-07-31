@@ -126,7 +126,7 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _catched = false;
+        private bool _caught = false;
 
         public async void StartCalc()
         {
@@ -137,8 +137,8 @@ namespace MeoAsstGui
             {
                 return asstProxy.AsstConnect(ref errMsg);
             });
-            _catched = await task;
-            if (!_catched)
+            _caught = await task;
+            if (!_caught)
             {
                 RecruitInfo = errMsg;
                 return;
