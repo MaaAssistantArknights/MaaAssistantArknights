@@ -127,21 +127,12 @@ bool asst::AutoRecruitTask::_run()
 
     if (!recruit_begin()) return false;
 
-    if (!check_recruit_home_page()) {
-        return false;
-    }
+    static constexpr int slot_retry_limit = 3;
 
-    if (!m_use_expedited) { // analyze once only
-        if (!analyze_start_buttons()) return true;
-    }
-
-    static constexpr size_t slot_retry_limit = 3;
-
-    // m_cur_times means how many times has the confirm button been pressed, NOT expedited plan used
-    while ((m_use_expedited || !m_pending_recruit_slot.empty()) && m_cur_times != m_max_times) {
+    // m_cur_times means how many times has the confirm button been pressed, NOT expedited plans used
+    while (m_cur_times != m_max_times) {
         if (m_force_discard_flag) { return false; }
         if (m_slot_fail >= slot_retry_limit) { return false; }
-        if (!check_recruit_home_page()) { return false; }
         if (m_use_expedited) {
             Log.info("ready to use expedited");
             if (need_exit()) return false;
@@ -149,10 +140,15 @@ bool asst::AutoRecruitTask::_run()
                 m_force_discard_flag = true;
                 return false;
             }
-            analyze_start_buttons();
+        }
+        auto start_rect = try_get_start_button(m_ctrler->get_image());
+        if (!start_rect) {
+            if (!check_recruit_home_page()) return false;
+            Log.info("There is no available start button.");
+            return true;
         }
         if (need_exit()) return false;
-        if (!recruit_one())
+        if (!recruit_one(start_rect.value()))
             ++m_slot_fail;
         else
             ++m_cur_times;
@@ -160,25 +156,14 @@ bool asst::AutoRecruitTask::_run()
     return true;
 }
 
-bool asst::AutoRecruitTask::analyze_start_buttons()
+std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::Mat& image)
 {
     OcrImageAnalyzer start_analyzer;
     start_analyzer.set_task_info("StartRecruit");
-
-    auto image = m_ctrler->get_image();
     start_analyzer.set_image(image);
-    m_pending_recruit_slot.clear();
-    if (!start_analyzer.analyze()) {
-        Log.info("There is no start button");
-        return false;
-    }
+    if (!start_analyzer.analyze()) return std::nullopt;
     start_analyzer.sort_result_horizontal();
-    m_start_buttons = start_analyzer.get_result();
-    for (size_t i = 0; i < m_start_buttons.size(); ++i) {
-        m_pending_recruit_slot.emplace_back(i);
-    }
-    Log.info("Recruit start button size", m_start_buttons.size());
-    return true;
+    return start_analyzer.get_result().front().rect;
 }
 
 /// open a pending recruit slot, set timer and tags then confirm, or leave the slot doing nothing
@@ -186,28 +171,17 @@ bool asst::AutoRecruitTask::analyze_start_buttons()
 /// - recognition failed
 /// - timer or tags corrupted
 /// - failed to confirm
-bool asst::AutoRecruitTask::recruit_one()
+bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 {
     LogTraceFunction;
 
     int delay = Resrc.cfg().get_options().task_delay;
 
-    if (m_pending_recruit_slot.empty()) return false;
-    size_t index = m_pending_recruit_slot.front();
-    if (index > m_start_buttons.size()) {
-        Log.info("index", index, "out of range.");
-        m_pending_recruit_slot.pop_front();
-        return false;
-    }
-    Log.info("recruit_index", index);
-    Rect button = m_start_buttons.at(index).rect;
     m_ctrler->click(button);
     sleep(delay);
 
     auto calc_result = recruit_calc_task();
     sleep(delay);
-
-    m_pending_recruit_slot.pop_front();
 
     if (!calc_result.success) {
         // recognition failed, perhaps open the slot again would not help
@@ -233,8 +207,7 @@ bool asst::AutoRecruitTask::recruit_one()
         // timer was not set to 09:00:00 properly, likely the tag selection was also corrupted
         // see https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
         // return and try later
-        Log.info("Timer of this slot has not been reduced as expected, will retry later.");
-        m_pending_recruit_slot.push_back(index);
+        Log.info("Timer of this slot has not been reduced as expected.");
         click_return_button();
         return false;
     }
