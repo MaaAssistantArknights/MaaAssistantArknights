@@ -37,6 +37,9 @@ namespace MeoAsstGui
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
 
+        /// <summary>
+        /// Gets or sets the view models of log items.
+        /// </summary>
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
         /// <summary>
@@ -349,7 +352,7 @@ namespace MeoAsstGui
         private bool _form = false;
 
         /// <summary>
-        /// Gets or sets the form.
+        /// Gets or sets a value indicating whether to use auto-formation.
         /// </summary>
         public bool Form
         {
