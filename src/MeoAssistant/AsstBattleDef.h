@@ -7,10 +7,15 @@
 #ifdef _MSC_VER
 #pragma warning( push )
 #pragma warning( disable: 5054 )
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-enum-enum-conversion"
 #endif
 #include <opencv2/core/mat.hpp>
 #ifdef _MSC_VER
 #pragma warning( pop )
+#else
+#pragma GCC diagnostic pop
 #endif
 
 #include "AsstTypes.h"
