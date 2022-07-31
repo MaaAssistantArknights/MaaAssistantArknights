@@ -1205,10 +1205,10 @@ namespace MeoAsstGui
 
         public async void ManualUpdate()
         {
-            var updateModle = _container.Get<VersionUpdateViewModel>();
+            var updateModel = _container.Get<VersionUpdateViewModel>();
             var task = Task.Run(() =>
             {
-                if (!updateModle.CheckAndDownloadUpdate(true))
+                if (!updateModel.CheckAndDownloadUpdate(true))
                 {
                     Execute.OnUIThread(() =>
                     {
@@ -1237,7 +1237,7 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _connectAddress, value);
                 ViewStatusStorage.Set("Connect.Address", value);
-                UpdateWindowTitle(); /* 每次修改连接地址时更新WIndowTitle */
+                UpdateWindowTitle(); /* 每次修改连接地址时更新WindowTitle */
             }
         }
 
@@ -1405,14 +1405,14 @@ namespace MeoAsstGui
         public bool UseTray = true;
 #pragma warning restore SA1401 // Fields should be private
 
-        // private bool _usetray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
+        // private bool _useTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
 
         // public bool UseTray
         // {
-        //    get { return _usetray; }
+        //    get { return _useTray; }
         //    set
         //    {
-        //        SetAndNotify(ref _usetray, value);
+        //        SetAndNotify(ref _useTray, value);
         //        ViewStatusStorage.Set("GUI.UseTray", value.ToString());
         //        var trayObj = _container.Get<TrayIcon>();
         //        trayObj.SetVisible(value);
