@@ -24,7 +24,8 @@
         {
             "name": "山",
             "level": 6,
-            "skill": 2
+            "skill": 2,
+            "skill_usage": 2
         },
         {
             "name": "煌",
