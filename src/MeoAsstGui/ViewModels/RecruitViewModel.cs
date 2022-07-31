@@ -155,7 +155,7 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _catched = false;
+        private bool _caught = false;
 
         /// <summary>
         /// Starts calculation.
@@ -169,8 +169,8 @@ namespace MeoAsstGui
             {
                 return asstProxy.AsstConnect(ref errMsg);
             });
-            _catched = await task;
-            if (!_catched)
+            _caught = await task;
+            if (!_caught)
             {
                 RecruitInfo = errMsg;
                 return;

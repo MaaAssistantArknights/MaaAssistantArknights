@@ -40,8 +40,8 @@ namespace asst::infrast
         std::vector<std::string> names;                                 // 很多基建技能是一样的，就是名字不同。所以一个技能id可能对应多个名字
         std::string desc;
         std::unordered_map<std::string, double> efficient;              // 技能效率，key：产品名（赤金、经验书等）, value: 效率数值
-        std::unordered_map<std::string, std::string> efficient_regex; // 技能效率正则，key：产品名（赤金、经验书等）, value: 效率正则。如不为空，会先对正则进行计算，再加上efficient里面的值
-        int max_num = INT_MAX;                                              // 最多选几个该技能
+        std::unordered_map<std::string, std::string> efficient_regex;   // 技能效率正则，key：产品名（赤金、经验书等）, value: 效率正则。如不为空，会先对正则进行计算，再加上efficient里面的值
+        int max_num = INT_MAX;                                          // 最多选几个该技能
 
         bool operator==(const Skill& skill) const noexcept
         {
@@ -66,7 +66,7 @@ namespace asst::infrast
 {
     struct Oper
     {
-        std::string face_hash;        // 有些干员的技能是完全一样的，做个hash区分一下不同干员
+        std::string face_hash;          // 有些干员的技能是完全一样的，做个hash区分一下不同干员
         Smiley smiley;
         double mood_ratio = 0;          // 心情进度条的百分比
         Doing doing = Doing::Invalid;
@@ -113,7 +113,7 @@ namespace asst::infrast
         std::unordered_map<std::string, int> conditions;    // 技能组合可用条件，例如：key 发电站数量，value 3
         std::vector<SkillsComb> necessary;                  // 必选技能。这里面的缺少任一，则该技能组合不可用
         std::vector<SkillsComb> optional;                   // 可选技能。
-        bool allow_external = false;                          // 当干员数没满3个的时候，是否允许补充外部干员
+        bool allow_external = false;                        // 当干员数没满3个的时候，是否允许补充外部干员
     };
 
     enum class WorkMode

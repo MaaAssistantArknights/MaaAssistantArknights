@@ -44,7 +44,7 @@ namespace MeoAsstGui
         /// </summary>
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
-        private string _actionAfterComplated = ViewStatusStorage.Get("MainFunction.ActionAfterComplated", ActionType.DoNothing.ToString());
+        private string _actionAfterCompleted = ViewStatusStorage.Get("MainFunction.ActionAfterCompleted", ActionType.DoNothing.ToString());
 
         /// <summary>
         /// Gets or sets the list of the actions after completion.
@@ -58,7 +58,7 @@ namespace MeoAsstGui
         {
             get
             {
-                if (Enum.TryParse(_actionAfterComplated, out ActionType action))
+                if (Enum.TryParse(_actionAfterCompleted, out ActionType action))
                 {
                     return action;
                 }
@@ -68,14 +68,14 @@ namespace MeoAsstGui
 
             set
             {
-                SetAndNotify(ref _actionAfterComplated, value.ToString());
+                SetAndNotify(ref _actionAfterCompleted, value.ToString());
                 string storeValue = ActionType.DoNothing.ToString();
                 if (value != ActionType.Shutdown && value != ActionType.Hibernate)
                 {
                     storeValue = value.ToString();
                 }
 
-                ViewStatusStorage.Set("MainFunction.ActionAfterComplated", storeValue);
+                ViewStatusStorage.Set("MainFunction.ActionAfterCompleted", storeValue);
             }
         }
 
@@ -634,8 +634,8 @@ namespace MeoAsstGui
             {
                 return asstProxy.AsstConnect(ref errMsg, true);
             });
-            bool catchd = await task;
-            if (!catchd)
+            bool caught = await task;
+            if (!caught)
             {
                 AddLog(errMsg, "darkred");
                 var settingsModel = _container.Get<SettingsViewModel>();
@@ -648,8 +648,8 @@ namespace MeoAsstGui
                 {
                     return asstProxy.AsstConnect(ref errMsg);
                 });
-                catchd = await task;
-                if (!catchd)
+                caught = await task;
+                if (!caught)
                 {
                     AddLog(errMsg, "darkred");
                     Idle = true;
@@ -869,8 +869,8 @@ namespace MeoAsstGui
             }
 
             var asstProxy = _container.Get<AsstProxy>();
-            bool setted = asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
-            if (setted)
+            bool isSet = asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+            if (isSet)
             {
                 AddLog(Localization.GetString("SetSuccessfully"), "Black");
             }
@@ -955,7 +955,7 @@ namespace MeoAsstGui
         /// Kills emulator.
         /// </summary>
         /// <returns>Whether the operation is successful.</returns>
-        public bool killemulator()
+        public bool killEmulator()
         {
             int pid = 0;
             string port;
@@ -969,22 +969,22 @@ namespace MeoAsstGui
                 port = "5555";
             }
 
-            string portcmd = "netstat -ano|findstr \"" + port + "\"";
-            Process checkcmd = new Process();
-            checkcmd.StartInfo.FileName = "cmd.exe";
-            checkcmd.StartInfo.UseShellExecute = false;
-            checkcmd.StartInfo.RedirectStandardInput = true;
-            checkcmd.StartInfo.RedirectStandardOutput = true;
-            checkcmd.StartInfo.RedirectStandardError = true;
-            checkcmd.StartInfo.CreateNoWindow = true;
-            checkcmd.Start();
-            checkcmd.StandardInput.WriteLine(portcmd);
-            checkcmd.StandardInput.WriteLine("exit");
+            string portCmd = "netstat -ano|findstr \"" + port + "\"";
+            Process checkCmd = new Process();
+            checkCmd.StartInfo.FileName = "cmd.exe";
+            checkCmd.StartInfo.UseShellExecute = false;
+            checkCmd.StartInfo.RedirectStandardInput = true;
+            checkCmd.StartInfo.RedirectStandardOutput = true;
+            checkCmd.StartInfo.RedirectStandardError = true;
+            checkCmd.StartInfo.CreateNoWindow = true;
+            checkCmd.Start();
+            checkCmd.StandardInput.WriteLine(portCmd);
+            checkCmd.StandardInput.WriteLine("exit");
             Regex reg = new Regex("\\s+", RegexOptions.Compiled);
             string line;
             while (true)
             {
-                line = checkcmd.StandardOutput.ReadLine();
+                line = checkCmd.StandardOutput.ReadLine();
                 try
                 {
                     line = line.Trim();
@@ -1093,11 +1093,11 @@ namespace MeoAsstGui
                     // Shutdown 会调用 OnExit 但 Exit 不会
                     Application.Current.Shutdown();
 
-                    // Enviroment.Exit(0);
+                    // Environment.Exit(0);
                     break;
 
                 case ActionType.ExitEmulator:
-                    if (!killemulator())
+                    if (!killEmulator())
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), "DarkRed");
                     }
@@ -1105,7 +1105,7 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.ExitEmulatorAndSelf:
-                    if (!killemulator())
+                    if (!killEmulator())
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), "DarkRed");
                     }
@@ -1113,7 +1113,7 @@ namespace MeoAsstGui
                     // Shutdown 会调用 OnExit 但 Exit 不会
                     Application.Current.Shutdown();
 
-                    // Enviroment.Exit(0);
+                    // Environment.Exit(0);
                     break;
 
                 case ActionType.Shutdown:

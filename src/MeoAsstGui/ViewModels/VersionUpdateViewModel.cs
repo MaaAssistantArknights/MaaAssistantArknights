@@ -256,9 +256,9 @@ namespace MeoAsstGui
 
             // 程序正在运行中，部分文件是无法覆写的，这里曲线操作下
             // 先将当前这些文件重命名，然后再把新的复制过来
-            foreach (var oldfile in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.old"))
+            foreach (var oldFile in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.old"))
             {
-                File.Delete(oldfile);
+                File.Delete(oldFile);
             }
 
             foreach (var file in uncopiedList)
@@ -451,11 +451,11 @@ namespace MeoAsstGui
 
                 Semver.SemVersion curVersionObj;
                 bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out curVersionObj);
-                Semver.SemVersion lastestVersionObj;
-                bool lastestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out lastestVersionObj);
-                if (curParsed && lastestPared)
+                Semver.SemVersion latestVersionObj;
+                bool latestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out latestVersionObj);
+                if (curParsed && latestPared)
                 {
-                    if (curVersionObj.CompareSortOrderTo(lastestVersionObj) >= 0)
+                    if (curVersionObj.CompareSortOrderTo(latestVersionObj) >= 0)
                     {
                         return false;
                     }
