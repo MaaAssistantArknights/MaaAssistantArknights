@@ -33,7 +33,7 @@ using Notification.Wpf.Controls;
 namespace MeoAsstGui
 {
     /// <summary>
-    /// The toast noficiation.
+    /// The toast notification.
     /// </summary>
     public class ToastNotification : IDisposable
     {
@@ -524,6 +524,7 @@ namespace MeoAsstGui
         #region 任务栏闪烁
 
 #pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
+
         /// <summary>
         /// 闪烁信息
         /// </summary>

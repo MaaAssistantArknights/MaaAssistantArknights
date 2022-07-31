@@ -139,7 +139,7 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
     }
     auto& json = ret.value();
 
-    bool setted = false;
+    bool is_set = false;
     std::unique_lock<std::mutex> lock(m_mutex);
     for (auto&& [id, ptr] : m_tasks_list) {
         if (id != task_id) {
@@ -147,11 +147,11 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
         }
         bool enable = json.get("enable", true);
         ptr->set_enable(enable);
-        setted = ptr->set_params(json);
+        is_set = ptr->set_params(json);
         break;
     }
 
-    return setted;
+    return is_set;
 }
 
 std::vector<uchar> asst::Assistant::get_image() const
@@ -227,7 +227,7 @@ void Assistant::working_proc()
 {
     LogTraceFunction;
 
-    std::vector<TaskId> runned_tasks;
+    std::vector<TaskId> finished_tasks;
     while (!m_thread_exit) {
         //LogTraceScope("Assistant::working_proc Loop");
 
@@ -247,7 +247,7 @@ void Assistant::working_proc()
                 .set_status(m_status);
 
             bool ret = task_ptr->run();
-            runned_tasks.emplace_back(id);
+            finished_tasks.emplace_back(id);
 
             lock.lock();
             if (!m_tasks_list.empty()) {
@@ -262,9 +262,9 @@ void Assistant::working_proc()
             task_callback(run_msg, callback_json, this);
 
             if (!m_thread_idle && m_tasks_list.empty()) {
-                callback_json["runned_tasks"] = json::array(runned_tasks);
+                callback_json["finished_tasks"] = json::array(finished_tasks);
                 task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
-                runned_tasks.clear();
+                finished_tasks.clear();
             }
 
             auto delay = Resrc.cfg().get_options().task_delay;
@@ -274,7 +274,7 @@ void Assistant::working_proc()
         }
         else {
             m_thread_idle = true;
-            runned_tasks.clear();
+            finished_tasks.clear();
             Log.flush();
             m_condvar.wait(lock);
         }

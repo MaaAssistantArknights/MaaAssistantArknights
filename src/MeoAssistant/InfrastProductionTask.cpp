@@ -100,10 +100,10 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         locked_analyzer.set_image(image);
         if (locked_analyzer.analyze()) {
-            m_cur_num_of_lokced_opers = static_cast<int>(locked_analyzer.get_result().size());
+            m_cur_num_of_locked_opers = static_cast<int>(locked_analyzer.get_result().size());
         }
         else {
-            m_cur_num_of_lokced_opers = 0;
+            m_cur_num_of_locked_opers = 0;
         }
 
         /* 进入干员选择页面 */
@@ -230,26 +230,26 @@ bool asst::InfrastProductionTask::optimal_calc()
 {
     LogTraceFunction;
     auto& facility_info = Resrc.infrast().get_facility_info(facility_name());
-    int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
+    int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_locked_opers;
 
-    std::vector<infrast::SkillsComb> all_avaliable_combs;
-    all_avaliable_combs.reserve(m_all_available_opers.size());
+    std::vector<infrast::SkillsComb> all_available_combs;
+    all_available_combs.reserve(m_all_available_opers.size());
     for (auto&& oper : m_all_available_opers) {
         auto comb = efficient_regex_calc(oper.skills);
         comb.name_img = oper.name_img;
-        all_avaliable_combs.emplace_back(std::move(comb));
+        all_available_combs.emplace_back(std::move(comb));
     }
 
     // 先把单个的技能按效率排个序，取效率最高的几个
     std::vector<infrast::SkillsComb> optimal_combs;
     optimal_combs.reserve(cur_max_num_of_opers);
     double max_efficient = 0;
-    std::sort(all_avaliable_combs.begin(), all_avaliable_combs.end(),
+    std::sort(all_available_combs.begin(), all_available_combs.end(),
         [&](const infrast::SkillsComb& lhs, const infrast::SkillsComb& rhs) -> bool {
             return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
         });
 
-    for (const auto& comb : all_avaliable_combs) {
+    for (const auto& comb : all_available_combs) {
         std::string skill_str;
         for (const auto& skill : comb.skills) {
             skill_str += skill.id + " ";
@@ -259,7 +259,7 @@ bool asst::InfrastProductionTask::optimal_calc()
 
     std::unordered_map<std::string, int> skills_num;
     for (int i = 0; i != m_all_available_opers.size(); ++i) {
-        const auto& comb = all_avaliable_combs.at(i);
+        const auto& comb = all_available_combs.at(i);
 
         bool out_of_num = false;
         for (auto&& skill : comb.skills) {
@@ -273,7 +273,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         }
 
         optimal_combs.emplace_back(comb);
-        max_efficient += all_avaliable_combs.at(i).efficient.at(m_product);
+        max_efficient += all_available_combs.at(i).efficient.at(m_product);
 
         for (auto&& skill : comb.skills) {
             ++skills_num[skill.id];
@@ -295,7 +295,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     }
 
     // 如果有被锁住的干员，说明当前基建没升满级，组合就不启用
-    if (m_cur_num_of_lokced_opers != 0) {
+    if (m_cur_num_of_locked_opers != 0) {
         m_optimal_combs = std::move(optimal_combs);
         return true;
     }
@@ -304,7 +304,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     auto& all_group = Resrc.infrast().get_skills_group(facility_name());
     for (const infrast::SkillsGroup& group : all_group) {
         Log.trace(group.desc);
-        auto cur_available_opers = all_avaliable_combs;
+        auto cur_available_opers = all_available_combs;
         bool group_unavailable = false;
         std::vector<infrast::SkillsComb> cur_combs;
         cur_combs.reserve(cur_max_num_of_opers);
@@ -458,7 +458,7 @@ bool asst::InfrastProductionTask::opers_choose()
     bool has_error = false;
 
     auto& facility_info = Resrc.infrast().get_facility_info(facility_name());
-    int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_lokced_opers;
+    int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_locked_opers;
 
     const int face_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
         Task.get("InfrastOperFaceHash"))->dist_threshold;

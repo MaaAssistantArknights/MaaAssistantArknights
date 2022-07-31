@@ -30,6 +30,7 @@ namespace MeoAsstGui
 #pragma warning restore SA1135 // Using directives should be qualified
 
 #pragma warning disable SA1121 // Use built-in type alias
+
     /// <summary>
     /// MeoAssistant 代理类。
     /// </summary>
@@ -37,7 +38,7 @@ namespace MeoAsstGui
     {
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
-        private delegate void ProcCallbckMsg(AsstMsg msg, JObject details);
+        private delegate void ProcCallbackMsg(AsstMsg msg, JObject details);
 
         [DllImport("MeoAssistant.dll")]
         private static extern bool AsstLoadResource(byte[] dirname);
@@ -248,7 +249,7 @@ namespace MeoAsstGui
 
             // Console.WriteLine(json_str);
             JObject json = (JObject)JsonConvert.DeserializeObject(json_str);
-            ProcCallbckMsg dlg = ProcMsg;
+            ProcCallbackMsg dlg = ProcMsg;
             Execute.OnUIThread(() =>
             {
                 dlg((AsstMsg)msg, json);
@@ -394,13 +395,13 @@ namespace MeoAsstGui
 
                 case AsstMsg.AllTasksCompleted:
                     bool isMainTaskQueueAllCompleted = true;
-                    var runned_tasks = details["runned_tasks"] as JArray;
-                    if (runned_tasks.Count == 1)
+                    var finished_tasks = details["finished_tasks"] as JArray;
+                    if (finished_tasks.Count == 1)
                     {
-                        var unique_runned_task = (TaskId)runned_tasks[0];
-                        if (unique_runned_task == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
-                            || unique_runned_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
-                            || unique_runned_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
+                        var unique_finished_task = (TaskId)finished_tasks[0];
+                        if (unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
                         {
                             isMainTaskQueueAllCompleted = false;
                         }
@@ -888,9 +889,9 @@ namespace MeoAsstGui
         /// 连接模拟器。
         /// </summary>
         /// <param name="error">具体的连接错误。</param>
-        /// <param name="firsttry">是否为第一次尝试。</param>
+        /// <param name="first_try">是否为第一次尝试。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstConnect(ref string error, bool firsttry = false)
+        public bool AsstConnect(ref string error, bool first_try = false)
         {
             if (!LoadGlobalResource())
             {
@@ -935,7 +936,7 @@ namespace MeoAsstGui
 
             if (!ret)
             {
-                if (firsttry)
+                if (first_try)
                 {
                     error = Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator");
                 }
@@ -1091,14 +1092,14 @@ namespace MeoAsstGui
         /// 领取信用及商店购物。
         /// </summary>
         /// <param name="with_shopping">是否购物。</param>
-        /// <param name="firstlist">优先购买列表。</param>
+        /// <param name="first_list">优先购买列表。</param>
         /// <param name="blacklist">黑名单列表。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendMall(bool with_shopping, string[] firstlist, string[] blacklist)
+        public bool AsstAppendMall(bool with_shopping, string[] first_list, string[] blacklist)
         {
             var task_params = new JObject();
             task_params["shopping"] = with_shopping;
-            task_params["buy_first"] = new JArray { firstlist };
+            task_params["buy_first"] = new JArray { first_list };
             task_params["blacklist"] = new JArray { blacklist };
             TaskId id = AsstAppendTaskWithEncoding("Mall", task_params);
             _latestTaskId[TaskType.Mall] = id;

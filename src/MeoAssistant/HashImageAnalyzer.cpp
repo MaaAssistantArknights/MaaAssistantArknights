@@ -31,7 +31,7 @@ bool asst::HashImageAnalyzer::analyze()
         if (m_need_bound) {
             to_hash = bound_bin(to_hash);
         }
-        std::string hash_result = shash(to_hash);
+        std::string hash_result = s_hash(to_hash);
         //Log.debug(hash_result);
 
         int min_dist = INT_MAX;
@@ -86,7 +86,7 @@ const std::vector<std::string>& asst::HashImageAnalyzer::get_hash() const noexce
     return m_hash_result;
 }
 
-std::string asst::HashImageAnalyzer::shash(const cv::Mat& img)
+std::string asst::HashImageAnalyzer::s_hash(const cv::Mat& img)
 {
     constexpr static int HashKernelSize = 16;
     cv::Mat resized;

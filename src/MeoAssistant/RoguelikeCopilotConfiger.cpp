@@ -21,12 +21,12 @@ bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
         data.stage_name = stage_name;
         if (auto opt = stage_info.find<json::array>("replacement_home")) {
             for (auto& point : opt.value()) {
-                data.replacement_home.emplace_back((int)point[0], (int)point[1]);
+                data.replacement_home.emplace_back(static_cast<int>(point[0]), static_cast<int>(point[1]));
             }
         }
         if (auto opt = stage_info.find<json::array>("key_kills")) {
             for (const auto& key_kill : opt.value()) {
-                data.key_kills.emplace_back((int)key_kill);
+                data.key_kills.emplace_back(static_cast<int>(key_kill));
             }
         }
         m_stage_data.emplace(std::move(stage_name), std::move(data));

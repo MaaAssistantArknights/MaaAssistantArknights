@@ -139,7 +139,7 @@ void asst::InfrastAbstractTask::await_swipe()
     sleep(extra_delay);
 }
 
-bool asst::InfrastAbstractTask::click_bottomleft_tab()
+bool asst::InfrastAbstractTask::click_bottom_left_tab()
 {
     LogTraceFunction;
 

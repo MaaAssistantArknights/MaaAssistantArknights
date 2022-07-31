@@ -45,8 +45,8 @@ void asst::DepotImageAnalyzer::resize()
     LogTraceFunction;
 
     m_resized_rect = Task.get("DeoptMatchData")->roi;
-    cv::Size dsize(m_resized_rect.width, m_resized_rect.height);
-    cv::resize(m_image, m_image_resized, dsize, 0, 0, cv::INTER_AREA);
+    cv::Size d_size(m_resized_rect.width, m_resized_rect.height);
+    cv::resize(m_image, m_image_resized, d_size, 0, 0, cv::INTER_AREA);
 #ifdef ASST_DEBUG
     cv::resize(m_image_draw, m_image_draw_resized, dsize, 0, 0, cv::INTER_AREA);
 #endif
@@ -206,7 +206,7 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
     // split
     const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
     std::vector<cv::Range> contours;
-    int iright = bin.cols - 1, ileft = 0;
+    int i_right = bin.cols - 1, i_left = 0;
     bool in = false;
     int spacing = 0;
 
@@ -219,18 +219,18 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
             }
         }
         if (in && !has_white) {
-            ileft = i;
+            i_left = i;
             in = false;
             spacing = 0;
-            contours.emplace_back(ileft, iright + 1);   // range 是前闭后开的
+            contours.emplace_back(i_left, i_right + 1);   // range 是前闭后开的
         }
         else if (!in && has_white) {
-            iright = i;
+            i_right = i;
             in = true;
         }
         else if (!in) {
             if (++spacing > max_spacing &&
-                ileft != 0) {
+                i_left != 0) {
                 // filter out noise
                 break;
             }

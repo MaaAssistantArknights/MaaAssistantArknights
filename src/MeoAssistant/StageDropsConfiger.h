@@ -49,8 +49,8 @@ namespace asst
     };
     struct StageDropInfo
     {
-        StageDropType droptype = StageDropType::Unknown;
-        std::string droptype_name;
+        StageDropType drop_type = StageDropType::Unknown;
+        std::string drop_type_name;
         std::string item_id;
         std::string item_name;
         int quantity = 0;

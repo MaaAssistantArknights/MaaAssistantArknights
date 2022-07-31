@@ -168,7 +168,7 @@ namespace MeoAsstGui
         }
 
         /// <summary>
-        /// Sets visiblility.
+        /// Sets visibility.
         /// </summary>
         /// <param name="visible">Whether it is visible.</param>
         public void SetVisible(bool visible)
