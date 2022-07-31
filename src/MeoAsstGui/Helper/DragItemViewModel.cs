@@ -47,7 +47,7 @@ namespace MeoAsstGui
         private bool _isChecked;
 
         /// <summary>
-        /// Gets or sets whether the key is checked.
+        /// Gets or sets a value indicating whether gets or sets whether the key is checked.
         /// </summary>
         public bool IsChecked
         {
