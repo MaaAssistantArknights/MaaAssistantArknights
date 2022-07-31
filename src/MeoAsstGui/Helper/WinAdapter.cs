@@ -53,7 +53,7 @@ namespace MeoAsstGui
             { "XYAZ",  new List<string> { ".\\adb.exe" } },
         };
 
-        private readonly Dictionary<string, string> adbAbsoultePathDict = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> adbAbsolutePathDict = new Dictionary<string, string>();
 
         /// <summary>
         /// Refreshes emulator information.
@@ -75,7 +75,7 @@ namespace MeoAsstGui
                         var adbPath = Path.GetDirectoryName(processPath) + "\\" + path;
                         if (File.Exists(adbPath))
                         {
-                            adbAbsoultePathDict.Add(emulatorId, adbPath);
+                            adbAbsolutePathDict.Add(emulatorId, adbPath);
                         }
                     }
                 }
@@ -91,9 +91,9 @@ namespace MeoAsstGui
         /// <returns>The ADB path of the emulator.</returns>
         public string GetAdbPathByEmulatorName(string emulatorName)
         {
-            if (adbAbsoultePathDict.Keys.Contains(emulatorName))
+            if (adbAbsolutePathDict.Keys.Contains(emulatorName))
             {
-                return adbAbsoultePathDict[emulatorName];
+                return adbAbsolutePathDict[emulatorName];
             }
 
             return null;

@@ -1654,6 +1654,7 @@ namespace MeoAsstGui
 
         /* 界面设置 */
 #pragma warning disable SA1401 // Fields should be private
+
         /// <summary>
         /// Gets or sets a value indicating whether to use tray icon.
         /// </summary>

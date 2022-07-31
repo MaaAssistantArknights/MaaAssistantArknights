@@ -765,15 +765,15 @@ void asst::Controller::clear_lf_info()
 
 cv::Mat asst::Controller::get_resized_image() const
 {
-    const static cv::Size dsize(m_scale_size.first, m_scale_size.second);
+    const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
 
     std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
     if (m_cache_image.empty()) {
         Log.error("image is empty");
-        return { dsize, CV_8UC3 };
+        return { d_size, CV_8UC3 };
     }
     cv::Mat resized_mat;
-    cv::resize(m_cache_image, resized_mat, dsize, 0.0, 0.0, cv::INTER_AREA);
+    cv::resize(m_cache_image, resized_mat, d_size, 0.0, 0.0, cv::INTER_AREA);
     return resized_mat;
 }
 
@@ -1217,8 +1217,8 @@ cv::Mat asst::Controller::get_image(bool raw)
         }
     }
     if (!success) {
-        const static cv::Size dsize(m_scale_size.first, m_scale_size.second);
-        m_cache_image = cv::Mat(dsize, CV_8UC3);
+        const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
+        m_cache_image = cv::Mat(d_size, CV_8UC3);
     }
 
     if (raw) {

@@ -10,7 +10,7 @@ bool asst::InfrastMfgTask::_run()
 
     swipe_to_the_left_of_main_ui();
     enter_facility(0);
-    click_bottomleft_tab();
+    click_bottom_left_tab();
 
     if (!shift_facility_list()) {
         return false;

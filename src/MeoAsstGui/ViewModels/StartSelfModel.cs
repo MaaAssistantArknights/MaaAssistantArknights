@@ -17,7 +17,7 @@ using Microsoft.Win32;
 namespace MeoAsstGui
 {
     /// <summary>
-    /// The model of autostarting settings.
+    /// The model of auto-starting settings.
     /// </summary>
     public class StartSelfModel
     {

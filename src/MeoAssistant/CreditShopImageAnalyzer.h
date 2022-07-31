@@ -29,11 +29,11 @@ namespace asst
         {
             AbstractImageAnalyzer::set_image(image, roi);
         }
-        bool commoditys_analyze();
+        bool commodities_analyze();
         bool whether_to_buy_analyze();
         bool sold_out_analyze();
 
-        std::vector<Rect> m_commoditys;
+        std::vector<Rect> m_commodities;
         std::vector<std::pair<Rect, std::string>> m_need_to_buy;
         std::vector<Rect> m_result;
 

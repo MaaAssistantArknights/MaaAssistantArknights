@@ -21,37 +21,37 @@ void asst::CreditShopImageAnalyzer::set_white_list(std::vector<std::string> blac
 
 bool asst::CreditShopImageAnalyzer::analyze()
 {
-    m_commoditys.clear();
+    m_commodities.clear();
     m_need_to_buy.clear();
     m_result.clear();
 
-    return commoditys_analyze() && whether_to_buy_analyze() && sold_out_analyze();
+    return commodities_analyze() && whether_to_buy_analyze() && sold_out_analyze();
 }
 
-bool asst::CreditShopImageAnalyzer::commoditys_analyze()
+bool asst::CreditShopImageAnalyzer::commodities_analyze()
 {
     // 识别信用点的图标
-    const auto commodity_task_ptr = Task.get("CreditShop-Commoditys");
-    MultiMatchImageAnalyzer mm_annlyzer(m_image);
-    mm_annlyzer.set_task_info(commodity_task_ptr);
+    const auto commodity_task_ptr = Task.get("CreditShop-Commodities");
+    MultiMatchImageAnalyzer mm_analyzer(m_image);
+    mm_analyzer.set_task_info(commodity_task_ptr);
 
-    if (!mm_annlyzer.analyze()) {
+    if (!mm_analyzer.analyze()) {
         return false;
     }
-    mm_annlyzer.sort_result_horizontal();
-    auto credit_points_result = mm_annlyzer.get_result();
+    mm_analyzer.sort_result_horizontal();
+    auto credit_points_result = mm_analyzer.get_result();
     if (credit_points_result.empty()) {
         return false;
     }
 
-    m_commoditys.reserve(credit_points_result.size());
+    m_commodities.reserve(credit_points_result.size());
     for (const MatchRect& mr : credit_points_result) {
         Rect commodity;
         commodity.x = mr.rect.x + commodity_task_ptr->rect_move.x;
         commodity.y = mr.rect.y + commodity_task_ptr->rect_move.y;
         commodity.width = commodity_task_ptr->rect_move.width;
         commodity.height = commodity_task_ptr->rect_move.height;
-        m_commoditys.emplace_back(commodity);
+        m_commodities.emplace_back(commodity);
     }
 
     return true;
@@ -61,7 +61,7 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 {
     const auto product_name_task_ptr = Task.get<OcrTaskInfo>("CreditShop-ProductName");
 
-    for (const Rect& commodity : m_commoditys) {
+    for (const Rect& commodity : m_commodities) {
         // 商品名的区域
         Rect name_roi = product_name_task_ptr->roi;
         name_roi.x += commodity.x;

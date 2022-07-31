@@ -9,7 +9,7 @@ bool asst::PackageTask::run()
         Log.info("task disabled, pass", basic_info().to_string());
         return true;
     }
-    m_runned = true;
+    m_finished = true;
 
     const auto task_delay = Resrc.cfg().get_options().task_delay;
 

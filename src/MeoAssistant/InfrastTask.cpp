@@ -35,7 +35,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
 
 bool asst::InfrastTask::set_params(const json::value& params)
 {
-    if (!m_runned) {
+    if (!m_finished) {
         auto facility_opt = params.find<json::array>("facility");
         if (!facility_opt) {
             return false;

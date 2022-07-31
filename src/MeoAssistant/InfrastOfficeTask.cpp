@@ -11,7 +11,7 @@ bool asst::InfrastOfficeTask::_run()
 
 	swipe_to_the_right_of_main_ui();
 	enter_facility();
-	click_bottomleft_tab();
+	click_bottom_left_tab();
 
 	for (int i = 0; i <= OperSelectRetryTimes; ++i) {
 		if (need_exit()) {

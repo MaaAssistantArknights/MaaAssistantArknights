@@ -31,7 +31,7 @@ namespace asst
 
 		std::string m_product;
 		std::string m_uses_of_drones;
-		int m_cur_num_of_lokced_opers = 0;
+		int m_cur_num_of_locked_opers = 0;
 		std::vector<infrast::Oper> m_all_available_opers;
 		std::vector<infrast::SkillsComb> m_optimal_combs;
 		std::vector<Rect> m_facility_list_tabs;

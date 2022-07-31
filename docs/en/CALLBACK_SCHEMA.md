@@ -94,7 +94,7 @@ Todo
 {
     "taskchain": string,            // Last task chain
     "uuid": string                  // UUID
-    "runned_tasks": [               // ID of the last task run
+    "finished_tasks": [               // ID of the last task run
         int,
         ...
     ]
