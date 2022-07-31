@@ -100,15 +100,21 @@ namespace asst
         HANDLE m_pipe_write = nullptr;               // 写管道句柄
         HANDLE m_pipe_child_read = nullptr;          // 子进程的读管道句柄
         HANDLE m_pipe_child_write = nullptr;         // 子进程的写管道句柄
+
+#ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+#endif
         SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 }; // 管道安全描述符
         STARTUPINFOA m_child_startup_info = { 0 };   // 子进程启动信息
 
         WSADATA m_wsa_data = { 0 };
         SOCKET m_server_sock = 0ULL;
         sockaddr_in m_server_addr = { 0 };
+#ifdef __GNUC__
 #pragma GCC diagnostic pop
+#endif
+
 #else
         constexpr static int PIPE_READ = 0;
         constexpr static int PIPE_WRITE = 1;
