@@ -13,10 +13,20 @@
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// Generic combinated data class.
+    /// </summary>
+    /// <typeparam name="TValueType">The type of value.</typeparam>
     public class GenericCombData<TValueType>
     {
+        /// <summary>
+        /// The name displayed.
+        /// </summary>
         public string Display { get; set; }
 
+        /// <summary>
+        /// The value.
+        /// </summary>
         public TValueType Value { get; set; }
     }
 }

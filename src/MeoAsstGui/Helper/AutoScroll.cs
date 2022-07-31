@@ -17,20 +17,36 @@ using System.Windows.Controls;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The auto scroll property.
+    /// </summary>
     public static class AutoScroll
     {
         private static bool _autoScroll;
 
+        /// <summary>
+        /// Gets auto scroll property.
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> instance.</param>
+        /// <returns>The property value.</returns>
         public static bool GetAutoScroll(DependencyObject obj)
         {
             return (bool)obj.GetValue(AutoScrollProperty);
         }
 
+        /// <summary>
+        /// Sets auto scroll property.
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> instance.</param>
+        /// <param name="value">The new property value.</param>
         public static void SetAutoScroll(DependencyObject obj, bool value)
         {
             obj.SetValue(AutoScrollProperty, value);
         }
 
+        /// <summary>
+        /// The auto scroll property.
+        /// </summary>
         public static readonly DependencyProperty AutoScrollProperty =
             DependencyProperty.RegisterAttached("AutoScroll", typeof(bool), typeof(AutoScroll), new PropertyMetadata(false, AutoScrollPropertyChanged));
 
