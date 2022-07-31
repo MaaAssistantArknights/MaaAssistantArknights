@@ -40,7 +40,7 @@ namespace asst
         virtual AbstractTask& set_task_id(int task_id) noexcept;
 
         template<typename PluginType>
-        std::shared_ptr<PluginType> regiseter_plugin()
+        std::shared_ptr<PluginType> register_plugin()
         {
             static_assert(std::is_base_of<AbstractTaskPlugin, PluginType>::value,
                 "Plugin must inherit AbstractTaskPlugin");
