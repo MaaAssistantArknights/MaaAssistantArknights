@@ -18,11 +18,19 @@ using StyletIoC;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The view model of recruit.
+    /// </summary>
     public class RecruitViewModel : Screen
     {
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecruitViewModel"/> class.
+        /// </summary>
+        /// <param name="container">The IoC container.</param>
+        /// <param name="windowManager">The window manager.</param>
         public RecruitViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -32,6 +40,9 @@ namespace MeoAsstGui
 
         private string _recruitInfo = Localization.GetString("RecognitionTip");
 
+        /// <summary>
+        /// Gets or sets the recruit info.
+        /// </summary>
         public string RecruitInfo
         {
             get { return _recruitInfo; }
@@ -40,6 +51,9 @@ namespace MeoAsstGui
 
         private string _recruitResult;
 
+        /// <summary>
+        /// Gets or sets the recruit result.
+        /// </summary>
         public string RecruitResult
         {
             get { return _recruitResult; }
@@ -48,6 +62,9 @@ namespace MeoAsstGui
 
         private bool _chooseLevel3 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel3", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to choose level 3.
+        /// </summary>
         public bool ChooseLevel3
         {
             get
@@ -64,6 +81,9 @@ namespace MeoAsstGui
 
         private bool _chooseLevel4 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel4", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to choose level 4.
+        /// </summary>
         public bool ChooseLevel4
         {
             get
@@ -80,6 +100,9 @@ namespace MeoAsstGui
 
         private bool _chooseLevel5 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel5", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to choose level 5.
+        /// </summary>
         public bool ChooseLevel5
         {
             get
@@ -96,6 +119,9 @@ namespace MeoAsstGui
 
         private bool _chooseLevel6 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel6", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to choose level 6.
+        /// </summary>
         public bool ChooseLevel6
         {
             get
@@ -112,6 +138,9 @@ namespace MeoAsstGui
 
         private bool _autoSetTime = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.AutoSetTime", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to set time automatically.
+        /// </summary>
         public bool AutoSetTime
         {
             get
@@ -128,6 +157,9 @@ namespace MeoAsstGui
 
         private bool _catched = false;
 
+        /// <summary>
+        /// Starts calculation.
+        /// </summary>
         public async void StartCalc()
         {
             var asstProxy = _container.Get<AsstProxy>();

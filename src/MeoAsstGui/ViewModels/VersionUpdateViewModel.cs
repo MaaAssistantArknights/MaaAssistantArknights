@@ -27,11 +27,19 @@ using StyletIoC;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The view model of version update.
+    /// </summary>
     public class VersionUpdateViewModel : Screen
     {
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VersionUpdateViewModel"/> class.
+        /// </summary>
+        /// <param name="container">The IoC container.</param>
+        /// <param name="windowManager">The window manager.</param>
         public VersionUpdateViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -57,6 +65,9 @@ namespace MeoAsstGui
 
         private string _updateTag = ViewStatusStorage.Get("VersionUpdate.name", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the update tag.
+        /// </summary>
         public string UpdateTag
         {
             get
@@ -74,6 +85,10 @@ namespace MeoAsstGui
         private string _updateInfo = ViewStatusStorage.Get("VersionUpdate.body", string.Empty);
 
         // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
+
+        /// <summary>
+        /// Gets or sets the update info.
+        /// </summary>
         public string UpdateInfo
         {
             get
@@ -97,6 +112,9 @@ namespace MeoAsstGui
 
         private string _updateUrl;
 
+        /// <summary>
+        /// Gets or sets the update URL.
+        /// </summary>
         public string UpdateUrl
         {
             get
@@ -133,6 +151,10 @@ namespace MeoAsstGui
         //         }
         //     }
         // }
+
+        /// <summary>
+        /// Gets a value indicating whether it is the first boot after updating.
+        /// </summary>
         public bool IsFirstBootAfterUpdate
         {
             get { return UpdateTag != string.Empty && UpdateTag == _curVersion; }
@@ -140,6 +162,9 @@ namespace MeoAsstGui
 
         private string _updatePackageName = ViewStatusStorage.Get("VersionUpdate.package", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the name of the update package.
+        /// </summary>
         public string UpdatePackageName
         {
             get
@@ -160,9 +185,9 @@ namespace MeoAsstGui
         private JObject _assetsObject;
 
         /// <summary>
-        /// 检查是否有已下载的更新包，如果有立即更新并重启进程
+        /// 检查是否有已下载的更新包，如果有立即更新并重启进程。
         /// </summary>
-        /// <returns>操作成功返回 true，反之则返回 false</returns>
+        /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckAndUpdateNow()
         {
             if (UpdateTag == string.Empty
@@ -262,10 +287,10 @@ namespace MeoAsstGui
         }
 
         /// <summary>
-        /// 检查更新，并下载更新包
+        /// 检查更新，并下载更新包。
         /// </summary>
-        /// <param name="force">是否强制检查</param>
-        /// <returns>操作成功返回 true，反之则返回 false</returns>
+        /// <param name="force">是否强制检查。</param>
+        /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckAndDownloadUpdate(bool force = false)
         {
             // 检查更新
@@ -367,10 +392,10 @@ namespace MeoAsstGui
         }
 
         /// <summary>
-        /// 检查更新
+        /// 检查更新。
         /// </summary>
-        /// <param name="force">是否强制检查</param>
-        /// <returns>操作成功返回 true，反之则返回 false</returns>
+        /// <param name="force">是否强制检查。</param>
+        /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckUpdate(bool force = false)
         {
             // 开发版不检查更新
@@ -523,7 +548,7 @@ namespace MeoAsstGui
         /// <param name="contentType">获取对象的物联网通用类型</param>
         /// <param name="downloader">下载方式，如为空则使用 CSharp 原生方式下载</param>
         /// <param name="saveTo">保存至的文件夹，如为空则使用当前位置</param>
-        /// <returns>操作成功返回 true，反之则返回 false</returns>
+        /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool DownloadFile(string url, string fileName, string contentType = null, string downloader = null, string saveTo = null)
         {
             string usedDownloader;
@@ -847,6 +872,11 @@ namespace MeoAsstGui
             UpdateInfo = string.Empty;
         }
 
+        /// <summary>
+        /// The event handler of opening hyperlink.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event arguments.</param>
         public void OpenHyperlink(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
             Process.Start(e.Parameter.ToString());
