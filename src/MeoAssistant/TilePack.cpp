@@ -1,6 +1,13 @@
 #include "TilePack.h"
 
+#ifdef _MSC_VER
+#pragma warning( push )
+#pragma warning( disable: 5054 )
+#endif
 #include <Arknights-Tile-Pos/TileCalc.hpp>
+#ifdef _MSC_VER
+#pragma warning( pop )
+#endif
 
 #include "Logger.hpp"
 

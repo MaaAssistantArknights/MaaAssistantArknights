@@ -5,7 +5,14 @@
 #include <thread>
 #include <regex>
 
+#ifdef _MSC_VER
+#pragma warning( push )
+#pragma warning( disable: 5054 )
+#endif
 #include <opencv2/opencv.hpp>
+#ifdef _MSC_VER
+#pragma warning( pop )
+#endif
 #include <utility>
 
 #include "AsstUtils.hpp"

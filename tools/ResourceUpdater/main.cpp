@@ -2,7 +2,14 @@
 #include <fstream>
 #include <unordered_set>
 
+#ifdef _MSC_VER
+#pragma warning( push )
+#pragma warning( disable: 5054 )
+#endif
 #include <opencv2/opencv.hpp>
+#ifdef _MSC_VER
+#pragma warning( pop )
+#endif
 #include <meojson/json.hpp>
 
 bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);

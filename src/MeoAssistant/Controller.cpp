@@ -16,12 +16,23 @@
 #include <vector>
 #include <memory>
 
+#ifdef _MSC_VER
+#pragma warning( push )
+#pragma warning( disable: 5054 )
+#endif
 #include <opencv2/opencv.hpp>
+#ifdef _MSC_VER
+#pragma warning( pop )
+#endif
 
+#ifdef _MSC_VER
 #pragma warning( push )
 #pragma warning( disable : 4068)
+#endif
 #include <zlib/decompress.hpp>
+#ifdef _MSC_VER
 #pragma warning( pop )
+#endif
 
 #include "AsstTypes.h"
 #include "Logger.hpp"
