@@ -55,6 +55,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>..\..\x64\Release\MeoAsstGui.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RelWithDebInfo|x64'">
     <OutputPath>..\..\x64\RelWithDebInfo\</OutputPath>
