@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using InfrastProductionTask::InfrastProductionTask;
-        virtual ~InfrastPowerTask() = default;
+        virtual ~InfrastPowerTask() override = default;
 
         virtual size_t max_num_of_facilities() const noexcept override { return 3ULL; }
 

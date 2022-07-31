@@ -11,7 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -19,6 +18,9 @@ using System.Linq;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The emulator adapter.
+    /// </summary>
     public class WinAdapter
     {
         private static readonly Dictionary<string, string> emulatorIdDict = new Dictionary<string, string>
@@ -51,8 +53,12 @@ namespace MeoAsstGui
             { "XYAZ",  new List<string> { ".\\adb.exe" } },
         };
 
-        private readonly Dictionary<string, string> adbAbsoultePathDict = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> adbAbsolutePathDict = new Dictionary<string, string>();
 
+        /// <summary>
+        /// Refreshes emulator information.
+        /// </summary>
+        /// <returns>The list of emulators.</returns>
         public List<string> RefreshEmulatorsInfo()
         {
             var allProcess = Process.GetProcesses();
@@ -69,7 +75,7 @@ namespace MeoAsstGui
                         var adbPath = Path.GetDirectoryName(processPath) + "\\" + path;
                         if (File.Exists(adbPath))
                         {
-                            adbAbsoultePathDict.Add(emulatorId, adbPath);
+                            adbAbsolutePathDict.Add(emulatorId, adbPath);
                         }
                     }
                 }
@@ -78,20 +84,30 @@ namespace MeoAsstGui
             return emulators;
         }
 
+        /// <summary>
+        /// Gets ADB path by emulator name.
+        /// </summary>
+        /// <param name="emulatorName">The name of the emulator.</param>
+        /// <returns>The ADB path of the emulator.</returns>
         public string GetAdbPathByEmulatorName(string emulatorName)
         {
-            if (adbAbsoultePathDict.Keys.Contains(emulatorName))
+            if (adbAbsolutePathDict.Keys.Contains(emulatorName))
             {
-                return adbAbsoultePathDict[emulatorName];
+                return adbAbsolutePathDict[emulatorName];
             }
 
             return null;
         }
 
+        /// <summary>
+        /// Gets ADB addresses by an ADB path.
+        /// </summary>
+        /// <param name="adbPath">The ADB path.</param>
+        /// <returns>The list of ADB addresses.</returns>
         public List<string> GetAdbAddresses(string adbPath)
         {
             var addresses = new List<string>();
-            using (Process process = new System.Diagnostics.Process())
+            using (Process process = new Process())
             {
                 process.StartInfo.FileName = adbPath;
                 process.StartInfo.Arguments = "devices";

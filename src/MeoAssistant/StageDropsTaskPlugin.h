@@ -16,7 +16,7 @@ namespace asst
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~StageDropsTaskPlugin() = default;
+        virtual ~StageDropsTaskPlugin() override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
         virtual void set_task_ptr(AbstractTask* ptr) override;
@@ -30,13 +30,13 @@ namespace asst
 
         bool recognize_drops();
         void drop_info_callback();
-        void set_startbutton_delay();
+        void set_start_button_delay();
         bool check_stage_valid();
         bool check_specify_quantity() const;
         void stop_task();
         void upload_to_penguin();
 
-        static constexpr int64_t RecognizationTimeOffset = 20;
+        static constexpr int64_t RecognitionTimeOffset = 20;
 
         std::string m_stage_code;
         StageDifficulty m_stage_difficulty = StageDifficulty::Normal;
@@ -45,7 +45,7 @@ namespace asst
         std::unordered_map<std::string, int> m_drop_stats;
         json::value m_cur_info_json;
 
-        bool m_startbutton_delay_setted = false;
+        bool m_start_button_delay_is_set = false;
         std::vector<std::future<void>> m_upload_pending;
         ProcessTask* m_cast_ptr = nullptr;
         bool m_enable_penguid = false;

@@ -21,13 +21,14 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using Notification.Wpf.Constants;
-using Notification.Wpf.Controls;
 using Stylet;
 using StyletIoC;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The view model of settings.
+    /// </summary>
     public class SettingsViewModel : Screen
     {
         private readonly IWindowManager _windowManager;
@@ -38,13 +39,24 @@ namespace MeoAsstGui
 
         private readonly string _versionInfo = Localization.GetString("Version") + ": " + Marshal.PtrToStringAnsi(AsstGetVersion());
 
+        /// <summary>
+        /// Gets the version info.
+        /// </summary>
         public string VersionInfo
         {
             get { return _versionInfo; }
         }
 
+        /// <summary>
+        /// The Pallas language key.
+        /// </summary>
         public static readonly string PallasLangKey = "pallas";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
+        /// </summary>
+        /// <param name="container">The IoC container.</param>
+        /// <param name="windowManager">The window manager.</param>
         public SettingsViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -83,6 +95,9 @@ namespace MeoAsstGui
 
         private List<string> _listTitle = new List<string>();
 
+        /// <summary>
+        /// Gets or sets the list title.
+        /// </summary>
         public List<string> ListTitle
         {
             get { return _listTitle; }
@@ -107,7 +122,7 @@ namespace MeoAsstGui
             for (int i = 0; i != facility_list.Length; ++i)
             {
                 var facility = facility_list[i];
-                int order = -1;
+                int order;
                 bool parsed = int.TryParse(ViewStatusStorage.Get("Infrast.Order." + facility, "-1"), out order);
 
                 if (!parsed || order < 0)
@@ -219,6 +234,9 @@ namespace MeoAsstGui
 
         private bool _idle = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether it is idle.
+        /// </summary>
         public bool Idle
         {
             get { return _idle; }
@@ -228,6 +246,9 @@ namespace MeoAsstGui
         /* 启动设置 */
         private bool _startSelf = StartSelfModel.CheckStart();
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to start itself.
+        /// </summary>
         public bool StartSelf
         {
             get
@@ -244,6 +265,9 @@ namespace MeoAsstGui
 
         private bool _runDirectly = Convert.ToBoolean(ViewStatusStorage.Get("Start.RunDirectly", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to run directly.
+        /// </summary>
         public bool RunDirectly
         {
             get
@@ -260,6 +284,9 @@ namespace MeoAsstGui
 
         private bool _startEmulator = Convert.ToBoolean(ViewStatusStorage.Get("Start.StartEmulator", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to start emulator.
+        /// </summary>
         public bool StartEmulator
         {
             get
@@ -280,6 +307,9 @@ namespace MeoAsstGui
 
         private string _emulatorPath = ViewStatusStorage.Get("Start.EmulatorPath", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the emulator path.
+        /// </summary>
         public string EmulatorPath
         {
             get
@@ -296,6 +326,9 @@ namespace MeoAsstGui
 
         private string _emulatorAddCommand = ViewStatusStorage.Get("Start.EmulatorAddCommand", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the command to append after the emulator command.
+        /// </summary>
         public string EmulatorAddCommand
         {
             get
@@ -312,6 +345,9 @@ namespace MeoAsstGui
 
         private string _emulatorWaitSeconds = ViewStatusStorage.Get("Start.EmulatorWaitSeconds", "60");
 
+        /// <summary>
+        /// Gets or sets the seconds to wait for the emulator.
+        /// </summary>
         public string EmulatorWaitSeconds
         {
             get
@@ -326,6 +362,10 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Tries to start the emulator.
+        /// </summary>
+        /// <param name="manual">Whether to start manually.</param>
         public void TryToStartEmulator(bool manual = false)
         {
             if ((EmulatorPath.Length == 0
@@ -345,7 +385,7 @@ namespace MeoAsstGui
                 Process.Start(EmulatorPath);
             }
 
-            int delay = 0;
+            int delay;
             if (!int.TryParse(EmulatorWaitSeconds, out delay))
             {
                 delay = 60;
@@ -354,6 +394,9 @@ namespace MeoAsstGui
             Thread.Sleep(delay * 1000);
         }
 
+        /// <summary>
+        /// Selects the emulator to execute.
+        /// </summary>
         public void SelectEmulatorExec()
         {
             var dialog = new Microsoft.Win32.OpenFileDialog();
@@ -368,6 +411,9 @@ namespace MeoAsstGui
 
         private string _clientType = ViewStatusStorage.Get("Start.ClientType", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the client type.
+        /// </summary>
         public string ClientType
         {
             get
@@ -385,27 +431,58 @@ namespace MeoAsstGui
         /* 基建设置 */
         private readonly Dictionary<string, string> _facilityKey = new Dictionary<string, string>();
 
+        /// <summary>
+        /// Gets or sets the infrast item view models.
+        /// </summary>
         public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of uses of drones.
+        /// </summary>
         public List<CombData> UsesOfDronesList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of roguelike modes.
+        /// </summary>
         public List<CombData> RoguelikeModeList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of roguelike squad.
+        /// </summary>
         public List<CombData> RoguelikeSquadList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of roguelike roles.
+        /// </summary>
         public List<CombData> RoguelikeRolesList { get; set; }
 
         // public List<CombData> RoguelikeCoreCharList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of the client types.
+        /// </summary>
         public List<CombData> ClientTypeList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of the configuration of connection.
+        /// </summary>
         public List<CombData> ConnectConfigList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of inverse clear modes.
+        /// </summary>
         public List<CombData> InverseClearModeList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the language list.
+        /// </summary>
         public List<CombData> LanguageList { get; set; }
 
         private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
 
+        /// <summary>
+        /// Gets or sets the threshold to enter dormitory.
+        /// </summary>
         public int DormThreshold
         {
             get
@@ -423,12 +500,19 @@ namespace MeoAsstGui
 
         private string _dormThresholdLabel;
 
+        /// <summary>
+        /// Gets or sets the label of dormitory threshold.
+        /// </summary>
         public string DormThresholdLabel
         {
             get { return _dormThresholdLabel; }
             set { SetAndNotify(ref _dormThresholdLabel, value); }
         }
 
+        /// <summary>
+        /// Gets infrast order list.
+        /// </summary>
+        /// <returns>The infrast order list.</returns>
         public List<string> GetInfrastOrderList()
         {
             var orderList = new List<string>();
@@ -445,6 +529,9 @@ namespace MeoAsstGui
             return orderList;
         }
 
+        /// <summary>
+        /// Saves infrast order list.
+        /// </summary>
         public void SaveInfrastOrderList()
         {
             for (int i = 0; i < InfrastItemViewModels.Count; i++)
@@ -455,6 +542,9 @@ namespace MeoAsstGui
 
         private string _usesOfDrones = ViewStatusStorage.Get("Infrast.UsesOfDrones", "Money");
 
+        /// <summary>
+        /// Gets or sets the uses of drones.
+        /// </summary>
         public string UsesOfDrones
         {
             get
@@ -491,23 +581,35 @@ namespace MeoAsstGui
             }
 
             _resetNotifyTimer = new System.Timers.Timer(20);
-            _resetNotifyTimer.Elapsed += new System.Timers.ElapsedEventHandler((source, e) =>
+            _resetNotifyTimer.Elapsed += (source, e) =>
             {
                 _notifySource = NotifyType.None;
-            });
+            };
             _resetNotifyTimer.AutoReset = false;
             _resetNotifyTimer.Enabled = true;
             _resetNotifyTimer.Start();
         }
 
+        /// <summary>
+        /// Gets or sets the height of scroll viewport.
+        /// </summary>
         public double ScrollViewportHeight { get; set; }
 
+        /// <summary>
+        /// Gets or sets the extent height of scroll.
+        /// </summary>
         public double ScrollExtentHeight { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of rectangle vertical offset.
+        /// </summary>
         public List<double> RectangleVerticalOffsetList { get; set; }
 
         private int _selectedIndex = 0;
 
+        /// <summary>
+        /// Gets or sets the index selected.
+        /// </summary>
         public int SelectedIndex
         {
             get
@@ -544,6 +646,9 @@ namespace MeoAsstGui
 
         private double _scrollOffset = 0;
 
+        /// <summary>
+        /// Gets or sets the scroll offset.
+        /// </summary>
         public double ScrollOffset
         {
             get
@@ -597,6 +702,9 @@ namespace MeoAsstGui
 
         private string _roguelikeMode = ViewStatusStorage.Get("Roguelike.Mode", "0");
 
+        /// <summary>
+        /// Gets or sets the roguelike mode.
+        /// </summary>
         public string RoguelikeMode
         {
             get
@@ -613,6 +721,9 @@ namespace MeoAsstGui
 
         private string _roguelikeSquad = ViewStatusStorage.Get("Roguelike.Squad", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the roguelike squad.
+        /// </summary>
         public string RoguelikeSquad
         {
             get
@@ -629,6 +740,9 @@ namespace MeoAsstGui
 
         private string _roguelikeRoles = ViewStatusStorage.Get("Roguelike.Roles", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the roguelike roles.
+        /// </summary>
         public string RoguelikeRoles
         {
             get
@@ -645,6 +759,9 @@ namespace MeoAsstGui
 
         private string _roguelikeCoreChar = ViewStatusStorage.Get("Roguelike.CoreChar", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the roguelike core character.
+        /// </summary>
         public string RoguelikeCoreChar
         {
             get
@@ -661,6 +778,9 @@ namespace MeoAsstGui
 
         private string _roguelikeStartsCount = ViewStatusStorage.Get("Roguelike.StartsCount", "9999999");
 
+        /// <summary>
+        /// Gets or sets the start count of roguelike.
+        /// </summary>
         public int RoguelikeStartsCount
         {
             get
@@ -677,6 +797,9 @@ namespace MeoAsstGui
 
         private string _roguelikeInvestsCount = ViewStatusStorage.Get("Roguelike.InvestsCount", "9999999");
 
+        /// <summary>
+        /// Gets or sets the invests count of roguelike.
+        /// </summary>
         public int RoguelikeInvestsCount
         {
             get
@@ -693,6 +816,9 @@ namespace MeoAsstGui
 
         private string _roguelikeStopWhenInvestmentFull = ViewStatusStorage.Get("Roguelike.StopWhenInvestmentFull", false.ToString());
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to stop when investment is full.
+        /// </summary>
         public bool RoguelikeStopWhenInvestmentFull
         {
             get
@@ -711,6 +837,9 @@ namespace MeoAsstGui
 
         private bool _creditShopping = Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditShopping", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to shop with credit.
+        /// </summary>
         public bool CreditShopping
         {
             get
@@ -727,6 +856,9 @@ namespace MeoAsstGui
 
         private string _creditFirstList = ViewStatusStorage.Get("Mall.CreditFirstList", "招聘许可 龙门币");
 
+        /// <summary>
+        /// Gets or sets the priority item list of credit shop.
+        /// </summary>
         public string CreditFirstList
         {
             get
@@ -743,6 +875,9 @@ namespace MeoAsstGui
 
         private string _creditBlackList = ViewStatusStorage.Get("Mall.CreditBlackList", "碳 家具");
 
+        /// <summary>
+        /// Gets or sets the blacklist of credit shop.
+        /// </summary>
         public string CreditBlackList
         {
             get
@@ -777,6 +912,9 @@ namespace MeoAsstGui
         private int _timer7hour = int.Parse(ViewStatusStorage.Get("Timer.Timer7Hour", "15"));
         private int _timer8hour = int.Parse(ViewStatusStorage.Get("Timer.Timer8Hour", "21"));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the 1st timer is set.
+        /// </summary>
         public bool Timer1
         {
             get
@@ -791,6 +929,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the 2nd timer is set.
+        /// </summary>
         public bool Timer2
         {
             get
@@ -805,6 +946,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the 3rd timer is set.
+        /// </summary>
         public bool Timer3
         {
             get
@@ -819,6 +963,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the 4th timer is set.
+        /// </summary>
         public bool Timer4
         {
             get
@@ -833,6 +980,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the 5th timer is set.
+        /// </summary>
         public bool Timer5
         {
             get
@@ -847,6 +997,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the 6th timer is set.
+        /// </summary>
         public bool Timer6
         {
             get
@@ -861,6 +1014,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the 7th timer is set.
+        /// </summary>
         public bool Timer7
         {
             get
@@ -875,6 +1031,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the 8th timer is set.
+        /// </summary>
         public bool Timer8
         {
             get
@@ -889,6 +1048,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets the hour of the 1st timer.
+        /// </summary>
         public int Timer1Hour
         {
             get
@@ -903,6 +1065,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets the hour of the 2nd timer.
+        /// </summary>
         public int Timer2Hour
         {
             get
@@ -917,6 +1082,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets the hour of the 3rd timer.
+        /// </summary>
         public int Timer3Hour
         {
             get
@@ -931,6 +1099,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets the hour of the 4th timer.
+        /// </summary>
         public int Timer4Hour
         {
             get
@@ -945,6 +1116,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets the hour of the 5th timer.
+        /// </summary>
         public int Timer5Hour
         {
             get
@@ -959,6 +1133,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets the hour of the 6th timer.
+        /// </summary>
         public int Timer6Hour
         {
             get
@@ -973,6 +1150,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets the hour of the 7th timer.
+        /// </summary>
         public int Timer7Hour
         {
             get
@@ -987,6 +1167,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets or sets the hour of the 8th timer.
+        /// </summary>
         public int Timer8Hour
         {
             get
@@ -1005,6 +1188,9 @@ namespace MeoAsstGui
 
         private string _penguinId = ViewStatusStorage.Get("Penguin.Id", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the id of PenguinStats.
+        /// </summary>
         public string PenguinId
         {
             get
@@ -1022,6 +1208,9 @@ namespace MeoAsstGui
         /* 自动公招设置 */
         private string _recruitMaxTimes = ViewStatusStorage.Get("AutoRecruit.MaxTimes", "4");
 
+        /// <summary>
+        /// Gets or sets the maximum times of recruit.
+        /// </summary>
         public string RecruitMaxTimes
         {
             get
@@ -1038,6 +1227,9 @@ namespace MeoAsstGui
 
         private bool _refreshLevel3 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.RefreshLevel3", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to refresh level 3.
+        /// </summary>
         public bool RefreshLevel3
         {
             get
@@ -1054,6 +1246,9 @@ namespace MeoAsstGui
 
         private bool _useExpedited = false;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use expedited.
+        /// </summary>
         public bool UseExpedited
         {
             get { return _useExpedited; }
@@ -1062,6 +1257,9 @@ namespace MeoAsstGui
 
         private bool _notChooseLevel1 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.NotChooseLevel1", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether not to choose level 1.
+        /// </summary>
         public bool NotChooseLevel1
         {
             get
@@ -1078,6 +1276,9 @@ namespace MeoAsstGui
 
         private bool _chooseLevel3 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.ChooseLevel3", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to choose level 3.
+        /// </summary>
         public bool ChooseLevel3
         {
             get
@@ -1094,6 +1295,9 @@ namespace MeoAsstGui
 
         private bool _chooseLevel4 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.ChooseLevel4", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to choose level 4.
+        /// </summary>
         public bool ChooseLevel4
         {
             get
@@ -1110,6 +1314,9 @@ namespace MeoAsstGui
 
         private bool _chooseLevel5 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.ChooseLevel5", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to choose level 5.
+        /// </summary>
         public bool ChooseLevel5
         {
             get
@@ -1127,6 +1334,9 @@ namespace MeoAsstGui
         /* 软件更新设置 */
         private bool _updateBeta = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateBeta", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to update beta version.
+        /// </summary>
         public bool UpdateBeta
         {
             get
@@ -1143,6 +1353,9 @@ namespace MeoAsstGui
 
         private bool _updateCheck = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateCheck", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to check update.
+        /// </summary>
         public bool UpdateCheck
         {
             get
@@ -1159,6 +1372,9 @@ namespace MeoAsstGui
 
         private string _proxy = ViewStatusStorage.Get("VersionUpdate.Proxy", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the proxy settings.
+        /// </summary>
         public string Proxy
         {
             get
@@ -1175,6 +1391,9 @@ namespace MeoAsstGui
 
         private bool _useAria2 = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UseAria2", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use Aria 2.
+        /// </summary>
         public bool UseAria2
         {
             get
@@ -1191,6 +1410,9 @@ namespace MeoAsstGui
 
         private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.AutoDownloadUpdatePackage", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to auto download update package.
+        /// </summary>
         public bool AutoDownloadUpdatePackage
         {
             get
@@ -1205,12 +1427,16 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Updates manually.
+        /// </summary>
+        // TODO: 你确定要用 async void 不是 async Task？
         public async void ManualUpdate()
         {
-            var updateModle = _container.Get<VersionUpdateViewModel>();
+            var updateModel = _container.Get<VersionUpdateViewModel>();
             var task = Task.Run(() =>
             {
-                if (!updateModle.CheckAndDownloadUpdate(true))
+                if (!updateModel.CheckAndDownloadUpdate(true))
                 {
                     Execute.OnUIThread(() =>
                     {
@@ -1228,6 +1454,9 @@ namespace MeoAsstGui
 
         private string _connectAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the connection address.
+        /// </summary>
         public string ConnectAddress
         {
             get
@@ -1239,12 +1468,15 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _connectAddress, value);
                 ViewStatusStorage.Set("Connect.Address", value);
-                UpdateWindowTitle(); /* 每次修改连接地址时更新WIndowTitle */
+                UpdateWindowTitle(); /* 每次修改连接地址时更新WindowTitle */
             }
         }
 
         private string _adbPath = ViewStatusStorage.Get("Connect.AdbPath", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the ADB path.
+        /// </summary>
         public string AdbPath
         {
             get
@@ -1261,6 +1493,9 @@ namespace MeoAsstGui
 
         private string _connectConfig = ViewStatusStorage.Get("Connect.ConnectConfig", "General");
 
+        /// <summary>
+        /// Gets or sets the connection config.
+        /// </summary>
         public string ConnectConfig
         {
             get
@@ -1286,8 +1521,16 @@ namespace MeoAsstGui
             { "WSA", new List<string> { "127.0.0.1:58526" } },
         };
 
+        /// <summary>
+        /// Gets the default addresses.
+        /// </summary>
         public Dictionary<string, List<string>> DefaultAddress => _defaultAddress;
 
+        /// <summary>
+        /// Refreshes ADB config.
+        /// </summary>
+        /// <param name="error">Errors when doing this operation.</param>
+        /// <returns>Whether the operation is successful.</returns>
         public bool RefreshAdbConfig(ref string error)
         {
             var adapter = new WinAdapter();
@@ -1347,6 +1590,9 @@ namespace MeoAsstGui
             return true;
         }
 
+        /// <summary>
+        /// Selects ADB program file.
+        /// </summary>
         public void SelectFile()
         {
             var dialog = new Microsoft.Win32.OpenFileDialog();
@@ -1359,8 +1605,9 @@ namespace MeoAsstGui
             }
         }
 
-        /*  标题栏显示模拟器名称和IP端口  */
-
+        /// <summary>
+        /// 标题栏显示模拟器名称和IP端口。
+        /// </summary>
         public void UpdateWindowTitle()
         {
             var rvm = (RootViewModel)this.Parent;
@@ -1378,6 +1625,9 @@ namespace MeoAsstGui
 
         private readonly string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
 
+        /// <summary>
+        /// Tries to set Bluestack Hyper V address.
+        /// </summary>
         public void TryToSetBlueStacksHyperVAddress()
         {
             if (_bluestacksConfig.Length == 0)
@@ -1404,17 +1654,21 @@ namespace MeoAsstGui
 
         /* 界面设置 */
 #pragma warning disable SA1401 // Fields should be private
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use tray icon.
+        /// </summary>
         public bool UseTray = true;
 #pragma warning restore SA1401 // Fields should be private
 
-        // private bool _usetray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
+        // private bool _useTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
 
         // public bool UseTray
         // {
-        //    get { return _usetray; }
+        //    get { return _useTray; }
         //    set
         //    {
-        //        SetAndNotify(ref _usetray, value);
+        //        SetAndNotify(ref _useTray, value);
         //        ViewStatusStorage.Set("GUI.UseTray", value.ToString());
         //        var trayObj = _container.Get<TrayIcon>();
         //        trayObj.SetVisible(value);
@@ -1427,6 +1681,9 @@ namespace MeoAsstGui
         // }
         private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.MinimizeToTray", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to minimize to tray.
+        /// </summary>
         public bool MinimizeToTray
         {
             get
@@ -1445,6 +1702,9 @@ namespace MeoAsstGui
 
         private bool _useNotify = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseNotify", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use notification.
+        /// </summary>
         public bool UseNotify
         {
             get
@@ -1471,6 +1731,9 @@ namespace MeoAsstGui
 
         private bool _hideUnavailableStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.HideUnavailableStage", bool.TrueString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to hide unavailable stages.
+        /// </summary>
         public bool HideUnavailableStage
         {
             get
@@ -1499,6 +1762,9 @@ namespace MeoAsstGui
                 out InverseClearType temp)
             ? temp : InverseClearType.Clear;
 
+        /// <summary>
+        /// Gets or sets the inverse clear mode.
+        /// </summary>
         public string InverseClearMode
         {
             get
@@ -1544,6 +1810,9 @@ namespace MeoAsstGui
 
         private string _language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
 
+        /// <summary>
+        /// Gets or sets the language.
+        /// </summary>
         public string Language
         {
             get
@@ -1589,6 +1858,9 @@ namespace MeoAsstGui
 
         private bool _cheers = bool.Parse(ViewStatusStorage.Get("GUI.Cheers", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to cheer.
+        /// </summary>
         public bool Cheers
         {
             get
@@ -1614,6 +1886,9 @@ namespace MeoAsstGui
 
         private bool _hangover = bool.Parse(ViewStatusStorage.Get("GUI.Hangover", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to hangover.
+        /// </summary>
         public bool Hangover
         {
             get
@@ -1642,9 +1917,13 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Did you buy wine?
+        /// </summary>
+        /// <returns>The answer.</returns>
         public bool DidYouBuyWine()
         {
-            var wine_list = new string[] { "酒", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
+            var wine_list = new[] { "酒", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
             foreach (var wine in wine_list)
             {
                 if (CreditFirstList.Contains(wine))

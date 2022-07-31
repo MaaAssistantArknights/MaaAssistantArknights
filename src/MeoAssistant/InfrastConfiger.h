@@ -11,7 +11,7 @@ namespace asst
     class InfrastConfiger : public AbstractConfiger
     {
     public:
-        virtual ~InfrastConfiger() = default;
+        virtual ~InfrastConfiger() override = default;
 
         auto get_templ_required() const noexcept -> const std::unordered_set<std::string>&
         {

@@ -20,18 +20,18 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_
     m_roguelike_task_ptr->set_tasks({ "Roguelike1Begin" })
         .set_retry_times(50);
 
-    m_roguelike_task_ptr->regiseter_plugin<RoguelikeFormationTaskPlugin>();
-    m_roguelike_task_ptr->regiseter_plugin<RoguelikeControlTaskPlugin>();
-    m_roguelike_task_ptr->regiseter_plugin<RoguelikeResetTaskPlugin>();
-    m_roguelike_task_ptr->regiseter_plugin<RoguelikeShoppingTaskPlugin>()->set_retry_times(0);
-    m_custom_start_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeCustomStartTaskPlugin>();
+    m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();
+    m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>();
+    m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>();
+    m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>()->set_retry_times(0);
+    m_custom_start_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>();
 
-    m_battle_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeBattleTaskPlugin>();
+    m_battle_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeBattleTaskPlugin>();
 
-    m_recruit_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeRecruitTaskPlugin>();
+    m_recruit_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeRecruitTaskPlugin>();
     m_recruit_task_ptr->set_retry_times(2);
 
-    m_skill_task_ptr = m_roguelike_task_ptr->regiseter_plugin<RoguelikeSkillSelectionTaskPlugin>();
+    m_skill_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeSkillSelectionTaskPlugin>();
     m_skill_task_ptr->set_retry_times(3);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用

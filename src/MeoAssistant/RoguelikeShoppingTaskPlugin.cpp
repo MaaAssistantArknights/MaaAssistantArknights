@@ -44,30 +44,49 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
 
     std::unordered_map<BattleRole, size_t> map_roles_count;
+    std::unordered_map<BattleRole, size_t> map_wait_promotion;
+    size_t total_wait_promotion = 0;
+    std::unordered_set<std::string> chars_list;
     for (auto& [name, json_info] : json_chars_info.as_object()) {
         int elite = static_cast<int>(json_info.get("elite", 0));
         int level = static_cast<int>(json_info.get("level", 0));
         Log.info(name, elite, level);
 
         // 等级太低的干员没必要为他专门买收藏品什么的
-        if (elite * 1000 + level < 1070) {
+        if (level < 60) {
             continue;
         }
+
+        chars_list.emplace(name);
 
         if (name == "阿米娅") {
             map_roles_count[BattleRole::Caster] += 1;
             map_roles_count[BattleRole::Warrior] += 1;
+            if (elite == 1 && level == 70) {
+                total_wait_promotion += 1;
+                map_wait_promotion[BattleRole::Caster] += 1;
+                map_wait_promotion[BattleRole::Warrior] += 1;
+            }
         }
         else {
-            BattleRole role = BattleRole::Unknown;
-            auto int_role = json_info.get("role", 0);
-            if (int_role) {
-                role = static_cast<BattleRole>(int_role);
-            }
-            else {
-                role = Resrc.battle_data().get_role(name);
-            }
+            auto& battle_data = Resrc.battle_data();
+            BattleRole role = battle_data.get_role(name);
             map_roles_count[role] += 1;
+
+            static const std::unordered_map<int, int> RarityPromotionLevel = {
+                { 0, INT_MAX },
+                { 1, INT_MAX },
+                { 2, INT_MAX },
+                { 3, INT_MAX },
+                { 4, 60 },
+                { 5, 70 },
+                { 6, 80 },
+            };
+            int rarity = battle_data.get_rarity(name);
+            if (elite == 1 && level >= RarityPromotionLevel.at(rarity)) {
+                total_wait_promotion += 1;
+                map_wait_promotion[role] += 1;
+            }
         }
     }
 
@@ -91,11 +110,50 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
             continue;
         }
 
-        if (goods.role_restriction != BattleRole::Unknown
-            && map_roles_count[goods.role_restriction] == 0) {
-            Log.trace("Ready to buy", goods.name, static_cast<int>(goods.role_restriction),
-                ", but there is no such professional operator, skip");
-            continue;
+        if (!goods.roles.empty()) {
+            bool role_mathced = false;
+            for (const auto& role : goods.roles) {
+                if (map_roles_count[role] != 0) {
+                    role_mathced = true;
+                    break;
+                }
+            }
+            if (!role_mathced) {
+                Log.trace("Ready to buy", goods.name,
+                    ", but there is no such professional operator, skip");
+                continue;
+            }
+        }
+        if (goods.promotion != 0) {
+            if (total_wait_promotion == 0) {
+                Log.trace("Ready to buy", goods.name,
+                    ", but there is no one waiting for promotion, skip");
+                continue;
+            }
+            if (!goods.roles.empty()) {
+                bool role_mathced = false;
+                for (const auto& role : goods.roles) {
+                    if (map_wait_promotion[role] != 0) {
+                        role_mathced = true;
+                        break;
+                    }
+                }
+                if (!role_mathced) {
+                    Log.trace("Ready to buy", goods.name,
+                        ", but there is no one waiting for promotion, skip");
+                    continue;
+                }
+            }
+        }
+
+        if (!goods.chars.empty()) {
+            auto iter = std::find_first_of(chars_list.cbegin(), chars_list.cend(),
+                goods.chars.cbegin(), goods.chars.cend());
+            if (iter == chars_list.cend()) {
+                Log.trace("Ready to buy", goods.name,
+                    ", but there is no such character, skip");
+                continue;
+            }
         }
 
         // 这里仅点一下收藏品，原本的 ProcessTask 还会再点一下，但它是由 rect_move 的，保证不会点出去

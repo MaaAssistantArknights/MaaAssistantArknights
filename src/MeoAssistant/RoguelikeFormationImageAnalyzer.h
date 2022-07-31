@@ -14,7 +14,7 @@ namespace asst
         };
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~RoguelikeFormationImageAnalyzer() = default;
+        virtual ~RoguelikeFormationImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 

@@ -20,6 +20,9 @@ namespace MeoAsstGui
     /// </summary>
     public partial class InfrastSettingsUserControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InfrastSettingsUserControl"/> class.
+        /// </summary>
         public InfrastSettingsUserControl()
         {
             InitializeComponent();

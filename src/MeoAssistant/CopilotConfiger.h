@@ -7,7 +7,7 @@ namespace asst
     class CopilotConfiger : public AbstractConfiger
     {
     public:
-        virtual ~CopilotConfiger() = default;
+        virtual ~CopilotConfiger() override = default;
 
         bool contains_actions(const std::string& stage_name) const noexcept
         {

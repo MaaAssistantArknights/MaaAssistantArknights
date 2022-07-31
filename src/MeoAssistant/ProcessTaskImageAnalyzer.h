@@ -19,7 +19,7 @@ namespace asst
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         ProcessTaskImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
         ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name);
-        virtual ~ProcessTaskImageAnalyzer();
+        virtual ~ProcessTaskImageAnalyzer() override;
 
         virtual bool analyze() override;
         void set_image(const cv::Mat image);

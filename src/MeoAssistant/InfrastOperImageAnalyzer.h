@@ -22,7 +22,7 @@ namespace asst
         };
 
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~InfrastOperImageAnalyzer() = default;
+        virtual ~InfrastOperImageAnalyzer() override = default;
         InfrastOperImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
 
         virtual bool analyze() override;

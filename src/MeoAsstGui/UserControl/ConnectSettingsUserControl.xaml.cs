@@ -20,6 +20,9 @@ namespace MeoAsstGui
     /// </summary>
     public partial class ConnectSettingsUserControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectSettingsUserControl"/> class.
+        /// </summary>
         public ConnectSettingsUserControl()
         {
             InitializeComponent();

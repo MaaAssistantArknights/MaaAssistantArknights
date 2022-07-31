@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~InfrastClueImageAnalyzer() = default;
+        virtual ~InfrastClueImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 

@@ -13,7 +13,7 @@ namespace asst
         ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name);
         ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name) noexcept;
 
-        virtual ~ProcessTask() = default;
+        virtual ~ProcessTask() override = default;
 
         virtual bool run() override;
 

@@ -38,9 +38,9 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
         .set_times_limit("StartButton2", INT_MAX)
         .set_ignore_error(false);
 
-    m_stage_drops_plugin_ptr = m_fight_task_ptr->regiseter_plugin<StageDropsTaskPlugin>();
+    m_stage_drops_plugin_ptr = m_fight_task_ptr->register_plugin<StageDropsTaskPlugin>();
     m_stage_drops_plugin_ptr->set_retry_times(0);
-    m_game_restart_plugin_ptr = m_fight_task_ptr->regiseter_plugin<GameCrashRestartTaskPlugin>();
+    m_game_restart_plugin_ptr = m_fight_task_ptr->register_plugin<GameCrashRestartTaskPlugin>();
     m_game_restart_plugin_ptr->set_retry_times(0);
 
     m_subtasks.emplace_back(m_start_up_task_ptr);
@@ -67,7 +67,7 @@ bool asst::FightTask::set_params(const json::value& params)
         m_stage_drops_plugin_ptr->set_specify_quantity(drops);
     }
 
-    if (!m_runned) {
+    if (!m_finished) {
         if (stage.empty()) {
             m_start_up_task_ptr->set_tasks({ "UsePrts", "UsePrts-StageSN", "StartButton1", "StageBegin" });
             m_stage_task_ptr->set_tasks({ "UsePrts", "UsePrts-StageSN", "StartButton1", "LastBattle" });

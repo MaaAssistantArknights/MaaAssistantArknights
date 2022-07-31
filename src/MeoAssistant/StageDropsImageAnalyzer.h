@@ -8,14 +8,14 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~StageDropsImageAnalyzer() = default;
+        virtual ~StageDropsImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 
         StageKey get_stage_key() const;
         int get_stars() const noexcept;
 
-        // <droptype, <item_id, quantity>>
+        // <drop_type, <item_id, quantity>>
         const auto& get_drops() const noexcept
         {
             return m_drops;
@@ -36,7 +36,7 @@ namespace asst
         StageDifficulty m_difficulty = StageDifficulty::Normal;
         int m_stars = 0;
         std::vector<std::pair<Rect, StageDropType>> m_baseline;
-        // <droptype, <item_id, quantity>>
+        // <drop_type, <item_id, quantity>>
         std::vector<StageDropInfo> m_drops;
     };
 }

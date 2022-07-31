@@ -26,8 +26,8 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
         int64_t pre_start_time = pre_time_opt ? pre_time_opt.value() : 0;
         auto pre_reg_time_opt = m_status->get_number("LastRecognizeDrops");
         int64_t pre_recognize_time = pre_reg_time_opt ? pre_reg_time_opt.value() : 0;
-        if (pre_start_time + RecognizationTimeOffset == pre_recognize_time) {
-            Log.info("Recognization time too close, pass", pre_start_time, pre_recognize_time);
+        if (pre_start_time + RecognitionTimeOffset == pre_recognize_time) {
+            Log.info("Recognitions time too close, pass", pre_start_time, pre_recognize_time);
             return false;
         }
         return true;
@@ -71,7 +71,7 @@ bool asst::StageDropsTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    set_startbutton_delay();
+    set_start_button_delay();
 
     if (!recognize_drops()) {
         return false;
@@ -121,7 +121,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
 
     auto last_time_opt = m_status->get_number("LastStartButton2");
     auto last_time = last_time_opt ? last_time_opt.value() : 0;
-    m_status->set_number("LastRecognizeDrops", last_time + RecognizationTimeOffset);
+    m_status->set_number("LastRecognizeDrops", last_time + RecognitionTimeOffset);
 
     return true;
 }
@@ -137,7 +137,7 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
         info["quantity"] = drop.quantity;
         m_drop_stats[drop.item_id] += drop.quantity;
         info["itemName"] = drop.item_name;
-        info["dropType"] = drop.droptype_name;
+        info["dropType"] = drop.drop_type_name;
         drops_vec.emplace_back(std::move(info));
     }
 
@@ -173,16 +173,16 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
     m_cur_info_json = std::move(details);
 }
 
-void asst::StageDropsTaskPlugin::set_startbutton_delay()
+void asst::StageDropsTaskPlugin::set_start_button_delay()
 {
     LogTraceFunction;
 
-    if (!m_startbutton_delay_setted) {
+    if (!m_start_button_delay_is_set) {
         auto last_time_opt = m_status->get_number("LastStartButton2");
         int64_t pre_start_time = last_time_opt ? last_time_opt.value() : 0;
 
         if (pre_start_time > 0) {
-            m_startbutton_delay_setted = true;
+            m_start_button_delay_is_set = true;
             int64_t duration = time(nullptr) - pre_start_time;
             int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->rear_delay;
             int64_t delay = duration * 1000 - elapsed;
@@ -219,8 +219,8 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     auto& all_drops = body["drops"];
     for (const auto& drop : m_cur_info_json["drops"].as_array()) {
         static const std::vector<std::string> filter = { "NORMAL_DROP", "EXTRA_DROP" , "FURNITURE", "SPECIAL_DROP" };
-        std::string droptype = drop.at("dropType").as_string();
-        if (std::find(filter.cbegin(), filter.cend(), droptype) == filter.cend()) {
+        std::string drop_type = drop.at("dropType").as_string();
+        if (std::find(filter.cbegin(), filter.cend(), drop_type) == filter.cend()) {
             continue;
         }
         if (drop.at("itemId").as_string().empty()) {

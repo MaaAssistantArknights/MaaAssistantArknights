@@ -30,11 +30,15 @@ namespace MeoAsstGui
 #pragma warning restore SA1135 // Using directives should be qualified
 
 #pragma warning disable SA1121 // Use built-in type alias
+
+    /// <summary>
+    /// MeoAssistant 代理类。
+    /// </summary>
     public class AsstProxy
     {
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
-        private delegate void ProcCallbckMsg(AsstMsg msg, JObject details);
+        private delegate void ProcCallbackMsg(AsstMsg msg, JObject details);
 
         [DllImport("MeoAssistant.dll")]
         private static extern bool AsstLoadResource(byte[] dirname);
@@ -86,6 +90,10 @@ namespace MeoAsstGui
         [DllImport("MeoAssistant.dll")]
         private static extern void AsstLog(byte[] level, byte[] message);
 
+        /// <summary>
+        /// 记录日志。
+        /// </summary>
+        /// <param name="message">日志内容。</param>
         public static void AsstLog(string message)
         {
             AsstLog(Encoding.UTF8.GetBytes("GUI"), Encoding.UTF8.GetBytes(message));
@@ -93,6 +101,11 @@ namespace MeoAsstGui
 
         private readonly CallbackDelegate _callback;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AsstProxy"/> class.
+        /// </summary>
+        /// <param name="container">IoC 容器。</param>
+        /// <param name="windowManager">当前窗口。</param>
         public AsstProxy(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -100,6 +113,9 @@ namespace MeoAsstGui
             _callback = CallbackFunction;
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="AsstProxy"/> class.
+        /// </summary>
         ~AsstProxy()
         {
             if (_handle != IntPtr.Zero)
@@ -110,6 +126,10 @@ namespace MeoAsstGui
 
         private string _curResource = "_Unloaded";
 
+        /// <summary>
+        /// 加载全局资源。
+        /// </summary>
+        /// <returns>是否成功。</returns>
         public bool LoadGlobalResource()
         {
             var settingsModel = _container.Get<SettingsViewModel>();
@@ -159,6 +179,9 @@ namespace MeoAsstGui
             return loaded;
         }
 
+        /// <summary>
+        /// 初始化。
+        /// </summary>
         public void Init()
         {
             bool loaded = LoadGlobalResource();
@@ -191,10 +214,16 @@ namespace MeoAsstGui
             });
         }
 
+        /// <summary>
+        /// Determines the length of the specified string (not including the terminating null character).
+        /// </summary>
+        /// <param name="ptr">The null-terminated string to be checked.</param>
+        /// <returns>
+        /// The function returns the length of the string, in characters.
+        /// If <paramref name="ptr"/> is <see cref="IntPtr.Zero"/>, the function returns <c>0</c>.
+        /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true)]
-#pragma warning disable SA1300 // Element should begin with upper-case letter
         internal static extern int lstrlenA(IntPtr ptr);
-#pragma warning restore SA1300 // Element should begin with upper-case letter
 
         private static string PtrToStringCustom(IntPtr ptr, Encoding enc)
         {
@@ -220,7 +249,7 @@ namespace MeoAsstGui
 
             // Console.WriteLine(json_str);
             JObject json = (JObject)JsonConvert.DeserializeObject(json_str);
-            ProcCallbckMsg dlg = new ProcCallbckMsg(ProcMsg);
+            ProcCallbackMsg dlg = ProcMsg;
             Execute.OnUIThread(() =>
             {
                 dlg((AsstMsg)msg, json);
@@ -366,13 +395,13 @@ namespace MeoAsstGui
 
                 case AsstMsg.AllTasksCompleted:
                     bool isMainTaskQueueAllCompleted = true;
-                    var runned_tasks = details["runned_tasks"] as JArray;
-                    if (runned_tasks.Count == 1)
+                    var finished_tasks = details["finished_tasks"] as JArray;
+                    if (finished_tasks.Count == 1)
                     {
-                        var unique_runned_task = (TaskId)runned_tasks[0];
-                        if (unique_runned_task == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
-                            || unique_runned_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
-                            || unique_runned_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
+                        var unique_finished_task = (TaskId)finished_tasks[0];
+                        if (unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
                         {
                             isMainTaskQueueAllCompleted = false;
                         }
@@ -708,7 +737,7 @@ namespace MeoAsstGui
                         string selected_log = string.Empty;
                         foreach (var tag in selected)
                         {
-                            selected_log += tag.ToString() + "\n";
+                            selected_log += tag + "\n";
                         }
 
                         selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : Localization.GetString("NoDrop");
@@ -766,7 +795,7 @@ namespace MeoAsstGui
                     break;
 
                 case "BattleFormationSelected":
-                    copilotModel.AddLog(Localization.GetString("BattleFormationSelected") + subTaskDetails["selected"].ToString());
+                    copilotModel.AddLog(Localization.GetString("BattleFormationSelected") + subTaskDetails["selected"]);
                     break;
 
                 case "BattleAction":
@@ -837,13 +866,13 @@ namespace MeoAsstGui
                             resultContent += tag_level + "★Tags:  ";
                             foreach (var tag in (JArray)combs["tags"])
                             {
-                                resultContent += tag.ToString() + "    ";
+                                resultContent += tag + "    ";
                             }
 
                             resultContent += "\n\t";
                             foreach (var oper in (JArray)combs["opers"])
                             {
-                                resultContent += oper["level"].ToString() + " - " + oper["name"].ToString() + "    ";
+                                resultContent += oper["level"] + " - " + oper["name"] + "    ";
                             }
 
                             resultContent += "\n\n";
@@ -856,7 +885,13 @@ namespace MeoAsstGui
             }
         }
 
-        public bool AsstConnect(ref string error, bool firsttry = false)
+        /// <summary>
+        /// 连接模拟器。
+        /// </summary>
+        /// <param name="error">具体的连接错误。</param>
+        /// <param name="first_try">是否为第一次尝试。</param>
+        /// <returns>是否成功。</returns>
+        public bool AsstConnect(ref string error, bool first_try = false)
         {
             if (!LoadGlobalResource())
             {
@@ -901,7 +936,7 @@ namespace MeoAsstGui
 
             if (!ret)
             {
-                if (firsttry)
+                if (first_try)
                 {
                     error = Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator");
                 }
@@ -969,6 +1004,16 @@ namespace MeoAsstGui
             return task_params;
         }
 
+        /// <summary>
+        /// 刷理智。
+        /// </summary>
+        /// <param name="stage">关卡名。</param>
+        /// <param name="max_medicine">最大使用理智药数量。</param>
+        /// <param name="max_stone">最大吃石头数量。</param>
+        /// <param name="max_times">指定次数。</param>
+        /// <param name="drops_item_id">指定掉落 ID。</param>
+        /// <param name="drops_item_quantity">指定掉落数量。</param>
+        /// <returns>是否成功。</returns>
         public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
         {
             var task_params = SerializeFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
@@ -977,12 +1022,26 @@ namespace MeoAsstGui
             return id != 0;
         }
 
+        /// <summary>
+        /// 设置刷理智任务参数。
+        /// </summary>
+        /// <param name="stage">关卡名。</param>
+        /// <param name="max_medicine">最大使用理智药数量。</param>
+        /// <param name="max_stone">最大吃石头数量。</param>
+        /// <param name="max_times">指定次数。</param>
+        /// <param name="drops_item_id">指定掉落 ID。</param>
+        /// <param name="drops_item_quantity">指定掉落数量。</param>
+        /// <returns>是否成功。</returns>
         public bool AsstSetFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
         {
             var task_params = SerializeFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
             return AsstSetTaskParamsWithEncoding(_latestTaskId.TryGetValue(TaskType.Fight, out var task_id) ? task_id : 0, task_params);
         }
 
+        /// <summary>
+        /// 领取日常奖励。
+        /// </summary>
+        /// <returns>是否成功。</returns>
         public bool AsstAppendAward()
         {
             TaskId id = AsstAppendTaskWithEncoding("Award");
@@ -990,6 +1049,12 @@ namespace MeoAsstGui
             return id != 0;
         }
 
+        /// <summary>
+        /// 开始唤醒。
+        /// </summary>
+        /// <param name="client_type">客户端版本。</param>
+        /// <param name="enable">是否自动启动客户端。</param>
+        /// <returns>是否成功。</returns>
         public bool AsstAppendStartUp(string client_type, bool enable)
         {
             var task_params = new JObject();
@@ -1000,6 +1065,10 @@ namespace MeoAsstGui
             return id != 0;
         }
 
+        /// <summary>
+        /// <c>CloseDown</c> 任务。
+        /// </summary>
+        /// <returns>是否成功。</returns>
         public bool AsstStartCloseDown()
         {
             AsstStop();
@@ -1008,6 +1077,10 @@ namespace MeoAsstGui
             return id != 0 && AsstStart();
         }
 
+        /// <summary>
+        /// 访问好友。
+        /// </summary>
+        /// <returns>是否成功。</returns>
         public bool AsstAppendVisit()
         {
             TaskId id = AsstAppendTaskWithEncoding("Visit");
@@ -1015,17 +1088,36 @@ namespace MeoAsstGui
             return id != 0;
         }
 
-        public bool AsstAppendMall(bool with_shopping, string[] firstlist, string[] blacklist)
+        /// <summary>
+        /// 领取信用及商店购物。
+        /// </summary>
+        /// <param name="with_shopping">是否购物。</param>
+        /// <param name="first_list">优先购买列表。</param>
+        /// <param name="blacklist">黑名单列表。</param>
+        /// <returns>是否成功。</returns>
+        public bool AsstAppendMall(bool with_shopping, string[] first_list, string[] blacklist)
         {
             var task_params = new JObject();
             task_params["shopping"] = with_shopping;
-            task_params["buy_first"] = new JArray { firstlist };
+            task_params["buy_first"] = new JArray { first_list };
             task_params["blacklist"] = new JArray { blacklist };
             TaskId id = AsstAppendTaskWithEncoding("Mall", task_params);
             _latestTaskId[TaskType.Mall] = id;
             return id != 0;
         }
 
+        /// <summary>
+        /// 公开招募。
+        /// </summary>
+        /// <param name="max_times">加急次数，仅在 <paramref name="use_expedited"/> 为 <see langword="true"/> 时有效。</param>
+        /// <param name="select_level">会去点击标签的 Tag 等级。</param>
+        /// <param name="required_len"><paramref name="required_len"/> 不使用。</param>
+        /// <param name="confirm_level">会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。</param>
+        /// <param name="confirm_len"><paramref name="confirm_len"/> 不使用。</param>
+        /// <param name="need_refresh">是否刷新三星 Tags。</param>
+        /// <param name="use_expedited">是否使用加急许可。</param>
+        /// <param name="skip_robot">是否在识别到小车词条时跳过。</param>
+        /// <returns>是否成功。</returns>
         public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited, bool skip_robot)
         {
             var task_params = new JObject();
@@ -1042,6 +1134,26 @@ namespace MeoAsstGui
             return id != 0;
         }
 
+        /// <summary>
+        /// 基建换班。
+        /// </summary>
+        /// <param name="work_mode"><paramref name="work_mode"/> 不使用。</param>
+        /// <param name="order">要换班的设施（有序）。</param>
+        /// <param name="order_len"><paramref name="order_len"/> 不使用。</param>
+        /// <param name="uses_of_drones">
+        /// 无人机用途。可用值包括：
+        /// <list type="bullet">
+        /// <item><c>_NotUse</c></item>
+        /// <item><c>Money</c></item>
+        /// <item><c>SyntheticJade</c></item>
+        /// <item><c>CombatRecord</c></item>
+        /// <item><c>PureGold</c></item>
+        /// <item><c>OriginStone</c></item>
+        /// <item><c>Chip</c></item>
+        /// </list>
+        /// </param>
+        /// <param name="dorm_threshold">宿舍进驻心情阈值。</param>
+        /// <returns>是否成功。</returns>
         public bool AsstAppendInfrast(int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold)
         {
             var task_params = new JObject();
@@ -1056,6 +1168,37 @@ namespace MeoAsstGui
             return id != 0;
         }
 
+        /// <summary>
+        /// 无限刷肉鸽。
+        /// </summary>
+        /// <param name="mode">
+        /// 模式。可用值包括：
+        /// <list type="bullet">
+        ///     <item>
+        ///         <term><c>0</c></term>
+        ///         <description>刷蜡烛，尽可能稳定的打更多层数。</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><c>1</c></term>
+        ///         <description>刷源石锭，第一层投资完就退出。</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><c>2</c></term>
+        ///         <description><b>【即将弃用】</b>两者兼顾，投资过后再退出，没有投资就继续往后打。</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><c>3</c></term>
+        ///         <description><b>【开发中】</b>尝试通关，尽可能打的远。</description>
+        ///     </item>
+        /// </list>
+        /// </param>
+        /// <param name="starts">开始探索次数。</param>
+        /// <param name="invests">投资源石锭次数。</param>
+        /// <param name="stop_when_full">投资满了自动停止任务。</param>
+        /// <param name="squad"><paramref name="squad"/> TODO.</param>
+        /// <param name="roles"><paramref name="roles"/> TODO.</param>
+        /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
+        /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, int invests, bool stop_when_full,
             string squad, string roles, string core_char)
         {
@@ -1084,6 +1227,13 @@ namespace MeoAsstGui
             return id != 0;
         }
 
+        /// <summary>
+        /// 公招识别。
+        /// </summary>
+        /// <param name="select_level">会去点击标签的 Tag 等级。</param>
+        /// <param name="required_len"><paramref name="required_len"/> 不使用。</param>
+        /// <param name="set_time">是否设置 9 小时。</param>
+        /// <returns>是否成功。</returns>
         public bool AsstStartRecruitCalc(int[] select_level, int required_len, bool set_time)
         {
             var task_params = new JObject();
@@ -1099,6 +1249,13 @@ namespace MeoAsstGui
             return id != 0 && AsstStart();
         }
 
+        /// <summary>
+        /// 自动抄作业。
+        /// </summary>
+        /// <param name="stage_name">关卡名，需要与作业 JSON 中的 <c>stage_name</c> 字段相同。</param>
+        /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
+        /// <param name="formation">是否进行 “快捷编队”。</param>
+        /// <returns>是否成功。</returns>
         public bool AsstStartCopilot(string stage_name, string filename, bool formation)
         {
             var task_params = new JObject();
@@ -1110,11 +1267,19 @@ namespace MeoAsstGui
             return id != 0 && AsstStart();
         }
 
+        /// <summary>
+        /// 启动。
+        /// </summary>
+        /// <returns>是否成功。</returns>
         public bool AsstStart()
         {
             return AsstStart(_handle);
         }
 
+        /// <summary>
+        /// 停止。
+        /// </summary>
+        /// <returns>是否成功。</returns>
         public bool AsstStop()
         {
             bool ret = AsstStop(_handle);
@@ -1122,29 +1287,85 @@ namespace MeoAsstGui
             return ret;
         }
 
+        /// <summary>
+        /// 销毁。
+        /// </summary>
         public void AsstDestroy()
         {
             AsstDestroy(_handle);
         }
     }
 
+    /// <summary>
+    /// MeoAssistant 消息。
+    /// </summary>
     public enum AsstMsg
     {
         /* Global Info */
-        InternalError = 0,          // 内部错误
-        InitFailed,                 // 初始化失败
-        ConnectionInfo,            // 连接相关错误
-        AllTasksCompleted,          // 全部任务完成
+
+        /// <summary>
+        /// 内部错误。
+        /// </summary>
+        InternalError = 0,
+
+        /// <summary>
+        /// 初始化失败。
+        /// </summary>
+        InitFailed,
+
+        /// <summary>
+        /// 连接相关错误。
+        /// </summary>
+        ConnectionInfo,
+
+        /// <summary>
+        /// 全部任务完成。
+        /// </summary>
+        AllTasksCompleted,
+
         /* TaskChain Info */
-        TaskChainError = 10000,     // 任务链执行/识别错误
-        TaskChainStart,             // 任务链开始
-        TaskChainCompleted,         // 任务链完成
-        TaskChainExtraInfo,         // 任务链额外信息
+
+        /// <summary>
+        /// 任务链执行/识别错误。
+        /// </summary>
+        TaskChainError = 10000,
+
+        /// <summary>
+        /// 任务链开始。
+        /// </summary>
+        TaskChainStart,
+
+        /// <summary>
+        /// 任务链完成。
+        /// </summary>
+        TaskChainCompleted,
+
+        /// <summary>
+        /// 任务链额外信息。
+        /// </summary>
+        TaskChainExtraInfo,
+
         /* SubTask Info */
-        SubTaskError = 20000,       // 原子任务执行/识别错误
-        SubTaskStart,               // 原子任务开始
-        SubTaskCompleted,           // 原子任务完成
-        SubTaskExtraInfo,           // 原子任务额外信息
+
+        /// <summary>
+        /// 原子任务执行/识别错误。
+        /// </summary>
+        SubTaskError = 20000,
+
+        /// <summary>
+        /// 原子任务开始。
+        /// </summary>
+        SubTaskStart,
+
+        /// <summary>
+        /// 原子任务完成。
+        /// </summary>
+        SubTaskCompleted,
+
+        /// <summary>
+        /// 原子任务额外信息。
+        /// </summary>
+        SubTaskExtraInfo,
     }
 }
 #pragma warning restore SA1121 // Use built-in type alias

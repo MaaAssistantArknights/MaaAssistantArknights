@@ -19,7 +19,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -27,24 +26,39 @@ using StyletIoC;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The view model of task queue.
+    /// </summary>
     public class TaskQueueViewModel : Screen
     {
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
 
+        /// <summary>
+        /// Gets or sets the view models of task items.
+        /// </summary>
         public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; set; }
 
+        /// <summary>
+        /// Gets or sets the view models of log items.
+        /// </summary>
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
-        private string _actionAfterComplated = ViewStatusStorage.Get("MainFunction.ActionAfterComplated", ActionType.DoNothing.ToString());
+        private string _actionAfterCompleted = ViewStatusStorage.Get("MainFunction.ActionAfterCompleted", ActionType.DoNothing.ToString());
 
+        /// <summary>
+        /// Gets or sets the list of the actions after completion.
+        /// </summary>
         public List<GenericCombData<ActionType>> ActionAfterCompletedList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the action after completion.
+        /// </summary>
         public ActionType ActionAfterCompleted
         {
             get
             {
-                if (Enum.TryParse(_actionAfterComplated, out ActionType action))
+                if (Enum.TryParse(_actionAfterCompleted, out ActionType action))
                 {
                     return action;
                 }
@@ -54,17 +68,22 @@ namespace MeoAsstGui
 
             set
             {
-                SetAndNotify(ref _actionAfterComplated, value.ToString());
+                SetAndNotify(ref _actionAfterCompleted, value.ToString());
                 string storeValue = ActionType.DoNothing.ToString();
                 if (value != ActionType.Shutdown && value != ActionType.Hibernate)
                 {
                     storeValue = value.ToString();
                 }
 
-                ViewStatusStorage.Set("MainFunction.ActionAfterComplated", storeValue);
+                ViewStatusStorage.Set("MainFunction.ActionAfterCompleted", storeValue);
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskQueueViewModel"/> class.
+        /// </summary>
+        /// <param name="container">The IoC container.</param>
+        /// <param name="windowManager">The window manager.</param>
         public TaskQueueViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -99,7 +118,7 @@ namespace MeoAsstGui
         {
             _timer.Enabled = true;
             _timer.Interval = 1000 * 50;
-            _timer.Tick += new EventHandler(Timer1_Elapsed);
+            _timer.Tick += Timer1_Elapsed;
             _timer.Start();
         }
 
@@ -133,6 +152,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Initializes items.
+        /// </summary>
         public void InitializeItems()
         {
             string[] task_list = new string[]
@@ -260,7 +282,7 @@ namespace MeoAsstGui
 
                 // 下面的不支持导航
                 { "Pormpt1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday }, Localization.GetString("Pormpt1")) },
-                { "Pormpt2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Sunday }, Localization.GetString("Pormpt1")) },
+                { "Pormpt2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Sunday }, Localization.GetString("Pormpt2")) },
             };
 
             InitDrops();
@@ -272,13 +294,16 @@ namespace MeoAsstGui
         private Dictionary<string, Tuple<List<DayOfWeek>, string>> _stageAvailableInfo;
         private DayOfWeek _curDayOfWeek;
 
+        /// <summary>
+        /// Updates stage list.
+        /// </summary>
         public void UpdateStageList()
         {
             ObservableCollection<CombData> newList;
             var settingsModel = _container.Get<SettingsViewModel>();
             if (settingsModel.HideUnavailableStage)
             {
-                newList = new ObservableCollection<CombData> { };
+                newList = new ObservableCollection<CombData>();
                 foreach (var item in AllStageList)
                 {
                     if (_stageAvailableInfo.ContainsKey(item.Value))
@@ -343,6 +368,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Updates date prompt.
+        /// </summary>
         public void UpdateDatePrompt()
         {
             var prompt = Localization.GetString("TodaysStageTip") + "\n";
@@ -365,12 +393,21 @@ namespace MeoAsstGui
 
         private string _stagesOfToday = string.Empty;
 
+        /// <summary>
+        /// Gets or sets the stages of today.
+        /// </summary>
         public string StagesOfToday
         {
             get { return _stagesOfToday; }
             set { SetAndNotify(ref _stagesOfToday, value); }
         }
 
+        /// <summary>
+        /// Adds log.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="color">The font color.</param>
+        /// <param name="weight">The font weight.</param>
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
@@ -378,11 +415,17 @@ namespace MeoAsstGui
             // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
+        /// <summary>
+        /// Clears log.
+        /// </summary>
         public void ClearLog()
         {
             LogItemViewModels.Clear();
         }
 
+        /// <summary>
+        /// Selects all.
+        /// </summary>
         public void SelectedAll()
         {
             foreach (var item in TaskItemViewModels)
@@ -398,6 +441,9 @@ namespace MeoAsstGui
 
         private bool _inverseMode = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use inverse mode.
+        /// </summary>
         public bool InverseMode
         {
             get
@@ -417,6 +463,9 @@ namespace MeoAsstGui
         private int _selectedAllWidth =
             ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 90;
 
+        /// <summary>
+        /// Gets or sets the width of "Select All".
+        /// </summary>
         public int SelectedAllWidth
         {
             get
@@ -430,10 +479,16 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// The width of "Select All" when both.
+        /// </summary>
         public const int SelectedAllWidthWhenBoth = 85;
 
         private int _inverseSelectedWidth = 95;
 
+        /// <summary>
+        /// Gets or sets the width of "Select inversely".
+        /// </summary>
         public int InverseSelectedWidth
         {
             get
@@ -450,6 +505,9 @@ namespace MeoAsstGui
         private Visibility _inverseShowVisibility =
             ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? Visibility.Visible : Visibility.Collapsed;
 
+        /// <summary>
+        /// Gets or sets the visibility of "Select inversely".
+        /// </summary>
         public Visibility InverseShowVisibility
         {
             get
@@ -466,6 +524,9 @@ namespace MeoAsstGui
         private Visibility _notInverseShowVisibility =
             ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? Visibility.Collapsed : Visibility.Visible;
 
+        /// <summary>
+        /// Gets or sets the visibility of "Not inversion".
+        /// </summary>
         public Visibility NotInverseShowVisibility
         {
             get
@@ -481,6 +542,9 @@ namespace MeoAsstGui
 
         private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Inverse") : Localization.GetString("Clear");
 
+        /// <summary>
+        /// Gets or sets the text to be displayed for "Select inversely".
+        /// </summary>
         public string InverseShowText
         {
             get
@@ -496,6 +560,9 @@ namespace MeoAsstGui
 
         private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Clear") : Localization.GetString("Inverse");
 
+        /// <summary>
+        /// Gets or sets the text of inversion menu.
+        /// </summary>
         public string InverseMenuText
         {
             get
@@ -509,11 +576,17 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Changes inversion mode.
+        /// </summary>
         public void ChangeInverseMode()
         {
             InverseMode = !InverseMode;
         }
 
+        /// <summary>
+        /// Selects inversely.
+        /// </summary>
         public void InverseSelected()
         {
             if (_inverseMode)
@@ -537,6 +610,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Starts.
+        /// </summary>
         public async void LinkStart()
         {
             if (Idle == false)
@@ -558,8 +634,8 @@ namespace MeoAsstGui
             {
                 return asstProxy.AsstConnect(ref errMsg, true);
             });
-            bool catchd = await task;
-            if (!catchd)
+            bool caught = await task;
+            if (!caught)
             {
                 AddLog(errMsg, "darkred");
                 var settingsModel = _container.Get<SettingsViewModel>();
@@ -572,8 +648,8 @@ namespace MeoAsstGui
                 {
                     return asstProxy.AsstConnect(ref errMsg);
                 });
-                catchd = await task;
-                if (!catchd)
+                caught = await task;
+                if (!caught)
                 {
                     AddLog(errMsg, "darkred");
                     Idle = true;
@@ -668,6 +744,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Stops.
+        /// </summary>
         public void Stop()
         {
             var asstProxy = _container.Get<AsstProxy>();
@@ -748,6 +827,9 @@ namespace MeoAsstGui
             return asstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
         }
 
+        /// <summary>
+        /// Sets parameters.
+        /// </summary>
         public void SetParams()
         {
             int medicine = 0;
@@ -787,8 +869,8 @@ namespace MeoAsstGui
             }
 
             var asstProxy = _container.Get<AsstProxy>();
-            bool setted = asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
-            if (setted)
+            bool isSet = asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+            if (isSet)
             {
                 AddLog(Localization.GetString("SetSuccessfully"), "Black");
             }
@@ -823,7 +905,7 @@ namespace MeoAsstGui
             // for debug
             var settings = _container.Get<SettingsViewModel>();
 
-            int max_times = 0;
+            int max_times;
             if (!int.TryParse(settings.RecruitMaxTimes, out max_times))
             {
                 max_times = 0;
@@ -860,7 +942,7 @@ namespace MeoAsstGui
         private bool appendRoguelike()
         {
             var settings = _container.Get<SettingsViewModel>();
-            int mode = 0;
+            int mode;
             int.TryParse(settings.RoguelikeMode, out mode);
 
             var asstProxy = _container.Get<AsstProxy>();
@@ -869,7 +951,11 @@ namespace MeoAsstGui
                 settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar);
         }
 
-        public bool killemulator()
+        /// <summary>
+        /// Kills emulator.
+        /// </summary>
+        /// <returns>Whether the operation is successful.</returns>
+        public bool killEmulator()
         {
             int pid = 0;
             string port;
@@ -883,22 +969,22 @@ namespace MeoAsstGui
                 port = "5555";
             }
 
-            string portcmd = "netstat -ano|findstr \"" + port + "\"";
-            Process checkcmd = new Process();
-            checkcmd.StartInfo.FileName = "cmd.exe";
-            checkcmd.StartInfo.UseShellExecute = false;
-            checkcmd.StartInfo.RedirectStandardInput = true;
-            checkcmd.StartInfo.RedirectStandardOutput = true;
-            checkcmd.StartInfo.RedirectStandardError = true;
-            checkcmd.StartInfo.CreateNoWindow = true;
-            checkcmd.Start();
-            checkcmd.StandardInput.WriteLine(portcmd);
-            checkcmd.StandardInput.WriteLine("exit");
+            string portCmd = "netstat -ano|findstr \"" + port + "\"";
+            Process checkCmd = new Process();
+            checkCmd.StartInfo.FileName = "cmd.exe";
+            checkCmd.StartInfo.UseShellExecute = false;
+            checkCmd.StartInfo.RedirectStandardInput = true;
+            checkCmd.StartInfo.RedirectStandardOutput = true;
+            checkCmd.StartInfo.RedirectStandardError = true;
+            checkCmd.StartInfo.CreateNoWindow = true;
+            checkCmd.Start();
+            checkCmd.StandardInput.WriteLine(portCmd);
+            checkCmd.StandardInput.WriteLine("exit");
             Regex reg = new Regex("\\s+", RegexOptions.Compiled);
             string line;
             while (true)
             {
-                line = checkcmd.StandardOutput.ReadLine();
+                line = checkCmd.StandardOutput.ReadLine();
                 try
                 {
                     line = line.Trim();
@@ -912,7 +998,7 @@ namespace MeoAsstGui
                 {
                     line = reg.Replace(line, ",");
                     string[] arr = line.Split(',');
-                    if (!Convert.ToBoolean(arr[1].CompareTo(address)) || !Convert.ToBoolean(arr[1].CompareTo("[::]:" + port)) || !Convert.ToBoolean(arr[1].CompareTo("0.0.0.0:" + port)))
+                    if (!Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal)) || !Convert.ToBoolean(string.Compare(arr[1], "[::]:" + port, StringComparison.Ordinal)) || !Convert.ToBoolean(string.Compare(arr[1], "0.0.0.0:" + port, StringComparison.Ordinal)))
                     {
                         pid = int.Parse(arr[4]);
                         break;
@@ -938,18 +1024,55 @@ namespace MeoAsstGui
             return true;
         }
 
+        /// <summary>
+        /// The action type.
+        /// </summary>
         public enum ActionType
         {
+            /// <summary>
+            /// Does nothing.
+            /// </summary>
             DoNothing,
+
+            /// <summary>
+            /// Stops game.
+            /// </summary>
             StopGame,
+
+            /// <summary>
+            /// Exits MAA.
+            /// </summary>
             ExitSelf,
+
+            /// <summary>
+            /// Exits emulator.
+            /// </summary>
             ExitEmulator,
+
+            /// <summary>
+            /// Exits MAA and emulator.
+            /// </summary>
             ExitEmulatorAndSelf,
+
+            /// <summary>
+            /// Computer suspends.
+            /// </summary>
             Suspend,
+
+            /// <summary>
+            /// Computer hibernates.
+            /// </summary>
             Hibernate,
+
+            /// <summary>
+            /// Computer shutdown.
+            /// </summary>
             Shutdown,
         }
 
+        /// <summary>
+        /// Checks after completion.
+        /// </summary>
         public void CheckAfterCompleted()
         {
             switch (ActionAfterCompleted)
@@ -970,11 +1093,11 @@ namespace MeoAsstGui
                     // Shutdown 会调用 OnExit 但 Exit 不会
                     Application.Current.Shutdown();
 
-                    // Enviroment.Exit(0);
+                    // Environment.Exit(0);
                     break;
 
                 case ActionType.ExitEmulator:
-                    if (!killemulator())
+                    if (!killEmulator())
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), "DarkRed");
                     }
@@ -982,7 +1105,7 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.ExitEmulatorAndSelf:
-                    if (!killemulator())
+                    if (!killEmulator())
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), "DarkRed");
                     }
@@ -990,7 +1113,7 @@ namespace MeoAsstGui
                     // Shutdown 会调用 OnExit 但 Exit 不会
                     Application.Current.Shutdown();
 
-                    // Enviroment.Exit(0);
+                    // Environment.Exit(0);
                     break;
 
                 case ActionType.Shutdown:
@@ -1047,6 +1170,9 @@ namespace MeoAsstGui
         // }
         private bool _idle = false;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether it is idle.
+        /// </summary>
         public bool Idle
         {
             get
@@ -1068,6 +1194,9 @@ namespace MeoAsstGui
 
         private bool _fightTaskRunning = false;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the battle task is running.
+        /// </summary>
         public bool FightTaskRunning
         {
             get
@@ -1131,10 +1260,17 @@ namespace MeoAsstGui
         //        }
         //    }
         // }
+
+        /// <summary>
+        /// Gets or sets the list of all stages.
+        /// </summary>
         public List<CombData> AllStageList { get; set; }
 
         private ObservableCollection<CombData> _stageList = new ObservableCollection<CombData>();
 
+        /// <summary>
+        /// Gets or sets the list of stages.
+        /// </summary>
         public ObservableCollection<CombData> StageList
         {
             get
@@ -1150,6 +1286,9 @@ namespace MeoAsstGui
 
         private string _stage = ViewStatusStorage.Get("MainFunction.Stage", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the stage.
+        /// </summary>
         public string Stage
         {
             get
@@ -1166,6 +1305,9 @@ namespace MeoAsstGui
 
         private bool _useMedicine = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use medicine.
+        /// </summary>
         public bool UseMedicine
         {
             get
@@ -1187,6 +1329,9 @@ namespace MeoAsstGui
 
         private string _medicineNumber = ViewStatusStorage.Get("MainFunction.UseMedicine.Quantity", "999");
 
+        /// <summary>
+        /// Gets or sets the amount of medicine used.
+        /// </summary>
         public string MedicineNumber
         {
             get
@@ -1202,6 +1347,9 @@ namespace MeoAsstGui
 
         private bool _useStone;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use originiums.
+        /// </summary>
         public bool UseStone
         {
             get
@@ -1221,6 +1369,9 @@ namespace MeoAsstGui
 
         private string _stoneNumber = ViewStatusStorage.Get("MainFunction.UseStone.Quantity", "0");
 
+        /// <summary>
+        /// Gets or sets the amount of originiums used.
+        /// </summary>
         public string StoneNumber
         {
             get
@@ -1236,6 +1387,9 @@ namespace MeoAsstGui
 
         private bool _hasTimesLimited;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the number of times is limited.
+        /// </summary>
         public bool HasTimesLimited
         {
             get
@@ -1251,6 +1405,9 @@ namespace MeoAsstGui
 
         private string _maxTimes = ViewStatusStorage.Get("MainFunction.TimesLimited.Quantity", "5");
 
+        /// <summary>
+        /// Gets or sets the max number of times.
+        /// </summary>
         public string MaxTimes
         {
             get
@@ -1266,6 +1423,9 @@ namespace MeoAsstGui
 
         private bool _isSpecifiedDrops = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.Drops.Enable", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the drops are specified.
+        /// </summary>
         public bool IsSpecifiedDrops
         {
             get
@@ -1282,6 +1442,9 @@ namespace MeoAsstGui
 
         private static readonly string _DropsFilename = Environment.CurrentDirectory + "\\resource\\item_index.json";
 
+        /// <summary>
+        /// Gets or sets the list of all drops.
+        /// </summary>
         public List<CombData> AllDrops { get; set; } = new List<CombData>();
 
         private void InitDrops()
@@ -1312,15 +1475,21 @@ namespace MeoAsstGui
 
             AllDrops.Sort((a, b) =>
             {
-                return a.Value.CompareTo(b.Value);
+                return string.Compare(a.Value, b.Value, StringComparison.Ordinal);
             });
             DropsList = new ObservableCollection<CombData>(AllDrops);
         }
 
+        /// <summary>
+        /// Gets or sets the list of drops.
+        /// </summary>
         public ObservableCollection<CombData> DropsList { get; set; }
 
         private string _dropsItemId = ViewStatusStorage.Get("MainFunction.Drops.ItemId", "0");
 
+        /// <summary>
+        /// Gets or sets the item ID of drops.
+        /// </summary>
         public string DropsItemId
         {
             get
@@ -1343,6 +1512,9 @@ namespace MeoAsstGui
         private bool _isFirstLoadDropItem = true;
         private long _preSetDropsItemTicks = 0;
 
+        /// <summary>
+        /// Gets or sets the item of drops.
+        /// </summary>
         public string DropsItem
         {
             get
@@ -1383,6 +1555,9 @@ namespace MeoAsstGui
 
         private bool _isDropDown = false;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether it is dropdown.
+        /// </summary>
         public bool IsDropDown
         {
             get
@@ -1398,6 +1573,9 @@ namespace MeoAsstGui
 
         private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");
 
+        /// <summary>
+        /// Gets or sets the quantity of drops.
+        /// </summary>
         public string DropsQuantity
         {
             get

@@ -37,8 +37,8 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 {
     using namespace std::chrono_literals;
 
-    bool getted_info = get_stage_info();
-    if (!getted_info) {
+    bool gotten_info = get_stage_info();
+    if (!gotten_info) {
         return true;
     }
     if (!wait_start()) {
@@ -234,7 +234,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         // 超过一半的人费用都没好，那就不下人
         if (available_count <= not_cooling_count / 2) {
             Log.trace("already used", m_used_tiles.size(), ", now_total", opers.size(),
-                ", avaliable", available_count, ", not_cooling", not_cooling_count);
+                ", available", available_count, ", not_cooling", not_cooling_count);
             return true;
         }
     }
@@ -355,7 +355,7 @@ bool asst::RoguelikeBattleTaskPlugin::speed_up()
     return ProcessTask(*this, { "Roguelike1BattleSpeedUp" }).run();
 }
 
-bool asst::RoguelikeBattleTaskPlugin::use_skill(const asst::Rect& rect)
+bool asst::RoguelikeBattleTaskPlugin::use_skill(const Rect& rect)
 {
     m_ctrler->click(rect);
     sleep(Task.get("BattleUseOper")->pre_delay);

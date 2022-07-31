@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         DebugTask(const AsstCallback& callback, void* callback_arg);
-        virtual ~DebugTask() = default;
+        virtual ~DebugTask() override = default;
 
         virtual bool run() override;
 

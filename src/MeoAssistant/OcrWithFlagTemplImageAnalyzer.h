@@ -10,7 +10,7 @@ namespace asst
         OcrWithFlagTemplImageAnalyzer() = default;
         OcrWithFlagTemplImageAnalyzer(const cv::Mat& image);
         OcrWithFlagTemplImageAnalyzer(const cv::Mat& image, const Rect& roi);
-        virtual ~OcrWithFlagTemplImageAnalyzer() = default;
+        virtual ~OcrWithFlagTemplImageAnalyzer() override = default;
 
         virtual void set_image(const cv::Mat image);
         virtual void set_image(const cv::Mat image, const Rect& roi);

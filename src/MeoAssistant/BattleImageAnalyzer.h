@@ -23,7 +23,7 @@ namespace asst
         };
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~BattleImageAnalyzer() = default;
+        virtual ~BattleImageAnalyzer() override = default;
 
         bool set_target(int target);
         void set_pre_total_kills(int pre_total_kills);

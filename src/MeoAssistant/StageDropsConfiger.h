@@ -49,8 +49,8 @@ namespace asst
     };
     struct StageDropInfo
     {
-        StageDropType droptype = StageDropType::Unknown;
-        std::string droptype_name;
+        StageDropType drop_type = StageDropType::Unknown;
+        std::string drop_type_name;
         std::string item_id;
         std::string item_name;
         int quantity = 0;
@@ -60,7 +60,7 @@ namespace asst
     {
     public:
         using AbstractConfiger::AbstractConfiger;
-        virtual ~StageDropsConfiger() = default;
+        virtual ~StageDropsConfiger() override = default;
 
         const auto& get_stage_info(const std::string& code, StageDifficulty difficulty) const
         {

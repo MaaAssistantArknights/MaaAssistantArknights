@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using InfrastProductionTask::InfrastProductionTask;
-        virtual ~InfrastControlTask() = default;
+        virtual ~InfrastControlTask() override = default;
 
         virtual size_t max_num_of_opers() const noexcept override { return 5ULL; }
     private:
