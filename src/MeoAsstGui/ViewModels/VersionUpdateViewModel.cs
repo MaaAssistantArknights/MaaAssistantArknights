@@ -43,10 +43,12 @@ namespace MeoAsstGui
 
         private static string AddContributorLink(string text)
         {
+            /*
             //        "@ " -> "@ "
             //       "`@`" -> "`@`"
             //   "@MistEO" -> "[@MistEO](https://github.com/MistEO)"
             // "[@MistEO]" -> "[@MistEO]"
+            */
             return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
         }
 
@@ -72,7 +74,6 @@ namespace MeoAsstGui
         private string _updateInfo = ViewStatusStorage.Get("VersionUpdate.body", string.Empty);
 
         // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
-
         public string UpdateInfo
         {
             get
@@ -132,7 +133,6 @@ namespace MeoAsstGui
         //         }
         //     }
         // }
-
         public bool IsFirstBootAfterUpdate
         {
             get { return UpdateTag != string.Empty && UpdateTag == _curVersion; }
