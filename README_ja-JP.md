@@ -41,8 +41,8 @@ MAAは、MAA Assistant Arknightsです。
 
 見ればわかる！  
 
-![image](https://user-images.githubusercontent.com/99072975/181418126-54d3d50e-f405-4edd-a426-a27e9a465286.png)
-![image](https://user-images.githubusercontent.com/99072975/181418131-f4eefa07-6623-470e-ba4a-0ad15cb8aa91.png)
+![image](https://user-images.githubusercontent.com/18511905/182035584-ba5e6db5-6fc5-4b5a-8393-faea22c0a81b.png)
+![image](https://user-images.githubusercontent.com/18511905/182035787-faad4560-b7e5-4ce3-bb8a-b1c65778337b.png)
 ![image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)
 
 
