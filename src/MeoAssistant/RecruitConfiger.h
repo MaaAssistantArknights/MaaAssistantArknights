@@ -6,6 +6,7 @@
 #include <unordered_set>
 #include <vector>
 #include <algorithm>
+#include <numeric>
 
 #include "AsstTypes.h"
 
@@ -44,15 +45,20 @@ namespace asst
         double avg_level = 0;
 
         void update_attributes() {
-            double sum = 0;
-            min_level = 7;
-            max_level = 0;
-            for (const auto& op : opers) {
-                sum += op.level;
-                min_level = (std::min)(min_level, op.level);
-                max_level = (std::max)(max_level, op.level);
-            }
-            avg_level = sum / static_cast<double>(opers.size());
+            min_level = std::transform_reduce(
+                    opers.cbegin(), opers.cend(), 7,
+                    [](int a, int b) -> int { return (std::min)(a, b); },
+                    std::mem_fn(&RecruitOperInfo::level));
+
+            max_level = std::transform_reduce(
+                    opers.cbegin(), opers.cend(), 0,
+                    [](int a, int b) -> int { return (std::max)(a, b); },
+                    std::mem_fn(&RecruitOperInfo::level));
+
+            avg_level = std::transform_reduce(
+                    opers.cbegin(), opers.cend(), 0.,
+                    std::plus<double>{},
+                    std::mem_fn(&RecruitOperInfo::level)) / static_cast<double>(opers.size());
         }
 
         // intersection of two recruit combs
