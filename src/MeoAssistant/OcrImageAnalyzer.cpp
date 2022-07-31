@@ -82,7 +82,7 @@ bool asst::OcrImageAnalyzer::analyze()
 
 void asst::OcrImageAnalyzer::filter(const TextRectProc& filter_func)
 {
-    std::vector<asst::TextRect> temp_result;
+    std::vector<TextRect> temp_result;
 
     for (auto&& tr : get_result()) {
         if (filter_func(tr)) {

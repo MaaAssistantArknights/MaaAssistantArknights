@@ -9,7 +9,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~HashImageAnalyzer() = default;
+        virtual ~HashImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 
@@ -22,7 +22,7 @@ namespace asst
         const std::vector<std::string>& get_min_dist_name() const noexcept;
         const std::vector<std::string>& get_hash() const noexcept;
 
-        static std::string shash(const cv::Mat& img);
+        static std::string s_hash(const cv::Mat& img);
         static int hamming(std::string hash1, std::string hash2);
         static std::vector<cv::Mat> split_bin(const cv::Mat& bin);
         static cv::Mat bound_bin(const cv::Mat& bin);

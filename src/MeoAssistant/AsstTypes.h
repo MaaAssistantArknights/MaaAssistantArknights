@@ -27,6 +27,7 @@ namespace asst
     struct Point
     {
         Point() = default;
+        ~Point() = default;
         Point(const Point&) noexcept = default;
         Point(Point&&) noexcept = default;
         constexpr Point(int x, int y) : x(x), y(y) {}
@@ -60,14 +61,15 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         static int dot(const Point& lhs, const Point& rhs) noexcept { return (lhs.x * rhs.x) + (lhs.y * rhs.y); }
         static double distance(const Point& lhs, const Point& rhs) noexcept
         {
-            return std::sqrt(double(std::pow(rhs.x - lhs.x, 2) + std::pow(rhs.y - lhs.y, 2)));
+            return std::sqrt(std::pow(rhs.x - lhs.x, 2) + std::pow(rhs.y - lhs.y, 2));
         }
-        double length() const noexcept { return std::sqrt(double(dot(*this, *this))); }
+        double length() const noexcept { return std::sqrt(static_cast<double>(dot(*this, *this))); }
     };
 
     struct Rect
     {
         Rect() = default;
+        ~Rect() = default;
         Rect(const Rect&) noexcept = default;
         Rect(Rect&&) noexcept = default;
         Rect(int x, int y, int width, int height)
@@ -83,9 +85,9 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         }
         Rect center_zoom(double scale, int max_width = INT_MAX, int max_height = INT_MAX) const
         {
-            int half_width_scale = static_cast<int>(width * (1 - scale) / 2);
-            int half_hight_scale = static_cast<int>(height * (1 - scale) / 2);
-            Rect dst(x + half_width_scale, y + half_hight_scale,
+            const int half_width_scale = static_cast<int>(width * (1 - scale) / 2);
+            const int half_height_scale = static_cast<int>(height * (1 - scale) / 2);
+            Rect dst(x + half_width_scale, y + half_height_scale,
                 static_cast<int>(width * scale), static_cast<int>(height * scale));
             if (dst.x < 0) {
                 dst.x = 0;
@@ -134,8 +136,12 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
     struct TextRect
     {
         TextRect() = default;
+        ~TextRect() = default;
         TextRect(const TextRect&) = default;
         TextRect(TextRect&&) noexcept = default;
+        explicit TextRect(double score, const Rect& rect, const std::string& text)
+            : score(score), rect(rect), text(text)
+        {}
 
         explicit operator std::string() const noexcept { return text; }
         explicit operator Rect() const noexcept { return rect; }
@@ -172,8 +178,12 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
     struct MatchRect
     {
         MatchRect() = default;
+        ~MatchRect() = default;
         MatchRect(const MatchRect&) = default;
         MatchRect(MatchRect&&) noexcept = default;
+        explicit MatchRect(double score, const Rect& rect)
+            : score(score), rect(rect)
+        {}
 
         explicit operator Rect() const noexcept { return rect; }
         MatchRect& operator=(const MatchRect&) = default;
@@ -187,29 +197,26 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
 namespace std
 {
     template <>
-    class hash<asst::Point>
+    struct hash<asst::Point>
     {
-    public:
-        size_t operator()(const asst::Point& point) const
+        size_t operator()(const asst::Point& point) const noexcept
         {
             return std::hash<int>()(point.x) ^ std::hash<int>()(point.y);
         }
     };
 
     template <>
-    class hash<asst::Rect>
+    struct hash<asst::Rect>
     {
-    public:
-        size_t operator()(const asst::Rect& rect) const
+        size_t operator()(const asst::Rect& rect) const noexcept
         {
             return std::hash<int>()(rect.x) ^ std::hash<int>()(rect.y) ^ std::hash<int>()(rect.width) ^ std::hash<int>()(rect.height);
         }
     };
     template <>
-    class hash<asst::TextRect>
+    struct hash<asst::TextRect>
     {
-    public:
-        size_t operator()(const asst::TextRect& tr) const
+        size_t operator()(const asst::TextRect& tr) const noexcept
         {
             return std::hash<std::string>()(tr.text) ^ std::hash<asst::Rect>()(tr.rect);
         }
@@ -237,9 +244,14 @@ namespace asst
     // 任务信息
     struct TaskInfo
     {
+        TaskInfo() = default;
         virtual ~TaskInfo() = default;
-        std::string name;         // 任务名
-        AlgorithmType algorithm = // 图像算法类型
+        TaskInfo(const TaskInfo&) = default;
+        TaskInfo(TaskInfo&&) noexcept = default;
+        TaskInfo& operator=(const TaskInfo&) = default;
+        TaskInfo& operator=(TaskInfo&&) noexcept = default;
+        std::string name;          // 任务名
+        AlgorithmType algorithm =  // 图像算法类型
             AlgorithmType::Invalid;
         ProcessTaskAction action = // 要进行的操作
             ProcessTaskAction::Invalid;
@@ -250,7 +262,7 @@ namespace asst
         std::vector<std::string> exceeded_next;      // 达到最多次数了之后，下一个可能的任务（列表）
         std::vector<std::string> on_error_next;      // 任务出错之后要去执行什么
         std::vector<std::string> reduce_other_times; // 执行了该任务后，需要减少别的任务的执行次数。例如执行了吃理智药，则说明上一次点击蓝色开始行动按钮没生效，所以蓝色开始行动要-1
-        asst::Rect specific_rect;                    // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
+        Rect specific_rect;                          // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
         int pre_delay = 0;                           // 执行该任务前的延时
         int rear_delay = 0;                          // 执行该任务后的延时
         int retry_times = INT_MAX;                   // 未找到图像时的重试次数
@@ -262,7 +274,12 @@ namespace asst
     // 文字识别任务的信息
     struct OcrTaskInfo : public TaskInfo
     {
-        virtual ~OcrTaskInfo() = default;
+        OcrTaskInfo() = default;
+        virtual ~OcrTaskInfo() override = default;
+        OcrTaskInfo(const OcrTaskInfo&) = default;
+        OcrTaskInfo(OcrTaskInfo&&) noexcept = default;
+        OcrTaskInfo& operator=(const OcrTaskInfo&) = default;
+        OcrTaskInfo& operator=(OcrTaskInfo&&) noexcept = default;
         std::vector<std::string> text; // 文字的容器，匹配到这里面任一个，就算匹配上了
         bool full_match = false;  // 是否需要全匹配，否则搜索到子串就算匹配上了
         std::unordered_map<std::string, std::string>
@@ -272,7 +289,12 @@ namespace asst
     // 图片匹配任务的信息
     struct MatchTaskInfo : public TaskInfo
     {
-        virtual ~MatchTaskInfo() = default;
+        MatchTaskInfo() = default;
+        virtual ~MatchTaskInfo() override = default;
+        MatchTaskInfo(const MatchTaskInfo&) = default;
+        MatchTaskInfo(MatchTaskInfo&&) noexcept = default;
+        MatchTaskInfo& operator=(const MatchTaskInfo&) = default;
+        MatchTaskInfo& operator=(MatchTaskInfo&&) noexcept = default;
         std::string templ_name;         // 匹配模板图片文件名
         double templ_threshold = 0;     // 模板匹配阈值
         double special_threshold = 0;   // 某些任务使用的特殊的阈值
@@ -282,8 +304,13 @@ namespace asst
     // hash 计算任务的信息
     struct HashTaskInfo : public TaskInfo
     {
-        virtual ~HashTaskInfo() = default;
-        std::vector<std::string> hashs;     // 需要多个哈希值
+        HashTaskInfo() = default;
+        virtual ~HashTaskInfo() override = default;
+        HashTaskInfo(const HashTaskInfo&) = default;
+        HashTaskInfo(HashTaskInfo&&) noexcept = default;
+        HashTaskInfo& operator=(const HashTaskInfo&) = default;
+        HashTaskInfo& operator=(HashTaskInfo&&) noexcept = default;
+        std::vector<std::string> hashes;    // 需要多个哈希值
         int dist_threshold = 0;             // 汉明距离阈值
         std::pair<int, int> mask_range;     // 掩码的二值化范围
         bool bound = false;                 // 是否裁剪周围黑边

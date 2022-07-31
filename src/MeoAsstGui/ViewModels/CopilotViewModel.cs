@@ -29,13 +29,24 @@ using Screen = Stylet.Screen;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The view model of copilot.
+    /// </summary>
     public class CopilotViewModel : Screen
     {
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
 
+        /// <summary>
+        /// Gets or sets the view models of log items.
+        /// </summary>
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CopilotViewModel"/> class.
+        /// </summary>
+        /// <param name="container">The IoC container.</param>
+        /// <param name="windowManager">The window manager.</param>
         public CopilotViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -52,6 +63,12 @@ namespace MeoAsstGui
                 "dark");
         }
 
+        /// <summary>
+        /// Adds log.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="color">The font color.</param>
+        /// <param name="weight">The font weight.</param>
         public void AddLog(string content, string color = "Gray", string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
@@ -59,6 +76,13 @@ namespace MeoAsstGui
             // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
+        /// <summary>
+        /// Adds log with URL.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="url">The URL.</param>
+        /// <param name="color">The font color.</param>
+        /// <param name="weight">The font weight.</param>
         public void AddLogWithUrl(string content, string url, string color = "Gray", string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
@@ -66,18 +90,24 @@ namespace MeoAsstGui
             // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
-        private bool _idel = true;
+        private bool _idle = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether it is idle.
+        /// </summary>
         public bool Idle
         {
-            get => _idel;
+            get => _idle;
             set
             {
-                _idel = value;
+                _idle = value;
                 NotifyOfPropertyChange(() => Idle);
             }
         }
 
+        /// <summary>
+        /// Clears log.
+        /// </summary>
         public void ClearLog()
         {
             LogItemViewModels.Clear();
@@ -85,6 +115,9 @@ namespace MeoAsstGui
 
         private string _filename = string.Empty;
 
+        /// <summary>
+        /// Gets or sets the filename.
+        /// </summary>
         public string Filename
         {
             get => _filename;
@@ -115,14 +148,14 @@ namespace MeoAsstGui
             }
             else if (int.TryParse(filename, out _))
             {
-                int copilotID = 0;
+                int copilotID;
                 int.TryParse(filename, out copilotID);
                 jsonStr = RequestCopilotServer(copilotID);
             }
             else if (filename.ToLower().StartsWith(CopilotIdPrefix))
             {
                 var copilotIdStr = filename.ToLower().Remove(0, CopilotIdPrefix.Length);
-                int copilotID = 0;
+                int copilotID;
                 int.TryParse(copilotIdStr, out copilotID);
                 jsonStr = RequestCopilotServer(copilotID);
             }
@@ -241,14 +274,14 @@ namespace MeoAsstGui
                     foreach (JObject group in json["groups"])
                     {
                         count++;
-                        string group_name = group["name"].ToString() + ": ";
-                        var operinfos = new List<string>();
+                        string group_name = group["name"] + ": ";
+                        var operInfos = new List<string>();
                         foreach (JObject oper in group["opers"])
                         {
-                            operinfos.Add(string.Format("{0} {1}", oper["name"], oper["skill"]));
+                            operInfos.Add(string.Format("{0} {1}", oper["name"], oper["skill"]));
                         }
 
-                        AddLog(group_name + string.Join(" / ", operinfos), "black");
+                        AddLog(group_name + string.Join(" / ", operInfos), "black");
                     }
                 }
 
@@ -271,6 +304,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Selects file.
+        /// </summary>
         public void SelectFile()
         {
             var dialog = new Microsoft.Win32.OpenFileDialog();
@@ -283,6 +319,11 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Drops file.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event arguments.</param>
         public void DropFile(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -310,14 +351,20 @@ namespace MeoAsstGui
 
         private bool _form = false;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
         public bool Form
         {
             get => _form;
             set => SetAndNotify(ref _form, value);
         }
 
-        private bool _catched = false;
+        private bool _caught = false;
 
+        /// <summary>
+        /// Starts copilot.
+        /// </summary>
         public async void Start()
         {
             ClearLog();
@@ -334,8 +381,8 @@ namespace MeoAsstGui
             {
                 return asstProxy.AsstConnect(ref errMsg);
             });
-            _catched = await task;
-            if (!_catched)
+            _caught = await task;
+            if (!_caught)
             {
                 AddLog(errMsg, "DarkRed");
                 return;
@@ -362,6 +409,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Stops copilot.
+        /// </summary>
         public void Stop()
         {
             var asstProxy = _container.Get<AsstProxy>();
@@ -372,12 +422,18 @@ namespace MeoAsstGui
         private static readonly string CopilotUiUrl = "https://www.prts.plus/";
         private string _url = CopilotUiUrl;
 
+        /// <summary>
+        /// Gets or sets the copilot URL.
+        /// </summary>
         public string Url
         {
             get => _url == CopilotUiUrl ? Localization.GetString("CopilotJSONSharing") : Localization.GetString("VideoLink");
             set => SetAndNotify(ref _url, value);
         }
 
+        /// <summary>
+        /// The event handler of clicking hyperlink.
+        /// </summary>
         public void Hyperlink_Click()
         {
             try

@@ -70,7 +70,7 @@
 
     <system:String x:Key="SwitchLanguage">切換語言</system:String>
     <system:String x:Key="Language">語言</system:String>
-    <system:String x:Key="LanguageChangedTip">語言設定已更改，是否現在重啟 MAA 以應用語言設定？</system:String>
+    <system:String x:Key="LanguageChangedTip">語言設定已變更，是否現在重啟 MAA 以套用語言設定？</system:String>
     <system:String x:Key="Ok">好的</system:String>
     <system:String x:Key="ManualRestart">稍後</system:String>
     <system:String x:Key="Tip">提示</system:String>
@@ -90,7 +90,7 @@
 
     <system:String x:Key="LaunchOnSystemStartup">開機自動啟動</system:String>
     <system:String x:Key="RunTaskAfterLaunch">啟動後直接運行</system:String>
-    <system:String x:Key="ClientVersion">客戶端版本</system:String>
+    <system:String x:Key="ClientVersion">用戶端版本</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動後自動開啟模擬器</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
@@ -100,9 +100,9 @@
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始次數限制</system:String>
     <system:String x:Key="GoldTimesLimit">投資次數限制</system:String>
-    <system:String x:Key="StopOnGoldLimit">源石錠達到上限停止任務</system:String>
+    <system:String x:Key="StopOnGoldLimit">源石錠達到上限停止</system:String>
 
-    <system:String x:Key="PenguinID">企鵝物流彙報ID（僅數字部分）</system:String>
+    <system:String x:Key="PenguinID">企鵝物流匯報ID（僅數字部分）</system:String>
 
     <system:String x:Key="SocialPtShop">信用購物</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 空格分隔</system:String>
@@ -111,8 +111,8 @@
 
     <system:String x:Key="DroneUsage">無人機用途</system:String>
 
-    <system:String x:Key="MinimizeToTray">最小化時隱藏至託盤</system:String>
-    <system:String x:Key="SystemNotification">重要資訊彈出系統通知</system:String>
+    <system:String x:Key="MinimizeToTray">最小化時隱藏至托盤</system:String>
+    <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
     <system:String x:Key="HideUnavailableStage">關卡選擇隱藏當日不開放關卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
 
@@ -189,7 +189,7 @@
     <system:String x:Key="PR-CTip">先/輔晶片</system:String>
     <system:String x:Key="PR-DTip">近/特晶片</system:String>
     <system:String x:Key="Pormpt1">週一了，可以打剿滅了~</system:String>
-    <system:String x:Key="Pormpt2">周日了，記得打剿滅喔~</system:String>
+    <system:String x:Key="Pormpt2">週日了，記得打剿滅喔~</system:String>
     <!--  戰鬥設定  -->
 
     <!--  日誌  -->
@@ -208,20 +208,20 @@
     <!--  日誌  -->
     <!--  一鍵長草  -->
 
-    <!--  公招識別  -->
-    <system:String x:Key="Recognition">公招識別</system:String>
+    <!--  公招辨識  -->
+    <system:String x:Key="Recognition">公招辨識</system:String>
     <system:String x:Key="RecognitionTip">小提示：和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招Tags介面後使用~</system:String>
     <system:String x:Key="AutoSettingTime">自動設定時間</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">自動選擇3星Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">自動選擇4星Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">自動選擇5星Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">自動選擇6星Tags</system:String>
-    <system:String x:Key="BeganToRecruit">開始識別</system:String>
+    <system:String x:Key="BeganToRecruit">開始辨識</system:String>
 
     <!--  日誌  -->
-    <system:String x:Key="Identifying">正在識別……</system:String>
+    <system:String x:Key="Identifying">正在辨識……</system:String>
     <!--  日誌  -->
-    <!--  公招識別  -->
+    <!--  公招辨識  -->
 
     <!--  自動戰鬥  -->
     <system:String x:Key="Copilot">自動戰鬥 Beta</system:String>
@@ -229,27 +229,27 @@
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">自動編隊</system:String>
-    <system:String x:Key="AutoSquadTip">自動編隊暫時無法識別“特別關注”的幹員</system:String>
+    <system:String x:Key="AutoSquadTip">自動編隊暫時無法辨識“特別關注”的幹員</system:String>
 
     <system:String x:Key="Start">開始</system:String>
 
     <system:String x:Key="CopilotJSONSharing">作業分享站</system:String>
-    <system:String x:Key="VideoLink">視頻鏈接</system:String>
+    <system:String x:Key="VideoLink">影片連結</system:String>
 
     <!--  日誌  -->
     <system:String x:Key="CopilotTip">小提示：</system:String>
-    <system:String x:Key="CopilotTip1">1. 請將模擬器及遊戲幀率設定為 60 幀或更高；</system:String>
+    <system:String x:Key="CopilotTip1">1. 請將模擬器及遊戲影格率設定為 60 張或更高；</system:String>
     <system:String x:Key="CopilotTip2">2. 請在有“開始行動”按鈕的介面再使用本功能；</system:String>
     <system:String x:Key="CopilotTip3">3. 使用好友助戰可以關閉“自動編隊”，手動選擇幹員後開始；</system:String>
     <system:String x:Key="CopilotTip4">4. 模擬悖論需要關閉“自動編隊”，並選好技能後處於“開始模擬”按鈕的介面再開始；</system:String>
-    <system:String x:Key="CopilotTip5">5. “自動編隊”暫時無法識別“特別關注”的幹員，如有需求請取消特別關注或手動編隊；</system:String>
+    <system:String x:Key="CopilotTip5">5. “自動編隊”暫時無法辨識“特別關注”的幹員，如有需求請取消特別關注或手動編隊；</system:String>
 
-    <system:String x:Key="CopilotFileReadError">讀取檔失敗！</system:String>
+    <system:String x:Key="CopilotFileReadError">讀取檔案失敗！</system:String>
     <system:String x:Key="CopilotNoFound">未找到對應作業！</system:String>
     <system:String x:Key="NetworkServiceError">請求網路服務錯誤！</system:String>
-    <system:String x:Key="CopilotJsonError">解析作業檔錯誤！</system:String>
-    <system:String x:Key="NotCopilotJson">非作業檔</system:String>
-    <system:String x:Key="CheckTheFile">請檢查檔內容！</system:String>
+    <system:String x:Key="CopilotJsonError">解析作業檔案錯誤！</system:String>
+    <system:String x:Key="NotCopilotJson">非作業檔案</system:String>
+    <system:String x:Key="CheckTheFile">請檢查檔案內容！</system:String>
     <!--  日誌  -->
     <!--  自動戰鬥  -->
 
@@ -262,7 +262,7 @@
     <system:String x:Key="TryToReconnect">模擬器斷開，正在嘗試重連</system:String>
     <system:String x:Key="ReconnectSuccess">重連成功，繼續任務</system:String>
     <system:String x:Key="ReconnectFailed">重連失敗，連接斷開！</system:String>
-    <system:String x:Key="IdentifyTheMistakes">識別錯誤</system:String>
+    <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="TaskError">任務出錯：</system:String>
     <system:String x:Key="CombatError">戰鬥出錯：</system:String>
     <system:String x:Key="StartTask">開始任務：</system:String>
@@ -270,10 +270,10 @@
     <system:String x:Key="StartCombat">開始戰鬥：</system:String>
     <system:String x:Key="CompleteCombat">完成戰鬥：</system:String>
     <system:String x:Key="AllTasksComplete">任務已全部完成！</system:String>
-    <system:String x:Key="FailedToOpenClient">打開客戶端失敗，請檢查配置檔</system:String>
+    <system:String x:Key="FailedToOpenClient">打開用戶端失敗，請檢查設定檔</system:String>
     <system:String x:Key="ErrorOccurred">出現錯誤</system:String>
     <system:String x:Key="HasReturned">已返回</system:String>
-    <system:String x:Key="DropRecognitionError">掉落識別錯誤</system:String>
+    <system:String x:Key="DropRecognitionError">掉落辨識錯誤</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="TheEX">EX 關卡，已停止</system:String>
     <system:String x:Key="OnTheMove">已開始行動</system:String>
@@ -291,7 +291,7 @@
     <system:String x:Key="FightFailed">戰鬥失敗</system:String>
     <system:String x:Key="UpperLimit">投資達到上限</system:String>
     <system:String x:Key="GameCrash">遊戲崩潰，重新啟動</system:String>
-    <system:String x:Key="GameDrop">遊戲掉線，重新連接</system:String>
+    <system:String x:Key="GameDrop">遊戲斷線，重新連接</system:String>
     <system:String x:Key="Trader">關卡：詭意行商</system:String>
     <system:String x:Key="SafeHouse">關卡：安全的角落</system:String>
     <system:String x:Key="Encounter">關卡：不期而遇</system:String>
@@ -302,19 +302,19 @@
     <system:String x:Key="Drop">本次掉落：</system:String>
     <system:String x:Key="TotalDrop">掉落統計：</system:String>
     <system:String x:Key="ThisFacility">當前設施：</system:String>
-    <system:String x:Key="RecruitingResults">公招識別結果：</system:String>
+    <system:String x:Key="RecruitingResults">公招辨識結果：</system:String>
     <system:String x:Key="RecruitingTips">公招提示</system:String>
     <system:String x:Key="RecruitmentOfStar">公招出 {0} 星了喔！</system:String>
     <system:String x:Key="RecruitmentOfBot">公招出小車了喔！</system:String>
     <system:String x:Key="Choose">選擇</system:String>
     <system:String x:Key="Refreshed">當前槽位已刷新</system:String>
     <system:String x:Key="NotEnoughStaff">可用幹員不足</system:String>
-    <system:String x:Key="StageInfoError">關卡識別錯誤</system:String>
+    <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationSelected">選擇幹員：</system:String>
     <system:String x:Key="CurrentSteps">當前步驟：</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的關卡，請更新 MAA 軟體版本，或檢查作業檔</system:String>
-    <system:String x:Key="RecruitTagsDetected">識別結果：</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的關卡，請更新 MAA 軟體版本，或檢查作業檔案</system:String>
+    <system:String x:Key="RecruitTagsDetected">辨識結果：</system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>
     <system:String x:Key="CheckSettings">請檢查連接設定或嘗試重啟電腦</system:String>
@@ -326,7 +326,7 @@
 
     <!--  About  -->
     <system:String x:Key="Website">MAA 官網</system:String>
-    <system:String x:Key="Github">源碼：GitHub</system:String>
+    <system:String x:Key="Github">原始碼：GitHub</system:String>
     <system:String x:Key="QQgroup">自動戰鬥作業分享 Q 群</system:String>
     <system:String x:Key="QQgroup1">一群</system:String>
     <system:String x:Key="QQgroup2">二群</system:String>
@@ -345,7 +345,7 @@
     <system:String x:Key="AutoSelectLevel4">自動確認 4 星</system:String>
     <system:String x:Key="AutoSelectLevel5">自動確認 5 星</system:String>
     <system:String x:Key="AutoSelectLevel6">自動確認 6 星</system:String>
-    <system:String x:Key="Level1Tip">勾選時識別到 1 星詞條時跳過該次招募，未勾選時將忽略 1 星詞條</system:String>
+    <system:String x:Key="Level1Tip">勾選時辨識到 1 星詞條時跳過該次招募，未勾選時將忽略 1 星詞條</system:String>
     <!--  AutoRecruitSettings  -->
 
     <system:String x:Key="Burping">呃......咳嗯</system:String>

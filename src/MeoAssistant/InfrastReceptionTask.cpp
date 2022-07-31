@@ -14,7 +14,7 @@ bool asst::InfrastReceptionTask::_run()
 
     swipe_to_the_right_of_main_ui();
     enter_facility();
-    click_bottomleft_tab();
+    click_bottom_left_tab();
 
     close_end_of_clue_exchange();
 
@@ -27,7 +27,7 @@ bool asst::InfrastReceptionTask::_run()
         return false;
     }
     click_return_button();
-    click_bottomleft_tab();
+    click_bottom_left_tab();
     if (need_exit()) {
         return false;
     }

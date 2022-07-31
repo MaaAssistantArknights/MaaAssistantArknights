@@ -8,7 +8,7 @@ namespace asst
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~ReplenishOriginiumShardTaskPlugin() = default;
+        virtual ~ReplenishOriginiumShardTaskPlugin() override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 

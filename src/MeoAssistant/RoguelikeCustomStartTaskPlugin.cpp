@@ -119,7 +119,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     const auto& role = Resrc.battle_data().get_role(char_name);
     auto role_iter = RoleOcrNameMap.find(role);
     if (role_iter == RoleOcrNameMap.cend()) {
-        Log.error("Unknow role", char_name, static_cast<int>(role));
+        Log.error("Unknown role", char_name, static_cast<int>(role));
         return false;
     }
     // select role

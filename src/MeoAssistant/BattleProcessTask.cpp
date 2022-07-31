@@ -217,7 +217,7 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
     }
     const auto& cur_opers_info = analyzer.get_opers();
     // 除非主动使用，不然可用干员数任何情况下都不会减少
-    // 主动使用会 earse, 所以少了就是识别错了
+    // 主动使用会 erase, 所以少了就是识别错了
     if (cur_opers_info.size() < m_cur_opers_info.size()) {
         Log.error(__FUNCTION__, "Decrease in staff, Just return");
         return false;

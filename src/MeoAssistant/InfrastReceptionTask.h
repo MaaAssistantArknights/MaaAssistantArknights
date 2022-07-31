@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using InfrastProductionTask::InfrastProductionTask;
-        virtual ~InfrastReceptionTask() = default;
+        virtual ~InfrastReceptionTask() override = default;
 
     protected:
         virtual bool _run() override;

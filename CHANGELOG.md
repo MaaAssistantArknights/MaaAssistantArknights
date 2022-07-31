@@ -1,6 +1,5 @@
-- 新增支持 肉鸽 商店 根据已有干员决定购买哪些物品 @MistEO
-- 新增支持 肉鸽 商店 购买 `金酒之杯` 类商品后，不再额外购买其他商品 @MistEO
-- 优化 肉鸽 干员技能、部署位置等 @MistEO
-- 修复 公招 的一些报错问题 @horror-proton
-- 修复 自动战斗 `安洁莉娜` 不部署的问题 @MistEO
-- 修复 界面 一些小问题 @ABA2396 @zzyyyl @MistEO
+- 重写并优化 肉鸽 信用商店购物逻辑 @MistEO @ABA2396
+- 优化 肉鸽 干员招募逻辑，现在支持翻页了 @et2012
+- 修复 公招 的一些问题 @horror-proton
+- 修复 肉鸽 干员 `山` 重复开技能的问题 @MistEO
+- 项目代码清理 @lhhxxxxx @LiamSho @zzyyyl

@@ -13,7 +13,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~OcrImageAnalyzer() = default;
+        virtual ~OcrImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 

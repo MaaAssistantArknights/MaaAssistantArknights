@@ -23,6 +23,9 @@ namespace MeoAsstGui
     /// </summary>
     public partial class AboutUserControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AboutUserControl"/> class.
+        /// </summary>
         public AboutUserControl()
         {
             InitializeComponent();

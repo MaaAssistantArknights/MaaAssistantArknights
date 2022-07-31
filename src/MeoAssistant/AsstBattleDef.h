@@ -118,6 +118,7 @@ namespace asst
         std::string name;
         BattleRole role;
         std::array<std::string, 3> ranges;
+        int rarity = 0;
     };
 
     struct BattleRecruitOperInfo

@@ -10,7 +10,7 @@ namespace asst
     public:
         InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain);
 
-        virtual ~InfrastAbstractTask() = default;
+        virtual ~InfrastAbstractTask() override = default;
         InfrastAbstractTask& set_work_mode(infrast::WorkMode work_mode) noexcept;
         InfrastAbstractTask& set_mood_threshold(double mood_thres) noexcept;
 
@@ -34,7 +34,7 @@ namespace asst
         void async_swipe_of_operlist(bool reverse = false);
         void await_swipe();
 
-        virtual bool click_bottomleft_tab(); // 点击进入设施后，左下角的tab（我也不知道这玩意该叫啥）
+        virtual bool click_bottom_left_tab(); // 点击进入设施后，左下角的tab（我也不知道这玩意该叫啥）
         virtual bool click_clear_button();   // 点击干员选择页面的“清空选择”按钮
         virtual bool click_confirm_button(); // 点击干员选择页面的“确认”按钮
 

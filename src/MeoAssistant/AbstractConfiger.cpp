@@ -23,7 +23,7 @@ bool asst::AbstractConfiger::load(const std::string& filename)
 
     auto&& ret = json::open(filename, true);
     if (!ret) {
-        m_last_error = "json pasing error, filename: " + filename;
+        m_last_error = "json passing error, filename: " + filename;
         return false;
     }
 

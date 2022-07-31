@@ -547,6 +547,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
                 char_data.get("phases", 2, "rangeId", default_range),
             };
         }
+        char_new_data["rarity"] = (int)char_data["rarity"] + 1;
 
         chars.emplace(id, std::move(char_new_data));
     }

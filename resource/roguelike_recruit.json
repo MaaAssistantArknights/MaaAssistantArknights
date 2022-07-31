@@ -13,343 +13,281 @@
     "Warrior": [
         {
             "name": "帕拉斯",
-            "level": 6,
             "skill": 1
         },
         {
             "name": "Sharp",
-            "level": 5,
             "skill": 1
-        },
-        {
-            "name": "山",
-            "level": 6,
-            "skill": 2
-        },
-        {
-            "name": "煌",
-            "level": 6,
-            "skill": 2
         },
         {
             "name": "艾丽妮",
-            "level": 6,
             "skill": 1
         },
         {
+            "name": "煌",
+            "skill": 2
+        },
+        {
+            "name": "山",
+            "skill": 2,
+            "skill_usage": 2
+        },
+        {
             "name": "羽毛笔",
-            "level": 5,
             "skill": 1
         },
         {
             "name": "陈",
-            "level": 6,
             "skill": 2
         },
         {
             "name": "拉普兰德",
-            "level": 5,
             "skill": 2
         },
         {
             "name": "阿米娅",
-            "level": 5,
             "skill": 1
         },
         {
             "name": "银灰",
-            "level": 6,
             "skill": 3,
             "alternate_skill": 1
         },
         {
             "name": "幽灵鲨",
-            "level": 5,
             "skill": 2
         },
         {
             "name": "龙舌兰",
-            "level": 5,
             "skill": 1
         },
         {
             "name": "星极",
-            "level": 5,
             "skill": 2
         },
         {
             "name": "棘刺",
-            "level": 6,
             "skill": 3,
             "alternate_skill": 1
         },
         {
             "name": "柏喙",
-            "level": 5,
             "skill": 2
         },
         {
             "name": "泡普卡",
-            "level": 3,
             "skill": 1
         },
         {
             "name": "月见夜",
-            "level": 3,
             "skill": 1
         },
         {
             "name": "玫兰莎",
-            "level": 3,
             "skill": 1
         }
     ],
     "Pioneer": [
         {
             "name": "风笛",
-            "level": 6,
             "skill": 2
         },
         {
             "name": "芬",
-            "level": 3,
             "skill": 1
         },
         {
             "name": "桃金娘",
-            "level": 4,
             "skill": 1
         },
         {
             "name": "翎羽",
-            "level": 3,
             "skill": 1
         }
     ],
     "Tank": [
         {
             "name": "泥岩",
-            "level": 6,
             "skill": 2
         },
         {
             "name": "塞雷娅",
-            "level": 6,
             "skill": 2
         },
         {
             "name": "斑点",
-            "level": 3,
             "skill": 1
         },
         {
             "name": "卡缇",
-            "level": 3,
             "skill": 1
         }
     ],
     "Sniper": [
         {
             "name": "假日威龙陈",
-            "level": 6,
             "skill": 3,
             "alternate_skill": 1
         },
         {
             "name": "Stormeye",
-            "level": 5,
             "skill": 1
         },
         {
             "name": "能天使",
-            "level": 6,
             "skill": 3,
             "alternate_skill": 1
         },
         {
             "name": "空弦",
-            "level": 6,
             "skill": 1
         },
         {
             "name": "蓝毒",
-            "level": 5,
             "skill": 1
         },
         {
             "name": "白金",
-            "level": 5,
             "skill": 2
         },
         {
             "name": "克洛丝",
-            "level": 3,
             "skill": 1
         },
         {
             "name": "安德切尔",
-            "level": 3,
             "skill": 1
         },
         {
             "name": "空爆",
-            "level": 3,
             "skill": 1
         }
     ],
     "Caster": [
         {
             "name": "澄闪",
-            "level": 6,
             "skill": 3,
             "alternate_skill": 2
         },
         {
             "name": "Pith",
-            "level": 5,
             "skill": 1
         },
         {
             "name": "艾雅法拉",
-            "level": 6,
             "skill": 2
         },
         {
             "name": "阿米娅",
-            "level": 5,
             "skill": 1
         },
         {
             "name": "史都华德",
-            "level": 3,
             "skill": 1
         },
         {
             "name": "炎熔",
-            "level": 3,
             "skill": 1
         }
     ],
     "Special": [
         {
             "name": "归溟幽灵鲨",
-            "level": 6,
             "skill": 2
         },
         {
             "name": "孑",
-            "level": 4,
             "skill": 2
         }
     ],
     "Medic": [
         {
             "name": "凯尔希",
-            "level": 6,
             "skill": 3,
             "alternate_skill": 2
         },
         {
             "name": "Touch",
-            "level": 5,
             "skill": 1
         },
         {
             "name": "夜莺",
-            "level": 6,
             "skill": 2
         },
         {
             "name": "白面鸮",
-            "level": 5,
             "skill": 2
         },
         {
             "name": "桑葚",
-            "level": 5,
             "skill": 1
         },
         {
             "name": "蜜莓",
-            "level": 5,
             "skill": 1
         },
         {
             "name": "苏苏洛",
-            "level": 4,
             "skill": 2
         },
         {
             "name": "调香师",
-            "level": 4,
             "skill": 1
         },
         {
             "name": "安赛尔",
-            "level": 3,
             "skill": 1
         },
         {
             "name": "芙蓉",
-            "level": 3,
             "skill": 1
         }
     ],
     "Support": [
         {
-            "name": "令",
-            "level": 6,
+            "name": "灵知",
             "skill": 3,
             "alternate_skill": 1
         },
         {
-            "name": "灵知",
-            "level": 6,
+            "name": "令",
             "skill": 3,
             "alternate_skill": 1
         },
         {
             "name": "铃兰",
-            "level": 6,
             "skill": 3,
             "alternate_skill": 2
         },
         {
             "name": "安洁莉娜",
-            "level": 6,
             "skill": 3,
             "alternate_skill": 2
         },
         {
             "name": "浊心斯卡蒂",
-            "level": 6,
             "skill": 2
         },
         {
             "name": "梓兰",
-            "level": 3,
             "skill": 1
         }
     ],
     "Alternate": [
         {
             "name": "预备干员-近战",
-            "level": 3,
             "skill": 0
         },
         {
             "name": "预备干员-狙击",
-            "level": 3,
             "skill": 0
         },
         {
             "name": "预备干员-术师",
-            "level": 3,
             "skill": 0
         },
         {
             "name": "预备干员-后勤",
-            "level": 3,
             "skill": 0
         }
     ]

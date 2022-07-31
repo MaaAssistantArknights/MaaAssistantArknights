@@ -258,7 +258,7 @@
     <system:String x:Key="Error">エラー</system:String>
     <system:String x:Key="InitializationError">初期化エラー！</system:String>
     <system:String x:Key="ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16：9で、720p以上に設定してください</system:String>
-    <system:String x:Key="ResolutionAcquisitionFailure">エミュレーターの解像度を取得できませんでした。コンピューターを再起動するか、エミュレーターを変更してから再試行することをお勧めします</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。コンピュータを再起動するか、エミュレータを変更してから再試行することをお勧めします</system:String>
     <system:String x:Key="TryToReconnect">エミュレータが切断されました。再接続しようとしています</system:String>
     <system:String x:Key="ReconnectSuccess">再接続に成功した。タスクを続行します</system:String>
     <system:String x:Key="ReconnectFailed">再接続に失敗した。切断されました！</system:String>

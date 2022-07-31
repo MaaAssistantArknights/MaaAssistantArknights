@@ -10,7 +10,7 @@ namespace asst
     {
     public:
         CloseDownTask(AsstCallback callback, void* callback_arg);
-        virtual ~CloseDownTask() = default;
+        virtual ~CloseDownTask() override = default;
 
         static constexpr const char* TaskType = "CloseDown";
     private:

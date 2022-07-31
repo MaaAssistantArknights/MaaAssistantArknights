@@ -11,7 +11,7 @@ namespace asst
     class BattleDataConfiger : public AbstractConfiger
     {
     public:
-        virtual ~BattleDataConfiger() = default;
+        virtual ~BattleDataConfiger() override = default;
 
         BattleRole get_role(const std::string& name) const
         {
@@ -20,6 +20,15 @@ namespace asst
                 return BattleRole::Unknown;
             }
             return iter->second.role;
+        }
+
+        int get_rarity(const std::string& name) const
+        {
+            auto iter = m_chars.find(name);
+            if (iter == m_chars.cend()) {
+                return 0;
+            }
+            return iter->second.rarity;
         }
 
         static inline const BattleAttackRange& EmptyRange{ {0, 0} };

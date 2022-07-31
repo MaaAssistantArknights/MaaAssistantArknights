@@ -11,7 +11,8 @@ namespace asst
     struct RoguelikeGoods
     {
         std::string name;
-        BattleRole role_restriction = BattleRole::Unknown;
+        std::vector<BattleRole> roles;
+        std::vector<std::string> chars;
         int promotion = 0;  // 晋升 N 个干员
         bool no_longer_buy = false;
         bool ignore_no_longer_buy = false;
@@ -20,7 +21,7 @@ namespace asst
     class RoguelikeShoppingConfiger : public AbstractConfiger
     {
     public:
-        virtual ~RoguelikeShoppingConfiger() = default;
+        virtual ~RoguelikeShoppingConfiger() override = default;
 
         const auto& get_goods() const noexcept
         {

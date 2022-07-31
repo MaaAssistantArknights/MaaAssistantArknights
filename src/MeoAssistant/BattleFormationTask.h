@@ -8,7 +8,7 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
-        virtual ~BattleFormationTask() = default;
+        virtual ~BattleFormationTask() override = default;
 
         void set_stage_name(std::string name);
 

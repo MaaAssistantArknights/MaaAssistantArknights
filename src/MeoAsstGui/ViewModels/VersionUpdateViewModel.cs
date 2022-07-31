@@ -27,11 +27,19 @@ using StyletIoC;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The view model of version update.
+    /// </summary>
     public class VersionUpdateViewModel : Screen
     {
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VersionUpdateViewModel"/> class.
+        /// </summary>
+        /// <param name="container">The IoC container.</param>
+        /// <param name="windowManager">The window manager.</param>
         public VersionUpdateViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
@@ -43,10 +51,12 @@ namespace MeoAsstGui
 
         private static string AddContributorLink(string text)
         {
+            /*
             //        "@ " -> "@ "
             //       "`@`" -> "`@`"
             //   "@MistEO" -> "[@MistEO](https://github.com/MistEO)"
             // "[@MistEO]" -> "[@MistEO]"
+            */
             return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
         }
 
@@ -55,6 +65,9 @@ namespace MeoAsstGui
 
         private string _updateTag = ViewStatusStorage.Get("VersionUpdate.name", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the update tag.
+        /// </summary>
         public string UpdateTag
         {
             get
@@ -73,6 +86,9 @@ namespace MeoAsstGui
 
         // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
 
+        /// <summary>
+        /// Gets or sets the update info.
+        /// </summary>
         public string UpdateInfo
         {
             get
@@ -96,6 +112,9 @@ namespace MeoAsstGui
 
         private string _updateUrl;
 
+        /// <summary>
+        /// Gets or sets the update URL.
+        /// </summary>
         public string UpdateUrl
         {
             get
@@ -133,6 +152,9 @@ namespace MeoAsstGui
         //     }
         // }
 
+        /// <summary>
+        /// Gets a value indicating whether it is the first boot after updating.
+        /// </summary>
         public bool IsFirstBootAfterUpdate
         {
             get { return UpdateTag != string.Empty && UpdateTag == _curVersion; }
@@ -140,6 +162,9 @@ namespace MeoAsstGui
 
         private string _updatePackageName = ViewStatusStorage.Get("VersionUpdate.package", string.Empty);
 
+        /// <summary>
+        /// Gets or sets the name of the update package.
+        /// </summary>
         public string UpdatePackageName
         {
             get
@@ -150,19 +175,19 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _updatePackageName, value);
-                ViewStatusStorage.Set("VersionUpdate.package", value.ToString());
+                ViewStatusStorage.Set("VersionUpdate.package", value);
             }
         }
 
         private const string RequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases";
         private const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
-        private JObject _lastestJson;
+        private JObject _latestJson;
         private JObject _assetsObject;
 
         /// <summary>
-        /// 检查是否有已下载的更新包，如果有立即更新并重启进程
+        /// 检查是否有已下载的更新包，如果有立即更新并重启进程。
         /// </summary>
-        /// <returns>操作成功返回 true，反之则返回 false</returns>
+        /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckAndUpdateNow()
         {
             if (UpdateTag == string.Empty
@@ -231,9 +256,9 @@ namespace MeoAsstGui
 
             // 程序正在运行中，部分文件是无法覆写的，这里曲线操作下
             // 先将当前这些文件重命名，然后再把新的复制过来
-            foreach (var oldfile in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.old"))
+            foreach (var oldFile in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.old"))
             {
-                File.Delete(oldfile);
+                File.Delete(oldFile);
             }
 
             foreach (var file in uncopiedList)
@@ -262,10 +287,10 @@ namespace MeoAsstGui
         }
 
         /// <summary>
-        /// 检查更新，并下载更新包
+        /// 检查更新，并下载更新包。
         /// </summary>
-        /// <param name="force">是否强制检查</param>
-        /// <returns>操作成功返回 true，反之则返回 false</returns>
+        /// <param name="force">是否强制检查。</param>
+        /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckAndDownloadUpdate(bool force = false)
         {
             // 检查更新
@@ -275,19 +300,19 @@ namespace MeoAsstGui
             }
 
             // 保存新版本的信息
-            UpdatePackageName = _assetsObject["name"].ToString();
-            UpdateTag = _lastestJson["name"].ToString();
-            UpdateInfo = _lastestJson["body"].ToString();
-            UpdateUrl = _lastestJson["html_url"].ToString();
+            UpdatePackageName = _assetsObject["name"]?.ToString();
+            UpdateTag = _latestJson["name"]?.ToString();
+            UpdateInfo = _latestJson["body"]?.ToString();
+            UpdateUrl = _latestJson["html_url"]?.ToString();
 
-            // ToastNotification.get= _lastestJson["html_url"].ToString();
+            // ToastNotification.get= _latestJson["html_url"].ToString();
             var openUrlToastButton = (
                 text: "前往页面查看",
                 action: new Action(() =>
                 {
-                    if (!string.IsNullOrWhiteSpace(_lastestJson["html_url"].ToString()))
+                    if (!string.IsNullOrWhiteSpace(_latestJson["html_url"]?.ToString()))
                     {
-                        Process.Start(_lastestJson["html_url"].ToString());
+                        Process.Start(_latestJson["html_url"].ToString());
                     }
                 }));
 
@@ -328,8 +353,8 @@ namespace MeoAsstGui
             for (int i = 0; i < DownloadRetryMaxTimes; i++)
             {
                 var mirroredAssets = (JObject)_assetsObject.DeepClone();
-                mirroredAssets.Property("browser_download_url").Remove();
-                mirroredAssets.Add("browser_download_url", _assetsObject["browser_download_url"].ToString().Replace("github.com", "download.fastgit.org"));
+                mirroredAssets.Property("browser_download_url")?.Remove();
+                mirroredAssets.Add("browser_download_url", _assetsObject["browser_download_url"]?.ToString().Replace("github.com", "download.fastgit.org"));
                 if (DownloadGithubAssets(mirroredAssets) || DownloadGithubAssets(_assetsObject))
                 {
                     downloaded = true;
@@ -367,10 +392,10 @@ namespace MeoAsstGui
         }
 
         /// <summary>
-        /// 检查更新
+        /// 检查更新。
         /// </summary>
-        /// <param name="force">是否强制检查</param>
-        /// <returns>操作成功返回 true，反之则返回 false</returns>
+        /// <param name="force">是否强制检查。</param>
+        /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckUpdate(bool force = false)
         {
             // 开发版不检查更新
@@ -385,9 +410,9 @@ namespace MeoAsstGui
                 return false;
             }
 
-            const int requestRetryMaxTimes = 5;
+            const int RequestRetryMaxTimes = 5;
             var response = RequestApi(RequestUrl);
-            for (int i = 0; response.Length == 0 && i < requestRetryMaxTimes; i++)
+            for (int i = 0; response.Length == 0 && i < RequestRetryMaxTimes; i++)
             {
                 response = RequestApi(RequestUrl);
             }
@@ -401,24 +426,24 @@ namespace MeoAsstGui
             {
                 var releaseArray = JsonConvert.DeserializeObject(response) as JArray;
 
-                for (int i = 0; i < releaseArray.Count; i++)
+                foreach (var item in releaseArray)
                 {
-                    if ((bool)releaseArray[i]["prerelease"])
+                    if ((bool)item["prerelease"])
                     {
                         if (settings.UpdateBeta)
                         {
-                            _lastestJson = releaseArray[i] as JObject;
+                            _latestJson = item as JObject;
                             break;
                         }
                     }
                     else
                     {
-                        _lastestJson = releaseArray[i] as JObject;
+                        _latestJson = item as JObject;
                         break;
                     }
                 }
 
-                _latestVersion = _lastestJson["tag_name"].ToString();
+                _latestVersion = _latestJson["tag_name"].ToString();
                 if (ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _latestVersion)
                 {
                     return false;
@@ -426,28 +451,28 @@ namespace MeoAsstGui
 
                 Semver.SemVersion curVersionObj;
                 bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out curVersionObj);
-                Semver.SemVersion lastestVersionObj;
-                bool lastestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out lastestVersionObj);
-                if (curParsed && lastestPared)
+                Semver.SemVersion latestVersionObj;
+                bool latestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out latestVersionObj);
+                if (curParsed && latestPared)
                 {
-                    if (curVersionObj.CompareSortOrderTo(lastestVersionObj) >= 0)
+                    if (curVersionObj.CompareSortOrderTo(latestVersionObj) >= 0)
                     {
                         return false;
                     }
                 }
-                else if (string.Compare(_curVersion, _latestVersion) >= 0)
+                else if (string.CompareOrdinal(_curVersion, _latestVersion) >= 0)
                 {
                     return false;
                 }
 
-                if (!_lastestJson.ContainsKey("assets")
-                    || (_lastestJson["assets"] as JArray).Count == 0)
+                if (!_latestJson.ContainsKey("assets")
+                    || (_latestJson["assets"] as JArray).Count == 0)
                 {
                     return false;
                 }
 
-                _assetsObject = _lastestJson["assets"][0] as JObject;
-                foreach (var curAssets in _lastestJson["assets"] as JArray)
+                _assetsObject = _latestJson["assets"][0] as JObject;
+                foreach (var curAssets in _latestJson["assets"] as JArray)
                 {
                     var name = curAssets["name"].ToString();
                     if (name.ToLower().Contains("ota"))
@@ -523,7 +548,7 @@ namespace MeoAsstGui
         /// <param name="contentType">获取对象的物联网通用类型</param>
         /// <param name="downloader">下载方式，如为空则使用 CSharp 原生方式下载</param>
         /// <param name="saveTo">保存至的文件夹，如为空则使用当前位置</param>
-        /// <returns>操作成功返回 true，反之则返回 false</returns>
+        /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool DownloadFile(string url, string fileName, string contentType = null, string downloader = null, string saveTo = null)
         {
             string usedDownloader;
@@ -840,6 +865,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Closes view model.
+        /// </summary>
         public void Close()
         {
             RequestClose();
@@ -847,6 +875,11 @@ namespace MeoAsstGui
             UpdateInfo = string.Empty;
         }
 
+        /// <summary>
+        /// The event handler of opening hyperlink.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event arguments.</param>
         public void OpenHyperlink(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
             Process.Start(e.Parameter.ToString());

@@ -32,6 +32,9 @@ using Notification.Wpf.Controls;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The toast notification.
+    /// </summary>
     public class ToastNotification : IDisposable
     {
         private ToastNotification()
@@ -45,6 +48,10 @@ namespace MeoAsstGui
         private static bool _systemToastChecked = false;
         private static bool _systemToastCheckInited = false;
 
+        /// <summary>
+        /// Checks toast system.
+        /// </summary>
+        /// <returns>The toast system is initialized.</returns>
         public bool CheckToastSystem()
         {
             if (!_systemToastCheckInited)
@@ -106,11 +113,14 @@ namespace MeoAsstGui
         }
 
         /// <summary>
-        /// Toast通知，基于 Notification.Wpf 实现，方便管理通知样式
-        /// <para>建议使用 using 调用，如果不使用 using 调用，建议手动调用 Dispose() 方法释放</para>
-        /// <para>在线程中必须使用 Dispatcher.Invoke 相关方法调用</para>
+        /// Initializes a new instance of the <see cref="ToastNotification"/> class.
         /// </summary>
         /// <param name="title">通知标题</param>
+        /// <remarks>
+        /// <para>Toast通知，基于 <see cref="Notification.Wpf"/> 实现，方便管理通知样式。</para>
+        /// <para>建议使用 <see langword="using"/> 调用，如果不使用 <see langword="using"/> 调用，建议手动调用 <see cref="Dispose()"/> 方法释放。</para>
+        /// <para>在线程中必须使用 <c>Dispatcher.Invoke</c> 相关方法调用。</para>
+        /// </remarks>
         public ToastNotification(string title = null)
         {
             // 初始化通知标题
@@ -144,26 +154,50 @@ namespace MeoAsstGui
 
         #region 通知提示音列表枚举
 
+        /// <summary>
+        /// 通知提示音列表枚举，
+        /// </summary>
         public enum NotificationSounds
         {
+            /// <summary>
+            /// 默认响声。
+            /// </summary>
             [Description("默认响声")]
             Beep,
 
+            /// <summary>
+            /// 感叹号。
+            /// </summary>
             [Description("感叹号")]
             Exclamation,
 
+            /// <summary>
+            /// 星号。
+            /// </summary>
             [Description("星号")]
             Asterisk,
 
+            /// <summary>
+            /// 问题。
+            /// </summary>
             [Description("问题")]
             Question,
 
+            /// <summary>
+            /// 关键性停止。
+            /// </summary>
             [Description("关键性停止")]
             Hand,
 
+            /// <summary>
+            /// 通知 (Windows 10 及以上特有，低版本系统直接用也可以)。
+            /// </summary>
             [Description("通知 (Windows 10 及以上特有，低版本系统直接用也可以)")]
             Notification,
 
+            /// <summary>
+            /// 无声。
+            /// </summary>
             [Description("无声")]
             None,
         }
@@ -172,7 +206,7 @@ namespace MeoAsstGui
 
         /// <summary>
         /// 播放通知提示音
-        /// 如果要播放音频文件，参考微软文档 SoundPlayer 类
+        /// 如果要播放音频文件，参考微软文档 <see cref="SoundPlayer"/> 类
         /// </summary>
         /// <param name="sounds">提示音类型</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
@@ -241,6 +275,9 @@ namespace MeoAsstGui
 
         private string _buttonSystemUrl;
 
+        /// <summary>
+        /// Gets or sets the button system URL.
+        /// </summary>
         public string ButtonSystemUrl
         {
             get { return _buttonSystemUrl; }
@@ -288,8 +325,9 @@ namespace MeoAsstGui
         #region 通知基本字体样式和内容模板
 
         /// <summary>
-        /// 创建一个基本文本字体样式
+        /// Gets basic text styles.
         /// </summary>
+        /// <remarks>创建一个基本文本字体样式。</remarks>
         public TextContentSettings BaseTextSettings => new TextContentSettings()
         {
             FontStyle = FontStyles.Normal,
@@ -323,10 +361,10 @@ namespace MeoAsstGui
                 Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF1F3550"),
 
                 LeftButtonContent = _buttonLeftText ?? NotificationConstants.DefaultLeftButtonContent,
-                LeftButtonAction = _buttonLeftAction ?? null,
+                LeftButtonAction = _buttonLeftAction,
 
                 RightButtonContent = _buttonRightText ?? NotificationConstants.DefaultRightButtonContent,
-                RightButtonAction = _buttonRightAction ?? null,
+                RightButtonAction = _buttonRightAction,
             };
 
             // 默认的标题文本样式
@@ -349,7 +387,7 @@ namespace MeoAsstGui
         /// 显示通知
         /// </summary>
         /// <param name="lifeTime">通知显示时间 (s)</param>
-        /// <param name="row">内容显示行数，如果内容太多建议使用 ShowMore()</param>
+        /// <param name="row">内容显示行数，如果内容太多建议使用 <see cref="ShowMore(double, uint, NotificationSounds, NotificationContent)"/></param>
         /// <param name="sound">播放提示音</param>
         /// <param name="notificationContent">通知内容</param>
         ///
@@ -486,6 +524,7 @@ namespace MeoAsstGui
         #region 任务栏闪烁
 
 #pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
+
         /// <summary>
         /// 闪烁信息
         /// </summary>
@@ -519,28 +558,53 @@ namespace MeoAsstGui
 #pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
 
         /// <summary>
-        /// 闪烁类型
+        /// 闪烁类型。
         /// </summary>
         public enum FlashType : uint
         {
+            /// <summary>
+            /// 停止闪烁。
+            /// </summary>
             [Description("停止闪烁")]
             FLASHW_STOP = 0,
 
+            /// <summary>
+            /// 只闪烁标题。
+            /// </summary>
             [Description("只闪烁标题")]
             FALSHW_CAPTION = 1,
 
+            /// <summary>
+            /// 只闪烁任务栏。
+            /// </summary>
             [Description("只闪烁任务栏")]
             FLASHW_TRAY = 2,
 
+            /// <summary>
+            /// 标题和任务栏同时闪烁。
+            /// </summary>
             [Description("标题和任务栏同时闪烁")]
             FLASHW_ALL = 3,
 
+            /// <summary>
+            /// 与 <see cref="FLASHW_TRAY"/> 配合使用。
+            /// </summary>
             FLASHW_PARAM1 = 4,
+
+            /// <summary>
+            /// 与 <see cref="FLASHW_TRAY"/> 配合使用。
+            /// </summary>
             FLASHW_PARAM2 = 12,
 
+            /// <summary>
+            /// 闪烁直到达到次数或收到停止。
+            /// </summary>
             [Description("闪烁直到达到次数或收到停止")]
             FLASHW_TIMER = FLASHW_TRAY | FLASHW_PARAM1,
 
+            /// <summary>
+            /// 未激活时闪烁直到窗口被激活或收到停止。
+            /// </summary>
             [Description("未激活时闪烁直到窗口被激活或收到停止")]
             FLASHW_TIMERNOFG = FLASHW_TRAY | FLASHW_PARAM2,
         }

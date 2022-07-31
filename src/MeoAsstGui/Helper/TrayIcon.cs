@@ -12,15 +12,14 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// 托盘图标。
+    /// </summary>
     public partial class TrayIcon
     {
         private readonly NotifyIcon notifyIcon = new NotifyIcon();
@@ -29,6 +28,9 @@ namespace MeoAsstGui
         private WindowState ws; // 记录窗体状态
         private bool _isMinimizeToTaskbar = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TrayIcon"/> class.
+        /// </summary>
         public TrayIcon()
         {
             InitIcon();
@@ -42,12 +44,12 @@ namespace MeoAsstGui
             notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
             System.Windows.Application.Current.MainWindow.StateChanged += MainWindow_StateChanged;
 
-            MenuItem startMenu = new System.Windows.Forms.MenuItem(Localization.GetString("Farming"));
+            MenuItem startMenu = new MenuItem(Localization.GetString("Farming"));
             startMenu.Click += StartTask;
-            MenuItem stopMenu = new System.Windows.Forms.MenuItem(Localization.GetString("Stop"));
+            MenuItem stopMenu = new MenuItem(Localization.GetString("Stop"));
             stopMenu.Click += StopTask;
 
-            MenuItem switchLangMenu = new System.Windows.Forms.MenuItem(Localization.GetString("SwitchLanguage"));
+            MenuItem switchLangMenu = new MenuItem(Localization.GetString("SwitchLanguage"));
 
             foreach (var lang in Localization.SupportedLanguages)
             {
@@ -64,21 +66,28 @@ namespace MeoAsstGui
                 switchLangMenu.MenuItems.Add(langMenu);
             }
 
-            MenuItem exitMenu = new System.Windows.Forms.MenuItem(Localization.GetString("Exit"));
+            MenuItem exitMenu = new MenuItem(Localization.GetString("Exit"));
             exitMenu.Click += App_exit;
-            System.Windows.Forms.MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, exitMenu };
-            this.notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(menuItems);
+            MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, exitMenu };
+            this.notifyIcon.ContextMenu = new ContextMenu(menuItems);
         }
 
         /// <summary>
-        /// 只应该在TaskQueueViewModel的构造函数中调用这个函数，不要传入一个随便new出来的TaskQueueViewModel
+        /// Sets task queue view model.
         /// </summary>
-        /// <param name="taskQueueViewModel">一个 不是 随便new出来的TaskQueueViewModel</param>
+        /// <param name="taskQueueViewModel">一个<b>不是随便 <see langword="new"/> 出来的</b> <see cref="TaskQueueViewModel"/></param>
+        /// <remarks>
+        /// 只应该在 <see cref="TaskQueueViewModel"/> 的构造函数中调用这个函数，不要传入一个随便 <see langword="new"/> 出来的 <see cref="TaskQueueViewModel"/>。
+        /// </remarks>
         public void SetTaskQueueViewModel(TaskQueueViewModel taskQueueViewModel)
         {
             this.taskQueueViewModel = taskQueueViewModel;
         }
 
+        /// <summary>
+        /// Sets settings view model.
+        /// </summary>
+        /// <param name="settingsViewModel">The settings view model.</param>
         public void SetSettingsViewModel(SettingsViewModel settingsViewModel)
         {
             this.settingsViewModel = settingsViewModel;
@@ -158,16 +167,27 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Sets visibility.
+        /// </summary>
+        /// <param name="visible">Whether it is visible.</param>
         public void SetVisible(bool visible)
         {
             notifyIcon.Visible = visible;
         }
 
+        /// <summary>
+        /// Sets whether to minimize to taskbar.
+        /// </summary>
+        /// <param name="enable">Whether to minimize to taskbar.</param>
         public void SetMinimizeToTaskbar(bool enable)
         {
             _isMinimizeToTaskbar = enable;
         }
 
+        /// <summary>
+        /// Closes this instance.
+        /// </summary>
         public void Close()
         {
             notifyIcon.Icon = null;
