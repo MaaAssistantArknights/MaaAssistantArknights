@@ -865,6 +865,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Closes view model.
+        /// </summary>
         public void Close()
         {
             RequestClose();
