@@ -105,8 +105,8 @@
     <system:String x:Key="PenguinID">Penguin Report ID(Number part only)</system:String>
 
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
-    <system:String x:Key="HighPriority">Whitelist(splited by space)</system:String>
-    <system:String x:Key="Blacklist">Blacklist(splited by space)</system:String>
+    <system:String x:Key="HighPriority">Whitelist(split by space)</system:String>
+    <system:String x:Key="Blacklist">Blacklist(split by space)</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
 
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
@@ -257,8 +257,8 @@
     <system:String x:Key="UnknownAbnormal">Unknown exception occurred</system:String>
     <system:String x:Key="Error">Error</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
-    <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set at leat 720P with 16:9 ratio</system:String>
-    <system:String x:Key="ResolutionAcquisitionFailure">fails to be obtaine mulator resolution . Please restart computer or consider try other emulator</system:String>
+    <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set at least 720P with 16:9 ratio</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">fails to be obtain emulator resolution . Please restart computer or consider try other emulator</system:String>
     <system:String x:Key="TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
     <system:String x:Key="ReconnectSuccess">Reconnect succeeded. Continue the task</system:String>
     <system:String x:Key="ReconnectFailed">Reconnect failed. The connection is down!</system:String>

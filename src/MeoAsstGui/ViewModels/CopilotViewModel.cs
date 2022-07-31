@@ -90,17 +90,17 @@ namespace MeoAsstGui
             // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
-        private bool _idel = true;
+        private bool _idle = true;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is idle.
         /// </summary>
         public bool Idle
         {
-            get => _idel;
+            get => _idle;
             set
             {
-                _idel = value;
+                _idle = value;
                 NotifyOfPropertyChange(() => Idle);
             }
         }
@@ -275,13 +275,13 @@ namespace MeoAsstGui
                     {
                         count++;
                         string group_name = group["name"] + ": ";
-                        var operinfos = new List<string>();
+                        var operInfos = new List<string>();
                         foreach (JObject oper in group["opers"])
                         {
-                            operinfos.Add(string.Format("{0} {1}", oper["name"], oper["skill"]));
+                            operInfos.Add(string.Format("{0} {1}", oper["name"], oper["skill"]));
                         }
 
-                        AddLog(group_name + string.Join(" / ", operinfos), "black");
+                        AddLog(group_name + string.Join(" / ", operInfos), "black");
                     }
                 }
 
@@ -360,7 +360,7 @@ namespace MeoAsstGui
             set => SetAndNotify(ref _form, value);
         }
 
-        private bool _catched = false;
+        private bool _caught = false;
 
         /// <summary>
         /// Starts copilot.
@@ -381,8 +381,8 @@ namespace MeoAsstGui
             {
                 return asstProxy.AsstConnect(ref errMsg);
             });
-            _catched = await task;
-            if (!_catched)
+            _caught = await task;
+            if (!_caught)
             {
                 AddLog(errMsg, "DarkRed");
                 return;

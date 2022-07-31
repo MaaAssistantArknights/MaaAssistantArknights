@@ -139,6 +139,9 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         ~TextRect() = default;
         TextRect(const TextRect&) = default;
         TextRect(TextRect&&) noexcept = default;
+        explicit TextRect(double score, const Rect& rect, const std::string& text)
+            : score(score), rect(rect), text(text)
+        {}
 
         explicit operator std::string() const noexcept { return text; }
         explicit operator Rect() const noexcept { return rect; }
@@ -178,6 +181,9 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         ~MatchRect() = default;
         MatchRect(const MatchRect&) = default;
         MatchRect(MatchRect&&) noexcept = default;
+        explicit MatchRect(double score, const Rect& rect)
+            : score(score), rect(rect)
+        {}
 
         explicit operator Rect() const noexcept { return rect; }
         MatchRect& operator=(const MatchRect&) = default;
@@ -244,8 +250,8 @@ namespace asst
         TaskInfo(TaskInfo&&) noexcept = default;
         TaskInfo& operator=(const TaskInfo&) = default;
         TaskInfo& operator=(TaskInfo&&) noexcept = default;
-        std::string name;         // 任务名
-        AlgorithmType algorithm = // 图像算法类型
+        std::string name;          // 任务名
+        AlgorithmType algorithm =  // 图像算法类型
             AlgorithmType::Invalid;
         ProcessTaskAction action = // 要进行的操作
             ProcessTaskAction::Invalid;
@@ -256,7 +262,7 @@ namespace asst
         std::vector<std::string> exceeded_next;      // 达到最多次数了之后，下一个可能的任务（列表）
         std::vector<std::string> on_error_next;      // 任务出错之后要去执行什么
         std::vector<std::string> reduce_other_times; // 执行了该任务后，需要减少别的任务的执行次数。例如执行了吃理智药，则说明上一次点击蓝色开始行动按钮没生效，所以蓝色开始行动要-1
-        Rect specific_rect;                    // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
+        Rect specific_rect;                          // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
         int pre_delay = 0;                           // 执行该任务前的延时
         int rear_delay = 0;                          // 执行该任务后的延时
         int retry_times = INT_MAX;                   // 未找到图像时的重试次数
@@ -304,7 +310,7 @@ namespace asst
         HashTaskInfo(HashTaskInfo&&) noexcept = default;
         HashTaskInfo& operator=(const HashTaskInfo&) = default;
         HashTaskInfo& operator=(HashTaskInfo&&) noexcept = default;
-        std::vector<std::string> hashes;     // 需要多个哈希值
+        std::vector<std::string> hashes;    // 需要多个哈希值
         int dist_threshold = 0;             // 汉明距离阈值
         std::pair<int, int> mask_range;     // 掩码的二值化范围
         bool bound = false;                 // 是否裁剪周围黑边
