@@ -20,12 +20,12 @@ namespace MeoAsstGui
     public class GenericCombData<TValueType>
     {
         /// <summary>
-        /// The name displayed.
+        /// Gets or sets the name displayed.
         /// </summary>
         public string Display { get; set; }
 
         /// <summary>
-        /// The value.
+        /// Gets or sets the value.
         /// </summary>
         public TValueType Value { get; set; }
     }

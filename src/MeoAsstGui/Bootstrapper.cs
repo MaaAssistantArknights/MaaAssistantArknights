@@ -22,6 +22,9 @@ using StyletIoC;
 
 namespace MeoAsstGui
 {
+    /// <summary>
+    /// The bootstrapper.
+    /// </summary>
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         private static TrayIcon _trayIconInSettingsViewModel;
@@ -30,10 +33,13 @@ namespace MeoAsstGui
             typeof(SettingsViewModel).GetField("_container", BindingFlags.NonPublic | BindingFlags.Instance);
 
         /// <summary>
-        /// 应当只能是SettingsViewModel在构造时调用这个函数。用反射拿_container只是为了不额外修改SettingsViewModel的定义，
-        /// 并顺便检查传入的SettingsViewModel中的_container不为空（即不是随便new出来的一个SettingsViewModel）
+        /// Sets tray icon in <see cref="SettingsViewModel"/>.
         /// </summary>
-        /// <param name="settingsViewModel">SettingsViewModel的this</param>
+        /// <param name="settingsViewModel">The <see cref="SettingsViewModel"/> instance.</param>
+        /// <remarks>
+        /// 应当只能是 <see cref="SettingsViewModel"/> 在构造时调用这个函数。用反射拿 <see cref="SettingsViewModel._container"/> 只是为了不额外修改 <see cref="SettingsViewModel"/> 的定义，
+        /// 并顺便检查传入的 <see cref="SettingsViewModel._container"/> 不为空（即不是随便 <see langword="new"/> 出来的一个 <see cref="SettingsViewModel"/>）。
+        /// </remarks>
         internal static void SetTrayIconInSettingsViewModel(SettingsViewModel settingsViewModel)
         {
             var container = (IContainer)_settingsViewModelIContainerFiled.GetValue(settingsViewModel);
@@ -45,7 +51,8 @@ namespace MeoAsstGui
             // TODO:出现不符合要求的settingsViewModel应当Log一下，等一个有缘人
         }
 
-        // 初始化些啥自己加
+        /// <inheritdoc/>
+        /// <remarks>初始化些啥自己加。</remarks>
         protected override void OnStart()
         {
             base.OnStart();
@@ -53,6 +60,7 @@ namespace MeoAsstGui
             Localization.Load();
         }
 
+        /// <inheritdoc/>
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
         {
             builder.Bind<TaskQueueViewModel>().ToSelf().InSingletonScope();
@@ -63,7 +71,8 @@ namespace MeoAsstGui
             builder.Bind<TrayIcon>().ToSelf().InSingletonScope();
         }
 
-        // 退出时执行啥自己加
+        /// <inheritdoc/>
+        /// <remarks>退出时执行啥自己加。</remarks>
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
@@ -80,6 +89,7 @@ namespace MeoAsstGui
             ViewStatusStorage.Save();
         }
 
+        /// <inheritdoc/>
         protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)
         {
             // 抛异常了，可以打些日志
