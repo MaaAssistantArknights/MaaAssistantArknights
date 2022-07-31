@@ -53,7 +53,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         Log.info(name, elite, level);
 
         // 等级太低的干员没必要为他专门买收藏品什么的
-        if (level < 70) {
+        if (level < 60) {
             continue;
         }
 
@@ -69,10 +69,21 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
             }
         }
         else {
-            BattleRole role = Resrc.battle_data().get_role(name);
+            auto& battle_data = Resrc.battle_data();
+            BattleRole role = battle_data.get_role(name);
             map_roles_count[role] += 1;
-            // TODO 这里应该判断一下星级，4星是60级，5星是70，6星是80，先偷个懒，有空再弄
-            if (elite == 1 && level >= 60) {
+
+            static const std::unordered_map<int, int> RarityPromotionLevel = {
+                { 0, INT_MAX },
+                { 1, INT_MAX },
+                { 2, INT_MAX },
+                { 3, INT_MAX },
+                { 4, 60 },
+                { 5, 70 },
+                { 6, 80 },
+            };
+            int rarity = battle_data.get_rarity(name);
+            if (elite == 1 && level >= RarityPromotionLevel.at(rarity)) {
                 total_wait_promotion += 1;
                 map_wait_promotion[role] += 1;
             }
