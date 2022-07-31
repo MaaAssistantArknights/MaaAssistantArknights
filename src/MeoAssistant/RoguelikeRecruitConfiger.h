@@ -15,7 +15,6 @@ namespace asst
     struct RoguelikeOperInfo
     {
         std::string name;
-        int level = 0;
         int skill = 0;
         int alternate_skill = 0;
         BattleSkillUsage skill_usage = BattleSkillUsage::Possibly;
