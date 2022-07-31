@@ -23,7 +23,7 @@
     },
     {
         "name": "残弩-典训",
-        "role": "SNIPER",
+        "roles": [ "SNIPER" ],
         "promotion": 1
     },
     {
@@ -37,7 +37,7 @@
     },
     {
         "name": "折戟-浴血",
-        "role": "WARRIOR"
+        "roles": [ "WARRIOR" ]
     },
     {
         "name": "四叶草化石"
@@ -47,7 +47,7 @@
     },
     {
         "name": "残弩-神速",
-        "role": "SNIPER"
+        "roles": [ "SNIPER" ]
     },
     {
         "name": "锈蚀的铁锤"
@@ -79,7 +79,7 @@
     },
     {
         "name": "折戟-典训",
-        "role": "WARRIOR",
+        "roles": [ "WARRIOR" ],
         "promotion": 1
     },
     {
@@ -90,14 +90,14 @@
     },
     {
         "name": "折戟-一夫当关",
-        "role": "WARRIOR"
+        "roles": [ "WARRIOR" ]
     },
     {
         "name": "“时光之末”"
     },
     {
         "name": "钝爪-典训",
-        "role": "PIONEER",
+        "roles": [ "PIONEER" ],
         "promotion": 1
     },
     {
@@ -105,7 +105,7 @@
     },
     {
         "name": "折戟-锋刃",
-        "role": "WARRIOR"
+        "roles": [ "WARRIOR" ]
     },
     {
         "name": "苦行者泡芙"
@@ -115,7 +115,7 @@
     },
     {
         "name": "断杖-典训",
-        "role": "CASTER",
+        "roles": [ "CASTER" ],
         "promotion": 1
     },
     {
@@ -138,7 +138,7 @@
     },
     {
         "name": "折戟-破釜沉舟",
-        "role": "WARRIOR"
+        "roles": [ "WARRIOR" ]
     },
     {
         "name": "难闻的止血剂"
@@ -157,14 +157,14 @@
     },
     {
         "name": "折戟-突破",
-        "role": "WARRIOR"
+        "roles": [ "WARRIOR" ]
     },
     {
         "name": "“当红歌手”"
     },
     {
         "name": "残弩-百步穿杨",
-        "role": "SNIPER"
+        "roles": [ "SNIPER" ]
     },
     {
         "name": "爱丽舍钱袋"
@@ -183,7 +183,7 @@
     },
     {
         "name": "断杖-织法者",
-        "role": "CASTER"
+        "roles": [ "CASTER" ]
     },
     {
         "name": "“法术杀手”"
@@ -199,7 +199,7 @@
     },
     {
         "name": "断杖-咏唱",
-        "role": "CASTER"
+        "roles": [ "CASTER" ]
     },
     {
         "name": "苍白花冠"
@@ -215,11 +215,11 @@
     },
     {
         "name": "钝爪-爆发",
-        "role": "PIONEER"
+        "roles": [ "PIONEER" ]
     },
     {
         "name": "支柱-典训",
-        "role": "SUPPORT",
+        "roles": [ "SUPPORT" ],
         "promotion": 1
     },
     {
@@ -249,7 +249,7 @@
     },
     {
         "name": "钝爪-百战",
-        "role": "PIONEER"
+        "roles": [ "PIONEER" ]
     },
     {
         "name": "至宝指环",
@@ -257,7 +257,7 @@
     },
     {
         "name": "残弩-战场依存",
-        "role": "SNIPER"
+        "roles": [ "SNIPER" ]
     },
     {
         "name": "贵族刺剑"
@@ -270,7 +270,7 @@
     },
     {
         "name": "医者-妙手",
-        "role": "MEDIC"
+        "roles": [ "MEDIC" ]
     },
     {
         "name": "设计师量尺"
@@ -289,7 +289,7 @@
     },
     {
         "name": "断杖-凝神",
-        "role": "CASTER"
+        "roles": [ "CASTER" ]
     },
     {
         "name": "铁棍面包"
@@ -332,11 +332,11 @@
     },
     {
         "name": "医者-理智固剂",
-        "role": "MEDIC"
+        "roles": [ "MEDIC" ]
     },
     {
         "name": "钝爪-熟稔",
-        "role": "PIONEER"
+        "roles": [ "PIONEER" ]
     },
     {
         "name": "古怪的长笛"
