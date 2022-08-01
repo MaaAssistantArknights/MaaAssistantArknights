@@ -1,3 +1,4 @@
+#include "AsstConf.h"
 #include "Controller.h"
 
 #ifdef _WIN32
@@ -261,14 +262,9 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
 
 #ifdef _WIN32
 
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
-#endif
+    ASST_AUTO_DEDUCED_ZERO_INIT_START
     PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+    ASST_AUTO_DEDUCED_ZERO_INIT_END
 
     BOOL create_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
     if (!create_ret) {
