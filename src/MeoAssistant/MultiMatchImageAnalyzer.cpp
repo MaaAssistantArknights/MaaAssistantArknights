@@ -2,6 +2,8 @@
 
 #include <utility>
 
+#include "NoWarningCV.h"
+
 #include "Logger.hpp"
 #include "Resource.h"
 #include "TaskData.h"

@@ -5,10 +5,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Config.hpp"
-ASST_SUPPRESS_CV_WARNINGS_START
-#include <opencv2/opencv.hpp>
-ASST_SUPPRESS_CV_WARNINGS_END
+#include "NoWarningCVMat.h"
 
 namespace asst
 {
