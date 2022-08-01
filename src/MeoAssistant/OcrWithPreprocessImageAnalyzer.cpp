@@ -1,5 +1,7 @@
 #include "OcrWithPreprocessImageAnalyzer.h"
 
+#include "NoWarningCV.h"
+
 #include "AsstUtils.hpp"
 
 bool asst::OcrWithPreprocessImageAnalyzer::analyze()

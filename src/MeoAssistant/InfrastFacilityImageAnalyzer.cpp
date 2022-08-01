@@ -1,5 +1,7 @@
 #include "InfrastFacilityImageAnalyzer.h"
 
+#include "NoWarningCV.h"
+
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 #include "MultiMatchImageAnalyzer.h"

@@ -1,5 +1,7 @@
 #include "AbstractImageAnalyzer.h"
 
+#include "NoWarningCV.h"
+
 #include "AsstUtils.hpp"
 #include "Controller.h"
 #include "Logger.hpp"

@@ -15,7 +15,7 @@
 #include <Windows.h>
 #endif
 
-#include <opencv2/opencv.hpp>
+#include "NoWarningCVMat.h"
 
 #include "AsstTypes.h"
 #include "AsstMsg.h"

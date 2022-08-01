@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
@@ -31,6 +27,7 @@
     <ClInclude Include="AwardTask.h" />
     <ClInclude Include="BattleDataConfiger.h" />
     <ClInclude Include="CloseDownTask.h" />
+    <ClInclude Include="AsstConf.h" />
     <ClInclude Include="CopilotConfiger.h" />
     <ClInclude Include="BattleFormationTask.h" />
     <ClInclude Include="BattleImageAnalyzer.h" />
@@ -39,6 +36,8 @@
     <ClInclude Include="DepotRecognitionTask.h" />
     <ClInclude Include="DepotTask.h" />
     <ClInclude Include="GameCrashRestartTaskPlugin.h" />
+    <ClInclude Include="NoWarningCV.h" />
+    <ClInclude Include="NoWarningCVMat.h" />
     <ClInclude Include="RoguelikeControlTaskPlugin.h" />
     <ClInclude Include="RoguelikeCustomStartTaskPlugin.h" />
     <ClInclude Include="RoguelikeRecruitConfiger.h" />
@@ -229,9 +228,6 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PlatformToolset>v143</PlatformToolset>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -264,7 +260,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;ASST_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>MaxSpeed</Optimization>
@@ -314,7 +310,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>Disabled</Optimization>

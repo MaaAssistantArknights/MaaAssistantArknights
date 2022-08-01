@@ -1,5 +1,7 @@
 #include "MatchImageAnalyzer.h"
 
+#include "NoWarningCV.h"
+
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 #include "Resource.h"

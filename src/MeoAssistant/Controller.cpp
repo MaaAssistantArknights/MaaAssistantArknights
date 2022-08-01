@@ -16,12 +16,16 @@
 #include <vector>
 #include <memory>
 
-#include <opencv2/opencv.hpp>
+#include "NoWarningCV.h"
 
+#ifdef _MSC_VER
 #pragma warning( push )
-#pragma warning( disable : 4068)
+#pragma warning( disable: 4068 )
+#endif
 #include <zlib/decompress.hpp>
+#ifdef _MSC_VER
 #pragma warning( pop )
+#endif
 
 #include "AsstTypes.h"
 #include "Logger.hpp"

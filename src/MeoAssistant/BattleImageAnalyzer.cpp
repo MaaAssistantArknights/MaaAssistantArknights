@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "NoWarningCV.h"
+
 #include "MultiMatchImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"
 #include "OcrWithFlagTemplImageAnalyzer.h"
