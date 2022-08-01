@@ -7684,7 +7684,6 @@
             1280,
             157
         ],
-        "templThreshold": 0.85,
         "rearDelay": 1000,
         "next": [
             "Roguelike1ChooseOperFlag",
