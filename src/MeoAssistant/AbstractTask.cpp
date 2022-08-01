@@ -4,9 +4,9 @@
 #include <filesystem>
 #include <thread>
 #include <regex>
-
-#include <opencv2/opencv.hpp>
 #include <utility>
+
+#include "NoWarningCV.h"
 
 #include "AsstUtils.hpp"
 #include "Controller.h"

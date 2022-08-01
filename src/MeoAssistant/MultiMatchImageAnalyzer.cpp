@@ -2,6 +2,8 @@
 
 #include <utility>
 
+#include "NoWarningCV.h"
+
 #include "Logger.hpp"
 #include "Resource.h"
 #include "TaskData.h"
@@ -140,7 +142,7 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
                     }
                 }
                 if (need_push) {
-                    m_result.emplace_back(MatchRect{ value, rect });
+                    m_result.emplace_back(value, rect);
                 }
             }
         }
