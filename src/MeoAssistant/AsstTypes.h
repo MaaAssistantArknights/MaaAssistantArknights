@@ -8,7 +8,10 @@
 #include <vector>
 #include <climits>
 #include <cmath>
+
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif
 
 namespace json
 {
@@ -139,7 +142,7 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         ~TextRect() = default;
         TextRect(const TextRect&) = default;
         TextRect(TextRect&&) noexcept = default;
-        explicit TextRect(double score, const Rect& rect, const std::string& text)
+        TextRect(double score, const Rect& rect, const std::string& text)
             : score(score), rect(rect), text(text)
         {}
 
@@ -181,7 +184,7 @@ friend Point& operator Op##= (Point& val, const Point& opd) noexcept { val.x Op#
         ~MatchRect() = default;
         MatchRect(const MatchRect&) = default;
         MatchRect(MatchRect&&) noexcept = default;
-        explicit MatchRect(double score, const Rect& rect)
+        MatchRect(double score, const Rect& rect)
             : score(score), rect(rect)
         {}
 

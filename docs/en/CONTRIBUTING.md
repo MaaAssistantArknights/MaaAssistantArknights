@@ -44,4 +44,4 @@
 
     4. Repeat step 7-10.
 
-Note: operations regarding to Git can be done by VS2022 instead of command line tools, using the Git changes tab.
+Note: operations regarding Git can be done by VS2022 instead of command line tools, using the Git changes tab.

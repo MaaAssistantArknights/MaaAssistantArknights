@@ -1,5 +1,7 @@
 #include "InfrastOperImageAnalyzer.h"
 
+#include "NoWarningCV.h"
+
 #include "InfrastSmileyImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"
 #include "HashImageAnalyzer.h"

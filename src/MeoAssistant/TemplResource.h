@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include <opencv2/opencv.hpp>
+#include "NoWarningCVMat.h"
 
 namespace asst
 {

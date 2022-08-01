@@ -2,8 +2,8 @@
 
 #include <filesystem>
 
+#include "NoWarningCV.h"
 #include <PaddleOCR/paddle_ocr.h>
-#include <opencv2/opencv.hpp>
 
 #include "AsstUtils.hpp"
 #include "Logger.hpp"

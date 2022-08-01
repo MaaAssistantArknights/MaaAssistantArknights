@@ -163,7 +163,15 @@ std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::
     start_analyzer.set_image(image);
     if (!start_analyzer.analyze()) return std::nullopt;
     start_analyzer.sort_result_horizontal();
-    return start_analyzer.get_result().front().rect;
+    auto iter =
+            std::find_if(start_analyzer.get_result().cbegin(), start_analyzer.get_result().cend(),
+                         [&](const TextRect& r) -> bool
+                         {
+                             return m_force_skipped.find(slot_index_from_rect(r.rect)) == m_force_skipped.cend();
+                         });
+    if (iter == start_analyzer.get_result().cend()) return std::nullopt;
+    Log.info("Found slot index", slot_index_from_rect(iter->rect), ".");
+    return iter->rect;
 }
 
 /// open a pending recruit slot, set timer and tags then confirm, or leave the slot doing nothing
@@ -197,6 +205,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 
     if (calc_result.force_skip) {
         // mark the slot as completed and return
+        m_force_skipped.emplace(slot_index_from_rect(button));
         click_return_button();
         return true;
     }

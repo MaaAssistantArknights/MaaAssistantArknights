@@ -1,7 +1,6 @@
 #pragma once
 
-#include <opencv2/opencv.hpp>
-
+#include "NoWarningCVMat.h"
 #include "AsstTypes.h"
 
 //#ifndef  ASST_DEBUG

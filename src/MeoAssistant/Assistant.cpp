@@ -3,7 +3,6 @@
 #include <ctime>
 
 #include <meojson/json.hpp>
-#include <opencv2/opencv.hpp>
 
 #include "AsstUtils.hpp"
 #include "Controller.h"
