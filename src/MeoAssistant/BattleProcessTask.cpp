@@ -181,9 +181,9 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         // 找出这个干员是哪个组里的，以及他的技能用法等
         for (const auto& [group_name, deploy_opers] : m_copilot_data.groups) {
             auto iter = std::ranges::find_if(deploy_opers,
-                                             [&](const BattleDeployOper& deploy) -> bool {
-                                                 return deploy.name == oper_name;
-                                             });
+                [&](const BattleDeployOper& deploy) -> bool {
+                    return deploy.name == oper_name;
+                });
             if (iter != deploy_opers.cend()) {
                 m_group_to_oper_mapping.emplace(group_name, *iter);
                 not_found = false;
