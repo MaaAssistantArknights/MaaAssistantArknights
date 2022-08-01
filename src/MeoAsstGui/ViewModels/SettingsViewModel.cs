@@ -855,7 +855,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _creditFirstList = ViewStatusStorage.Get("Mall.CreditFirstList", "招聘许可 龙门币");
+        private string _creditFirstList = ViewStatusStorage.Get("Mall.CreditFirstListNew", "招聘许可；龙门币");
 
         /// <summary>
         /// Gets or sets the priority item list of credit shop.
@@ -870,11 +870,11 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _creditFirstList, value);
-                ViewStatusStorage.Set("Mall.CreditFirstList", value);
+                ViewStatusStorage.Set("Mall.CreditFirstListNew", value);
             }
         }
 
-        private string _creditBlackList = ViewStatusStorage.Get("Mall.CreditBlackList", "碳 家具");
+        private string _creditBlackList = ViewStatusStorage.Get("Mall.CreditBlackListNew", "碳；家具");
 
         /// <summary>
         /// Gets or sets the blacklist of credit shop.
@@ -889,7 +889,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _creditBlackList, value);
-                ViewStatusStorage.Set("Mall.CreditBlackList", value);
+                ViewStatusStorage.Set("Mall.CreditBlackListNew", value);
             }
         }
 
@@ -1660,6 +1660,7 @@ namespace MeoAsstGui
         /// Gets or sets a value indicating whether to use tray icon.
         /// </summary>
         public bool UseTray = true;
+
 #pragma warning restore SA1401 // Fields should be private
 
         // private bool _useTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
