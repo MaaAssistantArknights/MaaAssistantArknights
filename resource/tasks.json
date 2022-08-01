@@ -7473,6 +7473,7 @@
     },
     "Roguelike1SkillSelectionName": {
         "algorithm": "OcrDetect",
+        "fullMatch": true,
         "text": [],
         "roi": [
             210,
@@ -7493,7 +7494,7 @@
     "Roguelike1SkillSelectionMove2": {
         "algorithm": "JustReturn",
         "rectMove": [
-            180,
+            240,
             -40,
             30,
             30
