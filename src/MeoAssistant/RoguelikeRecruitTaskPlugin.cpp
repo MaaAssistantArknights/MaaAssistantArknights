@@ -130,10 +130,10 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
             break;
         }
         const auto& chars = analyzer.get_result();
-        auto it = std::find_if(chars.cbegin(), chars.cend(),
-            [&](const BattleRecruitOperInfo& oper) -> bool {
-                return oper.name == core_opt.value();
-            });
+        auto it = std::ranges::find_if(chars,
+                                       [&](const BattleRecruitOperInfo& oper) -> bool {
+                                           return oper.name == core_opt.value();
+                                       });
 
         std::string oper_names = "";
         for (const auto& oper : chars) {

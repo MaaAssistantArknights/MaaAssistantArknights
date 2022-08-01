@@ -58,8 +58,8 @@ bool asst::RoguelikeFormationTaskPlugin::_run()
         }
 
         auto& new_result = formation_analyzer.get_result();
-        size_t new_selected_count = std::count_if(new_result.cbegin(), new_result.cend(),
-            [](const auto& oper) { return oper.selected; });
+        size_t new_selected_count = std::ranges::count_if(new_result,
+                                                          [](const auto& oper) { return oper.selected; });
         // 说明 select_count 计数没生效，即都没点上
         if (new_selected_count == pre_selected) {
             reselect = true;

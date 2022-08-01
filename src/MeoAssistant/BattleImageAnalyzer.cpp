@@ -116,7 +116,7 @@ void asst::BattleImageAnalyzer::clear() noexcept
 void asst::BattleImageAnalyzer::sort_opers_by_cost()
 {
     // 本来游戏就是按费用排的，这里倒序一下就行了
-    std::reverse(m_opers.begin(), m_opers.end());
+    std::ranges::reverse(m_opers);
 }
 
 bool asst::BattleImageAnalyzer::opers_analyze()
@@ -500,8 +500,8 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     // 例子中的"0"
     std::string kills_count = kills_text.substr(0, pos);
     if (kills_count.empty() ||
-        !std::all_of(kills_count.cbegin(), kills_count.cend(),
-            [](char c) -> bool {return std::isdigit(c);})) {
+        !std::ranges::all_of(std::as_const(kills_count),
+                             [](char c) -> bool {return std::isdigit(c);})) {
         return false;
     }
     int cur_kills = std::stoi(kills_count);
@@ -511,8 +511,8 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     std::string total_kills = kills_text.substr(pos + 1, std::string::npos);
     int cur_total_kills = 0;
     if (total_kills.empty() ||
-        !std::all_of(total_kills.cbegin(), total_kills.cend(),
-            [](char c) -> bool {return std::isdigit(c);})) {
+        !std::ranges::all_of(std::as_const(total_kills),
+                             [](char c) -> bool {return std::isdigit(c);})) {
         Log.warn("total kills recognition failed, set to", m_pre_total_kills);
         cur_total_kills = m_pre_total_kills;
     }
@@ -539,8 +539,8 @@ bool asst::BattleImageAnalyzer::cost_analyze()
     std::string cost_str = cost_analyzer.get_result().front().text;
 
     if (cost_str.empty() ||
-    !std::all_of(cost_str.cbegin(), cost_str.cend(),
-        [](char c) -> bool {return std::isdigit(c);})) {
+    !std::ranges::all_of(std::as_const(cost_str),
+                         [](char c) -> bool {return std::isdigit(c);})) {
         return false;
     }
     m_cost = std::stoi(cost_str);
