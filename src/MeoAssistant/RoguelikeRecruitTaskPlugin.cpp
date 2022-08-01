@@ -113,6 +113,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
 bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
 {
+    LogTraceFunction;
+
     auto core_opt = m_status->get_str("RoguelikeCoreChar");
     if (!core_opt || core_opt->empty()) {
         return false;
@@ -146,7 +148,6 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
             sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
             continue;
         }
-        Log.info(__FUNCTION__, "| Choose oper:", it->name, "( elite", it->elite, "level", it->level, ")");
         select_oper(*it);
         return true;
     }
