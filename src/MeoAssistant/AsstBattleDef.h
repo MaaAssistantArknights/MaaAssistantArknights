@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 
-#include <opencv2/core/mat.hpp>
+#include "NoWarningCVMat.h"
 
 #include "AsstTypes.h"
 

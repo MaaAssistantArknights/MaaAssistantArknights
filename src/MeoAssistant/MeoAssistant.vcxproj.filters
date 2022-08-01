@@ -366,6 +366,15 @@
     <ClInclude Include="RoguelikeResetTaskPlugin.h">
       <Filter>头文件\Task\Plugin\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="AsstConf.h">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="NoWarningCV.h">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="NoWarningCVMat.h">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">

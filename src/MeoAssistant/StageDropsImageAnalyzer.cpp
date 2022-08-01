@@ -1,5 +1,7 @@
 #include "StageDropsImageAnalyzer.h"
 
+#include "NoWarningCV.h"
+
 #include "TaskData.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"

@@ -4,6 +4,8 @@
 #include <chrono>
 #include <future>
 
+#include "NoWarningCV.h"
+
 #include "Controller.h"
 #include "Resource.h"
 #include "TaskData.h"
@@ -486,7 +488,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
 
     Rect placed_rect{ placed_point.x ,placed_point.y, 0, 0 };
     int dist = static_cast<int>(Point::distance(
-            placed_point, {oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2}));
+        placed_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist * log10(dist));
     m_ctrler->swipe(oper_rect, placed_rect, duration, true, 0);
@@ -643,12 +645,12 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
 {
     /*
      * * dlx 算法简介
-     * 
+     *
      * https://oi-wiki.org/search/dlx/
      *
-     * 
+     *
      * * dlx 算法作用
-     * 
+     *
      * 在形如:
      * a: 10010
      * b: 01110
@@ -665,33 +667,33 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
      *
      *
      * * dlx 算法建模
-     * 
+     *
      * dlx 的列分为 [组号] [干员号] 两部分
      * dlx 的行分为 [可能的选择对] [不选择该干员] 两部分
-     * 
+     *
      * [可能的选择对]:
      * 每行对应一种可能的选择,
      * 将组号，干员号对应位置的列设为1
-     * 
+     *
      * [不选择该干员]:
      * 每行对应不选择某干员的情况,
      * 将干员号对应位置的列设为1
      *
      *
      * * dlx 建模示例
-     * 
+     *
      * 有以下分组:
      * a: {1, 3, 4}
      * b: {2, 3, 5}
      * c: {1, 2, 3}
      * 拥有的干员:
      * {1, 2, 4, 5, 6}
-     * 
+     *
      * 先处理出所有可能的情况:
      * a: {1, 4}
      * b: {2, 5}
      * c: {1, 2}
-     * 
+     *
      * 构造表:
      *   abc 1245
      * 1 100 1000 <a, 1>
@@ -704,20 +706,20 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
      * 9 000 0100 ~2
      * 9 000 0010 ~4
      * A 000 0001 ~5
-     * 
+     *
      * 使用dlx求得一组解:
      * 一个可能的结果是:
      * 行号 {2, 3, 5, A}
      * 即 {<a, 4>, <b, 2>, <c, 1>, ~5}
-     * 
+     *
      * 输出分组结果:
      * a: 4
      * b: 2
      * c: 1
-     * 
+     *
      */
 
-    // dlx 算法模板类
+     // dlx 算法模板类
     class DancingLinksModel
     {
     private:
@@ -727,7 +729,8 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
         std::vector<size_t> left, right, up, down;
         std::vector<size_t> column, row;
 
-        void remove(const size_t &column_id) {
+        void remove(const size_t& column_id)
+        {
             left[right[column_id]] = left[column_id];
             right[left[column_id]] = right[column_id];
             for (size_t i = down[column_id]; i != column_id; i = down[i]) {
@@ -739,7 +742,8 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
             }
         }
 
-        void recover(const size_t &column_id) {
+        void recover(const size_t& column_id)
+        {
             for (size_t i = up[column_id]; i != column_id; i = up[i]) {
                 for (size_t j = left[i]; j != i; j = left[j]) {
                     up[down[j]] = down[up[j]] = j;
@@ -754,19 +758,20 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
         size_t answer_stack_size{};
         std::vector<size_t> answer_stack;
 
-        DancingLinksModel(const size_t &max_node_num, const size_t &max_ans_size) :
-                first(max_node_num),
-                size(max_node_num),
-                left(max_node_num),
-                right(max_node_num),
-                up(max_node_num),
-                down(max_node_num),
-                column(max_node_num),
-                row(max_node_num),
-                answer_stack(max_ans_size) {
-        }
+        DancingLinksModel(const size_t& max_node_num, const size_t& max_ans_size) :
+            first(max_node_num),
+            size(max_node_num),
+            left(max_node_num),
+            right(max_node_num),
+            up(max_node_num),
+            down(max_node_num),
+            column(max_node_num),
+            row(max_node_num),
+            answer_stack(max_ans_size)
+        {}
 
-        void build(const size_t &column_id) {
+        void build(const size_t& column_id)
+        {
             for (size_t i = 0; i <= column_id; i++) {
                 left[i] = i - 1;
                 right[i] = i + 1;
@@ -779,7 +784,8 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
             size.clear();
         }
 
-        void insert(const size_t &row_id, const size_t &column_id) {
+        void insert(const size_t& row_id, const size_t& column_id)
+        {
             column[++index] = column_id;
             row[index] = row_id;
             ++size[column_id];
@@ -789,7 +795,8 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
             down[column_id] = index;
             if (!first[row_id]) {
                 first[row_id] = left[index] = right[index] = index;
-            } else {
+            }
+            else {
                 right[index] = right[first[row_id]];
                 left[right[first[row_id]]] = index;
                 left[index] = first[row_id];
@@ -797,7 +804,8 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
             }
         }
 
-        bool dance(const size_t &depth) {
+        bool dance(const size_t& depth)
+        {
             if (!right[0]) {
                 answer_stack_size = depth;
                 return true;
@@ -834,10 +842,10 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
     std::unordered_map<CharNameType, size_t> char_name_mapping;
     std::set<CharNameType> char_set(char_list.begin(), char_list.end());
 
-    for (auto &i: group_list) {
+    for (auto& i : group_list) {
         group_name_mapping[i.first] = group_id_mapping.size();
         group_id_mapping.emplace_back(i.first);
-        for (auto &j: i.second) {
+        for (auto& j : i.second) {
             if (char_set.contains(j)) {
                 node_id_mapping.emplace_back(i.first, j);
                 if (!char_name_mapping.contains(j)) {

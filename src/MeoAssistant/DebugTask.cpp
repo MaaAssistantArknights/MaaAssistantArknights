@@ -2,6 +2,8 @@
 
 #include <filesystem>
 
+#include "NoWarningCV.h"
+
 //#include "RoguelikeSkillSelectionTaskPlugin.h"
 
 #include "StageDropsImageAnalyzer.h"
