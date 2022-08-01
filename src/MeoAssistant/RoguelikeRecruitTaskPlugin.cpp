@@ -34,7 +34,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     bool recruited = false;
 
     auto recruit_oper = [&](const BattleRecruitOperInfo& info) {
-        Log.info("Choose：", info.name, info.elite, info.level);
+        Log.info(__FUNCTION__, "choose oper:", info.name, "( elite", info.elite, "level", info.level, ")");
         select_oper(info);
         recruited = true;
     };
@@ -116,12 +116,13 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
     if (!core_opt || core_opt->empty()) {
         return false;
     }
+    m_status->set_str("RoguelikeCoreChar", "");
     constexpr size_t SwipeTimes = 2;
     for (size_t i = 0; i != SwipeTimes; ++i) {
         auto image = m_ctrler->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
-            return false;
+            break;
         }
         const auto& chars = analyzer.get_result();
         auto it = std::find_if(chars.cbegin(), chars.cend(),
@@ -134,10 +135,11 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
             sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
             continue;
         }
+        Log.info(__FUNCTION__, "choose oper:", it->name, "( elite", it->elite, "level", it->level, ")");
         select_oper(*it);
-        m_status->set_str("RoguelikeCoreChar", "");
         return true;
     }
+    Log.info(__FUNCTION__, "did not choose oper.");
     ProcessTask(*this, { "SwipeToTheLeft" }).run();
     return false;
 }
