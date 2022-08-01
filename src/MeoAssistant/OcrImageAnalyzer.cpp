@@ -163,14 +163,14 @@ void asst::OcrImageAnalyzer::sort_result_horizontal()
 {
     // 按位置排个序
     std::ranges::sort(get_result(),
-                      [](const TextRect& lhs, const TextRect& rhs) -> bool {
-                          if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
-                              return lhs.rect.x < rhs.rect.x;
-                          }
-                          else {
-                              return lhs.rect.y < rhs.rect.y;
-                          }
-                      }
+        [](const TextRect& lhs, const TextRect& rhs) -> bool {
+            if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
+                return lhs.rect.x < rhs.rect.x;
+            }
+            else {
+                return lhs.rect.y < rhs.rect.y;
+            }
+        }
     );
 }
 
@@ -182,23 +182,23 @@ void asst::OcrImageAnalyzer::sort_result_vertical()
     // |2 4|
     // +---+
     std::ranges::sort(get_result(),
-                      [](const TextRect& lhs, const TextRect& rhs) -> bool {
-                          if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
-                              return lhs.rect.y < rhs.rect.y;
-                          }
-                          else {
-                              return lhs.rect.x < rhs.rect.x;
-                          }
-                      }
+        [](const TextRect& lhs, const TextRect& rhs) -> bool {
+            if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
+                return lhs.rect.y < rhs.rect.y;
+            }
+            else {
+                return lhs.rect.x < rhs.rect.x;
+            }
+        }
     );
 }
 
 void asst::OcrImageAnalyzer::sort_result_by_score()
 {
     std::ranges::sort(get_result(),
-                      [](const TextRect& lhs, const TextRect& rhs) -> bool {
-                          return lhs.score > rhs.score;
-                      }
+        [](const TextRect& lhs, const TextRect& rhs) -> bool {
+            return lhs.score > rhs.score;
+        }
     );
 }
 
@@ -216,15 +216,15 @@ void asst::OcrImageAnalyzer::sort_result_by_required()
     auto& result = get_result();
     // 不在 m_required 中的将被排在最后
     std::ranges::sort(result,
-                      [&req_cache](const auto& lhs, const auto& rhs) -> bool {
-                          size_t lvalue = req_cache[lhs.text];
-                          size_t rvalue = req_cache[rhs.text];
-                          if (lvalue == 0) {
-                              return false;
-                          }
-                          else if (rvalue == 0) {
-                              return true;
-                          }
-                          return lvalue < rvalue;
-                      });
+        [&req_cache](const auto& lhs, const auto& rhs) -> bool {
+            size_t lvalue = req_cache[lhs.text];
+            size_t rvalue = req_cache[rhs.text];
+            if (lvalue == 0) {
+                return false;
+            }
+            else if (rvalue == 0) {
+                return true;
+            }
+            return lvalue < rvalue;
+        });
 }

@@ -102,10 +102,10 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
 
         auto find_it = std::ranges::find_if(result,
-                                            [&](const TextRect& tr) -> bool {
-                                                return tr.text.find(goods.name) != std::string::npos ||
-                                                    goods.name.find(tr.text) != std::string::npos;
-                                            });
+            [&](const TextRect& tr) -> bool {
+                return tr.text.find(goods.name) != std::string::npos ||
+                    goods.name.find(tr.text) != std::string::npos;
+            });
         if (find_it == result.cend()) {
             continue;
         }
