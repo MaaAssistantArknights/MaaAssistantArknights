@@ -158,7 +158,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
 
 void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& oper)
 {
-    Log.info(__FUNCTION__, "| choose oper:", oper.name, "( elite", oper.elite, "level", oper.level, ")");
+    Log.info(__FUNCTION__, "| Choose oper:", oper.name, "( elite", oper.elite, "level", oper.level, ")");
 
     m_ctrler->click(oper.rect);
 
