@@ -206,17 +206,16 @@ size_t asst::InfrastProductionTask::opers_detect()
             //--cur_available_num;
             continue;
         }
-        auto find_iter = std::ranges::find_if(std::as_const(m_all_available_opers)
-                                              ,
-                                              [&](const infrast::Oper& oper) -> bool {
-                                                  if (oper.skills != cur_oper.skills) {
-                                                      return false;
-                                                  }
-                                                  // 有可能是同一个干员，比一下hash
-                                                  int dist = HashImageAnalyzer::hamming(cur_oper.face_hash, oper.face_hash);
-                                                  Log.debug("opers_detect hash dist |", dist);
-                                                  return dist < face_hash_thres;
-                                              });
+        auto find_iter = std::ranges::find_if(std::as_const(m_all_available_opers),
+            [&](const infrast::Oper& oper) -> bool {
+                if (oper.skills != cur_oper.skills) {
+                    return false;
+                }
+                // 有可能是同一个干员，比一下hash
+                int dist = HashImageAnalyzer::hamming(cur_oper.face_hash, oper.face_hash);
+                Log.debug("opers_detect hash dist |", dist);
+                return dist < face_hash_thres;
+            });
         // 如果两个的hash距离过小，则认为是同一个干员，不进行插入
         if (find_iter != m_all_available_opers.cend()) {
             continue;
@@ -363,7 +362,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         std::ranges::sort(optional,
                           [&](const infrast::SkillsComb& lhs,
                               const infrast::SkillsComb& rhs) -> bool {
-                              return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
+                                  return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
                           });
 
         // 可能有多个干员有同样的技能，所以这里需要循环找同一个技能，直到找不到为止
@@ -497,36 +496,33 @@ bool asst::InfrastProductionTask::opers_choose()
         Log.trace("before mood filter, opers size:", cur_all_opers.size());
         // 小于心情阈值的干员则不可用
         auto remove_iter = std::ranges::remove_if(cur_all_opers,
-                                                  [&](const infrast::Oper& rhs) -> bool {
-                                                      return rhs.mood_ratio < m_mood_threshold;
-                                                  }).begin();
+            [&](const infrast::Oper& rhs) -> bool {
+                return rhs.mood_ratio < m_mood_threshold;
+            }).begin();
         cur_all_opers.erase(remove_iter, cur_all_opers.end());
         Log.trace("after mood filter, opers size:", cur_all_opers.size());
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             Log.trace("to find", opt_iter->skills.begin()->names.front());
-            auto find_iter = std::ranges::find_if(std::as_const(cur_all_opers)
-                                                  ,
-                                                  [&](const infrast::Oper& lhs) -> bool {
-                                                      if (lhs.skills != opt_iter->skills) {
-                                                          return false;
-                                                      }
-                                                      if (opt_iter->name_filter.empty()) {
-                                                          return true;
-                                                      }
-                                                      else {
-                                                          OcrWithPreprocessImageAnalyzer name_analyzer(lhs.name_img);
-                                                          name_analyzer.set_replace(
-                                                              Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
-                                                          Log.trace("Analyze name filter");
-                                                          if (!name_analyzer.analyze()) {
-                                                              return false;
-                                                          }
-                                                          std::string name = name_analyzer.get_result().front().text;
-                                                          return std::ranges::find(std::as_const(opt_iter->name_filter)
-                                                                                   , name)
-                                                              != opt_iter->name_filter.cend();
-                                                      }
-                                                  });
+            auto find_iter = std::ranges::find_if(std::as_const(cur_all_opers),
+                [&](const infrast::Oper& lhs) -> bool {
+                    if (lhs.skills != opt_iter->skills) {
+                        return false;
+                    }
+                    if (opt_iter->name_filter.empty()) {
+                        return true;
+                    }
+                    else {
+                        OcrWithPreprocessImageAnalyzer name_analyzer(lhs.name_img);
+                        name_analyzer.set_replace(
+                            Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+                        Log.trace("Analyze name filter");
+                        if (!name_analyzer.analyze()) {
+                            return false;
+                        }
+                        std::string name = name_analyzer.get_result().front().text;
+                        return std::ranges::find(std::as_const(opt_iter->name_filter), name) != opt_iter->name_filter.cend();
+                    }
+                });
 
             if (find_iter == cur_all_opers.cend()) {
                 ++opt_iter;
@@ -547,13 +543,12 @@ bool asst::InfrastProductionTask::opers_choose()
                 m_ctrler->click(find_iter->rect);
             }
             {
-                auto avlb_iter = std::ranges::find_if(std::as_const(m_all_available_opers)
-                                                      ,
-                                                      [&](const infrast::Oper& lhs) -> bool {
-                                                          int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
-                                                          Log.debug("opers_choose | face hash dist", dist);
-                                                          return dist < face_hash_thres;
-                                                      }
+                auto avlb_iter = std::ranges::find_if(std::as_const(m_all_available_opers),
+                    [&](const infrast::Oper& lhs) -> bool {
+                        int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
+                        Log.debug("opers_choose | face hash dist", dist);
+                        return dist < face_hash_thres;
+                    }
                 );
                 if (avlb_iter != m_all_available_opers.cend()) {
                     m_all_available_opers.erase(avlb_iter);

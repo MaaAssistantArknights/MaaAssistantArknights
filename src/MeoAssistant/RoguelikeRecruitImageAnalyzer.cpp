@@ -37,7 +37,7 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         Log.info(__FUNCTION__, name, elite, level, rect.to_string());
         m_result.emplace_back(std::move(info));
     }
-    
+
     auto first_un_req = std::ranges::find_if(m_result,
                                              [&](const auto& info) -> bool {
                                                  return info.required == false;
@@ -101,7 +101,7 @@ int asst::RoguelikeRecruitImageAnalyzer::match_level(const Rect& raw_roi)
 
     const std::string& level = analyzer.get_result().front().text;
     if (level.empty() || !std::ranges::all_of(level,
-                                              [](char c) -> bool {return std::isdigit(c);})) {
+        [](char c) -> bool {return std::isdigit(c);})) {
         return 0;
     }
     return std::stoi(level);
