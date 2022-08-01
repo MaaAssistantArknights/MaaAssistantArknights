@@ -26,7 +26,7 @@ namespace asst
         const std::unordered_set<std::string>& get_templ_required() const noexcept;
 
         template<typename TargetTaskInfoType = TaskInfo>
-        requires(std::is_base_of_v<TaskInfo, TargetTaskInfoType>) // Parameter must be a TaskInfo
+        requires std::is_base_of_v<TaskInfo, TargetTaskInfoType> // Parameter must be a TaskInfo
         std::shared_ptr<TargetTaskInfoType> get(const std::string& name)
         {
             auto it = m_all_tasks_info.find(name);
