@@ -14,6 +14,7 @@
 - 修复 刷理智 偶现掉落识别错误 @MistEO @ABA2396
 - 修复 基建 会客室送线索时卡住问题 @MistEO
 - 新增支持 Rust HTTP 接口 @yuanyan3060
-- 项目代码清理并升级到 C++20 @lhhxxxxx @LiamSho @zzyyyl @LYZhelloworld @horror-proton @MistEO
+- 代码清理并升级到 C++20 @lhhxxxxx @LiamSho @zzyyyl @LYZhelloworld @horror-proton @MistEO
 - 新增 日文 文档翻译 @LYZhelloworld
 - 修复 Linux 编译错误 @zhangchi0104
+- 修改 信用商店 购物名单为分号分割（中英皆可），请注意重新设置 @MistEO @ABA2396
