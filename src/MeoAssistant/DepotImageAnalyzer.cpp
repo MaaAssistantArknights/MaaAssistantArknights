@@ -48,7 +48,7 @@ void asst::DepotImageAnalyzer::resize()
     cv::Size d_size(m_resized_rect.width, m_resized_rect.height);
     cv::resize(m_image, m_image_resized, d_size, 0, 0, cv::INTER_AREA);
 #ifdef ASST_DEBUG
-    cv::resize(m_image_draw, m_image_draw_resized, dsize, 0, 0, cv::INTER_AREA);
+    cv::resize(m_image_draw, m_image_draw_resized, d_size, 0, 0, cv::INTER_AREA);
 #endif
 }
 
