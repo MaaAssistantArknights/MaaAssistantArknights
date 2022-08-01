@@ -17,7 +17,7 @@ namespace asst::recruit_calc
 
         {
             rcs_with_single_tag.reserve(tags.size());
-            std::transform(tags.cbegin(), tags.cend(), std::back_inserter(rcs_with_single_tag), [](const std::string& t)
+            std::ranges::transform(tags, std::back_inserter(rcs_with_single_tag), [](const std::string& t)
             {
                 RecruitCombs result;
                 result.tags = { t };
@@ -43,8 +43,8 @@ namespace asst::recruit_calc
             for (auto& rc : rcs_with_single_tag) {
                 rc.avg_level /= static_cast<double>(rc.opers.size());
                 // intersection and union are based on sorted container
-                std::sort(rc.tags.begin(), rc.tags.end());
-                std::sort(rc.opers.begin(), rc.opers.end());
+                std::ranges::sort(rc.tags);
+                std::ranges::sort(rc.opers);
             }
         }
 
@@ -164,11 +164,11 @@ std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::
     if (!start_analyzer.analyze()) return std::nullopt;
     start_analyzer.sort_result_horizontal();
     auto iter =
-            std::find_if(start_analyzer.get_result().cbegin(), start_analyzer.get_result().cend(),
-                         [&](const TextRect& r) -> bool
-                         {
-                             return m_force_skipped.find(slot_index_from_rect(r.rect)) == m_force_skipped.cend();
-                         });
+            std::ranges::find_if(std::as_const(start_analyzer.get_result()),
+                                 [&](const TextRect& r) -> bool
+                                 {
+                                     return !m_force_skipped.contains(slot_index_from_rect(r.rect));
+                                 });
     if (iter == start_analyzer.get_result().cend()) return std::nullopt;
     Log.info("Found slot index", slot_index_from_rect(iter->rect), ".");
     return iter->rect;
@@ -255,7 +255,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         bool has_refresh = !image_analyzer.get_refresh_rect().empty();
 
         std::vector<std::string> tag_names;
-        std::transform(tags.begin(), tags.end(), std::back_inserter(tag_names), std::mem_fn(&TextRect::text));
+        std::ranges::transform(tags, std::back_inserter(tag_names), std::mem_fn(&TextRect::text));
 
         bool has_special_tag = false;
         bool has_robot_tag = false;
@@ -264,7 +264,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         {
             json::value info = basic_info();
             std::vector<json::value> tag_json_vector;
-            std::transform(tags.begin(), tags.end(), std::back_inserter(tag_json_vector), std::mem_fn(&TextRect::text));
+            std::ranges::transform(tags, std::back_inserter(tag_json_vector), std::mem_fn(&TextRect::text));
 
             info["what"] = "RecruitTagsDetected";
             info["details"] = json::object{{ "tags", json::array(tag_json_vector) }};
@@ -273,7 +273,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // special tags
         const std::vector<std::string> SpecialTags = { "高级资深干员", "资深干员" };
-        auto special_iter = std::find_first_of(SpecialTags.cbegin(), SpecialTags.cend(), tag_names.cbegin(), tag_names.cend());
+        auto special_iter = std::ranges::find_first_of(SpecialTags, std::as_const(tag_names));
         if (special_iter != SpecialTags.cend()) {
             json::value info = basic_info();
             info["what"] = "RecruitSpecialTag";
@@ -284,7 +284,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // robot tags
         const std::vector<std::string> RobotTags = { "支援机械" };
-        auto robot_iter = std::find_first_of(RobotTags.cbegin(), RobotTags.cend(), tag_names.cbegin(), tag_names.cend());
+        auto robot_iter = std::ranges::find_first_of(RobotTags, std::as_const(tag_names));
         if (robot_iter != RobotTags.cend()) {
             json::value info = basic_info();
             info["what"] = "RecruitRobotTag";
@@ -307,35 +307,31 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             }
         }
 
-        std::sort(
-                result_vec.begin(), result_vec.end(),
-                [&](const RecruitCombs& lhs, const RecruitCombs& rhs) -> bool
-                {
-                    // prefer the one with special tag
-                    // workaround for https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1336
-                    if (has_special_tag) {
-                        bool l_has =
-                                std::find_first_of(
-                                        lhs.tags.cbegin(), lhs.tags.cend(),
-                                        SpecialTags.cbegin(), SpecialTags.cend()
-                                ) != lhs.tags.cend();
-                        bool r_has =
-                                std::find_first_of(
-                                        rhs.tags.cbegin(), rhs.tags.cend(),
-                                        SpecialTags.cbegin(), SpecialTags.cend()
-                                ) != rhs.tags.cend();
-                        if (l_has != r_has) return l_has > r_has;
-                    }
+        std::ranges::sort(result_vec
+                          ,
+                          [&](const RecruitCombs& lhs, const RecruitCombs& rhs) -> bool
+                          {
+                              // prefer the one with special tag
+                              // workaround for https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1336
+                              if (has_special_tag) {
+                                  bool l_has =
+                                      std::ranges::find_first_of(lhs.tags, SpecialTags
+                                      ) != lhs.tags.cend();
+                                  bool r_has =
+                                      std::ranges::find_first_of(rhs.tags, SpecialTags
+                                      ) != rhs.tags.cend();
+                                  if (l_has != r_has) return l_has > r_has;
+                              }
 
-                    if (lhs.min_level != rhs.min_level)
-                        return lhs.min_level > rhs.min_level; // 最小等级大的，排前面
-                    else if (lhs.max_level != rhs.max_level)
-                        return lhs.max_level > rhs.max_level; // 最大等级大的，排前面
-                    else if (std::fabs(lhs.avg_level - rhs.avg_level) > DoubleDiff)
-                        return lhs.avg_level > rhs.avg_level; // 平均等级高的，排前面
-                    else
-                        return lhs.tags.size() < rhs.tags.size(); // Tag数量少的，排前面
-                }
+                              if (lhs.min_level != rhs.min_level)
+                                  return lhs.min_level > rhs.min_level; // 最小等级大的，排前面
+                              else if (lhs.max_level != rhs.max_level)
+                                  return lhs.max_level > rhs.max_level; // 最大等级大的，排前面
+                              else if (std::fabs(lhs.avg_level - rhs.avg_level) > DoubleDiff)
+                                  return lhs.avg_level > rhs.avg_level; // 平均等级高的，排前面
+                              else
+                                  return lhs.tags.size() < rhs.tags.size(); // Tag数量少的，排前面
+                          }
         );
 
 
@@ -420,7 +416,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         if (!is_calc_only_task()) {
             // do not confirm, force skip
-            if (std::none_of(m_confirm_level.cbegin(), m_confirm_level.cend(), [&](const auto& i) { return i == final_combination.min_level; })) {
+            if (std::ranges::none_of(std::as_const(m_confirm_level), [&](const auto& i) { return i == final_combination.min_level; })) {
                 calc_task_result_type result;
                 result.success = true;
                 result.force_skip = true;
@@ -443,7 +439,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         // nothing to select, leave the selection empty
-        if (std::none_of(m_select_level.cbegin(), m_select_level.cend(), [&](const auto& i) { return i == final_combination.min_level; })) {
+        if (std::ranges::none_of(std::as_const(m_select_level), [&](const auto& i) { return i == final_combination.min_level; })) {
             calc_task_result_type result;
             result.success = true;
             result.force_skip = false;
@@ -454,7 +450,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         // select tags
         for (const std::string& final_tag_name : final_combination.tags) {
             auto tag_rect_iter =
-                    std::find_if(tags.cbegin(), tags.cend(), [&](const TextRect& r) { return r.text == final_tag_name; });
+                    std::ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
             if (tag_rect_iter != tags.cend()) {
                 m_ctrler->click(tag_rect_iter->rect);
             }

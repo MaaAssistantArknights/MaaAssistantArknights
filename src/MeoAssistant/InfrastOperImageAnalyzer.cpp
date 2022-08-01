@@ -1,5 +1,7 @@
 #include "InfrastOperImageAnalyzer.h"
 
+#include <ranges>
+
 #include "NoWarningCV.h"
 
 #include "InfrastSmileyImageAnalyzer.h"
@@ -43,37 +45,34 @@ void asst::InfrastOperImageAnalyzer::sort_by_loc()
 {
     LogTraceFunction;
 
-    std::sort(
-        m_result.begin(), m_result.end(),
-        [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
-            if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
-                return lhs.rect.y < rhs.rect.y;
-            }
-            else {
-                return lhs.rect.x < rhs.rect.x;
-            }
-        });
+    std::ranges::sort(m_result, [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
+        if (std::abs(lhs.rect.x - rhs.rect.x) < 5) {
+            // x差距较小则理解为是同一排的，按y排序
+            return lhs.rect.y < rhs.rect.y;
+        }
+        else {
+            return lhs.rect.x < rhs.rect.x;
+        }
+    });
 }
 
 void asst::InfrastOperImageAnalyzer::sort_by_mood()
 {
     LogTraceFunction;
 
-    std::sort(
-        m_result.begin(), m_result.end(),
-        [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
-            // 先按心情排序，心情低的放前面
-            if (std::fabs(lhs.mood_ratio - rhs.mood_ratio) > DoubleDiff) {
-                return lhs.mood_ratio < rhs.mood_ratio;
-            }
-            // 心情一样的就按位置排序，左边的放前面
-            if (std::abs(lhs.rect.x - rhs.rect.x) > 5) {
-                return lhs.rect.x < rhs.rect.x;
-            }
-            else {
-                return lhs.rect.y < rhs.rect.y;
-            }
-        });
+    std::ranges::sort(m_result, [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
+        // 先按心情排序，心情低的放前面
+        if (std::fabs(lhs.mood_ratio - rhs.mood_ratio) > DoubleDiff) {
+            return lhs.mood_ratio < rhs.mood_ratio;
+        }
+        // 心情一样的就按位置排序，左边的放前面
+        if (std::abs(lhs.rect.x - rhs.rect.x) > 5) {
+            return lhs.rect.x < rhs.rect.x;
+        }
+        else {
+            return lhs.rect.y < rhs.rect.y;
+        }
+    });
 }
 
 void asst::InfrastOperImageAnalyzer::oper_detect()
@@ -272,7 +271,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
 
             std::vector<std::pair<infrast::Skill, MatchRect>> possible_skills;
             // 逐个该设施内所有可能的技能，取得分最高的
-            for (const auto& [id, skill] : Resrc.infrast().get_skills(m_facility)) {
+            for (const auto& skill : Resrc.infrast().get_skills(m_facility) | std::views::values) {
                 skill_analyzer.set_templ_name(skill.templ_name);
 
                 if (!skill_analyzer.analyze()) {
@@ -296,9 +295,8 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             else if (possible_skills.size() > 1) {
                 // 匹配得分最高的id作为基准，排除有识别错误，其他的技能混进来了的情况
                 // 即排除容器中，除了有同一个技能的不同等级，还有别的技能的情况
-                auto max_iter = std::max_element(
-                    possible_skills.begin(), possible_skills.end(),
-                    [](const auto& lhs, const auto& rhs) -> bool {
+                auto max_iter =
+                    std::ranges::max_element(possible_skills, [](const auto& lhs, const auto& rhs) -> bool {
                         return lhs.second.score < rhs.second.score;
                     });
                 double base_score = max_iter->second.score;

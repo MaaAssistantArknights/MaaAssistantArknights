@@ -101,11 +101,11 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
             continue;
         }
 
-        auto find_it = std::find_if(result.cbegin(), result.cend(),
-            [&](const TextRect& tr) -> bool {
-                return tr.text.find(goods.name) != std::string::npos ||
-                    goods.name.find(tr.text) != std::string::npos;
-            });
+        auto find_it = std::ranges::find_if(result,
+                                            [&](const TextRect& tr) -> bool {
+                                                return tr.text.find(goods.name) != std::string::npos ||
+                                                    goods.name.find(tr.text) != std::string::npos;
+                                            });
         if (find_it == result.cend()) {
             continue;
         }
@@ -147,8 +147,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
 
         if (!goods.chars.empty()) {
-            auto iter = std::find_first_of(chars_list.cbegin(), chars_list.cend(),
-                goods.chars.cbegin(), goods.chars.cend());
+            auto iter = std::ranges::find_first_of(std::as_const(chars_list), goods.chars);
             if (iter == chars_list.cend()) {
                 Log.trace("Ready to buy", goods.name,
                     ", but there is no such character, skip");

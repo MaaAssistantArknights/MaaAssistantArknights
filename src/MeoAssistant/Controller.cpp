@@ -566,7 +566,7 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
 
 void asst::Controller::wait(unsigned id) const noexcept
 {
-    static const auto delay = std::chrono::milliseconds(10);
+    static constexpr auto delay = std::chrono::milliseconds(10);
     while (id > m_completed_id) {
         std::this_thread::sleep_for(delay);
     }
@@ -1006,7 +1006,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         std::string uuid_str(
             std::make_move_iterator(uuid_result.begin()),
             std::make_move_iterator(uuid_result.end()));
-        uuid_str.erase(std::remove(uuid_str.begin(), uuid_str.end(), ' '), uuid_str.end());
+        std::erase(uuid_str, ' ');
         m_uuid = std::move(uuid_str);
 
         json::value info = get_info_json() |

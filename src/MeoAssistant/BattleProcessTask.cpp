@@ -3,6 +3,7 @@
 #include <thread>
 #include <chrono>
 #include <future>
+#include <ranges>
 
 #include "NoWarningCV.h"
 
@@ -179,10 +180,10 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         bool not_found = true;
         // 找出这个干员是哪个组里的，以及他的技能用法等
         for (const auto& [group_name, deploy_opers] : m_copilot_data.groups) {
-            auto iter = std::find_if(deploy_opers.cbegin(), deploy_opers.cend(),
-                [&](const BattleDeployOper& deploy) -> bool {
-                    return deploy.name == oper_name;
-                });
+            auto iter = std::ranges::find_if(deploy_opers,
+                                             [&](const BattleDeployOper& deploy) -> bool {
+                                                 return deploy.name == oper_name;
+                                             });
             if (iter != deploy_opers.cend()) {
                 m_group_to_oper_mapping.emplace(group_name, *iter);
                 not_found = false;
@@ -249,7 +250,7 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
         // 干员也可能是撤退下来的，把所有已使用的都拿出来比较下
         for (auto iter = m_all_opers_info.cbegin(); iter != m_all_opers_info.cend(); ++iter) {
             const std::string& key = iter->first;
-            if (pre_opers_info.find(key) == pre_opers_info.cend()) {
+            if (!pre_opers_info.contains(key)) {
                 ranged_iters.emplace_back(iter);
             }
         }
@@ -595,7 +596,7 @@ bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
     MatchImageAnalyzer analyzer(image);
     analyzer.set_task_info(task_ptr);
     bool used = false;
-    for (auto& [name, info] : m_used_opers) {
+    for (auto& info : m_used_opers | std::views::values) {
         if (info.info.skill_usage != BattleSkillUsage::Possibly
             && info.info.skill_usage != BattleSkillUsage::Once) {
             continue;

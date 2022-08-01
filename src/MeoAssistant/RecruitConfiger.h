@@ -24,13 +24,18 @@ namespace asst
         std::string name_en;
 
         bool has_tag(const std::string &tag) const {
-            return tags.find(tag) != tags.cend();
+            return tags.contains(tag);
         }
 
-        friend bool operator<(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
+        friend std::strong_ordering operator<=>(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
         {
-            if (lhs.level != rhs.level) return lhs.level > rhs.level;
-            return lhs.name < rhs.name;
+            if (lhs.level != rhs.level) return rhs.level <=> lhs.level;
+            return lhs.name <=> rhs.name;
+        }
+
+        friend bool operator==(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
+        {
+            return lhs.name == rhs.name && lhs.level == rhs.level;
         }
     };
 
@@ -64,22 +69,18 @@ namespace asst
         // intersection of two recruit combs
         friend RecruitCombs operator*(RecruitCombs& lhs, RecruitCombs& rhs)
         {
-            std::sort(lhs.tags.begin(), lhs.tags.end());
-            std::sort(lhs.opers.begin(), lhs.opers.end());
-            std::sort(rhs.tags.begin(), rhs.tags.end());
-            std::sort(rhs.opers.begin(), rhs.opers.end());
+            std::ranges::sort(lhs.tags);
+            std::ranges::sort(lhs.opers);
+            std::ranges::sort(rhs.tags);
+            std::ranges::sort(rhs.opers);
 
             RecruitCombs result;
 
-            std::set_union(
-                    lhs.tags.cbegin(), lhs.tags.cend(),
-                    rhs.tags.cbegin(), rhs.tags.cend(),
-                    std::back_inserter(result.tags));
+            std::ranges::set_union(std::as_const(lhs.tags), std::as_const(rhs.tags)                                   ,
+                                   std::back_inserter(result.tags));
 
-            std::set_intersection(
-                    lhs.opers.cbegin(), lhs.opers.cend(),
-                    rhs.opers.cbegin(), rhs.opers.cend(),
-                    std::back_inserter(result.opers));
+            std::ranges::set_intersection(std::as_const(lhs.opers), std::as_const(rhs.opers)                                          ,
+                                          std::back_inserter(result.opers));
 
             result.update_attributes();
 

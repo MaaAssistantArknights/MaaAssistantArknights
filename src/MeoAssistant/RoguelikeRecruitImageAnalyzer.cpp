@@ -32,16 +32,16 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         info.name = name;
         info.elite = elite;
         info.level = level;
-        info.required = std::find(order.cbegin(), order.cend(), name) != order.cend();
+        info.required = std::ranges::find(order, name) != order.cend();
 
         Log.info(__FUNCTION__, name, elite, level, rect.to_string());
         m_result.emplace_back(std::move(info));
     }
     
-    auto first_un_req = std::find_if(m_result.begin(), m_result.end(),
-        [&](const auto& info) -> bool {
-            return info.required == false;
-        });
+    auto first_un_req = std::ranges::find_if(m_result,
+                                             [&](const auto& info) -> bool {
+                                                 return info.required == false;
+                                             });
     std::sort(first_un_req, m_result.end(),
         [&](const auto& lhs, const auto& rhs) -> bool {
             if (lhs.elite == rhs.elite) {
@@ -100,8 +100,8 @@ int asst::RoguelikeRecruitImageAnalyzer::match_level(const Rect& raw_roi)
     }
 
     const std::string& level = analyzer.get_result().front().text;
-    if (level.empty() || !std::all_of(level.cbegin(), level.cend(),
-        [](char c) -> bool {return std::isdigit(c);})) {
+    if (level.empty() || !std::ranges::all_of(level,
+                                              [](char c) -> bool {return std::isdigit(c);})) {
         return 0;
     }
     return std::stoi(level);
