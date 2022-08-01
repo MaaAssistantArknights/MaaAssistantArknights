@@ -7445,7 +7445,7 @@
     },
     "Roguelike1FormationOperSelected": {
         "template": "empty.png",
-        "templThreshold": 12000,
+        "templThreshold": 18000,
         "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "maskRange": [
             95,
