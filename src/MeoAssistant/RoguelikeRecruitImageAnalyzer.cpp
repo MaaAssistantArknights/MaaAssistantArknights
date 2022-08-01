@@ -39,9 +39,9 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
     }
 
     auto first_un_req = std::ranges::find_if(m_result,
-                                             [&](const auto& info) -> bool {
-                                                 return info.required == false;
-                                             });
+        [&](const auto& info) -> bool {
+            return info.required == false;
+        });
     std::sort(first_un_req, m_result.end(),
         [&](const auto& lhs, const auto& rhs) -> bool {
             if (lhs.elite == rhs.elite) {

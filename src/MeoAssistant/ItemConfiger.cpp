@@ -25,9 +25,9 @@ bool asst::ItemConfiger::parse(const json::value& json)
         m_ordered_material_item_id.emplace_back(item_id);
     }
     std::ranges::sort(m_ordered_material_item_id,
-                      [&](const std::string& lhs, const std::string& rhs) -> bool {
-                          return material_sortid[lhs] < material_sortid[rhs];
-                      });
+        [&](const std::string& lhs, const std::string& rhs) -> bool {
+            return material_sortid[lhs] < material_sortid[rhs];
+        });
 
     return true;
 }

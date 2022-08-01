@@ -244,9 +244,9 @@ bool asst::InfrastProductionTask::optimal_calc()
     optimal_combs.reserve(cur_max_num_of_opers);
     double max_efficient = 0;
     std::ranges::sort(all_available_combs,
-                      [&](const infrast::SkillsComb& lhs, const infrast::SkillsComb& rhs) -> bool {
-                          return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
-                      });
+        [&](const infrast::SkillsComb& lhs, const infrast::SkillsComb& rhs) -> bool {
+            return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
+        });
 
     for (const auto& comb : all_available_combs) {
         std::string skill_str;
@@ -328,11 +328,10 @@ bool asst::InfrastProductionTask::optimal_calc()
         // necessary里的技能，一个都不能少
         // TODO necessary暂时没做hash校验。因为没有需要比hash的necessary干员（
         for (const infrast::SkillsComb& nec_skills : group.necessary) {
-            auto find_iter = std::ranges::find_if(std::as_const(cur_available_opers)
-                                                  ,
-                                                  [&](const infrast::SkillsComb& arg) -> bool {
-                                                      return arg == nec_skills;
-                                                  });
+            auto find_iter = std::ranges::find_if(std::as_const(cur_available_opers),
+                [&](const infrast::SkillsComb& arg) -> bool {
+                    return arg == nec_skills;
+                });
             if (find_iter == cur_available_opers.cend()) {
                 group_unavailable = true;
                 break;
@@ -360,10 +359,10 @@ bool asst::InfrastProductionTask::optimal_calc()
         }
 
         std::ranges::sort(optional,
-                          [&](const infrast::SkillsComb& lhs,
-                              const infrast::SkillsComb& rhs) -> bool {
-                                  return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
-                          });
+            [&](const infrast::SkillsComb& lhs,
+                const infrast::SkillsComb& rhs) -> bool {
+                    return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
+            });
 
         // 可能有多个干员有同样的技能，所以这里需要循环找同一个技能，直到找不到为止
         for (const infrast::SkillsComb& opt : optional) {
@@ -388,9 +387,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                             continue;
                         }
                         std::string name = name_analyzer.get_result().front().text;
-                        hash_matched = std::ranges::find(opt.name_filter
-                                                         , name)
-                            != opt.name_filter.cend();
+                        hash_matched = std::ranges::find(opt.name_filter, name) != opt.name_filter.cend();
                     }
                     if (!hash_matched) {
                         ++find_iter;

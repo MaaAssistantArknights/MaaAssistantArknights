@@ -58,9 +58,9 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
     std::vector<std::string> stages_req(stages.cbegin(), stages.cend());
     // 名字长的放前面
     std::ranges::sort(stages_req,
-                      [](const std::string& lhs, const std::string& rhs) -> bool {
-                          return lhs.size() > rhs.size();
-                      });
+        [](const std::string& lhs, const std::string& rhs) -> bool {
+            return lhs.size() > rhs.size();
+        });
     analyzer.set_required(std::move(stages_req));
 
     if (!analyzer.analyze()) {
