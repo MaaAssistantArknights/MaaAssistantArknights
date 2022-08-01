@@ -243,11 +243,11 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         BattleRole::Warrior,
         BattleRole::Pioneer,
         BattleRole::Medic,
-        BattleRole::Sniper,
-        BattleRole::Support,
-        BattleRole::Caster,
-        BattleRole::Special,
         BattleRole::Tank,
+        BattleRole::Sniper,
+        BattleRole::Caster,
+        BattleRole::Support,
+        BattleRole::Special,
         BattleRole::Drone
     };
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
