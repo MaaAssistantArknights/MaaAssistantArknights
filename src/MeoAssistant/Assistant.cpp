@@ -3,19 +3,6 @@
 #include <ctime>
 
 #include <meojson/json.hpp>
-#ifdef _MSC_VER
-#pragma warning( push )
-#pragma warning( disable: 5054 )
-#else
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-enum-enum-conversion"
-#endif
-#include <opencv2/opencv.hpp>
-#ifdef _MSC_VER
-#pragma warning( pop )
-#else
-#pragma GCC diagnostic pop
-#endif
 
 #include "AsstUtils.hpp"
 #include "Controller.h"
