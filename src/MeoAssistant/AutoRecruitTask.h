@@ -4,7 +4,7 @@
 #include "AsstTypes.h"
 
 #include <vector>
-#include <list>
+#include <set>
 #include <optional>
 
 namespace asst
@@ -27,7 +27,7 @@ namespace asst
         virtual bool _run() override;
 
         bool is_calc_only_task() { return m_max_times <= 0 || m_confirm_level.empty(); }
-        static std::optional<Rect> try_get_start_button(const cv::Mat&);
+        std::optional<Rect> try_get_start_button(const cv::Mat&);
         bool recruit_one(const Rect&);
         bool check_recruit_home_page();
         bool recruit_begin();
@@ -57,5 +57,19 @@ namespace asst
 
         int m_slot_fail = 0;
         int m_cur_times = 0;
+
+        using slot_index = size_t;
+
+        std::set<slot_index> m_force_skipped;
+
+        static slot_index slot_index_from_rect(const Rect &r)
+        {
+            /* 公开招募
+             * 0    | 1
+             * 2    | 3 */
+            int cx = r.x + r.width / 2;
+            int cy = r.y + r.height / 2;
+            return (cx > 640) + 2 * (cy > 444);
+        }
     };
 }

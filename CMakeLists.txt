@@ -4,7 +4,7 @@ project(MaaAssistantArknights)
 option(BUILD_JNI "build jni" OFF)
 option(BUILD_TEST "build a demo" OFF)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 if (WIN32)
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")

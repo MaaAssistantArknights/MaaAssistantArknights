@@ -42,7 +42,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_
 
 bool asst::RoguelikeTask::set_params(const json::value& params)
 {
-    // 0 - 刷蜡烛，尽可能稳定的打更多层数
+    // 0 - 刷蜡烛，尽可能稳定地打更多层数
     // 1 - 刷源石锭，第一层投资完就退出
     // 2 - 【弃用】两者兼顾，投资过后再退出，没有投资就继续往后打
     // 3 - 尝试通关，激进策略

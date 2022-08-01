@@ -105,8 +105,8 @@
     <system:String x:Key="PenguinID">Penguin Report ID(Number part only)</system:String>
 
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
-    <system:String x:Key="HighPriority">Whitelist (split by space)</system:String>
-    <system:String x:Key="Blacklist">Blacklist (split by space)</system:String>
+    <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
+    <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
 
     <system:String x:Key="DroneUsage">Drone Usage</system:String>

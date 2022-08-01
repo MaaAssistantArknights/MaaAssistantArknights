@@ -6,7 +6,7 @@
 
 <br>
 <div>
-    <img alt="C++" src="https://img.shields.io/badge/c++-17-%2300599C?logo=cplusplus">
+    <img alt="C++" src="https://img.shields.io/badge/c++-20-%2300599C?logo=cplusplus">
 </div>
 <div>
     <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet">
@@ -147,7 +147,7 @@ Please refer to [Linux Tutorial](docs/en/LINUX_TUTORIAL.md)
 - [Task Schema](docs/en/TASK_SCHEMA.md)
 - [Copilot Schema](docs/en/COPILOT_SCHEMA.md)
 
-### For Novice Users of Github
+### For Novice Users of GitHub
 
 [Contributing](docs/en/CONTRIBUTING.md)
 

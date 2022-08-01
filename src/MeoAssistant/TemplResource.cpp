@@ -4,6 +4,8 @@
 #include <filesystem>
 #include <string_view>
 
+#include "NoWarningCV.h"
+
 #include "Logger.hpp"
 
 void asst::TemplResource::set_load_required(std::unordered_set<std::string> required) noexcept

@@ -1,5 +1,7 @@
 #include "RoguelikeSkillSelectionImageAnalyzer.h"
 
+#include "NoWarningCV.h"
+
 #include "AsstUtils.hpp"
 #include "OcrWithPreprocessImageAnalyzer.h"
 #include "MultiMatchImageAnalyzer.h"
@@ -61,29 +63,16 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
 
 std::vector<asst::Rect> asst::RoguelikeSkillSelectionImageAnalyzer::skill_analyze(const Rect& roi)
 {
-    const auto task_ptr = Task.get<MatchTaskInfo>("Roguelike1SkillSelectionRect");
-    Rect cor_roi = roi.move(task_ptr->roi);
-    cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(cor_roi));
+    static const std::vector<std::string> TasksName = {
+        "Roguelike1SkillSelectionMove1",
+        "Roguelike1SkillSelectionMove2",
+        "Roguelike1SkillSelectionMove3"
+    };
+    std::vector<Rect> result;
+    result.reserve(TasksName.size());
 
-    std::vector<Rect> result_vec;
-
-    int skill_width = cor_roi.width / MaxNumOfSkills;
-    for (int x = 0; x + skill_width < cor_roi.width; x += skill_width) {
-        Rect single_skill_rect(x, 0, skill_width, cor_roi.height);
-        cv::Mat skill = image_roi(utils::make_rect<cv::Rect>(single_skill_rect));
-        cv::Mat skill_gray;
-        cv::cvtColor(skill, skill_gray, cv::COLOR_BGR2GRAY);
-        cv::Scalar avg = cv::mean(skill_gray);
-        Log.trace(__FUNCTION__, "gray avg", avg[0]);
-        if (avg[0] < task_ptr->templ_threshold) {
-            break;
-        }
-        Rect result = cor_roi.move(single_skill_rect.move(task_ptr->rect_move));
-#ifdef ASST_DEBUG
-        cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(result), cv::Scalar(0, 255, 0), 3);
-#endif
-        result_vec.emplace_back(result);
+    for (const std::string& task_name : TasksName) {
+        result.emplace_back(roi.move(Task.get(task_name)->rect_move));
     }
-
-    return result_vec;
+    return result;
 }

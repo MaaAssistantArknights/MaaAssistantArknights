@@ -3,8 +3,6 @@
 #include <algorithm>
 #include <vector>
 
-#include <opencv2/opencv.hpp>
-
 #include "Controller.h"
 #include "CreditShopImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"

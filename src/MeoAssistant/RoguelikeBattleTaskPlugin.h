@@ -1,5 +1,7 @@
 #pragma once
 
+#include <queue>
+
 #include "AbstractTaskPlugin.h"
 #include "AsstTypes.h"
 #include "TilePack.h"
