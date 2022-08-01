@@ -3,6 +3,8 @@
 #include <chrono>
 #include <future>
 
+#include "NoWarningCV.h"
+
 #include "BattleImageAnalyzer.h"
 #include "Controller.h"
 #include "TaskData.h"

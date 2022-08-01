@@ -1,5 +1,7 @@
 #include "RoguelikeSkillSelectionImageAnalyzer.h"
 
+#include "NoWarningCV.h"
+
 #include "AsstUtils.hpp"
 #include "OcrWithPreprocessImageAnalyzer.h"
 #include "MultiMatchImageAnalyzer.h"
