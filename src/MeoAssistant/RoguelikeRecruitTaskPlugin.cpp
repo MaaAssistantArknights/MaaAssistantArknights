@@ -34,7 +34,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     bool recruited = false;
 
     auto recruit_oper = [&](const BattleRecruitOperInfo& info) {
-        Log.info(__FUNCTION__, "choose oper:", info.name, "( elite", info.elite, "level", info.level, ")");
+        Log.info("asst::RoguelikeRecruitTaskPlugin::_run | Choose oper:",
+            info.name, "( elite", info.elite, "level", info.level, ")");
         select_oper(info);
         recruited = true;
     };
@@ -112,6 +113,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
 bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
 {
+    LogTraceFunction;
     auto core_opt = m_status->get_str("RoguelikeCoreChar");
     if (!core_opt || core_opt->empty()) {
         return false;
@@ -122,6 +124,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
         auto image = m_ctrler->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
+            Log.info(__FUNCTION__, "| Unable to analyze image.");
             break;
         }
         const auto& chars = analyzer.get_result();
@@ -130,16 +133,24 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
                 return oper.name == core_opt.value();
             });
 
+        std::string oper_names = "";
+        for (const auto& oper : chars) {
+            if (!oper_names.empty()) {
+                oper_names += ", ";
+            }
+            oper_names += oper.name;
+        }
+        Log.info(__FUNCTION__, "| Oper list:", oper_names);
         if (it == chars.cend()) {
             ProcessTask(*this, { "SlowlySwipeToTheRight" }).run();
             sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
             continue;
         }
-        Log.info(__FUNCTION__, "choose oper:", it->name, "( elite", it->elite, "level", it->level, ")");
+        Log.info(__FUNCTION__, "| Choose oper:", it->name, "( elite", it->elite, "level", it->level, ")");
         select_oper(*it);
         return true;
     }
-    Log.info(__FUNCTION__, "did not choose oper.");
+    Log.info(__FUNCTION__, "| Cannot find oper `" + core_opt.value() + "`");
     ProcessTask(*this, { "SwipeToTheLeft" }).run();
     return false;
 }
