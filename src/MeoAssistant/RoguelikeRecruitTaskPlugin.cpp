@@ -34,14 +34,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     bool recruited = false;
 
     auto recruit_oper = [&](const BattleRecruitOperInfo& info) {
-        Log.info("asst::RoguelikeRecruitTaskPlugin::_run | Choose oper:",
-            info.name, "( elite", info.elite, "level", info.level, ")");
         select_oper(info);
         recruited = true;
     };
 
-    constexpr size_t SwipeTimes = 3;
-    for (size_t i = 0; i != SwipeTimes; ++i) {
+    constexpr int SwipeTimes = 5;
+    int i = 0;
+    for (; i != SwipeTimes; ++i) {
         auto image = m_ctrler->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
@@ -107,20 +106,21 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         return true;
     }
 
-    ProcessTask(*this, { "SwipeToTheLeft" }).run();
+    Log.info(__FUNCTION__, "did not choose oper.");
+    ProcessTask(*this, { "SwipeToTheLeft" }).set_times_limit("SwipeToTheLeft", i / 2 + 1).run();
     return false;
 }
 
 bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
 {
-    LogTraceFunction;
     auto core_opt = m_status->get_str("RoguelikeCoreChar");
     if (!core_opt || core_opt->empty()) {
         return false;
     }
     m_status->set_str("RoguelikeCoreChar", "");
-    constexpr size_t SwipeTimes = 2;
-    for (size_t i = 0; i != SwipeTimes; ++i) {
+    constexpr int SwipeTimes = 10;
+    int i = 0;
+    for (; i != SwipeTimes; ++i) {
         auto image = m_ctrler->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
@@ -157,6 +157,8 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
 
 void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& oper)
 {
+    Log.info(__FUNCTION__, "| choose oper:", oper.name, "( elite", oper.elite, "level", oper.level, ")");
+
     m_ctrler->click(oper.rect);
 
     m_status->set_number(RuntimeStatus::RoguelikeCharElitePrefix + oper.name, oper.elite);
