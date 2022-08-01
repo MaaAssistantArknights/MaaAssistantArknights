@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Config.hpp"
-ASST_SUPPRESS_CV_WARNINGS_START
-#include <opencv2/core/mat.hpp>
-ASST_SUPPRESS_CV_WARNINGS_END
+#include "NoWarningCVMat.h"
 
 #include "AsstTypes.h"
 

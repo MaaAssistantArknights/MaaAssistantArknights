@@ -1,5 +1,7 @@
 #include "RoguelikeFormationImageAnalyzer.h"
 
+#include "NoWarningCV.h"
+
 #include "AsstUtils.hpp"
 #include "MultiMatchImageAnalyzer.h"
 #include "TaskData.h"

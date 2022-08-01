@@ -4,12 +4,9 @@
 #include <filesystem>
 #include <thread>
 #include <regex>
-
-#include "Config.hpp"
-ASST_SUPPRESS_CV_WARNINGS_START
-#include <opencv2/opencv.hpp>
-ASST_SUPPRESS_CV_WARNINGS_END
 #include <utility>
+
+#include "NoWarningCV.h"
 
 #include "AsstUtils.hpp"
 #include "Controller.h"

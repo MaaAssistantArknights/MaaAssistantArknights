@@ -16,10 +16,7 @@
 #include <vector>
 #include <memory>
 
-#include "Config.hpp"
-ASST_SUPPRESS_CV_WARNINGS_START
-#include <opencv2/opencv.hpp>
-ASST_SUPPRESS_CV_WARNINGS_END
+#include "NoWarningCV.h"
 
 #ifdef _MSC_VER
 #pragma warning( push )

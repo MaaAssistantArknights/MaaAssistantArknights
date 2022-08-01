@@ -1,5 +1,7 @@
 #include "InfrastClueVacancyImageAnalyzer.h"
 
+#include "NoWarningCV.h"
+
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"

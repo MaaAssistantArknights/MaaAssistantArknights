@@ -1,5 +1,7 @@
 #include "HashImageAnalyzer.h"
 
+#include "NoWarningCV.h"
+
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 

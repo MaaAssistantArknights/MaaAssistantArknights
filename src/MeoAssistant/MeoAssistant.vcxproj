@@ -31,7 +31,7 @@
     <ClInclude Include="AwardTask.h" />
     <ClInclude Include="BattleDataConfiger.h" />
     <ClInclude Include="CloseDownTask.h" />
-    <ClInclude Include="Config.hpp" />
+    <ClInclude Include="AsstConf.h" />
     <ClInclude Include="CopilotConfiger.h" />
     <ClInclude Include="BattleFormationTask.h" />
     <ClInclude Include="BattleImageAnalyzer.h" />
@@ -40,6 +40,8 @@
     <ClInclude Include="DepotRecognitionTask.h" />
     <ClInclude Include="DepotTask.h" />
     <ClInclude Include="GameCrashRestartTaskPlugin.h" />
+    <ClInclude Include="NoWarningCV.h" />
+    <ClInclude Include="NoWarningCVMat.h" />
     <ClInclude Include="RoguelikeControlTaskPlugin.h" />
     <ClInclude Include="RoguelikeCustomStartTaskPlugin.h" />
     <ClInclude Include="RoguelikeRecruitConfiger.h" />

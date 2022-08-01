@@ -1,5 +1,7 @@
 #include "DepotImageAnalyzer.h"
 
+#include "NoWarningCV.h"
+
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 #include "TaskData.h"
