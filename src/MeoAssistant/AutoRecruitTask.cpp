@@ -17,8 +17,7 @@ namespace asst::recruit_calc
 
         {
             rcs_with_single_tag.reserve(tags.size());
-            std::ranges::transform(tags, std::back_inserter(rcs_with_single_tag), [](const std::string& t)
-            {
+            std::ranges::transform(tags, std::back_inserter(rcs_with_single_tag), [](const std::string& t) {
                 RecruitCombs result;
                 result.tags = { t };
                 result.min_level = 6;
@@ -164,11 +163,10 @@ std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::
     if (!start_analyzer.analyze()) return std::nullopt;
     start_analyzer.sort_result_horizontal();
     auto iter =
-            std::ranges::find_if(std::as_const(start_analyzer.get_result()),
-                                 [&](const TextRect& r) -> bool
-                                 {
-                                     return !m_force_skipped.contains(slot_index_from_rect(r.rect));
-                                 });
+        std::ranges::find_if(std::as_const(start_analyzer.get_result()),
+                             [&](const TextRect& r) -> bool {
+                                 return !m_force_skipped.contains(slot_index_from_rect(r.rect));
+                             });
     if (iter == start_analyzer.get_result().cend()) return std::nullopt;
     Log.info("Found slot index", slot_index_from_rect(iter->rect), ".");
     return iter->rect;
@@ -267,7 +265,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             std::ranges::transform(tags, std::back_inserter(tag_json_vector), std::mem_fn(&TextRect::text));
 
             info["what"] = "RecruitTagsDetected";
-            info["details"] = json::object{{ "tags", json::array(tag_json_vector) }};
+            info["details"] = json::object{ { "tags", json::array(tag_json_vector) } };
             callback(AsstMsg::SubTaskExtraInfo, info);
         }
 
@@ -277,7 +275,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (special_iter != SpecialTags.cend()) {
             json::value info = basic_info();
             info["what"] = "RecruitSpecialTag";
-            info["details"] = json::object{{ "tag", *special_iter }};
+            info["details"] = json::object{ { "tag", *special_iter } };
             callback(AsstMsg::SubTaskExtraInfo, info);
             has_special_tag = true;
         }
@@ -288,7 +286,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (robot_iter != RobotTags.cend()) {
             json::value info = basic_info();
             info["what"] = "RecruitRobotTag";
-            info["details"] = json::object{{ "tag", *robot_iter }};
+            info["details"] = json::object{ { "tag", *robot_iter } };
             callback(AsstMsg::SubTaskExtraInfo, info);
             has_robot_tag = true;
         }
@@ -309,8 +307,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         std::ranges::sort(result_vec
                           ,
-                          [&](const RecruitCombs& lhs, const RecruitCombs& rhs) -> bool
-                          {
+                          [&](const RecruitCombs& lhs, const RecruitCombs& rhs) -> bool {
                               // prefer the one with special tag
                               // workaround for https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1336
                               if (has_special_tag) {
@@ -450,7 +447,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         // select tags
         for (const std::string& final_tag_name : final_combination.tags) {
             auto tag_rect_iter =
-                    std::ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
+                std::ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
             if (tag_rect_iter != tags.cend()) {
                 m_ctrler->click(tag_rect_iter->rect);
             }

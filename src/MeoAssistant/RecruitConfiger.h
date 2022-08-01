@@ -23,7 +23,8 @@ namespace asst
         bool hidden = false;
         std::string name_en;
 
-        bool has_tag(const std::string &tag) const {
+        bool has_tag(const std::string& tag) const
+        {
             return tags.contains(tag);
         }
 
@@ -49,7 +50,8 @@ namespace asst
         int min_level = 0;
         double avg_level = 0;
 
-        void update_attributes() {
+        void update_attributes()
+        {
             min_level = std::transform_reduce(
                     opers.cbegin(), opers.cend(), 7,
                     [](int a, int b) -> int { return (std::min)(a, b); },
@@ -76,10 +78,10 @@ namespace asst
 
             RecruitCombs result;
 
-            std::ranges::set_union(std::as_const(lhs.tags), std::as_const(rhs.tags)                                   ,
+            std::ranges::set_union(std::as_const(lhs.tags), std::as_const(rhs.tags),
                                    std::back_inserter(result.tags));
 
-            std::ranges::set_intersection(std::as_const(lhs.opers), std::as_const(rhs.opers)                                          ,
+            std::ranges::set_intersection(std::as_const(lhs.opers), std::as_const(rhs.opers),
                                           std::back_inserter(result.opers));
 
             result.update_attributes();
