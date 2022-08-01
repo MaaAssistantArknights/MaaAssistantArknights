@@ -31,6 +31,7 @@
     <ClInclude Include="AwardTask.h" />
     <ClInclude Include="BattleDataConfiger.h" />
     <ClInclude Include="CloseDownTask.h" />
+    <ClInclude Include="Config.hpp" />
     <ClInclude Include="CopilotConfiger.h" />
     <ClInclude Include="BattleFormationTask.h" />
     <ClInclude Include="BattleImageAnalyzer.h" />
