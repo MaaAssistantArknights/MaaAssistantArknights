@@ -7491,11 +7491,19 @@
     },
     "Roguelike1FormationOperSelected": {
         "template": "empty.png",
-        "templThreshold": 18000,
+        "templThreshold": 1000,
         "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
+        "maskRange_Doc": "拿来做H通道的范围",
         "maskRange": [
             95,
             105
+        ],
+        "specificRect_Doc": "拿来做S、V通道的范围",
+        "specificRect": [
+            170,
+            210,
+            70,
+            140
         ]
     },
     "Roguelike1FormationConfirm": {
