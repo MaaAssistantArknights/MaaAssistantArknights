@@ -4220,7 +4220,7 @@
             200,
             300
         ],
-        "preDelay": 100,
+        "preDelay": 300,
         "rearDelay": 1000,
         "maxTimes": 2,
         "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
