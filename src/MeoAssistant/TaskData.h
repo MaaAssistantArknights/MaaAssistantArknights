@@ -25,8 +25,9 @@ namespace asst
         }
         const std::unordered_set<std::string>& get_templ_required() const noexcept;
 
-        template<typename TargetTaskInfoType = TaskInfo>
-        requires std::is_base_of_v<TaskInfo, TargetTaskInfoType> // Parameter must be a TaskInfo
+        template<typename TargetTaskInfoType>
+        requires std::is_base_of_v<TaskInfo, TargetTaskInfoType>
+             && !std::is_same_v<TaskInfo, TargetTaskInfoType> // Parameter must be a TaskInfo
         std::shared_ptr<TargetTaskInfoType> get(const std::string& name)
         {
             auto it = m_all_tasks_info.find(name);
@@ -35,6 +36,18 @@ namespace asst
             }
 
             return std::dynamic_pointer_cast<TargetTaskInfoType>(it->second);
+        }
+
+        template<typename TargetTaskInfoType = TaskInfo>
+        requires std::is_same_v<TaskInfo, TargetTaskInfoType> // Parameter must be a TaskInfo
+        std::shared_ptr<TargetTaskInfoType> get(const std::string& name)
+        {
+            auto it = m_all_tasks_info.find(name);
+            if (it == m_all_tasks_info.cend()) {
+                return nullptr;
+            }
+
+            return it->second;
         }
 
     protected:
