@@ -6460,48 +6460,36 @@
     },
     "Roguelike1Custom-HijackSquad": {
         "algorithm": "OcrDetect",
-        "text": [
-
-        ],
+        "text": [],
         "roi": [
             0,
             383,
             1280,
             142
         ],
-        "ocrReplace": [
-
-        ]
+        "ocrReplace": []
     },
     "Roguelike1Custom-HijackRoles": {
         "algorithm": "OcrDetect",
-        "text": [
-
-        ],
+        "text": [],
         "roi": [
             54,
             356,
             1172,
             183
         ],
-        "ocrReplace": [
-
-        ]
+        "ocrReplace": []
     },
     "Roguelike1Custom-HijackCoChar": {
         "algorithm": "OcrDetect",
-        "text": [
-
-        ],
+        "text": [],
         "roi": [
             186,
             298,
             913,
             200
         ],
-        "ocrReplace": [
-
-        ],
+        "ocrReplace": [],
         "preDelay": 1000
     },
     "Roguelike1Recruit1": {

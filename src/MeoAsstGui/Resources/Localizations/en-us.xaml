@@ -6,7 +6,7 @@
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="BaseSettings">Base</system:String>
-    <system:String x:Key="RougelikeSettings">Rougelike</system:String>
+    <system:String x:Key="RoguelikeSettings">Roguelike</system:String>
     <system:String x:Key="RecruitingSettings">Recruiting</system:String>
     <system:String x:Key="MallSettings">Mall</system:String>
     <system:String x:Key="PenguinSettings">Penguin Statistics</system:String>
@@ -46,8 +46,30 @@
 
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
 
-    <system:String x:Key="RougelikeStrategyCandle">Get candles, pass levels as more as possible</system:String>
-    <system:String x:Key="RougelikeStrategyGold">Deposit coins, exit after shop in the first level</system:String>
+    <system:String x:Key="RoguelikeStrategyCandle">Get candles, pass levels as more as possible</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">Deposit coins, exit after shop in the first level</system:String>
+
+    <system:String x:Key="StartingSquad">Starting Squad</system:String>
+    <system:String x:Key="StartingRoles">Starting Roles</system:String>
+    <system:String x:Key="StartingCoreChar">Starting Char (single, CN name only)</system:String>
+
+    <system:String x:Key="DefaultSquad">Default</system:String>
+    <system:String x:Key="LeaderSquad">Leader Squad</system:String>
+    <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
+    <system:String x:Key="SupportSquad">Support Squad</system:String>
+    <system:String x:Key="SpearheadSquad">Spearhead Squad</system:String>
+    <system:String x:Key="TacticalAssaultOperative">Tactical Assault Operative</system:String>
+    <system:String x:Key="TacticalFortificationOperative">Tactical Fortification Operative</system:String>
+    <system:String x:Key="TacticalRangedOperative">Tactical Ranged Operative</system:String>
+    <system:String x:Key="TacticalDestructionOperative">Tactical Destruction Operative</system:String>
+    <system:String x:Key="ResearchSquad">Research Squad</system:String>
+    <system:String x:Key="First-ClassSquad">First-Class Squad</system:String>
+
+    <system:String x:Key="DefaultRoles">Default</system:String>
+    <system:String x:Key="FirstMoveAdvantage">First Move Advantage</system:String>
+    <system:String x:Key="SlowAndSteadyWinsTheRace">Slow and Steady Wins the Race</system:String>
+    <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses</system:String>
+    <system:String x:Key="AsYourHeartDesires">As Your Heart Desires</system:String>
 
     <system:String x:Key="NotSelected">Not selected</system:String>
     <system:String x:Key="Official">Official (CN)</system:String>
@@ -129,11 +151,11 @@
     <system:String x:Key="WakeUp">Login</system:String>
     <system:String x:Key="Recruiting">Recruit</system:String>
     <system:String x:Key="Base">Base</system:String>
-    <system:String x:Key="Combat">Terminal</system:String>
+    <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect mission rewards</system:String>
-    <system:String x:Key="AutoRoguelike">Auto Roguelike</system:String>
+    <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
 
     <system:String x:Key="SelectAll">Select All</system:String>
     <system:String x:Key="Inverse">Inverse</system:String>

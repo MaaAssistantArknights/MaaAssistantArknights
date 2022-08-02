@@ -106,14 +106,14 @@
             VerticalAlignment="Center">
 
             <StackPanel
-                HorizontalAlignment="Right"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
                 <TextBlock
                     Margin="10"
                     Block.TextAlignment="Center"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="开局分队" />
+                    Text="{DynamicResource StartingSquad}" />
                 <ComboBox
                     Width="300"
                     Margin="10"
@@ -124,14 +124,14 @@
                     SelectedValuePath="Value" />
             </StackPanel>
             <StackPanel
-                HorizontalAlignment="Right"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
                 <TextBlock
                     Margin="10"
                     Block.TextAlignment="Center"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="开局职业组" />
+                    Text="{DynamicResource StartingRoles}" />
                 <ComboBox
                     Width="300"
                     Margin="10"
@@ -143,14 +143,14 @@
             </StackPanel>
             <StackPanel
                 Margin="0,85,0,0"
-                HorizontalAlignment="Right"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal">
                 <TextBlock
                     Margin="10"
                     Block.TextAlignment="Center"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="开局干员" />
+                    Text="{DynamicResource StartingCoreChar}" />
                 <hc:TextBox
                     Width="300"
                     Margin="10"

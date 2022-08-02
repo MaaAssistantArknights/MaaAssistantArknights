@@ -6,7 +6,7 @@
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="BaseSettings">기반시설 설정</system:String>
-    <system:String x:Key="RougelikeSettings">통합전략 설정</system:String>
+    <system:String x:Key="RoguelikeSettings">통합전략 설정</system:String>
     <system:String x:Key="RecruitingSettings">자동 모집</system:String>
     <system:String x:Key="MallSettings">크레딧 상점</system:String>
     <system:String x:Key="PenguinSettings">Penguin Stats</system:String>
@@ -46,8 +46,8 @@
 
     <system:String x:Key="DormThreshold">오퍼레이터 컨디션 한계점</system:String>
 
-    <system:String x:Key="RougelikeStrategyCandle">통합전략: 촛불 우선</system:String>
-    <system:String x:Key="RougelikeStrategyGold">통합전략: 오리지늄 주괴 우선</system:String>
+    <system:String x:Key="RoguelikeStrategyCandle">통합전략: 촛불 우선</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">통합전략: 오리지늄 주괴 우선</system:String>
 
     <system:String x:Key="NotSelected">선택하지 않기</system:String>
     <system:String x:Key="Official">공식 서버</system:String>
