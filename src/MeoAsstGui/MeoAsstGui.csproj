@@ -109,6 +109,7 @@
     <Compile Include="Helper\GenericCombData{TValueType}.cs" />
     <Compile Include="Helper\Localization.cs" />
     <Compile Include="Helper\LogItemViewModel.cs" />
+    <Compile Include="Helper\MessageBoxManager.cs" />
     <Compile Include="Helper\ToastNotification.cs" />
     <Compile Include="Helper\ScrollViewerBinding.cs" />
     <Compile Include="Helper\ViewStatusStorage.cs" />
