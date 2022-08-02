@@ -147,8 +147,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
 
         if (!goods.chars.empty()) {
-            auto iter = std::ranges::find_first_of(std::as_const(chars_list), goods.chars);
-            if (iter == chars_list.cend()) {
+            if (std::ranges::find_first_of(chars_list, goods.chars) == chars_list.cend()) {
                 Log.trace("Ready to buy", goods.name,
                     ", but there is no such character, skip");
                 continue;

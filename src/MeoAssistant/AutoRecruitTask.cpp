@@ -271,7 +271,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // special tags
         const std::vector<std::string> SpecialTags = { "高级资深干员", "资深干员" };
-        auto special_iter = std::ranges::find_first_of(SpecialTags, std::as_const(tag_names));
+        auto special_iter = std::ranges::find_first_of(SpecialTags, tag_names);
         if (special_iter != SpecialTags.cend()) {
             json::value info = basic_info();
             info["what"] = "RecruitSpecialTag";
@@ -282,7 +282,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // robot tags
         const std::vector<std::string> RobotTags = { "支援机械" };
-        auto robot_iter = std::ranges::find_first_of(RobotTags, std::as_const(tag_names));
+        auto robot_iter = std::ranges::find_first_of(RobotTags, tag_names);
         if (robot_iter != RobotTags.cend()) {
             json::value info = basic_info();
             info["what"] = "RecruitRobotTag";
@@ -410,7 +410,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         if (!is_calc_only_task()) {
             // do not confirm, force skip
-            if (std::ranges::none_of(std::as_const(m_confirm_level), [&](const auto& i) { return i == final_combination.min_level; })) {
+            if (std::ranges::none_of(m_confirm_level, [&](const auto& i) { return i == final_combination.min_level; })) {
                 calc_task_result_type result;
                 result.success = true;
                 result.force_skip = true;
@@ -433,7 +433,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         // nothing to select, leave the selection empty
-        if (std::ranges::none_of(std::as_const(m_select_level), [&](const auto& i) { return i == final_combination.min_level; })) {
+        if (std::ranges::none_of(m_select_level, [&](const auto& i) { return i == final_combination.min_level; })) {
             calc_task_result_type result;
             result.success = true;
             result.force_skip = false;

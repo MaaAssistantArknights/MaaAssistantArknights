@@ -27,7 +27,7 @@ bool asst::OcrImageAnalyzer::analyze()
     if (!m_required.empty()) {
         if (m_full_match) {
             TextRectProc required_match = [&](TextRect& tr) -> bool {
-                return std::ranges::find(std::as_const(m_required), tr.text) != m_required.cend();
+                return std::ranges::find(m_required, tr.text) != m_required.cend();
             };
             preds_vec.emplace_back(required_match);
         }
@@ -40,7 +40,7 @@ bool asst::OcrImageAnalyzer::analyze()
                     tr.text = str;
                     return true;
                 };
-                return std::ranges::find_if(std::as_const(m_required), is_sub) != m_required.cend();
+                return std::ranges::find_if(m_required, is_sub) != m_required.cend();
             };
             preds_vec.emplace_back(required_search);
         }
