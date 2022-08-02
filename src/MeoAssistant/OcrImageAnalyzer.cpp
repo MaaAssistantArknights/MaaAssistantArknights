@@ -27,7 +27,7 @@ bool asst::OcrImageAnalyzer::analyze()
     if (!m_required.empty()) {
         if (m_full_match) {
             TextRectProc required_match = [&](TextRect& tr) -> bool {
-                return std::find(m_required.cbegin(), m_required.cend(), tr.text) != m_required.cend();
+                return std::ranges::find(m_required, tr.text) != m_required.cend();
             };
             preds_vec.emplace_back(required_match);
         }
@@ -40,7 +40,7 @@ bool asst::OcrImageAnalyzer::analyze()
                     tr.text = str;
                     return true;
                 };
-                return std::find_if(m_required.cbegin(), m_required.cend(), is_sub) != m_required.cend();
+                return std::ranges::find_if(m_required, is_sub) != m_required.cend();
             };
             preds_vec.emplace_back(required_search);
         }
@@ -162,7 +162,7 @@ const std::vector<asst::TextRect>& asst::OcrImageAnalyzer::get_result() const no
 void asst::OcrImageAnalyzer::sort_result_horizontal()
 {
     // 按位置排个序
-    std::sort(get_result().begin(), get_result().end(),
+    std::ranges::sort(get_result(),
         [](const TextRect& lhs, const TextRect& rhs) -> bool {
             if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
                 return lhs.rect.x < rhs.rect.x;
@@ -181,7 +181,7 @@ void asst::OcrImageAnalyzer::sort_result_vertical()
     // |1 3|
     // |2 4|
     // +---+
-    std::sort(get_result().begin(), get_result().end(),
+    std::ranges::sort(get_result(),
         [](const TextRect& lhs, const TextRect& rhs) -> bool {
             if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
                 return lhs.rect.y < rhs.rect.y;
@@ -195,7 +195,7 @@ void asst::OcrImageAnalyzer::sort_result_vertical()
 
 void asst::OcrImageAnalyzer::sort_result_by_score()
 {
-    std::sort(get_result().begin(), get_result().end(),
+    std::ranges::sort(get_result(),
         [](const TextRect& lhs, const TextRect& rhs) -> bool {
             return lhs.score > rhs.score;
         }
@@ -215,7 +215,7 @@ void asst::OcrImageAnalyzer::sort_result_by_required()
 
     auto& result = get_result();
     // 不在 m_required 中的将被排在最后
-    std::sort(result.begin(), result.end(),
+    std::ranges::sort(result,
         [&req_cache](const auto& lhs, const auto& rhs) -> bool {
             size_t lvalue = req_cache[lhs.text];
             size_t rvalue = req_cache[rhs.text];
