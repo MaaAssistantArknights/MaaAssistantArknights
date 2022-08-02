@@ -1,6 +1,7 @@
 - Support I.S. custom start in YoStarEN and YoStarJP @MistEO @Npipyd
 - 新增支持剿灭 `全权委托` 关卡导航及掉落识别 @MistEO
-- 修复 肉鸽 编队会漏掉某些干员的问题 @MistEO
-- 尝试修复 基建 选择干员时的错误 @MistEO
 - 优化 界面 全屏显示及部分细节效果 @ABA2396
+- 修复 肉鸽 编队会漏掉某些干员的问题 @MistEO
+- 修复 公招 出 6 星时不显示组合的问题 @horror-proton
+- 尝试修复 基建 选择干员时的错误 @MistEO
 - C++ 20 升级工作 及 项目代码整理 @zzyyyl @horror-proton @lhhxxxxx @MistEO
