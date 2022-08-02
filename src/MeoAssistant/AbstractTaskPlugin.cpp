@@ -25,7 +25,12 @@ void asst::AbstractTaskPlugin::set_task_ptr(asst::AbstractTask* ptr)
     m_task_ptr = ptr;
 }
 
-bool asst::AbstractTaskPlugin::operator<(const asst::AbstractTaskPlugin& rhs) const
+std::strong_ordering asst::AbstractTaskPlugin::operator<=>(const asst::AbstractTaskPlugin& rhs) const
 {
-    return priority() < rhs.priority();
+    return priority() <=> rhs.priority();
+}
+
+bool asst::AbstractTaskPlugin::operator==(const AbstractTaskPlugin& rhs) const
+{
+    return priority() == rhs.priority();
 }

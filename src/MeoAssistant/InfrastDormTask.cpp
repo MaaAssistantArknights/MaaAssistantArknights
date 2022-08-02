@@ -37,7 +37,7 @@ bool asst::InfrastDormTask::_run()
 
 bool asst::InfrastDormTask::opers_choose()
 {
-    int num_of_selected = 0;
+    size_t num_of_selected = 0;
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
             return false;
@@ -45,7 +45,7 @@ bool asst::InfrastDormTask::opers_choose()
         const auto image = m_ctrler->get_image();
         InfrastOperImageAnalyzer oper_analyzer(image);
 
-        const int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
+        constexpr int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
         oper_analyzer.set_to_be_calced(without_skill);
         if (!oper_analyzer.analyze()) {
             Log.error("mood analyze failed!");
@@ -54,7 +54,7 @@ bool asst::InfrastDormTask::opers_choose()
         oper_analyzer.sort_by_mood();
         const auto& oper_result = oper_analyzer.get_result();
 
-        int num_of_resting = 0;
+        size_t num_of_resting = 0;
         for (const auto& oper : oper_result) {
             if (need_exit()) {
                 return false;

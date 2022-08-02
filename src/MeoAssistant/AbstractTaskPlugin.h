@@ -22,7 +22,9 @@ namespace asst
 
         virtual bool verify(AsstMsg msg, const json::value& details) const = 0;
 
-        bool operator<(const AbstractTaskPlugin& rhs) const;
+        std::strong_ordering operator<=>(const AbstractTaskPlugin& rhs) const;
+
+        bool operator==(const AbstractTaskPlugin& rhs) const;
 
     protected:
 
