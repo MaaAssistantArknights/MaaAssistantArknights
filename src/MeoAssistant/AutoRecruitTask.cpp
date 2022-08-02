@@ -164,9 +164,9 @@ std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::
     start_analyzer.sort_result_horizontal();
     auto iter =
         std::ranges::find_if(std::as_const(start_analyzer.get_result()),
-                             [&](const TextRect& r) -> bool {
-                                 return !m_force_skipped.contains(slot_index_from_rect(r.rect));
-                             });
+            [&](const TextRect& r) -> bool {
+                return !m_force_skipped.contains(slot_index_from_rect(r.rect));
+            });
     if (iter == start_analyzer.get_result().cend()) return std::nullopt;
     Log.info("Found slot index", slot_index_from_rect(iter->rect), ".");
     return iter->rect;
